@@ -2,8 +2,6 @@ import React, { useCallback, useState } from 'react';
 
 import * as mutations from 'lib/gql/mutations';
 
-import { makeStyles, IconButton } from '@material-ui/core';
-
 import { ActionDialog } from 'components';
 import { useCurrentCircleIntegrations } from 'hooks/gql/useCurrentCircleIntegrations';
 import {
@@ -13,39 +11,9 @@ import {
   ParcelIcon,
 } from 'icons';
 import { paths } from 'routes/paths';
-import { Flex, Button } from 'ui';
-
-const useStyles = makeStyles(theme => ({
-  errorColor: {
-    color: theme.palette.error.main,
-  },
-  subTitle: {
-    fontSize: 16,
-    fontWeight: 700,
-    color: theme.colors.text,
-    textAlign: 'center',
-  },
-  integrationContainer: {
-    marginBottom: theme.spacing(2),
-  },
-  integrationRow: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 8,
-  },
-  integrationText: {
-    color: theme.colors.text,
-    margin: 0,
-    flex: 1,
-  },
-  integrationIcon: {
-    color: theme.colors.text,
-  },
-}));
+import { Flex, Button, Text, HR } from 'ui';
 
 export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
-  const classes = useStyles();
-
   const integrations = useCurrentCircleIntegrations();
   const [deleteIntegration, setDeleteIntegration] =
     useState<Exclude<typeof integrations['data'], undefined>[number]>();
@@ -67,40 +35,64 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
     return `fix-me-later-${paths.connectIntegration(circleId)}`;
   };
   return (
-    <div style={{ display: 'grid' }}>
-      <p className={classes.subTitle}>Integrations</p>
-      <div className={classes.integrationContainer}>
-        {integrations.data?.map((integration, index) => (
-          <div key={index} className={classes.integrationRow}>
-            <DeworkLogo size="md" className={classes.integrationIcon} />
-            <p className={classes.integrationText}>{integration.name}</p>
-            <IconButton
-              onClick={() => setDeleteIntegration(integration)}
-              className={classes.errorColor}
-              size="small"
+    <div>
+      <Flex css={{ mb: '$lg', flexDirection: 'column', alignItems: 'start' }}>
+        <Text h3 semibold css={{ mb: '$md' }}>
+          Dework Integration
+        </Text>
+        <Flex
+          css={{
+            mb: integrations.data?.length ? '$md' : 0,
+            flexDirection: 'column',
+            width: '100%',
+          }}
+        >
+          {integrations.data?.map((integration, index) => (
+            <Flex
+              key={index}
+              css={{
+                justifyContent: 'space-between',
+                pl: '$xs',
+                mb: '$xs',
+                '&:hover': {
+                  backgroundColor: '$surface',
+                },
+              }}
             >
-              <DeprecatedDeleteIcon />
-            </IconButton>
-          </div>
-        ))}
-      </div>
-      <Flex css={{ mr: '$sm' }} className={classes.integrationRow}>
+              <Text>
+                <DeworkLogo size="md" css={{ mr: '$xs' }} />
+                <Text>{integration.name}</Text>
+              </Text>
+              <Button
+                onClick={() => setDeleteIntegration(integration)}
+                size="small"
+                color="textOnly"
+              >
+                <DeprecatedDeleteIcon />
+              </Button>
+            </Flex>
+          ))}
+        </Flex>
         <Button
           as="a"
-          color="neutral"
-          size="medium"
+          color="primary"
           outlined
           href={`https://app.dework.xyz/apps/install/coordinape?redirect=${redirectUri()}`}
         >
           <Flex css={{ mr: '$sm' }}>
             <DeworkIcon size="md" />
           </Flex>
-          Connect Dework
+          Add Dework Connection
         </Button>
+      </Flex>
+      <HR />
+      <Flex css={{ flexDirection: 'column', alignItems: 'start' }}>
+        <Text h3 semibold css={{ mb: '$md' }}>
+          Parcel
+        </Text>
         <Button
           as="a"
-          color="neutral"
-          size="medium"
+          color="primary"
           outlined
           href={
             'https://docs.coordinape.com/get-started/compensation/paying-your-team/parcel'

@@ -133,7 +133,7 @@ const buttons: [
   string,
   ((c: QueryCircle) => boolean)?
 ][] = [
-  [paths.history, 'History'],
+  [paths.history, 'Epoch Overview'],
   [paths.allocation, 'Allocation'],
   [paths.map, 'Map'],
   [paths.vouching, 'Vouching', (c: QueryCircle) => !c.vouching],

@@ -5,9 +5,9 @@ import { modifyVariantsForStory } from '../type-utils';
 
 export const TextArea = styled('textarea', {
   background: '$surface',
-  border: '1px solid $border',
+  border: '1px solid transparent',
   '&:focus': {
-    border: '1px solid $borderMedium',
+    borderColor: '$borderMedium',
     boxSizing: 'border-box',
   },
   '&::placeholder': {
@@ -19,20 +19,15 @@ export const TextArea = styled('textarea', {
   justifyContent: 'center',
   borderRadius: '8px',
 
-  fontWeight: '$normal',
-  fontSize: '$large',
-  lineHeight: '29px',
+  p: '$sm',
+  minHeight: 'calc($2xl * 2)',
 
-  py: '$md',
-  px: '$sm',
-
-  textAlign: 'center',
   color: '$text',
   variants: {
     error: {
       true: {
-        border: '1px solid $alert',
-        boxSizing: 'border-box',
+        borderColor: 'transparent',
+        backgroundColor: '$alertLight',
       },
     },
   },

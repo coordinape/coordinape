@@ -40,9 +40,9 @@ export const Text = styled('span', {
     h3: { true: { fontSize: '$h3' } },
 
     size: {
-      small: { fontSize: '$small', lineHeight: '$shorter' },
-      medium: { fontSize: '$medium', lineHeight: '$shorter' },
-      large: { fontSize: '$large', lineHeight: '$shorter' },
+      small: { fontSize: '$small !important', lineHeight: '$shorter' },
+      medium: { fontSize: '$medium !important', lineHeight: '$shorter' },
+      large: { fontSize: '$large !important', lineHeight: '$shorter' },
     },
     variant: {
       label: {
@@ -51,6 +51,8 @@ export const Text = styled('span', {
         fontSize: '$small',
         fontWeight: '$bold',
         lineHeight: '$shorter',
+        display: 'flex',
+        gap: '$xs',
       },
     },
     p: {
