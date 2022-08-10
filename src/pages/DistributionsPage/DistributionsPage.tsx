@@ -114,6 +114,27 @@ export function DistributionsPage() {
     );
   };
 
+  const deletedUsers: Gift[] = uniqBy(
+    epoch.token_gifts
+      ?.filter((g: Gift) => !g.recipient)
+      .map((g: Gift) => {
+        return {
+          recipient_address: g.recipient_address,
+          recipient_id: g.recipient_id,
+          recipient: {
+            id: g.recipient_id,
+            name: 'Deleted User',
+            address: g.recipient_address,
+            profile: {
+              id: g.recipient_id,
+            },
+          },
+          tokens: g.tokens,
+        };
+      }),
+    'recipient_id'
+  );
+
   const usersWithGiftnFixedAmounts = circleUsers
     .filter(u => {
       return (
@@ -125,7 +146,7 @@ export function DistributionsPage() {
     })
     .map(user => {
       const receivedGifts = epoch.token_gifts?.filter(
-        g => g.recipient?.id === user.id
+        g => g.recipient_id === user.id
       );
       const claimed = unwrappedAmount(user.profile?.id, fixedDist);
       const circle_claimed = unwrappedAmount(user.profile?.id, circleDist);
@@ -230,6 +251,7 @@ export function DistributionsPage() {
           <AllocationsTable
             epoch={epoch}
             users={usersWithGiftnFixedAmounts}
+            deletedUsers={deletedUsers}
             tokenName={tokenName}
             totalGive={totalGive}
             formGiftAmount={Number(formGiftAmount)}

@@ -1,15 +1,19 @@
 import { useCallback, useMemo, useState } from 'react';
 
+import { sumBy } from 'lodash';
+
 import { Paginator } from '../../components/Paginator';
 import { DISTRIBUTION_TYPE } from '../../config/constants';
 import { NewApeAvatar, makeTable } from 'components';
 import { Flex, Text, Panel, Button, Link } from 'ui';
 import { numberWithCommas, shortenAddress } from 'utils';
 
+import type { Gift } from './queries';
 import { EpochDataResult } from './queries';
 
 export const AllocationsTable = ({
   users,
+  deletedUsers,
   totalGive,
   formGiftAmount,
   tokenName,
@@ -32,6 +36,7 @@ export const AllocationsTable = ({
     avatar: string | undefined;
     givers: number;
   }[];
+  deletedUsers: Gift[];
   totalGive: number;
   formGiftAmount: number;
   tokenName: string | undefined;
@@ -55,9 +60,20 @@ export const AllocationsTable = ({
     [users, page]
   );
   const givenPercent = useCallback(
-    (u: User) => u.received / totalGive,
+    (received: number) => received / totalGive,
     [totalGive]
   );
+
+  const deletedUserInfo = (deletedUsers: Gift[]) => {
+    const deletedGiveSum = sumBy(deletedUsers, 'tokens');
+    const deletedSum = givenPercent(deletedGiveSum) * 100;
+    return (
+      <Text as="p">
+        Note: This distribution includes {deletedUsers.length} deleted users
+        receiving {deletedSum.toFixed(2)}% of GIVE.
+      </Text>
+    );
+  };
 
   const combinedDist =
     tokenName && fixedTokenName && tokenName === fixedTokenName;
@@ -139,8 +155,8 @@ export const AllocationsTable = ({
             </td>
             <td>{shortenAddress(user.address)}</td>
             <td>{user.givers}</td>
-            <td>{numberWithCommas(user.received, 2)}</td>
-            <td>{(givenPercent(user) * 100).toFixed(2)}%</td>
+            <td>{numberWithCommas(user.received)}</td>
+            <td>{(givenPercent(user.received) * 100).toFixed(2)}%</td>
             <td>
               {user.circle_claimed
                 ? `${numberWithCommas(
@@ -151,10 +167,7 @@ export const AllocationsTable = ({
                       : user.circle_claimed,
                     2
                   )} ${tokenName || 'GIVE'}`
-                : `${numberWithCommas(
-                    givenPercent(user) * formGiftAmount,
-                    2
-                  )} ${tokenName || 'GIVE'}`}
+                : `${numberWithCommas(givenPercent(user.received) * formGiftAmount, 2)} ${tokenName || 'GIVE'}`}
             </td>
             <td>
               {!combinedDist && fixedDist
@@ -170,7 +183,7 @@ export const AllocationsTable = ({
                   }
                   const giftAmt = circleDist
                     ? user.circle_claimed
-                    : givenPercent(user) * formGiftAmount;
+                    : givenPercent(user.received) * formGiftAmount;
                   return numberWithCommas(
                     giftAmt + user.fixed_payment_amount,
                     2
@@ -182,6 +195,7 @@ export const AllocationsTable = ({
           </tr>
         )}
       </UserTable>
+      {deletedUsers.length > 0 && deletedUserInfo(deletedUsers)}
       <Flex
         css={{
           justifyContent: 'space-between',
