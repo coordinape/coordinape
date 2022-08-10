@@ -3,9 +3,16 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import uniqueId from 'lodash/uniqueId';
 
-import { makeStyles, ButtonGroup, Button, Theme } from '@material-ui/core';
+import {
+  FormControlLabel,
+  Radio,
+  makeStyles,
+  ButtonGroup,
+  Theme,
+} from '@material-ui/core';
 
 import { ApeInfoTooltip } from 'components';
+import { CheckedRadio, UnCheckedRadio } from 'icons';
 import { Text } from 'ui';
 
 const useStyles = makeStyles<Theme, { variant: string }>(theme => ({
@@ -29,7 +36,6 @@ const useStyles = makeStyles<Theme, { variant: string }>(theme => ({
     },
   },
   grouped: {
-    minWidth: 102,
     borderRadius: 8,
     fontWeight: 300,
     '&:not(:last-child)': {
@@ -109,18 +115,32 @@ export const ApeToggle = ({
           disabled: classes.disabled,
         }}
       >
-        <Button
-          onClick={() => onChange(true)}
-          className={value ? classes.active : classes.inactive}
-        >
-          Yes
-        </Button>
-        <Button
-          onClick={() => onChange(false)}
-          className={!value ? classes.active : classes.inactive}
-        >
-          No
-        </Button>
+        <FormControlLabel
+          control={
+            <Radio
+              checked={value}
+              checkedIcon={<CheckedRadio color="complete" />}
+              className={classes.radioInput}
+              icon={<UnCheckedRadio />}
+              onChange={() => onChange(true)}
+            />
+          }
+          label={'Yes'}
+          labelPlacement="end"
+        />
+        <FormControlLabel
+          control={
+            <Radio
+              checked={!value}
+              checkedIcon={<CheckedRadio color="complete" />}
+              className={classes.radioInput}
+              icon={<UnCheckedRadio />}
+              onChange={() => onChange(false)}
+            />
+          }
+          label={'No'}
+          labelPlacement="end"
+        />
       </ButtonGroup>
       {!!helperText && (
         <span

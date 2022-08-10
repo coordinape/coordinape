@@ -113,7 +113,7 @@ export const Button = styled('button', {
       smallIcon: {
         height: '1em',
         width: '1em',
-        fontSize: '$1',
+        fontSize: '$medium',
         lineHeight: 'none',
         borderRadius: '50%',
         padding: '2px',
