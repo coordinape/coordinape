@@ -121,8 +121,7 @@ export function generateCsvValues(
   giftTokenSymbol = circleDist ? circleDist.vault.symbol : giftTokenSymbol;
   const { users } = circle;
 
-  const userValues: (string | number)[][] = [];
-  users.map((u, idx) => {
+  return users.map((u, idx) => {
     const received = u.received_gifts.length
       ? u.received_gifts
           .map(g => g.tokens)
@@ -176,10 +175,9 @@ export function generateCsvValues(
           ? Math.floor(((received * grant) / totalTokensSent) * 100) / 100
           : 0
       );
-    userValues.push(rowValues);
-  });
 
-  return userValues;
+    return rowValues;
+  });
 }
 
 export type CircleDetails = Awaited<ReturnType<typeof getCircleDetails>>;
