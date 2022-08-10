@@ -180,11 +180,7 @@ const makeComponent =
         </Flex>
 
         {subtitle && <label className={classes.subLabel}>{subtitle}</label>}
-        <InputBase
-          className={classes.input}
-          {...(withRef ? { ref } : {})}
-          {...mergedInputProps}
-        />
+        <InputBase {...(withRef ? { ref } : {})} {...mergedInputProps} />
         <div className={classes.helperBox}>
           {helperText && (
             <span
