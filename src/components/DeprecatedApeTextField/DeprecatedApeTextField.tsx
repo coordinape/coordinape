@@ -77,6 +77,7 @@ const makeComponent =
       onFocus,
       onKeyDown,
       onKeyUp,
+      onWheel,
       placeholder,
       rows,
       rowsMax,
@@ -133,6 +134,7 @@ const makeComponent =
       onFocus,
       onKeyDown,
       onKeyUp,
+      onWheel,
       placeholder,
       rows,
       rowsMax,
@@ -178,11 +180,11 @@ const makeComponent =
         </Flex>
 
         {subtitle && <label className={classes.subLabel}>{subtitle}</label>}
-        {withRef ? (
-          <InputBase ref={ref} {...mergedInputProps} />
-        ) : (
-          <InputBase {...mergedInputProps} />
-        )}
+        <InputBase
+          className={classes.input}
+          {...(withRef ? { ref } : {})}
+          {...mergedInputProps}
+        />
         <div className={classes.helperBox}>
           {helperText && (
             <span
@@ -313,9 +315,9 @@ const useBaseStyles = makeStyles<
     },
   },
   input: ({ variant, size }) => ({
-    padding: theme.spacing(1.75, 1, 1.75),
-    fontSize: 15,
-    lineHeight: 1.33,
+    padding: theme.spacing(1.25),
+    fontSize: 16,
+    lineHeight: 1.375,
     fontWeight: 300,
 
     '&::placeholder': {
