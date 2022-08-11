@@ -16,21 +16,24 @@ const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
   alignItems: 'center',
   flex: 1,
   justifyContent: 'space-between',
-  borderRadius: 8,
-  padding: '0 12px',
-  fontSize: 16,
-  lineHeight: 1,
-  height: 40,
-  gap: 5,
-  backgroundColor: 'white',
+  borderRadius: '$3',
+  padding: '$sm',
+  lineHeight: '$short',
+  fontSize: '$medium',
+  border: '1px solid transparent',
+  width: 'calc(100% - $sm - $sm)',
+  // height: 40,
+  // gap: 5,
+  backgroundColor: '$surface',
   color: '$text',
   '&:hover': { cursor: 'pointer' },
 });
 
 const StyledContent = styled(SelectPrimitive.Content, {
   overflow: 'hidden',
-  backgroundColor: 'white',
-  borderRadius: 6,
+  backgroundColor: '$white',
+  boxShadow: '$heavy',
+  borderRadius: '$3',
 });
 
 const StyledViewport = styled(SelectPrimitive.Viewport, {
@@ -39,14 +42,14 @@ const StyledViewport = styled(SelectPrimitive.Viewport, {
 
 const StyledItem = styled(SelectPrimitive.Item, {
   all: 'unset',
-  fontSize: 15,
   lineHeight: 1,
   color: '$text',
-  borderRadius: 3,
+  borderRadius: '$1',
   display: 'flex',
   alignItems: 'center',
-  height: 36,
-  padding: '0 35px 0 25px',
+  // height: 36,
+  // padding: '0 35px 0 25px',
+  padding: '$sm $lg',
   position: 'relative',
   userSelect: 'none',
 
