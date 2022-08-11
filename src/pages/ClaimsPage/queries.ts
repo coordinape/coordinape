@@ -32,6 +32,7 @@ export const getClaims = async (
             distribution_json: [{}, true],
             merkle_root: true,
             tx_hash: true,
+            distribution_type: true,
             vault: {
               id: true,
               chain_id: true,
