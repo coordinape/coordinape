@@ -1,7 +1,6 @@
 import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { z } from 'zod';
 
 import { getUsersFromUserIds } from '../../../../api-lib/findUser';
 import {
@@ -18,24 +17,14 @@ import {
 } from '../../../../api-lib/nominees';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import {
-  updateAllocationsInput,
-  composeHasuraActionRequestBodyWithSession,
-  HasuraUserSessionVariables,
   updateAllocationsApiInput,
   composeHasuraActionRequestBodyWithApiPermissions,
 } from '../../../../src/lib/zod';
 
-const userRequestSchema = composeHasuraActionRequestBodyWithSession(
-  updateAllocationsInput,
-  HasuraUserSessionVariables
-);
-
-const apiRequestSchema = composeHasuraActionRequestBodyWithApiPermissions(
+const requestSchema = composeHasuraActionRequestBodyWithApiPermissions(
   updateAllocationsApiInput,
   ['update_pending_token_gifts']
 );
-
-const requestSchema = z.union([userRequestSchema, apiRequestSchema]);
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const requestData = await requestSchema.parseAsync(req.body);
@@ -46,7 +35,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   } = requestData;
   const { circle_id, allocations } = input;
 
-  let user: UserWithCircleResponse;
+  let user: UserWithCircleResponse | null = null;
 
   // Since both api-users and users can call this action, we have different
   // handlers for fetching the target user
@@ -61,7 +50,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       );
     }
     user = await getUserWithCircle(input.user_id, circle_id);
-  } else {
+  } else if (sessionVariables.hasuraRole === 'user') {
     user = await getUserFromProfileIdWithCircle(
       sessionVariables.hasuraProfileId,
       circle_id
@@ -84,7 +73,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     );
   }
 
-  if (allocations.some(a => a.recipient_id === user.id)) {
+  if (allocations.some(a => user && a.recipient_id === user.id)) {
     return errorResponseWithStatusCode(
       res,
       { message: 'You cannot allocate to yourself' },
@@ -140,7 +129,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     if (!recipient) return ops;
 
     const giftTokens =
-      user.non_giver || recipient.non_receiver ? 0 : gift.tokens;
+      user?.non_giver || recipient.non_receiver ? 0 : gift.tokens;
     overallTokensUsed += giftTokens;
     const existingGift = pending_sent_gifts.find(
       g => g.recipient_id === gift.recipient_id
@@ -167,8 +156,8 @@ async function handler(req: VercelRequest, res: VercelResponse) {
                   ...gift,
                   circle_id,
                   epoch_id: currentEpoch.id,
-                  sender_id: user.id,
-                  sender_address: user.address,
+                  sender_id: user?.id,
+                  sender_address: user?.address,
                   recipient_address: recipient.address,
                   tokens: giftTokens,
                 },
@@ -191,7 +180,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
               {
                 where: {
                   epoch_id: { _eq: currentEpoch.id },
-                  sender_id: { _eq: user.id },
+                  sender_id: { _eq: user?.id },
                   recipient_id: { _eq: gift.recipient_id },
                   circle_id: { _eq: circle_id },
                 },

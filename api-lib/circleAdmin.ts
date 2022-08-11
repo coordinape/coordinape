@@ -3,10 +3,8 @@ import type {
   VercelResponse,
   VercelApiHandler,
 } from '@vercel/node';
-import { z } from 'zod';
 
 import {
-  composeHasuraActionRequestBody,
   circleIdInput,
   composeHasuraActionRequestBodyWithApiPermissions,
 } from '../src/lib/zod';
@@ -15,10 +13,10 @@ import { getUserFromProfileId } from './findUser';
 import { errorResponseWithStatusCode, UnauthorizedError } from './HttpError';
 import { verifyHasuraRequestMiddleware } from './validate';
 
-const requestSchema = z.union([
-  composeHasuraActionRequestBody(circleIdInput),
-  composeHasuraActionRequestBodyWithApiPermissions(circleIdInput, []),
-]);
+const requestSchema = composeHasuraActionRequestBodyWithApiPermissions(
+  circleIdInput,
+  []
+);
 
 const middleware =
   (handler: VercelApiHandler) =>
