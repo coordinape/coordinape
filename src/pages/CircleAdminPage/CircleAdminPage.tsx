@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { MouseEvent, useState } from 'react';
+import React, { MouseEvent, useState} from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
@@ -8,14 +7,11 @@ import { useQuery } from 'react-query';
 import * as z from 'zod';
 
 import {
-  FormAutocomplete,
   FormInputField,
   FormRadioGroup,
   LoadingModal,
 } from 'components';
-import isFeatureEnabled from 'config/features';
 import { useApeSnackbar, useApiAdminCircle, useContracts } from 'hooks';
-import { EditIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
 import { paths } from 'routes/paths';
 import {
@@ -33,6 +29,7 @@ import {
   Tooltip,
   CheckBox,
   AppLink,
+  Select,
 } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { getCircleAvatar } from 'utils/domain';
@@ -190,6 +187,15 @@ export const CircleAdminPage = () => {
   const tokens = ['Disabled'].concat(
     contracts ? contracts.getAvailableTokens() : []
   );
+  // const vaults = contracts ? contracts.getAvailableTokens().map(token => ({ value: token, label: token })) : [];
+  const vaults = contracts
+    ? contracts.getAvailableTokens().map(token => {
+        return { value: token, label: token };
+      })
+    : [{ value: '', label: 'None available' }];
+  if (contracts) {
+    vaults.unshift({ value: '', label: '-' });
+  }
 
   const { updateCircle, updateCircleLogo, getDiscordWebhook } =
     useApiAdminCircle(circleId);
@@ -501,15 +507,26 @@ export const CircleAdminPage = () => {
                 '@sm': { gridTemplateColumns: '1fr' },
               }}
             >
-              {isFeatureEnabled('fixed_payments') && (
-                <FormAutocomplete
-                  {...fixedPaymentToken}
-                  options={tokens}
-                  label="Fixed Payment Token"
-                  error={true}
-                  errorText={fixedPaymentTokenState.error?.message}
+              <Box>
+                <Text variant="label" as="label" css={{ mb: '$xs' }}>
+                  Select Vault
+                </Text>
+                <Select
+                  // defaultValue={contracts ? circle.fixed_payment_token_type : ''}
+                  defaultValue=""
+                  options={vaults}
                 />
-              )}
+              </Box>
+              <FormInputField
+                id="fixed_payment_token_type"
+                name="fixed_payment_token_type"
+                control={control}
+                defaultValue={circle.fixed_payment_token_type}
+                label="Token name for CSV export"
+                infoTooltip="This will be the token name displayed in exported CSVs"
+                disabled={!vouching.value}
+                showFieldErrors
+              />
             </Box>
           </Panel>
         </Panel>
