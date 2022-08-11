@@ -86,7 +86,7 @@ export function DistributionForm({
   const fixedPaymentTokenType = circle.fixed_payment_token_type;
   const totalFixedPayment = circleUsers
     .map(g => g.fixed_payment_amount ?? 0)
-    .reduce((total, tokens) => tokens + total)
+    .reduce((total, tokens) => tokens + total, 0)
     .toString();
   const fpTokenSymbol = fixedPaymentTokenType
     ? vaults.find(
@@ -305,7 +305,7 @@ export function DistributionForm({
     amount: string,
     type: string
   ): string => {
-    if (amount === '0') return `Please input a token amount`;
+    if (Number.parseFloat(amount) === 0) return `Please input a token amount`;
     if (!sufficientTokens) return 'Insufficient Tokens';
     if (
       (giftSubmitting && type === 'gift') ||
@@ -426,7 +426,7 @@ export function DistributionForm({
                 error={!!amountFieldState.error}
                 value={
                   circleDist
-                    ? circleDist.gift_amount.toString()
+                    ? circleDist.gift_amount?.toString() || '0'
                     : amountField.value.toString()
                 }
                 disabled={giftSubmitting || !!circleDist || vaults.length === 0}

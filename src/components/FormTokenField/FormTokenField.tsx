@@ -47,14 +47,16 @@ export const FormTokenField = React.forwardRef((props: Props, ref) => {
   } = props;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // only accept floating point inputs
+    const matches = e.target.value.match(/\d*\.?\d*/);
+    if (matches == null) {
+      onChange('');
+      return;
+    }
+    const nextValue = matches[0];
     try {
-      //console.info({ value, newvalue: e.target.value, decimals });
-      if (e.target.value === '') {
-        onChange('');
-        return;
-      }
-      parseUnits(e.target.value, decimals);
-      onChange(e.target.value);
+      parseUnits(nextValue, decimals);
+      onChange(nextValue);
     } catch (err: any) {
       // swallow the underflow error and just render the value with
       // a valid quantity of decimals
@@ -66,11 +68,11 @@ export const FormTokenField = React.forwardRef((props: Props, ref) => {
         err.code === 'NUMERIC_FAULT' &&
         err.fault === 'underflow'
       ) {
-        const [whole = '0', frac = '0'] = e.target.value.split('.');
+        const [whole = '0', frac = '0'] = nextValue.split('.');
         onChange(whole + '.' + frac.substring(0, decimals));
         return;
       } else {
-        onChange(e.target.value);
+        onChange(nextValue);
         throw err;
       }
     }
@@ -92,11 +94,12 @@ export const FormTokenField = React.forwardRef((props: Props, ref) => {
         endAdornment: symbol.toUpperCase(),
       }}
       apeVariant="token"
+      inputProps={{ 'data-testid': 'FormTokenField' }}
       error={error}
       helperText={!errorText ? helperText : errorText}
       value={value}
       onChange={handleChange}
-      type="number"
+      type="text"
       placeholder="0"
       onFocus={event => (event.currentTarget as HTMLInputElement).select()}
     />
