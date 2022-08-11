@@ -121,7 +121,7 @@ export function DistributionForm({
     if (circleDist) {
       updateBalanceState(
         circleDist.vault.symbol,
-        circleDist.gift_amount,
+        circleDist.gift_amount.toString(),
         'gift'
       );
     } else if (vaults[0] && !giftVaultSymbol) {
@@ -421,7 +421,7 @@ export function DistributionForm({
                   distribution: circleDist,
                   symbol: giftVaultSymbol,
                 })}
-                type="number"
+                type="text"
                 placeholder="0"
                 error={!!amountFieldState.error}
                 value={
@@ -561,7 +561,7 @@ export function DistributionForm({
                       distribution: fixedDist,
                       symbol: fpTokenSymbol,
                     })}
-                    type="number"
+                    type="text"
                     placeholder="0"
                     error={!!fixedAmountFieldState.error}
                     value={
