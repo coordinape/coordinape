@@ -9,6 +9,6 @@ export const numberWithCommas = (x: number | string | undefined) => {
   const [beforeDot, afterDot] = x.toString().split('.');
   return (
     beforeDot.replace(/\B(?=(\d{3})+(?!\d))/g, ',') +
-    (afterDot ? '.' + afterDot : '')
+    (afterDot ? '.' + afterDot.substring(0, 4) : '')
   );
 };
