@@ -83,10 +83,9 @@ const AdminPage = () => {
                   Settings
                 </Button>
               </AppLink>
-              <AddContributorButton
-                onClick={() => setNewUser(true)}
-                tokenName={selectedCircle.tokenName}
-              />
+              <AppLink to={paths.membersAdd(selectedCircle.id)}>
+                <AddContributorButton tokenName={selectedCircle.tokenName} />
+              </AppLink>
 
               <Button
                 color="primary"
@@ -106,7 +105,7 @@ const AdminPage = () => {
         </Flex>
         {isMobile && (
           <UsersTableHeader
-            onClick={() => setNewUser(true)}
+            circleId={selectedCircle.id}
             tokenName={selectedCircle.tokenName}
           />
         )}
