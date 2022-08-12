@@ -157,7 +157,7 @@ const schema = z.object({
       })
     )
   ),
-  fixed_payment_vault_id: z.optional(z.number().positive().optional()),
+  fixed_payment_vault_id: z.optional(z.string().optional()),
   circleLogo: z.instanceof(File).optional(),
 });
 
@@ -204,8 +204,8 @@ export const CircleAdminPage = () => {
   const vaultsOptions = vaultsQuery.data
     ? [
         { value: '', label: '-' },
-        ...vaultsQuery.data.map(token => {
-          return { value: token.symbol, label: token.symbol };
+        ...vaultsQuery.data.map(vault => {
+          return { value: vault.id, label: vault.symbol };
         }),
       ]
     : [
@@ -233,13 +233,27 @@ export const CircleAdminPage = () => {
 
   const [allowEdit, setAllowEdit] = useState(false);
 
+  const stringifiedVaultId = () => {
+    const id = circle?.fixed_payment_vault_id;
+    if (id == null) {
+      return '';
+    }
+    return `${id}`;
+  };
+
   const {
     control,
     handleSubmit,
+    register,
+    setValue,
+    getValues,
     formState: { isDirty },
   } = useForm<CircleAdminFormSchema>({
     resolver: zodResolver(schema),
     mode: 'onChange',
+    defaultValues: {
+      fixed_payment_vault_id: stringifiedVaultId(),
+    },
   });
 
   const { field: vouching } = useController({
@@ -312,7 +326,9 @@ export const CircleAdminPage = () => {
         team_selection: data.team_selection,
         auto_opt_out: data.auto_opt_out,
         fixed_payment_token_type: data.fixed_payment_token_type,
-        fixed_payment_vault_id: data.fixed_payment_vault_id,
+        fixed_payment_vault_id: data.fixed_payment_vault_id
+          ? parseInt(data.fixed_payment_vault_id)
+          : null,
       });
 
       refetch();
@@ -322,13 +338,20 @@ export const CircleAdminPage = () => {
     }
   };
 
-  if (isLoading || isIdle || isRefetching) return <LoadingModal visible />;
+  if (
+    isLoading ||
+    isIdle ||
+    isRefetching ||
+    !circle ||
+    !vaultsQuery.data ||
+    !orgQuery.data
+  )
+    return <LoadingModal visible />;
   if (isError) {
     if (error instanceof Error) {
-      console.warn(error.message);
+      console.warn(error);
     }
   }
-
   return (
     <Form id="circle_admin">
       <SingleColumnLayout>
@@ -529,21 +552,27 @@ export const CircleAdminPage = () => {
                 '@sm': { gridTemplateColumns: '1fr' },
               }}
             >
-              {/* {isFeatureEnabled('fixed_payments') && (
-                <FormInputField
-                  {...fixedPaymentToken}
-                  label="Token name for csv export"
-                  errorText={fixedPaymentTokenState.error?.message}
-                />
-              )} */}
               <Box>
                 <Text variant="label" as="label" css={{ mb: '$xs' }}>
                   Select Vault
                 </Text>
                 <Select
-                  // {...vault}
-                  // defaultValue={circle.fixed_payment_vault_id}
-                  defaultValue=""
+                  {...(register('fixed_payment_vault_id'),
+                  {
+                    onValueChange: value => {
+                      setValue('fixed_payment_vault_id', value, {
+                        shouldDirty: true,
+                      });
+                      setValue(
+                        'fixed_payment_token_type',
+                        value == ''
+                          ? ''
+                          : vaultsOptions.find(o => o.value == value)?.label,
+                        { shouldDirty: true }
+                      );
+                    },
+                    defaultValue: stringifiedVaultId(),
+                  })}
                   options={vaultsOptions}
                 />
               </Box>
@@ -551,10 +580,10 @@ export const CircleAdminPage = () => {
                 id="fixed_payment_token_type"
                 name="fixed_payment_token_type"
                 control={control}
-                defaultValue={circle.fixed_payment_token_type}
+                defaultValue={circle?.fixed_payment_token_type}
                 label="Token name for CSV export"
                 infoTooltip="This will be the token name displayed in exported CSVs"
-                disabled={!vouching.value}
+                disabled={!!getValues('fixed_payment_vault_id')}
                 showFieldErrors
               />
             </Box>
