@@ -1,22 +1,20 @@
-/* eslint-disable */
-
 import React, { useEffect, useRef, useState } from 'react';
 
-import { Box, Button, Flex, Panel, Text } from '../../ui';
-
-import EthAndNameEntry from './NewMemberEntry';
-import { z } from 'zod';
-import { zEthAddressOnly } from '../../forms/formHelpers';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFieldArray, useForm } from 'react-hook-form';
-import { client } from '../../lib/gql/client';
-import { normalizeError } from '../../utils/reporting';
-import { useApeSnackbar } from '../../hooks';
+import { z } from 'zod';
+
 import { LoadingModal } from '../../components';
-import { Check, Info, Trash } from '../../icons/__generated';
-import CopyCodeTextField from './CopyCodeTextField';
-import { TrashIcon } from '../../ui/icons/TrashIcon';
 import isFeatureEnabled from '../../config/features';
+import { zEthAddressOnly } from '../../forms/formHelpers';
+import { useApeSnackbar } from '../../hooks';
+import { Check, Info } from '../../icons/__generated';
+import { client } from '../../lib/gql/client';
+import { Box, Button, Flex, Panel, Text } from '../../ui';
+import { normalizeError } from '../../utils/reporting';
+
+import CopyCodeTextField from './CopyCodeTextField';
+import EthAndNameEntry from './NewMemberEntry';
 
 const NewMemberList = ({
   // TODO: figure out what to do w/ revoke
@@ -26,7 +24,7 @@ const NewMemberList = ({
 }: {
   circleId: number;
   welcomeLink: string;
-  revokeWelcome(): void;
+  // revokeWelcome(): void;
 }) => {
   const newMemberSchema = z.object({
     newMembers: z
@@ -53,7 +51,7 @@ const NewMemberList = ({
             }
           })
       )
-      .superRefine((data, ctx) => {
+      .superRefine(data => {
         if (data.filter(m => m.address != '' && m.name != '').length == 0) {
           //TODO: I want to use this to prevent form submission of there are no valid entries
           // but it just breaks the more useful errors from rendering
@@ -79,20 +77,13 @@ const NewMemberList = ({
     ],
   };
 
-  const {
-    register,
-    control,
-    handleSubmit,
-    reset,
-    formState,
-    watch,
-    getValues,
-  } = useForm({
-    resolver: zodResolver(newMemberSchema),
-    reValidateMode: 'onChange',
-    mode: 'onChange',
-    defaultValues,
-  });
+  const { register, control, handleSubmit, reset, formState, getValues } =
+    useForm({
+      resolver: zodResolver(newMemberSchema),
+      reValidateMode: 'onChange',
+      mode: 'onChange',
+      defaultValues,
+    });
   const { errors } = formState;
 
   const {
@@ -198,7 +189,7 @@ const NewMemberList = ({
                   message?: string;
                 }[];
                 if (addrErrors) {
-                  let e = {
+                  const e = {
                     name: addrErrors[idx]?.name?.message,
                     address: addrErrors[idx]?.address?.message,
                   };

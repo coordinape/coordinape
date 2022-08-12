@@ -61,7 +61,6 @@ const AddMembersPage = () => {
     }
   };
 
-  // TODO: handle the hostname for local /staging
   const magicLink = APP_URL + '/join/' + magicLinkUuid;
   const welcomeLink = APP_URL + '/welcome/' + welcomeUuid;
 
