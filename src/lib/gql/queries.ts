@@ -104,6 +104,7 @@ export const getProfile = async (address: string): Promise<IApiProfile> => {
                 },
                 auto_opt_out: true,
                 fixed_payment_token_type: true,
+                fixed_payment_vault_id: true,
               },
               teammates: [
                 {},
@@ -231,6 +232,7 @@ export const getFullCircle = async (
               },
               auto_opt_out: true,
               fixed_payment_token_type: true,
+              fixed_payment_vault_id: true,
             },
           ],
         },
@@ -503,6 +505,7 @@ export const fetchManifest = async (address: string): Promise<IApiManifest> => {
           },
           auto_opt_out: true,
           fixed_payment_token_type: true,
+          fixed_payment_vault_id: true,
           users: [{}, { address: true }],
         },
       ],
