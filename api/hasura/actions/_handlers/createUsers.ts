@@ -16,11 +16,12 @@ const USER_ALIAS_PREFIX = 'update_user_';
 const NOMINEE_ALIAS_PREFIX = 'update_nominee_';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
+  // this has to do parseAsync due to the ENS validation
   const {
     input: { payload: input },
-  } = composeHasuraActionRequestBody(createUsersBulkSchemaInput).parse(
-    req.body
-  );
+  } = await composeHasuraActionRequestBody(
+    createUsersBulkSchemaInput
+  ).parseAsync(req.body);
 
   const { circle_id, users } = input;
 

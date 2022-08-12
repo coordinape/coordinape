@@ -11,11 +11,11 @@ import { useParams } from 'react-router-dom';
 import { DISTRIBUTION_TYPE } from '../../config/constants';
 import { useSelectedCircle } from '../../recoilState';
 import { paths } from '../../routes/paths';
-import { ReactComponent as LeftArrowSVG } from 'assets/svgs/button/left-arrow.svg';
+import BackButton from '../../ui/BackButton';
 import { LoadingModal } from 'components';
 import { useApiAdminCircle, useContracts } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
-import { AppLink, Box, Button, Text } from 'ui';
+import { AppLink, Box, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { AllocationsTable } from './AllocationsTable';
@@ -181,14 +181,7 @@ export function DistributionsPage() {
   return (
     <SingleColumnLayout>
       <AppLink to={paths.history(circle.id)}>
-        <Button
-          size="small"
-          outlined
-          css={{ padding: '$sm', color: '$neutral', borderColor: '$neutral' }}
-        >
-          <LeftArrowSVG />
-          Back
-        </Button>
+        <BackButton />
       </AppLink>
       <Text h1 css={{ '@sm': { display: 'block' } }}>
         Distributions&nbsp;

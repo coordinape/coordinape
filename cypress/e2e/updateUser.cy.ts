@@ -56,7 +56,17 @@ context('Coordinape', () => {
       .click()
       .type(oldAddress);
 
+    // enter the fixed payment amount
+    cy.getInputByLabel('Fixed Payment Amount').clear().type('1200').blur();
+
     cy.contains('Save').click();
+
+    // Verify new value in contributors table
+    cy.contains('Kasey', { timeout: 120000 })
+      .parents('tr')
+      .within(() => {
+        cy.get('td').eq(7).should('have.text', '1200');
+      });
 
     // Assert that the old address is there and correct
     assertAddr(oldAddress);

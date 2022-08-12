@@ -7,6 +7,7 @@ import {
   zEthAddressOnly,
   zStringISODateUTC,
   zBytes32,
+  zEthAddress,
 } from '../../../src/forms/formHelpers';
 
 const PERSONAL_SIGN_REGEX = /0x[0-9a-f]{130}/;
@@ -109,7 +110,7 @@ export const createUserSchemaInput = z
   .object({
     circle_id: z.number(),
     name: z.string().min(3).max(255),
-    address: zEthAddressOnly,
+    address: zEthAddress,
     non_giver: z.boolean().optional(),
     starting_tokens: z.number().optional().default(100),
     fixed_non_receiver: z.boolean().optional(),
