@@ -372,12 +372,12 @@ const CircleNav = () => {
       [
         paths.allocation(circleId),
         'Allocate',
-        [paths.epoch(circle?.id), paths.team(circleId), paths.give(circleId)],
+        [paths.epoch(circleId), paths.team(circleId), paths.give(circleId)],
       ],
       [paths.map(circleId), 'Map'],
     ];
 
-    if (circle?.hasVouching) l.push([paths.vouching(circle.id), 'Vouching']);
+    if (circle?.hasVouching) l.push([paths.vouching(circleId), 'Vouching']);
     if (myUser.isCircleAdmin) {
       l.push([paths.members(circleId), 'Admin']);
     }

@@ -1,5 +1,7 @@
 import { client } from 'lib/gql/client';
 
+import type { Awaited } from 'types/shim';
+
 export const getCircleSettings = async (circleId: number) => {
   const { circle } = await client.query(
     {
@@ -56,3 +58,7 @@ export const getCircleSettings = async (circleId: number) => {
   };
   return extraCircle;
 };
+
+export type CircleSettingsResult = Awaited<
+  ReturnType<typeof getCircleSettings>
+>;
