@@ -4,8 +4,7 @@ export type FeatureName =
   | 'vaults'
   | 'fixed_payments'
   | 'future_feature'
-  | 'csv_import'
-  | 'link_joining';
+  | 'csv_import';
 
 // this is a very simple implementation of build-time feature flags that you can
 // hardcode or set with environment variables

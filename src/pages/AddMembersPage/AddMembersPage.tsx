@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { LoadingModal } from '../../components';
 import { isFeatureEnabled } from '../../config/features';
+import { AlertSolid } from '../../icons/__generated';
 import { paths } from '../../routes/paths';
 import { ICircle } from '../../types';
 import BackButton from '../../ui/BackButton';
@@ -9,9 +10,10 @@ import { Box } from '../../ui/Box/Box';
 import HintButton from '../../ui/HintButton';
 import { APP_URL } from '../../utils/domain';
 import { useSelectedCircle } from 'recoilState/app';
-import { AppLink, Button, Flex, Panel, Text } from 'ui';
+import { AppLink, Flex, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
+import ConstrainedBox from './ConstrainedBox';
 import CopyCodeTextField from './CopyCodeTextField';
 import NewMemberList from './NewMemberList';
 import TabButton, { Tab } from './TabButton';
@@ -78,7 +80,7 @@ const AddMembersContents = ({
   circle,
   welcomeLink,
   magicLink,
-  revokeMagic,
+  // revokeMagic, TODO: add revoke in a later PR when UI is better defined
   revokeWelcome,
 }: {
   circle: ICircle;
@@ -108,35 +110,31 @@ const AddMembersContents = ({
           </AppLink>
         </Text>
       </Box>
-      {(isFeatureEnabled('csv_import') || isFeatureEnabled('link_joining')) && (
-        <Flex css={{ mb: '$xl' }}>
+      <Flex css={{ mb: '$sm' }}>
+        <TabButton
+          tab={Tab.LINK}
+          currentTab={currentTab}
+          setCurrentTab={setCurrentTab}
+        >
+          Magic Link
+        </TabButton>
+        <TabButton
+          tab={Tab.ETH}
+          currentTab={currentTab}
+          setCurrentTab={setCurrentTab}
+        >
+          ETH Address
+        </TabButton>
+        {isFeatureEnabled('csv_import') && (
           <TabButton
-            tab={Tab.ETH}
+            tab={Tab.CSV}
             currentTab={currentTab}
             setCurrentTab={setCurrentTab}
           >
-            Add by ETH Address
+            CSV Import
           </TabButton>
-          {isFeatureEnabled('csv_import') && (
-            <TabButton
-              tab={Tab.CSV}
-              currentTab={currentTab}
-              setCurrentTab={setCurrentTab}
-            >
-              CSV Import
-            </TabButton>
-          )}
-          {isFeatureEnabled('link_joining') && (
-            <TabButton
-              tab={Tab.LINK}
-              currentTab={currentTab}
-              setCurrentTab={setCurrentTab}
-            >
-              Join Link
-            </TabButton>
-          )}
-        </Flex>
-      )}
+        )}
+      </Flex>
       <Panel>
         {currentTab === Tab.ETH && (
           <Box>
@@ -157,13 +155,36 @@ const AddMembersContents = ({
           </Box>
         )}
         {currentTab === Tab.LINK && (
-          <>
-            <div>
-              MagicLink
+          <Box>
+            <Text css={{ pb: '$lg', pt: '$sm' }} size="large">
+              Add new members by sharing a magic link.
+            </Text>
+            <ConstrainedBox css={{ mb: '$md' }}>
+              <Flex css={{ alignItems: 'center', mb: '$xs' }}>
+                <Text variant="label">Magic Circle Link</Text>
+              </Flex>
               <CopyCodeTextField value={magicLink} />
-              <Button onClick={revokeMagic}>refr</Button>
-            </div>
-          </>
+
+              <Panel alert css={{ mt: '$xl' }}>
+                <Flex>
+                  <AlertSolid
+                    color="alert"
+                    size="xl"
+                    css={{
+                      mr: '$md',
+                      '& path': { stroke: 'none' },
+                      flexShrink: 0,
+                    }}
+                  />
+                  <Text size="large">
+                    Anyone with this link can join this circle and set their
+                    name. For added security, add new members using their wallet
+                    addresses.
+                  </Text>
+                </Flex>
+              </Panel>
+            </ConstrainedBox>
+          </Box>
         )}
         <Box css={{ mt: '$md' }}>
           <HintButton
