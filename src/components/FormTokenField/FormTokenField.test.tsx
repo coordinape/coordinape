@@ -32,7 +32,7 @@ test('can render a change to an empty string', () => {
   const input: HTMLInputElement = screen.getByTestId('FormTokenField');
   fireEvent.change(input, { target: { value: '500' } });
   fireEvent.change(input, { target: { value: '' } });
-  expect(input.value).toBe('0');
+  expect(input.value).toBe('');
 });
 
 test('can render a valid token amount', () => {
