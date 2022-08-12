@@ -56,7 +56,7 @@ else
       --mnemonic "test test test test test test test test test test test junk"
       --fork.url $ETHEREUM_RPC_URL
       --fork.blockNumber ${HARDHAT_FORK_BLOCK:-"13500000"}
-      --miner.defaultGasPrice 0x7735940000
+      --miner.defaultGasPrice 0x22665a1644
   )
 
   if [ "$VERBOSE" ]; then

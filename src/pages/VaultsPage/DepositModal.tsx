@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { createWeb3ReactRoot, useWeb3React } from '@web3-react/core';
 import { ethers } from 'ethers';
 import { getTokenAddress, Contracts } from 'lib/vaults';
+import round from 'lodash/round';
 import { useForm, useController } from 'react-hook-form';
 import * as z from 'zod';
 
@@ -127,7 +128,7 @@ export default function DepositModal({
           symbol={vault.symbol as string}
           decimals={vault.decimals}
           label={`Available: ${numberWithCommas(
-            max
+            round(max, 4)
           )} ${vault.symbol?.toUpperCase()}`}
           error={!!errors.amount}
           errorText={errors.amount?.message}

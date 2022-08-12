@@ -25,8 +25,6 @@ type EpochPanelProps = {
 };
 export const EpochPanel = ({
   circleId,
-  circleName,
-  protocolName,
   epoch,
   tokenName,
   isAdmin,
@@ -128,7 +126,6 @@ export const EpochPanel = ({
 
                         if (csv?.file) {
                           const a = document.createElement('a');
-                          a.download = `${protocolName}-${circleName}-epoch-${epoch}.csv`;
                           a.href = csv.file;
                           a.click();
                           a.href = '';

@@ -52,7 +52,7 @@ export const useClaimsTableData = () => {
     assert(claim && address);
     const { index, proof, distribution } = claim;
 
-    const { claims: jsonClaims } = JSON.parse(distribution.distribution_json);
+    const { claims: jsonClaims } = distribution.distribution_json;
 
     // we use this value instead of the column on the claims row because it is
     // more precise
@@ -65,7 +65,7 @@ export const useClaimsTableData = () => {
       index,
       address,
       amount,
-      proof: proof.split(','),
+      proof: proof ? proof.split(',') : [],
     });
     if (hash) refetch();
     setClaiming(val => ({ ...val, [claim.id]: 'claimed' }));

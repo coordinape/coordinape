@@ -1,10 +1,16 @@
-import { LoadingModal, makeTable } from 'components';
-import { Box, Panel, Flex, Text, Button } from 'ui';
+import { ApeInfoTooltip, LoadingModal, makeTable } from 'components';
+import { DISTRIBUTION_TYPE } from 'config/constants';
+import { Avatar, Box, Panel, Flex, Text, Button } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { makeExplorerUrl } from 'utils/provider';
 
 import { useClaimsTableData, ClaimsRowData } from './hooks';
-import { formatEpochDates, formatClaimAmount } from './utils';
+import { QueryClaim } from './queries';
+import {
+  formatDistributionDates,
+  formatClaimAmount,
+  formatAmount,
+} from './utils';
 
 const styles = {
   th: { whiteSpace: 'nowrap', textAlign: 'left' },
@@ -19,19 +25,57 @@ const buttonStyles = {
   borderRadius: '$2',
 };
 
+const displayDistributionType = (
+  type: QueryClaim['distribution']['distribution_type']
+): string => {
+  if (type == DISTRIBUTION_TYPE['GIFT']) {
+    return 'Gift Circle';
+  } else if (type == DISTRIBUTION_TYPE['FIXED']) {
+    return 'Fixed Payment';
+  } else if (type == DISTRIBUTION_TYPE['COMBINED']) {
+    return 'Gift Circle + Fixed Payment';
+  } else {
+    return 'Unknown';
+  }
+};
+const groupTooltipInfo = (group: QueryClaim[]) => {
+  const detailsList = group.map(claim => (
+    <Flex key={claim.id}>
+      Epoch {claim.distribution.epoch.number} -{' '}
+      {displayDistributionType(claim.distribution.distribution_type)}:{' '}
+      {formatAmount(claim.new_amount)}
+    </Flex>
+  ));
+  return <Box>{detailsList}</Box>;
+};
+
 const ClaimsRow: React.FC<ClaimsRowData> = ({ claim, group, children }) => {
   return (
     <tr>
       <td>
-        <Text>{claim.distribution.epoch.circle?.organization?.name}</Text>
+        <Flex>
+          {claim.distribution.epoch.circle?.logo ? (
+            <Avatar
+              size="small"
+              path={claim.distribution.epoch.circle?.logo}
+              css={{ my: 0, ml: 0 }}
+            />
+          ) : (
+            ''
+          )}
+          <Text>{claim.distribution.epoch.circle?.organization?.name}</Text>
+        </Flex>
       </td>
       <td>
-        <Flex row css={{ gap: '$sm' }}>
+        <Flex css={{ gap: '$sm' }}>
           <Text>{claim.distribution.epoch.circle?.name}</Text>
         </Flex>
       </td>
       <td>
-        <Text>{formatEpochDates(group)}</Text>
+        <Text>
+          <ApeInfoTooltip>{groupTooltipInfo(group)}</ApeInfoTooltip>
+          <Text>{formatDistributionDates(group)}</Text>
+        </Text>
       </td>
       <td>
         <Flex css={{ justifyContent: 'flex-end' }}>
@@ -95,7 +139,7 @@ export default function ClaimsPage() {
           headers={[
             { title: 'Organization', css: styles.th },
             { title: 'Circle', css: styles.th },
-            { title: 'Epochs', css: styles.th },
+            { title: 'Distributions', css: styles.th },
             { title: 'Rewards', css: styles.thLast },
           ]}
           data={unclaimedClaimsRows}

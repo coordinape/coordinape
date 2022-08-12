@@ -293,7 +293,7 @@ const AllocationTeam = ({
     <Flex column>
       <Box
         css={{
-          zIndex: 1,
+          zIndex: 5,
           position: 'fixed',
           bottom: '$1xl',
           left: '50%',
@@ -377,7 +377,11 @@ const AllocationTeam = ({
                 key={user.id}
                 onClick={() => toggleLocalTeammate(user.id)}
               >
-                <Avatar small path={user.profile.avatar} name={user.name} />
+                <Avatar
+                  size="small"
+                  path={user.profile.avatar}
+                  name={user.name}
+                />
                 {user.name} | {user.pendingSentGifts}
                 <div
                   className={classes.checkmarkIconWrapper}
@@ -419,7 +423,11 @@ const AllocationTeam = ({
                     key={user.id}
                     onClick={() => toggleLocalTeammate(user.id)}
                   >
-                    <Avatar small path={user.profile.avatar} name={user.name} />
+                    <Avatar
+                      size="small"
+                      path={user.profile.avatar}
+                      name={user.name}
+                    />
                     {user.name} | {user.pendingSentGifts}
                     <div
                       className={classes.checkmarkIconWrapper}

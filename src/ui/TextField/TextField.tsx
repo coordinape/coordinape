@@ -35,13 +35,12 @@ export const TextField = styled('input', {
         fontSize: '$small',
       },
       md: {
-        width: '250px',
-        height: '48px',
+        lineHeight: '$short',
       },
     },
     error: {
       true: {
-        borderColor: '$alert',
+        backgroundColor: '$alertLight',
         boxSizing: 'border-box',
       },
     },

@@ -49,6 +49,7 @@ test('combined root', () => {
       [addr(2)]: { index: 1, amount: '0x09ef21aa', proof: ['mock'] }, // 166666666
       [addr(3)]: { index: 2, amount: '0x0ee6b281', proof: ['mock'] }, // 250000001
     },
+    tokenTotal: '500000000',
   };
 
   const dist = createDistribution(
@@ -68,4 +69,5 @@ test('combined root', () => {
   expect(dist.claims[addr(3)].amount).toEqual('250000001');
   expect(dist.claims[addr(4)].amount).toEqual('200000000');
   expect(dist.tokenTotal).toEqual('1100000000');
+  expect(dist.previousTotal).toEqual('500000000');
 });

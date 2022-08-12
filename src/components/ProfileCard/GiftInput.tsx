@@ -96,6 +96,8 @@ export const GiftInput = ({
           label={`${tokenName} Allocated`}
           value={tokens}
           onChange={onChangeTokens}
+          // this prevents the numbers changing on scroll
+          onWheel={e => e.target instanceof HTMLElement && e.target.blur()}
           className={classes.textField}
           InputProps={{
             classes: {

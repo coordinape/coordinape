@@ -298,6 +298,8 @@ export const allocationCsvInput = z
     grant: z.number().positive().min(1).max(1000000000).optional(),
     epoch: z.number().int().optional(),
     epoch_id: z.number().int().optional(),
+    form_gift_amount: z.number().min(0).optional().default(0),
+    gift_token_symbol: z.string().optional(),
   })
   .strict()
   .refine(

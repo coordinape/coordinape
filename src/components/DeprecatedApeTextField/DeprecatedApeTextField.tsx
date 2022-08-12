@@ -36,161 +36,171 @@ interface ApeTextStyleProps {
 //
 // Using the same interface as MaterialUI's TextField to make it compatible
 // with the the calendar.
-export type ApeTextFieldProps = TextFieldProps & ApeTextStyleProps;
 
-export const DeprecatedApeTextField = ({
-  infoTooltip,
-  subtitle,
-  prelabel,
-  apeVariant = 'default',
-  apeSize = 'default',
-  ...props
-}: ApeTextFieldProps) => {
-  // if there a custom variant search into variants styles and overwrite the base one
-  const classes = useBaseStyles({ variant: apeVariant, size: apeSize });
+const makeComponent =
+  (withRef: boolean) =>
+  (props: TextFieldProps & ApeTextStyleProps, ref?: React.Ref<unknown>) => {
+    const {
+      infoTooltip,
+      subtitle,
+      prelabel,
+      apeVariant = 'default',
+      apeSize = 'default',
+      ...otherProps
+    } = props;
 
-  const [fallbackId] = useState(uniqueId('text-field-'));
+    // if there a custom variant search into variants styles and overwrite the base one
+    const classes = useBaseStyles({ variant: apeVariant, size: apeSize });
 
-  // Using:
-  // https://github.com/mui-org/material-ui/blob/master/packages/material-ui/src/InputBase/InputBase.js
-  const {
-    // For InputProps:
-    'aria-describedby': ariaDescribedby,
-    autoComplete,
-    autoFocus,
-    defaultValue,
-    disabled,
-    error,
-    fullWidth,
-    id,
-    inputProps,
-    inputRef,
-    margin,
-    multiline,
-    name,
-    onBlur,
-    onChange,
-    onClick,
-    onFocus,
-    onKeyDown,
-    onKeyUp,
-    placeholder,
-    rows,
-    rowsMax,
-    type,
-    value,
-    // TextField props we want:
-    // error,
-    helperText,
-    label,
-    className,
-    InputProps,
-    // TODO: think about implementing:
-    // color,
-    // classes: textFieldClasses,
-    // ...nonInputProps
-  } = props;
+    const [fallbackId] = useState(uniqueId('text-field-'));
 
-  const inputClasses = {
-    ...InputProps?.classes,
-    root: clsx(
-      classes.inputRoot,
-      {
-        [classes.inputRootError]: !!error,
-      },
-      InputProps?.classes?.root
-    ),
-    input: clsx(
-      classes.input,
-      { [classes.multiLineInput]: multiline },
-      InputProps?.classes?.input
-    ),
+    // Using:
+    // https://github.com/mui-org/material-ui/blob/master/packages/material-ui/src/InputBase/InputBase.js
+    const {
+      // For InputProps:
+      'aria-describedby': ariaDescribedby,
+      autoComplete,
+      autoFocus,
+      defaultValue,
+      disabled,
+      error,
+      fullWidth,
+      id,
+      inputProps,
+      inputRef,
+      margin,
+      multiline,
+      name,
+      onBlur,
+      onChange,
+      onClick,
+      onFocus,
+      onKeyDown,
+      onKeyUp,
+      onWheel,
+      placeholder,
+      rows,
+      rowsMax,
+      type,
+      value,
+      // TextField props we want:
+      // error,
+      helperText,
+      label,
+      className,
+      InputProps,
+      // TODO: think about implementing:
+      // color,
+      // classes: textFieldClasses,
+      // ...nonInputProps
+    } = otherProps;
+
+    const inputClasses = {
+      ...InputProps?.classes,
+      root: clsx(
+        classes.inputRoot,
+        {
+          [classes.inputRootError]: !!error,
+        },
+        InputProps?.classes?.root
+      ),
+      input: clsx(
+        classes.input,
+        { [classes.multiLineInput]: multiline },
+        InputProps?.classes?.input
+      ),
+    };
+
+    const mergedInputProps = {
+      ...InputProps,
+      ['aria-describedby']: ariaDescribedby,
+      classes: inputClasses,
+      autoComplete,
+      autoFocus,
+      defaultValue,
+      disabled,
+      error,
+      fullWidth,
+      id: id ?? fallbackId,
+      inputProps,
+      inputRef,
+      margin:
+        margin === 'dense' ? 'dense' : ('none' as 'dense' | 'none' | undefined),
+      multiline,
+      name,
+      onBlur,
+      onChange,
+      onClick,
+      onFocus,
+      onKeyDown,
+      onKeyUp,
+      onWheel,
+      placeholder,
+      rows,
+      rowsMax,
+      type,
+      value,
+    } as InputBaseProps;
+
+    return (
+      <div
+        className={clsx(
+          className,
+          classes.root,
+          fullWidth && classes.rootFullWidth
+        )}
+      >
+        <Flex css={{ justifyContent: 'space-between' }}>
+          {prelabel && (
+            <Text
+              variant="label"
+              as="label"
+              htmlFor={id ?? fallbackId}
+              className={classes.label}
+              css={{ mb: '$xs' }}
+            >
+              {prelabel}{' '}
+              {infoTooltip && <ApeInfoTooltip>{infoTooltip}</ApeInfoTooltip>}
+            </Text>
+          )}
+          {(label || infoTooltip) && (
+            <Text
+              variant="label"
+              as="label"
+              htmlFor={id ?? fallbackId}
+              className={classes.label}
+              css={{ mb: '$xs' }}
+            >
+              {label}{' '}
+              {!prelabel && infoTooltip && (
+                <ApeInfoTooltip>{infoTooltip}</ApeInfoTooltip>
+              )}
+            </Text>
+          )}
+        </Flex>
+
+        {subtitle && <label className={classes.subLabel}>{subtitle}</label>}
+        <InputBase {...(withRef ? { ref } : {})} {...mergedInputProps} />
+        <div className={classes.helperBox}>
+          {helperText && (
+            <span
+              className={clsx({
+                [classes.helper]: !error,
+                [classes.error]: !!error,
+              })}
+            >
+              {helperText}
+            </span>
+          )}
+        </div>
+      </div>
+    );
   };
 
-  const mergedInputProps = {
-    ...InputProps,
-    ['aria-describedby']: ariaDescribedby,
-    classes: inputClasses,
-    autoComplete,
-    autoFocus,
-    defaultValue,
-    disabled,
-    error,
-    fullWidth,
-    id: id ?? fallbackId,
-    inputProps,
-    inputRef,
-    margin:
-      margin === 'dense' ? 'dense' : ('none' as 'dense' | 'none' | undefined),
-    multiline,
-    name,
-    onBlur,
-    onChange,
-    onClick,
-    onFocus,
-    onKeyDown,
-    onKeyUp,
-    placeholder,
-    rows,
-    rowsMax,
-    type,
-    value,
-  } as InputBaseProps;
-
-  return (
-    <div
-      className={clsx(
-        className,
-        classes.root,
-        fullWidth && classes.rootFullWidth
-      )}
-    >
-      <Flex css={{ justifyContent: 'space-between' }}>
-        {prelabel && (
-          <Text
-            variant="label"
-            as="label"
-            htmlFor={id ?? fallbackId}
-            className={classes.label}
-            css={{ mb: '$xs' }}
-          >
-            {prelabel}{' '}
-            {infoTooltip && <ApeInfoTooltip>{infoTooltip}</ApeInfoTooltip>}
-          </Text>
-        )}
-        {(label || infoTooltip) && (
-          <Text
-            variant="label"
-            as="label"
-            htmlFor={id ?? fallbackId}
-            className={classes.label}
-            css={{ mb: '$xs' }}
-          >
-            {label}{' '}
-            {!prelabel && infoTooltip && (
-              <ApeInfoTooltip>{infoTooltip}</ApeInfoTooltip>
-            )}
-          </Text>
-        )}
-      </Flex>
-
-      {subtitle && <label className={classes.subLabel}>{subtitle}</label>}
-      <InputBase {...mergedInputProps} />
-      <div className={classes.helperBox}>
-        {helperText && (
-          <span
-            className={clsx({
-              [classes.helper]: !error,
-              [classes.error]: !!error,
-            })}
-          >
-            {helperText}
-          </span>
-        )}
-      </div>
-    </div>
-  );
-};
+export const DeprecatedApeTextField = makeComponent(false);
+export const DeprecatedApeTextFieldWithRef = React.forwardRef(
+  makeComponent(true)
+);
 
 //#region Styles
 const apeVariants: any = (
@@ -301,9 +311,9 @@ const useBaseStyles = makeStyles<
     },
   },
   input: ({ variant, size }) => ({
-    padding: theme.spacing(1.75, 1, 1.75),
-    fontSize: 15,
-    lineHeight: 1.33,
+    padding: theme.spacing(1.25),
+    fontSize: 16,
+    lineHeight: 1.375,
     fontWeight: 300,
 
     '&::placeholder': {

@@ -12,3 +12,9 @@ export const EPOCH_REPEAT = {
   WEEKLY: 1,
   MONTHLY: 2,
 };
+
+export const DISTRIBUTION_TYPE = {
+  GIFT: 1,
+  FIXED: 2,
+  COMBINED: 3,
+};

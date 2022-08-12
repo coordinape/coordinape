@@ -21,16 +21,6 @@ beforeEach(async () => {
   await mint({ token: 'DAI', amount: '1000' });
 });
 
-/*
-test setup:
-- create a vault; deposit; upload epoch root; claim.
-- construct a mock pending vault transactions query response that contains the
-data for the vault creation & claim transactions, among with junk data.
-
-validation:
-- check that the recoverTransactions code identifies those two transactions
-  and calls mutations to save their data.
-*/
 test('mix of invalid & valid txs', async () => {
   const req = {
     headers: { verification_key: process.env.HASURA_EVENT_SECRET },
@@ -54,12 +44,13 @@ test('mix of invalid & valid txs', async () => {
   await token.transfer(vaultAddress, parseUnits('1000', 18));
 
   const userAddress = hexZeroPad('0xabc', 20);
+  const circleId = 1;
   const gifts = { [userAddress]: 1, [hexZeroPad('0xdef', 20)]: 1 };
   const dist = createDistribution(gifts, undefined, total, total);
   const distributeTx = await uploadEpochRoot(
     contracts,
     { simple_token_address: daiAddress, vault_address: vaultAddress },
-    1,
+    circleId,
     dist.merkleRoot,
     total
   );
@@ -71,7 +62,7 @@ test('mix of invalid & valid txs', async () => {
 
   const claimTx = await contracts.distributor.claim(
     vaultAddress,
-    encodeCircleId(1),
+    encodeCircleId(circleId),
     daiAddress,
     BigNumber.from(epochId),
     BigNumber.from(index),
@@ -100,11 +91,32 @@ test('mix of invalid & valid txs', async () => {
           },
           {
             chain_id,
+            distribution_id: 7,
+            tx_hash: distributeTx.hash,
+            tx_type: 'Distribution',
+            created_at: earlier,
+          },
+          {
+            chain_id,
+            claim_id: 10,
             tx_hash: claimTx.hash,
             tx_type: 'Claim',
             created_at: 'earlier',
           },
         ],
+      });
+
+    if (query.distributions_by_pk)
+      return Promise.resolve({
+        distributions_by_pk: {
+          vault: { id: 5, vault_address: vaultAddress },
+          epoch: { circle_id: circleId },
+          tx_hash: undefined,
+          total_amount: parseUnits('1500', 18).toString(),
+          distribution_json: JSON.stringify({
+            previousTotal: parseUnits('500', 18).toString(),
+          }),
+        },
       });
 
     if (query.claims_by_pk)
@@ -113,7 +125,7 @@ test('mix of invalid & valid txs', async () => {
           address: userAddress,
           distribution: {
             vault: { vault_address: '0xvault' },
-            epoch: { circle: { id: 1 } },
+            epoch: { circle: { id: circleId } },
           },
         },
       });
@@ -123,10 +135,11 @@ test('mix of invalid & valid txs', async () => {
     if (query.insert_vaults_one)
       return Promise.resolve({ insert_vaults_one: { id: 5 } });
 
+    if (query.update_distributions_by_pk)
+      return Promise.resolve({ update_distributions_by_pk: { id: 7 } });
+
     if (query.update_claims)
-      return Promise.resolve({
-        update_claims: { affected_rows: 3 },
-      });
+      return Promise.resolve({ update_claims: { affected_rows: 3 } });
   });
 
   await handler(req, res);
@@ -140,7 +153,9 @@ test('mix of invalid & valid txs', async () => {
         'error: invalid hash (argument="value", value="0xdead", code=INVALID_ARGUMENT, version=providers/5.5.0)',
       [hash1]: 'error: no tx found',
       [createVaultTx.hash]: 'added vault id 5',
+      [distributeTx.hash]: 'updated distribution id 7',
       [claimTx.hash]: 'updated 3 claims',
     },
+    stackTraces: expect.any(Array),
   });
 }, 10000);

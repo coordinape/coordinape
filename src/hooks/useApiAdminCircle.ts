@@ -91,9 +91,21 @@ export const useApiAdminCircle = (circleId: number) => {
   );
 
   const downloadCSV = useRecoilLoadCatch(
-    () => async (epoch?: number, epochId?: number) => {
-      return await mutations.allocationCsv(circleId, epoch, epochId);
-    },
+    () =>
+      async (
+        epoch?: number,
+        epochId?: number,
+        formGiftAmount?: number,
+        giftTokenSymbol?: string
+      ) => {
+        return await mutations.allocationCsv(
+          circleId,
+          epoch,
+          epochId,
+          formGiftAmount,
+          giftTokenSymbol
+        );
+      },
     [circleId]
   );
 

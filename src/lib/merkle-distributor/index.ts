@@ -78,7 +78,10 @@ export const createDistribution = (
     if (addedClaims.length > 0) balances = [...balances, ...addedClaims];
   }
 
-  return parseBalanceMap(balances);
+  return {
+    ...parseBalanceMap(balances),
+    previousTotal: previousDistribution?.tokenTotal,
+  };
 };
 
 type Balance = { address: string; earnings: BigNumber };

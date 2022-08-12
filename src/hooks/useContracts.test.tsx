@@ -46,7 +46,7 @@ test('set up contracts', async () => {
   // assuming the test user has been funded with 1000 ETH
   await waitFor(() =>
     expect(balance?.div(BigNumber.from(10).pow(18)).toNumber()).toBeGreaterThan(
-      900
+      100
     )
   );
 });

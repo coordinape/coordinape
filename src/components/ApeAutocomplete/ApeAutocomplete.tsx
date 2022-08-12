@@ -3,7 +3,8 @@ import React from 'react';
 import { makeStyles, InputProps } from '@material-ui/core';
 import { Autocomplete, AutocompleteRenderInputParams } from '@material-ui/lab';
 
-import { DeprecatedApeTextField } from 'components';
+import { DeprecatedApeTextFieldWithRef } from 'components';
+import type { DeprecatedApeTextField } from 'components';
 
 const useStyles = makeStyles(theme => ({
   colorBlack: {
@@ -27,20 +28,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const ApeAutocomplete = ({
-  onChange,
-  options,
-  InputProps,
-  TextFieldProps,
-  color,
-  size,
-  error,
-  placeholder,
-  helperText,
-  label,
-  isSelect,
-  ...props
-}: Omit<
+type Props = Omit<
   React.ComponentProps<typeof Autocomplete>,
   'renderInput' | 'onChange'
 > & {
@@ -55,8 +43,25 @@ export const ApeAutocomplete = ({
   error?: boolean;
   label?: string;
   isSelect?: boolean;
-}) => {
+};
+
+export const ApeAutocomplete = React.forwardRef((props: Props, ref) => {
   const classes = useStyles();
+
+  const {
+    onChange,
+    options,
+    InputProps,
+    TextFieldProps,
+    color,
+    size,
+    error,
+    placeholder,
+    helperText,
+    label,
+    isSelect,
+    ...otherProps
+  } = props;
 
   let autocompleteClasses = {
     paper: classes.backgroundDefault,
@@ -87,7 +92,8 @@ export const ApeAutocomplete = ({
       options={options}
       renderInput={(params: AutocompleteRenderInputParams) => {
         return (
-          <DeprecatedApeTextField
+          <DeprecatedApeTextFieldWithRef
+            ref={ref}
             {...params}
             InputProps={{
               ...params.InputProps,
@@ -107,7 +113,7 @@ export const ApeAutocomplete = ({
           />
         );
       }}
-      {...props}
+      {...otherProps}
     />
   );
-};
+});

@@ -901,7 +901,6 @@ export const AllTypesProps: Record<string, any> = {
     fixed_amount: 'order_by',
     gift_amount: 'order_by',
     id: 'order_by',
-    total_amount: 'order_by',
     vault_id: 'order_by',
   },
   distributions_bool_exp: {
@@ -921,7 +920,7 @@ export const AllTypesProps: Record<string, any> = {
     id: 'bigint_comparison_exp',
     merkle_root: 'String_comparison_exp',
     profile: 'profiles_bool_exp',
-    total_amount: 'numeric_comparison_exp',
+    total_amount: 'String_comparison_exp',
     tx_hash: 'String_comparison_exp',
     vault: 'vaults_bool_exp',
     vault_id: 'bigint_comparison_exp',
@@ -938,7 +937,6 @@ export const AllTypesProps: Record<string, any> = {
     epoch_id: 'bigint',
     fixed_amount: 'numeric',
     gift_amount: 'numeric',
-    total_amount: 'numeric',
     vault_id: 'bigint',
   },
   distributions_max_order_by: {
@@ -1013,7 +1011,6 @@ export const AllTypesProps: Record<string, any> = {
     fixed_amount: 'order_by',
     gift_amount: 'order_by',
     id: 'order_by',
-    total_amount: 'order_by',
     vault_id: 'order_by',
   },
   distributions_stddev_pop_order_by: {
@@ -1024,7 +1021,6 @@ export const AllTypesProps: Record<string, any> = {
     fixed_amount: 'order_by',
     gift_amount: 'order_by',
     id: 'order_by',
-    total_amount: 'order_by',
     vault_id: 'order_by',
   },
   distributions_stddev_samp_order_by: {
@@ -1035,7 +1031,6 @@ export const AllTypesProps: Record<string, any> = {
     fixed_amount: 'order_by',
     gift_amount: 'order_by',
     id: 'order_by',
-    total_amount: 'order_by',
     vault_id: 'order_by',
   },
   distributions_sum_order_by: {
@@ -1046,7 +1041,6 @@ export const AllTypesProps: Record<string, any> = {
     fixed_amount: 'order_by',
     gift_amount: 'order_by',
     id: 'order_by',
-    total_amount: 'order_by',
     vault_id: 'order_by',
   },
   distributions_update_column: true,
@@ -1058,7 +1052,6 @@ export const AllTypesProps: Record<string, any> = {
     fixed_amount: 'order_by',
     gift_amount: 'order_by',
     id: 'order_by',
-    total_amount: 'order_by',
     vault_id: 'order_by',
   },
   distributions_var_samp_order_by: {
@@ -1069,7 +1062,6 @@ export const AllTypesProps: Record<string, any> = {
     fixed_amount: 'order_by',
     gift_amount: 'order_by',
     id: 'order_by',
-    total_amount: 'order_by',
     vault_id: 'order_by',
   },
   distributions_variance_order_by: {
@@ -1080,7 +1072,6 @@ export const AllTypesProps: Record<string, any> = {
     fixed_amount: 'order_by',
     gift_amount: 'order_by',
     id: 'order_by',
-    total_amount: 'order_by',
     vault_id: 'order_by',
   },
   epochs: {
@@ -3720,7 +3711,7 @@ export const ReturnTypes: Record<string, any> = {
     id: 'bigint',
     merkle_root: 'String',
     profile: 'profiles',
-    total_amount: 'numeric',
+    total_amount: 'String',
     tx_hash: 'String',
     vault: 'vaults',
     vault_id: 'bigint',
@@ -3751,7 +3742,6 @@ export const ReturnTypes: Record<string, any> = {
     fixed_amount: 'Float',
     gift_amount: 'Float',
     id: 'Float',
-    total_amount: 'Float',
     vault_id: 'Float',
   },
   distributions_max_fields: {
@@ -3764,7 +3754,7 @@ export const ReturnTypes: Record<string, any> = {
     gift_amount: 'numeric',
     id: 'bigint',
     merkle_root: 'String',
-    total_amount: 'numeric',
+    total_amount: 'String',
     tx_hash: 'String',
     vault_id: 'bigint',
   },
@@ -3778,7 +3768,7 @@ export const ReturnTypes: Record<string, any> = {
     gift_amount: 'numeric',
     id: 'bigint',
     merkle_root: 'String',
-    total_amount: 'numeric',
+    total_amount: 'String',
     tx_hash: 'String',
     vault_id: 'bigint',
   },
@@ -3794,7 +3784,6 @@ export const ReturnTypes: Record<string, any> = {
     fixed_amount: 'Float',
     gift_amount: 'Float',
     id: 'Float',
-    total_amount: 'Float',
     vault_id: 'Float',
   },
   distributions_stddev_pop_fields: {
@@ -3805,7 +3794,6 @@ export const ReturnTypes: Record<string, any> = {
     fixed_amount: 'Float',
     gift_amount: 'Float',
     id: 'Float',
-    total_amount: 'Float',
     vault_id: 'Float',
   },
   distributions_stddev_samp_fields: {
@@ -3816,7 +3804,6 @@ export const ReturnTypes: Record<string, any> = {
     fixed_amount: 'Float',
     gift_amount: 'Float',
     id: 'Float',
-    total_amount: 'Float',
     vault_id: 'Float',
   },
   distributions_sum_fields: {
@@ -3827,7 +3814,6 @@ export const ReturnTypes: Record<string, any> = {
     fixed_amount: 'numeric',
     gift_amount: 'numeric',
     id: 'bigint',
-    total_amount: 'numeric',
     vault_id: 'bigint',
   },
   distributions_var_pop_fields: {
@@ -3838,7 +3824,6 @@ export const ReturnTypes: Record<string, any> = {
     fixed_amount: 'Float',
     gift_amount: 'Float',
     id: 'Float',
-    total_amount: 'Float',
     vault_id: 'Float',
   },
   distributions_var_samp_fields: {
@@ -3849,7 +3834,6 @@ export const ReturnTypes: Record<string, any> = {
     fixed_amount: 'Float',
     gift_amount: 'Float',
     id: 'Float',
-    total_amount: 'Float',
     vault_id: 'Float',
   },
   distributions_variance_fields: {
@@ -3860,7 +3844,6 @@ export const ReturnTypes: Record<string, any> = {
     fixed_amount: 'Float',
     gift_amount: 'Float',
     id: 'Float',
-    total_amount: 'Float',
     vault_id: 'Float',
   },
   epochs: {

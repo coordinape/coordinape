@@ -155,11 +155,13 @@ export const OrgLogoUpload = ({
                     ? () => fileInput.current?.click?.()
                     : undefined
                 }
+                size="smallIcon"
                 css={{
                   visibility: 'hidden',
                   color: '$secondaryText',
                   background: '$white',
                   position: 'absolute',
+                  fontSize: '$large',
                   left: 0,
                   top: 0,
                   zIndex: 2,
@@ -170,7 +172,6 @@ export const OrgLogoUpload = ({
                     visibility: 'visible',
                   },
                 }}
-                size="smallIcon"
               >
                 <Settings />
               </Button>

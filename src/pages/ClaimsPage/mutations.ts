@@ -4,10 +4,12 @@ import { useMutation } from 'react-query';
 export function useMarkClaimTaken() {
   return useMutation(
     ({
+      claimId,
       circleId,
       txHash,
       vaultAddress,
     }: {
+      claimId: number;
       circleId: number;
       txHash: string;
       vaultAddress: string;
@@ -21,6 +23,7 @@ export function useMarkClaimTaken() {
               },
               where: {
                 txHash: { _is_null: true },
+                id: { _lte: claimId },
                 distribution: {
                   vault: { vault_address: { _eq: vaultAddress } },
                   epoch: { circle: { id: { _eq: circleId } } },

@@ -79,6 +79,9 @@ export function useClaimAllocation() {
       if ((error as any)?.message.match(/User denied transaction signature/))
         return;
 
+      // some other error occurred. saveAndTrackTx will report it
+      if (!receipt) return;
+
       const event = receipt?.events?.find(e => e.event === 'Claimed');
       const txHash = receipt?.transactionHash;
       assert(event, 'Claimed event not found');
@@ -86,6 +89,7 @@ export function useClaimAllocation() {
 
       showInfo('Saving record of claim...');
       await markSaved({
+        claimId,
         circleId: circle.id,
         txHash,
         vaultAddress: vault.vault_address,

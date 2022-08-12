@@ -16,13 +16,11 @@ export const SvgMinus = (props: SvgIconProps) => (
     height={16}
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    css={css}
+    css={{ ...css, ...(props.css ?? {}) }}
     viewBox="0 0 16 16"
     {...props}
   >
     <path
-      fillRule="evenodd"
-      clipRule="evenodd"
       d="M0 8a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2H1a1 1 0 0 1-1-1Z"
       fill="#000"
     />
