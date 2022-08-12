@@ -36,7 +36,7 @@ context('Coordinape', () => {
 
     // Deposit USDC into the vault
     cy.contains('Deposit').click();
-    cy.get('input[type=number]', { timeout: 90000 })
+    cy.get('input[type=text]', { timeout: 90000 })
       .click()
       .wait(1000)
       .type('5000');
@@ -51,7 +51,7 @@ context('Coordinape', () => {
 
     // Withdraw USDC from the Vault
     cy.contains('Withdraw').click();
-    cy.get('input[type=number]', { timeout: 120000 })
+    cy.get('input[type=text]', { timeout: 120000 })
       .click()
       .wait(1000)
       .type('100');
@@ -66,7 +66,7 @@ context('Coordinape', () => {
     // submit distribution onchain
     cy.visit(`/circles/${circleId}/history`);
     cy.contains('a', 'Review / Export', { timeout: 120000 }).click();
-    cy.get('input[type=number]:first', { timeout: 90000 }).click().type('4500');
+    cy.get('input[type=text]:last', { timeout: 90000 }).click().type('4500');
     cy.contains('button', 'Submit USDC Vault Distribution').click();
     cy.contains('Submitting', { timeout: 120000 });
     cy.contains('Please sign the transaction', { timeout: 120000 });

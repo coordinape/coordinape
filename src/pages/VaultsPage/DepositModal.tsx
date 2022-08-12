@@ -11,7 +11,7 @@ import { useForm, useController } from 'react-hook-form';
 import * as z from 'zod';
 
 import { ReactComponent as WalletConnectSVG } from 'assets/svgs/wallet/wallet-connect.svg';
-import { FormTokenField } from 'components';
+import { FormTokenField, zTokenString } from 'components';
 import type { Vault } from 'hooks/gql/useVaults';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { useContracts } from 'hooks/useContracts';
@@ -72,7 +72,9 @@ export default function DepositModal({
     })();
   }, [selectedContracts, isSecondaryAccountActive]);
 
-  const schema = z.object({ amount: z.number().min(0).max(max) }).strict();
+  const schema = z
+    .object({ amount: zTokenString('0', max, vault.decimals) })
+    .strict();
   type DepositFormSchema = z.infer<typeof schema>;
   const {
     handleSubmit,
@@ -85,7 +87,7 @@ export default function DepositModal({
   const { field: amountField } = useController({
     name: 'amount',
     control,
-    defaultValue: 0,
+    defaultValue: '',
   });
 
   const { deposit } = useVaultRouter(selectedContracts);

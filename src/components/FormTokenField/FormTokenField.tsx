@@ -1,30 +1,42 @@
 import React from 'react';
 
+import { parseUnits } from 'ethers/lib/utils';
+import * as z from 'zod';
+
 import {
   DeprecatedApeTextField,
   DeprecatedApeTextFieldWithRef,
 } from 'components';
 import { Text } from 'ui';
 
+export const zTokenString = (min: string, max: string, decimals: number) =>
+  z.string().refine(
+    str => {
+      const amount = parseUnits(str || '0', decimals);
+      const result =
+        amount.gt(parseUnits(min, decimals)) &&
+        amount.lte(parseUnits(max, decimals));
+      return result;
+    },
+    { message: `Amount must be greater than ${min} and no more than ${max}` }
+  );
+
 type Props = Omit<
   React.ComponentProps<typeof DeprecatedApeTextField>,
   'onChange'
 > & {
-  max: number;
+  max: string;
   symbol: string;
   decimals: number;
-  onChange: (newValue: number) => void;
+  onChange: (newValue: string) => void;
   errorText?: string;
+  value: string;
 };
 
 export const FormTokenField = React.forwardRef((props: Props, ref) => {
   const {
     value,
     symbol,
-    // TODO: Handle decimals correctly.
-    // value should be uint256 compatible
-    // but then displayed in the text field as a float.
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     decimals,
     max,
     onChange,
@@ -35,8 +47,35 @@ export const FormTokenField = React.forwardRef((props: Props, ref) => {
   } = props;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const num = Number(e.target.value);
-    !Number.isNaN(num) && onChange(num);
+    // only accept floating point inputs
+    const matches = e.target.value.match(/\d*\.?\d*/);
+    if (matches == null) {
+      onChange('');
+      return;
+    }
+    const nextValue = matches[0];
+    try {
+      parseUnits(nextValue, decimals);
+      onChange(nextValue);
+    } catch (err: any) {
+      // swallow the underflow error and just render the value with
+      // a valid quantity of decimals
+
+      // ethers errors are any-typed, unfortunately
+      if (
+        err.code &&
+        err.fault &&
+        err.code === 'NUMERIC_FAULT' &&
+        err.fault === 'underflow'
+      ) {
+        const [whole = '0', frac = '0'] = nextValue.split('.');
+        onChange(whole + '.' + frac.substring(0, decimals));
+        return;
+      } else {
+        onChange(nextValue);
+        throw err;
+      }
+    }
   };
 
   return (
@@ -47,7 +86,7 @@ export const FormTokenField = React.forwardRef((props: Props, ref) => {
         startAdornment: (
           <Text
             css={{ color: '$primary', cursor: 'pointer' }}
-            onClick={() => onChange(Number(max))}
+            onClick={() => onChange(max)}
           >
             Max
           </Text>
@@ -55,11 +94,12 @@ export const FormTokenField = React.forwardRef((props: Props, ref) => {
         endAdornment: symbol.toUpperCase(),
       }}
       apeVariant="token"
+      inputProps={{ 'data-testid': 'FormTokenField' }}
       error={error}
       helperText={!errorText ? helperText : errorText}
       value={value}
       onChange={handleChange}
-      type="number"
+      type="text"
       placeholder="0"
       onFocus={event => (event.currentTarget as HTMLInputElement).select()}
     />
