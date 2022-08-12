@@ -147,10 +147,12 @@ const AdminPage = () => {
           />
         )}
       </Panel>
-      {(editUser || newUser) && (
+      {circle && (editUser || newUser) && (
         <AdminUserModal
           onClose={() => (newUser ? setNewUser(false) : setEditUser(undefined))}
           user={editUser}
+          fixedPaymentToken={circle.fixed_payment_token_type}
+          tokenName={circle.tokenName}
         />
       )}
       <ActionDialog
