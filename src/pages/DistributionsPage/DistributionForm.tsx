@@ -26,6 +26,7 @@ import { makeExplorerUrl } from 'utils/provider';
 import { getPreviousDistribution } from './queries';
 import type { EpochDataResult, Gift } from './queries';
 import { useSubmitDistribution } from './useSubmitDistribution';
+import { mapProfileIdsByAddress } from './utils';
 
 const headerStyle = {
   fontWeight: '$bold',
@@ -161,6 +162,11 @@ export function DistributionForm({
       })
     );
 
+    const profileIdsByAddress = mapProfileIdsByAddress(
+      circleUsers,
+      epoch.token_gifts
+    );
+
     // marshall fixed gifts into an object
     const fixedGifts = await fixedGiftsArray.reduce(
       (ret, [userAddress, amount]) => {
@@ -183,10 +189,6 @@ export function DistributionForm({
       });
     }
 
-    const profileIdsByAddress = circleUsers.reduce((ret, user) => {
-      if (user.profile) ret[user.address.toLowerCase()] = user.profile.id;
-      return ret;
-    }, {} as Record<string, number>);
     try {
       const result = await submitDistribution({
         amount:
@@ -252,10 +254,10 @@ export function DistributionForm({
       return ret;
     }, {} as Record<string, number>);
 
-    const profileIdsByAddress = circleUsers.reduce((ret, user) => {
-      if (user.profile) ret[user.address.toLowerCase()] = user.profile.id;
-      return ret;
-    }, {} as Record<string, number>);
+    const profileIdsByAddress = mapProfileIdsByAddress(
+      circleUsers,
+      epoch.token_gifts
+    );
 
     try {
       const result = await submitDistribution({

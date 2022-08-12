@@ -66,11 +66,10 @@ export const AllocationsTable = ({
 
   const deletedUserInfo = (deletedUsers: Gift[]) => {
     const deletedGiveSum = sumBy(deletedUsers, 'tokens');
-    const deletedSum = givenPercent(deletedGiveSum) * 100;
     return (
       <Text as="p">
-        Note: This distribution includes {deletedUsers.length} deleted users
-        receiving {deletedSum.toFixed(2)}% of GIVE.
+        Note: This epoch included {deletedUsers.length} deleted users who
+        received {deletedGiveSum} GIVE.
       </Text>
     );
   };

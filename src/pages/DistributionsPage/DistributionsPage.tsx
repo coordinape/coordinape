@@ -75,7 +75,13 @@ export function DistributionsPage() {
       </SingleColumnLayout>
     );
 
-  const totalGive = epoch.token_gifts?.reduce((t, g) => t + g.tokens, 0) || 0;
+  // remove deleted users from token gifts
+  const activeUsersTokenGifts =
+    epoch.token_gifts?.filter((g: Gift) => g.recipient) || [];
+  const totalGive =
+    activeUsersTokenGifts.reduce((t, g) => t + g.tokens, 0) || 0;
+
+  //  const totalGive = epoch.token_gifts?.reduce((t, g) => t + g.tokens, 0) || 0;
   assert(epoch.circle);
   const circle = epoch.circle;
   if (!isUserAdmin(circle.users[0])) {
@@ -169,7 +175,7 @@ export function DistributionsPage() {
     });
 
   const usersWithReceivedAmounts = uniqBy(
-    epoch.token_gifts?.map((g: Gift) => g.recipient),
+    activeUsersTokenGifts.map((g: Gift) => g.recipient),
     'id'
   ).map(user => ({
     ...user,
