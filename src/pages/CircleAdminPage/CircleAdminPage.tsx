@@ -149,6 +149,7 @@ const schema = z.object({
       })
     )
   ),
+  fixed_payment_vault_id: z.optional(z.number().positive().optional()),
   circleLogo: z.instanceof(File).optional(),
 });
 
@@ -283,6 +284,7 @@ export const CircleAdminPage = () => {
         team_selection: data.team_selection,
         auto_opt_out: data.auto_opt_out,
         fixed_payment_token_type: data.fixed_payment_token_type,
+        fixed_payment_vault_id: data.fixed_payment_vault_id,
       });
 
       showInfo('Saved changes');
