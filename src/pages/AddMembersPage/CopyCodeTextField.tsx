@@ -8,11 +8,11 @@ import { Button, TextField } from '../../ui';
 import { Box } from '../../ui/Box/Box';
 
 const CopyCodeTextField = ({ value }: { value: string }) => {
-  const { apeInfo } = useApeSnackbar();
+  const { showInfo } = useApeSnackbar();
 
   const copyToClip = () => {
     copy(value);
-    apeInfo('Copied to clipboard');
+    showInfo('Copied to clipboard');
   };
 
   return (
