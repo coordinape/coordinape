@@ -123,9 +123,10 @@ const AddMembersContents = ({
       </Flex>
       <Box css={{ mb: '$md' }}>
         <Text>
-          Note that after adding members you can see and manage them in
-          the&nbsp;
-          <AppLink to={paths.members(circle.id)}>members table.</AppLink>
+          Note that after adding members you can see and manage them in the
+          <AppLink to={paths.members(circle.id)} css={{ display: 'inline' }}>
+            &nbsp;members table.
+          </AppLink>
         </Text>
       </Box>
       {(isFeatureEnabled('csv_import') || isFeatureEnabled('link_joining')) && (
@@ -161,7 +162,7 @@ const AddMembersContents = ({
         {currentTab === Tab.ETH && (
           <Box>
             <Text css={{ pb: '$xl' }} size={'large'}>
-              Only members on this list can join. TODO tweak this Idk
+              Only members on this list can join. TODO tweak this text idk
             </Text>
 
             <NewMemberList

@@ -22,54 +22,78 @@ const EthAndNameEntry = ({
 }) => {
   // TODO: add zod validation and react form hook stuff??
   return (
-    <Flex css={{ mb: '$md', alignItems: 'stretch' }}>
-      <Box css={{ mr: '$md' }}>
-        <TextField
-          placeholder="Name"
-          autoFocus={false}
-          error={error?.name ? true : undefined}
-          onFocus={() => {
-            console.log('nameFocus');
-            onFocus();
-          }}
-          {...register(`newMembers.${index}.name`)}
-        />
-        <Box css={{ mt: '$xs' }}>
-          <Text variant={'formError'}>{error?.name && error?.name}</Text>
-        </Box>
-      </Box>
-      <Box css={{ mr: '$lg' }}>
-        <TextField
-          placeholder="ETH Address or ENS"
-          autoFocus={false}
-          error={error?.address ? true : undefined}
-          onFocus={() => {
-            console.log('addrFocus');
-            onFocus();
-          }}
-          {...register(`newMembers.${index}.address`)}
-        />
-        <Box css={{ mt: '$xs' }}>
-          <Text variant={'formError'}>{error?.address && error?.address}</Text>
-        </Box>
-      </Box>
-
-      {onRemove && (
-        <Box>
-          <Text variant={'label'}>
-            &nbsp;{/*empty for filler to match other elements*/}
-          </Text>
-          <Box
-            onClick={onRemove}
-            css={{
-              cursor: 'pointer',
+    <>
+      <Box
+        css={{
+          mb: '$xs',
+          alignItems: 'center',
+          display: 'grid',
+          gridTemplateColumns: '35fr 60fr 5fr',
+        }}
+      >
+        <Box css={{ mr: '$md' }}>
+          <TextField
+            placeholder="Name"
+            autoFocus={false}
+            fullWidth
+            error={error?.name ? true : undefined}
+            autoComplete={'off'}
+            onFocus={() => {
+              console.log('nameFocus');
+              onFocus();
             }}
-          >
-            <CloseIcon color={'neutral'} size={'md'} />
-          </Box>
+            {...register(`newMembers.${index}.name`)}
+          />
         </Box>
-      )}
-    </Flex>
+        <Box css={{ mr: '$lg' }}>
+          <TextField
+            placeholder="ETH Address or ENS"
+            autoFocus={false}
+            fullWidth
+            error={error?.address ? true : undefined}
+            autoComplete={'off'}
+            onFocus={() => {
+              console.log('addrFocus');
+              onFocus();
+            }}
+            {...register(`newMembers.${index}.address`)}
+          />
+        </Box>
+        <Box>
+          {onRemove && (
+            <>
+              <Flex
+                onClick={onRemove}
+                css={{
+                  cursor: 'pointer',
+                  padding: 0,
+                  margin: 0,
+                }}
+              >
+                <CloseIcon color={'neutral'} size={'md'} />
+              </Flex>
+            </>
+          )}
+        </Box>
+      </Box>
+      <Box
+        css={{
+          mb: '$md',
+          alignItems: 'top',
+          display: 'grid',
+          gridTemplateColumns: '35fr 60fr 5fr',
+        }}
+      >
+        <Box css={{ mt: '$xs' }}>
+          <Text variant={'formError'}>{error?.name && error?.name}&nbsp;</Text>
+        </Box>
+        <Box css={{ mt: '$xs' }}>
+          <Text variant={'formError'}>
+            {error?.address && error?.address}&nbsp;
+          </Text>
+        </Box>
+      </Box>
+    </>
   );
 };
 

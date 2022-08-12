@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { Box, Button, Flex, Panel, Text } from '../../ui';
 
@@ -16,6 +16,7 @@ import { LoadingModal } from '../../components';
 import { Check, Info, Trash } from '../../icons/__generated';
 import CopyCodeTextField from './CopyCodeTextField';
 import { TrashIcon } from '../../ui/icons/TrashIcon';
+import isFeatureEnabled from '../../config/features';
 
 const NewMemberList = ({
   // TODO: figure out what to do w/ revoke
@@ -68,6 +69,8 @@ const NewMemberList = ({
 
   const [loading, setLoading] = useState<boolean>();
   const [successCount, setSuccessCount] = useState<number>(0);
+
+  const successRef = useRef<HTMLDivElement>(null);
 
   const defaultValues = {
     newMembers: [
@@ -128,6 +131,7 @@ const NewMemberList = ({
       // ok it worked, clear out?
       setSuccessCount(filteredMembers.length);
       reset();
+      successRef.current?.scrollIntoView();
     } catch (e) {
       showError(normalizeError(e));
     } finally {
@@ -156,15 +160,31 @@ const NewMemberList = ({
 
   return (
     <Box>
-      <Panel nested>
+      <Panel
+        nested
+        css={{
+          width: '70%',
+          '@md': {
+            width: '100%',
+          },
+        }}
+      >
         <form onSubmit={handleSubmit(submitNewMembers)}>
           {loading && <LoadingModal visible={true} />}
           <Box>
-            <Box>
-              <Text variant={'label'}>Wallet Address</Text>
-            </Box>
-            <Box>
-              <Text variant={'label'}>Name</Text>
+            <Box
+              css={{
+                display: 'grid',
+                gridTemplateColumns: '35fr 60fr 5fr',
+                mb: '$sm',
+              }}
+            >
+              <Box>
+                <Text variant={'label'}>Name</Text>
+              </Box>
+              <Box>
+                <Text variant={'label'}>Wallet Address</Text>
+              </Box>
             </Box>
             {newMemberFields.map((field, idx) => {
               let err: { name?: string; address?: string } | undefined =
@@ -213,45 +233,42 @@ const NewMemberList = ({
           </Box>
         </form>
       </Panel>
-      {(successCount > 0 || true) && (
-        <Box>
-          <Panel success css={{ my: '$xl' }}>
-            <Flex>
-              <Check color={'successDark'} size={'lg'} css={{ mr: '$md' }} />
-              <Text size={'large'}>
-                You have added {successCount} member
-                {successCount == 1 ? '' : 's'}
-                !&nbsp;
-                <Text bold>Share the link to get them started.</Text>
-              </Text>
-            </Flex>
-          </Panel>
 
-          <Box>
-            <div>
-              <Text variant={'label'} css={{ mb: '$xs' }}>
-                Shareable Circle Link
-                <Info
-                  color={'secondaryText'}
-                  css={{
-                    ml: '$sm',
-                    // TODO: need to fix the generated icons to be able to take in css prop and not clobber it
-                    // i have to add path here because it gets clobbered otherwise -g
-                    '& path': {
-                      stroke: 'none',
-                    },
-                  }}
-                />
-              </Text>
-              <CopyCodeTextField value={welcomeLink} />
-              {/* Revoke is disabled for now until we figure out the UI for it
+      <div ref={successRef}>
+        {successCount > 0 && (
+          <>
+            <Panel success css={{ my: '$xl' }}>
+              <Flex>
+                <Check color={'successDark'} size={'lg'} css={{ mr: '$md' }} />
+                <Text size={'large'}>
+                  You have added {successCount} member
+                  {successCount == 1 ? '' : 's'}
+                  !&nbsp;
+                  {isFeatureEnabled('link_joining') && (
+                    <Text bold>Share the link to get them started.</Text>
+                  )}
+                </Text>
+              </Flex>
+            </Panel>
+
+            {isFeatureEnabled('link_joining') && (
+              <Box>
+                <div>
+                  <Text variant={'label'} css={{ mb: '$xs' }}>
+                    Shareable Circle Link
+                    <Info color={'secondaryText'} css={{ ml: '$sm' }} />
+                  </Text>
+                  <CopyCodeTextField value={welcomeLink} />
+                  {/* Revoke is disabled for now until we figure out the UI for it
               <Button color={'transparent'} onClick={revokeWelcome}>*/}
-              {/*  <Trash />*/}
-              {/*</Button>*/}
-            </div>
-          </Box>
-        </Box>
-      )}
+                  {/*  <Trash />*/}
+                  {/*</Button>*/}
+                </div>
+              </Box>
+            )}
+          </>
+        )}
+      </div>
     </Box>
   );
 };
