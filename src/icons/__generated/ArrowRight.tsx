@@ -16,16 +16,15 @@ export const SvgArrowRight = (props: SvgIconProps) => (
     height={16}
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    css={css}
+    css={{ ...css, ...(props.css ?? {}) }}
     viewBox="0 0 16 16"
     {...props}
   >
     <path
-      d="M1 8h14m0 0-7 7m7-7L8 1"
-      stroke="#000"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M7.293 15.707a1 1 0 0 1 0-1.414L12.586 9H1a1 1 0 0 1 0-2h11.586L7.293 1.707A1 1 0 0 1 8.707.293l7 7a1 1 0 0 1 0 1.414l-7 7a1 1 0 0 1-1.414 0Z"
+      fill="#000"
     />
   </SvgIcon>
 );
