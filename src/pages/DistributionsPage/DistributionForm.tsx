@@ -5,7 +5,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { formatRelative, parseISO } from 'date-fns';
 import { BigNumber, constants as ethersConstants } from 'ethers';
 import { parseUnits, formatUnits } from 'ethers/lib/utils';
-import { getDisplayTokenString, getWrappedAmount } from 'lib/vaults';
+import {
+  getDisplayTokenString,
+  getWrappedAmount,
+  removeYearnPrefix,
+} from 'lib/vaults';
 import { useForm, SubmitHandler, useController } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -416,7 +420,7 @@ export function DistributionForm({
             <Box css={{ width: '100%' }}>
               <FormTokenField
                 {...amountField}
-                symbol={giftVaultSymbol}
+                symbol={removeYearnPrefix(giftVaultSymbol)}
                 decimals={getDecimals({
                   distribution: circleDist,
                   symbol: giftVaultSymbol,
@@ -452,7 +456,7 @@ export function DistributionForm({
                       symbol: giftVaultSymbol,
                     })
                   )
-                )} ${giftVaultSymbol}`}
+                )} ${removeYearnPrefix(giftVaultSymbol)}`}
                 onChange={value => {
                   amountField.onChange(value);
                   setAmount(value);
@@ -553,8 +557,8 @@ export function DistributionForm({
                     symbol={
                       fpTokenSymbol
                         ? fixedDist
-                          ? fixedDist.vault.symbol
-                          : fpTokenSymbol
+                          ? removeYearnPrefix(fixedDist.vault.symbol)
+                          : removeYearnPrefix(fpTokenSymbol)
                         : ''
                     }
                     decimals={getDecimals({
@@ -589,7 +593,7 @@ export function DistributionForm({
                           symbol: giftVaultSymbol,
                         })
                       )
-                    )} ${fpTokenSymbol || ''}`}
+                    )} ${removeYearnPrefix(fpTokenSymbol || '')}`}
                     onChange={() => {}}
                     apeSize="small"
                   />

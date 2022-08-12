@@ -40,7 +40,7 @@ context('Coordinape', () => {
       .click()
       .wait(1000)
       .type('5000');
-    cy.contains('button', 'Deposit USDC').click();
+    cy.contains('button', 'Deposit into').click();
     cy.contains('Transaction completed');
     cy.contains('5000 USDC');
     // This takes extremely long time to render in the UI without a refresh
@@ -55,7 +55,7 @@ context('Coordinape', () => {
       .click()
       .wait(1000)
       .type('100');
-    cy.contains('button', 'Withdraw USDC').click();
+    cy.contains('button', 'Withdraw from').click();
     cy.contains('Transaction completed');
     cy.contains('4900 USDC');
     cy.reload(true);
@@ -67,7 +67,7 @@ context('Coordinape', () => {
     cy.visit(`/circles/${circleId}/history`);
     cy.contains('a', 'Review / Export', { timeout: 120000 }).click();
     cy.get('input[type=text]:last', { timeout: 90000 }).click().type('4500');
-    cy.contains('button', 'Submit USDC Vault Distribution').click();
+    cy.contains('button', 'Submit Yearn - USDC Vault Distribution').click();
     cy.contains('Submitting', { timeout: 120000 });
     cy.contains('Please sign the transaction', { timeout: 120000 });
     cy.contains('Transaction completed', { timeout: 120000 });

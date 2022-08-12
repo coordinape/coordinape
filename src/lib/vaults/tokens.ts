@@ -81,9 +81,16 @@ export const getUnwrappedAmount = (
   return result.toUnsafeFloat();
 };
 
-const addYearn = (symbol: string) => {
-  if (symbol.includes('Yearn')) return symbol;
-  return 'Yearn - ' + symbol;
+const yearnPrefix = 'Yearn - ';
+
+const addYearnPrefix = (symbol: string) => {
+  if (symbol.includes(yearnPrefix)) return symbol;
+  return yearnPrefix + symbol;
+};
+
+export const removeYearnPrefix = (symbol: string) => {
+  if (symbol.includes(yearnPrefix)) return symbol.substring(yearnPrefix.length);
+  return symbol;
 };
 
 export const getDisplayTokenString = (vault: {
@@ -91,7 +98,7 @@ export const getDisplayTokenString = (vault: {
   simple_token_address: string;
 }): string => {
   if (vault.simple_token_address === etherConstants.AddressZero) {
-    vault.symbol = addYearn(vault.symbol);
+    vault.symbol = addYearnPrefix(vault.symbol);
   }
   return vault.symbol;
 };
