@@ -1,30 +1,25 @@
-/* eslint-disable */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+
 import { LoadingModal } from '../../components';
+import { isFeatureEnabled } from '../../config/features';
+import { paths } from '../../routes/paths';
+import { ICircle } from '../../types';
+import BackButton from '../../ui/BackButton';
 import { Box } from '../../ui/Box/Box';
+import { APP_URL } from '../../utils/domain';
 import { useSelectedCircle } from 'recoilState/app';
-import { AppLink, Button, Flex, Panel, Text, TextField } from 'ui';
+import { AppLink, Button, Flex, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
+
+import CopyCodeTextField from './CopyCodeTextField';
+import NewMemberList from './NewMemberList';
+import TabButton, { Tab } from './TabButton';
 import {
   deleteMagicToken,
   deleteWelcomeToken,
   useMagicToken,
   useWelcomeToken,
 } from './useCircleTokens';
-import { ICircle } from '../../types';
-import EthAndNameEntry from './NewMemberEntry';
-import CopyCodeTextField from './CopyCodeTextField';
-import TabButton, { Tab } from './TabButton';
-import NewMemberList from './NewMemberList';
-import { client } from '../../lib/gql/client';
-import { useApeSnackbar } from '../../hooks';
-import { normalizeError } from '../../utils/reporting';
-import { WorkingIcon } from '../../ui/icons/WorkingIcon';
-import { hostname } from 'os';
-import { APP_URL } from '../../utils/domain';
-import isFeatureEnabled from '../../config/features';
-import BackButton from '../../ui/BackButton';
-import { paths } from '../../routes/paths';
 
 export type NewMember = {
   address: string;
@@ -32,14 +27,7 @@ export type NewMember = {
 };
 
 const AddMembersPage = () => {
-  // const { isMobile } = useMobileDetect();
-  const {
-    circleId,
-    // myUser: me,
-    // users: visibleUsers,
-    circle,
-    // circleEpochsStatus: { epochs: epochsReverse },
-  } = useSelectedCircle();
+  const { circleId, circle } = useSelectedCircle();
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -104,14 +92,10 @@ const AddMembersContents = ({
   revokeMagic(): void;
   revokeWelcome(): void;
 }) => {
-  const [loading, setLoading] = useState<boolean>(false);
   const [currentTab, setCurrentTab] = useState<Tab>(Tab.ETH);
-  const [success, setSuccess] = useState<boolean>(false);
 
   return (
     <SingleColumnLayout>
-      {loading && <LoadingModal visible={true} />}
-
       <Box>
         <AppLink to={paths.members(circle.id)}>
           <BackButton />
@@ -170,24 +154,6 @@ const AddMembersContents = ({
               welcomeLink={welcomeLink}
               revokeWelcome={revokeWelcome}
             />
-            {success && (
-              <Box>
-                WelcomeLink
-                <Flex>
-                  <Box css={{ flexGrow: 1, mr: '$md' }}>
-                    <CopyCodeTextField value={welcomeLink} />
-                  </Box>
-                  <Button
-                    color={'transparent'}
-                    onClick={revokeWelcome}
-                    css={{ padding: 0 }}
-                  >
-                    {/* TODO this styling is not lovely */}
-                    <WorkingIcon size="md" color="neutral" />
-                  </Button>
-                </Flex>
-              </Box>
-            )}
           </Box>
         )}
         {currentTab === Tab.CSV && (

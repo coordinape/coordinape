@@ -124,7 +124,6 @@ const AdminPage = () => {
           visibleUsers={visibleUsers}
           myUser={me}
           circle={selectedCircle}
-          setNewUser={setNewUser}
           filter={filterUser}
           setEditUser={setEditUser}
           setDeleteUserDialog={setDeleteUserDialog}

@@ -256,11 +256,9 @@ const renderActions = (onEdit?: () => void, onDelete?: () => void) => (
 const EmptyTable = ({
   content,
   createLabel,
-  onClick,
 }: {
   content: string;
   createLabel: string;
-  onClick: () => void;
 }) => {
   return (
     <Flex
@@ -282,7 +280,7 @@ const EmptyTable = ({
       >
         {content}
       </Text>
-      <Button color="secondary" onClick={() => onClick()}>
+      <Button color="secondary">
         <PlusCircleIcon />
         {createLabel}
       </Button>
@@ -328,7 +326,6 @@ export const MembersTable = ({
   visibleUsers,
   myUser: me,
   circle,
-  setNewUser,
   setEditUser,
   setDeleteUserDialog,
   filter,
@@ -337,7 +334,6 @@ export const MembersTable = ({
   visibleUsers: IUser[];
   myUser: IUser;
   circle: ICircle;
-  setNewUser: (newUser: boolean) => void;
   setEditUser: (u: IUser) => void;
   setDeleteUserDialog: (u: IUser) => void;
   filter: (u: IUser) => boolean;
@@ -669,11 +665,12 @@ export const MembersTable = ({
           ) : (
             <Table.Row>
               <Table.Cell colSpan={4}>
-                <EmptyTable
-                  content="You haven’t added any contributors"
-                  createLabel="Add Contributor"
-                  onClick={() => setNewUser(true)}
-                />
+                <AppLink to={paths.membersAdd(circle.id)}>
+                  <EmptyTable
+                    content="You haven’t added any contributors"
+                    createLabel="Add Contributor"
+                  />
+                </AppLink>
               </Table.Cell>
             </Table.Row>
           )}
