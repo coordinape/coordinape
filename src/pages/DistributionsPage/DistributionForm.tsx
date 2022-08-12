@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { formatRelative, parseISO } from 'date-fns';
 import { BigNumber, constants as ethersConstants } from 'ethers';
 import { parseUnits, formatUnits } from 'ethers/lib/utils';
-import { getWrappedAmount } from 'lib/vaults';
+import { getDisplayTokenString, getWrappedAmount } from 'lib/vaults';
 import { useForm, SubmitHandler, useController } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -379,7 +379,7 @@ export function DistributionForm({
                 {...selectedVaultSymbol}
                 value={
                   circleDist
-                    ? circleDist.vault.symbol
+                    ? getDisplayTokenString(circleDist.vault)
                     : vaults.length
                     ? giftVaultSymbol
                     : 'No Vaults Available'

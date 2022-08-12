@@ -106,6 +106,7 @@ test('render with a distribution', async () => {
             id: 2,
             decimals: 6,
             symbol: 'USDC',
+            simple_token_address: '0xabc123',
           },
           claims: [{ new_amount: 10, profile: { id: recipient.profile.id } }],
         },

@@ -2,6 +2,7 @@ import assert from 'assert';
 import React, { useState } from 'react';
 
 import { isUserAdmin } from 'lib/users';
+import { getDisplayTokenString } from 'lib/vaults/tokens';
 import uniqBy from 'lodash/uniqBy';
 import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
@@ -36,8 +37,22 @@ export function DistributionsPage() {
     refetch,
   } = useQuery(
     ['distributions', epochId],
-    () => getEpochData(Number(epochId), address, contracts),
-    { enabled: !!(contracts && address), retry: false }
+    () => getEpochData(Number.parseInt(epochId || '0'), address, contracts),
+    {
+      enabled: !!(contracts && address),
+      retry: false,
+      select: d => {
+        if (d.circle)
+          d.circle.organization.vaults = d.circle?.organization.vaults.map(
+            v => {
+              v.symbol = getDisplayTokenString(v);
+
+              return v;
+            }
+          );
+        return d;
+      },
+    }
   );
 
   const [formGiftAmount, setFormGiftAmount] = useState<string>('0');
@@ -144,7 +159,9 @@ export function DistributionsPage() {
   }));
 
   const vaults = circle.organization.vaults || [];
-  const tokenName = circleDist ? circleDist.vault.symbol : giftVaultSymbol;
+  const tokenName = circleDist
+    ? getDisplayTokenString(circleDist.vault)
+    : giftVaultSymbol;
   const startDate = DateTime.fromISO(epoch.start_date);
   const endDate = DateTime.fromISO(epoch.end_date);
 
