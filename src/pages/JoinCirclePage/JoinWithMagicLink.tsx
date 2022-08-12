@@ -7,15 +7,16 @@ import { z } from 'zod';
 
 import { TokenJoinInfo } from '../../../api/circle/landing/[token]';
 import { LoadingModal } from '../../components';
+import CircleWithLogo from '../../components/CircleWithLogo';
 import { zUsername } from '../../forms/formHelpers';
 import { useApeSnackbar, useApiBase } from '../../hooks';
 import { client } from '../../lib/gql/client';
 import { useMyProfile } from '../../recoilState';
 import { paths } from '../../routes/paths';
 import { Box, Button, TextField, Text, Panel } from '../../ui';
-import CenteredBox from '../../ui/CenteredBox';
-import CircleWithLogo from '../../ui/CircleWithLogo';
 import { normalizeError } from '../../utils/reporting';
+
+import CenteredBox from './CenteredBox';
 
 export const JoinWithMagicLink = ({
   tokenJoinInfo,

@@ -1,8 +1,7 @@
 import React from 'react';
 
 import { styled } from '../stitches.config';
-
-import { Box, Flex, Panel, Text } from '.';
+import { Box, Flex, Panel, Text } from '../ui';
 
 const HintBanner = ({
   title,

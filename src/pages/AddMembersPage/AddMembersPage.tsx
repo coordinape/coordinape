@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { LoadingModal } from '../../components';
-import { isFeatureEnabled } from '../../config/features';
-import { AlertSolid } from '../../icons/__generated';
 import { paths } from '../../routes/paths';
 import { ICircle } from '../../types';
 import BackButton from '../../ui/BackButton';
@@ -13,9 +11,9 @@ import { useSelectedCircle } from 'recoilState/app';
 import { AppLink, Flex, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
-import ConstrainedBox from './ConstrainedBox';
-import CopyCodeTextField from './CopyCodeTextField';
-import NewMemberList from './NewMemberList';
+import CSVImport from './CSVImport';
+import MagicLink from './MagicLink';
+import NewMemberList, { NewMember } from './NewMemberList';
 import TabButton, { Tab } from './TabButton';
 import {
   deleteMagicToken,
@@ -91,6 +89,21 @@ const AddMembersContents = ({
 }) => {
   const [currentTab, setCurrentTab] = useState<Tab>(Tab.ETH);
 
+  const [preloadedMembers, setPreloadedMembers] = useState<NewMember[]>([]);
+
+  const addMembersFromCSV = (newMembers: NewMember[]) => {
+    // Switch to ETH tab, set the preloaded values
+    setPreloadedMembers(newMembers);
+    setCurrentTab(Tab.ETH);
+  };
+
+  useEffect(() => {
+    if (currentTab != Tab.ETH) {
+      // reset the preloaded members
+      setPreloadedMembers([]);
+    }
+  }, [currentTab]);
+
   return (
     <SingleColumnLayout>
       <Box>
@@ -112,6 +125,13 @@ const AddMembersContents = ({
       </Box>
       <Flex css={{ mb: '$sm' }}>
         <TabButton
+          tab={Tab.ETH}
+          currentTab={currentTab}
+          setCurrentTab={setCurrentTab}
+        >
+          ETH Address
+        </TabButton>
+        <TabButton
           tab={Tab.LINK}
           currentTab={currentTab}
           setCurrentTab={setCurrentTab}
@@ -119,83 +139,68 @@ const AddMembersContents = ({
           Magic Link
         </TabButton>
         <TabButton
-          tab={Tab.ETH}
+          tab={Tab.CSV}
           currentTab={currentTab}
           setCurrentTab={setCurrentTab}
         >
-          ETH Address
+          CSV Import
         </TabButton>
-        {isFeatureEnabled('csv_import') && (
-          <TabButton
-            tab={Tab.CSV}
-            currentTab={currentTab}
-            setCurrentTab={setCurrentTab}
-          >
-            CSV Import
-          </TabButton>
-        )}
       </Flex>
-      <Panel>
-        {currentTab === Tab.ETH && (
-          <Box>
-            <Text css={{ pb: '$lg', pt: '$sm' }} size={'large'}>
-              Add new members by wallet address.
-            </Text>
 
-            <NewMemberList
-              circleId={circle.id}
-              welcomeLink={welcomeLink}
-              revokeWelcome={revokeWelcome}
-            />
-          </Box>
-        )}
-        {currentTab === Tab.CSV && (
-          <Box>
-            <Box>CSV Import</Box>
-          </Box>
-        )}
-        {currentTab === Tab.LINK && (
-          <Box>
-            <Text css={{ pb: '$lg', pt: '$sm' }} size="large">
-              Add new members by sharing a magic link.
-            </Text>
-            <ConstrainedBox css={{ mb: '$md' }}>
-              <Flex css={{ alignItems: 'center', mb: '$xs' }}>
-                <Text variant="label">Magic Circle Link</Text>
-              </Flex>
-              <CopyCodeTextField value={magicLink} />
+      <Box
+        css={{
+          width: '70%',
+          '@md': {
+            width: '100%',
+          },
+        }}
+      >
+        <Panel>
+          {currentTab === Tab.ETH && (
+            <Box>
+              <Text css={{ pb: '$lg', pt: '$sm' }} size="large">
+                Add new members by wallet address.
+              </Text>
+              <NewMemberList
+                circleId={circle.id}
+                welcomeLink={welcomeLink}
+                revokeWelcome={revokeWelcome}
+                preloadedMembers={preloadedMembers}
+              />
+            </Box>
+          )}
+          {currentTab === Tab.LINK && (
+            <Box>
+              <Text css={{ pb: '$lg', pt: '$sm' }} size="large">
+                Add new members by sharing a magic link.
+              </Text>
+              <MagicLink magicLink={magicLink} />
+            </Box>
+          )}
+          {currentTab === Tab.CSV && (
+            <Box>
+              <Text css={{ pb: '$lg', pt: '$sm' }} size="large">
+                Please import a .CSV file with only these two columns: Name,
+                Address. &nbsp;
+                <a href="/resources/example.csv" download>
+                  Download Sample CSV
+                </a>
+              </Text>
+              <CSVImport addNewMembers={addMembersFromCSV} />
+            </Box>
+          )}
 
-              <Panel alert css={{ mt: '$xl' }}>
-                <Flex>
-                  <AlertSolid
-                    color="alert"
-                    size="xl"
-                    css={{
-                      mr: '$md',
-                      '& path': { stroke: 'none' },
-                      flexShrink: 0,
-                    }}
-                  />
-                  <Text size="large">
-                    Anyone with this link can join this circle and set their
-                    name. For added security, add new members using their wallet
-                    addresses.
-                  </Text>
-                </Flex>
-              </Panel>
-            </ConstrainedBox>
+          <Box css={{ mt: '$md' }}>
+            <HintButton
+              href={
+                'https://docs.coordinape.com/get-started/get-started/new-coordinape-admins/admin-best-practices#ways-to-give'
+              }
+            >
+              Documentation: GIVE Circle Best Practices
+            </HintButton>
           </Box>
-        )}
-        <Box css={{ mt: '$md' }}>
-          <HintButton
-            href={
-              'https://docs.coordinape.com/get-started/get-started/new-coordinape-admins/admin-best-practices#ways-to-give'
-            }
-          >
-            Documentation: GIVE Circle Best Practices
-          </HintButton>
-        </Box>
-      </Panel>
+        </Panel>
+      </Box>
     </SingleColumnLayout>
   );
 };

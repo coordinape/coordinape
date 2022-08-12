@@ -1,32 +1,38 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useFieldArray, useForm } from 'react-hook-form';
+import { client } from 'lib/gql/client';
+import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
 import { z } from 'zod';
 
 import { LoadingModal } from '../../components';
+import CopyCodeTextField from '../../components/CopyCodeTextField';
 import { zEthAddress, zUsername } from '../../forms/formHelpers';
 import { useApeSnackbar, useApiBase } from '../../hooks';
-import { Check /* Working */ } from '../../icons/__generated';
-import { client } from '../../lib/gql/client';
 import { Box, Button, Flex, Panel, Text } from '../../ui';
-import { normalizeError } from '../../utils/reporting';
+import { Check } from 'icons/__generated';
+import { normalizeError } from 'utils/reporting';
 
-import ConstrainedBox from './ConstrainedBox';
-import CopyCodeTextField from './CopyCodeTextField';
 import NewMemberEntry from './NewMemberEntry';
 import NewMemberGridBox from './NewMemberGridBox';
+
+export type NewMember = {
+  name: string;
+  address: string;
+};
 
 const NewMemberList = ({
   // TODO: revoke comes later - maybe on admin page
   // revokeWelcome,
   circleId,
   welcomeLink,
+  preloadedMembers,
 }: {
   circleId: number;
   welcomeLink: string;
   revokeWelcome(): void;
+  preloadedMembers: NewMember[];
 }) => {
   const { fetchCircle } = useApiBase();
   const { showError } = useApeSnackbar();
@@ -34,9 +40,14 @@ const NewMemberList = ({
   const [loading, setLoading] = useState<boolean>();
   const [successCount, setSuccessCount] = useState<number>(0);
 
+  const [defaultMembers, setDefaultMembers] =
+    useState<NewMember[]>(preloadedMembers);
+
   const successRef = useRef<HTMLDivElement>(null);
 
   const queryClient = useQueryClient();
+
+  const emptyMember = { name: '', address: '' };
 
   const newMemberSchema = z.object({
     newMembers: z.array(
@@ -64,11 +75,10 @@ const NewMemberList = ({
     ),
   });
 
+  type FormSchema = z.infer<typeof newMemberSchema>;
+
   const defaultValues = {
-    newMembers: [
-      { name: '', address: '' },
-      { name: '', address: '' },
-    ],
+    newMembers: [...defaultMembers, emptyMember, emptyMember],
   };
 
   const {
@@ -77,9 +87,9 @@ const NewMemberList = ({
     handleSubmit,
     reset,
     formState: { errors, isValid },
-    getValues,
     watch,
-  } = useForm({
+    trigger,
+  } = useForm<FormSchema>({
     resolver: zodResolver(newMemberSchema),
     reValidateMode: 'onChange',
     mode: 'onChange',
@@ -97,11 +107,8 @@ const NewMemberList = ({
 
   const newMembers = watch('newMembers');
 
-  const submitNewMembers = async () => {
-    const newMembers = getValues('newMembers') as {
-      name: string;
-      address: string;
-    }[];
+  const submitNewMembers: SubmitHandler<FormSchema> = async data => {
+    const { newMembers } = data;
     try {
       setLoading(true);
       setSuccessCount(0);
@@ -123,7 +130,8 @@ const NewMemberList = ({
       });
       // ok it worked, clear out?
       setSuccessCount(filteredMembers.length);
-      reset();
+      setDefaultMembers([]);
+      reset({ newMembers: [emptyMember, emptyMember] });
       successRef.current?.scrollIntoView();
       await queryClient.invalidateQueries(['circleSettings', circleId]);
       await fetchCircle({ circleId });
@@ -137,15 +145,7 @@ const NewMemberList = ({
   const newMemberFocused = (idx: number) => {
     // make sure there is at least idx+1 elements in the namesToAdd Array
     if (newMemberFields.length - 1 <= idx) {
-      appendNewMember(
-        {
-          name: '',
-          address: '',
-        },
-        {
-          shouldFocus: false,
-        }
-      );
+      appendNewMember(emptyMember, { shouldFocus: false });
     }
   };
 
@@ -162,8 +162,9 @@ const NewMemberList = ({
           name: addrErrors[idx]?.name?.message,
           address: addrErrors[idx]?.address?.message,
         };
+
+        // if there is an error pass it along
         if (e.name || e.address) {
-          // if there is an error pass it along
           err = e;
         }
       }
@@ -171,8 +172,13 @@ const NewMemberList = ({
     return err;
   }
 
+  useEffect(() => {
+    // do initial form validation to validate the preloaded values (from csv or other import)
+    trigger().then();
+  }, []);
+
   return (
-    <ConstrainedBox>
+    <Box>
       <Panel nested>
         <form onSubmit={handleSubmit(submitNewMembers)}>
           {loading && <LoadingModal visible={true} />}
@@ -248,7 +254,7 @@ const NewMemberList = ({
           </>
         )}
       </div>
-    </ConstrainedBox>
+    </Box>
   );
 };
 
