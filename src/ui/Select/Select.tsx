@@ -115,14 +115,15 @@ export type SelectOption = {
 export const Select = (
   props: SelectProps & {
     options: SelectOption[];
+    placeholder?: string;
   }
 ) => {
-  const { defaultValue, options } = props;
+  const { defaultValue, options, placeholder } = props;
 
   return (
     <RadixSelect defaultValue={defaultValue} {...props}>
       <SelectTrigger>
-        <SelectValue />
+        <SelectValue placeholder={placeholder} />
         <SelectIcon>
           <ChevronDownIcon color="#b8bdbf" />
         </SelectIcon>

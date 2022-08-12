@@ -7,9 +7,9 @@ import { useForm, SubmitHandler, useController } from 'react-hook-form';
 import * as z from 'zod';
 
 import { FormAutocomplete, FormInputField, FormRadioGroup } from 'components';
-import isFeatureEnabled from 'config/features';
 import { useApeSnackbar, useApiAdminCircle, useContracts } from 'hooks';
-import { EditIcon } from 'icons';
+import { useCircleOrg } from 'hooks/gql/useCircleOrg';
+import { useVaults } from 'hooks/gql/useVaults';
 import { useSelectedCircle } from 'recoilState/app';
 import { paths } from 'routes/paths';
 import {
@@ -161,15 +161,30 @@ export const CircleAdminPage = () => {
   const tokens = ['Disabled'].concat(
     contracts ? contracts.getAvailableTokens() : []
   );
-  // const vaults = contracts ? contracts.getAvailableTokens().map(token => ({ value: token, label: token })) : [];
-  const vaults = contracts
-    ? contracts.getAvailableTokens().map(token => {
-        return { value: token, label: token };
-      })
-    : [{ value: '', label: 'None available' }];
-  if (contracts) {
-    vaults.unshift({ value: '', label: '-' });
-  }
+
+  const orgQuery = useCircleOrg(circleId);
+
+  const vaultsQuery = useVaults({
+    orgId: orgQuery.data?.id,
+    chainId: Number(contracts?.chainId),
+  });
+
+  const vaultsOptions = vaultsQuery.data
+    ? [
+        { value: '', label: '-' },
+        ...vaultsQuery.data.map(token => {
+          return { value: token.symbol, label: token.symbol };
+        }),
+      ]
+    : [
+        {
+          value: '',
+          label:
+            vaultsQuery.isLoading || orgQuery.isLoading
+              ? 'Loading...'
+              : 'None Available',
+        },
+      ];
 
   const { updateCircle, updateCircleLogo, getDiscordWebhook } =
     useApiAdminCircle(circleId);
@@ -200,8 +215,9 @@ export const CircleAdminPage = () => {
 
   // const { field: vault } = useController({
   //   name: 'vault',
+  //   defaultValue: "",
+  //   options: {vaultsOptions},
   //   control,
-  //   defaultValue: circle.vouching,
   // });
 
   // const { field: fixedPaymentToken, fieldState: fixedPaymentTokenState } =
@@ -487,9 +503,10 @@ export const CircleAdminPage = () => {
                   Select Vault
                 </Text>
                 <Select
-                  // defaultValue={contracts ? circle.fixed_payment_token_type : ''}
+                  // {...vault}
+                  // defaultValue={circle.fixed_payment_vault_id}
                   defaultValue=""
-                  options={vaults}
+                  options={vaultsOptions}
                 />
               </Box>
               <FormInputField
