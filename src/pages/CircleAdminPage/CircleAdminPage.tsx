@@ -201,9 +201,9 @@ export const CircleAdminPage = () => {
     chainId: Number(contracts?.chainId),
   });
 
-  const vaultsOptions = vaultsQuery.data
+  const vaultOptions = vaultsQuery.data
     ? [
-        { value: '', label: '-' },
+        { value: '', label: '- None -' },
         ...vaultsQuery.data.map(vault => {
           return { value: vault.id, label: vault.symbol };
         }),
@@ -554,7 +554,7 @@ export const CircleAdminPage = () => {
             >
               <Box>
                 <Text variant="label" as="label" css={{ mb: '$xs' }}>
-                  Select Vault
+                  Fixed Payment Vault
                 </Text>
                 <Select
                   {...(register('fixed_payment_vault_id'),
@@ -567,13 +567,13 @@ export const CircleAdminPage = () => {
                         'fixed_payment_token_type',
                         value == ''
                           ? ''
-                          : vaultsOptions.find(o => o.value == value)?.label,
+                          : vaultOptions.find(o => o.value == value)?.label,
                         { shouldDirty: true }
                       );
                     },
                     defaultValue: stringifiedVaultId(),
                   })}
-                  options={vaultsOptions}
+                  options={vaultOptions}
                 />
               </Box>
               <FormInputField
