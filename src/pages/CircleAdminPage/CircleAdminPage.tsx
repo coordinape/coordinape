@@ -4,9 +4,15 @@ import React, { MouseEvent, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { useForm, SubmitHandler, useController } from 'react-hook-form';
+import { useQuery } from 'react-query';
 import * as z from 'zod';
 
-import { FormAutocomplete, FormInputField, FormRadioGroup } from 'components';
+import {
+  FormAutocomplete,
+  FormInputField,
+  FormRadioGroup,
+  LoadingModal,
+} from 'components';
 import isFeatureEnabled from 'config/features';
 import { useApeSnackbar, useApiAdminCircle, useContracts } from 'hooks';
 import { EditIcon } from 'icons';
@@ -32,6 +38,7 @@ import { SingleColumnLayout } from 'ui/layouts';
 import { getCircleAvatar } from 'utils/domain';
 
 import { AdminIntegrations } from './AdminIntegrations';
+import { getCircleSettings } from './getCircleSettings';
 
 const panelStyles = {
   alignItems: 'start',
@@ -154,7 +161,30 @@ const schema = z.object({
 type CircleAdminFormSchema = z.infer<typeof schema>;
 
 export const CircleAdminPage = () => {
-  const { circleId, circle } = useSelectedCircle();
+  const { circleId, circle: initialData } = useSelectedCircle();
+
+  const {
+    isLoading,
+    isIdle,
+    isError,
+    isRefetching,
+    refetch,
+    error,
+    data: circle,
+  } = useQuery(
+    ['circleSettings', circleId],
+    () => getCircleSettings(circleId),
+    {
+      // the query will not be executed untill circleId exists
+      enabled: !!circleId,
+      initialData,
+      //minmize background refetch
+      refetchOnWindowFocus: false,
+
+      staleTime: Infinity,
+      notifyOnChangeProps: ['data'],
+    }
+  );
   const contracts = useContracts();
   const { showInfo } = useApeSnackbar();
   const tokens = ['Disabled'].concat(
@@ -167,7 +197,10 @@ export const CircleAdminPage = () => {
     avatar: string;
     avatarRaw: File | null;
   }>({
-    avatar: getCircleAvatar({ avatar: circle.logo, circleName: circle.name }),
+    avatar: getCircleAvatar({
+      avatar: circle?.logo,
+      circleName: circle?.name || '',
+    }),
     avatarRaw: null,
   });
 
@@ -185,14 +218,14 @@ export const CircleAdminPage = () => {
   const { field: vouching } = useController({
     name: 'vouching',
     control,
-    defaultValue: circle.vouching,
+    defaultValue: circle?.vouching,
   });
 
   const { field: fixedPaymentToken, fieldState: fixedPaymentTokenState } =
     useController({
       name: 'fixed_payment_token_type',
       control,
-      defaultValue: circle.fixed_payment_token_type ?? 'Disabled',
+      defaultValue: circle?.fixed_payment_token_type ?? 'Disabled',
     });
 
   const { field: discordWebhook, fieldState: discordWebhookState } =
@@ -201,6 +234,7 @@ export const CircleAdminPage = () => {
       control,
       defaultValue: '',
     });
+
   const { field: circleLogo } = useController({
     name: 'circleLogo',
     control,
@@ -237,7 +271,7 @@ export const CircleAdminPage = () => {
         setLogoData({ ...logoData, avatarRaw: null });
       }
       await updateCircle({
-        circle_id: circle.id,
+        circle_id: circleId,
         name: data.circle_name,
         vouching: data.vouching,
         token_name: data.token_name,
@@ -253,11 +287,19 @@ export const CircleAdminPage = () => {
         fixed_payment_token_type: data.fixed_payment_token_type,
       });
 
+      refetch();
       showInfo('Saved changes');
     } catch (e) {
       console.warn(e);
     }
   };
+
+  if (isLoading || isIdle || isRefetching) return <LoadingModal visible />;
+  if (isError) {
+    if (error instanceof Error) {
+      console.warn(error.message);
+    }
+  }
 
   return (
     <Form id="circle_admin">
@@ -315,7 +357,7 @@ export const CircleAdminPage = () => {
                 id="circle_name"
                 name="circle_name"
                 control={control}
-                defaultValue={circle.name}
+                defaultValue={circle?.name}
                 label="Circle Name"
                 infoTooltip="This will be the circle name that your users will select"
                 showFieldErrors
@@ -359,7 +401,7 @@ export const CircleAdminPage = () => {
                 id="token_name"
                 name="token_name"
                 control={control}
-                defaultValue={circle.token_name}
+                defaultValue={circle?.token_name}
                 label="Token Name"
                 infoTooltip="This will be the token name displayed to all the circle users"
                 showFieldErrors
@@ -376,14 +418,14 @@ export const CircleAdminPage = () => {
                 name="only_giver_vouch"
                 control={control}
                 options={radioGroupOptions.yesNo}
-                defaultValue={circle.only_giver_vouch ? 'true' : 'false'}
+                defaultValue={circle?.only_giver_vouch ? 'true' : 'false'}
                 infoTooltip={
                   <RadioToolTip
                     optionsInfo={[
                       {
                         label: 'Yes',
                         text: `Only members who are eligible to send ${
-                          circle.tokenName || 'GIVE'
+                          circle?.tokenName || 'GIVE'
                         } can vouch for new members`,
                       },
                       {
@@ -399,7 +441,7 @@ export const CircleAdminPage = () => {
                 name="team_selection"
                 control={control}
                 options={radioGroupOptions.onOff}
-                defaultValue={circle.team_selection ? 'true' : 'false'}
+                defaultValue={circle?.team_selection ? 'true' : 'false'}
                 infoTooltip={
                   <RadioToolTip
                     optionsInfo={[
@@ -420,7 +462,7 @@ export const CircleAdminPage = () => {
                 name="auto_opt_out"
                 control={control}
                 options={radioGroupOptions.onOff}
-                defaultValue={circle.auto_opt_out ? 'true' : 'false'}
+                defaultValue={circle?.auto_opt_out ? 'true' : 'false'}
                 infoTooltip={
                   <RadioToolTip
                     optionsInfo={[
@@ -443,7 +485,7 @@ export const CircleAdminPage = () => {
             </Text>
             <Text p as="p" size="small">
               Edit your epoch timing on the{' '}
-              <AppLink to={paths.history(circle.id)}>Epoch Overview</AppLink> by
+              <AppLink to={paths.history(circleId)}>Epoch Overview</AppLink> by
               creating or editing an epoch.
             </Text>
           </Panel>
@@ -494,7 +536,7 @@ export const CircleAdminPage = () => {
                 id="contribution_text"
                 name="team_sel_text"
                 control={control}
-                defaultValue={circle.teamSelText}
+                defaultValue={circle?.teamSelText}
                 css={{ flexGrow: 1, textAlign: 'flex-start' }}
                 label="Contribution Help Text"
                 description="Change the default text contributors see on team selection"
@@ -506,7 +548,7 @@ export const CircleAdminPage = () => {
                 id="alloc_text"
                 name="alloc_text"
                 control={control}
-                defaultValue={circle.allocText}
+                defaultValue={circle?.allocText}
                 css={{ flexGrow: 1, textAlign: 'flex-start' }}
                 label="Allocation Help Text"
                 description="Change the default text contributors see during epoch allocation"
@@ -577,7 +619,7 @@ export const CircleAdminPage = () => {
                 id="min_vouches"
                 name="min_vouches"
                 control={control}
-                defaultValue={circle.min_vouches}
+                defaultValue={circle?.min_vouches}
                 number
                 inputProps={{ type: 'number' }}
                 disabled={!vouching.value}
@@ -589,7 +631,7 @@ export const CircleAdminPage = () => {
                 id="nomination_length"
                 name="nomination_days_limit"
                 control={control}
-                defaultValue={circle.nomination_days_limit}
+                defaultValue={circle?.nomination_days_limit}
                 number
                 inputProps={{ type: 'number' }}
                 disabled={!vouching.value}
@@ -607,7 +649,7 @@ export const CircleAdminPage = () => {
                     'This is a custom note we can optionally display to users on the vouching page, with guidance on who to vouch for and how.',
                 }}
                 disabled={!vouching.value}
-                defaultValue={circle.vouchingText}
+                defaultValue={circle?.vouchingText}
                 label="Vouching Text"
                 description="Change the default text contributors see in vouching page"
                 showFieldErrors

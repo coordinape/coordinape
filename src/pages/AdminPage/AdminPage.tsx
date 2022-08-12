@@ -1,11 +1,13 @@
 import React, { useState, useMemo, useEffect } from 'react';
 
+import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
 import { ActionDialog } from 'components';
 import { useApiAdminCircle } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { EditIcon, PlusCircleIcon } from 'icons';
+import { getCircleSettings } from 'pages/CircleAdminPage/getCircleSettings';
 import { useSelectedCircle } from 'recoilState/app';
 import { NEW_CIRCLE_CREATED_PARAMS, paths } from 'routes/paths';
 import { AppLink, Button, Flex, Panel, Text, TextField } from 'ui';
@@ -48,6 +50,17 @@ const AdminPage = () => {
     circle: selectedCircle,
   } = useSelectedCircle();
 
+  const { data: circle } = useQuery(
+    ['circleSettings', circleId],
+    () => getCircleSettings(circleId),
+    {
+      initialData: selectedCircle,
+      enabled: !!circleId,
+      refetchOnWindowFocus: false,
+      staleTime: Infinity,
+      notifyOnChangeProps: ['data'],
+    }
+  );
   const { deleteUser } = useApiAdminCircle(circleId);
 
   const onChangeKeyword = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,7 +80,7 @@ const AdminPage = () => {
     <SingleColumnLayout>
       <Panel>
         <Flex css={{ alignItems: 'center', mb: '$lg' }}>
-          <Text h2>{selectedCircle?.name}</Text>
+          <Text h2>{circle?.name}</Text>
           {!isMobile ? (
             <Flex
               css={{
@@ -77,7 +90,7 @@ const AdminPage = () => {
                 gap: '$md',
               }}
             >
-              <AppLink to={paths.circleAdmin(selectedCircle.id)}>
+              <AppLink to={paths.circleAdmin(circleId)}>
                 <Button color="primary" outlined css={{ minWidth: '180px' }}>
                   <EditIcon />
                   Settings
@@ -85,7 +98,7 @@ const AdminPage = () => {
               </AppLink>
               <AddContributorButton
                 onClick={() => setNewUser(true)}
-                tokenName={selectedCircle.tokenName}
+                tokenName={circle?.tokenName || 'GIVE'}
               />
 
               <Button
@@ -99,7 +112,7 @@ const AdminPage = () => {
               </Button>
             </Flex>
           ) : (
-            <AppLink to={paths.circleAdmin(selectedCircle.id)}>
+            <AppLink to={paths.circleAdmin(circleId)}>
               <SettingsIconButton />
             </AppLink>
           )}
@@ -107,7 +120,7 @@ const AdminPage = () => {
         {isMobile && (
           <UsersTableHeader
             onClick={() => setNewUser(true)}
-            tokenName={selectedCircle.tokenName}
+            tokenName={circle?.tokenName || 'GIVE'}
           />
         )}
         <TextField
@@ -121,16 +134,18 @@ const AdminPage = () => {
           value={keyword}
         />
 
-        <MembersTable
-          visibleUsers={visibleUsers}
-          myUser={me}
-          circle={selectedCircle}
-          setNewUser={setNewUser}
-          filter={filterUser}
-          setEditUser={setEditUser}
-          setDeleteUserDialog={setDeleteUserDialog}
-          perPage={15}
-        />
+        {circle && (
+          <MembersTable
+            visibleUsers={visibleUsers}
+            myUser={me}
+            circle={circle}
+            setNewUser={setNewUser}
+            filter={filterUser}
+            setEditUser={setEditUser}
+            setDeleteUserDialog={setDeleteUserDialog}
+            perPage={15}
+          />
+        )}
       </Panel>
       {(editUser || newUser) && (
         <AdminUserModal
@@ -145,7 +160,7 @@ const AdminPage = () => {
         onPrimary={() => setNewCircle(false)}
       >
         You’ll need to add your teammates to your circle and schedule an epoch
-        before you can start allocating {selectedCircle.tokenName}.
+        before you can start allocating {circle?.tokenName}.
       </ActionDialog>
       <ActionDialog
         open={!!deleteUserDialog}

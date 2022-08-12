@@ -13,13 +13,14 @@ import { isFeatureEnabled } from 'config/features';
 import { useApiAdminCircle, useNavigation } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { PlusCircleIcon, CheckIcon, CloseIcon } from 'icons';
+import { CircleSettingsResult } from 'pages/CircleAdminPage/getCircleSettings';
 import { Avatar, Box, Button, Flex, IconButton, Link, Tooltip, Text } from 'ui';
 import { shortenAddress } from 'utils';
 
 import { Paginator } from './Paginator';
 import * as Table from './Table';
 
-import { ICircle, IUser } from 'types';
+import { IUser } from 'types';
 
 const Title = styled(Text, {
   fontSize: '$4',
@@ -326,7 +327,7 @@ export const MembersTable = ({
 }: {
   visibleUsers: IUser[];
   myUser: IUser;
-  circle: ICircle;
+  circle: CircleSettingsResult;
   setNewUser: (newUser: boolean) => void;
   setEditUser: (u: IUser) => void;
   setDeleteUserDialog: (u: IUser) => void;
@@ -375,7 +376,7 @@ export const MembersTable = ({
 
     const filtered = filter ? users.filter(filter) : users;
     setView(filtered.sort(sorter));
-  }, [users, perPage, filter, order]);
+  }, [users, perPage, filter, order, circle]);
 
   const pagedView = useMemo(
     () =>
