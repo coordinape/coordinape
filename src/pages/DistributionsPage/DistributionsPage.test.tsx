@@ -98,6 +98,8 @@ test('render with a distribution', async () => {
         {
           created_at: '2022-04-27T00:28:03.27622',
           total_amount: '10000000',
+          gift_amount: 500,
+          fixed_amount: 5000,
           pricePerShare: FixedNumber.from('1.08'),
           distribution_type: 1,
           vault: {

@@ -9,13 +9,15 @@ import { useController, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
 import { z } from 'zod';
 
+import type { Vault } from 'hooks/gql/useVaults';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultFactory } from 'hooks/useVaultFactory';
 import { Box, Button, Form, Text, TextField } from 'ui';
 
 const useFormSetup = (
   contracts: Contracts | undefined,
-  setCustomSymbol: (s: string | undefined) => void
+  setCustomSymbol: (s: string | undefined) => void,
+  existingVaults?: Vault[]
 ) => {
   const schema = z
     .object({
@@ -45,6 +47,26 @@ const useFormSetup = (
         message: 'Select an asset or enter a valid ERC20 token address',
         path: ['customAddress'],
       }
+    )
+    .refine(
+      async ({ symbol, customAddress }) => {
+        console.log(symbol, customAddress, existingVaults); // eslint-disable-line
+
+        if (symbol && existingVaults?.some(v => v.symbol === symbol))
+          return false;
+
+        if (
+          customAddress &&
+          existingVaults?.some(v => v.simple_token_address === customAddress)
+        )
+          return false;
+
+        return true;
+      },
+      {
+        message: 'You already have a vault for that token',
+        path: ['customAddress'],
+      }
     );
 
   type FormSchema = z.infer<typeof schema>;
@@ -57,10 +79,12 @@ export const CreateForm = ({
   onSuccess,
   orgId,
   setSaving,
+  existingVaults,
 }: {
   onSuccess: () => void;
   orgId: number;
   setSaving?: (saving: boolean) => void;
+  existingVaults?: Vault[];
 }) => {
   const contracts = useContracts();
   const { createVault } = useVaultFactory(orgId);
@@ -72,7 +96,7 @@ export const CreateForm = ({
     control,
     formState: { errors, isValid },
     handleSubmit,
-  } = useFormSetup(contracts, setCustomSymbol);
+  } = useFormSetup(contracts, setCustomSymbol, existingVaults);
 
   const {
     field: { onChange, onBlur },

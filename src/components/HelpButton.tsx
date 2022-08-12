@@ -4,6 +4,14 @@ import { styled } from '@stitches/react';
 import { PopupButton } from '@typeform/embed-react';
 
 import {
+  Close,
+  Discord,
+  Document,
+  Email,
+  GiveReceiveBoth,
+  Time,
+} from '../icons/__generated';
+import {
   EXTERNAL_URL_DISCORD,
   EXTERNAL_URL_DOCS,
   EXTERNAL_URL_MAILTO_SUPPORT,
@@ -11,12 +19,6 @@ import {
 } from '../routes/paths';
 import { Button, Flex } from '../ui';
 import { Box } from '../ui/Box/Box';
-import { ClockIcon } from '../ui/icons/ClockIcon';
-import { CloseIcon } from '../ui/icons/CloseIcon';
-import { DiscordIcon } from '../ui/icons/DiscordIcon';
-import { DocumentIcon } from '../ui/icons/DocumentIcon';
-import { EnvelopeIcon } from '../ui/icons/EnvelopeIcon';
-import { GiveArrowsIcon } from '../ui/icons/GiveArrowsIcon';
 import { Text } from '../ui/Text/Text';
 
 const HelpButtonContainer = styled('div', {
@@ -154,7 +156,7 @@ const HelpButton = () => {
               },
             }}
           >
-            <CloseIcon size={'md'} color={'inherit'} />
+            <Close size={'md'} color={'inherit'} />
           </Box>
         </Flex>
         <div>
@@ -164,19 +166,19 @@ const HelpButton = () => {
         </div>
         <HelpOption
           href={EXTERNAL_URL_DISCORD}
-          icon={<DiscordIcon size={'md'} color={'text'} />}
+          icon={<Discord size={'md'} color={'text'} />}
         >
           Ask on Discord
         </HelpOption>
         <HelpOption
           href={EXTERNAL_URL_MAILTO_SUPPORT}
-          icon={<EnvelopeIcon size={'md'} color={'text'} />}
+          icon={<Email size={'md'} color={'text'} />}
         >
           Email Us
         </HelpOption>
         <HelpOption
           href={EXTERNAL_URL_SCHEDULE_WALKTHROUGH}
-          icon={<ClockIcon size={'md'} color={'text'} />}
+          icon={<Time size={'md'} color={'text'} />}
         >
           Schedule a Walkthrough
         </HelpOption>
@@ -197,7 +199,7 @@ const HelpButton = () => {
               }}
             >
               <Flex css={{ mr: '$sm', alignItems: 'center', color: '$text' }}>
-                <GiveArrowsIcon size={'md'} color={'text'} />
+                <GiveReceiveBoth size={'md'} color={'text'} />
               </Flex>
               Share Feedback
             </Flex>
@@ -206,7 +208,7 @@ const HelpButton = () => {
         <Box css={{ borderTop: '0.5px solid $borderMedium', mt: '$sm' }}>
           <HelpOption
             href={EXTERNAL_URL_DOCS}
-            icon={<DocumentIcon size={'md'} color={'text'} />}
+            icon={<Document size={'md'} color={'text'} />}
           >
             Documentation
           </HelpOption>

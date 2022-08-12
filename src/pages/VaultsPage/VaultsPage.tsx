@@ -182,6 +182,7 @@ const VaultsPage = () => {
             setSaving={setSaving}
             onSuccess={closeModal}
             orgId={currentOrg.id}
+            existingVaults={vaults}
           />
         </Modal>
       )}

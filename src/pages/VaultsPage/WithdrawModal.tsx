@@ -5,7 +5,7 @@ import round from 'lodash/round';
 import { useForm, useController } from 'react-hook-form';
 import * as z from 'zod';
 
-import { FormTokenField } from 'components';
+import { FormTokenField, zTokenString } from 'components';
 import type { Vault } from 'hooks/gql/useVaults';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultRouter } from 'hooks/useVaultRouter';
@@ -25,7 +25,7 @@ export default function WithdrawModal({
   balance,
 }: WithdrawModalProps) {
   const schema = z
-    .object({ amount: z.number().positive().max(balance) })
+    .object({ amount: zTokenString('0', balance.toString(), vault.decimals) })
     .strict();
   type WithdrawFormSchema = z.infer<typeof schema>;
   const contracts = useContracts();
@@ -41,7 +41,7 @@ export default function WithdrawModal({
   const { field: amountField } = useController({
     name: 'amount',
     control,
-    defaultValue: 0,
+    defaultValue: '',
   });
   const { withdraw } = useVaultRouter(contracts);
 
@@ -71,7 +71,7 @@ export default function WithdrawModal({
         onSubmit={handleSubmit(onSubmit)}
       >
         <FormTokenField
-          max={balance}
+          max={balance.toString()}
           symbol={vault.symbol}
           decimals={vault.decimals}
           label={`Available to Withdraw: ${numberWithCommas(

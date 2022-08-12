@@ -40,7 +40,7 @@ export function DistributionsPage() {
     { enabled: !!(contracts && address), retry: false }
   );
 
-  const [formGiftAmount, setFormGiftAmount] = useState<number>(0);
+  const [formGiftAmount, setFormGiftAmount] = useState<string>('0');
   const [giftVaultSymbol, setGiftVaultSymbol] = useState<string>('');
   const { users: circleUsers, circleId } = useSelectedCircle();
   const { downloadCSV } = useApiAdminCircle(circleId);
@@ -215,7 +215,7 @@ export function DistributionsPage() {
             users={usersWithGiftnFixedAmounts}
             tokenName={tokenName}
             totalGive={totalGive}
-            formGiftAmount={formGiftAmount}
+            formGiftAmount={Number(formGiftAmount)}
             fixedTokenName={
               fixedDist
                 ? fixedDist.vault.symbol

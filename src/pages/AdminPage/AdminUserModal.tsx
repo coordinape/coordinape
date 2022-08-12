@@ -54,10 +54,14 @@ export const AdminUserModal = ({
   user,
   onClose,
   open,
+  fixedPaymentToken,
+  tokenName,
 }: {
   user?: IUser;
   open?: boolean;
   onClose: () => void;
+  fixedPaymentToken: string | undefined;
+  tokenName: string | undefined;
 }) => {
   const classes = useStyles();
 
@@ -150,12 +154,12 @@ export const AdminUserModal = ({
                     </Link>
                   </>
                 }
-                label={`${selectedCircle.tokenName} Allotment`}
+                label={`${tokenName} Allotment`}
               />
             </div>
             {isFeatureEnabled('fixed_payments') && (
               <div>
-                {selectedCircle.fixed_payment_token_type ? (
+                {fixedPaymentToken ? (
                   <DeprecatedFormTextField
                     {...fields.fixed_payment_amount}
                     label="Fixed Payment Amount"
@@ -202,7 +206,7 @@ export const AdminUserModal = ({
             <CheckBox
               {...non_giver}
               value={!nonGiverValue}
-              label={`Allow contributor to send ${selectedCircle.tokenName}`}
+              label={`Allow contributor to send ${tokenName}`}
               onChange={v => nonGiverOnChange(!v)}
               infoTooltip={
                 <>
@@ -218,9 +222,7 @@ export const AdminUserModal = ({
               {...fixed_non_receiver}
               value={!fixedNonReceiverValue}
               onChange={v => fixedNonReceiverOnChange(!v)}
-              label={`Allow contributor to receive ${
-                selectedCircle.tokenName || 'GIVE'
-              }`}
+              label={`Allow contributor to receive ${tokenName || 'GIVE'}`}
               infoTooltip={
                 <>
                   Allows the Contributor to get paid based on the amount of
@@ -234,17 +236,14 @@ export const AdminUserModal = ({
           </div>
           <ActionDialog
             open={!hasAcceptedOptOutWarning && showOptOutChangeWarning}
-            title={`This user has ${
-              selectedCircle.tokenName || 'GIVE'
-            } allocated.`}
+            title={`This user has ${tokenName || 'GIVE'} allocated.`}
             onPrimary={() => {
               setHasAcceptedOptOutWarning(true);
               setShowOptOutChangeWarning(false);
             }}
           >
-            Changing their opt-in status will remove all{' '}
-            {selectedCircle.tokenName || 'GIVE'} allocated to them. This cannot
-            be undone.
+            Changing their opt-in status will remove all {tokenName || 'GIVE'}{' '}
+            allocated to them. This cannot be undone.
           </ActionDialog>
         </FormModal>
       )}

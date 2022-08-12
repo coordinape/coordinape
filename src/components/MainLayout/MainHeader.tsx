@@ -1,6 +1,7 @@
 import assert from 'assert';
 import { Suspense, useState, useEffect, useMemo } from 'react';
 
+import { useQuery } from 'react-query';
 import { useLocation, NavLink } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
 import { MediaQueryKeys, CSS } from 'stitches.config';
@@ -15,6 +16,7 @@ import isFeatureEnabled from 'config/features';
 import { useMediaQuery } from 'hooks';
 import { useWalletStatus } from 'hooks/login';
 import { HamburgerIcon, CloseIcon } from 'icons';
+import { getCircleSettings } from 'pages/CircleAdminPage/getCircleSettings';
 import ClaimsNavButton from 'pages/ClaimsPage/ClaimsNavButton';
 import {
   rSelectedCircle,
@@ -350,26 +352,38 @@ export const TopLevelLinks = ({
 
 // this has to be split out into its own component so it can suspend
 const CircleNav = () => {
-  const { circle, myUser } = useSelectedCircle();
+  const { myUser, circleId, circle: initialData } = useSelectedCircle();
+
+  const { data: circle } = useQuery(
+    ['circleSettings', circleId],
+    () => getCircleSettings(circleId),
+    {
+      initialData,
+      enabled: !!circleId,
+      refetchOnWindowFocus: false,
+      staleTime: Infinity,
+      notifyOnChangeProps: ['data'],
+    }
+  );
 
   const links: [string, string, string[]?][] = useMemo(() => {
-    assert(circle.id);
+    assert(circleId);
     const l: [string, string, string[]?][] = [
       [
-        paths.allocation(circle.id),
+        paths.allocation(circleId),
         'Allocate',
-        [paths.epoch(circle.id), paths.team(circle.id), paths.give(circle.id)],
+        [paths.epoch(circleId), paths.team(circleId), paths.give(circleId)],
       ],
-      [paths.map(circle.id), 'Map'],
+      [paths.map(circleId), 'Map'],
     ];
 
-    if (circle.hasVouching) l.push([paths.vouching(circle.id), 'Vouching']);
+    if (circle?.hasVouching) l.push([paths.vouching(circleId), 'Vouching']);
     if (myUser.isCircleAdmin) {
-      l.push([paths.members(circle.id), 'Admin']);
+      l.push([paths.members(circleId), 'Admin']);
     }
 
     return l;
-  }, [circle.id]);
+  }, [circleId, circle?.hasVouching]);
 
   return <TopLevelLinks links={links} css={{ mr: '$xs' }} />;
 };

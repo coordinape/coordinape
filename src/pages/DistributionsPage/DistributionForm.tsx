@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { formatRelative, parseISO } from 'date-fns';
-import { BigNumber } from 'ethers';
+import { BigNumber, constants as ethersConstants } from 'ethers';
+import { parseUnits, formatUnits } from 'ethers/lib/utils';
 import { getWrappedAmount } from 'lib/vaults';
 import { useForm, SubmitHandler, useController } from 'react-hook-form';
 import { z } from 'zod';
@@ -28,7 +29,7 @@ const headerStyle = {
 };
 
 const DistributionFormSchema = z.object({
-  amount: z.number().gte(0),
+  amount: z.string(),
   selectedVaultSymbol: z.string(),
 });
 
@@ -37,12 +38,12 @@ type TDistributionForm = z.infer<typeof DistributionFormSchema>;
 type SubmitFormProps = {
   epoch: EpochDataResult;
   users: (Gift['recipient'] & { received: number })[];
-  setAmount: (amount: number) => void;
+  setAmount: (amount: string) => void;
   setGiftVaultSymbol: (giftVaultSymbol: string) => void;
   vaults: { id: number; symbol: string }[];
   circleUsers: IUser[];
   giftVaultSymbol: string;
-  formGiftAmount: number;
+  formGiftAmount: string;
   refetch: () => void;
   circleDist: EpochDataResult['distributions'][0] | undefined;
   fixedDist: EpochDataResult['distributions'][0] | undefined;
@@ -72,8 +73,10 @@ export function DistributionForm({
   const [sufficientFixedPaymentTokens, setSufficientFixPaymentTokens] =
     useState(false);
   const [sufficientGiftTokens, setSufficientGiftTokens] = useState(false);
-  const [maxGiftTokens, setMaxGiftTokens] = useState(0);
-  const [maxFixedPaymentTokens, setMaxFixedPaymentTokens] = useState(0);
+  const [maxGiftTokens, setMaxGiftTokens] = useState(ethersConstants.Zero);
+  const [maxFixedPaymentTokens, setMaxFixedPaymentTokens] = useState(
+    ethersConstants.Zero
+  );
 
   const { showError } = useApeSnackbar();
   const submitDistribution = useSubmitDistribution();
@@ -83,7 +86,8 @@ export function DistributionForm({
   const fixedPaymentTokenType = circle.fixed_payment_token_type;
   const totalFixedPayment = circleUsers
     .map(g => g.fixed_payment_amount ?? 0)
-    .reduce((total, tokens) => tokens + total);
+    .reduce((total, tokens) => tokens + total, 0)
+    .toString();
   const fpTokenSymbol = fixedPaymentTokenType
     ? vaults.find(
         v => v.symbol.toLowerCase() === fixedPaymentTokenType.toLowerCase()
@@ -103,21 +107,21 @@ export function DistributionForm({
   const { field: amountField, fieldState: amountFieldState } = useController({
     name: 'amount',
     control,
-    defaultValue: 0,
+    defaultValue: '0',
   });
 
   const { field: fixedAmountField, fieldState: fixedAmountFieldState } =
     useController({
       name: 'amount',
       control,
-      defaultValue: 0,
+      defaultValue: '0',
     });
 
   useEffect(() => {
     if (circleDist) {
       updateBalanceState(
         circleDist.vault.symbol,
-        circleDist.gift_amount,
+        circleDist.gift_amount.toString(),
         'gift'
       );
     } else if (vaults[0] && !giftVaultSymbol) {
@@ -162,12 +166,14 @@ export function DistributionForm({
       {} as Record<string, BigNumber>
     );
     const type =
-      isCombinedDistribution() && !circleDist && formGiftAmount > 0
+      isCombinedDistribution() &&
+      !circleDist &&
+      BigNumber.from(formGiftAmount).gt(0)
         ? DISTRIBUTION_TYPE.COMBINED
         : DISTRIBUTION_TYPE.FIXED;
     const gifts = {} as Record<string, number>;
     if (type === DISTRIBUTION_TYPE.COMBINED) {
-      users.map(user => {
+      users.forEach(user => {
         if (!(user.address in gifts)) gifts[user.address] = 0;
         gifts[user.address] += user.received;
       });
@@ -181,8 +187,13 @@ export function DistributionForm({
       const result = await submitDistribution({
         amount:
           type === DISTRIBUTION_TYPE.COMBINED
-            ? String(totalFixedPayment + formGiftAmount)
-            : String(totalFixedPayment),
+            ? formatUnits(
+                parseUnits(totalFixedPayment, vault.decimals).add(
+                  parseUnits(formGiftAmount, vault.decimals)
+                ),
+                vault.decimals
+              )
+            : totalFixedPayment,
         vault,
         gifts,
         fixedGifts,
@@ -291,10 +302,10 @@ export function DistributionForm({
   const getButtonText = (
     sufficientTokens: boolean,
     symbol: string,
-    amount: number,
+    amount: string,
     type: string
   ): string => {
-    if (amount === 0) return `Please input a token amount`;
+    if (Number.parseFloat(amount) === 0) return `Please input a token amount`;
     if (!sufficientTokens) return 'Insufficient Tokens';
     if (
       (giftSubmitting && type === 'gift') ||
@@ -314,40 +325,43 @@ export function DistributionForm({
 
   const updateBalanceState = async (
     symbol: string,
-    amountSet: number,
+    amountSet: string,
     formType: string
   ): Promise<void> => {
     assert(circle);
     const vault = findVault({ symbol });
+    assert(vault);
+    const amountSetBN = parseUnits(amountSet || '0', vault.decimals);
     assert(contracts, 'This network is not supported');
-    const tokenBalance = vault
-      ? (await contracts.getVaultBalance(vault))
-          .div(BigNumber.from(10).pow(vault.decimals))
-          .toNumber()
-      : 0;
+    const tokenBalance = await contracts.getVaultBalance(vault);
     const isCombinedDist =
       // check if the two symbols are the same
       ((formType === 'gift' && fpTokenSymbol === symbol) ||
         (formType === 'fixed' && giftVaultSymbol === symbol)) &&
       // check if a non combined distribution is selected
       ((!fixedDist && !circleDist) || (circleDist && fixedDist));
-    const totalAmt = isCombinedDist ? amountSet + totalFixedPayment : amountSet;
+    const totalAmt: BigNumber = isCombinedDist
+      ? amountSetBN.add(parseUnits(totalFixedPayment, vault.decimals))
+      : amountSetBN;
 
     if (isCombinedDist) {
       setMaxGiftTokens(tokenBalance);
       setMaxFixedPaymentTokens(tokenBalance);
-      setSufficientFixPaymentTokens(tokenBalance >= totalAmt && totalAmt > 0);
+      setSufficientFixPaymentTokens(
+        totalAmt.lte(tokenBalance) && totalAmt.gt(0)
+      );
     } else if (formType === 'gift') {
-      setSufficientGiftTokens(tokenBalance >= totalAmt && totalAmt > 0);
+      setSufficientGiftTokens(tokenBalance.gte(totalAmt) && totalAmt.gt(0));
       setMaxGiftTokens(tokenBalance);
       // if switching from combined dist selection to non combined
       // we need to recheck if the fixed payment have sufficient tokens
       if (fpTokenSymbol === giftVaultSymbol)
         setSufficientFixPaymentTokens(
-          maxFixedPaymentTokens >= totalFixedPayment && totalFixedPayment > 0
+          maxFixedPaymentTokens.gte(totalFixedPayment) &&
+            ethersConstants.Zero.lt(totalFixedPayment)
         );
     } else {
-      setSufficientFixPaymentTokens(tokenBalance >= totalAmt && totalAmt > 0);
+      setSufficientFixPaymentTokens(tokenBalance >= totalAmt && totalAmt.gt(0));
       setMaxFixedPaymentTokens(tokenBalance);
     }
   };
@@ -407,12 +421,22 @@ export function DistributionForm({
                   distribution: circleDist,
                   symbol: giftVaultSymbol,
                 })}
-                type="number"
+                type="text"
                 placeholder="0"
                 error={!!amountFieldState.error}
-                value={circleDist ? circleDist.gift_amount : amountField.value}
+                value={
+                  circleDist
+                    ? circleDist.gift_amount?.toString() || '0'
+                    : amountField.value.toString()
+                }
                 disabled={giftSubmitting || !!circleDist || vaults.length === 0}
-                max={Number(maxGiftTokens)}
+                max={formatUnits(
+                  maxGiftTokens,
+                  getDecimals({
+                    distribution: circleDist,
+                    symbol: giftVaultSymbol,
+                  })
+                )}
                 prelabel="Budget Amount"
                 infoTooltip={
                   <>
@@ -421,7 +445,13 @@ export function DistributionForm({
                   </>
                 }
                 label={`Avail. ${numberWithCommas(
-                  maxGiftTokens
+                  formatUnits(
+                    maxGiftTokens,
+                    getDecimals({
+                      distribution: circleDist,
+                      symbol: giftVaultSymbol,
+                    })
+                  )
                 )} ${giftVaultSymbol}`}
                 onChange={value => {
                   amountField.onChange(value);
@@ -441,7 +471,8 @@ export function DistributionForm({
                 return (
                   <Text css={{ fontSize: '$small' }}>
                     Combined Distribution. Total{' '}
-                    {totalFixedPayment + formGiftAmount} {fpTokenSymbol}
+                    {renderCombinedSum(formGiftAmount, totalFixedPayment)}{' '}
+                    {fpTokenSymbol}
                   </Text>
                 );
               } else {
@@ -530,14 +561,19 @@ export function DistributionForm({
                       distribution: fixedDist,
                       symbol: fpTokenSymbol,
                     })}
-                    type="number"
+                    type="text"
                     placeholder="0"
                     error={!!fixedAmountFieldState.error}
                     value={
-                      fixedDist ? fixedDist.fixed_amount : totalFixedPayment
+                      fixedDist
+                        ? fixedDist.fixed_amount.toString()
+                        : totalFixedPayment
                     }
                     disabled={true}
-                    max={Number(maxFixedPaymentTokens)}
+                    max={formatUnits(
+                      maxFixedPaymentTokens,
+                      fixedDist?.vault.decimals
+                    )}
                     prelabel={'Budget Amount'}
                     infoTooltip={
                       <>
@@ -545,9 +581,15 @@ export function DistributionForm({
                         fixed payment.
                       </>
                     }
-                    label={`Avail. ${numberWithCommas(maxFixedPaymentTokens)} ${
-                      fpTokenSymbol || ''
-                    }`}
+                    label={`Avail. ${numberWithCommas(
+                      formatUnits(
+                        maxFixedPaymentTokens,
+                        getDecimals({
+                          distribution: circleDist,
+                          symbol: giftVaultSymbol,
+                        })
+                      )
+                    )} ${fpTokenSymbol || ''}`}
                     onChange={() => {}}
                     apeSize="small"
                   />
@@ -575,7 +617,7 @@ export function DistributionForm({
                       sufficientFixedPaymentTokens,
                       fpTokenSymbol,
                       isCombinedDistribution()
-                        ? totalFixedPayment + formGiftAmount
+                        ? renderCombinedSum(formGiftAmount, totalFixedPayment)
                         : totalFixedPayment,
                       'fixed'
                     )}
@@ -615,6 +657,9 @@ const Summary = ({
     </Flex>
   );
 };
+
+const renderCombinedSum = (giftAmt: string, fixedAmt: string) =>
+  formatUnits(parseUnits(giftAmt).add(parseUnits(fixedAmt)));
 
 const EtherscanButton = ({
   distribution,
