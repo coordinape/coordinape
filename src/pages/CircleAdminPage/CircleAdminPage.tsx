@@ -1,4 +1,4 @@
-import React, { MouseEvent, useState} from 'react';
+import React, { MouseEvent, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
@@ -183,10 +183,6 @@ export const CircleAdminPage = () => {
   );
   const contracts = useContracts();
   const { showInfo } = useApeSnackbar();
-  const tokens = ['Disabled'].concat(
-    contracts ? contracts.getAvailableTokens() : []
-  );
-
   const orgQuery = useCircleOrg(circleId);
 
   const vaultsQuery = useVaults({
@@ -254,13 +250,6 @@ export const CircleAdminPage = () => {
     control,
     defaultValue: circle?.vouching,
   });
-
-  const { field: fixedPaymentToken, fieldState: fixedPaymentTokenState } =
-    useController({
-      name: 'fixed_payment_token_type',
-      control,
-      defaultValue: circle?.fixed_payment_token_type ?? 'Disabled',
-    });
 
   const { field: discordWebhook, fieldState: discordWebhookState } =
     useController({
