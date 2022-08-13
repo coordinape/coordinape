@@ -1,3 +1,5 @@
+import { sumBy, uniqBy } from 'lodash';
+
 import type { Gift } from './queries';
 
 import { IUser } from 'types';
@@ -23,4 +25,17 @@ export function mapProfileIdsByAddress(
     return ret;
   }, profileIdsFromGifts);
   return profileIdsByAddress;
+}
+
+/**
+ * Create a map of deleted users to sum of received tokens.
+ */
+export function getDeletedStats(token_gifts?: Gift[]): Record<string, number> {
+  const deletedGifts = token_gifts?.filter((g: Gift) => !g.recipient);
+  const sumDeletedGifts = sumBy(deletedGifts, 'tokens');
+  const numDeletedUsers = uniqBy(deletedGifts, 'recipient_id').length;
+  return {
+    sumTokens: sumDeletedGifts,
+    numDeletedUsers: numDeletedUsers,
+  };
 }

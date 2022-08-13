@@ -22,6 +22,7 @@ import { AllocationsTable } from './AllocationsTable';
 import { DistributionForm } from './DistributionForm';
 import type { Gift } from './queries';
 import { getEpochData } from './queries';
+import { getDeletedStats } from './utils';
 
 export function DistributionsPage() {
   const { epochId } = useParams();
@@ -119,27 +120,6 @@ export function DistributionsPage() {
       dist.pricePerShare.toUnsafeFloat()
     );
   };
-
-  const deletedUsers: Gift[] = uniqBy(
-    epoch.token_gifts
-      ?.filter((g: Gift) => !g.recipient)
-      .map((g: Gift) => {
-        return {
-          recipient_address: g.recipient_address,
-          recipient_id: g.recipient_id,
-          recipient: {
-            id: g.recipient_id,
-            name: 'Deleted User',
-            address: g.recipient_address,
-            profile: {
-              id: g.recipient_id,
-            },
-          },
-          tokens: g.tokens,
-        };
-      }),
-    'recipient_id'
-  );
 
   const usersWithGiftnFixedAmounts = circleUsers
     .filter(u => {
@@ -257,7 +237,7 @@ export function DistributionsPage() {
           <AllocationsTable
             epoch={epoch}
             users={usersWithGiftnFixedAmounts}
-            deletedUsers={deletedUsers}
+            deletedUsers={getDeletedStats(epoch.token_gifts)}
             tokenName={tokenName}
             totalGive={totalGive}
             formGiftAmount={Number(formGiftAmount)}
