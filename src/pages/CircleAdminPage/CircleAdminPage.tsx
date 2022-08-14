@@ -7,6 +7,7 @@ import { useQuery } from 'react-query';
 import * as z from 'zod';
 
 import { FormInputField, FormRadioGroup, LoadingModal } from 'components';
+import isFeatureEnabled from 'config/features';
 import { useApeSnackbar, useApiAdminCircle, useContracts } from 'hooks';
 import { useCircleOrg } from 'hooks/gql/useCircleOrg';
 import { useVaults } from 'hooks/gql/useVaults';
@@ -523,54 +524,56 @@ export const CircleAdminPage = () => {
             </Text>
           </Panel>
         </Panel>
-        <Panel css={panelStyles}>
-          <Text h2>Fixed Payments</Text>
-          <Panel nested>
-            <Box
-              css={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                gap: '$lg',
-                '@sm': { gridTemplateColumns: '1fr' },
-              }}
-            >
-              <Box>
-                <Text variant="label" as="label" css={{ mb: '$xs' }}>
-                  Fixed Payment Vault
-                </Text>
-                <Select
-                  {...(register('fixed_payment_vault_id'),
-                  {
-                    onValueChange: value => {
-                      setValue('fixed_payment_vault_id', value, {
-                        shouldDirty: true,
-                      });
-                      setValue(
-                        'fixed_payment_token_type',
-                        value == ''
-                          ? ''
-                          : vaultOptions.find(o => o.value == value)?.label,
-                        { shouldDirty: true }
-                      );
-                    },
-                    defaultValue: stringifiedVaultId(),
-                  })}
-                  options={vaultOptions}
+        {isFeatureEnabled('fixed_payments') && (
+          <Panel css={panelStyles}>
+            <Text h2>Fixed Payments</Text>
+            <Panel nested>
+              <Box
+                css={{
+                  display: 'grid',
+                  gridTemplateColumns: '1fr 1fr',
+                  gap: '$lg',
+                  '@sm': { gridTemplateColumns: '1fr' },
+                }}
+              >
+                <Box>
+                  <Text variant="label" as="label" css={{ mb: '$xs' }}>
+                    Fixed Payment Vault
+                  </Text>
+                  <Select
+                    {...(register('fixed_payment_vault_id'),
+                    {
+                      onValueChange: value => {
+                        setValue('fixed_payment_vault_id', value, {
+                          shouldDirty: true,
+                        });
+                        setValue(
+                          'fixed_payment_token_type',
+                          value == ''
+                            ? ''
+                            : vaultOptions.find(o => o.value == value)?.label,
+                          { shouldDirty: true }
+                        );
+                      },
+                      defaultValue: stringifiedVaultId(),
+                    })}
+                    options={vaultOptions}
+                  />
+                </Box>
+                <FormInputField
+                  id="fixed_payment_token_type"
+                  name="fixed_payment_token_type"
+                  control={control}
+                  defaultValue={circle?.fixed_payment_token_type}
+                  label="Token name for CSV export"
+                  infoTooltip="This will be the token name displayed in exported CSVs"
+                  disabled={!!getValues('fixed_payment_vault_id')}
+                  showFieldErrors
                 />
               </Box>
-              <FormInputField
-                id="fixed_payment_token_type"
-                name="fixed_payment_token_type"
-                control={control}
-                defaultValue={circle?.fixed_payment_token_type}
-                label="Token name for CSV export"
-                infoTooltip="This will be the token name displayed in exported CSVs"
-                disabled={!!getValues('fixed_payment_vault_id')}
-                showFieldErrors
-              />
-            </Box>
+            </Panel>
           </Panel>
-        </Panel>
+        )}
         <Panel css={panelStyles}>
           <Text h2>Customization</Text>
           <Panel nested>
