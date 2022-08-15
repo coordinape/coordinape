@@ -4,6 +4,8 @@ import { allVaultFields } from 'lib/gql/mutations';
 import { getDisplayTokenString } from 'lib/vaults';
 import { useQuery } from 'react-query';
 
+import isFeatureEnabled from 'config/features';
+
 import { Awaited } from 'types/shim';
 
 export function useVaults({
@@ -16,6 +18,9 @@ export function useVaults({
   return useQuery(
     ['vaults-for-org-', orgId],
     async () => {
+      if (!isFeatureEnabled('vaults')) {
+        return;
+      }
       const { vaults } = await client.query(
         {
           vaults: [
@@ -62,7 +67,7 @@ export function useVaults({
     {
       enabled: !!orgId && !!chainId,
       select: vaults => {
-        return vaults.map(v => {
+        return vaults?.map(v => {
           v.symbol = getDisplayTokenString(v);
 
           return v;
