@@ -1,6 +1,6 @@
 import { ContractsReadonly } from 'common-lib/contracts';
 import { BigNumber } from 'ethers';
-import { decodeCircleId } from 'lib/vaults';
+import { decodeCircleId, getDisplayTokenString } from 'lib/vaults';
 import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
@@ -41,7 +41,7 @@ export const VaultTransactions = () => {
     <OrgLayout name={vault.protocol.name}>
       <Panel>
         <Text h2 css={{ mb: '$md' }}>
-          All Transactions for {vault?.symbol?.toUpperCase()} Vault
+          All Transactions for {getDisplayTokenString(vault)} Vault
         </Text>
         <TransactionTable chainId={vault.chain_id} rows={vaultTxList} />
       </Panel>

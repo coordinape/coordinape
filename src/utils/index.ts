@@ -16,12 +16,15 @@ export const numberWithCommas = (
   const [beforeDot, afterDot] = x.toString().split('.');
   return (
     beforeDot.replace(/\B(?=(\d{3})+(?!\d))/g, ',') +
-    (afterDot
-      ? '.' +
-        (afterDot.length > precision
-          ? round(Number.parseInt(afterDot), -(afterDot.length - precision))
-          : afterDot)
-      : ''
-    ).substring(0, precision + 1)
+    (afterDot && precision > 0
+      ? (
+          '.' +
+          (afterDot.length > precision
+            ? round(Number.parseInt(afterDot), -(afterDot.length - precision))
+            : afterDot)
+        )
+          .substring(0, precision + 1)
+          .padEnd(precision + 1, '0')
+      : '')
   );
 };

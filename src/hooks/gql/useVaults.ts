@@ -1,6 +1,7 @@
 import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import { allVaultFields } from 'lib/gql/mutations';
+import { getDisplayTokenString } from 'lib/vaults';
 import { useQuery } from 'react-query';
 
 import { Awaited } from 'types/shim';
@@ -58,7 +59,16 @@ export function useVaults({
       );
       return vaults;
     },
-    { enabled: !!orgId && !!chainId }
+    {
+      enabled: !!orgId && !!chainId,
+      select: vaults => {
+        return vaults.map(v => {
+          v.symbol = getDisplayTokenString(v);
+
+          return v;
+        });
+      },
+    }
   );
 }
 
