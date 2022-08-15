@@ -32,6 +32,7 @@ import {
 } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { getCircleAvatar } from 'utils/domain';
+import { dirtyValues } from 'utils/formHelpers';
 
 import { AdminIntegrations } from './AdminIntegrations';
 import { getCircleSettings } from './getCircleSettings';
@@ -164,7 +165,6 @@ export const CircleAdminPage = () => {
     isLoading,
     isIdle,
     isError,
-    isRefetching,
     refetch,
     error,
     data: circle,
@@ -175,11 +175,6 @@ export const CircleAdminPage = () => {
       // the query will not be executed untill circleId exists
       enabled: !!circleId,
       initialData,
-      //minmize background refetch
-      refetchOnWindowFocus: false,
-
-      staleTime: Infinity,
-      notifyOnChangeProps: ['data'],
     }
   );
   const contracts = useContracts();
@@ -236,8 +231,8 @@ export const CircleAdminPage = () => {
     handleSubmit,
     register,
     setValue,
-    getValues,
-    formState: { isDirty },
+    watch,
+    formState: { isDirty, dirtyFields },
   } = useForm<CircleAdminFormSchema>({
     resolver: zodResolver(schema),
     mode: 'onChange',
@@ -264,6 +259,8 @@ export const CircleAdminPage = () => {
     control,
     defaultValue: undefined,
   });
+
+  const watchFixedPaymentVaultId = watch('fixed_payment_vault_id');
 
   // onChange Logo
   const onChangeLogo = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -294,25 +291,26 @@ export const CircleAdminPage = () => {
         await updateCircleLogo(logoData.avatarRaw);
         setLogoData({ ...logoData, avatarRaw: null });
       }
-      await updateCircle({
+
+      // @ts-ignore
+      const { circle_name, ...updatedFields } = dirtyValues(dirtyFields, data);
+
+      const payload: Parameters<typeof updateCircle>[0] = {
         circle_id: circleId,
-        name: data.circle_name,
-        vouching: data.vouching,
-        token_name: data.token_name,
-        min_vouches: data.min_vouches,
-        team_sel_text: data.team_sel_text,
-        nomination_days_limit: data.nomination_days_limit,
-        alloc_text: data.alloc_text,
-        discord_webhook: data.discord_webhook,
-        vouching_text: data.vouching_text,
-        only_giver_vouch: data.only_giver_vouch,
-        team_selection: data.team_selection,
-        auto_opt_out: data.auto_opt_out,
-        fixed_payment_token_type: data.fixed_payment_token_type,
-        fixed_payment_vault_id: data.fixed_payment_vault_id
+        ...updatedFields,
+      };
+
+      if (circle_name) {
+        payload.name = circle_name;
+      }
+      // @ts-ignore
+      if (dirtyFields['fixed_payment_vault_id']) {
+        payload.fixed_payment_vault_id = data.fixed_payment_vault_id
           ? parseInt(data.fixed_payment_vault_id)
-          : null,
-      });
+          : null;
+      }
+
+      await updateCircle(payload);
 
       refetch();
       showInfo('Saved changes');
@@ -321,14 +319,7 @@ export const CircleAdminPage = () => {
     }
   };
 
-  if (
-    isLoading ||
-    isIdle ||
-    isRefetching ||
-    !circle ||
-    !vaultsQuery.data ||
-    !orgQuery.data
-  )
+  if (isLoading || isIdle || !circle || !vaultsQuery.data || !orgQuery.data)
     return <LoadingModal visible />;
   if (isError) {
     if (error instanceof Error) {
@@ -541,22 +532,20 @@ export const CircleAdminPage = () => {
                     Fixed Payment Vault
                   </Text>
                   <Select
-                    {...(register('fixed_payment_vault_id'),
-                    {
-                      onValueChange: value => {
-                        setValue('fixed_payment_vault_id', value, {
-                          shouldDirty: true,
-                        });
-                        setValue(
-                          'fixed_payment_token_type',
-                          value == ''
-                            ? ''
-                            : vaultOptions.find(o => o.value == value)?.label,
-                          { shouldDirty: true }
-                        );
-                      },
-                      defaultValue: stringifiedVaultId(),
-                    })}
+                    {...register('fixed_payment_vault_id')}
+                    onValueChange={value => {
+                      setValue('fixed_payment_vault_id', value, {
+                        shouldDirty: true,
+                      });
+                      setValue(
+                        'fixed_payment_token_type',
+                        value == ''
+                          ? ''
+                          : vaultOptions.find(o => o.value == value)?.label,
+                        { shouldDirty: true }
+                      );
+                    }}
+                    defaultValue={stringifiedVaultId()}
                     options={vaultOptions}
                   />
                 </Box>
@@ -567,7 +556,7 @@ export const CircleAdminPage = () => {
                   defaultValue={circle?.fixed_payment_token_type}
                   label="Token name for CSV export"
                   infoTooltip="This will be the token name displayed in exported CSVs"
-                  disabled={!!getValues('fixed_payment_vault_id')}
+                  disabled={!!watchFixedPaymentVaultId}
                   showFieldErrors
                 />
               </Box>

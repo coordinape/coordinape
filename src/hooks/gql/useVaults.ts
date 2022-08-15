@@ -65,7 +65,7 @@ export function useVaults({
       return vaults;
     },
     {
-      enabled: !!orgId && !!chainId,
+      enabled: !!orgId && !!chainId && isFeatureEnabled('vaults'),
       select: vaults => {
         return vaults?.map(v => {
           v.symbol = getDisplayTokenString(v);
@@ -73,8 +73,6 @@ export function useVaults({
           return v;
         });
       },
-      staleTime: Infinity,
-      refetchOnWindowFocus: false,
     }
   );
 }
