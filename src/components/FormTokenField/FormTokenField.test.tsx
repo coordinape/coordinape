@@ -25,6 +25,16 @@ const MockTokenPage = () => {
   );
 };
 
+test('can render a change to an empty string', () => {
+  act(() => {
+    render(<MockTokenPage />);
+  });
+  const input: HTMLInputElement = screen.getByTestId('FormTokenField');
+  fireEvent.change(input, { target: { value: '500' } });
+  fireEvent.change(input, { target: { value: '' } });
+  expect(input.value).toBe('0');
+});
+
 test('can render a valid token amount', () => {
   act(() => {
     render(<MockTokenPage />);
