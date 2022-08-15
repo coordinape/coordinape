@@ -292,8 +292,8 @@ export const CircleAdminPage = () => {
         setLogoData({ ...logoData, avatarRaw: null });
       }
 
-      // @ts-ignore
-      const { circle_name, ...updatedFields } = dirtyValues(dirtyFields, data);
+      const circle_name = data.circle_name;
+      const { ...updatedFields } = dirtyValues(dirtyFields, data);
 
       const payload: Parameters<typeof updateCircle>[0] = {
         circle_id: circleId,
@@ -303,7 +303,6 @@ export const CircleAdminPage = () => {
       if (circle_name) {
         payload.name = circle_name;
       }
-      // @ts-ignore
       if (dirtyFields['fixed_payment_vault_id']) {
         payload.fixed_payment_vault_id = data.fixed_payment_vault_id
           ? parseInt(data.fixed_payment_vault_id)

@@ -14,7 +14,6 @@ export const dirtyValues = (
 
   // Here, we have an object.
   return Object.fromEntries(
-    // @ts-ignore
     Object.keys(dirtyFields).map(key => [
       key,
       dirtyValues(dirtyFields[key], allValues[key]),
