@@ -92,6 +92,7 @@ select_permissions:
     columns:
     - alloc_text
     - default_opt_in
+    - fixed_payment_vault_id
     - id
     - is_verified
     - logo
