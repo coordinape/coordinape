@@ -103,7 +103,7 @@ export const FormInputField = <TFieldValues extends FieldValues>(
           {...field}
           css={{
             width: '100%',
-            fontWeight: '$light',
+            fontWeight: '$normal',
             fontSize: '$4',
             lineHeight: 'none',
           }}
