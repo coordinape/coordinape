@@ -4,8 +4,8 @@
   include_in_metadata: true
   payload: {}
   headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
+  - name: verification_key
+    value_from_env: HASURA_EVENT_SECRET
 - name: dailyUpdate
   webhook: '{{HASURA_API_BASE_URL}}/cron/dailyUpdate'
   schedule: 0 21 * * *
@@ -17,8 +17,8 @@
     tolerance_seconds: 21600
     retry_interval_seconds: 10
   headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
+  - name: verification_key
+    value_from_env: HASURA_EVENT_SECRET
 - name: epoch
   webhook: '{{HASURA_API_BASE_URL}}/cron/epochs'
   schedule: '*/5 * * * *'
@@ -30,8 +30,8 @@
     tolerance_seconds: 21600
     retry_interval_seconds: 10
   headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
+  - name: verification_key
+    value_from_env: HASURA_EVENT_SECRET
   comment: manage time-based epoch business logic
 - name: recoverTransactions
   webhook: '{{HASURA_API_BASE_URL}}/cron/recoverTransactions'
@@ -39,7 +39,7 @@
   include_in_metadata: true
   payload: {}
   headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
+  - name: verification_key
+    value_from_env: HASURA_EVENT_SECRET
   comment: tracks pending vault transations in case the frontend doesn't
     update the state upon deployment
