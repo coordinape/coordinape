@@ -202,7 +202,6 @@ input UpdateCircleInput {
   auto_opt_out: Boolean
   update_webhook: Boolean
   fixed_payment_token_type: String
-  fixed_payment_vault_id: Int
 }
 
 input UpdateEpochInput {
@@ -376,7 +375,6 @@ type LogVaultTxResponse {
 type DeleteCircleResponse {
   success: Boolean!
 }
-
 type CircleLandingInfoResponse {
   circle_id: Int!
   name: String!

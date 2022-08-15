@@ -31,7 +31,6 @@ export const getCircleSettings = async (circleId: number) => {
               protocol_id: true,
               auto_opt_out: true,
               fixed_payment_token_type: true,
-              fixed_payment_vault_id: true,
             },
           ],
         },

@@ -17,7 +17,7 @@ context('Coordinape', () => {
   it('can update circle settings', () => {
     cy.visit(`/circles/${circleId}/admin`);
     cy.login();
-    cy.getInputByLabel('Token name for CSV export', { timeout: 120000 })
+    cy.getInputByLabel('Fixed Payment Token', { timeout: 120000 })
       .clear()
       .type('DAI')
       .blur();
@@ -35,7 +35,7 @@ context('Coordinape', () => {
     }).as('hardReload');
     cy.reload(true);
     cy.wait('@hardReload').its('response.statusCode').should('equal', 200);
-    cy.getInputByLabel('Token name for CSV export', { timeout: 120000 }).should(
+    cy.getInputByLabel('Fixed Payment Token', { timeout: 120000 }).should(
       'have.value',
       'DAI'
     );

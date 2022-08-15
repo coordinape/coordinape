@@ -188,7 +188,6 @@ const HelpButton = () => {
           css={{ paddingLeft: '0px' }}
         >
           <PopupButton
-            as="div"
             id="nvOUfHKN"
             className="my-button"
             style={{ marginTop: 0 }}

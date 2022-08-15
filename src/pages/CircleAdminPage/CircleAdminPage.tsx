@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { MouseEvent, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -6,11 +7,15 @@ import { useForm, SubmitHandler, useController } from 'react-hook-form';
 import { useQuery } from 'react-query';
 import * as z from 'zod';
 
-import { FormInputField, FormRadioGroup, LoadingModal } from 'components';
+import {
+  FormAutocomplete,
+  FormInputField,
+  FormRadioGroup,
+  LoadingModal,
+} from 'components';
 import isFeatureEnabled from 'config/features';
 import { useApeSnackbar, useApiAdminCircle, useContracts } from 'hooks';
-import { useCircleOrg } from 'hooks/gql/useCircleOrg';
-import { useVaults } from 'hooks/gql/useVaults';
+import { EditIcon } from 'icons';
 import { useSelectedCircle } from 'recoilState/app';
 import { paths } from 'routes/paths';
 import {
@@ -28,7 +33,6 @@ import {
   Tooltip,
   CheckBox,
   AppLink,
-  Select,
 } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { getCircleAvatar } from 'utils/domain';
@@ -151,7 +155,6 @@ const schema = z.object({
       })
     )
   ),
-  fixed_payment_vault_id: z.optional(z.string().optional()),
   circleLogo: z.instanceof(File).optional(),
 });
 
@@ -184,29 +187,9 @@ export const CircleAdminPage = () => {
   );
   const contracts = useContracts();
   const { showInfo } = useApeSnackbar();
-  const orgQuery = useCircleOrg(circleId);
-
-  const vaultsQuery = useVaults({
-    orgId: orgQuery.data?.id,
-    chainId: Number(contracts?.chainId),
-  });
-
-  const vaultOptions = vaultsQuery.data
-    ? [
-        { value: '', label: '- None -' },
-        ...vaultsQuery.data.map(vault => {
-          return { value: vault.id, label: vault.symbol };
-        }),
-      ]
-    : [
-        {
-          value: '',
-          label:
-            vaultsQuery.isLoading || orgQuery.isLoading
-              ? 'Loading...'
-              : 'None Available',
-        },
-      ];
+  const tokens = ['Disabled'].concat(
+    contracts ? contracts.getAvailableTokens() : []
+  );
 
   const { updateCircle, updateCircleLogo, getDiscordWebhook } =
     useApiAdminCircle(circleId);
@@ -223,27 +206,13 @@ export const CircleAdminPage = () => {
 
   const [allowEdit, setAllowEdit] = useState(false);
 
-  const stringifiedVaultId = () => {
-    const id = circle?.fixed_payment_vault_id;
-    if (id == null) {
-      return '';
-    }
-    return `${id}`;
-  };
-
   const {
     control,
     handleSubmit,
-    register,
-    setValue,
-    getValues,
     formState: { isDirty },
   } = useForm<CircleAdminFormSchema>({
     resolver: zodResolver(schema),
     mode: 'onChange',
-    defaultValues: {
-      fixed_payment_vault_id: stringifiedVaultId(),
-    },
   });
 
   const { field: vouching } = useController({
@@ -251,6 +220,13 @@ export const CircleAdminPage = () => {
     control,
     defaultValue: circle?.vouching,
   });
+
+  const { field: fixedPaymentToken, fieldState: fixedPaymentTokenState } =
+    useController({
+      name: 'fixed_payment_token_type',
+      control,
+      defaultValue: circle?.fixed_payment_token_type ?? 'Disabled',
+    });
 
   const { field: discordWebhook, fieldState: discordWebhookState } =
     useController({
@@ -309,9 +285,6 @@ export const CircleAdminPage = () => {
         team_selection: data.team_selection,
         auto_opt_out: data.auto_opt_out,
         fixed_payment_token_type: data.fixed_payment_token_type,
-        fixed_payment_vault_id: data.fixed_payment_vault_id
-          ? parseInt(data.fixed_payment_vault_id)
-          : null,
       });
 
       refetch();
@@ -321,20 +294,13 @@ export const CircleAdminPage = () => {
     }
   };
 
-  if (
-    isLoading ||
-    isIdle ||
-    isRefetching ||
-    !circle ||
-    !vaultsQuery.data ||
-    !orgQuery.data
-  )
-    return <LoadingModal visible />;
+  if (isLoading || isIdle || isRefetching) return <LoadingModal visible />;
   if (isError) {
     if (error instanceof Error) {
-      console.warn(error);
+      console.warn(error.message);
     }
   }
+
   return (
     <Form id="circle_admin">
       <SingleColumnLayout>
@@ -524,56 +490,29 @@ export const CircleAdminPage = () => {
             </Text>
           </Panel>
         </Panel>
-        {isFeatureEnabled('fixed_payments') && (
-          <Panel css={panelStyles}>
-            <Text h2>Fixed Payments</Text>
-            <Panel nested>
-              <Box
-                css={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 1fr',
-                  gap: '$lg',
-                  '@sm': { gridTemplateColumns: '1fr' },
-                }}
-              >
-                <Box>
-                  <Text variant="label" as="label" css={{ mb: '$xs' }}>
-                    Fixed Payment Vault
-                  </Text>
-                  <Select
-                    {...(register('fixed_payment_vault_id'),
-                    {
-                      onValueChange: value => {
-                        setValue('fixed_payment_vault_id', value, {
-                          shouldDirty: true,
-                        });
-                        setValue(
-                          'fixed_payment_token_type',
-                          value == ''
-                            ? ''
-                            : vaultOptions.find(o => o.value == value)?.label,
-                          { shouldDirty: true }
-                        );
-                      },
-                      defaultValue: stringifiedVaultId(),
-                    })}
-                    options={vaultOptions}
-                  />
-                </Box>
-                <FormInputField
-                  id="fixed_payment_token_type"
-                  name="fixed_payment_token_type"
-                  control={control}
-                  defaultValue={circle?.fixed_payment_token_type}
-                  label="Token name for CSV export"
-                  infoTooltip="This will be the token name displayed in exported CSVs"
-                  disabled={!!getValues('fixed_payment_vault_id')}
-                  showFieldErrors
+        <Panel css={panelStyles}>
+          <Text h2>Fixed Payments</Text>
+          <Panel nested>
+            <Box
+              css={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: '$lg',
+                '@sm': { gridTemplateColumns: '1fr' },
+              }}
+            >
+              {isFeatureEnabled('fixed_payments') && (
+                <FormAutocomplete
+                  {...fixedPaymentToken}
+                  options={tokens}
+                  label="Fixed Payment Token"
+                  error={true}
+                  errorText={fixedPaymentTokenState.error?.message}
                 />
-              </Box>
-            </Panel>
+              )}
+            </Box>
           </Panel>
-        )}
+        </Panel>
         <Panel css={panelStyles}>
           <Text h2>Customization</Text>
           <Panel nested>

@@ -214,7 +214,7 @@ const apeVariants: any = (
         label: {
           margin: theme.spacing(0, 0, 1),
           fontSize: 16,
-          fontWeight: 400,
+          fontWeight: 300,
           lineHeight: 1.2,
           color: theme.colors.text,
         },
@@ -314,7 +314,7 @@ const useBaseStyles = makeStyles<
     padding: theme.spacing(1.25),
     fontSize: 16,
     lineHeight: 1.375,
-    fontWeight: 400,
+    fontWeight: 300,
 
     '&::placeholder': {
       color: theme.colors.secondaryText,

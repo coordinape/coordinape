@@ -17,7 +17,7 @@ export const TextField = styled('input', {
   flexDirection: 'row',
   borderRadius: '8px',
 
-  fontWeight: '$normal',
+  fontWeight: '$light',
   fontSize: '$medium',
   lineHeight: '$base',
 

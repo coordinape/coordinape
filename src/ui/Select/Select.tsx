@@ -16,22 +16,21 @@ const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
   alignItems: 'center',
   flex: 1,
   justifyContent: 'space-between',
-  borderRadius: '$3',
-  padding: '$sm',
-  lineHeight: '$short',
-  fontSize: '$medium',
-  border: '1px solid transparent',
-  width: 'calc(100% - $sm - $sm)',
-  backgroundColor: '$surface',
+  borderRadius: 8,
+  padding: '0 12px',
+  fontSize: 16,
+  lineHeight: 1,
+  height: 40,
+  gap: 5,
+  backgroundColor: 'white',
   color: '$text',
   '&:hover': { cursor: 'pointer' },
 });
 
 const StyledContent = styled(SelectPrimitive.Content, {
   overflow: 'hidden',
-  backgroundColor: '$white',
-  boxShadow: '$heavy',
-  borderRadius: '$3',
+  backgroundColor: 'white',
+  borderRadius: 6,
 });
 
 const StyledViewport = styled(SelectPrimitive.Viewport, {
@@ -40,12 +39,14 @@ const StyledViewport = styled(SelectPrimitive.Viewport, {
 
 const StyledItem = styled(SelectPrimitive.Item, {
   all: 'unset',
+  fontSize: 15,
   lineHeight: 1,
   color: '$text',
-  borderRadius: '$1',
+  borderRadius: 3,
   display: 'flex',
   alignItems: 'center',
-  padding: '$sm $lg',
+  height: 36,
+  padding: '0 35px 0 25px',
   position: 'relative',
   userSelect: 'none',
 
@@ -111,15 +112,14 @@ export type SelectOption = {
 export const Select = (
   props: SelectProps & {
     options: SelectOption[];
-    placeholder?: string;
   }
 ) => {
-  const { defaultValue, options, placeholder } = props;
+  const { defaultValue, options } = props;
 
   return (
     <RadixSelect defaultValue={defaultValue} {...props}>
       <SelectTrigger>
-        <SelectValue placeholder={placeholder} />
+        <SelectValue />
         <SelectIcon>
           <ChevronDownIcon color="#b8bdbf" />
         </SelectIcon>

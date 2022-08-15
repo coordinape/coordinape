@@ -592,7 +592,6 @@ export type ValueTypes = {
     address: string;
     circle_id: number;
     fixed_non_receiver?: boolean | undefined | null;
-    fixed_payment_amount?: number | undefined | null;
     name?: string | undefined | null;
     new_address?: string | undefined | null;
     non_giver?: boolean | undefined | null;
@@ -706,7 +705,6 @@ export type ValueTypes = {
     address: string;
     circle_id: number;
     fixed_non_receiver?: boolean | undefined | null;
-    fixed_payment_amount?: number | undefined | null;
     name: string;
     non_giver?: boolean | undefined | null;
     non_receiver?: boolean | undefined | null;
@@ -837,7 +835,6 @@ export type ValueTypes = {
     default_opt_in?: boolean | undefined | null;
     discord_webhook?: string | undefined | null;
     fixed_payment_token_type?: string | undefined | null;
-    fixed_payment_vault_id?: number | undefined | null;
     min_vouches?: number | undefined | null;
     name?: string | undefined | null;
     nomination_days_limit?: number | undefined | null;
@@ -1578,7 +1575,6 @@ columns and relationships of "circle_api_keys" */
       ValueTypes['epochs']
     ];
     fixed_payment_token_type?: boolean | `@${string}`;
-    fixed_payment_vault_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     integrations?: [
       {
@@ -1797,7 +1793,6 @@ columns and relationships of "circle_api_keys" */
   };
   /** order by avg() on columns of table "circles" */
   ['circles_avg_order_by']: {
-    fixed_payment_vault_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
@@ -1819,10 +1814,6 @@ columns and relationships of "circle_api_keys" */
     epochs?: ValueTypes['epochs_bool_exp'] | undefined | null;
     fixed_payment_token_type?:
       | ValueTypes['String_comparison_exp']
-      | undefined
-      | null;
-    fixed_payment_vault_id?:
-      | ValueTypes['Int_comparison_exp']
       | undefined
       | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
@@ -1867,7 +1858,6 @@ columns and relationships of "circle_api_keys" */
     created_at?: ValueTypes['order_by'] | undefined | null;
     deleted_at?: ValueTypes['order_by'] | undefined | null;
     fixed_payment_token_type?: ValueTypes['order_by'] | undefined | null;
-    fixed_payment_vault_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     logo?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
@@ -1885,7 +1875,6 @@ columns and relationships of "circle_api_keys" */
     created_at?: ValueTypes['order_by'] | undefined | null;
     deleted_at?: ValueTypes['order_by'] | undefined | null;
     fixed_payment_token_type?: ValueTypes['order_by'] | undefined | null;
-    fixed_payment_vault_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     logo?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
@@ -1923,7 +1912,6 @@ columns and relationships of "circle_api_keys" */
       | undefined
       | null;
     fixed_payment_token_type?: ValueTypes['order_by'] | undefined | null;
-    fixed_payment_vault_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     integrations_aggregate?:
       | ValueTypes['circle_integrations_aggregate_order_by']
@@ -1988,7 +1976,6 @@ columns and relationships of "circle_api_keys" */
   };
   /** order by stddev() on columns of table "circles" */
   ['circles_stddev_order_by']: {
-    fixed_payment_vault_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
@@ -1996,7 +1983,6 @@ columns and relationships of "circle_api_keys" */
   };
   /** order by stddev_pop() on columns of table "circles" */
   ['circles_stddev_pop_order_by']: {
-    fixed_payment_vault_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
@@ -2004,7 +1990,6 @@ columns and relationships of "circle_api_keys" */
   };
   /** order by stddev_samp() on columns of table "circles" */
   ['circles_stddev_samp_order_by']: {
-    fixed_payment_vault_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
@@ -2012,7 +1997,6 @@ columns and relationships of "circle_api_keys" */
   };
   /** order by sum() on columns of table "circles" */
   ['circles_sum_order_by']: {
-    fixed_payment_vault_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
@@ -2020,7 +2004,6 @@ columns and relationships of "circle_api_keys" */
   };
   /** order by var_pop() on columns of table "circles" */
   ['circles_var_pop_order_by']: {
-    fixed_payment_vault_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
@@ -2028,7 +2011,6 @@ columns and relationships of "circle_api_keys" */
   };
   /** order by var_samp() on columns of table "circles" */
   ['circles_var_samp_order_by']: {
-    fixed_payment_vault_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
@@ -2036,7 +2018,6 @@ columns and relationships of "circle_api_keys" */
   };
   /** order by variance() on columns of table "circles" */
   ['circles_variance_order_by']: {
-    fixed_payment_vault_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
@@ -8395,7 +8376,6 @@ columns and relationships of "circle_api_keys" */
     /** An array relationship */
     epochs: Array<GraphQLTypes['epochs']>;
     fixed_payment_token_type?: string | undefined;
-    fixed_payment_vault_id?: number | undefined;
     id: GraphQLTypes['bigint'];
     /** An array relationship */
     integrations: Array<GraphQLTypes['circle_integrations']>;
@@ -10324,7 +10304,6 @@ export type GraphQLTypes = {
     address: string;
     circle_id: number;
     fixed_non_receiver?: boolean | undefined;
-    fixed_payment_amount?: number | undefined;
     name?: string | undefined;
     new_address?: string | undefined;
     non_giver?: boolean | undefined;
@@ -10417,7 +10396,6 @@ export type GraphQLTypes = {
     address: string;
     circle_id: number;
     fixed_non_receiver?: boolean | undefined;
-    fixed_payment_amount?: number | undefined;
     name: string;
     non_giver?: boolean | undefined;
     non_receiver?: boolean | undefined;
@@ -10548,7 +10526,6 @@ export type GraphQLTypes = {
     default_opt_in?: boolean | undefined;
     discord_webhook?: string | undefined;
     fixed_payment_token_type?: string | undefined;
-    fixed_payment_vault_id?: number | undefined;
     min_vouches?: number | undefined;
     name?: string | undefined;
     nomination_days_limit?: number | undefined;
@@ -11199,7 +11176,6 @@ columns and relationships of "circle_api_keys" */
     /** An array relationship */
     epochs: Array<GraphQLTypes['epochs']>;
     fixed_payment_token_type?: string | undefined;
-    fixed_payment_vault_id?: number | undefined;
     id: GraphQLTypes['bigint'];
     /** An array relationship */
     integrations: Array<GraphQLTypes['circle_integrations']>;
@@ -11249,7 +11225,6 @@ columns and relationships of "circle_api_keys" */
   };
   /** order by avg() on columns of table "circles" */
   ['circles_avg_order_by']: {
-    fixed_payment_vault_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
@@ -11272,7 +11247,6 @@ columns and relationships of "circle_api_keys" */
     fixed_payment_token_type?:
       | GraphQLTypes['String_comparison_exp']
       | undefined;
-    fixed_payment_vault_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     integrations?: GraphQLTypes['circle_integrations_bool_exp'] | undefined;
     is_verified?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
@@ -11310,7 +11284,6 @@ columns and relationships of "circle_api_keys" */
     created_at?: GraphQLTypes['order_by'] | undefined;
     deleted_at?: GraphQLTypes['order_by'] | undefined;
     fixed_payment_token_type?: GraphQLTypes['order_by'] | undefined;
-    fixed_payment_vault_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     logo?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
@@ -11328,7 +11301,6 @@ columns and relationships of "circle_api_keys" */
     created_at?: GraphQLTypes['order_by'] | undefined;
     deleted_at?: GraphQLTypes['order_by'] | undefined;
     fixed_payment_token_type?: GraphQLTypes['order_by'] | undefined;
-    fixed_payment_vault_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     logo?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
@@ -11362,7 +11334,6 @@ columns and relationships of "circle_api_keys" */
     deleted_at?: GraphQLTypes['order_by'] | undefined;
     epochs_aggregate?: GraphQLTypes['epochs_aggregate_order_by'] | undefined;
     fixed_payment_token_type?: GraphQLTypes['order_by'] | undefined;
-    fixed_payment_vault_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     integrations_aggregate?:
       | GraphQLTypes['circle_integrations_aggregate_order_by']
@@ -11422,7 +11393,6 @@ columns and relationships of "circle_api_keys" */
   };
   /** order by stddev() on columns of table "circles" */
   ['circles_stddev_order_by']: {
-    fixed_payment_vault_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
@@ -11430,7 +11400,6 @@ columns and relationships of "circle_api_keys" */
   };
   /** order by stddev_pop() on columns of table "circles" */
   ['circles_stddev_pop_order_by']: {
-    fixed_payment_vault_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
@@ -11438,7 +11407,6 @@ columns and relationships of "circle_api_keys" */
   };
   /** order by stddev_samp() on columns of table "circles" */
   ['circles_stddev_samp_order_by']: {
-    fixed_payment_vault_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
@@ -11446,7 +11414,6 @@ columns and relationships of "circle_api_keys" */
   };
   /** order by sum() on columns of table "circles" */
   ['circles_sum_order_by']: {
-    fixed_payment_vault_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
@@ -11454,7 +11421,6 @@ columns and relationships of "circle_api_keys" */
   };
   /** order by var_pop() on columns of table "circles" */
   ['circles_var_pop_order_by']: {
-    fixed_payment_vault_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
@@ -11462,7 +11428,6 @@ columns and relationships of "circle_api_keys" */
   };
   /** order by var_samp() on columns of table "circles" */
   ['circles_var_samp_order_by']: {
-    fixed_payment_vault_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
@@ -11470,7 +11435,6 @@ columns and relationships of "circle_api_keys" */
   };
   /** order by variance() on columns of table "circles" */
   ['circles_variance_order_by']: {
-    fixed_payment_vault_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
@@ -15236,7 +15200,6 @@ export const enum circles_select_column {
   default_opt_in = 'default_opt_in',
   deleted_at = 'deleted_at',
   fixed_payment_token_type = 'fixed_payment_token_type',
-  fixed_payment_vault_id = 'fixed_payment_vault_id',
   id = 'id',
   is_verified = 'is_verified',
   logo = 'logo',
