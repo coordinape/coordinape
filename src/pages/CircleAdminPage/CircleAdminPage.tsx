@@ -32,7 +32,6 @@ import {
 } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { getCircleAvatar } from 'utils/domain';
-import { dirtyValues } from 'utils/formHelpers';
 
 import { AdminIntegrations } from './AdminIntegrations';
 import { getCircleSettings } from './getCircleSettings';
@@ -165,6 +164,7 @@ export const CircleAdminPage = () => {
     isLoading,
     isIdle,
     isError,
+    isRefetching,
     refetch,
     error,
     data: circle,
@@ -175,6 +175,7 @@ export const CircleAdminPage = () => {
       // the query will not be executed untill circleId exists
       enabled: !!circleId,
       initialData,
+      notifyOnChangeProps: ['data'],
     }
   );
   const contracts = useContracts();
@@ -232,7 +233,7 @@ export const CircleAdminPage = () => {
     register,
     setValue,
     watch,
-    formState: { isDirty, dirtyFields },
+    formState: { isDirty },
   } = useForm<CircleAdminFormSchema>({
     resolver: zodResolver(schema),
     mode: 'onChange',
@@ -291,25 +292,25 @@ export const CircleAdminPage = () => {
         await updateCircleLogo(logoData.avatarRaw);
         setLogoData({ ...logoData, avatarRaw: null });
       }
-
-      const circle_name = data.circle_name;
-      const { ...updatedFields } = dirtyValues(dirtyFields, data);
-
-      const payload: Parameters<typeof updateCircle>[0] = {
+      await updateCircle({
         circle_id: circleId,
-        ...updatedFields,
-      };
-
-      if (circle_name) {
-        payload.name = circle_name;
-      }
-      if (dirtyFields['fixed_payment_vault_id']) {
-        payload.fixed_payment_vault_id = data.fixed_payment_vault_id
+        name: data.circle_name,
+        vouching: data.vouching,
+        token_name: data.token_name,
+        min_vouches: data.min_vouches,
+        team_sel_text: data.team_sel_text,
+        nomination_days_limit: data.nomination_days_limit,
+        alloc_text: data.alloc_text,
+        discord_webhook: data.discord_webhook,
+        vouching_text: data.vouching_text,
+        only_giver_vouch: data.only_giver_vouch,
+        team_selection: data.team_selection,
+        auto_opt_out: data.auto_opt_out,
+        fixed_payment_token_type: data.fixed_payment_token_type,
+        fixed_payment_vault_id: data.fixed_payment_vault_id
           ? parseInt(data.fixed_payment_vault_id)
-          : null;
-      }
-
-      await updateCircle(payload);
+          : null,
+      });
 
       refetch();
       showInfo('Saved changes');
@@ -318,7 +319,14 @@ export const CircleAdminPage = () => {
     }
   };
 
-  if (isLoading || isIdle || !circle || !vaultsQuery.data || !orgQuery.data)
+  if (
+    isLoading ||
+    isIdle ||
+    isRefetching ||
+    !circle ||
+    (isFeatureEnabled('vaults') && !vaultsQuery.data) ||
+    !orgQuery.data
+  )
     return <LoadingModal visible />;
   if (isError) {
     if (error instanceof Error) {
@@ -531,20 +539,22 @@ export const CircleAdminPage = () => {
                     Fixed Payment Vault
                   </Text>
                   <Select
-                    {...register('fixed_payment_vault_id')}
-                    onValueChange={value => {
-                      setValue('fixed_payment_vault_id', value, {
-                        shouldDirty: true,
-                      });
-                      setValue(
-                        'fixed_payment_token_type',
-                        value == ''
-                          ? ''
-                          : vaultOptions.find(o => o.value == value)?.label,
-                        { shouldDirty: true }
-                      );
-                    }}
-                    defaultValue={stringifiedVaultId()}
+                    {...(register('fixed_payment_vault_id'),
+                    {
+                      onValueChange: value => {
+                        setValue('fixed_payment_vault_id', value, {
+                          shouldDirty: true,
+                        });
+                        setValue(
+                          'fixed_payment_token_type',
+                          value == ''
+                            ? ''
+                            : vaultOptions.find(o => o.value == value)?.label,
+                          { shouldDirty: true }
+                        );
+                      },
+                      defaultValue: stringifiedVaultId(),
+                    })}
                     options={vaultOptions}
                   />
                 </Box>
