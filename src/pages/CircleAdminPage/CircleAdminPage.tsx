@@ -175,6 +175,10 @@ export const CircleAdminPage = () => {
       // the query will not be executed untill circleId exists
       enabled: !!circleId,
       initialData,
+      //minmize background refetch
+      refetchOnWindowFocus: false,
+
+      staleTime: Infinity,
       notifyOnChangeProps: ['data'],
     }
   );
