@@ -41,7 +41,7 @@ export function DistributionsPage() {
   );
 
   const [formGiftAmount, setFormGiftAmount] = useState<string>('0');
-  const [giftVaultSymbol, setGiftVaultSymbol] = useState<string>('');
+  const [giftVaultId, setGiftVaultId] = useState<string>('');
   const { users: circleUsers, circleId } = useSelectedCircle();
   const { downloadCSV } = useApiAdminCircle(circleId);
 
@@ -144,7 +144,9 @@ export function DistributionsPage() {
   }));
 
   const vaults = circle.organization.vaults || [];
-  const tokenName = circleDist ? circleDist.vault.symbol : giftVaultSymbol;
+  const tokenName = circleDist
+    ? circleDist.vault.symbol
+    : vaults.find(v => v.id.toString() === giftVaultId)?.symbol;
   const startDate = DateTime.fromISO(epoch.start_date);
   const endDate = DateTime.fromISO(epoch.end_date);
 
@@ -199,12 +201,12 @@ export function DistributionsPage() {
             <DistributionForm
               circleDist={circleDist}
               fixedDist={fixedDist}
-              giftVaultSymbol={giftVaultSymbol}
+              giftVaultId={giftVaultId}
               formGiftAmount={formGiftAmount}
               epoch={epoch}
               users={usersWithReceivedAmounts}
               setAmount={setFormGiftAmount}
-              setGiftVaultSymbol={setGiftVaultSymbol}
+              setGiftVaultId={setGiftVaultId}
               vaults={vaults}
               circleUsers={circleUsers}
               refetch={refetch}
