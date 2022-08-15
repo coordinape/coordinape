@@ -3,6 +3,13 @@ import { useState, useMemo, useEffect } from 'react';
 import { isUserAdmin } from 'lib/users';
 import { useQuery } from 'react-query';
 
+import {
+  EXTERNAL_URL_DISCORD,
+  EXTERNAL_URL_GET_STARTED_MEMBER,
+  EXTERNAL_URL_GET_STARTED_TUTORIAL_VIDEO,
+  paths,
+} from '../../routes/paths';
+import HintBanner from '../../ui/HintBanner';
 import { ActionDialog, LoadingModal } from 'components';
 import { Paginator } from 'components/Paginator';
 import { useApeSnackbar, useApiAdminCircle } from 'hooks';
@@ -15,6 +22,8 @@ import {
   Text,
   Flex,
   Link,
+  Box,
+  AppLink,
 } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -122,6 +131,93 @@ export const HistoryPage = () => {
           </Button>
         )}
       </Flex>
+
+      {/* show some help for admins who don't have an epoch yet */}
+
+      {isAdmin &&
+        circle &&
+        !currentEpoch &&
+        pastEpochs.length == 0 &&
+        (!futureEpochs || futureEpochs.length == 0) && (
+          <HintBanner title={'Get started'}>
+            <Text p as="p" css={{ mb: '$md' }}>
+              Yay! You’ve created a new circle. Start adding members, creating
+              and funding a vault, create an epoch and join our discord where
+              we’re always happy to help and keep you updated on whats
+              happening. Check out the{' '}
+              <AppLink to={paths.circleAdmin(circleId)}>Circle Admin</AppLink>{' '}
+              for additional settings.
+            </Text>
+            <Box>
+              <AppLink to={paths.members(circleId)}>
+                <Button
+                  color="primary"
+                  outlined
+                  inline
+                  css={{ mt: '$md', mr: '$md' }}
+                >
+                  Add/Import Members
+                </Button>
+              </AppLink>
+              <Button
+                color="primary"
+                outlined
+                inline
+                css={{ mt: '$md', mr: '$md' }}
+                onClick={() => setNewEpoch(true)}
+                disabled={newEpoch || !!editEpoch}
+              >
+                Start an Epoch
+              </Button>
+              <AppLink to={paths.vaults}>
+                <Button color="primary" outlined inline css={{ mt: '$md' }}>
+                  Create a Vault
+                </Button>
+              </AppLink>
+            </Box>
+          </HintBanner>
+        )}
+      {/* show some help for nonAdmin members who haven't gifted in an epoch */}
+      {!isAdmin &&
+        circle &&
+        pastEpochs.filter(
+          p => p.sentGifts.length > 0 || p.receivedGifts.length > 0
+        ).length == 0 && (
+          <HintBanner title={'Get started'}>
+            <Text p as="p" css={{ mb: '$md' }}>
+              Let your circles know who you are by{' '}
+              <AppLink to={paths.profile('me')}>
+                completing your profile
+              </AppLink>
+              . To learn more about Coordinape, check out our get started guide.{' '}
+              <Link href={EXTERNAL_URL_DISCORD} target="_blank">
+                Join our discord
+              </Link>{' '}
+              where we’re always happy to help and keep you updated on whats
+              happening.
+            </Text>
+            <Box>
+              <Link href={EXTERNAL_URL_GET_STARTED_MEMBER} target="_blank">
+                <Button
+                  color="primary"
+                  outlined
+                  inline
+                  css={{ mt: '$md', mr: '$md' }}
+                >
+                  Get Started Guide
+                </Button>
+              </Link>
+              <Link
+                href={EXTERNAL_URL_GET_STARTED_TUTORIAL_VIDEO}
+                target="_blank"
+              >
+                <Button color="primary" outlined inline css={{ mt: '$md' }}>
+                  Watch Tutorial
+                </Button>
+              </Link>
+            </Box>
+          </HintBanner>
+        )}
       {(editEpoch || newEpoch) && (
         <EpochForm
           circleId={circleId}

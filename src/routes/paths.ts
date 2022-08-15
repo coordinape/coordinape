@@ -15,6 +15,12 @@ export const EXTERNAL_URL_TWITTER = 'https://twitter.com/coordinape';
 export const EXTERNAL_URL_DISCORD = 'https://discord.coordinape.com';
 export const EXTERNAL_URL_GET_STARTED =
   'https://docs.coordinape.com/get-started/get-started';
+export const EXTERNAL_URL_GET_STARTED_MEMBER =
+  'https://docs.coordinape.com/get-started/get-started/new-coordinape-members';
+
+export const EXTERNAL_URL_GET_STARTED_TUTORIAL_VIDEO =
+  'https://www.youtube.com/watch?v=j2ixf0Isuuo';
+
 export const EXTERNAL_URL_LEARN_ABOUT_VAULTS =
   'https://docs.coordinape.com/info/documentation/coordinape-vaults';
 export const EXTERNAL_URL_YEARN_VAULTS = 'https://yearn.finance/vaults';
