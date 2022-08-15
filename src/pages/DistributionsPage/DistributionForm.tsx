@@ -130,13 +130,9 @@ export function DistributionForm({
   const onFixedFormSubmit: SubmitHandler<TDistributionForm> = async (
     value: TDistributionForm
   ) => {
-    console.log('value', value);
-    console.log('epoch', epoch);
-
     assert(epoch?.id && circle);
     setFixedSubmitting(true);
     const vault = findVault({ vaultId: fpToken?.id.toString() });
-    console.log('vault', vault);
 
     assert(vault);
     assert(contracts, 'This network is not supported');
@@ -220,16 +216,8 @@ export function DistributionForm({
     }
   };
 
-  const findVault = ({
-    vaultId,
-    symbol,
-  }: {
-    vaultId?: string | undefined;
-    symbol?: string | undefined;
-  }) => {
-    return circle.organization?.vaults?.find(v =>
-      vaultId ? v.id.toString() === vaultId : v.symbol === symbol
-    );
+  const findVault = ({ vaultId }: { vaultId: string | undefined }) => {
+    return circle.organization?.vaults?.find(v => v.id.toString() === vaultId);
   };
 
   const onSubmit: SubmitHandler<TDistributionForm> = async (
@@ -354,14 +342,14 @@ export function DistributionForm({
       // if switching from combined dist selection to non combined
       // we need to recheck if the fixed payment have sufficient tokens
       if (fpToken?.id.toString() === vaultId)
-        console.log(ethersConstants.Zero.lt(totalFixedPayment));
-      console.log(totalFixedPayment);
-      setSufficientFixPaymentTokens(
-        maxFixedPaymentTokens.gte(totalFixedPayment) &&
-          ethersConstants.Zero.lt(totalFixedPayment)
-      );
+        setSufficientFixPaymentTokens(
+          maxFixedPaymentTokens.gte(totalFixedPayment) &&
+            ethersConstants.Zero.lt(totalFixedPayment)
+        );
     } else {
-      setSufficientFixPaymentTokens(tokenBalance >= totalAmt && totalAmt.gt(0));
+      setSufficientFixPaymentTokens(
+        tokenBalance.gte(totalAmt) && totalAmt.gt(0)
+      );
       setMaxFixedPaymentTokens(tokenBalance);
     }
   };
