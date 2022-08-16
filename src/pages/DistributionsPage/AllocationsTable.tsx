@@ -1,16 +1,19 @@
 import { useCallback, useMemo, useState } from 'react';
 
+import sumBy from 'lodash/sumBy';
+import uniqBy from 'lodash/uniqBy';
+
 import { Paginator } from '../../components/Paginator';
 import { DISTRIBUTION_TYPE } from '../../config/constants';
 import { NewApeAvatar, makeTable } from 'components';
 import { Flex, Text, Panel, Button, Link } from 'ui';
 import { numberWithCommas, shortenAddress } from 'utils';
 
+import type { Gift } from './queries';
 import { EpochDataResult } from './queries';
 
 export const AllocationsTable = ({
   users,
-  deletedUsers,
   totalGive,
   formGiftAmount,
   tokenName,
@@ -33,7 +36,6 @@ export const AllocationsTable = ({
     avatar: string | undefined;
     givers: number;
   }[];
-  deletedUsers: Record<string, number>;
   totalGive: number;
   formGiftAmount: number;
   tokenName: string | undefined;
@@ -61,12 +63,16 @@ export const AllocationsTable = ({
     [totalGive]
   );
 
-  const showDeletedInfo = (deletedUsers: Record<string, number>) => {
-    const num = deletedUsers.numDeletedUsers;
+  const showDeletedInfo = (token_gifts?: Gift[]) => {
+    const deletedGifts = token_gifts?.filter((g: Gift) => !g.recipient);
+    const sumGive = sumBy(deletedGifts, 'tokens');
+    const num = uniqBy(deletedGifts, 'recipient_id').length;
+
+    if (num < 1) return;
     return (
       <Text p as="p" size="medium" css={{ mt: '$sm' }}>
         Note: This epoch included {num} deleted {num > 1 ? 'users' : 'user'} who
-        received {deletedUsers.sumTokens} GIVE.
+        received {sumGive} GIVE.
       </Text>
     );
   };
@@ -194,7 +200,7 @@ export const AllocationsTable = ({
           </tr>
         )}
       </UserTable>
-      {deletedUsers.numDeletedUsers > 0 && showDeletedInfo(deletedUsers)}
+      {showDeletedInfo(epoch.token_gifts)}
       <Flex
         css={{
           justifyContent: 'space-between',

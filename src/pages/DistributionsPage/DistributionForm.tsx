@@ -162,11 +162,6 @@ export function DistributionForm({
       })
     );
 
-    const profileIdsByAddress = mapProfileIdsByAddress(
-      circleUsers,
-      epoch.token_gifts
-    );
-
     // marshall fixed gifts into an object
     const fixedGifts = await fixedGiftsArray.reduce(
       (ret, [userAddress, amount]) => {
@@ -203,7 +198,7 @@ export function DistributionForm({
         vault,
         gifts,
         fixedGifts,
-        profileIdsByAddress,
+        profileIdsByAddress: mapProfileIdsByAddress(circleUsers),
         previousDistribution: await getPreviousDistribution(
           circle.id,
           vault.id
@@ -254,18 +249,13 @@ export function DistributionForm({
       return ret;
     }, {} as Record<string, number>);
 
-    const profileIdsByAddress = mapProfileIdsByAddress(
-      circleUsers,
-      epoch.token_gifts
-    );
-
     try {
       const result = await submitDistribution({
         amount: value.amount.toString(),
         vault,
         gifts,
         fixedGifts: {},
-        profileIdsByAddress,
+        profileIdsByAddress: mapProfileIdsByAddress(circleUsers),
         previousDistribution: await getPreviousDistribution(
           circle.id,
           vault.id

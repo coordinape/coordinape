@@ -97,21 +97,9 @@ export function useSubmitDistribution() {
         prev
       );
 
-      // TODO: remove console
-      // eslint-disable-next-line no-console
-      console.log({ distribution });
-
-      // TODO: remove console
-      // eslint-disable-next-line no-console
-      console.log({ profileIdsByAddress });
-
       const claims: ValueTypes['claims_insert_input'][] = Object.entries(
         distribution.claims
       )
-        //.filter(([address, _]) => {
-        //  // remove claims for deleted users
-        //  profileIdsByAddress[address.toLowerCase()];
-        //})
         .map(([address, claim]) => {
           const amount = fixed(claim.amount).divUnsafe(shifter);
           const new_amount = prev
@@ -129,10 +117,11 @@ export function useSubmitDistribution() {
             proof: claim.proof.toString(),
             profile_id: profileIdsByAddress[address.toLowerCase()],
           };
+        })
+        .filter(({ new_amount }) => {
+          // remove empty claims
+          return new_amount != '0.0';
         });
-
-      // eslint-disable-next-line no-console
-      console.log({ claims });
 
       const response = await saveDistribution({
         // FIXME: we're storing total amounts as fixed numbers & claim amounts

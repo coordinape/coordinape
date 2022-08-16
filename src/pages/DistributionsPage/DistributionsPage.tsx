@@ -22,7 +22,6 @@ import { AllocationsTable } from './AllocationsTable';
 import { DistributionForm } from './DistributionForm';
 import type { Gift } from './queries';
 import { getEpochData } from './queries';
-import { getDeletedStats } from './utils';
 
 export function DistributionsPage() {
   const { epochId } = useParams();
@@ -76,13 +75,12 @@ export function DistributionsPage() {
       </SingleColumnLayout>
     );
 
-  // remove deleted users from token gifts
+  // remove deleted users allocations from token gifts
   const activeUsersTokenGifts =
     epoch.token_gifts?.filter((g: Gift) => g.recipient) || [];
   const totalGive =
     activeUsersTokenGifts.reduce((t, g) => t + g.tokens, 0) || 0;
 
-  //  const totalGive = epoch.token_gifts?.reduce((t, g) => t + g.tokens, 0) || 0;
   assert(epoch.circle);
   const circle = epoch.circle;
   if (!isUserAdmin(circle.users[0])) {
@@ -237,7 +235,6 @@ export function DistributionsPage() {
           <AllocationsTable
             epoch={epoch}
             users={usersWithGiftnFixedAmounts}
-            deletedUsers={getDeletedStats(epoch.token_gifts)}
             tokenName={tokenName}
             totalGive={totalGive}
             formGiftAmount={Number(formGiftAmount)}
