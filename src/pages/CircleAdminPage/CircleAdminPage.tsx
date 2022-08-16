@@ -236,7 +236,7 @@ export const CircleAdminPage = () => {
     handleSubmit,
     register,
     setValue,
-    getValues,
+    watch,
     formState: { isDirty },
   } = useForm<CircleAdminFormSchema>({
     resolver: zodResolver(schema),
@@ -264,6 +264,8 @@ export const CircleAdminPage = () => {
     control,
     defaultValue: undefined,
   });
+
+  const watchFixedPaymentVaultId = watch('fixed_payment_vault_id');
 
   // onChange Logo
   const onChangeLogo = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -326,7 +328,7 @@ export const CircleAdminPage = () => {
     isIdle ||
     isRefetching ||
     !circle ||
-    !vaultsQuery.data ||
+    (isFeatureEnabled('vaults') && !vaultsQuery.data) ||
     !orgQuery.data
   )
     return <LoadingModal visible />;
@@ -567,7 +569,7 @@ export const CircleAdminPage = () => {
                   defaultValue={circle?.fixed_payment_token_type}
                   label="Token name for CSV export"
                   infoTooltip="This will be the token name displayed in exported CSVs"
-                  disabled={!!getValues('fixed_payment_vault_id')}
+                  disabled={!!watchFixedPaymentVaultId}
                   showFieldErrors
                 />
               </Box>

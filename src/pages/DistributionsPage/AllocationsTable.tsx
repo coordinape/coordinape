@@ -139,38 +139,41 @@ export const AllocationsTable = ({
             </td>
             <td>{shortenAddress(user.address)}</td>
             <td>{user.givers}</td>
-            <td>{numberWithCommas(user.received)}</td>
+            <td>{numberWithCommas(user.received, 2)}</td>
             <td>{(givenPercent(user) * 100).toFixed(2)}%</td>
             <td>
               {user.circle_claimed
                 ? `${numberWithCommas(
-                    (circleDist &&
-                    circleDist.distribution_type === DISTRIBUTION_TYPE.COMBINED
+                    circleDist &&
+                      circleDist.distribution_type ===
+                        DISTRIBUTION_TYPE.COMBINED
                       ? user.circle_claimed - user.fixed_payment_amount
-                      : user.circle_claimed
-                    ).toFixed(2)
+                      : user.circle_claimed,
+                    2
                   )} ${tokenName || 'GIVE'}`
                 : `${numberWithCommas(
-                    (givenPercent(user) * formGiftAmount).toFixed(2)
+                    givenPercent(user) * formGiftAmount,
+                    2
                   )} ${tokenName || 'GIVE'}`}
             </td>
             <td>
               {!combinedDist && fixedDist
-                ? numberWithCommas(user.claimed.toFixed(2))
-                : numberWithCommas(user.fixed_payment_amount.toFixed(2))}{' '}
+                ? numberWithCommas(user.claimed, 2)
+                : numberWithCommas(user.fixed_payment_amount, 2)}{' '}
               {fixedTokenName || ''}
             </td>
             {combinedDist ? (
               <td>
                 {(() => {
                   if (circleDist && fixedDist) {
-                    return numberWithCommas(user.combined_claimed.toFixed(2));
+                    return numberWithCommas(user.combined_claimed, 2);
                   }
                   const giftAmt = circleDist
                     ? user.circle_claimed
                     : givenPercent(user) * formGiftAmount;
                   return numberWithCommas(
-                    (giftAmt + user.fixed_payment_amount).toFixed(2)
+                    giftAmt + user.fixed_payment_amount,
+                    2
                   );
                 })()}{' '}
                 {tokenName}

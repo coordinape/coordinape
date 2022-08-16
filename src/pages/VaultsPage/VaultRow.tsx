@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 
 import { BigNumber } from 'ethers';
 import { vault_tx_types_enum } from 'lib/gql/__generated__/zeus';
+import { removeYearnPrefix } from 'lib/vaults';
 import { CSS } from 'stitches.config';
 
 import type { Vault } from 'hooks/gql/useVaults';
@@ -106,7 +107,7 @@ export function VaultRow({ vault, css = {} }: { vault: Vault; css?: CSS }) {
           Current Balance
         </Text>
         <Text font="source" h3>
-          {balance} {vault.symbol?.toUpperCase()}
+          {balance} {removeYearnPrefix(vault.symbol).toUpperCase()}
         </Text>
         <Text font="source" css={{ display: 'block' }}>
           <strong>{distributionCount}</strong> Distribution

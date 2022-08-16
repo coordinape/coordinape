@@ -5,7 +5,7 @@ import { Web3Provider } from '@ethersproject/providers';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createWeb3ReactRoot, useWeb3React } from '@web3-react/core';
 import { ethers } from 'ethers';
-import { getTokenAddress, Contracts } from 'lib/vaults';
+import { getTokenAddress, Contracts, removeYearnPrefix } from 'lib/vaults';
 import round from 'lodash/round';
 import { useForm, useController } from 'react-hook-form';
 import * as z from 'zod';
@@ -104,7 +104,7 @@ export default function DepositModal({
 
   return (
     <Modal
-      title={`Deposit ${vault.symbol?.toUpperCase()}`}
+      title={`Deposit ${removeYearnPrefix(vault.symbol).toUpperCase()}`}
       open={true}
       onClose={onClose}
     >
@@ -127,11 +127,11 @@ export default function DepositModal({
 
         <FormTokenField
           max={max}
-          symbol={vault.symbol as string}
+          symbol={removeYearnPrefix(vault.symbol)}
           decimals={vault.decimals}
           label={`Available: ${numberWithCommas(
             round(max, 4)
-          )} ${vault.symbol?.toUpperCase()}`}
+          )} ${removeYearnPrefix(vault.symbol).toUpperCase()}`}
           error={!!errors.amount}
           errorText={errors.amount?.message}
           {...amountField}
@@ -147,7 +147,7 @@ export default function DepositModal({
         >
           {submitting
             ? 'Depositing Funds...'
-            : `Approve and Deposit ${vault.symbol.toUpperCase()}`}
+            : `Approve and Deposit into ${vault.symbol.toUpperCase()} Vault`}
         </Button>
         <Text
           size="small"

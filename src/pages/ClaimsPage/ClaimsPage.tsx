@@ -2,15 +2,12 @@ import { ApeInfoTooltip, LoadingModal, makeTable } from 'components';
 import { DISTRIBUTION_TYPE } from 'config/constants';
 import { Avatar, Box, Panel, Flex, Text, Button } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
+import { numberWithCommas } from 'utils';
 import { makeExplorerUrl } from 'utils/provider';
 
 import { useClaimsTableData, ClaimsRowData } from './hooks';
 import { QueryClaim } from './queries';
-import {
-  formatDistributionDates,
-  formatClaimAmount,
-  formatAmount,
-} from './utils';
+import { formatDistributionDates, formatClaimAmount } from './utils';
 
 const styles = {
   th: { whiteSpace: 'nowrap', textAlign: 'left' },
@@ -43,7 +40,7 @@ const groupTooltipInfo = (group: QueryClaim[]) => {
     <Flex key={claim.id}>
       Epoch {claim.distribution.epoch.number} -{' '}
       {displayDistributionType(claim.distribution.distribution_type)}:{' '}
-      {formatAmount(claim.new_amount)}
+      {numberWithCommas(claim.new_amount)}
     </Flex>
   ));
   return <Box>{detailsList}</Box>;

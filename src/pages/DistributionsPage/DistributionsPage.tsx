@@ -36,8 +36,11 @@ export function DistributionsPage() {
     refetch,
   } = useQuery(
     ['distributions', epochId],
-    () => getEpochData(Number(epochId), address, contracts),
-    { enabled: !!(contracts && address), retry: false }
+    () => getEpochData(Number.parseInt(epochId || '0'), address, contracts),
+    {
+      enabled: !!(contracts && address),
+      retry: false,
+    }
   );
 
   const [formGiftAmount, setFormGiftAmount] = useState<string>('0');

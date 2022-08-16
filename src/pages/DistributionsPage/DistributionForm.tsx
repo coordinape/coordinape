@@ -370,7 +370,7 @@ export function DistributionForm({
                 {...(register('selectedVaultId'),
                 {
                   defaultValue: circleDist
-                    ? circleDist.vault.symbol
+                    ? circleDist.vault.id
                     : vaults[0]
                     ? vaults[0].id.toString()
                     : '',

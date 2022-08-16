@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { removeYearnPrefix } from 'lib/vaults';
 import round from 'lodash/round';
 import { useForm, useController } from 'react-hook-form';
 import * as z from 'zod';
@@ -72,11 +73,11 @@ export default function WithdrawModal({
       >
         <FormTokenField
           max={balance.toString()}
-          symbol={vault.symbol}
+          symbol={removeYearnPrefix(vault.symbol)}
           decimals={vault.decimals}
           label={`Available to Withdraw: ${numberWithCommas(
             round(balance, 4)
-          )} ${vault.symbol?.toUpperCase()}`}
+          )} ${removeYearnPrefix(vault.symbol).toUpperCase()}`}
           error={!!errors.amount}
           errorText={errors.amount?.message}
           {...amountField}
@@ -91,7 +92,7 @@ export default function WithdrawModal({
         >
           {submitting
             ? 'Withdrawing Funds...'
-            : `Withdraw ${vault.symbol.toUpperCase()}`}
+            : `Withdraw from ${vault.symbol.toUpperCase()} Vault`}
         </Button>
       </Form>
     </Modal>

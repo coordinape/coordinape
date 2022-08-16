@@ -1,6 +1,6 @@
 import assert from 'assert';
 
-import { BigNumber, FixedNumber } from 'ethers';
+import { BigNumber, FixedNumber, constants as etherConstants } from 'ethers';
 import { parseUnits, isAddress } from 'ethers/lib/utils';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 
@@ -79,4 +79,26 @@ export const getUnwrappedAmount = (
     );
 
   return result.toUnsafeFloat();
+};
+
+const yearnPrefix = 'Yearn - ';
+
+const addYearnPrefix = (symbol: string) => {
+  if (symbol.includes(yearnPrefix)) return symbol;
+  return yearnPrefix + symbol;
+};
+
+export const removeYearnPrefix = (symbol: string) => {
+  if (symbol.includes(yearnPrefix)) return symbol.substring(yearnPrefix.length);
+  return symbol;
+};
+
+export const getDisplayTokenString = (vault: {
+  symbol: string;
+  simple_token_address: string;
+}): string => {
+  if (vault.simple_token_address === etherConstants.AddressZero) {
+    vault.symbol = addYearnPrefix(vault.symbol);
+  }
+  return vault.symbol;
 };
