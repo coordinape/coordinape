@@ -268,7 +268,7 @@ export const updateCircleInput = z
       .max(200)
       .transform(s => (s === 'Disabled' ? null : s))
       .optional(),
-    fixed_payment_vault_id: z.number().positive().nullable(),
+    fixed_payment_vault_id: z.number().positive().nullable().optional(),
   })
   .strict();
 
