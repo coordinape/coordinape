@@ -75,11 +75,9 @@ export function DistributionsPage() {
       </SingleColumnLayout>
     );
 
-  // remove deleted users allocations from token gifts
-  const activeUsersTokenGifts =
-    epoch.token_gifts?.filter((g: Gift) => g.recipient) || [];
-  const totalGive =
-    activeUsersTokenGifts.reduce((t, g) => t + g.tokens, 0) || 0;
+  // remove deleted users' (where recipient doesn't exist) allocations from token gifts
+  const gifts = epoch.token_gifts?.filter((g: Gift) => g.recipient) || [];
+  const totalGive = gifts.reduce((t, g) => t + g.tokens, 0) || 0;
 
   assert(epoch.circle);
   const circle = epoch.circle;
@@ -153,7 +151,7 @@ export function DistributionsPage() {
     });
 
   const usersWithReceivedAmounts = uniqBy(
-    activeUsersTokenGifts.map((g: Gift) => g.recipient),
+    gifts.map(g => g.recipient),
     'id'
   ).map(user => ({
     ...user,
