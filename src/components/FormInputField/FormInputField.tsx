@@ -72,7 +72,6 @@ export const FormInputField = <TFieldValues extends FieldValues>(
         gap: '$xs',
         ...css,
       }}
-      // disabled={disabled}
     >
       {(label || infoTooltip) && (
         <FormLabel type="label" css={{ fontWeight: '$bold' }} htmlFor={id}>
