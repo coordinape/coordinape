@@ -94,6 +94,9 @@ export function DistributionForm({
   const { handleSubmit, control, register, setValue } =
     useForm<TDistributionForm>({
       resolver: zodResolver(DistributionFormSchema),
+      defaultValues: {
+        selectedVaultId: vaults[0] ? vaults[0].id.toString() : undefined,
+      },
     });
 
   const { field: amountField, fieldState: amountFieldState } = useController({
@@ -117,7 +120,7 @@ export function DistributionForm({
         'gift'
       );
     } else if (vaults[0] && !giftVaultId) {
-      setGiftVaultId(String(vaults[0].id));
+      setGiftVaultId(vaults[0].id.toString());
       updateBalanceState(vaults[0].id.toString(), formGiftAmount, 'gift');
     }
   }, [vaults]);
@@ -368,8 +371,8 @@ export function DistributionForm({
                 {
                   defaultValue: circleDist
                     ? circleDist.vault.symbol
-                    : fpToken
-                    ? fpToken.id.toString()
+                    : vaults[0]
+                    ? vaults[0].id.toString()
                     : '',
                   label: 'CoVault',
                   disabled:
