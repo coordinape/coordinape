@@ -297,7 +297,7 @@ export const updateAllocationsInput = z.object({
 });
 
 export const updateAllocationsApiInput = updateAllocationsInput.extend({
-  user_id: z.number().int().positive(),
+  user_id: z.number().int().positive().optional(),
 });
 
 export const allocationCsvInput = z

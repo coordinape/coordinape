@@ -40,8 +40,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   // Since both api-users and users can call this action, we have different
   // handlers for fetching the target user
   if (sessionVariables.hasuraRole === 'api-user') {
-    // technically zod already validated this but TS needs explicit narrowing here
-    assert('user_id' in input, 'user_id not specified');
+    assert(input.user_id, 'user_id not specified');
     if (circle_id !== sessionVariables.hasuraCircleId) {
       return errorResponseWithStatusCode(
         res,
