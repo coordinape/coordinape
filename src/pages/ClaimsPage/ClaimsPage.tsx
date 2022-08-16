@@ -30,7 +30,7 @@ const displayDistributionType = (
   } else if (type == DISTRIBUTION_TYPE['FIXED']) {
     return 'Fixed Payment';
   } else if (type == DISTRIBUTION_TYPE['COMBINED']) {
-    return 'Gift Circle + Fixed Payment';
+    return 'Gift + Fixed';
   } else {
     return 'Unknown';
   }
@@ -40,7 +40,7 @@ const groupTooltipInfo = (group: QueryClaim[]) => {
     <Flex key={claim.id}>
       Epoch {claim.distribution.epoch.number} -{' '}
       {displayDistributionType(claim.distribution.distribution_type)}:{' '}
-      {numberWithCommas(claim.new_amount)}
+      {numberWithCommas(claim.new_amount, 2)}
     </Flex>
   ));
   return <Box>{detailsList}</Box>;
