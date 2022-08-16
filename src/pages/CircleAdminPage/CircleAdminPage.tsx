@@ -559,7 +559,6 @@ export const CircleAdminPage = () => {
                     id="fixed_payment_vault_id"
                     options={vaultOptions}
                     label="Fixed Payment Vault"
-                    disabled={true}
                   />
                 </Box>
                 <FormInputField
