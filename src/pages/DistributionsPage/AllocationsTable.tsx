@@ -162,7 +162,10 @@ export const AllocationsTable = ({
                       : user.circle_claimed,
                     2
                   )} ${tokenName || 'GIVE'}`
-                : `${numberWithCommas(givenPercent(user.received) * formGiftAmount, 2)} ${tokenName || 'GIVE'}`}
+                : `${numberWithCommas(
+                    givenPercent(user.received) * formGiftAmount,
+                    2
+                  )} ${tokenName || 'GIVE'}`}
             </td>
             <td>
               {!combinedDist && fixedDist
