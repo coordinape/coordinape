@@ -62,10 +62,11 @@ export const AllocationsTable = ({
   );
 
   const showDeletedInfo = (deletedUsers: Record<string, number>) => {
+    const num = deletedUsers.numDeletedUsers;
     return (
-      <Text as="p">
-        Note: This epoch included {deletedUsers.numDeletedUsers} deleted users
-        who received {deletedUsers.sumTokens} GIVE.
+      <Text p as="p" size="medium" css={{ mt: '$sm' }}>
+        Note: This epoch included {num} deleted {num > 1 ? 'users' : 'user'} who
+        received {deletedUsers.sumTokens} GIVE.
       </Text>
     );
   };
@@ -200,13 +201,15 @@ export const AllocationsTable = ({
           mt: '$lg',
         }}
       >
-        <Link
-          css={{ color: '$primary' }}
-          target="_blank"
-          href="https://docs.coordinape.com/get-started/compensation/paying-your-team"
-        >
-          Documentation: Paying Your Team
-        </Link>
+        <Text p as="p" size="medium" css={{ mt: '$sm' }}>
+          <Link
+            css={{ color: '$primary' }}
+            target="_blank"
+            href="https://docs.coordinape.com/get-started/compensation/paying-your-team"
+          >
+            Documentation: Paying Your Team
+          </Link>
+        </Text>
         <Paginator pages={totalPages} current={page} onSelect={setPage} />
       </Flex>
     </Panel>
