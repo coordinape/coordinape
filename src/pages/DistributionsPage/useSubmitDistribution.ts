@@ -118,10 +118,8 @@ export function useSubmitDistribution() {
             profile_id: profileIdsByAddress[address.toLowerCase()],
           };
         })
-        .filter(({ new_amount }) => {
-          // remove empty claims
-          return new_amount != '0.0';
-        });
+        // remove empty claims
+        .filter(({ new_amount }) => new_amount != '0.0');
 
       const response = await saveDistribution({
         // FIXME: we're storing total amounts as fixed numbers & claim amounts
