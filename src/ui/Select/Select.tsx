@@ -28,6 +28,11 @@ const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
   backgroundColor: '$surface',
   color: '$text',
   '&:hover': { cursor: 'pointer' },
+  '&:disabled': {
+    cursor: 'pointer',
+    pointerEvents: 'none',
+    opacity: 0.3,
+  },
 });
 
 const StyledContent = styled(SelectPrimitive.Content, {
@@ -134,7 +139,6 @@ export const Select = (
         gap: '$xs',
         ...css,
       }}
-      disabled={disabled}
     >
       {(label || infoTooltip) && (
         <FormLabel type="label" css={{ fontWeight: '$bold' }} htmlFor={id}>

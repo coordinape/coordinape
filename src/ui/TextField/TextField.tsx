@@ -10,6 +10,9 @@ export const TextField = styled('input', {
   '&:focus': {
     borderColor: '$borderMedium',
   },
+  '&:disabled': {
+    opacity: 0.3,
+  },
   '&::placeholder': {
     color: '$secondaryText',
   },
