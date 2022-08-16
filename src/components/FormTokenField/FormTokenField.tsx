@@ -50,7 +50,7 @@ export const FormTokenField = React.forwardRef((props: Props, ref) => {
     // only accept floating point inputs
     const matches = e.target.value.match(/\d*\.?\d*/);
     if (matches == null || e.target.value.length === 0) {
-      onChange('0');
+      onChange('');
       return;
     }
     const nextValue = matches[0];
