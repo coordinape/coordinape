@@ -10,6 +10,7 @@ export enum EConnectorNames {
   Injected = 'injected',
   WalletConnect = 'walletconnect',
   WalletLink = 'walletlink',
+  SafeAppConnector = 'safeappconnector',
 }
 
 export const MAX_BIO_LENGTH = 1200;
@@ -29,6 +30,7 @@ export const WALLET_ICONS: { [key in EConnectorNames]: typeof MetaMaskSVG } = {
   [EConnectorNames.Injected]: MetaMaskSVG,
   [EConnectorNames.WalletConnect]: WalletConnectSVG,
   [EConnectorNames.WalletLink]: CoinbaseSVG,
+  [EConnectorNames.SafeAppConnector]: CoinbaseSVG,
 };
 
 export const SKILLS = [

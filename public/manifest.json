@@ -1,11 +1,13 @@
 {
   "short_name": "Coordinape",
-  "name": "YFI-Coordinape",
+  "name": "Coordinape App",
+  "description": "Coordinape | Decentralizing Compensation",
+  "iconPath": "imgs/logo/logo.svg",
   "icons": [
     {
-      "src": "svgs/logo/logo.svg",
+      "src": "imgs/logo/favicon.png",
       "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/svg"
+      "type": "image/x-icon"
     },
     {
       "src": "imgs/logo/logo232.png",

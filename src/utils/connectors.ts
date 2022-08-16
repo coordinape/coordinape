@@ -7,6 +7,8 @@ import { supportedChainIds } from 'lib/vaults';
 import { EConnectorNames } from 'config/constants';
 import { INFURA_PROJECT_ID } from 'config/env';
 
+import { SafeAppConnector } from './safeAppConnector';
+
 export const MAINNET_RPC_URL = `https://mainnet.infura.io/v3/${INFURA_PROJECT_ID}`;
 export const GOERLI_RPC_URL = `https://goerli.infura.io/v3/${INFURA_PROJECT_ID}`;
 
@@ -30,8 +32,11 @@ const walletlink = new WalletLinkConnector({
   appName: 'Coordinape',
 });
 
+const safeMultisigConnector = new SafeAppConnector();
+
 export const connectors: { [key in EConnectorNames]: AbstractConnector } = {
   [EConnectorNames.Injected]: injected,
   [EConnectorNames.WalletConnect]: makeWalletConnectConnector(),
   [EConnectorNames.WalletLink]: walletlink,
+  [EConnectorNames.SafeAppConnector]: safeMultisigConnector,
 };

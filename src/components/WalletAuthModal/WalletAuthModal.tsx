@@ -17,6 +17,7 @@ import { useApeSnackbar } from 'hooks';
 import { useWalletAuth } from 'recoilState/app';
 import { connectors } from 'utils/connectors';
 import { AUTO_OPEN_WALLET_DIALOG_PARAMS } from 'utils/domain';
+import { isGnosisApp } from 'utils/iframe';
 
 // TODO: why does this error?
 // import { EConnectorNames } from 'types';
@@ -24,6 +25,7 @@ enum EConnectorNames {
   Injected = 'injected',
   WalletConnect = 'walletconnect',
   WalletLink = 'walletlink',
+  SafeAppConnector = 'safeappconnector',
 }
 
 const useStyles = makeStyles(() => ({
@@ -61,6 +63,8 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
         ? 'Opening QR for Wallet Connect'
         : connectorName === EConnectorNames.WalletLink
         ? 'Opening QR for Coinbase Wallet'
+        : connectorName === EConnectorNames.SafeAppConnector
+        ? 'Waiting for Approval on Gnosis Safe'
         : 'Connecting to wallet'
     );
 
@@ -103,7 +107,9 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
   };
 
   useEffect(() => {
-    if (
+    if (isGnosisApp()) {
+      activate(EConnectorNames.SafeAppConnector);
+    } else if (
       // safe to refer to window here because we are in useEffect -g
       window.location.search === AUTO_OPEN_WALLET_DIALOG_PARAMS ||
       walletAuth.connectorName
