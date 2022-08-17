@@ -47,6 +47,15 @@ test('can render a valid token amount', () => {
   fireEvent.change(input, { target: { value: '.12' } });
   expect(input.value).toBe('.12');
 });
+test('can handle totally invalid input without throwing', () => {
+  act(() => {
+    render(<MockTokenPage />);
+  });
+  const input: HTMLInputElement = screen.getByTestId('FormTokenField');
+  fireEvent.change(input, { target: { value: 'abcdefg' } });
+
+  expect(input.value).toBe('');
+});
 test('can remove invalid characters', () => {
   act(() => {
     render(<MockTokenPage />);
