@@ -67,7 +67,7 @@ context('Coordinape', () => {
     cy.visit(`/circles/${circleId}/history`);
     cy.contains('a', 'Review / Export', { timeout: 120000 }).click();
     cy.get('input[type=text]:last', { timeout: 90000 }).click().type('4500');
-    cy.contains('button', 'Submit Yearn - USDC Vault Distribution').click();
+    cy.contains('button', 'Submit Yearn USDC Vault Distribution').click();
     cy.contains('Submitting', { timeout: 120000 });
     cy.contains('Please sign the transaction', { timeout: 120000 });
     cy.contains('Transaction completed', { timeout: 120000 });
