@@ -655,7 +655,7 @@ const Summary = ({
 };
 
 const renderCombinedSum = (giftAmt: string, fixedAmt: string) =>
-  formatUnits(parseUnits(giftAmt || '0').add(parseUnits(fixedAmt || '0')));
+  formatUnits(parseUnits(giftAmt || '0').add(parseUnits(fixedAmt)));
 
 const EtherscanButton = ({
   distribution,
