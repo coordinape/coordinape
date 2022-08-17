@@ -12,7 +12,7 @@ import {
   ApeDistributor,
   ApeRouter,
   COToken,
-  ApeVaultFactoryBeacon,
+  ApeVaultFactory,
   ApeVaultWrapperImplementation,
   ERC20,
   RegistryAPI,
@@ -206,7 +206,7 @@ describe('Test tap function of ApeVault', () => {
   let coToken: COToken;
   let apeRouter: ApeRouter;
   let apeDistributor: ApeDistributor;
-  let apeVaultFactory: ApeVaultFactoryBeacon;
+  let apeVaultFactory: ApeVaultFactory;
   let vault: ApeVaultWrapperImplementation;
   let user0: Account;
   let distributor: Account;
