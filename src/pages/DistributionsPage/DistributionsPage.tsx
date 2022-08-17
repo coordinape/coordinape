@@ -75,7 +75,10 @@ export function DistributionsPage() {
       </SingleColumnLayout>
     );
 
-  const totalGive = epoch.token_gifts?.reduce((t, g) => t + g.tokens, 0) || 0;
+  // remove deleted users' (where recipient doesn't exist) allocations from token gifts
+  const gifts = epoch.token_gifts?.filter((g: Gift) => g.recipient) || [];
+  const totalGive = gifts.reduce((t, g) => t + g.tokens, 0) || 0;
+
   assert(epoch.circle);
   const circle = epoch.circle;
   if (!isUserAdmin(circle.users[0])) {
@@ -120,12 +123,12 @@ export function DistributionsPage() {
         (fixedDist &&
           fixedDist.claims.some(c => c.profile?.id === u.profile?.id)) ||
         (circle.fixed_payment_token_type && u.fixed_payment_amount) ||
-        epoch.token_gifts?.some(g => g.recipient.id === u.id && g.tokens > 0)
+        epoch.token_gifts?.some(g => g.recipient?.id === u.id && g.tokens > 0)
       );
     })
     .map(user => {
       const receivedGifts = epoch.token_gifts?.filter(
-        g => g.recipient.id === user.id
+        g => g.recipient_id === user.id
       );
       const claimed = unwrappedAmount(user.profile?.id, fixedDist);
       const circle_claimed = unwrappedAmount(user.profile?.id, circleDist);
@@ -148,13 +151,13 @@ export function DistributionsPage() {
     });
 
   const usersWithReceivedAmounts = uniqBy(
-    epoch.token_gifts?.map((g: Gift) => g.recipient),
+    gifts.map(g => g.recipient),
     'id'
   ).map(user => ({
     ...user,
     received:
       epoch.token_gifts
-        ?.filter(g => g.recipient.id === user.id)
+        ?.filter(g => g.recipient?.id === user?.id)
         .reduce((t, g) => t + g.tokens, 0) || 0,
   }));
 

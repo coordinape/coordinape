@@ -26,6 +26,7 @@ import { makeExplorerUrl } from 'utils/provider';
 import { getPreviousDistribution } from './queries';
 import type { EpochDataResult, Gift } from './queries';
 import { useSubmitDistribution } from './useSubmitDistribution';
+import { mapProfileIdsByAddress } from './utils';
 
 const headerStyle = {
   fontWeight: '$bold',
@@ -183,10 +184,6 @@ export function DistributionForm({
       });
     }
 
-    const profileIdsByAddress = circleUsers.reduce((ret, user) => {
-      if (user.profile) ret[user.address.toLowerCase()] = user.profile.id;
-      return ret;
-    }, {} as Record<string, number>);
     try {
       const result = await submitDistribution({
         amount:
@@ -201,7 +198,7 @@ export function DistributionForm({
         vault,
         gifts,
         fixedGifts,
-        profileIdsByAddress,
+        profileIdsByAddress: mapProfileIdsByAddress(circleUsers),
         previousDistribution: await getPreviousDistribution(
           circle.id,
           vault.id
@@ -252,18 +249,13 @@ export function DistributionForm({
       return ret;
     }, {} as Record<string, number>);
 
-    const profileIdsByAddress = circleUsers.reduce((ret, user) => {
-      if (user.profile) ret[user.address.toLowerCase()] = user.profile.id;
-      return ret;
-    }, {} as Record<string, number>);
-
     try {
       const result = await submitDistribution({
         amount: value.amount.toString(),
         vault,
         gifts,
         fixedGifts: {},
-        profileIdsByAddress,
+        profileIdsByAddress: mapProfileIdsByAddress(circleUsers),
         previousDistribution: await getPreviousDistribution(
           circle.id,
           vault.id
@@ -665,7 +657,7 @@ const Summary = ({
 };
 
 const renderCombinedSum = (giftAmt: string, fixedAmt: string) =>
-  formatUnits(parseUnits(giftAmt).add(parseUnits(fixedAmt)));
+  formatUnits(parseUnits(giftAmt || '0').add(parseUnits(fixedAmt)));
 
 const EtherscanButton = ({
   distribution,
