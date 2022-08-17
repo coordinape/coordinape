@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { formatRelative, parseISO } from 'date-fns';
 import { BigNumber, constants as ethersConstants } from 'ethers';
 import { parseUnits, formatUnits } from 'ethers/lib/utils';
-import { getWrappedAmount } from 'lib/vaults';
+import { getWrappedAmount, removeYearnPrefix } from 'lib/vaults';
 import { useForm, SubmitHandler, useController } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -114,6 +114,7 @@ export function DistributionForm({
 
   useEffect(() => {
     if (circleDist) {
+      setGiftVaultId(circleDist.vault.id.toString());
       updateBalanceState(
         circleDist.vault.id.toString(),
         circleDist.gift_amount.toString(),
@@ -130,9 +131,7 @@ export function DistributionForm({
       updateBalanceState(fpToken.id.toString(), totalFixedPayment, 'fixed');
   }, [fixedPaymentTokenType, totalFixedPayment]);
 
-  const onFixedFormSubmit: SubmitHandler<TDistributionForm> = async (
-    value: TDistributionForm
-  ) => {
+  const onFixedFormSubmit: SubmitHandler<TDistributionForm> = async () => {
     assert(epoch?.id && circle);
     setFixedSubmitting(true);
     const vault = findVault({ vaultId: fpToken?.id.toString() });
@@ -211,7 +210,7 @@ export function DistributionForm({
       if (!result) return;
 
       refetch();
-      updateBalanceState(value.selectedVaultId, totalFixedPayment, 'fixed');
+      updateBalanceState(vault.id, totalFixedPayment, 'fixed');
     } catch (e) {
       showError(e);
       console.error('DistributionsPage.onSubmit:', e);
@@ -264,7 +263,7 @@ export function DistributionForm({
       if (!result) return;
 
       refetch();
-      updateBalanceState(value.selectedVaultId, value.amount, 'gift');
+      updateBalanceState(vault.id, value.amount, 'gift');
     } catch (e) {
       showError(e);
       console.error('DistributionsPage.onSubmit:', e);
@@ -360,7 +359,10 @@ export function DistributionForm({
   return (
     <TwoColumnLayout>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Panel css={{ padding: '$md', minHeight: '147px', mb: '$lg' }}>
+        <Panel
+          invertForm
+          css={{ padding: '$md', minHeight: '147px', mb: '$lg' }}
+        >
           <Text h2 css={headerStyle}>
             Gift Circle
           </Text>
@@ -370,7 +372,7 @@ export function DistributionForm({
                 {...(register('selectedVaultId'),
                 {
                   defaultValue: circleDist
-                    ? circleDist.vault.id
+                    ? circleDist.vault.id.toString()
                     : vaults[0]
                     ? vaults[0].id.toString()
                     : '',
@@ -397,7 +399,9 @@ export function DistributionForm({
             <Box css={{ width: '100%' }}>
               <FormTokenField
                 {...amountField}
-                symbol={findVault({ vaultId: giftVaultId })?.symbol || ''}
+                symbol={removeYearnPrefix(
+                  findVault({ vaultId: giftVaultId })?.symbol || ''
+                )}
                 decimals={getDecimals({
                   distribution: circleDist,
                   vaultId: giftVaultId,
@@ -433,7 +437,9 @@ export function DistributionForm({
                       vaultId: giftVaultId,
                     })
                   )
-                )} ${findVault({ vaultId: giftVaultId })?.symbol}`}
+                )} ${removeYearnPrefix(
+                  findVault({ vaultId: giftVaultId })?.symbol || ''
+                )}`}
                 onChange={value => {
                   amountField.onChange(value);
                   setAmount(value);
@@ -482,7 +488,10 @@ export function DistributionForm({
       </form>
 
       <form onSubmit={handleSubmit(onFixedFormSubmit)}>
-        <Panel css={{ padding: '$md', minHeight: '147px', mb: '$lg' }}>
+        <Panel
+          invertForm
+          css={{ padding: '$md', minHeight: '147px', mb: '$lg' }}
+        >
           <Flex>
             <Text h2 css={{ ...headerStyle, flexGrow: 1 }}>
               Fixed Payments
@@ -519,7 +528,7 @@ export function DistributionForm({
                     {
                       defaultValue: fpToken
                         ? fixedDist
-                          ? fixedDist.vault.id
+                          ? fixedDist.vault.id.toString()
                           : fpToken.id.toString()
                         : '',
                       disabled: true,
@@ -543,8 +552,8 @@ export function DistributionForm({
                     symbol={
                       fpToken
                         ? fixedDist
-                          ? fixedDist.vault.symbol
-                          : fpToken.symbol
+                          ? removeYearnPrefix(fixedDist.vault.symbol)
+                          : removeYearnPrefix(fpToken.symbol)
                         : ''
                     }
                     decimals={getDecimals({
@@ -582,7 +591,7 @@ export function DistributionForm({
                           vaultId: fpToken?.id.toString(),
                         })
                       )
-                    )} ${fpToken?.symbol}`}
+                    )} ${removeYearnPrefix(fpToken?.symbol || '')}`}
                     onChange={() => {}}
                     apeSize="small"
                   />

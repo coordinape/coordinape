@@ -159,9 +159,19 @@ export function DistributionsPage() {
   }));
 
   const vaults = circle.organization.vaults || [];
+  const giftVault = vaults.find(v => v.id.toString() === giftVaultId);
+  const fixedVault = vaults.find(v => v.id === circle.fixed_payment_vault_id);
   const tokenName = circleDist
-    ? circleDist.vault.symbol
-    : vaults.find(v => v.id.toString() === giftVaultId)?.symbol;
+    ? getDisplayTokenString(circleDist.vault)
+    : giftVault
+    ? getDisplayTokenString(giftVault)
+    : '';
+  const fixedTokenName = fixedDist
+    ? getDisplayTokenString(fixedDist.vault)
+    : fixedVault
+    ? getDisplayTokenString(fixedVault)
+    : '';
+
   const startDate = DateTime.fromISO(epoch.start_date);
   const endDate = DateTime.fromISO(epoch.end_date);
 
@@ -233,11 +243,7 @@ export function DistributionsPage() {
             tokenName={tokenName}
             totalGive={totalGive}
             formGiftAmount={Number(formGiftAmount)}
-            fixedTokenName={
-              fixedDist
-                ? fixedDist.vault.symbol
-                : circle.fixed_payment_token_type
-            }
+            fixedTokenName={fixedTokenName}
             giveTokenName={circle.token_name}
             downloadCSV={downloadCSV}
             circleDist={circleDist}
