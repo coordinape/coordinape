@@ -37,6 +37,7 @@ const mockEpochData = {
   circle: {
     name: mockEpoch.circle.name,
     users: [{ role: 1 }],
+    fixed_payment_vault_id: 2,
     fixed_payment_token_type: 'USDC',
     organization: {
       vaults: [
