@@ -2,14 +2,14 @@ import deploymentInfo from '@coordinape/hardhat/dist/deploymentInfo.json';
 import type {
   ApeDistributor,
   ApeRouter,
-  ApeVaultFactoryBeacon,
+  ApeVaultFactory,
   ApeVaultWrapperImplementation,
   ERC20,
 } from '@coordinape/hardhat/dist/typechain';
 import {
   ApeDistributor__factory,
   ApeRouter__factory,
-  ApeVaultFactoryBeacon__factory,
+  ApeVaultFactory__factory,
   ApeVaultWrapperImplementation__factory,
   ERC20__factory,
   VaultAPI__factory,
@@ -19,23 +19,19 @@ import type { JsonRpcProvider } from '@ethersproject/providers';
 export type {
   ApeDistributor,
   ApeRouter,
-  ApeVaultFactoryBeacon,
+  ApeVaultFactory,
   ApeVaultWrapperImplementation,
   ERC20,
 } from '@coordinape/hardhat/dist/typechain';
 
-const requiredContracts = [
-  'ApeVaultFactoryBeacon',
-  'ApeRouter',
-  'ApeDistributor',
-];
+const requiredContracts = ['ApeVaultFactory', 'ApeRouter', 'ApeDistributor'];
 
 export const supportedChainIds: string[] = Object.entries(deploymentInfo)
   .filter(([, contracts]) => requiredContracts.every(c => c in contracts))
   .map(x => x[0].toString());
 
 export class ContractsReadonly {
-  vaultFactory: ApeVaultFactoryBeacon;
+  vaultFactory: ApeVaultFactory;
   router: ApeRouter;
   distributor: ApeDistributor;
   chainId: string;
@@ -49,8 +45,8 @@ export class ContractsReadonly {
     if (!info) {
       throw new Error(`No info for chain ${chainId}`);
     }
-    this.vaultFactory = ApeVaultFactoryBeacon__factory.connect(
-      info.ApeVaultFactoryBeacon.address,
+    this.vaultFactory = ApeVaultFactory__factory.connect(
+      info.ApeVaultFactory.address,
       this.provider
     );
     this.router = ApeRouter__factory.connect(

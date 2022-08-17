@@ -16,29 +16,6 @@
             "address": "0x0bc529c00C6401aEF6D220BE8C6Ea1667F6Ad93e"
         }
     },
-    "4": {
-        "ApeDistributor": {
-            "address": "0xda8009f5d1878374413f30f75e62f9d39f1fc85c"
-        },
-        "ApeRegistry": {
-            "address": "0x5f0bef0b990be50dee23016301901a32a4c2586a"
-        },
-        "ApeRouter": {
-            "address": "0xba8021b809d33d26c36d6a217472c4d688720c43"
-        },
-        "ApeToken": {
-            "address": "0xd981074B61e5D5CDB8Be88f43120085C18de0326"
-        },
-        "ApeVaultFactory": {
-            "address": "0x9ecbf8c2907632dd82432cff1c1e41e68808e87d"
-        },
-        "FeeRegistry": {
-            "address": "0xdb327c42d74e03f12edb6a74309f3fcccb06712b"
-        },
-        "WETH": {
-            "address": "0xc778417e063141139fce010982780140aa0cd5ab"
-        }
-    },
     "5": {
         "ApeDistributor": {
             "address": "0x185102B7a92903096834ce3abd5C19143d483956"
@@ -46,13 +23,10 @@
         "ApeRegistry": {
             "address": "0x5befC0CE74b05bbE0baC374391834e9441C3B89B"
         },
-        "ApeRegistryBeacon": {
-            "address": "0x174229cf0ce2ADFA37C0231aCcA61323ab6f4be2"
-        },
         "ApeRouter": {
             "address": "0x3b6607bd2c67C130D579290d82d6d55a875F2dD0"
         },
-        "ApeVaultFactoryBeacon": {
+        "ApeVaultFactory": {
             "address": "0xf30F46e7e07A7424B0d560Ed7553bf8ac0E20459"
         },
         "ApeVaultWrapperImplementation": {
@@ -75,6 +49,9 @@
         },
         "USDC": {
             "address": "0xC478a48520005bF9C97b145dE2D8DD2b54Ba4abC"
+        },
+        "VaultBeacon": {
+            "address": "0x174229cf0ce2ADFA37C0231aCcA61323ab6f4be2"
         }
     },
     "1337": {
@@ -84,13 +61,10 @@
         "ApeRegistry": {
             "address": "0x4A679253410272dd5232B3Ff7cF5dbB88f295319"
         },
-        "ApeRegistryBeacon": {
-            "address": "0xa85233C63b9Ee964Add6F2cffe00Fd84eb32338f"
-        },
         "ApeRouter": {
             "address": "0x09635F643e140090A9A8Dcd712eD6285858ceBef"
         },
-        "ApeVaultFactoryBeacon": {
+        "ApeVaultFactory": {
             "address": "0x7a2088a1bFc9d81c55368AE168C2C02570cB814F"
         },
         "ApeVaultWrapperImplementation": {
@@ -119,6 +93,9 @@
         },
         "USDT": {
             "address": "0x9A9f2CCfdE556A7E9Ff0848998Aa4a0CFD8863AE"
+        },
+        "VaultBeacon": {
+            "address": "0xa85233C63b9Ee964Add6F2cffe00Fd84eb32338f"
         },
         "WETH": {
             "address": "0xc6e7DF5E7b4f2A278906862b61205850344D4e7d"
@@ -158,13 +135,10 @@
         "ApeRegistry": {
             "address": "0x36b58F5C1969B7b6591D752ea6F5486D069010AB"
         },
-        "ApeRegistryBeacon": {
-            "address": "0x51A1ceB83B83F1985a81C295d1fF28Afef186E02"
-        },
         "ApeRouter": {
             "address": "0x0355B7B8cb128fA5692729Ab3AAa199C1753f726"
         },
-        "ApeVaultFactoryBeacon": {
+        "ApeVaultFactory": {
             "address": "0x8198f5d8F8CfFE8f9C413d98a0A55aEB8ab9FbB7"
         },
         "ApeVaultWrapperImplementation": {
@@ -175,6 +149,9 @@
         },
         "FeeRegistry": {
             "address": "0xf4B146FbA71F41E0592668ffbF264F1D186b2Ca8"
+        },
+        "VaultBeacon": {
+            "address": "0x51A1ceB83B83F1985a81C295d1fF28Afef186E02"
         }
     }
 }

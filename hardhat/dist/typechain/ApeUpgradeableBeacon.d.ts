@@ -19,7 +19,7 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
-interface ApeUgradeableBeaconInterface extends ethers.utils.Interface {
+interface ApeUpgradeableBeaconInterface extends ethers.utils.Interface {
   functions: {
     "cancel(bytes32)": FunctionFragment;
     "changeMinDelay(uint256)": FunctionFragment;
@@ -130,7 +130,7 @@ interface ApeUgradeableBeaconInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "Upgraded"): EventFragment;
 }
 
-export class ApeUgradeableBeacon extends BaseContract {
+export class ApeUpgradeableBeacon extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -171,7 +171,7 @@ export class ApeUgradeableBeacon extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: ApeUgradeableBeaconInterface;
+  interface: ApeUpgradeableBeaconInterface;
 
   functions: {
     cancel(

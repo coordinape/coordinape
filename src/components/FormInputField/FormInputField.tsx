@@ -72,7 +72,6 @@ export const FormInputField = <TFieldValues extends FieldValues>(
         gap: '$xs',
         ...css,
       }}
-      disabled={disabled}
     >
       {(label || infoTooltip) && (
         <FormLabel type="label" css={{ fontWeight: '$bold' }} htmlFor={id}>
@@ -96,6 +95,7 @@ export const FormInputField = <TFieldValues extends FieldValues>(
           ref={field.ref}
           id={id}
           error={!!fieldState.error}
+          disabled={disabled}
         ></TextField>
       )}
       {textArea && (
@@ -110,6 +110,7 @@ export const FormInputField = <TFieldValues extends FieldValues>(
           id={id}
           {...areaProps}
           error={!!fieldState.error}
+          disabled={disabled}
         />
       )}
       {showFieldErrors && fieldState.error && (

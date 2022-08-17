@@ -97,17 +97,9 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.TokenAccessControl__factory>;
     getContractFactory(
-      name: "ApeBeacon",
+      name: "ApeUpgradeableBeacon",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ApeBeacon__factory>;
-    getContractFactory(
-      name: "ApeRegistryBeacon",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ApeRegistryBeacon__factory>;
-    getContractFactory(
-      name: "ApeUgradeableBeacon",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ApeUgradeableBeacon__factory>;
+    ): Promise<Contracts.ApeUpgradeableBeacon__factory>;
     getContractFactory(
       name: "ApeVaultWrapperImplementation",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -117,9 +109,9 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.OwnableImplementation__factory>;
     getContractFactory(
-      name: "ApeVaultFactoryBeacon",
+      name: "ApeVaultFactory",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ApeVaultFactoryBeacon__factory>;
+    ): Promise<Contracts.ApeVaultFactory__factory>;
     getContractFactory(
       name: "BaseWrapperImplementation",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -148,6 +140,14 @@ declare module "hardhat/types/runtime" {
       name: "ApeVaultWrapperImplementation3",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ApeVaultWrapperImplementation3__factory>;
+    getContractFactory(
+      name: "VaultBeacon",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.VaultBeacon__factory>;
+    getContractFactory(
+      name: "VaultProxy",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.VaultProxy__factory>;
     getContractFactory(
       name: "IApeVault",
       signerOrOptions?: ethers.Signer | FactoryOptions
