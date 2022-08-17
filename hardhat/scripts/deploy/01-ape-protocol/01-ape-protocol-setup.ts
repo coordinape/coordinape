@@ -3,7 +3,6 @@ import { ethers } from 'hardhat';
 import { DeployFunction } from 'hardhat-deploy/types';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
-
 import { ApeRegistry, ApeRegistry__factory } from '../../../typechain';
 
 const log = debug('coordinape:setup');
@@ -107,7 +106,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await hre.getNamedAccounts();
   const useProxy = !hre.network.live;
   const signer = await ethers.getSigner(deployer);
-  const [ treasury ] = await ethers.getSigners();
+  const [treasury] = await ethers.getSigners();
 
   const apeRegistry = ApeRegistry__factory.connect(
     (await hre.deployments.get('ApeRegistry')).address,
@@ -117,7 +116,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const apeFee = await hre.deployments.get('FeeRegistry');
   const apeRouter = await hre.deployments.get('ApeRouter');
   const apeDistributor = await hre.deployments.get('ApeDistributor');
-  const apeVaultFactory = await hre.deployments.get('ApeVaultFactoryBeacon');
+  const apeVaultFactory = await hre.deployments.get('ApeVaultFactory');
 
   await setFeeRegistry(apeRegistry, apeFee.address);
   await setTreasury(apeRegistry, treasury.address);
