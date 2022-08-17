@@ -445,6 +445,7 @@ export const CircleAdminPage = () => {
             </Box>
             <Flex
               css={{
+                flexWrap: 'wrap',
                 mt: '$lg',
                 gap: '$2xl',
               }}
