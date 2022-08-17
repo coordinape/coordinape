@@ -1,7 +1,7 @@
 import { USDC_ADDRESS } from '../../../constants';
 import {
   COToken,
-  ApeVaultFactoryBeacon,
+  ApeVaultFactory,
   ApeVaultWrapperImplementation,
   ApeVaultWrapperImplementation__factory,
 } from '../../../typechain';
@@ -9,7 +9,7 @@ import { Account } from '../account';
 
 export async function createApeVault(
   coToken: COToken,
-  apeVaultFactory: ApeVaultFactoryBeacon,
+  apeVaultFactory: ApeVaultFactory,
   from: Account
 ): Promise<ApeVaultWrapperImplementation> {
   apeVaultFactory.connect(from.signer);

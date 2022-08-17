@@ -2,13 +2,16 @@ import {
   CheckIcon,
   ChevronDownIcon,
   ChevronUpIcon,
+  InfoCircledIcon,
 } from '@radix-ui/react-icons';
 import * as SelectPrimitive from '@radix-ui/react-select';
 import { SelectProps } from '@radix-ui/react-select';
 import type * as Stitches from '@stitches/react';
 import { styled } from '@stitches/react';
+import type { CSS } from 'stitches.config';
 
 import { modifyVariantsForStory } from '../type-utils';
+import { Flex, FormLabel, Tooltip } from 'ui';
 
 const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
   all: 'unset',
@@ -25,6 +28,11 @@ const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
   backgroundColor: '$surface',
   color: '$text',
   '&:hover': { cursor: 'pointer' },
+  '&:disabled': {
+    cursor: 'pointer',
+    pointerEvents: 'none',
+    opacity: 0.3,
+  },
 });
 
 const StyledContent = styled(SelectPrimitive.Content, {
@@ -48,12 +56,6 @@ const StyledItem = styled(SelectPrimitive.Item, {
   padding: '$sm $lg',
   position: 'relative',
   userSelect: 'none',
-
-  '&[data-disabled]': {
-    color: '$surface',
-    pointerEvents: 'none',
-  },
-
   '&:focus': {
     backgroundColor: '$text',
     color: '$white',
@@ -110,41 +112,73 @@ export type SelectOption = {
 
 export const Select = (
   props: SelectProps & {
+    id?: string;
     options: SelectOption[];
     placeholder?: string;
+    disabled?: boolean;
+    css?: CSS;
+    label?: React.ReactNode;
+    infoTooltip?: React.ReactNode;
   }
 ) => {
-  const { defaultValue, options, placeholder } = props;
+  const {
+    id,
+    css,
+    defaultValue,
+    options,
+    placeholder,
+    disabled,
+    label,
+    infoTooltip,
+  } = props;
 
   return (
-    <RadixSelect defaultValue={defaultValue} {...props}>
-      <SelectTrigger>
-        <SelectValue placeholder={placeholder} />
-        <SelectIcon>
-          <ChevronDownIcon color="#b8bdbf" />
-        </SelectIcon>
-      </SelectTrigger>
-      <SelectContent>
-        <SelectScrollUpButton>
-          <ChevronUpIcon color="#b8bdbf" />
-        </SelectScrollUpButton>
-        <SelectViewport>
-          <SelectGroup>
-            {options.map(({ value, label }) => (
-              <SelectItem value={String(value)} key={value}>
-                <SelectItemText>{label}</SelectItemText>
-                <SelectItemIndicator>
-                  <CheckIcon />
-                </SelectItemIndicator>
-              </SelectItem>
-            ))}
-          </SelectGroup>
-        </SelectViewport>
-        <SelectScrollDownButton>
-          <ChevronDownIcon />
-        </SelectScrollDownButton>
-      </SelectContent>
-    </RadixSelect>
+    <Flex
+      column
+      css={{
+        gap: '$xs',
+        ...css,
+      }}
+    >
+      {(label || infoTooltip) && (
+        <FormLabel type="label" css={{ fontWeight: '$bold' }} htmlFor={id}>
+          {label}{' '}
+          {infoTooltip && (
+            <Tooltip content={<div>{infoTooltip}</div>}>
+              <InfoCircledIcon />
+            </Tooltip>
+          )}
+        </FormLabel>
+      )}
+      <RadixSelect defaultValue={defaultValue} {...props}>
+        <SelectTrigger disabled={disabled}>
+          <SelectValue placeholder={placeholder} />
+          <SelectIcon>
+            <ChevronDownIcon color="#b8bdbf" />
+          </SelectIcon>
+        </SelectTrigger>
+        <SelectContent>
+          <SelectScrollUpButton>
+            <ChevronUpIcon color="#b8bdbf" />
+          </SelectScrollUpButton>
+          <SelectViewport>
+            <SelectGroup id={id}>
+              {options.map(({ value, label }) => (
+                <SelectItem value={String(value)} key={value}>
+                  <SelectItemText>{label}</SelectItemText>
+                  <SelectItemIndicator>
+                    <CheckIcon />
+                  </SelectItemIndicator>
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectViewport>
+          <SelectScrollDownButton>
+            <ChevronDownIcon />
+          </SelectScrollDownButton>
+        </SelectContent>
+      </RadixSelect>
+    </Flex>
   );
 };
 

@@ -19,7 +19,7 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
-interface ApeRegistryBeaconInterface extends ethers.utils.Interface {
+interface VaultBeaconInterface extends ethers.utils.Interface {
   functions: {
     "cancel(bytes32)": FunctionFragment;
     "changeMinDelay(uint256)": FunctionFragment;
@@ -172,7 +172,7 @@ interface ApeRegistryBeaconInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
 }
 
-export class ApeRegistryBeacon extends BaseContract {
+export class VaultBeacon extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -213,7 +213,7 @@ export class ApeRegistryBeacon extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: ApeRegistryBeaconInterface;
+  interface: VaultBeaconInterface;
 
   functions: {
     cancel(

@@ -19,7 +19,7 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
-interface ApeVaultFactoryBeaconInterface extends ethers.utils.Interface {
+interface ApeVaultFactoryInterface extends ethers.utils.Interface {
   functions: {
     "apeRegistry()": FunctionFragment;
     "beacon()": FunctionFragment;
@@ -71,7 +71,7 @@ interface ApeVaultFactoryBeaconInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "VaultCreated"): EventFragment;
 }
 
-export class ApeVaultFactoryBeacon extends BaseContract {
+export class ApeVaultFactory extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -112,7 +112,7 @@ export class ApeVaultFactoryBeacon extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: ApeVaultFactoryBeaconInterface;
+  interface: ApeVaultFactoryInterface;
 
   functions: {
     apeRegistry(overrides?: CallOverrides): Promise<[string]>;

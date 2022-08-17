@@ -19,8 +19,8 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     args: [],
     log: true,
   });
-  const apeRegistryBeacon = await deploy('ApeRegistryBeacon', {
-    contract: 'ApeRegistryBeacon',
+  const vaultBeacon = await deploy('VaultBeacon', {
+    contract: 'VaultBeacon',
     from: deployer,
     args: [implementation.address, 0],
     log: true,
@@ -31,10 +31,10 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     args: [deployer, 0],
     log: true,
   });
-  const apeVaultFactory = await deploy('ApeVaultFactoryBeacon', {
-    contract: 'ApeVaultFactoryBeacon',
+  const apeVaultFactory = await deploy('ApeVaultFactory', {
+    contract: 'ApeVaultFactory',
     from: deployer,
-    args: [yRegistry, apeRegistry.address, apeRegistryBeacon.address],
+    args: [yRegistry, apeRegistry.address, vaultBeacon.address],
     log: true,
   });
   await deploy('ApeRouter', {

@@ -19,7 +19,7 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
-interface ApeBeaconInterface extends ethers.utils.Interface {
+interface VaultProxyInterface extends ethers.utils.Interface {
   functions: {
     "proxyOwner()": FunctionFragment;
     "setBeaconDeploymentPrefs(uint256)": FunctionFragment;
@@ -62,7 +62,7 @@ interface ApeBeaconInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "Upgraded"): EventFragment;
 }
 
-export class ApeBeacon extends BaseContract {
+export class VaultProxy extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -103,7 +103,7 @@ export class ApeBeacon extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: ApeBeaconInterface;
+  interface: VaultProxyInterface;
 
   functions: {
     proxyOwner(

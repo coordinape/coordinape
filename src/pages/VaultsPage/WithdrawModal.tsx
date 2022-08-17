@@ -92,7 +92,7 @@ export default function WithdrawModal({
         >
           {submitting
             ? 'Withdrawing Funds...'
-            : `Withdraw from ${vault.symbol.toUpperCase()} Vault`}
+            : `Withdraw from ${vault.symbol} Vault`}
         </Button>
       </Form>
     </Modal>

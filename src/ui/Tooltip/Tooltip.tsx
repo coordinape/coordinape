@@ -34,7 +34,7 @@ const HoverCardContent = styled(HoverCardPrimitive.Content, {
 });
 
 const TooltipTrigger = styled(HoverCardPrimitive.Trigger, {
-  lineHeight: '$none',
+  lineHeight: '0',
   '&:hover': {
     color: 'Black',
   },

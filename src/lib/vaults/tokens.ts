@@ -81,17 +81,13 @@ export const getUnwrappedAmount = (
   return result.toUnsafeFloat();
 };
 
-const yearnPrefix = 'Yearn - ';
+const yearnPrefix = 'Yearn ';
 
-const addYearnPrefix = (symbol: string) => {
-  if (symbol.includes(yearnPrefix)) return symbol;
-  return yearnPrefix + symbol;
-};
+const addYearnPrefix = (symbol: string) =>
+  symbol.includes(yearnPrefix) ? symbol : yearnPrefix + symbol;
 
-export const removeYearnPrefix = (symbol: string) => {
-  if (symbol.includes(yearnPrefix)) return symbol.substring(yearnPrefix.length);
-  return symbol;
-};
+export const removeYearnPrefix = (symbol: string) =>
+  symbol.includes(yearnPrefix) ? symbol.substring(yearnPrefix.length) : symbol;
 
 export const getDisplayTokenString = (vault: {
   symbol: string;

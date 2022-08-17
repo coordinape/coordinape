@@ -147,7 +147,7 @@ export default function DepositModal({
         >
           {submitting
             ? 'Depositing Funds...'
-            : `Approve and Deposit into ${vault.symbol.toUpperCase()} Vault`}
+            : `Approve and Deposit into ${vault.symbol} Vault`}
         </Button>
         <Text
           size="small"
