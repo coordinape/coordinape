@@ -455,7 +455,8 @@ export function DistributionForm({
                       distribution: circleDist,
                       symbol: giftVaultSymbol,
                     })
-                  )
+                  ),
+                  2
                 )} ${removeYearnPrefix(giftVaultSymbol)}`}
                 onChange={value => {
                   amountField.onChange(value);
@@ -592,7 +593,8 @@ export function DistributionForm({
                           distribution: circleDist,
                           symbol: giftVaultSymbol,
                         })
-                      )
+                      ),
+                      2
                     )} ${removeYearnPrefix(fpTokenSymbol || '')}`}
                     onChange={() => {}}
                     apeSize="small"
