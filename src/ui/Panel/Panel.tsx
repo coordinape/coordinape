@@ -29,6 +29,19 @@ export const Panel = styled('div', {
         border: 'none',
       },
     },
+    invertForm: {
+      true: {
+        'input, textarea, button[role="radio"], button[role="combobox"], button[role="checkbox"]':
+          {
+            background: 'white',
+            '&:disabled': {
+              borderColor: '$borderMedium',
+              background: 'transparent',
+              opacity: 1,
+            },
+          },
+      },
+    },
     info: {
       true: {
         backgroundColor: '$info',

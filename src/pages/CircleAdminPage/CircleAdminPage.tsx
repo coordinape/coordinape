@@ -539,9 +539,6 @@ export const CircleAdminPage = () => {
                 }}
               >
                 <Box>
-                  <Text variant="label" as="label" css={{ mb: '$xs' }}>
-                    Fixed Payment Vault
-                  </Text>
                   <Select
                     {...(register('fixed_payment_vault_id'),
                     {
@@ -559,7 +556,9 @@ export const CircleAdminPage = () => {
                       },
                       defaultValue: stringifiedVaultId(),
                     })}
+                    id="fixed_payment_vault_id"
                     options={vaultOptions}
+                    label="Fixed Payment Vault"
                   />
                 </Box>
                 <FormInputField
