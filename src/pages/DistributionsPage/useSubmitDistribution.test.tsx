@@ -122,6 +122,7 @@ test('submit distribution', async () => {
           circleId: 2,
           profileIdsByAddress,
           epochId: 2,
+          description: `Submit Distribution for Test Circle: Epoch 2`,
           fixedAmount: '0',
           giftAmount: '100',
           type: 1,
@@ -216,6 +217,7 @@ test('previous distribution', async () => {
           circleId: 2,
           profileIdsByAddress,
           epochId: 2,
+          description: `Submit Distribution for Test Circle Epoch 2`,
           gifts,
           fixedGifts,
           previousDistribution: {
