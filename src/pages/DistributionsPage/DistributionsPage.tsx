@@ -2,6 +2,7 @@ import assert from 'assert';
 import React, { useState } from 'react';
 
 import { isUserAdmin } from 'lib/users';
+import { getDisplayTokenString } from 'lib/vaults/tokens';
 import uniqBy from 'lodash/uniqBy';
 import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
@@ -40,6 +41,17 @@ export function DistributionsPage() {
     {
       enabled: !!(contracts && address),
       retry: false,
+      select: d => {
+        if (d.circle)
+          d.circle.organization.vaults = d.circle?.organization.vaults.map(
+            v => {
+              v.symbol = getDisplayTokenString(v);
+
+              return v;
+            }
+          );
+        return d;
+      },
     }
   );
 

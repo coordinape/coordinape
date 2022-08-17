@@ -563,7 +563,7 @@ export function DistributionForm({
                     max={formatUnits(
                       maxFixedPaymentTokens,
                       getDecimals({
-                        distribution: circleDist,
+                        distribution: fixedDist,
                         vaultId: fpToken?.id.toString(),
                       })
                     )}
@@ -578,7 +578,7 @@ export function DistributionForm({
                       formatUnits(
                         maxFixedPaymentTokens,
                         getDecimals({
-                          distribution: circleDist,
+                          distribution: fixedDist,
                           vaultId: fpToken?.id.toString(),
                         })
                       )
