@@ -50,8 +50,6 @@ const useFormSetup = (
     )
     .refine(
       async ({ symbol, customAddress }) => {
-        console.log(symbol, customAddress, existingVaults); // eslint-disable-line
-
         if (symbol && existingVaults?.some(v => v.symbol === symbol))
           return false;
 
