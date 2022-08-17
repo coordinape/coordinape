@@ -99,24 +99,27 @@ export function useSubmitDistribution() {
 
       const claims: ValueTypes['claims_insert_input'][] = Object.entries(
         distribution.claims
-      ).map(([address, claim]) => {
-        const amount = fixed(claim.amount).divUnsafe(shifter);
-        const new_amount = prev
-          ? fixed(claim.amount)
-              .subUnsafe(fixed(prev.claims[address]?.amount || '0'))
-              .divUnsafe(shifter)
-              .toString()
-          : amount.toString();
+      )
+        .map(([address, claim]) => {
+          const amount = fixed(claim.amount).divUnsafe(shifter);
+          const new_amount = prev
+            ? fixed(claim.amount)
+                .subUnsafe(fixed(prev.claims[address]?.amount || '0'))
+                .divUnsafe(shifter)
+                .toString()
+            : amount.toString();
 
-        return {
-          address: address.toLowerCase(),
-          index: claim.index,
-          amount: amount.toString(),
-          new_amount: new_amount.toString(),
-          proof: claim.proof.toString(),
-          profile_id: profileIdsByAddress[address.toLowerCase()],
-        };
-      });
+          return {
+            address: address.toLowerCase(),
+            index: claim.index,
+            amount: amount.toString(),
+            new_amount: new_amount.toString(),
+            proof: claim.proof.toString(),
+            profile_id: profileIdsByAddress[address.toLowerCase()],
+          };
+        })
+        // remove empty claims
+        .filter(({ new_amount }) => new_amount != '0.0');
 
       const response = await saveDistribution({
         // FIXME: we're storing total amounts as fixed numbers & claim amounts

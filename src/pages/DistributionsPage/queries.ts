@@ -51,6 +51,8 @@ export const getEpochData = async (
           token_gifts: [
             { where: { tokens: { _gt: 0 } } },
             {
+              recipient_address: true,
+              recipient_id: true,
               recipient: {
                 id: true,
                 name: true,
