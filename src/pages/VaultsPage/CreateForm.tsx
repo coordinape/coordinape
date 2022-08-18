@@ -1,9 +1,10 @@
-import { MouseEvent, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { MouseEvent, useState, useEffect } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ethers } from 'ethers';
 import { Asset } from 'lib/vaults';
-import type { Contracts } from 'lib/vaults';
+import type { Contracts, getTokenAddress } from 'lib/vaults';
 import isEmpty from 'lodash/isEmpty';
 import { useController, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
@@ -12,7 +13,8 @@ import { z } from 'zod';
 import type { Vault } from 'hooks/gql/useVaults';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultFactory } from 'hooks/useVaultFactory';
-import { Box, Button, Form, Text, TextField } from 'ui';
+import { Increase } from 'icons/__generated';
+import { Box, Button, Form, HR, Link, Panel, Text, TextField } from 'ui';
 
 const useFormSetup = (
   contracts: Contracts | undefined,
@@ -85,8 +87,9 @@ export const CreateForm = ({
   existingVaults?: Vault[];
 }) => {
   const contracts = useContracts();
+  const coVaults = ['DAI', 'USDC'];
   const { createVault } = useVaultFactory(orgId);
-  const [asset, setAsset] = useState<Asset | undefined>();
+  const [asset, setAsset] = useState<string | undefined>();
   const [customSymbol, setCustomSymbol] = useState<string | undefined>();
   const [saving, setSavingLocal] = useState(false);
 
@@ -106,6 +109,11 @@ export const CreateForm = ({
     control,
   });
 
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log(contracts?.getAvailableTokens());
+  }, [contracts?.getAvailableTokens()]);
+
   if (!contracts)
     return (
       <Text
@@ -121,9 +129,13 @@ export const CreateForm = ({
       </Text>
     );
 
-  const pickAsset = (symbol: Asset | undefined, event?: MouseEvent) => {
+  const pickAsset = (
+    symbol: Asset | undefined,
+    vaultType: string,
+    event?: MouseEvent
+  ) => {
     if (event) event.preventDefault();
-    setAsset(symbol);
+    setAsset(symbol + vaultType);
     onChange({ target: { value: symbol } });
     onBlur();
 
@@ -155,60 +167,98 @@ export const CreateForm = ({
     <Form
       onSubmit={handleSubmit(onSubmit)}
       css={{
-        width: '100%',
-        alignItems: 'center',
         display: 'flex',
         flexDirection: 'column',
       }}
     >
-      <Text font="source" size="large" semibold css={{ mb: '$sm' }}>
-        Select an Asset
-      </Text>
-      <Text font="source" size="medium" css={{ mb: '$sm' }}>
-        CoVaults allow you to fund your circles with the asset of your choice.
-      </Text>
-      <Text font="source" size="medium" css={{ display: 'block' }}>
-        Choose a token below to create a CoVault that uses{' '}
-        <a href="https://docs.yearn.finance/">Yearn Vaults</a> to earn yield:
-      </Text>
-      <Box css={{ display: 'flex', gap: '$sm', my: '$lg' }}>
-        {contracts.getAvailableTokens().map(symbol => (
+      <Panel invertForm css={{ gap: '$md' }}>
+        <Text h3>CoVault</Text>
+        <Text p as="p">
+          CoVaults allows you to fund your circles with any ERC-20 token as your
+          asset.
+        </Text>
+        <Box css={{ display: 'flex', gap: '$sm' }}>
+          {contracts.getAvailableTokens().map(symbol => (
+            <AssetButton
+              pill
+              color="surface"
+              role="radio"
+              key={symbol}
+              data-selected={`${symbol}simple` === asset}
+              onClick={event => pickAsset(symbol, 'simple', event)}
+            >
+              <img
+                src={`/imgs/tokens/${symbol.toLowerCase()}.png`}
+                alt={symbol}
+                height={25}
+                width={25}
+                style={{ paddingRight: 0 }}
+              />
+              <Text css={{ ml: '$xs' }}>{symbol}</Text>
+            </AssetButton>
+          ))}
           <AssetButton
-            key={symbol}
-            data-selected={symbol === asset}
-            onClick={event => pickAsset(symbol, event)}
+            pill
+            color="surface"
+            role="radio"
+            key={'Other'}
+            // data-selected={'Other' === asset}
+            // onClick={event => pickAsset('Other', event)}
           >
-            <img
-              src={`/imgs/tokens/${symbol.toLowerCase()}.png`}
-              alt={symbol}
-              height={25}
-              width={25}
-              style={{ paddingRight: 0 }}
-            />
-            <Text css={{ ml: '$xs' }}>{symbol}</Text>
+            <Increase size="lg" color="neutral" />
+            <Text css={{ ml: '$xs' }}>{'Other ERC-20 Token'}</Text>
           </AssetButton>
-        ))}
-      </Box>
-      <Text font="source" size="medium" css={{ mb: '$md' }}>
-        Or create a CoVault with any ERC-20 token:
-      </Text>
-      <Text variant="label" css={{ width: '100%', mb: '$xs' }}>
-        Token contract address
-        {customSymbol && (
-          <span>
-            &nbsp;-{' '}
-            <Text inline bold>
-              {customSymbol}
-            </Text>
-          </span>
-        )}
-      </Text>
-      <TextField
-        onFocus={() => pickAsset(undefined)}
-        placeholder="0x0000..."
-        css={{ width: '100%' }}
-        {...customAddressField}
-      />
+        </Box>
+        <Box>
+          <Text variant="label" css={{ width: '100%', mb: '$xs' }}>
+            Token contract address
+            {customSymbol && (
+              <span>
+                &nbsp;-{' '}
+                <Text inline bold>
+                  {customSymbol}
+                </Text>
+              </span>
+            )}
+          </Text>
+          <TextField
+            onFocus={() => pickAsset(undefined, 'simple')}
+            placeholder="0x0000..."
+            css={{ width: '100%' }}
+            {...customAddressField}
+          />
+        </Box>
+      </Panel>
+      <HR />
+      <Panel nested css={{ gap: '$md' }}>
+        <Text h3>Yearn Vault</Text>
+        <Text p as="p">
+          Select one of the below tokens to create a CoVault that uses{'  '}
+          <Link href="https://docs.yearn.finance/">Yearn Vaults</Link> to earn
+          yield.
+        </Text>
+        <Box css={{ display: 'flex', gap: '$sm' }}>
+          {contracts.getAvailableTokens().map(symbol => (
+            <AssetButton
+              pill
+              color="surface"
+              role="radio"
+              key={symbol}
+              data-selected={`${symbol}yearn` === asset}
+              onClick={event => pickAsset(symbol, 'yearn', event)}
+            >
+              <img
+                src={`/imgs/tokens/${symbol.toLowerCase()}.png`}
+                alt={symbol}
+                height={25}
+                width={25}
+                style={{ paddingRight: 0 }}
+              />
+              <Text css={{ ml: '$xs' }}>Yearn {symbol}</Text>
+            </AssetButton>
+          ))}
+        </Box>
+      </Panel>
       <Button
         color="primary"
         outlined
@@ -232,10 +282,6 @@ const AssetButton = styled(Button, {
   pl: '$sm',
   pr: '$md',
   height: '37px',
-  // have to use !important because otherwise styles from the default button
-  // variants take precedence
-  borderRadius: '20px !important',
-  backgroundColor: '$surface !important',
   '&:hover, &[data-selected=true]': {
     backgroundColor: '$secondaryText !important',
     '> span': { color: 'white !important' },

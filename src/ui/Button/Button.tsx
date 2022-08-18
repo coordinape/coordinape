@@ -172,6 +172,11 @@ export const Button = styled('button', {
         display: 'inline',
       },
     },
+    pill: {
+      true: {
+        borderRadius: '$pill',
+      },
+    },
   },
   compoundVariants: [
     {

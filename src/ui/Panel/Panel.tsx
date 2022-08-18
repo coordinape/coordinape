@@ -33,7 +33,7 @@ export const Panel = styled('div', {
       true: {
         'input, textarea, button[role="radio"], button[role="combobox"], button[role="checkbox"]':
           {
-            background: 'white',
+            backgroundColor: 'white',
             '&:disabled': {
               borderColor: '$borderMedium',
               background: 'transparent',
