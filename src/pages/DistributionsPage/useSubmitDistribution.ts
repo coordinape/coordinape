@@ -134,8 +134,8 @@ export function useSubmitDistribution() {
         claims: { data: claims },
         vault_id: Number(vault.id),
         distribution_json: distribution,
-        fixed_amount: Number(FixedNumber.from(fixedAmount, 'fixed128x18')),
-        gift_amount: Number(FixedNumber.from(giftAmount, 'fixed128x18')),
+        fixed_amount: fixedAmount,
+        gift_amount: giftAmount,
         distribution_type: type,
       });
 

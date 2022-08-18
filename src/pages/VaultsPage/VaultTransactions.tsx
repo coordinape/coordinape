@@ -76,13 +76,12 @@ export async function getOnchainVaultTransactions(vault: VaultAndTransactions) {
   return txs;
 }
 
-//TODO Get unwrapped value of amounts
 interface RawTransaction {
   block: number;
   date: string;
   type: string;
   details: string;
-  amount: BigNumber;
+  amount: BigNumber | number;
   hash: string;
 }
 async function getDepositEvents(
@@ -256,9 +255,7 @@ async function getDistributionEvents(
         block: event.blockNumber,
         type: 'Distribution',
         circle: txDetails.distribution?.epoch?.circle?.name || 'unknown',
-        amount: BigNumber.from(distribution.fixed_amount || 0).add(
-          BigNumber.from(distribution.gift_amount || 0)
-        ),
+        amount: distribution.fixed_amount + distribution.gift_amount,
         details: `Distribution for Epoch ${epoch.number}`,
         date: DateTime.fromSeconds(block.timestamp).toFormat('DD'),
         hash: event.transactionHash,

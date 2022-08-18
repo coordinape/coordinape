@@ -171,9 +171,7 @@ export function DistributionForm({
       {} as Record<string, BigNumber>
     );
     const type =
-      isCombinedDistribution() &&
-      !circleDist &&
-      BigNumber.from(formGiftAmount).gt(0)
+      isCombinedDistribution() && !circleDist && Number(formGiftAmount) > 0
         ? DISTRIBUTION_TYPE.COMBINED
         : DISTRIBUTION_TYPE.FIXED;
     const gifts = {} as Record<string, number>;
