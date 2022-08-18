@@ -47,10 +47,10 @@ export const FormTokenField = React.forwardRef((props: Props, ref) => {
   } = props;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // only accept floating point inputs
+    // only accept decimal or whole number inputs
     const matches = e.target.value.match(/\d*\.?\d*/);
-    if (matches == null || e.target.value.length === 0) {
-      onChange('0');
+    if (matches === null || matches[0] === '') {
+      onChange('');
       return;
     }
     const nextValue = matches[0];
