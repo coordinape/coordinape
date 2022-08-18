@@ -102,7 +102,7 @@ export const OverviewMenu = () => {
             // These offset values must be dialed in browser.  CSS values/strings cannot be used, only numbers.
             sideOffset={-57}
             alignOffset={1}
-            css={{ outline: 'none' }}
+            css={{ outline: 'none', mb: '$lg' }}
           >
             <Box
               css={{
