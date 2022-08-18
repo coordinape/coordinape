@@ -1,5 +1,5 @@
 import * as PopoverPrimitive from '@radix-ui/react-popover';
-import { styled } from '@stitches/react';
+import { styled } from 'stitches.config';
 
 const StyledContent = styled(PopoverPrimitive.Content, {
   padding: 0,
