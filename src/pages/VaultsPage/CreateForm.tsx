@@ -142,6 +142,7 @@ export const CreateForm = ({
     if (symbol == 'custom') {
       setDisplayCustomToken(true);
       customAddressField.onChange({ target: { value: '' } });
+      onChange({ target: { value: undefined } });
     } else if (vaultType == 'simple') {
       setDisplayCustomToken(false);
       switch (symbol) {
