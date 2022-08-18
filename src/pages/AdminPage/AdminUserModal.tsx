@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 
+import { useQueryClient } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core';
@@ -75,6 +76,8 @@ export const AdminUserModal = ({
   const isOptedOut = !!user?.fixed_non_receiver || !!user?.non_receiver;
   const hasGiveAllocated = !!user?.give_token_received;
 
+  const queryClient = useQueryClient();
+
   const source = useMemo(
     () => ({
       user: user,
@@ -97,7 +100,10 @@ export const AdminUserModal = ({
         } else {
           setShowOptOutChangeWarning(false);
           (user ? updateUser(user.address, params) : createUser(params))
-            .then(() => onClose())
+            .then(() => {
+              queryClient.invalidateQueries('fixedPayment');
+              onClose();
+            })
             .catch(console.warn);
         }
       }}
