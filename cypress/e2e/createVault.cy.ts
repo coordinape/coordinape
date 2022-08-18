@@ -71,9 +71,8 @@ context('Coordinape', () => {
     cy.contains('Submitting', { timeout: 120000 });
     cy.contains('Please sign the transaction', { timeout: 120000 });
     cy.contains('Transaction completed', { timeout: 120000 });
-    cy.contains('Distribution saved successfully', { timeout: 120000 });
     // This takes extremely long time to render in the UI without a refresh
-    cy.reload(true);
+    cy.reload();
     cy.contains('Distribution completed today', { timeout: 120000 });
     cy.visit('/vaults');
     cy.contains('Ended Epoch With Gifts', { timeout: 120000 }).click();
