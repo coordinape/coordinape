@@ -47,7 +47,7 @@ context('Coordinape', () => {
     cy.reload(true);
     cy.contains('Ended Epoch With Gifts', { timeout: 120000 }).click();
     cy.get('table').contains('Deposit');
-    cy.get('table').contains('5000');
+    cy.get('table').contains('5000.00');
 
     // Withdraw USDC from the Vault
     cy.contains('Withdraw').click();
