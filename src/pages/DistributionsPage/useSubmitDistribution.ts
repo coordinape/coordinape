@@ -135,7 +135,11 @@ export function useSubmitDistribution() {
         merkle_root: distribution.merkleRoot,
         claims: { data: claims },
         vault_id: Number(vault.id),
-        distribution_json: distribution,
+        distribution_json: {
+          ...distribution,
+          circleId,
+          vaultAddress: vault.vault_address,
+        },
         fixed_amount: fixedAmount,
         gift_amount: giftAmount,
         distribution_type: type,
