@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { formatRelative, parseISO } from 'date-fns';
 import { BigNumber, constants as ethersConstants } from 'ethers';
-import { parseUnits, formatUnits } from 'ethers/lib/utils';
+import { parseUnits, formatUnits, commify } from 'ethers/lib/utils';
 import { getWrappedAmount, removeYearnPrefix } from 'lib/vaults';
 import { useForm, SubmitHandler, useController } from 'react-hook-form';
 import { z } from 'zod';
@@ -12,7 +12,6 @@ import { z } from 'zod';
 import { DISTRIBUTION_TYPE } from '../../config/constants';
 import { paths } from '../../routes/paths';
 import { IUser } from '../../types';
-import { numberWithCommas } from '../../utils';
 import { LoadingModal, FormTokenField } from 'components';
 import { useApeSnackbar, useContracts } from 'hooks';
 import { AppLink, Box, Button, Flex, Panel, Select, Text } from 'ui';
@@ -413,23 +412,22 @@ export function DistributionForm({
                     vaultId: giftVaultId,
                   })
                 )}
-                prelabel="Budget Amount"
+                prelabel="Amount"
                 infoTooltip={
                   <>
                     CoVault funds to be allocated to the distribution of this
                     gift circle.
                   </>
                 }
-                label={`Avail. ${numberWithCommas(
+                label={`Avail. ${commify(
                   formatUnits(
                     maxGiftTokens,
                     getDecimals({
                       distribution: circleDist,
                       vaultId: giftVaultId,
                     })
-                  ),
-                  2
-                )} ${removeYearnPrefix(findVault(giftVaultId)?.symbol || '')}`}
+                  )
+                )}`}
                 onChange={value => {
                   amountField.onChange(value);
                   setAmount(value);
@@ -558,23 +556,22 @@ export function DistributionForm({
                         vaultId: fpVault?.id.toString(),
                       })
                     )}
-                    prelabel={'Budget Amount'}
+                    prelabel="Amount"
                     infoTooltip={
                       <>
                         CoVault funds to be allocated to the distribution of the
                         fixed payment.
                       </>
                     }
-                    label={`Avail. ${numberWithCommas(
+                    label={`Avail. ${commify(
                       formatUnits(
                         maxFixedPaymentTokens,
                         getDecimals({
                           distribution: fixedDist,
                           vaultId: fpVault?.id.toString(),
                         })
-                      ),
-                      2
-                    )} ${removeYearnPrefix(fpVault?.symbol || '')}`}
+                      )
+                    )}`}
                     onChange={() => {}}
                     apeSize="small"
                   />
