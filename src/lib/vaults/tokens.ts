@@ -1,6 +1,7 @@
 import assert from 'assert';
 
-import { BigNumber, FixedNumber, constants as etherConstants } from 'ethers';
+import { AddressZero } from '@ethersproject/constants';
+import { BigNumber, FixedNumber } from 'ethers';
 import { parseUnits, isAddress } from 'ethers/lib/utils';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 
@@ -13,7 +14,7 @@ export const hasSimpleToken = ({
 }: Pick<GraphQLTypes['vaults'], 'simple_token_address'>) => {
   if (!simple_token_address) return false;
   assert(isAddress(simple_token_address), 'invalid address');
-  return simple_token_address !== ZERO_ADDRESS;
+  return simple_token_address !== AddressZero;
 };
 
 export const getTokenAddress = (
@@ -92,9 +93,5 @@ export const removeYearnPrefix = (symbol: string) =>
 export const getDisplayTokenString = (vault: {
   symbol: string;
   simple_token_address: string;
-}): string => {
-  if (vault.simple_token_address === etherConstants.AddressZero) {
-    vault.symbol = addYearnPrefix(vault.symbol);
-  }
-  return vault.symbol;
-};
+}): string =>
+  hasSimpleToken(vault) ? vault.symbol : addYearnPrefix(vault.symbol);

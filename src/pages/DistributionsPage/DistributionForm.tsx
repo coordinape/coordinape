@@ -84,14 +84,17 @@ export function DistributionForm({
   const contracts = useContracts();
   const circle = epoch.circle;
   assert(circle);
-  const fixedPaymentTokenType = circle.fixed_payment_vault_id;
+  const fixedPaymentVaultId = circle.fixed_payment_vault_id;
   const totalFixedPayment = circleUsers
     .map(g => g.fixed_payment_amount ?? 0)
     .reduce((total, tokens) => tokens + total, 0)
     .toString();
-  const fpToken = fixedPaymentTokenType
-    ? vaults.find(v => v.id === fixedPaymentTokenType)
-    : undefined;
+
+  const findVault = (vaultId: string | undefined) =>
+    circle.organization?.vaults?.find(v => v.id.toString() === vaultId);
+
+  const fpVault = findVault(fixedPaymentVaultId?.toString());
+
   const { handleSubmit, control, register, setValue } =
     useForm<TDistributionForm>({
       resolver: zodResolver(DistributionFormSchema),
@@ -128,15 +131,14 @@ export function DistributionForm({
   }, [vaults]);
 
   useEffect(() => {
-    if (fpToken)
-      updateBalanceState(fpToken.id.toString(), totalFixedPayment, 'fixed');
-  }, [fixedPaymentTokenType, totalFixedPayment]);
+    if (fpVault)
+      updateBalanceState(fpVault.id.toString(), totalFixedPayment, 'fixed');
+  }, [fixedPaymentVaultId, totalFixedPayment]);
 
   const onFixedFormSubmit: SubmitHandler<TDistributionForm> = async () => {
     assert(epoch?.id && circle);
     setFixedSubmitting(true);
-    const vault = findVault({ vaultId: fpToken?.id.toString() });
-
+    const vault = fpVault;
     assert(vault);
     assert(contracts, 'This network is not supported');
 
@@ -215,16 +217,12 @@ export function DistributionForm({
     }
   };
 
-  const findVault = ({ vaultId }: { vaultId: string | undefined }) => {
-    return circle.organization?.vaults?.find(v => v.id.toString() === vaultId);
-  };
-
   const onSubmit: SubmitHandler<TDistributionForm> = async (
     value: TDistributionForm
   ) => {
     assert(epoch?.id && circle);
     setGiftSubmitting(true);
-    const vault = findVault({ vaultId: value.selectedVaultId });
+    const vault = findVault(value.selectedVaultId);
     assert(vault);
 
     const gifts = users.reduce((ret, user) => {
@@ -272,7 +270,7 @@ export function DistributionForm({
   }) => {
     if (distribution) return distribution.vault.decimals;
     if (vaultId) {
-      const v = findVault({ vaultId });
+      const v = findVault(vaultId);
       if (v) return v.decimals;
     }
     return 0;
@@ -282,24 +280,27 @@ export function DistributionForm({
     sufficientTokens: boolean,
     vaultId: string,
     amount: string,
-    type: string
+    type: 'fixed' | 'gift'
   ): string => {
-    if (Number.parseFloat(amount) === 0) return `Please input a token amount`;
-    if (!sufficientTokens) return 'Insufficient Tokens';
+    if (Number.parseFloat(amount) === 0) {
+      return type === 'fixed'
+        ? 'No users have fixed payments'
+        : `Please input a token amount`;
+    }
+    if (!sufficientTokens) return 'Insufficient tokens';
     if (
       (giftSubmitting && type === 'gift') ||
       (fixedSubmitting && type === 'fixed')
     )
       return 'Submitting...';
-    return `Submit ${findVault({ vaultId })?.symbol} Vault Distribution`;
+    return `Submit ${findVault(vaultId)?.symbol} Vault Distribution`;
   };
 
   const isCombinedDistribution = () => {
     return (
       ((fixedDist && circleDist) || (!fixedDist && !circleDist)) &&
       giftVaultId &&
-      fpToken &&
-      fpToken.id.toString() === giftVaultId
+      fpVault?.id.toString() === giftVaultId
     );
   };
 
@@ -309,14 +310,14 @@ export function DistributionForm({
     formType: string
   ): Promise<void> => {
     assert(circle);
-    const vault = findVault({ vaultId });
+    const vault = findVault(vaultId);
     assert(vault);
     const amountSetBN = parseUnits(amountSet || '0', vault.decimals);
     assert(contracts, 'This network is not supported');
     const tokenBalance = await contracts.getVaultBalance(vault);
     const isCombinedDist =
       // check if the two symbols are the same
-      ((formType === 'gift' && fpToken?.id.toString() === vaultId) ||
+      ((formType === 'gift' && fpVault?.id.toString() === vaultId) ||
         (formType === 'fixed' && giftVaultId === vaultId)) &&
       // check if a non combined distribution is selected
       ((!fixedDist && !circleDist) || (circleDist && fixedDist));
@@ -335,7 +336,7 @@ export function DistributionForm({
       setMaxGiftTokens(tokenBalance);
       // if switching from combined dist selection to non combined
       // we need to recheck if the fixed payment have sufficient tokens
-      if (fpToken?.id.toString() === vaultId)
+      if (fpVault?.id.toString() === vaultId)
         setSufficientFixPaymentTokens(
           maxFixedPaymentTokens.gte(totalFixedPayment) &&
             ethersConstants.Zero.lt(totalFixedPayment)
@@ -391,9 +392,7 @@ export function DistributionForm({
             <Box css={{ width: '100%' }}>
               <FormTokenField
                 {...amountField}
-                symbol={removeYearnPrefix(
-                  findVault({ vaultId: giftVaultId })?.symbol || ''
-                )}
+                symbol={removeYearnPrefix(findVault(giftVaultId)?.symbol || '')}
                 decimals={getDecimals({
                   distribution: circleDist,
                   vaultId: giftVaultId,
@@ -428,10 +427,9 @@ export function DistributionForm({
                       distribution: circleDist,
                       vaultId: giftVaultId,
                     })
-                  )
-                )} ${removeYearnPrefix(
-                  findVault({ vaultId: giftVaultId })?.symbol || ''
-                )}`}
+                  ),
+                  2
+                )} ${removeYearnPrefix(findVault(giftVaultId)?.symbol || '')}`}
                 onChange={value => {
                   amountField.onChange(value);
                   setAmount(value);
@@ -444,38 +442,30 @@ export function DistributionForm({
         </Panel>
         {(fixedDist || circleDist) && <Summary distribution={circleDist} />}
         <Flex css={{ justifyContent: 'center', mb: '$sm', height: '$2xl' }}>
-          {(() => {
-            if (!circleDist) {
-              if (isCombinedDistribution()) {
-                return (
-                  <Text css={{ fontSize: '$small' }}>
-                    Combined Distribution. Total{' '}
-                    {renderCombinedSum(formGiftAmount, totalFixedPayment)}{' '}
-                    {fpToken?.symbol}
-                  </Text>
-                );
-              } else {
-                return (
-                  <Button
-                    color="primary"
-                    outlined
-                    size="large"
-                    disabled={giftSubmitting || !sufficientGiftTokens}
-                    fullWidth
-                  >
-                    {getButtonText(
-                      sufficientGiftTokens,
-                      giftVaultId,
-                      formGiftAmount,
-                      'gift'
-                    )}
-                  </Button>
-                );
-              }
-            } else {
-              return <EtherscanButton distribution={circleDist} />;
-            }
-          })()}
+          {circleDist ? (
+            <EtherscanButton distribution={circleDist} />
+          ) : isCombinedDistribution() ? (
+            <Text css={{ fontSize: '$small' }}>
+              Combined Distribution. Total{' '}
+              {renderCombinedSum(formGiftAmount, totalFixedPayment)}{' '}
+              {fpVault?.symbol}
+            </Text>
+          ) : (
+            <Button
+              color="primary"
+              outlined
+              size="large"
+              disabled={giftSubmitting || !sufficientGiftTokens}
+              fullWidth
+            >
+              {getButtonText(
+                sufficientGiftTokens,
+                giftVaultId,
+                formGiftAmount,
+                'gift'
+              )}
+            </Button>
+          )}
         </Flex>
       </form>
 
@@ -498,7 +488,7 @@ export function DistributionForm({
             </Box>
           </Flex>
 
-          {!fixedPaymentTokenType ? (
+          {!fixedPaymentVaultId ? (
             <Box
               css={{
                 pt: '$lg',
@@ -518,20 +508,20 @@ export function DistributionForm({
                   <Select
                     {...(register('selectedVaultId'),
                     {
-                      defaultValue: fpToken
+                      defaultValue: fpVault
                         ? fixedDist
                           ? fixedDist.vault.id.toString()
-                          : fpToken.id.toString()
+                          : fpVault.id.toString()
                         : '',
                       disabled: true,
                       label: 'CoVault',
                     })}
                     options={
-                      fpToken
+                      fpVault
                         ? [
                             {
-                              value: fpToken.id.toString(),
-                              label: fpToken.symbol,
+                              value: fpVault.id.toString(),
+                              label: fpVault.symbol,
                             },
                           ]
                         : [{ value: '', label: 'No Vaults Available' }]
@@ -542,15 +532,15 @@ export function DistributionForm({
                   <FormTokenField
                     {...fixedAmountField}
                     symbol={
-                      fpToken
+                      fpVault
                         ? fixedDist
                           ? removeYearnPrefix(fixedDist.vault.symbol)
-                          : removeYearnPrefix(fpToken.symbol)
+                          : removeYearnPrefix(fpVault.symbol)
                         : ''
                     }
                     decimals={getDecimals({
                       distribution: fixedDist,
-                      vaultId: fpToken?.id.toString(),
+                      vaultId: fpVault?.id.toString(),
                     })}
                     type="text"
                     placeholder="0"
@@ -565,7 +555,7 @@ export function DistributionForm({
                       maxFixedPaymentTokens,
                       getDecimals({
                         distribution: fixedDist,
-                        vaultId: fpToken?.id.toString(),
+                        vaultId: fpVault?.id.toString(),
                       })
                     )}
                     prelabel={'Budget Amount'}
@@ -580,10 +570,11 @@ export function DistributionForm({
                         maxFixedPaymentTokens,
                         getDecimals({
                           distribution: fixedDist,
-                          vaultId: fpToken?.id.toString(),
+                          vaultId: fpVault?.id.toString(),
                         })
-                      )
-                    )} ${removeYearnPrefix(fpToken?.symbol || '')}`}
+                      ),
+                      2
+                    )} ${removeYearnPrefix(fpVault?.symbol || '')}`}
                     onChange={() => {}}
                     apeSize="small"
                   />
@@ -596,32 +587,26 @@ export function DistributionForm({
         </Panel>
         {(fixedDist || circleDist) && <Summary distribution={fixedDist} />}
         <Flex css={{ justifyContent: 'center', mb: '$sm', height: '$2xl' }}>
-          {(() => {
-            if (!fixedDist) {
-              if (fpToken) {
-                return (
-                  <Button
-                    color="primary"
-                    outlined
-                    size="large"
-                    disabled={fixedSubmitting || !sufficientFixedPaymentTokens}
-                    fullWidth
-                  >
-                    {getButtonText(
-                      sufficientFixedPaymentTokens,
-                      fpToken?.id.toString(),
-                      isCombinedDistribution()
-                        ? renderCombinedSum(formGiftAmount, totalFixedPayment)
-                        : totalFixedPayment,
-                      'fixed'
-                    )}
-                  </Button>
-                );
-              }
-            } else {
-              return <EtherscanButton distribution={fixedDist} />;
-            }
-          })()}
+          {fixedDist ? (
+            <EtherscanButton distribution={fixedDist} />
+          ) : fpVault ? (
+            <Button
+              color="primary"
+              outlined
+              size="large"
+              disabled={fixedSubmitting || !sufficientFixedPaymentTokens}
+              fullWidth
+            >
+              {getButtonText(
+                sufficientFixedPaymentTokens,
+                fpVault.id.toString(),
+                isCombinedDistribution()
+                  ? renderCombinedSum(formGiftAmount, totalFixedPayment)
+                  : totalFixedPayment,
+                'fixed'
+              )}
+            </Button>
+          ) : null}
         </Flex>
       </form>
     </TwoColumnLayout>
