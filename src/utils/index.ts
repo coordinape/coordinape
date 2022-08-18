@@ -12,11 +12,16 @@ export const numberWithCommas = (
   x: number | string | undefined,
   precision = 6
 ) => {
-  if (!x) return '0';
-  const [beforeDot, afterDot] = x.toString().split('.');
-  return (
-    beforeDot.replace(/\B(?=(\d{3})+(?!\d))/g, ',') +
-    (afterDot && precision > 0
+  if (!x) {
+    if (precision > 0) {
+      return '0.'.padEnd(precision + 2, '0');
+    } else return '0';
+  }
+  const split = x.toString().split('.');
+  const [beforeDot, afterDot] = [split[0], split[1] || ''];
+  const before = beforeDot.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  const after =
+    precision > 0
       ? (
           '.' +
           (afterDot.length > precision
@@ -25,6 +30,6 @@ export const numberWithCommas = (
         )
           .substring(0, precision + 1)
           .padEnd(precision + 1, '0')
-      : '')
-  );
+      : '';
+  return before + after;
 };
