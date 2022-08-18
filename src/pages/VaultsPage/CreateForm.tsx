@@ -90,6 +90,7 @@ export const CreateForm = ({
   const coVaults = ['DAI', 'USDC'];
   const { createVault } = useVaultFactory(orgId);
   const [asset, setAsset] = useState<string | undefined>();
+  const [displayCustomToken, setDisplayCustomToken] = useState(false);
   const [customSymbol, setCustomSymbol] = useState<string | undefined>();
   const [saving, setSavingLocal] = useState(false);
 
@@ -130,20 +131,23 @@ export const CreateForm = ({
     );
 
   const pickAsset = (
-    symbol: Asset | undefined,
     vaultType: string,
+    symbol?: string,
     event?: MouseEvent
   ) => {
     if (event) event.preventDefault();
+    setDisplayCustomToken(false);
     setAsset(symbol + vaultType);
-    onChange({ target: { value: symbol } });
+    if (symbol !== 'custom') {
+      onChange({ target: { value: symbol } });
+    }
     onBlur();
 
-    if (symbol) {
-      customAddressField.onChange({ target: { value: '' } });
-      customAddressField.onBlur();
-      setCustomSymbol(undefined);
-    }
+    // if (vaultType == 'simple' && symbol !== 'customToken') {
+    //   customAddressField.onChange({ target: { value: '' } });
+    //   customAddressField.onBlur();
+    //   setCustomSymbol(undefined);
+    // }
   };
 
   const onSubmit = ({ symbol, customAddress }: any) => {
@@ -185,7 +189,7 @@ export const CreateForm = ({
               role="radio"
               key={symbol}
               data-selected={`${symbol}simple` === asset}
-              onClick={event => pickAsset(symbol, 'simple', event)}
+              onClick={event => pickAsset('simple', symbol, event)}
             >
               <img
                 src={`/imgs/tokens/${symbol.toLowerCase()}.png`}
@@ -202,32 +206,37 @@ export const CreateForm = ({
             color="surface"
             role="radio"
             key={'Other'}
-            // data-selected={'Other' === asset}
-            // onClick={event => pickAsset('Other', event)}
+            data-selected={'customsimple' === asset}
+            onClick={e => {
+              e.preventDefault();
+              pickAsset('simple', 'custom');
+              setDisplayCustomToken(true);
+            }}
           >
             <Increase size="lg" color="neutral" />
             <Text css={{ ml: '$xs' }}>{'Other ERC-20 Token'}</Text>
           </AssetButton>
         </Box>
-        <Box>
-          <Text variant="label" css={{ width: '100%', mb: '$xs' }}>
-            Token contract address
-            {customSymbol && (
-              <span>
-                &nbsp;-{' '}
-                <Text inline bold>
-                  {customSymbol}
-                </Text>
-              </span>
-            )}
-          </Text>
-          <TextField
-            onFocus={() => pickAsset(undefined, 'simple')}
-            placeholder="0x0000..."
-            css={{ width: '100%' }}
-            {...customAddressField}
-          />
-        </Box>
+        {displayCustomToken && (
+          <Box>
+            <Text variant="label" css={{ width: '100%', mb: '$xs' }}>
+              Token contract address
+              {customSymbol && (
+                <span>
+                  &nbsp;-{' '}
+                  <Text inline bold>
+                    {customSymbol}
+                  </Text>
+                </span>
+              )}
+            </Text>
+            <TextField
+              placeholder="0x0000..."
+              css={{ width: '100%' }}
+              {...customAddressField}
+            />
+          </Box>
+        )}
       </Panel>
       <HR />
       <Panel nested css={{ gap: '$md' }}>
@@ -245,7 +254,7 @@ export const CreateForm = ({
               role="radio"
               key={symbol}
               data-selected={`${symbol}yearn` === asset}
-              onClick={event => pickAsset(symbol, 'yearn', event)}
+              onClick={event => pickAsset('yearn', symbol, event)}
             >
               <img
                 src={`/imgs/tokens/${symbol.toLowerCase()}.png`}
