@@ -32,7 +32,7 @@ export const Drawer = ({ open, setOpen, children }: IProps) => {
             alignItems: 'center',
             ml: '$lg',
             position: 'absolute',
-            top: 100,
+            top: 150,
             bottom: 0,
             backgroundColor: 'transparent',
             display: 'flex',
@@ -51,7 +51,12 @@ export const Drawer = ({ open, setOpen, children }: IProps) => {
           size="large"
           onClick={() => setOpen(!open)}
           css={{
+            zIndex: 1,
+            position: 'absolute',
+            top: 150,
+            bottom: 0,
             width: 'fit-content',
+            height: 'fit-content',
             justifyContent: 'flex-start',
             ml: '$lg',
           }}
