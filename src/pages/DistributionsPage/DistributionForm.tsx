@@ -207,7 +207,7 @@ export function DistributionForm({
       if (!result) return;
 
       refetch();
-      updateBalanceState(vault.id, totalFixedPayment, 'fixed');
+      updateBalanceState(vault.id.toString(), totalFixedPayment, 'fixed');
     } catch (e) {
       showError(e);
       console.error('DistributionsPage.onSubmit:', e);
@@ -255,7 +255,7 @@ export function DistributionForm({
       if (!result) return;
 
       refetch();
-      updateBalanceState(vault.id, value.amount, 'gift');
+      updateBalanceState(vault.id.toString(), value.amount, 'gift');
     } catch (e) {
       showError(e);
       console.error('DistributionsPage.onSubmit:', e);
