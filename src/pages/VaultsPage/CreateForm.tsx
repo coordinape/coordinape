@@ -90,7 +90,6 @@ export const CreateForm = ({
   existingVaults?: Vault[];
 }) => {
   const contracts = useContracts();
-  const coVaults = ['DAI', 'USDC'];
   const { createVault } = useVaultFactory(orgId);
   const [asset, setAsset] = useState<string | undefined>();
   const [displayCustomToken, setDisplayCustomToken] = useState(false);
@@ -135,25 +134,16 @@ export const CreateForm = ({
   ) => {
     if (event) event.preventDefault();
 
-    if (symbol == 'custom') {
-      setDisplayCustomToken(true);
-      customAddressField.onChange({ target: { value: '' } });
-      onChange({ target: { value: '' } });
-    } else {
-      setDisplayCustomToken(false);
-    }
-
     setAsset(symbol + vaultType);
 
     // customAddress should be empty for Yearn Vaults
     // customAddress should be defined for simple vaults
 
-    if (vaultType == 'yearn') {
+    if (symbol == 'custom') {
+      setDisplayCustomToken(true);
       customAddressField.onChange({ target: { value: '' } });
-      onChange({ target: { value: symbol } });
-
-      //customAddressField.onBlur();
-    } else if (vaultType == 'simple' && symbol != 'custom') {
+    } else if (vaultType == 'simple') {
+      setDisplayCustomToken(false);
       switch (symbol) {
         case Asset['USDC']:
           customAddressField.onChange({ target: { value: USDC_ERC20 } });
@@ -168,6 +158,12 @@ export const CreateForm = ({
         default:
           throw new Error('WTF?');
       }
+    }
+
+    if (vaultType == 'yearn') {
+      customAddressField.onChange({ target: { value: '' } });
+      onChange({ target: { value: symbol } });
+      setDisplayCustomToken(false);
     }
 
     onBlur();
@@ -266,6 +262,9 @@ export const CreateForm = ({
               )}
             </Text>
             <TextField
+              onPaste={() => {
+                onBlur();
+              }}
               placeholder="0x0000..."
               css={{ width: '100%' }}
               {...customAddressField}
