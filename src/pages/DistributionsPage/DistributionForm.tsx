@@ -280,7 +280,7 @@ export function DistributionForm({
     sufficientTokens: boolean,
     vaultId: string,
     amount: string,
-    type: 'fixed' | 'gift'
+    type: 'fixed' | 'gift' | 'combined'
   ): string => {
     if (Number.parseFloat(amount) === 0) {
       return type === 'fixed'
@@ -603,7 +603,7 @@ export function DistributionForm({
                 isCombinedDistribution()
                   ? renderCombinedSum(formGiftAmount, totalFixedPayment)
                   : totalFixedPayment,
-                'fixed'
+                isCombinedDistribution() ? 'combined' : 'fixed'
               )}
             </Button>
           ) : null}
