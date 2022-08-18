@@ -28,6 +28,7 @@ export type SubmitDistributionProps = {
   gifts: Record<string, number>;
   fixedGifts: Record<string, BigNumber>;
   circleId: number;
+  description: string;
   epochId: number;
   fixedAmount: string;
   giftAmount: string;
@@ -65,6 +66,7 @@ export function useSubmitDistribution() {
     amount,
     vault,
     circleId,
+    description,
     epochId,
     gifts,
     fixedGifts,
@@ -153,7 +155,7 @@ export function useSubmitDistribution() {
         {
           showInfo,
           showError,
-          description: 'Submit Distribution',
+          description,
           chainId: contracts.chainId,
           savePending: (txHash: string) =>
             savePendingVaultTx({

@@ -63,7 +63,7 @@ export function useClaimAllocation() {
         {
           showInfo,
           showError,
-          description: 'Claim Tokens',
+          description: `Claim Tokens from ${circle.name}: Epoch ${distribution.epoch.number}`,
           chainId: contracts.chainId,
           savePending: async (txHash: string) =>
             savePendingVaultTx({
