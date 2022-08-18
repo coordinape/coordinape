@@ -7,8 +7,7 @@ import {
 import * as SelectPrimitive from '@radix-ui/react-select';
 import { SelectProps } from '@radix-ui/react-select';
 import type * as Stitches from '@stitches/react';
-import { styled } from '@stitches/react';
-import type { CSS } from 'stitches.config';
+import { CSS, styled } from 'stitches.config';
 
 import { modifyVariantsForStory } from '../type-utils';
 import { Flex, FormLabel, Tooltip } from 'ui';
