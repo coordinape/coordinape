@@ -1,11 +1,15 @@
 import { useCallback, useMemo, useState } from 'react';
 
+import sumBy from 'lodash/sumBy';
+import uniqBy from 'lodash/uniqBy';
+
 import { Paginator } from '../../components/Paginator';
 import { DISTRIBUTION_TYPE } from '../../config/constants';
 import { NewApeAvatar, makeTable } from 'components';
 import { Flex, Text, Panel, Button, Link } from 'ui';
 import { numberWithCommas, shortenAddress } from 'utils';
 
+import type { Gift } from './queries';
 import { EpochDataResult } from './queries';
 
 export const AllocationsTable = ({
@@ -55,9 +59,23 @@ export const AllocationsTable = ({
     [users, page]
   );
   const givenPercent = useCallback(
-    (u: User) => u.received / totalGive,
+    (received: number) => received / totalGive,
     [totalGive]
   );
+
+  const showDeletedInfo = (token_gifts?: Gift[]) => {
+    const deletedGifts = token_gifts?.filter((g: Gift) => !g.recipient);
+    const sumGive = sumBy(deletedGifts, 'tokens');
+    const num = uniqBy(deletedGifts, 'recipient_id').length;
+
+    if (num < 1) return;
+    return (
+      <Text p as="p" size="medium" css={{ mt: '$sm' }}>
+        Note: This epoch included {num} deleted {num > 1 ? 'users' : 'user'} who
+        received {sumGive} GIVE.
+      </Text>
+    );
+  };
 
   const combinedDist =
     tokenName && fixedTokenName && tokenName === fixedTokenName;
@@ -139,8 +157,8 @@ export const AllocationsTable = ({
             </td>
             <td>{shortenAddress(user.address)}</td>
             <td>{user.givers}</td>
-            <td>{numberWithCommas(user.received, 2)}</td>
-            <td>{(givenPercent(user) * 100).toFixed(2)}%</td>
+            <td>{numberWithCommas(user.received)}</td>
+            <td>{numberWithCommas(givenPercent(user.received) * 100, 2)}%</td>
             <td>
               {user.circle_claimed
                 ? `${numberWithCommas(
@@ -152,7 +170,7 @@ export const AllocationsTable = ({
                     2
                   )} ${tokenName || 'GIVE'}`
                 : `${numberWithCommas(
-                    givenPercent(user) * formGiftAmount,
+                    givenPercent(user.received) * formGiftAmount,
                     2
                   )} ${tokenName || 'GIVE'}`}
             </td>
@@ -170,7 +188,7 @@ export const AllocationsTable = ({
                   }
                   const giftAmt = circleDist
                     ? user.circle_claimed
-                    : givenPercent(user) * formGiftAmount;
+                    : givenPercent(user.received) * formGiftAmount;
                   return numberWithCommas(
                     giftAmt + user.fixed_payment_amount,
                     2
@@ -182,19 +200,22 @@ export const AllocationsTable = ({
           </tr>
         )}
       </UserTable>
+      {showDeletedInfo(epoch.token_gifts)}
       <Flex
         css={{
           justifyContent: 'space-between',
           mt: '$lg',
         }}
       >
-        <Link
-          css={{ color: '$primary' }}
-          target="_blank"
-          href="https://docs.coordinape.com/get-started/compensation/paying-your-team"
-        >
-          Documentation: Paying Your Team
-        </Link>
+        <Text p as="p" size="medium" css={{ mt: '$sm' }}>
+          <Link
+            css={{ color: '$primary' }}
+            target="_blank"
+            href="https://docs.coordinape.com/get-started/compensation/paying-your-team"
+          >
+            Documentation: Paying Your Team
+          </Link>
+        </Text>
         <Paginator pages={totalPages} current={page} onSelect={setPage} />
       </Flex>
     </Panel>

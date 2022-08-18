@@ -18,9 +18,6 @@ export function useVaults({
   return useQuery(
     ['vaults-for-org-', orgId],
     async () => {
-      if (!isFeatureEnabled('vaults')) {
-        return;
-      }
       const { vaults } = await client.query(
         {
           vaults: [
@@ -65,7 +62,7 @@ export function useVaults({
       return vaults;
     },
     {
-      enabled: !!orgId && !!chainId && isFeatureEnabled('vaults'),
+      enabled: isFeatureEnabled('vaults') && !!orgId && !!chainId,
       select: vaults => {
         return vaults?.map(v => {
           v.symbol = getDisplayTokenString(v);
