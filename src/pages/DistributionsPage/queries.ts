@@ -27,6 +27,7 @@ export const getEpochData = async (
             id: true,
             name: true,
             fixed_payment_token_type: true,
+            fixed_payment_vault_id: true,
             token_name: true,
             // get this user's role so we can check that they're an admin
             users: [

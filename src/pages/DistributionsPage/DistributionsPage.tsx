@@ -56,7 +56,7 @@ export function DistributionsPage() {
   );
 
   const [formGiftAmount, setFormGiftAmount] = useState<string>('0');
-  const [giftVaultSymbol, setGiftVaultSymbol] = useState<string>('');
+  const [giftVaultId, setGiftVaultId] = useState<string>('');
   const { users: circleUsers, circleId } = useSelectedCircle();
   const { downloadCSV } = useApiAdminCircle(circleId);
 
@@ -162,9 +162,19 @@ export function DistributionsPage() {
   }));
 
   const vaults = circle.organization.vaults || [];
+  const giftVault = vaults.find(v => v.id.toString() === giftVaultId);
+  const fixedVault = vaults.find(v => v.id === circle.fixed_payment_vault_id);
   const tokenName = circleDist
     ? getDisplayTokenString(circleDist.vault)
-    : giftVaultSymbol;
+    : giftVault
+    ? getDisplayTokenString(giftVault)
+    : '';
+  const fixedTokenName = fixedDist
+    ? getDisplayTokenString(fixedDist.vault)
+    : fixedVault
+    ? getDisplayTokenString(fixedVault)
+    : '';
+
   const startDate = DateTime.fromISO(epoch.start_date);
   const endDate = DateTime.fromISO(epoch.end_date);
 
@@ -219,12 +229,12 @@ export function DistributionsPage() {
             <DistributionForm
               circleDist={circleDist}
               fixedDist={fixedDist}
-              giftVaultSymbol={giftVaultSymbol}
+              giftVaultId={giftVaultId}
               formGiftAmount={formGiftAmount}
               epoch={epoch}
               users={usersWithReceivedAmounts}
               setAmount={setFormGiftAmount}
-              setGiftVaultSymbol={setGiftVaultSymbol}
+              setGiftVaultId={setGiftVaultId}
               vaults={vaults}
               circleUsers={circleUsers}
               refetch={refetch}
@@ -236,11 +246,7 @@ export function DistributionsPage() {
             tokenName={tokenName}
             totalGive={totalGive}
             formGiftAmount={Number(formGiftAmount)}
-            fixedTokenName={
-              fixedDist
-                ? fixedDist.vault.symbol
-                : circle.fixed_payment_token_type
-            }
+            fixedTokenName={fixedTokenName}
             giveTokenName={circle.token_name}
             downloadCSV={downloadCSV}
             circleDist={circleDist}

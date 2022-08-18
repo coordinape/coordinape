@@ -37,6 +37,7 @@ const mockEpochData = {
   circle: {
     name: mockEpoch.circle.name,
     users: [{ role: 1 }],
+    fixed_payment_vault_id: 2,
     fixed_payment_token_type: 'USDC',
     organization: {
       vaults: [
@@ -102,12 +103,7 @@ test('render with a distribution', async () => {
           fixed_amount: 5000,
           pricePerShare: FixedNumber.from('1.08'),
           distribution_type: 1,
-          vault: {
-            id: 2,
-            decimals: 6,
-            symbol: 'USDC',
-            simple_token_address: '0xabc123',
-          },
+          vault: mockEpochData.circle.organization.vaults[0],
           claims: [{ new_amount: 10, profile: { id: recipient.profile.id } }],
         },
       ],
@@ -126,5 +122,5 @@ test('render with a distribution', async () => {
     expect(screen.getByText('Mock User 1')).toBeInTheDocument();
   });
 
-  expect(screen.getAllByText('10.80 USDC').length).toEqual(2);
+  expect(screen.getAllByText('10.80 Yearn USDC').length).toEqual(2);
 });
