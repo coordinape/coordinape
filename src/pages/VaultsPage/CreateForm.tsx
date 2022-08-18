@@ -16,6 +16,9 @@ import { useVaultFactory } from 'hooks/useVaultFactory';
 import { Increase } from 'icons/__generated';
 import { Box, Button, Form, HR, Link, Panel, Text, TextField } from 'ui';
 
+const USDC_ERC20 = '0xC478a48520005bF9C97b145dE2D8DD2b54Ba4abC';
+const DAI_ERC20 = '0x8e34054aA3F9CD541fE4B0fb9c4A45281178e7c6';
+
 const useFormSetup = (
   contracts: Contracts | undefined,
   setCustomSymbol: (s: string | undefined) => void,
@@ -110,11 +113,6 @@ export const CreateForm = ({
     control,
   });
 
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log(contracts?.getAvailableTokens());
-  }, [contracts?.getAvailableTokens()]);
-
   if (!contracts)
     return (
       <Text
@@ -136,16 +134,46 @@ export const CreateForm = ({
     event?: MouseEvent
   ) => {
     if (event) event.preventDefault();
-    setDisplayCustomToken(false);
-    setAsset(symbol + vaultType);
-    if (symbol !== 'custom') {
-      onChange({ target: { value: symbol } });
+
+    if (symbol == 'custom') {
+      setDisplayCustomToken(true);
+      customAddressField.onChange({ target: { value: '' } });
+      onChange({ target: { value: '' } });
+    } else {
+      setDisplayCustomToken(false);
     }
+
+    setAsset(symbol + vaultType);
+
+    // customAddress should be empty for Yearn Vaults
+    // customAddress should be defined for simple vaults
+
+    if (vaultType == 'yearn') {
+      customAddressField.onChange({ target: { value: '' } });
+      onChange({ target: { value: symbol } });
+
+      //customAddressField.onBlur();
+    } else if (vaultType == 'simple' && symbol != 'custom') {
+      switch (symbol) {
+        case Asset['USDC']:
+          customAddressField.onChange({ target: { value: USDC_ERC20 } });
+          onChange({ target: { value: symbol } });
+
+          break;
+        case Asset['DAI']:
+          customAddressField.onChange({ target: { value: DAI_ERC20 } });
+          onChange({ target: { value: symbol } });
+
+          break;
+        default:
+          throw new Error('WTF?');
+      }
+    }
+
     onBlur();
 
     // if (vaultType == 'simple' && symbol !== 'customToken') {
-    //   customAddressField.onChange({ target: { value: '' } });
-    //   customAddressField.onBlur();
+
     //   setCustomSymbol(undefined);
     // }
   };
@@ -153,6 +181,15 @@ export const CreateForm = ({
   const onSubmit = ({ symbol, customAddress }: any) => {
     setSaving?.(true);
     setSavingLocal(true);
+    // eslint-disable-next-line no-console
+    console.log({ symbol, customAddress });
+
+    /**
+    expectations:
+    simple vaults: address defnined to address
+    yearn vaults: only symbol, address empty
+     */
+
     createVault({
       type: symbol,
       simpleTokenAddress: customAddress,
@@ -208,9 +245,7 @@ export const CreateForm = ({
             key={'Other'}
             data-selected={'customsimple' === asset}
             onClick={e => {
-              e.preventDefault();
-              pickAsset('simple', 'custom');
-              setDisplayCustomToken(true);
+              pickAsset('simple', 'custom', e);
             }}
           >
             <Increase size="lg" color="neutral" />
