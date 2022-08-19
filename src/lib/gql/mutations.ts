@@ -154,7 +154,6 @@ export const allVaultFields = {
   created_at: true,
   created_by: true,
   decimals: true,
-  org_id: true,
   simple_token_address: true,
   symbol: true,
   token_address: true,

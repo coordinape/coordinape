@@ -32,23 +32,10 @@ select_permissions:
     - decimals
     - deployment_block
     - id
-    - org_id
     - simple_token_address
     - symbol
     - token_address
     - updated_at
     - vault_address
-    filter:
-      protocol:
-        circles:
-          _and:
-          - deleted_at:
-              _is_null: true
-          - users:
-              _and:
-              - deleted_at:
-                  _is_null: true
-              - profile:
-                  id:
-                    _eq: X-Hasura-User-Id
+    filter: {}
   role: user
