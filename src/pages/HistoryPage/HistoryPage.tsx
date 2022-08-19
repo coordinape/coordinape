@@ -3,7 +3,6 @@ import { useState, useMemo, useEffect } from 'react';
 import { isUserAdmin } from 'lib/users';
 import { useQuery } from 'react-query';
 
-import isFeatureEnabled from '../../config/features';
 import {
   EXTERNAL_URL_DISCORD,
   EXTERNAL_URL_GET_STARTED_MEMBER,
@@ -13,6 +12,7 @@ import {
 import HintBanner from '../../ui/HintBanner';
 import { ActionDialog, LoadingModal } from 'components';
 import { Paginator } from 'components/Paginator';
+import isFeatureEnabled from 'config/features';
 import { useApeSnackbar, useApiAdminCircle } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
 import {
