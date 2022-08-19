@@ -3,6 +3,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { isUserAdmin } from 'lib/users';
 import { useQuery } from 'react-query';
 
+import isFeatureEnabled from '../../config/features';
 import {
   EXTERNAL_URL_DISCORD,
   EXTERNAL_URL_GET_STARTED_MEMBER,
@@ -169,11 +170,13 @@ export const HistoryPage = () => {
               >
                 Start an Epoch
               </Button>
-              <AppLink to={paths.vaults}>
-                <Button color="primary" outlined inline css={{ mt: '$md' }}>
-                  Create a Vault
-                </Button>
-              </AppLink>
+              {isFeatureEnabled('vaults') && (
+                <AppLink to={paths.vaults}>
+                  <Button color="primary" outlined inline css={{ mt: '$md' }}>
+                    Create a Vault
+                  </Button>
+                </AppLink>
+              )}
             </Box>
           </HintBanner>
         )}
