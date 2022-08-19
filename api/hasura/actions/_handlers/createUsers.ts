@@ -29,10 +29,13 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   // Check if bulk contains duplicates.
   if (uniqueAddresses.length < users.length) {
+    const dupes = uniqueAddresses.filter(
+      uq => users.filter(u => u.address.toLowerCase() == uq).length > 1
+    );
     return errorResponseWithStatusCode(
       res,
       {
-        message: `Users list contains duplicate address.`,
+        message: `Users list contains duplicate addresses: ${dupes}`,
       },
       422
     );

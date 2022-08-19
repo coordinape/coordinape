@@ -19,7 +19,7 @@ import NewMemberEntry from './NewMemberEntry';
 import NewMemberGridBox from './NewMemberGridBox';
 
 const NewMemberList = ({
-  // TODO: figure out what to do w/ revoke
+  // TODO: revoke comes later - maybe on admin page
   // revokeWelcome,
   circleId,
   welcomeLink,
@@ -39,43 +39,32 @@ const NewMemberList = ({
   const queryClient = useQueryClient();
 
   const newMemberSchema = z.object({
-    newMembers: z
-      .array(
-        z
-          .object({
-            address: zEthAddress.or(z.literal('')),
-            name: z
-              .string()
-              .min(3, 'Name must be at least 3 characters')
-              .or(z.literal('')),
-          })
-          .superRefine((data, ctx) => {
-            if (data.name && data.name !== '' && data.address === '') {
-              ctx.addIssue({
-                code: z.ZodIssueCode.custom,
-                path: ['address'],
-                message: 'Address is required if name is provided',
-              });
-            }
-            if (data.address && data.address !== '' && data.name === '') {
-              ctx.addIssue({
-                code: z.ZodIssueCode.custom,
-                path: ['name'],
-                message: 'Name is required if address is provided',
-              });
-            }
-          })
-      )
-      .superRefine(data => {
-        if (data.filter(m => m.address != '' && m.name != '').length == 0) {
-          //TODO: I want to use this to prevent form submission of there are no valid entries
-          // but it just breaks the more useful errors from rendering
-          // ctx.addIssue({
-          //   code: z.ZodIssueCode.custom,
-          //   message: 'no valid members entered',
-          // });
-        }
-      }),
+    newMembers: z.array(
+      z
+        .object({
+          address: zEthAddress.or(z.literal('')),
+          name: z
+            .string()
+            .min(3, 'Name must be at least 3 characters')
+            .or(z.literal('')),
+        })
+        .superRefine((data, ctx) => {
+          if (data.name && data.name !== '' && data.address === '') {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              path: ['address'],
+              message: 'Address is required if name is provided',
+            });
+          }
+          if (data.address && data.address !== '' && data.name === '') {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              path: ['name'],
+              message: 'Name is required if address is provided',
+            });
+          }
+        })
+    ),
   });
 
   const defaultValues = {
@@ -85,13 +74,20 @@ const NewMemberList = ({
     ],
   };
 
-  const { register, control, handleSubmit, reset, formState, getValues } =
-    useForm({
-      resolver: zodResolver(newMemberSchema),
-      reValidateMode: 'onChange',
-      mode: 'onChange',
-      defaultValues,
-    });
+  const {
+    register,
+    control,
+    handleSubmit,
+    reset,
+    formState,
+    getValues,
+    watch,
+  } = useForm({
+    resolver: zodResolver(newMemberSchema),
+    reValidateMode: 'onChange',
+    mode: 'onChange',
+    defaultValues,
+  });
   const { errors } = formState;
 
   const {
@@ -102,6 +98,8 @@ const NewMemberList = ({
     name: 'newMembers',
     control,
   });
+
+  const newMembers = watch('newMembers');
 
   const submitNewMembers = async () => {
     const newMembers = getValues('newMembers') as {
@@ -212,7 +210,12 @@ const NewMemberList = ({
             <Box>
               <Button
                 type="submit"
-                disabled={loading || errors?.newMembers !== undefined}
+                disabled={
+                  loading ||
+                  errors?.newMembers !== undefined ||
+                  newMembers.filter(m => m.address != '' && m.name != '')
+                    .length == 0
+                }
                 color="primary"
                 size="large"
                 fullWidth
