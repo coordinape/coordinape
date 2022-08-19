@@ -371,6 +371,20 @@ export const CircleAdminPage = () => {
     }
   };
 
+  const fixedPaymentToken = (vaultId: string | undefined) => {
+    const tokenType = circle?.fixed_payment_token_type;
+    return vaultId
+      ? removeYearnPrefix(
+          vaultOptions.find(o => o.value == getValues('fixed_payment_vault_id'))
+            ?.label ?? ''
+        )
+      : tokenType
+      ? tokenType.startsWith('Yearn')
+        ? removeYearnPrefix(tokenType)
+        : tokenType
+      : '';
+  };
+
   if (
     isLoading ||
     isIdle ||
@@ -637,15 +651,9 @@ export const CircleAdminPage = () => {
                   <Text variant="label" css={{ mb: '$xs' }}>
                     Fixed Payments Total
                   </Text>
-                  <Text size="medium">{`${fixedPayment?.fixedPaymentTotal} ${
-                    watchFixedPaymentVaultId
-                      ? removeYearnPrefix(
-                          vaultOptions.find(
-                            o => o.value == getValues('fixed_payment_vault_id')
-                          )?.label ?? ''
-                        )
-                      : circle?.fixed_payment_token_type ?? ''
-                  }`}</Text>
+                  <Text size="medium">{`${
+                    fixedPayment?.fixedPaymentTotal
+                  } ${fixedPaymentToken(watchFixedPaymentVaultId)}`}</Text>
                 </Flex>
                 <Flex column>
                   <Text variant="label" css={{ mb: '$xs' }}>
@@ -656,15 +664,7 @@ export const CircleAdminPage = () => {
                       maxGiftTokens,
                       getDecimals(getValues('fixed_payment_vault_id') ?? '')
                     )
-                  )} ${
-                    getValues('fixed_payment_vault_id')?.trim().length !== 0
-                      ? removeYearnPrefix(
-                          vaultOptions.find(
-                            o => o.value == getValues('fixed_payment_vault_id')
-                          )?.label ?? ''
-                        )
-                      : circle?.fixed_payment_token_type ?? ''
-                  }`}</Text>
+                  )} ${fixedPaymentToken(watchFixedPaymentVaultId)}`}</Text>
                 </Flex>
               </Flex>
             </Panel>
