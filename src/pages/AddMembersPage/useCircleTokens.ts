@@ -29,6 +29,11 @@ const useCircleTokens = (circleId: number, type: CircleTokenType) => {
         circle_share_tokens: [
           {
             where: {
+              circle: {
+                deleted_at: {
+                  _is_null: true,
+                },
+              },
               circle_id: {
                 _eq: circleId,
               },
