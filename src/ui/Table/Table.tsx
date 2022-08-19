@@ -19,6 +19,9 @@ export const Table = styled('table', {
     textAlign: 'center',
     fontWeight: 'normal',
     color: '$text',
+    '&.alignRight': {
+      textAlign: 'right',
+    },
   },
   'th:first-child, td:first-child': {
     textAlign: 'left',
