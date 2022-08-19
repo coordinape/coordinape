@@ -137,15 +137,18 @@ select_permissions:
     - vouching
     - vouching_text
     filter:
-      organization:
-        circles:
-          users:
-            _and:
-            - profile:
-                id:
-                  _eq: X-Hasura-User-Id
-            - deleted_at:
-                _is_null: true
+      _and:
+      - deleted_at:
+          _is_null: true
+      - organization:
+          circles:
+            users:
+              _and:
+              - profile:
+                  id:
+                    _eq: X-Hasura-User-Id
+              - deleted_at:
+                  _is_null: true
   role: user
 event_triggers:
 - definition:
