@@ -141,26 +141,18 @@ export const CreateForm = ({
 
     // customAddress should be empty for Yearn Vaults
     // customAddress should be defined for simple vaults
-
     if (symbol == 'custom') {
       setDisplayCustomToken(true);
       customAddressField.onChange({ target: { value: '' } });
       onChange({ target: { value: undefined } });
     } else if (vaultType == 'simple') {
       setDisplayCustomToken(false);
-      switch (symbol) {
-        case Asset['USDC']:
-          customAddressField.onChange({ target: { value: USDC_ERC20 } });
-          onChange({ target: { value: symbol } });
-
-          break;
-        case Asset['DAI']:
-          customAddressField.onChange({ target: { value: DAI_ERC20 } });
-          onChange({ target: { value: symbol } });
-
-          break;
-        default:
-          throw new Error('WTF?');
+      if (symbol == 'USDC') {
+        customAddressField.onChange({ target: { value: USDC_ERC20 } });
+        onChange({ target: { value: symbol } });
+      } else if (symbol == 'DAI') {
+        customAddressField.onChange({ target: { value: DAI_ERC20 } });
+        onChange({ target: { value: symbol } });
       }
     }
 
@@ -179,15 +171,6 @@ export const CreateForm = ({
   const onSubmit = ({ symbol, customAddress }: any) => {
     setSaving?.(true);
     setSavingLocal(true);
-    // eslint-disable-next-line no-console
-    console.log({ symbol, customAddress });
-
-    /**
-    expectations:
-    simple vaults: address defnined to address
-    yearn vaults: only symbol, address empty
-     */
-
     createVault({
       type: symbol,
       simpleTokenAddress: customAddress,
