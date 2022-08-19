@@ -7,7 +7,11 @@ import { makeExplorerUrl } from 'utils/provider';
 
 import { useClaimsTableData, ClaimsRowData } from './hooks';
 import { QueryClaim } from './queries';
-import { formatDistributionDates, formatClaimAmount } from './utils';
+import {
+  formatDistributionDates,
+  formatDeletedDistributionDates,
+  formatClaimAmount,
+} from './utils';
 
 const styles = {
   alignRight: { textAlign: 'right' },
@@ -37,7 +41,9 @@ const displayDistributionType = (
 const groupTooltipInfo = (group: QueryClaim[]) => {
   const detailsList = group.map(claim => (
     <Flex key={claim.id}>
-      Epoch {claim.distribution.epoch.number} -{' '}
+      {claim.distribution.epoch
+        ? `Epoch ${claim.distribution.epoch.number} - `
+        : ''}
       {displayDistributionType(claim.distribution.distribution_type)}:{' '}
       {numberWithCommas(claim.new_amount, 2)}
     </Flex>
@@ -72,6 +78,35 @@ const ClaimsRow: React.FC<ClaimsRowData> = ({ claim, group, children }) => {
           <ApeInfoTooltip>{groupTooltipInfo(group)}</ApeInfoTooltip>
           <Text size="small" css={{ ml: '$xs' }}>
             {formatDistributionDates(group)}
+          </Text>
+        </Text>
+      </td>
+      <td>
+        <Text size="small">{formatClaimAmount(group)}</Text>
+      </td>
+      <td className="alignRight">{children}</td>
+    </tr>
+  );
+};
+
+const DeletedUserClaimsRow: React.FC<ClaimsRowData> = ({ group, children }) => {
+  return (
+    <tr>
+      <td>
+        <Flex>
+          <Text size="small">Unknown</Text>
+        </Flex>
+      </td>
+      <td>
+        <Flex>
+          <Text size="small">Unknown</Text>
+        </Flex>
+      </td>
+      <td>
+        <Text size="small" css={{ lineHeight: 0 }}>
+          <ApeInfoTooltip>{groupTooltipInfo(group)}</ApeInfoTooltip>
+          <Text size="small" css={{ ml: '$xs' }}>
+            {formatDeletedDistributionDates(group)}
           </Text>
         </Text>
       </td>
@@ -139,7 +174,7 @@ export default function ClaimsPage() {
           {({ claim, group }) => {
             const isClaiming = claiming[claim.id] === 'pending';
             const isClaimed = claiming[claim.id] === 'claimed';
-            return (
+            return claim.distribution.epoch ? (
               <ClaimsRow claim={claim} key={claim.id} group={group}>
                 <Flex css={{ justifyContent: 'end' }}>
                   <Button
@@ -157,6 +192,22 @@ export default function ClaimsPage() {
                   </Button>
                 </Flex>
               </ClaimsRow>
+            ) : (
+              <DeletedUserClaimsRow claim={claim} key={claim.id} group={group}>
+                <Button
+                  color="primary"
+                  outlined
+                  css={buttonStyles}
+                  onClick={() => processClaim(group.map(c => c.id))}
+                  disabled={isClaiming || isClaimed}
+                >
+                  {isClaiming
+                    ? 'Claiming...'
+                    : isClaimed
+                    ? 'Claimed'
+                    : `Claim ${claim.distribution.vault.symbol}`}
+                </Button>
+              </DeletedUserClaimsRow>
             );
           }}
         </ClaimsTable>
@@ -181,20 +232,35 @@ export default function ClaimsPage() {
             return c => c;
           }}
         >
-          {({ claim, group }) => (
-            <ClaimsRow claim={claim} key={claim.id} group={group}>
-              <Link
-                css={{ mr: '$md' }}
-                target="_blank"
-                href={makeExplorerUrl(
-                  claim.distribution.vault.chain_id,
-                  claim.txHash
-                )}
-              >
-                View on Etherscan
-              </Link>
-            </ClaimsRow>
-          )}
+          {({ claim, group }) =>
+            claim.distribution.epoch ? (
+              <ClaimsRow claim={claim} key={claim.id} group={group}>
+                <Link
+                  css={{ mr: '$md' }}
+                  target="_blank"
+                  href={makeExplorerUrl(
+                    claim.distribution.vault.chain_id,
+                    claim.txHash
+                  )}
+                >
+                  View on Etherscan
+                </Link>
+              </ClaimsRow>
+            ) : (
+              <DeletedUserClaimsRow claim={claim} key={claim.id} group={group}>
+                <Link
+                  css={{ mr: '$md' }}
+                  target="_blank"
+                  href={makeExplorerUrl(
+                    claim.distribution.vault.chain_id,
+                    claim.txHash
+                  )}
+                >
+                  View on Etherscan
+                </Link>
+              </DeletedUserClaimsRow>
+            )
+          }
         </ClaimsTable>
       </Panel>
     </SingleColumnLayout>

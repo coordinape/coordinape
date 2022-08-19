@@ -10,9 +10,10 @@ import { sendAndTrackTx } from 'utils/contractHelpers';
 
 import { useMarkClaimTaken } from './mutations';
 import type { QueryClaim } from './queries';
+import { findMax } from './utils';
 
 export type ClaimAllocationProps = {
-  claimId: number;
+  claimIds: number[];
   distribution: QueryClaim['distribution'];
   amount: string;
   index: number;
@@ -31,19 +32,19 @@ export function useClaimAllocation() {
     index,
     address,
     proof,
-    claimId,
+    claimIds,
   }: ClaimAllocationProps): Promise<string | undefined> => {
     assert(contracts, 'This network is not supported');
     const {
       vault,
       distribution_epoch_id,
-      epoch: { circle },
+      distribution_json: { circleId },
+      epoch,
     } = distribution;
     const vaultContract = contracts.getVault(vault.vault_address);
     const yVaultAddress = await vaultContract.vault();
     try {
-      assert(circle);
-      const encodedCircleId = encodeCircleId(circle.id);
+      const encodedCircleId = encodeCircleId(circleId);
 
       const isSimpleToken = hasSimpleToken(vault);
 
@@ -63,12 +64,14 @@ export function useClaimAllocation() {
         {
           showInfo,
           showError,
-          description: `Claim Tokens from ${circle.name}: Epoch ${distribution.epoch.number}`,
+          description: `Claim Tokens from ${
+            epoch?.circle?.name || vault.vault_address
+          }${epoch?.circle ? `: Epoch ${distribution.epoch.number}` : ''}`,
           chainId: contracts.chainId,
           savePending: async (txHash: string) =>
             savePendingVaultTx({
               tx_hash: txHash,
-              claim_id: claimId,
+              claim_id: findMax(claimIds),
               chain_id: Number.parseInt(contracts.chainId),
               tx_type: vault_tx_types_enum.Claim,
             }),
@@ -89,10 +92,8 @@ export function useClaimAllocation() {
 
       showInfo('Saving record of claim...');
       await markSaved({
-        claimId,
-        circleId: circle.id,
+        claimIds,
         txHash,
-        vaultAddress: vault.vault_address,
       });
       showInfo('Claim succeeded');
 

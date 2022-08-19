@@ -10,7 +10,7 @@ import { useMyProfile } from 'recoilState/app';
 
 import { getClaims, QueryClaim } from './queries';
 import { useClaimAllocation } from './useClaimAllocation';
-import { createClaimsRows } from './utils';
+import { createClaimsRows, findMax } from './utils';
 
 export type ClaimsRowData = { claim: QueryClaim; group: QueryClaim[] };
 
@@ -49,8 +49,9 @@ export const useClaimsTableData = () => {
     return createClaimsRows(claims || []);
   }, [claims]);
 
-  const processClaim = async (claimId: number) => {
-    const claim = claims?.find(c => c.id === claimId);
+  const processClaim = async (claimIds: number[]) => {
+    const maxClaimId = findMax(claimIds);
+    const claim = claims?.find(c => c.id === maxClaimId);
     assert(claim && address);
     const { index, proof, distribution } = claim;
 
@@ -62,7 +63,7 @@ export const useClaimsTableData = () => {
 
     setClaiming(val => ({ ...val, [claim.id]: 'pending' }));
     const hash = await claimTokens({
-      claimId: claim.id,
+      claimIds,
       distribution,
       index,
       address,
@@ -72,8 +73,10 @@ export const useClaimsTableData = () => {
     if (hash) {
       refetch();
       queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
+      setClaiming(val => ({ ...val, [claim.id]: 'claimed' }));
+    } else {
+      setClaiming(val => ({ ...val, [claim.id]: null }));
     }
-    setClaiming(val => ({ ...val, [claim.id]: 'claimed' }));
   };
 
   return {
