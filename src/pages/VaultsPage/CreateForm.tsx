@@ -265,11 +265,11 @@ export const CreateForm = ({
         nested={activeVaultPanel !== 'yearn'}
         css={{ gap: '$md' }}
       >
-        <Text h3>Yearn Vault</Text>
+        <Text h3>Yield Generating CoVault</Text>
         <Text p as="p">
-          Select one of the below tokens to create a CoVault that uses{'  '}
+          Create a CoVault that receives DAI or USDC, and will use{'  '}
           <Link href="https://docs.yearn.finance/">Yearn Vaults</Link> to earn
-          yield.
+          yield in the background.
         </Text>
         <Box css={{ display: 'flex', gap: '$sm' }}>
           {contracts.getAvailableTokens().map(symbol => (
@@ -295,6 +295,7 @@ export const CreateForm = ({
       <Button
         color="primary"
         outlined
+        size="large"
         css={{ mt: '$lg', width: '100%' }}
         disabled={!isValid || saving}
       >
