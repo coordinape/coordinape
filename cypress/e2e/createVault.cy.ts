@@ -79,7 +79,7 @@ context('Coordinape', () => {
     cy.contains('1 Distribution');
     cy.contains('6 Unique Contributors Paid');
     cy.get('table').contains('Distribution');
-    cy.get('table').contains('4500');
+    cy.get('table').contains('4,500.00');
 
     // claims allocations
     cy.contains('button', 'Claim Allocations').click();
