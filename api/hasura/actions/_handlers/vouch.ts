@@ -18,25 +18,47 @@ import {
 import { Awaited } from '../../../../api-lib/ts4.5shim';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import {
-  composeHasuraActionRequestBodyWithSession,
-  HasuraUserSessionVariables,
-  vouchInput,
+  composeHasuraActionRequestBodyWithApiPermissions,
+  vouchApiInput,
 } from '../../../../src/lib/zod';
 
 type Voucher = Awaited<ReturnType<typeof getUserFromProfileId>>;
 type Nominee = Awaited<ReturnType<typeof getNominee>>;
+
+const requestSchema = composeHasuraActionRequestBodyWithApiPermissions(
+  vouchApiInput,
+  ['create_vouches']
+);
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const {
       input: { payload: input },
       session_variables: sessionVariables,
-    } = composeHasuraActionRequestBodyWithSession(
-      vouchInput,
-      HasuraUserSessionVariables
-    ).parse(req.body);
+    } = await requestSchema.parseAsync(req.body);
 
-    const { hasuraProfileId: voucherProfileId } = sessionVariables;
+    let voucherProfileId: number | null;
+    if (sessionVariables.hasuraRole === 'user') {
+      voucherProfileId = sessionVariables.hasuraProfileId;
+      // Allow passing in voucher_profile_id for api-users to vouch on behalf of a user
+    } else if (sessionVariables.hasuraRole === 'api-user') {
+      // Just to make TS happy, shouldn't fire since Zod validates the input above
+      assert('voucher_profile_id' in input, 'voucher_profile_id not specified');
+      voucherProfileId = input.voucher_profile_id;
+
+      // Check if voucher exists in the same circle as the API key
+      // TODO: this uses assert for error handling
+      const voucher = await getUserFromProfileId(
+        voucherProfileId,
+        sessionVariables.hasuraCircleId
+      );
+      if (!voucher) {
+        throw new Error('The voucher is not a member of this circle');
+      }
+    } else {
+      throw new Error('This role cannot call this mutation');
+    }
+
     const { nominee_id: nomineeId } = input;
 
     // validate that this is allowed
