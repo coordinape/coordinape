@@ -346,29 +346,21 @@ export const CircleAdminPage = () => {
     }
   };
 
-  const getDecimals = ({ symbol }: { symbol: string | undefined }) => {
-    if (symbol) {
-      const v = findVault({ symbol });
+  const getDecimals = (vaultId: string) => {
+    if (vaultId) {
+      const v = findVault(vaultId);
       if (v) return v.decimals;
     }
     return 0;
   };
 
-  const findVault = ({
-    vaultId,
-    symbol,
-  }: {
-    vaultId?: number | undefined;
-    symbol?: string | undefined;
-  }) => {
-    return vaultsQuery?.data?.find(v =>
-      vaultId ? v.id === vaultId : v.symbol === symbol
-    );
+  const findVault = (vaultId: string) => {
+    return vaultsQuery?.data?.find(v => v.id === parseInt(vaultId));
   };
 
-  const updateBalanceState = async (symbol: string): Promise<void> => {
+  const updateBalanceState = async (vaultId: string): Promise<void> => {
     assert(circle);
-    const vault = findVault({ symbol });
+    const vault = findVault(vaultId);
     assert(contracts, 'This network is not supported');
 
     if (vault) {
@@ -613,9 +605,7 @@ export const CircleAdminPage = () => {
                           { shouldDirty: true }
                         );
                         updateBalanceState(
-                          vaultOptions.find(
-                            o => o.value == getValues('fixed_payment_vault_id')
-                          )?.label ?? ''
+                          getValues('fixed_payment_vault_id') ?? ''
                         );
                       },
                       defaultValue: stringifiedVaultId(),
@@ -648,13 +638,13 @@ export const CircleAdminPage = () => {
                     Fixed Payments Total
                   </Text>
                   <Text size="medium">{`${fixedPayment?.fixedPaymentTotal} ${
-                    !watchFixedPaymentVaultId
-                      ? circle?.fixed_payment_token_type
-                      : removeYearnPrefix(
+                    watchFixedPaymentVaultId
+                      ? removeYearnPrefix(
                           vaultOptions.find(
                             o => o.value == getValues('fixed_payment_vault_id')
                           )?.label ?? ''
                         )
+                      : circle?.fixed_payment_token_type ?? ''
                   }`}</Text>
                 </Flex>
                 <Flex column>
@@ -664,16 +654,7 @@ export const CircleAdminPage = () => {
                   <Text size="medium">{`${numberWithCommas(
                     formatUnits(
                       maxGiftTokens,
-                      getDecimals({
-                        symbol:
-                          getValues('fixed_payment_vault_id')?.trim().length !==
-                          0
-                            ? vaultOptions.find(
-                                o =>
-                                  o.value == getValues('fixed_payment_vault_id')
-                              )?.label
-                            : undefined,
-                      })
+                      getDecimals(getValues('fixed_payment_vault_id') ?? '')
                     )
                   )} ${
                     getValues('fixed_payment_vault_id')?.trim().length !== 0
@@ -682,7 +663,7 @@ export const CircleAdminPage = () => {
                             o => o.value == getValues('fixed_payment_vault_id')
                           )?.label ?? ''
                         )
-                      : circle?.fixed_payment_token_type
+                      : circle?.fixed_payment_token_type ?? ''
                   }`}</Text>
                 </Flex>
               </Flex>
