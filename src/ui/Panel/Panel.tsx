@@ -12,7 +12,6 @@ export const panelStyles = css({
 export const Panel = styled('div', {
   borderRadius: '$3',
   backgroundColor: '$surface',
-  border: '1px solid transparent',
   padding: '$md',
 
   variants: {
@@ -26,7 +25,6 @@ export const Panel = styled('div', {
       true: {
         padding: '$md',
         backgroundColor: 'white',
-        border: 'none',
       },
     },
     invertForm: {

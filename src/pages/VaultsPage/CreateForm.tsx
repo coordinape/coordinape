@@ -93,6 +93,9 @@ export const CreateForm = ({
   const { createVault } = useVaultFactory(orgId);
   const [asset, setAsset] = useState<string | undefined>();
   const [displayCustomToken, setDisplayCustomToken] = useState(false);
+  const [activeVaultPanel, setActiveVaultPanel] = useState<string | undefined>(
+    'simple'
+  );
   const [customSymbol, setCustomSymbol] = useState<string | undefined>();
   const [saving, setSavingLocal] = useState(false);
 
@@ -165,14 +168,12 @@ export const CreateForm = ({
       customAddressField.onChange({ target: { value: '' } });
       onChange({ target: { value: symbol } });
       setDisplayCustomToken(false);
+      setActiveVaultPanel('yearn');
+    } else {
+      setActiveVaultPanel('simple');
     }
 
     onBlur();
-
-    // if (vaultType == 'simple' && symbol !== 'customToken') {
-
-    //   setCustomSymbol(undefined);
-    // }
   };
 
   const onSubmit = ({ symbol, customAddress }: any) => {
@@ -209,7 +210,11 @@ export const CreateForm = ({
         flexDirection: 'column',
       }}
     >
-      <Panel invertForm css={{ gap: '$md' }}>
+      <Panel
+        invertForm={activeVaultPanel === 'simple'}
+        nested={activeVaultPanel !== 'simple'}
+        css={{ gap: '$md' }}
+      >
         <Text h3>CoVault</Text>
         <Text p as="p">
           CoVaults allows you to fund your circles with any ERC-20 token as your
@@ -220,7 +225,6 @@ export const CreateForm = ({
             <AssetButton
               pill
               color="surface"
-              role="radio"
               key={symbol}
               data-selected={`${symbol}simple` === asset}
               onClick={event => pickAsset('simple', symbol, event)}
@@ -238,7 +242,6 @@ export const CreateForm = ({
           <AssetButton
             pill
             color="surface"
-            role="radio"
             key={'Other'}
             data-selected={'customsimple' === asset}
             onClick={e => {
@@ -274,7 +277,11 @@ export const CreateForm = ({
         )}
       </Panel>
       <HR />
-      <Panel nested css={{ gap: '$md' }}>
+      <Panel
+        invertForm={activeVaultPanel === 'yearn'}
+        nested={activeVaultPanel !== 'yearn'}
+        css={{ gap: '$md' }}
+      >
         <Text h3>Yearn Vault</Text>
         <Text p as="p">
           Select one of the below tokens to create a CoVault that uses{'  '}
@@ -286,7 +293,6 @@ export const CreateForm = ({
             <AssetButton
               pill
               color="surface"
-              role="radio"
               key={symbol}
               data-selected={`${symbol}yearn` === asset}
               onClick={event => pickAsset('yearn', symbol, event)}
