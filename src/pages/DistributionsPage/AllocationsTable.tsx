@@ -157,7 +157,7 @@ export const AllocationsTable = ({
             </td>
             <td>{shortenAddress(user.address)}</td>
             <td>{user.givers}</td>
-            <td>{numberWithCommas(user.received)}</td>
+            <td>{user.received}</td>
             <td>{numberWithCommas(givenPercent(user.received) * 100, 2)}%</td>
             <td>
               {user.circle_claimed
