@@ -293,22 +293,25 @@ export const TransactionTable = ({
     css={{
       width: '100%',
       borderSpacing: 0,
-      fontFamily: 'Inter',
+      fontSize: '$small',
       th: {
         textAlign: 'left',
         color: '$secondaryText',
         textTransform: 'uppercase',
-        fontSize: '$small',
-        pb: '$sm',
-        pl: '$sm',
+        p: '$sm',
       },
       tbody: { backgroundColor: '$white' },
       tr: {
         borderTop: '1px solid $border',
       },
       td: {
-        padding: '$sm',
+        p: '$sm',
         color: '$text',
+      },
+      'th, td': {
+        '&.alignRight': {
+          textAlign: 'right',
+        },
       },
     }}
   >
@@ -318,8 +321,8 @@ export const TransactionTable = ({
         <th>Circle</th>
         <th>Type</th>
         <th>Details</th>
-        <th>Amount</th>
-        <th>Transaction</th>
+        <th className="alignRight">Amount</th>
+        <th className="alignRight">Transaction</th>
       </tr>
     </thead>
     <tbody>
@@ -329,10 +332,10 @@ export const TransactionTable = ({
           <td>{row.circle}</td>
           <td>{row.type}</td>
           <td>{row.details}</td>
-          <td>{numberWithCommas(row.amount, 2)}</td>
-          <td>
+          <td className="alignRight">{numberWithCommas(row.amount, 2)}</td>
+          <td className="alignRight">
             <Link target="_blank" href={makeExplorerUrl(chainId, row.hash)}>
-              Etherscan
+              View on Etherscan
             </Link>
           </td>
         </tr>

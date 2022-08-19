@@ -1,6 +1,6 @@
 import { ApeInfoTooltip, LoadingModal, makeTable } from 'components';
 import { DISTRIBUTION_TYPE } from 'config/constants';
-import { Avatar, Box, Panel, Flex, Text, Button } from 'ui';
+import { Avatar, Box, Panel, Flex, Text, Button, Link } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { numberWithCommas } from 'utils';
 import { makeExplorerUrl } from 'utils/provider';
@@ -11,7 +11,7 @@ import { formatDistributionDates, formatClaimAmount } from './utils';
 
 const styles = {
   th: { whiteSpace: 'nowrap', textAlign: 'left' },
-  thLast: { textAlign: 'right', width: '98%' },
+  thLast: { textAlign: 'right', pr: '$md' },
 };
 
 const buttonStyles = {
@@ -75,21 +75,9 @@ const ClaimsRow: React.FC<ClaimsRowData> = ({ claim, group, children }) => {
         </Text>
       </td>
       <td>
-        <Flex css={{ justifyContent: 'flex-end' }}>
-          <Flex
-            css={{
-              minWidth: '10vw',
-              justifyContent: 'flex-end',
-              gap: '$md',
-              mr: '$md',
-              '@sm': { minWidth: '20vw' },
-            }}
-          >
-            <Text>{formatClaimAmount(group)}</Text>
-            {children}
-          </Flex>
-        </Flex>
+        <Text>{formatClaimAmount(group)}</Text>
       </td>
+      <td className="alignRight">{children}</td>
     </tr>
   );
 };
@@ -137,7 +125,8 @@ export default function ClaimsPage() {
             { title: 'Organization', css: styles.th },
             { title: 'Circle', css: styles.th },
             { title: 'Distributions', css: styles.th },
-            { title: 'Rewards', css: styles.thLast },
+            { title: 'Rewards', css: styles.th },
+            { title: 'Claims', css: styles.thLast },
           ]}
           data={unclaimedClaimsRows}
           startingSortIndex={2}
@@ -151,19 +140,21 @@ export default function ClaimsPage() {
             const isClaimed = claiming[claim.id] === 'claimed';
             return (
               <ClaimsRow claim={claim} key={claim.id} group={group}>
-                <Button
-                  color="primary"
-                  outlined
-                  css={buttonStyles}
-                  onClick={() => processClaim(claim.id)}
-                  disabled={isClaiming || isClaimed}
-                >
-                  {isClaiming
-                    ? 'Claiming...'
-                    : isClaimed
-                    ? 'Claimed'
-                    : `Claim ${claim.distribution.vault.symbol}`}
-                </Button>
+                <Flex css={{ justifyContent: 'end', pr: '$md' }}>
+                  <Button
+                    color="primary"
+                    outlined
+                    css={buttonStyles}
+                    onClick={() => processClaim(claim.id)}
+                    disabled={isClaiming || isClaimed}
+                  >
+                    {isClaiming
+                      ? 'Claiming...'
+                      : isClaimed
+                      ? 'Claimed'
+                      : `Claim ${claim.distribution.vault.symbol}`}
+                  </Button>
+                </Flex>
               </ClaimsRow>
             );
           }}
@@ -179,7 +170,8 @@ export default function ClaimsPage() {
             { title: 'Organization', css: styles.th },
             { title: 'Circle', css: styles.th },
             { title: 'Epochs', css: styles.th },
-            { title: 'Rewards', css: styles.thLast },
+            { title: 'Rewards', css: styles.th },
+            { title: 'Transactions', css: styles.thLast },
           ]}
           data={claimedClaimsRows}
           startingSortIndex={2}
@@ -190,11 +182,8 @@ export default function ClaimsPage() {
         >
           {({ claim, group }) => (
             <ClaimsRow claim={claim} key={claim.id} group={group}>
-              <Button
-                color="primary"
-                outlined
-                css={buttonStyles}
-                as="a"
+              <Link
+                css={{ mr: '$md' }}
                 target="_blank"
                 href={makeExplorerUrl(
                   claim.distribution.vault.chain_id,
@@ -202,7 +191,7 @@ export default function ClaimsPage() {
                 )}
               >
                 View on Etherscan
-              </Button>
+              </Link>
             </ClaimsRow>
           )}
         </ClaimsTable>
