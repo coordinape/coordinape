@@ -33,6 +33,8 @@ test('input an invalid address for custom asset', async () => {
     );
   });
   await screen.findByText('DAI');
+  fireEvent.click(screen.getByText('Other ERC-20 Token'));
+  await screen.findByText('Token contract address');
   const input = screen.getByRole('textbox');
   fireEvent.change(input, { target: { value: '0xf00' } });
   fireEvent.blur(input);
@@ -48,6 +50,8 @@ test('input a valid but non-ERC20 address for custom asset', async () => {
     );
   });
   await screen.findByText('DAI');
+  fireEvent.click(screen.getByText('Other ERC-20 Token'));
+  await screen.findByText('Token contract address');
   const input = screen.getByRole('textbox');
   fireEvent.change(input, {
     target: { value: '0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45' },
