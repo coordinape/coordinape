@@ -11,6 +11,7 @@ import {
   useLocation,
 } from 'react-router-dom';
 
+import AddMembersPage from '../pages/AddMembersPage/AddMembersPage';
 import { useFixCircleState, useRoleInCircle } from 'hooks/migration';
 import AdminCircleApiPage from 'pages/AdminCircleApiPage/AdminCircleApiPage';
 import AdminPage from 'pages/AdminPage';
@@ -50,6 +51,7 @@ export const AppRoutes = () => {
         <Route path="map" element={<LazyAssetMapPage />} />
         <Route path="vouching" element={<VouchingPage />} />
         <Route path="members" element={<AdminRouteHandler />}>
+          <Route path="add" element={<AddMembersPage />} />
           <Route path="" element={<AdminPage />} />
         </Route>
         <Route path="admin" element={<AdminRouteHandler />}>

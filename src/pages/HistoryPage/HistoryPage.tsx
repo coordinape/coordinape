@@ -12,6 +12,7 @@ import {
 import HintBanner from '../../ui/HintBanner';
 import { ActionDialog, LoadingModal } from 'components';
 import { Paginator } from 'components/Paginator';
+import isFeatureEnabled from 'config/features';
 import { useApeSnackbar, useApiAdminCircle } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
 import {
@@ -169,11 +170,13 @@ export const HistoryPage = () => {
               >
                 Start an Epoch
               </Button>
-              <AppLink to={paths.vaults}>
-                <Button color="primary" outlined inline css={{ mt: '$md' }}>
-                  Create a Vault
-                </Button>
-              </AppLink>
+              {isFeatureEnabled('vaults') && (
+                <AppLink to={paths.vaults}>
+                  <Button color="primary" outlined inline css={{ mt: '$md' }}>
+                    Create a Vault
+                  </Button>
+                </AppLink>
+              )}
             </Box>
           </HintBanner>
         )}

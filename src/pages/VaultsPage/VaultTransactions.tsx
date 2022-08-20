@@ -9,6 +9,7 @@ import { styled } from 'stitches.config';
 import { LoadingModal } from 'components/LoadingModal/LoadingModal';
 import { Link, Panel, Text } from 'ui';
 import { OrgLayout, SingleColumnLayout } from 'ui/layouts';
+import { numberWithCommas } from 'utils';
 import { getProviderForChain, makeExplorerUrl } from 'utils/provider';
 
 import { getVaultAndTransactions } from './queries';
@@ -328,7 +329,7 @@ export const TransactionTable = ({
           <td>{row.circle}</td>
           <td>{row.type}</td>
           <td>{row.details}</td>
-          <td>{row.amount.toString()}</td>
+          <td>{numberWithCommas(row.amount, 2)}</td>
           <td>
             <Link target="_blank" href={makeExplorerUrl(chainId, row.hash)}>
               Etherscan

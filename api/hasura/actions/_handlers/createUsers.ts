@@ -16,11 +16,12 @@ const USER_ALIAS_PREFIX = 'update_user_';
 const NOMINEE_ALIAS_PREFIX = 'update_nominee_';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
+  // this has to do parseAsync due to the ENS validation
   const {
     input: { payload: input },
-  } = composeHasuraActionRequestBody(createUsersBulkSchemaInput).parse(
-    req.body
-  );
+  } = await composeHasuraActionRequestBody(
+    createUsersBulkSchemaInput
+  ).parseAsync(req.body);
 
   const { circle_id, users } = input;
 
@@ -28,10 +29,13 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   // Check if bulk contains duplicates.
   if (uniqueAddresses.length < users.length) {
+    const dupes = uniqueAddresses.filter(
+      uq => users.filter(u => u.address.toLowerCase() == uq).length > 1
+    );
     return errorResponseWithStatusCode(
       res,
       {
-        message: `Users list contains duplicate address.`,
+        message: `Users list contains duplicate addresses: ${dupes}`,
       },
       422
     );

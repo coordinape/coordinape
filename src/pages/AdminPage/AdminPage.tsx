@@ -31,7 +31,6 @@ const AdminPage = () => {
   const [deleteUserDialog, setDeleteUserDialog] = useState<IUser | undefined>(
     undefined
   );
-  const [newUser, setNewUser] = useState<boolean>(false);
   const [newCircle, setNewCircle] = useState<boolean>(false);
 
   useEffect(() => {
@@ -96,11 +95,9 @@ const AdminPage = () => {
                   Settings
                 </Button>
               </AppLink>
-              <AddContributorButton
-                onClick={() => setNewUser(true)}
-                tokenName={circle?.tokenName || 'GIVE'}
-              />
-
+              <AppLink to={paths.membersAdd(selectedCircle.id)}>
+                <AddContributorButton tokenName={circle?.tokenName || 'GIVE'} />
+              </AppLink>
               <Button
                 color="primary"
                 outlined
@@ -119,7 +116,7 @@ const AdminPage = () => {
         </Flex>
         {isMobile && (
           <UsersTableHeader
-            onClick={() => setNewUser(true)}
+            circleId={selectedCircle.id}
             tokenName={circle?.tokenName || 'GIVE'}
           />
         )}
@@ -139,7 +136,6 @@ const AdminPage = () => {
             visibleUsers={visibleUsers}
             myUser={me}
             circle={circle}
-            setNewUser={setNewUser}
             filter={filterUser}
             setEditUser={setEditUser}
             setDeleteUserDialog={setDeleteUserDialog}
@@ -147,9 +143,9 @@ const AdminPage = () => {
           />
         )}
       </Panel>
-      {circle && (editUser || newUser) && (
+      {circle && editUser && (
         <AdminUserModal
-          onClose={() => (newUser ? setNewUser(false) : setEditUser(undefined))}
+          onClose={() => setEditUser(undefined)}
           user={editUser}
           fixedPaymentToken={circle.fixed_payment_token_type}
           tokenName={circle.tokenName}

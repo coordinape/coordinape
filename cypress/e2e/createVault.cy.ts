@@ -47,7 +47,7 @@ context('Coordinape', () => {
     cy.reload(true);
     cy.contains('Ended Epoch With Gifts', { timeout: 120000 }).click();
     cy.get('table').contains('Deposit');
-    cy.get('table').contains('5000');
+    cy.get('table').contains('5,000.00');
 
     // Withdraw USDC from the Vault
     cy.contains('Withdraw').click();
@@ -79,7 +79,7 @@ context('Coordinape', () => {
     cy.contains('1 Distribution');
     cy.contains('6 Unique Contributors Paid');
     cy.get('table').contains('Distribution');
-    cy.get('table').contains('4500');
+    cy.get('table').contains('4,500.00');
 
     // claims allocations
     cy.contains('button', 'Claim Allocations').click();

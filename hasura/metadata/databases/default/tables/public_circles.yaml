@@ -137,67 +137,18 @@ select_permissions:
     - vouching
     - vouching_text
     filter:
-      organization:
-        circles:
-          users:
-            _and:
-            - profile:
-                id:
-                  _eq: X-Hasura-User-Id
-            - deleted_at:
-                _is_null: true
-  role: user
-update_permissions:
-- permission:
-    check: null
-    columns:
-    - alloc_text
-    - discord_webhook
-    - logo
-    - min_vouches
-    - name
-    - nomination_days_limit
-    - team_sel_text
-    - team_selection
-    - token_name
-    - vouching
-    - vouching_text
-    filter:
-      api_keys:
-        _and:
-        - hash:
-            _eq: X-Hasura-Api-Key-Hash
-        - update_circle:
-            _eq: true
-  role: api-user
-- permission:
-    check: null
-    columns:
-    - alloc_text
-    - auto_opt_out
-    - default_opt_in
-    - discord_webhook
-    - fixed_payment_token_type
-    - fixed_payment_vault_id
-    - is_verified
-    - logo
-    - min_vouches
-    - name
-    - nomination_days_limit
-    - only_giver_vouch
-    - team_sel_text
-    - team_selection
-    - token_name
-    - vouching
-    - vouching_text
-    filter:
-      users:
-        _and:
-        - role:
-            _eq: 1
-        - profile:
-            id:
-              _eq: X-Hasura-User-Id
+      _and:
+      - deleted_at:
+          _is_null: true
+      - organization:
+          circles:
+            users:
+              _and:
+              - profile:
+                  id:
+                    _eq: X-Hasura-User-Id
+              - deleted_at:
+                  _is_null: true
   role: user
 event_triggers:
 - definition:

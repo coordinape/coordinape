@@ -57,7 +57,7 @@ export const AdminUserModal = ({
   fixedPaymentToken,
   tokenName,
 }: {
-  user?: IUser;
+  user: IUser;
   open?: boolean;
   onClose: () => void;
   fixedPaymentToken: string | undefined;
@@ -66,14 +66,14 @@ export const AdminUserModal = ({
   const classes = useStyles();
 
   const { circle: selectedCircle, circleId } = useSelectedCircle();
-  const { updateUser, createUser } = useApiAdminCircle(circleId);
+  const { updateUser } = useApiAdminCircle(circleId);
 
   const [showOptOutChangeWarning, setShowOptOutChangeWarning] = useState(false);
   const [hasAcceptedOptOutWarning, setHasAcceptedOptOutWarning] =
     useState(false);
 
-  const isOptedOut = !!user?.fixed_non_receiver || !!user?.non_receiver;
-  const hasGiveAllocated = !!user?.give_token_received;
+  const isOptedOut = !!user.fixed_non_receiver || !!user.non_receiver;
+  const hasGiveAllocated = !!user.give_token_received;
 
   const source = useMemo(
     () => ({
@@ -96,7 +96,7 @@ export const AdminUserModal = ({
           setShowOptOutChangeWarning(true);
         } else {
           setShowOptOutChangeWarning(false);
-          (user ? updateUser(user.address, params) : createUser(params))
+          updateUser(user.address, params)
             .then(() => onClose())
             .catch(console.warn);
         }
@@ -123,7 +123,7 @@ export const AdminUserModal = ({
         <FormModal
           onClose={onClose}
           open={open === undefined ? true : open}
-          title={user ? `Edit ${user.name}` : 'Create User'}
+          title={`Edit ${user.name}`}
           onSubmit={handleSubmit}
           submitDisabled={!changedOutput}
           errors={errors}
