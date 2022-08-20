@@ -265,7 +265,7 @@ export const CreateForm = ({
         nested={activeVaultPanel !== 'yearn'}
         css={{ gap: '$md' }}
       >
-        <Text h3>Yield Generating CoVault</Text>
+        <Text h3>Yield-Generating CoVault</Text>
         <Text p as="p">
           Create a CoVault that receives DAI or USDC, and will use{'  '}
           <Link href="https://docs.yearn.finance/">Yearn Vaults</Link> to earn
