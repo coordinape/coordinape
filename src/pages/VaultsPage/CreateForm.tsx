@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { MouseEvent, useState, useEffect } from 'react';
+import { MouseEvent, useState, useEffect, useCallback } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ethers } from 'ethers';
 import { Asset } from 'lib/vaults';
 import type { Contracts } from 'lib/vaults';
+import debounce from 'lodash/debounce';
 import isEmpty from 'lodash/isEmpty';
 import { useController, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
@@ -101,6 +102,7 @@ export const CreateForm = ({
     formState: { errors, isValid },
     handleSubmit,
     clearErrors,
+    trigger,
   } = useFormSetup(contracts, setCustomSymbol, existingVaults);
 
   const {
@@ -112,6 +114,11 @@ export const CreateForm = ({
     defaultValue: '',
     control,
   });
+
+  const checkCustomAddress = useCallback(
+    debounce(() => trigger('customAddress'), 200),
+    [trigger]
+  );
 
   if (!contracts)
     return (
@@ -246,10 +253,13 @@ export const CreateForm = ({
               )}
             </Text>
             <TextField
-              onPaste={() => onBlur()}
               placeholder="0x0000..."
               css={{ width: '100%' }}
               {...customAddressField}
+              onChange={event => {
+                customAddressField.onChange(event);
+                checkCustomAddress();
+              }}
             />
           </Box>
         )}
