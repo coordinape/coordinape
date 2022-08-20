@@ -20,6 +20,7 @@ export const Text = styled('span', {
       neutral: { color: '$neutral' },
       alert: { color: '$alert' },
       primary: { color: '$primary' },
+      inherit: { color: 'inherit' },
     },
     bold: { true: { fontWeight: '$bold !important' } },
     normal: { true: { fontWeight: '$normal !important' } },
@@ -53,6 +54,11 @@ export const Text = styled('span', {
         lineHeight: '$shorter',
         display: 'flex',
         gap: '$xs',
+      },
+      formError: {
+        color: '$alert',
+        fontSize: '$small',
+        fontWeight: '$semibold',
       },
     },
     p: {

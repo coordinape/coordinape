@@ -13,27 +13,35 @@ context('Coordinape', () => {
     });
   });
 
+  after(() => {
+    // might want something more surgical and lightweight
+    // to facilitate faster idempotent testing
+    // cy.exec('yarn db-seed-fresh');
+  });
   it('can create a new user with fixed payment amount', () => {
     cy.visit(`/circles/${circleId}/members`);
     cy.login();
 
-    cy.contains('Add Contributor', { timeout: 120000 }).should('be.visible');
-    cy.contains('Add Contributor').click();
-    cy.getInputByLabel('Contributor Name').type('A Test User').blur();
-    cy.getInputByLabel('Contributor ETH address')
-      .type('0xe00b84525b71ef52014e59f633c97530cb278e09')
-      .blur();
-    // enter the fixed payment amount
-    cy.getInputByLabel('Fixed Payment Amount').clear().type('1200').blur();
+    cy.contains('Add Members', { timeout: 120000 }).should('be.visible');
+    cy.contains('Add Members').click();
 
-    cy.contains('Save').click();
-    cy.reload(true);
+    cy.get('[data-testid=new-members]').within(() => {
+      cy.get('input').eq(0).click().type('A Test User').blur();
+      cy.get('input')
+        .eq(1)
+        .click()
+        .type('0xe00b84525b71ef52014e59f633c97530cb278e09')
+        .blur();
+    });
+
+    cy.get('button')
+      .contains('Add Members', { timeout: 120000 })
+      .should('be.enabled');
+    cy.get('button').contains('Add Members').click();
+    cy.contains('You have added 1 member!', { timeout: 120000 }).should(
+      'be.visible'
+    );
+    cy.get('button').contains('Back').click();
     cy.contains('A Test User', { timeout: 120000 }).should('be.visible');
-    // Verify new value in contributors table
-    cy.contains('A Test User', { timeout: 120000 })
-      .parents('tr')
-      .within(() => {
-        cy.get('td').eq(7).should('have.text', '1200');
-      });
   });
 });
