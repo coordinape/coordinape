@@ -4,7 +4,7 @@ import { MouseEvent, useState, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ethers } from 'ethers';
 import { Asset } from 'lib/vaults';
-import type { Contracts, getTokenAddress } from 'lib/vaults';
+import type { Contracts } from 'lib/vaults';
 import isEmpty from 'lodash/isEmpty';
 import { useController, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
@@ -15,9 +15,6 @@ import { useContracts } from 'hooks/useContracts';
 import { useVaultFactory } from 'hooks/useVaultFactory';
 import { Increase } from 'icons/__generated';
 import { Box, Button, Form, HR, Link, Panel, Text, TextField } from 'ui';
-
-const USDC_ERC20 = '0xC478a48520005bF9C97b145dE2D8DD2b54Ba4abC';
-const DAI_ERC20 = '0x8e34054aA3F9CD541fE4B0fb9c4A45281178e7c6';
 
 const useFormSetup = (
   contracts: Contracts | undefined,
@@ -131,9 +128,9 @@ export const CreateForm = ({
     );
 
   const pickAsset = (
-    vaultType: string,
-    symbol?: string,
-    event?: MouseEvent
+    vaultType: 'yearn' | 'simple',
+    symbol: string,
+    event: MouseEvent
   ) => {
     if (event) event.preventDefault();
 
@@ -148,10 +145,14 @@ export const CreateForm = ({
     } else if (vaultType == 'simple') {
       setDisplayCustomToken(false);
       if (symbol == 'USDC') {
-        customAddressField.onChange({ target: { value: USDC_ERC20 } });
+        customAddressField.onChange({
+          target: { value: contracts.getTokenAddress('USDC') },
+        });
         onChange({ target: { value: symbol } });
       } else if (symbol == 'DAI') {
-        customAddressField.onChange({ target: { value: DAI_ERC20 } });
+        customAddressField.onChange({
+          target: { value: contracts.getTokenAddress('DAI') },
+        });
         onChange({ target: { value: symbol } });
       }
     }
@@ -188,10 +189,7 @@ export const CreateForm = ({
   return (
     <Form
       onSubmit={handleSubmit(onSubmit)}
-      css={{
-        display: 'flex',
-        flexDirection: 'column',
-      }}
+      css={{ display: 'flex', flexDirection: 'column' }}
     >
       <Panel
         invertForm={activeVaultPanel === 'simple'}
@@ -200,7 +198,7 @@ export const CreateForm = ({
       >
         <Text h3>CoVault</Text>
         <Text p as="p">
-          CoVaults allows you to fund your circles with any ERC-20 token as your
+          CoVaults allow you to fund your circles with any ERC-20 token as your
           asset.
         </Text>
         <Box css={{ display: 'flex', gap: '$sm' }}>
@@ -225,11 +223,8 @@ export const CreateForm = ({
           <AssetButton
             pill
             color="surface"
-            key={'Other'}
             data-selected={'customsimple' === asset}
-            onClick={e => {
-              pickAsset('simple', 'custom', e);
-            }}
+            onClick={e => pickAsset('simple', 'custom', e)}
           >
             <Increase size="lg" color="neutral" />
             <Text css={{ ml: '$xs' }}>{'Other ERC-20 Token'}</Text>
@@ -249,9 +244,7 @@ export const CreateForm = ({
               )}
             </Text>
             <TextField
-              onPaste={() => {
-                onBlur();
-              }}
+              onPaste={() => onBlur()}
               placeholder="0x0000..."
               css={{ width: '100%' }}
               {...customAddressField}
