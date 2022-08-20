@@ -100,6 +100,7 @@ export const CreateForm = ({
     control,
     formState: { errors, isValid },
     handleSubmit,
+    clearErrors,
   } = useFormSetup(contracts, setCustomSymbol, existingVaults);
 
   const {
@@ -135,6 +136,7 @@ export const CreateForm = ({
     if (event) event.preventDefault();
 
     setAsset(symbol + vaultType);
+    clearErrors('customAddress');
 
     // customAddress should be empty for Yearn Vaults
     // customAddress should be defined for simple vaults
