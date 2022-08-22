@@ -1,4 +1,4 @@
-import { act, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 
 import { TestWrapper } from 'utils/testing';
 
@@ -27,7 +27,9 @@ test('basic rendering', async () => {
     );
   });
 
-  // this is only a superficial test; the underlying Popper component doesn't
-  // play well with JSDOM
-  await screen.findByText('Overview');
+  const button = await screen.findByText('Overview');
+  fireEvent.mouseOver(button);
+  screen.getByText('Foo');
+  screen.getByText('Circle A');
+  screen.getByText('Circle B');
 });
