@@ -159,7 +159,7 @@ const makeComponent =
               className={classes.label}
               css={{ mb: '$xs' }}
             >
-              {prelabel}{' '}
+              {prelabel}
               {infoTooltip && <ApeInfoTooltip>{infoTooltip}</ApeInfoTooltip>}
             </Text>
           )}

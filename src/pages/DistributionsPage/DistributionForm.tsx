@@ -6,6 +6,7 @@ import { formatRelative, parseISO } from 'date-fns';
 import { BigNumber, constants as ethersConstants } from 'ethers';
 import { parseUnits, formatUnits, commify } from 'ethers/lib/utils';
 import { getWrappedAmount, removeYearnPrefix } from 'lib/vaults';
+import round from 'lodash/round';
 import { useForm, SubmitHandler, useController } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -348,6 +349,15 @@ export function DistributionForm({
     }
   };
 
+  const displayAvailableAmount = (type: 'gift' | 'fixed') => {
+    const max = type === 'gift' ? maxGiftTokens : maxFixedPaymentTokens;
+    const distribution = type === 'gift' ? circleDist : fixedDist;
+    const vaultId = type === 'gift' ? giftVaultId : fpVault?.id.toString();
+    const decimals = getDecimals({ distribution, vaultId });
+    const humanNumber = Number(formatUnits(max, decimals));
+    return commify(round(humanNumber, 2));
+  };
+
   return (
     <TwoColumnLayout>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -419,15 +429,7 @@ export function DistributionForm({
                     gift circle.
                   </>
                 }
-                label={`Avail. ${commify(
-                  formatUnits(
-                    maxGiftTokens,
-                    getDecimals({
-                      distribution: circleDist,
-                      vaultId: giftVaultId,
-                    })
-                  )
-                )}`}
+                label={`Avail. ${displayAvailableAmount('gift')}`}
                 onChange={value => {
                   amountField.onChange(value);
                   setAmount(value);
@@ -563,15 +565,7 @@ export function DistributionForm({
                         fixed payment.
                       </>
                     }
-                    label={`Avail. ${commify(
-                      formatUnits(
-                        maxFixedPaymentTokens,
-                        getDecimals({
-                          distribution: fixedDist,
-                          vaultId: fpVault?.id.toString(),
-                        })
-                      )
-                    )}`}
+                    label={`Avail. ${displayAvailableAmount('fixed')}`}
                     onChange={() => {}}
                     apeSize="small"
                   />
