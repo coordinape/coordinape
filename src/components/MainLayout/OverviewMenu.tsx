@@ -5,8 +5,6 @@ import { useNavigate } from 'react-router';
 import { useLocation, NavLink } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
 
-import { Hidden } from '@material-ui/core';
-
 import { Awaited } from '../../../api-lib/ts4.5shim';
 import { navLinkStyle } from '../MainLayout/TopLevelLinks';
 import { menuGroupStyle } from 'components/MainLayout/MainHeader';
@@ -85,95 +83,87 @@ export const OverviewMenu = ({
   };
 
   return (
-    <>
-      <Hidden smDown>
-        <Popover open={mouseEnterPopover || mouseEnterTrigger}>
-          <PopoverTrigger
-            asChild
-            css={{ outline: 'none' }}
-            ref={triggerRef}
-            onMouseEnter={() => setMouseEnterTrigger(true)}
-            onMouseLeave={() =>
-              setTimeout(() => setMouseEnterTrigger(false), 200)
-            }
-          >
-            {overviewMenuTrigger}
-          </PopoverTrigger>
-          <PopoverContent
-            onMouseEnter={() => setMouseEnterPopover(true)}
-            onMouseLeave={() =>
-              setTimeout(() => setMouseEnterPopover(false), 200)
-            }
-            // These offset values must be dialed in browser.  CSS values/strings cannot be used, only numbers.
-            sideOffset={-57}
-            alignOffset={1}
-            css={{ outline: 'none', mb: '$lg' }}
-          >
-            <Box
+    <Popover open={mouseEnterPopover || mouseEnterTrigger}>
+      <PopoverTrigger
+        asChild
+        css={{ outline: 'none' }}
+        ref={triggerRef}
+        onMouseEnter={() => setMouseEnterTrigger(true)}
+        onMouseLeave={() => setTimeout(() => setMouseEnterTrigger(false), 200)}
+      >
+        {overviewMenuTrigger}
+      </PopoverTrigger>
+      <PopoverContent
+        onMouseEnter={() => setMouseEnterPopover(true)}
+        onMouseLeave={() => setTimeout(() => setMouseEnterPopover(false), 200)}
+        // These offset values must be dialed in browser.  CSS values/strings cannot be used, only numbers.
+        sideOffset={-57}
+        alignOffset={1}
+        css={{ outline: 'none', mb: '$lg' }}
+      >
+        <Box
+          css={{
+            display: 'flex',
+            flexDirection: 'column',
+            p: '$md',
+          }}
+        >
+          <PopoverClose asChild>
+            <Link
+              type="menu"
               css={{
+                py: '$sm',
+                fontWeight: '$bold',
                 display: 'flex',
-                flexDirection: 'column',
-                p: '$md',
+                flexDirection: 'row',
+                alignItems: 'center',
               }}
+              onClick={
+                inCircle
+                  ? () => closeAndGo(paths.history(circle.id))
+                  : undefined
+              }
             >
-              <PopoverClose asChild>
-                <Link
-                  type="menu"
-                  css={{
-                    py: '$sm',
-                    fontWeight: '$bold',
-                    display: 'flex',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                  }}
-                  onClick={
-                    inCircle
-                      ? () => closeAndGo(paths.history(circle.id))
-                      : undefined
-                  }
-                >
-                  {overviewMenuTriggerText}
-                  <Box css={{ marginLeft: '$xs', display: 'flex' }}>
-                    <ChevronUp size="md" />
-                  </Box>
-                </Link>
-              </PopoverClose>
-              <Box
-                css={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  marginTop: '$sm',
-                }}
-              >
-                {hasCircles && (
-                  <TopLevelLinks links={mainLinks} onClick={closePopover} />
-                )}
+              {overviewMenuTriggerText}
+              <Box css={{ marginLeft: '$xs', display: 'flex' }}>
+                <ChevronUp size="md" />
               </Box>
-              {orgs?.map(org => (
-                <Box key={org.id} css={menuGroupStyle}>
-                  <Text variant="label" as="label">
-                    {org.name}
-                  </Text>
-                  <Box css={{ display: 'flex', flexDirection: 'column' }}>
-                    {sortBy(org.circles, c => c.name)
-                      .filter(c => c.users.length)
-                      .map(circle => (
-                        <Link
-                          key={circle.id}
-                          type="menu"
-                          onClick={() => closeAndGo(paths.history(circle.id))}
-                        >
-                          {circle.name}
-                        </Link>
-                      ))}
-                  </Box>
-                </Box>
-              ))}
+            </Link>
+          </PopoverClose>
+          <Box
+            css={{
+              display: 'flex',
+              flexDirection: 'column',
+              marginTop: '$sm',
+            }}
+          >
+            {hasCircles && (
+              <TopLevelLinks links={mainLinks} onClick={closePopover} />
+            )}
+          </Box>
+          {orgs?.map(org => (
+            <Box key={org.id} css={menuGroupStyle}>
+              <Text variant="label" as="label">
+                {org.name}
+              </Text>
+              <Box css={{ display: 'flex', flexDirection: 'column' }}>
+                {sortBy(org.circles, c => c.name)
+                  .filter(c => c.users.length)
+                  .map(circle => (
+                    <Link
+                      key={circle.id}
+                      type="menu"
+                      onClick={() => closeAndGo(paths.history(circle.id))}
+                    >
+                      {circle.name}
+                    </Link>
+                  ))}
+              </Box>
             </Box>
-          </PopoverContent>
-        </Popover>
-      </Hidden>
-    </>
+          ))}
+        </Box>
+      </PopoverContent>
+    </Popover>
   );
 };
 
