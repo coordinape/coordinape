@@ -1,7 +1,11 @@
+import assert from 'assert';
 import React, { MouseEvent, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
+import { constants as ethersConstants } from 'ethers';
+import { formatUnits } from 'ethers/lib/utils';
+import { removeYearnPrefix } from 'lib/vaults';
 import { useForm, SubmitHandler, useController } from 'react-hook-form';
 import { useQuery } from 'react-query';
 import * as z from 'zod';
@@ -31,10 +35,12 @@ import {
   Select,
 } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
+import { numberWithCommas } from 'utils';
 import { getCircleAvatar } from 'utils/domain';
 
 import { AdminIntegrations } from './AdminIntegrations';
 import { getCircleSettings } from './getCircleSettings';
+import { getFixedPayment } from './getFixedPayment';
 import { RemoveCircleModal } from './RemoveCircleModal';
 
 const panelStyles = {
@@ -183,6 +189,21 @@ export const CircleAdminPage = () => {
       notifyOnChangeProps: ['data'],
     }
   );
+
+  const {
+    data: fixedPayment,
+    isLoading: fixedPaymentIsLoading,
+    isIdle: fixedPaymentIsIdle,
+  } = useQuery(['fixedPayment', circleId], () => getFixedPayment(circleId), {
+    // the query will not be executed untill circleId exists
+    enabled: !!circleId,
+    //minmize background refetch
+    refetchOnWindowFocus: false,
+
+    staleTime: Infinity,
+    notifyOnChangeProps: ['data'],
+  });
+
   const contracts = useContracts();
   const { showInfo } = useApeSnackbar();
   const orgQuery = useCircleOrg(circleId);
@@ -211,6 +232,7 @@ export const CircleAdminPage = () => {
 
   const { updateCircle, updateCircleLogo, getDiscordWebhook } =
     useApiAdminCircle(circleId);
+  const [maxGiftTokens, setMaxGiftTokens] = useState(ethersConstants.Zero);
   const [logoData, setLogoData] = useState<{
     avatar: string;
     avatarRaw: File | null;
@@ -240,6 +262,7 @@ export const CircleAdminPage = () => {
     handleSubmit,
     register,
     setValue,
+    getValues,
     watch,
     formState: { isDirty },
   } = useForm<CircleAdminFormSchema>({
@@ -327,13 +350,54 @@ export const CircleAdminPage = () => {
     }
   };
 
+  const getDecimals = (vaultId: string) => {
+    if (vaultId) {
+      const v = findVault(vaultId);
+      if (v) return v.decimals;
+    }
+    return 0;
+  };
+
+  const findVault = (vaultId: string) => {
+    return vaultsQuery?.data?.find(v => v.id === parseInt(vaultId));
+  };
+
+  const updateBalanceState = async (vaultId: string): Promise<void> => {
+    assert(circle);
+    const vault = findVault(vaultId);
+    assert(contracts, 'This network is not supported');
+
+    if (vault) {
+      const tokenBalance = await contracts.getVaultBalance(vault);
+      setMaxGiftTokens(tokenBalance);
+    } else {
+      setMaxGiftTokens(ethersConstants.Zero);
+    }
+  };
+
+  const fixedPaymentToken = (vaultId: string | undefined) => {
+    const tokenType = circle?.fixed_payment_token_type;
+    return vaultId
+      ? removeYearnPrefix(
+          vaultOptions.find(o => o.value == getValues('fixed_payment_vault_id'))
+            ?.label ?? ''
+        )
+      : tokenType
+      ? tokenType.startsWith('Yearn')
+        ? removeYearnPrefix(tokenType)
+        : tokenType
+      : '';
+  };
+
   if (
     isLoading ||
     isIdle ||
     isRefetching ||
     !circle ||
     (isFeatureEnabled('vaults') && !vaultsQuery.data) ||
-    !orgQuery.data
+    !orgQuery.data ||
+    fixedPaymentIsLoading ||
+    fixedPaymentIsIdle
   )
     return <LoadingModal visible />;
   if (isError) {
@@ -341,6 +405,7 @@ export const CircleAdminPage = () => {
       console.warn(error);
     }
   }
+  updateBalanceState(stringifiedVaultId());
   return (
     <Form id="circle_admin">
       <SingleColumnLayout>
@@ -558,6 +623,9 @@ export const CircleAdminPage = () => {
                             : vaultOptions.find(o => o.value == value)?.label,
                           { shouldDirty: true }
                         );
+                        updateBalanceState(
+                          getValues('fixed_payment_vault_id') ?? ''
+                        );
                       },
                       defaultValue: stringifiedVaultId(),
                     })}
@@ -577,6 +645,33 @@ export const CircleAdminPage = () => {
                   showFieldErrors
                 />
               </Box>
+              <Flex css={{ gap: '$lg', mt: '$lg' }}>
+                <Flex column>
+                  <Text variant="label" css={{ mb: '$xs' }}>
+                    Members
+                  </Text>
+                  <Text size="medium">{fixedPayment?.fixedPaymentNumber}</Text>
+                </Flex>
+                <Flex column>
+                  <Text variant="label" css={{ mb: '$xs' }}>
+                    Fixed Payments Total
+                  </Text>
+                  <Text size="medium">{`${
+                    fixedPayment?.fixedPaymentTotal
+                  } ${fixedPaymentToken(watchFixedPaymentVaultId)}`}</Text>
+                </Flex>
+                <Flex column>
+                  <Text variant="label" css={{ mb: '$xs' }}>
+                    Available in Vault
+                  </Text>{' '}
+                  <Text size="medium">{`${numberWithCommas(
+                    formatUnits(
+                      maxGiftTokens,
+                      getDecimals(getValues('fixed_payment_vault_id') ?? '')
+                    )
+                  )} ${fixedPaymentToken(watchFixedPaymentVaultId)}`}</Text>
+                </Flex>
+              </Flex>
             </Panel>
           </Panel>
         )}
