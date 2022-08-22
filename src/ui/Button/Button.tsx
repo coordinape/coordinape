@@ -42,7 +42,7 @@ export const Button = styled('button', {
         color: '$textOnAlert',
       },
       neutral: {
-        backgroundColor: '$headingText',
+        backgroundColor: '$neutral',
         color: 'white',
       },
       surface: {
@@ -172,6 +172,11 @@ export const Button = styled('button', {
         display: 'inline',
       },
     },
+    pill: {
+      true: {
+        borderRadius: '$pill',
+      },
+    },
   },
   compoundVariants: [
     {
@@ -233,16 +238,16 @@ export const Button = styled('button', {
       outlined: true,
       css: {
         color: '$text',
-        borderColor: '$borderMedium',
+        borderColor: '$neutral',
         '&:hover': {
           color: '$white',
           filter: 'saturate(1)',
-          backgroundColor: '$headingText !important',
+          backgroundColor: '$neutral !important',
         },
         '&:focus': {
           color: '$white',
           filter: 'saturate(1)',
-          backgroundColor: '$headingText !important',
+          backgroundColor: '$neutral !important',
         },
       },
     },

@@ -41,10 +41,18 @@ export const TextField = styled('input', {
         lineHeight: '$short',
       },
     },
+    fullWidth: {
+      true: {
+        width: '100%',
+      },
+    },
     error: {
       true: {
         backgroundColor: '$alertLight',
         boxSizing: 'border-box',
+        '&:focus': {
+          borderColor: '$alert',
+        },
       },
     },
   },

@@ -90,7 +90,12 @@ const VaultsPage = () => {
           {currentOrg?.name} Vaults
         </Text>
         {isAdmin && (
-          <Button color="primary" outlined onClick={() => setModal('create')}>
+          <Button
+            color="primary"
+            css={{ whiteSpace: 'nowrap' }}
+            outlined
+            onClick={() => setModal('create')}
+          >
             Create Vault
           </Button>
         )}
@@ -176,7 +181,7 @@ const VaultsPage = () => {
         <Modal
           showClose={!saving}
           onClose={closeModal}
-          title="Create a New CoVault"
+          title="Create New Vault"
         >
           <CreateForm
             setSaving={setSaving}

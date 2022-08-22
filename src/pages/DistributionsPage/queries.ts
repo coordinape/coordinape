@@ -37,7 +37,11 @@ export const getEpochData = async (
             organization: {
               name: true,
               vaults: [
-                {},
+                {
+                  where: {
+                    profile: { address: { _eq: myAddress.toLowerCase() } },
+                  },
+                },
                 {
                   id: true,
                   symbol: true,

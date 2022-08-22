@@ -41,6 +41,7 @@ import { getCircleAvatar } from 'utils/domain';
 import { AdminIntegrations } from './AdminIntegrations';
 import { getCircleSettings } from './getCircleSettings';
 import { getFixedPayment } from './getFixedPayment';
+import { RemoveCircleModal } from './RemoveCircleModal';
 
 const panelStyles = {
   alignItems: 'start',
@@ -253,6 +254,9 @@ export const CircleAdminPage = () => {
     return `${id}`;
   };
 
+  const [circleToRemove, setCircleToRemove] = useState<number | undefined>(
+    undefined
+  );
   const {
     control,
     handleSubmit,
@@ -862,6 +866,36 @@ export const CircleAdminPage = () => {
                 )}
               </div>
             </Box>
+          </Panel>
+        </Panel>
+        <Panel css={panelStyles}>
+          <Text inline bold h2 font="inter">
+            Danger Zone
+          </Text>
+          <Panel nested>
+            <Text h3 semibold css={{ mb: '$lg' }}>
+              Permanently Remove Circle
+            </Text>
+            <Button
+              color="destructive"
+              outlined
+              css={{
+                width: '163px',
+              }}
+              onClick={event => {
+                event.preventDefault();
+                setCircleToRemove(1);
+              }}
+            >
+              Remove Circle
+            </Button>
+            <RemoveCircleModal
+              circleId={circleId}
+              onClose={() => {
+                setCircleToRemove(undefined);
+              }}
+              visible={!!circleToRemove}
+            ></RemoveCircleModal>
           </Panel>
         </Panel>
       </SingleColumnLayout>

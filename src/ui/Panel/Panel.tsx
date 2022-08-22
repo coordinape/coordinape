@@ -12,7 +12,6 @@ export const panelStyles = css({
 export const Panel = styled('div', {
   borderRadius: '$3',
   backgroundColor: '$surface',
-  border: '1px solid transparent',
   padding: '$md',
 
   variants: {
@@ -26,14 +25,13 @@ export const Panel = styled('div', {
       true: {
         padding: '$md',
         backgroundColor: 'white',
-        border: 'none',
       },
     },
     invertForm: {
       true: {
         'input, textarea, button[role="radio"], button[role="combobox"], button[role="checkbox"]':
           {
-            background: 'white',
+            backgroundColor: 'white',
             '&:disabled': {
               borderColor: '$borderMedium',
               background: 'transparent',
@@ -45,6 +43,11 @@ export const Panel = styled('div', {
     info: {
       true: {
         backgroundColor: '$info',
+      },
+    },
+    success: {
+      true: {
+        backgroundColor: '$success',
       },
     },
   },

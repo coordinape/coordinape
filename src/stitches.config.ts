@@ -76,6 +76,9 @@ export const colors = {
   alertDark: figmaColors.red20,
   textOnAlert: '#fff',
 
+  success: figmaColors.green1,
+  successDark: figmaColors.green16,
+
   secondary: figmaColors.teal12,
   secondaryDark: figmaColors.teal20,
   neutral: figmaColors.grey12,

@@ -64,6 +64,7 @@ export const paths = {
   give: circlePath('give'),
   history: circlePath('history'),
   members: circlePath('members'),
+  membersAdd: circlePath('members/add'),
   team: circlePath('team'),
   vouching: circlePath('vouching'),
   distributions: (circleId: number, epochId: number | string) =>

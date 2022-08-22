@@ -4,6 +4,7 @@ import { GearIcon, InfoCircledIcon } from '@radix-ui/react-icons';
 import { Link as RouterLink } from 'react-router-dom';
 import { styled } from 'stitches.config';
 
+import { paths } from '../../routes/paths';
 import {
   USER_COORDINAPE_ADDRESS,
   USER_ROLE_ADMIN,
@@ -14,7 +15,17 @@ import { useApiAdminCircle, useNavigation } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { PlusCircleIcon, CheckIcon, CloseIcon } from 'icons';
 import { CircleSettingsResult } from 'pages/CircleAdminPage/getCircleSettings';
-import { Avatar, Box, Button, Flex, IconButton, Link, Tooltip, Text } from 'ui';
+import {
+  Avatar,
+  Box,
+  Button,
+  Flex,
+  IconButton,
+  Link,
+  Tooltip,
+  Text,
+  AppLink,
+} from 'ui';
 import { shortenAddress } from 'utils';
 
 import { Paginator } from './Paginator';
@@ -50,23 +61,20 @@ export const SettingsIconButton = ({ onClick }: { onClick?: () => void }) => {
 };
 
 export const AddContributorButton = ({
-  onClick,
   tokenName,
   inline,
 }: {
   inline?: boolean;
   tokenName: string;
-  onClick: () => void;
 }) => {
   return (
     <Button
       color="primary"
       outlined
       size={inline ? 'inline' : 'medium'}
-      onClick={onClick}
       css={{ minWidth: '180px' }}
     >
-      Add Contributor
+      Add Members
       <Tooltip
         css={{ ml: '$xs' }}
         content={
@@ -92,9 +100,9 @@ export const AddContributorButton = ({
 
 export const UsersTableHeader = ({
   tokenName,
-  onClick,
+  circleId,
 }: {
-  onClick: () => void;
+  circleId: number;
   tokenName: string;
 }) => {
   return (
@@ -108,7 +116,9 @@ export const UsersTableHeader = ({
       }}
     >
       <Text h3>Users</Text>
-      <AddContributorButton inline onClick={onClick} tokenName={tokenName} />
+      <AppLink to={paths.circleAdmin(circleId)}>
+        <AddContributorButton inline tokenName={tokenName} />
+      </AppLink>
     </Box>
   );
 };
@@ -247,11 +257,9 @@ const renderActions = (onEdit?: () => void, onDelete?: () => void) => (
 const EmptyTable = ({
   content,
   createLabel,
-  onClick,
 }: {
   content: string;
   createLabel: string;
-  onClick: () => void;
 }) => {
   return (
     <Flex
@@ -273,7 +281,7 @@ const EmptyTable = ({
       >
         {content}
       </Text>
-      <Button color="secondary" onClick={() => onClick()}>
+      <Button color="secondary">
         <PlusCircleIcon />
         {createLabel}
       </Button>
@@ -319,7 +327,6 @@ export const MembersTable = ({
   visibleUsers,
   myUser: me,
   circle,
-  setNewUser,
   setEditUser,
   setDeleteUserDialog,
   filter,
@@ -328,7 +335,6 @@ export const MembersTable = ({
   visibleUsers: IUser[];
   myUser: IUser;
   circle: CircleSettingsResult;
-  setNewUser: (newUser: boolean) => void;
   setEditUser: (u: IUser) => void;
   setDeleteUserDialog: (u: IUser) => void;
   filter: (u: IUser) => boolean;
@@ -660,11 +666,12 @@ export const MembersTable = ({
           ) : (
             <Table.Row>
               <Table.Cell colSpan={4}>
-                <EmptyTable
-                  content="You haven’t added any contributors"
-                  createLabel="Add Contributor"
-                  onClick={() => setNewUser(true)}
-                />
+                <AppLink to={paths.membersAdd(circle.id)}>
+                  <EmptyTable
+                    content="You haven’t added any contributors"
+                    createLabel="Add Contributor"
+                  />
+                </AppLink>
               </Table.Cell>
             </Table.Row>
           )}
