@@ -1,5 +1,5 @@
 import assert from 'assert';
-import React, { MouseEvent, useState } from 'react';
+import React, { MouseEvent, useState, useEffect } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
@@ -317,6 +317,10 @@ export const CircleAdminPage = () => {
     }
   };
 
+  useEffect(() => {
+    updateBalanceState(stringifiedVaultId());
+  }, [vaultOptions.length]);
+
   const onSubmit: SubmitHandler<CircleAdminFormSchema> = async data => {
     try {
       if (logoData.avatarRaw) {
@@ -405,7 +409,6 @@ export const CircleAdminPage = () => {
       console.warn(error);
     }
   }
-  updateBalanceState(stringifiedVaultId());
   return (
     <Form id="circle_admin">
       <SingleColumnLayout>
