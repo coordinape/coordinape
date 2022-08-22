@@ -4,7 +4,7 @@ import { useQuery } from 'react-query';
 import { useAuthStep } from 'hooks/login';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 
-export const getOverviewMenuData = (address: string) =>
+export const getMainHeaderData = (address: string) =>
   client.query(
     {
       organizations: [
@@ -26,21 +26,28 @@ export const getOverviewMenuData = (address: string) =>
           ],
         },
       ],
+      claims_aggregate: [
+        {
+          where: {
+            profile: { address: { _eq: address.toLowerCase() } },
+            txHash: { _is_null: true },
+          },
+        },
+        { aggregate: { count: [{}, true] } },
+      ],
     },
-    {
-      operationName: 'getOverviewMenuData',
-    }
+    { operationName: 'getMainHeaderData' }
   );
 
 // extracting this from OverviewMenu because a list of all the orgs the user
 // belongs to is handy for multiple purposes, so if we use the same cache key,
 // we can reuse it
-export const useOverviewMenuQuery = () => {
+export const useMainHeaderQuery = () => {
   const address = useConnectedAddress();
   const [authStep] = useAuthStep();
   return useQuery(
     ['OverviewMenu', address],
-    () => getOverviewMenuData(address as string),
+    () => getMainHeaderData(address as string),
     {
       enabled: !!address && authStep === 'done',
       staleTime: Infinity,

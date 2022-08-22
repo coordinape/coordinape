@@ -1,41 +1,25 @@
-import assert from 'assert';
-import { Suspense, useState, useEffect, useMemo } from 'react';
+import { Suspense } from 'react';
 
-import { useQuery } from 'react-query';
-import { useLocation, NavLink } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
-import { MediaQueryKeys, CSS } from 'stitches.config';
+import { MediaQueryKeys } from 'stitches.config';
 
-import {
-  ReceiveInfo,
-  MyAvatarMenu,
-  NewApeAvatar,
-  OverviewMenu,
-} from 'components';
+import { ReceiveInfo, MyAvatarMenu } from 'components';
 import isFeatureEnabled from 'config/features';
 import { useMediaQuery } from 'hooks';
-import { useWalletStatus } from 'hooks/login';
-import { HamburgerIcon, CloseIcon } from 'icons';
-import { getCircleSettings } from 'pages/CircleAdminPage/getCircleSettings';
-import ClaimsNavButton from 'pages/ClaimsPage/ClaimsNavButton';
-import {
-  rSelectedCircle,
-  useMyProfile,
-  useSelectedCircle,
-} from 'recoilState/app';
-import { isCircleSpecificPath, paths } from 'routes/paths';
-import { Box, IconButton, Link, Image } from 'ui';
-import { shortenAddress } from 'utils';
+import { rSelectedCircle } from 'recoilState/app';
+import { isCircleSpecificPath } from 'routes/paths';
+import { AppLink, Box, Button } from 'ui';
 
-const mainLinks = [
-  [paths.circles, 'Overview'],
-  isFeatureEnabled('vaults') && [paths.vaults, 'CoVaults'],
-].filter(x => x) as [string, string][];
+import { CircleNav } from './CircleNav';
+import { useMainHeaderQuery } from './getMainHeaderData';
+import { MobileHeader } from './MobileHeader';
+import { OverviewMenu } from './OverviewMenu';
 
 export const MainHeader = () => {
   const { circle } = useRecoilValueLoadable(rSelectedCircle).valueMaybe() || {};
   const location = useLocation();
-  const inCircle = circle && isCircleSpecificPath(location);
+  const inCircle = !!(circle && isCircleSpecificPath(location));
   const breadcrumb = inCircle ? `${circle.protocol.name} > ${circle.name}` : '';
 
   if (useMediaQuery(MediaQueryKeys.sm))
@@ -44,6 +28,14 @@ export const MainHeader = () => {
         <MobileHeader inCircle={!!inCircle} breadcrumb={breadcrumb} />
       </Suspense>
     );
+
+  return <NormalHeader inCircle={inCircle} />;
+};
+
+const NormalHeader = ({ inCircle }: { inCircle: boolean }) => {
+  const query = useMainHeaderQuery();
+  const showClaimsButton =
+    (query.data?.claims_aggregate.aggregate?.count || 0) > 0;
 
   return (
     <Box
@@ -74,7 +66,7 @@ export const MainHeader = () => {
           position: 'relative',
         }}
       >
-        <OverviewMenu />
+        <OverviewMenu data={query.data} />
         <Box
           css={{
             display: 'flex',
@@ -97,169 +89,15 @@ export const MainHeader = () => {
           </Suspense>
         )}
         <Suspense fallback={null}>
-          {isFeatureEnabled('vaults') && <ClaimsNavButton />}
+          {isFeatureEnabled('vaults') && showClaimsButton && (
+            <AppLink to="/claims">
+              <Button color="complete">Claim Allocations</Button>
+            </AppLink>
+          )}
           <MyAvatarMenu />
         </Suspense>
       </Box>
     </Box>
-  );
-};
-
-const MobileHeader = ({
-  breadcrumb,
-  inCircle,
-}: {
-  breadcrumb: string;
-  inCircle: boolean;
-}) => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const location = useLocation();
-  const { icon, address, logout } = useWalletStatus();
-
-  useEffect(() => {
-    setIsMobileMenuOpen(false);
-  }, [location]);
-
-  useEffect(() => {
-    !address && setIsMobileMenuOpen(false);
-  }, [address]);
-
-  return (
-    <Box>
-      <Box
-        css={{
-          display: 'flex',
-          alignItems: 'center',
-          background: '$text',
-          justifyContent: 'space-between',
-          px: '$lg',
-          py: '$md',
-        }}
-      >
-        <Image alt="logo" css={{ height: 40 }} src="/svgs/logo/logo.svg" />
-        <IconButton
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="menu"
-        >
-          {!isMobileMenuOpen ? (
-            <HamburgerIcon color="white" />
-          ) : (
-            <CloseIcon color="white" />
-          )}
-        </IconButton>
-      </Box>
-      {isMobileMenuOpen && (
-        <Box
-          css={{
-            height: '100vh',
-            position: 'relative',
-            backgroundColor: '$surface',
-          }}
-        >
-          <Box
-            css={{
-              display: 'flex',
-              flexDirection: 'column',
-              position: 'absolute',
-              backgroundColor: '$surface',
-              height: '85%',
-              width: '100%',
-              overflow: 'scroll',
-              overscrollBehaviorY: 'auto',
-              '-webkit-overflow-scrolling': 'touch',
-              zIndex: 2,
-              pt: '$lg',
-              px: '$sm',
-              pb: '$2xl',
-            }}
-          >
-            <Box css={{ pb: '$md' }}>
-              <TopLevelLinks links={mainLinks} />
-              {inCircle && (
-                <>
-                  <Box
-                    css={{
-                      margin: 0,
-                      marginLeft: '1rem',
-                      color: '$secondaryText',
-                    }}
-                  >
-                    {breadcrumb}
-                  </Box>
-                  <Suspense fallback={<span />}>
-                    <CircleNav />
-                  </Suspense>
-                </>
-              )}
-              <Box
-                css={{
-                  '> *': {
-                    mx: '$md',
-                    py: '$xs',
-                    fontSize: '$large',
-                    color: '$text',
-                  },
-                }}
-              >
-                <Link
-                  as={NavLink}
-                  to={paths.profile('me')}
-                  css={{ display: 'flex', alignItems: 'center', gap: '$sm' }}
-                >
-                  <Box
-                    css={{
-                      width: '$lg',
-                      height: '$lg',
-                      '> *': {
-                        width: '100% !important',
-                        height: '100% !important',
-                      },
-                    }}
-                  >
-                    <MobileAvatar />
-                  </Box>
-                  My Profile
-                </Link>
-                <Box
-                  css={{ display: 'flex', alignItems: 'center', gap: '$sm' }}
-                >
-                  <Box
-                    css={{
-                      display: 'flex',
-                      width: '$lg',
-                      height: '$lg',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    {icon}
-                  </Box>
-                  {address && shortenAddress(address)}
-                </Box>
-                {address && (
-                  <Link
-                    css={{ cursor: 'pointer', display: 'block' }}
-                    onClick={logout}
-                  >
-                    Log Out
-                  </Link>
-                )}
-              </Box>
-            </Box>
-          </Box>
-        </Box>
-      )}
-    </Box>
-  );
-};
-
-const MobileAvatar = () => {
-  const myProfile = useMyProfile();
-
-  return (
-    <Suspense fallback={null}>
-      <NewApeAvatar path={myProfile.avatar} />
-    </Suspense>
   );
 };
 
@@ -272,120 +110,6 @@ export const menuGroupStyle = {
   'a, label': {
     mt: '$sm',
   },
-};
-
-export const navLinkStyle = {
-  my: 0,
-  mr: '$xs',
-  fontSize: '$large',
-  color: '$white',
-  borderRadius: '$pill',
-  textDecoration: 'none',
-  px: '$md',
-  py: '$sm',
-  position: 'relative',
-  border: '1px solid transparent',
-  display: 'flex',
-  alignItems: 'center',
-  cursor: 'pointer',
-  '&:hover': {
-    borderColor: '$secondaryText',
-  },
-  '&.active': {
-    backgroundColor: '$borderMedium',
-    fontWeight: '$bold',
-    color: '$text',
-  },
-  '@sm': {
-    position: 'unset',
-    color: '$text',
-    fontWeight: 'normal',
-    '&:hover': {
-      color: '$black',
-      '&::after': {
-        content: 'none',
-      },
-    },
-    '&.active': {
-      color: '$alert',
-      '&::after': {
-        content: 'none',
-      },
-    },
-  },
-};
-
-export const TopLevelLinks = ({
-  links,
-  css = {},
-}: {
-  links: [string, string, string[]?][];
-  css?: CSS;
-}) => {
-  const location = useLocation();
-
-  return (
-    <Box
-      css={{
-        display: 'flex',
-        '@sm': {
-          alignItems: 'flex-start',
-          flexDirection: 'column',
-        },
-        ...css,
-      }}
-    >
-      {links.map(([path, label, matchPaths]) => (
-        <Link
-          css={navLinkStyle}
-          as={NavLink}
-          key={path}
-          to={path}
-          className={matchPaths?.includes(location.pathname) ? 'active' : ''}
-        >
-          {label}
-        </Link>
-      ))}
-    </Box>
-  );
-};
-
-// this has to be split out into its own component so it can suspend
-const CircleNav = () => {
-  const { myUser, circleId, circle: initialData } = useSelectedCircle();
-
-  const { data: circle } = useQuery(
-    ['circleSettings', circleId],
-    () => getCircleSettings(circleId),
-    {
-      initialData,
-      enabled: !!circleId,
-      refetchOnWindowFocus: false,
-      staleTime: Infinity,
-      notifyOnChangeProps: ['data'],
-    }
-  );
-
-  const links: [string, string, string[]?][] = useMemo(() => {
-    assert(circleId);
-    const l: [string, string, string[]?][] = [
-      [
-        paths.allocation(circleId),
-        'Allocate',
-        [paths.epoch(circleId), paths.team(circleId), paths.give(circleId)],
-      ],
-      [paths.map(circleId), 'Map'],
-    ];
-
-    if (circle?.hasVouching) l.push([paths.vouching(circleId), 'Vouching']);
-    if (myUser.isCircleAdmin) {
-      l.push([paths.members(circleId), 'Admin']);
-    }
-
-    return l;
-  }, [circleId, circle?.hasVouching]);
-
-  return <TopLevelLinks links={links} css={{ mr: '$xs' }} />;
 };
 
 export default MainHeader;

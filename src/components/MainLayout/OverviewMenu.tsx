@@ -7,7 +7,9 @@ import { useRecoilValueLoadable } from 'recoil';
 
 import { Hidden } from '@material-ui/core';
 
-import { navLinkStyle, menuGroupStyle } from 'components/MainLayout/MainHeader';
+import { Awaited } from '../../../api-lib/ts4.5shim';
+import { navLinkStyle } from '../MainLayout/TopLevelLinks';
+import { menuGroupStyle } from 'components/MainLayout/MainHeader';
 import { scrollToTop } from 'components/MainLayout/MainLayout';
 import isFeatureEnabled from 'config/features';
 import { useHasCircles } from 'hooks/migration';
@@ -24,16 +26,19 @@ import {
   PopoverClose,
 } from 'ui';
 
-import { useOverviewMenuQuery } from './getOverviewMenuData';
+import type { getMainHeaderData } from './getMainHeaderData';
 
 const mainLinks = [
   [paths.circles, 'Overview'],
   isFeatureEnabled('vaults') && [paths.vaults, 'CoVaults'],
 ].filter(x => x) as [string, string][];
 
-export const OverviewMenu = () => {
-  const query = useOverviewMenuQuery();
-  const orgs = query.data?.organizations;
+export const OverviewMenu = ({
+  data,
+}: {
+  data?: Awaited<ReturnType<typeof getMainHeaderData>>;
+}) => {
+  const orgs = data?.organizations;
 
   const navigate = useNavigate();
   const hasCircles = useHasCircles();

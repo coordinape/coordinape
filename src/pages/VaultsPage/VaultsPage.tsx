@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { isUserAdmin } from 'lib/users';
 
 import { LoadingModal } from 'components';
-import { useOverviewMenuQuery } from 'components/OverviewMenu/getOverviewMenuData';
+import { useMainHeaderQuery } from 'components/MainLayout/getMainHeaderData';
 import { useContracts } from 'hooks';
 import { useVaults } from 'hooks/gql/useVaults';
 import {
@@ -19,7 +19,7 @@ import { VaultRow } from './VaultRow';
 const VaultsPage = () => {
   const [modal, setModal] = useState<'' | 'create'>('');
 
-  const orgsQuery = useOverviewMenuQuery();
+  const orgsQuery = useMainHeaderQuery();
   const contracts = useContracts();
 
   const [currentOrgId, setCurrentOrgId] = useState<number | undefined>();
