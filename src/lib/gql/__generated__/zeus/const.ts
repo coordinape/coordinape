@@ -527,7 +527,6 @@ export const AllTypesProps: Record<string, any> = {
     vouching: 'Boolean_comparison_exp',
     vouching_text: 'String_comparison_exp',
   },
-  circles_inc_input: {},
   circles_max_order_by: {
     alloc_text: 'order_by',
     created_at: 'order_by',
@@ -596,11 +595,7 @@ export const AllTypesProps: Record<string, any> = {
     vouching: 'order_by',
     vouching_text: 'order_by',
   },
-  circles_pk_columns_input: {
-    id: 'bigint',
-  },
   circles_select_column: true,
-  circles_set_input: {},
   circles_stddev_order_by: {
     fixed_payment_vault_id: 'order_by',
     id: 'order_by',
@@ -1450,16 +1445,6 @@ export const AllTypesProps: Record<string, any> = {
     },
     updateUser: {
       payload: 'UpdateUserInput',
-    },
-    update_circles: {
-      _inc: 'circles_inc_input',
-      _set: 'circles_set_input',
-      where: 'circles_bool_exp',
-    },
-    update_circles_by_pk: {
-      _inc: 'circles_inc_input',
-      _set: 'circles_set_input',
-      pk_columns: 'circles_pk_columns_input',
     },
     update_claims: {
       _set: 'claims_set_input',
@@ -3096,7 +3081,6 @@ export const AllTypesProps: Record<string, any> = {
     decimals: 'order_by',
     deployment_block: 'order_by',
     id: 'order_by',
-    org_id: 'order_by',
   },
   vaults_bool_exp: {
     _and: 'vaults_bool_exp',
@@ -3109,7 +3093,6 @@ export const AllTypesProps: Record<string, any> = {
     deployment_block: 'bigint_comparison_exp',
     distributions: 'distributions_bool_exp',
     id: 'bigint_comparison_exp',
-    org_id: 'bigint_comparison_exp',
     profile: 'profiles_bool_exp',
     protocol: 'organizations_bool_exp',
     simple_token_address: 'String_comparison_exp',
@@ -3126,7 +3109,6 @@ export const AllTypesProps: Record<string, any> = {
     decimals: 'order_by',
     deployment_block: 'order_by',
     id: 'order_by',
-    org_id: 'order_by',
     simple_token_address: 'order_by',
     symbol: 'order_by',
     token_address: 'order_by',
@@ -3140,7 +3122,6 @@ export const AllTypesProps: Record<string, any> = {
     decimals: 'order_by',
     deployment_block: 'order_by',
     id: 'order_by',
-    org_id: 'order_by',
     simple_token_address: 'order_by',
     symbol: 'order_by',
     token_address: 'order_by',
@@ -3155,7 +3136,6 @@ export const AllTypesProps: Record<string, any> = {
     deployment_block: 'order_by',
     distributions_aggregate: 'distributions_aggregate_order_by',
     id: 'order_by',
-    org_id: 'order_by',
     profile: 'profiles_order_by',
     protocol: 'organizations_order_by',
     simple_token_address: 'order_by',
@@ -3172,7 +3152,6 @@ export const AllTypesProps: Record<string, any> = {
     decimals: 'order_by',
     deployment_block: 'order_by',
     id: 'order_by',
-    org_id: 'order_by',
   },
   vaults_stddev_pop_order_by: {
     chain_id: 'order_by',
@@ -3180,7 +3159,6 @@ export const AllTypesProps: Record<string, any> = {
     decimals: 'order_by',
     deployment_block: 'order_by',
     id: 'order_by',
-    org_id: 'order_by',
   },
   vaults_stddev_samp_order_by: {
     chain_id: 'order_by',
@@ -3188,7 +3166,6 @@ export const AllTypesProps: Record<string, any> = {
     decimals: 'order_by',
     deployment_block: 'order_by',
     id: 'order_by',
-    org_id: 'order_by',
   },
   vaults_sum_order_by: {
     chain_id: 'order_by',
@@ -3196,7 +3173,6 @@ export const AllTypesProps: Record<string, any> = {
     decimals: 'order_by',
     deployment_block: 'order_by',
     id: 'order_by',
-    org_id: 'order_by',
   },
   vaults_var_pop_order_by: {
     chain_id: 'order_by',
@@ -3204,7 +3180,6 @@ export const AllTypesProps: Record<string, any> = {
     decimals: 'order_by',
     deployment_block: 'order_by',
     id: 'order_by',
-    org_id: 'order_by',
   },
   vaults_var_samp_order_by: {
     chain_id: 'order_by',
@@ -3212,7 +3187,6 @@ export const AllTypesProps: Record<string, any> = {
     decimals: 'order_by',
     deployment_block: 'order_by',
     id: 'order_by',
-    org_id: 'order_by',
   },
   vaults_variance_order_by: {
     chain_id: 'order_by',
@@ -3220,7 +3194,6 @@ export const AllTypesProps: Record<string, any> = {
     decimals: 'order_by',
     deployment_block: 'order_by',
     id: 'order_by',
-    org_id: 'order_by',
   },
   vouches_aggregate_order_by: {
     avg: 'vouches_avg_order_by',
@@ -3488,10 +3461,6 @@ export const ReturnTypes: Record<string, any> = {
     vault_transactions: 'vault_transactions',
     vouching: 'Boolean',
     vouching_text: 'String',
-  },
-  circles_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'circles',
   },
   claims: {
     address: 'String',
@@ -3935,8 +3904,6 @@ export const ReturnTypes: Record<string, any> = {
     updateEpoch: 'EpochResponse',
     updateTeammates: 'UpdateTeammatesResponse',
     updateUser: 'UserResponse',
-    update_circles: 'circles_mutation_response',
-    update_circles_by_pk: 'circles',
     update_claims: 'claims_mutation_response',
     update_claims_by_pk: 'claims',
     update_contributions: 'contributions_mutation_response',
@@ -4515,7 +4482,6 @@ export const ReturnTypes: Record<string, any> = {
     distributions: 'distributions',
     distributions_aggregate: 'distributions_aggregate',
     id: 'bigint',
-    org_id: 'bigint',
     profile: 'profiles',
     protocol: 'organizations',
     simple_token_address: 'String',

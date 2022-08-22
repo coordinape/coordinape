@@ -22,7 +22,10 @@ export function useVaults({
         {
           vaults: [
             {
-              where: { chain_id: { _eq: chainId }, org_id: { _eq: orgId } },
+              where: {
+                chain_id: { _eq: chainId },
+                protocol: { id: { _eq: orgId } },
+              },
             },
             {
               ...allVaultFields,
