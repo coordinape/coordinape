@@ -118,6 +118,17 @@ const DeletedUserClaimsRow: React.FC<ClaimsRowData> = ({ group, children }) => {
   );
 };
 
+const ClaimsRowOuter: React.FC<ClaimsRowData> = ({ claim, group, children }) =>
+  claim.distribution.epoch ? (
+    <ClaimsRow claim={claim} key={claim.id} group={group}>
+      {children}
+    </ClaimsRow>
+  ) : (
+    <DeletedUserClaimsRow claim={claim} key={claim.id} group={group}>
+      {children}
+    </DeletedUserClaimsRow>
+  );
+
 export default function ClaimsPage() {
   // this causes errors if it's run at the top-level
   const ClaimsTable = makeTable<ClaimsRowData>('ClaimsTable');
@@ -174,14 +185,14 @@ export default function ClaimsPage() {
           {({ claim, group }) => {
             const isClaiming = claiming[claim.id] === 'pending';
             const isClaimed = claiming[claim.id] === 'claimed';
-            return claim.distribution.epoch ? (
-              <ClaimsRow claim={claim} key={claim.id} group={group}>
+            return (
+              <ClaimsRowOuter claim={claim} group={group}>
                 <Flex css={{ justifyContent: 'end' }}>
                   <Button
                     color="primary"
                     outlined
                     css={buttonStyles}
-                    onClick={() => processClaim(claim.id)}
+                    onClick={() => processClaim(group.map(c => c.id))}
                     disabled={isClaiming || isClaimed}
                   >
                     {isClaiming
@@ -191,23 +202,7 @@ export default function ClaimsPage() {
                       : `Claim ${claim.distribution.vault.symbol}`}
                   </Button>
                 </Flex>
-              </ClaimsRow>
-            ) : (
-              <DeletedUserClaimsRow claim={claim} key={claim.id} group={group}>
-                <Button
-                  color="primary"
-                  outlined
-                  css={buttonStyles}
-                  onClick={() => processClaim(group.map(c => c.id))}
-                  disabled={isClaiming || isClaimed}
-                >
-                  {isClaiming
-                    ? 'Claiming...'
-                    : isClaimed
-                    ? 'Claimed'
-                    : `Claim ${claim.distribution.vault.symbol}`}
-                </Button>
-              </DeletedUserClaimsRow>
+              </ClaimsRowOuter>
             );
           }}
         </ClaimsTable>
@@ -232,35 +227,20 @@ export default function ClaimsPage() {
             return c => c;
           }}
         >
-          {({ claim, group }) =>
-            claim.distribution.epoch ? (
-              <ClaimsRow claim={claim} key={claim.id} group={group}>
-                <Link
-                  css={{ mr: '$md' }}
-                  target="_blank"
-                  href={makeExplorerUrl(
-                    claim.distribution.vault.chain_id,
-                    claim.txHash
-                  )}
-                >
-                  View on Etherscan
-                </Link>
-              </ClaimsRow>
-            ) : (
-              <DeletedUserClaimsRow claim={claim} key={claim.id} group={group}>
-                <Link
-                  css={{ mr: '$md' }}
-                  target="_blank"
-                  href={makeExplorerUrl(
-                    claim.distribution.vault.chain_id,
-                    claim.txHash
-                  )}
-                >
-                  View on Etherscan
-                </Link>
-              </DeletedUserClaimsRow>
-            )
-          }
+          {({ claim, group }) => (
+            <ClaimsRowOuter claim={claim} group={group}>
+              <Link
+                css={{ mr: '$md' }}
+                target="_blank"
+                href={makeExplorerUrl(
+                  claim.distribution.vault.chain_id,
+                  claim.txHash
+                )}
+              >
+                View on Etherscan
+              </Link>
+            </ClaimsRowOuter>
+          )}
         </ClaimsTable>
       </Panel>
     </SingleColumnLayout>

@@ -1,6 +1,7 @@
 import assert from 'assert';
 import { useState, useMemo } from 'react';
 
+import max from 'lodash/max';
 import { useQuery, useQueryClient } from 'react-query';
 
 import { QUERY_KEY_MAIN_HEADER } from 'components/MainLayout/getMainHeaderData';
@@ -10,7 +11,7 @@ import { useMyProfile } from 'recoilState/app';
 
 import { getClaims, QueryClaim } from './queries';
 import { useClaimAllocation } from './useClaimAllocation';
-import { createClaimsRows, findMax } from './utils';
+import { createClaimsRows } from './utils';
 
 export type ClaimsRowData = { claim: QueryClaim; group: QueryClaim[] };
 
@@ -50,7 +51,7 @@ export const useClaimsTableData = () => {
   }, [claims]);
 
   const processClaim = async (claimIds: number[]) => {
-    const maxClaimId = findMax(claimIds);
+    const maxClaimId = max(claimIds);
     const claim = claims?.find(c => c.id === maxClaimId);
     assert(claim && address);
     const { index, proof, distribution } = claim;

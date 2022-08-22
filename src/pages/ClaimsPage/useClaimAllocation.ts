@@ -4,13 +4,13 @@ import { BigNumber, BytesLike } from 'ethers';
 import { vault_tx_types_enum } from 'lib/gql/__generated__/zeus';
 import { savePendingVaultTx } from 'lib/gql/mutations';
 import { encodeCircleId, hasSimpleToken } from 'lib/vaults';
+import max from 'lodash/max';
 
 import { useApeSnackbar, useContracts } from 'hooks';
 import { sendAndTrackTx } from 'utils/contractHelpers';
 
 import { useMarkClaimTaken } from './mutations';
 import type { QueryClaim } from './queries';
-import { findMax } from './utils';
 
 export type ClaimAllocationProps = {
   claimIds: number[];
@@ -71,7 +71,7 @@ export function useClaimAllocation() {
           savePending: async (txHash: string) =>
             savePendingVaultTx({
               tx_hash: txHash,
-              claim_id: findMax(claimIds),
+              claim_id: max(claimIds),
               chain_id: Number.parseInt(contracts.chainId),
               tx_type: vault_tx_types_enum.Claim,
             }),

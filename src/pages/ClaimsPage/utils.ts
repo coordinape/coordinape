@@ -114,6 +114,3 @@ export const createClaimsRows = (claims: QueryClaim[]) => {
     }))
   );
 };
-
-export const findMax = (arr: number[]) =>
-  arr.reduce((max, n) => (max >= n ? max : n), Number.MIN_SAFE_INTEGER);
