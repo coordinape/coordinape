@@ -405,6 +405,7 @@ export const CircleAdminPage = () => {
       console.warn(error);
     }
   }
+  updateBalanceState(stringifiedVaultId());
   return (
     <Form id="circle_admin">
       <SingleColumnLayout>
