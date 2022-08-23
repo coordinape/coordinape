@@ -22,7 +22,7 @@ export const EXTERNAL_URL_GET_STARTED_TUTORIAL_VIDEO =
   'https://www.youtube.com/watch?v=j2ixf0Isuuo';
 
 export const EXTERNAL_URL_LEARN_ABOUT_VAULTS =
-  'https://docs.coordinape.com/info/documentation/coordinape-vaults';
+  'https://docs.coordinape.com/get-started/organizations/vaults';
 export const EXTERNAL_URL_YEARN_VAULTS = 'https://yearn.finance/vaults';
 export const EXTERNAL_URL_DISCORD_SUPPORT =
   'https://discord.coordinape.com/support';
