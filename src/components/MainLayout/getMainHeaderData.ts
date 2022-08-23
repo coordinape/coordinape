@@ -44,6 +44,8 @@ export const getMainHeaderData = (address: string, chainId: number) =>
     { operationName: 'getMainHeaderData' }
   );
 
+export const QUERY_KEY_MAIN_HEADER = 'MainHeader';
+
 // extracting this from OverviewMenu because a list of all the orgs the user
 // belongs to is handy for multiple purposes, so if we use the same cache key,
 // we can reuse it
@@ -52,7 +54,7 @@ export const useMainHeaderQuery = () => {
   const { chainId } = useWeb3React();
   const [authStep] = useAuthStep();
   return useQuery(
-    ['OverviewMenu', address],
+    [QUERY_KEY_MAIN_HEADER, address],
     () => getMainHeaderData(address as string, chainId as number),
     {
       enabled: !!address && !!chainId && authStep === 'done',

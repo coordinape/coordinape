@@ -5,7 +5,7 @@ import { isUserAdmin } from 'lib/users';
 import { getDisplayTokenString } from 'lib/vaults/tokens';
 import uniqBy from 'lodash/uniqBy';
 import { DateTime } from 'luxon';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
 
 import { DISTRIBUTION_TYPE } from '../../config/constants';
@@ -13,6 +13,7 @@ import { useSelectedCircle } from '../../recoilState';
 import { paths } from '../../routes/paths';
 import BackButton from '../../ui/BackButton';
 import { LoadingModal } from 'components';
+import { QUERY_KEY_MAIN_HEADER } from 'components/MainLayout/getMainHeaderData';
 import { useApiAdminCircle, useContracts } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { AppLink, Box, Text } from 'ui';
@@ -27,6 +28,7 @@ export function DistributionsPage() {
   const { epochId } = useParams();
   const address = useConnectedAddress();
   const contracts = useContracts();
+  const queryClient = useQueryClient();
 
   const {
     isIdle,
@@ -34,7 +36,7 @@ export function DistributionsPage() {
     isError,
     error,
     data: epoch,
-    refetch,
+    refetch: refetchDistributions,
   } = useQuery(
     ['distributions', epochId],
     () => getEpochData(Number.parseInt(epochId || '0'), address, contracts),
@@ -177,6 +179,11 @@ export function DistributionsPage() {
 
   const startDate = DateTime.fromISO(epoch.start_date);
   const endDate = DateTime.fromISO(epoch.end_date);
+
+  const refetch = () => {
+    refetchDistributions();
+    queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
+  };
 
   return (
     <SingleColumnLayout>
