@@ -11,19 +11,19 @@ export type FeatureName =
 // hardcode or set with environment variables
 
 const staticFeatureFlags: Partial<Record<FeatureName, boolean>> = {
-  vaults:
-    !!process.env.REACT_APP_FEATURE_FLAG_VAULTS ||
-    localStorage.getItem('feature:vaults') === 'true',
-  fixed_payments:
-    !!process.env.REACT_APP_FEATURE_FLAG_FIXED_PAYMENTS ||
-    localStorage.getItem('feature:fixed_payments') === 'true',
+  vaults: !!process.env.REACT_APP_FEATURE_FLAG_VAULTS,
+  fixed_payments: !!process.env.REACT_APP_FEATURE_FLAG_FIXED_PAYMENTS,
   csv_import: false,
 };
+
+const isLocallyOn = (name: FeatureName) =>
+  typeof window !== 'undefined' &&
+  window.localStorage.getItem('feature:' + name) === 'true';
 
 // we make the export a function so that we can implement run-time feature flags
 // in the future without having to change calling code
 
 export const isFeatureEnabled = (featureName: FeatureName): boolean =>
-  !!staticFeatureFlags[featureName];
+  !!staticFeatureFlags[featureName] || isLocallyOn(featureName);
 
 export default isFeatureEnabled;
