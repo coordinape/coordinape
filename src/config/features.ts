@@ -11,10 +11,13 @@ export type FeatureName =
 // hardcode or set with environment variables
 
 const staticFeatureFlags: Partial<Record<FeatureName, boolean>> = {
-  vaults: !!process.env.REACT_APP_FEATURE_FLAG_VAULTS,
-  fixed_payments: !!process.env.REACT_APP_FEATURE_FLAG_FIXED_PAYMENTS,
+  vaults:
+    !!process.env.REACT_APP_FEATURE_FLAG_VAULTS ||
+    localStorage.getItem('feature:vaults') === 'true',
+  fixed_payments:
+    !!process.env.REACT_APP_FEATURE_FLAG_FIXED_PAYMENTS ||
+    localStorage.getItem('feature:fixed_payments') === 'true',
   csv_import: false,
-  link_joining: false,
 };
 
 // we make the export a function so that we can implement run-time feature flags
