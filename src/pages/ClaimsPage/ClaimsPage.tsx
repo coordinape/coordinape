@@ -112,9 +112,9 @@ export default function ClaimsPage() {
 
   return (
     <SingleColumnLayout>
-      <Text h1>Claim Your Allocations</Text>
+      <Text h1>Claim Tokens</Text>
       <Box css={{ color: '$neutral', maxWidth: '60%' }}>
-        You can claim all your rewards from this page. Note that you can claim
+        You can claim all your tokens from this page. Note that you can claim
         them for all your epochs in one circle but each token requires its own
         claim transaction.
       </Box>

@@ -91,7 +91,7 @@ const NormalHeader = ({ inCircle }: { inCircle: boolean }) => {
         <Suspense fallback={null}>
           {isFeatureEnabled('vaults') && showClaimsButton && (
             <AppLink to="/claims">
-              <Button color="complete">Claim Allocations</Button>
+              <Button color="complete">Claim Tokens</Button>
             </AppLink>
           )}
           <MyAvatarMenu />
