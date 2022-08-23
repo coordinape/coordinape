@@ -79,13 +79,9 @@ const handleTxRecord = async (txRecord: TxRecord) => {
         throw new Error(`unrecognized tx_type: ${tx_type}`);
     }
   } catch (e: any) {
-    // an error here means the tx failed for some reason
-    // we don't care why, so we can just delete it from our table
-    await assertOrRemove(
-      false,
-      `error fetching receipt: ${e?.message || e}`,
-      tx_hash
-    );
+    // an error here means the tx failed for some reason.
+    // for now, let's keep it around for inspection
+    return `error fetching receipt: ${e?.message || e}`;
   }
 };
 
