@@ -1,8 +1,9 @@
 import assert from 'assert';
 import { useState, useMemo } from 'react';
 
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 
+import { QUERY_KEY_MAIN_HEADER } from 'components/MainLayout/getMainHeaderData';
 import { useContracts } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { useMyProfile } from 'recoilState/app';
@@ -18,6 +19,7 @@ export const useClaimsTableData = () => {
   const profile = useMyProfile();
   const address = useConnectedAddress();
   const claimTokens = useClaimAllocation();
+  const queryClient = useQueryClient();
 
   const [claiming, setClaiming] = useState<
     Record<number, 'claimed' | 'pending' | null>
@@ -67,7 +69,10 @@ export const useClaimsTableData = () => {
       amount,
       proof: proof ? proof.split(',') : [],
     });
-    if (hash) refetch();
+    if (hash) {
+      refetch();
+      queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
+    }
     setClaiming(val => ({ ...val, [claim.id]: 'claimed' }));
   };
 
