@@ -29,6 +29,12 @@ const headerStyle = {
   color: '$headingText',
 };
 
+const vaultSelectionPanel = {
+  padding: '$md',
+  minHeight: '11rem',
+  mb: '$lg',
+};
+
 const DistributionFormSchema = z.object({
   amount: z.string(),
   selectedVaultId: z.string(),
@@ -361,14 +367,11 @@ export function DistributionForm({
   return (
     <TwoColumnLayout>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Panel
-          invertForm
-          css={{ padding: '$md', minHeight: '147px', mb: '$lg' }}
-        >
+        <Panel invertForm css={vaultSelectionPanel}>
           <Text h2 css={headerStyle}>
             Gift Circle
           </Text>
-          <TwoColumnLayout css={{ pt: '$md' }}>
+          <TwoColumnLayout css={{ pt: '$md', alignItems: 'baseline' }}>
             <Box css={{ width: '100%' }}>
               <Select
                 {...(register('selectedVaultId'),
@@ -470,10 +473,7 @@ export function DistributionForm({
       </form>
 
       <form onSubmit={handleSubmit(onFixedFormSubmit)}>
-        <Panel
-          invertForm
-          css={{ padding: '$md', minHeight: '147px', mb: '$lg' }}
-        >
+        <Panel invertForm css={vaultSelectionPanel}>
           <Flex>
             <Text h2 css={{ ...headerStyle, flexGrow: 1 }}>
               Fixed Payments
@@ -503,7 +503,7 @@ export function DistributionForm({
             </Box>
           ) : (
             <>
-              <TwoColumnLayout css={{ pt: '$md' }}>
+              <TwoColumnLayout css={{ pt: '$md', alignItems: 'baseline' }}>
                 <Box css={{ width: '100%' }}>
                   <Select
                     {...(register('selectedVaultId'),

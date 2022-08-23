@@ -210,7 +210,7 @@ export const CreateForm = ({
           CoVaults allow you to fund your circles with any ERC-20 token as your
           asset.
         </Text>
-        <Box css={{ display: 'flex', gap: '$sm' }}>
+        <Box css={{ display: 'flex', gap: '$sm', flexWrap: 'wrap' }}>
           {contracts.getAvailableTokens().map(symbol => (
             <AssetButton
               pill
@@ -276,7 +276,7 @@ export const CreateForm = ({
           <Link href="https://docs.yearn.finance/">Yearn Vaults</Link> to earn
           yield in the background.
         </Text>
-        <Box css={{ display: 'flex', gap: '$sm' }}>
+        <Box css={{ display: 'flex', gap: '$sm', flexWrap: 'wrap' }}>
           {contracts.getAvailableTokens().map(symbol => (
             <AssetButton
               pill
