@@ -85,6 +85,6 @@ context('Coordinape', () => {
     cy.contains('button', 'Claim Allocations').click();
     cy.contains('button', 'Claim USDC').click();
     cy.contains('Please sign the transaction', { timeout: 120000 });
-    cy.contains('Claim of allocations successful', { timeout: 120000 });
+    cy.contains('Claim succeeded', { timeout: 120000 });
   });
 });

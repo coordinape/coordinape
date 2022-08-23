@@ -94,7 +94,7 @@ export function useClaimAllocation() {
         txHash,
         vaultAddress: vault.vault_address,
       });
-      showInfo('Claim of allocations successful');
+      showInfo('Claim succeeded');
 
       return txHash;
     } catch (e) {
