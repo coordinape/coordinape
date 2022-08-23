@@ -53,7 +53,7 @@ const useFormSetup = (
     )
     .refine(
       async ({ symbol, customAddress }) => {
-        if (symbol && existingVaults?.some(v => v.symbol === symbol))
+        if (symbol && existingVaults?.some(v => v.symbol.includes(symbol)))
           return false;
 
         if (
