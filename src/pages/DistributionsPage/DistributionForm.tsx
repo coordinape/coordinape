@@ -444,7 +444,7 @@ export function DistributionForm({
           </TwoColumnLayout>
         </Panel>
         {(fixedDist || circleDist) && <Summary distribution={circleDist} />}
-        <Flex css={{ justifyContent: 'center', mb: '$sm', height: '$2xl' }}>
+        <Flex css={{ justifyContent: 'center', mb: '$sm' }}>
           {circleDist ? (
             <EtherscanButton distribution={circleDist} />
           ) : isCombinedDistribution() ? (
@@ -457,7 +457,6 @@ export function DistributionForm({
             <Button
               color="primary"
               outlined
-              size="large"
               disabled={giftSubmitting || !sufficientGiftTokens}
               fullWidth
             >
@@ -577,14 +576,13 @@ export function DistributionForm({
           )}
         </Panel>
         {(fixedDist || circleDist) && <Summary distribution={fixedDist} />}
-        <Flex css={{ justifyContent: 'center', mb: '$sm', height: '$2xl' }}>
+        <Flex css={{ justifyContent: 'center', mb: '$sm' }}>
           {fixedDist ? (
             <EtherscanButton distribution={fixedDist} />
           ) : fpVault ? (
             <Button
               color="primary"
               outlined
-              size="large"
               disabled={fixedSubmitting || !sufficientFixedPaymentTokens}
               fullWidth
             >
@@ -645,7 +643,6 @@ const EtherscanButton = ({
       type="button"
       color="primary"
       outlined
-      size="large"
       fullWidth
       as="a"
       target="_blank"
