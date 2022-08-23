@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 
 import { isUserAdmin } from 'lib/users';
+import { useRecoilValueLoadable } from 'recoil';
 
 import { LoadingModal } from 'components';
 import { useMainHeaderQuery } from 'components/MainLayout/getMainHeaderData';
 import { useContracts } from 'hooks';
 import { useVaults } from 'hooks/gql/useVaults';
+import { rSelectedCircleId } from 'recoilState/app';
 import {
   EXTERNAL_URL_LEARN_ABOUT_VAULTS,
   EXTERNAL_URL_YEARN_VAULTS,
@@ -19,14 +21,21 @@ import { VaultRow } from './VaultRow';
 const VaultsPage = () => {
   const [modal, setModal] = useState<'' | 'create'>('');
 
+  const circleId = useRecoilValueLoadable(rSelectedCircleId).valueMaybe();
   const orgsQuery = useMainHeaderQuery();
   const contracts = useContracts();
 
   const [currentOrgId, setCurrentOrgId] = useState<number | undefined>();
 
   useEffect(() => {
+    const orgIndex = circleId
+      ? orgsQuery?.data?.organizations.findIndex(o =>
+          o.circles.some(c => c.id === circleId)
+        )
+      : 0;
+
     if (!currentOrgId && orgsQuery.data)
-      setCurrentOrgId(orgsQuery.data.organizations[0].id);
+      setCurrentOrgId(orgsQuery.data.organizations[orgIndex ?? 0].id);
   }, [orgsQuery.data]);
 
   const orgs = orgsQuery.data?.organizations;
