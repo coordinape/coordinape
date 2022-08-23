@@ -1,13 +1,34 @@
 {
   "1": {
+    "ApeDistributor": {
+      "address": "0x987F0d155c08ecA48Bc860461b0DA038b79Eaa68"
+    },
+    "ApeRegistry": {
+      "address": "0xA27f499a783d61CcC65f83fd0546763e8F5E58CF"
+    },
+    "ApeRouter": {
+      "address": "0xA72b306A2C10d4E7b0BBFE15618dc28E73B7E4eB"
+    },
+    "ApeVaultFactory": {
+      "address": "0xb06E1FF89f95699e60E26980A049bd8Dff4E6F06"
+    },
+    "ApeVaultWrapperImplementation": {
+      "address": "0x6c6328CC3a9734248364dEC48Ab23137302B4145"
+    },
     "DAI": {
       "address": "0x6B175474E89094C44Da98b954EedeAC495271d0F"
+    },
+    "FeeRegistry": {
+      "address": "0x2460696BB231c6067C8E37670985757bde64B0f8"
     },
     "USDC": {
       "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
     },
     "USDT": {
       "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+    },
+    "VaultBeacon": {
+      "address": "0x7BD45dabb998D8E29b5DE353112E5f4EbF742142"
     },
     "WETH": {
       "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
