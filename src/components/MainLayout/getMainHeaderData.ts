@@ -1,10 +1,11 @@
+import { useWeb3React } from '@web3-react/core';
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 
 import { useAuthStep } from 'hooks/login';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 
-export const getOverviewMenuData = (address: string) =>
+export const getMainHeaderData = (address: string, chainId: number) =>
   client.query(
     {
       organizations: [
@@ -26,23 +27,37 @@ export const getOverviewMenuData = (address: string) =>
           ],
         },
       ],
+      claims_aggregate: [
+        {
+          where: {
+            profile: { address: { _eq: address.toLowerCase() } },
+            txHash: { _is_null: true },
+            distribution: {
+              tx_hash: { _is_null: false },
+              vault: { chain_id: { _eq: chainId } },
+            },
+          },
+        },
+        { aggregate: { count: [{}, true] } },
+      ],
     },
-    {
-      operationName: 'getOverviewMenuData',
-    }
+    { operationName: 'getMainHeaderData' }
   );
+
+export const QUERY_KEY_MAIN_HEADER = 'MainHeader';
 
 // extracting this from OverviewMenu because a list of all the orgs the user
 // belongs to is handy for multiple purposes, so if we use the same cache key,
 // we can reuse it
-export const useOverviewMenuQuery = () => {
+export const useMainHeaderQuery = () => {
   const address = useConnectedAddress();
+  const { chainId } = useWeb3React();
   const [authStep] = useAuthStep();
   return useQuery(
-    ['OverviewMenu', address],
-    () => getOverviewMenuData(address as string),
+    [QUERY_KEY_MAIN_HEADER, address],
+    () => getMainHeaderData(address as string, chainId as number),
     {
-      enabled: !!address && authStep === 'done',
+      enabled: !!address && !!chainId && authStep === 'done',
       staleTime: Infinity,
     }
   );

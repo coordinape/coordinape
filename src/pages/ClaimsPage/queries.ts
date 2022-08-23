@@ -14,7 +14,10 @@ export const getClaims = async (
         {
           where: {
             profile_id: { _eq: profileId },
-            distribution: { tx_hash: { _is_null: false } },
+            distribution: {
+              tx_hash: { _is_null: false },
+              vault: { chain_id: { _eq: Number(contracts.chainId) } },
+            },
           },
           order_by: [{ created_at: order_by.desc }],
         },

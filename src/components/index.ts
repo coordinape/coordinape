@@ -28,7 +28,6 @@ export * from './MainLayout/MainLayout';
 export * from './MyAvatarMenu/MyAvatarMenu';
 export * from './NewApeAvatar/NewApeAvatar';
 export * from './OptInput/OptInput';
-export * from './OverviewMenu/OverviewMenu';
 export * from './ProfileCard/ProfileCard';
 export * from './ProfileSkills/ProfileSkills';
 export * from './ProfileSocialIcons/ProfileSocialIcons';

@@ -4,7 +4,7 @@ import { isUserAdmin } from 'lib/users';
 import { useRecoilValueLoadable } from 'recoil';
 
 import { LoadingModal } from 'components';
-import { useOverviewMenuQuery } from 'components/OverviewMenu/getOverviewMenuData';
+import { useMainHeaderQuery } from 'components/MainLayout/getMainHeaderData';
 import { useContracts } from 'hooks';
 import { useVaults } from 'hooks/gql/useVaults';
 import { rSelectedCircleId } from 'recoilState/app';
@@ -22,7 +22,7 @@ const VaultsPage = () => {
   const [modal, setModal] = useState<'' | 'create'>('');
 
   const circleId = useRecoilValueLoadable(rSelectedCircleId).valueMaybe();
-  const orgsQuery = useOverviewMenuQuery();
+  const orgsQuery = useMainHeaderQuery();
   const contracts = useContracts();
 
   const [currentOrgId, setCurrentOrgId] = useState<number | undefined>();
