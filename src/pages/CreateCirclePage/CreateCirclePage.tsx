@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import uniqBy from 'lodash/uniqBy';
+import { useQueryClient } from 'react-query';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { FormAutocomplete, DeprecatedFormTextField } from 'components';
@@ -16,6 +17,8 @@ export const SummonCirclePage = () => {
   const navigate = useNavigate();
   const [params] = useSearchParams();
   // const { myUser } = useSelectedCircle();
+
+  const queryClient = useQueryClient();
 
   const { address: myAddress, myUsers } = useMyProfile();
 
@@ -83,6 +86,8 @@ export const SummonCirclePage = () => {
             submit={async ({ ...params }) => {
               try {
                 const newCircle = await createCircle({ ...params });
+                queryClient.invalidateQueries('myOrgs');
+                queryClient.invalidateQueries('MainHeader');
                 navigate({
                   pathname: paths.paths.members(newCircle.id),
                   search: paths.NEW_CIRCLE_CREATED_PARAMS,

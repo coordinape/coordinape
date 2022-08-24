@@ -32,7 +32,7 @@ export const RemoveCircleModal = ({
     },
     onSuccess: () => {
       queryClient.invalidateQueries('myOrgs');
-      queryClient.invalidateQueries('OverviewMenu');
+      queryClient.invalidateQueries('MainHeader');
       navigate(paths.circles);
     },
     onError: err => {
