@@ -22,14 +22,15 @@ export const numberWithCommas = (
   const before = beforeDot.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   const after =
     precision > 0
-      ? (
-          '.' +
-          (afterDot.length > precision
-            ? round(Number.parseInt(afterDot), -(afterDot.length - precision))
-            : afterDot)
+      ? '.' +
+        (afterDot.length > precision
+          ? String(
+              round(Number.parseInt(afterDot), -(afterDot.length - precision))
+            ).padStart(afterDot.length, '0')
+          : afterDot
         )
-          .substring(0, precision + 1)
-          .padEnd(precision + 1, '0')
+          .substring(0, precision)
+          .padEnd(precision, '0')
       : '';
   return before + after;
 };
