@@ -16,8 +16,13 @@ const staticFeatureFlags: Partial<Record<FeatureName, boolean>> = {
   csv_import: false,
 };
 
+// this code is safe to use in a non-browser environment because of the typeof
+// check, but our setup in tsconfig-backend.json still flags the use of `window`
+// as an error, so we explicitly ignore it.
 const isLocallyOn = (name: FeatureName) =>
+  // @ts-ignore
   typeof window !== 'undefined' &&
+  // @ts-ignore
   window.localStorage.getItem('feature:' + name) === 'true';
 
 // we make the export a function so that we can implement run-time feature flags
