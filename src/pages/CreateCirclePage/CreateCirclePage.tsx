@@ -6,8 +6,10 @@ import { useQueryClient } from 'react-query';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { FormAutocomplete, DeprecatedFormTextField } from 'components';
+import { QUERY_KEY_MAIN_HEADER } from 'components/MainLayout/getMainHeaderData';
 import CreateCircleForm from 'forms/CreateCircleForm';
 import { useApiWithProfile } from 'hooks';
+import { QUERY_KEY_MY_ORGS } from 'pages/CirclesPage/getOrgData';
 import { useMyProfile } from 'recoilState/app';
 import * as paths from 'routes/paths';
 import { Box, Button, Panel, Text, Tooltip } from 'ui';
@@ -86,8 +88,8 @@ export const SummonCirclePage = () => {
             submit={async ({ ...params }) => {
               try {
                 const newCircle = await createCircle({ ...params });
-                queryClient.invalidateQueries('myOrgs');
-                queryClient.invalidateQueries('MainHeader');
+                queryClient.invalidateQueries(QUERY_KEY_MY_ORGS);
+                queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
                 navigate({
                   pathname: paths.paths.members(newCircle.id),
                   search: paths.NEW_CIRCLE_CREATED_PARAMS,
