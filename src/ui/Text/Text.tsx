@@ -8,6 +8,7 @@ export const Text = styled('span', {
   display: 'flex', // FIXME: this assumes Text is used only for single-line text
   alignItems: 'center',
   color: '$text',
+  textAlign: 'left',
 
   variants: {
     font: {

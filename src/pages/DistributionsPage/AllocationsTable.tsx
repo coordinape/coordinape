@@ -12,6 +12,10 @@ import { numberWithCommas, shortenAddress } from 'utils';
 import type { Gift } from './queries';
 import { EpochDataResult } from './queries';
 
+const styles = {
+  alignRight: { textAlign: 'right' },
+};
+
 export const AllocationsTable = ({
   users,
   totalGive,
@@ -85,11 +89,11 @@ export const AllocationsTable = ({
   const headers = [
     { title: 'Name' },
     { title: 'ETH' },
-    { title: 'Givers' },
-    { title: `${giveTokenName || 'GIVE'} Received` },
-    { title: `% of ${giveTokenName || 'GIVE'}` },
-    { title: 'Circle Rewards' },
-    { title: 'Fixed Payments' },
+    { title: 'Givers', css: styles.alignRight },
+    { title: `${giveTokenName || 'GIVE'} Received`, css: styles.alignRight },
+    { title: `% of ${giveTokenName || 'GIVE'}`, css: styles.alignRight },
+    { title: 'Circle Rewards', css: styles.alignRight },
+    { title: 'Fixed Payments', css: styles.alignRight },
   ];
   if (combinedDist) {
     headers.push({ title: 'Funds Allocated' });
@@ -156,10 +160,12 @@ export const AllocationsTable = ({
               </Flex>
             </td>
             <td>{shortenAddress(user.address)}</td>
-            <td>{user.givers}</td>
-            <td>{user.received}</td>
-            <td>{numberWithCommas(givenPercent(user.received) * 100, 2)}%</td>
-            <td>
+            <td className="alignRight">{user.givers}</td>
+            <td className="alignRight">{user.received}</td>
+            <td className="alignRight">
+              {numberWithCommas(givenPercent(user.received) * 100, 2)}%
+            </td>
+            <td className="alignRight">
               {user.circle_claimed
                 ? `${numberWithCommas(
                     circleDist &&
@@ -174,14 +180,14 @@ export const AllocationsTable = ({
                     2
                   )} ${tokenName || 'GIVE'}`}
             </td>
-            <td>
+            <td className="alignRight">
               {!combinedDist && fixedDist
                 ? numberWithCommas(user.claimed, 2)
                 : numberWithCommas(user.fixed_payment_amount, 2)}{' '}
               {fixedTokenName || ''}
             </td>
             {combinedDist ? (
-              <td>
+              <td className="alignRight">
                 {(() => {
                   if (circleDist && fixedDist) {
                     return numberWithCommas(user.combined_claimed, 2);

@@ -10,8 +10,7 @@ import { QueryClaim } from './queries';
 import { formatDistributionDates, formatClaimAmount } from './utils';
 
 const styles = {
-  th: { whiteSpace: 'nowrap', textAlign: 'left' },
-  thLast: { textAlign: 'right', pr: '$md' },
+  alignRight: { textAlign: 'right' },
 };
 
 const buttonStyles = {
@@ -60,22 +59,24 @@ const ClaimsRow: React.FC<ClaimsRowData> = ({ claim, group, children }) => {
           ) : (
             ''
           )}
-          <Text>{claim.distribution.epoch.circle?.organization?.name}</Text>
+          <Text size="small">
+            {claim.distribution.epoch.circle?.organization?.name}
+          </Text>
         </Flex>
       </td>
       <td>
-        <Flex css={{ gap: '$sm' }}>
-          <Text>{claim.distribution.epoch.circle?.name}</Text>
-        </Flex>
+        <Text size="small">{claim.distribution.epoch.circle?.name}</Text>
       </td>
       <td>
-        <Text>
+        <Text size="small" css={{ lineHeight: 0 }}>
           <ApeInfoTooltip>{groupTooltipInfo(group)}</ApeInfoTooltip>
-          <Text>{formatDistributionDates(group)}</Text>
+          <Text size="small" css={{ ml: '$xs' }}>
+            {formatDistributionDates(group)}
+          </Text>
         </Text>
       </td>
       <td>
-        <Text>{formatClaimAmount(group)}</Text>
+        <Text size="small">{formatClaimAmount(group)}</Text>
       </td>
       <td className="alignRight">{children}</td>
     </tr>
@@ -122,11 +123,11 @@ export default function ClaimsPage() {
       <Panel css={{ mb: '$lg' }}>
         <ClaimsTable
           headers={[
-            { title: 'Organization', css: styles.th },
-            { title: 'Circle', css: styles.th },
-            { title: 'Distributions', css: styles.th },
-            { title: 'Rewards', css: styles.th },
-            { title: 'Claims', css: styles.thLast },
+            { title: 'Organization' },
+            { title: 'Circle' },
+            { title: 'Distributions' },
+            { title: 'Rewards' },
+            { title: 'Claims', css: styles.alignRight },
           ]}
           data={unclaimedClaimsRows}
           startingSortIndex={2}
@@ -140,7 +141,7 @@ export default function ClaimsPage() {
             const isClaimed = claiming[claim.id] === 'claimed';
             return (
               <ClaimsRow claim={claim} key={claim.id} group={group}>
-                <Flex css={{ justifyContent: 'end', pr: '$md' }}>
+                <Flex css={{ justifyContent: 'end' }}>
                   <Button
                     color="primary"
                     outlined
@@ -167,11 +168,11 @@ export default function ClaimsPage() {
       <Panel>
         <ClaimsTable
           headers={[
-            { title: 'Organization', css: styles.th },
-            { title: 'Circle', css: styles.th },
-            { title: 'Epochs', css: styles.th },
-            { title: 'Rewards', css: styles.th },
-            { title: 'Transactions', css: styles.thLast },
+            { title: 'Organization' },
+            { title: 'Circle' },
+            { title: 'Epochs' },
+            { title: 'Rewards' },
+            { title: 'Transactions', css: styles.alignRight },
           ]}
           data={claimedClaimsRows}
           startingSortIndex={2}

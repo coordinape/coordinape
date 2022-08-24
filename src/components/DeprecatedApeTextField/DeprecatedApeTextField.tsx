@@ -150,7 +150,7 @@ const makeComponent =
           fullWidth && classes.rootFullWidth
         )}
       >
-        <Flex css={{ justifyContent: 'space-between' }}>
+        <Flex css={{ justifyContent: 'space-between', alignItems: 'end' }}>
           {prelabel && (
             <Text
               variant="label"
@@ -169,7 +169,7 @@ const makeComponent =
               as="label"
               htmlFor={id ?? fallbackId}
               className={classes.label}
-              css={{ mb: '$xs' }}
+              css={{ mb: '$xs', textAlign: 'right' }}
             >
               {label}{' '}
               {!prelabel && infoTooltip && (
