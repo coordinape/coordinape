@@ -3,7 +3,7 @@ import { MouseEvent, useState, useEffect, useCallback } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ethers } from 'ethers';
-import { Asset } from 'lib/vaults';
+import { Asset, removeYearnPrefix } from 'lib/vaults';
 import type { Contracts } from 'lib/vaults';
 import debounce from 'lodash/debounce';
 import isEmpty from 'lodash/isEmpty';
@@ -53,7 +53,12 @@ const useFormSetup = (
     )
     .refine(
       async ({ symbol, customAddress }) => {
-        if (symbol && existingVaults?.some(v => v.symbol.includes(symbol)))
+        if (
+          symbol &&
+          existingVaults?.some(
+            v => removeYearnPrefix(v.symbol) === removeYearnPrefix(symbol)
+          )
+        )
           return false;
 
         if (
