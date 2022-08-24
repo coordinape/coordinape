@@ -124,3 +124,29 @@ test('render with a distribution', async () => {
 
   expect(screen.getAllByText('10.80 Yearn USDC').length).toEqual(2);
 });
+
+test('render with no allocations', async () => {
+  (getEpochData as any).mockImplementation(() =>
+    Promise.resolve({
+      ...mockEpochData,
+      token_gifts: [],
+    })
+  );
+
+  await act(async () => {
+    await render(
+      <TestWrapper withWeb3>
+        <DistributionsPage />
+      </TestWrapper>
+    );
+  });
+
+  await waitFor(() => {
+    expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
+  });
+
+  expect(screen.getByText('Gift Circle')).toBeInTheDocument();
+  expect(
+    screen.getAllByText('Yearn USDC')[0].closest('button[role="combobox"]')
+  ).toBeDisabled();
+});

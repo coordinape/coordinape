@@ -54,6 +54,7 @@ type SubmitFormProps = {
   refetch: () => void;
   circleDist: EpochDataResult['distributions'][0] | undefined;
   fixedDist: EpochDataResult['distributions'][0] | undefined;
+  totalGive: number;
 };
 
 /**
@@ -73,6 +74,7 @@ export function DistributionForm({
   refetch,
   circleDist,
   fixedDist,
+  totalGive,
 }: SubmitFormProps) {
   const [giftSubmitting, setGiftSubmitting] = useState(false);
   const [fixedSubmitting, setFixedSubmitting] = useState(false);
@@ -355,6 +357,9 @@ export function DistributionForm({
     }
   };
 
+  const shouldDisableGiftInput =
+    giftSubmitting || !!circleDist || vaults.length === 0 || totalGive === 0;
+
   const displayAvailableAmount = (type: 'gift' | 'fixed') => {
     const max = type === 'gift' ? maxGiftTokens : maxFixedPaymentTokens;
     const distribution = type === 'gift' ? circleDist : fixedDist;
@@ -382,8 +387,7 @@ export function DistributionForm({
                     ? vaults[0].id.toString()
                     : '',
                   label: 'CoVault',
-                  disabled:
-                    giftSubmitting || !!circleDist || vaults.length === 0,
+                  disabled: shouldDisableGiftInput,
                   onValueChange: value => {
                     setValue('selectedVaultId', value, {
                       shouldDirty: true,
@@ -417,7 +421,7 @@ export function DistributionForm({
                     ? circleDist.gift_amount?.toString() || '0'
                     : amountField.value.toString()
                 }
-                disabled={giftSubmitting || !!circleDist || vaults.length === 0}
+                disabled={shouldDisableGiftInput}
                 max={formatUnits(
                   maxGiftTokens,
                   getDecimals({
