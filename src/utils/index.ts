@@ -17,7 +17,8 @@ export const numberWithCommas = (
       return '0.'.padEnd(precision + 2, '0');
     } else return '0';
   }
-  const split = x.toString().split('.');
+  // convert it to Number first to remove insignificant trailing zeroes after the decimal point
+  const split = Number(x).toString().split('.');
   const [beforeDot, afterDot] = [split[0], split[1] || ''];
   const before = beforeDot.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   const after =
