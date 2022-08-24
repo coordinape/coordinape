@@ -1,5 +1,5 @@
+import { formatUnits } from '@ethersproject/units';
 import { ContractsReadonly } from 'common-lib/contracts';
-import { BigNumber } from 'ethers';
 import { decodeCircleId, getDisplayTokenString } from 'lib/vaults';
 import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
@@ -82,7 +82,7 @@ interface RawTransaction {
   date: string;
   type: string;
   details: string;
-  amount: BigNumber | number;
+  amount: string | number;
   hash: string;
 }
 async function getDepositEvents(
@@ -134,7 +134,7 @@ async function getDepositEvents(
       deposits.push({
         block: event.blockNumber,
         type: 'Deposit',
-        amount: transferEvent.args.value.div(BigNumber.from(10).pow(decimals)),
+        amount: formatUnits(transferEvent.args.value, decimals),
         details: `By ${user?.name || transferEvent.args.from}`,
         date: DateTime.fromSeconds(block.timestamp).toFormat('DD'),
         hash: event.transactionHash,
@@ -208,7 +208,7 @@ async function getWithdrawEvents(
         block: event.blockNumber,
         type: 'Withdraw',
         details: `By ${user?.name || transferEvent.args.from}`,
-        amount: transferEvent.args.value.div(BigNumber.from(10).pow(decimals)),
+        amount: formatUnits(transferEvent.args.value, decimals),
         date: DateTime.fromSeconds(block.timestamp).toFormat('DD'),
         hash: event.transactionHash,
       });
