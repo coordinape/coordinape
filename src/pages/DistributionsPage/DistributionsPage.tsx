@@ -87,8 +87,6 @@ export function DistributionsPage() {
     epochError = 'You are not an admin of this circle.';
   } else if (!epoch.ended) {
     epochError = 'This epoch has not ended yet.';
-  } else if (totalGive === 0) {
-    epochError = 'No tokens were allocated during this epoch.';
   }
 
   const circleDist = epoch.distributions.find(
@@ -238,6 +236,7 @@ export function DistributionsPage() {
               vaults={vaults}
               circleUsers={circleUsers}
               refetch={refetch}
+              totalGive={totalGive}
             />
           </Box>
           <AllocationsTable
