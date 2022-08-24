@@ -357,11 +357,8 @@ export function DistributionForm({
     }
   };
 
-  const shouldDisableGiftInput = () => {
-    return (
-      giftSubmitting || !!circleDist || vaults.length === 0 || totalGive === 0
-    );
-  };
+  const shouldDisableGiftInput =
+    giftSubmitting || !!circleDist || vaults.length === 0 || totalGive === 0;
 
   const displayAvailableAmount = (type: 'gift' | 'fixed') => {
     const max = type === 'gift' ? maxGiftTokens : maxFixedPaymentTokens;
@@ -390,7 +387,7 @@ export function DistributionForm({
                     ? vaults[0].id.toString()
                     : '',
                   label: 'CoVault',
-                  disabled: shouldDisableGiftInput(),
+                  disabled: shouldDisableGiftInput,
                   onValueChange: value => {
                     setValue('selectedVaultId', value, {
                       shouldDirty: true,
@@ -424,7 +421,7 @@ export function DistributionForm({
                     ? circleDist.gift_amount?.toString() || '0'
                     : amountField.value.toString()
                 }
-                disabled={shouldDisableGiftInput()}
+                disabled={shouldDisableGiftInput}
                 max={formatUnits(
                   maxGiftTokens,
                   getDecimals({
