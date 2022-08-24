@@ -82,7 +82,7 @@ context('Coordinape', () => {
     cy.get('table').contains('4,500.00');
 
     // claims allocations
-    cy.contains('button', 'Claim Allocations').click();
+    cy.contains('button', 'Claim Tokens').click();
     cy.contains('button', 'Claim USDC').click();
     cy.contains('Please sign the transaction', { timeout: 120000 });
     cy.contains('Claim succeeded', { timeout: 120000 });
