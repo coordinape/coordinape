@@ -83,7 +83,7 @@ const NormalHeader = ({ inCircle }: { inCircle: boolean }) => {
             </Box>
           )}
         </Box>
-        {inCircle && !isFeatureEnabled('vaults') && (
+        {inCircle && (
           <Suspense fallback={null}>
             <ReceiveInfo />
           </Suspense>
