@@ -82,6 +82,10 @@ export const paths = {
   profile: (address: string) => `/profile/${address}`,
   vaults: '/vaults',
   vaultTxs: (address: string) => `${paths.vaults}/${address}/txs`,
+
+  // for circle links
+  invite: (token: string) => `/welcome/${token}`,
+  join: (token: string) => `/join/${token}`,
 };
 
 export const isCircleSpecificPath = (location: Location) =>

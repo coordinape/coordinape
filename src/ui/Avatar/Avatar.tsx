@@ -23,6 +23,13 @@ const AvatarRoot = styled(AvatarPrimitive.Root, {
   zIndex: 1,
   variants: {
     size: {
+      xs: {
+        width: '$lg !important',
+        height: '$lg',
+        '> span': {
+          fontSize: '$medium',
+        },
+      },
       small: {
         width: '$xl !important',
         height: '$xl',
@@ -38,8 +45,18 @@ const AvatarRoot = styled(AvatarPrimitive.Root, {
         },
       },
       large: {
-        width: '$xl',
-        height: '$xl',
+        width: '$2xl !important',
+        height: '$2xl',
+        '> span': {
+          fontSize: '$medium',
+        },
+      },
+      xl: {
+        width: '$4xl !important',
+        height: '$4xl',
+        '> span': {
+          fontSize: '$medium',
+        },
       },
     },
     margin: {
@@ -76,6 +93,9 @@ const AvatarFallback = styled(AvatarPrimitive.Fallback, {
   fontWeight: '$medium',
   variants: {
     size: {
+      xs: {
+        fontSize: '$small',
+      },
       small: {
         fontSize: '$medium',
       },
@@ -83,6 +103,9 @@ const AvatarFallback = styled(AvatarPrimitive.Fallback, {
         fontSize: '$medium',
       },
       large: {
+        fontSize: '$large',
+      },
+      xl: {
         fontSize: '$large',
       },
     },
@@ -103,7 +126,7 @@ export const Avatar = ({
   name?: string;
   onClick?: () => void;
   /** represents avatar with smaller size `32x32` */
-  size?: 'large' | 'medium' | 'small';
+  size?: 'xl' | 'large' | 'medium' | 'small' | 'xs';
   margin?: 'none' | 'small'; // can be extended if needed
   children?: React.ReactNode;
   css?: Stitches.CSS;
