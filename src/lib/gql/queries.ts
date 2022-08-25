@@ -478,7 +478,9 @@ export const fetchManifest = async (address: string): Promise<IApiManifest> => {
   const manifestQuery = client.query(
     {
       circles: [
-        {},
+        {
+          where: { deleted_at: { _is_null: true } },
+        },
         {
           id: true,
           name: true,
@@ -558,7 +560,9 @@ export const fetchManifest = async (address: string): Promise<IApiManifest> => {
           created_at: true,
           updated_at: true,
           users: [
-            {},
+            {
+              where: { circle: { deleted_at: { _is_null: true } } },
+            },
             {
               id: true,
               circle_id: true,
