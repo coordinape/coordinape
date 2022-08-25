@@ -44,7 +44,6 @@ export const ReceiveInfo = () => {
         <Button
           size="small"
           color="surface"
-          // onClick={event => setAnchorEl(event.currentTarget)}
           css={{ mr: '$sm' }}
           onMouseEnter={() => setMouseEnterTrigger(true)}
           onMouseLeave={() =>
