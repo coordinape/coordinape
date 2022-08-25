@@ -43,3 +43,15 @@ export const zEthAddressOrBlank = z.string().refine(async val => {
 export const zBytes32 = z
   .string()
   .refine(val => ethers.utils.isHexString(val, 32));
+
+export const zUsername = z
+  .string()
+  .max(255)
+  .transform(val => val.trim())
+  .refine(val => val.length >= 3, 'Name must contain at least 3 characters');
+
+export const zCircleName = z
+  .string()
+  .max(255)
+  .transform(val => val.trim())
+  .refine(val => val.length >= 3);

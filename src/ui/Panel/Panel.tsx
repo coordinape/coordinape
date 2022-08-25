@@ -50,6 +50,11 @@ export const Panel = styled('div', {
         backgroundColor: '$success',
       },
     },
+    alert: {
+      true: {
+        backgroundColor: '$alertLight',
+      },
+    },
   },
 
   defaultVariants: {

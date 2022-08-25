@@ -504,6 +504,7 @@ export const fetchManifest = async (address: string): Promise<IApiManifest> => {
             name: true,
             created_at: true,
             updated_at: true,
+            logo: true,
           },
           auto_opt_out: true,
           fixed_payment_token_type: true,
