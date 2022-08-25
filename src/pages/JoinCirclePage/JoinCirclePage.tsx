@@ -9,9 +9,9 @@ import { LoadingModal } from '../../components';
 import { useMyProfile } from '../../recoilState';
 import { paths } from '../../routes/paths';
 import { Panel, Text } from '../../ui';
-import CenteredBox from '../../ui/CenteredBox';
 
 import { AddressIsNotMember } from './AddressIsNotMember';
+import CenteredBox from './CenteredBox';
 import { JoinWithMagicLink } from './JoinWithMagicLink';
 
 export const JoinCirclePage = () => {
