@@ -29,16 +29,8 @@ export const JoinCirclePage = () => {
     TokenJoinInfo | undefined
   >();
 
-  const alreadyMember = (circleId: number) => {
-    let found = false;
-    for (const user of myUsers) {
-      if (user.circle_id === circleId) {
-        found = true;
-        break;
-      }
-    }
-    return found;
-  };
+  const alreadyMember = (circleId: number) =>
+    myUsers.some(u => u.circle_id === circleId);
 
   useEffect(() => {
     const fn = async () => {
