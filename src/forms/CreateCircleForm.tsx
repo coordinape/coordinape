@@ -17,6 +17,7 @@ const schema = z
     contact: z.string().refine(val => val.trim().length >= 4, {
       message: 'Circle Point of Contact is Required.',
     }),
+    circle_logo: z.instanceof(File).optional(),
   })
   .strict();
 
@@ -30,6 +31,7 @@ const CreateCircleForm = createForm({
     protocol_name: '',
     protocol_id: undefined,
     contact: '',
+    circle_logo: undefined,
     ...source,
   }),
   fieldKeys: Object.keys(schema.shape),
