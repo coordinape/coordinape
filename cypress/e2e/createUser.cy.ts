@@ -25,6 +25,9 @@ context('Coordinape', () => {
     cy.contains('Add Members', { timeout: 120000 }).should('be.visible');
     cy.contains('Add Members').click();
 
+    cy.contains('ETH Address', { timeout: 120000 }).should('be.visible');
+    cy.contains('ETH Address').click();
+
     cy.get('[data-testid=new-members]').within(() => {
       cy.get('input').eq(0).click().type('A Test User').blur();
       cy.get('input')

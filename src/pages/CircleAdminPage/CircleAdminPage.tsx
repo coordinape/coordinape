@@ -270,6 +270,7 @@ export const CircleAdminPage = () => {
     mode: 'onChange',
     defaultValues: {
       fixed_payment_vault_id: stringifiedVaultId(),
+      fixed_payment_token_type: circle?.fixed_payment_token_type || '',
     },
   });
 

@@ -3,6 +3,7 @@ import { IEpoch } from './api.epoch';
 export interface IProtocol {
   id: number;
   name: string;
+  logo?: string;
   is_verified?: boolean;
   created_at?: Date;
   updated_at?: Date;

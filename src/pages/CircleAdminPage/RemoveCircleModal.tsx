@@ -5,7 +5,9 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router';
 
 import { LoadingModal } from 'components';
+import { QUERY_KEY_MAIN_HEADER } from 'components/MainLayout/getMainHeaderData';
 import { useApeSnackbar } from 'hooks';
+import { QUERY_KEY_MY_ORGS } from 'pages/CirclesPage/getOrgData';
 import { paths } from 'routes/paths';
 import { Button, Flex, Modal, Text } from 'ui';
 import { normalizeError } from 'utils/reporting';
@@ -31,8 +33,8 @@ export const RemoveCircleModal = ({
       setIsLoading(true);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries('myOrgs');
-      queryClient.invalidateQueries('OverviewMenu');
+      queryClient.invalidateQueries(QUERY_KEY_MY_ORGS);
+      queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
       navigate(paths.circles);
     },
     onError: err => {

@@ -17,19 +17,21 @@ export const numberWithCommas = (
       return '0.'.padEnd(precision + 2, '0');
     } else return '0';
   }
-  const split = x.toString().split('.');
+  // convert it to Number first to remove insignificant trailing zeroes after the decimal point
+  const split = Number(x).toString().split('.');
   const [beforeDot, afterDot] = [split[0], split[1] || ''];
   const before = beforeDot.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   const after =
     precision > 0
-      ? (
-          '.' +
-          (afterDot.length > precision
-            ? round(Number.parseInt(afterDot), -(afterDot.length - precision))
-            : afterDot)
+      ? '.' +
+        (afterDot.length > precision
+          ? String(
+              round(Number.parseInt(afterDot), -(afterDot.length - precision))
+            ).padStart(afterDot.length, '0')
+          : afterDot
         )
-          .substring(0, precision + 1)
-          .padEnd(precision + 1, '0')
+          .substring(0, precision)
+          .padEnd(precision, '0')
       : '';
   return before + after;
 };
