@@ -15,6 +15,7 @@ import { useApiAdminCircle, useNavigation } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { PlusCircleIcon, CheckIcon, CloseIcon } from 'icons';
 import { CircleSettingsResult } from 'pages/CircleAdminPage/getCircleSettings';
+import { EXTERNAL_URL_FEEDBACK } from 'routes/paths';
 import {
   Avatar,
   Box,
@@ -206,11 +207,7 @@ const coordinapeTooltipContent = () => {
         allocate to Coordinape. To show or hide the Coordinape user, use the
         links on the right side of this row.
       </p>
-      <a
-        href="https://coordinape.notion.site/Why-is-Coordinape-in-my-Circle-fd17133a82ef4cbf84d4738311fb557a"
-        target="_blank"
-        rel="noreferrer"
-      >
+      <a href={EXTERNAL_URL_FEEDBACK} target="_blank" rel="noreferrer">
         Let us know what you think
       </a>
     </Box>

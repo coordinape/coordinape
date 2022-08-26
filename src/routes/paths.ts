@@ -30,7 +30,7 @@ export const EXTERNAL_URL_MEDIUM_ARTICLE =
   'https://medium.com/iearn/decentralized-payroll-management-for-daos-b2252160c543';
 // TODO: Change this to something more specific to feedback.
 export const EXTERNAL_URL_FEEDBACK =
-  'https://coordinape.notion.site/Why-is-Coordinape-in-my-Circle-fd17133a82ef4cbf84d4738311fb557a';
+  'https://coordinape.com/post/why-is-coordinape-in-my-circle?utm_source=coordinape-app&utm_medium=tooltip&utm_campaign=coordinapeincircle';
 export const EXTERNAL_URL_TYPEFORM_FEEDBACK =
   'https://fe7gssn4rhy.typeform.com/to/nvOUfHKN';
 export const EXTERNAL_URL_MAILTO_SUPPORT = 'mailto:support@coordinape.com';
