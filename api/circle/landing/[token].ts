@@ -49,6 +49,20 @@ async function circleFromToken(token: string) {
               name: true,
               logo: true,
             },
+            users: [
+              {
+                limit: 3,
+                where: {
+                  role: { _eq: 1 },
+                },
+              },
+              {
+                name: true,
+                profile: {
+                  avatar: true,
+                },
+              },
+            ],
           },
         },
       ],
@@ -62,7 +76,7 @@ async function circleFromToken(token: string) {
   if (!tokenResult || !tokenResult.circle) {
     throw new Error('invalid token provided or not found');
   }
-  return tokenResult;
+  return { ...tokenResult, token };
 }
 
 export type TokenJoinInfo = Awaited<ReturnType<typeof circleFromToken>>;

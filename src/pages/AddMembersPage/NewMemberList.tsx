@@ -1,32 +1,38 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useFieldArray, useForm } from 'react-hook-form';
+import { client } from 'lib/gql/client';
+import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
 import { z } from 'zod';
 
 import { LoadingModal } from '../../components';
-import { isFeatureEnabled } from '../../config/features';
-import { zEthAddress } from '../../forms/formHelpers';
+import CopyCodeTextField from '../../components/CopyCodeTextField';
+import { zEthAddress, zUsername } from '../../forms/formHelpers';
 import { useApeSnackbar, useApiBase } from '../../hooks';
-import { Check /* Working */ } from '../../icons/__generated';
-import { client } from '../../lib/gql/client';
 import { Box, Button, Flex, Panel, Text } from '../../ui';
-import { normalizeError } from '../../utils/reporting';
+import { Check } from 'icons/__generated';
+import { normalizeError } from 'utils/reporting';
 
-import CopyCodeTextField from './CopyCodeTextField';
 import NewMemberEntry from './NewMemberEntry';
 import NewMemberGridBox from './NewMemberGridBox';
+
+export type NewMember = {
+  name: string;
+  address: string;
+};
 
 const NewMemberList = ({
   // TODO: revoke comes later - maybe on admin page
   // revokeWelcome,
   circleId,
   welcomeLink,
+  preloadedMembers,
 }: {
   circleId: number;
   welcomeLink: string;
   revokeWelcome(): void;
+  preloadedMembers: NewMember[];
 }) => {
   const { fetchCircle } = useApiBase();
   const { showError } = useApeSnackbar();
@@ -34,19 +40,21 @@ const NewMemberList = ({
   const [loading, setLoading] = useState<boolean>();
   const [successCount, setSuccessCount] = useState<number>(0);
 
+  const [defaultMembers, setDefaultMembers] =
+    useState<NewMember[]>(preloadedMembers);
+
   const successRef = useRef<HTMLDivElement>(null);
 
   const queryClient = useQueryClient();
+
+  const emptyMember = { name: '', address: '' };
 
   const newMemberSchema = z.object({
     newMembers: z.array(
       z
         .object({
           address: zEthAddress.or(z.literal('')),
-          name: z
-            .string()
-            .min(3, 'Name must be at least 3 characters')
-            .or(z.literal('')),
+          name: zUsername.or(z.literal('')),
         })
         .superRefine((data, ctx) => {
           if (data.name && data.name !== '' && data.address === '') {
@@ -67,11 +75,10 @@ const NewMemberList = ({
     ),
   });
 
+  type FormSchema = z.infer<typeof newMemberSchema>;
+
   const defaultValues = {
-    newMembers: [
-      { name: '', address: '' },
-      { name: '', address: '' },
-    ],
+    newMembers: [...defaultMembers, emptyMember, emptyMember],
   };
 
   const {
@@ -79,16 +86,15 @@ const NewMemberList = ({
     control,
     handleSubmit,
     reset,
-    formState,
-    getValues,
+    formState: { errors, isValid },
     watch,
-  } = useForm({
+    trigger,
+  } = useForm<FormSchema>({
     resolver: zodResolver(newMemberSchema),
     reValidateMode: 'onChange',
     mode: 'onChange',
     defaultValues,
   });
-  const { errors } = formState;
 
   const {
     fields: newMemberFields,
@@ -101,11 +107,8 @@ const NewMemberList = ({
 
   const newMembers = watch('newMembers');
 
-  const submitNewMembers = async () => {
-    const newMembers = getValues('newMembers') as {
-      name: string;
-      address: string;
-    }[];
+  const submitNewMembers: SubmitHandler<FormSchema> = async data => {
+    const { newMembers } = data;
     try {
       setLoading(true);
       setSuccessCount(0);
@@ -127,7 +130,8 @@ const NewMemberList = ({
       });
       // ok it worked, clear out?
       setSuccessCount(filteredMembers.length);
-      reset();
+      setDefaultMembers([]);
+      reset({ newMembers: [emptyMember, emptyMember] });
       successRef.current?.scrollIntoView();
       await queryClient.invalidateQueries(['circleSettings', circleId]);
       await fetchCircle({ circleId });
@@ -141,130 +145,115 @@ const NewMemberList = ({
   const newMemberFocused = (idx: number) => {
     // make sure there is at least idx+1 elements in the namesToAdd Array
     if (newMemberFields.length - 1 <= idx) {
-      appendNewMember(
-        {
-          name: '',
-          address: '',
-        },
-        {
-          shouldFocus: false,
-        }
-      );
+      appendNewMember(emptyMember, { shouldFocus: false });
     }
   };
 
+  function errorForMemberIndex(idx: number) {
+    let err: { name?: string; address?: string } | undefined = undefined;
+    if (errors) {
+      const addrErrors = errors['newMembers'] as {
+        address?: { message?: string };
+        name?: { message?: string };
+        message?: string;
+      }[];
+      if (addrErrors) {
+        const e = {
+          name: addrErrors[idx]?.name?.message,
+          address: addrErrors[idx]?.address?.message,
+        };
+
+        // if there is an error pass it along
+        if (e.name || e.address) {
+          err = e;
+        }
+      }
+    }
+    return err;
+  }
+
+  useEffect(() => {
+    // do initial form validation to validate the preloaded values (from csv or other import)
+    trigger().then();
+  }, []);
+
   return (
     <Box>
-      <Box
-        css={{
-          width: '70%',
-          '@md': {
-            width: '100%',
-          },
-        }}
-      >
-        <Panel nested>
-          <form onSubmit={handleSubmit(submitNewMembers)}>
-            {loading && <LoadingModal visible={true} />}
-            <Box data-testid="new-members">
-              <NewMemberGridBox>
-                <Box>
-                  <Text variant={'label'}>Name</Text>
-                </Box>
-                <Box>
-                  <Text variant={'label'}>Wallet Address</Text>
-                </Box>
-              </NewMemberGridBox>
-              {newMemberFields.map((field, idx) => {
-                let err: { name?: string; address?: string } | undefined =
-                  undefined;
-                if (errors) {
-                  const addrErrors = errors['newMembers'] as {
-                    address?: { message?: string };
-                    name?: { message?: string };
-                    message?: string;
-                  }[];
-                  if (addrErrors) {
-                    const e = {
-                      name: addrErrors[idx]?.name?.message,
-                      address: addrErrors[idx]?.address?.message,
-                    };
-                    if (e.name || e.address) {
-                      // if there is an error pass it along
-                      err = e;
-                    }
-                  }
-                }
-                return (
-                  <NewMemberEntry
-                    key={field.id}
-                    onFocus={() => newMemberFocused(idx)}
-                    onRemove={idx > 0 ? () => removeNewMember(idx) : undefined}
-                    register={register}
-                    index={idx}
-                    error={err}
-                  />
-                );
-              })}
-            </Box>
-            <Box>
-              <Button
-                type="submit"
-                disabled={
-                  loading ||
-                  errors?.newMembers !== undefined ||
-                  newMembers.filter(m => m.address != '' && m.name != '')
-                    .length == 0
-                }
-                color="primary"
-                size="large"
-                fullWidth
-              >
-                Add Members
-              </Button>
-            </Box>
-          </form>
-        </Panel>
+      <Panel nested>
+        <form onSubmit={handleSubmit(submitNewMembers)}>
+          {loading && <LoadingModal visible={true} />}
+          <Box data-testid="new-members">
+            <NewMemberGridBox>
+              <Box>
+                <Text variant="label">Name</Text>
+              </Box>
+              <Box>
+                <Text variant="label">Wallet Address</Text>
+              </Box>
+            </NewMemberGridBox>
+            {newMemberFields.map((field, idx) => {
+              const err = errorForMemberIndex(idx);
+              return (
+                <NewMemberEntry
+                  key={field.id}
+                  onFocus={() => newMemberFocused(idx)}
+                  onRemove={idx > 0 ? () => removeNewMember(idx) : undefined}
+                  register={register}
+                  index={idx}
+                  error={err}
+                />
+              );
+            })}
+          </Box>
+          <Box>
+            <Button
+              type="submit"
+              disabled={
+                loading ||
+                !isValid ||
+                newMembers.filter(m => m.address != '' && m.name != '')
+                  .length == 0
+              }
+              color="primary"
+              size="large"
+              fullWidth
+            >
+              Add Members
+            </Button>
+          </Box>
+        </form>
+      </Panel>
 
-        <div ref={successRef}>
-          {successCount > 0 && (
-            <>
-              <Panel success css={{ mt: '$xl' }}>
-                <Flex>
-                  <Check
-                    color={'successDark'}
-                    size={'lg'}
-                    css={{ mr: '$md' }}
-                  />
-                  <Text size={'large'}>
-                    You have added {successCount} member
-                    {successCount == 1 ? '' : 's'}
-                    !&nbsp;
-                    {isFeatureEnabled('link_joining') && (
-                      <Text bold>Share the link to get them started.</Text>
-                    )}
-                  </Text>
-                </Flex>
-              </Panel>
+      <div ref={successRef}>
+        {successCount > 0 && (
+          <>
+            <Panel success css={{ mt: '$xl' }}>
+              <Flex>
+                <Check color="successDark" size="lg" css={{ mr: '$md' }} />
+                <Text size="large">
+                  You have added {successCount} member
+                  {successCount == 1 ? '' : 's'}
+                  !&nbsp;
+                  <Text bold>Share the link to get them started.</Text>
+                </Text>
+              </Flex>
+            </Panel>
 
-              {isFeatureEnabled('link_joining') && (
-                <Box css={{ mt: '$xl' }}>
-                  <div>
-                    <Text variant={'label'} css={{ mb: '$xs' }}>
-                      Shareable Circle Link
-                    </Text>
-                    <CopyCodeTextField value={welcomeLink} />
-                    {/* Revoke is disabled for now until we figure out the UI for it*/}
-                    {/*<Button color={'transparent'} onClick={revokeWelcome}>*/}
-                    {/*  <Working />*/}
-                    {/*</Button>*/}
-                  </div>
-                </Box>
-              )}
-            </>
-          )}
-        </div>
-      </Box>
+            <Box css={{ mt: '$xl' }}>
+              <div>
+                <Text variant="label" css={{ mb: '$xs' }}>
+                  Shareable Circle Link
+                </Text>
+                <CopyCodeTextField value={welcomeLink} />
+                {/* Revoke is disabled for now until we figure out the UI for it*/}
+                {/*<Button color={'transparent'} onClick={revokeWelcome}>*/}
+                {/*  <Working />*/}
+                {/*</Button>*/}
+              </div>
+            </Box>
+          </>
+        )}
+      </div>
     </Box>
   );
 };
