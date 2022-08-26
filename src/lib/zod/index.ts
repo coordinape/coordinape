@@ -12,7 +12,7 @@ import {
   zCircleName,
 } from '../../forms/formHelpers';
 
-const PERSONAL_SIGN_REGEX = /0x[0-9a-f]{130}/;
+// const PERSONAL_SIGN_REGEX = /0x[0-9a-f]{130}/;
 
 export const sha256HashString = z.string().length(64);
 
@@ -30,7 +30,7 @@ export const loginInput = z.object({
     { message: 'Invalid message payload' }
   ),
   hash: z.string(),
-  signature: z.string().regex(PERSONAL_SIGN_REGEX),
+  signature: z.string(),
 });
 
 export const createCircleSchemaInput = z

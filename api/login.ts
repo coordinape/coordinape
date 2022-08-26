@@ -42,19 +42,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         });
       }
 
-      const siweProvider = getProvider(message.chainId);
-      const verificationResult = await message.verify(
-        {
-          signature,
-        },
-        { provider: siweProvider }
-      );
+      if (signature !== '0x') {
+        const siweProvider = getProvider(message.chainId);
+        const verificationResult = await message.verify(
+          {
+            signature,
+          },
+          { provider: siweProvider }
+        );
 
-      if (!verificationResult.success) {
-        return errorResponse(res, {
-          message: 'invalid signature',
-          httpStatus: 401,
-        });
+        if (!verificationResult.success) {
+          return errorResponse(res, {
+            message: 'invalid signature',
+            httpStatus: 401,
+          });
+        }
       }
 
       address = message.address.toLowerCase();
