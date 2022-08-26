@@ -652,6 +652,7 @@ export type ValueTypes = {
   ['CreateCircleInput']: {
     circle_name: string;
     contact?: string | undefined | null;
+    image_data_base64?: string | undefined | null;
     protocol_id?: number | undefined | null;
     protocol_name?: string | undefined | null;
     user_name: string;
@@ -20998,6 +20999,7 @@ export type GraphQLTypes = {
   ['CreateCircleInput']: {
     circle_name: string;
     contact?: string | undefined;
+    image_data_base64?: string | undefined;
     protocol_id?: number | undefined;
     protocol_name?: string | undefined;
     user_name: string;

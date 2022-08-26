@@ -231,7 +231,8 @@ export async function updateExpiredNominees(idList: number[]) {
 export async function insertCircleWithAdmin(
   circleInput: any,
   userAddress: string,
-  coordinapeAddress: string
+  coordinapeAddress: string,
+  fileName: string | null
 ) {
   const insertUsers = {
     data: [
@@ -280,6 +281,7 @@ export async function insertCircleWithAdmin(
               protocol_id: circleInput.protocol_id,
               users: insertUsers,
               contact: circleInput.contact,
+              logo: fileName,
             },
           },
           circleReturn,
@@ -303,6 +305,7 @@ export async function insertCircleWithAdmin(
                     name: circleInput.circle_name,
                     contact: circleInput.contact,
                     users: insertUsers,
+                    logo: fileName,
                   },
                 ],
               },
