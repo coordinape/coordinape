@@ -116,7 +116,7 @@ export const UsersTableHeader = ({
       }}
     >
       <Text h3>Users</Text>
-      <AppLink to={paths.circleAdmin(circleId)}>
+      <AppLink to={paths.membersAdd(circleId)}>
         <AddContributorButton inline tokenName={tokenName} />
       </AppLink>
     </Box>
