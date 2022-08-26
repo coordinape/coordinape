@@ -74,7 +74,8 @@ export const ReceiveInfo = () => {
           );
         }}
         align="end"
-        sideOffset={-37}
+        sideOffset={-38}
+        alignOffset={-1}
       >
         <Box
           css={{

@@ -11,7 +11,7 @@ const StyledContent = styled(PopoverPrimitive.Content, {
   outline: 'none !important',
 });
 
-export const POPOVER_TIMEOUT = 500;
+export const POPOVER_TIMEOUT = 300;
 export const Popover = PopoverPrimitive.Root;
 export const PopoverTrigger = styled(PopoverPrimitive.Trigger, {});
 export const PopoverContent = StyledContent;
