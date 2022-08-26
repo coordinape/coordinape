@@ -104,12 +104,8 @@ export const SummonCirclePage = () => {
                   ? await fileToBase64(logoData.avatarRaw)
                   : undefined;
                 const newCircle = await createCircle({
-                  user_name: params.user_name,
-                  circle_name: params.circle_name,
+                  ...params,
                   image_data_base64,
-                  contact: params.contact,
-                  protocol_name: params.protocol_name,
-                  protocol_id: params.protocol_id,
                 });
                 queryClient.invalidateQueries(QUERY_KEY_MY_ORGS);
                 queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
@@ -163,10 +159,8 @@ export const SummonCirclePage = () => {
                     </Flex>
                     <input
                       id="upload-logo-button"
-                      onBlur={fields.circle_logo.onBlur}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         if (e.target.files && e.target.files.length) {
-                          fields.circle_logo.onChange(e.target.files[0]);
                           setLogoData({
                             ...logoData,
                             avatar: URL.createObjectURL(e.target.files[0]),
