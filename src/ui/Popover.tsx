@@ -8,6 +8,7 @@ const StyledContent = styled(PopoverPrimitive.Content, {
   boxShadow: '$heavy',
   display: 'flex',
   flexDirection: 'column',
+  outline: 'none !important',
 });
 
 export const Popover = PopoverPrimitive.Root;
