@@ -17,6 +17,7 @@ import {
   PopoverClose,
   PopoverContent,
   Text,
+  POPOVER_TIMEOUT,
 } from 'ui';
 
 export const ReceiveInfo = () => {
@@ -33,29 +34,45 @@ export const ReceiveInfo = () => {
     : (previousEpoch && myReceived.get(previousEpoch.id)) ?? [];
   const totalReceived = (gifts && iti(gifts).sum(({ tokens }) => tokens)) || 0;
   const [mouseEnterPopover, setMouseEnterPopover] = useState(false);
-  const [mouseEnterTrigger, setMouseEnterTrigger] = useState(false);
   const closePopover = () => {
     setMouseEnterPopover(false);
   };
+  let timeoutId: ReturnType<typeof setTimeout>;
 
   return (
-    <Popover open={mouseEnterPopover || mouseEnterTrigger}>
+    <Popover open={mouseEnterPopover}>
       <PopoverTrigger>
         <Button
           size="small"
           color="surface"
           css={{ mr: '$sm' }}
-          onMouseEnter={() => setMouseEnterTrigger(true)}
-          onMouseLeave={() =>
-            setTimeout(() => setMouseEnterTrigger(false), 200)
-          }
+          onMouseEnter={() => {
+            clearTimeout(timeoutId);
+            setMouseEnterPopover(true);
+          }}
+          onMouseLeave={() => {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(
+              () => setMouseEnterPopover(false),
+              POPOVER_TIMEOUT
+            );
+          }}
         >
           {totalReceived} {selectedCircle?.tokenName}
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        onMouseEnter={() => setMouseEnterPopover(true)}
-        onMouseLeave={() => setTimeout(() => setMouseEnterPopover(false), 200)}
+        onMouseEnter={() => {
+          clearTimeout(timeoutId);
+          setMouseEnterPopover(true);
+        }}
+        onMouseLeave={() => {
+          clearTimeout(timeoutId);
+          timeoutId = setTimeout(
+            () => setMouseEnterPopover(false),
+            POPOVER_TIMEOUT
+          );
+        }}
         align="end"
         sideOffset={-37}
       >
