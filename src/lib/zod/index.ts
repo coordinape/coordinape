@@ -35,8 +35,8 @@ export const loginInput = z.object({
 
 export const createCircleSchemaInput = z
   .object({
-    user_name: z.string().min(3).max(255),
-    circle_name: z.string().min(3).max(255),
+    user_name: zUsername,
+    circle_name: zCircleName,
     image_data_base64: z.string().optional(),
     protocol_id: z.number().int().positive().optional(),
     protocol_name: z.string().min(3).max(255).optional(),
