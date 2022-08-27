@@ -28,7 +28,6 @@ export const EXTERNAL_URL_DISCORD_SUPPORT =
   'https://discord.coordinape.com/support';
 export const EXTERNAL_URL_MEDIUM_ARTICLE =
   'https://medium.com/iearn/decentralized-payroll-management-for-daos-b2252160c543';
-// TODO: Change this to something more specific to feedback.
 export const EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE =
   'https://coordinape.com/post/why-is-coordinape-in-my-circle?utm_source=coordinape-app&utm_medium=tooltip&utm_campaign=coordinapeincircle';
 export const EXTERNAL_URL_TYPEFORM_FEEDBACK =

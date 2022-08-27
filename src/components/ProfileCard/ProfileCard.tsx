@@ -15,7 +15,7 @@ import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
 import { useNavigation } from 'hooks';
 import { useContributions } from 'hooks/useContributions';
 import { useSetEditProfileOpen } from 'recoilState/ui';
-import { EXTERNAL_URL_FEEDBACK } from 'routes/paths';
+import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE } from 'routes/paths';
 
 import { CardInfoText } from './CardInfoText';
 import { ContributionSummary } from './ContributionSummary';
@@ -186,7 +186,7 @@ const ProfileCardInner = ({
                 make a lot of sense, so we’re trying that out.
               </div>
               <a
-                href={EXTERNAL_URL_FEEDBACK}
+                href={EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE}
                 rel="noreferrer"
                 target="_blank"
                 className={classes.tooltipLink}
