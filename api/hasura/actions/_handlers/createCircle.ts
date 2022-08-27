@@ -1,4 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { z } from 'zod';
 
 import { COORDINAPE_USER_ADDRESS } from '../../../../api-lib/config';
 import * as mutations from '../../../../api-lib/gql/mutations';
@@ -6,6 +7,7 @@ import * as queries from '../../../../api-lib/gql/queries';
 import { UnauthorizedError } from '../../../../api-lib/HttpError';
 import { resizeCircleLogo } from '../../../../api-lib/images';
 import { ImageUpdater } from '../../../../api-lib/ImageUpdater';
+import { Awaited } from '../../../../api-lib/ts4.5shim';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import {
   createCircleSchemaInput,
@@ -35,23 +37,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const updater = new ImageUpdater<
-      | {
-          protocol_id: number;
-          name: string;
-          id: any;
-          alloc_text?: string | undefined;
-          auto_opt_out: boolean;
-          default_opt_in: boolean;
-          min_vouches: number;
-          nomination_days_limit: number;
-          only_giver_vouch: boolean;
-          team_sel_text?: string | undefined;
-          team_selection: boolean;
-          vouching: boolean;
-          vouching_text?: string | undefined;
-          logo?: string | undefined;
-        }
-      | undefined
+      Awaited<ReturnType<typeof mutations.insertCircleWithAdmin>>
     >(
       resizeCircleLogo,
       createCircle(
@@ -78,7 +64,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 }
 
 function createCircle(
-  circleInput: any,
+  circleInput: z.infer<typeof createCircleSchemaInput>,
   userAddress: string,
   coordinapeAddress: string
 ) {

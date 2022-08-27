@@ -229,7 +229,7 @@ export async function updateExpiredNominees(idList: number[]) {
 }
 
 export async function insertCircleWithAdmin(
-  circleInput: any,
+  circleInput: ValueTypes['circles_insert_input'],
   userAddress: string,
   coordinapeAddress: string,
   fileName: string | null
