@@ -11,45 +11,45 @@ test('create claims rows', () => {
     {
       txHash: '0x1',
       distribution: {
+        distribution_json: { circleId: 1 },
         vault: { vault_address: '0xv1' },
-        epoch: { circle: { id: 1 } },
       },
     },
     // group of 2 (with 4th claim), different circle, unclaimed
     {
       distribution: {
+        distribution_json: { circleId: 2 },
         vault: { vault_address: '0xv1' },
-        epoch: { circle: { id: 2 } },
       },
     },
     // group of 1, same vault & circle as 1st group, but unclaimed
     {
       distribution: {
+        distribution_json: { circleId: 1 },
         vault: { vault_address: '0xv1' },
-        epoch: { circle: { id: 1 } },
       },
     },
     // see above
     {
       distribution: {
+        distribution_json: { circleId: 2 },
         vault: { vault_address: '0xv1' },
-        epoch: { circle: { id: 2 } },
       },
     },
     // see above
     {
       txHash: '0x1',
       distribution: {
+        distribution_json: { circleId: 1 },
         vault: { vault_address: '0xv1' },
-        epoch: { circle: { id: 1 } },
       },
     },
     // group of 1, same vault & circle as 1st group, but different hash
     {
       txHash: '0x2',
       distribution: {
+        distribution_json: { circleId: 1 },
         vault: { vault_address: '0xv1' },
-        epoch: { circle: { id: 1 } },
       },
     },
   ] as QueryClaim[];

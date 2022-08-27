@@ -34,6 +34,30 @@ export function formatDistributionDates(claims: QueryClaim[]) {
 }
 
 /**
+ * Generates a text representation showing the date range and number of
+ * distributions in the claims group. This function only relies on the
+ * Distribution's creation date in the database since deleted users
+ * don't have access to epoch data
+ * @param claims - a group of claims that can be claimed togoether in one tx.
+ */
+export function formatDeletedDistributionDates(claims: QueryClaim[]) {
+  claims = sortBy(claims, c => new Date(c.distribution.created_at).getTime());
+
+  const startDate = new Date(claims[0].distribution.created_at);
+  const endDate = new Date(claims[claims.length - 1].distribution.created_at);
+  const epochsPlural = claims.length > 1 ? 'Distributions:' : 'Distribution:';
+
+  const monthName = (_date: Date) =>
+    _date.toLocaleString('default', { month: 'long' });
+
+  return `${claims.length} ${epochsPlural} ${monthName(
+    startDate
+  )} ${startDate.getDate()} - ${monthName(
+    endDate
+  )} ${endDate.getDate()} ${endDate.getFullYear()}`;
+}
+
+/**
  * Takes a group of claims and reduces to a summed value for that group for
  * display
  * @param claims - a group of claims.
@@ -47,8 +71,11 @@ export function formatClaimAmount(claims: QueryClaim[]): string {
   )}`;
 }
 
-const claimsRowKey = ({ distribution: { vault, epoch }, txHash }: QueryClaim) =>
-  `${vault.vault_address}-${epoch.circle?.id}-${txHash || ''}`;
+const claimsRowKey = ({
+  distribution: { vault, distribution_json },
+  txHash,
+}: QueryClaim) =>
+  `${vault.vault_address}-${distribution_json.circleId}-${txHash || ''}`;
 
 /**
  * reduceClaims: reduce all claims into one row per group of {vault, circle,
@@ -68,8 +95,8 @@ const reduceClaims = (claims: QueryClaim[]) =>
         c =>
           c.distribution.vault.vault_address ===
             curr.distribution.vault.vault_address &&
-          c.distribution.epoch.circle?.id ===
-            curr.distribution.epoch.circle?.id &&
+          c.distribution.distribution_json.circleId ===
+            curr.distribution.distribution_json.circleId &&
           c.txHash === curr.txHash
       ).length > 0
         ? finalClaims

@@ -51,16 +51,20 @@ select_permissions:
     - txHash
     - updated_at
     filter:
-      distribution:
-        epoch:
-          circle:
-            users:
-              _and:
-              - deleted_at:
-                  _is_null: true
-              - profile:
-                  id:
-                    _eq: X-Hasura-User-Id
+      _or:
+      - profile:
+          id:
+            _eq: X-Hasura-User-Id
+      - distribution:
+          epoch:
+            circle:
+              users:
+                _and:
+                - deleted_at:
+                    _is_null: true
+                - profile:
+                    id:
+                      _eq: X-Hasura-User-Id
   role: user
 update_permissions:
 - permission:
