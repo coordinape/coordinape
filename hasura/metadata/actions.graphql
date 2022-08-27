@@ -108,6 +108,7 @@ input CreateCircleInput {
   protocol_name: String
   protocol_id: Int
   contact: String
+  image_data_base64: String
 }
 
 input CreateUserInput {
