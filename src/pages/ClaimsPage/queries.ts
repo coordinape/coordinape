@@ -31,6 +31,7 @@ export const getClaims = async (
           txHash: true,
           distribution: {
             id: true,
+            created_at: true,
             distribution_epoch_id: true,
             distribution_json: [{}, true],
             merkle_root: true,

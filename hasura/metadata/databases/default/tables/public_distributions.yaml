@@ -67,12 +67,16 @@ select_permissions:
     - tx_hash
     - vault_id
     filter:
-      epoch:
-        circle:
-          users:
-            profile:
-              id:
-                _eq: X-Hasura-User-Id
+      _or:
+      - claims:
+          profile_id:
+            _eq: X-Hasura-User-Id
+      - epoch:
+          circle:
+            users:
+              profile:
+                id:
+                  _eq: X-Hasura-User-Id
   role: user
 update_permissions:
 - permission:

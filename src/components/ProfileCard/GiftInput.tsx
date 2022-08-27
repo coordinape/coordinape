@@ -79,7 +79,7 @@ export const GiftInput = ({
     target: { value },
   }: React.ChangeEvent<HTMLInputElement>) => {
     try {
-      updateGift({ tokens: Number(value) });
+      updateGift({ tokens: Math.floor(Number(value)) });
     } catch (e) {
       console.warn('onChangeTokens: Not a number.');
     }
