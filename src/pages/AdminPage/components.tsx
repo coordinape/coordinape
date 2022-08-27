@@ -15,7 +15,7 @@ import { useApiAdminCircle, useNavigation } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { PlusCircleIcon, CheckIcon, CloseIcon } from 'icons';
 import { CircleSettingsResult } from 'pages/CircleAdminPage/getCircleSettings';
-import { EXTERNAL_URL_FEEDBACK } from 'routes/paths';
+import {  EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE  } from 'routes/paths';
 import {
   Avatar,
   Box,
