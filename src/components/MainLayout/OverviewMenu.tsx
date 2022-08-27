@@ -22,6 +22,7 @@ import {
   PopoverTrigger,
   PopoverContent,
   PopoverClose,
+  POPOVER_TIMEOUT,
 } from 'ui';
 
 import type { getMainHeaderData } from './getMainHeaderData';
@@ -75,27 +76,45 @@ export const OverviewMenu = ({
   );
 
   const [mouseEnterPopover, setMouseEnterPopover] = useState(false);
-  const [mouseEnterTrigger, setMouseEnterTrigger] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
 
   const closePopover = () => {
     setMouseEnterPopover(false);
   };
+  let timeoutId: ReturnType<typeof setTimeout>;
 
   return (
-    <Popover open={mouseEnterPopover || mouseEnterTrigger}>
+    <Popover open={mouseEnterPopover}>
       <PopoverTrigger
         asChild
         css={{ outline: 'none' }}
         ref={triggerRef}
-        onMouseEnter={() => setMouseEnterTrigger(true)}
-        onMouseLeave={() => setTimeout(() => setMouseEnterTrigger(false), 200)}
+        onMouseEnter={() => {
+          clearTimeout(timeoutId);
+          setMouseEnterPopover(true);
+        }}
+        onMouseLeave={() => {
+          clearTimeout(timeoutId);
+          timeoutId = setTimeout(
+            () => setMouseEnterPopover(false),
+            POPOVER_TIMEOUT
+          );
+        }}
       >
         {overviewMenuTrigger}
       </PopoverTrigger>
       <PopoverContent
-        onMouseEnter={() => setMouseEnterPopover(true)}
-        onMouseLeave={() => setTimeout(() => setMouseEnterPopover(false), 200)}
+        onMouseEnter={() => {
+          clearTimeout(timeoutId);
+          setMouseEnterPopover(true);
+        }}
+        onMouseLeave={() => {
+          clearTimeout(timeoutId);
+          timeoutId = setTimeout(
+            () => setMouseEnterPopover(false),
+            POPOVER_TIMEOUT
+          );
+        }}
         // These offset values must be dialed in browser.  CSS values/strings cannot be used, only numbers.
         sideOffset={-57}
         alignOffset={1}

@@ -17,6 +17,7 @@ import {
   PopoverTrigger,
   PopoverContent,
   PopoverClose,
+  POPOVER_TIMEOUT,
 } from 'ui';
 import { shortenAddress } from 'utils';
 
@@ -38,12 +39,12 @@ export const MyAvatarMenu = () => {
   const [showTxModal, setShowTxModal] = useState(false);
 
   const [mouseEnterPopover, setMouseEnterPopover] = useState(false);
-  const [mouseEnterTrigger, setMouseEnterTrigger] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
 
   const closePopover = () => {
     setMouseEnterPopover(false);
   };
+  let timeoutId: ReturnType<typeof setTimeout>;
 
   return (
     <>
@@ -51,25 +52,39 @@ export const MyAvatarMenu = () => {
         <RecentTransactionsModal onClose={() => setShowTxModal(false)} />
       )}
       <Hidden smDown>
-        <Popover open={mouseEnterPopover || mouseEnterTrigger}>
+        <Popover open={mouseEnterPopover}>
           <PopoverTrigger
             css={{ outline: 'none' }}
             asChild
             ref={triggerRef}
-            onMouseEnter={() => setMouseEnterTrigger(true)}
-            onMouseLeave={() =>
-              setTimeout(() => setMouseEnterTrigger(false), 200)
-            }
+            onMouseEnter={() => {
+              clearTimeout(timeoutId);
+              setMouseEnterPopover(true);
+            }}
+            onMouseLeave={() => {
+              clearTimeout(timeoutId);
+              timeoutId = setTimeout(
+                () => setMouseEnterPopover(false),
+                POPOVER_TIMEOUT
+              );
+            }}
           >
             <Link href="#">
               <ApeAvatar profile={myProfile} className={classes.avatarButton} />
             </Link>
           </PopoverTrigger>
           <PopoverContent
-            onMouseEnter={() => setMouseEnterPopover(true)}
-            onMouseLeave={() =>
-              setTimeout(() => setMouseEnterPopover(false), 200)
-            }
+            onMouseEnter={() => {
+              clearTimeout(timeoutId);
+              setMouseEnterPopover(true);
+            }}
+            onMouseLeave={() => {
+              clearTimeout(timeoutId);
+              timeoutId = setTimeout(
+                () => setMouseEnterPopover(false),
+                POPOVER_TIMEOUT
+              );
+            }}
             // These offset values must be dialed in browser.  CSS values/strings cannot be used, only numbers.
             sideOffset={-66}
             alignOffset={-16}
