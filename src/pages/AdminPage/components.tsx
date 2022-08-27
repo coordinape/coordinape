@@ -207,7 +207,7 @@ const coordinapeTooltipContent = () => {
         allocate to Coordinape. To show or hide the Coordinape user, use the
         links on the right side of this row.
       </p>
-      <a href={EXTERNAL_URL_FEEDBACK} target="_blank" rel="noreferrer">
+      <a href={EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE} target="_blank" rel="noreferrer">
         Let us know what you think
       </a>
     </Box>
