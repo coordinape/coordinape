@@ -170,7 +170,7 @@ export const vouchInput = z
 export const vouchApiInput = z
   .object({
     nominee_id: z.number(),
-    voucher_profile_id: z.number().int().positive(),
+    voucher_profile_id: z.number().int().positive().optional(),
   })
   .strict();
 
