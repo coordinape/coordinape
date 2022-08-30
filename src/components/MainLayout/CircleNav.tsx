@@ -33,13 +33,13 @@ export const CircleNav = () => {
         'Allocate',
         [paths.epoch(circleId), paths.team(circleId), paths.give(circleId)],
       ],
-      [paths.map(circleId), 'Map'],
     ];
 
     if (circle?.hasVouching) l.push([paths.vouching(circleId), 'Vouching']);
-    if (myUser.isCircleAdmin) {
-      l.push([paths.members(circleId), 'Admin']);
-    }
+    if (myUser.isCircleAdmin) l.push([paths.members(circleId), 'Members']);
+
+    l.push([paths.map(circleId), 'Map']);
+    if (myUser.isCircleAdmin) l.push([paths.circleAdmin(circleId), 'Admin']);
 
     return l;
   }, [circleId, circle?.hasVouching]);
