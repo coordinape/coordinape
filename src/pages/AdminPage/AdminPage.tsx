@@ -1,23 +1,20 @@
 import React, { useState, useMemo, useEffect } from 'react';
 
 import { useQuery } from 'react-query';
-import { useNavigate } from 'react-router-dom';
 
 import { ActionDialog } from 'components';
 import { useApiAdminCircle } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
-import { EditIcon, PlusCircleIcon } from 'icons';
 import { getCircleSettings } from 'pages/CircleAdminPage/getCircleSettings';
 import { useSelectedCircle } from 'recoilState/app';
 import { NEW_CIRCLE_CREATED_PARAMS, paths } from 'routes/paths';
-import { AppLink, Button, Flex, Panel, Text, TextField } from 'ui';
+import { AppLink, Flex, Panel, Text, TextField } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { AdminUserModal } from './AdminUserModal';
 import {
   AddContributorButton,
   MembersTable,
-  SettingsIconButton,
   UsersTableHeader,
 } from './components';
 
@@ -39,8 +36,6 @@ const AdminPage = () => {
       setNewCircle(window.location.search === NEW_CIRCLE_CREATED_PARAMS);
     }
   }, []);
-
-  const navigate = useNavigate();
 
   const {
     circleId,
@@ -80,7 +75,7 @@ const AdminPage = () => {
       <Panel>
         <Flex css={{ alignItems: 'center', mb: '$lg' }}>
           <Text h2>{circle?.name}</Text>
-          {!isMobile ? (
+          {!isMobile && (
             <Flex
               css={{
                 flexGrow: 1,
@@ -89,29 +84,10 @@ const AdminPage = () => {
                 gap: '$md',
               }}
             >
-              <AppLink to={paths.circleAdmin(circleId)}>
-                <Button color="primary" outlined css={{ minWidth: '180px' }}>
-                  <EditIcon />
-                  Settings
-                </Button>
-              </AppLink>
               <AppLink to={paths.membersAdd(selectedCircle.id)}>
                 <AddContributorButton tokenName={circle?.tokenName || 'GIVE'} />
               </AppLink>
-              <Button
-                color="primary"
-                outlined
-                onClick={() => navigate(paths.createCircle)}
-                css={{ minWidth: '180px' }}
-              >
-                <PlusCircleIcon />
-                Add Circle
-              </Button>
             </Flex>
-          ) : (
-            <AppLink to={paths.circleAdmin(circleId)}>
-              <SettingsIconButton />
-            </AppLink>
           )}
         </Flex>
         {isMobile && (
