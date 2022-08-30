@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 
 import { useQuery } from 'react-query';
-import { useNavigate } from 'react-router-dom';
 
 import { ActionDialog } from 'components';
 import { useApiAdminCircle } from 'hooks';
@@ -10,14 +9,13 @@ import { Settings, PlusCircle } from 'icons/__generated';
 import { getCircleSettings } from 'pages/CircleAdminPage/getCircleSettings';
 import { useSelectedCircle } from 'recoilState/app';
 import { NEW_CIRCLE_CREATED_PARAMS, paths } from 'routes/paths';
-import { AppLink, Button, Flex, Panel, Text, TextField } from 'ui';
+import { Button, AppLink, Flex, Panel, Text, TextField } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { AdminUserModal } from './AdminUserModal';
 import {
   AddContributorButton,
   MembersTable,
-  SettingsIconButton,
   UsersTableHeader,
 } from './components';
 
@@ -39,8 +37,6 @@ const AdminPage = () => {
       setNewCircle(window.location.search === NEW_CIRCLE_CREATED_PARAMS);
     }
   }, []);
-
-  const navigate = useNavigate();
 
   const {
     circleId,
@@ -80,7 +76,7 @@ const AdminPage = () => {
       <Panel>
         <Flex css={{ alignItems: 'center', mb: '$lg' }}>
           <Text h2>{circle?.name}</Text>
-          {!isMobile ? (
+          {!isMobile && (
             <Flex
               css={{
                 flexGrow: 1,
@@ -101,17 +97,13 @@ const AdminPage = () => {
               <Button
                 color="primary"
                 outlined
-                onClick={() => navigate(paths.createCircle)}
+                // onClick={() => navigate(paths.createCircle)}
                 css={{ minWidth: '180px' }}
               >
                 <PlusCircle />
                 Add Circle
               </Button>
             </Flex>
-          ) : (
-            <AppLink to={paths.circleAdmin(circleId)}>
-              <SettingsIconButton />
-            </AppLink>
           )}
         </Flex>
         {isMobile && (
