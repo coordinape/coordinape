@@ -323,7 +323,7 @@ export class GraphQLError extends Error {
   constructor(public response: GraphQLResponse) {
     super('');
     // eslint-disable-next-line no-console
-    console.info(JSON.stringify(response, null, 2));
+    console.info(JSON.stringify(response));
   }
   toString() {
     return 'GraphQL Response Error';
@@ -755,6 +755,9 @@ export type ValueTypes = {
   };
   ['DeleteCircleInput']: {
     circle_id: number;
+  };
+  ['DeleteContributionInput']: {
+    contribution_id: number;
   };
   ['DeleteEpochInput']: {
     circle_id: number;
@@ -5866,6 +5869,10 @@ columns and relationships of "distributions" */
     ];
     deleteCircle?: [
       { payload: ValueTypes['DeleteCircleInput'] },
+      ValueTypes['ConfirmationResponse']
+    ];
+    deleteContribution?: [
+      { payload: ValueTypes['DeleteContributionInput'] },
       ValueTypes['ConfirmationResponse']
     ];
     deleteEpoch?: [
@@ -15531,6 +15538,7 @@ export type ModelTypes = {
   ['CreateUsersInput']: GraphQLTypes['CreateUsersInput'];
   ['CreateVaultInput']: GraphQLTypes['CreateVaultInput'];
   ['DeleteCircleInput']: GraphQLTypes['DeleteCircleInput'];
+  ['DeleteContributionInput']: GraphQLTypes['DeleteContributionInput'];
   ['DeleteEpochInput']: GraphQLTypes['DeleteEpochInput'];
   ['DeleteEpochResponse']: {
     success: boolean;
@@ -17755,6 +17763,7 @@ columns and relationships of "distributions" */
     /** Log offchain information for vault transactions */
     createVaultTx?: GraphQLTypes['LogVaultTxResponse'] | undefined;
     deleteCircle?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    deleteContribution?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteEpoch?: GraphQLTypes['DeleteEpochResponse'] | undefined;
     deleteUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** delete data from the table: "burns" */
@@ -21060,6 +21069,9 @@ export type GraphQLTypes = {
   };
   ['DeleteCircleInput']: {
     circle_id: number;
+  };
+  ['DeleteContributionInput']: {
+    contribution_id: number;
   };
   ['DeleteEpochInput']: {
     circle_id: number;
@@ -25275,6 +25287,7 @@ columns and relationships of "distributions" */
     /** Log offchain information for vault transactions */
     createVaultTx?: GraphQLTypes['LogVaultTxResponse'] | undefined;
     deleteCircle?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    deleteContribution?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteEpoch?: GraphQLTypes['DeleteEpochResponse'] | undefined;
     deleteUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** delete data from the table: "burns" */

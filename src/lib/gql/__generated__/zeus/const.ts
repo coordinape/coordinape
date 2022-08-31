@@ -28,6 +28,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   CreateVaultInput: {},
   DeleteCircleInput: {},
+  DeleteContributionInput: {},
   DeleteEpochInput: {},
   DeleteUserInput: {},
   GenerateApiKeyInput: {},
@@ -849,9 +850,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   contributions_pk_columns_input: {},
   contributions_select_column: true,
-  contributions_set_input: {
-    deleted_at: 'timestamptz',
-  },
+  contributions_set_input: {},
   contributions_update_column: true,
   date: 'String',
   date_comparison_exp: {
@@ -1356,6 +1355,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     deleteCircle: {
       payload: 'DeleteCircleInput',
+    },
+    deleteContribution: {
+      payload: 'DeleteContributionInput',
     },
     deleteEpoch: {
       payload: 'DeleteEpochInput',
@@ -3872,6 +3874,7 @@ export const ReturnTypes: Record<string, any> = {
     createVault: 'VaultResponse',
     createVaultTx: 'LogVaultTxResponse',
     deleteCircle: 'ConfirmationResponse',
+    deleteContribution: 'ConfirmationResponse',
     deleteEpoch: 'DeleteEpochResponse',
     deleteUser: 'ConfirmationResponse',
     delete_circle_api_keys: 'circle_api_keys_mutation_response',

@@ -51,7 +51,6 @@ update_permissions:
 - permission:
     check: null
     columns:
-    - deleted_at
     - description
     filter:
       _and:

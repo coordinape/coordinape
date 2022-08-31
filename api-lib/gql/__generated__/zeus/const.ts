@@ -33,6 +33,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   CreateVaultInput: {},
   DeleteCircleInput: {},
+  DeleteContributionInput: {},
   DeleteEpochInput: {},
   DeleteUserInput: {},
   GenerateApiKeyInput: {},
@@ -1988,6 +1989,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     deleteCircle: {
       payload: 'DeleteCircleInput',
+    },
+    deleteContribution: {
+      payload: 'DeleteContributionInput',
     },
     deleteEpoch: {
       payload: 'DeleteEpochInput',
@@ -6854,6 +6858,7 @@ export const ReturnTypes: Record<string, any> = {
     createVault: 'VaultResponse',
     createVaultTx: 'LogVaultTxResponse',
     deleteCircle: 'ConfirmationResponse',
+    deleteContribution: 'ConfirmationResponse',
     deleteEpoch: 'DeleteEpochResponse',
     deleteUser: 'ConfirmationResponse',
     delete_burns: 'burns_mutation_response',
