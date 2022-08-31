@@ -65,9 +65,11 @@ type Mutation {
 }
 
 type Mutation {
-  deleteEpoch(
-    payload: DeleteEpochInput!
-  ): DeleteEpochResponse
+  deleteContribution(payload: DeleteContributionInput!): ConfirmationResponse
+}
+
+type Mutation {
+  deleteEpoch(payload: DeleteEpochInput!): DeleteEpochResponse
 }
 
 type Mutation {
@@ -351,6 +353,10 @@ input CreateUserWithTokenInput {
   token: String!
 }
 
+input DeleteContributionInput {
+  contribution_id: Int!
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -435,4 +441,3 @@ type CircleLandingInfoResponse {
 }
 
 scalar timestamptz
-
