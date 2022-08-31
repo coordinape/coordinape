@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 
+import { isUserAdmin } from 'lib/users';
 import { useQuery } from 'react-query';
 
 import { ActionDialog } from 'components';
@@ -8,15 +9,12 @@ import useMobileDetect from 'hooks/useMobileDetect';
 import { getCircleSettings } from 'pages/CircleAdminPage/getCircleSettings';
 import { useSelectedCircle } from 'recoilState/app';
 import { NEW_CIRCLE_CREATED_PARAMS, paths } from 'routes/paths';
-import { AppLink, Flex, Panel, Text, TextField } from 'ui';
+import { AppLink, Button, Flex, Panel, Text, TextField } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { AdminUserModal } from './AdminUserModal';
-import {
-  AddContributorButton,
-  MembersTable,
-  UsersTableHeader,
-} from './components';
+import { MembersTable, UsersTableHeader } from './components';
+import { getNominationsData } from './getNominationsData';
 
 import { IUser } from 'types';
 
@@ -55,12 +53,29 @@ const AdminPage = () => {
       notifyOnChangeProps: ['data'],
     }
   );
+
   const { deleteUser } = useApiAdminCircle(circleId);
 
   const onChangeKeyword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(event.target.value);
   };
 
+  const isAdmin = isUserAdmin(me);
+
+  const { data: nominations } = useQuery(
+    ['nominationsData', circleId],
+    () => getNominationsData(circleId),
+    {
+      enabled: !!circleId,
+      refetchOnWindowFocus: false,
+      staleTime: Infinity,
+      notifyOnChangeProps: ['data'],
+    }
+  );
+
+  const nomineeCount = nominations?.nominees_aggregate?.aggregate?.count || 0;
+
+  console.log(nomineeCount);
   // User Columns
   const filterUser = useMemo(
     () => (u: IUser) => {
@@ -84,9 +99,24 @@ const AdminPage = () => {
                 gap: '$md',
               }}
             >
-              <AppLink to={paths.membersAdd(selectedCircle.id)}>
-                <AddContributorButton tokenName={circle?.tokenName || 'GIVE'} />
-              </AppLink>
+              {isAdmin && (
+                <AppLink to={paths.membersAdd(selectedCircle.id)}>
+                  <Button color="primary" outlined size="small">
+                    Add Members
+                  </Button>
+                </AppLink>
+              )}
+              <Text size={'small'} css={{ color: '$headingText' }}>
+                {circle?.vouching && (
+                  <span>
+                    {nomineeCount} Nominee{nomineeCount > 1 ? 's' : ''}
+                  </span>
+                )}
+              </Text>
+
+              <Button size="small" color="primary" outlined>
+                Nominate Member
+              </Button>
             </Flex>
           )}
         </Flex>

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { GearIcon, InfoCircledIcon } from '@radix-ui/react-icons';
+import { isUserAdmin } from 'lib/users';
 import { Link as RouterLink } from 'react-router-dom';
 import { styled } from 'stitches.config';
 
@@ -521,41 +522,46 @@ export const MembersTable = ({
                   </>
                 )}
               </Table.HeaderCell>
-              <Table.HeaderCell
-                clickable
-                onClick={() => updateOrder('give_token_remaining')}
-              >
-                {renderLabel(
-                  `${circle.tokenName} sent`,
-                  order,
-                  'fixed_non_receiver'
-                )}
-              </Table.HeaderCell>
-              <Table.HeaderCell
-                clickable
-                onClick={() => updateOrder('give_token_received')}
-              >
-                {renderLabel(
-                  `${circle.tokenName} received`,
-                  order,
-                  'give_token_received'
-                )}
-              </Table.HeaderCell>
-              {isFeatureEnabled('fixed_payments') && (
-                <Table.HeaderCell
-                  clickable
-                  onClick={() => updateOrder('fixed_payment_amount')}
-                >
-                  {renderLabel(
-                    `Fixed Payment Amount ${
-                      circle.fixed_payment_token_type ?? '(Disabled)'
-                    }`,
-                    order,
-                    'fixed_payment_amount'
+              {isUserAdmin(me) && (
+                <>
+                  <Table.HeaderCell
+                    clickable
+                    onClick={() => updateOrder('give_token_remaining')}
+                  >
+                    {renderLabel(
+                      `${circle.tokenName} sent`,
+                      order,
+                      'fixed_non_receiver'
+                    )}
+                  </Table.HeaderCell>
+
+                  <Table.HeaderCell
+                    clickable
+                    onClick={() => updateOrder('give_token_received')}
+                  >
+                    {renderLabel(
+                      `${circle.tokenName} received`,
+                      order,
+                      'give_token_received'
+                    )}
+                  </Table.HeaderCell>
+                  {isFeatureEnabled('fixed_payments') && (
+                    <Table.HeaderCell
+                      clickable
+                      onClick={() => updateOrder('fixed_payment_amount')}
+                    >
+                      {renderLabel(
+                        `Fixed Payment Amount ${
+                          circle.fixed_payment_token_type ?? '(Disabled)'
+                        }`,
+                        order,
+                        'fixed_payment_amount'
+                      )}
+                    </Table.HeaderCell>
                   )}
-                </Table.HeaderCell>
+                  <Table.HeaderCell>Actions</Table.HeaderCell>
+                </>
               )}
-              <Table.HeaderCell>Actions</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
         )}
@@ -614,51 +620,58 @@ export const MembersTable = ({
                         <CloseIcon size="inherit" color="alert" />
                       )}
                     </Table.Cell>
-                    <Table.Cell>
-                      {!u.non_giver ||
-                      u.starting_tokens - u.give_token_remaining != 0
-                        ? `${u.starting_tokens - u.give_token_remaining}/${
-                            u.starting_tokens
-                          }`
-                        : '-'}
-                    </Table.Cell>
-                    <Table.Cell>
-                      {u.give_token_received === 0 &&
-                      (!!u.fixed_non_receiver || !!u.non_receiver)
-                        ? '-'
-                        : u.give_token_received}
-                    </Table.Cell>
-                    {isFeatureEnabled('fixed_payments') && (
-                      <Table.Cell>
-                        {u.fixed_payment_amount === 0
-                          ? '-'
-                          : u.fixed_payment_amount}
-                      </Table.Cell>
+                    {isUserAdmin(me) && (
+                      <>
+                        <Table.Cell>
+                          {!u.non_giver ||
+                          u.starting_tokens - u.give_token_remaining != 0
+                            ? `${u.starting_tokens - u.give_token_remaining}/${
+                                u.starting_tokens
+                              }`
+                            : '-'}
+                        </Table.Cell>
+                        <Table.Cell>
+                          {u.give_token_received === 0 &&
+                          (!!u.fixed_non_receiver || !!u.non_receiver)
+                            ? '-'
+                            : u.give_token_received}
+                        </Table.Cell>
+                        {isFeatureEnabled('fixed_payments') && (
+                          <Table.Cell>
+                            {u.fixed_payment_amount === 0
+                              ? '-'
+                              : u.fixed_payment_amount}
+                          </Table.Cell>
+                        )}
+                        <Table.Cell className="normal">
+                          {u.role === USER_ROLE_COORDINAPE
+                            ? renderCoordinapeActions(
+                                u.deleted_at === null,
+                                () => {
+                                  const shouldEnable = u.deleted_at !== null;
+                                  const confirm = window.confirm(
+                                    `${
+                                      shouldEnable ? 'Enable' : 'Disable'
+                                    } Coordinape in this circle?`
+                                  );
+                                  if (confirm) {
+                                    shouldEnable
+                                      ? restoreCoordinape(circle.id).catch(e =>
+                                          console.error(e)
+                                        )
+                                      : deleteUser(u.address);
+                                  }
+                                }
+                              )
+                            : renderActions(
+                                () => setEditUser(u),
+                                u.id !== me?.id
+                                  ? () => setDeleteUserDialog(u)
+                                  : undefined
+                              )}
+                        </Table.Cell>
+                      </>
                     )}
-                    <Table.Cell className="normal">
-                      {u.role === USER_ROLE_COORDINAPE
-                        ? renderCoordinapeActions(u.deleted_at === null, () => {
-                            const shouldEnable = u.deleted_at !== null;
-                            const confirm = window.confirm(
-                              `${
-                                shouldEnable ? 'Enable' : 'Disable'
-                              } Coordinape in this circle?`
-                            );
-                            if (confirm) {
-                              shouldEnable
-                                ? restoreCoordinape(circle.id).catch(e =>
-                                    console.error(e)
-                                  )
-                                : deleteUser(u.address);
-                            }
-                          })
-                        : renderActions(
-                            () => setEditUser(u),
-                            u.id !== me?.id
-                              ? () => setDeleteUserDialog(u)
-                              : undefined
-                          )}
-                    </Table.Cell>
                   </Table.Row>
                 );
               })
