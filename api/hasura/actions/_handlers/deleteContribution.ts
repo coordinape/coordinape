@@ -5,7 +5,8 @@ import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import {
   deleteContributionInput,
-  composeHasuraActionRequestBody,
+  composeHasuraActionRequestBodyWithSession,
+  HasuraUserSessionVariables,
 } from '../../../../src/lib/zod';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
@@ -13,7 +14,10 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     session_variables: { hasuraAddress: address },
     input: { payload },
-  } = composeHasuraActionRequestBody(deleteContributionInput).parse(req.body);
+  } = composeHasuraActionRequestBodyWithSession(
+    deleteContributionInput,
+    HasuraUserSessionVariables
+  ).parse(req.body);
 
   const { contribution_id } = payload;
   const { contributions_by_pk: contribution } = await adminClient.query(
@@ -22,18 +26,12 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         { id: contribution_id },
         {
           deleted_at: true,
-          epoch: [
-            {},
-            {
-              ended: true,
-            },
-          ],
-          user: [
-            {},
-            {
-              address: true,
-            },
-          ],
+          epoch: {
+            ended: true,
+          },
+          user: {
+            address: true,
+          },
         },
       ],
     },
