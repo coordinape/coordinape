@@ -10,7 +10,6 @@ import {
 } from '../../../../src/lib/zod';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  console.log('test');
   const {
     session_variables: { hasuraAddress: address },
     input: { payload },
