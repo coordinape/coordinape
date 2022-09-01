@@ -61,69 +61,6 @@ export const SettingsIconButton = ({ onClick }: { onClick?: () => void }) => {
   );
 };
 
-export const AddContributorButton = ({
-  tokenName,
-  inline,
-}: {
-  inline?: boolean;
-  tokenName: string;
-}) => {
-  return (
-    <Button
-      color="primary"
-      outlined
-      size={inline ? 'inline' : 'medium'}
-      css={{ minWidth: '180px' }}
-    >
-      Add Members
-      <Tooltip
-        css={{ ml: '$xs' }}
-        content={
-          <>
-            A member of a circle that can receive {tokenName} or kudos for
-            contributions performed.{' '}
-            <Link
-              css={{ color: 'Blue' }}
-              rel="noreferrer"
-              target="_blank"
-              href="https://docs.coordinape.com/get-started/members"
-            >
-              Learn More
-            </Link>
-          </>
-        }
-      >
-        <InfoCircledIcon />
-      </Tooltip>
-    </Button>
-  );
-};
-
-export const UsersTableHeader = ({
-  tokenName,
-  circleId,
-}: {
-  circleId: number;
-  tokenName: string;
-}) => {
-  return (
-    <Box
-      css={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        width: 'auto',
-        marginTop: '$xl',
-      }}
-    >
-      <Text h3>Users</Text>
-      <AppLink to={paths.membersAdd(circleId)}>
-        <AddContributorButton inline tokenName={tokenName} />
-      </AppLink>
-    </Box>
-  );
-};
-
 export const renderUserCard = (user: IUser, tokenName: string) => {
   return (
     <Flex

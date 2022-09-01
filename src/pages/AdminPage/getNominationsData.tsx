@@ -24,3 +24,4 @@ export const getNominationsData = async (circleId: number) => {
 };
 
 export type QueryResult = Awaited<ReturnType<typeof getNominationsData>>;
+export const QUERY_KEY_NOMINATIONS_DATA = 'nominationsData';
