@@ -53,3 +53,16 @@ export const mockEpoch = {
     ],
   },
 };
+
+export const mockContribution = {
+  id: 1,
+  circle_id: 1,
+  deleted_at: null,
+  epoch: {
+    ended: false,
+  },
+  user: {
+    id: 1,
+    address: '0x63c389cb2c573dd8a9239a16a3eb65935ddb5e2f',
+  },
+};
