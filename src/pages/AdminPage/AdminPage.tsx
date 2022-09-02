@@ -152,36 +152,39 @@ const AdminPage = () => {
         </Flex>
         {isMobile && (
           <Flex
+            column
             css={{
-              alignItems: 'center',
               justifyContent: 'space-between',
               width: 'auto',
               marginTop: '$xl',
+              gap: '$xs',
             }}
           >
-            <Flex column>
-              <Text h3>Users</Text>
-              <Text size={'small'} css={{ color: '$headingText' }}>
-                <Text>
-                  {visibleUsers.length} Member
-                  {visibleUsers.length > 1 ? 's' : ''}
-                </Text>
-                {circle?.vouching && (
-                  <>
-                    <Text
-                      css={{ whiteSpace: 'pre-wrap', color: '$secondaryText' }}
-                    >
-                      {' | '}
-                    </Text>
-                    <Text>
-                      {nomineeCount} Nominee{nomineeCount > 1 ? 's' : ''}
-                    </Text>
-                  </>
-                )}
+            <Text h3>Users</Text>
+            <Text size={'small'} css={{ color: '$headingText' }}>
+              <Text>
+                {visibleUsers.length} Member
+                {visibleUsers.length > 1 ? 's' : ''}
               </Text>
-            </Flex>
+              {circle?.vouching && (
+                <>
+                  <Text
+                    css={{ whiteSpace: 'pre-wrap', color: '$secondaryText' }}
+                  >
+                    {' | '}
+                  </Text>
+                  <Text>
+                    {nomineeCount} Nominee{nomineeCount > 1 ? 's' : ''}
+                  </Text>
+                </>
+              )}
+            </Text>
             <Flex
-              css={{ display: 'inline-grid', flexWrap: 'wrap', gap: '$xs' }}
+              css={{
+                flexWrap: 'wrap',
+                justifyContent: 'space-between',
+                gap: '$xs',
+              }}
             >
               {isAdmin && (
                 <AppLink to={paths.membersAdd(selectedCircle.id)}>
