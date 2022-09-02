@@ -154,10 +154,9 @@ const AdminPage = () => {
           <Flex
             column
             css={{
-              justifyContent: 'space-between',
               width: 'auto',
               marginTop: '$xl',
-              gap: '$xs',
+              gap: '$sm',
             }}
           >
             <Text h3>Users</Text>
@@ -182,8 +181,8 @@ const AdminPage = () => {
             <Flex
               css={{
                 flexWrap: 'wrap',
-                justifyContent: 'space-between',
-                gap: '$xs',
+                justifyContent: 'flex-start',
+                gap: '$sm',
               }}
             >
               {isAdmin && (
