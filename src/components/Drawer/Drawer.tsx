@@ -4,8 +4,8 @@ import { styled } from 'stitches.config';
 
 import MuiDrawer from '@material-ui/core/Drawer';
 
+import { ArrowRight } from 'icons/__generated';
 import { Flex, Text, Button } from 'ui';
-import { ArrowIcon } from 'ui/icons/ArrowIcon';
 
 const StyledMuiDrawer = styled(MuiDrawer, {
   '> .MuiDrawer-paper': {
@@ -62,7 +62,7 @@ export const Drawer = ({ open, setOpen, children }: IProps) => {
           }}
         >
           Filters
-          <ArrowIcon
+          <ArrowRight
             size="md"
             color={'secondaryText'}
             css={{ marginLeft: 8 }}
