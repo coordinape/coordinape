@@ -103,7 +103,6 @@
     "dev": "BROWSER=none craco start",
     "eject": "craco eject",
     "format:staged": "lint-staged",
-    "lint": "eslint",
     "lint:check": "eslint \"{api,api-lib,cypress,hasura,src}/**/*.{js,ts,tsx,graphql}\"",
     "lint:fix": "yarn lint:check --fix",
     "postinstall": "./scripts/link_hardhat.sh",
