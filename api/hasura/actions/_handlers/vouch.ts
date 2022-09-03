@@ -42,8 +42,10 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       voucherProfileId = sessionVariables.hasuraProfileId;
       // Allow passing in voucher_profile_id for api-users to vouch on behalf of a user
     } else if (sessionVariables.hasuraRole === 'api-user') {
-      // Just to make TS happy, shouldn't fire since Zod validates the input above
+      // Make sure this field is here since it is optional in zod (not required for user-authed non-api key call)
       assert('voucher_profile_id' in input, 'voucher_profile_id not specified');
+      // just to make TS happy
+      assert(input.voucher_profile_id);
       voucherProfileId = input.voucher_profile_id;
 
       // Check if voucher exists in the same circle as the API key

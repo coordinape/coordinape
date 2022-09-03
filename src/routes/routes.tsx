@@ -12,6 +12,7 @@ import {
 } from 'react-router-dom';
 
 import AddMembersPage from '../pages/AddMembersPage/AddMembersPage';
+import JoinCirclePage from '../pages/JoinCirclePage';
 import { useFixCircleState, useRoleInCircle } from 'hooks/migration';
 import AdminCircleApiPage from 'pages/AdminCircleApiPage/AdminCircleApiPage';
 import AdminPage from 'pages/AdminPage';
@@ -86,6 +87,9 @@ export const AppRoutes = () => {
         element={<VaultTransactions />}
       />
 
+      <Route path={paths.join(':token')} element={<JoinCirclePage />} />
+
+      <Route path={paths.invite(':token')} element={<JoinCirclePage />} />
       <Route path="*" element={<Redirect to={paths.home} note="catchall" />} />
     </Routes>
   );

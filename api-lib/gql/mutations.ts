@@ -1,3 +1,5 @@
+import assert from 'assert';
+
 import { order_by, ValueTypes } from './__generated__/zeus';
 import { adminClient } from './adminClient';
 
@@ -229,9 +231,14 @@ export async function updateExpiredNominees(idList: number[]) {
 }
 
 export async function insertCircleWithAdmin(
-  circleInput: any,
+  circleInput: ValueTypes['circles_insert_input'] & {
+    user_name: string;
+    circle_name: string;
+    protocol_name?: string;
+  },
   userAddress: string,
-  coordinapeAddress: string
+  coordinapeAddress: string,
+  fileName: string | null
 ) {
   const insertUsers = {
     data: [
@@ -280,6 +287,7 @@ export async function insertCircleWithAdmin(
               protocol_id: circleInput.protocol_id,
               users: insertUsers,
               contact: circleInput.contact,
+              logo: fileName,
             },
           },
           circleReturn,
@@ -291,6 +299,7 @@ export async function insertCircleWithAdmin(
     );
     retVal = insert_circles_one;
   } else {
+    assert(circleInput.protocol_name);
     const { insert_organizations_one } = await adminClient.mutate(
       {
         insert_organizations_one: [
@@ -303,6 +312,7 @@ export async function insertCircleWithAdmin(
                     name: circleInput.circle_name,
                     contact: circleInput.contact,
                     users: insertUsers,
+                    logo: fileName,
                   },
                 ],
               },

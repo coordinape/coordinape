@@ -8,7 +8,9 @@ import {
   zStringISODateUTC,
   zBytes32,
   zEthAddress,
-} from '../../../src/forms/formHelpers';
+  zUsername,
+  zCircleName,
+} from '../../forms/formHelpers';
 
 const PERSONAL_SIGN_REGEX = /0x[0-9a-f]{130}/;
 
@@ -33,8 +35,9 @@ export const loginInput = z.object({
 
 export const createCircleSchemaInput = z
   .object({
-    user_name: z.string().min(3).max(255),
-    circle_name: z.string().min(3).max(255),
+    user_name: zUsername,
+    circle_name: zCircleName,
+    image_data_base64: z.string().optional(),
     protocol_id: z.number().int().positive().optional(),
     protocol_name: z.string().min(3).max(255).optional(),
     contact: z.string().min(3).max(255).optional(),
@@ -50,7 +53,7 @@ export const adminUpdateUserSchemaInput = z
     circle_id: z.number(),
     address: zEthAddressOnly,
     new_address: zEthAddressOnly.optional(),
-    name: z.string().min(3).max(255).optional(),
+    name: zUsername.optional(),
     starting_tokens: z.number().optional(),
     non_giver: z.boolean().optional(),
     fixed_non_receiver: z.boolean().optional(),
@@ -75,7 +78,7 @@ export const deleteCircleInput = z
 
 export const createNomineeInputSchema = z
   .object({
-    name: z.string().min(3).max(255),
+    name: zUsername,
     circle_id: z.number().int().positive(),
     address: zEthAddressOnly,
     description: z.string().min(3).max(1000),
@@ -109,7 +112,7 @@ export const updateUserSchemaInput = z
 export const createUserSchemaInput = z
   .object({
     circle_id: z.number(),
-    name: z.string().min(3).max(255),
+    name: zUsername,
     address: zEthAddress,
     non_giver: z.boolean().optional(),
     starting_tokens: z.number().optional().default(100),
@@ -123,7 +126,7 @@ export const createUserSchemaInput = z
 export const createUserFromTokenInput = z
   .object({
     token: z.string().uuid(),
-    name: z.string().min(3).max(255),
+    name: zUsername,
   })
   .strict();
 
@@ -167,7 +170,7 @@ export const vouchInput = z
 export const vouchApiInput = z
   .object({
     nominee_id: z.number(),
-    voucher_profile_id: z.number().int().positive(),
+    voucher_profile_id: z.number().int().positive().optional(),
   })
   .strict();
 
@@ -249,11 +252,7 @@ export const updateTeammatesInput = z
 export const updateCircleInput = z
   .object({
     circle_id: z.number().positive(),
-    name: z
-      .string()
-      .max(255)
-      .refine(val => val.trim().length >= 3)
-      .optional(),
+    name: zCircleName.optional(),
     alloc_text: z.string().max(5000).optional(),
     auto_opt_out: z.boolean().optional(),
     default_opt_in: z.boolean().optional(),

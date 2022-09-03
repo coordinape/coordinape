@@ -61,6 +61,7 @@ const spaces = {
   '1xl': '40px',
   '2xl': '48px',
   '3xl': '60px',
+  '4xl': '88px',
 };
 
 export const colors = {

@@ -16,6 +16,7 @@ import { useApiAdminCircle, useNavigation } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { PlusCircleIcon, CheckIcon, CloseIcon } from 'icons';
 import { CircleSettingsResult } from 'pages/CircleAdminPage/getCircleSettings';
+import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE } from 'routes/paths';
 import {
   Avatar,
   Box,
@@ -145,7 +146,7 @@ const coordinapeTooltipContent = () => {
         links on the right side of this row.
       </p>
       <a
-        href="https://coordinape.notion.site/Why-is-Coordinape-in-my-Circle-fd17133a82ef4cbf84d4738311fb557a"
+        href={EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE}
         target="_blank"
         rel="noreferrer"
       >

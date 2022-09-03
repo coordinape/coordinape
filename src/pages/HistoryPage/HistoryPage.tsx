@@ -3,13 +3,13 @@ import { useState, useMemo, useEffect } from 'react';
 import { isUserAdmin } from 'lib/users';
 import { useQuery } from 'react-query';
 
+import HintBanner from '../../components/HintBanner';
 import {
   EXTERNAL_URL_DISCORD,
   EXTERNAL_URL_GET_STARTED_MEMBER,
   EXTERNAL_URL_GET_STARTED_TUTORIAL_VIDEO,
   paths,
 } from '../../routes/paths';
-import HintBanner from '../../ui/HintBanner';
 import { ActionDialog, LoadingModal } from 'components';
 import { Paginator } from 'components/Paginator';
 import isFeatureEnabled from 'config/features';

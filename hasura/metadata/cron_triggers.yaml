@@ -41,5 +41,5 @@
   headers:
   - name: verification_key
     value_from_env: HASURA_EVENT_SECRET
-  comment: tracks pending vault transations in case the frontend doesn't
-    update the state upon deployment
+  comment: tracks pending vault transations in case the frontend doesn't update the
+    state upon deployment

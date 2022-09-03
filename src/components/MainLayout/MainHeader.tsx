@@ -83,7 +83,7 @@ const NormalHeader = ({ inCircle }: { inCircle: boolean }) => {
             </Box>
           )}
         </Box>
-        {inCircle && !isFeatureEnabled('vaults') && (
+        {inCircle && (
           <Suspense fallback={null}>
             <ReceiveInfo />
           </Suspense>
@@ -91,7 +91,9 @@ const NormalHeader = ({ inCircle }: { inCircle: boolean }) => {
         <Suspense fallback={null}>
           {isFeatureEnabled('vaults') && showClaimsButton && (
             <AppLink to="/claims">
-              <Button color="complete">Claim Tokens</Button>
+              <Button color="complete" size="small">
+                Claim Tokens
+              </Button>
             </AppLink>
           )}
           <MyAvatarMenu />
