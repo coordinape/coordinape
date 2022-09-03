@@ -91,3 +91,5 @@ export const getActiveNominees = async (circleId: number) => {
   );
   return activeNominees;
 };
+
+export const QUERY_KEY_ACTIVE_NOMINEES = 'activeNominees';
