@@ -1,22 +1,25 @@
 import React, { useState, useMemo, useEffect } from 'react';
 
-import { useQuery } from 'react-query';
+import { isUserAdmin } from 'lib/users';
+import { useQuery, useQueryClient } from 'react-query';
 
 import { ActionDialog } from 'components';
 import { useApiAdminCircle } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { getCircleSettings } from 'pages/CircleAdminPage/getCircleSettings';
+import { QUERY_KEY_ACTIVE_NOMINEES } from 'pages/VouchingPage/getActiveNominees';
+import { NewNominationModal } from 'pages/VouchingPage/NewNominationModal';
 import { useSelectedCircle } from 'recoilState/app';
 import { NEW_CIRCLE_CREATED_PARAMS, paths } from 'routes/paths';
-import { AppLink, Flex, Panel, Text, TextField } from 'ui';
+import { AppLink, Button, Flex, Panel, Text, TextField } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { AdminUserModal } from './AdminUserModal';
+import { MembersTable } from './components';
 import {
-  AddContributorButton,
-  MembersTable,
-  UsersTableHeader,
-} from './components';
+  getNominationsData,
+  QUERY_KEY_NOMINATIONS_DATA,
+} from './getNominationsData';
 
 import { IUser } from 'types';
 
@@ -29,6 +32,7 @@ const AdminPage = () => {
     undefined
   );
   const [newCircle, setNewCircle] = useState<boolean>(false);
+  const [isNewNomination, setNewNomination] = useState<boolean>(false);
 
   useEffect(() => {
     // do this initialization in useEffect because window is only available client side -g
@@ -55,11 +59,29 @@ const AdminPage = () => {
       notifyOnChangeProps: ['data'],
     }
   );
+  const queryClient = useQueryClient();
+
   const { deleteUser } = useApiAdminCircle(circleId);
 
   const onChangeKeyword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(event.target.value);
   };
+
+  const isAdmin = isUserAdmin(me);
+
+  const { data: nominations } = useQuery(
+    [QUERY_KEY_NOMINATIONS_DATA, circleId],
+    () => getNominationsData(circleId),
+    {
+      enabled: !!circleId,
+      refetchOnWindowFocus: false,
+      staleTime: Infinity,
+      notifyOnChangeProps: ['data'],
+    }
+  );
+
+  const nomineeCount = nominations?.nominees_aggregate?.aggregate?.count || 0;
+  const cannotVouch = circle?.only_giver_vouch && me.non_giver;
 
   // User Columns
   const filterUser = useMemo(
@@ -69,6 +91,11 @@ const AdminPage = () => {
     },
     [keyword]
   );
+
+  const refetch = () => {
+    queryClient.invalidateQueries(QUERY_KEY_ACTIVE_NOMINEES);
+    queryClient.invalidateQueries(QUERY_KEY_NOMINATIONS_DATA);
+  };
 
   return (
     <SingleColumnLayout>
@@ -84,17 +111,106 @@ const AdminPage = () => {
                 gap: '$md',
               }}
             >
-              <AppLink to={paths.membersAdd(selectedCircle.id)}>
-                <AddContributorButton tokenName={circle?.tokenName || 'GIVE'} />
-              </AppLink>
+              <Text size={'small'} css={{ color: '$headingText' }}>
+                <Text>
+                  {visibleUsers.length} Member
+                  {visibleUsers.length > 1 ? 's' : ''}
+                </Text>
+                {circle?.vouching && (
+                  <>
+                    <Text
+                      css={{ whiteSpace: 'pre-wrap', color: '$secondaryText' }}
+                    >
+                      {' | '}
+                    </Text>
+                    <Text>
+                      {nomineeCount} Nominee{nomineeCount > 1 ? 's' : ''}
+                    </Text>
+                  </>
+                )}
+              </Text>
+              {isAdmin && (
+                <AppLink to={paths.membersAdd(selectedCircle.id)}>
+                  <Button color="primary" outlined size="small">
+                    Add Members
+                  </Button>
+                </AppLink>
+              )}
+              {circle?.hasVouching && (
+                <Button
+                  size="small"
+                  color="primary"
+                  outlined
+                  disabled={cannotVouch}
+                  onClick={() => setNewNomination(true)}
+                >
+                  Nominate Member
+                </Button>
+              )}
             </Flex>
           )}
         </Flex>
         {isMobile && (
-          <UsersTableHeader
-            circleId={selectedCircle.id}
-            tokenName={circle?.tokenName || 'GIVE'}
-          />
+          <Flex
+            column
+            css={{
+              width: 'auto',
+              marginTop: '$xl',
+              gap: '$sm',
+            }}
+          >
+            <Text h3>Users</Text>
+            <Text size={'small'} css={{ color: '$headingText' }}>
+              <Text>
+                {visibleUsers.length} Member
+                {visibleUsers.length > 1 ? 's' : ''}
+              </Text>
+              {circle?.vouching && (
+                <>
+                  <Text
+                    css={{ whiteSpace: 'pre-wrap', color: '$secondaryText' }}
+                  >
+                    {' | '}
+                  </Text>
+                  <Text>
+                    {nomineeCount} Nominee{nomineeCount > 1 ? 's' : ''}
+                  </Text>
+                </>
+              )}
+            </Text>
+            <Flex
+              css={{
+                flexWrap: 'wrap',
+                justifyContent: 'flex-start',
+                gap: '$sm',
+              }}
+            >
+              {isAdmin && (
+                <AppLink to={paths.membersAdd(selectedCircle.id)}>
+                  <Button
+                    color="primary"
+                    outlined
+                    size="small"
+                    css={{ minWidth: '130px' }}
+                  >
+                    Add Members
+                  </Button>
+                </AppLink>
+              )}
+              {circle?.hasVouching && (
+                <Button
+                  size="small"
+                  color="primary"
+                  outlined
+                  disabled={cannotVouch}
+                  onClick={() => setNewNomination(true)}
+                  css={{ minWidth: '130px' }}
+                >
+                  Nominate Member
+                </Button>
+              )}
+            </Flex>
+          </Flex>
         )}
         <TextField
           inPanel
@@ -150,6 +266,13 @@ const AdminPage = () => {
             : undefined
         }
       />
+      {isNewNomination && (
+        <NewNominationModal
+          onClose={() => setNewNomination(false)}
+          visible={isNewNomination}
+          refetchNominees={refetch}
+        />
+      )}
     </SingleColumnLayout>
   );
 };
