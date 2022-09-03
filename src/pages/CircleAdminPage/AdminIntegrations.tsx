@@ -64,6 +64,7 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
                 <Text>{integration.name}</Text>
               </Text>
               <Button
+                type="button"
                 onClick={() => setDeleteIntegration(integration)}
                 size="small"
                 color="textOnly"

@@ -145,8 +145,9 @@ test('claim single successfully', async () => {
         await claimAllocation({
           address: address1,
           distribution: {
+            created_at: '2022-08-19T16:50:04.554549',
             id: 1,
-            distribution_json: {},
+            distribution_json: { circleId: 123 },
             distribution_type: 1,
             distribution_epoch_id: event?.args?.epochId,
             epoch: {
@@ -162,7 +163,7 @@ test('claim single successfully', async () => {
             },
             vault,
           },
-          claimId: 1,
+          claimIds: [1],
           amount,
           proof,
           index,

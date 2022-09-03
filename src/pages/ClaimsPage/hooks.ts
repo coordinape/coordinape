@@ -1,6 +1,7 @@
 import assert from 'assert';
 import { useState, useMemo } from 'react';
 
+import max from 'lodash/max';
 import { useQuery, useQueryClient } from 'react-query';
 
 import { QUERY_KEY_MAIN_HEADER } from 'components/MainLayout/getMainHeaderData';
@@ -49,8 +50,9 @@ export const useClaimsTableData = () => {
     return createClaimsRows(claims || []);
   }, [claims]);
 
-  const processClaim = async (claimId: number) => {
-    const claim = claims?.find(c => c.id === claimId);
+  const processClaim = async (claimIds: number[]) => {
+    const maxClaimId = max(claimIds);
+    const claim = claims?.find(c => c.id === maxClaimId);
     assert(claim && address);
     const { index, proof, distribution } = claim;
 
@@ -62,7 +64,7 @@ export const useClaimsTableData = () => {
 
     setClaiming(val => ({ ...val, [claim.id]: 'pending' }));
     const hash = await claimTokens({
-      claimId: claim.id,
+      claimIds,
       distribution,
       index,
       address,
@@ -72,8 +74,10 @@ export const useClaimsTableData = () => {
     if (hash) {
       refetch();
       queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
+      setClaiming(val => ({ ...val, [claim.id]: 'claimed' }));
+    } else {
+      setClaiming(val => ({ ...val, [claim.id]: null }));
     }
-    setClaiming(val => ({ ...val, [claim.id]: 'claimed' }));
   };
 
   return {

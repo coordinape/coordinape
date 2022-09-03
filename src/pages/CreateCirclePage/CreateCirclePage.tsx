@@ -1,23 +1,41 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { InfoCircledIcon } from '@radix-ui/react-icons';
+import { fileToBase64 } from 'lib/base64';
 import uniqBy from 'lodash/uniqBy';
+import { useQueryClient } from 'react-query';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { FormAutocomplete, DeprecatedFormTextField } from 'components';
+import { QUERY_KEY_MAIN_HEADER } from 'components/MainLayout/getMainHeaderData';
 import CreateCircleForm from 'forms/CreateCircleForm';
 import { useApiWithProfile } from 'hooks';
+import { QUERY_KEY_MY_ORGS } from 'pages/CirclesPage/getOrgData';
 import { useMyProfile } from 'recoilState/app';
 import * as paths from 'routes/paths';
-import { Box, Button, Panel, Text, Tooltip } from 'ui';
+import { Box, Button, Flex, FormLabel, Avatar, Panel, Text, Tooltip } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
+import { getCircleAvatar } from 'utils/domain';
 
 export const SummonCirclePage = () => {
   const navigate = useNavigate();
   const [params] = useSearchParams();
   // const { myUser } = useSelectedCircle();
 
+  const queryClient = useQueryClient();
+
   const { address: myAddress, myUsers } = useMyProfile();
+
+  const [logoData, setLogoData] = useState<{
+    avatar: string;
+    avatarRaw: File | null;
+  }>({
+    avatar: getCircleAvatar({
+      avatar: undefined,
+      circleName: 'CO',
+    }),
+    avatarRaw: null,
+  });
 
   const protocols = useMemo(
     () =>
@@ -82,7 +100,15 @@ export const SummonCirclePage = () => {
             source={source}
             submit={async ({ ...params }) => {
               try {
-                const newCircle = await createCircle({ ...params });
+                const image_data_base64 = logoData.avatarRaw
+                  ? await fileToBase64(logoData.avatarRaw)
+                  : undefined;
+                const newCircle = await createCircle({
+                  ...params,
+                  image_data_base64,
+                });
+                queryClient.invalidateQueries(QUERY_KEY_MY_ORGS);
+                queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
                 navigate({
                   pathname: paths.paths.members(newCircle.id),
                   search: paths.NEW_CIRCLE_CREATED_PARAMS,
@@ -103,6 +129,49 @@ export const SummonCirclePage = () => {
                     '@sm': { gridTemplateColumns: '1fr' },
                   }}
                 >
+                  <Flex column css={{ alignItems: 'flex-start', gap: '$xs' }}>
+                    <Text variant="label" as="label">
+                      Circle logo
+                      <Tooltip
+                        css={{ ml: '$xs' }}
+                        content={<div>Upload a logo to your circle</div>}
+                      >
+                        <InfoCircledIcon />
+                      </Tooltip>
+                    </Text>
+                    <Flex
+                      row
+                      css={{ alignItems: 'center', gap: '$sm', width: '100%' }}
+                    >
+                      <Avatar
+                        size="medium"
+                        margin="none"
+                        path={logoData.avatar}
+                      />
+                      <FormLabel
+                        htmlFor="upload-logo-button"
+                        css={{ flexGrow: '1' }}
+                      >
+                        <Button as="div" color="primary" outlined>
+                          Upload File
+                        </Button>
+                      </FormLabel>
+                    </Flex>
+                    <input
+                      id="upload-logo-button"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        if (e.target.files && e.target.files.length) {
+                          setLogoData({
+                            ...logoData,
+                            avatar: URL.createObjectURL(e.target.files[0]),
+                            avatarRaw: e.target.files[0],
+                          });
+                        }
+                      }}
+                      style={{ display: 'none' }}
+                      type="file"
+                    />
+                  </Flex>
                   {protocols.length ? (
                     <FormAutocomplete
                       {...fields.protocol_name}

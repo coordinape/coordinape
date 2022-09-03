@@ -8,8 +8,10 @@ const StyledContent = styled(PopoverPrimitive.Content, {
   boxShadow: '$heavy',
   display: 'flex',
   flexDirection: 'column',
+  outline: 'none !important',
 });
 
+export const POPOVER_TIMEOUT = 300;
 export const Popover = PopoverPrimitive.Root;
 export const PopoverTrigger = styled(PopoverPrimitive.Trigger, {});
 export const PopoverContent = StyledContent;

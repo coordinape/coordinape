@@ -19,7 +19,7 @@ import { useSomeCircleId } from 'hooks/migration';
 import { EditIcon } from 'icons';
 import { useMyProfile, useProfile } from 'recoilState/app';
 import { useSetEditProfileOpen } from 'recoilState/ui';
-import { EXTERNAL_URL_FEEDBACK, paths } from 'routes/paths';
+import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE, paths } from 'routes/paths';
 import { Avatar } from 'ui';
 import { getAvatarPath, getCircleAvatar } from 'utils/domain';
 
@@ -315,7 +315,11 @@ const ProfilePageContent = ({
               offer our service for free and invite people to allocate to us
               from within your circles. All tokens received go to the Coordinape
               treasury.{' '}
-              <a href={EXTERNAL_URL_FEEDBACK} rel="noreferrer" target="_blank">
+              <a
+                href={EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE}
+                rel="noreferrer"
+                target="_blank"
+              >
                 Let us know what you think.
               </a>
             </div>

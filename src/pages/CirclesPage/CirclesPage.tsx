@@ -19,7 +19,7 @@ import {
 import { AppLink, Box, Button, Flex, Image, Link, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
-import { getOrgData } from './getOrgData';
+import { getOrgData, QUERY_KEY_MY_ORGS } from './getOrgData';
 
 import type { Awaited } from 'types/shim';
 type QueryResult = Awaited<ReturnType<typeof getOrgData>>;
@@ -28,7 +28,7 @@ export const CirclesPage = () => {
   const navigate = useNavigate();
   const address = useConnectedAddress();
   const query = useQuery(
-    ['myOrgs', address],
+    [QUERY_KEY_MY_ORGS, address],
     () => getOrgData(address as string),
     {
       enabled: !!address,
