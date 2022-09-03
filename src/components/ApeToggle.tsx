@@ -11,7 +11,7 @@ import {
   Theme,
 } from '@material-ui/core';
 
-import { ApeInfoTooltip } from 'components';
+import { ApeInfoTooltip } from 'components/index';
 import { CheckedRadio, UnCheckedRadio } from 'icons';
 import { Text } from 'ui';
 

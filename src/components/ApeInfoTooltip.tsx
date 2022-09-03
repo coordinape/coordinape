@@ -4,7 +4,7 @@ import clsx from 'clsx';
 
 import { makeStyles, Tooltip, Zoom, TooltipProps } from '@material-ui/core';
 
-import { ActionDialog } from 'components';
+import { ActionDialog } from 'components/index';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { DeprecatedInfoIcon } from 'icons';
 

@@ -6,7 +6,7 @@ import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { styled } from 'stitches.config';
 
-import { LoadingModal } from 'components/LoadingModal/LoadingModal';
+import { LoadingModal } from 'components/LoadingModal';
 import { Link, Panel, Text } from 'ui';
 import { OrgLayout, SingleColumnLayout } from 'ui/layouts';
 import { numberWithCommas } from 'utils';

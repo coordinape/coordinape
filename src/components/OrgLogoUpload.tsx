@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { fileToBase64 } from 'lib/base64';
 import { updateOrgLogo } from 'lib/gql/mutations';
 
-import { LoadingModal } from 'components';
+import { LoadingModal } from 'components/index';
 import { useImageUploader, useApeSnackbar } from 'hooks';
 import { Settings } from 'icons';
 import { Avatar, Box, Button } from 'ui';

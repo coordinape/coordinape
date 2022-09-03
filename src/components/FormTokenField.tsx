@@ -6,7 +6,7 @@ import * as z from 'zod';
 import {
   DeprecatedApeTextField,
   DeprecatedApeTextFieldWithRef,
-} from 'components';
+} from 'components/index';
 import { Text } from 'ui';
 
 export const zTokenString = (min: string, max: string, decimals: number) =>

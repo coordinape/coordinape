@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
-import { ApeInfoTooltip } from 'components';
+import { ApeInfoTooltip } from 'components/index';
 import { Text, Flex } from 'ui';
 
 const ApeTextVariants = {

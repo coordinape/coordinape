@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
-import { ApeAvatar, FormFileUpload } from 'components';
+import { ApeAvatar, FormFileUpload } from 'components/index';
 import { useImageUploader } from 'hooks';
 import { getAvatarPath } from 'utils/domain';
 

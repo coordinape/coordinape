@@ -9,7 +9,7 @@ import {
   DeprecatedFormTextField,
   SkillToggles,
   AvatarUpload,
-} from 'components';
+} from 'components/index';
 import EditProfileForm from 'forms/EditProfileForm';
 import { useApiWithProfile } from 'hooks';
 import { useMyProfile } from 'recoilState/app';
