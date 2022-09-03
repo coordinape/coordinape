@@ -51,9 +51,9 @@ export const AppRoutes = () => {
         <Route path="give" element={allocationPage} />
         <Route path="map" element={<LazyAssetMapPage />} />
         <Route path="vouching" element={<VouchingPage />} />
-        <Route path="members" element={<AdminRouteHandler />}>
-          <Route path="add" element={<AddMembersPage />} />
-          <Route path="" element={<AdminPage />} />
+        <Route path="members" element={<AdminPage />} />
+        <Route path="members/add" element={<AdminRouteHandler />}>
+          <Route path="" element={<AddMembersPage />} />
         </Route>
         <Route path="admin" element={<AdminRouteHandler />}>
           <Route path="" element={<CircleAdminPage />} />

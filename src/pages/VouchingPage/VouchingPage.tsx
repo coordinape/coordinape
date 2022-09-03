@@ -8,7 +8,10 @@ import { LoadingModal } from 'components';
 import { useSelectedCircle } from 'recoilState/app';
 import { Button } from 'ui';
 
-import { getActiveNominees } from './getActiveNominees';
+import {
+  getActiveNominees,
+  QUERY_KEY_ACTIVE_NOMINEES,
+} from './getActiveNominees';
 import { NewNominationModal } from './NewNominationModal';
 import { NomineeCard } from './NomineeCard';
 
@@ -72,7 +75,7 @@ export const VouchingPage = () => {
     refetch,
     data: activeNominees,
   } = useQuery(
-    ['activeNominees', circleId],
+    [QUERY_KEY_ACTIVE_NOMINEES, circleId],
     () => getActiveNominees(circleId),
     {
       // the query will not be executed untill circleId exists
