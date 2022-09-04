@@ -2,6 +2,38 @@
 # yarn lockfile v1
 
 
+"@amplitude/identify@^1.10.1":
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/@amplitude/identify/-/identify-1.10.1.tgz#aca22e63937552d896a241bae0a3e75aa0677ae2"
+  integrity sha512-LFlieBqa4wJZaTK0lCR3GDt0cZmxG/l8F8IgAjF16axVyKc/b9SpyJ0CzWUwevtO4ijCDu4RiYcRzLyNHWwgpQ==
+  dependencies:
+    "@amplitude/types" "^1.10.1"
+    "@amplitude/utils" "^1.10.1"
+    tslib "^2.0.0"
+
+"@amplitude/node@^1.10.1":
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/@amplitude/node/-/node-1.10.1.tgz#9d75fea56e90189f2caf24588fa0444c2737e68b"
+  integrity sha512-lIeiWNd7rvpz846a0oeCMfytCsz3b4+gKR7PJ1Nxlo0gGmnKiajtlvR/iC1dPXtXwJ9EV+pMKHupazRv1KgIRg==
+  dependencies:
+    "@amplitude/identify" "^1.10.1"
+    "@amplitude/types" "^1.10.1"
+    "@amplitude/utils" "^1.10.1"
+    tslib "^2.0.0"
+
+"@amplitude/types@^1.10.1":
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/@amplitude/types/-/types-1.10.1.tgz#961553549cb7fc9c6dd8c105a3b6a5a562d8d701"
+  integrity sha512-g0dp8j3E8pFK55kjZSBGQeYlO7ckc4I2HBCyLsfXmcQ4S1eJfOF4fjJtCog9Dp+fs9EKRzyvh8WFbek9n7eF0w==
+
+"@amplitude/utils@^1.10.1":
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/@amplitude/utils/-/utils-1.10.1.tgz#57e3cb9d1127c74357eeb637595796bf8eb8864d"
+  integrity sha512-9i44OGG8M/KFz24ftxQrR5nAIWhZKVB1Ba9J6krBuaM54ejOSZH6W1IcNIBvxu54ZGWyhBJc6I18wVqSRs2IPA==
+  dependencies:
+    "@amplitude/types" "^1.10.1"
+    tslib "^2.0.0"
+
 "@apideck/better-ajv-errors@^0.2.4":
   version "0.2.6"
   resolved "https://registry.yarnpkg.com/@apideck/better-ajv-errors/-/better-ajv-errors-0.2.6.tgz#f12e5176a04c84caade85100fa33317a1457f372"

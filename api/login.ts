@@ -10,6 +10,7 @@ import {
   hashTokenString,
 } from '../api-lib/authHelpers';
 import { adminClient } from '../api-lib/gql/adminClient';
+import { insertInteractionEvent } from '../api-lib/gql/mutations';
 import { errorResponse } from '../api-lib/HttpError';
 import { getProvider } from '../api-lib/provider';
 import { parseInput } from '../api-lib/signature';
@@ -95,8 +96,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
       );
       profile = insert_profiles_one;
+      assert(profile, 'panic: profile must exist');
+      await insertInteractionEvent({
+        event_type: 'first_login',
+        profile_id: profile.id,
+      });
+    } else {
+      assert(profile, 'panic: profile must exist');
     }
-    assert(profile, 'panic: profile must exist');
 
     const now = DateTime.now().toISO();
 
@@ -128,6 +135,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
       );
 
+    await insertInteractionEvent({
+      event_type: 'login',
+      profile_id: profile.id,
+    });
     return res
       .status(200)
       .json({ token: formatAuthHeader(token?.id, tokenString) });
