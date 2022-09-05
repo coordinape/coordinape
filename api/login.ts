@@ -89,22 +89,41 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (!profile) {
       const { insert_profiles_one } = await adminClient.mutate(
         {
-          insert_profiles_one: [{ object: { address: address } }, { id: true }],
+          insert_profiles_one: [
+            { object: { address: address } },
+            {
+              id: true,
+              users: [
+                {},
+                {
+                  circle_id: true,
+                },
+              ],
+            },
+          ],
         },
         {
           operationName: 'login_insertProfile',
         }
       );
+      assert(insert_profiles_one, "panic: adding profile didn't succeed");
       profile = insert_profiles_one;
-      assert(profile, 'panic: profile must exist');
       await insertInteractionEvent({
         event_type: 'first_login',
-        profile_id: profile.id,
+        profile_id: insert_profiles_one.id,
+        circle_id: insert_profiles_one.users?.[0]?.circle_id,
+        data: {
+          invitedMember: insert_profiles_one.users
+            ? insert_profiles_one.users.length > 0
+            : false,
+          brandNewMember: insert_profiles_one.users
+            ? insert_profiles_one.users.length == 0
+            : false,
+        },
       });
-    } else {
-      assert(profile, 'panic: profile must exist');
+      // if they have no users, this is a "clean signup"
     }
-
+    assert(profile, 'panic: profile must exist');
     const now = DateTime.now().toISO();
 
     const { insert_personal_access_tokens_one: token } =

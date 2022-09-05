@@ -83,6 +83,8 @@ function createCircle(
       circle_id: circle?.id,
       profile_id: userProfileId,
     });
+
+    return circle;
   };
 }
 export default verifyHasuraRequestMiddleware(handler);
