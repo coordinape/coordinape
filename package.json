@@ -56,6 +56,7 @@
     "keccak": "^3.0.2",
     "lodash": "4.17.21",
     "luxon": "2.3.1",
+    "mixpanel": "^0.17.0",
     "node-fetch": "2.6.7",
     "notistack": "1.0.10",
     "papaparse": "^5.3.2",

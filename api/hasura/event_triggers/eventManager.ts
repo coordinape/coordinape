@@ -7,6 +7,7 @@ import createNomineeDiscord from '../../../api-lib/event_triggers/createNomineeD
 import createNomineeTelegram from '../../../api-lib/event_triggers/createNomineeTelegram';
 import createVouchedUser from '../../../api-lib/event_triggers/createVouchedUser';
 import interactionEventToAmplitude from '../../../api-lib/event_triggers/interactionEventToAmplitude';
+import interactionEventToMixpanel from '../../../api-lib/event_triggers/interactionEventToMixpanel';
 import optOutDiscord from '../../../api-lib/event_triggers/optOutDiscord';
 import optOutTelegram from '../../../api-lib/event_triggers/optOutTelegram';
 import refundGiveDiscord from '../../../api-lib/event_triggers/refundGiveDiscord';
@@ -27,6 +28,7 @@ const HANDLERS: HandlerDict = {
   createCircleCRM,
   createVouchedUser,
   interactionEventToAmplitude,
+  interactionEventToMixpanel,
   optOutDiscord,
   optOutTelegram,
   refundGiveTelegram,
