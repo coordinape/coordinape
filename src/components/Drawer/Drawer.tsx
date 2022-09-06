@@ -1,27 +1,7 @@
 import React from 'react';
 
-import { styled } from 'stitches.config';
-
-import MuiDrawer from '@material-ui/core/Drawer';
-
-import { Flex, Text, Button } from 'ui';
+import { Text, Button, Popover, Flex } from 'ui';
 import { ArrowIcon } from 'ui/icons/ArrowIcon';
-
-const StyledMuiDrawer = styled(MuiDrawer, {
-  '> .MuiDrawer-paper': {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    backgroundColor: 'transparent',
-    display: 'flex',
-    alignItems: 'stretch',
-    transition: 'width .4s ease',
-    border: 1,
-    width: 'calc($xl * 12)',
-    maxWidth: '95vw',
-    marginLeft: '$lg',
-  },
-});
 
 interface IProps {
   open: boolean;
@@ -31,13 +11,16 @@ interface IProps {
 
 export const Drawer = ({ open, setOpen, children }: IProps) => {
   return (
-    <StyledMuiDrawer
-      open
-      onClose={() => setOpen(false)}
-      variant="persistent"
-      anchor="left"
-    >
-      <Text h2 css={{ my: '$xl', fontSize: '$h1', fontWeights: '$semibold' }}>
+    <Popover open={open}>
+      <Text
+        h2
+        css={{
+          my: '$xl',
+          fontSize: '$h1',
+          fontWeights: '$semibold',
+          ml: '$lg',
+        }}
+      >
         Circle Map
       </Text>
       {open ? (
@@ -47,6 +30,17 @@ export const Drawer = ({ open, setOpen, children }: IProps) => {
             overflowX: 'hidden',
             flexDirection: 'column',
             alignItems: 'center',
+            ml: '$lg',
+            position: 'absolute',
+            top: 100,
+            bottom: 0,
+            backgroundColor: 'transparent',
+            display: 'flex',
+            transition: 'width .4s ease',
+            border: 1,
+            width: 'calc($xl * 12)',
+            maxWidth: '95vw',
+            zIndex: 1,
           }}
         >
           {children}
@@ -57,8 +51,14 @@ export const Drawer = ({ open, setOpen, children }: IProps) => {
           size="large"
           onClick={() => setOpen(!open)}
           css={{
+            zIndex: 1,
+            position: 'absolute',
+            top: 100,
+            bottom: 0,
             width: 'fit-content',
+            height: 'fit-content',
             justifyContent: 'flex-start',
+            ml: '$lg',
           }}
         >
           Filters
@@ -69,6 +69,6 @@ export const Drawer = ({ open, setOpen, children }: IProps) => {
           />
         </Button>
       )}
-    </StyledMuiDrawer>
+    </Popover>
   );
 };
