@@ -71,7 +71,6 @@ describe('Delete Contribution action handler', () => {
   });
 
   test('Test deletion of a contribution that is attached to no epoch', async () => {
-    // const { epoch: _, ...noEpochContribution } = mockContribution;
     Reflect.deleteProperty(mockContribution, 'epoch');
     (adminClient.query as jest.Mock).mockImplementation(() =>
       Promise.resolve({
@@ -79,6 +78,9 @@ describe('Delete Contribution action handler', () => {
       })
     );
     await handler(req, res);
-    expect(res.status).toHaveBeenCalledWith(422);
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalled();
+    const results = (res.json as any).mock.calls[0][0];
+    expect(results.success).toBeTruthy();
   });
 });

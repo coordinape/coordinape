@@ -39,8 +39,8 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   if (
     !contribution ||
-    contribution?.deleted_at ||
-    contribution?.user?.address !== address
+    contribution.deleted_at ||
+    contribution.user?.address !== address
   ) {
     errorResponseWithStatusCode(
       res,
@@ -50,7 +50,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     return;
   }
 
-  if (contribution?.epoch?.ended) {
+  if (contribution?.epoch && contribution.epoch?.ended) {
     errorResponseWithStatusCode(
       res,
       { message: 'contribution attached to an ended epoch is not editable' },
