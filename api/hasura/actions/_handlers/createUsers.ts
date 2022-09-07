@@ -3,6 +3,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
 import { ValueTypes } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { insertInteractionEvent } from '../../../../api-lib/gql/mutations';
 import {
   errorResponseWithStatusCode,
   InternalServerError,
@@ -19,6 +20,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   // this has to do parseAsync due to the ENS validation
   const {
     input: { payload: input },
+    session_variables: sessionVariables,
   } = await composeHasuraActionRequestBody(
     createUsersBulkSchemaInput
   ).parseAsync(req.body);
@@ -152,6 +154,20 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     throw new InternalServerError(
       `panic: insertedUsers is null; ${JSON.stringify(mutationResult, null, 2)}`
     );
+
+  let profileId: number;
+  if (sessionVariables.hasuraRole == 'user') {
+    profileId = sessionVariables.hasuraProfileId;
+  }
+
+  insertedUsers.map(async inviteduserId => {
+    await insertInteractionEvent({
+      event_type: 'add_user',
+      profile_id: profileId,
+      circle_id: input.circle_id,
+      data: { invited_user_id: inviteduserId },
+    });
+  });
 
   // Get the returning values from each update-user aliases.
   const results: Array<{ id: number }> = usersToUpdate
