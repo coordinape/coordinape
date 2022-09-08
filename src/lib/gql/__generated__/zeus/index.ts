@@ -1555,7 +1555,6 @@ columns and relationships of "circle_api_keys" */
     created_at?: boolean | `@${string}`;
     default_opt_in?: boolean | `@${string}`;
     deleted_at?: boolean | `@${string}`;
-    discord_webhook?: boolean | `@${string}`;
     epochs?: [
       {
         /** distinct select on columns */
@@ -1818,7 +1817,6 @@ columns and relationships of "circle_api_keys" */
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     default_opt_in?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     deleted_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
-    discord_webhook?: ValueTypes['String_comparison_exp'] | undefined | null;
     epochs?: ValueTypes['epochs_bool_exp'] | undefined | null;
     fixed_payment_token_type?:
       | ValueTypes['String_comparison_exp']
@@ -1864,7 +1862,6 @@ columns and relationships of "circle_api_keys" */
     alloc_text?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     deleted_at?: ValueTypes['order_by'] | undefined | null;
-    discord_webhook?: ValueTypes['order_by'] | undefined | null;
     fixed_payment_token_type?: ValueTypes['order_by'] | undefined | null;
     fixed_payment_vault_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -1883,7 +1880,6 @@ columns and relationships of "circle_api_keys" */
     alloc_text?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     deleted_at?: ValueTypes['order_by'] | undefined | null;
-    discord_webhook?: ValueTypes['order_by'] | undefined | null;
     fixed_payment_token_type?: ValueTypes['order_by'] | undefined | null;
     fixed_payment_vault_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -1910,7 +1906,6 @@ columns and relationships of "circle_api_keys" */
     created_at?: ValueTypes['order_by'] | undefined | null;
     default_opt_in?: ValueTypes['order_by'] | undefined | null;
     deleted_at?: ValueTypes['order_by'] | undefined | null;
-    discord_webhook?: ValueTypes['order_by'] | undefined | null;
     epochs_aggregate?:
       | ValueTypes['epochs_aggregate_order_by']
       | undefined
@@ -8322,7 +8317,6 @@ columns and relationships of "circle_api_keys" */
     created_at: GraphQLTypes['timestamp'];
     default_opt_in: boolean;
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
-    discord_webhook?: string | undefined;
     /** An array relationship */
     epochs: Array<GraphQLTypes['epochs']>;
     fixed_payment_token_type?: string | undefined;
@@ -11110,7 +11104,6 @@ columns and relationships of "circle_api_keys" */
     created_at: GraphQLTypes['timestamp'];
     default_opt_in: boolean;
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
-    discord_webhook?: string | undefined;
     /** An array relationship */
     epochs: Array<GraphQLTypes['epochs']>;
     fixed_payment_token_type?: string | undefined;
@@ -11183,7 +11176,6 @@ columns and relationships of "circle_api_keys" */
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     default_opt_in?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
-    discord_webhook?: GraphQLTypes['String_comparison_exp'] | undefined;
     epochs?: GraphQLTypes['epochs_bool_exp'] | undefined;
     fixed_payment_token_type?:
       | GraphQLTypes['String_comparison_exp']
@@ -11220,7 +11212,6 @@ columns and relationships of "circle_api_keys" */
     alloc_text?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     deleted_at?: GraphQLTypes['order_by'] | undefined;
-    discord_webhook?: GraphQLTypes['order_by'] | undefined;
     fixed_payment_token_type?: GraphQLTypes['order_by'] | undefined;
     fixed_payment_vault_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -11239,7 +11230,6 @@ columns and relationships of "circle_api_keys" */
     alloc_text?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     deleted_at?: GraphQLTypes['order_by'] | undefined;
-    discord_webhook?: GraphQLTypes['order_by'] | undefined;
     fixed_payment_token_type?: GraphQLTypes['order_by'] | undefined;
     fixed_payment_vault_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -11265,7 +11255,6 @@ columns and relationships of "circle_api_keys" */
     created_at?: GraphQLTypes['order_by'] | undefined;
     default_opt_in?: GraphQLTypes['order_by'] | undefined;
     deleted_at?: GraphQLTypes['order_by'] | undefined;
-    discord_webhook?: GraphQLTypes['order_by'] | undefined;
     epochs_aggregate?: GraphQLTypes['epochs_aggregate_order_by'] | undefined;
     fixed_payment_token_type?: GraphQLTypes['order_by'] | undefined;
     fixed_payment_vault_id?: GraphQLTypes['order_by'] | undefined;
@@ -15101,7 +15090,6 @@ export const enum circles_select_column {
   created_at = 'created_at',
   default_opt_in = 'default_opt_in',
   deleted_at = 'deleted_at',
-  discord_webhook = 'discord_webhook',
   fixed_payment_token_type = 'fixed_payment_token_type',
   fixed_payment_vault_id = 'fixed_payment_vault_id',
   id = 'id',

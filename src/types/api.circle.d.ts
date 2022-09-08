@@ -30,7 +30,6 @@ export interface IApiCircle {
   protocol: IProtocol;
   auto_opt_out: boolean;
   fixed_payment_token_type?: string;
-  discord_webhook?: string;
 }
 
 export interface ICircle extends IApiCircle {
