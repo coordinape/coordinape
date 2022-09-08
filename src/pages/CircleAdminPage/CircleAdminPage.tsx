@@ -284,7 +284,7 @@ export const CircleAdminPage = () => {
     useController({
       name: 'discord_webhook',
       control,
-      defaultValue: '',
+      defaultValue: circle?.discord_webhook,
     });
 
   const { field: circleLogo } = useController({
