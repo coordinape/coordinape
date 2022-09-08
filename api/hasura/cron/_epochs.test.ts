@@ -713,7 +713,7 @@ describe('epoch Cron Logic', () => {
       });
       const result = await notifyEpochStart(input);
       expect(result).toEqual([]);
-      expect(mockMutation).toBeCalledTimes(2);
+      expect(mockMutation).toBeCalledTimes(3);
       expect(mockMutation).toBeCalledWith(
         {
           update_epochs_by_pk: [

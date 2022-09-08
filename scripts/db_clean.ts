@@ -5,6 +5,7 @@ type MutationName = keyof ValueTypes['mutation_root'];
 
 (async () => {
   const mutations: MutationName[] = [
+    'delete_contributions',
     'delete_vault_transactions',
     'delete_pending_vault_transactions',
     'delete_claims',
@@ -27,7 +28,6 @@ type MutationName = keyof ValueTypes['mutation_root'];
     'delete_circle_api_keys',
     'delete_circle_integrations',
     'delete_circle_metadata',
-    'delete_contributions',
     'delete_gift_private',
     'delete_histories',
   ];

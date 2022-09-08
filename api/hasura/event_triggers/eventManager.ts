@@ -3,6 +3,7 @@ import { VercelRequest, VercelResponse, VercelApiHandler } from '@vercel/node';
 import checkNomineeDiscord from '../../../api-lib/event_triggers/checkNomineeDiscord';
 import checkNomineeTelegram from '../../../api-lib/event_triggers/checkNomineeTelegram';
 import createCircleCRM from '../../../api-lib/event_triggers/createCircleCRM';
+import createContribution from '../../../api-lib/event_triggers/createContribution';
 import createNomineeDiscord from '../../../api-lib/event_triggers/createNomineeDiscord';
 import createNomineeTelegram from '../../../api-lib/event_triggers/createNomineeTelegram';
 import createVouchedUser from '../../../api-lib/event_triggers/createVouchedUser';
@@ -24,6 +25,7 @@ const HANDLERS: HandlerDict = {
   createNomineeDiscord,
   createNomineeTelegram,
   createCircleCRM,
+  createContribution,
   createVouchedUser,
   optOutDiscord,
   optOutTelegram,

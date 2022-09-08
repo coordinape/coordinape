@@ -198,6 +198,11 @@ export async function notifyEpochStart({
       )}** to **${epochEndDate.toLocaleString(DateTime.DATETIME_FULL)}**
     `;
 
+    await attachContributionsToEpoch({
+      epochId: epoch.id,
+      circleId: circle.id,
+    });
+
     if (circle.discord_webhook)
       await notifyAndUpdateEpoch(
         message,
@@ -683,6 +688,43 @@ async function setNextEpochNumber({
   } catch (e: unknown) {
     if (e instanceof Error)
       throw `Error setting next number for epoch id ${epochId}: ${e.message}`;
+  }
+}
+
+async function attachContributionsToEpoch({
+  epochId,
+  circleId,
+}: {
+  epochId: number;
+  circleId: number;
+}) {
+  try {
+    await adminClient.mutate(
+      {
+        update_contributions: [
+          {
+            _set: { epoch_id: epochId },
+            where: {
+              user: {
+                circle_id: {
+                  _eq: circleId,
+                },
+              },
+              epoch_id: {
+                _eq: null,
+              },
+            },
+          },
+          { __typename: true },
+        ],
+      },
+      {
+        operationName: 'cron_attachContributionsToEpoch_update',
+      }
+    );
+  } catch (e: unknown) {
+    if (e instanceof Error)
+      throw `Error setting attaching contributions to epoch id ${epochId}: ${e.message}`;
   }
 }
 
