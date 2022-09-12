@@ -711,7 +711,7 @@ async function attachContributionsToEpoch({
                 },
               },
               epoch_id: {
-                _eq: null,
+                _is_null: true,
               },
             },
           },
