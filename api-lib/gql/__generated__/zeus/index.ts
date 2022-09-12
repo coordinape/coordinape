@@ -31747,7 +31747,7 @@ export const enum histories_update_column {
 }
 /** unique or primary key constraints on table "interaction_events" */
 export const enum interaction_events_constraint {
-  user_events_pkey = 'user_events_pkey',
+  interaction_events_pkey = 'interaction_events_pkey',
 }
 /** select columns of table "interaction_events" */
 export const enum interaction_events_select_column {

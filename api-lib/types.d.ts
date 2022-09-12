@@ -32,7 +32,7 @@ type RelationTypes =
   | 'profile'
   | 'nominations'
   | 'nominations_aggregate'
-  | 'user_events'
+  | 'interaction_events'
   | 'vouches';
 
 /**
