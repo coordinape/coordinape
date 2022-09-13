@@ -78,7 +78,7 @@ function createCircle(
       fileName
     );
 
-    await mutations.insertInteractionEvent({
+    await mutations.insertInteractionEvents({
       event_type: 'circle_create',
       circle_id: circle?.id,
       profile_id: userProfileId,

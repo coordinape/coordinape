@@ -9,7 +9,7 @@ event_triggers:
   headers:
   - name: verification_key
     value_from_env: HASURA_EVENT_SECRET
-  name: interactionEventToAmplitude
+  name: sendInteractionEventToAmplitude
   retry_conf:
     interval_sec: 3600
     num_retries: 5
@@ -22,7 +22,7 @@ event_triggers:
   headers:
   - name: verification_key
     value_from_env: HASURA_EVENT_SECRET
-  name: interactionEventToMixpanel
+  name: sendInteractionEventToMixpanel
   retry_conf:
     interval_sec: 3600
     num_retries: 5

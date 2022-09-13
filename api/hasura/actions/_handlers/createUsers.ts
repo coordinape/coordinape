@@ -3,7 +3,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
 import { ValueTypes } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
-import { insertInteractionEvent } from '../../../../api-lib/gql/mutations';
+import { insertInteractionEvents } from '../../../../api-lib/gql/mutations';
 import {
   errorResponseWithStatusCode,
   InternalServerError,
@@ -160,14 +160,14 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     profileId = sessionVariables.hasuraProfileId;
   }
 
-  insertedUsers.map(async inviteduserId => {
-    await insertInteractionEvent({
+  await insertInteractionEvents(
+    ...insertedUsers.map(invitedUserId => ({
       event_type: 'add_user',
       profile_id: profileId,
       circle_id: input.circle_id,
-      data: { invited_user_id: inviteduserId },
-    });
-  });
+      data: { invited_user_id: invitedUserId },
+    }))
+  );
 
   // Get the returning values from each update-user aliases.
   const results: Array<{ id: number }> = usersToUpdate

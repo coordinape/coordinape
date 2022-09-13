@@ -480,26 +480,17 @@ export async function endNominees(circleId: number) {
   return update_nominees;
 }
 
-export async function insertInteractionEvent(
-  event: Omit<
+export async function insertInteractionEvents(
+  ...events: Omit<
     GraphQLTypes['interaction_events_insert_input'],
     'created_at' | 'id' | 'updated_at'
-  >
+  >[]
 ) {
   await adminClient.mutate(
     {
-      insert_interaction_events_one: [
-        {
-          object: event,
-        },
-        {
-          __typename: true,
-        },
-      ],
+      insert_interaction_events: [{ objects: events }, { __typename: true }],
     },
-    {
-      operationName: 'insertInteractionEvent',
-    }
+    { operationName: 'insertInteractionEvents' }
   );
   return;
 }
