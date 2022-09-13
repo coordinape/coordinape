@@ -19,9 +19,6 @@ const useStyles = makeStyles(theme => ({
   },
   controls: {
     padding: theme.spacing(2, 4),
-    position: 'absolute',
-    top: 0,
-    left: 0,
     width: '100%',
     display: 'flex',
     flexDirection: 'row',
