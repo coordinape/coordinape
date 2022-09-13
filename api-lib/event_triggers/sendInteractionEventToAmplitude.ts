@@ -10,10 +10,7 @@ import { EventTriggerPayload } from '../types';
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     if (AMPLITUDE_API_KEY == '') {
-      res.status(200).json({
-        message: `AMPLITUDE_API_KEY not set`,
-      });
-      return;
+      throw new Error(`AMPLITUDE_API_KEY not set`);
     }
 
     const payload: EventTriggerPayload<'interaction_events', 'INSERT'> =

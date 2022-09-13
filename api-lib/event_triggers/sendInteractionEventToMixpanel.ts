@@ -10,10 +10,7 @@ import { EventTriggerPayload } from '../types';
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     if (MIXPANEL_PROJECT_TOKEN == '') {
-      res.status(200).json({
-        message: `MIXPANEL_PROJECT_TOKEN not set`,
-      });
-      return;
+      throw new Error(`MIXPANEL_PROJECT_TOKEN not set`);
     }
 
     const mp = mixpanel.init(MIXPANEL_PROJECT_TOKEN);
