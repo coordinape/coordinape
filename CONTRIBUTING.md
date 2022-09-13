@@ -204,7 +204,7 @@ terminals has bounded width, you can display more of them on a screen!)
 # Code Reviews
 
 ## Pull Requests
-We use Pull Requests in Github to collect a series of commits into one changeset that can be reviewed, tested, and merged into our `main` git branch.
+We use Pull Requests in GitHub to collect a series of commits into one changeset that can be reviewed, tested, and merged into our `main` git branch.
 Community open source contributors must make Pull Requests from their fork of the `coordinape` git repo into the main git repo, for security reasons. A code reviewer will then review the PR, and approve running our CI and Vercel pre-deployment checks against this changeset.
 
 
