@@ -17,37 +17,25 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       const { users_by_pk } = await adminClient.query(
         {
           users_by_pk: [
-            {
-              id: user_id,
-            },
+            { id: user_id },
             {
               circle: {
                 epochs: [
                   {
                     limit: 1,
                     where: {
-                      start_date: {
-                        _lte: 'now()',
-                      },
-                      end_date: {
-                        _gt: 'now()',
-                      },
-                      ended: {
-                        _eq: false,
-                      },
+                      start_date: { _lte: 'now()' },
+                      end_date: { _gt: 'now()' },
+                      ended: { _eq: false },
                     },
                   },
-                  {
-                    id: true,
-                  },
+                  { id: true },
                 ],
               },
             },
           ],
         },
-        {
-          operationName: 'createContribution_epochQuery',
-        }
+        { operationName: 'createContribution_epochQuery' }
       );
       if (users_by_pk?.circle?.epochs[0]) {
         await adminClient.mutate(

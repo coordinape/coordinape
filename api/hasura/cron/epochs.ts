@@ -705,14 +705,9 @@ async function attachContributionsToEpoch({
           {
             _set: { epoch_id: epochId },
             where: {
-              user: {
-                circle_id: {
-                  _eq: circleId,
-                },
-              },
-              epoch_id: {
-                _is_null: true,
-              },
+              user: { circle_id: { _eq: circleId } },
+              deleted_at: { _is_null: true },
+              epoch_id: { _is_null: true },
             },
           },
           { __typename: true },
