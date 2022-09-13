@@ -12,8 +12,6 @@ CREATE TABLE "public"."interaction_events" (
   PRIMARY KEY ("id")
 );
 
-$$ LANGUAGE plpgsql;
-
 CREATE TRIGGER "set_public_interaction_events_updated_at" BEFORE
 UPDATE
   ON "public"."interaction_events"
