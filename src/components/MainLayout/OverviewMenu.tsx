@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 
+import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons';
 import sortBy from 'lodash/sortBy';
 import { useNavigate } from 'react-router';
 import { useLocation, NavLink } from 'react-router-dom';
@@ -11,7 +12,6 @@ import { menuGroupStyle } from 'components/MainLayout/MainHeader';
 import { scrollToTop } from 'components/MainLayout/MainLayout';
 import isFeatureEnabled from 'config/features';
 import { useHasCircles } from 'hooks/migration';
-import { ChevronUp, ChevronDown } from 'icons';
 import { rSelectedCircle } from 'recoilState/app';
 import { paths, isCircleSpecificPath } from 'routes/paths';
 import {
@@ -70,7 +70,7 @@ export const OverviewMenu = ({
     >
       {overviewMenuTriggerText}
       <Box css={{ marginLeft: '$xs', display: 'flex' }}>
-        <ChevronDown size="md" />
+        <ChevronDownIcon />
       </Box>
     </Link>
   );
@@ -145,7 +145,7 @@ export const OverviewMenu = ({
             >
               {overviewMenuTriggerText}
               <Box css={{ marginLeft: '$xs', display: 'flex' }}>
-                <ChevronUp size="md" />
+                <ChevronUpIcon />
               </Box>
             </Link>
           </PopoverClose>

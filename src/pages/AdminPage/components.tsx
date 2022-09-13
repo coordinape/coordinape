@@ -13,7 +13,7 @@ import {
 import { isFeatureEnabled } from 'config/features';
 import { useApiAdminCircle, useNavigation } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
-import { PlusCircleIcon, CheckIcon, CloseIcon } from 'icons';
+import { Check, Close, Increase } from 'icons/__generated';
 import { CircleSettingsResult } from 'pages/CircleAdminPage/getCircleSettings';
 import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE } from 'routes/paths';
 import {
@@ -166,9 +166,9 @@ export const renderUserCard = (user: IUser, tokenName: string) => {
               <>
                 <Box css={{ mr: '$xs' }}>
                   {!user.non_giver ? (
-                    <CheckIcon size="inherit" color="complete" />
+                    <Check color="complete" />
                   ) : (
-                    <CloseIcon size="inherit" color="alert" />
+                    <Close color="alert" />
                   )}
                 </Box>
                 {tokenName}
@@ -283,7 +283,7 @@ const EmptyTable = ({
         {content}
       </Text>
       <Button color="secondary">
-        <PlusCircleIcon />
+        <Increase />
         {createLabel}
       </Button>
     </Flex>
@@ -592,9 +592,9 @@ export const MembersTable = ({
 
                     <Table.Cell>
                       {!u.non_giver ? (
-                        <CheckIcon size="inherit" color="complete" />
+                        <Check color="complete" />
                       ) : (
-                        <CloseIcon size="inherit" color="alert" />
+                        <Close color="alert" />
                       )}
                     </Table.Cell>
 
@@ -602,17 +602,17 @@ export const MembersTable = ({
                       {u.fixed_non_receiver ? (
                         'Forced ❌'
                       ) : u.non_receiver ? (
-                        <CloseIcon size="inherit" color="alert" />
+                        <Close color="alert" />
                       ) : (
-                        <CheckIcon size="inherit" color="complete" />
+                        <Check color="complete" />
                       )}
                     </Table.Cell>
 
                     <Table.Cell>
                       {u.role === USER_ROLE_ADMIN ? (
-                        <CheckIcon size="inherit" color="complete" />
+                        <Check color="complete" />
                       ) : (
-                        <CloseIcon size="inherit" color="alert" />
+                        <Close color="alert" />
                       )}
                     </Table.Cell>
                     <Table.Cell>

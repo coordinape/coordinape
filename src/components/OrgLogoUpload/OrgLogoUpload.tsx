@@ -5,7 +5,8 @@ import { updateOrgLogo } from 'lib/gql/mutations';
 
 import { LoadingModal } from 'components';
 import { useImageUploader, useApeSnackbar } from 'hooks';
-import { Settings } from 'icons';
+// import { Settings } from 'icons';
+import { Settings } from 'icons/__generated';
 import { Avatar, Box, Button } from 'ui';
 import { getAvatarPathWithFallback } from 'utils/domain';
 import { normalizeError } from 'utils/reporting';
@@ -104,8 +105,8 @@ export const OrgLogoUpload = ({
                 background: '$white',
                 boxShadow: '$heavy',
                 borderRadius: '$3',
-                paddingLeft: '$2xl',
-                height: '$2xl',
+                paddingLeft: '64px',
+                height: '64px',
                 display: 'flex',
                 alignItems: 'center',
                 pr: '$md',
@@ -167,6 +168,7 @@ export const OrgLogoUpload = ({
                   zIndex: 2,
                   '&:hover': {
                     color: '$primary',
+                    visibility: 'visible',
                   },
                   '@sm': {
                     visibility: 'visible',

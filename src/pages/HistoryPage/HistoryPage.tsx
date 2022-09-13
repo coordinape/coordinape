@@ -132,9 +132,7 @@ export const HistoryPage = () => {
           </Button>
         )}
       </Flex>
-
       {/* show some help for admins who don't have an epoch yet */}
-
       {isAdmin &&
         circle &&
         !currentEpoch &&
@@ -232,7 +230,6 @@ export const HistoryPage = () => {
           onClose={closeFormHandler}
         ></EpochForm>
       )}
-
       <Text h3>Upcoming Epochs</Text>
       {futureEpochs?.length === 0 && <Text>There are no scheduled epochs</Text>}
       <Collapsible open={open} onOpenChange={setOpen} css={{ mb: '$md' }}>
@@ -269,7 +266,6 @@ export const HistoryPage = () => {
           </CollapsibleTrigger>
         )}
       </Collapsible>
-
       {currentEpoch && (
         <>
           <Text h3>Current</Text>

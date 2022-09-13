@@ -2,6 +2,7 @@ export { default as AlertSolid } from './AlertSolid';
 export { default as ArrowLeft } from './ArrowLeft';
 export { default as ArrowRight } from './ArrowRight';
 export { default as Badge } from './Badge';
+export { default as BrandMedium } from './BrandMedium';
 export { default as Check } from './Check';
 export { default as Chevron } from './Chevron';
 export { default as Close } from './Close';

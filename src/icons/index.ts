@@ -10,34 +10,11 @@
 // Using the following isn't compatible with MaterialUi's colors:
 // import { ReactComponent as MediumSVG } from 'assets/svgs/social/medium.svg';
 
-export * from './DeprecatedAwardIcon';
-export * from './DeprecatedBalanceIcon';
-export * from './ChevronDown';
-export * from './ChevronUp';
-export * from './CheckIcon';
+// no figma replacement for these icons yet
 export * from './CheckedRadio';
-export * from './CloseIcon';
-export * from './DeprecatedDeleteIcon';
+export * from './UnCheckedRadio';
 export * from './DeworkIcon';
 export * from './DeworkLogo';
-export * from './DeprecatedDiscordIcon';
-export * from './DeprecatedDocsIcon';
-export * from './DownArrow';
-export * from './EditIcon';
-export * from './DeprecatedFilterIcon';
-export * from './DeprecatedGithubIcon';
-export * from './HamburgerIcon';
-export * from './DeprecatedInfoIcon';
-export * from './DeprecatedLinkIcon';
+export * from './DeprecatedBalanceIcon';
 export * from './DeprecatedMediumIcon';
-export * from './DeprecatedMinusCircleIcon';
 export * from './ParcelIcon';
-export * from './PlusCircleIcon';
-export * from './RightArrowIcon';
-export * from './Settings';
-export * from './Torso';
-export * from './DeprecatedSaveIcon';
-export * from './DeprecatedTelegramIcon';
-export * from './DeprecatedTwitterIcon';
-export * from './UnCheckedRadio';
-export * from './DeprecatedUploadIcon';

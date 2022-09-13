@@ -1,7 +1,8 @@
+import { PlusCircledIcon, MinusCircledIcon } from '@radix-ui/react-icons';
+
 import { IconButton, makeStyles } from '@material-ui/core';
 
 import { DeprecatedApeTextField } from 'components';
-import { PlusCircleIcon, DeprecatedMinusCircleIcon } from 'icons';
 import { Link } from 'ui';
 
 import { CardInfoText } from './CardInfoText';
@@ -110,7 +111,7 @@ export const GiftInput = ({
                 onClick={() => updateGift({ tokens: tokens - 1 })}
                 disableRipple
               >
-                <DeprecatedMinusCircleIcon />
+                <MinusCircledIcon />
               </IconButton>
             ),
             endAdornment: (
@@ -120,7 +121,7 @@ export const GiftInput = ({
                 onClick={() => updateGift({ tokens: tokens + 1 })}
                 disableRipple
               >
-                <PlusCircleIcon />
+                <PlusCircledIcon />
               </IconButton>
             ),
           }}

@@ -1,6 +1,6 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import { DownArrowIcon } from '../../icons';
+import { Chevron } from 'icons/__generated';
 
 import { IconButton } from './IconButton';
 
@@ -18,5 +18,5 @@ export const IconButtonArrow = Template.bind({});
 IconButtonArrow.args = {
   size: 'xs',
   variant: 'ghost',
-  children: <DownArrowIcon size="md" />,
+  children: <Chevron />,
 };

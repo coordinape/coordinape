@@ -1,5 +1,6 @@
+import { Pencil1Icon } from '@radix-ui/react-icons';
+
 import { makeStyles, ButtonBase } from '@material-ui/core';
-import EditIcon from '@material-ui/icons/Edit';
 
 const useStyles = makeStyles(theme => ({
   editCircleButton: {
@@ -17,7 +18,7 @@ export const IconButton = () => {
   const classes = useStyles();
   return (
     <ButtonBase className={classes.editCircleButton}>
-      <EditIcon className={classes.editIcon} />
+      <Pencil1Icon className={classes.editIcon} />
     </ButtonBase>
   );
 };

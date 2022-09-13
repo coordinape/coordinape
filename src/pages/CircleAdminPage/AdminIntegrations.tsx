@@ -4,12 +4,8 @@ import * as mutations from 'lib/gql/mutations';
 
 import { ActionDialog } from 'components';
 import { useCurrentCircleIntegrations } from 'hooks/gql/useCurrentCircleIntegrations';
-import {
-  DeprecatedDeleteIcon,
-  DeworkIcon,
-  DeworkLogo,
-  ParcelIcon,
-} from 'icons';
+import { DeworkIcon, DeworkLogo, ParcelIcon } from 'icons';
+import { Trash } from 'icons/__generated';
 import { paths } from 'routes/paths';
 import { Flex, Button, Text, HR } from 'ui';
 
@@ -69,7 +65,7 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
                 size="small"
                 color="textOnly"
               >
-                <DeprecatedDeleteIcon />
+                <Trash size="md" color="inherit" />
               </Button>
             </Flex>
           ))}

@@ -50,8 +50,8 @@ export const SvgIcon = styled('svg', {
     },
   },
   defaultVariants: {
-    color: 'link',
-    size: 'xs',
+    color: 'inherit',
+    size: 'md',
   },
 });
 

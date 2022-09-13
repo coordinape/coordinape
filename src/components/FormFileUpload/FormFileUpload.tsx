@@ -1,9 +1,8 @@
 import { useRef } from 'react';
 
-import { makeStyles, Button, ButtonGroup } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
+import { Cross1Icon, Share2Icon, Pencil1Icon } from '@radix-ui/react-icons';
 
-import { DeprecatedUploadIcon, EditIcon } from 'icons';
+import { makeStyles, Button, ButtonGroup } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   smallButton: {
@@ -63,7 +62,7 @@ export const FormFileUpload = ({
         {hasChanged && !!commit && (
           <Button
             onClick={onSave}
-            startIcon={<DeprecatedUploadIcon />}
+            startIcon={<Share2Icon />}
             size="small"
             className={buttonClass}
           >
@@ -79,7 +78,7 @@ export const FormFileUpload = ({
                 fileInput.current.value = '';
               }
             }}
-            startIcon={<CloseIcon />}
+            startIcon={<Cross1Icon />}
             size="small"
             className={buttonClass}
           />
@@ -87,7 +86,7 @@ export const FormFileUpload = ({
         {!hasChanged && (
           <Button
             onClick={() => fileInput.current?.click?.()}
-            startIcon={<EditIcon />}
+            startIcon={<Pencil1Icon />}
             size="small"
             className={buttonClass}
           >

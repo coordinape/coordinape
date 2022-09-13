@@ -74,7 +74,7 @@ export const CurrentEpochPanel = ({
         >
           {vouching && (
             <Minicard
-              icon={<Badge size="md" color="inherit" />}
+              icon={<Badge />}
               title="Nominations"
               alert={nominees > 0}
               content={
@@ -87,7 +87,7 @@ export const CurrentEpochPanel = ({
             />
           )}
           <Minicard
-            icon={<Increase size="md" color="inherit" />}
+            icon={<Increase />}
             title="Allocations"
             alert={unallocated > 0}
             content={
