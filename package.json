@@ -115,7 +115,7 @@
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
     "figma-colors": "ts-node ./scripts/update_figma_colors.ts",
-    "figma-icons": "./scripts/update_figma_icons.sh",
+    "update-icons": "./scripts/update_icons.sh",
     "vercel:dev": "vercel dev"
   },
   "lint-staged": {
