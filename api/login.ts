@@ -108,12 +108,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         profile_id: insert_profiles_one.id,
         circle_id: insert_profiles_one.users?.[0]?.circle_id,
         data: {
-          invitedMember: insert_profiles_one.users
-            ? insert_profiles_one.users.length > 0
-            : false,
-          brandNewMember: insert_profiles_one.users
-            ? insert_profiles_one.users.length == 0
-            : false,
+          brandNew: insert_profiles_one.users
+            ? insert_profiles_one.users.length === 0
+            : true,
         },
       });
       // if they have no users, this is a "clean signup"
