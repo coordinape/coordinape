@@ -33,7 +33,7 @@ else
 fi
 
 export NODE_HASURA_URL=http://localhost:"$CI_HASURA_PORT"/v1/graphql
-VERCEL_CMD=(yarn vercel dev -t "$CI_VERCEL_TOKEN" -l "$CI_VERCEL_PORT" --confirm)
+VERCEL_CMD=(yarn start -p "$CI_VERCEL_PORT")
 
 "${VERCEL_CMD[@]}" 2>&1 & VERCEL_PID=$!
 
