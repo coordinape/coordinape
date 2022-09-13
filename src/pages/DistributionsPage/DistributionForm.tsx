@@ -376,7 +376,7 @@ export function DistributionForm({
           <Text h2 css={headerStyle}>
             Gift Circle
           </Text>
-          <TwoColumnLayout css={{ pt: '$md', alignItems: 'baseline' }}>
+          <TwoColumnLayout css={{ pt: '$md' }}>
             <Box css={{ width: '100%' }}>
               <Select
                 {...(register('selectedVaultId'),
@@ -506,7 +506,7 @@ export function DistributionForm({
             </Box>
           ) : (
             <>
-              <TwoColumnLayout css={{ pt: '$md', alignItems: 'baseline' }}>
+              <TwoColumnLayout css={{ pt: '$md' }}>
                 <Box css={{ width: '100%' }}>
                   <Select
                     {...(register('selectedVaultId'),
