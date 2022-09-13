@@ -10,7 +10,7 @@ const css = {
     stroke: 'none',
   },
 };
-export const SvgBrandMedium = (props: SvgIconProps) => (
+export const SvgMedium = (props: SvgIconProps) => (
   <SvgIcon
     viewBox="0 0 16 16"
     aria-hidden="true"
@@ -20,4 +20,4 @@ export const SvgBrandMedium = (props: SvgIconProps) => (
     <path d="M19.937 17.988c0 5.12-4.124 9.269-9.212 9.269-5.087 0-9.212-4.15-9.212-9.269 0-5.12 4.124-9.27 9.212-9.27s9.212 4.15 9.212 9.27ZM30.04 18.008c0 4.818-2.063 8.726-4.607 8.726s-4.606-3.908-4.606-8.726c0-4.819 2.062-8.727 4.606-8.727s4.606 3.907 4.606 8.727M34.199 18.013c0 4.316-.725 7.817-1.62 7.817-.895 0-1.62-3.5-1.62-7.817 0-4.318.725-7.818 1.62-7.818.894 0 1.62 3.5 1.62 7.818Z" />
   </SvgIcon>
 );
-export default SvgBrandMedium;
+export default SvgMedium;

@@ -22,7 +22,7 @@ trap cleanup EXIT
 # copy all the various icons into the tmpdir
 # if there are new icon dirs, add them here
 cp src/icons/figma/*svg $WORK_DIR
-#cp src/icons/brands/*svg $WORK_DIR
+cp src/icons/brands/*svg $WORK_DIR
 
 # cleanup whatever old ones are there
 rm -rf src/icons/__generated/*
