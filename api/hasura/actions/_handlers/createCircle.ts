@@ -43,6 +43,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       createCircle(
         input,
         sessionVariables.hasuraAddress,
+        sessionVariables.hasuraProfileId,
         COORDINAPE_USER_ADDRESS
       )
     );
@@ -66,15 +67,24 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 function createCircle(
   circleInput: z.infer<typeof createCircleSchemaInput>,
   userAddress: string,
+  userProfileId: number,
   coordinapeAddress: string
 ) {
   return async (fileName: string) => {
-    return await mutations.insertCircleWithAdmin(
+    const circle = await mutations.insertCircleWithAdmin(
       circleInput,
       userAddress,
       coordinapeAddress,
       fileName
     );
+
+    await mutations.insertInteractionEvents({
+      event_type: 'circle_create',
+      circle_id: circle?.id,
+      profile_id: userProfileId,
+    });
+
+    return circle;
   };
 }
 export default verifyHasuraRequestMiddleware(handler);

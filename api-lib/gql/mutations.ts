@@ -1,6 +1,6 @@
 import assert from 'assert';
 
-import { order_by, ValueTypes } from './__generated__/zeus';
+import { GraphQLTypes, order_by, ValueTypes } from './__generated__/zeus';
 import { adminClient } from './adminClient';
 
 export async function insertProfiles(
@@ -478,4 +478,19 @@ export async function endNominees(circleId: number) {
     }
   );
   return update_nominees;
+}
+
+export async function insertInteractionEvents(
+  ...events: Omit<
+    GraphQLTypes['interaction_events_insert_input'],
+    'created_at' | 'id' | 'updated_at'
+  >[]
+) {
+  await adminClient.mutate(
+    {
+      insert_interaction_events: [{ objects: events }, { __typename: true }],
+    },
+    { operationName: 'insertInteractionEvents' }
+  );
+  return;
 }
