@@ -1,14 +1,12 @@
 import React, { useState, useMemo, useEffect } from 'react';
 
 import { isUserAdmin } from 'lib/users';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 
-import { ActionDialog } from 'components';
+import { ActionDialog, LoadingModal } from 'components';
 import { useApiAdminCircle } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { getCircleSettings } from 'pages/CircleAdminPage/getCircleSettings';
-import { QUERY_KEY_ACTIVE_NOMINEES } from 'pages/VouchingPage/getActiveNominees';
-import { NewNominationModal } from 'pages/VouchingPage/NewNominationModal';
 import { useSelectedCircle } from 'recoilState/app';
 import { NEW_CIRCLE_CREATED_PARAMS, paths } from 'routes/paths';
 import { AppLink, Button, Flex, Panel, Text, TextField } from 'ui';
@@ -17,9 +15,11 @@ import { SingleColumnLayout } from 'ui/layouts';
 import { AdminUserModal } from './AdminUserModal';
 import { MembersTable } from './components';
 import {
-  getNominationsData,
-  QUERY_KEY_NOMINATIONS_DATA,
-} from './getNominationsData';
+  getActiveNominees,
+  QUERY_KEY_ACTIVE_NOMINEES,
+} from './getActiveNominees';
+import { NewNominationModal } from './NewNominationModal';
+import { NomineesTable } from './NomineeTable';
 
 import { IUser } from 'types';
 
@@ -59,7 +59,6 @@ const AdminPage = () => {
       notifyOnChangeProps: ['data'],
     }
   );
-  const queryClient = useQueryClient();
 
   const { deleteUser } = useApiAdminCircle(circleId);
 
@@ -69,18 +68,28 @@ const AdminPage = () => {
 
   const isAdmin = isUserAdmin(me);
 
-  const { data: nominations } = useQuery(
-    [QUERY_KEY_NOMINATIONS_DATA, circleId],
-    () => getNominationsData(circleId),
+  const {
+    isLoading,
+    isError,
+    isIdle,
+    error,
+    data: activeNominees,
+    refetch: refetchNominees,
+  } = useQuery(
+    [QUERY_KEY_ACTIVE_NOMINEES, circleId],
+    () => getActiveNominees(circleId),
     {
+      // the query will not be executed untill circleId exists
       enabled: !!circleId,
+
+      //minmize background refetch
       refetchOnWindowFocus: false,
-      staleTime: Infinity,
+
       notifyOnChangeProps: ['data'],
     }
   );
 
-  const nomineeCount = nominations?.nominees_aggregate?.aggregate?.count || 0;
+  const nomineeCount = activeNominees?.length || 0;
   const cannotVouch = circle?.only_giver_vouch && me.non_giver;
 
   // User Columns
@@ -93,15 +102,20 @@ const AdminPage = () => {
   );
 
   const refetch = () => {
-    queryClient.invalidateQueries(QUERY_KEY_ACTIVE_NOMINEES);
-    queryClient.invalidateQueries(QUERY_KEY_NOMINATIONS_DATA);
+    refetchNominees();
   };
 
+  if (isLoading || isIdle) return <LoadingModal visible />;
+  if (isError) {
+    if (error instanceof Error) {
+      console.warn(error.message);
+    }
+  }
   return (
     <SingleColumnLayout>
-      <Panel>
+      <Panel nested>
         <Flex css={{ alignItems: 'center', mb: '$lg' }}>
-          <Text h2>{circle?.name}</Text>
+          <Text h2>Circle Members</Text>
           {!isMobile && (
             <Flex
               css={{
@@ -150,6 +164,7 @@ const AdminPage = () => {
             </Flex>
           )}
         </Flex>
+        <Text size="medium">Mange, nominate and vouch for members.</Text>
         {isMobile && (
           <Flex
             column
@@ -212,28 +227,44 @@ const AdminPage = () => {
             </Flex>
           </Flex>
         )}
-        <TextField
-          inPanel
-          size="sm"
-          css={{
-            my: '$md',
-          }}
-          onChange={onChangeKeyword}
-          placeholder="Search"
-          value={keyword}
-        />
-
-        {circle && (
-          <MembersTable
-            visibleUsers={visibleUsers}
-            myUser={me}
-            circle={circle}
-            filter={filterUser}
-            setEditUser={setEditUser}
-            setDeleteUserDialog={setDeleteUserDialog}
-            perPage={15}
-          />
+        {circle?.vouching && (
+          <Panel nested css={{ mt: '$1xl', px: 0 }}>
+            <NomineesTable
+              refetchNominees={refetch}
+              isNonGiverVoucher={circle?.only_giver_vouch}
+              myUser={me}
+              nominees={activeNominees}
+              vouchingText={circle.vouchingText}
+            />
+          </Panel>
         )}
+        <Panel nested css={{ mt: '$2xl', px: 0 }}>
+          <Panel>
+            <Flex css={{ justifyContent: 'space-between', mb: '$md' }}>
+              <Text h3 css={{ fontWeight: '$semibold', color: '$headingText' }}>
+                Members
+              </Text>
+              <TextField
+                inPanel
+                size="sm"
+                onChange={onChangeKeyword}
+                placeholder="🔍 Search"
+                value={keyword}
+              />
+            </Flex>
+            {circle && (
+              <MembersTable
+                visibleUsers={visibleUsers}
+                myUser={me}
+                circle={circle}
+                filter={filterUser}
+                setEditUser={setEditUser}
+                setDeleteUserDialog={setDeleteUserDialog}
+                perPage={15}
+              />
+            )}
+          </Panel>
+        </Panel>
       </Panel>
       {circle && editUser && (
         <AdminUserModal

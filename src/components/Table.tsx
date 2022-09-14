@@ -7,7 +7,7 @@ import { Box, Panel, Table } from 'ui';
 
 export function makeTable<T>(displayName: string) {
   type TableProps<T> = {
-    data: T[];
+    data?: T[];
     children: (dataItem: T) => ReactNode;
     startingSortIndex?: number;
     startingSortDesc?: boolean;
@@ -15,6 +15,7 @@ export function makeTable<T>(displayName: string) {
     headers: {
       title: string;
       css?: CSS;
+      isHidden?: boolean;
     }[];
   };
 
@@ -50,17 +51,20 @@ export function makeTable<T>(displayName: string) {
         <Table>
           <thead>
             <tr>
-              {headers.map((header, index: number) => (
-                <th key={index}>
-                  <Box
-                    onClick={() => resort(index)}
-                    css={{ cursor: 'pointer', ...header.css }}
-                  >
-                    {header.title}
-                    {sortIndex === index ? (sortDesc ? ' ↓' : ' ↑') : ''}
-                  </Box>
-                </th>
-              ))}
+              {headers.map(
+                (header, index: number) =>
+                  !header.isHidden && (
+                    <th key={index}>
+                      <Box
+                        onClick={() => resort(index)}
+                        css={{ cursor: 'pointer', ...header.css }}
+                      >
+                        {header.title}
+                        {sortIndex === index ? (sortDesc ? ' ↓' : ' ↑') : ''}
+                      </Box>
+                    </th>
+                  )
+              )}
             </tr>
           </thead>
           <tbody>{sortedData.map(children)}</tbody>

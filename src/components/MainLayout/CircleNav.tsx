@@ -33,11 +33,10 @@ export const CircleNav = () => {
         'Allocate',
         [paths.epoch(circleId), paths.team(circleId), paths.give(circleId)],
       ],
+      [paths.members(circleId), 'Members'],
+      [paths.map(circleId), 'Map'],
     ];
 
-    if (circle?.hasVouching) l.push([paths.vouching(circleId), 'Vouching']);
-    l.push([paths.members(circleId), 'Members']);
-    l.push([paths.map(circleId), 'Map']);
     if (myUser.isCircleAdmin) l.push([paths.circleAdmin(circleId), 'Admin']);
 
     return l;
