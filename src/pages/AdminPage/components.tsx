@@ -81,7 +81,7 @@ export const renderUserCard = (user: IUser, tokenName: string) => {
         <Title
           css={{
             display: 'block',
-            textOverflow: 'ellipsis',
+            textOversolidflow: 'ellipsis',
             overflow: 'hidden',
             whiteSpace: 'nowrap',
             minWidth: 0,
@@ -328,6 +328,8 @@ export const MembersTable = ({
     [view, perPage, page]
   );
 
+  const isAdmin = isUserAdmin(me);
+
   const UserName = ({ user }: { user: IUser }) => {
     return (
       <Box
@@ -407,16 +409,18 @@ export const MembersTable = ({
               >
                 {renderLabel('Name', order, 'name')}
               </Table.HeaderCell>
-              <Table.HeaderCell
-                clickable
-                onClick={() =>
-                  updateOrder('address', (a: string, b: string) => {
-                    return englishCollator.compare(a, b);
-                  })
-                }
-              >
-                {renderLabel('ETH Wallet', order, 'address')}
-              </Table.HeaderCell>
+              {isAdmin && (
+                <Table.HeaderCell
+                  clickable
+                  onClick={() =>
+                    updateOrder('address', (a: string, b: string) => {
+                      return englishCollator.compare(a, b);
+                    })
+                  }
+                >
+                  {renderLabel('ETH Wallet', order, 'address')}
+                </Table.HeaderCell>
+              )}
               <Table.HeaderCell
                 clickable
                 onClick={() => updateOrder('non_giver')}
@@ -459,7 +463,7 @@ export const MembersTable = ({
                   </>
                 )}
               </Table.HeaderCell>
-              {isUserAdmin(me) && (
+              {isAdmin && (
                 <>
                   <Table.HeaderCell
                     clickable
@@ -529,8 +533,9 @@ export const MembersTable = ({
                     <Table.Cell area="wide" align="left">
                       <UserName user={u} />
                     </Table.Cell>
-
-                    <Table.Cell>{shortenAddress(u.address)}</Table.Cell>
+                    {isAdmin && (
+                      <Table.Cell>{shortenAddress(u.address)}</Table.Cell>
+                    )}
 
                     <Table.Cell>
                       {!u.non_giver ? (
@@ -557,7 +562,7 @@ export const MembersTable = ({
                         <X color="alert" />
                       )}
                     </Table.Cell>
-                    {isUserAdmin(me) && (
+                    {isAdmin && (
                       <>
                         <Table.Cell>
                           {!u.non_giver ||

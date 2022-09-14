@@ -29,7 +29,6 @@ import IntegrationCallbackPage from 'pages/IntegrationCallbackPage';
 import ProfilePage from 'pages/ProfilePage';
 import VaultsPage from 'pages/VaultsPage';
 import { VaultTransactions } from 'pages/VaultsPage/VaultTransactions';
-import VouchingPage from 'pages/VouchingPage';
 
 import { paths } from './paths';
 const log = debug('routes');
@@ -50,7 +49,6 @@ export const AppRoutes = () => {
         <Route path="epoch" element={allocationPage} />
         <Route path="give" element={allocationPage} />
         <Route path="map" element={<LazyAssetMapPage />} />
-        <Route path="vouching" element={<VouchingPage />} />
         <Route path="members" element={<AdminPage />} />
         <Route path="members/add" element={<AdminRouteHandler />}>
           <Route path="" element={<AddMembersPage />} />
