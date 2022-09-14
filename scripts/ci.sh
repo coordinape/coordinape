@@ -33,12 +33,12 @@ else
 fi
 
 export NODE_HASURA_URL=http://localhost:"$CI_HASURA_PORT"/v1/graphql
-VERCEL_CMD=(yarn start -p "$CI_VERCEL_PORT")
+WEB_CMD=(yarn start -p "$CI_WEB_PORT")
 
-"${VERCEL_CMD[@]}" 2>&1 & VERCEL_PID=$!
+"${WEB_CMD[@]}" 2>&1 & WEB_PID=$!
 
-# Kill Hasura & Vercel when this script exits
-trap 'unset CI; kill $VERCEL_PID; docker compose --profile ci -p coordinape-ci down -v || true' EXIT
+# Kill Hasura & web server when this script exits
+trap 'unset CI; kill $WEB_PID; docker compose --profile ci -p coordinape-ci down -v || true' EXIT
 
 sleep 5
 until curl -s -o/dev/null http://localhost:"$CI_HASURA_PORT"; do
@@ -49,9 +49,9 @@ until curl -s -o/dev/null http://localhost:"$CI_HASURA_PORT"; do
   fi
 done
 
-until curl -s -o/dev/null http://localhost:"$CI_VERCEL_PORT"; do
+until curl -s -o/dev/null http://localhost:"$CI_WEB_PORT"; do
   sleep 1
-  if [ -z "$(ps -p $VERCEL_PID -o pid=)" ]; then
+  if [ -z "$(ps -p $WEB_PID -o pid=)" ]; then
     echo "Vercel failed to start up."
     exit 1
   fi
