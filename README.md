@@ -21,10 +21,7 @@ Stack: **React**, **Hasura** graphql server & **vercel** serverless functions
 - `yarn docker:start` - Start **Hasura** and **postgres**
   - Clear the data stored in the docker volumes: `yarn docker:clean`
 - `yarn db-seed-fresh` - Seed the db w/ dummy data
-- `vercel dev`
-  - If you're creating a new Vercel project, use these custom settings in Vercel:
-    - Build Command: `./scripts/link_hardhat.sh && yarn build`
-    - Development Command: `yarn dev`
+- `yarn start`
   - Runs React and the serverless functions in `api/`
 - Go to http://localhost:3000 and start giving!
 

@@ -10,7 +10,6 @@ esac; shift; done
 
 PROXY_PORT=3999
 
-
 BROWSER=none PORT=$PROXY_PORT yarn craco start & CRACO_PID=$!
 
 trap 'kill $CRACO_PID' EXIT
@@ -23,6 +22,4 @@ until curl -s -o/dev/null http://localhost:$PROXY_PORT; do
   fi
 done
 
-echo "vercel has started"
 yarn exec nodemon scripts/serve_dev.ts $PORT $PROXY_PORT
- # kill $CRACO_PID
