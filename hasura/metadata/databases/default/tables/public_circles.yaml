@@ -36,6 +36,13 @@ array_relationships:
         table:
           schema: public
           name: circle_metadata
+  - name: contributions
+    using:
+      foreign_key_constraint_on:
+        column: circle_id
+        table:
+          schema: public
+          name: contributions
   - name: epochs
     using:
       manual_configuration:
