@@ -1,44 +1,44 @@
 table:
-  name: user_private
   schema: public
+  name: user_private
 object_relationships:
-- name: circle
-  using:
-    manual_configuration:
-      column_mapping:
-        circle_id: id
-      insertion_order: null
-      remote_table:
-        name: circles
-        schema: public
-- name: user
-  using:
-    manual_configuration:
-      column_mapping:
-        user_id: id
-      insertion_order: null
-      remote_table:
-        name: users
-        schema: public
+  - name: circle
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: circles
+        insertion_order: null
+        column_mapping:
+          circle_id: id
+  - name: user
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: users
+        insertion_order: null
+        column_mapping:
+          user_id: id
 select_permissions:
-- permission:
-    allow_aggregations: true
-    columns:
-    - user_id
-    - fixed_payment_token_type
-    - fixed_payment_amount
-    filter:
-      _or:
-      - circle:
-          users:
-            _and:
-            - role:
-                _eq: 1
-            - profile:
+  - role: user
+    permission:
+      columns:
+        - user_id
+        - fixed_payment_token_type
+        - fixed_payment_amount
+      filter:
+        _or:
+          - circle:
+              users:
+                _and:
+                  - role:
+                      _eq: 1
+                  - profile:
+                      id:
+                        _eq: X-Hasura-User-Id
+          - user:
+              profile:
                 id:
                   _eq: X-Hasura-User-Id
-      - user:
-          profile:
-            id:
-              _eq: X-Hasura-User-Id
-  role: user
+      allow_aggregations: true

@@ -1,41 +1,41 @@
 table:
-  name: vaults
   schema: public
+  name: vaults
 object_relationships:
-- name: profile
-  using:
-    foreign_key_constraint_on: created_by
-- name: protocol
-  using:
-    foreign_key_constraint_on: org_id
+  - name: profile
+    using:
+      foreign_key_constraint_on: created_by
+  - name: protocol
+    using:
+      foreign_key_constraint_on: org_id
 array_relationships:
-- name: distributions
-  using:
-    foreign_key_constraint_on:
-      column: vault_id
-      table:
-        name: distributions
-        schema: public
-- name: vault_transactions
-  using:
-    foreign_key_constraint_on:
-      column: vault_id
-      table:
-        name: vault_transactions
-        schema: public
+  - name: distributions
+    using:
+      foreign_key_constraint_on:
+        column: vault_id
+        table:
+          schema: public
+          name: distributions
+  - name: vault_transactions
+    using:
+      foreign_key_constraint_on:
+        column: vault_id
+        table:
+          schema: public
+          name: vault_transactions
 select_permissions:
-- permission:
-    columns:
-    - chain_id
-    - created_at
-    - created_by
-    - decimals
-    - deployment_block
-    - id
-    - simple_token_address
-    - symbol
-    - token_address
-    - updated_at
-    - vault_address
-    filter: {}
-  role: user
+  - role: user
+    permission:
+      columns:
+        - chain_id
+        - created_at
+        - created_by
+        - decimals
+        - deployment_block
+        - id
+        - simple_token_address
+        - symbol
+        - token_address
+        - updated_at
+        - vault_address
+      filter: {}

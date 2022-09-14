@@ -1,7 +1,7 @@
 table:
-  name: circle_metadata
   schema: public
+  name: circle_metadata
 object_relationships:
-- name: circle
-  using:
-    foreign_key_constraint_on: circle_id
+  - name: circle
+    using:
+      foreign_key_constraint_on: circle_id
