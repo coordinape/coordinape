@@ -63,6 +63,11 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       return;
     }
   }
+
+  res.status(200).json({
+    message: `contribution #${id} is already attached to epoch ${epoch_id}`,
+  });
+  return;
 }
 
 export default verifyHasuraRequestMiddleware(handler);
