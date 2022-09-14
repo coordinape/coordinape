@@ -205,7 +205,7 @@
     "ethereumjs-wallet": "1.0.2",
     "execa": "6.0.0",
     "figma-api": "1.9.2",
-    "hasura-cli": "2.2.0",
+    "hasura-cli": "2.10.1",
     "http-browserify": "1.7.0",
     "https-browserify": "1.0.0",
     "husky": "4.3.8",

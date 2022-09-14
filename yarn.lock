@@ -13422,10 +13422,10 @@ hastscript@^6.0.0:
     property-information "^5.0.0"
     space-separated-tokens "^1.0.0"
 
-hasura-cli@2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/hasura-cli/-/hasura-cli-2.2.0.tgz#f850823ae07c6e5efbab078e9bcd0f31a2bbc8d7"
-  integrity sha512-lBpEt94CkaLbn0iqWx9TNnnuET9prz067gKUuTzm3y8PtRw1T1dZV8t/tfAZRRG/WNGNFp1d0UWs/fpwO3aJdA==
+hasura-cli@2.10.1:
+  version "2.10.1"
+  resolved "https://registry.yarnpkg.com/hasura-cli/-/hasura-cli-2.10.1.tgz#c1fe1f94ad7a46c34373a3c49922f4e0b9c490cf"
+  integrity sha512-i7vYumh0jEpHut/TlpoPUX4glfuw1wImdHUjhtBCdDUloWqi4B03MsiLjqs66aleILzsNFP7VhCkJHOVNf417Q==
   dependencies:
     axios "^0.21.1"
     chalk "^2.4.2"
