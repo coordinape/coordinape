@@ -1,13 +1,12 @@
 import React, { useState, useMemo, useEffect } from 'react';
 
-import { Pencil1Icon } from '@radix-ui/react-icons';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
 import { ActionDialog } from 'components';
 import { useApiAdminCircle } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
-import { Increase } from 'icons/__generated';
+import { Settings, PlusCircle } from 'icons/__generated';
 import { getCircleSettings } from 'pages/CircleAdminPage/getCircleSettings';
 import { useSelectedCircle } from 'recoilState/app';
 import { NEW_CIRCLE_CREATED_PARAMS, paths } from 'routes/paths';
@@ -92,7 +91,7 @@ const AdminPage = () => {
             >
               <AppLink to={paths.circleAdmin(circleId)}>
                 <Button color="primary" outlined css={{ minWidth: '180px' }}>
-                  <Pencil1Icon />
+                  <Settings />
                   Settings
                 </Button>
               </AppLink>
@@ -105,7 +104,7 @@ const AdminPage = () => {
                 onClick={() => navigate(paths.createCircle)}
                 css={{ minWidth: '180px' }}
               >
-                <Increase />
+                <PlusCircle />
                 Add Circle
               </Button>
             </Flex>

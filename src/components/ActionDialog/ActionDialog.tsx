@@ -8,7 +8,7 @@ import {
   DialogContent,
 } from '@material-ui/core';
 
-import { Close } from 'icons/__generated';
+import { X } from 'icons/__generated';
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -90,7 +90,7 @@ export const ActionDialog = ({
             onClick={onClose}
             aria-label="close"
           >
-            <Close />
+            <X />
           </IconButton>
         )}
         {title && <h3 className={classes.title}>{title}</h3>}

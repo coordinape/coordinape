@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 
-import { Cross1Icon, Share2Icon, Pencil1Icon } from '@radix-ui/react-icons';
-
 import { makeStyles, Button, ButtonGroup } from '@material-ui/core';
+
+import { X, Share, Edit3 } from 'icons/__generated';
 
 const useStyles = makeStyles(theme => ({
   smallButton: {
@@ -62,7 +62,7 @@ export const FormFileUpload = ({
         {hasChanged && !!commit && (
           <Button
             onClick={onSave}
-            startIcon={<Share2Icon />}
+            startIcon={<Share />}
             size="small"
             className={buttonClass}
           >
@@ -78,7 +78,7 @@ export const FormFileUpload = ({
                 fileInput.current.value = '';
               }
             }}
-            startIcon={<Cross1Icon />}
+            startIcon={<X />}
             size="small"
             className={buttonClass}
           />
@@ -86,7 +86,7 @@ export const FormFileUpload = ({
         {!hasChanged && (
           <Button
             onClick={() => fileInput.current?.click?.()}
-            startIcon={<Pencil1Icon />}
+            startIcon={<Edit3 />}
             size="small"
             className={buttonClass}
           >

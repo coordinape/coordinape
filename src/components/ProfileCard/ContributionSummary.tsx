@@ -3,8 +3,7 @@ import { FC } from 'react';
 import { makeStyles, Typography } from '@material-ui/core';
 
 import { ContributionUser } from 'hooks/useContributions';
-import { DeworkLogo } from 'icons';
-import { ArrowRight } from 'icons/__generated';
+import { ArrowRight, DeworkColor } from 'icons/__generated';
 
 interface Props {
   contributions: ContributionUser;
@@ -69,7 +68,7 @@ export const ContributionSummary: FC<Props> = ({ contributions }) => {
           rel="noreferrer"
           className={classes.row}
         >
-          <DeworkLogo size="md" />
+          <DeworkColor nostroke />
           <Typography variant="body2" className={classes.rowTitle}>
             {contribution.title}
           </Typography>

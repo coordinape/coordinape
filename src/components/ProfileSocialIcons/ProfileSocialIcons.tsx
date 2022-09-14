@@ -1,7 +1,11 @@
-import { Link2Icon } from '@radix-ui/react-icons';
-
-import { DeprecatedMediumIcon } from 'icons';
-import { Discord, Github, Telegram, Twitter } from 'icons/__generated';
+import {
+  Discord,
+  Github,
+  Link as LinkIcon,
+  Medium,
+  Telegram,
+  Twitter,
+} from 'icons/__generated';
 import { Link, Flex } from 'ui';
 
 import { IApiProfile } from 'types';
@@ -15,7 +19,7 @@ export const ProfileSocialIcons = ({ profile }: { profile: IApiProfile }) => {
           href={`https://twitter.com/${profile.twitter_username}`}
           target="_blank"
         >
-          <Twitter />
+          <Twitter nostroke />
         </Link>
       )}
       {profile.github_username && (
@@ -24,7 +28,7 @@ export const ProfileSocialIcons = ({ profile }: { profile: IApiProfile }) => {
           href={`https://github.com/${profile.github_username}`}
           target="_blank"
         >
-          <Github />
+          <Github nostroke />
         </Link>
       )}
       {profile.telegram_username && (
@@ -33,7 +37,7 @@ export const ProfileSocialIcons = ({ profile }: { profile: IApiProfile }) => {
           href={`https://t.me/${profile.telegram_username}`}
           target="_blank"
         >
-          <Telegram />
+          <Telegram nostroke />
         </Link>
       )}
       {profile.discord_username && (
@@ -42,7 +46,7 @@ export const ProfileSocialIcons = ({ profile }: { profile: IApiProfile }) => {
           target="_blank"
           color="neutral"
         >
-          <Discord />
+          <Discord nostroke />
         </Link>
       )}
       {profile.medium_username && (
@@ -51,12 +55,12 @@ export const ProfileSocialIcons = ({ profile }: { profile: IApiProfile }) => {
           href={`https://${profile.medium_username}.medium.com`}
           target="_blank"
         >
-          <DeprecatedMediumIcon />
+          <Medium nostroke />
         </Link>
       )}
       {profile.website && (
         <Link color="neutral" href={profile.website} target="_blank">
-          <Link2Icon />
+          <LinkIcon />
         </Link>
       )}
     </Flex>

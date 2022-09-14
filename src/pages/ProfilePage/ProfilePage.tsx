@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 
-import { Pencil1Icon } from '@radix-ui/react-icons';
 import { transparentize } from 'polished';
 import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
@@ -17,6 +16,7 @@ import {
 import { USER_ROLE_COORDINAPE } from 'config/constants';
 import { useImageUploader, useApiWithProfile, useApeSnackbar } from 'hooks';
 import { useSomeCircleId } from 'hooks/migration';
+import { Edit3 } from 'icons/__generated';
 import { useMyProfile, useProfile } from 'recoilState/app';
 import { useSetEditProfileOpen } from 'recoilState/ui';
 import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE, paths } from 'routes/paths';
@@ -286,7 +286,7 @@ const ProfilePageContent = ({
                 variant="outlined"
                 color="default"
                 size="small"
-                startIcon={<Pencil1Icon />}
+                startIcon={<Edit3 />}
                 onClick={() => setEditProfileOpen(true)}
               >
                 Edit Profile

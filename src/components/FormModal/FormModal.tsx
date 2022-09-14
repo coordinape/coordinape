@@ -11,7 +11,7 @@ import clsx from 'clsx';
 
 import { Modal, makeStyles, IconButton } from '@material-ui/core';
 
-import { Close } from 'icons/__generated';
+import { X } from 'icons/__generated';
 import { Button } from 'ui';
 
 const useStyles = makeStyles(theme => ({
@@ -123,7 +123,7 @@ export const FormModal = ({
           onClick={onClose}
           aria-label="close"
         >
-          <Close />
+          <X size="lg" />
         </IconButton>
         {!!title && <h3 className={classes.title}>{title}</h3>}
         {!!subtitle && <h4 className={classes.subtitle}>{subtitle}</h4>}

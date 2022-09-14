@@ -20,9 +20,9 @@ export const SvgIcon = styled('svg', {
   verticalAlign: 'middle',
   width: '$$size',
   height: '$$size',
-  '& path': {
+  '& path, & g, & circle, & rect': {
     stroke: '$$color',
-    fill: '$$color',
+    // fill: '$$color',
   },
   variants: {
     color: {
@@ -31,7 +31,17 @@ export const SvgIcon = styled('svg', {
       },
       ...colorVariants,
     },
+    nostroke: {
+      true: {
+        '& path, & g, & circle, & rect': {
+          stroke: 'none',
+        },
+      },
+    },
     size: {
+      inherit: {
+        $$size: 'auto',
+      },
       xs: {
         $$size: '10px',
       },

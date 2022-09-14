@@ -58,8 +58,12 @@ export const ApeInfoTooltip = ({
     <>
       {isMobile ? (
         <div>
-          <Link color="neutral" onClick={handleTooltipOpen}>
-            <Info />
+          <Link
+            css={{ display: 'inline-flex', alignItems: 'center' }}
+            color="neutral"
+            onClick={handleTooltipOpen}
+          >
+            <Info size="sm" />
           </Link>
           <ActionDialog open={openTooltip} onClose={handleTooltipClose}>
             {children}
@@ -81,8 +85,12 @@ export const ApeInfoTooltip = ({
           {props.component ? (
             <span>{props.component}</span>
           ) : (
-            <Link color="neutral" className={className}>
-              <Info />
+            <Link
+              css={{ display: 'inline-flex', alignItems: 'center' }}
+              color="neutral"
+              className={className}
+            >
+              <Info size="sm" />
             </Link>
           )}
         </Tooltip>

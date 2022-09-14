@@ -2,7 +2,7 @@ import { DateTime } from 'luxon';
 import { NavLink } from 'react-router-dom';
 import { CSS } from 'stitches.config';
 
-import { Badge, Increase } from 'icons/__generated';
+import { Award, PlusCircle } from 'icons/__generated';
 import { paths } from 'routes/paths';
 import { Box, Panel, Text, Button, Flex } from 'ui';
 
@@ -74,7 +74,7 @@ export const CurrentEpochPanel = ({
         >
           {vouching && (
             <Minicard
-              icon={<Badge />}
+              icon={<Award />}
               title="Nominations"
               alert={nominees > 0}
               content={
@@ -87,7 +87,7 @@ export const CurrentEpochPanel = ({
             />
           )}
           <Minicard
-            icon={<Increase />}
+            icon={<PlusCircle />}
             title="Allocations"
             alert={unallocated > 0}
             content={

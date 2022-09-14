@@ -4,8 +4,7 @@ import * as mutations from 'lib/gql/mutations';
 
 import { ActionDialog } from 'components';
 import { useCurrentCircleIntegrations } from 'hooks/gql/useCurrentCircleIntegrations';
-import { DeworkIcon, DeworkLogo, ParcelIcon } from 'icons';
-import { Trash } from 'icons/__generated';
+import { Dework, DeworkColor, Parcel, Trash2 } from 'icons/__generated';
 import { paths } from 'routes/paths';
 import { Flex, Button, Text, HR } from 'ui';
 
@@ -56,7 +55,7 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
               }}
             >
               <Text>
-                <DeworkLogo size="md" css={{ mr: '$xs' }} />
+                <DeworkColor css={{ mr: '$xs' }} />
                 <Text>{integration.name}</Text>
               </Text>
               <Button
@@ -65,7 +64,7 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
                 size="small"
                 color="textOnly"
               >
-                <Trash size="md" color="inherit" />
+                <Trash2 size="md" color="inherit" />
               </Button>
             </Flex>
           ))}
@@ -77,7 +76,7 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
           href={`https://app.dework.xyz/apps/install/coordinape?redirect=${redirectUri()}`}
         >
           <Flex css={{ mr: '$sm' }}>
-            <DeworkIcon size="md" />
+            <Dework nostroke />
           </Flex>
           Add Dework Connection
         </Button>
@@ -96,7 +95,7 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
           }
         >
           <Flex css={{ mr: '$sm' }}>
-            <ParcelIcon size="md" />
+            <Parcel />
           </Flex>
           Pay with Parcel
         </Button>

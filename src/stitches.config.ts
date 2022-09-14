@@ -292,10 +292,6 @@ export const globalStyles = globalCss({
     verticalAlign: 'middle',
     maxWidth: '100%',
   },
-  'svg:not(.MuiCircularProgress-svg)': {
-    height: '1em',
-    width: '1em',
-  },
 });
 
 export type CSS = Stitches.CSS<typeof config>;

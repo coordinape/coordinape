@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 
 import { ApeInfoTooltip } from 'components';
-import { CheckedRadio, UnCheckedRadio } from 'icons';
+import { CheckedRadio, UnCheckedRadio } from 'icons/__generated';
 import { Text } from 'ui';
 
 const useStyles = makeStyles<Theme, { variant: string }>(theme => ({

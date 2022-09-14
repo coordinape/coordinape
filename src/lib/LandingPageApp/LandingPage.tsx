@@ -26,8 +26,7 @@ import Splash from 'assets/svgs/landing-page/splash.svg';
 import SushiswapLogo from 'assets/svgs/landing-page/sushiswap-logo.svg';
 import YearnLogo from 'assets/svgs/landing-page/yearn-logo.svg';
 import { CoordinapeLogo } from 'components';
-import { DeprecatedMediumIcon } from 'icons';
-import { Discord, Document, Twitter } from 'icons/__generated';
+import { Discord, FileText, Medium, Twitter } from 'icons/__generated';
 import {
   EXTERNAL_URL_DOCS,
   EXTERNAL_URL_TWITTER,
@@ -583,7 +582,7 @@ const LandingPage = () => {
       </div>
       <div className={classes.footer}>
         <a href={EXTERNAL_URL_DOCS} rel="noreferrer" target="_blank">
-          <Button startIcon={<Document />} className={classes.footerLink}>
+          <Button startIcon={<FileText />} className={classes.footerLink}>
             Docs
           </Button>
         </a>
@@ -598,10 +597,7 @@ const LandingPage = () => {
           </Button>
         </a>
         <a href={EXTERNAL_URL_MEDIUM_ARTICLE} rel="noreferrer" target="_blank">
-          <Button
-            startIcon={<DeprecatedMediumIcon />}
-            className={classes.footerLink}
-          >
+          <Button startIcon={<Medium />} className={classes.footerLink}>
             Medium
           </Button>
         </a>
