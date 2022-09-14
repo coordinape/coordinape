@@ -93,15 +93,12 @@
     "cy:run": "yarn test:ci --cypress-only",
     "start": "./scripts/serve.sh",
     "build": "craco build",
-    "build:local": "craco  --max_old_space_size=4096 build",
-    "build:gzip": "craco build && gzipper --verbose ./build",
     "hardhat:dev": "yarn --cwd hardhat dev",
     "hardhat:ganache": "./hardhat/scripts/start-ganache.sh",
     "hardhat:test": "yarn --cwd hardhat test",
     "test": "yarn hardhat:ganache --exec craco test --runInBand",
     "test:ci": "yarn hardhat:ganache --exec ./scripts/ci.sh",
     "eject": "craco eject",
-    "format:staged": "lint-staged",
     "lint": "eslint",
     "lint:check": "eslint \"{api,api-lib,cypress,hasura,src}/**/*.{js,ts,tsx,graphql}\"",
     "lint:fix": "yarn lint:check --fix",
@@ -114,8 +111,7 @@
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
     "figma-colors": "ts-node ./scripts/update_figma_colors.ts",
-    "figma-icons": "./scripts/update_figma_icons.sh",
-    "vercel:dev": "vercel dev"
+    "figma-icons": "./scripts/update_figma_icons.sh"
   },
   "lint-staged": {
     "{api,api-lib,hasura,src}/**/*.{js,ts,tsx,graphql}": [

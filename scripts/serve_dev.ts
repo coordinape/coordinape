@@ -3,6 +3,10 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 
 import actionManager from '../api/hasura/actions/actionManager';
 import auth from '../api/hasura/auth';
+import checkNominee from '../api/hasura/cron/checkNominee';
+import dailyUpdate from '../api/hasura/cron/dailyUpdate';
+import epochs from '../api/hasura/cron/epochs';
+import recoverTransactions from '../api/hasura/cron/recoverTransactions';
 import eventManager from '../api/hasura/event_triggers/eventManager';
 import login from '../api/login';
 import time from '../api/time';
@@ -16,46 +20,32 @@ const proxyPort = process.argv[3];
 // express passes requests through the routes in the order
 // that they are instantiated.
 // We want the root to fall back to the proxy and not
-// override any of the above routes
+// override any of the routes before it
 
-// we could technically pass requests directly into these handlers
-// but they are typed to only accept VercelRequest and VercelResponse types
-// and it doesn't seem worthwhile to sort that typing disparity with the
-// Express types out at the moment
-app.get('/api/time', (req: any, res: any) => {
-  return time(req, res);
-});
+// handlers are typed to only accept VercelRequest and VercelResponse
+// so we shim them with this (tf = "type fudge")
+const tf = (handler: any) => (req: any, res: any) => handler(req, res);
 
-app.post('/api/login', (req: any, res: any) => {
-  return login(req, res);
-});
-
-app.get('/api/hasura/auth', (req: any, res: any) => {
-  return auth(req, res);
-});
-
-app.post('/api/hasura/actions/actionManager', (req: any, res: any) => {
-  return actionManager(req, res);
-});
-
-app.post('/api/hasura/event_triggers/eventManager', (req: any, res: any) => {
-  return eventManager(req, res);
-});
-
-// TODO implement routing for cron handlers, which are disabled by default in
-// the dev environment
+app.get('/api/hasura/auth', tf(auth));
+app.post('/api/hasura/actions/actionManager', tf(actionManager));
+app.post('/api/hasura/event_triggers/eventManager', tf(eventManager));
+app.post('/api/hasura/cron/checkNominee', tf(checkNominee));
+app.post('/api/hasura/cron/dailyUpdate', tf(dailyUpdate));
+app.post('/api/hasura/cron/epochs', tf(epochs));
+app.post('/api/hasura/cron/recoverTransactions', tf(recoverTransactions));
+app.post('/api/login', tf(login));
+app.get('/api/time', tf(time));
 
 // return empty analytics code
 app.get('/stats/js/script.js', (req, res) => {
   return res.format({ 'application/javascript': () => res.send('') });
 });
 
-const proxy = createProxyMiddleware({
-  target: `http://localhost:${proxyPort}`,
-});
-
-app.use('/', proxy);
+app.use(
+  '/',
+  createProxyMiddleware({ target: `http://localhost:${proxyPort}` })
+);
 
 app.listen(port, () => {
-  console.log(`Coordinape listening on port ${port}`);
+  console.log(`Listening on port ${port}`);
 });
