@@ -328,6 +328,11 @@ export const CircleAdminPage = () => {
         await updateCircleLogo(logoData.avatarRaw);
         setLogoData({ ...logoData, avatarRaw: null });
       }
+      let discordWebhookValue = data.discord_webhook;
+      if (!allowEdit) {
+        discordWebhookValue = await getDiscordWebhook();
+      }
+
       await updateCircle({
         circle_id: circleId,
         name: data.circle_name,
@@ -337,7 +342,7 @@ export const CircleAdminPage = () => {
         team_sel_text: data.team_sel_text,
         nomination_days_limit: data.nomination_days_limit,
         alloc_text: data.alloc_text,
-        discord_webhook: data.discord_webhook,
+        discord_webhook: discordWebhookValue,
         vouching_text: data.vouching_text,
         only_giver_vouch: data.only_giver_vouch,
         team_selection: data.team_selection,

@@ -2,6 +2,38 @@
 # yarn lockfile v1
 
 
+"@amplitude/identify@^1.10.1":
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/@amplitude/identify/-/identify-1.10.1.tgz#aca22e63937552d896a241bae0a3e75aa0677ae2"
+  integrity sha512-LFlieBqa4wJZaTK0lCR3GDt0cZmxG/l8F8IgAjF16axVyKc/b9SpyJ0CzWUwevtO4ijCDu4RiYcRzLyNHWwgpQ==
+  dependencies:
+    "@amplitude/types" "^1.10.1"
+    "@amplitude/utils" "^1.10.1"
+    tslib "^2.0.0"
+
+"@amplitude/node@^1.10.1":
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/@amplitude/node/-/node-1.10.1.tgz#9d75fea56e90189f2caf24588fa0444c2737e68b"
+  integrity sha512-lIeiWNd7rvpz846a0oeCMfytCsz3b4+gKR7PJ1Nxlo0gGmnKiajtlvR/iC1dPXtXwJ9EV+pMKHupazRv1KgIRg==
+  dependencies:
+    "@amplitude/identify" "^1.10.1"
+    "@amplitude/types" "^1.10.1"
+    "@amplitude/utils" "^1.10.1"
+    tslib "^2.0.0"
+
+"@amplitude/types@^1.10.1":
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/@amplitude/types/-/types-1.10.1.tgz#961553549cb7fc9c6dd8c105a3b6a5a562d8d701"
+  integrity sha512-g0dp8j3E8pFK55kjZSBGQeYlO7ckc4I2HBCyLsfXmcQ4S1eJfOF4fjJtCog9Dp+fs9EKRzyvh8WFbek9n7eF0w==
+
+"@amplitude/utils@^1.10.1":
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/@amplitude/utils/-/utils-1.10.1.tgz#57e3cb9d1127c74357eeb637595796bf8eb8864d"
+  integrity sha512-9i44OGG8M/KFz24ftxQrR5nAIWhZKVB1Ba9J6krBuaM54ejOSZH6W1IcNIBvxu54ZGWyhBJc6I18wVqSRs2IPA==
+  dependencies:
+    "@amplitude/types" "^1.10.1"
+    tslib "^2.0.0"
+
 "@apideck/better-ajv-errors@^0.2.4":
   version "0.2.6"
   resolved "https://registry.yarnpkg.com/@apideck/better-ajv-errors/-/better-ajv-errors-0.2.6.tgz#f12e5176a04c84caade85100fa33317a1457f372"
@@ -13857,7 +13889,7 @@ https-browserify@1.0.0, https-browserify@^1.0.0:
   resolved "https://registry.yarnpkg.com/https-browserify/-/https-browserify-1.0.0.tgz#ec06c10e0a34c0f2faf199f7fd7fc78fffd03c73"
   integrity sha1-7AbBDgo0wPL68Zn3/X/Hj//QPHM=
 
-https-proxy-agent@^5.0.0:
+https-proxy-agent@5.0.0, https-proxy-agent@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/https-proxy-agent/-/https-proxy-agent-5.0.0.tgz#e2a90542abb68a762e0a0850f6c9edadfd8506b2"
   integrity sha512-EkYm5BcKUGiduxzSt3Eppko+PiNWNEpa4ySk9vTC6wDsQJW9rHSa+UhGNJoRYp7bz6Ht1eaRIa6QaJqO5rCFbA==
@@ -16682,6 +16714,13 @@ mixin-deep@^1.2.0:
   dependencies:
     for-in "^1.0.2"
     is-extendable "^1.0.1"
+
+mixpanel@^0.17.0:
+  version "0.17.0"
+  resolved "https://registry.yarnpkg.com/mixpanel/-/mixpanel-0.17.0.tgz#ec57b068598c620cf039a5e504fb37c97ebfe8ce"
+  integrity sha512-DY5WeOy/hmkPrNiiZugJpWR0iMuOwuj1a3u0bgwB2eUFRV6oIew/pIahhpawdbNjb+Bye4a8ID3gefeNPvL81g==
+  dependencies:
+    https-proxy-agent "5.0.0"
 
 mkdirp-classic@^0.5.2, mkdirp-classic@^0.5.3:
   version "0.5.3"

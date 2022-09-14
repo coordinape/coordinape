@@ -223,5 +223,3 @@ export const NewNominationModal = ({
     </Modal>
   );
 };
-
-export default NewNominationModal;

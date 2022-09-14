@@ -261,5 +261,3 @@ export const NomineeCard = ({
     </div>
   );
 };
-
-export default NomineeCard;
