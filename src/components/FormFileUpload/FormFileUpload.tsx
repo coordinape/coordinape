@@ -86,7 +86,7 @@ export const FormFileUpload = ({
         {!hasChanged && (
           <Button
             onClick={() => fileInput.current?.click?.()}
-            startIcon={<Edit3 />}
+            startIcon={<Edit3 css={{ mr: '$xs' }} />}
             size="small"
             className={buttonClass}
           >

@@ -127,7 +127,7 @@ const AdminPage = () => {
             my: '$md',
           }}
           onChange={onChangeKeyword}
-          placeholder="🔍 Search"
+          placeholder="Search"
           value={keyword}
         />
 

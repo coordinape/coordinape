@@ -347,7 +347,7 @@ const AllocationTeam = ({
           <input
             className={classes.searchInput}
             onChange={onChangeKeyword}
-            placeholder="🔍 Search"
+            placeholder="Search"
             value={keyword}
           />
         </div>
