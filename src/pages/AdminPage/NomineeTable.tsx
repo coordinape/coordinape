@@ -156,7 +156,6 @@ const NomineeRow = ({
                     vouched for by{' '}
                     {nominee.nominations.length > 0
                       ? nominee.nominations.map((n, index) => {
-                          console.log(nominee.nominations.length);
                           return (
                             <Text key={n.voucher?.id}>
                               {(index
