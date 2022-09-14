@@ -29,7 +29,7 @@ context('Coordinape', () => {
     cy.contains('ETH Address').click();
 
     cy.get('[data-testid=new-members]').within(() => {
-      cy.get('input').eq(0).click().type('A Test User').blur();
+      cy.get('input').eq(0).click().type('A Test User');
       cy.get('input')
         .eq(1)
         .click()
