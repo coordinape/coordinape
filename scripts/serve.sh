@@ -1,14 +1,13 @@
 #!/bin/bash
 set -e
 while [[ "$#" -gt 0 ]]; do case $1 in
-  --port) PORT=$2;;
-  -p) PORT=$2;;
+  -p|--port) PORT=$2;;
   *) OTHERARGS+=("$1");;
 esac; shift; done
 
 [ -z "$PORT" ] && PORT=3000
 
-PROXY_PORT=3999
+PROXY_PORT=$(( $RANDOM % 900 + 3100 ))
 
 BROWSER=none PORT=$PROXY_PORT yarn craco start & CRACO_PID=$!
 
