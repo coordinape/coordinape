@@ -13,6 +13,8 @@ import refundGiveDiscord from '../../../api-lib/event_triggers/refundGiveDiscord
 import refundGiveTelegram from '../../../api-lib/event_triggers/refundGiveTelegram';
 import refundPendingGift from '../../../api-lib/event_triggers/refundPendingGift';
 import removeTeammate from '../../../api-lib/event_triggers/removeTeammate';
+import sendInteractionEventToAmplitude from '../../../api-lib/event_triggers/sendInteractionEventToAmplitude';
+import sendInteractionEventToMixpanel from '../../../api-lib/event_triggers/sendInteractionEventToMixpanel';
 import vouchDiscord from '../../../api-lib/event_triggers/vouchDiscord';
 import vouchTelegram from '../../../api-lib/event_triggers/vouchTelegram';
 import { GraphQLTypes } from '../../../api-lib/gql/__generated__/zeus';
@@ -27,6 +29,8 @@ const HANDLERS: HandlerDict = {
   createCircleCRM,
   createContribution,
   createVouchedUser,
+  sendInteractionEventToAmplitude,
+  sendInteractionEventToMixpanel,
   optOutDiscord,
   optOutTelegram,
   refundGiveTelegram,

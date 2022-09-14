@@ -11,6 +11,7 @@
 - "!include public_epoches.yaml"
 - "!include public_gift_private.yaml"
 - "!include public_histories.yaml"
+- "!include public_interaction_events.yaml"
 - "!include public_nominees.yaml"
 - "!include public_pending_gift_private.yaml"
 - "!include public_pending_token_gifts.yaml"
