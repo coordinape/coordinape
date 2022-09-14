@@ -11,20 +11,20 @@ const css = {
 };
 export const SvgFilter = (props: SvgIconProps) => (
   <SvgIcon
-    xmlns="http://www.w3.org/2000/svg"
-    width={24}
-    height={24}
+    width={16}
+    height={16}
     fill="none"
-    stroke="currentColor"
-    strokeWidth={2}
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="filter_svg__feather filter_svg__feather-filter"
+    xmlns="http://www.w3.org/2000/svg"
     css={{ ...css, ...(props.css ?? {}) }}
     viewBox="0 0 24 24"
     {...props}
   >
-    <path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z" />
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M.35 4A.65.65 0 0 1 1 3.35h14a.65.65 0 1 1 0 1.3H1A.65.65 0 0 1 .35 4Zm2.5 4a.65.65 0 0 1 .65-.65H13a.65.65 0 1 1 0 1.3H3.5A.65.65 0 0 1 2.85 8Zm2.5 4a.65.65 0 0 1 .65-.65h4.5a.65.65 0 1 1 0 1.3H6a.65.65 0 0 1-.65-.65Z"
+      fill="#B8BDBF"
+    />
   </SvgIcon>
 );
 export default SvgFilter;

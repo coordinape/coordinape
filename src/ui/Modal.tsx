@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { CSS, styled } from 'stitches.config';
 
-import X from 'icons/__generated/X';
+import { X } from 'icons/__generated';
 import { Button } from 'ui';
 
 const Overlay = styled(Dialog.Overlay, {

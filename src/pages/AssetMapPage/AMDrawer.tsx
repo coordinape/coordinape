@@ -3,11 +3,10 @@ import { useState, useMemo, useEffect } from 'react';
 import clsx from 'clsx';
 
 import { makeStyles, Button as MUButton } from '@material-ui/core';
-import SortIcon from '@material-ui/icons/Sort';
 
 import { Drawer, ApeAutocomplete } from 'components';
 import { SKILLS } from 'config/constants';
-import { Search, Collapse } from 'icons/__generated';
+import { Filter, Search, Collapse } from 'icons/__generated';
 import { useSelectedCircle } from 'recoilState/app';
 import {
   useMapMetric,
@@ -219,7 +218,7 @@ export const AMDrawer = () => {
               size="small"
               className={clsx(classes.rank, { [classes.rankOff]: !showRank })}
             >
-              <SortIcon />
+              <Filter size="lg" />
             </MUButton>
           )}
           <div className={classes.selectWrapper}>

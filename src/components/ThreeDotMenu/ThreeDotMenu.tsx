@@ -1,7 +1,8 @@
 import React from 'react';
 
 import { IconButton, Button, Popover, makeStyles } from '@material-ui/core';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+
+import { MoreHorizontal } from 'icons/__generated';
 
 const useStyles = makeStyles(theme => ({
   morePaper: {
@@ -40,7 +41,7 @@ export const ThreeDotMenu = ({ actions }: { actions: IAction[] }) => {
         size="small"
         onClick={({ currentTarget }) => setAnchorEl(currentTarget)}
       >
-        <MoreHorizIcon />
+        <MoreHorizontal />
       </IconButton>
       <Popover
         anchorEl={anchorEl}
