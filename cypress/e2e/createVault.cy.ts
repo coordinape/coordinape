@@ -42,7 +42,7 @@ context('Coordinape', () => {
       .type('5000');
     cy.contains('button', 'Deposit into').click();
     cy.contains('Transaction completed');
-    cy.contains('5000 USDC');
+    cy.contains('4999 USDC');
     // This takes extremely long time to render in the UI without a refresh
     cy.reload(true);
     cy.contains('Ended Epoch With Gifts', { timeout: 120000 }).click();
