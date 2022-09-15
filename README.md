@@ -68,7 +68,7 @@ Perhaps, the easiest way to get a feel is start the app and run `yarn hasura con
 
 - `yarn hasura console` to modify and explore the database
 - `yarn generate` after schema changes to codegen zeus & react-query libs
-  - Requires `vercel dev` to be running
+  - Requires `yarn start` to be running
 
 ### Updating migrations / metadata
 
