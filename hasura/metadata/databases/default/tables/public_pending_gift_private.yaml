@@ -1,40 +1,40 @@
 table:
-  name: pending_gift_private
   schema: public
+  name: pending_gift_private
 object_relationships:
-- name: recipient
-  using:
-    manual_configuration:
-      column_mapping:
-        recipient_id: id
-      insertion_order: null
-      remote_table:
-        name: users
-        schema: public
-- name: sender
-  using:
-    manual_configuration:
-      column_mapping:
-        sender_id: id
-      insertion_order: null
-      remote_table:
-        name: users
-        schema: public
+  - name: recipient
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: users
+        insertion_order: null
+        column_mapping:
+          recipient_id: id
+  - name: sender
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: users
+        insertion_order: null
+        column_mapping:
+          sender_id: id
 select_permissions:
-- permission:
-    columns:
-    - gift_id
-    - note
-    - recipient_id
-    - sender_id
-    filter:
-      _or:
-      - sender:
-          profile:
-            id:
-              _eq: X-Hasura-User-Id
-      - recipient:
-          profile:
-            id:
-              _eq: X-Hasura-User-Id
-  role: user
+  - role: user
+    permission:
+      columns:
+        - gift_id
+        - note
+        - recipient_id
+        - sender_id
+      filter:
+        _or:
+          - sender:
+              profile:
+                id:
+                  _eq: X-Hasura-User-Id
+          - recipient:
+              profile:
+                id:
+                  _eq: X-Hasura-User-Id
