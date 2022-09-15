@@ -2,8 +2,12 @@
 
 Those components are then placed in `/icons/__generated`
 
-Icons should be referenced in Figma Design Library, and utility icons can be added from Feather: https://feathericons.com/
+All icons should be referenced in Figma Design Library, and utility icons can be added from Feather: https://feathericons.com/ 
 
-Simply add the new needed Feather svg to the `feather/` and run `yarn update-icons`
+Feather icon export settings:
 
-Custom icons from our Figma can be added to `brands/` or `custom/`
+* Size: 24px
+* Stroke: 2px
+* Color: currentColor
+
+NOTE: Some icons, especially multi-color icons, will benefit from the prop: `nostroke`.  In an ideal world, all of our icons would use either fill OR stroke, but we're not there yet.  
