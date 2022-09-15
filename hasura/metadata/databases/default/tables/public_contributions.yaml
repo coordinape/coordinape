@@ -2,9 +2,9 @@ table:
   schema: public
   name: contributions
 object_relationships:
-  - name: epoch
+  - name: circle
     using:
-      foreign_key_constraint_on: epoch_id
+      foreign_key_constraint_on: circle_id
   - name: user
     using:
       foreign_key_constraint_on: user_id
@@ -12,57 +12,42 @@ insert_permissions:
   - role: user
     permission:
       check:
-        _and:
-          - user:
-              profile:
-                id:
-                  _eq: X-Hasura-User-Id
-          - _or:
-              - epoch_id:
-                  _is_null: true
-              - epoch:
-                  ended:
-                    _eq: false
-      columns:
-        - description
-        - epoch_id
-        - user_id
-      backend_only: false
+        user:
+          profile:
+            id:
+              _eq: X-Hasura-User-Id
+    columns:
+    - circle_id
+    - datetime_created
+    - description
+    backend_only: false
+    set:
+      user_id: x-hasura-User-Id
 select_permissions:
   - role: user
     permission:
       columns:
-        - id
-        - epoch_id
-        - user_id
-        - description
-        - deleted_at
-        - created_at
-        - updated_at
+      - circle_id
+      - created_at
+      - datetime_created
+      - description
+      - id
+      - updated_at
+      - user_id
       filter:
         user:
-          circle:
-            users:
-              profile:
-                id:
-                  _eq: X-Hasura-User-Id
-      allow_aggregations: true
+          profile:
+            id:
+              _eq: X-Hasura-User-Id
 update_permissions:
   - role: user
     permission:
-      columns:
-        - deleted_at
+        check: null
+        columns:
+        - datetime_created
         - description
-      filter:
-        _and:
-          - user:
+        filter:
+            user:
               profile:
                 id:
                   _eq: X-Hasura-User-Id
-          - _or:
-              - epoch_id:
-                  _is_null: true
-              - epoch:
-                  ended:
-                    _eq: false
-      check: null
