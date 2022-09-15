@@ -57,7 +57,7 @@ context('Coordinape', () => {
       .type('100');
     cy.contains('button', 'Withdraw from').click();
     cy.contains('Transaction completed');
-    cy.contains('4900 USDC');
+    cy.contains('4899 USDC');
     cy.reload(true);
     cy.contains('Ended Epoch With Gifts', { timeout: 120000 }).click();
     cy.get('table').contains('Withdraw');
