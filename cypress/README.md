@@ -2,8 +2,6 @@
 
 To get started locally:
 
-- Generate a vercel token using [this guide](https://vercel.com/support/articles/how-do-i-use-a-vercel-api-access-token)
-- In your `.env`, add your Vercel token to the key `CI_VERCEL_TOKEN`
 - run `yarn cy:dev`
 
 This will spin up the full stack and open the cypress development GUI. Click the integration test
@@ -29,8 +27,3 @@ test sequences and check out their [docs] and [api].
 
 [docs]: https://docs.cypress.io/guides/core-concepts/introduction-to-cypress#What-you-ll-learn
 [api]: https://docs.cypress.io/api/table-of-contents
-
-## Troubleshooting
-
-- `./scripts/ci.sh: line 48: 86189 Terminated: 15 "${VERCEL_CMD[@]}" 2>&1`
-  Try stopping your existing Docker containers and run the command again. You should be able to spin up your dev Docker environment afterwards normally by running `yarn docker:start`
