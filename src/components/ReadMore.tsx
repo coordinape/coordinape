@@ -2,7 +2,7 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/core';
 
-import { ApeInfoTooltip } from 'components/ApeInfoTooltip/ApeInfoTooltip';
+import { ApeInfoTooltip } from 'components/ApeInfoTooltip';
 
 interface ReadMoreProps {
   /** this property decide to hide the text and show the options see more or see less*/

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import iti from 'itiriri';
 import { DateTime } from 'luxon';
 
-import { ApeAvatar } from 'components';
+import { ApeAvatar } from 'components/index';
 import { useUserGifts } from 'recoilState/allocation';
 import { useSelectedCircle } from 'recoilState/app';
 import { paths } from 'routes/paths';

@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { LoadingModal, EditProfileModal } from 'components';
+import { LoadingModal, EditProfileModal } from 'components/index';
 import {
   rGlobalLoading,
   rGlobalLoadingText,

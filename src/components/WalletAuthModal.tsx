@@ -11,7 +11,7 @@ import {
   makeStyles,
 } from '@material-ui/core';
 
-import { Box, Button, Text } from '../../ui';
+import { Box, Button, Text } from '../ui';
 import { WALLET_ICONS } from 'config/constants';
 import { useApeSnackbar } from 'hooks';
 import { useWalletAuth } from 'recoilState/app';

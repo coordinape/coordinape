@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { DeprecatedApeTextField } from 'components';
+import { DeprecatedApeTextField } from 'components/index';
 
 export const DeprecatedFormTextField = ({
   value,

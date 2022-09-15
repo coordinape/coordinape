@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ApeAutocomplete } from 'components';
+import { ApeAutocomplete } from 'components/index';
 
 type Props = React.ComponentProps<typeof ApeAutocomplete> & {
   error?: boolean;

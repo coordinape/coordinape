@@ -3,8 +3,8 @@ import React from 'react';
 import { makeStyles, InputProps } from '@material-ui/core';
 import { Autocomplete, AutocompleteRenderInputParams } from '@material-ui/lab';
 
-import { DeprecatedApeTextFieldWithRef } from 'components';
-import type { DeprecatedApeTextField } from 'components';
+import { DeprecatedApeTextFieldWithRef } from 'components/index';
+import type { DeprecatedApeTextField } from 'components/index';
 
 const useStyles = makeStyles(theme => ({
   colorBlack: {
