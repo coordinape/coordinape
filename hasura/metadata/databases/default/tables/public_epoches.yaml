@@ -1,103 +1,103 @@
 table:
-  name: epoches
   schema: public
+  name: epoches
 configuration:
-  custom_column_names: {}
-  custom_name: epochs
   custom_root_fields: {}
+  custom_name: epochs
+  custom_column_names: {}
 object_relationships:
-- name: circle
-  using:
-    manual_configuration:
-      column_mapping:
-        circle_id: id
-      insertion_order: null
-      remote_table:
-        name: circles
-        schema: public
+  - name: circle
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: circles
+        insertion_order: null
+        column_mapping:
+          circle_id: id
 array_relationships:
-- name: burns
-  using:
-    foreign_key_constraint_on:
-      column: epoch_id
-      table:
-        name: burns
-        schema: public
-- name: distributions
-  using:
-    foreign_key_constraint_on:
-      column: epoch_id
-      table:
-        name: distributions
-        schema: public
-- name: epoch_pending_token_gifts
-  using:
-    manual_configuration:
-      column_mapping:
-        id: epoch_id
-      insertion_order: null
-      remote_table:
-        name: pending_token_gifts
-        schema: public
-- name: token_gifts
-  using:
-    foreign_key_constraint_on:
-      column: epoch_id
-      table:
-        name: token_gifts
-        schema: public
+  - name: burns
+    using:
+      foreign_key_constraint_on:
+        column: epoch_id
+        table:
+          schema: public
+          name: burns
+  - name: distributions
+    using:
+      foreign_key_constraint_on:
+        column: epoch_id
+        table:
+          schema: public
+          name: distributions
+  - name: epoch_pending_token_gifts
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: pending_token_gifts
+        insertion_order: null
+        column_mapping:
+          id: epoch_id
+  - name: token_gifts
+    using:
+      foreign_key_constraint_on:
+        column: epoch_id
+        table:
+          schema: public
+          name: token_gifts
 select_permissions:
-- permission:
-    columns:
-    - circle_id
-    - created_at
-    - days
-    - end_date
-    - ended
-    - grant
-    - id
-    - number
-    - regift_days
-    - repeat
-    - repeat_day_of_month
-    - start_date
-    - updated_at
-    filter:
-      circle:
-        api_keys:
-          _and:
-          - hash:
-              _eq: X-Hasura-Api-Key-Hash
-          - read_epochs:
-              _eq: true
-    limit: 10
-  role: api-user
-- permission:
-    columns:
-    - circle_id
-    - created_at
-    - days
-    - end_date
-    - ended
-    - grant
-    - id
-    - notified_before_end
-    - notified_end
-    - notified_start
-    - number
-    - repeat
-    - repeat_day_of_month
-    - start_date
-    - updated_at
-    filter:
-      circle:
-        organization:
-          circles:
-            users:
-              _and:
-              - profile:
-                  id:
-                    _eq: X-Hasura-User-Id
-              - deleted_at:
-                  _is_null: true
-  role: user
+  - role: api-user
+    permission:
+      columns:
+        - circle_id
+        - created_at
+        - days
+        - end_date
+        - ended
+        - grant
+        - id
+        - number
+        - regift_days
+        - repeat
+        - repeat_day_of_month
+        - start_date
+        - updated_at
+      filter:
+        circle:
+          api_keys:
+            _and:
+              - hash:
+                  _eq: X-Hasura-Api-Key-Hash
+              - read_epochs:
+                  _eq: true
+      limit: 10
+  - role: user
+    permission:
+      columns:
+        - circle_id
+        - created_at
+        - days
+        - end_date
+        - ended
+        - grant
+        - id
+        - notified_before_end
+        - notified_end
+        - notified_start
+        - number
+        - repeat
+        - repeat_day_of_month
+        - start_date
+        - updated_at
+      filter:
+        circle:
+          organization:
+            circles:
+              users:
+                _and:
+                  - profile:
+                      id:
+                        _eq: X-Hasura-User-Id
+                  - deleted_at:
+                      _is_null: true
