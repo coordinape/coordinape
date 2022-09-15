@@ -133,6 +133,22 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     const existingGift = pending_sent_gifts.find(
       g => g.recipient_id === gift.recipient_id
     );
+
+    ops['insertInteractionEvents'] = {
+      insert_interaction_events: [
+        {
+          objects: [
+            {
+              event_type: 'update_allocations',
+              profile_id: user?.id,
+              circle_id: circle_id,
+            },
+          ],
+        },
+        { __typename: true },
+      ],
+    };
+
     ops['updateUser' + gift.recipient_id] = {
       update_users_by_pk: [
         {
