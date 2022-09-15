@@ -135,5 +135,3 @@ export const VouchingPage = () => {
     </div>
   );
 };
-
-export default VouchingPage;

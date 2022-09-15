@@ -43,6 +43,7 @@ export const ReceiveInfo = () => {
     <Popover open={mouseEnterPopover}>
       <PopoverTrigger>
         <Button
+          as="a"
           size="small"
           color="surface"
           css={{ mr: '$sm' }}

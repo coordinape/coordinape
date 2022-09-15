@@ -10,6 +10,7 @@ import {
   hashTokenString,
 } from '../api-lib/authHelpers';
 import { adminClient } from '../api-lib/gql/adminClient';
+import { insertInteractionEvents } from '../api-lib/gql/mutations';
 import { errorResponse } from '../api-lib/HttpError';
 import { getProvider } from '../api-lib/provider';
 import { parseInput } from '../api-lib/signature';
@@ -88,16 +89,32 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (!profile) {
       const { insert_profiles_one } = await adminClient.mutate(
         {
-          insert_profiles_one: [{ object: { address: address } }, { id: true }],
+          insert_profiles_one: [
+            { object: { address: address } },
+            {
+              id: true,
+              users: [{}, { circle_id: true }],
+            },
+          ],
         },
         {
           operationName: 'login_insertProfile',
         }
       );
+      assert(insert_profiles_one, "panic: adding profile didn't succeed");
       profile = insert_profiles_one;
+      await insertInteractionEvents({
+        event_type: 'first_login',
+        profile_id: insert_profiles_one.id,
+        circle_id: insert_profiles_one.users?.[0]?.circle_id,
+        data: {
+          brandNew: insert_profiles_one.users
+            ? insert_profiles_one.users.length === 0
+            : true,
+        },
+      });
+      // if they have no users, this is a "clean signup"
     }
-    assert(profile, 'panic: profile must exist');
-
     const now = DateTime.now().toISO();
 
     const { insert_personal_access_tokens_one: token } =
@@ -128,6 +145,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
       );
 
+    await insertInteractionEvents({
+      event_type: 'login',
+      profile_id: profile.id,
+    });
     return res
       .status(200)
       .json({ token: formatAuthHeader(token?.id, tokenString) });

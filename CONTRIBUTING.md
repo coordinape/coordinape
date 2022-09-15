@@ -140,7 +140,7 @@ to pick.
 After the initial line, include a **description** of the change. Why is
 the change important? Did you consider and reject alternate formulations
 of the same idea? Are there relevant issues or discussions elsewhere? If
-any of these questions provides valuable information, answer it.
+any of these questions provide valuable information, answer it.
 Otherwise, feel free to leave it out—some changes really are
 self-documenting, and there’s no need to add a vacuous description.
 
@@ -204,7 +204,7 @@ terminals has bounded width, you can display more of them on a screen!)
 # Code Reviews
 
 ## Pull Requests
-We use Pull Requests in Github to collect a series of commits into one changeset that can be reviewed, tested, and merged into our `main` git branch.
+We use Pull Requests in GitHub to collect a series of commits into one changeset that can be reviewed, tested, and merged into our `main` git branch.
 Community open source contributors must make Pull Requests from their fork of the `coordinape` git repo into the main git repo, for security reasons. A code reviewer will then review the PR, and approve running our CI and Vercel pre-deployment checks against this changeset.
 
 
@@ -229,7 +229,7 @@ In this example, 34 commits are included in a PR from a git branch into the `mai
 ### PR Guidelines
 
 - A set of one or more commits should be grouped into a PR around one specific change.
-- Ideally, we have more, smaller PRs, which enables easier code reivew, and safer deployments. However, helper function refactors can be included in the same PR as the change that uses the helper function, for example.
+- Ideally, we have more, smaller PRs, which enables easier code review, and safer deployments. However, helper function refactors can be included in the same PR as the change that uses the helper function, for example.
 - The PRs description should clearly indicate what changes are happening, or link to the issue the PR addresses.
 - A PRs should include how to manually (and automatedly) test the feature changes of the PR.
 - PRs description should include images/videos of the change, if applicable.

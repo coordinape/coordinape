@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import clsx from 'clsx';
 import iti from 'itiriri';
@@ -231,29 +231,32 @@ const AllocationGive = ({
     }
   };
 
-  const updateLocalGift = (updatedGift: ISimpleGift): void => {
-    setLocalGifts(prevState => {
-      // This is to ensure it can't go negative in the UI
-      updatedGift.tokens = Math.max(0, updatedGift.tokens);
+  const updateLocalGift = useCallback(
+    (updatedGift: ISimpleGift): void => {
+      setLocalGifts(prevState => {
+        // This is to ensure it can't go negative in the UI
+        updatedGift.tokens = Math.max(0, updatedGift.tokens);
 
-      const idx = prevState.findIndex(g => g.user.id === updatedGift.user.id);
+        const idx = prevState.findIndex(g => g.user.id === updatedGift.user.id);
 
-      let updatedGifts;
-      if (idx === -1) {
-        updatedGifts = [...prevState, updatedGift];
-      } else {
-        updatedGifts = prevState.slice();
-        updatedGifts[idx] = updatedGift;
-      }
+        let updatedGifts;
+        if (idx === -1) {
+          updatedGifts = [...prevState, updatedGift];
+        } else {
+          updatedGifts = prevState.slice();
+          updatedGifts[idx] = updatedGift;
+        }
 
-      // prevent giving more than you have
-      const total = updatedGifts.reduce((t, g) => t + g.tokens, 0);
-      if (total > (myUser.non_giver ? 0 : myUser.starting_tokens))
-        return prevState;
+        // prevent giving more than you have
+        const total = updatedGifts.reduce((t, g) => t + g.tokens, 0);
+        if (total > (myUser.non_giver ? 0 : myUser.starting_tokens))
+          return prevState;
 
-      return updatedGifts;
-    });
-  };
+        return updatedGifts;
+      });
+    },
+    [setLocalGifts, myUser]
+  );
 
   const saveGifts = useRecoilLoadCatch(
     () => async () => {
@@ -395,9 +398,7 @@ const AllocationGive = ({
                 tokenName={myUser.circle.tokenName}
                 user={gift.user}
                 gift={gift}
-                setGift={(gift: ISimpleGift) => {
-                  updateLocalGift(gift);
-                }}
+                setGift={updateLocalGift}
               />
             ))}
         </div>

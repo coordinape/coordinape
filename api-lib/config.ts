@@ -67,3 +67,8 @@ export const GOERLI_RPC_URL: string = getEnvValue('GOERLI_RPC_URL');
 // This is only set to 'production' when deployed from main branch
 export const VERCEL_ENV: string = getEnvValue('VERCEL_ENV', 'development');
 export const IMAGE_DIR: string = getEnvValue('IMAGE_DIR', '');
+export const AMPLITUDE_API_KEY: string = getEnvValue('AMPLITUDE_API_KEY', '');
+export const MIXPANEL_PROJECT_TOKEN: string = getEnvValue(
+  'MIXPANEL_PROJECT_TOKEN',
+  ''
+);
