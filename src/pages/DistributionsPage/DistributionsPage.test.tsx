@@ -150,3 +150,34 @@ test('render with no allocations', async () => {
     screen.getAllByText('Yearn USDC')[0].closest('button[role="combobox"]')
   ).toBeDisabled();
 });
+
+test('render with no vaults', async () => {
+  (getEpochData as any).mockImplementation(() =>
+    Promise.resolve({
+      ...mockEpochData,
+      circle: {
+        name: mockEpoch.circle.name,
+        users: [{ role: 1 }],
+        fixed_payment_vault_id: null,
+        fixed_payment_token_type: null,
+        organization: {
+          vaults: [],
+        },
+      },
+    })
+  );
+
+  await act(async () => {
+    await render(
+      <TestWrapper withWeb3>
+        <DistributionsPage />
+      </TestWrapper>
+    );
+  });
+
+  await waitFor(() => {
+    expect(screen.getByText('Mock User 1')).toBeInTheDocument();
+  });
+
+  expect(screen.getByRole('textbox', { name: /amount/i })).not.toBeDisabled();
+});
