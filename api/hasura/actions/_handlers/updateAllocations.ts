@@ -218,7 +218,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           objects: [
             {
               event_type: 'update_allocations',
-              profile_id: user?.id,
+              profile_id: user.profile.id,
               circle_id: circle_id,
               data: { updated_notes: updatedNotes },
             },
