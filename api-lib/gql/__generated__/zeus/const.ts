@@ -2065,6 +2065,10 @@ export const AllTypesProps: Record<string, any> = {
     org_id: 'Int_comparison_exp',
     profile_id: 'Int_comparison_exp',
     updated_at: 'timestamptz_comparison_exp',
+<<<<<<< HEAD
+=======
+    user_id: 'Int_comparison_exp',
+>>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   },
   interaction_events_constraint: true,
   interaction_events_delete_at_path_input: {},
@@ -2091,6 +2095,10 @@ export const AllTypesProps: Record<string, any> = {
     org_id: 'order_by',
     profile_id: 'order_by',
     updated_at: 'order_by',
+<<<<<<< HEAD
+=======
+    user_id: 'order_by',
+>>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   },
   interaction_events_pk_columns_input: {},
   interaction_events_prepend_input: {
@@ -7098,6 +7106,10 @@ export const ReturnTypes: Record<string, any> = {
     org_id: 'Int',
     profile_id: 'Int',
     updated_at: 'timestamptz',
+<<<<<<< HEAD
+=======
+    user_id: 'Int',
+>>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   },
   interaction_events_aggregate: {
     aggregate: 'interaction_events_aggregate_fields',
@@ -7121,6 +7133,10 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Float',
     org_id: 'Float',
     profile_id: 'Float',
+<<<<<<< HEAD
+=======
+    user_id: 'Float',
+>>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   },
   interaction_events_max_fields: {
     circle_id: 'Int',
@@ -7131,6 +7147,10 @@ export const ReturnTypes: Record<string, any> = {
     org_id: 'Int',
     profile_id: 'Int',
     updated_at: 'timestamptz',
+<<<<<<< HEAD
+=======
+    user_id: 'Int',
+>>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   },
   interaction_events_min_fields: {
     circle_id: 'Int',
@@ -7141,6 +7161,10 @@ export const ReturnTypes: Record<string, any> = {
     org_id: 'Int',
     profile_id: 'Int',
     updated_at: 'timestamptz',
+<<<<<<< HEAD
+=======
+    user_id: 'Int',
+>>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   },
   interaction_events_mutation_response: {
     affected_rows: 'Int',
@@ -7151,42 +7175,70 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Float',
     org_id: 'Float',
     profile_id: 'Float',
+<<<<<<< HEAD
+=======
+    user_id: 'Float',
+>>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   },
   interaction_events_stddev_pop_fields: {
     circle_id: 'Float',
     id: 'Float',
     org_id: 'Float',
     profile_id: 'Float',
+<<<<<<< HEAD
+=======
+    user_id: 'Float',
+>>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   },
   interaction_events_stddev_samp_fields: {
     circle_id: 'Float',
     id: 'Float',
     org_id: 'Float',
     profile_id: 'Float',
+<<<<<<< HEAD
+=======
+    user_id: 'Float',
+>>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   },
   interaction_events_sum_fields: {
     circle_id: 'Int',
     id: 'Int',
     org_id: 'Int',
     profile_id: 'Int',
+<<<<<<< HEAD
+=======
+    user_id: 'Int',
+>>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   },
   interaction_events_var_pop_fields: {
     circle_id: 'Float',
     id: 'Float',
     org_id: 'Float',
     profile_id: 'Float',
+<<<<<<< HEAD
+=======
+    user_id: 'Float',
+>>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   },
   interaction_events_var_samp_fields: {
     circle_id: 'Float',
     id: 'Float',
     org_id: 'Float',
     profile_id: 'Float',
+<<<<<<< HEAD
+=======
+    user_id: 'Float',
+>>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   },
   interaction_events_variance_fields: {
     circle_id: 'Float',
     id: 'Float',
     org_id: 'Float',
     profile_id: 'Float',
+<<<<<<< HEAD
+=======
+    user_id: 'Float',
+>>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   },
   mutation_root: {
     adminUpdateUser: 'UserResponse',
