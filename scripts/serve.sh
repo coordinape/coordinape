@@ -9,7 +9,7 @@ esac; shift; done
 
 PROXY_PORT=$(( $RANDOM % 900 + 3100 ))
 
-BROWSER=none PORT=$PROXY_PORT yarn craco start & CRACO_PID=$!
+BROWSER=none PORT=$PROXY_PORT yarn craco start > /dev/null & CRACO_PID=$!
 
 trap 'kill $CRACO_PID' EXIT
 

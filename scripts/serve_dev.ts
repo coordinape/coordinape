@@ -43,9 +43,14 @@ app.get('/stats/js/script.js', (req, res) => {
 
 app.use(
   '/',
-  createProxyMiddleware({ target: `http://localhost:${proxyPort}` })
+  createProxyMiddleware({
+    target: `http://localhost:${proxyPort}`,
+    logLevel: 'warn',
+  })
 );
 
 app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
+  console.log(
+    `Listening on port ${port}\n\nHack away at http://localhost:${port}`
+  );
 });
