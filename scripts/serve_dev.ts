@@ -47,5 +47,8 @@ app.use(
 );
 
 app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
+  console.log(`==========================================================`);
+  console.log(`Development server has started successfully!`);
+  console.log(`Visit http://localhost:${port} to view the Coordinape app.`);
+  console.log(`==========================================================`);
 });
