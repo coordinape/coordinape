@@ -421,7 +421,11 @@ export function DistributionForm({
                     ? circleDist.gift_amount?.toString() || '0'
                     : amountField.value.toString()
                 }
-                disabled={shouldDisableGiftInput}
+                disabled={
+                  giftSubmitting ||
+                  totalGive === 0 ||
+                  (vaults.length > 0 && !!circleDist)
+                }
                 max={formatUnits(
                   maxGiftTokens,
                   getDecimals({
@@ -457,7 +461,7 @@ export function DistributionForm({
               {renderCombinedSum(formGiftAmount, totalFixedPayment)}{' '}
               {fpVault?.symbol}
             </Text>
-          ) : (
+          ) : vaults[0] ? (
             <Button
               color="primary"
               outlined
@@ -471,7 +475,7 @@ export function DistributionForm({
                 'gift'
               )}
             </Button>
-          )}
+          ) : null}
         </Flex>
       </form>
 
