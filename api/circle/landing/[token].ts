@@ -9,7 +9,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     let token: string | undefined;
     if (typeof req.query.token == 'string') {
       token = req.query.token;
-    } else {
+    } else if (Array.isArray(req.query.token)) {
       token = req.query.token.pop();
     }
 
