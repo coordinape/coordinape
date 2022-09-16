@@ -1,6 +1,7 @@
 import express from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 
+import landing from '../api/circle/landing/[token]';
 import actionManager from '../api/hasura/actions/actionManager';
 import auth from '../api/hasura/auth';
 import checkNominee from '../api/hasura/cron/checkNominee';
@@ -26,6 +27,9 @@ const proxyPort = process.argv[3];
 // so we shim them with this (tf = "type fudge")
 const tf = (handler: any) => (req: any, res: any) => handler(req, res);
 
+app.get('/api/circle/landing/:token', (req, res) => {
+  return tf(landing)({ ...req, query: req.params }, res);
+});
 app.get('/api/hasura/auth', tf(auth));
 app.post('/api/hasura/actions/actionManager', tf(actionManager));
 app.post('/api/hasura/event_triggers/eventManager', tf(eventManager));
