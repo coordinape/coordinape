@@ -53,6 +53,7 @@ export { default as MoreVertical } from './MoreVertical';
 export { default as PlusCircle } from './PlusCircle';
 export { default as Plus } from './Plus';
 export { default as RefreshCcw } from './RefreshCcw';
+export { default as Save } from './Save';
 export { default as Scale } from './Scale';
 export { default as Search } from './Search';
 export { default as Settings } from './Settings';
