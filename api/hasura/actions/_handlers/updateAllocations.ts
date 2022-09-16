@@ -123,6 +123,8 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         .reduce((total, tokens) => tokens + total)
     : 0;
 
+  const updatedNotes = newAllocations.some(g => g.note);
+
   const allocationMutations = newAllocations.reduce((ops, gift) => {
     const recipient = eligibleRecipients.find(u => u.id === gift.recipient_id);
     if (!recipient) return ops;
@@ -133,6 +135,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     const existingGift = pending_sent_gifts.find(
       g => g.recipient_id === gift.recipient_id
     );
+
     ops['updateUser' + gift.recipient_id] = {
       update_users_by_pk: [
         {
@@ -207,6 +210,19 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           _set: {
             give_token_remaining: starting_tokens - overallTokensUsed,
           },
+        },
+        { __typename: true },
+      ],
+      insert_interaction_events: [
+        {
+          objects: [
+            {
+              event_type: 'update_allocations',
+              profile_id: user.profile.id,
+              circle_id: circle_id,
+              data: { updated_notes: updatedNotes },
+            },
+          ],
         },
         { __typename: true },
       ],
