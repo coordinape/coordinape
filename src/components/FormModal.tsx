@@ -11,7 +11,7 @@ import clsx from 'clsx';
 
 import { Modal, makeStyles, IconButton } from '@material-ui/core';
 
-import { Save, X } from 'icons/__generated';
+import { X } from 'icons/__generated';
 import { Button } from 'ui';
 
 const useStyles = makeStyles(theme => ({
@@ -148,7 +148,7 @@ export const FormModal = ({
             }}
             disabled={submitDisabled}
           >
-            {icon || (!submitText && <Save />)}
+            {icon}
             {submitText || 'Save'}
           </Button>
         )}
