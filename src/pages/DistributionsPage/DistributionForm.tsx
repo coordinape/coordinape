@@ -376,7 +376,7 @@ export function DistributionForm({
           <Text h2 css={headerStyle}>
             Gift Circle
           </Text>
-          <TwoColumnLayout css={{ pt: '$md', alignItems: 'baseline' }}>
+          <TwoColumnLayout css={{ pt: '$md' }}>
             <Box css={{ width: '100%' }}>
               <Select
                 {...(register('selectedVaultId'),
@@ -421,7 +421,11 @@ export function DistributionForm({
                     ? circleDist.gift_amount?.toString() || '0'
                     : amountField.value.toString()
                 }
-                disabled={shouldDisableGiftInput}
+                disabled={
+                  giftSubmitting ||
+                  totalGive === 0 ||
+                  (vaults.length > 0 && !!circleDist)
+                }
                 max={formatUnits(
                   maxGiftTokens,
                   getDecimals({
@@ -457,7 +461,7 @@ export function DistributionForm({
               {renderCombinedSum(formGiftAmount, totalFixedPayment)}{' '}
               {fpVault?.symbol}
             </Text>
-          ) : (
+          ) : vaults[0] ? (
             <Button
               color="primary"
               outlined
@@ -471,7 +475,7 @@ export function DistributionForm({
                 'gift'
               )}
             </Button>
-          )}
+          ) : null}
         </Flex>
       </form>
 
@@ -506,7 +510,7 @@ export function DistributionForm({
             </Box>
           ) : (
             <>
-              <TwoColumnLayout css={{ pt: '$md', alignItems: 'baseline' }}>
+              <TwoColumnLayout css={{ pt: '$md' }}>
                 <Box css={{ width: '100%' }}>
                   <Select
                     {...(register('selectedVaultId'),

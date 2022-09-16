@@ -1,9 +1,8 @@
 import React from 'react';
 
 import * as AvatarPrimitive from '@radix-ui/react-avatar';
-import type * as Stitches from '@stitches/react';
 
-import { styled } from '../../stitches.config';
+import { styled, CSS } from '../../stitches.config';
 import {
   getAvatarPathWithoutPlaceholder,
   getInitialFromName,
@@ -129,7 +128,7 @@ export const Avatar = ({
   size?: 'xl' | 'large' | 'medium' | 'small' | 'xs';
   margin?: 'none' | 'small'; // can be extended if needed
   children?: React.ReactNode;
-  css?: Stitches.CSS;
+  css?: CSS;
 }) => {
   const avatarPath = getAvatarPathWithoutPlaceholder(path);
 

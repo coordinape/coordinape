@@ -13,10 +13,10 @@ context('Coordinape', () => {
     });
   });
   it('can create a nominee', () => {
-    cy.visit(`/circles/${circleId}/vouching`);
+    cy.visit(`/circles/${circleId}/members`);
     cy.login();
 
-    cy.contains('Nominate New Member', { timeout: 120000 }).click();
+    cy.contains('Nominate Member', { timeout: 120000 }).click();
     // enter the nominee creation modal and fill it out
     cy.get('[name=name]').click().type('Satoshi');
     cy.get('[name=address]')
@@ -26,7 +26,8 @@ context('Coordinape', () => {
     cy.contains('Why are you nominating')
       .click()
       .type("It's annoying that I need to fill forty whole characters here.");
-    cy.contains('Nominate Member').click();
+    cy.get('form').contains('Nominate Member').click();
+    cy.contains('Satoshi').click();
     cy.contains('Vouch for Satoshi', { timeout: 120000 });
     //cy.contains('GQL Query Error', { timeout: 45000 }).should('not.exist');
   });

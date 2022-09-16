@@ -1,0 +1,30 @@
+table:
+  schema: public
+  name: interaction_events
+event_triggers:
+  - name: sendInteractionEventToAmplitude
+    definition:
+      enable_manual: false
+      insert:
+        columns: '*'
+    retry_conf:
+      num_retries: 5
+      interval_sec: 3600
+      timeout_sec: 60
+    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
+    headers:
+      - name: verification_key
+        value_from_env: HASURA_EVENT_SECRET
+  - name: sendInteractionEventToMixpanel
+    definition:
+      enable_manual: false
+      insert:
+        columns: '*'
+    retry_conf:
+      num_retries: 5
+      interval_sec: 3600
+      timeout_sec: 60
+    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
+    headers:
+      - name: verification_key
+        value_from_env: HASURA_EVENT_SECRET

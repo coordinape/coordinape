@@ -105,9 +105,16 @@ export class Contracts {
     >
   ) {
     const { simple_token_address, vault_address } = vault;
-    return hasSimpleToken(vault)
-      ? this.getERC20(assertDef(simple_token_address)).balanceOf(vault_address)
-      : this.getVault(vault_address).underlyingValue();
+    if (hasSimpleToken(vault)) {
+      return this.getERC20(assertDef(simple_token_address)).balanceOf(
+        vault_address
+      );
+    } else {
+      const vaultContract = this.getVault(vault_address);
+      const yToken = await this.getYVault(vault_address);
+      const vaultBalance = await yToken.balanceOf(vault.vault_address);
+      return vaultContract.shareValue(vaultBalance);
+    }
   }
 
   getAvailableTokens() {
