@@ -14,9 +14,9 @@ export default (on, config) => {
   // `config` is the resolved Cypress config
   config = dotenvPlugin(config, { debug: true }, true);
   if (config.env.CI || process.env.CI) {
-    config.baseUrl = 'http://localhost:' + config.env.CI_VERCEL_PORT;
+    config.baseUrl = 'http://localhost:' + config.env.CI_WEB_PORT;
   } else {
-    config.baseUrl = 'http://localhost:' + config.env.LOCAL_VERCEL_PORT;
+    config.baseUrl = 'http://localhost:' + config.env.LOCAL_WEB_PORT;
   }
   return config;
 };

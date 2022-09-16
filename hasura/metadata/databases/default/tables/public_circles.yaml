@@ -1,166 +1,173 @@
 table:
-  name: circles
   schema: public
+  name: circles
 object_relationships:
-- name: circle_private
-  using:
-    manual_configuration:
-      column_mapping:
-        id: circle_id
-      insertion_order: null
-      remote_table:
-        name: circle_private
-        schema: public
-- name: organization
-  using:
-    foreign_key_constraint_on: protocol_id
+  - name: circle_private
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: circle_private
+        insertion_order: null
+        column_mapping:
+          id: circle_id
+  - name: organization
+    using:
+      foreign_key_constraint_on: protocol_id
 array_relationships:
-- name: api_keys
-  using:
-    foreign_key_constraint_on:
-      column: circle_id
-      table:
-        name: circle_api_keys
-        schema: public
-- name: burns
-  using:
-    foreign_key_constraint_on:
-      column: circle_id
-      table:
-        name: burns
-        schema: public
-- name: circle_metadata
-  using:
-    foreign_key_constraint_on:
-      column: circle_id
-      table:
-        name: circle_metadata
-        schema: public
-- name: epochs
-  using:
-    manual_configuration:
-      column_mapping:
-        id: circle_id
-      insertion_order: null
-      remote_table:
-        name: epoches
-        schema: public
-- name: integrations
-  using:
-    foreign_key_constraint_on:
-      column: circle_id
-      table:
-        name: circle_integrations
-        schema: public
-- name: nominees
-  using:
-    foreign_key_constraint_on:
-      column: circle_id
-      table:
-        name: nominees
-        schema: public
-- name: pending_token_gifts
-  using:
-    foreign_key_constraint_on:
-      column: circle_id
-      table:
-        name: pending_token_gifts
-        schema: public
-- name: token_gifts
-  using:
-    foreign_key_constraint_on:
-      column: circle_id
-      table:
-        name: token_gifts
-        schema: public
-- name: users
-  using:
-    foreign_key_constraint_on:
-      column: circle_id
-      table:
-        name: users
-        schema: public
-- name: vault_transactions
-  using:
-    foreign_key_constraint_on:
-      column: circle_id
-      table:
-        name: vault_transactions
-        schema: public
+  - name: api_keys
+    using:
+      foreign_key_constraint_on:
+        column: circle_id
+        table:
+          schema: public
+          name: circle_api_keys
+  - name: burns
+    using:
+      foreign_key_constraint_on:
+        column: circle_id
+        table:
+          schema: public
+          name: burns
+  - name: circle_metadata
+    using:
+      foreign_key_constraint_on:
+        column: circle_id
+        table:
+          schema: public
+          name: circle_metadata
+  - name: contributions
+    using:
+      foreign_key_constraint_on:
+        column: circle_id
+        table:
+          schema: public
+          name: contributions
+  - name: epochs
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: epoches
+        insertion_order: null
+        column_mapping:
+          id: circle_id
+  - name: integrations
+    using:
+      foreign_key_constraint_on:
+        column: circle_id
+        table:
+          schema: public
+          name: circle_integrations
+  - name: nominees
+    using:
+      foreign_key_constraint_on:
+        column: circle_id
+        table:
+          schema: public
+          name: nominees
+  - name: pending_token_gifts
+    using:
+      foreign_key_constraint_on:
+        column: circle_id
+        table:
+          schema: public
+          name: pending_token_gifts
+  - name: token_gifts
+    using:
+      foreign_key_constraint_on:
+        column: circle_id
+        table:
+          schema: public
+          name: token_gifts
+  - name: users
+    using:
+      foreign_key_constraint_on:
+        column: circle_id
+        table:
+          schema: public
+          name: users
+  - name: vault_transactions
+    using:
+      foreign_key_constraint_on:
+        column: circle_id
+        table:
+          schema: public
+          name: vault_transactions
 select_permissions:
-- permission:
-    columns:
-    - alloc_text
-    - default_opt_in
-    - fixed_payment_vault_id
-    - id
-    - is_verified
-    - logo
-    - min_vouches
-    - name
-    - nomination_days_limit
-    - team_sel_text
-    - team_selection
-    - token_name
-    - vouching
-    - vouching_text
-    filter:
-      api_keys:
+  - role: api-user
+    permission:
+      columns:
+        - alloc_text
+        - default_opt_in
+        - fixed_payment_vault_id
+        - id
+        - is_verified
+        - logo
+        - min_vouches
+        - name
+        - nomination_days_limit
+        - team_sel_text
+        - team_selection
+        - token_name
+        - vouching
+        - vouching_text
+      filter:
+        api_keys:
+          _and:
+            - hash:
+                _eq: X-Hasura-Api-Key-Hash
+            - read_circle:
+                _eq: true
+      limit: 5
+  - role: user
+    permission:
+      columns:
+        - alloc_text
+        - auto_opt_out
+        - created_at
+        - default_opt_in
+        - deleted_at
+        - fixed_payment_token_type
+        - fixed_payment_vault_id
+        - id
+        - is_verified
+        - logo
+        - min_vouches
+        - name
+        - nomination_days_limit
+        - only_giver_vouch
+        - protocol_id
+        - team_sel_text
+        - team_selection
+        - token_name
+        - updated_at
+        - vouching
+        - vouching_text
+      filter:
         _and:
-        - hash:
-            _eq: X-Hasura-Api-Key-Hash
-        - read_circle:
-            _eq: true
-    limit: 5
-  role: api-user
-- permission:
-    columns:
-    - alloc_text
-    - auto_opt_out
-    - created_at
-    - default_opt_in
-    - deleted_at
-    - fixed_payment_token_type
-    - fixed_payment_vault_id
-    - id
-    - is_verified
-    - logo
-    - min_vouches
-    - name
-    - nomination_days_limit
-    - only_giver_vouch
-    - protocol_id
-    - team_sel_text
-    - team_selection
-    - token_name
-    - updated_at
-    - vouching
-    - vouching_text
-    filter:
-      _and:
-      - deleted_at:
-          _is_null: true
-      - organization:
-          circles:
-            users:
-              _and:
-              - profile:
-                  id:
-                    _eq: X-Hasura-User-Id
-              - deleted_at:
-                  _is_null: true
-  role: user
+          - deleted_at:
+              _is_null: true
+          - organization:
+              circles:
+                users:
+                  _and:
+                    - profile:
+                        id:
+                          _eq: X-Hasura-User-Id
+                    - deleted_at:
+                        _is_null: true
 event_triggers:
-- definition:
-    enable_manual: false
-    insert:
-      columns: "*"
-  headers:
-  - name: verification_key
-    value_from_env: HASURA_EVENT_SECRET
-  name: createCircleCRM
-  retry_conf:
-    interval_sec: 3600
-    num_retries: 5
-    timeout_sec: 60
-  webhook: "{{HASURA_API_BASE_URL}}/event_triggers/eventManager"
+  - name: createCircleCRM
+    definition:
+      enable_manual: false
+      insert:
+        columns: '*'
+    retry_conf:
+      num_retries: 5
+      interval_sec: 3600
+      timeout_sec: 60
+    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
+    headers:
+      - name: verification_key
+        value_from_env: HASURA_EVENT_SECRET
