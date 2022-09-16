@@ -1,31 +1,31 @@
 table:
-  name: histories
   schema: public
+  name: histories
 object_relationships:
-- name: circle
-  using:
-    manual_configuration:
-      column_mapping:
-        circle_id: id
-      insertion_order: null
-      remote_table:
-        name: circles
-        schema: public
-- name: epoch
-  using:
-    manual_configuration:
-      column_mapping:
-        epoch_id: id
-      insertion_order: null
-      remote_table:
-        name: epoches
-        schema: public
-- name: user
-  using:
-    manual_configuration:
-      column_mapping:
-        user_id: id
-      insertion_order: null
-      remote_table:
-        name: users
-        schema: public
+  - name: circle
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: circles
+        insertion_order: null
+        column_mapping:
+          circle_id: id
+  - name: epoch
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: epoches
+        insertion_order: null
+        column_mapping:
+          epoch_id: id
+  - name: user
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: users
+        insertion_order: null
+        column_mapping:
+          user_id: id

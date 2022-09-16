@@ -1,94 +1,94 @@
 table:
-  name: distributions
   schema: public
+  name: distributions
 object_relationships:
-- name: epoch
-  using:
-    foreign_key_constraint_on: epoch_id
-- name: profile
-  using:
-    foreign_key_constraint_on: created_by
-- name: vault
-  using:
-    foreign_key_constraint_on: vault_id
+  - name: epoch
+    using:
+      foreign_key_constraint_on: epoch_id
+  - name: profile
+    using:
+      foreign_key_constraint_on: created_by
+  - name: vault
+    using:
+      foreign_key_constraint_on: vault_id
 array_relationships:
-- name: claims
-  using:
-    foreign_key_constraint_on:
-      column: distribution_id
-      table:
-        name: claims
-        schema: public
-- name: vault_transactions
-  using:
-    foreign_key_constraint_on:
-      column: distribution_id
-      table:
-        name: vault_transactions
-        schema: public
+  - name: claims
+    using:
+      foreign_key_constraint_on:
+        column: distribution_id
+        table:
+          schema: public
+          name: claims
+  - name: vault_transactions
+    using:
+      foreign_key_constraint_on:
+        column: distribution_id
+        table:
+          schema: public
+          name: vault_transactions
 insert_permissions:
-- permission:
-    backend_only: false
-    check:
-      epoch:
-        circle:
-          users:
-            profile:
-              id:
-                _eq: X-Hasura-User-Id
-    columns:
-    - distribution_epoch_id
-    - distribution_json
-    - distribution_type
-    - epoch_id
-    - fixed_amount
-    - gift_amount
-    - merkle_root
-    - total_amount
-    - vault_id
-    set:
-      created_by: x-hasura-User-Id
-  role: user
-select_permissions:
-- permission:
-    allow_aggregations: true
-    columns:
-    - created_at
-    - created_by
-    - distribution_epoch_id
-    - distribution_json
-    - distribution_type
-    - epoch_id
-    - fixed_amount
-    - gift_amount
-    - id
-    - merkle_root
-    - total_amount
-    - tx_hash
-    - vault_id
-    filter:
-      _or:
-      - claims:
-          profile_id:
-            _eq: X-Hasura-User-Id
-      - epoch:
+  - role: user
+    permission:
+      check:
+        epoch:
           circle:
             users:
               profile:
                 id:
                   _eq: X-Hasura-User-Id
-  role: user
-update_permissions:
-- permission:
-    check: null
-    columns:
-    - distribution_epoch_id
-    - tx_hash
-    filter:
-      epoch:
-        circle:
-          users:
-            profile:
-              id:
+      set:
+        created_by: x-hasura-User-Id
+      columns:
+        - distribution_epoch_id
+        - distribution_json
+        - distribution_type
+        - epoch_id
+        - fixed_amount
+        - gift_amount
+        - merkle_root
+        - total_amount
+        - vault_id
+      backend_only: false
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - created_at
+        - created_by
+        - distribution_epoch_id
+        - distribution_json
+        - distribution_type
+        - epoch_id
+        - fixed_amount
+        - gift_amount
+        - id
+        - merkle_root
+        - total_amount
+        - tx_hash
+        - vault_id
+      filter:
+        _or:
+          - claims:
+              profile_id:
                 _eq: X-Hasura-User-Id
-  role: user
+          - epoch:
+              circle:
+                users:
+                  profile:
+                    id:
+                      _eq: X-Hasura-User-Id
+      allow_aggregations: true
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - distribution_epoch_id
+        - tx_hash
+      filter:
+        epoch:
+          circle:
+            users:
+              profile:
+                id:
+                  _eq: X-Hasura-User-Id
+      check: null

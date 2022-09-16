@@ -29,12 +29,11 @@ context('Coordinape', () => {
     cy.contains('ETH Address').click();
 
     cy.get('[data-testid=new-members]').within(() => {
-      cy.get('input').eq(0).click().type('A Test User').blur();
+      cy.get('input').eq(0).click().type('A Test User');
       cy.get('input')
         .eq(1)
         .click()
-        .type('0xe00b84525b71ef52014e59f633c97530cb278e09')
-        .blur();
+        .type('0xe00b84525b71ef52014e59f633c97530cb278e09');
     });
 
     cy.get('button')

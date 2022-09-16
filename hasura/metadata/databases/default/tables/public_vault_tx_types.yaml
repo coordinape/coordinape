@@ -1,25 +1,25 @@
 table:
-  name: vault_tx_types
   schema: public
+  name: vault_tx_types
 is_enum: true
 array_relationships:
-- name: vault_transactions
-  using:
-    foreign_key_constraint_on:
-      column: tx_type
-      table:
-        name: vault_transactions
-        schema: public
+  - name: vault_transactions
+    using:
+      foreign_key_constraint_on:
+        column: tx_type
+        table:
+          schema: public
+          name: vault_transactions
 select_permissions:
-- permission:
-    columns:
-    - comment
-    - value
-    filter: {}
-  role: api-user
-- permission:
-    columns:
-    - value
-    - comment
-    filter: {}
-  role: user
+  - role: api-user
+    permission:
+      columns:
+        - comment
+        - value
+      filter: {}
+  - role: user
+    permission:
+      columns:
+        - value
+        - comment
+      filter: {}
