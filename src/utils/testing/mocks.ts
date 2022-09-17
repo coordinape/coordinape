@@ -58,8 +58,10 @@ export const mockContribution = {
   id: 1,
   circle_id: 1,
   deleted_at: null,
-  epoch: {
-    ended: false,
+  circle: {
+    epochs_aggregate: {
+      aggregate: { max: { end_date: new Date(Date.now() + 3600 * 1000 * 24) } },
+    },
   },
   user: {
     id: 1,
