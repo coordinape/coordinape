@@ -58,29 +58,4 @@ describe('Delete Contribution action handler', () => {
     await handler(req, res);
     expect(res.status).toHaveBeenCalledWith(422);
   });
-
-  test('Test deletion of a contribution that is attached to an ended epoch', async () => {
-    mockContribution.epoch.ended = true;
-    (adminClient.query as jest.Mock).mockImplementation(() =>
-      Promise.resolve({
-        contributions_by_pk: mockContribution,
-      })
-    );
-    await handler(req, res);
-    expect(res.status).toHaveBeenCalledWith(422);
-  });
-
-  test('Test deletion of a contribution that is attached to no epoch', async () => {
-    Reflect.deleteProperty(mockContribution, 'epoch');
-    (adminClient.query as jest.Mock).mockImplementation(() =>
-      Promise.resolve({
-        contributions_by_pk: mockContribution,
-      })
-    );
-    await handler(req, res);
-    expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalled();
-    const results = (res.json as any).mock.calls[0][0];
-    expect(results.success).toBeTruthy();
-  });
 });

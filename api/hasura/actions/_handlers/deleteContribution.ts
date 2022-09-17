@@ -25,9 +25,6 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         { id: contribution_id },
         {
           deleted_at: true,
-          epoch: {
-            ended: true,
-          },
           user: {
             address: true,
           },
@@ -45,15 +42,6 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     errorResponseWithStatusCode(
       res,
       { message: 'contribution does not exist' },
-      422
-    );
-    return;
-  }
-
-  if (contribution?.epoch && contribution.epoch?.ended) {
-    errorResponseWithStatusCode(
-      res,
-      { message: 'contribution attached to an ended epoch is not editable' },
       422
     );
     return;
