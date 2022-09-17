@@ -10,9 +10,8 @@ import React from 'react';
 import clsx from 'clsx';
 
 import { Modal, makeStyles, IconButton } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
 
-import { DeprecatedSaveIcon } from 'icons';
+import { X } from 'icons/__generated';
 import { Button } from 'ui';
 
 const useStyles = makeStyles(theme => ({
@@ -126,7 +125,7 @@ export const FormModal = ({
           onClick={onClose}
           aria-label="close"
         >
-          <CloseIcon />
+          <X size="lg" />
         </IconButton>
         {!!title && <h3 className={classes.title}>{title}</h3>}
         {!!subtitle && <h4 className={classes.subtitle}>{subtitle}</h4>}
@@ -149,7 +148,7 @@ export const FormModal = ({
             }}
             disabled={submitDisabled}
           >
-            {icon || (!submitText && <DeprecatedSaveIcon />)}
+            {icon}
             {submitText || 'Save'}
           </Button>
         )}

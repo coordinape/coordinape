@@ -1,12 +1,7 @@
 import React from 'react';
 
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  DotsHorizontalIcon,
-} from '@radix-ui/react-icons';
-
 import { styled } from '../../stitches.config';
+import { ChevronLeft, ChevronRight, MoreHorizontal } from 'icons/__generated';
 
 const defaults = {
   itemsPerPage: 6,
@@ -129,14 +124,14 @@ export const Paginator = ({
             onClick={() => onPageChange(currentPage - 1)}
             disabled={currentPage === 1}
           >
-            <ChevronLeftIcon />
+            <ChevronLeft />
           </PaginatorButton>
 
           {pages.map(page => {
             return page === '...' ? (
               // <PaginationItem itemType="ellipsis" key={index} />
               <PaginatorButton disabled>
-                <DotsHorizontalIcon />
+                <MoreHorizontal />
               </PaginatorButton>
             ) : (
               // when active page === currentPage
@@ -154,7 +149,7 @@ export const Paginator = ({
             onClick={() => onPageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
           >
-            <ChevronRightIcon />
+            <ChevronRight />
           </PaginatorButton>
         </PaginatorContainer>
       ) : null}

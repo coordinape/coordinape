@@ -1,6 +1,6 @@
 import { formatRelative } from 'date-fns';
-import { FiExternalLink } from 'react-icons/fi';
 
+import { ExternalLink } from 'icons/__generated';
 import { Box, Flex, Link, Modal, Text } from 'ui';
 
 const TX_LIST_KEY = 'capeRecentTxs';
@@ -90,7 +90,7 @@ export const RecentTransactionsModal = ({
               <Box css={{ textAlign: 'right', pt: '$xs' }}>
                 {hash && (
                   <Link target="_blank" {...etherscanLinkProp(chainId, hash)}>
-                    <FiExternalLink />
+                    <ExternalLink />
                   </Link>
                 )}
               </Box>

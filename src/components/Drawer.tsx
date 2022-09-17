@@ -1,7 +1,7 @@
 import React from 'react';
 
+import { ArrowRight } from 'icons/__generated';
 import { Text, Button, Popover, Flex } from 'ui';
-import { ArrowIcon } from 'ui/icons/ArrowIcon';
 
 interface IProps {
   open: boolean;
@@ -62,7 +62,7 @@ export const Drawer = ({ open, setOpen, children }: IProps) => {
           }}
         >
           Filters
-          <ArrowIcon
+          <ArrowRight
             size="md"
             color={'secondaryText'}
             css={{ marginLeft: 8 }}

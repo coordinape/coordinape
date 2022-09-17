@@ -1,15 +1,10 @@
-import {
-  CheckIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-  InfoCircledIcon,
-} from '@radix-ui/react-icons';
 import * as SelectPrimitive from '@radix-ui/react-select';
 import { SelectProps } from '@radix-ui/react-select';
 import type * as Stitches from '@stitches/react';
 import { CSS, styled } from 'stitches.config';
 
 import { modifyVariantsForStory } from '../type-utils';
+import { Check, ChevronDown, ChevronUp, Info } from 'icons/__generated';
 import { Flex, FormLabel, Tooltip } from 'ui';
 
 const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
@@ -144,7 +139,7 @@ export const Select = (
           {label}{' '}
           {infoTooltip && (
             <Tooltip content={<div>{infoTooltip}</div>}>
-              <InfoCircledIcon />
+              <Info size="sm" />
             </Tooltip>
           )}
         </FormLabel>
@@ -153,12 +148,12 @@ export const Select = (
         <SelectTrigger disabled={disabled}>
           <SelectValue placeholder={placeholder} />
           <SelectIcon>
-            <ChevronDownIcon color="#b8bdbf" />
+            <ChevronDown color="neutral" />
           </SelectIcon>
         </SelectTrigger>
         <SelectContent>
           <SelectScrollUpButton>
-            <ChevronUpIcon color="#b8bdbf" />
+            <ChevronUp color="neutral" />
           </SelectScrollUpButton>
           <SelectViewport>
             <SelectGroup id={id}>
@@ -166,14 +161,14 @@ export const Select = (
                 <SelectItem value={String(value)} key={value}>
                   <SelectItemText>{label}</SelectItemText>
                   <SelectItemIndicator>
-                    <CheckIcon />
+                    <Check />
                   </SelectItemIndicator>
                 </SelectItem>
               ))}
             </SelectGroup>
           </SelectViewport>
           <SelectScrollDownButton>
-            <ChevronDownIcon />
+            <ChevronDown />
           </SelectScrollDownButton>
         </SelectContent>
       </RadixSelect>

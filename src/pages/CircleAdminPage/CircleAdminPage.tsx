@@ -2,7 +2,6 @@ import assert from 'assert';
 import React, { MouseEvent, useState, useEffect } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { constants as ethersConstants } from 'ethers';
 import { formatUnits } from 'ethers/lib/utils';
 import { removeYearnPrefix } from 'lib/vaults';
@@ -15,6 +14,7 @@ import isFeatureEnabled from 'config/features';
 import { useApeSnackbar, useApiAdminCircle, useContracts } from 'hooks';
 import { useCircleOrg } from 'hooks/gql/useCircleOrg';
 import { useVaults } from 'hooks/gql/useVaults';
+import { Info } from 'icons/__generated';
 import { useSelectedCircle } from 'recoilState/app';
 import { paths } from 'routes/paths';
 import {
@@ -484,7 +484,7 @@ export const CircleAdminPage = () => {
                     css={{ ml: '$xs' }}
                     content={<div>Upload a logo to your circle</div>}
                   >
-                    <InfoCircledIcon />
+                    <Info size="sm" />
                   </Tooltip>
                 </Text>
                 <Flex
@@ -781,7 +781,7 @@ export const CircleAdminPage = () => {
                       </div>
                     }
                   >
-                    <InfoCircledIcon />
+                    <Info size="sm" />
                   </Tooltip>
                 </FormLabel>
                 <CheckBox {...vouching} label="Vouching" />
