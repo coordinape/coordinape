@@ -24,7 +24,14 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       contributions_by_pk: [
         { id: contribution_id },
         {
+          datetime_created: true,
           deleted_at: true,
+          circle: {
+            epochs_aggregate: [
+              { where: { ended: { _eq: true } } },
+              { aggregate: { max: { end_date: true } } },
+            ],
+          },
           user: {
             address: true,
           },
@@ -42,6 +49,18 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     errorResponseWithStatusCode(
       res,
       { message: 'contribution does not exist' },
+      422
+    );
+    return;
+  }
+
+  if (
+    contribution?.datetime_created <
+    contribution?.circle.epochs_aggregate.aggregate?.max?.end_date
+  ) {
+    errorResponseWithStatusCode(
+      res,
+      { message: 'contribution attached to an ended epoch is not editable' },
       422
     );
     return;
