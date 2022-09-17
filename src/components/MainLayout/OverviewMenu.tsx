@@ -11,7 +11,7 @@ import { menuGroupStyle } from 'components/MainLayout/MainHeader';
 import { scrollToTop } from 'components/MainLayout/MainLayout';
 import isFeatureEnabled from 'config/features';
 import { useHasCircles } from 'hooks/migration';
-import { ChevronUp, ChevronDown } from 'icons';
+import { ChevronDown, ChevronUp } from 'icons/__generated';
 import { rSelectedCircle } from 'recoilState/app';
 import { paths, isCircleSpecificPath } from 'routes/paths';
 import {
@@ -70,7 +70,7 @@ export const OverviewMenu = ({
     >
       {overviewMenuTriggerText}
       <Box css={{ marginLeft: '$xs', display: 'flex' }}>
-        <ChevronDown size="md" />
+        <ChevronDown size="lg" />
       </Box>
     </Link>
   );
@@ -145,7 +145,7 @@ export const OverviewMenu = ({
             >
               {overviewMenuTriggerText}
               <Box css={{ marginLeft: '$xs', display: 'flex' }}>
-                <ChevronUp size="md" />
+                <ChevronUp size="lg" />
               </Box>
             </Link>
           </PopoverClose>

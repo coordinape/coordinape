@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { InfoCircledIcon } from '@radix-ui/react-icons';
 import {
   useController,
   UseControllerProps,
@@ -9,6 +8,7 @@ import {
 } from 'react-hook-form';
 import type { CSS } from 'stitches.config';
 
+import { Info } from 'icons/__generated';
 import { Flex, FormLabel, Text, TextArea, TextField, Tooltip } from 'ui';
 
 type TextFieldProps = React.ComponentProps<typeof TextField>;
@@ -74,11 +74,19 @@ export const FormInputField = <TFieldValues extends FieldValues>(
       }}
     >
       {(label || infoTooltip) && (
-        <FormLabel type="label" css={{ fontWeight: '$bold' }} htmlFor={id}>
+        <FormLabel
+          type="label"
+          css={{
+            fontWeight: '$bold',
+            display: 'inline-flex',
+            alignItems: 'center',
+          }}
+          htmlFor={id}
+        >
           {label}{' '}
           {infoTooltip && (
             <Tooltip content={<div>{infoTooltip}</div>}>
-              <InfoCircledIcon />
+              <Info size="sm" />
             </Tooltip>
           )}
         </FormLabel>

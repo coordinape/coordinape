@@ -6,7 +6,8 @@ import { makeStyles, Tooltip, Zoom, TooltipProps } from '@material-ui/core';
 
 import { ActionDialog } from 'components/index';
 import useMobileDetect from 'hooks/useMobileDetect';
-import { DeprecatedInfoIcon } from 'icons';
+import { Info } from 'icons/__generated';
+import { Link } from 'ui';
 
 const useStyles = makeStyles(theme => ({
   tooltip: {
@@ -36,9 +37,8 @@ export const ApeInfoTooltip = ({
   children,
   classes,
   className,
-  iconTheme,
   ...props
-}: { children: ReactNode; component?: ReactNode; iconTheme?: string } & Omit<
+}: { children: ReactNode; component?: ReactNode } & Omit<
   TooltipProps,
   'title' | 'children'
 >) => {
@@ -58,12 +58,13 @@ export const ApeInfoTooltip = ({
     <>
       {isMobile ? (
         <div>
-          <DeprecatedInfoIcon
+          <Link
+            css={{ display: 'inline-flex', alignItems: 'center' }}
+            color="neutral"
             onClick={handleTooltipOpen}
-            onClose={handleTooltipClose}
-            inherit="inherit"
-            className={iconTheme ?? localClasses.icon}
-          />
+          >
+            <Info size="sm" />
+          </Link>
           <ActionDialog open={openTooltip} onClose={handleTooltipClose}>
             {children}
           </ActionDialog>
@@ -84,12 +85,13 @@ export const ApeInfoTooltip = ({
           {props.component ? (
             <span>{props.component}</span>
           ) : (
-            <span className={className}>
-              <DeprecatedInfoIcon
-                inherit="inherit"
-                className={iconTheme ?? localClasses.icon}
-              />
-            </span>
+            <Link
+              css={{ display: 'inline-flex', alignItems: 'center' }}
+              color="neutral"
+              className={className}
+            >
+              <Info size="sm" />
+            </Link>
           )}
         </Tooltip>
       )}

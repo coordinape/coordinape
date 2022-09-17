@@ -16,7 +16,7 @@ import {
 import { USER_ROLE_COORDINAPE } from 'config/constants';
 import { useImageUploader, useApiWithProfile, useApeSnackbar } from 'hooks';
 import { useSomeCircleId } from 'hooks/migration';
-import { EditIcon } from 'icons';
+import { Edit3 } from 'icons/__generated';
 import { useMyProfile, useProfile } from 'recoilState/app';
 import { useSetEditProfileOpen } from 'recoilState/ui';
 import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE, paths } from 'routes/paths';
@@ -286,7 +286,7 @@ const ProfilePageContent = ({
                 variant="outlined"
                 color="default"
                 size="small"
-                startIcon={<EditIcon />}
+                startIcon={<Edit3 />}
                 onClick={() => setEditProfileOpen(true)}
               >
                 Edit Profile

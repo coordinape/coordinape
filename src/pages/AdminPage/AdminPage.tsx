@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { ActionDialog } from 'components';
 import { useApiAdminCircle } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
-import { EditIcon, PlusCircleIcon } from 'icons';
+import { Settings, PlusCircle } from 'icons/__generated';
 import { getCircleSettings } from 'pages/CircleAdminPage/getCircleSettings';
 import { useSelectedCircle } from 'recoilState/app';
 import { NEW_CIRCLE_CREATED_PARAMS, paths } from 'routes/paths';
@@ -91,7 +91,7 @@ const AdminPage = () => {
             >
               <AppLink to={paths.circleAdmin(circleId)}>
                 <Button color="primary" outlined css={{ minWidth: '180px' }}>
-                  <EditIcon />
+                  <Settings />
                   Settings
                 </Button>
               </AppLink>
@@ -104,7 +104,7 @@ const AdminPage = () => {
                 onClick={() => navigate(paths.createCircle)}
                 css={{ minWidth: '180px' }}
               >
-                <PlusCircleIcon />
+                <PlusCircle />
                 Add Circle
               </Button>
             </Flex>
@@ -127,7 +127,7 @@ const AdminPage = () => {
             my: '$md',
           }}
           onChange={onChangeKeyword}
-          placeholder="🔍 Search"
+          placeholder="Search"
           value={keyword}
         />
 

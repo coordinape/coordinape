@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { InfoCircledIcon } from '@radix-ui/react-icons';
 import {
   useController,
   UseControllerProps,
@@ -8,6 +7,7 @@ import {
   Control,
 } from 'react-hook-form';
 
+import { Info } from 'icons/__generated';
 import {
   Flex,
   FormLabel,
@@ -46,11 +46,18 @@ export const FormRadioGroup = <TFieldValues extends FieldValues>(
         pointerEvents: disabled ? 'none' : 'auto',
       }}
     >
-      <FormLabel type="label" css={{ fontWeight: '$bold' }}>
+      <FormLabel
+        type="label"
+        css={{
+          fontWeight: '$bold',
+          display: 'inline-flex',
+          alignItems: 'center',
+        }}
+      >
         {label}{' '}
         {infoTooltip && (
           <Tooltip content={infoTooltip}>
-            <InfoCircledIcon />
+            <Info size="sm" />
           </Tooltip>
         )}
       </FormLabel>

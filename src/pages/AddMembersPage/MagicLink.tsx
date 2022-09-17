@@ -1,7 +1,7 @@
 import React from 'react';
 
 import CopyCodeTextField from '../../components/CopyCodeTextField';
-import { AlertSolid } from '../../icons/__generated';
+import { AlertTriangle } from '../../icons/__generated';
 import { Box, Flex, Panel, Text } from '../../ui';
 
 const MagicLink = ({ magicLink }: { magicLink: string }) => {
@@ -14,7 +14,7 @@ const MagicLink = ({ magicLink }: { magicLink: string }) => {
 
       <Panel alert css={{ mt: '$xl', mb: '$md' }}>
         <Flex>
-          <AlertSolid
+          <AlertTriangle
             color="alert"
             size="xl"
             css={{

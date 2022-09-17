@@ -23,6 +23,3 @@ export * from './TextArea/TextArea';
 export * from './TextField/TextField';
 export * from './Tooltip/Tooltip';
 export * from './Icon/Icon';
-
-// icons
-export * from './icons';

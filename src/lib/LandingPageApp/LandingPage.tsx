@@ -26,12 +26,7 @@ import Splash from 'assets/svgs/landing-page/splash.svg';
 import SushiswapLogo from 'assets/svgs/landing-page/sushiswap-logo.svg';
 import YearnLogo from 'assets/svgs/landing-page/yearn-logo.svg';
 import { CoordinapeLogo } from 'components';
-import {
-  DeprecatedDocsIcon,
-  DeprecatedTwitterIcon,
-  DeprecatedMediumIcon,
-  DeprecatedDiscordIcon,
-} from 'icons';
+import { Discord, FileText, Medium, Twitter } from 'icons/__generated';
 import {
   EXTERNAL_URL_DOCS,
   EXTERNAL_URL_TWITTER,
@@ -427,7 +422,7 @@ const LandingPage = () => {
                 variant="contained"
                 color="default"
                 disableElevation
-                startIcon={<DeprecatedDiscordIcon />}
+                startIcon={<Discord />}
               >
                 Join our Discord
               </Button>
@@ -587,34 +582,22 @@ const LandingPage = () => {
       </div>
       <div className={classes.footer}>
         <a href={EXTERNAL_URL_DOCS} rel="noreferrer" target="_blank">
-          <Button
-            startIcon={<DeprecatedDocsIcon />}
-            className={classes.footerLink}
-          >
+          <Button startIcon={<FileText />} className={classes.footerLink}>
             Docs
           </Button>
         </a>
         <a href={EXTERNAL_URL_DISCORD} rel="noreferrer" target="_blank">
-          <Button
-            startIcon={<DeprecatedDiscordIcon />}
-            className={classes.footerLink}
-          >
+          <Button startIcon={<Discord />} className={classes.footerLink}>
             Discord
           </Button>
         </a>
         <a href={EXTERNAL_URL_TWITTER} rel="noreferrer" target="_blank">
-          <Button
-            startIcon={<DeprecatedTwitterIcon />}
-            className={classes.footerLink}
-          >
+          <Button startIcon={<Twitter />} className={classes.footerLink}>
             Twitter
           </Button>
         </a>
         <a href={EXTERNAL_URL_MEDIUM_ARTICLE} rel="noreferrer" target="_blank">
-          <Button
-            startIcon={<DeprecatedMediumIcon />}
-            className={classes.footerLink}
-          >
+          <Button startIcon={<Medium />} className={classes.footerLink}>
             Medium
           </Button>
         </a>

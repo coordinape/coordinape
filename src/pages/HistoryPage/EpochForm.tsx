@@ -1,7 +1,6 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { InfoCircledIcon } from '@radix-ui/react-icons';
 import isEmpty from 'lodash/isEmpty';
 import { DateTime, Interval } from 'luxon';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
@@ -14,6 +13,7 @@ import {
   FormTimePicker,
 } from 'components';
 import { useApiAdminCircle } from 'hooks';
+import { Info } from 'icons/__generated';
 import { Box, Flex, Form, FormLabel, Text, Button, Panel, Tooltip } from 'ui';
 
 import { IQueryEpoch, QueryFutureEpoch } from './getHistoryData';
@@ -399,7 +399,7 @@ const EpochForm = ({
                   <FormLabel type="label" css={{ fontWeight: '$bold' }}>
                     Start Date{' '}
                     <Tooltip content="The first day of the epoch in your local time zone">
-                      <InfoCircledIcon />
+                      <Info size="sm" />
                     </Tooltip>
                   </FormLabel>
                   <Controller
@@ -439,7 +439,7 @@ const EpochForm = ({
                   <FormLabel type="label" css={{ fontWeight: '$bold' }}>
                     Start Time{' '}
                     <Tooltip content="The start time of the epoch in your local time zone">
-                      <InfoCircledIcon />
+                      <Info size="sm" />
                     </Tooltip>
                   </FormLabel>
                   <Flex row css={{ gap: '$sm' }}>

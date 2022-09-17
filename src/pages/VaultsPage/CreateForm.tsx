@@ -14,7 +14,7 @@ import { z } from 'zod';
 import type { Vault } from 'hooks/gql/useVaults';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultFactory } from 'hooks/useVaultFactory';
-import { Increase } from 'icons/__generated';
+import { PlusCircle } from 'icons/__generated';
 import { Box, Button, Form, HR, Link, Panel, Text, TextField } from 'ui';
 
 const useFormSetup = (
@@ -240,7 +240,7 @@ export const CreateForm = ({
             data-selected={'customsimple' === asset}
             onClick={e => pickAsset('simple', 'custom', e)}
           >
-            <Increase size="lg" color="neutral" />
+            <PlusCircle size="lg" color="neutral" />
             <Text css={{ ml: '$xs' }}>{'Other ERC-20 Token'}</Text>
           </AssetButton>
         </Box>
