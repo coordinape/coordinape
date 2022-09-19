@@ -1,9 +1,8 @@
+import { commify } from 'ethers/lib/utils';
 import { getDisplayTokenString } from 'lib/vaults';
 import groupBy from 'lodash/groupBy';
 import partition from 'lodash/partition';
 import sortBy from 'lodash/sortBy';
-
-import { numberWithCommas } from 'utils';
 
 import { QueryClaim } from './queries';
 
@@ -66,7 +65,7 @@ export function formatClaimAmount(claims: QueryClaim[]): string {
   const totalAmount = claims.reduce((accumulator, curr) => {
     return accumulator + (curr.unwrappedNewAmount || 0);
   }, 0);
-  return `${numberWithCommas(totalAmount, 2)} ${getDisplayTokenString(
+  return `${commify(totalAmount)} ${getDisplayTokenString(
     claims[0].distribution.vault
   )}`;
 }
