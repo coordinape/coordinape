@@ -18,6 +18,9 @@ import { IUser } from 'types';
 const TD = styled('td', {});
 const TR = styled('tr', {});
 
+const defaultSort = <T,>(a: T, b: T) => (a > b ? 1 : a < b ? -1 : 0);
+const englishCollator = new Intl.Collator('en-u-kf-upper');
+
 const headerStyles = {
   color: '$secondaryText',
   textTransform: 'uppercase',
@@ -248,12 +251,20 @@ export const NomineesTable = ({
         startingSortIndex={0}
         startingSortDesc
         sortByColumn={(index: number) => {
-          if (index === 0) return (n: Nominee) => n.name;
-          if (index === 1) return (n: Nominee) => n.address;
+          if (index === 0)
+            return (a: Nominee, b: Nominee) =>
+              englishCollator.compare(a.name, b.name);
+          if (index === 1)
+            return (a: Nominee, b: Nominee) =>
+              englishCollator.compare(a.address, b.address);
           if (index === 2)
-            return (n: Nominee) =>
-              n.vouches_required - n.nominations.length + 1;
-          return (n: Nominee) => n.name;
+            return (a: Nominee, b: Nominee) =>
+              defaultSort(
+                a.vouches_required - a.nominations.length + 1,
+                b.vouches_required - b.nominations.length
+              );
+          return (a: Nominee, b: Nominee) =>
+            englishCollator.compare(a.address, b.address);
         }}
       >
         {nominee => (

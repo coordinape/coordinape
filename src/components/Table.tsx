@@ -1,6 +1,5 @@
 import { ReactNode, useMemo, useState } from 'react';
 
-import sortBy from 'lodash/sortBy';
 import type { CSS } from 'stitches.config';
 
 import { Box, Panel, Table } from 'ui';
@@ -11,7 +10,7 @@ export function makeTable<T>(displayName: string) {
     children: (dataItem: T) => ReactNode;
     startingSortIndex?: number;
     startingSortDesc?: boolean;
-    sortByColumn: (index: number) => (dataItem: T) => any;
+    sortByColumn: (index: number) => (a: T, b: T) => any;
     headers: {
       title: string;
       css?: CSS;
@@ -39,8 +38,8 @@ export function makeTable<T>(displayName: string) {
     };
 
     const sortedData = useMemo(() => {
-      const newSortedData = sortBy(data, sortByColumn(sortIndex));
-      if (sortDesc) newSortedData.reverse();
+      const newSortedData = data?.sort(sortByColumn(sortIndex));
+      if (sortDesc) newSortedData?.reverse();
       return newSortedData;
     }, [sortIndex, sortDesc, sortByColumn]);
 
@@ -67,7 +66,7 @@ export function makeTable<T>(displayName: string) {
               )}
             </tr>
           </thead>
-          <tbody>{sortedData.map(children)}</tbody>
+          <tbody>{sortedData?.map(children)}</tbody>
         </Table>
       </Panel>
     );

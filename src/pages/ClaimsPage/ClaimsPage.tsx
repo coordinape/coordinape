@@ -25,6 +25,9 @@ const buttonStyles = {
   borderRadius: '$2',
 };
 
+const defaultSort = <T,>(a: T, b: T) => (a > b ? 1 : a < b ? -1 : 0);
+const englishCollator = new Intl.Collator('en-u-kf-upper');
+
 const displayDistributionType = (
   type: QueryClaim['distribution']['distribution_type']
 ): string => {
@@ -178,8 +181,36 @@ export default function ClaimsPage() {
           data={unclaimedClaimsRows}
           startingSortIndex={2}
           startingSortDesc={false}
-          sortByColumn={() => {
-            return c => c;
+          sortByColumn={(index: number) => {
+            if (index === 0)
+              return (a: ClaimsRowData, b: ClaimsRowData) =>
+                englishCollator.compare(
+                  a.claim.distribution.epoch.circle?.organization.name || '',
+                  b.claim.distribution.epoch.circle?.organization.name || ''
+                );
+            if (index === 1)
+              return (a: ClaimsRowData, b: ClaimsRowData) =>
+                englishCollator.compare(
+                  a.claim.distribution.epoch.circle?.name || '',
+                  b.claim.distribution.epoch.circle?.name || ''
+                );
+            if (index === 2)
+              return (a: ClaimsRowData, b: ClaimsRowData) =>
+                defaultSort(
+                  a.claim.distribution.epoch.end_date,
+                  b.claim.distribution.epoch.end_date
+                );
+            if (index === 3)
+              return (a: ClaimsRowData, b: ClaimsRowData) =>
+                englishCollator.compare(
+                  formatClaimAmount(a.group),
+                  formatClaimAmount(b.group)
+                );
+            return (a: ClaimsRowData, b: ClaimsRowData) =>
+              englishCollator.compare(
+                a.claim.distribution.epoch.circle?.organization.name || '',
+                b.claim.distribution.epoch.circle?.organization.name || ''
+              );
           }}
         >
           {({ claim, group }) => {
@@ -223,8 +254,36 @@ export default function ClaimsPage() {
           data={claimedClaimsRows}
           startingSortIndex={2}
           startingSortDesc={false}
-          sortByColumn={() => {
-            return c => c;
+          sortByColumn={(index: number) => {
+            if (index === 0)
+              return (a: ClaimsRowData, b: ClaimsRowData) =>
+                englishCollator.compare(
+                  a.claim.distribution.epoch.circle?.organization.name || '',
+                  b.claim.distribution.epoch.circle?.organization.name || ''
+                );
+            if (index === 1)
+              return (a: ClaimsRowData, b: ClaimsRowData) =>
+                englishCollator.compare(
+                  a.claim.distribution.epoch.circle?.name || '',
+                  b.claim.distribution.epoch.circle?.name || ''
+                );
+            if (index === 2)
+              return (a: ClaimsRowData, b: ClaimsRowData) =>
+                defaultSort(
+                  a.claim.distribution.epoch.end_date,
+                  b.claim.distribution.epoch.end_date
+                );
+            if (index === 3)
+              return (a: ClaimsRowData, b: ClaimsRowData) =>
+                englishCollator.compare(
+                  formatClaimAmount(a.group),
+                  formatClaimAmount(b.group)
+                );
+            return (a: ClaimsRowData, b: ClaimsRowData) =>
+              englishCollator.compare(
+                a.claim.distribution.epoch.circle?.organization.name || '',
+                b.claim.distribution.epoch.circle?.organization.name || ''
+              );
           }}
         >
           {({ claim, group }) => (
