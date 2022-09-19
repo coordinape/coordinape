@@ -41,6 +41,9 @@ export const AllTypesProps: Record<string, any> = {
   LogVaultTxInput: {},
   String_comparison_exp: {},
   UpdateCircleInput: {},
+  UpdateContributionInput: {
+    datetime_created: 'timestamptz',
+  },
   UpdateEpochInput: {
     start_date: 'timestamptz',
   },
@@ -2062,7 +2065,6 @@ export const AllTypesProps: Record<string, any> = {
     org_id: 'Int_comparison_exp',
     profile_id: 'Int_comparison_exp',
     updated_at: 'timestamptz_comparison_exp',
-    user_id: 'Int_comparison_exp',
   },
   interaction_events_constraint: true,
   interaction_events_delete_at_path_input: {},
@@ -2089,7 +2091,6 @@ export const AllTypesProps: Record<string, any> = {
     org_id: 'order_by',
     profile_id: 'order_by',
     updated_at: 'order_by',
-    user_id: 'order_by',
   },
   interaction_events_pk_columns_input: {},
   interaction_events_prepend_input: {
@@ -2549,6 +2550,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     updateCircle: {
       payload: 'UpdateCircleInput',
+    },
+    updateContribution: {
+      payload: 'UpdateContributionInput',
     },
     updateEpoch: {
       payload: 'UpdateEpochInput',
@@ -5690,6 +5694,9 @@ export const ReturnTypes: Record<string, any> = {
     circle: 'circles',
     id: 'Int',
   },
+  UpdateContributionResponse: {
+    id: 'ID',
+  },
   UpdateOrgResponse: {
     id: 'Int',
     org: 'organizations',
@@ -7104,7 +7111,6 @@ export const ReturnTypes: Record<string, any> = {
     org_id: 'Int',
     profile_id: 'Int',
     updated_at: 'timestamptz',
-    user_id: 'Int',
   },
   interaction_events_aggregate: {
     aggregate: 'interaction_events_aggregate_fields',
@@ -7128,7 +7134,6 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Float',
     org_id: 'Float',
     profile_id: 'Float',
-    user_id: 'Float',
   },
   interaction_events_max_fields: {
     circle_id: 'Int',
@@ -7139,7 +7144,6 @@ export const ReturnTypes: Record<string, any> = {
     org_id: 'Int',
     profile_id: 'Int',
     updated_at: 'timestamptz',
-    user_id: 'Int',
   },
   interaction_events_min_fields: {
     circle_id: 'Int',
@@ -7150,7 +7154,6 @@ export const ReturnTypes: Record<string, any> = {
     org_id: 'Int',
     profile_id: 'Int',
     updated_at: 'timestamptz',
-    user_id: 'Int',
   },
   interaction_events_mutation_response: {
     affected_rows: 'Int',
@@ -7161,49 +7164,42 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Float',
     org_id: 'Float',
     profile_id: 'Float',
-    user_id: 'Float',
   },
   interaction_events_stddev_pop_fields: {
     circle_id: 'Float',
     id: 'Float',
     org_id: 'Float',
     profile_id: 'Float',
-    user_id: 'Float',
   },
   interaction_events_stddev_samp_fields: {
     circle_id: 'Float',
     id: 'Float',
     org_id: 'Float',
     profile_id: 'Float',
-    user_id: 'Float',
   },
   interaction_events_sum_fields: {
     circle_id: 'Int',
     id: 'Int',
     org_id: 'Int',
     profile_id: 'Int',
-    user_id: 'Int',
   },
   interaction_events_var_pop_fields: {
     circle_id: 'Float',
     id: 'Float',
     org_id: 'Float',
     profile_id: 'Float',
-    user_id: 'Float',
   },
   interaction_events_var_samp_fields: {
     circle_id: 'Float',
     id: 'Float',
     org_id: 'Float',
     profile_id: 'Float',
-    user_id: 'Float',
   },
   interaction_events_variance_fields: {
     circle_id: 'Float',
     id: 'Float',
     org_id: 'Float',
     profile_id: 'Float',
-    user_id: 'Float',
   },
   mutation_root: {
     adminUpdateUser: 'UserResponse',
@@ -7336,6 +7332,7 @@ export const ReturnTypes: Record<string, any> = {
     restoreCoordinape: 'ConfirmationResponse',
     updateAllocations: 'AllocationsResponse',
     updateCircle: 'UpdateCircleOutput',
+    updateContribution: 'UpdateContributionResponse',
     updateEpoch: 'EpochResponse',
     updateTeammates: 'UpdateTeammatesResponse',
     updateUser: 'UserResponse',

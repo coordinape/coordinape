@@ -149,6 +149,15 @@ export const circleIdInput = z
   })
   .strip();
 
+export const updateContributionInput = z
+  .object({
+    // this should probably be handled as a bigint
+    id: z.number().int().positive(),
+    description: z.string().nonempty(),
+    datetime_created: zStringISODateUTC,
+  })
+  .strict();
+
 export const uploadImageInput = z
   .object({ image_data_base64: z.string() })
   .strict();
