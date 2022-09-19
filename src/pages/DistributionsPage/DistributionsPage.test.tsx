@@ -122,7 +122,7 @@ test('render with a distribution', async () => {
     expect(screen.getByText('Mock User 1')).toBeInTheDocument();
   });
 
-  expect(screen.getAllByText('10.80 Yearn USDC').length).toEqual(2);
+  expect(screen.getAllByText('10.8 Yearn USDC').length).toEqual(2);
 });
 
 test('render with no allocations', async () => {
