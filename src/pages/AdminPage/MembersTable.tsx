@@ -17,7 +17,7 @@ import {
 import isFeatureEnabled from 'config/features';
 import { zEthAddress } from 'forms/formHelpers';
 import { useApeSnackbar, useApiAdminCircle, useNavigation } from 'hooks';
-import { CheckIcon, CloseIcon } from 'icons';
+import { Check, X } from 'icons/__generated';
 import { CircleSettingsResult } from 'pages/CircleAdminPage/getCircleSettings';
 import {
   FixedPaymentResult,
@@ -300,20 +300,16 @@ const MemberRow = ({
         {isAdmin && <TD>{shortenAddress(user.address)}</TD>}
 
         <TD>
-          {!user.non_giver ? (
-            <CheckIcon size="inherit" color="complete" />
-          ) : (
-            <CloseIcon size="inherit" color="alert" />
-          )}
+          {!user.non_giver ? <Check color="complete" /> : <X color="alert" />}
         </TD>
 
         <TD>
           {user.fixed_non_receiver ? (
             'Forced ❌'
           ) : user.non_receiver ? (
-            <CloseIcon size="inherit" color="alert" />
+            <X color="alert" />
           ) : (
-            <CheckIcon size="inherit" color="complete" />
+            <Check color="complete" />
           )}
         </TD>
         {isFeatureEnabled('fixed_payments') && (
@@ -325,9 +321,9 @@ const MemberRow = ({
         {false && <TD>Discord SnowFlake</TD>}
         <TD>
           {user.role === USER_ROLE_ADMIN ? (
-            <CheckIcon size="inherit" color="complete" />
+            <Check color="complete" />
           ) : (
-            <CloseIcon size="inherit" color="alert" />
+            <X color="alert" />
           )}
         </TD>
         <TD>
@@ -461,7 +457,7 @@ const MemberRow = ({
                           }}
                           css={{ whiteSpace: 'nowrap', fontSize: '$small' }}
                         >
-                          <CheckIcon
+                          <Check
                             css={{
                               width: '14px',
                               height: '10px',
@@ -480,7 +476,7 @@ const MemberRow = ({
                           }}
                           css={{ whiteSpace: 'nowrap', fontSize: '$small' }}
                         >
-                          <CloseIcon
+                          <X
                             css={{
                               width: '12.5px',
                               height: '12.5px',
@@ -513,7 +509,7 @@ const MemberRow = ({
                           }}
                           css={{ whiteSpace: 'nowrap', fontSize: '$small' }}
                         >
-                          <CheckIcon
+                          <Check
                             css={{
                               width: '14px',
                               height: '10px',
@@ -542,7 +538,7 @@ const MemberRow = ({
                           }}
                           css={{ whiteSpace: 'nowrap', fontSize: '$small' }}
                         >
-                          <CloseIcon
+                          <X
                             css={{
                               width: '12.5px',
                               height: '12.5px',
@@ -568,7 +564,7 @@ const MemberRow = ({
                           }}
                           css={{ whiteSpace: 'nowrap', fontSize: '$small' }}
                         >
-                          <CloseIcon
+                          <X
                             css={{
                               width: '12.5px',
                               height: '12.5px',
