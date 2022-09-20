@@ -14065,6 +14065,52 @@ columns and relationships of "users" */
       ValueTypes['circle_api_keys_aggregate']
     ];
     circle_id?: boolean | `@${string}`;
+    contributions?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['contributions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['contributions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['contributions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['contributions']
+    ];
+    contributions_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['contributions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['contributions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['contributions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['contributions_aggregate']
+    ];
     created_at?: boolean | `@${string}`;
     deleted_at?: boolean | `@${string}`;
     epoch_first_visit?: boolean | `@${string}`;
@@ -14440,6 +14486,7 @@ columns and relationships of "users" */
     circle?: ValueTypes['circles_bool_exp'] | undefined | null;
     circle_api_keys?: ValueTypes['circle_api_keys_bool_exp'] | undefined | null;
     circle_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    contributions?: ValueTypes['contributions_bool_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     deleted_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     epoch_first_visit?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
@@ -14498,6 +14545,10 @@ columns and relationships of "users" */
       | undefined
       | null;
     circle_id?: ValueTypes['bigint'] | undefined | null;
+    contributions?:
+      | ValueTypes['contributions_arr_rel_insert_input']
+      | undefined
+      | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     deleted_at?: ValueTypes['timestamp'] | undefined | null;
     epoch_first_visit?: boolean | undefined | null;
@@ -14633,6 +14684,10 @@ columns and relationships of "users" */
       | undefined
       | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
+    contributions_aggregate?:
+      | ValueTypes['contributions_aggregate_order_by']
+      | undefined
+      | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     deleted_at?: ValueTypes['order_by'] | undefined | null;
     epoch_first_visit?: ValueTypes['order_by'] | undefined | null;
@@ -21078,6 +21133,10 @@ columns and relationships of "users" */
     /** An aggregate relationship */
     circle_api_keys_aggregate: GraphQLTypes['circle_api_keys_aggregate'];
     circle_id: GraphQLTypes['bigint'];
+    /** An array relationship */
+    contributions: Array<GraphQLTypes['contributions']>;
+    /** An aggregate relationship */
+    contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     created_at: GraphQLTypes['timestamp'];
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
     epoch_first_visit: boolean;
@@ -30223,6 +30282,10 @@ columns and relationships of "users" */
     /** An aggregate relationship */
     circle_api_keys_aggregate: GraphQLTypes['circle_api_keys_aggregate'];
     circle_id: GraphQLTypes['bigint'];
+    /** An array relationship */
+    contributions: Array<GraphQLTypes['contributions']>;
+    /** An aggregate relationship */
+    contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     created_at: GraphQLTypes['timestamp'];
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
     epoch_first_visit: boolean;
@@ -30339,6 +30402,7 @@ columns and relationships of "users" */
     circle?: GraphQLTypes['circles_bool_exp'] | undefined;
     circle_api_keys?: GraphQLTypes['circle_api_keys_bool_exp'] | undefined;
     circle_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    contributions?: GraphQLTypes['contributions_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     epoch_first_visit?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
@@ -30388,6 +30452,9 @@ columns and relationships of "users" */
       | GraphQLTypes['circle_api_keys_arr_rel_insert_input']
       | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
+    contributions?:
+      | GraphQLTypes['contributions_arr_rel_insert_input']
+      | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
     epoch_first_visit?: boolean | undefined;
@@ -30515,6 +30582,9 @@ columns and relationships of "users" */
       | GraphQLTypes['circle_api_keys_aggregate_order_by']
       | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
+    contributions_aggregate?:
+      | GraphQLTypes['contributions_aggregate_order_by']
+      | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     deleted_at?: GraphQLTypes['order_by'] | undefined;
     epoch_first_visit?: GraphQLTypes['order_by'] | undefined;
