@@ -1,6 +1,6 @@
 table:
   schema: public
-  name: protocols
+  name: organizations
 configuration:
   custom_root_fields: {}
   custom_name: organizations
@@ -14,7 +14,7 @@ array_relationships:
           name: circles
         insertion_order: null
         column_mapping:
-          id: protocol_id
+          id: organization_id
   - name: vaults
     using:
       foreign_key_constraint_on:
