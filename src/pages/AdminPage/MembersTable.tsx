@@ -16,7 +16,8 @@ import {
 } from 'config/constants';
 import { zEthAddress } from 'forms/formHelpers';
 import { useApeSnackbar, useApiAdminCircle, useNavigation } from 'hooks';
-import { Check, X } from 'icons/__generated';
+import useMobileDetect from 'hooks/useMobileDetect';
+import { Check, X, Slash } from 'icons/__generated';
 import { CircleSettingsResult } from 'pages/CircleAdminPage/getCircleSettings';
 import {
   FixedPaymentResult,
@@ -192,6 +193,8 @@ const MemberRow = ({
   circleId: number;
 }) => {
   // const { getToProfile } = useNavigation();
+  const { isMobile } = useMobileDetect();
+
   const [open, setOpen] = useState(false);
   const [showOptOutChangeWarning, setShowOptOutChangeWarning] = useState(false);
   const [hasAcceptedOptOutWarning, setHasAcceptedOptOutWarning] =
@@ -296,29 +299,37 @@ const MemberRow = ({
         <TD css={{ width: '20%' }} align="left">
           <UserName user={user} />
         </TD>
-        {isAdmin && <TD>{shortenAddress(user.address)}</TD>}
+        {isAdmin && !isMobile && <TD>{shortenAddress(user.address)}</TD>}
 
-        <TD
-          css={{
-            textAlign: !isAdmin ? 'center !important' : 'left !important',
-          }}
-        >
-          {!user.non_giver ? <Check color="complete" /> : <X color="alert" />}
-        </TD>
+        {!isMobile && (
+          <>
+            <TD
+              css={{
+                textAlign: !isAdmin ? 'center !important' : 'left !important',
+              }}
+            >
+              {!user.non_giver ? (
+                <Check color="complete" />
+              ) : (
+                <X color="alert" />
+              )}
+            </TD>
 
-        <TD
-          css={{
-            textAlign: 'center !important',
-          }}
-        >
-          {user.fixed_non_receiver ? (
-            'Forced ❌'
-          ) : user.non_receiver ? (
-            <X color="alert" />
-          ) : (
-            <Check color="complete" />
-          )}
-        </TD>
+            <TD
+              css={{
+                textAlign: 'center !important',
+              }}
+            >
+              {user.fixed_non_receiver ? (
+                'Forced ❌'
+              ) : user.non_receiver ? (
+                <X color="alert" />
+              ) : (
+                <Check color="complete" />
+              )}
+            </TD>
+          </>
+        )}
         {!!fixedPaymentToken && isAdmin && (
           <TD css={{ textAlign: 'center !important' }}>
             {user.fixed_payment_amount === 0 ? '0' : user.fixed_payment_amount}{' '}
@@ -348,7 +359,7 @@ const MemberRow = ({
                 setOpen(prevState => !prevState);
               }}
             >
-              Manage Member
+              {isMobile ? ' Manage' : 'Manager Member'}
             </Button>
           )}
           {isAdmin && user.role === 2 && (
@@ -380,7 +391,7 @@ const MemberRow = ({
       </TR>
       {open && (
         <TR>
-          <TD colSpan={7}>
+          <TD colSpan={isMobile ? 4 : 7}>
             <Form>
               <Text h3 semibold css={{ my: '$md' }}>
                 {user.name} Member Settings
@@ -412,7 +423,7 @@ const MemberRow = ({
                     label="Wallet Address"
                     infoTooltip="Member ETH address used to login and receive tokens"
                     showFieldErrors
-                    css={{ width: '420px' }}
+                    css={{ maxWidth: '420px' }}
                   />
                   <Flex column css={{ alignItems: 'center', gap: '$md' }}>
                     <FormLabel type="label">
@@ -575,7 +586,7 @@ const MemberRow = ({
                           }}
                           css={{ whiteSpace: 'nowrap', fontSize: '$small' }}
                         >
-                          <X
+                          <Slash
                             css={{
                               width: '12.5px',
                               height: '12.5px',
@@ -671,13 +682,19 @@ const MemberRow = ({
                 </Flex>
               </TwoColumnLayout>
               <Flex
-                css={{ mt: '$lg', mb: '$2xl', justifyContent: 'space-between' }}
+                css={{
+                  mt: '$lg',
+                  mb: '$2xl',
+                  gap: '$md',
+                  justifyContent: 'space-between',
+                  flexWrap: 'wrap',
+                }}
               >
                 <Button
                   outlined
                   color="neutral"
                   size="medium"
-                  css={{ width: 'fit-content', whiteSpace: 'nowrap' }}
+                  css={{ width: '156px', whiteSpace: 'nowrap' }}
                   onClick={e => {
                     e.preventDefault();
                     reset();
@@ -690,7 +707,7 @@ const MemberRow = ({
                   color="complete"
                   size="medium"
                   css={{
-                    width: 'fit-content',
+                    width: '156px',
                     justifySelf: 'end',
                     whiteSpace: 'nowrap',
                   }}
@@ -737,7 +754,7 @@ export const MembersTable = ({
   fixedPayment?: FixedPaymentResult;
   setDeleteUserDialog: (u: IUser) => void;
 }) => {
-  //const { isMobile } = useMobileDetect();
+  const { isMobile } = useMobileDetect();
   const isAdmin = isUserAdmin(me);
   const [page, setPage] = useState<number>(1);
 
@@ -770,17 +787,19 @@ export const MembersTable = ({
 
   const headers = [
     { title: 'Name', css: headerStyles },
-    { title: 'ETH WALLET', css: headerStyles, isHidden: !isAdmin },
+    { title: 'ETH WALLET', css: headerStyles, isHidden: !isAdmin || isMobile },
     {
       title: 'Give',
       css: {
         ...headerStyles,
         textAlign: !isAdmin ? 'center !important' : 'left !important',
       },
+      isHidden: isMobile,
     },
     {
       title: 'Receive',
       css: { ...headerStyles, textAlign: 'center' },
+      isHidden: isMobile,
     },
     {
       title: 'Fixed Payment',
