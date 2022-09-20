@@ -14,6 +14,8 @@ export const IN_PRODUCTION =
   process.env.NODE_ENV === 'production' &&
   process.env.REACT_APP_VERCEL_ENV !== 'preview';
 
+export const IN_DEVELOPMENT = process.env.NODE_ENV === 'development';
+
 // TODO: Have prod remove the trailing slash
 export const STORAGE_URL = getEnvValue(
   'REACT_APP_S3_BASE_URL',
@@ -32,6 +34,8 @@ export const REACT_APP_HASURA_URL = getEnvValue(
   'REACT_APP_HASURA_URL',
   'https://missing-hasura-url.edu'
 );
+
+export const LOCAL_HASURA_PORT = process.env.LOCAL_HASURA_PORT;
 
 export const HARDHAT_CHAIN_ID: number = +(process.env.HARDHAT_CHAIN_ID || 1337);
 export const HARDHAT_PORT: number = +(process.env.HARDHAT_PORT || 8545);
