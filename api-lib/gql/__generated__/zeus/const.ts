@@ -1,9 +1,56 @@
 /* eslint-disable */
 
 export const AllTypesProps: Record<string, any> = {
+  AdminUpdateUserInput: {},
+  Allocation: {},
+  AllocationCsvInput: {},
+  Allocations: {
+    allocations: 'Allocation',
+  },
   Boolean_comparison_exp: {},
+  CoordinapeInput: {},
+  CreateCircleInput: {},
+  CreateCircleResponse: {
+    users: {
+      distinct_on: 'users_select_column',
+      order_by: 'users_order_by',
+      where: 'users_bool_exp',
+    },
+    users_aggregate: {
+      distinct_on: 'users_select_column',
+      order_by: 'users_order_by',
+      where: 'users_bool_exp',
+    },
+  },
+  CreateEpochInput: {
+    start_date: 'timestamptz',
+  },
+  CreateNomineeInput: {},
+  CreateUserInput: {},
+  CreateUserWithTokenInput: {},
+  CreateUsersInput: {
+    users: 'UserObj',
+  },
+  CreateVaultInput: {},
+  DeleteCircleInput: {},
+  DeleteContributionInput: {},
+  DeleteEpochInput: {},
+  DeleteUserInput: {},
+  GenerateApiKeyInput: {},
   Int_comparison_exp: {},
+  LogVaultTxInput: {},
   String_comparison_exp: {},
+  UpdateCircleInput: {},
+  UpdateEpochInput: {
+    start_date: 'timestamptz',
+  },
+  UpdateTeammatesInput: {},
+  UpdateUserInput: {},
+  UploadCircleImageInput: {},
+  UploadImageInput: {},
+  UploadOrgImageInput: {},
+  UserObj: {},
+  VouchInput: {},
   bigint: 'String',
   bigint_comparison_exp: {
     _eq: 'bigint',
@@ -2078,6 +2125,48 @@ export const AllTypesProps: Record<string, any> = {
     _nin: 'jsonb',
   },
   mutation_root: {
+    adminUpdateUser: {
+      payload: 'AdminUpdateUserInput',
+    },
+    allocationCsv: {
+      payload: 'AllocationCsvInput',
+    },
+    createCircle: {
+      payload: 'CreateCircleInput',
+    },
+    createEpoch: {
+      payload: 'CreateEpochInput',
+    },
+    createNominee: {
+      payload: 'CreateNomineeInput',
+    },
+    createUser: {
+      payload: 'CreateUserInput',
+    },
+    createUserWithToken: {
+      payload: 'CreateUserWithTokenInput',
+    },
+    createUsers: {
+      payload: 'CreateUsersInput',
+    },
+    createVault: {
+      payload: 'CreateVaultInput',
+    },
+    createVaultTx: {
+      payload: 'LogVaultTxInput',
+    },
+    deleteCircle: {
+      payload: 'DeleteCircleInput',
+    },
+    deleteContribution: {
+      payload: 'DeleteContributionInput',
+    },
+    deleteEpoch: {
+      payload: 'DeleteEpochInput',
+    },
+    deleteUser: {
+      payload: 'DeleteUserInput',
+    },
     delete_burns: {
       where: 'burns_bool_exp',
     },
@@ -2228,6 +2317,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     delete_vouches_by_pk: {
       id: 'bigint',
+    },
+    generateApiKey: {
+      payload: 'GenerateApiKeyInput',
     },
     insert_burns: {
       objects: 'burns_insert_input',
@@ -2446,6 +2538,24 @@ export const AllTypesProps: Record<string, any> = {
     insert_vouches_one: {
       object: 'vouches_insert_input',
       on_conflict: 'vouches_on_conflict',
+    },
+    restoreCoordinape: {
+      payload: 'CoordinapeInput',
+    },
+    updateAllocations: {
+      payload: 'Allocations',
+    },
+    updateCircle: {
+      payload: 'UpdateCircleInput',
+    },
+    updateEpoch: {
+      payload: 'UpdateEpochInput',
+    },
+    updateTeammates: {
+      payload: 'UpdateTeammatesInput',
+    },
+    updateUser: {
+      payload: 'UpdateUserInput',
     },
     update_burns: {
       _inc: 'burns_inc_input',
@@ -2729,6 +2839,21 @@ export const AllTypesProps: Record<string, any> = {
       _inc: 'vouches_inc_input',
       _set: 'vouches_set_input',
       pk_columns: 'vouches_pk_columns_input',
+    },
+    uploadCircleLogo: {
+      payload: 'UploadCircleImageInput',
+    },
+    uploadOrgLogo: {
+      payload: 'UploadOrgImageInput',
+    },
+    uploadProfileAvatar: {
+      payload: 'UploadImageInput',
+    },
+    uploadProfileBackground: {
+      payload: 'UploadImageInput',
+    },
+    vouch: {
+      payload: 'VouchInput',
     },
   },
   nominees: {
@@ -5502,6 +5627,78 @@ export const ReturnTypes: Record<string, any> = {
     ttl: 'Int',
     refresh: 'Boolean',
   },
+  AllocationCsvResponse: {
+    file: 'String',
+  },
+  AllocationsResponse: {
+    user: 'users',
+    user_id: 'Int',
+  },
+  ConfirmationResponse: {
+    success: 'Boolean',
+  },
+  CreateCircleResponse: {
+    circle: 'circles',
+    id: 'Int',
+    users: 'users',
+    users_aggregate: 'users_aggregate',
+  },
+  CreateNomineeResponse: {
+    id: 'Int',
+    nominee: 'nominees',
+  },
+  DeleteEpochResponse: {
+    success: 'Boolean',
+  },
+  EpochResponse: {
+    epoch: 'epochs',
+    id: 'ID',
+  },
+  GenerateApiKeyResponse: {
+    api_key: 'String',
+    circleApiKey: 'circle_api_keys',
+    hash: 'String',
+  },
+  LogVaultTxResponse: {
+    id: 'ID',
+    vault_tx_return_object: 'vault_transactions',
+  },
+  LogoutResponse: {
+    id: 'Int',
+    profile: 'profiles',
+  },
+  UpdateCircleOutput: {
+    circle: 'circles',
+    id: 'Int',
+  },
+  UpdateCircleResponse: {
+    circle: 'circles',
+    id: 'Int',
+  },
+  UpdateOrgResponse: {
+    id: 'Int',
+    org: 'organizations',
+  },
+  UpdateProfileResponse: {
+    id: 'Int',
+    profile: 'profiles',
+  },
+  UpdateTeammatesResponse: {
+    user: 'users',
+    user_id: 'ID',
+  },
+  UserResponse: {
+    UserResponse: 'users',
+    id: 'ID',
+  },
+  VaultResponse: {
+    id: 'ID',
+    vault: 'vaults',
+  },
+  VouchOutput: {
+    id: 'Int',
+    nominee: 'nominees',
+  },
   burns: {
     circle: 'circles',
     circle_id: 'bigint',
@@ -6983,6 +7180,20 @@ export const ReturnTypes: Record<string, any> = {
     profile_id: 'Float',
   },
   mutation_root: {
+    adminUpdateUser: 'UserResponse',
+    allocationCsv: 'AllocationCsvResponse',
+    createCircle: 'CreateCircleResponse',
+    createEpoch: 'EpochResponse',
+    createNominee: 'CreateNomineeResponse',
+    createUser: 'UserResponse',
+    createUserWithToken: 'UserResponse',
+    createUsers: 'UserResponse',
+    createVault: 'VaultResponse',
+    createVaultTx: 'LogVaultTxResponse',
+    deleteCircle: 'ConfirmationResponse',
+    deleteContribution: 'ConfirmationResponse',
+    deleteEpoch: 'DeleteEpochResponse',
+    deleteUser: 'ConfirmationResponse',
     delete_burns: 'burns_mutation_response',
     delete_burns_by_pk: 'burns',
     delete_circle_api_keys: 'circle_api_keys_mutation_response',
@@ -7037,6 +7248,7 @@ export const ReturnTypes: Record<string, any> = {
     delete_vaults_by_pk: 'vaults',
     delete_vouches: 'vouches_mutation_response',
     delete_vouches_by_pk: 'vouches',
+    generateApiKey: 'GenerateApiKeyResponse',
     insert_burns: 'burns_mutation_response',
     insert_burns_one: 'burns',
     insert_circle_api_keys: 'circle_api_keys_mutation_response',
@@ -7094,6 +7306,13 @@ export const ReturnTypes: Record<string, any> = {
     insert_vaults_one: 'vaults',
     insert_vouches: 'vouches_mutation_response',
     insert_vouches_one: 'vouches',
+    logoutUser: 'LogoutResponse',
+    restoreCoordinape: 'ConfirmationResponse',
+    updateAllocations: 'AllocationsResponse',
+    updateCircle: 'UpdateCircleOutput',
+    updateEpoch: 'EpochResponse',
+    updateTeammates: 'UpdateTeammatesResponse',
+    updateUser: 'UserResponse',
     update_burns: 'burns_mutation_response',
     update_burns_by_pk: 'burns',
     update_circle_api_keys: 'circle_api_keys_mutation_response',
@@ -7148,6 +7367,11 @@ export const ReturnTypes: Record<string, any> = {
     update_vaults_by_pk: 'vaults',
     update_vouches: 'vouches_mutation_response',
     update_vouches_by_pk: 'vouches',
+    uploadCircleLogo: 'UpdateCircleResponse',
+    uploadOrgLogo: 'UpdateOrgResponse',
+    uploadProfileAvatar: 'UpdateProfileResponse',
+    uploadProfileBackground: 'UpdateProfileResponse',
+    vouch: 'VouchOutput',
   },
   nominees: {
     address: 'String',

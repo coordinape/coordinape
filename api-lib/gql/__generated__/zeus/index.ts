@@ -590,6 +590,46 @@ type ZEUS_INTERFACES = never;
 type ZEUS_UNIONS = never;
 
 export type ValueTypes = {
+  ['AdminUpdateUserInput']: {
+    address: string;
+    circle_id: number;
+    fixed_non_receiver?: boolean | undefined | null;
+    fixed_payment_amount?: number | undefined | null;
+    name?: string | undefined | null;
+    new_address?: string | undefined | null;
+    non_giver?: boolean | undefined | null;
+    non_receiver?: boolean | undefined | null;
+    role?: number | undefined | null;
+    starting_tokens?: number | undefined | null;
+  };
+  ['Allocation']: {
+    note: string;
+    recipient_id: number;
+    tokens: number;
+  };
+  ['AllocationCsvInput']: {
+    circle_id: number;
+    epoch?: number | undefined | null;
+    epoch_id?: number | undefined | null;
+    form_gift_amount?: number | undefined | null;
+    gift_token_symbol?: string | undefined | null;
+    grant?: number | undefined | null;
+  };
+  ['AllocationCsvResponse']: AliasType<{
+    file?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['Allocations']: {
+    allocations?: Array<ValueTypes['Allocation']> | undefined | null;
+    circle_id: number;
+    user_id?: number | undefined | null;
+  };
+  ['AllocationsResponse']: AliasType<{
+    /** An object relationship */
+    user?: ValueTypes['users'];
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
   ['Boolean_comparison_exp']: {
     _eq?: boolean | undefined | null;
@@ -602,6 +642,160 @@ export type ValueTypes = {
     _neq?: boolean | undefined | null;
     _nin?: Array<boolean> | undefined | null;
   };
+  ['ConfirmationResponse']: AliasType<{
+    success?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['CoordinapeInput']: {
+    circle_id: number;
+  };
+  ['CreateCircleInput']: {
+    circle_name: string;
+    contact?: string | undefined | null;
+    image_data_base64?: string | undefined | null;
+    organization_id?: number | undefined | null;
+    organization_name?: string | undefined | null;
+    user_name: string;
+  };
+  ['CreateCircleResponse']: AliasType<{
+    /** An object relationship */
+    circle?: ValueTypes['circles'];
+    id?: boolean | `@${string}`;
+    users?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['users_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['users_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['users_bool_exp'] | undefined | null;
+      },
+      ValueTypes['users']
+    ];
+    users_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['users_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['users_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['users_bool_exp'] | undefined | null;
+      },
+      ValueTypes['users_aggregate']
+    ];
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['CreateEpochInput']: {
+    circle_id: number;
+    days: number;
+    grant?: number | undefined | null;
+    repeat: number;
+    start_date: ValueTypes['timestamptz'];
+  };
+  ['CreateNomineeInput']: {
+    address: string;
+    circle_id: number;
+    description: string;
+    name: string;
+  };
+  ['CreateNomineeResponse']: AliasType<{
+    id?: boolean | `@${string}`;
+    /** An object relationship */
+    nominee?: ValueTypes['nominees'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['CreateUserInput']: {
+    address: string;
+    circle_id: number;
+    fixed_non_receiver?: boolean | undefined | null;
+    fixed_payment_amount?: number | undefined | null;
+    name: string;
+    non_giver?: boolean | undefined | null;
+    non_receiver?: boolean | undefined | null;
+    role?: number | undefined | null;
+    starting_tokens?: number | undefined | null;
+  };
+  ['CreateUserWithTokenInput']: {
+    name: string;
+    token: string;
+  };
+  ['CreateUsersInput']: {
+    circle_id: number;
+    users: Array<ValueTypes['UserObj'] | undefined | null>;
+  };
+  ['CreateVaultInput']: {
+    chain_id: number;
+    deployment_block: number;
+    org_id: number;
+    vault_address: string;
+  };
+  ['DeleteCircleInput']: {
+    circle_id: number;
+  };
+  ['DeleteContributionInput']: {
+    contribution_id: number;
+  };
+  ['DeleteEpochInput']: {
+    circle_id: number;
+    id: number;
+  };
+  ['DeleteEpochResponse']: AliasType<{
+    success?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['DeleteUserInput']: {
+    address: string;
+    circle_id: number;
+  };
+  ['EpochResponse']: AliasType<{
+    /** An object relationship */
+    epoch?: ValueTypes['epochs'];
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['GenerateApiKeyInput']: {
+    circle_id: number;
+    create_vouches?: boolean | undefined | null;
+    name: string;
+    read_circle?: boolean | undefined | null;
+    read_epochs?: boolean | undefined | null;
+    read_member_profiles?: boolean | undefined | null;
+    read_nominees?: boolean | undefined | null;
+    read_pending_token_gifts?: boolean | undefined | null;
+    update_circle?: boolean | undefined | null;
+    update_pending_token_gifts?: boolean | undefined | null;
+  };
+  ['GenerateApiKeyResponse']: AliasType<{
+    api_key?: boolean | `@${string}`;
+    /** An object relationship */
+    circleApiKey?: ValueTypes['circle_api_keys'];
+    hash?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: {
     _eq?: number | undefined | null;
@@ -614,6 +808,25 @@ export type ValueTypes = {
     _neq?: number | undefined | null;
     _nin?: Array<number> | undefined | null;
   };
+  ['LogVaultTxInput']: {
+    circle_id?: number | undefined | null;
+    distribution_id?: number | undefined | null;
+    tx_hash: string;
+    tx_type: string;
+    vault_id: number;
+  };
+  ['LogVaultTxResponse']: AliasType<{
+    id?: boolean | `@${string}`;
+    /** An object relationship */
+    vault_tx_return_object?: ValueTypes['vault_transactions'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['LogoutResponse']: AliasType<{
+    id?: boolean | `@${string}`;
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
+    __typename?: boolean | `@${string}`;
+  }>;
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: {
     _eq?: string | undefined | null;
@@ -646,6 +859,114 @@ export type ValueTypes = {
     /** does the column match the given SQL regular expression */
     _similar?: string | undefined | null;
   };
+  ['UpdateCircleInput']: {
+    alloc_text?: string | undefined | null;
+    auto_opt_out?: boolean | undefined | null;
+    circle_id: number;
+    default_opt_in?: boolean | undefined | null;
+    discord_webhook?: string | undefined | null;
+    fixed_payment_token_type?: string | undefined | null;
+    fixed_payment_vault_id?: number | undefined | null;
+    min_vouches?: number | undefined | null;
+    name?: string | undefined | null;
+    nomination_days_limit?: number | undefined | null;
+    only_giver_vouch?: boolean | undefined | null;
+    team_sel_text?: string | undefined | null;
+    team_selection?: boolean | undefined | null;
+    token_name?: string | undefined | null;
+    update_webhook?: boolean | undefined | null;
+    vouching?: boolean | undefined | null;
+    vouching_text?: string | undefined | null;
+  };
+  ['UpdateCircleOutput']: AliasType<{
+    /** An object relationship */
+    circle?: ValueTypes['circles'];
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['UpdateCircleResponse']: AliasType<{
+    /** An object relationship */
+    circle?: ValueTypes['circles'];
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['UpdateEpochInput']: {
+    circle_id: number;
+    days: number;
+    grant?: number | undefined | null;
+    id: number;
+    repeat: number;
+    start_date: ValueTypes['timestamptz'];
+  };
+  ['UpdateOrgResponse']: AliasType<{
+    id?: boolean | `@${string}`;
+    /** An object relationship */
+    org?: ValueTypes['organizations'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['UpdateProfileResponse']: AliasType<{
+    id?: boolean | `@${string}`;
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['UpdateTeammatesInput']: {
+    circle_id: number;
+    teammates: Array<number | undefined | null>;
+  };
+  ['UpdateTeammatesResponse']: AliasType<{
+    /** An object relationship */
+    user?: ValueTypes['users'];
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['UpdateUserInput']: {
+    bio?: string | undefined | null;
+    circle_id: number;
+    epoch_first_visit?: boolean | undefined | null;
+    non_receiver?: boolean | undefined | null;
+  };
+  ['UploadCircleImageInput']: {
+    circle_id: number;
+    image_data_base64: string;
+  };
+  ['UploadImageInput']: {
+    image_data_base64: string;
+  };
+  ['UploadOrgImageInput']: {
+    image_data_base64: string;
+    org_id: number;
+  };
+  ['UserObj']: {
+    address: string;
+    fixed_non_receiver?: boolean | undefined | null;
+    name: string;
+    non_giver?: boolean | undefined | null;
+    non_receiver?: boolean | undefined | null;
+    role?: number | undefined | null;
+    starting_tokens?: number | undefined | null;
+  };
+  ['UserResponse']: AliasType<{
+    /** An object relationship */
+    UserResponse?: ValueTypes['users'];
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['VaultResponse']: AliasType<{
+    id?: boolean | `@${string}`;
+    /** An object relationship */
+    vault?: ValueTypes['vaults'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['VouchInput']: {
+    nominee_id: number;
+  };
+  ['VouchOutput']: AliasType<{
+    id?: boolean | `@${string}`;
+    /** An object relationship */
+    nominee?: ValueTypes['nominees'];
+    __typename?: boolean | `@${string}`;
+  }>;
   ['bigint']: number;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
   ['bigint_comparison_exp']: {
@@ -5905,6 +6226,62 @@ columns and relationships of "distributions" */
   };
   /** mutation root */
   ['mutation_root']: AliasType<{
+    adminUpdateUser?: [
+      { payload: ValueTypes['AdminUpdateUserInput'] },
+      ValueTypes['UserResponse']
+    ];
+    allocationCsv?: [
+      { payload: ValueTypes['AllocationCsvInput'] },
+      ValueTypes['AllocationCsvResponse']
+    ];
+    createCircle?: [
+      { payload: ValueTypes['CreateCircleInput'] },
+      ValueTypes['CreateCircleResponse']
+    ];
+    createEpoch?: [
+      { payload: ValueTypes['CreateEpochInput'] },
+      ValueTypes['EpochResponse']
+    ];
+    createNominee?: [
+      { payload: ValueTypes['CreateNomineeInput'] },
+      ValueTypes['CreateNomineeResponse']
+    ];
+    createUser?: [
+      { payload: ValueTypes['CreateUserInput'] },
+      ValueTypes['UserResponse']
+    ];
+    createUserWithToken?: [
+      { payload: ValueTypes['CreateUserWithTokenInput'] },
+      ValueTypes['UserResponse']
+    ];
+    createUsers?: [
+      { payload: ValueTypes['CreateUsersInput'] },
+      ValueTypes['UserResponse']
+    ];
+    createVault?: [
+      { payload: ValueTypes['CreateVaultInput'] },
+      ValueTypes['VaultResponse']
+    ];
+    createVaultTx?: [
+      { payload: ValueTypes['LogVaultTxInput'] },
+      ValueTypes['LogVaultTxResponse']
+    ];
+    deleteCircle?: [
+      { payload: ValueTypes['DeleteCircleInput'] },
+      ValueTypes['ConfirmationResponse']
+    ];
+    deleteContribution?: [
+      { payload: ValueTypes['DeleteContributionInput'] },
+      ValueTypes['ConfirmationResponse']
+    ];
+    deleteEpoch?: [
+      { payload: ValueTypes['DeleteEpochInput'] },
+      ValueTypes['DeleteEpochResponse']
+    ];
+    deleteUser?: [
+      { payload: ValueTypes['DeleteUserInput'] },
+      ValueTypes['ConfirmationResponse']
+    ];
     delete_burns?: [
       {
         /** filter the rows which have to be deleted */
@@ -6185,6 +6562,10 @@ columns and relationships of "distributions" */
     delete_vouches_by_pk?: [
       { id: ValueTypes['bigint'] },
       ValueTypes['vouches']
+    ];
+    generateApiKey?: [
+      { payload: ValueTypes['GenerateApiKeyInput'] },
+      ValueTypes['GenerateApiKeyResponse']
     ];
     insert_burns?: [
       {
@@ -6755,6 +7136,31 @@ columns and relationships of "distributions" */
         on_conflict?: ValueTypes['vouches_on_conflict'] | undefined | null;
       },
       ValueTypes['vouches']
+    ];
+    logoutUser?: ValueTypes['LogoutResponse'];
+    restoreCoordinape?: [
+      { payload: ValueTypes['CoordinapeInput'] },
+      ValueTypes['ConfirmationResponse']
+    ];
+    updateAllocations?: [
+      { payload: ValueTypes['Allocations'] },
+      ValueTypes['AllocationsResponse']
+    ];
+    updateCircle?: [
+      { payload: ValueTypes['UpdateCircleInput'] },
+      ValueTypes['UpdateCircleOutput']
+    ];
+    updateEpoch?: [
+      { payload: ValueTypes['UpdateEpochInput'] },
+      ValueTypes['EpochResponse']
+    ];
+    updateTeammates?: [
+      { payload: ValueTypes['UpdateTeammatesInput'] },
+      ValueTypes['UpdateTeammatesResponse']
+    ];
+    updateUser?: [
+      { payload: ValueTypes['UpdateUserInput'] },
+      ValueTypes['UserResponse']
     ];
     update_burns?: [
       {
@@ -7554,6 +7960,23 @@ columns and relationships of "distributions" */
       },
       ValueTypes['vouches']
     ];
+    uploadCircleLogo?: [
+      { payload: ValueTypes['UploadCircleImageInput'] },
+      ValueTypes['UpdateCircleResponse']
+    ];
+    uploadOrgLogo?: [
+      { payload: ValueTypes['UploadOrgImageInput'] },
+      ValueTypes['UpdateOrgResponse']
+    ];
+    uploadProfileAvatar?: [
+      { payload: ValueTypes['UploadImageInput'] },
+      ValueTypes['UpdateProfileResponse']
+    ];
+    uploadProfileBackground?: [
+      { payload: ValueTypes['UploadImageInput'] },
+      ValueTypes['UpdateProfileResponse']
+    ];
+    vouch?: [{ payload: ValueTypes['VouchInput'] }, ValueTypes['VouchOutput']];
     __typename?: boolean | `@${string}`;
   }>;
   /** columns and relationships of "nominees" */
@@ -15685,12 +16108,128 @@ columns and relationships of "users" */
 };
 
 export type ModelTypes = {
+  ['AdminUpdateUserInput']: GraphQLTypes['AdminUpdateUserInput'];
+  ['Allocation']: GraphQLTypes['Allocation'];
+  ['AllocationCsvInput']: GraphQLTypes['AllocationCsvInput'];
+  ['AllocationCsvResponse']: {
+    file: string;
+  };
+  ['Allocations']: GraphQLTypes['Allocations'];
+  ['AllocationsResponse']: {
+    /** An object relationship */
+    user: GraphQLTypes['users'];
+    user_id: number;
+  };
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
   ['Boolean_comparison_exp']: GraphQLTypes['Boolean_comparison_exp'];
+  ['ConfirmationResponse']: {
+    success: boolean;
+  };
+  ['CoordinapeInput']: GraphQLTypes['CoordinapeInput'];
+  ['CreateCircleInput']: GraphQLTypes['CreateCircleInput'];
+  ['CreateCircleResponse']: {
+    /** An object relationship */
+    circle: GraphQLTypes['circles'];
+    id: number;
+    /** An array relationship */
+    users: Array<GraphQLTypes['users']>;
+    /** An aggregate relationship */
+    users_aggregate: GraphQLTypes['users_aggregate'];
+  };
+  ['CreateEpochInput']: GraphQLTypes['CreateEpochInput'];
+  ['CreateNomineeInput']: GraphQLTypes['CreateNomineeInput'];
+  ['CreateNomineeResponse']: {
+    id?: number | undefined;
+    /** An object relationship */
+    nominee: GraphQLTypes['nominees'];
+  };
+  ['CreateUserInput']: GraphQLTypes['CreateUserInput'];
+  ['CreateUserWithTokenInput']: GraphQLTypes['CreateUserWithTokenInput'];
+  ['CreateUsersInput']: GraphQLTypes['CreateUsersInput'];
+  ['CreateVaultInput']: GraphQLTypes['CreateVaultInput'];
+  ['DeleteCircleInput']: GraphQLTypes['DeleteCircleInput'];
+  ['DeleteContributionInput']: GraphQLTypes['DeleteContributionInput'];
+  ['DeleteEpochInput']: GraphQLTypes['DeleteEpochInput'];
+  ['DeleteEpochResponse']: {
+    success: boolean;
+  };
+  ['DeleteUserInput']: GraphQLTypes['DeleteUserInput'];
+  ['EpochResponse']: {
+    /** An object relationship */
+    epoch: GraphQLTypes['epochs'];
+    id: string;
+  };
+  ['GenerateApiKeyInput']: GraphQLTypes['GenerateApiKeyInput'];
+  ['GenerateApiKeyResponse']: {
+    api_key: string;
+    /** An object relationship */
+    circleApiKey: GraphQLTypes['circle_api_keys'];
+    hash: string;
+  };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: GraphQLTypes['Int_comparison_exp'];
+  ['LogVaultTxInput']: GraphQLTypes['LogVaultTxInput'];
+  ['LogVaultTxResponse']: {
+    id: string;
+    /** An object relationship */
+    vault_tx_return_object: GraphQLTypes['vault_transactions'];
+  };
+  ['LogoutResponse']: {
+    id?: number | undefined;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+  };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: GraphQLTypes['String_comparison_exp'];
+  ['UpdateCircleInput']: GraphQLTypes['UpdateCircleInput'];
+  ['UpdateCircleOutput']: {
+    /** An object relationship */
+    circle: GraphQLTypes['circles'];
+    id: number;
+  };
+  ['UpdateCircleResponse']: {
+    /** An object relationship */
+    circle: GraphQLTypes['circles'];
+    id: number;
+  };
+  ['UpdateEpochInput']: GraphQLTypes['UpdateEpochInput'];
+  ['UpdateOrgResponse']: {
+    id: number;
+    /** An object relationship */
+    org: GraphQLTypes['organizations'];
+  };
+  ['UpdateProfileResponse']: {
+    id: number;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+  };
+  ['UpdateTeammatesInput']: GraphQLTypes['UpdateTeammatesInput'];
+  ['UpdateTeammatesResponse']: {
+    /** An object relationship */
+    user: GraphQLTypes['users'];
+    user_id: string;
+  };
+  ['UpdateUserInput']: GraphQLTypes['UpdateUserInput'];
+  ['UploadCircleImageInput']: GraphQLTypes['UploadCircleImageInput'];
+  ['UploadImageInput']: GraphQLTypes['UploadImageInput'];
+  ['UploadOrgImageInput']: GraphQLTypes['UploadOrgImageInput'];
+  ['UserObj']: GraphQLTypes['UserObj'];
+  ['UserResponse']: {
+    /** An object relationship */
+    UserResponse: GraphQLTypes['users'];
+    id: string;
+  };
+  ['VaultResponse']: {
+    id: string;
+    /** An object relationship */
+    vault: GraphQLTypes['vaults'];
+  };
+  ['VouchInput']: GraphQLTypes['VouchInput'];
+  ['VouchOutput']: {
+    id: number;
+    /** An object relationship */
+    nominee: GraphQLTypes['nominees'];
+  };
   ['bigint']: number;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
   ['bigint_comparison_exp']: GraphQLTypes['bigint_comparison_exp'];
@@ -18003,6 +18542,21 @@ columns and relationships of "distributions" */
   ['jsonb_comparison_exp']: GraphQLTypes['jsonb_comparison_exp'];
   /** mutation root */
   ['mutation_root']: {
+    adminUpdateUser?: GraphQLTypes['UserResponse'] | undefined;
+    allocationCsv?: GraphQLTypes['AllocationCsvResponse'] | undefined;
+    createCircle?: GraphQLTypes['CreateCircleResponse'] | undefined;
+    createEpoch?: GraphQLTypes['EpochResponse'] | undefined;
+    createNominee?: GraphQLTypes['CreateNomineeResponse'] | undefined;
+    createUser?: GraphQLTypes['UserResponse'] | undefined;
+    createUserWithToken?: GraphQLTypes['UserResponse'] | undefined;
+    createUsers?: Array<GraphQLTypes['UserResponse'] | undefined> | undefined;
+    createVault?: GraphQLTypes['VaultResponse'] | undefined;
+    /** Log offchain information for vault transactions */
+    createVaultTx?: GraphQLTypes['LogVaultTxResponse'] | undefined;
+    deleteCircle?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    deleteContribution?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    deleteEpoch?: GraphQLTypes['DeleteEpochResponse'] | undefined;
+    deleteUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** delete data from the table: "burns" */
     delete_burns?: GraphQLTypes['burns_mutation_response'] | undefined;
     /** delete single row from the table: "burns" */
@@ -18157,6 +18711,8 @@ columns and relationships of "distributions" */
     delete_vouches?: GraphQLTypes['vouches_mutation_response'] | undefined;
     /** delete single row from the table: "vouches" */
     delete_vouches_by_pk?: GraphQLTypes['vouches'] | undefined;
+    /** Generates an API key for a circle */
+    generateApiKey?: GraphQLTypes['GenerateApiKeyResponse'] | undefined;
     /** insert data into the table: "burns" */
     insert_burns?: GraphQLTypes['burns_mutation_response'] | undefined;
     /** insert a single row into the table: "burns" */
@@ -18319,6 +18875,14 @@ columns and relationships of "distributions" */
     insert_vouches?: GraphQLTypes['vouches_mutation_response'] | undefined;
     /** insert a single row into the table: "vouches" */
     insert_vouches_one?: GraphQLTypes['vouches'] | undefined;
+    logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
+    restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
+    updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;
+    updateEpoch?: GraphQLTypes['EpochResponse'] | undefined;
+    updateTeammates?: GraphQLTypes['UpdateTeammatesResponse'] | undefined;
+    /** Update own user */
+    updateUser?: GraphQLTypes['UserResponse'] | undefined;
     /** update data of the table: "burns" */
     update_burns?: GraphQLTypes['burns_mutation_response'] | undefined;
     /** update single row of the table: "burns" */
@@ -18473,6 +19037,11 @@ columns and relationships of "distributions" */
     update_vouches?: GraphQLTypes['vouches_mutation_response'] | undefined;
     /** update single row of the table: "vouches" */
     update_vouches_by_pk?: GraphQLTypes['vouches'] | undefined;
+    uploadCircleLogo?: GraphQLTypes['UpdateCircleResponse'] | undefined;
+    uploadOrgLogo?: GraphQLTypes['UpdateOrgResponse'] | undefined;
+    uploadProfileAvatar?: GraphQLTypes['UpdateProfileResponse'] | undefined;
+    uploadProfileBackground?: GraphQLTypes['UpdateProfileResponse'] | undefined;
+    vouch?: GraphQLTypes['VouchOutput'] | undefined;
   };
   /** columns and relationships of "nominees" */
   ['nominees']: {
@@ -21204,6 +21773,46 @@ columns and relationships of "users" */
 };
 
 export type GraphQLTypes = {
+  ['AdminUpdateUserInput']: {
+    address: string;
+    circle_id: number;
+    fixed_non_receiver?: boolean | undefined;
+    fixed_payment_amount?: number | undefined;
+    name?: string | undefined;
+    new_address?: string | undefined;
+    non_giver?: boolean | undefined;
+    non_receiver?: boolean | undefined;
+    role?: number | undefined;
+    starting_tokens?: number | undefined;
+  };
+  ['Allocation']: {
+    note: string;
+    recipient_id: number;
+    tokens: number;
+  };
+  ['AllocationCsvInput']: {
+    circle_id: number;
+    epoch?: number | undefined;
+    epoch_id?: number | undefined;
+    form_gift_amount?: number | undefined;
+    gift_token_symbol?: string | undefined;
+    grant?: number | undefined;
+  };
+  ['AllocationCsvResponse']: {
+    __typename: 'AllocationCsvResponse';
+    file: string;
+  };
+  ['Allocations']: {
+    allocations?: Array<GraphQLTypes['Allocation']> | undefined;
+    circle_id: number;
+    user_id?: number | undefined;
+  };
+  ['AllocationsResponse']: {
+    __typename: 'AllocationsResponse';
+    /** An object relationship */
+    user: GraphQLTypes['users'];
+    user_id: number;
+  };
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
   ['Boolean_comparison_exp']: {
     _eq?: boolean | undefined;
@@ -21216,6 +21825,118 @@ export type GraphQLTypes = {
     _neq?: boolean | undefined;
     _nin?: Array<boolean> | undefined;
   };
+  ['ConfirmationResponse']: {
+    __typename: 'ConfirmationResponse';
+    success: boolean;
+  };
+  ['CoordinapeInput']: {
+    circle_id: number;
+  };
+  ['CreateCircleInput']: {
+    circle_name: string;
+    contact?: string | undefined;
+    image_data_base64?: string | undefined;
+    organization_id?: number | undefined;
+    organization_name?: string | undefined;
+    user_name: string;
+  };
+  ['CreateCircleResponse']: {
+    __typename: 'CreateCircleResponse';
+    /** An object relationship */
+    circle: GraphQLTypes['circles'];
+    id: number;
+    /** An array relationship */
+    users: Array<GraphQLTypes['users']>;
+    /** An aggregate relationship */
+    users_aggregate: GraphQLTypes['users_aggregate'];
+  };
+  ['CreateEpochInput']: {
+    circle_id: number;
+    days: number;
+    grant?: number | undefined;
+    repeat: number;
+    start_date: GraphQLTypes['timestamptz'];
+  };
+  ['CreateNomineeInput']: {
+    address: string;
+    circle_id: number;
+    description: string;
+    name: string;
+  };
+  ['CreateNomineeResponse']: {
+    __typename: 'CreateNomineeResponse';
+    id?: number | undefined;
+    /** An object relationship */
+    nominee: GraphQLTypes['nominees'];
+  };
+  ['CreateUserInput']: {
+    address: string;
+    circle_id: number;
+    fixed_non_receiver?: boolean | undefined;
+    fixed_payment_amount?: number | undefined;
+    name: string;
+    non_giver?: boolean | undefined;
+    non_receiver?: boolean | undefined;
+    role?: number | undefined;
+    starting_tokens?: number | undefined;
+  };
+  ['CreateUserWithTokenInput']: {
+    name: string;
+    token: string;
+  };
+  ['CreateUsersInput']: {
+    circle_id: number;
+    users: Array<GraphQLTypes['UserObj'] | undefined>;
+  };
+  ['CreateVaultInput']: {
+    chain_id: number;
+    deployment_block: number;
+    org_id: number;
+    vault_address: string;
+  };
+  ['DeleteCircleInput']: {
+    circle_id: number;
+  };
+  ['DeleteContributionInput']: {
+    contribution_id: number;
+  };
+  ['DeleteEpochInput']: {
+    circle_id: number;
+    id: number;
+  };
+  ['DeleteEpochResponse']: {
+    __typename: 'DeleteEpochResponse';
+    success: boolean;
+  };
+  ['DeleteUserInput']: {
+    address: string;
+    circle_id: number;
+  };
+  ['EpochResponse']: {
+    __typename: 'EpochResponse';
+    /** An object relationship */
+    epoch: GraphQLTypes['epochs'];
+    id: string;
+  };
+  ['GenerateApiKeyInput']: {
+    circle_id: number;
+    create_vouches?: boolean | undefined;
+    name: string;
+    read_circle?: boolean | undefined;
+    read_epochs?: boolean | undefined;
+    read_member_profiles?: boolean | undefined;
+    read_nominees?: boolean | undefined;
+    read_pending_token_gifts?: boolean | undefined;
+    update_circle?: boolean | undefined;
+    update_pending_token_gifts?: boolean | undefined;
+  };
+  ['GenerateApiKeyResponse']: {
+    __typename: 'GenerateApiKeyResponse';
+    api_key: string;
+    /** An object relationship */
+    circleApiKey: GraphQLTypes['circle_api_keys'];
+    hash: string;
+  };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: {
     _eq?: number | undefined;
@@ -21227,6 +21948,25 @@ export type GraphQLTypes = {
     _lte?: number | undefined;
     _neq?: number | undefined;
     _nin?: Array<number> | undefined;
+  };
+  ['LogVaultTxInput']: {
+    circle_id?: number | undefined;
+    distribution_id?: number | undefined;
+    tx_hash: string;
+    tx_type: string;
+    vault_id: number;
+  };
+  ['LogVaultTxResponse']: {
+    __typename: 'LogVaultTxResponse';
+    id: string;
+    /** An object relationship */
+    vault_tx_return_object: GraphQLTypes['vault_transactions'];
+  };
+  ['LogoutResponse']: {
+    __typename: 'LogoutResponse';
+    id?: number | undefined;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
   };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: {
@@ -21259,6 +21999,114 @@ export type GraphQLTypes = {
     _regex?: string | undefined;
     /** does the column match the given SQL regular expression */
     _similar?: string | undefined;
+  };
+  ['UpdateCircleInput']: {
+    alloc_text?: string | undefined;
+    auto_opt_out?: boolean | undefined;
+    circle_id: number;
+    default_opt_in?: boolean | undefined;
+    discord_webhook?: string | undefined;
+    fixed_payment_token_type?: string | undefined;
+    fixed_payment_vault_id?: number | undefined;
+    min_vouches?: number | undefined;
+    name?: string | undefined;
+    nomination_days_limit?: number | undefined;
+    only_giver_vouch?: boolean | undefined;
+    team_sel_text?: string | undefined;
+    team_selection?: boolean | undefined;
+    token_name?: string | undefined;
+    update_webhook?: boolean | undefined;
+    vouching?: boolean | undefined;
+    vouching_text?: string | undefined;
+  };
+  ['UpdateCircleOutput']: {
+    __typename: 'UpdateCircleOutput';
+    /** An object relationship */
+    circle: GraphQLTypes['circles'];
+    id: number;
+  };
+  ['UpdateCircleResponse']: {
+    __typename: 'UpdateCircleResponse';
+    /** An object relationship */
+    circle: GraphQLTypes['circles'];
+    id: number;
+  };
+  ['UpdateEpochInput']: {
+    circle_id: number;
+    days: number;
+    grant?: number | undefined;
+    id: number;
+    repeat: number;
+    start_date: GraphQLTypes['timestamptz'];
+  };
+  ['UpdateOrgResponse']: {
+    __typename: 'UpdateOrgResponse';
+    id: number;
+    /** An object relationship */
+    org: GraphQLTypes['organizations'];
+  };
+  ['UpdateProfileResponse']: {
+    __typename: 'UpdateProfileResponse';
+    id: number;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+  };
+  ['UpdateTeammatesInput']: {
+    circle_id: number;
+    teammates: Array<number | undefined>;
+  };
+  ['UpdateTeammatesResponse']: {
+    __typename: 'UpdateTeammatesResponse';
+    /** An object relationship */
+    user: GraphQLTypes['users'];
+    user_id: string;
+  };
+  ['UpdateUserInput']: {
+    bio?: string | undefined;
+    circle_id: number;
+    epoch_first_visit?: boolean | undefined;
+    non_receiver?: boolean | undefined;
+  };
+  ['UploadCircleImageInput']: {
+    circle_id: number;
+    image_data_base64: string;
+  };
+  ['UploadImageInput']: {
+    image_data_base64: string;
+  };
+  ['UploadOrgImageInput']: {
+    image_data_base64: string;
+    org_id: number;
+  };
+  ['UserObj']: {
+    address: string;
+    fixed_non_receiver?: boolean | undefined;
+    name: string;
+    non_giver?: boolean | undefined;
+    non_receiver?: boolean | undefined;
+    role?: number | undefined;
+    starting_tokens?: number | undefined;
+  };
+  ['UserResponse']: {
+    __typename: 'UserResponse';
+    /** An object relationship */
+    UserResponse: GraphQLTypes['users'];
+    id: string;
+  };
+  ['VaultResponse']: {
+    __typename: 'VaultResponse';
+    id: string;
+    /** An object relationship */
+    vault: GraphQLTypes['vaults'];
+  };
+  ['VouchInput']: {
+    nominee_id: number;
+  };
+  ['VouchOutput']: {
+    __typename: 'VouchOutput';
+    id: number;
+    /** An object relationship */
+    nominee: GraphQLTypes['nominees'];
   };
   ['bigint']: any;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
@@ -25592,6 +26440,21 @@ columns and relationships of "distributions" */
   /** mutation root */
   ['mutation_root']: {
     __typename: 'mutation_root';
+    adminUpdateUser?: GraphQLTypes['UserResponse'] | undefined;
+    allocationCsv?: GraphQLTypes['AllocationCsvResponse'] | undefined;
+    createCircle?: GraphQLTypes['CreateCircleResponse'] | undefined;
+    createEpoch?: GraphQLTypes['EpochResponse'] | undefined;
+    createNominee?: GraphQLTypes['CreateNomineeResponse'] | undefined;
+    createUser?: GraphQLTypes['UserResponse'] | undefined;
+    createUserWithToken?: GraphQLTypes['UserResponse'] | undefined;
+    createUsers?: Array<GraphQLTypes['UserResponse'] | undefined> | undefined;
+    createVault?: GraphQLTypes['VaultResponse'] | undefined;
+    /** Log offchain information for vault transactions */
+    createVaultTx?: GraphQLTypes['LogVaultTxResponse'] | undefined;
+    deleteCircle?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    deleteContribution?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    deleteEpoch?: GraphQLTypes['DeleteEpochResponse'] | undefined;
+    deleteUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** delete data from the table: "burns" */
     delete_burns?: GraphQLTypes['burns_mutation_response'] | undefined;
     /** delete single row from the table: "burns" */
@@ -25746,6 +26609,8 @@ columns and relationships of "distributions" */
     delete_vouches?: GraphQLTypes['vouches_mutation_response'] | undefined;
     /** delete single row from the table: "vouches" */
     delete_vouches_by_pk?: GraphQLTypes['vouches'] | undefined;
+    /** Generates an API key for a circle */
+    generateApiKey?: GraphQLTypes['GenerateApiKeyResponse'] | undefined;
     /** insert data into the table: "burns" */
     insert_burns?: GraphQLTypes['burns_mutation_response'] | undefined;
     /** insert a single row into the table: "burns" */
@@ -25908,6 +26773,14 @@ columns and relationships of "distributions" */
     insert_vouches?: GraphQLTypes['vouches_mutation_response'] | undefined;
     /** insert a single row into the table: "vouches" */
     insert_vouches_one?: GraphQLTypes['vouches'] | undefined;
+    logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
+    restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
+    updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;
+    updateEpoch?: GraphQLTypes['EpochResponse'] | undefined;
+    updateTeammates?: GraphQLTypes['UpdateTeammatesResponse'] | undefined;
+    /** Update own user */
+    updateUser?: GraphQLTypes['UserResponse'] | undefined;
     /** update data of the table: "burns" */
     update_burns?: GraphQLTypes['burns_mutation_response'] | undefined;
     /** update single row of the table: "burns" */
@@ -26062,6 +26935,11 @@ columns and relationships of "distributions" */
     update_vouches?: GraphQLTypes['vouches_mutation_response'] | undefined;
     /** update single row of the table: "vouches" */
     update_vouches_by_pk?: GraphQLTypes['vouches'] | undefined;
+    uploadCircleLogo?: GraphQLTypes['UpdateCircleResponse'] | undefined;
+    uploadOrgLogo?: GraphQLTypes['UpdateOrgResponse'] | undefined;
+    uploadProfileAvatar?: GraphQLTypes['UpdateProfileResponse'] | undefined;
+    uploadProfileBackground?: GraphQLTypes['UpdateProfileResponse'] | undefined;
+    vouch?: GraphQLTypes['VouchOutput'] | undefined;
   };
   /** columns and relationships of "nominees" */
   ['nominees']: {
