@@ -2,7 +2,7 @@ import { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
 import { endNominees, updateCircle } from '../../../../api-lib/gql/mutations';
-import * as queries from '../../../../api-lib/gql/queries';
+import { getCircle } from '../../../../api-lib/gql/queries';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
 import {
   composeHasuraActionRequestBodyWithApiPermissions,
@@ -19,7 +19,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     input: { payload: input },
   } = await requestSchema.parseAsync(req.body);
 
-  const { circles_by_pk: circle } = await queries.getCircle(input.circle_id);
+  const { circles_by_pk: circle } = await getCircle(input.circle_id);
 
   if (input.token_name !== circle?.token_name) {
     errorResponseWithStatusCode(
