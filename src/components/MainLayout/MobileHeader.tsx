@@ -5,7 +5,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { NewApeAvatar } from 'components';
 import isFeatureEnabled from 'config/features';
 import { useWalletStatus } from 'hooks/login';
-import { CloseIcon, HamburgerIcon } from 'icons';
+import { X, Menu } from 'icons/__generated';
 import { useMyProfile } from 'recoilState/app';
 import { paths } from 'routes/paths';
 import { Box, IconButton, Link, Image } from 'ui';
@@ -54,12 +54,9 @@ export const MobileHeader = ({
         <IconButton
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label="menu"
+          color="white"
         >
-          {!isMobileMenuOpen ? (
-            <HamburgerIcon color="white" />
-          ) : (
-            <CloseIcon color="white" />
-          )}
+          {!isMobileMenuOpen ? <Menu size="lg" /> : <X size="lg" />}
         </IconButton>
       </Box>
       {isMobileMenuOpen && (

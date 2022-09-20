@@ -16,6 +16,7 @@ import { useNavigation } from 'hooks';
 import { useContributions } from 'hooks/useContributions';
 import { useSetEditProfileOpen } from 'recoilState/ui';
 import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE } from 'routes/paths';
+import { Flex } from 'ui';
 
 import { CardInfoText } from './CardInfoText';
 import { ContributionSummary } from './ContributionSummary';
@@ -40,10 +41,6 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     display: 'grid',
     gridTemplateColumns: '1fr 60px 1fr',
-  },
-  socialContainer: {
-    justifySelf: 'start',
-    margin: theme.spacing(0.7),
   },
   moreContainer: {
     justifySelf: 'end',
@@ -152,9 +149,7 @@ const ProfileCardInner = ({
   return (
     <div className={classes.root} data-testid="profileCard">
       <div className={classes.topRow}>
-        <div className={classes.socialContainer}>
-          {user.profile && <ProfileSocialIcons profile={user.profile} />}
-        </div>
+        <Flex />
         <ApeAvatar
           user={user}
           className={classes.avatar}
@@ -177,6 +172,9 @@ const ProfileCardInner = ({
         </div>
         <span className={classes.name}>
           {user.name}
+          <Flex css={{ justifyContent: 'center', alignItems: 'center' }}>
+            {user.profile && <ProfileSocialIcons profile={user.profile} />}
+          </Flex>
           {user.role === USER_ROLE_COORDINAPE && (
             <ApeInfoTooltip classes={{ tooltip: classes.tooltip }}>
               <b>Why is Coordinape in my circle?</b>

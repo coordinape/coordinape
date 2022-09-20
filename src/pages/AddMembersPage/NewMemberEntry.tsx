@@ -2,8 +2,8 @@ import React from 'react';
 
 import { FieldValues, UseFormRegister } from 'react-hook-form';
 
-import { CloseIcon } from '../../icons/CloseIcon';
 import { Box, Flex, Text, TextField } from '../../ui';
+import { X } from 'icons/__generated';
 
 import NewMemberGridBox from './NewMemberGridBox';
 
@@ -58,7 +58,7 @@ const NewMemberEntry = ({
                   margin: 0,
                 }}
               >
-                <CloseIcon color={'neutral'} size={'md'} />
+                <X color={'neutral'} />
               </Flex>
             </>
           )}

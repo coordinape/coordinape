@@ -14,6 +14,11 @@ function generate() {
   local GEN_PATH=$1; shift
   local TMP_GEN_PATH=${TMPDIR:-/tmp}/${TYPE}_`date +%s`
 
+  until curl -s -o/dev/null http://localhost:"$LOCAL_WEB_PORT"; do
+    sleep 1
+    echo "waiting for nodemon"
+  done
+
   # pass the rest of the arguments to zeus
   (set -x; zeus "$HASURA_GRAPHQL_ENDPOINT"/v1/graphql $TMP_GEN_PATH --ts "$@")
 
@@ -47,6 +52,7 @@ function generate() {
 }
 
 generate admin $ADMIN_PATH --node -h x-hasura-admin-secret:$HASURA_GRAPHQL_ADMIN_SECRET
+sleep 3
 generate user $USER_PATH -h x-hasura-role:user -h "authorization:generate"
 
 # fix formatting of generated files

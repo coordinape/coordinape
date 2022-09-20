@@ -1,5 +1,6 @@
 import { makeStyles, ButtonBase } from '@material-ui/core';
-import EditIcon from '@material-ui/icons/Edit';
+
+import { Edit3 } from 'icons/__generated';
 
 const useStyles = makeStyles(theme => ({
   editCircleButton: {
@@ -8,16 +9,13 @@ const useStyles = makeStyles(theme => ({
     width: '32px',
     height: '32px',
   },
-  editIcon: {
-    color: theme.colors.white,
-  },
 }));
 
 export const IconButton = () => {
   const classes = useStyles();
   return (
     <ButtonBase className={classes.editCircleButton}>
-      <EditIcon className={classes.editIcon} />
+      <Edit3 />
     </ButtonBase>
   );
 };

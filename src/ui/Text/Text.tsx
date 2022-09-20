@@ -21,6 +21,7 @@ export const Text = styled('span', {
       neutral: { color: '$neutral' },
       alert: { color: '$alert' },
       primary: { color: '$primary' },
+      complete: { color: '$complete' },
       inherit: { color: 'inherit' },
     },
     bold: { true: { fontWeight: '$bold !important' } },

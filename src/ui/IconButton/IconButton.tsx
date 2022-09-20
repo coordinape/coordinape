@@ -67,6 +67,11 @@ export const IconButton = styled('button', {
         width: '$2xl',
       },
     },
+    color: {
+      white: {
+        color: '$white',
+      },
+    },
     variant: {
       ghost: {
         backgroundColor: 'transparent',

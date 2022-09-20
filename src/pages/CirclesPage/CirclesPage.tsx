@@ -10,7 +10,7 @@ import type { CSS } from 'stitches.config';
 import { OrgLogoUpload, LoadingModal } from 'components';
 import { scrollToTop } from 'components/MainLayout/MainLayout';
 import useConnectedAddress from 'hooks/useConnectedAddress';
-import { Torso } from 'icons';
+import { User } from 'icons/__generated';
 import {
   paths,
   EXTERNAL_URL_GET_STARTED,
@@ -261,7 +261,7 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
             {circle.name}
           </Text>
           <Text color={'neutral'} size={'small'} css={{ ...nonMemberCss }}>
-            <Torso size={'md'} css={{ mr: '$xs' }} />
+            <User size="sm" css={{ mr: '$xs' }} />
             {role === 1
               ? 'Circle Admin'
               : role === 0

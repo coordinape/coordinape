@@ -4,12 +4,12 @@ import { styled } from '@stitches/react';
 import { PopupButton } from '@typeform/embed-react';
 
 import {
-  Close,
+  Clock,
   Discord,
-  Document,
-  Email,
+  FileText,
   GiveReceiveBoth,
-  Time,
+  Mail,
+  X,
 } from '../icons/__generated';
 import {
   EXTERNAL_URL_DISCORD,
@@ -156,7 +156,7 @@ const HelpButton = () => {
               },
             }}
           >
-            <Close size={'md'} color={'inherit'} />
+            <X size={'md'} color={'inherit'} />
           </Box>
         </Flex>
         <div>
@@ -172,13 +172,13 @@ const HelpButton = () => {
         </HelpOption>
         <HelpOption
           href={EXTERNAL_URL_MAILTO_SUPPORT}
-          icon={<Email size={'md'} color={'text'} />}
+          icon={<Mail size={'md'} color={'text'} />}
         >
           Email Us
         </HelpOption>
         <HelpOption
           href={EXTERNAL_URL_SCHEDULE_WALKTHROUGH}
-          icon={<Time size={'md'} color={'text'} />}
+          icon={<Clock size={'md'} color={'text'} />}
         >
           Schedule a Walkthrough
         </HelpOption>
@@ -208,7 +208,7 @@ const HelpButton = () => {
         <Box css={{ borderTop: '0.5px solid $borderMedium', mt: '$sm' }}>
           <HelpOption
             href={EXTERNAL_URL_DOCS}
-            icon={<Document size={'md'} color={'text'} />}
+            icon={<FileText size={'md'} color={'text'} />}
           >
             Documentation
           </HelpOption>

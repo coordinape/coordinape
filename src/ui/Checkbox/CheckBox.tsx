@@ -1,9 +1,9 @@
 import * as React from 'react';
 
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
-import { CheckIcon, InfoCircledIcon } from '@radix-ui/react-icons';
 
 import { styled } from '../../stitches.config';
+import { Check, Info } from 'icons/__generated';
 import { Flex, Tooltip } from 'ui';
 import Text from 'ui/Text/Text';
 
@@ -86,13 +86,13 @@ export const CheckBox = React.forwardRef<HTMLButtonElement, CheckBoxProps>(
           id={label}
         >
           <CheckboxIndicator>
-            <CheckIcon />
+            <Check />
           </CheckboxIndicator>
         </CheckboxRoot>
         {label && <Label htmlFor={label}>{label}</Label>}
         {infoTooltip && (
           <Tooltip content={infoTooltip}>
-            <InfoCircledIcon />
+            <Info />
           </Tooltip>
         )}
       </Flex>

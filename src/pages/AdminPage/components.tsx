@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import { GearIcon, InfoCircledIcon } from '@radix-ui/react-icons';
 import { isUserAdmin } from 'lib/users';
 import { Link as RouterLink } from 'react-router-dom';
 import { styled } from 'stitches.config';
@@ -14,7 +13,7 @@ import {
 import { isFeatureEnabled } from 'config/features';
 import { useApiAdminCircle, useNavigation } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
-import { PlusCircleIcon, CheckIcon, CloseIcon } from 'icons';
+import { Settings, Check, X, Info, PlusCircle } from 'icons/__generated';
 import { CircleSettingsResult } from 'pages/CircleAdminPage/getCircleSettings';
 import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE } from 'routes/paths';
 import {
@@ -57,7 +56,7 @@ const LightText = styled(Text, {
 export const SettingsIconButton = ({ onClick }: { onClick?: () => void }) => {
   return (
     <IconButton size="lg" onClick={onClick}>
-      <GearIcon width="30" height="30" />
+      <Settings />
     </IconButton>
   );
 };
@@ -104,9 +103,9 @@ export const renderUserCard = (user: IUser, tokenName: string) => {
               <>
                 <Box css={{ mr: '$xs' }}>
                   {!user.non_giver ? (
-                    <CheckIcon size="inherit" color="complete" />
+                    <Check color="complete" />
                   ) : (
-                    <CloseIcon size="inherit" color="alert" />
+                    <X color="alert" />
                   )}
                 </Box>
                 {tokenName}
@@ -221,7 +220,7 @@ const EmptyTable = ({
         {content}
       </Text>
       <Button color="secondary">
-        <PlusCircleIcon />
+        <PlusCircle />
         {createLabel}
       </Button>
     </Flex>
@@ -365,7 +364,7 @@ export const MembersTable = ({
           {user.role === USER_ROLE_COORDINAPE ? (
             <Box css={{ marginTop: '6px' }}>
               <Tooltip content={coordinapeTooltipContent()}>
-                <InfoCircledIcon />
+                <Info size="sm" />
               </Tooltip>
             </Box>
           ) : (
@@ -379,7 +378,7 @@ export const MembersTable = ({
   const renderTooltip = (content: React.ReactNode) => {
     return (
       <Tooltip content={content}>
-        <InfoCircledIcon />
+        <Info color="neutral" size="sm" />
       </Tooltip>
     );
   };
@@ -540,9 +539,9 @@ export const MembersTable = ({
 
                     <Table.Cell>
                       {!u.non_giver ? (
-                        <CheckIcon size="inherit" color="complete" />
+                        <Check color="complete" />
                       ) : (
-                        <CloseIcon size="inherit" color="alert" />
+                        <X color="alert" />
                       )}
                     </Table.Cell>
 
@@ -550,17 +549,17 @@ export const MembersTable = ({
                       {u.fixed_non_receiver ? (
                         'Forced ❌'
                       ) : u.non_receiver ? (
-                        <CloseIcon size="inherit" color="alert" />
+                        <X color="alert" />
                       ) : (
-                        <CheckIcon size="inherit" color="complete" />
+                        <Check color="complete" />
                       )}
                     </Table.Cell>
 
                     <Table.Cell>
                       {u.role === USER_ROLE_ADMIN ? (
-                        <CheckIcon size="inherit" color="complete" />
+                        <Check color="complete" />
                       ) : (
-                        <CloseIcon size="inherit" color="alert" />
+                        <X color="alert" />
                       )}
                     </Table.Cell>
                     {isAdmin && (

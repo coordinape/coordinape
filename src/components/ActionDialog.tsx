@@ -7,7 +7,8 @@ import {
   IconButton,
   DialogContent,
 } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
+
+import { X } from 'icons/__generated';
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -89,7 +90,7 @@ export const ActionDialog = ({
             onClick={onClose}
             aria-label="close"
           >
-            <CloseIcon />
+            <X />
           </IconButton>
         )}
         {title && <h3 className={classes.title}>{title}</h3>}
