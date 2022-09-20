@@ -1,91 +1,68 @@
-import React from 'react';
-
-import { makeStyles, IconButton } from '@material-ui/core';
-
 import {
-  DeprecatedTwitterIcon,
-  DeprecatedDiscordIcon,
-  DeprecatedMediumIcon,
-  DeprecatedTelegramIcon,
-  DeprecatedLinkIcon,
-  DeprecatedGithubIcon,
-} from 'icons';
+  Discord,
+  Github,
+  Link as LinkIcon,
+  Medium,
+  Telegram,
+  Twitter,
+} from 'icons/__generated';
+import { Link, Flex } from 'ui';
 
 import { IApiProfile } from 'types';
 
-const useStyles = makeStyles(theme => ({
-  socialItem: {
-    margin: theme.spacing(0.5),
-    width: 18,
-    height: 18,
-  },
-}));
-
 export const ProfileSocialIcons = ({ profile }: { profile: IApiProfile }) => {
-  const classes = useStyles();
-
   return (
-    <>
+    <Flex css={{ gap: '$xs' }}>
       {profile.twitter_username && (
-        <IconButton
-          size="small"
-          className={classes.socialItem}
+        <Link
+          color="neutral"
           href={`https://twitter.com/${profile.twitter_username}`}
           target="_blank"
         >
-          <DeprecatedTwitterIcon />
-        </IconButton>
+          <Twitter nostroke />
+        </Link>
       )}
       {profile.github_username && (
-        <IconButton
-          size="small"
-          className={classes.socialItem}
+        <Link
+          color="neutral"
           href={`https://github.com/${profile.github_username}`}
           target="_blank"
         >
-          <DeprecatedGithubIcon />
-        </IconButton>
+          <Github nostroke />
+        </Link>
       )}
       {profile.telegram_username && (
-        <IconButton
-          size="small"
-          className={classes.socialItem}
+        <Link
+          color="neutral"
           href={`https://t.me/${profile.telegram_username}`}
           target="_blank"
         >
-          <DeprecatedTelegramIcon />
-        </IconButton>
+          <Telegram nostroke />
+        </Link>
       )}
       {profile.discord_username && (
-        <IconButton
-          size="small"
-          className={classes.socialItem}
+        <Link
           href={`https://discord.com/${profile.discord_username}`}
           target="_blank"
+          color="neutral"
         >
-          <DeprecatedDiscordIcon />
-        </IconButton>
+          <Discord nostroke />
+        </Link>
       )}
       {profile.medium_username && (
-        <IconButton
-          size="small"
-          className={classes.socialItem}
+        <Link
+          color="neutral"
           href={`https://${profile.medium_username}.medium.com`}
           target="_blank"
         >
-          <DeprecatedMediumIcon />
-        </IconButton>
+          <Medium nostroke />
+        </Link>
       )}
       {profile.website && (
-        <IconButton
-          size="small"
-          className={classes.socialItem}
-          href={profile.website}
-          target="_blank"
-        >
-          <DeprecatedLinkIcon />
-        </IconButton>
+        <Link color="neutral" href={profile.website} target="_blank">
+          <LinkIcon />
+        </Link>
       )}
-    </>
+    </Flex>
   );
 };

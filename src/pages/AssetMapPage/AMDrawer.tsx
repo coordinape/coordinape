@@ -1,13 +1,12 @@
 import { useState, useMemo, useEffect } from 'react';
 
-import { MagnifyingGlassIcon, PinLeftIcon } from '@radix-ui/react-icons';
 import clsx from 'clsx';
 
 import { makeStyles, Button as MUButton } from '@material-ui/core';
-import SortIcon from '@material-ui/icons/Sort';
 
 import { Drawer, ApeAutocomplete } from 'components';
 import { SKILLS } from 'config/constants';
+import { Filter, Search, Collapse } from 'icons/__generated';
 import { useSelectedCircle } from 'recoilState/app';
 import {
   useMapMetric,
@@ -19,7 +18,7 @@ import {
   useMapEpochs,
 } from 'recoilState/map';
 import { useDevMode } from 'recoilState/ui';
-import { Text, Select } from 'ui';
+import { IconButton, Text, Select } from 'ui';
 
 import AMProfileCard from './AMProfileCard';
 
@@ -207,10 +206,9 @@ export const AMDrawer = () => {
             >
               Filters
             </Text>
-            <PinLeftIcon
-              onClick={() => setOpen(!open)}
-              style={{ color: 'currentColor', cursor: 'pointer' }}
-            />
+            <IconButton onClick={() => setOpen(!open)}>
+              <Collapse size="lg" />
+            </IconButton>
           </div>
           {showHiddenFeatures && (
             <MUButton
@@ -220,7 +218,7 @@ export const AMDrawer = () => {
               size="small"
               className={clsx(classes.rank, { [classes.rankOff]: !showRank })}
             >
-              <SortIcon />
+              <Filter size="lg" />
             </MUButton>
           )}
           <div className={classes.selectWrapper}>
@@ -247,11 +245,7 @@ export const AMDrawer = () => {
             placeholder="Search"
             isSelect
             InputProps={{
-              endAdornment: (
-                <MagnifyingGlassIcon
-                  style={{ width: 16, height: 16, color: '#B8BDBF' }}
-                />
-              ),
+              endAdornment: <Search color="neutral" />,
             }}
           />
         </div>

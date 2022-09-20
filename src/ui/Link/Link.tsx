@@ -18,6 +18,14 @@ export const Link = styled('a', {
         },
       },
     },
+    color: {
+      text: {
+        color: '$text',
+      },
+      neutral: {
+        color: '$neutral',
+      },
+    },
   },
 });
 

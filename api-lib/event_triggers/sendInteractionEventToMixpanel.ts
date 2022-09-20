@@ -44,7 +44,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           event_subtype: event.event_subtype,
           id: event.id,
           circle_id: event.circle_id,
-          user_id: event.user_id ? sha256(`${event.user_id}`) : undefined,
           profile_id: event.profile_id
             ? sha256(`${event.profile_id}`)
             : undefined,

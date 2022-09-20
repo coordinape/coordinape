@@ -6,11 +6,11 @@ import iti from 'itiriri';
 import { Button, IconButton, makeStyles } from '@material-ui/core';
 
 import { useApiBase, useRecoilLoadCatch } from '../../hooks';
-import { DeprecatedBalanceIcon } from '../../icons';
 import * as mutations from '../../lib/gql/mutations';
 import { ISimpleGift, PostTokenGiftsParam } from '../../types';
 import { Button as UIButton } from '../../ui';
 import { ProfileCard } from 'components';
+import { Scale } from 'icons/__generated';
 import { useSelectedCircle } from 'recoilState/app';
 import { Text } from 'ui';
 
@@ -415,7 +415,7 @@ const AllocationGive = ({
           onClick={rebalanceGifts}
           disabled={tokenRemaining === 0}
         >
-          <DeprecatedBalanceIcon />
+          <Scale nostroke />
         </IconButton>
       </BalanceContainer>
       <SaveButtonContainer>

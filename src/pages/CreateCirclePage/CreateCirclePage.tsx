@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
 
-import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { fileToBase64 } from 'lib/base64';
 import uniqBy from 'lodash/uniqBy';
 import { useQueryClient } from 'react-query';
@@ -10,6 +9,7 @@ import { FormAutocomplete, DeprecatedFormTextField } from 'components';
 import { QUERY_KEY_MAIN_HEADER } from 'components/MainLayout/getMainHeaderData';
 import CreateCircleForm from 'forms/CreateCircleForm';
 import { useApiWithProfile } from 'hooks';
+import { Info } from 'icons/__generated';
 import { QUERY_KEY_MY_ORGS } from 'pages/CirclesPage/getOrgData';
 import { useMyProfile } from 'recoilState/app';
 import * as paths from 'routes/paths';
@@ -136,7 +136,7 @@ export const SummonCirclePage = () => {
                         css={{ ml: '$xs' }}
                         content={<div>Upload a logo to your circle</div>}
                       >
-                        <InfoCircledIcon />
+                        <Info size="sm" />
                       </Tooltip>
                     </Text>
                     <Flex
@@ -207,7 +207,7 @@ export const SummonCirclePage = () => {
                           css={{ ml: '$xs' }}
                           content="A circle admin can add to an existing organization."
                         >
-                          <InfoCircledIcon />
+                          <Info size="sm" />
                         </Tooltip>
                       </Text>
                       <DeprecatedFormTextField

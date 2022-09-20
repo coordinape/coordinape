@@ -16,10 +16,12 @@ export function useVaultFactory(orgId?: number) {
   const { showInfo, showError } = useApeSnackbar();
 
   const createVault = async ({
+    setTxHash,
     simpleTokenAddress,
     type,
     customSymbol,
   }: {
+    setTxHash?: (txtHash: string) => void;
     simpleTokenAddress?: string;
     type?: Asset;
     customSymbol?: string;
@@ -49,13 +51,15 @@ export function useVaultFactory(orgId?: number) {
           showError,
           description: `Create ${type || customSymbol} Vault`,
           chainId: contracts.chainId,
-          savePending: async (txHash: string) =>
-            savePendingVaultTx({
+          savePending: async (txHash: string) => {
+            if (setTxHash) setTxHash(txHash);
+            return savePendingVaultTx({
               tx_hash: txHash,
               org_id: orgId,
               chain_id: Number.parseInt(contracts.chainId),
               tx_type: vault_tx_types_enum.Vault_Deploy,
-            }),
+            });
+          },
         }
       );
 

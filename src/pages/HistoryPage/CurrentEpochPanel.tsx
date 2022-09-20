@@ -2,10 +2,9 @@ import { DateTime } from 'luxon';
 import { NavLink } from 'react-router-dom';
 import { CSS } from 'stitches.config';
 
+import { Award, PlusCircle } from 'icons/__generated';
 import { paths } from 'routes/paths';
 import { Box, Panel, Text, Button, Flex } from 'ui';
-import Medal from 'ui/icons/Medal.svg';
-import PlusInCircle from 'ui/icons/PlusInCircle.svg';
 
 type Props = {
   epoch: { start_date?: any; end_date: any };
@@ -75,7 +74,7 @@ export const CurrentEpochPanel = ({
         >
           {vouching && (
             <Minicard
-              icon={Medal}
+              icon={<Award />}
               title="Nominations"
               alert={nominees > 0}
               content={
@@ -88,7 +87,7 @@ export const CurrentEpochPanel = ({
             />
           )}
           <Minicard
-            icon={PlusInCircle}
+            icon={<PlusCircle />}
             title="Allocations"
             alert={unallocated > 0}
             content={
@@ -126,19 +125,13 @@ const Minicard = ({
     <Panel
       nested
       css={{
-        minWidth: '280px',
-        display: 'grid',
-        gridTemplateColumns: '$lg 1fr',
+        width: '100%',
         gap: '$sm',
         '@sm': {
           minWidth: 0,
         },
       }}
     >
-      <Box css={{ justifySelf: 'center', '> img': { verticalAlign: 'top' } }}>
-        <img src={icon} alt="logo" />
-      </Box>
-
       <Box
         css={{
           color: '$secondaryText',
@@ -149,12 +142,8 @@ const Minicard = ({
           alignItems: 'flex-start',
         }}
       >
-        <Text
-          variant="label"
-          css={{
-            pt: '5px', // hard-coded to align with icon
-          }}
-        >
+        <Text variant="label">
+          {icon}
           {title}
         </Text>
         <Text

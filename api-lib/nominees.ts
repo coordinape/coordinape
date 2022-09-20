@@ -82,6 +82,9 @@ const userWithCircleSelector = Selector('users')({
   give_token_remaining: true,
   starting_tokens: true,
   non_giver: true,
+  profile: {
+    id: true,
+  },
 });
 
 export type UserWithCircleResponse = InputType<
