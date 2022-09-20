@@ -4,7 +4,14 @@ import * as mutations from 'lib/gql/mutations';
 
 import { ActionDialog } from 'components';
 import { useCurrentCircleIntegrations } from 'hooks/gql/useCurrentCircleIntegrations';
-import { Dework, DeworkColor, Parcel, Trash2 } from 'icons/__generated';
+import {
+  Dework,
+  DeworkColor,
+  Parcel,
+  Trash2,
+  Wonder,
+  WonderColor,
+} from 'icons/__generated';
 import { paths } from 'routes/paths';
 import { Flex, Button, Text, HR } from 'ui';
 
@@ -29,6 +36,13 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
     // TODONEXT: this needs to useRouter
     return `fix-me-later-${paths.connectIntegration(circleId)}`;
   };
+  const deworkIntegrations = integrations?.data?.filter(integration => {
+    return integration.type === 'dework';
+  });
+  const wonderIntegrations = integrations?.data?.filter(integration => {
+    return integration.type === 'wonder';
+  });
+
   return (
     <div>
       <Flex css={{ mb: '$lg', flexDirection: 'column', alignItems: 'start' }}>
@@ -37,12 +51,12 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
         </Text>
         <Flex
           css={{
-            mb: integrations.data?.length ? '$md' : 0,
+            mb: deworkIntegrations?.length ? '$md' : 0,
             flexDirection: 'column',
             width: '100%',
           }}
         >
-          {integrations.data?.map((integration, index) => (
+          {deworkIntegrations?.map((integration, index) => (
             <Flex
               key={index}
               css={{
@@ -79,6 +93,57 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
             <Dework nostroke />
           </Flex>
           Add Dework Connection
+        </Button>
+      </Flex>
+      <HR />
+      <Flex css={{ mb: '$lg', flexDirection: 'column', alignItems: 'start' }}>
+        <Text h3 semibold css={{ mb: '$md' }}>
+          Wonderverse Integration
+        </Text>
+        <Flex
+          css={{
+            mb: wonderIntegrations?.length ? '$md' : 0,
+            flexDirection: 'column',
+            width: '100%',
+          }}
+        >
+          {wonderIntegrations?.map((integration, index) => (
+            <Flex
+              key={index}
+              css={{
+                justifyContent: 'space-between',
+                pl: '$xs',
+                mb: '$xs',
+                '&:hover': {
+                  backgroundColor: '$surface',
+                },
+              }}
+            >
+              <Text>
+                <WonderColor css={{ mr: '$xs', height: 24, width: 24 }} />
+                <Text>{integration.name}</Text>
+              </Text>
+              <Button
+                type="button"
+                onClick={() => setDeleteIntegration(integration)}
+                size="small"
+                color="textOnly"
+              >
+                <Trash2 size="md" color="inherit" />
+              </Button>
+            </Flex>
+          ))}
+        </Flex>
+        <Button
+          as="a"
+          color="primary"
+          outlined
+          href={`https://app.wonderverse.xyz/apps/install/coordinape?circleId=${circleId}&redirect=${redirectUri()}`}
+        >
+          <Flex css={{ mr: '$sm' }}>
+            <Wonder />
+          </Flex>
+          Add Wonderverse Connection
         </Button>
       </Flex>
       <HR />

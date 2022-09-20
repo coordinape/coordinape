@@ -40,6 +40,24 @@ const integrationConfigs: ConnectIntegrationConfig[] = [
       };
     },
   },
+  {
+    name: 'wonder',
+    test: params =>
+      params.has('wonder_organization_id') &&
+      params.has('wonder_organization_name'),
+    create(params) {
+      const organizationId = params.get('wonder_organization_id');
+      const organizationName = params.get('wonder_organization_name');
+      const podIdsString = params.get('wonder_pod_ids');
+      const podIds = podIdsString ? podIdsString.split(',') : undefined;
+      return {
+        integrationName:
+          `${organizationName} on Wonder` +
+          (podIds?.length ? ` (${podIds.length} spaces)` : ''),
+        integrationConfig: { organizationId, podIds },
+      };
+    },
+  },
 ];
 
 export const IntegrationCallbackPage: FC = () => {
