@@ -1,9 +1,8 @@
-import { commify } from 'ethers/lib/utils';
-
 import { ApeInfoTooltip, LoadingModal, makeTable } from 'components';
 import { DISTRIBUTION_TYPE } from 'config/constants';
 import { Avatar, Box, Panel, Flex, Text, Button, Link } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
+import { smartRounding } from 'utils';
 import { makeExplorerUrl } from 'utils/provider';
 
 import { useClaimsTableData, ClaimsRowData } from './hooks';
@@ -46,7 +45,7 @@ const groupTooltipInfo = (group: QueryClaim[]) => {
         ? `Epoch ${claim.distribution.epoch.number} - `
         : ''}
       {displayDistributionType(claim.distribution.distribution_type)}:{' '}
-      {commify(claim.new_amount)}
+      {smartRounding(claim.new_amount)}
     </Flex>
   ));
   return <Box>{detailsList}</Box>;

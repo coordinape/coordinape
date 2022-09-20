@@ -1,8 +1,9 @@
-import { commify } from 'ethers/lib/utils';
 import { getDisplayTokenString } from 'lib/vaults';
 import groupBy from 'lodash/groupBy';
 import partition from 'lodash/partition';
 import sortBy from 'lodash/sortBy';
+
+import { smartRounding } from 'utils';
 
 import { QueryClaim } from './queries';
 
@@ -65,7 +66,7 @@ export function formatClaimAmount(claims: QueryClaim[]): string {
   const totalAmount = claims.reduce((accumulator, curr) => {
     return accumulator + (curr.unwrappedNewAmount || 0);
   }, 0);
-  return `${commify(totalAmount)} ${getDisplayTokenString(
+  return `${smartRounding(totalAmount)} ${getDisplayTokenString(
     claims[0].distribution.vault
   )}`;
 }

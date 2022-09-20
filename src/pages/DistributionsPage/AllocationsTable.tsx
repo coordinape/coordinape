@@ -1,6 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
 
-import { commify } from 'ethers/lib/utils';
 import sumBy from 'lodash/sumBy';
 import uniqBy from 'lodash/uniqBy';
 
@@ -8,7 +7,7 @@ import { Paginator } from '../../components/Paginator';
 import { DISTRIBUTION_TYPE } from '../../config/constants';
 import { NewApeAvatar, makeTable } from 'components';
 import { Flex, Text, Panel, Button, Link } from 'ui';
-import { numberWithCommas, shortenAddress } from 'utils';
+import { smartRounding, numberWithCommas, shortenAddress } from 'utils';
 
 import type { Gift } from './queries';
 import { EpochDataResult } from './queries';
@@ -168,33 +167,33 @@ export const AllocationsTable = ({
             </td>
             <td className="alignRight">
               {user.circle_claimed
-                ? `${commify(
+                ? `${smartRounding(
                     circleDist &&
                       circleDist.distribution_type ===
                         DISTRIBUTION_TYPE.COMBINED
                       ? user.circle_claimed - user.fixed_payment_amount
                       : user.circle_claimed
                   )} ${tokenName || 'GIVE'}`
-                : `${commify(givenPercent(user.received) * formGiftAmount)} ${
-                    tokenName || 'GIVE'
-                  }`}
+                : `${smartRounding(
+                    givenPercent(user.received) * formGiftAmount
+                  )} ${tokenName || 'GIVE'}`}
             </td>
             <td className="alignRight">
               {!combinedDist && fixedDist
-                ? commify(user.claimed)
-                : commify(user.fixed_payment_amount)}{' '}
+                ? smartRounding(user.claimed)
+                : smartRounding(user.fixed_payment_amount)}{' '}
               {fixedTokenName || ''}
             </td>
             {combinedDist ? (
               <td className="alignRight">
                 {(() => {
                   if (circleDist && fixedDist) {
-                    return commify(user.combined_claimed);
+                    return smartRounding(user.combined_claimed);
                   }
                   const giftAmt = circleDist
                     ? user.circle_claimed
                     : givenPercent(user.received) * formGiftAmount;
-                  return commify(giftAmt + user.fixed_payment_amount);
+                  return smartRounding(giftAmt + user.fixed_payment_amount);
                 })()}{' '}
                 {tokenName}
               </td>

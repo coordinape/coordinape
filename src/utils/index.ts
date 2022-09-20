@@ -5,6 +5,12 @@ export const shortenAddress = (address: string) => {
   )}`;
 };
 
+export const smartRounding = (x: number | string | undefined) => {
+  const ceiling = 10;
+  if (!x || Number(x) > ceiling) return numberWithCommas(x, 2);
+
+  return numberWithCommas(x, 4);
+};
 /**
  * Also rounds to the nearest `precision` value, defaulting to 6
  */
