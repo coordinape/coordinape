@@ -12,13 +12,13 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     event: { data },
   }: EventTriggerPayload<'circles', 'INSERT'> = req.body;
 
-  const { id, name, protocol_id, contact } = data.new;
+  const { id, name, organization_id, contact } = data.new;
   try {
     const { organizations_by_pk } = await adminClient.query(
       {
         organizations_by_pk: [
           {
-            id: protocol_id,
+            id: organization_id,
           },
           {
             name: true,

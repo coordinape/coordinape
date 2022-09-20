@@ -64,7 +64,7 @@ export async function insertCircles(input: CircleInput) {
   const circleInputWithProtocol = input.circlesInput.map(circle => ({
     ...circle,
     min_vouches: 2,
-    protocol_id: protocolId,
+    organization_id: protocolId,
   }));
   const result = await adminClient.mutate({
     insert_circles: [

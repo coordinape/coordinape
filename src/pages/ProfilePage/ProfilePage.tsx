@@ -352,7 +352,7 @@ const ProfilePageContent = ({
                     />
 
                     <span>
-                      {u.circle.protocol.name} {u.circle.name}
+                      {u.circle.organization.name} {u.circle.name}
                     </span>
                     {u.non_receiver && <span>Opted-Out</span>}
                   </div>
@@ -365,7 +365,7 @@ const ProfilePageContent = ({
                 circle && (
                   <div className={classes.recentEpoch} key={i}>
                     <div className={classes.recentEpochTitle}>
-                      {circle.protocol.name} {circle.name}
+                      {circle.organization.name} {circle.name}
                     </div>
                     <div className={classes.recentEpochStatement}>{bio}</div>
                   </div>

@@ -32,7 +32,7 @@ export const getVaultAndTransactions = async (address: string | undefined) => {
               },
             },
           ],
-          protocol: {
+          organization: {
             name: true,
           },
         },

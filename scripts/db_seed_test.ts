@@ -44,11 +44,11 @@ async function getProtocolIdForCircle(circleId: number) {
         id: circleId,
       },
       {
-        protocol_id: true,
+        organization_id: true,
       },
     ],
   });
-  return circles_by_pk?.protocol_id;
+  return circles_by_pk?.organization_id;
 }
 async function createCircleWithGiftsNotYetEnded() {
   const result = await insertMemberships(
@@ -180,7 +180,7 @@ async function createCircleInOrgButNoDevMember(protocolId: number) {
             auto_opt_out: true,
             default_opt_in: true,
             min_vouches: 2,
-            protocol_id: protocolId,
+            organization_id: protocolId,
             nomination_days_limit: 1,
             only_giver_vouch: false,
             token_name: 'GIVE',
