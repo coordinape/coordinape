@@ -69,11 +69,7 @@ export const OrgLayout = ({
           mb: '$xl',
         }}
       >
-        <Avatar
-          name="organization"
-          path="/imgs/avatar/placeholder.jpg"
-          size="medium"
-        />
+        <Avatar path="/imgs/avatar/placeholder.jpg" size="medium" />
         <Text css={{ fontWeight: '$bold', fontSize: '$h2', flexGrow: 1 }}>
           {name}
         </Text>

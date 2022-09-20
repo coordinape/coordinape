@@ -45,17 +45,6 @@ const useStyles = makeStyles(theme => ({
     justifySelf: 'end',
     margin: theme.spacing(0.7),
   },
-  avatar: {
-    width: 60,
-    height: 60,
-    margin: 'auto',
-    border: `1.4px solid ${theme.colors.border}`,
-    cursor: 'pointer',
-    transition: 'border-color .3s ease',
-    '&:hover': {
-      border: '1.4px solid rgba(239, 115, 118, 1)',
-    },
-  },
   name: {
     display: '-webkit-box',
     '-webkit-line-clamp': 4,

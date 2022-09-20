@@ -140,7 +140,7 @@ export const ReceiveInfo = () => {
                     maxWidth: '20rem',
                   }}
                 >
-                  <Avatar path={tokenGift.sender} />
+                  <Avatar path={tokenGift.sender.AvatarImage} />
                   {tokenGift.note ? (
                     <Text p as="p" size="small">
                       {tokenGift.note}

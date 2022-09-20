@@ -9,10 +9,6 @@ const useStyles = makeStyles(() => ({
   root: {
     position: 'relative',
   },
-  avatar: {
-    width: 96,
-    height: 96,
-  },
   buttons: {
     position: 'absolute',
     bottom: 0,

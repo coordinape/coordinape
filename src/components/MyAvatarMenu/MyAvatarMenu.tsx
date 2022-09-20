@@ -60,7 +60,11 @@ export const MyAvatarMenu = () => {
             }}
           >
             <Link href="#">
-              <Avatar path={myProfile.avatar} size="medium" />
+              <Avatar
+                path={myProfile.avatar}
+                name={myProfile.discord_username}
+                size="medium"
+              />
             </Link>
           </PopoverTrigger>
           <PopoverContent
@@ -92,7 +96,11 @@ export const MyAvatarMenu = () => {
             >
               <PopoverClose asChild>
                 <Box css={{ display: 'flex', alignItems: 'end', pb: '$md' }}>
-                  <Avatar path={myProfile.avatar} size="medium" />
+                  <Avatar
+                    path={myProfile.avatar}
+                    name={myProfile.github_username}
+                    size="medium"
+                  />
                 </Box>
               </PopoverClose>
               <Box
