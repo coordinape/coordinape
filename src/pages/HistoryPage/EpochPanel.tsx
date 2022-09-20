@@ -17,7 +17,6 @@ import type { QueryPastEpoch, QueryDistribution } from './getHistoryData';
 type EpochPanelProps = {
   circleId: number;
   circleName?: string;
-  protocolName?: string;
   epoch: QueryPastEpoch;
   tokenName: string;
   css?: CSS;
