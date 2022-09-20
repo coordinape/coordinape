@@ -544,6 +544,10 @@ export async function getEpoch(
           token_gifts: [
             {},
             {
+              recipient: {
+                id: true,
+                deleted_at: true,
+              },
               tokens: true,
             },
           ],
