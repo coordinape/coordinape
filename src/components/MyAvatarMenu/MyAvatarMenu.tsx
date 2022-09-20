@@ -2,15 +2,15 @@ import { useRef, useState } from 'react';
 
 import { NavLink } from 'react-router-dom';
 
-import { makeStyles, Hidden } from '@material-ui/core';
+import { Hidden } from '@material-ui/core';
 
-import { ApeAvatar } from 'components';
 import { menuGroupStyle } from 'components/MainLayout/MainHeader';
 import isFeatureEnabled from 'config/features';
 import { useWalletStatus } from 'hooks/login';
 import { useMyProfile } from 'recoilState/app';
 import { paths } from 'routes/paths';
 import {
+  Avatar,
   Box,
   Link,
   Popover,
@@ -23,17 +23,7 @@ import { shortenAddress } from 'utils';
 
 import { RecentTransactionsModal } from './RecentTransactionsModal';
 
-const useStyles = makeStyles(theme => ({
-  avatarButton: {
-    marginLeft: theme.spacing(1.5),
-    height: '50px',
-    width: '50px',
-    cursor: 'pointer',
-  },
-}));
-
 export const MyAvatarMenu = () => {
-  const classes = useStyles();
   const myProfile = useMyProfile();
   const { icon, address, logout } = useWalletStatus();
   const [showTxModal, setShowTxModal] = useState(false);
@@ -70,7 +60,7 @@ export const MyAvatarMenu = () => {
             }}
           >
             <Link href="#">
-              <ApeAvatar profile={myProfile} className={classes.avatarButton} />
+              <Avatar path={myProfile.avatar} size="medium" />
             </Link>
           </PopoverTrigger>
           <PopoverContent
@@ -102,10 +92,7 @@ export const MyAvatarMenu = () => {
             >
               <PopoverClose asChild>
                 <Box css={{ display: 'flex', alignItems: 'end', pb: '$md' }}>
-                  <ApeAvatar
-                    className={classes.avatarButton}
-                    profile={myProfile}
-                  />
+                  <Avatar path={myProfile.avatar} size="medium" />
                 </Box>
               </PopoverClose>
               <Box

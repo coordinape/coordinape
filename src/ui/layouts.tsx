@@ -2,8 +2,7 @@ import { ReactNode } from 'react';
 
 import { CSS } from 'stitches.config';
 
-import { ApeAvatar } from 'components';
-import { Box, Text } from 'ui';
+import { Avatar, Box, Text } from 'ui';
 
 type SingleColumnLayoutProps = {
   children: ReactNode;
@@ -70,16 +69,10 @@ export const OrgLayout = ({
           mb: '$xl',
         }}
       >
-        <ApeAvatar
-          alt="organization"
-          src="/imgs/avatar/placeholder.jpg"
-          style={{
-            width: 36,
-            height: 36,
-            borderRadius: '50%',
-            border: '1px solid rgba(94, 111, 116, 0.7)',
-            marginRight: '16px',
-          }}
+        <Avatar
+          name="organization"
+          path="/imgs/avatar/placeholder.jpg"
+          size="medium"
         />
         <Text css={{ fontWeight: '$bold', fontSize: '$h2', flexGrow: 1 }}>
           {name}

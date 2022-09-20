@@ -2,13 +2,12 @@ import { Suspense, useEffect, useState } from 'react';
 
 import { NavLink, useLocation } from 'react-router-dom';
 
-import { NewApeAvatar } from 'components';
 import isFeatureEnabled from 'config/features';
 import { useWalletStatus } from 'hooks/login';
 import { X, Menu } from 'icons/__generated';
 import { useMyProfile } from 'recoilState/app';
 import { paths } from 'routes/paths';
-import { Box, IconButton, Link, Image } from 'ui';
+import { Box, IconButton, Link, Image, Avatar } from 'ui';
 import { shortenAddress } from 'utils';
 
 import { CircleNav } from './CircleNav';
@@ -169,7 +168,7 @@ const MobileAvatar = () => {
 
   return (
     <Suspense fallback={null}>
-      <NewApeAvatar path={myProfile.avatar} />
+      <Avatar path={myProfile.avatar} />
     </Suspense>
   );
 };

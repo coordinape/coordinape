@@ -5,8 +5,8 @@ import uniqBy from 'lodash/uniqBy';
 
 import { Paginator } from '../../components/Paginator';
 import { DISTRIBUTION_TYPE } from '../../config/constants';
-import { NewApeAvatar, makeTable } from 'components';
-import { Flex, Text, Panel, Button, Link } from 'ui';
+import { makeTable } from 'components';
+import { Flex, Text, Panel, Button, Link, Avatar } from 'ui';
 import { numberWithCommas, shortenAddress } from 'utils';
 
 import type { Gift } from './queries';
@@ -151,11 +151,7 @@ export const AllocationsTable = ({
           <tr key={user.id}>
             <td>
               <Flex row css={{ alignItems: 'center', gap: '$sm' }}>
-                <NewApeAvatar
-                  name={user.name}
-                  style={{ height: '32px', width: '32px' }}
-                  profileImagePath={user.avatar}
-                />
+                <Avatar size="medium" path={user.avatar} name={user.name} />
                 <Text semibold>{user.name}</Text>
               </Flex>
             </td>

@@ -4,7 +4,6 @@ import { makeStyles, Button } from '@material-ui/core';
 
 import { ReactComponent as EditProfileSVG } from 'assets/svgs/button/edit-profile.svg';
 import {
-  ApeAvatar,
   ApeInfoTooltip,
   ProfileSocialIcons,
   ThreeDotMenu,
@@ -16,7 +15,7 @@ import { useNavigation } from 'hooks';
 import { useContributions } from 'hooks/useContributions';
 import { useSetEditProfileOpen } from 'recoilState/ui';
 import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE } from 'routes/paths';
-import { Flex } from 'ui';
+import { Flex, Avatar } from 'ui';
 
 import { CardInfoText } from './CardInfoText';
 import { ContributionSummary } from './ContributionSummary';
@@ -150,10 +149,11 @@ const ProfileCardInner = ({
     <div className={classes.root} data-testid="profileCard">
       <div className={classes.topRow}>
         <Flex />
-        <ApeAvatar
-          user={user}
-          className={classes.avatar}
+        <Avatar
+          path={user.profile?.avatar}
+          name={user.name}
           onClick={getToProfile(user.address)}
+          size="medium"
         />
         <div className={classes.moreContainer}>
           <ThreeDotMenu
