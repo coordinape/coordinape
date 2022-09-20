@@ -14,7 +14,6 @@ import {
   USER_ROLE_ADMIN,
   USER_ROLE_COORDINAPE,
 } from 'config/constants';
-import isFeatureEnabled from 'config/features';
 import { zEthAddress } from 'forms/formHelpers';
 import { useApeSnackbar, useApiAdminCircle, useNavigation } from 'hooks';
 import { Check, X } from 'icons/__generated';
@@ -299,11 +298,19 @@ const MemberRow = ({
         </TD>
         {isAdmin && <TD>{shortenAddress(user.address)}</TD>}
 
-        <TD>
+        <TD
+          css={{
+            textAlign: !isAdmin ? 'center !important' : 'left !important',
+          }}
+        >
           {!user.non_giver ? <Check color="complete" /> : <X color="alert" />}
         </TD>
 
-        <TD>
+        <TD
+          css={{
+            textAlign: 'center !important',
+          }}
+        >
           {user.fixed_non_receiver ? (
             'Forced ❌'
           ) : user.non_receiver ? (
@@ -312,14 +319,18 @@ const MemberRow = ({
             <Check color="complete" />
           )}
         </TD>
-        {isFeatureEnabled('fixed_payments') && (
-          <TD>
+        {!!fixedPaymentToken && isAdmin && (
+          <TD css={{ textAlign: 'center !important' }}>
             {user.fixed_payment_amount === 0 ? '0' : user.fixed_payment_amount}{' '}
             {fixedPaymentToken}
           </TD>
         )}
         {false && <TD>Discord SnowFlake</TD>}
-        <TD>
+        <TD
+          css={{
+            textAlign: 'center !important',
+          }}
+        >
           {user.role === USER_ROLE_ADMIN ? (
             <Check color="complete" />
           ) : (
@@ -760,15 +771,31 @@ export const MembersTable = ({
   const headers = [
     { title: 'Name', css: headerStyles },
     { title: 'ETH WALLET', css: headerStyles, isHidden: !isAdmin },
-    { title: 'Give', css: { ...headerStyles } },
-    { title: 'Receive', css: { ...headerStyles } },
+    {
+      title: 'Give',
+      css: {
+        ...headerStyles,
+        textAlign: !isAdmin ? 'center !important' : 'left !important',
+      },
+    },
+    {
+      title: 'Receive',
+      css: { ...headerStyles, textAlign: 'center' },
+    },
     {
       title: 'Fixed Payment',
-      css: { ...headerStyles },
-      isHidden: !isFeatureEnabled('fixed_payments'),
+      css: { ...headerStyles, textAlign: 'center' },
+      isHidden: !circle.fixed_payment_token_type || !isAdmin,
     },
     { title: 'Discord Linked', css: { ...headerStyles }, isHidden: true },
-    { title: 'Admin', css: { ...headerStyles } },
+    {
+      title: 'Admin',
+      css: {
+        ...headerStyles,
+        textAlign: 'center !important',
+        pr: '-16px',
+      },
+    },
     {
       title: 'Actions',
       css: { ...headerStyles, textAlign: 'right' },

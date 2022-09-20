@@ -11,6 +11,7 @@ import { useApiAdminCircle, useContracts } from 'hooks';
 import { useCircleOrg } from 'hooks/gql/useCircleOrg';
 import { useVaults } from 'hooks/gql/useVaults';
 import useMobileDetect from 'hooks/useMobileDetect';
+import { Search } from 'icons/__generated';
 import { getCircleSettings } from 'pages/CircleAdminPage/getCircleSettings';
 import {
   getFixedPayment,
@@ -22,7 +23,6 @@ import { AppLink, Button, Flex, Panel, Text, TextField } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { numberWithCommas } from 'utils';
 
-import { AdminUserModal } from './AdminUserModal';
 import {
   getActiveNominees,
   QUERY_KEY_ACTIVE_NOMINEES,
@@ -37,7 +37,6 @@ const AdminPage = () => {
   const { isMobile } = useMobileDetect();
 
   const [keyword, setKeyword] = useState<string>('');
-  const [editUser, setEditUser] = useState<IUser | undefined>(undefined);
   const [deleteUserDialog, setDeleteUserDialog] = useState<IUser | undefined>(
     undefined
   );
@@ -341,6 +340,11 @@ const AdminPage = () => {
                 onChange={onChangeKeyword}
                 placeholder="🔍 Search"
                 value={keyword}
+                css={{
+                  pd: '25px',
+                  background: `${(<Search />)} no-repeat right`,
+                  backgroundSize: '20px',
+                }}
               />
             </Flex>
             {circle && (
@@ -358,14 +362,7 @@ const AdminPage = () => {
           </Panel>
         </Panel>
       </Panel>
-      {circle && editUser && (
-        <AdminUserModal
-          onClose={() => setEditUser(undefined)}
-          user={editUser}
-          fixedPaymentToken={circle.fixed_payment_token_type}
-          tokenName={circle.tokenName}
-        />
-      )}
+      {}
       <ActionDialog
         open={newCircle}
         title="Congrats! You just launched a new circle."
