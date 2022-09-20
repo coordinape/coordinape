@@ -76,6 +76,12 @@ export const deleteCircleInput = z
   })
   .strict();
 
+export const deleteContributionInput = z
+  .object({
+    contribution_id: z.number().int().positive(),
+  })
+  .strict();
+
 export const createNomineeInputSchema = z
   .object({
     name: zUsername,
