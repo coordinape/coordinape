@@ -352,6 +352,7 @@ const AdminPage = () => {
                 perPage={15}
                 fixedPayment={fixedPayment}
                 availableInVault={availableFixedTokens}
+                setDeleteUserDialog={setDeleteUserDialog}
               />
             )}
           </Panel>

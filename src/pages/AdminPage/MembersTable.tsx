@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import { useState, useEffect, useMemo } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,9 +15,8 @@ import {
   USER_ROLE_COORDINAPE,
 } from 'config/constants';
 import isFeatureEnabled from 'config/features';
-import { zBooleanToNumber, zEthAddress } from 'forms/formHelpers';
+import { zEthAddress } from 'forms/formHelpers';
 import { useApeSnackbar, useApiAdminCircle, useNavigation } from 'hooks';
-import useMobileDetect from 'hooks/useMobileDetect';
 import { CheckIcon, CloseIcon } from 'icons';
 import { CircleSettingsResult } from 'pages/CircleAdminPage/getCircleSettings';
 import {
@@ -60,9 +57,6 @@ const headerStyles = {
 
 const defaultSort = <T,>(a: T, b: T) => (a > b ? 1 : a < b ? -1 : 0);
 const englishCollator = new Intl.Collator('en-u-kf-upper');
-
-const GIFT_CIRCLE_DOCS_URL =
-  'https://docs.coordinape.com/info/documentation/gift_circle';
 
 const schema = z
   .object({
@@ -164,40 +158,40 @@ const UserName = ({ user }: { user: IUser }) => {
           minWidth: 0,
         }}
       >
-        {user.name}
-      </Text>
-      <span>
+        {user.name}{' '}
         {user.role === USER_ROLE_COORDINAPE ? (
-          <Box css={{ marginTop: '6px' }}>
-            <Tooltip content={coordinapeTooltipContent()}>
-              <InfoCircledIcon />
-            </Tooltip>
-          </Box>
+          <Tooltip content={coordinapeTooltipContent()}>
+            <InfoCircledIcon />
+          </Tooltip>
         ) : (
           ''
         )}
-      </span>
+      </Text>
     </Box>
   );
 };
 
 const MemberRow = ({
   user,
+  myUser: me,
   isAdmin,
   fixedPaymentToken,
   availableInVault,
   fixedPayment,
   tokenName,
+  setDeleteUserDialog,
+  circleId,
 }: {
   user: IUser;
+  myUser: IUser;
   isAdmin: boolean;
   fixedPaymentToken?: string;
   availableInVault: string;
   fixedPayment?: FixedPaymentResult;
   tokenName: string | undefined;
+  setDeleteUserDialog: (u: IUser) => void;
+  circleId: number;
 }) => {
-  //const { restoreCoordinape, deleteUser } = useApiAdminCircle(circle.id);
-
   // const { getToProfile } = useNavigation();
   const [open, setOpen] = useState(false);
   const [showOptOutChangeWarning, setShowOptOutChangeWarning] = useState(false);
@@ -205,21 +199,15 @@ const MemberRow = ({
     useState(false);
 
   const { showInfo } = useApeSnackbar();
-  const { updateUser } = useApiAdminCircle(user.circle_id);
+  const { updateUser, restoreCoordinape, deleteUser } =
+    useApiAdminCircle(circleId);
   const queryClient = useQueryClient();
 
-  const {
-    control,
-    handleSubmit,
-    setError,
-    watch,
-    setValue,
-    formState: { errors },
-    reset,
-  } = useForm<EditUserFormSchema>({
-    resolver: zodResolver(schema),
-    mode: 'all',
-  });
+  const { control, handleSubmit, watch, setValue, reset } =
+    useForm<EditUserFormSchema>({
+      resolver: zodResolver(schema),
+      mode: 'all',
+    });
 
   const { field: userRole } = useController({
     name: 'role',
@@ -330,9 +318,11 @@ const MemberRow = ({
         </TD>
         {isFeatureEnabled('fixed_payments') && (
           <TD>
-            {user.fixed_payment_amount === 0 ? '-' : user.fixed_payment_amount}
+            {user.fixed_payment_amount === 0 ? '0' : user.fixed_payment_amount}{' '}
+            {fixedPaymentToken}
           </TD>
         )}
+        {false && <TD>Discord SnowFlake</TD>}
         <TD>
           {user.role === USER_ROLE_ADMIN ? (
             <CheckIcon size="inherit" color="complete" />
@@ -341,19 +331,12 @@ const MemberRow = ({
           )}
         </TD>
         <TD>
-          {user.role === USER_ROLE_ADMIN ? (
-            <CheckIcon size="inherit" color="complete" />
-          ) : (
-            <CloseIcon size="inherit" color="alert" />
-          )}
-        </TD>
-        <TD>
-          {isAdmin && (
+          {isAdmin && user.role !== 2 && (
             <Button
               color="primary"
               size="small"
               outlined
-              css={{ mr: 0, ml: 'auto ' }}
+              css={{ mr: 0, ml: 'auto ', whiteSpace: 'nowrap' }}
               onClick={() => {
                 setOpen(prevState => !prevState);
               }}
@@ -361,19 +344,49 @@ const MemberRow = ({
               Manage Member
             </Button>
           )}
+          {isAdmin && user.role === 2 && (
+            <Tooltip content={coordinapeTooltipContent()}>
+              <Button
+                color="neutral"
+                size="small"
+                outlined
+                css={{ mr: 0, ml: 'auto ', whiteSpace: 'nowrap' }}
+                onClick={() => {
+                  const shouldEnable = user.deleted_at !== null;
+                  const confirm = window.confirm(
+                    `${
+                      shouldEnable ? 'Enable' : 'Disable'
+                    } Coordinape in this circle?`
+                  );
+                  if (confirm) {
+                    shouldEnable
+                      ? restoreCoordinape(circleId).catch(e => console.error(e))
+                      : deleteUser(user.address);
+                  }
+                }}
+              >
+                {user.deleted_at === null ? 'Disable' : 'Enable'}
+              </Button>
+            </Tooltip>
+          )}
         </TD>
       </TR>
       {open && (
         <TR>
-          <TD colSpan={8}>
+          <TD colSpan={7}>
             <Form>
               <Text h3 semibold css={{ my: '$md' }}>
                 {user.name} Member Settings
               </Text>
               <Flex
-                css={{ justifyContent: 'space-between', alignItems: 'center' }}
+                css={{
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  gap: '$lg',
+                  flexWrap: 'wrap',
+                }}
               >
-                <Flex css={{ gap: '$lg' }}>
+                <Flex css={{ gap: '$lg', flexWrap: 'wrap' }}>
                   <FormInputField
                     id="name"
                     name="name"
@@ -418,7 +431,11 @@ const MemberRow = ({
                   color="destructive"
                   size="medium"
                   outlined
-                  css={{ height: '$lg' }}
+                  css={{ height: '$lg', whiteSpace: 'nowrap' }}
+                  disabled={user.id === me.id}
+                  onClick={() => {
+                    setDeleteUserDialog(user);
+                  }}
                 >
                   Delete Member
                 </Button>
@@ -430,10 +447,10 @@ const MemberRow = ({
                   <Text h3 css={{ mb: '$md', fontWeight: '$semibold' }}>
                     Gift Circle
                   </Text>
-                  <Flex css={{ gap: '$md', mb: '$md' }}>
+                  <Flex css={{ gap: '$md', mb: '$md', flexWrap: 'wrap' }}>
                     <Flex column css={{ gap: '$xs' }}>
                       <FormLabel type="label">Give Tokens?</FormLabel>
-                      <Flex css={{ gap: '10px' }}>
+                      <Flex css={{ gap: '10px', flexWrap: 'wrap' }}>
                         <Button
                           greenIconButton={nonGiver.value}
                           greenIconButtonToggled={!nonGiver.value}
@@ -476,7 +493,7 @@ const MemberRow = ({
                     </Flex>
                     <Flex column css={{ gap: '$xs' }}>
                       <FormLabel type="label">Receive Tokens?</FormLabel>
-                      <Flex css={{ gap: '10px' }}>
+                      <Flex css={{ gap: '10px', flexWrap: 'wrap' }}>
                         <Button
                           greenIconButton={
                             nonReceiver.value || fixedNonReceiver.value
@@ -577,11 +594,14 @@ const MemberRow = ({
                     css={{ width: '140px' }}
                   />
                 </Flex>
-                <Flex column>
+                <Flex column css={{ mt: '-16px' }}>
                   <Text h3 css={{ mb: '$md', fontWeight: '$semibold' }}>
                     Fixed Payment
                   </Text>
-                  <Flex css={{ gap: '$md' }} disabled={!fixedPaymentToken}>
+                  <Flex
+                    css={{ gap: '$md', flexWrap: 'wrap' }}
+                    disabled={!fixedPaymentToken}
+                  >
                     <FormInputField
                       id="fixed_payment_amount"
                       name="fixed_payment_amount"
@@ -594,7 +614,10 @@ const MemberRow = ({
                       css={{ width: '190px' }}
                     />
                     <Flex column>
-                      <Text variant="label" css={{ mb: '$xs' }}>
+                      <Text
+                        variant="label"
+                        css={{ mb: '$xs', whiteSpace: 'nowrap' }}
+                      >
                         Members
                       </Text>
                       <Text size="medium">
@@ -604,16 +627,24 @@ const MemberRow = ({
                         }
                       </Text>
                     </Flex>
-                    <Flex column css={{ whiteSpace: 'nowrap' }}>
-                      <Text variant="label" css={{ mb: '$xs' }}>
+                    <Flex column>
+                      <Text
+                        variant="label"
+                        css={{ mb: '$xs', whiteSpace: 'nowrap' }}
+                      >
                         Fixed Payments Total
                       </Text>
                       <Text size="medium">{`${
                         fixedPaymentTotal(watchFixedPaymentAmount).fixedTotal
                       } ${fixedPaymentToken}`}</Text>
                     </Flex>
-                    <Flex column css={{ whiteSpace: 'nowrap' }}>
-                      <Text variant="label">Available in Vault</Text>{' '}
+                    <Flex column>
+                      <Text
+                        css={{ mb: '$xs', whiteSpace: 'nowrap' }}
+                        variant="label"
+                      >
+                        Available in Vault
+                      </Text>{' '}
                       <Text size="medium">{`${
                         availableInVault ?? ''
                       } ${fixedPaymentToken}`}</Text>
@@ -631,9 +662,15 @@ const MemberRow = ({
                     </AppLink>
                   </Box>
                 </Flex>
+              </TwoColumnLayout>
+              <Flex
+                css={{ mt: '$lg', mb: '$2xl', justifyContent: 'space-between' }}
+              >
                 <Button
                   outlined
                   color="neutral"
+                  size="medium"
+                  css={{ width: 'fit-content', whiteSpace: 'nowrap' }}
                   onClick={e => {
                     e.preventDefault();
                     reset();
@@ -644,11 +681,17 @@ const MemberRow = ({
                 <Button
                   outlined
                   color="complete"
+                  size="medium"
+                  css={{
+                    width: 'fit-content',
+                    justifySelf: 'end',
+                    whiteSpace: 'nowrap',
+                  }}
                   onClick={handleSubmit(onSubmit)}
                 >
                   Save Changes
                 </Button>
-              </TwoColumnLayout>
+              </Flex>
               <ActionDialog
                 open={!hasAcceptedOptOutWarning && showOptOutChangeWarning}
                 title={`This user has ${tokenName || 'GIVE'} allocated.`}
@@ -676,6 +719,7 @@ export const MembersTable = ({
   perPage,
   availableInVault,
   fixedPayment,
+  setDeleteUserDialog,
 }: {
   visibleUsers: IUser[];
   myUser: IUser;
@@ -684,6 +728,7 @@ export const MembersTable = ({
   perPage: number;
   availableInVault: string;
   fixedPayment?: FixedPaymentResult;
+  setDeleteUserDialog: (u: IUser) => void;
 }) => {
   //const { isMobile } = useMobileDetect();
   const isAdmin = isUserAdmin(me);
@@ -721,10 +766,18 @@ export const MembersTable = ({
     { title: 'ETH WALLET', css: headerStyles, isHidden: !isAdmin },
     { title: 'Give', css: { ...headerStyles } },
     { title: 'Receive', css: { ...headerStyles } },
-    { title: 'Fixed Payment', css: { ...headerStyles } },
-    { title: 'Discord Linked', css: { ...headerStyles } },
+    {
+      title: 'Fixed Payment',
+      css: { ...headerStyles },
+      isHidden: !isFeatureEnabled('fixed_payments'),
+    },
+    { title: 'Discord Linked', css: { ...headerStyles }, isHidden: true },
     { title: 'Admin', css: { ...headerStyles } },
-    { title: 'Actions', css: { ...headerStyles, textAlign: 'right' } },
+    {
+      title: 'Actions',
+      css: { ...headerStyles, textAlign: 'right' },
+      isHidden: !isAdmin,
+    },
   ];
 
   return (
@@ -763,6 +816,9 @@ export const MembersTable = ({
             fixedPayment={fixedPayment}
             availableInVault={availableInVault}
             tokenName={circle.tokenName}
+            myUser={me}
+            setDeleteUserDialog={setDeleteUserDialog}
+            circleId={circle.id}
           />
         )}
       </MemberTable>
