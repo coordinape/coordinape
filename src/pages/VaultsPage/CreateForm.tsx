@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { MouseEvent, useState, useEffect, useCallback } from 'react';
+import React, { MouseEvent, useState, useCallback } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ethers } from 'ethers';
@@ -16,6 +16,7 @@ import { useContracts } from 'hooks/useContracts';
 import { useVaultFactory } from 'hooks/useVaultFactory';
 import { PlusCircle } from 'icons/__generated';
 import { Box, Button, Form, HR, Link, Panel, Text, TextField } from 'ui';
+import { makeExplorerUrl } from 'utils/provider';
 
 const useFormSetup = (
   contracts: Contracts | undefined,
@@ -101,7 +102,7 @@ export const CreateForm = ({
   );
   const [customSymbol, setCustomSymbol] = useState<string | undefined>();
   const [saving, setSavingLocal] = useState(false);
-
+  const [txHash, setTxHash] = useState<string>('');
   const {
     control,
     formState: { errors, isValid },
@@ -190,6 +191,7 @@ export const CreateForm = ({
       type: symbol,
       simpleTokenAddress: customAddress,
       customSymbol,
+      setTxHash,
     }).then(vault => {
       setSaving?.(false);
       setSavingLocal(false);
@@ -198,7 +200,8 @@ export const CreateForm = ({
     });
   };
 
-  if (saving) return <SavingInProgress />;
+  const chainId = Number(contracts.chainId);
+  if (saving) return <SavingInProgress txHash={txHash} chainId={chainId} />;
 
   return (
     <Form
@@ -332,7 +335,13 @@ const AssetButton = styled(Button, {
   },
 });
 
-const SavingInProgress = () => {
+const SavingInProgress = ({
+  txHash,
+  chainId,
+}: {
+  txHash: string;
+  chainId: number;
+}) => {
   return (
     <>
       <Text p as="p" css={{ mb: '$md' }}>
@@ -342,6 +351,20 @@ const SavingInProgress = () => {
       <Text p as="p">
         Do not leave this page.
       </Text>
+      {txHash ? (
+        <Button
+          css={{ mt: '$md' }}
+          type="button"
+          color="primary"
+          outlined
+          fullWidth
+          as="a"
+          target="_blank"
+          href={makeExplorerUrl(chainId, txHash)}
+        >
+          View on Etherscan
+        </Button>
+      ) : null}
     </>
   );
 };
