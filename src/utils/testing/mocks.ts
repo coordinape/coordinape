@@ -58,6 +58,7 @@ export const mockContribution = {
   id: 1,
   circle_id: 1,
   deleted_at: null,
+<<<<<<< HEAD
   datetime_created: new Date(),
   circle: {
     epochs_aggregate: {
@@ -66,6 +67,11 @@ export const mockContribution = {
           end_date: new Date(Date.now() - 3600 * 1000 * 24).toISOString(),
         },
       },
+=======
+  circle: {
+    epochs_aggregate: {
+      aggregate: { max: { end_date: new Date(Date.now() + 3600 * 1000 * 24) } },
+>>>>>>> bab1da13 (Merge main branch into members-page-updates for icons (#1368))
     },
   },
   user: {

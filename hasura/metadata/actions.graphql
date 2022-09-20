@@ -315,12 +315,15 @@ input DeleteContributionInput {
   contribution_id: Int!
 }
 
+<<<<<<< HEAD
 input UpdateContributionInput {
   id: Int!
   description: String!
   datetime_created: timestamptz!
 }
 
+=======
+>>>>>>> bab1da13 (Merge main branch into members-page-updates for icons (#1368))
 type CreateCircleResponse {
   id: Int!
 }
