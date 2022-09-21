@@ -188,6 +188,7 @@ const VaultsPage = () => {
       )}
       {modal === 'create' && currentOrg && (
         <Modal
+          drawer
           showClose={!saving}
           onClose={closeModal}
           title="Create New Vault"
