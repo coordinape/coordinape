@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+import { fetchAndVerifyContribution } from '../../../../api-lib/contributions';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
-import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import {
   deleteContributionInput,
@@ -11,7 +11,8 @@ import {
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {
-    session_variables: { hasuraAddress: address },
+    action: { name: actionName },
+    session_variables: { hasuraAddress: userAddress },
     input: { payload },
   } = composeHasuraActionRequestBodyWithSession(
     deleteContributionInput,
@@ -19,52 +20,15 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   ).parse(req.body);
 
   const { contribution_id } = payload;
-  const { contributions_by_pk: contribution } = await adminClient.query(
-    {
-      contributions_by_pk: [
-        { id: contribution_id },
-        {
-          datetime_created: true,
-          deleted_at: true,
-          circle: {
-            epochs_aggregate: [
-              { where: { ended: { _eq: true } } },
-              { aggregate: { max: { end_date: true } } },
-            ],
-          },
-          user: {
-            address: true,
-          },
-        },
-      ],
-    },
-    { operationName: 'deleteContribution_getContributionDetails' }
-  );
 
-  if (
-    !contribution ||
-    contribution.deleted_at ||
-    contribution.user?.address !== address
-  ) {
-    errorResponseWithStatusCode(
-      res,
-      { message: 'contribution does not exist' },
-      422
-    );
-    return;
-  }
+  const contribution = await fetchAndVerifyContribution({
+    res,
+    userAddress,
+    id: contribution_id,
+    operationName: actionName,
+  });
 
-  if (
-    contribution?.datetime_created <
-    contribution?.circle.epochs_aggregate.aggregate?.max?.end_date
-  ) {
-    errorResponseWithStatusCode(
-      res,
-      { message: 'contribution attached to an ended epoch is not editable' },
-      422
-    );
-    return;
-  }
+  if (!contribution) return;
 
   await adminClient.mutate(
     {
