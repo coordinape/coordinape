@@ -8,6 +8,7 @@ type MutationName = keyof ValueTypes['mutation_root'];
     'delete_vault_transactions',
     'delete_pending_vault_transactions',
     'delete_claims',
+    'delete_contributions',
     'delete_distributions',
     'delete_vaults',
     'delete_token_gifts',

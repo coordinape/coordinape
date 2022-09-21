@@ -254,6 +254,50 @@ export async function makeEpoch(
 
 type MemberInput = Awaited<ReturnType<typeof insertMemberships>>;
 
+// Inputs are functions in order to defer evaluation of the faker libs
+function generateContributions(
+  input: () => ValueTypes['contributions_insert_input'],
+  count = 3
+): Array<ValueTypes['contributions_insert_input']> {
+  return Array(count)
+    .fill(input)
+    .map(x => x());
+}
+export async function createContributions(
+  input: MemberInput,
+  circle_id: number,
+  weekIncrement = 1,
+  userSlice = [0, 6]
+) {
+  const users = input.slice(...userSlice);
+
+  let contribution_objects: Array<ValueTypes['contributions_insert_input']> =
+    [];
+  for (const user of users) {
+    for (
+      let datetime = DateTime.now();
+      datetime > DateTime.now().minus({ years: 1 });
+      datetime = datetime.minus({ weeks: weekIncrement })
+    ) {
+      contribution_objects = contribution_objects.concat(
+        generateContributions(() => ({
+          circle_id,
+          description: faker.lorem.sentences(3),
+          user_id: user.id,
+          datetime_created: datetime.toISO(),
+        }))
+      );
+    }
+  }
+
+  await adminClient.mutate({
+    insert_contributions: [
+      { objects: contribution_objects },
+      { __typename: true },
+    ],
+  });
+}
+
 export async function createGifts(
   input: MemberInput,
   epochId: number,
