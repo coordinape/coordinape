@@ -36,6 +36,7 @@ import {
   FormLabel,
   Divider,
   AppLink,
+  Link,
 } from 'ui';
 import { TwoColumnLayout } from 'ui/layouts';
 import { shortenAddress } from 'utils';
@@ -43,6 +44,9 @@ import { shortenAddress } from 'utils';
 import { Paginator } from './Paginator';
 
 import { IUser } from 'types';
+
+const GIFT_CIRCLE_DOCS_URL =
+  'https://docs.coordinape.com/info/documentation/gift_circle';
 
 const TD = styled('td', {});
 const TR = styled('tr', {});
@@ -467,7 +471,22 @@ const MemberRow = ({
                   </Text>
                   <Flex css={{ gap: '$md', mb: '$md', flexWrap: 'wrap' }}>
                     <Flex column css={{ gap: '$xs' }}>
-                      <FormLabel type="label">Give Tokens?</FormLabel>
+                      <FormLabel type="label">
+                        Give Tokens?
+                        <Tooltip
+                          content={
+                            <div>
+                              Gives the member the ability to reward circle
+                              members with giving{' '}
+                              <Link href={GIFT_CIRCLE_DOCS_URL} target="_blank">
+                                Learn More
+                              </Link>
+                            </div>
+                          }
+                        >
+                          <InfoCircledIcon />
+                        </Tooltip>
+                      </FormLabel>
                       <Flex css={{ gap: '10px', flexWrap: 'wrap' }}>
                         <Button
                           greenIconButton={nonGiver.value}
@@ -510,7 +529,22 @@ const MemberRow = ({
                       </Flex>
                     </Flex>
                     <Flex column css={{ gap: '$xs' }}>
-                      <FormLabel type="label">Receive Tokens?</FormLabel>
+                      <FormLabel type="label">
+                        Receive Tokens?
+                        <Tooltip
+                          content={
+                            <div>
+                              Allows the Contributor to get paid based on the
+                              amount of giving allocated by circle members.{' '}
+                              <Link href={GIFT_CIRCLE_DOCS_URL} target="_blank">
+                                Learn More
+                              </Link>
+                            </div>
+                          }
+                        >
+                          <InfoCircledIcon />
+                        </Tooltip>
+                      </FormLabel>
                       <Flex css={{ gap: '10px', flexWrap: 'wrap' }}>
                         <Button
                           greenIconButton={
@@ -654,7 +688,7 @@ const MemberRow = ({
                       </Text>
                       <Text size="medium">{`${
                         fixedPaymentTotal(watchFixedPaymentAmount).fixedTotal
-                      } ${fixedPaymentToken}`}</Text>
+                      } ${fixedPaymentToken ?? ''}`}</Text>
                     </Flex>
                     <Flex column>
                       <Text
@@ -663,9 +697,9 @@ const MemberRow = ({
                       >
                         Available in Vault
                       </Text>{' '}
-                      <Text size="medium">{`${
-                        availableInVault ?? ''
-                      } ${fixedPaymentToken}`}</Text>
+                      <Text size="medium">{`${availableInVault ?? ''} ${
+                        fixedPaymentToken ?? ''
+                      }`}</Text>
                     </Flex>
                   </Flex>
                   <Box css={{ fontSize: '$small', alignSelf: 'flex-end' }}>
