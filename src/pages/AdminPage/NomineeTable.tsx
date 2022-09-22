@@ -248,8 +248,8 @@ export const NomineesTable = ({
         startingSortIndex={0}
         startingSortDesc
         sortByColumn={(index: number) => {
-          if (index === 0) return (n: Nominee) => n.name;
-          if (index === 1) return (n: Nominee) => n.address;
+          if (index === 0) return (n: Nominee) => n.name.toLowerCase();
+          if (index === 1) return (n: Nominee) => n.address.toLowerCase();
           if (index === 2)
             return (n: Nominee) =>
               n.vouches_required - n.nominations.length + 1;

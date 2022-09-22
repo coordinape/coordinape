@@ -59,9 +59,6 @@ const headerStyles = {
   lineHeight: '$shorter',
 };
 
-const defaultSort = <T,>(a: T, b: T) => (a > b ? 1 : a < b ? -1 : 0);
-const englishCollator = new Intl.Collator('en-u-kf-upper');
-
 const schema = z
   .object({
     name: z.string().refine(val => val.trim().length >= 3, {
@@ -862,26 +859,13 @@ export const MembersTable = ({
         headers={headers}
         data={pagedView}
         startingSortIndex={0}
-        startingSortDesc
         sortByColumn={(index: number) => {
-          if (index === 0)
-            return (a: IUser, b: IUser) =>
-              englishCollator.compare(a.name, b.name);
-          if (index === 1)
-            return (a: IUser, b: IUser) =>
-              englishCollator.compare(a.address, b.address);
-          if (index === 2)
-            return (a: IUser, b: IUser) =>
-              defaultSort(a.non_giver, b.non_giver);
-          if (index === 3)
-            return (a: IUser, b: IUser) =>
-              defaultSort(a.fixed_payment_amount, b.fixed_payment_amount);
-          if (index === 5)
-            return (a: IUser, b: IUser) =>
-              defaultSort(a.isCircleAdmin, b.isCircleAdmin);
-
-          return (a: IUser, b: IUser) =>
-            englishCollator.compare(a.name, b.name);
+          if (index === 0) return (u: IUser) => u.name.toLowerCase();
+          if (index === 1) return (u: IUser) => u.address.toLowerCase();
+          if (index === 2) return (u: IUser) => u.non_giver;
+          if (index === 3) return (u: IUser) => u.fixed_payment_amount;
+          if (index === 5) return (u: IUser) => u.isCircleAdmin;
+          return (u: IUser) => u.name.toLowerCase();
         }}
       >
         {member => (
