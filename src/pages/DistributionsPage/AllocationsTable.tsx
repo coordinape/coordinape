@@ -16,9 +16,6 @@ const styles = {
   alignRight: { textAlign: 'right' },
 };
 
-const defaultSort = <T,>(a: T, b: T) => (a > b ? 1 : a < b ? -1 : 0);
-const englishCollator = new Intl.Collator('en-u-kf-upper');
-
 export const AllocationsTable = ({
   users,
   totalGive,
@@ -145,13 +142,9 @@ export const AllocationsTable = ({
         startingSortIndex={2}
         startingSortDesc
         sortByColumn={(index: number) => {
-          if (index === 0)
-            return (a: User, b: User) =>
-              englishCollator.compare(a.name, b.name);
-          if (index === 1)
-            return (a: User, b: User) =>
-              englishCollator.compare(a.address, b.address);
-          return (a: User, b: User) => defaultSort(a.received, b.received);
+          if (index === 0) return (u: User) => u.name;
+          if (index === 1) return (u: User) => u.address;
+          return (u: User) => u.received;
         }}
       >
         {user => (
