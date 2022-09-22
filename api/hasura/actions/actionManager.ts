@@ -22,6 +22,7 @@ import logoutUser from './_handlers/logoutUser';
 import restoreCoordinape from './_handlers/restoreCoordinape';
 import updateAllocations from './_handlers/updateAllocations';
 import updateCircle from './_handlers/updateCircle';
+import updateContribution from './_handlers/updateContribution';
 import updateEpoch from './_handlers/updateEpoch';
 import updateTeammates from './_handlers/updateTeammates';
 import updateUser from './_handlers/updateUser';
@@ -52,6 +53,7 @@ const HANDLERS: HandlerDict = {
   restoreCoordinape,
   updateAllocations,
   updateCircle,
+  updateContribution,
   updateEpoch,
   updateTeammates,
   updateUser,

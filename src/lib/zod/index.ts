@@ -38,13 +38,13 @@ export const createCircleSchemaInput = z
     user_name: zUsername,
     circle_name: zCircleName,
     image_data_base64: z.string().optional(),
-    protocol_id: z.number().int().positive().optional(),
-    protocol_name: z.string().min(3).max(255).optional(),
+    organization_id: z.number().int().positive().optional(),
+    organization_name: z.string().min(3).max(255).optional(),
     contact: z.string().min(3).max(255).optional(),
   })
   .strict()
   .refine(
-    data => data.protocol_name || data.protocol_id,
+    data => data.organization_name || data.organization_id,
     'Either Protocol name should be filled in or a Protocol should be selected.'
   );
 
@@ -148,6 +148,15 @@ export const circleIdInput = z
     circle_id: z.number(),
   })
   .strip();
+
+export const updateContributionInput = z
+  .object({
+    // this should probably be handled as a bigint
+    id: z.number().int().positive(),
+    description: z.string().nonempty(),
+    datetime_created: zStringISODateUTC,
+  })
+  .strict();
 
 export const uploadImageInput = z
   .object({ image_data_base64: z.string() })

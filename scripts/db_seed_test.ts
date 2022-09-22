@@ -10,6 +10,7 @@ import {
   insertMemberships,
   getCircleName,
   makeManyEpochs,
+  createContributions,
 } from './util/seed';
 
 const { CI } = process.env;
@@ -23,8 +24,8 @@ async function main() {
   await createEndedEpochWithGifts();
   await createCircleWithPendingGiftsEndingSoon();
   await createCircleWithGiftsNotYetEnded();
-  const protocolId = await getProtocolIdForCircle(circleId);
-  await createCircleInOrgButNoDevMember(protocolId!);
+  const organizationId = await getOrganizationIdForCircle(circleId);
+  await createCircleInOrgButNoDevMember(organizationId!);
   await createFreshOpenEpochDevAdminWithFixedPaymentToken();
   await createEndedEpochWithGiftsForClaims();
 
@@ -37,24 +38,24 @@ main()
   .then(() => console.log(`Finished seeding in ${Date.now() - startTime}ms`))
   .catch(console.error);
 
-async function getProtocolIdForCircle(circleId: number) {
+async function getOrganizationIdForCircle(circleId: number) {
   const { circles_by_pk } = await adminClient.query({
     circles_by_pk: [
       {
         id: circleId,
       },
       {
-        protocol_id: true,
+        organization_id: true,
       },
     ],
   });
-  return circles_by_pk?.protocol_id;
+  return circles_by_pk?.organization_id;
 }
 async function createCircleWithGiftsNotYetEnded() {
   const result = await insertMemberships(
     getMembershipInput(
       {
-        protocolInput: { name: 'Closed Epoch not Ended' },
+        organizationInput: { name: 'Closed Epoch not Ended' },
         circlesInput: [
           {
             name: getCircleName() + ' auto opt-out',
@@ -80,13 +81,14 @@ async function createCircleWithGiftsNotYetEnded() {
     1,
     false
   );
+  await createContributions(result, circleId);
   await createGifts(result, epochId);
   return circleId;
 }
 
 async function createFreshOpenEpochNoDev() {
   const result = await insertMemberships(
-    getMembershipInput({ protocolInput: { name: 'Fresh Open Epoch No Dev' } })
+    getMembershipInput({ organizationInput: { name: 'Fresh Open Epoch No Dev' } })
   );
   const circleId = result[0].circle_id;
   await makeEpoch(
@@ -100,7 +102,7 @@ async function createFreshOpenEpochNoDev() {
 async function createFreshOpenEpochDevAdmin() {
   const result = await insertMemberships(
     getMembershipInput(
-      { protocolInput: { name: 'Fresh Open Epoch Admin' } },
+      { organizationInput: { name: 'Fresh Open Epoch Admin' } },
       {}
     )
   );
@@ -116,7 +118,7 @@ async function createFreshOpenEpochDevAdmin() {
 async function createFreshOpenEpoch() {
   const result = await insertMemberships(
     getMembershipInput(
-      { protocolInput: { name: 'Fresh Open Epoch Regular User' } },
+      { organizationInput: { name: 'Fresh Open Epoch Regular User' } },
       { role: 0 }
     )
   );
@@ -158,7 +160,7 @@ async function createEndedEpochWithGiftsForClaims() {
 
 async function createCircleWithPendingGiftsEndingSoon() {
   const result = await insertMemberships(
-    getMembershipInput({ protocolInput: { name: 'Open Epoch With Gifts' } }, {})
+    getMembershipInput({ organizationInput: { name: 'Open Epoch With Gifts' } }, {})
   );
   const circleId = result[0].circle_id;
   const epochId = await makeEpoch(
@@ -167,10 +169,11 @@ async function createCircleWithPendingGiftsEndingSoon() {
     DateTime.now().plus({ hours: 6 }),
     1
   );
+  await createContributions(result, circleId);
   await createGifts(result, epochId);
 }
 
-async function createCircleInOrgButNoDevMember(protocolId: number) {
+async function createCircleInOrgButNoDevMember(organizationId: number) {
   await adminClient.mutate({
     insert_circles: [
       {
@@ -180,7 +183,7 @@ async function createCircleInOrgButNoDevMember(protocolId: number) {
             auto_opt_out: true,
             default_opt_in: true,
             min_vouches: 2,
-            protocol_id: protocolId,
+            organization_id: organizationId,
             nomination_days_limit: 1,
             only_giver_vouch: false,
             token_name: 'GIVE',
@@ -201,7 +204,7 @@ async function createFreshOpenEpochDevAdminWithFixedPaymentToken() {
   const result = await insertMemberships(
     getMembershipInput(
       {
-        protocolInput: {
+        organizationInput: {
           name: 'Fresh Open Epoch Admin With Fixed Payment Token',
         },
         circlesInput: [

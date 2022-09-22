@@ -11,7 +11,7 @@ import { rApiFullCircle, rApiManifest } from 'recoilState';
 
 import { IApiCircle, IApiProfile, IApiUser, IProtocol } from 'types';
 
-const protocol: IProtocol = {
+const organization: IProtocol = {
   id: 1,
   name: 'Test Org',
   is_verified: false,
@@ -30,8 +30,8 @@ const circle: IApiCircle = {
   name: 'Test Circle',
   nomination_days_limit: 7,
   only_giver_vouch: true,
-  protocol: protocol,
-  protocol_id: 1,
+  organization: organization,
+  organization_id: 1,
   team_selection: false,
   vouching: false,
   vouching_text: '',
@@ -80,7 +80,7 @@ const manifest = {
   profile,
 };
 
-export const fixtures = { circle, manifest, profile, protocol, user };
+export const fixtures = { circle, manifest, profile, organization, user };
 
 // the first type is for snapshot_UNSTABLE;
 // the second one is for useRecoilCallback

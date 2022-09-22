@@ -34,13 +34,13 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     hasuraAddress,
     actionToLog.vault_id
   );
-  if (!validVault?.protocol.circles.length)
+  if (!validVault?.organization.circles.length)
     throw new UnprocessableError(
       `User cannot access Vault ${actionToLog.vault_id}`
     );
 
   if (actionToLog.tx_type === 'Distribution') {
-    const validCircle = validVault.protocol.circles.find(
+    const validCircle = validVault.organization.circles.find(
       circle => circle.id === actionToLog.circle_id
     );
     if (!validCircle)

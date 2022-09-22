@@ -45,8 +45,8 @@ export interface CreateCircleParam {
   user_name: string;
   circle_name: string;
   image_data_base64?: string;
-  protocol_name?: string;
-  protocol_id?: number;
+  organization_name?: string;
+  organization_id?: number;
   contact: string;
 }
 

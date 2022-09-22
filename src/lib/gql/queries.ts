@@ -97,7 +97,7 @@ export const getProfile = async (address: string): Promise<IApiProfile> => {
                 team_selection: true,
                 created_at: true,
                 updated_at: true,
-                protocol_id: true,
+                organization_id: true,
                 organization: {
                   id: true,
                   name: true,
@@ -147,14 +147,14 @@ export const getProfile = async (address: string): Promise<IApiProfile> => {
     const adaptedUser: Omit<typeof user, 'teammates | organization'> & {
       teammates?: IApiUser[];
       circle: Omit<typeof user.circle, 'organization'> & {
-        protocol: typeof user.circle.organization;
+        organization: typeof user.circle.organization;
       };
     } = {
       ...user,
       teammates: user.teammates.map(tm => tm.teammate).filter(isDefinedUser),
       circle: {
         ...user.circle,
-        protocol: user.circle.organization,
+        organization: user.circle.organization,
       },
     };
     return adaptedUser;
@@ -223,7 +223,7 @@ export const getFullCircle = async (
               team_selection: true,
               created_at: true,
               updated_at: true,
-              protocol_id: true,
+              organization_id: true,
               organization: {
                 id: true,
                 created_at: true,
@@ -440,13 +440,13 @@ export const getFullCircle = async (
     pending_gifts: IApiTokenGift[];
     users: IApiUser[];
     circle: Omit<typeof circle, 'organization'> & {
-      protocol: IProtocol;
+      organization: IProtocol;
     };
   } = {
     ...circles_by_pk,
     circle: {
       ...circle,
-      protocol: circle.organization,
+      organization: circle.organization,
     },
     pending_gifts: circles_by_pk.pending_token_gifts.map(pg => {
       const notedGift: Omit<typeof pg, 'gift_private'> & {
@@ -498,7 +498,7 @@ export const fetchManifest = async (address: string): Promise<IApiManifest> => {
           team_selection: true,
           created_at: true,
           updated_at: true,
-          protocol_id: true,
+          organization_id: true,
           organization: {
             id: true,
             name: true,
@@ -673,10 +673,10 @@ export const fetchManifest = async (address: string): Promise<IApiManifest> => {
 
   const adaptedCircles = circles.map(circle => {
     const adaptedCircle: Omit<typeof circle, 'organization'> & {
-      protocol: IProtocol;
+      organization: IProtocol;
     } = {
       ...circle,
-      protocol: circle.organization,
+      organization: circle.organization,
     };
     return adaptedCircle;
   });

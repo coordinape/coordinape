@@ -3,7 +3,7 @@ import groupBy from 'lodash/groupBy';
 import partition from 'lodash/partition';
 import sortBy from 'lodash/sortBy';
 
-import { numberWithCommas } from 'utils';
+import { smartRounding } from 'utils';
 
 import { QueryClaim } from './queries';
 
@@ -66,7 +66,7 @@ export function formatClaimAmount(claims: QueryClaim[]): string {
   const totalAmount = claims.reduce((accumulator, curr) => {
     return accumulator + (curr.unwrappedNewAmount || 0);
   }, 0);
-  return `${numberWithCommas(totalAmount, 2)} ${getDisplayTokenString(
+  return `${smartRounding(totalAmount)} ${getDisplayTokenString(
     claims[0].distribution.vault
   )}`;
 }

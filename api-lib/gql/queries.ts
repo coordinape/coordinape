@@ -349,8 +349,8 @@ export async function getExpiredNominees() {
 
 export async function checkAddressAdminInOrg(
   address: string,
-  protocol_id: number,
-  protocol_name = '%%'
+  organization_id: number,
+  organization_name = '%%'
 ) {
   const { profiles } = await adminClient.query(
     {
@@ -361,8 +361,8 @@ export async function checkAddressAdminInOrg(
             users: {
               role: { _eq: 1 },
               circle: {
-                protocol_id: { _eq: protocol_id },
-                organization: { name: { _ilike: protocol_name } },
+                organization_id: { _eq: organization_id },
+                organization: { name: { _ilike: organization_name } },
               },
             },
           },
@@ -542,7 +542,7 @@ export async function getEpoch(
             },
           },
           token_gifts: [
-            {},
+            { where: { recipient: { deleted_at: { _is_null: true } } } },
             {
               tokens: true,
             },
@@ -564,7 +564,7 @@ export async function getVaultForAddress(address: string, vaultId: number) {
         id: vaultId,
       },
       {
-        protocol: {
+        organization: {
           circles: [
             { where: { users: { address: { _eq: address } } } },
             { id: true },
