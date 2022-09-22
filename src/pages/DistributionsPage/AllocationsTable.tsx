@@ -142,8 +142,8 @@ export const AllocationsTable = ({
         startingSortIndex={2}
         startingSortDesc
         sortByColumn={(index: number) => {
-          if (index === 0) return (u: User) => u.name;
-          if (index === 1) return (u: User) => u.address;
+          if (index === 0) return (u: User) => u.name.toLowerCase();
+          if (index === 1) return (u: User) => u.address.toLowerCase();
           return (u: User) => u.received;
         }}
       >
