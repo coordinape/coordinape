@@ -101,10 +101,10 @@
     "test": "yarn hardhat:ganache --exec craco test --runInBand",
     "test:ci": "yarn hardhat:ganache --exec ./scripts/ci.sh",
     "eject": "craco eject",
-    "lint:check": "eslint \"{api,api-lib,cypress,hasura,src}/**/*.{js,ts,tsx,graphql}\"",
+    "lint:check": "eslint \"{{api,api-lib,cypress,hasura,src}/**/*.{js,ts,tsx,graphql},*.{js,ts,tsx,graphql}}\"",
     "lint:fix": "yarn lint:check --fix",
     "postinstall": "./scripts/link_hardhat.sh",
-    "prettier": "prettier \"{api,api-lib,cypress,hasura,src}/**/*.{js,ts,tsx}\"",
+    "prettier": "prettier \"{{api,api-lib,cypress,hasura,src}/**/*.{js,ts,tsx,graphql,json},*.{js,ts,tsx,graphql,json}}\"",
     "prettier:check": "yarn prettier --check",
     "prettier:fix": "yarn prettier --write",
     "typecheck": "tsc --noEmit && tsc -p tsconfig-backend.json --noEmit",
@@ -118,7 +118,8 @@
     "{api,api-lib,hasura,src}/**/*.{js,ts,tsx,graphql}": [
       "eslint --fix",
       "prettier --write"
-    ]
+    ],
+    "{{api,api-lib,cypress,hasura,src}/**/*.json,*.json}": "prettier --write"
   },
   "husky": {
     "hooks": {
