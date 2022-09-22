@@ -234,7 +234,7 @@ export async function insertCircleWithAdmin(
   circleInput: ValueTypes['circles_insert_input'] & {
     user_name: string;
     circle_name: string;
-    protocol_name?: string;
+    organization_name?: string;
   },
   userAddress: string,
   coordinapeAddress: string,
@@ -263,7 +263,7 @@ export async function insertCircleWithAdmin(
   const circleReturn = {
     id: true,
     name: true,
-    protocol_id: true,
+    organization_id: true,
     team_sel_text: true,
     alloc_text: true,
     vouching: true,
@@ -277,14 +277,14 @@ export async function insertCircleWithAdmin(
     auto_opt_out: true,
   };
   let retVal;
-  if (circleInput.protocol_id) {
+  if (circleInput.organization_id) {
     const { insert_circles_one } = await adminClient.mutate(
       {
         insert_circles_one: [
           {
             object: {
               name: circleInput.circle_name,
-              protocol_id: circleInput.protocol_id,
+              organization_id: circleInput.organization_id,
               users: insertUsers,
               contact: circleInput.contact,
               logo: fileName,
@@ -299,13 +299,13 @@ export async function insertCircleWithAdmin(
     );
     retVal = insert_circles_one;
   } else {
-    assert(circleInput.protocol_name);
+    assert(circleInput.organization_name);
     const { insert_organizations_one } = await adminClient.mutate(
       {
         insert_organizations_one: [
           {
             object: {
-              name: circleInput.protocol_name,
+              name: circleInput.organization_name,
               circles: {
                 data: [
                   {

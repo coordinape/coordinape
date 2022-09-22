@@ -444,7 +444,7 @@ custom_types:
       relationships:
         - remote_table:
             schema: public
-            name: protocols
+            name: organizations
           name: org
           source: default
           type: object

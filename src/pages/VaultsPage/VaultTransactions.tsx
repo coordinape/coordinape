@@ -39,7 +39,7 @@ export const VaultTransactions = () => {
   }
 
   return (
-    <OrgLayout name={vault.protocol.name}>
+    <OrgLayout name={vault.organization.name}>
       <Panel>
         <Text h2 css={{ mb: '$md' }}>
           All Transactions for {getDisplayTokenString(vault)} Vault

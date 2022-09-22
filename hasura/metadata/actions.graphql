@@ -115,8 +115,8 @@ type Mutation {
 input CreateCircleInput {
   user_name: String!
   circle_name: String!
-  protocol_name: String
-  protocol_id: Int
+  organization_name: String
+  organization_id: Int
   contact: String
   image_data_base64: String
 }

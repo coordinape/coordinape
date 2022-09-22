@@ -48,7 +48,7 @@ main()
 async function createOrg(address: string, orgName: string) {
   const result = await insertMemberships(
     getMembershipInput(
-      { protocolInput: { name: orgName } },
+      { organizationInput: { name: orgName } },
       { address, name: 'QA Test User' }
     )
   );
