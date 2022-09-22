@@ -1,23 +1,33 @@
+import assert from 'assert';
 import React, { useState, useMemo, useEffect } from 'react';
 
+import { constants as ethersConstants } from 'ethers';
+import { formatUnits } from 'ethers/lib/utils';
 import { isUserAdmin } from 'lib/users';
 import { useQuery } from 'react-query';
 
 import { ActionDialog, LoadingModal } from 'components';
-import { useApiAdminCircle } from 'hooks';
+import { useApiAdminCircle, useContracts } from 'hooks';
+import { useCircleOrg } from 'hooks/gql/useCircleOrg';
+import { useVaults } from 'hooks/gql/useVaults';
 import useMobileDetect from 'hooks/useMobileDetect';
+import { Search } from 'icons/__generated';
 import { getCircleSettings } from 'pages/CircleAdminPage/getCircleSettings';
+import {
+  getFixedPayment,
+  QUERY_KEY_FIXED_PAYMENT,
+} from 'pages/CircleAdminPage/getFixedPayment';
 import { useSelectedCircle } from 'recoilState/app';
 import { NEW_CIRCLE_CREATED_PARAMS, paths } from 'routes/paths';
 import { AppLink, Button, Flex, Panel, Text, TextField } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
+import { numberWithCommas } from 'utils';
 
-import { AdminUserModal } from './AdminUserModal';
-import { MembersTable } from './components';
 import {
   getActiveNominees,
   QUERY_KEY_ACTIVE_NOMINEES,
 } from './getActiveNominees';
+import { MembersTable } from './MembersTable';
 import { NewNominationModal } from './NewNominationModal';
 import { NomineesTable } from './NomineeTable';
 
@@ -27,12 +37,12 @@ const AdminPage = () => {
   const { isMobile } = useMobileDetect();
 
   const [keyword, setKeyword] = useState<string>('');
-  const [editUser, setEditUser] = useState<IUser | undefined>(undefined);
   const [deleteUserDialog, setDeleteUserDialog] = useState<IUser | undefined>(
     undefined
   );
   const [newCircle, setNewCircle] = useState<boolean>(false);
   const [isNewNomination, setNewNomination] = useState<boolean>(false);
+  const [maxGiftTokens, setMaxGiftTokens] = useState(ethersConstants.Zero);
 
   useEffect(() => {
     // do this initialization in useEffect because window is only available client side -g
@@ -89,6 +99,49 @@ const AdminPage = () => {
     }
   );
 
+  const { data: fixedPayment } = useQuery(
+    [QUERY_KEY_FIXED_PAYMENT, circleId],
+    () => getFixedPayment(circleId),
+    {
+      // the query will not be executed untill circleId exists
+      enabled: !!circleId,
+      //minmize background refetch
+      refetchOnWindowFocus: false,
+
+      staleTime: Infinity,
+      notifyOnChangeProps: ['data'],
+    }
+  );
+
+  const contracts = useContracts();
+  const orgQuery = useCircleOrg(circleId);
+
+  const vaultsQuery = useVaults({
+    orgId: orgQuery.data?.id,
+    chainId: Number(contracts?.chainId),
+  });
+
+  const vaultOptions = vaultsQuery.data
+    ? [
+        { value: '', label: '- None -' },
+        ...vaultsQuery.data.map(vault => {
+          return { value: vault.id, label: vault.symbol };
+        }),
+      ]
+    : [
+        {
+          value: '',
+          label:
+            vaultsQuery.isLoading || orgQuery.isLoading
+              ? 'Loading...'
+              : 'None Available',
+        },
+      ];
+
+  useEffect(() => {
+    updateBalanceState(stringifiedVaultId());
+  }, [vaultOptions.length]);
+
   const nomineeCount = activeNominees?.length || 0;
   const cannotVouch = circle?.only_giver_vouch && me.non_giver;
 
@@ -104,6 +157,43 @@ const AdminPage = () => {
   const refetch = () => {
     refetchNominees();
   };
+
+  const findVault = (vaultId: string) => {
+    return vaultsQuery?.data?.find(v => v.id === parseInt(vaultId));
+  };
+
+  const updateBalanceState = async (vaultId: string): Promise<void> => {
+    assert(circle);
+    const vault = findVault(vaultId);
+    assert(contracts, 'This network is not supported');
+
+    if (vault) {
+      const tokenBalance = await contracts.getVaultBalance(vault);
+      setMaxGiftTokens(tokenBalance);
+    } else {
+      setMaxGiftTokens(ethersConstants.Zero);
+    }
+  };
+
+  const stringifiedVaultId = () => {
+    const id = circle?.fixed_payment_vault_id;
+    if (id == null) {
+      return '';
+    }
+    return `${id}`;
+  };
+
+  const getDecimals = (vaultId: string) => {
+    if (vaultId) {
+      const v = findVault(vaultId);
+      if (v) return v.decimals;
+    }
+    return 0;
+  };
+
+  const availableFixedTokens = numberWithCommas(
+    formatUnits(maxGiftTokens, getDecimals(stringifiedVaultId()))
+  );
 
   if (isLoading || isIdle) return <LoadingModal visible />;
   if (isError) {
@@ -250,6 +340,11 @@ const AdminPage = () => {
                 onChange={onChangeKeyword}
                 placeholder="🔍 Search"
                 value={keyword}
+                css={{
+                  pd: '25px',
+                  background: `${(<Search />)} no-repeat right`,
+                  backgroundSize: '20px',
+                }}
               />
             </Flex>
             {circle && (
@@ -258,22 +353,16 @@ const AdminPage = () => {
                 myUser={me}
                 circle={circle}
                 filter={filterUser}
-                setEditUser={setEditUser}
-                setDeleteUserDialog={setDeleteUserDialog}
                 perPage={15}
+                fixedPayment={fixedPayment}
+                availableInVault={availableFixedTokens}
+                setDeleteUserDialog={setDeleteUserDialog}
               />
             )}
           </Panel>
         </Panel>
       </Panel>
-      {circle && editUser && (
-        <AdminUserModal
-          onClose={() => setEditUser(undefined)}
-          user={editUser}
-          fixedPaymentToken={circle.fixed_payment_token_type}
-          tokenName={circle.tokenName}
-        />
-      )}
+      {}
       <ActionDialog
         open={newCircle}
         title="Congrats! You just launched a new circle."

@@ -40,7 +40,7 @@ import { getCircleAvatar } from 'utils/domain';
 
 import { AdminIntegrations } from './AdminIntegrations';
 import { getCircleSettings } from './getCircleSettings';
-import { getFixedPayment } from './getFixedPayment';
+import { getFixedPayment, QUERY_KEY_FIXED_PAYMENT } from './getFixedPayment';
 import { RemoveCircleModal } from './RemoveCircleModal';
 
 const panelStyles = {
@@ -194,15 +194,19 @@ export const CircleAdminPage = () => {
     data: fixedPayment,
     isLoading: fixedPaymentIsLoading,
     isIdle: fixedPaymentIsIdle,
-  } = useQuery(['fixedPayment', circleId], () => getFixedPayment(circleId), {
-    // the query will not be executed untill circleId exists
-    enabled: !!circleId,
-    //minmize background refetch
-    refetchOnWindowFocus: false,
+  } = useQuery(
+    [QUERY_KEY_FIXED_PAYMENT, circleId],
+    () => getFixedPayment(circleId),
+    {
+      // the query will not be executed untill circleId exists
+      enabled: !!circleId,
+      //minmize background refetch
+      refetchOnWindowFocus: false,
 
-    staleTime: Infinity,
-    notifyOnChangeProps: ['data'],
-  });
+      staleTime: Infinity,
+      notifyOnChangeProps: ['data'],
+    }
+  );
 
   const contracts = useContracts();
   const { showInfo } = useApeSnackbar();

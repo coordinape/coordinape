@@ -38,3 +38,4 @@ export const getFixedPayment = async (circleId: number) => {
 };
 
 export type FixedPaymentResult = Awaited<ReturnType<typeof getFixedPayment>>;
+export const QUERY_KEY_FIXED_PAYMENT = 'fixedPayment';
