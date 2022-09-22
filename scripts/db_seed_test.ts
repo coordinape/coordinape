@@ -10,6 +10,7 @@ import {
   insertMemberships,
   getCircleName,
   makeManyEpochs,
+  createContributions,
 } from './util/seed';
 
 const { CI } = process.env;
@@ -80,6 +81,7 @@ async function createCircleWithGiftsNotYetEnded() {
     1,
     false
   );
+  await createContributions(result, circleId);
   await createGifts(result, epochId);
   return circleId;
 }
@@ -167,6 +169,7 @@ async function createCircleWithPendingGiftsEndingSoon() {
     DateTime.now().plus({ hours: 6 }),
     1
   );
+  await createContributions(result, circleId);
   await createGifts(result, epochId);
 }
 
