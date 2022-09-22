@@ -12,42 +12,32 @@ insert_permissions:
   - role: user
     permission:
       check:
-        user:
-          profile:
-            id:
-              _eq: X-Hasura-User-Id
-    columns:
-    - circle_id
-    - datetime_created
-    - description
-    backend_only: false
-    set:
-      user_id: x-hasura-User-Id
+        circle:
+          users:
+            profile:
+              id:
+                _eq: X-Hasura-User-Id
+      set:
+        user_id: x-hasura-User-Id
+      columns:
+        - circle_id
+        - description
 select_permissions:
   - role: user
     permission:
       columns:
-      - circle_id
-      - created_at
-      - datetime_created
-      - description
-      - id
-      - updated_at
-      - user_id
-      filter:
-        user:
-          profile:
-            id:
-              _eq: X-Hasura-User-Id
-update_permissions:
-  - role: user
-    permission:
-        check: null
-        columns:
+        - circle_id
+        - created_at
         - datetime_created
         - description
-        filter:
-            user:
+        - id
+        - updated_at
+        - user_id
+      filter:
+        _and:
+          - user:
               profile:
                 id:
                   _eq: X-Hasura-User-Id
+          - deleted_at:
+              _is_null: true
