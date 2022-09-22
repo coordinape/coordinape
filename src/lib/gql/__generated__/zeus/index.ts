@@ -321,7 +321,7 @@ export class GraphQLError extends Error {
   constructor(public response: GraphQLResponse) {
     super('');
     // eslint-disable-next-line no-console
-    console.info(JSON.stringify(response, null, 2));
+    console.info(JSON.stringify(response));
   }
   toString() {
     return 'GraphQL Response Error';
@@ -651,8 +651,8 @@ export type ValueTypes = {
     circle_name: string;
     contact?: string | undefined | null;
     image_data_base64?: string | undefined | null;
-    protocol_id?: number | undefined | null;
-    protocol_name?: string | undefined | null;
+    organization_id?: number | undefined | null;
+    organization_name?: string | undefined | null;
     user_name: string;
   };
   ['CreateCircleResponse']: AliasType<{
@@ -1684,6 +1684,7 @@ columns and relationships of "circle_api_keys" */
     only_giver_vouch?: boolean | `@${string}`;
     /** An object relationship */
     organization?: ValueTypes['organizations'];
+    organization_id?: boolean | `@${string}`;
     pending_token_gifts?: [
       {
         /** distinct select on columns */
@@ -1707,7 +1708,6 @@ columns and relationships of "circle_api_keys" */
       },
       ValueTypes['pending_token_gifts']
     ];
-    protocol_id?: boolean | `@${string}`;
     team_sel_text?: boolean | `@${string}`;
     team_selection?: boolean | `@${string}`;
     token_gifts?: [
@@ -1828,7 +1828,7 @@ columns and relationships of "circle_api_keys" */
     id?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
-    protocol_id?: ValueTypes['order_by'] | undefined | null;
+    organization_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** Boolean expression to filter rows from the table "circles". All fields are combined with a logical 'AND'. */
   ['circles_bool_exp']: {
@@ -1866,11 +1866,11 @@ columns and relationships of "circle_api_keys" */
     nominees?: ValueTypes['nominees_bool_exp'] | undefined | null;
     only_giver_vouch?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     organization?: ValueTypes['organizations_bool_exp'] | undefined | null;
+    organization_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     pending_token_gifts?:
       | ValueTypes['pending_token_gifts_bool_exp']
       | undefined
       | null;
-    protocol_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     team_sel_text?: ValueTypes['String_comparison_exp'] | undefined | null;
     team_selection?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     token_gifts?: ValueTypes['token_gifts_bool_exp'] | undefined | null;
@@ -1896,7 +1896,7 @@ columns and relationships of "circle_api_keys" */
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
-    protocol_id?: ValueTypes['order_by'] | undefined | null;
+    organization_id?: ValueTypes['order_by'] | undefined | null;
     team_sel_text?: ValueTypes['order_by'] | undefined | null;
     token_name?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
@@ -1914,7 +1914,7 @@ columns and relationships of "circle_api_keys" */
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
-    protocol_id?: ValueTypes['order_by'] | undefined | null;
+    organization_id?: ValueTypes['order_by'] | undefined | null;
     team_sel_text?: ValueTypes['order_by'] | undefined | null;
     token_name?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
@@ -1959,11 +1959,11 @@ columns and relationships of "circle_api_keys" */
       | null;
     only_giver_vouch?: ValueTypes['order_by'] | undefined | null;
     organization?: ValueTypes['organizations_order_by'] | undefined | null;
+    organization_id?: ValueTypes['order_by'] | undefined | null;
     pending_token_gifts_aggregate?:
       | ValueTypes['pending_token_gifts_aggregate_order_by']
       | undefined
       | null;
-    protocol_id?: ValueTypes['order_by'] | undefined | null;
     team_sel_text?: ValueTypes['order_by'] | undefined | null;
     team_selection?: ValueTypes['order_by'] | undefined | null;
     token_gifts_aggregate?:
@@ -1988,7 +1988,7 @@ columns and relationships of "circle_api_keys" */
     id?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
-    protocol_id?: ValueTypes['order_by'] | undefined | null;
+    organization_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** order by stddev_pop() on columns of table "circles" */
   ['circles_stddev_pop_order_by']: {
@@ -1996,7 +1996,7 @@ columns and relationships of "circle_api_keys" */
     id?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
-    protocol_id?: ValueTypes['order_by'] | undefined | null;
+    organization_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** order by stddev_samp() on columns of table "circles" */
   ['circles_stddev_samp_order_by']: {
@@ -2004,7 +2004,7 @@ columns and relationships of "circle_api_keys" */
     id?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
-    protocol_id?: ValueTypes['order_by'] | undefined | null;
+    organization_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** order by sum() on columns of table "circles" */
   ['circles_sum_order_by']: {
@@ -2012,7 +2012,7 @@ columns and relationships of "circle_api_keys" */
     id?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
-    protocol_id?: ValueTypes['order_by'] | undefined | null;
+    organization_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** order by var_pop() on columns of table "circles" */
   ['circles_var_pop_order_by']: {
@@ -2020,7 +2020,7 @@ columns and relationships of "circle_api_keys" */
     id?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
-    protocol_id?: ValueTypes['order_by'] | undefined | null;
+    organization_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** order by var_samp() on columns of table "circles" */
   ['circles_var_samp_order_by']: {
@@ -2028,7 +2028,7 @@ columns and relationships of "circle_api_keys" */
     id?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
-    protocol_id?: ValueTypes['order_by'] | undefined | null;
+    organization_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** order by variance() on columns of table "circles" */
   ['circles_variance_order_by']: {
@@ -2036,7 +2036,7 @@ columns and relationships of "circle_api_keys" */
     id?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
-    protocol_id?: ValueTypes['order_by'] | undefined | null;
+    organization_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** columns and relationships of "claims" */
   ['claims']: AliasType<{
@@ -4202,7 +4202,7 @@ columns and relationships of "distributions" */
   };
   /** column ordering options */
   ['order_by']: order_by;
-  /** columns and relationships of "protocols" */
+  /** columns and relationships of "organizations" */
   ['organizations']: AliasType<{
     circles?: [
       {
@@ -4257,7 +4257,7 @@ columns and relationships of "distributions" */
     ];
     __typename?: boolean | `@${string}`;
   }>;
-  /** Boolean expression to filter rows from the table "protocols". All fields are combined with a logical 'AND'. */
+  /** Boolean expression to filter rows from the table "organizations". All fields are combined with a logical 'AND'. */
   ['organizations_bool_exp']: {
     _and?: Array<ValueTypes['organizations_bool_exp']> | undefined | null;
     _not?: ValueTypes['organizations_bool_exp'] | undefined | null;
@@ -4270,7 +4270,7 @@ columns and relationships of "distributions" */
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     vaults?: ValueTypes['vaults_bool_exp'] | undefined | null;
   };
-  /** Ordering options when selecting data from "protocols". */
+  /** Ordering options when selecting data from "organizations". */
   ['organizations_order_by']: {
     circles_aggregate?:
       | ValueTypes['circles_aggregate_order_by']
@@ -4286,7 +4286,7 @@ columns and relationships of "distributions" */
       | undefined
       | null;
   };
-  /** select columns of table "protocols" */
+  /** select columns of table "organizations" */
   ['organizations_select_column']: organizations_select_column;
   /** columns and relationships of "pending_gift_private" */
   ['pending_gift_private']: AliasType<{
@@ -6939,29 +6939,6 @@ columns and relationships of "users" */
       ValueTypes['circle_api_keys']
     ];
     circle_id?: boolean | `@${string}`;
-    contributions?: [
-      {
-        /** distinct select on columns */
-        distinct_on?:
-          | Array<ValueTypes['contributions_select_column']>
-          | undefined
-          | null /** limit the number of rows returned */;
-        limit?:
-          | number
-          | undefined
-          | null /** skip the first n rows. Use only with order_by */;
-        offset?:
-          | number
-          | undefined
-          | null /** sort the rows by one or more columns */;
-        order_by?:
-          | Array<ValueTypes['contributions_order_by']>
-          | undefined
-          | null /** filter the rows returned */;
-        where?: ValueTypes['contributions_bool_exp'] | undefined | null;
-      },
-      ValueTypes['contributions']
-    ];
     created_at?: boolean | `@${string}`;
     deleted_at?: boolean | `@${string}`;
     epoch_first_visit?: boolean | `@${string}`;
@@ -7199,7 +7176,6 @@ columns and relationships of "users" */
     circle?: ValueTypes['circles_bool_exp'] | undefined | null;
     circle_api_keys?: ValueTypes['circle_api_keys_bool_exp'] | undefined | null;
     circle_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
-    contributions?: ValueTypes['contributions_bool_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     deleted_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     epoch_first_visit?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
@@ -7272,10 +7248,6 @@ columns and relationships of "users" */
       | undefined
       | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
-    contributions_aggregate?:
-      | ValueTypes['contributions_aggregate_order_by']
-      | undefined
-      | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     deleted_at?: ValueTypes['order_by'] | undefined | null;
     epoch_first_visit?: ValueTypes['order_by'] | undefined | null;
@@ -7693,9 +7665,9 @@ columns and relationships of "users" */
     ];
     id?: boolean | `@${string}`;
     /** An object relationship */
-    profile?: ValueTypes['profiles'];
+    organization?: ValueTypes['organizations'];
     /** An object relationship */
-    protocol?: ValueTypes['organizations'];
+    profile?: ValueTypes['profiles'];
     simple_token_address?: boolean | `@${string}`;
     symbol?: boolean | `@${string}`;
     token_address?: boolean | `@${string}`;
@@ -7760,8 +7732,8 @@ columns and relationships of "users" */
     deployment_block?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     distributions?: ValueTypes['distributions_bool_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    organization?: ValueTypes['organizations_bool_exp'] | undefined | null;
     profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
-    protocol?: ValueTypes['organizations_bool_exp'] | undefined | null;
     simple_token_address?:
       | ValueTypes['String_comparison_exp']
       | undefined
@@ -7815,8 +7787,8 @@ columns and relationships of "users" */
       | undefined
       | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    organization?: ValueTypes['organizations_order_by'] | undefined | null;
     profile?: ValueTypes['profiles_order_by'] | undefined | null;
-    protocol?: ValueTypes['organizations_order_by'] | undefined | null;
     simple_token_address?: ValueTypes['order_by'] | undefined | null;
     symbol?: ValueTypes['order_by'] | undefined | null;
     token_address?: ValueTypes['order_by'] | undefined | null;
@@ -8350,9 +8322,9 @@ columns and relationships of "circle_api_keys" */
     only_giver_vouch: boolean;
     /** An object relationship */
     organization: GraphQLTypes['organizations'];
+    organization_id: number;
     /** An array relationship */
     pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
-    protocol_id: number;
     team_sel_text?: string | undefined;
     team_selection: boolean;
     /** An array relationship */
@@ -9241,7 +9213,7 @@ columns and relationships of "distributions" */
   ['numeric_comparison_exp']: GraphQLTypes['numeric_comparison_exp'];
   /** column ordering options */
   ['order_by']: GraphQLTypes['order_by'];
-  /** columns and relationships of "protocols" */
+  /** columns and relationships of "organizations" */
   ['organizations']: {
     /** An array relationship */
     circles: Array<GraphQLTypes['circles']>;
@@ -9253,11 +9225,11 @@ columns and relationships of "distributions" */
     /** An array relationship */
     vaults: Array<GraphQLTypes['vaults']>;
   };
-  /** Boolean expression to filter rows from the table "protocols". All fields are combined with a logical 'AND'. */
+  /** Boolean expression to filter rows from the table "organizations". All fields are combined with a logical 'AND'. */
   ['organizations_bool_exp']: GraphQLTypes['organizations_bool_exp'];
-  /** Ordering options when selecting data from "protocols". */
+  /** Ordering options when selecting data from "organizations". */
   ['organizations_order_by']: GraphQLTypes['organizations_order_by'];
-  /** select columns of table "protocols" */
+  /** select columns of table "organizations" */
   ['organizations_select_column']: GraphQLTypes['organizations_select_column'];
   /** columns and relationships of "pending_gift_private" */
   ['pending_gift_private']: {
@@ -9415,7 +9387,7 @@ columns and relationships of "profiles" */
     burns: Array<GraphQLTypes['burns']>;
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
-    /** An array relationship */
+    /** fetch data from the table: "circle_api_keys" */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** fetch data from the table: "circle_api_keys" using primary key columns */
     circle_api_keys_by_pk?: GraphQLTypes['circle_api_keys'] | undefined;
@@ -9461,9 +9433,9 @@ columns and relationships of "profiles" */
     nominees_aggregate: GraphQLTypes['nominees_aggregate'];
     /** fetch data from the table: "nominees" using primary key columns */
     nominees_by_pk?: GraphQLTypes['nominees'] | undefined;
-    /** fetch data from the table: "protocols" */
+    /** fetch data from the table: "organizations" */
     organizations: Array<GraphQLTypes['organizations']>;
-    /** fetch data from the table: "protocols" using primary key columns */
+    /** fetch data from the table: "organizations" using primary key columns */
     organizations_by_pk?: GraphQLTypes['organizations'] | undefined;
     /** fetch data from the table: "pending_gift_private" */
     pending_gift_private: Array<GraphQLTypes['pending_gift_private']>;
@@ -9523,7 +9495,7 @@ columns and relationships of "profiles" */
     burns: Array<GraphQLTypes['burns']>;
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
-    /** An array relationship */
+    /** fetch data from the table: "circle_api_keys" */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** fetch data from the table: "circle_api_keys" using primary key columns */
     circle_api_keys_by_pk?: GraphQLTypes['circle_api_keys'] | undefined;
@@ -9569,9 +9541,9 @@ columns and relationships of "profiles" */
     nominees_aggregate: GraphQLTypes['nominees_aggregate'];
     /** fetch data from the table: "nominees" using primary key columns */
     nominees_by_pk?: GraphQLTypes['nominees'] | undefined;
-    /** fetch data from the table: "protocols" */
+    /** fetch data from the table: "organizations" */
     organizations: Array<GraphQLTypes['organizations']>;
-    /** fetch data from the table: "protocols" using primary key columns */
+    /** fetch data from the table: "organizations" using primary key columns */
     organizations_by_pk?: GraphQLTypes['organizations'] | undefined;
     /** fetch data from the table: "pending_gift_private" */
     pending_gift_private: Array<GraphQLTypes['pending_gift_private']>;
@@ -9944,11 +9916,9 @@ columns and relationships of "users" */
     burns: Array<GraphQLTypes['burns']>;
     /** An object relationship */
     circle: GraphQLTypes['circles'];
-    /** An array relationship */
+    /** fetch data from the table: "circle_api_keys" */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     circle_id: GraphQLTypes['bigint'];
-    /** An array relationship */
-    contributions: Array<GraphQLTypes['contributions']>;
     created_at: GraphQLTypes['timestamp'];
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
     epoch_first_visit: boolean;
@@ -10093,9 +10063,9 @@ columns and relationships of "users" */
     distributions_aggregate: GraphQLTypes['distributions_aggregate'];
     id: GraphQLTypes['bigint'];
     /** An object relationship */
-    profile: GraphQLTypes['profiles'];
+    organization: GraphQLTypes['organizations'];
     /** An object relationship */
-    protocol: GraphQLTypes['organizations'];
+    profile: GraphQLTypes['profiles'];
     simple_token_address: string;
     symbol: string;
     token_address: string;
@@ -10238,8 +10208,8 @@ export type GraphQLTypes = {
     circle_name: string;
     contact?: string | undefined;
     image_data_base64?: string | undefined;
-    protocol_id?: number | undefined;
-    protocol_name?: string | undefined;
+    organization_id?: number | undefined;
+    organization_name?: string | undefined;
     user_name: string;
   };
   ['CreateCircleResponse']: {
@@ -11076,9 +11046,9 @@ columns and relationships of "circle_api_keys" */
     only_giver_vouch: boolean;
     /** An object relationship */
     organization: GraphQLTypes['organizations'];
+    organization_id: number;
     /** An array relationship */
     pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
-    protocol_id: number;
     team_sel_text?: string | undefined;
     team_selection: boolean;
     /** An array relationship */
@@ -11114,7 +11084,7 @@ columns and relationships of "circle_api_keys" */
     id?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
-    protocol_id?: GraphQLTypes['order_by'] | undefined;
+    organization_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** Boolean expression to filter rows from the table "circles". All fields are combined with a logical 'AND'. */
   ['circles_bool_exp']: {
@@ -11145,10 +11115,10 @@ columns and relationships of "circle_api_keys" */
     nominees?: GraphQLTypes['nominees_bool_exp'] | undefined;
     only_giver_vouch?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     organization?: GraphQLTypes['organizations_bool_exp'] | undefined;
+    organization_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     pending_token_gifts?:
       | GraphQLTypes['pending_token_gifts_bool_exp']
       | undefined;
-    protocol_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     team_sel_text?: GraphQLTypes['String_comparison_exp'] | undefined;
     team_selection?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     token_gifts?: GraphQLTypes['token_gifts_bool_exp'] | undefined;
@@ -11173,7 +11143,7 @@ columns and relationships of "circle_api_keys" */
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
-    protocol_id?: GraphQLTypes['order_by'] | undefined;
+    organization_id?: GraphQLTypes['order_by'] | undefined;
     team_sel_text?: GraphQLTypes['order_by'] | undefined;
     token_name?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
@@ -11191,7 +11161,7 @@ columns and relationships of "circle_api_keys" */
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
-    protocol_id?: GraphQLTypes['order_by'] | undefined;
+    organization_id?: GraphQLTypes['order_by'] | undefined;
     team_sel_text?: GraphQLTypes['order_by'] | undefined;
     token_name?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
@@ -11229,10 +11199,10 @@ columns and relationships of "circle_api_keys" */
       | undefined;
     only_giver_vouch?: GraphQLTypes['order_by'] | undefined;
     organization?: GraphQLTypes['organizations_order_by'] | undefined;
+    organization_id?: GraphQLTypes['order_by'] | undefined;
     pending_token_gifts_aggregate?:
       | GraphQLTypes['pending_token_gifts_aggregate_order_by']
       | undefined;
-    protocol_id?: GraphQLTypes['order_by'] | undefined;
     team_sel_text?: GraphQLTypes['order_by'] | undefined;
     team_selection?: GraphQLTypes['order_by'] | undefined;
     token_gifts_aggregate?:
@@ -11255,7 +11225,7 @@ columns and relationships of "circle_api_keys" */
     id?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
-    protocol_id?: GraphQLTypes['order_by'] | undefined;
+    organization_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** order by stddev_pop() on columns of table "circles" */
   ['circles_stddev_pop_order_by']: {
@@ -11263,7 +11233,7 @@ columns and relationships of "circle_api_keys" */
     id?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
-    protocol_id?: GraphQLTypes['order_by'] | undefined;
+    organization_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** order by stddev_samp() on columns of table "circles" */
   ['circles_stddev_samp_order_by']: {
@@ -11271,7 +11241,7 @@ columns and relationships of "circle_api_keys" */
     id?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
-    protocol_id?: GraphQLTypes['order_by'] | undefined;
+    organization_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** order by sum() on columns of table "circles" */
   ['circles_sum_order_by']: {
@@ -11279,7 +11249,7 @@ columns and relationships of "circle_api_keys" */
     id?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
-    protocol_id?: GraphQLTypes['order_by'] | undefined;
+    organization_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** order by var_pop() on columns of table "circles" */
   ['circles_var_pop_order_by']: {
@@ -11287,7 +11257,7 @@ columns and relationships of "circle_api_keys" */
     id?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
-    protocol_id?: GraphQLTypes['order_by'] | undefined;
+    organization_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** order by var_samp() on columns of table "circles" */
   ['circles_var_samp_order_by']: {
@@ -11295,7 +11265,7 @@ columns and relationships of "circle_api_keys" */
     id?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
-    protocol_id?: GraphQLTypes['order_by'] | undefined;
+    organization_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** order by variance() on columns of table "circles" */
   ['circles_variance_order_by']: {
@@ -11303,7 +11273,7 @@ columns and relationships of "circle_api_keys" */
     id?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
-    protocol_id?: GraphQLTypes['order_by'] | undefined;
+    organization_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** columns and relationships of "claims" */
   ['claims']: {
@@ -12981,7 +12951,7 @@ columns and relationships of "distributions" */
   };
   /** column ordering options */
   ['order_by']: order_by;
-  /** columns and relationships of "protocols" */
+  /** columns and relationships of "organizations" */
   ['organizations']: {
     __typename: 'organizations';
     /** An array relationship */
@@ -12994,7 +12964,7 @@ columns and relationships of "distributions" */
     /** An array relationship */
     vaults: Array<GraphQLTypes['vaults']>;
   };
-  /** Boolean expression to filter rows from the table "protocols". All fields are combined with a logical 'AND'. */
+  /** Boolean expression to filter rows from the table "organizations". All fields are combined with a logical 'AND'. */
   ['organizations_bool_exp']: {
     _and?: Array<GraphQLTypes['organizations_bool_exp']> | undefined;
     _not?: GraphQLTypes['organizations_bool_exp'] | undefined;
@@ -13007,7 +12977,7 @@ columns and relationships of "distributions" */
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     vaults?: GraphQLTypes['vaults_bool_exp'] | undefined;
   };
-  /** Ordering options when selecting data from "protocols". */
+  /** Ordering options when selecting data from "organizations". */
   ['organizations_order_by']: {
     circles_aggregate?: GraphQLTypes['circles_aggregate_order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
@@ -13017,7 +12987,7 @@ columns and relationships of "distributions" */
     updated_at?: GraphQLTypes['order_by'] | undefined;
     vaults_aggregate?: GraphQLTypes['vaults_aggregate_order_by'] | undefined;
   };
-  /** select columns of table "protocols" */
+  /** select columns of table "organizations" */
   ['organizations_select_column']: organizations_select_column;
   /** columns and relationships of "pending_gift_private" */
   ['pending_gift_private']: {
@@ -13433,7 +13403,7 @@ columns and relationships of "profiles" */
     burns: Array<GraphQLTypes['burns']>;
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
-    /** An array relationship */
+    /** fetch data from the table: "circle_api_keys" */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** fetch data from the table: "circle_api_keys" using primary key columns */
     circle_api_keys_by_pk?: GraphQLTypes['circle_api_keys'] | undefined;
@@ -13479,9 +13449,9 @@ columns and relationships of "profiles" */
     nominees_aggregate: GraphQLTypes['nominees_aggregate'];
     /** fetch data from the table: "nominees" using primary key columns */
     nominees_by_pk?: GraphQLTypes['nominees'] | undefined;
-    /** fetch data from the table: "protocols" */
+    /** fetch data from the table: "organizations" */
     organizations: Array<GraphQLTypes['organizations']>;
-    /** fetch data from the table: "protocols" using primary key columns */
+    /** fetch data from the table: "organizations" using primary key columns */
     organizations_by_pk?: GraphQLTypes['organizations'] | undefined;
     /** fetch data from the table: "pending_gift_private" */
     pending_gift_private: Array<GraphQLTypes['pending_gift_private']>;
@@ -13542,7 +13512,7 @@ columns and relationships of "profiles" */
     burns: Array<GraphQLTypes['burns']>;
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
-    /** An array relationship */
+    /** fetch data from the table: "circle_api_keys" */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** fetch data from the table: "circle_api_keys" using primary key columns */
     circle_api_keys_by_pk?: GraphQLTypes['circle_api_keys'] | undefined;
@@ -13588,9 +13558,9 @@ columns and relationships of "profiles" */
     nominees_aggregate: GraphQLTypes['nominees_aggregate'];
     /** fetch data from the table: "nominees" using primary key columns */
     nominees_by_pk?: GraphQLTypes['nominees'] | undefined;
-    /** fetch data from the table: "protocols" */
+    /** fetch data from the table: "organizations" */
     organizations: Array<GraphQLTypes['organizations']>;
-    /** fetch data from the table: "protocols" using primary key columns */
+    /** fetch data from the table: "organizations" using primary key columns */
     organizations_by_pk?: GraphQLTypes['organizations'] | undefined;
     /** fetch data from the table: "pending_gift_private" */
     pending_gift_private: Array<GraphQLTypes['pending_gift_private']>;
@@ -14232,11 +14202,9 @@ columns and relationships of "users" */
     burns: Array<GraphQLTypes['burns']>;
     /** An object relationship */
     circle: GraphQLTypes['circles'];
-    /** An array relationship */
+    /** fetch data from the table: "circle_api_keys" */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     circle_id: GraphQLTypes['bigint'];
-    /** An array relationship */
-    contributions: Array<GraphQLTypes['contributions']>;
     created_at: GraphQLTypes['timestamp'];
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
     epoch_first_visit: boolean;
@@ -14305,7 +14273,6 @@ columns and relationships of "users" */
     circle?: GraphQLTypes['circles_bool_exp'] | undefined;
     circle_api_keys?: GraphQLTypes['circle_api_keys_bool_exp'] | undefined;
     circle_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
-    contributions?: GraphQLTypes['contributions_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     epoch_first_visit?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
@@ -14372,9 +14339,6 @@ columns and relationships of "users" */
       | GraphQLTypes['circle_api_keys_aggregate_order_by']
       | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
-    contributions_aggregate?:
-      | GraphQLTypes['contributions_aggregate_order_by']
-      | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     deleted_at?: GraphQLTypes['order_by'] | undefined;
     epoch_first_visit?: GraphQLTypes['order_by'] | undefined;
@@ -14703,9 +14667,9 @@ columns and relationships of "users" */
     distributions_aggregate: GraphQLTypes['distributions_aggregate'];
     id: GraphQLTypes['bigint'];
     /** An object relationship */
-    profile: GraphQLTypes['profiles'];
+    organization: GraphQLTypes['organizations'];
     /** An object relationship */
-    protocol: GraphQLTypes['organizations'];
+    profile: GraphQLTypes['profiles'];
     simple_token_address: string;
     symbol: string;
     token_address: string;
@@ -14748,8 +14712,8 @@ columns and relationships of "users" */
     deployment_block?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     distributions?: GraphQLTypes['distributions_bool_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    organization?: GraphQLTypes['organizations_bool_exp'] | undefined;
     profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
-    protocol?: GraphQLTypes['organizations_bool_exp'] | undefined;
     simple_token_address?: GraphQLTypes['String_comparison_exp'] | undefined;
     symbol?: GraphQLTypes['String_comparison_exp'] | undefined;
     token_address?: GraphQLTypes['String_comparison_exp'] | undefined;
@@ -14798,8 +14762,8 @@ columns and relationships of "users" */
       | GraphQLTypes['distributions_aggregate_order_by']
       | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    organization?: GraphQLTypes['organizations_order_by'] | undefined;
     profile?: GraphQLTypes['profiles_order_by'] | undefined;
-    protocol?: GraphQLTypes['organizations_order_by'] | undefined;
     simple_token_address?: GraphQLTypes['order_by'] | undefined;
     symbol?: GraphQLTypes['order_by'] | undefined;
     token_address?: GraphQLTypes['order_by'] | undefined;
@@ -15049,7 +15013,7 @@ export const enum circles_select_column {
   name = 'name',
   nomination_days_limit = 'nomination_days_limit',
   only_giver_vouch = 'only_giver_vouch',
-  protocol_id = 'protocol_id',
+  organization_id = 'organization_id',
   team_sel_text = 'team_sel_text',
   team_selection = 'team_selection',
   token_name = 'token_name',
@@ -15173,7 +15137,7 @@ export const enum order_by {
   desc_nulls_first = 'desc_nulls_first',
   desc_nulls_last = 'desc_nulls_last',
 }
-/** select columns of table "protocols" */
+/** select columns of table "organizations" */
 export const enum organizations_select_column {
   created_at = 'created_at',
   id = 'id',

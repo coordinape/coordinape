@@ -174,7 +174,7 @@ export const addVault = (
         {
           vault: {
             ...allVaultFields,
-            protocol: {
+            organization: {
               name: true,
             },
             vault_transactions: [
@@ -260,7 +260,7 @@ export const createCircle = async (
             team_selection: true,
             created_at: true,
             updated_at: true,
-            protocol_id: true,
+            organization_id: true,
             organization: {
               id: true,
               name: true,
@@ -281,11 +281,11 @@ export const createCircle = async (
     throw 'unable to create circle';
   }
   if (!createCircle.circle.organization) {
-    throw 'circle created but protocol / organization not found after creation';
+    throw 'circle created but organization not found after creation';
   }
   return {
     ...createCircle.circle,
-    protocol: createCircle.circle.organization,
+    organization: createCircle.circle.organization,
   };
 };
 

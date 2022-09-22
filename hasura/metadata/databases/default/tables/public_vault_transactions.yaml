@@ -32,7 +32,7 @@ select_permissions:
         - vault_id
       filter:
         vault:
-          protocol:
+          organization:
             circles:
               users:
                 _and:

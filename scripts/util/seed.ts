@@ -24,7 +24,7 @@ const users = new Array(50).fill(null).map((_, idx) => ({
     .address.toLowerCase(),
 }));
 
-export function getProtocolName() {
+export function getOrganizationName() {
   return faker.unique(faker.company.companyName);
 }
 
@@ -36,15 +36,15 @@ export function getCircleName() {
   }
 }
 
-type ProtocolInput = {
+type OrganizationInput = {
   name?: string;
 };
 
-async function insertProtocol(input: ProtocolInput): Promise<number> {
+async function insertOrganization(input: OrganizationInput): Promise<number> {
   const result = await adminClient.mutate({
     insert_organizations_one: [
       {
-        object: { name: input.name ?? getProtocolName() },
+        object: { name: input.name ?? getOrganizationName() },
       },
       { id: true },
     ],
@@ -55,21 +55,21 @@ async function insertProtocol(input: ProtocolInput): Promise<number> {
 
 type CircleInput = {
   circlesInput: Array<ValueTypes['circles_insert_input']>;
-  protocolInput: ProtocolInput;
+  organizationInput: OrganizationInput;
 };
 
 export async function insertCircles(input: CircleInput) {
-  const protocolId = await insertProtocol(input.protocolInput);
+  const organizationId = await insertOrganization(input.organizationInput);
 
-  const circleInputWithProtocol = input.circlesInput.map(circle => ({
+  const circleInputWithOrganization = input.circlesInput.map(circle => ({
     ...circle,
     min_vouches: 2,
-    protocol_id: protocolId,
+    organization_id: organizationId,
   }));
   const result = await adminClient.mutate({
     insert_circles: [
       {
-        objects: circleInputWithProtocol,
+        objects: circleInputWithOrganization,
       },
       {
         returning: {
@@ -144,7 +144,7 @@ export function getMembershipInput(
   devUser?: ValueTypes['users_insert_input']
 ): MembershipInput {
   const temp: MembershipInput = {
-    protocolInput: {},
+    organizationInput: {},
     circlesInput: [
       {
         name: getCircleName(),
@@ -190,9 +190,9 @@ export function getMembershipInput(
       }))
     ),
   };
-  const protocolInput = input.protocolInput
-    ? input.protocolInput
-    : temp.protocolInput;
+  const organizationInput = input.organizationInput
+    ? input.organizationInput
+    : temp.organizationInput;
 
   const circlesInput = input.circlesInput
     ? [...temp.circlesInput, ...input.circlesInput]
@@ -210,12 +210,12 @@ export function getMembershipInput(
       ...devUser,
     });
 
-  return { protocolInput, circlesInput, membersInput };
+  return { organizationInput, circlesInput, membersInput };
 }
 
 export async function makeManyEpochs(orgName: string, epochDates: number[][]) {
   const result = await insertMemberships(
-    getMembershipInput({ protocolInput: { name: orgName } }, {})
+    getMembershipInput({ organizationInput: { name: orgName } }, {})
   );
   const circleId = result[0].circle_id;
 

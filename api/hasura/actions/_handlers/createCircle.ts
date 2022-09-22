@@ -21,17 +21,21 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   } = composeHasuraActionRequestBody(createCircleSchemaInput).parse(req.body);
 
   if (sessionVariables.hasuraRole !== 'admin') {
-    if (input.protocol_id) {
+    if (input.organization_id) {
       const isAdmin = await queries.checkAddressAdminInOrg(
         sessionVariables.hasuraAddress,
-        input.protocol_id,
-        input.protocol_name || '%%'
+        input.organization_id,
+        input.organization_name || '%%'
       );
       if (!isAdmin) {
         throw new UnauthorizedError(
-          `Address is not an admin of any circles under protocol with id ${
-            input.protocol_id
-          }${input.protocol_name ? ` and name '${input.protocol_name}'` : ''}`
+          `Address is not an admin of any circles under organization with id ${
+            input.organization_id
+          }${
+            input.organization_name
+              ? ` and name '${input.organization_name}'`
+              : ''
+          }`
         );
       }
     }

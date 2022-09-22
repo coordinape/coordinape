@@ -66,8 +66,8 @@ export const AddressIsNotMember = ({
                   <CircleWithLogo
                     logo={u.circle.logo}
                     name={u.circle.name}
-                    orgLogo={u.circle.protocol.logo}
-                    orgName={u.circle.protocol.name}
+                    orgLogo={u.circle.organization.logo}
+                    orgName={u.circle.organization.name}
                   />
                 </Panel>
               </AppLink>

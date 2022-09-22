@@ -37,12 +37,12 @@ export const SummonCirclePage = () => {
     avatarRaw: null,
   });
 
-  const protocols = useMemo(
+  const organizations = useMemo(
     () =>
       uniqBy(
         myUsers
           .filter(u => u.isCircleAdmin)
-          .map(({ circle: { protocol } }) => protocol),
+          .map(({ circle: { organization } }) => organization),
         'id'
       ),
     [myUsers]
@@ -58,10 +58,10 @@ export const SummonCirclePage = () => {
     );
   }
 
-  const org = protocols.find(p => p.id === Number(params.get('org')));
+  const org = organizations.find(p => p.id === Number(params.get('org')));
   const source = {
-    protocol_id: org?.id,
-    protocol_name: org?.name || '',
+    organization_id: org?.id,
+    organization_name: org?.name || '',
     user_name: myUsers.find(u => u !== undefined)?.name,
   };
 
@@ -172,16 +172,16 @@ export const SummonCirclePage = () => {
                       type="file"
                     />
                   </Flex>
-                  {protocols.length ? (
+                  {organizations.length ? (
                     <FormAutocomplete
-                      {...fields.protocol_name}
-                      value={fields.protocol_name.value}
+                      {...fields.organization_name}
+                      value={fields.organization_name.value}
                       onChange={(v: string) => {
-                        const id = protocols.find(p => p.name === v)?.id;
-                        fields.protocol_id?.onChange(id);
-                        fields.protocol_name.onChange(v);
+                        const id = organizations.find(p => p.name === v)?.id;
+                        fields.organization_id?.onChange(id);
+                        fields.organization_name.onChange(v);
                       }}
-                      options={protocols.map(p => p.name)}
+                      options={organizations.map(p => p.name)}
                       label="Organization"
                       fullWidth
                       TextFieldProps={{
@@ -211,7 +211,7 @@ export const SummonCirclePage = () => {
                         </Tooltip>
                       </Text>
                       <DeprecatedFormTextField
-                        {...fields.protocol_name}
+                        {...fields.organization_name}
                         placeholder="Organization Name"
                         fullWidth
                       />
