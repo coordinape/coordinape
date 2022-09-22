@@ -257,7 +257,7 @@ type MemberInput = Awaited<ReturnType<typeof insertMemberships>>;
 // Inputs are functions in order to defer evaluation of the faker libs
 function generateContributions(
   input: () => ValueTypes['contributions_insert_input'],
-  count = 3
+  count = 8
 ): Array<ValueTypes['contributions_insert_input']> {
   return Array(count)
     .fill(input)
