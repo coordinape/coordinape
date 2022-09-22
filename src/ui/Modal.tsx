@@ -1,37 +1,11 @@
 import { ReactNode } from 'react';
 
 import * as Dialog from '@radix-ui/react-dialog';
-import { CSS, keyframes, styled } from 'stitches.config';
-// import { useTransition, animated, config } from 'react-spring';
+import { CSS, styled } from 'stitches.config';
 
+import { fadeIn, fadeOut, slideInRight, slideOutRight } from '../keyframes';
 import { X } from 'icons/__generated';
 import { Button } from 'ui';
-
-const slideIn = keyframes({
-  from: {
-    right: '-650px',
-  },
-  to: {
-    right: 0,
-  },
-});
-const slideOut = keyframes({
-  from: {
-    right: 0,
-  },
-  to: {
-    right: '-650px',
-  },
-});
-
-const fadeIn = keyframes({
-  from: {
-    opacity: 0,
-  },
-  to: {
-    opacity: 1,
-  },
-});
 
 const Overlay = styled(Dialog.Overlay, {
   backgroundColor: '#00000080',
@@ -40,7 +14,12 @@ const Overlay = styled(Dialog.Overlay, {
   display: 'grid',
   alignItems: 'start',
   overflowY: 'auto',
-  animation: `${fadeIn} .3s ease`,
+  "&[data-state='open']": {
+    animation: `${fadeIn} .5s ease`,
+  },
+  "&[data-state='closed']": {
+    animation: `${fadeOut} .5s ease`,
+  },
 });
 
 const Content = styled(Dialog.Content, {
@@ -60,13 +39,11 @@ const Content = styled(Dialog.Content, {
         borderRadius: 0,
         height: '100vh',
         position: 'fixed',
-        // animation: `${slideIn} .4s ease`,
-        // .dialog-overlay[data-state='open'],
         "&[data-state='open']": {
-          animation: `${slideIn} 3.4s ease`,
+          animation: `${slideInRight} .4s ease-out`,
         },
         "&[data-state='closed']": {
-          animation: `${slideOut} 3.4s ease`,
+          animation: `${slideOutRight} .4s ease-in`,
         },
       },
     },
@@ -81,19 +58,14 @@ const Title = styled(Dialog.Title, {
   color: '$text',
 });
 
-// const transitions = useTransition(open, {
-//   from: { opacity: 0, y: -10 },
-//   enter: { opacity: 1, y: 0 },
-//   leave: { opacity: 0, y: 10 },
-//   config: config.stiff,
-// });
-
 type ModalProps = {
   children: ReactNode;
   title?: string;
   onClose: () => void;
   css?: CSS;
+  defaultOpen?: boolean;
   open?: boolean;
+  onOpenChange?: (open: boolean) => void;
   showClose?: boolean;
   drawer?: boolean;
 };
@@ -101,34 +73,40 @@ export const Modal = ({
   children,
   title,
   onClose,
+  onOpenChange,
   css = {},
+  defaultOpen = false,
   open = true,
   showClose,
   drawer,
 }: ModalProps) => {
   return (
-    <Dialog.Root defaultOpen modal open={open}>
+    <Dialog.Root
+      modal
+      defaultOpen={defaultOpen}
+      open={open}
+      onOpenChange={onOpenChange}
+    >
       <Dialog.Portal>
-        <Overlay forceMount onClick={onClose}>
-          <Content forceMount drawer={drawer} css={css}>
-            {(showClose || showClose === undefined) && (
-              <Button
-                color="transparent"
-                onClick={onClose}
-                css={{
-                  position: 'absolute',
-                  right: 'calc($sm + 3px)',
-                  top: '$sm',
-                  fontSize: '$h3',
-                }}
-              >
-                <X size="lg" />
-              </Button>
-            )}
-            {title && <Title>{title}</Title>}
-            {children}
-          </Content>
-        </Overlay>
+        <Overlay onClick={onClose} />
+        <Content drawer={drawer} css={css}>
+          {(showClose || showClose === undefined) && (
+            <Button
+              color="transparent"
+              onClick={onClose}
+              css={{
+                position: 'absolute',
+                right: 'calc($sm + 3px)',
+                top: '$sm',
+                fontSize: '$h3',
+              }}
+            >
+              <X size="lg" />
+            </Button>
+          )}
+          {title && <Title>{title}</Title>}
+          {children}
+        </Content>
       </Dialog.Portal>
     </Dialog.Root>
   );

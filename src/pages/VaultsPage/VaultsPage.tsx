@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from 'react';
 
 import { isUserAdmin } from 'lib/users';
@@ -19,7 +20,7 @@ import { CreateForm } from './CreateForm';
 import { VaultRow } from './VaultRow';
 
 const VaultsPage = () => {
-  const [modal, setModal] = useState<'' | 'create'>('');
+  const [modal, setModal] = useState(false);
 
   const circleId = useRecoilValueLoadable(rSelectedCircleId).valueMaybe();
   const orgsQuery = useMainHeaderQuery();
@@ -52,7 +53,7 @@ const VaultsPage = () => {
 
   const closeModal = () => {
     refetch();
-    setModal('');
+    setModal(false);
   };
 
   const [saving, setSaving] = useState(false);
@@ -103,7 +104,7 @@ const VaultsPage = () => {
             color="primary"
             css={{ whiteSpace: 'nowrap' }}
             outlined
-            onClick={() => setModal('create')}
+            onClick={() => setModal(true)}
           >
             Create Vault
           </Button>
@@ -166,7 +167,7 @@ const VaultsPage = () => {
                 <Box>
                   {isAdmin && (
                     <Button
-                      onClick={() => setModal('create')}
+                      onClick={() => setModal(true)}
                       color="primary"
                       outlined
                       inline
@@ -186,17 +187,18 @@ const VaultsPage = () => {
           )}
         </>
       )}
-      {modal === 'create' && currentOrg && (
+      {currentOrg && (
         <Modal
-          drawer
           showClose={!saving}
           onClose={closeModal}
+          open={modal}
+          onOpenChange={setModal}
           title="Create New Vault"
         >
           <CreateForm
             setSaving={setSaving}
             onSuccess={closeModal}
-            orgId={currentOrg.id}
+            orgId={currentOrg?.id}
             existingVaults={vaults}
           />
         </Modal>
