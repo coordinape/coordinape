@@ -41,7 +41,6 @@ const mockData: UserContributions = {
 export function useContributionUsers(): UserContributions {
   const integrations = useCurrentCircleIntegrations();
   const epoch = useSelectedCircle().circleEpochsStatus.currentEpoch;
-  console.log('integrations', integrations);
   const responses = useQueries(
     epoch && integrations.data
       ? integrations.data
@@ -72,7 +71,6 @@ export function useContributionUsers(): UserContributions {
                     url += `&pod_ids=${podId}`;
                   }
                 }
-                console.log('url', url);
                 return fetch(url)
                   .then(res => res.json())
                   .then(res => res as Response)
