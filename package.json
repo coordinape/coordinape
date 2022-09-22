@@ -88,7 +88,6 @@
     "db-disable-cron": "scripts/disable_cron.sh",
     "generate": "./scripts/generate_zeus.sh",
     "hasura": "hasura --skip-update-check --envfile ../.env --project ./hasura",
-    "hasura": "hasura --skip-update-check --envfile ../.env --project ./hasura",
     "docker:start": "docker compose --profile dev up -d",
     "docker:stop": "docker compose --profile dev down",
     "docker:clean": "docker compose --profile dev down -v",
