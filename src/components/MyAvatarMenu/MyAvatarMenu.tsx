@@ -96,11 +96,7 @@ export const MyAvatarMenu = () => {
             >
               <PopoverClose asChild>
                 <Box css={{ display: 'flex', alignItems: 'end', pb: '$md' }}>
-                  <Avatar
-                    path={myProfile.avatar}
-                    name={myProfile.github_username}
-                    size="medium"
-                  />
+                  <Avatar path={myProfile.avatar} size="medium" />
                 </Box>
               </PopoverClose>
               <Box
