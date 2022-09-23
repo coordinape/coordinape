@@ -21,6 +21,7 @@ import AllocationPage from 'pages/AllocationPage';
 import CircleAdminPage from 'pages/CircleAdminPage';
 import CirclesPage from 'pages/CirclesPage';
 import ClaimsPage from 'pages/ClaimsPage';
+import ContributionsPage from 'pages/ContributionsPage';
 import CreateCirclePage from 'pages/CreateCirclePage';
 import DefaultPage from 'pages/DefaultPage';
 import DevPortalPage from 'pages/DevPortalPage';
@@ -51,6 +52,7 @@ export const AppRoutes = () => {
         <Route path="give" element={allocationPage} />
         <Route path="givebeta" element={<GivePage />} />
         <Route path="map" element={<LazyAssetMapPage />} />
+        <Route path="contributions" element={<ContributionsPage />} />
         <Route path="members" element={<AdminPage />} />
         <Route path="members/add" element={<AdminRouteHandler />}>
           <Route path="" element={<AddMembersPage />} />
