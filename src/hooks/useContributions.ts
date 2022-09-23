@@ -73,8 +73,7 @@ export function useContributionUsers(): UserContributions {
                 }
                 return fetch(url)
                   .then(res => res.json())
-                  .then(res => res as Response)
-                  .then(res => res);
+                  .then(res => res as Response);
               }
             },
           }))
