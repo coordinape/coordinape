@@ -9,7 +9,6 @@ import { useImageUploader, useApeSnackbar } from 'hooks';
 import { Settings } from 'icons/__generated';
 import { Avatar, Box, Button } from 'ui';
 import { getAvatarPathWithFallback } from 'utils/domain';
-import { normalizeError } from 'utils/reporting';
 
 const VALID_FILE_TYPES = ['image/jpg', 'image/jpeg', 'image/png'];
 
@@ -67,7 +66,7 @@ export const OrgLogoUpload = ({
       response = await uploadLogo(id, formFileUploadProps.value);
     } catch (e: any) {
       setIsUploadingLogo(false);
-      showError(normalizeError(e).message);
+      showError(e);
       formFileUploadProps.onChange(undefined);
       return;
     }
