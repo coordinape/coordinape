@@ -2,6 +2,8 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { ethers } from 'ethers';
+import omit from 'lodash/omit';
+import pick from 'lodash/pick';
 import { z } from 'zod';
 
 import {
@@ -65,11 +67,32 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 export default verifyHasuraRequestMiddleware(handler);
 
 const logVaultTx = async (
-  txInfo: ValueTypes['vault_transactions_insert_input']
+  txInfo: ValueTypes['vault_transactions_insert_input'] &
+    ValueTypes['LogVaultTxInput']
 ) => {
   const { insert_vault_transactions_one } = await adminClient.mutate(
     {
-      insert_vault_transactions_one: [{ object: txInfo }, { id: true }],
+      insert_vault_transactions_one: [
+        { object: omit(txInfo, ['amount', 'symbol']) },
+        { id: true },
+      ],
+      insert_interaction_events_one: [
+        {
+          object: {
+            event_type: `vault_${txInfo.tx_type?.toLowerCase()}`,
+            profile_id: txInfo.created_by,
+            data: pick(txInfo, [
+              'vault_id',
+              'amount',
+              'symbol',
+              'tx_hash',
+              'circle_id',
+              'distribution_id',
+            ]),
+          },
+        },
+        { __typename: true },
+      ],
     },
     { operationName: 'addVaultTransaction' }
   );
@@ -77,12 +100,7 @@ const logVaultTx = async (
   return insert_vault_transactions_one;
 };
 
-const VaultLogEnum = z.enum([
-  'Deposit',
-  'Withdraw',
-  'Distribution',
-  'CircleBudget',
-]);
+const VaultLogEnum = z.enum(['Deposit', 'Withdraw', 'Distribution']);
 
 const zBytes32 = z.string().refine(val => ethers.utils.isHexString(val, 32));
 
@@ -92,6 +110,8 @@ const VaultLogInputSchema = z.object({
   vault_id: z.number().min(0),
   distribution_id: z.number().min(0).optional(),
   circle_id: z.number().min(0).optional(),
+  amount: z.number(),
+  symbol: z.string(),
 });
 
 const DepositLogInputSchema = z
@@ -99,6 +119,8 @@ const DepositLogInputSchema = z
     tx_type: z.literal(VaultLogEnum.enum.Deposit),
     vault_id: z.number().min(0),
     tx_hash: zBytes32,
+    amount: z.number(),
+    symbol: z.string(),
   })
   .strict();
 
@@ -107,6 +129,8 @@ const WithdrawLogInputSchema = z
     tx_type: z.literal(VaultLogEnum.enum.Withdraw),
     vault_id: z.number().min(0),
     tx_hash: zBytes32,
+    amount: z.number(),
+    symbol: z.string(),
   })
   .strict();
 
@@ -117,6 +141,8 @@ const DistributionLogInputSchema = z
     vault_id: z.number().min(1),
     circle_id: z.number().min(1),
     distribution_id: z.number().min(1),
+    amount: z.number(),
+    symbol: z.string(),
   })
   .strict();
 

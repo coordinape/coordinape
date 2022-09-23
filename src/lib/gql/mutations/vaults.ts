@@ -65,9 +65,9 @@ export const addVault = (payload: ValueTypes['CreateVaultInput']) =>
     { operationName: 'addVault' }
   );
 
-export const addVaultTx = (vaultTx: ValueTypes['LogVaultTxInput']) =>
+export const addVaultTx = (payload: ValueTypes['LogVaultTxInput']) =>
   client.mutate({
-    createVaultTx: [{ payload: vaultTx }, { __typename: true }],
+    createVaultTx: [{ payload }, { __typename: true }],
   });
 
 export async function savePendingVaultTx(

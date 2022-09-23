@@ -75,7 +75,9 @@ export function useVaultRouter(contracts?: Contracts) {
         tx_type: 'Deposit',
         vault_id: vault.id,
         tx_hash: txResult.tx.hash,
-      });
+        amount: Number.parseFloat(humanAmount),
+        symbol,
+      }).catch(err => showError(err));
     return txResult;
   };
 
@@ -109,7 +111,9 @@ export function useVaultRouter(contracts?: Contracts) {
         tx_type: 'Withdraw',
         vault_id: vault.id,
         tx_hash: txResult.tx.hash,
-      });
+        amount: Number.parseFloat(humanAmount),
+        symbol,
+      }).catch(err => showError(err));
     return txResult;
   };
 

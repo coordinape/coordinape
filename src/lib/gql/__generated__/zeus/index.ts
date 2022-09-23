@@ -785,8 +785,10 @@ export type ValueTypes = {
     _nin?: Array<number> | undefined | null;
   };
   ['LogVaultTxInput']: {
+    amount?: number | undefined | null;
     circle_id?: number | undefined | null;
     distribution_id?: number | undefined | null;
+    symbol?: string | undefined | null;
     tx_hash: string;
     tx_type: string;
     vault_id: number;
@@ -10600,8 +10602,10 @@ export type GraphQLTypes = {
     _nin?: Array<number> | undefined;
   };
   ['LogVaultTxInput']: {
+    amount?: number | undefined;
     circle_id?: number | undefined;
     distribution_id?: number | undefined;
+    symbol?: string | undefined;
     tx_hash: string;
     tx_type: string;
     vault_id: number;
