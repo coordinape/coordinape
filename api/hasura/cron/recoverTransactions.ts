@@ -8,12 +8,12 @@ import zipObject from 'lodash/zipObject';
 import { DateTime, Settings } from 'luxon';
 
 import { Contracts } from '../../../api-lib/contracts';
-import { vaults_constraint } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { getProvider } from '../../../api-lib/provider';
 import { Awaited } from '../../../api-lib/ts4.5shim';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import { encodeCircleId } from '../../../src/lib/vaults/circleId';
+import { insert } from '../actions/_handlers/createVault';
 
 Settings.defaultZone = 'utc';
 
@@ -81,16 +81,17 @@ const handleTxRecord = async (txRecord: TxRecord) => {
   } catch (e: any) {
     // an error here means the tx failed for some reason.
     // for now, let's keep it around for inspection
+    // TODO: notify Sentry
     return `error fetching receipt: ${e?.message || e}`;
   }
 };
 
 const handleVaultDeploy = async (
   contracts: Contracts,
-  tx: TxRecord,
+  record: TxRecord,
   receipt: TransactionReceipt
 ) => {
-  const { tx_hash } = tx;
+  const { tx_hash, org_id, chain_id, created_by } = record;
 
   // we can expect only one deployment log in a tx based on our app and contract
   // config. it's not possible to support multiple deployments in a tx given the
@@ -123,38 +124,33 @@ const handleVaultDeploy = async (
     token.decimals(),
     token.symbol(),
   ]);
-  const addVault = await adminClient.mutate(
-    {
-      insert_vaults_one: [
-        {
-          object: {
-            symbol,
-            decimals,
-            org_id: tx.org_id,
-            deployment_block: receipt.blockNumber,
-            vault_address: log.args.vault.toLowerCase(),
-            chain_id: tx.chain_id,
-            created_by: tx.created_by,
-            token_address,
-            simple_token_address,
-          },
-          // swallow error if vault already exists in table
-          // and delete the pending entry
-          on_conflict: {
-            constraint: vaults_constraint.vaults_vault_address_key,
-            update_columns: [],
-          },
-        },
-        { id: true },
-      ],
-      delete_pending_vault_transactions_by_pk: [
-        { tx_hash },
-        { __typename: true },
-      ],
-    },
-    { operationName: 'recoverVaultDeploy' }
-  );
-  return `added vault id ${addVault.insert_vaults_one?.id}`;
+
+  const op = await insert({
+    chain_id,
+    decimals,
+    deployment_block: receipt.blockNumber,
+    org_id,
+    profile_id: created_by,
+    simple_token_address,
+    symbol,
+    token_address,
+    tx_hash,
+    vault_address: log.args.vault.toLowerCase(),
+  });
+
+  if (op.insert_vaults_one?.id) {
+    await adminClient.mutate(
+      {
+        delete_pending_vault_transactions_by_pk: [
+          { tx_hash },
+          { __typename: true },
+        ],
+      },
+      { operationName: 'deletePendingVaultTx' }
+    );
+  }
+
+  return `added vault id ${op.insert_vaults_one?.id}`;
 };
 
 const handleClaim = async (

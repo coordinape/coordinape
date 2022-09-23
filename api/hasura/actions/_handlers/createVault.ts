@@ -73,7 +73,52 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     token.decimals(),
   ]);
 
-  const { insert_vaults_one: result } = await adminClient.mutate(
+  const { insert_vaults_one: result } = await insert({
+    chain_id,
+    decimals,
+    deployment_block,
+    org_id,
+    profile_id: hasuraProfileId,
+    simple_token_address: simpleTokenAddress,
+    symbol,
+    token_address: yTokenAddress,
+    tx_hash,
+    vault_address,
+  });
+
+  if (!result?.id)
+    throw new InternalServerError(
+      `No CoVault ID returned for ${vault_address}`
+    );
+  res.status(200).json(result);
+}
+
+export default verifyHasuraRequestMiddleware(handler);
+
+export const insert = ({
+  symbol,
+  decimals,
+  chain_id,
+  org_id,
+  deployment_block,
+  vault_address,
+  profile_id,
+  token_address,
+  simple_token_address,
+  tx_hash,
+}: {
+  symbol: string;
+  decimals: number;
+  chain_id: number;
+  org_id: number;
+  deployment_block: number;
+  vault_address: string;
+  profile_id: number;
+  token_address: string;
+  simple_token_address: string;
+  tx_hash: string;
+}) =>
+  adminClient.mutate(
     {
       insert_vaults_one: [
         {
@@ -84,9 +129,9 @@ async function handler(req: VercelRequest, res: VercelResponse) {
             org_id,
             deployment_block,
             vault_address,
-            created_by: hasuraProfileId,
-            token_address: yTokenAddress,
-            simple_token_address: simpleTokenAddress,
+            created_by: profile_id,
+            token_address,
+            simple_token_address,
           },
         },
         { id: true },
@@ -95,14 +140,14 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         {
           object: {
             event_type: 'vault_create',
-            profile_id: hasuraProfileId,
+            profile_id,
             org_id,
             data: {
               symbol,
               vault_address,
               chain_id,
-              token_address: yTokenAddress,
-              simple_token_address: simpleTokenAddress,
+              token_address,
+              simple_token_address,
               tx_hash,
             },
           },
@@ -113,12 +158,3 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
     { operationName: 'createVault' }
   );
-
-  if (!result?.id)
-    throw new InternalServerError(
-      `No CoVault ID returned for ${vault_address}`
-    );
-  res.status(200).json(result);
-}
-
-export default verifyHasuraRequestMiddleware(handler);
