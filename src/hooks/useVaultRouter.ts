@@ -2,7 +2,7 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { useWeb3React } from '@web3-react/core';
 import { utils } from 'ethers';
-import { addVaultTx } from 'lib/gql/mutations';
+import { addVaultTx } from 'lib/gql/mutations/vaults';
 import { getTokenAddress, getWrappedAmount, hasSimpleToken } from 'lib/vaults';
 import type { Contracts } from 'lib/vaults';
 

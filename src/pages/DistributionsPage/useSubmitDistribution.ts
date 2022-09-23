@@ -3,7 +3,7 @@ import assert from 'assert';
 import debug from 'debug';
 import { BigNumber, FixedNumber } from 'ethers';
 import { ValueTypes, vault_tx_types_enum } from 'lib/gql/__generated__/zeus';
-import { savePendingVaultTx } from 'lib/gql/mutations';
+import { savePendingVaultTx } from 'lib/gql/mutations/vaults';
 import { createDistribution } from 'lib/merkle-distributor';
 import { getWrappedAmount } from 'lib/vaults';
 import { uploadEpochRoot } from 'lib/vaults/distributor';

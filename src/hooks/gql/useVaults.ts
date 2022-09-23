@@ -1,6 +1,6 @@
 import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
-import { allVaultFields } from 'lib/gql/mutations';
+import { allVaultFields } from 'lib/gql/mutations/vaults';
 import { getDisplayTokenString } from 'lib/vaults';
 import { useQuery } from 'react-query';
 

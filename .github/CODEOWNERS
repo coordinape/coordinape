@@ -1,8 +1,8 @@
 /docker/    @topocount
 /scripts/   @topocount
 
-/src/       @levity @teeolendo @cryptograffe
-/hardhat/   @teeolendo @topocount
+/src/       @levity @cryptograffe
+/hardhat/   @levity @topocount
 
 /api/       @zashton @topocount
 /api-lib/   @zashton @topocount

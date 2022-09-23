@@ -1,6 +1,6 @@
 import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
-import { allVaultFields } from 'lib/gql/mutations';
+import { allVaultFields } from 'lib/gql/mutations/vaults';
 
 export const getVaultAndTransactions = async (address: string | undefined) => {
   const result = await client.query(

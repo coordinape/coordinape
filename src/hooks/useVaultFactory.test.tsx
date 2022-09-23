@@ -11,7 +11,7 @@ import { useVaultFactory } from './useVaultFactory';
 
 let snapshotId: string;
 
-jest.mock('lib/gql/mutations', () => {
+jest.mock('lib/gql/mutations/vaults', () => {
   return {
     addVault: jest.fn().mockReturnValue(
       Promise.resolve({
@@ -32,7 +32,6 @@ jest.mock('lib/gql/mutations', () => {
       })
     ),
     savePendingVaultTx: jest.fn(),
-    deletePendingVaultTx: jest.fn(),
   };
 });
 
