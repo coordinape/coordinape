@@ -1,7 +1,7 @@
 import assert from 'assert';
 
 import { ValueTypes, vault_tx_types_enum } from 'lib/gql/__generated__/zeus';
-import { addVault, savePendingVaultTx } from 'lib/gql/mutations';
+import { addVault, savePendingVaultTx } from 'lib/gql/mutations/vaults';
 import { Asset } from 'lib/vaults';
 
 import { ZERO_ADDRESS } from 'config/constants';

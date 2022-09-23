@@ -2,7 +2,7 @@ import assert from 'assert';
 
 import { BigNumber, BytesLike } from 'ethers';
 import { vault_tx_types_enum } from 'lib/gql/__generated__/zeus';
-import { savePendingVaultTx } from 'lib/gql/mutations';
+import { savePendingVaultTx } from 'lib/gql/mutations/vaults';
 import { encodeCircleId, hasSimpleToken } from 'lib/vaults';
 import max from 'lodash/max';
 
