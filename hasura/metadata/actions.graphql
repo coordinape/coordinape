@@ -75,6 +75,12 @@ type Mutation {
 }
 
 type Mutation {
+  updateContribution(
+    payload: UpdateContributionInput!
+  ): UpdateContributionResponse
+}
+
+type Mutation {
   updateEpoch(payload: UpdateEpochInput!): EpochResponse
 }
 
@@ -109,8 +115,8 @@ type Mutation {
 input CreateCircleInput {
   user_name: String!
   circle_name: String!
-  protocol_name: String
-  protocol_id: Int
+  organization_name: String
+  organization_id: Int
   contact: String
   image_data_base64: String
 }
@@ -309,6 +315,12 @@ input DeleteContributionInput {
   contribution_id: Int!
 }
 
+input UpdateContributionInput {
+  id: Int!
+  description: String!
+  datetime_created: timestamptz!
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -390,6 +402,10 @@ type CircleLandingInfoResponse {
   circle_id: Int!
   name: String!
   logo: String!
+}
+
+type UpdateContributionResponse {
+  id: ID!
 }
 
 scalar timestamptz

@@ -11,7 +11,7 @@ import { styled } from 'stitches.config';
 import { LoadingModal } from 'components/LoadingModal';
 import { useContracts } from 'hooks';
 import { Link, Panel, Text } from 'ui';
-import { OrgLayout, SingleColumnLayout } from 'ui/layouts';
+import { SingleColumnLayout } from 'ui/layouts';
 import { numberWithCommas } from 'utils';
 import { getProviderForChain, makeExplorerUrl } from 'utils/provider';
 
@@ -56,7 +56,7 @@ export const VaultTransactions = () => {
   }
 
   return (
-    <OrgLayout name={vault.protocol.name}>
+    <SingleColumnLayout>
       <Panel>
         <Text h2>
           All Transactions for {getDisplayTokenString(vault)} Vault
@@ -68,7 +68,7 @@ export const VaultTransactions = () => {
         <OwnerProfileLink ownerAddress={ownerAddress}></OwnerProfileLink>
         <TransactionTable chainId={vault.chain_id} rows={vaultTxList} />
       </Panel>
-    </OrgLayout>
+    </SingleColumnLayout>
   );
 };
 
