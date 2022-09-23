@@ -80,6 +80,23 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         },
         { id: true },
       ],
+      insert_interaction_events_one: [
+        {
+          object: {
+            event_type: 'vault_create',
+            profile_id: hasuraProfileId,
+            org_id,
+            data: {
+              symbol,
+              vault_address,
+              chain_id,
+              token_address: yTokenAddress,
+              simple_token_address: simpleTokenAddress,
+            },
+          },
+        },
+        { __typename: true },
+      ],
     },
 
     { operationName: 'createVault' }
