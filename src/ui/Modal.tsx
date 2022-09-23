@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 
 import * as Dialog from '@radix-ui/react-dialog';
+import { fadeIn, fadeOut, slideInRight, slideOutRight } from 'keyframes';
 import { CSS, styled } from 'stitches.config';
 
 import { X } from 'icons/__generated';
@@ -13,6 +14,12 @@ const Overlay = styled(Dialog.Overlay, {
   display: 'grid',
   alignItems: 'start',
   overflowY: 'auto',
+  "&[data-state='open']": {
+    animation: `${fadeIn} .5s ease`,
+  },
+  "&[data-state='closed']": {
+    animation: `${fadeOut} .5s ease`,
+  },
 });
 
 const Content = styled(Dialog.Content, {
@@ -23,6 +30,24 @@ const Content = styled(Dialog.Content, {
   padding: '$2xl',
   margin: 'calc($xl * 2) auto $xl',
   position: 'relative',
+  variants: {
+    drawer: {
+      true: {
+        backgroundColor: '$surface',
+        right: 0,
+        margin: 0,
+        borderRadius: 0,
+        height: '100vh',
+        position: 'fixed',
+        "&[data-state='open']": {
+          animation: `${slideInRight} .4s ease-out`,
+        },
+        "&[data-state='closed']": {
+          animation: `${slideOutRight} .4s ease-in`,
+        },
+      },
+    },
+  },
 });
 
 const Title = styled(Dialog.Title, {
@@ -38,40 +63,50 @@ type ModalProps = {
   title?: string;
   onClose: () => void;
   css?: CSS;
+  defaultOpen?: boolean;
   open?: boolean;
+  onOpenChange?: (open: boolean) => void;
   showClose?: boolean;
+  drawer?: boolean;
 };
 export const Modal = ({
   children,
   title,
   onClose,
+  onOpenChange,
   css = {},
+  defaultOpen = false,
   open = true,
   showClose,
+  drawer,
 }: ModalProps) => {
   return (
-    <Dialog.Root defaultOpen modal open={open}>
+    <Dialog.Root
+      modal
+      defaultOpen={defaultOpen}
+      open={open}
+      onOpenChange={onOpenChange}
+    >
       <Dialog.Portal>
-        <Overlay>
-          <Content css={css}>
-            {(showClose || showClose === undefined) && (
-              <Button
-                color="transparent"
-                onClick={onClose}
-                css={{
-                  position: 'absolute',
-                  right: 'calc($sm + 3px)',
-                  top: '$sm',
-                  fontSize: '$h3',
-                }}
-              >
-                <X size="lg" />
-              </Button>
-            )}
-            {title && <Title>{title}</Title>}
-            {children}
-          </Content>
-        </Overlay>
+        <Overlay onClick={onClose} />
+        <Content drawer={drawer} css={css}>
+          {(showClose || showClose === undefined) && (
+            <Button
+              color="transparent"
+              onClick={onClose}
+              css={{
+                position: 'absolute',
+                right: 'calc($sm + 3px)',
+                top: '$sm',
+                fontSize: '$h3',
+              }}
+            >
+              <X size="lg" />
+            </Button>
+          )}
+          {title && <Title>{title}</Title>}
+          {children}
+        </Content>
       </Dialog.Portal>
     </Dialog.Root>
   );
