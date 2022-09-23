@@ -22,15 +22,6 @@ function hostAndPort(): string {
   return 'server-side-fixme';
 }
 
-function pathname(): string {
-  if (typeof window !== 'undefined') {
-    // this will always be true until we move to nextjs
-    return window.location.pathname;
-  }
-  // TODONEXT: if this matters and remains, we would use useRouter here -g
-  return '/fixme';
-}
-
 function origin(): string {
   if (typeof window !== 'undefined') {
     // this will always be true until we move to nextjs
