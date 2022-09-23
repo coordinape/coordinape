@@ -36,6 +36,9 @@ export const AllTypesProps: Record<string, any> = {
   LogVaultTxInput: {},
   String_comparison_exp: {},
   UpdateCircleInput: {},
+  UpdateContributionInput: {
+    datetime_created: 'timestamptz',
+  },
   UpdateEpochInput: {
     start_date: 'timestamptz',
   },
@@ -850,15 +853,8 @@ export const AllTypesProps: Record<string, any> = {
     user: 'users_bool_exp',
     user_id: 'bigint_comparison_exp',
   },
-  contributions_constraint: true,
   contributions_insert_input: {
     circle_id: 'bigint',
-    created_at: 'timestamptz',
-    datetime_created: 'timestamptz',
-    deleted_at: 'timestamptz',
-    id: 'bigint',
-    updated_at: 'timestamptz',
-    user_id: 'bigint',
   },
   contributions_max_order_by: {
     circle_id: 'order_by',
@@ -878,11 +874,6 @@ export const AllTypesProps: Record<string, any> = {
     updated_at: 'order_by',
     user_id: 'order_by',
   },
-  contributions_on_conflict: {
-    constraint: 'contributions_constraint',
-    update_columns: 'contributions_update_column',
-    where: 'contributions_bool_exp',
-  },
   contributions_order_by: {
     circle: 'circles_order_by',
     circle_id: 'order_by',
@@ -894,13 +885,7 @@ export const AllTypesProps: Record<string, any> = {
     user: 'users_order_by',
     user_id: 'order_by',
   },
-  contributions_pk_columns_input: {
-    id: 'bigint',
-  },
   contributions_select_column: true,
-  contributions_set_input: {
-    datetime_created: 'timestamptz',
-  },
   contributions_stddev_order_by: {
     circle_id: 'order_by',
     id: 'order_by',
@@ -921,7 +906,6 @@ export const AllTypesProps: Record<string, any> = {
     id: 'order_by',
     user_id: 'order_by',
   },
-  contributions_update_column: true,
   contributions_var_pop_order_by: {
     circle_id: 'order_by',
     id: 'order_by',
@@ -1495,11 +1479,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     insert_contributions: {
       objects: 'contributions_insert_input',
-      on_conflict: 'contributions_on_conflict',
     },
     insert_contributions_one: {
       object: 'contributions_insert_input',
-      on_conflict: 'contributions_on_conflict',
     },
     insert_distributions: {
       objects: 'distributions_insert_input',
@@ -1524,6 +1506,9 @@ export const AllTypesProps: Record<string, any> = {
     updateCircle: {
       payload: 'UpdateCircleInput',
     },
+    updateContribution: {
+      payload: 'UpdateContributionInput',
+    },
     updateEpoch: {
       payload: 'UpdateEpochInput',
     },
@@ -1540,14 +1525,6 @@ export const AllTypesProps: Record<string, any> = {
     update_claims_by_pk: {
       _set: 'claims_set_input',
       pk_columns: 'claims_pk_columns_input',
-    },
-    update_contributions: {
-      _set: 'contributions_set_input',
-      where: 'contributions_bool_exp',
-    },
-    update_contributions_by_pk: {
-      _set: 'contributions_set_input',
-      pk_columns: 'contributions_pk_columns_input',
     },
     update_distributions: {
       _inc: 'distributions_inc_input',
@@ -2754,11 +2731,6 @@ export const AllTypesProps: Record<string, any> = {
       order_by: 'circle_api_keys_order_by',
       where: 'circle_api_keys_bool_exp',
     },
-    contributions: {
-      distinct_on: 'contributions_select_column',
-      order_by: 'contributions_order_by',
-      where: 'contributions_bool_exp',
-    },
     pending_received_gifts: {
       distinct_on: 'pending_token_gifts_select_column',
       order_by: 'pending_token_gifts_order_by',
@@ -2831,7 +2803,6 @@ export const AllTypesProps: Record<string, any> = {
     circle: 'circles_bool_exp',
     circle_api_keys: 'circle_api_keys_bool_exp',
     circle_id: 'bigint_comparison_exp',
-    contributions: 'contributions_bool_exp',
     created_at: 'timestamp_comparison_exp',
     deleted_at: 'timestamp_comparison_exp',
     epoch_first_visit: 'Boolean_comparison_exp',
@@ -2889,7 +2860,6 @@ export const AllTypesProps: Record<string, any> = {
     circle: 'circles_order_by',
     circle_api_keys_aggregate: 'circle_api_keys_aggregate_order_by',
     circle_id: 'order_by',
-    contributions_aggregate: 'contributions_aggregate_order_by',
     created_at: 'order_by',
     deleted_at: 'order_by',
     epoch_first_visit: 'order_by',
@@ -3426,6 +3396,10 @@ export const ReturnTypes: Record<string, any> = {
     circle: 'circles',
     id: 'Int',
   },
+  UpdateContributionResponse: {
+    id: 'ID',
+    updateContribution_Contribution: 'contributions',
+  },
   UpdateOrgResponse: {
     id: 'Int',
     org: 'organizations',
@@ -3916,13 +3890,12 @@ export const ReturnTypes: Record<string, any> = {
     restoreCoordinape: 'ConfirmationResponse',
     updateAllocations: 'AllocationsResponse',
     updateCircle: 'UpdateCircleOutput',
+    updateContribution: 'UpdateContributionResponse',
     updateEpoch: 'EpochResponse',
     updateTeammates: 'UpdateTeammatesResponse',
     updateUser: 'UserResponse',
     update_claims: 'claims_mutation_response',
     update_claims_by_pk: 'claims',
-    update_contributions: 'contributions_mutation_response',
-    update_contributions_by_pk: 'contributions',
     update_distributions: 'distributions_mutation_response',
     update_distributions_by_pk: 'distributions',
     update_profiles: 'profiles_mutation_response',
@@ -4441,7 +4414,6 @@ export const ReturnTypes: Record<string, any> = {
     circle: 'circles',
     circle_api_keys: 'circle_api_keys',
     circle_id: 'bigint',
-    contributions: 'contributions',
     created_at: 'timestamp',
     deleted_at: 'timestamp',
     epoch_first_visit: 'Boolean',

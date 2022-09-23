@@ -2065,10 +2065,6 @@ export const AllTypesProps: Record<string, any> = {
     org_id: 'Int_comparison_exp',
     profile_id: 'Int_comparison_exp',
     updated_at: 'timestamptz_comparison_exp',
-<<<<<<< HEAD
-=======
-    user_id: 'Int_comparison_exp',
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   },
   interaction_events_constraint: true,
   interaction_events_delete_at_path_input: {},
@@ -2095,10 +2091,6 @@ export const AllTypesProps: Record<string, any> = {
     org_id: 'order_by',
     profile_id: 'order_by',
     updated_at: 'order_by',
-<<<<<<< HEAD
-=======
-    user_id: 'order_by',
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   },
   interaction_events_pk_columns_input: {},
   interaction_events_prepend_input: {
@@ -4759,16 +4751,6 @@ export const AllTypesProps: Record<string, any> = {
       order_by: 'circle_api_keys_order_by',
       where: 'circle_api_keys_bool_exp',
     },
-    contributions: {
-      distinct_on: 'contributions_select_column',
-      order_by: 'contributions_order_by',
-      where: 'contributions_bool_exp',
-    },
-    contributions_aggregate: {
-      distinct_on: 'contributions_select_column',
-      order_by: 'contributions_order_by',
-      where: 'contributions_bool_exp',
-    },
     pending_received_gifts: {
       distinct_on: 'pending_token_gifts_select_column',
       order_by: 'pending_token_gifts_order_by',
@@ -4871,7 +4853,6 @@ export const AllTypesProps: Record<string, any> = {
     circle: 'circles_bool_exp',
     circle_api_keys: 'circle_api_keys_bool_exp',
     circle_id: 'bigint_comparison_exp',
-    contributions: 'contributions_bool_exp',
     created_at: 'timestamp_comparison_exp',
     deleted_at: 'timestamp_comparison_exp',
     epoch_first_visit: 'Boolean_comparison_exp',
@@ -4906,7 +4887,6 @@ export const AllTypesProps: Record<string, any> = {
     circle: 'circles_obj_rel_insert_input',
     circle_api_keys: 'circle_api_keys_arr_rel_insert_input',
     circle_id: 'bigint',
-    contributions: 'contributions_arr_rel_insert_input',
     created_at: 'timestamp',
     deleted_at: 'timestamp',
     fixed_payment_amount: 'numeric',
@@ -4967,7 +4947,6 @@ export const AllTypesProps: Record<string, any> = {
     circle: 'circles_order_by',
     circle_api_keys_aggregate: 'circle_api_keys_aggregate_order_by',
     circle_id: 'order_by',
-    contributions_aggregate: 'contributions_aggregate_order_by',
     created_at: 'order_by',
     deleted_at: 'order_by',
     epoch_first_visit: 'order_by',
@@ -5704,6 +5683,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   UpdateContributionResponse: {
     id: 'ID',
+    updateContribution_Contribution: 'contributions',
   },
   UpdateOrgResponse: {
     id: 'Int',
@@ -7119,10 +7099,6 @@ export const ReturnTypes: Record<string, any> = {
     org_id: 'Int',
     profile_id: 'Int',
     updated_at: 'timestamptz',
-<<<<<<< HEAD
-=======
-    user_id: 'Int',
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   },
   interaction_events_aggregate: {
     aggregate: 'interaction_events_aggregate_fields',
@@ -7146,10 +7122,6 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Float',
     org_id: 'Float',
     profile_id: 'Float',
-<<<<<<< HEAD
-=======
-    user_id: 'Float',
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   },
   interaction_events_max_fields: {
     circle_id: 'Int',
@@ -7160,10 +7132,6 @@ export const ReturnTypes: Record<string, any> = {
     org_id: 'Int',
     profile_id: 'Int',
     updated_at: 'timestamptz',
-<<<<<<< HEAD
-=======
-    user_id: 'Int',
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   },
   interaction_events_min_fields: {
     circle_id: 'Int',
@@ -7174,10 +7142,6 @@ export const ReturnTypes: Record<string, any> = {
     org_id: 'Int',
     profile_id: 'Int',
     updated_at: 'timestamptz',
-<<<<<<< HEAD
-=======
-    user_id: 'Int',
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   },
   interaction_events_mutation_response: {
     affected_rows: 'Int',
@@ -7188,70 +7152,42 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Float',
     org_id: 'Float',
     profile_id: 'Float',
-<<<<<<< HEAD
-=======
-    user_id: 'Float',
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   },
   interaction_events_stddev_pop_fields: {
     circle_id: 'Float',
     id: 'Float',
     org_id: 'Float',
     profile_id: 'Float',
-<<<<<<< HEAD
-=======
-    user_id: 'Float',
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   },
   interaction_events_stddev_samp_fields: {
     circle_id: 'Float',
     id: 'Float',
     org_id: 'Float',
     profile_id: 'Float',
-<<<<<<< HEAD
-=======
-    user_id: 'Float',
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   },
   interaction_events_sum_fields: {
     circle_id: 'Int',
     id: 'Int',
     org_id: 'Int',
     profile_id: 'Int',
-<<<<<<< HEAD
-=======
-    user_id: 'Int',
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   },
   interaction_events_var_pop_fields: {
     circle_id: 'Float',
     id: 'Float',
     org_id: 'Float',
     profile_id: 'Float',
-<<<<<<< HEAD
-=======
-    user_id: 'Float',
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   },
   interaction_events_var_samp_fields: {
     circle_id: 'Float',
     id: 'Float',
     org_id: 'Float',
     profile_id: 'Float',
-<<<<<<< HEAD
-=======
-    user_id: 'Float',
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   },
   interaction_events_variance_fields: {
     circle_id: 'Float',
     id: 'Float',
     org_id: 'Float',
     profile_id: 'Float',
-<<<<<<< HEAD
-=======
-    user_id: 'Float',
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   },
   mutation_root: {
     adminUpdateUser: 'UserResponse',
@@ -8633,8 +8569,6 @@ export const ReturnTypes: Record<string, any> = {
     circle_api_keys: 'circle_api_keys',
     circle_api_keys_aggregate: 'circle_api_keys_aggregate',
     circle_id: 'bigint',
-    contributions: 'contributions',
-    contributions_aggregate: 'contributions_aggregate',
     created_at: 'timestamp',
     deleted_at: 'timestamp',
     epoch_first_visit: 'Boolean',
