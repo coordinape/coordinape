@@ -897,6 +897,8 @@ export type ValueTypes = {
   };
   ['UpdateContributionResponse']: AliasType<{
     id?: boolean | `@${string}`;
+    /** An object relationship */
+    updateContribution_Contribution?: ValueTypes['contributions'];
     __typename?: boolean | `@${string}`;
   }>;
   ['UpdateEpochInput']: {
@@ -5975,10 +5977,6 @@ columns and relationships of "distributions" */
     org_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
-<<<<<<< HEAD
-=======
-    user_id?: boolean | `@${string}`;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregated selection of "interaction_events" */
@@ -6021,10 +6019,6 @@ columns and relationships of "distributions" */
     id?: boolean | `@${string}`;
     org_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
-<<<<<<< HEAD
-=======
-    user_id?: boolean | `@${string}`;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
     __typename?: boolean | `@${string}`;
   }>;
   /** Boolean expression to filter rows from the table "interaction_events". All fields are combined with a logical 'AND'. */
@@ -6041,10 +6035,6 @@ columns and relationships of "distributions" */
     org_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     profile_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
-<<<<<<< HEAD
-=======
-    user_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   };
   /** unique or primary key constraints on table "interaction_events" */
   ['interaction_events_constraint']: interaction_events_constraint;
@@ -6066,10 +6056,6 @@ columns and relationships of "distributions" */
     id?: number | undefined | null;
     org_id?: number | undefined | null;
     profile_id?: number | undefined | null;
-<<<<<<< HEAD
-=======
-    user_id?: number | undefined | null;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   };
   /** input type for inserting data into table "interaction_events" */
   ['interaction_events_insert_input']: {
@@ -6082,10 +6068,6 @@ columns and relationships of "distributions" */
     org_id?: number | undefined | null;
     profile_id?: number | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
-<<<<<<< HEAD
-=======
-    user_id?: number | undefined | null;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   };
   /** aggregate max on columns */
   ['interaction_events_max_fields']: AliasType<{
@@ -6097,10 +6079,6 @@ columns and relationships of "distributions" */
     org_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
-<<<<<<< HEAD
-=======
-    user_id?: boolean | `@${string}`;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate min on columns */
@@ -6113,10 +6091,6 @@ columns and relationships of "distributions" */
     org_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
-<<<<<<< HEAD
-=======
-    user_id?: boolean | `@${string}`;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
     __typename?: boolean | `@${string}`;
   }>;
   /** response of any mutation on the table "interaction_events" */
@@ -6144,10 +6118,6 @@ columns and relationships of "distributions" */
     org_id?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
-<<<<<<< HEAD
-=======
-    user_id?: ValueTypes['order_by'] | undefined | null;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   };
   /** primary key columns input for table: interaction_events */
   ['interaction_events_pk_columns_input']: {
@@ -6170,10 +6140,6 @@ columns and relationships of "distributions" */
     org_id?: number | undefined | null;
     profile_id?: number | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
-<<<<<<< HEAD
-=======
-    user_id?: number | undefined | null;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   };
   /** aggregate stddev on columns */
   ['interaction_events_stddev_fields']: AliasType<{
@@ -6181,10 +6147,6 @@ columns and relationships of "distributions" */
     id?: boolean | `@${string}`;
     org_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
-<<<<<<< HEAD
-=======
-    user_id?: boolean | `@${string}`;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate stddev_pop on columns */
@@ -6193,10 +6155,6 @@ columns and relationships of "distributions" */
     id?: boolean | `@${string}`;
     org_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
-<<<<<<< HEAD
-=======
-    user_id?: boolean | `@${string}`;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate stddev_samp on columns */
@@ -6205,10 +6163,6 @@ columns and relationships of "distributions" */
     id?: boolean | `@${string}`;
     org_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
-<<<<<<< HEAD
-=======
-    user_id?: boolean | `@${string}`;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate sum on columns */
@@ -6217,10 +6171,6 @@ columns and relationships of "distributions" */
     id?: boolean | `@${string}`;
     org_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
-<<<<<<< HEAD
-=======
-    user_id?: boolean | `@${string}`;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
     __typename?: boolean | `@${string}`;
   }>;
   /** update columns of table "interaction_events" */
@@ -6231,10 +6181,6 @@ columns and relationships of "distributions" */
     id?: boolean | `@${string}`;
     org_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
-<<<<<<< HEAD
-=======
-    user_id?: boolean | `@${string}`;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate var_samp on columns */
@@ -6243,10 +6189,6 @@ columns and relationships of "distributions" */
     id?: boolean | `@${string}`;
     org_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
-<<<<<<< HEAD
-=======
-    user_id?: boolean | `@${string}`;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate variance on columns */
@@ -6255,10 +6197,6 @@ columns and relationships of "distributions" */
     id?: boolean | `@${string}`;
     org_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
-<<<<<<< HEAD
-=======
-    user_id?: boolean | `@${string}`;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
     __typename?: boolean | `@${string}`;
   }>;
   ['json']: unknown;
@@ -14065,52 +14003,6 @@ columns and relationships of "users" */
       ValueTypes['circle_api_keys_aggregate']
     ];
     circle_id?: boolean | `@${string}`;
-    contributions?: [
-      {
-        /** distinct select on columns */
-        distinct_on?:
-          | Array<ValueTypes['contributions_select_column']>
-          | undefined
-          | null /** limit the number of rows returned */;
-        limit?:
-          | number
-          | undefined
-          | null /** skip the first n rows. Use only with order_by */;
-        offset?:
-          | number
-          | undefined
-          | null /** sort the rows by one or more columns */;
-        order_by?:
-          | Array<ValueTypes['contributions_order_by']>
-          | undefined
-          | null /** filter the rows returned */;
-        where?: ValueTypes['contributions_bool_exp'] | undefined | null;
-      },
-      ValueTypes['contributions']
-    ];
-    contributions_aggregate?: [
-      {
-        /** distinct select on columns */
-        distinct_on?:
-          | Array<ValueTypes['contributions_select_column']>
-          | undefined
-          | null /** limit the number of rows returned */;
-        limit?:
-          | number
-          | undefined
-          | null /** skip the first n rows. Use only with order_by */;
-        offset?:
-          | number
-          | undefined
-          | null /** sort the rows by one or more columns */;
-        order_by?:
-          | Array<ValueTypes['contributions_order_by']>
-          | undefined
-          | null /** filter the rows returned */;
-        where?: ValueTypes['contributions_bool_exp'] | undefined | null;
-      },
-      ValueTypes['contributions_aggregate']
-    ];
     created_at?: boolean | `@${string}`;
     deleted_at?: boolean | `@${string}`;
     epoch_first_visit?: boolean | `@${string}`;
@@ -14486,7 +14378,6 @@ columns and relationships of "users" */
     circle?: ValueTypes['circles_bool_exp'] | undefined | null;
     circle_api_keys?: ValueTypes['circle_api_keys_bool_exp'] | undefined | null;
     circle_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
-    contributions?: ValueTypes['contributions_bool_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     deleted_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     epoch_first_visit?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
@@ -14545,10 +14436,6 @@ columns and relationships of "users" */
       | undefined
       | null;
     circle_id?: ValueTypes['bigint'] | undefined | null;
-    contributions?:
-      | ValueTypes['contributions_arr_rel_insert_input']
-      | undefined
-      | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     deleted_at?: ValueTypes['timestamp'] | undefined | null;
     epoch_first_visit?: boolean | undefined | null;
@@ -14684,10 +14571,6 @@ columns and relationships of "users" */
       | undefined
       | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
-    contributions_aggregate?:
-      | ValueTypes['contributions_aggregate_order_by']
-      | undefined
-      | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     deleted_at?: ValueTypes['order_by'] | undefined | null;
     epoch_first_visit?: ValueTypes['order_by'] | undefined | null;
@@ -16327,6 +16210,8 @@ export type ModelTypes = {
   ['UpdateContributionInput']: GraphQLTypes['UpdateContributionInput'];
   ['UpdateContributionResponse']: {
     id: string;
+    /** An object relationship */
+    updateContribution_Contribution: GraphQLTypes['contributions'];
   };
   ['UpdateEpochInput']: GraphQLTypes['UpdateEpochInput'];
   ['UpdateOrgResponse']: {
@@ -18531,10 +18416,6 @@ columns and relationships of "distributions" */
     org_id?: number | undefined;
     profile_id?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
-<<<<<<< HEAD
-=======
-    user_id?: number | undefined;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   };
   /** aggregated selection of "interaction_events" */
   ['interaction_events_aggregate']: {
@@ -18567,10 +18448,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-<<<<<<< HEAD
-=======
-    user_id?: number | undefined;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   };
   /** Boolean expression to filter rows from the table "interaction_events". All fields are combined with a logical 'AND'. */
   ['interaction_events_bool_exp']: GraphQLTypes['interaction_events_bool_exp'];
@@ -18596,10 +18473,6 @@ columns and relationships of "distributions" */
     org_id?: number | undefined;
     profile_id?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
-<<<<<<< HEAD
-=======
-    user_id?: number | undefined;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   };
   /** aggregate min on columns */
   ['interaction_events_min_fields']: {
@@ -18611,10 +18484,6 @@ columns and relationships of "distributions" */
     org_id?: number | undefined;
     profile_id?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
-<<<<<<< HEAD
-=======
-    user_id?: number | undefined;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   };
   /** response of any mutation on the table "interaction_events" */
   ['interaction_events_mutation_response']: {
@@ -18641,10 +18510,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-<<<<<<< HEAD
-=======
-    user_id?: number | undefined;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   };
   /** aggregate stddev_pop on columns */
   ['interaction_events_stddev_pop_fields']: {
@@ -18652,10 +18517,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-<<<<<<< HEAD
-=======
-    user_id?: number | undefined;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   };
   /** aggregate stddev_samp on columns */
   ['interaction_events_stddev_samp_fields']: {
@@ -18663,10 +18524,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-<<<<<<< HEAD
-=======
-    user_id?: number | undefined;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   };
   /** aggregate sum on columns */
   ['interaction_events_sum_fields']: {
@@ -18674,10 +18531,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-<<<<<<< HEAD
-=======
-    user_id?: number | undefined;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   };
   /** update columns of table "interaction_events" */
   ['interaction_events_update_column']: GraphQLTypes['interaction_events_update_column'];
@@ -18687,10 +18540,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-<<<<<<< HEAD
-=======
-    user_id?: number | undefined;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   };
   /** aggregate var_samp on columns */
   ['interaction_events_var_samp_fields']: {
@@ -18698,10 +18547,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-<<<<<<< HEAD
-=======
-    user_id?: number | undefined;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   };
   /** aggregate variance on columns */
   ['interaction_events_variance_fields']: {
@@ -18709,10 +18554,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-<<<<<<< HEAD
-=======
-    user_id?: number | undefined;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   };
   ['json']: any;
   /** Boolean expression to compare columns of type "json". All fields are combined with logical 'AND'. */
@@ -21133,10 +20974,6 @@ columns and relationships of "users" */
     /** An aggregate relationship */
     circle_api_keys_aggregate: GraphQLTypes['circle_api_keys_aggregate'];
     circle_id: GraphQLTypes['bigint'];
-    /** An array relationship */
-    contributions: Array<GraphQLTypes['contributions']>;
-    /** An aggregate relationship */
-    contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     created_at: GraphQLTypes['timestamp'];
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
     epoch_first_visit: boolean;
@@ -22225,6 +22062,8 @@ export type GraphQLTypes = {
   ['UpdateContributionResponse']: {
     __typename: 'UpdateContributionResponse';
     id: string;
+    /** An object relationship */
+    updateContribution_Contribution: GraphQLTypes['contributions'];
   };
   ['UpdateEpochInput']: {
     circle_id: number;
@@ -26380,10 +26219,6 @@ columns and relationships of "distributions" */
     org_id?: number | undefined;
     profile_id?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
-<<<<<<< HEAD
-=======
-    user_id?: number | undefined;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   };
   /** aggregated selection of "interaction_events" */
   ['interaction_events_aggregate']: {
@@ -26421,10 +26256,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-<<<<<<< HEAD
-=======
-    user_id?: number | undefined;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   };
   /** Boolean expression to filter rows from the table "interaction_events". All fields are combined with a logical 'AND'. */
   ['interaction_events_bool_exp']: {
@@ -26440,10 +26271,6 @@ columns and relationships of "distributions" */
     org_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     profile_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
-<<<<<<< HEAD
-=======
-    user_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   };
   /** unique or primary key constraints on table "interaction_events" */
   ['interaction_events_constraint']: interaction_events_constraint;
@@ -26465,10 +26292,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-<<<<<<< HEAD
-=======
-    user_id?: number | undefined;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   };
   /** input type for inserting data into table "interaction_events" */
   ['interaction_events_insert_input']: {
@@ -26481,10 +26304,6 @@ columns and relationships of "distributions" */
     org_id?: number | undefined;
     profile_id?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
-<<<<<<< HEAD
-=======
-    user_id?: number | undefined;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   };
   /** aggregate max on columns */
   ['interaction_events_max_fields']: {
@@ -26497,10 +26316,6 @@ columns and relationships of "distributions" */
     org_id?: number | undefined;
     profile_id?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
-<<<<<<< HEAD
-=======
-    user_id?: number | undefined;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   };
   /** aggregate min on columns */
   ['interaction_events_min_fields']: {
@@ -26513,10 +26328,6 @@ columns and relationships of "distributions" */
     org_id?: number | undefined;
     profile_id?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
-<<<<<<< HEAD
-=======
-    user_id?: number | undefined;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   };
   /** response of any mutation on the table "interaction_events" */
   ['interaction_events_mutation_response']: {
@@ -26543,10 +26354,6 @@ columns and relationships of "distributions" */
     org_id?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
-<<<<<<< HEAD
-=======
-    user_id?: GraphQLTypes['order_by'] | undefined;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   };
   /** primary key columns input for table: interaction_events */
   ['interaction_events_pk_columns_input']: {
@@ -26569,10 +26376,6 @@ columns and relationships of "distributions" */
     org_id?: number | undefined;
     profile_id?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
-<<<<<<< HEAD
-=======
-    user_id?: number | undefined;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   };
   /** aggregate stddev on columns */
   ['interaction_events_stddev_fields']: {
@@ -26581,10 +26384,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-<<<<<<< HEAD
-=======
-    user_id?: number | undefined;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   };
   /** aggregate stddev_pop on columns */
   ['interaction_events_stddev_pop_fields']: {
@@ -26593,10 +26392,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-<<<<<<< HEAD
-=======
-    user_id?: number | undefined;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   };
   /** aggregate stddev_samp on columns */
   ['interaction_events_stddev_samp_fields']: {
@@ -26605,10 +26400,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-<<<<<<< HEAD
-=======
-    user_id?: number | undefined;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   };
   /** aggregate sum on columns */
   ['interaction_events_sum_fields']: {
@@ -26617,10 +26408,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-<<<<<<< HEAD
-=======
-    user_id?: number | undefined;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   };
   /** update columns of table "interaction_events" */
   ['interaction_events_update_column']: interaction_events_update_column;
@@ -26631,10 +26418,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-<<<<<<< HEAD
-=======
-    user_id?: number | undefined;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   };
   /** aggregate var_samp on columns */
   ['interaction_events_var_samp_fields']: {
@@ -26643,10 +26426,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-<<<<<<< HEAD
-=======
-    user_id?: number | undefined;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   };
   /** aggregate variance on columns */
   ['interaction_events_variance_fields']: {
@@ -26655,10 +26434,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-<<<<<<< HEAD
-=======
-    user_id?: number | undefined;
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
   };
   ['json']: any;
   /** Boolean expression to compare columns of type "json". All fields are combined with logical 'AND'. */
@@ -30282,10 +30057,6 @@ columns and relationships of "users" */
     /** An aggregate relationship */
     circle_api_keys_aggregate: GraphQLTypes['circle_api_keys_aggregate'];
     circle_id: GraphQLTypes['bigint'];
-    /** An array relationship */
-    contributions: Array<GraphQLTypes['contributions']>;
-    /** An aggregate relationship */
-    contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     created_at: GraphQLTypes['timestamp'];
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
     epoch_first_visit: boolean;
@@ -30402,7 +30173,6 @@ columns and relationships of "users" */
     circle?: GraphQLTypes['circles_bool_exp'] | undefined;
     circle_api_keys?: GraphQLTypes['circle_api_keys_bool_exp'] | undefined;
     circle_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
-    contributions?: GraphQLTypes['contributions_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     epoch_first_visit?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
@@ -30452,9 +30222,6 @@ columns and relationships of "users" */
       | GraphQLTypes['circle_api_keys_arr_rel_insert_input']
       | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
-    contributions?:
-      | GraphQLTypes['contributions_arr_rel_insert_input']
-      | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
     epoch_first_visit?: boolean | undefined;
@@ -30582,9 +30349,6 @@ columns and relationships of "users" */
       | GraphQLTypes['circle_api_keys_aggregate_order_by']
       | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
-    contributions_aggregate?:
-      | GraphQLTypes['contributions_aggregate_order_by']
-      | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     deleted_at?: GraphQLTypes['order_by'] | undefined;
     epoch_first_visit?: GraphQLTypes['order_by'] | undefined;
@@ -32317,10 +32081,6 @@ export const enum interaction_events_select_column {
   org_id = 'org_id',
   profile_id = 'profile_id',
   updated_at = 'updated_at',
-<<<<<<< HEAD
-=======
-  user_id = 'user_id',
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
 }
 /** update columns of table "interaction_events" */
 export const enum interaction_events_update_column {
@@ -32333,10 +32093,6 @@ export const enum interaction_events_update_column {
   org_id = 'org_id',
   profile_id = 'profile_id',
   updated_at = 'updated_at',
-<<<<<<< HEAD
-=======
-  user_id = 'user_id',
->>>>>>> 1c31fbd0 (Main merge into members update page (#1356))
 }
 /** unique or primary key constraints on table "nominees" */
 export const enum nominees_constraint {
