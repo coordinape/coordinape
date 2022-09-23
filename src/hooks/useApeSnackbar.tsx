@@ -2,6 +2,7 @@ import { SnackbarKey, useSnackbar } from 'notistack';
 
 import { FlattenedGQLError } from '../common-lib/errorHandling';
 import { Button } from 'ui';
+import { normalizeError } from 'utils/reporting';
 
 const defaultErrorMessage = 'Something went wrong.';
 
@@ -9,6 +10,7 @@ const displayError = (error: any) => {
   if (!error) return defaultErrorMessage;
   if (typeof error === 'string') return error;
   const data = error.response?.data;
+  error = normalizeError(error);
 
   if (error instanceof FlattenedGQLError) {
     return error.userDisplayableString();

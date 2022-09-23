@@ -12,7 +12,6 @@ import { zEthAddress, zUsername } from '../../forms/formHelpers';
 import { useApeSnackbar, useApiBase } from '../../hooks';
 import { Box, Button, Flex, Panel, Text } from '../../ui';
 import { Check } from 'icons/__generated';
-import { normalizeError } from 'utils/reporting';
 
 import NewMemberEntry from './NewMemberEntry';
 import NewMemberGridBox from './NewMemberGridBox';
@@ -136,7 +135,7 @@ const NewMemberList = ({
       await queryClient.invalidateQueries(['circleSettings', circleId]);
       await fetchCircle({ circleId });
     } catch (e) {
-      showError(normalizeError(e));
+      showError(e);
     } finally {
       setLoading(false);
     }
