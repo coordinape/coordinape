@@ -258,6 +258,7 @@ export const NomineesTable = ({
       >
         {nominee => (
           <NomineeRow
+            key={nominee.id}
             isNonGiverVoucher={isNonGiverVoucher}
             myUser={myUser}
             nominee={nominee}

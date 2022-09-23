@@ -871,6 +871,7 @@ export const MembersTable = ({
         {member => (
           <MemberRow
             isAdmin={isAdmin}
+            key={member.id}
             user={member}
             fixedPaymentToken={circle.fixed_payment_token_type}
             fixedPayment={fixedPayment}
