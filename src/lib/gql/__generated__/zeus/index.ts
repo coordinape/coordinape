@@ -726,6 +726,7 @@ export type ValueTypes = {
     chain_id: number;
     deployment_block: number;
     org_id: number;
+    tx_hash: string;
     vault_address: string;
   };
   ['DeleteCircleInput']: {
@@ -10540,6 +10541,7 @@ export type GraphQLTypes = {
     chain_id: number;
     deployment_block: number;
     org_id: number;
+    tx_hash: string;
     vault_address: string;
   };
   ['DeleteCircleInput']: {

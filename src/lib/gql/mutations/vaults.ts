@@ -20,14 +20,11 @@ export const allVaultFields = {
   deployment_block: true,
 };
 
-export const addVault = (
-  vault: ValueTypes['CreateVaultInput'],
-  pendingTxHash: string
-) =>
+export const addVault = (payload: ValueTypes['CreateVaultInput']) =>
   client.mutate(
     {
       createVault: [
-        { payload: vault },
+        { payload },
         {
           vault: {
             ...allVaultFields,
@@ -61,7 +58,7 @@ export const addVault = (
         },
       ],
       delete_pending_vault_transactions_by_pk: [
-        { tx_hash: pendingTxHash },
+        { tx_hash: payload.tx_hash },
         { __typename: true },
       ],
     },

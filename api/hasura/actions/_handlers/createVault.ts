@@ -15,13 +15,24 @@ import { getProvider } from '../../../../api-lib/provider';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import { zEthAddressOnly } from '../../../../src/forms/formHelpers';
 
+const inputSchema = z
+  .object({
+    org_id: z.number().positive(),
+    vault_address: zEthAddressOnly,
+    chain_id: z.number(),
+    deployment_block: z.number().min(1),
+    tx_hash: z.string(),
+  })
+  .strict();
+
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     session_variables,
     input: { payload },
-  } = getPropsWithUserSession(createVaultInput, req);
+  } = getPropsWithUserSession(inputSchema, req);
 
-  const { org_id, chain_id, vault_address, deployment_block } = payload;
+  const { org_id, chain_id, vault_address, deployment_block, tx_hash } =
+    payload;
   const { hasuraAddress, hasuraProfileId } = session_variables;
 
   const isOrgAdmin = await queries.checkAddressAdminInOrg(
@@ -92,6 +103,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
               chain_id,
               token_address: yTokenAddress,
               simple_token_address: simpleTokenAddress,
+              tx_hash,
             },
           },
         },
@@ -108,14 +120,5 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     );
   res.status(200).json(result);
 }
-
-const createVaultInput = z
-  .object({
-    org_id: z.number().positive(),
-    vault_address: zEthAddressOnly,
-    chain_id: z.number(),
-    deployment_block: z.number().min(1),
-  })
-  .strict();
 
 export default verifyHasuraRequestMiddleware(handler);
