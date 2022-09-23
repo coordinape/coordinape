@@ -2,7 +2,8 @@ import { ReactNode } from 'react';
 
 import { CSS } from 'stitches.config';
 
-import { Avatar, Box, Text } from 'ui';
+
+import { Box } from 'ui';
 
 type SingleColumnLayoutProps = {
   children: ReactNode;
