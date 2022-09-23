@@ -7,7 +7,7 @@ import { Paginator } from '../../components/Paginator';
 import { DISTRIBUTION_TYPE } from '../../config/constants';
 import { makeTable } from 'components';
 import { Flex, Text, Panel, Button, Link, Avatar } from 'ui';
-import { numberWithCommas, shortenAddress } from 'utils';
+import { smartRounding, numberWithCommas, shortenAddress } from 'utils';
 
 import type { Gift } from './queries';
 import { EpochDataResult } from './queries';
