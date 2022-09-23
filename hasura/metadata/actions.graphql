@@ -1,91 +1,61 @@
 type Mutation {
-  adminUpdateUser(
-    payload: AdminUpdateUserInput!
-  ): UserResponse
+  adminUpdateUser(payload: AdminUpdateUserInput!): UserResponse
 }
 
 type Mutation {
-  allocationCsv(
-    payload: AllocationCsvInput!
-  ): AllocationCsvResponse
+  allocationCsv(payload: AllocationCsvInput!): AllocationCsvResponse
 }
 
 type Mutation {
-  createCircle(
-    payload: CreateCircleInput!
-  ): CreateCircleResponse
+  createCircle(payload: CreateCircleInput!): CreateCircleResponse
 }
 
 type Mutation {
-  createEpoch(
-    payload: CreateEpochInput!
-  ): EpochResponse
+  createEpoch(payload: CreateEpochInput!): EpochResponse
 }
 
 type Mutation {
-  createNominee(
-    payload: CreateNomineeInput!
-  ): CreateNomineeResponse
+  createNominee(payload: CreateNomineeInput!): CreateNomineeResponse
 }
 
 type Mutation {
-  createUser(
-    payload: CreateUserInput!
-  ): UserResponse
+  createUser(payload: CreateUserInput!): UserResponse
 }
 
 type Mutation {
-  createUserWithToken(
-    payload: CreateUserWithTokenInput!
-  ): UserResponse
+  createUserWithToken(payload: CreateUserWithTokenInput!): UserResponse
 }
 
 type Mutation {
-  createUsers(
-    payload: CreateUsersInput!
-  ): [UserResponse]
+  createUsers(payload: CreateUsersInput!): [UserResponse]
 }
 
 type Mutation {
-  createVault(
-    payload: CreateVaultInput!
-  ): VaultResponse
+  createVault(payload: CreateVaultInput!): VaultResponse
 }
 
 type Mutation {
-  createVaultTx(
-    payload: LogVaultTxInput!
-  ): LogVaultTxResponse
+  createVaultTx(payload: LogVaultTxInput!): LogVaultTxResponse
 }
 
 type Mutation {
-  deleteCircle(
-    payload: DeleteCircleInput!
-  ): ConfirmationResponse
+  deleteCircle(payload: DeleteCircleInput!): ConfirmationResponse
 }
 
 type Mutation {
-  deleteContribution(
-    payload: DeleteContributionInput!
-  ): ConfirmationResponse
+  deleteContribution(payload: DeleteContributionInput!): ConfirmationResponse
 }
 
 type Mutation {
-  deleteEpoch(
-    payload: DeleteEpochInput!
-  ): DeleteEpochResponse
+  deleteEpoch(payload: DeleteEpochInput!): DeleteEpochResponse
 }
 
 type Mutation {
-  deleteUser(
-    payload: DeleteUserInput!
-  ): ConfirmationResponse
+  deleteUser(payload: DeleteUserInput!): ConfirmationResponse
 }
 
 type Mutation {
-  generateApiKey(
-    payload: GenerateApiKeyInput!
-  ): GenerateApiKeyResponse
+  generateApiKey(payload: GenerateApiKeyInput!): GenerateApiKeyResponse
 }
 
 type Mutation {
@@ -93,76 +63,60 @@ type Mutation {
 }
 
 type Mutation {
-  restoreCoordinape(
-    payload: CoordinapeInput!
-  ): ConfirmationResponse
+  restoreCoordinape(payload: CoordinapeInput!): ConfirmationResponse
 }
 
 type Mutation {
-  updateAllocations(
-    payload: Allocations!
-  ): AllocationsResponse
+  updateAllocations(payload: Allocations!): AllocationsResponse
 }
 
 type Mutation {
-  updateCircle(
-    payload: UpdateCircleInput!
-  ): UpdateCircleOutput
+  updateCircle(payload: UpdateCircleInput!): UpdateCircleOutput
 }
 
 type Mutation {
-  updateEpoch(
-    payload: UpdateEpochInput!
-  ): EpochResponse
+  updateContribution(
+    payload: UpdateContributionInput!
+  ): UpdateContributionResponse
 }
 
 type Mutation {
-  updateTeammates(
-    payload: UpdateTeammatesInput!
-  ): UpdateTeammatesResponse
+  updateEpoch(payload: UpdateEpochInput!): EpochResponse
 }
 
 type Mutation {
-  updateUser(
-    payload: UpdateUserInput!
-  ): UserResponse
+  updateTeammates(payload: UpdateTeammatesInput!): UpdateTeammatesResponse
 }
 
 type Mutation {
-  uploadCircleLogo(
-    payload: UploadCircleImageInput!
-  ): UpdateCircleResponse
+  updateUser(payload: UpdateUserInput!): UserResponse
 }
 
 type Mutation {
-  uploadOrgLogo(
-    payload: UploadOrgImageInput!
-  ): UpdateOrgResponse
+  uploadCircleLogo(payload: UploadCircleImageInput!): UpdateCircleResponse
 }
 
 type Mutation {
-  uploadProfileAvatar(
-    payload: UploadImageInput!
-  ): UpdateProfileResponse
+  uploadOrgLogo(payload: UploadOrgImageInput!): UpdateOrgResponse
 }
 
 type Mutation {
-  uploadProfileBackground(
-    payload: UploadImageInput!
-  ): UpdateProfileResponse
+  uploadProfileAvatar(payload: UploadImageInput!): UpdateProfileResponse
 }
 
 type Mutation {
-  vouch(
-    payload: VouchInput!
-  ): VouchOutput
+  uploadProfileBackground(payload: UploadImageInput!): UpdateProfileResponse
+}
+
+type Mutation {
+  vouch(payload: VouchInput!): VouchOutput
 }
 
 input CreateCircleInput {
   user_name: String!
   circle_name: String!
-  protocol_name: String
-  protocol_id: Int
+  organization_name: String
+  organization_id: Int
   contact: String
   image_data_base64: String
 }
@@ -361,6 +315,12 @@ input DeleteContributionInput {
   contribution_id: Int!
 }
 
+input UpdateContributionInput {
+  id: Int!
+  description: String!
+  datetime_created: timestamptz!
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -444,5 +404,8 @@ type CircleLandingInfoResponse {
   logo: String!
 }
 
-scalar timestamptz
+type UpdateContributionResponse {
+  id: ID!
+}
 
+scalar timestamptz

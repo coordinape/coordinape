@@ -26,8 +26,8 @@ export interface IApiCircle {
   team_selection: boolean;
   created_at?: Date;
   updated_at?: Date;
-  protocol_id: number;
-  protocol: IProtocol;
+  organization_id: number;
+  organization: IProtocol;
   auto_opt_out: boolean;
   fixed_payment_token_type?: string;
 }

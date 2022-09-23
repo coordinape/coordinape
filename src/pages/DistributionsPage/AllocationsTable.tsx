@@ -163,38 +163,33 @@ export const AllocationsTable = ({
             </td>
             <td className="alignRight">
               {user.circle_claimed
-                ? `${numberWithCommas(
+                ? `${smartRounding(
                     circleDist &&
                       circleDist.distribution_type ===
                         DISTRIBUTION_TYPE.COMBINED
                       ? user.circle_claimed - user.fixed_payment_amount
-                      : user.circle_claimed,
-                    2
+                      : user.circle_claimed
                   )} ${tokenName || 'GIVE'}`
-                : `${numberWithCommas(
-                    givenPercent(user.received) * formGiftAmount,
-                    2
+                : `${smartRounding(
+                    givenPercent(user.received) * formGiftAmount
                   )} ${tokenName || 'GIVE'}`}
             </td>
             <td className="alignRight">
               {!combinedDist && fixedDist
-                ? numberWithCommas(user.claimed, 2)
-                : numberWithCommas(user.fixed_payment_amount, 2)}{' '}
+                ? smartRounding(user.claimed)
+                : smartRounding(user.fixed_payment_amount)}{' '}
               {fixedTokenName || ''}
             </td>
             {combinedDist ? (
               <td className="alignRight">
                 {(() => {
                   if (circleDist && fixedDist) {
-                    return numberWithCommas(user.combined_claimed, 2);
+                    return smartRounding(user.combined_claimed);
                   }
                   const giftAmt = circleDist
                     ? user.circle_claimed
                     : givenPercent(user.received) * formGiftAmount;
-                  return numberWithCommas(
-                    giftAmt + user.fixed_payment_amount,
-                    2
-                  );
+                  return smartRounding(giftAmt + user.fixed_payment_amount);
                 })()}{' '}
                 {tokenName}
               </td>

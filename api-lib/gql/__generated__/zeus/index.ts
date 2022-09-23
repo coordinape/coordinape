@@ -323,7 +323,7 @@ export class GraphQLError extends Error {
   constructor(public response: GraphQLResponse) {
     super('');
     // eslint-disable-next-line no-console
-    console.info(JSON.stringify(response, null, 2));
+    console.info(JSON.stringify(response));
   }
   toString() {
     return 'GraphQL Response Error';
@@ -653,8 +653,8 @@ export type ValueTypes = {
     circle_name: string;
     contact?: string | undefined | null;
     image_data_base64?: string | undefined | null;
-    protocol_id?: number | undefined | null;
-    protocol_name?: string | undefined | null;
+    organization_id?: number | undefined | null;
+    organization_name?: string | undefined | null;
     user_name: string;
   };
   ['CreateCircleResponse']: AliasType<{
@@ -887,6 +887,15 @@ export type ValueTypes = {
   ['UpdateCircleResponse']: AliasType<{
     /** An object relationship */
     circle?: ValueTypes['circles'];
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['UpdateContributionInput']: {
+    datetime_created: ValueTypes['timestamptz'];
+    description: string;
+    id: number;
+  };
+  ['UpdateContributionResponse']: AliasType<{
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -2883,6 +2892,7 @@ columns and relationships of "circle_api_keys" */
     only_giver_vouch?: boolean | `@${string}`;
     /** An object relationship */
     organization?: ValueTypes['organizations'];
+    organization_id?: boolean | `@${string}`;
     pending_token_gifts?: [
       {
         /** distinct select on columns */
@@ -2929,7 +2939,6 @@ columns and relationships of "circle_api_keys" */
       },
       ValueTypes['pending_token_gifts_aggregate']
     ];
-    protocol_id?: boolean | `@${string}`;
     team_sel_text?: boolean | `@${string}`;
     team_selection?: boolean | `@${string}`;
     telegram_id?: boolean | `@${string}`;
@@ -3130,7 +3139,7 @@ columns and relationships of "circle_api_keys" */
     id?: boolean | `@${string}`;
     min_vouches?: boolean | `@${string}`;
     nomination_days_limit?: boolean | `@${string}`;
-    protocol_id?: boolean | `@${string}`;
+    organization_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** order by avg() on columns of table "circles" */
@@ -3139,7 +3148,7 @@ columns and relationships of "circle_api_keys" */
     id?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
-    protocol_id?: ValueTypes['order_by'] | undefined | null;
+    organization_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** Boolean expression to filter rows from the table "circles". All fields are combined with a logical 'AND'. */
   ['circles_bool_exp']: {
@@ -3180,11 +3189,11 @@ columns and relationships of "circle_api_keys" */
     nominees?: ValueTypes['nominees_bool_exp'] | undefined | null;
     only_giver_vouch?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     organization?: ValueTypes['organizations_bool_exp'] | undefined | null;
+    organization_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     pending_token_gifts?:
       | ValueTypes['pending_token_gifts_bool_exp']
       | undefined
       | null;
-    protocol_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     team_sel_text?: ValueTypes['String_comparison_exp'] | undefined | null;
     team_selection?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     telegram_id?: ValueTypes['String_comparison_exp'] | undefined | null;
@@ -3207,7 +3216,7 @@ columns and relationships of "circle_api_keys" */
     id?: ValueTypes['bigint'] | undefined | null;
     min_vouches?: number | undefined | null;
     nomination_days_limit?: number | undefined | null;
-    protocol_id?: number | undefined | null;
+    organization_id?: number | undefined | null;
   };
   /** input type for inserting data into table "circles" */
   ['circles_insert_input']: {
@@ -3254,11 +3263,11 @@ columns and relationships of "circle_api_keys" */
       | ValueTypes['organizations_obj_rel_insert_input']
       | undefined
       | null;
+    organization_id?: number | undefined | null;
     pending_token_gifts?:
       | ValueTypes['pending_token_gifts_arr_rel_insert_input']
       | undefined
       | null;
-    protocol_id?: number | undefined | null;
     team_sel_text?: string | undefined | null;
     team_selection?: boolean | undefined | null;
     telegram_id?: string | undefined | null;
@@ -3290,7 +3299,7 @@ columns and relationships of "circle_api_keys" */
     min_vouches?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     nomination_days_limit?: boolean | `@${string}`;
-    protocol_id?: boolean | `@${string}`;
+    organization_id?: boolean | `@${string}`;
     team_sel_text?: boolean | `@${string}`;
     telegram_id?: boolean | `@${string}`;
     token_name?: boolean | `@${string}`;
@@ -3312,7 +3321,7 @@ columns and relationships of "circle_api_keys" */
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
-    protocol_id?: ValueTypes['order_by'] | undefined | null;
+    organization_id?: ValueTypes['order_by'] | undefined | null;
     team_sel_text?: ValueTypes['order_by'] | undefined | null;
     telegram_id?: ValueTypes['order_by'] | undefined | null;
     token_name?: ValueTypes['order_by'] | undefined | null;
@@ -3333,7 +3342,7 @@ columns and relationships of "circle_api_keys" */
     min_vouches?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     nomination_days_limit?: boolean | `@${string}`;
-    protocol_id?: boolean | `@${string}`;
+    organization_id?: boolean | `@${string}`;
     team_sel_text?: boolean | `@${string}`;
     telegram_id?: boolean | `@${string}`;
     token_name?: boolean | `@${string}`;
@@ -3355,7 +3364,7 @@ columns and relationships of "circle_api_keys" */
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
-    protocol_id?: ValueTypes['order_by'] | undefined | null;
+    organization_id?: ValueTypes['order_by'] | undefined | null;
     team_sel_text?: ValueTypes['order_by'] | undefined | null;
     telegram_id?: ValueTypes['order_by'] | undefined | null;
     token_name?: ValueTypes['order_by'] | undefined | null;
@@ -3427,11 +3436,11 @@ columns and relationships of "circle_api_keys" */
       | null;
     only_giver_vouch?: ValueTypes['order_by'] | undefined | null;
     organization?: ValueTypes['organizations_order_by'] | undefined | null;
+    organization_id?: ValueTypes['order_by'] | undefined | null;
     pending_token_gifts_aggregate?:
       | ValueTypes['pending_token_gifts_aggregate_order_by']
       | undefined
       | null;
-    protocol_id?: ValueTypes['order_by'] | undefined | null;
     team_sel_text?: ValueTypes['order_by'] | undefined | null;
     team_selection?: ValueTypes['order_by'] | undefined | null;
     telegram_id?: ValueTypes['order_by'] | undefined | null;
@@ -3473,7 +3482,7 @@ columns and relationships of "circle_api_keys" */
     name?: string | undefined | null;
     nomination_days_limit?: number | undefined | null;
     only_giver_vouch?: boolean | undefined | null;
-    protocol_id?: number | undefined | null;
+    organization_id?: number | undefined | null;
     team_sel_text?: string | undefined | null;
     team_selection?: boolean | undefined | null;
     telegram_id?: string | undefined | null;
@@ -3488,7 +3497,7 @@ columns and relationships of "circle_api_keys" */
     id?: boolean | `@${string}`;
     min_vouches?: boolean | `@${string}`;
     nomination_days_limit?: boolean | `@${string}`;
-    protocol_id?: boolean | `@${string}`;
+    organization_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** order by stddev() on columns of table "circles" */
@@ -3497,7 +3506,7 @@ columns and relationships of "circle_api_keys" */
     id?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
-    protocol_id?: ValueTypes['order_by'] | undefined | null;
+    organization_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** aggregate stddev_pop on columns */
   ['circles_stddev_pop_fields']: AliasType<{
@@ -3505,7 +3514,7 @@ columns and relationships of "circle_api_keys" */
     id?: boolean | `@${string}`;
     min_vouches?: boolean | `@${string}`;
     nomination_days_limit?: boolean | `@${string}`;
-    protocol_id?: boolean | `@${string}`;
+    organization_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** order by stddev_pop() on columns of table "circles" */
@@ -3514,7 +3523,7 @@ columns and relationships of "circle_api_keys" */
     id?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
-    protocol_id?: ValueTypes['order_by'] | undefined | null;
+    organization_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** aggregate stddev_samp on columns */
   ['circles_stddev_samp_fields']: AliasType<{
@@ -3522,7 +3531,7 @@ columns and relationships of "circle_api_keys" */
     id?: boolean | `@${string}`;
     min_vouches?: boolean | `@${string}`;
     nomination_days_limit?: boolean | `@${string}`;
-    protocol_id?: boolean | `@${string}`;
+    organization_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** order by stddev_samp() on columns of table "circles" */
@@ -3531,7 +3540,7 @@ columns and relationships of "circle_api_keys" */
     id?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
-    protocol_id?: ValueTypes['order_by'] | undefined | null;
+    organization_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** aggregate sum on columns */
   ['circles_sum_fields']: AliasType<{
@@ -3539,7 +3548,7 @@ columns and relationships of "circle_api_keys" */
     id?: boolean | `@${string}`;
     min_vouches?: boolean | `@${string}`;
     nomination_days_limit?: boolean | `@${string}`;
-    protocol_id?: boolean | `@${string}`;
+    organization_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** order by sum() on columns of table "circles" */
@@ -3548,7 +3557,7 @@ columns and relationships of "circle_api_keys" */
     id?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
-    protocol_id?: ValueTypes['order_by'] | undefined | null;
+    organization_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** update columns of table "circles" */
   ['circles_update_column']: circles_update_column;
@@ -3558,7 +3567,7 @@ columns and relationships of "circle_api_keys" */
     id?: boolean | `@${string}`;
     min_vouches?: boolean | `@${string}`;
     nomination_days_limit?: boolean | `@${string}`;
-    protocol_id?: boolean | `@${string}`;
+    organization_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** order by var_pop() on columns of table "circles" */
@@ -3567,7 +3576,7 @@ columns and relationships of "circle_api_keys" */
     id?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
-    protocol_id?: ValueTypes['order_by'] | undefined | null;
+    organization_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** aggregate var_samp on columns */
   ['circles_var_samp_fields']: AliasType<{
@@ -3575,7 +3584,7 @@ columns and relationships of "circle_api_keys" */
     id?: boolean | `@${string}`;
     min_vouches?: boolean | `@${string}`;
     nomination_days_limit?: boolean | `@${string}`;
-    protocol_id?: boolean | `@${string}`;
+    organization_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** order by var_samp() on columns of table "circles" */
@@ -3584,7 +3593,7 @@ columns and relationships of "circle_api_keys" */
     id?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
-    protocol_id?: ValueTypes['order_by'] | undefined | null;
+    organization_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** aggregate variance on columns */
   ['circles_variance_fields']: AliasType<{
@@ -3592,7 +3601,7 @@ columns and relationships of "circle_api_keys" */
     id?: boolean | `@${string}`;
     min_vouches?: boolean | `@${string}`;
     nomination_days_limit?: boolean | `@${string}`;
-    protocol_id?: boolean | `@${string}`;
+    organization_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** order by variance() on columns of table "circles" */
@@ -3601,7 +3610,7 @@ columns and relationships of "circle_api_keys" */
     id?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
-    protocol_id?: ValueTypes['order_by'] | undefined | null;
+    organization_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** columns and relationships of "claims" */
   ['claims']: AliasType<{
@@ -5966,7 +5975,6 @@ columns and relationships of "distributions" */
     org_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
-    user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregated selection of "interaction_events" */
@@ -6009,7 +6017,6 @@ columns and relationships of "distributions" */
     id?: boolean | `@${string}`;
     org_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
-    user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** Boolean expression to filter rows from the table "interaction_events". All fields are combined with a logical 'AND'. */
@@ -6026,7 +6033,6 @@ columns and relationships of "distributions" */
     org_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     profile_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
-    user_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
   };
   /** unique or primary key constraints on table "interaction_events" */
   ['interaction_events_constraint']: interaction_events_constraint;
@@ -6048,7 +6054,6 @@ columns and relationships of "distributions" */
     id?: number | undefined | null;
     org_id?: number | undefined | null;
     profile_id?: number | undefined | null;
-    user_id?: number | undefined | null;
   };
   /** input type for inserting data into table "interaction_events" */
   ['interaction_events_insert_input']: {
@@ -6061,7 +6066,6 @@ columns and relationships of "distributions" */
     org_id?: number | undefined | null;
     profile_id?: number | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
-    user_id?: number | undefined | null;
   };
   /** aggregate max on columns */
   ['interaction_events_max_fields']: AliasType<{
@@ -6073,7 +6077,6 @@ columns and relationships of "distributions" */
     org_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
-    user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate min on columns */
@@ -6086,7 +6089,6 @@ columns and relationships of "distributions" */
     org_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
-    user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** response of any mutation on the table "interaction_events" */
@@ -6114,7 +6116,6 @@ columns and relationships of "distributions" */
     org_id?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
-    user_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** primary key columns input for table: interaction_events */
   ['interaction_events_pk_columns_input']: {
@@ -6137,7 +6138,6 @@ columns and relationships of "distributions" */
     org_id?: number | undefined | null;
     profile_id?: number | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
-    user_id?: number | undefined | null;
   };
   /** aggregate stddev on columns */
   ['interaction_events_stddev_fields']: AliasType<{
@@ -6145,7 +6145,6 @@ columns and relationships of "distributions" */
     id?: boolean | `@${string}`;
     org_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
-    user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate stddev_pop on columns */
@@ -6154,7 +6153,6 @@ columns and relationships of "distributions" */
     id?: boolean | `@${string}`;
     org_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
-    user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate stddev_samp on columns */
@@ -6163,7 +6161,6 @@ columns and relationships of "distributions" */
     id?: boolean | `@${string}`;
     org_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
-    user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate sum on columns */
@@ -6172,7 +6169,6 @@ columns and relationships of "distributions" */
     id?: boolean | `@${string}`;
     org_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
-    user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** update columns of table "interaction_events" */
@@ -6183,7 +6179,6 @@ columns and relationships of "distributions" */
     id?: boolean | `@${string}`;
     org_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
-    user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate var_samp on columns */
@@ -6192,7 +6187,6 @@ columns and relationships of "distributions" */
     id?: boolean | `@${string}`;
     org_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
-    user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate variance on columns */
@@ -6201,7 +6195,6 @@ columns and relationships of "distributions" */
     id?: boolean | `@${string}`;
     org_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
-    user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   ['json']: unknown;
@@ -7165,6 +7158,10 @@ columns and relationships of "distributions" */
     updateCircle?: [
       { payload: ValueTypes['UpdateCircleInput'] },
       ValueTypes['UpdateCircleOutput']
+    ];
+    updateContribution?: [
+      { payload: ValueTypes['UpdateContributionInput'] },
+      ValueTypes['UpdateContributionResponse']
     ];
     updateEpoch?: [
       { payload: ValueTypes['UpdateEpochInput'] },
@@ -8450,7 +8447,7 @@ columns and relationships of "distributions" */
   };
   /** column ordering options */
   ['order_by']: order_by;
-  /** columns and relationships of "protocols" */
+  /** columns and relationships of "organizations" */
   ['organizations']: AliasType<{
     circles?: [
       {
@@ -8553,13 +8550,13 @@ columns and relationships of "distributions" */
     ];
     __typename?: boolean | `@${string}`;
   }>;
-  /** aggregated selection of "protocols" */
+  /** aggregated selection of "organizations" */
   ['organizations_aggregate']: AliasType<{
     aggregate?: ValueTypes['organizations_aggregate_fields'];
     nodes?: ValueTypes['organizations'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** aggregate fields of "protocols" */
+  /** aggregate fields of "organizations" */
   ['organizations_aggregate_fields']: AliasType<{
     avg?: ValueTypes['organizations_avg_fields'];
     count?: [
@@ -8588,7 +8585,7 @@ columns and relationships of "distributions" */
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** Boolean expression to filter rows from the table "protocols". All fields are combined with a logical 'AND'. */
+  /** Boolean expression to filter rows from the table "organizations". All fields are combined with a logical 'AND'. */
   ['organizations_bool_exp']: {
     _and?: Array<ValueTypes['organizations_bool_exp']> | undefined | null;
     _not?: ValueTypes['organizations_bool_exp'] | undefined | null;
@@ -8603,13 +8600,13 @@ columns and relationships of "distributions" */
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     vaults?: ValueTypes['vaults_bool_exp'] | undefined | null;
   };
-  /** unique or primary key constraints on table "protocols" */
+  /** unique or primary key constraints on table "organizations" */
   ['organizations_constraint']: organizations_constraint;
-  /** input type for incrementing numeric columns in table "protocols" */
+  /** input type for incrementing numeric columns in table "organizations" */
   ['organizations_inc_input']: {
     id?: ValueTypes['bigint'] | undefined | null;
   };
-  /** input type for inserting data into table "protocols" */
+  /** input type for inserting data into table "organizations" */
   ['organizations_insert_input']: {
     circles?: ValueTypes['circles_arr_rel_insert_input'] | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
@@ -8641,7 +8638,7 @@ columns and relationships of "distributions" */
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** response of any mutation on the table "protocols" */
+  /** response of any mutation on the table "organizations" */
   ['organizations_mutation_response']: AliasType<{
     /** number of rows affected by the mutation */
     affected_rows?: boolean | `@${string}`;
@@ -8649,19 +8646,19 @@ columns and relationships of "distributions" */
     returning?: ValueTypes['organizations'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** input type for inserting object relation for remote table "protocols" */
+  /** input type for inserting object relation for remote table "organizations" */
   ['organizations_obj_rel_insert_input']: {
     data: ValueTypes['organizations_insert_input'];
     /** on conflict condition */
     on_conflict?: ValueTypes['organizations_on_conflict'] | undefined | null;
   };
-  /** on conflict condition type for table "protocols" */
+  /** on conflict condition type for table "organizations" */
   ['organizations_on_conflict']: {
     constraint: ValueTypes['organizations_constraint'];
     update_columns: Array<ValueTypes['organizations_update_column']>;
     where?: ValueTypes['organizations_bool_exp'] | undefined | null;
   };
-  /** Ordering options when selecting data from "protocols". */
+  /** Ordering options when selecting data from "organizations". */
   ['organizations_order_by']: {
     circles_aggregate?:
       | ValueTypes['circles_aggregate_order_by']
@@ -8683,9 +8680,9 @@ columns and relationships of "distributions" */
   ['organizations_pk_columns_input']: {
     id: ValueTypes['bigint'];
   };
-  /** select columns of table "protocols" */
+  /** select columns of table "organizations" */
   ['organizations_select_column']: organizations_select_column;
-  /** input type for updating data in table "protocols" */
+  /** input type for updating data in table "organizations" */
   ['organizations_set_input']: {
     created_at?: ValueTypes['timestamp'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
@@ -8715,7 +8712,7 @@ columns and relationships of "distributions" */
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** update columns of table "protocols" */
+  /** update columns of table "organizations" */
   ['organizations_update_column']: organizations_update_column;
   /** aggregate var_pop on columns */
   ['organizations_var_pop_fields']: AliasType<{
@@ -14004,52 +14001,6 @@ columns and relationships of "users" */
       ValueTypes['circle_api_keys_aggregate']
     ];
     circle_id?: boolean | `@${string}`;
-    contributions?: [
-      {
-        /** distinct select on columns */
-        distinct_on?:
-          | Array<ValueTypes['contributions_select_column']>
-          | undefined
-          | null /** limit the number of rows returned */;
-        limit?:
-          | number
-          | undefined
-          | null /** skip the first n rows. Use only with order_by */;
-        offset?:
-          | number
-          | undefined
-          | null /** sort the rows by one or more columns */;
-        order_by?:
-          | Array<ValueTypes['contributions_order_by']>
-          | undefined
-          | null /** filter the rows returned */;
-        where?: ValueTypes['contributions_bool_exp'] | undefined | null;
-      },
-      ValueTypes['contributions']
-    ];
-    contributions_aggregate?: [
-      {
-        /** distinct select on columns */
-        distinct_on?:
-          | Array<ValueTypes['contributions_select_column']>
-          | undefined
-          | null /** limit the number of rows returned */;
-        limit?:
-          | number
-          | undefined
-          | null /** skip the first n rows. Use only with order_by */;
-        offset?:
-          | number
-          | undefined
-          | null /** sort the rows by one or more columns */;
-        order_by?:
-          | Array<ValueTypes['contributions_order_by']>
-          | undefined
-          | null /** filter the rows returned */;
-        where?: ValueTypes['contributions_bool_exp'] | undefined | null;
-      },
-      ValueTypes['contributions_aggregate']
-    ];
     created_at?: boolean | `@${string}`;
     deleted_at?: boolean | `@${string}`;
     epoch_first_visit?: boolean | `@${string}`;
@@ -14425,7 +14376,6 @@ columns and relationships of "users" */
     circle?: ValueTypes['circles_bool_exp'] | undefined | null;
     circle_api_keys?: ValueTypes['circle_api_keys_bool_exp'] | undefined | null;
     circle_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
-    contributions?: ValueTypes['contributions_bool_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     deleted_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     epoch_first_visit?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
@@ -14484,10 +14434,6 @@ columns and relationships of "users" */
       | undefined
       | null;
     circle_id?: ValueTypes['bigint'] | undefined | null;
-    contributions?:
-      | ValueTypes['contributions_arr_rel_insert_input']
-      | undefined
-      | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     deleted_at?: ValueTypes['timestamp'] | undefined | null;
     epoch_first_visit?: boolean | undefined | null;
@@ -14623,10 +14569,6 @@ columns and relationships of "users" */
       | undefined
       | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
-    contributions_aggregate?:
-      | ValueTypes['contributions_aggregate_order_by']
-      | undefined
-      | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     deleted_at?: ValueTypes['order_by'] | undefined | null;
     epoch_first_visit?: ValueTypes['order_by'] | undefined | null;
@@ -15455,9 +15397,9 @@ columns and relationships of "users" */
     id?: boolean | `@${string}`;
     org_id?: boolean | `@${string}`;
     /** An object relationship */
-    profile?: ValueTypes['profiles'];
+    organization?: ValueTypes['organizations'];
     /** An object relationship */
-    protocol?: ValueTypes['organizations'];
+    profile?: ValueTypes['profiles'];
     simple_token_address?: boolean | `@${string}`;
     symbol?: boolean | `@${string}`;
     token_address?: boolean | `@${string}`;
@@ -15590,8 +15532,8 @@ columns and relationships of "users" */
     distributions?: ValueTypes['distributions_bool_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     org_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    organization?: ValueTypes['organizations_bool_exp'] | undefined | null;
     profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
-    protocol?: ValueTypes['organizations_bool_exp'] | undefined | null;
     simple_token_address?:
       | ValueTypes['String_comparison_exp']
       | undefined
@@ -15629,11 +15571,11 @@ columns and relationships of "users" */
       | null;
     id?: ValueTypes['bigint'] | undefined | null;
     org_id?: ValueTypes['bigint'] | undefined | null;
-    profile?: ValueTypes['profiles_obj_rel_insert_input'] | undefined | null;
-    protocol?:
+    organization?:
       | ValueTypes['organizations_obj_rel_insert_input']
       | undefined
       | null;
+    profile?: ValueTypes['profiles_obj_rel_insert_input'] | undefined | null;
     simple_token_address?: string | undefined | null;
     symbol?: string | undefined | null;
     token_address?: string | undefined | null;
@@ -15739,8 +15681,8 @@ columns and relationships of "users" */
       | null;
     id?: ValueTypes['order_by'] | undefined | null;
     org_id?: ValueTypes['order_by'] | undefined | null;
+    organization?: ValueTypes['organizations_order_by'] | undefined | null;
     profile?: ValueTypes['profiles_order_by'] | undefined | null;
-    protocol?: ValueTypes['organizations_order_by'] | undefined | null;
     simple_token_address?: ValueTypes['order_by'] | undefined | null;
     symbol?: ValueTypes['order_by'] | undefined | null;
     token_address?: ValueTypes['order_by'] | undefined | null;
@@ -16262,6 +16204,10 @@ export type ModelTypes = {
     /** An object relationship */
     circle: GraphQLTypes['circles'];
     id: number;
+  };
+  ['UpdateContributionInput']: GraphQLTypes['UpdateContributionInput'];
+  ['UpdateContributionResponse']: {
+    id: string;
   };
   ['UpdateEpochInput']: GraphQLTypes['UpdateEpochInput'];
   ['UpdateOrgResponse']: {
@@ -17186,11 +17132,11 @@ columns and relationships of "circle_api_keys" */
     only_giver_vouch: boolean;
     /** An object relationship */
     organization: GraphQLTypes['organizations'];
+    organization_id: number;
     /** An array relationship */
     pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     /** An aggregate relationship */
     pending_token_gifts_aggregate: GraphQLTypes['pending_token_gifts_aggregate'];
-    protocol_id: number;
     team_sel_text?: string | undefined;
     team_selection: boolean;
     telegram_id?: string | undefined;
@@ -17240,7 +17186,7 @@ columns and relationships of "circle_api_keys" */
     id?: number | undefined;
     min_vouches?: number | undefined;
     nomination_days_limit?: number | undefined;
-    protocol_id?: number | undefined;
+    organization_id?: number | undefined;
   };
   /** order by avg() on columns of table "circles" */
   ['circles_avg_order_by']: GraphQLTypes['circles_avg_order_by'];
@@ -17266,7 +17212,7 @@ columns and relationships of "circle_api_keys" */
     min_vouches?: number | undefined;
     name?: string | undefined;
     nomination_days_limit?: number | undefined;
-    protocol_id?: number | undefined;
+    organization_id?: number | undefined;
     team_sel_text?: string | undefined;
     telegram_id?: string | undefined;
     token_name?: string | undefined;
@@ -17289,7 +17235,7 @@ columns and relationships of "circle_api_keys" */
     min_vouches?: number | undefined;
     name?: string | undefined;
     nomination_days_limit?: number | undefined;
-    protocol_id?: number | undefined;
+    organization_id?: number | undefined;
     team_sel_text?: string | undefined;
     telegram_id?: string | undefined;
     token_name?: string | undefined;
@@ -17323,7 +17269,7 @@ columns and relationships of "circle_api_keys" */
     id?: number | undefined;
     min_vouches?: number | undefined;
     nomination_days_limit?: number | undefined;
-    protocol_id?: number | undefined;
+    organization_id?: number | undefined;
   };
   /** order by stddev() on columns of table "circles" */
   ['circles_stddev_order_by']: GraphQLTypes['circles_stddev_order_by'];
@@ -17333,7 +17279,7 @@ columns and relationships of "circle_api_keys" */
     id?: number | undefined;
     min_vouches?: number | undefined;
     nomination_days_limit?: number | undefined;
-    protocol_id?: number | undefined;
+    organization_id?: number | undefined;
   };
   /** order by stddev_pop() on columns of table "circles" */
   ['circles_stddev_pop_order_by']: GraphQLTypes['circles_stddev_pop_order_by'];
@@ -17343,7 +17289,7 @@ columns and relationships of "circle_api_keys" */
     id?: number | undefined;
     min_vouches?: number | undefined;
     nomination_days_limit?: number | undefined;
-    protocol_id?: number | undefined;
+    organization_id?: number | undefined;
   };
   /** order by stddev_samp() on columns of table "circles" */
   ['circles_stddev_samp_order_by']: GraphQLTypes['circles_stddev_samp_order_by'];
@@ -17353,7 +17299,7 @@ columns and relationships of "circle_api_keys" */
     id?: GraphQLTypes['bigint'] | undefined;
     min_vouches?: number | undefined;
     nomination_days_limit?: number | undefined;
-    protocol_id?: number | undefined;
+    organization_id?: number | undefined;
   };
   /** order by sum() on columns of table "circles" */
   ['circles_sum_order_by']: GraphQLTypes['circles_sum_order_by'];
@@ -17365,7 +17311,7 @@ columns and relationships of "circle_api_keys" */
     id?: number | undefined;
     min_vouches?: number | undefined;
     nomination_days_limit?: number | undefined;
-    protocol_id?: number | undefined;
+    organization_id?: number | undefined;
   };
   /** order by var_pop() on columns of table "circles" */
   ['circles_var_pop_order_by']: GraphQLTypes['circles_var_pop_order_by'];
@@ -17375,7 +17321,7 @@ columns and relationships of "circle_api_keys" */
     id?: number | undefined;
     min_vouches?: number | undefined;
     nomination_days_limit?: number | undefined;
-    protocol_id?: number | undefined;
+    organization_id?: number | undefined;
   };
   /** order by var_samp() on columns of table "circles" */
   ['circles_var_samp_order_by']: GraphQLTypes['circles_var_samp_order_by'];
@@ -17385,7 +17331,7 @@ columns and relationships of "circle_api_keys" */
     id?: number | undefined;
     min_vouches?: number | undefined;
     nomination_days_limit?: number | undefined;
-    protocol_id?: number | undefined;
+    organization_id?: number | undefined;
   };
   /** order by variance() on columns of table "circles" */
   ['circles_variance_order_by']: GraphQLTypes['circles_variance_order_by'];
@@ -18466,7 +18412,6 @@ columns and relationships of "distributions" */
     org_id?: number | undefined;
     profile_id?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
-    user_id?: number | undefined;
   };
   /** aggregated selection of "interaction_events" */
   ['interaction_events_aggregate']: {
@@ -18499,7 +18444,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-    user_id?: number | undefined;
   };
   /** Boolean expression to filter rows from the table "interaction_events". All fields are combined with a logical 'AND'. */
   ['interaction_events_bool_exp']: GraphQLTypes['interaction_events_bool_exp'];
@@ -18525,7 +18469,6 @@ columns and relationships of "distributions" */
     org_id?: number | undefined;
     profile_id?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
-    user_id?: number | undefined;
   };
   /** aggregate min on columns */
   ['interaction_events_min_fields']: {
@@ -18537,7 +18480,6 @@ columns and relationships of "distributions" */
     org_id?: number | undefined;
     profile_id?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
-    user_id?: number | undefined;
   };
   /** response of any mutation on the table "interaction_events" */
   ['interaction_events_mutation_response']: {
@@ -18564,7 +18506,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-    user_id?: number | undefined;
   };
   /** aggregate stddev_pop on columns */
   ['interaction_events_stddev_pop_fields']: {
@@ -18572,7 +18513,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-    user_id?: number | undefined;
   };
   /** aggregate stddev_samp on columns */
   ['interaction_events_stddev_samp_fields']: {
@@ -18580,7 +18520,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-    user_id?: number | undefined;
   };
   /** aggregate sum on columns */
   ['interaction_events_sum_fields']: {
@@ -18588,7 +18527,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-    user_id?: number | undefined;
   };
   /** update columns of table "interaction_events" */
   ['interaction_events_update_column']: GraphQLTypes['interaction_events_update_column'];
@@ -18598,7 +18536,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-    user_id?: number | undefined;
   };
   /** aggregate var_samp on columns */
   ['interaction_events_var_samp_fields']: {
@@ -18606,7 +18543,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-    user_id?: number | undefined;
   };
   /** aggregate variance on columns */
   ['interaction_events_variance_fields']: {
@@ -18614,7 +18550,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-    user_id?: number | undefined;
   };
   ['json']: any;
   /** Boolean expression to compare columns of type "json". All fields are combined with logical 'AND'. */
@@ -18719,11 +18654,11 @@ columns and relationships of "distributions" */
     delete_nominees?: GraphQLTypes['nominees_mutation_response'] | undefined;
     /** delete single row from the table: "nominees" */
     delete_nominees_by_pk?: GraphQLTypes['nominees'] | undefined;
-    /** delete data from the table: "protocols" */
+    /** delete data from the table: "organizations" */
     delete_organizations?:
       | GraphQLTypes['organizations_mutation_response']
       | undefined;
-    /** delete single row from the table: "protocols" */
+    /** delete single row from the table: "organizations" */
     delete_organizations_by_pk?: GraphQLTypes['organizations'] | undefined;
     /** delete data from the table: "pending_gift_private" */
     delete_pending_gift_private?:
@@ -18879,11 +18814,11 @@ columns and relationships of "distributions" */
     insert_nominees?: GraphQLTypes['nominees_mutation_response'] | undefined;
     /** insert a single row into the table: "nominees" */
     insert_nominees_one?: GraphQLTypes['nominees'] | undefined;
-    /** insert data into the table: "protocols" */
+    /** insert data into the table: "organizations" */
     insert_organizations?:
       | GraphQLTypes['organizations_mutation_response']
       | undefined;
-    /** insert a single row into the table: "protocols" */
+    /** insert a single row into the table: "organizations" */
     insert_organizations_one?: GraphQLTypes['organizations'] | undefined;
     /** insert data into the table: "pending_gift_private" */
     insert_pending_gift_private?:
@@ -18961,6 +18896,8 @@ columns and relationships of "distributions" */
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
     updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;
+    /** users can modify contributions and update their dates. */
+    updateContribution?: GraphQLTypes['UpdateContributionResponse'] | undefined;
     updateEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     updateTeammates?: GraphQLTypes['UpdateTeammatesResponse'] | undefined;
     /** Update own user */
@@ -19045,11 +18982,11 @@ columns and relationships of "distributions" */
     update_nominees?: GraphQLTypes['nominees_mutation_response'] | undefined;
     /** update single row of the table: "nominees" */
     update_nominees_by_pk?: GraphQLTypes['nominees'] | undefined;
-    /** update data of the table: "protocols" */
+    /** update data of the table: "organizations" */
     update_organizations?:
       | GraphQLTypes['organizations_mutation_response']
       | undefined;
-    /** update single row of the table: "protocols" */
+    /** update single row of the table: "organizations" */
     update_organizations_by_pk?: GraphQLTypes['organizations'] | undefined;
     /** update data of the table: "pending_gift_private" */
     update_pending_gift_private?:
@@ -19322,7 +19259,7 @@ columns and relationships of "distributions" */
   ['numeric_comparison_exp']: GraphQLTypes['numeric_comparison_exp'];
   /** column ordering options */
   ['order_by']: GraphQLTypes['order_by'];
-  /** columns and relationships of "protocols" */
+  /** columns and relationships of "organizations" */
   ['organizations']: {
     /** An array relationship */
     circles: Array<GraphQLTypes['circles']>;
@@ -19340,12 +19277,12 @@ columns and relationships of "distributions" */
     /** An aggregate relationship */
     vaults_aggregate: GraphQLTypes['vaults_aggregate'];
   };
-  /** aggregated selection of "protocols" */
+  /** aggregated selection of "organizations" */
   ['organizations_aggregate']: {
     aggregate?: GraphQLTypes['organizations_aggregate_fields'] | undefined;
     nodes: Array<GraphQLTypes['organizations']>;
   };
-  /** aggregate fields of "protocols" */
+  /** aggregate fields of "organizations" */
   ['organizations_aggregate_fields']: {
     avg?: GraphQLTypes['organizations_avg_fields'] | undefined;
     count: number;
@@ -19363,13 +19300,13 @@ columns and relationships of "distributions" */
   ['organizations_avg_fields']: {
     id?: number | undefined;
   };
-  /** Boolean expression to filter rows from the table "protocols". All fields are combined with a logical 'AND'. */
+  /** Boolean expression to filter rows from the table "organizations". All fields are combined with a logical 'AND'. */
   ['organizations_bool_exp']: GraphQLTypes['organizations_bool_exp'];
-  /** unique or primary key constraints on table "protocols" */
+  /** unique or primary key constraints on table "organizations" */
   ['organizations_constraint']: GraphQLTypes['organizations_constraint'];
-  /** input type for incrementing numeric columns in table "protocols" */
+  /** input type for incrementing numeric columns in table "organizations" */
   ['organizations_inc_input']: GraphQLTypes['organizations_inc_input'];
-  /** input type for inserting data into table "protocols" */
+  /** input type for inserting data into table "organizations" */
   ['organizations_insert_input']: GraphQLTypes['organizations_insert_input'];
   /** aggregate max on columns */
   ['organizations_max_fields']: {
@@ -19389,24 +19326,24 @@ columns and relationships of "distributions" */
     telegram_id?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
   };
-  /** response of any mutation on the table "protocols" */
+  /** response of any mutation on the table "organizations" */
   ['organizations_mutation_response']: {
     /** number of rows affected by the mutation */
     affected_rows: number;
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['organizations']>;
   };
-  /** input type for inserting object relation for remote table "protocols" */
+  /** input type for inserting object relation for remote table "organizations" */
   ['organizations_obj_rel_insert_input']: GraphQLTypes['organizations_obj_rel_insert_input'];
-  /** on conflict condition type for table "protocols" */
+  /** on conflict condition type for table "organizations" */
   ['organizations_on_conflict']: GraphQLTypes['organizations_on_conflict'];
-  /** Ordering options when selecting data from "protocols". */
+  /** Ordering options when selecting data from "organizations". */
   ['organizations_order_by']: GraphQLTypes['organizations_order_by'];
   /** primary key columns input for table: organizations */
   ['organizations_pk_columns_input']: GraphQLTypes['organizations_pk_columns_input'];
-  /** select columns of table "protocols" */
+  /** select columns of table "organizations" */
   ['organizations_select_column']: GraphQLTypes['organizations_select_column'];
-  /** input type for updating data in table "protocols" */
+  /** input type for updating data in table "organizations" */
   ['organizations_set_input']: GraphQLTypes['organizations_set_input'];
   /** aggregate stddev on columns */
   ['organizations_stddev_fields']: {
@@ -19424,7 +19361,7 @@ columns and relationships of "distributions" */
   ['organizations_sum_fields']: {
     id?: GraphQLTypes['bigint'] | undefined;
   };
-  /** update columns of table "protocols" */
+  /** update columns of table "organizations" */
   ['organizations_update_column']: GraphQLTypes['organizations_update_column'];
   /** aggregate var_pop on columns */
   ['organizations_var_pop_fields']: {
@@ -20220,7 +20157,7 @@ columns and relationships of "profiles" */
     burns_aggregate: GraphQLTypes['burns_aggregate'];
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
-    /** An array relationship */
+    /** fetch data from the table: "circle_api_keys" */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** An aggregate relationship */
     circle_api_keys_aggregate: GraphQLTypes['circle_api_keys_aggregate'];
@@ -20300,11 +20237,11 @@ columns and relationships of "profiles" */
     nominees_aggregate: GraphQLTypes['nominees_aggregate'];
     /** fetch data from the table: "nominees" using primary key columns */
     nominees_by_pk?: GraphQLTypes['nominees'] | undefined;
-    /** fetch data from the table: "protocols" */
+    /** fetch data from the table: "organizations" */
     organizations: Array<GraphQLTypes['organizations']>;
-    /** fetch aggregated fields from the table: "protocols" */
+    /** fetch aggregated fields from the table: "organizations" */
     organizations_aggregate: GraphQLTypes['organizations_aggregate'];
-    /** fetch data from the table: "protocols" using primary key columns */
+    /** fetch data from the table: "organizations" using primary key columns */
     organizations_by_pk?: GraphQLTypes['organizations'] | undefined;
     /** fetch data from the table: "pending_gift_private" */
     pending_gift_private: Array<GraphQLTypes['pending_gift_private']>;
@@ -20394,7 +20331,7 @@ columns and relationships of "profiles" */
     burns_aggregate: GraphQLTypes['burns_aggregate'];
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
-    /** An array relationship */
+    /** fetch data from the table: "circle_api_keys" */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** An aggregate relationship */
     circle_api_keys_aggregate: GraphQLTypes['circle_api_keys_aggregate'];
@@ -20474,11 +20411,11 @@ columns and relationships of "profiles" */
     nominees_aggregate: GraphQLTypes['nominees_aggregate'];
     /** fetch data from the table: "nominees" using primary key columns */
     nominees_by_pk?: GraphQLTypes['nominees'] | undefined;
-    /** fetch data from the table: "protocols" */
+    /** fetch data from the table: "organizations" */
     organizations: Array<GraphQLTypes['organizations']>;
-    /** fetch aggregated fields from the table: "protocols" */
+    /** fetch aggregated fields from the table: "organizations" */
     organizations_aggregate: GraphQLTypes['organizations_aggregate'];
-    /** fetch data from the table: "protocols" using primary key columns */
+    /** fetch data from the table: "organizations" using primary key columns */
     organizations_by_pk?: GraphQLTypes['organizations'] | undefined;
     /** fetch data from the table: "pending_gift_private" */
     pending_gift_private: Array<GraphQLTypes['pending_gift_private']>;
@@ -21028,15 +20965,11 @@ columns and relationships of "users" */
     burns_aggregate: GraphQLTypes['burns_aggregate'];
     /** An object relationship */
     circle: GraphQLTypes['circles'];
-    /** An array relationship */
+    /** fetch data from the table: "circle_api_keys" */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** An aggregate relationship */
     circle_api_keys_aggregate: GraphQLTypes['circle_api_keys_aggregate'];
     circle_id: GraphQLTypes['bigint'];
-    /** An array relationship */
-    contributions: Array<GraphQLTypes['contributions']>;
-    /** An aggregate relationship */
-    contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     created_at: GraphQLTypes['timestamp'];
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
     epoch_first_visit: boolean;
@@ -21523,9 +21456,9 @@ columns and relationships of "users" */
     id: GraphQLTypes['bigint'];
     org_id: GraphQLTypes['bigint'];
     /** An object relationship */
-    profile: GraphQLTypes['profiles'];
+    organization: GraphQLTypes['organizations'];
     /** An object relationship */
-    protocol: GraphQLTypes['organizations'];
+    profile: GraphQLTypes['profiles'];
     simple_token_address: string;
     symbol: string;
     token_address: string;
@@ -21922,8 +21855,8 @@ export type GraphQLTypes = {
     circle_name: string;
     contact?: string | undefined;
     image_data_base64?: string | undefined;
-    protocol_id?: number | undefined;
-    protocol_name?: string | undefined;
+    organization_id?: number | undefined;
+    organization_name?: string | undefined;
     user_name: string;
   };
   ['CreateCircleResponse']: {
@@ -22116,6 +22049,15 @@ export type GraphQLTypes = {
     /** An object relationship */
     circle: GraphQLTypes['circles'];
     id: number;
+  };
+  ['UpdateContributionInput']: {
+    datetime_created: GraphQLTypes['timestamptz'];
+    description: string;
+    id: number;
+  };
+  ['UpdateContributionResponse']: {
+    __typename: 'UpdateContributionResponse';
+    id: string;
   };
   ['UpdateEpochInput']: {
     circle_id: number;
@@ -23738,11 +23680,11 @@ columns and relationships of "circle_api_keys" */
     only_giver_vouch: boolean;
     /** An object relationship */
     organization: GraphQLTypes['organizations'];
+    organization_id: number;
     /** An array relationship */
     pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     /** An aggregate relationship */
     pending_token_gifts_aggregate: GraphQLTypes['pending_token_gifts_aggregate'];
-    protocol_id: number;
     team_sel_text?: string | undefined;
     team_selection: boolean;
     telegram_id?: string | undefined;
@@ -23811,7 +23753,7 @@ columns and relationships of "circle_api_keys" */
     id?: number | undefined;
     min_vouches?: number | undefined;
     nomination_days_limit?: number | undefined;
-    protocol_id?: number | undefined;
+    organization_id?: number | undefined;
   };
   /** order by avg() on columns of table "circles" */
   ['circles_avg_order_by']: {
@@ -23819,7 +23761,7 @@ columns and relationships of "circle_api_keys" */
     id?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
-    protocol_id?: GraphQLTypes['order_by'] | undefined;
+    organization_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** Boolean expression to filter rows from the table "circles". All fields are combined with a logical 'AND'. */
   ['circles_bool_exp']: {
@@ -23853,10 +23795,10 @@ columns and relationships of "circle_api_keys" */
     nominees?: GraphQLTypes['nominees_bool_exp'] | undefined;
     only_giver_vouch?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     organization?: GraphQLTypes['organizations_bool_exp'] | undefined;
+    organization_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     pending_token_gifts?:
       | GraphQLTypes['pending_token_gifts_bool_exp']
       | undefined;
-    protocol_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     team_sel_text?: GraphQLTypes['String_comparison_exp'] | undefined;
     team_selection?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     telegram_id?: GraphQLTypes['String_comparison_exp'] | undefined;
@@ -23878,7 +23820,7 @@ columns and relationships of "circle_api_keys" */
     id?: GraphQLTypes['bigint'] | undefined;
     min_vouches?: number | undefined;
     nomination_days_limit?: number | undefined;
-    protocol_id?: number | undefined;
+    organization_id?: number | undefined;
   };
   /** input type for inserting data into table "circles" */
   ['circles_insert_input']: {
@@ -23917,10 +23859,10 @@ columns and relationships of "circle_api_keys" */
     organization?:
       | GraphQLTypes['organizations_obj_rel_insert_input']
       | undefined;
+    organization_id?: number | undefined;
     pending_token_gifts?:
       | GraphQLTypes['pending_token_gifts_arr_rel_insert_input']
       | undefined;
-    protocol_id?: number | undefined;
     team_sel_text?: string | undefined;
     team_selection?: boolean | undefined;
     telegram_id?: string | undefined;
@@ -23949,7 +23891,7 @@ columns and relationships of "circle_api_keys" */
     min_vouches?: number | undefined;
     name?: string | undefined;
     nomination_days_limit?: number | undefined;
-    protocol_id?: number | undefined;
+    organization_id?: number | undefined;
     team_sel_text?: string | undefined;
     telegram_id?: string | undefined;
     token_name?: string | undefined;
@@ -23970,7 +23912,7 @@ columns and relationships of "circle_api_keys" */
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
-    protocol_id?: GraphQLTypes['order_by'] | undefined;
+    organization_id?: GraphQLTypes['order_by'] | undefined;
     team_sel_text?: GraphQLTypes['order_by'] | undefined;
     telegram_id?: GraphQLTypes['order_by'] | undefined;
     token_name?: GraphQLTypes['order_by'] | undefined;
@@ -23992,7 +23934,7 @@ columns and relationships of "circle_api_keys" */
     min_vouches?: number | undefined;
     name?: string | undefined;
     nomination_days_limit?: number | undefined;
-    protocol_id?: number | undefined;
+    organization_id?: number | undefined;
     team_sel_text?: string | undefined;
     telegram_id?: string | undefined;
     token_name?: string | undefined;
@@ -24013,7 +23955,7 @@ columns and relationships of "circle_api_keys" */
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
-    protocol_id?: GraphQLTypes['order_by'] | undefined;
+    organization_id?: GraphQLTypes['order_by'] | undefined;
     team_sel_text?: GraphQLTypes['order_by'] | undefined;
     telegram_id?: GraphQLTypes['order_by'] | undefined;
     token_name?: GraphQLTypes['order_by'] | undefined;
@@ -24077,10 +24019,10 @@ columns and relationships of "circle_api_keys" */
       | undefined;
     only_giver_vouch?: GraphQLTypes['order_by'] | undefined;
     organization?: GraphQLTypes['organizations_order_by'] | undefined;
+    organization_id?: GraphQLTypes['order_by'] | undefined;
     pending_token_gifts_aggregate?:
       | GraphQLTypes['pending_token_gifts_aggregate_order_by']
       | undefined;
-    protocol_id?: GraphQLTypes['order_by'] | undefined;
     team_sel_text?: GraphQLTypes['order_by'] | undefined;
     team_selection?: GraphQLTypes['order_by'] | undefined;
     telegram_id?: GraphQLTypes['order_by'] | undefined;
@@ -24120,7 +24062,7 @@ columns and relationships of "circle_api_keys" */
     name?: string | undefined;
     nomination_days_limit?: number | undefined;
     only_giver_vouch?: boolean | undefined;
-    protocol_id?: number | undefined;
+    organization_id?: number | undefined;
     team_sel_text?: string | undefined;
     team_selection?: boolean | undefined;
     telegram_id?: string | undefined;
@@ -24136,7 +24078,7 @@ columns and relationships of "circle_api_keys" */
     id?: number | undefined;
     min_vouches?: number | undefined;
     nomination_days_limit?: number | undefined;
-    protocol_id?: number | undefined;
+    organization_id?: number | undefined;
   };
   /** order by stddev() on columns of table "circles" */
   ['circles_stddev_order_by']: {
@@ -24144,7 +24086,7 @@ columns and relationships of "circle_api_keys" */
     id?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
-    protocol_id?: GraphQLTypes['order_by'] | undefined;
+    organization_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** aggregate stddev_pop on columns */
   ['circles_stddev_pop_fields']: {
@@ -24153,7 +24095,7 @@ columns and relationships of "circle_api_keys" */
     id?: number | undefined;
     min_vouches?: number | undefined;
     nomination_days_limit?: number | undefined;
-    protocol_id?: number | undefined;
+    organization_id?: number | undefined;
   };
   /** order by stddev_pop() on columns of table "circles" */
   ['circles_stddev_pop_order_by']: {
@@ -24161,7 +24103,7 @@ columns and relationships of "circle_api_keys" */
     id?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
-    protocol_id?: GraphQLTypes['order_by'] | undefined;
+    organization_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** aggregate stddev_samp on columns */
   ['circles_stddev_samp_fields']: {
@@ -24170,7 +24112,7 @@ columns and relationships of "circle_api_keys" */
     id?: number | undefined;
     min_vouches?: number | undefined;
     nomination_days_limit?: number | undefined;
-    protocol_id?: number | undefined;
+    organization_id?: number | undefined;
   };
   /** order by stddev_samp() on columns of table "circles" */
   ['circles_stddev_samp_order_by']: {
@@ -24178,7 +24120,7 @@ columns and relationships of "circle_api_keys" */
     id?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
-    protocol_id?: GraphQLTypes['order_by'] | undefined;
+    organization_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** aggregate sum on columns */
   ['circles_sum_fields']: {
@@ -24187,7 +24129,7 @@ columns and relationships of "circle_api_keys" */
     id?: GraphQLTypes['bigint'] | undefined;
     min_vouches?: number | undefined;
     nomination_days_limit?: number | undefined;
-    protocol_id?: number | undefined;
+    organization_id?: number | undefined;
   };
   /** order by sum() on columns of table "circles" */
   ['circles_sum_order_by']: {
@@ -24195,7 +24137,7 @@ columns and relationships of "circle_api_keys" */
     id?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
-    protocol_id?: GraphQLTypes['order_by'] | undefined;
+    organization_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** update columns of table "circles" */
   ['circles_update_column']: circles_update_column;
@@ -24206,7 +24148,7 @@ columns and relationships of "circle_api_keys" */
     id?: number | undefined;
     min_vouches?: number | undefined;
     nomination_days_limit?: number | undefined;
-    protocol_id?: number | undefined;
+    organization_id?: number | undefined;
   };
   /** order by var_pop() on columns of table "circles" */
   ['circles_var_pop_order_by']: {
@@ -24214,7 +24156,7 @@ columns and relationships of "circle_api_keys" */
     id?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
-    protocol_id?: GraphQLTypes['order_by'] | undefined;
+    organization_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** aggregate var_samp on columns */
   ['circles_var_samp_fields']: {
@@ -24223,7 +24165,7 @@ columns and relationships of "circle_api_keys" */
     id?: number | undefined;
     min_vouches?: number | undefined;
     nomination_days_limit?: number | undefined;
-    protocol_id?: number | undefined;
+    organization_id?: number | undefined;
   };
   /** order by var_samp() on columns of table "circles" */
   ['circles_var_samp_order_by']: {
@@ -24231,7 +24173,7 @@ columns and relationships of "circle_api_keys" */
     id?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
-    protocol_id?: GraphQLTypes['order_by'] | undefined;
+    organization_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** aggregate variance on columns */
   ['circles_variance_fields']: {
@@ -24240,7 +24182,7 @@ columns and relationships of "circle_api_keys" */
     id?: number | undefined;
     min_vouches?: number | undefined;
     nomination_days_limit?: number | undefined;
-    protocol_id?: number | undefined;
+    organization_id?: number | undefined;
   };
   /** order by variance() on columns of table "circles" */
   ['circles_variance_order_by']: {
@@ -24248,7 +24190,7 @@ columns and relationships of "circle_api_keys" */
     id?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
-    protocol_id?: GraphQLTypes['order_by'] | undefined;
+    organization_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** columns and relationships of "claims" */
   ['claims']: {
@@ -26271,7 +26213,6 @@ columns and relationships of "distributions" */
     org_id?: number | undefined;
     profile_id?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
-    user_id?: number | undefined;
   };
   /** aggregated selection of "interaction_events" */
   ['interaction_events_aggregate']: {
@@ -26309,7 +26250,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-    user_id?: number | undefined;
   };
   /** Boolean expression to filter rows from the table "interaction_events". All fields are combined with a logical 'AND'. */
   ['interaction_events_bool_exp']: {
@@ -26325,7 +26265,6 @@ columns and relationships of "distributions" */
     org_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     profile_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
-    user_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
   };
   /** unique or primary key constraints on table "interaction_events" */
   ['interaction_events_constraint']: interaction_events_constraint;
@@ -26347,7 +26286,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-    user_id?: number | undefined;
   };
   /** input type for inserting data into table "interaction_events" */
   ['interaction_events_insert_input']: {
@@ -26360,7 +26298,6 @@ columns and relationships of "distributions" */
     org_id?: number | undefined;
     profile_id?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
-    user_id?: number | undefined;
   };
   /** aggregate max on columns */
   ['interaction_events_max_fields']: {
@@ -26373,7 +26310,6 @@ columns and relationships of "distributions" */
     org_id?: number | undefined;
     profile_id?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
-    user_id?: number | undefined;
   };
   /** aggregate min on columns */
   ['interaction_events_min_fields']: {
@@ -26386,7 +26322,6 @@ columns and relationships of "distributions" */
     org_id?: number | undefined;
     profile_id?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
-    user_id?: number | undefined;
   };
   /** response of any mutation on the table "interaction_events" */
   ['interaction_events_mutation_response']: {
@@ -26413,7 +26348,6 @@ columns and relationships of "distributions" */
     org_id?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
-    user_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** primary key columns input for table: interaction_events */
   ['interaction_events_pk_columns_input']: {
@@ -26436,7 +26370,6 @@ columns and relationships of "distributions" */
     org_id?: number | undefined;
     profile_id?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
-    user_id?: number | undefined;
   };
   /** aggregate stddev on columns */
   ['interaction_events_stddev_fields']: {
@@ -26445,7 +26378,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-    user_id?: number | undefined;
   };
   /** aggregate stddev_pop on columns */
   ['interaction_events_stddev_pop_fields']: {
@@ -26454,7 +26386,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-    user_id?: number | undefined;
   };
   /** aggregate stddev_samp on columns */
   ['interaction_events_stddev_samp_fields']: {
@@ -26463,7 +26394,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-    user_id?: number | undefined;
   };
   /** aggregate sum on columns */
   ['interaction_events_sum_fields']: {
@@ -26472,7 +26402,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-    user_id?: number | undefined;
   };
   /** update columns of table "interaction_events" */
   ['interaction_events_update_column']: interaction_events_update_column;
@@ -26483,7 +26412,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-    user_id?: number | undefined;
   };
   /** aggregate var_samp on columns */
   ['interaction_events_var_samp_fields']: {
@@ -26492,7 +26420,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-    user_id?: number | undefined;
   };
   /** aggregate variance on columns */
   ['interaction_events_variance_fields']: {
@@ -26501,7 +26428,6 @@ columns and relationships of "distributions" */
     id?: number | undefined;
     org_id?: number | undefined;
     profile_id?: number | undefined;
-    user_id?: number | undefined;
   };
   ['json']: any;
   /** Boolean expression to compare columns of type "json". All fields are combined with logical 'AND'. */
@@ -26637,11 +26563,11 @@ columns and relationships of "distributions" */
     delete_nominees?: GraphQLTypes['nominees_mutation_response'] | undefined;
     /** delete single row from the table: "nominees" */
     delete_nominees_by_pk?: GraphQLTypes['nominees'] | undefined;
-    /** delete data from the table: "protocols" */
+    /** delete data from the table: "organizations" */
     delete_organizations?:
       | GraphQLTypes['organizations_mutation_response']
       | undefined;
-    /** delete single row from the table: "protocols" */
+    /** delete single row from the table: "organizations" */
     delete_organizations_by_pk?: GraphQLTypes['organizations'] | undefined;
     /** delete data from the table: "pending_gift_private" */
     delete_pending_gift_private?:
@@ -26797,11 +26723,11 @@ columns and relationships of "distributions" */
     insert_nominees?: GraphQLTypes['nominees_mutation_response'] | undefined;
     /** insert a single row into the table: "nominees" */
     insert_nominees_one?: GraphQLTypes['nominees'] | undefined;
-    /** insert data into the table: "protocols" */
+    /** insert data into the table: "organizations" */
     insert_organizations?:
       | GraphQLTypes['organizations_mutation_response']
       | undefined;
-    /** insert a single row into the table: "protocols" */
+    /** insert a single row into the table: "organizations" */
     insert_organizations_one?: GraphQLTypes['organizations'] | undefined;
     /** insert data into the table: "pending_gift_private" */
     insert_pending_gift_private?:
@@ -26879,6 +26805,8 @@ columns and relationships of "distributions" */
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
     updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;
+    /** users can modify contributions and update their dates. */
+    updateContribution?: GraphQLTypes['UpdateContributionResponse'] | undefined;
     updateEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     updateTeammates?: GraphQLTypes['UpdateTeammatesResponse'] | undefined;
     /** Update own user */
@@ -26963,11 +26891,11 @@ columns and relationships of "distributions" */
     update_nominees?: GraphQLTypes['nominees_mutation_response'] | undefined;
     /** update single row of the table: "nominees" */
     update_nominees_by_pk?: GraphQLTypes['nominees'] | undefined;
-    /** update data of the table: "protocols" */
+    /** update data of the table: "organizations" */
     update_organizations?:
       | GraphQLTypes['organizations_mutation_response']
       | undefined;
-    /** update single row of the table: "protocols" */
+    /** update single row of the table: "organizations" */
     update_organizations_by_pk?: GraphQLTypes['organizations'] | undefined;
     /** update data of the table: "pending_gift_private" */
     update_pending_gift_private?:
@@ -27443,7 +27371,7 @@ columns and relationships of "distributions" */
   };
   /** column ordering options */
   ['order_by']: order_by;
-  /** columns and relationships of "protocols" */
+  /** columns and relationships of "organizations" */
   ['organizations']: {
     __typename: 'organizations';
     /** An array relationship */
@@ -27462,13 +27390,13 @@ columns and relationships of "distributions" */
     /** An aggregate relationship */
     vaults_aggregate: GraphQLTypes['vaults_aggregate'];
   };
-  /** aggregated selection of "protocols" */
+  /** aggregated selection of "organizations" */
   ['organizations_aggregate']: {
     __typename: 'organizations_aggregate';
     aggregate?: GraphQLTypes['organizations_aggregate_fields'] | undefined;
     nodes: Array<GraphQLTypes['organizations']>;
   };
-  /** aggregate fields of "protocols" */
+  /** aggregate fields of "organizations" */
   ['organizations_aggregate_fields']: {
     __typename: 'organizations_aggregate_fields';
     avg?: GraphQLTypes['organizations_avg_fields'] | undefined;
@@ -27488,7 +27416,7 @@ columns and relationships of "distributions" */
     __typename: 'organizations_avg_fields';
     id?: number | undefined;
   };
-  /** Boolean expression to filter rows from the table "protocols". All fields are combined with a logical 'AND'. */
+  /** Boolean expression to filter rows from the table "organizations". All fields are combined with a logical 'AND'. */
   ['organizations_bool_exp']: {
     _and?: Array<GraphQLTypes['organizations_bool_exp']> | undefined;
     _not?: GraphQLTypes['organizations_bool_exp'] | undefined;
@@ -27503,13 +27431,13 @@ columns and relationships of "distributions" */
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     vaults?: GraphQLTypes['vaults_bool_exp'] | undefined;
   };
-  /** unique or primary key constraints on table "protocols" */
+  /** unique or primary key constraints on table "organizations" */
   ['organizations_constraint']: organizations_constraint;
-  /** input type for incrementing numeric columns in table "protocols" */
+  /** input type for incrementing numeric columns in table "organizations" */
   ['organizations_inc_input']: {
     id?: GraphQLTypes['bigint'] | undefined;
   };
-  /** input type for inserting data into table "protocols" */
+  /** input type for inserting data into table "organizations" */
   ['organizations_insert_input']: {
     circles?: GraphQLTypes['circles_arr_rel_insert_input'] | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
@@ -27541,7 +27469,7 @@ columns and relationships of "distributions" */
     telegram_id?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
   };
-  /** response of any mutation on the table "protocols" */
+  /** response of any mutation on the table "organizations" */
   ['organizations_mutation_response']: {
     __typename: 'organizations_mutation_response';
     /** number of rows affected by the mutation */
@@ -27549,19 +27477,19 @@ columns and relationships of "distributions" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['organizations']>;
   };
-  /** input type for inserting object relation for remote table "protocols" */
+  /** input type for inserting object relation for remote table "organizations" */
   ['organizations_obj_rel_insert_input']: {
     data: GraphQLTypes['organizations_insert_input'];
     /** on conflict condition */
     on_conflict?: GraphQLTypes['organizations_on_conflict'] | undefined;
   };
-  /** on conflict condition type for table "protocols" */
+  /** on conflict condition type for table "organizations" */
   ['organizations_on_conflict']: {
     constraint: GraphQLTypes['organizations_constraint'];
     update_columns: Array<GraphQLTypes['organizations_update_column']>;
     where?: GraphQLTypes['organizations_bool_exp'] | undefined;
   };
-  /** Ordering options when selecting data from "protocols". */
+  /** Ordering options when selecting data from "organizations". */
   ['organizations_order_by']: {
     circles_aggregate?: GraphQLTypes['circles_aggregate_order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
@@ -27577,9 +27505,9 @@ columns and relationships of "distributions" */
   ['organizations_pk_columns_input']: {
     id: GraphQLTypes['bigint'];
   };
-  /** select columns of table "protocols" */
+  /** select columns of table "organizations" */
   ['organizations_select_column']: organizations_select_column;
-  /** input type for updating data in table "protocols" */
+  /** input type for updating data in table "organizations" */
   ['organizations_set_input']: {
     created_at?: GraphQLTypes['timestamp'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -27609,7 +27537,7 @@ columns and relationships of "distributions" */
     __typename: 'organizations_sum_fields';
     id?: GraphQLTypes['bigint'] | undefined;
   };
-  /** update columns of table "protocols" */
+  /** update columns of table "organizations" */
   ['organizations_update_column']: organizations_update_column;
   /** aggregate var_pop on columns */
   ['organizations_var_pop_fields']: {
@@ -28933,7 +28861,7 @@ columns and relationships of "profiles" */
     burns_aggregate: GraphQLTypes['burns_aggregate'];
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
-    /** An array relationship */
+    /** fetch data from the table: "circle_api_keys" */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** An aggregate relationship */
     circle_api_keys_aggregate: GraphQLTypes['circle_api_keys_aggregate'];
@@ -29013,11 +28941,11 @@ columns and relationships of "profiles" */
     nominees_aggregate: GraphQLTypes['nominees_aggregate'];
     /** fetch data from the table: "nominees" using primary key columns */
     nominees_by_pk?: GraphQLTypes['nominees'] | undefined;
-    /** fetch data from the table: "protocols" */
+    /** fetch data from the table: "organizations" */
     organizations: Array<GraphQLTypes['organizations']>;
-    /** fetch aggregated fields from the table: "protocols" */
+    /** fetch aggregated fields from the table: "organizations" */
     organizations_aggregate: GraphQLTypes['organizations_aggregate'];
-    /** fetch data from the table: "protocols" using primary key columns */
+    /** fetch data from the table: "organizations" using primary key columns */
     organizations_by_pk?: GraphQLTypes['organizations'] | undefined;
     /** fetch data from the table: "pending_gift_private" */
     pending_gift_private: Array<GraphQLTypes['pending_gift_private']>;
@@ -29108,7 +29036,7 @@ columns and relationships of "profiles" */
     burns_aggregate: GraphQLTypes['burns_aggregate'];
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
-    /** An array relationship */
+    /** fetch data from the table: "circle_api_keys" */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** An aggregate relationship */
     circle_api_keys_aggregate: GraphQLTypes['circle_api_keys_aggregate'];
@@ -29188,11 +29116,11 @@ columns and relationships of "profiles" */
     nominees_aggregate: GraphQLTypes['nominees_aggregate'];
     /** fetch data from the table: "nominees" using primary key columns */
     nominees_by_pk?: GraphQLTypes['nominees'] | undefined;
-    /** fetch data from the table: "protocols" */
+    /** fetch data from the table: "organizations" */
     organizations: Array<GraphQLTypes['organizations']>;
-    /** fetch aggregated fields from the table: "protocols" */
+    /** fetch aggregated fields from the table: "organizations" */
     organizations_aggregate: GraphQLTypes['organizations_aggregate'];
-    /** fetch data from the table: "protocols" using primary key columns */
+    /** fetch data from the table: "organizations" using primary key columns */
     organizations_by_pk?: GraphQLTypes['organizations'] | undefined;
     /** fetch data from the table: "pending_gift_private" */
     pending_gift_private: Array<GraphQLTypes['pending_gift_private']>;
@@ -30118,15 +30046,11 @@ columns and relationships of "users" */
     burns_aggregate: GraphQLTypes['burns_aggregate'];
     /** An object relationship */
     circle: GraphQLTypes['circles'];
-    /** An array relationship */
+    /** fetch data from the table: "circle_api_keys" */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** An aggregate relationship */
     circle_api_keys_aggregate: GraphQLTypes['circle_api_keys_aggregate'];
     circle_id: GraphQLTypes['bigint'];
-    /** An array relationship */
-    contributions: Array<GraphQLTypes['contributions']>;
-    /** An aggregate relationship */
-    contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     created_at: GraphQLTypes['timestamp'];
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
     epoch_first_visit: boolean;
@@ -30243,7 +30167,6 @@ columns and relationships of "users" */
     circle?: GraphQLTypes['circles_bool_exp'] | undefined;
     circle_api_keys?: GraphQLTypes['circle_api_keys_bool_exp'] | undefined;
     circle_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
-    contributions?: GraphQLTypes['contributions_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     epoch_first_visit?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
@@ -30293,9 +30216,6 @@ columns and relationships of "users" */
       | GraphQLTypes['circle_api_keys_arr_rel_insert_input']
       | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
-    contributions?:
-      | GraphQLTypes['contributions_arr_rel_insert_input']
-      | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
     epoch_first_visit?: boolean | undefined;
@@ -30423,9 +30343,6 @@ columns and relationships of "users" */
       | GraphQLTypes['circle_api_keys_aggregate_order_by']
       | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
-    contributions_aggregate?:
-      | GraphQLTypes['contributions_aggregate_order_by']
-      | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     deleted_at?: GraphQLTypes['order_by'] | undefined;
     epoch_first_visit?: GraphQLTypes['order_by'] | undefined;
@@ -31124,9 +31041,9 @@ columns and relationships of "users" */
     id: GraphQLTypes['bigint'];
     org_id: GraphQLTypes['bigint'];
     /** An object relationship */
-    profile: GraphQLTypes['profiles'];
+    organization: GraphQLTypes['organizations'];
     /** An object relationship */
-    protocol: GraphQLTypes['organizations'];
+    profile: GraphQLTypes['profiles'];
     simple_token_address: string;
     symbol: string;
     token_address: string;
@@ -31210,8 +31127,8 @@ columns and relationships of "users" */
     distributions?: GraphQLTypes['distributions_bool_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     org_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    organization?: GraphQLTypes['organizations_bool_exp'] | undefined;
     profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
-    protocol?: GraphQLTypes['organizations_bool_exp'] | undefined;
     simple_token_address?: GraphQLTypes['String_comparison_exp'] | undefined;
     symbol?: GraphQLTypes['String_comparison_exp'] | undefined;
     token_address?: GraphQLTypes['String_comparison_exp'] | undefined;
@@ -31244,8 +31161,10 @@ columns and relationships of "users" */
       | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     org_id?: GraphQLTypes['bigint'] | undefined;
+    organization?:
+      | GraphQLTypes['organizations_obj_rel_insert_input']
+      | undefined;
     profile?: GraphQLTypes['profiles_obj_rel_insert_input'] | undefined;
-    protocol?: GraphQLTypes['organizations_obj_rel_insert_input'] | undefined;
     simple_token_address?: string | undefined;
     symbol?: string | undefined;
     token_address?: string | undefined;
@@ -31349,8 +31268,8 @@ columns and relationships of "users" */
       | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     org_id?: GraphQLTypes['order_by'] | undefined;
+    organization?: GraphQLTypes['organizations_order_by'] | undefined;
     profile?: GraphQLTypes['profiles_order_by'] | undefined;
-    protocol?: GraphQLTypes['organizations_order_by'] | undefined;
     simple_token_address?: GraphQLTypes['order_by'] | undefined;
     symbol?: GraphQLTypes['order_by'] | undefined;
     token_address?: GraphQLTypes['order_by'] | undefined;
@@ -31936,7 +31855,7 @@ export const enum circles_select_column {
   name = 'name',
   nomination_days_limit = 'nomination_days_limit',
   only_giver_vouch = 'only_giver_vouch',
-  protocol_id = 'protocol_id',
+  organization_id = 'organization_id',
   team_sel_text = 'team_sel_text',
   team_selection = 'team_selection',
   telegram_id = 'telegram_id',
@@ -31963,7 +31882,7 @@ export const enum circles_update_column {
   name = 'name',
   nomination_days_limit = 'nomination_days_limit',
   only_giver_vouch = 'only_giver_vouch',
-  protocol_id = 'protocol_id',
+  organization_id = 'organization_id',
   team_sel_text = 'team_sel_text',
   team_selection = 'team_selection',
   telegram_id = 'telegram_id',
@@ -32156,7 +32075,6 @@ export const enum interaction_events_select_column {
   org_id = 'org_id',
   profile_id = 'profile_id',
   updated_at = 'updated_at',
-  user_id = 'user_id',
 }
 /** update columns of table "interaction_events" */
 export const enum interaction_events_update_column {
@@ -32169,7 +32087,6 @@ export const enum interaction_events_update_column {
   org_id = 'org_id',
   profile_id = 'profile_id',
   updated_at = 'updated_at',
-  user_id = 'user_id',
 }
 /** unique or primary key constraints on table "nominees" */
 export const enum nominees_constraint {
@@ -32216,11 +32133,11 @@ export const enum order_by {
   desc_nulls_first = 'desc_nulls_first',
   desc_nulls_last = 'desc_nulls_last',
 }
-/** unique or primary key constraints on table "protocols" */
+/** unique or primary key constraints on table "organizations" */
 export const enum organizations_constraint {
-  protocols_pkey = 'protocols_pkey',
+  organizations_pkey = 'organizations_pkey',
 }
-/** select columns of table "protocols" */
+/** select columns of table "organizations" */
 export const enum organizations_select_column {
   created_at = 'created_at',
   id = 'id',
@@ -32230,7 +32147,7 @@ export const enum organizations_select_column {
   telegram_id = 'telegram_id',
   updated_at = 'updated_at',
 }
-/** update columns of table "protocols" */
+/** update columns of table "organizations" */
 export const enum organizations_update_column {
   created_at = 'created_at',
   id = 'id',

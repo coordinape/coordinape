@@ -24,7 +24,7 @@ export function useVaults({
             {
               where: {
                 chain_id: { _eq: chainId },
-                protocol: { id: { _eq: orgId } },
+                organization: { id: { _eq: orgId } },
               },
             },
             {
@@ -52,7 +52,7 @@ export function useVaults({
                   },
                 },
               ],
-              protocol: {
+              organization: {
                 name: true,
               },
             },

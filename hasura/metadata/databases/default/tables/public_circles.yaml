@@ -13,7 +13,7 @@ object_relationships:
           id: circle_id
   - name: organization
     using:
-      foreign_key_constraint_on: protocol_id
+      foreign_key_constraint_on: organization_id
 array_relationships:
   - name: api_keys
     using:
@@ -137,7 +137,7 @@ select_permissions:
         - name
         - nomination_days_limit
         - only_giver_vouch
-        - protocol_id
+        - organization_id
         - team_sel_text
         - team_selection
         - token_name
