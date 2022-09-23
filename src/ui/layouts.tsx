@@ -53,28 +53,3 @@ export const TwoColumnLayout = ({
     </Box>
   );
 };
-
-export const OrgLayout = ({
-  name,
-  children,
-  css = {},
-}: SingleColumnLayoutProps & { name?: string }) => {
-  return (
-    <SingleColumnLayout css={css}>
-      <Box
-        css={{
-          display: 'flex',
-          alignItems: 'center',
-          width: '100%',
-          mb: '$xl',
-        }}
-      >
-        <Avatar path="/imgs/avatar/placeholder.jpg" size="medium" />
-        <Text css={{ fontWeight: '$bold', fontSize: '$h2', flexGrow: 1 }}>
-          {name}
-        </Text>
-      </Box>
-      {children}
-    </SingleColumnLayout>
-  );
-};

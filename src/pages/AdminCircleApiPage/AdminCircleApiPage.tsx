@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useSelectedCircleId } from '../../recoilState';
 import { ActionDialog, LoadingModal } from 'components';
 import { Box, Button, Modal, Panel, Text } from 'ui';
-import { OrgLayout } from 'ui/layouts';
+import { SingleColumnLayout } from 'ui/layouts';
 
 import { ApiKeyDisplay } from './ApiKeyDisplay';
 import { ApiKeyForm } from './ApiKeyForm';
@@ -62,7 +62,7 @@ const AdminCircleApiPage = () => {
   if (isLoading) return <LoadingModal visible />;
 
   return (
-    <OrgLayout css={{ maxWidth: '$smallScreen' }}>
+    <SingleColumnLayout css={{ maxWidth: '$smallScreen' }}>
       <Box css={{ display: 'flex' }}>
         <Text h2 css={{ flexGrow: 1 }}>
           Circle API Keys
@@ -107,7 +107,7 @@ const AdminCircleApiPage = () => {
         circle.
       </ActionDialog>
       <LoadingModal visible={deleteKeyMutation.isLoading} />
-    </OrgLayout>
+    </SingleColumnLayout>
   );
 };
 

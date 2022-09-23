@@ -8,7 +8,7 @@ import { styled } from 'stitches.config';
 
 import { LoadingModal } from 'components/LoadingModal';
 import { Link, Panel, Text } from 'ui';
-import { OrgLayout, SingleColumnLayout } from 'ui/layouts';
+import { SingleColumnLayout } from 'ui/layouts';
 import { numberWithCommas } from 'utils';
 import { getProviderForChain, makeExplorerUrl } from 'utils/provider';
 
@@ -39,14 +39,14 @@ export const VaultTransactions = () => {
   }
 
   return (
-    <OrgLayout name={vault.organization.name}>
+    <SingleColumnLayout>
       <Panel>
         <Text h2 css={{ mb: '$md' }}>
           All Transactions for {getDisplayTokenString(vault)} Vault
         </Text>
         <TransactionTable chainId={vault.chain_id} rows={vaultTxList} />
       </Panel>
-    </OrgLayout>
+    </SingleColumnLayout>
   );
 };
 
