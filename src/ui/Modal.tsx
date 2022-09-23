@@ -88,7 +88,6 @@ export const Modal = ({
       onOpenChange={onOpenChange}
     >
       <Dialog.Portal>
-<<<<<<< HEAD
         <Overlay onClick={onClose} />
         <Content drawer={drawer} css={css}>
           {(showClose || showClose === undefined) && (
@@ -108,28 +107,6 @@ export const Modal = ({
           {title && <Title>{title}</Title>}
           {children}
         </Content>
-=======
-        <Overlay>
-          <Content css={css}>
-            {(showClose || showClose === undefined) && (
-              <Button
-                color="transparent"
-                onClick={onClose}
-                css={{
-                  position: 'absolute',
-                  right: 'calc($sm + 3px)',
-                  top: '$sm',
-                  fontSize: '$h3',
-                }}
-              >
-                <X size="lg" />
-              </Button>
-            )}
-            {title && <Title>{title}</Title>}
-            {children}
-          </Content>
-        </Overlay>
->>>>>>> bab1da13 (Merge main branch into members-page-updates for icons (#1368))
       </Dialog.Portal>
     </Dialog.Root>
   );
