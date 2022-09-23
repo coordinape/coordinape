@@ -61,15 +61,19 @@ export const _validateContractSignature = async (
   }
 };
 
-export function makeExplorerUrl(chainId: number, txHash: string | undefined) {
+export function makeExplorerUrl(
+  chainId: number,
+  txHash: string | undefined,
+  dir = 'tx'
+) {
   if (!txHash) return;
   switch (chainId) {
     case 1:
-      return 'https://etherscan.io/tx/' + txHash;
+      return `https://etherscan.io/${dir}/${txHash}`;
     case 4:
-      return 'https://rinkeby.etherscan.io/tx/' + txHash;
+      return `https://rinkeby.etherscan.io/${dir}/${txHash}`;
     case 5:
-      return 'https://goerli.etherscan.io/tx/' + txHash;
+      return `https://goerli.etherscan.io/${dir}/${txHash}`;
     case 1337:
     case 1338:
       // provide a dead link for rendering purposes in dev

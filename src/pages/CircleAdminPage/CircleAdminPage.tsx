@@ -4,7 +4,11 @@ import React, { MouseEvent, useState, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { constants as ethersConstants } from 'ethers';
 import { formatUnits } from 'ethers/lib/utils';
-import { removeYearnPrefix } from 'lib/vaults';
+import {
+  getVaultSymbolAddressString,
+  removeAddressSubfix,
+  removeYearnPrefix,
+} from 'lib/vaults';
 import { useForm, SubmitHandler, useController } from 'react-hook-form';
 import { useQuery } from 'react-query';
 import * as z from 'zod';
@@ -217,7 +221,7 @@ export const CircleAdminPage = () => {
     ? [
         { value: '', label: '- None -' },
         ...vaultsQuery.data.map(vault => {
-          return { value: vault.id, label: vault.symbol };
+          return { value: vault.id, label: getVaultSymbolAddressString(vault) };
         }),
       ]
     : [
@@ -387,10 +391,11 @@ export const CircleAdminPage = () => {
 
   const fixedPaymentToken = (vaultId: string | undefined) => {
     const tokenType = circle?.fixed_payment_token_type;
-    return vaultId
-      ? removeYearnPrefix(
-          vaultOptions.find(o => o.value == getValues('fixed_payment_vault_id'))
-            ?.label ?? ''
+    const fixedVault = findVault(getValues('fixed_payment_vault_id') || '');
+    return vaultId && fixedVault
+      ? removeAddressSubfix(
+          removeYearnPrefix(fixedVault?.symbol ?? ''),
+          fixedVault.vault_address
         )
       : tokenType
       ? tokenType.startsWith('Yearn')
@@ -627,9 +632,7 @@ export const CircleAdminPage = () => {
                         });
                         setValue(
                           'fixed_payment_token_type',
-                          value == ''
-                            ? ''
-                            : vaultOptions.find(o => o.value == value)?.label,
+                          value == '' ? '' : findVault(value)?.symbol,
                           { shouldDirty: true }
                         );
                         updateBalanceState(

@@ -11,7 +11,7 @@ import type { Vault } from 'hooks/gql/useVaults';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultRouter } from 'hooks/useVaultRouter';
 import { Form, Button, Modal } from 'ui';
-import { numberWithCommas } from 'utils';
+import { numberWithCommas, shortenAddress } from 'utils';
 
 export type WithdrawModalProps = {
   onClose: () => void;
@@ -92,7 +92,10 @@ export default function WithdrawModal({
         >
           {submitting
             ? 'Withdrawing Funds...'
-            : `Withdraw from ${vault.symbol} Vault`}
+            : `Withdraw from ${vault.symbol} Vault ${shortenAddress(
+                vault.vault_address,
+                false
+              )}`}
         </Button>
       </Form>
     </Modal>
