@@ -49,9 +49,6 @@ export const DOMAIN_IS_LOCALHOST = hostname().match(/(localhost|127.0.0.1)/);
 
 export const DOMAIN_IS_APP = hostAndPort().split('.')[0] === 'app';
 
-export const RENDER_APP =
-  DOMAIN_IS_APP || (DOMAIN_IS_PREVIEW && pathname() !== '/landing');
-
 export const APP_URL =
   DOMAIN_IS_APP || DOMAIN_IS_PREVIEW
     ? origin()
