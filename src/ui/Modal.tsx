@@ -1,9 +1,9 @@
 import { ReactNode } from 'react';
 
 import * as Dialog from '@radix-ui/react-dialog';
+import { fadeIn, fadeOut, slideInRight, slideOutRight } from 'keyframes';
 import { CSS, styled } from 'stitches.config';
 
-import { fadeIn, fadeOut, slideInRight, slideOutRight } from '../keyframes';
 import { X } from 'icons/__generated';
 import { Button } from 'ui';
 
