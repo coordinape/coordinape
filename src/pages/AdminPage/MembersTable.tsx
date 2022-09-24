@@ -41,8 +41,6 @@ import {
 import { TwoColumnLayout } from 'ui/layouts';
 import { shortenAddress } from 'utils';
 
-import { Paginator } from './Paginator';
-
 import { IUser } from 'types';
 
 const GIFT_CIRCLE_DOCS_URL =
@@ -391,7 +389,7 @@ const MemberRow = ({
         </TD>
       </TR>
       {open && (
-        <TR>
+        <TR key={user.address}>
           <TD colSpan={isMobile ? 4 : 7}>
             <Form>
               <Text h3 semibold css={{ my: '$md' }}>
@@ -787,7 +785,6 @@ export const MembersTable = ({
 }) => {
   const { isMobile } = useMobileDetect();
   const isAdmin = isUserAdmin(me);
-  const [page, setPage] = useState<number>(1);
 
   const [view, setView] = useState<IUser[]>([]);
 
@@ -807,12 +804,6 @@ export const MembersTable = ({
     const filtered = filter ? users.filter(filter) : users;
     setView(filtered);
   }, [users, perPage, filter, circle]);
-
-  const pagedView = useMemo(
-    () =>
-      view.slice((page - 1) * perPage, Math.min(page * perPage, view.length)),
-    [view, perPage, page]
-  );
 
   const MemberTable = makeTable<IUser>('MemberTable');
 
@@ -857,8 +848,9 @@ export const MembersTable = ({
     <>
       <MemberTable
         headers={headers}
-        data={pagedView}
+        data={view}
         startingSortIndex={0}
+        perPage={perPage}
         sortByColumn={(index: number) => {
           if (index === 0) return (u: IUser) => u.name.toLowerCase();
           if (index === 1) return (u: IUser) => u.address.toLowerCase();
@@ -883,12 +875,6 @@ export const MembersTable = ({
           />
         )}
       </MemberTable>
-      <Paginator
-        totalItems={users.length}
-        currentPage={page}
-        onPageChange={setPage}
-        itemsPerPage={perPage}
-      />
     </>
   );
 };
