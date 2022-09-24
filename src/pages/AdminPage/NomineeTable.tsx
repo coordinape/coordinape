@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 
 import { vouchUser } from 'lib/gql/mutations';
 import { isUserAdmin } from 'lib/users';
@@ -11,7 +11,6 @@ import { TwoColumnLayout } from 'ui/layouts';
 import { shortenAddress } from 'utils';
 
 import { IActiveNominee } from './getActiveNominees';
-import { Paginator } from './Paginator';
 
 import { IUser } from 'types';
 
@@ -101,7 +100,7 @@ const NomineeRow = ({
         </TD>
       </TR>
       {open && (
-        <TR>
+        <TR key={nominee.address}>
           <TD colSpan={isAdmin ? 4 : 3}>
             <Flex column>
               <Text h3 semibold>
@@ -204,19 +203,7 @@ export const NomineesTable = ({
   vouchingText: string;
 }) => {
   type Nominee = IActiveNominee[0];
-  const pageSize = 3;
-  const [page, setPage] = useState(1);
-
   const isAdmin = isUserAdmin(myUser);
-
-  const pagedView = useMemo(
-    () =>
-      nominees?.slice(
-        (page - 1) * pageSize,
-        Math.min(page * pageSize, nominees.length)
-      ),
-    [nominees, page]
-  );
 
   const NomineeTable = makeTable<Nominee>('NomineeTable');
   const headers = [
@@ -244,9 +231,10 @@ export const NomineesTable = ({
       </Flex>
       <NomineeTable
         headers={headers}
-        data={pagedView}
+        data={nominees}
         startingSortIndex={0}
         startingSortDesc
+        perPage={3}
         sortByColumn={(index: number) => {
           if (index === 0) return (n: Nominee) => n.name.toLowerCase();
           if (index === 1) return (n: Nominee) => n.address.toLowerCase();
@@ -267,12 +255,6 @@ export const NomineesTable = ({
           />
         )}
       </NomineeTable>
-      <Paginator
-        totalItems={nominees?.length || 0}
-        currentPage={page}
-        onPageChange={setPage}
-        itemsPerPage={pageSize}
-      />
     </Panel>
   );
 };
