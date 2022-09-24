@@ -22,15 +22,6 @@ function hostAndPort(): string {
   return 'server-side-fixme';
 }
 
-function pathname(): string {
-  if (typeof window !== 'undefined') {
-    // this will always be true until we move to nextjs
-    return window.location.pathname;
-  }
-  // TODONEXT: if this matters and remains, we would use useRouter here -g
-  return '/fixme';
-}
-
 function origin(): string {
   if (typeof window !== 'undefined') {
     // this will always be true until we move to nextjs
@@ -48,9 +39,6 @@ export const DOMAIN_IS_PREVIEW = hostname().match(
 export const DOMAIN_IS_LOCALHOST = hostname().match(/(localhost|127.0.0.1)/);
 
 export const DOMAIN_IS_APP = hostAndPort().split('.')[0] === 'app';
-
-export const RENDER_APP =
-  DOMAIN_IS_APP || (DOMAIN_IS_PREVIEW && pathname() !== '/landing');
 
 export const APP_URL =
   DOMAIN_IS_APP || DOMAIN_IS_PREVIEW

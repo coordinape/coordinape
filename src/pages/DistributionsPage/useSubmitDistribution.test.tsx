@@ -22,7 +22,7 @@ import { useSubmitDistribution } from './useSubmitDistribution';
 
 let snapshotId: string;
 
-jest.mock('lib/gql/mutations', () => {
+jest.mock('lib/gql/mutations/vaults', () => {
   return {
     addVaultTx: jest.fn().mockReturnValue(Promise.resolve({})),
     addVault: jest
@@ -56,7 +56,6 @@ jest.mock('lib/gql/mutations', () => {
         })
       ),
     savePendingVaultTx: jest.fn(),
-    deletePendingVaultTx: jest.fn(),
   };
 });
 
