@@ -18,7 +18,7 @@ context('Coordinape', () => {
       '0x51508887c3fef0b4390091c5a4b2b91562881526'.toLowerCase();
 
     cy.visit(`/circles/${circleId}/members`);
-    cy.login();
+    cy.login().wait(5000);
 
     // Assert that the old address is there and correct
     assertAddr(oldAddress);
@@ -36,7 +36,7 @@ context('Coordinape', () => {
       .click()
       .type(newAddress);
 
-    cy.contains('Save').click();
+    cy.contains('Save').click().wait(5000);
 
     // Assert that the new address is there and correct now
     assertAddr(newAddress);
@@ -57,15 +57,14 @@ context('Coordinape', () => {
       .type(oldAddress);
 
     // enter the fixed payment amount
-    cy.getInputByLabel('Fixed Payment Amount').clear().type('1200').blur();
+    cy.getInputByLabel('Member Fixed Payment').clear().type('1200').blur();
 
-    cy.contains('Save').click();
-
+    cy.contains('Save').click().wait(5000);
     // Verify new value in contributors table
     cy.contains('Kasey', { timeout: 120000 })
       .parents('tr')
       .within(() => {
-        cy.get('td').eq(7).should('have.text', '1200');
+        cy.get('td').eq(4).should('have.text', '1200 DAI');
       });
 
     // Assert that the old address is there and correct
@@ -77,6 +76,6 @@ const assertAddr = (addr: string) => {
   cy.contains('Kasey', { timeout: 120000 })
     .parents('tr')
     .within(() => {
-      cy.get('td').eq(1).contains(addr.substr(0, 6), { timeout: 45000 });
+      cy.get('td').eq(1).contains(addr.substr(0, 5), { timeout: 45000 });
     });
 };
