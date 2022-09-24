@@ -21,6 +21,7 @@ export const Text = styled('span', {
       neutral: { color: '$neutral' },
       alert: { color: '$alert' },
       primary: { color: '$primary' },
+      secondary: { color: '$secondaryText' },
       complete: { color: '$complete' },
       inherit: { color: 'inherit' },
     },
@@ -46,6 +47,7 @@ export const Text = styled('span', {
       small: { fontSize: '$small !important', lineHeight: '$shorter' },
       medium: { fontSize: '$medium !important', lineHeight: '$shorter' },
       large: { fontSize: '$large !important', lineHeight: '$shorter' },
+      xl: { fontSize: '$h2 !important', lineHeight: '$shorter' },
     },
     variant: {
       label: {

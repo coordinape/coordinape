@@ -280,12 +280,15 @@ export async function createContributions(
       datetime = datetime.minus({ weeks: weekIncrement })
     ) {
       contribution_objects = contribution_objects.concat(
-        generateContributions(() => ({
-          circle_id,
-          description: faker.lorem.sentences(3),
-          user_id: user.id,
-          datetime_created: datetime.toISO(),
-        }))
+        generateContributions(
+          () => ({
+            circle_id,
+            description: faker.lorem.sentences(3),
+            user_id: user.id,
+            datetime_created: datetime.toISO(),
+          }),
+          faker.datatype.number({ min: 5, max: 14 })
+        )
       );
     }
   }

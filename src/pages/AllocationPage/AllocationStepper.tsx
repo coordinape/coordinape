@@ -2,6 +2,8 @@ import React from 'react';
 
 import { makeStyles, Stepper, Step, StepButton } from '@material-ui/core';
 
+import { paths } from '../../routes/paths';
+import { AppLink, Box, Button, Flex, Text } from '../../ui';
 import { ApeInfoTooltip } from 'components';
 import { useSelectedCircle } from 'recoilState/app';
 import { STEP_MY_TEAM, STEP_ALLOCATION } from 'routes/allocation';
@@ -51,37 +53,54 @@ export const AllocationStepper = ({
   } = useSelectedCircle();
 
   return (
-    <Stepper
-      nonLinear
-      activeStep={activeStep}
-      classes={{ root: classes.stepperRoot }}
-    >
-      {allSteps.map(step => (
-        <Step key={step.key} classes={{ root: classes.stepRoot }}>
-          <StepButton
-            onClick={getHandleStep(step)}
-            completed={completedSteps !== undefined && completedSteps.has(step)}
-            disabled={
-              (step === STEP_ALLOCATION && !epochIsActive) ||
-              (!selectedCircle.team_selection && step === STEP_MY_TEAM)
-            }
-          >
-            {step.buildLabel(selectedCircle)}
-          </StepButton>
-        </Step>
-      ))}
-      <ApeInfoTooltip>
-        Reward your teammates in the circle by sending them{' '}
-        {selectedCircle.tokenName} tokens.{' '}
-        <a
-          rel="noreferrer"
-          target="_blank"
-          href="https://docs.coordinape.com/info/documentation/gift_circle"
+    <Box css={{ width: '100%' }}>
+      {epochIsActive && (
+        <Flex
+          css={{ background: '$info', justifyContent: 'center', py: '$md' }}
+          alignItems="center"
         >
-          Learn More
-        </a>
-      </ApeInfoTooltip>
-    </Stepper>
+          <Text>We&apos;re working on a new GIVE experience</Text>
+          <AppLink to={paths.givebeta(selectedCircle.id)}>
+            <Button outlined color="primary" css={{ ml: '$md' }}>
+              Try it out
+            </Button>
+          </AppLink>
+        </Flex>
+      )}
+      <Stepper
+        nonLinear
+        activeStep={activeStep}
+        classes={{ root: classes.stepperRoot }}
+      >
+        {allSteps.map(step => (
+          <Step key={step.key} classes={{ root: classes.stepRoot }}>
+            <StepButton
+              onClick={getHandleStep(step)}
+              completed={
+                completedSteps !== undefined && completedSteps.has(step)
+              }
+              disabled={
+                (step === STEP_ALLOCATION && !epochIsActive) ||
+                (!selectedCircle.team_selection && step === STEP_MY_TEAM)
+              }
+            >
+              {step.buildLabel(selectedCircle)}
+            </StepButton>
+          </Step>
+        ))}
+        <ApeInfoTooltip>
+          Reward your teammates in the circle by sending them{' '}
+          {selectedCircle.tokenName} tokens.{' '}
+          <a
+            rel="noreferrer"
+            target="_blank"
+            href="https://docs.coordinape.com/info/documentation/gift_circle"
+          >
+            Learn More
+          </a>
+        </ApeInfoTooltip>
+      </Stepper>
+    </Box>
   );
 };
 
