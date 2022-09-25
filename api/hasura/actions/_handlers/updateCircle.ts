@@ -21,7 +21,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   const { circles_by_pk: circle } = await getCircle(input.circle_id);
 
-  if (input.token_name !== circle?.token_name) {
+  if (input.token_name && input.token_name !== circle?.token_name) {
     errorResponseWithStatusCode(
       res,
       {
