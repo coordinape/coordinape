@@ -143,7 +143,10 @@ export const insert = ({
             profile_id,
             org_id,
             data: {
-              symbol,
+              symbol:
+                simple_token_address === AddressZero
+                  ? `Yearn ${symbol}` // FIXME don't hardcode this
+                  : symbol,
               vault_address,
               chain_id,
               token_address,

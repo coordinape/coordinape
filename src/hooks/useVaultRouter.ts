@@ -1,9 +1,13 @@
-// - Contract Imports
 import { BigNumber } from '@ethersproject/bignumber';
 import { useWeb3React } from '@web3-react/core';
 import { utils } from 'ethers';
 import { addVaultTx } from 'lib/gql/mutations/vaults';
-import { getTokenAddress, getWrappedAmount, hasSimpleToken } from 'lib/vaults';
+import {
+  getDisplayTokenString,
+  getTokenAddress,
+  getWrappedAmount,
+  hasSimpleToken,
+} from 'lib/vaults';
 import type { Contracts } from 'lib/vaults';
 
 import { sendAndTrackTx, SendAndTrackTxResult } from 'utils/contractHelpers';
@@ -76,7 +80,7 @@ export function useVaultRouter(contracts?: Contracts) {
         vault_id: vault.id,
         tx_hash: txResult.tx.hash,
         amount: Number.parseFloat(humanAmount),
-        symbol,
+        symbol: getDisplayTokenString(vault),
       }).catch(err => showError(err));
     return txResult;
   };
@@ -112,7 +116,7 @@ export function useVaultRouter(contracts?: Contracts) {
         vault_id: vault.id,
         tx_hash: txResult.tx.hash,
         amount: Number.parseFloat(humanAmount),
-        symbol,
+        symbol: getDisplayTokenString(vault),
       }).catch(err => showError(err));
     return txResult;
   };

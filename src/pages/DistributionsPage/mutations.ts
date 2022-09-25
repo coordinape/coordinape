@@ -70,7 +70,7 @@ export function useMarkDistributionDone() {
                 distribution_id: id,
                 circle_id: circleId,
                 amount,
-                symbol,
+                symbol, // already has Yearn prefix
               },
             },
             { id: true },
