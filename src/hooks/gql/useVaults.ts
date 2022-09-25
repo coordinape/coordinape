@@ -1,6 +1,5 @@
 import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
-import { allVaultFields } from 'lib/gql/mutations/vaults';
 import { getDisplayTokenString } from 'lib/vaults';
 import { useQuery } from 'react-query';
 
@@ -28,7 +27,17 @@ export function useVaults({
               },
             },
             {
-              ...allVaultFields,
+              id: true,
+              created_at: true,
+              created_by: true,
+              decimals: true,
+              simple_token_address: true,
+              symbol: true,
+              token_address: true,
+              updated_at: true,
+              vault_address: true,
+              chain_id: true,
+              deployment_block: true,
               vault_transactions: [
                 { order_by: [{ id: order_by.asc }] },
                 {

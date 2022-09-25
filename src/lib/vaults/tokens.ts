@@ -5,7 +5,6 @@ import { BigNumber, FixedNumber } from 'ethers';
 import { parseUnits, isAddress } from 'ethers/lib/utils';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 
-import { ZERO_ADDRESS } from 'config/constants';
 import { shortenAddress } from 'utils';
 
 import type { Contracts } from './contracts';
@@ -28,7 +27,7 @@ export const getTokenAddress = (
     ? vault.simple_token_address
     : vault.token_address;
   assert(
-    address && address !== ZERO_ADDRESS,
+    address && address !== AddressZero,
     'CoVault is missing token address'
   );
   return address;
