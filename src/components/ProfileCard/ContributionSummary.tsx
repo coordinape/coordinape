@@ -2,11 +2,11 @@ import { FC } from 'react';
 
 import { makeStyles, Typography } from '@material-ui/core';
 
-import { ContributionUser } from 'hooks/useContributions';
-import { ArrowRight, DeworkColor } from 'icons/__generated';
+import { Contribution } from 'hooks/useContributions';
+import { ArrowRight, DeworkColor, WonderColor } from 'icons/__generated';
 
 interface Props {
-  contributions: ContributionUser;
+  contributions: Array<Contribution>;
 }
 
 const useStyles = makeStyles(theme => ({
@@ -54,13 +54,13 @@ const useStyles = makeStyles(theme => ({
 
 export const ContributionSummary: FC<Props> = ({ contributions }) => {
   const classes = useStyles();
-  if (!contributions.contributions.length) return null;
+  if (!contributions.length) return null;
   return (
     <div className={classes.root}>
       <Typography variant="body2" className={classes.title}>
-        Contributions ({contributions.contributions.length})
+        Contributions ({contributions.length})
       </Typography>
-      {contributions.contributions.map((contribution, index) => (
+      {contributions.map((contribution, index) => (
         <a
           key={index}
           href={contribution.link}
@@ -68,7 +68,11 @@ export const ContributionSummary: FC<Props> = ({ contributions }) => {
           rel="noreferrer"
           className={classes.row}
         >
-          <DeworkColor nostroke />
+          {contribution.source === 'wonder' ? (
+            <WonderColor nostroke />
+          ) : (
+            <DeworkColor nostroke />
+          )}
           <Typography variant="body2" className={classes.rowTitle}>
             {contribution.title}
           </Typography>
