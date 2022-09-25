@@ -13,6 +13,8 @@ export { default as Telegram } from './Telegram';
 export { default as Twitter } from './Twitter';
 export { default as WalletConnectColor } from './WalletConnectColor';
 export { default as WalletConnect } from './WalletConnect';
+export { default as WonderColor } from './WonderColor';
+export { default as Wonder } from './Wonder';
 export { default as YearnColor } from './YearnColor';
 export { default as Yearn } from './Yearn';
 export { default as AlertCircle } from './AlertCircle';

@@ -205,7 +205,7 @@ const ProfileCardInner = ({
       </div>
 
       <div className={classes.bio}>
-        {contributions?.contributions.length ? (
+        {contributions?.length ? (
           <ContributionSummary contributions={contributions} />
         ) : isMe && !user.bio ? (
           'Your Epoch Statement is Blank'
