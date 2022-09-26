@@ -1,9 +1,11 @@
 import { AddressZero } from '@ethersproject/constants';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { z } from 'zod';
 
 import { Contracts } from '../../../../api-lib/contracts';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import * as queries from '../../../../api-lib/gql/queries';
+import { getPropsWithUserSession } from '../../../../api-lib/handlerHelpers';
 import {
   UnauthorizedError,
   UnprocessableError,
@@ -11,20 +13,13 @@ import {
 } from '../../../../api-lib/HttpError';
 import { getProvider } from '../../../../api-lib/provider';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
-import {
-  createVaultInput,
-  composeHasuraActionRequestBodyWithSession,
-  HasuraUserSessionVariables,
-} from '../../../../src/lib/zod';
+import { zEthAddressOnly } from '../../../../src/forms/formHelpers';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     session_variables,
     input: { payload },
-  } = composeHasuraActionRequestBodyWithSession(
-    createVaultInput,
-    HasuraUserSessionVariables
-  ).parse(req.body);
+  } = getPropsWithUserSession(createVaultInput, req);
 
   const { org_id, chain_id, vault_address, deployment_block } = payload;
   const { hasuraAddress, hasuraProfileId } = session_variables;
@@ -96,5 +91,14 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     );
   res.status(200).json(result);
 }
+
+const createVaultInput = z
+  .object({
+    org_id: z.number().positive(),
+    vault_address: zEthAddressOnly,
+    chain_id: z.number(),
+    deployment_block: z.number().min(1),
+  })
+  .strict();
 
 export default verifyHasuraRequestMiddleware(handler);
