@@ -1,8 +1,9 @@
 import { round } from 'lodash';
-export const shortenAddress = (address: string) => {
-  return `${address.substring(0, 6)}...${address.substring(
-    address.length - 4
-  )}`;
+export const shortenAddress = (address: string, backAddress = true) => {
+  const front = address.substring(0, 6);
+  if (!backAddress) return front;
+
+  return `${front}...${address.substring(address.length - 4)}`;
 };
 
 export const smartRounding = (x: number | string | undefined) => {

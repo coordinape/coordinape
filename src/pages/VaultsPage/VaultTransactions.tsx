@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import { formatUnits } from '@ethersproject/units';
 import { ContractsReadonly } from 'common-lib/contracts';
 import { decodeCircleId, getDisplayTokenString } from 'lib/vaults';
@@ -7,11 +9,13 @@ import { useParams } from 'react-router-dom';
 import { styled } from 'stitches.config';
 
 import { LoadingModal } from 'components/LoadingModal';
+import { useContracts } from 'hooks';
 import { Link, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { numberWithCommas } from 'utils';
 import { getProviderForChain, makeExplorerUrl } from 'utils/provider';
 
+import { OwnerProfileLink, VaultExternalLink } from './components';
 import { getVaultAndTransactions } from './queries';
 
 import { Awaited } from 'types/shim';
@@ -20,6 +24,7 @@ type VaultAndTransactions = Awaited<ReturnType<typeof getVaultAndTransactions>>;
 
 export const VaultTransactions = () => {
   const { address } = useParams();
+  const [ownerAddress, setOwnerAddress] = useState<string>('');
   const {
     isLoading,
     isIdle,
@@ -30,6 +35,18 @@ export const VaultTransactions = () => {
   });
 
   const { data: vaultTxList } = useOnChainTransactions(vault);
+  const contracts = useContracts();
+
+  useEffect(() => {
+    const updateOwner = async () => {
+      if (vault) {
+        const currentVault = contracts?.getVault(vault.vault_address);
+        const ownerAddress = await currentVault?.owner();
+        if (ownerAddress) setOwnerAddress(ownerAddress.toLowerCase());
+      }
+    };
+    updateOwner();
+  }, [contracts, vault]);
 
   if (!vaultTxList || !vault) {
     // TODO
@@ -41,9 +58,14 @@ export const VaultTransactions = () => {
   return (
     <SingleColumnLayout>
       <Panel>
-        <Text h2 css={{ mb: '$md' }}>
+        <Text h2>
           All Transactions for {getDisplayTokenString(vault)} Vault
+          <VaultExternalLink
+            chainId={vault.chain_id}
+            vaultAddress={vault.vault_address}
+          />
         </Text>
+        <OwnerProfileLink ownerAddress={ownerAddress}></OwnerProfileLink>
         <TransactionTable chainId={vault.chain_id} rows={vaultTxList} />
       </Panel>
     </SingleColumnLayout>

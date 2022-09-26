@@ -11,6 +11,7 @@ import { useContracts } from 'hooks/useContracts';
 import { paths } from 'routes/paths';
 import { AppLink, Box, Button, Panel, Text } from 'ui';
 
+import { OwnerProfileLink, VaultExternalLink } from './components';
 import DepositModal, { DepositModalProps } from './DepositModal';
 import { TransactionTable, useOnChainTransactions } from './VaultTransactions';
 import WithdrawModal, { WithdrawModalProps } from './WithdrawModal';
@@ -18,10 +19,10 @@ import WithdrawModal, { WithdrawModalProps } from './WithdrawModal';
 export function VaultRow({ vault, css = {} }: { vault: Vault; css?: CSS }) {
   const [modal, setModal] = useState<ModalLabel>('');
   const [userIsOwner, setUserIsOwner] = useState<boolean>(false);
+  const [ownerAddress, setOwnerAddress] = useState<string>('');
   const [balance, setBalance] = useState(0);
   const closeModal = () => setModal('');
   const contracts = useContracts();
-
   const updateBalance = () =>
     contracts
       ?.getVaultBalance(vault)
@@ -46,6 +47,7 @@ export function VaultRow({ vault, css = {} }: { vault: Vault; css?: CSS }) {
         currentVault.owner(),
         contracts.getMyAddress(),
       ]);
+      setOwnerAddress(ownerAddress.toLowerCase());
       setUserIsOwner(ownerAddress.toLowerCase() === userAddress.toLowerCase());
     };
     updateOwner();
@@ -66,11 +68,16 @@ export function VaultRow({ vault, css = {} }: { vault: Vault; css?: CSS }) {
         onUpdateBalance={updateBalance}
       />
       <Box
-        css={{ display: 'flex', alignItems: 'center', gap: '$md', mb: '$md' }}
+        css={{ display: 'flex', alignItems: 'center', gap: '$md', mb: '$xs' }}
       >
         <Text h3 css={{ flexGrow: 1 }}>
           {vault.symbol || '...'} CoVault
+          <VaultExternalLink
+            chainId={vault.chain_id}
+            vaultAddress={vault.vault_address}
+          />
         </Text>
+
         {userIsOwner && (
           <>
             <Button
@@ -92,10 +99,12 @@ export function VaultRow({ vault, css = {} }: { vault: Vault; css?: CSS }) {
           </>
         )}
       </Box>
+      <OwnerProfileLink ownerAddress={ownerAddress} />
       <Box
         css={{
           width: '100%',
           padding: '$md',
+          marginTop: '$md',
           backgroundColor: '$white',
           display: 'grid',
           gridTemplateColumns: '1fr 1fr 2fr',

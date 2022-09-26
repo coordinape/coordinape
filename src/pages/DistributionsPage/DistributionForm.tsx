@@ -5,7 +5,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { formatRelative, parseISO } from 'date-fns';
 import { BigNumber, constants as ethersConstants } from 'ethers';
 import { parseUnits, formatUnits, commify } from 'ethers/lib/utils';
-import { getWrappedAmount, removeYearnPrefix } from 'lib/vaults';
+import {
+  getVaultSymbolAddressString,
+  getWrappedAmount,
+  removeYearnPrefix,
+} from 'lib/vaults';
 import round from 'lodash/round';
 import { useForm, SubmitHandler, useController } from 'react-hook-form';
 import { z } from 'zod';
@@ -47,7 +51,7 @@ type SubmitFormProps = {
   users: (Gift['recipient'] & { received: number })[];
   setAmount: (amount: string) => void;
   setGiftVaultId: (giftVaultId: string) => void;
-  vaults: { id: number; symbol: string }[];
+  vaults: { id: number; symbol: string; vault_address: string }[];
   circleUsers: IUser[];
   giftVaultId: string;
   formGiftAmount: string;
@@ -399,7 +403,10 @@ export function DistributionForm({
                 options={
                   vaults.length
                     ? vaults.map(t => {
-                        return { value: t.id.toString(), label: t.symbol };
+                        return {
+                          value: t.id.toString(),
+                          label: getVaultSymbolAddressString(t),
+                        };
                       })
                     : [{ value: '', label: 'No Vaults Available' }]
                 }
@@ -528,7 +535,7 @@ export function DistributionForm({
                         ? [
                             {
                               value: fpVault.id.toString(),
-                              label: fpVault.symbol,
+                              label: getVaultSymbolAddressString(fpVault),
                             },
                           ]
                         : [{ value: '', label: 'No Vaults Available' }]

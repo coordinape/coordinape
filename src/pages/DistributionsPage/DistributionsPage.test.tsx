@@ -147,7 +147,7 @@ test('render with no allocations', async () => {
 
   expect(screen.getByText('Gift Circle')).toBeInTheDocument();
   expect(
-    screen.getAllByText('Yearn USDC')[0].closest('button[role="combobox"]')
+    screen.getAllByText(/Yearn USDC/i)[0].closest('button[role="combobox"]')
   ).toBeDisabled();
 });
 
