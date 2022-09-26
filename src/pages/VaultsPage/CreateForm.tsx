@@ -51,29 +51,6 @@ const useFormSetup = (
         message: 'Select an asset or enter a valid ERC20 token address',
         path: ['customAddress'],
       }
-    )
-    .refine(
-      async ({ symbol, customAddress }) => {
-        if (
-          symbol &&
-          existingVaults?.some(
-            v => removeYearnPrefix(v.symbol) === removeYearnPrefix(symbol)
-          )
-        )
-          return false;
-
-        if (
-          customAddress &&
-          existingVaults?.some(v => v.simple_token_address === customAddress)
-        )
-          return false;
-
-        return true;
-      },
-      {
-        message: 'You already have a vault for that token',
-        path: ['customAddress'],
-      }
     );
 
   type FormSchema = z.infer<typeof schema>;
@@ -310,7 +287,7 @@ export const CreateForm = ({
         outlined
         size="large"
         css={{ mt: '$lg', width: '100%' }}
-        disabled={!isValid || saving}
+        disabled={saving}
       >
         {saving ? 'Saving...' : 'Create CoVault'}
       </Button>
