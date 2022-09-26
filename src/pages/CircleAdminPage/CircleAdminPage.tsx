@@ -6,7 +6,7 @@ import { constants as ethersConstants } from 'ethers';
 import { formatUnits } from 'ethers/lib/utils';
 import {
   getVaultSymbolAddressString,
-  removeAddressSubfix,
+  removeAddressSuffix,
   removeYearnPrefix,
 } from 'lib/vaults';
 import { useForm, SubmitHandler, useController } from 'react-hook-form';
@@ -393,7 +393,7 @@ export const CircleAdminPage = () => {
     const tokenType = circle?.fixed_payment_token_type;
     const fixedVault = findVault(getValues('fixed_payment_vault_id') || '');
     return vaultId && fixedVault
-      ? removeAddressSubfix(
+      ? removeAddressSuffix(
           removeYearnPrefix(fixedVault?.symbol ?? ''),
           fixedVault.vault_address
         )

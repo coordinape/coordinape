@@ -12,10 +12,11 @@ export const VaultExternalLink = ({
 }) => {
   return (
     <Link
-      css={{ color: '$primary', marginLeft: '$md' }}
+      css={{ color: '$primary' }}
       target="_blank"
       href={makeExplorerUrl(chainId, vaultAddress, 'address')}
     >
+      &nbsp;
       {shortenAddress(vaultAddress, false)}
     </Link>
   );
