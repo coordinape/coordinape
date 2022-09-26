@@ -103,6 +103,6 @@ export const getVaultSymbolAddressString = (vault: {
 }): string => `${vault.symbol} ${shortenAddress(vault.vault_address, false)}`;
 
 export const removeAddressSuffix = (symbol: string, vaultAddress: string) => {
-  const subfix = shortenAddress(vaultAddress, false);
-  return symbol.includes(subfix) ? symbol.substring(subfix.length) : symbol;
+  const suffix = shortenAddress(vaultAddress, false);
+  return symbol.includes(suffix) ? symbol.substring(suffix.length) : symbol;
 };
