@@ -140,7 +140,15 @@ export const NewNominationPage = () => {
       <Flex css={{ alignItems: 'center', mb: '$sm' }}>
         <Text h1>Nominate Member</Text>
       </Flex>
-      <Box css={{ mb: '$md' }}>
+      <Box
+        css={{
+          mb: '$md',
+          width: '70%',
+          '@md': {
+            width: '100%',
+          },
+        }}
+      >
         <Text inline semibold>
           Vouch by circle members required.{' '}
         </Text>
