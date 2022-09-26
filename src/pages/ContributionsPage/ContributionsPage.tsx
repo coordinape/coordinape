@@ -1,21 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 
+import dedent from 'dedent';
 import { DateTime } from 'luxon';
-import { useQuery } from 'react-query';
+import { useForm, useController } from 'react-hook-form';
+import { useQuery, useMutation } from 'react-query';
 
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { useSelectedCircle } from '../../recoilState';
-import { LoadingModal } from 'components';
-import { Panel, Text, Box } from 'ui';
+import { LoadingModal, FormInputField } from 'components';
+import { Panel, Text, Box, Modal, Button } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
+import { updateContributionMutation } from './mutations';
 import { getContributionsAndEpochs, ContributionsAndEpochs } from './queries';
+
+export type Contribution = ContributionsAndEpochs['contributions'][0];
+type Epoch = ContributionsAndEpochs['epochs'][0];
+type CurrentContribution = { contribution: Contribution; epoch?: Epoch };
 
 const ContributionsPage = () => {
   const address = useConnectedAddress();
   const { circle: selectedCircle } = useSelectedCircle();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [currentContribution, setCurrentContribution] =
+    useState<CurrentContribution | null>(null);
 
-  const { data } = useQuery(
+  const { data, refetch: refetchContributions } = useQuery(
     ['contributions', selectedCircle.id],
     () =>
       getContributionsAndEpochs({
@@ -30,52 +40,173 @@ const ContributionsPage = () => {
     }
   );
 
+  const {
+    control,
+    formState: { isDirty },
+    reset,
+  } = useForm({ mode: 'all' });
+
+  const { mutate: mutateContribution, status } = useMutation(
+    updateContributionMutation,
+    {
+      mutationKey: ['updateContribution', currentContribution?.contribution.id],
+      onSettled: () => {
+        refetchContributions();
+      },
+    }
+  );
+
+  const { field: descriptionField } = useController({
+    name: 'description',
+    control,
+  });
+
   /// Return here if we don't have the data so that the actual page component can be simpler
   if (!data) {
-    return <LoadingModal visible={true} />;
+    return <LoadingModal visible />;
   }
 
-  console.info({ data });
   return (
-    <SingleColumnLayout>
-      <Text h1={true}>Contributions</Text>
-      <Text p={true}>What have you been working on?</Text>
-      <EpochGroup {...data} />
-    </SingleColumnLayout>
+    <>
+      <SingleColumnLayout>
+        <Text h1>Contributions</Text>
+        <Text p>What have you been working on?</Text>
+        <EpochGroup
+          {...data}
+          currentContribution={currentContribution}
+          setActiveContribution={(
+            contribution: Contribution,
+            epoch?: Epoch
+          ) => {
+            setCurrentContribution({ contribution, epoch });
+            setModalOpen(true);
+          }}
+        />
+      </SingleColumnLayout>
+      <Modal
+        drawer
+        open={modalOpen}
+        onClose={() => {
+          setModalOpen(false);
+          setCurrentContribution(null);
+          reset();
+        }}
+      >
+        <Panel invertForm>
+          {currentContribution && (
+            <>
+              <Text h2>
+                {currentContribution.epoch
+                  ? renderEpochDate(currentContribution.epoch)
+                  : 'Latest'}
+              </Text>
+              <Text p>
+                {DateTime.fromISO(
+                  currentContribution.contribution.datetime_created
+                ).toFormat('LLL dd')}
+              </Text>
+              <FormInputField
+                id="description"
+                name="description"
+                control={control}
+                defaultValue={currentContribution.contribution.description}
+                textArea
+              />
+              <br />
+              {status === 'loading' && 'Saving...'}
+              {status === 'success' && 'Saved'}
+              {status === 'error' && 'error'}
+              <br />
+              <Button
+                outlined
+                color="primary"
+                size="inline"
+                type="submit"
+                disabled={!isDirty || status === 'loading'}
+                onClick={() =>
+                  mutateContribution({
+                    id: currentContribution.contribution.id,
+                    datetime_created:
+                      currentContribution.contribution.datetime_created,
+                    description: descriptionField.value,
+                  })
+                }
+              >
+                Save
+              </Button>
+            </>
+          )}
+        </Panel>
+      </Modal>
+    </>
   );
 };
 
-const EpochGroup = ({ contributions, epochs }: ContributionsAndEpochs) => {
-  const contributionFilterFn =
-    (epoch: typeof epochs[0]) => (c: typeof contributions[0]) =>
-      c.datetime_created > epoch.start_date &&
-      c.datetime_created < epoch.end_date;
-  const monthsEqual = (start: string, end: string) =>
-    DateTime.fromISO(start).month === DateTime.fromISO(end).month;
+type SetActiveContributionProp = {
+  setActiveContribution: (c: Contribution, e?: Epoch) => void;
+  currentContribution: CurrentContribution | null;
+};
+const monthsEqual = (start: string, end: string) =>
+  DateTime.fromISO(start).month === DateTime.fromISO(end).month;
 
-  const yearCurrent = (end: string) =>
-    DateTime.fromISO(end).year === DateTime.now().year;
+const yearCurrent = (end: string) =>
+  DateTime.fromISO(end).year === DateTime.now().year;
+
+/*
+ * Dynamically adds month prefixes if the end month differs from the start
+ * month and year suffixes if the end year does not match the current year
+ */
+const renderEpochDate = (epoch: Epoch) =>
+  dedent`
+    Epoch ${epoch.number}: ${DateTime.fromISO(epoch.start_date).toFormat(
+    'LLL dd'
+  )} -
+    ${DateTime.fromISO(epoch.end_date).toFormat(
+      (monthsEqual(epoch.start_date, epoch.end_date) ? '' : 'LLL ') +
+        'dd' +
+        (yearCurrent(epoch.end_date) ? '' : ' yyyy')
+    )}
+  `;
+
+const contributionFilterFn = (epoch: Epoch) => (c: Contribution) =>
+  c.datetime_created > epoch.start_date && c.datetime_created < epoch.end_date;
+
+const EpochGroup = ({
+  contributions,
+  epochs,
+  currentContribution,
+  setActiveContribution,
+}: ContributionsAndEpochs & SetActiveContributionProp) => {
+  const latestEpoch = epochs[0];
   return (
     <>
+      <Box key={-1}>
+        <Box>
+          <Text h2={true}>Latest</Text>
+        </Box>
+        <Panel css={{ gap: '$md' }}>
+          <ContributionList
+            contributions={contributions
+              .filter(c => c.datetime_created > latestEpoch.end_date)
+              .slice(0, 4)}
+            currentContribution={currentContribution}
+            setActiveContribution={setActiveContribution}
+          />
+        </Panel>
+      </Box>
       {epochs.map(epoch => (
         <Box key={epoch.id}>
           <Box>
-            <Text h2={true}>
-              Epoch {epoch.number}:{' '}
-              {DateTime.fromISO(epoch.start_date).toFormat('LLL dd')} -{' '}
-              {DateTime.fromISO(epoch.end_date).toFormat(
-                (monthsEqual(epoch.start_date, epoch.end_date) ? '' : 'LLL ') +
-                  'dd' +
-                  (yearCurrent(epoch.end_date) ? '' : ' yyyy')
-              )}
-            </Text>
+            <Text h2={true}>{renderEpochDate(epoch)}</Text>
           </Box>
-          <Panel>
+          <Panel css={{ gap: '$md' }}>
             <ContributionList
-              contributions={
-                contributions.filter(contributionFilterFn(epoch))
-                /*.slice(0, 4)*/
-              }
+              contributions={contributions
+                .filter(contributionFilterFn(epoch))
+                .slice(0, 4)}
+              currentContribution={currentContribution}
+              setActiveContribution={setActiveContribution}
+              epoch={epoch}
             />
           </Panel>
         </Box>
@@ -85,21 +216,33 @@ const EpochGroup = ({ contributions, epochs }: ContributionsAndEpochs) => {
 };
 
 type ContributionListProps = Pick<ContributionsAndEpochs, 'contributions'>;
-const ContributionList = ({ contributions }: ContributionListProps) => {
+const ContributionList = ({
+  epoch,
+  contributions,
+  setActiveContribution,
+  currentContribution,
+}: ContributionListProps & SetActiveContributionProp & { epoch?: Epoch }) => {
   return (
     <>
       {contributions.map(c => (
         <Panel
-          style={{ marginTop: '10px', marginBottom: '10px' }}
           key={c.id}
+          css={{
+            border:
+              currentContribution?.contribution.id === c.id
+                ? '2px solid $link'
+                : '2px solid $border',
+            cursor: 'pointer',
+            // TODO change background to graffe's color
+            '&:hover': { background: '$info', border: '2px solid $link' },
+          }}
           nested={true}
+          onClick={() => {
+            setActiveContribution(c, epoch);
+          }}
         >
           {/* TODO: truncate text with ellipsis*/}
-          {c.description}
-          {/* TODO: Delete the below logging detail*/}
-          <br />
-          <br />
-          {c.datetime_created}
+          <Box>{c.description}</Box>
         </Panel>
       ))}
     </>
