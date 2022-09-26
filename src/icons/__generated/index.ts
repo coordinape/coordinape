@@ -60,6 +60,7 @@ export { default as Scale } from './Scale';
 export { default as Search } from './Search';
 export { default as Settings } from './Settings';
 export { default as Share } from './Share';
+export { default as Slash } from './Slash';
 export { default as SortDown } from './SortDown';
 export { default as SortUp } from './SortUp';
 export { default as Trash2 } from './Trash2';
