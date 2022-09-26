@@ -226,9 +226,16 @@ const SecondWalletInner = ({
           <Text inline h3 semibold>
             {address && shortenAddress(address)}
           </Text>
-          <Link onClick={onClickStart} css={{ ml: '$sm' }}>
+          <Button
+            css={{ ml: '$md', display: 'inline' }}
+            type="button"
+            size="large"
+            color="primary"
+            outlined
+            onClick={onClickStart}
+          >
             Use a different wallet
-          </Link>
+          </Button>
         </Box>
       )}
     </>
