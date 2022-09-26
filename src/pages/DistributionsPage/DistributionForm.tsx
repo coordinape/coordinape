@@ -111,18 +111,17 @@ export function DistributionForm({
       },
     });
 
-  const { field: amountField, fieldState: amountFieldState } = useController({
+  const { field: amountField } = useController({
     name: 'amount',
     control,
     defaultValue: '0',
   });
 
-  const { field: fixedAmountField, fieldState: fixedAmountFieldState } =
-    useController({
-      name: 'amount',
-      control,
-      defaultValue: '0',
-    });
+  const { field: fixedAmountField } = useController({
+    name: 'amount',
+    control,
+    defaultValue: '0',
+  });
 
   useEffect(() => {
     if (circleDist) {
@@ -360,6 +359,9 @@ export function DistributionForm({
   const shouldDisableGiftInput =
     giftSubmitting || !!circleDist || vaults.length === 0 || totalGive === 0;
 
+  const shouldShowGiftInputError =
+    !sufficientGiftTokens && Number(formGiftAmount) > 0;
+
   const displayAvailableAmount = (type: 'gift' | 'fixed') => {
     const max = type === 'gift' ? maxGiftTokens : maxFixedPaymentTokens;
     const distribution = type === 'gift' ? circleDist : fixedDist;
@@ -415,7 +417,12 @@ export function DistributionForm({
                 })}
                 type="text"
                 placeholder="0"
-                error={!!amountFieldState.error}
+                error={shouldShowGiftInputError}
+                errorText={
+                  shouldShowGiftInputError
+                    ? 'Please provide a budget less than available funds.'
+                    : ''
+                }
                 value={
                   circleDist
                     ? circleDist.gift_amount?.toString() || '0'
@@ -551,7 +558,6 @@ export function DistributionForm({
                     })}
                     type="text"
                     placeholder="0"
-                    error={!!fixedAmountFieldState.error}
                     value={
                       fixedDist
                         ? fixedDist.fixed_amount.toString()
