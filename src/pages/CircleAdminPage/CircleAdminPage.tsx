@@ -415,6 +415,9 @@ export const CircleAdminPage = () => {
       console.warn(error);
     }
   }
+
+  const IS_CUSTOM_TOKEN_NAME = circle?.token_name !== 'GIVE';
+
   return (
     <Form id="circle_admin">
       <SingleColumnLayout>
@@ -462,7 +465,9 @@ export const CircleAdminPage = () => {
               css={{
                 mt: '$lg',
                 display: 'grid',
-                gridTemplateColumns: '1fr 1fr 1fr',
+                gridTemplateColumns: `1fr 1fr ${
+                  IS_CUSTOM_TOKEN_NAME ? '1fr' : ''
+                }`,
                 gap: '$lg',
                 '@sm': { gridTemplateColumns: '1fr' },
               }}
@@ -511,15 +516,18 @@ export const CircleAdminPage = () => {
                   type="file"
                 />
               </Flex>
-              <FormInputField
-                id="token_name"
-                name="token_name"
-                control={control}
-                defaultValue={circle?.token_name}
-                label="Token Name"
-                infoTooltip="This will be the token name displayed to all the circle users"
-                showFieldErrors
-              />
+              {IS_CUSTOM_TOKEN_NAME && (
+                <FormInputField
+                  id="token_name"
+                  name="token_name"
+                  control={control}
+                  defaultValue={circle?.token_name}
+                  label="Token Name [deprecated]"
+                  infoTooltip="[deprecated] This feature is no longer available"
+                  showFieldErrors
+                  disabled
+                />
+              )}
             </Box>
             <Flex
               css={{
