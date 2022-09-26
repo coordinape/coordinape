@@ -6,7 +6,7 @@ image:
 
 tasks:
   - name: Restore .env file
-    command: |
+    before: |
       if [ -f .env ]; then
         # If this workspace already has a .env, don't override it
         # Local changes survive a workspace being opened and closed
