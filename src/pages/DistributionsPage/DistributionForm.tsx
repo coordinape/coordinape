@@ -13,7 +13,7 @@ import { z } from 'zod';
 import { DISTRIBUTION_TYPE } from '../../config/constants';
 import { paths } from '../../routes/paths';
 import { IUser } from '../../types';
-import { LoadingModal, FormTokenField } from 'components';
+import { LoadingModal, FormTokenField, zTokenString } from 'components';
 import { useApeSnackbar, useContracts } from 'hooks';
 import { AppLink, Box, Button, Flex, Panel, Select, Text } from 'ui';
 import { TwoColumnLayout } from 'ui/layouts';
@@ -34,13 +34,6 @@ const vaultSelectionPanel = {
   minHeight: '11rem',
   mb: '$lg',
 };
-
-const DistributionFormSchema = z.object({
-  amount: z.string(),
-  selectedVaultId: z.string(),
-});
-
-type TDistributionForm = z.infer<typeof DistributionFormSchema>;
 
 type SubmitFormProps = {
   epoch: EpochDataResult;
@@ -103,13 +96,45 @@ export function DistributionForm({
 
   const fpVault = findVault(fixedPaymentVaultId?.toString());
 
-  const { handleSubmit, control, register, setValue } =
-    useForm<TDistributionForm>({
-      resolver: zodResolver(DistributionFormSchema),
-      defaultValues: {
-        selectedVaultId: vaults[0] ? vaults[0].id.toString() : undefined,
-      },
-    });
+  const giftDecimals = findVault(giftVaultId)?.decimals || 0;
+  const DistributionFormSchema = z.object({
+    amount: zTokenString(
+      '0',
+      formatUnits(maxGiftTokens, giftDecimals),
+      giftDecimals
+    ),
+    selectedVaultId: z.string(),
+  });
+  const FixedDistributionFormSchema = z.object({
+    amount: z.string(),
+    selectedVaultId: z.string(),
+  });
+  type TDistributionForm = z.infer<typeof DistributionFormSchema>;
+  type TFixedDistributionForm = z.infer<typeof FixedDistributionFormSchema>;
+  const {
+    handleSubmit,
+    control,
+    register,
+    setValue,
+    formState: { errors },
+  } = useForm<TDistributionForm>({
+    mode: 'all',
+    resolver: zodResolver(DistributionFormSchema),
+    defaultValues: {
+      selectedVaultId: vaults[0] ? vaults[0].id.toString() : undefined,
+    },
+  });
+
+  const {
+    handleSubmit: fixedHandleSubmit,
+    control: fixedControl,
+    register: fixedRegister,
+  } = useForm<TFixedDistributionForm>({
+    resolver: zodResolver(FixedDistributionFormSchema),
+    defaultValues: {
+      selectedVaultId: vaults[0] ? vaults[0].id.toString() : undefined,
+    },
+  });
 
   const { field: amountField } = useController({
     name: 'amount',
@@ -119,7 +144,7 @@ export function DistributionForm({
 
   const { field: fixedAmountField } = useController({
     name: 'amount',
-    control,
+    control: fixedControl,
     defaultValue: '0',
   });
 
@@ -142,7 +167,7 @@ export function DistributionForm({
       updateBalanceState(fpVault.id.toString(), totalFixedPayment, 'fixed');
   }, [fixedPaymentVaultId, totalFixedPayment]);
 
-  const onFixedFormSubmit: SubmitHandler<TDistributionForm> = async () => {
+  const onFixedFormSubmit: SubmitHandler<TFixedDistributionForm> = async () => {
     assert(epoch?.id && circle);
     setFixedSubmitting(true);
     const vault = fpVault;
@@ -359,9 +384,6 @@ export function DistributionForm({
   const shouldDisableGiftInput =
     giftSubmitting || !!circleDist || vaults.length === 0 || totalGive === 0;
 
-  const shouldShowGiftInputError =
-    !sufficientGiftTokens && Number(formGiftAmount) > 0;
-
   const displayAvailableAmount = (type: 'gift' | 'fixed') => {
     const max = type === 'gift' ? maxGiftTokens : maxFixedPaymentTokens;
     const distribution = type === 'gift' ? circleDist : fixedDist;
@@ -417,9 +439,9 @@ export function DistributionForm({
                 })}
                 type="text"
                 placeholder="0"
-                error={shouldShowGiftInputError}
+                error={!!errors.amount}
                 errorText={
-                  shouldShowGiftInputError
+                  errors.amount
                     ? 'Please provide a budget less than available funds.'
                     : ''
                 }
@@ -486,7 +508,7 @@ export function DistributionForm({
         </Flex>
       </form>
 
-      <form onSubmit={handleSubmit(onFixedFormSubmit)}>
+      <form onSubmit={fixedHandleSubmit(onFixedFormSubmit)}>
         <Panel invertForm css={vaultSelectionPanel}>
           <Flex>
             <Text h2 css={{ ...headerStyle, flexGrow: 1 }}>
@@ -520,7 +542,7 @@ export function DistributionForm({
               <TwoColumnLayout css={{ pt: '$md' }}>
                 <Box css={{ width: '100%' }}>
                   <Select
-                    {...(register('selectedVaultId'),
+                    {...(fixedRegister('selectedVaultId'),
                     {
                       defaultValue: fpVault
                         ? fixedDist
