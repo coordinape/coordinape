@@ -37,6 +37,13 @@ export const useRoleInCircle = (circleId: number) => {
   return user?.role;
 };
 
+export const useCanVouch = (circleId: number) => {
+  const manifest = useRecoilValue(rManifest);
+  const user = manifest.myProfile.myUsers.find(u => u.circle_id === circleId);
+  const circle = manifest.circles.find(c => c.id === circleId);
+  return !(user?.non_giver && circle?.only_giver_vouch) && circle?.hasVouching;
+};
+
 export const useHasCircles = () =>
   (useRecoilValueLoadable(rApiManifest).valueMaybe()?.circles.length ?? 0) > 0;
 
