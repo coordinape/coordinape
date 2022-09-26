@@ -26,7 +26,11 @@ context('Coordinape', () => {
     cy.contains('Why are you nominating')
       .click()
       .type("It's annoying that I need to fill forty whole characters here.");
-    cy.get('form').contains('Nominate Member').click();
+    cy.get('button').contains('Nominate Member').click();
+    cy.contains('You have successfully Nominated Satoshi', {
+      timeout: 120000,
+    }).should('be.visible');
+    cy.get('button').contains('Back').click().wait(5000);
     cy.contains('Satoshi').click();
     cy.contains('Vouch for Satoshi', { timeout: 120000 });
     //cy.contains('GQL Query Error', { timeout: 45000 }).should('not.exist');
