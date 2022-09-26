@@ -27,17 +27,18 @@ select_permissions:
     permission:
       columns:
         - circle_id
+        - id
+        - user_id
+        - description
         - created_at
         - datetime_created
-        - description
-        - id
         - updated_at
-        - user_id
       filter:
         _and:
-          - user:
-              profile:
-                id:
-                  _eq: X-Hasura-User-Id
+          - circle:
+              users:
+                profile:
+                  id:
+                    _eq: X-Hasura-User-Id
           - deleted_at:
               _is_null: true
