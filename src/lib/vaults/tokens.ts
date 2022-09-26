@@ -6,6 +6,7 @@ import { parseUnits, isAddress } from 'ethers/lib/utils';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 
 import { ZERO_ADDRESS } from 'config/constants';
+import { shortenAddress } from 'utils';
 
 import type { Contracts } from './contracts';
 
@@ -95,3 +96,13 @@ export const getDisplayTokenString = (vault: {
   simple_token_address: string;
 }): string =>
   hasSimpleToken(vault) ? vault.symbol : addYearnPrefix(vault.symbol);
+
+export const getVaultSymbolAddressString = (vault: {
+  symbol: string;
+  vault_address: string;
+}): string => `${vault.symbol} ${shortenAddress(vault.vault_address, false)}`;
+
+export const removeAddressSuffix = (symbol: string, vaultAddress: string) => {
+  const suffix = shortenAddress(vaultAddress, false);
+  return symbol.includes(suffix) ? symbol.substring(suffix.length) : symbol;
+};
