@@ -897,6 +897,8 @@ export type ValueTypes = {
   };
   ['UpdateContributionResponse']: AliasType<{
     id?: boolean | `@${string}`;
+    /** An object relationship */
+    updateContribution_Contribution?: ValueTypes['contributions'];
     __typename?: boolean | `@${string}`;
   }>;
   ['UpdateEpochInput']: {
@@ -16208,6 +16210,8 @@ export type ModelTypes = {
   ['UpdateContributionInput']: GraphQLTypes['UpdateContributionInput'];
   ['UpdateContributionResponse']: {
     id: string;
+    /** An object relationship */
+    updateContribution_Contribution: GraphQLTypes['contributions'];
   };
   ['UpdateEpochInput']: GraphQLTypes['UpdateEpochInput'];
   ['UpdateOrgResponse']: {
@@ -22058,6 +22062,8 @@ export type GraphQLTypes = {
   ['UpdateContributionResponse']: {
     __typename: 'UpdateContributionResponse';
     id: string;
+    /** An object relationship */
+    updateContribution_Contribution: GraphQLTypes['contributions'];
   };
   ['UpdateEpochInput']: {
     circle_id: number;

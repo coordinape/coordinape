@@ -865,6 +865,17 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  ['UpdateContributionInput']: {
+    datetime_created: ValueTypes['timestamptz'];
+    description: string;
+    id: number;
+  };
+  ['UpdateContributionResponse']: AliasType<{
+    id?: boolean | `@${string}`;
+    /** An object relationship */
+    updateContribution_Contribution?: ValueTypes['contributions'];
+    __typename?: boolean | `@${string}`;
+  }>;
   ['UpdateEpochInput']: {
     circle_id: number;
     days: number;
@@ -2450,18 +2461,10 @@ columns and relationships of "circle_api_keys" */
     user?: ValueTypes['users_bool_exp'] | undefined | null;
     user_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
   };
-  /** unique or primary key constraints on table "contributions" */
-  ['contributions_constraint']: contributions_constraint;
   /** input type for inserting data into table "contributions" */
   ['contributions_insert_input']: {
     circle_id?: ValueTypes['bigint'] | undefined | null;
-    created_at?: ValueTypes['timestamptz'] | undefined | null;
-    datetime_created?: ValueTypes['timestamptz'] | undefined | null;
-    deleted_at?: ValueTypes['timestamptz'] | undefined | null;
     description?: string | undefined | null;
-    id?: ValueTypes['bigint'] | undefined | null;
-    updated_at?: ValueTypes['timestamptz'] | undefined | null;
-    user_id?: ValueTypes['bigint'] | undefined | null;
   };
   /** order by max() on columns of table "contributions" */
   ['contributions_max_order_by']: {
@@ -2491,12 +2494,6 @@ columns and relationships of "circle_api_keys" */
     returning?: ValueTypes['contributions'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on conflict condition type for table "contributions" */
-  ['contributions_on_conflict']: {
-    constraint: ValueTypes['contributions_constraint'];
-    update_columns: Array<ValueTypes['contributions_update_column']>;
-    where?: ValueTypes['contributions_bool_exp'] | undefined | null;
-  };
   /** Ordering options when selecting data from "contributions". */
   ['contributions_order_by']: {
     circle?: ValueTypes['circles_order_by'] | undefined | null;
@@ -2509,17 +2506,8 @@ columns and relationships of "circle_api_keys" */
     user?: ValueTypes['users_order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
-  /** primary key columns input for table: contributions */
-  ['contributions_pk_columns_input']: {
-    id: ValueTypes['bigint'];
-  };
   /** select columns of table "contributions" */
   ['contributions_select_column']: contributions_select_column;
-  /** input type for updating data in table "contributions" */
-  ['contributions_set_input']: {
-    datetime_created?: ValueTypes['timestamptz'] | undefined | null;
-    description?: string | undefined | null;
-  };
   /** order by stddev() on columns of table "contributions" */
   ['contributions_stddev_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
@@ -2544,8 +2532,6 @@ columns and relationships of "circle_api_keys" */
     id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
-  /** update columns of table "contributions" */
-  ['contributions_update_column']: contributions_update_column;
   /** order by var_pop() on columns of table "contributions" */
   ['contributions_var_pop_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
@@ -3661,24 +3647,14 @@ columns and relationships of "distributions" */
     insert_contributions?: [
       {
         /** the rows to be inserted */
-        objects: Array<
-          ValueTypes['contributions_insert_input']
-        > /** on conflict condition */;
-        on_conflict?:
-          | ValueTypes['contributions_on_conflict']
-          | undefined
-          | null;
+        objects: Array<ValueTypes['contributions_insert_input']>;
       },
       ValueTypes['contributions_mutation_response']
     ];
     insert_contributions_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['contributions_insert_input'] /** on conflict condition */;
-        on_conflict?:
-          | ValueTypes['contributions_on_conflict']
-          | undefined
-          | null;
+        object: ValueTypes['contributions_insert_input'];
       },
       ValueTypes['contributions']
     ];
@@ -3733,6 +3709,10 @@ columns and relationships of "distributions" */
       { payload: ValueTypes['UpdateCircleInput'] },
       ValueTypes['UpdateCircleOutput']
     ];
+    updateContribution?: [
+      { payload: ValueTypes['UpdateContributionInput'] },
+      ValueTypes['UpdateContributionResponse']
+    ];
     updateEpoch?: [
       { payload: ValueTypes['UpdateEpochInput'] },
       ValueTypes['EpochResponse']
@@ -3763,25 +3743,6 @@ columns and relationships of "distributions" */
         pk_columns: ValueTypes['claims_pk_columns_input'];
       },
       ValueTypes['claims']
-    ];
-    update_contributions?: [
-      {
-        /** sets the columns of the filtered rows to the given values */
-        _set?:
-          | ValueTypes['contributions_set_input']
-          | undefined
-          | null /** filter the rows which have to be updated */;
-        where: ValueTypes['contributions_bool_exp'];
-      },
-      ValueTypes['contributions_mutation_response']
-    ];
-    update_contributions_by_pk?: [
-      {
-        /** sets the columns of the filtered rows to the given values */
-        _set?: ValueTypes['contributions_set_input'] | undefined | null;
-        pk_columns: ValueTypes['contributions_pk_columns_input'];
-      },
-      ValueTypes['contributions']
     ];
     update_distributions?: [
       {
@@ -8058,6 +8019,12 @@ export type ModelTypes = {
     circle: GraphQLTypes['circles'];
     id: number;
   };
+  ['UpdateContributionInput']: GraphQLTypes['UpdateContributionInput'];
+  ['UpdateContributionResponse']: {
+    id: string;
+    /** An object relationship */
+    updateContribution_Contribution: GraphQLTypes['contributions'];
+  };
   ['UpdateEpochInput']: GraphQLTypes['UpdateEpochInput'];
   ['UpdateOrgResponse']: {
     id: number;
@@ -8574,8 +8541,6 @@ columns and relationships of "circle_api_keys" */
   ['contributions_avg_order_by']: GraphQLTypes['contributions_avg_order_by'];
   /** Boolean expression to filter rows from the table "contributions". All fields are combined with a logical 'AND'. */
   ['contributions_bool_exp']: GraphQLTypes['contributions_bool_exp'];
-  /** unique or primary key constraints on table "contributions" */
-  ['contributions_constraint']: GraphQLTypes['contributions_constraint'];
   /** input type for inserting data into table "contributions" */
   ['contributions_insert_input']: GraphQLTypes['contributions_insert_input'];
   /** order by max() on columns of table "contributions" */
@@ -8589,16 +8554,10 @@ columns and relationships of "circle_api_keys" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['contributions']>;
   };
-  /** on conflict condition type for table "contributions" */
-  ['contributions_on_conflict']: GraphQLTypes['contributions_on_conflict'];
   /** Ordering options when selecting data from "contributions". */
   ['contributions_order_by']: GraphQLTypes['contributions_order_by'];
-  /** primary key columns input for table: contributions */
-  ['contributions_pk_columns_input']: GraphQLTypes['contributions_pk_columns_input'];
   /** select columns of table "contributions" */
   ['contributions_select_column']: GraphQLTypes['contributions_select_column'];
-  /** input type for updating data in table "contributions" */
-  ['contributions_set_input']: GraphQLTypes['contributions_set_input'];
   /** order by stddev() on columns of table "contributions" */
   ['contributions_stddev_order_by']: GraphQLTypes['contributions_stddev_order_by'];
   /** order by stddev_pop() on columns of table "contributions" */
@@ -8607,8 +8566,6 @@ columns and relationships of "circle_api_keys" */
   ['contributions_stddev_samp_order_by']: GraphQLTypes['contributions_stddev_samp_order_by'];
   /** order by sum() on columns of table "contributions" */
   ['contributions_sum_order_by']: GraphQLTypes['contributions_sum_order_by'];
-  /** update columns of table "contributions" */
-  ['contributions_update_column']: GraphQLTypes['contributions_update_column'];
   /** order by var_pop() on columns of table "contributions" */
   ['contributions_var_pop_order_by']: GraphQLTypes['contributions_var_pop_order_by'];
   /** order by var_samp() on columns of table "contributions" */
@@ -9013,6 +8970,8 @@ columns and relationships of "distributions" */
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
     updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;
+    /** users can modify contributions and update their dates. */
+    updateContribution?: GraphQLTypes['UpdateContributionResponse'] | undefined;
     updateEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     updateTeammates?: GraphQLTypes['UpdateTeammatesResponse'] | undefined;
     /** Update own user */
@@ -9021,12 +8980,6 @@ columns and relationships of "distributions" */
     update_claims?: GraphQLTypes['claims_mutation_response'] | undefined;
     /** update single row of the table: "claims" */
     update_claims_by_pk?: GraphQLTypes['claims'] | undefined;
-    /** update data of the table: "contributions" */
-    update_contributions?:
-      | GraphQLTypes['contributions_mutation_response']
-      | undefined;
-    /** update single row of the table: "contributions" */
-    update_contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
     /** update data of the table: "distributions" */
     update_distributions?:
       | GraphQLTypes['distributions_mutation_response']
@@ -10401,6 +10354,17 @@ export type GraphQLTypes = {
     circle: GraphQLTypes['circles'];
     id: number;
   };
+  ['UpdateContributionInput']: {
+    datetime_created: GraphQLTypes['timestamptz'];
+    description: string;
+    id: number;
+  };
+  ['UpdateContributionResponse']: {
+    __typename: 'UpdateContributionResponse';
+    id: string;
+    /** An object relationship */
+    updateContribution_Contribution: GraphQLTypes['contributions'];
+  };
   ['UpdateEpochInput']: {
     circle_id: number;
     days: number;
@@ -11673,18 +11637,10 @@ columns and relationships of "circle_api_keys" */
     user?: GraphQLTypes['users_bool_exp'] | undefined;
     user_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
   };
-  /** unique or primary key constraints on table "contributions" */
-  ['contributions_constraint']: contributions_constraint;
   /** input type for inserting data into table "contributions" */
   ['contributions_insert_input']: {
     circle_id?: GraphQLTypes['bigint'] | undefined;
-    created_at?: GraphQLTypes['timestamptz'] | undefined;
-    datetime_created?: GraphQLTypes['timestamptz'] | undefined;
-    deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     description?: string | undefined;
-    id?: GraphQLTypes['bigint'] | undefined;
-    updated_at?: GraphQLTypes['timestamptz'] | undefined;
-    user_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** order by max() on columns of table "contributions" */
   ['contributions_max_order_by']: {
@@ -11714,12 +11670,6 @@ columns and relationships of "circle_api_keys" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['contributions']>;
   };
-  /** on conflict condition type for table "contributions" */
-  ['contributions_on_conflict']: {
-    constraint: GraphQLTypes['contributions_constraint'];
-    update_columns: Array<GraphQLTypes['contributions_update_column']>;
-    where?: GraphQLTypes['contributions_bool_exp'] | undefined;
-  };
   /** Ordering options when selecting data from "contributions". */
   ['contributions_order_by']: {
     circle?: GraphQLTypes['circles_order_by'] | undefined;
@@ -11732,17 +11682,8 @@ columns and relationships of "circle_api_keys" */
     user?: GraphQLTypes['users_order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
-  /** primary key columns input for table: contributions */
-  ['contributions_pk_columns_input']: {
-    id: GraphQLTypes['bigint'];
-  };
   /** select columns of table "contributions" */
   ['contributions_select_column']: contributions_select_column;
-  /** input type for updating data in table "contributions" */
-  ['contributions_set_input']: {
-    datetime_created?: GraphQLTypes['timestamptz'] | undefined;
-    description?: string | undefined;
-  };
   /** order by stddev() on columns of table "contributions" */
   ['contributions_stddev_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
@@ -11767,8 +11708,6 @@ columns and relationships of "circle_api_keys" */
     id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
-  /** update columns of table "contributions" */
-  ['contributions_update_column']: contributions_update_column;
   /** order by var_pop() on columns of table "contributions" */
   ['contributions_var_pop_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
@@ -12601,6 +12540,8 @@ columns and relationships of "distributions" */
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
     updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;
+    /** users can modify contributions and update their dates. */
+    updateContribution?: GraphQLTypes['UpdateContributionResponse'] | undefined;
     updateEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     updateTeammates?: GraphQLTypes['UpdateTeammatesResponse'] | undefined;
     /** Update own user */
@@ -12609,12 +12550,6 @@ columns and relationships of "distributions" */
     update_claims?: GraphQLTypes['claims_mutation_response'] | undefined;
     /** update single row of the table: "claims" */
     update_claims_by_pk?: GraphQLTypes['claims'] | undefined;
-    /** update data of the table: "contributions" */
-    update_contributions?:
-      | GraphQLTypes['contributions_mutation_response']
-      | undefined;
-    /** update single row of the table: "contributions" */
-    update_contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
     /** update data of the table: "distributions" */
     update_distributions?:
       | GraphQLTypes['distributions_mutation_response']
@@ -15043,10 +14978,6 @@ export const enum claims_select_column {
 export const enum claims_update_column {
   txHash = 'txHash',
 }
-/** unique or primary key constraints on table "contributions" */
-export const enum contributions_constraint {
-  contributions_pkey = 'contributions_pkey',
-}
 /** select columns of table "contributions" */
 export const enum contributions_select_column {
   circle_id = 'circle_id',
@@ -15056,11 +14987,6 @@ export const enum contributions_select_column {
   id = 'id',
   updated_at = 'updated_at',
   user_id = 'user_id',
-}
-/** update columns of table "contributions" */
-export const enum contributions_update_column {
-  datetime_created = 'datetime_created',
-  description = 'description',
 }
 /** unique or primary key constraints on table "distributions" */
 export const enum distributions_constraint {

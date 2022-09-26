@@ -5683,6 +5683,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   UpdateContributionResponse: {
     id: 'ID',
+    updateContribution_Contribution: 'contributions',
   },
   UpdateOrgResponse: {
     id: 'Int',
