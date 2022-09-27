@@ -1,34 +1,27 @@
-// Updated at Tue, 03 May 2022 18:02:29 GMT
+// Updated at Tue, 27 Sep 2022 05:20:55 GMT
 // by scripts/update-figma-colors.ts
 
 export const colors = {
   // Blue
-  blue1: '#f6fafe',
+  blue1: '#e6f2ff',
   blue4: '#c2dffa',
   blue8: '#72b6f4',
   blue12: '#2c91ee',
   blue16: '#0f6ec5',
   blue24: '#062b4c',
-  // DiscordBlurple
-  discordblurple: '#5865f2',
   // Green
   green1: '#e5f7dd',
   green4: '#bae9a3',
   green8: '#74d447',
-  green12: '#57b62b',
   green16: '#469222',
   green20: '#356e1a',
   green24: '#234911',
   // Grey
-  grey1: '#fbfbfb',
   grey2: '#eef1f4',
-  grey4: '#e1e1e1',
-  grey8: '#c3c8c9',
   grey10: '#b8bdbf',
   grey12: '#98a0a3',
   grey16: '#717c7f',
   grey20: '#4e5658',
-  grey24: '#2c3031',
   // Orange
   orange1: '#fff2e5',
   orange4: '#fbe0cd',
@@ -57,7 +50,6 @@ export const colors = {
   teal1: '#e9f6f9',
   teal4: '#bee4ec',
   teal8: '#93d2e0',
-  teal12: '#53b7cd',
   teal20: '#246e7e',
   teal24: '#153f48',
   // Yellow
