@@ -1589,6 +1589,29 @@ columns and relationships of "circle_api_keys" */
       },
       ValueTypes['contributions']
     ];
+    contributions_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['contributions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['contributions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['contributions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['contributions_aggregate']
+    ];
     created_at?: boolean | `@${string}`;
     default_opt_in?: boolean | `@${string}`;
     deleted_at?: boolean | `@${string}`;
@@ -2417,6 +2440,36 @@ columns and relationships of "circle_api_keys" */
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** aggregated selection of "contributions" */
+  ['contributions_aggregate']: AliasType<{
+    aggregate?: ValueTypes['contributions_aggregate_fields'];
+    nodes?: ValueTypes['contributions'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "contributions" */
+  ['contributions_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['contributions_avg_fields'];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes['contributions_select_column']>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`
+    ];
+    max?: ValueTypes['contributions_max_fields'];
+    min?: ValueTypes['contributions_min_fields'];
+    stddev?: ValueTypes['contributions_stddev_fields'];
+    stddev_pop?: ValueTypes['contributions_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['contributions_stddev_samp_fields'];
+    sum?: ValueTypes['contributions_sum_fields'];
+    var_pop?: ValueTypes['contributions_var_pop_fields'];
+    var_samp?: ValueTypes['contributions_var_samp_fields'];
+    variance?: ValueTypes['contributions_variance_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
   /** order by aggregate values of table "contributions" */
   ['contributions_aggregate_order_by']: {
     avg?: ValueTypes['contributions_avg_order_by'] | undefined | null;
@@ -2437,6 +2490,13 @@ columns and relationships of "circle_api_keys" */
     var_samp?: ValueTypes['contributions_var_samp_order_by'] | undefined | null;
     variance?: ValueTypes['contributions_variance_order_by'] | undefined | null;
   };
+  /** aggregate avg on columns */
+  ['contributions_avg_fields']: AliasType<{
+    circle_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** order by avg() on columns of table "contributions" */
   ['contributions_avg_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
@@ -2466,6 +2526,17 @@ columns and relationships of "circle_api_keys" */
     circle_id?: ValueTypes['bigint'] | undefined | null;
     description?: string | undefined | null;
   };
+  /** aggregate max on columns */
+  ['contributions_max_fields']: AliasType<{
+    circle_id?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    datetime_created?: boolean | `@${string}`;
+    description?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** order by max() on columns of table "contributions" */
   ['contributions_max_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
@@ -2476,6 +2547,17 @@ columns and relationships of "circle_api_keys" */
     updated_at?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** aggregate min on columns */
+  ['contributions_min_fields']: AliasType<{
+    circle_id?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    datetime_created?: boolean | `@${string}`;
+    description?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** order by min() on columns of table "contributions" */
   ['contributions_min_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
@@ -2508,42 +2590,91 @@ columns and relationships of "circle_api_keys" */
   };
   /** select columns of table "contributions" */
   ['contributions_select_column']: contributions_select_column;
+  /** aggregate stddev on columns */
+  ['contributions_stddev_fields']: AliasType<{
+    circle_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** order by stddev() on columns of table "contributions" */
   ['contributions_stddev_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** aggregate stddev_pop on columns */
+  ['contributions_stddev_pop_fields']: AliasType<{
+    circle_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** order by stddev_pop() on columns of table "contributions" */
   ['contributions_stddev_pop_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** aggregate stddev_samp on columns */
+  ['contributions_stddev_samp_fields']: AliasType<{
+    circle_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** order by stddev_samp() on columns of table "contributions" */
   ['contributions_stddev_samp_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** aggregate sum on columns */
+  ['contributions_sum_fields']: AliasType<{
+    circle_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** order by sum() on columns of table "contributions" */
   ['contributions_sum_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** aggregate var_pop on columns */
+  ['contributions_var_pop_fields']: AliasType<{
+    circle_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** order by var_pop() on columns of table "contributions" */
   ['contributions_var_pop_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** aggregate var_samp on columns */
+  ['contributions_var_samp_fields']: AliasType<{
+    circle_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** order by var_samp() on columns of table "contributions" */
   ['contributions_var_samp_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** aggregate variance on columns */
+  ['contributions_variance_fields']: AliasType<{
+    circle_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** order by variance() on columns of table "contributions" */
   ['contributions_variance_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
@@ -4970,6 +5101,29 @@ columns and relationships of "profiles" */
       },
       ValueTypes['contributions']
     ];
+    contributions_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['contributions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['contributions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['contributions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['contributions_aggregate']
+    ];
     contributions_by_pk?: [
       { id: ValueTypes['bigint'] },
       ValueTypes['contributions']
@@ -5713,6 +5867,29 @@ columns and relationships of "profiles" */
         where?: ValueTypes['contributions_bool_exp'] | undefined | null;
       },
       ValueTypes['contributions']
+    ];
+    contributions_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['contributions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['contributions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['contributions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['contributions_aggregate']
     ];
     contributions_by_pk?: [
       { id: ValueTypes['bigint'] },
@@ -6900,6 +7077,52 @@ columns and relationships of "users" */
       ValueTypes['circle_api_keys']
     ];
     circle_id?: boolean | `@${string}`;
+    contributions?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['contributions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['contributions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['contributions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['contributions']
+    ];
+    contributions_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['contributions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['contributions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['contributions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['contributions_aggregate']
+    ];
     created_at?: boolean | `@${string}`;
     deleted_at?: boolean | `@${string}`;
     epoch_first_visit?: boolean | `@${string}`;
@@ -7137,6 +7360,7 @@ columns and relationships of "users" */
     circle?: ValueTypes['circles_bool_exp'] | undefined | null;
     circle_api_keys?: ValueTypes['circle_api_keys_bool_exp'] | undefined | null;
     circle_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    contributions?: ValueTypes['contributions_bool_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     deleted_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     epoch_first_visit?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
@@ -7209,6 +7433,10 @@ columns and relationships of "users" */
       | undefined
       | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
+    contributions_aggregate?:
+      | ValueTypes['contributions_aggregate_order_by']
+      | undefined
+      | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     deleted_at?: ValueTypes['order_by'] | undefined | null;
     epoch_first_visit?: ValueTypes['order_by'] | undefined | null;
@@ -8267,6 +8495,8 @@ columns and relationships of "circle_api_keys" */
     circle_private?: GraphQLTypes['circle_private'] | undefined;
     /** An array relationship */
     contributions: Array<GraphQLTypes['contributions']>;
+    /** An aggregate relationship */
+    contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     created_at: GraphQLTypes['timestamp'];
     default_opt_in: boolean;
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
@@ -8535,16 +8765,61 @@ columns and relationships of "circle_api_keys" */
     user: GraphQLTypes['users'];
     user_id: GraphQLTypes['bigint'];
   };
+  /** aggregated selection of "contributions" */
+  ['contributions_aggregate']: {
+    aggregate?: GraphQLTypes['contributions_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['contributions']>;
+  };
+  /** aggregate fields of "contributions" */
+  ['contributions_aggregate_fields']: {
+    avg?: GraphQLTypes['contributions_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['contributions_max_fields'] | undefined;
+    min?: GraphQLTypes['contributions_min_fields'] | undefined;
+    stddev?: GraphQLTypes['contributions_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['contributions_stddev_pop_fields'] | undefined;
+    stddev_samp?: GraphQLTypes['contributions_stddev_samp_fields'] | undefined;
+    sum?: GraphQLTypes['contributions_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['contributions_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['contributions_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['contributions_variance_fields'] | undefined;
+  };
   /** order by aggregate values of table "contributions" */
   ['contributions_aggregate_order_by']: GraphQLTypes['contributions_aggregate_order_by'];
+  /** aggregate avg on columns */
+  ['contributions_avg_fields']: {
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    user_id?: number | undefined;
+  };
   /** order by avg() on columns of table "contributions" */
   ['contributions_avg_order_by']: GraphQLTypes['contributions_avg_order_by'];
   /** Boolean expression to filter rows from the table "contributions". All fields are combined with a logical 'AND'. */
   ['contributions_bool_exp']: GraphQLTypes['contributions_bool_exp'];
   /** input type for inserting data into table "contributions" */
   ['contributions_insert_input']: GraphQLTypes['contributions_insert_input'];
+  /** aggregate max on columns */
+  ['contributions_max_fields']: {
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    datetime_created?: GraphQLTypes['timestamptz'] | undefined;
+    description?: string | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
+  };
   /** order by max() on columns of table "contributions" */
   ['contributions_max_order_by']: GraphQLTypes['contributions_max_order_by'];
+  /** aggregate min on columns */
+  ['contributions_min_fields']: {
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    datetime_created?: GraphQLTypes['timestamptz'] | undefined;
+    description?: string | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
+  };
   /** order by min() on columns of table "contributions" */
   ['contributions_min_order_by']: GraphQLTypes['contributions_min_order_by'];
   /** response of any mutation on the table "contributions" */
@@ -8558,18 +8833,60 @@ columns and relationships of "circle_api_keys" */
   ['contributions_order_by']: GraphQLTypes['contributions_order_by'];
   /** select columns of table "contributions" */
   ['contributions_select_column']: GraphQLTypes['contributions_select_column'];
+  /** aggregate stddev on columns */
+  ['contributions_stddev_fields']: {
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    user_id?: number | undefined;
+  };
   /** order by stddev() on columns of table "contributions" */
   ['contributions_stddev_order_by']: GraphQLTypes['contributions_stddev_order_by'];
+  /** aggregate stddev_pop on columns */
+  ['contributions_stddev_pop_fields']: {
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    user_id?: number | undefined;
+  };
   /** order by stddev_pop() on columns of table "contributions" */
   ['contributions_stddev_pop_order_by']: GraphQLTypes['contributions_stddev_pop_order_by'];
+  /** aggregate stddev_samp on columns */
+  ['contributions_stddev_samp_fields']: {
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    user_id?: number | undefined;
+  };
   /** order by stddev_samp() on columns of table "contributions" */
   ['contributions_stddev_samp_order_by']: GraphQLTypes['contributions_stddev_samp_order_by'];
+  /** aggregate sum on columns */
+  ['contributions_sum_fields']: {
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
+  };
   /** order by sum() on columns of table "contributions" */
   ['contributions_sum_order_by']: GraphQLTypes['contributions_sum_order_by'];
+  /** aggregate var_pop on columns */
+  ['contributions_var_pop_fields']: {
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    user_id?: number | undefined;
+  };
   /** order by var_pop() on columns of table "contributions" */
   ['contributions_var_pop_order_by']: GraphQLTypes['contributions_var_pop_order_by'];
+  /** aggregate var_samp on columns */
+  ['contributions_var_samp_fields']: {
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    user_id?: number | undefined;
+  };
   /** order by var_samp() on columns of table "contributions" */
   ['contributions_var_samp_order_by']: GraphQLTypes['contributions_var_samp_order_by'];
+  /** aggregate variance on columns */
+  ['contributions_variance_fields']: {
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    user_id?: number | undefined;
+  };
   /** order by variance() on columns of table "contributions" */
   ['contributions_variance_order_by']: GraphQLTypes['contributions_variance_order_by'];
   ['date']: any;
@@ -9366,6 +9683,8 @@ columns and relationships of "profiles" */
     claims_by_pk?: GraphQLTypes['claims'] | undefined;
     /** An array relationship */
     contributions: Array<GraphQLTypes['contributions']>;
+    /** An aggregate relationship */
+    contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     /** fetch data from the table: "contributions" using primary key columns */
     contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
     /** An array relationship */
@@ -9474,6 +9793,8 @@ columns and relationships of "profiles" */
     claims_by_pk?: GraphQLTypes['claims'] | undefined;
     /** An array relationship */
     contributions: Array<GraphQLTypes['contributions']>;
+    /** An aggregate relationship */
+    contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     /** fetch data from the table: "contributions" using primary key columns */
     contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
     /** An array relationship */
@@ -9872,6 +10193,10 @@ columns and relationships of "users" */
     /** fetch data from the table: "circle_api_keys" */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     circle_id: GraphQLTypes['bigint'];
+    /** An array relationship */
+    contributions: Array<GraphQLTypes['contributions']>;
+    /** An aggregate relationship */
+    contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     created_at: GraphQLTypes['timestamp'];
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
     epoch_first_visit: boolean;
@@ -10988,6 +11313,8 @@ columns and relationships of "circle_api_keys" */
     circle_private?: GraphQLTypes['circle_private'] | undefined;
     /** An array relationship */
     contributions: Array<GraphQLTypes['contributions']>;
+    /** An aggregate relationship */
+    contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     created_at: GraphQLTypes['timestamp'];
     default_opt_in: boolean;
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
@@ -11600,6 +11927,27 @@ columns and relationships of "circle_api_keys" */
     user: GraphQLTypes['users'];
     user_id: GraphQLTypes['bigint'];
   };
+  /** aggregated selection of "contributions" */
+  ['contributions_aggregate']: {
+    __typename: 'contributions_aggregate';
+    aggregate?: GraphQLTypes['contributions_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['contributions']>;
+  };
+  /** aggregate fields of "contributions" */
+  ['contributions_aggregate_fields']: {
+    __typename: 'contributions_aggregate_fields';
+    avg?: GraphQLTypes['contributions_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['contributions_max_fields'] | undefined;
+    min?: GraphQLTypes['contributions_min_fields'] | undefined;
+    stddev?: GraphQLTypes['contributions_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['contributions_stddev_pop_fields'] | undefined;
+    stddev_samp?: GraphQLTypes['contributions_stddev_samp_fields'] | undefined;
+    sum?: GraphQLTypes['contributions_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['contributions_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['contributions_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['contributions_variance_fields'] | undefined;
+  };
   /** order by aggregate values of table "contributions" */
   ['contributions_aggregate_order_by']: {
     avg?: GraphQLTypes['contributions_avg_order_by'] | undefined;
@@ -11615,6 +11963,13 @@ columns and relationships of "circle_api_keys" */
     var_pop?: GraphQLTypes['contributions_var_pop_order_by'] | undefined;
     var_samp?: GraphQLTypes['contributions_var_samp_order_by'] | undefined;
     variance?: GraphQLTypes['contributions_variance_order_by'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['contributions_avg_fields']: {
+    __typename: 'contributions_avg_fields';
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    user_id?: number | undefined;
   };
   /** order by avg() on columns of table "contributions" */
   ['contributions_avg_order_by']: {
@@ -11642,6 +11997,14 @@ columns and relationships of "circle_api_keys" */
     circle_id?: GraphQLTypes['bigint'] | undefined;
     description?: string | undefined;
   };
+  /** aggregate max on columns */
+  ['contributions_max_fields']: {
+    __typename: 'contributions_max_fields';
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    datetime_created?: GraphQLTypes['timestamptz'] | undefined;
+    description?: string | undefined;
+  };
   /** order by max() on columns of table "contributions" */
   ['contributions_max_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
@@ -11651,6 +12014,17 @@ columns and relationships of "circle_api_keys" */
     id?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['contributions_min_fields']: {
+    __typename: 'contributions_min_fields';
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    datetime_created?: GraphQLTypes['timestamptz'] | undefined;
+    description?: string | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** order by min() on columns of table "contributions" */
   ['contributions_min_order_by']: {
@@ -11684,11 +12058,25 @@ columns and relationships of "circle_api_keys" */
   };
   /** select columns of table "contributions" */
   ['contributions_select_column']: contributions_select_column;
+  /** aggregate stddev on columns */
+  ['contributions_stddev_fields']: {
+    __typename: 'contributions_stddev_fields';
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    user_id?: number | undefined;
+  };
   /** order by stddev() on columns of table "contributions" */
   ['contributions_stddev_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['contributions_stddev_pop_fields']: {
+    __typename: 'contributions_stddev_pop_fields';
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    user_id?: number | undefined;
   };
   /** order by stddev_pop() on columns of table "contributions" */
   ['contributions_stddev_pop_order_by']: {
@@ -11696,11 +12084,25 @@ columns and relationships of "circle_api_keys" */
     id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
+  /** aggregate stddev_samp on columns */
+  ['contributions_stddev_samp_fields']: {
+    __typename: 'contributions_stddev_samp_fields';
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    user_id?: number | undefined;
+  };
   /** order by stddev_samp() on columns of table "contributions" */
   ['contributions_stddev_samp_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate sum on columns */
+  ['contributions_sum_fields']: {
+    __typename: 'contributions_sum_fields';
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** order by sum() on columns of table "contributions" */
   ['contributions_sum_order_by']: {
@@ -11708,17 +12110,38 @@ columns and relationships of "circle_api_keys" */
     id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
+  /** aggregate var_pop on columns */
+  ['contributions_var_pop_fields']: {
+    __typename: 'contributions_var_pop_fields';
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    user_id?: number | undefined;
+  };
   /** order by var_pop() on columns of table "contributions" */
   ['contributions_var_pop_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
+  /** aggregate var_samp on columns */
+  ['contributions_var_samp_fields']: {
+    __typename: 'contributions_var_samp_fields';
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    user_id?: number | undefined;
+  };
   /** order by var_samp() on columns of table "contributions" */
   ['contributions_var_samp_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate variance on columns */
+  ['contributions_variance_fields']: {
+    __typename: 'contributions_variance_fields';
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    user_id?: number | undefined;
   };
   /** order by variance() on columns of table "contributions" */
   ['contributions_variance_order_by']: {
@@ -13364,6 +13787,8 @@ columns and relationships of "profiles" */
     claims_by_pk?: GraphQLTypes['claims'] | undefined;
     /** An array relationship */
     contributions: Array<GraphQLTypes['contributions']>;
+    /** An aggregate relationship */
+    contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     /** fetch data from the table: "contributions" using primary key columns */
     contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
     /** An array relationship */
@@ -13473,6 +13898,8 @@ columns and relationships of "profiles" */
     claims_by_pk?: GraphQLTypes['claims'] | undefined;
     /** An array relationship */
     contributions: Array<GraphQLTypes['contributions']>;
+    /** An aggregate relationship */
+    contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     /** fetch data from the table: "contributions" using primary key columns */
     contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
     /** An array relationship */
@@ -14140,6 +14567,10 @@ columns and relationships of "users" */
     /** fetch data from the table: "circle_api_keys" */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     circle_id: GraphQLTypes['bigint'];
+    /** An array relationship */
+    contributions: Array<GraphQLTypes['contributions']>;
+    /** An aggregate relationship */
+    contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     created_at: GraphQLTypes['timestamp'];
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
     epoch_first_visit: boolean;
@@ -14208,6 +14639,7 @@ columns and relationships of "users" */
     circle?: GraphQLTypes['circles_bool_exp'] | undefined;
     circle_api_keys?: GraphQLTypes['circle_api_keys_bool_exp'] | undefined;
     circle_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    contributions?: GraphQLTypes['contributions_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     epoch_first_visit?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
@@ -14274,6 +14706,9 @@ columns and relationships of "users" */
       | GraphQLTypes['circle_api_keys_aggregate_order_by']
       | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
+    contributions_aggregate?:
+      | GraphQLTypes['contributions_aggregate_order_by']
+      | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     deleted_at?: GraphQLTypes['order_by'] | undefined;
     epoch_first_visit?: GraphQLTypes['order_by'] | undefined;
