@@ -5,6 +5,11 @@ import { Box } from './Box/Box';
 export const Flex = styled(Box, {
   display: 'flex',
   variants: {
+    alignItems: {
+      center: {
+        alignItems: 'center',
+      },
+    },
     column: {
       true: {
         flexDirection: 'column',

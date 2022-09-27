@@ -58,6 +58,10 @@ export const Button = styled('button', {
         backgroundColor: '$complete',
         color: 'white',
       },
+      tag: {
+        backgroundColor: '$tag',
+        color: '$tagDark',
+      },
       transparent: {
         padding: '$xs',
         backgroundColor: 'transparent',
@@ -76,6 +80,10 @@ export const Button = styled('button', {
         '&:hover': {
           textDecoration: 'underline',
         },
+      },
+      white: {
+        backgroundColor: '$white',
+        color: '$primary',
       },
     },
     size: {
@@ -304,6 +312,24 @@ export const Button = styled('button', {
           color: '$white',
           filter: 'saturate(1)',
           backgroundColor: '$complete !important',
+        },
+      },
+    },
+    {
+      color: 'tag',
+      outlined: true,
+      css: {
+        color: '$tagDark',
+        borderColor: '$tag',
+        '&:hover': {
+          color: '$tagDark',
+          filter: 'saturate(1)',
+          backgroundColor: '$tag !important',
+        },
+        '&:focus': {
+          color: '$tagDark',
+          filter: 'saturate(1)',
+          backgroundColor: '$tag !important',
         },
       },
     },

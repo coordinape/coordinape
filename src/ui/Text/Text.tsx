@@ -71,6 +71,15 @@ export const Text = styled('span', {
         lineHeight: '$base',
       },
     },
+    ellipsis: {
+      true: {
+        display: 'block',
+        textOverflow: 'ellipsis',
+        overflow: 'hidden',
+        wordBreak: 'break-word',
+        whiteSpace: 'nowrap',
+      },
+    },
   },
 
   defaultVariants: { font: 'inter', color: 'default' },
