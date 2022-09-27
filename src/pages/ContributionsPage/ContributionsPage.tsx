@@ -8,7 +8,8 @@ import { useQuery, useMutation } from 'react-query';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { useSelectedCircle } from '../../recoilState';
 import { LoadingModal, FormInputField } from 'components';
-import { Panel, Text, Box, Modal, Button } from 'ui';
+import { Check, AlertTriangle, Save } from 'icons/__generated';
+import { Panel, Text, Box, Modal, Button, Flex } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { updateContributionMutation } from './mutations';
@@ -69,7 +70,18 @@ const ContributionsPage = () => {
   return (
     <>
       <SingleColumnLayout>
-        <Text h1>Contributions</Text>
+        <Flex
+          css={{
+            justifyContent: 'space-between',
+            alignItems: 'baseline',
+            flexWrap: 'wrap',
+          }}
+        >
+          <Text h1>Contributions</Text>
+          <Button outlined color="primary" onClick={() => {}}>
+            Add Contribution
+          </Button>
+        </Flex>
         <Text p>What have you been working on?</Text>
         <EpochGroup
           {...data}
@@ -112,28 +124,61 @@ const ContributionsPage = () => {
                 defaultValue={currentContribution.contribution.description}
                 textArea
               />
-              <br />
-              {status === 'loading' && 'Saving...'}
-              {status === 'success' && 'Saved'}
-              {status === 'error' && 'error'}
-              <br />
-              <Button
-                outlined
-                color="primary"
-                size="inline"
-                type="submit"
-                disabled={!isDirty || status === 'loading'}
-                onClick={() =>
-                  mutateContribution({
-                    id: currentContribution.contribution.id,
-                    datetime_created:
-                      currentContribution.contribution.datetime_created,
-                    description: descriptionField.value,
-                  })
-                }
-              >
-                Save
-              </Button>
+              <Flex css={{ justifyContent: 'space-between', mt: '$md' }}>
+                <Button
+                  outlined
+                  color="destructive"
+                  size="inline"
+                  onClick={() =>
+                    deleteContribution({
+                      id: currentContribution.contribution.id,
+                    })
+                  }
+                >
+                  Remove
+                </Button>
+                <Flex css={{ gap: '$md' }}>
+                  <Text
+                    css={{ gap: '$sm' }}
+                    color={status === 'error' ? 'alert' : 'neutral'}
+                  >
+                    {status === 'loading' && (
+                      <>
+                        <Save />
+                        Saving...
+                      </>
+                    )}
+                    {status === 'success' && (
+                      <>
+                        <Check /> Changes Saved
+                      </>
+                    )}
+                    {status === 'error' && isDirty && (
+                      <>
+                        <AlertTriangle />
+                        Error
+                      </>
+                    )}
+                  </Text>
+                  <Button
+                    outlined
+                    color="primary"
+                    size="inline"
+                    type="submit"
+                    disabled={!isDirty || status === 'loading'}
+                    onClick={() =>
+                      mutateContribution({
+                        id: currentContribution.contribution.id,
+                        datetime_created:
+                          currentContribution.contribution.datetime_created,
+                        description: descriptionField.value,
+                      })
+                    }
+                  >
+                    Save
+                  </Button>
+                </Flex>
+              </Flex>
             </>
           )}
         </Panel>
