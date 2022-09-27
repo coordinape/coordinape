@@ -440,11 +440,7 @@ export function DistributionForm({
                 type="text"
                 placeholder="0"
                 error={!!errors.amount}
-                errorText={
-                  errors.amount
-                    ? 'Insufficient funds.'
-                    : ''
-                }
+                errorText={errors.amount ? 'Insufficient funds.' : ''}
                 value={
                   circleDist
                     ? circleDist.gift_amount?.toString() || '0'
