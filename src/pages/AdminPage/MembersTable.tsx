@@ -855,8 +855,9 @@ export const MembersTable = ({
           if (index === 0) return (u: IUser) => u.name.toLowerCase();
           if (index === 1) return (u: IUser) => u.address.toLowerCase();
           if (index === 2) return (u: IUser) => u.non_giver;
-          if (index === 3) return (u: IUser) => u.fixed_payment_amount;
-          if (index === 5) return (u: IUser) => u.isCircleAdmin;
+          if (index === 3) return (u: IUser) => u.non_receiver;
+          if (index === 4) return (u: IUser) => u.fixed_payment_amount;
+          if (index === 6) return (u: IUser) => u.isCircleAdmin;
           return (u: IUser) => u.name.toLowerCase();
         }}
       >
