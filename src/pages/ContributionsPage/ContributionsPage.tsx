@@ -129,11 +129,11 @@ const ContributionsPage = () => {
                   outlined
                   color="destructive"
                   size="inline"
-                  onClick={() =>
-                    deleteContribution({
-                      id: currentContribution.contribution.id,
-                    })
-                  }
+                  // onClick={() =>
+                  //   deleteContribution({
+                  //     id: currentContribution.contribution.id,
+                  //   })
+                  // }
                 >
                   Remove
                 </Button>
@@ -227,7 +227,12 @@ const EpochGroup = ({
     <>
       <Box key={-1}>
         <Box>
-          <Text h2={true}>Latest</Text>
+          <Text h2 css={{ gap: '$md' }}>
+            Latest
+            <Text tag color="active">
+              Future
+            </Text>
+          </Text>
         </Box>
         <Panel css={{ gap: '$md' }}>
           <ContributionList
