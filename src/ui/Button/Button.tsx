@@ -167,6 +167,18 @@ export const Button = styled('button', {
         border: '1px solid',
       },
     },
+    // selectable: {
+    //   true: {
+    //     // opacity: 0.2,
+    //     backgroundColor: '$white !important',
+    //   },
+    // },
+    // selected: {
+    //   true: {
+    //     // opacity: 1,
+    //     backgroundColor: '$white !important',
+    //   },
+    // },
     inline: {
       true: {
         display: 'inline',
@@ -217,18 +229,54 @@ export const Button = styled('button', {
     },
   },
   compoundVariants: [
+    // {
+    //   outlined: true,
+    //   selectable: true,
+    //   css: {
+    //     color: '$secondaryText',
+    //     borderColor: '$border',
+    //     svg: {
+    //       opacity: 0.3,
+    //     },
+    //     '&:hover, &:focus': {
+    //       svg: {
+    //         opacity: 1,
+    //       },
+    //       color: '$headingText',
+    //       borderColor: '$borderMedium',
+    //       // backgroundColor: '$white !important',
+    //     },
+    //     '&:active': {
+    //       backgroundColor: '$surface',
+    //     },
+    //   },
+    // },
+    // {
+    //   color: 'destructive',
+    //   outlined: true,
+    //   selectable: true,
+    //   selected: true,
+    //   css: {
+    //     color: '$headingText !important',
+    //     backgroundColor: '$surface !important',
+    //     borderColor: '$alert !important',
+    //     borderWidth: '2px',
+    //     svg: {
+    //       opacity: 1,
+    //     },
+    //     '&:hover, &:focus': {
+    //       backgroundColor: '$surface !important',
+    //       borderColor: '$alert !important',
+    //     },
+    //   },
+    // },
     {
       color: 'primary',
       outlined: true,
       css: {
         color: '$primary',
         borderColor: '$primary',
-        '&:hover': {
-          color: '$white',
-          filter: 'saturate(1)',
-          backgroundColor: '$primary !important',
-        },
-        '&:focus': {
+        '&:hover, &:focus': {
           color: '$white',
           filter: 'saturate(1)',
           backgroundColor: '$primary !important',
@@ -241,12 +289,7 @@ export const Button = styled('button', {
       css: {
         color: '$secondary',
         borderColor: '$secondary',
-        '&:hover': {
-          color: '$white',
-          filter: 'saturate(1)',
-          backgroundColor: '$secondary !important',
-        },
-        '&:focus': {
+        '&:hover, &:focus': {
           color: '$white',
           filter: 'saturate(1)',
           backgroundColor: '$secondary !important',
@@ -259,12 +302,7 @@ export const Button = styled('button', {
       css: {
         color: '$alert',
         borderColor: '$alert',
-        '&:hover': {
-          color: '$white',
-          filter: 'saturate(1)',
-          backgroundColor: '$alert !important',
-        },
-        '&:focus': {
+        '&:hover, &:focus': {
           color: '$white',
           filter: 'saturate(1)',
           backgroundColor: '$alert !important',
@@ -277,12 +315,7 @@ export const Button = styled('button', {
       css: {
         color: '$text',
         borderColor: '$neutral',
-        '&:hover': {
-          color: '$white',
-          filter: 'saturate(1)',
-          backgroundColor: '$neutral !important',
-        },
-        '&:focus': {
+        '&:hover, &:focus': {
           color: '$white',
           filter: 'saturate(1)',
           backgroundColor: '$neutral !important',
@@ -295,12 +328,7 @@ export const Button = styled('button', {
       css: {
         color: '$complete',
         borderColor: '$complete',
-        '&:hover': {
-          color: '$white',
-          filter: 'saturate(1)',
-          backgroundColor: '$complete !important',
-        },
-        '&:focus': {
+        '&:hover, &:focus': {
           color: '$white',
           filter: 'saturate(1)',
           backgroundColor: '$complete !important',

@@ -137,7 +137,8 @@ const buttons: [
   [paths.allocation, 'Allocation'],
   [paths.map, 'Map'],
   [paths.vouching, 'Vouching', (c: QueryCircle) => !c.vouching],
-  [paths.members, 'Admin', (c: QueryCircle) => c.users[0]?.role !== 1],
+  [paths.members, 'Members'],
+  [paths.circleAdmin, 'Admin', (c: QueryCircle) => c.users[0]?.role !== 1],
 ];
 
 const nonMemberPanelCss: CSS = {
