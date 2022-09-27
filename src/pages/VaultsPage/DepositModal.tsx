@@ -147,7 +147,10 @@ export default function DepositModal({
         >
           {submitting
             ? 'Depositing Funds...'
-            : `Approve and Deposit into ${vault.symbol} Vault`}
+            : `Approve and Deposit into ${vault.symbol} Vault ${shortenAddress(
+                vault.vault_address,
+                false
+              )}`}
         </Button>
         <Text
           size="small"

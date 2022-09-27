@@ -32,6 +32,13 @@ array_relationships:
         table:
           schema: public
           name: circle_api_keys
+  - name: contributions
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: public
+          name: contributions
   - name: pending_received_gifts
     using:
       foreign_key_constraint_on:

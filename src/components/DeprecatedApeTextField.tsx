@@ -235,6 +235,10 @@ const apeVariants: any = (
           '&.Mui-disabled': {
             backgroundColor: theme.colors.surface,
           },
+          '&.Mui-error, &.Mui-error .MuiInputBase-input': {
+            backgroundColor: theme.colors.alertLight,
+            color: theme.colors.alert,
+          },
         },
         input: {
           padding: theme.spacing(0.75, 1, 0.75),
@@ -304,7 +308,7 @@ const useBaseStyles = makeStyles<
     ...apeVariants(theme, variant, size)?.inputRoot,
   }),
   inputRootError: {
-    border: `1px solid ${theme.colors.alert}dd`,
+    border: `1px solid ${theme.colors.alert}`,
     color: theme.colors.alert,
     '&:focus-within': {
       border: `1px solid ${theme.colors.alert}`,

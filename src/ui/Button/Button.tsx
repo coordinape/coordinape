@@ -58,6 +58,10 @@ export const Button = styled('button', {
         backgroundColor: '$complete',
         color: 'white',
       },
+      tag: {
+        backgroundColor: '$tag',
+        color: '$tagDark',
+      },
       transparent: {
         padding: '$xs',
         backgroundColor: 'transparent',
@@ -76,6 +80,10 @@ export const Button = styled('button', {
         '&:hover': {
           textDecoration: 'underline',
         },
+      },
+      white: {
+        backgroundColor: '$white',
+        color: '$primary',
       },
     },
     size: {
@@ -177,6 +185,44 @@ export const Button = styled('button', {
         borderRadius: '$pill',
       },
     },
+    greenIconButton: {
+      true: {
+        color: '$secondaryText',
+        border: '1px solid $borderMedium',
+        backgroundColor: '$transparent !important',
+        '&:hover': {
+          borderColor: '$complete',
+          filter: 'saturate(1)',
+        },
+      },
+    },
+    greenIconButtonToggled: {
+      true: {
+        color: '$headingText',
+        border: '1px solid $complete',
+        backgroundColor: '$surface !important',
+        filter: 'saturate(1)',
+      },
+    },
+    redIconButton: {
+      true: {
+        color: '$secondaryText',
+        border: '1px solid $borderMedium',
+        backgroundColor: '$transparent !important',
+        '&:hover': {
+          borderColor: '$alert',
+          filter: 'saturate(1)',
+        },
+      },
+    },
+    redIconButtonToggled: {
+      true: {
+        color: '$headingText',
+        border: '1px solid $alert',
+        backgroundColor: '$surface !important',
+        filter: 'saturate(1)',
+      },
+    },
   },
   compoundVariants: [
     {
@@ -266,6 +312,24 @@ export const Button = styled('button', {
           color: '$white',
           filter: 'saturate(1)',
           backgroundColor: '$complete !important',
+        },
+      },
+    },
+    {
+      color: 'tag',
+      outlined: true,
+      css: {
+        color: '$tagDark',
+        borderColor: '$tag',
+        '&:hover': {
+          color: '$tagDark',
+          filter: 'saturate(1)',
+          backgroundColor: '$tag !important',
+        },
+        '&:focus': {
+          color: '$tagDark',
+          filter: 'saturate(1)',
+          backgroundColor: '$tag !important',
         },
       },
     },

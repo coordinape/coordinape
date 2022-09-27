@@ -121,6 +121,15 @@ actions:
           value_from_env: HASURA_EVENT_SECRET
     permissions:
       - role: user
+  - name: deleteContribution
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      headers:
+      - name: verification_key
+        value_from_env: HASURA_EVENT_SECRET
+    permissions:
+    - role: user
   - name: deleteUser
     definition:
       kind: synchronous

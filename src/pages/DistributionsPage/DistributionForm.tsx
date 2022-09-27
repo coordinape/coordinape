@@ -5,7 +5,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { formatRelative, parseISO } from 'date-fns';
 import { BigNumber, constants as ethersConstants } from 'ethers';
 import { parseUnits, formatUnits, commify } from 'ethers/lib/utils';
-import { getWrappedAmount, removeYearnPrefix } from 'lib/vaults';
+import {
+  getVaultSymbolAddressString,
+  getWrappedAmount,
+  removeYearnPrefix,
+} from 'lib/vaults';
 import round from 'lodash/round';
 import { useForm, SubmitHandler, useController } from 'react-hook-form';
 import { z } from 'zod';
@@ -13,7 +17,7 @@ import { z } from 'zod';
 import { DISTRIBUTION_TYPE } from '../../config/constants';
 import { paths } from '../../routes/paths';
 import { IUser } from '../../types';
-import { LoadingModal, FormTokenField } from 'components';
+import { LoadingModal, FormTokenField, zTokenString } from 'components';
 import { useApeSnackbar, useContracts } from 'hooks';
 import { AppLink, Box, Button, Flex, Panel, Select, Text } from 'ui';
 import { TwoColumnLayout } from 'ui/layouts';
@@ -35,19 +39,12 @@ const vaultSelectionPanel = {
   mb: '$lg',
 };
 
-const DistributionFormSchema = z.object({
-  amount: z.string(),
-  selectedVaultId: z.string(),
-});
-
-type TDistributionForm = z.infer<typeof DistributionFormSchema>;
-
 type SubmitFormProps = {
   epoch: EpochDataResult;
   users: (Gift['recipient'] & { received: number })[];
   setAmount: (amount: string) => void;
   setGiftVaultId: (giftVaultId: string) => void;
-  vaults: { id: number; symbol: string }[];
+  vaults: { id: number; symbol: string; vault_address: string }[];
   circleUsers: IUser[];
   giftVaultId: string;
   formGiftAmount: string;
@@ -103,26 +100,57 @@ export function DistributionForm({
 
   const fpVault = findVault(fixedPaymentVaultId?.toString());
 
-  const { handleSubmit, control, register, setValue } =
-    useForm<TDistributionForm>({
-      resolver: zodResolver(DistributionFormSchema),
-      defaultValues: {
-        selectedVaultId: vaults[0] ? vaults[0].id.toString() : undefined,
-      },
-    });
+  const giftDecimals = findVault(giftVaultId)?.decimals || 0;
+  const DistributionFormSchema = z.object({
+    amount: zTokenString(
+      '0',
+      formatUnits(maxGiftTokens, giftDecimals),
+      giftDecimals
+    ),
+    selectedVaultId: z.string(),
+  });
+  const FixedDistributionFormSchema = z.object({
+    amount: z.string(),
+    selectedVaultId: z.string(),
+  });
+  type TDistributionForm = z.infer<typeof DistributionFormSchema>;
+  type TFixedDistributionForm = z.infer<typeof FixedDistributionFormSchema>;
+  const {
+    handleSubmit,
+    control,
+    register,
+    setValue,
+    formState: { errors },
+  } = useForm<TDistributionForm>({
+    mode: 'all',
+    resolver: zodResolver(DistributionFormSchema),
+    defaultValues: {
+      selectedVaultId: vaults[0] ? vaults[0].id.toString() : undefined,
+    },
+  });
 
-  const { field: amountField, fieldState: amountFieldState } = useController({
+  const {
+    handleSubmit: fixedHandleSubmit,
+    control: fixedControl,
+    register: fixedRegister,
+  } = useForm<TFixedDistributionForm>({
+    resolver: zodResolver(FixedDistributionFormSchema),
+    defaultValues: {
+      selectedVaultId: vaults[0] ? vaults[0].id.toString() : undefined,
+    },
+  });
+
+  const { field: amountField } = useController({
     name: 'amount',
     control,
     defaultValue: '0',
   });
 
-  const { field: fixedAmountField, fieldState: fixedAmountFieldState } =
-    useController({
-      name: 'amount',
-      control,
-      defaultValue: '0',
-    });
+  const { field: fixedAmountField } = useController({
+    name: 'amount',
+    control: fixedControl,
+    defaultValue: '0',
+  });
 
   useEffect(() => {
     if (circleDist) {
@@ -143,7 +171,7 @@ export function DistributionForm({
       updateBalanceState(fpVault.id.toString(), totalFixedPayment, 'fixed');
   }, [fixedPaymentVaultId, totalFixedPayment]);
 
-  const onFixedFormSubmit: SubmitHandler<TDistributionForm> = async () => {
+  const onFixedFormSubmit: SubmitHandler<TFixedDistributionForm> = async () => {
     assert(epoch?.id && circle);
     setFixedSubmitting(true);
     const vault = fpVault;
@@ -399,7 +427,10 @@ export function DistributionForm({
                 options={
                   vaults.length
                     ? vaults.map(t => {
-                        return { value: t.id.toString(), label: t.symbol };
+                        return {
+                          value: t.id.toString(),
+                          label: getVaultSymbolAddressString(t),
+                        };
                       })
                     : [{ value: '', label: 'No Vaults Available' }]
                 }
@@ -415,7 +446,8 @@ export function DistributionForm({
                 })}
                 type="text"
                 placeholder="0"
-                error={!!amountFieldState.error}
+                error={!!errors.amount}
+                errorText={errors.amount ? 'Insufficient funds.' : ''}
                 value={
                   circleDist
                     ? circleDist.gift_amount?.toString() || '0'
@@ -479,7 +511,7 @@ export function DistributionForm({
         </Flex>
       </form>
 
-      <form onSubmit={handleSubmit(onFixedFormSubmit)}>
+      <form onSubmit={fixedHandleSubmit(onFixedFormSubmit)}>
         <Panel invertForm css={vaultSelectionPanel}>
           <Flex>
             <Text h2 css={{ ...headerStyle, flexGrow: 1 }}>
@@ -513,7 +545,7 @@ export function DistributionForm({
               <TwoColumnLayout css={{ pt: '$md' }}>
                 <Box css={{ width: '100%' }}>
                   <Select
-                    {...(register('selectedVaultId'),
+                    {...(fixedRegister('selectedVaultId'),
                     {
                       defaultValue: fpVault
                         ? fixedDist
@@ -528,7 +560,7 @@ export function DistributionForm({
                         ? [
                             {
                               value: fpVault.id.toString(),
-                              label: fpVault.symbol,
+                              label: getVaultSymbolAddressString(fpVault),
                             },
                           ]
                         : [{ value: '', label: 'No Vaults Available' }]
@@ -551,7 +583,6 @@ export function DistributionForm({
                     })}
                     type="text"
                     placeholder="0"
-                    error={!!fixedAmountFieldState.error}
                     value={
                       fixedDist
                         ? fixedDist.fixed_amount.toString()

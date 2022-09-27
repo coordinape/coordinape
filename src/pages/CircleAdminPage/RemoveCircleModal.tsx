@@ -10,7 +10,6 @@ import { useApeSnackbar } from 'hooks';
 import { QUERY_KEY_MY_ORGS } from 'pages/CirclesPage/getOrgData';
 import { paths } from 'routes/paths';
 import { Button, Flex, Modal, Text } from 'ui';
-import { normalizeError } from 'utils/reporting';
 
 export const RemoveCircleModal = ({
   onClose,
@@ -39,7 +38,7 @@ export const RemoveCircleModal = ({
     },
     onError: err => {
       setIsLoading(false);
-      showError(normalizeError(err));
+      showError(err);
       onClose();
     },
   });

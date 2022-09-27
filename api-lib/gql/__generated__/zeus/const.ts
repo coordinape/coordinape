@@ -4751,6 +4751,16 @@ export const AllTypesProps: Record<string, any> = {
       order_by: 'circle_api_keys_order_by',
       where: 'circle_api_keys_bool_exp',
     },
+    contributions: {
+      distinct_on: 'contributions_select_column',
+      order_by: 'contributions_order_by',
+      where: 'contributions_bool_exp',
+    },
+    contributions_aggregate: {
+      distinct_on: 'contributions_select_column',
+      order_by: 'contributions_order_by',
+      where: 'contributions_bool_exp',
+    },
     pending_received_gifts: {
       distinct_on: 'pending_token_gifts_select_column',
       order_by: 'pending_token_gifts_order_by',
@@ -4853,6 +4863,7 @@ export const AllTypesProps: Record<string, any> = {
     circle: 'circles_bool_exp',
     circle_api_keys: 'circle_api_keys_bool_exp',
     circle_id: 'bigint_comparison_exp',
+    contributions: 'contributions_bool_exp',
     created_at: 'timestamp_comparison_exp',
     deleted_at: 'timestamp_comparison_exp',
     epoch_first_visit: 'Boolean_comparison_exp',
@@ -4887,6 +4898,7 @@ export const AllTypesProps: Record<string, any> = {
     circle: 'circles_obj_rel_insert_input',
     circle_api_keys: 'circle_api_keys_arr_rel_insert_input',
     circle_id: 'bigint',
+    contributions: 'contributions_arr_rel_insert_input',
     created_at: 'timestamp',
     deleted_at: 'timestamp',
     fixed_payment_amount: 'numeric',
@@ -4947,6 +4959,7 @@ export const AllTypesProps: Record<string, any> = {
     circle: 'circles_order_by',
     circle_api_keys_aggregate: 'circle_api_keys_aggregate_order_by',
     circle_id: 'order_by',
+    contributions_aggregate: 'contributions_aggregate_order_by',
     created_at: 'order_by',
     deleted_at: 'order_by',
     epoch_first_visit: 'order_by',
@@ -5683,6 +5696,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   UpdateContributionResponse: {
     id: 'ID',
+    updateContribution_Contribution: 'contributions',
   },
   UpdateOrgResponse: {
     id: 'Int',
@@ -8568,6 +8582,8 @@ export const ReturnTypes: Record<string, any> = {
     circle_api_keys: 'circle_api_keys',
     circle_api_keys_aggregate: 'circle_api_keys_aggregate',
     circle_id: 'bigint',
+    contributions: 'contributions',
+    contributions_aggregate: 'contributions_aggregate',
     created_at: 'timestamp',
     deleted_at: 'timestamp',
     epoch_first_visit: 'Boolean',

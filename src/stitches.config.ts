@@ -93,10 +93,15 @@ export const colors = {
   border: figmaColors.grey4,
   borderMedium: figmaColors.grey8,
 
+  highlight: figmaColors.blue1,
+
   link: figmaColors.blue12,
   text: figmaColors.grey20,
   headingText: figmaColors.grey16,
   secondaryText: figmaColors.grey10,
+
+  tag: figmaColors.yellow4,
+  tagDark: figmaColors.yellow20,
 };
 
 // the notistack library is oriented toward Material-UI, so we can't set its

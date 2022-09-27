@@ -1,33 +1,23 @@
 import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { ethers } from 'ethers';
+import { z } from 'zod';
 
 import {
   ValueTypes,
   vault_tx_types_enum,
 } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
-import {
-  getDistributionForVault,
-  getVaultForAddress,
-} from '../../../../api-lib/gql/queries';
+import { getPropsWithUserSession } from '../../../../api-lib/handlerHelpers';
 import { UnprocessableError } from '../../../../api-lib/HttpError';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
-import {
-  VaultLogInputSchema,
-  VaultLogUnionSchema,
-  composeHasuraActionRequestBodyWithSession,
-  HasuraUserSessionVariables,
-} from '../../../../src/lib/zod';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     session_variables: { hasuraProfileId, hasuraAddress },
     input: { payload },
-  } = composeHasuraActionRequestBodyWithSession(
-    VaultLogInputSchema,
-    HasuraUserSessionVariables
-  ).parse(req.body);
+  } = getPropsWithUserSession(VaultLogInputSchema, req);
   const actionToLog = VaultLogUnionSchema.parse(payload);
 
   const validVault = await getVaultForAddress(
@@ -74,7 +64,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
 export default verifyHasuraRequestMiddleware(handler);
 
-export const logVaultTx = async (
+const logVaultTx = async (
   txInfo: ValueTypes['vault_transactions_insert_input']
 ) => {
   const { insert_vault_transactions_one } = await adminClient.mutate(
@@ -86,3 +76,95 @@ export const logVaultTx = async (
   assert(insert_vault_transactions_one);
   return insert_vault_transactions_one;
 };
+
+const VaultLogEnum = z.enum([
+  'Deposit',
+  'Withdraw',
+  'Distribution',
+  'CircleBudget',
+]);
+
+const zBytes32 = z.string().refine(val => ethers.utils.isHexString(val, 32));
+
+const VaultLogInputSchema = z.object({
+  tx_type: VaultLogEnum,
+  tx_hash: zBytes32,
+  vault_id: z.number().min(0),
+  distribution_id: z.number().min(0).optional(),
+  circle_id: z.number().min(0).optional(),
+});
+
+const DepositLogInputSchema = z
+  .object({
+    tx_type: z.literal(VaultLogEnum.enum.Deposit),
+    vault_id: z.number().min(0),
+    tx_hash: zBytes32,
+  })
+  .strict();
+
+const WithdrawLogInputSchema = z
+  .object({
+    tx_type: z.literal(VaultLogEnum.enum.Withdraw),
+    vault_id: z.number().min(0),
+    tx_hash: zBytes32,
+  })
+  .strict();
+
+const DistributionLogInputSchema = z
+  .object({
+    tx_type: z.literal(VaultLogEnum.enum.Distribution),
+    tx_hash: zBytes32,
+    vault_id: z.number().min(1),
+    circle_id: z.number().min(1),
+    distribution_id: z.number().min(1),
+  })
+  .strict();
+
+const VaultLogUnionSchema = z.discriminatedUnion('tx_type', [
+  DepositLogInputSchema,
+  WithdrawLogInputSchema,
+  DistributionLogInputSchema,
+]);
+
+async function getVaultForAddress(address: string, vaultId: number) {
+  const result = await adminClient.query({
+    vaults_by_pk: [
+      {
+        id: vaultId,
+      },
+      {
+        organization: {
+          circles: [
+            { where: { users: { address: { _eq: address } } } },
+            { id: true },
+          ],
+        },
+      },
+    ],
+  });
+  return result.vaults_by_pk;
+}
+
+async function getDistributionForVault({
+  vault_id,
+  tx_hash,
+  distribution_id,
+}: {
+  vault_id: number;
+  tx_hash: string;
+  distribution_id: number;
+}) {
+  const result = await adminClient.query({
+    distributions: [
+      {
+        where: {
+          id: { _eq: distribution_id },
+          tx_hash: { _eq: tx_hash },
+          vault_id: { _eq: vault_id },
+        },
+      },
+      { __typename: true },
+    ],
+  });
+  return result.distributions;
+}

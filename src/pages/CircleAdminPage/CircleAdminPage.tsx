@@ -4,7 +4,11 @@ import React, { MouseEvent, useState, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { constants as ethersConstants } from 'ethers';
 import { formatUnits } from 'ethers/lib/utils';
-import { removeYearnPrefix } from 'lib/vaults';
+import {
+  getVaultSymbolAddressString,
+  removeAddressSuffix,
+  removeYearnPrefix,
+} from 'lib/vaults';
 import { useForm, SubmitHandler, useController } from 'react-hook-form';
 import { useQuery } from 'react-query';
 import * as z from 'zod';
@@ -40,7 +44,7 @@ import { getCircleAvatar } from 'utils/domain';
 
 import { AdminIntegrations } from './AdminIntegrations';
 import { getCircleSettings } from './getCircleSettings';
-import { getFixedPayment } from './getFixedPayment';
+import { getFixedPayment, QUERY_KEY_FIXED_PAYMENT } from './getFixedPayment';
 import { RemoveCircleModal } from './RemoveCircleModal';
 
 const panelStyles = {
@@ -194,15 +198,19 @@ export const CircleAdminPage = () => {
     data: fixedPayment,
     isLoading: fixedPaymentIsLoading,
     isIdle: fixedPaymentIsIdle,
-  } = useQuery(['fixedPayment', circleId], () => getFixedPayment(circleId), {
-    // the query will not be executed untill circleId exists
-    enabled: !!circleId,
-    //minmize background refetch
-    refetchOnWindowFocus: false,
+  } = useQuery(
+    [QUERY_KEY_FIXED_PAYMENT, circleId],
+    () => getFixedPayment(circleId),
+    {
+      // the query will not be executed untill circleId exists
+      enabled: !!circleId,
+      //minmize background refetch
+      refetchOnWindowFocus: false,
 
-    staleTime: Infinity,
-    notifyOnChangeProps: ['data'],
-  });
+      staleTime: Infinity,
+      notifyOnChangeProps: ['data'],
+    }
+  );
 
   const contracts = useContracts();
   const { showInfo } = useApeSnackbar();
@@ -217,7 +225,7 @@ export const CircleAdminPage = () => {
     ? [
         { value: '', label: '- None -' },
         ...vaultsQuery.data.map(vault => {
-          return { value: vault.id, label: vault.symbol };
+          return { value: vault.id, label: getVaultSymbolAddressString(vault) };
         }),
       ]
     : [
@@ -387,10 +395,11 @@ export const CircleAdminPage = () => {
 
   const fixedPaymentToken = (vaultId: string | undefined) => {
     const tokenType = circle?.fixed_payment_token_type;
-    return vaultId
-      ? removeYearnPrefix(
-          vaultOptions.find(o => o.value == getValues('fixed_payment_vault_id'))
-            ?.label ?? ''
+    const fixedVault = findVault(getValues('fixed_payment_vault_id') || '');
+    return vaultId && fixedVault
+      ? removeAddressSuffix(
+          removeYearnPrefix(fixedVault?.symbol ?? ''),
+          fixedVault.vault_address
         )
       : tokenType
       ? tokenType.startsWith('Yearn')
@@ -415,6 +424,9 @@ export const CircleAdminPage = () => {
       console.warn(error);
     }
   }
+
+  const IS_CUSTOM_TOKEN_NAME = circle?.token_name !== 'GIVE';
+
   return (
     <Form id="circle_admin">
       <SingleColumnLayout>
@@ -462,7 +474,9 @@ export const CircleAdminPage = () => {
               css={{
                 mt: '$lg',
                 display: 'grid',
-                gridTemplateColumns: '1fr 1fr 1fr',
+                gridTemplateColumns: `1fr 1fr ${
+                  IS_CUSTOM_TOKEN_NAME ? '1fr' : ''
+                }`,
                 gap: '$lg',
                 '@sm': { gridTemplateColumns: '1fr' },
               }}
@@ -511,15 +525,18 @@ export const CircleAdminPage = () => {
                   type="file"
                 />
               </Flex>
-              <FormInputField
-                id="token_name"
-                name="token_name"
-                control={control}
-                defaultValue={circle?.token_name}
-                label="Token Name"
-                infoTooltip="This will be the token name displayed to all the circle users"
-                showFieldErrors
-              />
+              {IS_CUSTOM_TOKEN_NAME && (
+                <FormInputField
+                  id="token_name"
+                  name="token_name"
+                  control={control}
+                  defaultValue={circle?.token_name}
+                  label="Token Name [deprecated]"
+                  infoTooltip="[deprecated] This feature is no longer available"
+                  showFieldErrors
+                  disabled
+                />
+              )}
             </Box>
             <Flex
               css={{
@@ -627,9 +644,7 @@ export const CircleAdminPage = () => {
                         });
                         setValue(
                           'fixed_payment_token_type',
-                          value == ''
-                            ? ''
-                            : vaultOptions.find(o => o.value == value)?.label,
+                          value == '' ? '' : findVault(value)?.symbol,
                           { shouldDirty: true }
                         );
                         updateBalanceState(

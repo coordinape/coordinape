@@ -1,38 +1,14 @@
 import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 
+import { Awaited } from '../../types/shim';
+
 const getVouchesNeeded = (
   vouchesRequired: number,
   nominationsLength = 0
 ): number => {
   return Math.max(0, vouchesRequired - nominationsLength - 1);
 };
-
-export interface IActiveNominee {
-  id: number;
-  name: string;
-  address: string;
-  nominated_by_user_id: number;
-  description: string;
-  nominated_date: string;
-  expiry_date: string;
-  vouches_required: number;
-  ended: boolean;
-  nominations: Array<{
-    id: number;
-    created_at?: any;
-    voucher_id: number;
-    voucher?: {
-      name: string;
-      id: number;
-      address: string;
-    };
-  }>;
-  nominator?: {
-    address: string;
-    name: string;
-  };
-}
 
 export const getActiveNominees = async (circleId: number) => {
   const { nominees } = await client.query(
@@ -71,6 +47,9 @@ export const getActiveNominees = async (circleId: number) => {
           nominator: {
             address: true,
             name: true,
+            profile: {
+              avatar: true,
+            },
           },
           description: true,
           nominated_date: true,
@@ -91,3 +70,6 @@ export const getActiveNominees = async (circleId: number) => {
   );
   return activeNominees;
 };
+
+export type IActiveNominee = Awaited<ReturnType<typeof getActiveNominees>>;
+export const QUERY_KEY_ACTIVE_NOMINEES = 'activeNominees';
