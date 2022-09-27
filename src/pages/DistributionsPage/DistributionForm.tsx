@@ -442,7 +442,7 @@ export function DistributionForm({
                 error={!!errors.amount}
                 errorText={
                   errors.amount
-                    ? 'Please provide a budget less than available funds.'
+                    ? 'Insufficient funds.'
                     : ''
                 }
                 value={
