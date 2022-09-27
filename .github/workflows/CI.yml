@@ -12,6 +12,7 @@ jobs:
         uses: fkirc/skip-duplicate-actions@v4
         with:
           concurrent_skipping: 'same_content_newer'
+          skip_after_successful_duplicate: false
 
   lint_and_typecheck:
     runs-on: ubuntu-latest

@@ -1,9 +1,8 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback } from 'react';
 
 import sumBy from 'lodash/sumBy';
 import uniqBy from 'lodash/uniqBy';
 
-import { Paginator } from '../../components/Paginator';
 import { DISTRIBUTION_TYPE } from '../../config/constants';
 import { NewApeAvatar, makeTable } from 'components';
 import { Flex, Text, Panel, Button, Link } from 'ui';
@@ -56,12 +55,6 @@ export const AllocationsTable = ({
   circleDist: EpochDataResult['distributions'][0] | undefined;
 }) => {
   type User = Exclude<typeof users[0], undefined>;
-  const pageSize = 10;
-  const [page, setPage] = useState(0);
-  const shownUsers = useMemo(
-    () => users.slice(page * pageSize, (page + 1) * pageSize),
-    [users, page]
-  );
   const givenPercent = useCallback(
     (received: number) => received / totalGive,
     [totalGive]
@@ -83,7 +76,6 @@ export const AllocationsTable = ({
 
   const combinedDist =
     tokenName && fixedTokenName && tokenName === fixedTokenName;
-  const totalPages = Math.ceil(users.length / pageSize);
 
   const UserTable = makeTable<User>('UserTable');
   const headers = [
@@ -138,12 +130,13 @@ export const AllocationsTable = ({
       </Flex>
       <UserTable
         headers={headers}
-        data={shownUsers}
+        data={users}
         startingSortIndex={2}
         startingSortDesc
+        perPage={10}
         sortByColumn={(index: number) => {
-          if (index === 0) return (u: User) => u.name;
-          if (index === 1) return (u: User) => u.address;
+          if (index === 0) return (u: User) => u.name.toLowerCase();
+          if (index === 1) return (u: User) => u.address.toLowerCase();
           return (u: User) => u.received;
         }}
       >
@@ -217,7 +210,6 @@ export const AllocationsTable = ({
             Documentation: Paying Your Team
           </Link>
         </Text>
-        <Paginator pages={totalPages} current={page} onSelect={setPage} />
       </Flex>
     </Panel>
   );

@@ -6,7 +6,6 @@ import { getCircleApiKey } from '../../../api-lib/authHelpers';
 import {
   zEthAddressOnly,
   zStringISODateUTC,
-  zBytes32,
   zEthAddress,
   zUsername,
   zCircleName,
@@ -330,62 +329,6 @@ export const allocationCsvInput = z
     'Either epoch or a epoch_id must be provided.'
   );
 
-export const createVaultInput = z
-  .object({
-    org_id: z.number().positive(),
-    vault_address: zEthAddressOnly,
-    chain_id: z.number(),
-    deployment_block: z.number().min(1),
-  })
-  .strict();
-
-const VaultLogEnum = z.enum([
-  'Deposit',
-  'Withdraw',
-  'Distribution',
-  'CircleBudget',
-]);
-
-export const VaultLogInputSchema = z.object({
-  tx_type: VaultLogEnum,
-  tx_hash: zBytes32,
-  vault_id: z.number().min(0),
-  distribution_id: z.number().min(0).optional(),
-  circle_id: z.number().min(0).optional(),
-});
-
-export const DepositLogInputSchema = z
-  .object({
-    tx_type: z.literal(VaultLogEnum.enum.Deposit),
-    vault_id: z.number().min(0),
-    tx_hash: zBytes32,
-  })
-  .strict();
-
-export const WithdrawLogInputSchema = z
-  .object({
-    tx_type: z.literal(VaultLogEnum.enum.Withdraw),
-    vault_id: z.number().min(0),
-    tx_hash: zBytes32,
-  })
-  .strict();
-
-export const DistributionLogInputSchema = z
-  .object({
-    tx_type: z.literal(VaultLogEnum.enum.Distribution),
-    tx_hash: zBytes32,
-    vault_id: z.number().min(1),
-    circle_id: z.number().min(1),
-    distribution_id: z.number().min(1),
-  })
-  .strict();
-
-export const VaultLogUnionSchema = z.discriminatedUnion('tx_type', [
-  DepositLogInputSchema,
-  WithdrawLogInputSchema,
-  DistributionLogInputSchema,
-]);
-
 const IntIdString = z
   .string()
   .refine(
@@ -507,7 +450,7 @@ type SessionVariableSchema =
   | typeof HasuraAdminSessionVariables
   | typeof HasuraUserSessionVariables;
 
-type InputSchema<T extends z.ZodRawShape> =
+export type InputSchema<T extends z.ZodRawShape> =
   | z.ZodObject<T, 'strict' | 'strip'>
   | z.ZodEffects<z.ZodObject<T, 'strict' | 'strip'>>;
 
