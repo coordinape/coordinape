@@ -29,7 +29,8 @@ tasks:
         fi
       fi
   - name: yarn install and start
-    init: yarn install && yarn setup
+    init:
+      yarn install && yarn setup
       #    command: yarn start
       #  - name: start docker and seed db
       #    init: yarn docker:start
@@ -39,4 +40,8 @@ ports:
   - port: 3000
     onOpen: open-preview
   - port: 8080
+    onOpen: ignore
+  - port: 5432
+    onOpen: ignore
+  - port: 4566
     onOpen: ignore
