@@ -15,7 +15,6 @@ export const GiveRow = ({
   updateTeammate,
   gift,
   adjustGift,
-  teamSelection,
   maxedOut,
   setSelectedMember,
   noGivingAllowed,
@@ -27,7 +26,6 @@ export const GiveRow = ({
   updateTeammate(id: number, teammate: boolean): Promise<void>;
   adjustGift(recipientId: number, amount: number): void;
   gift: Gift;
-  teamSelection: boolean;
   maxedOut: boolean;
   setSelectedMember(member: Member): void;
   noGivingAllowed: boolean;
@@ -89,7 +87,7 @@ export const GiveRow = ({
             }}
             alignItems="center"
           >
-            {teamSelection && (hover || member.teammate) && (
+            {(hover || member.teammate) && (
               <ContributorButton
                 member={member}
                 updateTeammate={updateTeammate}

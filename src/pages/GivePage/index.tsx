@@ -117,10 +117,6 @@ const GivePage = () => {
   // this currently relies on a bulk operation so we have to build the whole teammate list
   // this could be improved by adding a new action for flipping one teammate
   const updateTeammate = async (id: number, teammate: boolean) => {
-    if (!selectedCircle.team_selection) {
-      // cannot update teammate status because team_selection is not allowed on this circle
-      return;
-    }
     if (!startingTeammates) {
       // not ready to do this yet
       return;
@@ -257,9 +253,7 @@ const GivePage = () => {
         ...u,
         give: pendingGiftsFrom.find(g => g.recipient_id == u.id)?.tokens ?? 0,
         note: pendingGiftsFrom.find(g => g.recipient_id == u.id)?.note,
-        teammate: !selectedCircle.team_selection
-          ? true
-          : startingTeammates.find(t => t.id == u.id) !== undefined,
+        teammate: startingTeammates.find(t => t.id == u.id) !== undefined,
       }));
 
       // if we don't have any local gifts yet, initialize them from the pending gifts
@@ -343,7 +337,6 @@ const GivePage = () => {
           adjustGift={adjustGift}
           needToSave={needToSave}
           setNeedToSave={setNeedToSave}
-          teamSelection={selectedCircle.team_selection}
           totalGiveUsed={totalGiveUsed}
           myUser={myUser}
           maxedOut={totalGiveUsed >= myUser.starting_tokens}
@@ -364,7 +357,6 @@ type AllocateContentsProps = {
   adjustGift(recipientId: number, amount: number): void;
   needToSave: boolean | undefined;
   setNeedToSave(save: boolean | undefined): void;
-  teamSelection: boolean;
   totalGiveUsed: number;
   myUser: IMyUser;
   maxedOut: boolean;
@@ -379,7 +371,6 @@ const AllocateContents = ({
   adjustGift,
   needToSave,
   setNeedToSave,
-  teamSelection,
   totalGiveUsed,
   myUser,
   maxedOut,
@@ -589,30 +580,28 @@ const AllocateContents = ({
               </Flex>
             </Flex>
             <Flex css={{ flexShrink: 0, justifyContent: 'flex-end' }}>
-              {teamSelection && (
-                <Flex>
-                  <Button
-                    css={{
-                      borderTopRightRadius: 0,
-                      borderBottomRightRadius: 0,
-                    }}
-                    color={onlyCollaborators ? 'primary' : 'white'}
-                    onClick={() => setOnlyCollaborators(true)}
-                  >
-                    Collaborators
-                  </Button>
-                  <Button
-                    css={{
-                      borderTopLeftRadius: 0,
-                      borderBottomLeftRadius: 0,
-                    }}
-                    color={onlyCollaborators ? 'white' : 'primary'}
-                    onClick={() => setOnlyCollaborators(false)}
-                  >
-                    All Members
-                  </Button>
-                </Flex>
-              )}
+              <Flex>
+                <Button
+                  css={{
+                    borderTopRightRadius: 0,
+                    borderBottomRightRadius: 0,
+                  }}
+                  color={onlyCollaborators ? 'primary' : 'white'}
+                  onClick={() => setOnlyCollaborators(true)}
+                >
+                  Collaborators
+                </Button>
+                <Button
+                  css={{
+                    borderTopLeftRadius: 0,
+                    borderBottomLeftRadius: 0,
+                  }}
+                  color={onlyCollaborators ? 'white' : 'primary'}
+                  onClick={() => setOnlyCollaborators(false)}
+                >
+                  All Members
+                </Button>
+              </Flex>
             </Flex>
           </Flex>
         </Panel>
@@ -636,7 +625,6 @@ const AllocateContents = ({
                 member={member}
                 updateTeammate={updateTeammate}
                 adjustGift={adjustGift}
-                teamSelection={teamSelection}
                 maxedOut={maxedOut}
                 noGivingAllowed={noGivingAllowed}
                 setSelectedMember={m =>
@@ -688,7 +676,6 @@ const AllocateContents = ({
                     tokens: 0,
                     recipient_id: -300,
                   }}
-                  teamSelection={true}
                   maxedOut={false}
                   setSelectedMember={() => {}}
                   noGivingAllowed={true}
@@ -750,7 +737,6 @@ const AllocateContents = ({
             setNeedToSave={setNeedToSave}
             noGivingAllowed={noGivingAllowed}
             updateTeammate={updateTeammate}
-            teamSelection={teamSelection}
           />
         )}
       </Modal>

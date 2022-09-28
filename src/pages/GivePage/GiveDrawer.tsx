@@ -27,7 +27,6 @@ type GiveDrawerProps = {
   setNeedToSave(save: boolean | undefined): void;
   noGivingAllowed: boolean;
   updateTeammate(id: number, teammate: boolean): void;
-  teamSelection: boolean;
 };
 
 // GiveDrawer is the focused modal drawer to give/note/view contributions for one member
@@ -47,7 +46,6 @@ export const GiveDrawer = ({
   setNeedToSave,
   noGivingAllowed,
   updateTeammate,
-  teamSelection,
 }: GiveDrawerProps) => {
   // fetch the contributions for this particular member
   const { data: contributions, refetch } = useQuery(
@@ -171,12 +169,10 @@ export const GiveDrawer = ({
               ml: '0',
             }}
           >
-            {teamSelection && (
-              <ContributorButton
-                member={member}
-                updateTeammate={updateTeammate}
-              />
-            )}
+            <ContributorButton
+              member={member}
+              updateTeammate={updateTeammate}
+            />
           </Flex>
           <Flex css={{ justifyContent: 'flex-end' }}>
             <Box>
