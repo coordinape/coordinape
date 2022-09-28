@@ -335,7 +335,6 @@ const MemberRow = ({
             {fixedPaymentToken}
           </TD>
         )}
-        {false && <TD>Discord SnowFlake</TD>}
         <TD
           css={{
             textAlign: 'center !important',
