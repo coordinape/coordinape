@@ -52,7 +52,7 @@ done
 until curl -s -o/dev/null http://localhost:"$CI_WEB_PORT"; do
   sleep 1
   if [ -z "$(ps -p $WEB_PID -o pid=)" ]; then
-    echo "Vercel failed to start up."
+    echo "Web server failed to start up."
     exit 1
   fi
 done
