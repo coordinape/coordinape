@@ -495,11 +495,11 @@ const AllocateContents = ({
     }
   };
 
-  // distributeEvenly distributes among collaborators
+  // distributeEvenly distributes among currently visible members (filteredMembers) that are available to receive GIVE
   const distributeEvenly = () => {
-    const targets = members
-      .filter(m => m.teammate)
-      .filter(m => !m.fixed_non_receiver && !m.non_receiver);
+    const targets = filteredMembers.filter(
+      m => !m.fixed_non_receiver && !m.non_receiver
+    );
     const remaining = myUser.starting_tokens - totalGiveUsed;
     const perTarget =
       targets.length == 0 ? 0 : Math.floor(remaining / targets.length);
@@ -510,7 +510,7 @@ const AllocateContents = ({
         adjustGift(t.id, perTarget);
       }
       showInfo(
-        `${perTarget} ${myUser.circle.tokenName} distributed to each of ${targets.length} eligible collaborators`
+        `${perTarget} ${myUser.circle.tokenName} distributed to each of ${targets.length} eligible members`
       );
     } else {
       showError(
