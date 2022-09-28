@@ -180,7 +180,7 @@ const AllocationEpoch = ({
           </span>
           <ApeInfoTooltip>
             An Epoch is a period of time where circle members contribute value &
-            allocate {selectedCircle.tokenName} tokens to one another.{' '}
+            allocate {selectedCircle?.tokenName} tokens to one another.{' '}
             <a
               rel="noreferrer"
               target="_blank"
@@ -195,22 +195,22 @@ const AllocationEpoch = ({
           className={classes.bioTextarea}
           maxLength={MAX_BIO_LENGTH}
           onChange={onChangeBio}
-          placeholder={`Tell us about your contributions in the ${selectedCircle.name} Circle this epoch...`}
+          placeholder={`Tell us about your contributions in the ${selectedCircle?.name} Circle this epoch...`}
           value={epochBio}
         />
         {!fixedNonReceiver ? (
           <>
             <p className={classes.titleTwo}>
-              Should you receive {selectedCircle.token_name || 'GIVE'}{' '}
+              Should you receive {selectedCircle?.token_name || 'GIVE'}{' '}
               distributions in the{' '}
-              <b>{capitalize(selectedCircle.name)} Circle</b> this epoch?
+              <b>{capitalize(selectedCircle?.name)} Circle</b> this epoch?
             </p>
             <hr className={classes.optHr} />
             <div className={classes.optInputContainer}>
               <OptInput
                 isChecked={!nonReceiver}
                 subTitle={`I want to be eligible to receive ${
-                  selectedCircle.token_name || 'GIVE'
+                  selectedCircle?.token_name || 'GIVE'
                 }`}
                 title="Opt In"
                 updateOpt={() => setNonReceiver(false)}
@@ -262,15 +262,15 @@ const AllocationEpoch = ({
           <>
             <p className={classes.title}>
               Your administrator opted you out of receiving{' '}
-              {selectedCircle.token_name || 'GIVE'}
+              {selectedCircle?.token_name || 'GIVE'}
             </p>
             <hr className={classes.optHr} />
             <div className={classes.optInputContainer}>
               <p className={classes.optLabel}>
-                You can still distribute {selectedCircle.token_name || 'GIVE'}{' '}
+                You can still distribute {selectedCircle?.token_name || 'GIVE'}{' '}
                 as normal. Generally people are opted out of receiving{' '}
-                {selectedCircle.token_name || 'GIVE'} if they are compensated in
-                other ways by their organization. Please contact your circle
+                {selectedCircle?.token_name || 'GIVE'} if they are compensated
+                in other ways by their organization. Please contact your circle
                 admin for more details.
               </p>
             </div>

@@ -257,6 +257,19 @@ const AllocationTeam = ({
     setLocalTeammates(newTeammates);
   };
 
+  const setAllLocalTeammates = () => {
+    assert(allUsers);
+    setLocalTeammates(allUsers);
+  };
+
+  const clearLocalTeammates = () => {
+    if (!teamSelection) {
+      console.error('clearLocalTeammates with circle without team selection');
+      return;
+    }
+    setLocalTeammates([]);
+  };
+
   const saveTeammates = useLoadAndTryMutation(
     async () => {
       await updateTeammates(
@@ -273,19 +286,6 @@ const AllocationTeam = ({
       success: 'Saved Teammates',
     }
   );
-
-  const setAllLocalTeammates = () => {
-    assert(allUsers);
-    setLocalTeammates(allUsers);
-  };
-
-  const clearLocalTeammates = () => {
-    if (!teamSelection) {
-      console.error('clearLocalTeammates with circle without team selection');
-      return;
-    }
-    setLocalTeammates([]);
-  };
 
   const onChangeKeyword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(event.target.value);
@@ -324,9 +324,9 @@ const AllocationTeam = ({
           </Text>
         )}
         <Text h2>
-          Who are your Teammates in the {selectedCircle.name} Circle?
+          Who are your Teammates in the {selectedCircle?.name} Circle?
         </Text>
-        <p className={classes.subTitle}>{selectedCircle.team_sel_text}</p>
+        <p className={classes.subTitle}>{selectedCircle?.team_sel_text}</p>
       </div>
       <div className={classes.content}>
         <div className={classes.accessaryContainer}>
@@ -397,7 +397,8 @@ const AllocationTeam = ({
         {allUsers.filter(a => a.non_receiver).length > 0 && (
           <>
             <p className={classes.contentTitle}>
-              These users are opted-out of receiving {selectedCircle.token_name}
+              These users are opted-out of receiving{' '}
+              {selectedCircle?.token_name}
             </p>
             <hr className={classes.hr} />
             <div className={classes.teammatesContainer}>
