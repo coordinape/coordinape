@@ -124,6 +124,7 @@ export const GiveAllocator = ({
             backgroundColor: inPanel ? '$white' : '$surface',
           }}
           type="number"
+          min="0"
         />
         <Flex
           css={{
