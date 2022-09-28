@@ -254,7 +254,7 @@ const AdminPage = () => {
             </Flex>
           )}
         </Flex>
-        <Text size="medium">Mange, nominate and vouch for members.</Text>
+        <Text size="medium">Manage, nominate and vouch for members.</Text>
         {isMobile && (
           <Flex
             column

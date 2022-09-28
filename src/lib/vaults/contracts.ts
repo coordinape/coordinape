@@ -1,3 +1,5 @@
+import assert from 'assert';
+
 import deploymentInfo from '@coordinape/hardhat/dist/deploymentInfo.json';
 import {
   ApeDistributor__factory,
@@ -48,12 +50,16 @@ export class Contracts {
   distributor: ApeDistributor;
   chainId: string;
   provider: JsonRpcProvider;
-  signer: Signer;
+  private _signer?: Signer;
 
-  constructor(chainId: number | string, provider: JsonRpcProvider) {
+  constructor(
+    chainId: number | string,
+    provider: JsonRpcProvider,
+    readonly = false
+  ) {
     this.chainId = chainId.toString();
     this.provider = provider;
-    this.signer = provider.getSigner();
+    if (!readonly) this._signer = provider.getSigner();
 
     const info = (deploymentInfo as any)[chainId];
     if (!info) {
@@ -61,16 +67,25 @@ export class Contracts {
     }
     this.vaultFactory = ApeVaultFactory__factory.connect(
       info.ApeVaultFactory.address,
-      this.signer
+      this.signerOrProvider
     );
     this.router = ApeRouter__factory.connect(
       info.ApeRouter.address,
-      this.signer
+      this.signerOrProvider
     );
     this.distributor = ApeDistributor__factory.connect(
       info.ApeDistributor.address,
-      this.signer
+      this.signerOrProvider
     );
+  }
+
+  get signer() {
+    assert(this._signer, 'Contracts instance is read-only');
+    return this._signer;
+  }
+
+  get signerOrProvider() {
+    return this._signer || this.provider;
   }
 
   getDeploymentInfo(): Record<string, any> {
@@ -78,7 +93,10 @@ export class Contracts {
   }
 
   getVault(address: string): ApeVaultWrapperImplementation {
-    return ApeVaultWrapperImplementation__factory.connect(address, this.signer);
+    return ApeVaultWrapperImplementation__factory.connect(
+      address,
+      this.signerOrProvider
+    );
   }
 
   async getYVault(vaultAddress: string) {
@@ -152,7 +170,7 @@ export class Contracts {
   }
 
   getERC20(address: string): ERC20 {
-    return ERC20__factory.connect(address, this.signer);
+    return ERC20__factory.connect(address, this.signerOrProvider);
   }
 
   getMyAddress() {
@@ -160,13 +178,11 @@ export class Contracts {
   }
 
   async getETHBalance(address?: string) {
-    if (!address && this.signer) return this.signer.getBalance('latest');
-
-    if (!address) {
-      throw new Error(
-        'address argument is required when signer is not available'
-      );
-    }
+    if (!address && this._signer) return this.signer.getBalance('latest');
+    assert(
+      address,
+      'address argument is required when signer is not available'
+    );
     return this.provider.getBalance(address, 'latest');
   }
 }
