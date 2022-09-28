@@ -310,7 +310,7 @@ const MemberRow = ({
               {!user.non_giver ? (
                 <Check color="complete" />
               ) : (
-                <X color="alert" />
+                <X color="neutral" />
               )}
             </TD>
 
@@ -320,9 +320,9 @@ const MemberRow = ({
               }}
             >
               {user.fixed_non_receiver ? (
-                'Forced ❌'
+                <Slash color="alert" />
               ) : user.non_receiver ? (
-                <X color="alert" />
+                <X color="neutral" />
               ) : (
                 <Check color="complete" />
               )}
@@ -343,7 +343,7 @@ const MemberRow = ({
           {user.role === USER_ROLE_ADMIN ? (
             <Check color="complete" />
           ) : (
-            <X color="alert" />
+            <X color="neutral" />
           )}
         </TD>
         <TD>
@@ -494,9 +494,9 @@ const MemberRow = ({
                         >
                           <Check
                             css={{
-                              width: '14px',
-                              height: '10px',
-                              color: !nonGiver.value ? '$complete' : '$success',
+                              color: !nonGiver.value
+                                ? '$success'
+                                : '$successDisabled',
                             }}
                           />{' '}
                           Give
@@ -513,9 +513,9 @@ const MemberRow = ({
                         >
                           <X
                             css={{
-                              width: '12.5px',
-                              height: '12.5px',
-                              color: !nonGiver.value ? '$alertLight' : '$alert',
+                              color: !nonGiver.value
+                                ? '$alertDisabled'
+                                : '$alert',
                             }}
                           />{' '}
                           No Give
@@ -561,12 +561,10 @@ const MemberRow = ({
                         >
                           <Check
                             css={{
-                              width: '14px',
-                              height: '10px',
                               color:
                                 !nonReceiver.value && !fixedNonReceiver.value
-                                  ? '$complete'
-                                  : '$success',
+                                  ? '$success'
+                                  : '$successDisabled',
                             }}
                           />{' '}
                           Receive Give
@@ -590,10 +588,8 @@ const MemberRow = ({
                         >
                           <X
                             css={{
-                              width: '12.5px',
-                              height: '12.5px',
                               color: !nonReceiver.value
-                                ? '$alertLight'
+                                ? '$alertDisabled'
                                 : '$alert',
                             }}
                           />{' '}
@@ -616,10 +612,8 @@ const MemberRow = ({
                         >
                           <Slash
                             css={{
-                              width: '12.5px',
-                              height: '12.5px',
                               color: !fixedNonReceiver.value
-                                ? '$alertLight'
+                                ? '$alertDisabled'
                                 : '$alert',
                             }}
                           />{' '}
