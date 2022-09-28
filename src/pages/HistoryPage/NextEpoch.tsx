@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 
 import { DateTime } from 'luxon';
 
+import { epochTimeUpcoming } from '../../lib/time';
 import { Button, Flex, Panel, Text } from 'ui';
 
 import { QueryFutureEpoch } from './getHistoryData';
@@ -22,10 +23,7 @@ export const NextEpoch = ({
   const nextEpochStartLabel = useMemo(() => {
     const startDate = DateTime.fromISO(epoch.start_date);
     const endDate = DateTime.fromISO(epoch.end_date);
-    const diff = startDate
-      .diffNow(['days', 'hours', 'minutes'])
-      .toHuman({ unitDisplay: 'short', notation: 'compact' })
-      .replace(/(0 days, |0 hr, )/g, '');
+    const diff = epochTimeUpcoming(startDate);
     return (
       <Flex css={{ flexWrap: 'wrap', gap: '$md' }}>
         <Text

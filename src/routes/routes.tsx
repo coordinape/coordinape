@@ -12,6 +12,7 @@ import {
 } from 'react-router-dom';
 
 import AddMembersPage from '../pages/AddMembersPage/AddMembersPage';
+import GivePage from '../pages/GivePage';
 import JoinCirclePage from '../pages/JoinCirclePage';
 import { useFixCircleState, useRoleInCircle } from 'hooks/migration';
 import AdminCircleApiPage from 'pages/AdminCircleApiPage/AdminCircleApiPage';
@@ -48,6 +49,7 @@ export const AppRoutes = () => {
         <Route path="team" element={allocationPage} />
         <Route path="epoch" element={allocationPage} />
         <Route path="give" element={allocationPage} />
+        <Route path="givebeta" element={<GivePage />} />
         <Route path="map" element={<LazyAssetMapPage />} />
         <Route path="members" element={<AdminPage />} />
         <Route path="members/add" element={<AdminRouteHandler />}>

@@ -39,9 +39,13 @@ export const getPendingGiftsFrom = async (
   > & { note?: string };
 
   return data.pending_token_gifts.map(g => {
+    const gm = g;
+    const note = g.gift_private?.note;
+    // have to delete this field because spread operator includes it elsewhere and it causes validation issues -g
+    delete gm['gift_private'];
     const gwn: GiftWithNote = {
-      ...g,
-      note: g.gift_private?.note,
+      ...gm,
+      note,
     };
     return gwn;
   });
@@ -66,6 +70,7 @@ export const getTeammates = async (
         },
         {
           id: true,
+          circle_id: true,
           name: true,
           bio: true,
           address: true,
