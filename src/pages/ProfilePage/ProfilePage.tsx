@@ -208,12 +208,6 @@ const OtherProfilePage = ({ address }: { address: string }) => {
   return <ProfilePageContent profile={profile} circleId={circleId} />;
 };
 
-const avatarStyles = {
-  top: 155,
-  width: '143px !important',
-  height: '143px !important',
-};
-
 const ProfilePageContent = ({
   profile,
   circleId,
@@ -263,7 +257,14 @@ const ProfilePageContent = ({
       <div className={classes.header}>
         <img src={backgroundUrl} alt={name} />
         <div className={classes.headerInside}>
-          <Avatar path={profile?.avatar} css={avatarStyles} />
+          <Avatar
+            path={profile?.avatar}
+            css={{
+              top: 155,
+              width: '143px !important',
+              height: '143px !important',
+            }}
+          />
           {isMe && (
             <>
               <FormFileUpload
