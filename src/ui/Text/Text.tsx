@@ -81,6 +81,7 @@ export const Text = styled('span', {
         overflow: 'hidden',
         wordBreak: 'break-word',
         whiteSpace: 'nowrap',
+        lineHeight: 'inherit',
       },
     },
     tag: {
