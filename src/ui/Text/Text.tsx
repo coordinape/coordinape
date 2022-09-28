@@ -21,6 +21,7 @@ export const Text = styled('span', {
       neutral: { color: '$neutral' },
       alert: { color: '$alert' },
       primary: { color: '$primary' },
+      active: { color: '$activeDark' },
       complete: { color: '$complete' },
       inherit: { color: 'inherit' },
     },
@@ -80,7 +81,32 @@ export const Text = styled('span', {
         whiteSpace: 'nowrap',
       },
     },
+    tag: {
+      true: {
+        fontSize: '$small',
+        fontWeight: '$semibold',
+        lineHeight: '$shorter',
+        p: '$xs calc($xs + $xxs)',
+        borderRadius: '$1',
+      },
+    },
   },
+  compoundVariants: [
+    {
+      tag: true,
+      color: 'active',
+      css: {
+        backgroundColor: '$active',
+      },
+    },
+    {
+      tag: true,
+      color: 'complete',
+      css: {
+        backgroundColor: '$success',
+      },
+    },
+  ],
 
   defaultVariants: { font: 'inter', color: 'default' },
 });
