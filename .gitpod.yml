@@ -28,13 +28,18 @@ tasks:
           echo "${DOTENV}" | base64 -d > .env
         fi
       fi
-  - name: yarn install
-    init: yarn install && yarn setup
-  - name: start docker and seed db
-    init: yarn docker:start
-  - name: seed db
+  - name: install and start docker
+    init: |
+      yarn install
+      yarn setup
+      yarn docker:start
+      gp ports await 8080
+      gp sync-done setup
+  - name: db seed
+    init: gp sync-await setup
     command: yarn db-seed-fresh
   - name: yarn start
+    init: gp sync-await setup
     command: yarn start
 
 ports:
