@@ -2,6 +2,8 @@ Welcome to the code for [Coordinape](coordinape.com)! If you're new to the proje
 
 [![GitPOAP Badge](https://public-api.gitpoap.io/v1/repo/coordinape/coordinape/badge)](https://www.gitpoap.io/gh/coordinape/coordinape)
 
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/coordinape/coordinape)
+
 # Contributing
 
 Stack: **React**, **Hasura** graphql server & **vercel** serverless functions
@@ -98,6 +100,12 @@ These will be applied to the production instance once the PR is merged.
 - `./scripts/rebuild_hardhat.sh` - Rebuild the generated code
 - `yarn test` - Run tests
   - make sure `HARDHAT_FORK_BLOCK` is set (13500000 is a good value) and `ETHEREUM_RPC_URL` points to an archive node
+
+# Gitpod
+For an easy quick start, launch a Gitpod development version of the development environment.
+
+Open Gitpod in "Open in VS Code on Desktop", then verify the ports 3000, 8080 and 4566 are being forwarded by VS Code. You should then be able to load the app at localhost:3000.
+
 
 # Troubleshooting
 
