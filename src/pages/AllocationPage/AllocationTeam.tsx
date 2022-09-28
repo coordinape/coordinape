@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 import clsx from 'clsx';
 import { transparentize } from 'polished';
-import { useQueryClient } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
 import { Button, makeStyles } from '@material-ui/core';
@@ -14,6 +14,11 @@ import { STEP_ALLOCATION } from '../../routes/allocation';
 import { ISimpleGift } from '../../types';
 import { Awaited } from '../../types/shim';
 import { ReactComponent as CheckmarkSVG } from 'assets/svgs/button/checkmark.svg';
+import { LoadingModal } from 'components';
+import {
+  getCircleSettings,
+  QUERY_KEY_CIRCLE_SETTINGS,
+} from 'pages/CircleAdminPage/getCircleSettings';
 import { useSelectedCircle } from 'recoilState/app';
 import { Avatar, Box, Button as UIButton, Flex, Text } from 'ui';
 
@@ -240,7 +245,7 @@ const AllocationTeam = ({
 
   const {
     circleId,
-    circle: selectedCircle,
+    circle: initialData,
     circleEpochsStatus: { epochIsActive, timingMessage },
   } = useSelectedCircle();
 
@@ -255,23 +260,32 @@ const AllocationTeam = ({
     setLocalTeammates(newTeammates);
   };
 
-  const setAllLocalTeammates = () => {
-    assert(allUsers);
-    setLocalTeammates(allUsers);
-  };
+  const {
+    isLoading,
+    isIdle,
+    isError,
+    isRefetching,
+    error,
+    data: selectedCircle,
+  } = useQuery(
+    [QUERY_KEY_CIRCLE_SETTINGS, circleId],
+    () => getCircleSettings(circleId),
+    {
+      // the query will not be executed untill circleId exists
+      enabled: !!circleId,
+      initialData,
+      //minmize background refetch
+      refetchOnWindowFocus: false,
 
-  const clearLocalTeammates = () => {
-    if (!selectedCircle.team_selection) {
-      console.error('clearLocalTeammates with circle without team selection');
-      return;
+      staleTime: Infinity,
+      notifyOnChangeProps: ['data'],
     }
-    setLocalTeammates([]);
-  };
+  );
 
   const saveTeammates = useLoadAndTryMutation(
     async () => {
       await updateTeammates(
-        selectedCircle.id,
+        circleId,
         localTeammates.map(u => u.id)
       );
       if (epochIsActive) {
@@ -285,9 +299,29 @@ const AllocationTeam = ({
     }
   );
 
+  const setAllLocalTeammates = () => {
+    assert(allUsers);
+    setLocalTeammates(allUsers);
+  };
+
+  const clearLocalTeammates = () => {
+    if (!selectedCircle?.team_selection) {
+      console.error('clearLocalTeammates with circle without team selection');
+      return;
+    }
+    setLocalTeammates([]);
+  };
+
   const onChangeKeyword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(event.target.value);
   };
+
+  if (isLoading || isIdle || isRefetching) return <LoadingModal visible />;
+  if (isError) {
+    if (error instanceof Error) {
+      console.warn(error);
+    }
+  }
 
   return (
     <Flex column>

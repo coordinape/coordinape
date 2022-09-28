@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import capitalize from 'lodash/capitalize';
+import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core';
@@ -8,8 +9,16 @@ import { makeStyles } from '@material-ui/core';
 import { useApiWithSelectedCircle } from '../../hooks';
 import { STEP_ALLOCATION, STEP_MY_TEAM } from '../../routes/allocation';
 import { IAllocationStep } from '../../types';
-import { OptInput, ApeInfoTooltip } from 'components';
+import {
+  OptInput,
+  ApeInfoTooltip,
+  LoadingModal,
+} from 'components';
 import { MAX_BIO_LENGTH } from 'config/constants';
+import {
+  getCircleSettings,
+  QUERY_KEY_CIRCLE_SETTINGS,
+} from 'pages/CircleAdminPage/getCircleSettings';
 import { useSelectedCircle } from 'recoilState/app';
 import { Button, Flex, Text, Modal } from 'ui';
 
@@ -120,10 +129,32 @@ const AllocationEpoch = ({
 
   const {
     circleId,
-    circle: selectedCircle,
+    circle: initialData,
     circleEpochsStatus: { epochIsActive, timingMessage },
     myUser,
   } = useSelectedCircle();
+
+  const {
+    isLoading,
+    isIdle,
+    isError,
+    isRefetching,
+    error,
+    data: selectedCircle,
+  } = useQuery(
+    [QUERY_KEY_CIRCLE_SETTINGS, circleId],
+    () => getCircleSettings(circleId),
+    {
+      // the query will not be executed untill circleId exists
+      enabled: !!circleId,
+      initialData,
+      //minmize background refetch
+      refetchOnWindowFocus: false,
+
+      staleTime: Infinity,
+      notifyOnChangeProps: ['data'],
+    }
+  );
 
   const [epochBio, setEpochBio] = useState('');
   const fixedNonReceiver = myUser.fixed_non_receiver;
@@ -152,8 +183,8 @@ const AllocationEpoch = ({
         epoch_first_visit: false,
       });
 
-      if (!(!selectedCircle.team_selection && !epochIsActive)) {
-        const _nextStep = !selectedCircle.team_selection
+      if (!(!selectedCircle?.team_selection && !epochIsActive)) {
+        const _nextStep = !selectedCircle?.team_selection
           ? STEP_ALLOCATION
           : STEP_MY_TEAM;
         setActiveStep(_nextStep.key);
@@ -164,6 +195,12 @@ const AllocationEpoch = ({
     }
   };
 
+  if (isLoading || isIdle || isRefetching) return <LoadingModal visible />;
+  if (isError) {
+    if (error instanceof Error) {
+      console.warn(error);
+    }
+  }
   return (
     <>
       <div className={classes.root}>
@@ -176,7 +213,7 @@ const AllocationEpoch = ({
           </span>
           <ApeInfoTooltip>
             An Epoch is a period of time where circle members contribute value &
-            allocate {selectedCircle.tokenName} tokens to one another.{' '}
+            allocate {selectedCircle?.tokenName} tokens to one another.{' '}
             <a
               rel="noreferrer"
               target="_blank"
@@ -282,9 +319,9 @@ const AllocationEpoch = ({
           <Button
             size="large"
             color="primary"
-            disabled={!selectedCircle.team_selection && !epochIsActive}
+            disabled={!selectedCircle?.team_selection && !epochIsActive}
             onClick={getHandleStep(
-              !selectedCircle.team_selection ? STEP_ALLOCATION : STEP_MY_TEAM
+              !selectedCircle?.team_selection ? STEP_ALLOCATION : STEP_MY_TEAM
             )}
           >
             Continue With Current Settings

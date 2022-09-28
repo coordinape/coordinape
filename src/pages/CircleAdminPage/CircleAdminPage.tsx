@@ -43,7 +43,10 @@ import { numberWithCommas } from 'utils';
 import { getCircleAvatar } from 'utils/domain';
 
 import { AdminIntegrations } from './AdminIntegrations';
-import { getCircleSettings } from './getCircleSettings';
+import {
+  getCircleSettings,
+  QUERY_KEY_CIRCLE_SETTINGS,
+} from './getCircleSettings';
 import { getFixedPayment, QUERY_KEY_FIXED_PAYMENT } from './getFixedPayment';
 import { RemoveCircleModal } from './RemoveCircleModal';
 
@@ -180,7 +183,7 @@ export const CircleAdminPage = () => {
     error,
     data: circle,
   } = useQuery(
-    ['circleSettings', circleId],
+    [QUERY_KEY_CIRCLE_SETTINGS, circleId],
     () => getCircleSettings(circleId),
     {
       // the query will not be executed untill circleId exists
