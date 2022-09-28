@@ -21,5 +21,6 @@ export * from './SvgIcon/SvgIcon';
 export * from './Text/Text';
 export * from './TextArea/TextArea';
 export * from './TextField/TextField';
+export * from './ToggleButton';
 export * from './Tooltip/Tooltip';
 export * from './Icon/Icon';

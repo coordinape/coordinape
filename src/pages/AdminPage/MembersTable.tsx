@@ -25,18 +25,19 @@ import {
 } from 'pages/CircleAdminPage/getFixedPayment';
 import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE, paths } from 'routes/paths';
 import {
+  AppLink,
   Avatar,
   Box,
   Button,
   CheckBox,
+  Divider,
   Flex,
   Form,
-  Text,
-  Tooltip,
   FormLabel,
-  Divider,
-  AppLink,
   Link,
+  Tooltip,
+  Text,
+  ToggleButton,
 } from 'ui';
 import { TwoColumnLayout } from 'ui/layouts';
 import { shortenAddress } from 'utils';
@@ -481,45 +482,29 @@ const MemberRow = ({
                           <InfoCircledIcon />
                         </Tooltip>
                       </FormLabel>
-                      <Flex css={{ gap: '10px', flexWrap: 'wrap' }}>
-                        <Button
-                          greenIconButton={nonGiver.value}
-                          greenIconButtonToggled={!nonGiver.value}
+                      <Flex css={{ gap: '$sm', flexWrap: 'wrap' }}>
+                        <ToggleButton
+                          color="complete"
+                          active={!nonGiver.value}
                           name={nonGiver.name}
                           onClick={e => {
                             e.preventDefault();
                             setValue('non_giver', false, { shouldDirty: true });
                           }}
-                          css={{ whiteSpace: 'nowrap', fontSize: '$small' }}
                         >
-                          <Check
-                            css={{
-                              width: '14px',
-                              height: '10px',
-                              color: !nonGiver.value ? '$complete' : '$success',
-                            }}
-                          />{' '}
-                          Give
-                        </Button>
-                        <Button
-                          redIconButton={!nonGiver.value}
-                          redIconButtonToggled={nonGiver.value}
+                          <Check size="lg" /> Give
+                        </ToggleButton>
+                        <ToggleButton
+                          color="destructive"
+                          active={nonGiver.value}
                           name={nonGiver.name}
                           onClick={e => {
                             e.preventDefault();
                             setValue('non_giver', true, { shouldDirty: true });
                           }}
-                          css={{ whiteSpace: 'nowrap', fontSize: '$small' }}
                         >
-                          <X
-                            css={{
-                              width: '12.5px',
-                              height: '12.5px',
-                              color: !nonGiver.value ? '$alertLight' : '$alert',
-                            }}
-                          />{' '}
-                          No Give
-                        </Button>
+                          <X size="lg" /> No Give
+                        </ToggleButton>
                       </Flex>
                     </Flex>
                     <Flex column css={{ gap: '$xs' }}>
@@ -539,14 +524,10 @@ const MemberRow = ({
                           <InfoCircledIcon />
                         </Tooltip>
                       </FormLabel>
-                      <Flex css={{ gap: '10px', flexWrap: 'wrap' }}>
-                        <Button
-                          greenIconButton={
-                            nonReceiver.value || fixedNonReceiver.value
-                          }
-                          greenIconButtonToggled={
-                            !nonReceiver.value && !fixedNonReceiver.value
-                          }
+                      <Flex css={{ flexWrap: 'wrap', gap: '$sm' }}>
+                        <ToggleButton
+                          color="complete"
+                          active={!nonReceiver.value && !fixedNonReceiver.value}
                           name={nonReceiver.name}
                           onClick={e => {
                             e.preventDefault();
@@ -557,25 +538,12 @@ const MemberRow = ({
                               shouldDirty: true,
                             });
                           }}
-                          css={{ whiteSpace: 'nowrap', fontSize: '$small' }}
                         >
-                          <Check
-                            css={{
-                              width: '14px',
-                              height: '10px',
-                              color:
-                                !nonReceiver.value && !fixedNonReceiver.value
-                                  ? '$complete'
-                                  : '$success',
-                            }}
-                          />{' '}
-                          Receive Give
-                        </Button>
-                        <Button
-                          redIconButton={!nonReceiver.value}
-                          redIconButtonToggled={
-                            nonReceiver.value && !fixedNonReceiver.value
-                          }
+                          <Check size="lg" /> Receive Give
+                        </ToggleButton>
+                        <ToggleButton
+                          color="destructive"
+                          active={nonReceiver.value && !fixedNonReceiver.value}
                           name={nonReceiver.name}
                           onClick={e => {
                             e.preventDefault();
@@ -586,22 +554,12 @@ const MemberRow = ({
                               shouldDirty: true,
                             });
                           }}
-                          css={{ whiteSpace: 'nowrap', fontSize: '$small' }}
                         >
-                          <X
-                            css={{
-                              width: '12.5px',
-                              height: '12.5px',
-                              color: !nonReceiver.value
-                                ? '$alertLight'
-                                : '$alert',
-                            }}
-                          />{' '}
-                          Refuse Give
-                        </Button>
-                        <Button
-                          redIconButton={!fixedNonReceiver.value}
-                          redIconButtonToggled={fixedNonReceiver.value}
+                          <X size="lg" /> Refuse Give
+                        </ToggleButton>
+                        <ToggleButton
+                          color="destructive"
+                          active={fixedNonReceiver.value}
                           name={fixedNonReceiver.name}
                           onClick={e => {
                             e.preventDefault();
@@ -612,19 +570,9 @@ const MemberRow = ({
                               shouldDirty: true,
                             });
                           }}
-                          css={{ whiteSpace: 'nowrap', fontSize: '$small' }}
                         >
-                          <Slash
-                            css={{
-                              width: '12.5px',
-                              height: '12.5px',
-                              color: !fixedNonReceiver.value
-                                ? '$alertLight'
-                                : '$alert',
-                            }}
-                          />{' '}
-                          Block
-                        </Button>
+                          <Slash size="lg" /> Block
+                        </ToggleButton>
                       </Flex>
                     </Flex>
                   </Flex>
