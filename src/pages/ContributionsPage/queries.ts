@@ -13,6 +13,15 @@ export const getContributionsAndEpochs = async ({
   userAddress?: string;
 }) =>
   client.query({
+    users: [
+      {
+        where: {
+          circle_id: { _eq: circleId },
+          address: { _eq: userAddress?.toLowerCase() },
+        },
+      },
+      { id: true },
+    ],
     contributions: [
       {
         where: {
