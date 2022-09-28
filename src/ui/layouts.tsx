@@ -2,7 +2,6 @@ import { ReactNode } from 'react';
 
 import { CSS } from 'stitches.config';
 
-
 import { Box } from 'ui';
 
 type SingleColumnLayoutProps = {
