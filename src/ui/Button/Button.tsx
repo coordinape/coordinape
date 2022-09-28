@@ -167,18 +167,6 @@ export const Button = styled('button', {
         border: '1px solid',
       },
     },
-    // selectable: {
-    //   true: {
-    //     // opacity: 0.2,
-    //     backgroundColor: '$white !important',
-    //   },
-    // },
-    // selected: {
-    //   true: {
-    //     // opacity: 1,
-    //     backgroundColor: '$white !important',
-    //   },
-    // },
     inline: {
       true: {
         display: 'inline',
@@ -229,47 +217,6 @@ export const Button = styled('button', {
     },
   },
   compoundVariants: [
-    // {
-    //   outlined: true,
-    //   selectable: true,
-    //   css: {
-    //     color: '$secondaryText',
-    //     borderColor: '$border',
-    //     svg: {
-    //       opacity: 0.3,
-    //     },
-    //     '&:hover, &:focus': {
-    //       svg: {
-    //         opacity: 1,
-    //       },
-    //       color: '$headingText',
-    //       borderColor: '$borderMedium',
-    //       // backgroundColor: '$white !important',
-    //     },
-    //     '&:active': {
-    //       backgroundColor: '$surface',
-    //     },
-    //   },
-    // },
-    // {
-    //   color: 'destructive',
-    //   outlined: true,
-    //   selectable: true,
-    //   selected: true,
-    //   css: {
-    //     color: '$headingText !important',
-    //     backgroundColor: '$surface !important',
-    //     borderColor: '$alert !important',
-    //     borderWidth: '2px',
-    //     svg: {
-    //       opacity: 1,
-    //     },
-    //     '&:hover, &:focus': {
-    //       backgroundColor: '$surface !important',
-    //       borderColor: '$alert !important',
-    //     },
-    //   },
-    // },
     {
       color: 'primary',
       outlined: true,

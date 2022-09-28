@@ -571,12 +571,6 @@ const MemberRow = ({
                           Receive Give
                         </Button>
                         <Button
-                          // color="destructive"
-                          // outlined
-                          // selectable
-                          // selected={
-                          //   nonReceiver.value && !fixedNonReceiver.value
-                          // }
                           redIconButton={!nonReceiver.value}
                           redIconButtonToggled={
                             nonReceiver.value && !fixedNonReceiver.value
