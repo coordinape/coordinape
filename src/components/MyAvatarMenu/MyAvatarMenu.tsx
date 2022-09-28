@@ -60,7 +60,7 @@ export const MyAvatarMenu = () => {
             }}
           >
             <Link href="#">
-              <Avatar path={myProfile.avatar} size="medium" />
+              <Avatar path={myProfile.avatar} name="me" />
             </Link>
           </PopoverTrigger>
           <PopoverContent

@@ -301,7 +301,7 @@ const NotesItem = ({
   return (
     <Box css={{ display: 'flex', my: '$sm' }}>
       <Box css={{ mr: '$md' }}>
-        <Avatar path={other.profile?.avatar} name={other.name} />
+        <Avatar path={other.profile?.avatar} name={other.name} size="medium" />
       </Box>
       <Box css={!note ? { alignItems: 'center', display: 'flex' } : {}}>
         {note && <Text css={{ mb: '$xs', lineHeight: 'normal' }}>{note}</Text>}

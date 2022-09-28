@@ -142,7 +142,6 @@ const ProfileCardInner = ({
           path={user.profile?.avatar}
           name={user.name}
           onClick={getToProfile(user.address)}
-          size="medium"
         />
         <div className={classes.moreContainer}>
           <ThreeDotMenu

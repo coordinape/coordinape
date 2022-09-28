@@ -177,7 +177,7 @@ const AMProfileCard = ({
       <Box className={classes.scale} width={`${fraction * 100}%`} />
       <div className={classes.content}>
         <div className={classes.header} onClick={() => onClick(profile)}>
-          <Avatar path={user.profile?.avatar} size="medium" />
+          <Avatar path={user.profile?.avatar} name={user.name} />
           <div className={classes.headerText}>
             <span className={classes.headerName}>
               {reactStringReplace(user.name, searchRegex, (match, i) =>
