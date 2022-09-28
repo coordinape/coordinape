@@ -163,7 +163,16 @@ export const OverviewMenu = ({
           {orgs?.map(org => (
             <Box key={org.id} css={menuGroupStyle}>
               <Text variant="label" as="label">
-                {org.name}
+                <Link
+                  key={org.id}
+                  type="menu"
+                  onClick={() =>
+                    // FIXME: only changes URL but doesn't refresh data load
+                    closeAndGo(paths.organization(org.id.toString()))
+                  }
+                >
+                  {org.name}
+                </Link>
               </Text>
               <Box css={{ display: 'flex', flexDirection: 'column' }}>
                 {sortBy(org.circles, c => c.name)
