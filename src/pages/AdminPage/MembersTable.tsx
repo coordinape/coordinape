@@ -358,7 +358,7 @@ const MemberRow = ({
                 setOpen(prevState => !prevState);
               }}
             >
-              {isMobile ? ' Manage' : 'Manager Member'}
+              {isMobile ? ' Manage' : 'Manage Member'}
             </Button>
           )}
           {isAdmin && user.role === 2 && (
