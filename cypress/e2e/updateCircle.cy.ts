@@ -7,7 +7,12 @@ context('Coordinape', () => {
     const providerPort = Cypress.env('HARDHAT_GANACHE_PORT');
     Cypress.on('window:before:load', injectWeb3(providerPort));
     return gqlQuery({
-      circles: [{ where: { name: { _eq: 'Sports' } } }, { id: true }],
+      circles: [
+        {
+          where: { organization: { name: { _eq: 'Fresh Open Epoch Admin' } } },
+        },
+        { id: true },
+      ],
     }).then(q => {
       circleId = q.circles[0].id;
     });

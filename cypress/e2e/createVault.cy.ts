@@ -11,7 +11,14 @@ context('Coordinape', () => {
       .mintErc20('USDC', userAccount, '20000')
       .then(() =>
         gqlQuery({
-          circles: [{ where: { name: { _eq: 'Sports' } } }, { id: true }],
+          circles: [
+            {
+              where: {
+                organization: { name: { _eq: 'Ended Epoch With Gifts' } },
+              },
+            },
+            { id: true },
+          ],
         })
       )
       .then(q => {
