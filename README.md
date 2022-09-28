@@ -104,8 +104,13 @@ These will be applied to the production instance once the PR is merged.
 # Gitpod
 For an easy quick start, launch a Gitpod development version of the development environment.
 
-Open Gitpod in "Open in VS Code on Desktop", then verify the ports 3000, 8080 and 4566 are being forwarded by VS Code. You should then be able to load the app at localhost:3000.
+Open Gitpod in "Open in VS Code on Desktop", then verify the ports `3000`, `8080` and `4566` are being forwarded by VS Code in the "Ports" tab of VS Code. You should then be able to load the app at localhost:3000.
 
+If you want to set a custom .env file for your personal settings and address, edit `.env` and then save it to your Gitpod profile with
+
+```gp env DOTENV="$(base64 .env | tr -d '\n')"```
+
+See `.gitpod.yml` for details on how Gitpod works.
 
 # Troubleshooting
 
