@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 
 import { formatUnits } from '@ethersproject/units';
-import { ContractsReadonly } from 'common-lib/contracts';
 import { decodeCircleId, getDisplayTokenString } from 'lib/vaults';
+import { Contracts } from 'lib/vaults/contracts';
 import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
@@ -85,7 +85,7 @@ export function useOnChainTransactions(
 export async function getOnchainVaultTransactions(vault: VaultAndTransactions) {
   const { chain_id } = vault;
   const provider = getProviderForChain(chain_id);
-  const contracts = new ContractsReadonly(chain_id, provider);
+  const contracts = new Contracts(chain_id, provider, true);
   const eventResults = await Promise.all([
     getDepositEvents(contracts, vault),
     getWithdrawEvents(contracts, vault),
@@ -108,7 +108,7 @@ interface RawTransaction {
   hash: string;
 }
 async function getDepositEvents(
-  contracts: ContractsReadonly,
+  contracts: Contracts,
   {
     vault_address,
     deployment_block,
@@ -180,7 +180,7 @@ async function getDepositEvents(
 // These functions are not very DRY yet, but given how different the
 // event patterns are for each tx, this isn't a trivial refactor
 async function getWithdrawEvents(
-  contracts: ContractsReadonly,
+  contracts: Contracts,
   {
     vault_address,
     deployment_block,
@@ -255,7 +255,7 @@ interface RawDistributionTx extends RawTransaction {
   circle: string;
 }
 async function getDistributionEvents(
-  contracts: ContractsReadonly,
+  contracts: Contracts,
   { vault_address, deployment_block, vault_transactions }: VaultAndTransactions
 ): Promise<RawDistributionTx[]> {
   const distroFilter = contracts.distributor.filters.EpochFunded(vault_address);
