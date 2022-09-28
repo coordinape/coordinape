@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
 import capitalize from 'lodash/capitalize';
-import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core';
@@ -15,10 +14,6 @@ import {
   LoadingModal,
 } from 'components';
 import { MAX_BIO_LENGTH } from 'config/constants';
-import {
-  getCircleSettings,
-  QUERY_KEY_CIRCLE_SETTINGS,
-} from 'pages/CircleAdminPage/getCircleSettings';
 import { useSelectedCircle } from 'recoilState/app';
 import { Button, Flex, Text, Modal } from 'ui';
 
@@ -117,9 +112,11 @@ const useStyles = makeStyles(theme => ({
 const AllocationEpoch = ({
   setActiveStep,
   getHandleStep,
+  teamSelection,
 }: {
   setActiveStep: (step: number) => void;
   getHandleStep: (step: IAllocationStep) => () => void;
+  teamSelection?: boolean;
 }) => {
   const classes = useStyles();
   const navigate = useNavigate();
@@ -129,32 +126,10 @@ const AllocationEpoch = ({
 
   const {
     circleId,
-    circle: initialData,
+    circle: selectedCircle,
     circleEpochsStatus: { epochIsActive, timingMessage },
     myUser,
   } = useSelectedCircle();
-
-  const {
-    isLoading,
-    isIdle,
-    isError,
-    isRefetching,
-    error,
-    data: selectedCircle,
-  } = useQuery(
-    [QUERY_KEY_CIRCLE_SETTINGS, circleId],
-    () => getCircleSettings(circleId),
-    {
-      // the query will not be executed untill circleId exists
-      enabled: !!circleId,
-      initialData,
-      //minmize background refetch
-      refetchOnWindowFocus: false,
-
-      staleTime: Infinity,
-      notifyOnChangeProps: ['data'],
-    }
-  );
 
   const [epochBio, setEpochBio] = useState('');
   const fixedNonReceiver = myUser.fixed_non_receiver;
@@ -183,10 +158,8 @@ const AllocationEpoch = ({
         epoch_first_visit: false,
       });
 
-      if (!(!selectedCircle?.team_selection && !epochIsActive)) {
-        const _nextStep = !selectedCircle?.team_selection
-          ? STEP_ALLOCATION
-          : STEP_MY_TEAM;
+      if (!(!teamSelection && !epochIsActive)) {
+        const _nextStep = !teamSelection ? STEP_ALLOCATION : STEP_MY_TEAM;
         setActiveStep(_nextStep.key);
         navigate(_nextStep.pathFn(circleId));
       }
@@ -195,12 +168,6 @@ const AllocationEpoch = ({
     }
   };
 
-  if (isLoading || isIdle || isRefetching) return <LoadingModal visible />;
-  if (isError) {
-    if (error instanceof Error) {
-      console.warn(error);
-    }
-  }
   return (
     <>
       <div className={classes.root}>
@@ -213,7 +180,7 @@ const AllocationEpoch = ({
           </span>
           <ApeInfoTooltip>
             An Epoch is a period of time where circle members contribute value &
-            allocate {selectedCircle?.tokenName} tokens to one another.{' '}
+            allocate {selectedCircle.tokenName} tokens to one another.{' '}
             <a
               rel="noreferrer"
               target="_blank"
@@ -228,22 +195,22 @@ const AllocationEpoch = ({
           className={classes.bioTextarea}
           maxLength={MAX_BIO_LENGTH}
           onChange={onChangeBio}
-          placeholder={`Tell us about your contributions in the ${selectedCircle?.name} Circle this epoch...`}
+          placeholder={`Tell us about your contributions in the ${selectedCircle.name} Circle this epoch...`}
           value={epochBio}
         />
         {!fixedNonReceiver ? (
           <>
             <p className={classes.titleTwo}>
-              Should you receive {selectedCircle?.token_name || 'GIVE'}{' '}
+              Should you receive {selectedCircle.token_name || 'GIVE'}{' '}
               distributions in the{' '}
-              <b>{capitalize(selectedCircle?.name)} Circle</b> this epoch?
+              <b>{capitalize(selectedCircle.name)} Circle</b> this epoch?
             </p>
             <hr className={classes.optHr} />
             <div className={classes.optInputContainer}>
               <OptInput
                 isChecked={!nonReceiver}
                 subTitle={`I want to be eligible to receive ${
-                  selectedCircle?.token_name || 'GIVE'
+                  selectedCircle.token_name || 'GIVE'
                 }`}
                 title="Opt In"
                 updateOpt={() => setNonReceiver(false)}
@@ -295,15 +262,15 @@ const AllocationEpoch = ({
           <>
             <p className={classes.title}>
               Your administrator opted you out of receiving{' '}
-              {selectedCircle?.token_name || 'GIVE'}
+              {selectedCircle.token_name || 'GIVE'}
             </p>
             <hr className={classes.optHr} />
             <div className={classes.optInputContainer}>
               <p className={classes.optLabel}>
-                You can still distribute {selectedCircle?.token_name || 'GIVE'}{' '}
+                You can still distribute {selectedCircle.token_name || 'GIVE'}{' '}
                 as normal. Generally people are opted out of receiving{' '}
-                {selectedCircle?.token_name || 'GIVE'} if they are compensated
-                in other ways by their organization. Please contact your circle
+                {selectedCircle.token_name || 'GIVE'} if they are compensated in
+                other ways by their organization. Please contact your circle
                 admin for more details.
               </p>
             </div>
@@ -319,9 +286,9 @@ const AllocationEpoch = ({
           <Button
             size="large"
             color="primary"
-            disabled={!selectedCircle?.team_selection && !epochIsActive}
+            disabled={!teamSelection && !epochIsActive}
             onClick={getHandleStep(
-              !selectedCircle?.team_selection ? STEP_ALLOCATION : STEP_MY_TEAM
+              !teamSelection ? STEP_ALLOCATION : STEP_MY_TEAM
             )}
           >
             Continue With Current Settings

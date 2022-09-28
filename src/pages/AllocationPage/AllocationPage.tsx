@@ -275,6 +275,7 @@ const AllocationContents = ({
         activeStep={activeStep}
         completedSteps={completedSteps}
         getHandleStep={getHandleStep}
+        teamSelection={teamSelection}
       />
       <Box
         css={{

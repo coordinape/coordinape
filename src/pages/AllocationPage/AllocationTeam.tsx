@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 import clsx from 'clsx';
 import { transparentize } from 'polished';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
 import { Button, makeStyles } from '@material-ui/core';
@@ -14,11 +14,6 @@ import { STEP_ALLOCATION } from '../../routes/allocation';
 import { ISimpleGift } from '../../types';
 import { Awaited } from '../../types/shim';
 import { ReactComponent as CheckmarkSVG } from 'assets/svgs/button/checkmark.svg';
-import { LoadingModal } from 'components';
-import {
-  getCircleSettings,
-  QUERY_KEY_CIRCLE_SETTINGS,
-} from 'pages/CircleAdminPage/getCircleSettings';
 import { useSelectedCircle } from 'recoilState/app';
 import { Avatar, Box, Button as UIButton, Flex, Text } from 'ui';
 
@@ -229,6 +224,7 @@ type AllocationTeamProps = {
   changed: boolean;
   givePerUser: Map<number, ISimpleGift>;
   setActiveStep: (step: number) => void;
+  teamSelection?: boolean;
 };
 const AllocationTeam = ({
   onContinue,
@@ -238,6 +234,7 @@ const AllocationTeam = ({
   setLocalTeammates,
   givePerUser,
   setActiveStep,
+  teamSelection,
 }: AllocationTeamProps) => {
   const classes = useStyles();
   const navigate = useNavigate();
@@ -245,7 +242,7 @@ const AllocationTeam = ({
 
   const {
     circleId,
-    circle: initialData,
+    circle: selectedCircle,
     circleEpochsStatus: { epochIsActive, timingMessage },
   } = useSelectedCircle();
 
@@ -259,28 +256,6 @@ const AllocationTeam = ({
       : [...localTeammates, addedUser];
     setLocalTeammates(newTeammates);
   };
-
-  const {
-    isLoading,
-    isIdle,
-    isError,
-    isRefetching,
-    error,
-    data: selectedCircle,
-  } = useQuery(
-    [QUERY_KEY_CIRCLE_SETTINGS, circleId],
-    () => getCircleSettings(circleId),
-    {
-      // the query will not be executed untill circleId exists
-      enabled: !!circleId,
-      initialData,
-      //minmize background refetch
-      refetchOnWindowFocus: false,
-
-      staleTime: Infinity,
-      notifyOnChangeProps: ['data'],
-    }
-  );
 
   const saveTeammates = useLoadAndTryMutation(
     async () => {
@@ -305,7 +280,7 @@ const AllocationTeam = ({
   };
 
   const clearLocalTeammates = () => {
-    if (!selectedCircle?.team_selection) {
+    if (!teamSelection) {
       console.error('clearLocalTeammates with circle without team selection');
       return;
     }
@@ -315,13 +290,6 @@ const AllocationTeam = ({
   const onChangeKeyword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(event.target.value);
   };
-
-  if (isLoading || isIdle || isRefetching) return <LoadingModal visible />;
-  if (isError) {
-    if (error instanceof Error) {
-      console.warn(error);
-    }
-  }
 
   return (
     <Flex column>
@@ -356,9 +324,9 @@ const AllocationTeam = ({
           </Text>
         )}
         <Text h2>
-          Who are your Teammates in the {selectedCircle?.name} Circle?
+          Who are your Teammates in the {selectedCircle.name} Circle?
         </Text>
-        <p className={classes.subTitle}>{selectedCircle?.team_sel_text}</p>
+        <p className={classes.subTitle}>{selectedCircle.team_sel_text}</p>
       </div>
       <div className={classes.content}>
         <div className={classes.accessaryContainer}>
@@ -429,8 +397,7 @@ const AllocationTeam = ({
         {allUsers.filter(a => a.non_receiver).length > 0 && (
           <>
             <p className={classes.contentTitle}>
-              These users are opted-out of receiving{' '}
-              {selectedCircle?.token_name}
+              These users are opted-out of receiving {selectedCircle.token_name}
             </p>
             <hr className={classes.hr} />
             <div className={classes.teammatesContainer}>
