@@ -33,8 +33,8 @@ services:
       HASURA_EVENT_SECRET: ${HASURA_EVENT_SECRET}
       # Linux (read: non macOS or Windows) users should
       # `export DOCKER_GATEWAY_HOST=172.17.0.1` to interact with the host machine's ports
-      HASURA_API_BASE_URL: ${GITPOD_URL}/api/hasura
-      HASURA_GRAPHQL_AUTH_HOOK: ${GITPOD_URL}/api/hasura/auth
+      HASURA_API_BASE_URL: http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:${LOCAL_WEB_PORT}/api/hasura
+      HASURA_GRAPHQL_AUTH_HOOK: http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:${LOCAL_WEB_PORT}/api/hasura/auth
       ## HASURA_GRAPHQL_UNAUTHORIZED_ROLE: public
 
   postgres-ci:
