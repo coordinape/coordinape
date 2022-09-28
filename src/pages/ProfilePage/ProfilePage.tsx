@@ -64,11 +64,6 @@ const useStyles = makeStyles(theme => ({
       padding: theme.spacing(0, 2),
     },
   },
-  avatar: {
-    top: 155,
-    width: 143,
-    height: 143,
-  },
   uploadButton: {
     position: 'absolute',
     top: 22,
@@ -213,6 +208,12 @@ const OtherProfilePage = ({ address }: { address: string }) => {
   return <ProfilePageContent profile={profile} circleId={circleId} />;
 };
 
+const avatarStyles = {
+  top: 155,
+  width: '143px !important',
+  height: '143px !important',
+};
+
 const ProfilePageContent = ({
   profile,
   circleId,
@@ -262,7 +263,7 @@ const ProfilePageContent = ({
       <div className={classes.header}>
         <img src={backgroundUrl} alt={name} />
         <div className={classes.headerInside}>
-          <Avatar path={profile?.avatar} size="xl" margin="small" />
+          <Avatar path={profile?.avatar} css={avatarStyles} />
           {isMe && (
             <>
               <FormFileUpload
