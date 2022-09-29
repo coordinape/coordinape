@@ -22,8 +22,9 @@ type SimpleVaultType = {
 export const hasSimpleToken = ({
   simple_token_address,
 }: Pick<SimpleVaultType, 'simple_token_address'>) => {
+  // FIXME this should require a valid address
   if (!simple_token_address) return false;
-  assert(isAddress(simple_token_address), 'invalid address');
+  assert(isAddress(simple_token_address), 'invalid simple token address');
   return simple_token_address !== AddressZero;
 };
 
