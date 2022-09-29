@@ -436,6 +436,7 @@ export const CircleAdminPage = () => {
             alignItems: 'center',
             flexWrap: 'wrap',
             mb: '$lg',
+            gap: '$md',
           }}
         >
           <Text h1>Circle Admin</Text>

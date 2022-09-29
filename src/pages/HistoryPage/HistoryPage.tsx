@@ -10,7 +10,7 @@ import {
   EXTERNAL_URL_GET_STARTED_TUTORIAL_VIDEO,
   paths,
 } from '../../routes/paths';
-import { ActionDialog, LoadingModal } from 'components';
+import { LoadingModal } from 'components';
 import { Paginator } from 'components/Paginator';
 import isFeatureEnabled from 'config/features';
 import { useApeSnackbar, useApiAdminCircle } from 'hooks';
@@ -25,6 +25,7 @@ import {
   Link,
   Box,
   AppLink,
+  Modal,
 } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -297,23 +298,30 @@ export const HistoryPage = () => {
           <Paginator pages={totalPages} current={page} onSelect={setPage} />
         </>
       )}
-      <ActionDialog
+      <Modal
         open={!!epochToDelete}
+        onClose={() => setEpochToDelete(undefined)}
         title={`Remove Epoch ${
           epochToDelete?.number ? epochToDelete.number : ''
         }`}
-        onClose={() => setEpochToDelete(undefined)}
-        primaryText="Remove"
-        onPrimary={
-          epochToDelete
-            ? () =>
-                deleteEpoch(epochToDelete?.id)
-                  .then(() => setEpochToDelete(undefined))
-                  .then(() => query.refetch())
-                  .catch(() => setEpochToDelete(undefined))
-            : undefined
-        }
-      />
+      >
+        <Flex column alignItems="start" css={{ gap: '$md' }}>
+          <Button
+            color="destructive"
+            onClick={
+              epochToDelete
+                ? () =>
+                    deleteEpoch(epochToDelete?.id)
+                      .then(() => setEpochToDelete(undefined))
+                      .then(() => query.refetch())
+                      .catch(() => setEpochToDelete(undefined))
+                : undefined
+            }
+          >
+            Remove
+          </Button>
+        </Flex>
+      </Modal>
     </SingleColumnLayout>
   );
 };

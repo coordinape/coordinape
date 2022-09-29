@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect, useMemo } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -8,7 +9,7 @@ import { useQueryClient } from 'react-query';
 import { styled } from 'stitches.config';
 import { z } from 'zod';
 
-import { ActionDialog, FormInputField, makeTable } from 'components';
+import { FormInputField, makeTable } from 'components';
 import {
   USER_COORDINAPE_ADDRESS,
   USER_ROLE_ADMIN,
@@ -35,6 +36,7 @@ import {
   Form,
   FormLabel,
   Link,
+  Modal,
   Tooltip,
   Text,
   ToggleButton,
@@ -719,17 +721,31 @@ const MemberRow = ({
                   Save Changes
                 </Button>
               </Flex>
-              <ActionDialog
-                open={!hasAcceptedOptOutWarning && showOptOutChangeWarning}
-                title={`This user has ${tokenName || 'GIVE'} allocated.`}
-                onPrimary={() => {
+              <Modal
+                onClose={() => {
                   setHasAcceptedOptOutWarning(true);
                   setShowOptOutChangeWarning(false);
                 }}
+                open={!hasAcceptedOptOutWarning && showOptOutChangeWarning}
+                title={`This user has ${tokenName || 'GIVE'} allocated.`}
               >
-                Changing their opt-in status will remove all{' '}
-                {tokenName || 'GIVE'} allocated to them. This cannot be undone.
-              </ActionDialog>
+                <Flex column alignItems="start" css={{ gap: '$md' }}>
+                  <Text p>
+                    Changing their opt-in status will remove all{' '}
+                    {tokenName || 'GIVE'} allocated to them. This cannot be
+                    undone.
+                  </Text>
+                  <Button
+                    color="primary"
+                    onClick={() => {
+                      setHasAcceptedOptOutWarning(true);
+                      setShowOptOutChangeWarning(false);
+                    }}
+                  >
+                    I Understand
+                  </Button>
+                </Flex>
+              </Modal>
             </Form>
           </TD>
         </TR>

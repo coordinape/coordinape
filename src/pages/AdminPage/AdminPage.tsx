@@ -6,7 +6,7 @@ import { formatUnits } from 'ethers/lib/utils';
 import { isUserAdmin } from 'lib/users';
 import { useQuery } from 'react-query';
 
-import { ActionDialog, LoadingModal } from 'components';
+import { LoadingModal } from 'components';
 import { useApiAdminCircle, useContracts } from 'hooks';
 import { useCircleOrg } from 'hooks/gql/useCircleOrg';
 import { useVaults } from 'hooks/gql/useVaults';
@@ -19,7 +19,7 @@ import {
 } from 'pages/CircleAdminPage/getFixedPayment';
 import { useSelectedCircle } from 'recoilState/app';
 import { NEW_CIRCLE_CREATED_PARAMS, paths } from 'routes/paths';
-import { AppLink, Button, Flex, Panel, Text, TextField } from 'ui';
+import { AppLink, Button, Flex, Modal, Panel, Text, TextField } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { numberWithCommas } from 'utils';
 
@@ -361,29 +361,43 @@ const AdminPage = () => {
         )}
       </Panel>
       {}
-      <ActionDialog
+      <Modal
         open={newCircle}
         title="Congrats! You just launched a new circle."
         onClose={() => setNewCircle(false)}
-        onPrimary={() => setNewCircle(false)}
       >
-        You’ll need to add your teammates to your circle and schedule an epoch
-        before you can start allocating {circle?.tokenName}.
-      </ActionDialog>
-      <ActionDialog
+        <Flex column alignItems="start" css={{ gap: '$md' }}>
+          <Text p>
+            You’ll need to add your teammates to your circle and schedule an
+            epoch before you can start allocating {circle?.tokenName}.
+          </Text>
+          <Button color="primary" onClick={() => setNewCircle(false)}>
+            I Understand
+          </Button>
+        </Flex>
+      </Modal>
+      <Modal
         open={!!deleteUserDialog}
         title={`Remove ${deleteUserDialog?.name} from circle`}
         onClose={() => setDeleteUserDialog(undefined)}
-        primaryText="Remove"
-        onPrimary={
-          deleteUserDialog
-            ? () =>
-                deleteUser(deleteUserDialog.address)
-                  .then(() => setDeleteUserDialog(undefined))
-                  .catch(() => setDeleteUserDialog(undefined))
-            : undefined
-        }
-      />
+      >
+        <Flex column alignItems="start" css={{ gap: '$md' }}>
+          <Button
+            color="destructive"
+            onClick={
+              deleteUserDialog
+                ? () =>
+                    deleteUser(deleteUserDialog.address)
+                      .then(() => setDeleteUserDialog(undefined))
+                      .catch(() => setDeleteUserDialog(undefined))
+                : undefined
+            }
+          >
+            Remove
+          </Button>
+        </Flex>
+      </Modal>
+
       {isNewNomination && (
         <NewNominationModal
           onClose={() => setNewNomination(false)}
