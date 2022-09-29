@@ -21,10 +21,11 @@ context('Coordinape', () => {
     cy.get('[name=name]').click().type('Satoshi');
     cy.get('[name=address]')
       .click()
-      .wait(10000)
+      .wait(1000)
       .type('0x51508887C3FEf0b4390091C5A4B2B91562881526');
     cy.contains('Why are you nominating')
       .click()
+      .wait(1000)
       .type("It's annoying that I need to fill forty whole characters here.");
     cy.get('form').contains('Nominate Member').click();
     cy.contains('Satoshi').click();
