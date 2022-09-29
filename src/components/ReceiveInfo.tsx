@@ -3,11 +3,11 @@ import { useState } from 'react';
 import iti from 'itiriri';
 import { DateTime } from 'luxon';
 
-import { ApeAvatar } from 'components/index';
 import { useUserGifts } from 'recoilState/allocation';
 import { useSelectedCircle } from 'recoilState/app';
 import { paths } from 'routes/paths';
 import {
+  Avatar,
   AppLink,
   Box,
   Button,
@@ -46,7 +46,6 @@ export const ReceiveInfo = () => {
           as="a"
           size="small"
           color="surface"
-          css={{ mr: '$sm' }}
           onMouseEnter={() => {
             clearTimeout(timeoutId);
             setMouseEnterPopover(true);
@@ -140,7 +139,10 @@ export const ReceiveInfo = () => {
                     maxWidth: '20rem',
                   }}
                 >
-                  <ApeAvatar user={tokenGift.sender} />
+                  <Avatar
+                    path={tokenGift.sender.profile.avatar}
+                    name={tokenGift.sender.name}
+                  />
                   {tokenGift.note ? (
                     <Text p as="p" size="small">
                       {tokenGift.note}

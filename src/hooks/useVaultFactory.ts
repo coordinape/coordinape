@@ -1,10 +1,10 @@
 import assert from 'assert';
 
+import { AddressZero } from '@ethersproject/constants';
 import { ValueTypes, vault_tx_types_enum } from 'lib/gql/__generated__/zeus';
 import { addVault, savePendingVaultTx } from 'lib/gql/mutations/vaults';
 import { Asset } from 'lib/vaults';
 
-import { ZERO_ADDRESS } from 'config/constants';
 import { useApeSnackbar } from 'hooks';
 import type { Vault } from 'hooks/gql/useVaults';
 import { sendAndTrackTx } from 'utils/contractHelpers';
@@ -38,10 +38,10 @@ export function useVaultFactory(orgId?: number) {
       let args: [string, string];
 
       if (!type) {
-        args = [ZERO_ADDRESS, simpleTokenAddress as string];
+        args = [AddressZero, simpleTokenAddress as string];
       } else {
         const tokenAddress = contracts.getToken(type).address;
-        args = [tokenAddress, ZERO_ADDRESS];
+        args = [tokenAddress, AddressZero];
       }
 
       const { receipt, tx } = await sendAndTrackTx(
@@ -66,16 +66,17 @@ export function useVaultFactory(orgId?: number) {
       for (const event of receipt?.events || []) {
         if (event?.event === 'VaultCreated') {
           const vaultAddress = event.args?.vault;
+          assert(tx);
 
-          const vault: ValueTypes['CreateVaultInput'] = {
+          const payload: ValueTypes['CreateVaultInput'] = {
             vault_address: vaultAddress,
             org_id: orgId,
             chain_id: Number.parseInt(contracts.chainId),
             deployment_block: receipt?.blockNumber || 0,
+            tx_hash: tx.hash,
           };
 
-          assert(tx);
-          const { createVault } = await addVault(vault, tx.hash);
+          const { createVault } = await addVault(payload);
           return createVault?.vault;
         }
       }

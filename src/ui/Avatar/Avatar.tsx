@@ -69,7 +69,7 @@ const AvatarRoot = styled(AvatarPrimitive.Root, {
   },
   defaultVariants: {
     size: 'large',
-    margin: 'small',
+    margin: 'none',
   },
 });
 

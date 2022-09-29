@@ -15,13 +15,24 @@ import { getProvider } from '../../../../api-lib/provider';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import { zEthAddressOnly } from '../../../../src/forms/formHelpers';
 
+const inputSchema = z
+  .object({
+    org_id: z.number().positive(),
+    vault_address: zEthAddressOnly,
+    chain_id: z.number(),
+    deployment_block: z.number().min(1),
+    tx_hash: z.string(),
+  })
+  .strict();
+
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     session_variables,
     input: { payload },
-  } = getPropsWithUserSession(createVaultInput, req);
+  } = getPropsWithUserSession(inputSchema, req);
 
-  const { org_id, chain_id, vault_address, deployment_block } = payload;
+  const { org_id, chain_id, vault_address, deployment_block, tx_hash } =
+    payload;
   const { hasuraAddress, hasuraProfileId } = session_variables;
 
   const isOrgAdmin = await queries.checkAddressAdminInOrg(
@@ -62,7 +73,52 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     token.decimals(),
   ]);
 
-  const { insert_vaults_one: result } = await adminClient.mutate(
+  const { insert_vaults_one: result } = await insert({
+    chain_id,
+    decimals,
+    deployment_block,
+    org_id,
+    profile_id: hasuraProfileId,
+    simple_token_address: simpleTokenAddress,
+    symbol,
+    token_address: yTokenAddress,
+    tx_hash,
+    vault_address,
+  });
+
+  if (!result?.id)
+    throw new InternalServerError(
+      `No CoVault ID returned for ${vault_address}`
+    );
+  res.status(200).json(result);
+}
+
+export default verifyHasuraRequestMiddleware(handler);
+
+export const insert = ({
+  symbol,
+  decimals,
+  chain_id,
+  org_id,
+  deployment_block,
+  vault_address,
+  profile_id,
+  token_address,
+  simple_token_address,
+  tx_hash,
+}: {
+  symbol: string;
+  decimals: number;
+  chain_id: number;
+  org_id: number;
+  deployment_block: number;
+  vault_address: string;
+  profile_id: number;
+  token_address: string;
+  simple_token_address: string;
+  tx_hash: string;
+}) =>
+  adminClient.mutate(
     {
       insert_vaults_one: [
         {
@@ -73,32 +129,35 @@ async function handler(req: VercelRequest, res: VercelResponse) {
             org_id,
             deployment_block,
             vault_address,
-            created_by: hasuraProfileId,
-            token_address: yTokenAddress,
-            simple_token_address: simpleTokenAddress,
+            created_by: profile_id,
+            token_address,
+            simple_token_address,
           },
         },
         { id: true },
+      ],
+      insert_interaction_events_one: [
+        {
+          object: {
+            event_type: 'vault_create',
+            profile_id,
+            org_id,
+            data: {
+              symbol:
+                simple_token_address === AddressZero
+                  ? `Yearn ${symbol}` // FIXME don't hardcode this
+                  : symbol,
+              vault_address,
+              chain_id,
+              token_address,
+              simple_token_address,
+              tx_hash,
+            },
+          },
+        },
+        { __typename: true },
       ],
     },
 
     { operationName: 'createVault' }
   );
-
-  if (!result?.id)
-    throw new InternalServerError(
-      `No CoVault ID returned for ${vault_address}`
-    );
-  res.status(200).json(result);
-}
-
-const createVaultInput = z
-  .object({
-    org_id: z.number().positive(),
-    vault_address: zEthAddressOnly,
-    chain_id: z.number(),
-    deployment_block: z.number().min(1),
-  })
-  .strict();
-
-export default verifyHasuraRequestMiddleware(handler);

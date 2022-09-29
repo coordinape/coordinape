@@ -96,6 +96,13 @@ export const GiveAllocator = ({
             css={{
               padding: 0,
               color: '$primary',
+              transition: '0.1s all ease-out',
+              '&:hover': {
+                transform: 'scale(1.1)',
+              },
+              '&:active': {
+                transform: 'scale(0.9)',
+              },
               '> svg': {
                 // This override mr: $xs set in Button for some reason, almost lost my mind over this -g
                 mr: '0',
@@ -142,6 +149,13 @@ export const GiveAllocator = ({
             css={{
               padding: 0,
               color: '$primary',
+              transition: '0.1s all ease-out',
+              '&:hover': {
+                transform: 'scale(1.1)',
+              },
+              '&:active': {
+                transform: 'scale(0.9)',
+              },
               '> svg': {
                 // This override mr: $xs set in Button for some reason, almost lost my mind over this -g
                 mr: '0',

@@ -1,10 +1,9 @@
 // original: https://github.com/Uniswap/merkle-distributor/blob/master/src/balance-tree.ts
 
+import { AddressZero } from '@ethersproject/constants';
 import { BigNumber, utils } from 'ethers';
 
 import MerkleTree from './merkle-tree';
-
-const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 
 export default class BalanceTree {
   private readonly tree: MerkleTree;
@@ -18,7 +17,7 @@ export default class BalanceTree {
 
     while (nodes.length < paddedLength) {
       nodes.push(
-        BalanceTree.toNode(nodes.length, ZERO_ADDRESS, BigNumber.from(0))
+        BalanceTree.toNode(nodes.length, AddressZero, BigNumber.from(0))
       );
     }
 

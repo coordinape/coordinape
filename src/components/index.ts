@@ -1,6 +1,5 @@
 export * from './ActionDialog';
 export * from './ApeAutocomplete';
-export * from './ApeAvatar';
 export * from './ApeInfoTooltip';
 export * from './ApeTabs';
 export * from './DeprecatedApeTextField';
@@ -26,7 +25,6 @@ export * from './IconButton';
 export * from './LoadingModal';
 export * from './MainLayout/MainLayout';
 export * from './MyAvatarMenu/MyAvatarMenu';
-export * from './NewApeAvatar';
 export * from './OptInput';
 export * from './ProfileCard/ProfileCard';
 export * from './ProfileSkills';

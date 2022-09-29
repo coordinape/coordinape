@@ -9,7 +9,6 @@ import { makeStyles, Button } from '@material-ui/core';
 import {
   ProfileSocialIcons,
   ProfileSkills,
-  ApeAvatar,
   FormFileUpload,
   scrollToTop,
 } from 'components';
@@ -64,11 +63,6 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down('xs')]: {
       padding: theme.spacing(0, 2),
     },
-  },
-  avatar: {
-    top: 155,
-    width: 143,
-    height: 143,
   },
   uploadButton: {
     position: 'absolute',
@@ -263,9 +257,13 @@ const ProfilePageContent = ({
       <div className={classes.header}>
         <img src={backgroundUrl} alt={name} />
         <div className={classes.headerInside}>
-          <ApeAvatar
-            profile={{ ...profile, users: [] }}
-            className={classes.avatar}
+          <Avatar
+            path={profile?.avatar}
+            css={{
+              top: 155,
+              width: '143px !important',
+              height: '143px !important',
+            }}
           />
           {isMe && (
             <>

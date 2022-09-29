@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useQuery } from 'react-query';
 
@@ -68,17 +68,13 @@ export const GiveDrawer = ({
   // note is the current state of the note
   const [note, setNote] = useState(gift.note);
 
-  // we need a ref for async saving purposes
-  const noteRef = useRef(note);
-  noteRef.current = note;
-
   // saveTimeout is the timeout handle for the buffered async saving
   const [saveTimeout, setSaveTimeout] =
     useState<ReturnType<typeof setTimeout>>();
 
   // update the note in the to level page state
-  const saveNote = () => {
-    updateNote({ ...gift, note: noteRef.current });
+  const saveNote = (gift: Gift, note?: string) => {
+    updateNote({ ...gift, note: note });
   };
 
   // noteChanged schedules a save to the underlying state in the parent component, clearing any pending save
@@ -88,7 +84,7 @@ export const GiveDrawer = ({
       clearTimeout(saveTimeout);
     }
     // only save every 1s , if user increments or edits note, delay 1s
-    setSaveTimeout(setTimeout(saveNote, 1000));
+    setSaveTimeout(setTimeout(() => saveNote({ ...gift }, newNote), 1000));
   };
 
   useEffect(() => {
@@ -99,6 +95,10 @@ export const GiveDrawer = ({
       setNeedToSave(undefined);
     }
   }, [member]);
+
+  useEffect(() => {
+    setNote(gift.note);
+  }, [gift]);
 
   const nextPrevCss = {
     color: '$text',
@@ -115,7 +115,7 @@ export const GiveDrawer = ({
   };
 
   return (
-    <Box css={{ height: '100%', pt: '$md' }}>
+    <Box key={selectedMemberIdx} css={{ height: '100%', pt: '$md' }}>
       <Flex>
         <Button
           color="white"

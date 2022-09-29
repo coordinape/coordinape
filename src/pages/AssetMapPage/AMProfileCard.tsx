@@ -6,13 +6,14 @@ import reactStringReplace from 'react-string-replace';
 
 import { makeStyles, Box, Button } from '@material-ui/core';
 
-import { ApeAvatar, ProfileSocialIcons } from 'components';
+import { ProfileSocialIcons } from 'components';
 import {
   useMapMetric,
   useStateAmEgoAddress,
   useMapMeasures,
   useMapSearchRegex,
 } from 'recoilState/map';
+import { Avatar } from 'ui';
 import { assertDef } from 'utils/tools';
 
 import { IProfile, ICircle } from 'types';
@@ -176,7 +177,7 @@ const AMProfileCard = ({
       <Box className={classes.scale} width={`${fraction * 100}%`} />
       <div className={classes.content}>
         <div className={classes.header} onClick={() => onClick(profile)}>
-          <ApeAvatar user={user} className={classes.avatar} />
+          <Avatar path={user.profile?.avatar} name={user.name} />
           <div className={classes.headerText}>
             <span className={classes.headerName}>
               {reactStringReplace(user.name, searchRegex, (match, i) =>

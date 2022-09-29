@@ -19,7 +19,7 @@ import {
 } from 'pages/CircleAdminPage/getFixedPayment';
 import { useSelectedCircle } from 'recoilState/app';
 import { NEW_CIRCLE_CREATED_PARAMS, paths } from 'routes/paths';
-import { AppLink, Button, Flex, Panel, Text, TextField } from 'ui';
+import { AppLink, Box, Button, Flex, Panel, Text, TextField } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { numberWithCommas } from 'utils';
 
@@ -201,43 +201,47 @@ const AdminPage = () => {
   }
   return (
     <SingleColumnLayout>
-      <Panel nested>
-        <Flex css={{ alignItems: 'center', mb: '$lg' }}>
-          <Text h2>Circle Members</Text>
-          {!isMobile && (
-            <Flex
-              css={{
-                flexGrow: 1,
-                flexWrap: 'wrap',
-                justifyContent: 'flex-end',
-                gap: '$md',
-              }}
-            >
-              <Text size={'small'} css={{ color: '$headingText' }}>
-                <Text>
-                  {visibleUsers.length} Member
-                  {visibleUsers.length > 1 ? 's' : ''}
+      <Panel nested css={{ gap: '$1xl' }}>
+        <Box>
+          <Flex css={{ alignItems: 'center', mb: '$md' }}>
+            <Text h2>Circle Members</Text>
+            {!isMobile && (
+              <Flex
+                css={{
+                  flexGrow: 1,
+                  flexWrap: 'wrap',
+                  justifyContent: 'flex-end',
+                  gap: '$md',
+                }}
+              >
+                <Text size={'small'} css={{ color: '$headingText' }}>
+                  <Text>
+                    {visibleUsers.length} Member
+                    {visibleUsers.length > 1 ? 's' : ''}
+                  </Text>
+                  {circle?.vouching && (
+                    <>
+                      <Text
+                        css={{
+                          whiteSpace: 'pre-wrap',
+                          color: '$secondaryText',
+                        }}
+                      >
+                        {' | '}
+                      </Text>
+                      <Text>
+                        {nomineeCount} Nominee{nomineeCount > 1 ? 's' : ''}
+                      </Text>
+                    </>
+                  )}
                 </Text>
-                {circle?.vouching && (
-                  <>
-                    <Text
-                      css={{ whiteSpace: 'pre-wrap', color: '$secondaryText' }}
-                    >
-                      {' | '}
-                    </Text>
-                    <Text>
-                      {nomineeCount} Nominee{nomineeCount > 1 ? 's' : ''}
-                    </Text>
-                  </>
+                {isAdmin && (
+                  <AppLink to={paths.membersAdd(selectedCircle.id)}>
+                    <Button color="primary" outlined size="small">
+                      Add Members
+                    </Button>
+                  </AppLink>
                 )}
-              </Text>
-              {isAdmin && (
-                <AppLink to={paths.membersAdd(selectedCircle.id)}>
-                  <Button color="primary" outlined size="small">
-                    Add Members
-                  </Button>
-                </AppLink>
-              )}
               {circle?.hasVouching && (
                 <AppLink to={paths.membersNominate(selectedCircle.id)}>
                   <Button
@@ -249,11 +253,12 @@ const AdminPage = () => {
                     Nominate Member
                   </Button>
                 </AppLink>
-              )}
-            </Flex>
-          )}
-        </Flex>
-        <Text size="medium">Manage, nominate and vouch for members.</Text>
+                )}
+              </Flex>
+            )}
+          </Flex>
+          <Text size="medium">Manage, nominate and vouch for members.</Text>
+        </Box>
         {isMobile && (
           <Flex
             column
@@ -318,48 +323,44 @@ const AdminPage = () => {
           </Flex>
         )}
         {circle?.vouching && (
-          <Panel nested css={{ mt: '$1xl', px: 0 }}>
-            <NomineesTable
-              refetchNominees={refetch}
-              isNonGiverVoucher={circle?.only_giver_vouch}
-              myUser={me}
-              nominees={activeNominees}
-              vouchingText={circle.vouchingText}
-            />
-          </Panel>
+          <NomineesTable
+            refetchNominees={refetch}
+            isNonGiverVoucher={circle?.only_giver_vouch}
+            myUser={me}
+            nominees={activeNominees}
+            vouchingText={circle.vouchingText}
+          />
         )}
-        <Panel nested css={{ mt: '$2xl', px: 0 }}>
-          <Panel>
-            <Flex css={{ justifyContent: 'space-between', mb: '$md' }}>
-              <Text h3 css={{ fontWeight: '$semibold', color: '$headingText' }}>
-                Members
-              </Text>
-              <TextField
-                inPanel
-                size="sm"
-                onChange={onChangeKeyword}
-                placeholder="🔍 Search"
-                value={keyword}
-                css={{
-                  pd: '25px',
-                  background: `${(<Search />)} no-repeat right`,
-                  backgroundSize: '20px',
-                }}
-              />
-            </Flex>
-            {circle && (
-              <MembersTable
-                visibleUsers={visibleUsers}
-                myUser={me}
-                circle={circle}
-                filter={filterUser}
-                perPage={15}
-                fixedPayment={fixedPayment}
-                availableInVault={availableFixedTokens}
-                setDeleteUserDialog={setDeleteUserDialog}
-              />
-            )}
-          </Panel>
+        <Panel>
+          <Flex css={{ justifyContent: 'space-between', mb: '$md' }}>
+            <Text h3 css={{ fontWeight: '$semibold', color: '$headingText' }}>
+              Members
+            </Text>
+            <TextField
+              inPanel
+              size="sm"
+              onChange={onChangeKeyword}
+              placeholder="🔍 Search"
+              value={keyword}
+              css={{
+                pd: '25px',
+                background: `${(<Search />)} no-repeat right`,
+                backgroundSize: '20px',
+              }}
+            />
+          </Flex>
+          {circle && (
+            <MembersTable
+              visibleUsers={visibleUsers}
+              myUser={me}
+              circle={circle}
+              filter={filterUser}
+              perPage={15}
+              fixedPayment={fixedPayment}
+              availableInVault={availableFixedTokens}
+              setDeleteUserDialog={setDeleteUserDialog}
+            />
+          )}
         </Panel>
       </Panel>
       {}

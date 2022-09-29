@@ -190,6 +190,8 @@ export function useSubmitDistribution() {
         vaultId: vault.id,
         txHash,
         circleId,
+        amount: Number.parseFloat(amount),
+        symbol: vault.symbol,
       });
       showInfo('Distribution saved successfully');
       return {

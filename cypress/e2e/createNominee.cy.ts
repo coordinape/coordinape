@@ -7,7 +7,12 @@ context('Coordinape', () => {
     const providerPort = Cypress.env('HARDHAT_GANACHE_PORT');
     Cypress.on('window:before:load', injectWeb3(providerPort));
     return gqlQuery({
-      circles: [{ where: { name: { _eq: 'Movies' } } }, { id: true }],
+      circles: [
+        {
+          where: { organization: { name: { _eq: 'Fresh Open Epoch Admin' } } },
+        },
+        { id: true },
+      ],
     }).then(q => {
       circleId = q.circles[0].id;
     });
@@ -21,10 +26,11 @@ context('Coordinape', () => {
     cy.get('[name=name]').click().type('Satoshi');
     cy.get('[name=address]')
       .click()
-      .wait(10000)
+      .wait(1000)
       .type('0x51508887C3FEf0b4390091C5A4B2B91562881526');
     cy.contains('Why are you nominating')
       .click()
+      .wait(1000)
       .type("It's annoying that I need to fill forty whole characters here.");
     cy.get('button').contains('Nominate Member').click();
     cy.contains('You have successfully Nominated Satoshi', {

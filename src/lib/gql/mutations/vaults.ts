@@ -1,36 +1,24 @@
 import { ValueTypes } from '../__generated__/zeus';
 import { client } from '../client';
 
-// Warning: this pattern of constructing ad-hoc ValueTypes selections
-// and passing them into various queries does not work for array
-// relationships in Zeus. These need to be assembled inline
-// with the query or explicitly typed. It's interesting that typing or
-// casting this object causes typechecking issues
-export const allVaultFields = {
-  id: true,
-  created_at: true,
-  created_by: true,
-  decimals: true,
-  simple_token_address: true,
-  symbol: true,
-  token_address: true,
-  updated_at: true,
-  vault_address: true,
-  chain_id: true,
-  deployment_block: true,
-};
-
-export const addVault = (
-  vault: ValueTypes['CreateVaultInput'],
-  pendingTxHash: string
-) =>
+export const addVault = (payload: ValueTypes['CreateVaultInput']) =>
   client.mutate(
     {
       createVault: [
-        { payload: vault },
+        { payload },
         {
           vault: {
-            ...allVaultFields,
+            id: true,
+            created_at: true,
+            created_by: true,
+            decimals: true,
+            simple_token_address: true,
+            symbol: true,
+            token_address: true,
+            updated_at: true,
+            vault_address: true,
+            chain_id: true,
+            deployment_block: true,
             organization: {
               name: true,
             },
@@ -61,16 +49,16 @@ export const addVault = (
         },
       ],
       delete_pending_vault_transactions_by_pk: [
-        { tx_hash: pendingTxHash },
+        { tx_hash: payload.tx_hash },
         { __typename: true },
       ],
     },
     { operationName: 'addVault' }
   );
 
-export const addVaultTx = (vaultTx: ValueTypes['LogVaultTxInput']) =>
+export const addVaultTx = (payload: ValueTypes['LogVaultTxInput']) =>
   client.mutate({
-    createVaultTx: [{ payload: vaultTx }, { __typename: true }],
+    createVaultTx: [{ payload }, { __typename: true }],
   });
 
 export async function savePendingVaultTx(

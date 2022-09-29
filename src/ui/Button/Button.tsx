@@ -185,44 +185,6 @@ export const Button = styled('button', {
         borderRadius: '$pill',
       },
     },
-    greenIconButton: {
-      true: {
-        color: '$secondaryText',
-        border: '1px solid $borderMedium',
-        backgroundColor: '$transparent !important',
-        '&:hover': {
-          borderColor: '$complete',
-          filter: 'saturate(1)',
-        },
-      },
-    },
-    greenIconButtonToggled: {
-      true: {
-        color: '$headingText',
-        border: '1px solid $complete',
-        backgroundColor: '$surface !important',
-        filter: 'saturate(1)',
-      },
-    },
-    redIconButton: {
-      true: {
-        color: '$secondaryText',
-        border: '1px solid $borderMedium',
-        backgroundColor: '$transparent !important',
-        '&:hover': {
-          borderColor: '$alert',
-          filter: 'saturate(1)',
-        },
-      },
-    },
-    redIconButtonToggled: {
-      true: {
-        color: '$headingText',
-        border: '1px solid $alert',
-        backgroundColor: '$surface !important',
-        filter: 'saturate(1)',
-      },
-    },
   },
   compoundVariants: [
     {
@@ -231,12 +193,7 @@ export const Button = styled('button', {
       css: {
         color: '$primary',
         borderColor: '$primary',
-        '&:hover': {
-          color: '$white',
-          filter: 'saturate(1)',
-          backgroundColor: '$primary !important',
-        },
-        '&:focus': {
+        '&:hover, &:focus': {
           color: '$white',
           filter: 'saturate(1)',
           backgroundColor: '$primary !important',
@@ -249,12 +206,7 @@ export const Button = styled('button', {
       css: {
         color: '$secondary',
         borderColor: '$secondary',
-        '&:hover': {
-          color: '$white',
-          filter: 'saturate(1)',
-          backgroundColor: '$secondary !important',
-        },
-        '&:focus': {
+        '&:hover, &:focus': {
           color: '$white',
           filter: 'saturate(1)',
           backgroundColor: '$secondary !important',
@@ -267,12 +219,7 @@ export const Button = styled('button', {
       css: {
         color: '$alert',
         borderColor: '$alert',
-        '&:hover': {
-          color: '$white',
-          filter: 'saturate(1)',
-          backgroundColor: '$alert !important',
-        },
-        '&:focus': {
+        '&:hover, &:focus': {
           color: '$white',
           filter: 'saturate(1)',
           backgroundColor: '$alert !important',
@@ -285,12 +232,7 @@ export const Button = styled('button', {
       css: {
         color: '$text',
         borderColor: '$neutral',
-        '&:hover': {
-          color: '$white',
-          filter: 'saturate(1)',
-          backgroundColor: '$neutral !important',
-        },
-        '&:focus': {
+        '&:hover, &:focus': {
           color: '$white',
           filter: 'saturate(1)',
           backgroundColor: '$neutral !important',
@@ -303,12 +245,7 @@ export const Button = styled('button', {
       css: {
         color: '$complete',
         borderColor: '$complete',
-        '&:hover': {
-          color: '$white',
-          filter: 'saturate(1)',
-          backgroundColor: '$complete !important',
-        },
-        '&:focus': {
+        '&:hover, &:focus': {
           color: '$white',
           filter: 'saturate(1)',
           backgroundColor: '$complete !important',

@@ -1,12 +1,9 @@
+import { AddressZero } from '@ethersproject/constants';
 import { ethers } from 'ethers';
 import { DeployFunction } from 'hardhat-deploy/types';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
-import {
-  HARDHAT_OWNER_ADDRESS,
-  FORK_MAINNET,
-  ZERO_ADDRESS,
-} from '../../../constants';
+import { HARDHAT_OWNER_ADDRESS, FORK_MAINNET } from '../../../constants';
 import { MockToken__factory } from '../../../typechain';
 
 const tokens = [
@@ -47,7 +44,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await hre.getNamedAccounts();
   const signers = await hre.ethers.getSigners();
   const receiver = HARDHAT_OWNER_ADDRESS;
-  if (receiver === ZERO_ADDRESS) {
+  if (receiver === AddressZero) {
     throw 'HARDHAT_OWNER_ADDRESS is not set';
   }
 

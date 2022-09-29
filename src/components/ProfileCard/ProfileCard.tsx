@@ -4,7 +4,6 @@ import { makeStyles, Button } from '@material-ui/core';
 
 import { ReactComponent as EditProfileSVG } from 'assets/svgs/button/edit-profile.svg';
 import {
-  ApeAvatar,
   ApeInfoTooltip,
   ProfileSocialIcons,
   ThreeDotMenu,
@@ -16,7 +15,7 @@ import { useNavigation } from 'hooks';
 import { useContributions } from 'hooks/useContributions';
 import { useSetEditProfileOpen } from 'recoilState/ui';
 import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE } from 'routes/paths';
-import { Flex } from 'ui';
+import { Flex, Avatar } from 'ui';
 
 import { CardInfoText } from './CardInfoText';
 import { ContributionSummary } from './ContributionSummary';
@@ -45,17 +44,6 @@ const useStyles = makeStyles(theme => ({
   moreContainer: {
     justifySelf: 'end',
     margin: theme.spacing(0.7),
-  },
-  avatar: {
-    width: 60,
-    height: 60,
-    margin: 'auto',
-    border: `1.4px solid ${theme.colors.border}`,
-    cursor: 'pointer',
-    transition: 'border-color .3s ease',
-    '&:hover': {
-      border: '1.4px solid rgba(239, 115, 118, 1)',
-    },
   },
   name: {
     display: '-webkit-box',
@@ -150,9 +138,9 @@ const ProfileCardInner = ({
     <div className={classes.root} data-testid="profileCard">
       <div className={classes.topRow}>
         <Flex />
-        <ApeAvatar
-          user={user}
-          className={classes.avatar}
+        <Avatar
+          path={user.profile?.avatar}
+          name={user.name}
           onClick={getToProfile(user.address)}
         />
         <div className={classes.moreContainer}>

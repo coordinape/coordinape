@@ -194,9 +194,7 @@ export function getMembershipInput(
     ? input.organizationInput
     : temp.organizationInput;
 
-  const circlesInput = input.circlesInput
-    ? [...temp.circlesInput, ...input.circlesInput]
-    : temp.circlesInput;
+  const circlesInput = input.circlesInput || temp.circlesInput;
 
   const membersInput = input.membersInput
     ? [...temp.membersInput, ...input.membersInput]

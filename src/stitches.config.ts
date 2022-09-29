@@ -75,10 +75,14 @@ export const colors = {
 
   alert: figmaColors.red12,
   alertLight: figmaColors.red1,
+  alertDisabled: figmaColors.red4,
   alertDark: figmaColors.red20,
   textOnAlert: '#fff',
 
-  success: figmaColors.green1,
+  success: figmaColors.green12,
+  derp: figmaColors.green12,
+  successLight: figmaColors.green1,
+  successDisabled: figmaColors.green4,
   successDark: figmaColors.green16,
 
   active: figmaColors.yellow4,
