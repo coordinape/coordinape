@@ -1,25 +1,6 @@
 import { ValueTypes } from '../__generated__/zeus';
 import { client } from '../client';
 
-// Warning: this pattern of constructing ad-hoc ValueTypes selections
-// and passing them into various queries does not work for array
-// relationships in Zeus. These need to be assembled inline
-// with the query or explicitly typed. It's interesting that typing or
-// casting this object causes typechecking issues
-export const allVaultFields = {
-  id: true,
-  created_at: true,
-  created_by: true,
-  decimals: true,
-  simple_token_address: true,
-  symbol: true,
-  token_address: true,
-  updated_at: true,
-  vault_address: true,
-  chain_id: true,
-  deployment_block: true,
-};
-
 export const addVault = (payload: ValueTypes['CreateVaultInput']) =>
   client.mutate(
     {
@@ -27,7 +8,17 @@ export const addVault = (payload: ValueTypes['CreateVaultInput']) =>
         { payload },
         {
           vault: {
-            ...allVaultFields,
+            id: true,
+            created_at: true,
+            created_by: true,
+            decimals: true,
+            simple_token_address: true,
+            symbol: true,
+            token_address: true,
+            updated_at: true,
+            vault_address: true,
+            chain_id: true,
+            deployment_block: true,
             organization: {
               name: true,
             },

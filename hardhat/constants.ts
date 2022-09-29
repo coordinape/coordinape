@@ -1,3 +1,4 @@
+import { AddressZero } from '@ethersproject/constants';
 import dotenv from 'dotenv';
 import { BigNumber } from 'ethers';
 
@@ -14,10 +15,8 @@ export const FORKED_BLOCK = process.env.HARDHAT_FORK_BLOCK
   ? parseInt(process.env.HARDHAT_FORK_BLOCK)
   : undefined;
 
-export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
-
 export const HARDHAT_OWNER_ADDRESS =
-  process.env.HARDHAT_OWNER_ADDRESS ?? ZERO_ADDRESS;
+  process.env.HARDHAT_OWNER_ADDRESS ?? AddressZero;
 
 export const YEARN_REGISTRY_ADDRESS =
   '0x50c1a2eA0a861A967D9d0FFE2AE4012c2E053804';
