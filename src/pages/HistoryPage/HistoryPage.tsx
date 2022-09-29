@@ -124,9 +124,6 @@ export const HistoryPage = () => {
             outlined
             onClick={() => setNewEpoch(true)}
             disabled={newEpoch || !!editEpoch}
-            css={{
-              minWidth: '130px',
-            }}
           >
             Create Epoch
           </Button>

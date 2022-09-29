@@ -313,7 +313,7 @@ const MemberRow = ({
               {!user.non_giver ? (
                 <Check color="complete" />
               ) : (
-                <X color="neutral" />
+                <X size="lg" color="neutral" />
               )}
             </TD>
             <TD
@@ -325,9 +325,9 @@ const MemberRow = ({
               {user.fixed_non_receiver ? (
                 <Slash color="alert" />
               ) : user.non_receiver ? (
-                <X color="neutral" />
+                <X size="lg" color="neutral" />
               ) : (
-                <Check color="complete" />
+                <Check size="lg" color="complete" />
               )}
             </TD>
           </>
@@ -347,7 +347,7 @@ const MemberRow = ({
           {user.role === USER_ROLE_ADMIN ? (
             <Check color="complete" />
           ) : (
-            <X color="neutral" />
+            <X size="lg" color="neutral" />
           )}
         </TD>
         {isAdmin && (
