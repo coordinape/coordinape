@@ -4,10 +4,9 @@ import { ApeInfoTooltip } from '../../components';
 import { useApeSnackbar, useApiWithSelectedCircle } from '../../hooks';
 import { Check, X } from '../../icons/__generated';
 import { IMyUser } from '../../types';
-import { Flex, Panel, Text } from '../../ui';
+import { Flex, Panel, Text, ToggleButton } from 'ui';
 
 import { AvatarAndName } from './AvatarAndName';
-import { ToggleButton } from './ToggleButton';
 
 // MyGiveRow is the top row on the give list, which is unique for the currently logged in member
 export const MyGiveRow = ({ myUser }: { myUser: IMyUser }) => {
