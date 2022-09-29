@@ -15,7 +15,7 @@ services:
   # Hasura
   graphql-engine: &graphql_engine
     profiles: ['dev']
-    image: hasura/graphql-engine:v2.11.2.cli-migrations-v3
+    image: hasura/graphql-engine:v2.1.1.cli-migrations-v3
     volumes:
       - ./hasura/migrations:/hasura-migrations
       - ./hasura/metadata:/hasura-metadata
