@@ -3,11 +3,11 @@ import { useState } from 'react';
 import iti from 'itiriri';
 import { DateTime } from 'luxon';
 
-import { ApeAvatar } from 'components/index';
 import { useUserGifts } from 'recoilState/allocation';
 import { useSelectedCircle } from 'recoilState/app';
 import { paths } from 'routes/paths';
 import {
+  Avatar,
   AppLink,
   Box,
   Button,
@@ -140,7 +140,7 @@ export const ReceiveInfo = () => {
                     maxWidth: '20rem',
                   }}
                 >
-                  <ApeAvatar user={tokenGift.sender} />
+                  <Avatar path={tokenGift.sender.avatar} />
                   {tokenGift.note ? (
                     <Text p as="p" size="small">
                       {tokenGift.note}

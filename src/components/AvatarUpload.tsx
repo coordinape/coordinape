@@ -1,16 +1,13 @@
 import { makeStyles } from '@material-ui/core';
 
-import { ApeAvatar, FormFileUpload } from 'components/index';
+import { FormFileUpload } from 'components/index';
 import { useImageUploader } from 'hooks';
+import { Avatar } from 'ui';
 import { getAvatarPath } from 'utils/domain';
 
 const useStyles = makeStyles(() => ({
   root: {
     position: 'relative',
-  },
-  avatar: {
-    width: 96,
-    height: 96,
   },
   buttons: {
     position: 'absolute',
@@ -34,12 +31,13 @@ export const AvatarUpload = ({
 
   return (
     <div className={classes.root}>
-      <ApeAvatar path={imageUrl} className={classes.avatar} />
+      <Avatar path={imageUrl} size="large" />
       <FormFileUpload
         className={classes.buttons}
         commit={commit}
         {...formFileUploadProps}
         accept="image/gif, image/jpeg, image/png"
+        style={{ zIndex: 1 }}
       />
     </div>
   );

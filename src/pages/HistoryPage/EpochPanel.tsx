@@ -6,11 +6,10 @@ import sortBy from 'lodash/sortBy';
 import { DateTime } from 'luxon';
 import { CSS } from 'stitches.config';
 
-import { NewApeAvatar } from 'components';
 import isFeatureEnabled from 'config/features';
 import { useApiAdminCircle } from 'hooks';
 import { paths } from 'routes/paths';
-import { Box, Panel, Text, Button, AppLink, Flex } from 'ui';
+import { Avatar, Box, Panel, Text, Button, AppLink, Flex } from 'ui';
 
 import type { QueryPastEpoch, QueryDistribution } from './getHistoryData';
 
@@ -302,7 +301,7 @@ const NotesItem = ({
   return (
     <Box css={{ display: 'flex', my: '$sm' }}>
       <Box css={{ mr: '$md' }}>
-        <NewApeAvatar path={other.profile?.avatar} name={other.name} />
+        <Avatar path={other.profile?.avatar} name={other.name} size="medium" />
       </Box>
       <Box css={!note ? { alignItems: 'center', display: 'flex' } : {}}>
         {note && <Text css={{ mb: '$xs', lineHeight: 'normal' }}>{note}</Text>}
