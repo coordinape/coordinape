@@ -87,12 +87,14 @@ const NormalHeader = ({ inCircle }: { inCircle: boolean }) => {
         </Box>
         {inCircle && (
           <Suspense fallback={null}>
-            <ReceiveInfo />
+            <Box css={{ mr: '$md' }}>
+              <ReceiveInfo />
+            </Box>
           </Suspense>
         )}
         <Suspense fallback={null}>
           {isFeatureEnabled('vaults') && showClaimsButton && (
-            <AppLink to="/claims">
+            <AppLink to="/claims" css={{ mr: '$md' }}>
               <Button color="complete" size="small">
                 Claim Tokens
               </Button>

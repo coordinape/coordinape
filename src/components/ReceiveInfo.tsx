@@ -46,7 +46,6 @@ export const ReceiveInfo = () => {
           as="a"
           size="small"
           color="surface"
-          css={{ mr: '$sm' }}
           onMouseEnter={() => {
             clearTimeout(timeoutId);
             setMouseEnterPopover(true);
