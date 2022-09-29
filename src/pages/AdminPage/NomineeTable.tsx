@@ -189,6 +189,7 @@ const NomineeRow = ({
     </>
   );
 };
+
 export const NomineesTable = ({
   nominees,
   myUser,
@@ -217,44 +218,49 @@ export const NomineesTable = ({
   ];
 
   return (
-    <Panel>
-      <Flex
-        css={{
-          justifyContent: 'space-between',
-          mb: '$lg',
-          alignItems: 'center',
-        }}
-      >
-        <Text h3 css={{ fontWeight: '$semibold', color: '$headingText' }}>
-          Nominees
-        </Text>
-      </Flex>
-      <NomineeTable
-        headers={headers}
-        data={nominees}
-        startingSortIndex={0}
-        startingSortDesc
-        perPage={3}
-        sortByColumn={(index: number) => {
-          if (index === 0) return (n: Nominee) => n.name.toLowerCase();
-          if (index === 1) return (n: Nominee) => n.address.toLowerCase();
-          if (index === 2)
-            return (n: Nominee) =>
-              n.vouches_required - n.nominations.length + 1;
-          return (n: Nominee) => n.name;
-        }}
-      >
-        {nominee => (
-          <NomineeRow
-            key={nominee.id}
-            isNonGiverVoucher={isNonGiverVoucher}
-            myUser={myUser}
-            nominee={nominee}
-            refetchNominees={refetchNominees}
-            vouchingText={vouchingText}
-          />
-        )}
-      </NomineeTable>
-    </Panel>
+    <>
+      {nominees && nominees?.length > 0 && (
+        <Panel>
+          <Flex
+            css={{
+              justifyContent: 'space-between',
+              mb: '$lg',
+              alignItems: 'center',
+            }}
+          >
+            <Text h3 css={{ fontWeight: '$semibold', color: '$headingText' }}>
+              Nominees
+            </Text>
+          </Flex>
+
+          <NomineeTable
+            headers={headers}
+            data={nominees}
+            startingSortIndex={0}
+            startingSortDesc
+            perPage={3}
+            sortByColumn={(index: number) => {
+              if (index === 0) return (n: Nominee) => n.name.toLowerCase();
+              if (index === 1) return (n: Nominee) => n.address.toLowerCase();
+              if (index === 2)
+                return (n: Nominee) =>
+                  n.vouches_required - n.nominations.length + 1;
+              return (n: Nominee) => n.name;
+            }}
+          >
+            {nominee => (
+              <NomineeRow
+                key={nominee.id}
+                isNonGiverVoucher={isNonGiverVoucher}
+                myUser={myUser}
+                nominee={nominee}
+                refetchNominees={refetchNominees}
+                vouchingText={vouchingText}
+              />
+            )}
+          </NomineeTable>
+        </Panel>
+      )}
+    </>
   );
 };

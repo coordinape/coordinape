@@ -305,25 +305,27 @@ const MemberRow = ({
           <>
             <TD
               css={{
-                textAlign: !isAdmin ? 'center !important' : 'left !important',
+                textAlign: 'center !important',
+                minWidth: '$4xl',
               }}
             >
               {!user.non_giver ? (
                 <Check color="complete" />
               ) : (
-                <X color="alert" />
+                <X color="neutral" />
               )}
             </TD>
 
             <TD
               css={{
                 textAlign: 'center !important',
+                minWidth: '$4xl',
               }}
             >
               {user.fixed_non_receiver ? (
-                'Forced ❌'
+                <Slash color="alert" />
               ) : user.non_receiver ? (
-                <X color="alert" />
+                <X color="neutral" />
               ) : (
                 <Check color="complete" />
               )}
@@ -339,12 +341,13 @@ const MemberRow = ({
         <TD
           css={{
             textAlign: 'center !important',
+            minWidth: '$4xl',
           }}
         >
           {user.role === USER_ROLE_ADMIN ? (
             <Check color="complete" />
           ) : (
-            <X color="alert" />
+            <X color="neutral" />
           )}
         </TD>
         <TD>
@@ -761,7 +764,7 @@ export const MembersTable = ({
       title: 'Give',
       css: {
         ...headerStyles,
-        textAlign: !isAdmin ? 'center !important' : 'left !important',
+        textAlign: 'center !important',
       },
       isHidden: isMobile,
     },
@@ -781,7 +784,6 @@ export const MembersTable = ({
       css: {
         ...headerStyles,
         textAlign: 'center !important',
-        pr: '-16px',
       },
     },
     {

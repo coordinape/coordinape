@@ -321,7 +321,7 @@ export class GraphQLError extends Error {
   constructor(public response: GraphQLResponse) {
     super('');
     // eslint-disable-next-line no-console
-    console.info(JSON.stringify(response));
+    console.info(JSON.stringify(response, null, 2));
   }
   toString() {
     return 'GraphQL Response Error';
@@ -12004,6 +12004,9 @@ columns and relationships of "circle_api_keys" */
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     datetime_created?: GraphQLTypes['timestamptz'] | undefined;
     description?: string | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** order by max() on columns of table "contributions" */
   ['contributions_max_order_by']: {
