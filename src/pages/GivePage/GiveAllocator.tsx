@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { ApeInfoTooltip } from '../../components';
 import { MinusCircle, PlusCircle } from '../../icons/__generated';
@@ -9,7 +9,7 @@ import { Gift } from './index';
 const iconSize = 40;
 
 type GiveAllocatorProps = {
-  adjustGift(recipientId: number, amount: number): void;
+  adjustGift(recipientId: number, amount: number | null): void;
   gift: Gift;
   inPanel?: boolean;
   disabled: boolean;
@@ -26,8 +26,6 @@ export const GiveAllocator = ({
   maxedOut,
   optedOut,
 }: GiveAllocatorProps) => {
-  const [isInputEmpty, setIsInputEmpty] = useState(false);
-
   //incGift increments the gift by 1
   const incGift = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
@@ -48,8 +46,7 @@ export const GiveAllocator = ({
     if (value.length > 5) {
       return;
     }
-    const newValue = +value;
-    const adjustment = newValue - (gift.tokens ?? 0);
+    const adjustment = value !== '' ? +value - (gift.tokens ?? 0) : null;
     // TODO: can never erase the 0 cuz empty string evaluates to 0 here, need gift.tokens to be optional for this -g
     // https://github.com/coordinape/coordinape/issues/1401
     adjustGift(gift.recipient_id, adjustment);
@@ -117,16 +114,11 @@ export const GiveAllocator = ({
         </Flex>
         <TextField
           data-testid="tokenCount"
-          value={isInputEmpty ? '' : gift.tokens}
-          onChange={evt => {
-            setGiftTokens(evt.target.value);
-            setIsInputEmpty(evt.target.value === '');
-          }}
+          value={gift.tokens ?? ''}
+          onChange={evt => setGiftTokens(evt.target.value)}
           maxLength={5}
           disabled={disabled}
-          onBlur={() => {
-            isInputEmpty ? setIsInputEmpty(false) : gift.tokens;
-          }}
+          onBlur={() => setGiftTokens(gift.tokens ? String(gift.tokens) : '0')}
           onClick={e => e.stopPropagation()}
           css={{
             width: '5em',
