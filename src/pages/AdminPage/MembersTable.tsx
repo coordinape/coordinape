@@ -134,7 +134,7 @@ const UserName = ({ user }: { user: IUser }) => {
   return (
     <Box
       css={{
-        height: 48,
+        height: '$2xl',
         alignItems: 'center',
 
         overflow: 'hidden',
@@ -699,7 +699,7 @@ const MemberRow = ({
                   outlined
                   color="neutral"
                   size="medium"
-                  css={{ width: '156px', whiteSpace: 'nowrap' }}
+                  css={{ whiteSpace: 'nowrap' }}
                   onClick={e => {
                     e.preventDefault();
                     reset();
@@ -712,7 +712,6 @@ const MemberRow = ({
                   color="complete"
                   size="medium"
                   css={{
-                    width: '156px',
                     justifySelf: 'end',
                     whiteSpace: 'nowrap',
                   }}
