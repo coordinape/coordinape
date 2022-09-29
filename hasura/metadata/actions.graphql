@@ -266,6 +266,7 @@ input CreateVaultInput {
   vault_address: String!
   chain_id: Int!
   deployment_block: Int!
+  tx_hash: String!
 }
 
 input GenerateApiKeyInput {
@@ -296,6 +297,8 @@ input LogVaultTxInput {
   vault_id: Int!
   distribution_id: Int
   circle_id: Int
+  amount: Float
+  symbol: String
 }
 
 input DeleteCircleInput {

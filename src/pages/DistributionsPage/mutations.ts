@@ -41,12 +41,16 @@ export function useMarkDistributionDone() {
       txHash,
       circleId,
       vaultId,
+      amount,
+      symbol,
     }: {
       id: number;
       epochId: number;
       txHash: string;
       vaultId: number;
       circleId: number;
+      amount: number;
+      symbol: string;
     }) => {
       return client.mutate(
         {
@@ -65,6 +69,8 @@ export function useMarkDistributionDone() {
                 tx_hash: txHash,
                 distribution_id: id,
                 circle_id: circleId,
+                amount,
+                symbol, // already has Yearn prefix
               },
             },
             { id: true },

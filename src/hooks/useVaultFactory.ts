@@ -66,16 +66,17 @@ export function useVaultFactory(orgId?: number) {
       for (const event of receipt?.events || []) {
         if (event?.event === 'VaultCreated') {
           const vaultAddress = event.args?.vault;
+          assert(tx);
 
-          const vault: ValueTypes['CreateVaultInput'] = {
+          const payload: ValueTypes['CreateVaultInput'] = {
             vault_address: vaultAddress,
             org_id: orgId,
             chain_id: Number.parseInt(contracts.chainId),
             deployment_block: receipt?.blockNumber || 0,
+            tx_hash: tx.hash,
           };
 
-          assert(tx);
-          const { createVault } = await addVault(vault, tx.hash);
+          const { createVault } = await addVault(payload);
           return createVault?.vault;
         }
       }

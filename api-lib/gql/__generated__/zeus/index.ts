@@ -751,6 +751,7 @@ export type ValueTypes = {
     chain_id: number;
     deployment_block: number;
     org_id: number;
+    tx_hash: string;
     vault_address: string;
   };
   ['DeleteCircleInput']: {
@@ -809,8 +810,10 @@ export type ValueTypes = {
     _nin?: Array<number> | undefined | null;
   };
   ['LogVaultTxInput']: {
+    amount?: number | undefined | null;
     circle_id?: number | undefined | null;
     distribution_id?: number | undefined | null;
+    symbol?: string | undefined | null;
     tx_hash: string;
     tx_type: string;
     vault_id: number;
@@ -1385,6 +1388,7 @@ columns and relationships of "circle_api_keys" */
     hash?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     read_circle?: boolean | `@${string}`;
+    read_discord?: boolean | `@${string}`;
     read_epochs?: boolean | `@${string}`;
     read_member_profiles?: boolean | `@${string}`;
     read_nominees?: boolean | `@${string}`;
@@ -1480,6 +1484,7 @@ columns and relationships of "circle_api_keys" */
     hash?: ValueTypes['String_comparison_exp'] | undefined | null;
     name?: ValueTypes['String_comparison_exp'] | undefined | null;
     read_circle?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
+    read_discord?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     read_epochs?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     read_member_profiles?:
       | ValueTypes['Boolean_comparison_exp']
@@ -1514,6 +1519,7 @@ columns and relationships of "circle_api_keys" */
     hash?: string | undefined | null;
     name?: string | undefined | null;
     read_circle?: boolean | undefined | null;
+    read_discord?: boolean | undefined | null;
     read_epochs?: boolean | undefined | null;
     read_member_profiles?: boolean | undefined | null;
     read_nominees?: boolean | undefined | null;
@@ -1580,6 +1586,7 @@ columns and relationships of "circle_api_keys" */
     hash?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
     read_circle?: ValueTypes['order_by'] | undefined | null;
+    read_discord?: ValueTypes['order_by'] | undefined | null;
     read_epochs?: ValueTypes['order_by'] | undefined | null;
     read_member_profiles?: ValueTypes['order_by'] | undefined | null;
     read_nominees?: ValueTypes['order_by'] | undefined | null;
@@ -1602,6 +1609,7 @@ columns and relationships of "circle_api_keys" */
     hash?: string | undefined | null;
     name?: string | undefined | null;
     read_circle?: boolean | undefined | null;
+    read_discord?: boolean | undefined | null;
     read_epochs?: boolean | undefined | null;
     read_member_profiles?: boolean | undefined | null;
     read_nominees?: boolean | undefined | null;
@@ -16517,6 +16525,7 @@ columns and relationships of "circle_api_keys" */
     hash: string;
     name: string;
     read_circle: boolean;
+    read_discord: boolean;
     read_epochs: boolean;
     read_member_profiles: boolean;
     read_nominees: boolean;
@@ -21974,6 +21983,7 @@ export type GraphQLTypes = {
     chain_id: number;
     deployment_block: number;
     org_id: number;
+    tx_hash: string;
     vault_address: string;
   };
   ['DeleteCircleInput']: {
@@ -22032,8 +22042,10 @@ export type GraphQLTypes = {
     _nin?: Array<number> | undefined;
   };
   ['LogVaultTxInput']: {
+    amount?: number | undefined;
     circle_id?: number | undefined;
     distribution_id?: number | undefined;
+    symbol?: string | undefined;
     tx_hash: string;
     tx_type: string;
     vault_id: number;
@@ -22603,6 +22615,7 @@ columns and relationships of "circle_api_keys" */
     hash: string;
     name: string;
     read_circle: boolean;
+    read_discord: boolean;
     read_epochs: boolean;
     read_member_profiles: boolean;
     read_nominees: boolean;
@@ -22682,6 +22695,7 @@ columns and relationships of "circle_api_keys" */
     hash?: GraphQLTypes['String_comparison_exp'] | undefined;
     name?: GraphQLTypes['String_comparison_exp'] | undefined;
     read_circle?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
+    read_discord?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     read_epochs?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     read_member_profiles?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     read_nominees?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
@@ -22711,6 +22725,7 @@ columns and relationships of "circle_api_keys" */
     hash?: string | undefined;
     name?: string | undefined;
     read_circle?: boolean | undefined;
+    read_discord?: boolean | undefined;
     read_epochs?: boolean | undefined;
     read_member_profiles?: boolean | undefined;
     read_nominees?: boolean | undefined;
@@ -22777,6 +22792,7 @@ columns and relationships of "circle_api_keys" */
     hash?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
     read_circle?: GraphQLTypes['order_by'] | undefined;
+    read_discord?: GraphQLTypes['order_by'] | undefined;
     read_epochs?: GraphQLTypes['order_by'] | undefined;
     read_member_profiles?: GraphQLTypes['order_by'] | undefined;
     read_nominees?: GraphQLTypes['order_by'] | undefined;
@@ -22799,6 +22815,7 @@ columns and relationships of "circle_api_keys" */
     hash?: string | undefined;
     name?: string | undefined;
     read_circle?: boolean | undefined;
+    read_discord?: boolean | undefined;
     read_epochs?: boolean | undefined;
     read_member_profiles?: boolean | undefined;
     read_nominees?: boolean | undefined;
@@ -31816,6 +31833,7 @@ export const enum circle_api_keys_select_column {
   hash = 'hash',
   name = 'name',
   read_circle = 'read_circle',
+  read_discord = 'read_discord',
   read_epochs = 'read_epochs',
   read_member_profiles = 'read_member_profiles',
   read_nominees = 'read_nominees',
@@ -31832,6 +31850,7 @@ export const enum circle_api_keys_update_column {
   hash = 'hash',
   name = 'name',
   read_circle = 'read_circle',
+  read_discord = 'read_discord',
   read_epochs = 'read_epochs',
   read_member_profiles = 'read_member_profiles',
   read_nominees = 'read_nominees',
