@@ -185,44 +185,6 @@ export const Button = styled('button', {
         borderRadius: '$pill',
       },
     },
-    greenIconButton: {
-      true: {
-        color: '$secondaryText',
-        border: '1px solid $borderMedium',
-        backgroundColor: '$transparent !important',
-        '&:hover': {
-          borderColor: '$complete',
-          filter: 'saturate(1)',
-        },
-      },
-    },
-    greenIconButtonToggled: {
-      true: {
-        color: '$headingText',
-        border: '1px solid $complete',
-        backgroundColor: '$surface !important',
-        filter: 'saturate(1)',
-      },
-    },
-    redIconButton: {
-      true: {
-        color: '$secondaryText',
-        border: '1px solid $borderMedium',
-        backgroundColor: '$transparent !important',
-        '&:hover': {
-          borderColor: '$alert',
-          filter: 'saturate(1)',
-        },
-      },
-    },
-    redIconButtonToggled: {
-      true: {
-        color: '$headingText',
-        border: '1px solid $alert',
-        backgroundColor: '$surface !important',
-        filter: 'saturate(1)',
-      },
-    },
   },
   compoundVariants: [
     {
