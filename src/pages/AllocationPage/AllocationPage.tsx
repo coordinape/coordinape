@@ -205,7 +205,7 @@ const AllocationContents = ({
       }
       newGifts.push({
         user: u,
-        tokens: g.tokens,
+        tokens: g.tokens ?? 0,
         note: g.note,
       });
     }

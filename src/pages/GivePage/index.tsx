@@ -164,6 +164,7 @@ const GivePage = () => {
               circle_id: selectedCircle.id,
               allocations: Object.values(giftsRef.current).map(g => ({
                 ...g,
+                tokens: g.tokens ?? 0,
                 // note is required in the db schema
                 note: g.note ?? '',
               })),
@@ -196,7 +197,7 @@ const GivePage = () => {
         recipient_id: recipientId,
       };
       const afterUpdateTotal = Object.values(newGifts).reduce(
-        (total, g) => total + g.tokens,
+        (total, g) => total + (g.tokens ?? 0),
         0
       );
 
@@ -272,7 +273,7 @@ const GivePage = () => {
   // update the total give used whenever the gifts change
   useEffect(() => {
     setTotalGiveUsed(
-      Object.values(gifts).reduce((total, g) => total + g.tokens, 0)
+      Object.values(gifts).reduce((total, g) => total + (g.tokens ?? 0), 0)
     );
   }, [gifts]);
 
