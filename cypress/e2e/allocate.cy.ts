@@ -45,14 +45,16 @@ context('Coordinape', () => {
         // we're not doing too much with recoil anymore
         cy.contains('Leave a Note')
           .click()
+          .wait(1000)
           .type("{selectAll}you're great!", { delay: 10 });
       });
     cy.get('[data-testid=profileCard]')
       .eq(2)
       .within(() => {
-        cy.contains('GIVE Allocated').click().type('{selectAll}50');
+        cy.contains('GIVE Allocated').click().wait(1000).type('{selectAll}50');
         cy.contains('Leave a Note')
           .click()
+          .wait(1000)
           .type("{selectAll}you're awesome!", { delay: 10 });
       });
     cy.contains('Save Allocations').click();

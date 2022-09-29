@@ -21,6 +21,8 @@ export const Text = styled('span', {
       neutral: { color: '$neutral' },
       alert: { color: '$alert' },
       primary: { color: '$primary' },
+      secondary: { color: '$secondaryText' },
+      active: { color: '$activeDark' },
       complete: { color: '$complete' },
       inherit: { color: 'inherit' },
     },
@@ -46,6 +48,7 @@ export const Text = styled('span', {
       small: { fontSize: '$small !important', lineHeight: '$shorter' },
       medium: { fontSize: '$medium !important', lineHeight: '$shorter' },
       large: { fontSize: '$large !important', lineHeight: '$shorter' },
+      xl: { fontSize: '$h2 !important', lineHeight: '$shorter' },
     },
     variant: {
       label: {
@@ -78,9 +81,35 @@ export const Text = styled('span', {
         overflow: 'hidden',
         wordBreak: 'break-word',
         whiteSpace: 'nowrap',
+        lineHeight: 'inherit',
+      },
+    },
+    tag: {
+      true: {
+        fontSize: '$small',
+        fontWeight: '$semibold',
+        lineHeight: '$shorter',
+        p: '$xs calc($xs + $xxs)',
+        borderRadius: '$1',
       },
     },
   },
+  compoundVariants: [
+    {
+      tag: true,
+      color: 'active',
+      css: {
+        backgroundColor: '$active',
+      },
+    },
+    {
+      tag: true,
+      color: 'complete',
+      css: {
+        backgroundColor: '$success',
+      },
+    },
+  ],
 
   defaultVariants: { font: 'inter', color: 'default' },
 });

@@ -53,6 +53,7 @@ export const SvgIconConfig = {
 };
 
 const spaces = {
+  xxs: '2px',
   xs: '4px',
   sm: '8px',
   md: '16px',
@@ -79,6 +80,9 @@ export const colors = {
 
   success: figmaColors.green1,
   successDark: figmaColors.green16,
+
+  active: figmaColors.yellow4,
+  activeDark: figmaColors.yellow20,
 
   secondary: figmaColors.teal12,
   secondaryDark: figmaColors.teal20,
