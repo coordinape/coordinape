@@ -96,7 +96,7 @@ export const GiveAllocator = ({
             css={{
               padding: 0,
               color: '$primary',
-              transition: '0.2s all ease-out',
+              transition: '0.1s all ease-out',
               '&:hover': {
                 transform: 'scale(1.1)',
               },
@@ -149,7 +149,7 @@ export const GiveAllocator = ({
             css={{
               padding: 0,
               color: '$primary',
-              transition: '0.2s all ease-out',
+              transition: '0.1s all ease-out',
               '&:hover': {
                 transform: 'scale(1.1)',
               },
