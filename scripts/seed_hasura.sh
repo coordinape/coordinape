@@ -15,15 +15,20 @@ fi
 
 if [ -z "$CI" ]; then
   PORT=$LOCAL_HASURA_PORT
+  POSTGRES_PORT=$LOCAL_POSTGRES_PORT
 else
   PORT=$CI_HASURA_PORT
+  POSTGRES_PORT=$CI_POSTGRES_PORT
 fi
 
-PG_CXN="postgres://$LOCAL_POSTGRES_USER:$LOCAL_POSTGRES_PASSWORD@localhost/$LOCAL_POSTGRES_DATABASE"
+PG_CXN="postgres://$LOCAL_POSTGRES_USER:$LOCAL_POSTGRES_PASSWORD@localhost:$POSTGRES_PORT/$LOCAL_POSTGRES_DATABASE"
 
 CMD_TRUNCATE_ALL="DO \$\$ BEGIN
   EXECUTE (SELECT 'TRUNCATE TABLE ' || string_agg(oid::regclass::text, ', ') || ' CASCADE'
-    FROM pg_class WHERE relkind = 'r' AND relnamespace = 'public'::regnamespace);
+    FROM pg_class 
+    WHERE relkind = 'r' 
+    AND relnamespace = 'public'::regnamespace
+    AND oid::regclass::text != 'vault_tx_types');
 END\$\$"
 
 until curl -s -o/dev/null http://localhost:"$PORT"; do
@@ -37,8 +42,8 @@ done
 # Re-seed database
 if [ "$1" == "--clean" ]; then
   echo "Truncating all tables..."
-  ts-node ./scripts/db_clean.ts
-  # psql $PG_CXN -c "$CMD_TRUNCATE_ALL" >/dev/null
+  # ts-node ./scripts/db_clean.ts
+  psql $PG_CXN -c "$CMD_TRUNCATE_ALL" >/dev/null
 fi
 
 if [ "$1" == "--QA" ]; then
