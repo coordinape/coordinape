@@ -18,7 +18,7 @@ export const AvatarAndName = ({
         minWidth: 0,
       }}
     >
-      <Avatar size="small" name={name} path={avatar} />
+      <Avatar size="small" name={name} path={avatar} css={{ mx: '$sm' }} />
       <Text h3 semibold ellipsis>
         {name}
       </Text>
