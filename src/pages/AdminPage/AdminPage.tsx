@@ -334,18 +334,16 @@ const AdminPage = () => {
           <Text h3 css={{ fontWeight: '$semibold', color: '$headingText' }}>
             Members
           </Text>
-          <TextField
-            inPanel
-            size="sm"
-            onChange={onChangeKeyword}
-            placeholder="🔍 Search"
-            value={keyword}
-            css={{
-              pd: '25px',
-              background: `${(<Search />)} no-repeat right`,
-              backgroundSize: '20px',
-            }}
-          />
+          <Flex alignItems="center" css={{ gap: '$sm' }}>
+            <Search color="neutral" />
+            <TextField
+              inPanel
+              size="sm"
+              onChange={onChangeKeyword}
+              placeholder="Search"
+              value={keyword}
+            />
+          </Flex>
         </Flex>
         {circle && (
           <MembersTable
