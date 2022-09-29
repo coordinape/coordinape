@@ -152,6 +152,8 @@ export const GiveDrawer = ({
             css={{ mr: '$sm' }}
           />
           <Text ellipsis h3 semibold>
+            {selectedMemberIdx}
+            {gift.recipient_id}
             {member.name}
           </Text>
         </Flex>
