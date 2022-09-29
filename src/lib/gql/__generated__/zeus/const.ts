@@ -164,6 +164,18 @@ export const AllTypesProps: Record<string, any> = {
     tokens_burnt: 'order_by',
     user_id: 'order_by',
   },
+  burns_stream_cursor_input: {
+    initial_value: 'burns_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  burns_stream_cursor_value_input: {
+    circle_id: 'bigint',
+    created_at: 'timestamp',
+    epoch_id: 'bigint',
+    id: 'bigint',
+    updated_at: 'timestamp',
+    user_id: 'bigint',
+  },
   burns_sum_order_by: {
     circle_id: 'order_by',
     epoch_id: 'order_by',
@@ -281,6 +293,15 @@ export const AllTypesProps: Record<string, any> = {
     circle_id: 'order_by',
     created_by: 'order_by',
   },
+  circle_api_keys_stream_cursor_input: {
+    initial_value: 'circle_api_keys_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  circle_api_keys_stream_cursor_value_input: {
+    circle_id: 'bigint',
+    created_at: 'timestamptz',
+    created_by: 'bigint',
+  },
   circle_api_keys_sum_order_by: {
     circle_id: 'order_by',
     created_by: 'order_by',
@@ -328,6 +349,7 @@ export const AllTypesProps: Record<string, any> = {
     name: 'String_comparison_exp',
     type: 'String_comparison_exp',
   },
+  circle_integrations_constraint: true,
   circle_integrations_insert_input: {
     circle_id: 'bigint',
     data: 'json',
@@ -343,6 +365,11 @@ export const AllTypesProps: Record<string, any> = {
     id: 'order_by',
     name: 'order_by',
     type: 'order_by',
+  },
+  circle_integrations_on_conflict: {
+    constraint: 'circle_integrations_constraint',
+    update_columns: 'circle_integrations_update_column',
+    where: 'circle_integrations_bool_exp',
   },
   circle_integrations_order_by: {
     circle: 'circles_order_by',
@@ -365,10 +392,20 @@ export const AllTypesProps: Record<string, any> = {
     circle_id: 'order_by',
     id: 'order_by',
   },
+  circle_integrations_stream_cursor_input: {
+    initial_value: 'circle_integrations_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  circle_integrations_stream_cursor_value_input: {
+    circle_id: 'bigint',
+    data: 'json',
+    id: 'bigint',
+  },
   circle_integrations_sum_order_by: {
     circle_id: 'order_by',
     id: 'order_by',
   },
+  circle_integrations_update_column: true,
   circle_integrations_var_pop_order_by: {
     circle_id: 'order_by',
     id: 'order_by',
@@ -395,6 +432,13 @@ export const AllTypesProps: Record<string, any> = {
     discord_webhook: 'order_by',
   },
   circle_private_select_column: true,
+  circle_private_stream_cursor_input: {
+    initial_value: 'circle_private_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  circle_private_stream_cursor_value_input: {
+    circle_id: 'bigint',
+  },
   circle_share_tokens_bool_exp: {
     _and: 'circle_share_tokens_bool_exp',
     _not: 'circle_share_tokens_bool_exp',
@@ -406,8 +450,14 @@ export const AllTypesProps: Record<string, any> = {
     updated_at: 'timestamptz_comparison_exp',
     uuid: 'uuid_comparison_exp',
   },
+  circle_share_tokens_constraint: true,
   circle_share_tokens_insert_input: {
     circle_id: 'bigint',
+  },
+  circle_share_tokens_on_conflict: {
+    constraint: 'circle_share_tokens_constraint',
+    update_columns: 'circle_share_tokens_update_column',
+    where: 'circle_share_tokens_bool_exp',
   },
   circle_share_tokens_order_by: {
     circle: 'circles_order_by',
@@ -418,6 +468,17 @@ export const AllTypesProps: Record<string, any> = {
     uuid: 'order_by',
   },
   circle_share_tokens_select_column: true,
+  circle_share_tokens_stream_cursor_input: {
+    initial_value: 'circle_share_tokens_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  circle_share_tokens_stream_cursor_value_input: {
+    circle_id: 'bigint',
+    created_at: 'timestamptz',
+    updated_at: 'timestamptz',
+    uuid: 'uuid',
+  },
+  circle_share_tokens_update_column: true,
   circles: {
     api_keys: {
       distinct_on: 'circle_api_keys_select_column',
@@ -634,6 +695,16 @@ export const AllTypesProps: Record<string, any> = {
     nomination_days_limit: 'order_by',
     organization_id: 'order_by',
   },
+  circles_stream_cursor_input: {
+    initial_value: 'circles_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  circles_stream_cursor_value_input: {
+    created_at: 'timestamp',
+    deleted_at: 'timestamp',
+    id: 'bigint',
+    updated_at: 'timestamp',
+  },
   circles_sum_order_by: {
     fixed_payment_vault_id: 'order_by',
     id: 'order_by',
@@ -794,6 +865,20 @@ export const AllTypesProps: Record<string, any> = {
     new_amount: 'order_by',
     profile_id: 'order_by',
   },
+  claims_stream_cursor_input: {
+    initial_value: 'claims_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  claims_stream_cursor_value_input: {
+    amount: 'numeric',
+    created_at: 'timestamptz',
+    distribution_id: 'bigint',
+    id: 'bigint',
+    index: 'bigint',
+    new_amount: 'numeric',
+    profile_id: 'bigint',
+    updated_at: 'timestamptz',
+  },
   claims_sum_order_by: {
     amount: 'order_by',
     distribution_id: 'order_by',
@@ -803,6 +888,10 @@ export const AllTypesProps: Record<string, any> = {
     profile_id: 'order_by',
   },
   claims_update_column: true,
+  claims_updates: {
+    _set: 'claims_set_input',
+    where: 'claims_bool_exp',
+  },
   claims_var_pop_order_by: {
     amount: 'order_by',
     distribution_id: 'order_by',
@@ -864,6 +953,7 @@ export const AllTypesProps: Record<string, any> = {
     user: 'users_bool_exp',
     user_id: 'bigint_comparison_exp',
   },
+  contributions_constraint: true,
   contributions_insert_input: {
     circle_id: 'bigint',
     user_id: 'bigint',
@@ -885,6 +975,11 @@ export const AllTypesProps: Record<string, any> = {
     id: 'order_by',
     updated_at: 'order_by',
     user_id: 'order_by',
+  },
+  contributions_on_conflict: {
+    constraint: 'contributions_constraint',
+    update_columns: 'contributions_update_column',
+    where: 'contributions_bool_exp',
   },
   contributions_order_by: {
     circle: 'circles_order_by',
@@ -913,11 +1008,24 @@ export const AllTypesProps: Record<string, any> = {
     id: 'order_by',
     user_id: 'order_by',
   },
+  contributions_stream_cursor_input: {
+    initial_value: 'contributions_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  contributions_stream_cursor_value_input: {
+    circle_id: 'bigint',
+    created_at: 'timestamptz',
+    datetime_created: 'timestamptz',
+    id: 'bigint',
+    updated_at: 'timestamptz',
+    user_id: 'bigint',
+  },
   contributions_sum_order_by: {
     circle_id: 'order_by',
     id: 'order_by',
     user_id: 'order_by',
   },
+  contributions_update_column: true,
   contributions_var_pop_order_by: {
     circle_id: 'order_by',
     id: 'order_by',
@@ -933,6 +1041,7 @@ export const AllTypesProps: Record<string, any> = {
     id: 'order_by',
     user_id: 'order_by',
   },
+  cursor_ordering: true,
   date: 'String',
   date_comparison_exp: {
     _eq: 'date',
@@ -1120,6 +1229,21 @@ export const AllTypesProps: Record<string, any> = {
     id: 'order_by',
     vault_id: 'order_by',
   },
+  distributions_stream_cursor_input: {
+    initial_value: 'distributions_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  distributions_stream_cursor_value_input: {
+    created_at: 'timestamp',
+    created_by: 'bigint',
+    distribution_epoch_id: 'bigint',
+    distribution_json: 'jsonb',
+    epoch_id: 'bigint',
+    fixed_amount: 'numeric',
+    gift_amount: 'numeric',
+    id: 'bigint',
+    vault_id: 'bigint',
+  },
   distributions_sum_order_by: {
     created_by: 'order_by',
     distribution_epoch_id: 'order_by',
@@ -1131,6 +1255,11 @@ export const AllTypesProps: Record<string, any> = {
     vault_id: 'order_by',
   },
   distributions_update_column: true,
+  distributions_updates: {
+    _inc: 'distributions_inc_input',
+    _set: 'distributions_set_input',
+    where: 'distributions_bool_exp',
+  },
   distributions_var_pop_order_by: {
     created_by: 'order_by',
     distribution_epoch_id: 'order_by',
@@ -1323,6 +1452,21 @@ export const AllTypesProps: Record<string, any> = {
     repeat: 'order_by',
     repeat_day_of_month: 'order_by',
   },
+  epochs_stream_cursor_input: {
+    initial_value: 'epochs_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  epochs_stream_cursor_value_input: {
+    created_at: 'timestamp',
+    end_date: 'timestamptz',
+    grant: 'numeric',
+    id: 'bigint',
+    notified_before_end: 'timestamp',
+    notified_end: 'timestamp',
+    notified_start: 'timestamp',
+    start_date: 'timestamptz',
+    updated_at: 'timestamp',
+  },
   epochs_sum_order_by: {
     circle_id: 'order_by',
     days: 'order_by',
@@ -1379,6 +1523,15 @@ export const AllTypesProps: Record<string, any> = {
     sender_id: 'order_by',
   },
   gift_private_select_column: true,
+  gift_private_stream_cursor_input: {
+    initial_value: 'gift_private_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  gift_private_stream_cursor_value_input: {
+    gift_id: 'bigint',
+    recipient_id: 'bigint',
+    sender_id: 'bigint',
+  },
   json: 'String',
   json_comparison_exp: {
     _eq: 'json',
@@ -1391,7 +1544,11 @@ export const AllTypesProps: Record<string, any> = {
     _nin: 'json',
   },
   jsonb: 'String',
+  jsonb_cast_exp: {
+    String: 'String_comparison_exp',
+  },
   jsonb_comparison_exp: {
+    _cast: 'jsonb_cast_exp',
     _contained_in: 'jsonb',
     _contains: 'jsonb',
     _eq: 'jsonb',
@@ -1471,15 +1628,19 @@ export const AllTypesProps: Record<string, any> = {
     },
     insert_circle_integrations: {
       objects: 'circle_integrations_insert_input',
+      on_conflict: 'circle_integrations_on_conflict',
     },
     insert_circle_integrations_one: {
       object: 'circle_integrations_insert_input',
+      on_conflict: 'circle_integrations_on_conflict',
     },
     insert_circle_share_tokens: {
       objects: 'circle_share_tokens_insert_input',
+      on_conflict: 'circle_share_tokens_on_conflict',
     },
     insert_circle_share_tokens_one: {
       object: 'circle_share_tokens_insert_input',
+      on_conflict: 'circle_share_tokens_on_conflict',
     },
     insert_claims: {
       objects: 'claims_insert_input',
@@ -1491,9 +1652,11 @@ export const AllTypesProps: Record<string, any> = {
     },
     insert_contributions: {
       objects: 'contributions_insert_input',
+      on_conflict: 'contributions_on_conflict',
     },
     insert_contributions_one: {
       object: 'contributions_insert_input',
+      on_conflict: 'contributions_on_conflict',
     },
     insert_distributions: {
       objects: 'distributions_insert_input',
@@ -1505,9 +1668,11 @@ export const AllTypesProps: Record<string, any> = {
     },
     insert_pending_vault_transactions: {
       objects: 'pending_vault_transactions_insert_input',
+      on_conflict: 'pending_vault_transactions_on_conflict',
     },
     insert_pending_vault_transactions_one: {
       object: 'pending_vault_transactions_insert_input',
+      on_conflict: 'pending_vault_transactions_on_conflict',
     },
     markClaimed: {
       payload: 'MarkClaimedInput',
@@ -1541,6 +1706,9 @@ export const AllTypesProps: Record<string, any> = {
       _set: 'claims_set_input',
       pk_columns: 'claims_pk_columns_input',
     },
+    update_claims_many: {
+      updates: 'claims_updates',
+    },
     update_distributions: {
       _inc: 'distributions_inc_input',
       _set: 'distributions_set_input',
@@ -1551,6 +1719,7 @@ export const AllTypesProps: Record<string, any> = {
       _set: 'distributions_set_input',
       pk_columns: 'distributions_pk_columns_input',
     },
+<<<<<<< HEAD
     update_organizations: {
       _set: 'organizations_set_input',
       where: 'organizations_bool_exp',
@@ -1558,6 +1727,10 @@ export const AllTypesProps: Record<string, any> = {
     update_organizations_by_pk: {
       _set: 'organizations_set_input',
       pk_columns: 'organizations_pk_columns_input',
+=======
+    update_distributions_many: {
+      updates: 'distributions_updates',
+>>>>>>> 0d3eb32b (type changes impacted by this update)
     },
     update_profiles: {
       _set: 'profiles_set_input',
@@ -1566,6 +1739,9 @@ export const AllTypesProps: Record<string, any> = {
     update_profiles_by_pk: {
       _set: 'profiles_set_input',
       pk_columns: 'profiles_pk_columns_input',
+    },
+    update_profiles_many: {
+      updates: 'profiles_updates',
     },
     uploadCircleLogo: {
       payload: 'UploadCircleImageInput',
@@ -1706,6 +1882,17 @@ export const AllTypesProps: Record<string, any> = {
     user_id: 'order_by',
     vouches_required: 'order_by',
   },
+  nominees_stream_cursor_input: {
+    initial_value: 'nominees_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  nominees_stream_cursor_value_input: {
+    created_at: 'timestamp',
+    expiry_date: 'timestamp',
+    id: 'bigint',
+    nominated_date: 'date',
+    updated_at: 'timestamp',
+  },
   nominees_sum_order_by: {
     circle_id: 'order_by',
     id: 'order_by',
@@ -1785,7 +1972,19 @@ export const AllTypesProps: Record<string, any> = {
     id: 'bigint',
   },
   organizations_select_column: true,
+<<<<<<< HEAD
   organizations_set_input: {},
+=======
+  organizations_stream_cursor_input: {
+    initial_value: 'organizations_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  organizations_stream_cursor_value_input: {
+    created_at: 'timestamp',
+    id: 'bigint',
+    updated_at: 'timestamp',
+  },
+>>>>>>> 0d3eb32b (type changes impacted by this update)
   pending_gift_private_bool_exp: {
     _and: 'pending_gift_private_bool_exp',
     _not: 'pending_gift_private_bool_exp',
@@ -1806,6 +2005,15 @@ export const AllTypesProps: Record<string, any> = {
     sender_id: 'order_by',
   },
   pending_gift_private_select_column: true,
+  pending_gift_private_stream_cursor_input: {
+    initial_value: 'pending_gift_private_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  pending_gift_private_stream_cursor_value_input: {
+    gift_id: 'bigint',
+    recipient_id: 'bigint',
+    sender_id: 'bigint',
+  },
   pending_token_gifts_aggregate_order_by: {
     avg: 'pending_token_gifts_avg_order_by',
     count: 'order_by',
@@ -1917,6 +2125,19 @@ export const AllTypesProps: Record<string, any> = {
     sender_id: 'order_by',
     tokens: 'order_by',
   },
+  pending_token_gifts_stream_cursor_input: {
+    initial_value: 'pending_token_gifts_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  pending_token_gifts_stream_cursor_value_input: {
+    circle_id: 'bigint',
+    created_at: 'timestamp',
+    dts_created: 'timestamp',
+    id: 'bigint',
+    recipient_id: 'bigint',
+    sender_id: 'bigint',
+    updated_at: 'timestamp',
+  },
   pending_token_gifts_sum_order_by: {
     circle_id: 'order_by',
     epoch_id: 'order_by',
@@ -1965,12 +2186,18 @@ export const AllTypesProps: Record<string, any> = {
     tx_type: 'vault_tx_types_enum_comparison_exp',
     vault_tx_type: 'vault_tx_types_bool_exp',
   },
+  pending_vault_transactions_constraint: true,
   pending_vault_transactions_insert_input: {
     claim_id: 'bigint',
     distribution: 'distributions_obj_rel_insert_input',
     distribution_id: 'bigint',
     org_id: 'bigint',
     tx_type: 'vault_tx_types_enum',
+  },
+  pending_vault_transactions_on_conflict: {
+    constraint: 'pending_vault_transactions_constraint',
+    update_columns: 'pending_vault_transactions_update_column',
+    where: 'pending_vault_transactions_bool_exp',
   },
   pending_vault_transactions_order_by: {
     chain_id: 'order_by',
@@ -1986,6 +2213,18 @@ export const AllTypesProps: Record<string, any> = {
     vault_tx_type: 'vault_tx_types_order_by',
   },
   pending_vault_transactions_select_column: true,
+  pending_vault_transactions_stream_cursor_input: {
+    initial_value: 'pending_vault_transactions_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  pending_vault_transactions_stream_cursor_value_input: {
+    claim_id: 'bigint',
+    created_by: 'bigint',
+    distribution_id: 'bigint',
+    org_id: 'bigint',
+    tx_type: 'vault_tx_types_enum',
+  },
+  pending_vault_transactions_update_column: true,
   profiles: {
     users: {
       distinct_on: 'users_select_column',
@@ -2049,6 +2288,19 @@ export const AllTypesProps: Record<string, any> = {
   },
   profiles_select_column: true,
   profiles_set_input: {},
+  profiles_stream_cursor_input: {
+    initial_value: 'profiles_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  profiles_stream_cursor_value_input: {
+    created_at: 'timestamp',
+    id: 'bigint',
+    updated_at: 'timestamp',
+  },
+  profiles_updates: {
+    _set: 'profiles_set_input',
+    where: 'profiles_bool_exp',
+  },
   query_root: {
     burns: {
       distinct_on: 'burns_select_column',
@@ -2272,12 +2524,20 @@ export const AllTypesProps: Record<string, any> = {
     burns_by_pk: {
       id: 'bigint',
     },
+    burns_stream: {
+      cursor: 'burns_stream_cursor_input',
+      where: 'burns_bool_exp',
+    },
     circle_api_keys: {
       distinct_on: 'circle_api_keys_select_column',
       order_by: 'circle_api_keys_order_by',
       where: 'circle_api_keys_bool_exp',
     },
     circle_api_keys_by_pk: {},
+    circle_api_keys_stream: {
+      cursor: 'circle_api_keys_stream_cursor_input',
+      where: 'circle_api_keys_bool_exp',
+    },
     circle_integrations: {
       distinct_on: 'circle_integrations_select_column',
       order_by: 'circle_integrations_order_by',
@@ -2286,9 +2546,17 @@ export const AllTypesProps: Record<string, any> = {
     circle_integrations_by_pk: {
       id: 'bigint',
     },
+    circle_integrations_stream: {
+      cursor: 'circle_integrations_stream_cursor_input',
+      where: 'circle_integrations_bool_exp',
+    },
     circle_private: {
       distinct_on: 'circle_private_select_column',
       order_by: 'circle_private_order_by',
+      where: 'circle_private_bool_exp',
+    },
+    circle_private_stream: {
+      cursor: 'circle_private_stream_cursor_input',
       where: 'circle_private_bool_exp',
     },
     circle_share_tokens: {
@@ -2299,6 +2567,10 @@ export const AllTypesProps: Record<string, any> = {
     circle_share_tokens_by_pk: {
       circle_id: 'bigint',
     },
+    circle_share_tokens_stream: {
+      cursor: 'circle_share_tokens_stream_cursor_input',
+      where: 'circle_share_tokens_bool_exp',
+    },
     circles: {
       distinct_on: 'circles_select_column',
       order_by: 'circles_order_by',
@@ -2306,6 +2578,10 @@ export const AllTypesProps: Record<string, any> = {
     },
     circles_by_pk: {
       id: 'bigint',
+    },
+    circles_stream: {
+      cursor: 'circles_stream_cursor_input',
+      where: 'circles_bool_exp',
     },
     claims: {
       distinct_on: 'claims_select_column',
@@ -2320,6 +2596,10 @@ export const AllTypesProps: Record<string, any> = {
     claims_by_pk: {
       id: 'bigint',
     },
+    claims_stream: {
+      cursor: 'claims_stream_cursor_input',
+      where: 'claims_bool_exp',
+    },
     contributions: {
       distinct_on: 'contributions_select_column',
       order_by: 'contributions_order_by',
@@ -2332,6 +2612,10 @@ export const AllTypesProps: Record<string, any> = {
     },
     contributions_by_pk: {
       id: 'bigint',
+    },
+    contributions_stream: {
+      cursor: 'contributions_stream_cursor_input',
+      where: 'contributions_bool_exp',
     },
     distributions: {
       distinct_on: 'distributions_select_column',
@@ -2346,6 +2630,10 @@ export const AllTypesProps: Record<string, any> = {
     distributions_by_pk: {
       id: 'bigint',
     },
+    distributions_stream: {
+      cursor: 'distributions_stream_cursor_input',
+      where: 'distributions_bool_exp',
+    },
     epochs: {
       distinct_on: 'epochs_select_column',
       order_by: 'epochs_order_by',
@@ -2354,9 +2642,17 @@ export const AllTypesProps: Record<string, any> = {
     epochs_by_pk: {
       id: 'bigint',
     },
+    epochs_stream: {
+      cursor: 'epochs_stream_cursor_input',
+      where: 'epochs_bool_exp',
+    },
     gift_private: {
       distinct_on: 'gift_private_select_column',
       order_by: 'gift_private_order_by',
+      where: 'gift_private_bool_exp',
+    },
+    gift_private_stream: {
+      cursor: 'gift_private_stream_cursor_input',
       where: 'gift_private_bool_exp',
     },
     nominees: {
@@ -2372,6 +2668,10 @@ export const AllTypesProps: Record<string, any> = {
     nominees_by_pk: {
       id: 'bigint',
     },
+    nominees_stream: {
+      cursor: 'nominees_stream_cursor_input',
+      where: 'nominees_bool_exp',
+    },
     organizations: {
       distinct_on: 'organizations_select_column',
       order_by: 'organizations_order_by',
@@ -2380,9 +2680,17 @@ export const AllTypesProps: Record<string, any> = {
     organizations_by_pk: {
       id: 'bigint',
     },
+    organizations_stream: {
+      cursor: 'organizations_stream_cursor_input',
+      where: 'organizations_bool_exp',
+    },
     pending_gift_private: {
       distinct_on: 'pending_gift_private_select_column',
       order_by: 'pending_gift_private_order_by',
+      where: 'pending_gift_private_bool_exp',
+    },
+    pending_gift_private_stream: {
+      cursor: 'pending_gift_private_stream_cursor_input',
       where: 'pending_gift_private_bool_exp',
     },
     pending_token_gifts: {
@@ -2393,12 +2701,20 @@ export const AllTypesProps: Record<string, any> = {
     pending_token_gifts_by_pk: {
       id: 'bigint',
     },
+    pending_token_gifts_stream: {
+      cursor: 'pending_token_gifts_stream_cursor_input',
+      where: 'pending_token_gifts_bool_exp',
+    },
     pending_vault_transactions: {
       distinct_on: 'pending_vault_transactions_select_column',
       order_by: 'pending_vault_transactions_order_by',
       where: 'pending_vault_transactions_bool_exp',
     },
     pending_vault_transactions_by_pk: {},
+    pending_vault_transactions_stream: {
+      cursor: 'pending_vault_transactions_stream_cursor_input',
+      where: 'pending_vault_transactions_bool_exp',
+    },
     profiles: {
       distinct_on: 'profiles_select_column',
       order_by: 'profiles_order_by',
@@ -2407,6 +2723,10 @@ export const AllTypesProps: Record<string, any> = {
     profiles_by_pk: {
       id: 'bigint',
     },
+    profiles_stream: {
+      cursor: 'profiles_stream_cursor_input',
+      where: 'profiles_bool_exp',
+    },
     teammates: {
       distinct_on: 'teammates_select_column',
       order_by: 'teammates_order_by',
@@ -2414,6 +2734,10 @@ export const AllTypesProps: Record<string, any> = {
     },
     teammates_by_pk: {
       id: 'bigint',
+    },
+    teammates_stream: {
+      cursor: 'teammates_stream_cursor_input',
+      where: 'teammates_bool_exp',
     },
     token_gifts: {
       distinct_on: 'token_gifts_select_column',
@@ -2428,6 +2752,10 @@ export const AllTypesProps: Record<string, any> = {
     token_gifts_by_pk: {
       id: 'bigint',
     },
+    token_gifts_stream: {
+      cursor: 'token_gifts_stream_cursor_input',
+      where: 'token_gifts_bool_exp',
+    },
     user_private: {
       distinct_on: 'user_private_select_column',
       order_by: 'user_private_order_by',
@@ -2438,6 +2766,10 @@ export const AllTypesProps: Record<string, any> = {
       order_by: 'user_private_order_by',
       where: 'user_private_bool_exp',
     },
+    user_private_stream: {
+      cursor: 'user_private_stream_cursor_input',
+      where: 'user_private_bool_exp',
+    },
     users: {
       distinct_on: 'users_select_column',
       order_by: 'users_order_by',
@@ -2445,6 +2777,10 @@ export const AllTypesProps: Record<string, any> = {
     },
     users_by_pk: {
       id: 'bigint',
+    },
+    users_stream: {
+      cursor: 'users_stream_cursor_input',
+      where: 'users_bool_exp',
     },
     vault_transactions: {
       distinct_on: 'vault_transactions_select_column',
@@ -2454,12 +2790,20 @@ export const AllTypesProps: Record<string, any> = {
     vault_transactions_by_pk: {
       id: 'bigint',
     },
+    vault_transactions_stream: {
+      cursor: 'vault_transactions_stream_cursor_input',
+      where: 'vault_transactions_bool_exp',
+    },
     vault_tx_types: {
       distinct_on: 'vault_tx_types_select_column',
       order_by: 'vault_tx_types_order_by',
       where: 'vault_tx_types_bool_exp',
     },
     vault_tx_types_by_pk: {},
+    vault_tx_types_stream: {
+      cursor: 'vault_tx_types_stream_cursor_input',
+      where: 'vault_tx_types_bool_exp',
+    },
     vaults: {
       distinct_on: 'vaults_select_column',
       order_by: 'vaults_order_by',
@@ -2468,6 +2812,10 @@ export const AllTypesProps: Record<string, any> = {
     vaults_by_pk: {
       id: 'bigint',
     },
+    vaults_stream: {
+      cursor: 'vaults_stream_cursor_input',
+      where: 'vaults_bool_exp',
+    },
     vouches: {
       distinct_on: 'vouches_select_column',
       order_by: 'vouches_order_by',
@@ -2475,6 +2823,10 @@ export const AllTypesProps: Record<string, any> = {
     },
     vouches_by_pk: {
       id: 'bigint',
+    },
+    vouches_stream: {
+      cursor: 'vouches_stream_cursor_input',
+      where: 'vouches_bool_exp',
     },
   },
   teammates_aggregate_order_by: {
@@ -2545,6 +2897,15 @@ export const AllTypesProps: Record<string, any> = {
     id: 'order_by',
     team_mate_id: 'order_by',
     user_id: 'order_by',
+  },
+  teammates_stream_cursor_input: {
+    initial_value: 'teammates_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  teammates_stream_cursor_value_input: {
+    created_at: 'timestamp',
+    id: 'bigint',
+    updated_at: 'timestamp',
   },
   teammates_sum_order_by: {
     id: 'order_by',
@@ -2704,6 +3065,19 @@ export const AllTypesProps: Record<string, any> = {
     sender_id: 'order_by',
     tokens: 'order_by',
   },
+  token_gifts_stream_cursor_input: {
+    initial_value: 'token_gifts_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  token_gifts_stream_cursor_value_input: {
+    circle_id: 'bigint',
+    created_at: 'timestamp',
+    dts_created: 'timestamp',
+    id: 'bigint',
+    recipient_id: 'bigint',
+    sender_id: 'bigint',
+    updated_at: 'timestamp',
+  },
   token_gifts_sum_order_by: {
     circle_id: 'order_by',
     epoch_id: 'order_by',
@@ -2759,6 +3133,14 @@ export const AllTypesProps: Record<string, any> = {
     user_id: 'order_by',
   },
   user_private_select_column: true,
+  user_private_stream_cursor_input: {
+    initial_value: 'user_private_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  user_private_stream_cursor_value_input: {
+    fixed_payment_amount: 'numeric',
+    user_id: 'bigint',
+  },
   users: {
     burns: {
       distinct_on: 'burns_select_column',
@@ -2958,6 +3340,17 @@ export const AllTypesProps: Record<string, any> = {
     role: 'order_by',
     starting_tokens: 'order_by',
   },
+  users_stream_cursor_input: {
+    initial_value: 'users_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  users_stream_cursor_value_input: {
+    circle_id: 'bigint',
+    created_at: 'timestamp',
+    deleted_at: 'timestamp',
+    id: 'bigint',
+    updated_at: 'timestamp',
+  },
   users_sum_order_by: {
     circle_id: 'order_by',
     give_token_received: 'order_by',
@@ -3098,6 +3491,20 @@ export const AllTypesProps: Record<string, any> = {
     id: 'order_by',
     vault_id: 'order_by',
   },
+  vault_transactions_stream_cursor_input: {
+    initial_value: 'vault_transactions_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  vault_transactions_stream_cursor_value_input: {
+    circle_id: 'bigint',
+    created_at: 'timestamp',
+    created_by: 'bigint',
+    distribution_id: 'bigint',
+    id: 'bigint',
+    tx_type: 'vault_tx_types_enum',
+    updated_at: 'timestamp',
+    vault_id: 'bigint',
+  },
   vault_transactions_sum_order_by: {
     circle_id: 'order_by',
     created_by: 'order_by',
@@ -3154,6 +3561,11 @@ export const AllTypesProps: Record<string, any> = {
     vault_transactions_aggregate: 'vault_transactions_aggregate_order_by',
   },
   vault_tx_types_select_column: true,
+  vault_tx_types_stream_cursor_input: {
+    initial_value: 'vault_tx_types_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  vault_tx_types_stream_cursor_value_input: {},
   vaults: {
     distributions: {
       distinct_on: 'distributions_select_column',
@@ -3276,6 +3688,17 @@ export const AllTypesProps: Record<string, any> = {
     deployment_block: 'order_by',
     id: 'order_by',
   },
+  vaults_stream_cursor_input: {
+    initial_value: 'vaults_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  vaults_stream_cursor_value_input: {
+    created_at: 'timestamptz',
+    created_by: 'bigint',
+    deployment_block: 'bigint',
+    id: 'bigint',
+    updated_at: 'timestamptz',
+  },
   vaults_sum_order_by: {
     chain_id: 'order_by',
     created_by: 'order_by',
@@ -3372,6 +3795,15 @@ export const AllTypesProps: Record<string, any> = {
     id: 'order_by',
     nominee_id: 'order_by',
     voucher_id: 'order_by',
+  },
+  vouches_stream_cursor_input: {
+    initial_value: 'vouches_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  vouches_stream_cursor_value_input: {
+    created_at: 'timestamp',
+    id: 'bigint',
+    updated_at: 'timestamp',
   },
   vouches_sum_order_by: {
     id: 'order_by',
@@ -4027,12 +4459,18 @@ export const ReturnTypes: Record<string, any> = {
     updateUser: 'UserResponse',
     update_claims: 'claims_mutation_response',
     update_claims_by_pk: 'claims',
+    update_claims_many: 'claims_mutation_response',
     update_distributions: 'distributions_mutation_response',
     update_distributions_by_pk: 'distributions',
+<<<<<<< HEAD
     update_organizations: 'organizations_mutation_response',
     update_organizations_by_pk: 'organizations',
+=======
+    update_distributions_many: 'distributions_mutation_response',
+>>>>>>> 0d3eb32b (type changes impacted by this update)
     update_profiles: 'profiles_mutation_response',
     update_profiles_by_pk: 'profiles',
+    update_profiles_many: 'profiles_mutation_response',
     uploadCircleLogo: 'UpdateCircleResponse',
     uploadOrgLogo: 'UpdateOrgResponse',
     uploadProfileAvatar: 'UpdateProfileResponse',
@@ -4296,56 +4734,81 @@ export const ReturnTypes: Record<string, any> = {
   subscription_root: {
     burns: 'burns',
     burns_by_pk: 'burns',
+    burns_stream: 'burns',
     circle_api_keys: 'circle_api_keys',
     circle_api_keys_by_pk: 'circle_api_keys',
+    circle_api_keys_stream: 'circle_api_keys',
     circle_integrations: 'circle_integrations',
     circle_integrations_by_pk: 'circle_integrations',
+    circle_integrations_stream: 'circle_integrations',
     circle_private: 'circle_private',
+    circle_private_stream: 'circle_private',
     circle_share_tokens: 'circle_share_tokens',
     circle_share_tokens_by_pk: 'circle_share_tokens',
+    circle_share_tokens_stream: 'circle_share_tokens',
     circles: 'circles',
     circles_by_pk: 'circles',
+    circles_stream: 'circles',
     claims: 'claims',
     claims_aggregate: 'claims_aggregate',
     claims_by_pk: 'claims',
+    claims_stream: 'claims',
     contributions: 'contributions',
     contributions_aggregate: 'contributions_aggregate',
     contributions_by_pk: 'contributions',
+    contributions_stream: 'contributions',
     distributions: 'distributions',
     distributions_aggregate: 'distributions_aggregate',
     distributions_by_pk: 'distributions',
+    distributions_stream: 'distributions',
     epochs: 'epochs',
     epochs_by_pk: 'epochs',
+    epochs_stream: 'epochs',
     gift_private: 'gift_private',
+    gift_private_stream: 'gift_private',
     nominees: 'nominees',
     nominees_aggregate: 'nominees_aggregate',
     nominees_by_pk: 'nominees',
+    nominees_stream: 'nominees',
     organizations: 'organizations',
     organizations_by_pk: 'organizations',
+    organizations_stream: 'organizations',
     pending_gift_private: 'pending_gift_private',
+    pending_gift_private_stream: 'pending_gift_private',
     pending_token_gifts: 'pending_token_gifts',
     pending_token_gifts_by_pk: 'pending_token_gifts',
+    pending_token_gifts_stream: 'pending_token_gifts',
     pending_vault_transactions: 'pending_vault_transactions',
     pending_vault_transactions_by_pk: 'pending_vault_transactions',
+    pending_vault_transactions_stream: 'pending_vault_transactions',
     profiles: 'profiles',
     profiles_by_pk: 'profiles',
+    profiles_stream: 'profiles',
     teammates: 'teammates',
     teammates_by_pk: 'teammates',
+    teammates_stream: 'teammates',
     token_gifts: 'token_gifts',
     token_gifts_aggregate: 'token_gifts_aggregate',
     token_gifts_by_pk: 'token_gifts',
+    token_gifts_stream: 'token_gifts',
     user_private: 'user_private',
     user_private_aggregate: 'user_private_aggregate',
+    user_private_stream: 'user_private',
     users: 'users',
     users_by_pk: 'users',
+    users_stream: 'users',
     vault_transactions: 'vault_transactions',
     vault_transactions_by_pk: 'vault_transactions',
+    vault_transactions_stream: 'vault_transactions',
     vault_tx_types: 'vault_tx_types',
     vault_tx_types_by_pk: 'vault_tx_types',
+    vault_tx_types_stream: 'vault_tx_types',
     vaults: 'vaults',
     vaults_by_pk: 'vaults',
+    vaults_stream: 'vaults',
     vouches: 'vouches',
     vouches_by_pk: 'vouches',
+    vouches_stream: 'vouches',
   },
   teammates: {
     created_at: 'timestamp',
