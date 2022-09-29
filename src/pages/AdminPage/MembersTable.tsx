@@ -147,6 +147,7 @@ const UserName = ({ user }: { user: IUser }) => {
         name={user?.name}
         size="small"
         onClick={getToProfile(user.address)}
+        css={{ mr: '$sm' }}
       />
       <Text
         css={{
