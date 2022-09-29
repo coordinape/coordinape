@@ -42,8 +42,8 @@ done
 # Re-seed database
 if [ "$1" == "--clean" ]; then
   echo "Truncating all tables..."
-  # ts-node ./scripts/db_clean.ts
-  psql $PG_CXN -c "$CMD_TRUNCATE_ALL" >/dev/null
+  ts-node ./scripts/db_clean.ts
+  # psql $PG_CXN -c "$CMD_TRUNCATE_ALL" >/dev/null
 fi
 
 if [ "$1" == "--QA" ]; then
