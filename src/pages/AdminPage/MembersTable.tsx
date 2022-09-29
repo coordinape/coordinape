@@ -315,7 +315,6 @@ const MemberRow = ({
                 <X color="neutral" />
               )}
             </TD>
-
             <TD
               css={{
                 textAlign: 'center !important',
@@ -350,6 +349,32 @@ const MemberRow = ({
             <X color="neutral" />
           )}
         </TD>
+        {isAdmin && (
+          <>
+            <TD
+              css={{
+                textAlign: 'center !important',
+              }}
+            >
+              {!user.non_giver ||
+              user.starting_tokens - user.give_token_remaining != 0
+                ? `${user.starting_tokens - user.give_token_remaining}/${
+                    user.starting_tokens
+                  }`
+                : '-'}
+            </TD>
+            <TD
+              css={{
+                textAlign: 'center !important',
+              }}
+            >
+              {user.give_token_received === 0 &&
+              (!!user.fixed_non_receiver || !!user.non_receiver)
+                ? '-'
+                : user.give_token_received}
+            </TD>
+          </>
+        )}
         <TD>
           {isAdmin && user.role !== 2 && (
             <Button
@@ -393,7 +418,7 @@ const MemberRow = ({
       </TR>
       {open && (
         <TR key={user.address}>
-          <TD colSpan={isMobile ? 4 : 7}>
+          <TD colSpan={isMobile ? 6 : 9}>
             <Form>
               <Text h3 semibold css={{ my: '$md' }}>
                 {user.name} Member Settings
@@ -787,6 +812,16 @@ export const MembersTable = ({
       },
     },
     {
+      title: `${circle.tokenName} sent`,
+      css: { ...headerStyles, textAlign: 'center' },
+      isHidden: !isAdmin,
+    },
+    {
+      title: `${circle.tokenName} received`,
+      css: { ...headerStyles, textAlign: 'center' },
+      isHidden: !isAdmin,
+    },
+    {
       title: 'Actions',
       css: { ...headerStyles, textAlign: 'right' },
       isHidden: !isAdmin,
@@ -807,6 +842,14 @@ export const MembersTable = ({
           if (index === 3) return (u: IUser) => u.non_receiver;
           if (index === 4) return (u: IUser) => u.fixed_payment_amount;
           if (index === 6) return (u: IUser) => u.isCircleAdmin;
+          if (index === 7)
+            return (u: IUser) =>
+              !u.non_giver ? u.starting_tokens - u.give_token_remaining : -1;
+          if (index === 8)
+            return (u: IUser) =>
+              !!u.fixed_non_receiver || !!u.non_receiver
+                ? -1
+                : u.give_token_received;
           return (u: IUser) => u.name.toLowerCase();
         }}
       >
