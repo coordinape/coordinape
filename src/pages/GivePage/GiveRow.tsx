@@ -48,10 +48,11 @@ export const GiveRow = ({
         pr: '$md',
         border: '2px solid transparent',
         cursor: 'pointer',
-        background: docExample || selected ? '$highlight' : undefined,
+        backgroundColor: docExample || selected ? '$highlight' : undefined,
         borderColor: docExample || selected ? '$link' : undefined,
+        transition: 'background-color 0.3s, border-color 0.3s',
         '&:hover': {
-          background: '$highlight',
+          backgroundColor: '$highlight',
           borderColor: '$link',
         },
         '@sm': {
@@ -87,12 +88,14 @@ export const GiveRow = ({
             }}
             alignItems="center"
           >
-            {(hover || member.teammate) && (
-              <ContributorButton
-                member={member}
-                updateTeammate={updateTeammate}
-              />
-            )}
+            <ContributorButton
+              css={{
+                transition: 'visibility 0.1s ease-in',
+                visibility: hover || member.teammate ? 'visible' : 'hidden',
+              }}
+              member={member}
+              updateTeammate={updateTeammate}
+            />
           </Flex>
           {!docExample && (
             <Flex
