@@ -441,7 +441,6 @@ const MemberRow = ({
                     label="Member Name"
                     infoTooltip="Member Displayed Name"
                     showFieldErrors
-                    css={{ width: '122px' }}
                   />
                   <FormInputField
                     id="address"
@@ -451,7 +450,7 @@ const MemberRow = ({
                     label="Wallet Address"
                     infoTooltip="Member ETH address used to login and receive tokens"
                     showFieldErrors
-                    css={{ maxWidth: '420px' }}
+                    css={{ minWidth: '420px', '@sm': { minWidth: 0 } }}
                   />
                   <Flex column css={{ alignItems: 'center', gap: '$md' }}>
                     <FormLabel type="label">

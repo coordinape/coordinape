@@ -63,7 +63,7 @@ export const EpochPanel = ({
         }}
       >
         <Text semibold font="inter" inline css={{ fontSize: '$h2' }}>
-          {startDate.toFormat('MMMM')} {startDate.toFormat('d')} -{' '}
+          {startDate.toFormat('MMM')} {startDate.toFormat('d')} -{' '}
           {endDate.toFormat(endDateFormat)}
         </Text>
       </Box>
