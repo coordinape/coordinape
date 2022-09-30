@@ -106,6 +106,7 @@ const ContributionsPage = () => {
 
   const { field: descriptionField } = useController({
     name: 'description',
+    rules: { minLength: 1 },
     control,
   });
 
