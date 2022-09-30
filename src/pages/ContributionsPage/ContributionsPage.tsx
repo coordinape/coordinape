@@ -17,50 +17,16 @@ import {
   updateContributionMutation,
   createContributionMutation,
 } from './mutations';
-import { getContributionsAndEpochs, ContributionsAndEpochs } from './queries';
+import {
+  getContributionsAndEpochs,
+  ContributionsAndEpochs,
+  Contribution,
+  Epoch,
+} from './queries';
+import { getCurrentEpoch, getNewContribution, getEpochLabel } from './util';
 
-export type Contribution = ContributionsAndEpochs['contributions'][0];
-type Epoch = ContributionsAndEpochs['epochs'][0];
 type CurrentContribution = { contribution: Contribution; epoch?: Epoch };
 
-const getNewContribution: (userId: number) => Contribution = (
-  userId: number
-) => ({
-  id: 0,
-  description: '',
-  datetime_created: DateTime.now().toISO(),
-  user_id: userId,
-});
-
-const getCurrentEpoch = (epoches: Epoch[]) =>
-  epoches.find(
-    e =>
-      e.start_date <= DateTime.now().toISO() &&
-      e.end_date > DateTime.now().toISO()
-  );
-
-const getEpochLabel = (epoch?: Epoch) => {
-  if (!epoch)
-    return (
-      <Text tag color="active">
-        Future
-      </Text>
-    );
-  if (
-    epoch.start_date <= DateTime.now().toISO() &&
-    epoch.end_date > DateTime.now().toISO()
-  )
-    return (
-      <Text tag color="active">
-        Current
-      </Text>
-    );
-  return (
-    <Text tag color="complete">
-      Complete
-    </Text>
-  );
-};
 const ContributionsPage = () => {
   const address = useConnectedAddress();
   const { circle: selectedCircle } = useSelectedCircle();
@@ -286,7 +252,7 @@ const ContributionsPage = () => {
   );
 };
 
-type SetActiveContributionProp = {
+type SetActiveContributionProps = {
   setActiveContribution: (c: Contribution, e?: Epoch) => void;
   currentContribution: CurrentContribution | null;
 };
@@ -320,7 +286,7 @@ const EpochGroup = ({
   epochs,
   currentContribution,
   setActiveContribution,
-}: ContributionsAndEpochs & SetActiveContributionProp) => {
+}: ContributionsAndEpochs & SetActiveContributionProps) => {
   const latestEpoch = epochs[0] as Epoch | undefined;
   const activeEpoch = useMemo(() => getCurrentEpoch(epochs), [epochs.length]);
   return (
@@ -380,7 +346,7 @@ const ContributionList = ({
   contributions,
   setActiveContribution,
   currentContribution,
-}: ContributionListProps & SetActiveContributionProp & { epoch?: Epoch }) => {
+}: ContributionListProps & SetActiveContributionProps & { epoch?: Epoch }) => {
   return (
     <>
       {contributions.length ? (
@@ -393,8 +359,10 @@ const ContributionList = ({
                   ? '2px solid $link'
                   : '2px solid $border',
               cursor: 'pointer',
-              // TODO change background to graffe's color
-              '&:hover': { background: '$info', border: '2px solid $link' },
+              '&:hover': {
+                background: '$highlight',
+                border: '2px solid $link',
+              },
             }}
             nested={true}
             onClick={() => {

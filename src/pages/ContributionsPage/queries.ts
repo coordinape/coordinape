@@ -55,3 +55,5 @@ export const getContributionsAndEpochs = async ({
 export type ContributionsAndEpochs = Awaited<
   ReturnType<typeof getContributionsAndEpochs>
 >;
+export type Contribution = ContributionsAndEpochs['contributions'][0];
+export type Epoch = ContributionsAndEpochs['epochs'][0];
