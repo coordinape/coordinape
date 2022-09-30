@@ -217,7 +217,7 @@ export const AMDrawer = () => {
               <Filter size="lg" />
             </MUButton>
           )}
-          <Panel invertForm css={{ px: 0 }}>
+          <Panel invertForm css={{ px: 0, gap: '$md' }}>
             <Select
               defaultValue={String(amEpochId)}
               options={epochOptions}
