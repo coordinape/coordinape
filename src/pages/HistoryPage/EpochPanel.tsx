@@ -32,7 +32,7 @@ export const EpochPanel = ({
   const [showLess, setShowLess] = useState(true);
   const startDate = DateTime.fromISO(epoch.start_date);
   const endDate = DateTime.fromISO(epoch.end_date);
-  const endDateFormat = endDate.month === startDate.month ? 'd' : 'MMMM d';
+  const endDateFormat = endDate.month === startDate.month ? 'd' : 'MMM d';
 
   const { downloadCSV } = useApiAdminCircle(circleId);
 
@@ -53,28 +53,29 @@ export const EpochPanel = ({
       }}
       onClick={() => showLess && setShowLess(false)}
     >
-      <Box
+      <Flex
         css={{
-          fontSize: '$h2',
-          fontFamily: 'Inter',
-          display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'space-between',
+          justifyContent: 'flex-start',
+          gap: '$sm',
         }}
       >
-        <Text semibold font="inter" inline css={{ fontSize: '$h2' }}>
-          {startDate.toFormat('MMMM')} {startDate.toFormat('d')} -{' '}
+        <Text semibold inline h2>
+          {startDate.toFormat('MMM')} {startDate.toFormat('d')} -{' '}
           {endDate.toFormat(endDateFormat)}
         </Text>
-      </Box>
+        <Text inline h3>
+          Epoch {epoch.number}
+        </Text>
+      </Flex>
       <Box>
         <Panel nested>
           <Text variant="label">You received</Text>
-          <Text bold font="inter" size="large" css={{ mb: '$md' }}>
+          <Text bold size="large" css={{ mb: '$md' }}>
             {totalReceived} {tokenName}
           </Text>
           <Text variant="label">Total Distributed</Text>
-          <Text bold font="inter" size="large">
+          <Text bold size="large">
             {totalAllocated} {tokenName}
           </Text>
           <DistributionSummary

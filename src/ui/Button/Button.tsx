@@ -98,6 +98,7 @@ export const Button = styled('button', {
       },
       medium: {
         minHeight: '$xl',
+        padding: '$xs calc($sm + $xs)',
         fontSize: '$medium',
         fontWeight: '$medium',
         lineHeight: '$shorter',
@@ -109,7 +110,7 @@ export const Button = styled('button', {
         fontWeight: '$medium',
         lineHeight: '$shorter',
         borderRadius: '$1',
-        px: '$sm',
+        padding: '$xs $sm',
       },
       inline: {
         fontSize: '$2',

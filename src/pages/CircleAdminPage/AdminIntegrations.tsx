@@ -2,7 +2,6 @@ import React, { useCallback, useState } from 'react';
 
 import * as mutations from 'lib/gql/mutations';
 
-import { ActionDialog } from 'components';
 import { useCurrentCircleIntegrations } from 'hooks/gql/useCurrentCircleIntegrations';
 import {
   Dework,
@@ -13,7 +12,7 @@ import {
   WonderColor,
 } from 'icons/__generated';
 import { paths } from 'routes/paths';
-import { Flex, Button, Text, HR } from 'ui';
+import { Flex, Button, Text, HR, Modal } from 'ui';
 
 export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
   const integrations = useCurrentCircleIntegrations();
@@ -165,14 +164,20 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
           Pay with Parcel
         </Button>
       </Flex>
-
-      <ActionDialog
+      <Modal
         open={!!deleteIntegration}
         title={`Remove ${deleteIntegration?.name} from circle`}
         onClose={() => setDeleteIntegration(undefined)}
-        primaryText="Remove Integration"
-        onPrimary={deleteIntegration ? handleDeleteIntegration : undefined}
-      />
+      >
+        <Flex column alignItems="start" css={{ gap: '$md' }}>
+          <Button
+            color="destructive"
+            onClick={deleteIntegration ? handleDeleteIntegration : undefined}
+          >
+            Remove Integration
+          </Button>
+        </Flex>
+      </Modal>
     </div>
   );
 };

@@ -143,9 +143,12 @@ export const AllocationsTable = ({
         {user => (
           <tr key={user.id}>
             <td>
-              <Flex row css={{ alignItems: 'center', gap: '$sm' }}>
+              <Flex
+                row
+                css={{ alignItems: 'center', gap: '$sm', height: '$2xl' }}
+              >
                 <Avatar size="small" path={user.avatar} name={user.name} />
-                <Text semibold>{user.name}</Text>
+                <Text>{user.name}</Text>
               </Flex>
             </td>
             <td>{shortenAddress(user.address)}</td>

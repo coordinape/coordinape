@@ -14,7 +14,17 @@ import {
 } from 'components';
 import { useApiAdminCircle } from 'hooks';
 import { Info } from 'icons/__generated';
-import { Box, Flex, Form, FormLabel, Text, Button, Panel, Tooltip } from 'ui';
+import {
+  Box,
+  Flex,
+  Form,
+  FormLabel,
+  Link,
+  Text,
+  Button,
+  Panel,
+  Tooltip,
+} from 'ui';
 
 import { IQueryEpoch, QueryFutureEpoch } from './getHistoryData';
 
@@ -360,30 +370,29 @@ const EpochForm = ({
         <Panel nested css={{ mt: '$md' }}>
           <Flex column>
             <Text h3 semibold>
-              Epoch timing
+              Epoch Timing
             </Text>
-            <Text css={{ mt: '$md', display: 'block' }}>
+            <Text p size="small" css={{ mt: '$md' }}>
               An Epoch is a period of time where circle members contribute value
               & allocate {'GIVE'} tokens to one another.{' '}
               <span>
-                <a
+                <Link
                   href="https://docs.coordinape.com/get-started/epochs/create-an-epoch"
                   rel="noreferrer"
                   target="_blank"
                 >
                   Learn More
-                </a>
+                </Link>
               </span>
             </Text>
           </Flex>
           <Box
             css={{
-              display: 'flex',
-              justifyContent: 'space-between',
+              display: 'grid',
+              gridTemplateColumns: '3fr 1fr',
               mt: '$1xl',
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              gap: '$lg',
+              gap: '$2xl',
+              '@sm': { gridTemplateColumns: '1fr' },
             }}
           >
             <Flex column>
@@ -488,9 +497,9 @@ const EpochForm = ({
                   infoTooltip="Decide whether the epoch will repeat monthly or weekly or will not repeat after ending"
                 />
               </Flex>
-              <Box css={{ maxWidth: '900px', mt: '$xl' }}>
+              <Text p css={{ mt: '$xl' }}>
                 {summarizeEpoch(watchFields.current)}
-              </Box>
+              </Text>
             </Flex>
             <Flex column>{epochsPreview(watchFields.current)}</Flex>
           </Box>
