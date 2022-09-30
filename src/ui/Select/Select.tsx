@@ -17,7 +17,6 @@ const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
   padding: '$sm',
   lineHeight: '$short',
   fontSize: '$medium',
-  border: '1px solid transparent',
   width: 'calc(100% - $sm - $sm)',
   color: '$text',
   '&:hover': { cursor: 'pointer' },
@@ -33,6 +32,7 @@ const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
       },
       bgGray: {
         backgroundColor: '$surface',
+        border: '1px solid transparent',
       },
     },
   },
