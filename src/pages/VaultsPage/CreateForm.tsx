@@ -136,14 +136,11 @@ export const CreateForm = ({
       onChange({ target: { value: undefined } });
     } else if (vaultType == 'simple') {
       setDisplayCustomToken(false);
-      if (symbol == 'USDC') {
+      if (
+        Object.values(contracts.getAvailableTokens()).some(s => s === symbol)
+      ) {
         customAddressField.onChange({
-          target: { value: contracts.getTokenAddress('USDC') },
-        });
-        onChange({ target: { value: symbol } });
-      } else if (symbol == 'DAI') {
-        customAddressField.onChange({
-          target: { value: contracts.getTokenAddress('DAI') },
+          target: { value: contracts.getTokenAddress(symbol) },
         });
         onChange({ target: { value: symbol } });
       }
