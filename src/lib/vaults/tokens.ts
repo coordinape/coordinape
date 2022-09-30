@@ -3,15 +3,25 @@ import assert from 'assert';
 import { AddressZero } from '@ethersproject/constants';
 import { BigNumber, FixedNumber } from 'ethers';
 import { parseUnits, isAddress } from 'ethers/lib/utils';
-import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 
-import { shortenAddress } from 'utils';
+import { shortenAddress } from '../../utils';
 
 import type { Contracts } from './contracts';
 
+// this is a Partial of GraphQLTypes['vaults'] from the generated Zeus schema.
+// we're avoiding importing that here because we want this code to be usable in
+// the context of both the admin & user Zeus clients.
+type SimpleVaultType = {
+  decimals: number;
+  simple_token_address: string;
+  symbol: string;
+  token_address: string;
+  vault_address: string;
+};
+
 export const hasSimpleToken = ({
   simple_token_address,
-}: Pick<GraphQLTypes['vaults'], 'simple_token_address'>) => {
+}: Pick<SimpleVaultType, 'simple_token_address'>) => {
   if (!simple_token_address) return false;
   assert(isAddress(simple_token_address), 'invalid address');
   return simple_token_address !== AddressZero;
@@ -19,7 +29,7 @@ export const hasSimpleToken = ({
 
 export const getTokenAddress = (
   vault: Pick<
-    GraphQLTypes['vaults'],
+    SimpleVaultType,
     'symbol' | 'token_address' | 'simple_token_address'
   >
 ): string => {
@@ -41,7 +51,7 @@ export const getTokenAddress = (
 export const getWrappedAmount = async (
   amount: string,
   vault: Pick<
-    GraphQLTypes['vaults'],
+    SimpleVaultType,
     'decimals' | 'vault_address' | 'simple_token_address'
   >,
   contracts: Contracts
