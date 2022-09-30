@@ -9,6 +9,12 @@ export const Flex = styled(Box, {
       center: {
         alignItems: 'center',
       },
+      start: {
+        alignItems: 'flex-start',
+      },
+      end: {
+        alignItems: 'flex-end',
+      },
     },
     column: {
       true: {

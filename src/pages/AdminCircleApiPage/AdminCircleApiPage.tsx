@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 
 import { useSelectedCircleId } from '../../recoilState';
-import { ActionDialog, LoadingModal } from 'components';
-import { Box, Button, Modal, Panel, Text } from 'ui';
+import { LoadingModal } from 'components';
+import { Box, Button, Flex, Modal, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { ApiKeyDisplay } from './ApiKeyDisplay';
@@ -96,16 +96,21 @@ const AdminCircleApiPage = () => {
           <ApiKeyDisplay apiKey={displayedKey} />
         </Modal>
       )}
-      <ActionDialog
+      <Modal
         open={!!keyToDelete}
         title={`Delete API Key?`}
-        onPrimary={handleDelete}
-        primaryText={'Delete'}
         onClose={closeDeleteDialog}
       >
-        Any services using this API key will no longer have access to your
-        circle.
-      </ActionDialog>
+        <Flex column alignItems="start" css={{ gap: '$md' }}>
+          <Text p bold>
+            Any services using this API key will no longer have access to your
+            circle.
+          </Text>
+          <Button color="destructive" onClick={handleDelete}>
+            Delete
+          </Button>
+        </Flex>
+      </Modal>
       <LoadingModal visible={deleteKeyMutation.isLoading} />
     </SingleColumnLayout>
   );

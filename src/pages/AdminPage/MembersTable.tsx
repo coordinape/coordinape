@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect, useMemo } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -8,7 +9,7 @@ import { useQueryClient } from 'react-query';
 import { styled } from 'stitches.config';
 import { z } from 'zod';
 
-import { ActionDialog, FormInputField, makeTable } from 'components';
+import { FormInputField, makeTable } from 'components';
 import {
   USER_COORDINAPE_ADDRESS,
   USER_ROLE_ADMIN,
@@ -35,6 +36,7 @@ import {
   Form,
   FormLabel,
   Link,
+  Modal,
   Tooltip,
   Text,
   ToggleButton,
@@ -134,7 +136,7 @@ const UserName = ({ user }: { user: IUser }) => {
   return (
     <Box
       css={{
-        height: 48,
+        height: '$2xl',
         alignItems: 'center',
 
         overflow: 'hidden',
@@ -313,10 +315,9 @@ const MemberRow = ({
               {!user.non_giver ? (
                 <Check color="complete" />
               ) : (
-                <X color="neutral" />
+                <X size="lg" color="neutral" />
               )}
             </TD>
-
             <TD
               css={{
                 textAlign: 'center !important',
@@ -326,9 +327,9 @@ const MemberRow = ({
               {user.fixed_non_receiver ? (
                 <Slash color="alert" />
               ) : user.non_receiver ? (
-                <X color="neutral" />
+                <X size="lg" color="neutral" />
               ) : (
-                <Check color="complete" />
+                <Check size="lg" color="complete" />
               )}
             </TD>
           </>
@@ -348,9 +349,35 @@ const MemberRow = ({
           {user.role === USER_ROLE_ADMIN ? (
             <Check color="complete" />
           ) : (
-            <X color="neutral" />
+            <X size="lg" color="neutral" />
           )}
         </TD>
+        {isAdmin && (
+          <>
+            <TD
+              css={{
+                textAlign: 'center !important',
+              }}
+            >
+              {!user.non_giver ||
+              user.starting_tokens - user.give_token_remaining != 0
+                ? `${user.starting_tokens - user.give_token_remaining}/${
+                    user.starting_tokens
+                  }`
+                : '-'}
+            </TD>
+            <TD
+              css={{
+                textAlign: 'center !important',
+              }}
+            >
+              {user.give_token_received === 0 &&
+              (!!user.fixed_non_receiver || !!user.non_receiver)
+                ? '-'
+                : user.give_token_received}
+            </TD>
+          </>
+        )}
         <TD>
           {isAdmin && user.role !== 2 && (
             <Button
@@ -394,7 +421,7 @@ const MemberRow = ({
       </TR>
       {open && (
         <TR key={user.address}>
-          <TD colSpan={isMobile ? 4 : 7}>
+          <TD colSpan={isMobile ? 6 : 9}>
             <Form>
               <Text h3 semibold css={{ my: '$md' }}>
                 {user.name} Member Settings
@@ -416,7 +443,6 @@ const MemberRow = ({
                     label="Member Name"
                     infoTooltip="Member Displayed Name"
                     showFieldErrors
-                    css={{ width: '122px' }}
                   />
                   <FormInputField
                     id="address"
@@ -426,7 +452,7 @@ const MemberRow = ({
                     label="Wallet Address"
                     infoTooltip="Member ETH address used to login and receive tokens"
                     showFieldErrors
-                    css={{ maxWidth: '420px' }}
+                    css={{ minWidth: '420px', '@sm': { minWidth: 0 } }}
                   />
                   <Flex column css={{ alignItems: 'center', gap: '$md' }}>
                     <FormLabel type="label">
@@ -674,7 +700,7 @@ const MemberRow = ({
                   outlined
                   color="neutral"
                   size="medium"
-                  css={{ width: '156px', whiteSpace: 'nowrap' }}
+                  css={{ whiteSpace: 'nowrap' }}
                   onClick={e => {
                     e.preventDefault();
                     reset();
@@ -687,7 +713,6 @@ const MemberRow = ({
                   color="complete"
                   size="medium"
                   css={{
-                    width: '156px',
                     justifySelf: 'end',
                     whiteSpace: 'nowrap',
                   }}
@@ -696,17 +721,31 @@ const MemberRow = ({
                   Save Changes
                 </Button>
               </Flex>
-              <ActionDialog
-                open={!hasAcceptedOptOutWarning && showOptOutChangeWarning}
-                title={`This user has ${tokenName || 'GIVE'} allocated.`}
-                onPrimary={() => {
+              <Modal
+                onClose={() => {
                   setHasAcceptedOptOutWarning(true);
                   setShowOptOutChangeWarning(false);
                 }}
+                open={!hasAcceptedOptOutWarning && showOptOutChangeWarning}
+                title={`This user has ${tokenName || 'GIVE'} allocated.`}
               >
-                Changing their opt-in status will remove all{' '}
-                {tokenName || 'GIVE'} allocated to them. This cannot be undone.
-              </ActionDialog>
+                <Flex column alignItems="start" css={{ gap: '$md' }}>
+                  <Text p>
+                    Changing their opt-in status will remove all{' '}
+                    {tokenName || 'GIVE'} allocated to them. This cannot be
+                    undone.
+                  </Text>
+                  <Button
+                    color="primary"
+                    onClick={() => {
+                      setHasAcceptedOptOutWarning(true);
+                      setShowOptOutChangeWarning(false);
+                    }}
+                  >
+                    I Understand
+                  </Button>
+                </Flex>
+              </Modal>
             </Form>
           </TD>
         </TR>
@@ -788,6 +827,16 @@ export const MembersTable = ({
       },
     },
     {
+      title: `${circle.tokenName} sent`,
+      css: { ...headerStyles, textAlign: 'center' },
+      isHidden: !isAdmin,
+    },
+    {
+      title: `${circle.tokenName} received`,
+      css: { ...headerStyles, textAlign: 'center' },
+      isHidden: !isAdmin,
+    },
+    {
       title: 'Actions',
       css: { ...headerStyles, textAlign: 'right' },
       isHidden: !isAdmin,
@@ -808,6 +857,14 @@ export const MembersTable = ({
           if (index === 3) return (u: IUser) => u.non_receiver;
           if (index === 4) return (u: IUser) => u.fixed_payment_amount;
           if (index === 6) return (u: IUser) => u.isCircleAdmin;
+          if (index === 7)
+            return (u: IUser) =>
+              !u.non_giver ? u.starting_tokens - u.give_token_remaining : -1;
+          if (index === 8)
+            return (u: IUser) =>
+              !!u.fixed_non_receiver || !!u.non_receiver
+                ? -1
+                : u.give_token_received;
           return (u: IUser) => u.name.toLowerCase();
         }}
       >

@@ -24,6 +24,20 @@ test('select an asset', async () => {
   await waitFor(() => expect(submitButton.disabled).toBeFalsy());
 });
 
+test('select an WETH asset', async () => {
+  await act(async () => {
+    await render(
+      <TestWrapper withWeb3>
+        <CreateForm onSuccess={() => {}} orgId={1} />
+      </TestWrapper>
+    );
+  });
+  await screen.findByText('WETH');
+  fireEvent.click(screen.getByText('WETH'));
+  const submitButton = screen.getByText('Create CoVault') as HTMLButtonElement;
+  await waitFor(() => expect(submitButton.disabled).toBeFalsy());
+});
+
 test('input an invalid address for custom asset', async () => {
   await act(async () => {
     await render(

@@ -16,8 +16,8 @@ const BackButton = () => {
         // color: '$neutral',
         // borderColor: '$neutral',
         '&:hover': {
-          '& path': {
-            fill: '$white',
+          path: {
+            stroke: '$white',
           },
         },
       }}

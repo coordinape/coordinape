@@ -10,4 +10,5 @@ export enum Asset {
   USDC = 'USDC',
   USDT = 'USDT',
   YFI = 'YFI',
+  WETH = 'WETH',
 }

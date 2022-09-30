@@ -35,8 +35,8 @@ export const getPendingGiftsFrom = async (
 
   type GiftWithNote = Omit<
     typeof data.pending_token_gifts[number],
-    'gift_private'
-  > & { note?: string };
+    'gift_private' | 'tokens'
+  > & { tokens?: number; note?: string };
 
   return data.pending_token_gifts.map(g => {
     const gm = g;
