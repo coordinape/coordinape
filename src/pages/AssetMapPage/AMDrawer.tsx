@@ -18,7 +18,7 @@ import {
   useMapEpochs,
 } from 'recoilState/map';
 import { useDevMode } from 'recoilState/ui';
-import { IconButton, Text, Select } from 'ui';
+import { IconButton, Text, Panel, Select } from 'ui';
 
 import AMProfileCard from './AMProfileCard';
 
@@ -99,10 +99,6 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'flex-end',
     alignItems: 'center',
     padding: theme.spacing(2, 1.5),
-  },
-  selectWrapper: {
-    display: 'flex',
-    marginTop: 8,
   },
 }));
 
@@ -221,22 +217,20 @@ export const AMDrawer = () => {
               <Filter size="lg" />
             </MUButton>
           )}
-          <div className={classes.selectWrapper}>
+          <Panel invertForm css={{ px: 0 }}>
             <Select
               defaultValue={String(amEpochId)}
               options={epochOptions}
               onValueChange={value => setAmEpochId(Number(value))}
             />
-          </div>
-          {showHiddenFeatures && (
-            <div className={classes.selectWrapper}>
+            {showHiddenFeatures && (
               <Select
                 defaultValue={metric2}
                 options={metricOptions}
                 onValueChange={value => setMetric2(value as MetricEnum)}
               />
-            </div>
-          )}
+            )}
+          </Panel>
           <ApeAutocomplete
             onChange={setSearch}
             freeSolo

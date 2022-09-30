@@ -255,8 +255,7 @@ const apeVariants: any = (
       return {
         inputRoot: {
           backgroundColor: theme.colors.white,
-          padding: theme.spacing(0, 1, 0),
-          border: `1px solid ${theme.colors.border}`,
+          padding: `${theme.spacing(0, 0.75, 0, 1)} !important`,
           '&.Mui-disabled': {
             backgroundColor: theme.colors.surface,
           },
