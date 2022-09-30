@@ -65,6 +65,9 @@ const ContributionsPage = () => {
     onSuccess: newContribution => {
       refetchContributions();
       if (newContribution.insert_contributions_one) {
+        resetField('description', {
+          defaultValue: newContribution.insert_contributions_one.description,
+        });
         setCurrentContribution({
           contribution: newContribution.insert_contributions_one,
           epoch: getCurrentEpoch(data?.epochs ?? []),
