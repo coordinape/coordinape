@@ -32,11 +32,11 @@ export const calculateGifts =
 type TokenNote = [number, string];
 
 export const buildDiffMap = (
-  pendingGiftsFrom: { recipient_id: number; tokens: number; note?: string }[],
+  pendingGiftsFrom: { recipient_id: number; tokens?: number; note?: string }[],
   localGifts: ISimpleGift[]
 ) => {
   const remoteMap = new Map<number, TokenNote>(
-    pendingGiftsFrom.map(g => [g.recipient_id, [g.tokens, g.note ?? '']])
+    pendingGiftsFrom.map(g => [g.recipient_id, [g.tokens ?? 0, g.note ?? '']])
   );
   const localMap = new Map<number, TokenNote>(
     localGifts.map(g => [g.user.id, [g.tokens, g.note ?? '']])
@@ -68,7 +68,7 @@ export const buildDiffMap = (
 };
 
 export const isLocalGiftsChanged = (
-  pendingGiftsFrom: { recipient_id: number; tokens: number; note?: string }[],
+  pendingGiftsFrom: { recipient_id: number; tokens?: number; note?: string }[],
   localGifts: ISimpleGift[]
 ): boolean => {
   return buildDiffMap(pendingGiftsFrom, localGifts).size > 0;

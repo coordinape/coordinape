@@ -9,7 +9,7 @@ import { Gift } from './index';
 const iconSize = 40;
 
 type GiveAllocatorProps = {
-  adjustGift(recipientId: number, amount: number): void;
+  adjustGift(recipientId: number, amount: number | null): void;
   gift: Gift;
   inPanel?: boolean;
   disabled: boolean;
@@ -36,7 +36,7 @@ export const GiveAllocator = ({
   //decGift decrements the gift by 1
   const decGift = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
-    if (gift.tokens > 0) {
+    if ((gift.tokens ?? 0) > 0) {
       adjustGift(gift.recipient_id, -1);
     }
   };
@@ -46,8 +46,7 @@ export const GiveAllocator = ({
     if (value.length > 5) {
       return;
     }
-    const newValue = +value;
-    const adjustment = newValue - gift.tokens;
+    const adjustment = value !== '' ? +value - (gift.tokens ?? 0) : null;
     // TODO: can never erase the 0 cuz empty string evaluates to 0 here, need gift.tokens to be optional for this -g
     // https://github.com/coordinape/coordinape/issues/1401
     adjustGift(gift.recipient_id, adjustment);
@@ -91,7 +90,7 @@ export const GiveAllocator = ({
             data-testid="decrement"
             size="small"
             onClick={decGift}
-            disabled={gift.tokens < 1 || disabled}
+            disabled={(gift.tokens ?? 0) < 1 || disabled}
             color="transparent"
             css={{
               padding: 0,
@@ -111,14 +110,15 @@ export const GiveAllocator = ({
           >
             <MinusCircle css={{ width: iconSize, height: iconSize }} />
           </Button>
-          {(gift.tokens < 1 || disabled) && <ClickTrapperIcon />}
+          {((gift.tokens ?? 0) < 1 || disabled) && <ClickTrapperIcon />}
         </Flex>
         <TextField
           data-testid="tokenCount"
-          value={gift.tokens}
+          value={gift.tokens ?? ''}
           onChange={evt => setGiftTokens(evt.target.value)}
           maxLength={5}
           disabled={disabled}
+          onBlur={() => setGiftTokens(gift.tokens ? String(gift.tokens) : '0')}
           onClick={e => e.stopPropagation()}
           css={{
             width: '5em',

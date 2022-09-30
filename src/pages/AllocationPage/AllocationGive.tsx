@@ -161,7 +161,11 @@ enum FilterType {
 type AllocationGiveProps = {
   givePerUser: Map<number, ISimpleGift>;
   localGifts: ISimpleGift[];
-  pendingGiftsFrom: { recipient_id: number; tokens: number; note?: string }[];
+  pendingGiftsFrom: {
+    recipient_id: number;
+    tokens?: number;
+    note?: string;
+  }[];
   setLocalGifts: (value: React.SetStateAction<ISimpleGift[]>) => void;
 };
 

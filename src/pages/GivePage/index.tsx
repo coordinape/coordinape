@@ -164,6 +164,7 @@ const GivePage = () => {
               circle_id: selectedCircle.id,
               allocations: Object.values(giftsRef.current).map(g => ({
                 ...g,
+                tokens: g.tokens ?? 0,
                 // note is required in the db schema
                 note: g.note ?? '',
               })),
@@ -184,7 +185,7 @@ const GivePage = () => {
   };
 
   // adjustGift adjusts a gift by an amount if it is allowed wrt the max give, then schedules saving
-  const adjustGift = (recipientId: number, amount: number) => {
+  const adjustGift = (recipientId: number, amount: number | null) => {
     const updated = false;
     setGifts(prevState => {
       // check if this takes us over the limit before updating
@@ -192,11 +193,11 @@ const GivePage = () => {
       const gift = newGifts[recipientId];
       newGifts[recipientId] = {
         note: gift?.note ?? '',
-        tokens: (gift?.tokens ?? 0) + amount,
+        tokens: amount !== null ? (gift?.tokens ?? 0) + amount : undefined,
         recipient_id: recipientId,
       };
       const afterUpdateTotal = Object.values(newGifts).reduce(
-        (total, g) => total + g.tokens,
+        (total, g) => total + (g.tokens ?? 0),
         0
       );
 
@@ -272,7 +273,7 @@ const GivePage = () => {
   // update the total give used whenever the gifts change
   useEffect(() => {
     setTotalGiveUsed(
-      Object.values(gifts).reduce((total, g) => total + g.tokens, 0)
+      Object.values(gifts).reduce((total, g) => total + (g.tokens ?? 0), 0)
     );
   }, [gifts]);
 
