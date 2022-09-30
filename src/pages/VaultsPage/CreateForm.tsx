@@ -137,11 +137,7 @@ export const CreateForm = ({
     } else if (vaultType == 'simple') {
       setDisplayCustomToken(false);
       if (
-        symbol == 'USDC' ||
-        symbol == 'DAI' ||
-        symbol == 'USDT' ||
-        symbol == 'YFI' ||
-        symbol == 'WETH'
+        Object.values(contracts.getAvailableTokens()).some(s => s === symbol)
       ) {
         customAddressField.onChange({
           target: { value: contracts.getTokenAddress(symbol) },
