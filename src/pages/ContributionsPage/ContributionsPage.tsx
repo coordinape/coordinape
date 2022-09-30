@@ -67,7 +67,7 @@ const ContributionsPage = () => {
       if (newContribution.insert_contributions_one) {
         setCurrentContribution({
           contribution: newContribution.insert_contributions_one,
-          epoch: getCurrentEpoch(data?.epochs || []),
+          epoch: getCurrentEpoch(data?.epochs ?? []),
         });
       }
     },
@@ -327,25 +327,27 @@ const EpochGroup = ({
   const activeEpoch = useMemo(() => getCurrentEpoch(epochs), [epochs.length]);
   return (
     <>
-      <Box key={-1}>
-        <Box>
-          <Text h2 css={{ gap: '$md' }}>
-            Latest
-            <Text tag color="active">
-              Future
+      {activeEpoch === undefined && (
+        <Box key={-1}>
+          <Box>
+            <Text h2 css={{ gap: '$md' }}>
+              Latest
+              <Text tag color="active">
+                Future
+              </Text>
             </Text>
-          </Text>
+          </Box>
+          <Panel css={{ gap: '$md' }}>
+            <ContributionList
+              contributions={contributions.filter(c =>
+                latestEpoch ? c.datetime_created > latestEpoch.end_date : true
+              )}
+              currentContribution={currentContribution}
+              setActiveContribution={setActiveContribution}
+            />
+          </Panel>
         </Box>
-        <Panel css={{ gap: '$md' }}>
-          <ContributionList
-            contributions={contributions.filter(c =>
-              latestEpoch ? c.datetime_created > latestEpoch.end_date : true
-            )}
-            currentContribution={currentContribution}
-            setActiveContribution={setActiveContribution}
-          />
-        </Panel>
-      </Box>
+      )}
       {epochs.map(epoch => (
         <Box key={epoch.id}>
           <Box>
