@@ -7,12 +7,12 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import zipObject from 'lodash/zipObject';
 import { DateTime, Settings } from 'luxon';
 
+import { Contracts } from '../../../api-lib/contracts';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { getProvider } from '../../../api-lib/provider';
 import { Awaited } from '../../../api-lib/ts4.5shim';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import { encodeCircleId } from '../../../src/lib/vaults/circleId';
-import { Contracts } from '../../../src/lib/vaults/contracts';
 import { insert } from '../actions/_handlers/createVault';
 
 Settings.defaultZone = 'utc';
@@ -66,7 +66,7 @@ const handleTxRecord = async (txRecord: TxRecord) => {
 
   try {
     const receipt = await tx.wait();
-    const contracts = new Contracts(chain_id, provider, true);
+    const contracts = new Contracts(chain_id, provider);
 
     switch (tx_type) {
       case 'Vault_Deploy':

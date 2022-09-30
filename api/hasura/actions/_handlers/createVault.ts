@@ -2,6 +2,7 @@ import { AddressZero } from '@ethersproject/constants';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
 
+import { Contracts } from '../../../../api-lib/contracts';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import * as queries from '../../../../api-lib/gql/queries';
 import { getPropsWithUserSession } from '../../../../api-lib/handlerHelpers';
@@ -13,7 +14,6 @@ import {
 import { getProvider } from '../../../../api-lib/provider';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import { zEthAddressOnly } from '../../../../src/forms/formHelpers';
-import { Contracts } from '../../../../src/lib/vaults/contracts';
 
 const inputSchema = z
   .object({
@@ -47,7 +47,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     );
 
   const provider = getProvider(chain_id);
-  const contracts = new Contracts(chain_id, provider, true);
+  const contracts = new Contracts(chain_id, provider);
 
   const vaultExists = await contracts.vaultFactory.vaultRegistry(vault_address);
 
