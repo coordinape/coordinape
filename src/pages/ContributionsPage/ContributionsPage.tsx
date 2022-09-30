@@ -136,7 +136,7 @@ const ContributionsPage = () => {
   // the handle of a live function is lost on re-render and we cannot
   // cancel the call when a bunch of typing is happening
   const handleDebouncedDescriptionChange = useMemo(
-    () => debounce((s: typeof saveContribution) => s(), 3000),
+    () => debounce((s: typeof saveContribution) => s(), 1000),
     [currentContribution?.contribution.id]
   );
 
@@ -204,6 +204,13 @@ const ContributionsPage = () => {
       </SingleColumnLayout>
       <Modal
         drawer
+        css={{
+          paddingBottom: 0,
+          paddingLeft: '$md',
+          paddingRight: '$md',
+          paddingTop: 0,
+          overflowY: 'scroll',
+        }}
         open={modalOpen}
         onClose={() => {
           setModalOpen(false);
@@ -213,10 +220,10 @@ const ContributionsPage = () => {
           reset();
         }}
       >
-        <Panel invertForm>
+        <Panel invertForm css={{ '& textarea': { resize: 'vertical' } }}>
           {currentContribution && (
             <>
-              <Text h2 css={{ gap: '$md' }}>
+              <Text h2 css={{ gap: '$md', my: '$xl' }}>
                 {currentContribution.epoch
                   ? renderEpochDate(currentContribution.epoch)
                   : 'Latest'}
@@ -232,21 +239,17 @@ const ContributionsPage = () => {
                 name="description"
                 control={control}
                 defaultValue={currentContribution.contribution.description}
+                areaProps={{ rows: 18 }}
                 textArea
               />
-              <Flex css={{ justifyContent: 'space-between', mt: '$md' }}>
-                <Button
-                  outlined
-                  color="destructive"
-                  size="inline"
-                  onClick={() =>
-                    deleteContribution({
-                      contribution_id: currentContribution.contribution.id,
-                    })
-                  }
-                >
-                  Remove
-                </Button>
+              <Flex
+                css={{
+                  justifyContent: 'space-between',
+                  mt: '$lg',
+                  // done so `tab` jumps to the Save Button first
+                  flexDirection: 'row-reverse',
+                }}
+              >
                 <Flex css={{ gap: '$md' }}>
                   <Text
                     css={{ gap: '$sm' }}
@@ -272,19 +275,20 @@ const ContributionsPage = () => {
                       </>
                     )}
                   </Text>
-                  <Button
-                    outlined
-                    color="primary"
-                    size="inline"
-                    type="submit"
-                    disabled={!isDirty || mutationStatus() === 'loading'}
-                    onClick={() => {
-                      handleDebouncedDescriptionChange.flush();
-                    }}
-                  >
-                    Save
-                  </Button>
                 </Flex>
+                <Button
+                  outlined
+                  color="destructive"
+                  size="medium"
+                  onClick={() => {
+                    handleDebouncedDescriptionChange.cancel();
+                    deleteContribution({
+                      contribution_id: currentContribution.contribution.id,
+                    });
+                  }}
+                >
+                  Delete
+                </Button>
               </Flex>
             </>
           )}
@@ -332,18 +336,18 @@ const EpochGroup = ({
   const latestEpoch = epochs[0] as Epoch | undefined;
   const activeEpoch = useMemo(() => getCurrentEpoch(epochs), [epochs.length]);
   return (
-    <>
+    <Flex column css={{ gap: '$1xl' }}>
       {activeEpoch === undefined && (
         <Box key={-1}>
           <Box>
-            <Text h2 css={{ gap: '$md' }}>
+            <Text h2 bold css={{ gap: '$md', my: '$lg' }}>
               Latest
               <Text tag color="active">
                 Future
               </Text>
             </Text>
           </Box>
-          <Panel css={{ gap: '$md' }}>
+          <Panel css={{ gap: '$lg', borderRadius: '$4' }}>
             <ContributionList
               contributions={contributions.filter(c =>
                 latestEpoch ? c.datetime_created > latestEpoch.end_date : true
@@ -357,7 +361,7 @@ const EpochGroup = ({
       {epochs.map(epoch => (
         <Box key={epoch.id}>
           <Box>
-            <Text h2 css={{ gap: '$md' }}>
+            <Text h2 bold css={{ gap: '$md' }}>
               {renderEpochDate(epoch)}
               {activeEpoch?.id === epoch.id ? (
                 <Text tag color="active">
@@ -370,7 +374,7 @@ const EpochGroup = ({
               )}
             </Text>
           </Box>
-          <Panel css={{ gap: '$md' }}>
+          <Panel css={{ gap: '$md', borderRadius: '$4', mt: '$lg' }}>
             <ContributionList
               contributions={contributions.filter(contributionFilterFn(epoch))}
               currentContribution={currentContribution}
@@ -380,7 +384,7 @@ const EpochGroup = ({
           </Panel>
         </Box>
       ))}
-    </>
+    </Flex>
   );
 };
 
@@ -403,6 +407,10 @@ const ContributionList = ({
                   ? '2px solid $link'
                   : '2px solid $border',
               cursor: 'pointer',
+              background:
+                currentContribution?.contribution.id === c.id
+                  ? '$highlight'
+                  : 'white',
               '&:hover': {
                 background: '$highlight',
                 border: '2px solid $link',
@@ -413,15 +421,20 @@ const ContributionList = ({
               setActiveContribution(c, epoch);
             }}
           >
-            <Box
-              css={{
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-              }}
-            >
-              {c.description}
-            </Box>
+            <Flex css={{ justifyContent: 'space-between' }}>
+              <Text
+                ellipsis
+                css={{
+                  mr: '10px',
+                  maxWidth: '60em',
+                }}
+              >
+                {c.description}
+              </Text>
+              <Text variant="label" css={{ whiteSpace: 'nowrap' }}>
+                {DateTime.fromISO(c.datetime_created).toFormat('LLL dd')}
+              </Text>
+            </Flex>
           </Panel>
         ))
       ) : epoch ? (
