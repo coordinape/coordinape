@@ -274,7 +274,9 @@ const ContributionsPage = () => {
                     size="inline"
                     type="submit"
                     disabled={!isDirty || mutationStatus() === 'loading'}
-                    onClick={saveContribution}
+                    onClick={() => {
+                      handleDebouncedDescriptionChange.flush();
+                    }}
                   >
                     Save
                   </Button>
