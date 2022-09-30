@@ -636,6 +636,7 @@ export const CircleAdminPage = () => {
               >
                 <Box>
                   <Select
+                    background={'bgGray'}
                     {...(register('fixed_payment_vault_id'),
                     {
                       onValueChange: value => {

@@ -19,13 +19,25 @@ const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
   fontSize: '$medium',
   border: '1px solid transparent',
   width: 'calc(100% - $sm - $sm)',
-  backgroundColor: '$surface',
   color: '$text',
   '&:hover': { cursor: 'pointer' },
   '&:disabled': {
     cursor: 'pointer',
     pointerEvents: 'none',
     opacity: 0.3,
+  },
+  variants: {
+    background: {
+      bgWhite: {
+        backgroundColor: '$white',
+      },
+      bgGray: {
+        backgroundColor: '$surface',
+      },
+    },
+  },
+  defaultVariants: {
+    background: 'bgGray',
   },
 });
 
@@ -113,6 +125,7 @@ export const Select = (
     css?: CSS;
     label?: React.ReactNode;
     infoTooltip?: React.ReactNode;
+    background: 'bgWhite' | 'bgGray';
   }
 ) => {
   const {
@@ -124,6 +137,7 @@ export const Select = (
     disabled,
     label,
     infoTooltip,
+    background,
   } = props;
 
   return (
@@ -145,7 +159,7 @@ export const Select = (
         </FormLabel>
       )}
       <RadixSelect defaultValue={defaultValue} {...props}>
-        <SelectTrigger disabled={disabled}>
+        <SelectTrigger background={background} disabled={disabled}>
           <SelectValue placeholder={placeholder} />
           <SelectIcon>
             <ChevronDown color="neutral" />

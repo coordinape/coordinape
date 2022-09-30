@@ -9,7 +9,7 @@ export default {
   decorators: [
     withDesign,
     Story => (
-      <div style={{ padding: 20 }}>
+      <div style={{ padding: 20, backgroundColor: '#edf1f4' }}>
         <Story />
       </div>
     ),
@@ -31,6 +31,7 @@ const options = [
 SingleSelect.args = {
   defaultValue: 'apple',
   options,
+  background: 'bgWhite',
 };
 
 SingleSelect.parameters = {

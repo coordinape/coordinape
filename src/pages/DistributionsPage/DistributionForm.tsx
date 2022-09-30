@@ -407,6 +407,7 @@ export function DistributionForm({
           <TwoColumnLayout css={{ pt: '$md' }}>
             <Box css={{ width: '100%' }}>
               <Select
+                background={'bgGray'}
                 {...(register('selectedVaultId'),
                 {
                   defaultValue: circleDist
@@ -545,6 +546,7 @@ export function DistributionForm({
               <TwoColumnLayout css={{ pt: '$md' }}>
                 <Box css={{ width: '100%' }}>
                   <Select
+                    background={'bgGray'}
                     {...(fixedRegister('selectedVaultId'),
                     {
                       defaultValue: fpVault

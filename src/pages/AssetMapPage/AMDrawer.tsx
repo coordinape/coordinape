@@ -101,8 +101,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2, 1.5),
   },
   selectWrapper: {
-    display: 'flex',
-    marginTop: 8,
+    margin: '16px 0',
   },
 }));
 
@@ -226,6 +225,7 @@ export const AMDrawer = () => {
               defaultValue={String(amEpochId)}
               options={epochOptions}
               onValueChange={value => setAmEpochId(Number(value))}
+              background={'bgWhite'}
             />
           </div>
           {showHiddenFeatures && (
@@ -234,6 +234,7 @@ export const AMDrawer = () => {
                 defaultValue={metric2}
                 options={metricOptions}
                 onValueChange={value => setMetric2(value as MetricEnum)}
+                background={'bgWhite'}
               />
             </div>
           )}
@@ -246,6 +247,10 @@ export const AMDrawer = () => {
             isSelect
             InputProps={{
               endAdornment: <Search color="neutral" />,
+              style: {
+                border: 'none',
+                paddingRight: '12px',
+              },
             }}
           />
         </div>
