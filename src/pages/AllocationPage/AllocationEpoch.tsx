@@ -8,10 +8,10 @@ import { makeStyles } from '@material-ui/core';
 import { useApiWithSelectedCircle } from '../../hooks';
 import { STEP_ALLOCATION, STEP_MY_TEAM } from '../../routes/allocation';
 import { IAllocationStep } from '../../types';
-import { OptInput, ActionDialog, ApeInfoTooltip } from 'components';
+import { OptInput, ApeInfoTooltip } from 'components';
 import { MAX_BIO_LENGTH } from 'config/constants';
 import { useSelectedCircle } from 'recoilState/app';
-import { Button, Text } from 'ui';
+import { Button, Flex, Text, Modal } from 'ui';
 
 import SaveButtonContainer from './SaveButtonContainer';
 
@@ -223,23 +223,35 @@ const AllocationEpoch = ({
                   }
                 }}
               />
-              <ActionDialog
-                open={optOutOpen}
-                title={`If you Opt Out you will lose your ${
-                  myUser.give_token_received
-                } ${selectedCircle?.token_name || 'GIVE'}`}
+              <Modal
                 onClose={() => setOptOutOpen(false)}
-                onPrimary={() => {
-                  setNonReceiver(true);
-                  setOptOutOpen(false);
-                }}
-                primaryText="Proceed to Opt Out"
+                open={optOutOpen}
+                // onOpenChange={setModal}
+                title={`${selectedCircle?.token_name || 'GIVE'} Loss Alert`}
               >
-                Opting out during an in-progress epoch will result in any{' '}
-                {selectedCircle?.token_name || 'GIVE'} you have received being
-                returned to senders. Are you sure you wish to proceed? This
-                cannot be undone.
-              </ActionDialog>
+                <Flex column alignItems="start" css={{ gap: '$md' }}>
+                  <Text p bold>
+                    {`If you Opt Out you will lose your ${
+                      myUser.give_token_received
+                    } ${selectedCircle?.token_name || 'GIVE'}`}
+                  </Text>
+                  <Text p>
+                    Opting out during an in-progress epoch will result in any{' '}
+                    {selectedCircle?.token_name || 'GIVE'} you have received
+                    being returned to senders. Are you sure you wish to proceed?
+                    This cannot be undone.
+                  </Text>
+                  <Button
+                    color="primary"
+                    onClick={() => {
+                      setNonReceiver(true);
+                      setOptOutOpen(false);
+                    }}
+                  >
+                    Proceed to Opt Out
+                  </Button>
+                </Flex>
+              </Modal>
             </div>
           </>
         ) : (

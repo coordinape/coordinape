@@ -87,7 +87,7 @@ export function makeTable<T>(displayName: string) {
             <tbody>{pagedView.map(children)}</tbody>
           </Table>
         </Panel>
-        <Panel css={{ py: '$sm !important' }}>
+        <Panel css={{ pt: '$md !important' }}>
           <Paginator pages={totalPages} current={page} onSelect={setPage} />
         </Panel>
       </>

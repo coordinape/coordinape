@@ -4,10 +4,9 @@ import clsx from 'clsx';
 
 import { makeStyles, Tooltip, Zoom, TooltipProps } from '@material-ui/core';
 
-import { ActionDialog } from 'components/index';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { Info } from 'icons/__generated';
-import { Link } from 'ui';
+import { Flex, Link, Modal } from 'ui';
 
 const useStyles = makeStyles(theme => ({
   tooltip: {
@@ -65,9 +64,11 @@ export const ApeInfoTooltip = ({
           >
             <Info size="sm" />
           </Link>
-          <ActionDialog open={openTooltip} onClose={handleTooltipClose}>
-            {children}
-          </ActionDialog>
+          <Modal open={openTooltip} onClose={handleTooltipClose}>
+            <Flex column alignItems="start" css={{ gap: '$md' }}>
+              {children}
+            </Flex>
+          </Modal>
         </div>
       ) : (
         <Tooltip
