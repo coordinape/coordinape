@@ -139,6 +139,7 @@ export const CreateForm = ({
       if (
         symbol == 'USDC' ||
         symbol == 'DAI' ||
+        symbol == 'USDT' ||
         symbol == 'YFI' ||
         symbol == 'WETH'
       ) {
