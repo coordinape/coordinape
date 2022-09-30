@@ -1,6 +1,7 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import dedent from 'dedent';
+import { debounce } from 'lodash';
 import { DateTime } from 'luxon';
 import { useForm, useController } from 'react-hook-form';
 import { useQuery, useMutation } from 'react-query';
@@ -53,6 +54,7 @@ const ContributionsPage = () => {
     control,
     formState: { isDirty },
     reset,
+    resetField,
   } = useForm({ mode: 'all' });
 
   const {
@@ -80,6 +82,13 @@ const ContributionsPage = () => {
     onSettled: () => {
       refetchContributions();
     },
+    onSuccess: updatedContribution => {
+      resetField('description', {
+        defaultValue:
+          updatedContribution.updateContribution
+            ?.updateContribution_Contribution.description,
+      });
+    },
   });
 
   const { mutate: deleteContribution } = useMutation(
@@ -99,6 +108,42 @@ const ContributionsPage = () => {
     name: 'description',
     control,
   });
+
+  const saveContribution = useMemo(() => {
+    if (!descriptionField.value) return () => {};
+    return () => {
+      if (!currentContribution) return;
+      currentContribution.contribution.id === 0
+        ? createContribution({
+            user_id: currentUserId,
+            circle_id: selectedCircle.id,
+            description: descriptionField.value,
+          })
+        : mutateContribution({
+            id: currentContribution.contribution.id,
+            datetime_created: currentContribution.contribution.datetime_created,
+            description: descriptionField.value,
+          });
+    };
+  }, [currentContribution?.contribution.id, descriptionField.value]);
+
+  // We need to instantiate exactly one debounce function for each newly
+  // mounted currentContribution so it can be cancelled. Otherwise,
+  // the handle of a live function is lost on re-render and we cannot
+  // cancel the call when a bunch of typing is happening
+  const handleDebouncedDescriptionChange = useMemo(
+    () => debounce((s: typeof saveContribution) => s(), 3000),
+    [currentContribution?.contribution.id]
+  );
+
+  useEffect(() => {
+    handleDebouncedDescriptionChange.cancel();
+    if (isDirty) {
+      handleDebouncedDescriptionChange(saveContribution);
+      resetUpdateMutation();
+      resetCreateMutation();
+    }
+  }, [descriptionField.value]);
 
   const mutationStatus = () =>
     currentContribution?.contribution.id === 0 ? createStatus : updateStatus;
@@ -129,6 +174,7 @@ const ContributionsPage = () => {
                 contribution: getNewContribution(currentUserId),
                 epoch: getCurrentEpoch(data.epochs),
               });
+              resetField('description', { defaultValue: '' });
               resetCreateMutation();
               setModalOpen(true);
             }}
@@ -145,6 +191,9 @@ const ContributionsPage = () => {
             epoch?: Epoch
           ) => {
             setCurrentContribution({ contribution, epoch });
+            resetField('description', {
+              defaultValue: contribution.description,
+            });
             setModalOpen(true);
           }}
         />
@@ -225,20 +274,7 @@ const ContributionsPage = () => {
                     size="inline"
                     type="submit"
                     disabled={!isDirty || mutationStatus() === 'loading'}
-                    onClick={() =>
-                      currentContribution.contribution.id === 0
-                        ? createContribution({
-                            user_id: currentUserId,
-                            circle_id: selectedCircle.id,
-                            description: descriptionField.value,
-                          })
-                        : mutateContribution({
-                            id: currentContribution.contribution.id,
-                            datetime_created:
-                              currentContribution.contribution.datetime_created,
-                            description: descriptionField.value,
-                          })
-                    }
+                    onClick={saveContribution}
                   >
                     Save
                   </Button>

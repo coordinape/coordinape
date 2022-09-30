@@ -5,7 +5,10 @@ export const updateContributionMutation = async (
   payload: ValueTypes['UpdateContributionInput']
 ) =>
   client.mutate({
-    updateContribution: [{ payload }, { __typename: true }],
+    updateContribution: [
+      { payload },
+      { updateContribution_Contribution: { description: true } },
+    ],
   });
 
 export const deleteContributionMutation = async (
