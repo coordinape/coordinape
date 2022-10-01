@@ -8,11 +8,7 @@ import { makeStyles } from '@material-ui/core';
 import { useApiWithSelectedCircle } from '../../hooks';
 import { STEP_ALLOCATION, STEP_MY_TEAM } from '../../routes/allocation';
 import { IAllocationStep } from '../../types';
-import {
-  OptInput,
-  ApeInfoTooltip,
-  LoadingModal,
-} from 'components';
+import { OptInput, ApeInfoTooltip } from 'components';
 import { MAX_BIO_LENGTH } from 'config/constants';
 import { useSelectedCircle } from 'recoilState/app';
 import { Button, Flex, Text, Modal } from 'ui';
