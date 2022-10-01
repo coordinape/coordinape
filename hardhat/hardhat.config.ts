@@ -45,6 +45,10 @@ const tokens = {
     addr: '0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE',
     whale: '0xdead000000000000000042069420694206942069',
   },
+  WETH: {
+    addr: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+    whale: '0x06601571AA9D3E8f5f7CDd5b993192618964bAB5',
+  },
 };
 
 task('mine', 'Mine a block').setAction(async (_, hre) => {
@@ -90,6 +94,22 @@ task('mint', 'Mints the given token to specified account')
         console.log(`Sent ${amount} ETH to ${receiver}`);
       };
 
+      const mintWeth = async(
+        receiver: string, amount: string
+      ) => {
+        await mintEth(receiver, (Number(amount)+ 0.1).toString());
+        const sender = await unlockSigner(receiver, hre);
+        const weth = new ethers.Contract(
+            tokens.WETH.addr,
+            [
+              'function deposit() public payable',
+            ],
+            sender
+        );
+        await weth.deposit({ value: ethers.utils.parseEther(amount)});
+        console.log(`Sent ${amount} WETH to ${receiver}`);
+      }
+
       const mintToken = async (
         symbol: string,
         receiver: string,
@@ -115,6 +135,9 @@ task('mint', 'Mints the given token to specified account')
       switch (args.token) {
         case 'ETH':
           await mintEth(args.address, args.amount);
+          break;
+        case 'WETH':
+          await mintWeth(args.address, args.amount);
           break;
         default:
           try {

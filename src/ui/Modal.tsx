@@ -77,7 +77,7 @@ export const Modal = ({
   css = {},
   defaultOpen = false,
   open = true,
-  showClose,
+  showClose = true,
   drawer,
 }: ModalProps) => {
   return (

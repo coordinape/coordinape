@@ -33,7 +33,7 @@ export const CurrentEpochPanel = ({
   const startDate = DateTime.fromISO(epoch.start_date);
   const endDate = DateTime.fromISO(epoch.end_date);
 
-  const endDateFormat = endDate.month === startDate.month ? 'd' : 'MMMM d';
+  const endDateFormat = endDate.month === startDate.month ? 'd' : 'MMM d';
 
   return (
     <Panel
@@ -52,7 +52,7 @@ export const CurrentEpochPanel = ({
       <Box>
         <Text inline font="inter">
           <Text inline font="inter" css={{ fontWeight: '$semibold' }}>
-            {startDate.toFormat('MMMM')}
+            {startDate.toFormat('MMM')}
           </Text>{' '}
           {startDate.toFormat('d')} - {endDate.toFormat(endDateFormat)}
         </Text>
@@ -140,18 +140,24 @@ const Minicard = ({
           gap: '$md',
           flexDirection: 'column',
           alignItems: 'flex-start',
+          justifyContent: 'space-between',
         }}
       >
-        <Text variant="label">
-          {icon}
-          {title}
-        </Text>
-        <Text
-          semibold
-          css={{ fontSize: '$medium', color: alert ? 'red' : '$secondaryText' }}
-        >
-          {content}
-        </Text>
+        <Box>
+          <Text variant="label" css={{ mb: '$sm' }}>
+            {icon}
+            {title}
+          </Text>
+          <Text
+            semibold
+            css={{
+              fontSize: '$medium',
+              color: alert ? 'red' : '$secondaryText',
+            }}
+          >
+            {content}
+          </Text>
+        </Box>
         <Button outlined size="small" as={NavLink} key={path} to={path}>
           {linkLabel}
         </Button>
