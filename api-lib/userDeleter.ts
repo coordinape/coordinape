@@ -5,7 +5,7 @@ import type {
 } from '@vercel/node';
 
 import {
-  circleIdInput,
+  deleteUserInput,
   composeHasuraActionRequestBodyWithApiPermissions,
 } from '../src/lib/zod';
 
@@ -14,7 +14,7 @@ import { errorResponseWithStatusCode, UnauthorizedError } from './HttpError';
 import { verifyHasuraRequestMiddleware } from './validate';
 
 const requestSchema = composeHasuraActionRequestBodyWithApiPermissions(
-  circleIdInput,
+  deleteUserInput,
   []
 );
 
@@ -33,13 +33,10 @@ const middleware =
     }
 
     if (sessionVariables.hasuraRole === 'user') {
-      const { circle_id } = input;
+      const { circle_id, address } = input;
       const profileId = sessionVariables.hasuraProfileId;
 
-      const { role, address } = await getUserFromProfileId(
-        profileId,
-        circle_id
-      );
+      const { role } = await getUserFromProfileId(profileId, circle_id);
       if (isCircleAdmin(role)) {
         await handler(req, res);
         return;
