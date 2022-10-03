@@ -166,6 +166,7 @@ test('claim single successfully', async () => {
           amount,
           proof,
           index,
+          unwrapEth: false,
         });
 
         finalBalance = await daiContract.balanceOf(address1);

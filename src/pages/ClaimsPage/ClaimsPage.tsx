@@ -1,6 +1,23 @@
+import { useState } from 'react';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useController, useForm } from 'react-hook-form';
+import * as z from 'zod';
+
 import { ApeInfoTooltip, LoadingModal, makeTable } from 'components';
 import { DISTRIBUTION_TYPE } from 'config/constants';
-import { Avatar, Box, Panel, Flex, Text, Button, Link } from 'ui';
+import {
+  Avatar,
+  Box,
+  Panel,
+  Flex,
+  Text,
+  Button,
+  Link,
+  Form,
+  CheckBox,
+  Modal,
+} from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { smartRounding } from 'utils';
 import { makeExplorerUrl } from 'utils/provider';
@@ -144,6 +161,8 @@ export default function ClaimsPage() {
     claiming,
     processClaim,
   } = useClaimsTableData();
+  const [groupArr, setGroupArr] = useState<QueryClaim[]>([]);
+  const [unwrapModalVisible, setUnwrapModalVisible] = useState(false);
 
   if (isIdle || isLoading) return <LoadingModal visible />;
   if (isError || !claims)
@@ -192,7 +211,14 @@ export default function ClaimsPage() {
                     color="primary"
                     outlined
                     css={buttonStyles}
-                    onClick={() => processClaim(group.map(c => c.id))}
+                    onClick={() => {
+                      if (
+                        claim.distribution.vault.symbol.toUpperCase() === 'WETH'
+                      ) {
+                        setGroupArr(group);
+                        setUnwrapModalVisible(true);
+                      } else return processClaim(group.map(c => c.id));
+                    }}
                     disabled={isClaiming || isClaimed}
                   >
                     {isClaiming
@@ -242,7 +268,86 @@ export default function ClaimsPage() {
             </ClaimsRowOuter>
           )}
         </ClaimsTable>
+        <UnwrapETHmodal
+          processClaim={processClaim}
+          group={groupArr}
+          open={unwrapModalVisible}
+          onClose={() => {
+            setUnwrapModalVisible(false);
+          }}
+        />
       </Panel>
     </SingleColumnLayout>
+  );
+}
+
+export function UnwrapETHmodal({
+  group,
+  onClose,
+  open,
+  processClaim,
+}: {
+  group: QueryClaim[];
+  onClose: () => void;
+  open: boolean;
+  processClaim: (claimIds: number[], unwrapEth: boolean) => void;
+}) {
+  const schema = z
+    .object({
+      unwrap_weth: z.boolean(),
+    })
+    .strict();
+  type UnwrapFormSchema = z.infer<typeof schema>;
+  const { handleSubmit, control } = useForm<UnwrapFormSchema>({
+    resolver: zodResolver(schema),
+  });
+
+  const { field: unwrapWeth } = useController({
+    name: 'unwrap_weth',
+    control,
+    defaultValue: true,
+  });
+
+  const onSubmit = () => {
+    processClaim(
+      group.map(c => c.id),
+      unwrapWeth.value
+    );
+    onClose();
+  };
+
+  return (
+    <Modal title="Unwrap ETH" open={open} onClose={onClose}>
+      <Form
+        css={{
+          position: 'relative',
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100%',
+          padding: '$sm 0 $lg',
+          overflowY: 'auto',
+        }}
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <CheckBox {...unwrapWeth} label="Unwrap WETH to ETH" />
+        <Button
+          css={{ mt: '$lg', gap: '$xs' }}
+          color="primary"
+          outlined
+          size="large"
+          type="submit"
+          fullWidth
+        >
+          Claim
+        </Button>
+        <Text
+          size="small"
+          css={{ color: '$secondaryText', alignSelf: 'center', mt: '$sm' }}
+        >
+          When this is checked, you will sign two transactions: one to claim,
+          and one to unwrap WETH to ETH.
+        </Text>
+      </Form>
+    </Modal>
   );
 }
