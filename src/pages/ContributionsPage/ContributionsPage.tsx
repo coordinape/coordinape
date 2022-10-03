@@ -50,12 +50,7 @@ const ContributionsPage = () => {
     }
   );
 
-  const {
-    control,
-    formState: { isDirty },
-    reset,
-    resetField,
-  } = useForm({ mode: 'all' });
+  const { control, reset, resetField } = useForm({ mode: 'all' });
 
   const {
     mutate: createContribution,
@@ -107,7 +102,10 @@ const ContributionsPage = () => {
     }
   );
 
-  const { field: descriptionField } = useController({
+  const {
+    field: descriptionField,
+    fieldState: { isDirty },
+  } = useController({
     name: 'description',
     rules: { minLength: 1 },
     control,
