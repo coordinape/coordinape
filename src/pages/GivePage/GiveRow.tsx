@@ -90,7 +90,6 @@ export const GiveRow = ({
           >
             <ContributorButton
               css={{
-                transition: 'visibility 0.1s ease-in',
                 visibility: hover || member.teammate ? 'visible' : 'hidden',
               }}
               member={member}
