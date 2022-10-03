@@ -19,6 +19,11 @@ export const Drawer = ({ open, setOpen, children }: IProps) => {
           fontSize: '$h1',
           fontWeights: '$semibold',
           ml: '$lg',
+          position: 'absolute',
+          top: 0,
+          bottom: 0,
+          zIndex: 2,
+          flexDirection: 'column',
         }}
       >
         Circle Map
@@ -32,10 +37,9 @@ export const Drawer = ({ open, setOpen, children }: IProps) => {
             alignItems: 'center',
             ml: '$lg',
             position: 'absolute',
-            top: 100,
+            top: 130,
             bottom: 0,
             backgroundColor: 'transparent',
-            display: 'flex',
             transition: 'width .4s ease',
             border: 1,
             width: 'calc($xl * 12)',
@@ -51,9 +55,9 @@ export const Drawer = ({ open, setOpen, children }: IProps) => {
           size="large"
           onClick={() => setOpen(!open)}
           css={{
-            zIndex: 1,
+            zIndex: 3,
             position: 'absolute',
-            top: 100,
+            top: 130,
             bottom: 0,
             width: 'fit-content',
             height: 'fit-content',
