@@ -70,23 +70,13 @@ const tokens = {
         });
         console.log(`Sent ${amount} ETH to ${receiver}`);
     };
-
-    const mintWeth = async (
-        receiver, amount
-    ) => {
+    const mintWeth = async (receiver, amount) => {
         await mintEth(receiver, (Number(amount) + 0.1).toString());
         const sender = await (0, unlockSigner_1.unlockSigner)(receiver, hre);
-        const weth = new ethers_1.Contract(
-            tokens.WETH.addr,
-            [
-                'function deposit() public payable',
-            ],
-            sender
-        );
-        await weth.deposit({value: ethers_1.utils.parseEther(amount)});
+        const weth = new ethers_1.ethers.Contract(tokens.WETH.addr, ['function deposit() public payable'], sender);
+        await weth.deposit({ value: ethers_1.ethers.utils.parseEther(amount) });
         console.log(`Sent ${amount} WETH to ${receiver}`);
-    }
-
+    };
     const mintToken = async (symbol, receiver, amount) => {
         const { whale, addr } = tokens[symbol];
         await mintEth(whale, '0.1');

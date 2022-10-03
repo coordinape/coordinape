@@ -4,7 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 var _a, _b;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DAI_YVAULT_ADDRESS = exports.DAI_ADDRESS = exports.USDC_DECIMAL_MULTIPLIER = exports.USDC_YVAULT_ADDRESS = exports.USDC_ADDRESS = exports.USDC_WHALE_ADDRESS = exports.YEARN_REGISTRY_ADDRESS = exports.HARDHAT_OWNER_ADDRESS = exports.ZERO_ADDRESS = exports.FORKED_BLOCK = exports.ETHEREUM_RPC_URL = exports.GANACHE_URL = exports.GANACHE_PORT = exports.GANACHE_NETWORK_NAME = exports.FORK_MAINNET = void 0;
+exports.DAI_YVAULT_ADDRESS = exports.DAI_ADDRESS = exports.USDC_DECIMAL_MULTIPLIER = exports.USDC_YVAULT_ADDRESS = exports.USDC_ADDRESS = exports.USDC_WHALE_ADDRESS = exports.YEARN_REGISTRY_ADDRESS = exports.HARDHAT_OWNER_ADDRESS = exports.FORKED_BLOCK = exports.ETHEREUM_RPC_URL = exports.GANACHE_URL = exports.GANACHE_PORT = exports.GANACHE_NETWORK_NAME = exports.FORK_MAINNET = void 0;
+const constants_1 = require("@ethersproject/constants");
 const dotenv_1 = __importDefault(require("dotenv"));
 const ethers_1 = require("ethers");
 dotenv_1.default.config({ path: '../.env' });
@@ -16,8 +17,7 @@ exports.ETHEREUM_RPC_URL = (_a = process.env.ETHEREUM_RPC_URL) !== null && _a !=
 exports.FORKED_BLOCK = process.env.HARDHAT_FORK_BLOCK
     ? parseInt(process.env.HARDHAT_FORK_BLOCK)
     : undefined;
-exports.ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
-exports.HARDHAT_OWNER_ADDRESS = (_b = process.env.HARDHAT_OWNER_ADDRESS) !== null && _b !== void 0 ? _b : exports.ZERO_ADDRESS;
+exports.HARDHAT_OWNER_ADDRESS = (_b = process.env.HARDHAT_OWNER_ADDRESS) !== null && _b !== void 0 ? _b : constants_1.AddressZero;
 exports.YEARN_REGISTRY_ADDRESS = '0x50c1a2eA0a861A967D9d0FFE2AE4012c2E053804';
 exports.USDC_WHALE_ADDRESS = '0x47ac0Fb4F2D84898e4D9E7b4DaB3C24507a6D503';
 exports.USDC_ADDRESS = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48';

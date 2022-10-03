@@ -26,6 +26,7 @@ import { EConnectorNames, IAuth } from 'types';
 const log = debug('useApiBase');
 
 const clearStateAfterLogout = (set: any) => {
+  // this triggers mutations.logout() via recoil effects
   set(rWalletAuth, { authTokens: {} });
   set(rApiFullCircle, new Map());
   set(rApiManifest, undefined);
@@ -82,6 +83,7 @@ export const useApiBase = () => {
                 fetchManifest(newWalletAuth)
                   .then(res)
                   .catch(() => {
+                    // FIXME don't logout if request timed out
                     // we had a cached token & it's invalid
                     clearStateAfterLogout(set);
                     res(false);
