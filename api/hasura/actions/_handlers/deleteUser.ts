@@ -1,9 +1,9 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { DateTime } from 'luxon';
 
-import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
+import { authUserDeleterMiddleware } from '../../../../api-lib/userDeleter';
 import {
   deleteUserInput,
   composeHasuraActionRequestBody,
@@ -74,4 +74,4 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   });
 }
 
-export default authCircleAdminMiddleware(handler);
+export default authUserDeleterMiddleware(handler);
