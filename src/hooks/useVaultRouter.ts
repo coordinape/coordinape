@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { useWeb3React } from '@web3-react/core';
-import { utils } from 'ethers';
+import { utils, ethers } from 'ethers';
 import { addVaultTx } from 'lib/gql/mutations/vaults';
 import {
   getDisplayTokenString,
@@ -21,7 +21,8 @@ export function useVaultRouter(contracts?: Contracts) {
 
   const deposit = async (
     vault: Vault,
-    humanAmount: string
+    humanAmount: string,
+    usingEth = false
   ): Promise<SendAndTrackTxResult> => {
     if (!contracts) throw new Error('Contracts not loaded');
     const amount = BigNumber.from(
@@ -34,6 +35,26 @@ export function useVaultRouter(contracts?: Contracts) {
       token.symbol(),
       contracts.getMyAddress(),
     ]);
+
+    if (usingEth) {
+      const weth = new ethers.Contract(
+        tokenAddress,
+        ['function deposit() public payable'],
+        contracts.signerOrProvider
+      );
+      const convertWethTxResult = await sendAndTrackTx(
+        () => weth.deposit({ value: amount }),
+        {
+          showError,
+          showInfo,
+          signingMessage: 'Please sign the transaction to wrap your ETH.',
+          description: `Deposit ${humanAmount} ETH`,
+          chainId: contracts.chainId,
+        }
+      );
+
+      if (convertWethTxResult.error) return convertWethTxResult;
+    }
 
     const isSimpleToken = hasSimpleToken(vault);
     const receiverAddress = isSimpleToken

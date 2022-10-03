@@ -16,7 +16,7 @@ import type { Vault } from 'hooks/gql/useVaults';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultRouter } from 'hooks/useVaultRouter';
-import { Box, Button, Form, Link, Modal, Text } from 'ui';
+import { Box, Button, CheckBox, Form, Link, Modal, Text } from 'ui';
 import { numberWithCommas, shortenAddress } from 'utils';
 import { makeWalletConnectConnector } from 'utils/connectors';
 
@@ -59,6 +59,37 @@ export default function DepositModal({
     setIsSecondaryAccountActive(false);
   };
 
+  const schema = z
+    .object({
+      amount: zTokenString('0', max, vault.decimals),
+      use_weth: z.boolean(),
+    })
+    .strict();
+  type DepositFormSchema = z.infer<typeof schema>;
+  const {
+    handleSubmit,
+    control,
+    watch,
+    formState: { errors, isValid },
+  } = useForm<DepositFormSchema>({
+    mode: 'all',
+    resolver: zodResolver(schema),
+  });
+
+  const { field: useWeth } = useController({
+    name: 'use_weth',
+    control,
+    defaultValue: false,
+  });
+
+  const { field: amountField } = useController({
+    name: 'amount',
+    control,
+    defaultValue: '',
+  });
+  const checkUseWeth = watch('use_weth');
+  const symbol = removeYearnPrefix(vault.symbol).toUpperCase();
+  const usingEth = symbol === 'WETH' && !checkUseWeth;
   useEffect(() => {
     if (!selectedContracts) return;
 
@@ -66,35 +97,18 @@ export default function DepositModal({
       const token = selectedContracts.getERC20(getTokenAddress(vault));
       const address = await selectedContracts.getMyAddress();
       if (address) {
-        const balance = await token.balanceOf(address);
+        const balance = usingEth
+          ? await selectedContracts.getETHBalance(address)
+          : await token.balanceOf(address);
         setMax(ethers.utils.formatUnits(balance, vault.decimals));
       }
     })();
-  }, [selectedContracts, isSecondaryAccountActive]);
-
-  const schema = z
-    .object({ amount: zTokenString('0', max, vault.decimals) })
-    .strict();
-  type DepositFormSchema = z.infer<typeof schema>;
-  const {
-    handleSubmit,
-    control,
-    formState: { errors, isValid },
-  } = useForm<DepositFormSchema>({
-    mode: 'all',
-    resolver: zodResolver(schema),
-  });
-  const { field: amountField } = useController({
-    name: 'amount',
-    control,
-    defaultValue: '',
-  });
+  }, [selectedContracts, isSecondaryAccountActive, checkUseWeth]);
 
   const { deposit } = useVaultRouter(selectedContracts);
-
   const onSubmit = () => {
     setSubmitting(true);
-    deposit(vault, amountField.value.toString()).then(({ error }) => {
+    deposit(vault, amountField.value.toString(), usingEth).then(({ error }) => {
       setSubmitting(false);
       if (error) return;
       onDeposit();
@@ -103,11 +117,7 @@ export default function DepositModal({
   };
 
   return (
-    <Modal
-      title={`Deposit ${removeYearnPrefix(vault.symbol).toUpperCase()}`}
-      open={true}
-      onClose={onClose}
-    >
+    <Modal title={`Deposit ${symbol}`} open={true} onClose={onClose}>
       <Form
         css={{
           position: 'relative',
@@ -127,15 +137,16 @@ export default function DepositModal({
 
         <FormTokenField
           max={max}
-          symbol={removeYearnPrefix(vault.symbol)}
+          symbol={usingEth ? 'ETH' : symbol}
           decimals={vault.decimals}
-          label={`Available: ${numberWithCommas(
-            round(max, 4)
-          )} ${removeYearnPrefix(vault.symbol).toUpperCase()}`}
+          label={`Available: ${numberWithCommas(round(max, 4))} ${
+            usingEth ? 'ETH' : symbol
+          }`}
           error={!!errors.amount}
           errorText={errors.amount?.message}
           {...amountField}
         />
+        <CheckBox {...useWeth} label="Use WETH" />
         <Button
           css={{ mt: '$lg', gap: '$xs' }}
           color="primary"
@@ -156,7 +167,9 @@ export default function DepositModal({
           size="small"
           css={{ color: '$secondaryText', alignSelf: 'center', mt: '$sm' }}
         >
-          You will sign two transactions: one for approval and one for deposit.
+          {usingEth
+            ? 'You will send three transactions: one to convert ETH to WETH, one for approval, and one to deposit WETH'
+            : 'You will sign transactions: one for approval and one for deposit.'}
         </Text>
       </Form>
     </Modal>
