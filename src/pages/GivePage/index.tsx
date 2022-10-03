@@ -455,12 +455,10 @@ const AllocateContents = ({
         })
       );
 
-      // also need to patch it up in the membersToIterate list so we have updated collaborator state etc
+      // need to patch up members in the iterate list so we have updated collaborator state etc
       const mtoi = [...membersToIterate];
       for (let i = 0; i < mtoi.length; i++) {
-        if (mtoi[i].id === selectedMember.id) {
-          mtoi[i] = members.find(m => selectedMember.id === m.id) ?? mtoi[i];
-        }
+        mtoi[i] = members.find(m => mtoi[i].id === m.id) ?? mtoi[i];
       }
       setMembersToIterate(mtoi);
     }
