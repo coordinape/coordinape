@@ -136,7 +136,6 @@ const buttons: [
   [paths.history, 'Epoch Overview'],
   [paths.allocation, 'Allocation'],
   [paths.map, 'Map'],
-  [paths.vouching, 'Vouching', (c: QueryCircle) => !c.vouching],
   [paths.members, 'Members'],
   [paths.circleAdmin, 'Admin', (c: QueryCircle) => c.users[0]?.role !== 1],
 ];
