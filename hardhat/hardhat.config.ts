@@ -94,21 +94,17 @@ task('mint', 'Mints the given token to specified account')
         console.log(`Sent ${amount} ETH to ${receiver}`);
       };
 
-      const mintWeth = async(
-        receiver: string, amount: string
-      ) => {
-        await mintEth(receiver, (Number(amount)+ 0.1).toString());
+      const mintWeth = async (receiver: string, amount: string) => {
+        await mintEth(receiver, (Number(amount) + 0.1).toString());
         const sender = await unlockSigner(receiver, hre);
         const weth = new ethers.Contract(
-            tokens.WETH.addr,
-            [
-              'function deposit() public payable',
-            ],
-            sender
+          tokens.WETH.addr,
+          ['function deposit() public payable'],
+          sender
         );
-        await weth.deposit({ value: ethers.utils.parseEther(amount)});
+        await weth.deposit({ value: ethers.utils.parseEther(amount) });
         console.log(`Sent ${amount} WETH to ${receiver}`);
-      }
+      };
 
       const mintToken = async (
         symbol: string,

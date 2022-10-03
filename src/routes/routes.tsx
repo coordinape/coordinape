@@ -14,7 +14,11 @@ import {
 import AddMembersPage from '../pages/AddMembersPage/AddMembersPage';
 import GivePage from '../pages/GivePage';
 import JoinCirclePage from '../pages/JoinCirclePage';
-import { useFixCircleState, useRoleInCircle } from 'hooks/migration';
+import {
+  useCanVouch,
+  useFixCircleState,
+  useRoleInCircle,
+} from 'hooks/migration';
 import AdminCircleApiPage from 'pages/AdminCircleApiPage/AdminCircleApiPage';
 import AdminPage from 'pages/AdminPage';
 import AllocationPage from 'pages/AllocationPage';
@@ -28,6 +32,7 @@ import DevPortalPage from 'pages/DevPortalPage';
 import DistributionsPage from 'pages/DistributionsPage';
 import HistoryPage from 'pages/HistoryPage';
 import IntegrationCallbackPage from 'pages/IntegrationCallbackPage';
+import { NewNominationPage } from 'pages/NewNominationPage/NewNominationPage';
 import ProfilePage from 'pages/ProfilePage';
 import VaultsPage from 'pages/VaultsPage';
 import { VaultTransactions } from 'pages/VaultsPage/VaultTransactions';
@@ -56,6 +61,9 @@ export const AppRoutes = () => {
         <Route path="members" element={<AdminPage />} />
         <Route path="members/add" element={<AdminRouteHandler />}>
           <Route path="" element={<AddMembersPage />} />
+        </Route>
+        <Route path="members/nominate" element={<VouchingRouteHandler />}>
+          <Route path="" element={<NewNominationPage />} />
         </Route>
         <Route path="admin" element={<AdminRouteHandler />}>
           <Route path="" element={<CircleAdminPage />} />
@@ -122,5 +130,14 @@ const AdminRouteHandler = () => {
 
   if (!isUserAdmin({ role }))
     return <Redirect to={paths.home} note="not admin" />;
+  return <Outlet />;
+};
+
+const VouchingRouteHandler = () => {
+  const params = useParams();
+  const circleId = Number(params.circleId);
+  const canVouch = useCanVouch(circleId);
+
+  if (!canVouch) return <Redirect to={paths.home} note="not admin" />;
   return <Outlet />;
 };

@@ -28,7 +28,6 @@ import {
   QUERY_KEY_ACTIVE_NOMINEES,
 } from './getActiveNominees';
 import { MembersTable } from './MembersTable';
-import { NewNominationModal } from './NewNominationModal';
 import { NomineesTable } from './NomineeTable';
 
 import { IUser } from 'types';
@@ -41,7 +40,6 @@ const AdminPage = () => {
     undefined
   );
   const [newCircle, setNewCircle] = useState<boolean>(false);
-  const [isNewNomination, setNewNomination] = useState<boolean>(false);
   const [maxGiftTokens, setMaxGiftTokens] = useState(ethersConstants.Zero);
 
   useEffect(() => {
@@ -243,15 +241,16 @@ const AdminPage = () => {
               </AppLink>
             )}
             {circle?.hasVouching && (
-              <Button
-                size="small"
-                color="primary"
-                outlined
-                disabled={cannotVouch}
-                onClick={() => setNewNomination(true)}
-              >
-                Nominate Member
-              </Button>
+              <AppLink to={paths.membersNominate(selectedCircle.id)}>
+                <Button
+                  size="small"
+                  color="primary"
+                  outlined
+                  disabled={cannotVouch}
+                >
+                  Nominate Member
+                </Button>
+              </AppLink>
             )}
           </Flex>
         )}
@@ -306,16 +305,17 @@ const AdminPage = () => {
               </AppLink>
             )}
             {circle?.hasVouching && (
-              <Button
-                size="small"
-                color="primary"
-                outlined
-                disabled={cannotVouch}
-                onClick={() => setNewNomination(true)}
-                css={{ minWidth: '130px' }}
-              >
-                Nominate Member
-              </Button>
+              <AppLink to={paths.membersNominate(selectedCircle.id)}>
+                <Button
+                  size="small"
+                  color="primary"
+                  outlined
+                  disabled={cannotVouch}
+                  css={{ minWidth: '130px' }}
+                >
+                  Nominate Member
+                </Button>
+              </AppLink>
             )}
           </Flex>
         </Flex>
@@ -395,14 +395,6 @@ const AdminPage = () => {
           </Button>
         </Flex>
       </Modal>
-
-      {isNewNomination && (
-        <NewNominationModal
-          onClose={() => setNewNomination(false)}
-          visible={isNewNomination}
-          refetchNominees={refetch}
-        />
-      )}
     </SingleColumnLayout>
   );
 };

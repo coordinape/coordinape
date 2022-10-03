@@ -45,5 +45,5 @@ test('basic rendering', async () => {
   screen.getByText('Test Org');
   screen.getByText('Test Circle');
   screen.getByText('Circle Admin');
-  screen.getByText('Vouching');
+  screen.getByText('Members');
 });
