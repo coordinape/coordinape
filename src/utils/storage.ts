@@ -16,5 +16,4 @@ export default {
       };
     }
   },
-  clearAuth: () => localStorage.removeItem(STORAGE_AUTH),
 };
