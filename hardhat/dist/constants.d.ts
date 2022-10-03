@@ -5,7 +5,6 @@ export declare const GANACHE_PORT: string | undefined;
 export declare const GANACHE_URL: string;
 export declare const ETHEREUM_RPC_URL: string;
 export declare const FORKED_BLOCK: number | undefined;
-export declare const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 export declare const HARDHAT_OWNER_ADDRESS: string;
 export declare const YEARN_REGISTRY_ADDRESS = "0x50c1a2eA0a861A967D9d0FFE2AE4012c2E053804";
 export declare const USDC_WHALE_ADDRESS = "0x47ac0Fb4F2D84898e4D9E7b4DaB3C24507a6D503";
