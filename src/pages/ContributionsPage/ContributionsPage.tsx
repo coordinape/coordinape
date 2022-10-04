@@ -9,7 +9,13 @@ import { useQuery, useMutation } from 'react-query';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { useSelectedCircle } from '../../recoilState';
 import { LoadingModal, FormInputField } from 'components';
-import { Check, AlertTriangle, Save } from 'icons/__generated';
+import {
+  Check,
+  AlertTriangle,
+  Save,
+  ChevronDown,
+  ChevronUp,
+} from 'icons/__generated';
 import { Panel, Text, Box, Modal, Button, Flex } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -24,9 +30,38 @@ import {
   Contribution,
   Epoch,
 } from './queries';
-import { getCurrentEpoch, getNewContribution, getEpochLabel } from './util';
+import {
+  getCurrentEpoch,
+  getNewContribution,
+  getEpochLabel,
+  createLinkedArray,
+  LinkedElement,
+} from './util';
 
-type CurrentContribution = { contribution: Contribution; epoch?: Epoch };
+const nextPrevCss = {
+  color: '$text',
+  padding: '0',
+  minHeight: '32px',
+  height: '32px',
+  width: '32px',
+  mr: '$sm',
+  borderRadius: '$2',
+  alignItems: 'center',
+  '> svg': {
+    mr: 0,
+  },
+};
+
+type LinkedContributionsAndEpochs = {
+  contributions: Array<LinkedElement<Contribution>>;
+  epochs: Array<LinkedElement<Epoch>>;
+  users: ContributionsAndEpochs['users'];
+};
+
+type CurrentContribution = {
+  contribution: LinkedElement<Contribution>;
+  epoch?: LinkedElement<Epoch>;
+};
 
 const ContributionsPage = () => {
   const address = useConnectedAddress();
@@ -35,7 +70,11 @@ const ContributionsPage = () => {
   const [currentContribution, setCurrentContribution] =
     useState<CurrentContribution | null>(null);
 
-  const { data, refetch: refetchContributions } = useQuery(
+  const {
+    data,
+    refetch: refetchContributions,
+    isFetching,
+  } = useQuery(
     ['contributions', selectedCircle.id],
     () =>
       getContributionsAndEpochs({
@@ -47,10 +86,22 @@ const ContributionsPage = () => {
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       staleTime: Infinity,
+      select: data => {
+        return {
+          ...data,
+          contributions: createLinkedArray(data.contributions),
+          epochs: createLinkedArray(data.epochs),
+        };
+      },
     }
   );
 
-  const { control, reset, resetField } = useForm({ mode: 'all' });
+  const {
+    control,
+    reset,
+    resetField,
+    formState: { isDirty },
+  } = useForm({ mode: 'all' });
 
   const {
     mutate: createContribution,
@@ -64,7 +115,12 @@ const ContributionsPage = () => {
           defaultValue: newContribution.insert_contributions_one.description,
         });
         setCurrentContribution({
-          contribution: newContribution.insert_contributions_one,
+          contribution: {
+            ...newContribution.insert_contributions_one,
+            next: () => data?.contributions[1],
+            prev: () => undefined,
+            idx: 0,
+          },
           epoch: getCurrentEpoch(data?.epochs ?? []),
         });
       }
@@ -78,9 +134,10 @@ const ContributionsPage = () => {
   } = useMutation(updateContributionMutation, {
     mutationKey: ['updateContribution', currentContribution?.contribution.id],
     onSettled: () => {
-      refetchContributions();
+      //refetchContributions();
     },
     onSuccess: updatedContribution => {
+      refetchContributions();
       resetField('description', {
         defaultValue:
           updatedContribution.updateContribution
@@ -102,60 +159,80 @@ const ContributionsPage = () => {
     }
   );
 
-  const {
-    field: descriptionField,
-    fieldState: { isDirty },
-  } = useController({
+  const { field: descriptionField } = useController({
     name: 'description',
-    rules: { minLength: 1 },
     control,
   });
 
   const saveContribution = useMemo(() => {
-    if (!descriptionField.value) return () => {};
-    return () => {
+    return (value: string) => {
       if (!currentContribution) return;
       currentContribution.contribution.id === 0
         ? createContribution({
             user_id: currentUserId,
             circle_id: selectedCircle.id,
-            description: descriptionField.value,
+            description: value,
           })
         : mutateContribution({
             id: currentContribution.contribution.id,
             datetime_created: currentContribution.contribution.datetime_created,
-            description: descriptionField.value,
+            description: value,
           });
     };
-  }, [currentContribution?.contribution.id, descriptionField.value]);
+  }, [currentContribution?.contribution.id]);
 
   // We need to instantiate exactly one debounce function for each newly
   // mounted currentContribution so it can be cancelled. Otherwise,
   // the handle of a live function is lost on re-render and we cannot
   // cancel the call when a bunch of typing is happening
   const handleDebouncedDescriptionChange = useMemo(
-    () => debounce((s: typeof saveContribution) => s(), 1000),
+    () => debounce((s: typeof saveContribution, v: string) => s(v), 1000),
     [currentContribution?.contribution.id]
   );
 
   useEffect(() => {
     handleDebouncedDescriptionChange.cancel();
-    if (isDirty) {
-      handleDebouncedDescriptionChange(saveContribution);
-      resetUpdateMutation();
-      resetCreateMutation();
+    if (isDirty && descriptionField.value.length > 0) {
+      handleDebouncedDescriptionChange(
+        saveContribution,
+        descriptionField.value
+      );
     }
-  }, [descriptionField.value]);
+    resetUpdateMutation();
+    resetCreateMutation();
+  }, [descriptionField.value, currentContribution?.contribution.id]);
 
   const mutationStatus = () =>
     currentContribution?.contribution.id === 0 ? createStatus : updateStatus;
 
+  const memoizedEpochData = useMemo(() => {
+    return data;
+  }, [
+    data?.epochs.length,
+    data?.contributions.length,
+    updateStatus === 'success' && isFetching === false,
+  ]);
+
+  const activeContributionFn = useMemo(
+    () =>
+      (
+        contribution: LinkedElement<Contribution>,
+        epoch?: LinkedElement<Epoch>
+      ) => {
+        setCurrentContribution({ contribution, epoch });
+        resetField('description', {
+          defaultValue: contribution.description,
+        });
+        setModalOpen(true);
+      },
+    []
+  );
   /// Return here if we don't have the data so that the actual page component can be simpler
-  if (!data) {
+  if (!memoizedEpochData) {
     return <LoadingModal visible />;
   }
 
-  const currentUserId: number = data.users[0]?.id;
+  const currentUserId: number = memoizedEpochData.users[0]?.id;
 
   return (
     <>
@@ -173,8 +250,11 @@ const ContributionsPage = () => {
             color="primary"
             onClick={() => {
               setCurrentContribution({
-                contribution: getNewContribution(currentUserId),
-                epoch: getCurrentEpoch(data.epochs),
+                contribution: getNewContribution(
+                  currentUserId,
+                  memoizedEpochData.contributions[0]
+                ),
+                epoch: getCurrentEpoch(memoizedEpochData.epochs),
               });
               resetField('description', { defaultValue: '' });
               resetCreateMutation();
@@ -186,18 +266,10 @@ const ContributionsPage = () => {
         </Flex>
         <Text p>What have you been working on?</Text>
         <EpochGroup
-          {...data}
+          contributions={memoizedEpochData.contributions || []}
+          epochs={memoizedEpochData.epochs || []}
           currentContribution={currentContribution}
-          setActiveContribution={(
-            contribution: Contribution,
-            epoch?: Epoch
-          ) => {
-            setCurrentContribution({ contribution, epoch });
-            resetField('description', {
-              defaultValue: contribution.description,
-            });
-            setModalOpen(true);
-          }}
+          setActiveContribution={activeContributionFn}
         />
       </SingleColumnLayout>
       <Modal
@@ -221,6 +293,63 @@ const ContributionsPage = () => {
         <Panel invertForm css={{ '& textarea': { resize: 'vertical' } }}>
           {currentContribution && (
             <>
+              <Flex>
+                <Button
+                  color="white"
+                  size="large"
+                  css={nextPrevCss}
+                  disabled={
+                    currentContribution.contribution.prev() === undefined
+                  }
+                  onClick={() => {
+                    const prevContribution =
+                      currentContribution.contribution.prev();
+                    if (!prevContribution) return;
+                    const nextEpoch =
+                      currentContribution.epoch?.end_date <
+                      prevContribution?.datetime_created
+                        ? currentContribution.epoch
+                        : currentContribution.epoch?.prev();
+
+                    setCurrentContribution({
+                      contribution: prevContribution,
+                      epoch: nextEpoch,
+                    });
+                    resetField('description', {
+                      defaultValue: prevContribution.description,
+                    });
+                  }}
+                >
+                  <ChevronUp size="lg" />
+                </Button>
+                <Button
+                  color="white"
+                  css={nextPrevCss}
+                  disabled={
+                    currentContribution.contribution.next() === undefined
+                  }
+                  onClick={() => {
+                    const nextContribution =
+                      currentContribution.contribution.next();
+                    if (!nextContribution) return;
+                    const nextEpoch =
+                      currentContribution.epoch?.start_date <
+                      nextContribution?.datetime_created
+                        ? currentContribution.epoch
+                        : currentContribution.epoch?.next();
+
+                    setCurrentContribution({
+                      contribution: nextContribution,
+                      epoch: nextEpoch,
+                    });
+                    resetField('description', {
+                      defaultValue: nextContribution.description,
+                    });
+                  }}
+                >
+                  <ChevronDown size="lg" />
+                </Button>
+              </Flex>
               <Text h2 css={{ gap: '$md', my: '$xl' }}>
                 {currentContribution.epoch
                   ? renderEpochDate(currentContribution.epoch)
@@ -297,7 +426,10 @@ const ContributionsPage = () => {
 };
 
 type SetActiveContributionProps = {
-  setActiveContribution: (c: Contribution, e?: Epoch) => void;
+  setActiveContribution: (
+    c: LinkedElement<Contribution>,
+    e?: LinkedElement<Epoch>
+  ) => void;
   currentContribution: CurrentContribution | null;
 };
 const monthsEqual = (start: string, end: string) =>
@@ -330,7 +462,8 @@ const EpochGroup = ({
   epochs,
   currentContribution,
   setActiveContribution,
-}: ContributionsAndEpochs & SetActiveContributionProps) => {
+}: Omit<LinkedContributionsAndEpochs, 'users'> &
+  SetActiveContributionProps) => {
   const latestEpoch = epochs[0] as Epoch | undefined;
   const activeEpoch = useMemo(() => getCurrentEpoch(epochs), [epochs.length]);
   return (
@@ -386,13 +519,16 @@ const EpochGroup = ({
   );
 };
 
-type ContributionListProps = Pick<ContributionsAndEpochs, 'contributions'>;
+type ContributionListProps = {
+  contributions: Array<LinkedElement<Contribution>>;
+};
 const ContributionList = ({
   epoch,
   contributions,
   setActiveContribution,
   currentContribution,
-}: ContributionListProps & SetActiveContributionProps & { epoch?: Epoch }) => {
+}: ContributionListProps &
+  SetActiveContributionProps & { epoch?: LinkedElement<Epoch> }) => {
   return (
     <>
       {contributions.length ? (
@@ -414,7 +550,7 @@ const ContributionList = ({
                 border: '2px solid $link',
               },
             }}
-            nested={true}
+            nested
             onClick={() => {
               setActiveContribution(c, epoch);
             }}
