@@ -321,7 +321,7 @@ export class GraphQLError extends Error {
   constructor(public response: GraphQLResponse) {
     super('');
     // eslint-disable-next-line no-console
-    console.info(JSON.stringify(response, null, 2));
+    console.info(JSON.stringify(response));
   }
   toString() {
     return 'GraphQL Response Error';
@@ -803,6 +803,14 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     /** An object relationship */
     profile?: ValueTypes['profiles'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['MarkClaimedInput']: {
+    claim_id: number;
+    tx_hash: string;
+  };
+  ['MarkClaimedOutput']: AliasType<{
+    ids?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
@@ -3832,6 +3840,10 @@ columns and relationships of "distributions" */
       ValueTypes['pending_vault_transactions']
     ];
     logoutUser?: ValueTypes['LogoutResponse'];
+    markClaimed?: [
+      { payload: ValueTypes['MarkClaimedInput'] },
+      ValueTypes['MarkClaimedOutput']
+    ];
     restoreCoordinape?: [
       { payload: ValueTypes['CoordinapeInput'] },
       ValueTypes['ConfirmationResponse']
@@ -8238,6 +8250,10 @@ export type ModelTypes = {
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
   };
+  ['MarkClaimedInput']: GraphQLTypes['MarkClaimedInput'];
+  ['MarkClaimedOutput']: {
+    ids: Array<number>;
+  };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: GraphQLTypes['String_comparison_exp'];
   ['UpdateCircleInput']: GraphQLTypes['UpdateCircleInput'];
@@ -9288,6 +9304,7 @@ columns and relationships of "distributions" */
       | GraphQLTypes['pending_vault_transactions']
       | undefined;
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
+    markClaimed?: GraphQLTypes['MarkClaimedOutput'] | undefined;
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
     updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;
@@ -10622,6 +10639,14 @@ export type GraphQLTypes = {
     id?: number | undefined;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
+  };
+  ['MarkClaimedInput']: {
+    claim_id: number;
+    tx_hash: string;
+  };
+  ['MarkClaimedOutput']: {
+    __typename: 'MarkClaimedOutput';
+    ids: Array<number>;
   };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: {
@@ -12971,6 +12996,7 @@ columns and relationships of "distributions" */
       | GraphQLTypes['pending_vault_transactions']
       | undefined;
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
+    markClaimed?: GraphQLTypes['MarkClaimedOutput'] | undefined;
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
     updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;
