@@ -292,6 +292,7 @@ const AllocationContents = ({
             <AllocationEpoch
               getHandleStep={getHandleStep}
               setActiveStep={setActiveStep}
+              teamSelection={teamSelection}
             />
           </>
         )}
