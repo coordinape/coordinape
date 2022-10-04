@@ -191,7 +191,7 @@
     "@web3-react/network-connector": "^6.2.9",
     "assert": "2.0.0",
     "buffer": "6.0.3",
-    "chromatic": "^6.10.1",
+    "chromatic": "6.10.1",
     "crypto-browserify": "3.12.0",
     "cypress": "10.2.0",
     "cypress-dotenv": "2.0.0",
