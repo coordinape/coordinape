@@ -109,7 +109,8 @@ export const updateClaims = async (
   }
 
   let amount = result?.returning.reduce((a, b) => a + b.new_amount, 0);
-  if (!hasSimpleToken({ simple_token_address })) {
+  const simple = hasSimpleToken({ simple_token_address });
+  if (!simple) {
     if (!contracts) {
       const provider = getProvider(chain_id);
       contracts = new Contracts(chain_id, provider, true);
@@ -131,7 +132,7 @@ export const updateClaims = async (
             profile_id: profileId,
             data: {
               vault_id,
-              symbol,
+              symbol: simple ? symbol : `Yearn ${symbol}`,
               tx_hash: txHash,
               circle_id,
               distribution_id,
