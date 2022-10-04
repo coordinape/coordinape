@@ -38,7 +38,98 @@ const mockData: UserContributions = {
   ],
 };
 
-export function useContributionUsers(): UserContributions {
+export function useContributionUsers(timeInput: {
+  start_date: string;
+  end_date: string;
+}): UserContributions {
+  const integrations = useCurrentCircleIntegrations();
+  const responses = useQueries(
+    integrations.data
+      ? integrations.data
+          .filter(
+            integration =>
+              integration.type === 'dework' || integration.type === 'wonder'
+          )
+          .map(integration => ({
+            queryKey: `circle-integration-contributions-${integration.id}-${timeInput.start_date}-${timeInput.end_date}`,
+            queryFn: () => {
+              if (integration.type === 'dework') {
+                return fetch(
+                  `https://api.deworkxyz.com/integrations/coordinape/${
+                    integration.data.organizationId
+                  }?epoch_start=${timeInput.start_date}&epoch_end=${
+                    timeInput.end_date
+                  }&workspace_ids=${encodeURIComponent(
+                    integration.data.workspaceIds?.join(',') || ''
+                  )}`
+                )
+                  .then(res => res.json())
+                  .then(res => res as Response);
+              }
+              if (integration.type === 'wonder') {
+                let url = `https://external-api.wonderapp.co/v1/coordinape/contributions?org_id=${integration.data.organizationId}&epoch_start=${timeInput.start_date}&epoch_end=${timeInput.end_date}`;
+                if (integration.data.podIds) {
+                  for (const podId of integration.data.podIds) {
+                    url += `&pod_ids=${podId}`;
+                  }
+                }
+                return fetch(url)
+                  .then(res => res.json())
+                  .then(res => res as Response);
+              }
+            },
+          }))
+      : []
+  );
+  /**
+   * responses are individual responses from each integration
+   * looping over the responses from various integration stiching together to make a userContributions object that's easier to work eith
+   */
+
+  return useMemo(() => {
+    const combinedContribution: UserContributions = {};
+
+    responses.map(r => {
+      r.data?.users?.map(userContribution => {
+        if (!userContribution.address) return;
+        const address = userContribution.address.toLowerCase();
+        if (address in combinedContribution) {
+          combinedContribution[address] = combinedContribution[address].concat(
+            userContribution.contributions
+          );
+        } else {
+          combinedContribution[address] = userContribution.contributions;
+        }
+      });
+    });
+    return combinedContribution;
+  }, [responses]);
+}
+
+export function useContributions(input: {
+  address: string;
+  start_date: string;
+  end_date: string;
+  mock?: boolean;
+}): Array<Contribution> | undefined {
+  const { address, start_date, end_date, mock } = input;
+  const userToContribution = useContributionUsers({ start_date, end_date });
+  const ret = useMemo(
+    () => (address ? userToContribution[address.toLowerCase()] : undefined),
+    [address, userToContribution]
+  );
+
+  return mock ? mockData[address] : ret;
+}
+
+//////////////////////////////////////////
+//Warning: Below Code Is Deprecated///////
+//////////////////////////////////////////
+
+// Our Semantics are migrating away from epoch-specific lookups
+// We are now dynamically selecting artifacts like contributions
+// via daterange lookups
+export function useDeprecatedContributionUsers(): UserContributions {
   const integrations = useCurrentCircleIntegrations();
   const epoch = useSelectedCircle().circleEpochsStatus.currentEpoch;
   const responses = useQueries(
@@ -104,11 +195,11 @@ export function useContributionUsers(): UserContributions {
   }, [responses]);
 }
 
-export function useContributions(
+export function useDeprecatedContributions(
   address: string,
   mock?: boolean
 ): Array<Contribution> | undefined {
-  const userToContribution = useContributionUsers();
+  const userToContribution = useDeprecatedContributionUsers();
   const ret = useMemo(
     () => (address ? userToContribution[address.toLowerCase()] : undefined),
     [address, userToContribution]
