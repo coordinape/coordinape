@@ -84,11 +84,6 @@ jobs:
 
       - uses: actions/cache@v2
         with:
-          path: '/home/runner/.cache'
-          key: nodeModules-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-
-      - uses: actions/cache@v2
-        with:
           path: '**/node_modules'
           key: nodeModules-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
 
