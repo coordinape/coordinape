@@ -67,12 +67,17 @@ export const getWrappedAmount = async (
 };
 
 export const getUnwrappedAmount = (
-  amount: number,
+  amount: number | string | BigNumber,
   pricePerShare: FixedNumber,
   decimals?: number
 ) => {
-  const figure = Number.isInteger(amount) ? amount.toPrecision(30) : amount;
-  let result = FixedNumber.from(figure.toString()).mulUnsafe(pricePerShare);
+  let figure = amount;
+  if (typeof amount === 'number') {
+    const str = amount.toPrecision(30);
+    const [b, a] = str.split('.');
+    figure = b + '.' + a.substring(0, 18);
+  }
+  let result = FixedNumber.from(figure).mulUnsafe(pricePerShare);
 
   if (decimals)
     result = result.divUnsafe(
