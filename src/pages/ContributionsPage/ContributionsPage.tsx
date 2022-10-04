@@ -475,8 +475,12 @@ const renderEpochDate = (epoch: Epoch) =>
     )}
   `;
 
-const contributionFilterFn = (epoch: Epoch) => (c: Contribution) =>
-  c.datetime_created > epoch.start_date && c.datetime_created < epoch.end_date;
+const contributionFilterFn =
+  ({ start, end }: { start?: string; end: string }) =>
+  (c: Contribution) => {
+    const startDate = start ?? DateTime.fromSeconds(0).toISO();
+    return c.datetime_created > startDate && c.datetime_created < end;
+  };
 
 const EpochGroup = React.memo(function EpochGroup({
   contributions,
@@ -509,7 +513,7 @@ const EpochGroup = React.memo(function EpochGroup({
           </Panel>
         </Box>
       )}
-      {epochs.map(epoch => (
+      {epochs.map((epoch, idx, epochArray) => (
         <Box key={epoch.id}>
           <Box>
             <Text h2 bold css={{ gap: '$md' }}>
@@ -527,7 +531,12 @@ const EpochGroup = React.memo(function EpochGroup({
           </Box>
           <Panel css={{ gap: '$md', borderRadius: '$4', mt: '$lg' }}>
             <ContributionList
-              contributions={contributions.filter(contributionFilterFn(epoch))}
+              contributions={contributions.filter(
+                contributionFilterFn({
+                  start: epochArray[idx + 1]?.end_date,
+                  end: epoch.end_date,
+                })
+              )}
               currentContribution={currentContribution}
               setActiveContribution={setActiveContribution}
               epoch={epoch}
