@@ -228,7 +228,7 @@ export default function ClaimsPage() {
           }}
         >
           {({ claim, group }) => (
-            <ClaimsRowOuter claim={claim} group={group}>
+            <ClaimsRowOuter key={claim.id} claim={claim} group={group}>
               <Link
                 css={{ mr: '$md' }}
                 target="_blank"
