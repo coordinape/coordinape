@@ -110,19 +110,26 @@ const ContributionsPage = () => {
   } = useMutation(createContributionMutation, {
     onSuccess: newContribution => {
       refetchContributions();
-      if (newContribution.insert_contributions_one) {
-        resetField('description', {
-          defaultValue: newContribution.insert_contributions_one.description,
-        });
-        setCurrentContribution({
-          contribution: {
-            ...newContribution.insert_contributions_one,
-            next: () => data?.contributions[1],
-            prev: () => undefined,
-            idx: 0,
-          },
-          epoch: getCurrentEpoch(data?.epochs ?? []),
-        });
+      if (
+        newContribution.insert_contributions_one?.id ===
+        currentContribution?.contribution.id
+      ) {
+        if (newContribution.insert_contributions_one) {
+          resetField('description', {
+            defaultValue: newContribution.insert_contributions_one.description,
+          });
+          setCurrentContribution({
+            contribution: {
+              ...newContribution.insert_contributions_one,
+              next: () => data?.contributions[1],
+              prev: () => undefined,
+              idx: 0,
+            },
+            epoch: getCurrentEpoch(data?.epochs ?? []),
+          });
+        }
+      } else {
+        resetCreateMutation();
       }
     },
   });
@@ -136,13 +143,16 @@ const ContributionsPage = () => {
     onSettled: () => {
       //refetchContributions();
     },
-    onSuccess: updatedContribution => {
+    onSuccess: ({ updateContribution }) => {
       refetchContributions();
-      resetField('description', {
-        defaultValue:
-          updatedContribution.updateContribution
-            ?.updateContribution_Contribution.description,
-      });
+      if (
+        updateContribution?.updateContribution_Contribution.id ===
+        currentContribution?.contribution.id
+      )
+        resetField('description', {
+          defaultValue:
+            updateContribution?.updateContribution_Contribution.description,
+        });
     },
   });
 
@@ -205,6 +215,9 @@ const ContributionsPage = () => {
   const mutationStatus = () =>
     currentContribution?.contribution.id === 0 ? createStatus : updateStatus;
 
+  // prevents page re-renders when typing out a contribution
+  // This seems pretty silly but it's actually a huge optimization
+  // when 30+ contributions are on the page
   const memoizedEpochData = useMemo(() => {
     return data;
   }, [
@@ -305,6 +318,10 @@ const ContributionsPage = () => {
                     const prevContribution =
                       currentContribution.contribution.prev();
                     if (!prevContribution) return;
+                    prevContribution.next = () => ({
+                      ...currentContribution.contribution,
+                      description: descriptionField.value,
+                    });
                     const nextEpoch =
                       currentContribution.epoch?.end_date <
                       prevContribution?.datetime_created
@@ -332,6 +349,10 @@ const ContributionsPage = () => {
                     const nextContribution =
                       currentContribution.contribution.next();
                     if (!nextContribution) return;
+                    nextContribution.prev = () => ({
+                      ...currentContribution.contribution,
+                      description: descriptionField.value,
+                    });
                     const nextEpoch =
                       currentContribution.epoch?.start_date <
                       nextContribution?.datetime_created
@@ -457,13 +478,12 @@ const renderEpochDate = (epoch: Epoch) =>
 const contributionFilterFn = (epoch: Epoch) => (c: Contribution) =>
   c.datetime_created > epoch.start_date && c.datetime_created < epoch.end_date;
 
-const EpochGroup = ({
+const EpochGroup = React.memo(function EpochGroup({
   contributions,
   epochs,
   currentContribution,
   setActiveContribution,
-}: Omit<LinkedContributionsAndEpochs, 'users'> &
-  SetActiveContributionProps) => {
+}: Omit<LinkedContributionsAndEpochs, 'users'> & SetActiveContributionProps) {
   const latestEpoch = epochs[0] as Epoch | undefined;
   const activeEpoch = useMemo(() => getCurrentEpoch(epochs), [epochs.length]);
   return (
@@ -517,7 +537,7 @@ const EpochGroup = ({
       ))}
     </Flex>
   );
-};
+});
 
 type ContributionListProps = {
   contributions: Array<LinkedElement<Contribution>>;

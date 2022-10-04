@@ -7,7 +7,7 @@ export const updateContributionMutation = async (
   client.mutate({
     updateContribution: [
       { payload },
-      { updateContribution_Contribution: { description: true } },
+      { updateContribution_Contribution: { description: true, id: true } },
     ],
   });
 
