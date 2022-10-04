@@ -31,10 +31,7 @@ export const getEpochLabel = (epoch?: Epoch) => {
         Future
       </Text>
     );
-  if (
-    epoch.start_date <= DateTime.now().toISO() &&
-    epoch.end_date > DateTime.now().toISO()
-  )
+  if (isEpochCurrent(epoch))
     return (
       <Text tag color="active">
         Current
@@ -46,6 +43,13 @@ export const getEpochLabel = (epoch?: Epoch) => {
     </Text>
   );
 };
+
+export const isEpochCurrent = (epoch: Epoch) =>
+  epoch.start_date <= DateTime.now().toISO() &&
+  epoch.end_date > DateTime.now().toISO();
+
+export const currentContributionIsModifiable = (epoch?: Epoch) =>
+  !epoch || isEpochCurrent(epoch);
 
 type Obj = Record<string, unknown>;
 

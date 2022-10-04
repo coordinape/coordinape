@@ -36,6 +36,7 @@ import {
   getEpochLabel,
   createLinkedArray,
   LinkedElement,
+  currentContributionIsModifiable,
 } from './util';
 
 const nextPrevCss = {
@@ -382,62 +383,72 @@ const ContributionsPage = () => {
                   ).toFormat('LLL dd')}
                 </Text>
               </Text>
-              <FormInputField
-                id="description"
-                name="description"
-                control={control}
-                defaultValue={currentContribution.contribution.description}
-                areaProps={{ rows: 18 }}
-                textArea
-              />
-              <Flex
-                css={{
-                  justifyContent: 'space-between',
-                  mt: '$lg',
-                  // done so `tab` jumps to the Save Button first
-                  flexDirection: 'row-reverse',
-                }}
-              >
-                <Flex css={{ gap: '$md' }}>
-                  <Text
-                    css={{ gap: '$sm' }}
-                    color={updateStatus === 'error' ? 'alert' : 'neutral'}
-                  >
-                    {mutationStatus() === 'loading' && (
-                      <>
-                        <Save />
-                        Saving...
-                      </>
-                    )}
-                    {(updateStatus === 'success' ||
-                      (createStatus === 'success' &&
-                        updateStatus === 'idle')) && (
-                      <>
-                        <Check /> Changes Saved
-                      </>
-                    )}
-                    {mutationStatus() === 'error' && isDirty && (
-                      <>
-                        <AlertTriangle />
-                        Error
-                      </>
-                    )}
-                  </Text>
-                </Flex>
-                <Button
-                  outlined
-                  color="destructive"
-                  size="medium"
-                  onClick={() => {
-                    handleDebouncedDescriptionChange.cancel();
-                    deleteContribution({
-                      contribution_id: currentContribution.contribution.id,
-                    });
+              {currentContributionIsModifiable(currentContribution.epoch) ? (
+                <FormInputField
+                  id="description"
+                  name="description"
+                  control={control}
+                  defaultValue={currentContribution.contribution.description}
+                  areaProps={{ rows: 18 }}
+                  disabled={
+                    !currentContributionIsModifiable(currentContribution.epoch)
+                  }
+                  textArea
+                />
+              ) : (
+                <Panel nested>
+                  <Text p>{currentContribution.contribution.description}</Text>
+                </Panel>
+              )}
+              {currentContributionIsModifiable(currentContribution.epoch) && (
+                <Flex
+                  css={{
+                    justifyContent: 'space-between',
+                    mt: '$lg',
+                    flexDirection: 'row-reverse',
                   }}
                 >
-                  Delete
-                </Button>
-              </Flex>
+                  <Flex css={{ gap: '$md' }}>
+                    <Text
+                      css={{ gap: '$sm' }}
+                      color={updateStatus === 'error' ? 'alert' : 'neutral'}
+                    >
+                      {mutationStatus() === 'loading' && (
+                        <>
+                          <Save />
+                          Saving...
+                        </>
+                      )}
+                      {(updateStatus === 'success' ||
+                        (createStatus === 'success' &&
+                          updateStatus === 'idle')) && (
+                        <>
+                          <Check /> Changes Saved
+                        </>
+                      )}
+                      {mutationStatus() === 'error' && isDirty && (
+                        <>
+                          <AlertTriangle />
+                          Error
+                        </>
+                      )}
+                    </Text>
+                  </Flex>
+                  <Button
+                    outlined
+                    color="destructive"
+                    size="medium"
+                    onClick={() => {
+                      handleDebouncedDescriptionChange.cancel();
+                      deleteContribution({
+                        contribution_id: currentContribution.contribution.id,
+                      });
+                    }}
+                  >
+                    Delete
+                  </Button>
+                </Flex>
+              )}
             </>
           )}
         </Panel>
