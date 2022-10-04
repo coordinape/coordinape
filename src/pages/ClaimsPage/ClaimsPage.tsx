@@ -186,7 +186,7 @@ export default function ClaimsPage() {
             const isClaiming = claiming[claim.id] === 'pending';
             const isClaimed = claiming[claim.id] === 'claimed';
             return (
-              <ClaimsRowOuter claim={claim} group={group}>
+              <ClaimsRowOuter key={claim.id} claim={claim} group={group}>
                 <Flex css={{ justifyContent: 'end' }}>
                   <Button
                     color="primary"
