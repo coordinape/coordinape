@@ -18,7 +18,7 @@ app.use(express.json()); // for parsing application/json
 
 if (process.env.DEV_LOGGING) {
   // log all requests to STDOUT
-  app.use(morgan('combined'));
+  app.use(morgan('🚀 :method :url :status :response-time ms'));
 }
 
 const port = process.argv[2];
