@@ -162,18 +162,19 @@ export const OverviewMenu = ({
           </Box>
           {orgs?.map(org => (
             <Box key={org.id} css={menuGroupStyle}>
-              <Text variant="label" as="label">
-                <Link
-                  key={org.id}
-                  type="menu"
-                  onClick={() =>
-                    // FIXME: only changes URL but doesn't refresh data load
-                    closeAndGo(paths.organization(org.id.toString()))
+              <Link
+                key={org.id}
+                type="menu"
+                href={paths.organization(org.id.toString())}
+                onClick={e => {
+                  if (!e.metaKey || !e.ctrlKey) {
+                    e.preventDefault();
+                    closeAndGo(paths.organization(org.id.toString()));
                   }
-                >
-                  {org.name}
-                </Link>
-              </Text>
+                }}
+              >
+                <Text variant="label">{org.name}</Text>
+              </Link>
               <Box css={{ display: 'flex', flexDirection: 'column' }}>
                 {sortBy(org.circles, c => c.name)
                   .filter(c => c.users.length)
