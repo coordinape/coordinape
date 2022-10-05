@@ -1,10 +1,11 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { isUserAdmin } from 'lib/users';
 import sortBy from 'lodash/sortBy';
 import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
+import { Transition } from 'react-transition-group';
 import type { CSS } from 'stitches.config';
 
 import { OrgLogoUpload, LoadingModal } from 'components';
@@ -36,6 +37,8 @@ export const CirclesPage = () => {
     }
   );
   const orgs = query.data?.organizations;
+
+  const [showAllCircles, setShowAllCircles] = useState(false);
 
   const goToCircle = (id: number, path: string) => {
     scrollToTop();
@@ -76,7 +79,17 @@ export const CirclesPage = () => {
         as="p"
         css={{ mb: '$lg', width: '50%', '@sm': { width: '100%' } }}
       >
-        All your organizations and circles in one place.
+        All your organizations and circles in one place.{' '}
+        <Text
+          onClick={() => {
+            setShowAllCircles(prev => !prev);
+          }}
+          color="primary"
+          css={{ cursor: 'pointer' }}
+          inline
+        >
+          {!showAllCircles ? 'Show all circles' : 'Show only my circles'}
+        </Text>
       </Text>
       {orgs?.length == 0 && <GetStarted />}
       {orgs?.map(org => (
@@ -111,13 +124,33 @@ export const CirclesPage = () => {
               </AppLink>
             )}
           </Flex>
-          <Box css={{ display: 'flex', flexDirection: 'column', gap: '$xl' }}>
+          <Box
+            css={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '$xl',
+            }}
+          >
             {sortBy(org.circles, c => [-c.users.length, c.name]).map(circle => (
-              <CircleRow
-                circle={circle}
+              <Transition
                 key={circle.id}
-                onButtonClick={goToCircle}
-              />
+                mountOnEnter
+                unmountOnExit
+                timeout={300}
+                in={
+                  showAllCircles ||
+                  circle.users[0]?.role === 0 ||
+                  circle.users[0]?.role === 1
+                }
+              >
+                {state => (
+                  <CircleRow
+                    circle={circle}
+                    onButtonClick={goToCircle}
+                    state={state}
+                  />
+                )}
+              </Transition>
             ))}
           </Box>
         </Box>
@@ -150,6 +183,7 @@ const nonMemberPanelCss: CSS = {
 export type CircleRowProps = {
   circle: QueryCircle;
   onButtonClick: (id: number, path: string) => void;
+  state?: string;
 };
 const GetStarted = () => {
   return (
@@ -201,7 +235,7 @@ const GetStarted = () => {
     </>
   );
 };
-export const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
+export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
   const role = circle.users[0]?.role;
   const nonMember = role === undefined;
   const nonMemberCss = nonMember ? { color: '$borderMedium' } : {};
@@ -227,12 +261,18 @@ export const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
         display: 'flex',
         flexDirection: 'row',
         gap: '$md',
+        border: '1px solid transparent',
         '.hover-buttons': { display: 'none', '@sm': { display: 'flex' } },
         '&:hover': {
           '.hover-buttons': { display: 'flex' },
           '.circle-row-menu-indicator': { display: 'none' },
         },
         ...(nonMember ? nonMemberPanelCss : { cursor: 'pointer' }),
+        transition: 'opacity 300ms ease-in-out',
+        opacity:
+          state === undefined || state === 'entering' || state === 'entered'
+            ? 1
+            : 0,
       }}
       onClick={() =>
         !nonMember && onButtonClick(circle.id, paths.history(circle.id))
