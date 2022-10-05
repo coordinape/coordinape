@@ -5,6 +5,7 @@ import sortBy from 'lodash/sortBy';
 import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
+import { Transition } from 'react-transition-group';
 import type { CSS } from 'stitches.config';
 
 import { OrgLogoUpload, LoadingModal } from 'components';
@@ -128,19 +129,27 @@ export const CirclesPage = () => {
               gap: '$xl',
             }}
           >
-            {sortBy(org.circles, c => [-c.users.length, c.name]).map(circle => {
-              return (
-                (showAllCircles ||
+            {sortBy(org.circles, c => [-c.users.length, c.name]).map(circle => (
+              <Transition
+                key={circle.id}
+                mountOnEnter
+                unmountOnExit
+                timeout={300}
+                in={
+                  showAllCircles ||
                   circle.users[0]?.role === 0 ||
-                  circle.users[0]?.role === 1) && (
+                  circle.users[0]?.role === 1
+                }
+              >
+                {state => (
                   <CircleRow
                     circle={circle}
-                    key={circle.id}
                     onButtonClick={goToCircle}
+                    state={state}
                   />
-                )
-              );
-            })}
+                )}
+              </Transition>
+            ))}
           </Box>
         </Box>
       ))}
@@ -172,6 +181,7 @@ const nonMemberPanelCss: CSS = {
 type CircleRowProps = {
   circle: QueryCircle;
   onButtonClick: (id: number, path: string) => void;
+  state: string;
 };
 const GetStarted = () => {
   return (
@@ -223,7 +233,7 @@ const GetStarted = () => {
     </>
   );
 };
-const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
+const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
   const role = circle.users[0]?.role;
   const nonMember = role === undefined;
   const nonMemberCss = nonMember ? { color: '$borderMedium' } : {};
@@ -255,6 +265,8 @@ const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
           '.circle-row-menu-indicator': { display: 'none' },
         },
         ...(nonMember ? nonMemberPanelCss : { cursor: 'pointer' }),
+        transition: 'opacity 300ms ease-in-out',
+        opacity: state === 'entering' || state === 'entered' ? 1 : 0,
       }}
       onClick={() =>
         !nonMember && onButtonClick(circle.id, paths.history(circle.id))
