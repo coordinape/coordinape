@@ -8,6 +8,23 @@ import { Tooltip as TooltipComponent } from './Tooltip';
 export default {
   title: 'Design System/Components/Tooltip',
   component: TooltipComponent,
+  argTypes: {
+    children: {
+      table: {
+        disable: true,
+      },
+    },
+    css: {
+      table: {
+        disable: true,
+      },
+    },
+    content: {
+      table: {
+        disable: true,
+      },
+    },
+  },
 } as ComponentMeta<typeof TooltipComponent>;
 
 const Template: ComponentStory<typeof TooltipComponent> = () => (
@@ -24,3 +41,6 @@ const Template: ComponentStory<typeof TooltipComponent> = () => (
 );
 
 export const Tooltip = Template.bind({});
+Tooltip.parameters = {
+  controls: { hideNoControlsWarning: true },
+};
