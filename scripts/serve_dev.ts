@@ -1,5 +1,6 @@
 import express from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
+import morgan from 'morgan';
 
 import landing from '../api/circle/landing/[token]';
 import actionManager from '../api/hasura/actions/actionManager';
@@ -14,6 +15,12 @@ import time from '../api/time';
 
 const app = express();
 app.use(express.json()); // for parsing application/json
+
+if (process.env.DEV_LOGGING) {
+  // log all requests to STDOUT
+  app.use(morgan('combined'));
+}
+
 const port = process.argv[2];
 const proxyPort = process.argv[3];
 
