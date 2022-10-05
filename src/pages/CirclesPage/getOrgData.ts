@@ -43,4 +43,4 @@ export const getOrgData = (address: string) =>
       operationName: 'getOrgData',
     }
   );
-export const QUERY_KEY_MY_ORGS = 'myOrgs';
+export const QUERY_KEY_MY_ORGS = 'AllMyOrgs';
