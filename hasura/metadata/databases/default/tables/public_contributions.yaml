@@ -12,16 +12,20 @@ insert_permissions:
   - role: user
     permission:
       check:
-        circle:
-          users:
-            profile:
-              id:
-                _eq: X-Hasura-User-Id
-      set:
-        user_id: x-hasura-User-Id
+        _and:
+          - circle:
+              users:
+                profile:
+                  id:
+                    _eq: X-Hasura-User-Id
+          - user:
+              profile:
+                id:
+                  _eq: X-Hasura-User-Id
       columns:
         - circle_id
         - description
+        - user_id
 select_permissions:
   - role: user
     permission:

@@ -106,7 +106,7 @@ export const Text = styled('span', {
       tag: true,
       color: 'complete',
       css: {
-        backgroundColor: '$success',
+        backgroundColor: '$successLight',
       },
     },
   ],

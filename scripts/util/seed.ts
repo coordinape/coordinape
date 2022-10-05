@@ -224,6 +224,7 @@ export async function makeManyEpochs(orgName: string, epochDates: number[][]) {
       DateTime.now().minus({ days: epochDates[i][1] }),
       i + 1
     );
+    await createContributions(result, circleId);
     await createGifts(result, epochId, 9, 100, false);
   }
 }
@@ -264,7 +265,7 @@ function generateContributions(
 export async function createContributions(
   input: MemberInput,
   circle_id: number,
-  weekIncrement = 1,
+  weekIncrement = 2,
   userSlice = [0, 6]
 ) {
   const users = input.slice(...userSlice);
