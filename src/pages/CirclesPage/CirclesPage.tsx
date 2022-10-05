@@ -147,7 +147,7 @@ const nonMemberPanelCss: CSS = {
   borderColor: '$borderMedium',
 };
 
-type CircleRowProps = {
+export type CircleRowProps = {
   circle: QueryCircle;
   onButtonClick: (id: number, path: string) => void;
 };
@@ -201,7 +201,7 @@ const GetStarted = () => {
     </>
   );
 };
-const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
+export const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
   const role = circle.users[0]?.role;
   const nonMember = role === undefined;
   const nonMemberCss = nonMember ? { color: '$borderMedium' } : {};
