@@ -1,11 +1,11 @@
 import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 
-export const getOrgData = (address: string) =>
+export const getOrgData = (orgId: number, address: string) =>
   client.query(
     {
-      organizations: [
-        {},
+      organizations_by_pk: [
+        { id: orgId },
         {
           id: true,
           name: true,
@@ -43,4 +43,4 @@ export const getOrgData = (address: string) =>
       operationName: 'getOrgData',
     }
   );
-export const QUERY_KEY_MY_ORGS = 'AllMyOrgs';
+export const QUERY_KEY_MY_ORGS = 'myOrg';

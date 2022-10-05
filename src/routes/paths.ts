@@ -81,6 +81,7 @@ export const paths = {
   home: '/',
 
   profile: (address: string) => `/profile/${address}`,
+  organization: (orgId: string) => `/organizations/${orgId}`,
   vaults: '/vaults',
   vaultTxs: (address: string) => `${paths.vaults}/${address}/txs`,
 

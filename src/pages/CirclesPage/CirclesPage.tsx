@@ -89,13 +89,15 @@ export const CirclesPage = () => {
                 isAdmin={isAdmin(org)}
                 name={org.name}
               />
-              <Text
-                h2
-                medium
-                css={{ ml: '$sm', '@sm': { fontSize: '$large' } }}
-              >
-                {org.name}
-              </Text>
+              <AppLink to={paths.organization(org.id)}>
+                <Text
+                  h2
+                  medium
+                  css={{ ml: '$sm', '@sm': { fontSize: '$large' } }}
+                >
+                  {org.name}
+                </Text>
+              </AppLink>
             </Box>
             {isAdmin(org) && (
               <AppLink to={paths.createCircle + '?org=' + org.id}>
@@ -145,7 +147,7 @@ const nonMemberPanelCss: CSS = {
   borderColor: '$borderMedium',
 };
 
-type CircleRowProps = {
+export type CircleRowProps = {
   circle: QueryCircle;
   onButtonClick: (id: number, path: string) => void;
 };
@@ -199,7 +201,7 @@ const GetStarted = () => {
     </>
   );
 };
-const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
+export const CircleRow = ({ circle, onButtonClick }: CircleRowProps) => {
   const role = circle.users[0]?.role;
   const nonMember = role === undefined;
   const nonMemberCss = nonMember ? { color: '$borderMedium' } : {};
