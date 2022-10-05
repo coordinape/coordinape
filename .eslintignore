@@ -1,5 +1,3 @@
 src/serviceWorker.ts
 *.d.ts
 craco.config.js
-
-/storybook-static
