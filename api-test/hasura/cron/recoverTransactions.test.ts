@@ -21,6 +21,7 @@ beforeEach(async () => {
   await mint({ token: 'DAI', amount: '1000' });
 });
 
+// FIXME this test has too many mocks. it's brittle.
 test('mix of invalid & valid txs', async () => {
   const req = {
     headers: { verification_key: process.env.HASURA_EVENT_SECRET },
@@ -109,7 +110,13 @@ test('mix of invalid & valid txs', async () => {
     if (query.distributions_by_pk)
       return Promise.resolve({
         distributions_by_pk: {
-          vault: { id: 5, vault_address: vaultAddress },
+          vault: {
+            id: 5,
+            vault_address: vaultAddress,
+            symbol: 'DAI',
+            simple_token_address: daiAddress,
+            decimals: 18,
+          },
           epoch: { circle_id: circleId },
           tx_hash: undefined,
           total_amount: parseUnits('1500', 18).toString(),
@@ -140,6 +147,22 @@ test('mix of invalid & valid txs', async () => {
 
     if (query.update_claims)
       return Promise.resolve({ update_claims: { affected_rows: 3 } });
+
+    if (query.insert_vault_transactions_one) {
+      const interactionEvent = query.insert_interaction_events_one[0].object;
+      expect(interactionEvent.data).toEqual(
+        expect.objectContaining({
+          amount: 1000,
+          symbol: 'DAI',
+        })
+      );
+      return Promise.resolve({
+        insert_vault_transactions_one: { id: 9 },
+        insert_interaction_events_one: {
+          __typename: 'insert_interaction_events_one',
+        },
+      });
+    }
   });
 
   await handler(req, res);
@@ -158,4 +181,6 @@ test('mix of invalid & valid txs', async () => {
     },
     stackTraces: expect.any(Array),
   });
+
+  expect.assertions(3);
 }, 10000);

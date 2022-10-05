@@ -37,15 +37,9 @@ jobs:
           key: nodeModules-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
 
       - run: yarn --frozen-lockfile
-      - run: ./scripts/link_hardhat.sh
       - run: yarn typecheck
       - run: yarn lint:check
       - run: yarn prettier:check
-
-      # remove symlink to prevent redundant caching
-      - name: Cleanup
-        run: |
-          rm node_modules/@coordinape/hardhat
   test:
     runs-on: ubuntu-latest
     needs: skip_duplicates
@@ -84,11 +78,6 @@ jobs:
 
       - uses: actions/cache@v2
         with:
-          path: '/home/runner/.cache'
-          key: nodeModules-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-
-      - uses: actions/cache@v2
-        with:
           path: '**/node_modules'
           key: nodeModules-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
 
@@ -117,8 +106,3 @@ jobs:
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           chmod +x codecov
           ./codecov
-
-      # remove symlink to prevent redundant caching
-      - name: Cleanup
-        run: |
-          rm node_modules/@coordinape/hardhat

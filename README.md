@@ -15,7 +15,7 @@ Stack: **React**, **Hasura** graphql server & **vercel** serverless functions
 
 - `yarn install`
 - `yarn setup`
-  - init git submodules & link hardhat
+  - init git submodules & hardhat dependencies
 - `cp .env.example .env`
   - Set `HARDHAT_OWNER_ADDRESS` and `LOCAL_SEED_ADDRESS` to your local dev wallet
 - `yarn docker:start` - Start **Hasura** and **postgres**
@@ -95,8 +95,7 @@ These will be applied to the production instance once the PR is merged.
 - Set `ETHEREUM_RPC_URL` in .env
   - From Infura project id: [Infura](https://infura.io) & create new project
   - Needs to have access to archive data
-- `./scripts/setup.sh` - link the react app generated code
-- `./scripts/rebuild-hardhat.sh` - Rebuild the generated code
+- `./scripts/rebuild_hardhat.sh` - Rebuild the generated code
 - `yarn test` - Run tests
   - make sure `HARDHAT_FORK_BLOCK` is set (13500000 is a good value) and `ETHEREUM_RPC_URL` points to an archive node
 
@@ -107,6 +106,3 @@ These will be applied to the production instance once the PR is merged.
 
 - `TypeError: Cannot read properties of undefined (reading 'replace')`
   You need to configure a local `.env` file with some private variables. Ask someone for these.
-
-- `error: no template named 'remove_cv_t' in namespace 'std'; did you mean 'remove_cv'`
-  Probably related to node-sass versions. Node v16 only works with node-sass 6.0.1 or newer. https://github.com/sass/node-sass/issues/3077

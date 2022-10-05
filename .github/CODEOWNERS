@@ -1,11 +1,5 @@
-/docker/    @topocount
-/scripts/   @topocount
-
-/src/       @levity @cryptograffe
-/hardhat/   @levity @topocount
-
-/api/       @zashton @topocount
-/api-lib/   @zashton @topocount
-/hasura/    @zashton @topocount
-
 /cypress/   @topocount
+/docker/    @topocount
+/hardhat/   @levity @topocount
+/hasura/    @zashton @topocount
+/scripts/   @topocount
