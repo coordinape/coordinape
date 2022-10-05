@@ -1,0 +1,9 @@
+{
+  "watch": ["api/", "api-lib/", "scripts/"],
+  "delay": 3000,
+  "execMap": {
+    "ts": "ts-node --swc"
+  },
+  "events": { "start": "yarn typecheck:backend" },
+  "env": { "NODE_ENV": "development" }
+}
