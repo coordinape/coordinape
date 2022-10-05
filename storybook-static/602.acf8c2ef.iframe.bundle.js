@@ -1,1 +1,0 @@
-(self.webpackChunkcoordinape_app=self.webpackChunkcoordinape_app||[]).push([[602],{"?d200":function(){}}]);
