@@ -102,13 +102,15 @@ export const CirclesPage = () => {
                 isAdmin={isAdmin(org)}
                 name={org.name}
               />
-              <Text
-                h2
-                medium
-                css={{ ml: '$sm', '@sm': { fontSize: '$large' } }}
-              >
-                {org.name}
-              </Text>
+              <AppLink to={paths.organization(org.id)}>
+                <Text
+                  h2
+                  medium
+                  css={{ ml: '$sm', '@sm': { fontSize: '$large' } }}
+                >
+                  {org.name}
+                </Text>
+              </AppLink>
             </Box>
             {isAdmin(org) && (
               <AppLink to={paths.createCircle + '?org=' + org.id}>
@@ -178,10 +180,10 @@ const nonMemberPanelCss: CSS = {
   borderColor: '$borderMedium',
 };
 
-type CircleRowProps = {
+export type CircleRowProps = {
   circle: QueryCircle;
   onButtonClick: (id: number, path: string) => void;
-  state: string;
+  state?: string;
 };
 const GetStarted = () => {
   return (
@@ -233,7 +235,7 @@ const GetStarted = () => {
     </>
   );
 };
-const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
+export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
   const role = circle.users[0]?.role;
   const nonMember = role === undefined;
   const nonMemberCss = nonMember ? { color: '$borderMedium' } : {};
@@ -259,6 +261,7 @@ const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
         display: 'flex',
         flexDirection: 'row',
         gap: '$md',
+        border: '1px solid transparent',
         '.hover-buttons': { display: 'none', '@sm': { display: 'flex' } },
         '&:hover': {
           '.hover-buttons': { display: 'flex' },
@@ -266,7 +269,10 @@ const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
         },
         ...(nonMember ? nonMemberPanelCss : { cursor: 'pointer' }),
         transition: 'opacity 300ms ease-in-out',
-        opacity: state === 'entering' || state === 'entered' ? 1 : 0,
+        opacity:
+          state === undefined || state === 'entering' || state === 'entered'
+            ? 1
+            : 0,
       }}
       onClick={() =>
         !nonMember && onButtonClick(circle.id, paths.history(circle.id))
