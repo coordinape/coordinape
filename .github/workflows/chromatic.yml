@@ -9,6 +9,8 @@ jobs:
       - uses: actions/checkout@v1
       - name: Install dependencies
         run: yarn
+        with:
+          node-version: 14.x
       - name: Publish to Chromatic
         uses: chromaui/action@v1
         with:
