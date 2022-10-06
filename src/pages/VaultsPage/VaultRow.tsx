@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { BigNumber } from 'ethers';
+import { BigNumber, FixedNumber } from 'ethers';
 import { vault_tx_types_enum } from 'lib/gql/__generated__/zeus';
 import { removeYearnPrefix } from 'lib/vaults';
 import { CSS } from 'stitches.config';
@@ -24,11 +24,11 @@ export function VaultRow({ vault, css = {} }: { vault: Vault; css?: CSS }) {
   const closeModal = () => setModal('');
   const contracts = useContracts();
   const updateBalance = () =>
-    contracts
-      ?.getVaultBalance(vault)
-      .then(x =>
-        setBalance(x.div(BigNumber.from(10).pow(vault.decimals)).toNumber())
-      );
+    contracts?.getVaultBalance(vault).then(x => {
+      const shifter = FixedNumber.from(BigNumber.from(10).pow(vault.decimals));
+      const humanNumber = FixedNumber.from(x).divUnsafe(shifter);
+      setBalance(humanNumber.toUnsafeFloat());
+    });
 
   useBlockListener(updateBalance, [vault.id]);
   // for UI updates when the user is switching between orgs quickly
