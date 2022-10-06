@@ -76,12 +76,14 @@ jobs:
         with:
           node-version: 14.x
 
-      - uses: actions/cache@v2
+      - name: Cache node_modules
+        uses: actions/cache@v2
         with:
           path: '**/node_modules'
           key: nodeModules-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
 
-      - uses: actions/cache@v2
+      - name: Cache hardhat/node_modules
+        uses: actions/cache@v2
         with:
           path: '**/hardhat/node_modules'
           key: hardhatNodeModules-${{ runner.os }}-${{ hashFiles('**/hardhat/yarn.lock') }}
@@ -93,7 +95,8 @@ jobs:
       - run: cp .ci.env .env # hasura needs a .env file
       - run: yarn test:ci
 
-      - uses: actions/upload-artifact@v3
+      - name: Save Cypress artifacts
+        uses: actions/upload-artifact@v3
         if: failure()
         with:
           name: cy-artifacts
@@ -106,3 +109,9 @@ jobs:
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           chmod +x codecov
           ./codecov
+
+      - name: Save coverage report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage
+          path: ./coverage

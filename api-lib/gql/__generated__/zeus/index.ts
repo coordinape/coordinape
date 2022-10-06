@@ -830,6 +830,14 @@ export type ValueTypes = {
     profile?: ValueTypes['profiles'];
     __typename?: boolean | `@${string}`;
   }>;
+  ['MarkClaimedInput']: {
+    claim_id: number;
+    tx_hash: string;
+  };
+  ['MarkClaimedOutput']: AliasType<{
+    ids?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: {
     _eq?: string | undefined | null;
@@ -7157,6 +7165,10 @@ columns and relationships of "distributions" */
       ValueTypes['vouches']
     ];
     logoutUser?: ValueTypes['LogoutResponse'];
+    markClaimed?: [
+      { payload: ValueTypes['MarkClaimedInput'] },
+      ValueTypes['MarkClaimedOutput']
+    ];
     restoreCoordinape?: [
       { payload: ValueTypes['CoordinapeInput'] },
       ValueTypes['ConfirmationResponse']
@@ -16257,6 +16269,10 @@ export type ModelTypes = {
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
   };
+  ['MarkClaimedInput']: GraphQLTypes['MarkClaimedInput'];
+  ['MarkClaimedOutput']: {
+    ids: Array<number>;
+  };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: GraphQLTypes['String_comparison_exp'];
   ['UpdateCircleInput']: GraphQLTypes['UpdateCircleInput'];
@@ -18961,6 +18977,7 @@ columns and relationships of "distributions" */
     /** insert a single row into the table: "vouches" */
     insert_vouches_one?: GraphQLTypes['vouches'] | undefined;
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
+    markClaimed?: GraphQLTypes['MarkClaimedOutput'] | undefined;
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
     updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;
@@ -22061,6 +22078,14 @@ export type GraphQLTypes = {
     id?: number | undefined;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
+  };
+  ['MarkClaimedInput']: {
+    claim_id: number;
+    tx_hash: string;
+  };
+  ['MarkClaimedOutput']: {
+    __typename: 'MarkClaimedOutput';
+    ids: Array<number>;
   };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: {
@@ -26884,6 +26909,7 @@ columns and relationships of "distributions" */
     /** insert a single row into the table: "vouches" */
     insert_vouches_one?: GraphQLTypes['vouches'] | undefined;
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
+    markClaimed?: GraphQLTypes['MarkClaimedOutput'] | undefined;
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
     updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;

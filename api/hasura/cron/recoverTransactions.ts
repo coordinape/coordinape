@@ -3,6 +3,7 @@ import assert from 'assert';
 import type { TransactionReceipt } from '@ethersproject/abstract-provider';
 import { BigNumber } from '@ethersproject/bignumber';
 import { AddressZero } from '@ethersproject/constants';
+import * as Sentry from '@sentry/node';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import zipObject from 'lodash/zipObject';
 import { DateTime, Settings } from 'luxon';
@@ -82,10 +83,15 @@ const handleTxRecord = async (txRecord: TxRecord) => {
         throw new Error(`unrecognized tx_type: ${tx_type}`);
     }
   } catch (e: any) {
-    // an error here means the tx failed for some reason.
-    // for now, let's keep it around for inspection
-    // TODO: notify Sentry
-    return `error fetching receipt: ${e?.message || e}`;
+    const error = (e?.message || e).toString();
+    await assertOrRemove(
+      !error.match(/transaction failed/),
+      'tx failed',
+      tx_hash
+    );
+
+    Sentry.captureException(e);
+    return `unexpected error: ${error}`;
   }
 };
 
@@ -351,6 +357,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         return await handleTxRecord(tx);
       } catch (err: any) {
         if (err.stack) stackTraces.push(err.stack);
+        Sentry.captureException(err);
         return `error: ${err?.message || err}`;
       }
     })

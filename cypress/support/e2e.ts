@@ -4,6 +4,7 @@
 // ***********************************************************
 
 import './commands';
+import 'dd-trace/ci/cypress/support';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace

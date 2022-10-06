@@ -63,6 +63,10 @@ type Mutation {
 }
 
 type Mutation {
+  markClaimed(payload: MarkClaimedInput!): MarkClaimedOutput
+}
+
+type Mutation {
   restoreCoordinape(payload: CoordinapeInput!): ConfirmationResponse
 }
 
@@ -324,6 +328,11 @@ input UpdateContributionInput {
   datetime_created: timestamptz!
 }
 
+input MarkClaimedInput {
+  claim_id: Int!
+  tx_hash: String!
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -409,6 +418,10 @@ type CircleLandingInfoResponse {
 
 type UpdateContributionResponse {
   id: ID!
+}
+
+type MarkClaimedOutput {
+  ids: [Int!]!
 }
 
 scalar timestamptz

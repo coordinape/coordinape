@@ -25,6 +25,7 @@ import AllocationPage from 'pages/AllocationPage';
 import CircleAdminPage from 'pages/CircleAdminPage';
 import CirclesPage from 'pages/CirclesPage';
 import ClaimsPage from 'pages/ClaimsPage';
+import ContributionsPage from 'pages/ContributionsPage';
 import CreateCirclePage from 'pages/CreateCirclePage';
 import DefaultPage from 'pages/DefaultPage';
 import DevPortalPage from 'pages/DevPortalPage';
@@ -32,6 +33,7 @@ import DistributionsPage from 'pages/DistributionsPage';
 import HistoryPage from 'pages/HistoryPage';
 import IntegrationCallbackPage from 'pages/IntegrationCallbackPage';
 import { NewNominationPage } from 'pages/NewNominationPage/NewNominationPage';
+import OrganizationPage from 'pages/OrganizationPage';
 import ProfilePage from 'pages/ProfilePage';
 import VaultsPage from 'pages/VaultsPage';
 import { VaultTransactions } from 'pages/VaultsPage/VaultTransactions';
@@ -56,6 +58,7 @@ export const AppRoutes = () => {
         <Route path="give" element={allocationPage} />
         <Route path="givebeta" element={<GivePage />} />
         <Route path="map" element={<LazyAssetMapPage />} />
+        <Route path="contributions" element={<ContributionsPage />} />
         <Route path="members" element={<AdminPage />} />
         <Route path="members/add" element={<AdminRouteHandler />}>
           <Route path="" element={<AddMembersPage />} />
@@ -80,6 +83,10 @@ export const AppRoutes = () => {
       <Route path={paths.createCircle} element={<CreateCirclePage />} />
       <Route path={paths.developers} element={<DevPortalPage />} />
       <Route path={paths.home} element={<DefaultPage />} />
+      <Route
+        path={paths.organization(':orgId')}
+        element={<OrganizationPage />}
+      />
       <Route
         path={paths.profile(':profileAddress')}
         element={<ProfilePage />}
