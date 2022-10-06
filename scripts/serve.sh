@@ -21,6 +21,5 @@ until curl -s -o/dev/null http://localhost:$PROXY_PORT; do
   fi
 done
 
-NODE_ENV=development yarn exec nodemon \
-  -- --ignore cypress/ \
-  scripts/serve_dev.ts $PORT $PROXY_PORT
+yarn exec nodemon \
+  -- scripts/serve_dev.ts $PORT $PROXY_PORT
