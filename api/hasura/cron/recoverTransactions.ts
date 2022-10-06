@@ -18,6 +18,7 @@ import { Contracts } from '../../../src/lib/vaults/contracts';
 import { getUnwrappedAmount } from '../../../src/lib/vaults/tokens';
 import { insert } from '../actions/_handlers/createVault';
 import { logVaultTx } from '../actions/_handlers/createVaultTx';
+import { updateClaims } from '../actions/_handlers/markClaimed';
 
 Settings.defaultZone = 'utc';
 
@@ -183,6 +184,7 @@ const handleClaim = async (
     claims_by_pk: [
       { id: claim_id },
       {
+        profile_id: true,
         address: true,
         txHash: true,
         distribution: {
@@ -197,8 +199,9 @@ const handleClaim = async (
   assert(data);
   await assertOrRemove(!data?.txHash, 'tx_hash already set', tx_hash);
   const {
+    profile_id,
     address,
-    distribution: { vault, epoch },
+    distribution: { epoch },
   } = data;
   assert(epoch.circle);
 
@@ -209,32 +212,8 @@ const handleClaim = async (
     tx_hash
   );
 
-  const update = await adminClient.mutate(
-    {
-      update_claims: [
-        {
-          _set: { txHash: tx_hash },
-          where: {
-            address: { _eq: address },
-            id: { _lte: claim_id },
-            txHash: { _is_null: true },
-            distribution: {
-              vault: { vault_address: { _eq: vault.vault_address } },
-              epoch: { circle: { id: { _eq: epoch.circle.id } } },
-            },
-          },
-        },
-        { affected_rows: true },
-      ],
-      delete_pending_vault_transactions_by_pk: [
-        { tx_hash },
-        { __typename: true },
-      ],
-    },
-    { operationName: 'recoverClaim' }
-  );
-
-  return `updated ${update.update_claims?.affected_rows} claims`;
+  const update = await updateClaims(profile_id, claim_id, tx_hash);
+  return `updated claims: [${update?.join(', ')}]`;
 };
 
 const handleDistribution = async (
