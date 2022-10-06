@@ -17,6 +17,7 @@ import type {
   ERC20,
 } from '@coordinape/hardhat/dist/typechain';
 import type { Signer } from '@ethersproject/abstract-signer';
+import { AddressZero } from '@ethersproject/constants';
 import type { JsonRpcProvider } from '@ethersproject/providers';
 import debug from 'debug';
 import { BigNumber, FixedNumber } from 'ethers';
@@ -136,7 +137,7 @@ export class Contracts {
     return Object.values(Asset).filter(s => !!this.getTokenAddress(s));
   }
 
-  getTokenAddress(symbol: string) {
+  getTokenAddress(symbol: string): string {
     const info = (deploymentInfo as any)[this.chainId];
     let { address } = info[symbol] || {};
 
@@ -149,12 +150,11 @@ export class Contracts {
       ].includes(this.chainId)
     ) {
       address = (deploymentInfo as any)[1][symbol]?.address;
-      if (!address) return undefined;
       log(
         `No info for token "${symbol}" on chain ${this.chainId}; using mainnet address`
       );
     }
-
+    assert(address);
     return address;
   }
 
@@ -181,5 +181,18 @@ export class Contracts {
       'address argument is required when signer is not available'
     );
     return this.provider.getBalance(address, 'latest');
+  }
+
+  async createVault(symbol: string, yearn?: boolean) {
+    const tokenAddress = this.getTokenAddress(symbol);
+    assert(tokenAddress);
+    const args: [string, string] = yearn
+      ? [tokenAddress, AddressZero]
+      : [AddressZero, tokenAddress];
+    const tx = await this.vaultFactory.createCoVault(...args);
+    const receipt = await tx.wait();
+    const address = receipt.events?.find(e => e.event === 'VaultCreated')?.args
+      ?.vault;
+    return { tx, receipt, address };
   }
 }
