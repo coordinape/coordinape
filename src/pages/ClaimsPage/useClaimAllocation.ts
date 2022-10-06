@@ -93,11 +93,6 @@ export function useClaimAllocation() {
 
       showInfo('Saving record of claim...');
 
-      await markSaved({
-        claimIds,
-        txHash,
-      });
-
       if (unwrapEth) {
         const tokenAddress = isSimpleToken
           ? vault.simple_token_address
