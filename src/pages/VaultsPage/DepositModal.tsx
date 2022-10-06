@@ -146,7 +146,7 @@ export default function DepositModal({
           errorText={errors.amount?.message}
           {...amountField}
         />
-        <CheckBox {...useWeth} label="Use WETH" />
+        {symbol === 'WETH' && <CheckBox {...useWeth} label="Use WETH" />}
         <Button
           css={{ mt: '$lg', gap: '$xs' }}
           color="primary"
