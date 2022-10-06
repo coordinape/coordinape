@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react';
 
-import { formatUnits } from '@ethersproject/units';
-import { decodeCircleId, getDisplayTokenString } from 'lib/vaults';
+import { TypedEventFilter } from '@coordinape/hardhat/dist/typechain/commons';
+import { BigNumber } from 'ethers';
+import { formatUnits } from 'ethers/lib/utils';
+import {
+  decodeCircleId,
+  getDisplayTokenString,
+  hasSimpleToken,
+} from 'lib/vaults';
 import { Contracts } from 'lib/vaults/contracts';
 import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
@@ -119,29 +125,41 @@ async function getDepositEvents(
   }: VaultAndTransactions
 ): Promise<RawTransaction[]> {
   if (!(token_address || simple_token_address)) return [];
-  const token = token_address || (simple_token_address as string);
-  const depositFilter = contracts.router.filters.DepositInVault(vault_address);
-  const depositEvents = await contracts.router.queryFilter(
+  const isSimpleToken = hasSimpleToken({ simple_token_address });
+  const token = isSimpleToken
+    ? (simple_token_address as string)
+    : token_address;
+  const erc20Contract = contracts.getERC20(token);
+  const depositFilter = isSimpleToken
+    ? erc20Contract.filters.Transfer(null, vault_address)
+    : contracts.router.filters.DepositInVault(vault_address);
+  const eventsContract = isSimpleToken ? erc20Contract : contracts.router;
+  const depositEvents = await eventsContract.queryFilter(
     depositFilter,
     deployment_block
   );
-  const erc20Contract = contracts.getERC20(token);
+
   const tokenFilter = erc20Contract.filters.Transfer(
     null,
     contracts.router.address
   );
-
   const deposits: RawTransaction[] = [];
   for (const event of depositEvents) {
-    const tokenTransferEvents = await erc20Contract.queryFilter(
-      tokenFilter,
-      event.blockNumber,
-      event.blockNumber
-    );
-    const transferEvent = tokenTransferEvents.find(
-      e => e.transactionHash === event.transactionHash
-    );
-    if (!transferEvent) continue;
+    let transferEvent;
+    if (!isSimpleToken) {
+      const tokenTransferEvents = await erc20Contract.queryFilter(
+        tokenFilter,
+        event.blockNumber,
+        event.blockNumber
+      );
+      transferEvent = tokenTransferEvents.find(
+        e => e.transactionHash === event.transactionHash
+      );
+      if (!transferEvent) continue;
+    } else {
+      transferEvent = event;
+    }
+
     const block = await event.getBlock();
     // might want to convert the tx list to a Record store keyed on txHashes
     // before lookups
@@ -191,16 +209,25 @@ async function getWithdrawEvents(
   }: VaultAndTransactions
 ): Promise<RawTransaction[]> {
   if (!(token_address || simple_token_address)) return [];
-  const token = token_address || (simple_token_address as string);
-  const withdrawFilter = contracts.router.filters.WithdrawFromVault();
-  const allWithdrawEvents = await contracts.router.queryFilter(
+  const isSimpleToken = hasSimpleToken({ simple_token_address });
+  const token = isSimpleToken
+    ? (simple_token_address as string)
+    : token_address;
+  const erc20Contract = contracts.getERC20(token);
+  const withdrawFilter: TypedEventFilter<
+    [string, string, BigNumber],
+    { vault: string; token: string; amount: BigNumber }
+  > = isSimpleToken
+    ? erc20Contract.filters.Transfer(vault_address)
+    : contracts.router.filters.WithdrawFromVault();
+  const eventsContract = isSimpleToken ? erc20Contract : contracts.router;
+  const allWithdrawEvents = await eventsContract.queryFilter(
     withdrawFilter,
     deployment_block
   );
   const eventTxInfo = await Promise.all(
     allWithdrawEvents.map(e => e.getTransactionReceipt())
   );
-  const erc20Contract = contracts.getERC20(token);
   const withdrawEvents = allWithdrawEvents.filter(
     (_, idx) => eventTxInfo[idx].to.toLowerCase() === vault_address
   );
