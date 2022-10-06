@@ -77,12 +77,8 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
       // wrong network ID
       // https://github.com/NoahZinsmeister/web3-react/issues/257#issuecomment-904070725
       const ethereum = (window as any).ethereum;
-      try {
-        if (ethereum.isMetaMask)
-          await ethereum?.removeAllListeners(['networkChanged']);
-      } catch (e: unknown) {
-        console.error(e);
-      }
+      if (ethereum?.isMetaMask)
+        await ethereum?.removeAllListeners(['networkChanged']);
     } catch (error: any) {
       if (error.message.match(/Unsupported chain id/)) {
         showInfo('Switch to mainnet to continue.');
@@ -94,7 +90,6 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
         // do nothing
       } else {
         showError(error);
-        console.error(error);
         web3Context.deactivate();
       }
     }

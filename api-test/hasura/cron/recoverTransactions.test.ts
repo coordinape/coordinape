@@ -129,13 +129,36 @@ test('mix of invalid & valid txs', async () => {
     if (query.claims_by_pk)
       return Promise.resolve({
         claims_by_pk: {
+          profile_id: 11,
           address: userAddress,
+          txHash: undefined,
           distribution: {
             vault: { vault_address: '0xvault' },
             epoch: { circle: { id: circleId } },
           },
         },
       });
+
+    if (query.claims) {
+      return Promise.resolve({
+        claims: [
+          {
+            distribution: {
+              id: 7,
+              vault_id: 5,
+              vault: {
+                symbol: 'DAI',
+                chain_id: 1,
+                decimals: 18,
+                vault_address: vaultAddress,
+                simple_token_address: daiAddress,
+              },
+              epoch: { circle_id: circleId },
+            },
+          },
+        ],
+      });
+    }
   });
 
   (adminClient.mutate as jest.Mock).mockImplementation((query: any) => {
@@ -146,7 +169,11 @@ test('mix of invalid & valid txs', async () => {
       return Promise.resolve({ update_distributions_by_pk: { id: 7 } });
 
     if (query.update_claims)
-      return Promise.resolve({ update_claims: { affected_rows: 3 } });
+      return Promise.resolve({
+        update_claims: {
+          returning: [{ id: 10, new_amount: 1 }],
+        },
+      });
 
     if (query.insert_vault_transactions_one) {
       const interactionEvent = query.insert_interaction_events_one[0].object;
@@ -177,7 +204,7 @@ test('mix of invalid & valid txs', async () => {
       [hash1]: 'error: no tx found',
       [createVaultTx.hash]: 'added vault id 5',
       [distributeTx.hash]: 'updated distribution id 7',
-      [claimTx.hash]: 'updated 3 claims',
+      [claimTx.hash]: 'updated claims: [10]',
     },
     stackTraces: expect.any(Array),
   });
