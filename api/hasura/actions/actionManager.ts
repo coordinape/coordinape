@@ -19,6 +19,7 @@ import deleteEpoch from './_handlers/deleteEpoch';
 import deleteUser from './_handlers/deleteUser';
 import generateApiKey from './_handlers/generateApiKey';
 import logoutUser from './_handlers/logoutUser';
+import markClaimed from './_handlers/markClaimed';
 import restoreCoordinape from './_handlers/restoreCoordinape';
 import updateAllocations from './_handlers/updateAllocations';
 import updateCircle from './_handlers/updateCircle';
@@ -50,6 +51,7 @@ const HANDLERS: HandlerDict = {
   deleteUser,
   generateApiKey,
   logoutUser,
+  markClaimed,
   restoreCoordinape,
   updateAllocations,
   updateCircle,

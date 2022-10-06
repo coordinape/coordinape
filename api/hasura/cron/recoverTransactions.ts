@@ -3,6 +3,7 @@ import assert from 'assert';
 import type { TransactionReceipt } from '@ethersproject/abstract-provider';
 import { BigNumber } from '@ethersproject/bignumber';
 import { AddressZero } from '@ethersproject/constants';
+import * as Sentry from '@sentry/node';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import zipObject from 'lodash/zipObject';
 import { DateTime, Settings } from 'luxon';
@@ -17,6 +18,7 @@ import { Contracts } from '../../../src/lib/vaults/contracts';
 import { getUnwrappedAmount } from '../../../src/lib/vaults/tokens';
 import { insert } from '../actions/_handlers/createVault';
 import { logVaultTx } from '../actions/_handlers/createVaultTx';
+import { updateClaims } from '../actions/_handlers/markClaimed';
 
 Settings.defaultZone = 'utc';
 
@@ -82,10 +84,15 @@ const handleTxRecord = async (txRecord: TxRecord) => {
         throw new Error(`unrecognized tx_type: ${tx_type}`);
     }
   } catch (e: any) {
-    // an error here means the tx failed for some reason.
-    // for now, let's keep it around for inspection
-    // TODO: notify Sentry
-    return `error fetching receipt: ${e?.message || e}`;
+    const error = (e?.message || e).toString();
+    await assertOrRemove(
+      !error.match(/transaction failed/),
+      'tx failed',
+      tx_hash
+    );
+
+    Sentry.captureException(e);
+    return `unexpected error: ${error}`;
   }
 };
 
@@ -177,6 +184,7 @@ const handleClaim = async (
     claims_by_pk: [
       { id: claim_id },
       {
+        profile_id: true,
         address: true,
         txHash: true,
         distribution: {
@@ -191,8 +199,9 @@ const handleClaim = async (
   assert(data);
   await assertOrRemove(!data?.txHash, 'tx_hash already set', tx_hash);
   const {
+    profile_id,
     address,
-    distribution: { vault, epoch },
+    distribution: { epoch },
   } = data;
   assert(epoch.circle);
 
@@ -203,32 +212,8 @@ const handleClaim = async (
     tx_hash
   );
 
-  const update = await adminClient.mutate(
-    {
-      update_claims: [
-        {
-          _set: { txHash: tx_hash },
-          where: {
-            address: { _eq: address },
-            id: { _lte: claim_id },
-            txHash: { _is_null: true },
-            distribution: {
-              vault: { vault_address: { _eq: vault.vault_address } },
-              epoch: { circle: { id: { _eq: epoch.circle.id } } },
-            },
-          },
-        },
-        { affected_rows: true },
-      ],
-      delete_pending_vault_transactions_by_pk: [
-        { tx_hash },
-        { __typename: true },
-      ],
-    },
-    { operationName: 'recoverClaim' }
-  );
-
-  return `updated ${update.update_claims?.affected_rows} claims`;
+  const update = await updateClaims(profile_id, claim_id, tx_hash);
+  return `updated claims: [${update?.join(', ')}]`;
 };
 
 const handleDistribution = async (
@@ -351,6 +336,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         return await handleTxRecord(tx);
       } catch (err: any) {
         if (err.stack) stackTraces.push(err.stack);
+        Sentry.captureException(err);
         return `error: ${err?.message || err}`;
       }
     })
