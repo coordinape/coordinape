@@ -34,6 +34,7 @@ export const AllTypesProps: Record<string, any> = {
   GenerateApiKeyInput: {},
   Int_comparison_exp: {},
   LogVaultTxInput: {},
+  MarkClaimedInput: {},
   String_comparison_exp: {},
   UpdateCircleInput: {},
   UpdateContributionInput: {
@@ -1507,6 +1508,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     insert_pending_vault_transactions_one: {
       object: 'pending_vault_transactions_insert_input',
+    },
+    markClaimed: {
+      payload: 'MarkClaimedInput',
     },
     restoreCoordinape: {
       payload: 'CoordinapeInput',
@@ -3421,6 +3425,9 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Int',
     profile: 'profiles',
   },
+  MarkClaimedOutput: {
+    ids: 'Int',
+  },
   UpdateCircleOutput: {
     circle: 'circles',
     id: 'Int',
@@ -3996,6 +4003,7 @@ export const ReturnTypes: Record<string, any> = {
       'pending_vault_transactions_mutation_response',
     insert_pending_vault_transactions_one: 'pending_vault_transactions',
     logoutUser: 'LogoutResponse',
+    markClaimed: 'MarkClaimedOutput',
     restoreCoordinape: 'ConfirmationResponse',
     updateAllocations: 'AllocationsResponse',
     updateCircle: 'UpdateCircleOutput',
