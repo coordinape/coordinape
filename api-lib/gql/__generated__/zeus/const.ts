@@ -39,6 +39,7 @@ export const AllTypesProps: Record<string, any> = {
   GenerateApiKeyInput: {},
   Int_comparison_exp: {},
   LogVaultTxInput: {},
+  MarkClaimedInput: {},
   String_comparison_exp: {},
   UpdateCircleInput: {},
   UpdateContributionInput: {
@@ -287,6 +288,7 @@ export const AllTypesProps: Record<string, any> = {
     hash: 'String_comparison_exp',
     name: 'String_comparison_exp',
     read_circle: 'Boolean_comparison_exp',
+    read_discord: 'Boolean_comparison_exp',
     read_epochs: 'Boolean_comparison_exp',
     read_member_profiles: 'Boolean_comparison_exp',
     read_nominees: 'Boolean_comparison_exp',
@@ -335,6 +337,7 @@ export const AllTypesProps: Record<string, any> = {
     hash: 'order_by',
     name: 'order_by',
     read_circle: 'order_by',
+    read_discord: 'order_by',
     read_epochs: 'order_by',
     read_member_profiles: 'order_by',
     read_nominees: 'order_by',
@@ -2541,6 +2544,9 @@ export const AllTypesProps: Record<string, any> = {
     insert_vouches_one: {
       object: 'vouches_insert_input',
       on_conflict: 'vouches_on_conflict',
+    },
+    markClaimed: {
+      payload: 'MarkClaimedInput',
     },
     restoreCoordinape: {
       payload: 'CoordinapeInput',
@@ -5686,6 +5692,9 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Int',
     profile: 'profiles',
   },
+  MarkClaimedOutput: {
+    ids: 'Int',
+  },
   UpdateCircleOutput: {
     circle: 'circles',
     id: 'Int',
@@ -5861,6 +5870,7 @@ export const ReturnTypes: Record<string, any> = {
     hash: 'String',
     name: 'String',
     read_circle: 'Boolean',
+    read_discord: 'Boolean',
     read_epochs: 'Boolean',
     read_member_profiles: 'Boolean',
     read_nominees: 'Boolean',
@@ -7330,6 +7340,7 @@ export const ReturnTypes: Record<string, any> = {
     insert_vouches: 'vouches_mutation_response',
     insert_vouches_one: 'vouches',
     logoutUser: 'LogoutResponse',
+    markClaimed: 'MarkClaimedOutput',
     restoreCoordinape: 'ConfirmationResponse',
     updateAllocations: 'AllocationsResponse',
     updateCircle: 'UpdateCircleOutput',

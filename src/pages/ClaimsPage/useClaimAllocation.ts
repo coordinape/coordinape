@@ -2,6 +2,7 @@ import assert from 'assert';
 
 import { BigNumber, BytesLike, ethers } from 'ethers';
 import { vault_tx_types_enum } from 'lib/gql/__generated__/zeus';
+import { client } from 'lib/gql/client';
 import { savePendingVaultTx } from 'lib/gql/mutations/vaults';
 import { encodeCircleId, hasSimpleToken } from 'lib/vaults';
 import max from 'lodash/max';
@@ -9,7 +10,6 @@ import max from 'lodash/max';
 import { useApeSnackbar, useContracts } from 'hooks';
 import { sendAndTrackTx } from 'utils/contractHelpers';
 
-import { useMarkClaimTaken } from './mutations';
 import type { QueryClaim } from './queries';
 
 export type ClaimAllocationProps = {
@@ -24,7 +24,6 @@ export type ClaimAllocationProps = {
 
 export function useClaimAllocation() {
   const contracts = useContracts();
-  const { mutateAsync: markSaved } = useMarkClaimTaken();
   const { showError, showInfo } = useApeSnackbar();
 
   return async ({
@@ -93,6 +92,7 @@ export function useClaimAllocation() {
       assert(txHash, "Claimed event didn't return a transaction hash");
 
       showInfo('Saving record of claim...');
+
       await markSaved({
         claimIds,
         txHash,
@@ -117,6 +117,7 @@ export function useClaimAllocation() {
         });
       }
 
+      await markClaimed({ claim_id: Math.max(...claimIds), tx_hash: txHash });
       showInfo('Claim succeeded');
 
       return txHash;
@@ -126,3 +127,9 @@ export function useClaimAllocation() {
     }
   };
 }
+
+const markClaimed = (payload: { claim_id: number; tx_hash: string }) =>
+  client.mutate(
+    { markClaimed: [{ payload }, { ids: true }] },
+    { operationName: 'markClaimed' }
+  );
