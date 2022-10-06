@@ -12,7 +12,10 @@ import { useCircleOrg } from 'hooks/gql/useCircleOrg';
 import { useVaults } from 'hooks/gql/useVaults';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { Search } from 'icons/__generated';
-import { getCircleSettings } from 'pages/CircleAdminPage/getCircleSettings';
+import {
+  getCircleSettings,
+  QUERY_KEY_CIRCLE_SETTINGS,
+} from 'pages/CircleAdminPage/getCircleSettings';
 import {
   getFixedPayment,
   QUERY_KEY_FIXED_PAYMENT,
@@ -57,7 +60,7 @@ const AdminPage = () => {
   } = useSelectedCircle();
 
   const { data: circle } = useQuery(
-    ['circleSettings', circleId],
+    [QUERY_KEY_CIRCLE_SETTINGS, circleId],
     () => getCircleSettings(circleId),
     {
       initialData: selectedCircle,

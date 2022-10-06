@@ -108,9 +108,11 @@ const useStyles = makeStyles(theme => ({
 const AllocationEpoch = ({
   setActiveStep,
   getHandleStep,
+  teamSelection,
 }: {
   setActiveStep: (step: number) => void;
   getHandleStep: (step: IAllocationStep) => () => void;
+  teamSelection?: boolean;
 }) => {
   const classes = useStyles();
   const navigate = useNavigate();
@@ -152,10 +154,8 @@ const AllocationEpoch = ({
         epoch_first_visit: false,
       });
 
-      if (!(!selectedCircle.team_selection && !epochIsActive)) {
-        const _nextStep = !selectedCircle.team_selection
-          ? STEP_ALLOCATION
-          : STEP_MY_TEAM;
+      if (!(!teamSelection && !epochIsActive)) {
+        const _nextStep = !teamSelection ? STEP_ALLOCATION : STEP_MY_TEAM;
         setActiveStep(_nextStep.key);
         navigate(_nextStep.pathFn(circleId));
       }
@@ -176,7 +176,7 @@ const AllocationEpoch = ({
           </span>
           <ApeInfoTooltip>
             An Epoch is a period of time where circle members contribute value &
-            allocate {selectedCircle.tokenName} tokens to one another.{' '}
+            allocate {selectedCircle?.tokenName} tokens to one another.{' '}
             <a
               rel="noreferrer"
               target="_blank"
@@ -282,9 +282,9 @@ const AllocationEpoch = ({
           <Button
             size="large"
             color="primary"
-            disabled={!selectedCircle.team_selection && !epochIsActive}
+            disabled={!teamSelection && !epochIsActive}
             onClick={getHandleStep(
-              !selectedCircle.team_selection ? STEP_ALLOCATION : STEP_MY_TEAM
+              !teamSelection ? STEP_ALLOCATION : STEP_MY_TEAM
             )}
           >
             Continue With Current Settings

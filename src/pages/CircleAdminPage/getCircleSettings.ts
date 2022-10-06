@@ -63,3 +63,4 @@ export const getCircleSettings = async (circleId: number) => {
 export type CircleSettingsResult = Awaited<
   ReturnType<typeof getCircleSettings>
 >;
+export const QUERY_KEY_CIRCLE_SETTINGS = 'circleSettings';

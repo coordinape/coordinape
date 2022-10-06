@@ -3,7 +3,10 @@ import { useMemo } from 'react';
 
 import { useQuery } from 'react-query';
 
-import { getCircleSettings } from 'pages/CircleAdminPage/getCircleSettings';
+import {
+  getCircleSettings,
+  QUERY_KEY_CIRCLE_SETTINGS,
+} from 'pages/CircleAdminPage/getCircleSettings';
 import { useSelectedCircle } from 'recoilState/app';
 import { paths } from 'routes/paths';
 
@@ -14,7 +17,7 @@ export const CircleNav = () => {
   const { myUser, circleId, circle: initialData } = useSelectedCircle();
 
   const { data: circle } = useQuery(
-    ['circleSettings', circleId],
+    [QUERY_KEY_CIRCLE_SETTINGS, circleId],
     () => getCircleSettings(circleId),
     {
       initialData,
