@@ -38,6 +38,7 @@ type AllocationStepperProps = {
   activeStep: number;
   allSteps: IAllocationStep[];
   completedSteps: Set<IAllocationStep> | undefined;
+  teamSelection?: boolean;
 };
 
 export const AllocationStepper = ({
@@ -45,6 +46,7 @@ export const AllocationStepper = ({
   activeStep,
   allSteps,
   completedSteps,
+  teamSelection,
 }: AllocationStepperProps) => {
   const classes = useStyles();
   const {
@@ -81,7 +83,7 @@ export const AllocationStepper = ({
               }
               disabled={
                 (step === STEP_ALLOCATION && !epochIsActive) ||
-                (!selectedCircle.team_selection && step === STEP_MY_TEAM)
+                (!teamSelection && step === STEP_MY_TEAM)
               }
             >
               {step.buildLabel(selectedCircle)}

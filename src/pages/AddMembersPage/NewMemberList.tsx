@@ -12,6 +12,7 @@ import { zEthAddress, zUsername } from '../../forms/formHelpers';
 import { useApeSnackbar, useApiBase } from '../../hooks';
 import { Box, Button, Flex, Panel, Text } from '../../ui';
 import { Check } from 'icons/__generated';
+import { QUERY_KEY_CIRCLE_SETTINGS } from 'pages/CircleAdminPage/getCircleSettings';
 
 import NewMemberEntry from './NewMemberEntry';
 import NewMemberGridBox from './NewMemberGridBox';
@@ -132,7 +133,10 @@ const NewMemberList = ({
       setDefaultMembers([]);
       reset({ newMembers: [emptyMember, emptyMember] });
       successRef.current?.scrollIntoView();
-      await queryClient.invalidateQueries(['circleSettings', circleId]);
+      await queryClient.invalidateQueries([
+        QUERY_KEY_CIRCLE_SETTINGS,
+        circleId,
+      ]);
       await fetchCircle({ circleId });
     } catch (e) {
       showError(e);
