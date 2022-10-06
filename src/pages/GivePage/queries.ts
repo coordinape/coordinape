@@ -47,7 +47,6 @@ export const getMembersWithContributions = async (
         {
           where: {
             circle_id: { _eq: circleId },
-            address: { _nilike: address },
           },
         },
         {

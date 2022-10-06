@@ -4,12 +4,19 @@ import { ApeInfoTooltip } from '../../components';
 import { useApeSnackbar, useApiWithSelectedCircle } from '../../hooks';
 import { Check, X } from '../../icons/__generated';
 import { IMyUser } from '../../types';
-import { Flex, Panel, Text, ToggleButton } from 'ui';
+import { Box, Button, Flex, Text, ToggleButton } from 'ui';
 
 import { AvatarAndName } from './AvatarAndName';
+import { GiveRowGrid } from './GiveRowGrid';
 
 // MyGiveRow is the top row on the give list, which is unique for the currently logged in member
-export const MyGiveRow = ({ myUser }: { myUser: IMyUser }) => {
+export const MyGiveRow = ({
+  myUser,
+  contributionCount,
+}: {
+  myUser: IMyUser;
+  contributionCount: number;
+}) => {
   const { updateMyUser } = useApiWithSelectedCircle();
 
   const { showError } = useApeSnackbar();
@@ -24,13 +31,61 @@ export const MyGiveRow = ({ myUser }: { myUser: IMyUser }) => {
   };
 
   return (
-    <Panel nested css={{ pl: '$xs', pr: '$md', py: '$xs' }}>
-      <Flex alignItems="center">
+    <Box
+      css={{
+        '& .contributionButton': {
+          display: 'none',
+        },
+        '& .contributionLabel': {
+          display: 'block',
+        },
+        '&:hover': {
+          // '& .contributionLabel': {
+          //   display: 'none',
+          // },
+          '& .contributionButton': {
+            display: 'block',
+          },
+        },
+      }}
+    >
+      <GiveRowGrid selected={false} css={{ py: '$sm' }}>
+        <AvatarAndName name={myUser.name} avatar={myUser.profile?.avatar} />
         <Flex
-          alignItems="center"
-          css={{ flexGrow: 1, justifyContent: 'flex-start' }}
+          css={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            justifyContent: 'space-between',
+            gap: '$lg',
+            alignItems: 'center',
+          }}
         >
-          <AvatarAndName name={myUser.name} avatar={myUser.profile?.avatar} />
+          <Box>
+            <Button
+              className="contributionButton"
+              outlined
+              size="small"
+              color="primary"
+              // css={{
+              //   ml: 'calc(-1*$sm)',
+              // }}
+            >
+              {contributionCount > 0 ? (
+                <>
+                  Edit {contributionCount} Contribution
+                  {contributionCount == 1 ? '' : 's'}
+                </>
+              ) : (
+                <>Add Contributions</>
+              )}
+            </Button>
+          </Box>
+          <Box>
+            <Text variant="label" className="contributionLabel">
+              {contributionCount} contribution
+              {contributionCount == 1 ? '' : 's'}
+            </Text>
+          </Box>
         </Flex>
         <Flex css={{ justifyContent: 'flex-end', alignItems: 'center' }}>
           {myUser.fixed_non_receiver ? (
@@ -66,7 +121,7 @@ export const MyGiveRow = ({ myUser }: { myUser: IMyUser }) => {
             </>
           )}
         </Flex>
-      </Flex>
-    </Panel>
+      </GiveRowGrid>
+    </Box>
   );
 };

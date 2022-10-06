@@ -396,9 +396,13 @@ const AllocateContents = ({
   // first set of selectedMemberIdx to non-zero
   const [membersToIterate, setMembersToIterate] = useState<Member[]>([]);
 
+  // myMember is the current users member in this circle, used for contributionCount
+  const myMember = members.find(m => m.id == myUser.id);
+
   // filteredMembers is the list of all members filtered down by various criteria, which is currently limited to
   // onlyCollaborator or all members
   const filteredMembers = members
+    .filter(m => m.id != myUser.id)
     .filter(m => (onlyCollaborators ? m.teammate : true))
     .sort((a, b) => a.name.localeCompare(b.name));
 
@@ -607,7 +611,12 @@ const AllocateContents = ({
       </Box>
 
       <Panel css={{ gap: '$md' }}>
-        <MyGiveRow myUser={myUser} />
+        <MyGiveRow
+          myUser={myUser}
+          contributionCount={
+            myMember?.contributions_aggregate?.aggregate?.count ?? 0
+          }
+        />
         {filteredMembers.length > 0 &&
           filteredMembers.map(member => {
             let gift = gifts[member.id];

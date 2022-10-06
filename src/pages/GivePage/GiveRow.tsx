@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 
 import { FileText, Slash } from '../../icons/__generated';
 import { CSS } from '../../stitches.config';
-import { Box, Button, Flex, Panel, Text } from '../../ui';
+import { Box, Button, Flex, Text } from '../../ui';
 
 import { AvatarAndName } from './AvatarAndName';
 import { ContributorButton } from './ContributorButton';
 import { GiveAllocator } from './GiveAllocator';
+import { GiveRowGrid } from './GiveRowGrid';
 import { Gift, Member } from './index';
 
 // GiveRow is a row for one member in the give page
@@ -40,39 +41,12 @@ export const GiveRow = ({
   const noteComplete = gift.note && gift.note.length > 0;
 
   return (
-    <Panel
-      nested
-      css={{
-        ...css,
-        padding: 0,
-        pr: '$md',
-        border: '2px solid transparent',
-        cursor: 'pointer',
-        backgroundColor: docExample || selected ? '$highlight' : undefined,
-        borderColor: docExample || selected ? '$link' : undefined,
-        transition: 'background-color 0.3s, border-color 0.3s',
-        '&:hover': {
-          backgroundColor: '$highlight',
-          borderColor: '$link',
-        },
-        '@sm': {
-          pb: '$sm',
-        },
-      }}
+    <Box
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       onClick={() => setSelectedMember(member)}
     >
-      <Flex
-        alignItems="center"
-        css={{
-          display: 'grid',
-          gridTemplateColumns: '2fr 4fr 4fr',
-          justifyContent: 'space-between',
-          gap: '$lg',
-          '@sm': { gridTemplateColumns: '1fr' },
-        }}
-      >
+      <GiveRowGrid selected={(selected || docExample) ?? false} css={css}>
         <AvatarAndName name={member.name} avatar={member.profile.avatar} />
         <Flex
           css={{
@@ -152,7 +126,7 @@ export const GiveRow = ({
             optedOut={member.non_receiver || member.fixed_non_receiver}
           />
         </Flex>
-      </Flex>
-    </Panel>
+      </GiveRowGrid>
+    </Box>
   );
 };
