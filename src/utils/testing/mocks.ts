@@ -73,3 +73,44 @@ export const mockContribution = {
     address: '0x63c389cb2c573dd8a9239a16a3eb65935ddb5e2f',
   },
 };
+
+export const mockCircle = {
+  id: 2,
+  name: 'Mock Circle',
+  users: [
+    {
+      address: '0xFeB72759AD9baC5a408563059Fe6EE08663E6e04',
+      id: 21,
+      name: 'Mock User 1',
+      circle_id: 2,
+      profile: { id: 777 },
+      received_gifts: [{ tokens: 100 }, { tokens: 100 }],
+      deleted_at: null,
+      role: 0,
+      received_gifts_aggregate: [
+        {
+          aggregate: {
+            count: 2,
+          },
+        },
+      ],
+    },
+    {
+      address: '0x2F270652A9Ed8e6681183bDAbbed488f27131d37',
+      id: 22,
+      name: 'Mock User 2',
+      circle_id: 2,
+      profile: { id: 778 },
+      received_gifts: [{ tokens: 70 }, { tokens: 120 }, { tokens: 110 }],
+      deleted_at: null,
+      role: 0,
+      received_gifts_aggregate: [
+        {
+          aggregate: {
+            count: 3,
+          },
+        },
+      ],
+    },
+  ],
+};
