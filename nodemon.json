@@ -1,6 +1,6 @@
 {
-  "watch": ["api/", "api-lib/", "scripts/"],
-  "delay": 3000,
+  "watch": ["api/", "api-lib/", "scripts/", "src/lib", "src/common-lib"],
+  "delay": 300,
   "execMap": {
     "ts": "ts-node --swc"
   },
