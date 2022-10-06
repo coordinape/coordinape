@@ -10,6 +10,7 @@ import { useBlockListener } from 'hooks/useBlockListener';
 import { useContracts } from 'hooks/useContracts';
 import { paths } from 'routes/paths';
 import { AppLink, Box, Button, Panel, Text } from 'ui';
+import { smartRounding } from 'utils';
 
 import { OwnerProfileLink, VaultExternalLink } from './components';
 import DepositModal, { DepositModalProps } from './DepositModal';
@@ -114,7 +115,8 @@ export function VaultRow({ vault, css = {} }: { vault: Vault; css?: CSS }) {
           Current Balance
         </Text>
         <Text font="source" h3>
-          {balance} {removeYearnPrefix(vault.symbol).toUpperCase()}
+          {smartRounding(balance)}{' '}
+          {removeYearnPrefix(vault.symbol).toUpperCase()}
         </Text>
         <Text font="source" css={{ display: 'block' }}>
           <strong>{distributionCount}</strong> Distribution
