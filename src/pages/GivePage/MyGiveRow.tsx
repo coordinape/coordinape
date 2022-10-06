@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { ApeInfoTooltip } from '../../components';
 import { useApeSnackbar, useApiWithSelectedCircle } from '../../hooks';
@@ -7,12 +7,15 @@ import { IMyUser } from '../../types';
 import { Flex, Panel, Text, ToggleButton } from 'ui';
 
 import { AvatarAndName } from './AvatarAndName';
+import { OptOutWarningModal } from './OptOutWarningModal';
 
 // MyGiveRow is the top row on the give list, which is unique for the currently logged in member
 export const MyGiveRow = ({ myUser }: { myUser: IMyUser }) => {
   const { updateMyUser } = useApiWithSelectedCircle();
 
   const { showError } = useApeSnackbar();
+
+  const [optOutOpen, setOptOutOpen] = useState(false);
 
   // updateNonReceiver toggles the current members desire to receive give
   const updateNonReceiver = async (nonReceiver: boolean) => {
@@ -24,7 +27,7 @@ export const MyGiveRow = ({ myUser }: { myUser: IMyUser }) => {
   };
 
   return (
-    <Panel nested css={{ pl: '$xs', pr: '$md', py: '$xs' }}>
+    <Panel nested css={{ pl: '$xs', pr: '$md', py: '$sm' }}>
       <Flex alignItems="center">
         <Flex
           alignItems="center"
@@ -59,7 +62,11 @@ export const MyGiveRow = ({ myUser }: { myUser: IMyUser }) => {
                 color="destructive"
                 active={myUser.non_receiver}
                 disabled={myUser.non_receiver}
-                onClick={() => updateNonReceiver(true)}
+                onClick={() =>
+                  myUser.give_token_received > 0
+                    ? setOptOutOpen(true)
+                    : updateNonReceiver(true)
+                }
               >
                 <X size="lg" /> No
               </ToggleButton>
@@ -67,6 +74,14 @@ export const MyGiveRow = ({ myUser }: { myUser: IMyUser }) => {
           )}
         </Flex>
       </Flex>
+
+      <OptOutWarningModal
+        optOutOpen={optOutOpen}
+        setOptOutOpen={setOptOutOpen}
+        updateNonReceiver={updateNonReceiver}
+        tokenName={myUser.circle.tokenName}
+        give_token_received={myUser.give_token_received}
+      />
     </Panel>
   );
 };
