@@ -168,7 +168,7 @@ export default function DepositModal({
           css={{ color: '$secondaryText', alignSelf: 'center', mt: '$sm' }}
         >
           {usingEth
-            ? 'You will send three transactions: one to convert ETH to WETH, one for approval, and one to deposit WETH'
+            ? 'You will send three transactions: one to convert ETH to WETH, one for WETH approval, and one to deposit WETH'
             : 'You will sign transactions: one for approval and one for deposit.'}
         </Text>
       </Form>

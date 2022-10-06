@@ -1,3 +1,4 @@
+import assert from 'assert';
 import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -34,13 +35,211 @@ const styles = {
   alignRight: { textAlign: 'right' },
 };
 
-const buttonStyles = {
-  fontWeight: '$medium',
-  minHeight: '$xs',
-  px: '$sm',
-  minWidth: '11vw',
-  borderRadius: '$2',
-};
+export default function ClaimsPage() {
+  // this causes errors if it's run at the top-level
+  const ClaimsTable = makeTable<ClaimsRowData>('ClaimsTable');
+
+  const {
+    isIdle,
+    isLoading,
+    isError,
+    error,
+    claims,
+    claimedClaimsRows,
+    unclaimedClaimsRows,
+    claiming,
+    processClaim,
+  } = useClaimsTableData();
+  const [unwrapGroup, setUnwrapGroup] = useState<QueryClaim[] | undefined>();
+
+  if (isIdle || isLoading) return <LoadingModal visible />;
+  if (isError || !claims)
+    return (
+      <SingleColumnLayout>
+        {!claims ? (
+          <>No claims found.</>
+        ) : (
+          <>Error retrieving your claims. {error}</>
+        )}
+      </SingleColumnLayout>
+    );
+
+  const onClaimClick = (claim: QueryClaim, group: QueryClaim[]) => {
+    if (claim.distribution.vault.symbol.toUpperCase() === 'WETH')
+      setUnwrapGroup(group);
+    else processClaim(group.map(c => c.id));
+  };
+
+  return (
+    <SingleColumnLayout>
+      <Text h1>Claim Tokens</Text>
+      <Box css={{ color: '$neutral', maxWidth: '60%' }}>
+        You can claim all your tokens from this page. Note that you can claim
+        them for all your epochs in one circle but each token requires its own
+        claim transaction.
+      </Box>
+
+      <Panel css={{ mb: '$lg' }}>
+        <ClaimsTable
+          headers={[
+            { title: 'Organization' },
+            { title: 'Circle' },
+            { title: 'Distributions' },
+            { title: 'Rewards' },
+            { title: 'Claims', css: styles.alignRight },
+          ]}
+          data={unclaimedClaimsRows}
+          startingSortIndex={2}
+          startingSortDesc={false}
+          sortByColumn={() => {
+            return c => c;
+          }}
+        >
+          {({ claim, group }) => {
+            const isClaiming = claiming[claim.id] === 'pending';
+            const isClaimed = claiming[claim.id] === 'claimed';
+            return (
+              <ClaimsRowOuter key={claim.id} claim={claim} group={group}>
+                <Flex css={{ justifyContent: 'end' }}>
+                  <Button
+                    color="primary"
+                    outlined
+                    css={{
+                      fontWeight: '$medium',
+                      minHeight: '$xs',
+                      px: '$sm',
+                      minWidth: '11vw',
+                      borderRadius: '$2',
+                    }}
+                    onClick={() => onClaimClick(claim, group)}
+                    disabled={isClaiming || isClaimed}
+                  >
+                    {isClaiming
+                      ? 'Claiming...'
+                      : isClaimed
+                      ? 'Claimed'
+                      : `Claim ${claim.distribution.vault.symbol}`}
+                  </Button>
+                </Flex>
+              </ClaimsRowOuter>
+            );
+          }}
+        </ClaimsTable>
+      </Panel>
+
+      <Text h2 css={{ mb: '$sm' }}>
+        Claims History
+      </Text>
+      <Panel>
+        <ClaimsTable
+          headers={[
+            { title: 'Organization' },
+            { title: 'Circle' },
+            { title: 'Epochs' },
+            { title: 'Rewards' },
+            { title: 'Transactions', css: styles.alignRight },
+          ]}
+          data={claimedClaimsRows}
+          startingSortIndex={2}
+          startingSortDesc={false}
+          sortByColumn={() => {
+            return c => c;
+          }}
+        >
+          {({ claim, group }) => (
+            <ClaimsRowOuter key={claim.id} claim={claim} group={group}>
+              <Link
+                css={{ mr: '$md' }}
+                target="_blank"
+                href={makeExplorerUrl(
+                  claim.distribution.vault.chain_id,
+                  claim.txHash
+                )}
+              >
+                View on Etherscan
+              </Link>
+            </ClaimsRowOuter>
+          )}
+        </ClaimsTable>
+        <UnwrapEthModal
+          processClaim={processClaim}
+          group={unwrapGroup}
+          open={!!unwrapGroup}
+          onClose={() => setUnwrapGroup(undefined)}
+        />
+      </Panel>
+    </SingleColumnLayout>
+  );
+}
+
+export function UnwrapEthModal({
+  group,
+  onClose,
+  open,
+  processClaim,
+}: {
+  group?: QueryClaim[];
+  onClose: () => void;
+  open: boolean;
+  processClaim: (claimIds: number[], unwrapEth: boolean) => void;
+}) {
+  const schema = z.object({ unwrap: z.boolean() }).strict();
+  type UnwrapFormSchema = z.infer<typeof schema>;
+  const { handleSubmit, control } = useForm<UnwrapFormSchema>({
+    resolver: zodResolver(schema),
+  });
+
+  const { field: unwrap } = useController({
+    name: 'unwrap',
+    control,
+    defaultValue: true,
+  });
+
+  const onSubmit = () => {
+    assert(group);
+    processClaim(
+      group.map(c => c.id),
+      unwrap.value
+    );
+    onClose();
+  };
+
+  return (
+    <Modal title="Unwrap ETH" open={open} onClose={onClose}>
+      <Form
+        css={{
+          position: 'relative',
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100%',
+          padding: '$sm 0 $lg',
+          overflowY: 'auto',
+        }}
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <CheckBox {...unwrap} label="Unwrap WETH to ETH" />
+        <Text
+          size="small"
+          css={{ color: '$secondaryText', alignSelf: 'center' }}
+        >
+          If this is checked, you will sign two transactions: one to claim, and
+          one to unwrap WETH to ETH.
+        </Text>
+
+        <Button
+          css={{ mt: '$lg', gap: '$xs' }}
+          color="primary"
+          outlined
+          size="large"
+          type="submit"
+          fullWidth
+        >
+          Claim
+        </Button>
+      </Form>
+    </Modal>
+  );
+}
 
 const displayDistributionType = (
   type: QueryClaim['distribution']['distribution_type']
@@ -55,6 +254,7 @@ const displayDistributionType = (
     return 'Unknown';
   }
 };
+
 const groupTooltipInfo = (group: QueryClaim[]) => {
   const detailsList = group.map(claim => (
     <Flex key={claim.id}>
@@ -145,209 +345,3 @@ const ClaimsRowOuter: React.FC<ClaimsRowData> = ({ claim, group, children }) =>
       {children}
     </DeletedUserClaimsRow>
   );
-
-export default function ClaimsPage() {
-  // this causes errors if it's run at the top-level
-  const ClaimsTable = makeTable<ClaimsRowData>('ClaimsTable');
-
-  const {
-    isIdle,
-    isLoading,
-    isError,
-    error,
-    claims,
-    claimedClaimsRows,
-    unclaimedClaimsRows,
-    claiming,
-    processClaim,
-  } = useClaimsTableData();
-  const [groupArr, setGroupArr] = useState<QueryClaim[]>([]);
-  const [unwrapModalVisible, setUnwrapModalVisible] = useState(false);
-
-  if (isIdle || isLoading) return <LoadingModal visible />;
-  if (isError || !claims)
-    return (
-      <SingleColumnLayout>
-        {!claims ? (
-          <>No claims found.</>
-        ) : (
-          <>Error retrieving your claims. {error}</>
-        )}
-      </SingleColumnLayout>
-    );
-
-  return (
-    <SingleColumnLayout>
-      <Text h1>Claim Tokens</Text>
-      <Box css={{ color: '$neutral', maxWidth: '60%' }}>
-        You can claim all your tokens from this page. Note that you can claim
-        them for all your epochs in one circle but each token requires its own
-        claim transaction.
-      </Box>
-
-      <Panel css={{ mb: '$lg' }}>
-        <ClaimsTable
-          headers={[
-            { title: 'Organization' },
-            { title: 'Circle' },
-            { title: 'Distributions' },
-            { title: 'Rewards' },
-            { title: 'Claims', css: styles.alignRight },
-          ]}
-          data={unclaimedClaimsRows}
-          startingSortIndex={2}
-          startingSortDesc={false}
-          sortByColumn={() => {
-            return c => c;
-          }}
-        >
-          {({ claim, group }) => {
-            const isClaiming = claiming[claim.id] === 'pending';
-            const isClaimed = claiming[claim.id] === 'claimed';
-            return (
-              <ClaimsRowOuter key={claim.id} claim={claim} group={group}>
-                <Flex css={{ justifyContent: 'end' }}>
-                  <Button
-                    color="primary"
-                    outlined
-                    css={buttonStyles}
-                    onClick={() => {
-                      if (
-                        claim.distribution.vault.symbol.toUpperCase() === 'WETH'
-                      ) {
-                        setGroupArr(group);
-                        setUnwrapModalVisible(true);
-                      } else return processClaim(group.map(c => c.id));
-                    }}
-                    disabled={isClaiming || isClaimed}
-                  >
-                    {isClaiming
-                      ? 'Claiming...'
-                      : isClaimed
-                      ? 'Claimed'
-                      : `Claim ${claim.distribution.vault.symbol}`}
-                  </Button>
-                </Flex>
-              </ClaimsRowOuter>
-            );
-          }}
-        </ClaimsTable>
-      </Panel>
-
-      <Text h2 css={{ mb: '$sm' }}>
-        Claims History
-      </Text>
-      <Panel>
-        <ClaimsTable
-          headers={[
-            { title: 'Organization' },
-            { title: 'Circle' },
-            { title: 'Epochs' },
-            { title: 'Rewards' },
-            { title: 'Transactions', css: styles.alignRight },
-          ]}
-          data={claimedClaimsRows}
-          startingSortIndex={2}
-          startingSortDesc={false}
-          sortByColumn={() => {
-            return c => c;
-          }}
-        >
-          {({ claim, group }) => (
-            <ClaimsRowOuter key={claim.id} claim={claim} group={group}>
-              <Link
-                css={{ mr: '$md' }}
-                target="_blank"
-                href={makeExplorerUrl(
-                  claim.distribution.vault.chain_id,
-                  claim.txHash
-                )}
-              >
-                View on Etherscan
-              </Link>
-            </ClaimsRowOuter>
-          )}
-        </ClaimsTable>
-        <UnwrapETHmodal
-          processClaim={processClaim}
-          group={groupArr}
-          open={unwrapModalVisible}
-          onClose={() => {
-            setUnwrapModalVisible(false);
-          }}
-        />
-      </Panel>
-    </SingleColumnLayout>
-  );
-}
-
-export function UnwrapETHmodal({
-  group,
-  onClose,
-  open,
-  processClaim,
-}: {
-  group: QueryClaim[];
-  onClose: () => void;
-  open: boolean;
-  processClaim: (claimIds: number[], unwrapEth: boolean) => void;
-}) {
-  const schema = z
-    .object({
-      unwrap_weth: z.boolean(),
-    })
-    .strict();
-  type UnwrapFormSchema = z.infer<typeof schema>;
-  const { handleSubmit, control } = useForm<UnwrapFormSchema>({
-    resolver: zodResolver(schema),
-  });
-
-  const { field: unwrapWeth } = useController({
-    name: 'unwrap_weth',
-    control,
-    defaultValue: true,
-  });
-
-  const onSubmit = () => {
-    processClaim(
-      group.map(c => c.id),
-      unwrapWeth.value
-    );
-    onClose();
-  };
-
-  return (
-    <Modal title="Unwrap ETH" open={open} onClose={onClose}>
-      <Form
-        css={{
-          position: 'relative',
-          display: 'flex',
-          flexDirection: 'column',
-          width: '100%',
-          padding: '$sm 0 $lg',
-          overflowY: 'auto',
-        }}
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <CheckBox {...unwrapWeth} label="Unwrap WETH to ETH" />
-        <Button
-          css={{ mt: '$lg', gap: '$xs' }}
-          color="primary"
-          outlined
-          size="large"
-          type="submit"
-          fullWidth
-        >
-          Claim
-        </Button>
-        <Text
-          size="small"
-          css={{ color: '$secondaryText', alignSelf: 'center', mt: '$sm' }}
-        >
-          When this is checked, you will sign two transactions: one to claim,
-          and one to unwrap WETH to ETH.
-        </Text>
-      </Form>
-    </Modal>
-  );
-}
