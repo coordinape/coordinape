@@ -64,7 +64,7 @@ context('Coordinape', () => {
       .type('100');
     cy.contains('button', 'Withdraw from').click();
     cy.contains('Transaction completed');
-    cy.contains('4900 USDC');
+    cy.contains('4,900.00 USDC');
     cy.reload(true);
     cy.contains('Ended Epoch With Gifts', { timeout: 120000 }).click();
     cy.get('table').contains('Withdraw');
@@ -74,7 +74,7 @@ context('Coordinape', () => {
     cy.visit(`/circles/${circleId}/history`);
     cy.contains('a', 'Review / Export', { timeout: 120000 }).click();
     cy.get('input[type=text]:last', { timeout: 90000 }).click().type('4500');
-    cy.contains('button', 'Submit Yearn USDC Vault Distribution').click();
+    cy.contains('button', 'Submit USDC Vault Distribution').click();
     cy.contains('Submitting', { timeout: 120000 });
     cy.contains('Please sign the transaction', { timeout: 120000 });
     cy.contains('Transaction completed', { timeout: 120000 });
