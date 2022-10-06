@@ -14,19 +14,26 @@ import {
 import AddMembersPage from '../pages/AddMembersPage/AddMembersPage';
 import GivePage from '../pages/GivePage';
 import JoinCirclePage from '../pages/JoinCirclePage';
-import { useFixCircleState, useRoleInCircle } from 'hooks/migration';
+import {
+  useCanVouch,
+  useFixCircleState,
+  useRoleInCircle,
+} from 'hooks/migration';
 import AdminCircleApiPage from 'pages/AdminCircleApiPage/AdminCircleApiPage';
 import AdminPage from 'pages/AdminPage';
 import AllocationPage from 'pages/AllocationPage';
 import CircleAdminPage from 'pages/CircleAdminPage';
 import CirclesPage from 'pages/CirclesPage';
 import ClaimsPage from 'pages/ClaimsPage';
+import ContributionsPage from 'pages/ContributionsPage';
 import CreateCirclePage from 'pages/CreateCirclePage';
 import DefaultPage from 'pages/DefaultPage';
 import DevPortalPage from 'pages/DevPortalPage';
 import DistributionsPage from 'pages/DistributionsPage';
 import HistoryPage from 'pages/HistoryPage';
 import IntegrationCallbackPage from 'pages/IntegrationCallbackPage';
+import { NewNominationPage } from 'pages/NewNominationPage/NewNominationPage';
+import OrganizationPage from 'pages/OrganizationPage';
 import ProfilePage from 'pages/ProfilePage';
 import VaultsPage from 'pages/VaultsPage';
 import { VaultTransactions } from 'pages/VaultsPage/VaultTransactions';
@@ -51,9 +58,13 @@ export const AppRoutes = () => {
         <Route path="give" element={allocationPage} />
         <Route path="givebeta" element={<GivePage />} />
         <Route path="map" element={<LazyAssetMapPage />} />
+        <Route path="contributions" element={<ContributionsPage />} />
         <Route path="members" element={<AdminPage />} />
         <Route path="members/add" element={<AdminRouteHandler />}>
           <Route path="" element={<AddMembersPage />} />
+        </Route>
+        <Route path="members/nominate" element={<VouchingRouteHandler />}>
+          <Route path="" element={<NewNominationPage />} />
         </Route>
         <Route path="admin" element={<AdminRouteHandler />}>
           <Route path="" element={<CircleAdminPage />} />
@@ -72,6 +83,10 @@ export const AppRoutes = () => {
       <Route path={paths.createCircle} element={<CreateCirclePage />} />
       <Route path={paths.developers} element={<DevPortalPage />} />
       <Route path={paths.home} element={<DefaultPage />} />
+      <Route
+        path={paths.organization(':orgId')}
+        element={<OrganizationPage />}
+      />
       <Route
         path={paths.profile(':profileAddress')}
         element={<ProfilePage />}
@@ -120,5 +135,14 @@ const AdminRouteHandler = () => {
 
   if (!isUserAdmin({ role }))
     return <Redirect to={paths.home} note="not admin" />;
+  return <Outlet />;
+};
+
+const VouchingRouteHandler = () => {
+  const params = useParams();
+  const circleId = Number(params.circleId);
+  const canVouch = useCanVouch(circleId);
+
+  if (!canVouch) return <Redirect to={paths.home} note="not admin" />;
   return <Outlet />;
 };

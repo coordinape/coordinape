@@ -865,6 +865,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   contributions_insert_input: {
     circle_id: 'bigint',
+    user_id: 'bigint',
   },
   contributions_max_order_by: {
     circle_id: 'order_by',

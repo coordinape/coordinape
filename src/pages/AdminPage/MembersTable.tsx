@@ -2,7 +2,6 @@
 import { useState, useEffect, useMemo } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { isUserAdmin } from 'lib/users';
 import { SubmitHandler, useController, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
@@ -18,7 +17,7 @@ import {
 import { zEthAddress } from 'forms/formHelpers';
 import { useApeSnackbar, useApiAdminCircle, useNavigation } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
-import { Check, X, Slash } from 'icons/__generated';
+import { Check, X, Slash, Info } from 'icons/__generated';
 import { CircleSettingsResult } from 'pages/CircleAdminPage/getCircleSettings';
 import {
   FixedPaymentResult,
@@ -164,7 +163,7 @@ const UserName = ({ user }: { user: IUser }) => {
         {user.name}{' '}
         {user.role === USER_ROLE_COORDINAPE ? (
           <Tooltip content={coordinapeTooltipContent()}>
-            <InfoCircledIcon />
+            <Info size="sm" />
           </Tooltip>
         ) : (
           ''
@@ -468,7 +467,7 @@ const MemberRow = ({
                           </div>
                         }
                       >
-                        <InfoCircledIcon />
+                        <Info size="sm" />
                       </Tooltip>
                     </FormLabel>
                     <CheckBox {...userRole} />
@@ -509,7 +508,7 @@ const MemberRow = ({
                             </div>
                           }
                         >
-                          <InfoCircledIcon />
+                          <Info size="sm" />
                         </Tooltip>
                       </FormLabel>
                       <Flex css={{ gap: '$sm', flexWrap: 'wrap' }}>
@@ -551,7 +550,7 @@ const MemberRow = ({
                             </div>
                           }
                         >
-                          <InfoCircledIcon />
+                          <Info size="sm" />
                         </Tooltip>
                       </FormLabel>
                       <Flex css={{ flexWrap: 'wrap', gap: '$sm' }}>

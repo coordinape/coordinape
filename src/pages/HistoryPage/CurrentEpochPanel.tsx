@@ -82,7 +82,7 @@ export const CurrentEpochPanel = ({
                   ? `${nominees} nomination${nominees > 1 ? 's' : ''}`
                   : 'None yet. Nominate someone?'
               }
-              path={paths.vouching(circleId)}
+              path={paths.membersNominate(circleId)}
               linkLabel="Go to Vouching"
             />
           )}

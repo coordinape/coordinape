@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-
+SCRIPT_DIR="${0%/*}"
 FIND_DEV_PID="lsof -t -i:8545 -sTCP:LISTEN"
 
 while [[ "$#" > 0 ]]; do case $1 in
@@ -29,8 +29,4 @@ if [ "$FULL" ]; then
   kill $(eval $FIND_DEV_PID)
 fi
 
-cd hardhat
-yarn unlink >/dev/null 2>&1 || echo -n
-yarn link
-cd ..
-yarn link @coordinape/hardhat
+$SCRIPT_DIR/link_hardhat.sh

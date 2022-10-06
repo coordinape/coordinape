@@ -205,7 +205,7 @@ export const GiveDrawer = ({
             mt: '$xs',
             mb: '$md',
           }}
-          value={note}
+          value={note ?? ''}
           onChange={e => noteChanged(e.target.value)}
           placeholder="Say thanks or give constructive feedback."
         />

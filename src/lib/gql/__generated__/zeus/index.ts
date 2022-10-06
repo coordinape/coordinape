@@ -2528,6 +2528,7 @@ columns and relationships of "circle_api_keys" */
   ['contributions_insert_input']: {
     circle_id?: ValueTypes['bigint'] | undefined | null;
     description?: string | undefined | null;
+    user_id?: ValueTypes['bigint'] | undefined | null;
   };
   /** aggregate max on columns */
   ['contributions_max_fields']: AliasType<{
@@ -12002,6 +12003,7 @@ columns and relationships of "circle_api_keys" */
   ['contributions_insert_input']: {
     circle_id?: GraphQLTypes['bigint'] | undefined;
     description?: string | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** aggregate max on columns */
   ['contributions_max_fields']: {

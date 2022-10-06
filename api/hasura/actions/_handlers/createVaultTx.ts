@@ -66,7 +66,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
 export default verifyHasuraRequestMiddleware(handler);
 
-const logVaultTx = async (
+export const logVaultTx = async (
   txInfo: ValueTypes['vault_transactions_insert_input'] &
     ValueTypes['LogVaultTxInput']
 ) => {

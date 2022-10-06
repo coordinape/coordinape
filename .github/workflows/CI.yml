@@ -37,15 +37,9 @@ jobs:
           key: nodeModules-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
 
       - run: yarn --frozen-lockfile
-      - run: ./scripts/link_hardhat.sh
       - run: yarn typecheck
       - run: yarn lint:check
       - run: yarn prettier:check
-
-      # remove symlink to prevent redundant caching
-      - name: Cleanup
-        run: |
-          rm node_modules/@coordinape/hardhat
   test:
     runs-on: ubuntu-latest
     needs: skip_duplicates
@@ -82,17 +76,14 @@ jobs:
         with:
           node-version: 14.x
 
-      - uses: actions/cache@v2
-        with:
-          path: '/home/runner/.cache'
-          key: nodeModules-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-
-      - uses: actions/cache@v2
+      - name: Cache node_modules
+        uses: actions/cache@v2
         with:
           path: '**/node_modules'
           key: nodeModules-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
 
-      - uses: actions/cache@v2
+      - name: Cache hardhat/node_modules
+        uses: actions/cache@v2
         with:
           path: '**/hardhat/node_modules'
           key: hardhatNodeModules-${{ runner.os }}-${{ hashFiles('**/hardhat/yarn.lock') }}
@@ -104,7 +95,8 @@ jobs:
       - run: cp .ci.env .env # hasura needs a .env file
       - run: yarn test:ci
 
-      - uses: actions/upload-artifact@v3
+      - name: Save Cypress artifacts
+        uses: actions/upload-artifact@v3
         if: failure()
         with:
           name: cy-artifacts
@@ -118,7 +110,8 @@ jobs:
           chmod +x codecov
           ./codecov
 
-      # remove symlink to prevent redundant caching
-      - name: Cleanup
-        run: |
-          rm node_modules/@coordinape/hardhat
+      - name: Save coverage report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage
+          path: ./coverage

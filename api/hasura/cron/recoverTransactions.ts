@@ -7,13 +7,16 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import zipObject from 'lodash/zipObject';
 import { DateTime, Settings } from 'luxon';
 
-import { Contracts } from '../../../api-lib/contracts';
+import { vault_tx_types_enum } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { getProvider } from '../../../api-lib/provider';
 import { Awaited } from '../../../api-lib/ts4.5shim';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import { encodeCircleId } from '../../../src/lib/vaults/circleId';
+import { Contracts } from '../../../src/lib/vaults/contracts';
+import { getUnwrappedAmount } from '../../../src/lib/vaults/tokens';
 import { insert } from '../actions/_handlers/createVault';
+import { logVaultTx } from '../actions/_handlers/createVaultTx';
 
 Settings.defaultZone = 'utc';
 
@@ -66,7 +69,7 @@ const handleTxRecord = async (txRecord: TxRecord) => {
 
   try {
     const receipt = await tx.wait();
-    const contracts = new Contracts(chain_id, provider);
+    const contracts = new Contracts(chain_id, provider, true);
 
     switch (tx_type) {
       case 'Vault_Deploy':
@@ -253,7 +256,13 @@ const handleDistribution = async (
     distributions_by_pk: [
       { id: distribution_id },
       {
-        vault: { id: true, vault_address: true },
+        vault: {
+          id: true,
+          vault_address: true,
+          symbol: true,
+          simple_token_address: true,
+          decimals: true,
+        },
         epoch: { circle_id: true },
         tx_hash: true,
         total_amount: true,
@@ -264,16 +273,29 @@ const handleDistribution = async (
   assert(data);
   await assertOrRemove(!data.tx_hash, 'tx_hash already set', tx_hash);
 
+  const {
+    epoch,
+    total_amount,
+    distribution_json,
+    vault: {
+      id: vault_id,
+      vault_address,
+      symbol,
+      simple_token_address,
+      decimals,
+    },
+  } = data;
+
   const previousAmount = BigNumber.from(
-    JSON.parse(data.distribution_json).previousTotal || 0
+    JSON.parse(distribution_json).previousTotal || 0
   );
-  const amount = BigNumber.from(data.total_amount).sub(previousAmount);
+  const amount = BigNumber.from(total_amount).sub(previousAmount);
 
   // these criteria don't strictly uniquely identify a distribution. if
   // you wanted to be stricter, you could compare timestamps of the tx and
   // the db row
   await assertOrRemove(
-    data.vault.vault_address.toLowerCase() === log.args.vault.toLowerCase() &&
+    vault_address.toLowerCase() === log.args.vault.toLowerCase() &&
       encodeCircleId(data.epoch.circle_id) === log.args.circle &&
       amount.toString() === log.args.amount.toString(),
     'data mismatch',
@@ -289,19 +311,6 @@ const handleDistribution = async (
         },
         { id: true },
       ],
-      // FIXME: this throws an error about missing Hasura header variables
-      // createVaultTx: [
-      //   {
-      //     payload: {
-      //       tx_type: 'Distribution',
-      //       tx_hash,
-      //       distribution_id,
-      //       circle_id: data.epoch.circle_id,
-      //       vault_id: data.vault.id,
-      //     },
-      //   },
-      //   { id: true },
-      // ],
       delete_pending_vault_transactions_by_pk: [
         { tx_hash },
         { __typename: true },
@@ -309,6 +318,24 @@ const handleDistribution = async (
     },
     { operationName: 'recoverDistribution' }
   );
+
+  if (update.update_distributions_by_pk?.id) {
+    const pps = await contracts.getPricePerShare(
+      vault_address,
+      simple_token_address,
+      decimals
+    );
+
+    await logVaultTx({
+      tx_type: vault_tx_types_enum.Distribution,
+      tx_hash,
+      distribution_id,
+      circle_id: epoch.circle_id,
+      vault_id,
+      symbol: simple_token_address === AddressZero ? `Yearn ${symbol}` : symbol,
+      amount: getUnwrappedAmount(amount, pps, decimals),
+    });
+  }
 
   return `updated distribution id ${update.update_distributions_by_pk?.id}`;
 };

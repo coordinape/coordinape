@@ -65,6 +65,7 @@ export const paths = {
   history: circlePath('history'),
   members: circlePath('members'),
   membersAdd: circlePath('members/add'),
+  membersNominate: circlePath('members/nominate'),
   team: circlePath('team'),
   vouching: circlePath('vouching'),
   distributions: (circleId: number, epochId: number | string) =>
@@ -80,6 +81,7 @@ export const paths = {
   home: '/',
 
   profile: (address: string) => `/profile/${address}`,
+  organization: (orgId: string) => `/organizations/${orgId}`,
   vaults: '/vaults',
   vaultTxs: (address: string) => `${paths.vaults}/${address}/txs`,
 

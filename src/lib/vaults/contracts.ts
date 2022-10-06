@@ -20,10 +20,9 @@ import type { Signer } from '@ethersproject/abstract-signer';
 import type { JsonRpcProvider } from '@ethersproject/providers';
 import debug from 'debug';
 import { BigNumber, FixedNumber } from 'ethers';
-import type { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 
-import { HARDHAT_CHAIN_ID, HARDHAT_GANACHE_CHAIN_ID } from 'config/env';
-import { assertDef } from 'utils/tools';
+import { HARDHAT_CHAIN_ID, HARDHAT_GANACHE_CHAIN_ID } from '../../config/env';
+import { assertDef } from '../../utils/tools';
 
 import { Asset } from './';
 import { hasSimpleToken } from './tokens';
@@ -116,12 +115,10 @@ export class Contracts {
     return FixedNumber.from(pps).divUnsafe(shifter);
   }
 
-  async getVaultBalance(
-    vault: Pick<
-      GraphQLTypes['vaults'],
-      'simple_token_address' | 'vault_address'
-    >
-  ) {
+  async getVaultBalance(vault: {
+    simple_token_address: string;
+    vault_address: string;
+  }) {
     const { simple_token_address, vault_address } = vault;
     if (hasSimpleToken(vault)) {
       return this.getERC20(assertDef(simple_token_address)).balanceOf(

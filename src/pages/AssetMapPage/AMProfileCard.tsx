@@ -68,11 +68,14 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     marginLeft: theme.spacing(1.25),
     justifyContent: 'center',
+    overflow: 'hidden',
   },
   headerName: {
     fontSize: 22,
     fontWeight: 600,
     lineHeight: 1.2,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
   headerMeasure: {
     fontSize: 14,
