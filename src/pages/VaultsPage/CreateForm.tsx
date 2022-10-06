@@ -142,7 +142,7 @@ export const CreateForm = ({
         customAddressField.onChange({
           target: { value: contracts.getTokenAddress(symbol) },
         });
-        onChange({ target: { value: symbol } });
+        onChange({ target: { value: undefined } });
       }
     }
 
