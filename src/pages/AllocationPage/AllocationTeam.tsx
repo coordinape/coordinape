@@ -224,6 +224,7 @@ type AllocationTeamProps = {
   changed: boolean;
   givePerUser: Map<number, ISimpleGift>;
   setActiveStep: (step: number) => void;
+  teamSelection?: boolean;
 };
 const AllocationTeam = ({
   onContinue,
@@ -233,6 +234,7 @@ const AllocationTeam = ({
   setLocalTeammates,
   givePerUser,
   setActiveStep,
+  teamSelection,
 }: AllocationTeamProps) => {
   const classes = useStyles();
   const navigate = useNavigate();
@@ -261,7 +263,7 @@ const AllocationTeam = ({
   };
 
   const clearLocalTeammates = () => {
-    if (!selectedCircle.team_selection) {
+    if (!teamSelection) {
       console.error('clearLocalTeammates with circle without team selection');
       return;
     }
@@ -271,7 +273,7 @@ const AllocationTeam = ({
   const saveTeammates = useLoadAndTryMutation(
     async () => {
       await updateTeammates(
-        selectedCircle.id,
+        circleId,
         localTeammates.map(u => u.id)
       );
       if (epochIsActive) {
