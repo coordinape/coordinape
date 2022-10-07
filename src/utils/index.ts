@@ -32,5 +32,7 @@ export const numberWithCommas = (
   const split = rounded.toString().split('.');
   const [beforeDot, afterDot] = [split[0], split[1] || ''];
   const before = beforeDot.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  return before + '.' + afterDot.padEnd(precision, '0');
+  return precision > 0
+    ? before + '.' + afterDot.padEnd(precision, '0')
+    : before;
 };
