@@ -1,6 +1,16 @@
 table:
   schema: public
   name: interaction_events
+object_relationships:
+  - name: profile
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: profiles
+        insertion_order: null
+        column_mapping:
+          profile_id: id
 event_triggers:
   - name: sendInteractionEventToAmplitude
     definition:
