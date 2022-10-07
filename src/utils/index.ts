@@ -24,21 +24,15 @@ export const numberWithCommas = (
       return '0.'.padEnd(precision + 2, '0');
     } else return '0';
   }
-  // convert it to Number first to remove insignificant trailing zeroes after the decimal point
-  const split = Number(x).toString().split('.');
+  const rounded = +(
+    round(Number(Number(x) + 'e+' + precision)) +
+    'e-' +
+    precision
+  );
+  const split = rounded.toString().split('.');
   const [beforeDot, afterDot] = [split[0], split[1] || ''];
   const before = beforeDot.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  const after =
-    precision > 0
-      ? '.' +
-        (afterDot.length > precision
-          ? String(
-              round(Number.parseInt(afterDot), -(afterDot.length - precision))
-            ).padStart(afterDot.length, '0')
-          : afterDot
-        )
-          .substring(0, precision)
-          .padEnd(precision, '0')
-      : '';
-  return before + after;
+  return precision > 0
+    ? before + '.' + afterDot.padEnd(precision, '0')
+    : before;
 };
