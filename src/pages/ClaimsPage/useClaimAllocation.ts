@@ -1,6 +1,6 @@
 import assert from 'assert';
 
-import { BigNumber, BytesLike } from 'ethers';
+import { BigNumber, BytesLike, ethers } from 'ethers';
 import { vault_tx_types_enum } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import { savePendingVaultTx } from 'lib/gql/mutations/vaults';
@@ -19,6 +19,7 @@ export type ClaimAllocationProps = {
   index: number;
   address: string;
   proof: BytesLike[];
+  unwrapEth: boolean;
 };
 
 export function useClaimAllocation() {
@@ -32,6 +33,7 @@ export function useClaimAllocation() {
     address,
     proof,
     claimIds,
+    unwrapEth,
   }: ClaimAllocationProps): Promise<string | undefined> => {
     assert(contracts, 'This network is not supported');
     const {
@@ -90,6 +92,26 @@ export function useClaimAllocation() {
       assert(txHash, "Claimed event didn't return a transaction hash");
 
       showInfo('Saving record of claim...');
+
+      if (unwrapEth) {
+        const tokenAddress = isSimpleToken
+          ? vault.simple_token_address
+          : vault.token_address;
+
+        const weth = new ethers.Contract(
+          tokenAddress,
+          ['function withdraw(uint) public'],
+          contracts.signerOrProvider
+        );
+        await sendAndTrackTx(() => weth.withdraw(amount), {
+          showError,
+          showInfo,
+          signingMessage: 'Please sign the transaction to unwrap your WETH.',
+          description: `Unwrapped ${amount} ETH`,
+          chainId: contracts.chainId,
+        });
+      }
+
       await markClaimed({ claim_id: Math.max(...claimIds), tx_hash: txHash });
       showInfo('Claim succeeded');
 

@@ -93,6 +93,7 @@ export const Modal = ({
           {(showClose || showClose === undefined) && (
             <Button
               color="transparent"
+              size="smallIcon"
               onClick={onClose}
               css={{
                 position: 'absolute',
