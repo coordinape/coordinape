@@ -34,6 +34,7 @@ import HistoryPage from 'pages/HistoryPage';
 import IntegrationCallbackPage from 'pages/IntegrationCallbackPage';
 import { NewNominationPage } from 'pages/NewNominationPage/NewNominationPage';
 import OrganizationPage from 'pages/OrganizationPage';
+import OrganizationSettingsPage from 'pages/OrganizationSettingsPage';
 import ProfilePage from 'pages/ProfilePage';
 import VaultsPage from 'pages/VaultsPage';
 import { VaultTransactions } from 'pages/VaultsPage/VaultTransactions';
@@ -83,10 +84,12 @@ export const AppRoutes = () => {
       <Route path={paths.createCircle} element={<CreateCirclePage />} />
       <Route path={paths.developers} element={<DevPortalPage />} />
       <Route path={paths.home} element={<DefaultPage />} />
-      <Route
-        path={paths.organization(':orgId')}
-        element={<OrganizationPage />}
-      />
+
+      <Route path={paths.organization(':orgId')}>
+        <Route path="" element={<OrganizationPage />} />
+        <Route path="settings" element={<OrganizationSettingsPage />} />
+      </Route>
+
       <Route
         path={paths.profile(':profileAddress')}
         element={<ProfilePage />}
