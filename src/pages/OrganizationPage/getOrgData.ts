@@ -10,6 +10,7 @@ export const getOrgData = (orgId: number, address: string) =>
           id: true,
           name: true,
           logo: true,
+          telegram_id: true,
           circles: [
             {},
             {

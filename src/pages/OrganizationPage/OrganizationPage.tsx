@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import { OrgLogoUpload, LoadingModal } from 'components';
 import { scrollToTop } from 'components/MainLayout/MainLayout';
 import useConnectedAddress from 'hooks/useConnectedAddress';
+import { Plus, Settings } from 'icons/__generated';
 import { CircleRow } from 'pages/CirclesPage/CirclesPage';
 import { paths } from 'routes/paths';
 import { AppLink, Box, Button, Flex, Text } from 'ui';
@@ -15,6 +16,7 @@ import { SingleColumnLayout } from 'ui/layouts';
 import { getOrgData, QUERY_KEY_MY_ORGS } from './getOrgData';
 
 import type { Awaited } from 'types/shim';
+
 type QueryResult = Awaited<ReturnType<typeof getOrgData>>;
 
 export const OrganizationPage = () => {
