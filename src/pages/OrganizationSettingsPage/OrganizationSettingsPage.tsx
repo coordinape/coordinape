@@ -33,7 +33,7 @@ import {
 } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
-import { updateOrg } from './getOrgData';
+import { updateOrg } from './mutations';
 
 type OrgAdminFormSchema = z.infer<typeof schema>;
 
