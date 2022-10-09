@@ -53,6 +53,23 @@ const getPendingTxRecords = async () => {
   return data.pending_vault_transactions;
 };
 
+const deletePendingDistributionRecords = async () => {
+  await adminClient.mutate(
+    {
+      delete_distributions: [
+        {
+          where: {
+            tx_hash: { _is_null: true },
+            created_at: { _lt: DateTime.now().minus({ minutes: 5 }).toISO() },
+          },
+        },
+        { __typename: true },
+      ],
+    },
+    { operationName: 'deletePendingDistributionRecords' }
+  );
+};
+
 type TxRecord = Awaited<ReturnType<typeof getPendingTxRecords>>[0];
 
 const handleTxRecord = async (txRecord: TxRecord) => {
@@ -342,6 +359,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     })
   );
 
+  await deletePendingDistributionRecords();
   res.status(200).json({
     processed_txs: zipObject(
       txRecords.map(t => t.tx_hash),
