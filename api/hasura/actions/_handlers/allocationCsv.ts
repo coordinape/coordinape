@@ -53,7 +53,6 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     circle.fixed_payment_token_type,
     grant
   );
-  console.debug('userValues', userValues);
   const headers = [
     'No',
     'name',
@@ -185,8 +184,6 @@ export function generateCsvValues(
 export type CircleDetails = Awaited<ReturnType<typeof getCircleDetails>>;
 
 export async function getCircleDetails(circle_id: number, epochId: number) {
-  console.debug('epochId', epochId);
-
   const { circles_by_pk } = await adminClient.query(
     {
       circles_by_pk: [
