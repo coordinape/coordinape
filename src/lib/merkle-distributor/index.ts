@@ -32,6 +32,7 @@ export const createDistribution = (
   let balances = Object.keys(gifts).map(address => ({
     address,
     earnings: giftAmount.mul(gifts[address]).div(totalGive),
+    fixedPaymentAmount: BigNumber.from(0),
   }));
 
   if (fixedGifts) {
@@ -41,8 +42,13 @@ export const createDistribution = (
         balances[idx].earnings = balances[idx].earnings.add(
           fixedGifts[address]
         );
+        balances[idx].fixedPaymentAmount = fixedGifts[address];
       } else {
-        balances.push({ address, earnings: fixedGifts[address] });
+        balances.push({
+          address,
+          earnings: fixedGifts[address],
+          fixedPaymentAmount: fixedGifts[address],
+        });
       }
     });
   }
@@ -67,12 +73,16 @@ export const createDistribution = (
     assert(previousDistribution.claims, 'No claims found');
     const claims = Object.entries(previousDistribution.claims);
     const addedClaims = [];
-    for (const [addr, { amount }] of claims) {
+    for (const [addr, { amount, fixedPaymentAmount }] of claims) {
       const balance = balances.find(({ address }) => address === addr);
       if (balance) {
         balance.earnings = balance.earnings.add(amount);
       } else {
-        addedClaims.push({ address: addr, earnings: BigNumber.from(amount) });
+        addedClaims.push({
+          address: addr,
+          earnings: BigNumber.from(amount),
+          fixedPaymentAmount: BigNumber.from(fixedPaymentAmount),
+        });
       }
     }
     if (addedClaims.length > 0) balances = [...balances, ...addedClaims];

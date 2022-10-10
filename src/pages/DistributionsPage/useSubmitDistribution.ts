@@ -111,6 +111,9 @@ export function useSubmitDistribution() {
                 .toString()
             : amount.toString();
 
+          const fixed_payment_amount = fixed(
+            claim.fixedPaymentAmount
+          ).divUnsafe(shifter);
           return {
             address: address.toLowerCase(),
             index: claim.index,
@@ -118,6 +121,7 @@ export function useSubmitDistribution() {
             new_amount: new_amount.toString(),
             proof: claim.proof.toString(),
             profile_id: profileIdsByAddress[address.toLowerCase()],
+            fixed_payment_amount: fixed_payment_amount.toString(),
           };
         })
         // remove empty claims

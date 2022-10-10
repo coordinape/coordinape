@@ -45,9 +45,24 @@ test('dust limit', () => {
 test('combined root', () => {
   const previousDist = {
     claims: {
-      [addr(1)]: { index: 0, amount: '0x04f790d5', proof: ['mock'] }, // 83333333
-      [addr(2)]: { index: 1, amount: '0x09ef21aa', proof: ['mock'] }, // 166666666
-      [addr(3)]: { index: 2, amount: '0x0ee6b281', proof: ['mock'] }, // 250000001
+      [addr(1)]: {
+        index: 0,
+        amount: '0x04f790d5',
+        fixedPaymentAmount: '0x0',
+        proof: ['mock'],
+      }, // 83333333
+      [addr(2)]: {
+        index: 1,
+        amount: '0x09ef21aa',
+        fixedPaymentAmount: '0x0',
+        proof: ['mock'],
+      }, // 166666666
+      [addr(3)]: {
+        index: 2,
+        amount: '0x0ee6b281',
+        fixedPaymentAmount: '0x0',
+        proof: ['mock'],
+      }, // 250000001
     },
     tokenTotal: '500000000',
   };

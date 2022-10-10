@@ -1,4 +1,5 @@
 import { VercelRequest } from '@vercel/node';
+import { FixedNumber } from 'ethers';
 import { DateTime } from 'luxon';
 
 import { DISTRIBUTION_TYPE } from '../../../../api-lib/constants';
@@ -61,10 +62,17 @@ function getMockCircleDistribution(type?: DistributionType | undefined) {
       distributions.push({
         distribution_type: DISTRIBUTION_TYPE.FIXED,
         tx_hash: '0x',
-        vault: { symbol: 'DAI' },
+        pricePerShare: FixedNumber.from(1),
+        vault: {
+          symbol: 'DAI',
+          chain_id: 1,
+          vault_address: '0x1',
+          simple_token_address: '0x0',
+          decimals: 18,
+        },
         claims: [
-          { profile_id: 1, new_amount: 150 },
-          { profile_id: 2, new_amount: 200 },
+          { profile_id: 1, new_amount: 150, fixed_payment_amount: 150 },
+          { profile_id: 2, new_amount: 200, fixed_payment_amount: 200 },
         ],
       });
       break;
@@ -72,10 +80,17 @@ function getMockCircleDistribution(type?: DistributionType | undefined) {
       distributions.push({
         distribution_type: DISTRIBUTION_TYPE.GIFT,
         tx_hash: '0x',
-        vault: { symbol: 'DAI' },
+        pricePerShare: FixedNumber.from(1),
+        vault: {
+          symbol: 'DAI',
+          chain_id: 1,
+          vault_address: '0x1',
+          simple_token_address: '0x0',
+          decimals: 18,
+        },
         claims: [
-          { profile_id: 1, new_amount: 150 },
-          { profile_id: 2, new_amount: 75 },
+          { profile_id: 1, new_amount: 150, fixed_payment_amount: 0 },
+          { profile_id: 2, new_amount: 75, fixed_payment_amount: 0 },
         ],
       });
       break;
@@ -83,10 +98,17 @@ function getMockCircleDistribution(type?: DistributionType | undefined) {
       distributions.push({
         distribution_type: DISTRIBUTION_TYPE.COMBINED,
         tx_hash: '0x',
-        vault: { symbol: 'DAI' },
+        pricePerShare: FixedNumber.from(1),
+        vault: {
+          symbol: 'DAI',
+          chain_id: 1,
+          vault_address: '0x1',
+          simple_token_address: '0x0',
+          decimals: 18,
+        },
         claims: [
-          { profile_id: 1, new_amount: 250 },
-          { profile_id: 2, new_amount: 176 },
+          { profile_id: 1, new_amount: 250, fixed_payment_amount: 100 },
+          { profile_id: 2, new_amount: 175, fixed_payment_amount: 101 },
         ],
       });
       break;

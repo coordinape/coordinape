@@ -2091,6 +2091,7 @@ columns and relationships of "circle_api_keys" */
     /** An object relationship */
     distribution?: ValueTypes['distributions'];
     distribution_id?: boolean | `@${string}`;
+    fixed_payment_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     index?: boolean | `@${string}`;
     new_amount?: boolean | `@${string}`;
@@ -2153,6 +2154,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_avg_fields']: AliasType<{
     amount?: boolean | `@${string}`;
     distribution_id?: boolean | `@${string}`;
+    fixed_payment_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     index?: boolean | `@${string}`;
     new_amount?: boolean | `@${string}`;
@@ -2163,6 +2165,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_avg_order_by']: {
     amount?: ValueTypes['order_by'] | undefined | null;
     distribution_id?: ValueTypes['order_by'] | undefined | null;
+    fixed_payment_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     index?: ValueTypes['order_by'] | undefined | null;
     new_amount?: ValueTypes['order_by'] | undefined | null;
@@ -2178,6 +2181,10 @@ columns and relationships of "circle_api_keys" */
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     distribution?: ValueTypes['distributions_bool_exp'] | undefined | null;
     distribution_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    fixed_payment_amount?:
+      | ValueTypes['numeric_comparison_exp']
+      | undefined
+      | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     index?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     new_amount?: ValueTypes['numeric_comparison_exp'] | undefined | null;
@@ -2197,6 +2204,7 @@ columns and relationships of "circle_api_keys" */
       | ValueTypes['distributions_obj_rel_insert_input']
       | undefined
       | null;
+    fixed_payment_amount?: ValueTypes['numeric'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     index?: ValueTypes['bigint'] | undefined | null;
     new_amount?: ValueTypes['numeric'] | undefined | null;
@@ -2209,6 +2217,7 @@ columns and relationships of "circle_api_keys" */
     amount?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     distribution_id?: boolean | `@${string}`;
+    fixed_payment_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     index?: boolean | `@${string}`;
     new_amount?: boolean | `@${string}`;
@@ -2224,6 +2233,7 @@ columns and relationships of "circle_api_keys" */
     amount?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     distribution_id?: ValueTypes['order_by'] | undefined | null;
+    fixed_payment_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     index?: ValueTypes['order_by'] | undefined | null;
     new_amount?: ValueTypes['order_by'] | undefined | null;
@@ -2238,6 +2248,7 @@ columns and relationships of "circle_api_keys" */
     amount?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     distribution_id?: boolean | `@${string}`;
+    fixed_payment_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     index?: boolean | `@${string}`;
     new_amount?: boolean | `@${string}`;
@@ -2253,6 +2264,7 @@ columns and relationships of "circle_api_keys" */
     amount?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     distribution_id?: ValueTypes['order_by'] | undefined | null;
+    fixed_payment_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     index?: ValueTypes['order_by'] | undefined | null;
     new_amount?: ValueTypes['order_by'] | undefined | null;
@@ -2282,6 +2294,7 @@ columns and relationships of "circle_api_keys" */
     created_at?: ValueTypes['order_by'] | undefined | null;
     distribution?: ValueTypes['distributions_order_by'] | undefined | null;
     distribution_id?: ValueTypes['order_by'] | undefined | null;
+    fixed_payment_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     index?: ValueTypes['order_by'] | undefined | null;
     new_amount?: ValueTypes['order_by'] | undefined | null;
@@ -2305,6 +2318,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_stddev_fields']: AliasType<{
     amount?: boolean | `@${string}`;
     distribution_id?: boolean | `@${string}`;
+    fixed_payment_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     index?: boolean | `@${string}`;
     new_amount?: boolean | `@${string}`;
@@ -2315,6 +2329,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_stddev_order_by']: {
     amount?: ValueTypes['order_by'] | undefined | null;
     distribution_id?: ValueTypes['order_by'] | undefined | null;
+    fixed_payment_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     index?: ValueTypes['order_by'] | undefined | null;
     new_amount?: ValueTypes['order_by'] | undefined | null;
@@ -2324,6 +2339,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_stddev_pop_fields']: AliasType<{
     amount?: boolean | `@${string}`;
     distribution_id?: boolean | `@${string}`;
+    fixed_payment_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     index?: boolean | `@${string}`;
     new_amount?: boolean | `@${string}`;
@@ -2334,6 +2350,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_stddev_pop_order_by']: {
     amount?: ValueTypes['order_by'] | undefined | null;
     distribution_id?: ValueTypes['order_by'] | undefined | null;
+    fixed_payment_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     index?: ValueTypes['order_by'] | undefined | null;
     new_amount?: ValueTypes['order_by'] | undefined | null;
@@ -2343,6 +2360,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_stddev_samp_fields']: AliasType<{
     amount?: boolean | `@${string}`;
     distribution_id?: boolean | `@${string}`;
+    fixed_payment_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     index?: boolean | `@${string}`;
     new_amount?: boolean | `@${string}`;
@@ -2353,6 +2371,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_stddev_samp_order_by']: {
     amount?: ValueTypes['order_by'] | undefined | null;
     distribution_id?: ValueTypes['order_by'] | undefined | null;
+    fixed_payment_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     index?: ValueTypes['order_by'] | undefined | null;
     new_amount?: ValueTypes['order_by'] | undefined | null;
@@ -2362,6 +2381,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_sum_fields']: AliasType<{
     amount?: boolean | `@${string}`;
     distribution_id?: boolean | `@${string}`;
+    fixed_payment_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     index?: boolean | `@${string}`;
     new_amount?: boolean | `@${string}`;
@@ -2372,6 +2392,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_sum_order_by']: {
     amount?: ValueTypes['order_by'] | undefined | null;
     distribution_id?: ValueTypes['order_by'] | undefined | null;
+    fixed_payment_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     index?: ValueTypes['order_by'] | undefined | null;
     new_amount?: ValueTypes['order_by'] | undefined | null;
@@ -2383,6 +2404,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_var_pop_fields']: AliasType<{
     amount?: boolean | `@${string}`;
     distribution_id?: boolean | `@${string}`;
+    fixed_payment_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     index?: boolean | `@${string}`;
     new_amount?: boolean | `@${string}`;
@@ -2393,6 +2415,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_var_pop_order_by']: {
     amount?: ValueTypes['order_by'] | undefined | null;
     distribution_id?: ValueTypes['order_by'] | undefined | null;
+    fixed_payment_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     index?: ValueTypes['order_by'] | undefined | null;
     new_amount?: ValueTypes['order_by'] | undefined | null;
@@ -2402,6 +2425,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_var_samp_fields']: AliasType<{
     amount?: boolean | `@${string}`;
     distribution_id?: boolean | `@${string}`;
+    fixed_payment_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     index?: boolean | `@${string}`;
     new_amount?: boolean | `@${string}`;
@@ -2412,6 +2436,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_var_samp_order_by']: {
     amount?: ValueTypes['order_by'] | undefined | null;
     distribution_id?: ValueTypes['order_by'] | undefined | null;
+    fixed_payment_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     index?: ValueTypes['order_by'] | undefined | null;
     new_amount?: ValueTypes['order_by'] | undefined | null;
@@ -2421,6 +2446,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_variance_fields']: AliasType<{
     amount?: boolean | `@${string}`;
     distribution_id?: boolean | `@${string}`;
+    fixed_payment_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     index?: boolean | `@${string}`;
     new_amount?: boolean | `@${string}`;
@@ -2431,6 +2457,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_variance_order_by']: {
     amount?: ValueTypes['order_by'] | undefined | null;
     distribution_id?: ValueTypes['order_by'] | undefined | null;
+    fixed_payment_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     index?: ValueTypes['order_by'] | undefined | null;
     new_amount?: ValueTypes['order_by'] | undefined | null;
@@ -8593,6 +8620,7 @@ columns and relationships of "circle_api_keys" */
     /** An object relationship */
     distribution: GraphQLTypes['distributions'];
     distribution_id: GraphQLTypes['bigint'];
+    fixed_payment_amount: GraphQLTypes['numeric'];
     id: GraphQLTypes['bigint'];
     index: GraphQLTypes['bigint'];
     new_amount: GraphQLTypes['numeric'];
@@ -8630,6 +8658,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_avg_fields']: {
     amount?: number | undefined;
     distribution_id?: number | undefined;
+    fixed_payment_amount?: number | undefined;
     id?: number | undefined;
     index?: number | undefined;
     new_amount?: number | undefined;
@@ -8649,6 +8678,7 @@ columns and relationships of "circle_api_keys" */
     amount?: GraphQLTypes['numeric'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     distribution_id?: GraphQLTypes['bigint'] | undefined;
+    fixed_payment_amount?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     index?: GraphQLTypes['bigint'] | undefined;
     new_amount?: GraphQLTypes['numeric'] | undefined;
@@ -8665,6 +8695,7 @@ columns and relationships of "circle_api_keys" */
     amount?: GraphQLTypes['numeric'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     distribution_id?: GraphQLTypes['bigint'] | undefined;
+    fixed_payment_amount?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     index?: GraphQLTypes['bigint'] | undefined;
     new_amount?: GraphQLTypes['numeric'] | undefined;
@@ -8696,6 +8727,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_stddev_fields']: {
     amount?: number | undefined;
     distribution_id?: number | undefined;
+    fixed_payment_amount?: number | undefined;
     id?: number | undefined;
     index?: number | undefined;
     new_amount?: number | undefined;
@@ -8707,6 +8739,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_stddev_pop_fields']: {
     amount?: number | undefined;
     distribution_id?: number | undefined;
+    fixed_payment_amount?: number | undefined;
     id?: number | undefined;
     index?: number | undefined;
     new_amount?: number | undefined;
@@ -8718,6 +8751,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_stddev_samp_fields']: {
     amount?: number | undefined;
     distribution_id?: number | undefined;
+    fixed_payment_amount?: number | undefined;
     id?: number | undefined;
     index?: number | undefined;
     new_amount?: number | undefined;
@@ -8729,6 +8763,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_sum_fields']: {
     amount?: GraphQLTypes['numeric'] | undefined;
     distribution_id?: GraphQLTypes['bigint'] | undefined;
+    fixed_payment_amount?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     index?: GraphQLTypes['bigint'] | undefined;
     new_amount?: GraphQLTypes['numeric'] | undefined;
@@ -8742,6 +8777,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_var_pop_fields']: {
     amount?: number | undefined;
     distribution_id?: number | undefined;
+    fixed_payment_amount?: number | undefined;
     id?: number | undefined;
     index?: number | undefined;
     new_amount?: number | undefined;
@@ -8753,6 +8789,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_var_samp_fields']: {
     amount?: number | undefined;
     distribution_id?: number | undefined;
+    fixed_payment_amount?: number | undefined;
     id?: number | undefined;
     index?: number | undefined;
     new_amount?: number | undefined;
@@ -8764,6 +8801,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_variance_fields']: {
     amount?: number | undefined;
     distribution_id?: number | undefined;
+    fixed_payment_amount?: number | undefined;
     id?: number | undefined;
     index?: number | undefined;
     new_amount?: number | undefined;
@@ -11607,6 +11645,7 @@ columns and relationships of "circle_api_keys" */
     /** An object relationship */
     distribution: GraphQLTypes['distributions'];
     distribution_id: GraphQLTypes['bigint'];
+    fixed_payment_amount: GraphQLTypes['numeric'];
     id: GraphQLTypes['bigint'];
     index: GraphQLTypes['bigint'];
     new_amount: GraphQLTypes['numeric'];
@@ -11663,6 +11702,7 @@ columns and relationships of "circle_api_keys" */
     __typename: 'claims_avg_fields';
     amount?: number | undefined;
     distribution_id?: number | undefined;
+    fixed_payment_amount?: number | undefined;
     id?: number | undefined;
     index?: number | undefined;
     new_amount?: number | undefined;
@@ -11672,6 +11712,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_avg_order_by']: {
     amount?: GraphQLTypes['order_by'] | undefined;
     distribution_id?: GraphQLTypes['order_by'] | undefined;
+    fixed_payment_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     index?: GraphQLTypes['order_by'] | undefined;
     new_amount?: GraphQLTypes['order_by'] | undefined;
@@ -11687,6 +11728,7 @@ columns and relationships of "circle_api_keys" */
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     distribution?: GraphQLTypes['distributions_bool_exp'] | undefined;
     distribution_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    fixed_payment_amount?: GraphQLTypes['numeric_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     index?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     new_amount?: GraphQLTypes['numeric_comparison_exp'] | undefined;
@@ -11705,6 +11747,7 @@ columns and relationships of "circle_api_keys" */
     distribution?:
       | GraphQLTypes['distributions_obj_rel_insert_input']
       | undefined;
+    fixed_payment_amount?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     index?: GraphQLTypes['bigint'] | undefined;
     new_amount?: GraphQLTypes['numeric'] | undefined;
@@ -11718,6 +11761,7 @@ columns and relationships of "circle_api_keys" */
     amount?: GraphQLTypes['numeric'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     distribution_id?: GraphQLTypes['bigint'] | undefined;
+    fixed_payment_amount?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     index?: GraphQLTypes['bigint'] | undefined;
     new_amount?: GraphQLTypes['numeric'] | undefined;
@@ -11732,6 +11776,7 @@ columns and relationships of "circle_api_keys" */
     amount?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     distribution_id?: GraphQLTypes['order_by'] | undefined;
+    fixed_payment_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     index?: GraphQLTypes['order_by'] | undefined;
     new_amount?: GraphQLTypes['order_by'] | undefined;
@@ -11747,6 +11792,7 @@ columns and relationships of "circle_api_keys" */
     amount?: GraphQLTypes['numeric'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     distribution_id?: GraphQLTypes['bigint'] | undefined;
+    fixed_payment_amount?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     index?: GraphQLTypes['bigint'] | undefined;
     new_amount?: GraphQLTypes['numeric'] | undefined;
@@ -11761,6 +11807,7 @@ columns and relationships of "circle_api_keys" */
     amount?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     distribution_id?: GraphQLTypes['order_by'] | undefined;
+    fixed_payment_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     index?: GraphQLTypes['order_by'] | undefined;
     new_amount?: GraphQLTypes['order_by'] | undefined;
@@ -11790,6 +11837,7 @@ columns and relationships of "circle_api_keys" */
     created_at?: GraphQLTypes['order_by'] | undefined;
     distribution?: GraphQLTypes['distributions_order_by'] | undefined;
     distribution_id?: GraphQLTypes['order_by'] | undefined;
+    fixed_payment_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     index?: GraphQLTypes['order_by'] | undefined;
     new_amount?: GraphQLTypes['order_by'] | undefined;
@@ -11814,6 +11862,7 @@ columns and relationships of "circle_api_keys" */
     __typename: 'claims_stddev_fields';
     amount?: number | undefined;
     distribution_id?: number | undefined;
+    fixed_payment_amount?: number | undefined;
     id?: number | undefined;
     index?: number | undefined;
     new_amount?: number | undefined;
@@ -11823,6 +11872,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_stddev_order_by']: {
     amount?: GraphQLTypes['order_by'] | undefined;
     distribution_id?: GraphQLTypes['order_by'] | undefined;
+    fixed_payment_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     index?: GraphQLTypes['order_by'] | undefined;
     new_amount?: GraphQLTypes['order_by'] | undefined;
@@ -11833,6 +11883,7 @@ columns and relationships of "circle_api_keys" */
     __typename: 'claims_stddev_pop_fields';
     amount?: number | undefined;
     distribution_id?: number | undefined;
+    fixed_payment_amount?: number | undefined;
     id?: number | undefined;
     index?: number | undefined;
     new_amount?: number | undefined;
@@ -11842,6 +11893,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_stddev_pop_order_by']: {
     amount?: GraphQLTypes['order_by'] | undefined;
     distribution_id?: GraphQLTypes['order_by'] | undefined;
+    fixed_payment_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     index?: GraphQLTypes['order_by'] | undefined;
     new_amount?: GraphQLTypes['order_by'] | undefined;
@@ -11852,6 +11904,7 @@ columns and relationships of "circle_api_keys" */
     __typename: 'claims_stddev_samp_fields';
     amount?: number | undefined;
     distribution_id?: number | undefined;
+    fixed_payment_amount?: number | undefined;
     id?: number | undefined;
     index?: number | undefined;
     new_amount?: number | undefined;
@@ -11861,6 +11914,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_stddev_samp_order_by']: {
     amount?: GraphQLTypes['order_by'] | undefined;
     distribution_id?: GraphQLTypes['order_by'] | undefined;
+    fixed_payment_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     index?: GraphQLTypes['order_by'] | undefined;
     new_amount?: GraphQLTypes['order_by'] | undefined;
@@ -11871,6 +11925,7 @@ columns and relationships of "circle_api_keys" */
     __typename: 'claims_sum_fields';
     amount?: GraphQLTypes['numeric'] | undefined;
     distribution_id?: GraphQLTypes['bigint'] | undefined;
+    fixed_payment_amount?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     index?: GraphQLTypes['bigint'] | undefined;
     new_amount?: GraphQLTypes['numeric'] | undefined;
@@ -11880,6 +11935,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_sum_order_by']: {
     amount?: GraphQLTypes['order_by'] | undefined;
     distribution_id?: GraphQLTypes['order_by'] | undefined;
+    fixed_payment_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     index?: GraphQLTypes['order_by'] | undefined;
     new_amount?: GraphQLTypes['order_by'] | undefined;
@@ -11892,6 +11948,7 @@ columns and relationships of "circle_api_keys" */
     __typename: 'claims_var_pop_fields';
     amount?: number | undefined;
     distribution_id?: number | undefined;
+    fixed_payment_amount?: number | undefined;
     id?: number | undefined;
     index?: number | undefined;
     new_amount?: number | undefined;
@@ -11901,6 +11958,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_var_pop_order_by']: {
     amount?: GraphQLTypes['order_by'] | undefined;
     distribution_id?: GraphQLTypes['order_by'] | undefined;
+    fixed_payment_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     index?: GraphQLTypes['order_by'] | undefined;
     new_amount?: GraphQLTypes['order_by'] | undefined;
@@ -11911,6 +11969,7 @@ columns and relationships of "circle_api_keys" */
     __typename: 'claims_var_samp_fields';
     amount?: number | undefined;
     distribution_id?: number | undefined;
+    fixed_payment_amount?: number | undefined;
     id?: number | undefined;
     index?: number | undefined;
     new_amount?: number | undefined;
@@ -11920,6 +11979,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_var_samp_order_by']: {
     amount?: GraphQLTypes['order_by'] | undefined;
     distribution_id?: GraphQLTypes['order_by'] | undefined;
+    fixed_payment_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     index?: GraphQLTypes['order_by'] | undefined;
     new_amount?: GraphQLTypes['order_by'] | undefined;
@@ -11930,6 +11990,7 @@ columns and relationships of "circle_api_keys" */
     __typename: 'claims_variance_fields';
     amount?: number | undefined;
     distribution_id?: number | undefined;
+    fixed_payment_amount?: number | undefined;
     id?: number | undefined;
     index?: number | undefined;
     new_amount?: number | undefined;
@@ -11939,6 +12000,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_variance_order_by']: {
     amount?: GraphQLTypes['order_by'] | undefined;
     distribution_id?: GraphQLTypes['order_by'] | undefined;
+    fixed_payment_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     index?: GraphQLTypes['order_by'] | undefined;
     new_amount?: GraphQLTypes['order_by'] | undefined;
@@ -15438,6 +15500,7 @@ export const enum claims_select_column {
   amount = 'amount',
   created_at = 'created_at',
   distribution_id = 'distribution_id',
+  fixed_payment_amount = 'fixed_payment_amount',
   id = 'id',
   index = 'index',
   new_amount = 'new_amount',

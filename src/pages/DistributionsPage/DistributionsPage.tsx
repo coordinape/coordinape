@@ -100,21 +100,20 @@ export function DistributionsPage() {
       d.distribution_type === DISTRIBUTION_TYPE.COMBINED
   );
 
-  const isCombinedDistribution =
-    fixedDist &&
-    circleDist &&
-    circleDist.distribution_type === DISTRIBUTION_TYPE.COMBINED &&
-    fixedDist.distribution_type === DISTRIBUTION_TYPE.COMBINED;
-
   const unwrappedAmount = (
     id?: number,
     dist?: typeof epoch.distributions[0]
   ) => {
-    if (!id || !dist) return 0;
-    return (
-      (dist.claims.find(c => c.profile?.id === id)?.new_amount || 0) *
-      dist.pricePerShare.toUnsafeFloat()
-    );
+    if (!id || !dist) return { claimed: 0, fixedPayment: 0, circleClaimed: 0 };
+    const claim = dist.claims.find(c => c.profile?.id === id);
+    const pricePerShare = dist.pricePerShare.toUnsafeFloat();
+    return {
+      claimed: (claim?.new_amount || 0) * pricePerShare,
+      fixedPayment: (claim?.fixed_payment_amount || 0) * pricePerShare,
+      circleClaimed:
+        ((claim?.new_amount || 0) - (claim?.fixed_payment_amount || 0)) *
+        pricePerShare,
+    };
   };
 
   const usersWithGiftnFixedAmounts = circleUsers
@@ -130,23 +129,23 @@ export function DistributionsPage() {
       const receivedGifts = epoch.token_gifts?.filter(
         g => g.recipient_id === user.id
       );
-      const claimed = unwrappedAmount(user.profile?.id, fixedDist);
-      const circle_claimed = unwrappedAmount(user.profile?.id, circleDist);
+      const { fixedPayment } = unwrappedAmount(user.profile?.id, fixedDist);
+      const { claimed, circleClaimed } = unwrappedAmount(
+        user.profile?.id,
+        circleDist
+      );
       return {
         id: user.id,
         name: user.name,
         address: user.address,
-        fixed_payment_amount: user.fixed_payment_amount ?? 0,
+        fixedPaymentAmount: user.fixed_payment_amount ?? 0,
+        fixedPaymentClaimed: fixedPayment,
         avatar: user.profile?.avatar,
         givers: receivedGifts?.length || 0,
         received: receivedGifts?.reduce((t, g) => t + g.tokens, 0) || 0,
         claimed,
-        circle_claimed,
-        // if its a combined distribution we don't add the claim amounts twice
-        // to avoid double counting towards the total claimed
-        combined_claimed: !isCombinedDistribution
-          ? claimed + circle_claimed
-          : claimed,
+        circleClaimed,
+        combinedClaimed: fixedPayment + circleClaimed,
       };
     });
 

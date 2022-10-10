@@ -100,6 +100,7 @@ export const getEpochData = async (
                 {
                   id: true,
                   new_amount: true,
+                  fixed_payment_amount: true,
                   profile: {
                     id: true,
                     address: true,

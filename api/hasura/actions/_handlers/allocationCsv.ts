@@ -9,9 +9,11 @@ import { formatCustomDate } from '../../../../api-lib/dateTimeHelpers';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getEpoch } from '../../../../api-lib/gql/queries';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
+import { getProvider } from '../../../../api-lib/provider';
 import { uploadCsv } from '../../../../api-lib/s3';
 import { Awaited } from '../../../../api-lib/ts4.5shim';
 import { isFeatureEnabled } from '../../../../src/config/features';
+import { Contracts } from '../../../../src/lib/vaults';
 import {
   allocationCsvInput,
   composeHasuraActionRequestBody,
@@ -51,7 +53,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     circle.fixed_payment_token_type,
     grant
   );
-
+  console.debug('userValues', userValues);
   const headers = [
     'No',
     'name',
@@ -69,7 +71,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   }
   if (grant) headers.push('Grant_amt');
   let csvText = `${headers.join(',')}\r\n`;
-  userValues.map(rowValues => {
+  userValues.forEach(rowValues => {
     csvText += `${rowValues.join(',')}\r\n`;
   });
   const fileName = `${epochObj.circle?.organization?.name}-${
@@ -112,71 +114,79 @@ export function generateCsvValues(
       d.distribution_type === DISTRIBUTION_TYPE.COMBINED
   );
 
+  const unwrappedAmount = (
+    id?: number,
+    dist?: typeof distEpoch.distributions[0]
+  ) => {
+    if (!id || !dist) return { claimed: 0, fixedPayment: 0, circleClaimed: 0 };
+    const claim = dist.claims.find(c => c.profile_id === id);
+    const pricePerShare = dist.pricePerShare.toUnsafeFloat();
+    return {
+      claimed: (claim?.new_amount || 0) * pricePerShare,
+      fixedPayment: (claim?.fixed_payment_amount || 0) * pricePerShare,
+      circleClaimed:
+        ((claim?.new_amount || 0) - (claim?.fixed_payment_amount || 0)) *
+        pricePerShare,
+    };
+  };
+
   giftTokenSymbol = circleDist ? circleDist.vault.symbol : giftTokenSymbol;
   const { users } = circle;
 
-  return users.map((u, idx) => {
-    const received = u.received_gifts.length
-      ? u.received_gifts
-          .map(g => g.tokens)
-          .reduce((total, tokens) => tokens + total)
-      : 0;
-    const claimed = !fixedDist
-      ? 0
-      : fixedDist.claims
-          .filter(c => c.profile_id === u.profile?.id)
-          .reduce((t, g) => t + g.new_amount, 0) || 0;
-    let circle_claimed = !circleDist
-      ? 0
-      : circleDist.claims
-          .filter(c => c.profile_id === u.profile?.id)
-          .reduce((t, g) => t + g.new_amount, 0) || 0;
-
-    if (
-      circleDist &&
-      circleDist.distribution_type === DISTRIBUTION_TYPE.COMBINED
-    )
-      circle_claimed -= u.fixed_payment_amount;
-
-    const rowValues: (string | number)[] = [
-      idx + 1,
-      u.name,
-      u.address,
-      received,
-      u.sent_gifts.length
-        ? u.sent_gifts
+  return (
+    users?.map((u, idx) => {
+      const { fixedPayment } = unwrappedAmount(u.profile?.id, fixedDist);
+      const { circleClaimed: cClaimed } = unwrappedAmount(
+        u.profile?.id,
+        circleDist
+      );
+      const received = u.received_gifts.length
+        ? u.received_gifts
             .map(g => g.tokens)
             .reduce((total, tokens) => tokens + total)
-        : 0,
-      u.received_gifts.length,
-      (givenPercent(received, totalTokensSent) * 100).toFixed(2),
-      circle_claimed
-        ? circle_claimed.toFixed(2)
-        : (formGiftAmount * givenPercent(received, totalTokensSent)).toFixed(2),
-      giftTokenSymbol || '',
-    ];
-    if (fixedPaymentsEnabled && fixedPaymentTokenType) {
-      const fixedAmount =
-        fixedDist && fixedDist.distribution_type === DISTRIBUTION_TYPE.FIXED
-          ? claimed
-          : u.fixed_payment_amount;
-      rowValues.push(fixedAmount.toFixed(2));
-      rowValues.push(fixedPaymentTokenType);
-    }
-    if (grant)
-      rowValues.push(
-        received
-          ? Math.floor(((received * grant) / totalTokensSent) * 100) / 100
-          : 0
-      );
+        : 0;
 
-    return rowValues;
-  });
+      const circleClaimed = circleDist
+        ? cClaimed
+        : formGiftAmount * givenPercent(received, totalTokensSent);
+
+      const rowValues: (string | number)[] = [
+        idx + 1,
+        u.name,
+        u.address,
+        received,
+        u.sent_gifts.length
+          ? u.sent_gifts
+              .map(g => g.tokens)
+              .reduce((total, tokens) => tokens + total)
+          : 0,
+        u.received_gifts.length,
+        (givenPercent(received, totalTokensSent) * 100).toFixed(2),
+        circleClaimed.toFixed(2),
+        giftTokenSymbol || '',
+      ];
+      if (fixedPaymentsEnabled && fixedPaymentTokenType) {
+        const fixedAmount = fixedDist ? fixedPayment : u.fixed_payment_amount;
+        rowValues.push(fixedAmount.toFixed(2));
+        rowValues.push(fixedPaymentTokenType);
+      }
+      if (grant)
+        rowValues.push(
+          received
+            ? Math.floor(((received * grant) / totalTokensSent) * 100) / 100
+            : 0
+        );
+
+      return rowValues;
+    }) || []
+  );
 }
 
 export type CircleDetails = Awaited<ReturnType<typeof getCircleDetails>>;
 
 export async function getCircleDetails(circle_id: number, epochId: number) {
+  console.debug('epochId', epochId);
+
   const { circles_by_pk } = await adminClient.query(
     {
       circles_by_pk: [
@@ -193,8 +203,21 @@ export async function getCircleDetails(circle_id: number, epochId: number) {
                 {
                   distribution_type: true,
                   tx_hash: true,
-                  vault: { symbol: true },
-                  claims: [{}, { profile_id: true, new_amount: true }],
+                  vault: {
+                    symbol: true,
+                    chain_id: true,
+                    vault_address: true,
+                    simple_token_address: true,
+                    decimals: true,
+                  },
+                  claims: [
+                    {},
+                    {
+                      profile_id: true,
+                      new_amount: true,
+                      fixed_payment_amount: true,
+                    },
+                  ],
                 },
               ],
             },
@@ -226,8 +249,22 @@ export async function getCircleDetails(circle_id: number, epochId: number) {
     },
     { operationName: 'allocationCsv_getGifts' }
   );
-
-  return circles_by_pk;
+  const chainId =
+    circles_by_pk?.epochs[0]?.distributions[0]?.vault.chain_id || 1;
+  const provider = getProvider(chainId);
+  const contracts = new Contracts(chainId, provider, true);
+  const distributions = await Promise.all(
+    circles_by_pk?.epochs[0]?.distributions.map(async dist => ({
+      ...dist,
+      pricePerShare: await contracts.getPricePerShare(
+        dist.vault.vault_address,
+        dist.vault.simple_token_address,
+        dist.vault.decimals
+      ),
+    })) || []
+  );
+  const epoch = circles_by_pk?.epochs[0];
+  return { ...circles_by_pk, epochs: [{ ...epoch, distributions }] };
 }
 
 export default authCircleAdminMiddleware(handler);

@@ -29,6 +29,7 @@ insert_permissions:
       columns:
         - address
         - amount
+        - fixed_payment_amount
         - id
         - index
         - new_amount
@@ -43,6 +44,7 @@ select_permissions:
         - amount
         - created_at
         - distribution_id
+        - fixed_payment_amount
         - id
         - index
         - new_amount

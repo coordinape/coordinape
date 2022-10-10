@@ -19,6 +19,7 @@ export interface MerkleDistributorInfo {
       index: number;
       amount: string;
       proof: string[];
+      fixedPaymentAmount?: string;
       flags?: {
         [flag: string]: boolean;
       };
@@ -27,7 +28,11 @@ export interface MerkleDistributorInfo {
 }
 
 type OldFormat = { [account: string]: number | string };
-type NewFormat = { address: string; earnings: string | BigNumber };
+type NewFormat = {
+  address: string;
+  earnings: string | BigNumber;
+  fixedPaymentAmount: string | BigNumber;
+};
 
 export function parseBalanceMap(
   balances: OldFormat | NewFormat[]
@@ -39,25 +44,31 @@ export function parseBalanceMap(
         (account): NewFormat => ({
           address: account,
           earnings: `0x${balances[account].toString(16)}`,
+          fixedPaymentAmount: BigNumber.from(0),
         })
       );
 
   const dataByAddress = balancesInNewFormat.reduce<{
     [address: string]: {
       amount: BigNumber;
+      fixedPaymentAmount: BigNumber;
       flags?: { [flag: string]: boolean };
     };
-  }>((memo, { address: account, earnings }) => {
+  }>((memo, { address: account, earnings, fixedPaymentAmount }) => {
     if (!isAddress(account)) {
       throw new Error(`Found invalid address: ${account}`);
     }
     const parsed = account.toLowerCase();
     if (memo[parsed]) throw new Error(`Duplicate address: ${parsed}`);
     const parsedNum = BigNumber.from(earnings);
+    const parsedFixedPayment = BigNumber.from(fixedPaymentAmount);
     if (parsedNum.lte(0))
       throw new Error(`Invalid amount for account ${account}: "${earnings}"`);
 
-    memo[parsed] = { amount: parsedNum };
+    memo[parsed] = {
+      amount: parsedNum,
+      fixedPaymentAmount: parsedFixedPayment,
+    };
     return memo;
   }, {});
 
@@ -67,6 +78,7 @@ export function parseBalanceMap(
     sortedAddresses.map(address => ({
       account: address,
       amount: dataByAddress[address].amount,
+      fixedPaymentAmount: dataByAddress[address].fixedPaymentAmount,
     }))
   );
 
@@ -74,13 +86,15 @@ export function parseBalanceMap(
   const claims = sortedAddresses.reduce<{
     [address: string]: {
       amount: string;
+      fixedPaymentAmount: string;
       index: number;
       proof: string[];
     };
   }>((memo, address, index) => {
-    const { amount } = dataByAddress[address];
+    const { amount, fixedPaymentAmount } = dataByAddress[address];
     memo[address] = {
       index,
+      fixedPaymentAmount: fixedPaymentAmount.toString(),
       amount: amount.toString(),
       proof: tree.getProof(index, address, amount),
     };

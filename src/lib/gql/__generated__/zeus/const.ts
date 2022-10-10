@@ -687,6 +687,7 @@ export const AllTypesProps: Record<string, any> = {
   claims_avg_order_by: {
     amount: 'order_by',
     distribution_id: 'order_by',
+    fixed_payment_amount: 'order_by',
     id: 'order_by',
     index: 'order_by',
     new_amount: 'order_by',
@@ -701,6 +702,7 @@ export const AllTypesProps: Record<string, any> = {
     created_at: 'timestamptz_comparison_exp',
     distribution: 'distributions_bool_exp',
     distribution_id: 'bigint_comparison_exp',
+    fixed_payment_amount: 'numeric_comparison_exp',
     id: 'bigint_comparison_exp',
     index: 'bigint_comparison_exp',
     new_amount: 'numeric_comparison_exp',
@@ -714,6 +716,7 @@ export const AllTypesProps: Record<string, any> = {
   claims_insert_input: {
     amount: 'numeric',
     distribution: 'distributions_obj_rel_insert_input',
+    fixed_payment_amount: 'numeric',
     id: 'bigint',
     index: 'bigint',
     new_amount: 'numeric',
@@ -724,6 +727,7 @@ export const AllTypesProps: Record<string, any> = {
     amount: 'order_by',
     created_at: 'order_by',
     distribution_id: 'order_by',
+    fixed_payment_amount: 'order_by',
     id: 'order_by',
     index: 'order_by',
     new_amount: 'order_by',
@@ -737,6 +741,7 @@ export const AllTypesProps: Record<string, any> = {
     amount: 'order_by',
     created_at: 'order_by',
     distribution_id: 'order_by',
+    fixed_payment_amount: 'order_by',
     id: 'order_by',
     index: 'order_by',
     new_amount: 'order_by',
@@ -756,6 +761,7 @@ export const AllTypesProps: Record<string, any> = {
     created_at: 'order_by',
     distribution: 'distributions_order_by',
     distribution_id: 'order_by',
+    fixed_payment_amount: 'order_by',
     id: 'order_by',
     index: 'order_by',
     new_amount: 'order_by',
@@ -773,6 +779,7 @@ export const AllTypesProps: Record<string, any> = {
   claims_stddev_order_by: {
     amount: 'order_by',
     distribution_id: 'order_by',
+    fixed_payment_amount: 'order_by',
     id: 'order_by',
     index: 'order_by',
     new_amount: 'order_by',
@@ -781,6 +788,7 @@ export const AllTypesProps: Record<string, any> = {
   claims_stddev_pop_order_by: {
     amount: 'order_by',
     distribution_id: 'order_by',
+    fixed_payment_amount: 'order_by',
     id: 'order_by',
     index: 'order_by',
     new_amount: 'order_by',
@@ -789,6 +797,7 @@ export const AllTypesProps: Record<string, any> = {
   claims_stddev_samp_order_by: {
     amount: 'order_by',
     distribution_id: 'order_by',
+    fixed_payment_amount: 'order_by',
     id: 'order_by',
     index: 'order_by',
     new_amount: 'order_by',
@@ -797,6 +806,7 @@ export const AllTypesProps: Record<string, any> = {
   claims_sum_order_by: {
     amount: 'order_by',
     distribution_id: 'order_by',
+    fixed_payment_amount: 'order_by',
     id: 'order_by',
     index: 'order_by',
     new_amount: 'order_by',
@@ -806,6 +816,7 @@ export const AllTypesProps: Record<string, any> = {
   claims_var_pop_order_by: {
     amount: 'order_by',
     distribution_id: 'order_by',
+    fixed_payment_amount: 'order_by',
     id: 'order_by',
     index: 'order_by',
     new_amount: 'order_by',
@@ -814,6 +825,7 @@ export const AllTypesProps: Record<string, any> = {
   claims_var_samp_order_by: {
     amount: 'order_by',
     distribution_id: 'order_by',
+    fixed_payment_amount: 'order_by',
     id: 'order_by',
     index: 'order_by',
     new_amount: 'order_by',
@@ -822,6 +834,7 @@ export const AllTypesProps: Record<string, any> = {
   claims_variance_order_by: {
     amount: 'order_by',
     distribution_id: 'order_by',
+    fixed_payment_amount: 'order_by',
     id: 'order_by',
     index: 'order_by',
     new_amount: 'order_by',
@@ -3572,6 +3585,7 @@ export const ReturnTypes: Record<string, any> = {
     created_at: 'timestamptz',
     distribution: 'distributions',
     distribution_id: 'bigint',
+    fixed_payment_amount: 'numeric',
     id: 'bigint',
     index: 'bigint',
     new_amount: 'numeric',
@@ -3601,6 +3615,7 @@ export const ReturnTypes: Record<string, any> = {
   claims_avg_fields: {
     amount: 'Float',
     distribution_id: 'Float',
+    fixed_payment_amount: 'Float',
     id: 'Float',
     index: 'Float',
     new_amount: 'Float',
@@ -3611,6 +3626,7 @@ export const ReturnTypes: Record<string, any> = {
     amount: 'numeric',
     created_at: 'timestamptz',
     distribution_id: 'bigint',
+    fixed_payment_amount: 'numeric',
     id: 'bigint',
     index: 'bigint',
     new_amount: 'numeric',
@@ -3624,6 +3640,7 @@ export const ReturnTypes: Record<string, any> = {
     amount: 'numeric',
     created_at: 'timestamptz',
     distribution_id: 'bigint',
+    fixed_payment_amount: 'numeric',
     id: 'bigint',
     index: 'bigint',
     new_amount: 'numeric',
@@ -3639,6 +3656,7 @@ export const ReturnTypes: Record<string, any> = {
   claims_stddev_fields: {
     amount: 'Float',
     distribution_id: 'Float',
+    fixed_payment_amount: 'Float',
     id: 'Float',
     index: 'Float',
     new_amount: 'Float',
@@ -3647,6 +3665,7 @@ export const ReturnTypes: Record<string, any> = {
   claims_stddev_pop_fields: {
     amount: 'Float',
     distribution_id: 'Float',
+    fixed_payment_amount: 'Float',
     id: 'Float',
     index: 'Float',
     new_amount: 'Float',
@@ -3655,6 +3674,7 @@ export const ReturnTypes: Record<string, any> = {
   claims_stddev_samp_fields: {
     amount: 'Float',
     distribution_id: 'Float',
+    fixed_payment_amount: 'Float',
     id: 'Float',
     index: 'Float',
     new_amount: 'Float',
@@ -3663,6 +3683,7 @@ export const ReturnTypes: Record<string, any> = {
   claims_sum_fields: {
     amount: 'numeric',
     distribution_id: 'bigint',
+    fixed_payment_amount: 'numeric',
     id: 'bigint',
     index: 'bigint',
     new_amount: 'numeric',
@@ -3671,6 +3692,7 @@ export const ReturnTypes: Record<string, any> = {
   claims_var_pop_fields: {
     amount: 'Float',
     distribution_id: 'Float',
+    fixed_payment_amount: 'Float',
     id: 'Float',
     index: 'Float',
     new_amount: 'Float',
@@ -3679,6 +3701,7 @@ export const ReturnTypes: Record<string, any> = {
   claims_var_samp_fields: {
     amount: 'Float',
     distribution_id: 'Float',
+    fixed_payment_amount: 'Float',
     id: 'Float',
     index: 'Float',
     new_amount: 'Float',
@@ -3687,6 +3710,7 @@ export const ReturnTypes: Record<string, any> = {
   claims_variance_fields: {
     amount: 'Float',
     distribution_id: 'Float',
+    fixed_payment_amount: 'Float',
     id: 'Float',
     index: 'Float',
     new_amount: 'Float',

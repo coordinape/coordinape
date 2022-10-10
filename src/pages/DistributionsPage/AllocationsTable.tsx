@@ -3,7 +3,6 @@ import { useCallback } from 'react';
 import sumBy from 'lodash/sumBy';
 import uniqBy from 'lodash/uniqBy';
 
-import { DISTRIBUTION_TYPE } from '../../config/constants';
 import { makeTable } from 'components';
 import { Flex, Text, Panel, Button, Link, Avatar } from 'ui';
 import { smartRounding, numberWithCommas, shortenAddress } from 'utils';
@@ -33,9 +32,10 @@ export const AllocationsTable = ({
     address: string;
     received: number;
     claimed: number;
-    circle_claimed: number;
-    combined_claimed: number;
-    fixed_payment_amount: number;
+    circleClaimed: number;
+    combinedClaimed: number;
+    fixedPaymentAmount: number;
+    fixedPaymentClaimed: number;
     avatar: string | undefined;
     givers: number;
   }[];
@@ -88,7 +88,7 @@ export const AllocationsTable = ({
     { title: 'Fixed Payments', css: styles.alignRight },
   ];
   if (combinedDist) {
-    headers.push({ title: 'Funds Allocated' });
+    headers.push({ title: 'Funds Allocated', css: styles.alignRight });
   }
   return (
     <Panel>
@@ -158,34 +158,28 @@ export const AllocationsTable = ({
               {numberWithCommas(givenPercent(user.received) * 100, 2)}%
             </td>
             <td className="alignRight">
-              {user.circle_claimed
-                ? `${smartRounding(
-                    circleDist &&
-                      circleDist.distribution_type ===
-                        DISTRIBUTION_TYPE.COMBINED
-                      ? user.circle_claimed - user.fixed_payment_amount
-                      : user.circle_claimed
-                  )} ${tokenName || 'GIVE'}`
+              {circleDist
+                ? `${smartRounding(user.circleClaimed)} ${tokenName || 'GIVE'}`
                 : `${smartRounding(
                     givenPercent(user.received) * formGiftAmount
                   )} ${tokenName || 'GIVE'}`}
             </td>
             <td className="alignRight">
-              {!combinedDist && fixedDist
-                ? smartRounding(user.claimed)
-                : smartRounding(user.fixed_payment_amount)}{' '}
+              {fixedDist
+                ? smartRounding(user.fixedPaymentClaimed)
+                : smartRounding(user.fixedPaymentAmount)}{' '}
               {fixedTokenName || ''}
             </td>
             {combinedDist ? (
               <td className="alignRight">
                 {(() => {
                   if (circleDist && fixedDist) {
-                    return smartRounding(user.combined_claimed);
+                    return smartRounding(user.combinedClaimed);
                   }
                   const giftAmt = circleDist
-                    ? user.circle_claimed
+                    ? user.circleClaimed
                     : givenPercent(user.received) * formGiftAmount;
-                  return smartRounding(giftAmt + user.fixed_payment_amount);
+                  return smartRounding(giftAmt + user.fixedPaymentAmount);
                 })()}{' '}
                 {tokenName}
               </td>
