@@ -12,5 +12,6 @@
     "ts": "ts-node --swc"
   },
   "events": { "start": "yarn typecheck:backend" },
-  "env": { "NODE_ENV": "development" }
+  "env": { "NODE_ENV": "development" },
+  "ignore": ["api-test/__tests__"]
 }
