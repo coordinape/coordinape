@@ -5986,6 +5986,8 @@ columns and relationships of "distributions" */
     event_type?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     org_id?: boolean | `@${string}`;
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
     profile_id?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -6044,6 +6046,7 @@ columns and relationships of "distributions" */
     event_type?: ValueTypes['String_comparison_exp'] | undefined | null;
     id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     org_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     profile_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
   };
@@ -6077,6 +6080,7 @@ columns and relationships of "distributions" */
     event_type?: string | undefined | null;
     id?: number | undefined | null;
     org_id?: number | undefined | null;
+    profile?: ValueTypes['profiles_obj_rel_insert_input'] | undefined | null;
     profile_id?: number | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
   };
@@ -6127,6 +6131,7 @@ columns and relationships of "distributions" */
     event_type?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     org_id?: ValueTypes['order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
   };
@@ -18488,6 +18493,8 @@ columns and relationships of "distributions" */
     event_type: string;
     id: number;
     org_id?: number | undefined;
+    /** An object relationship */
+    profile?: GraphQLTypes['profiles'] | undefined;
     profile_id?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
@@ -26307,6 +26314,8 @@ columns and relationships of "distributions" */
     event_type: string;
     id: number;
     org_id?: number | undefined;
+    /** An object relationship */
+    profile?: GraphQLTypes['profiles'] | undefined;
     profile_id?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
@@ -26359,6 +26368,7 @@ columns and relationships of "distributions" */
     event_type?: GraphQLTypes['String_comparison_exp'] | undefined;
     id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     org_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     profile_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
   };
@@ -26392,6 +26402,7 @@ columns and relationships of "distributions" */
     event_type?: string | undefined;
     id?: number | undefined;
     org_id?: number | undefined;
+    profile?: GraphQLTypes['profiles_obj_rel_insert_input'] | undefined;
     profile_id?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
@@ -26442,6 +26453,7 @@ columns and relationships of "distributions" */
     event_type?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     org_id?: GraphQLTypes['order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
   };
