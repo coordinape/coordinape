@@ -12,7 +12,7 @@ import {
 } from 'components';
 import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
 import { useNavigation } from 'hooks';
-import { useContributions } from 'hooks/useContributions';
+import { useDeprecatedContributions as useContributions } from 'hooks/useContributions';
 import { useSetEditProfileOpen } from 'recoilState/ui';
 import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE } from 'routes/paths';
 import { Flex, Avatar } from 'ui';
