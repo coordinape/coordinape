@@ -323,7 +323,7 @@ export class GraphQLError extends Error {
   constructor(public response: GraphQLResponse) {
     super('');
     // eslint-disable-next-line no-console
-    console.info(JSON.stringify(response));
+    console.info(JSON.stringify(response, null, 2));
   }
   toString() {
     return 'GraphQL Response Error';
@@ -625,6 +625,7 @@ export type ValueTypes = {
     user_id?: number | undefined | null;
   };
   ['AllocationsResponse']: AliasType<{
+    /** An object relationship */
     user?: ValueTypes['users'];
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -657,6 +658,7 @@ export type ValueTypes = {
     user_name: string;
   };
   ['CreateCircleResponse']: AliasType<{
+    /** An object relationship */
     circle?: ValueTypes['circles'];
     id?: boolean | `@${string}`;
     users?: [
@@ -722,6 +724,7 @@ export type ValueTypes = {
   };
   ['CreateNomineeResponse']: AliasType<{
     id?: boolean | `@${string}`;
+    /** An object relationship */
     nominee?: ValueTypes['nominees'];
     __typename?: boolean | `@${string}`;
   }>;
@@ -770,6 +773,7 @@ export type ValueTypes = {
     circle_id: number;
   };
   ['EpochResponse']: AliasType<{
+    /** An object relationship */
     epoch?: ValueTypes['epochs'];
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -788,6 +792,7 @@ export type ValueTypes = {
   };
   ['GenerateApiKeyResponse']: AliasType<{
     api_key?: boolean | `@${string}`;
+    /** An object relationship */
     circleApiKey?: ValueTypes['circle_api_keys'];
     hash?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -815,11 +820,13 @@ export type ValueTypes = {
   };
   ['LogVaultTxResponse']: AliasType<{
     id?: boolean | `@${string}`;
+    /** An object relationship */
     vault_tx_return_object?: ValueTypes['vault_transactions'];
     __typename?: boolean | `@${string}`;
   }>;
   ['LogoutResponse']: AliasType<{
     id?: boolean | `@${string}`;
+    /** An object relationship */
     profile?: ValueTypes['profiles'];
     __typename?: boolean | `@${string}`;
   }>;
@@ -883,11 +890,13 @@ export type ValueTypes = {
     vouching_text?: string | undefined | null;
   };
   ['UpdateCircleOutput']: AliasType<{
+    /** An object relationship */
     circle?: ValueTypes['circles'];
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   ['UpdateCircleResponse']: AliasType<{
+    /** An object relationship */
     circle?: ValueTypes['circles'];
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -899,6 +908,7 @@ export type ValueTypes = {
   };
   ['UpdateContributionResponse']: AliasType<{
     id?: boolean | `@${string}`;
+    /** An object relationship */
     updateContribution_Contribution?: ValueTypes['contributions'];
     __typename?: boolean | `@${string}`;
   }>;
@@ -912,11 +922,13 @@ export type ValueTypes = {
   };
   ['UpdateOrgResponse']: AliasType<{
     id?: boolean | `@${string}`;
+    /** An object relationship */
     org?: ValueTypes['organizations'];
     __typename?: boolean | `@${string}`;
   }>;
   ['UpdateProfileResponse']: AliasType<{
     id?: boolean | `@${string}`;
+    /** An object relationship */
     profile?: ValueTypes['profiles'];
     __typename?: boolean | `@${string}`;
   }>;
@@ -925,6 +937,7 @@ export type ValueTypes = {
     teammates: Array<number | undefined | null>;
   };
   ['UpdateTeammatesResponse']: AliasType<{
+    /** An object relationship */
     user?: ValueTypes['users'];
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -956,12 +969,14 @@ export type ValueTypes = {
     starting_tokens?: number | undefined | null;
   };
   ['UserResponse']: AliasType<{
+    /** An object relationship */
     UserResponse?: ValueTypes['users'];
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   ['VaultResponse']: AliasType<{
     id?: boolean | `@${string}`;
+    /** An object relationship */
     vault?: ValueTypes['vaults'];
     __typename?: boolean | `@${string}`;
   }>;
@@ -970,6 +985,7 @@ export type ValueTypes = {
   };
   ['VouchOutput']: AliasType<{
     id?: boolean | `@${string}`;
+    /** An object relationship */
     nominee?: ValueTypes['nominees'];
     __typename?: boolean | `@${string}`;
   }>;
@@ -1049,7 +1065,7 @@ export type ValueTypes = {
   /** input type for inserting array relation for remote table "burns" */
   ['burns_arr_rel_insert_input']: {
     data: Array<ValueTypes['burns_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: ValueTypes['burns_on_conflict'] | undefined | null;
   };
   /** aggregate avg on columns */
@@ -1176,7 +1192,7 @@ export type ValueTypes = {
     returning?: ValueTypes['burns'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on_conflict condition type for table "burns" */
+  /** on conflict condition type for table "burns" */
   ['burns_on_conflict']: {
     constraint: ValueTypes['burns_constraint'];
     update_columns: Array<ValueTypes['burns_update_column']>;
@@ -1278,25 +1294,6 @@ export type ValueTypes = {
     tokens_burnt?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
-  /** Streaming cursor of the table "burns" */
-  ['burns_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: ValueTypes['burns_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['burns_stream_cursor_value_input']: {
-    circle_id?: ValueTypes['bigint'] | undefined | null;
-    created_at?: ValueTypes['timestamp'] | undefined | null;
-    epoch_id?: ValueTypes['bigint'] | undefined | null;
-    id?: ValueTypes['bigint'] | undefined | null;
-    original_amount?: number | undefined | null;
-    regift_percent?: number | undefined | null;
-    tokens_burnt?: number | undefined | null;
-    updated_at?: ValueTypes['timestamp'] | undefined | null;
-    user_id?: ValueTypes['bigint'] | undefined | null;
-  };
   /** aggregate sum on columns */
   ['burns_sum_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -1320,13 +1317,6 @@ export type ValueTypes = {
   };
   /** update columns of table "burns" */
   ['burns_update_column']: burns_update_column;
-  ['burns_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: ValueTypes['burns_inc_input'] | undefined | null;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['burns_set_input'] | undefined | null;
-    where: ValueTypes['burns_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['burns_var_pop_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -1390,7 +1380,10 @@ export type ValueTypes = {
     tokens_burnt?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
-  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API. */
+  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API.
+
+
+columns and relationships of "circle_api_keys" */
   ['circle_api_keys']: AliasType<{
     /** An object relationship */
     circle?: ValueTypes['circles'];
@@ -1470,7 +1463,7 @@ export type ValueTypes = {
   /** input type for inserting array relation for remote table "circle_api_keys" */
   ['circle_api_keys_arr_rel_insert_input']: {
     data: Array<ValueTypes['circle_api_keys_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: ValueTypes['circle_api_keys_on_conflict'] | undefined | null;
   };
   /** aggregate avg on columns */
@@ -1581,7 +1574,7 @@ export type ValueTypes = {
     returning?: ValueTypes['circle_api_keys'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on_conflict condition type for table "circle_api_keys" */
+  /** on conflict condition type for table "circle_api_keys" */
   ['circle_api_keys_on_conflict']: {
     constraint: ValueTypes['circle_api_keys_constraint'];
     update_columns: Array<ValueTypes['circle_api_keys_update_column']>;
@@ -1660,29 +1653,6 @@ export type ValueTypes = {
     circle_id?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
   };
-  /** Streaming cursor of the table "circle_api_keys" */
-  ['circle_api_keys_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: ValueTypes['circle_api_keys_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['circle_api_keys_stream_cursor_value_input']: {
-    circle_id?: ValueTypes['bigint'] | undefined | null;
-    create_vouches?: boolean | undefined | null;
-    created_at?: ValueTypes['timestamptz'] | undefined | null;
-    created_by?: ValueTypes['bigint'] | undefined | null;
-    hash?: string | undefined | null;
-    name?: string | undefined | null;
-    read_circle?: boolean | undefined | null;
-    read_epochs?: boolean | undefined | null;
-    read_member_profiles?: boolean | undefined | null;
-    read_nominees?: boolean | undefined | null;
-    read_pending_token_gifts?: boolean | undefined | null;
-    update_circle?: boolean | undefined | null;
-    update_pending_token_gifts?: boolean | undefined | null;
-  };
   /** aggregate sum on columns */
   ['circle_api_keys_sum_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -1696,13 +1666,6 @@ export type ValueTypes = {
   };
   /** update columns of table "circle_api_keys" */
   ['circle_api_keys_update_column']: circle_api_keys_update_column;
-  ['circle_api_keys_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: ValueTypes['circle_api_keys_inc_input'] | undefined | null;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['circle_api_keys_set_input'] | undefined | null;
-    where: ValueTypes['circle_api_keys_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['circle_api_keys_var_pop_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -1819,7 +1782,7 @@ export type ValueTypes = {
   /** input type for inserting array relation for remote table "circle_integrations" */
   ['circle_integrations_arr_rel_insert_input']: {
     data: Array<ValueTypes['circle_integrations_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?:
       | ValueTypes['circle_integrations_on_conflict']
       | undefined
@@ -1914,7 +1877,7 @@ export type ValueTypes = {
     returning?: ValueTypes['circle_integrations'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on_conflict condition type for table "circle_integrations" */
+  /** on conflict condition type for table "circle_integrations" */
   ['circle_integrations_on_conflict']: {
     constraint: ValueTypes['circle_integrations_constraint'];
     update_columns: Array<ValueTypes['circle_integrations_update_column']>;
@@ -1980,23 +1943,6 @@ export type ValueTypes = {
     circle_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
   };
-  /** Streaming cursor of the table "circle_integrations" */
-  ['circle_integrations_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: ValueTypes['circle_integrations_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['circle_integrations_stream_cursor_value_input']: {
-    circle_id?: ValueTypes['bigint'] | undefined | null;
-    created_at?: ValueTypes['timestamptz'] | undefined | null;
-    data?: ValueTypes['json'] | undefined | null;
-    id?: ValueTypes['bigint'] | undefined | null;
-    name?: string | undefined | null;
-    type?: string | undefined | null;
-    updated_at?: ValueTypes['timestamptz'] | undefined | null;
-  };
   /** aggregate sum on columns */
   ['circle_integrations_sum_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -2010,13 +1956,6 @@ export type ValueTypes = {
   };
   /** update columns of table "circle_integrations" */
   ['circle_integrations_update_column']: circle_integrations_update_column;
-  ['circle_integrations_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: ValueTypes['circle_integrations_inc_input'] | undefined | null;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['circle_integrations_set_input'] | undefined | null;
-    where: ValueTypes['circle_integrations_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['circle_integrations_var_pop_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -2125,7 +2064,7 @@ export type ValueTypes = {
   /** input type for inserting array relation for remote table "circle_metadata" */
   ['circle_metadata_arr_rel_insert_input']: {
     data: Array<ValueTypes['circle_metadata_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: ValueTypes['circle_metadata_on_conflict'] | undefined | null;
   };
   /** aggregate avg on columns */
@@ -2205,7 +2144,7 @@ export type ValueTypes = {
     returning?: ValueTypes['circle_metadata'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on_conflict condition type for table "circle_metadata" */
+  /** on conflict condition type for table "circle_metadata" */
   ['circle_metadata_on_conflict']: {
     constraint: ValueTypes['circle_metadata_constraint'];
     update_columns: Array<ValueTypes['circle_metadata_update_column']>;
@@ -2267,21 +2206,6 @@ export type ValueTypes = {
     circle_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
   };
-  /** Streaming cursor of the table "circle_metadata" */
-  ['circle_metadata_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: ValueTypes['circle_metadata_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['circle_metadata_stream_cursor_value_input']: {
-    circle_id?: ValueTypes['bigint'] | undefined | null;
-    created_at?: ValueTypes['timestamp'] | undefined | null;
-    id?: ValueTypes['bigint'] | undefined | null;
-    json?: ValueTypes['json'] | undefined | null;
-    updated_at?: ValueTypes['timestamp'] | undefined | null;
-  };
   /** aggregate sum on columns */
   ['circle_metadata_sum_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -2295,13 +2219,6 @@ export type ValueTypes = {
   };
   /** update columns of table "circle_metadata" */
   ['circle_metadata_update_column']: circle_metadata_update_column;
-  ['circle_metadata_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: ValueTypes['circle_metadata_inc_input'] | undefined | null;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['circle_metadata_set_input'] | undefined | null;
-    where: ValueTypes['circle_metadata_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['circle_metadata_var_pop_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -2449,30 +2366,11 @@ export type ValueTypes = {
     circle_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** Streaming cursor of the table "circle_private" */
-  ['circle_private_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: ValueTypes['circle_private_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['circle_private_stream_cursor_value_input']: {
-    circle_id?: ValueTypes['bigint'] | undefined | null;
-    discord_webhook?: string | undefined | null;
-  };
   /** aggregate sum on columns */
   ['circle_private_sum_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  ['circle_private_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: ValueTypes['circle_private_inc_input'] | undefined | null;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['circle_private_set_input'] | undefined | null;
-    where: ValueTypes['circle_private_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['circle_private_var_pop_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -2589,7 +2487,7 @@ export type ValueTypes = {
     returning?: ValueTypes['circle_share_tokens'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on_conflict condition type for table "circle_share_tokens" */
+  /** on conflict condition type for table "circle_share_tokens" */
   ['circle_share_tokens_on_conflict']: {
     constraint: ValueTypes['circle_share_tokens_constraint'];
     update_columns: Array<ValueTypes['circle_share_tokens_update_column']>;
@@ -2637,21 +2535,6 @@ export type ValueTypes = {
     type?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** Streaming cursor of the table "circle_share_tokens" */
-  ['circle_share_tokens_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: ValueTypes['circle_share_tokens_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['circle_share_tokens_stream_cursor_value_input']: {
-    circle_id?: ValueTypes['bigint'] | undefined | null;
-    created_at?: ValueTypes['timestamptz'] | undefined | null;
-    type?: number | undefined | null;
-    updated_at?: ValueTypes['timestamptz'] | undefined | null;
-    uuid?: ValueTypes['uuid'] | undefined | null;
-  };
   /** aggregate sum on columns */
   ['circle_share_tokens_sum_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -2660,13 +2543,6 @@ export type ValueTypes = {
   }>;
   /** update columns of table "circle_share_tokens" */
   ['circle_share_tokens_update_column']: circle_share_tokens_update_column;
-  ['circle_share_tokens_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: ValueTypes['circle_share_tokens_inc_input'] | undefined | null;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['circle_share_tokens_set_input'] | undefined | null;
-    where: ValueTypes['circle_share_tokens_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['circle_share_tokens_var_pop_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -3267,7 +3143,7 @@ export type ValueTypes = {
   /** input type for inserting array relation for remote table "circles" */
   ['circles_arr_rel_insert_input']: {
     data: Array<ValueTypes['circles_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: ValueTypes['circles_on_conflict'] | undefined | null;
   };
   /** aggregate avg on columns */
@@ -3519,10 +3395,10 @@ export type ValueTypes = {
   /** input type for inserting object relation for remote table "circles" */
   ['circles_obj_rel_insert_input']: {
     data: ValueTypes['circles_insert_input'];
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: ValueTypes['circles_on_conflict'] | undefined | null;
   };
-  /** on_conflict condition type for table "circles" */
+  /** on conflict condition type for table "circles" */
   ['circles_on_conflict']: {
     constraint: ValueTypes['circles_constraint'];
     update_columns: Array<ValueTypes['circles_update_column']>;
@@ -3679,40 +3555,6 @@ export type ValueTypes = {
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
   };
-  /** Streaming cursor of the table "circles" */
-  ['circles_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: ValueTypes['circles_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['circles_stream_cursor_value_input']: {
-    alloc_text?: string | undefined | null;
-    auto_opt_out?: boolean | undefined | null;
-    contact?: string | undefined | null;
-    created_at?: ValueTypes['timestamp'] | undefined | null;
-    default_opt_in?: boolean | undefined | null;
-    deleted_at?: ValueTypes['timestamp'] | undefined | null;
-    discord_webhook?: string | undefined | null;
-    fixed_payment_token_type?: string | undefined | null;
-    fixed_payment_vault_id?: number | undefined | null;
-    id?: ValueTypes['bigint'] | undefined | null;
-    is_verified?: boolean | undefined | null;
-    logo?: string | undefined | null;
-    min_vouches?: number | undefined | null;
-    name?: string | undefined | null;
-    nomination_days_limit?: number | undefined | null;
-    only_giver_vouch?: boolean | undefined | null;
-    organization_id?: number | undefined | null;
-    team_sel_text?: string | undefined | null;
-    team_selection?: boolean | undefined | null;
-    telegram_id?: string | undefined | null;
-    token_name?: string | undefined | null;
-    updated_at?: ValueTypes['timestamp'] | undefined | null;
-    vouching?: boolean | undefined | null;
-    vouching_text?: string | undefined | null;
-  };
   /** aggregate sum on columns */
   ['circles_sum_fields']: AliasType<{
     fixed_payment_vault_id?: boolean | `@${string}`;
@@ -3732,13 +3574,6 @@ export type ValueTypes = {
   };
   /** update columns of table "circles" */
   ['circles_update_column']: circles_update_column;
-  ['circles_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: ValueTypes['circles_inc_input'] | undefined | null;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['circles_set_input'] | undefined | null;
-    where: ValueTypes['circles_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['circles_var_pop_fields']: AliasType<{
     fixed_payment_vault_id?: boolean | `@${string}`;
@@ -3853,7 +3688,7 @@ export type ValueTypes = {
   /** input type for inserting array relation for remote table "claims" */
   ['claims_arr_rel_insert_input']: {
     data: Array<ValueTypes['claims_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: ValueTypes['claims_on_conflict'] | undefined | null;
   };
   /** aggregate avg on columns */
@@ -3990,7 +3825,7 @@ export type ValueTypes = {
     returning?: ValueTypes['claims'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on_conflict condition type for table "claims" */
+  /** on conflict condition type for table "claims" */
   ['claims_on_conflict']: {
     constraint: ValueTypes['claims_constraint'];
     update_columns: Array<ValueTypes['claims_update_column']>;
@@ -4089,27 +3924,6 @@ export type ValueTypes = {
     new_amount?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
   };
-  /** Streaming cursor of the table "claims" */
-  ['claims_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: ValueTypes['claims_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['claims_stream_cursor_value_input']: {
-    address?: string | undefined | null;
-    amount?: ValueTypes['numeric'] | undefined | null;
-    created_at?: ValueTypes['timestamptz'] | undefined | null;
-    distribution_id?: ValueTypes['bigint'] | undefined | null;
-    id?: ValueTypes['bigint'] | undefined | null;
-    index?: ValueTypes['bigint'] | undefined | null;
-    new_amount?: ValueTypes['numeric'] | undefined | null;
-    profile_id?: ValueTypes['bigint'] | undefined | null;
-    proof?: string | undefined | null;
-    txHash?: string | undefined | null;
-    updated_at?: ValueTypes['timestamptz'] | undefined | null;
-  };
   /** aggregate sum on columns */
   ['claims_sum_fields']: AliasType<{
     amount?: boolean | `@${string}`;
@@ -4131,13 +3945,6 @@ export type ValueTypes = {
   };
   /** update columns of table "claims" */
   ['claims_update_column']: claims_update_column;
-  ['claims_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: ValueTypes['claims_inc_input'] | undefined | null;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['claims_set_input'] | undefined | null;
-    where: ValueTypes['claims_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['claims_var_pop_fields']: AliasType<{
     amount?: boolean | `@${string}`;
@@ -4264,7 +4071,7 @@ export type ValueTypes = {
   /** input type for inserting array relation for remote table "contributions" */
   ['contributions_arr_rel_insert_input']: {
     data: Array<ValueTypes['contributions_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: ValueTypes['contributions_on_conflict'] | undefined | null;
   };
   /** aggregate avg on columns */
@@ -4374,7 +4181,7 @@ export type ValueTypes = {
     returning?: ValueTypes['contributions'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on_conflict condition type for table "contributions" */
+  /** on conflict condition type for table "contributions" */
   ['contributions_on_conflict']: {
     constraint: ValueTypes['contributions_constraint'];
     update_columns: Array<ValueTypes['contributions_update_column']>;
@@ -4449,24 +4256,6 @@ export type ValueTypes = {
     id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
-  /** Streaming cursor of the table "contributions" */
-  ['contributions_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: ValueTypes['contributions_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['contributions_stream_cursor_value_input']: {
-    circle_id?: ValueTypes['bigint'] | undefined | null;
-    created_at?: ValueTypes['timestamptz'] | undefined | null;
-    datetime_created?: ValueTypes['timestamptz'] | undefined | null;
-    deleted_at?: ValueTypes['timestamptz'] | undefined | null;
-    description?: string | undefined | null;
-    id?: ValueTypes['bigint'] | undefined | null;
-    updated_at?: ValueTypes['timestamptz'] | undefined | null;
-    user_id?: ValueTypes['bigint'] | undefined | null;
-  };
   /** aggregate sum on columns */
   ['contributions_sum_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -4482,13 +4271,6 @@ export type ValueTypes = {
   };
   /** update columns of table "contributions" */
   ['contributions_update_column']: contributions_update_column;
-  ['contributions_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: ValueTypes['contributions_inc_input'] | undefined | null;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['contributions_set_input'] | undefined | null;
-    where: ValueTypes['contributions_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['contributions_var_pop_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -4528,8 +4310,6 @@ export type ValueTypes = {
     id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
-  /** ordering argument of a cursor */
-  ['cursor_ordering']: cursor_ordering;
   ['date']: unknown;
   /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
   ['date_comparison_exp']: {
@@ -4543,7 +4323,10 @@ export type ValueTypes = {
     _neq?: ValueTypes['date'] | undefined | null;
     _nin?: Array<ValueTypes['date']> | undefined | null;
   };
-  /** Vault Distributions */
+  /** Vault Distributions
+
+
+columns and relationships of "distributions" */
   ['distributions']: AliasType<{
     claims?: [
       {
@@ -4721,7 +4504,7 @@ export type ValueTypes = {
   /** input type for inserting array relation for remote table "distributions" */
   ['distributions_arr_rel_insert_input']: {
     data: Array<ValueTypes['distributions_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: ValueTypes['distributions_on_conflict'] | undefined | null;
   };
   /** aggregate avg on columns */
@@ -4905,10 +4688,10 @@ export type ValueTypes = {
   /** input type for inserting object relation for remote table "distributions" */
   ['distributions_obj_rel_insert_input']: {
     data: ValueTypes['distributions_insert_input'];
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: ValueTypes['distributions_on_conflict'] | undefined | null;
   };
-  /** on_conflict condition type for table "distributions" */
+  /** on conflict condition type for table "distributions" */
   ['distributions_on_conflict']: {
     constraint: ValueTypes['distributions_constraint'];
     update_columns: Array<ValueTypes['distributions_update_column']>;
@@ -5038,30 +4821,6 @@ export type ValueTypes = {
     id?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
   };
-  /** Streaming cursor of the table "distributions" */
-  ['distributions_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: ValueTypes['distributions_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['distributions_stream_cursor_value_input']: {
-    created_at?: ValueTypes['timestamp'] | undefined | null;
-    created_by?: ValueTypes['bigint'] | undefined | null;
-    distribution_epoch_id?: ValueTypes['bigint'] | undefined | null;
-    distribution_json?: ValueTypes['jsonb'] | undefined | null;
-    distribution_type?: number | undefined | null;
-    epoch_id?: ValueTypes['bigint'] | undefined | null;
-    fixed_amount?: ValueTypes['numeric'] | undefined | null;
-    gift_amount?: ValueTypes['numeric'] | undefined | null;
-    id?: ValueTypes['bigint'] | undefined | null;
-    merkle_root?: string | undefined | null;
-    total_amount?: string | undefined | null;
-    tx_hash?: string | undefined | null;
-    updated_at?: ValueTypes['timestamp'] | undefined | null;
-    vault_id?: ValueTypes['bigint'] | undefined | null;
-  };
   /** aggregate sum on columns */
   ['distributions_sum_fields']: AliasType<{
     created_by?: boolean | `@${string}`;
@@ -5087,32 +4846,6 @@ export type ValueTypes = {
   };
   /** update columns of table "distributions" */
   ['distributions_update_column']: distributions_update_column;
-  ['distributions_updates']: {
-    /** append existing jsonb value of filtered columns with new jsonb value */
-    _append?: ValueTypes['distributions_append_input'] | undefined | null;
-    /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
-    _delete_at_path?:
-      | ValueTypes['distributions_delete_at_path_input']
-      | undefined
-      | null;
-    /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
-    _delete_elem?:
-      | ValueTypes['distributions_delete_elem_input']
-      | undefined
-      | null;
-    /** delete key/value pair or string element. key/value pairs are matched based on their key value */
-    _delete_key?:
-      | ValueTypes['distributions_delete_key_input']
-      | undefined
-      | null;
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: ValueTypes['distributions_inc_input'] | undefined | null;
-    /** prepend existing jsonb value of filtered columns with new jsonb value */
-    _prepend?: ValueTypes['distributions_prepend_input'] | undefined | null;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['distributions_set_input'] | undefined | null;
-    where: ValueTypes['distributions_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['distributions_var_pop_fields']: AliasType<{
     created_by?: boolean | `@${string}`;
@@ -5432,7 +5165,7 @@ export type ValueTypes = {
   /** input type for inserting array relation for remote table "epoches" */
   ['epochs_arr_rel_insert_input']: {
     data: Array<ValueTypes['epochs_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: ValueTypes['epochs_on_conflict'] | undefined | null;
   };
   /** aggregate avg on columns */
@@ -5622,10 +5355,10 @@ export type ValueTypes = {
   /** input type for inserting object relation for remote table "epoches" */
   ['epochs_obj_rel_insert_input']: {
     data: ValueTypes['epochs_insert_input'];
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: ValueTypes['epochs_on_conflict'] | undefined | null;
   };
-  /** on_conflict condition type for table "epoches" */
+  /** on conflict condition type for table "epoches" */
   ['epochs_on_conflict']: {
     constraint: ValueTypes['epochs_constraint'];
     update_columns: Array<ValueTypes['epochs_update_column']>;
@@ -5758,32 +5491,6 @@ export type ValueTypes = {
     repeat?: ValueTypes['order_by'] | undefined | null;
     repeat_day_of_month?: ValueTypes['order_by'] | undefined | null;
   };
-  /** Streaming cursor of the table "epochs" */
-  ['epochs_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: ValueTypes['epochs_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['epochs_stream_cursor_value_input']: {
-    circle_id?: number | undefined | null;
-    created_at?: ValueTypes['timestamp'] | undefined | null;
-    days?: number | undefined | null;
-    end_date?: ValueTypes['timestamptz'] | undefined | null;
-    ended?: boolean | undefined | null;
-    grant?: ValueTypes['numeric'] | undefined | null;
-    id?: ValueTypes['bigint'] | undefined | null;
-    notified_before_end?: ValueTypes['timestamp'] | undefined | null;
-    notified_end?: ValueTypes['timestamp'] | undefined | null;
-    notified_start?: ValueTypes['timestamp'] | undefined | null;
-    number?: number | undefined | null;
-    regift_days?: number | undefined | null;
-    repeat?: number | undefined | null;
-    repeat_day_of_month?: number | undefined | null;
-    start_date?: ValueTypes['timestamptz'] | undefined | null;
-    updated_at?: ValueTypes['timestamp'] | undefined | null;
-  };
   /** aggregate sum on columns */
   ['epochs_sum_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -5809,13 +5516,6 @@ export type ValueTypes = {
   };
   /** update columns of table "epoches" */
   ['epochs_update_column']: epochs_update_column;
-  ['epochs_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: ValueTypes['epochs_inc_input'] | undefined | null;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['epochs_set_input'] | undefined | null;
-    where: ValueTypes['epochs_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['epochs_var_pop_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -6028,20 +5728,6 @@ export type ValueTypes = {
     sender_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** Streaming cursor of the table "gift_private" */
-  ['gift_private_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: ValueTypes['gift_private_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['gift_private_stream_cursor_value_input']: {
-    gift_id?: ValueTypes['bigint'] | undefined | null;
-    note?: string | undefined | null;
-    recipient_id?: ValueTypes['bigint'] | undefined | null;
-    sender_id?: ValueTypes['bigint'] | undefined | null;
-  };
   /** aggregate sum on columns */
   ['gift_private_sum_fields']: AliasType<{
     gift_id?: boolean | `@${string}`;
@@ -6049,13 +5735,6 @@ export type ValueTypes = {
     sender_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  ['gift_private_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: ValueTypes['gift_private_inc_input'] | undefined | null;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['gift_private_set_input'] | undefined | null;
-    where: ValueTypes['gift_private_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['gift_private_var_pop_fields']: AliasType<{
     gift_id?: boolean | `@${string}`;
@@ -6200,7 +5879,7 @@ export type ValueTypes = {
     returning?: ValueTypes['histories'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on_conflict condition type for table "histories" */
+  /** on conflict condition type for table "histories" */
   ['histories_on_conflict']: {
     constraint: ValueTypes['histories_constraint'];
     update_columns: Array<ValueTypes['histories_update_column']>;
@@ -6259,23 +5938,6 @@ export type ValueTypes = {
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** Streaming cursor of the table "histories" */
-  ['histories_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: ValueTypes['histories_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['histories_stream_cursor_value_input']: {
-    bio?: string | undefined | null;
-    circle_id?: number | undefined | null;
-    created_at?: ValueTypes['timestamp'] | undefined | null;
-    epoch_id?: number | undefined | null;
-    id?: ValueTypes['bigint'] | undefined | null;
-    updated_at?: ValueTypes['timestamp'] | undefined | null;
-    user_id?: number | undefined | null;
-  };
   /** aggregate sum on columns */
   ['histories_sum_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -6286,13 +5948,6 @@ export type ValueTypes = {
   }>;
   /** update columns of table "histories" */
   ['histories_update_column']: histories_update_column;
-  ['histories_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: ValueTypes['histories_inc_input'] | undefined | null;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['histories_set_input'] | undefined | null;
-    where: ValueTypes['histories_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['histories_var_pop_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -6461,7 +6116,7 @@ export type ValueTypes = {
     returning?: ValueTypes['interaction_events'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on_conflict condition type for table "interaction_events" */
+  /** on conflict condition type for table "interaction_events" */
   ['interaction_events_on_conflict']: {
     constraint: ValueTypes['interaction_events_constraint'];
     update_columns: Array<ValueTypes['interaction_events_update_column']>;
@@ -6526,25 +6181,6 @@ export type ValueTypes = {
     profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** Streaming cursor of the table "interaction_events" */
-  ['interaction_events_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: ValueTypes['interaction_events_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['interaction_events_stream_cursor_value_input']: {
-    circle_id?: number | undefined | null;
-    created_at?: ValueTypes['timestamptz'] | undefined | null;
-    data?: ValueTypes['jsonb'] | undefined | null;
-    event_subtype?: string | undefined | null;
-    event_type?: string | undefined | null;
-    id?: number | undefined | null;
-    org_id?: number | undefined | null;
-    profile_id?: number | undefined | null;
-    updated_at?: ValueTypes['timestamptz'] | undefined | null;
-  };
   /** aggregate sum on columns */
   ['interaction_events_sum_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -6555,35 +6191,6 @@ export type ValueTypes = {
   }>;
   /** update columns of table "interaction_events" */
   ['interaction_events_update_column']: interaction_events_update_column;
-  ['interaction_events_updates']: {
-    /** append existing jsonb value of filtered columns with new jsonb value */
-    _append?: ValueTypes['interaction_events_append_input'] | undefined | null;
-    /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
-    _delete_at_path?:
-      | ValueTypes['interaction_events_delete_at_path_input']
-      | undefined
-      | null;
-    /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
-    _delete_elem?:
-      | ValueTypes['interaction_events_delete_elem_input']
-      | undefined
-      | null;
-    /** delete key/value pair or string element. key/value pairs are matched based on their key value */
-    _delete_key?:
-      | ValueTypes['interaction_events_delete_key_input']
-      | undefined
-      | null;
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: ValueTypes['interaction_events_inc_input'] | undefined | null;
-    /** prepend existing jsonb value of filtered columns with new jsonb value */
-    _prepend?:
-      | ValueTypes['interaction_events_prepend_input']
-      | undefined
-      | null;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['interaction_events_set_input'] | undefined | null;
-    where: ValueTypes['interaction_events_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['interaction_events_var_pop_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -6622,12 +6229,8 @@ export type ValueTypes = {
     _nin?: Array<ValueTypes['json']> | undefined | null;
   };
   ['jsonb']: unknown;
-  ['jsonb_cast_exp']: {
-    String?: ValueTypes['String_comparison_exp'] | undefined | null;
-  };
   /** Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'. */
   ['jsonb_comparison_exp']: {
-    _cast?: ValueTypes['jsonb_cast_exp'] | undefined | null;
     /** is the column contained in the given json value */
     _contained_in?: ValueTypes['jsonb'] | undefined | null;
     /** does the column contain the given json value at the top level */
@@ -6996,7 +6599,7 @@ export type ValueTypes = {
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['burns_insert_input']
-        > /** upsert condition */;
+        > /** on conflict condition */;
         on_conflict?: ValueTypes['burns_on_conflict'] | undefined | null;
       },
       ValueTypes['burns_mutation_response']
@@ -7004,7 +6607,7 @@ export type ValueTypes = {
     insert_burns_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['burns_insert_input'] /** upsert condition */;
+        object: ValueTypes['burns_insert_input'] /** on conflict condition */;
         on_conflict?: ValueTypes['burns_on_conflict'] | undefined | null;
       },
       ValueTypes['burns']
@@ -7014,7 +6617,7 @@ export type ValueTypes = {
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['circle_api_keys_insert_input']
-        > /** upsert condition */;
+        > /** on conflict condition */;
         on_conflict?:
           | ValueTypes['circle_api_keys_on_conflict']
           | undefined
@@ -7025,7 +6628,7 @@ export type ValueTypes = {
     insert_circle_api_keys_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['circle_api_keys_insert_input'] /** upsert condition */;
+        object: ValueTypes['circle_api_keys_insert_input'] /** on conflict condition */;
         on_conflict?:
           | ValueTypes['circle_api_keys_on_conflict']
           | undefined
@@ -7038,7 +6641,7 @@ export type ValueTypes = {
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['circle_integrations_insert_input']
-        > /** upsert condition */;
+        > /** on conflict condition */;
         on_conflict?:
           | ValueTypes['circle_integrations_on_conflict']
           | undefined
@@ -7049,7 +6652,7 @@ export type ValueTypes = {
     insert_circle_integrations_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['circle_integrations_insert_input'] /** upsert condition */;
+        object: ValueTypes['circle_integrations_insert_input'] /** on conflict condition */;
         on_conflict?:
           | ValueTypes['circle_integrations_on_conflict']
           | undefined
@@ -7062,7 +6665,7 @@ export type ValueTypes = {
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['circle_metadata_insert_input']
-        > /** upsert condition */;
+        > /** on conflict condition */;
         on_conflict?:
           | ValueTypes['circle_metadata_on_conflict']
           | undefined
@@ -7073,7 +6676,7 @@ export type ValueTypes = {
     insert_circle_metadata_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['circle_metadata_insert_input'] /** upsert condition */;
+        object: ValueTypes['circle_metadata_insert_input'] /** on conflict condition */;
         on_conflict?:
           | ValueTypes['circle_metadata_on_conflict']
           | undefined
@@ -7100,7 +6703,7 @@ export type ValueTypes = {
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['circle_share_tokens_insert_input']
-        > /** upsert condition */;
+        > /** on conflict condition */;
         on_conflict?:
           | ValueTypes['circle_share_tokens_on_conflict']
           | undefined
@@ -7111,7 +6714,7 @@ export type ValueTypes = {
     insert_circle_share_tokens_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['circle_share_tokens_insert_input'] /** upsert condition */;
+        object: ValueTypes['circle_share_tokens_insert_input'] /** on conflict condition */;
         on_conflict?:
           | ValueTypes['circle_share_tokens_on_conflict']
           | undefined
@@ -7124,7 +6727,7 @@ export type ValueTypes = {
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['circles_insert_input']
-        > /** upsert condition */;
+        > /** on conflict condition */;
         on_conflict?: ValueTypes['circles_on_conflict'] | undefined | null;
       },
       ValueTypes['circles_mutation_response']
@@ -7132,7 +6735,7 @@ export type ValueTypes = {
     insert_circles_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['circles_insert_input'] /** upsert condition */;
+        object: ValueTypes['circles_insert_input'] /** on conflict condition */;
         on_conflict?: ValueTypes['circles_on_conflict'] | undefined | null;
       },
       ValueTypes['circles']
@@ -7142,7 +6745,7 @@ export type ValueTypes = {
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['claims_insert_input']
-        > /** upsert condition */;
+        > /** on conflict condition */;
         on_conflict?: ValueTypes['claims_on_conflict'] | undefined | null;
       },
       ValueTypes['claims_mutation_response']
@@ -7150,7 +6753,7 @@ export type ValueTypes = {
     insert_claims_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['claims_insert_input'] /** upsert condition */;
+        object: ValueTypes['claims_insert_input'] /** on conflict condition */;
         on_conflict?: ValueTypes['claims_on_conflict'] | undefined | null;
       },
       ValueTypes['claims']
@@ -7160,7 +6763,7 @@ export type ValueTypes = {
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['contributions_insert_input']
-        > /** upsert condition */;
+        > /** on conflict condition */;
         on_conflict?:
           | ValueTypes['contributions_on_conflict']
           | undefined
@@ -7171,7 +6774,7 @@ export type ValueTypes = {
     insert_contributions_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['contributions_insert_input'] /** upsert condition */;
+        object: ValueTypes['contributions_insert_input'] /** on conflict condition */;
         on_conflict?:
           | ValueTypes['contributions_on_conflict']
           | undefined
@@ -7184,7 +6787,7 @@ export type ValueTypes = {
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['distributions_insert_input']
-        > /** upsert condition */;
+        > /** on conflict condition */;
         on_conflict?:
           | ValueTypes['distributions_on_conflict']
           | undefined
@@ -7195,7 +6798,7 @@ export type ValueTypes = {
     insert_distributions_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['distributions_insert_input'] /** upsert condition */;
+        object: ValueTypes['distributions_insert_input'] /** on conflict condition */;
         on_conflict?:
           | ValueTypes['distributions_on_conflict']
           | undefined
@@ -7208,7 +6811,7 @@ export type ValueTypes = {
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['epochs_insert_input']
-        > /** upsert condition */;
+        > /** on conflict condition */;
         on_conflict?: ValueTypes['epochs_on_conflict'] | undefined | null;
       },
       ValueTypes['epochs_mutation_response']
@@ -7216,7 +6819,7 @@ export type ValueTypes = {
     insert_epochs_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['epochs_insert_input'] /** upsert condition */;
+        object: ValueTypes['epochs_insert_input'] /** on conflict condition */;
         on_conflict?: ValueTypes['epochs_on_conflict'] | undefined | null;
       },
       ValueTypes['epochs']
@@ -7240,7 +6843,7 @@ export type ValueTypes = {
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['histories_insert_input']
-        > /** upsert condition */;
+        > /** on conflict condition */;
         on_conflict?: ValueTypes['histories_on_conflict'] | undefined | null;
       },
       ValueTypes['histories_mutation_response']
@@ -7248,7 +6851,7 @@ export type ValueTypes = {
     insert_histories_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['histories_insert_input'] /** upsert condition */;
+        object: ValueTypes['histories_insert_input'] /** on conflict condition */;
         on_conflict?: ValueTypes['histories_on_conflict'] | undefined | null;
       },
       ValueTypes['histories']
@@ -7258,7 +6861,7 @@ export type ValueTypes = {
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['interaction_events_insert_input']
-        > /** upsert condition */;
+        > /** on conflict condition */;
         on_conflict?:
           | ValueTypes['interaction_events_on_conflict']
           | undefined
@@ -7269,7 +6872,7 @@ export type ValueTypes = {
     insert_interaction_events_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['interaction_events_insert_input'] /** upsert condition */;
+        object: ValueTypes['interaction_events_insert_input'] /** on conflict condition */;
         on_conflict?:
           | ValueTypes['interaction_events_on_conflict']
           | undefined
@@ -7282,7 +6885,7 @@ export type ValueTypes = {
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['nominees_insert_input']
-        > /** upsert condition */;
+        > /** on conflict condition */;
         on_conflict?: ValueTypes['nominees_on_conflict'] | undefined | null;
       },
       ValueTypes['nominees_mutation_response']
@@ -7290,7 +6893,7 @@ export type ValueTypes = {
     insert_nominees_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['nominees_insert_input'] /** upsert condition */;
+        object: ValueTypes['nominees_insert_input'] /** on conflict condition */;
         on_conflict?: ValueTypes['nominees_on_conflict'] | undefined | null;
       },
       ValueTypes['nominees']
@@ -7300,7 +6903,7 @@ export type ValueTypes = {
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['organizations_insert_input']
-        > /** upsert condition */;
+        > /** on conflict condition */;
         on_conflict?:
           | ValueTypes['organizations_on_conflict']
           | undefined
@@ -7311,7 +6914,7 @@ export type ValueTypes = {
     insert_organizations_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['organizations_insert_input'] /** upsert condition */;
+        object: ValueTypes['organizations_insert_input'] /** on conflict condition */;
         on_conflict?:
           | ValueTypes['organizations_on_conflict']
           | undefined
@@ -7338,7 +6941,7 @@ export type ValueTypes = {
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['pending_token_gifts_insert_input']
-        > /** upsert condition */;
+        > /** on conflict condition */;
         on_conflict?:
           | ValueTypes['pending_token_gifts_on_conflict']
           | undefined
@@ -7349,7 +6952,7 @@ export type ValueTypes = {
     insert_pending_token_gifts_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['pending_token_gifts_insert_input'] /** upsert condition */;
+        object: ValueTypes['pending_token_gifts_insert_input'] /** on conflict condition */;
         on_conflict?:
           | ValueTypes['pending_token_gifts_on_conflict']
           | undefined
@@ -7362,7 +6965,7 @@ export type ValueTypes = {
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['pending_vault_transactions_insert_input']
-        > /** upsert condition */;
+        > /** on conflict condition */;
         on_conflict?:
           | ValueTypes['pending_vault_transactions_on_conflict']
           | undefined
@@ -7373,7 +6976,7 @@ export type ValueTypes = {
     insert_pending_vault_transactions_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['pending_vault_transactions_insert_input'] /** upsert condition */;
+        object: ValueTypes['pending_vault_transactions_insert_input'] /** on conflict condition */;
         on_conflict?:
           | ValueTypes['pending_vault_transactions_on_conflict']
           | undefined
@@ -7386,7 +6989,7 @@ export type ValueTypes = {
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['personal_access_tokens_insert_input']
-        > /** upsert condition */;
+        > /** on conflict condition */;
         on_conflict?:
           | ValueTypes['personal_access_tokens_on_conflict']
           | undefined
@@ -7397,7 +7000,7 @@ export type ValueTypes = {
     insert_personal_access_tokens_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['personal_access_tokens_insert_input'] /** upsert condition */;
+        object: ValueTypes['personal_access_tokens_insert_input'] /** on conflict condition */;
         on_conflict?:
           | ValueTypes['personal_access_tokens_on_conflict']
           | undefined
@@ -7410,7 +7013,7 @@ export type ValueTypes = {
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['profiles_insert_input']
-        > /** upsert condition */;
+        > /** on conflict condition */;
         on_conflict?: ValueTypes['profiles_on_conflict'] | undefined | null;
       },
       ValueTypes['profiles_mutation_response']
@@ -7418,7 +7021,7 @@ export type ValueTypes = {
     insert_profiles_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['profiles_insert_input'] /** upsert condition */;
+        object: ValueTypes['profiles_insert_input'] /** on conflict condition */;
         on_conflict?: ValueTypes['profiles_on_conflict'] | undefined | null;
       },
       ValueTypes['profiles']
@@ -7428,7 +7031,7 @@ export type ValueTypes = {
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['teammates_insert_input']
-        > /** upsert condition */;
+        > /** on conflict condition */;
         on_conflict?: ValueTypes['teammates_on_conflict'] | undefined | null;
       },
       ValueTypes['teammates_mutation_response']
@@ -7436,7 +7039,7 @@ export type ValueTypes = {
     insert_teammates_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['teammates_insert_input'] /** upsert condition */;
+        object: ValueTypes['teammates_insert_input'] /** on conflict condition */;
         on_conflict?: ValueTypes['teammates_on_conflict'] | undefined | null;
       },
       ValueTypes['teammates']
@@ -7446,7 +7049,7 @@ export type ValueTypes = {
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['token_gifts_insert_input']
-        > /** upsert condition */;
+        > /** on conflict condition */;
         on_conflict?: ValueTypes['token_gifts_on_conflict'] | undefined | null;
       },
       ValueTypes['token_gifts_mutation_response']
@@ -7454,7 +7057,7 @@ export type ValueTypes = {
     insert_token_gifts_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['token_gifts_insert_input'] /** upsert condition */;
+        object: ValueTypes['token_gifts_insert_input'] /** on conflict condition */;
         on_conflict?: ValueTypes['token_gifts_on_conflict'] | undefined | null;
       },
       ValueTypes['token_gifts']
@@ -7464,7 +7067,7 @@ export type ValueTypes = {
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['users_insert_input']
-        > /** upsert condition */;
+        > /** on conflict condition */;
         on_conflict?: ValueTypes['users_on_conflict'] | undefined | null;
       },
       ValueTypes['users_mutation_response']
@@ -7472,7 +7075,7 @@ export type ValueTypes = {
     insert_users_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['users_insert_input'] /** upsert condition */;
+        object: ValueTypes['users_insert_input'] /** on conflict condition */;
         on_conflict?: ValueTypes['users_on_conflict'] | undefined | null;
       },
       ValueTypes['users']
@@ -7482,7 +7085,7 @@ export type ValueTypes = {
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['vault_transactions_insert_input']
-        > /** upsert condition */;
+        > /** on conflict condition */;
         on_conflict?:
           | ValueTypes['vault_transactions_on_conflict']
           | undefined
@@ -7493,7 +7096,7 @@ export type ValueTypes = {
     insert_vault_transactions_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['vault_transactions_insert_input'] /** upsert condition */;
+        object: ValueTypes['vault_transactions_insert_input'] /** on conflict condition */;
         on_conflict?:
           | ValueTypes['vault_transactions_on_conflict']
           | undefined
@@ -7506,7 +7109,7 @@ export type ValueTypes = {
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['vault_tx_types_insert_input']
-        > /** upsert condition */;
+        > /** on conflict condition */;
         on_conflict?:
           | ValueTypes['vault_tx_types_on_conflict']
           | undefined
@@ -7517,7 +7120,7 @@ export type ValueTypes = {
     insert_vault_tx_types_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['vault_tx_types_insert_input'] /** upsert condition */;
+        object: ValueTypes['vault_tx_types_insert_input'] /** on conflict condition */;
         on_conflict?:
           | ValueTypes['vault_tx_types_on_conflict']
           | undefined
@@ -7530,7 +7133,7 @@ export type ValueTypes = {
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['vaults_insert_input']
-        > /** upsert condition */;
+        > /** on conflict condition */;
         on_conflict?: ValueTypes['vaults_on_conflict'] | undefined | null;
       },
       ValueTypes['vaults_mutation_response']
@@ -7538,7 +7141,7 @@ export type ValueTypes = {
     insert_vaults_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['vaults_insert_input'] /** upsert condition */;
+        object: ValueTypes['vaults_insert_input'] /** on conflict condition */;
         on_conflict?: ValueTypes['vaults_on_conflict'] | undefined | null;
       },
       ValueTypes['vaults']
@@ -7548,7 +7151,7 @@ export type ValueTypes = {
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['vouches_insert_input']
-        > /** upsert condition */;
+        > /** on conflict condition */;
         on_conflict?: ValueTypes['vouches_on_conflict'] | undefined | null;
       },
       ValueTypes['vouches_mutation_response']
@@ -7556,7 +7159,7 @@ export type ValueTypes = {
     insert_vouches_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['vouches_insert_input'] /** upsert condition */;
+        object: ValueTypes['vouches_insert_input'] /** on conflict condition */;
         on_conflict?: ValueTypes['vouches_on_conflict'] | undefined | null;
       },
       ValueTypes['vouches']
@@ -7621,13 +7224,6 @@ export type ValueTypes = {
       },
       ValueTypes['burns']
     ];
-    update_burns_many?: [
-      {
-        /** updates to execute, in order */
-        updates: Array<ValueTypes['burns_updates']>;
-      },
-      ValueTypes['burns_mutation_response']
-    ];
     update_circle_api_keys?: [
       {
         /** increments the numeric columns with given value of the filtered values */
@@ -7654,13 +7250,6 @@ export type ValueTypes = {
         pk_columns: ValueTypes['circle_api_keys_pk_columns_input'];
       },
       ValueTypes['circle_api_keys']
-    ];
-    update_circle_api_keys_many?: [
-      {
-        /** updates to execute, in order */
-        updates: Array<ValueTypes['circle_api_keys_updates']>;
-      },
-      ValueTypes['circle_api_keys_mutation_response']
     ];
     update_circle_integrations?: [
       {
@@ -7689,13 +7278,6 @@ export type ValueTypes = {
       },
       ValueTypes['circle_integrations']
     ];
-    update_circle_integrations_many?: [
-      {
-        /** updates to execute, in order */
-        updates: Array<ValueTypes['circle_integrations_updates']>;
-      },
-      ValueTypes['circle_integrations_mutation_response']
-    ];
     update_circle_metadata?: [
       {
         /** increments the numeric columns with given value of the filtered values */
@@ -7723,13 +7305,6 @@ export type ValueTypes = {
       },
       ValueTypes['circle_metadata']
     ];
-    update_circle_metadata_many?: [
-      {
-        /** updates to execute, in order */
-        updates: Array<ValueTypes['circle_metadata_updates']>;
-      },
-      ValueTypes['circle_metadata_mutation_response']
-    ];
     update_circle_private?: [
       {
         /** increments the numeric columns with given value of the filtered values */
@@ -7742,13 +7317,6 @@ export type ValueTypes = {
           | undefined
           | null /** filter the rows which have to be updated */;
         where: ValueTypes['circle_private_bool_exp'];
-      },
-      ValueTypes['circle_private_mutation_response']
-    ];
-    update_circle_private_many?: [
-      {
-        /** updates to execute, in order */
-        updates: Array<ValueTypes['circle_private_updates']>;
       },
       ValueTypes['circle_private_mutation_response']
     ];
@@ -7779,13 +7347,6 @@ export type ValueTypes = {
       },
       ValueTypes['circle_share_tokens']
     ];
-    update_circle_share_tokens_many?: [
-      {
-        /** updates to execute, in order */
-        updates: Array<ValueTypes['circle_share_tokens_updates']>;
-      },
-      ValueTypes['circle_share_tokens_mutation_response']
-    ];
     update_circles?: [
       {
         /** increments the numeric columns with given value of the filtered values */
@@ -7812,13 +7373,6 @@ export type ValueTypes = {
         pk_columns: ValueTypes['circles_pk_columns_input'];
       },
       ValueTypes['circles']
-    ];
-    update_circles_many?: [
-      {
-        /** updates to execute, in order */
-        updates: Array<ValueTypes['circles_updates']>;
-      },
-      ValueTypes['circles_mutation_response']
     ];
     update_claims?: [
       {
@@ -7847,13 +7401,6 @@ export type ValueTypes = {
       },
       ValueTypes['claims']
     ];
-    update_claims_many?: [
-      {
-        /** updates to execute, in order */
-        updates: Array<ValueTypes['claims_updates']>;
-      },
-      ValueTypes['claims_mutation_response']
-    ];
     update_contributions?: [
       {
         /** increments the numeric columns with given value of the filtered values */
@@ -7880,13 +7427,6 @@ export type ValueTypes = {
         pk_columns: ValueTypes['contributions_pk_columns_input'];
       },
       ValueTypes['contributions']
-    ];
-    update_contributions_many?: [
-      {
-        /** updates to execute, in order */
-        updates: Array<ValueTypes['contributions_updates']>;
-      },
-      ValueTypes['contributions_mutation_response']
     ];
     update_distributions?: [
       {
@@ -7955,13 +7495,6 @@ export type ValueTypes = {
       },
       ValueTypes['distributions']
     ];
-    update_distributions_many?: [
-      {
-        /** updates to execute, in order */
-        updates: Array<ValueTypes['distributions_updates']>;
-      },
-      ValueTypes['distributions_mutation_response']
-    ];
     update_epochs?: [
       {
         /** increments the numeric columns with given value of the filtered values */
@@ -7989,13 +7522,6 @@ export type ValueTypes = {
       },
       ValueTypes['epochs']
     ];
-    update_epochs_many?: [
-      {
-        /** updates to execute, in order */
-        updates: Array<ValueTypes['epochs_updates']>;
-      },
-      ValueTypes['epochs_mutation_response']
-    ];
     update_gift_private?: [
       {
         /** increments the numeric columns with given value of the filtered values */
@@ -8008,13 +7534,6 @@ export type ValueTypes = {
           | undefined
           | null /** filter the rows which have to be updated */;
         where: ValueTypes['gift_private_bool_exp'];
-      },
-      ValueTypes['gift_private_mutation_response']
-    ];
-    update_gift_private_many?: [
-      {
-        /** updates to execute, in order */
-        updates: Array<ValueTypes['gift_private_updates']>;
       },
       ValueTypes['gift_private_mutation_response']
     ];
@@ -8044,13 +7563,6 @@ export type ValueTypes = {
         pk_columns: ValueTypes['histories_pk_columns_input'];
       },
       ValueTypes['histories']
-    ];
-    update_histories_many?: [
-      {
-        /** updates to execute, in order */
-        updates: Array<ValueTypes['histories_updates']>;
-      },
-      ValueTypes['histories_mutation_response']
     ];
     update_interaction_events?: [
       {
@@ -8119,13 +7631,6 @@ export type ValueTypes = {
       },
       ValueTypes['interaction_events']
     ];
-    update_interaction_events_many?: [
-      {
-        /** updates to execute, in order */
-        updates: Array<ValueTypes['interaction_events_updates']>;
-      },
-      ValueTypes['interaction_events_mutation_response']
-    ];
     update_nominees?: [
       {
         /** increments the numeric columns with given value of the filtered values */
@@ -8152,13 +7657,6 @@ export type ValueTypes = {
         pk_columns: ValueTypes['nominees_pk_columns_input'];
       },
       ValueTypes['nominees']
-    ];
-    update_nominees_many?: [
-      {
-        /** updates to execute, in order */
-        updates: Array<ValueTypes['nominees_updates']>;
-      },
-      ValueTypes['nominees_mutation_response']
     ];
     update_organizations?: [
       {
@@ -8187,13 +7685,6 @@ export type ValueTypes = {
       },
       ValueTypes['organizations']
     ];
-    update_organizations_many?: [
-      {
-        /** updates to execute, in order */
-        updates: Array<ValueTypes['organizations_updates']>;
-      },
-      ValueTypes['organizations_mutation_response']
-    ];
     update_pending_gift_private?: [
       {
         /** increments the numeric columns with given value of the filtered values */
@@ -8206,13 +7697,6 @@ export type ValueTypes = {
           | undefined
           | null /** filter the rows which have to be updated */;
         where: ValueTypes['pending_gift_private_bool_exp'];
-      },
-      ValueTypes['pending_gift_private_mutation_response']
-    ];
-    update_pending_gift_private_many?: [
-      {
-        /** updates to execute, in order */
-        updates: Array<ValueTypes['pending_gift_private_updates']>;
       },
       ValueTypes['pending_gift_private_mutation_response']
     ];
@@ -8242,13 +7726,6 @@ export type ValueTypes = {
         pk_columns: ValueTypes['pending_token_gifts_pk_columns_input'];
       },
       ValueTypes['pending_token_gifts']
-    ];
-    update_pending_token_gifts_many?: [
-      {
-        /** updates to execute, in order */
-        updates: Array<ValueTypes['pending_token_gifts_updates']>;
-      },
-      ValueTypes['pending_token_gifts_mutation_response']
     ];
     update_pending_vault_transactions?: [
       {
@@ -8280,13 +7757,6 @@ export type ValueTypes = {
       },
       ValueTypes['pending_vault_transactions']
     ];
-    update_pending_vault_transactions_many?: [
-      {
-        /** updates to execute, in order */
-        updates: Array<ValueTypes['pending_vault_transactions_updates']>;
-      },
-      ValueTypes['pending_vault_transactions_mutation_response']
-    ];
     update_personal_access_tokens?: [
       {
         /** increments the numeric columns with given value of the filtered values */
@@ -8317,13 +7787,6 @@ export type ValueTypes = {
       },
       ValueTypes['personal_access_tokens']
     ];
-    update_personal_access_tokens_many?: [
-      {
-        /** updates to execute, in order */
-        updates: Array<ValueTypes['personal_access_tokens_updates']>;
-      },
-      ValueTypes['personal_access_tokens_mutation_response']
-    ];
     update_profiles?: [
       {
         /** increments the numeric columns with given value of the filtered values */
@@ -8350,13 +7813,6 @@ export type ValueTypes = {
         pk_columns: ValueTypes['profiles_pk_columns_input'];
       },
       ValueTypes['profiles']
-    ];
-    update_profiles_many?: [
-      {
-        /** updates to execute, in order */
-        updates: Array<ValueTypes['profiles_updates']>;
-      },
-      ValueTypes['profiles_mutation_response']
     ];
     update_teammates?: [
       {
@@ -8385,13 +7841,6 @@ export type ValueTypes = {
       },
       ValueTypes['teammates']
     ];
-    update_teammates_many?: [
-      {
-        /** updates to execute, in order */
-        updates: Array<ValueTypes['teammates_updates']>;
-      },
-      ValueTypes['teammates_mutation_response']
-    ];
     update_token_gifts?: [
       {
         /** increments the numeric columns with given value of the filtered values */
@@ -8418,13 +7867,6 @@ export type ValueTypes = {
         pk_columns: ValueTypes['token_gifts_pk_columns_input'];
       },
       ValueTypes['token_gifts']
-    ];
-    update_token_gifts_many?: [
-      {
-        /** updates to execute, in order */
-        updates: Array<ValueTypes['token_gifts_updates']>;
-      },
-      ValueTypes['token_gifts_mutation_response']
     ];
     update_users?: [
       {
@@ -8453,13 +7895,6 @@ export type ValueTypes = {
       },
       ValueTypes['users']
     ];
-    update_users_many?: [
-      {
-        /** updates to execute, in order */
-        updates: Array<ValueTypes['users_updates']>;
-      },
-      ValueTypes['users_mutation_response']
-    ];
     update_vault_transactions?: [
       {
         /** increments the numeric columns with given value of the filtered values */
@@ -8487,13 +7922,6 @@ export type ValueTypes = {
       },
       ValueTypes['vault_transactions']
     ];
-    update_vault_transactions_many?: [
-      {
-        /** updates to execute, in order */
-        updates: Array<ValueTypes['vault_transactions_updates']>;
-      },
-      ValueTypes['vault_transactions_mutation_response']
-    ];
     update_vault_tx_types?: [
       {
         /** sets the columns of the filtered rows to the given values */
@@ -8512,13 +7940,6 @@ export type ValueTypes = {
         pk_columns: ValueTypes['vault_tx_types_pk_columns_input'];
       },
       ValueTypes['vault_tx_types']
-    ];
-    update_vault_tx_types_many?: [
-      {
-        /** updates to execute, in order */
-        updates: Array<ValueTypes['vault_tx_types_updates']>;
-      },
-      ValueTypes['vault_tx_types_mutation_response']
     ];
     update_vaults?: [
       {
@@ -8547,13 +7968,6 @@ export type ValueTypes = {
       },
       ValueTypes['vaults']
     ];
-    update_vaults_many?: [
-      {
-        /** updates to execute, in order */
-        updates: Array<ValueTypes['vaults_updates']>;
-      },
-      ValueTypes['vaults_mutation_response']
-    ];
     update_vouches?: [
       {
         /** increments the numeric columns with given value of the filtered values */
@@ -8580,13 +7994,6 @@ export type ValueTypes = {
         pk_columns: ValueTypes['vouches_pk_columns_input'];
       },
       ValueTypes['vouches']
-    ];
-    update_vouches_many?: [
-      {
-        /** updates to execute, in order */
-        updates: Array<ValueTypes['vouches_updates']>;
-      },
-      ValueTypes['vouches_mutation_response']
     ];
     uploadCircleLogo?: [
       { payload: ValueTypes['UploadCircleImageInput'] },
@@ -8726,7 +8133,7 @@ export type ValueTypes = {
   /** input type for inserting array relation for remote table "nominees" */
   ['nominees_arr_rel_insert_input']: {
     data: Array<ValueTypes['nominees_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: ValueTypes['nominees_on_conflict'] | undefined | null;
   };
   /** aggregate avg on columns */
@@ -8872,10 +8279,10 @@ export type ValueTypes = {
   /** input type for inserting object relation for remote table "nominees" */
   ['nominees_obj_rel_insert_input']: {
     data: ValueTypes['nominees_insert_input'];
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: ValueTypes['nominees_on_conflict'] | undefined | null;
   };
-  /** on_conflict condition type for table "nominees" */
+  /** on conflict condition type for table "nominees" */
   ['nominees_on_conflict']: {
     constraint: ValueTypes['nominees_constraint'];
     update_columns: Array<ValueTypes['nominees_update_column']>;
@@ -8977,29 +8384,6 @@ export type ValueTypes = {
     user_id?: ValueTypes['order_by'] | undefined | null;
     vouches_required?: ValueTypes['order_by'] | undefined | null;
   };
-  /** Streaming cursor of the table "nominees" */
-  ['nominees_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: ValueTypes['nominees_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['nominees_stream_cursor_value_input']: {
-    address?: string | undefined | null;
-    circle_id?: number | undefined | null;
-    created_at?: ValueTypes['timestamp'] | undefined | null;
-    description?: string | undefined | null;
-    ended?: boolean | undefined | null;
-    expiry_date?: ValueTypes['timestamp'] | undefined | null;
-    id?: ValueTypes['bigint'] | undefined | null;
-    name?: string | undefined | null;
-    nominated_by_user_id?: number | undefined | null;
-    nominated_date?: ValueTypes['date'] | undefined | null;
-    updated_at?: ValueTypes['timestamp'] | undefined | null;
-    user_id?: number | undefined | null;
-    vouches_required?: number | undefined | null;
-  };
   /** aggregate sum on columns */
   ['nominees_sum_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -9019,13 +8403,6 @@ export type ValueTypes = {
   };
   /** update columns of table "nominees" */
   ['nominees_update_column']: nominees_update_column;
-  ['nominees_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: ValueTypes['nominees_inc_input'] | undefined | null;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['nominees_set_input'] | undefined | null;
-    where: ValueTypes['nominees_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['nominees_var_pop_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -9294,10 +8671,10 @@ export type ValueTypes = {
   /** input type for inserting object relation for remote table "organizations" */
   ['organizations_obj_rel_insert_input']: {
     data: ValueTypes['organizations_insert_input'];
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: ValueTypes['organizations_on_conflict'] | undefined | null;
   };
-  /** on_conflict condition type for table "organizations" */
+  /** on conflict condition type for table "organizations" */
   ['organizations_on_conflict']: {
     constraint: ValueTypes['organizations_constraint'];
     update_columns: Array<ValueTypes['organizations_update_column']>;
@@ -9352,23 +8729,6 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** Streaming cursor of the table "organizations" */
-  ['organizations_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: ValueTypes['organizations_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['organizations_stream_cursor_value_input']: {
-    created_at?: ValueTypes['timestamp'] | undefined | null;
-    id?: ValueTypes['bigint'] | undefined | null;
-    is_verified?: boolean | undefined | null;
-    logo?: string | undefined | null;
-    name?: string | undefined | null;
-    telegram_id?: string | undefined | null;
-    updated_at?: ValueTypes['timestamp'] | undefined | null;
-  };
   /** aggregate sum on columns */
   ['organizations_sum_fields']: AliasType<{
     id?: boolean | `@${string}`;
@@ -9376,13 +8736,6 @@ export type ValueTypes = {
   }>;
   /** update columns of table "organizations" */
   ['organizations_update_column']: organizations_update_column;
-  ['organizations_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: ValueTypes['organizations_inc_input'] | undefined | null;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['organizations_set_input'] | undefined | null;
-    where: ValueTypes['organizations_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['organizations_var_pop_fields']: AliasType<{
     id?: boolean | `@${string}`;
@@ -9544,20 +8897,6 @@ export type ValueTypes = {
     sender_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** Streaming cursor of the table "pending_gift_private" */
-  ['pending_gift_private_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: ValueTypes['pending_gift_private_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['pending_gift_private_stream_cursor_value_input']: {
-    gift_id?: ValueTypes['bigint'] | undefined | null;
-    note?: string | undefined | null;
-    recipient_id?: ValueTypes['bigint'] | undefined | null;
-    sender_id?: ValueTypes['bigint'] | undefined | null;
-  };
   /** aggregate sum on columns */
   ['pending_gift_private_sum_fields']: AliasType<{
     gift_id?: boolean | `@${string}`;
@@ -9565,13 +8904,6 @@ export type ValueTypes = {
     sender_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  ['pending_gift_private_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: ValueTypes['pending_gift_private_inc_input'] | undefined | null;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['pending_gift_private_set_input'] | undefined | null;
-    where: ValueTypes['pending_gift_private_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['pending_gift_private_var_pop_fields']: AliasType<{
     gift_id?: boolean | `@${string}`;
@@ -9593,7 +8925,10 @@ export type ValueTypes = {
     sender_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** GIVE allocations made by circle members for the currently running epoch */
+  /** GIVE allocations made by circle members for the currently running epoch
+
+
+columns and relationships of "pending_token_gifts" */
   ['pending_token_gifts']: AliasType<{
     /** An object relationship */
     circle?: ValueTypes['circles'];
@@ -9684,7 +9019,7 @@ export type ValueTypes = {
   /** input type for inserting array relation for remote table "pending_token_gifts" */
   ['pending_token_gifts_arr_rel_insert_input']: {
     data: Array<ValueTypes['pending_token_gifts_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?:
       | ValueTypes['pending_token_gifts_on_conflict']
       | undefined
@@ -9839,7 +9174,7 @@ export type ValueTypes = {
     returning?: ValueTypes['pending_token_gifts'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on_conflict condition type for table "pending_token_gifts" */
+  /** on conflict condition type for table "pending_token_gifts" */
   ['pending_token_gifts_on_conflict']: {
     constraint: ValueTypes['pending_token_gifts_constraint'];
     update_columns: Array<ValueTypes['pending_token_gifts_update_column']>;
@@ -9946,28 +9281,6 @@ export type ValueTypes = {
     sender_id?: ValueTypes['order_by'] | undefined | null;
     tokens?: ValueTypes['order_by'] | undefined | null;
   };
-  /** Streaming cursor of the table "pending_token_gifts" */
-  ['pending_token_gifts_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: ValueTypes['pending_token_gifts_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['pending_token_gifts_stream_cursor_value_input']: {
-    circle_id?: ValueTypes['bigint'] | undefined | null;
-    created_at?: ValueTypes['timestamp'] | undefined | null;
-    dts_created?: ValueTypes['timestamp'] | undefined | null;
-    epoch_id?: number | undefined | null;
-    id?: ValueTypes['bigint'] | undefined | null;
-    note?: string | undefined | null;
-    recipient_address?: string | undefined | null;
-    recipient_id?: ValueTypes['bigint'] | undefined | null;
-    sender_address?: string | undefined | null;
-    sender_id?: ValueTypes['bigint'] | undefined | null;
-    tokens?: number | undefined | null;
-    updated_at?: ValueTypes['timestamp'] | undefined | null;
-  };
   /** aggregate sum on columns */
   ['pending_token_gifts_sum_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -9989,13 +9302,6 @@ export type ValueTypes = {
   };
   /** update columns of table "pending_token_gifts" */
   ['pending_token_gifts_update_column']: pending_token_gifts_update_column;
-  ['pending_token_gifts_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: ValueTypes['pending_token_gifts_inc_input'] | undefined | null;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['pending_token_gifts_set_input'] | undefined | null;
-    where: ValueTypes['pending_token_gifts_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['pending_token_gifts_var_pop_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -10053,7 +9359,10 @@ export type ValueTypes = {
     sender_id?: ValueTypes['order_by'] | undefined | null;
     tokens?: ValueTypes['order_by'] | undefined | null;
   };
-  /** stores app-specific context to aid in the recovery of incomplete transactions */
+  /** stores app-specific context to aid in the recovery of incomplete transactions
+
+
+columns and relationships of "pending_vault_transactions" */
   ['pending_vault_transactions']: AliasType<{
     chain_id?: boolean | `@${string}`;
     claim_id?: boolean | `@${string}`;
@@ -10203,7 +9512,7 @@ export type ValueTypes = {
     returning?: ValueTypes['pending_vault_transactions'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on_conflict condition type for table "pending_vault_transactions" */
+  /** on conflict condition type for table "pending_vault_transactions" */
   ['pending_vault_transactions_on_conflict']: {
     constraint: ValueTypes['pending_vault_transactions_constraint'];
     update_columns: Array<
@@ -10273,24 +9582,6 @@ export type ValueTypes = {
     org_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** Streaming cursor of the table "pending_vault_transactions" */
-  ['pending_vault_transactions_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: ValueTypes['pending_vault_transactions_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['pending_vault_transactions_stream_cursor_value_input']: {
-    chain_id?: number | undefined | null;
-    claim_id?: ValueTypes['bigint'] | undefined | null;
-    created_at?: ValueTypes['timestamp'] | undefined | null;
-    created_by?: ValueTypes['bigint'] | undefined | null;
-    distribution_id?: ValueTypes['bigint'] | undefined | null;
-    org_id?: ValueTypes['bigint'] | undefined | null;
-    tx_hash?: string | undefined | null;
-    tx_type?: ValueTypes['vault_tx_types_enum'] | undefined | null;
-  };
   /** aggregate sum on columns */
   ['pending_vault_transactions_sum_fields']: AliasType<{
     chain_id?: boolean | `@${string}`;
@@ -10302,19 +9593,6 @@ export type ValueTypes = {
   }>;
   /** update columns of table "pending_vault_transactions" */
   ['pending_vault_transactions_update_column']: pending_vault_transactions_update_column;
-  ['pending_vault_transactions_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?:
-      | ValueTypes['pending_vault_transactions_inc_input']
-      | undefined
-      | null;
-    /** sets the columns of the filtered rows to the given values */
-    _set?:
-      | ValueTypes['pending_vault_transactions_set_input']
-      | undefined
-      | null;
-    where: ValueTypes['pending_vault_transactions_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['pending_vault_transactions_var_pop_fields']: AliasType<{
     chain_id?: boolean | `@${string}`;
@@ -10469,7 +9747,7 @@ export type ValueTypes = {
     returning?: ValueTypes['personal_access_tokens'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on_conflict condition type for table "personal_access_tokens" */
+  /** on conflict condition type for table "personal_access_tokens" */
   ['personal_access_tokens_on_conflict']: {
     constraint: ValueTypes['personal_access_tokens_constraint'];
     update_columns: Array<ValueTypes['personal_access_tokens_update_column']>;
@@ -10524,25 +9802,6 @@ export type ValueTypes = {
     tokenable_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** Streaming cursor of the table "personal_access_tokens" */
-  ['personal_access_tokens_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: ValueTypes['personal_access_tokens_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['personal_access_tokens_stream_cursor_value_input']: {
-    abilities?: string | undefined | null;
-    created_at?: ValueTypes['timestamp'] | undefined | null;
-    id?: ValueTypes['bigint'] | undefined | null;
-    last_used_at?: ValueTypes['timestamp'] | undefined | null;
-    name?: string | undefined | null;
-    token?: string | undefined | null;
-    tokenable_id?: ValueTypes['bigint'] | undefined | null;
-    tokenable_type?: string | undefined | null;
-    updated_at?: ValueTypes['timestamp'] | undefined | null;
-  };
   /** aggregate sum on columns */
   ['personal_access_tokens_sum_fields']: AliasType<{
     id?: boolean | `@${string}`;
@@ -10551,13 +9810,6 @@ export type ValueTypes = {
   }>;
   /** update columns of table "personal_access_tokens" */
   ['personal_access_tokens_update_column']: personal_access_tokens_update_column;
-  ['personal_access_tokens_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: ValueTypes['personal_access_tokens_inc_input'] | undefined | null;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['personal_access_tokens_set_input'] | undefined | null;
-    where: ValueTypes['personal_access_tokens_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['personal_access_tokens_var_pop_fields']: AliasType<{
     id?: boolean | `@${string}`;
@@ -10576,7 +9828,10 @@ export type ValueTypes = {
     tokenable_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table */
+  /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table
+
+
+columns and relationships of "profiles" */
   ['profiles']: AliasType<{
     address?: boolean | `@${string}`;
     ann_power?: boolean | `@${string}`;
@@ -10877,10 +10132,10 @@ export type ValueTypes = {
   /** input type for inserting object relation for remote table "profiles" */
   ['profiles_obj_rel_insert_input']: {
     data: ValueTypes['profiles_insert_input'];
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: ValueTypes['profiles_on_conflict'] | undefined | null;
   };
-  /** on_conflict condition type for table "profiles" */
+  /** on conflict condition type for table "profiles" */
   ['profiles_on_conflict']: {
     constraint: ValueTypes['profiles_constraint'];
     update_columns: Array<ValueTypes['profiles_update_column']>;
@@ -10954,32 +10209,6 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** Streaming cursor of the table "profiles" */
-  ['profiles_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: ValueTypes['profiles_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['profiles_stream_cursor_value_input']: {
-    address?: string | undefined | null;
-    ann_power?: boolean | undefined | null;
-    avatar?: string | undefined | null;
-    background?: string | undefined | null;
-    bio?: string | undefined | null;
-    chat_id?: string | undefined | null;
-    created_at?: ValueTypes['timestamp'] | undefined | null;
-    discord_username?: string | undefined | null;
-    github_username?: string | undefined | null;
-    id?: ValueTypes['bigint'] | undefined | null;
-    medium_username?: string | undefined | null;
-    skills?: string | undefined | null;
-    telegram_username?: string | undefined | null;
-    twitter_username?: string | undefined | null;
-    updated_at?: ValueTypes['timestamp'] | undefined | null;
-    website?: string | undefined | null;
-  };
   /** aggregate sum on columns */
   ['profiles_sum_fields']: AliasType<{
     id?: boolean | `@${string}`;
@@ -10987,13 +10216,6 @@ export type ValueTypes = {
   }>;
   /** update columns of table "profiles" */
   ['profiles_update_column']: profiles_update_column;
-  ['profiles_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: ValueTypes['profiles_inc_input'] | undefined | null;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['profiles_set_input'] | undefined | null;
-    where: ValueTypes['profiles_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['profiles_var_pop_fields']: AliasType<{
     id?: boolean | `@${string}`;
@@ -12467,17 +11689,6 @@ export type ValueTypes = {
       ValueTypes['burns_aggregate']
     ];
     burns_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['burns']];
-    burns_stream?: [
-      {
-        /** maximum number of rows returned in a single batch */
-        batch_size: number /** cursor to stream the results returned by the query */;
-        cursor: Array<
-          ValueTypes['burns_stream_cursor_input'] | undefined | null
-        > /** filter the rows returned */;
-        where?: ValueTypes['burns_bool_exp'] | undefined | null;
-      },
-      ValueTypes['burns']
-    ];
     circle_api_keys?: [
       {
         /** distinct select on columns */
@@ -12525,17 +11736,6 @@ export type ValueTypes = {
       ValueTypes['circle_api_keys_aggregate']
     ];
     circle_api_keys_by_pk?: [{ hash: string }, ValueTypes['circle_api_keys']];
-    circle_api_keys_stream?: [
-      {
-        /** maximum number of rows returned in a single batch */
-        batch_size: number /** cursor to stream the results returned by the query */;
-        cursor: Array<
-          ValueTypes['circle_api_keys_stream_cursor_input'] | undefined | null
-        > /** filter the rows returned */;
-        where?: ValueTypes['circle_api_keys_bool_exp'] | undefined | null;
-      },
-      ValueTypes['circle_api_keys']
-    ];
     circle_integrations?: [
       {
         /** distinct select on columns */
@@ -12584,19 +11784,6 @@ export type ValueTypes = {
     ];
     circle_integrations_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['circle_integrations']
-    ];
-    circle_integrations_stream?: [
-      {
-        /** maximum number of rows returned in a single batch */
-        batch_size: number /** cursor to stream the results returned by the query */;
-        cursor: Array<
-          | ValueTypes['circle_integrations_stream_cursor_input']
-          | undefined
-          | null
-        > /** filter the rows returned */;
-        where?: ValueTypes['circle_integrations_bool_exp'] | undefined | null;
-      },
       ValueTypes['circle_integrations']
     ];
     circle_metadata?: [
@@ -12649,17 +11836,6 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['circle_metadata']
     ];
-    circle_metadata_stream?: [
-      {
-        /** maximum number of rows returned in a single batch */
-        batch_size: number /** cursor to stream the results returned by the query */;
-        cursor: Array<
-          ValueTypes['circle_metadata_stream_cursor_input'] | undefined | null
-        > /** filter the rows returned */;
-        where?: ValueTypes['circle_metadata_bool_exp'] | undefined | null;
-      },
-      ValueTypes['circle_metadata']
-    ];
     circle_private?: [
       {
         /** distinct select on columns */
@@ -12705,17 +11881,6 @@ export type ValueTypes = {
         where?: ValueTypes['circle_private_bool_exp'] | undefined | null;
       },
       ValueTypes['circle_private_aggregate']
-    ];
-    circle_private_stream?: [
-      {
-        /** maximum number of rows returned in a single batch */
-        batch_size: number /** cursor to stream the results returned by the query */;
-        cursor: Array<
-          ValueTypes['circle_private_stream_cursor_input'] | undefined | null
-        > /** filter the rows returned */;
-        where?: ValueTypes['circle_private_bool_exp'] | undefined | null;
-      },
-      ValueTypes['circle_private']
     ];
     circle_share_tokens?: [
       {
@@ -12767,19 +11932,6 @@ export type ValueTypes = {
       { circle_id: ValueTypes['bigint']; type: number },
       ValueTypes['circle_share_tokens']
     ];
-    circle_share_tokens_stream?: [
-      {
-        /** maximum number of rows returned in a single batch */
-        batch_size: number /** cursor to stream the results returned by the query */;
-        cursor: Array<
-          | ValueTypes['circle_share_tokens_stream_cursor_input']
-          | undefined
-          | null
-        > /** filter the rows returned */;
-        where?: ValueTypes['circle_share_tokens_bool_exp'] | undefined | null;
-      },
-      ValueTypes['circle_share_tokens']
-    ];
     circles?: [
       {
         /** distinct select on columns */
@@ -12827,17 +11979,6 @@ export type ValueTypes = {
       ValueTypes['circles_aggregate']
     ];
     circles_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['circles']];
-    circles_stream?: [
-      {
-        /** maximum number of rows returned in a single batch */
-        batch_size: number /** cursor to stream the results returned by the query */;
-        cursor: Array<
-          ValueTypes['circles_stream_cursor_input'] | undefined | null
-        > /** filter the rows returned */;
-        where?: ValueTypes['circles_bool_exp'] | undefined | null;
-      },
-      ValueTypes['circles']
-    ];
     claims?: [
       {
         /** distinct select on columns */
@@ -12885,17 +12026,6 @@ export type ValueTypes = {
       ValueTypes['claims_aggregate']
     ];
     claims_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['claims']];
-    claims_stream?: [
-      {
-        /** maximum number of rows returned in a single batch */
-        batch_size: number /** cursor to stream the results returned by the query */;
-        cursor: Array<
-          ValueTypes['claims_stream_cursor_input'] | undefined | null
-        > /** filter the rows returned */;
-        where?: ValueTypes['claims_bool_exp'] | undefined | null;
-      },
-      ValueTypes['claims']
-    ];
     contributions?: [
       {
         /** distinct select on columns */
@@ -12944,17 +12074,6 @@ export type ValueTypes = {
     ];
     contributions_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['contributions']
-    ];
-    contributions_stream?: [
-      {
-        /** maximum number of rows returned in a single batch */
-        batch_size: number /** cursor to stream the results returned by the query */;
-        cursor: Array<
-          ValueTypes['contributions_stream_cursor_input'] | undefined | null
-        > /** filter the rows returned */;
-        where?: ValueTypes['contributions_bool_exp'] | undefined | null;
-      },
       ValueTypes['contributions']
     ];
     distributions?: [
@@ -13007,17 +12126,6 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['distributions']
     ];
-    distributions_stream?: [
-      {
-        /** maximum number of rows returned in a single batch */
-        batch_size: number /** cursor to stream the results returned by the query */;
-        cursor: Array<
-          ValueTypes['distributions_stream_cursor_input'] | undefined | null
-        > /** filter the rows returned */;
-        where?: ValueTypes['distributions_bool_exp'] | undefined | null;
-      },
-      ValueTypes['distributions']
-    ];
     epochs?: [
       {
         /** distinct select on columns */
@@ -13065,17 +12173,6 @@ export type ValueTypes = {
       ValueTypes['epochs_aggregate']
     ];
     epochs_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['epochs']];
-    epochs_stream?: [
-      {
-        /** maximum number of rows returned in a single batch */
-        batch_size: number /** cursor to stream the results returned by the query */;
-        cursor: Array<
-          ValueTypes['epochs_stream_cursor_input'] | undefined | null
-        > /** filter the rows returned */;
-        where?: ValueTypes['epochs_bool_exp'] | undefined | null;
-      },
-      ValueTypes['epochs']
-    ];
     gift_private?: [
       {
         /** distinct select on columns */
@@ -13121,17 +12218,6 @@ export type ValueTypes = {
         where?: ValueTypes['gift_private_bool_exp'] | undefined | null;
       },
       ValueTypes['gift_private_aggregate']
-    ];
-    gift_private_stream?: [
-      {
-        /** maximum number of rows returned in a single batch */
-        batch_size: number /** cursor to stream the results returned by the query */;
-        cursor: Array<
-          ValueTypes['gift_private_stream_cursor_input'] | undefined | null
-        > /** filter the rows returned */;
-        where?: ValueTypes['gift_private_bool_exp'] | undefined | null;
-      },
-      ValueTypes['gift_private']
     ];
     histories?: [
       {
@@ -13180,17 +12266,6 @@ export type ValueTypes = {
       ValueTypes['histories_aggregate']
     ];
     histories_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['histories']];
-    histories_stream?: [
-      {
-        /** maximum number of rows returned in a single batch */
-        batch_size: number /** cursor to stream the results returned by the query */;
-        cursor: Array<
-          ValueTypes['histories_stream_cursor_input'] | undefined | null
-        > /** filter the rows returned */;
-        where?: ValueTypes['histories_bool_exp'] | undefined | null;
-      },
-      ValueTypes['histories']
-    ];
     interaction_events?: [
       {
         /** distinct select on columns */
@@ -13241,19 +12316,6 @@ export type ValueTypes = {
       { id: number },
       ValueTypes['interaction_events']
     ];
-    interaction_events_stream?: [
-      {
-        /** maximum number of rows returned in a single batch */
-        batch_size: number /** cursor to stream the results returned by the query */;
-        cursor: Array<
-          | ValueTypes['interaction_events_stream_cursor_input']
-          | undefined
-          | null
-        > /** filter the rows returned */;
-        where?: ValueTypes['interaction_events_bool_exp'] | undefined | null;
-      },
-      ValueTypes['interaction_events']
-    ];
     nominees?: [
       {
         /** distinct select on columns */
@@ -13301,17 +12363,6 @@ export type ValueTypes = {
       ValueTypes['nominees_aggregate']
     ];
     nominees_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['nominees']];
-    nominees_stream?: [
-      {
-        /** maximum number of rows returned in a single batch */
-        batch_size: number /** cursor to stream the results returned by the query */;
-        cursor: Array<
-          ValueTypes['nominees_stream_cursor_input'] | undefined | null
-        > /** filter the rows returned */;
-        where?: ValueTypes['nominees_bool_exp'] | undefined | null;
-      },
-      ValueTypes['nominees']
-    ];
     organizations?: [
       {
         /** distinct select on columns */
@@ -13362,17 +12413,6 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['organizations']
     ];
-    organizations_stream?: [
-      {
-        /** maximum number of rows returned in a single batch */
-        batch_size: number /** cursor to stream the results returned by the query */;
-        cursor: Array<
-          ValueTypes['organizations_stream_cursor_input'] | undefined | null
-        > /** filter the rows returned */;
-        where?: ValueTypes['organizations_bool_exp'] | undefined | null;
-      },
-      ValueTypes['organizations']
-    ];
     pending_gift_private?: [
       {
         /** distinct select on columns */
@@ -13418,19 +12458,6 @@ export type ValueTypes = {
         where?: ValueTypes['pending_gift_private_bool_exp'] | undefined | null;
       },
       ValueTypes['pending_gift_private_aggregate']
-    ];
-    pending_gift_private_stream?: [
-      {
-        /** maximum number of rows returned in a single batch */
-        batch_size: number /** cursor to stream the results returned by the query */;
-        cursor: Array<
-          | ValueTypes['pending_gift_private_stream_cursor_input']
-          | undefined
-          | null
-        > /** filter the rows returned */;
-        where?: ValueTypes['pending_gift_private_bool_exp'] | undefined | null;
-      },
-      ValueTypes['pending_gift_private']
     ];
     pending_token_gifts?: [
       {
@@ -13480,19 +12507,6 @@ export type ValueTypes = {
     ];
     pending_token_gifts_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['pending_token_gifts']
-    ];
-    pending_token_gifts_stream?: [
-      {
-        /** maximum number of rows returned in a single batch */
-        batch_size: number /** cursor to stream the results returned by the query */;
-        cursor: Array<
-          | ValueTypes['pending_token_gifts_stream_cursor_input']
-          | undefined
-          | null
-        > /** filter the rows returned */;
-        where?: ValueTypes['pending_token_gifts_bool_exp'] | undefined | null;
-      },
       ValueTypes['pending_token_gifts']
     ];
     pending_vault_transactions?: [
@@ -13551,22 +12565,6 @@ export type ValueTypes = {
       { tx_hash: string },
       ValueTypes['pending_vault_transactions']
     ];
-    pending_vault_transactions_stream?: [
-      {
-        /** maximum number of rows returned in a single batch */
-        batch_size: number /** cursor to stream the results returned by the query */;
-        cursor: Array<
-          | ValueTypes['pending_vault_transactions_stream_cursor_input']
-          | undefined
-          | null
-        > /** filter the rows returned */;
-        where?:
-          | ValueTypes['pending_vault_transactions_bool_exp']
-          | undefined
-          | null;
-      },
-      ValueTypes['pending_vault_transactions']
-    ];
     personal_access_tokens?: [
       {
         /** distinct select on columns */
@@ -13623,22 +12621,6 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['personal_access_tokens']
     ];
-    personal_access_tokens_stream?: [
-      {
-        /** maximum number of rows returned in a single batch */
-        batch_size: number /** cursor to stream the results returned by the query */;
-        cursor: Array<
-          | ValueTypes['personal_access_tokens_stream_cursor_input']
-          | undefined
-          | null
-        > /** filter the rows returned */;
-        where?:
-          | ValueTypes['personal_access_tokens_bool_exp']
-          | undefined
-          | null;
-      },
-      ValueTypes['personal_access_tokens']
-    ];
     profiles?: [
       {
         /** distinct select on columns */
@@ -13686,17 +12668,6 @@ export type ValueTypes = {
       ValueTypes['profiles_aggregate']
     ];
     profiles_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['profiles']];
-    profiles_stream?: [
-      {
-        /** maximum number of rows returned in a single batch */
-        batch_size: number /** cursor to stream the results returned by the query */;
-        cursor: Array<
-          ValueTypes['profiles_stream_cursor_input'] | undefined | null
-        > /** filter the rows returned */;
-        where?: ValueTypes['profiles_bool_exp'] | undefined | null;
-      },
-      ValueTypes['profiles']
-    ];
     teammates?: [
       {
         /** distinct select on columns */
@@ -13744,17 +12715,6 @@ export type ValueTypes = {
       ValueTypes['teammates_aggregate']
     ];
     teammates_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['teammates']];
-    teammates_stream?: [
-      {
-        /** maximum number of rows returned in a single batch */
-        batch_size: number /** cursor to stream the results returned by the query */;
-        cursor: Array<
-          ValueTypes['teammates_stream_cursor_input'] | undefined | null
-        > /** filter the rows returned */;
-        where?: ValueTypes['teammates_bool_exp'] | undefined | null;
-      },
-      ValueTypes['teammates']
-    ];
     token_gifts?: [
       {
         /** distinct select on columns */
@@ -13805,17 +12765,6 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['token_gifts']
     ];
-    token_gifts_stream?: [
-      {
-        /** maximum number of rows returned in a single batch */
-        batch_size: number /** cursor to stream the results returned by the query */;
-        cursor: Array<
-          ValueTypes['token_gifts_stream_cursor_input'] | undefined | null
-        > /** filter the rows returned */;
-        where?: ValueTypes['token_gifts_bool_exp'] | undefined | null;
-      },
-      ValueTypes['token_gifts']
-    ];
     user_private?: [
       {
         /** distinct select on columns */
@@ -13861,17 +12810,6 @@ export type ValueTypes = {
         where?: ValueTypes['user_private_bool_exp'] | undefined | null;
       },
       ValueTypes['user_private_aggregate']
-    ];
-    user_private_stream?: [
-      {
-        /** maximum number of rows returned in a single batch */
-        batch_size: number /** cursor to stream the results returned by the query */;
-        cursor: Array<
-          ValueTypes['user_private_stream_cursor_input'] | undefined | null
-        > /** filter the rows returned */;
-        where?: ValueTypes['user_private_bool_exp'] | undefined | null;
-      },
-      ValueTypes['user_private']
     ];
     users?: [
       {
@@ -13920,17 +12858,6 @@ export type ValueTypes = {
       ValueTypes['users_aggregate']
     ];
     users_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['users']];
-    users_stream?: [
-      {
-        /** maximum number of rows returned in a single batch */
-        batch_size: number /** cursor to stream the results returned by the query */;
-        cursor: Array<
-          ValueTypes['users_stream_cursor_input'] | undefined | null
-        > /** filter the rows returned */;
-        where?: ValueTypes['users_bool_exp'] | undefined | null;
-      },
-      ValueTypes['users']
-    ];
     vault_transactions?: [
       {
         /** distinct select on columns */
@@ -13981,19 +12908,6 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['vault_transactions']
     ];
-    vault_transactions_stream?: [
-      {
-        /** maximum number of rows returned in a single batch */
-        batch_size: number /** cursor to stream the results returned by the query */;
-        cursor: Array<
-          | ValueTypes['vault_transactions_stream_cursor_input']
-          | undefined
-          | null
-        > /** filter the rows returned */;
-        where?: ValueTypes['vault_transactions_bool_exp'] | undefined | null;
-      },
-      ValueTypes['vault_transactions']
-    ];
     vault_tx_types?: [
       {
         /** distinct select on columns */
@@ -14041,17 +12955,6 @@ export type ValueTypes = {
       ValueTypes['vault_tx_types_aggregate']
     ];
     vault_tx_types_by_pk?: [{ value: string }, ValueTypes['vault_tx_types']];
-    vault_tx_types_stream?: [
-      {
-        /** maximum number of rows returned in a single batch */
-        batch_size: number /** cursor to stream the results returned by the query */;
-        cursor: Array<
-          ValueTypes['vault_tx_types_stream_cursor_input'] | undefined | null
-        > /** filter the rows returned */;
-        where?: ValueTypes['vault_tx_types_bool_exp'] | undefined | null;
-      },
-      ValueTypes['vault_tx_types']
-    ];
     vaults?: [
       {
         /** distinct select on columns */
@@ -14099,17 +13002,6 @@ export type ValueTypes = {
       ValueTypes['vaults_aggregate']
     ];
     vaults_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['vaults']];
-    vaults_stream?: [
-      {
-        /** maximum number of rows returned in a single batch */
-        batch_size: number /** cursor to stream the results returned by the query */;
-        cursor: Array<
-          ValueTypes['vaults_stream_cursor_input'] | undefined | null
-        > /** filter the rows returned */;
-        where?: ValueTypes['vaults_bool_exp'] | undefined | null;
-      },
-      ValueTypes['vaults']
-    ];
     vouches?: [
       {
         /** distinct select on columns */
@@ -14157,17 +13049,6 @@ export type ValueTypes = {
       ValueTypes['vouches_aggregate']
     ];
     vouches_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['vouches']];
-    vouches_stream?: [
-      {
-        /** maximum number of rows returned in a single batch */
-        batch_size: number /** cursor to stream the results returned by the query */;
-        cursor: Array<
-          ValueTypes['vouches_stream_cursor_input'] | undefined | null
-        > /** filter the rows returned */;
-        where?: ValueTypes['vouches_bool_exp'] | undefined | null;
-      },
-      ValueTypes['vouches']
-    ];
     __typename?: boolean | `@${string}`;
   }>;
   /** columns and relationships of "teammates" */
@@ -14233,7 +13114,7 @@ export type ValueTypes = {
   /** input type for inserting array relation for remote table "teammates" */
   ['teammates_arr_rel_insert_input']: {
     data: Array<ValueTypes['teammates_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: ValueTypes['teammates_on_conflict'] | undefined | null;
   };
   /** aggregate avg on columns */
@@ -14322,7 +13203,7 @@ export type ValueTypes = {
     returning?: ValueTypes['teammates'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on_conflict condition type for table "teammates" */
+  /** on conflict condition type for table "teammates" */
   ['teammates_on_conflict']: {
     constraint: ValueTypes['teammates_constraint'];
     update_columns: Array<ValueTypes['teammates_update_column']>;
@@ -14391,21 +13272,6 @@ export type ValueTypes = {
     team_mate_id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
-  /** Streaming cursor of the table "teammates" */
-  ['teammates_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: ValueTypes['teammates_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['teammates_stream_cursor_value_input']: {
-    created_at?: ValueTypes['timestamp'] | undefined | null;
-    id?: ValueTypes['bigint'] | undefined | null;
-    team_mate_id?: number | undefined | null;
-    updated_at?: ValueTypes['timestamp'] | undefined | null;
-    user_id?: number | undefined | null;
-  };
   /** aggregate sum on columns */
   ['teammates_sum_fields']: AliasType<{
     id?: boolean | `@${string}`;
@@ -14421,13 +13287,6 @@ export type ValueTypes = {
   };
   /** update columns of table "teammates" */
   ['teammates_update_column']: teammates_update_column;
-  ['teammates_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: ValueTypes['teammates_inc_input'] | undefined | null;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['teammates_set_input'] | undefined | null;
-    where: ValueTypes['teammates_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['teammates_var_pop_fields']: AliasType<{
     id?: boolean | `@${string}`;
@@ -14493,7 +13352,10 @@ export type ValueTypes = {
     _neq?: ValueTypes['timestamptz'] | undefined | null;
     _nin?: Array<ValueTypes['timestamptz']> | undefined | null;
   };
-  /** GIVE allocations made by circle members for completed epochs */
+  /** GIVE allocations made by circle members for completed epochs
+
+
+columns and relationships of "token_gifts" */
   ['token_gifts']: AliasType<{
     /** An object relationship */
     circle?: ValueTypes['circles'];
@@ -14572,7 +13434,7 @@ export type ValueTypes = {
   /** input type for inserting array relation for remote table "token_gifts" */
   ['token_gifts_arr_rel_insert_input']: {
     data: Array<ValueTypes['token_gifts_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: ValueTypes['token_gifts_on_conflict'] | undefined | null;
   };
   /** aggregate avg on columns */
@@ -14721,7 +13583,7 @@ export type ValueTypes = {
     returning?: ValueTypes['token_gifts'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on_conflict condition type for table "token_gifts" */
+  /** on conflict condition type for table "token_gifts" */
   ['token_gifts_on_conflict']: {
     constraint: ValueTypes['token_gifts_constraint'];
     update_columns: Array<ValueTypes['token_gifts_update_column']>;
@@ -14825,28 +13687,6 @@ export type ValueTypes = {
     sender_id?: ValueTypes['order_by'] | undefined | null;
     tokens?: ValueTypes['order_by'] | undefined | null;
   };
-  /** Streaming cursor of the table "token_gifts" */
-  ['token_gifts_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: ValueTypes['token_gifts_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['token_gifts_stream_cursor_value_input']: {
-    circle_id?: ValueTypes['bigint'] | undefined | null;
-    created_at?: ValueTypes['timestamp'] | undefined | null;
-    dts_created?: ValueTypes['timestamp'] | undefined | null;
-    epoch_id?: number | undefined | null;
-    id?: ValueTypes['bigint'] | undefined | null;
-    note?: string | undefined | null;
-    recipient_address?: string | undefined | null;
-    recipient_id?: ValueTypes['bigint'] | undefined | null;
-    sender_address?: string | undefined | null;
-    sender_id?: ValueTypes['bigint'] | undefined | null;
-    tokens?: number | undefined | null;
-    updated_at?: ValueTypes['timestamp'] | undefined | null;
-  };
   /** aggregate sum on columns */
   ['token_gifts_sum_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -14868,13 +13708,6 @@ export type ValueTypes = {
   };
   /** update columns of table "token_gifts" */
   ['token_gifts_update_column']: token_gifts_update_column;
-  ['token_gifts_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: ValueTypes['token_gifts_inc_input'] | undefined | null;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['token_gifts_set_input'] | undefined | null;
-    where: ValueTypes['token_gifts_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['token_gifts_var_pop_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -15060,20 +13893,6 @@ export type ValueTypes = {
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** Streaming cursor of the table "user_private" */
-  ['user_private_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: ValueTypes['user_private_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['user_private_stream_cursor_value_input']: {
-    circle_id?: ValueTypes['bigint'] | undefined | null;
-    fixed_payment_amount?: ValueTypes['numeric'] | undefined | null;
-    fixed_payment_token_type?: string | undefined | null;
-    user_id?: ValueTypes['bigint'] | undefined | null;
-  };
   /** aggregate sum on columns */
   ['user_private_sum_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -15102,7 +13921,10 @@ export type ValueTypes = {
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** Members of a circle */
+  /** Members of a circle
+
+
+columns and relationships of "users" */
   ['users']: AliasType<{
     address?: boolean | `@${string}`;
     bio?: boolean | `@${string}`;
@@ -15587,7 +14409,7 @@ export type ValueTypes = {
   /** input type for inserting array relation for remote table "users" */
   ['users_arr_rel_insert_input']: {
     data: Array<ValueTypes['users_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: ValueTypes['users_on_conflict'] | undefined | null;
   };
   /** aggregate avg on columns */
@@ -15800,10 +14622,10 @@ export type ValueTypes = {
   /** input type for inserting object relation for remote table "users" */
   ['users_obj_rel_insert_input']: {
     data: ValueTypes['users_insert_input'];
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: ValueTypes['users_on_conflict'] | undefined | null;
   };
-  /** on_conflict condition type for table "users" */
+  /** on conflict condition type for table "users" */
   ['users_on_conflict']: {
     constraint: ValueTypes['users_constraint'];
     update_columns: Array<ValueTypes['users_update_column']>;
@@ -15954,33 +14776,6 @@ export type ValueTypes = {
     role?: ValueTypes['order_by'] | undefined | null;
     starting_tokens?: ValueTypes['order_by'] | undefined | null;
   };
-  /** Streaming cursor of the table "users" */
-  ['users_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: ValueTypes['users_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['users_stream_cursor_value_input']: {
-    address?: string | undefined | null;
-    bio?: string | undefined | null;
-    circle_id?: ValueTypes['bigint'] | undefined | null;
-    created_at?: ValueTypes['timestamp'] | undefined | null;
-    deleted_at?: ValueTypes['timestamp'] | undefined | null;
-    epoch_first_visit?: boolean | undefined | null;
-    fixed_non_receiver?: boolean | undefined | null;
-    fixed_payment_amount?: ValueTypes['numeric'] | undefined | null;
-    give_token_received?: number | undefined | null;
-    give_token_remaining?: number | undefined | null;
-    id?: ValueTypes['bigint'] | undefined | null;
-    name?: string | undefined | null;
-    non_giver?: boolean | undefined | null;
-    non_receiver?: boolean | undefined | null;
-    role?: number | undefined | null;
-    starting_tokens?: number | undefined | null;
-    updated_at?: ValueTypes['timestamp'] | undefined | null;
-  };
   /** aggregate sum on columns */
   ['users_sum_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -16004,13 +14799,6 @@ export type ValueTypes = {
   };
   /** update columns of table "users" */
   ['users_update_column']: users_update_column;
-  ['users_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: ValueTypes['users_inc_input'] | undefined | null;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['users_set_input'] | undefined | null;
-    where: ValueTypes['users_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['users_var_pop_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -16175,7 +14963,7 @@ export type ValueTypes = {
   /** input type for inserting array relation for remote table "vault_transactions" */
   ['vault_transactions_arr_rel_insert_input']: {
     data: Array<ValueTypes['vault_transactions_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?:
       | ValueTypes['vault_transactions_on_conflict']
       | undefined
@@ -16308,7 +15096,7 @@ export type ValueTypes = {
     returning?: ValueTypes['vault_transactions'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on_conflict condition type for table "vault_transactions" */
+  /** on conflict condition type for table "vault_transactions" */
   ['vault_transactions_on_conflict']: {
     constraint: ValueTypes['vault_transactions_constraint'];
     update_columns: Array<ValueTypes['vault_transactions_update_column']>;
@@ -16400,25 +15188,6 @@ export type ValueTypes = {
     id?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
   };
-  /** Streaming cursor of the table "vault_transactions" */
-  ['vault_transactions_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: ValueTypes['vault_transactions_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['vault_transactions_stream_cursor_value_input']: {
-    circle_id?: ValueTypes['bigint'] | undefined | null;
-    created_at?: ValueTypes['timestamp'] | undefined | null;
-    created_by?: ValueTypes['bigint'] | undefined | null;
-    distribution_id?: ValueTypes['bigint'] | undefined | null;
-    id?: ValueTypes['bigint'] | undefined | null;
-    tx_hash?: string | undefined | null;
-    tx_type?: ValueTypes['vault_tx_types_enum'] | undefined | null;
-    updated_at?: ValueTypes['timestamp'] | undefined | null;
-    vault_id?: ValueTypes['bigint'] | undefined | null;
-  };
   /** aggregate sum on columns */
   ['vault_transactions_sum_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -16438,13 +15207,6 @@ export type ValueTypes = {
   };
   /** update columns of table "vault_transactions" */
   ['vault_transactions_update_column']: vault_transactions_update_column;
-  ['vault_transactions_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: ValueTypes['vault_transactions_inc_input'] | undefined | null;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['vault_transactions_set_input'] | undefined | null;
-    where: ValueTypes['vault_transactions_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['vault_transactions_var_pop_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -16625,10 +15387,10 @@ export type ValueTypes = {
   /** input type for inserting object relation for remote table "vault_tx_types" */
   ['vault_tx_types_obj_rel_insert_input']: {
     data: ValueTypes['vault_tx_types_insert_input'];
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: ValueTypes['vault_tx_types_on_conflict'] | undefined | null;
   };
-  /** on_conflict condition type for table "vault_tx_types" */
+  /** on conflict condition type for table "vault_tx_types" */
   ['vault_tx_types_on_conflict']: {
     constraint: ValueTypes['vault_tx_types_constraint'];
     update_columns: Array<ValueTypes['vault_tx_types_update_column']>;
@@ -16654,25 +15416,8 @@ export type ValueTypes = {
     comment?: string | undefined | null;
     value?: string | undefined | null;
   };
-  /** Streaming cursor of the table "vault_tx_types" */
-  ['vault_tx_types_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: ValueTypes['vault_tx_types_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['vault_tx_types_stream_cursor_value_input']: {
-    comment?: string | undefined | null;
-    value?: string | undefined | null;
-  };
   /** update columns of table "vault_tx_types" */
   ['vault_tx_types_update_column']: vault_tx_types_update_column;
-  ['vault_tx_types_updates']: {
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['vault_tx_types_set_input'] | undefined | null;
-    where: ValueTypes['vault_tx_types_bool_exp'];
-  };
   /** columns and relationships of "vaults" */
   ['vaults']: AliasType<{
     chain_id?: boolean | `@${string}`;
@@ -16829,7 +15574,7 @@ export type ValueTypes = {
   /** input type for inserting array relation for remote table "vaults" */
   ['vaults_arr_rel_insert_input']: {
     data: Array<ValueTypes['vaults_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: ValueTypes['vaults_on_conflict'] | undefined | null;
   };
   /** aggregate avg on columns */
@@ -16991,10 +15736,10 @@ export type ValueTypes = {
   /** input type for inserting object relation for remote table "vaults" */
   ['vaults_obj_rel_insert_input']: {
     data: ValueTypes['vaults_insert_input'];
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: ValueTypes['vaults_on_conflict'] | undefined | null;
   };
-  /** on_conflict condition type for table "vaults" */
+  /** on conflict condition type for table "vaults" */
   ['vaults_on_conflict']: {
     constraint: ValueTypes['vaults_constraint'];
     update_columns: Array<ValueTypes['vaults_update_column']>;
@@ -17103,28 +15848,6 @@ export type ValueTypes = {
     id?: ValueTypes['order_by'] | undefined | null;
     org_id?: ValueTypes['order_by'] | undefined | null;
   };
-  /** Streaming cursor of the table "vaults" */
-  ['vaults_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: ValueTypes['vaults_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['vaults_stream_cursor_value_input']: {
-    chain_id?: number | undefined | null;
-    created_at?: ValueTypes['timestamptz'] | undefined | null;
-    created_by?: ValueTypes['bigint'] | undefined | null;
-    decimals?: number | undefined | null;
-    deployment_block?: ValueTypes['bigint'] | undefined | null;
-    id?: ValueTypes['bigint'] | undefined | null;
-    org_id?: ValueTypes['bigint'] | undefined | null;
-    simple_token_address?: string | undefined | null;
-    symbol?: string | undefined | null;
-    token_address?: string | undefined | null;
-    updated_at?: ValueTypes['timestamptz'] | undefined | null;
-    vault_address?: string | undefined | null;
-  };
   /** aggregate sum on columns */
   ['vaults_sum_fields']: AliasType<{
     chain_id?: boolean | `@${string}`;
@@ -17146,13 +15869,6 @@ export type ValueTypes = {
   };
   /** update columns of table "vaults" */
   ['vaults_update_column']: vaults_update_column;
-  ['vaults_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: ValueTypes['vaults_inc_input'] | undefined | null;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['vaults_set_input'] | undefined | null;
-    where: ValueTypes['vaults_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['vaults_var_pop_fields']: AliasType<{
     chain_id?: boolean | `@${string}`;
@@ -17267,7 +15983,7 @@ export type ValueTypes = {
   /** input type for inserting array relation for remote table "vouches" */
   ['vouches_arr_rel_insert_input']: {
     data: Array<ValueTypes['vouches_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: ValueTypes['vouches_on_conflict'] | undefined | null;
   };
   /** aggregate avg on columns */
@@ -17356,7 +16072,7 @@ export type ValueTypes = {
     returning?: ValueTypes['vouches'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on_conflict condition type for table "vouches" */
+  /** on conflict condition type for table "vouches" */
   ['vouches_on_conflict']: {
     constraint: ValueTypes['vouches_constraint'];
     update_columns: Array<ValueTypes['vouches_update_column']>;
@@ -17425,21 +16141,6 @@ export type ValueTypes = {
     nominee_id?: ValueTypes['order_by'] | undefined | null;
     voucher_id?: ValueTypes['order_by'] | undefined | null;
   };
-  /** Streaming cursor of the table "vouches" */
-  ['vouches_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: ValueTypes['vouches_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['vouches_stream_cursor_value_input']: {
-    created_at?: ValueTypes['timestamp'] | undefined | null;
-    id?: ValueTypes['bigint'] | undefined | null;
-    nominee_id?: number | undefined | null;
-    updated_at?: ValueTypes['timestamp'] | undefined | null;
-    voucher_id?: number | undefined | null;
-  };
   /** aggregate sum on columns */
   ['vouches_sum_fields']: AliasType<{
     id?: boolean | `@${string}`;
@@ -17455,13 +16156,6 @@ export type ValueTypes = {
   };
   /** update columns of table "vouches" */
   ['vouches_update_column']: vouches_update_column;
-  ['vouches_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: ValueTypes['vouches_inc_input'] | undefined | null;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['vouches_set_input'] | undefined | null;
-    where: ValueTypes['vouches_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['vouches_var_pop_fields']: AliasType<{
     id?: boolean | `@${string}`;
@@ -17512,7 +16206,8 @@ export type ModelTypes = {
   };
   ['Allocations']: GraphQLTypes['Allocations'];
   ['AllocationsResponse']: {
-    user?: GraphQLTypes['users'] | undefined;
+    /** An object relationship */
+    user: GraphQLTypes['users'];
     user_id: number;
   };
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
@@ -17523,7 +16218,8 @@ export type ModelTypes = {
   ['CoordinapeInput']: GraphQLTypes['CoordinapeInput'];
   ['CreateCircleInput']: GraphQLTypes['CreateCircleInput'];
   ['CreateCircleResponse']: {
-    circle?: GraphQLTypes['circles'] | undefined;
+    /** An object relationship */
+    circle: GraphQLTypes['circles'];
     id: number;
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
@@ -17534,7 +16230,8 @@ export type ModelTypes = {
   ['CreateNomineeInput']: GraphQLTypes['CreateNomineeInput'];
   ['CreateNomineeResponse']: {
     id?: number | undefined;
-    nominee?: GraphQLTypes['nominees'] | undefined;
+    /** An object relationship */
+    nominee: GraphQLTypes['nominees'];
   };
   ['CreateUserInput']: GraphQLTypes['CreateUserInput'];
   ['CreateUserWithTokenInput']: GraphQLTypes['CreateUserWithTokenInput'];
@@ -17548,13 +16245,15 @@ export type ModelTypes = {
   };
   ['DeleteUserInput']: GraphQLTypes['DeleteUserInput'];
   ['EpochResponse']: {
-    epoch?: GraphQLTypes['epochs'] | undefined;
+    /** An object relationship */
+    epoch: GraphQLTypes['epochs'];
     id: string;
   };
   ['GenerateApiKeyInput']: GraphQLTypes['GenerateApiKeyInput'];
   ['GenerateApiKeyResponse']: {
     api_key: string;
-    circleApiKey?: GraphQLTypes['circle_api_keys'] | undefined;
+    /** An object relationship */
+    circleApiKey: GraphQLTypes['circle_api_keys'];
     hash: string;
   };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
@@ -17562,11 +16261,13 @@ export type ModelTypes = {
   ['LogVaultTxInput']: GraphQLTypes['LogVaultTxInput'];
   ['LogVaultTxResponse']: {
     id: string;
-    vault_tx_return_object?: GraphQLTypes['vault_transactions'] | undefined;
+    /** An object relationship */
+    vault_tx_return_object: GraphQLTypes['vault_transactions'];
   };
   ['LogoutResponse']: {
     id?: number | undefined;
-    profile?: GraphQLTypes['profiles'] | undefined;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
   };
   ['MarkClaimedInput']: GraphQLTypes['MarkClaimedInput'];
   ['MarkClaimedOutput']: {
@@ -17576,30 +16277,36 @@ export type ModelTypes = {
   ['String_comparison_exp']: GraphQLTypes['String_comparison_exp'];
   ['UpdateCircleInput']: GraphQLTypes['UpdateCircleInput'];
   ['UpdateCircleOutput']: {
-    circle?: GraphQLTypes['circles'] | undefined;
+    /** An object relationship */
+    circle: GraphQLTypes['circles'];
     id: number;
   };
   ['UpdateCircleResponse']: {
-    circle?: GraphQLTypes['circles'] | undefined;
+    /** An object relationship */
+    circle: GraphQLTypes['circles'];
     id: number;
   };
   ['UpdateContributionInput']: GraphQLTypes['UpdateContributionInput'];
   ['UpdateContributionResponse']: {
     id: string;
-    updateContribution_Contribution?: GraphQLTypes['contributions'] | undefined;
+    /** An object relationship */
+    updateContribution_Contribution: GraphQLTypes['contributions'];
   };
   ['UpdateEpochInput']: GraphQLTypes['UpdateEpochInput'];
   ['UpdateOrgResponse']: {
     id: number;
-    org?: GraphQLTypes['organizations'] | undefined;
+    /** An object relationship */
+    org: GraphQLTypes['organizations'];
   };
   ['UpdateProfileResponse']: {
     id: number;
-    profile?: GraphQLTypes['profiles'] | undefined;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
   };
   ['UpdateTeammatesInput']: GraphQLTypes['UpdateTeammatesInput'];
   ['UpdateTeammatesResponse']: {
-    user?: GraphQLTypes['users'] | undefined;
+    /** An object relationship */
+    user: GraphQLTypes['users'];
     user_id: string;
   };
   ['UpdateUserInput']: GraphQLTypes['UpdateUserInput'];
@@ -17608,17 +16315,20 @@ export type ModelTypes = {
   ['UploadOrgImageInput']: GraphQLTypes['UploadOrgImageInput'];
   ['UserObj']: GraphQLTypes['UserObj'];
   ['UserResponse']: {
-    UserResponse?: GraphQLTypes['users'] | undefined;
+    /** An object relationship */
+    UserResponse: GraphQLTypes['users'];
     id: string;
   };
   ['VaultResponse']: {
     id: string;
-    vault?: GraphQLTypes['vaults'] | undefined;
+    /** An object relationship */
+    vault: GraphQLTypes['vaults'];
   };
   ['VouchInput']: GraphQLTypes['VouchInput'];
   ['VouchOutput']: {
     id: number;
-    nominee?: GraphQLTypes['nominees'] | undefined;
+    /** An object relationship */
+    nominee: GraphQLTypes['nominees'];
   };
   ['bigint']: number;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
@@ -17719,7 +16429,7 @@ export type ModelTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['burns']>;
   };
-  /** on_conflict condition type for table "burns" */
+  /** on conflict condition type for table "burns" */
   ['burns_on_conflict']: GraphQLTypes['burns_on_conflict'];
   /** Ordering options when selecting data from "burns". */
   ['burns_order_by']: GraphQLTypes['burns_order_by'];
@@ -17765,10 +16475,6 @@ export type ModelTypes = {
   };
   /** order by stddev_samp() on columns of table "burns" */
   ['burns_stddev_samp_order_by']: GraphQLTypes['burns_stddev_samp_order_by'];
-  /** Streaming cursor of the table "burns" */
-  ['burns_stream_cursor_input']: GraphQLTypes['burns_stream_cursor_input'];
-  /** Initial value of the column from where the streaming should start */
-  ['burns_stream_cursor_value_input']: GraphQLTypes['burns_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['burns_sum_fields']: {
     circle_id?: GraphQLTypes['bigint'] | undefined;
@@ -17783,7 +16489,6 @@ export type ModelTypes = {
   ['burns_sum_order_by']: GraphQLTypes['burns_sum_order_by'];
   /** update columns of table "burns" */
   ['burns_update_column']: GraphQLTypes['burns_update_column'];
-  ['burns_updates']: GraphQLTypes['burns_updates'];
   /** aggregate var_pop on columns */
   ['burns_var_pop_fields']: {
     circle_id?: number | undefined;
@@ -17820,7 +16525,10 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "burns" */
   ['burns_variance_order_by']: GraphQLTypes['burns_variance_order_by'];
-  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API. */
+  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API.
+
+
+columns and relationships of "circle_api_keys" */
   ['circle_api_keys']: {
     /** An object relationship */
     circle: GraphQLTypes['circles'];
@@ -17907,7 +16615,7 @@ export type ModelTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['circle_api_keys']>;
   };
-  /** on_conflict condition type for table "circle_api_keys" */
+  /** on conflict condition type for table "circle_api_keys" */
   ['circle_api_keys_on_conflict']: GraphQLTypes['circle_api_keys_on_conflict'];
   /** Ordering options when selecting data from "circle_api_keys". */
   ['circle_api_keys_order_by']: GraphQLTypes['circle_api_keys_order_by'];
@@ -17938,10 +16646,6 @@ export type ModelTypes = {
   };
   /** order by stddev_samp() on columns of table "circle_api_keys" */
   ['circle_api_keys_stddev_samp_order_by']: GraphQLTypes['circle_api_keys_stddev_samp_order_by'];
-  /** Streaming cursor of the table "circle_api_keys" */
-  ['circle_api_keys_stream_cursor_input']: GraphQLTypes['circle_api_keys_stream_cursor_input'];
-  /** Initial value of the column from where the streaming should start */
-  ['circle_api_keys_stream_cursor_value_input']: GraphQLTypes['circle_api_keys_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['circle_api_keys_sum_fields']: {
     circle_id?: GraphQLTypes['bigint'] | undefined;
@@ -17951,7 +16655,6 @@ export type ModelTypes = {
   ['circle_api_keys_sum_order_by']: GraphQLTypes['circle_api_keys_sum_order_by'];
   /** update columns of table "circle_api_keys" */
   ['circle_api_keys_update_column']: GraphQLTypes['circle_api_keys_update_column'];
-  ['circle_api_keys_updates']: GraphQLTypes['circle_api_keys_updates'];
   /** aggregate var_pop on columns */
   ['circle_api_keys_var_pop_fields']: {
     circle_id?: number | undefined;
@@ -18058,7 +16761,7 @@ export type ModelTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['circle_integrations']>;
   };
-  /** on_conflict condition type for table "circle_integrations" */
+  /** on conflict condition type for table "circle_integrations" */
   ['circle_integrations_on_conflict']: GraphQLTypes['circle_integrations_on_conflict'];
   /** Ordering options when selecting data from "circle_integrations". */
   ['circle_integrations_order_by']: GraphQLTypes['circle_integrations_order_by'];
@@ -18089,10 +16792,6 @@ export type ModelTypes = {
   };
   /** order by stddev_samp() on columns of table "circle_integrations" */
   ['circle_integrations_stddev_samp_order_by']: GraphQLTypes['circle_integrations_stddev_samp_order_by'];
-  /** Streaming cursor of the table "circle_integrations" */
-  ['circle_integrations_stream_cursor_input']: GraphQLTypes['circle_integrations_stream_cursor_input'];
-  /** Initial value of the column from where the streaming should start */
-  ['circle_integrations_stream_cursor_value_input']: GraphQLTypes['circle_integrations_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['circle_integrations_sum_fields']: {
     circle_id?: GraphQLTypes['bigint'] | undefined;
@@ -18102,7 +16801,6 @@ export type ModelTypes = {
   ['circle_integrations_sum_order_by']: GraphQLTypes['circle_integrations_sum_order_by'];
   /** update columns of table "circle_integrations" */
   ['circle_integrations_update_column']: GraphQLTypes['circle_integrations_update_column'];
-  ['circle_integrations_updates']: GraphQLTypes['circle_integrations_updates'];
   /** aggregate var_pop on columns */
   ['circle_integrations_var_pop_fields']: {
     circle_id?: number | undefined;
@@ -18199,7 +16897,7 @@ export type ModelTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['circle_metadata']>;
   };
-  /** on_conflict condition type for table "circle_metadata" */
+  /** on conflict condition type for table "circle_metadata" */
   ['circle_metadata_on_conflict']: GraphQLTypes['circle_metadata_on_conflict'];
   /** Ordering options when selecting data from "circle_metadata". */
   ['circle_metadata_order_by']: GraphQLTypes['circle_metadata_order_by'];
@@ -18230,10 +16928,6 @@ export type ModelTypes = {
   };
   /** order by stddev_samp() on columns of table "circle_metadata" */
   ['circle_metadata_stddev_samp_order_by']: GraphQLTypes['circle_metadata_stddev_samp_order_by'];
-  /** Streaming cursor of the table "circle_metadata" */
-  ['circle_metadata_stream_cursor_input']: GraphQLTypes['circle_metadata_stream_cursor_input'];
-  /** Initial value of the column from where the streaming should start */
-  ['circle_metadata_stream_cursor_value_input']: GraphQLTypes['circle_metadata_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['circle_metadata_sum_fields']: {
     circle_id?: GraphQLTypes['bigint'] | undefined;
@@ -18243,7 +16937,6 @@ export type ModelTypes = {
   ['circle_metadata_sum_order_by']: GraphQLTypes['circle_metadata_sum_order_by'];
   /** update columns of table "circle_metadata" */
   ['circle_metadata_update_column']: GraphQLTypes['circle_metadata_update_column'];
-  ['circle_metadata_updates']: GraphQLTypes['circle_metadata_updates'];
   /** aggregate var_pop on columns */
   ['circle_metadata_var_pop_fields']: {
     circle_id?: number | undefined;
@@ -18338,15 +17031,10 @@ export type ModelTypes = {
   ['circle_private_stddev_samp_fields']: {
     circle_id?: number | undefined;
   };
-  /** Streaming cursor of the table "circle_private" */
-  ['circle_private_stream_cursor_input']: GraphQLTypes['circle_private_stream_cursor_input'];
-  /** Initial value of the column from where the streaming should start */
-  ['circle_private_stream_cursor_value_input']: GraphQLTypes['circle_private_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['circle_private_sum_fields']: {
     circle_id?: GraphQLTypes['bigint'] | undefined;
   };
-  ['circle_private_updates']: GraphQLTypes['circle_private_updates'];
   /** aggregate var_pop on columns */
   ['circle_private_var_pop_fields']: {
     circle_id?: number | undefined;
@@ -18430,7 +17118,7 @@ export type ModelTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['circle_share_tokens']>;
   };
-  /** on_conflict condition type for table "circle_share_tokens" */
+  /** on conflict condition type for table "circle_share_tokens" */
   ['circle_share_tokens_on_conflict']: GraphQLTypes['circle_share_tokens_on_conflict'];
   /** Ordering options when selecting data from "circle_share_tokens". */
   ['circle_share_tokens_order_by']: GraphQLTypes['circle_share_tokens_order_by'];
@@ -18455,10 +17143,6 @@ export type ModelTypes = {
     circle_id?: number | undefined;
     type?: number | undefined;
   };
-  /** Streaming cursor of the table "circle_share_tokens" */
-  ['circle_share_tokens_stream_cursor_input']: GraphQLTypes['circle_share_tokens_stream_cursor_input'];
-  /** Initial value of the column from where the streaming should start */
-  ['circle_share_tokens_stream_cursor_value_input']: GraphQLTypes['circle_share_tokens_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['circle_share_tokens_sum_fields']: {
     circle_id?: GraphQLTypes['bigint'] | undefined;
@@ -18466,7 +17150,6 @@ export type ModelTypes = {
   };
   /** update columns of table "circle_share_tokens" */
   ['circle_share_tokens_update_column']: GraphQLTypes['circle_share_tokens_update_column'];
-  ['circle_share_tokens_updates']: GraphQLTypes['circle_share_tokens_updates'];
   /** aggregate var_pop on columns */
   ['circle_share_tokens_var_pop_fields']: {
     circle_id?: number | undefined;
@@ -18653,7 +17336,7 @@ export type ModelTypes = {
   };
   /** input type for inserting object relation for remote table "circles" */
   ['circles_obj_rel_insert_input']: GraphQLTypes['circles_obj_rel_insert_input'];
-  /** on_conflict condition type for table "circles" */
+  /** on conflict condition type for table "circles" */
   ['circles_on_conflict']: GraphQLTypes['circles_on_conflict'];
   /** Ordering options when selecting data from "circles". */
   ['circles_order_by']: GraphQLTypes['circles_order_by'];
@@ -18693,10 +17376,6 @@ export type ModelTypes = {
   };
   /** order by stddev_samp() on columns of table "circles" */
   ['circles_stddev_samp_order_by']: GraphQLTypes['circles_stddev_samp_order_by'];
-  /** Streaming cursor of the table "circles" */
-  ['circles_stream_cursor_input']: GraphQLTypes['circles_stream_cursor_input'];
-  /** Initial value of the column from where the streaming should start */
-  ['circles_stream_cursor_value_input']: GraphQLTypes['circles_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['circles_sum_fields']: {
     fixed_payment_vault_id?: number | undefined;
@@ -18709,7 +17388,6 @@ export type ModelTypes = {
   ['circles_sum_order_by']: GraphQLTypes['circles_sum_order_by'];
   /** update columns of table "circles" */
   ['circles_update_column']: GraphQLTypes['circles_update_column'];
-  ['circles_updates']: GraphQLTypes['circles_updates'];
   /** aggregate var_pop on columns */
   ['circles_var_pop_fields']: {
     fixed_payment_vault_id?: number | undefined;
@@ -18839,7 +17517,7 @@ export type ModelTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['claims']>;
   };
-  /** on_conflict condition type for table "claims" */
+  /** on conflict condition type for table "claims" */
   ['claims_on_conflict']: GraphQLTypes['claims_on_conflict'];
   /** Ordering options when selecting data from "claims". */
   ['claims_order_by']: GraphQLTypes['claims_order_by'];
@@ -18882,10 +17560,6 @@ export type ModelTypes = {
   };
   /** order by stddev_samp() on columns of table "claims" */
   ['claims_stddev_samp_order_by']: GraphQLTypes['claims_stddev_samp_order_by'];
-  /** Streaming cursor of the table "claims" */
-  ['claims_stream_cursor_input']: GraphQLTypes['claims_stream_cursor_input'];
-  /** Initial value of the column from where the streaming should start */
-  ['claims_stream_cursor_value_input']: GraphQLTypes['claims_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['claims_sum_fields']: {
     amount?: GraphQLTypes['numeric'] | undefined;
@@ -18899,7 +17573,6 @@ export type ModelTypes = {
   ['claims_sum_order_by']: GraphQLTypes['claims_sum_order_by'];
   /** update columns of table "claims" */
   ['claims_update_column']: GraphQLTypes['claims_update_column'];
-  ['claims_updates']: GraphQLTypes['claims_updates'];
   /** aggregate var_pop on columns */
   ['claims_var_pop_fields']: {
     amount?: number | undefined;
@@ -19020,7 +17693,7 @@ export type ModelTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['contributions']>;
   };
-  /** on_conflict condition type for table "contributions" */
+  /** on conflict condition type for table "contributions" */
   ['contributions_on_conflict']: GraphQLTypes['contributions_on_conflict'];
   /** Ordering options when selecting data from "contributions". */
   ['contributions_order_by']: GraphQLTypes['contributions_order_by'];
@@ -19054,10 +17727,6 @@ export type ModelTypes = {
   };
   /** order by stddev_samp() on columns of table "contributions" */
   ['contributions_stddev_samp_order_by']: GraphQLTypes['contributions_stddev_samp_order_by'];
-  /** Streaming cursor of the table "contributions" */
-  ['contributions_stream_cursor_input']: GraphQLTypes['contributions_stream_cursor_input'];
-  /** Initial value of the column from where the streaming should start */
-  ['contributions_stream_cursor_value_input']: GraphQLTypes['contributions_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['contributions_sum_fields']: {
     circle_id?: GraphQLTypes['bigint'] | undefined;
@@ -19068,7 +17737,6 @@ export type ModelTypes = {
   ['contributions_sum_order_by']: GraphQLTypes['contributions_sum_order_by'];
   /** update columns of table "contributions" */
   ['contributions_update_column']: GraphQLTypes['contributions_update_column'];
-  ['contributions_updates']: GraphQLTypes['contributions_updates'];
   /** aggregate var_pop on columns */
   ['contributions_var_pop_fields']: {
     circle_id?: number | undefined;
@@ -19093,12 +17761,13 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "contributions" */
   ['contributions_variance_order_by']: GraphQLTypes['contributions_variance_order_by'];
-  /** ordering argument of a cursor */
-  ['cursor_ordering']: GraphQLTypes['cursor_ordering'];
   ['date']: any;
   /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
   ['date_comparison_exp']: GraphQLTypes['date_comparison_exp'];
-  /** Vault Distributions */
+  /** Vault Distributions
+
+
+columns and relationships of "distributions" */
   ['distributions']: {
     /** An array relationship */
     claims: Array<GraphQLTypes['claims']>;
@@ -19226,7 +17895,7 @@ export type ModelTypes = {
   };
   /** input type for inserting object relation for remote table "distributions" */
   ['distributions_obj_rel_insert_input']: GraphQLTypes['distributions_obj_rel_insert_input'];
-  /** on_conflict condition type for table "distributions" */
+  /** on conflict condition type for table "distributions" */
   ['distributions_on_conflict']: GraphQLTypes['distributions_on_conflict'];
   /** Ordering options when selecting data from "distributions". */
   ['distributions_order_by']: GraphQLTypes['distributions_order_by'];
@@ -19277,10 +17946,6 @@ export type ModelTypes = {
   };
   /** order by stddev_samp() on columns of table "distributions" */
   ['distributions_stddev_samp_order_by']: GraphQLTypes['distributions_stddev_samp_order_by'];
-  /** Streaming cursor of the table "distributions" */
-  ['distributions_stream_cursor_input']: GraphQLTypes['distributions_stream_cursor_input'];
-  /** Initial value of the column from where the streaming should start */
-  ['distributions_stream_cursor_value_input']: GraphQLTypes['distributions_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['distributions_sum_fields']: {
     created_by?: GraphQLTypes['bigint'] | undefined;
@@ -19296,7 +17961,6 @@ export type ModelTypes = {
   ['distributions_sum_order_by']: GraphQLTypes['distributions_sum_order_by'];
   /** update columns of table "distributions" */
   ['distributions_update_column']: GraphQLTypes['distributions_update_column'];
-  ['distributions_updates']: GraphQLTypes['distributions_updates'];
   /** aggregate var_pop on columns */
   ['distributions_var_pop_fields']: {
     created_by?: number | undefined;
@@ -19466,7 +18130,7 @@ export type ModelTypes = {
   };
   /** input type for inserting object relation for remote table "epoches" */
   ['epochs_obj_rel_insert_input']: GraphQLTypes['epochs_obj_rel_insert_input'];
-  /** on_conflict condition type for table "epoches" */
+  /** on conflict condition type for table "epoches" */
   ['epochs_on_conflict']: GraphQLTypes['epochs_on_conflict'];
   /** Ordering options when selecting data from "epoches". */
   ['epochs_order_by']: GraphQLTypes['epochs_order_by'];
@@ -19515,10 +18179,6 @@ export type ModelTypes = {
   };
   /** order by stddev_samp() on columns of table "epoches" */
   ['epochs_stddev_samp_order_by']: GraphQLTypes['epochs_stddev_samp_order_by'];
-  /** Streaming cursor of the table "epochs" */
-  ['epochs_stream_cursor_input']: GraphQLTypes['epochs_stream_cursor_input'];
-  /** Initial value of the column from where the streaming should start */
-  ['epochs_stream_cursor_value_input']: GraphQLTypes['epochs_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['epochs_sum_fields']: {
     circle_id?: number | undefined;
@@ -19534,7 +18194,6 @@ export type ModelTypes = {
   ['epochs_sum_order_by']: GraphQLTypes['epochs_sum_order_by'];
   /** update columns of table "epoches" */
   ['epochs_update_column']: GraphQLTypes['epochs_update_column'];
-  ['epochs_updates']: GraphQLTypes['epochs_updates'];
   /** aggregate var_pop on columns */
   ['epochs_var_pop_fields']: {
     circle_id?: number | undefined;
@@ -19663,17 +18322,12 @@ export type ModelTypes = {
     recipient_id?: number | undefined;
     sender_id?: number | undefined;
   };
-  /** Streaming cursor of the table "gift_private" */
-  ['gift_private_stream_cursor_input']: GraphQLTypes['gift_private_stream_cursor_input'];
-  /** Initial value of the column from where the streaming should start */
-  ['gift_private_stream_cursor_value_input']: GraphQLTypes['gift_private_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['gift_private_sum_fields']: {
     gift_id?: GraphQLTypes['bigint'] | undefined;
     recipient_id?: GraphQLTypes['bigint'] | undefined;
     sender_id?: GraphQLTypes['bigint'] | undefined;
   };
-  ['gift_private_updates']: GraphQLTypes['gift_private_updates'];
   /** aggregate var_pop on columns */
   ['gift_private_var_pop_fields']: {
     gift_id?: number | undefined;
@@ -19769,7 +18423,7 @@ export type ModelTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['histories']>;
   };
-  /** on_conflict condition type for table "histories" */
+  /** on conflict condition type for table "histories" */
   ['histories_on_conflict']: GraphQLTypes['histories_on_conflict'];
   /** Ordering options when selecting data from "histories". */
   ['histories_order_by']: GraphQLTypes['histories_order_by'];
@@ -19800,10 +18454,6 @@ export type ModelTypes = {
     id?: number | undefined;
     user_id?: number | undefined;
   };
-  /** Streaming cursor of the table "histories" */
-  ['histories_stream_cursor_input']: GraphQLTypes['histories_stream_cursor_input'];
-  /** Initial value of the column from where the streaming should start */
-  ['histories_stream_cursor_value_input']: GraphQLTypes['histories_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['histories_sum_fields']: {
     circle_id?: number | undefined;
@@ -19813,7 +18463,6 @@ export type ModelTypes = {
   };
   /** update columns of table "histories" */
   ['histories_update_column']: GraphQLTypes['histories_update_column'];
-  ['histories_updates']: GraphQLTypes['histories_updates'];
   /** aggregate var_pop on columns */
   ['histories_var_pop_fields']: {
     circle_id?: number | undefined;
@@ -19924,7 +18573,7 @@ export type ModelTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['interaction_events']>;
   };
-  /** on_conflict condition type for table "interaction_events" */
+  /** on conflict condition type for table "interaction_events" */
   ['interaction_events_on_conflict']: GraphQLTypes['interaction_events_on_conflict'];
   /** Ordering options when selecting data from "interaction_events". */
   ['interaction_events_order_by']: GraphQLTypes['interaction_events_order_by'];
@@ -19957,10 +18606,6 @@ export type ModelTypes = {
     org_id?: number | undefined;
     profile_id?: number | undefined;
   };
-  /** Streaming cursor of the table "interaction_events" */
-  ['interaction_events_stream_cursor_input']: GraphQLTypes['interaction_events_stream_cursor_input'];
-  /** Initial value of the column from where the streaming should start */
-  ['interaction_events_stream_cursor_value_input']: GraphQLTypes['interaction_events_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['interaction_events_sum_fields']: {
     circle_id?: number | undefined;
@@ -19970,7 +18615,6 @@ export type ModelTypes = {
   };
   /** update columns of table "interaction_events" */
   ['interaction_events_update_column']: GraphQLTypes['interaction_events_update_column'];
-  ['interaction_events_updates']: GraphQLTypes['interaction_events_updates'];
   /** aggregate var_pop on columns */
   ['interaction_events_var_pop_fields']: {
     circle_id?: number | undefined;
@@ -19996,7 +18640,6 @@ export type ModelTypes = {
   /** Boolean expression to compare columns of type "json". All fields are combined with logical 'AND'. */
   ['json_comparison_exp']: GraphQLTypes['json_comparison_exp'];
   ['jsonb']: any;
-  ['jsonb_cast_exp']: GraphQLTypes['jsonb_cast_exp'];
   /** Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'. */
   ['jsonb_comparison_exp']: GraphQLTypes['jsonb_comparison_exp'];
   /** mutation root */
@@ -20349,20 +18992,12 @@ export type ModelTypes = {
     update_burns?: GraphQLTypes['burns_mutation_response'] | undefined;
     /** update single row of the table: "burns" */
     update_burns_by_pk?: GraphQLTypes['burns'] | undefined;
-    /** update multiples rows of table: "burns" */
-    update_burns_many?:
-      | Array<GraphQLTypes['burns_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "circle_api_keys" */
     update_circle_api_keys?:
       | GraphQLTypes['circle_api_keys_mutation_response']
       | undefined;
     /** update single row of the table: "circle_api_keys" */
     update_circle_api_keys_by_pk?: GraphQLTypes['circle_api_keys'] | undefined;
-    /** update multiples rows of table: "circle_api_keys" */
-    update_circle_api_keys_many?:
-      | Array<GraphQLTypes['circle_api_keys_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "circle_integrations" */
     update_circle_integrations?:
       | GraphQLTypes['circle_integrations_mutation_response']
@@ -20371,27 +19006,15 @@ export type ModelTypes = {
     update_circle_integrations_by_pk?:
       | GraphQLTypes['circle_integrations']
       | undefined;
-    /** update multiples rows of table: "circle_integrations" */
-    update_circle_integrations_many?:
-      | Array<GraphQLTypes['circle_integrations_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "circle_metadata" */
     update_circle_metadata?:
       | GraphQLTypes['circle_metadata_mutation_response']
       | undefined;
     /** update single row of the table: "circle_metadata" */
     update_circle_metadata_by_pk?: GraphQLTypes['circle_metadata'] | undefined;
-    /** update multiples rows of table: "circle_metadata" */
-    update_circle_metadata_many?:
-      | Array<GraphQLTypes['circle_metadata_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "circle_private" */
     update_circle_private?:
       | GraphQLTypes['circle_private_mutation_response']
-      | undefined;
-    /** update multiples rows of table: "circle_private" */
-    update_circle_private_many?:
-      | Array<GraphQLTypes['circle_private_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "circle_share_tokens" */
     update_circle_share_tokens?:
@@ -20401,70 +19024,38 @@ export type ModelTypes = {
     update_circle_share_tokens_by_pk?:
       | GraphQLTypes['circle_share_tokens']
       | undefined;
-    /** update multiples rows of table: "circle_share_tokens" */
-    update_circle_share_tokens_many?:
-      | Array<GraphQLTypes['circle_share_tokens_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "circles" */
     update_circles?: GraphQLTypes['circles_mutation_response'] | undefined;
     /** update single row of the table: "circles" */
     update_circles_by_pk?: GraphQLTypes['circles'] | undefined;
-    /** update multiples rows of table: "circles" */
-    update_circles_many?:
-      | Array<GraphQLTypes['circles_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "claims" */
     update_claims?: GraphQLTypes['claims_mutation_response'] | undefined;
     /** update single row of the table: "claims" */
     update_claims_by_pk?: GraphQLTypes['claims'] | undefined;
-    /** update multiples rows of table: "claims" */
-    update_claims_many?:
-      | Array<GraphQLTypes['claims_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "contributions" */
     update_contributions?:
       | GraphQLTypes['contributions_mutation_response']
       | undefined;
     /** update single row of the table: "contributions" */
     update_contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
-    /** update multiples rows of table: "contributions" */
-    update_contributions_many?:
-      | Array<GraphQLTypes['contributions_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "distributions" */
     update_distributions?:
       | GraphQLTypes['distributions_mutation_response']
       | undefined;
     /** update single row of the table: "distributions" */
     update_distributions_by_pk?: GraphQLTypes['distributions'] | undefined;
-    /** update multiples rows of table: "distributions" */
-    update_distributions_many?:
-      | Array<GraphQLTypes['distributions_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "epoches" */
     update_epochs?: GraphQLTypes['epochs_mutation_response'] | undefined;
     /** update single row of the table: "epoches" */
     update_epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
-    /** update multiples rows of table: "epoches" */
-    update_epochs_many?:
-      | Array<GraphQLTypes['epochs_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "gift_private" */
     update_gift_private?:
       | GraphQLTypes['gift_private_mutation_response']
-      | undefined;
-    /** update multiples rows of table: "gift_private" */
-    update_gift_private_many?:
-      | Array<GraphQLTypes['gift_private_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "histories" */
     update_histories?: GraphQLTypes['histories_mutation_response'] | undefined;
     /** update single row of the table: "histories" */
     update_histories_by_pk?: GraphQLTypes['histories'] | undefined;
-    /** update multiples rows of table: "histories" */
-    update_histories_many?:
-      | Array<GraphQLTypes['histories_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "interaction_events" */
     update_interaction_events?:
       | GraphQLTypes['interaction_events_mutation_response']
@@ -20473,37 +19064,19 @@ export type ModelTypes = {
     update_interaction_events_by_pk?:
       | GraphQLTypes['interaction_events']
       | undefined;
-    /** update multiples rows of table: "interaction_events" */
-    update_interaction_events_many?:
-      | Array<GraphQLTypes['interaction_events_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "nominees" */
     update_nominees?: GraphQLTypes['nominees_mutation_response'] | undefined;
     /** update single row of the table: "nominees" */
     update_nominees_by_pk?: GraphQLTypes['nominees'] | undefined;
-    /** update multiples rows of table: "nominees" */
-    update_nominees_many?:
-      | Array<GraphQLTypes['nominees_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "organizations" */
     update_organizations?:
       | GraphQLTypes['organizations_mutation_response']
       | undefined;
     /** update single row of the table: "organizations" */
     update_organizations_by_pk?: GraphQLTypes['organizations'] | undefined;
-    /** update multiples rows of table: "organizations" */
-    update_organizations_many?:
-      | Array<GraphQLTypes['organizations_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "pending_gift_private" */
     update_pending_gift_private?:
       | GraphQLTypes['pending_gift_private_mutation_response']
-      | undefined;
-    /** update multiples rows of table: "pending_gift_private" */
-    update_pending_gift_private_many?:
-      | Array<
-          GraphQLTypes['pending_gift_private_mutation_response'] | undefined
-        >
       | undefined;
     /** update data of the table: "pending_token_gifts" */
     update_pending_token_gifts?:
@@ -20513,10 +19086,6 @@ export type ModelTypes = {
     update_pending_token_gifts_by_pk?:
       | GraphQLTypes['pending_token_gifts']
       | undefined;
-    /** update multiples rows of table: "pending_token_gifts" */
-    update_pending_token_gifts_many?:
-      | Array<GraphQLTypes['pending_token_gifts_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "pending_vault_transactions" */
     update_pending_vault_transactions?:
       | GraphQLTypes['pending_vault_transactions_mutation_response']
@@ -20524,13 +19093,6 @@ export type ModelTypes = {
     /** update single row of the table: "pending_vault_transactions" */
     update_pending_vault_transactions_by_pk?:
       | GraphQLTypes['pending_vault_transactions']
-      | undefined;
-    /** update multiples rows of table: "pending_vault_transactions" */
-    update_pending_vault_transactions_many?:
-      | Array<
-          | GraphQLTypes['pending_vault_transactions_mutation_response']
-          | undefined
-        >
       | undefined;
     /** update data of the table: "personal_access_tokens" */
     update_personal_access_tokens?:
@@ -20540,46 +19102,24 @@ export type ModelTypes = {
     update_personal_access_tokens_by_pk?:
       | GraphQLTypes['personal_access_tokens']
       | undefined;
-    /** update multiples rows of table: "personal_access_tokens" */
-    update_personal_access_tokens_many?:
-      | Array<
-          GraphQLTypes['personal_access_tokens_mutation_response'] | undefined
-        >
-      | undefined;
     /** update data of the table: "profiles" */
     update_profiles?: GraphQLTypes['profiles_mutation_response'] | undefined;
     /** update single row of the table: "profiles" */
     update_profiles_by_pk?: GraphQLTypes['profiles'] | undefined;
-    /** update multiples rows of table: "profiles" */
-    update_profiles_many?:
-      | Array<GraphQLTypes['profiles_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "teammates" */
     update_teammates?: GraphQLTypes['teammates_mutation_response'] | undefined;
     /** update single row of the table: "teammates" */
     update_teammates_by_pk?: GraphQLTypes['teammates'] | undefined;
-    /** update multiples rows of table: "teammates" */
-    update_teammates_many?:
-      | Array<GraphQLTypes['teammates_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "token_gifts" */
     update_token_gifts?:
       | GraphQLTypes['token_gifts_mutation_response']
       | undefined;
     /** update single row of the table: "token_gifts" */
     update_token_gifts_by_pk?: GraphQLTypes['token_gifts'] | undefined;
-    /** update multiples rows of table: "token_gifts" */
-    update_token_gifts_many?:
-      | Array<GraphQLTypes['token_gifts_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "users" */
     update_users?: GraphQLTypes['users_mutation_response'] | undefined;
     /** update single row of the table: "users" */
     update_users_by_pk?: GraphQLTypes['users'] | undefined;
-    /** update multiples rows of table: "users" */
-    update_users_many?:
-      | Array<GraphQLTypes['users_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "vault_transactions" */
     update_vault_transactions?:
       | GraphQLTypes['vault_transactions_mutation_response']
@@ -20588,36 +19128,20 @@ export type ModelTypes = {
     update_vault_transactions_by_pk?:
       | GraphQLTypes['vault_transactions']
       | undefined;
-    /** update multiples rows of table: "vault_transactions" */
-    update_vault_transactions_many?:
-      | Array<GraphQLTypes['vault_transactions_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "vault_tx_types" */
     update_vault_tx_types?:
       | GraphQLTypes['vault_tx_types_mutation_response']
       | undefined;
     /** update single row of the table: "vault_tx_types" */
     update_vault_tx_types_by_pk?: GraphQLTypes['vault_tx_types'] | undefined;
-    /** update multiples rows of table: "vault_tx_types" */
-    update_vault_tx_types_many?:
-      | Array<GraphQLTypes['vault_tx_types_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "vaults" */
     update_vaults?: GraphQLTypes['vaults_mutation_response'] | undefined;
     /** update single row of the table: "vaults" */
     update_vaults_by_pk?: GraphQLTypes['vaults'] | undefined;
-    /** update multiples rows of table: "vaults" */
-    update_vaults_many?:
-      | Array<GraphQLTypes['vaults_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "vouches" */
     update_vouches?: GraphQLTypes['vouches_mutation_response'] | undefined;
     /** update single row of the table: "vouches" */
     update_vouches_by_pk?: GraphQLTypes['vouches'] | undefined;
-    /** update multiples rows of table: "vouches" */
-    update_vouches_many?:
-      | Array<GraphQLTypes['vouches_mutation_response'] | undefined>
-      | undefined;
     uploadCircleLogo?: GraphQLTypes['UpdateCircleResponse'] | undefined;
     uploadOrgLogo?: GraphQLTypes['UpdateOrgResponse'] | undefined;
     uploadProfileAvatar?: GraphQLTypes['UpdateProfileResponse'] | undefined;
@@ -20734,7 +19258,7 @@ export type ModelTypes = {
   };
   /** input type for inserting object relation for remote table "nominees" */
   ['nominees_obj_rel_insert_input']: GraphQLTypes['nominees_obj_rel_insert_input'];
-  /** on_conflict condition type for table "nominees" */
+  /** on conflict condition type for table "nominees" */
   ['nominees_on_conflict']: GraphQLTypes['nominees_on_conflict'];
   /** Ordering options when selecting data from "nominees". */
   ['nominees_order_by']: GraphQLTypes['nominees_order_by'];
@@ -20774,10 +19298,6 @@ export type ModelTypes = {
   };
   /** order by stddev_samp() on columns of table "nominees" */
   ['nominees_stddev_samp_order_by']: GraphQLTypes['nominees_stddev_samp_order_by'];
-  /** Streaming cursor of the table "nominees" */
-  ['nominees_stream_cursor_input']: GraphQLTypes['nominees_stream_cursor_input'];
-  /** Initial value of the column from where the streaming should start */
-  ['nominees_stream_cursor_value_input']: GraphQLTypes['nominees_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['nominees_sum_fields']: {
     circle_id?: number | undefined;
@@ -20790,7 +19310,6 @@ export type ModelTypes = {
   ['nominees_sum_order_by']: GraphQLTypes['nominees_sum_order_by'];
   /** update columns of table "nominees" */
   ['nominees_update_column']: GraphQLTypes['nominees_update_column'];
-  ['nominees_updates']: GraphQLTypes['nominees_updates'];
   /** aggregate var_pop on columns */
   ['nominees_var_pop_fields']: {
     circle_id?: number | undefined;
@@ -20902,7 +19421,7 @@ export type ModelTypes = {
   };
   /** input type for inserting object relation for remote table "organizations" */
   ['organizations_obj_rel_insert_input']: GraphQLTypes['organizations_obj_rel_insert_input'];
-  /** on_conflict condition type for table "organizations" */
+  /** on conflict condition type for table "organizations" */
   ['organizations_on_conflict']: GraphQLTypes['organizations_on_conflict'];
   /** Ordering options when selecting data from "organizations". */
   ['organizations_order_by']: GraphQLTypes['organizations_order_by'];
@@ -20924,17 +19443,12 @@ export type ModelTypes = {
   ['organizations_stddev_samp_fields']: {
     id?: number | undefined;
   };
-  /** Streaming cursor of the table "organizations" */
-  ['organizations_stream_cursor_input']: GraphQLTypes['organizations_stream_cursor_input'];
-  /** Initial value of the column from where the streaming should start */
-  ['organizations_stream_cursor_value_input']: GraphQLTypes['organizations_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['organizations_sum_fields']: {
     id?: GraphQLTypes['bigint'] | undefined;
   };
   /** update columns of table "organizations" */
   ['organizations_update_column']: GraphQLTypes['organizations_update_column'];
-  ['organizations_updates']: GraphQLTypes['organizations_updates'];
   /** aggregate var_pop on columns */
   ['organizations_var_pop_fields']: {
     id?: number | undefined;
@@ -21042,17 +19556,12 @@ export type ModelTypes = {
     recipient_id?: number | undefined;
     sender_id?: number | undefined;
   };
-  /** Streaming cursor of the table "pending_gift_private" */
-  ['pending_gift_private_stream_cursor_input']: GraphQLTypes['pending_gift_private_stream_cursor_input'];
-  /** Initial value of the column from where the streaming should start */
-  ['pending_gift_private_stream_cursor_value_input']: GraphQLTypes['pending_gift_private_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['pending_gift_private_sum_fields']: {
     gift_id?: GraphQLTypes['bigint'] | undefined;
     recipient_id?: GraphQLTypes['bigint'] | undefined;
     sender_id?: GraphQLTypes['bigint'] | undefined;
   };
-  ['pending_gift_private_updates']: GraphQLTypes['pending_gift_private_updates'];
   /** aggregate var_pop on columns */
   ['pending_gift_private_var_pop_fields']: {
     gift_id?: number | undefined;
@@ -21071,7 +19580,10 @@ export type ModelTypes = {
     recipient_id?: number | undefined;
     sender_id?: number | undefined;
   };
-  /** GIVE allocations made by circle members for the currently running epoch */
+  /** GIVE allocations made by circle members for the currently running epoch
+
+
+columns and relationships of "pending_token_gifts" */
   ['pending_token_gifts']: {
     /** An object relationship */
     circle: GraphQLTypes['circles'];
@@ -21185,7 +19697,7 @@ export type ModelTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['pending_token_gifts']>;
   };
-  /** on_conflict condition type for table "pending_token_gifts" */
+  /** on conflict condition type for table "pending_token_gifts" */
   ['pending_token_gifts_on_conflict']: GraphQLTypes['pending_token_gifts_on_conflict'];
   /** Ordering options when selecting data from "pending_token_gifts". */
   ['pending_token_gifts_order_by']: GraphQLTypes['pending_token_gifts_order_by'];
@@ -21228,10 +19740,6 @@ export type ModelTypes = {
   };
   /** order by stddev_samp() on columns of table "pending_token_gifts" */
   ['pending_token_gifts_stddev_samp_order_by']: GraphQLTypes['pending_token_gifts_stddev_samp_order_by'];
-  /** Streaming cursor of the table "pending_token_gifts" */
-  ['pending_token_gifts_stream_cursor_input']: GraphQLTypes['pending_token_gifts_stream_cursor_input'];
-  /** Initial value of the column from where the streaming should start */
-  ['pending_token_gifts_stream_cursor_value_input']: GraphQLTypes['pending_token_gifts_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['pending_token_gifts_sum_fields']: {
     circle_id?: GraphQLTypes['bigint'] | undefined;
@@ -21245,7 +19753,6 @@ export type ModelTypes = {
   ['pending_token_gifts_sum_order_by']: GraphQLTypes['pending_token_gifts_sum_order_by'];
   /** update columns of table "pending_token_gifts" */
   ['pending_token_gifts_update_column']: GraphQLTypes['pending_token_gifts_update_column'];
-  ['pending_token_gifts_updates']: GraphQLTypes['pending_token_gifts_updates'];
   /** aggregate var_pop on columns */
   ['pending_token_gifts_var_pop_fields']: {
     circle_id?: number | undefined;
@@ -21279,7 +19786,10 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "pending_token_gifts" */
   ['pending_token_gifts_variance_order_by']: GraphQLTypes['pending_token_gifts_variance_order_by'];
-  /** stores app-specific context to aid in the recovery of incomplete transactions */
+  /** stores app-specific context to aid in the recovery of incomplete transactions
+
+
+columns and relationships of "pending_vault_transactions" */
   ['pending_vault_transactions']: {
     chain_id: number;
     claim_id?: GraphQLTypes['bigint'] | undefined;
@@ -21374,7 +19884,7 @@ export type ModelTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['pending_vault_transactions']>;
   };
-  /** on_conflict condition type for table "pending_vault_transactions" */
+  /** on conflict condition type for table "pending_vault_transactions" */
   ['pending_vault_transactions_on_conflict']: GraphQLTypes['pending_vault_transactions_on_conflict'];
   /** Ordering options when selecting data from "pending_vault_transactions". */
   ['pending_vault_transactions_order_by']: GraphQLTypes['pending_vault_transactions_order_by'];
@@ -21408,10 +19918,6 @@ export type ModelTypes = {
     distribution_id?: number | undefined;
     org_id?: number | undefined;
   };
-  /** Streaming cursor of the table "pending_vault_transactions" */
-  ['pending_vault_transactions_stream_cursor_input']: GraphQLTypes['pending_vault_transactions_stream_cursor_input'];
-  /** Initial value of the column from where the streaming should start */
-  ['pending_vault_transactions_stream_cursor_value_input']: GraphQLTypes['pending_vault_transactions_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['pending_vault_transactions_sum_fields']: {
     chain_id?: number | undefined;
@@ -21422,7 +19928,6 @@ export type ModelTypes = {
   };
   /** update columns of table "pending_vault_transactions" */
   ['pending_vault_transactions_update_column']: GraphQLTypes['pending_vault_transactions_update_column'];
-  ['pending_vault_transactions_updates']: GraphQLTypes['pending_vault_transactions_updates'];
   /** aggregate var_pop on columns */
   ['pending_vault_transactions_var_pop_fields']: {
     chain_id?: number | undefined;
@@ -21534,7 +20039,7 @@ export type ModelTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['personal_access_tokens']>;
   };
-  /** on_conflict condition type for table "personal_access_tokens" */
+  /** on conflict condition type for table "personal_access_tokens" */
   ['personal_access_tokens_on_conflict']: GraphQLTypes['personal_access_tokens_on_conflict'];
   /** Ordering options when selecting data from "personal_access_tokens". */
   ['personal_access_tokens_order_by']: GraphQLTypes['personal_access_tokens_order_by'];
@@ -21559,10 +20064,6 @@ export type ModelTypes = {
     id?: number | undefined;
     tokenable_id?: number | undefined;
   };
-  /** Streaming cursor of the table "personal_access_tokens" */
-  ['personal_access_tokens_stream_cursor_input']: GraphQLTypes['personal_access_tokens_stream_cursor_input'];
-  /** Initial value of the column from where the streaming should start */
-  ['personal_access_tokens_stream_cursor_value_input']: GraphQLTypes['personal_access_tokens_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['personal_access_tokens_sum_fields']: {
     id?: GraphQLTypes['bigint'] | undefined;
@@ -21570,7 +20071,6 @@ export type ModelTypes = {
   };
   /** update columns of table "personal_access_tokens" */
   ['personal_access_tokens_update_column']: GraphQLTypes['personal_access_tokens_update_column'];
-  ['personal_access_tokens_updates']: GraphQLTypes['personal_access_tokens_updates'];
   /** aggregate var_pop on columns */
   ['personal_access_tokens_var_pop_fields']: {
     id?: number | undefined;
@@ -21586,7 +20086,10 @@ export type ModelTypes = {
     id?: number | undefined;
     tokenable_id?: number | undefined;
   };
-  /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table */
+  /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table
+
+
+columns and relationships of "profiles" */
   ['profiles']: {
     address: string;
     ann_power: boolean;
@@ -21693,7 +20196,7 @@ export type ModelTypes = {
   };
   /** input type for inserting object relation for remote table "profiles" */
   ['profiles_obj_rel_insert_input']: GraphQLTypes['profiles_obj_rel_insert_input'];
-  /** on_conflict condition type for table "profiles" */
+  /** on conflict condition type for table "profiles" */
   ['profiles_on_conflict']: GraphQLTypes['profiles_on_conflict'];
   /** Ordering options when selecting data from "profiles". */
   ['profiles_order_by']: GraphQLTypes['profiles_order_by'];
@@ -21715,17 +20218,12 @@ export type ModelTypes = {
   ['profiles_stddev_samp_fields']: {
     id?: number | undefined;
   };
-  /** Streaming cursor of the table "profiles" */
-  ['profiles_stream_cursor_input']: GraphQLTypes['profiles_stream_cursor_input'];
-  /** Initial value of the column from where the streaming should start */
-  ['profiles_stream_cursor_value_input']: GraphQLTypes['profiles_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['profiles_sum_fields']: {
     id?: GraphQLTypes['bigint'] | undefined;
   };
   /** update columns of table "profiles" */
   ['profiles_update_column']: GraphQLTypes['profiles_update_column'];
-  ['profiles_updates']: GraphQLTypes['profiles_updates'];
   /** aggregate var_pop on columns */
   ['profiles_var_pop_fields']: {
     id?: number | undefined;
@@ -21745,7 +20243,7 @@ export type ModelTypes = {
     burns_aggregate: GraphQLTypes['burns_aggregate'];
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
-    /** An array relationship */
+    /** fetch data from the table: "circle_api_keys" */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** An aggregate relationship */
     circle_api_keys_aggregate: GraphQLTypes['circle_api_keys_aggregate'];
@@ -21919,138 +20417,102 @@ export type ModelTypes = {
     burns_aggregate: GraphQLTypes['burns_aggregate'];
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
-    /** fetch data from the table in a streaming manner : "burns" */
-    burns_stream: Array<GraphQLTypes['burns']>;
-    /** An array relationship */
+    /** fetch data from the table: "circle_api_keys" */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** An aggregate relationship */
     circle_api_keys_aggregate: GraphQLTypes['circle_api_keys_aggregate'];
     /** fetch data from the table: "circle_api_keys" using primary key columns */
     circle_api_keys_by_pk?: GraphQLTypes['circle_api_keys'] | undefined;
-    /** fetch data from the table in a streaming manner : "circle_api_keys" */
-    circle_api_keys_stream: Array<GraphQLTypes['circle_api_keys']>;
     /** fetch data from the table: "circle_integrations" */
     circle_integrations: Array<GraphQLTypes['circle_integrations']>;
     /** fetch aggregated fields from the table: "circle_integrations" */
     circle_integrations_aggregate: GraphQLTypes['circle_integrations_aggregate'];
     /** fetch data from the table: "circle_integrations" using primary key columns */
     circle_integrations_by_pk?: GraphQLTypes['circle_integrations'] | undefined;
-    /** fetch data from the table in a streaming manner : "circle_integrations" */
-    circle_integrations_stream: Array<GraphQLTypes['circle_integrations']>;
     /** An array relationship */
     circle_metadata: Array<GraphQLTypes['circle_metadata']>;
     /** An aggregate relationship */
     circle_metadata_aggregate: GraphQLTypes['circle_metadata_aggregate'];
     /** fetch data from the table: "circle_metadata" using primary key columns */
     circle_metadata_by_pk?: GraphQLTypes['circle_metadata'] | undefined;
-    /** fetch data from the table in a streaming manner : "circle_metadata" */
-    circle_metadata_stream: Array<GraphQLTypes['circle_metadata']>;
     /** fetch data from the table: "circle_private" */
     circle_private: Array<GraphQLTypes['circle_private']>;
     /** fetch aggregated fields from the table: "circle_private" */
     circle_private_aggregate: GraphQLTypes['circle_private_aggregate'];
-    /** fetch data from the table in a streaming manner : "circle_private" */
-    circle_private_stream: Array<GraphQLTypes['circle_private']>;
     /** fetch data from the table: "circle_share_tokens" */
     circle_share_tokens: Array<GraphQLTypes['circle_share_tokens']>;
     /** fetch aggregated fields from the table: "circle_share_tokens" */
     circle_share_tokens_aggregate: GraphQLTypes['circle_share_tokens_aggregate'];
     /** fetch data from the table: "circle_share_tokens" using primary key columns */
     circle_share_tokens_by_pk?: GraphQLTypes['circle_share_tokens'] | undefined;
-    /** fetch data from the table in a streaming manner : "circle_share_tokens" */
-    circle_share_tokens_stream: Array<GraphQLTypes['circle_share_tokens']>;
     /** An array relationship */
     circles: Array<GraphQLTypes['circles']>;
     /** An aggregate relationship */
     circles_aggregate: GraphQLTypes['circles_aggregate'];
     /** fetch data from the table: "circles" using primary key columns */
     circles_by_pk?: GraphQLTypes['circles'] | undefined;
-    /** fetch data from the table in a streaming manner : "circles" */
-    circles_stream: Array<GraphQLTypes['circles']>;
     /** An array relationship */
     claims: Array<GraphQLTypes['claims']>;
     /** An aggregate relationship */
     claims_aggregate: GraphQLTypes['claims_aggregate'];
     /** fetch data from the table: "claims" using primary key columns */
     claims_by_pk?: GraphQLTypes['claims'] | undefined;
-    /** fetch data from the table in a streaming manner : "claims" */
-    claims_stream: Array<GraphQLTypes['claims']>;
     /** An array relationship */
     contributions: Array<GraphQLTypes['contributions']>;
     /** An aggregate relationship */
     contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     /** fetch data from the table: "contributions" using primary key columns */
     contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
-    /** fetch data from the table in a streaming manner : "contributions" */
-    contributions_stream: Array<GraphQLTypes['contributions']>;
     /** An array relationship */
     distributions: Array<GraphQLTypes['distributions']>;
     /** An aggregate relationship */
     distributions_aggregate: GraphQLTypes['distributions_aggregate'];
     /** fetch data from the table: "distributions" using primary key columns */
     distributions_by_pk?: GraphQLTypes['distributions'] | undefined;
-    /** fetch data from the table in a streaming manner : "distributions" */
-    distributions_stream: Array<GraphQLTypes['distributions']>;
     /** An array relationship */
     epochs: Array<GraphQLTypes['epochs']>;
     /** An aggregate relationship */
     epochs_aggregate: GraphQLTypes['epochs_aggregate'];
     /** fetch data from the table: "epoches" using primary key columns */
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
-    /** fetch data from the table in a streaming manner : "epoches" */
-    epochs_stream: Array<GraphQLTypes['epochs']>;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** fetch aggregated fields from the table: "gift_private" */
     gift_private_aggregate: GraphQLTypes['gift_private_aggregate'];
-    /** fetch data from the table in a streaming manner : "gift_private" */
-    gift_private_stream: Array<GraphQLTypes['gift_private']>;
     /** fetch data from the table: "histories" */
     histories: Array<GraphQLTypes['histories']>;
     /** fetch aggregated fields from the table: "histories" */
     histories_aggregate: GraphQLTypes['histories_aggregate'];
     /** fetch data from the table: "histories" using primary key columns */
     histories_by_pk?: GraphQLTypes['histories'] | undefined;
-    /** fetch data from the table in a streaming manner : "histories" */
-    histories_stream: Array<GraphQLTypes['histories']>;
     /** fetch data from the table: "interaction_events" */
     interaction_events: Array<GraphQLTypes['interaction_events']>;
     /** fetch aggregated fields from the table: "interaction_events" */
     interaction_events_aggregate: GraphQLTypes['interaction_events_aggregate'];
     /** fetch data from the table: "interaction_events" using primary key columns */
     interaction_events_by_pk?: GraphQLTypes['interaction_events'] | undefined;
-    /** fetch data from the table in a streaming manner : "interaction_events" */
-    interaction_events_stream: Array<GraphQLTypes['interaction_events']>;
     /** An array relationship */
     nominees: Array<GraphQLTypes['nominees']>;
     /** An aggregate relationship */
     nominees_aggregate: GraphQLTypes['nominees_aggregate'];
     /** fetch data from the table: "nominees" using primary key columns */
     nominees_by_pk?: GraphQLTypes['nominees'] | undefined;
-    /** fetch data from the table in a streaming manner : "nominees" */
-    nominees_stream: Array<GraphQLTypes['nominees']>;
     /** fetch data from the table: "organizations" */
     organizations: Array<GraphQLTypes['organizations']>;
     /** fetch aggregated fields from the table: "organizations" */
     organizations_aggregate: GraphQLTypes['organizations_aggregate'];
     /** fetch data from the table: "organizations" using primary key columns */
     organizations_by_pk?: GraphQLTypes['organizations'] | undefined;
-    /** fetch data from the table in a streaming manner : "organizations" */
-    organizations_stream: Array<GraphQLTypes['organizations']>;
     /** fetch data from the table: "pending_gift_private" */
     pending_gift_private: Array<GraphQLTypes['pending_gift_private']>;
     /** fetch aggregated fields from the table: "pending_gift_private" */
     pending_gift_private_aggregate: GraphQLTypes['pending_gift_private_aggregate'];
-    /** fetch data from the table in a streaming manner : "pending_gift_private" */
-    pending_gift_private_stream: Array<GraphQLTypes['pending_gift_private']>;
     /** An array relationship */
     pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     /** An aggregate relationship */
     pending_token_gifts_aggregate: GraphQLTypes['pending_token_gifts_aggregate'];
     /** fetch data from the table: "pending_token_gifts" using primary key columns */
     pending_token_gifts_by_pk?: GraphQLTypes['pending_token_gifts'] | undefined;
-    /** fetch data from the table in a streaming manner : "pending_token_gifts" */
-    pending_token_gifts_stream: Array<GraphQLTypes['pending_token_gifts']>;
     /** fetch data from the table: "pending_vault_transactions" */
     pending_vault_transactions: Array<
       GraphQLTypes['pending_vault_transactions']
@@ -22061,10 +20523,6 @@ export type ModelTypes = {
     pending_vault_transactions_by_pk?:
       | GraphQLTypes['pending_vault_transactions']
       | undefined;
-    /** fetch data from the table in a streaming manner : "pending_vault_transactions" */
-    pending_vault_transactions_stream: Array<
-      GraphQLTypes['pending_vault_transactions']
-    >;
     /** fetch data from the table: "personal_access_tokens" */
     personal_access_tokens: Array<GraphQLTypes['personal_access_tokens']>;
     /** fetch aggregated fields from the table: "personal_access_tokens" */
@@ -22073,80 +20531,58 @@ export type ModelTypes = {
     personal_access_tokens_by_pk?:
       | GraphQLTypes['personal_access_tokens']
       | undefined;
-    /** fetch data from the table in a streaming manner : "personal_access_tokens" */
-    personal_access_tokens_stream: Array<
-      GraphQLTypes['personal_access_tokens']
-    >;
     /** fetch data from the table: "profiles" */
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch aggregated fields from the table: "profiles" */
     profiles_aggregate: GraphQLTypes['profiles_aggregate'];
     /** fetch data from the table: "profiles" using primary key columns */
     profiles_by_pk?: GraphQLTypes['profiles'] | undefined;
-    /** fetch data from the table in a streaming manner : "profiles" */
-    profiles_stream: Array<GraphQLTypes['profiles']>;
     /** An array relationship */
     teammates: Array<GraphQLTypes['teammates']>;
     /** An aggregate relationship */
     teammates_aggregate: GraphQLTypes['teammates_aggregate'];
     /** fetch data from the table: "teammates" using primary key columns */
     teammates_by_pk?: GraphQLTypes['teammates'] | undefined;
-    /** fetch data from the table in a streaming manner : "teammates" */
-    teammates_stream: Array<GraphQLTypes['teammates']>;
     /** An array relationship */
     token_gifts: Array<GraphQLTypes['token_gifts']>;
     /** An aggregate relationship */
     token_gifts_aggregate: GraphQLTypes['token_gifts_aggregate'];
     /** fetch data from the table: "token_gifts" using primary key columns */
     token_gifts_by_pk?: GraphQLTypes['token_gifts'] | undefined;
-    /** fetch data from the table in a streaming manner : "token_gifts" */
-    token_gifts_stream: Array<GraphQLTypes['token_gifts']>;
     /** fetch data from the table: "user_private" */
     user_private: Array<GraphQLTypes['user_private']>;
     /** fetch aggregated fields from the table: "user_private" */
     user_private_aggregate: GraphQLTypes['user_private_aggregate'];
-    /** fetch data from the table in a streaming manner : "user_private" */
-    user_private_stream: Array<GraphQLTypes['user_private']>;
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
     /** An aggregate relationship */
     users_aggregate: GraphQLTypes['users_aggregate'];
     /** fetch data from the table: "users" using primary key columns */
     users_by_pk?: GraphQLTypes['users'] | undefined;
-    /** fetch data from the table in a streaming manner : "users" */
-    users_stream: Array<GraphQLTypes['users']>;
     /** An array relationship */
     vault_transactions: Array<GraphQLTypes['vault_transactions']>;
     /** An aggregate relationship */
     vault_transactions_aggregate: GraphQLTypes['vault_transactions_aggregate'];
     /** fetch data from the table: "vault_transactions" using primary key columns */
     vault_transactions_by_pk?: GraphQLTypes['vault_transactions'] | undefined;
-    /** fetch data from the table in a streaming manner : "vault_transactions" */
-    vault_transactions_stream: Array<GraphQLTypes['vault_transactions']>;
     /** fetch data from the table: "vault_tx_types" */
     vault_tx_types: Array<GraphQLTypes['vault_tx_types']>;
     /** fetch aggregated fields from the table: "vault_tx_types" */
     vault_tx_types_aggregate: GraphQLTypes['vault_tx_types_aggregate'];
     /** fetch data from the table: "vault_tx_types" using primary key columns */
     vault_tx_types_by_pk?: GraphQLTypes['vault_tx_types'] | undefined;
-    /** fetch data from the table in a streaming manner : "vault_tx_types" */
-    vault_tx_types_stream: Array<GraphQLTypes['vault_tx_types']>;
     /** An array relationship */
     vaults: Array<GraphQLTypes['vaults']>;
     /** An aggregate relationship */
     vaults_aggregate: GraphQLTypes['vaults_aggregate'];
     /** fetch data from the table: "vaults" using primary key columns */
     vaults_by_pk?: GraphQLTypes['vaults'] | undefined;
-    /** fetch data from the table in a streaming manner : "vaults" */
-    vaults_stream: Array<GraphQLTypes['vaults']>;
     /** An array relationship */
     vouches: Array<GraphQLTypes['vouches']>;
     /** An aggregate relationship */
     vouches_aggregate: GraphQLTypes['vouches_aggregate'];
     /** fetch data from the table: "vouches" using primary key columns */
     vouches_by_pk?: GraphQLTypes['vouches'] | undefined;
-    /** fetch data from the table in a streaming manner : "vouches" */
-    vouches_stream: Array<GraphQLTypes['vouches']>;
   };
   /** columns and relationships of "teammates" */
   ['teammates']: {
@@ -22226,7 +20662,7 @@ export type ModelTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['teammates']>;
   };
-  /** on_conflict condition type for table "teammates" */
+  /** on conflict condition type for table "teammates" */
   ['teammates_on_conflict']: GraphQLTypes['teammates_on_conflict'];
   /** Ordering options when selecting data from "teammates". */
   ['teammates_order_by']: GraphQLTypes['teammates_order_by'];
@@ -22260,10 +20696,6 @@ export type ModelTypes = {
   };
   /** order by stddev_samp() on columns of table "teammates" */
   ['teammates_stddev_samp_order_by']: GraphQLTypes['teammates_stddev_samp_order_by'];
-  /** Streaming cursor of the table "teammates" */
-  ['teammates_stream_cursor_input']: GraphQLTypes['teammates_stream_cursor_input'];
-  /** Initial value of the column from where the streaming should start */
-  ['teammates_stream_cursor_value_input']: GraphQLTypes['teammates_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['teammates_sum_fields']: {
     id?: GraphQLTypes['bigint'] | undefined;
@@ -22274,7 +20706,6 @@ export type ModelTypes = {
   ['teammates_sum_order_by']: GraphQLTypes['teammates_sum_order_by'];
   /** update columns of table "teammates" */
   ['teammates_update_column']: GraphQLTypes['teammates_update_column'];
-  ['teammates_updates']: GraphQLTypes['teammates_updates'];
   /** aggregate var_pop on columns */
   ['teammates_var_pop_fields']: {
     id?: number | undefined;
@@ -22305,7 +20736,10 @@ export type ModelTypes = {
   ['timestamptz']: any;
   /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
   ['timestamptz_comparison_exp']: GraphQLTypes['timestamptz_comparison_exp'];
-  /** GIVE allocations made by circle members for completed epochs */
+  /** GIVE allocations made by circle members for completed epochs
+
+
+columns and relationships of "token_gifts" */
   ['token_gifts']: {
     /** An object relationship */
     circle: GraphQLTypes['circles'];
@@ -22413,7 +20847,7 @@ export type ModelTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['token_gifts']>;
   };
-  /** on_conflict condition type for table "token_gifts" */
+  /** on conflict condition type for table "token_gifts" */
   ['token_gifts_on_conflict']: GraphQLTypes['token_gifts_on_conflict'];
   /** Ordering options when selecting data from "token_gifts". */
   ['token_gifts_order_by']: GraphQLTypes['token_gifts_order_by'];
@@ -22456,10 +20890,6 @@ export type ModelTypes = {
   };
   /** order by stddev_samp() on columns of table "token_gifts" */
   ['token_gifts_stddev_samp_order_by']: GraphQLTypes['token_gifts_stddev_samp_order_by'];
-  /** Streaming cursor of the table "token_gifts" */
-  ['token_gifts_stream_cursor_input']: GraphQLTypes['token_gifts_stream_cursor_input'];
-  /** Initial value of the column from where the streaming should start */
-  ['token_gifts_stream_cursor_value_input']: GraphQLTypes['token_gifts_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['token_gifts_sum_fields']: {
     circle_id?: GraphQLTypes['bigint'] | undefined;
@@ -22473,7 +20903,6 @@ export type ModelTypes = {
   ['token_gifts_sum_order_by']: GraphQLTypes['token_gifts_sum_order_by'];
   /** update columns of table "token_gifts" */
   ['token_gifts_update_column']: GraphQLTypes['token_gifts_update_column'];
-  ['token_gifts_updates']: GraphQLTypes['token_gifts_updates'];
   /** aggregate var_pop on columns */
   ['token_gifts_var_pop_fields']: {
     circle_id?: number | undefined;
@@ -22585,10 +21014,6 @@ export type ModelTypes = {
     fixed_payment_amount?: number | undefined;
     user_id?: number | undefined;
   };
-  /** Streaming cursor of the table "user_private" */
-  ['user_private_stream_cursor_input']: GraphQLTypes['user_private_stream_cursor_input'];
-  /** Initial value of the column from where the streaming should start */
-  ['user_private_stream_cursor_value_input']: GraphQLTypes['user_private_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['user_private_sum_fields']: {
     circle_id?: GraphQLTypes['bigint'] | undefined;
@@ -22613,7 +21038,10 @@ export type ModelTypes = {
     fixed_payment_amount?: number | undefined;
     user_id?: number | undefined;
   };
-  /** Members of a circle */
+  /** Members of a circle
+
+
+columns and relationships of "users" */
   ['users']: {
     address: string;
     bio?: string | undefined;
@@ -22623,7 +21051,7 @@ export type ModelTypes = {
     burns_aggregate: GraphQLTypes['burns_aggregate'];
     /** An object relationship */
     circle: GraphQLTypes['circles'];
-    /** An array relationship */
+    /** fetch data from the table: "circle_api_keys" */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** An aggregate relationship */
     circle_api_keys_aggregate: GraphQLTypes['circle_api_keys_aggregate'];
@@ -22763,7 +21191,7 @@ export type ModelTypes = {
   };
   /** input type for inserting object relation for remote table "users" */
   ['users_obj_rel_insert_input']: GraphQLTypes['users_obj_rel_insert_input'];
-  /** on_conflict condition type for table "users" */
+  /** on conflict condition type for table "users" */
   ['users_on_conflict']: GraphQLTypes['users_on_conflict'];
   /** Ordering options when selecting data from "users". */
   ['users_order_by']: GraphQLTypes['users_order_by'];
@@ -22809,10 +21237,6 @@ export type ModelTypes = {
   };
   /** order by stddev_samp() on columns of table "users" */
   ['users_stddev_samp_order_by']: GraphQLTypes['users_stddev_samp_order_by'];
-  /** Streaming cursor of the table "users" */
-  ['users_stream_cursor_input']: GraphQLTypes['users_stream_cursor_input'];
-  /** Initial value of the column from where the streaming should start */
-  ['users_stream_cursor_value_input']: GraphQLTypes['users_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['users_sum_fields']: {
     circle_id?: GraphQLTypes['bigint'] | undefined;
@@ -22827,7 +21251,6 @@ export type ModelTypes = {
   ['users_sum_order_by']: GraphQLTypes['users_sum_order_by'];
   /** update columns of table "users" */
   ['users_update_column']: GraphQLTypes['users_update_column'];
-  ['users_updates']: GraphQLTypes['users_updates'];
   /** aggregate var_pop on columns */
   ['users_var_pop_fields']: {
     circle_id?: number | undefined;
@@ -22967,7 +21390,7 @@ export type ModelTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['vault_transactions']>;
   };
-  /** on_conflict condition type for table "vault_transactions" */
+  /** on conflict condition type for table "vault_transactions" */
   ['vault_transactions_on_conflict']: GraphQLTypes['vault_transactions_on_conflict'];
   /** Ordering options when selecting data from "vault_transactions". */
   ['vault_transactions_order_by']: GraphQLTypes['vault_transactions_order_by'];
@@ -23007,10 +21430,6 @@ export type ModelTypes = {
   };
   /** order by stddev_samp() on columns of table "vault_transactions" */
   ['vault_transactions_stddev_samp_order_by']: GraphQLTypes['vault_transactions_stddev_samp_order_by'];
-  /** Streaming cursor of the table "vault_transactions" */
-  ['vault_transactions_stream_cursor_input']: GraphQLTypes['vault_transactions_stream_cursor_input'];
-  /** Initial value of the column from where the streaming should start */
-  ['vault_transactions_stream_cursor_value_input']: GraphQLTypes['vault_transactions_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['vault_transactions_sum_fields']: {
     circle_id?: GraphQLTypes['bigint'] | undefined;
@@ -23023,7 +21442,6 @@ export type ModelTypes = {
   ['vault_transactions_sum_order_by']: GraphQLTypes['vault_transactions_sum_order_by'];
   /** update columns of table "vault_transactions" */
   ['vault_transactions_update_column']: GraphQLTypes['vault_transactions_update_column'];
-  ['vault_transactions_updates']: GraphQLTypes['vault_transactions_updates'];
   /** aggregate var_pop on columns */
   ['vault_transactions_var_pop_fields']: {
     circle_id?: number | undefined;
@@ -23102,7 +21520,7 @@ export type ModelTypes = {
   };
   /** input type for inserting object relation for remote table "vault_tx_types" */
   ['vault_tx_types_obj_rel_insert_input']: GraphQLTypes['vault_tx_types_obj_rel_insert_input'];
-  /** on_conflict condition type for table "vault_tx_types" */
+  /** on conflict condition type for table "vault_tx_types" */
   ['vault_tx_types_on_conflict']: GraphQLTypes['vault_tx_types_on_conflict'];
   /** Ordering options when selecting data from "vault_tx_types". */
   ['vault_tx_types_order_by']: GraphQLTypes['vault_tx_types_order_by'];
@@ -23112,13 +21530,8 @@ export type ModelTypes = {
   ['vault_tx_types_select_column']: GraphQLTypes['vault_tx_types_select_column'];
   /** input type for updating data in table "vault_tx_types" */
   ['vault_tx_types_set_input']: GraphQLTypes['vault_tx_types_set_input'];
-  /** Streaming cursor of the table "vault_tx_types" */
-  ['vault_tx_types_stream_cursor_input']: GraphQLTypes['vault_tx_types_stream_cursor_input'];
-  /** Initial value of the column from where the streaming should start */
-  ['vault_tx_types_stream_cursor_value_input']: GraphQLTypes['vault_tx_types_stream_cursor_value_input'];
   /** update columns of table "vault_tx_types" */
   ['vault_tx_types_update_column']: GraphQLTypes['vault_tx_types_update_column'];
-  ['vault_tx_types_updates']: GraphQLTypes['vault_tx_types_updates'];
   /** columns and relationships of "vaults" */
   ['vaults']: {
     chain_id: number;
@@ -23231,7 +21644,7 @@ export type ModelTypes = {
   };
   /** input type for inserting object relation for remote table "vaults" */
   ['vaults_obj_rel_insert_input']: GraphQLTypes['vaults_obj_rel_insert_input'];
-  /** on_conflict condition type for table "vaults" */
+  /** on conflict condition type for table "vaults" */
   ['vaults_on_conflict']: GraphQLTypes['vaults_on_conflict'];
   /** Ordering options when selecting data from "vaults". */
   ['vaults_order_by']: GraphQLTypes['vaults_order_by'];
@@ -23274,10 +21687,6 @@ export type ModelTypes = {
   };
   /** order by stddev_samp() on columns of table "vaults" */
   ['vaults_stddev_samp_order_by']: GraphQLTypes['vaults_stddev_samp_order_by'];
-  /** Streaming cursor of the table "vaults" */
-  ['vaults_stream_cursor_input']: GraphQLTypes['vaults_stream_cursor_input'];
-  /** Initial value of the column from where the streaming should start */
-  ['vaults_stream_cursor_value_input']: GraphQLTypes['vaults_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['vaults_sum_fields']: {
     chain_id?: number | undefined;
@@ -23291,7 +21700,6 @@ export type ModelTypes = {
   ['vaults_sum_order_by']: GraphQLTypes['vaults_sum_order_by'];
   /** update columns of table "vaults" */
   ['vaults_update_column']: GraphQLTypes['vaults_update_column'];
-  ['vaults_updates']: GraphQLTypes['vaults_updates'];
   /** aggregate var_pop on columns */
   ['vaults_var_pop_fields']: {
     chain_id?: number | undefined;
@@ -23403,7 +21811,7 @@ export type ModelTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['vouches']>;
   };
-  /** on_conflict condition type for table "vouches" */
+  /** on conflict condition type for table "vouches" */
   ['vouches_on_conflict']: GraphQLTypes['vouches_on_conflict'];
   /** Ordering options when selecting data from "vouches". */
   ['vouches_order_by']: GraphQLTypes['vouches_order_by'];
@@ -23437,10 +21845,6 @@ export type ModelTypes = {
   };
   /** order by stddev_samp() on columns of table "vouches" */
   ['vouches_stddev_samp_order_by']: GraphQLTypes['vouches_stddev_samp_order_by'];
-  /** Streaming cursor of the table "vouches" */
-  ['vouches_stream_cursor_input']: GraphQLTypes['vouches_stream_cursor_input'];
-  /** Initial value of the column from where the streaming should start */
-  ['vouches_stream_cursor_value_input']: GraphQLTypes['vouches_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['vouches_sum_fields']: {
     id?: GraphQLTypes['bigint'] | undefined;
@@ -23451,7 +21855,6 @@ export type ModelTypes = {
   ['vouches_sum_order_by']: GraphQLTypes['vouches_sum_order_by'];
   /** update columns of table "vouches" */
   ['vouches_update_column']: GraphQLTypes['vouches_update_column'];
-  ['vouches_updates']: GraphQLTypes['vouches_updates'];
   /** aggregate var_pop on columns */
   ['vouches_var_pop_fields']: {
     id?: number | undefined;
@@ -23515,7 +21918,8 @@ export type GraphQLTypes = {
   };
   ['AllocationsResponse']: {
     __typename: 'AllocationsResponse';
-    user?: GraphQLTypes['users'] | undefined;
+    /** An object relationship */
+    user: GraphQLTypes['users'];
     user_id: number;
   };
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
@@ -23547,7 +21951,8 @@ export type GraphQLTypes = {
   };
   ['CreateCircleResponse']: {
     __typename: 'CreateCircleResponse';
-    circle?: GraphQLTypes['circles'] | undefined;
+    /** An object relationship */
+    circle: GraphQLTypes['circles'];
     id: number;
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
@@ -23570,7 +21975,8 @@ export type GraphQLTypes = {
   ['CreateNomineeResponse']: {
     __typename: 'CreateNomineeResponse';
     id?: number | undefined;
-    nominee?: GraphQLTypes['nominees'] | undefined;
+    /** An object relationship */
+    nominee: GraphQLTypes['nominees'];
   };
   ['CreateUserInput']: {
     address: string;
@@ -23618,7 +22024,8 @@ export type GraphQLTypes = {
   };
   ['EpochResponse']: {
     __typename: 'EpochResponse';
-    epoch?: GraphQLTypes['epochs'] | undefined;
+    /** An object relationship */
+    epoch: GraphQLTypes['epochs'];
     id: string;
   };
   ['GenerateApiKeyInput']: {
@@ -23636,7 +22043,8 @@ export type GraphQLTypes = {
   ['GenerateApiKeyResponse']: {
     __typename: 'GenerateApiKeyResponse';
     api_key: string;
-    circleApiKey?: GraphQLTypes['circle_api_keys'] | undefined;
+    /** An object relationship */
+    circleApiKey: GraphQLTypes['circle_api_keys'];
     hash: string;
   };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
@@ -23663,12 +22071,14 @@ export type GraphQLTypes = {
   ['LogVaultTxResponse']: {
     __typename: 'LogVaultTxResponse';
     id: string;
-    vault_tx_return_object?: GraphQLTypes['vault_transactions'] | undefined;
+    /** An object relationship */
+    vault_tx_return_object: GraphQLTypes['vault_transactions'];
   };
   ['LogoutResponse']: {
     __typename: 'LogoutResponse';
     id?: number | undefined;
-    profile?: GraphQLTypes['profiles'] | undefined;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
   };
   ['MarkClaimedInput']: {
     claim_id: number;
@@ -23731,12 +22141,14 @@ export type GraphQLTypes = {
   };
   ['UpdateCircleOutput']: {
     __typename: 'UpdateCircleOutput';
-    circle?: GraphQLTypes['circles'] | undefined;
+    /** An object relationship */
+    circle: GraphQLTypes['circles'];
     id: number;
   };
   ['UpdateCircleResponse']: {
     __typename: 'UpdateCircleResponse';
-    circle?: GraphQLTypes['circles'] | undefined;
+    /** An object relationship */
+    circle: GraphQLTypes['circles'];
     id: number;
   };
   ['UpdateContributionInput']: {
@@ -23747,7 +22159,8 @@ export type GraphQLTypes = {
   ['UpdateContributionResponse']: {
     __typename: 'UpdateContributionResponse';
     id: string;
-    updateContribution_Contribution?: GraphQLTypes['contributions'] | undefined;
+    /** An object relationship */
+    updateContribution_Contribution: GraphQLTypes['contributions'];
   };
   ['UpdateEpochInput']: {
     circle_id: number;
@@ -23760,12 +22173,14 @@ export type GraphQLTypes = {
   ['UpdateOrgResponse']: {
     __typename: 'UpdateOrgResponse';
     id: number;
-    org?: GraphQLTypes['organizations'] | undefined;
+    /** An object relationship */
+    org: GraphQLTypes['organizations'];
   };
   ['UpdateProfileResponse']: {
     __typename: 'UpdateProfileResponse';
     id: number;
-    profile?: GraphQLTypes['profiles'] | undefined;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
   };
   ['UpdateTeammatesInput']: {
     circle_id: number;
@@ -23773,7 +22188,8 @@ export type GraphQLTypes = {
   };
   ['UpdateTeammatesResponse']: {
     __typename: 'UpdateTeammatesResponse';
-    user?: GraphQLTypes['users'] | undefined;
+    /** An object relationship */
+    user: GraphQLTypes['users'];
     user_id: string;
   };
   ['UpdateUserInput']: {
@@ -23804,13 +22220,15 @@ export type GraphQLTypes = {
   };
   ['UserResponse']: {
     __typename: 'UserResponse';
-    UserResponse?: GraphQLTypes['users'] | undefined;
+    /** An object relationship */
+    UserResponse: GraphQLTypes['users'];
     id: string;
   };
   ['VaultResponse']: {
     __typename: 'VaultResponse';
     id: string;
-    vault?: GraphQLTypes['vaults'] | undefined;
+    /** An object relationship */
+    vault: GraphQLTypes['vaults'];
   };
   ['VouchInput']: {
     nominee_id: number;
@@ -23818,7 +22236,8 @@ export type GraphQLTypes = {
   ['VouchOutput']: {
     __typename: 'VouchOutput';
     id: number;
-    nominee?: GraphQLTypes['nominees'] | undefined;
+    /** An object relationship */
+    nominee: GraphQLTypes['nominees'];
   };
   ['bigint']: any;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
@@ -23890,7 +22309,7 @@ export type GraphQLTypes = {
   /** input type for inserting array relation for remote table "burns" */
   ['burns_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['burns_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: GraphQLTypes['burns_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -24017,7 +22436,7 @@ export type GraphQLTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['burns']>;
   };
-  /** on_conflict condition type for table "burns" */
+  /** on conflict condition type for table "burns" */
   ['burns_on_conflict']: {
     constraint: GraphQLTypes['burns_constraint'];
     update_columns: Array<GraphQLTypes['burns_update_column']>;
@@ -24119,25 +22538,6 @@ export type GraphQLTypes = {
     tokens_burnt?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
-  /** Streaming cursor of the table "burns" */
-  ['burns_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: GraphQLTypes['burns_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['burns_stream_cursor_value_input']: {
-    circle_id?: GraphQLTypes['bigint'] | undefined;
-    created_at?: GraphQLTypes['timestamp'] | undefined;
-    epoch_id?: GraphQLTypes['bigint'] | undefined;
-    id?: GraphQLTypes['bigint'] | undefined;
-    original_amount?: number | undefined;
-    regift_percent?: number | undefined;
-    tokens_burnt?: number | undefined;
-    updated_at?: GraphQLTypes['timestamp'] | undefined;
-    user_id?: GraphQLTypes['bigint'] | undefined;
-  };
   /** aggregate sum on columns */
   ['burns_sum_fields']: {
     __typename: 'burns_sum_fields';
@@ -24161,13 +22561,6 @@ export type GraphQLTypes = {
   };
   /** update columns of table "burns" */
   ['burns_update_column']: burns_update_column;
-  ['burns_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: GraphQLTypes['burns_inc_input'] | undefined;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['burns_set_input'] | undefined;
-    where: GraphQLTypes['burns_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['burns_var_pop_fields']: {
     __typename: 'burns_var_pop_fields';
@@ -24231,7 +22624,10 @@ export type GraphQLTypes = {
     tokens_burnt?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
-  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API. */
+  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API.
+
+
+columns and relationships of "circle_api_keys" */
   ['circle_api_keys']: {
     __typename: 'circle_api_keys';
     /** An object relationship */
@@ -24296,7 +22692,7 @@ export type GraphQLTypes = {
   /** input type for inserting array relation for remote table "circle_api_keys" */
   ['circle_api_keys_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['circle_api_keys_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: GraphQLTypes['circle_api_keys_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -24402,7 +22798,7 @@ export type GraphQLTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['circle_api_keys']>;
   };
-  /** on_conflict condition type for table "circle_api_keys" */
+  /** on conflict condition type for table "circle_api_keys" */
   ['circle_api_keys_on_conflict']: {
     constraint: GraphQLTypes['circle_api_keys_constraint'];
     update_columns: Array<GraphQLTypes['circle_api_keys_update_column']>;
@@ -24481,29 +22877,6 @@ export type GraphQLTypes = {
     circle_id?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
   };
-  /** Streaming cursor of the table "circle_api_keys" */
-  ['circle_api_keys_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: GraphQLTypes['circle_api_keys_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['circle_api_keys_stream_cursor_value_input']: {
-    circle_id?: GraphQLTypes['bigint'] | undefined;
-    create_vouches?: boolean | undefined;
-    created_at?: GraphQLTypes['timestamptz'] | undefined;
-    created_by?: GraphQLTypes['bigint'] | undefined;
-    hash?: string | undefined;
-    name?: string | undefined;
-    read_circle?: boolean | undefined;
-    read_epochs?: boolean | undefined;
-    read_member_profiles?: boolean | undefined;
-    read_nominees?: boolean | undefined;
-    read_pending_token_gifts?: boolean | undefined;
-    update_circle?: boolean | undefined;
-    update_pending_token_gifts?: boolean | undefined;
-  };
   /** aggregate sum on columns */
   ['circle_api_keys_sum_fields']: {
     __typename: 'circle_api_keys_sum_fields';
@@ -24517,13 +22890,6 @@ export type GraphQLTypes = {
   };
   /** update columns of table "circle_api_keys" */
   ['circle_api_keys_update_column']: circle_api_keys_update_column;
-  ['circle_api_keys_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: GraphQLTypes['circle_api_keys_inc_input'] | undefined;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['circle_api_keys_set_input'] | undefined;
-    where: GraphQLTypes['circle_api_keys_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['circle_api_keys_var_pop_fields']: {
     __typename: 'circle_api_keys_var_pop_fields';
@@ -24622,7 +22988,7 @@ export type GraphQLTypes = {
   /** input type for inserting array relation for remote table "circle_integrations" */
   ['circle_integrations_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['circle_integrations_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: GraphQLTypes['circle_integrations_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -24714,7 +23080,7 @@ export type GraphQLTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['circle_integrations']>;
   };
-  /** on_conflict condition type for table "circle_integrations" */
+  /** on conflict condition type for table "circle_integrations" */
   ['circle_integrations_on_conflict']: {
     constraint: GraphQLTypes['circle_integrations_constraint'];
     update_columns: Array<GraphQLTypes['circle_integrations_update_column']>;
@@ -24780,23 +23146,6 @@ export type GraphQLTypes = {
     circle_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
   };
-  /** Streaming cursor of the table "circle_integrations" */
-  ['circle_integrations_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: GraphQLTypes['circle_integrations_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['circle_integrations_stream_cursor_value_input']: {
-    circle_id?: GraphQLTypes['bigint'] | undefined;
-    created_at?: GraphQLTypes['timestamptz'] | undefined;
-    data?: GraphQLTypes['json'] | undefined;
-    id?: GraphQLTypes['bigint'] | undefined;
-    name?: string | undefined;
-    type?: string | undefined;
-    updated_at?: GraphQLTypes['timestamptz'] | undefined;
-  };
   /** aggregate sum on columns */
   ['circle_integrations_sum_fields']: {
     __typename: 'circle_integrations_sum_fields';
@@ -24810,13 +23159,6 @@ export type GraphQLTypes = {
   };
   /** update columns of table "circle_integrations" */
   ['circle_integrations_update_column']: circle_integrations_update_column;
-  ['circle_integrations_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: GraphQLTypes['circle_integrations_inc_input'] | undefined;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['circle_integrations_set_input'] | undefined;
-    where: GraphQLTypes['circle_integrations_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['circle_integrations_var_pop_fields']: {
     __typename: 'circle_integrations_var_pop_fields';
@@ -24905,7 +23247,7 @@ export type GraphQLTypes = {
   /** input type for inserting array relation for remote table "circle_metadata" */
   ['circle_metadata_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['circle_metadata_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: GraphQLTypes['circle_metadata_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -24985,7 +23327,7 @@ export type GraphQLTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['circle_metadata']>;
   };
-  /** on_conflict condition type for table "circle_metadata" */
+  /** on conflict condition type for table "circle_metadata" */
   ['circle_metadata_on_conflict']: {
     constraint: GraphQLTypes['circle_metadata_constraint'];
     update_columns: Array<GraphQLTypes['circle_metadata_update_column']>;
@@ -25047,21 +23389,6 @@ export type GraphQLTypes = {
     circle_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
   };
-  /** Streaming cursor of the table "circle_metadata" */
-  ['circle_metadata_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: GraphQLTypes['circle_metadata_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['circle_metadata_stream_cursor_value_input']: {
-    circle_id?: GraphQLTypes['bigint'] | undefined;
-    created_at?: GraphQLTypes['timestamp'] | undefined;
-    id?: GraphQLTypes['bigint'] | undefined;
-    json?: GraphQLTypes['json'] | undefined;
-    updated_at?: GraphQLTypes['timestamp'] | undefined;
-  };
   /** aggregate sum on columns */
   ['circle_metadata_sum_fields']: {
     __typename: 'circle_metadata_sum_fields';
@@ -25075,13 +23402,6 @@ export type GraphQLTypes = {
   };
   /** update columns of table "circle_metadata" */
   ['circle_metadata_update_column']: circle_metadata_update_column;
-  ['circle_metadata_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: GraphQLTypes['circle_metadata_inc_input'] | undefined;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['circle_metadata_set_input'] | undefined;
-    where: GraphQLTypes['circle_metadata_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['circle_metadata_var_pop_fields']: {
     __typename: 'circle_metadata_var_pop_fields';
@@ -25220,29 +23540,10 @@ export type GraphQLTypes = {
     __typename: 'circle_private_stddev_samp_fields';
     circle_id?: number | undefined;
   };
-  /** Streaming cursor of the table "circle_private" */
-  ['circle_private_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: GraphQLTypes['circle_private_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['circle_private_stream_cursor_value_input']: {
-    circle_id?: GraphQLTypes['bigint'] | undefined;
-    discord_webhook?: string | undefined;
-  };
   /** aggregate sum on columns */
   ['circle_private_sum_fields']: {
     __typename: 'circle_private_sum_fields';
     circle_id?: GraphQLTypes['bigint'] | undefined;
-  };
-  ['circle_private_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: GraphQLTypes['circle_private_inc_input'] | undefined;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['circle_private_set_input'] | undefined;
-    where: GraphQLTypes['circle_private_bool_exp'];
   };
   /** aggregate var_pop on columns */
   ['circle_private_var_pop_fields']: {
@@ -25357,7 +23658,7 @@ export type GraphQLTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['circle_share_tokens']>;
   };
-  /** on_conflict condition type for table "circle_share_tokens" */
+  /** on conflict condition type for table "circle_share_tokens" */
   ['circle_share_tokens_on_conflict']: {
     constraint: GraphQLTypes['circle_share_tokens_constraint'];
     update_columns: Array<GraphQLTypes['circle_share_tokens_update_column']>;
@@ -25405,21 +23706,6 @@ export type GraphQLTypes = {
     circle_id?: number | undefined;
     type?: number | undefined;
   };
-  /** Streaming cursor of the table "circle_share_tokens" */
-  ['circle_share_tokens_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: GraphQLTypes['circle_share_tokens_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['circle_share_tokens_stream_cursor_value_input']: {
-    circle_id?: GraphQLTypes['bigint'] | undefined;
-    created_at?: GraphQLTypes['timestamptz'] | undefined;
-    type?: number | undefined;
-    updated_at?: GraphQLTypes['timestamptz'] | undefined;
-    uuid?: GraphQLTypes['uuid'] | undefined;
-  };
   /** aggregate sum on columns */
   ['circle_share_tokens_sum_fields']: {
     __typename: 'circle_share_tokens_sum_fields';
@@ -25428,13 +23714,6 @@ export type GraphQLTypes = {
   };
   /** update columns of table "circle_share_tokens" */
   ['circle_share_tokens_update_column']: circle_share_tokens_update_column;
-  ['circle_share_tokens_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: GraphQLTypes['circle_share_tokens_inc_input'] | undefined;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['circle_share_tokens_set_input'] | undefined;
-    where: GraphQLTypes['circle_share_tokens_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['circle_share_tokens_var_pop_fields']: {
     __typename: 'circle_share_tokens_var_pop_fields';
@@ -25567,7 +23846,7 @@ export type GraphQLTypes = {
   /** input type for inserting array relation for remote table "circles" */
   ['circles_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['circles_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: GraphQLTypes['circles_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -25797,10 +24076,10 @@ export type GraphQLTypes = {
   /** input type for inserting object relation for remote table "circles" */
   ['circles_obj_rel_insert_input']: {
     data: GraphQLTypes['circles_insert_input'];
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: GraphQLTypes['circles_on_conflict'] | undefined;
   };
-  /** on_conflict condition type for table "circles" */
+  /** on conflict condition type for table "circles" */
   ['circles_on_conflict']: {
     constraint: GraphQLTypes['circles_constraint'];
     update_columns: Array<GraphQLTypes['circles_update_column']>;
@@ -25946,40 +24225,6 @@ export type GraphQLTypes = {
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
   };
-  /** Streaming cursor of the table "circles" */
-  ['circles_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: GraphQLTypes['circles_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['circles_stream_cursor_value_input']: {
-    alloc_text?: string | undefined;
-    auto_opt_out?: boolean | undefined;
-    contact?: string | undefined;
-    created_at?: GraphQLTypes['timestamp'] | undefined;
-    default_opt_in?: boolean | undefined;
-    deleted_at?: GraphQLTypes['timestamp'] | undefined;
-    discord_webhook?: string | undefined;
-    fixed_payment_token_type?: string | undefined;
-    fixed_payment_vault_id?: number | undefined;
-    id?: GraphQLTypes['bigint'] | undefined;
-    is_verified?: boolean | undefined;
-    logo?: string | undefined;
-    min_vouches?: number | undefined;
-    name?: string | undefined;
-    nomination_days_limit?: number | undefined;
-    only_giver_vouch?: boolean | undefined;
-    organization_id?: number | undefined;
-    team_sel_text?: string | undefined;
-    team_selection?: boolean | undefined;
-    telegram_id?: string | undefined;
-    token_name?: string | undefined;
-    updated_at?: GraphQLTypes['timestamp'] | undefined;
-    vouching?: boolean | undefined;
-    vouching_text?: string | undefined;
-  };
   /** aggregate sum on columns */
   ['circles_sum_fields']: {
     __typename: 'circles_sum_fields';
@@ -25999,13 +24244,6 @@ export type GraphQLTypes = {
   };
   /** update columns of table "circles" */
   ['circles_update_column']: circles_update_column;
-  ['circles_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: GraphQLTypes['circles_inc_input'] | undefined;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['circles_set_input'] | undefined;
-    where: GraphQLTypes['circles_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['circles_var_pop_fields']: {
     __typename: 'circles_var_pop_fields';
@@ -26114,7 +24352,7 @@ export type GraphQLTypes = {
   /** input type for inserting array relation for remote table "claims" */
   ['claims_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['claims_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: GraphQLTypes['claims_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -26250,7 +24488,7 @@ export type GraphQLTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['claims']>;
   };
-  /** on_conflict condition type for table "claims" */
+  /** on conflict condition type for table "claims" */
   ['claims_on_conflict']: {
     constraint: GraphQLTypes['claims_constraint'];
     update_columns: Array<GraphQLTypes['claims_update_column']>;
@@ -26349,27 +24587,6 @@ export type GraphQLTypes = {
     new_amount?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
   };
-  /** Streaming cursor of the table "claims" */
-  ['claims_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: GraphQLTypes['claims_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['claims_stream_cursor_value_input']: {
-    address?: string | undefined;
-    amount?: GraphQLTypes['numeric'] | undefined;
-    created_at?: GraphQLTypes['timestamptz'] | undefined;
-    distribution_id?: GraphQLTypes['bigint'] | undefined;
-    id?: GraphQLTypes['bigint'] | undefined;
-    index?: GraphQLTypes['bigint'] | undefined;
-    new_amount?: GraphQLTypes['numeric'] | undefined;
-    profile_id?: GraphQLTypes['bigint'] | undefined;
-    proof?: string | undefined;
-    txHash?: string | undefined;
-    updated_at?: GraphQLTypes['timestamptz'] | undefined;
-  };
   /** aggregate sum on columns */
   ['claims_sum_fields']: {
     __typename: 'claims_sum_fields';
@@ -26391,13 +24608,6 @@ export type GraphQLTypes = {
   };
   /** update columns of table "claims" */
   ['claims_update_column']: claims_update_column;
-  ['claims_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: GraphQLTypes['claims_inc_input'] | undefined;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['claims_set_input'] | undefined;
-    where: GraphQLTypes['claims_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['claims_var_pop_fields']: {
     __typename: 'claims_var_pop_fields';
@@ -26511,7 +24721,7 @@ export type GraphQLTypes = {
   /** input type for inserting array relation for remote table "contributions" */
   ['contributions_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['contributions_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: GraphQLTypes['contributions_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -26618,7 +24828,7 @@ export type GraphQLTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['contributions']>;
   };
-  /** on_conflict condition type for table "contributions" */
+  /** on conflict condition type for table "contributions" */
   ['contributions_on_conflict']: {
     constraint: GraphQLTypes['contributions_constraint'];
     update_columns: Array<GraphQLTypes['contributions_update_column']>;
@@ -26693,24 +24903,6 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
-  /** Streaming cursor of the table "contributions" */
-  ['contributions_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: GraphQLTypes['contributions_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['contributions_stream_cursor_value_input']: {
-    circle_id?: GraphQLTypes['bigint'] | undefined;
-    created_at?: GraphQLTypes['timestamptz'] | undefined;
-    datetime_created?: GraphQLTypes['timestamptz'] | undefined;
-    deleted_at?: GraphQLTypes['timestamptz'] | undefined;
-    description?: string | undefined;
-    id?: GraphQLTypes['bigint'] | undefined;
-    updated_at?: GraphQLTypes['timestamptz'] | undefined;
-    user_id?: GraphQLTypes['bigint'] | undefined;
-  };
   /** aggregate sum on columns */
   ['contributions_sum_fields']: {
     __typename: 'contributions_sum_fields';
@@ -26726,13 +24918,6 @@ export type GraphQLTypes = {
   };
   /** update columns of table "contributions" */
   ['contributions_update_column']: contributions_update_column;
-  ['contributions_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: GraphQLTypes['contributions_inc_input'] | undefined;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['contributions_set_input'] | undefined;
-    where: GraphQLTypes['contributions_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['contributions_var_pop_fields']: {
     __typename: 'contributions_var_pop_fields';
@@ -26772,8 +24957,6 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
-  /** ordering argument of a cursor */
-  ['cursor_ordering']: cursor_ordering;
   ['date']: any;
   /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
   ['date_comparison_exp']: {
@@ -26787,7 +24970,10 @@ export type GraphQLTypes = {
     _neq?: GraphQLTypes['date'] | undefined;
     _nin?: Array<GraphQLTypes['date']> | undefined;
   };
-  /** Vault Distributions */
+  /** Vault Distributions
+
+
+columns and relationships of "distributions" */
   ['distributions']: {
     __typename: 'distributions';
     /** An array relationship */
@@ -26863,7 +25049,7 @@ export type GraphQLTypes = {
   /** input type for inserting array relation for remote table "distributions" */
   ['distributions_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['distributions_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: GraphQLTypes['distributions_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -27042,10 +25228,10 @@ export type GraphQLTypes = {
   /** input type for inserting object relation for remote table "distributions" */
   ['distributions_obj_rel_insert_input']: {
     data: GraphQLTypes['distributions_insert_input'];
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: GraphQLTypes['distributions_on_conflict'] | undefined;
   };
-  /** on_conflict condition type for table "distributions" */
+  /** on conflict condition type for table "distributions" */
   ['distributions_on_conflict']: {
     constraint: GraphQLTypes['distributions_constraint'];
     update_columns: Array<GraphQLTypes['distributions_update_column']>;
@@ -27171,30 +25357,6 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
   };
-  /** Streaming cursor of the table "distributions" */
-  ['distributions_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: GraphQLTypes['distributions_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['distributions_stream_cursor_value_input']: {
-    created_at?: GraphQLTypes['timestamp'] | undefined;
-    created_by?: GraphQLTypes['bigint'] | undefined;
-    distribution_epoch_id?: GraphQLTypes['bigint'] | undefined;
-    distribution_json?: GraphQLTypes['jsonb'] | undefined;
-    distribution_type?: number | undefined;
-    epoch_id?: GraphQLTypes['bigint'] | undefined;
-    fixed_amount?: GraphQLTypes['numeric'] | undefined;
-    gift_amount?: GraphQLTypes['numeric'] | undefined;
-    id?: GraphQLTypes['bigint'] | undefined;
-    merkle_root?: string | undefined;
-    total_amount?: string | undefined;
-    tx_hash?: string | undefined;
-    updated_at?: GraphQLTypes['timestamp'] | undefined;
-    vault_id?: GraphQLTypes['bigint'] | undefined;
-  };
   /** aggregate sum on columns */
   ['distributions_sum_fields']: {
     __typename: 'distributions_sum_fields';
@@ -27220,25 +25382,6 @@ export type GraphQLTypes = {
   };
   /** update columns of table "distributions" */
   ['distributions_update_column']: distributions_update_column;
-  ['distributions_updates']: {
-    /** append existing jsonb value of filtered columns with new jsonb value */
-    _append?: GraphQLTypes['distributions_append_input'] | undefined;
-    /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
-    _delete_at_path?:
-      | GraphQLTypes['distributions_delete_at_path_input']
-      | undefined;
-    /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
-    _delete_elem?: GraphQLTypes['distributions_delete_elem_input'] | undefined;
-    /** delete key/value pair or string element. key/value pairs are matched based on their key value */
-    _delete_key?: GraphQLTypes['distributions_delete_key_input'] | undefined;
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: GraphQLTypes['distributions_inc_input'] | undefined;
-    /** prepend existing jsonb value of filtered columns with new jsonb value */
-    _prepend?: GraphQLTypes['distributions_prepend_input'] | undefined;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['distributions_set_input'] | undefined;
-    where: GraphQLTypes['distributions_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['distributions_var_pop_fields']: {
     __typename: 'distributions_var_pop_fields';
@@ -27384,7 +25527,7 @@ export type GraphQLTypes = {
   /** input type for inserting array relation for remote table "epoches" */
   ['epochs_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['epochs_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: GraphQLTypes['epochs_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -27565,10 +25708,10 @@ export type GraphQLTypes = {
   /** input type for inserting object relation for remote table "epoches" */
   ['epochs_obj_rel_insert_input']: {
     data: GraphQLTypes['epochs_insert_input'];
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: GraphQLTypes['epochs_on_conflict'] | undefined;
   };
-  /** on_conflict condition type for table "epoches" */
+  /** on conflict condition type for table "epoches" */
   ['epochs_on_conflict']: {
     constraint: GraphQLTypes['epochs_constraint'];
     update_columns: Array<GraphQLTypes['epochs_update_column']>;
@@ -27698,32 +25841,6 @@ export type GraphQLTypes = {
     repeat?: GraphQLTypes['order_by'] | undefined;
     repeat_day_of_month?: GraphQLTypes['order_by'] | undefined;
   };
-  /** Streaming cursor of the table "epochs" */
-  ['epochs_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: GraphQLTypes['epochs_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['epochs_stream_cursor_value_input']: {
-    circle_id?: number | undefined;
-    created_at?: GraphQLTypes['timestamp'] | undefined;
-    days?: number | undefined;
-    end_date?: GraphQLTypes['timestamptz'] | undefined;
-    ended?: boolean | undefined;
-    grant?: GraphQLTypes['numeric'] | undefined;
-    id?: GraphQLTypes['bigint'] | undefined;
-    notified_before_end?: GraphQLTypes['timestamp'] | undefined;
-    notified_end?: GraphQLTypes['timestamp'] | undefined;
-    notified_start?: GraphQLTypes['timestamp'] | undefined;
-    number?: number | undefined;
-    regift_days?: number | undefined;
-    repeat?: number | undefined;
-    repeat_day_of_month?: number | undefined;
-    start_date?: GraphQLTypes['timestamptz'] | undefined;
-    updated_at?: GraphQLTypes['timestamp'] | undefined;
-  };
   /** aggregate sum on columns */
   ['epochs_sum_fields']: {
     __typename: 'epochs_sum_fields';
@@ -27749,13 +25866,6 @@ export type GraphQLTypes = {
   };
   /** update columns of table "epoches" */
   ['epochs_update_column']: epochs_update_column;
-  ['epochs_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: GraphQLTypes['epochs_inc_input'] | undefined;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['epochs_set_input'] | undefined;
-    where: GraphQLTypes['epochs_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['epochs_var_pop_fields']: {
     __typename: 'epochs_var_pop_fields';
@@ -27959,33 +26069,12 @@ export type GraphQLTypes = {
     recipient_id?: number | undefined;
     sender_id?: number | undefined;
   };
-  /** Streaming cursor of the table "gift_private" */
-  ['gift_private_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: GraphQLTypes['gift_private_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['gift_private_stream_cursor_value_input']: {
-    gift_id?: GraphQLTypes['bigint'] | undefined;
-    note?: string | undefined;
-    recipient_id?: GraphQLTypes['bigint'] | undefined;
-    sender_id?: GraphQLTypes['bigint'] | undefined;
-  };
   /** aggregate sum on columns */
   ['gift_private_sum_fields']: {
     __typename: 'gift_private_sum_fields';
     gift_id?: GraphQLTypes['bigint'] | undefined;
     recipient_id?: GraphQLTypes['bigint'] | undefined;
     sender_id?: GraphQLTypes['bigint'] | undefined;
-  };
-  ['gift_private_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: GraphQLTypes['gift_private_inc_input'] | undefined;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['gift_private_set_input'] | undefined;
-    where: GraphQLTypes['gift_private_bool_exp'];
   };
   /** aggregate var_pop on columns */
   ['gift_private_var_pop_fields']: {
@@ -28122,7 +26211,7 @@ export type GraphQLTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['histories']>;
   };
-  /** on_conflict condition type for table "histories" */
+  /** on conflict condition type for table "histories" */
   ['histories_on_conflict']: {
     constraint: GraphQLTypes['histories_constraint'];
     update_columns: Array<GraphQLTypes['histories_update_column']>;
@@ -28181,23 +26270,6 @@ export type GraphQLTypes = {
     id?: number | undefined;
     user_id?: number | undefined;
   };
-  /** Streaming cursor of the table "histories" */
-  ['histories_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: GraphQLTypes['histories_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['histories_stream_cursor_value_input']: {
-    bio?: string | undefined;
-    circle_id?: number | undefined;
-    created_at?: GraphQLTypes['timestamp'] | undefined;
-    epoch_id?: number | undefined;
-    id?: GraphQLTypes['bigint'] | undefined;
-    updated_at?: GraphQLTypes['timestamp'] | undefined;
-    user_id?: number | undefined;
-  };
   /** aggregate sum on columns */
   ['histories_sum_fields']: {
     __typename: 'histories_sum_fields';
@@ -28208,13 +26280,6 @@ export type GraphQLTypes = {
   };
   /** update columns of table "histories" */
   ['histories_update_column']: histories_update_column;
-  ['histories_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: GraphQLTypes['histories_inc_input'] | undefined;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['histories_set_input'] | undefined;
-    where: GraphQLTypes['histories_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['histories_var_pop_fields']: {
     __typename: 'histories_var_pop_fields';
@@ -28373,7 +26438,7 @@ export type GraphQLTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['interaction_events']>;
   };
-  /** on_conflict condition type for table "interaction_events" */
+  /** on conflict condition type for table "interaction_events" */
   ['interaction_events_on_conflict']: {
     constraint: GraphQLTypes['interaction_events_constraint'];
     update_columns: Array<GraphQLTypes['interaction_events_update_column']>;
@@ -28438,25 +26503,6 @@ export type GraphQLTypes = {
     org_id?: number | undefined;
     profile_id?: number | undefined;
   };
-  /** Streaming cursor of the table "interaction_events" */
-  ['interaction_events_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: GraphQLTypes['interaction_events_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['interaction_events_stream_cursor_value_input']: {
-    circle_id?: number | undefined;
-    created_at?: GraphQLTypes['timestamptz'] | undefined;
-    data?: GraphQLTypes['jsonb'] | undefined;
-    event_subtype?: string | undefined;
-    event_type?: string | undefined;
-    id?: number | undefined;
-    org_id?: number | undefined;
-    profile_id?: number | undefined;
-    updated_at?: GraphQLTypes['timestamptz'] | undefined;
-  };
   /** aggregate sum on columns */
   ['interaction_events_sum_fields']: {
     __typename: 'interaction_events_sum_fields';
@@ -28467,29 +26513,6 @@ export type GraphQLTypes = {
   };
   /** update columns of table "interaction_events" */
   ['interaction_events_update_column']: interaction_events_update_column;
-  ['interaction_events_updates']: {
-    /** append existing jsonb value of filtered columns with new jsonb value */
-    _append?: GraphQLTypes['interaction_events_append_input'] | undefined;
-    /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
-    _delete_at_path?:
-      | GraphQLTypes['interaction_events_delete_at_path_input']
-      | undefined;
-    /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
-    _delete_elem?:
-      | GraphQLTypes['interaction_events_delete_elem_input']
-      | undefined;
-    /** delete key/value pair or string element. key/value pairs are matched based on their key value */
-    _delete_key?:
-      | GraphQLTypes['interaction_events_delete_key_input']
-      | undefined;
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: GraphQLTypes['interaction_events_inc_input'] | undefined;
-    /** prepend existing jsonb value of filtered columns with new jsonb value */
-    _prepend?: GraphQLTypes['interaction_events_prepend_input'] | undefined;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['interaction_events_set_input'] | undefined;
-    where: GraphQLTypes['interaction_events_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['interaction_events_var_pop_fields']: {
     __typename: 'interaction_events_var_pop_fields';
@@ -28528,12 +26551,8 @@ export type GraphQLTypes = {
     _nin?: Array<GraphQLTypes['json']> | undefined;
   };
   ['jsonb']: any;
-  ['jsonb_cast_exp']: {
-    String?: GraphQLTypes['String_comparison_exp'] | undefined;
-  };
   /** Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'. */
   ['jsonb_comparison_exp']: {
-    _cast?: GraphQLTypes['jsonb_cast_exp'] | undefined;
     /** is the column contained in the given json value */
     _contained_in?: GraphQLTypes['jsonb'] | undefined;
     /** does the column contain the given json value at the top level */
@@ -28905,20 +26924,12 @@ export type GraphQLTypes = {
     update_burns?: GraphQLTypes['burns_mutation_response'] | undefined;
     /** update single row of the table: "burns" */
     update_burns_by_pk?: GraphQLTypes['burns'] | undefined;
-    /** update multiples rows of table: "burns" */
-    update_burns_many?:
-      | Array<GraphQLTypes['burns_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "circle_api_keys" */
     update_circle_api_keys?:
       | GraphQLTypes['circle_api_keys_mutation_response']
       | undefined;
     /** update single row of the table: "circle_api_keys" */
     update_circle_api_keys_by_pk?: GraphQLTypes['circle_api_keys'] | undefined;
-    /** update multiples rows of table: "circle_api_keys" */
-    update_circle_api_keys_many?:
-      | Array<GraphQLTypes['circle_api_keys_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "circle_integrations" */
     update_circle_integrations?:
       | GraphQLTypes['circle_integrations_mutation_response']
@@ -28927,27 +26938,15 @@ export type GraphQLTypes = {
     update_circle_integrations_by_pk?:
       | GraphQLTypes['circle_integrations']
       | undefined;
-    /** update multiples rows of table: "circle_integrations" */
-    update_circle_integrations_many?:
-      | Array<GraphQLTypes['circle_integrations_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "circle_metadata" */
     update_circle_metadata?:
       | GraphQLTypes['circle_metadata_mutation_response']
       | undefined;
     /** update single row of the table: "circle_metadata" */
     update_circle_metadata_by_pk?: GraphQLTypes['circle_metadata'] | undefined;
-    /** update multiples rows of table: "circle_metadata" */
-    update_circle_metadata_many?:
-      | Array<GraphQLTypes['circle_metadata_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "circle_private" */
     update_circle_private?:
       | GraphQLTypes['circle_private_mutation_response']
-      | undefined;
-    /** update multiples rows of table: "circle_private" */
-    update_circle_private_many?:
-      | Array<GraphQLTypes['circle_private_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "circle_share_tokens" */
     update_circle_share_tokens?:
@@ -28957,70 +26956,38 @@ export type GraphQLTypes = {
     update_circle_share_tokens_by_pk?:
       | GraphQLTypes['circle_share_tokens']
       | undefined;
-    /** update multiples rows of table: "circle_share_tokens" */
-    update_circle_share_tokens_many?:
-      | Array<GraphQLTypes['circle_share_tokens_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "circles" */
     update_circles?: GraphQLTypes['circles_mutation_response'] | undefined;
     /** update single row of the table: "circles" */
     update_circles_by_pk?: GraphQLTypes['circles'] | undefined;
-    /** update multiples rows of table: "circles" */
-    update_circles_many?:
-      | Array<GraphQLTypes['circles_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "claims" */
     update_claims?: GraphQLTypes['claims_mutation_response'] | undefined;
     /** update single row of the table: "claims" */
     update_claims_by_pk?: GraphQLTypes['claims'] | undefined;
-    /** update multiples rows of table: "claims" */
-    update_claims_many?:
-      | Array<GraphQLTypes['claims_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "contributions" */
     update_contributions?:
       | GraphQLTypes['contributions_mutation_response']
       | undefined;
     /** update single row of the table: "contributions" */
     update_contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
-    /** update multiples rows of table: "contributions" */
-    update_contributions_many?:
-      | Array<GraphQLTypes['contributions_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "distributions" */
     update_distributions?:
       | GraphQLTypes['distributions_mutation_response']
       | undefined;
     /** update single row of the table: "distributions" */
     update_distributions_by_pk?: GraphQLTypes['distributions'] | undefined;
-    /** update multiples rows of table: "distributions" */
-    update_distributions_many?:
-      | Array<GraphQLTypes['distributions_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "epoches" */
     update_epochs?: GraphQLTypes['epochs_mutation_response'] | undefined;
     /** update single row of the table: "epoches" */
     update_epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
-    /** update multiples rows of table: "epoches" */
-    update_epochs_many?:
-      | Array<GraphQLTypes['epochs_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "gift_private" */
     update_gift_private?:
       | GraphQLTypes['gift_private_mutation_response']
-      | undefined;
-    /** update multiples rows of table: "gift_private" */
-    update_gift_private_many?:
-      | Array<GraphQLTypes['gift_private_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "histories" */
     update_histories?: GraphQLTypes['histories_mutation_response'] | undefined;
     /** update single row of the table: "histories" */
     update_histories_by_pk?: GraphQLTypes['histories'] | undefined;
-    /** update multiples rows of table: "histories" */
-    update_histories_many?:
-      | Array<GraphQLTypes['histories_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "interaction_events" */
     update_interaction_events?:
       | GraphQLTypes['interaction_events_mutation_response']
@@ -29029,37 +26996,19 @@ export type GraphQLTypes = {
     update_interaction_events_by_pk?:
       | GraphQLTypes['interaction_events']
       | undefined;
-    /** update multiples rows of table: "interaction_events" */
-    update_interaction_events_many?:
-      | Array<GraphQLTypes['interaction_events_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "nominees" */
     update_nominees?: GraphQLTypes['nominees_mutation_response'] | undefined;
     /** update single row of the table: "nominees" */
     update_nominees_by_pk?: GraphQLTypes['nominees'] | undefined;
-    /** update multiples rows of table: "nominees" */
-    update_nominees_many?:
-      | Array<GraphQLTypes['nominees_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "organizations" */
     update_organizations?:
       | GraphQLTypes['organizations_mutation_response']
       | undefined;
     /** update single row of the table: "organizations" */
     update_organizations_by_pk?: GraphQLTypes['organizations'] | undefined;
-    /** update multiples rows of table: "organizations" */
-    update_organizations_many?:
-      | Array<GraphQLTypes['organizations_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "pending_gift_private" */
     update_pending_gift_private?:
       | GraphQLTypes['pending_gift_private_mutation_response']
-      | undefined;
-    /** update multiples rows of table: "pending_gift_private" */
-    update_pending_gift_private_many?:
-      | Array<
-          GraphQLTypes['pending_gift_private_mutation_response'] | undefined
-        >
       | undefined;
     /** update data of the table: "pending_token_gifts" */
     update_pending_token_gifts?:
@@ -29069,10 +27018,6 @@ export type GraphQLTypes = {
     update_pending_token_gifts_by_pk?:
       | GraphQLTypes['pending_token_gifts']
       | undefined;
-    /** update multiples rows of table: "pending_token_gifts" */
-    update_pending_token_gifts_many?:
-      | Array<GraphQLTypes['pending_token_gifts_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "pending_vault_transactions" */
     update_pending_vault_transactions?:
       | GraphQLTypes['pending_vault_transactions_mutation_response']
@@ -29080,13 +27025,6 @@ export type GraphQLTypes = {
     /** update single row of the table: "pending_vault_transactions" */
     update_pending_vault_transactions_by_pk?:
       | GraphQLTypes['pending_vault_transactions']
-      | undefined;
-    /** update multiples rows of table: "pending_vault_transactions" */
-    update_pending_vault_transactions_many?:
-      | Array<
-          | GraphQLTypes['pending_vault_transactions_mutation_response']
-          | undefined
-        >
       | undefined;
     /** update data of the table: "personal_access_tokens" */
     update_personal_access_tokens?:
@@ -29096,46 +27034,24 @@ export type GraphQLTypes = {
     update_personal_access_tokens_by_pk?:
       | GraphQLTypes['personal_access_tokens']
       | undefined;
-    /** update multiples rows of table: "personal_access_tokens" */
-    update_personal_access_tokens_many?:
-      | Array<
-          GraphQLTypes['personal_access_tokens_mutation_response'] | undefined
-        >
-      | undefined;
     /** update data of the table: "profiles" */
     update_profiles?: GraphQLTypes['profiles_mutation_response'] | undefined;
     /** update single row of the table: "profiles" */
     update_profiles_by_pk?: GraphQLTypes['profiles'] | undefined;
-    /** update multiples rows of table: "profiles" */
-    update_profiles_many?:
-      | Array<GraphQLTypes['profiles_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "teammates" */
     update_teammates?: GraphQLTypes['teammates_mutation_response'] | undefined;
     /** update single row of the table: "teammates" */
     update_teammates_by_pk?: GraphQLTypes['teammates'] | undefined;
-    /** update multiples rows of table: "teammates" */
-    update_teammates_many?:
-      | Array<GraphQLTypes['teammates_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "token_gifts" */
     update_token_gifts?:
       | GraphQLTypes['token_gifts_mutation_response']
       | undefined;
     /** update single row of the table: "token_gifts" */
     update_token_gifts_by_pk?: GraphQLTypes['token_gifts'] | undefined;
-    /** update multiples rows of table: "token_gifts" */
-    update_token_gifts_many?:
-      | Array<GraphQLTypes['token_gifts_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "users" */
     update_users?: GraphQLTypes['users_mutation_response'] | undefined;
     /** update single row of the table: "users" */
     update_users_by_pk?: GraphQLTypes['users'] | undefined;
-    /** update multiples rows of table: "users" */
-    update_users_many?:
-      | Array<GraphQLTypes['users_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "vault_transactions" */
     update_vault_transactions?:
       | GraphQLTypes['vault_transactions_mutation_response']
@@ -29144,36 +27060,20 @@ export type GraphQLTypes = {
     update_vault_transactions_by_pk?:
       | GraphQLTypes['vault_transactions']
       | undefined;
-    /** update multiples rows of table: "vault_transactions" */
-    update_vault_transactions_many?:
-      | Array<GraphQLTypes['vault_transactions_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "vault_tx_types" */
     update_vault_tx_types?:
       | GraphQLTypes['vault_tx_types_mutation_response']
       | undefined;
     /** update single row of the table: "vault_tx_types" */
     update_vault_tx_types_by_pk?: GraphQLTypes['vault_tx_types'] | undefined;
-    /** update multiples rows of table: "vault_tx_types" */
-    update_vault_tx_types_many?:
-      | Array<GraphQLTypes['vault_tx_types_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "vaults" */
     update_vaults?: GraphQLTypes['vaults_mutation_response'] | undefined;
     /** update single row of the table: "vaults" */
     update_vaults_by_pk?: GraphQLTypes['vaults'] | undefined;
-    /** update multiples rows of table: "vaults" */
-    update_vaults_many?:
-      | Array<GraphQLTypes['vaults_mutation_response'] | undefined>
-      | undefined;
     /** update data of the table: "vouches" */
     update_vouches?: GraphQLTypes['vouches_mutation_response'] | undefined;
     /** update single row of the table: "vouches" */
     update_vouches_by_pk?: GraphQLTypes['vouches'] | undefined;
-    /** update multiples rows of table: "vouches" */
-    update_vouches_many?:
-      | Array<GraphQLTypes['vouches_mutation_response'] | undefined>
-      | undefined;
     uploadCircleLogo?: GraphQLTypes['UpdateCircleResponse'] | undefined;
     uploadOrgLogo?: GraphQLTypes['UpdateOrgResponse'] | undefined;
     uploadProfileAvatar?: GraphQLTypes['UpdateProfileResponse'] | undefined;
@@ -29245,7 +27145,7 @@ export type GraphQLTypes = {
   /** input type for inserting array relation for remote table "nominees" */
   ['nominees_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['nominees_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: GraphQLTypes['nominees_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -29391,10 +27291,10 @@ export type GraphQLTypes = {
   /** input type for inserting object relation for remote table "nominees" */
   ['nominees_obj_rel_insert_input']: {
     data: GraphQLTypes['nominees_insert_input'];
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: GraphQLTypes['nominees_on_conflict'] | undefined;
   };
-  /** on_conflict condition type for table "nominees" */
+  /** on conflict condition type for table "nominees" */
   ['nominees_on_conflict']: {
     constraint: GraphQLTypes['nominees_constraint'];
     update_columns: Array<GraphQLTypes['nominees_update_column']>;
@@ -29495,29 +27395,6 @@ export type GraphQLTypes = {
     user_id?: GraphQLTypes['order_by'] | undefined;
     vouches_required?: GraphQLTypes['order_by'] | undefined;
   };
-  /** Streaming cursor of the table "nominees" */
-  ['nominees_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: GraphQLTypes['nominees_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['nominees_stream_cursor_value_input']: {
-    address?: string | undefined;
-    circle_id?: number | undefined;
-    created_at?: GraphQLTypes['timestamp'] | undefined;
-    description?: string | undefined;
-    ended?: boolean | undefined;
-    expiry_date?: GraphQLTypes['timestamp'] | undefined;
-    id?: GraphQLTypes['bigint'] | undefined;
-    name?: string | undefined;
-    nominated_by_user_id?: number | undefined;
-    nominated_date?: GraphQLTypes['date'] | undefined;
-    updated_at?: GraphQLTypes['timestamp'] | undefined;
-    user_id?: number | undefined;
-    vouches_required?: number | undefined;
-  };
   /** aggregate sum on columns */
   ['nominees_sum_fields']: {
     __typename: 'nominees_sum_fields';
@@ -29537,13 +27414,6 @@ export type GraphQLTypes = {
   };
   /** update columns of table "nominees" */
   ['nominees_update_column']: nominees_update_column;
-  ['nominees_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: GraphQLTypes['nominees_inc_input'] | undefined;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['nominees_set_input'] | undefined;
-    where: GraphQLTypes['nominees_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['nominees_var_pop_fields']: {
     __typename: 'nominees_var_pop_fields';
@@ -29719,10 +27589,10 @@ export type GraphQLTypes = {
   /** input type for inserting object relation for remote table "organizations" */
   ['organizations_obj_rel_insert_input']: {
     data: GraphQLTypes['organizations_insert_input'];
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: GraphQLTypes['organizations_on_conflict'] | undefined;
   };
-  /** on_conflict condition type for table "organizations" */
+  /** on conflict condition type for table "organizations" */
   ['organizations_on_conflict']: {
     constraint: GraphQLTypes['organizations_constraint'];
     update_columns: Array<GraphQLTypes['organizations_update_column']>;
@@ -29771,23 +27641,6 @@ export type GraphQLTypes = {
     __typename: 'organizations_stddev_samp_fields';
     id?: number | undefined;
   };
-  /** Streaming cursor of the table "organizations" */
-  ['organizations_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: GraphQLTypes['organizations_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['organizations_stream_cursor_value_input']: {
-    created_at?: GraphQLTypes['timestamp'] | undefined;
-    id?: GraphQLTypes['bigint'] | undefined;
-    is_verified?: boolean | undefined;
-    logo?: string | undefined;
-    name?: string | undefined;
-    telegram_id?: string | undefined;
-    updated_at?: GraphQLTypes['timestamp'] | undefined;
-  };
   /** aggregate sum on columns */
   ['organizations_sum_fields']: {
     __typename: 'organizations_sum_fields';
@@ -29795,13 +27648,6 @@ export type GraphQLTypes = {
   };
   /** update columns of table "organizations" */
   ['organizations_update_column']: organizations_update_column;
-  ['organizations_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: GraphQLTypes['organizations_inc_input'] | undefined;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['organizations_set_input'] | undefined;
-    where: GraphQLTypes['organizations_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['organizations_var_pop_fields']: {
     __typename: 'organizations_var_pop_fields';
@@ -29957,33 +27803,12 @@ export type GraphQLTypes = {
     recipient_id?: number | undefined;
     sender_id?: number | undefined;
   };
-  /** Streaming cursor of the table "pending_gift_private" */
-  ['pending_gift_private_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: GraphQLTypes['pending_gift_private_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['pending_gift_private_stream_cursor_value_input']: {
-    gift_id?: GraphQLTypes['bigint'] | undefined;
-    note?: string | undefined;
-    recipient_id?: GraphQLTypes['bigint'] | undefined;
-    sender_id?: GraphQLTypes['bigint'] | undefined;
-  };
   /** aggregate sum on columns */
   ['pending_gift_private_sum_fields']: {
     __typename: 'pending_gift_private_sum_fields';
     gift_id?: GraphQLTypes['bigint'] | undefined;
     recipient_id?: GraphQLTypes['bigint'] | undefined;
     sender_id?: GraphQLTypes['bigint'] | undefined;
-  };
-  ['pending_gift_private_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: GraphQLTypes['pending_gift_private_inc_input'] | undefined;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['pending_gift_private_set_input'] | undefined;
-    where: GraphQLTypes['pending_gift_private_bool_exp'];
   };
   /** aggregate var_pop on columns */
   ['pending_gift_private_var_pop_fields']: {
@@ -30006,7 +27831,10 @@ export type GraphQLTypes = {
     recipient_id?: number | undefined;
     sender_id?: number | undefined;
   };
-  /** GIVE allocations made by circle members for the currently running epoch */
+  /** GIVE allocations made by circle members for the currently running epoch
+
+
+columns and relationships of "pending_token_gifts" */
   ['pending_token_gifts']: {
     __typename: 'pending_token_gifts';
     /** An object relationship */
@@ -30084,7 +27912,7 @@ export type GraphQLTypes = {
   /** input type for inserting array relation for remote table "pending_token_gifts" */
   ['pending_token_gifts_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['pending_token_gifts_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: GraphQLTypes['pending_token_gifts_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -30232,7 +28060,7 @@ export type GraphQLTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['pending_token_gifts']>;
   };
-  /** on_conflict condition type for table "pending_token_gifts" */
+  /** on conflict condition type for table "pending_token_gifts" */
   ['pending_token_gifts_on_conflict']: {
     constraint: GraphQLTypes['pending_token_gifts_constraint'];
     update_columns: Array<GraphQLTypes['pending_token_gifts_update_column']>;
@@ -30336,28 +28164,6 @@ export type GraphQLTypes = {
     sender_id?: GraphQLTypes['order_by'] | undefined;
     tokens?: GraphQLTypes['order_by'] | undefined;
   };
-  /** Streaming cursor of the table "pending_token_gifts" */
-  ['pending_token_gifts_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: GraphQLTypes['pending_token_gifts_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['pending_token_gifts_stream_cursor_value_input']: {
-    circle_id?: GraphQLTypes['bigint'] | undefined;
-    created_at?: GraphQLTypes['timestamp'] | undefined;
-    dts_created?: GraphQLTypes['timestamp'] | undefined;
-    epoch_id?: number | undefined;
-    id?: GraphQLTypes['bigint'] | undefined;
-    note?: string | undefined;
-    recipient_address?: string | undefined;
-    recipient_id?: GraphQLTypes['bigint'] | undefined;
-    sender_address?: string | undefined;
-    sender_id?: GraphQLTypes['bigint'] | undefined;
-    tokens?: number | undefined;
-    updated_at?: GraphQLTypes['timestamp'] | undefined;
-  };
   /** aggregate sum on columns */
   ['pending_token_gifts_sum_fields']: {
     __typename: 'pending_token_gifts_sum_fields';
@@ -30379,13 +28185,6 @@ export type GraphQLTypes = {
   };
   /** update columns of table "pending_token_gifts" */
   ['pending_token_gifts_update_column']: pending_token_gifts_update_column;
-  ['pending_token_gifts_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: GraphQLTypes['pending_token_gifts_inc_input'] | undefined;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['pending_token_gifts_set_input'] | undefined;
-    where: GraphQLTypes['pending_token_gifts_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['pending_token_gifts_var_pop_fields']: {
     __typename: 'pending_token_gifts_var_pop_fields';
@@ -30443,7 +28242,10 @@ export type GraphQLTypes = {
     sender_id?: GraphQLTypes['order_by'] | undefined;
     tokens?: GraphQLTypes['order_by'] | undefined;
   };
-  /** stores app-specific context to aid in the recovery of incomplete transactions */
+  /** stores app-specific context to aid in the recovery of incomplete transactions
+
+
+columns and relationships of "pending_vault_transactions" */
   ['pending_vault_transactions']: {
     __typename: 'pending_vault_transactions';
     chain_id: number;
@@ -30590,7 +28392,7 @@ export type GraphQLTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['pending_vault_transactions']>;
   };
-  /** on_conflict condition type for table "pending_vault_transactions" */
+  /** on conflict condition type for table "pending_vault_transactions" */
   ['pending_vault_transactions_on_conflict']: {
     constraint: GraphQLTypes['pending_vault_transactions_constraint'];
     update_columns: Array<
@@ -30657,24 +28459,6 @@ export type GraphQLTypes = {
     distribution_id?: number | undefined;
     org_id?: number | undefined;
   };
-  /** Streaming cursor of the table "pending_vault_transactions" */
-  ['pending_vault_transactions_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: GraphQLTypes['pending_vault_transactions_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['pending_vault_transactions_stream_cursor_value_input']: {
-    chain_id?: number | undefined;
-    claim_id?: GraphQLTypes['bigint'] | undefined;
-    created_at?: GraphQLTypes['timestamp'] | undefined;
-    created_by?: GraphQLTypes['bigint'] | undefined;
-    distribution_id?: GraphQLTypes['bigint'] | undefined;
-    org_id?: GraphQLTypes['bigint'] | undefined;
-    tx_hash?: string | undefined;
-    tx_type?: GraphQLTypes['vault_tx_types_enum'] | undefined;
-  };
   /** aggregate sum on columns */
   ['pending_vault_transactions_sum_fields']: {
     __typename: 'pending_vault_transactions_sum_fields';
@@ -30686,13 +28470,6 @@ export type GraphQLTypes = {
   };
   /** update columns of table "pending_vault_transactions" */
   ['pending_vault_transactions_update_column']: pending_vault_transactions_update_column;
-  ['pending_vault_transactions_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: GraphQLTypes['pending_vault_transactions_inc_input'] | undefined;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['pending_vault_transactions_set_input'] | undefined;
-    where: GraphQLTypes['pending_vault_transactions_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['pending_vault_transactions_var_pop_fields']: {
     __typename: 'pending_vault_transactions_var_pop_fields';
@@ -30842,7 +28619,7 @@ export type GraphQLTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['personal_access_tokens']>;
   };
-  /** on_conflict condition type for table "personal_access_tokens" */
+  /** on conflict condition type for table "personal_access_tokens" */
   ['personal_access_tokens_on_conflict']: {
     constraint: GraphQLTypes['personal_access_tokens_constraint'];
     update_columns: Array<GraphQLTypes['personal_access_tokens_update_column']>;
@@ -30897,25 +28674,6 @@ export type GraphQLTypes = {
     id?: number | undefined;
     tokenable_id?: number | undefined;
   };
-  /** Streaming cursor of the table "personal_access_tokens" */
-  ['personal_access_tokens_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: GraphQLTypes['personal_access_tokens_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['personal_access_tokens_stream_cursor_value_input']: {
-    abilities?: string | undefined;
-    created_at?: GraphQLTypes['timestamp'] | undefined;
-    id?: GraphQLTypes['bigint'] | undefined;
-    last_used_at?: GraphQLTypes['timestamp'] | undefined;
-    name?: string | undefined;
-    token?: string | undefined;
-    tokenable_id?: GraphQLTypes['bigint'] | undefined;
-    tokenable_type?: string | undefined;
-    updated_at?: GraphQLTypes['timestamp'] | undefined;
-  };
   /** aggregate sum on columns */
   ['personal_access_tokens_sum_fields']: {
     __typename: 'personal_access_tokens_sum_fields';
@@ -30924,13 +28682,6 @@ export type GraphQLTypes = {
   };
   /** update columns of table "personal_access_tokens" */
   ['personal_access_tokens_update_column']: personal_access_tokens_update_column;
-  ['personal_access_tokens_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: GraphQLTypes['personal_access_tokens_inc_input'] | undefined;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['personal_access_tokens_set_input'] | undefined;
-    where: GraphQLTypes['personal_access_tokens_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['personal_access_tokens_var_pop_fields']: {
     __typename: 'personal_access_tokens_var_pop_fields';
@@ -30949,7 +28700,10 @@ export type GraphQLTypes = {
     id?: number | undefined;
     tokenable_id?: number | undefined;
   };
-  /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table */
+  /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table
+
+
+columns and relationships of "profiles" */
   ['profiles']: {
     __typename: 'profiles';
     address: string;
@@ -31113,10 +28867,10 @@ export type GraphQLTypes = {
   /** input type for inserting object relation for remote table "profiles" */
   ['profiles_obj_rel_insert_input']: {
     data: GraphQLTypes['profiles_insert_input'];
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: GraphQLTypes['profiles_on_conflict'] | undefined;
   };
-  /** on_conflict condition type for table "profiles" */
+  /** on conflict condition type for table "profiles" */
   ['profiles_on_conflict']: {
     constraint: GraphQLTypes['profiles_constraint'];
     update_columns: Array<GraphQLTypes['profiles_update_column']>;
@@ -31186,32 +28940,6 @@ export type GraphQLTypes = {
     __typename: 'profiles_stddev_samp_fields';
     id?: number | undefined;
   };
-  /** Streaming cursor of the table "profiles" */
-  ['profiles_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: GraphQLTypes['profiles_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['profiles_stream_cursor_value_input']: {
-    address?: string | undefined;
-    ann_power?: boolean | undefined;
-    avatar?: string | undefined;
-    background?: string | undefined;
-    bio?: string | undefined;
-    chat_id?: string | undefined;
-    created_at?: GraphQLTypes['timestamp'] | undefined;
-    discord_username?: string | undefined;
-    github_username?: string | undefined;
-    id?: GraphQLTypes['bigint'] | undefined;
-    medium_username?: string | undefined;
-    skills?: string | undefined;
-    telegram_username?: string | undefined;
-    twitter_username?: string | undefined;
-    updated_at?: GraphQLTypes['timestamp'] | undefined;
-    website?: string | undefined;
-  };
   /** aggregate sum on columns */
   ['profiles_sum_fields']: {
     __typename: 'profiles_sum_fields';
@@ -31219,13 +28947,6 @@ export type GraphQLTypes = {
   };
   /** update columns of table "profiles" */
   ['profiles_update_column']: profiles_update_column;
-  ['profiles_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: GraphQLTypes['profiles_inc_input'] | undefined;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['profiles_set_input'] | undefined;
-    where: GraphQLTypes['profiles_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['profiles_var_pop_fields']: {
     __typename: 'profiles_var_pop_fields';
@@ -31249,7 +28970,7 @@ export type GraphQLTypes = {
     burns_aggregate: GraphQLTypes['burns_aggregate'];
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
-    /** An array relationship */
+    /** fetch data from the table: "circle_api_keys" */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** An aggregate relationship */
     circle_api_keys_aggregate: GraphQLTypes['circle_api_keys_aggregate'];
@@ -31424,138 +29145,102 @@ export type GraphQLTypes = {
     burns_aggregate: GraphQLTypes['burns_aggregate'];
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
-    /** fetch data from the table in a streaming manner : "burns" */
-    burns_stream: Array<GraphQLTypes['burns']>;
-    /** An array relationship */
+    /** fetch data from the table: "circle_api_keys" */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** An aggregate relationship */
     circle_api_keys_aggregate: GraphQLTypes['circle_api_keys_aggregate'];
     /** fetch data from the table: "circle_api_keys" using primary key columns */
     circle_api_keys_by_pk?: GraphQLTypes['circle_api_keys'] | undefined;
-    /** fetch data from the table in a streaming manner : "circle_api_keys" */
-    circle_api_keys_stream: Array<GraphQLTypes['circle_api_keys']>;
     /** fetch data from the table: "circle_integrations" */
     circle_integrations: Array<GraphQLTypes['circle_integrations']>;
     /** fetch aggregated fields from the table: "circle_integrations" */
     circle_integrations_aggregate: GraphQLTypes['circle_integrations_aggregate'];
     /** fetch data from the table: "circle_integrations" using primary key columns */
     circle_integrations_by_pk?: GraphQLTypes['circle_integrations'] | undefined;
-    /** fetch data from the table in a streaming manner : "circle_integrations" */
-    circle_integrations_stream: Array<GraphQLTypes['circle_integrations']>;
     /** An array relationship */
     circle_metadata: Array<GraphQLTypes['circle_metadata']>;
     /** An aggregate relationship */
     circle_metadata_aggregate: GraphQLTypes['circle_metadata_aggregate'];
     /** fetch data from the table: "circle_metadata" using primary key columns */
     circle_metadata_by_pk?: GraphQLTypes['circle_metadata'] | undefined;
-    /** fetch data from the table in a streaming manner : "circle_metadata" */
-    circle_metadata_stream: Array<GraphQLTypes['circle_metadata']>;
     /** fetch data from the table: "circle_private" */
     circle_private: Array<GraphQLTypes['circle_private']>;
     /** fetch aggregated fields from the table: "circle_private" */
     circle_private_aggregate: GraphQLTypes['circle_private_aggregate'];
-    /** fetch data from the table in a streaming manner : "circle_private" */
-    circle_private_stream: Array<GraphQLTypes['circle_private']>;
     /** fetch data from the table: "circle_share_tokens" */
     circle_share_tokens: Array<GraphQLTypes['circle_share_tokens']>;
     /** fetch aggregated fields from the table: "circle_share_tokens" */
     circle_share_tokens_aggregate: GraphQLTypes['circle_share_tokens_aggregate'];
     /** fetch data from the table: "circle_share_tokens" using primary key columns */
     circle_share_tokens_by_pk?: GraphQLTypes['circle_share_tokens'] | undefined;
-    /** fetch data from the table in a streaming manner : "circle_share_tokens" */
-    circle_share_tokens_stream: Array<GraphQLTypes['circle_share_tokens']>;
     /** An array relationship */
     circles: Array<GraphQLTypes['circles']>;
     /** An aggregate relationship */
     circles_aggregate: GraphQLTypes['circles_aggregate'];
     /** fetch data from the table: "circles" using primary key columns */
     circles_by_pk?: GraphQLTypes['circles'] | undefined;
-    /** fetch data from the table in a streaming manner : "circles" */
-    circles_stream: Array<GraphQLTypes['circles']>;
     /** An array relationship */
     claims: Array<GraphQLTypes['claims']>;
     /** An aggregate relationship */
     claims_aggregate: GraphQLTypes['claims_aggregate'];
     /** fetch data from the table: "claims" using primary key columns */
     claims_by_pk?: GraphQLTypes['claims'] | undefined;
-    /** fetch data from the table in a streaming manner : "claims" */
-    claims_stream: Array<GraphQLTypes['claims']>;
     /** An array relationship */
     contributions: Array<GraphQLTypes['contributions']>;
     /** An aggregate relationship */
     contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     /** fetch data from the table: "contributions" using primary key columns */
     contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
-    /** fetch data from the table in a streaming manner : "contributions" */
-    contributions_stream: Array<GraphQLTypes['contributions']>;
     /** An array relationship */
     distributions: Array<GraphQLTypes['distributions']>;
     /** An aggregate relationship */
     distributions_aggregate: GraphQLTypes['distributions_aggregate'];
     /** fetch data from the table: "distributions" using primary key columns */
     distributions_by_pk?: GraphQLTypes['distributions'] | undefined;
-    /** fetch data from the table in a streaming manner : "distributions" */
-    distributions_stream: Array<GraphQLTypes['distributions']>;
     /** An array relationship */
     epochs: Array<GraphQLTypes['epochs']>;
     /** An aggregate relationship */
     epochs_aggregate: GraphQLTypes['epochs_aggregate'];
     /** fetch data from the table: "epoches" using primary key columns */
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
-    /** fetch data from the table in a streaming manner : "epoches" */
-    epochs_stream: Array<GraphQLTypes['epochs']>;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** fetch aggregated fields from the table: "gift_private" */
     gift_private_aggregate: GraphQLTypes['gift_private_aggregate'];
-    /** fetch data from the table in a streaming manner : "gift_private" */
-    gift_private_stream: Array<GraphQLTypes['gift_private']>;
     /** fetch data from the table: "histories" */
     histories: Array<GraphQLTypes['histories']>;
     /** fetch aggregated fields from the table: "histories" */
     histories_aggregate: GraphQLTypes['histories_aggregate'];
     /** fetch data from the table: "histories" using primary key columns */
     histories_by_pk?: GraphQLTypes['histories'] | undefined;
-    /** fetch data from the table in a streaming manner : "histories" */
-    histories_stream: Array<GraphQLTypes['histories']>;
     /** fetch data from the table: "interaction_events" */
     interaction_events: Array<GraphQLTypes['interaction_events']>;
     /** fetch aggregated fields from the table: "interaction_events" */
     interaction_events_aggregate: GraphQLTypes['interaction_events_aggregate'];
     /** fetch data from the table: "interaction_events" using primary key columns */
     interaction_events_by_pk?: GraphQLTypes['interaction_events'] | undefined;
-    /** fetch data from the table in a streaming manner : "interaction_events" */
-    interaction_events_stream: Array<GraphQLTypes['interaction_events']>;
     /** An array relationship */
     nominees: Array<GraphQLTypes['nominees']>;
     /** An aggregate relationship */
     nominees_aggregate: GraphQLTypes['nominees_aggregate'];
     /** fetch data from the table: "nominees" using primary key columns */
     nominees_by_pk?: GraphQLTypes['nominees'] | undefined;
-    /** fetch data from the table in a streaming manner : "nominees" */
-    nominees_stream: Array<GraphQLTypes['nominees']>;
     /** fetch data from the table: "organizations" */
     organizations: Array<GraphQLTypes['organizations']>;
     /** fetch aggregated fields from the table: "organizations" */
     organizations_aggregate: GraphQLTypes['organizations_aggregate'];
     /** fetch data from the table: "organizations" using primary key columns */
     organizations_by_pk?: GraphQLTypes['organizations'] | undefined;
-    /** fetch data from the table in a streaming manner : "organizations" */
-    organizations_stream: Array<GraphQLTypes['organizations']>;
     /** fetch data from the table: "pending_gift_private" */
     pending_gift_private: Array<GraphQLTypes['pending_gift_private']>;
     /** fetch aggregated fields from the table: "pending_gift_private" */
     pending_gift_private_aggregate: GraphQLTypes['pending_gift_private_aggregate'];
-    /** fetch data from the table in a streaming manner : "pending_gift_private" */
-    pending_gift_private_stream: Array<GraphQLTypes['pending_gift_private']>;
     /** An array relationship */
     pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     /** An aggregate relationship */
     pending_token_gifts_aggregate: GraphQLTypes['pending_token_gifts_aggregate'];
     /** fetch data from the table: "pending_token_gifts" using primary key columns */
     pending_token_gifts_by_pk?: GraphQLTypes['pending_token_gifts'] | undefined;
-    /** fetch data from the table in a streaming manner : "pending_token_gifts" */
-    pending_token_gifts_stream: Array<GraphQLTypes['pending_token_gifts']>;
     /** fetch data from the table: "pending_vault_transactions" */
     pending_vault_transactions: Array<
       GraphQLTypes['pending_vault_transactions']
@@ -31566,10 +29251,6 @@ export type GraphQLTypes = {
     pending_vault_transactions_by_pk?:
       | GraphQLTypes['pending_vault_transactions']
       | undefined;
-    /** fetch data from the table in a streaming manner : "pending_vault_transactions" */
-    pending_vault_transactions_stream: Array<
-      GraphQLTypes['pending_vault_transactions']
-    >;
     /** fetch data from the table: "personal_access_tokens" */
     personal_access_tokens: Array<GraphQLTypes['personal_access_tokens']>;
     /** fetch aggregated fields from the table: "personal_access_tokens" */
@@ -31578,80 +29259,58 @@ export type GraphQLTypes = {
     personal_access_tokens_by_pk?:
       | GraphQLTypes['personal_access_tokens']
       | undefined;
-    /** fetch data from the table in a streaming manner : "personal_access_tokens" */
-    personal_access_tokens_stream: Array<
-      GraphQLTypes['personal_access_tokens']
-    >;
     /** fetch data from the table: "profiles" */
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch aggregated fields from the table: "profiles" */
     profiles_aggregate: GraphQLTypes['profiles_aggregate'];
     /** fetch data from the table: "profiles" using primary key columns */
     profiles_by_pk?: GraphQLTypes['profiles'] | undefined;
-    /** fetch data from the table in a streaming manner : "profiles" */
-    profiles_stream: Array<GraphQLTypes['profiles']>;
     /** An array relationship */
     teammates: Array<GraphQLTypes['teammates']>;
     /** An aggregate relationship */
     teammates_aggregate: GraphQLTypes['teammates_aggregate'];
     /** fetch data from the table: "teammates" using primary key columns */
     teammates_by_pk?: GraphQLTypes['teammates'] | undefined;
-    /** fetch data from the table in a streaming manner : "teammates" */
-    teammates_stream: Array<GraphQLTypes['teammates']>;
     /** An array relationship */
     token_gifts: Array<GraphQLTypes['token_gifts']>;
     /** An aggregate relationship */
     token_gifts_aggregate: GraphQLTypes['token_gifts_aggregate'];
     /** fetch data from the table: "token_gifts" using primary key columns */
     token_gifts_by_pk?: GraphQLTypes['token_gifts'] | undefined;
-    /** fetch data from the table in a streaming manner : "token_gifts" */
-    token_gifts_stream: Array<GraphQLTypes['token_gifts']>;
     /** fetch data from the table: "user_private" */
     user_private: Array<GraphQLTypes['user_private']>;
     /** fetch aggregated fields from the table: "user_private" */
     user_private_aggregate: GraphQLTypes['user_private_aggregate'];
-    /** fetch data from the table in a streaming manner : "user_private" */
-    user_private_stream: Array<GraphQLTypes['user_private']>;
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
     /** An aggregate relationship */
     users_aggregate: GraphQLTypes['users_aggregate'];
     /** fetch data from the table: "users" using primary key columns */
     users_by_pk?: GraphQLTypes['users'] | undefined;
-    /** fetch data from the table in a streaming manner : "users" */
-    users_stream: Array<GraphQLTypes['users']>;
     /** An array relationship */
     vault_transactions: Array<GraphQLTypes['vault_transactions']>;
     /** An aggregate relationship */
     vault_transactions_aggregate: GraphQLTypes['vault_transactions_aggregate'];
     /** fetch data from the table: "vault_transactions" using primary key columns */
     vault_transactions_by_pk?: GraphQLTypes['vault_transactions'] | undefined;
-    /** fetch data from the table in a streaming manner : "vault_transactions" */
-    vault_transactions_stream: Array<GraphQLTypes['vault_transactions']>;
     /** fetch data from the table: "vault_tx_types" */
     vault_tx_types: Array<GraphQLTypes['vault_tx_types']>;
     /** fetch aggregated fields from the table: "vault_tx_types" */
     vault_tx_types_aggregate: GraphQLTypes['vault_tx_types_aggregate'];
     /** fetch data from the table: "vault_tx_types" using primary key columns */
     vault_tx_types_by_pk?: GraphQLTypes['vault_tx_types'] | undefined;
-    /** fetch data from the table in a streaming manner : "vault_tx_types" */
-    vault_tx_types_stream: Array<GraphQLTypes['vault_tx_types']>;
     /** An array relationship */
     vaults: Array<GraphQLTypes['vaults']>;
     /** An aggregate relationship */
     vaults_aggregate: GraphQLTypes['vaults_aggregate'];
     /** fetch data from the table: "vaults" using primary key columns */
     vaults_by_pk?: GraphQLTypes['vaults'] | undefined;
-    /** fetch data from the table in a streaming manner : "vaults" */
-    vaults_stream: Array<GraphQLTypes['vaults']>;
     /** An array relationship */
     vouches: Array<GraphQLTypes['vouches']>;
     /** An aggregate relationship */
     vouches_aggregate: GraphQLTypes['vouches_aggregate'];
     /** fetch data from the table: "vouches" using primary key columns */
     vouches_by_pk?: GraphQLTypes['vouches'] | undefined;
-    /** fetch data from the table in a streaming manner : "vouches" */
-    vouches_stream: Array<GraphQLTypes['vouches']>;
   };
   /** columns and relationships of "teammates" */
   ['teammates']: {
@@ -31704,7 +29363,7 @@ export type GraphQLTypes = {
   /** input type for inserting array relation for remote table "teammates" */
   ['teammates_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['teammates_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: GraphQLTypes['teammates_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -31793,7 +29452,7 @@ export type GraphQLTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['teammates']>;
   };
-  /** on_conflict condition type for table "teammates" */
+  /** on conflict condition type for table "teammates" */
   ['teammates_on_conflict']: {
     constraint: GraphQLTypes['teammates_constraint'];
     update_columns: Array<GraphQLTypes['teammates_update_column']>;
@@ -31862,21 +29521,6 @@ export type GraphQLTypes = {
     team_mate_id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
-  /** Streaming cursor of the table "teammates" */
-  ['teammates_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: GraphQLTypes['teammates_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['teammates_stream_cursor_value_input']: {
-    created_at?: GraphQLTypes['timestamp'] | undefined;
-    id?: GraphQLTypes['bigint'] | undefined;
-    team_mate_id?: number | undefined;
-    updated_at?: GraphQLTypes['timestamp'] | undefined;
-    user_id?: number | undefined;
-  };
   /** aggregate sum on columns */
   ['teammates_sum_fields']: {
     __typename: 'teammates_sum_fields';
@@ -31892,13 +29536,6 @@ export type GraphQLTypes = {
   };
   /** update columns of table "teammates" */
   ['teammates_update_column']: teammates_update_column;
-  ['teammates_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: GraphQLTypes['teammates_inc_input'] | undefined;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['teammates_set_input'] | undefined;
-    where: GraphQLTypes['teammates_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['teammates_var_pop_fields']: {
     __typename: 'teammates_var_pop_fields';
@@ -31964,7 +29601,10 @@ export type GraphQLTypes = {
     _neq?: GraphQLTypes['timestamptz'] | undefined;
     _nin?: Array<GraphQLTypes['timestamptz']> | undefined;
   };
-  /** GIVE allocations made by circle members for completed epochs */
+  /** GIVE allocations made by circle members for completed epochs
+
+
+columns and relationships of "token_gifts" */
   ['token_gifts']: {
     __typename: 'token_gifts';
     /** An object relationship */
@@ -32028,7 +29668,7 @@ export type GraphQLTypes = {
   /** input type for inserting array relation for remote table "token_gifts" */
   ['token_gifts_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['token_gifts_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: GraphQLTypes['token_gifts_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -32176,7 +29816,7 @@ export type GraphQLTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['token_gifts']>;
   };
-  /** on_conflict condition type for table "token_gifts" */
+  /** on conflict condition type for table "token_gifts" */
   ['token_gifts_on_conflict']: {
     constraint: GraphQLTypes['token_gifts_constraint'];
     update_columns: Array<GraphQLTypes['token_gifts_update_column']>;
@@ -32280,28 +29920,6 @@ export type GraphQLTypes = {
     sender_id?: GraphQLTypes['order_by'] | undefined;
     tokens?: GraphQLTypes['order_by'] | undefined;
   };
-  /** Streaming cursor of the table "token_gifts" */
-  ['token_gifts_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: GraphQLTypes['token_gifts_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['token_gifts_stream_cursor_value_input']: {
-    circle_id?: GraphQLTypes['bigint'] | undefined;
-    created_at?: GraphQLTypes['timestamp'] | undefined;
-    dts_created?: GraphQLTypes['timestamp'] | undefined;
-    epoch_id?: number | undefined;
-    id?: GraphQLTypes['bigint'] | undefined;
-    note?: string | undefined;
-    recipient_address?: string | undefined;
-    recipient_id?: GraphQLTypes['bigint'] | undefined;
-    sender_address?: string | undefined;
-    sender_id?: GraphQLTypes['bigint'] | undefined;
-    tokens?: number | undefined;
-    updated_at?: GraphQLTypes['timestamp'] | undefined;
-  };
   /** aggregate sum on columns */
   ['token_gifts_sum_fields']: {
     __typename: 'token_gifts_sum_fields';
@@ -32323,13 +29941,6 @@ export type GraphQLTypes = {
   };
   /** update columns of table "token_gifts" */
   ['token_gifts_update_column']: token_gifts_update_column;
-  ['token_gifts_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: GraphQLTypes['token_gifts_inc_input'] | undefined;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['token_gifts_set_input'] | undefined;
-    where: GraphQLTypes['token_gifts_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['token_gifts_var_pop_fields']: {
     __typename: 'token_gifts_var_pop_fields';
@@ -32502,20 +30113,6 @@ export type GraphQLTypes = {
     fixed_payment_amount?: number | undefined;
     user_id?: number | undefined;
   };
-  /** Streaming cursor of the table "user_private" */
-  ['user_private_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: GraphQLTypes['user_private_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['user_private_stream_cursor_value_input']: {
-    circle_id?: GraphQLTypes['bigint'] | undefined;
-    fixed_payment_amount?: GraphQLTypes['numeric'] | undefined;
-    fixed_payment_token_type?: string | undefined;
-    user_id?: GraphQLTypes['bigint'] | undefined;
-  };
   /** aggregate sum on columns */
   ['user_private_sum_fields']: {
     __typename: 'user_private_sum_fields';
@@ -32544,7 +30141,10 @@ export type GraphQLTypes = {
     fixed_payment_amount?: number | undefined;
     user_id?: number | undefined;
   };
-  /** Members of a circle */
+  /** Members of a circle
+
+
+columns and relationships of "users" */
   ['users']: {
     __typename: 'users';
     address: string;
@@ -32555,7 +30155,7 @@ export type GraphQLTypes = {
     burns_aggregate: GraphQLTypes['burns_aggregate'];
     /** An object relationship */
     circle: GraphQLTypes['circles'];
-    /** An array relationship */
+    /** fetch data from the table: "circle_api_keys" */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** An aggregate relationship */
     circle_api_keys_aggregate: GraphQLTypes['circle_api_keys_aggregate'];
@@ -32645,7 +30245,7 @@ export type GraphQLTypes = {
   /** input type for inserting array relation for remote table "users" */
   ['users_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['users_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: GraphQLTypes['users_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -32841,10 +30441,10 @@ export type GraphQLTypes = {
   /** input type for inserting object relation for remote table "users" */
   ['users_obj_rel_insert_input']: {
     data: GraphQLTypes['users_insert_input'];
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: GraphQLTypes['users_on_conflict'] | undefined;
   };
-  /** on_conflict condition type for table "users" */
+  /** on conflict condition type for table "users" */
   ['users_on_conflict']: {
     constraint: GraphQLTypes['users_constraint'];
     update_columns: Array<GraphQLTypes['users_update_column']>;
@@ -32985,33 +30585,6 @@ export type GraphQLTypes = {
     role?: GraphQLTypes['order_by'] | undefined;
     starting_tokens?: GraphQLTypes['order_by'] | undefined;
   };
-  /** Streaming cursor of the table "users" */
-  ['users_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: GraphQLTypes['users_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['users_stream_cursor_value_input']: {
-    address?: string | undefined;
-    bio?: string | undefined;
-    circle_id?: GraphQLTypes['bigint'] | undefined;
-    created_at?: GraphQLTypes['timestamp'] | undefined;
-    deleted_at?: GraphQLTypes['timestamp'] | undefined;
-    epoch_first_visit?: boolean | undefined;
-    fixed_non_receiver?: boolean | undefined;
-    fixed_payment_amount?: GraphQLTypes['numeric'] | undefined;
-    give_token_received?: number | undefined;
-    give_token_remaining?: number | undefined;
-    id?: GraphQLTypes['bigint'] | undefined;
-    name?: string | undefined;
-    non_giver?: boolean | undefined;
-    non_receiver?: boolean | undefined;
-    role?: number | undefined;
-    starting_tokens?: number | undefined;
-    updated_at?: GraphQLTypes['timestamp'] | undefined;
-  };
   /** aggregate sum on columns */
   ['users_sum_fields']: {
     __typename: 'users_sum_fields';
@@ -33035,13 +30608,6 @@ export type GraphQLTypes = {
   };
   /** update columns of table "users" */
   ['users_update_column']: users_update_column;
-  ['users_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: GraphQLTypes['users_inc_input'] | undefined;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['users_set_input'] | undefined;
-    where: GraphQLTypes['users_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['users_var_pop_fields']: {
     __typename: 'users_var_pop_fields';
@@ -33187,7 +30753,7 @@ export type GraphQLTypes = {
   /** input type for inserting array relation for remote table "vault_transactions" */
   ['vault_transactions_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['vault_transactions_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: GraphQLTypes['vault_transactions_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -33312,7 +30878,7 @@ export type GraphQLTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['vault_transactions']>;
   };
-  /** on_conflict condition type for table "vault_transactions" */
+  /** on conflict condition type for table "vault_transactions" */
   ['vault_transactions_on_conflict']: {
     constraint: GraphQLTypes['vault_transactions_constraint'];
     update_columns: Array<GraphQLTypes['vault_transactions_update_column']>;
@@ -33404,25 +30970,6 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
   };
-  /** Streaming cursor of the table "vault_transactions" */
-  ['vault_transactions_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: GraphQLTypes['vault_transactions_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['vault_transactions_stream_cursor_value_input']: {
-    circle_id?: GraphQLTypes['bigint'] | undefined;
-    created_at?: GraphQLTypes['timestamp'] | undefined;
-    created_by?: GraphQLTypes['bigint'] | undefined;
-    distribution_id?: GraphQLTypes['bigint'] | undefined;
-    id?: GraphQLTypes['bigint'] | undefined;
-    tx_hash?: string | undefined;
-    tx_type?: GraphQLTypes['vault_tx_types_enum'] | undefined;
-    updated_at?: GraphQLTypes['timestamp'] | undefined;
-    vault_id?: GraphQLTypes['bigint'] | undefined;
-  };
   /** aggregate sum on columns */
   ['vault_transactions_sum_fields']: {
     __typename: 'vault_transactions_sum_fields';
@@ -33442,13 +30989,6 @@ export type GraphQLTypes = {
   };
   /** update columns of table "vault_transactions" */
   ['vault_transactions_update_column']: vault_transactions_update_column;
-  ['vault_transactions_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: GraphQLTypes['vault_transactions_inc_input'] | undefined;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['vault_transactions_set_input'] | undefined;
-    where: GraphQLTypes['vault_transactions_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['vault_transactions_var_pop_fields']: {
     __typename: 'vault_transactions_var_pop_fields';
@@ -33576,10 +31116,10 @@ export type GraphQLTypes = {
   /** input type for inserting object relation for remote table "vault_tx_types" */
   ['vault_tx_types_obj_rel_insert_input']: {
     data: GraphQLTypes['vault_tx_types_insert_input'];
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: GraphQLTypes['vault_tx_types_on_conflict'] | undefined;
   };
-  /** on_conflict condition type for table "vault_tx_types" */
+  /** on conflict condition type for table "vault_tx_types" */
   ['vault_tx_types_on_conflict']: {
     constraint: GraphQLTypes['vault_tx_types_constraint'];
     update_columns: Array<GraphQLTypes['vault_tx_types_update_column']>;
@@ -33604,25 +31144,8 @@ export type GraphQLTypes = {
     comment?: string | undefined;
     value?: string | undefined;
   };
-  /** Streaming cursor of the table "vault_tx_types" */
-  ['vault_tx_types_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: GraphQLTypes['vault_tx_types_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['vault_tx_types_stream_cursor_value_input']: {
-    comment?: string | undefined;
-    value?: string | undefined;
-  };
   /** update columns of table "vault_tx_types" */
   ['vault_tx_types_update_column']: vault_tx_types_update_column;
-  ['vault_tx_types_updates']: {
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['vault_tx_types_set_input'] | undefined;
-    where: GraphQLTypes['vault_tx_types_bool_exp'];
-  };
   /** columns and relationships of "vaults" */
   ['vaults']: {
     __typename: 'vaults';
@@ -33689,7 +31212,7 @@ export type GraphQLTypes = {
   /** input type for inserting array relation for remote table "vaults" */
   ['vaults_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['vaults_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: GraphQLTypes['vaults_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -33844,10 +31367,10 @@ export type GraphQLTypes = {
   /** input type for inserting object relation for remote table "vaults" */
   ['vaults_obj_rel_insert_input']: {
     data: GraphQLTypes['vaults_insert_input'];
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: GraphQLTypes['vaults_on_conflict'] | undefined;
   };
-  /** on_conflict condition type for table "vaults" */
+  /** on conflict condition type for table "vaults" */
   ['vaults_on_conflict']: {
     constraint: GraphQLTypes['vaults_constraint'];
     update_columns: Array<GraphQLTypes['vaults_update_column']>;
@@ -33954,28 +31477,6 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['order_by'] | undefined;
     org_id?: GraphQLTypes['order_by'] | undefined;
   };
-  /** Streaming cursor of the table "vaults" */
-  ['vaults_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: GraphQLTypes['vaults_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['vaults_stream_cursor_value_input']: {
-    chain_id?: number | undefined;
-    created_at?: GraphQLTypes['timestamptz'] | undefined;
-    created_by?: GraphQLTypes['bigint'] | undefined;
-    decimals?: number | undefined;
-    deployment_block?: GraphQLTypes['bigint'] | undefined;
-    id?: GraphQLTypes['bigint'] | undefined;
-    org_id?: GraphQLTypes['bigint'] | undefined;
-    simple_token_address?: string | undefined;
-    symbol?: string | undefined;
-    token_address?: string | undefined;
-    updated_at?: GraphQLTypes['timestamptz'] | undefined;
-    vault_address?: string | undefined;
-  };
   /** aggregate sum on columns */
   ['vaults_sum_fields']: {
     __typename: 'vaults_sum_fields';
@@ -33997,13 +31498,6 @@ export type GraphQLTypes = {
   };
   /** update columns of table "vaults" */
   ['vaults_update_column']: vaults_update_column;
-  ['vaults_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: GraphQLTypes['vaults_inc_input'] | undefined;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['vaults_set_input'] | undefined;
-    where: GraphQLTypes['vaults_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['vaults_var_pop_fields']: {
     __typename: 'vaults_var_pop_fields';
@@ -34112,7 +31606,7 @@ export type GraphQLTypes = {
   /** input type for inserting array relation for remote table "vouches" */
   ['vouches_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['vouches_insert_input']>;
-    /** upsert condition */
+    /** on conflict condition */
     on_conflict?: GraphQLTypes['vouches_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -34201,7 +31695,7 @@ export type GraphQLTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['vouches']>;
   };
-  /** on_conflict condition type for table "vouches" */
+  /** on conflict condition type for table "vouches" */
   ['vouches_on_conflict']: {
     constraint: GraphQLTypes['vouches_constraint'];
     update_columns: Array<GraphQLTypes['vouches_update_column']>;
@@ -34270,21 +31764,6 @@ export type GraphQLTypes = {
     nominee_id?: GraphQLTypes['order_by'] | undefined;
     voucher_id?: GraphQLTypes['order_by'] | undefined;
   };
-  /** Streaming cursor of the table "vouches" */
-  ['vouches_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: GraphQLTypes['vouches_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['vouches_stream_cursor_value_input']: {
-    created_at?: GraphQLTypes['timestamp'] | undefined;
-    id?: GraphQLTypes['bigint'] | undefined;
-    nominee_id?: number | undefined;
-    updated_at?: GraphQLTypes['timestamp'] | undefined;
-    voucher_id?: number | undefined;
-  };
   /** aggregate sum on columns */
   ['vouches_sum_fields']: {
     __typename: 'vouches_sum_fields';
@@ -34300,13 +31779,6 @@ export type GraphQLTypes = {
   };
   /** update columns of table "vouches" */
   ['vouches_update_column']: vouches_update_column;
-  ['vouches_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: GraphQLTypes['vouches_inc_input'] | undefined;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['vouches_set_input'] | undefined;
-    where: GraphQLTypes['vouches_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['vouches_var_pop_fields']: {
     __typename: 'vouches_var_pop_fields';
@@ -34596,11 +32068,6 @@ export const enum contributions_update_column {
   id = 'id',
   updated_at = 'updated_at',
   user_id = 'user_id',
-}
-/** ordering argument of a cursor */
-export const enum cursor_ordering {
-  ASC = 'ASC',
-  DESC = 'DESC',
 }
 /** unique or primary key constraints on table "distributions" */
 export const enum distributions_constraint {
