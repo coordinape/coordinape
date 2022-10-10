@@ -25,6 +25,7 @@ export const Button = styled('button', {
   '&[disabled]': {
     opacity: 0.4,
     cursor: 'default',
+    pointerEvents: 'none',
   },
 
   variants: {
