@@ -38,15 +38,15 @@ import { updateOrg } from './mutations';
 type OrgAdminFormSchema = z.infer<typeof schema>;
 
 const schema = z.object({
-  name: z.optional(
-    z
-      .string()
-      .max(70)
-      .refine(val => val.trim().length >= 3, {
-        message: 'Circle name must be at least 3 characters long.',
-      })
-  ),
-  telegram_id: z.optional(z.string().max(70)),
+  name: z
+    .string()
+    .max(70, {
+      message: 'Organization name is too long: max 70 characters.',
+    })
+    .refine(val => val.trim().length >= 3, {
+      message: 'Organization name is too short: 3+ characters required.',
+    }),
+  telegram_id: z.string().max(70).optional(),
   orgLogo: z.instanceof(File).optional(),
 });
 
@@ -140,7 +140,7 @@ export const OrganizationSettingsPage = () => {
     mode: 'onChange',
     defaultValues: {
       name: org?.name,
-      telegram_id: org?.telegram_id,
+      telegram_id: org?.telegram_id || '',
     },
   });
 
