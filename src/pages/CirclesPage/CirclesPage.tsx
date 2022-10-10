@@ -117,7 +117,7 @@ export const CirclesPage = () => {
                 <Text
                   h2
                   medium
-                  css={{ ml: '$sm', gap: '$sm', '@sm': { fontSize: '$large' } }}
+                  css={{ gap: '$sm', '@sm': { fontSize: '$large' } }}
                 >
                   <Avatar path={org?.logo} size="small" name={org.name} />
                   {org.name}

@@ -60,11 +60,7 @@ export const OrganizationPage = () => {
           }}
         >
           <Flex css={{ alignItems: 'center' }}>
-            <Text
-              h2
-              medium
-              css={{ ml: '$sm', gap: '$sm', '@sm': { fontSize: '$large' } }}
-            >
+            <Text h2 medium css={{ gap: '$sm', '@sm': { fontSize: '$large' } }}>
               <Avatar path={org.logo} size="small" name={org.name || ''} />
               {org.name || ''}
             </Text>
