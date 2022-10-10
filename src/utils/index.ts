@@ -1,4 +1,15 @@
+import assert from 'assert';
+
 import { round } from 'lodash';
+
+export const assertDef = <T>(
+  val: T | undefined | null,
+  message?: string
+): T => {
+  assert(val, message);
+  return val;
+};
+
 export const shortenAddress = (address: string, backAddress = true) => {
   const front = address.substring(0, 6);
   if (!backAddress) return front;

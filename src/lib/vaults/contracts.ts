@@ -23,7 +23,6 @@ import debug from 'debug';
 import { BigNumber, FixedNumber } from 'ethers';
 
 import { HARDHAT_CHAIN_ID, HARDHAT_GANACHE_CHAIN_ID } from '../../config/env';
-import { assertDef } from '../../utils/tools';
 
 import { Asset } from './';
 import { hasSimpleToken } from './tokens';
@@ -121,16 +120,13 @@ export class Contracts {
     vault_address: string;
   }) {
     const { simple_token_address, vault_address } = vault;
-    if (hasSimpleToken(vault)) {
-      return this.getERC20(assertDef(simple_token_address)).balanceOf(
-        vault_address
-      );
-    } else {
-      const vaultContract = this.getVault(vault_address);
-      const yToken = await this.getYVault(vault_address);
-      const vaultBalance = await yToken.balanceOf(vault.vault_address);
-      return vaultContract.shareValue(vaultBalance);
-    }
+    if (hasSimpleToken(vault))
+      return this.getERC20(simple_token_address).balanceOf(vault_address);
+
+    const vaultContract = this.getVault(vault_address);
+    const yToken = await this.getYVault(vault_address);
+    const vaultBalance = await yToken.balanceOf(vault_address);
+    return vaultContract.shareValue(vaultBalance);
   }
 
   getAvailableTokens() {

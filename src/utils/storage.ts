@@ -1,4 +1,4 @@
-import { assertDef } from 'utils/tools';
+import assert from 'assert';
 
 import { IAuth } from 'types';
 
@@ -9,7 +9,9 @@ export default {
     localStorage.setItem(STORAGE_AUTH, JSON.stringify(auth)),
   getAuth: (): IAuth => {
     try {
-      return JSON.parse(assertDef(localStorage.getItem(STORAGE_AUTH)));
+      const auth = localStorage.getItem(STORAGE_AUTH);
+      assert(auth);
+      return JSON.parse(auth);
     } catch {
       return {
         authTokens: {},

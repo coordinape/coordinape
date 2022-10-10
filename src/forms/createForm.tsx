@@ -19,7 +19,7 @@ import {
 } from 'recoil';
 import { z } from 'zod';
 
-import { neverEndingPromise } from 'utils/tools';
+import { neverEndingPromise } from 'utils/recoil';
 
 import { IRecoilGetParams } from 'types';
 

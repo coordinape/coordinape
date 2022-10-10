@@ -7,7 +7,7 @@
 import { DateTime } from 'luxon';
 
 import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
-import { assertDef } from 'utils/tools';
+import { assertDef } from 'utils';
 
 import {
   ITiming,
