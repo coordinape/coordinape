@@ -161,7 +161,7 @@ export const OrganizationSettingsPage = () => {
               justifyContent: 'space-between',
               alignItems: 'center',
               flexWrap: 'wrap',
-              mb: '$lg',
+              mb: '$2xl',
               gap: '$md',
             }}
           >
