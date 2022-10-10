@@ -111,14 +111,12 @@ export function VaultRow({ vault, css = {} }: { vault: Vault; css?: CSS }) {
           alignItems: 'center',
         }}
       >
-        <Text font="source" h3>
-          Current Balance
-        </Text>
-        <Text font="source" h3>
+        <Text h3>Current Balance</Text>
+        <Text h3>
           {smartRounding(balance)}{' '}
           {removeYearnPrefix(vault.symbol).toUpperCase()}
         </Text>
-        <Text font="source" css={{ display: 'block' }}>
+        <Text css={{ display: 'block' }}>
           <strong>{distributionCount}</strong> Distribution
           {distributionCount !== 1 && 's'} -{' '}
           <strong>{uniqueContributors}</strong> Unique Contributors Paid

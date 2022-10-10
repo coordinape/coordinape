@@ -12,8 +12,6 @@ export const Text = styled('span', {
 
   variants: {
     font: {
-      source: { fontFamily: 'Source Sans Pro' },
-      space: { fontFamily: 'Space Grotesk' },
       inter: { fontFamily: 'Inter, sans-serif' },
     },
     color: {

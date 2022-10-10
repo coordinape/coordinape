@@ -95,7 +95,7 @@ export const CirclesPage = () => {
       {orgs?.map(org => (
         <Box key={org.id} css={{ mb: '$lg' }}>
           <Flex row css={{ mb: '$lg', alignItems: 'baseline' }}>
-            <Box css={{ flexGrow: 1, display: 'flex', flexDirection: 'row' }}>
+            <Flex css={{ flexGrow: 1, alignItems: 'center' }}>
               <OrgLogoUpload
                 id={org.id}
                 original={org?.logo}
@@ -111,7 +111,7 @@ export const CirclesPage = () => {
                   {org.name}
                 </Text>
               </AppLink>
-            </Box>
+            </Flex>
             {isAdmin(org) && (
               <AppLink to={paths.createCircle + '?org=' + org.id}>
                 <Button

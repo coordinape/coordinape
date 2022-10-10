@@ -51,17 +51,17 @@ export const OrganizationPage = () => {
     <SingleColumnLayout>
       <Box key={org.id} css={{ mb: '$lg' }}>
         <Flex row css={{ mb: '$lg', alignItems: 'baseline' }}>
-          <Box css={{ flexGrow: 1, display: 'flex', flexDirection: 'row' }}>
+          <Flex css={{ flexGrow: 1, alignItems: 'center' }}>
             <OrgLogoUpload
               id={org.id}
               original={org.logo}
               isAdmin={isAdmin(org)}
               name={org.name || ''}
             />
-            <Text h2 bold css={{ ml: '$sm', '@sm': { fontSize: '$large' } }}>
+            <Text h2 medium css={{ ml: '$sm', '@sm': { fontSize: '$large' } }}>
               {org.name || ''}
             </Text>
-          </Box>
+          </Flex>
           {isAdmin(org) && (
             <AppLink to={paths.createCircle + '?org=' + org.id}>
               <Button
