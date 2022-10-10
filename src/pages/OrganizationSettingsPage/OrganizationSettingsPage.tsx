@@ -218,8 +218,8 @@ export const OrganizationSettingsPage = () => {
                   name="telegram_id"
                   control={control}
                   defaultValue={org?.telegram_id}
-                  label="Telegram Webhook Token ID"
-                  infoTooltip="See docs for finding this."
+                  label="Telegram Notifications Chat ID"
+                  infoTooltip="Reach out on Discord for detailed instructions setting up telegram notifications."
                   showFieldErrors
                 />
                 <Flex column css={{ alignItems: 'flex-start', gap: '$xs' }}>
