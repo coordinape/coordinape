@@ -26,11 +26,15 @@ const handler = async function (req: VercelRequest, res: VercelResponse) {
     logoUpdater(input.org_id)
   );
 
-  const updatedProfile = await updater.uploadImage(
-    input.image_data_base64,
-    previousLogo
-  );
-  return res.status(200).json(updatedProfile);
+  try {
+    const updatedProfile = await updater.uploadImage(
+      input.image_data_base64,
+      previousLogo
+    );
+    return res.status(200).json(updatedProfile);
+  } catch (e: any) {
+    return res.status(400).json('error: ' + e?.message || 'unknown');
+  }
 };
 
 async function getPreviousLogo(id: number): Promise<string | undefined> {

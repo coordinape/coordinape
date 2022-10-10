@@ -30,6 +30,7 @@ select_permissions:
         - id
         - logo
         - name
+        - telegram_id
         - updated_at
       filter:
         circles:
@@ -43,3 +44,26 @@ select_permissions:
                         _eq: X-Hasura-User-Id
                   - deleted_at:
                       _is_null: true
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - name
+        - telegram_id
+      filter:
+        circles:
+          _and:
+            - deleted_at:
+                _is_null: true
+            - users:
+                _and:
+                  - profile:
+                      id:
+                        _eq: X-Hasura-User-Id
+                  - deleted_at:
+                      _is_null: true
+                  - role:
+                      _eq: 1
+      check:
+        name:
+          _regex: ^.{3,70}$
