@@ -106,7 +106,6 @@ export const CreateForm = ({
   if (!contracts)
     return (
       <Text
-        font="source"
         bold
         css={{
           display: 'block',
