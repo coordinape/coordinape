@@ -10,7 +10,7 @@ export const ApiKeyDisplay: FC<{ apiKey: string }> = ({ apiKey }) => {
     <Box
       css={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}
     >
-      <Text ize="medium">
+      <Text size="medium">
         Make sure to copy your API key. You won’t be able to see it again!
       </Text>
       <TextField
