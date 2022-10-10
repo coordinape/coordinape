@@ -3,17 +3,31 @@ import assert from 'assert';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { parseAuthHeader } from '../../api-lib/authHelpers';
-import { IS_LOCAL_ENV } from '../../api-lib/config';
+import { IS_LOCAL_ENV, IS_TEST_ENV } from '../../api-lib/config';
 import { adminClient } from '../../api-lib/gql/adminClient';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
-    if (IS_LOCAL_ENV && req.headers?.authorization === 'generate') {
-      // For generating libraries from inspection
-      res.status(200).json({
-        'X-Hasura-Role': req.headers?.['x-hasura-role'],
-      });
-      return;
+    if (IS_LOCAL_ENV) {
+      if (req.headers?.authorization === 'generate') {
+        // For generating libraries from inspection
+        res.status(200).json({
+          'X-Hasura-Role': req.headers?.['x-hasura-role'],
+        });
+        return;
+      }
+    }
+
+    if (IS_TEST_ENV) {
+      // Skip auth checks when testing
+      if (req.headers?.authorization === 'test-skip-auth') {
+        res.status(200).json({
+          'X-Hasura-User-Id': req.headers?.['x-hasura-user-id'],
+          'X-Hasura-Role': req.headers?.['x-hasura-role'],
+          'X-Hasura-Address': req.headers?.['x-hasura-address'],
+        });
+        return;
+      }
     }
 
     assert(req.headers?.authorization, 'No token was provided');
