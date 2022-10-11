@@ -131,7 +131,6 @@ const ProfileCardInner = ({
     start_date: epochs.previousEpochEndedOn,
     end_date: epochs.currentEpoch?.end_date,
   });
-  console.info({ contributions });
 
   const updateGift = ({ note, tokens }: { note?: string; tokens?: number }) => {
     setGift({
