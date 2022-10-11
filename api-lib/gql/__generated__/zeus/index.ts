@@ -625,7 +625,6 @@ export type ValueTypes = {
     user_id?: number | undefined | null;
   };
   ['AllocationsResponse']: AliasType<{
-    /** An object relationship */
     user?: ValueTypes['users'];
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -658,7 +657,6 @@ export type ValueTypes = {
     user_name: string;
   };
   ['CreateCircleResponse']: AliasType<{
-    /** An object relationship */
     circle?: ValueTypes['circles'];
     id?: boolean | `@${string}`;
     users?: [
@@ -724,7 +722,6 @@ export type ValueTypes = {
   };
   ['CreateNomineeResponse']: AliasType<{
     id?: boolean | `@${string}`;
-    /** An object relationship */
     nominee?: ValueTypes['nominees'];
     __typename?: boolean | `@${string}`;
   }>;
@@ -773,7 +770,6 @@ export type ValueTypes = {
     circle_id: number;
   };
   ['EpochResponse']: AliasType<{
-    /** An object relationship */
     epoch?: ValueTypes['epochs'];
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -792,7 +788,6 @@ export type ValueTypes = {
   };
   ['GenerateApiKeyResponse']: AliasType<{
     api_key?: boolean | `@${string}`;
-    /** An object relationship */
     circleApiKey?: ValueTypes['circle_api_keys'];
     hash?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -820,13 +815,11 @@ export type ValueTypes = {
   };
   ['LogVaultTxResponse']: AliasType<{
     id?: boolean | `@${string}`;
-    /** An object relationship */
     vault_tx_return_object?: ValueTypes['vault_transactions'];
     __typename?: boolean | `@${string}`;
   }>;
   ['LogoutResponse']: AliasType<{
     id?: boolean | `@${string}`;
-    /** An object relationship */
     profile?: ValueTypes['profiles'];
     __typename?: boolean | `@${string}`;
   }>;
@@ -890,13 +883,11 @@ export type ValueTypes = {
     vouching_text?: string | undefined | null;
   };
   ['UpdateCircleOutput']: AliasType<{
-    /** An object relationship */
     circle?: ValueTypes['circles'];
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   ['UpdateCircleResponse']: AliasType<{
-    /** An object relationship */
     circle?: ValueTypes['circles'];
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -908,7 +899,6 @@ export type ValueTypes = {
   };
   ['UpdateContributionResponse']: AliasType<{
     id?: boolean | `@${string}`;
-    /** An object relationship */
     updateContribution_Contribution?: ValueTypes['contributions'];
     __typename?: boolean | `@${string}`;
   }>;
@@ -922,13 +912,11 @@ export type ValueTypes = {
   };
   ['UpdateOrgResponse']: AliasType<{
     id?: boolean | `@${string}`;
-    /** An object relationship */
     org?: ValueTypes['organizations'];
     __typename?: boolean | `@${string}`;
   }>;
   ['UpdateProfileResponse']: AliasType<{
     id?: boolean | `@${string}`;
-    /** An object relationship */
     profile?: ValueTypes['profiles'];
     __typename?: boolean | `@${string}`;
   }>;
@@ -937,7 +925,6 @@ export type ValueTypes = {
     teammates: Array<number | undefined | null>;
   };
   ['UpdateTeammatesResponse']: AliasType<{
-    /** An object relationship */
     user?: ValueTypes['users'];
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -969,14 +956,12 @@ export type ValueTypes = {
     starting_tokens?: number | undefined | null;
   };
   ['UserResponse']: AliasType<{
-    /** An object relationship */
     UserResponse?: ValueTypes['users'];
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   ['VaultResponse']: AliasType<{
     id?: boolean | `@${string}`;
-    /** An object relationship */
     vault?: ValueTypes['vaults'];
     __typename?: boolean | `@${string}`;
   }>;
@@ -985,7 +970,6 @@ export type ValueTypes = {
   };
   ['VouchOutput']: AliasType<{
     id?: boolean | `@${string}`;
-    /** An object relationship */
     nominee?: ValueTypes['nominees'];
     __typename?: boolean | `@${string}`;
   }>;
@@ -1065,7 +1049,7 @@ export type ValueTypes = {
   /** input type for inserting array relation for remote table "burns" */
   ['burns_arr_rel_insert_input']: {
     data: Array<ValueTypes['burns_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: ValueTypes['burns_on_conflict'] | undefined | null;
   };
   /** aggregate avg on columns */
@@ -1192,7 +1176,7 @@ export type ValueTypes = {
     returning?: ValueTypes['burns'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on conflict condition type for table "burns" */
+  /** on_conflict condition type for table "burns" */
   ['burns_on_conflict']: {
     constraint: ValueTypes['burns_constraint'];
     update_columns: Array<ValueTypes['burns_update_column']>;
@@ -1380,10 +1364,7 @@ export type ValueTypes = {
     tokens_burnt?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
-  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API.
-
-
-columns and relationships of "circle_api_keys" */
+  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API. */
   ['circle_api_keys']: AliasType<{
     /** An object relationship */
     circle?: ValueTypes['circles'];
@@ -1463,7 +1444,7 @@ columns and relationships of "circle_api_keys" */
   /** input type for inserting array relation for remote table "circle_api_keys" */
   ['circle_api_keys_arr_rel_insert_input']: {
     data: Array<ValueTypes['circle_api_keys_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: ValueTypes['circle_api_keys_on_conflict'] | undefined | null;
   };
   /** aggregate avg on columns */
@@ -1574,7 +1555,7 @@ columns and relationships of "circle_api_keys" */
     returning?: ValueTypes['circle_api_keys'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on conflict condition type for table "circle_api_keys" */
+  /** on_conflict condition type for table "circle_api_keys" */
   ['circle_api_keys_on_conflict']: {
     constraint: ValueTypes['circle_api_keys_constraint'];
     update_columns: Array<ValueTypes['circle_api_keys_update_column']>;
@@ -1782,7 +1763,7 @@ columns and relationships of "circle_api_keys" */
   /** input type for inserting array relation for remote table "circle_integrations" */
   ['circle_integrations_arr_rel_insert_input']: {
     data: Array<ValueTypes['circle_integrations_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?:
       | ValueTypes['circle_integrations_on_conflict']
       | undefined
@@ -1877,7 +1858,7 @@ columns and relationships of "circle_api_keys" */
     returning?: ValueTypes['circle_integrations'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on conflict condition type for table "circle_integrations" */
+  /** on_conflict condition type for table "circle_integrations" */
   ['circle_integrations_on_conflict']: {
     constraint: ValueTypes['circle_integrations_constraint'];
     update_columns: Array<ValueTypes['circle_integrations_update_column']>;
@@ -2064,7 +2045,7 @@ columns and relationships of "circle_api_keys" */
   /** input type for inserting array relation for remote table "circle_metadata" */
   ['circle_metadata_arr_rel_insert_input']: {
     data: Array<ValueTypes['circle_metadata_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: ValueTypes['circle_metadata_on_conflict'] | undefined | null;
   };
   /** aggregate avg on columns */
@@ -2144,7 +2125,7 @@ columns and relationships of "circle_api_keys" */
     returning?: ValueTypes['circle_metadata'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on conflict condition type for table "circle_metadata" */
+  /** on_conflict condition type for table "circle_metadata" */
   ['circle_metadata_on_conflict']: {
     constraint: ValueTypes['circle_metadata_constraint'];
     update_columns: Array<ValueTypes['circle_metadata_update_column']>;
@@ -2487,7 +2468,7 @@ columns and relationships of "circle_api_keys" */
     returning?: ValueTypes['circle_share_tokens'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on conflict condition type for table "circle_share_tokens" */
+  /** on_conflict condition type for table "circle_share_tokens" */
   ['circle_share_tokens_on_conflict']: {
     constraint: ValueTypes['circle_share_tokens_constraint'];
     update_columns: Array<ValueTypes['circle_share_tokens_update_column']>;
@@ -3143,7 +3124,7 @@ columns and relationships of "circle_api_keys" */
   /** input type for inserting array relation for remote table "circles" */
   ['circles_arr_rel_insert_input']: {
     data: Array<ValueTypes['circles_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: ValueTypes['circles_on_conflict'] | undefined | null;
   };
   /** aggregate avg on columns */
@@ -3395,10 +3376,10 @@ columns and relationships of "circle_api_keys" */
   /** input type for inserting object relation for remote table "circles" */
   ['circles_obj_rel_insert_input']: {
     data: ValueTypes['circles_insert_input'];
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: ValueTypes['circles_on_conflict'] | undefined | null;
   };
-  /** on conflict condition type for table "circles" */
+  /** on_conflict condition type for table "circles" */
   ['circles_on_conflict']: {
     constraint: ValueTypes['circles_constraint'];
     update_columns: Array<ValueTypes['circles_update_column']>;
@@ -3688,7 +3669,7 @@ columns and relationships of "circle_api_keys" */
   /** input type for inserting array relation for remote table "claims" */
   ['claims_arr_rel_insert_input']: {
     data: Array<ValueTypes['claims_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: ValueTypes['claims_on_conflict'] | undefined | null;
   };
   /** aggregate avg on columns */
@@ -3825,7 +3806,7 @@ columns and relationships of "circle_api_keys" */
     returning?: ValueTypes['claims'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on conflict condition type for table "claims" */
+  /** on_conflict condition type for table "claims" */
   ['claims_on_conflict']: {
     constraint: ValueTypes['claims_constraint'];
     update_columns: Array<ValueTypes['claims_update_column']>;
@@ -4071,7 +4052,7 @@ columns and relationships of "circle_api_keys" */
   /** input type for inserting array relation for remote table "contributions" */
   ['contributions_arr_rel_insert_input']: {
     data: Array<ValueTypes['contributions_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: ValueTypes['contributions_on_conflict'] | undefined | null;
   };
   /** aggregate avg on columns */
@@ -4181,7 +4162,7 @@ columns and relationships of "circle_api_keys" */
     returning?: ValueTypes['contributions'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on conflict condition type for table "contributions" */
+  /** on_conflict condition type for table "contributions" */
   ['contributions_on_conflict']: {
     constraint: ValueTypes['contributions_constraint'];
     update_columns: Array<ValueTypes['contributions_update_column']>;
@@ -4323,10 +4304,7 @@ columns and relationships of "circle_api_keys" */
     _neq?: ValueTypes['date'] | undefined | null;
     _nin?: Array<ValueTypes['date']> | undefined | null;
   };
-  /** Vault Distributions
-
-
-columns and relationships of "distributions" */
+  /** Vault Distributions */
   ['distributions']: AliasType<{
     claims?: [
       {
@@ -4504,7 +4482,7 @@ columns and relationships of "distributions" */
   /** input type for inserting array relation for remote table "distributions" */
   ['distributions_arr_rel_insert_input']: {
     data: Array<ValueTypes['distributions_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: ValueTypes['distributions_on_conflict'] | undefined | null;
   };
   /** aggregate avg on columns */
@@ -4688,10 +4666,10 @@ columns and relationships of "distributions" */
   /** input type for inserting object relation for remote table "distributions" */
   ['distributions_obj_rel_insert_input']: {
     data: ValueTypes['distributions_insert_input'];
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: ValueTypes['distributions_on_conflict'] | undefined | null;
   };
-  /** on conflict condition type for table "distributions" */
+  /** on_conflict condition type for table "distributions" */
   ['distributions_on_conflict']: {
     constraint: ValueTypes['distributions_constraint'];
     update_columns: Array<ValueTypes['distributions_update_column']>;
@@ -5165,7 +5143,7 @@ columns and relationships of "distributions" */
   /** input type for inserting array relation for remote table "epoches" */
   ['epochs_arr_rel_insert_input']: {
     data: Array<ValueTypes['epochs_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: ValueTypes['epochs_on_conflict'] | undefined | null;
   };
   /** aggregate avg on columns */
@@ -5355,10 +5333,10 @@ columns and relationships of "distributions" */
   /** input type for inserting object relation for remote table "epoches" */
   ['epochs_obj_rel_insert_input']: {
     data: ValueTypes['epochs_insert_input'];
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: ValueTypes['epochs_on_conflict'] | undefined | null;
   };
-  /** on conflict condition type for table "epoches" */
+  /** on_conflict condition type for table "epoches" */
   ['epochs_on_conflict']: {
     constraint: ValueTypes['epochs_constraint'];
     update_columns: Array<ValueTypes['epochs_update_column']>;
@@ -5879,7 +5857,7 @@ columns and relationships of "distributions" */
     returning?: ValueTypes['histories'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on conflict condition type for table "histories" */
+  /** on_conflict condition type for table "histories" */
   ['histories_on_conflict']: {
     constraint: ValueTypes['histories_constraint'];
     update_columns: Array<ValueTypes['histories_update_column']>;
@@ -6116,7 +6094,7 @@ columns and relationships of "distributions" */
     returning?: ValueTypes['interaction_events'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on conflict condition type for table "interaction_events" */
+  /** on_conflict condition type for table "interaction_events" */
   ['interaction_events_on_conflict']: {
     constraint: ValueTypes['interaction_events_constraint'];
     update_columns: Array<ValueTypes['interaction_events_update_column']>;
@@ -6229,8 +6207,12 @@ columns and relationships of "distributions" */
     _nin?: Array<ValueTypes['json']> | undefined | null;
   };
   ['jsonb']: unknown;
+  ['jsonb_cast_exp']: {
+    String?: ValueTypes['String_comparison_exp'] | undefined | null;
+  };
   /** Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'. */
   ['jsonb_comparison_exp']: {
+    _cast?: ValueTypes['jsonb_cast_exp'] | undefined | null;
     /** is the column contained in the given json value */
     _contained_in?: ValueTypes['jsonb'] | undefined | null;
     /** does the column contain the given json value at the top level */
@@ -6599,7 +6581,7 @@ columns and relationships of "distributions" */
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['burns_insert_input']
-        > /** on conflict condition */;
+        > /** upsert condition */;
         on_conflict?: ValueTypes['burns_on_conflict'] | undefined | null;
       },
       ValueTypes['burns_mutation_response']
@@ -6607,7 +6589,7 @@ columns and relationships of "distributions" */
     insert_burns_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['burns_insert_input'] /** on conflict condition */;
+        object: ValueTypes['burns_insert_input'] /** upsert condition */;
         on_conflict?: ValueTypes['burns_on_conflict'] | undefined | null;
       },
       ValueTypes['burns']
@@ -6617,7 +6599,7 @@ columns and relationships of "distributions" */
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['circle_api_keys_insert_input']
-        > /** on conflict condition */;
+        > /** upsert condition */;
         on_conflict?:
           | ValueTypes['circle_api_keys_on_conflict']
           | undefined
@@ -6628,7 +6610,7 @@ columns and relationships of "distributions" */
     insert_circle_api_keys_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['circle_api_keys_insert_input'] /** on conflict condition */;
+        object: ValueTypes['circle_api_keys_insert_input'] /** upsert condition */;
         on_conflict?:
           | ValueTypes['circle_api_keys_on_conflict']
           | undefined
@@ -6641,7 +6623,7 @@ columns and relationships of "distributions" */
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['circle_integrations_insert_input']
-        > /** on conflict condition */;
+        > /** upsert condition */;
         on_conflict?:
           | ValueTypes['circle_integrations_on_conflict']
           | undefined
@@ -6652,7 +6634,7 @@ columns and relationships of "distributions" */
     insert_circle_integrations_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['circle_integrations_insert_input'] /** on conflict condition */;
+        object: ValueTypes['circle_integrations_insert_input'] /** upsert condition */;
         on_conflict?:
           | ValueTypes['circle_integrations_on_conflict']
           | undefined
@@ -6665,7 +6647,7 @@ columns and relationships of "distributions" */
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['circle_metadata_insert_input']
-        > /** on conflict condition */;
+        > /** upsert condition */;
         on_conflict?:
           | ValueTypes['circle_metadata_on_conflict']
           | undefined
@@ -6676,7 +6658,7 @@ columns and relationships of "distributions" */
     insert_circle_metadata_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['circle_metadata_insert_input'] /** on conflict condition */;
+        object: ValueTypes['circle_metadata_insert_input'] /** upsert condition */;
         on_conflict?:
           | ValueTypes['circle_metadata_on_conflict']
           | undefined
@@ -6703,7 +6685,7 @@ columns and relationships of "distributions" */
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['circle_share_tokens_insert_input']
-        > /** on conflict condition */;
+        > /** upsert condition */;
         on_conflict?:
           | ValueTypes['circle_share_tokens_on_conflict']
           | undefined
@@ -6714,7 +6696,7 @@ columns and relationships of "distributions" */
     insert_circle_share_tokens_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['circle_share_tokens_insert_input'] /** on conflict condition */;
+        object: ValueTypes['circle_share_tokens_insert_input'] /** upsert condition */;
         on_conflict?:
           | ValueTypes['circle_share_tokens_on_conflict']
           | undefined
@@ -6727,7 +6709,7 @@ columns and relationships of "distributions" */
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['circles_insert_input']
-        > /** on conflict condition */;
+        > /** upsert condition */;
         on_conflict?: ValueTypes['circles_on_conflict'] | undefined | null;
       },
       ValueTypes['circles_mutation_response']
@@ -6735,7 +6717,7 @@ columns and relationships of "distributions" */
     insert_circles_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['circles_insert_input'] /** on conflict condition */;
+        object: ValueTypes['circles_insert_input'] /** upsert condition */;
         on_conflict?: ValueTypes['circles_on_conflict'] | undefined | null;
       },
       ValueTypes['circles']
@@ -6745,7 +6727,7 @@ columns and relationships of "distributions" */
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['claims_insert_input']
-        > /** on conflict condition */;
+        > /** upsert condition */;
         on_conflict?: ValueTypes['claims_on_conflict'] | undefined | null;
       },
       ValueTypes['claims_mutation_response']
@@ -6753,7 +6735,7 @@ columns and relationships of "distributions" */
     insert_claims_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['claims_insert_input'] /** on conflict condition */;
+        object: ValueTypes['claims_insert_input'] /** upsert condition */;
         on_conflict?: ValueTypes['claims_on_conflict'] | undefined | null;
       },
       ValueTypes['claims']
@@ -6763,7 +6745,7 @@ columns and relationships of "distributions" */
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['contributions_insert_input']
-        > /** on conflict condition */;
+        > /** upsert condition */;
         on_conflict?:
           | ValueTypes['contributions_on_conflict']
           | undefined
@@ -6774,7 +6756,7 @@ columns and relationships of "distributions" */
     insert_contributions_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['contributions_insert_input'] /** on conflict condition */;
+        object: ValueTypes['contributions_insert_input'] /** upsert condition */;
         on_conflict?:
           | ValueTypes['contributions_on_conflict']
           | undefined
@@ -6787,7 +6769,7 @@ columns and relationships of "distributions" */
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['distributions_insert_input']
-        > /** on conflict condition */;
+        > /** upsert condition */;
         on_conflict?:
           | ValueTypes['distributions_on_conflict']
           | undefined
@@ -6798,7 +6780,7 @@ columns and relationships of "distributions" */
     insert_distributions_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['distributions_insert_input'] /** on conflict condition */;
+        object: ValueTypes['distributions_insert_input'] /** upsert condition */;
         on_conflict?:
           | ValueTypes['distributions_on_conflict']
           | undefined
@@ -6811,7 +6793,7 @@ columns and relationships of "distributions" */
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['epochs_insert_input']
-        > /** on conflict condition */;
+        > /** upsert condition */;
         on_conflict?: ValueTypes['epochs_on_conflict'] | undefined | null;
       },
       ValueTypes['epochs_mutation_response']
@@ -6819,7 +6801,7 @@ columns and relationships of "distributions" */
     insert_epochs_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['epochs_insert_input'] /** on conflict condition */;
+        object: ValueTypes['epochs_insert_input'] /** upsert condition */;
         on_conflict?: ValueTypes['epochs_on_conflict'] | undefined | null;
       },
       ValueTypes['epochs']
@@ -6843,7 +6825,7 @@ columns and relationships of "distributions" */
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['histories_insert_input']
-        > /** on conflict condition */;
+        > /** upsert condition */;
         on_conflict?: ValueTypes['histories_on_conflict'] | undefined | null;
       },
       ValueTypes['histories_mutation_response']
@@ -6851,7 +6833,7 @@ columns and relationships of "distributions" */
     insert_histories_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['histories_insert_input'] /** on conflict condition */;
+        object: ValueTypes['histories_insert_input'] /** upsert condition */;
         on_conflict?: ValueTypes['histories_on_conflict'] | undefined | null;
       },
       ValueTypes['histories']
@@ -6861,7 +6843,7 @@ columns and relationships of "distributions" */
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['interaction_events_insert_input']
-        > /** on conflict condition */;
+        > /** upsert condition */;
         on_conflict?:
           | ValueTypes['interaction_events_on_conflict']
           | undefined
@@ -6872,7 +6854,7 @@ columns and relationships of "distributions" */
     insert_interaction_events_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['interaction_events_insert_input'] /** on conflict condition */;
+        object: ValueTypes['interaction_events_insert_input'] /** upsert condition */;
         on_conflict?:
           | ValueTypes['interaction_events_on_conflict']
           | undefined
@@ -6885,7 +6867,7 @@ columns and relationships of "distributions" */
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['nominees_insert_input']
-        > /** on conflict condition */;
+        > /** upsert condition */;
         on_conflict?: ValueTypes['nominees_on_conflict'] | undefined | null;
       },
       ValueTypes['nominees_mutation_response']
@@ -6893,7 +6875,7 @@ columns and relationships of "distributions" */
     insert_nominees_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['nominees_insert_input'] /** on conflict condition */;
+        object: ValueTypes['nominees_insert_input'] /** upsert condition */;
         on_conflict?: ValueTypes['nominees_on_conflict'] | undefined | null;
       },
       ValueTypes['nominees']
@@ -6903,7 +6885,7 @@ columns and relationships of "distributions" */
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['organizations_insert_input']
-        > /** on conflict condition */;
+        > /** upsert condition */;
         on_conflict?:
           | ValueTypes['organizations_on_conflict']
           | undefined
@@ -6914,7 +6896,7 @@ columns and relationships of "distributions" */
     insert_organizations_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['organizations_insert_input'] /** on conflict condition */;
+        object: ValueTypes['organizations_insert_input'] /** upsert condition */;
         on_conflict?:
           | ValueTypes['organizations_on_conflict']
           | undefined
@@ -6941,7 +6923,7 @@ columns and relationships of "distributions" */
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['pending_token_gifts_insert_input']
-        > /** on conflict condition */;
+        > /** upsert condition */;
         on_conflict?:
           | ValueTypes['pending_token_gifts_on_conflict']
           | undefined
@@ -6952,7 +6934,7 @@ columns and relationships of "distributions" */
     insert_pending_token_gifts_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['pending_token_gifts_insert_input'] /** on conflict condition */;
+        object: ValueTypes['pending_token_gifts_insert_input'] /** upsert condition */;
         on_conflict?:
           | ValueTypes['pending_token_gifts_on_conflict']
           | undefined
@@ -6965,7 +6947,7 @@ columns and relationships of "distributions" */
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['pending_vault_transactions_insert_input']
-        > /** on conflict condition */;
+        > /** upsert condition */;
         on_conflict?:
           | ValueTypes['pending_vault_transactions_on_conflict']
           | undefined
@@ -6976,7 +6958,7 @@ columns and relationships of "distributions" */
     insert_pending_vault_transactions_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['pending_vault_transactions_insert_input'] /** on conflict condition */;
+        object: ValueTypes['pending_vault_transactions_insert_input'] /** upsert condition */;
         on_conflict?:
           | ValueTypes['pending_vault_transactions_on_conflict']
           | undefined
@@ -6989,7 +6971,7 @@ columns and relationships of "distributions" */
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['personal_access_tokens_insert_input']
-        > /** on conflict condition */;
+        > /** upsert condition */;
         on_conflict?:
           | ValueTypes['personal_access_tokens_on_conflict']
           | undefined
@@ -7000,7 +6982,7 @@ columns and relationships of "distributions" */
     insert_personal_access_tokens_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['personal_access_tokens_insert_input'] /** on conflict condition */;
+        object: ValueTypes['personal_access_tokens_insert_input'] /** upsert condition */;
         on_conflict?:
           | ValueTypes['personal_access_tokens_on_conflict']
           | undefined
@@ -7013,7 +6995,7 @@ columns and relationships of "distributions" */
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['profiles_insert_input']
-        > /** on conflict condition */;
+        > /** upsert condition */;
         on_conflict?: ValueTypes['profiles_on_conflict'] | undefined | null;
       },
       ValueTypes['profiles_mutation_response']
@@ -7021,7 +7003,7 @@ columns and relationships of "distributions" */
     insert_profiles_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['profiles_insert_input'] /** on conflict condition */;
+        object: ValueTypes['profiles_insert_input'] /** upsert condition */;
         on_conflict?: ValueTypes['profiles_on_conflict'] | undefined | null;
       },
       ValueTypes['profiles']
@@ -7031,7 +7013,7 @@ columns and relationships of "distributions" */
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['teammates_insert_input']
-        > /** on conflict condition */;
+        > /** upsert condition */;
         on_conflict?: ValueTypes['teammates_on_conflict'] | undefined | null;
       },
       ValueTypes['teammates_mutation_response']
@@ -7039,7 +7021,7 @@ columns and relationships of "distributions" */
     insert_teammates_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['teammates_insert_input'] /** on conflict condition */;
+        object: ValueTypes['teammates_insert_input'] /** upsert condition */;
         on_conflict?: ValueTypes['teammates_on_conflict'] | undefined | null;
       },
       ValueTypes['teammates']
@@ -7049,7 +7031,7 @@ columns and relationships of "distributions" */
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['token_gifts_insert_input']
-        > /** on conflict condition */;
+        > /** upsert condition */;
         on_conflict?: ValueTypes['token_gifts_on_conflict'] | undefined | null;
       },
       ValueTypes['token_gifts_mutation_response']
@@ -7057,7 +7039,7 @@ columns and relationships of "distributions" */
     insert_token_gifts_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['token_gifts_insert_input'] /** on conflict condition */;
+        object: ValueTypes['token_gifts_insert_input'] /** upsert condition */;
         on_conflict?: ValueTypes['token_gifts_on_conflict'] | undefined | null;
       },
       ValueTypes['token_gifts']
@@ -7067,7 +7049,7 @@ columns and relationships of "distributions" */
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['users_insert_input']
-        > /** on conflict condition */;
+        > /** upsert condition */;
         on_conflict?: ValueTypes['users_on_conflict'] | undefined | null;
       },
       ValueTypes['users_mutation_response']
@@ -7075,7 +7057,7 @@ columns and relationships of "distributions" */
     insert_users_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['users_insert_input'] /** on conflict condition */;
+        object: ValueTypes['users_insert_input'] /** upsert condition */;
         on_conflict?: ValueTypes['users_on_conflict'] | undefined | null;
       },
       ValueTypes['users']
@@ -7085,7 +7067,7 @@ columns and relationships of "distributions" */
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['vault_transactions_insert_input']
-        > /** on conflict condition */;
+        > /** upsert condition */;
         on_conflict?:
           | ValueTypes['vault_transactions_on_conflict']
           | undefined
@@ -7096,7 +7078,7 @@ columns and relationships of "distributions" */
     insert_vault_transactions_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['vault_transactions_insert_input'] /** on conflict condition */;
+        object: ValueTypes['vault_transactions_insert_input'] /** upsert condition */;
         on_conflict?:
           | ValueTypes['vault_transactions_on_conflict']
           | undefined
@@ -7109,7 +7091,7 @@ columns and relationships of "distributions" */
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['vault_tx_types_insert_input']
-        > /** on conflict condition */;
+        > /** upsert condition */;
         on_conflict?:
           | ValueTypes['vault_tx_types_on_conflict']
           | undefined
@@ -7120,7 +7102,7 @@ columns and relationships of "distributions" */
     insert_vault_tx_types_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['vault_tx_types_insert_input'] /** on conflict condition */;
+        object: ValueTypes['vault_tx_types_insert_input'] /** upsert condition */;
         on_conflict?:
           | ValueTypes['vault_tx_types_on_conflict']
           | undefined
@@ -7133,7 +7115,7 @@ columns and relationships of "distributions" */
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['vaults_insert_input']
-        > /** on conflict condition */;
+        > /** upsert condition */;
         on_conflict?: ValueTypes['vaults_on_conflict'] | undefined | null;
       },
       ValueTypes['vaults_mutation_response']
@@ -7141,7 +7123,7 @@ columns and relationships of "distributions" */
     insert_vaults_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['vaults_insert_input'] /** on conflict condition */;
+        object: ValueTypes['vaults_insert_input'] /** upsert condition */;
         on_conflict?: ValueTypes['vaults_on_conflict'] | undefined | null;
       },
       ValueTypes['vaults']
@@ -7151,7 +7133,7 @@ columns and relationships of "distributions" */
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['vouches_insert_input']
-        > /** on conflict condition */;
+        > /** upsert condition */;
         on_conflict?: ValueTypes['vouches_on_conflict'] | undefined | null;
       },
       ValueTypes['vouches_mutation_response']
@@ -7159,7 +7141,7 @@ columns and relationships of "distributions" */
     insert_vouches_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['vouches_insert_input'] /** on conflict condition */;
+        object: ValueTypes['vouches_insert_input'] /** upsert condition */;
         on_conflict?: ValueTypes['vouches_on_conflict'] | undefined | null;
       },
       ValueTypes['vouches']
@@ -8133,7 +8115,7 @@ columns and relationships of "distributions" */
   /** input type for inserting array relation for remote table "nominees" */
   ['nominees_arr_rel_insert_input']: {
     data: Array<ValueTypes['nominees_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: ValueTypes['nominees_on_conflict'] | undefined | null;
   };
   /** aggregate avg on columns */
@@ -8279,10 +8261,10 @@ columns and relationships of "distributions" */
   /** input type for inserting object relation for remote table "nominees" */
   ['nominees_obj_rel_insert_input']: {
     data: ValueTypes['nominees_insert_input'];
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: ValueTypes['nominees_on_conflict'] | undefined | null;
   };
-  /** on conflict condition type for table "nominees" */
+  /** on_conflict condition type for table "nominees" */
   ['nominees_on_conflict']: {
     constraint: ValueTypes['nominees_constraint'];
     update_columns: Array<ValueTypes['nominees_update_column']>;
@@ -8671,10 +8653,10 @@ columns and relationships of "distributions" */
   /** input type for inserting object relation for remote table "organizations" */
   ['organizations_obj_rel_insert_input']: {
     data: ValueTypes['organizations_insert_input'];
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: ValueTypes['organizations_on_conflict'] | undefined | null;
   };
-  /** on conflict condition type for table "organizations" */
+  /** on_conflict condition type for table "organizations" */
   ['organizations_on_conflict']: {
     constraint: ValueTypes['organizations_constraint'];
     update_columns: Array<ValueTypes['organizations_update_column']>;
@@ -8925,10 +8907,7 @@ columns and relationships of "distributions" */
     sender_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** GIVE allocations made by circle members for the currently running epoch
-
-
-columns and relationships of "pending_token_gifts" */
+  /** GIVE allocations made by circle members for the currently running epoch */
   ['pending_token_gifts']: AliasType<{
     /** An object relationship */
     circle?: ValueTypes['circles'];
@@ -9019,7 +8998,7 @@ columns and relationships of "pending_token_gifts" */
   /** input type for inserting array relation for remote table "pending_token_gifts" */
   ['pending_token_gifts_arr_rel_insert_input']: {
     data: Array<ValueTypes['pending_token_gifts_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?:
       | ValueTypes['pending_token_gifts_on_conflict']
       | undefined
@@ -9174,7 +9153,7 @@ columns and relationships of "pending_token_gifts" */
     returning?: ValueTypes['pending_token_gifts'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on conflict condition type for table "pending_token_gifts" */
+  /** on_conflict condition type for table "pending_token_gifts" */
   ['pending_token_gifts_on_conflict']: {
     constraint: ValueTypes['pending_token_gifts_constraint'];
     update_columns: Array<ValueTypes['pending_token_gifts_update_column']>;
@@ -9359,10 +9338,7 @@ columns and relationships of "pending_token_gifts" */
     sender_id?: ValueTypes['order_by'] | undefined | null;
     tokens?: ValueTypes['order_by'] | undefined | null;
   };
-  /** stores app-specific context to aid in the recovery of incomplete transactions
-
-
-columns and relationships of "pending_vault_transactions" */
+  /** stores app-specific context to aid in the recovery of incomplete transactions */
   ['pending_vault_transactions']: AliasType<{
     chain_id?: boolean | `@${string}`;
     claim_id?: boolean | `@${string}`;
@@ -9512,7 +9488,7 @@ columns and relationships of "pending_vault_transactions" */
     returning?: ValueTypes['pending_vault_transactions'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on conflict condition type for table "pending_vault_transactions" */
+  /** on_conflict condition type for table "pending_vault_transactions" */
   ['pending_vault_transactions_on_conflict']: {
     constraint: ValueTypes['pending_vault_transactions_constraint'];
     update_columns: Array<
@@ -9747,7 +9723,7 @@ columns and relationships of "pending_vault_transactions" */
     returning?: ValueTypes['personal_access_tokens'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on conflict condition type for table "personal_access_tokens" */
+  /** on_conflict condition type for table "personal_access_tokens" */
   ['personal_access_tokens_on_conflict']: {
     constraint: ValueTypes['personal_access_tokens_constraint'];
     update_columns: Array<ValueTypes['personal_access_tokens_update_column']>;
@@ -9828,10 +9804,7 @@ columns and relationships of "pending_vault_transactions" */
     tokenable_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table
-
-
-columns and relationships of "profiles" */
+  /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table */
   ['profiles']: AliasType<{
     address?: boolean | `@${string}`;
     ann_power?: boolean | `@${string}`;
@@ -10132,10 +10105,10 @@ columns and relationships of "profiles" */
   /** input type for inserting object relation for remote table "profiles" */
   ['profiles_obj_rel_insert_input']: {
     data: ValueTypes['profiles_insert_input'];
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: ValueTypes['profiles_on_conflict'] | undefined | null;
   };
-  /** on conflict condition type for table "profiles" */
+  /** on_conflict condition type for table "profiles" */
   ['profiles_on_conflict']: {
     constraint: ValueTypes['profiles_constraint'];
     update_columns: Array<ValueTypes['profiles_update_column']>;
@@ -13114,7 +13087,7 @@ columns and relationships of "profiles" */
   /** input type for inserting array relation for remote table "teammates" */
   ['teammates_arr_rel_insert_input']: {
     data: Array<ValueTypes['teammates_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: ValueTypes['teammates_on_conflict'] | undefined | null;
   };
   /** aggregate avg on columns */
@@ -13203,7 +13176,7 @@ columns and relationships of "profiles" */
     returning?: ValueTypes['teammates'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on conflict condition type for table "teammates" */
+  /** on_conflict condition type for table "teammates" */
   ['teammates_on_conflict']: {
     constraint: ValueTypes['teammates_constraint'];
     update_columns: Array<ValueTypes['teammates_update_column']>;
@@ -13352,10 +13325,7 @@ columns and relationships of "profiles" */
     _neq?: ValueTypes['timestamptz'] | undefined | null;
     _nin?: Array<ValueTypes['timestamptz']> | undefined | null;
   };
-  /** GIVE allocations made by circle members for completed epochs
-
-
-columns and relationships of "token_gifts" */
+  /** GIVE allocations made by circle members for completed epochs */
   ['token_gifts']: AliasType<{
     /** An object relationship */
     circle?: ValueTypes['circles'];
@@ -13434,7 +13404,7 @@ columns and relationships of "token_gifts" */
   /** input type for inserting array relation for remote table "token_gifts" */
   ['token_gifts_arr_rel_insert_input']: {
     data: Array<ValueTypes['token_gifts_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: ValueTypes['token_gifts_on_conflict'] | undefined | null;
   };
   /** aggregate avg on columns */
@@ -13583,7 +13553,7 @@ columns and relationships of "token_gifts" */
     returning?: ValueTypes['token_gifts'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on conflict condition type for table "token_gifts" */
+  /** on_conflict condition type for table "token_gifts" */
   ['token_gifts_on_conflict']: {
     constraint: ValueTypes['token_gifts_constraint'];
     update_columns: Array<ValueTypes['token_gifts_update_column']>;
@@ -13921,10 +13891,7 @@ columns and relationships of "token_gifts" */
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** Members of a circle
-
-
-columns and relationships of "users" */
+  /** Members of a circle */
   ['users']: AliasType<{
     address?: boolean | `@${string}`;
     bio?: boolean | `@${string}`;
@@ -14409,7 +14376,7 @@ columns and relationships of "users" */
   /** input type for inserting array relation for remote table "users" */
   ['users_arr_rel_insert_input']: {
     data: Array<ValueTypes['users_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: ValueTypes['users_on_conflict'] | undefined | null;
   };
   /** aggregate avg on columns */
@@ -14622,10 +14589,10 @@ columns and relationships of "users" */
   /** input type for inserting object relation for remote table "users" */
   ['users_obj_rel_insert_input']: {
     data: ValueTypes['users_insert_input'];
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: ValueTypes['users_on_conflict'] | undefined | null;
   };
-  /** on conflict condition type for table "users" */
+  /** on_conflict condition type for table "users" */
   ['users_on_conflict']: {
     constraint: ValueTypes['users_constraint'];
     update_columns: Array<ValueTypes['users_update_column']>;
@@ -14963,7 +14930,7 @@ columns and relationships of "users" */
   /** input type for inserting array relation for remote table "vault_transactions" */
   ['vault_transactions_arr_rel_insert_input']: {
     data: Array<ValueTypes['vault_transactions_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?:
       | ValueTypes['vault_transactions_on_conflict']
       | undefined
@@ -15096,7 +15063,7 @@ columns and relationships of "users" */
     returning?: ValueTypes['vault_transactions'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on conflict condition type for table "vault_transactions" */
+  /** on_conflict condition type for table "vault_transactions" */
   ['vault_transactions_on_conflict']: {
     constraint: ValueTypes['vault_transactions_constraint'];
     update_columns: Array<ValueTypes['vault_transactions_update_column']>;
@@ -15387,10 +15354,10 @@ columns and relationships of "users" */
   /** input type for inserting object relation for remote table "vault_tx_types" */
   ['vault_tx_types_obj_rel_insert_input']: {
     data: ValueTypes['vault_tx_types_insert_input'];
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: ValueTypes['vault_tx_types_on_conflict'] | undefined | null;
   };
-  /** on conflict condition type for table "vault_tx_types" */
+  /** on_conflict condition type for table "vault_tx_types" */
   ['vault_tx_types_on_conflict']: {
     constraint: ValueTypes['vault_tx_types_constraint'];
     update_columns: Array<ValueTypes['vault_tx_types_update_column']>;
@@ -15574,7 +15541,7 @@ columns and relationships of "users" */
   /** input type for inserting array relation for remote table "vaults" */
   ['vaults_arr_rel_insert_input']: {
     data: Array<ValueTypes['vaults_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: ValueTypes['vaults_on_conflict'] | undefined | null;
   };
   /** aggregate avg on columns */
@@ -15736,10 +15703,10 @@ columns and relationships of "users" */
   /** input type for inserting object relation for remote table "vaults" */
   ['vaults_obj_rel_insert_input']: {
     data: ValueTypes['vaults_insert_input'];
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: ValueTypes['vaults_on_conflict'] | undefined | null;
   };
-  /** on conflict condition type for table "vaults" */
+  /** on_conflict condition type for table "vaults" */
   ['vaults_on_conflict']: {
     constraint: ValueTypes['vaults_constraint'];
     update_columns: Array<ValueTypes['vaults_update_column']>;
@@ -15983,7 +15950,7 @@ columns and relationships of "users" */
   /** input type for inserting array relation for remote table "vouches" */
   ['vouches_arr_rel_insert_input']: {
     data: Array<ValueTypes['vouches_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: ValueTypes['vouches_on_conflict'] | undefined | null;
   };
   /** aggregate avg on columns */
@@ -16072,7 +16039,7 @@ columns and relationships of "users" */
     returning?: ValueTypes['vouches'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on conflict condition type for table "vouches" */
+  /** on_conflict condition type for table "vouches" */
   ['vouches_on_conflict']: {
     constraint: ValueTypes['vouches_constraint'];
     update_columns: Array<ValueTypes['vouches_update_column']>;
@@ -16206,8 +16173,7 @@ export type ModelTypes = {
   };
   ['Allocations']: GraphQLTypes['Allocations'];
   ['AllocationsResponse']: {
-    /** An object relationship */
-    user: GraphQLTypes['users'];
+    user?: GraphQLTypes['users'] | undefined;
     user_id: number;
   };
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
@@ -16218,8 +16184,7 @@ export type ModelTypes = {
   ['CoordinapeInput']: GraphQLTypes['CoordinapeInput'];
   ['CreateCircleInput']: GraphQLTypes['CreateCircleInput'];
   ['CreateCircleResponse']: {
-    /** An object relationship */
-    circle: GraphQLTypes['circles'];
+    circle?: GraphQLTypes['circles'] | undefined;
     id: number;
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
@@ -16230,8 +16195,7 @@ export type ModelTypes = {
   ['CreateNomineeInput']: GraphQLTypes['CreateNomineeInput'];
   ['CreateNomineeResponse']: {
     id?: number | undefined;
-    /** An object relationship */
-    nominee: GraphQLTypes['nominees'];
+    nominee?: GraphQLTypes['nominees'] | undefined;
   };
   ['CreateUserInput']: GraphQLTypes['CreateUserInput'];
   ['CreateUserWithTokenInput']: GraphQLTypes['CreateUserWithTokenInput'];
@@ -16245,15 +16209,13 @@ export type ModelTypes = {
   };
   ['DeleteUserInput']: GraphQLTypes['DeleteUserInput'];
   ['EpochResponse']: {
-    /** An object relationship */
-    epoch: GraphQLTypes['epochs'];
+    epoch?: GraphQLTypes['epochs'] | undefined;
     id: string;
   };
   ['GenerateApiKeyInput']: GraphQLTypes['GenerateApiKeyInput'];
   ['GenerateApiKeyResponse']: {
     api_key: string;
-    /** An object relationship */
-    circleApiKey: GraphQLTypes['circle_api_keys'];
+    circleApiKey?: GraphQLTypes['circle_api_keys'] | undefined;
     hash: string;
   };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
@@ -16261,13 +16223,11 @@ export type ModelTypes = {
   ['LogVaultTxInput']: GraphQLTypes['LogVaultTxInput'];
   ['LogVaultTxResponse']: {
     id: string;
-    /** An object relationship */
-    vault_tx_return_object: GraphQLTypes['vault_transactions'];
+    vault_tx_return_object?: GraphQLTypes['vault_transactions'] | undefined;
   };
   ['LogoutResponse']: {
     id?: number | undefined;
-    /** An object relationship */
-    profile: GraphQLTypes['profiles'];
+    profile?: GraphQLTypes['profiles'] | undefined;
   };
   ['MarkClaimedInput']: GraphQLTypes['MarkClaimedInput'];
   ['MarkClaimedOutput']: {
@@ -16277,36 +16237,30 @@ export type ModelTypes = {
   ['String_comparison_exp']: GraphQLTypes['String_comparison_exp'];
   ['UpdateCircleInput']: GraphQLTypes['UpdateCircleInput'];
   ['UpdateCircleOutput']: {
-    /** An object relationship */
-    circle: GraphQLTypes['circles'];
+    circle?: GraphQLTypes['circles'] | undefined;
     id: number;
   };
   ['UpdateCircleResponse']: {
-    /** An object relationship */
-    circle: GraphQLTypes['circles'];
+    circle?: GraphQLTypes['circles'] | undefined;
     id: number;
   };
   ['UpdateContributionInput']: GraphQLTypes['UpdateContributionInput'];
   ['UpdateContributionResponse']: {
     id: string;
-    /** An object relationship */
-    updateContribution_Contribution: GraphQLTypes['contributions'];
+    updateContribution_Contribution?: GraphQLTypes['contributions'] | undefined;
   };
   ['UpdateEpochInput']: GraphQLTypes['UpdateEpochInput'];
   ['UpdateOrgResponse']: {
     id: number;
-    /** An object relationship */
-    org: GraphQLTypes['organizations'];
+    org?: GraphQLTypes['organizations'] | undefined;
   };
   ['UpdateProfileResponse']: {
     id: number;
-    /** An object relationship */
-    profile: GraphQLTypes['profiles'];
+    profile?: GraphQLTypes['profiles'] | undefined;
   };
   ['UpdateTeammatesInput']: GraphQLTypes['UpdateTeammatesInput'];
   ['UpdateTeammatesResponse']: {
-    /** An object relationship */
-    user: GraphQLTypes['users'];
+    user?: GraphQLTypes['users'] | undefined;
     user_id: string;
   };
   ['UpdateUserInput']: GraphQLTypes['UpdateUserInput'];
@@ -16315,20 +16269,17 @@ export type ModelTypes = {
   ['UploadOrgImageInput']: GraphQLTypes['UploadOrgImageInput'];
   ['UserObj']: GraphQLTypes['UserObj'];
   ['UserResponse']: {
-    /** An object relationship */
-    UserResponse: GraphQLTypes['users'];
+    UserResponse?: GraphQLTypes['users'] | undefined;
     id: string;
   };
   ['VaultResponse']: {
     id: string;
-    /** An object relationship */
-    vault: GraphQLTypes['vaults'];
+    vault?: GraphQLTypes['vaults'] | undefined;
   };
   ['VouchInput']: GraphQLTypes['VouchInput'];
   ['VouchOutput']: {
     id: number;
-    /** An object relationship */
-    nominee: GraphQLTypes['nominees'];
+    nominee?: GraphQLTypes['nominees'] | undefined;
   };
   ['bigint']: number;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
@@ -16429,7 +16380,7 @@ export type ModelTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['burns']>;
   };
-  /** on conflict condition type for table "burns" */
+  /** on_conflict condition type for table "burns" */
   ['burns_on_conflict']: GraphQLTypes['burns_on_conflict'];
   /** Ordering options when selecting data from "burns". */
   ['burns_order_by']: GraphQLTypes['burns_order_by'];
@@ -16525,10 +16476,7 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "burns" */
   ['burns_variance_order_by']: GraphQLTypes['burns_variance_order_by'];
-  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API.
-
-
-columns and relationships of "circle_api_keys" */
+  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API. */
   ['circle_api_keys']: {
     /** An object relationship */
     circle: GraphQLTypes['circles'];
@@ -16615,7 +16563,7 @@ columns and relationships of "circle_api_keys" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['circle_api_keys']>;
   };
-  /** on conflict condition type for table "circle_api_keys" */
+  /** on_conflict condition type for table "circle_api_keys" */
   ['circle_api_keys_on_conflict']: GraphQLTypes['circle_api_keys_on_conflict'];
   /** Ordering options when selecting data from "circle_api_keys". */
   ['circle_api_keys_order_by']: GraphQLTypes['circle_api_keys_order_by'];
@@ -16761,7 +16709,7 @@ columns and relationships of "circle_api_keys" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['circle_integrations']>;
   };
-  /** on conflict condition type for table "circle_integrations" */
+  /** on_conflict condition type for table "circle_integrations" */
   ['circle_integrations_on_conflict']: GraphQLTypes['circle_integrations_on_conflict'];
   /** Ordering options when selecting data from "circle_integrations". */
   ['circle_integrations_order_by']: GraphQLTypes['circle_integrations_order_by'];
@@ -16897,7 +16845,7 @@ columns and relationships of "circle_api_keys" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['circle_metadata']>;
   };
-  /** on conflict condition type for table "circle_metadata" */
+  /** on_conflict condition type for table "circle_metadata" */
   ['circle_metadata_on_conflict']: GraphQLTypes['circle_metadata_on_conflict'];
   /** Ordering options when selecting data from "circle_metadata". */
   ['circle_metadata_order_by']: GraphQLTypes['circle_metadata_order_by'];
@@ -17118,7 +17066,7 @@ columns and relationships of "circle_api_keys" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['circle_share_tokens']>;
   };
-  /** on conflict condition type for table "circle_share_tokens" */
+  /** on_conflict condition type for table "circle_share_tokens" */
   ['circle_share_tokens_on_conflict']: GraphQLTypes['circle_share_tokens_on_conflict'];
   /** Ordering options when selecting data from "circle_share_tokens". */
   ['circle_share_tokens_order_by']: GraphQLTypes['circle_share_tokens_order_by'];
@@ -17336,7 +17284,7 @@ columns and relationships of "circle_api_keys" */
   };
   /** input type for inserting object relation for remote table "circles" */
   ['circles_obj_rel_insert_input']: GraphQLTypes['circles_obj_rel_insert_input'];
-  /** on conflict condition type for table "circles" */
+  /** on_conflict condition type for table "circles" */
   ['circles_on_conflict']: GraphQLTypes['circles_on_conflict'];
   /** Ordering options when selecting data from "circles". */
   ['circles_order_by']: GraphQLTypes['circles_order_by'];
@@ -17517,7 +17465,7 @@ columns and relationships of "circle_api_keys" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['claims']>;
   };
-  /** on conflict condition type for table "claims" */
+  /** on_conflict condition type for table "claims" */
   ['claims_on_conflict']: GraphQLTypes['claims_on_conflict'];
   /** Ordering options when selecting data from "claims". */
   ['claims_order_by']: GraphQLTypes['claims_order_by'];
@@ -17693,7 +17641,7 @@ columns and relationships of "circle_api_keys" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['contributions']>;
   };
-  /** on conflict condition type for table "contributions" */
+  /** on_conflict condition type for table "contributions" */
   ['contributions_on_conflict']: GraphQLTypes['contributions_on_conflict'];
   /** Ordering options when selecting data from "contributions". */
   ['contributions_order_by']: GraphQLTypes['contributions_order_by'];
@@ -17764,10 +17712,7 @@ columns and relationships of "circle_api_keys" */
   ['date']: any;
   /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
   ['date_comparison_exp']: GraphQLTypes['date_comparison_exp'];
-  /** Vault Distributions
-
-
-columns and relationships of "distributions" */
+  /** Vault Distributions */
   ['distributions']: {
     /** An array relationship */
     claims: Array<GraphQLTypes['claims']>;
@@ -17895,7 +17840,7 @@ columns and relationships of "distributions" */
   };
   /** input type for inserting object relation for remote table "distributions" */
   ['distributions_obj_rel_insert_input']: GraphQLTypes['distributions_obj_rel_insert_input'];
-  /** on conflict condition type for table "distributions" */
+  /** on_conflict condition type for table "distributions" */
   ['distributions_on_conflict']: GraphQLTypes['distributions_on_conflict'];
   /** Ordering options when selecting data from "distributions". */
   ['distributions_order_by']: GraphQLTypes['distributions_order_by'];
@@ -18130,7 +18075,7 @@ columns and relationships of "distributions" */
   };
   /** input type for inserting object relation for remote table "epoches" */
   ['epochs_obj_rel_insert_input']: GraphQLTypes['epochs_obj_rel_insert_input'];
-  /** on conflict condition type for table "epoches" */
+  /** on_conflict condition type for table "epoches" */
   ['epochs_on_conflict']: GraphQLTypes['epochs_on_conflict'];
   /** Ordering options when selecting data from "epoches". */
   ['epochs_order_by']: GraphQLTypes['epochs_order_by'];
@@ -18423,7 +18368,7 @@ columns and relationships of "distributions" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['histories']>;
   };
-  /** on conflict condition type for table "histories" */
+  /** on_conflict condition type for table "histories" */
   ['histories_on_conflict']: GraphQLTypes['histories_on_conflict'];
   /** Ordering options when selecting data from "histories". */
   ['histories_order_by']: GraphQLTypes['histories_order_by'];
@@ -18573,7 +18518,7 @@ columns and relationships of "distributions" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['interaction_events']>;
   };
-  /** on conflict condition type for table "interaction_events" */
+  /** on_conflict condition type for table "interaction_events" */
   ['interaction_events_on_conflict']: GraphQLTypes['interaction_events_on_conflict'];
   /** Ordering options when selecting data from "interaction_events". */
   ['interaction_events_order_by']: GraphQLTypes['interaction_events_order_by'];
@@ -18640,6 +18585,7 @@ columns and relationships of "distributions" */
   /** Boolean expression to compare columns of type "json". All fields are combined with logical 'AND'. */
   ['json_comparison_exp']: GraphQLTypes['json_comparison_exp'];
   ['jsonb']: any;
+  ['jsonb_cast_exp']: GraphQLTypes['jsonb_cast_exp'];
   /** Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'. */
   ['jsonb_comparison_exp']: GraphQLTypes['jsonb_comparison_exp'];
   /** mutation root */
@@ -19258,7 +19204,7 @@ columns and relationships of "distributions" */
   };
   /** input type for inserting object relation for remote table "nominees" */
   ['nominees_obj_rel_insert_input']: GraphQLTypes['nominees_obj_rel_insert_input'];
-  /** on conflict condition type for table "nominees" */
+  /** on_conflict condition type for table "nominees" */
   ['nominees_on_conflict']: GraphQLTypes['nominees_on_conflict'];
   /** Ordering options when selecting data from "nominees". */
   ['nominees_order_by']: GraphQLTypes['nominees_order_by'];
@@ -19421,7 +19367,7 @@ columns and relationships of "distributions" */
   };
   /** input type for inserting object relation for remote table "organizations" */
   ['organizations_obj_rel_insert_input']: GraphQLTypes['organizations_obj_rel_insert_input'];
-  /** on conflict condition type for table "organizations" */
+  /** on_conflict condition type for table "organizations" */
   ['organizations_on_conflict']: GraphQLTypes['organizations_on_conflict'];
   /** Ordering options when selecting data from "organizations". */
   ['organizations_order_by']: GraphQLTypes['organizations_order_by'];
@@ -19580,10 +19526,7 @@ columns and relationships of "distributions" */
     recipient_id?: number | undefined;
     sender_id?: number | undefined;
   };
-  /** GIVE allocations made by circle members for the currently running epoch
-
-
-columns and relationships of "pending_token_gifts" */
+  /** GIVE allocations made by circle members for the currently running epoch */
   ['pending_token_gifts']: {
     /** An object relationship */
     circle: GraphQLTypes['circles'];
@@ -19697,7 +19640,7 @@ columns and relationships of "pending_token_gifts" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['pending_token_gifts']>;
   };
-  /** on conflict condition type for table "pending_token_gifts" */
+  /** on_conflict condition type for table "pending_token_gifts" */
   ['pending_token_gifts_on_conflict']: GraphQLTypes['pending_token_gifts_on_conflict'];
   /** Ordering options when selecting data from "pending_token_gifts". */
   ['pending_token_gifts_order_by']: GraphQLTypes['pending_token_gifts_order_by'];
@@ -19786,10 +19729,7 @@ columns and relationships of "pending_token_gifts" */
   };
   /** order by variance() on columns of table "pending_token_gifts" */
   ['pending_token_gifts_variance_order_by']: GraphQLTypes['pending_token_gifts_variance_order_by'];
-  /** stores app-specific context to aid in the recovery of incomplete transactions
-
-
-columns and relationships of "pending_vault_transactions" */
+  /** stores app-specific context to aid in the recovery of incomplete transactions */
   ['pending_vault_transactions']: {
     chain_id: number;
     claim_id?: GraphQLTypes['bigint'] | undefined;
@@ -19884,7 +19824,7 @@ columns and relationships of "pending_vault_transactions" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['pending_vault_transactions']>;
   };
-  /** on conflict condition type for table "pending_vault_transactions" */
+  /** on_conflict condition type for table "pending_vault_transactions" */
   ['pending_vault_transactions_on_conflict']: GraphQLTypes['pending_vault_transactions_on_conflict'];
   /** Ordering options when selecting data from "pending_vault_transactions". */
   ['pending_vault_transactions_order_by']: GraphQLTypes['pending_vault_transactions_order_by'];
@@ -20039,7 +19979,7 @@ columns and relationships of "pending_vault_transactions" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['personal_access_tokens']>;
   };
-  /** on conflict condition type for table "personal_access_tokens" */
+  /** on_conflict condition type for table "personal_access_tokens" */
   ['personal_access_tokens_on_conflict']: GraphQLTypes['personal_access_tokens_on_conflict'];
   /** Ordering options when selecting data from "personal_access_tokens". */
   ['personal_access_tokens_order_by']: GraphQLTypes['personal_access_tokens_order_by'];
@@ -20086,10 +20026,7 @@ columns and relationships of "pending_vault_transactions" */
     id?: number | undefined;
     tokenable_id?: number | undefined;
   };
-  /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table
-
-
-columns and relationships of "profiles" */
+  /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table */
   ['profiles']: {
     address: string;
     ann_power: boolean;
@@ -20196,7 +20133,7 @@ columns and relationships of "profiles" */
   };
   /** input type for inserting object relation for remote table "profiles" */
   ['profiles_obj_rel_insert_input']: GraphQLTypes['profiles_obj_rel_insert_input'];
-  /** on conflict condition type for table "profiles" */
+  /** on_conflict condition type for table "profiles" */
   ['profiles_on_conflict']: GraphQLTypes['profiles_on_conflict'];
   /** Ordering options when selecting data from "profiles". */
   ['profiles_order_by']: GraphQLTypes['profiles_order_by'];
@@ -20243,7 +20180,7 @@ columns and relationships of "profiles" */
     burns_aggregate: GraphQLTypes['burns_aggregate'];
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
-    /** fetch data from the table: "circle_api_keys" */
+    /** An array relationship */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** An aggregate relationship */
     circle_api_keys_aggregate: GraphQLTypes['circle_api_keys_aggregate'];
@@ -20417,7 +20354,7 @@ columns and relationships of "profiles" */
     burns_aggregate: GraphQLTypes['burns_aggregate'];
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
-    /** fetch data from the table: "circle_api_keys" */
+    /** An array relationship */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** An aggregate relationship */
     circle_api_keys_aggregate: GraphQLTypes['circle_api_keys_aggregate'];
@@ -20662,7 +20599,7 @@ columns and relationships of "profiles" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['teammates']>;
   };
-  /** on conflict condition type for table "teammates" */
+  /** on_conflict condition type for table "teammates" */
   ['teammates_on_conflict']: GraphQLTypes['teammates_on_conflict'];
   /** Ordering options when selecting data from "teammates". */
   ['teammates_order_by']: GraphQLTypes['teammates_order_by'];
@@ -20736,10 +20673,7 @@ columns and relationships of "profiles" */
   ['timestamptz']: any;
   /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
   ['timestamptz_comparison_exp']: GraphQLTypes['timestamptz_comparison_exp'];
-  /** GIVE allocations made by circle members for completed epochs
-
-
-columns and relationships of "token_gifts" */
+  /** GIVE allocations made by circle members for completed epochs */
   ['token_gifts']: {
     /** An object relationship */
     circle: GraphQLTypes['circles'];
@@ -20847,7 +20781,7 @@ columns and relationships of "token_gifts" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['token_gifts']>;
   };
-  /** on conflict condition type for table "token_gifts" */
+  /** on_conflict condition type for table "token_gifts" */
   ['token_gifts_on_conflict']: GraphQLTypes['token_gifts_on_conflict'];
   /** Ordering options when selecting data from "token_gifts". */
   ['token_gifts_order_by']: GraphQLTypes['token_gifts_order_by'];
@@ -21038,10 +20972,7 @@ columns and relationships of "token_gifts" */
     fixed_payment_amount?: number | undefined;
     user_id?: number | undefined;
   };
-  /** Members of a circle
-
-
-columns and relationships of "users" */
+  /** Members of a circle */
   ['users']: {
     address: string;
     bio?: string | undefined;
@@ -21051,7 +20982,7 @@ columns and relationships of "users" */
     burns_aggregate: GraphQLTypes['burns_aggregate'];
     /** An object relationship */
     circle: GraphQLTypes['circles'];
-    /** fetch data from the table: "circle_api_keys" */
+    /** An array relationship */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** An aggregate relationship */
     circle_api_keys_aggregate: GraphQLTypes['circle_api_keys_aggregate'];
@@ -21191,7 +21122,7 @@ columns and relationships of "users" */
   };
   /** input type for inserting object relation for remote table "users" */
   ['users_obj_rel_insert_input']: GraphQLTypes['users_obj_rel_insert_input'];
-  /** on conflict condition type for table "users" */
+  /** on_conflict condition type for table "users" */
   ['users_on_conflict']: GraphQLTypes['users_on_conflict'];
   /** Ordering options when selecting data from "users". */
   ['users_order_by']: GraphQLTypes['users_order_by'];
@@ -21390,7 +21321,7 @@ columns and relationships of "users" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['vault_transactions']>;
   };
-  /** on conflict condition type for table "vault_transactions" */
+  /** on_conflict condition type for table "vault_transactions" */
   ['vault_transactions_on_conflict']: GraphQLTypes['vault_transactions_on_conflict'];
   /** Ordering options when selecting data from "vault_transactions". */
   ['vault_transactions_order_by']: GraphQLTypes['vault_transactions_order_by'];
@@ -21520,7 +21451,7 @@ columns and relationships of "users" */
   };
   /** input type for inserting object relation for remote table "vault_tx_types" */
   ['vault_tx_types_obj_rel_insert_input']: GraphQLTypes['vault_tx_types_obj_rel_insert_input'];
-  /** on conflict condition type for table "vault_tx_types" */
+  /** on_conflict condition type for table "vault_tx_types" */
   ['vault_tx_types_on_conflict']: GraphQLTypes['vault_tx_types_on_conflict'];
   /** Ordering options when selecting data from "vault_tx_types". */
   ['vault_tx_types_order_by']: GraphQLTypes['vault_tx_types_order_by'];
@@ -21644,7 +21575,7 @@ columns and relationships of "users" */
   };
   /** input type for inserting object relation for remote table "vaults" */
   ['vaults_obj_rel_insert_input']: GraphQLTypes['vaults_obj_rel_insert_input'];
-  /** on conflict condition type for table "vaults" */
+  /** on_conflict condition type for table "vaults" */
   ['vaults_on_conflict']: GraphQLTypes['vaults_on_conflict'];
   /** Ordering options when selecting data from "vaults". */
   ['vaults_order_by']: GraphQLTypes['vaults_order_by'];
@@ -21811,7 +21742,7 @@ columns and relationships of "users" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['vouches']>;
   };
-  /** on conflict condition type for table "vouches" */
+  /** on_conflict condition type for table "vouches" */
   ['vouches_on_conflict']: GraphQLTypes['vouches_on_conflict'];
   /** Ordering options when selecting data from "vouches". */
   ['vouches_order_by']: GraphQLTypes['vouches_order_by'];
@@ -21918,8 +21849,7 @@ export type GraphQLTypes = {
   };
   ['AllocationsResponse']: {
     __typename: 'AllocationsResponse';
-    /** An object relationship */
-    user: GraphQLTypes['users'];
+    user?: GraphQLTypes['users'] | undefined;
     user_id: number;
   };
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
@@ -21951,8 +21881,7 @@ export type GraphQLTypes = {
   };
   ['CreateCircleResponse']: {
     __typename: 'CreateCircleResponse';
-    /** An object relationship */
-    circle: GraphQLTypes['circles'];
+    circle?: GraphQLTypes['circles'] | undefined;
     id: number;
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
@@ -21975,8 +21904,7 @@ export type GraphQLTypes = {
   ['CreateNomineeResponse']: {
     __typename: 'CreateNomineeResponse';
     id?: number | undefined;
-    /** An object relationship */
-    nominee: GraphQLTypes['nominees'];
+    nominee?: GraphQLTypes['nominees'] | undefined;
   };
   ['CreateUserInput']: {
     address: string;
@@ -22024,8 +21952,7 @@ export type GraphQLTypes = {
   };
   ['EpochResponse']: {
     __typename: 'EpochResponse';
-    /** An object relationship */
-    epoch: GraphQLTypes['epochs'];
+    epoch?: GraphQLTypes['epochs'] | undefined;
     id: string;
   };
   ['GenerateApiKeyInput']: {
@@ -22043,8 +21970,7 @@ export type GraphQLTypes = {
   ['GenerateApiKeyResponse']: {
     __typename: 'GenerateApiKeyResponse';
     api_key: string;
-    /** An object relationship */
-    circleApiKey: GraphQLTypes['circle_api_keys'];
+    circleApiKey?: GraphQLTypes['circle_api_keys'] | undefined;
     hash: string;
   };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
@@ -22071,14 +21997,12 @@ export type GraphQLTypes = {
   ['LogVaultTxResponse']: {
     __typename: 'LogVaultTxResponse';
     id: string;
-    /** An object relationship */
-    vault_tx_return_object: GraphQLTypes['vault_transactions'];
+    vault_tx_return_object?: GraphQLTypes['vault_transactions'] | undefined;
   };
   ['LogoutResponse']: {
     __typename: 'LogoutResponse';
     id?: number | undefined;
-    /** An object relationship */
-    profile: GraphQLTypes['profiles'];
+    profile?: GraphQLTypes['profiles'] | undefined;
   };
   ['MarkClaimedInput']: {
     claim_id: number;
@@ -22141,14 +22065,12 @@ export type GraphQLTypes = {
   };
   ['UpdateCircleOutput']: {
     __typename: 'UpdateCircleOutput';
-    /** An object relationship */
-    circle: GraphQLTypes['circles'];
+    circle?: GraphQLTypes['circles'] | undefined;
     id: number;
   };
   ['UpdateCircleResponse']: {
     __typename: 'UpdateCircleResponse';
-    /** An object relationship */
-    circle: GraphQLTypes['circles'];
+    circle?: GraphQLTypes['circles'] | undefined;
     id: number;
   };
   ['UpdateContributionInput']: {
@@ -22159,8 +22081,7 @@ export type GraphQLTypes = {
   ['UpdateContributionResponse']: {
     __typename: 'UpdateContributionResponse';
     id: string;
-    /** An object relationship */
-    updateContribution_Contribution: GraphQLTypes['contributions'];
+    updateContribution_Contribution?: GraphQLTypes['contributions'] | undefined;
   };
   ['UpdateEpochInput']: {
     circle_id: number;
@@ -22173,14 +22094,12 @@ export type GraphQLTypes = {
   ['UpdateOrgResponse']: {
     __typename: 'UpdateOrgResponse';
     id: number;
-    /** An object relationship */
-    org: GraphQLTypes['organizations'];
+    org?: GraphQLTypes['organizations'] | undefined;
   };
   ['UpdateProfileResponse']: {
     __typename: 'UpdateProfileResponse';
     id: number;
-    /** An object relationship */
-    profile: GraphQLTypes['profiles'];
+    profile?: GraphQLTypes['profiles'] | undefined;
   };
   ['UpdateTeammatesInput']: {
     circle_id: number;
@@ -22188,8 +22107,7 @@ export type GraphQLTypes = {
   };
   ['UpdateTeammatesResponse']: {
     __typename: 'UpdateTeammatesResponse';
-    /** An object relationship */
-    user: GraphQLTypes['users'];
+    user?: GraphQLTypes['users'] | undefined;
     user_id: string;
   };
   ['UpdateUserInput']: {
@@ -22220,15 +22138,13 @@ export type GraphQLTypes = {
   };
   ['UserResponse']: {
     __typename: 'UserResponse';
-    /** An object relationship */
-    UserResponse: GraphQLTypes['users'];
+    UserResponse?: GraphQLTypes['users'] | undefined;
     id: string;
   };
   ['VaultResponse']: {
     __typename: 'VaultResponse';
     id: string;
-    /** An object relationship */
-    vault: GraphQLTypes['vaults'];
+    vault?: GraphQLTypes['vaults'] | undefined;
   };
   ['VouchInput']: {
     nominee_id: number;
@@ -22236,8 +22152,7 @@ export type GraphQLTypes = {
   ['VouchOutput']: {
     __typename: 'VouchOutput';
     id: number;
-    /** An object relationship */
-    nominee: GraphQLTypes['nominees'];
+    nominee?: GraphQLTypes['nominees'] | undefined;
   };
   ['bigint']: any;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
@@ -22309,7 +22224,7 @@ export type GraphQLTypes = {
   /** input type for inserting array relation for remote table "burns" */
   ['burns_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['burns_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: GraphQLTypes['burns_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -22436,7 +22351,7 @@ export type GraphQLTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['burns']>;
   };
-  /** on conflict condition type for table "burns" */
+  /** on_conflict condition type for table "burns" */
   ['burns_on_conflict']: {
     constraint: GraphQLTypes['burns_constraint'];
     update_columns: Array<GraphQLTypes['burns_update_column']>;
@@ -22624,10 +22539,7 @@ export type GraphQLTypes = {
     tokens_burnt?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
-  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API.
-
-
-columns and relationships of "circle_api_keys" */
+  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API. */
   ['circle_api_keys']: {
     __typename: 'circle_api_keys';
     /** An object relationship */
@@ -22692,7 +22604,7 @@ columns and relationships of "circle_api_keys" */
   /** input type for inserting array relation for remote table "circle_api_keys" */
   ['circle_api_keys_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['circle_api_keys_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: GraphQLTypes['circle_api_keys_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -22798,7 +22710,7 @@ columns and relationships of "circle_api_keys" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['circle_api_keys']>;
   };
-  /** on conflict condition type for table "circle_api_keys" */
+  /** on_conflict condition type for table "circle_api_keys" */
   ['circle_api_keys_on_conflict']: {
     constraint: GraphQLTypes['circle_api_keys_constraint'];
     update_columns: Array<GraphQLTypes['circle_api_keys_update_column']>;
@@ -22988,7 +22900,7 @@ columns and relationships of "circle_api_keys" */
   /** input type for inserting array relation for remote table "circle_integrations" */
   ['circle_integrations_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['circle_integrations_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: GraphQLTypes['circle_integrations_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -23080,7 +22992,7 @@ columns and relationships of "circle_api_keys" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['circle_integrations']>;
   };
-  /** on conflict condition type for table "circle_integrations" */
+  /** on_conflict condition type for table "circle_integrations" */
   ['circle_integrations_on_conflict']: {
     constraint: GraphQLTypes['circle_integrations_constraint'];
     update_columns: Array<GraphQLTypes['circle_integrations_update_column']>;
@@ -23247,7 +23159,7 @@ columns and relationships of "circle_api_keys" */
   /** input type for inserting array relation for remote table "circle_metadata" */
   ['circle_metadata_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['circle_metadata_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: GraphQLTypes['circle_metadata_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -23327,7 +23239,7 @@ columns and relationships of "circle_api_keys" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['circle_metadata']>;
   };
-  /** on conflict condition type for table "circle_metadata" */
+  /** on_conflict condition type for table "circle_metadata" */
   ['circle_metadata_on_conflict']: {
     constraint: GraphQLTypes['circle_metadata_constraint'];
     update_columns: Array<GraphQLTypes['circle_metadata_update_column']>;
@@ -23658,7 +23570,7 @@ columns and relationships of "circle_api_keys" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['circle_share_tokens']>;
   };
-  /** on conflict condition type for table "circle_share_tokens" */
+  /** on_conflict condition type for table "circle_share_tokens" */
   ['circle_share_tokens_on_conflict']: {
     constraint: GraphQLTypes['circle_share_tokens_constraint'];
     update_columns: Array<GraphQLTypes['circle_share_tokens_update_column']>;
@@ -23846,7 +23758,7 @@ columns and relationships of "circle_api_keys" */
   /** input type for inserting array relation for remote table "circles" */
   ['circles_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['circles_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: GraphQLTypes['circles_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -24076,10 +23988,10 @@ columns and relationships of "circle_api_keys" */
   /** input type for inserting object relation for remote table "circles" */
   ['circles_obj_rel_insert_input']: {
     data: GraphQLTypes['circles_insert_input'];
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: GraphQLTypes['circles_on_conflict'] | undefined;
   };
-  /** on conflict condition type for table "circles" */
+  /** on_conflict condition type for table "circles" */
   ['circles_on_conflict']: {
     constraint: GraphQLTypes['circles_constraint'];
     update_columns: Array<GraphQLTypes['circles_update_column']>;
@@ -24352,7 +24264,7 @@ columns and relationships of "circle_api_keys" */
   /** input type for inserting array relation for remote table "claims" */
   ['claims_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['claims_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: GraphQLTypes['claims_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -24488,7 +24400,7 @@ columns and relationships of "circle_api_keys" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['claims']>;
   };
-  /** on conflict condition type for table "claims" */
+  /** on_conflict condition type for table "claims" */
   ['claims_on_conflict']: {
     constraint: GraphQLTypes['claims_constraint'];
     update_columns: Array<GraphQLTypes['claims_update_column']>;
@@ -24721,7 +24633,7 @@ columns and relationships of "circle_api_keys" */
   /** input type for inserting array relation for remote table "contributions" */
   ['contributions_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['contributions_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: GraphQLTypes['contributions_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -24828,7 +24740,7 @@ columns and relationships of "circle_api_keys" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['contributions']>;
   };
-  /** on conflict condition type for table "contributions" */
+  /** on_conflict condition type for table "contributions" */
   ['contributions_on_conflict']: {
     constraint: GraphQLTypes['contributions_constraint'];
     update_columns: Array<GraphQLTypes['contributions_update_column']>;
@@ -24970,10 +24882,7 @@ columns and relationships of "circle_api_keys" */
     _neq?: GraphQLTypes['date'] | undefined;
     _nin?: Array<GraphQLTypes['date']> | undefined;
   };
-  /** Vault Distributions
-
-
-columns and relationships of "distributions" */
+  /** Vault Distributions */
   ['distributions']: {
     __typename: 'distributions';
     /** An array relationship */
@@ -25049,7 +24958,7 @@ columns and relationships of "distributions" */
   /** input type for inserting array relation for remote table "distributions" */
   ['distributions_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['distributions_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: GraphQLTypes['distributions_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -25228,10 +25137,10 @@ columns and relationships of "distributions" */
   /** input type for inserting object relation for remote table "distributions" */
   ['distributions_obj_rel_insert_input']: {
     data: GraphQLTypes['distributions_insert_input'];
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: GraphQLTypes['distributions_on_conflict'] | undefined;
   };
-  /** on conflict condition type for table "distributions" */
+  /** on_conflict condition type for table "distributions" */
   ['distributions_on_conflict']: {
     constraint: GraphQLTypes['distributions_constraint'];
     update_columns: Array<GraphQLTypes['distributions_update_column']>;
@@ -25527,7 +25436,7 @@ columns and relationships of "distributions" */
   /** input type for inserting array relation for remote table "epoches" */
   ['epochs_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['epochs_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: GraphQLTypes['epochs_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -25708,10 +25617,10 @@ columns and relationships of "distributions" */
   /** input type for inserting object relation for remote table "epoches" */
   ['epochs_obj_rel_insert_input']: {
     data: GraphQLTypes['epochs_insert_input'];
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: GraphQLTypes['epochs_on_conflict'] | undefined;
   };
-  /** on conflict condition type for table "epoches" */
+  /** on_conflict condition type for table "epoches" */
   ['epochs_on_conflict']: {
     constraint: GraphQLTypes['epochs_constraint'];
     update_columns: Array<GraphQLTypes['epochs_update_column']>;
@@ -26211,7 +26120,7 @@ columns and relationships of "distributions" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['histories']>;
   };
-  /** on conflict condition type for table "histories" */
+  /** on_conflict condition type for table "histories" */
   ['histories_on_conflict']: {
     constraint: GraphQLTypes['histories_constraint'];
     update_columns: Array<GraphQLTypes['histories_update_column']>;
@@ -26438,7 +26347,7 @@ columns and relationships of "distributions" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['interaction_events']>;
   };
-  /** on conflict condition type for table "interaction_events" */
+  /** on_conflict condition type for table "interaction_events" */
   ['interaction_events_on_conflict']: {
     constraint: GraphQLTypes['interaction_events_constraint'];
     update_columns: Array<GraphQLTypes['interaction_events_update_column']>;
@@ -26551,8 +26460,12 @@ columns and relationships of "distributions" */
     _nin?: Array<GraphQLTypes['json']> | undefined;
   };
   ['jsonb']: any;
+  ['jsonb_cast_exp']: {
+    String?: GraphQLTypes['String_comparison_exp'] | undefined;
+  };
   /** Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'. */
   ['jsonb_comparison_exp']: {
+    _cast?: GraphQLTypes['jsonb_cast_exp'] | undefined;
     /** is the column contained in the given json value */
     _contained_in?: GraphQLTypes['jsonb'] | undefined;
     /** does the column contain the given json value at the top level */
@@ -27145,7 +27058,7 @@ columns and relationships of "distributions" */
   /** input type for inserting array relation for remote table "nominees" */
   ['nominees_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['nominees_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: GraphQLTypes['nominees_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -27291,10 +27204,10 @@ columns and relationships of "distributions" */
   /** input type for inserting object relation for remote table "nominees" */
   ['nominees_obj_rel_insert_input']: {
     data: GraphQLTypes['nominees_insert_input'];
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: GraphQLTypes['nominees_on_conflict'] | undefined;
   };
-  /** on conflict condition type for table "nominees" */
+  /** on_conflict condition type for table "nominees" */
   ['nominees_on_conflict']: {
     constraint: GraphQLTypes['nominees_constraint'];
     update_columns: Array<GraphQLTypes['nominees_update_column']>;
@@ -27589,10 +27502,10 @@ columns and relationships of "distributions" */
   /** input type for inserting object relation for remote table "organizations" */
   ['organizations_obj_rel_insert_input']: {
     data: GraphQLTypes['organizations_insert_input'];
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: GraphQLTypes['organizations_on_conflict'] | undefined;
   };
-  /** on conflict condition type for table "organizations" */
+  /** on_conflict condition type for table "organizations" */
   ['organizations_on_conflict']: {
     constraint: GraphQLTypes['organizations_constraint'];
     update_columns: Array<GraphQLTypes['organizations_update_column']>;
@@ -27831,10 +27744,7 @@ columns and relationships of "distributions" */
     recipient_id?: number | undefined;
     sender_id?: number | undefined;
   };
-  /** GIVE allocations made by circle members for the currently running epoch
-
-
-columns and relationships of "pending_token_gifts" */
+  /** GIVE allocations made by circle members for the currently running epoch */
   ['pending_token_gifts']: {
     __typename: 'pending_token_gifts';
     /** An object relationship */
@@ -27912,7 +27822,7 @@ columns and relationships of "pending_token_gifts" */
   /** input type for inserting array relation for remote table "pending_token_gifts" */
   ['pending_token_gifts_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['pending_token_gifts_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: GraphQLTypes['pending_token_gifts_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -28060,7 +27970,7 @@ columns and relationships of "pending_token_gifts" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['pending_token_gifts']>;
   };
-  /** on conflict condition type for table "pending_token_gifts" */
+  /** on_conflict condition type for table "pending_token_gifts" */
   ['pending_token_gifts_on_conflict']: {
     constraint: GraphQLTypes['pending_token_gifts_constraint'];
     update_columns: Array<GraphQLTypes['pending_token_gifts_update_column']>;
@@ -28242,10 +28152,7 @@ columns and relationships of "pending_token_gifts" */
     sender_id?: GraphQLTypes['order_by'] | undefined;
     tokens?: GraphQLTypes['order_by'] | undefined;
   };
-  /** stores app-specific context to aid in the recovery of incomplete transactions
-
-
-columns and relationships of "pending_vault_transactions" */
+  /** stores app-specific context to aid in the recovery of incomplete transactions */
   ['pending_vault_transactions']: {
     __typename: 'pending_vault_transactions';
     chain_id: number;
@@ -28392,7 +28299,7 @@ columns and relationships of "pending_vault_transactions" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['pending_vault_transactions']>;
   };
-  /** on conflict condition type for table "pending_vault_transactions" */
+  /** on_conflict condition type for table "pending_vault_transactions" */
   ['pending_vault_transactions_on_conflict']: {
     constraint: GraphQLTypes['pending_vault_transactions_constraint'];
     update_columns: Array<
@@ -28619,7 +28526,7 @@ columns and relationships of "pending_vault_transactions" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['personal_access_tokens']>;
   };
-  /** on conflict condition type for table "personal_access_tokens" */
+  /** on_conflict condition type for table "personal_access_tokens" */
   ['personal_access_tokens_on_conflict']: {
     constraint: GraphQLTypes['personal_access_tokens_constraint'];
     update_columns: Array<GraphQLTypes['personal_access_tokens_update_column']>;
@@ -28700,10 +28607,7 @@ columns and relationships of "pending_vault_transactions" */
     id?: number | undefined;
     tokenable_id?: number | undefined;
   };
-  /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table
-
-
-columns and relationships of "profiles" */
+  /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table */
   ['profiles']: {
     __typename: 'profiles';
     address: string;
@@ -28867,10 +28771,10 @@ columns and relationships of "profiles" */
   /** input type for inserting object relation for remote table "profiles" */
   ['profiles_obj_rel_insert_input']: {
     data: GraphQLTypes['profiles_insert_input'];
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: GraphQLTypes['profiles_on_conflict'] | undefined;
   };
-  /** on conflict condition type for table "profiles" */
+  /** on_conflict condition type for table "profiles" */
   ['profiles_on_conflict']: {
     constraint: GraphQLTypes['profiles_constraint'];
     update_columns: Array<GraphQLTypes['profiles_update_column']>;
@@ -28970,7 +28874,7 @@ columns and relationships of "profiles" */
     burns_aggregate: GraphQLTypes['burns_aggregate'];
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
-    /** fetch data from the table: "circle_api_keys" */
+    /** An array relationship */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** An aggregate relationship */
     circle_api_keys_aggregate: GraphQLTypes['circle_api_keys_aggregate'];
@@ -29145,7 +29049,7 @@ columns and relationships of "profiles" */
     burns_aggregate: GraphQLTypes['burns_aggregate'];
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
-    /** fetch data from the table: "circle_api_keys" */
+    /** An array relationship */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** An aggregate relationship */
     circle_api_keys_aggregate: GraphQLTypes['circle_api_keys_aggregate'];
@@ -29363,7 +29267,7 @@ columns and relationships of "profiles" */
   /** input type for inserting array relation for remote table "teammates" */
   ['teammates_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['teammates_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: GraphQLTypes['teammates_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -29452,7 +29356,7 @@ columns and relationships of "profiles" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['teammates']>;
   };
-  /** on conflict condition type for table "teammates" */
+  /** on_conflict condition type for table "teammates" */
   ['teammates_on_conflict']: {
     constraint: GraphQLTypes['teammates_constraint'];
     update_columns: Array<GraphQLTypes['teammates_update_column']>;
@@ -29601,10 +29505,7 @@ columns and relationships of "profiles" */
     _neq?: GraphQLTypes['timestamptz'] | undefined;
     _nin?: Array<GraphQLTypes['timestamptz']> | undefined;
   };
-  /** GIVE allocations made by circle members for completed epochs
-
-
-columns and relationships of "token_gifts" */
+  /** GIVE allocations made by circle members for completed epochs */
   ['token_gifts']: {
     __typename: 'token_gifts';
     /** An object relationship */
@@ -29668,7 +29569,7 @@ columns and relationships of "token_gifts" */
   /** input type for inserting array relation for remote table "token_gifts" */
   ['token_gifts_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['token_gifts_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: GraphQLTypes['token_gifts_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -29816,7 +29717,7 @@ columns and relationships of "token_gifts" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['token_gifts']>;
   };
-  /** on conflict condition type for table "token_gifts" */
+  /** on_conflict condition type for table "token_gifts" */
   ['token_gifts_on_conflict']: {
     constraint: GraphQLTypes['token_gifts_constraint'];
     update_columns: Array<GraphQLTypes['token_gifts_update_column']>;
@@ -30141,10 +30042,7 @@ columns and relationships of "token_gifts" */
     fixed_payment_amount?: number | undefined;
     user_id?: number | undefined;
   };
-  /** Members of a circle
-
-
-columns and relationships of "users" */
+  /** Members of a circle */
   ['users']: {
     __typename: 'users';
     address: string;
@@ -30155,7 +30053,7 @@ columns and relationships of "users" */
     burns_aggregate: GraphQLTypes['burns_aggregate'];
     /** An object relationship */
     circle: GraphQLTypes['circles'];
-    /** fetch data from the table: "circle_api_keys" */
+    /** An array relationship */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** An aggregate relationship */
     circle_api_keys_aggregate: GraphQLTypes['circle_api_keys_aggregate'];
@@ -30245,7 +30143,7 @@ columns and relationships of "users" */
   /** input type for inserting array relation for remote table "users" */
   ['users_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['users_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: GraphQLTypes['users_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -30441,10 +30339,10 @@ columns and relationships of "users" */
   /** input type for inserting object relation for remote table "users" */
   ['users_obj_rel_insert_input']: {
     data: GraphQLTypes['users_insert_input'];
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: GraphQLTypes['users_on_conflict'] | undefined;
   };
-  /** on conflict condition type for table "users" */
+  /** on_conflict condition type for table "users" */
   ['users_on_conflict']: {
     constraint: GraphQLTypes['users_constraint'];
     update_columns: Array<GraphQLTypes['users_update_column']>;
@@ -30753,7 +30651,7 @@ columns and relationships of "users" */
   /** input type for inserting array relation for remote table "vault_transactions" */
   ['vault_transactions_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['vault_transactions_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: GraphQLTypes['vault_transactions_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -30878,7 +30776,7 @@ columns and relationships of "users" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['vault_transactions']>;
   };
-  /** on conflict condition type for table "vault_transactions" */
+  /** on_conflict condition type for table "vault_transactions" */
   ['vault_transactions_on_conflict']: {
     constraint: GraphQLTypes['vault_transactions_constraint'];
     update_columns: Array<GraphQLTypes['vault_transactions_update_column']>;
@@ -31116,10 +31014,10 @@ columns and relationships of "users" */
   /** input type for inserting object relation for remote table "vault_tx_types" */
   ['vault_tx_types_obj_rel_insert_input']: {
     data: GraphQLTypes['vault_tx_types_insert_input'];
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: GraphQLTypes['vault_tx_types_on_conflict'] | undefined;
   };
-  /** on conflict condition type for table "vault_tx_types" */
+  /** on_conflict condition type for table "vault_tx_types" */
   ['vault_tx_types_on_conflict']: {
     constraint: GraphQLTypes['vault_tx_types_constraint'];
     update_columns: Array<GraphQLTypes['vault_tx_types_update_column']>;
@@ -31212,7 +31110,7 @@ columns and relationships of "users" */
   /** input type for inserting array relation for remote table "vaults" */
   ['vaults_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['vaults_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: GraphQLTypes['vaults_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -31367,10 +31265,10 @@ columns and relationships of "users" */
   /** input type for inserting object relation for remote table "vaults" */
   ['vaults_obj_rel_insert_input']: {
     data: GraphQLTypes['vaults_insert_input'];
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: GraphQLTypes['vaults_on_conflict'] | undefined;
   };
-  /** on conflict condition type for table "vaults" */
+  /** on_conflict condition type for table "vaults" */
   ['vaults_on_conflict']: {
     constraint: GraphQLTypes['vaults_constraint'];
     update_columns: Array<GraphQLTypes['vaults_update_column']>;
@@ -31606,7 +31504,7 @@ columns and relationships of "users" */
   /** input type for inserting array relation for remote table "vouches" */
   ['vouches_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['vouches_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: GraphQLTypes['vouches_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -31695,7 +31593,7 @@ columns and relationships of "users" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['vouches']>;
   };
-  /** on conflict condition type for table "vouches" */
+  /** on_conflict condition type for table "vouches" */
   ['vouches_on_conflict']: {
     constraint: GraphQLTypes['vouches_constraint'];
     update_columns: Array<GraphQLTypes['vouches_update_column']>;

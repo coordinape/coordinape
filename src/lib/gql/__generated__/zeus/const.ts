@@ -328,6 +328,7 @@ export const AllTypesProps: Record<string, any> = {
     name: 'String_comparison_exp',
     type: 'String_comparison_exp',
   },
+  circle_integrations_constraint: true,
   circle_integrations_insert_input: {
     circle_id: 'bigint',
     data: 'json',
@@ -343,6 +344,11 @@ export const AllTypesProps: Record<string, any> = {
     id: 'order_by',
     name: 'order_by',
     type: 'order_by',
+  },
+  circle_integrations_on_conflict: {
+    constraint: 'circle_integrations_constraint',
+    update_columns: 'circle_integrations_update_column',
+    where: 'circle_integrations_bool_exp',
   },
   circle_integrations_order_by: {
     circle: 'circles_order_by',
@@ -369,6 +375,7 @@ export const AllTypesProps: Record<string, any> = {
     circle_id: 'order_by',
     id: 'order_by',
   },
+  circle_integrations_update_column: true,
   circle_integrations_var_pop_order_by: {
     circle_id: 'order_by',
     id: 'order_by',
@@ -406,8 +413,14 @@ export const AllTypesProps: Record<string, any> = {
     updated_at: 'timestamptz_comparison_exp',
     uuid: 'uuid_comparison_exp',
   },
+  circle_share_tokens_constraint: true,
   circle_share_tokens_insert_input: {
     circle_id: 'bigint',
+  },
+  circle_share_tokens_on_conflict: {
+    constraint: 'circle_share_tokens_constraint',
+    update_columns: 'circle_share_tokens_update_column',
+    where: 'circle_share_tokens_bool_exp',
   },
   circle_share_tokens_order_by: {
     circle: 'circles_order_by',
@@ -418,6 +431,7 @@ export const AllTypesProps: Record<string, any> = {
     uuid: 'order_by',
   },
   circle_share_tokens_select_column: true,
+  circle_share_tokens_update_column: true,
   circles: {
     api_keys: {
       distinct_on: 'circle_api_keys_select_column',
@@ -864,6 +878,7 @@ export const AllTypesProps: Record<string, any> = {
     user: 'users_bool_exp',
     user_id: 'bigint_comparison_exp',
   },
+  contributions_constraint: true,
   contributions_insert_input: {
     circle_id: 'bigint',
     user_id: 'bigint',
@@ -885,6 +900,11 @@ export const AllTypesProps: Record<string, any> = {
     id: 'order_by',
     updated_at: 'order_by',
     user_id: 'order_by',
+  },
+  contributions_on_conflict: {
+    constraint: 'contributions_constraint',
+    update_columns: 'contributions_update_column',
+    where: 'contributions_bool_exp',
   },
   contributions_order_by: {
     circle: 'circles_order_by',
@@ -918,6 +938,7 @@ export const AllTypesProps: Record<string, any> = {
     id: 'order_by',
     user_id: 'order_by',
   },
+  contributions_update_column: true,
   contributions_var_pop_order_by: {
     circle_id: 'order_by',
     id: 'order_by',
@@ -1391,7 +1412,11 @@ export const AllTypesProps: Record<string, any> = {
     _nin: 'json',
   },
   jsonb: 'String',
+  jsonb_cast_exp: {
+    String: 'String_comparison_exp',
+  },
   jsonb_comparison_exp: {
+    _cast: 'jsonb_cast_exp',
     _contained_in: 'jsonb',
     _contains: 'jsonb',
     _eq: 'jsonb',
@@ -1471,15 +1496,19 @@ export const AllTypesProps: Record<string, any> = {
     },
     insert_circle_integrations: {
       objects: 'circle_integrations_insert_input',
+      on_conflict: 'circle_integrations_on_conflict',
     },
     insert_circle_integrations_one: {
       object: 'circle_integrations_insert_input',
+      on_conflict: 'circle_integrations_on_conflict',
     },
     insert_circle_share_tokens: {
       objects: 'circle_share_tokens_insert_input',
+      on_conflict: 'circle_share_tokens_on_conflict',
     },
     insert_circle_share_tokens_one: {
       object: 'circle_share_tokens_insert_input',
+      on_conflict: 'circle_share_tokens_on_conflict',
     },
     insert_claims: {
       objects: 'claims_insert_input',
@@ -1491,9 +1520,11 @@ export const AllTypesProps: Record<string, any> = {
     },
     insert_contributions: {
       objects: 'contributions_insert_input',
+      on_conflict: 'contributions_on_conflict',
     },
     insert_contributions_one: {
       object: 'contributions_insert_input',
+      on_conflict: 'contributions_on_conflict',
     },
     insert_distributions: {
       objects: 'distributions_insert_input',
@@ -1505,9 +1536,11 @@ export const AllTypesProps: Record<string, any> = {
     },
     insert_pending_vault_transactions: {
       objects: 'pending_vault_transactions_insert_input',
+      on_conflict: 'pending_vault_transactions_on_conflict',
     },
     insert_pending_vault_transactions_one: {
       object: 'pending_vault_transactions_insert_input',
+      on_conflict: 'pending_vault_transactions_on_conflict',
     },
     markClaimed: {
       payload: 'MarkClaimedInput',
@@ -1965,12 +1998,18 @@ export const AllTypesProps: Record<string, any> = {
     tx_type: 'vault_tx_types_enum_comparison_exp',
     vault_tx_type: 'vault_tx_types_bool_exp',
   },
+  pending_vault_transactions_constraint: true,
   pending_vault_transactions_insert_input: {
     claim_id: 'bigint',
     distribution: 'distributions_obj_rel_insert_input',
     distribution_id: 'bigint',
     org_id: 'bigint',
     tx_type: 'vault_tx_types_enum',
+  },
+  pending_vault_transactions_on_conflict: {
+    constraint: 'pending_vault_transactions_constraint',
+    update_columns: 'pending_vault_transactions_update_column',
+    where: 'pending_vault_transactions_bool_exp',
   },
   pending_vault_transactions_order_by: {
     chain_id: 'order_by',
@@ -1986,6 +2025,7 @@ export const AllTypesProps: Record<string, any> = {
     vault_tx_type: 'vault_tx_types_order_by',
   },
   pending_vault_transactions_select_column: true,
+  pending_vault_transactions_update_column: true,
   profiles: {
     users: {
       distinct_on: 'users_select_column',
