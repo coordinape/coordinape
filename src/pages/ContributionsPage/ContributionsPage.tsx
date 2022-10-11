@@ -350,11 +350,10 @@ const ContributionsPage = () => {
                       description: descriptionField.value,
                     });
                     const nextEpoch =
-                      currentContribution.epoch?.end_date <
+                      currentContribution.epoch?.end_date >=
                       prevContribution?.datetime_created
                         ? currentContribution.epoch
                         : currentContribution.epoch?.prev();
-                    console.log('prev', nextEpoch);
                     setCurrentContribution({
                       contribution: prevContribution,
                       epoch: nextEpoch,
@@ -381,13 +380,10 @@ const ContributionsPage = () => {
                       description: descriptionField.value,
                     });
                     const nextEpoch =
-                      currentContribution.epoch?.start_date <
+                      currentContribution.epoch?.start_date >
                       nextContribution?.datetime_created
-                        ? currentContribution.epoch
-                        : currentContribution.epoch?.next();
-
-                    console.log('next', nextEpoch);
-
+                        ? currentContribution.epoch?.next()
+                        : currentContribution.epoch;
                     setCurrentContribution({
                       contribution: nextContribution,
                       epoch: nextEpoch,
@@ -628,14 +624,15 @@ const ContributionList = ({
     latestEpochEndDate?: string;
     userAddress?: string;
   }) => {
+  const currentDateTime = useMemo(() => DateTime.now().toISO(), []);
+
   const integrationContributions = useContributions({
-    address: '0x23f24381cf8518c4fafdaeeac5c0f7c92b7ae678' || userAddress || '',
-    start_date: epoch ? epoch.start_date : DateTime.now().toISO(),
-    end_date: epoch ? epoch.end_date : latestEpochEndDate,
-    mock: true,
+    address: userAddress || '',
+    start_date: epoch ? epoch.next()?.end_date : latestEpochEndDate,
+    end_date: epoch ? epoch.end_date : currentDateTime,
+    mock: false,
   });
 
-  console.log('rendered', userAddress, latestEpochEndDate);
   return (
     <>
       {contributions.length || integrationContributions?.length ? (
