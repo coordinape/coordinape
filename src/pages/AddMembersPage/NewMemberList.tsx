@@ -118,7 +118,7 @@ const NewMemberList = ({
         .filter(m => m.address != '' && m.name != '')
         .map(m => ({
           ...m,
-          entrance: m.entrance === 'CSV' ? 'CSV' : 'manual address entry',
+          entrance: m.entrance === 'CSV' ? 'CSV' : 'manual-address-entry',
         }));
       await client.mutate({
         createUsers: [

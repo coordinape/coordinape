@@ -246,7 +246,7 @@ export async function insertCircleWithAdmin(
         name: circleInput.user_name,
         address: userAddress,
         role: 1,
-        entrance: 'admin self-add',
+        entrance: 'admin-self-add',
       },
       {
         name: 'Coordinape',
