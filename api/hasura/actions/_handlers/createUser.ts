@@ -21,7 +21,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     address,
     circle_id,
     input,
-    'magic link'
+    'magic-link'
   );
   return res
     .status(200)

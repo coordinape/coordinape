@@ -63,7 +63,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       name: input.name,
       circle_id: circleId,
     },
-    'magic link'
+    'magic-link'
   );
 
   return res
