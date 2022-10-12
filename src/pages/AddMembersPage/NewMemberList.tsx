@@ -20,6 +20,7 @@ import NewMemberGridBox from './NewMemberGridBox';
 export type NewMember = {
   name: string;
   address: string;
+  entrance: string;
 };
 
 const NewMemberList = ({
@@ -55,6 +56,7 @@ const NewMemberList = ({
         .object({
           address: zEthAddress.or(z.literal('')),
           name: zUsername.or(z.literal('')),
+          entrance: z.string().optional(),
         })
         .superRefine((data, ctx) => {
           if (data.name && data.name !== '' && data.address === '') {
@@ -112,9 +114,12 @@ const NewMemberList = ({
     try {
       setLoading(true);
       setSuccessCount(0);
-      const filteredMembers = newMembers.filter(
-        m => m.address != '' && m.name != ''
-      );
+      const filteredMembers = newMembers
+        .filter(m => m.address != '' && m.name != '')
+        .map(m => ({
+          ...m,
+          entrance: m.entrance === 'CSV' ? 'CSV' : 'manual address entry',
+        }));
       await client.mutate({
         createUsers: [
           {

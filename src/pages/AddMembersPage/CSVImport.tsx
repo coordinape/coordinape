@@ -30,7 +30,7 @@ const CSVImport = ({
 
     const newMembers = data
       .filter(d => d.length == 2)
-      .map(d => ({ name: d[0], address: d[1] }));
+      .map(d => ({ name: d[0], address: d[1], entrance: 'CSV' }));
 
     if (newMembers.length == 0) {
       showError('No valid rows in the CSV');

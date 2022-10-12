@@ -103,6 +103,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           pk_columns: { id: user.id },
           _set: {
             ...user,
+            entrance: 'manual address entry',
             deleted_at: null,
           },
         },
