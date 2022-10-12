@@ -14,9 +14,8 @@ import {
   Contribution as IntegrationContribution,
 } from 'hooks/useContributions';
 import {
-  // ArrowRight,
   DeworkColor,
-  // WonderColor,
+  WonderColor,
   Check,
   AlertTriangle,
   Save,
@@ -483,9 +482,20 @@ const ContributionsPage = () => {
                   : 'Latest'}
                 {getEpochLabel(currentIntContribution.epoch)}
               </Text>
+              <Panel css={{ pl: '0 !important' }}>
+                <Text p size="large" semibold css={{ color: '$headingText' }}>
+                  {currentIntContribution.contribution.source === 'dework'
+                    ? 'Dework'
+                    : 'Wonder'}
+                </Text>
+              </Panel>
               <Panel nested>
                 <Text p>
-                  <DeworkColor css={{ mr: '$md' }} />{' '}
+                  {currentIntContribution.contribution.source === 'dework' ? (
+                    <DeworkColor css={{ mr: '$md' }} />
+                  ) : (
+                    <WonderColor css={{ mr: '$md' }} />
+                  )}{' '}
                   {currentIntContribution.contribution.title}
                 </Text>
               </Panel>
@@ -675,7 +685,11 @@ const ContributionList = ({
                   maxWidth: '60em',
                 }}
               >
-                <DeworkColor css={{ mr: '$md' }} />
+                {c.source === 'dework' ? (
+                  <DeworkColor css={{ mr: '$md' }} />
+                ) : (
+                  <WonderColor css={{ mr: '$md' }} />
+                )}
                 {c.title}
               </Text>
             </Panel>
