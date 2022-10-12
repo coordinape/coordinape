@@ -158,7 +158,8 @@ async function convertNomineeToUser(nominee: Nominee) {
     const addedUser = await mutations.insertUser(
       nominee.address,
       nominee.name,
-      nominee.circle_id
+      nominee.circle_id,
+      'vouched in'
     );
     if (!addedUser) {
       throw new InternalServerError('unable to add user');

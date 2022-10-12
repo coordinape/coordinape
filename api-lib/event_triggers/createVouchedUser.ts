@@ -50,7 +50,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       const { insert_users_one } = await adminClient.mutate(
         {
           insert_users_one: [
-            { object: { name, address, circle_id } },
+            { object: { name, address, circle_id, entrance: 'vouched in' } },
             {
               id: true,
             },
