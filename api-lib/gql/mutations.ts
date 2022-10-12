@@ -246,6 +246,7 @@ export async function insertCircleWithAdmin(
         name: circleInput.user_name,
         address: userAddress,
         role: 1,
+        entrance: 'admin self-add',
       },
       {
         name: 'Coordinape',
@@ -373,7 +374,8 @@ export async function insertVouch(nomineeId: number, voucherId: number) {
 export async function insertUser(
   address: string,
   name: string,
-  circleId: number
+  circleId: number,
+  entrance: string
 ) {
   const { insert_users_one } = await adminClient.mutate(
     {
@@ -383,6 +385,7 @@ export async function insertUser(
             address: address,
             circle_id: circleId,
             name: name,
+            entrance: entrance,
           },
         },
         {
