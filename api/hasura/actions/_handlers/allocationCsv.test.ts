@@ -1,4 +1,5 @@
 import { VercelRequest } from '@vercel/node';
+import { FixedNumber } from 'ethers';
 import { DateTime } from 'luxon';
 
 import { DISTRIBUTION_TYPE } from '../../../../api-lib/constants';
@@ -60,33 +61,77 @@ function getMockCircleDistribution(type?: DistributionType | undefined) {
     case DISTRIBUTION_TYPE.FIXED:
       distributions.push({
         distribution_type: DISTRIBUTION_TYPE.FIXED,
+        distribution_json: {
+          fixedGifts: {
+            '0x1': '150000000000000000000',
+            '0x2': '200000000000000000000',
+          },
+        },
         tx_hash: '0x',
-        vault: { symbol: 'DAI' },
+        pricePerShare: FixedNumber.from(1),
+        vault: {
+          symbol: 'DAI',
+          chain_id: 1,
+          vault_address: '0x1',
+          simple_token_address: '0x0',
+          decimals: 18,
+        },
         claims: [
-          { profile_id: 1, new_amount: 150 },
-          { profile_id: 2, new_amount: 200 },
+          {
+            address: '0x1',
+            profile_id: 1,
+            new_amount: 150,
+            fixed_payment_amount: 150,
+          },
+          {
+            address: '0x2',
+            profile_id: 2,
+            new_amount: 200,
+            fixed_payment_amount: 200,
+          },
         ],
       });
       break;
     case DISTRIBUTION_TYPE.GIFT:
       distributions.push({
         distribution_type: DISTRIBUTION_TYPE.GIFT,
+        distribution_json: {},
         tx_hash: '0x',
-        vault: { symbol: 'DAI' },
+        pricePerShare: FixedNumber.from(1),
+        vault: {
+          symbol: 'DAI',
+          chain_id: 1,
+          vault_address: '0x1',
+          simple_token_address: '0x0',
+          decimals: 18,
+        },
         claims: [
-          { profile_id: 1, new_amount: 150 },
-          { profile_id: 2, new_amount: 75 },
+          { address: '0x1', profile_id: 1, new_amount: 150 },
+          { address: '0x2', profile_id: 2, new_amount: 75 },
         ],
       });
       break;
     case DISTRIBUTION_TYPE.COMBINED:
       distributions.push({
         distribution_type: DISTRIBUTION_TYPE.COMBINED,
+        distribution_json: {
+          fixedGifts: {
+            '0x1': '100000000000000000000',
+            '0x2': '101000000000000000000',
+          },
+        },
         tx_hash: '0x',
-        vault: { symbol: 'DAI' },
+        pricePerShare: FixedNumber.from(1),
+        vault: {
+          symbol: 'DAI',
+          chain_id: 1,
+          vault_address: '0x1',
+          simple_token_address: '0x0',
+          decimals: 18,
+        },
         claims: [
-          { profile_id: 1, new_amount: 250 },
-          { profile_id: 2, new_amount: 176 },
+          { address: '0x1', profile_id: 1, new_amount: 250 },
+          { address: '0x2', profile_id: 2, new_amount: 175 },
         ],
       });
       break;

@@ -139,6 +139,10 @@ export function useSubmitDistribution() {
           ...distribution,
           circleId,
           vaultAddress: vault.vault_address,
+          fixedGifts: Object.keys(fixedGifts).reduce((ret, curVal) => {
+            ret[curVal] = fixedGifts[curVal].toString();
+            return ret;
+          }, {} as Record<string, string>),
         },
         fixed_amount: fixedAmount,
         gift_amount: giftAmount,

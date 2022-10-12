@@ -78,6 +78,7 @@ export const getEpochData = async (
               total_amount: true,
               tx_hash: true,
               distribution_type: true,
+              distribution_json: [{}, true],
               gift_amount: true,
               fixed_amount: true,
               vault: {
@@ -100,9 +101,9 @@ export const getEpochData = async (
                 {
                   id: true,
                   new_amount: true,
+                  address: true,
                   profile: {
                     id: true,
-                    address: true,
                     avatar: true,
                   },
                 },
