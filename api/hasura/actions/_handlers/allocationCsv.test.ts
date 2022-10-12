@@ -77,16 +77,8 @@ function getMockCircleDistribution(type?: DistributionType | undefined) {
           decimals: 18,
         },
         claims: [
-          {
-            address: '0x1',
-            profile_id: 1,
-            new_amount: 150,
-          },
-          {
-            address: '0x2',
-            profile_id: 2,
-            new_amount: 200,
-          },
+          { address: '0x1', profile_id: 1, new_amount: 150 },
+          { address: '0x2', profile_id: 2, new_amount: 200 },
         ],
       });
       break;
