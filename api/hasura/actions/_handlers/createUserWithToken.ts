@@ -56,10 +56,15 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   // create the user
-  const mutationResult = await createUserMutation(address, circleId, {
-    name: input.name,
-    circle_id: circleId,
-  });
+  const mutationResult = await createUserMutation(
+    address,
+    circleId,
+    {
+      name: input.name,
+      circle_id: circleId,
+    },
+    'magic link'
+  );
 
   return res
     .status(200)
