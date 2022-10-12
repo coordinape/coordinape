@@ -17,7 +17,12 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   // It might be preferable to add this uniqueness constraint into the database
   const { circle_id, address } = input;
 
-  const mutationResult = await createUserMutation(address, circle_id, input);
+  const mutationResult = await createUserMutation(
+    address,
+    circle_id,
+    input,
+    'magic link'
+  );
   return res
     .status(200)
     .json(mutationResult.insert_users_one ?? mutationResult.update_users_by_pk);
