@@ -14,8 +14,8 @@ import {
 } from './gql/useCurrentCircleIntegrations';
 
 interface TimeInput {
-  start_date: string;
-  end_date: string;
+  startDate: string;
+  endDate: string;
 }
 export interface Contribution {
   title: string;
@@ -59,18 +59,16 @@ const mockData: UserContributions = {
 
 const ensureSource =
   (source: string) =>
-  (res: Response): Response => {
-    return {
-      ...res,
-      users: res.users.map(user => ({
-        ...user,
-        contributions: user.contributions.map(c => ({
-          ...c,
-          source,
-        })),
+  (res: Response): Response => ({
+    ...res,
+    users: res.users.map(user => ({
+      ...user,
+      contributions: user.contributions.map(c => ({
+        ...c,
+        source,
       })),
-    };
-  };
+    })),
+  });
 
 const deworkIntegration = (
   integration: Integration,
@@ -79,8 +77,8 @@ const deworkIntegration = (
   return fetch(
     `https://api.deworkxyz.com/integrations/coordinape/${
       integration.data.organizationId
-    }?epoch_start=${timeInput.start_date}&epoch_end=${
-      timeInput.end_date
+    }?epoch_start=${timeInput.startDate}&epoch_end=${
+      timeInput.endDate
     }&workspace_ids=${encodeURIComponent(
       integration.data.workspaceIds?.join(',') || ''
     )}`
@@ -93,7 +91,7 @@ const wonderIntegration = (
   integration: Integration,
   timeInput: TimeInput
 ): Promise<Response> => {
-  let url = `https://external-api.wonderapp.co/v1/coordinape/contributions?org_id=${integration.data.organizationId}&epoch_start=${timeInput.start_date}&epoch_end=${timeInput.end_date}`;
+  let url = `https://external-api.wonderapp.co/v1/coordinape/contributions?org_id=${integration.data.organizationId}&epoch_start=${timeInput.startDate}&epoch_end=${timeInput.endDate}`;
   if (integration.data.podIds) {
     for (const podId of integration.data.podIds) {
       url += `&pod_ids=${podId}`;
@@ -110,7 +108,7 @@ export function useContributionUsers(timeInput: TimeInput): UserContributions {
     integrations.data
       ? integrations.data
           .map(integration => ({
-            queryKey: `circle-integration-contributions-${integration.id}-${timeInput.start_date}-${timeInput.end_date}`,
+            queryKey: `circle-integration-contributions-${integration.id}-${timeInput.startDate}-${timeInput.endDate}`,
             queryFn: () => {
               switch (integration.type) {
                 case DEWORK: {
@@ -157,14 +155,14 @@ export function useContributionUsers(timeInput: TimeInput): UserContributions {
 
 export function useContributions(input: {
   address: string;
-  start_date?: string;
-  end_date?: string;
+  startDate?: string;
+  endDate?: string;
   mock?: boolean;
 }): Array<Contribution> | undefined {
-  const { address, start_date, end_date, mock } = input;
+  const { address, startDate, endDate, mock } = input;
   const userToContribution = useContributionUsers({
-    start_date: start_date ?? DateTime.fromMillis(0).toISO(),
-    end_date: end_date ?? DateTime.now().toISO(),
+    startDate: startDate ?? DateTime.fromMillis(0).toISO(),
+    endDate: endDate ?? DateTime.now().toISO(),
   });
   const ret = useMemo(
     () => (address ? userToContribution[address.toLowerCase()] : undefined),

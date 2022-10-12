@@ -128,8 +128,8 @@ const ProfileCardInner = ({
   const epochs = useSelectedCircle().circleEpochsStatus;
   const contributions = useContributions({
     address: user.address,
-    start_date: epochs.previousEpochEndedOn,
-    end_date: epochs.currentEpoch?.end_date,
+    startDate: epochs.previousEpochEndedOn,
+    endDate: epochs.currentEpoch?.end_date,
   });
 
   const updateGift = ({ note, tokens }: { note?: string; tokens?: number }) => {
