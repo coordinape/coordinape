@@ -937,6 +937,7 @@ export type ValueTypes = {
   };
   ['UserObj']: {
     address: string;
+    entrance?: string | undefined | null;
     fixed_non_receiver?: boolean | undefined | null;
     name: string;
     non_giver?: boolean | undefined | null;
@@ -10836,6 +10837,7 @@ export type GraphQLTypes = {
   };
   ['UserObj']: {
     address: string;
+    entrance?: string | undefined;
     fixed_non_receiver?: boolean | undefined;
     name: string;
     non_giver?: boolean | undefined;
