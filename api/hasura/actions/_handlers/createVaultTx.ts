@@ -74,7 +74,7 @@ export const logVaultTx = async (
   const { insert_vault_transactions_one } = await adminClient.mutate(
     {
       insert_vault_transactions_one: [
-        { object: omit(txInfo, ['amount', 'symbol']) },
+        { object: omit(txInfo, ['amount', 'symbol', 'org_id']) },
         { id: true },
       ],
       insert_interaction_events_one: [
