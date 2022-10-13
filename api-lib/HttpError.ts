@@ -3,16 +3,17 @@ import * as Sentry from '@sentry/node';
 // Importing @sentry/tracing patches the global hub for tracing to work.
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import * as Tracing from '@sentry/tracing';
+import { SeverityLevel } from '@sentry/types';
 import { VercelResponse } from '@vercel/node';
 import { ZodError } from 'zod';
 
 import { flattenZeusError, GQLError } from '../src/common-lib/errorHandling';
-import { SEVERITY_DEBUG } from '../src/utils/reporting';
 
 import { SENTRY_DSN } from './config';
 import { GraphQLError } from './gql/__generated__/zeus';
 
 const awaitSentryFlushMs = 1000;
+const SEVERITY_DEBUG = 'debug' as SeverityLevel;
 
 if (SENTRY_DSN) {
   Sentry.init({
