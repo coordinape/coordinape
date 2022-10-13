@@ -1,10 +1,12 @@
 import React from 'react';
 
+import { useNavigate } from 'react-router';
+
 import { ApeInfoTooltip } from '../../components';
 import { useApeSnackbar, useApiWithSelectedCircle } from '../../hooks';
 import { Check, X } from '../../icons/__generated';
 import { IMyUser } from '../../types';
-import { Box, Button, Flex, Text, ToggleButton } from 'ui';
+import { Box, Flex, Text, ToggleButton } from 'ui';
 
 import { AvatarAndName } from './AvatarAndName';
 import { GiveRowGrid } from './GiveRowGrid';
@@ -21,6 +23,8 @@ export const MyGiveRow = ({
 
   const { showError } = useApeSnackbar();
 
+  const navigate = useNavigate();
+
   // updateNonReceiver toggles the current members desire to receive give
   const updateNonReceiver = async (nonReceiver: boolean) => {
     try {
@@ -31,24 +35,7 @@ export const MyGiveRow = ({
   };
 
   return (
-    <Box
-      css={{
-        '& .contributionButton': {
-          display: 'none',
-        },
-        '& .contributionLabel': {
-          display: 'block',
-        },
-        '&:hover': {
-          // '& .contributionLabel': {
-          //   display: 'none',
-          // },
-          '& .contributionButton': {
-            display: 'block',
-          },
-        },
-      }}
-    >
+    <Box onClick={() => navigate}>
       <GiveRowGrid selected={false} css={{ py: '$sm' }}>
         <AvatarAndName name={myUser.name} avatar={myUser.profile?.avatar} />
         <Flex
@@ -61,24 +48,8 @@ export const MyGiveRow = ({
           }}
         >
           <Box>
-            <Button
-              className="contributionButton"
-              outlined
-              size="small"
-              color="primary"
-              // css={{
-              //   ml: 'calc(-1*$sm)',
-              // }}
-            >
-              {contributionCount > 0 ? (
-                <>
-                  Edit {contributionCount} Contribution
-                  {contributionCount == 1 ? '' : 's'}
-                </>
-              ) : (
-                <>Add Contributions</>
-              )}
-            </Button>
+            {/*shim to get the grid to line up*/}
+            &nbsp;
           </Box>
           <Box>
             <Text variant="label" className="contributionLabel">
@@ -97,7 +68,7 @@ export const MyGiveRow = ({
               <Text variant="label" css={{ mr: '$md' }}>
                 Receive Give?
                 <ApeInfoTooltip>
-                  Choose no if you want to opt-out from receiving
+                  Choose no if you want to opt-out from receiving{' '}
                   {myUser.circle.tokenName}
                 </ApeInfoTooltip>
               </Text>
