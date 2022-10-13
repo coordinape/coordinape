@@ -610,13 +610,13 @@ const AllocateContents = ({
         </Panel>
       </Box>
 
-      <Panel css={{ gap: '$md' }}>
-        <MyGiveRow
-          myUser={myUser}
-          contributionCount={
-            myMember?.contributions_aggregate?.aggregate?.count ?? 0
-          }
-        />
+      <MyGiveRow
+        myUser={myUser}
+        contributionCount={
+          myMember?.contributions_aggregate?.aggregate?.count ?? 0
+        }
+      />
+      <Panel css={{ gap: '$md', mt: '$md' }}>
         {filteredMembers.length > 0 &&
           filteredMembers.map(member => {
             let gift = gifts[member.id];

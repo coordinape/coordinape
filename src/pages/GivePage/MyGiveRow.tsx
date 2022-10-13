@@ -38,7 +38,10 @@ export const MyGiveRow = ({
 
   return (
     <Box onClick={() => navigate}>
-      <GiveRowGrid selected={false} css={{ py: '$sm' }}>
+      <GiveRowGrid
+        selected={false}
+        css={{ py: '$sm', borderColor: '$surface' }}
+      >
         <AvatarAndName name={myUser.name} avatar={myUser.profile?.avatar} />
         <Flex
           css={{
