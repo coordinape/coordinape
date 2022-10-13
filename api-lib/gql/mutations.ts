@@ -1,6 +1,6 @@
 import assert from 'assert';
 
-import { INVITATION_SOURCE } from '../constants';
+import { ENTRANCE } from '../../src/common-lib/constants';
 
 import { GraphQLTypes, order_by, ValueTypes } from './__generated__/zeus';
 import { adminClient } from './adminClient';
@@ -248,7 +248,7 @@ export async function insertCircleWithAdmin(
         name: circleInput.user_name,
         address: userAddress,
         role: 1,
-        entrance: INVITATION_SOURCE.ADMIN,
+        entrance: ENTRANCE.ADMIN,
       },
       {
         name: 'Coordinape',

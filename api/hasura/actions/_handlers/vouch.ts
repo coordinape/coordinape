@@ -2,7 +2,6 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { INVITATION_SOURCE } from '../../../../api-lib/constants';
 import {
   getUserFromAddress,
   getUserFromProfileId,
@@ -18,6 +17,7 @@ import {
 } from '../../../../api-lib/HttpError';
 import { Awaited } from '../../../../api-lib/ts4.5shim';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
+import { ENTRANCE } from '../../../../src/common-lib/constants';
 import {
   composeHasuraActionRequestBodyWithApiPermissions,
   vouchApiInput,
@@ -160,7 +160,7 @@ async function convertNomineeToUser(nominee: Nominee) {
       nominee.address,
       nominee.name,
       nominee.circle_id,
-      INVITATION_SOURCE.NOMINATION
+      ENTRANCE.NOMINATION
     );
     if (!addedUser) {
       throw new InternalServerError('unable to add user');
