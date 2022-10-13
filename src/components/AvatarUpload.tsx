@@ -1,20 +1,16 @@
 import React, { useState } from 'react';
 
+import { fileToBase64 } from 'lib/base64';
+import { updateProfileAvatar } from 'lib/gql/mutations';
 import { MAX_IMAGE_BYTES_LENGTH_BASE64 } from 'lib/images';
 
-import { useApeSnackbar } from 'hooks';
+import { useApeSnackbar, useApiBase } from 'hooks';
 import { Check } from 'icons/__generated';
 import { Avatar, Button, Flex, FormLabel, Text } from 'ui';
 
 const VALID_FILE_TYPES = ['image/jpg', 'image/jpeg', 'image/png'];
 
-export const AvatarUpload = ({
-  original,
-  commit,
-}: {
-  original?: string;
-  commit: (file: File) => Promise<any>;
-}) => {
+export const AvatarUpload = ({ original }: { original?: string }) => {
   const [uploadComplete, setUploadComplete] = useState<boolean>(false);
   const [, setAvatarFile] = useState<File | undefined>(undefined);
 
@@ -25,6 +21,12 @@ export const AvatarUpload = ({
   const fileInput = React.createRef<HTMLInputElement>();
 
   const { showError } = useApeSnackbar();
+  const { fetchManifest } = useApiBase();
+
+  const uploadAvatar = async (avatar: File) => {
+    const image_data_base64 = await fileToBase64(avatar);
+    return await updateProfileAvatar(image_data_base64);
+  };
 
   const onInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
@@ -50,13 +52,14 @@ export const AvatarUpload = ({
         }
         let response = undefined;
         try {
-          response = await commit(newAvatar);
+          response = await uploadAvatar(newAvatar);
         } catch (e: any) {
           showError(e);
           setAvatarFile(undefined);
           return;
         }
         setUploadedAvatarUrl(response.uploadProfileAvatar?.profile.avatar);
+        await fetchManifest();
         setAvatarFile(undefined);
         setUploadComplete(true);
       }
