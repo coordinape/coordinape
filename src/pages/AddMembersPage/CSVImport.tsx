@@ -1,8 +1,8 @@
+import { ENTRANCE } from 'common-lib/constants';
 import Papa from 'papaparse';
 
 import DragFileUpload from '../../components/DragFileUpload';
 import { useApeSnackbar } from '../../hooks';
-import { INVITATION_SOURCE } from 'config/constants';
 
 import { NewMember } from './NewMemberList';
 
@@ -34,7 +34,7 @@ const CSVImport = ({
       .map(d => ({
         name: d[0],
         address: d[1],
-        entrance: INVITATION_SOURCE.CSV,
+        entrance: ENTRANCE.CSV,
       }));
 
     if (newMembers.length == 0) {

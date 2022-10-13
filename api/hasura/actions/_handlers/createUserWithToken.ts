@@ -1,11 +1,11 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { INVITATION_SOURCE } from '../../../../api-lib/constants';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getAddress } from '../../../../api-lib/gql/queries';
 import { UnprocessableError } from '../../../../api-lib/HttpError';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import { CircleTokenType } from '../../../../src/common-lib/circleShareTokens';
+import { ENTRANCE } from '../../../../src/common-lib/constants';
 import {
   createUserFromTokenInput,
   HasuraUserSessionVariables,
@@ -64,7 +64,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       name: input.name,
       circle_id: circleId,
     },
-    INVITATION_SOURCE.LINK
+    ENTRANCE.LINK
   );
 
   return res

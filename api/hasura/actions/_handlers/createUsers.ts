@@ -1,7 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
-import { INVITATION_SOURCE } from '../../../../api-lib/constants';
 import { ValueTypes } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { insertInteractionEvents } from '../../../../api-lib/gql/mutations';
@@ -9,6 +8,7 @@ import {
   errorResponseWithStatusCode,
   InternalServerError,
 } from '../../../../api-lib/HttpError';
+import { ENTRANCE } from '../../../../src/common-lib/constants';
 import {
   composeHasuraActionRequestBody,
   createUsersBulkSchemaInput,
@@ -104,7 +104,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           pk_columns: { id: user.id },
           _set: {
             ...user,
-            entrance: INVITATION_SOURCE.ETH,
+            entrance: ENTRANCE.ETH,
             deleted_at: null,
           },
         },

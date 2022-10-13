@@ -2,7 +2,7 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { INVITATION_SOURCE } from '../constants';
+import { ENTRANCE } from '../../src/common-lib/constants';
 import { adminClient } from '../gql/adminClient';
 import * as queries from '../gql/queries';
 import { EventTriggerPayload } from '../types';
@@ -56,7 +56,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
                 name,
                 address,
                 circle_id,
-                entrance: INVITATION_SOURCE.NOMINATION,
+                entrance: ENTRANCE.NOMINATION,
               },
             },
             {

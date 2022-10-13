@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
-import { INVITATION_SOURCE } from '../../../../api-lib/constants';
+import { ENTRANCE } from '../../../../src/common-lib/constants';
 import {
   createUserSchemaInput,
   composeHasuraActionRequestBody,
@@ -22,7 +22,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     address,
     circle_id,
     input,
-    INVITATION_SOURCE.LINK
+    ENTRANCE.LINK
   );
   return res
     .status(200)

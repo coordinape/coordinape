@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { ENTRANCE } from 'common-lib/constants';
 import { client } from 'lib/gql/client';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
@@ -11,7 +12,6 @@ import CopyCodeTextField from '../../components/CopyCodeTextField';
 import { zEthAddress, zUsername } from '../../forms/formHelpers';
 import { useApeSnackbar, useApiBase } from '../../hooks';
 import { Box, Button, Flex, Panel, Text } from '../../ui';
-import { INVITATION_SOURCE } from 'config/constants';
 import { Check } from 'icons/__generated';
 import { QUERY_KEY_CIRCLE_SETTINGS } from 'pages/CircleAdminPage/getCircleSettings';
 
@@ -119,10 +119,7 @@ const NewMemberList = ({
         .filter(m => m.address != '' && m.name != '')
         .map(m => ({
           ...m,
-          entrance:
-            m.entrance === INVITATION_SOURCE.CSV
-              ? INVITATION_SOURCE.CSV
-              : INVITATION_SOURCE.ETH,
+          entrance: m.entrance === ENTRANCE.CSV ? ENTRANCE.CSV : ENTRANCE.ETH,
         }));
       await client.mutate({
         createUsers: [
