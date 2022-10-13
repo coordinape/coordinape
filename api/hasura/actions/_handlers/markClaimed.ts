@@ -63,6 +63,7 @@ export const updateClaims = async (
           id: { _lte: claimId },
           profile_id: { _eq: profileId },
           distribution: {
+            tx_hash: { _is_null: false },
             vault_id: { _eq: vault.id },
             epoch: { circle_id: { _eq: circle_id } },
           },
