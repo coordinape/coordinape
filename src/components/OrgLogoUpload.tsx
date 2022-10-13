@@ -92,6 +92,7 @@ export const OrgLogoUpload = ({
             ? uploadedLogoUrl
             : imageUrl
         }
+        size="small"
         name={name}
       />
       <Box
@@ -99,13 +100,13 @@ export const OrgLogoUpload = ({
           formFileUploadProps.hasChanged
             ? {
                 position: 'absolute',
-                top: 0,
-                left: 0,
+                top: '-$sm',
+                left: '-$sm',
                 background: '$white',
                 boxShadow: '$heavy',
                 borderRadius: '$3',
-                paddingLeft: 'calc($3xl + $xs)',
-                height: 'calc($3xl + $xs)',
+                paddingLeft: '$2xl',
+                height: '$2xl',
                 display: 'flex',
                 alignItems: 'center',
                 pr: '$md',
@@ -162,8 +163,8 @@ export const OrgLogoUpload = ({
                   background: '$white',
                   position: 'absolute',
                   fontSize: '$large',
-                  left: 0,
-                  top: 0,
+                  left: '-$sm',
+                  top: '-$sm',
                   zIndex: 2,
                   '&:hover': {
                     color: '$primary',

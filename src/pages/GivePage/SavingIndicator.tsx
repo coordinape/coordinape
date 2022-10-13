@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Check, RefreshCcw } from '../../icons/__generated';
 import { CSS } from '../../stitches.config';
-import { Box, Flex, Text } from '../../ui';
+import { Flex, Text } from '../../ui';
 
 // SavingIndicator indicates whether state is stable, being saved, or has recently been saved
 export const SavingIndicator = ({
@@ -14,16 +14,16 @@ export const SavingIndicator = ({
 }) => {
   return (
     <Flex css={{ ...css, minHeight: '$lg', alignItems: 'center' }}>
-      <Text size="small" color="neutral">
+      <Text size="small" color="neutral" css={{ gap: '$xs' }}>
         {needToSave === true && (
-          <Box>
+          <>
             <RefreshCcw /> Saving Changes
-          </Box>
+          </>
         )}
         {needToSave === false && (
-          <Box>
+          <>
             <Check /> Changes Saved!
-          </Box>
+          </>
         )}
       </Text>
     </Flex>

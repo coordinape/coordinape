@@ -16,9 +16,9 @@ import {
 
 import { getApiService } from 'services/api';
 import { extraProfile } from 'utils/modelExtenders';
+import { neverEndingPromise } from 'utils/recoil';
 import { getSelfIdProfile } from 'utils/selfIdHelpers';
 import storage from 'utils/storage';
-import { neverEndingPromise } from 'utils/tools';
 
 import { rManifest, rFullCircle } from './db';
 

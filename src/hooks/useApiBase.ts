@@ -17,7 +17,6 @@ import {
 import { getApiService } from 'services/api';
 import { connectors } from 'utils/connectors';
 import { getSelfIdProfiles } from 'utils/selfIdHelpers';
-import { assertDef } from 'utils/tools';
 
 import { useApeSnackbar } from './useApeSnackbar';
 
@@ -51,12 +50,9 @@ export const useApiBase = () => {
         assert(address && library);
 
         try {
-          const connectorName = assertDef(
-            Object.entries(connectors).find(
-              ([, c]) => connector?.constructor === c.constructor
-            )?.[0],
-            'Unknown web3Context.connector'
-          ) as EConnectorNames;
+          const connectorName = Object.entries(connectors).find(
+            ([, c]) => connector?.constructor === c.constructor
+          )?.[0] as EConnectorNames;
 
           const api = getApiService();
           if (!api.provider) api.setProvider(web3Context.library);

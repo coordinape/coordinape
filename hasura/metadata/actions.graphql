@@ -63,6 +63,10 @@ type Mutation {
 }
 
 type Mutation {
+  markClaimed(payload: MarkClaimedInput!): MarkClaimedOutput
+}
+
+type Mutation {
   restoreCoordinape(payload: CoordinapeInput!): ConfirmationResponse
 }
 
@@ -297,6 +301,7 @@ input LogVaultTxInput {
   vault_id: Int!
   distribution_id: Int
   circle_id: Int
+  org_id: Int
   amount: Float
   symbol: String
 }
@@ -322,6 +327,11 @@ input UpdateContributionInput {
   id: Int!
   description: String!
   datetime_created: timestamptz!
+}
+
+input MarkClaimedInput {
+  claim_id: Int!
+  tx_hash: String!
 }
 
 type CreateCircleResponse {
@@ -409,6 +419,10 @@ type CircleLandingInfoResponse {
 
 type UpdateContributionResponse {
   id: ID!
+}
+
+type MarkClaimedOutput {
+  ids: [Int!]!
 }
 
 scalar timestamptz

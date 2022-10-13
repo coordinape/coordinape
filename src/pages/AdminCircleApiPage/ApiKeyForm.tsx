@@ -126,7 +126,7 @@ export const ApiKeyForm: FC<{ onSuccess: (apiKey: string) => void }> = ({
         flexDirection: 'column',
       }}
     >
-      <Text font="source" size="medium">
+      <Text size="medium">
         Circle API keys allow for third party apps to read data from and
         interact with your circle. You can configure specific permissions for
         each key.

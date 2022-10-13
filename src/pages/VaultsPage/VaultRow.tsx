@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { BigNumber } from 'ethers';
+import { formatUnits } from 'ethers/lib/utils';
 import { vault_tx_types_enum } from 'lib/gql/__generated__/zeus';
 import { removeYearnPrefix } from 'lib/vaults';
 import { CSS } from 'stitches.config';
@@ -10,6 +10,7 @@ import { useBlockListener } from 'hooks/useBlockListener';
 import { useContracts } from 'hooks/useContracts';
 import { paths } from 'routes/paths';
 import { AppLink, Box, Button, Panel, Text } from 'ui';
+import { smartRounding } from 'utils';
 
 import { OwnerProfileLink, VaultExternalLink } from './components';
 import DepositModal, { DepositModalProps } from './DepositModal';
@@ -26,9 +27,7 @@ export function VaultRow({ vault, css = {} }: { vault: Vault; css?: CSS }) {
   const updateBalance = () =>
     contracts
       ?.getVaultBalance(vault)
-      .then(x =>
-        setBalance(x.div(BigNumber.from(10).pow(vault.decimals)).toNumber())
-      );
+      .then(x => setBalance(Number(formatUnits(x, vault.decimals).toString())));
 
   useBlockListener(updateBalance, [vault.id]);
   // for UI updates when the user is switching between orgs quickly
@@ -112,13 +111,12 @@ export function VaultRow({ vault, css = {} }: { vault: Vault; css?: CSS }) {
           alignItems: 'center',
         }}
       >
-        <Text font="source" h3>
-          Current Balance
+        <Text h3>Current Balance</Text>
+        <Text h3>
+          {smartRounding(balance)}{' '}
+          {removeYearnPrefix(vault.symbol).toUpperCase()}
         </Text>
-        <Text font="source" h3>
-          {balance} {removeYearnPrefix(vault.symbol).toUpperCase()}
-        </Text>
-        <Text font="source" css={{ display: 'block' }}>
+        <Text css={{ display: 'block' }}>
           <strong>{distributionCount}</strong> Distribution
           {distributionCount !== 1 && 's'} -{' '}
           <strong>{uniqueContributors}</strong> Unique Contributors Paid

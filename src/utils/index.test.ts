@@ -27,6 +27,7 @@ describe('numberWithCommas', () => {
     expect(numberWithCommas(6.00825435987, 2)).toEqual('6.01');
     expect(numberWithCommas(6.00325435987, 2)).toEqual('6.00');
     expect(numberWithCommas('6.06325435987000', 2)).toEqual('6.06');
+    expect(numberWithCommas('6.99925435987000', 2)).toEqual('7.00');
   });
   test('with precision 0', () => {
     expect(numberWithCommas(undefined, 0)).toEqual('0');

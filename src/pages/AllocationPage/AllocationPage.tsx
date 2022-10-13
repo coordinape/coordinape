@@ -18,6 +18,10 @@ import {
 } from '../../routes/allocation';
 import { IAllocationStep, ISimpleGift, ISimpleGiftUser } from '../../types';
 import { Box } from '../../ui/Box/Box';
+import {
+  getCircleSettings,
+  QUERY_KEY_CIRCLE_SETTINGS,
+} from 'pages/CircleAdminPage/getCircleSettings';
 
 import AllocationEpoch from './AllocationEpoch';
 import AllocationGive from './AllocationGive';
@@ -34,26 +38,46 @@ import {
 
 const AllocationPage = () => {
   const address = useConnectedAddress();
-  const { circle: selectedCircle } = useSelectedCircle();
+  const { circle: initialData, circleId } = useSelectedCircle();
 
   /* Make sure the teammates are loaded */
   const { data, refetch: refetchTeammates } = useQuery(
-    ['teammates', selectedCircle.id],
-    () => getTeammates(selectedCircle.id, address as string),
+    ['teammates', circleId],
+    () => getTeammates(circleId, address as string),
     {
-      enabled: !!(selectedCircle.id && address),
+      enabled: !!(circleId && address),
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       staleTime: Infinity,
     }
   );
+  const {
+    isLoading,
+    isIdle,
+    isError,
+    isRefetching,
+    error,
+    data: selectedCircle,
+  } = useQuery(
+    [QUERY_KEY_CIRCLE_SETTINGS, circleId],
+    () => getCircleSettings(circleId),
+    {
+      // the query will not be executed untill circleId exists
+      enabled: !!circleId,
+      initialData,
+      //minmize background refetch
+      refetchOnWindowFocus: false,
 
+      staleTime: Infinity,
+      notifyOnChangeProps: ['data'],
+    }
+  );
   // Make sure the pendingGifts are loaded
   const { data: pendingGiftsFrom, refetch: refetchGifts } = useQuery(
-    ['pending-gifts', selectedCircle.id],
-    () => getPendingGiftsFrom(selectedCircle.id, address as string),
+    ['pending-gifts', circleId],
+    () => getPendingGiftsFrom(circleId, address as string),
     {
-      enabled: !!(selectedCircle.id && address),
+      enabled: !!(circleId && address),
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       staleTime: Infinity,
@@ -78,13 +102,21 @@ const AllocationPage = () => {
 
   const { allUsers, startingTeammates } = data;
 
+  if (isLoading || isIdle || isRefetching) return <LoadingModal visible />;
+  if (isError) {
+    if (error instanceof Error) {
+      console.warn(error);
+    }
+  }
+
   return (
     <AllocationContents
       startingTeammates={
-        selectedCircle.team_selection ? startingTeammates : allUsers
+        selectedCircle?.team_selection ? startingTeammates : allUsers
       }
       allUsers={allUsers}
       pendingGiftsFrom={pendingGiftsFrom}
+      teamSelection={selectedCircle?.team_selection}
     />
   );
 };
@@ -93,11 +125,13 @@ type AllocationContentsProps = {
   startingTeammates: Teammate[];
   allUsers: PotentialTeammate[];
   pendingGiftsFrom: PendingGift[];
+  teamSelection?: boolean;
 };
 const AllocationContents = ({
   startingTeammates,
   allUsers,
   pendingGiftsFrom,
+  teamSelection,
 }: AllocationContentsProps) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -105,7 +139,6 @@ const AllocationContents = ({
   const {
     circleId,
     myUser: selectedMyUser,
-    circle: selectedCircle,
     circleEpochsStatus: { epochIsActive },
   } = useSelectedCircle();
 
@@ -140,7 +173,7 @@ const AllocationContents = ({
     setActiveStep(step.key);
   };
 
-  const allSteps = !selectedCircle.team_selection ? NO_TEAM_STEPS : STEPS;
+  const allSteps = !teamSelection ? NO_TEAM_STEPS : STEPS;
   const [completedSteps, setCompletedSteps] = useState<
     Set<IAllocationStep> | undefined
   >(undefined);
@@ -153,7 +186,7 @@ const AllocationContents = ({
       if (!completedSteps.has(STEP_MY_EPOCH)) {
         navigate(STEP_MY_EPOCH.pathFn(circleId));
       } else if (!epochIsActive) {
-        if (selectedCircle.team_selection) {
+        if (teamSelection) {
           navigate(STEP_MY_TEAM.pathFn(circleId));
         }
       } else {
@@ -242,6 +275,7 @@ const AllocationContents = ({
         activeStep={activeStep}
         completedSteps={completedSteps}
         getHandleStep={getHandleStep}
+        teamSelection={teamSelection}
       />
       <Box
         css={{
@@ -258,6 +292,7 @@ const AllocationContents = ({
             <AllocationEpoch
               getHandleStep={getHandleStep}
               setActiveStep={setActiveStep}
+              teamSelection={teamSelection}
             />
           </>
         )}

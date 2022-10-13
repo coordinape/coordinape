@@ -56,16 +56,6 @@ jest.mock('lib/gql/mutations/vaults', () => {
   };
 });
 
-jest.mock('./mutations', () => {
-  return {
-    useMarkClaimTaken: jest.fn().mockReturnValue({
-      mutateAsync: jest.fn().mockReturnValue({
-        id: 2,
-      }),
-    }),
-  };
-});
-
 const origError = console.error;
 
 beforeAll(async () => {
@@ -166,6 +156,7 @@ test('claim single successfully', async () => {
           amount,
           proof,
           index,
+          unwrapEth: false,
         });
 
         finalBalance = await daiContract.balanceOf(address1);

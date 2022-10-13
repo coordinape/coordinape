@@ -788,6 +788,7 @@ export type ValueTypes = {
     amount?: number | undefined | null;
     circle_id?: number | undefined | null;
     distribution_id?: number | undefined | null;
+    org_id?: number | undefined | null;
     symbol?: string | undefined | null;
     tx_hash: string;
     tx_type: string;
@@ -803,6 +804,14 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     /** An object relationship */
     profile?: ValueTypes['profiles'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['MarkClaimedInput']: {
+    claim_id: number;
+    tx_hash: string;
+  };
+  ['MarkClaimedOutput']: AliasType<{
+    ids?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
@@ -3832,6 +3841,10 @@ columns and relationships of "distributions" */
       ValueTypes['pending_vault_transactions']
     ];
     logoutUser?: ValueTypes['LogoutResponse'];
+    markClaimed?: [
+      { payload: ValueTypes['MarkClaimedInput'] },
+      ValueTypes['MarkClaimedOutput']
+    ];
     restoreCoordinape?: [
       { payload: ValueTypes['CoordinapeInput'] },
       ValueTypes['ConfirmationResponse']
@@ -3905,6 +3918,25 @@ columns and relationships of "distributions" */
         pk_columns: ValueTypes['distributions_pk_columns_input'];
       },
       ValueTypes['distributions']
+    ];
+    update_organizations?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?:
+          | ValueTypes['organizations_set_input']
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['organizations_bool_exp'];
+      },
+      ValueTypes['organizations_mutation_response']
+    ];
+    update_organizations_by_pk?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?: ValueTypes['organizations_set_input'] | undefined | null;
+        pk_columns: ValueTypes['organizations_pk_columns_input'];
+      },
+      ValueTypes['organizations']
     ];
     update_profiles?: [
       {
@@ -4327,6 +4359,7 @@ columns and relationships of "distributions" */
     id?: boolean | `@${string}`;
     logo?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
+    telegram_id?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     vaults?: [
       {
@@ -4363,9 +4396,18 @@ columns and relationships of "distributions" */
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     logo?: ValueTypes['String_comparison_exp'] | undefined | null;
     name?: ValueTypes['String_comparison_exp'] | undefined | null;
+    telegram_id?: ValueTypes['String_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     vaults?: ValueTypes['vaults_bool_exp'] | undefined | null;
   };
+  /** response of any mutation on the table "organizations" */
+  ['organizations_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['organizations'];
+    __typename?: boolean | `@${string}`;
+  }>;
   /** Ordering options when selecting data from "organizations". */
   ['organizations_order_by']: {
     circles_aggregate?:
@@ -4376,14 +4418,24 @@ columns and relationships of "distributions" */
     id?: ValueTypes['order_by'] | undefined | null;
     logo?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
+    telegram_id?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     vaults_aggregate?:
       | ValueTypes['vaults_aggregate_order_by']
       | undefined
       | null;
   };
+  /** primary key columns input for table: organizations */
+  ['organizations_pk_columns_input']: {
+    id: ValueTypes['bigint'];
+  };
   /** select columns of table "organizations" */
   ['organizations_select_column']: organizations_select_column;
+  /** input type for updating data in table "organizations" */
+  ['organizations_set_input']: {
+    name?: string | undefined | null;
+    telegram_id?: string | undefined | null;
+  };
   /** columns and relationships of "pending_gift_private" */
   ['pending_gift_private']: AliasType<{
     gift_id?: boolean | `@${string}`;
@@ -8238,6 +8290,10 @@ export type ModelTypes = {
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
   };
+  ['MarkClaimedInput']: GraphQLTypes['MarkClaimedInput'];
+  ['MarkClaimedOutput']: {
+    ids: Array<number>;
+  };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: GraphQLTypes['String_comparison_exp'];
   ['UpdateCircleInput']: GraphQLTypes['UpdateCircleInput'];
@@ -9288,6 +9344,7 @@ columns and relationships of "distributions" */
       | GraphQLTypes['pending_vault_transactions']
       | undefined;
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
+    markClaimed?: GraphQLTypes['MarkClaimedOutput'] | undefined;
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
     updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;
@@ -9307,6 +9364,12 @@ columns and relationships of "distributions" */
       | undefined;
     /** update single row of the table: "distributions" */
     update_distributions_by_pk?: GraphQLTypes['distributions'] | undefined;
+    /** update data of the table: "organizations" */
+    update_organizations?:
+      | GraphQLTypes['organizations_mutation_response']
+      | undefined;
+    /** update single row of the table: "organizations" */
+    update_organizations_by_pk?: GraphQLTypes['organizations'] | undefined;
     /** update data of the table: "profiles" */
     update_profiles?: GraphQLTypes['profiles_mutation_response'] | undefined;
     /** update single row of the table: "profiles" */
@@ -9495,16 +9558,28 @@ columns and relationships of "distributions" */
     id: GraphQLTypes['bigint'];
     logo?: string | undefined;
     name: string;
+    telegram_id?: string | undefined;
     updated_at: GraphQLTypes['timestamp'];
     /** An array relationship */
     vaults: Array<GraphQLTypes['vaults']>;
   };
   /** Boolean expression to filter rows from the table "organizations". All fields are combined with a logical 'AND'. */
   ['organizations_bool_exp']: GraphQLTypes['organizations_bool_exp'];
+  /** response of any mutation on the table "organizations" */
+  ['organizations_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['organizations']>;
+  };
   /** Ordering options when selecting data from "organizations". */
   ['organizations_order_by']: GraphQLTypes['organizations_order_by'];
+  /** primary key columns input for table: organizations */
+  ['organizations_pk_columns_input']: GraphQLTypes['organizations_pk_columns_input'];
   /** select columns of table "organizations" */
   ['organizations_select_column']: GraphQLTypes['organizations_select_column'];
+  /** input type for updating data in table "organizations" */
+  ['organizations_set_input']: GraphQLTypes['organizations_set_input'];
   /** columns and relationships of "pending_gift_private" */
   ['pending_gift_private']: {
     gift_id?: GraphQLTypes['bigint'] | undefined;
@@ -10606,6 +10681,7 @@ export type GraphQLTypes = {
     amount?: number | undefined;
     circle_id?: number | undefined;
     distribution_id?: number | undefined;
+    org_id?: number | undefined;
     symbol?: string | undefined;
     tx_hash: string;
     tx_type: string;
@@ -10622,6 +10698,14 @@ export type GraphQLTypes = {
     id?: number | undefined;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
+  };
+  ['MarkClaimedInput']: {
+    claim_id: number;
+    tx_hash: string;
+  };
+  ['MarkClaimedOutput']: {
+    __typename: 'MarkClaimedOutput';
+    ids: Array<number>;
   };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: {
@@ -12971,6 +13055,7 @@ columns and relationships of "distributions" */
       | GraphQLTypes['pending_vault_transactions']
       | undefined;
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
+    markClaimed?: GraphQLTypes['MarkClaimedOutput'] | undefined;
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
     updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;
@@ -12990,6 +13075,12 @@ columns and relationships of "distributions" */
       | undefined;
     /** update single row of the table: "distributions" */
     update_distributions_by_pk?: GraphQLTypes['distributions'] | undefined;
+    /** update data of the table: "organizations" */
+    update_organizations?:
+      | GraphQLTypes['organizations_mutation_response']
+      | undefined;
+    /** update single row of the table: "organizations" */
+    update_organizations_by_pk?: GraphQLTypes['organizations'] | undefined;
     /** update data of the table: "profiles" */
     update_profiles?: GraphQLTypes['profiles_mutation_response'] | undefined;
     /** update single row of the table: "profiles" */
@@ -13329,6 +13420,7 @@ columns and relationships of "distributions" */
     id: GraphQLTypes['bigint'];
     logo?: string | undefined;
     name: string;
+    telegram_id?: string | undefined;
     updated_at: GraphQLTypes['timestamp'];
     /** An array relationship */
     vaults: Array<GraphQLTypes['vaults']>;
@@ -13343,8 +13435,17 @@ columns and relationships of "distributions" */
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     logo?: GraphQLTypes['String_comparison_exp'] | undefined;
     name?: GraphQLTypes['String_comparison_exp'] | undefined;
+    telegram_id?: GraphQLTypes['String_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     vaults?: GraphQLTypes['vaults_bool_exp'] | undefined;
+  };
+  /** response of any mutation on the table "organizations" */
+  ['organizations_mutation_response']: {
+    __typename: 'organizations_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['organizations']>;
   };
   /** Ordering options when selecting data from "organizations". */
   ['organizations_order_by']: {
@@ -13353,11 +13454,21 @@ columns and relationships of "distributions" */
     id?: GraphQLTypes['order_by'] | undefined;
     logo?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
+    telegram_id?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     vaults_aggregate?: GraphQLTypes['vaults_aggregate_order_by'] | undefined;
   };
+  /** primary key columns input for table: organizations */
+  ['organizations_pk_columns_input']: {
+    id: GraphQLTypes['bigint'];
+  };
   /** select columns of table "organizations" */
   ['organizations_select_column']: organizations_select_column;
+  /** input type for updating data in table "organizations" */
+  ['organizations_set_input']: {
+    name?: string | undefined;
+    telegram_id?: string | undefined;
+  };
   /** columns and relationships of "pending_gift_private" */
   ['pending_gift_private']: {
     __typename: 'pending_gift_private';
@@ -15515,6 +15626,7 @@ export const enum organizations_select_column {
   id = 'id',
   logo = 'logo',
   name = 'name',
+  telegram_id = 'telegram_id',
   updated_at = 'updated_at',
 }
 /** select columns of table "pending_gift_private" */

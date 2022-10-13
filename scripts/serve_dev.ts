@@ -14,7 +14,7 @@ import login from '../api/login';
 import time from '../api/time';
 
 const app = express();
-app.use(express.json()); // for parsing application/json
+app.use(express.json({ limit: '10mb' })); // for parsing application/json
 
 if (process.env.DEV_LOGGING) {
   // log all requests to STDOUT

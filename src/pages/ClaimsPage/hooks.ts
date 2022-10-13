@@ -50,7 +50,7 @@ export const useClaimsTableData = () => {
     return createClaimsRows(claims || []);
   }, [claims]);
 
-  const processClaim = async (claimIds: number[]) => {
+  const processClaim = async (claimIds: number[], unwrapEth = false) => {
     const maxClaimId = max(claimIds);
     const claim = claims?.find(c => c.id === maxClaimId);
     assert(claim && address);
@@ -70,6 +70,7 @@ export const useClaimsTableData = () => {
       address,
       amount,
       proof: proof ? proof.split(',') : [],
+      unwrapEth,
     });
     if (hash) {
       refetch();

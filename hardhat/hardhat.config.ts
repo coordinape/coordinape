@@ -62,9 +62,9 @@ task('mine', 'Mine a block').setAction(async (_, hre) => {
 task('balance', 'Show token balance')
   .addParam('token', 'The token symbol')
   .addParam('address', 'The address to check')
-  .setAction(async (args: { token: 'USDC' | 'DAI'; address: string }, hre) => {
+  .setAction(async (args: { token: string; address: string }, hre) => {
     const contract = new ethers.Contract(
-      tokens[args.token].addr,
+      tokens[args.token as keyof typeof tokens].addr,
       [
         'function balanceOf(address) view returns (uint256)',
         'function decimals() view returns (uint8)',
@@ -77,6 +77,32 @@ task('balance', 'Show token balance')
         .div(BigNumber.from(10).pow(decimals))
         .toNumber()
     );
+  });
+
+task('wrap', 'Wraps the given amount of ETH to WETH')
+  .addParam('amount', 'The amount to wrap')
+  .setAction(async (args: { amount: string }, hre) => {
+    const sender = await unlockSigner(HARDHAT_OWNER_ADDRESS, hre);
+    const weth = new ethers.Contract(
+      tokens.WETH.addr,
+      ['function deposit() public payable'],
+      sender
+    );
+    await weth.deposit({ value: ethers.utils.parseEther(args.amount) });
+    console.log(`Wrapped ${args.amount} ETH for ${HARDHAT_OWNER_ADDRESS}`);
+  });
+
+task('unwrap', 'Unwraps the given amount of WETH to ETH')
+  .addParam('amount', 'The amount to unwrap')
+  .setAction(async (args: { amount: string }, hre) => {
+    const sender = await unlockSigner(HARDHAT_OWNER_ADDRESS, hre);
+    const weth = new ethers.Contract(
+      tokens.WETH.addr,
+      ['function withdraw(uint wad) public'],
+      sender
+    );
+    await weth.withdraw(ethers.utils.parseEther(args.amount));
+    console.log(`Unwrapped ${args.amount} WETH for ${HARDHAT_OWNER_ADDRESS}`);
   });
 
 task('mint', 'Mints the given token to specified account')
@@ -92,18 +118,6 @@ task('mint', 'Mints the given token to specified account')
           value: ethers.utils.parseEther(amount),
         });
         console.log(`Sent ${amount} ETH to ${receiver}`);
-      };
-
-      const mintWeth = async (receiver: string, amount: string) => {
-        await mintEth(receiver, (Number(amount) + 0.1).toString());
-        const sender = await unlockSigner(receiver, hre);
-        const weth = new ethers.Contract(
-          tokens.WETH.addr,
-          ['function deposit() public payable'],
-          sender
-        );
-        await weth.deposit({ value: ethers.utils.parseEther(amount) });
-        console.log(`Sent ${amount} WETH to ${receiver}`);
       };
 
       const mintToken = async (
@@ -131,9 +145,6 @@ task('mint', 'Mints the given token to specified account')
       switch (args.token) {
         case 'ETH':
           await mintEth(args.address, args.amount);
-          break;
-        case 'WETH':
-          await mintWeth(args.address, args.amount);
           break;
         default:
           try {

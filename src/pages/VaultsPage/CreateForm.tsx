@@ -106,7 +106,6 @@ export const CreateForm = ({
   if (!contracts)
     return (
       <Text
-        font="source"
         bold
         css={{
           display: 'block',
@@ -142,7 +141,7 @@ export const CreateForm = ({
         customAddressField.onChange({
           target: { value: contracts.getTokenAddress(symbol) },
         });
-        onChange({ target: { value: symbol } });
+        onChange({ target: { value: undefined } });
       }
     }
 

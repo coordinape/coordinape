@@ -39,6 +39,7 @@ export const AllTypesProps: Record<string, any> = {
   GenerateApiKeyInput: {},
   Int_comparison_exp: {},
   LogVaultTxInput: {},
+  MarkClaimedInput: {},
   String_comparison_exp: {},
   UpdateCircleInput: {},
   UpdateContributionInput: {
@@ -2056,6 +2057,7 @@ export const AllTypesProps: Record<string, any> = {
     _and: 'interaction_events_bool_exp',
     _not: 'interaction_events_bool_exp',
     _or: 'interaction_events_bool_exp',
+    circle: 'circles_bool_exp',
     circle_id: 'Int_comparison_exp',
     created_at: 'timestamptz_comparison_exp',
     data: 'jsonb_comparison_exp',
@@ -2063,6 +2065,8 @@ export const AllTypesProps: Record<string, any> = {
     event_type: 'String_comparison_exp',
     id: 'Int_comparison_exp',
     org_id: 'Int_comparison_exp',
+    organization: 'organizations_bool_exp',
+    profile: 'profiles_bool_exp',
     profile_id: 'Int_comparison_exp',
     updated_at: 'timestamptz_comparison_exp',
   },
@@ -2072,8 +2076,11 @@ export const AllTypesProps: Record<string, any> = {
   interaction_events_delete_key_input: {},
   interaction_events_inc_input: {},
   interaction_events_insert_input: {
+    circle: 'circles_obj_rel_insert_input',
     created_at: 'timestamptz',
     data: 'jsonb',
+    organization: 'organizations_obj_rel_insert_input',
+    profile: 'profiles_obj_rel_insert_input',
     updated_at: 'timestamptz',
   },
   interaction_events_on_conflict: {
@@ -2082,6 +2089,7 @@ export const AllTypesProps: Record<string, any> = {
     where: 'interaction_events_bool_exp',
   },
   interaction_events_order_by: {
+    circle: 'circles_order_by',
     circle_id: 'order_by',
     created_at: 'order_by',
     data: 'order_by',
@@ -2089,6 +2097,8 @@ export const AllTypesProps: Record<string, any> = {
     event_type: 'order_by',
     id: 'order_by',
     org_id: 'order_by',
+    organization: 'organizations_order_by',
+    profile: 'profiles_order_by',
     profile_id: 'order_by',
     updated_at: 'order_by',
   },
@@ -2541,6 +2551,9 @@ export const AllTypesProps: Record<string, any> = {
     insert_vouches_one: {
       object: 'vouches_insert_input',
       on_conflict: 'vouches_on_conflict',
+    },
+    markClaimed: {
+      payload: 'MarkClaimedInput',
     },
     restoreCoordinape: {
       payload: 'CoordinapeInput',
@@ -5686,6 +5699,9 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Int',
     profile: 'profiles',
   },
+  MarkClaimedOutput: {
+    ids: 'Int',
+  },
   UpdateCircleOutput: {
     circle: 'circles',
     id: 'Int',
@@ -7103,6 +7119,7 @@ export const ReturnTypes: Record<string, any> = {
     user_id: 'Float',
   },
   interaction_events: {
+    circle: 'circles',
     circle_id: 'Int',
     created_at: 'timestamptz',
     data: 'jsonb',
@@ -7110,6 +7127,8 @@ export const ReturnTypes: Record<string, any> = {
     event_type: 'String',
     id: 'Int',
     org_id: 'Int',
+    organization: 'organizations',
+    profile: 'profiles',
     profile_id: 'Int',
     updated_at: 'timestamptz',
   },
@@ -7330,6 +7349,7 @@ export const ReturnTypes: Record<string, any> = {
     insert_vouches: 'vouches_mutation_response',
     insert_vouches_one: 'vouches',
     logoutUser: 'LogoutResponse',
+    markClaimed: 'MarkClaimedOutput',
     restoreCoordinape: 'ConfirmationResponse',
     updateAllocations: 'AllocationsResponse',
     updateCircle: 'UpdateCircleOutput',

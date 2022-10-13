@@ -3,8 +3,6 @@ import assert from 'assert';
 import { BigNumber } from '@ethersproject/bignumber';
 import maxBy from 'lodash/maxBy';
 
-import { assertDef } from 'utils/tools';
-
 import { MerkleDistributorInfo, parseBalanceMap } from './parse-balance-map';
 
 /**
@@ -56,9 +54,11 @@ export const createDistribution = (
   assert(dust.lt(20), `panic: dust too high: ${dust.toString()}`);
   const topGift =
     Object.keys(gifts).length === 0 && fixedGifts
-      ? assertDef(maxBy(Object.entries(fixedGifts), x => x[1]))
-      : assertDef(maxBy(Object.entries(gifts), x => x[1]));
-  const topBalance = assertDef(balances.find(x => x.address === topGift[0]));
+      ? maxBy(Object.entries(fixedGifts), x => x[1])
+      : maxBy(Object.entries(gifts), x => x[1]);
+  assert(topGift);
+  const topBalance = balances.find(x => x.address === topGift[0]);
+  assert(topBalance);
   topBalance.earnings = topBalance.earnings.add(dust);
   assert(getDust(totalAmount, balances).eq(0), `dust is still not 0`);
 

@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router';
 import { Transition } from 'react-transition-group';
 import type { CSS } from 'stitches.config';
 
-import { OrgLogoUpload, LoadingModal } from 'components';
+import { LoadingModal } from 'components';
 import { scrollToTop } from 'components/MainLayout/MainLayout';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { User } from 'icons/__generated';
@@ -17,7 +17,17 @@ import {
   EXTERNAL_URL_GET_STARTED,
   EXTERNAL_URL_DISCORD,
 } from 'routes/paths';
-import { AppLink, Box, Button, Flex, Image, Link, Panel, Text } from 'ui';
+import {
+  AppLink,
+  Avatar,
+  Box,
+  Button,
+  Flex,
+  Image,
+  Link,
+  Panel,
+  Text,
+} from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { getOrgData, QUERY_KEY_MY_ORGS } from './getOrgData';
@@ -94,24 +104,26 @@ export const CirclesPage = () => {
       {orgs?.length == 0 && <GetStarted />}
       {orgs?.map(org => (
         <Box key={org.id} css={{ mb: '$lg' }}>
-          <Flex row css={{ mb: '$lg', alignItems: 'baseline' }}>
-            <Box css={{ flexGrow: 1, display: 'flex', flexDirection: 'row' }}>
-              <OrgLogoUpload
-                id={org.id}
-                original={org?.logo}
-                isAdmin={isAdmin(org)}
-                name={org.name}
-              />
+          <Flex
+            row
+            css={{
+              mb: '$lg',
+              alignItems: 'baseline',
+              justifyContent: 'space-between',
+            }}
+          >
+            <Flex css={{ alignItems: 'center' }}>
               <AppLink to={paths.organization(org.id)}>
                 <Text
                   h2
                   medium
-                  css={{ ml: '$sm', '@sm': { fontSize: '$large' } }}
+                  css={{ gap: '$sm', '@sm': { fontSize: '$large' } }}
                 >
+                  <Avatar path={org?.logo} size="small" name={org.name} />
                   {org.name}
                 </Text>
               </AppLink>
-            </Box>
+            </Flex>
             {isAdmin(org) && (
               <AppLink to={paths.createCircle + '?org=' + org.id}>
                 <Button

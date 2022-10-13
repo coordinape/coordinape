@@ -1,6 +1,34 @@
 table:
   schema: public
   name: interaction_events
+object_relationships:
+  - name: circle
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: circles
+        insertion_order: null
+        column_mapping:
+          circle_id: id
+  - name: organization
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: organizations
+        insertion_order: null
+        column_mapping:
+          org_id: id
+  - name: profile
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: profiles
+        insertion_order: null
+        column_mapping:
+          profile_id: id
 event_triggers:
   - name: sendInteractionEventToAmplitude
     definition:

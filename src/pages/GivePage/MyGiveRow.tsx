@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useNavigate } from 'react-router';
 
@@ -10,6 +10,7 @@ import { Box, Flex, Text, ToggleButton } from 'ui';
 
 import { AvatarAndName } from './AvatarAndName';
 import { GiveRowGrid } from './GiveRowGrid';
+import { OptOutWarningModal } from './OptOutWarningModal';
 
 // MyGiveRow is the top row on the give list, which is unique for the currently logged in member
 export const MyGiveRow = ({
@@ -24,6 +25,7 @@ export const MyGiveRow = ({
   const { showError } = useApeSnackbar();
 
   const navigate = useNavigate();
+  const [optOutOpen, setOptOutOpen] = useState(false);
 
   // updateNonReceiver toggles the current members desire to receive give
   const updateNonReceiver = async (nonReceiver: boolean) => {
@@ -85,7 +87,11 @@ export const MyGiveRow = ({
                 color="destructive"
                 active={myUser.non_receiver}
                 disabled={myUser.non_receiver}
-                onClick={() => updateNonReceiver(true)}
+                onClick={() =>
+                  myUser.give_token_received > 0
+                    ? setOptOutOpen(true)
+                    : updateNonReceiver(true)
+                }
               >
                 <X size="lg" /> No
               </ToggleButton>
@@ -93,6 +99,13 @@ export const MyGiveRow = ({
           )}
         </Flex>
       </GiveRowGrid>
+      <OptOutWarningModal
+        optOutOpen={optOutOpen}
+        setOptOutOpen={setOptOutOpen}
+        updateNonReceiver={updateNonReceiver}
+        tokenName={myUser.circle.tokenName}
+        give_token_received={myUser.give_token_received}
+      />
     </Box>
   );
 };

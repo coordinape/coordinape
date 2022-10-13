@@ -14,7 +14,7 @@ import {
   useMapSearchRegex,
 } from 'recoilState/map';
 import { Avatar } from 'ui';
-import { assertDef } from 'utils/tools';
+import { assertDef } from 'utils';
 
 import { IProfile, ICircle } from 'types';
 

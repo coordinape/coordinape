@@ -4,17 +4,18 @@ import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
 
-import { OrgLogoUpload, LoadingModal } from 'components';
+import { LoadingModal } from 'components';
 import { scrollToTop } from 'components/MainLayout/MainLayout';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { CircleRow } from 'pages/CirclesPage/CirclesPage';
 import { paths } from 'routes/paths';
-import { AppLink, Box, Button, Flex, Text } from 'ui';
+import { AppLink, Avatar, Box, Button, Flex, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { getOrgData, QUERY_KEY_MY_ORGS } from './getOrgData';
 
 import type { Awaited } from 'types/shim';
+
 type QueryResult = Awaited<ReturnType<typeof getOrgData>>;
 
 export const OrganizationPage = () => {
@@ -50,29 +51,44 @@ export const OrganizationPage = () => {
   return (
     <SingleColumnLayout>
       <Box key={org.id} css={{ mb: '$lg' }}>
-        <Flex row css={{ mb: '$lg', alignItems: 'baseline' }}>
-          <Box css={{ flexGrow: 1, display: 'flex', flexDirection: 'row' }}>
-            <OrgLogoUpload
-              id={org.id}
-              original={org.logo}
-              isAdmin={isAdmin(org)}
-              name={org.name || ''}
-            />
-            <Text h2 bold css={{ ml: '$sm', '@sm': { fontSize: '$large' } }}>
+        <Flex
+          row
+          css={{
+            mb: '$lg',
+            alignItems: 'baseline',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Flex css={{ alignItems: 'center' }}>
+            <Text h2 medium css={{ gap: '$sm', '@sm': { fontSize: '$large' } }}>
+              <Avatar path={org.logo} size="small" name={org.name || ''} />
               {org.name || ''}
             </Text>
-          </Box>
-          {isAdmin(org) && (
-            <AppLink to={paths.createCircle + '?org=' + org.id}>
-              <Button
-                color="primary"
-                outlined
-                css={{ whiteSpace: 'nowrap', ml: '$sm' }}
-              >
-                Add Circle
-              </Button>
-            </AppLink>
-          )}
+          </Flex>
+          <Flex>
+            {isAdmin(org) && (
+              <>
+                <AppLink to={paths.createCircle + '?org=' + org.id}>
+                  <Button
+                    color="primary"
+                    css={{ whiteSpace: 'nowrap', ml: '$sm' }}
+                    outlined
+                  >
+                    Add Circle
+                  </Button>
+                </AppLink>
+                <AppLink to={paths.organizationSettings(orgId.toString())}>
+                  <Button
+                    color="primary"
+                    outlined
+                    css={{ whiteSpace: 'nowrap', ml: '$sm' }}
+                  >
+                    Settings
+                  </Button>
+                </AppLink>
+              </>
+            )}
+          </Flex>
         </Flex>
         <Box css={{ display: 'flex', flexDirection: 'column', gap: '$xl' }}>
           {sortBy(org.circles, c => [-c.users.length, c.name]).map(circle => (

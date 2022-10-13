@@ -10,9 +10,9 @@ import {
   useSetRecoilState,
 } from 'recoil';
 
+import { assertDef } from 'utils';
 import { getAvatarPathWithFallback } from 'utils/domain';
 import { createFakeUser, createFakeProfile } from 'utils/modelExtenders';
-import { toSearchRegExp, assertDef } from 'utils/tools';
 
 import {
   rSelectedCircleId,
@@ -112,6 +112,16 @@ export const rMapEpochs = selector<IEpoch[]>({
     return currentEpoch ? pastEpochs.concat(currentEpoch) : pastEpochs;
   },
 });
+
+const toSearchRegExp = (value: string) => {
+  if (!value) return undefined;
+  try {
+    return new RegExp(`(${value.replace(/[#-.]|[[-^]|[?{}]/g, '\\$&')})`, 'i');
+  } catch (error) {
+    console.warn('toSearchRegExp', error);
+  }
+  return undefined;
+};
 
 export const rMapSearchRegex = selector<RegExp | undefined>({
   key: 'rMapSearchRegex',

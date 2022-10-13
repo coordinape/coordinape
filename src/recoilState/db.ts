@@ -9,7 +9,7 @@ import {
   extraUser,
   extraProfile,
 } from 'utils/modelExtenders';
-import { neverEndingPromise } from 'utils/tools';
+import { neverEndingPromise } from 'utils/recoil';
 
 import {
   IApiFullCircle,
