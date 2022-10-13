@@ -11,6 +11,7 @@ import CopyCodeTextField from '../../components/CopyCodeTextField';
 import { zEthAddress, zUsername } from '../../forms/formHelpers';
 import { useApeSnackbar, useApiBase } from '../../hooks';
 import { Box, Button, Flex, Panel, Text } from '../../ui';
+import { INVITATION_SOURCE } from 'config/constants';
 import { Check } from 'icons/__generated';
 import { QUERY_KEY_CIRCLE_SETTINGS } from 'pages/CircleAdminPage/getCircleSettings';
 
@@ -118,7 +119,10 @@ const NewMemberList = ({
         .filter(m => m.address != '' && m.name != '')
         .map(m => ({
           ...m,
-          entrance: m.entrance === 'CSV' ? 'CSV' : 'manual-address-entry',
+          entrance:
+            m.entrance === INVITATION_SOURCE.CSV
+              ? INVITATION_SOURCE.CSV
+              : INVITATION_SOURCE.ETH,
         }));
       await client.mutate({
         createUsers: [

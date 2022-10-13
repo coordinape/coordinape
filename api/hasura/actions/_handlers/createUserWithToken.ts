@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+import { INVITATION_SOURCE } from '../../../../api-lib/constants';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getAddress } from '../../../../api-lib/gql/queries';
 import { UnprocessableError } from '../../../../api-lib/HttpError';
@@ -63,7 +64,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       name: input.name,
       circle_id: circleId,
     },
-    'magic-link'
+    INVITATION_SOURCE.LINK
   );
 
   return res

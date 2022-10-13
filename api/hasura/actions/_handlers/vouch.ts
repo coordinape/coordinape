@@ -2,6 +2,7 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+import { INVITATION_SOURCE } from '../../../../api-lib/constants';
 import {
   getUserFromAddress,
   getUserFromProfileId,
@@ -159,7 +160,7 @@ async function convertNomineeToUser(nominee: Nominee) {
       nominee.address,
       nominee.name,
       nominee.circle_id,
-      'vouched in'
+      INVITATION_SOURCE.NOMINATION
     );
     if (!addedUser) {
       throw new InternalServerError('unable to add user');
