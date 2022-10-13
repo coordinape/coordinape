@@ -18,3 +18,11 @@ export const DISTRIBUTION_TYPE = {
   FIXED: 2,
   COMBINED: 3,
 };
+
+export enum INVITATION_SOURCE {
+  ADMIN = 'admin-self-add',
+  LINK = 'magic-link',
+  ETH = 'manual-address-entry',
+  CSV = 'CSV',
+  NOMINATION = 'vouched-in',
+}

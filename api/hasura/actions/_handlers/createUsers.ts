@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
+import { INVITATION_SOURCE } from '../../../../api-lib/constants';
 import { ValueTypes } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { insertInteractionEvents } from '../../../../api-lib/gql/mutations';
@@ -103,7 +104,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           pk_columns: { id: user.id },
           _set: {
             ...user,
-            entrance: 'manual-address-entry',
+            entrance: INVITATION_SOURCE.ETH,
             deleted_at: null,
           },
         },
