@@ -788,6 +788,7 @@ export type ValueTypes = {
     amount?: number | undefined | null;
     circle_id?: number | undefined | null;
     distribution_id?: number | undefined | null;
+    org_id?: number | undefined | null;
     symbol?: string | undefined | null;
     tx_hash: string;
     tx_type: string;
@@ -10680,6 +10681,7 @@ export type GraphQLTypes = {
     amount?: number | undefined;
     circle_id?: number | undefined;
     distribution_id?: number | undefined;
+    org_id?: number | undefined;
     symbol?: string | undefined;
     tx_hash: string;
     tx_type: string;
