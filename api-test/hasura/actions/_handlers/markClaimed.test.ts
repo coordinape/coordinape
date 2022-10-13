@@ -19,6 +19,7 @@ const mockClaimData = (address?: string) => ({
     id: 1,
     vault: {
       id: 2,
+      org_id: 3,
       symbol: 'DAI',
       chain_id: chainId,
       decimals: 18,
@@ -84,6 +85,8 @@ test('create interaction_event with unwrapped amount', async () => {
 
   const result = await updateClaims(1, 2, '0xabc');
   expect(result).toEqual([17]);
+  expect(actual.profile_id).toBe(1);
+  expect(actual.org_id).toBe(3);
   expect(actual.data.symbol).toBe('Yearn DAI');
   const amount = actual.data.amount;
   expect(amount).toBeGreaterThan(10);
