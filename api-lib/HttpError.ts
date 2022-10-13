@@ -7,6 +7,7 @@ import { VercelResponse } from '@vercel/node';
 import { ZodError } from 'zod';
 
 import { flattenZeusError, GQLError } from '../src/common-lib/errorHandling';
+import { SEVERITY_DEBUG } from '../src/utils/reporting';
 
 import { SENTRY_DSN } from './config';
 import { GraphQLError } from './gql/__generated__/zeus';
@@ -97,7 +98,7 @@ export function errorResponseWithStatusCode(
         scope.addBreadcrumb({
           category: 'query-path',
           message: error.details.path,
-          level: Sentry.Severity.Debug,
+          level: SEVERITY_DEBUG,
         });
       }
     }
