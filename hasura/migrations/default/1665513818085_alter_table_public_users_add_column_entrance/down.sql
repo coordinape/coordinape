@@ -1,1 +1,1 @@
-alter table "public"."users" drop column "entrance" text;
+alter table "public"."users" drop column "entrance";
