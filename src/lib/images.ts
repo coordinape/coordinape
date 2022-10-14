@@ -3,4 +3,4 @@
 const base64Buffer = 4 / 3;
 export const MAX_IMAGE_BYTES_LENGTH = 10 * 1024 * 1024; // 10MB+buffer
 export const MAX_IMAGE_BYTES_LENGTH_BASE64 =
-  MAX_IMAGE_BYTES_LENGTH * base64Buffer;
+  MAX_IMAGE_BYTES_LENGTH / base64Buffer;
