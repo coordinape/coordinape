@@ -47,6 +47,7 @@ const NewMemberEntry = ({
             {...register(`newMembers.${index}.address`)}
           />
         </Box>
+        <input type="hidden" {...register(`newMembers.${index}.entrance`)} />
         <Box>
           {onRemove && (
             <>

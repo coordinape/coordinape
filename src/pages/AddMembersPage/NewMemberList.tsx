@@ -57,7 +57,7 @@ const NewMemberList = ({
         .object({
           address: zEthAddress.or(z.literal('')),
           name: zUsername.or(z.literal('')),
-          entrance: z.string().optional(),
+          entrance: z.string(),
         })
         .superRefine((data, ctx) => {
           if (data.name && data.name !== '' && data.address === '') {
