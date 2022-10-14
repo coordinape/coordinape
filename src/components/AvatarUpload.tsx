@@ -7,6 +7,7 @@ import { MAX_IMAGE_BYTES_LENGTH_BASE64 } from 'lib/images';
 import { useApeSnackbar, useApiBase } from 'hooks';
 import { Check } from 'icons/__generated';
 import { Avatar, Button, Flex, FormLabel, Text } from 'ui';
+import { formatBytes } from 'utils/presentationHelpers';
 
 const VALID_FILE_TYPES = ['image/jpg', 'image/jpeg', 'image/png'];
 
@@ -41,8 +42,7 @@ export const AvatarUpload = ({ original }: { original?: string }) => {
         showError(
           e.target.value +
             ' is too large, max file size is ' +
-            MAX_IMAGE_BYTES_LENGTH_BASE64 +
-            ' bytes'
+            formatBytes(MAX_IMAGE_BYTES_LENGTH_BASE64)
         );
       } else {
         setAvatarFile(e.target.files[0]);
