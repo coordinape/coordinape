@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { FileText, Slash } from '../../icons/__generated';
 import { CSS } from '../../stitches.config';
-import { Box, Button, Flex, Text } from '../../ui';
+import { Box, Flex, Text } from '../../ui';
 
 import { AvatarAndName } from './AvatarAndName';
 import { ContributorButton } from './ContributorButton';
@@ -101,11 +101,10 @@ export const GiveRow = ({
           }}
         >
           {!docExample && (
-            <Button
-              size="small"
-              css={{ mr: '$xl', width: '130px' }}
+            <Text
+              tag
+              css={{ mr: '$xl', minWidth: '130px' }}
               color={noteComplete ? 'complete' : 'primary'}
-              outlined={noteComplete ? false : true}
             >
               {noteComplete ? (
                 <>
@@ -116,7 +115,7 @@ export const GiveRow = ({
                   <Slash /> No Feedback
                 </>
               )}
-            </Button>
+            </Text>
           )}
           <GiveAllocator
             disabled={noGivingAllowed}

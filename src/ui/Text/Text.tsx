@@ -89,6 +89,8 @@ export const Text = styled('span', {
         lineHeight: '$shorter',
         p: '$xs calc($xs + $xxs)',
         borderRadius: '$1',
+        gap: '$sm',
+        justifyContent: 'center',
       },
     },
   },
@@ -98,6 +100,13 @@ export const Text = styled('span', {
       color: 'active',
       css: {
         backgroundColor: '$active',
+      },
+    },
+    {
+      tag: true,
+      color: 'primary',
+      css: {
+        backgroundColor: '$primaryDisabled',
       },
     },
     {
