@@ -263,14 +263,6 @@ export const GiveDrawer = ({
                     has no contributions recorded for this epoch
                   </Text>
                 </Box>
-
-                <Panel info css={{ mt: '$md' }}>
-                  <Text p>
-                    Contributions are coming soon! Members will be able to share
-                    automatic contributions from integrated apps and journal
-                    contributions as they happen.
-                  </Text>
-                </Panel>
               </>
             ) : (
               contributions.map(c => (

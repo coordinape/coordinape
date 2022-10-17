@@ -9,12 +9,14 @@ import { Check, X } from '../../icons/__generated';
 import {
   Avatar,
   Box,
+  Button,
   Flex,
-  Panel,
+  AppLink,
   Text,
   TextArea,
   ToggleButton,
 } from '../../ui';
+import { paths } from 'routes/paths';
 
 import { Member } from './';
 import { Contribution } from './Contribution';
@@ -209,9 +211,16 @@ export const EpochStatementDrawer = ({
           pt: '$lg',
         }}
       >
-        <Text semibold size="large">
-          Contributions
-        </Text>
+        <Flex css={{ justifyContent: 'space-between' }}>
+          <Text semibold size="large">
+            Contributions
+          </Text>
+          <AppLink to={paths.contributions(member.circle_id)}>
+            <Button outlined size="small" color="primary">
+              Add Contribution
+            </Button>
+          </AppLink>
+        </Flex>
         <Box css={{ pb: '$lg', mt: '$sm' }}>
           {!contributions && (
             // TODO: Better loading indicator here -g
@@ -222,20 +231,9 @@ export const EpochStatementDrawer = ({
               <>
                 <Box>
                   <Text inline color="neutral">
-                    <Text semibold inline color="neutral">
-                      {member.name}{' '}
-                    </Text>
-                    has no contributions recorded for this epoch
+                    You have no contributions
                   </Text>
                 </Box>
-
-                <Panel info css={{ mt: '$md' }}>
-                  <Text p>
-                    Contributions are coming soon! Members will be able to share
-                    automatic contributions from integrated apps and journal
-                    contributions as they happen.
-                  </Text>
-                </Panel>
               </>
             ) : (
               contributions.map(c => (
