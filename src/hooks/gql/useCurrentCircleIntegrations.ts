@@ -28,3 +28,7 @@ export function useCurrentCircleIntegrations() {
     return res.circles_by_pk?.integrations;
   });
 }
+
+export type Integration = NonNullable<
+  ReturnType<typeof useCurrentCircleIntegrations>['data']
+>[0];

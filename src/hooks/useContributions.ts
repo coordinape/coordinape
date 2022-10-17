@@ -1,15 +1,26 @@
 import { useMemo } from 'react';
 
+import { DateTime } from 'luxon';
 import { useQueries } from 'react-query';
 
-import { useSelectedCircle } from 'recoilState';
+import {
+  DEWORK,
+  WONDER,
+} from 'pages/IntegrationCallbackPage/IntegrationCallbackPage';
 
-import { useCurrentCircleIntegrations } from './gql/useCurrentCircleIntegrations';
+import {
+  Integration,
+  useCurrentCircleIntegrations,
+} from './gql/useCurrentCircleIntegrations';
 
+interface TimeInput {
+  startDate: string;
+  endDate: string;
+}
 export interface Contribution {
   title: string;
   link: string;
-  source?: string;
+  source: string;
 }
 
 export interface ContributionUser {
@@ -30,53 +41,91 @@ export interface UserContributions {
 // FIXME ideally we'd show this in a Storybook story
 const mockData: UserContributions = {
   ['0x23f24381cf8518c4fafdaeeac5c0f7c92b7ae678']: [
-    { title: 'I did a thing', link: 'http://thing.com' },
-    { title: 'And then another', link: 'http://another.com' },
-    { title: 'And YET ANOTHER! O_O', link: 'http://yetanother.com' },
-    { title: 'Gib me tokens', link: 'http://gib.com' },
-    { title: 'I crushed it', link: 'http://crush.com' },
+    { title: 'I did a thing', link: 'http://thing.com', source: 'thing' },
+    {
+      title: 'And then another',
+      link: 'http://another.com',
+      source: 'another',
+    },
+    {
+      title: 'And YET ANOTHER! O_O',
+      link: 'http://yetanother.com',
+      source: 'yetanother',
+    },
+    { title: 'Gib me tokens', link: 'http://gib.com', source: 'gib' },
+    { title: 'I crushed it', link: 'http://crush.com', source: 'crush' },
   ],
 };
 
-export function useContributionUsers(): UserContributions {
+const ensureSource =
+  (source: string) =>
+  (res: Response): Response => ({
+    ...res,
+    users: res.users.map(user => ({
+      ...user,
+      contributions: user.contributions.map(c => ({
+        ...c,
+        source,
+      })),
+    })),
+  });
+
+const deworkIntegration = (
+  integration: Integration,
+  timeInput: TimeInput
+): Promise<Response> => {
+  return fetch(
+    `https://api.deworkxyz.com/integrations/coordinape/${
+      integration.data.organizationId
+    }?epoch_start=${timeInput.startDate}&epoch_end=${
+      timeInput.endDate
+    }&workspace_ids=${encodeURIComponent(
+      integration.data.workspaceIds?.join(',') || ''
+    )}`
+  )
+    .then(res => res.json())
+    .then(ensureSource(DEWORK));
+};
+
+const wonderIntegration = (
+  integration: Integration,
+  timeInput: TimeInput
+): Promise<Response> => {
+  let url = `https://external-api.wonderapp.co/v1/coordinape/contributions?org_id=${integration.data.organizationId}&epoch_start=${timeInput.startDate}&epoch_end=${timeInput.endDate}`;
+  if (integration.data.podIds) {
+    for (const podId of integration.data.podIds) {
+      url += `&pod_ids=${podId}`;
+    }
+  }
+  return fetch(url)
+    .then(res => res.json())
+    .then(ensureSource(WONDER));
+};
+
+export function useContributionUsers(timeInput: TimeInput): UserContributions {
   const integrations = useCurrentCircleIntegrations();
-  const epoch = useSelectedCircle().circleEpochsStatus.currentEpoch;
   const responses = useQueries(
-    epoch && integrations.data
+    integrations.data
       ? integrations.data
-          .filter(
-            integration =>
-              integration.type === 'dework' || integration.type === 'wonder'
-          )
           .map(integration => ({
-            queryKey: `circle-integration-contributions-${integration.id}-${epoch.id}`,
+            queryKey: `circle-integration-contributions-${integration.id}-${timeInput.startDate}-${timeInput.endDate}`,
             queryFn: () => {
-              if (integration.type === 'dework') {
-                return fetch(
-                  `https://api.deworkxyz.com/integrations/coordinape/${
-                    integration.data.organizationId
-                  }?epoch_start=${epoch.start_date}&epoch_end=${
-                    epoch.end_date
-                  }&workspace_ids=${encodeURIComponent(
-                    integration.data.workspaceIds?.join(',') || ''
-                  )}`
-                )
-                  .then(res => res.json())
-                  .then(res => res as Response);
-              }
-              if (integration.type === 'wonder') {
-                let url = `https://external-api.wonderapp.co/v1/coordinape/contributions?org_id=${integration.data.organizationId}&epoch_start=${epoch.start_date}&epoch_end=${epoch.end_date}`;
-                if (integration.data.podIds) {
-                  for (const podId of integration.data.podIds) {
-                    url += `&pod_ids=${podId}`;
-                  }
+              switch (integration.type) {
+                case DEWORK: {
+                  return deworkIntegration(integration, timeInput);
                 }
-                return fetch(url)
-                  .then(res => res.json())
-                  .then(res => res as Response);
+                case WONDER: {
+                  return wonderIntegration(integration, timeInput);
+                }
+                default:
+                  return;
               }
             },
           }))
+          // filter out incompatible/irrelevant integrations
+          // TODO: Add an integration class hasura enum to make this more explicit
+          // classes could include: contribution, membership, distribution, etc
+          .filter(x => x)
       : []
   );
   /**
@@ -104,11 +153,17 @@ export function useContributionUsers(): UserContributions {
   }, [responses]);
 }
 
-export function useContributions(
-  address: string,
-  mock?: boolean
-): Array<Contribution> | undefined {
-  const userToContribution = useContributionUsers();
+export function useContributions(input: {
+  address: string;
+  startDate?: string;
+  endDate?: string;
+  mock?: boolean;
+}): Array<Contribution> | undefined {
+  const { address, startDate, endDate, mock } = input;
+  const userToContribution = useContributionUsers({
+    startDate: startDate ?? DateTime.fromMillis(0).toISO(),
+    endDate: endDate ?? DateTime.now().toISO(),
+  });
   const ret = useMemo(
     () => (address ? userToContribution[address.toLowerCase()] : undefined),
     [address, userToContribution]

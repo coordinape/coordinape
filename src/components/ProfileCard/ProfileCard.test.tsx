@@ -1,5 +1,6 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
 
+import { useSelectedCircle } from 'recoilState';
 import { TestWrapper } from 'utils/testing';
 
 import { ProfileCard } from './ProfileCard';
@@ -15,8 +16,10 @@ const otherUser = {
 const startingGift = { user: otherUser, tokens: 1, note: 'hi' };
 
 jest.mock('hooks/useContributions');
+jest.mock('recoilState');
 
 test('allow reducing allocation to 0', async () => {
+  (useSelectedCircle as jest.Mock).mockReturnValue({ circleEpochsStatus: {} });
   const mockSetGift = jest.fn();
 
   await act(async () => {
