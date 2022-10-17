@@ -628,8 +628,8 @@ const ContributionList = ({
 
   const integrationContributions = useContributions({
     address: userAddress || '',
-    start_date: epoch ? epoch.next()?.end_date : latestEpochEndDate,
-    end_date: epoch ? epoch.end_date : currentDateTime,
+    startDate: epoch ? epoch.next()?.end_date : latestEpochEndDate,
+    endDate: epoch ? epoch.end_date : currentDateTime,
     mock: false,
   });
 
