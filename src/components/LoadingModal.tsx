@@ -18,10 +18,10 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center',
   },
   title: {
-    fontSize: 30,
-    lineHeight: '22px',
-    color: theme.colors.surface,
+    fontSize: 16,
     textAlign: 'center',
+    color: theme.colors.secondaryText,
+    fontWeight: 500,
     marginTop: 16,
   },
 }));

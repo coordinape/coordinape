@@ -51,7 +51,7 @@ export const EditProfileModal = ({
   const classes = useStyles();
 
   const myProfile = useMyProfile();
-  const { updateMyProfile, updateAvatar } = useApiWithProfile();
+  const { updateMyProfile } = useApiWithProfile();
 
   return (
     <EditProfileForm.FormController
@@ -85,7 +85,7 @@ export const EditProfileModal = ({
           size="large"
         >
           <h2 className={classes.sectionHeader}>Profile Image</h2>
-          <AvatarUpload original={myProfile.avatar} commit={updateAvatar} />
+          <AvatarUpload original={myProfile.avatar} />
 
           <h2 className={classes.sectionHeader}>Select Your Skills</h2>
           <div className={classes.skillsContainer}>

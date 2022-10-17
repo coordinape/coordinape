@@ -1,12 +1,14 @@
 import { CaptureConsole } from '@sentry/integrations';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
-import { CaptureContext } from '@sentry/types';
+import { CaptureContext, SeverityLevel } from '@sentry/types';
 
 import { flattenZeusError, GQLError } from '../common-lib/errorHandling';
 import { GraphQLError } from '../lib/gql/__generated__/zeus';
 
 import { DOMAIN_IS_LOCALHOST, DOMAIN_IS_PREVIEW } from './domain';
+
+export const SEVERITY_DEBUG = 'debug' as SeverityLevel;
 
 export const reportException = (
   error: any,
@@ -21,7 +23,7 @@ export const reportException = (
         scope.addBreadcrumb({
           category: 'query-path',
           message: error.details.path,
-          level: Sentry.Severity.Debug,
+          level: SEVERITY_DEBUG,
         });
       }
     }
