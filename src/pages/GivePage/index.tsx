@@ -543,11 +543,17 @@ const AllocateContents = ({
               display: 'grid',
               gridTemplateColumns: '1fr 1fr',
               justifyContent: 'space-between',
-              gap: '$lg',
               '@sm': { gridTemplateColumns: '1fr' },
             }}
           >
-            <Flex css={{ flexGrow: 1 }} alignItems="center">
+            <Flex
+              css={{
+                flexGrow: 1,
+                gap: '$md',
+                '@sm': { flexDirection: 'column', gap: '$sm' },
+              }}
+              alignItems="center"
+            >
               <Box>
                 {noGivingAllowed ? (
                   <Text color="neutral" size="large" semibold>
@@ -565,7 +571,6 @@ const AllocateContents = ({
                 color="primary"
                 outlined
                 disabled={maxedOut || noGivingAllowed}
-                css={{ ml: '$md' }}
                 onClick={e => {
                   (e.target as HTMLButtonElement).blur();
                   distributeEvenly();
@@ -575,19 +580,34 @@ const AllocateContents = ({
               </Button>
               <Flex
                 css={{
-                  ml: '$md',
                   alignItems: 'center',
+                  '@sm': { mb: '$sm' },
                 }}
               >
                 <SavingIndicator needToSave={needToSave} />
               </Flex>
             </Flex>
-            <Flex css={{ flexShrink: 0, justifyContent: 'flex-end' }}>
-              <Flex>
+            <Flex
+              css={{
+                flexShrink: 0,
+                justifyContent: 'flex-end',
+              }}
+            >
+              <Flex
+                css={{
+                  '@sm': {
+                    flexGrow: '1',
+                    mx: '-$md',
+                    mb: '-$md',
+                  },
+                }}
+              >
                 <Button
                   css={{
                     borderTopRightRadius: 0,
                     borderBottomRightRadius: 0,
+                    '@sm': { borderTopLeftRadius: 0, py: 'calc($sm + $xs)' },
+                    flexGrow: '1',
                   }}
                   color={onlyCollaborators ? 'primary' : 'white'}
                   onClick={() => setOnlyCollaborators(true)}
@@ -598,6 +618,8 @@ const AllocateContents = ({
                   css={{
                     borderTopLeftRadius: 0,
                     borderBottomLeftRadius: 0,
+                    '@sm': { borderTopRightRadius: 0, py: 'calc($sm + $xs)' },
+                    flexGrow: '1',
                   }}
                   color={onlyCollaborators ? 'white' : 'primary'}
                   onClick={() => setOnlyCollaborators(false)}
