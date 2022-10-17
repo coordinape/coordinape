@@ -1,7 +1,3 @@
-import React, { useState } from 'react';
-
-import { useNavigate } from 'react-router';
-
 import { ApeInfoTooltip } from '../../components';
 import { useApeSnackbar, useApiWithSelectedCircle } from '../../hooks';
 import { Check, X } from '../../icons/__generated';
@@ -16,16 +12,19 @@ import { OptOutWarningModal } from './OptOutWarningModal';
 export const MyGiveRow = ({
   myUser,
   contributionCount,
+  openEpochStatement,
+  optOutOpen,
+  setOptOutOpen,
 }: {
   myUser: IMyUser;
   contributionCount: number;
+  openEpochStatement: () => void;
+  setOptOutOpen: (b: boolean) => void;
+  optOutOpen: boolean;
 }) => {
   const { updateMyUser } = useApiWithSelectedCircle();
 
   const { showError } = useApeSnackbar();
-
-  const navigate = useNavigate();
-  const [optOutOpen, setOptOutOpen] = useState(false);
 
   // updateNonReceiver toggles the current members desire to receive give
   const updateNonReceiver = async (nonReceiver: boolean) => {
@@ -37,7 +36,7 @@ export const MyGiveRow = ({
   };
 
   return (
-    <Box onClick={() => navigate}>
+    <Box onClick={openEpochStatement}>
       <GiveRowGrid
         selected={false}
         css={{ py: '$sm', borderColor: '$surface' }}
@@ -82,7 +81,10 @@ export const MyGiveRow = ({
                 css={{ mr: '$sm' }}
                 active={!myUser.non_receiver}
                 disabled={!myUser.non_receiver}
-                onClick={() => updateNonReceiver(false)}
+                onClick={e => {
+                  e.stopPropagation();
+                  updateNonReceiver(false);
+                }}
               >
                 <Check size="lg" /> Yes
               </ToggleButton>
@@ -90,11 +92,12 @@ export const MyGiveRow = ({
                 color="destructive"
                 active={myUser.non_receiver}
                 disabled={myUser.non_receiver}
-                onClick={() =>
+                onClick={e => {
+                  e.stopPropagation();
                   myUser.give_token_received > 0
                     ? setOptOutOpen(true)
-                    : updateNonReceiver(true)
-                }
+                    : updateNonReceiver(true);
+                }}
               >
                 <X size="lg" /> No
               </ToggleButton>
