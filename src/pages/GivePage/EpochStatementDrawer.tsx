@@ -31,6 +31,8 @@ type StatementDrawerProps = {
   start_date: Date;
   end_date: Date;
   setOptOutOpen: (b: boolean) => void;
+  setStatement: (s: string) => void;
+  statement: string;
 };
 
 // GiveDrawer is the focused modal drawer to give/note/view contributions for one member
@@ -43,6 +45,8 @@ export const EpochStatementDrawer = ({
   start_date,
   end_date,
   setOptOutOpen,
+  statement,
+  setStatement,
 }: StatementDrawerProps) => {
   // fetch the contributions for this particular member
   const { data: contributions } = useQuery(
@@ -61,9 +65,6 @@ export const EpochStatementDrawer = ({
       staleTime: Infinity,
     }
   );
-
-  // statement is the current state of the epoch statement
-  const [statement, setStatement] = useState(member.bio || '');
 
   // saveTimeout is the timeout handle for the buffered async saving
   const [saveTimeout, setSaveTimeout] =

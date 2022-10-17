@@ -422,6 +422,9 @@ const AllocateContents = ({
   // the opt-out buttons also exist in th EpochStatementDrawer
   const [optOutOpen, setOptOutOpen] = useState(false);
 
+  // track epoch statements between drawer openings
+  const [statement, setStatement] = useState(myMember?.bio || '');
+
   // membersToIterate is initialized as a snapshot of filteredMembers when the drawer is brought up on
   // first set of selectedMemberIdx to non-zero
   const [membersToIterate, setMembersToIterate] = useState<Member[]>([]);
@@ -493,6 +496,7 @@ const AllocateContents = ({
       }
       setMembersToIterate(mtoi);
     }
+    if (myMember) setStatement(myMember.bio || '');
   }, [members]);
 
   // move to the next member in the snapshotted membersToIterate. used by the drawer
@@ -770,6 +774,8 @@ const AllocateContents = ({
             isNonReceiverMutationLoading={isNonReceiverMutationLoading}
             start_date={currentEpoch.startDate.toJSDate()}
             end_date={currentEpoch.endDate.toJSDate()}
+            statement={statement}
+            setStatement={setStatement}
           />
         )}
         {selectedMember && selectedMember !== myMember && currentEpoch && (
