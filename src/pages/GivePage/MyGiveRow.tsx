@@ -1,5 +1,4 @@
 import { ApeInfoTooltip } from '../../components';
-import { useApeSnackbar, useApiWithSelectedCircle } from '../../hooks';
 import { Check, X } from '../../icons/__generated';
 import { IMyUser } from '../../types';
 import { Box, Flex, Text, ToggleButton } from 'ui';
@@ -11,30 +10,23 @@ import { OptOutWarningModal } from './OptOutWarningModal';
 // MyGiveRow is the top row on the give list, which is unique for the currently logged in member
 export const MyGiveRow = ({
   myUser,
+  userIsOptedOut,
+  updateNonReceiver,
+  isNonReceiverMutationLoading,
   contributionCount,
   openEpochStatement,
   optOutOpen,
   setOptOutOpen,
 }: {
   myUser: IMyUser;
+  userIsOptedOut: boolean;
+  updateNonReceiver: (b: boolean) => void;
+  isNonReceiverMutationLoading: boolean;
   contributionCount: number;
   openEpochStatement: () => void;
   setOptOutOpen: (b: boolean) => void;
   optOutOpen: boolean;
 }) => {
-  const { updateMyUser } = useApiWithSelectedCircle();
-
-  const { showError } = useApeSnackbar();
-
-  // updateNonReceiver toggles the current members desire to receive give
-  const updateNonReceiver = async (nonReceiver: boolean) => {
-    try {
-      await updateMyUser({ non_receiver: nonReceiver });
-    } catch (e) {
-      showError(e);
-    }
-  };
-
   return (
     <Box onClick={openEpochStatement}>
       <GiveRowGrid
@@ -79,8 +71,8 @@ export const MyGiveRow = ({
               <ToggleButton
                 color="complete"
                 css={{ mr: '$sm' }}
-                active={!myUser.non_receiver}
-                disabled={!myUser.non_receiver}
+                active={!userIsOptedOut}
+                disabled={isNonReceiverMutationLoading || !userIsOptedOut}
                 onClick={e => {
                   e.stopPropagation();
                   updateNonReceiver(false);
@@ -90,8 +82,8 @@ export const MyGiveRow = ({
               </ToggleButton>
               <ToggleButton
                 color="destructive"
-                active={myUser.non_receiver}
-                disabled={myUser.non_receiver}
+                active={userIsOptedOut}
+                disabled={isNonReceiverMutationLoading || userIsOptedOut}
                 onClick={e => {
                   e.stopPropagation();
                   myUser.give_token_received > 0

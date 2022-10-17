@@ -517,6 +517,7 @@ export async function updateUser(params: ValueTypes['UpdateUserInput']) {
         },
         {
           id: true,
+          UserResponse: { non_receiver: true },
         },
       ],
     },

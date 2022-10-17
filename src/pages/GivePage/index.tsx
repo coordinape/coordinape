@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 
+import { updateUser } from 'lib/gql/mutations';
 import { Helmet } from 'react-helmet';
-import { useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import { Awaited } from '../../../api-lib/ts4.5shim';
 import { LoadingModal } from '../../components';
@@ -32,7 +33,7 @@ const GivePage = () => {
   const {
     circle: selectedCircle,
     myUser,
-    circleEpochsStatus: { currentEpoch, nextEpoch },
+    circleEpochsStatus: { currentEpoch, nextEpoch, previousEpoch },
   } = useSelectedCircle();
   const { showError } = useApeSnackbar();
 
@@ -67,7 +68,7 @@ const GivePage = () => {
       return getMembersWithContributions(
         selectedCircle.id,
         address as string,
-        currentEpoch.startDate.toJSDate(),
+        previousEpoch?.endDate.toJSDate() || new Date(0),
         currentEpoch.endDate.toJSDate()
       );
     },
@@ -393,6 +394,29 @@ const AllocateContents = ({
     undefined
   );
 
+  // myMember is the current users member in this circle, used for contributionCount
+  const myMember = members.find(m => m.id == myUser.id);
+  // needed to decouple this piece of state from the hard page reloads tied to
+  // fetching the manifest.
+  const [userIsOptedOut, setUserIsOptedOut] = useState(myUser.non_receiver);
+
+  const { mutate: updateNonReceiver, isLoading: isNonReceiverMutationLoading } =
+    useMutation(
+      async (nonReceiver: boolean) =>
+        updateUser({
+          non_receiver: nonReceiver,
+          circle_id: myMember?.circle_id,
+        }),
+      {
+        onSuccess: data => {
+          if (data) setUserIsOptedOut(data.UserResponse.non_receiver);
+        },
+        onError: e => {
+          console.error(e);
+          showError(e);
+        },
+      }
+    );
   // Controls the warning modal for when the user is opting out and
   // already has GIVE allocated to them. This is lifted up here because
   // the opt-out buttons also exist in th EpochStatementDrawer
@@ -401,9 +425,6 @@ const AllocateContents = ({
   // membersToIterate is initialized as a snapshot of filteredMembers when the drawer is brought up on
   // first set of selectedMemberIdx to non-zero
   const [membersToIterate, setMembersToIterate] = useState<Member[]>([]);
-
-  // myMember is the current users member in this circle, used for contributionCount
-  const myMember = members.find(m => m.id == myUser.id);
 
   // filteredMembers is the list of all members filtered down by various criteria, which is currently limited to
   // onlyCollaborator or all members
@@ -619,6 +640,9 @@ const AllocateContents = ({
       <MyGiveRow
         optOutOpen={optOutOpen}
         setOptOutOpen={setOptOutOpen}
+        userIsOptedOut={userIsOptedOut}
+        updateNonReceiver={updateNonReceiver}
+        isNonReceiverMutationLoading={isNonReceiverMutationLoading}
         myUser={myUser}
         openEpochStatement={() => setSelectedMember(myMember)}
         contributionCount={
@@ -739,8 +763,11 @@ const AllocateContents = ({
         {selectedMember && selectedMember === myMember && currentEpoch && (
           <EpochStatementDrawer
             myUser={myUser}
-            setOptOutOpen={setOptOutOpen}
             member={myMember}
+            setOptOutOpen={setOptOutOpen}
+            userIsOptedOut={userIsOptedOut}
+            updateNonReceiver={updateNonReceiver}
+            isNonReceiverMutationLoading={isNonReceiverMutationLoading}
             start_date={currentEpoch.startDate.toJSDate()}
             end_date={currentEpoch.endDate.toJSDate()}
           />
