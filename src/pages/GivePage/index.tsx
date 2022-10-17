@@ -15,6 +15,7 @@ import { Box, Button, Flex, Modal, Panel, Text } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 import { getPendingGiftsFrom } from '../AllocationPage/queries';
 
+import { EpochStatementDrawer } from './EpochStatementDrawer';
 import { GiveDrawer } from './GiveDrawer';
 import { GiveRow } from './GiveRow';
 import { MyGiveRow } from './MyGiveRow';
@@ -392,6 +393,11 @@ const AllocateContents = ({
     undefined
   );
 
+  // Controls the warning modal for when the user is opting out and
+  // already has GIVE allocated to them. This is lifted up here because
+  // the opt-out buttons also exist in th EpochStatementDrawer
+  const [optOutOpen, setOptOutOpen] = useState(false);
+
   // membersToIterate is initialized as a snapshot of filteredMembers when the drawer is brought up on
   // first set of selectedMemberIdx to non-zero
   const [membersToIterate, setMembersToIterate] = useState<Member[]>([]);
@@ -635,7 +641,10 @@ const AllocateContents = ({
       </Box>
 
       <MyGiveRow
+        optOutOpen={optOutOpen}
+        setOptOutOpen={setOptOutOpen}
         myUser={myUser}
+        openEpochStatement={() => setSelectedMember(myMember)}
         contributionCount={
           myMember?.contributions_aggregate?.aggregate?.count ?? 0
         }
@@ -744,11 +753,23 @@ const AllocateContents = ({
           paddingTop: 0,
           overflowY: 'scroll',
         }}
-        onClose={() => setSelectedMemberIdx(-1)}
+        onClose={() => {
+          setSelectedMemberIdx(-1);
+          setSelectedMember(undefined);
+        }}
         drawer
-        open={selectedMemberIdx != -1}
+        open={selectedMemberIdx != -1 || selectedMember === myMember}
       >
-        {selectedMember && currentEpoch && (
+        {selectedMember && selectedMember === myMember && currentEpoch && (
+          <EpochStatementDrawer
+            myUser={myUser}
+            setOptOutOpen={setOptOutOpen}
+            member={myMember}
+            start_date={currentEpoch.startDate.toJSDate()}
+            end_date={currentEpoch.endDate.toJSDate()}
+          />
+        )}
+        {selectedMember && selectedMember !== myMember && currentEpoch && (
           <GiveDrawer
             nextMember={nextMember}
             selectedMemberIdx={selectedMemberIdx}
