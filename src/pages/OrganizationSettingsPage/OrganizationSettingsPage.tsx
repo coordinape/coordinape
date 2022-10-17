@@ -32,6 +32,7 @@ import {
   Tooltip,
 } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
+import { formatBytes } from 'utils/presentationHelpers';
 
 import { updateOrg } from './mutations';
 
@@ -101,8 +102,7 @@ export const OrganizationSettingsPage = () => {
         showError(
           e.target.value +
             ' is too large, max file size is ' +
-            MAX_IMAGE_BYTES_LENGTH_BASE64 +
-            ' bytes'
+            formatBytes(MAX_IMAGE_BYTES_LENGTH_BASE64)
         );
       } else {
         setLogoFile(e.target.files[0]);

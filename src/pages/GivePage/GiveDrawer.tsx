@@ -79,6 +79,7 @@ export const GiveDrawer = ({
 
   // noteChanged schedules a save to the underlying state in the parent component, clearing any pending save
   const noteChanged = (newNote: string) => {
+    setNeedToSave(undefined);
     setNote(newNote);
     if (saveTimeout) {
       clearTimeout(saveTimeout);
