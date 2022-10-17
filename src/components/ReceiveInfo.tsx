@@ -1,9 +1,11 @@
 import { useState } from 'react';
 
 import iti from 'itiriri';
+import { order_by } from 'lib/gql/__generated__/zeus';
+import { client } from 'lib/gql/client';
 import { DateTime } from 'luxon';
+import { useQuery } from 'react-query';
 
-import { useUserGifts } from 'recoilState/allocation';
 import { useSelectedCircle } from 'recoilState/app';
 import { paths } from 'routes/paths';
 import {
@@ -20,18 +22,29 @@ import {
   POPOVER_TIMEOUT,
 } from 'ui';
 
+export const QUERY_KEY_RECEIVE_INFO = 'getReceiveInfo';
+
 export const ReceiveInfo = () => {
   const {
-    myUser,
-    circle: selectedCircle,
-    circleEpochsStatus: { currentEpoch, previousEpoch },
+    myUser: { id: userId },
+    circleId,
   } = useSelectedCircle();
-  const { forUserByEpoch: myReceived } = useUserGifts(myUser.id);
 
-  const noEpoch = !currentEpoch && !previousEpoch;
-  const gifts = currentEpoch
-    ? myReceived.get(currentEpoch.id) ?? []
-    : (previousEpoch && myReceived.get(previousEpoch.id)) ?? [];
+  const { data: circle } = useQuery(
+    [QUERY_KEY_RECEIVE_INFO, circleId, userId],
+    () => getReceiveInfo(circleId, userId),
+    {
+      enabled: !!userId && !!circleId,
+      //minmize background refetch
+      refetchOnWindowFocus: false,
+
+      notifyOnChangeProps: ['data', 'error'],
+    }
+  );
+  const noEpoch = !circle?.currentEpoch[0] && !circle?.pastEpochs[0];
+  const gifts = circle?.currentEpoch[0]
+    ? circle.currentEpoch[0].receivedGifts ?? []
+    : (circle?.pastEpochs[0] && circle?.pastEpochs[0].receivedGifts) ?? [];
   const totalReceived = (gifts && iti(gifts).sum(({ tokens }) => tokens)) || 0;
   const [mouseEnterPopover, setMouseEnterPopover] = useState(false);
   const closePopover = () => {
@@ -58,7 +71,7 @@ export const ReceiveInfo = () => {
             );
           }}
         >
-          {totalReceived} {selectedCircle?.tokenName}
+          {totalReceived} {circle?.token_name ?? 'GIVE'}
         </Button>
       </PopoverTrigger>
       <PopoverContent
@@ -100,12 +113,14 @@ export const ReceiveInfo = () => {
               {noEpoch
                 ? 'No Epochs in this Circle'
                 : `You have received ${totalReceived ?? 0} ${
-                    selectedCircle?.tokenName
+                    circle?.token_name ?? 'GIVE'
                   }`}
             </Text>
           </PopoverClose>
           {gifts
-            ?.filter(tokenGift => tokenGift.tokens > 0 || tokenGift.note)
+            ?.filter(
+              tokenGift => tokenGift.tokens > 0 || tokenGift.gift_private?.note
+            )
             ?.sort(
               (a, b) => +new Date(b.dts_created) - +new Date(a.dts_created)
             )
@@ -143,9 +158,9 @@ export const ReceiveInfo = () => {
                     path={tokenGift.sender.profile.avatar}
                     name={tokenGift.sender.name}
                   />
-                  {tokenGift.note ? (
+                  {tokenGift.gift_private?.note ? (
                     <Text p as="p" size="small">
-                      {tokenGift.note}
+                      {tokenGift.gift_private.note}
                     </Text>
                   ) : (
                     <Text color="neutral">-- Empty Note --</Text>
@@ -154,12 +169,89 @@ export const ReceiveInfo = () => {
               </Box>
             ))}
           <Text css={{ mt: '$md' }}>
-            <AppLink to={paths.history(selectedCircle.id)}>
-              View Epoch Overview
-            </AppLink>
+            <AppLink to={paths.history(circleId)}>View Epoch Overview</AppLink>
           </Text>
         </Box>
       </PopoverContent>
     </Popover>
   );
+};
+
+const getReceiveInfo = async (circleId: number, userId: number) => {
+  const gq = await client.query(
+    {
+      circles_by_pk: [
+        { id: circleId },
+        {
+          token_name: true,
+          __alias: {
+            currentEpoch: {
+              epochs: [
+                {
+                  where: { ended: { _eq: false }, start_date: { _lt: 'now' } },
+                  limit: 1,
+                },
+                {
+                  id: true,
+                  start_date: true,
+                  __alias: {
+                    receivedGifts: {
+                      epoch_pending_token_gifts: [
+                        { where: { recipient_id: { _eq: userId } } },
+                        {
+                          id: true,
+                          tokens: true,
+                          sender: { name: true, profile: { avatar: true } },
+                          gift_private: { note: true },
+                          dts_created: true,
+                        },
+                      ],
+                    },
+                  },
+                },
+              ],
+            },
+            pastEpochs: {
+              epochs: [
+                {
+                  where: { ended: { _eq: true } },
+                  order_by: [{ start_date: order_by.desc }],
+                  limit: 1,
+                },
+                {
+                  id: true,
+                  number: true,
+                  start_date: true,
+                  end_date: true,
+                  token_gifts_aggregate: [
+                    {},
+                    { aggregate: { sum: { tokens: true } } },
+                  ],
+                  __alias: {
+                    receivedGifts: {
+                      token_gifts: [
+                        { where: { recipient_id: { _eq: userId } } },
+                        {
+                          id: true,
+                          tokens: true,
+                          sender: { name: true, profile: { avatar: true } },
+                          gift_private: { note: true },
+                          dts_created: true,
+                        },
+                      ],
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'getReceivedInfo',
+    }
+  );
+
+  return gq.circles_by_pk;
 };
