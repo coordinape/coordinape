@@ -4,6 +4,7 @@ import { fileToBase64 } from 'lib/base64';
 import { updateProfileAvatar } from 'lib/gql/mutations';
 import { MAX_IMAGE_BYTES_LENGTH_BASE64 } from 'lib/images';
 
+import { LoadingModal } from 'components';
 import { useApeSnackbar, useApiBase } from 'hooks';
 import { Check } from 'icons/__generated';
 import { Avatar, Button, Flex, FormLabel, Text } from 'ui';
@@ -13,7 +14,7 @@ const VALID_FILE_TYPES = ['image/jpg', 'image/jpeg', 'image/png'];
 
 export const AvatarUpload = ({ original }: { original?: string }) => {
   const [uploadComplete, setUploadComplete] = useState<boolean>(false);
-  const [, setAvatarFile] = useState<File | undefined>(undefined);
+  const [avatarFile, setAvatarFile] = useState<File | undefined>(undefined);
 
   const [uploadedAvatarUrl, setUploadedAvatarUrl] = useState<
     undefined | string
@@ -67,6 +68,8 @@ export const AvatarUpload = ({ original }: { original?: string }) => {
       }
     }
   };
+
+  if (avatarFile) return <LoadingModal visible />;
 
   return (
     <Flex column css={{ alignItems: 'flex-start', gap: '$xs' }}>
