@@ -138,12 +138,19 @@ export const GiveDrawer = ({
       <Flex
         css={{
           pt: '$xl',
-          display: 'grid',
-          width: '100%',
-          gridTemplateColumns: '1fr',
+          gap: '$md',
+          '@sm': {
+            flexDirection: 'column',
+          },
         }}
       >
-        <Flex css={{ flexGrow: 1, minWidth: 0, mb: '$md' }} alignItems="center">
+        <Flex
+          css={{
+            flexGrow: 1,
+            minWidth: 0,
+          }}
+          alignItems="center"
+        >
           <Avatar
             size="small"
             name={member.name}
@@ -157,8 +164,12 @@ export const GiveDrawer = ({
         </Flex>
         <Flex
           css={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
+            justifyContent: 'space-between',
+            gap: '$md',
+            '@sm': {
+              flexDirection: 'column-reverse',
+              alignItems: 'flex-start',
+            },
           }}
           alignItems="center"
         >

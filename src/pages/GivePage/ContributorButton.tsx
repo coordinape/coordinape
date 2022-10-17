@@ -43,11 +43,15 @@ export const ContributorButton = ({
     <Button
       size="small"
       css={{
-        ...css,
         minWidth: '144px',
+        '@sm': {
+          visibility: 'visible !important',
+          minWidth: 0,
+          flexGrow: 1,
+        },
         gap: '$sm',
         whiteSpace: 'nowrap',
-        '@sm': { visibility: 'visible' },
+        ...css,
         '.remove': { display: 'none' },
         '&:hover': {
           '.remove': {

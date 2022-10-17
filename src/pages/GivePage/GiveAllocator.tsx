@@ -53,20 +53,22 @@ export const GiveAllocator = ({
   };
 
   return (
-    <Box css={{ position: 'relative' }}>
+    <Flex css={{ flex: 'auto', justifyContent: 'flex-end' }}>
       {optedOut && (
         <Flex
           css={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            justifyContent: 'center',
+            flexGrow: 1,
+            justifyContent: 'end',
             alignItems: 'center',
+            pr: '$xs',
           }}
         >
-          <Text variant="label" css={{ pr: '$xs' }}>
+          <Text
+            variant="label"
+            css={{
+              pr: '$xs',
+            }}
+          >
             OPTED OUT OF GIVE
           </Text>
           <ApeInfoTooltip>
@@ -77,7 +79,10 @@ export const GiveAllocator = ({
       )}
       <Flex
         alignItems="center"
-        css={{ visibility: optedOut ? 'hidden' : 'visible' }}
+        // css={{ visibility: optedOut ? 'hidden' : 'visible' }}
+        css={{
+          display: optedOut ? 'none' : 'flex',
+        }}
       >
         <Flex
           css={{
@@ -167,7 +172,7 @@ export const GiveAllocator = ({
           {(disabled || maxedOut) && <ClickTrapperIcon />}
         </Flex>
       </Flex>
-    </Box>
+    </Flex>
   );
 };
 

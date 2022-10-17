@@ -113,6 +113,11 @@ export const EpochStatementDrawer = ({
             minWidth: 0,
             mb: '$md',
             justifyContent: 'space-between',
+            gap: '$md',
+            '@sm': {
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+            },
           }}
           alignItems="center"
         >

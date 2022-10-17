@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { FileText, Slash } from '../../icons/__generated';
 import { CSS } from '../../stitches.config';
 import { Box, Flex, Text } from '../../ui';
+import useMobileDetect from 'hooks/useMobileDetect';
 
 import { AvatarAndName } from './AvatarAndName';
 import { ContributorButton } from './ContributorButton';
@@ -39,6 +40,7 @@ export const GiveRow = ({
 
   // noteComplete indicates that this member has a note
   const noteComplete = gift.note && gift.note.length > 0;
+  const { isMobile } = useMobileDetect();
 
   return (
     <Box
@@ -54,6 +56,11 @@ export const GiveRow = ({
             gridTemplateColumns: '1fr 1fr',
             justifyContent: 'space-between',
             gap: '$lg',
+            '@sm': {
+              gridTemplateColumns: '1fr',
+              gap: 0,
+              justifyItems: 'center',
+            },
           }}
         >
           <Flex
@@ -62,14 +69,16 @@ export const GiveRow = ({
             }}
             alignItems="center"
           >
-            <ContributorButton
-              css={{
-                '&:hover': { transition: 'visibility 0.1s ease-in' },
-                visibility: hover || member.teammate ? 'visible' : 'hidden',
-              }}
-              member={member}
-              updateTeammate={updateTeammate}
-            />
+            {!isMobile && (
+              <ContributorButton
+                css={{
+                  '&:hover': { transition: 'visibility 0.1s ease-in' },
+                  visibility: hover || member.teammate ? 'visible' : 'hidden',
+                }}
+                member={member}
+                updateTeammate={updateTeammate}
+              />
+            )}
           </Flex>
           {!docExample && (
             <Flex
@@ -81,7 +90,14 @@ export const GiveRow = ({
               <Box>
                 {member.contributions_aggregate?.aggregate &&
                   member.contributions_aggregate?.aggregate.count > 0 && (
-                    <Text variant="label">
+                    <Text
+                      variant="label"
+                      css={{
+                        '@sm': {
+                          mt: '$md',
+                        },
+                      }}
+                    >
                       {member.contributions_aggregate.aggregate.count}{' '}
                       Contribution
                       {member.contributions_aggregate.aggregate.count == 1
@@ -98,25 +114,51 @@ export const GiveRow = ({
           css={{
             justifyContent: 'flex-end',
             minWidth: 0,
+            '@sm': {
+              flexDirection: 'column-reverse',
+              justifyItems: 'center',
+              mt: '$md',
+              gap: '$md',
+            },
           }}
         >
-          {!docExample && (
-            <Text
-              tag
-              css={{ mr: '$xl', minWidth: '130px' }}
-              color={noteComplete ? 'complete' : 'primary'}
-            >
-              {noteComplete ? (
-                <>
-                  <FileText /> Note Complete
-                </>
-              ) : (
-                <>
-                  <Slash /> No Feedback
-                </>
-              )}
-            </Text>
-          )}
+          <Flex css={{ gap: '$sm' }}>
+            {isMobile && (
+              <ContributorButton
+                css={{
+                  '&:hover': { transition: 'visibility 0.1s ease-in' },
+                  visibility: hover || member.teammate ? 'visible' : 'hidden',
+                }}
+                member={member}
+                updateTeammate={updateTeammate}
+              />
+            )}
+            {!docExample && (
+              <Text
+                tag
+                css={{
+                  mr: '$xl',
+                  minWidth: '130px',
+                  '@sm': {
+                    mr: 0,
+                    minWidth: 0,
+                    px: '$sm',
+                  },
+                }}
+                color={noteComplete ? 'complete' : 'primary'}
+              >
+                {noteComplete ? (
+                  <>
+                    <FileText /> Note Complete
+                  </>
+                ) : (
+                  <>
+                    <Slash /> No Feedback
+                  </>
+                )}
+              </Text>
+            )}
+          </Flex>
           <GiveAllocator
             disabled={noGivingAllowed}
             adjustGift={adjustGift}

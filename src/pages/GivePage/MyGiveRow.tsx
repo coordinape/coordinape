@@ -39,7 +39,13 @@ export const MyGiveRow = ({
     <Box onClick={openEpochStatement}>
       <GiveRowGrid
         selected={false}
-        css={{ py: '$sm', borderColor: '$surface' }}
+        css={{
+          pl: '$md',
+          borderColor: '$surface',
+          '@sm': {
+            py: '$sm',
+          },
+        }}
       >
         <AvatarAndName name={myUser.name} avatar={myUser.profile?.avatar} />
         <Flex
@@ -49,14 +55,33 @@ export const MyGiveRow = ({
             justifyContent: 'space-between',
             gap: '$lg',
             alignItems: 'center',
+            '@sm': {
+              gridTemplateColumns: '1fr',
+              justifyItems: 'center',
+              gap: '$md',
+            },
           }}
         >
-          <Box>
+          <Box
+            css={{
+              '@sm': {
+                display: 'none',
+              },
+            }}
+          >
             {/*shim to get the grid to line up*/}
             &nbsp;
           </Box>
           <Box>
-            <Text variant="label" className="contributionLabel">
+            <Text
+              variant="label"
+              className="contributionLabel"
+              css={{
+                '@sm': {
+                  mt: '$md',
+                },
+              }}
+            >
               {contributionCount} contribution
               {contributionCount == 1 ? '' : 's'}
             </Text>
@@ -68,40 +93,53 @@ export const MyGiveRow = ({
               You are blocked from receiving {myUser.circle.tokenName}
             </Text>
           ) : (
-            <>
-              <Text variant="label" css={{ mr: '$md' }}>
+            <Flex
+              css={{
+                gap: '$md',
+                '@sm': {
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '$sm',
+                  mb: '$xs',
+                  mt: '$md',
+                },
+              }}
+            >
+              <Text variant="label">
                 Receive Give?
                 <ApeInfoTooltip>
                   Choose no if you want to opt-out from receiving{' '}
                   {myUser.circle.tokenName}
                 </ApeInfoTooltip>
               </Text>
-              <ToggleButton
-                color="complete"
-                css={{ mr: '$sm' }}
-                active={!myUser.non_receiver}
-                disabled={!myUser.non_receiver}
-                onClick={e => {
-                  e.stopPropagation();
-                  updateNonReceiver(false);
-                }}
-              >
-                <Check size="lg" /> Yes
-              </ToggleButton>
-              <ToggleButton
-                color="destructive"
-                active={myUser.non_receiver}
-                disabled={myUser.non_receiver}
-                onClick={e => {
-                  e.stopPropagation();
-                  myUser.give_token_received > 0
-                    ? setOptOutOpen(true)
-                    : updateNonReceiver(true);
-                }}
-              >
-                <X size="lg" /> No
-              </ToggleButton>
-            </>
+              <Flex>
+                <ToggleButton
+                  color="complete"
+                  css={{ mr: '$sm' }}
+                  active={!myUser.non_receiver}
+                  disabled={!myUser.non_receiver}
+                  onClick={e => {
+                    e.stopPropagation();
+                    updateNonReceiver(false);
+                  }}
+                >
+                  <Check size="lg" /> Yes
+                </ToggleButton>
+                <ToggleButton
+                  color="destructive"
+                  active={myUser.non_receiver}
+                  disabled={myUser.non_receiver}
+                  onClick={e => {
+                    e.stopPropagation();
+                    myUser.give_token_received > 0
+                      ? setOptOutOpen(true)
+                      : updateNonReceiver(true);
+                  }}
+                >
+                  <X size="lg" /> No
+                </ToggleButton>
+              </Flex>
+            </Flex>
           )}
         </Flex>
       </GiveRowGrid>

@@ -26,7 +26,8 @@ export const GiveRowGrid = ({
           borderColor: '$link',
         },
         '@sm': {
-          pb: '$sm',
+          py: '$md',
+          pr: 0,
         },
         ...css,
       }}
@@ -38,7 +39,12 @@ export const GiveRowGrid = ({
           gridTemplateColumns: '2fr 4fr 4fr',
           justifyContent: 'space-between',
           gap: '$lg',
-          '@sm': { gridTemplateColumns: '1fr' },
+          minHeight: 'calc($2xl + $xs)',
+          '@sm': {
+            gridTemplateColumns: '1fr',
+            justifyItems: 'center',
+            gap: 0,
+          },
         }}
       >
         {children}
