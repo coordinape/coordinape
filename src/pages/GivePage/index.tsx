@@ -530,6 +530,8 @@ const AllocateContents = ({
           background: '$background',
           zIndex: 3,
           mb: '$md',
+          borderRadius: '$3',
+          '@sm': { boxShadow: '$shadowBottom' },
         }}
       >
         <Panel
