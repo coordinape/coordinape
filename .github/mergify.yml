@@ -6,4 +6,3 @@ defaults:
     queue:
       name: default
       method: squash
-      rebase_fallback: merge
