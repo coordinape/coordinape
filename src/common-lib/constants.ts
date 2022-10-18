@@ -1,7 +1,7 @@
 export enum ENTRANCE {
-  ADMIN = 'admin-self-add',
+  ADMIN = 'circle-create-initial-admin',
   LINK = 'magic-link',
-  ETH = 'manual-address-entry',
+  MANUAL = 'manual-address-entry',
   CSV = 'CSV',
   NOMINATION = 'vouched-in',
 }
