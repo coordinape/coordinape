@@ -211,11 +211,13 @@ export const EpochStatementDrawer = ({
           <Text semibold size="large">
             Contributions
           </Text>
-          <AppLink to={paths.contributions(member.circle_id)}>
-            <Button outlined size="small" color="primary">
-              Add Contribution
-            </Button>
-          </AppLink>
+          {contributions && contributions?.length == 0 && (
+            <AppLink to={paths.contributions(member.circle_id)}>
+              <Button outlined size="small" color="primary">
+                Add Contribution
+              </Button>
+            </AppLink>
+          )}
         </Flex>
         <Box css={{ pb: '$lg', mt: '$sm' }}>
           {!contributions && (
