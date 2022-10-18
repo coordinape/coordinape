@@ -1,7 +1,6 @@
 import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { formatUnits } from 'ethers/lib/utils';
 import { v4 as uuidv4 } from 'uuid';
 
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
@@ -13,6 +12,7 @@ import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
 import { getProvider } from '../../../../api-lib/provider';
 import { uploadCsv } from '../../../../api-lib/s3';
 import { Awaited } from '../../../../api-lib/ts4.5shim';
+import { claimsUnwrappedAmount } from '../../../../src/common-lib/distributions';
 import { isFeatureEnabled } from '../../../../src/config/features';
 import { Contracts } from '../../../../src/lib/vaults';
 import {
@@ -114,45 +114,14 @@ export function generateCsvValues(
       d.distribution_type === DISTRIBUTION_TYPE.COMBINED
   );
 
-  const getUserClaimedFixedPaymentAmt = (
-    dist: typeof distEpoch.distributions[0],
-    address?: string
-  ) => {
-    if (!address) return 0;
-    return dist.distribution_json?.fixedGifts &&
-      address in dist.distribution_json.fixedGifts
-      ? Number(
-          formatUnits(
-            dist.distribution_json.fixedGifts[address],
-            dist.vault.decimals
-          )
-        )
-      : 0;
-  };
-  const unwrappedAmount = (
-    id?: number,
-    dist?: typeof distEpoch.distributions[0]
-  ) => {
-    if (!id || !dist) return { claimed: 0, fixedPayment: 0, circleClaimed: 0 };
-    const claim = dist.claims.find(c => c.profile_id === id);
-    const pricePerShare = dist.pricePerShare.toUnsafeFloat();
-    const fixedPaymentAmt = getUserClaimedFixedPaymentAmt(dist, claim?.address);
-    return {
-      claimed: (claim?.new_amount || 0) * pricePerShare,
-      fixedPayment: fixedPaymentAmt * pricePerShare,
-      circleClaimed:
-        ((claim?.new_amount || 0) - fixedPaymentAmt) * pricePerShare,
-    };
-  };
-
   giftTokenSymbol = circleDist ? circleDist.vault.symbol : giftTokenSymbol;
   const { users } = circle;
 
   return (
     users?.map((u, idx) => {
-      const { fixedPayment } = unwrappedAmount(u.profile?.id, fixedDist);
-      const { circleClaimed: cClaimed } = unwrappedAmount(
+      const { fixedPayment, circleClaimed: cClaimed } = claimsUnwrappedAmount(
         u.profile?.id,
+        fixedDist,
         circleDist
       );
       const received = u.received_gifts.length
