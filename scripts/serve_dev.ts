@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import express from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import morgan from 'morgan';
@@ -54,12 +55,21 @@ app.get('/stats/js/script.js', (req, res) => {
 
 app.use(
   '/',
-  createProxyMiddleware({ target: `http://localhost:${proxyPort}` })
+  createProxyMiddleware({
+    target: `http://localhost:${proxyPort}`,
+    logLevel: 'warn',
+  })
 );
 
 app.listen(port, () => {
+  /* eslint-disable */
   console.log(`==========================================================`);
   console.log(`Development server has started successfully!`);
-  console.log(`Visit http://localhost:${port} to view the Coordinape app.`);
+  console.log(
+    `Visit`,
+    chalk.bold(`http://localhost:${port}`),
+    `to view the Coordinape app.`
+  );
   console.log(`==========================================================`);
+  /* eslint-enable */
 });

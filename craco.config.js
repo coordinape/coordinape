@@ -71,18 +71,20 @@ module.exports = {
       ignoreWarnings: [/Failed to parse source map/],
       resolve: {
         fallback: {
-          os: require.resolve('os-browserify'),
+          buffer: require.resolve('buffer'),
           crypto: require.resolve('crypto-browserify'),
           http: require.resolve('http-browserify'),
           https: require.resolve('https-browserify'),
+          os: require.resolve('os-browserify'),
           stream: require.resolve('stream-browserify'),
-          util: require.resolve('util/'),
-          assert: require.resolve('assert/'),
-          buffer: require.resolve('buffer/'),
+          util: require.resolve('util'),
         },
       },
       plugins: [
-        new webpack.ProvidePlugin({ Buffer: ['buffer', 'Buffer'] }),
+        new webpack.ProvidePlugin({
+          Buffer: ['buffer', 'Buffer'],
+          process: 'process/browser',
+        }),
         VERCEL_ENV &&
           new SentryCliPlugin({
             // include the transpiled js and sourcemaps
