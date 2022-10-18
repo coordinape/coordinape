@@ -75,6 +75,14 @@ type CurrentIntContribution = {
   epoch?: LinkedElement<Epoch>;
 };
 
+const contributionIcon = (source: string) => {
+  switch (source) {
+    case 'wonder':
+      return <WonderColor css={{ mr: '$md' }} />;
+    default:
+      return <DeworkColor css={{ mr: '$md' }} />;
+  }
+};
 const ContributionsPage = () => {
   const address = useConnectedAddress();
   const { circle: selectedCircle } = useSelectedCircle();
@@ -491,11 +499,7 @@ const ContributionsPage = () => {
               </Panel>
               <Panel nested>
                 <Text p>
-                  {currentIntContribution.contribution.source === 'dework' ? (
-                    <DeworkColor css={{ mr: '$sm' }} />
-                  ) : (
-                    <WonderColor css={{ mr: '$sm' }} />
-                  )}{' '}
+                  {contributionIcon(currentIntContribution.contribution.source)}
                   {currentIntContribution.contribution.title}
                 </Text>
               </Panel>
@@ -685,11 +689,7 @@ const ContributionList = ({
                   maxWidth: '60em',
                 }}
               >
-                {c.source === 'dework' ? (
-                  <DeworkColor css={{ mr: '$md' }} />
-                ) : (
-                  <WonderColor css={{ mr: '$md' }} />
-                )}
+                {contributionIcon(c.source)}
                 {c.title}
               </Text>
             </Panel>
