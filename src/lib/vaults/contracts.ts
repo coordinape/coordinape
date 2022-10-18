@@ -130,7 +130,14 @@ export class Contracts {
   }
 
   getAvailableTokens() {
-    return Object.values(Asset).filter(s => !!this.getTokenAddress(s));
+    return Object.values(Asset).filter(s => {
+      try {
+        this.getTokenAddress(s);
+        return true;
+      } catch (_) {
+        return false;
+      }
+    });
   }
 
   getTokenAddress(symbol: string): string {

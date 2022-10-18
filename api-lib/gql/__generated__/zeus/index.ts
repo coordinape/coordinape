@@ -813,6 +813,7 @@ export type ValueTypes = {
     amount?: number | undefined | null;
     circle_id?: number | undefined | null;
     distribution_id?: number | undefined | null;
+    org_id?: number | undefined | null;
     symbol?: string | undefined | null;
     tx_hash: string;
     tx_type: string;
@@ -5974,6 +5975,8 @@ columns and relationships of "distributions" */
   }>;
   /** columns and relationships of "interaction_events" */
   ['interaction_events']: AliasType<{
+    /** An object relationship */
+    circle?: ValueTypes['circles'];
     circle_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     data?: [
@@ -5986,6 +5989,8 @@ columns and relationships of "distributions" */
     event_type?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     org_id?: boolean | `@${string}`;
+    /** An object relationship */
+    organization?: ValueTypes['organizations'];
     /** An object relationship */
     profile?: ValueTypes['profiles'];
     profile_id?: boolean | `@${string}`;
@@ -6039,6 +6044,7 @@ columns and relationships of "distributions" */
     _and?: Array<ValueTypes['interaction_events_bool_exp']> | undefined | null;
     _not?: ValueTypes['interaction_events_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['interaction_events_bool_exp']> | undefined | null;
+    circle?: ValueTypes['circles_bool_exp'] | undefined | null;
     circle_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     data?: ValueTypes['jsonb_comparison_exp'] | undefined | null;
@@ -6046,6 +6052,7 @@ columns and relationships of "distributions" */
     event_type?: ValueTypes['String_comparison_exp'] | undefined | null;
     id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     org_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    organization?: ValueTypes['organizations_bool_exp'] | undefined | null;
     profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     profile_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
@@ -6073,6 +6080,7 @@ columns and relationships of "distributions" */
   };
   /** input type for inserting data into table "interaction_events" */
   ['interaction_events_insert_input']: {
+    circle?: ValueTypes['circles_obj_rel_insert_input'] | undefined | null;
     circle_id?: number | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     data?: ValueTypes['jsonb'] | undefined | null;
@@ -6080,6 +6088,10 @@ columns and relationships of "distributions" */
     event_type?: string | undefined | null;
     id?: number | undefined | null;
     org_id?: number | undefined | null;
+    organization?:
+      | ValueTypes['organizations_obj_rel_insert_input']
+      | undefined
+      | null;
     profile?: ValueTypes['profiles_obj_rel_insert_input'] | undefined | null;
     profile_id?: number | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
@@ -6124,6 +6136,7 @@ columns and relationships of "distributions" */
   };
   /** Ordering options when selecting data from "interaction_events". */
   ['interaction_events_order_by']: {
+    circle?: ValueTypes['circles_order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     data?: ValueTypes['order_by'] | undefined | null;
@@ -6131,6 +6144,7 @@ columns and relationships of "distributions" */
     event_type?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     org_id?: ValueTypes['order_by'] | undefined | null;
+    organization?: ValueTypes['organizations_order_by'] | undefined | null;
     profile?: ValueTypes['profiles_order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
@@ -18486,6 +18500,8 @@ columns and relationships of "distributions" */
   };
   /** columns and relationships of "interaction_events" */
   ['interaction_events']: {
+    /** An object relationship */
+    circle?: GraphQLTypes['circles'] | undefined;
     circle_id?: number | undefined;
     created_at: GraphQLTypes['timestamptz'];
     data?: GraphQLTypes['jsonb'] | undefined;
@@ -18493,6 +18509,8 @@ columns and relationships of "distributions" */
     event_type: string;
     id: number;
     org_id?: number | undefined;
+    /** An object relationship */
+    organization?: GraphQLTypes['organizations'] | undefined;
     /** An object relationship */
     profile?: GraphQLTypes['profiles'] | undefined;
     profile_id?: number | undefined;
@@ -22063,6 +22081,7 @@ export type GraphQLTypes = {
     amount?: number | undefined;
     circle_id?: number | undefined;
     distribution_id?: number | undefined;
+    org_id?: number | undefined;
     symbol?: string | undefined;
     tx_hash: string;
     tx_type: string;
@@ -26307,6 +26326,8 @@ columns and relationships of "distributions" */
   /** columns and relationships of "interaction_events" */
   ['interaction_events']: {
     __typename: 'interaction_events';
+    /** An object relationship */
+    circle?: GraphQLTypes['circles'] | undefined;
     circle_id?: number | undefined;
     created_at: GraphQLTypes['timestamptz'];
     data?: GraphQLTypes['jsonb'] | undefined;
@@ -26314,6 +26335,8 @@ columns and relationships of "distributions" */
     event_type: string;
     id: number;
     org_id?: number | undefined;
+    /** An object relationship */
+    organization?: GraphQLTypes['organizations'] | undefined;
     /** An object relationship */
     profile?: GraphQLTypes['profiles'] | undefined;
     profile_id?: number | undefined;
@@ -26361,6 +26384,7 @@ columns and relationships of "distributions" */
     _and?: Array<GraphQLTypes['interaction_events_bool_exp']> | undefined;
     _not?: GraphQLTypes['interaction_events_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['interaction_events_bool_exp']> | undefined;
+    circle?: GraphQLTypes['circles_bool_exp'] | undefined;
     circle_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     data?: GraphQLTypes['jsonb_comparison_exp'] | undefined;
@@ -26368,6 +26392,7 @@ columns and relationships of "distributions" */
     event_type?: GraphQLTypes['String_comparison_exp'] | undefined;
     id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     org_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    organization?: GraphQLTypes['organizations_bool_exp'] | undefined;
     profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     profile_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
@@ -26395,6 +26420,7 @@ columns and relationships of "distributions" */
   };
   /** input type for inserting data into table "interaction_events" */
   ['interaction_events_insert_input']: {
+    circle?: GraphQLTypes['circles_obj_rel_insert_input'] | undefined;
     circle_id?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     data?: GraphQLTypes['jsonb'] | undefined;
@@ -26402,6 +26428,9 @@ columns and relationships of "distributions" */
     event_type?: string | undefined;
     id?: number | undefined;
     org_id?: number | undefined;
+    organization?:
+      | GraphQLTypes['organizations_obj_rel_insert_input']
+      | undefined;
     profile?: GraphQLTypes['profiles_obj_rel_insert_input'] | undefined;
     profile_id?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -26446,6 +26475,7 @@ columns and relationships of "distributions" */
   };
   /** Ordering options when selecting data from "interaction_events". */
   ['interaction_events_order_by']: {
+    circle?: GraphQLTypes['circles_order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     data?: GraphQLTypes['order_by'] | undefined;
@@ -26453,6 +26483,7 @@ columns and relationships of "distributions" */
     event_type?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     org_id?: GraphQLTypes['order_by'] | undefined;
+    organization?: GraphQLTypes['organizations_order_by'] | undefined;
     profile?: GraphQLTypes['profiles_order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;

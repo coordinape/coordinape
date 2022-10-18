@@ -10,6 +10,13 @@ import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { useSelectedCircle } from '../../recoilState';
 import { LoadingModal, FormInputField } from 'components';
 import {
+  useContributions,
+  Contribution as IntegrationContribution,
+} from 'hooks/useContributions';
+import {
+  // ArrowRight,
+  DeworkColor,
+  // WonderColor,
   Check,
   AlertTriangle,
   Save,
@@ -36,7 +43,8 @@ import {
   getEpochLabel,
   createLinkedArray,
   LinkedElement,
-  currentContributionIsModifiable,
+  jumpToEpoch,
+  isEpochCurrent,
 } from './util';
 
 const nextPrevCss = {
@@ -61,6 +69,10 @@ type LinkedContributionsAndEpochs = {
 
 type CurrentContribution = {
   contribution: LinkedElement<Contribution>;
+  epoch: LinkedElement<Epoch>;
+};
+type CurrentIntContribution = {
+  contribution: IntegrationContribution;
   epoch?: LinkedElement<Epoch>;
 };
 
@@ -70,6 +82,8 @@ const ContributionsPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [currentContribution, setCurrentContribution] =
     useState<CurrentContribution | null>(null);
+  const [currentIntContribution, setCurrentIntContribution] =
+    useState<CurrentIntContribution | null>(null);
 
   const {
     data,
@@ -220,7 +234,13 @@ const ContributionsPage = () => {
   // This seems pretty silly but it's actually a huge optimization
   // when 30+ contributions are on the page
   const memoizedEpochData = useMemo(() => {
-    return data;
+    if (!data) return data;
+    const returnData: typeof data = { ...data };
+    const currentEpoch = getCurrentEpoch(data?.epochs || []);
+    if (currentEpoch.id === 0 && data?.epochs)
+      returnData.epochs = createLinkedArray([currentEpoch, ...data.epochs]);
+
+    return returnData;
   }, [
     data?.epochs.length,
     data?.contributions.length,
@@ -230,13 +250,24 @@ const ContributionsPage = () => {
   const activeContributionFn = useMemo(
     () =>
       (
-        contribution: LinkedElement<Contribution>,
-        epoch?: LinkedElement<Epoch>
+        epoch: LinkedElement<Epoch>,
+        contribution?: LinkedElement<Contribution>,
+        integrationContributions?: IntegrationContribution
       ) => {
-        setCurrentContribution({ contribution, epoch });
-        resetField('description', {
-          defaultValue: contribution.description,
-        });
+        if (contribution) {
+          setCurrentContribution({ contribution, epoch });
+          setCurrentIntContribution(null);
+          resetField('description', {
+            defaultValue: contribution.description,
+          });
+        } else if (integrationContributions) {
+          setCurrentIntContribution({
+            contribution: integrationContributions,
+            epoch,
+          });
+          setCurrentContribution(null);
+        }
+
         setModalOpen(true);
       },
     []
@@ -268,7 +299,7 @@ const ContributionsPage = () => {
                   currentUserId,
                   memoizedEpochData.contributions[0]
                 ),
-                epoch: getCurrentEpoch(memoizedEpochData.epochs),
+                epoch: memoizedEpochData.epochs[0],
               });
               resetField('description', { defaultValue: '' });
               resetCreateMutation();
@@ -284,6 +315,7 @@ const ContributionsPage = () => {
           epochs={memoizedEpochData.epochs || []}
           currentContribution={currentContribution}
           setActiveContribution={activeContributionFn}
+          userAddress={address}
         />
       </SingleColumnLayout>
       <Modal
@@ -299,13 +331,14 @@ const ContributionsPage = () => {
         onClose={() => {
           setModalOpen(false);
           setCurrentContribution(null);
+          setCurrentIntContribution(null);
           resetCreateMutation();
           resetUpdateMutation();
           reset();
         }}
       >
         <Panel invertForm css={{ '& textarea': { resize: 'vertical' } }}>
-          {currentContribution && (
+          {currentContribution ? (
             <>
               <Flex>
                 <Button
@@ -323,15 +356,12 @@ const ContributionsPage = () => {
                       ...currentContribution.contribution,
                       description: descriptionField.value,
                     });
-                    const nextEpoch =
-                      currentContribution.epoch?.end_date <
-                      prevContribution?.datetime_created
-                        ? currentContribution.epoch
-                        : currentContribution.epoch?.prev();
-
                     setCurrentContribution({
                       contribution: prevContribution,
-                      epoch: nextEpoch,
+                      epoch: jumpToEpoch(
+                        currentContribution.epoch,
+                        prevContribution.datetime_created
+                      ),
                     });
                     resetField('description', {
                       defaultValue: prevContribution.description,
@@ -354,15 +384,12 @@ const ContributionsPage = () => {
                       ...currentContribution.contribution,
                       description: descriptionField.value,
                     });
-                    const nextEpoch =
-                      currentContribution.epoch?.start_date <
-                      nextContribution?.datetime_created
-                        ? currentContribution.epoch
-                        : currentContribution.epoch?.next();
-
                     setCurrentContribution({
                       contribution: nextContribution,
-                      epoch: nextEpoch,
+                      epoch: jumpToEpoch(
+                        currentContribution.epoch,
+                        nextContribution.datetime_created
+                      ),
                     });
                     resetField('description', {
                       defaultValue: nextContribution.description,
@@ -373,7 +400,7 @@ const ContributionsPage = () => {
                 </Button>
               </Flex>
               <Text h2 css={{ gap: '$md', my: '$xl' }}>
-                {currentContribution.epoch
+                {currentContribution.epoch.id
                   ? renderEpochDate(currentContribution.epoch)
                   : 'Latest'}
                 {getEpochLabel(currentContribution.epoch)}
@@ -383,16 +410,14 @@ const ContributionsPage = () => {
                   ).toFormat('LLL dd')}
                 </Text>
               </Text>
-              {currentContributionIsModifiable(currentContribution.epoch) ? (
+              {isEpochCurrent(currentContribution.epoch) ? (
                 <FormInputField
                   id="description"
                   name="description"
                   control={control}
                   defaultValue={currentContribution.contribution.description}
                   areaProps={{ rows: 18 }}
-                  disabled={
-                    !currentContributionIsModifiable(currentContribution.epoch)
-                  }
+                  disabled={!isEpochCurrent(currentContribution.epoch)}
                   textArea
                 />
               ) : (
@@ -400,7 +425,7 @@ const ContributionsPage = () => {
                   <Text p>{currentContribution.contribution.description}</Text>
                 </Panel>
               )}
-              {currentContributionIsModifiable(currentContribution.epoch) && (
+              {isEpochCurrent(currentContribution.epoch) && (
                 <Flex
                   css={{
                     justifyContent: 'space-between',
@@ -450,6 +475,23 @@ const ContributionsPage = () => {
                 </Flex>
               )}
             </>
+          ) : currentIntContribution ? (
+            <>
+              <Text h2 css={{ gap: '$md', my: '$xl' }}>
+                {currentIntContribution.epoch
+                  ? renderEpochDate(currentIntContribution.epoch)
+                  : 'Latest'}
+                {getEpochLabel(currentIntContribution.epoch)}
+              </Text>
+              <Panel nested>
+                <Text p>
+                  <DeworkColor css={{ mr: '$md' }} />{' '}
+                  {currentIntContribution.contribution.title}
+                </Text>
+              </Panel>
+            </>
+          ) : (
+            <></>
           )}
         </Panel>
       </Modal>
@@ -459,8 +501,9 @@ const ContributionsPage = () => {
 
 type SetActiveContributionProps = {
   setActiveContribution: (
-    c: LinkedElement<Contribution>,
-    e?: LinkedElement<Epoch>
+    e: LinkedElement<Epoch>,
+    c?: LinkedElement<Contribution>,
+    intC?: IntegrationContribution
   ) => void;
   currentContribution: CurrentContribution | null;
 };
@@ -498,40 +541,20 @@ const EpochGroup = React.memo(function EpochGroup({
   epochs,
   currentContribution,
   setActiveContribution,
-}: Omit<LinkedContributionsAndEpochs, 'users'> & SetActiveContributionProps) {
-  const latestEpoch = epochs[0] as Epoch | undefined;
+  userAddress,
+}: Omit<LinkedContributionsAndEpochs, 'users'> &
+  SetActiveContributionProps & { userAddress?: string }) {
   const activeEpoch = useMemo(() => getCurrentEpoch(epochs), [epochs.length]);
   return (
     <Flex column css={{ gap: '$1xl' }}>
-      {activeEpoch === undefined && (
-        <Box key={-1}>
-          <Box>
-            <Text h2 bold css={{ gap: '$md', my: '$lg' }}>
-              Latest
-              <Text tag color="active">
-                Future
-              </Text>
-            </Text>
-          </Box>
-          <Panel css={{ gap: '$lg', borderRadius: '$4' }}>
-            <ContributionList
-              contributions={contributions.filter(c =>
-                latestEpoch ? c.datetime_created > latestEpoch.end_date : true
-              )}
-              currentContribution={currentContribution}
-              setActiveContribution={setActiveContribution}
-            />
-          </Panel>
-        </Box>
-      )}
       {epochs.map((epoch, idx, epochArray) => (
         <Box key={epoch.id}>
           <Box>
             <Text h2 bold css={{ gap: '$md' }}>
-              {renderEpochDate(epoch)}
+              {epoch.id === 0 ? 'Latest' : renderEpochDate(epoch)}
               {activeEpoch?.id === epoch.id ? (
                 <Text tag color="active">
-                  Current
+                  {epoch.id === 0 ? 'Future' : 'Current'}
                 </Text>
               ) : (
                 <Text tag color="complete">
@@ -551,6 +574,7 @@ const EpochGroup = React.memo(function EpochGroup({
               currentContribution={currentContribution}
               setActiveContribution={setActiveContribution}
               epoch={epoch}
+              userAddress={userAddress}
             />
           </Panel>
         </Box>
@@ -567,35 +591,83 @@ const ContributionList = ({
   contributions,
   setActiveContribution,
   currentContribution,
+  latestEpochEndDate,
+  userAddress,
 }: ContributionListProps &
-  SetActiveContributionProps & { epoch?: LinkedElement<Epoch> }) => {
+  SetActiveContributionProps & {
+    epoch: LinkedElement<Epoch>;
+    latestEpochEndDate?: string;
+    userAddress?: string;
+  }) => {
+  const currentDateTime = useMemo(() => DateTime.now().toISO(), []);
+
+  const integrationContributions = useContributions({
+    address: userAddress || '',
+    startDate: epoch ? epoch.next()?.end_date : latestEpochEndDate,
+    endDate: epoch ? epoch.end_date : currentDateTime,
+    mock: false,
+  });
+
   return (
     <>
-      {contributions.length ? (
-        contributions.map(c => (
-          <Panel
-            key={c.id}
-            css={{
-              border:
-                currentContribution?.contribution.id === c.id
-                  ? '2px solid $link'
-                  : '2px solid $border',
-              cursor: 'pointer',
-              background:
-                currentContribution?.contribution.id === c.id
-                  ? '$highlight'
-                  : 'white',
-              '&:hover': {
-                background: '$highlight',
-                border: '2px solid $link',
-              },
-            }}
-            nested
-            onClick={() => {
-              setActiveContribution(c, epoch);
-            }}
-          >
-            <Flex css={{ justifyContent: 'space-between' }}>
+      {contributions.length || integrationContributions?.length ? (
+        <>
+          {contributions.map(c => (
+            <Panel
+              key={c.id}
+              css={{
+                border:
+                  currentContribution?.contribution.id === c.id
+                    ? '2px solid $link'
+                    : '2px solid $border',
+                cursor: 'pointer',
+                background:
+                  currentContribution?.contribution.id === c.id
+                    ? '$highlight'
+                    : 'white',
+                '&:hover': {
+                  background: '$highlight',
+                  border: '2px solid $link',
+                },
+              }}
+              nested
+              onClick={() => {
+                setActiveContribution(epoch, c, undefined);
+              }}
+            >
+              <Flex css={{ justifyContent: 'space-between' }}>
+                <Text
+                  ellipsis
+                  css={{
+                    mr: '10px',
+                    maxWidth: '60em',
+                  }}
+                >
+                  {c.description}
+                </Text>
+                <Text variant="label" css={{ whiteSpace: 'nowrap' }}>
+                  {DateTime.fromISO(c.datetime_created).toFormat('LLL dd')}
+                </Text>
+              </Flex>
+            </Panel>
+          ))}
+          {integrationContributions?.map(c => (
+            <Panel
+              key={c.title}
+              css={{
+                border: '2px solid $border',
+                cursor: 'pointer',
+                background: 'white',
+                '&:hover': {
+                  background: '$highlight',
+                  border: '2px solid $link',
+                },
+              }}
+              nested
+              onClick={() => {
+                setActiveContribution(epoch, undefined, c);
+              }}
+            >
               <Text
                 ellipsis
                 css={{
@@ -603,15 +675,13 @@ const ContributionList = ({
                   maxWidth: '60em',
                 }}
               >
-                {c.description}
+                <DeworkColor css={{ mr: '$md' }} />
+                {c.title}
               </Text>
-              <Text variant="label" css={{ whiteSpace: 'nowrap' }}>
-                {DateTime.fromISO(c.datetime_created).toFormat('LLL dd')}
-              </Text>
-            </Flex>
-          </Panel>
-        ))
-      ) : epoch ? (
+            </Panel>
+          ))}
+        </>
+      ) : epoch.id !== 0 ? (
         <Text>You don&apos;t have any contributions in this epoch</Text>
       ) : (
         <Text>You don&apos;t have any contributions yet</Text>

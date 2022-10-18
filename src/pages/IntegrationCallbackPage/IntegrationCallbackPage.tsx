@@ -19,9 +19,12 @@ interface ConnectIntegrationConfig {
   };
 }
 
+export const DEWORK = 'dework';
+export const WONDER = 'wonder';
+
 const integrationConfigs: ConnectIntegrationConfig[] = [
   {
-    name: 'dework',
+    name: DEWORK,
     test: params =>
       params.has('dework_organization_id') &&
       params.has('dework_organization_name'),
@@ -41,7 +44,7 @@ const integrationConfigs: ConnectIntegrationConfig[] = [
     },
   },
   {
-    name: 'wonder',
+    name: WONDER,
     test: params =>
       params.has('wonder_organization_id') &&
       params.has('wonder_organization_name'),

@@ -35,7 +35,7 @@ import { NomineesTable } from './NomineeTable';
 
 import { IUser } from 'types';
 
-const AdminPage = () => {
+const MembersPage = () => {
   const { isMobile } = useMobileDetect();
 
   const [keyword, setKeyword] = useState<string>('');
@@ -402,4 +402,4 @@ const AdminPage = () => {
   );
 };
 
-export default AdminPage;
+export default MembersPage;

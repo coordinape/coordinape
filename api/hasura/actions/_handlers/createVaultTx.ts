@@ -48,6 +48,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   const result = await logVaultTx({
     ...actionToLog,
     created_by: hasuraProfileId,
+    org_id: validVault.organization.id,
     tx_type: (() => {
       switch (actionToLog.tx_type) {
         case 'Deposit':
@@ -73,7 +74,7 @@ export const logVaultTx = async (
   const { insert_vault_transactions_one } = await adminClient.mutate(
     {
       insert_vault_transactions_one: [
-        { object: omit(txInfo, ['amount', 'symbol']) },
+        { object: omit(txInfo, ['amount', 'symbol', 'org_id']) },
         { id: true },
       ],
       insert_interaction_events_one: [
@@ -81,6 +82,7 @@ export const logVaultTx = async (
           object: {
             event_type: `vault_${txInfo.tx_type?.toLowerCase()}`,
             profile_id: txInfo.created_by,
+            org_id: txInfo.org_id,
             data: pick(txInfo, [
               'vault_id',
               'amount',
@@ -160,6 +162,7 @@ async function getVaultForAddress(address: string, vaultId: number) {
       },
       {
         organization: {
+          id: true,
           circles: [
             { where: { users: { address: { _eq: address } } } },
             { id: true },

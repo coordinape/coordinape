@@ -13,6 +13,7 @@ import {
 import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
 import { useNavigation } from 'hooks';
 import { useContributions } from 'hooks/useContributions';
+import { useSelectedCircle } from 'recoilState';
 import { useSetEditProfileOpen } from 'recoilState/ui';
 import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE } from 'routes/paths';
 import { Flex, Avatar } from 'ui';
@@ -124,7 +125,12 @@ const ProfileCardInner = ({
   const hideUserBio =
     (userBioTextLength > 93 && skillsLength > 2) || userBioTextLength > 270;
 
-  const contributions = useContributions(user.address);
+  const epochs = useSelectedCircle().circleEpochsStatus;
+  const contributions = useContributions({
+    address: user.address,
+    startDate: epochs.previousEpochEndedOn,
+    endDate: epochs.currentEpoch?.end_date,
+  });
 
   const updateGift = ({ note, tokens }: { note?: string; tokens?: number }) => {
     setGift({

@@ -301,6 +301,7 @@ input LogVaultTxInput {
   vault_id: Int!
   distribution_id: Int
   circle_id: Int
+  org_id: Int
   amount: Float
   symbol: String
 }

@@ -188,6 +188,7 @@ const VaultsPage = () => {
       )}
       {currentOrg && (
         <Modal
+          drawer
           showClose={!saving}
           onClose={closeModal}
           open={modal}

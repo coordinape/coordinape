@@ -1,8 +1,11 @@
-import { DateTime } from 'luxon';
+import { DateTime, Settings } from 'luxon';
 
 import { Text } from 'ui';
 
 import { Contribution, Epoch } from './queries';
+
+// cause all luxon datetimes to be interpretted as UTC
+Settings.defaultZone = 'utc';
 
 export const getNewContribution: (
   userId: number,
@@ -17,14 +20,26 @@ export const getNewContribution: (
   prev: () => undefined,
 });
 
-export const getCurrentEpoch = (epochs: LinkedElement<Epoch>[]) =>
-  epochs.find(
-    e =>
-      e.start_date <= DateTime.now().toISO() &&
-      e.end_date > DateTime.now().toISO()
-  );
+export const pseudoEpochForLatest = (
+  epochs: LinkedElement<Epoch>[]
+): LinkedElement<Epoch> => {
+  const latestEpoch = {
+    id: 0,
+    idx: -1,
+    start_date:
+      epochs[0]?.end_date || DateTime.now().minus({ weeks: 1 }).toISO(),
+    end_date: DateTime.now().plus({ weeks: 1 }).toISO(),
+    next: () => epochs[0],
+    prev: () => undefined,
+    ended: false,
+  };
+  return latestEpoch;
+};
 
-export const getEpochLabel = (epoch?: Epoch) => {
+export const getCurrentEpoch = (epochs: LinkedElement<Epoch>[]) =>
+  getEpoch(epochs, DateTime.now().toISO()) ?? pseudoEpochForLatest(epochs);
+
+export const getEpochLabel = (epoch?: LinkedElement<Epoch>) => {
   if (!epoch)
     return (
       <Text tag color="active">
@@ -44,12 +59,8 @@ export const getEpochLabel = (epoch?: Epoch) => {
   );
 };
 
-export const isEpochCurrent = (epoch: Epoch) =>
-  epoch.start_date <= DateTime.now().toISO() &&
-  epoch.end_date > DateTime.now().toISO();
-
-export const currentContributionIsModifiable = (epoch?: Epoch) =>
-  !epoch || isEpochCurrent(epoch);
+export const isEpochCurrent = (epoch: LinkedElement<Epoch>) =>
+  isDateTimeInEpoch(epoch, DateTime.now().toISO());
 
 type Obj = Record<string, unknown>;
 
@@ -64,7 +75,7 @@ export interface LinkedInterface<A extends Obj> {
 export type LinkedElement<A extends Obj> = LinkedInterface<A> & A;
 
 export function createLinkedArray<T extends Obj>(
-  a: Array<T>
+  a: Array<T> | Array<LinkedElement<T>>
 ): Array<LinkedElement<T>> {
   const newA: Array<LinkedElement<T>> = Array(a.length);
   for (let i = 0; i < a.length; i++) {
@@ -77,3 +88,30 @@ export function createLinkedArray<T extends Obj>(
   }
   return newA;
 }
+
+export const parseDateTime = (dt: string | DateTime) =>
+  DateTime.isDateTime(dt) ? dt : DateTime.fromISO(dt);
+
+export const getEpoch = (epochs: LinkedElement<Epoch>[], dateTime: string) => {
+  return epochs.find(e => isDateTimeInEpoch(e, dateTime));
+};
+
+export const isDateTimeInEpoch = (epoch: LinkedElement<Epoch>, dt: string) =>
+  (epoch.next() == undefined || epoch.next()?.end_date <= dt) &&
+  epoch.end_date > dt;
+
+export const jumpToEpoch = (
+  epoch: LinkedElement<Epoch>,
+  dateTime: string
+): LinkedElement<Epoch> => {
+  if (isDateTimeInEpoch(epoch, dateTime)) return epoch;
+  if (dateTime >= epoch.end_date) {
+    const prevEpoch = epoch.prev();
+    if (!prevEpoch) throw new Error('Epoch does not Exist');
+    return jumpToEpoch(prevEpoch, dateTime);
+  }
+  const nextEpoch = epoch.next();
+  if (!nextEpoch) throw new Error('Epoch does not Exist');
+  nextEpoch.prev = () => epoch;
+  return jumpToEpoch(nextEpoch, dateTime);
+};

@@ -63,6 +63,7 @@ export const updateClaims = async (
           id: { _lte: claimId },
           profile_id: { _eq: profileId },
           distribution: {
+            tx_hash: { _is_null: false },
             vault_id: { _eq: vault.id },
             epoch: { circle_id: { _eq: circle_id } },
           },
@@ -92,6 +93,7 @@ export const updateClaims = async (
           object: {
             event_type: 'vault_claim',
             profile_id: profileId,
+            org_id: vault.org_id,
             data: {
               vault_id: vault.id,
               symbol: simple ? vault.symbol : `Yearn ${vault.symbol}`,
@@ -126,6 +128,7 @@ const getClaimData = (claimId: number, profileId: number) =>
           id: true,
           vault: {
             id: true,
+            org_id: true,
             symbol: true,
             chain_id: true,
             decimals: true,

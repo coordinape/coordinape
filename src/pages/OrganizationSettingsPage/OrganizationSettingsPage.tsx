@@ -32,6 +32,7 @@ import {
   Tooltip,
 } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
+import { formatBytes } from 'utils/presentationHelpers';
 
 import { updateOrg } from './mutations';
 
@@ -70,7 +71,7 @@ export const OrganizationSettingsPage = () => {
   const [uploadComplete, setUploadComplete] = useState<boolean>(false);
   const org = data?.organizations_by_pk;
 
-  const [, setLogoFile] = useState<File | undefined>(undefined);
+  const [logoFile, setLogoFile] = useState<File | undefined>(undefined);
 
   const onSubmit: SubmitHandler<OrgAdminFormSchema> = async data => {
     try {
@@ -101,8 +102,7 @@ export const OrganizationSettingsPage = () => {
         showError(
           e.target.value +
             ' is too large, max file size is ' +
-            MAX_IMAGE_BYTES_LENGTH_BASE64 +
-            ' bytes'
+            formatBytes(MAX_IMAGE_BYTES_LENGTH_BASE64)
         );
       } else {
         setLogoFile(e.target.files[0]);
@@ -144,8 +144,8 @@ export const OrganizationSettingsPage = () => {
     },
   });
 
-  if (isLoading || isIdle || isRefetching)
-    return <LoadingModal visible note="OrganizationPage" />;
+  if (isLoading || isIdle || isRefetching || logoFile)
+    return <LoadingModal visible note="OrganizationPage" text="Saving..." />;
 
   if (!org) {
     navigate(paths.circles);
