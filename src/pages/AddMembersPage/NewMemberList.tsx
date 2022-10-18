@@ -49,7 +49,7 @@ const NewMemberList = ({
 
   const queryClient = useQueryClient();
 
-  const emptyMember = { name: '', address: '' };
+  const emptyMember = { name: '', address: '', entrance: '' };
 
   const newMemberSchema = z.object({
     newMembers: z.array(
