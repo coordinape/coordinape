@@ -10,8 +10,9 @@ import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { client } from '../../lib/gql/client';
 import { epochTimeUpcoming } from '../../lib/time';
 import { useSelectedCircle } from '../../recoilState';
+import { paths } from '../../routes/paths';
 import { IEpoch, IMyUser } from '../../types';
-import { Box, Button, Flex, Modal, Panel, Text } from '../../ui';
+import { Box, Button, Flex, Modal, Panel, Text, AppLink } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 import { getPendingGiftsFrom } from '../AllocationPage/queries';
 
@@ -285,66 +286,79 @@ const GivePage = () => {
   }
 
   return (
-    <SingleColumnLayout>
-      <Helmet>
-        <title>Give - {selectedCircle.name} - Coordinape</title>
-      </Helmet>
-      <Box>
-        <Box css={{ mb: '$md' }}>
-          <Text h1 semibold inline>
-            GIVE
+    <Box css={{ width: '100%' }}>
+      <Flex
+        css={{ background: '$info', justifyContent: 'center', py: '$md' }}
+        alignItems="center"
+      >
+        <Text>Not ready for the new GIVE experience?</Text>
+        <AppLink to={paths.allocation(selectedCircle.id)}>
+          <Button outlined color="primary" css={{ ml: '$md' }}>
+            Go Back
+          </Button>
+        </AppLink>
+      </Flex>
+      <SingleColumnLayout>
+        <Helmet>
+          <title>Give - {selectedCircle.name} - Coordinape</title>
+        </Helmet>
+        <Box>
+          <Box css={{ mb: '$md' }}>
+            <Text h1 semibold inline>
+              GIVE
+            </Text>
+            {currentEpoch && (
+              <Text inline h1 normal css={{ ml: '$md' }}>
+                Epoch {currentEpoch.number}:{' '}
+                {currentEpoch.startDate.toFormat('MMM d')} -{' '}
+                {currentEpoch.endDate.toFormat(
+                  currentEpoch.endDate.month === currentEpoch.startDate.month
+                    ? 'd'
+                    : 'MMM d'
+                )}
+              </Text>
+            )}
+          </Box>
+          <Text css={{ mb: '$md' }}>
+            Reward &amp; thank your teammates for their contributions
           </Text>
-          {currentEpoch && (
-            <Text inline h1 normal css={{ ml: '$md' }}>
-              Epoch {currentEpoch.number}:{' '}
-              {currentEpoch.startDate.toFormat('MMM d')} -{' '}
-              {currentEpoch.endDate.toFormat(
-                currentEpoch.endDate.month === currentEpoch.startDate.month
-                  ? 'd'
-                  : 'MMM d'
+        </Box>
+        {!currentEpoch && (
+          <Panel>
+            <Text semibold inline>
+              Allocations happen during active epochs.{' '}
+              {nextEpoch ? (
+                <Text inline>
+                  Allocation begins in {epochTimeUpcoming(nextEpoch.startDate)}.
+                  {nextEpoch.repeat === 1
+                    ? ' (repeats weekly)'
+                    : nextEpoch.repeat === 2
+                    ? ' (repeats monthly)'
+                    : ''}
+                </Text>
+              ) : (
+                <Text inline>No upcoming epochs scheduled.</Text>
               )}
             </Text>
-          )}
-        </Box>
-        <Text css={{ mb: '$md' }}>
-          Reward &amp; thank your teammates for their contributions
-        </Text>
-      </Box>
-      {!currentEpoch && (
-        <Panel>
-          <Text semibold inline>
-            Allocations happen during active epochs.{' '}
-            {nextEpoch ? (
-              <Text inline>
-                Allocation begins in {epochTimeUpcoming(nextEpoch.startDate)}.
-                {nextEpoch.repeat === 1
-                  ? ' (repeats weekly)'
-                  : nextEpoch.repeat === 2
-                  ? ' (repeats monthly)'
-                  : ''}
-              </Text>
-            ) : (
-              <Text inline>No upcoming epochs scheduled.</Text>
-            )}
-          </Text>
-        </Panel>
-      )}
-      {data && pendingGiftsFrom && (
-        <AllocateContents
-          members={members}
-          updateTeammate={updateTeammate}
-          gifts={gifts}
-          updateNote={updateNote}
-          adjustGift={adjustGift}
-          needToSave={needToSave}
-          setNeedToSave={setNeedToSave}
-          totalGiveUsed={totalGiveUsed}
-          myUser={myUser}
-          maxedOut={totalGiveUsed >= myUser.starting_tokens}
-          currentEpoch={currentEpoch}
-        />
-      )}
-    </SingleColumnLayout>
+          </Panel>
+        )}
+        {data && pendingGiftsFrom && (
+          <AllocateContents
+            members={members}
+            updateTeammate={updateTeammate}
+            gifts={gifts}
+            updateNote={updateNote}
+            adjustGift={adjustGift}
+            needToSave={needToSave}
+            setNeedToSave={setNeedToSave}
+            totalGiveUsed={totalGiveUsed}
+            myUser={myUser}
+            maxedOut={totalGiveUsed >= myUser.starting_tokens}
+            currentEpoch={currentEpoch}
+          />
+        )}
+      </SingleColumnLayout>
+    </Box>
   );
 };
 
