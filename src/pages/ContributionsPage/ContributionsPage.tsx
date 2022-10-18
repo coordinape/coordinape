@@ -492,9 +492,9 @@ const ContributionsPage = () => {
               <Panel nested>
                 <Text p>
                   {currentIntContribution.contribution.source === 'dework' ? (
-                    <DeworkColor css={{ mr: '$md' }} />
+                    <DeworkColor css={{ mr: '$sm' }} />
                   ) : (
-                    <WonderColor css={{ mr: '$md' }} />
+                    <WonderColor css={{ mr: '$sm' }} />
                   )}{' '}
                   {currentIntContribution.contribution.title}
                 </Text>
