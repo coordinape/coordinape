@@ -83,6 +83,14 @@ const contributionIcon = (source: string) => {
       return <DeworkColor css={{ mr: '$md' }} />;
   }
 };
+const contributionSource = (source: string) => {
+  switch (source) {
+    case 'wonder':
+      return 'Wonder';
+    default:
+      return 'Dework';
+  }
+};
 const ContributionsPage = () => {
   const address = useConnectedAddress();
   const { circle: selectedCircle } = useSelectedCircle();
@@ -492,9 +500,9 @@ const ContributionsPage = () => {
               </Text>
               <Panel css={{ pl: '0 !important' }}>
                 <Text p size="large" semibold css={{ color: '$headingText' }}>
-                  {currentIntContribution.contribution.source === 'dework'
-                    ? 'Dework'
-                    : 'Wonder'}
+                  {contributionSource(
+                    currentIntContribution.contribution.source
+                  )}
                 </Text>
               </Panel>
               <Panel nested>
