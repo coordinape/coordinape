@@ -91,6 +91,7 @@ export const Text = styled('span', {
         borderRadius: '$1',
         gap: '$sm',
         justifyContent: 'center',
+        whiteSpace: 'nowrap',
       },
     },
   },

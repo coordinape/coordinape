@@ -1,5 +1,5 @@
 import { ApeInfoTooltip } from '../../components';
-import { Check, X } from '../../icons/__generated';
+import { Check, Slash, X } from '../../icons/__generated';
 import { IMyUser } from '../../types';
 import { Box, Flex, Text, ToggleButton } from 'ui';
 
@@ -17,6 +17,7 @@ export const MyGiveRow = ({
   openEpochStatement,
   optOutOpen,
   setOptOutOpen,
+  statementCompelete,
 }: {
   myUser: IMyUser;
   userIsOptedOut: boolean;
@@ -26,6 +27,7 @@ export const MyGiveRow = ({
   openEpochStatement: () => void;
   setOptOutOpen: (b: boolean) => void;
   optOutOpen: boolean;
+  statementCompelete: boolean;
 }) => {
   return (
     <Box onClick={openEpochStatement}>
@@ -64,20 +66,30 @@ export const MyGiveRow = ({
             {/*shim to get the grid to line up*/}
             &nbsp;
           </Box>
-          <Box>
+          <Flex
+            css={{
+              gap: '$md',
+              '@sm': {
+                mt: '$md',
+              },
+            }}
+          >
             <Text
               variant="label"
               className="contributionLabel"
               css={{
-                '@sm': {
-                  mt: '$md',
-                },
+                whiteSpace: 'nowrap',
               }}
             >
               {contributionCount} contribution
               {contributionCount == 1 ? '' : 's'}
             </Text>
-          </Box>
+            {!statementCompelete && (
+              <Text tag color="primary">
+                <Slash /> No Epoch Statement
+              </Text>
+            )}
+          </Flex>
         </Flex>
         <Flex css={{ justifyContent: 'flex-end', alignItems: 'center' }}>
           {myUser.fixed_non_receiver ? (

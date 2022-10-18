@@ -664,8 +664,8 @@ const AllocateContents = ({
           </Flex>
         </Panel>
       </Box>
-
       <MyGiveRow
+        statementCompelete={statement.length > 0 ? true : false}
         optOutOpen={optOutOpen}
         setOptOutOpen={setOptOutOpen}
         userIsOptedOut={userIsOptedOut}
