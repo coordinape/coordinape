@@ -65,7 +65,7 @@ export const getMembersWithContributions = async (
               where: {
                 _and: [
                   { circle_id: { _eq: circleId } },
-                  { datetime_created: { _gt: start_date.toISOString() } },
+                  { datetime_created: { _gte: start_date.toISOString() } },
                   { datetime_created: { _lt: end_date.toISOString() } },
                 ],
               },

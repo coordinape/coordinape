@@ -21,17 +21,6 @@ export const useApiWithProfile = () => {
     []
   );
 
-  const updateAvatar = useRecoilLoadCatch(
-    () => async (newAvatar: File) => {
-      // TODO: ideally we would use useTypedMutation instead of this but I couldn't get the variables to work w/ mutation -CryptoGraffe
-      const image_data_base64 = await fileToBase64(newAvatar);
-      await mutations.updateProfileAvatar(image_data_base64);
-      // FIXME fetchManifest instead of updating the changed field is wasteful
-      await fetchManifest();
-    },
-    []
-  );
-
   const updateBackground = useRecoilLoadCatch(
     () => async (newAvatar: File) => {
       const image_data_base64 = await fileToBase64(newAvatar);
@@ -64,7 +53,6 @@ export const useApiWithProfile = () => {
 
   return {
     createCircle,
-    updateAvatar,
     updateBackground,
     updateMyProfile,
   };

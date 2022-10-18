@@ -4,7 +4,6 @@ import { updateUser } from 'lib/gql/mutations';
 import { useMutation, useQuery } from 'react-query';
 
 import { ApeInfoTooltip } from '../../components';
-import { useApeSnackbar, useApiWithSelectedCircle } from '../../hooks';
 import { Check, X } from '../../icons/__generated';
 import {
   Avatar,
@@ -28,29 +27,29 @@ import { IMyUser } from 'types';
 type StatementDrawerProps = {
   myUser: IMyUser;
   member: Member;
+  userIsOptedOut: boolean;
+  updateNonReceiver: (b: boolean) => void;
+  isNonReceiverMutationLoading: boolean;
   start_date: Date;
   end_date: Date;
   setOptOutOpen: (b: boolean) => void;
+  setStatement: (s: string) => void;
+  statement: string;
 };
 
 // GiveDrawer is the focused modal drawer to give/note/view contributions for one member
 export const EpochStatementDrawer = ({
-  // show,
   myUser,
   member,
+  userIsOptedOut,
+  updateNonReceiver,
+  isNonReceiverMutationLoading,
   start_date,
   end_date,
   setOptOutOpen,
+  statement,
+  setStatement,
 }: StatementDrawerProps) => {
-  const { updateMyUser } = useApiWithSelectedCircle();
-  const { showError } = useApeSnackbar();
-  const updateNonReceiver = async (nonReceiver: boolean) => {
-    try {
-      await updateMyUser({ non_receiver: nonReceiver });
-    } catch (e) {
-      showError(e);
-    }
-  };
   // fetch the contributions for this particular member
   const { data: contributions } = useQuery(
     ['allocate-contributions', member.id],
@@ -68,9 +67,6 @@ export const EpochStatementDrawer = ({
       staleTime: Infinity,
     }
   );
-
-  // statement is the current state of the note
-  const [statement, setStatement] = useState(member.bio || '');
 
   // saveTimeout is the timeout handle for the buffered async saving
   const [saveTimeout, setSaveTimeout] =
@@ -152,8 +148,8 @@ export const EpochStatementDrawer = ({
                 <ToggleButton
                   color="complete"
                   css={{ mr: '$sm' }}
-                  active={!myUser.non_receiver}
-                  disabled={!myUser.non_receiver}
+                  active={!userIsOptedOut}
+                  disabled={isNonReceiverMutationLoading || !userIsOptedOut}
                   onClick={e => {
                     e.stopPropagation();
                     updateNonReceiver(false);
@@ -163,8 +159,8 @@ export const EpochStatementDrawer = ({
                 </ToggleButton>
                 <ToggleButton
                   color="destructive"
-                  active={myUser.non_receiver}
-                  disabled={myUser.non_receiver}
+                  active={userIsOptedOut}
+                  disabled={isNonReceiverMutationLoading || userIsOptedOut}
                   onClick={e => {
                     e.stopPropagation();
                     myUser.give_token_received > 0

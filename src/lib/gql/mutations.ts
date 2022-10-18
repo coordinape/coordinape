@@ -20,7 +20,11 @@ export const updateProfileAvatar = async (image_data_base64: string) => {
     {
       uploadProfileAvatar: [
         { payload: { image_data_base64: variables.$('image_data_base64') } },
-        { id: true },
+        {
+          profile: {
+            avatar: true,
+          },
+        },
       ],
     },
     {
@@ -517,6 +521,7 @@ export async function updateUser(params: ValueTypes['UpdateUserInput']) {
         },
         {
           id: true,
+          UserResponse: { non_receiver: true },
         },
       ],
     },
