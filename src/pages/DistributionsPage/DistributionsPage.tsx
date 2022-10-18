@@ -105,7 +105,7 @@ export function DistributionsPage() {
     .filter(u => {
       return (
         (fixedDist &&
-          fixedDist.claims.some(c => c.profile?.id === u.profile?.id)) ||
+          fixedDist.claims.some(c => c.profile_id === u.profile?.id)) ||
         (circle.fixed_payment_token_type && u.fixed_payment_amount) ||
         epoch.token_gifts?.some(g => g.recipient?.id === u.id && g.tokens > 0)
       );

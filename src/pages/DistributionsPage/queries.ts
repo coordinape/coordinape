@@ -102,8 +102,8 @@ export const getEpochData = async (
                   id: true,
                   new_amount: true,
                   address: true,
+                  profile_id: true,
                   profile: {
-                    id: true,
                     avatar: true,
                   },
                 },
@@ -121,7 +121,7 @@ export const getEpochData = async (
   const epoch = gq.epochs_by_pk;
 
   const distributions = await Promise.all(
-    epoch?.distributions.map(async dist => ({
+    epoch?.distributions.map(async (dist: typeof epoch.distributions[0]) => ({
       ...dist,
       pricePerShare: await contracts.getPricePerShare(
         dist.vault.vault_address,

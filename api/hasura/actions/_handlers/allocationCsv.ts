@@ -183,22 +183,38 @@ export async function getCircleDetails(circle_id: number, epochId: number) {
               distributions: [
                 { where: { tx_hash: { _is_null: false } } },
                 {
+                  created_at: true,
+                  total_amount: true,
+                  tx_hash: true,
                   distribution_type: true,
                   distribution_json: [{}, true],
-                  tx_hash: true,
+                  gift_amount: true,
+                  fixed_amount: true,
                   vault: {
+                    id: true,
                     symbol: true,
                     chain_id: true,
                     vault_address: true,
                     simple_token_address: true,
                     decimals: true,
                   },
+                  epoch: {
+                    number: true,
+                    circle: {
+                      id: true,
+                      name: true,
+                    },
+                  },
                   claims: [
                     {},
                     {
+                      id: true,
+                      new_amount: true,
                       address: true,
                       profile_id: true,
-                      new_amount: true,
+                      profile: {
+                        avatar: true,
+                      },
                     },
                   ],
                 },
