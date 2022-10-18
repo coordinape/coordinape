@@ -5,6 +5,7 @@ import { getAddress } from '../../../../api-lib/gql/queries';
 import { UnprocessableError } from '../../../../api-lib/HttpError';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import { CircleTokenType } from '../../../../src/common-lib/circleShareTokens';
+import { ENTRANCE } from '../../../../src/common-lib/constants';
 import {
   createUserFromTokenInput,
   HasuraUserSessionVariables,
@@ -56,10 +57,15 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   // create the user
-  const mutationResult = await createUserMutation(address, circleId, {
-    name: input.name,
-    circle_id: circleId,
-  });
+  const mutationResult = await createUserMutation(
+    address,
+    circleId,
+    {
+      name: input.name,
+      circle_id: circleId,
+    },
+    ENTRANCE.LINK
+  );
 
   return res
     .status(200)

@@ -254,6 +254,7 @@ input UserObj {
   non_receiver: Boolean
   starting_tokens: Int
   role: Int
+  entrance: String
 }
 
 input AllocationCsvInput {

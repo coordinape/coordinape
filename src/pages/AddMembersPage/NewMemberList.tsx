@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { ENTRANCE } from 'common-lib/constants';
 import { client } from 'lib/gql/client';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
@@ -20,6 +21,7 @@ import NewMemberGridBox from './NewMemberGridBox';
 export type NewMember = {
   name: string;
   address: string;
+  entrance: string;
 };
 
 const NewMemberList = ({
@@ -47,7 +49,7 @@ const NewMemberList = ({
 
   const queryClient = useQueryClient();
 
-  const emptyMember = { name: '', address: '' };
+  const emptyMember = { name: '', address: '', entrance: '' };
 
   const newMemberSchema = z.object({
     newMembers: z.array(
@@ -55,6 +57,7 @@ const NewMemberList = ({
         .object({
           address: zEthAddress.or(z.literal('')),
           name: zUsername.or(z.literal('')),
+          entrance: z.string(),
         })
         .superRefine((data, ctx) => {
           if (data.name && data.name !== '' && data.address === '') {
@@ -112,9 +115,13 @@ const NewMemberList = ({
     try {
       setLoading(true);
       setSuccessCount(0);
-      const filteredMembers = newMembers.filter(
-        m => m.address != '' && m.name != ''
-      );
+      const filteredMembers = newMembers
+        .filter(m => m.address != '' && m.name != '')
+        .map(m => ({
+          ...m,
+          entrance:
+            m.entrance === ENTRANCE.CSV ? ENTRANCE.CSV : ENTRANCE.MANUAL,
+        }));
       await client.mutate({
         createUsers: [
           {
