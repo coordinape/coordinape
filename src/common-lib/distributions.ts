@@ -65,7 +65,7 @@ export const claimsUnwrappedAmount = (
       claim,
       fixedPaymentAmt: getUserClaimedFixedPaymentAmt(
         dist.vault.decimals,
-        dist.distribution_json.fixedGifts,
+        dist.distribution_json?.fixedGifts,
         claim?.address
       ),
       pricePerShare: dist.pricePerShare.toUnsafeFloat(),
