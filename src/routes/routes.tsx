@@ -20,7 +20,6 @@ import {
   useRoleInCircle,
 } from 'hooks/migration';
 import AdminCircleApiPage from 'pages/AdminCircleApiPage/AdminCircleApiPage';
-import AdminPage from 'pages/AdminPage';
 import AllocationPage from 'pages/AllocationPage';
 import CircleAdminPage from 'pages/CircleAdminPage';
 import CirclesPage from 'pages/CirclesPage';
@@ -32,6 +31,7 @@ import DevPortalPage from 'pages/DevPortalPage';
 import DistributionsPage from 'pages/DistributionsPage';
 import HistoryPage from 'pages/HistoryPage';
 import IntegrationCallbackPage from 'pages/IntegrationCallbackPage';
+import MembersPage from 'pages/MembersPage';
 import { NewNominationPage } from 'pages/NewNominationPage/NewNominationPage';
 import OrganizationPage from 'pages/OrganizationPage';
 import OrganizationSettingsPage from 'pages/OrganizationSettingsPage';
@@ -60,7 +60,7 @@ export const AppRoutes = () => {
         <Route path="givebeta" element={<GivePage />} />
         <Route path="map" element={<LazyAssetMapPage />} />
         <Route path="contributions" element={<ContributionsPage />} />
-        <Route path="members" element={<AdminPage />} />
+        <Route path="members" element={<MembersPage />} />
         <Route path="members/add" element={<AdminRouteHandler />}>
           <Route path="" element={<AddMembersPage />} />
         </Route>

@@ -9,7 +9,7 @@ import * as z from 'zod';
 
 import { zEthAddress } from 'forms/formHelpers';
 import { Check, Info } from 'icons/__generated';
-import { QUERY_KEY_ACTIVE_NOMINEES } from 'pages/AdminPage/getActiveNominees';
+import { QUERY_KEY_ACTIVE_NOMINEES } from 'pages/MembersPage/getActiveNominees';
 import { useSelectedCircle } from 'recoilState/app';
 import { paths } from 'routes/paths';
 import {

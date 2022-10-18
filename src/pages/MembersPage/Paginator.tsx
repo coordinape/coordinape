@@ -1,3 +1,5 @@
+// FIXME replace with src/components/Paginator
+
 import React from 'react';
 
 import { styled } from '../../stitches.config';
