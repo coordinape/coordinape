@@ -64,10 +64,10 @@ jest.mock('pages/DistributionsPage/mutations', () => {
   const save2 = jest.fn().mockReturnValue({ id: 2 });
 
   return {
-    useSaveDistribution: jest.fn().mockReturnValue({
+    useSaveDistribution: () => ({
       mutateAsync: save1,
     }),
-    useMarkDistributionDone: jest.fn().mockReturnValue({
+    useMarkDistributionDone: () => ({
       mutateAsync: save2,
     }),
   };
@@ -170,6 +170,7 @@ test('submit distribution', async () => {
   const savedTotal = FixedNumber.from(args1.total_amount);
   const distJsonTotal = FixedNumber.from(distJson.tokenTotal);
   expect(distJsonTotal).toEqual(savedTotal);
+  expect(distJson.fixedGifts[addr1]).toEqual('16000000');
 
   // did we save a tx hash to the db?
   const args2 = save2calls[0][0];
@@ -252,22 +253,26 @@ test('previous distribution', async () => {
   expect(expectedTotal.toString()).toEqual(newTotal.toString());
 }, 20000);
 
+const addr1 = '0xabc0000000000000000000000000000000000001';
+
 const profileIdsByAddress = {
-  '0xabc0000000000000000000000000000000000001': 15,
+  [addr1]: 15,
   '0xabc0000000000000000000000000000000000002': 13,
   '0xabc0000000000000000000000000000000000003': 14,
 };
 
 const gifts = {
-  '0xabc0000000000000000000000000000000000001': 20,
+  [addr1]: 20,
   '0xabc0000000000000000000000000000000000002': 30,
   '0xabc0000000000000000000000000000000000003': 40,
 };
 
-const fixedGifts = {};
+const fixedGifts = {
+  [addr1]: BigNumber.from('16000000'),
+};
 
 const previousGifts = {
-  '0xabc0000000000000000000000000000000000001': 10,
+  [addr1]: 10,
   '0xabc0000000000000000000000000000000000002': 20,
   '0xabc0000000000000000000000000000000000003': 30,
 };
