@@ -67,7 +67,7 @@ export const CirclesPage = () => {
         row
         css={{
           justifyContent: 'space-between',
-          alignItems: 'baseline',
+          alignItems: 'flex-end',
           mb: '$sm',
           '@sm': {
             flexDirection: 'column',

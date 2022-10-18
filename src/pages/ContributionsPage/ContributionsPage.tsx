@@ -300,8 +300,9 @@ const ContributionsPage = () => {
         <Flex
           css={{
             justifyContent: 'space-between',
-            alignItems: 'baseline',
+            alignItems: 'flex-end',
             flexWrap: 'wrap',
+            gap: '$md',
           }}
         >
           <Text h1>Contributions</Text>
