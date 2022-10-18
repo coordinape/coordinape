@@ -60,6 +60,7 @@ export const GiveRow = ({
               gridTemplateColumns: '1fr',
               gap: 0,
               justifyItems: 'center',
+              mt: '$md',
             },
           }}
         >

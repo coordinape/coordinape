@@ -53,13 +53,14 @@ export const GiveAllocator = ({
   };
 
   return (
-    <Flex css={{ flex: 'auto', justifyContent: 'flex-end' }}>
+    <Flex
+      css={{ flex: 'auto', justifyContent: 'flex-end', minWidth: '13.5rem' }}
+    >
       {optedOut && (
         <Flex
           css={{
             flexGrow: 1,
-            justifyContent: 'end',
-            alignItems: 'center',
+            justifyContent: 'center',
             pr: '$xs',
           }}
         >
