@@ -14,9 +14,8 @@ import {
   Contribution as IntegrationContribution,
 } from 'hooks/useContributions';
 import {
-  // ArrowRight,
   DeworkColor,
-  // WonderColor,
+  WonderColor,
   Check,
   AlertTriangle,
   Save,
@@ -76,6 +75,22 @@ type CurrentIntContribution = {
   epoch?: LinkedElement<Epoch>;
 };
 
+const contributionIcon = (source: string) => {
+  switch (source) {
+    case 'wonder':
+      return <WonderColor css={{ mr: '$md' }} />;
+    default:
+      return <DeworkColor css={{ mr: '$md' }} />;
+  }
+};
+const contributionSource = (source: string) => {
+  switch (source) {
+    case 'wonder':
+      return 'Wonder';
+    default:
+      return 'Dework';
+  }
+};
 const ContributionsPage = () => {
   const address = useConnectedAddress();
   const { circle: selectedCircle } = useSelectedCircle();
@@ -483,9 +498,16 @@ const ContributionsPage = () => {
                   : 'Latest'}
                 {getEpochLabel(currentIntContribution.epoch)}
               </Text>
+              <Panel css={{ pl: '0 !important' }}>
+                <Text p size="large" semibold css={{ color: '$headingText' }}>
+                  {contributionSource(
+                    currentIntContribution.contribution.source
+                  )}
+                </Text>
+              </Panel>
               <Panel nested>
                 <Text p>
-                  <DeworkColor css={{ mr: '$md' }} />{' '}
+                  {contributionIcon(currentIntContribution.contribution.source)}
                   {currentIntContribution.contribution.title}
                 </Text>
               </Panel>
@@ -675,7 +697,7 @@ const ContributionList = ({
                   maxWidth: '60em',
                 }}
               >
-                <DeworkColor css={{ mr: '$md' }} />
+                {contributionIcon(c.source)}
                 {c.title}
               </Text>
             </Panel>
