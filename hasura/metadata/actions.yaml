@@ -2,7 +2,7 @@ actions:
   - name: adminUpdateUser
     definition:
       kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=adminUpdateUser'
       forward_client_headers: true
       headers:
         - name: verification_key
@@ -12,7 +12,7 @@ actions:
   - name: allocationCsv
     definition:
       kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=allocationCsv'
       headers:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
@@ -21,7 +21,7 @@ actions:
   - name: createCircle
     definition:
       kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=createCircle'
       forward_client_headers: true
       headers:
         - name: verification_key
@@ -31,7 +31,7 @@ actions:
   - name: createEpoch
     definition:
       kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=createEpoch'
       headers:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
@@ -40,7 +40,7 @@ actions:
   - name: createNominee
     definition:
       kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=createNominee'
       headers:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
@@ -49,7 +49,7 @@ actions:
   - name: createUser
     definition:
       kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=createUser'
       forward_client_headers: true
       headers:
         - name: verification_key
@@ -59,7 +59,7 @@ actions:
   - name: createUserWithToken
     definition:
       kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=createUserWithToken'
       headers:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
@@ -68,7 +68,7 @@ actions:
   - name: createUsers
     definition:
       kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=createUsers'
       forward_client_headers: true
       headers:
         - name: verification_key
@@ -78,7 +78,7 @@ actions:
   - name: createVault
     definition:
       kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=createVault'
       headers:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
@@ -87,7 +87,7 @@ actions:
   - name: createVaultTx
     definition:
       kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=createVaultTx'
       headers:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
@@ -97,7 +97,7 @@ actions:
   - name: deleteCircle
     definition:
       kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=deleteCircle'
       headers:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
@@ -106,7 +106,7 @@ actions:
   - name: deleteContribution
     definition:
       kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=deleteContribution'
       headers:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
@@ -115,7 +115,7 @@ actions:
   - name: deleteEpoch
     definition:
       kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=deleteEpoch'
       headers:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
@@ -124,7 +124,7 @@ actions:
   - name: deleteUser
     definition:
       kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=deleteUser'
       headers:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
@@ -133,7 +133,7 @@ actions:
   - name: generateApiKey
     definition:
       kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=generateApiKey'
       headers:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
@@ -143,7 +143,7 @@ actions:
   - name: logoutUser
     definition:
       kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=logoutUser'
       headers:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
@@ -152,7 +152,7 @@ actions:
   - name: markClaimed
     definition:
       kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=markClaimed'
       headers:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
@@ -161,7 +161,7 @@ actions:
   - name: restoreCoordinape
     definition:
       kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=restoreCoordinape'
       headers:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
@@ -170,7 +170,7 @@ actions:
   - name: updateAllocations
     definition:
       kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=updateAllocations'
       headers:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
@@ -180,7 +180,7 @@ actions:
   - name: updateCircle
     definition:
       kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=updateCircle'
       headers:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
@@ -190,7 +190,7 @@ actions:
   - name: updateContribution
     definition:
       kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=updateContribution'
       headers:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
@@ -200,7 +200,7 @@ actions:
   - name: updateEpoch
     definition:
       kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=updateEpoch'
       headers:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
@@ -209,7 +209,7 @@ actions:
   - name: updateTeammates
     definition:
       kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=updateTeammates'
       headers:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
@@ -218,7 +218,7 @@ actions:
   - name: updateUser
     definition:
       kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=updateUser'
       headers:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
@@ -228,7 +228,7 @@ actions:
   - name: uploadCircleLogo
     definition:
       kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=uploadCircleLogo'
       forward_client_headers: true
       headers:
         - name: verification_key
@@ -238,7 +238,7 @@ actions:
   - name: uploadOrgLogo
     definition:
       kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=uploadOrgLogo'
       forward_client_headers: true
       headers:
         - name: verification_key
@@ -248,7 +248,7 @@ actions:
   - name: uploadProfileAvatar
     definition:
       kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=uploadProfileAvatar'
       forward_client_headers: true
       headers:
         - name: verification_key
@@ -258,7 +258,7 @@ actions:
   - name: uploadProfileBackground
     definition:
       kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=uploadProfileBackground'
       forward_client_headers: true
       headers:
         - name: verification_key
@@ -268,7 +268,7 @@ actions:
   - name: vouch
     definition:
       kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager'
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=vouch'
       headers:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
