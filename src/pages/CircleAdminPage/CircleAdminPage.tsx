@@ -22,7 +22,6 @@ import { Info } from 'icons/__generated';
 import { useSelectedCircle } from 'recoilState/app';
 import { paths } from 'routes/paths';
 import {
-  Avatar,
   Box,
   Button,
   Divider,
@@ -40,9 +39,9 @@ import {
 } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { numberWithCommas } from 'utils';
-import { getCircleAvatar } from 'utils/domain';
 
 import { AdminIntegrations } from './AdminIntegrations';
+import { CircleLogoUpload } from './CircleLogoUpload';
 import {
   getCircleSettings,
   QUERY_KEY_CIRCLE_SETTINGS,
@@ -166,7 +165,6 @@ const schema = z.object({
     )
   ),
   fixed_payment_vault_id: z.optional(z.string().optional()),
-  circleLogo: z.instanceof(File).optional(),
 });
 
 type CircleAdminFormSchema = z.infer<typeof schema>;
@@ -241,19 +239,8 @@ export const CircleAdminPage = () => {
         },
       ];
 
-  const { updateCircle, updateCircleLogo, getDiscordWebhook } =
-    useApiAdminCircle(circleId);
+  const { updateCircle, getDiscordWebhook } = useApiAdminCircle(circleId);
   const [maxGiftTokens, setMaxGiftTokens] = useState(ethersConstants.Zero);
-  const [logoData, setLogoData] = useState<{
-    avatar: string;
-    avatarRaw: File | null;
-  }>({
-    avatar: getCircleAvatar({
-      avatar: circle?.logo,
-      circleName: circle?.name || '',
-    }),
-    avatarRaw: null,
-  });
 
   const [allowEdit, setAllowEdit] = useState(false);
 
@@ -298,25 +285,7 @@ export const CircleAdminPage = () => {
       defaultValue: '',
     });
 
-  const { field: circleLogo } = useController({
-    name: 'circleLogo',
-    control,
-    defaultValue: undefined,
-  });
-
   const watchFixedPaymentVaultId = watch('fixed_payment_vault_id');
-
-  // onChange Logo
-  const onChangeLogo = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length) {
-      circleLogo.onChange(e.target.files[0]);
-      setLogoData({
-        ...logoData,
-        avatar: URL.createObjectURL(e.target.files[0]),
-        avatarRaw: e.target.files[0],
-      });
-    }
-  };
 
   const editDiscordWebhook = async (event: MouseEvent) => {
     event.preventDefault();
@@ -335,10 +304,6 @@ export const CircleAdminPage = () => {
 
   const onSubmit: SubmitHandler<CircleAdminFormSchema> = async data => {
     try {
-      if (logoData.avatarRaw) {
-        await updateCircleLogo(logoData.avatarRaw);
-        setLogoData({ ...logoData, avatarRaw: null });
-      }
       let discordWebhookValue = data.discord_webhook;
       if (!allowEdit) {
         discordWebhookValue = await getDiscordWebhook();
@@ -505,28 +470,11 @@ export const CircleAdminPage = () => {
                     <Info size="sm" />
                   </Tooltip>
                 </Text>
-                <Flex
-                  row
-                  css={{ alignItems: 'center', gap: '$sm', width: '100%' }}
-                >
-                  <Avatar size="medium" margin="none" path={logoData.avatar} />
-                  <FormLabel
-                    htmlFor="upload-logo-button"
-                    css={{ flexGrow: '1' }}
-                  >
-                    <Button as="div" color="primary" outlined>
-                      Upload File
-                    </Button>
-                  </FormLabel>
-                </Flex>
-                <input
-                  id="upload-logo-button"
-                  onBlur={circleLogo.onBlur}
-                  ref={circleLogo.ref}
-                  name={circleLogo.name}
-                  onChange={onChangeLogo}
-                  style={{ display: 'none' }}
-                  type="file"
+
+                <CircleLogoUpload
+                  circleId={circle.id}
+                  circleName={circle.name ?? ''}
+                  original={circle.logo}
                 />
               </Flex>
               {IS_CUSTOM_TOKEN_NAME && (

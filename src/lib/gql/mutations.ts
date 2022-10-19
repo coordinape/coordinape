@@ -72,7 +72,11 @@ export const updateCircleLogo = async (
             circle_id: variables.$('circleId'),
           },
         },
-        { id: true },
+        {
+          circle: {
+            logo: true,
+          },
+        },
       ],
     },
     {
