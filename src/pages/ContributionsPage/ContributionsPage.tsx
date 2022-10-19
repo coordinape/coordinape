@@ -140,24 +140,19 @@ const ContributionsPage = () => {
   } = useMutation(createContributionMutation, {
     onSuccess: newContribution => {
       refetchContributions();
-      if (
-        newContribution.insert_contributions_one?.id ===
-        currentContribution?.contribution.id
-      ) {
-        if (newContribution.insert_contributions_one) {
-          resetField('description', {
-            defaultValue: newContribution.insert_contributions_one.description,
-          });
-          setCurrentContribution({
-            contribution: {
-              ...newContribution.insert_contributions_one,
-              next: () => data?.contributions[1],
-              prev: () => undefined,
-              idx: 0,
-            },
-            epoch: getCurrentEpoch(data?.epochs ?? []),
-          });
-        }
+      if (newContribution.insert_contributions_one) {
+        resetField('description', {
+          defaultValue: newContribution.insert_contributions_one.description,
+        });
+        setCurrentContribution({
+          contribution: {
+            ...newContribution.insert_contributions_one,
+            next: () => data?.contributions[0],
+            prev: () => undefined,
+            idx: 0,
+          },
+          epoch: getCurrentEpoch(data?.epochs ?? []),
+        });
       } else {
         resetCreateMutation();
       }
@@ -239,7 +234,6 @@ const ContributionsPage = () => {
       );
     }
     resetUpdateMutation();
-    resetCreateMutation();
   }, [descriptionField.value, currentContribution?.contribution.id]);
 
   const mutationStatus = () =>
@@ -431,7 +425,7 @@ const ContributionsPage = () => {
                   name="description"
                   control={control}
                   defaultValue={currentContribution.contribution.description}
-                  areaProps={{ rows: 18 }}
+                  areaProps={{ rows: 18, autoFocus: true }}
                   disabled={!isEpochCurrent(currentContribution.epoch)}
                   textArea
                 />
