@@ -76,7 +76,7 @@ export const MyAvatarMenu = () => {
               );
             }}
             // These offset values must be dialed in browser.  CSS values/strings cannot be used, only numbers.
-            sideOffset={-66}
+            sideOffset={-64}
             alignOffset={-16}
             css={{ background: '$surface', outline: 'none', zIndex: 2 }}
             onClick={closePopover}
