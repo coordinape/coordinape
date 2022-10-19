@@ -1,42 +1,44 @@
-import { FixedNumber } from 'ethers';
+// import { FixedNumber } from 'ethers';
 import { formatUnits } from 'ethers/lib/utils';
 
-interface Distribution {
-  created_at: string;
-  total_amount: string;
-  tx_hash?: string;
-  distribution_type: number;
-  distribution_json: any;
-  gift_amount: number;
-  fixed_amount: number;
-  vault: {
-    id: number;
-    decimals: number;
-    symbol: string;
-    vault_address: string;
-    simple_token_address: string;
-    chain_id: number;
-  };
-  pricePerShare: FixedNumber;
-  epoch: {
-    number?: number;
-    circle?: {
-      id: any;
-      name: string;
-    };
-  };
-  claims: Claim[];
-}
+import type { EpochDataResult } from '../pages/DistributionsPage/queries';
 
-interface Claim {
-  id: number;
-  new_amount: number;
-  address: string;
-  profile_id: number;
-  profile?: {
-    avatar?: string;
-  };
-}
+// interface Distribution {
+//   created_at: string;
+//   total_amount: string;
+//   tx_hash?: string;
+//   distribution_type: number;
+//   distribution_json: any;
+//   gift_amount: number;
+//   fixed_amount: number;
+//   vault: {
+//     id: number;
+//     decimals: number;
+//     symbol: string;
+//     vault_address: string;
+//     simple_token_address: string;
+//     chain_id: number;
+//   };
+//   pricePerShare: FixedNumber;
+//   epoch: {
+//     number?: number;
+//     circle?: {
+//       id: any;
+//       name: string;
+//     };
+//   };
+//   claims: Claim[];
+// }
+
+// interface Claim {
+//   id: number;
+//   new_amount: number;
+//   address: string;
+//   profile_id: number;
+//   profile?: {
+//     avatar?: string;
+//   };
+// }
 export const getUserClaimedFixedPaymentAmt = (
   decimals: number,
   fixedGifts?: Record<string, string>,
@@ -49,15 +51,15 @@ export const getUserClaimedFixedPaymentAmt = (
 };
 export const claimsUnwrappedAmount = (
   id?: number,
-  fixedDist?: Distribution,
-  circleDist?: Distribution
+  fixedDist?: EpochDataResult['distributions'][0],
+  circleDist?: EpochDataResult['distributions'][0]
 ) => {
   let claimed = 0,
     fixedPayment = 0,
     circleClaimed = 0;
   if (!id) return { claimed, fixedPayment, circleClaimed };
 
-  const calc = (id: number, dist: Distribution) => {
+  const calc = (id: number, dist: EpochDataResult['distributions'][0]) => {
     const claim = dist.claims.find(
       (c: typeof dist.claims[0]) => c.profile_id === id
     );
