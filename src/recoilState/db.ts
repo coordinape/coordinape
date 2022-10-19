@@ -18,7 +18,6 @@ import {
   IFullCircle,
   IManifest,
   IMyProfile,
-  ISelfIdProfile,
 } from 'types';
 
 export const rApiManifest = atom<IApiManifest | undefined>({
@@ -29,11 +28,6 @@ export const rApiManifest = atom<IApiManifest | undefined>({
 export const rApiFullCircle = atom({
   key: 'rApiFullCircle',
   default: new Map<number, IApiFullCircle>(),
-});
-
-export const rSelfIdProfileMap = atom({
-  key: 'rSelfIdProfileMap',
-  default: new Map<string, ISelfIdProfile>(),
 });
 
 /*
@@ -48,7 +42,6 @@ export const rManifest = selector<IManifest>({
     if (manifest === undefined) {
       return neverEndingPromise<IManifest>();
     }
-    const selfIdProfile = get(rSelfIdProfileMap).get(manifest.profile.address);
 
     const circles = manifest.circles.map(c => extraCircle(c));
     const epochs = manifest.active_epochs.map(e => extraEpoch(e));
@@ -60,7 +53,6 @@ export const rManifest = selector<IManifest>({
       teammates: u.teammates ?? [],
     }));
     const myProfile = {
-      ...selfIdProfile,
       ...extraProfile(manifest.profile),
       myUsers,
       users: myUsers,
@@ -81,19 +73,11 @@ export const rFullCircle = selector<IFullCircle>({
     if (fullCircle === undefined) {
       return neverEndingPromise<IFullCircle>();
     }
-    const selfIdProfileMap = get(rSelfIdProfileMap);
 
     const users = iti(fullCircle.values())
       .flat(fc =>
         fc.users.map(
-          ({ profile, ...u }) =>
-            ({
-              profile: {
-                ...selfIdProfileMap.get(u.address),
-                ...profile,
-              },
-              ...extraUser(u),
-            } as IUser)
+          ({ profile, ...u }) => ({ profile, ...extraUser(u) } as IUser)
         )
       )
       .toArray();

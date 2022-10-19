@@ -2,8 +2,6 @@ import assert from 'assert';
 
 import { STORAGE_URL } from 'config/env';
 
-import { getIpfsUrl } from './selfIdHelpers';
-
 function hostname(): string {
   if (typeof window !== 'undefined') {
     // this will always be true until we move to nextjs
@@ -83,10 +81,6 @@ export const getAvatarPathWithoutPlaceholder = (avatar?: string) => {
 
   if (avatar.startsWith('blob')) {
     return avatar;
-  }
-
-  if (avatar.startsWith('ipfs://')) {
-    return getIpfsUrl(avatar);
   }
 
   return `${STORAGE_URL}/${avatar}`;

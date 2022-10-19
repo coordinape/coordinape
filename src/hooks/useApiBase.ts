@@ -4,19 +4,13 @@ import { Web3Provider } from '@ethersproject/providers';
 import * as Sentry from '@sentry/react';
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types';
 import debug from 'debug';
-import iti from 'itiriri';
 import * as queries from 'lib/gql/queries';
 
 import { useRecoilLoadCatch } from 'hooks';
 import { rSelectedCircleIdSource, rWalletAuth } from 'recoilState/app';
-import {
-  rApiManifest,
-  rApiFullCircle,
-  rSelfIdProfileMap,
-} from 'recoilState/db';
+import { rApiManifest, rApiFullCircle } from 'recoilState/db';
 import { getApiService } from 'services/api';
 import { connectors } from 'utils/connectors';
-import { getSelfIdProfiles } from 'utils/selfIdHelpers';
 
 import { useApeSnackbar } from './useApeSnackbar';
 
@@ -111,23 +105,6 @@ export const useApiBase = () => {
     []
   );
 
-  const fetchSelfIds = useRecoilLoadCatch(
-    ({ set }) =>
-      async (addresses: string[]) => {
-        if (addresses.length === 0) {
-          return;
-        }
-        const profiles = await getSelfIdProfiles(addresses);
-        set(rSelfIdProfileMap, om => {
-          const result = new Map(om);
-          iti(profiles).forEach(p => result.set(p.address, p));
-          return result;
-        });
-      },
-    [],
-    { hideLoading: true, who: 'fetchSelfIds' }
-  );
-
   const fetchManifest = useRecoilLoadCatch(
     ({ snapshot, set }) =>
       async (newWalletAuth?: IAuth) => {
@@ -159,7 +136,6 @@ export const useApiBase = () => {
         });
 
         if (select) set(rSelectedCircleIdSource, circleId);
-        fetchSelfIds(fullCircle.users.map(u => u.address));
       },
     [],
     { who: 'fetchCircle' }
