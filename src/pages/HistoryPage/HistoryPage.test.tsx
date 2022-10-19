@@ -93,7 +93,6 @@ test('basic rendering', async () => {
   });
 
   await screen.findByText(/starts in 7 days/);
-  await screen.findByText('5 nominations');
   await screen.findByText('Allocate Your Remaining 77 WOOFY');
   await screen.findByText('1234 WOOFY');
 

@@ -81,7 +81,6 @@ export const HistoryPage = () => {
   );
   const totalPages = Math.ceil(pastEpochs.length / pageSize);
 
-  const nominees = circle?.nominees_aggregate.aggregate?.count || 0;
   const unallocated = (!me?.non_giver && me?.give_token_remaining) || 0;
 
   const { showInfo } = useApeSnackbar();
@@ -270,8 +269,6 @@ export const HistoryPage = () => {
             css={{ mb: '$md' }}
             circleId={circleId}
             epoch={currentEpoch}
-            vouching={circle?.vouching}
-            nominees={nominees}
             unallocated={unallocated}
             tokenName={circle?.token_name}
             isAdmin={isAdmin}
