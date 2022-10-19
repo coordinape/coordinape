@@ -271,9 +271,7 @@ const handleDistribution = async (
     },
   } = data;
 
-  const previousAmount = BigNumber.from(
-    JSON.parse(distribution_json).previousTotal || 0
-  );
+  const previousAmount = BigNumber.from(distribution_json.previousTotal || 0);
   const amount = BigNumber.from(total_amount).sub(previousAmount);
 
   // these criteria don't strictly uniquely identify a distribution. if

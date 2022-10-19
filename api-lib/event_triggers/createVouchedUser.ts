@@ -2,6 +2,7 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+import { ENTRANCE } from '../../src/common-lib/constants';
 import { adminClient } from '../gql/adminClient';
 import * as queries from '../gql/queries';
 import { EventTriggerPayload } from '../types';
@@ -50,7 +51,14 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       const { insert_users_one } = await adminClient.mutate(
         {
           insert_users_one: [
-            { object: { name, address, circle_id } },
+            {
+              object: {
+                name,
+                address,
+                circle_id,
+                entrance: ENTRANCE.NOMINATION,
+              },
+            },
             {
               id: true,
             },

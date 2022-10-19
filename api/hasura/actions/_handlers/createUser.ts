@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
+import { ENTRANCE } from '../../../../src/common-lib/constants';
 import {
   createUserSchemaInput,
   composeHasuraActionRequestBody,
@@ -17,7 +18,12 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   // It might be preferable to add this uniqueness constraint into the database
   const { circle_id, address } = input;
 
-  const mutationResult = await createUserMutation(address, circle_id, input);
+  const mutationResult = await createUserMutation(
+    address,
+    circle_id,
+    input,
+    ENTRANCE.LINK
+  );
   return res
     .status(200)
     .json(mutationResult.insert_users_one ?? mutationResult.update_users_by_pk);

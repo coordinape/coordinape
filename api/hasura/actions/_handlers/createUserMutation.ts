@@ -34,7 +34,8 @@ async function checkExistingUser(address: string, circleId: number) {
 export async function createUserMutation(
   address: string,
   circleId: number,
-  input: ValueTypes['users_set_input']
+  input: ValueTypes['users_set_input'],
+  entrance: string
 ) {
   const softDeletedUser = await checkExistingUser(address, circleId);
 
@@ -47,6 +48,7 @@ export async function createUserMutation(
               _set: {
                 ...input,
                 deleted_at: null,
+                entrance: entrance,
               },
             },
             {
@@ -61,6 +63,7 @@ export async function createUserMutation(
                 ...input,
                 address: address,
                 circle_id: circleId,
+                entrance: entrance,
               },
             },
             {

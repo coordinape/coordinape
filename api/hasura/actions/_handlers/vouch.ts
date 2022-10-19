@@ -17,6 +17,7 @@ import {
 } from '../../../../api-lib/HttpError';
 import { Awaited } from '../../../../api-lib/ts4.5shim';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
+import { ENTRANCE } from '../../../../src/common-lib/constants';
 import {
   composeHasuraActionRequestBodyWithApiPermissions,
   vouchApiInput,
@@ -158,7 +159,8 @@ async function convertNomineeToUser(nominee: Nominee) {
     const addedUser = await mutations.insertUser(
       nominee.address,
       nominee.name,
-      nominee.circle_id
+      nominee.circle_id,
+      ENTRANCE.NOMINATION
     );
     if (!addedUser) {
       throw new InternalServerError('unable to add user');

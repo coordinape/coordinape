@@ -8,6 +8,7 @@ import {
   errorResponseWithStatusCode,
   InternalServerError,
 } from '../../../../api-lib/HttpError';
+import { ENTRANCE } from '../../../../src/common-lib/constants';
 import {
   composeHasuraActionRequestBody,
   createUsersBulkSchemaInput,
@@ -103,6 +104,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           pk_columns: { id: user.id },
           _set: {
             ...user,
+            entrance: ENTRANCE.MANUAL,
             deleted_at: null,
           },
         },
