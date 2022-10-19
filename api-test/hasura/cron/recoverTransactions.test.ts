@@ -120,9 +120,9 @@ test('mix of invalid & valid txs', async () => {
           epoch: { circle_id: circleId },
           tx_hash: undefined,
           total_amount: parseUnits('1500', 18).toString(),
-          distribution_json: JSON.stringify({
+          distribution_json: {
             previousTotal: parseUnits('500', 18).toString(),
-          }),
+          },
         },
       });
 
