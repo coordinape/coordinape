@@ -82,7 +82,6 @@ export const GiveAllocator = ({
       )}
       <Flex
         alignItems="center"
-        // css={{ visibility: optedOut ? 'hidden' : 'visible' }}
         css={{
           display: optedOut ? 'none' : 'flex',
         }}
