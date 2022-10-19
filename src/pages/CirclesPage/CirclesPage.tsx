@@ -181,7 +181,7 @@ const buttons: [
   ((c: QueryCircle) => boolean)?
 ][] = [
   [paths.history, 'Epoch Overview'],
-  [paths.allocation, 'Allocation'],
+  [paths.givebeta, 'Allocation'],
   [paths.map, 'Map'],
   [paths.members, 'Members'],
   [paths.circleAdmin, 'Admin', (c: QueryCircle) => c.users[0]?.role !== 1],
