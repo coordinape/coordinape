@@ -129,8 +129,8 @@ export class Contracts {
     return vaultContract.shareValue(vaultBalance);
   }
 
-  getAvailableTokens() {
-    return Object.values(Asset).filter(s => {
+  getAvailableTokens(symbols: string[] = Object.values(Asset)) {
+    return symbols.filter(s => {
       try {
         this.getTokenAddress(s);
         return true;

@@ -4,8 +4,24 @@ import { chainId, provider } from 'utils/testing/provider';
 
 import { Contracts } from './contracts';
 
+let contracts: Contracts;
+
+beforeEach(() => {
+  contracts = new Contracts(chainId, provider);
+});
+
+test('getTokenAddress throws on unrecognized input', () => {
+  expect(() => {
+    contracts.getTokenAddress('FOO');
+  }).toThrow();
+});
+
+test('getAvailableTokens does not throw on unrecognized input', () => {
+  const tokens = contracts.getAvailableTokens(['NOPE', 'DAI']);
+  expect(tokens).toEqual(['DAI']);
+});
+
 test('getPricePerShare', async () => {
-  const contracts = new Contracts(chainId, provider);
   const tokenAddress = contracts.getToken('DAI').address;
   const tx = await contracts.vaultFactory.createCoVault(
     tokenAddress,
@@ -20,7 +36,6 @@ test('getPricePerShare', async () => {
 });
 
 test('getPricePerShare with simple token', async () => {
-  const contracts = new Contracts(chainId, provider);
   const tokenAddress = contracts.getToken('DAI').address;
   const tx = await contracts.vaultFactory.createCoVault(
     AddressZero,
