@@ -2,8 +2,6 @@ import { ReactElement, Suspense, useEffect, useState } from 'react';
 
 import { useWeb3React } from '@web3-react/core';
 
-import { LinearProgress } from '@material-ui/core';
-
 import HelpButton from '../HelpButton';
 import {
   GlobalUi,
@@ -44,7 +42,7 @@ export const MainLayout = () => {
       <AuthContext.Provider value={authStepState}>
         <MainHeader />
         <RequireAuth>
-          <Suspense fallback={<LinearProgress />}>
+          <Suspense fallback={null}>
             <Box
               as="main"
               css={{
