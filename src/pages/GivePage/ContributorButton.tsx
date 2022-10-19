@@ -43,12 +43,18 @@ export const ContributorButton = ({
     <Button
       size="small"
       css={{
+        minWidth: '144px',
+        '@sm': {
+          visibility: 'visible !important',
+          minWidth: 0,
+          flexGrow: 1,
+        },
+        gap: '$sm',
+        whiteSpace: 'nowrap',
         ...css,
-        width: '144px',
-        '@sm': { visibility: 'visible' },
-        '> .remove': { display: 'none' },
+        '.remove': { display: 'none' },
         '&:hover': {
-          '> .remove': {
+          '.remove': {
             display: 'inline',
           },
         },
@@ -59,12 +65,12 @@ export const ContributorButton = ({
       outlined={member.teammate ? false : true}
     >
       {member.teammate && (
-        <Box className="remove" css={{ mr: '$xs' }}>
-          <X color="alert" />
+        <Box as="span" className="remove">
+          <X />
         </Box>
       )}
       {!member.teammate && (
-        <Box css={{ mr: '$xs' }}>
+        <Box as="span">
           <Plus />
         </Box>
       )}

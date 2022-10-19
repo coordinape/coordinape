@@ -55,7 +55,7 @@ export const OrganizationPage = () => {
           row
           css={{
             mb: '$lg',
-            alignItems: 'baseline',
+            alignItems: 'flex-end',
             justifyContent: 'space-between',
           }}
         >

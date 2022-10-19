@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 
+import { updateUser } from 'lib/gql/mutations';
 import { Helmet } from 'react-helmet';
-import { useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import { Awaited } from '../../../api-lib/ts4.5shim';
 import { LoadingModal } from '../../components';
@@ -16,6 +17,7 @@ import { Box, Button, Flex, Modal, Panel, Text, AppLink } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 import { getPendingGiftsFrom } from '../AllocationPage/queries';
 
+import { EpochStatementDrawer } from './EpochStatementDrawer';
 import { GiveDrawer } from './GiveDrawer';
 import { GiveRow } from './GiveRow';
 import { MyGiveRow } from './MyGiveRow';
@@ -32,7 +34,7 @@ const GivePage = () => {
   const {
     circle: selectedCircle,
     myUser,
-    circleEpochsStatus: { currentEpoch, nextEpoch },
+    circleEpochsStatus: { currentEpoch, nextEpoch, previousEpoch },
   } = useSelectedCircle();
   const { showError } = useApeSnackbar();
 
@@ -67,7 +69,7 @@ const GivePage = () => {
       return getMembersWithContributions(
         selectedCircle.id,
         address as string,
-        currentEpoch.startDate.toJSDate(),
+        previousEpoch?.endDate.toJSDate() || new Date(0),
         currentEpoch.endDate.toJSDate()
       );
     },
@@ -406,6 +408,37 @@ const AllocateContents = ({
     undefined
   );
 
+  // myMember is the current users member in this circle, used for contributionCount
+  const myMember = members.find(m => m.id == myUser.id);
+  // needed to decouple this piece of state from the hard page reloads tied to
+  // fetching the manifest.
+  const [userIsOptedOut, setUserIsOptedOut] = useState(myUser.non_receiver);
+
+  const { mutate: updateNonReceiver, isLoading: isNonReceiverMutationLoading } =
+    useMutation(
+      async (nonReceiver: boolean) =>
+        updateUser({
+          non_receiver: nonReceiver,
+          circle_id: myMember?.circle_id,
+        }),
+      {
+        onSuccess: data => {
+          if (data) setUserIsOptedOut(data.UserResponse.non_receiver);
+        },
+        onError: e => {
+          console.error(e);
+          showError(e);
+        },
+      }
+    );
+  // Controls the warning modal for when the user is opting out and
+  // already has GIVE allocated to them. This is lifted up here because
+  // the opt-out buttons also exist in th EpochStatementDrawer
+  const [optOutOpen, setOptOutOpen] = useState(false);
+
+  // track epoch statements between drawer openings
+  const [statement, setStatement] = useState(myMember?.bio || '');
+
   // membersToIterate is initialized as a snapshot of filteredMembers when the drawer is brought up on
   // first set of selectedMemberIdx to non-zero
   const [membersToIterate, setMembersToIterate] = useState<Member[]>([]);
@@ -413,6 +446,7 @@ const AllocateContents = ({
   // filteredMembers is the list of all members filtered down by various criteria, which is currently limited to
   // onlyCollaborator or all members
   const filteredMembers = members
+    .filter(m => m.id != myUser.id)
     .filter(m => (onlyCollaborators ? m.teammate : true))
     .sort((a, b) => a.name.localeCompare(b.name));
 
@@ -476,6 +510,7 @@ const AllocateContents = ({
       }
       setMembersToIterate(mtoi);
     }
+    if (myMember) setStatement(myMember.bio || '');
   }, [members]);
 
   // move to the next member in the snapshotted membersToIterate. used by the drawer
@@ -540,6 +575,8 @@ const AllocateContents = ({
           background: '$background',
           zIndex: 3,
           mb: '$md',
+          borderRadius: '$3',
+          '@sm': { boxShadow: '$shadowBottom' },
         }}
       >
         <Panel
@@ -553,11 +590,17 @@ const AllocateContents = ({
               display: 'grid',
               gridTemplateColumns: '1fr 1fr',
               justifyContent: 'space-between',
-              gap: '$lg',
               '@sm': { gridTemplateColumns: '1fr' },
             }}
           >
-            <Flex css={{ flexGrow: 1 }} alignItems="center">
+            <Flex
+              css={{
+                flexGrow: 1,
+                gap: '$md',
+                '@sm': { flexDirection: 'column', gap: '$sm' },
+              }}
+              alignItems="center"
+            >
               <Box>
                 {noGivingAllowed ? (
                   <Text color="neutral" size="large" semibold>
@@ -575,7 +618,6 @@ const AllocateContents = ({
                 color="primary"
                 outlined
                 disabled={maxedOut || noGivingAllowed}
-                css={{ ml: '$md' }}
                 onClick={e => {
                   (e.target as HTMLButtonElement).blur();
                   distributeEvenly();
@@ -585,19 +627,34 @@ const AllocateContents = ({
               </Button>
               <Flex
                 css={{
-                  ml: '$md',
                   alignItems: 'center',
+                  '@sm': { mb: '$sm' },
                 }}
               >
                 <SavingIndicator needToSave={needToSave} />
               </Flex>
             </Flex>
-            <Flex css={{ flexShrink: 0, justifyContent: 'flex-end' }}>
-              <Flex>
+            <Flex
+              css={{
+                flexShrink: 0,
+                justifyContent: 'flex-end',
+              }}
+            >
+              <Flex
+                css={{
+                  '@sm': {
+                    flexGrow: '1',
+                    mx: '-$md',
+                    mb: '-$md',
+                  },
+                }}
+              >
                 <Button
                   css={{
                     borderTopRightRadius: 0,
                     borderBottomRightRadius: 0,
+                    '@sm': { borderTopLeftRadius: 0, py: 'calc($sm + $xs)' },
+                    flexGrow: '1',
                   }}
                   color={onlyCollaborators ? 'primary' : 'white'}
                   onClick={() => setOnlyCollaborators(true)}
@@ -608,6 +665,8 @@ const AllocateContents = ({
                   css={{
                     borderTopLeftRadius: 0,
                     borderBottomLeftRadius: 0,
+                    '@sm': { borderTopRightRadius: 0, py: 'calc($sm + $xs)' },
+                    flexGrow: '1',
                   }}
                   color={onlyCollaborators ? 'white' : 'primary'}
                   onClick={() => setOnlyCollaborators(false)}
@@ -619,9 +678,20 @@ const AllocateContents = ({
           </Flex>
         </Panel>
       </Box>
-
-      <Panel css={{ gap: '$md' }}>
-        <MyGiveRow myUser={myUser} />
+      <MyGiveRow
+        statementCompelete={statement.length > 0 ? true : false}
+        optOutOpen={optOutOpen}
+        setOptOutOpen={setOptOutOpen}
+        userIsOptedOut={userIsOptedOut}
+        updateNonReceiver={updateNonReceiver}
+        isNonReceiverMutationLoading={isNonReceiverMutationLoading}
+        myUser={myUser}
+        openEpochStatement={() => setSelectedMember(myMember)}
+        contributionCount={
+          myMember?.contributions_aggregate?.aggregate?.count ?? 0
+        }
+      />
+      <Panel css={{ gap: '$md', mt: '$md' }}>
         {filteredMembers.length > 0 &&
           filteredMembers.map(member => {
             let gift = gifts[member.id];
@@ -725,11 +795,28 @@ const AllocateContents = ({
           paddingTop: 0,
           overflowY: 'scroll',
         }}
-        onClose={() => setSelectedMemberIdx(-1)}
+        onClose={() => {
+          setSelectedMemberIdx(-1);
+          setSelectedMember(undefined);
+        }}
         drawer
-        open={selectedMemberIdx != -1}
+        open={selectedMemberIdx != -1 || selectedMember === myMember}
       >
-        {selectedMember && currentEpoch && (
+        {selectedMember && selectedMember === myMember && currentEpoch && (
+          <EpochStatementDrawer
+            myUser={myUser}
+            member={myMember}
+            setOptOutOpen={setOptOutOpen}
+            userIsOptedOut={userIsOptedOut}
+            updateNonReceiver={updateNonReceiver}
+            isNonReceiverMutationLoading={isNonReceiverMutationLoading}
+            start_date={currentEpoch.startDate.toJSDate()}
+            end_date={currentEpoch.endDate.toJSDate()}
+            statement={statement}
+            setStatement={setStatement}
+          />
+        )}
+        {selectedMember && selectedMember !== myMember && currentEpoch && (
           <GiveDrawer
             nextMember={nextMember}
             selectedMemberIdx={selectedMemberIdx}

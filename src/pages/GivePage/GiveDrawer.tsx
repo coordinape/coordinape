@@ -139,12 +139,19 @@ export const GiveDrawer = ({
       <Flex
         css={{
           pt: '$xl',
-          display: 'grid',
-          width: '100%',
-          gridTemplateColumns: '1fr',
+          gap: '$md',
+          '@sm': {
+            flexDirection: 'column',
+          },
         }}
       >
-        <Flex css={{ flexGrow: 1, minWidth: 0, mb: '$md' }} alignItems="center">
+        <Flex
+          css={{
+            flexGrow: 1,
+            minWidth: 0,
+          }}
+          alignItems="center"
+        >
           <Avatar
             size="small"
             name={member.name}
@@ -158,8 +165,12 @@ export const GiveDrawer = ({
         </Flex>
         <Flex
           css={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
+            justifyContent: 'space-between',
+            gap: '$md',
+            '@sm': {
+              flexDirection: 'column-reverse',
+              alignItems: 'flex-start',
+            },
           }}
           alignItems="center"
         >
@@ -253,14 +264,6 @@ export const GiveDrawer = ({
                     has no contributions recorded for this epoch
                   </Text>
                 </Box>
-
-                <Panel info css={{ mt: '$md' }}>
-                  <Text p>
-                    Contributions are coming soon! Members will be able to share
-                    automatic contributions from integrated apps and journal
-                    contributions as they happen.
-                  </Text>
-                </Panel>
               </>
             ) : (
               contributions.map(c => (

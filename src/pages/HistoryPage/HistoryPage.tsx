@@ -112,13 +112,12 @@ export const HistoryPage = () => {
       <Flex
         css={{
           justifyContent: 'space-between',
-          alignItems: 'baseline',
+          alignItems: 'flex-end',
           flexWrap: 'wrap',
+          mb: '$md',
         }}
       >
-        <Text h1 css={{ mb: '$md' }}>
-          Epoch Overview
-        </Text>
+        <Text h1>Epoch Overview</Text>
         {isAdmin && (
           <Button
             color="primary"

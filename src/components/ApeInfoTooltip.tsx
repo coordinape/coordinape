@@ -60,7 +60,11 @@ export const ApeInfoTooltip = ({
           <Link
             css={{ display: 'inline-flex', alignItems: 'center' }}
             color="neutral"
-            onClick={handleTooltipOpen}
+            onClick={e => {
+              handleTooltipOpen();
+              e.stopPropagation();
+            }}
+            // onClick={handleTooltipOpen}
           >
             <Info size="sm" />
           </Link>
