@@ -180,6 +180,7 @@ const buttons: [
   string,
   ((c: QueryCircle) => boolean)?
 ][] = [
+  [paths.contributions, 'Contributions'],
   [paths.history, 'Epoch Overview'],
   [paths.givebeta, 'Allocation'],
   [paths.map, 'Map'],
