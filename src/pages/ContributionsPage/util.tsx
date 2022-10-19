@@ -1,11 +1,8 @@
-import { DateTime, Settings } from 'luxon';
+import { DateTime } from 'luxon';
 
 import { Text } from 'ui';
 
 import { Contribution, Epoch } from './queries';
-
-// cause all luxon datetimes to be interpretted as UTC
-Settings.defaultZone = 'utc';
 
 export const getNewContribution: (
   userId: number,
@@ -97,7 +94,8 @@ export const getEpoch = (epochs: LinkedElement<Epoch>[], dateTime: string) => {
 };
 
 export const isDateTimeInEpoch = (epoch: LinkedElement<Epoch>, dt: string) =>
-  (epoch.next() == undefined || epoch.next()?.end_date <= dt) &&
+  (epoch.next() == undefined ||
+    DateTime.fromISO(epoch.next()?.end_date) <= DateTime.fromISO(dt)) &&
   epoch.end_date > dt;
 
 export const jumpToEpoch = (
