@@ -1,25 +1,54 @@
 import { useMemo, useState } from 'react';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { fileToBase64 } from 'lib/base64';
 import uniqBy from 'lodash/uniqBy';
+import { useForm, useController, SubmitHandler } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { z } from 'zod';
 
-import { FormAutocomplete, DeprecatedFormTextField } from 'components';
+import { FormAutocomplete, FormInputField } from 'components';
 import { QUERY_KEY_MAIN_HEADER } from 'components/MainLayout/getMainHeaderData';
-import CreateCircleForm from 'forms/CreateCircleForm';
 import { useApiWithProfile } from 'hooks';
 import { Info } from 'icons/__generated';
 import { QUERY_KEY_MY_ORGS } from 'pages/CirclesPage/getOrgData';
 import { useMyProfile } from 'recoilState/app';
 import * as paths from 'routes/paths';
-import { Box, Button, Flex, FormLabel, Avatar, Panel, Text, Tooltip } from 'ui';
+import {
+  Box,
+  Button,
+  Flex,
+  FormLabel,
+  Avatar,
+  Panel,
+  Text,
+  Tooltip,
+  Form,
+} from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { getCircleAvatar } from 'utils/domain';
 
+const schema = z
+  .object({
+    user_name: z.string().refine(val => val.trim().length >= 3, {
+      message: 'Name must be at least 3 characters long.',
+    }),
+    circle_name: z.string().refine(val => val.trim().length >= 3, {
+      message: 'Circle name must be at least 3 characters long.',
+    }),
+    organization_name: z.string().refine(val => val.trim().length >= 3, {
+      message: 'Org name must be at least 3 characters long.',
+    }),
+    organization_id: z.number().optional(),
+    contact: z.string().refine(val => val.trim().length >= 4, {
+      message: 'Circle Point of Contact is Required.',
+    }),
+  })
+  .strict();
+
 export const SummonCirclePage = () => {
   const navigate = useNavigate();
-  const [params] = useSearchParams();
   // const { myUser } = useSelectedCircle();
 
   const queryClient = useQueryClient();
@@ -50,6 +79,44 @@ export const SummonCirclePage = () => {
 
   const { createCircle } = useApiWithProfile();
 
+  const onSubmit: SubmitHandler<CircleFormSchema> = async data => {
+    try {
+      const image_data_base64 = logoData.avatarRaw
+        ? await fileToBase64(logoData.avatarRaw)
+        : undefined;
+      const newCircle = await createCircle({
+        ...data,
+        image_data_base64,
+      });
+      queryClient.invalidateQueries(QUERY_KEY_MY_ORGS);
+      queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
+      navigate({
+        pathname: paths.paths.members(newCircle.id),
+        search: paths.NEW_CIRCLE_CREATED_PARAMS,
+      });
+    } catch (e) {
+      console.warn(e);
+    }
+  };
+
+  type CircleFormSchema = z.infer<typeof schema>;
+
+  const { control, handleSubmit } = useForm<CircleFormSchema>({
+    resolver: zodResolver(schema),
+    mode: 'all',
+  });
+  const { field: organizationName, fieldState: orgNameFieldState } =
+    useController({
+      name: 'organization_name',
+      control,
+      defaultValue: '',
+    });
+  const { field: organizationId } = useController({
+    name: 'organization_id',
+    control,
+    defaultValue: undefined,
+  });
+
   if (!myAddress) {
     return (
       <div>
@@ -57,13 +124,6 @@ export const SummonCirclePage = () => {
       </div>
     );
   }
-
-  const org = organizations.find(p => p.id === Number(params.get('org')));
-  const source = {
-    organization_id: org?.id,
-    organization_name: org?.name || '',
-    user_name: myUsers.find(u => u !== undefined)?.name,
-  };
 
   return (
     <SingleColumnLayout>
@@ -96,182 +156,170 @@ export const SummonCirclePage = () => {
           <Text h2>Get Started</Text>
         </Box>
         <Panel nested>
-          <CreateCircleForm.FormController
-            source={source}
-            submit={async ({ ...params }) => {
-              try {
-                const image_data_base64 = logoData.avatarRaw
-                  ? await fileToBase64(logoData.avatarRaw)
-                  : undefined;
-                const newCircle = await createCircle({
-                  ...params,
-                  image_data_base64,
-                });
-                queryClient.invalidateQueries(QUERY_KEY_MY_ORGS);
-                queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
-                navigate({
-                  pathname: paths.paths.members(newCircle.id),
-                  search: paths.NEW_CIRCLE_CREATED_PARAMS,
-                });
-              } catch (e) {
-                console.warn(e);
-              }
-            }}
-          >
-            {({ fields, handleSubmit }) => (
-              <div>
-                <Box
-                  css={{
-                    mb: '$md',
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr 1fr',
-                    gap: '$lg',
-                    '@sm': { gridTemplateColumns: '1fr' },
-                  }}
-                >
-                  <Flex column css={{ alignItems: 'flex-start', gap: '$xs' }}>
-                    <Text variant="label" as="label">
-                      Circle logo
-                      <Tooltip
-                        css={{ ml: '$xs' }}
-                        content={<div>Upload a logo to your circle</div>}
-                      >
-                        <Info size="sm" />
-                      </Tooltip>
-                    </Text>
-                    <Flex
-                      row
-                      css={{ alignItems: 'center', gap: '$sm', width: '100%' }}
+          <Form onSubmit={handleSubmit(onSubmit)}>
+            <div>
+              <Box
+                css={{
+                  mb: '$md',
+                  display: 'grid',
+                  gridTemplateColumns: '1fr 1fr 1fr',
+                  gap: '$lg',
+                  '@sm': { gridTemplateColumns: '1fr' },
+                }}
+              >
+                <Flex column css={{ alignItems: 'flex-start', gap: '$xs' }}>
+                  <Text variant="label" as="label">
+                    Circle logo
+                    <Tooltip
+                      css={{ ml: '$xs' }}
+                      content={
+                        <div>Upload a logo to your circle, Max 3MBs</div>
+                      }
                     >
-                      <Avatar
-                        size="medium"
-                        margin="none"
-                        path={logoData.avatar}
-                      />
-                      <FormLabel
-                        htmlFor="upload-logo-button"
-                        css={{ flexGrow: '1' }}
-                      >
-                        <Button as="div" color="primary" outlined>
-                          Upload File
-                        </Button>
-                      </FormLabel>
-                    </Flex>
-                    <input
-                      id="upload-logo-button"
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        if (e.target.files && e.target.files.length) {
-                          setLogoData({
-                            ...logoData,
-                            avatar: URL.createObjectURL(e.target.files[0]),
-                            avatarRaw: e.target.files[0],
-                          });
-                        }
-                      }}
-                      style={{ display: 'none' }}
-                      type="file"
+                      <Info size="sm" />
+                    </Tooltip>
+                  </Text>
+                  <Flex
+                    row
+                    css={{ alignItems: 'center', gap: '$sm', width: '100%' }}
+                  >
+                    <Avatar
+                      size="medium"
+                      margin="none"
+                      path={logoData.avatar}
                     />
+                    <FormLabel
+                      htmlFor="upload-logo-button"
+                      css={{ flexGrow: '1' }}
+                    >
+                      <Button as="div" color="primary" outlined>
+                        Upload File
+                      </Button>
+                    </FormLabel>
                   </Flex>
-                  {organizations.length ? (
-                    <FormAutocomplete
-                      {...fields.organization_name}
-                      value={fields.organization_name.value}
-                      onChange={(v: string) => {
-                        const id = organizations.find(p => p.name === v)?.id;
-                        fields.organization_id?.onChange(id);
-                        fields.organization_name.onChange(v);
-                      }}
-                      options={organizations.map(p => p.name)}
-                      label="Organization"
-                      fullWidth
-                      TextFieldProps={{
-                        infoTooltip: (
-                          <>
-                            <p>Circles nest within Organizations.</p>
-                            <p>
-                              Example:
-                              <br />
-                              Org Name - Coordinape
-                              <br />
-                              Circle Name - Design Team
-                            </p>
-                          </>
-                        ),
-                      }}
-                    />
-                  ) : (
-                    <div>
-                      <Text variant="label" css={{ width: '100%', mb: '$sm' }}>
-                        Organization
-                        <Tooltip
-                          css={{ ml: '$xs' }}
-                          content="A circle admin can add to an existing organization."
-                        >
-                          <Info size="sm" />
-                        </Tooltip>
-                      </Text>
-                      <DeprecatedFormTextField
-                        {...fields.organization_name}
-                        placeholder="Organization Name"
-                        fullWidth
-                      />
-                    </div>
-                  )}
+                  <input
+                    id="upload-logo-button"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      if (e.target.files && e.target.files.length) {
+                        setLogoData({
+                          ...logoData,
+                          avatar: URL.createObjectURL(e.target.files[0]),
+                          avatarRaw: e.target.files[0],
+                        });
+                      }
+                    }}
+                    style={{ display: 'none' }}
+                    type="file"
+                  />
+                </Flex>
+                {organizations.length ? (
+                  <FormAutocomplete
+                    {...organizationName}
+                    value={organizationName.value}
+                    error
+                    errorText={orgNameFieldState.error?.message}
+                    onChange={(v: string) => {
+                      const id = organizations.find(p => p.name === v)?.id;
+                      organizationId?.onChange(id);
+                      organizationName.onChange(v);
+                    }}
+                    options={organizations.map(p => p.name)}
+                    label="Organization"
+                    fullWidth
+                    TextFieldProps={{
+                      infoTooltip: (
+                        <>
+                          <p>Circles nest within Organizations.</p>
+                          <p>
+                            Example:
+                            <br />
+                            Org Name - Coordinape
+                            <br />
+                            Circle Name - Design Team
+                          </p>
+                        </>
+                      ),
+                    }}
+                  />
+                ) : (
                   <div>
-                    <DeprecatedFormTextField
-                      {...fields.circle_name}
-                      label="Circle Name"
-                      placeholder="Circle Name"
-                      fullWidth
+                    <FormInputField
+                      id="organization_name"
+                      name="organization_name"
+                      control={control}
+                      infoTooltip="A circle admin can add to an existing organization."
+                      label="Organization"
+                      css={{ width: '100%' }}
+                      defaultValue=""
+                      showFieldErrors
                     />
                   </div>
-                </Box>
-                <Box
-                  css={{
-                    mb: '$md',
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr 1fr',
-                    gap: '$lg',
-                    '@sm': { gridTemplateColumns: '1fr' },
-                  }}
-                >
-                  <DeprecatedFormTextField
-                    {...fields.user_name}
-                    label="Username"
-                    placeholder="Your name in this circle"
-                    fullWidth
+                )}
+                <div>
+                  <FormInputField
+                    id="circle_name"
+                    name="circle_name"
+                    control={control}
+                    label="Circle Name"
+                    css={{ width: '100%' }}
+                    infoTooltip="New Circle's name"
+                    defaultValue=""
+                    showFieldErrors
                   />
-                  <DeprecatedFormTextField
-                    {...fields.contact}
-                    fullWidth
-                    label="Email Address"
-                    placeholder="Point of contact email"
-                  />
-                </Box>
-                <Box
-                  css={{
-                    mt: '$lg',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    flexGrow: 1,
-                  }}
+                </div>
+              </Box>
+              <Box
+                css={{
+                  mb: '$md',
+                  display: 'grid',
+                  gridTemplateColumns: '1fr 1fr 1fr',
+                  gap: '$lg',
+                  '@sm': { gridTemplateColumns: '1fr' },
+                }}
+              >
+                <FormInputField
+                  id="user_name"
+                  name="user_name"
+                  control={control}
+                  label="Username"
+                  infoTooltip="Your name in this circle"
+                  css={{ width: '100%' }}
+                  defaultValue=""
+                  showFieldErrors
+                />
+                <FormInputField
+                  id="contact"
+                  name="contact"
+                  control={control}
+                  css={{ width: '100%' }}
+                  label="Email Address"
+                  infoTooltip="Point of contact email"
+                  defaultValue=""
+                  showFieldErrors
+                />
+              </Box>
+              <Box
+                css={{
+                  mt: '$lg',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  flexGrow: 1,
+                }}
+              >
+                <Text color={'neutral'}>
+                  You can always change these settings from the Admin panel.
+                </Text>
+                <Button
+                  color="primary"
+                  size="medium"
+                  css={{ whiteSpace: 'nowrap' }}
                 >
-                  <Text color={'neutral'}>
-                    You can always change these settings from the Admin panel.
-                  </Text>
-                  <Button
-                    color="primary"
-                    size="medium"
-                    css={{ whiteSpace: 'nowrap' }}
-                    onClick={handleSubmit}
-                  >
-                    Create Circle
-                  </Button>
-                </Box>
-              </div>
-            )}
-          </CreateCircleForm.FormController>
+                  Create Circle
+                </Button>
+              </Box>
+            </div>
+          </Form>
         </Panel>
       </Panel>
     </SingleColumnLayout>
