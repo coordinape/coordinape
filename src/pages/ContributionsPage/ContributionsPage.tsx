@@ -46,6 +46,8 @@ import {
   isEpochCurrent,
 } from './util';
 
+const DEBOUNCE_TIMEOUT = 1000;
+
 const nextPrevCss = {
   color: '$text',
   padding: '0',
@@ -221,7 +223,11 @@ const ContributionsPage = () => {
   // the handle of a live function is lost on re-render and we cannot
   // cancel the call when a bunch of typing is happening
   const handleDebouncedDescriptionChange = useMemo(
-    () => debounce((s: typeof saveContribution, v: string) => s(v), 1000),
+    () =>
+      debounce(
+        (s: typeof saveContribution, v: string) => s(v),
+        DEBOUNCE_TIMEOUT
+      ),
     [currentContribution?.contribution.id]
   );
 

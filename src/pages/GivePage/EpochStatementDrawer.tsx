@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { updateUser } from 'lib/gql/mutations';
+import debounce from 'lodash/debounce';
 import { useMutation, useQuery } from 'react-query';
 
 import { ApeInfoTooltip } from '../../components';
@@ -20,9 +21,11 @@ import { paths } from 'routes/paths';
 import { Member } from './';
 import { Contribution } from './Contribution';
 import { getContributionsForEpoch } from './queries';
-import { SavingIndicator } from './SavingIndicator';
+import { SaveState, SavingIndicator } from './SavingIndicator';
 
 import { IMyUser } from 'types';
+
+const DEBOUNCE_TIMEOUT = 1000;
 
 type StatementDrawerProps = {
   myUser: IMyUser;
@@ -69,31 +72,34 @@ export const EpochStatementDrawer = ({
   );
 
   // saveTimeout is the timeout handle for the buffered async saving
-  const [saveTimeout, setSaveTimeout] =
-    useState<ReturnType<typeof setTimeout>>();
-  const [saving, setSaving] = useState<boolean | undefined>();
+  const [saving, setSaving] = useState<SaveState>('stable');
 
   const { mutate: updateEpochStatement } = useMutation(
     async (bio: string) => updateUser({ circle_id: member.circle_id, bio }),
-    { onSuccess: () => setSaving(false) }
+    { onSuccess: () => setSaving('saved') }
   );
 
   // update the statement in the to level page state
-  const saveStatement = (bio: string) => {
-    setSaving(true);
-    updateEpochStatement(bio);
-  };
+  const saveStatement = useCallback(
+    (bio: string) => {
+      setSaving('scheduled');
+      updateEpochStatement(bio);
+    },
+    [setSaving, updateEpochStatement]
+  );
 
   // statementChanged schedules a save to the underlying state in the parent component, clearing any pending save
   const statementChanged = (newStatement: string) => {
     setStatement(newStatement);
-    if (saveTimeout) {
-      setSaving(undefined);
-      clearTimeout(saveTimeout);
-    }
-    // only save every 1s , if user increments or edits statement, delay 1s
-    setSaveTimeout(setTimeout(() => saveStatement(newStatement), 1000));
+    setSaving('buffering');
+    scheduleSaveStatement();
   };
+
+  // TODO: is this gonna not really debounce because of the statement dependency
+  const scheduleSaveStatement = useCallback(
+    debounce(() => saveStatement(statement), DEBOUNCE_TIMEOUT),
+    [saveStatement]
+  );
 
   return (
     <Box css={{ height: '100%', pt: '$md' }}>
@@ -196,7 +202,7 @@ export const EpochStatementDrawer = ({
           placeholder="Summarize your Contributions"
         />
         <Flex css={{ justifyContent: 'flex-end', alignItems: 'center' }}>
-          <SavingIndicator needToSave={saving} css={{ mr: '$md' }} />
+          <SavingIndicator saveState={saving} css={{ mr: '$md' }} />
         </Flex>
       </Box>
 

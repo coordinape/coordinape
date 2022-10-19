@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { updateUser } from 'lib/gql/mutations';
+import debounce from 'lodash/debounce';
 import { Helmet } from 'react-helmet';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
@@ -22,7 +23,7 @@ import { GiveDrawer } from './GiveDrawer';
 import { GiveRow } from './GiveRow';
 import { MyGiveRow } from './MyGiveRow';
 import { getMembersWithContributions, PotentialTeammate } from './queries';
-import { SavingIndicator } from './SavingIndicator';
+import { SaveState, SavingIndicator } from './SavingIndicator';
 
 export type Gift = Awaited<ReturnType<typeof getPendingGiftsFrom>>[number];
 
@@ -57,7 +58,7 @@ const GivePage = () => {
   giftsRef.current = gifts;
 
   // needToSave indicates that there are dirty state changes (notes, allocations) that need to be saved to the backend
-  const [needToSave, setNeedToSave] = useState<boolean | undefined>(undefined);
+  const [saveState, setSaveState] = useState<SaveState>('stable');
 
   // fetch the available members (w/ contribution aggregate count) and the list of teammates
   const { data, refetch: refetchMembers } = useQuery(
@@ -101,13 +102,6 @@ const GivePage = () => {
     }
     if (data) {
       refetchMembers().then();
-    }
-    // save on nav?
-    if (needToSave) {
-      if (saveTimeout) {
-        clearTimeout(saveTimeout);
-      }
-      saveGifts().then();
     }
   }, [location]);
 
@@ -159,6 +153,7 @@ const GivePage = () => {
   // saveGifts is run asynchronously to save the gifts to the backend
   const saveGifts = async () => {
     // update all the pending gifts
+    setSaveState('saving');
     try {
       await client.mutate({
         updateAllocations: [
@@ -183,13 +178,20 @@ const GivePage = () => {
     } finally {
       // errors don't cause us to retry save, this is an area for improvement later,
       // https://github.com/coordinape/coordinape/issues/1400 -g
-      setNeedToSave(false);
+      setSaveState(prevState => {
+        // this is to check if someone scheduled dirty changes while we were saving
+        if (prevState == 'scheduled') {
+          // need to reschedule, this triggers the useEffect that will reschedule
+          return 'buffering';
+        }
+        return 'saved';
+      });
+      // Do we need to try again? Error? Something happened while we were saving
     }
   };
 
   // adjustGift adjusts a gift by an amount if it is allowed wrt the max give, then schedules saving
   const adjustGift = (recipientId: number, amount: number | null) => {
-    const updated = false;
     setGifts(prevState => {
       // check if this takes us over the limit before updating
       const newGifts = { ...prevState };
@@ -199,6 +201,7 @@ const GivePage = () => {
         tokens: amount !== null ? (gift?.tokens ?? 0) + amount : undefined,
         recipient_id: recipientId,
       };
+
       const afterUpdateTotal = Object.values(newGifts).reduce(
         (total, g) => total + (g.tokens ?? 0),
         0
@@ -209,12 +212,9 @@ const GivePage = () => {
         return prevState;
       }
 
-      setNeedToSave(true);
-      scheduleSave();
       return newGifts;
     });
-
-    return updated;
+    setNeedToSave(true);
   };
 
   // updateNote updates the note of a gift and then schedules saving
@@ -232,23 +232,40 @@ const GivePage = () => {
     });
 
     setNeedToSave(true);
-    scheduleSave();
   };
 
-  // saveTimeout is the handle to the scheduled save in progress
-  const [saveTimeout, setSaveTimeout] =
-    useState<ReturnType<typeof setTimeout>>();
-
-  // scheduleSave clears any existing pending save and schedules a new one
-  const scheduleSave = () => {
-    // we need to save, lets do it
-    // if we have a timer, lets cancel it and reschedule, keep pushing it out if the user is active?
-    if (saveTimeout) {
-      clearTimeout(saveTimeout);
+  const setNeedToSave = (save: boolean) => {
+    if (save) {
+      setSaveState((prevState: SaveState) => {
+        // if we are already scheduled, or are currently saving, set to scheduled
+        // in the case of already saving, this  causes us to reschedule at the end of the save
+        if (prevState == 'scheduled' || prevState == 'saving') {
+          return 'scheduled';
+        }
+        // if we aren't actively saving or already scheduled, move to buffering
+        // this triggers a once and only once scheduling
+        return 'buffering';
+      });
+    } else {
+      setSaveState('stable');
     }
-    // only save every 1s , if user increments or edits note, delay 1s
-    setSaveTimeout(setTimeout(saveGifts, SAVE_BUFFER_PERIOD));
   };
+
+  useEffect(() => {
+    // once we become buffering, we need to schedule
+    // this protection of state change in useEffect allows us to fire this only once
+    // so requests don't stack up
+    if (saveState == 'buffering') {
+      setSaveState('scheduled');
+      scheduleSave();
+    }
+  }, [saveState]);
+
+  // only save every 1s , if user increments or edits note, delay 1s
+  // this is actually protected by the SaveState state machine and this debounce might not be necessary
+  const scheduleSave = useCallback(debounce(saveGifts, SAVE_BUFFER_PERIOD), [
+    saveGifts,
+  ]);
 
   // build the actual members list by combining allUsers, pendingGiftsFrom and startingTeammates
   useEffect(() => {
@@ -351,7 +368,7 @@ const GivePage = () => {
             gifts={gifts}
             updateNote={updateNote}
             adjustGift={adjustGift}
-            needToSave={needToSave}
+            saveState={saveState}
             setNeedToSave={setNeedToSave}
             totalGiveUsed={totalGiveUsed}
             myUser={myUser}
@@ -372,7 +389,7 @@ type AllocateContentsProps = {
   gifts: Record<string, Gift>;
   updateNote(gift: Gift): void;
   adjustGift(recipientId: number, amount: number): void;
-  needToSave: boolean | undefined;
+  saveState: SaveState;
   setNeedToSave(save: boolean | undefined): void;
   totalGiveUsed: number;
   myUser: IMyUser;
@@ -386,7 +403,7 @@ const AllocateContents = ({
   gifts,
   updateNote,
   adjustGift,
-  needToSave,
+  saveState,
   setNeedToSave,
   totalGiveUsed,
   myUser,
@@ -631,7 +648,7 @@ const AllocateContents = ({
                   '@sm': { mb: '$sm' },
                 }}
               >
-                <SavingIndicator needToSave={needToSave} />
+                <SavingIndicator saveState={saveState} />
               </Flex>
             </Flex>
             <Flex
@@ -800,21 +817,26 @@ const AllocateContents = ({
           setSelectedMember(undefined);
         }}
         drawer
-        open={selectedMemberIdx != -1 || selectedMember === myMember}
+        open={
+          selectedMemberIdx != -1 ||
+          (myMember !== undefined && selectedMember === myMember)
+        }
       >
         {selectedMember && selectedMember === myMember && currentEpoch && (
-          <EpochStatementDrawer
-            myUser={myUser}
-            member={myMember}
-            setOptOutOpen={setOptOutOpen}
-            userIsOptedOut={userIsOptedOut}
-            updateNonReceiver={updateNonReceiver}
-            isNonReceiverMutationLoading={isNonReceiverMutationLoading}
-            start_date={currentEpoch.startDate.toJSDate()}
-            end_date={currentEpoch.endDate.toJSDate()}
-            statement={statement}
-            setStatement={setStatement}
-          />
+          <>
+            <EpochStatementDrawer
+              myUser={myUser}
+              member={myMember}
+              setOptOutOpen={setOptOutOpen}
+              userIsOptedOut={userIsOptedOut}
+              updateNonReceiver={updateNonReceiver}
+              isNonReceiverMutationLoading={isNonReceiverMutationLoading}
+              start_date={currentEpoch.startDate.toJSDate()}
+              end_date={currentEpoch.endDate.toJSDate()}
+              statement={statement}
+              setStatement={setStatement}
+            />
+          </>
         )}
         {selectedMember && selectedMember !== myMember && currentEpoch && (
           <GiveDrawer
@@ -833,7 +855,7 @@ const AllocateContents = ({
             maxedOut={maxedOut}
             start_date={currentEpoch.startDate.toJSDate()}
             end_date={currentEpoch.endDate.toJSDate()}
-            needToSave={needToSave}
+            saveState={saveState}
             setNeedToSave={setNeedToSave}
             noGivingAllowed={noGivingAllowed}
             updateTeammate={updateTeammate}
