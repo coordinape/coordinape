@@ -104,7 +104,13 @@ test('render with a distribution', async () => {
           pricePerShare: FixedNumber.from('1.08'),
           distribution_type: 1,
           vault: mockEpochData.circle.organization.vaults[0],
-          claims: [{ new_amount: 10, profile: { id: recipient.profile.id } }],
+          claims: [
+            {
+              new_amount: 10,
+              profile_id: recipient.profile.id,
+              profile: { id: recipient.profile.id },
+            },
+          ],
         },
       ],
     })
