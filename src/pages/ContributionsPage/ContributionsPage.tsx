@@ -425,7 +425,7 @@ const ContributionsPage = () => {
                   name="description"
                   control={control}
                   defaultValue={currentContribution.contribution.description}
-                  areaProps={{ rows: 18 }}
+                  areaProps={{ rows: 18, autoFocus: true }}
                   disabled={!isEpochCurrent(currentContribution.epoch)}
                   textArea
                 />
