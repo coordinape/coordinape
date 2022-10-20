@@ -13,8 +13,6 @@ import {
   createContributions,
 } from './util/seed';
 
-const { CI } = process.env;
-
 const startTime = Date.now();
 
 async function main() {
@@ -28,9 +26,7 @@ async function main() {
   await createCircleInOrgButNoDevMember(organizationId!);
   await createFreshOpenEpochDevAdminWithFixedPaymentToken();
   await createEndedEpochWithGiftsForClaims();
-
-  // eslint-disable-next-line no-console
-  CI ? console.log('Skipping avatars') : await getAvatars();
+  await getAvatars();
 }
 
 main()
@@ -88,7 +84,9 @@ async function createCircleWithGiftsNotYetEnded() {
 
 async function createFreshOpenEpochNoDev() {
   const result = await insertMemberships(
-    getMembershipInput({ organizationInput: { name: 'Fresh Open Epoch No Dev' } })
+    getMembershipInput({
+      organizationInput: { name: 'Fresh Open Epoch No Dev' },
+    })
   );
   const circleId = result[0].circle_id;
   await makeEpoch(
@@ -160,7 +158,10 @@ async function createEndedEpochWithGiftsForClaims() {
 
 async function createCircleWithPendingGiftsEndingSoon() {
   const result = await insertMemberships(
-    getMembershipInput({ organizationInput: { name: 'Open Epoch With Gifts' } }, {})
+    getMembershipInput(
+      { organizationInput: { name: 'Open Epoch With Gifts' } },
+      {}
+    )
   );
   const circleId = result[0].circle_id;
   const epochId = await makeEpoch(
