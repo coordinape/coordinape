@@ -21,7 +21,6 @@ import {
   Save,
   ChevronDown,
   ChevronUp,
-  RefreshCcw,
 } from 'icons/__generated';
 import { Panel, Text, Box, Modal, Button, Flex } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
@@ -475,12 +474,6 @@ const ContributionsPage = () => {
                         css={{ gap: '$sm' }}
                         color={updateStatus === 'error' ? 'alert' : 'neutral'}
                       >
-                        {updateStatus === 'idle' && (
-                          <>
-                            <RefreshCcw />
-                            Autosave Enabled
-                          </>
-                        )}
                         {mutationStatus() === 'loading' && (
                           <>
                             <Save />
@@ -488,10 +481,11 @@ const ContributionsPage = () => {
                           </>
                         )}
                         {(updateStatus === 'success' ||
-                          (createStatus === 'success' &&
+                          (currentContribution.contribution.description.length >
+                            0 &&
                             updateStatus === 'idle')) && (
                           <>
-                            <Check /> Changes Saved
+                            <Check /> Saved
                           </>
                         )}
                         {mutationStatus() === 'error' && isDirty && (

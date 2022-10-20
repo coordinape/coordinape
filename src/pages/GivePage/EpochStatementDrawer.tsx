@@ -200,8 +200,13 @@ export const EpochStatementDrawer = ({
           onChange={e => statementChanged(e.target.value)}
           placeholder="Summarize your Contributions"
         />
-        <Flex css={{ justifyContent: 'flex-end', alignItems: 'center' }}>
-          <SavingIndicator saveState={saving} css={{ mr: '$md' }} />
+        <Flex
+          css={{ justifyContent: 'flex-end', alignItems: 'center', mt: '$sm' }}
+        >
+          {statement && statement?.length > 0 && (
+            <SavingIndicator saveState={saving} />
+          )}
+          &nbsp;
         </Flex>
       </Flex>
 
