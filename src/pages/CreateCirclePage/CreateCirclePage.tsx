@@ -3,9 +3,9 @@ import { useMemo, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { fileToBase64 } from 'lib/base64';
 import uniqBy from 'lodash/uniqBy';
-import { useForm, useController, SubmitHandler } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { z } from 'zod';
 
 import { FormAutocomplete, FormInputField } from 'components';
@@ -29,27 +29,9 @@ import {
 import { SingleColumnLayout } from 'ui/layouts';
 import { getCircleAvatar } from 'utils/domain';
 
-const schema = z
-  .object({
-    user_name: z.string().refine(val => val.trim().length >= 3, {
-      message: 'Name must be at least 3 characters long.',
-    }),
-    circle_name: z.string().refine(val => val.trim().length >= 3, {
-      message: 'Circle name must be at least 3 characters long.',
-    }),
-    organization_name: z.string().refine(val => val.trim().length >= 3, {
-      message: 'Org name must be at least 3 characters long.',
-    }),
-    organization_id: z.number().optional(),
-    contact: z.string().refine(val => val.trim().length >= 4, {
-      message: 'Circle Point of Contact is Required.',
-    }),
-  })
-  .strict();
-
 export const SummonCirclePage = () => {
   const navigate = useNavigate();
-  // const { myUser } = useSelectedCircle();
+  const [params] = useSearchParams();
 
   const queryClient = useQueryClient();
 
@@ -79,7 +61,35 @@ export const SummonCirclePage = () => {
 
   const { createCircle } = useApiWithProfile();
 
-  const onSubmit: SubmitHandler<CircleFormSchema> = async data => {
+  const org = organizations.find(p => p.id === Number(params.get('org')));
+  const source = {
+    organization_id: org?.id,
+    organization_name: org?.name || '',
+    user_name: myUsers.find(u => u !== undefined)?.name,
+  };
+
+  const schema = z
+    .object({
+      user_name: z.string().refine(val => val.trim().length >= 3, {
+        message: 'Name must be at least 3 characters long.',
+      }),
+      circle_name: z.string().refine(val => val.trim().length >= 3, {
+        message: 'Circle name must be at least 3 characters long.',
+      }),
+      organization_name: z.string().refine(val => val.trim().length >= 3, {
+        message: 'Org name must be at least 3 characters long.',
+      }),
+      organization_id: z.number().optional(),
+      contact: z.string().refine(val => val.trim().length >= 4, {
+        message: 'Email must be at least 4 characters long.',
+      }),
+      logoData: z.instanceof(File).optional(),
+    })
+    .strict();
+
+  type CreateCircleFormSchema = z.infer<typeof schema>;
+
+  const onSubmit: SubmitHandler<CreateCircleFormSchema> = async data => {
     try {
       const image_data_base64 = logoData.avatarRaw
         ? await fileToBase64(logoData.avatarRaw)
@@ -97,24 +107,25 @@ export const SummonCirclePage = () => {
     } catch (e) {
       console.warn(e);
     }
+    reset(data);
   };
 
-  type CircleFormSchema = z.infer<typeof schema>;
-
-  const { control, handleSubmit } = useForm<CircleFormSchema>({
+  const {
+    control,
+    reset,
+    handleSubmit,
+    setValue,
+    formState: { isValid },
+  } = useForm<CreateCircleFormSchema>({
     resolver: zodResolver(schema),
     mode: 'all',
-  });
-  const { field: organizationName, fieldState: orgNameFieldState } =
-    useController({
-      name: 'organization_name',
-      control,
-      defaultValue: '',
-    });
-  const { field: organizationId } = useController({
-    name: 'organization_id',
-    control,
-    defaultValue: undefined,
+    defaultValues: {
+      user_name: '',
+      circle_name: '',
+      organization_name: source.organization_name,
+      contact: '',
+      organization_id: source.organization_id,
+    },
   });
 
   if (!myAddress) {
@@ -156,7 +167,7 @@ export const SummonCirclePage = () => {
           <Text h2>Get Started</Text>
         </Box>
         <Panel nested>
-          <Form onSubmit={handleSubmit(onSubmit)}>
+          <Form id="create_circle_form">
             <div>
               <Box
                 css={{
@@ -172,9 +183,7 @@ export const SummonCirclePage = () => {
                     Circle logo
                     <Tooltip
                       css={{ ml: '$xs' }}
-                      content={
-                        <div>Upload a logo to your circle, Max 3MBs</div>
-                      }
+                      content={<div>Upload a logo to your circle</div>}
                     >
                       <Info size="sm" />
                     </Tooltip>
@@ -214,14 +223,11 @@ export const SummonCirclePage = () => {
                 </Flex>
                 {organizations.length ? (
                   <FormAutocomplete
-                    {...organizationName}
-                    value={organizationName.value}
-                    error={!!orgNameFieldState.error}
-                    errorText={orgNameFieldState.error?.message}
+                    value={org?.name}
                     onChange={(v: string) => {
                       const id = organizations.find(p => p.name === v)?.id;
-                      organizationId?.onChange(id);
-                      organizationName.onChange(v);
+                      setValue('organization_id', id);
+                      setValue('organization_name', v);
                     }}
                     options={organizations.map(p => p.name)}
                     label="Organization"
@@ -243,16 +249,15 @@ export const SummonCirclePage = () => {
                   />
                 ) : (
                   <div>
-                    <FormInputField
-                      id="organization_name"
-                      name="organization_name"
-                      control={control}
-                      infoTooltip="A circle admin can add to an existing organization."
-                      label="Organization"
-                      css={{ width: '100%' }}
-                      defaultValue=""
-                      showFieldErrors
-                    />
+                    <Text variant="label" css={{ width: '100%', mb: '$sm' }}>
+                      Organization
+                      <Tooltip
+                        css={{ ml: '$xs' }}
+                        content="A circle admin can add to an existing organization."
+                      >
+                        <Info size="sm" />
+                      </Tooltip>
+                    </Text>
                   </div>
                 )}
                 <div>
@@ -261,9 +266,6 @@ export const SummonCirclePage = () => {
                     name="circle_name"
                     control={control}
                     label="Circle Name"
-                    css={{ width: '100%' }}
-                    infoTooltip="New Circle's name"
-                    defaultValue=""
                     showFieldErrors
                   />
                 </div>
@@ -282,19 +284,13 @@ export const SummonCirclePage = () => {
                   name="user_name"
                   control={control}
                   label="Username"
-                  infoTooltip="Your name in this circle"
-                  css={{ width: '100%' }}
-                  defaultValue=""
                   showFieldErrors
                 />
                 <FormInputField
                   id="contact"
                   name="contact"
                   control={control}
-                  css={{ width: '100%' }}
                   label="Email Address"
-                  infoTooltip="Point of contact email"
-                  defaultValue=""
                   showFieldErrors
                 />
               </Box>
@@ -313,7 +309,12 @@ export const SummonCirclePage = () => {
                 <Button
                   color="primary"
                   size="medium"
+                  type="submit"
+                  form="circle_admin"
+                  outlined
+                  disabled={!isValid}
                   css={{ whiteSpace: 'nowrap' }}
+                  onClick={handleSubmit(onSubmit)}
                 >
                   Create Circle
                 </Button>
