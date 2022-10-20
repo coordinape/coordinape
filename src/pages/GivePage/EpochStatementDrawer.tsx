@@ -92,12 +92,17 @@ export const EpochStatementDrawer = ({
   const statementChanged = (newStatement: string) => {
     setStatement(newStatement);
     setSaving('buffering');
-    scheduleSaveStatement();
+    scheduleSaveStatement(saveStatement, newStatement);
   };
 
   // TODO: is this gonna not really debounce because of the statement dependency
   const scheduleSaveStatement = useCallback(
-    debounce(() => saveStatement(statement), DEBOUNCE_TIMEOUT),
+    debounce(
+      // pass in the latest instantiations so we're saving the
+      // newest state
+      (s: typeof saveStatement, statement: string) => s(statement),
+      DEBOUNCE_TIMEOUT
+    ),
     [saveStatement]
   );
 
