@@ -6,7 +6,7 @@ import { Helmet } from 'react-helmet';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import { Awaited } from '../../../api-lib/ts4.5shim';
-import { LoadingModal } from '../../components';
+import { LoadingModal, QUERY_KEY_RECEIVE_INFO } from '../../components';
 import { useApeSnackbar } from '../../hooks';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { client } from '../../lib/gql/client';
@@ -431,6 +431,8 @@ const AllocateContents = ({
   // fetching the manifest.
   const [userIsOptedOut, setUserIsOptedOut] = useState(myUser.non_receiver);
 
+  const queryClient = useQueryClient();
+
   const { mutate: updateNonReceiver, isLoading: isNonReceiverMutationLoading } =
     useMutation(
       async (nonReceiver: boolean) =>
@@ -440,7 +442,11 @@ const AllocateContents = ({
         }),
       {
         onSuccess: data => {
-          if (data) setUserIsOptedOut(data.UserResponse.non_receiver);
+          queryClient.invalidateQueries(QUERY_KEY_RECEIVE_INFO);
+
+          if (data) {
+            setUserIsOptedOut(data.UserResponse.non_receiver);
+          }
         },
         onError: e => {
           console.error(e);
