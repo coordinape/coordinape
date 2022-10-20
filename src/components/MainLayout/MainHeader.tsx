@@ -94,7 +94,7 @@ const NormalHeader = ({ inCircle }: { inCircle: boolean }) => {
               css={{
                 mr: '$md',
                 '@md': {
-                  button: { fontSize: '$xs' },
+                  scale: 0.8,
                 },
               }}
             >
