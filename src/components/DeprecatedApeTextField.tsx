@@ -308,6 +308,7 @@ const useBaseStyles = makeStyles<
   }),
   inputRootError: {
     border: `1px solid ${theme.colors.alert}`,
+    backgroundColor: `${theme.colors.alertLight} !important`,
     color: theme.colors.alert,
     '&:focus-within': {
       border: `1px solid ${theme.colors.alert}`,
