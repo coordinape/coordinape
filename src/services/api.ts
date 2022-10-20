@@ -17,6 +17,7 @@ export class APIService {
   }
 
   setProvider(provider?: Web3Provider) {
+    // TODO: this provider doesn't update on networkChanged events
     this.provider = provider;
   }
 
@@ -47,7 +48,7 @@ export class APIService {
       statement: 'Coordinape wants to Sign-In With Ethereum',
       uri: window.location.origin,
       version: '1',
-      chainId: 1,
+      chainId: this.provider?.network.chainId,
       nonce,
       notBefore: new Date(time).toISOString(),
       expirationTime: new Date(time + SIWE_EXPIRES_AFTER).toISOString(),

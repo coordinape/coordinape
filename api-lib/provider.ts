@@ -14,6 +14,9 @@ export function getProvider(chainId: number) {
     case 5: // Goerli
       return new JsonRpcProvider(GOERLI_RPC_URL);
     case 1337:
+    case 10:
+    case 137:
+    case 42161:
     case 1338:
       return new JsonRpcProvider('http://localhost:' + HARDHAT_GANACHE_PORT);
     default:

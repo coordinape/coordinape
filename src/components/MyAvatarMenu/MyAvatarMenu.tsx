@@ -25,7 +25,7 @@ import { RecentTransactionsModal } from './RecentTransactionsModal';
 
 export const MyAvatarMenu = () => {
   const myProfile = useMyProfile();
-  const { icon, address, logout } = useWalletStatus();
+  const { icon, address, logout, chainName } = useWalletStatus();
   const [showTxModal, setShowTxModal] = useState(false);
 
   const [mouseEnterPopover, setMouseEnterPopover] = useState(false);
@@ -120,6 +120,16 @@ export const MyAvatarMenu = () => {
               >
                 <Box css={{ mr: '$sm', display: 'flex' }}>{icon}</Box>
                 {address && shortenAddress(address)}
+              </Box>
+              <Box
+                css={{
+                  display: 'flex',
+                  fontSize: '$xs',
+                  color: '$headingText',
+                  mb: '$xs',
+                }}
+              >
+                Connected Chain: {chainName ?? ''}
               </Box>
               {isFeatureEnabled('vaults') && (
                 <Link
