@@ -30,7 +30,7 @@ export const ReceiveInfo = () => {
     circleId,
   } = useSelectedCircle();
 
-  const { data: circle } = useQuery(
+  const { data } = useQuery(
     [QUERY_KEY_RECEIVE_INFO, circleId, userId],
     () => getReceiveInfo(circleId, userId),
     {
@@ -41,11 +41,13 @@ export const ReceiveInfo = () => {
       notifyOnChangeProps: ['data'],
     }
   );
-
-  const noEpoch = !circle?.currentEpoch[0] && !circle?.pastEpochs[0];
-  const gifts = circle?.currentEpoch[0]
-    ? circle.currentEpoch[0].receivedGifts ?? []
-    : (circle?.pastEpochs[0] && circle?.pastEpochs[0].receivedGifts) ?? [];
+  const noEpoch =
+    !data?.myReceived?.currentEpoch[0] && !data?.myReceived?.pastEpochs[0];
+  const gifts = data?.myReceived?.currentEpoch[0]
+    ? data.myReceived.currentEpoch[0].receivedGifts ?? []
+    : (data?.myReceived?.pastEpochs[0] &&
+        data.myReceived.pastEpochs[0].receivedGifts) ??
+      [];
   const totalReceived = (gifts && iti(gifts).sum(({ tokens }) => tokens)) || 0;
   const [mouseEnterPopover, setMouseEnterPopover] = useState(false);
   const closePopover = () => {
@@ -72,7 +74,8 @@ export const ReceiveInfo = () => {
             );
           }}
         >
-          {totalReceived} {circle?.token_name ?? 'GIVE'}
+          {!data?.user?.non_receiver ? totalReceived : 0}{' '}
+          {data?.myReceived?.token_name ?? 'GIVE'}
         </Button>
       </PopoverTrigger>
       <PopoverContent
@@ -113,9 +116,9 @@ export const ReceiveInfo = () => {
             >
               {noEpoch
                 ? 'No Epochs in this Circle'
-                : `You have received ${totalReceived ?? 0} ${
-                    circle?.token_name ?? 'GIVE'
-                  }`}
+                : `You have received ${
+                    !data?.user?.non_receiver ? totalReceived : 0
+                  } ${data?.myReceived?.token_name ?? 'GIVE'}`}
             </Text>
           </PopoverClose>
           {gifts
@@ -137,7 +140,7 @@ export const ReceiveInfo = () => {
               >
                 <Flex css={{ justifyContent: 'space-between' }}>
                   <Text semibold css={{ mr: '$md' }}>
-                    {tokenGift.tokens > 0
+                    {tokenGift.tokens > 0 && !data?.user?.non_receiver
                       ? `+${tokenGift.tokens} Received from `
                       : 'From '}
                     {tokenGift.sender?.name}
@@ -181,77 +184,85 @@ export const ReceiveInfo = () => {
 const getReceiveInfo = async (circleId: number, userId: number) => {
   const gq = await client.query(
     {
-      circles_by_pk: [
-        { id: circleId },
-        {
-          token_name: true,
-          __alias: {
-            currentEpoch: {
-              epochs: [
-                {
-                  where: { ended: { _eq: false }, start_date: { _lt: 'now' } },
-                  limit: 1,
-                },
-                {
-                  id: true,
-                  start_date: true,
-                  __alias: {
-                    receivedGifts: {
-                      epoch_pending_token_gifts: [
-                        { where: { recipient_id: { _eq: userId } } },
-                        {
-                          id: true,
-                          tokens: true,
-                          sender: { name: true, profile: { avatar: true } },
-                          gift_private: { note: true },
-                          dts_created: true,
-                        },
-                      ],
+      __alias: {
+        myReceived: {
+          circles_by_pk: [
+            { id: circleId },
+            {
+              token_name: true,
+              __alias: {
+                currentEpoch: {
+                  epochs: [
+                    {
+                      where: {
+                        ended: { _eq: false },
+                        start_date: { _lt: 'now' },
+                      },
+                      limit: 1,
                     },
-                  },
-                },
-              ],
-            },
-            pastEpochs: {
-              epochs: [
-                {
-                  where: { ended: { _eq: true } },
-                  order_by: [{ start_date: order_by.desc }],
-                  limit: 1,
-                },
-                {
-                  id: true,
-                  number: true,
-                  start_date: true,
-                  end_date: true,
-                  token_gifts_aggregate: [
-                    {},
-                    { aggregate: { sum: { tokens: true } } },
+                    {
+                      id: true,
+                      start_date: true,
+                      __alias: {
+                        receivedGifts: {
+                          epoch_pending_token_gifts: [
+                            { where: { recipient_id: { _eq: userId } } },
+                            {
+                              id: true,
+                              tokens: true,
+                              sender: { name: true, profile: { avatar: true } },
+                              gift_private: { note: true },
+                              dts_created: true,
+                            },
+                          ],
+                        },
+                      },
+                    },
                   ],
-                  __alias: {
-                    receivedGifts: {
-                      token_gifts: [
-                        { where: { recipient_id: { _eq: userId } } },
-                        {
-                          id: true,
-                          tokens: true,
-                          sender: { name: true, profile: { avatar: true } },
-                          gift_private: { note: true },
-                          dts_created: true,
-                        },
-                      ],
-                    },
-                  },
                 },
-              ],
+                pastEpochs: {
+                  epochs: [
+                    {
+                      where: { ended: { _eq: true } },
+                      order_by: [{ start_date: order_by.desc }],
+                      limit: 1,
+                    },
+                    {
+                      id: true,
+                      start_date: true,
+                      token_gifts_aggregate: [
+                        {},
+                        { aggregate: { sum: { tokens: true } } },
+                      ],
+                      __alias: {
+                        receivedGifts: {
+                          token_gifts: [
+                            { where: { recipient_id: { _eq: userId } } },
+                            {
+                              id: true,
+                              tokens: true,
+                              sender: { name: true, profile: { avatar: true } },
+                              gift_private: { note: true },
+                              dts_created: true,
+                            },
+                          ],
+                        },
+                      },
+                    },
+                  ],
+                },
+              },
             },
-          },
+          ],
         },
-      ],
+        user: {
+          users_by_pk: [{ id: userId }, { non_receiver: true }],
+        },
+      },
     },
     {
       operationName: 'getReceivedInfo',
     }
   );
-  return gq.circles_by_pk;
+  return gq;
 };
