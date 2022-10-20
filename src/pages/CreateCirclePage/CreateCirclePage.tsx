@@ -216,7 +216,7 @@ export const SummonCirclePage = () => {
                   <FormAutocomplete
                     {...organizationName}
                     value={organizationName.value}
-                    error
+                    error={!!orgNameFieldState.error}
                     errorText={orgNameFieldState.error?.message}
                     onChange={(v: string) => {
                       const id = organizations.find(p => p.name === v)?.id;
