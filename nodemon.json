@@ -5,7 +5,7 @@
     "scripts/",
     "src/lib",
     "src/common-lib",
-    "*.json"
+    "./*.json"
   ],
   "delay": 300,
   "execMap": {
