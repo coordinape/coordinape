@@ -38,9 +38,10 @@ export const ReceiveInfo = () => {
       //minmize background refetch
       refetchOnWindowFocus: false,
 
-      notifyOnChangeProps: ['data', 'error'],
+      notifyOnChangeProps: ['data'],
     }
   );
+
   const noEpoch = !circle?.currentEpoch[0] && !circle?.pastEpochs[0];
   const gifts = circle?.currentEpoch[0]
     ? circle.currentEpoch[0].receivedGifts ?? []
@@ -252,6 +253,5 @@ const getReceiveInfo = async (circleId: number, userId: number) => {
       operationName: 'getReceivedInfo',
     }
   );
-
   return gq.circles_by_pk;
 };
