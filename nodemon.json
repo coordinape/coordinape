@@ -8,7 +8,6 @@
     "*.json"
   ],
   "delay": 300,
-  "verbose": true,
   "execMap": {
     "ts": "ts-node --swc"
   },
