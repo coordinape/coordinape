@@ -1,88 +1,83 @@
-// import { FixedNumber } from 'ethers';
+import { FixedNumber } from 'ethers';
 import { formatUnits } from 'ethers/lib/utils';
 
-import type { EpochDataResult } from '../pages/DistributionsPage/queries';
-
-// interface Distribution {
-//   created_at: string;
-//   total_amount: string;
-//   tx_hash?: string;
-//   distribution_type: number;
-//   distribution_json: any;
-//   gift_amount: number;
-//   fixed_amount: number;
-//   vault: {
-//     id: number;
-//     decimals: number;
-//     symbol: string;
-//     vault_address: string;
-//     simple_token_address: string;
-//     chain_id: number;
-//   };
-//   pricePerShare: FixedNumber;
-//   epoch: {
-//     number?: number;
-//     circle?: {
-//       id: any;
-//       name: string;
-//     };
-//   };
-//   claims: Claim[];
-// }
-
-// interface Claim {
-//   id: number;
-//   new_amount: number;
-//   address: string;
-//   profile_id: number;
-//   profile?: {
-//     avatar?: string;
-//   };
-// }
-export const getUserClaimedFixedPaymentAmt = (
-  decimals: number,
-  fixedGifts?: Record<string, string>,
-  address?: string
-) => {
+export const getUserClaimedFixedPaymentAmt = ({
+  decimals,
+  fixedGifts,
+  address,
+}: {
+  decimals: number;
+  fixedGifts?: Record<string, string>;
+  address?: string;
+}) => {
   if (!address) return 0;
   return fixedGifts && address in fixedGifts
     ? Number(formatUnits(fixedGifts[address], decimals))
     : 0;
 };
-export const claimsUnwrappedAmount = (
-  id?: number,
-  fixedDist?: EpochDataResult['distributions'][0],
-  circleDist?: EpochDataResult['distributions'][0]
-) => {
+export const claimsUnwrappedAmount = ({
+  address,
+  fixedGifts,
+  fixedDistDecimals = 18,
+  fixedDistPricePerShare,
+  circleDistDecimals = 18,
+  circleDistClaimAmount = 0,
+  circleDistPricePerShare,
+}: {
+  address?: string;
+  fixedDistDecimals?: number;
+  fixedDistClaimAmount?: number;
+  fixedGifts?: Record<string, string>;
+  fixedDistPricePerShare?: FixedNumber;
+  circleDistDecimals?: number;
+  circleDistClaimAmount?: number;
+  circleDistPricePerShare?: FixedNumber;
+}) => {
   let claimed = 0,
     fixedPayment = 0,
     circleClaimed = 0;
-  if (!id) return { claimed, fixedPayment, circleClaimed };
+  if (!address) return { claimed, fixedPayment, circleClaimed };
 
-  const calc = (id: number, dist: EpochDataResult['distributions'][0]) => {
-    const claim = dist.claims.find(
-      (c: typeof dist.claims[0]) => c.profile_id === id
-    );
+  const calc = ({
+    address,
+    decimals,
+    fixedGifts,
+    pricePerShare,
+  }: {
+    address: string;
+    decimals: number;
+    fixedGifts?: Record<string, string>;
+    pricePerShare?: FixedNumber;
+  }) => {
     return {
-      claim,
-      fixedPaymentAmt: getUserClaimedFixedPaymentAmt(
-        dist.vault.decimals,
-        dist.distribution_json?.fixedGifts,
-        claim?.address
-      ),
-      pricePerShare: dist.pricePerShare.toUnsafeFloat(),
+      fixedPaymentAmt: getUserClaimedFixedPaymentAmt({
+        decimals,
+        fixedGifts,
+        address,
+      }),
+      pricePerShare: pricePerShare?.toUnsafeFloat() || 1,
     };
   };
-  if (fixedDist) {
-    const { fixedPaymentAmt, pricePerShare } = calc(id, fixedDist);
+  if (circleDistClaimAmount) {
+    const claimAmt = circleDistClaimAmount || 0;
+    const { fixedPaymentAmt, pricePerShare } = calc({
+      address,
+      decimals: circleDistDecimals,
+      pricePerShare: circleDistPricePerShare,
+    });
     fixedPayment = fixedPaymentAmt * pricePerShare;
+    claimed = claimAmt * pricePerShare;
+    circleClaimed = (claimAmt - fixedPaymentAmt) * pricePerShare;
   }
-  if (circleDist) {
-    const { claim, fixedPaymentAmt, pricePerShare } = calc(id, circleDist);
+
+  if (fixedDistDecimals) {
+    const { fixedPaymentAmt, pricePerShare } = calc({
+      address,
+      decimals: fixedDistDecimals,
+      fixedGifts,
+      pricePerShare: fixedDistPricePerShare,
+    });
     fixedPayment = fixedPaymentAmt * pricePerShare;
-    claimed = (claim?.new_amount || 0) * pricePerShare;
-    circleClaimed =
-      ((claim?.new_amount || 0) - fixedPaymentAmt) * pricePerShare;
   }
 
   return {

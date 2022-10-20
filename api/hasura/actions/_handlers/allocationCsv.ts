@@ -119,11 +119,19 @@ export function generateCsvValues(
 
   return (
     users?.map((u, idx) => {
-      const { fixedPayment, circleClaimed: cClaimed } = claimsUnwrappedAmount(
-        u.profile?.id,
-        fixedDist,
-        circleDist
-      );
+      const claimAmt = circleDist?.claims.find(
+        c => c.profile_id === u.profile?.id
+      )?.new_amount;
+
+      const { circleClaimed: cClaimed, fixedPayment } = claimsUnwrappedAmount({
+        address: u.address,
+        fixedDistDecimals: fixedDist?.vault.decimals,
+        fixedGifts: fixedDist?.distribution_json.fixedGifts,
+        fixedDistPricePerShare: fixedDist?.pricePerShare,
+        circleDistDecimals: circleDist?.vault.decimals,
+        circleDistClaimAmount: claimAmt,
+        circleDistPricePerShare: circleDist?.pricePerShare,
+      });
       const received = u.received_gifts.length
         ? u.received_gifts
             .map(g => g.tokens)
@@ -183,38 +191,21 @@ export async function getCircleDetails(circle_id: number, epochId: number) {
               distributions: [
                 { where: { tx_hash: { _is_null: false } } },
                 {
-                  created_at: true,
-                  total_amount: true,
-                  tx_hash: true,
                   distribution_type: true,
                   distribution_json: [{}, true],
-                  gift_amount: true,
-                  fixed_amount: true,
                   vault: {
-                    id: true,
                     symbol: true,
                     chain_id: true,
                     vault_address: true,
                     simple_token_address: true,
                     decimals: true,
                   },
-                  epoch: {
-                    number: true,
-                    circle: {
-                      id: true,
-                      name: true,
-                    },
-                  },
                   claims: [
                     {},
                     {
-                      id: true,
                       new_amount: true,
                       address: true,
                       profile_id: true,
-                      profile: {
-                        avatar: true,
-                      },
                     },
                   ],
                 },

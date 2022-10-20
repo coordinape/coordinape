@@ -114,11 +114,20 @@ export function DistributionsPage() {
       const receivedGifts = epoch.token_gifts?.filter(
         g => g.recipient_id === user.id
       );
-      const { claimed, circleClaimed, fixedPayment } = claimsUnwrappedAmount(
-        user.profile?.id,
-        fixedDist,
-        circleDist
-      );
+
+      const circleDistClaimAmount = circleDist?.claims.find(
+        c => c.profile_id === user.profile?.id
+      )?.new_amount;
+
+      const { claimed, circleClaimed, fixedPayment } = claimsUnwrappedAmount({
+        address: user.address,
+        fixedDistDecimals: fixedDist?.vault.decimals,
+        fixedGifts: fixedDist?.distribution_json.fixedGifts,
+        fixedDistPricePerShare: fixedDist?.pricePerShare,
+        circleDistDecimals: circleDist?.vault.decimals,
+        circleDistClaimAmount,
+        circleDistPricePerShare: circleDist?.pricePerShare,
+      });
       return {
         id: user.id,
         name: user.name,
