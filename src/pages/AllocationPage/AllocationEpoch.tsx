@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import capitalize from 'lodash/capitalize';
+import { useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core';
@@ -8,7 +9,7 @@ import { makeStyles } from '@material-ui/core';
 import { useApiWithSelectedCircle } from '../../hooks';
 import { STEP_ALLOCATION, STEP_MY_TEAM } from '../../routes/allocation';
 import { IAllocationStep } from '../../types';
-import { OptInput, ApeInfoTooltip } from 'components';
+import { OptInput, ApeInfoTooltip, QUERY_KEY_RECEIVE_INFO } from 'components';
 import { MAX_BIO_LENGTH } from 'config/constants';
 import { useSelectedCircle } from 'recoilState/app';
 import { Button, Flex, Text, Modal } from 'ui';
@@ -127,6 +128,8 @@ const AllocationEpoch = ({
     myUser,
   } = useSelectedCircle();
 
+  const queryClient = useQueryClient();
+
   const [epochBio, setEpochBio] = useState('');
   const fixedNonReceiver = myUser.fixed_non_receiver;
   const [nonReceiver, setNonReceiver] = useState(false);
@@ -159,6 +162,7 @@ const AllocationEpoch = ({
         setActiveStep(_nextStep.key);
         navigate(_nextStep.pathFn(circleId));
       }
+      queryClient.invalidateQueries(QUERY_KEY_RECEIVE_INFO);
     } catch (e) {
       console.warn('handleSaveEpoch', e);
     }

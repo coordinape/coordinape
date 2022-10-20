@@ -623,26 +623,29 @@ const EpochGroup = React.memo(function EpochGroup({
 
 type ContributionListProps = {
   contributions: Array<LinkedElement<Contribution>>;
-};
+  epoch: LinkedElement<Epoch>;
+  userAddress?: string;
+} & SetActiveContributionProps;
 const ContributionList = ({
   epoch,
   contributions,
   setActiveContribution,
   currentContribution,
-  latestEpochEndDate,
   userAddress,
-}: ContributionListProps &
-  SetActiveContributionProps & {
-    epoch: LinkedElement<Epoch>;
-    latestEpochEndDate?: string;
-    userAddress?: string;
-  }) => {
-  const currentDateTime = useMemo(() => DateTime.now().toISO(), []);
-
+}: ContributionListProps) => {
+  // epochs are listed in chronologically descending order
+  // so the next epoch in the array is the epoch that ended
+  // before the one here
+  const priorEpoch = epoch.next();
   const integrationContributions = useContributions({
     address: userAddress || '',
-    startDate: epoch ? epoch.next()?.end_date : latestEpochEndDate,
-    endDate: epoch ? epoch.end_date : currentDateTime,
+    startDate: priorEpoch
+      ? priorEpoch.end_date
+      : // add a buffer of time before the start date if this is the first epoch
+        // Querying from epoch time 0 is apparently an unwelcome
+        // practice for some integrators
+        DateTime.fromISO(epoch.start_date).minus({ months: 1 }).toISO(),
+    endDate: epoch.end_date,
     mock: false,
   });
 
