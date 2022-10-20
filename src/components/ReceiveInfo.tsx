@@ -43,6 +43,9 @@ export const ReceiveInfo = () => {
   );
   const noEpoch =
     !data?.myReceived?.currentEpoch[0] && !data?.myReceived?.pastEpochs[0];
+  //handle if member was a receiver and no current epoch
+  const currentNonReceiver =
+    data?.user?.non_receiver && data?.myReceived?.currentEpoch[0];
   const gifts = data?.myReceived?.currentEpoch[0]
     ? data.myReceived.currentEpoch[0].receivedGifts ?? []
     : (data?.myReceived?.pastEpochs[0] &&
@@ -74,7 +77,7 @@ export const ReceiveInfo = () => {
             );
           }}
         >
-          {!data?.user?.non_receiver ? totalReceived : 0}{' '}
+          {!currentNonReceiver ? totalReceived : 0}{' '}
           {data?.myReceived?.token_name ?? 'GIVE'}
         </Button>
       </PopoverTrigger>
@@ -117,7 +120,7 @@ export const ReceiveInfo = () => {
               {noEpoch
                 ? 'No Epochs in this Circle'
                 : `You have received ${
-                    !data?.user?.non_receiver ? totalReceived : 0
+                    !currentNonReceiver ? totalReceived : 0
                   } ${data?.myReceived?.token_name ?? 'GIVE'}`}
             </Text>
           </PopoverClose>
@@ -140,7 +143,7 @@ export const ReceiveInfo = () => {
               >
                 <Flex css={{ justifyContent: 'space-between' }}>
                   <Text semibold css={{ mr: '$md' }}>
-                    {tokenGift.tokens > 0 && !data?.user?.non_receiver
+                    {tokenGift.tokens > 0 && !currentNonReceiver
                       ? `+${tokenGift.tokens} Received from `
                       : 'From '}
                     {tokenGift.sender?.name}
