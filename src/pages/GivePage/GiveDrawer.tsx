@@ -207,6 +207,7 @@ export const GiveDrawer = ({
             width: '100%',
             mt: '$xs',
             mb: '$md',
+            fontSize: '$medium',
           }}
           value={note ?? ''}
           onChange={e => noteChanged(e.target.value)}
@@ -230,7 +231,7 @@ export const GiveDrawer = ({
               Epoch Statement
             </Text>
             <Box css={{ mt: '$sm', pb: '$lg' }}>
-              <Panel nested css={{ mb: '$md' }}>
+              <Panel nested css={{ mb: '$md', p: '$sm' }}>
                 <Text p>{member.bio}</Text>
               </Panel>
             </Box>

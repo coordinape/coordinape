@@ -66,6 +66,9 @@ const NormalHeader = ({ inCircle }: { inCircle: boolean }) => {
           justifyContent: 'space-between',
           alignItems: 'center',
           position: 'relative',
+          '@md': {
+            a: { fontSize: '$md' },
+          },
         }}
       >
         <OverviewMenu data={query.data} />
@@ -87,7 +90,14 @@ const NormalHeader = ({ inCircle }: { inCircle: boolean }) => {
         </Box>
         {inCircle && (
           <Suspense fallback={null}>
-            <Box css={{ mr: '$md' }}>
+            <Box
+              css={{
+                mr: '$md',
+                '@md': {
+                  button: { fontSize: '$xs' },
+                },
+              }}
+            >
               <ReceiveInfo />
             </Box>
           </Suspense>

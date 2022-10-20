@@ -186,21 +186,15 @@ export const EpochStatementDrawer = ({
           </Flex>
         </Flex>
       </Flex>
-      <Box css={{ mt: '$xl' }}>
-        <Box>
-          <Text inline semibold size="large" css={{ mr: '$xs' }}>
-            Epoch Statement
-          </Text>
-          {/*<ApeInfoTooltip>*/}
-          {/*  Not sure what goes here yet */}
-          {/*</ApeInfoTooltip>*/}
-        </Box>
+      <Flex css={{ flexDirection: 'column', mt: '$xl', gap: '$sm' }}>
+        <Text inline semibold size="large">
+          Epoch Statement
+        </Text>
         <TextArea
           css={{
             backgroundColor: 'white',
             width: '100%',
-            mt: '$xs',
-            mb: '$md',
+            fontSize: '$medium',
           }}
           value={statement}
           onChange={e => statementChanged(e.target.value)}
@@ -209,7 +203,7 @@ export const EpochStatementDrawer = ({
         <Flex css={{ justifyContent: 'flex-end', alignItems: 'center' }}>
           <SavingIndicator saveState={saving} css={{ mr: '$md' }} />
         </Flex>
-      </Box>
+      </Flex>
 
       <Box
         css={{

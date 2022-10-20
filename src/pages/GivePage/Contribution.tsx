@@ -1,4 +1,5 @@
-import { Panel, Text } from '../../ui';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Box, Panel, Text } from '../../ui';
 
 import { Contributions } from './queries';
 
@@ -9,10 +10,16 @@ export const Contribution = ({
   contribution: Contributions[number];
 }) => {
   return (
-    <Panel background css={{ mb: '$md', padding: '$sm' }}>
-      <Panel nested>
-        <Text p>{contribution.description}</Text>
-      </Panel>
-    </Panel>
+    <Box
+      css={{
+        mb: '$xs',
+        p: '$md $sm',
+        borderBottom: '1px solid $border',
+      }}
+    >
+      <Text p css={{ lineHeight: '$shorter' }}>
+        {contribution.description}
+      </Text>
+    </Box>
   );
 };

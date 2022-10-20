@@ -20,6 +20,7 @@ type TFormInputField<TFieldValues extends FieldValues> = {
   textArea?: boolean;
   infoTooltip?: string;
   description?: string;
+  placeholder?: string;
   inputProps?: TextFieldProps;
   areaProps?: TextAreaProps;
   control: Control<TFieldValues>;
@@ -47,6 +48,7 @@ export const FormInputField = <TFieldValues extends FieldValues>(
     css,
     number,
     showFieldErrors,
+    placeholder,
   } = props;
 
   const { field, fieldState } = useController({
@@ -119,6 +121,7 @@ export const FormInputField = <TFieldValues extends FieldValues>(
           {...areaProps}
           error={!!fieldState.error}
           disabled={disabled}
+          placeholder={placeholder}
         />
       )}
       {showFieldErrors && fieldState.error && (
