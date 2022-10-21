@@ -415,21 +415,41 @@ const ContributionsPage = () => {
                   <ChevronDown size="lg" />
                 </Button>
               </Flex>
-              <Text h2 css={{ gap: '$md', my: '$xl' }}>
-                {currentContribution.epoch.id
-                  ? renderEpochDate(currentContribution.epoch)
-                  : 'Latest'}
+              <Flex
+                css={{
+                  alignItems: 'center',
+                  my: '$xl',
+                }}
+              >
+                <Text
+                  h3
+                  semibold
+                  css={{
+                    mr: '$md',
+                  }}
+                >
+                  {currentContribution.epoch.id
+                    ? renderEpochDate(currentContribution.epoch)
+                    : 'Latest'}
+                </Text>
                 {getEpochLabel(currentContribution.epoch)}
-                <Text p>
-                  {DateTime.fromISO(
-                    currentContribution.contribution.datetime_created
-                  ).toFormat('LLL dd')}
-                </Text>
-              </Text>
+              </Flex>
               <Flex column css={{ gap: '$sm' }}>
-                <Text inline semibold size="large">
-                  Contribution
-                </Text>
+                <Flex
+                  css={{
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-end',
+                  }}
+                >
+                  <Text inline semibold size="medium">
+                    Contribution
+                  </Text>
+                  <Text variant="label">
+                    {DateTime.fromISO(
+                      currentContribution.contribution.datetime_created
+                    ).toFormat('LLL dd')}
+                  </Text>
+                </Flex>
                 {isEpochCurrent(currentContribution.epoch) ? (
                   <FormInputField
                     id="description"
