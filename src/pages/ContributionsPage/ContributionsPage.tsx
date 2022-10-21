@@ -479,6 +479,7 @@ const ContributionsPage = () => {
                       outlined
                       color="destructive"
                       size="small"
+                      disabled={!currentContribution.contribution.id}
                       onClick={() => {
                         handleDebouncedDescriptionChange.cancel();
                         deleteContribution({
