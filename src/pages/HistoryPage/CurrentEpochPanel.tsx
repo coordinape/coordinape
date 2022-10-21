@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { DateTime, Interval } from 'luxon';
 import { NavLink } from 'react-router-dom';
 import { CSS } from 'stitches.config';
