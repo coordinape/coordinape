@@ -571,9 +571,9 @@ const yearCurrent = (end: string) =>
  */
 const renderEpochDate = (epoch: Epoch) =>
   dedent`
-    Epoch ${epoch.number}: ${DateTime.fromISO(epoch.start_date).toFormat(
-    'LLL dd'
-  )} -
+    Epoch${epoch.number ? ` ${epoch.number}` : ''}: ${DateTime.fromISO(
+    epoch.start_date
+  ).toFormat('LLL dd')} -
     ${DateTime.fromISO(epoch.end_date).toFormat(
       (monthsEqual(epoch.start_date, epoch.end_date) ? '' : 'LLL ') +
         'dd' +
