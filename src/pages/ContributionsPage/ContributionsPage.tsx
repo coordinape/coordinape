@@ -18,10 +18,11 @@ import {
   WonderColor,
   Check,
   AlertTriangle,
-  Save,
+  RefreshCcw,
   ChevronDown,
   ChevronUp,
 } from 'icons/__generated';
+import { SaveState } from 'pages/GivePage/SavingIndicator';
 import { Panel, Text, Box, Modal, Button, Flex } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -97,6 +98,7 @@ const ContributionsPage = () => {
   const address = useConnectedAddress();
   const { circle: selectedCircle } = useSelectedCircle();
   const [modalOpen, setModalOpen] = useState(false);
+  const [saveState, setSaveState] = useState<SaveState>('stable');
   const [currentContribution, setCurrentContribution] =
     useState<CurrentContribution | null>(null);
   const [currentIntContribution, setCurrentIntContribution] =
@@ -135,6 +137,11 @@ const ContributionsPage = () => {
     formState: { isDirty },
   } = useForm({ mode: 'all' });
 
+  const { field: descriptionField } = useController({
+    name: 'description',
+    control,
+  });
+
   const {
     mutate: createContribution,
     status: createStatus,
@@ -143,12 +150,11 @@ const ContributionsPage = () => {
     onSuccess: newContribution => {
       refetchContributions();
       if (newContribution.insert_contributions_one) {
-        resetField('description', {
-          defaultValue: newContribution.insert_contributions_one.description,
-        });
+        setSaveState('saved');
         setCurrentContribution({
           contribution: {
             ...newContribution.insert_contributions_one,
+            description: descriptionField.value as string,
             next: () => data?.contributions[0],
             prev: () => undefined,
             idx: 0,
@@ -156,6 +162,7 @@ const ContributionsPage = () => {
           epoch: getCurrentEpoch(data?.epochs ?? []),
         });
       } else {
+        setSaveState('stable');
         resetCreateMutation();
       }
     },
@@ -171,15 +178,17 @@ const ContributionsPage = () => {
       //refetchContributions();
     },
     onSuccess: ({ updateContribution }) => {
-      refetchContributions();
-      if (
-        updateContribution?.updateContribution_Contribution.id ===
-        currentContribution?.contribution.id
-      )
-        resetField('description', {
-          defaultValue:
-            updateContribution?.updateContribution_Contribution.description,
+      setSaveState('saved');
+      if (currentContribution && updateContribution)
+        setCurrentContribution({
+          ...currentContribution,
+          contribution: {
+            ...currentContribution.contribution,
+            description:
+              updateContribution.updateContribution_Contribution.description,
+          },
         });
+      refetchContributions();
     },
   });
 
@@ -191,15 +200,11 @@ const ContributionsPage = () => {
         setModalOpen(false);
         setCurrentContribution(null);
         refetchContributions();
+        setSaveState('stable');
         reset();
       },
     }
   );
-
-  const { field: descriptionField } = useController({
-    name: 'description',
-    control,
-  });
 
   const saveContribution = useMemo(() => {
     return (value: string) => {
@@ -224,16 +229,17 @@ const ContributionsPage = () => {
   // cancel the call when a bunch of typing is happening
   const handleDebouncedDescriptionChange = useMemo(
     () =>
-      debounce(
-        (s: typeof saveContribution, v: string) => s(v),
-        DEBOUNCE_TIMEOUT
-      ),
+      debounce((s: typeof saveContribution, v: string) => {
+        setSaveState('saving');
+        s(v);
+      }, DEBOUNCE_TIMEOUT),
     [currentContribution?.contribution.id]
   );
 
   useEffect(() => {
     handleDebouncedDescriptionChange.cancel();
     if (isDirty && descriptionField.value.length > 0) {
+      setSaveState('scheduled');
       handleDebouncedDescriptionChange(
         saveContribution,
         descriptionField.value
@@ -346,6 +352,7 @@ const ContributionsPage = () => {
         open={modalOpen}
         onClose={() => {
           setModalOpen(false);
+          setSaveState('stable');
           setCurrentContribution(null);
           setCurrentIntContribution(null);
           resetCreateMutation();
@@ -494,17 +501,15 @@ const ContributionsPage = () => {
                         css={{ gap: '$sm' }}
                         color={updateStatus === 'error' ? 'alert' : 'neutral'}
                       >
-                        {mutationStatus() === 'loading' && (
+                        {(saveState === 'saving' ||
+                          saveState === 'scheduled') && (
                           <>
-                            <Save />
-                            Saving...
+                            <RefreshCcw /> Saving Changes
                           </>
                         )}
-                        {(updateStatus === 'success' ||
-                          (createStatus === 'success' &&
-                            updateStatus === 'idle')) && (
+                        {saveState === 'saved' && (
                           <>
-                            <Check /> Saved
+                            <Check /> Changes Saved
                           </>
                         )}
                         {mutationStatus() === 'error' && isDirty && (
