@@ -203,10 +203,7 @@ export const EpochStatementDrawer = ({
         <Flex
           css={{ justifyContent: 'flex-end', alignItems: 'center', mt: '$sm' }}
         >
-          {statement && statement?.length > 0 && (
-            <SavingIndicator saveState={saving} />
-          )}
-          &nbsp;
+          <SavingIndicator saveState={saving} />
         </Flex>
       </Flex>
 

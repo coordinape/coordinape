@@ -481,8 +481,7 @@ const ContributionsPage = () => {
                           </>
                         )}
                         {(updateStatus === 'success' ||
-                          (currentContribution.contribution.description.length >
-                            0 &&
+                          (createStatus === 'success' &&
                             updateStatus === 'idle')) && (
                           <>
                             <Check /> Saved

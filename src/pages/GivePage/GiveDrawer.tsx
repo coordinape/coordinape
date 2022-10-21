@@ -214,10 +214,7 @@ export const GiveDrawer = ({
           placeholder="Say thanks or give constructive feedback."
         />
         <Flex css={{ justifyContent: 'flex-end', alignItems: 'center' }}>
-          {note && note?.length > 0 && (
-            <SavingIndicator saveState={saveState} />
-          )}
-          &nbsp;
+          <SavingIndicator saveState={saveState} />
         </Flex>
       </Box>
 

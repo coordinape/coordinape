@@ -26,14 +26,14 @@ export const SavingIndicator = ({
   css?: CSS;
 }) => {
   return (
-    <Flex css={{ ...css, alignItems: 'center' }}>
+    <Flex css={{ ...css, minHeight: '$lg', alignItems: 'center' }}>
       <Text size="small" color="neutral" css={{ gap: '$xs' }}>
         {(saveState == 'saving' || saveState == 'scheduled') && (
           <>
             <RefreshCcw /> Saving Changes
           </>
         )}
-        {(saveState == 'saved' || saveState == 'stable') && (
+        {saveState == 'saved' && (
           <>
             <Check /> Saved
           </>
