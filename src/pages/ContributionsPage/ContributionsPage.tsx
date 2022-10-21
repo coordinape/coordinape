@@ -479,6 +479,9 @@ const ContributionsPage = () => {
                       outlined
                       color="destructive"
                       size="small"
+                      // disabled if its a new contribution never saved tothe db OR
+                      // the field is empty and new
+                      disabled={!currentContribution.contribution.id}
                       onClick={() => {
                         handleDebouncedDescriptionChange.cancel();
                         deleteContribution({
