@@ -415,81 +415,109 @@ const ContributionsPage = () => {
                   <ChevronDown size="lg" />
                 </Button>
               </Flex>
-              <Text h2 css={{ gap: '$md', my: '$xl' }}>
-                {currentContribution.epoch.id
-                  ? renderEpochDate(currentContribution.epoch)
-                  : 'Latest'}
-                {getEpochLabel(currentContribution.epoch)}
-                <Text p>
-                  {DateTime.fromISO(
-                    currentContribution.contribution.datetime_created
-                  ).toFormat('LLL dd')}
+              <Flex
+                css={{
+                  alignItems: 'center',
+                  my: '$xl',
+                }}
+              >
+                <Text
+                  h3
+                  semibold
+                  css={{
+                    mr: '$md',
+                  }}
+                >
+                  {currentContribution.epoch.id
+                    ? renderEpochDate(currentContribution.epoch)
+                    : 'Latest'}
                 </Text>
-              </Text>
-              {isEpochCurrent(currentContribution.epoch) ? (
-                <FormInputField
-                  id="description"
-                  name="description"
-                  control={control}
-                  defaultValue={currentContribution.contribution.description}
-                  areaProps={{ rows: 18, autoFocus: true }}
-                  disabled={!isEpochCurrent(currentContribution.epoch)}
-                  textArea
-                />
-              ) : (
-                <Panel nested>
-                  <Text p>{currentContribution.contribution.description}</Text>
-                </Panel>
-              )}
-              {isEpochCurrent(currentContribution.epoch) && (
+                {getEpochLabel(currentContribution.epoch)}
+              </Flex>
+              <Flex column css={{ gap: '$sm' }}>
                 <Flex
                   css={{
                     justifyContent: 'space-between',
-                    mt: '$lg',
-                    flexDirection: 'row-reverse',
+                    alignItems: 'flex-end',
                   }}
                 >
-                  <Flex css={{ gap: '$md' }}>
-                    <Text
-                      css={{ gap: '$sm' }}
-                      color={updateStatus === 'error' ? 'alert' : 'neutral'}
-                    >
-                      {mutationStatus() === 'loading' && (
-                        <>
-                          <Save />
-                          Saving...
-                        </>
-                      )}
-                      {(updateStatus === 'success' ||
-                        (createStatus === 'success' &&
-                          updateStatus === 'idle')) && (
-                        <>
-                          <Check /> Changes Saved
-                        </>
-                      )}
-                      {mutationStatus() === 'error' && isDirty && (
-                        <>
-                          <AlertTriangle />
-                          Error
-                        </>
-                      )}
+                  <Text inline semibold size="medium">
+                    Contribution
+                  </Text>
+                  <Text variant="label">
+                    {DateTime.fromISO(
+                      currentContribution.contribution.datetime_created
+                    ).toFormat('LLL dd')}
+                  </Text>
+                </Flex>
+                {isEpochCurrent(currentContribution.epoch) ? (
+                  <FormInputField
+                    id="description"
+                    name="description"
+                    control={control}
+                    defaultValue={currentContribution.contribution.description}
+                    areaProps={{ autoFocus: true }}
+                    disabled={!isEpochCurrent(currentContribution.epoch)}
+                    placeholder="What have you been working on?"
+                    textArea
+                  />
+                ) : (
+                  <Panel nested>
+                    <Text p>
+                      {currentContribution.contribution.description}
                     </Text>
-                  </Flex>
-                  <Button
-                    outlined
-                    color="destructive"
-                    size="medium"
-                    onClick={() => {
-                      handleDebouncedDescriptionChange.cancel();
-                      deleteContribution({
-                        contribution_id: currentContribution.contribution.id,
-                      });
+                  </Panel>
+                )}
+                {isEpochCurrent(currentContribution.epoch) && (
+                  <Flex
+                    css={{
+                      justifyContent: 'space-between',
+                      mt: '$sm',
                     }}
                   >
-                    Delete
-                  </Button>
-                </Flex>
-              )}
+                    <Button
+                      outlined
+                      color="destructive"
+                      size="small"
+                      onClick={() => {
+                        handleDebouncedDescriptionChange.cancel();
+                        deleteContribution({
+                          contribution_id: currentContribution.contribution.id,
+                        });
+                      }}
+                    >
+                      Delete
+                    </Button>
+                    <Flex css={{ gap: '$sm' }}>
+                      <Text
+                        size="small"
+                        css={{ gap: '$sm' }}
+                        color={updateStatus === 'error' ? 'alert' : 'neutral'}
+                      >
+                        {mutationStatus() === 'loading' && (
+                          <>
+                            <Save />
+                            Saving...
+                          </>
+                        )}
+                        {(updateStatus === 'success' ||
+                          (createStatus === 'success' &&
+                            updateStatus === 'idle')) && (
+                          <>
+                            <Check /> Saved
+                          </>
+                        )}
+                        {mutationStatus() === 'error' && isDirty && (
+                          <>
+                            <AlertTriangle />
+                            Error
+                          </>
+                        )}
+                      </Text>
+                    </Flex>
+                  </Flex>
+                )}
+              </Flex>
             </>
           ) : currentIntContribution ? (
             <>
@@ -647,6 +675,7 @@ const ContributionList = ({
                     ? '2px solid $link'
                     : '2px solid $border',
                 cursor: 'pointer',
+                transition: 'background-color 0.3s, border-color 0.3s',
                 background:
                   currentContribution?.contribution.id === c.id
                     ? '$highlight'

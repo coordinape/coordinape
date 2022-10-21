@@ -35,7 +35,7 @@ export const SavingIndicator = ({
         )}
         {saveState == 'saved' && (
           <>
-            <Check /> Changes Saved!
+            <Check /> Saved
           </>
         )}
       </Text>
