@@ -80,9 +80,7 @@ export const SummonCirclePage = () => {
         message: 'Org name must be at least 3 characters long.',
       }),
       organization_id: z.number().optional(),
-      contact: z.string().refine(val => val.trim().length >= 4, {
-        message: 'Email must be at least 4 characters long.',
-      }),
+      contact: z.string().email(),
       logoData: z.instanceof(File).optional(),
     })
     .strict();
