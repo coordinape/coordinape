@@ -149,7 +149,11 @@ const ContributionsPage = () => {
   } = useMutation(createContributionMutation, {
     onSuccess: newContribution => {
       refetchContributions();
-      if (newContribution.insert_contributions_one) {
+      if (
+        newContribution.insert_contributions_one &&
+        newContribution.insert_contributions_one.id ===
+          currentContribution?.contribution.id
+      ) {
         setSaveState('saved');
         setCurrentContribution({
           contribution: {
@@ -162,7 +166,6 @@ const ContributionsPage = () => {
           epoch: getCurrentEpoch(data?.epochs ?? []),
         });
       } else {
-        setSaveState('stable');
         resetCreateMutation();
       }
     },
@@ -179,7 +182,12 @@ const ContributionsPage = () => {
     },
     onSuccess: ({ updateContribution }) => {
       setSaveState('saved');
-      if (currentContribution && updateContribution)
+      if (
+        currentContribution &&
+        updateContribution &&
+        updateContribution.updateContribution_Contribution.id ===
+          currentContribution?.contribution.id
+      )
         setCurrentContribution({
           ...currentContribution,
           contribution: {
@@ -386,6 +394,7 @@ const ContributionsPage = () => {
                         prevContribution.datetime_created
                       ),
                     });
+                    setSaveState('stable');
                     resetField('description', {
                       defaultValue: prevContribution.description,
                     });
@@ -414,6 +423,7 @@ const ContributionsPage = () => {
                         nextContribution.datetime_created
                       ),
                     });
+                    setSaveState('stable');
                     resetField('description', {
                       defaultValue: nextContribution.description,
                     });
