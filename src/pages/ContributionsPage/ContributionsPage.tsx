@@ -533,13 +533,13 @@ const ContributionsPage = () => {
                           saveState[currentContribution.contribution.id] ===
                             'scheduled') && (
                           <>
-                            <RefreshCcw /> Saving Changes
+                            <RefreshCcw /> Saving...
                           </>
                         )}
                         {saveState[currentContribution.contribution.id] ===
                           'saved' && (
                           <>
-                            <Check /> Changes Saved
+                            <Check /> Saved
                           </>
                         )}
                         {mutationStatus() === 'error' && isDirty && (
