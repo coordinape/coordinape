@@ -13,10 +13,12 @@ export const updateContributionMutation = async (
 
 export const deleteContributionMutation = async (
   payload: ValueTypes['DeleteContributionInput']
-) =>
-  client.mutate({
+) => {
+  await client.mutate({
     deleteContribution: [{ payload }, { __typename: true }],
   });
+  return { contribution_id: payload.contribution_id };
+};
 
 export const createContributionMutation = async (
   object: ValueTypes['contributions_insert_input']

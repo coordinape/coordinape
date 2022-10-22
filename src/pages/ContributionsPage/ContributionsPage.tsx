@@ -98,7 +98,7 @@ const ContributionsPage = () => {
   const address = useConnectedAddress();
   const { circle: selectedCircle } = useSelectedCircle();
   const [modalOpen, setModalOpen] = useState(false);
-  const [saveState, setSaveState] = useState<SaveState>('stable');
+  const [saveState, setSaveState] = useState<{ [key: number]: SaveState }>({});
   const [currentContribution, setCurrentContribution] =
     useState<CurrentContribution | null>(null);
   const [currentIntContribution, setCurrentIntContribution] =
@@ -150,7 +150,11 @@ const ContributionsPage = () => {
     onSuccess: newContribution => {
       refetchContributions();
       if (newContribution.insert_contributions_one) {
-        setSaveState('saved');
+        updateSaveStateForContribution(0, 'stable');
+        updateSaveStateForContribution(
+          newContribution.insert_contributions_one.id,
+          'saved'
+        );
         setCurrentContribution({
           contribution: {
             ...newContribution.insert_contributions_one,
@@ -162,7 +166,7 @@ const ContributionsPage = () => {
           epoch: getCurrentEpoch(data?.epochs ?? []),
         });
       } else {
-        setSaveState('stable');
+        updateSaveStateForContribution(0, 'stable');
         resetCreateMutation();
       }
     },
@@ -178,7 +182,10 @@ const ContributionsPage = () => {
       //refetchContributions();
     },
     onSuccess: ({ updateContribution }) => {
-      setSaveState('saved');
+      updateSaveStateForContribution(
+        updateContribution?.updateContribution_Contribution.id,
+        'saved'
+      );
       if (currentContribution && updateContribution)
         setCurrentContribution({
           ...currentContribution,
@@ -196,11 +203,11 @@ const ContributionsPage = () => {
     deleteContributionMutation,
     {
       mutationKey: ['deleteContribution', currentContribution?.contribution.id],
-      onSuccess: () => {
+      onSuccess: data => {
         setModalOpen(false);
         setCurrentContribution(null);
         refetchContributions();
-        setSaveState('stable');
+        updateSaveStateForContribution(data.contribution_id, 'stable');
         reset();
       },
     }
@@ -230,16 +237,36 @@ const ContributionsPage = () => {
   const handleDebouncedDescriptionChange = useMemo(
     () =>
       debounce((s: typeof saveContribution, v: string) => {
-        setSaveState('saving');
+        updateSaveStateForContribution(
+          currentContribution?.contribution.id,
+          'saving'
+        );
         s(v);
       }, DEBOUNCE_TIMEOUT),
     [currentContribution?.contribution.id]
   );
 
+  const updateSaveStateForContribution = (
+    id: number | undefined,
+    saveState: SaveState
+  ) => {
+    if (!id) {
+      return;
+    }
+    setSaveState(prevState => {
+      const newState = { ...prevState };
+      newState[id] = saveState;
+      return newState;
+    });
+  };
+
   useEffect(() => {
     handleDebouncedDescriptionChange.cancel();
     if (isDirty && descriptionField.value.length > 0) {
-      setSaveState('scheduled');
+      updateSaveStateForContribution(
+        currentContribution?.contribution.id,
+        'scheduled'
+      );
       handleDebouncedDescriptionChange(
         saveContribution,
         descriptionField.value
@@ -352,7 +379,6 @@ const ContributionsPage = () => {
         open={modalOpen}
         onClose={() => {
           setModalOpen(false);
-          setSaveState('stable');
           setCurrentContribution(null);
           setCurrentIntContribution(null);
           resetCreateMutation();
@@ -502,13 +528,16 @@ const ContributionsPage = () => {
                         css={{ gap: '$sm' }}
                         color={updateStatus === 'error' ? 'alert' : 'neutral'}
                       >
-                        {(saveState === 'saving' ||
-                          saveState === 'scheduled') && (
+                        {(saveState[currentContribution.contribution.id] ===
+                          'saving' ||
+                          saveState[currentContribution.contribution.id] ===
+                            'scheduled') && (
                           <>
                             <RefreshCcw /> Saving Changes
                           </>
                         )}
-                        {saveState === 'saved' && (
+                        {saveState[currentContribution.contribution.id] ===
+                          'saved' && (
                           <>
                             <Check /> Changes Saved
                           </>
