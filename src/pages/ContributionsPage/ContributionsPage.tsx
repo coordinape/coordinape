@@ -18,10 +18,11 @@ import {
   WonderColor,
   Check,
   AlertTriangle,
-  Save,
+  RefreshCcw,
   ChevronDown,
   ChevronUp,
 } from 'icons/__generated';
+import { SaveState } from 'pages/GivePage/SavingIndicator';
 import { Panel, Text, Box, Modal, Button, Flex } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -97,6 +98,7 @@ const ContributionsPage = () => {
   const address = useConnectedAddress();
   const { circle: selectedCircle } = useSelectedCircle();
   const [modalOpen, setModalOpen] = useState(false);
+  const [saveState, setSaveState] = useState<{ [key: number]: SaveState }>({});
   const [currentContribution, setCurrentContribution] =
     useState<CurrentContribution | null>(null);
   const [currentIntContribution, setCurrentIntContribution] =
@@ -135,6 +137,11 @@ const ContributionsPage = () => {
     formState: { isDirty },
   } = useForm({ mode: 'all' });
 
+  const { field: descriptionField } = useController({
+    name: 'description',
+    control,
+  });
+
   const {
     mutate: createContribution,
     status: createStatus,
@@ -143,12 +150,15 @@ const ContributionsPage = () => {
     onSuccess: newContribution => {
       refetchContributions();
       if (newContribution.insert_contributions_one) {
-        resetField('description', {
-          defaultValue: newContribution.insert_contributions_one.description,
-        });
+        updateSaveStateForContribution(0, 'stable');
+        updateSaveStateForContribution(
+          newContribution.insert_contributions_one.id,
+          'saved'
+        );
         setCurrentContribution({
           contribution: {
             ...newContribution.insert_contributions_one,
+            description: descriptionField.value as string,
             next: () => data?.contributions[0],
             prev: () => undefined,
             idx: 0,
@@ -156,6 +166,7 @@ const ContributionsPage = () => {
           epoch: getCurrentEpoch(data?.epochs ?? []),
         });
       } else {
+        updateSaveStateForContribution(0, 'stable');
         resetCreateMutation();
       }
     },
@@ -171,15 +182,20 @@ const ContributionsPage = () => {
       //refetchContributions();
     },
     onSuccess: ({ updateContribution }) => {
-      refetchContributions();
-      if (
-        updateContribution?.updateContribution_Contribution.id ===
-        currentContribution?.contribution.id
-      )
-        resetField('description', {
-          defaultValue:
-            updateContribution?.updateContribution_Contribution.description,
+      updateSaveStateForContribution(
+        updateContribution?.updateContribution_Contribution.id,
+        'saved'
+      );
+      if (currentContribution && updateContribution)
+        setCurrentContribution({
+          ...currentContribution,
+          contribution: {
+            ...currentContribution.contribution,
+            description:
+              updateContribution.updateContribution_Contribution.description,
+          },
         });
+      refetchContributions();
     },
   });
 
@@ -187,19 +203,15 @@ const ContributionsPage = () => {
     deleteContributionMutation,
     {
       mutationKey: ['deleteContribution', currentContribution?.contribution.id],
-      onSuccess: () => {
+      onSuccess: data => {
         setModalOpen(false);
         setCurrentContribution(null);
         refetchContributions();
+        updateSaveStateForContribution(data.contribution_id, 'stable');
         reset();
       },
     }
   );
-
-  const { field: descriptionField } = useController({
-    name: 'description',
-    control,
-  });
 
   const saveContribution = useMemo(() => {
     return (value: string) => {
@@ -224,16 +236,37 @@ const ContributionsPage = () => {
   // cancel the call when a bunch of typing is happening
   const handleDebouncedDescriptionChange = useMemo(
     () =>
-      debounce(
-        (s: typeof saveContribution, v: string) => s(v),
-        DEBOUNCE_TIMEOUT
-      ),
+      debounce((s: typeof saveContribution, v: string) => {
+        updateSaveStateForContribution(
+          currentContribution?.contribution.id,
+          'saving'
+        );
+        s(v);
+      }, DEBOUNCE_TIMEOUT),
     [currentContribution?.contribution.id]
   );
+
+  const updateSaveStateForContribution = (
+    id: number | undefined,
+    saveState: SaveState
+  ) => {
+    if (id == undefined) {
+      return;
+    }
+    setSaveState(prevState => {
+      const newState = { ...prevState };
+      newState[id] = saveState;
+      return newState;
+    });
+  };
 
   useEffect(() => {
     handleDebouncedDescriptionChange.cancel();
     if (isDirty && descriptionField.value.length > 0) {
+      updateSaveStateForContribution(
+        currentContribution?.contribution.id,
+        'scheduled'
+      );
       handleDebouncedDescriptionChange(
         saveContribution,
         descriptionField.value
@@ -495,15 +528,16 @@ const ContributionsPage = () => {
                         css={{ gap: '$sm' }}
                         color={updateStatus === 'error' ? 'alert' : 'neutral'}
                       >
-                        {mutationStatus() === 'loading' && (
+                        {(saveState[currentContribution.contribution.id] ===
+                          'saving' ||
+                          saveState[currentContribution.contribution.id] ===
+                            'scheduled') && (
                           <>
-                            <Save />
-                            Saving...
+                            <RefreshCcw /> Saving...
                           </>
                         )}
-                        {(updateStatus === 'success' ||
-                          (createStatus === 'success' &&
-                            updateStatus === 'idle')) && (
+                        {saveState[currentContribution.contribution.id] ===
+                          'saved' && (
                           <>
                             <Check /> Saved
                           </>
