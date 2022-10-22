@@ -250,7 +250,7 @@ const ContributionsPage = () => {
     id: number | undefined,
     saveState: SaveState
   ) => {
-    if (!id) {
+    if (id == undefined) {
       return;
     }
     setSaveState(prevState => {
