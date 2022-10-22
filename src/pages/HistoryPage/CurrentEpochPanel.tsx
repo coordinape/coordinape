@@ -50,8 +50,8 @@ export const CurrentEpochPanel = ({
         css={{ flexDirection: 'column', gap: '$md', alignItems: 'flex-start' }}
       >
         <Text h2>
-          {startDate.toFormat('MMM')}
-          {startDate.toFormat('d')} - {endDate.toFormat(endDateFormat)}
+          {startDate.toFormat('MMM')} {startDate.toFormat('d')} -{' '}
+          {endDate.toFormat(endDateFormat)}
         </Text>
         {!isEditing && isAdmin && (
           <Button color="primary" outlined onClick={() => editCurrentEpoch()}>
