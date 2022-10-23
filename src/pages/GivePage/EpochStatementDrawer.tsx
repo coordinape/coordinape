@@ -195,6 +195,7 @@ export const EpochStatementDrawer = ({
             backgroundColor: 'white',
             width: '100%',
             fontSize: '$medium',
+            whiteSpace: 'pre-wrap',
           }}
           value={statement}
           onChange={e => statementChanged(e.target.value)}
