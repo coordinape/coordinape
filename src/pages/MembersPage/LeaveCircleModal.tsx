@@ -1,11 +1,15 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import { deleteUser } from 'lib/gql/mutations';
+import isEmpty from 'lodash/isEmpty';
 import { useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router';
+import { z } from 'zod';
 
+import { FormInputField } from 'components';
 import { QUERY_KEY_MY_ORGS } from 'pages/CirclesPage/getOrgData';
 import { paths } from 'routes/paths';
-import { Flex, Form, FormLabel, Modal, Text, TextField } from 'ui';
+import { Button, Flex, Form, Modal, Text } from 'ui';
 
 import { IDeleteUser } from '.';
 
@@ -22,19 +26,35 @@ export const LeaveCircleModal = ({
   leaveCircleDialog: IDeleteUser | undefined;
   setLeaveCircleDialog: (u?: IDeleteUser) => void;
 }) => {
+  const schema = z
+    .object({
+      circle_name: z
+        .string({
+          required_error: 'Please enter the circle name',
+        })
+        .refine(c => c === circleName, {
+          message: 'Please match the circle name',
+        }),
+    })
+    .strict();
+  type LeaveCircleFormSchema = z.infer<typeof schema>;
+
   const navigate = useNavigate();
 
   const queryClient = useQueryClient();
-  const { register, handleSubmit, unregister } = useForm({
+  const {
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors, isDirty },
+  } = useForm<LeaveCircleFormSchema>({
     shouldUseNativeValidation: true,
-    defaultValues: {
-      circle_name: '',
-    },
+    mode: 'all',
+    resolver: zodResolver(schema),
   });
 
   const onSubmit = async () => {
     if (leaveCircleDialog && !!circleId) {
-      unregister('circle_name');
       await deleteUser(circleId, leaveCircleDialog.address)
         .then(() => {
           queryClient.invalidateQueries(QUERY_KEY_MY_ORGS);
@@ -49,7 +69,7 @@ export const LeaveCircleModal = ({
       open={!!leaveCircleDialog}
       title={'Are you sure ?'}
       onClose={() => {
-        unregister('circle_name');
+        reset();
         setLeaveCircleDialog(undefined);
       }}
     >
@@ -65,20 +85,36 @@ export const LeaveCircleModal = ({
               : '. Leaving this circle, You will no longer have access to any of the information in the circle.'}
           </Text>
 
-          <Flex column css={{ width: '100%' }}>
-            <FormLabel type="label" htmlFor="circle_name">
-              Enter the team`s name to leave it
-            </FormLabel>
-            <TextField
-              id="circle_name"
-              fullWidth
+          <FormInputField
+            id="circle_name"
+            name="circle_name"
+            defaultValue=""
+            control={control}
+            label="Enter the team`s name to leave it"
+            css={{ width: '100%' }}
+          ></FormInputField>
+          <Flex css={{ width: '100%', gap: '$lg' }}>
+            <Button
+              onClick={() => {
+                reset();
+                setLeaveCircleDialog(undefined);
+              }}
+              color="neutral"
+              outlined
+              size="large"
+              css={{ width: '50%' }}
+            >
+              Cancel
+            </Button>
+            <Button
               color="destructive"
-              {...register('circle_name', {
-                required: 'please enter the circle name',
-                validate: value =>
-                  value === circleName || 'please match the requested format',
-              })}
-            ></TextField>
+              size="large"
+              css={{ width: '50%' }}
+              disabled={!isEmpty(errors) || !isDirty}
+              type="submit"
+            >
+              Leave Circle
+            </Button>
           </Flex>
         </Flex>
       </Form>
