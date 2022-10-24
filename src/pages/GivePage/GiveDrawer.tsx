@@ -232,7 +232,9 @@ export const GiveDrawer = ({
             </Text>
             <Box css={{ mt: '$sm', pb: '$lg' }}>
               <Panel nested css={{ mb: '$md', p: '$sm' }}>
-                <Text p>{member.bio}</Text>
+                <Text css={{ whiteSpace: 'pre-wrap' }} p>
+                  {member.bio}
+                </Text>
               </Panel>
             </Box>
           </Box>
