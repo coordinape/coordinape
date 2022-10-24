@@ -106,9 +106,9 @@ test('render with a distribution', async () => {
           vault: mockEpochData.circle.organization.vaults[0],
           claims: [
             {
+              address: '0x63c389CB2C573dd3c9239A13a3eb65935Ddb5e2e',
               new_amount: 10,
               profile_id: recipient.profile.id,
-              profile: { id: recipient.profile.id },
             },
           ],
         },
