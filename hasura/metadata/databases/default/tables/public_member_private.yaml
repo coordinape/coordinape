@@ -1,6 +1,6 @@
 table:
   schema: public
-  name: user_private
+  name: member_private
 object_relationships:
   - name: circle
     using:
@@ -11,33 +11,33 @@ object_relationships:
         insertion_order: null
         column_mapping:
           circle_id: id
-  - name: user
+  - name: member
     using:
       manual_configuration:
         remote_table:
           schema: public
-          name: users
+          name: members
         insertion_order: null
         column_mapping:
-          user_id: id
+          member_id: id
 select_permissions:
   - role: user
     permission:
       columns:
-        - user_id
+        - member_id
         - fixed_payment_token_type
         - fixed_payment_amount
       filter:
         _or:
           - circle:
-              users:
+              members:
                 _and:
                   - role:
                       _eq: 1
                   - profile:
                       id:
                         _eq: X-Hasura-User-Id
-          - user:
+          - member:
               profile:
                 id:
                   _eq: X-Hasura-User-Id

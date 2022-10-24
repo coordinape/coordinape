@@ -68,40 +68,40 @@ select_permissions:
         - updated_at
       filter:
         circle:
-          users:
+          members:
             profile:
               id:
                 _eq: X-Hasura-User-Id
 event_triggers:
-  - name: refundGiveDiscord
-    definition:
-      enable_manual: false
-      delete:
-        columns: '*'
-      update:
-        columns:
-          - tokens
-    retry_conf:
-      num_retries: 5
-      interval_sec: 10
-      timeout_sec: 60
-    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
-    headers:
-      - name: verification_key
-        value_from_env: HASURA_EVENT_SECRET
-  - name: refundGiveTelegram
-    definition:
-      enable_manual: false
-      delete:
-        columns: '*'
-      update:
-        columns:
-          - tokens
-    retry_conf:
-      num_retries: 5
-      interval_sec: 10
-      timeout_sec: 60
-    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
-    headers:
-      - name: verification_key
-        value_from_env: HASURA_EVENT_SECRET
+ - name: refundGiveDiscord
+   definition:
+     enable_manual: false
+     delete:
+       columns: '*'
+     update:
+       columns:
+         - tokens
+   retry_conf:
+     num_retries: 5
+     interval_sec: 10
+     timeout_sec: 60
+   webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
+   headers:
+     - name: verification_key
+       value_from_env: HASURA_EVENT_SECRET
+ - name: refundGiveTelegram
+   definition:
+     enable_manual: false
+     delete:
+       columns: '*'
+     update:
+       columns:
+         - tokens
+   retry_conf:
+     num_retries: 5
+     interval_sec: 10
+     timeout_sec: 60
+   webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
+   headers:
+     - name: verification_key
+       value_from_env: HASURA_EVENT_SECRET

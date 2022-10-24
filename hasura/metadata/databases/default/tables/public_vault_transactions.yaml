@@ -34,7 +34,7 @@ select_permissions:
         vault:
           organization:
             circles:
-              users:
+              members:
                 _and:
                   - profile:
                       id:

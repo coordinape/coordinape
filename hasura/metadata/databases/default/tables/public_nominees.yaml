@@ -16,19 +16,19 @@ object_relationships:
       manual_configuration:
         remote_table:
           schema: public
-          name: users
+          name: members
         insertion_order: null
         column_mapping:
-          nominated_by_user_id: id
-  - name: user
+          nominated_by_member_id: id
+  - name: member
     using:
       manual_configuration:
         remote_table:
           schema: public
-          name: users
+          name: members
         insertion_order: null
         column_mapping:
-          user_id: id
+          member_id: id
 array_relationships:
   - name: nominations
     using:
@@ -49,9 +49,9 @@ select_permissions:
         - expiry_date
         - id
         - name
-        - nominated_by_user_id
+        - nominated_by_member_id
         - nominated_date
-        - user_id
+        - member_id
         - vouches_required
       filter:
         circle:
@@ -73,16 +73,16 @@ select_permissions:
         - expiry_date
         - id
         - name
-        - nominated_by_user_id
+        - nominated_by_member_id
         - nominated_date
         - updated_at
-        - user_id
+        - member_id
         - vouches_required
       filter:
         circle:
           organization:
             circles:
-              users:
+              members:
                 _and:
                   - profile:
                       id:
@@ -91,70 +91,70 @@ select_permissions:
                       _is_null: true
       allow_aggregations: true
 event_triggers:
-  - name: checkNomineeDiscord
-    definition:
-      enable_manual: false
-      update:
-        columns:
-          - ended
-    retry_conf:
-      num_retries: 5
-      interval_sec: 3600
-      timeout_sec: 60
-    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
-    headers:
-      - name: verification_key
-        value_from_env: HASURA_EVENT_SECRET
-  - name: checkNomineeTelegram
-    definition:
-      enable_manual: false
-      update:
-        columns:
-          - ended
-    retry_conf:
-      num_retries: 5
-      interval_sec: 3600
-      timeout_sec: 60
-    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
-    headers:
-      - name: verification_key
-        value_from_env: HASURA_EVENT_SECRET
-  - name: createNomineeDiscord
-    definition:
-      enable_manual: false
-      insert:
-        columns: '*'
-    retry_conf:
-      num_retries: 5
-      interval_sec: 10
-      timeout_sec: 60
-    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
-    headers:
-      - name: verification_key
-        value_from_env: HASURA_EVENT_SECRET
-  - name: createNomineeTelegram
-    definition:
-      enable_manual: false
-      insert:
-        columns: '*'
-    retry_conf:
-      num_retries: 5
-      interval_sec: 10
-      timeout_sec: 60
-    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
-    headers:
-      - name: verification_key
-        value_from_env: HASURA_EVENT_SECRET
-  - name: createVouchedUser
-    definition:
-      enable_manual: false
-      insert:
-        columns: '*'
-    retry_conf:
-      num_retries: 5
-      interval_sec: 10
-      timeout_sec: 60
-    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
-    headers:
-      - name: verification_key
-        value_from_env: HASURA_EVENT_SECRET
+ - name: checkNomineeDiscord
+   definition:
+     enable_manual: false
+     update:
+       columns:
+         - ended
+   retry_conf:
+     num_retries: 5
+     interval_sec: 3600
+     timeout_sec: 60
+   webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
+   headers:
+     - name: verification_key
+       value_from_env: HASURA_EVENT_SECRET
+ - name: checkNomineeTelegram
+   definition:
+     enable_manual: false
+     update:
+       columns:
+         - ended
+   retry_conf:
+     num_retries: 5
+     interval_sec: 3600
+     timeout_sec: 60
+   webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
+   headers:
+     - name: verification_key
+       value_from_env: HASURA_EVENT_SECRET
+ - name: createNomineeDiscord
+   definition:
+     enable_manual: false
+     insert:
+       columns: '*'
+   retry_conf:
+     num_retries: 5
+     interval_sec: 10
+     timeout_sec: 60
+   webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
+   headers:
+     - name: verification_key
+       value_from_env: HASURA_EVENT_SECRET
+ - name: createNomineeTelegram
+   definition:
+     enable_manual: false
+     insert:
+       columns: '*'
+   retry_conf:
+     num_retries: 5
+     interval_sec: 10
+     timeout_sec: 60
+   webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
+   headers:
+     - name: verification_key
+       value_from_env: HASURA_EVENT_SECRET
+ - name: createVouchedUser
+   definition:
+     enable_manual: false
+     insert:
+       columns: '*'
+   retry_conf:
+     num_retries: 5
+     interval_sec: 10
+     timeout_sec: 60
+   webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
+   headers:
+     - name: verification_key
+       value_from_env: HASURA_EVENT_SECRET

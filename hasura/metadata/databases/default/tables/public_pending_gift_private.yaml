@@ -7,7 +7,7 @@ object_relationships:
       manual_configuration:
         remote_table:
           schema: public
-          name: users
+          name: members
         insertion_order: null
         column_mapping:
           recipient_id: id
@@ -16,7 +16,7 @@ object_relationships:
       manual_configuration:
         remote_table:
           schema: public
-          name: users
+          name: members
         insertion_order: null
         column_mapping:
           sender_id: id

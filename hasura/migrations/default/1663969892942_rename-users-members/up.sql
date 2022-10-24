@@ -39,6 +39,8 @@ ALTER TABLE IF EXISTS public.histories
     RENAME user_id TO member_id;
 ALTER TABLE IF EXISTS public.nominees
     RENAME user_id TO member_id;
+ALTER TABLE IF EXISTS public.nominees
+    RENAME nominated_by_user_id TO nominated_by_member_id;
 
 -- ALTER TABLE public.user_private
 --     OWNER TO postgres;

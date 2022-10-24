@@ -56,7 +56,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
               __alias: {
                 optOuts: {
-                  users_aggregate: [
+                  members_aggregate: [
                     {
                       where: {
                         non_receiver: { _eq: true },
@@ -69,7 +69,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
                   ],
                 },
                 receiversTotal: {
-                  users_aggregate: [
+                  members_aggregate: [
                     {
                       where: {
                         non_receiver: { _eq: false },

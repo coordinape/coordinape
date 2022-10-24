@@ -34,7 +34,7 @@ const isoTime =
 faker.seed(1);
 const mockCircle = {
   notifyStartEpochs: {
-    users_aggregate: {
+    members_aggregate: {
       aggregate: {
         count: 5,
       },

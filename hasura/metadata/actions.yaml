@@ -313,8 +313,8 @@ custom_types:
       relationships:
         - remote_table:
             schema: public
-            name: users
-          name: users
+            name: members
+          name: members
           source: default
           type: array
           field_mapping:
@@ -361,7 +361,7 @@ custom_types:
       relationships:
         - remote_table:
             schema: public
-            name: users
+            name: members
           name: UserResponse
           source: default
           type: object
@@ -402,12 +402,12 @@ custom_types:
       relationships:
         - remote_table:
             schema: public
-            name: users
-          name: user
+            name: members
+          name: member
           source: default
           type: object
           field_mapping:
-            user_id: id
+            member_id: id
     - name: ConfirmationResponse
     - name: UpdateCircleOutput
       relationships:
@@ -423,12 +423,12 @@ custom_types:
       relationships:
         - remote_table:
             schema: public
-            name: users
-          name: user
+            name: members
+          name: member
           source: default
           type: object
           field_mapping:
-            user_id: id
+            member_id: id
     - name: AllocationCsvResponse
     - name: VaultResponse
       relationships:

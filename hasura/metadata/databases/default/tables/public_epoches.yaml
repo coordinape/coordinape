@@ -94,7 +94,7 @@ select_permissions:
         circle:
           organization:
             circles:
-              users:
+              members:
                 _and:
                   - profile:
                       id:

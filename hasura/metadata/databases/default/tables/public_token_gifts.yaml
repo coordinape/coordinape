@@ -62,7 +62,7 @@ select_permissions:
         - updated_at
       filter:
         circle:
-          users:
+          members:
             profile:
               id:
                 _eq: X-Hasura-User-Id

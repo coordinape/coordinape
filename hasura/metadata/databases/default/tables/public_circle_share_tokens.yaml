@@ -10,7 +10,7 @@ insert_permissions:
     permission:
       check:
         circle:
-          users:
+          members:
             _and:
               - profile:
                   id:
@@ -34,7 +34,7 @@ select_permissions:
         - uuid
       filter:
         circle:
-          users:
+          members:
             _and:
               - profile:
                   id:
@@ -48,7 +48,7 @@ delete_permissions:
     permission:
       filter:
         circle:
-          users:
+          members:
             _and:
               - profile:
                   id:

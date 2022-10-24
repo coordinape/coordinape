@@ -58,7 +58,7 @@ select_permissions:
           - distribution:
               epoch:
                 circle:
-                  users:
+                  members:
                     _and:
                       - deleted_at:
                           _is_null: true

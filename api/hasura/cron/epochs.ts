@@ -55,7 +55,7 @@ async function getEpochsToNotify() {
                 telegram_id: true,
                 discord_webhook: true,
                 organization: { name: true },
-                users_aggregate: [
+                members_aggregate: [
                   {
                     where: {
                       non_giver: { _eq: false },
@@ -188,7 +188,7 @@ export async function notifyEpochStart({
     assert(circle, 'panic: no circle for epoch');
     const epochStartDate = DateTime.fromISO(start_date);
     const epochEndDate = DateTime.fromISO(end_date);
-    const eligibleUsersCount = circle.users_aggregate.aggregate?.count;
+    const eligibleUsersCount = circle.members_aggregate.aggregate?.count;
 
     const message = dedent`
       A new ${circle.organization?.name}/${circle.name} epoch is active!

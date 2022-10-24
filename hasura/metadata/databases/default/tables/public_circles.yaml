@@ -80,13 +80,13 @@ array_relationships:
         table:
           schema: public
           name: token_gifts
-  - name: users
+  - name: members
     using:
       foreign_key_constraint_on:
         column: circle_id
         table:
           schema: public
-          name: users
+          name: members
   - name: vault_transactions
     using:
       foreign_key_constraint_on:
@@ -150,24 +150,24 @@ select_permissions:
               _is_null: true
           - organization:
               circles:
-                users:
+                members:
                   _and:
                     - profile:
                         id:
                           _eq: X-Hasura-User-Id
                     - deleted_at:
                         _is_null: true
-event_triggers:
-  - name: createCircleCRM
-    definition:
-      enable_manual: false
-      insert:
-        columns: '*'
-    retry_conf:
-      num_retries: 5
-      interval_sec: 3600
-      timeout_sec: 60
-    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
-    headers:
-      - name: verification_key
-        value_from_env: HASURA_EVENT_SECRET
+#event_triggers:
+#  - name: createCircleCRM
+#    definition:
+#      enable_manual: false
+#      insert:
+#        columns: '*'
+#    retry_conf:
+#      num_retries: 5
+#      interval_sec: 3600
+#      timeout_sec: 60
+#    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
+#    headers:
+#      - name: verification_key
+#        value_from_env: HASURA_EVENT_SECRET

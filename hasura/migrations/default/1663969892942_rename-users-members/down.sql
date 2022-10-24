@@ -38,6 +38,8 @@ ALTER TABLE IF EXISTS public.histories
     RENAME member_id TO user_id;
 ALTER TABLE IF EXISTS public.nominees
     RENAME member_id TO user_id;
+ALTER TABLE IF EXISTS public.nominees
+    RENAME nominated_by_member_id TO nominated_by_user_id;
 
 DROP VIEW IF EXISTS public.member_private;
 CREATE OR REPLACE VIEW public.user_private

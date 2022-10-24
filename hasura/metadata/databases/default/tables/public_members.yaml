@@ -1,6 +1,6 @@
 table:
   schema: public
-  name: users
+  name: members
 object_relationships:
   - name: circle
     using:
@@ -8,20 +8,20 @@ object_relationships:
   - name: profile
     using:
       foreign_key_constraint_on: address
-  - name: user_private
+  - name: member_private
     using:
       manual_configuration:
         remote_table:
           schema: public
-          name: user_private
+          name: member_private
         insertion_order: null
         column_mapping:
-          id: user_id
+          id: member_id
 array_relationships:
   - name: burns
     using:
       foreign_key_constraint_on:
-        column: user_id
+        column: member_id
         table:
           schema: public
           name: burns
@@ -35,7 +35,7 @@ array_relationships:
   - name: contributions
     using:
       foreign_key_constraint_on:
-        column: user_id
+        column: member_id
         table:
           schema: public
           name: contributions
@@ -75,7 +75,7 @@ array_relationships:
           name: teammates
         insertion_order: null
         column_mapping:
-          id: user_id
+          id: member_id
   - name: vouches
     using:
       foreign_key_constraint_on:
@@ -137,53 +137,53 @@ select_permissions:
           - deleted_at:
               _is_null: true
           - circle:
-              users:
+              members:
                 profile:
                   id:
                     _eq: X-Hasura-User-Id
 event_triggers:
-  - name: optOutDiscord
-    definition:
-      enable_manual: false
-      update:
-        columns:
-          - non_giver
-          - non_receiver
-    retry_conf:
-      num_retries: 5
-      interval_sec: 10
-      timeout_sec: 60
-    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
-    headers:
-      - name: verification_key
-        value_from_env: HASURA_EVENT_SECRET
-  - name: optOutTelegram
-    definition:
-      enable_manual: false
-      update:
-        columns:
-          - non_giver
-          - non_receiver
-    retry_conf:
-      num_retries: 5
-      interval_sec: 10
-      timeout_sec: 60
-    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
-    headers:
-      - name: verification_key
-        value_from_env: HASURA_EVENT_SECRET
-  - name: refundPendingGift
-    definition:
-      enable_manual: false
-      update:
-        columns:
-          - non_giver
-          - non_receiver
-    retry_conf:
-      num_retries: 5
-      interval_sec: 10
-      timeout_sec: 60
-    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
-    headers:
-      - name: verification_key
-        value_from_env: HASURA_EVENT_SECRET
+ - name: optOutDiscord
+   definition:
+     enable_manual: false
+     update:
+       columns:
+         - non_giver
+         - non_receiver
+   retry_conf:
+     num_retries: 5
+     interval_sec: 10
+     timeout_sec: 60
+   webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
+   headers:
+     - name: verification_key
+       value_from_env: HASURA_EVENT_SECRET
+ - name: optOutTelegram
+   definition:
+     enable_manual: false
+     update:
+       columns:
+         - non_giver
+         - non_receiver
+   retry_conf:
+     num_retries: 5
+     interval_sec: 10
+     timeout_sec: 60
+   webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
+   headers:
+     - name: verification_key
+       value_from_env: HASURA_EVENT_SECRET
+ - name: refundPendingGift
+   definition:
+     enable_manual: false
+     update:
+       columns:
+         - non_giver
+         - non_receiver
+   retry_conf:
+     num_retries: 5
+     interval_sec: 10
+     timeout_sec: 60
+   webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
+   headers:
+     - name: verification_key
+       value_from_env: HASURA_EVENT_SECRET

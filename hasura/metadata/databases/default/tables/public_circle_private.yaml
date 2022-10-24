@@ -19,7 +19,7 @@ select_permissions:
         - discord_webhook
       filter:
         circle:
-          users:
+          members:
             _and:
               - role:
                   _eq: 1

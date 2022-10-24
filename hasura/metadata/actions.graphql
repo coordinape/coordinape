@@ -238,7 +238,7 @@ input Allocation {
 input Allocations {
   allocations: [Allocation!]
   circle_id: Int!
-  user_id: Int
+  member_id: Int
 }
 
 input CreateUsersInput {
@@ -370,7 +370,7 @@ type EpochResponse {
 }
 
 type UpdateTeammatesResponse {
-  user_id: ID!
+  member_id: ID!
 }
 
 type ConfirmationResponse {
@@ -382,7 +382,7 @@ type UpdateCircleOutput {
 }
 
 type AllocationsResponse {
-  user_id: Int!
+  member_id: Int!
 }
 
 type AllocationCsvResponse {

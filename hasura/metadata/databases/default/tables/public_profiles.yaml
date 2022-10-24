@@ -2,12 +2,12 @@ table:
   schema: public
   name: profiles
 array_relationships:
-  - name: users
+  - name: members
     using:
       manual_configuration:
         remote_table:
           schema: public
-          name: users
+          name: members
         insertion_order: null
         column_mapping:
           address: address
@@ -43,7 +43,7 @@ select_permissions:
         - updated_at
         - website
       filter:
-        users:
+        members:
           circle:
             api_keys:
               _and:
@@ -71,11 +71,11 @@ select_permissions:
         - website
       filter:
         _or:
-          - users:
+          - members:
               circle:
                 organization:
                   circles:
-                    users:
+                    members:
                       profile:
                         id:
                           _eq: X-Hasura-User-Id

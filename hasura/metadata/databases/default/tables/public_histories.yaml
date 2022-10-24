@@ -20,12 +20,12 @@ object_relationships:
         insertion_order: null
         column_mapping:
           epoch_id: id
-  - name: user
+  - name: member
     using:
       manual_configuration:
         remote_table:
           schema: public
-          name: users
+          name: members
         insertion_order: null
         column_mapping:
-          user_id: id
+          member_id: id

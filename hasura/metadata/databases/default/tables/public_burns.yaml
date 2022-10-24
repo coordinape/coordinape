@@ -8,15 +8,15 @@ object_relationships:
   - name: epoch
     using:
       foreign_key_constraint_on: epoch_id
-  - name: user
+  - name: member
     using:
-      foreign_key_constraint_on: user_id
+      foreign_key_constraint_on: member_id
 select_permissions:
   - role: user
     permission:
       columns:
         - id
-        - user_id
+        - member_id
         - epoch_id
         - circle_id
         - tokens_burnt
@@ -26,7 +26,7 @@ select_permissions:
         - updated_at
       filter:
         circle:
-          users:
+          members:
             profile:
               id:
                 _eq: X-Hasura-User-Id

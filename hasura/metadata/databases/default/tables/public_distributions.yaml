@@ -32,7 +32,7 @@ insert_permissions:
       check:
         epoch:
           circle:
-            users:
+            members:
               profile:
                 id:
                   _eq: X-Hasura-User-Id
@@ -73,7 +73,7 @@ select_permissions:
                 _eq: X-Hasura-User-Id
           - epoch:
               circle:
-                users:
+                members:
                   profile:
                     id:
                       _eq: X-Hasura-User-Id
@@ -87,7 +87,7 @@ update_permissions:
       filter:
         epoch:
           circle:
-            users:
+            members:
               profile:
                 id:
                   _eq: X-Hasura-User-Id
