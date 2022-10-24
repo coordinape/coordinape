@@ -1,4 +1,1 @@
--- Could not auto-generate a down migration.
--- Please write an appropriate down migration for the SQL below:
--- alter table "public"."organizations" add column "sandbox" boolean
---  not null default 'false';
+alter table "public"."organizations" drop column "sandbox";
