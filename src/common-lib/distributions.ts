@@ -23,6 +23,7 @@ export const claimsUnwrappedAmount = ({
   circleDistDecimals = 18,
   circleDistClaimAmount = 0,
   circleDistPricePerShare,
+  circleFixedGifts,
 }: {
   address?: string;
   fixedDistDecimals?: number;
@@ -32,11 +33,11 @@ export const claimsUnwrappedAmount = ({
   circleDistDecimals?: number;
   circleDistClaimAmount?: number;
   circleDistPricePerShare?: FixedNumber;
+  circleFixedGifts?: Record<string, string>;
 }) => {
-  let claimed = 0,
-    fixedPayment = 0,
+  let fixedPayment = 0,
     circleClaimed = 0;
-  if (!address) return { claimed, fixedPayment, circleClaimed };
+  if (!address) return { fixedPayment, circleClaimed };
 
   const calc = ({
     address,
@@ -63,14 +64,14 @@ export const claimsUnwrappedAmount = ({
     const { fixedPaymentAmt, pricePerShare } = calc({
       address,
       decimals: circleDistDecimals,
+      fixedGifts: circleFixedGifts,
       pricePerShare: circleDistPricePerShare,
     });
     fixedPayment = fixedPaymentAmt * pricePerShare;
-    claimed = claimAmt * pricePerShare;
     circleClaimed = (claimAmt - fixedPaymentAmt) * pricePerShare;
   }
 
-  if (fixedDistDecimals) {
+  if (fixedGifts) {
     const { fixedPaymentAmt, pricePerShare } = calc({
       address,
       decimals: fixedDistDecimals,
@@ -81,7 +82,6 @@ export const claimsUnwrappedAmount = ({
   }
 
   return {
-    claimed,
     fixedPayment,
     circleClaimed,
   };

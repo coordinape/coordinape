@@ -103,6 +103,7 @@ test('render with a distribution', async () => {
           fixed_amount: 5000,
           pricePerShare: FixedNumber.from('1.08'),
           distribution_type: 1,
+          distribution_json: {},
           vault: mockEpochData.circle.organization.vaults[0],
           claims: [
             {

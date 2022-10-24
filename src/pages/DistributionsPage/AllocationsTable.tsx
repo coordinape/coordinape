@@ -31,7 +31,6 @@ export const AllocationsTable = ({
     name: string;
     address: string;
     received: number;
-    claimed: number;
     circleClaimed: number;
     combinedClaimed: number;
     fixedPaymentAmount: number;

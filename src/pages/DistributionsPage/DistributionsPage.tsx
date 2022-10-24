@@ -119,7 +119,7 @@ export function DistributionsPage() {
         c => c.profile_id === user.profile?.id
       )?.new_amount;
 
-      const { claimed, circleClaimed, fixedPayment } = claimsUnwrappedAmount({
+      const { circleClaimed, fixedPayment } = claimsUnwrappedAmount({
         address: user.address,
         fixedDistDecimals: fixedDist?.vault.decimals,
         fixedGifts: fixedDist?.distribution_json.fixedGifts,
@@ -127,6 +127,7 @@ export function DistributionsPage() {
         circleDistDecimals: circleDist?.vault.decimals,
         circleDistClaimAmount,
         circleDistPricePerShare: circleDist?.pricePerShare,
+        circleFixedGifts: circleDist?.distribution_json.fixedGifts,
       });
       return {
         id: user.id,
@@ -137,7 +138,6 @@ export function DistributionsPage() {
         avatar: user.profile?.avatar,
         givers: receivedGifts?.length || 0,
         received: receivedGifts?.reduce((t, g) => t + g.tokens, 0) || 0,
-        claimed,
         circleClaimed,
         combinedClaimed: fixedPayment + circleClaimed,
       };
