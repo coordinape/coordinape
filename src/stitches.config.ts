@@ -273,6 +273,9 @@ export const {
 });
 
 export const globalStyles = globalCss({
+  '*:focus': {
+    outline: '3px solid orangered !important',
+  },
   'input, textarea': {
     appearance: 'none',
     borderWidth: 0,

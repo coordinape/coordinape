@@ -476,25 +476,6 @@ const AllocateContents = ({
   // noGivingAllowed is true if the current user is not allowed to give or has 0 tokens
   const noGivingAllowed = myUser.non_giver || myUser.starting_tokens === 0;
 
-  // exampleHelpMember is an example member that is used for help when there are no collaborators and the user
-  // chooses the onlyCollaborators view
-  const exampleHelpMember: Member = {
-    id: -300,
-    fixed_non_receiver: true,
-    non_receiver: true,
-    teammate: false,
-    circle_id: -1,
-    contributions_aggregate: {
-      aggregate: {
-        count: 9,
-      },
-    },
-    name: 'Friendo',
-    profile: {
-      id: -301,
-    },
-  };
-
   // This is to snapshot the filteredMembers into memberstoIterate so that when the drawer is up
   // we have a stable list of members to iterate, regardless of modifications (like toggling contribution)
   // that may move a member in/out of the list of filtered members.
@@ -747,68 +728,7 @@ const AllocateContents = ({
           })}
       </Panel>
 
-      {filteredMembers.length == 0 && (
-        <Box>
-          <Flex css={{ justifyContent: 'center', py: '$3xl' }}>
-            <Text
-              inline
-              css={{ textAlign: 'center' }}
-              color="secondary"
-              h3
-              semibold
-            >
-              {onlyCollaborators
-                ? "You don't have any collaborators yet."
-                : 'No members in this circle.'}
-            </Text>
-          </Flex>
-          <Flex css={{ justifyContent: 'center' }}>
-            <Box
-              css={{
-                position: 'relative',
-                width: '80%',
-                '@md': {
-                  width: '90%',
-                },
-              }}
-            >
-              <Box css={{ zIndex: 1, width: '100%' }}>
-                {/* this is an example for documentation not a real allocation row*/}
-                <GiveRow
-                  member={exampleHelpMember}
-                  updateTeammate={async () => {}}
-                  adjustGift={() => {}}
-                  gift={{
-                    tokens: 0,
-                    recipient_id: -300,
-                  }}
-                  maxedOut={false}
-                  setSelectedMember={() => {}}
-                  noGivingAllowed={true}
-                  docExample={true}
-                  selected={false}
-                />
-                <Flex css={{ justifyContent: 'center', pt: '$lg' }}>
-                  <Text css={{ width: '15em' }}>
-                    To add collaborators select a member and add them as a
-                    collaborator.
-                  </Text>
-                </Flex>
-              </Box>
-              <Box
-                css={{
-                  position: 'absolute',
-                  width: '100%',
-                  height: '100%',
-                  top: 0,
-                  left: 0,
-                  zIndex: 2,
-                }}
-              ></Box>
-            </Box>
-          </Flex>
-        </Box>
-      )}
+      {}
 
       <Modal
         css={{

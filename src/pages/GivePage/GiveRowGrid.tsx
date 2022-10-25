@@ -14,6 +14,7 @@ export const GiveRowGrid = ({
     <Panel
       nested
       css={{
+        flex: 'auto',
         padding: 0,
         pr: '$md',
         border: '2px solid transparent',
