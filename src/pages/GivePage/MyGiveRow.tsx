@@ -1,7 +1,7 @@
 import { ApeInfoTooltip } from '../../components';
 import { Check, Slash, X } from '../../icons/__generated';
 import { IMyUser } from '../../types';
-import { Box, Flex, Text, ToggleButton } from 'ui';
+import { Box, Button, Flex, Text, ToggleButton } from 'ui';
 
 import { AvatarAndName } from './AvatarAndName';
 import { GiveRowGrid } from './GiveRowGrid';
@@ -30,7 +30,7 @@ export const MyGiveRow = ({
   statementCompelete: boolean;
 }) => {
   return (
-    <Box onClick={openEpochStatement}>
+    <Button onClick={openEpochStatement} color="transparent" css={{ p: 0 }}>
       <GiveRowGrid
         selected={false}
         css={{
@@ -154,6 +154,6 @@ export const MyGiveRow = ({
         tokenName={myUser.circle.tokenName}
         give_token_received={myUser.give_token_received}
       />
-    </Box>
+    </Button>
   );
 };

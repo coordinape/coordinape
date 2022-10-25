@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { FileText, Slash } from '../../icons/__generated';
 import { CSS } from '../../stitches.config';
-import { Box, Flex, Text } from '../../ui';
+import { Button, Box, Flex, Text } from '../../ui';
 import useMobileDetect from 'hooks/useMobileDetect';
 
 import { AvatarAndName } from './AvatarAndName';
@@ -43,10 +43,12 @@ export const GiveRow = ({
   const { isMobile } = useMobileDetect();
 
   return (
-    <Box
+    <Button
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       onClick={() => setSelectedMember(member)}
+      color="transparent"
+      css={{ p: 0 }}
     >
       <GiveRowGrid selected={(selected || docExample) ?? false} css={css}>
         <AvatarAndName name={member.name} avatar={member.profile.avatar} />
@@ -169,6 +171,6 @@ export const GiveRow = ({
           />
         </Flex>
       </GiveRowGrid>
-    </Box>
+    </Button>
   );
 };
