@@ -5,6 +5,7 @@ import sortBy from 'lodash/sortBy';
 import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
+import { NavLink } from 'react-router-dom';
 import { Transition } from 'react-transition-group';
 import type { CSS } from 'stitches.config';
 
@@ -269,6 +270,7 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
 
   return (
     <Panel
+      tabIndex={0}
       key={circle.id}
       css={{
         display: 'flex',
@@ -276,7 +278,7 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
         gap: '$md',
         border: '1px solid transparent',
         '.hover-buttons': { display: 'none', '@sm': { display: 'flex' } },
-        '&:hover': {
+        '&:hover, &:focus': {
           '.hover-buttons': { display: 'flex' },
           '.circle-row-menu-indicator': { display: 'none' },
         },
@@ -432,20 +434,21 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
               {buttons.map(
                 ([pathFn, label, hide]) =>
                   (!hide || !hide(circle)) && (
-                    <AppLink
-                      to={pathFn(circle.id)}
+                    <Button
                       key={label}
-                      onClick={event => event.stopPropagation()}
+                      tabIndex={0}
+                      color="neutral"
+                      outlined
+                      size="small"
+                      css={{ border: 'none', fontWeight: '$semibold' }}
+                      as={NavLink}
+                      to={pathFn(circle.id)}
+                      onClick={(event: { stopPropagation: () => any }) =>
+                        event.stopPropagation()
+                      }
                     >
-                      <Button
-                        color="neutral"
-                        outlined
-                        size="small"
-                        css={{ border: 'none', fontWeight: '$semibold' }}
-                      >
-                        {label}
-                      </Button>
-                    </AppLink>
+                      {label}
+                    </Button>
                   )
               )}
             </Box>
