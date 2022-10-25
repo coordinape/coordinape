@@ -16,13 +16,10 @@ import {
 import {
   DeworkColor,
   WonderColor,
-  Check,
-  AlertTriangle,
-  RefreshCcw,
   ChevronDown,
   ChevronUp,
 } from 'icons/__generated';
-import { SaveState } from 'pages/GivePage/SavingIndicator';
+import { SavingIndicator, SaveState } from 'pages/GivePage/SavingIndicator';
 import { Panel, Text, Box, Modal, Button, Flex } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -178,7 +175,11 @@ const ContributionsPage = () => {
     reset: resetUpdateMutation,
   } = useMutation(updateContributionMutation, {
     mutationKey: ['updateContribution', currentContribution?.contribution.id],
-    onSettled: () => {
+    onSettled: e => {
+      updateSaveStateForContribution(
+        currentContribution?.contribution.id,
+        status
+      );
       //refetchContributions();
     },
     onSuccess: ({ updateContribution }) => {
@@ -525,34 +526,9 @@ const ContributionsPage = () => {
                     >
                       Delete
                     </Button>
-                    <Flex css={{ gap: '$sm' }}>
-                      <Text
-                        size="small"
-                        css={{ gap: '$sm' }}
-                        color={updateStatus === 'error' ? 'alert' : 'neutral'}
-                      >
-                        {(saveState[currentContribution.contribution.id] ===
-                          'saving' ||
-                          saveState[currentContribution.contribution.id] ===
-                            'scheduled') && (
-                          <>
-                            <RefreshCcw /> Saving...
-                          </>
-                        )}
-                        {saveState[currentContribution.contribution.id] ===
-                          'saved' && (
-                          <>
-                            <Check /> Saved
-                          </>
-                        )}
-                        {mutationStatus() === 'error' && isDirty && (
-                          <>
-                            <AlertTriangle />
-                            Error
-                          </>
-                        )}
-                      </Text>
-                    </Flex>
+                    <SavingIndicator
+                      saveState={saveState[currentContribution.contribution.id]}
+                    />
                   </Flex>
                 )}
               </Flex>
