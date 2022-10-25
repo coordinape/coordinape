@@ -86,9 +86,14 @@ export const OverviewMenu = ({
   return (
     <Popover open={mouseEnterPopover}>
       <PopoverTrigger
-        asChild
+        tabIndex={-1}
         css={{ outline: 'none' }}
         ref={triggerRef}
+        onKeyDown={e => {
+          if (e.key === 'Enter') {
+            setMouseEnterPopover(true);
+          }
+        }}
         onMouseEnter={() => {
           clearTimeout(timeoutId);
           setMouseEnterPopover(true);
@@ -104,6 +109,11 @@ export const OverviewMenu = ({
         {overviewMenuTrigger}
       </PopoverTrigger>
       <PopoverContent
+        onKeyDown={e => {
+          if (e.key === 'Escape') {
+            setMouseEnterPopover(false);
+          }
+        }}
         onMouseEnter={() => {
           clearTimeout(timeoutId);
           setMouseEnterPopover(true);
@@ -182,7 +192,14 @@ export const OverviewMenu = ({
                     <Link
                       key={circle.id}
                       type="menu"
-                      onClick={() => closeAndGo(paths.history(circle.id))}
+                      // onClick={() => closeAndGo(paths.history(circle.id))}
+                      href={paths.history(circle.id)}
+                      onClick={e => {
+                        if (!e.metaKey || !e.ctrlKey) {
+                          e.preventDefault();
+                          closeAndGo(paths.history(circle.id));
+                        }
+                      }}
                     >
                       {circle.name}
                     </Link>
