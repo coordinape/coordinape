@@ -81,8 +81,8 @@ export const LeaveCircleModal = ({
               {circleName} Circle
             </Text>
             {epochIsActive
-              ? ' . Opting out during an in-progress epoch will result in any GIVEs you have received being returned to senders. Are you sure you wish to proceed? This cannot be undone.'
-              : '. Leaving this circle, You will no longer have access to any of the information in the circle.'}
+              ? '? Opting out during an in-progress epoch will result in any GIVEs you have received being returned to senders. Are you sure you wish to proceed? This cannot be undone.'
+              : '? Leaving this circle, You will no longer have access to any of the information in the circle.'}
           </Text>
 
           <FormInputField
@@ -90,7 +90,7 @@ export const LeaveCircleModal = ({
             name="circle_name"
             defaultValue=""
             control={control}
-            label="Enter the team`s name to leave it"
+            label="Enter the team's name to leave it"
             css={{ width: '100%' }}
             showFieldErrors
           ></FormInputField>
