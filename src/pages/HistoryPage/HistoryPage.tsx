@@ -3,6 +3,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { isUserAdmin } from 'lib/users';
 import { useQuery } from 'react-query';
 
+import { LoadingModal } from '../../components';
 import HintBanner from '../../components/HintBanner';
 import {
   EXTERNAL_URL_DISCORD,
@@ -10,7 +11,6 @@ import {
   EXTERNAL_URL_GET_STARTED_TUTORIAL_VIDEO,
   paths,
 } from '../../routes/paths';
-import { LoadingModal } from 'components';
 import { Paginator } from 'components/Paginator';
 import isFeatureEnabled from 'config/features';
 import { useApeSnackbar, useApiAdminCircle } from 'hooks';
@@ -227,6 +227,7 @@ export const HistoryPage = () => {
           onClose={closeFormHandler}
         ></EpochForm>
       )}
+
       <Text h3>Upcoming Epochs</Text>
       {futureEpochs?.length === 0 && <Text>There are no scheduled epochs</Text>}
       <Collapsible open={open} onOpenChange={setOpen} css={{ mb: '$md' }}>

@@ -404,8 +404,19 @@ const MembersPage = () => {
       >
         <Flex column alignItems="start" css={{ gap: '$md' }}>
           <Text p>
-            You’ll need to add your teammates to your circle and schedule an
-            epoch before you can start allocating {circle?.tokenName}.
+            {selectedCircle.organization.sample ? (
+              <>
+                We’ve set you up with a sample circle prepopulated with members,
+                epochs, contributions, give allocations, and notes. Feel free to
+                add real people and experiment! Make your own non-sample circle
+                when you are ready.
+              </>
+            ) : (
+              <>
+                You’ll need to add your teammates to your circle and schedule an
+                epoch before you can start allocating {circle?.tokenName}.
+              </>
+            )}
           </Text>
           <Button color="primary" onClick={() => setNewCircle(false)}>
             I Understand

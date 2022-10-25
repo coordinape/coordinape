@@ -304,21 +304,23 @@ const GivePage = () => {
 
   return (
     <Box css={{ width: '100%' }}>
-      <Flex
-        css={{ background: '$info', justifyContent: 'center', p: '$md $lg' }}
-        alignItems="center"
-      >
-        <Text>Not ready for the new GIVE experience?</Text>
-        <Button
-          as={Link}
-          href={paths.allocation(selectedCircle.id)}
-          outlined
-          color="primary"
-          css={{ ml: '$md', whiteSpace: 'nowrap' }}
+      {!selectedCircle.organization.sample && (
+        <Flex
+          css={{ background: '$info', justifyContent: 'center', p: '$md $lg' }}
+          alignItems="center"
         >
-          Go Back
-        </Button>
-      </Flex>
+          <Text>Not ready for the new GIVE experience?</Text>
+          <Button
+            as={Link}
+            href={paths.allocation(selectedCircle.id)}
+            outlined
+            color="primary"
+            css={{ ml: '$md', whiteSpace: 'nowrap' }}
+          >
+            Go Back
+          </Button>
+        </Flex>
+      )}
       <SingleColumnLayout>
         <Helmet>
           <title>Give - {selectedCircle.name} - Coordinape</title>

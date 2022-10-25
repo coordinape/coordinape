@@ -19,6 +19,10 @@ type Mutation {
 }
 
 type Mutation {
+  createSampleCircle: CreateSampleCircleResponse
+}
+
+type Mutation {
   createUser(payload: CreateUserInput!): UserResponse
 }
 
@@ -438,6 +442,10 @@ type MarkClaimedOutput {
 }
 
 type LinkDiscordUserResponse {
+  id: Int!
+}
+
+type CreateSampleCircleResponse {
   id: Int!
 }
 

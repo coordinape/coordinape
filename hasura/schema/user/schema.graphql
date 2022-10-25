@@ -149,6 +149,11 @@ type CreateNomineeResponse {
   nominee: nominees
 }
 
+type CreateSampleCircleResponse {
+  id: Int!
+  organization: organizations
+}
+
 input CreateUserInput {
   address: String!
   circle_id: Int!
@@ -208,9 +213,11 @@ type EpochResponse {
 
 input GenerateApiKeyInput {
   circle_id: Int!
+  create_contributions: Boolean
   create_vouches: Boolean
   name: String!
   read_circle: Boolean
+  read_contributions: Boolean
   read_epochs: Boolean
   read_member_profiles: Boolean
   read_nominees: Boolean
@@ -5182,6 +5189,7 @@ type mutation_root {
   createCircle(payload: CreateCircleInput!): CreateCircleResponse
   createEpoch(payload: CreateEpochInput!): EpochResponse
   createNominee(payload: CreateNomineeInput!): CreateNomineeResponse
+  createSampleCircle: CreateSampleCircleResponse
   createUser(payload: CreateUserInput!): UserResponse
   createUserWithToken(payload: CreateUserWithTokenInput!): UserResponse
   createUsers(payload: CreateUsersInput!): [UserResponse]
@@ -6340,9 +6348,20 @@ type organizations {
     where: circles_bool_exp
   ): [circles!]!
   created_at: timestamp!
+  created_by: Int
   id: bigint!
   logo: String
   name: String!
+
+  """
+  An object relationship
+  """
+  profile: profiles
+
+  """
+  Indicates a test/sample/sandbox org
+  """
+  sample: Boolean!
   telegram_id: String
   updated_at: timestamp!
 
@@ -6386,9 +6405,12 @@ input organizations_bool_exp {
   _or: [organizations_bool_exp!]
   circles: circles_bool_exp
   created_at: timestamp_comparison_exp
+  created_by: Int_comparison_exp
   id: bigint_comparison_exp
   logo: String_comparison_exp
   name: String_comparison_exp
+  profile: profiles_bool_exp
+  sample: Boolean_comparison_exp
   telegram_id: String_comparison_exp
   updated_at: timestamp_comparison_exp
   vaults: vaults_bool_exp
@@ -6415,9 +6437,12 @@ Ordering options when selecting data from "organizations".
 input organizations_order_by {
   circles_aggregate: circles_aggregate_order_by
   created_at: order_by
+  created_by: order_by
   id: order_by
   logo: order_by
   name: order_by
+  profile: profiles_order_by
+  sample: order_by
   telegram_id: order_by
   updated_at: order_by
   vaults_aggregate: vaults_aggregate_order_by
@@ -6442,6 +6467,11 @@ enum organizations_select_column {
   """
   column name
   """
+  created_by
+
+  """
+  column name
+  """
   id
 
   """
@@ -6453,6 +6483,11 @@ enum organizations_select_column {
   column name
   """
   name
+
+  """
+  column name
+  """
+  sample
 
   """
   column name
@@ -6493,9 +6528,15 @@ Initial value of the column from where the streaming should start
 """
 input organizations_stream_cursor_value_input {
   created_at: timestamp
+  created_by: Int
   id: bigint
   logo: String
   name: String
+
+  """
+  Indicates a test/sample/sandbox org
+  """
+  sample: Boolean
   telegram_id: String
   updated_at: timestamp
 }
@@ -8310,6 +8351,7 @@ type query_root {
   fetch data from the table: "pending_vault_transactions" using primary key columns
   """
   pending_vault_transactions_by_pk(tx_hash: String!): pending_vault_transactions
+  price_per_share(chain_id: Int!, token_address: String): Float!
 
   """
   fetch data from the table: "profiles"
@@ -12502,6 +12544,7 @@ type vaults {
   An object relationship
   """
   organization: organizations!
+  price_per_share: Float!
 
   """
   An object relationship

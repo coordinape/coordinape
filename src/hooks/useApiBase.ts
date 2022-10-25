@@ -23,6 +23,7 @@ const clearStateAfterLogout = (set: any) => {
   set(rWalletAuth, { authTokens: {} });
   set(rApiFullCircle, new Map());
   set(rApiManifest, undefined);
+  set(rSelectedCircleIdSource, undefined);
 };
 
 export const useApiBase = () => {
@@ -124,6 +125,14 @@ export const useApiBase = () => {
     { who: 'fetchManifest' }
   );
 
+  const unselectCircle = useRecoilLoadCatch(
+    ({ set }) =>
+      async () => {
+        set(rSelectedCircleIdSource, undefined);
+      },
+    []
+  );
+
   const fetchCircle = useRecoilLoadCatch(
     ({ set }) =>
       async ({ circleId, select }: { circleId: number; select?: boolean }) => {
@@ -164,5 +173,6 @@ export const useApiBase = () => {
     fetchManifest,
     fetchCircle,
     selectCircle,
+    unselectCircle,
   };
 };

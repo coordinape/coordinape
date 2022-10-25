@@ -101,6 +101,7 @@ export const getProfile = async (address: string): Promise<IApiProfile> => {
                 organization: {
                   id: true,
                   name: true,
+                  sample: true,
                 },
                 auto_opt_out: true,
                 fixed_payment_token_type: true,
@@ -229,6 +230,7 @@ export const getFullCircle = async (
                 created_at: true,
                 name: true,
                 updated_at: true,
+                sample: true,
               },
               auto_opt_out: true,
               fixed_payment_token_type: true,
@@ -505,6 +507,7 @@ export const fetchManifest = async (address: string): Promise<IApiManifest> => {
             created_at: true,
             updated_at: true,
             logo: true,
+            sample: true,
           },
           auto_opt_out: true,
           fixed_payment_token_type: true,

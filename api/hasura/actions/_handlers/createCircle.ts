@@ -59,6 +59,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       ret = await mutations.insertCircleWithAdmin(
         input,
         sessionVariables.hasuraAddress,
+        sessionVariables.hasuraProfileId,
         COORDINAPE_USER_ADDRESS,
         null
       );
@@ -78,6 +79,7 @@ function createCircle(
     const circle = await mutations.insertCircleWithAdmin(
       circleInput,
       userAddress,
+      userProfileId,
       coordinapeAddress,
       fileName
     );
