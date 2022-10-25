@@ -61,7 +61,7 @@ const Title = styled(Dialog.Title, {
 type ModalProps = {
   children: ReactNode;
   title?: string;
-  onClose: () => void;
+  onClose?: () => void;
   css?: CSS;
   defaultOpen?: boolean;
   open?: boolean;
@@ -102,7 +102,9 @@ export const Modal = ({
                 fontSize: '$h3',
               }}
             >
-              <X size="lg" />
+              <Dialog.Close>
+                <X size="lg" />
+              </Dialog.Close>
             </Button>
           )}
           {title && <Title>{title}</Title>}
