@@ -12,7 +12,6 @@ import refundGiveDiscord from '../../../api-lib/event_triggers/refundGiveDiscord
 import refundGiveTelegram from '../../../api-lib/event_triggers/refundGiveTelegram';
 import refundPendingGift from '../../../api-lib/event_triggers/refundPendingGift';
 import removeTeammate from '../../../api-lib/event_triggers/removeTeammate';
-import sendInteractionEventToAmplitude from '../../../api-lib/event_triggers/sendInteractionEventToAmplitude';
 import sendInteractionEventToMixpanel from '../../../api-lib/event_triggers/sendInteractionEventToMixpanel';
 import vouchDiscord from '../../../api-lib/event_triggers/vouchDiscord';
 import vouchTelegram from '../../../api-lib/event_triggers/vouchTelegram';
@@ -27,7 +26,6 @@ const HANDLERS: HandlerDict = {
   createNomineeTelegram,
   createCircleCRM,
   createVouchedUser,
-  sendInteractionEventToAmplitude,
   sendInteractionEventToMixpanel,
   optOutDiscord,
   optOutTelegram,
