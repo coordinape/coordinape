@@ -247,15 +247,25 @@ export const SummonCirclePage = () => {
                   />
                 ) : (
                   <div>
-                    <Text variant="label" css={{ width: '100%', mb: '$sm' }}>
-                      Organization
-                      <Tooltip
-                        css={{ ml: '$xs' }}
-                        content="A circle admin can add to an existing organization."
-                      >
-                        <Info size="sm" />
-                      </Tooltip>
-                    </Text>
+                    <FormInputField
+                      id="organization_name"
+                      name="organization_name"
+                      control={control}
+                      label="Organization"
+                      infoTooltip={
+                        <>
+                          <p>Circles nest within Organizations.</p>
+                          <p>
+                            Example:
+                            <br />
+                            Org Name - Coordinape
+                            <br />
+                            Circle Name - Design Team
+                          </p>
+                        </>
+                      }
+                      showFieldErrors
+                    />
                   </div>
                 )}
                 <div>
