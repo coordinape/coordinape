@@ -376,7 +376,7 @@ const MembersPage = () => {
       <Modal
         open={newCircle}
         title="Congrats! You just launched a new circle."
-        onClose={() => setNewCircle(false)}
+        onOpenChange={() => setNewCircle(false)}
       >
         <Flex column alignItems="start" css={{ gap: '$md' }}>
           <Text p>
@@ -391,7 +391,7 @@ const MembersPage = () => {
       <Modal
         open={!!deleteUserDialog}
         title={`Remove ${deleteUserDialog?.name} from circle`}
-        onClose={() => setDeleteUserDialog(undefined)}
+        onOpenChange={() => setDeleteUserDialog(undefined)}
       >
         <Flex column alignItems="start" css={{ gap: '$md' }}>
           <Button

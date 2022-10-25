@@ -377,7 +377,7 @@ const ContributionsPage = () => {
           overflowY: 'scroll',
         }}
         open={modalOpen}
-        onClose={() => {
+        onOpenChange={() => {
           setModalOpen(false);
           setCurrentContribution(null);
           setCurrentIntContribution(null);

@@ -60,7 +60,7 @@ export const RecentTransactionsModal = ({
 }) => {
   const list = getTxList();
   return (
-    <Modal onClose={onClose}>
+    <Modal onOpenChange={onClose}>
       <Text h3 css={{ mb: '$lg' }}>
         Your Recent Transactions
       </Text>

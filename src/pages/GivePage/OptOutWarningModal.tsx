@@ -19,7 +19,7 @@ export const OptOutWarningModal = ({
 }: OptOutWarningModalProps) => {
   return (
     <Modal
-      onClose={() => setOptOutOpen(false)}
+      onOpenChange={() => setOptOutOpen(false)}
       open={optOutOpen}
       // onOpenChange={setModal}
       title={`${tokenName} Loss Alert`}

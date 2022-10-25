@@ -757,7 +757,7 @@ const MemberRow = ({
                 </Button>
               </Flex>
               <Modal
-                onClose={() => {
+                onOpenChange={() => {
                   setHasAcceptedOptOutWarning(true);
                   setShowOptOutChangeWarning(false);
                 }}

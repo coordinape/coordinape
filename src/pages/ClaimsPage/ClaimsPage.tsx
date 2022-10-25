@@ -205,7 +205,7 @@ export function UnwrapEthModal({
   };
 
   return (
-    <Modal title="Unwrap ETH" open={open} onClose={onClose}>
+    <Modal title="Unwrap ETH" open={open} onOpenChange={onClose}>
       <Form
         css={{
           position: 'relative',
