@@ -14,7 +14,7 @@ import { epochTimeUpcoming } from '../../lib/time';
 import { useSelectedCircle } from '../../recoilState';
 import { paths } from '../../routes/paths';
 import { IEpoch, IMyUser } from '../../types';
-import { Box, Button, Flex, Modal, Panel, Text, AppLink } from '../../ui';
+import { Box, Button, Flex, Modal, Panel, Text, Link } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 import { getPendingGiftsFrom } from '../AllocationPage/queries';
 
@@ -311,11 +311,11 @@ const GivePage = () => {
         alignItems="center"
       >
         <Text>Not ready for the new GIVE experience?</Text>
-        <AppLink to={paths.allocation(selectedCircle.id)}>
+        <Link href={paths.allocation(selectedCircle.id)}>
           <Button outlined color="primary" css={{ ml: '$md' }}>
             Go Back
           </Button>
-        </AppLink>
+        </Link>
       </Flex>
       <SingleColumnLayout>
         <Helmet>
