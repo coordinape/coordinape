@@ -44,9 +44,14 @@ export const MyAvatarMenu = () => {
       <Hidden smDown>
         <Popover open={mouseEnterPopover}>
           <PopoverTrigger
+            tabIndex={-1}
             css={{ outline: 'none' }}
-            asChild
             ref={triggerRef}
+            onKeyDown={e => {
+              if (e.key === 'Enter') {
+                setMouseEnterPopover(true);
+              }
+            }}
             onMouseEnter={() => {
               clearTimeout(timeoutId);
               setMouseEnterPopover(true);
@@ -64,6 +69,11 @@ export const MyAvatarMenu = () => {
             </Link>
           </PopoverTrigger>
           <PopoverContent
+            onKeyDown={e => {
+              if (e.key === 'Escape') {
+                setMouseEnterPopover(false);
+              }
+            }}
             onMouseEnter={() => {
               clearTimeout(timeoutId);
               setMouseEnterPopover(true);
@@ -111,6 +121,7 @@ export const MyAvatarMenu = () => {
                 <Link
                   type="menu"
                   css={{ fontSize: '$xs', color: '$headingText', mb: '$xs' }}
+                  href="#"
                   onClick={() => setShowTxModal(true)}
                 >
                   Recent Transactions
@@ -120,6 +131,7 @@ export const MyAvatarMenu = () => {
                 type="menu"
                 css={{ fontSize: '$xs', color: '$headingText' }}
                 onClick={logout}
+                href="#"
               >
                 Disconnect
               </Link>
