@@ -228,7 +228,7 @@ const AllocationEpoch = ({
                 }}
               />
               <Modal
-                onClose={() => setOptOutOpen(false)}
+                onOpenChange={() => setOptOutOpen(false)}
                 open={optOutOpen}
                 // onOpenChange={setModal}
                 title={`${selectedCircle?.token_name || 'GIVE'} Loss Alert`}

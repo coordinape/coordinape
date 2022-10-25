@@ -167,7 +167,7 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
       <Modal
         open={!!deleteIntegration}
         title={`Remove ${deleteIntegration?.name} from circle`}
-        onClose={() => setDeleteIntegration(undefined)}
+        onOpenChange={() => setDeleteIntegration(undefined)}
       >
         <Flex column alignItems="start" css={{ gap: '$md' }}>
           <Button

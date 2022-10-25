@@ -61,7 +61,6 @@ const Title = styled(Dialog.Title, {
 type ModalProps = {
   children: ReactNode;
   title?: string;
-  onClose?: () => void;
   css?: CSS;
   defaultOpen?: boolean;
   open?: boolean;
@@ -72,7 +71,6 @@ type ModalProps = {
 export const Modal = ({
   children,
   title,
-  onClose,
   onOpenChange,
   css = {},
   defaultOpen = false,
@@ -88,24 +86,23 @@ export const Modal = ({
       onOpenChange={onOpenChange}
     >
       <Dialog.Portal>
-        <Overlay onClick={onClose} />
+        <Overlay />
         <Content drawer={drawer} css={css}>
           {(showClose || showClose === undefined) && (
-            <Button
-              color="transparent"
-              size="smallIcon"
-              onClick={onClose}
-              css={{
-                position: 'absolute',
-                right: 'calc($sm + 3px)',
-                top: '$sm',
-                fontSize: '$h3',
-              }}
-            >
-              <Dialog.Close>
+            <Dialog.Close>
+              <Button
+                color="transparent"
+                size="smallIcon"
+                css={{
+                  position: 'absolute',
+                  right: 'calc($sm + 3px)',
+                  top: '$sm',
+                  fontSize: '$h3',
+                }}
+              >
                 <X size="lg" />
-              </Dialog.Close>
-            </Button>
+              </Button>
+            </Dialog.Close>
           )}
           {title && <Title>{title}</Title>}
           {children}

@@ -57,7 +57,11 @@ export default function WithdrawModal({
   };
 
   return (
-    <Modal title="Withdraw Tokens From Vault" open={true} onClose={onClose}>
+    <Modal
+      title="Withdraw Tokens From Vault"
+      open={true}
+      onOpenChange={onClose}
+    >
       <Form
         css={{
           position: 'relative',

@@ -68,7 +68,7 @@ export const ApeInfoTooltip = ({
           >
             <Info size="sm" />
           </Link>
-          <Modal open={openTooltip} onClose={handleTooltipClose}>
+          <Modal open={openTooltip} onOpenChange={handleTooltipClose}>
             <Flex column alignItems="start" css={{ gap: '$md' }}>
               {children}
             </Flex>

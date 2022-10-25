@@ -62,7 +62,7 @@ export const LeaveCircleModal = ({
     <Modal
       open={!!leaveCircleDialog}
       title={`Leave the ${circleName} Circle?`}
-      onClose={() => {
+      onOpenChange={() => {
         reset();
         setLeaveCircleDialog(undefined);
       }}
