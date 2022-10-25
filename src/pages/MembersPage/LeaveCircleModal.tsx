@@ -48,7 +48,7 @@ export const LeaveCircleModal = ({
     reset,
     formState: { errors, isDirty },
   } = useForm<LeaveCircleFormSchema>({
-    shouldUseNativeValidation: true,
+    shouldUseNativeValidation: false,
     mode: 'all',
     resolver: zodResolver(schema),
   });
@@ -92,6 +92,7 @@ export const LeaveCircleModal = ({
             control={control}
             label="Enter the team`s name to leave it"
             css={{ width: '100%' }}
+            showFieldErrors
           ></FormInputField>
           <Flex css={{ width: '100%', gap: '$lg' }}>
             <Button
