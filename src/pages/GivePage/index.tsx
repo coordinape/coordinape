@@ -729,7 +729,6 @@ const AllocateContents = ({
       </Panel>
 
       {}
-
       <Modal
         css={{
           paddingBottom: 0,
@@ -738,7 +737,7 @@ const AllocateContents = ({
           paddingTop: 0,
           overflowY: 'scroll',
         }}
-        onClose={() => {
+        onOpenChange={() => {
           setSelectedMemberIdx(-1);
           setSelectedMember(undefined);
         }}
