@@ -6,7 +6,6 @@ import { X } from 'icons/__generated';
 import { Flex, Text } from './index';
 
 export default {
-  title: 'Design System/Components/Icons',
   component: X,
   argTypes: {
     color: {

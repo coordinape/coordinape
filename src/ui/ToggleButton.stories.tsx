@@ -7,7 +7,6 @@ import { Check, Slash, X } from 'icons/__generated';
 import { Flex, ToggleButton as ToggleButtonComponent } from './index';
 
 export default {
-  title: 'Design System/Components/Toggle Button',
   component: ToggleButtonComponent,
   argTypes: {
     children: {
