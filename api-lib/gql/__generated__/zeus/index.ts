@@ -8537,6 +8537,8 @@ columns and relationships of "distributions" */
     is_verified?: boolean | `@${string}`;
     logo?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
+    /** Indicates a test/sample/sandbox org */
+    sandbox?: boolean | `@${string}`;
     telegram_id?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     vaults?: [
@@ -8633,6 +8635,7 @@ columns and relationships of "distributions" */
     is_verified?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     logo?: ValueTypes['String_comparison_exp'] | undefined | null;
     name?: ValueTypes['String_comparison_exp'] | undefined | null;
+    sandbox?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     telegram_id?: ValueTypes['String_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     vaults?: ValueTypes['vaults_bool_exp'] | undefined | null;
@@ -8651,6 +8654,8 @@ columns and relationships of "distributions" */
     is_verified?: boolean | undefined | null;
     logo?: string | undefined | null;
     name?: string | undefined | null;
+    /** Indicates a test/sample/sandbox org */
+    sandbox?: boolean | undefined | null;
     telegram_id?: string | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
     vaults?: ValueTypes['vaults_arr_rel_insert_input'] | undefined | null;
@@ -8706,6 +8711,7 @@ columns and relationships of "distributions" */
     is_verified?: ValueTypes['order_by'] | undefined | null;
     logo?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
+    sandbox?: ValueTypes['order_by'] | undefined | null;
     telegram_id?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     vaults_aggregate?:
@@ -8726,6 +8732,8 @@ columns and relationships of "distributions" */
     is_verified?: boolean | undefined | null;
     logo?: string | undefined | null;
     name?: string | undefined | null;
+    /** Indicates a test/sample/sandbox org */
+    sandbox?: boolean | undefined | null;
     telegram_id?: string | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
   };
@@ -19384,6 +19392,8 @@ columns and relationships of "distributions" */
     is_verified: boolean;
     logo?: string | undefined;
     name: string;
+    /** Indicates a test/sample/sandbox org */
+    sandbox: boolean;
     telegram_id?: string | undefined;
     updated_at: GraphQLTypes['timestamp'];
     /** An array relationship */
@@ -27537,6 +27547,8 @@ columns and relationships of "distributions" */
     is_verified: boolean;
     logo?: string | undefined;
     name: string;
+    /** Indicates a test/sample/sandbox org */
+    sandbox: boolean;
     telegram_id?: string | undefined;
     updated_at: GraphQLTypes['timestamp'];
     /** An array relationship */
@@ -27581,6 +27593,7 @@ columns and relationships of "distributions" */
     is_verified?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     logo?: GraphQLTypes['String_comparison_exp'] | undefined;
     name?: GraphQLTypes['String_comparison_exp'] | undefined;
+    sandbox?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     telegram_id?: GraphQLTypes['String_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     vaults?: GraphQLTypes['vaults_bool_exp'] | undefined;
@@ -27599,6 +27612,8 @@ columns and relationships of "distributions" */
     is_verified?: boolean | undefined;
     logo?: string | undefined;
     name?: string | undefined;
+    /** Indicates a test/sample/sandbox org */
+    sandbox?: boolean | undefined;
     telegram_id?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
     vaults?: GraphQLTypes['vaults_arr_rel_insert_input'] | undefined;
@@ -27651,6 +27666,7 @@ columns and relationships of "distributions" */
     is_verified?: GraphQLTypes['order_by'] | undefined;
     logo?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
+    sandbox?: GraphQLTypes['order_by'] | undefined;
     telegram_id?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     vaults_aggregate?: GraphQLTypes['vaults_aggregate_order_by'] | undefined;
@@ -27668,6 +27684,8 @@ columns and relationships of "distributions" */
     is_verified?: boolean | undefined;
     logo?: string | undefined;
     name?: string | undefined;
+    /** Indicates a test/sample/sandbox org */
+    sandbox?: boolean | undefined;
     telegram_id?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
   };
@@ -32318,6 +32336,7 @@ export const enum organizations_select_column {
   is_verified = 'is_verified',
   logo = 'logo',
   name = 'name',
+  sandbox = 'sandbox',
   telegram_id = 'telegram_id',
   updated_at = 'updated_at',
 }
@@ -32328,6 +32347,7 @@ export const enum organizations_update_column {
   is_verified = 'is_verified',
   logo = 'logo',
   name = 'name',
+  sandbox = 'sandbox',
   telegram_id = 'telegram_id',
   updated_at = 'updated_at',
 }

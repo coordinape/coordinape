@@ -16,7 +16,7 @@ import useConnectedAddress from 'hooks/useConnectedAddress';
 import { Check, Info } from 'icons/__generated';
 import {
   getOrgData,
-  QUERY_KEY_MY_ORGS,
+  QUERY_KEY_ORG_DATA,
 } from 'pages/OrganizationPage/getOrgData';
 import { paths } from 'routes/paths';
 import {
@@ -56,7 +56,7 @@ export const OrganizationSettingsPage = () => {
   const navigate = useNavigate();
   const address = useConnectedAddress();
   const { data, refetch, isLoading, isIdle, isRefetching } = useQuery(
-    [QUERY_KEY_MY_ORGS, orgId],
+    [QUERY_KEY_ORG_DATA, orgId],
     () => getOrgData(orgId, address as string),
     {
       enabled: !!address,

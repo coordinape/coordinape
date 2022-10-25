@@ -6,7 +6,6 @@
     "node": "16"
   },
   "dependencies": {
-    "@amplitude/node": "^1.10.1",
     "@apollo/client": "3.5.7",
     "@coordinape/hardhat": "file:./hardhat",
     "@craco/craco": "6.4.3",

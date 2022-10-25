@@ -4,6 +4,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import mixpanel, { Mixpanel } from 'mixpanel';
 
 import { MIXPANEL_PROJECT_TOKEN } from '../config';
+import { adminClient } from '../gql/adminClient';
 import { errorResponse } from '../HttpError';
 import { EventTriggerPayload } from '../types';
 
@@ -19,6 +20,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       req.body;
     const { new: event } = payload.event.data;
 
+    const eventData: { [key: string]: any } = event.data ?? {};
+
+    // need to see if the org is a sandbox org to change how we process funnels/events etc
+    if (event.org_id !== undefined) {
+      eventData['sandbox'] = await isOrgSandbox(event.org_id);
+    }
+
     if (event.profile_id) {
       await track(
         mp,
@@ -30,7 +38,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           circle_id: event.circle_id,
           profile_id: event.profile_id,
           org_id: event.org_id,
-          ...(event.data ?? {}),
+          ...eventData,
         }
       );
     }
@@ -48,7 +56,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             ? sha256(`${event.profile_id}`)
             : undefined,
           org_id: event.org_id,
-          ...event.data,
+          ...eventData,
         }
       );
     }
@@ -83,3 +91,21 @@ const track = (
     );
   });
 };
+
+async function isOrgSandbox(orgId: number): Promise<boolean> {
+  const { organizations_by_pk } = await adminClient.query(
+    {
+      organizations_by_pk: [
+        {
+          id: orgId,
+        },
+        { sandbox: true },
+      ],
+    },
+    {
+      operationName: 'updateOrgLogo_getPreviousLogo',
+    }
+  );
+
+  return organizations_by_pk?.sandbox ?? false;
+}

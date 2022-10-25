@@ -18,7 +18,7 @@ type TFormInputField<TFieldValues extends FieldValues> = {
   id: string;
   label?: string;
   textArea?: boolean;
-  infoTooltip?: string;
+  infoTooltip?: React.ReactNode;
   description?: string;
   placeholder?: string;
   inputProps?: TextFieldProps;
