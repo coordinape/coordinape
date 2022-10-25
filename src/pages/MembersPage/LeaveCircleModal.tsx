@@ -43,7 +43,6 @@ export const LeaveCircleModal = ({
     reset,
     formState: { isValid },
   } = useForm<LeaveCircleFormSchema>({
-    shouldUseNativeValidation: false,
     mode: 'all',
     resolver: zodResolver(schema),
   });
