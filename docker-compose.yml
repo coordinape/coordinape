@@ -8,7 +8,7 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
     ports:
-      - ${LOCAL_POSTGRES_PORT}:${LOCAL_POSTGRES_PORT}
+      - ${LOCAL_POSTGRES_PORT}:5432
     environment:
       POSTGRES_PASSWORD: ${LOCAL_POSTGRES_PASSWORD}
 
@@ -20,12 +20,12 @@ services:
       - ./hasura/migrations:/hasura-migrations
       - ./hasura/metadata:/hasura-metadata
     ports:
-      - ${LOCAL_HASURA_PORT:-8080}:${LOCAL_HASURA_PORT:-8080}
+      - ${LOCAL_HASURA_PORT:-8080}:8080
     depends_on:
       - postgres
     restart: always
     environment: &graphql_engine_environment
-      HASURA_GRAPHQL_DATABASE_URL: postgres://${LOCAL_POSTGRES_USER}:${LOCAL_POSTGRES_PASSWORD}@postgres:${LOCAL_POSTGRES_PORT}/${LOCAL_POSTGRES_DATABASE}
+      HASURA_GRAPHQL_DATABASE_URL: postgres://${LOCAL_POSTGRES_USER}:${LOCAL_POSTGRES_PASSWORD}@postgres/${LOCAL_POSTGRES_DATABASE}
       HASURA_GRAPHQL_ENABLE_CONSOLE: 'true'
       HASURA_GRAPHQL_DEV_MODE: 'true'
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
@@ -43,19 +43,18 @@ services:
     volumes:
       - db_data_ci:/var/lib/postgresql/data
     ports:
-      - ${CI_POSTGRES_PORT}:${LOCAL_POSTGRES_PORT}
+      - ${CI_POSTGRES_PORT}:5432
 
   graphql-engine-ci:
     <<: *graphql_engine
     profiles: ['ci']
     ports:
-      - ${CI_HASURA_PORT}:${CI_HASURA_PORT}
+      - ${CI_HASURA_PORT}:8080
     depends_on:
       - postgres-ci
     environment:
       <<: *graphql_engine_environment
-      HASURA_GRAPHQL_DATABASE_URL: postgres://${LOCAL_POSTGRES_USER}:${LOCAL_POSTGRES_PASSWORD}@postgres-ci:${LOCAL_POSTGRES_PORT}/${LOCAL_POSTGRES_DATABASE}
-      HASURA_GRAPHQL_SERVER_PORT: ${CI_HASURA_PORT}
+      HASURA_GRAPHQL_DATABASE_URL: postgres://${LOCAL_POSTGRES_USER}:${LOCAL_POSTGRES_PASSWORD}@postgres-ci/${LOCAL_POSTGRES_DATABASE}
       HASURA_API_BASE_URL: http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:${CI_WEB_PORT}/api/hasura
       HASURA_GRAPHQL_AUTH_HOOK: http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:${CI_WEB_PORT}/api/hasura/auth
 
@@ -78,7 +77,7 @@ services:
       - SERVICES=s3
       - DATA_DIR=/tmp/localstack/data
     ports:
-      - '4566-4583:4566-4583'
+      - ${LOCAL_LOCALSTACK_PORT_RANGE:-4566-4583}:4566-4583
     volumes:
       - '${TEMPDIR:-/tmp/localstack}:/tmp/localstack'
       - '/var/run/docker.sock:/var/run/docker.sock'
