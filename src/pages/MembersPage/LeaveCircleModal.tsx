@@ -1,6 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { deleteUser } from 'lib/gql/mutations';
-import isEmpty from 'lodash/isEmpty';
 import { useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router';
@@ -28,13 +27,9 @@ export const LeaveCircleModal = ({
 }) => {
   const schema = z
     .object({
-      circle_name: z
-        .string({
-          required_error: 'Please enter the circle name',
-        })
-        .refine(c => c === circleName, {
-          message: 'Please match the circle name',
-        }),
+      circle_name: z.string().refine(c => c === circleName, {
+        message: "Circle name doesn't match",
+      }),
     })
     .strict();
   type LeaveCircleFormSchema = z.infer<typeof schema>;
@@ -46,9 +41,8 @@ export const LeaveCircleModal = ({
     handleSubmit,
     control,
     reset,
-    formState: { errors, isDirty },
+    formState: { isValid },
   } = useForm<LeaveCircleFormSchema>({
-    shouldUseNativeValidation: true,
     mode: 'all',
     resolver: zodResolver(schema),
   });
@@ -67,33 +61,39 @@ export const LeaveCircleModal = ({
   return (
     <Modal
       open={!!leaveCircleDialog}
-      title={'Are you sure ?'}
+      title={`Leave the ${circleName} Circle?`}
       onOpenChange={() => {
         reset();
         setLeaveCircleDialog(undefined);
       }}
     >
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Flex column alignItems="start" css={{ gap: '$xl' }}>
-          <Text inline size="medium">
-            Are you sure you want to leave the{' '}
-            <Text inline bold>
-              {circleName} Circle
-            </Text>
+        <Flex column alignItems="start" css={{ gap: '$md' }}>
+          <Text p>
             {epochIsActive
-              ? ' . Opting out during an in-progress epoch will result in any GIVEs you have received being returned to senders. Are you sure you wish to proceed? This cannot be undone.'
-              : '. Leaving this circle, You will no longer have access to any of the information in the circle.'}
+              ? 'This circle has an in-progress epoch. If you leave now, you will forfeit all GIVE received this epoch.'
+              : 'If you leave this circle you will no longer have access to any circle information or future epochs.'}
           </Text>
-
+          <Text p>
+            Are you sure you wish to proceed? This cannot be undone.
+          </Text>
+          <Text p>
+            Please type the circle name{' '}
+            <Text bold inline>
+              {circleName}
+            </Text>{' '}
+            to confirm.
+          </Text>
           <FormInputField
             id="circle_name"
             name="circle_name"
             defaultValue=""
             control={control}
-            label="Enter the team`s name to leave it"
-            css={{ width: '100%' }}
+            label="Circle name"
+            css={{ width: '100%', mt: '$md' }}
+            showFieldErrors
           ></FormInputField>
-          <Flex css={{ width: '100%', gap: '$lg' }}>
+          <Flex css={{ width: '100%', gap: '$lg', mt: '$md' }}>
             <Button
               onClick={() => {
                 reset();
@@ -110,7 +110,7 @@ export const LeaveCircleModal = ({
               color="destructive"
               size="large"
               css={{ width: '50%' }}
-              disabled={!isEmpty(errors) || !isDirty}
+              disabled={!isValid}
               type="submit"
             >
               Leave Circle

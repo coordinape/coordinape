@@ -316,7 +316,7 @@ const MemberRow = ({
               }}
             >
               {!user.non_giver ? (
-                <Check color="complete" />
+                <Check size="lg" color="complete" />
               ) : (
                 <X size="lg" color="neutral" />
               )}
@@ -350,7 +350,7 @@ const MemberRow = ({
           }}
         >
           {user.role === USER_ROLE_ADMIN ? (
-            <Check color="complete" />
+            <Check size="lg" color="complete" />
           ) : (
             <X size="lg" color="neutral" />
           )}
@@ -426,7 +426,7 @@ const MemberRow = ({
             user.id === me.id && (
               <Button
                 color="destructive"
-                size="medium"
+                size="small"
                 outlined
                 css={{
                   mr: 0,
