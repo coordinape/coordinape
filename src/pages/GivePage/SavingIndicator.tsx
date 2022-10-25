@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Check, RefreshCcw } from '../../icons/__generated';
+import { Check, RefreshCcw, AlertTriangle } from '../../icons/__generated';
 import { CSS } from '../../stitches.config';
 import { Flex, Text } from '../../ui';
 
@@ -9,7 +9,8 @@ export type SaveState =
   | 'buffering' // dirty, and we need to schedule
   | 'scheduled' // we are actually scheduled to save to backend
   | 'saving' // we are actively saving to backend
-  | 'saved'; // we just saved to backend
+  | 'saved' // we just saved to backend
+  | 'error'; // we received an error or unexpected state
 
 // stable->buffering = something was dirtied
 // buffering->scheduled =  dirty state causes scheduling
@@ -38,6 +39,12 @@ export const SavingIndicator = ({
         {saveState == 'saved' && (
           <>
             <Check /> Saved
+          </>
+        )}
+        {saveState == 'error' && (
+          <>
+            <AlertTriangle />
+            Error
           </>
         )}
       </Text>
