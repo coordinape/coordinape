@@ -48,7 +48,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       try {
         siweProvider = getProvider(message.chainId);
       } catch (error: Error | any) {
-        if (!error.message.match(/Unsupported chain id/)) {
+        if (!error.message.match(/chainId .* is unsupported/)) {
           throw new Error(error);
         }
       }
