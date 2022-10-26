@@ -45,8 +45,12 @@ export const vaultsSupportedChainIds: string[] = Object.entries(deploymentInfo)
 export const loginSupportedChainIds: { [key: number]: string } = {
   1: 'Ethereum Mainnet',
   10: 'Optimism',
+  100: 'Gnosis',
   137: 'Polygon',
-  42161: 'Aribtrum',
+  250: 'Fantom',
+  42220: 'Celo Mainnet',
+  42161: 'Arbitrum',
+  43114: 'Avalanche',
 };
 
 export class Contracts {

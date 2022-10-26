@@ -1,5 +1,6 @@
 import assert from 'assert';
 
+import { JsonRpcProvider } from '@ethersproject/providers';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { DateTime, Settings } from 'luxon';
 import { SiweMessage, SiweErrorType } from 'siwe';
@@ -43,7 +44,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         });
       }
 
-      const siweProvider = getProvider(message.chainId);
+      let siweProvider: JsonRpcProvider = new JsonRpcProvider();
+      try {
+        siweProvider = getProvider(message.chainId);
+      } catch (error: Error | any) {
+        if (!error.message.match(/Unsupported chain id/)) {
+          throw new Error(error);
+        }
+      }
+      // siweProvider is only used for EIP-1271 contract signature validation
+
       const verificationResult = await message.verify(
         {
           signature,
