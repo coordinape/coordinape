@@ -1151,10 +1151,7 @@ export type ValueTypes = {
     tokens_burnt?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
-  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API.
-
-
-columns and relationships of "circle_api_keys" */
+  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API. */
   ['circle_api_keys']: AliasType<{
     /** An object relationship */
     circle?: ValueTypes['circles'];
@@ -2148,7 +2145,7 @@ columns and relationships of "circle_api_keys" */
   /** input type for inserting array relation for remote table "claims" */
   ['claims_arr_rel_insert_input']: {
     data: Array<ValueTypes['claims_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: ValueTypes['claims_on_conflict'] | undefined | null;
   };
   /** aggregate avg on columns */
@@ -2271,7 +2268,7 @@ columns and relationships of "circle_api_keys" */
     returning?: ValueTypes['claims'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on conflict condition type for table "claims" */
+  /** on_conflict condition type for table "claims" */
   ['claims_on_conflict']: {
     constraint: ValueTypes['claims_constraint'];
     update_columns: Array<ValueTypes['claims_update_column']>;
@@ -2708,10 +2705,7 @@ columns and relationships of "circle_api_keys" */
     _neq?: ValueTypes['date'] | undefined | null;
     _nin?: Array<ValueTypes['date']> | undefined | null;
   };
-  /** Vault Distributions
-
-
-columns and relationships of "distributions" */
+  /** Vault Distributions */
   ['distributions']: AliasType<{
     claims?: [
       {
@@ -3003,10 +2997,10 @@ columns and relationships of "distributions" */
   /** input type for inserting object relation for remote table "distributions" */
   ['distributions_obj_rel_insert_input']: {
     data: ValueTypes['distributions_insert_input'];
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: ValueTypes['distributions_on_conflict'] | undefined | null;
   };
-  /** on conflict condition type for table "distributions" */
+  /** on_conflict condition type for table "distributions" */
   ['distributions_on_conflict']: {
     constraint: ValueTypes['distributions_constraint'];
     update_columns: Array<ValueTypes['distributions_update_column']>;
@@ -3776,7 +3770,7 @@ columns and relationships of "distributions" */
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['claims_insert_input']
-        > /** on conflict condition */;
+        > /** upsert condition */;
         on_conflict?: ValueTypes['claims_on_conflict'] | undefined | null;
       },
       ValueTypes['claims_mutation_response']
@@ -3784,7 +3778,7 @@ columns and relationships of "distributions" */
     insert_claims_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['claims_insert_input'] /** on conflict condition */;
+        object: ValueTypes['claims_insert_input'] /** upsert condition */;
         on_conflict?: ValueTypes['claims_on_conflict'] | undefined | null;
       },
       ValueTypes['claims']
@@ -3808,7 +3802,7 @@ columns and relationships of "distributions" */
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['distributions_insert_input']
-        > /** on conflict condition */;
+        > /** upsert condition */;
         on_conflict?:
           | ValueTypes['distributions_on_conflict']
           | undefined
@@ -3819,7 +3813,7 @@ columns and relationships of "distributions" */
     insert_distributions_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['distributions_insert_input'] /** on conflict condition */;
+        object: ValueTypes['distributions_insert_input'] /** upsert condition */;
         on_conflict?:
           | ValueTypes['distributions_on_conflict']
           | undefined
@@ -4475,10 +4469,7 @@ columns and relationships of "distributions" */
   };
   /** select columns of table "pending_gift_private" */
   ['pending_gift_private_select_column']: pending_gift_private_select_column;
-  /** GIVE allocations made by circle members for the currently running epoch
-
-
-columns and relationships of "pending_token_gifts" */
+  /** GIVE allocations made by circle members for the currently running epoch */
   ['pending_token_gifts']: AliasType<{
     /** An object relationship */
     circle?: ValueTypes['circles'];
@@ -4684,10 +4675,7 @@ columns and relationships of "pending_token_gifts" */
     sender_id?: ValueTypes['order_by'] | undefined | null;
     tokens?: ValueTypes['order_by'] | undefined | null;
   };
-  /** stores app-specific context to aid in the recovery of incomplete transactions
-
-
-columns and relationships of "pending_vault_transactions" */
+  /** stores app-specific context to aid in the recovery of incomplete transactions */
   ['pending_vault_transactions']: AliasType<{
     chain_id?: boolean | `@${string}`;
     claim_id?: boolean | `@${string}`;
@@ -4769,10 +4757,7 @@ columns and relationships of "pending_vault_transactions" */
   };
   /** select columns of table "pending_vault_transactions" */
   ['pending_vault_transactions_select_column']: pending_vault_transactions_select_column;
-  /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table
-
-
-columns and relationships of "profiles" */
+  /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table */
   ['profiles']: AliasType<{
     address?: boolean | `@${string}`;
     avatar?: boolean | `@${string}`;
@@ -6617,10 +6602,7 @@ columns and relationships of "profiles" */
     _neq?: ValueTypes['timestamptz'] | undefined | null;
     _nin?: Array<ValueTypes['timestamptz']> | undefined | null;
   };
-  /** GIVE allocations made by circle members for completed epochs
-
-
-columns and relationships of "token_gifts" */
+  /** GIVE allocations made by circle members for completed epochs */
   ['token_gifts']: AliasType<{
     /** An object relationship */
     circle?: ValueTypes['circles'];
@@ -7078,10 +7060,7 @@ columns and relationships of "token_gifts" */
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** Members of a circle
-
-
-columns and relationships of "users" */
+  /** Members of a circle */
   ['users']: AliasType<{
     address?: boolean | `@${string}`;
     bio?: boolean | `@${string}`;
@@ -8401,10 +8380,7 @@ export type ModelTypes = {
   ['burns_var_samp_order_by']: GraphQLTypes['burns_var_samp_order_by'];
   /** order by variance() on columns of table "burns" */
   ['burns_variance_order_by']: GraphQLTypes['burns_variance_order_by'];
-  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API.
-
-
-columns and relationships of "circle_api_keys" */
+  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API. */
   ['circle_api_keys']: {
     /** An object relationship */
     circle: GraphQLTypes['circles'];
@@ -8723,7 +8699,7 @@ columns and relationships of "circle_api_keys" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['claims']>;
   };
-  /** on conflict condition type for table "claims" */
+  /** on_conflict condition type for table "claims" */
   ['claims_on_conflict']: GraphQLTypes['claims_on_conflict'];
   /** Ordering options when selecting data from "claims". */
   ['claims_order_by']: GraphQLTypes['claims_order_by'];
@@ -8953,10 +8929,7 @@ columns and relationships of "circle_api_keys" */
   ['date']: any;
   /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
   ['date_comparison_exp']: GraphQLTypes['date_comparison_exp'];
-  /** Vault Distributions
-
-
-columns and relationships of "distributions" */
+  /** Vault Distributions */
   ['distributions']: {
     /** An array relationship */
     claims: Array<GraphQLTypes['claims']>;
@@ -9069,7 +9042,7 @@ columns and relationships of "distributions" */
   };
   /** input type for inserting object relation for remote table "distributions" */
   ['distributions_obj_rel_insert_input']: GraphQLTypes['distributions_obj_rel_insert_input'];
-  /** on conflict condition type for table "distributions" */
+  /** on_conflict condition type for table "distributions" */
   ['distributions_on_conflict']: GraphQLTypes['distributions_on_conflict'];
   /** Ordering options when selecting data from "distributions". */
   ['distributions_order_by']: GraphQLTypes['distributions_order_by'];
@@ -9598,10 +9571,7 @@ columns and relationships of "distributions" */
   ['pending_gift_private_order_by']: GraphQLTypes['pending_gift_private_order_by'];
   /** select columns of table "pending_gift_private" */
   ['pending_gift_private_select_column']: GraphQLTypes['pending_gift_private_select_column'];
-  /** GIVE allocations made by circle members for the currently running epoch
-
-
-columns and relationships of "pending_token_gifts" */
+  /** GIVE allocations made by circle members for the currently running epoch */
   ['pending_token_gifts']: {
     /** An object relationship */
     circle: GraphQLTypes['circles'];
@@ -9653,10 +9623,7 @@ columns and relationships of "pending_token_gifts" */
   ['pending_token_gifts_var_samp_order_by']: GraphQLTypes['pending_token_gifts_var_samp_order_by'];
   /** order by variance() on columns of table "pending_token_gifts" */
   ['pending_token_gifts_variance_order_by']: GraphQLTypes['pending_token_gifts_variance_order_by'];
-  /** stores app-specific context to aid in the recovery of incomplete transactions
-
-
-columns and relationships of "pending_vault_transactions" */
+  /** stores app-specific context to aid in the recovery of incomplete transactions */
   ['pending_vault_transactions']: {
     chain_id: number;
     claim_id?: GraphQLTypes['bigint'] | undefined;
@@ -9689,10 +9656,7 @@ columns and relationships of "pending_vault_transactions" */
   ['pending_vault_transactions_order_by']: GraphQLTypes['pending_vault_transactions_order_by'];
   /** select columns of table "pending_vault_transactions" */
   ['pending_vault_transactions_select_column']: GraphQLTypes['pending_vault_transactions_select_column'];
-  /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table
-
-
-columns and relationships of "profiles" */
+  /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table */
   ['profiles']: {
     address: string;
     avatar?: string | undefined;
@@ -9737,7 +9701,7 @@ columns and relationships of "profiles" */
     burns: Array<GraphQLTypes['burns']>;
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
-    /** fetch data from the table: "circle_api_keys" */
+    /** An array relationship */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** fetch data from the table: "circle_api_keys" using primary key columns */
     circle_api_keys_by_pk?: GraphQLTypes['circle_api_keys'] | undefined;
@@ -9847,7 +9811,7 @@ columns and relationships of "profiles" */
     burns: Array<GraphQLTypes['burns']>;
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
-    /** fetch data from the table: "circle_api_keys" */
+    /** An array relationship */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** fetch data from the table: "circle_api_keys" using primary key columns */
     circle_api_keys_by_pk?: GraphQLTypes['circle_api_keys'] | undefined;
@@ -9998,10 +9962,7 @@ columns and relationships of "profiles" */
   ['timestamptz']: any;
   /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
   ['timestamptz_comparison_exp']: GraphQLTypes['timestamptz_comparison_exp'];
-  /** GIVE allocations made by circle members for completed epochs
-
-
-columns and relationships of "token_gifts" */
+  /** GIVE allocations made by circle members for completed epochs */
   ['token_gifts']: {
     /** An object relationship */
     circle: GraphQLTypes['circles'];
@@ -10259,10 +10220,7 @@ columns and relationships of "token_gifts" */
     fixed_payment_amount?: number | undefined;
     user_id?: number | undefined;
   };
-  /** Members of a circle
-
-
-columns and relationships of "users" */
+  /** Members of a circle */
   ['users']: {
     address: string;
     bio?: string | undefined;
@@ -10270,7 +10228,7 @@ columns and relationships of "users" */
     burns: Array<GraphQLTypes['burns']>;
     /** An object relationship */
     circle: GraphQLTypes['circles'];
-    /** fetch data from the table: "circle_api_keys" */
+    /** An array relationship */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     circle_id: GraphQLTypes['bigint'];
     /** An array relationship */
@@ -11045,10 +11003,7 @@ export type GraphQLTypes = {
     tokens_burnt?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
-  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API.
-
-
-columns and relationships of "circle_api_keys" */
+  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API. */
   ['circle_api_keys']: {
     __typename: 'circle_api_keys';
     /** An object relationship */
@@ -11716,7 +11671,7 @@ columns and relationships of "circle_api_keys" */
   /** input type for inserting array relation for remote table "claims" */
   ['claims_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['claims_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: GraphQLTypes['claims_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -11838,7 +11793,7 @@ columns and relationships of "circle_api_keys" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['claims']>;
   };
-  /** on conflict condition type for table "claims" */
+  /** on_conflict condition type for table "claims" */
   ['claims_on_conflict']: {
     constraint: GraphQLTypes['claims_constraint'];
     update_columns: Array<GraphQLTypes['claims_update_column']>;
@@ -12259,10 +12214,7 @@ columns and relationships of "circle_api_keys" */
     _neq?: GraphQLTypes['date'] | undefined;
     _nin?: Array<GraphQLTypes['date']> | undefined;
   };
-  /** Vault Distributions
-
-
-columns and relationships of "distributions" */
+  /** Vault Distributions */
   ['distributions']: {
     __typename: 'distributions';
     /** An array relationship */
@@ -12469,10 +12421,10 @@ columns and relationships of "distributions" */
   /** input type for inserting object relation for remote table "distributions" */
   ['distributions_obj_rel_insert_input']: {
     data: GraphQLTypes['distributions_insert_input'];
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: GraphQLTypes['distributions_on_conflict'] | undefined;
   };
-  /** on conflict condition type for table "distributions" */
+  /** on_conflict condition type for table "distributions" */
   ['distributions_on_conflict']: {
     constraint: GraphQLTypes['distributions_constraint'];
     update_columns: Array<GraphQLTypes['distributions_update_column']>;
@@ -13506,10 +13458,7 @@ columns and relationships of "distributions" */
   };
   /** select columns of table "pending_gift_private" */
   ['pending_gift_private_select_column']: pending_gift_private_select_column;
-  /** GIVE allocations made by circle members for the currently running epoch
-
-
-columns and relationships of "pending_token_gifts" */
+  /** GIVE allocations made by circle members for the currently running epoch */
   ['pending_token_gifts']: {
     __typename: 'pending_token_gifts';
     /** An object relationship */
@@ -13699,10 +13648,7 @@ columns and relationships of "pending_token_gifts" */
     sender_id?: GraphQLTypes['order_by'] | undefined;
     tokens?: GraphQLTypes['order_by'] | undefined;
   };
-  /** stores app-specific context to aid in the recovery of incomplete transactions
-
-
-columns and relationships of "pending_vault_transactions" */
+  /** stores app-specific context to aid in the recovery of incomplete transactions */
   ['pending_vault_transactions']: {
     __typename: 'pending_vault_transactions';
     chain_id: number;
@@ -13778,10 +13724,7 @@ columns and relationships of "pending_vault_transactions" */
   };
   /** select columns of table "pending_vault_transactions" */
   ['pending_vault_transactions_select_column']: pending_vault_transactions_select_column;
-  /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table
-
-
-columns and relationships of "profiles" */
+  /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table */
   ['profiles']: {
     __typename: 'profiles';
     address: string;
@@ -13885,7 +13828,7 @@ columns and relationships of "profiles" */
     burns: Array<GraphQLTypes['burns']>;
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
-    /** fetch data from the table: "circle_api_keys" */
+    /** An array relationship */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** fetch data from the table: "circle_api_keys" using primary key columns */
     circle_api_keys_by_pk?: GraphQLTypes['circle_api_keys'] | undefined;
@@ -13996,7 +13939,7 @@ columns and relationships of "profiles" */
     burns: Array<GraphQLTypes['burns']>;
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
-    /** fetch data from the table: "circle_api_keys" */
+    /** An array relationship */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** fetch data from the table: "circle_api_keys" using primary key columns */
     circle_api_keys_by_pk?: GraphQLTypes['circle_api_keys'] | undefined;
@@ -14243,10 +14186,7 @@ columns and relationships of "profiles" */
     _neq?: GraphQLTypes['timestamptz'] | undefined;
     _nin?: Array<GraphQLTypes['timestamptz']> | undefined;
   };
-  /** GIVE allocations made by circle members for completed epochs
-
-
-columns and relationships of "token_gifts" */
+  /** GIVE allocations made by circle members for completed epochs */
   ['token_gifts']: {
     __typename: 'token_gifts';
     /** An object relationship */
@@ -14676,10 +14616,7 @@ columns and relationships of "token_gifts" */
     fixed_payment_amount?: number | undefined;
     user_id?: number | undefined;
   };
-  /** Members of a circle
-
-
-columns and relationships of "users" */
+  /** Members of a circle */
   ['users']: {
     __typename: 'users';
     address: string;
@@ -14688,7 +14625,7 @@ columns and relationships of "users" */
     burns: Array<GraphQLTypes['burns']>;
     /** An object relationship */
     circle: GraphQLTypes['circles'];
-    /** fetch data from the table: "circle_api_keys" */
+    /** An array relationship */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     circle_id: GraphQLTypes['bigint'];
     /** An array relationship */

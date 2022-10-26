@@ -557,7 +557,7 @@ input type for inserting array relation for remote table "burns"
 input burns_arr_rel_insert_input {
   data: [burns_insert_input!]!
 
-  """on conflict condition"""
+  """upsert condition"""
   on_conflict: burns_on_conflict
 }
 
@@ -713,7 +713,7 @@ type burns_mutation_response {
 }
 
 """
-on conflict condition type for table "burns"
+on_conflict condition type for table "burns"
 """
 input burns_on_conflict {
   constraint: burns_constraint!
@@ -991,10 +991,6 @@ input burns_variance_order_by {
 
 """
 Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API.
-
-
-columns and relationships of "circle_api_keys"
-
 """
 type circle_api_keys {
   """An object relationship"""
@@ -1065,7 +1061,7 @@ input type for inserting array relation for remote table "circle_api_keys"
 input circle_api_keys_arr_rel_insert_input {
   data: [circle_api_keys_insert_input!]!
 
-  """on conflict condition"""
+  """upsert condition"""
   on_conflict: circle_api_keys_on_conflict
 }
 
@@ -1196,7 +1192,7 @@ type circle_api_keys_mutation_response {
 }
 
 """
-on conflict condition type for table "circle_api_keys"
+on_conflict condition type for table "circle_api_keys"
 """
 input circle_api_keys_on_conflict {
   constraint: circle_api_keys_constraint!
@@ -1499,7 +1495,7 @@ input type for inserting array relation for remote table "circle_integrations"
 input circle_integrations_arr_rel_insert_input {
   data: [circle_integrations_insert_input!]!
 
-  """on conflict condition"""
+  """upsert condition"""
   on_conflict: circle_integrations_on_conflict
 }
 
@@ -1620,7 +1616,7 @@ type circle_integrations_mutation_response {
 }
 
 """
-on conflict condition type for table "circle_integrations"
+on_conflict condition type for table "circle_integrations"
 """
 input circle_integrations_on_conflict {
   constraint: circle_integrations_constraint!
@@ -1872,7 +1868,7 @@ input type for inserting array relation for remote table "circle_metadata"
 input circle_metadata_arr_rel_insert_input {
   data: [circle_metadata_insert_input!]!
 
-  """on conflict condition"""
+  """upsert condition"""
   on_conflict: circle_metadata_on_conflict
 }
 
@@ -1981,7 +1977,7 @@ type circle_metadata_mutation_response {
 }
 
 """
-on conflict condition type for table "circle_metadata"
+on_conflict condition type for table "circle_metadata"
 """
 input circle_metadata_on_conflict {
   constraint: circle_metadata_constraint!
@@ -2432,7 +2428,7 @@ type circle_share_tokens_mutation_response {
 }
 
 """
-on conflict condition type for table "circle_share_tokens"
+on_conflict condition type for table "circle_share_tokens"
 """
 input circle_share_tokens_on_conflict {
   constraint: circle_share_tokens_constraint!
@@ -3029,7 +3025,7 @@ input type for inserting array relation for remote table "circles"
 input circles_arr_rel_insert_input {
   data: [circles_insert_input!]!
 
-  """on conflict condition"""
+  """upsert condition"""
   on_conflict: circles_on_conflict
 }
 
@@ -3270,12 +3266,12 @@ input type for inserting object relation for remote table "circles"
 input circles_obj_rel_insert_input {
   data: circles_insert_input!
 
-  """on conflict condition"""
+  """upsert condition"""
   on_conflict: circles_on_conflict
 }
 
 """
-on conflict condition type for table "circles"
+on_conflict condition type for table "circles"
 """
 input circles_on_conflict {
   constraint: circles_constraint!
@@ -3724,7 +3720,7 @@ input type for inserting array relation for remote table "claims"
 input claims_arr_rel_insert_input {
   data: [claims_insert_input!]!
 
-  """on conflict condition"""
+  """upsert condition"""
   on_conflict: claims_on_conflict
 }
 
@@ -3887,7 +3883,7 @@ type claims_mutation_response {
 }
 
 """
-on conflict condition type for table "claims"
+on_conflict condition type for table "claims"
 """
 input claims_on_conflict {
   constraint: claims_constraint!
@@ -4231,7 +4227,7 @@ input type for inserting array relation for remote table "contributions"
 input contributions_arr_rel_insert_input {
   data: [contributions_insert_input!]!
 
-  """on conflict condition"""
+  """upsert condition"""
   on_conflict: contributions_on_conflict
 }
 
@@ -4367,7 +4363,7 @@ type contributions_mutation_response {
 }
 
 """
-on conflict condition type for table "contributions"
+on_conflict condition type for table "contributions"
 """
 input contributions_on_conflict {
   constraint: contributions_constraint!
@@ -4595,13 +4591,7 @@ input date_comparison_exp {
   _nin: [date!]
 }
 
-"""
-Vault Distributions
-
-
-columns and relationships of "distributions"
-
-"""
+"""Vault Distributions"""
 type distributions {
   """An array relationship"""
   claims(
@@ -4755,7 +4745,7 @@ input type for inserting array relation for remote table "distributions"
 input distributions_arr_rel_insert_input {
   data: [distributions_insert_input!]!
 
-  """on conflict condition"""
+  """upsert condition"""
   on_conflict: distributions_on_conflict
 }
 
@@ -4970,12 +4960,12 @@ input type for inserting object relation for remote table "distributions"
 input distributions_obj_rel_insert_input {
   data: distributions_insert_input!
 
-  """on conflict condition"""
+  """upsert condition"""
   on_conflict: distributions_on_conflict
 }
 
 """
-on conflict condition type for table "distributions"
+on_conflict condition type for table "distributions"
 """
 input distributions_on_conflict {
   constraint: distributions_constraint!
@@ -5528,7 +5518,7 @@ input type for inserting array relation for remote table "epoches"
 input epochs_arr_rel_insert_input {
   data: [epochs_insert_input!]!
 
-  """on conflict condition"""
+  """upsert condition"""
   on_conflict: epochs_on_conflict
 }
 
@@ -5734,12 +5724,12 @@ input type for inserting object relation for remote table "epoches"
 input epochs_obj_rel_insert_input {
   data: epochs_insert_input!
 
-  """on conflict condition"""
+  """upsert condition"""
   on_conflict: epochs_on_conflict
 }
 
 """
-on conflict condition type for table "epoches"
+on_conflict condition type for table "epoches"
 """
 input epochs_on_conflict {
   constraint: epochs_constraint!
@@ -6433,7 +6423,7 @@ type histories_mutation_response {
 }
 
 """
-on conflict condition type for table "histories"
+on_conflict condition type for table "histories"
 """
 input histories_on_conflict {
   constraint: histories_constraint!
@@ -6759,7 +6749,7 @@ type interaction_events_mutation_response {
 }
 
 """
-on conflict condition type for table "interaction_events"
+on_conflict condition type for table "interaction_events"
 """
 input interaction_events_on_conflict {
   constraint: interaction_events_constraint!
@@ -7354,7 +7344,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [burns_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: burns_on_conflict
   ): burns_mutation_response
 
@@ -7365,7 +7355,7 @@ type mutation_root {
     """the row to be inserted"""
     object: burns_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: burns_on_conflict
   ): burns
 
@@ -7376,7 +7366,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [circle_api_keys_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: circle_api_keys_on_conflict
   ): circle_api_keys_mutation_response
 
@@ -7387,7 +7377,7 @@ type mutation_root {
     """the row to be inserted"""
     object: circle_api_keys_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: circle_api_keys_on_conflict
   ): circle_api_keys
 
@@ -7398,7 +7388,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [circle_integrations_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: circle_integrations_on_conflict
   ): circle_integrations_mutation_response
 
@@ -7409,7 +7399,7 @@ type mutation_root {
     """the row to be inserted"""
     object: circle_integrations_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: circle_integrations_on_conflict
   ): circle_integrations
 
@@ -7420,7 +7410,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [circle_metadata_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: circle_metadata_on_conflict
   ): circle_metadata_mutation_response
 
@@ -7431,7 +7421,7 @@ type mutation_root {
     """the row to be inserted"""
     object: circle_metadata_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: circle_metadata_on_conflict
   ): circle_metadata
 
@@ -7458,7 +7448,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [circle_share_tokens_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: circle_share_tokens_on_conflict
   ): circle_share_tokens_mutation_response
 
@@ -7469,7 +7459,7 @@ type mutation_root {
     """the row to be inserted"""
     object: circle_share_tokens_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: circle_share_tokens_on_conflict
   ): circle_share_tokens
 
@@ -7480,7 +7470,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [circles_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: circles_on_conflict
   ): circles_mutation_response
 
@@ -7491,7 +7481,7 @@ type mutation_root {
     """the row to be inserted"""
     object: circles_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: circles_on_conflict
   ): circles
 
@@ -7502,7 +7492,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [claims_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: claims_on_conflict
   ): claims_mutation_response
 
@@ -7513,7 +7503,7 @@ type mutation_root {
     """the row to be inserted"""
     object: claims_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: claims_on_conflict
   ): claims
 
@@ -7524,7 +7514,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [contributions_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: contributions_on_conflict
   ): contributions_mutation_response
 
@@ -7535,7 +7525,7 @@ type mutation_root {
     """the row to be inserted"""
     object: contributions_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: contributions_on_conflict
   ): contributions
 
@@ -7546,7 +7536,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [distributions_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: distributions_on_conflict
   ): distributions_mutation_response
 
@@ -7557,7 +7547,7 @@ type mutation_root {
     """the row to be inserted"""
     object: distributions_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: distributions_on_conflict
   ): distributions
 
@@ -7568,7 +7558,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [epochs_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: epochs_on_conflict
   ): epochs_mutation_response
 
@@ -7579,7 +7569,7 @@ type mutation_root {
     """the row to be inserted"""
     object: epochs_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: epochs_on_conflict
   ): epochs
 
@@ -7606,7 +7596,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [histories_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: histories_on_conflict
   ): histories_mutation_response
 
@@ -7617,7 +7607,7 @@ type mutation_root {
     """the row to be inserted"""
     object: histories_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: histories_on_conflict
   ): histories
 
@@ -7628,7 +7618,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [interaction_events_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: interaction_events_on_conflict
   ): interaction_events_mutation_response
 
@@ -7639,7 +7629,7 @@ type mutation_root {
     """the row to be inserted"""
     object: interaction_events_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: interaction_events_on_conflict
   ): interaction_events
 
@@ -7650,7 +7640,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [nominees_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: nominees_on_conflict
   ): nominees_mutation_response
 
@@ -7661,7 +7651,7 @@ type mutation_root {
     """the row to be inserted"""
     object: nominees_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: nominees_on_conflict
   ): nominees
 
@@ -7672,7 +7662,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [organizations_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: organizations_on_conflict
   ): organizations_mutation_response
 
@@ -7683,7 +7673,7 @@ type mutation_root {
     """the row to be inserted"""
     object: organizations_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: organizations_on_conflict
   ): organizations
 
@@ -7710,7 +7700,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [pending_token_gifts_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: pending_token_gifts_on_conflict
   ): pending_token_gifts_mutation_response
 
@@ -7721,7 +7711,7 @@ type mutation_root {
     """the row to be inserted"""
     object: pending_token_gifts_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: pending_token_gifts_on_conflict
   ): pending_token_gifts
 
@@ -7732,7 +7722,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [pending_vault_transactions_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: pending_vault_transactions_on_conflict
   ): pending_vault_transactions_mutation_response
 
@@ -7743,7 +7733,7 @@ type mutation_root {
     """the row to be inserted"""
     object: pending_vault_transactions_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: pending_vault_transactions_on_conflict
   ): pending_vault_transactions
 
@@ -7754,7 +7744,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [personal_access_tokens_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: personal_access_tokens_on_conflict
   ): personal_access_tokens_mutation_response
 
@@ -7765,7 +7755,7 @@ type mutation_root {
     """the row to be inserted"""
     object: personal_access_tokens_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: personal_access_tokens_on_conflict
   ): personal_access_tokens
 
@@ -7776,7 +7766,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [profiles_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: profiles_on_conflict
   ): profiles_mutation_response
 
@@ -7787,7 +7777,7 @@ type mutation_root {
     """the row to be inserted"""
     object: profiles_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: profiles_on_conflict
   ): profiles
 
@@ -7798,7 +7788,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [teammates_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: teammates_on_conflict
   ): teammates_mutation_response
 
@@ -7809,7 +7799,7 @@ type mutation_root {
     """the row to be inserted"""
     object: teammates_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: teammates_on_conflict
   ): teammates
 
@@ -7820,7 +7810,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [token_gifts_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: token_gifts_on_conflict
   ): token_gifts_mutation_response
 
@@ -7831,7 +7821,7 @@ type mutation_root {
     """the row to be inserted"""
     object: token_gifts_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: token_gifts_on_conflict
   ): token_gifts
 
@@ -7842,7 +7832,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [users_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: users_on_conflict
   ): users_mutation_response
 
@@ -7853,7 +7843,7 @@ type mutation_root {
     """the row to be inserted"""
     object: users_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: users_on_conflict
   ): users
 
@@ -7864,7 +7854,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [vault_transactions_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: vault_transactions_on_conflict
   ): vault_transactions_mutation_response
 
@@ -7875,7 +7865,7 @@ type mutation_root {
     """the row to be inserted"""
     object: vault_transactions_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: vault_transactions_on_conflict
   ): vault_transactions
 
@@ -7886,7 +7876,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [vault_tx_types_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: vault_tx_types_on_conflict
   ): vault_tx_types_mutation_response
 
@@ -7897,7 +7887,7 @@ type mutation_root {
     """the row to be inserted"""
     object: vault_tx_types_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: vault_tx_types_on_conflict
   ): vault_tx_types
 
@@ -7908,7 +7898,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [vaults_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: vaults_on_conflict
   ): vaults_mutation_response
 
@@ -7919,7 +7909,7 @@ type mutation_root {
     """the row to be inserted"""
     object: vaults_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: vaults_on_conflict
   ): vaults
 
@@ -7930,7 +7920,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [vouches_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: vouches_on_conflict
   ): vouches_mutation_response
 
@@ -7941,7 +7931,7 @@ type mutation_root {
     """the row to be inserted"""
     object: vouches_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: vouches_on_conflict
   ): vouches
   logoutUser: LogoutResponse
@@ -8846,7 +8836,7 @@ input type for inserting array relation for remote table "nominees"
 input nominees_arr_rel_insert_input {
   data: [nominees_insert_input!]!
 
-  """on conflict condition"""
+  """upsert condition"""
   on_conflict: nominees_on_conflict
 }
 
@@ -9023,12 +9013,12 @@ input type for inserting object relation for remote table "nominees"
 input nominees_obj_rel_insert_input {
   data: nominees_insert_input!
 
-  """on conflict condition"""
+  """upsert condition"""
   on_conflict: nominees_on_conflict
 }
 
 """
-on conflict condition type for table "nominees"
+on_conflict condition type for table "nominees"
 """
 input nominees_on_conflict {
   constraint: nominees_constraint!
@@ -9553,12 +9543,12 @@ input type for inserting object relation for remote table "organizations"
 input organizations_obj_rel_insert_input {
   data: organizations_insert_input!
 
-  """on conflict condition"""
+  """upsert condition"""
   on_conflict: organizations_on_conflict
 }
 
 """
-on conflict condition type for table "organizations"
+on_conflict condition type for table "organizations"
 """
 input organizations_on_conflict {
   constraint: organizations_constraint!
@@ -9900,10 +9890,6 @@ type pending_gift_private_variance_fields {
 
 """
 GIVE allocations made by circle members for the currently running epoch
-
-
-columns and relationships of "pending_token_gifts"
-
 """
 type pending_token_gifts {
   """An object relationship"""
@@ -9982,7 +9968,7 @@ input type for inserting array relation for remote table "pending_token_gifts"
 input pending_token_gifts_arr_rel_insert_input {
   data: [pending_token_gifts_insert_input!]!
 
-  """on conflict condition"""
+  """upsert condition"""
   on_conflict: pending_token_gifts_on_conflict
 }
 
@@ -10160,7 +10146,7 @@ type pending_token_gifts_mutation_response {
 }
 
 """
-on conflict condition type for table "pending_token_gifts"
+on_conflict condition type for table "pending_token_gifts"
 """
 input pending_token_gifts_on_conflict {
   constraint: pending_token_gifts_constraint!
@@ -10450,10 +10436,6 @@ input pending_token_gifts_variance_order_by {
 
 """
 stores app-specific context to aid in the recovery of incomplete transactions
-
-
-columns and relationships of "pending_vault_transactions"
-
 """
 type pending_vault_transactions {
   chain_id: Int!
@@ -10604,7 +10586,7 @@ type pending_vault_transactions_mutation_response {
 }
 
 """
-on conflict condition type for table "pending_vault_transactions"
+on_conflict condition type for table "pending_vault_transactions"
 """
 input pending_vault_transactions_on_conflict {
   constraint: pending_vault_transactions_constraint!
@@ -10911,7 +10893,7 @@ type personal_access_tokens_mutation_response {
 }
 
 """
-on conflict condition type for table "personal_access_tokens"
+on_conflict condition type for table "personal_access_tokens"
 """
 input personal_access_tokens_on_conflict {
   constraint: personal_access_tokens_constraint!
@@ -11061,10 +11043,6 @@ type personal_access_tokens_variance_fields {
 
 """
 Coordinape user accounts that can belong to one or many circles via the relationship to the users table
-
-
-columns and relationships of "profiles"
-
 """
 type profiles {
   address: String!
@@ -11349,12 +11327,12 @@ input type for inserting object relation for remote table "profiles"
 input profiles_obj_rel_insert_input {
   data: profiles_insert_input!
 
-  """on conflict condition"""
+  """upsert condition"""
   on_conflict: profiles_on_conflict
 }
 
 """
-on conflict condition type for table "profiles"
+on_conflict condition type for table "profiles"
 """
 input profiles_on_conflict {
   constraint: profiles_constraint!
@@ -11593,9 +11571,7 @@ type query_root {
   """fetch data from the table: "burns" using primary key columns"""
   burns_by_pk(id: bigint!): burns
 
-  """
-  fetch data from the table: "circle_api_keys"
-  """
+  """An array relationship"""
   circle_api_keys(
     """distinct select on columns"""
     distinct_on: [circle_api_keys_select_column!]
@@ -12782,9 +12758,7 @@ type subscription_root {
   """fetch data from the table: "burns" using primary key columns"""
   burns_by_pk(id: bigint!): burns
 
-  """
-  fetch data from the table: "circle_api_keys"
-  """
+  """An array relationship"""
   circle_api_keys(
     """distinct select on columns"""
     distinct_on: [circle_api_keys_select_column!]
@@ -13996,7 +13970,7 @@ input type for inserting array relation for remote table "teammates"
 input teammates_arr_rel_insert_input {
   data: [teammates_insert_input!]!
 
-  """on conflict condition"""
+  """upsert condition"""
   on_conflict: teammates_on_conflict
 }
 
@@ -14117,7 +14091,7 @@ type teammates_mutation_response {
 }
 
 """
-on conflict condition type for table "teammates"
+on_conflict condition type for table "teammates"
 """
 input teammates_on_conflict {
   constraint: teammates_constraint!
@@ -14338,13 +14312,7 @@ input timestamptz_comparison_exp {
   _nin: [timestamptz!]
 }
 
-"""
-GIVE allocations made by circle members for completed epochs
-
-
-columns and relationships of "token_gifts"
-
-"""
+"""GIVE allocations made by circle members for completed epochs"""
 type token_gifts {
   """An object relationship"""
   circle: circles!
@@ -14422,7 +14390,7 @@ input type for inserting array relation for remote table "token_gifts"
 input token_gifts_arr_rel_insert_input {
   data: [token_gifts_insert_input!]!
 
-  """on conflict condition"""
+  """upsert condition"""
   on_conflict: token_gifts_on_conflict
 }
 
@@ -14597,7 +14565,7 @@ type token_gifts_mutation_response {
 }
 
 """
-on conflict condition type for table "token_gifts"
+on_conflict condition type for table "token_gifts"
 """
 input token_gifts_on_conflict {
   constraint: token_gifts_constraint!
@@ -15058,13 +15026,7 @@ type user_private_variance_fields {
   user_id: Float
 }
 
-"""
-Members of a circle
-
-
-columns and relationships of "users"
-
-"""
+"""Members of a circle"""
 type users {
   address: String!
   bio: String
@@ -15108,9 +15070,7 @@ type users {
   """An object relationship"""
   circle: circles!
 
-  """
-  fetch data from the table: "circle_api_keys"
-  """
+  """An array relationship"""
   circle_api_keys(
     """distinct select on columns"""
     distinct_on: [circle_api_keys_select_column!]
@@ -15469,7 +15429,7 @@ input type for inserting array relation for remote table "users"
 input users_arr_rel_insert_input {
   data: [users_insert_input!]!
 
-  """on conflict condition"""
+  """upsert condition"""
   on_conflict: users_on_conflict
 }
 
@@ -15689,12 +15649,12 @@ input type for inserting object relation for remote table "users"
 input users_obj_rel_insert_input {
   data: users_insert_input!
 
-  """on conflict condition"""
+  """upsert condition"""
   on_conflict: users_on_conflict
 }
 
 """
-on conflict condition type for table "users"
+on_conflict condition type for table "users"
 """
 input users_on_conflict {
   constraint: users_constraint!
@@ -16145,7 +16105,7 @@ input type for inserting array relation for remote table "vault_transactions"
 input vault_transactions_arr_rel_insert_input {
   data: [vault_transactions_insert_input!]!
 
-  """on conflict condition"""
+  """upsert condition"""
   on_conflict: vault_transactions_on_conflict
 }
 
@@ -16295,7 +16255,7 @@ type vault_transactions_mutation_response {
 }
 
 """
-on conflict condition type for table "vault_transactions"
+on_conflict condition type for table "vault_transactions"
 """
 input vault_transactions_on_conflict {
   constraint: vault_transactions_constraint!
@@ -16685,12 +16645,12 @@ input type for inserting object relation for remote table "vault_tx_types"
 input vault_tx_types_obj_rel_insert_input {
   data: vault_tx_types_insert_input!
 
-  """on conflict condition"""
+  """upsert condition"""
   on_conflict: vault_tx_types_on_conflict
 }
 
 """
-on conflict condition type for table "vault_tx_types"
+on_conflict condition type for table "vault_tx_types"
 """
 input vault_tx_types_on_conflict {
   constraint: vault_tx_types_constraint!
@@ -16884,7 +16844,7 @@ input type for inserting array relation for remote table "vaults"
 input vaults_arr_rel_insert_input {
   data: [vaults_insert_input!]!
 
-  """on conflict condition"""
+  """upsert condition"""
   on_conflict: vaults_on_conflict
 }
 
@@ -17065,12 +17025,12 @@ input type for inserting object relation for remote table "vaults"
 input vaults_obj_rel_insert_input {
   data: vaults_insert_input!
 
-  """on conflict condition"""
+  """upsert condition"""
   on_conflict: vaults_on_conflict
 }
 
 """
-on conflict condition type for table "vaults"
+on_conflict condition type for table "vaults"
 """
 input vaults_on_conflict {
   constraint: vaults_constraint!
@@ -17422,7 +17382,7 @@ input type for inserting array relation for remote table "vouches"
 input vouches_arr_rel_insert_input {
   data: [vouches_insert_input!]!
 
-  """on conflict condition"""
+  """upsert condition"""
   on_conflict: vouches_on_conflict
 }
 
@@ -17540,7 +17500,7 @@ type vouches_mutation_response {
 }
 
 """
-on conflict condition type for table "vouches"
+on_conflict condition type for table "vouches"
 """
 input vouches_on_conflict {
   constraint: vouches_constraint!

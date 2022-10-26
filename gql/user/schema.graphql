@@ -713,10 +713,6 @@ input burns_variance_order_by {
 
 """
 Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API.
-
-
-columns and relationships of "circle_api_keys"
-
 """
 type circle_api_keys {
   """An object relationship"""
@@ -1872,7 +1868,7 @@ input type for inserting array relation for remote table "claims"
 input claims_arr_rel_insert_input {
   data: [claims_insert_input!]!
 
-  """on conflict condition"""
+  """upsert condition"""
   on_conflict: claims_on_conflict
 }
 
@@ -2018,7 +2014,7 @@ type claims_mutation_response {
 }
 
 """
-on conflict condition type for table "claims"
+on_conflict condition type for table "claims"
 """
 input claims_on_conflict {
   constraint: claims_constraint!
@@ -2585,13 +2581,7 @@ input date_comparison_exp {
   _nin: [date!]
 }
 
-"""
-Vault Distributions
-
-
-columns and relationships of "distributions"
-
-"""
+"""Vault Distributions"""
 type distributions {
   """An array relationship"""
   claims(
@@ -2884,12 +2874,12 @@ input type for inserting object relation for remote table "distributions"
 input distributions_obj_rel_insert_input {
   data: distributions_insert_input!
 
-  """on conflict condition"""
+  """upsert condition"""
   on_conflict: distributions_on_conflict
 }
 
 """
-on conflict condition type for table "distributions"
+on_conflict condition type for table "distributions"
 """
 input distributions_on_conflict {
   constraint: distributions_constraint!
@@ -3783,7 +3773,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [claims_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: claims_on_conflict
   ): claims_mutation_response
 
@@ -3794,7 +3784,7 @@ type mutation_root {
     """the row to be inserted"""
     object: claims_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: claims_on_conflict
   ): claims
 
@@ -3821,7 +3811,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [distributions_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: distributions_on_conflict
   ): distributions_mutation_response
 
@@ -3832,7 +3822,7 @@ type mutation_root {
     """the row to be inserted"""
     object: distributions_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: distributions_on_conflict
   ): distributions
 
@@ -4585,10 +4575,6 @@ enum pending_gift_private_select_column {
 
 """
 GIVE allocations made by circle members for the currently running epoch
-
-
-columns and relationships of "pending_token_gifts"
-
 """
 type pending_token_gifts {
   """An object relationship"""
@@ -4850,10 +4836,6 @@ input pending_token_gifts_variance_order_by {
 
 """
 stores app-specific context to aid in the recovery of incomplete transactions
-
-
-columns and relationships of "pending_vault_transactions"
-
 """
 type pending_vault_transactions {
   chain_id: Int!
@@ -4966,10 +4948,6 @@ enum pending_vault_transactions_select_column {
 
 """
 Coordinape user accounts that can belong to one or many circles via the relationship to the users table
-
-
-columns and relationships of "profiles"
-
 """
 type profiles {
   address: String!
@@ -5190,9 +5168,7 @@ type query_root {
   """fetch data from the table: "burns" using primary key columns"""
   burns_by_pk(id: bigint!): burns
 
-  """
-  fetch data from the table: "circle_api_keys"
-  """
+  """An array relationship"""
   circle_api_keys(
     """distinct select on columns"""
     distinct_on: [circle_api_keys_select_column!]
@@ -5847,9 +5823,7 @@ type subscription_root {
   """fetch data from the table: "burns" using primary key columns"""
   burns_by_pk(id: bigint!): burns
 
-  """
-  fetch data from the table: "circle_api_keys"
-  """
+  """An array relationship"""
   circle_api_keys(
     """distinct select on columns"""
     distinct_on: [circle_api_keys_select_column!]
@@ -6691,13 +6665,7 @@ input timestamptz_comparison_exp {
   _nin: [timestamptz!]
 }
 
-"""
-GIVE allocations made by circle members for completed epochs
-
-
-columns and relationships of "token_gifts"
-
-"""
+"""GIVE allocations made by circle members for completed epochs"""
 type token_gifts {
   """An object relationship"""
   circle: circles!
@@ -7229,13 +7197,7 @@ type user_private_variance_fields {
   user_id: Float
 }
 
-"""
-Members of a circle
-
-
-columns and relationships of "users"
-
-"""
+"""Members of a circle"""
 type users {
   address: String!
   bio: String
@@ -7261,9 +7223,7 @@ type users {
   """An object relationship"""
   circle: circles!
 
-  """
-  fetch data from the table: "circle_api_keys"
-  """
+  """An array relationship"""
   circle_api_keys(
     """distinct select on columns"""
     distinct_on: [circle_api_keys_select_column!]
