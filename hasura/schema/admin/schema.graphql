@@ -638,7 +638,7 @@ unique or primary key constraints on table "burns"
 """
 enum burns_constraint {
   """
-  unique or primary key constraint
+  unique or primary key constraint on columns "id"
   """
   burns_pkey
 }
@@ -927,6 +927,36 @@ input burns_stddev_samp_order_by {
 }
 
 """
+Streaming cursor of the table "burns"
+"""
+input burns_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: burns_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input burns_stream_cursor_value_input {
+  circle_id: bigint
+  created_at: timestamp
+  epoch_id: bigint
+  id: bigint
+  original_amount: Int
+  regift_percent: Int
+  tokens_burnt: Int
+  updated_at: timestamp
+  user_id: bigint
+}
+
+"""
 aggregate sum on columns
 """
 type burns_sum_fields {
@@ -1000,6 +1030,19 @@ enum burns_update_column {
   column name
   """
   user_id
+}
+
+input burns_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: burns_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: burns_set_input
+  where: burns_bool_exp!
 }
 
 """
@@ -1207,7 +1250,7 @@ unique or primary key constraints on table "circle_api_keys"
 """
 enum circle_api_keys_constraint {
   """
-  unique or primary key constraint
+  unique or primary key constraint on columns "hash"
   """
   circle_api_keys_pkey
 }
@@ -1475,6 +1518,40 @@ input circle_api_keys_stddev_samp_order_by {
 }
 
 """
+Streaming cursor of the table "circle_api_keys"
+"""
+input circle_api_keys_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: circle_api_keys_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input circle_api_keys_stream_cursor_value_input {
+  circle_id: bigint
+  create_vouches: Boolean
+  created_at: timestamptz
+  created_by: bigint
+  hash: String
+  name: String
+  read_circle: Boolean
+  read_epochs: Boolean
+  read_member_profiles: Boolean
+  read_nominees: Boolean
+  read_pending_token_gifts: Boolean
+  update_circle: Boolean
+  update_pending_token_gifts: Boolean
+}
+
+"""
 aggregate sum on columns
 """
 type circle_api_keys_sum_fields {
@@ -1558,6 +1635,19 @@ enum circle_api_keys_update_column {
   column name
   """
   update_pending_token_gifts
+}
+
+input circle_api_keys_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: circle_api_keys_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: circle_api_keys_set_input
+  where: circle_api_keys_bool_exp!
 }
 
 """
@@ -1722,7 +1812,7 @@ unique or primary key constraints on table "circle_integrations"
 """
 enum circle_integrations_constraint {
   """
-  unique or primary key constraint
+  unique or primary key constraint on columns "id"
   """
   circle_integrations_pkey
 }
@@ -1944,6 +2034,34 @@ input circle_integrations_stddev_samp_order_by {
 }
 
 """
+Streaming cursor of the table "circle_integrations"
+"""
+input circle_integrations_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: circle_integrations_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input circle_integrations_stream_cursor_value_input {
+  circle_id: bigint
+  created_at: timestamptz
+  data: json
+  id: bigint
+  name: String
+  type: String
+  updated_at: timestamptz
+}
+
+"""
 aggregate sum on columns
 """
 type circle_integrations_sum_fields {
@@ -1997,6 +2115,19 @@ enum circle_integrations_update_column {
   column name
   """
   updated_at
+}
+
+input circle_integrations_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: circle_integrations_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: circle_integrations_set_input
+  where: circle_integrations_bool_exp!
 }
 
 """
@@ -2157,7 +2288,7 @@ unique or primary key constraints on table "circle_metadata"
 """
 enum circle_metadata_constraint {
   """
-  unique or primary key constraint
+  unique or primary key constraint on columns "id"
   """
   circle_metadata_pkey
 }
@@ -2355,6 +2486,32 @@ input circle_metadata_stddev_samp_order_by {
 }
 
 """
+Streaming cursor of the table "circle_metadata"
+"""
+input circle_metadata_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: circle_metadata_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input circle_metadata_stream_cursor_value_input {
+  circle_id: bigint
+  created_at: timestamp
+  id: bigint
+  json: json
+  updated_at: timestamp
+}
+
+"""
 aggregate sum on columns
 """
 type circle_metadata_sum_fields {
@@ -2398,6 +2555,19 @@ enum circle_metadata_update_column {
   column name
   """
   updated_at
+}
+
+input circle_metadata_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: circle_metadata_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: circle_metadata_set_input
+  where: circle_metadata_bool_exp!
 }
 
 """
@@ -2612,10 +2782,46 @@ type circle_private_stddev_samp_fields {
 }
 
 """
+Streaming cursor of the table "circle_private"
+"""
+input circle_private_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: circle_private_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input circle_private_stream_cursor_value_input {
+  circle_id: bigint
+  discord_webhook: String
+}
+
+"""
 aggregate sum on columns
 """
 type circle_private_sum_fields {
   circle_id: bigint
+}
+
+input circle_private_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: circle_private_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: circle_private_set_input
+  where: circle_private_bool_exp!
 }
 
 """
@@ -2707,12 +2913,12 @@ unique or primary key constraints on table "circle_share_tokens"
 """
 enum circle_share_tokens_constraint {
   """
-  unique or primary key constraint
+  unique or primary key constraint on columns "type", "circle_id"
   """
   circle_share_token_pkey
 
   """
-  unique or primary key constraint
+  unique or primary key constraint on columns "uuid"
   """
   circle_share_token_uuid_key
 }
@@ -2869,6 +3075,32 @@ type circle_share_tokens_stddev_samp_fields {
 }
 
 """
+Streaming cursor of the table "circle_share_tokens"
+"""
+input circle_share_tokens_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: circle_share_tokens_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input circle_share_tokens_stream_cursor_value_input {
+  circle_id: bigint
+  created_at: timestamptz
+  type: Int
+  updated_at: timestamptz
+  uuid: uuid
+}
+
+"""
 aggregate sum on columns
 """
 type circle_share_tokens_sum_fields {
@@ -2904,6 +3136,19 @@ enum circle_share_tokens_update_column {
   column name
   """
   uuid
+}
+
+input circle_share_tokens_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: circle_share_tokens_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: circle_share_tokens_set_input
+  where: circle_share_tokens_bool_exp!
 }
 
 """
@@ -3757,7 +4002,7 @@ unique or primary key constraints on table "circles"
 """
 enum circles_constraint {
   """
-  unique or primary key constraint
+  unique or primary key constraint on columns "id"
   """
   circles_pkey
 }
@@ -4220,6 +4465,51 @@ input circles_stddev_samp_order_by {
 }
 
 """
+Streaming cursor of the table "circles"
+"""
+input circles_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: circles_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input circles_stream_cursor_value_input {
+  alloc_text: String
+  auto_opt_out: Boolean
+  contact: String
+  created_at: timestamp
+  default_opt_in: Boolean
+  deleted_at: timestamp
+  discord_webhook: String
+  fixed_payment_token_type: String
+  fixed_payment_vault_id: Int
+  id: bigint
+  is_verified: Boolean
+  logo: String
+  min_vouches: Int
+  name: String
+  nomination_days_limit: Int
+  only_giver_vouch: Boolean
+  organization_id: Int
+  team_sel_text: String
+  team_selection: Boolean
+  telegram_id: String
+  token_name: String
+  updated_at: timestamp
+  vouching: Boolean
+  vouching_text: String
+}
+
+"""
 aggregate sum on columns
 """
 type circles_sum_fields {
@@ -4364,6 +4654,19 @@ enum circles_update_column {
   column name
   """
   vouching_text
+}
+
+input circles_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: circles_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: circles_set_input
+  where: circles_bool_exp!
 }
 
 """
@@ -4564,7 +4867,7 @@ unique or primary key constraints on table "claims"
 """
 enum claims_constraint {
   """
-  unique or primary key constraint
+  unique or primary key constraint on columns "id"
   """
   claims_pkey
 }
@@ -4868,6 +5171,38 @@ input claims_stddev_samp_order_by {
 }
 
 """
+Streaming cursor of the table "claims"
+"""
+input claims_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: claims_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input claims_stream_cursor_value_input {
+  address: String
+  amount: numeric
+  created_at: timestamptz
+  distribution_id: bigint
+  id: bigint
+  index: bigint
+  new_amount: numeric
+  profile_id: bigint
+  proof: String
+  txHash: String
+  updated_at: timestamptz
+}
+
+"""
 aggregate sum on columns
 """
 type claims_sum_fields {
@@ -4949,6 +5284,19 @@ enum claims_update_column {
   column name
   """
   updated_at
+}
+
+input claims_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: claims_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: claims_set_input
+  where: claims_bool_exp!
 }
 
 """
@@ -5142,7 +5490,7 @@ unique or primary key constraints on table "contributions"
 """
 enum contributions_constraint {
   """
-  unique or primary key constraint
+  unique or primary key constraint on columns "id"
   """
   contributions_pkey
 }
@@ -5389,6 +5737,35 @@ input contributions_stddev_samp_order_by {
 }
 
 """
+Streaming cursor of the table "contributions"
+"""
+input contributions_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: contributions_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input contributions_stream_cursor_value_input {
+  circle_id: bigint
+  created_at: timestamptz
+  datetime_created: timestamptz
+  deleted_at: timestamptz
+  description: String
+  id: bigint
+  updated_at: timestamptz
+  user_id: bigint
+}
+
+"""
 aggregate sum on columns
 """
 type contributions_sum_fields {
@@ -5451,6 +5828,19 @@ enum contributions_update_column {
   user_id
 }
 
+input contributions_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: contributions_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: contributions_set_input
+  where: contributions_bool_exp!
+}
+
 """
 aggregate var_pop on columns
 """
@@ -5503,6 +5893,21 @@ input contributions_variance_order_by {
   circle_id: order_by
   id: order_by
   user_id: order_by
+}
+
+"""
+ordering argument of a cursor
+"""
+enum cursor_ordering {
+  """
+  ascending ordering of the cursor
+  """
+  ASC
+
+  """
+  descending ordering of the cursor
+  """
+  DESC
 }
 
 scalar date
@@ -5803,7 +6208,7 @@ unique or primary key constraints on table "distributions"
 """
 enum distributions_constraint {
   """
-  unique or primary key constraint
+  unique or primary key constraint on columns "id"
   """
   distributions_pkey
 }
@@ -6199,6 +6604,41 @@ input distributions_stddev_samp_order_by {
 }
 
 """
+Streaming cursor of the table "distributions"
+"""
+input distributions_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: distributions_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input distributions_stream_cursor_value_input {
+  created_at: timestamp
+  created_by: bigint
+  distribution_epoch_id: bigint
+  distribution_json: jsonb
+  distribution_type: Int
+  epoch_id: bigint
+  fixed_amount: numeric
+  gift_amount: numeric
+  id: bigint
+  merkle_root: String
+  total_amount: String
+  tx_hash: String
+  updated_at: timestamp
+  vault_id: bigint
+}
+
+"""
 aggregate sum on columns
 """
 type distributions_sum_fields {
@@ -6299,6 +6739,44 @@ enum distributions_update_column {
   column name
   """
   vault_id
+}
+
+input distributions_updates {
+  """
+  append existing jsonb value of filtered columns with new jsonb value
+  """
+  _append: distributions_append_input
+
+  """
+  delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+  """
+  _delete_at_path: distributions_delete_at_path_input
+
+  """
+  delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+  """
+  _delete_elem: distributions_delete_elem_input
+
+  """
+  delete key/value pair or string element. key/value pairs are matched based on their key value
+  """
+  _delete_key: distributions_delete_key_input
+
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: distributions_inc_input
+
+  """
+  prepend existing jsonb value of filtered columns with new jsonb value
+  """
+  _prepend: distributions_prepend_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: distributions_set_input
+  where: distributions_bool_exp!
 }
 
 """
@@ -6768,7 +7246,7 @@ unique or primary key constraints on table "epoches"
 """
 enum epochs_constraint {
   """
-  unique or primary key constraint
+  unique or primary key constraint on columns "id"
   """
   epoches_pkey
 }
@@ -6962,7 +7440,7 @@ input epochs_order_by {
 }
 
 """
-primary key columns input for table: epochs
+primary key columns input for table: epoches
 """
 input epochs_pk_columns_input {
   id: bigint!
@@ -7160,6 +7638,43 @@ input epochs_stddev_samp_order_by {
 }
 
 """
+Streaming cursor of the table "epochs"
+"""
+input epochs_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: epochs_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input epochs_stream_cursor_value_input {
+  circle_id: Int
+  created_at: timestamp
+  days: Int
+  end_date: timestamptz
+  ended: Boolean
+  grant: numeric
+  id: bigint
+  notified_before_end: timestamp
+  notified_end: timestamp
+  notified_start: timestamp
+  number: Int
+  regift_days: Int
+  repeat: Int
+  repeat_day_of_month: Int
+  start_date: timestamptz
+  updated_at: timestamp
+}
+
+"""
 aggregate sum on columns
 """
 type epochs_sum_fields {
@@ -7270,6 +7785,19 @@ enum epochs_update_column {
   column name
   """
   updated_at
+}
+
+input epochs_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: epochs_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: epochs_set_input
+  where: epochs_bool_exp!
 }
 
 """
@@ -7563,12 +8091,50 @@ type gift_private_stddev_samp_fields {
 }
 
 """
+Streaming cursor of the table "gift_private"
+"""
+input gift_private_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: gift_private_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input gift_private_stream_cursor_value_input {
+  gift_id: bigint
+  note: String
+  recipient_id: bigint
+  sender_id: bigint
+}
+
+"""
 aggregate sum on columns
 """
 type gift_private_sum_fields {
   gift_id: bigint
   recipient_id: bigint
   sender_id: bigint
+}
+
+input gift_private_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: gift_private_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: gift_private_set_input
+  where: gift_private_bool_exp!
 }
 
 """
@@ -7685,7 +8251,7 @@ unique or primary key constraints on table "histories"
 """
 enum histories_constraint {
   """
-  unique or primary key constraint
+  unique or primary key constraint on columns "id"
   """
   histories_pkey
 }
@@ -7873,6 +8439,34 @@ type histories_stddev_samp_fields {
 }
 
 """
+Streaming cursor of the table "histories"
+"""
+input histories_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: histories_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input histories_stream_cursor_value_input {
+  bio: String
+  circle_id: Int
+  created_at: timestamp
+  epoch_id: Int
+  id: bigint
+  updated_at: timestamp
+  user_id: Int
+}
+
+"""
 aggregate sum on columns
 """
 type histories_sum_fields {
@@ -7920,6 +8514,19 @@ enum histories_update_column {
   column name
   """
   user_id
+}
+
+input histories_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: histories_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: histories_set_input
+  where: histories_bool_exp!
 }
 
 """
@@ -8054,7 +8661,7 @@ unique or primary key constraints on table "interaction_events"
 """
 enum interaction_events_constraint {
   """
-  unique or primary key constraint
+  unique or primary key constraint on columns "id"
   """
   interaction_events_pkey
 }
@@ -8288,6 +8895,36 @@ type interaction_events_stddev_samp_fields {
 }
 
 """
+Streaming cursor of the table "interaction_events"
+"""
+input interaction_events_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: interaction_events_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input interaction_events_stream_cursor_value_input {
+  circle_id: Int
+  created_at: timestamptz
+  data: jsonb
+  event_subtype: String
+  event_type: String
+  id: Int
+  org_id: Int
+  profile_id: Int
+  updated_at: timestamptz
+}
+
+"""
 aggregate sum on columns
 """
 type interaction_events_sum_fields {
@@ -8345,6 +8982,44 @@ enum interaction_events_update_column {
   column name
   """
   updated_at
+}
+
+input interaction_events_updates {
+  """
+  append existing jsonb value of filtered columns with new jsonb value
+  """
+  _append: interaction_events_append_input
+
+  """
+  delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+  """
+  _delete_at_path: interaction_events_delete_at_path_input
+
+  """
+  delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+  """
+  _delete_elem: interaction_events_delete_elem_input
+
+  """
+  delete key/value pair or string element. key/value pairs are matched based on their key value
+  """
+  _delete_key: interaction_events_delete_key_input
+
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: interaction_events_inc_input
+
+  """
+  prepend existing jsonb value of filtered columns with new jsonb value
+  """
+  _prepend: interaction_events_prepend_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: interaction_events_set_input
+  where: interaction_events_bool_exp!
 }
 
 """
@@ -9745,6 +10420,16 @@ type mutation_root {
   ): burns
 
   """
+  update multiples rows of table: "burns"
+  """
+  update_burns_many(
+    """
+    updates to execute, in order
+    """
+    updates: [burns_updates!]!
+  ): [burns_mutation_response]
+
+  """
   update data of the table: "circle_api_keys"
   """
   update_circle_api_keys(
@@ -9779,6 +10464,16 @@ type mutation_root {
     _set: circle_api_keys_set_input
     pk_columns: circle_api_keys_pk_columns_input!
   ): circle_api_keys
+
+  """
+  update multiples rows of table: "circle_api_keys"
+  """
+  update_circle_api_keys_many(
+    """
+    updates to execute, in order
+    """
+    updates: [circle_api_keys_updates!]!
+  ): [circle_api_keys_mutation_response]
 
   """
   update data of the table: "circle_integrations"
@@ -9817,6 +10512,16 @@ type mutation_root {
   ): circle_integrations
 
   """
+  update multiples rows of table: "circle_integrations"
+  """
+  update_circle_integrations_many(
+    """
+    updates to execute, in order
+    """
+    updates: [circle_integrations_updates!]!
+  ): [circle_integrations_mutation_response]
+
+  """
   update data of the table: "circle_metadata"
   """
   update_circle_metadata(
@@ -9853,6 +10558,16 @@ type mutation_root {
   ): circle_metadata
 
   """
+  update multiples rows of table: "circle_metadata"
+  """
+  update_circle_metadata_many(
+    """
+    updates to execute, in order
+    """
+    updates: [circle_metadata_updates!]!
+  ): [circle_metadata_mutation_response]
+
+  """
   update data of the table: "circle_private"
   """
   update_circle_private(
@@ -9871,6 +10586,16 @@ type mutation_root {
     """
     where: circle_private_bool_exp!
   ): circle_private_mutation_response
+
+  """
+  update multiples rows of table: "circle_private"
+  """
+  update_circle_private_many(
+    """
+    updates to execute, in order
+    """
+    updates: [circle_private_updates!]!
+  ): [circle_private_mutation_response]
 
   """
   update data of the table: "circle_share_tokens"
@@ -9909,6 +10634,16 @@ type mutation_root {
   ): circle_share_tokens
 
   """
+  update multiples rows of table: "circle_share_tokens"
+  """
+  update_circle_share_tokens_many(
+    """
+    updates to execute, in order
+    """
+    updates: [circle_share_tokens_updates!]!
+  ): [circle_share_tokens_mutation_response]
+
+  """
   update data of the table: "circles"
   """
   update_circles(
@@ -9943,6 +10678,16 @@ type mutation_root {
     _set: circles_set_input
     pk_columns: circles_pk_columns_input!
   ): circles
+
+  """
+  update multiples rows of table: "circles"
+  """
+  update_circles_many(
+    """
+    updates to execute, in order
+    """
+    updates: [circles_updates!]!
+  ): [circles_mutation_response]
 
   """
   update data of the table: "claims"
@@ -9981,6 +10726,16 @@ type mutation_root {
   ): claims
 
   """
+  update multiples rows of table: "claims"
+  """
+  update_claims_many(
+    """
+    updates to execute, in order
+    """
+    updates: [claims_updates!]!
+  ): [claims_mutation_response]
+
+  """
   update data of the table: "contributions"
   """
   update_contributions(
@@ -10015,6 +10770,16 @@ type mutation_root {
     _set: contributions_set_input
     pk_columns: contributions_pk_columns_input!
   ): contributions
+
+  """
+  update multiples rows of table: "contributions"
+  """
+  update_contributions_many(
+    """
+    updates to execute, in order
+    """
+    updates: [contributions_updates!]!
+  ): [contributions_mutation_response]
 
   """
   update data of the table: "distributions"
@@ -10103,6 +10868,16 @@ type mutation_root {
   ): distributions
 
   """
+  update multiples rows of table: "distributions"
+  """
+  update_distributions_many(
+    """
+    updates to execute, in order
+    """
+    updates: [distributions_updates!]!
+  ): [distributions_mutation_response]
+
+  """
   update data of the table: "epoches"
   """
   update_epochs(
@@ -10139,6 +10914,16 @@ type mutation_root {
   ): epochs
 
   """
+  update multiples rows of table: "epoches"
+  """
+  update_epochs_many(
+    """
+    updates to execute, in order
+    """
+    updates: [epochs_updates!]!
+  ): [epochs_mutation_response]
+
+  """
   update data of the table: "gift_private"
   """
   update_gift_private(
@@ -10157,6 +10942,16 @@ type mutation_root {
     """
     where: gift_private_bool_exp!
   ): gift_private_mutation_response
+
+  """
+  update multiples rows of table: "gift_private"
+  """
+  update_gift_private_many(
+    """
+    updates to execute, in order
+    """
+    updates: [gift_private_updates!]!
+  ): [gift_private_mutation_response]
 
   """
   update data of the table: "histories"
@@ -10193,6 +10988,16 @@ type mutation_root {
     _set: histories_set_input
     pk_columns: histories_pk_columns_input!
   ): histories
+
+  """
+  update multiples rows of table: "histories"
+  """
+  update_histories_many(
+    """
+    updates to execute, in order
+    """
+    updates: [histories_updates!]!
+  ): [histories_mutation_response]
 
   """
   update data of the table: "interaction_events"
@@ -10281,6 +11086,16 @@ type mutation_root {
   ): interaction_events
 
   """
+  update multiples rows of table: "interaction_events"
+  """
+  update_interaction_events_many(
+    """
+    updates to execute, in order
+    """
+    updates: [interaction_events_updates!]!
+  ): [interaction_events_mutation_response]
+
+  """
   update data of the table: "nominees"
   """
   update_nominees(
@@ -10315,6 +11130,16 @@ type mutation_root {
     _set: nominees_set_input
     pk_columns: nominees_pk_columns_input!
   ): nominees
+
+  """
+  update multiples rows of table: "nominees"
+  """
+  update_nominees_many(
+    """
+    updates to execute, in order
+    """
+    updates: [nominees_updates!]!
+  ): [nominees_mutation_response]
 
   """
   update data of the table: "organizations"
@@ -10353,6 +11178,16 @@ type mutation_root {
   ): organizations
 
   """
+  update multiples rows of table: "organizations"
+  """
+  update_organizations_many(
+    """
+    updates to execute, in order
+    """
+    updates: [organizations_updates!]!
+  ): [organizations_mutation_response]
+
+  """
   update data of the table: "pending_gift_private"
   """
   update_pending_gift_private(
@@ -10371,6 +11206,16 @@ type mutation_root {
     """
     where: pending_gift_private_bool_exp!
   ): pending_gift_private_mutation_response
+
+  """
+  update multiples rows of table: "pending_gift_private"
+  """
+  update_pending_gift_private_many(
+    """
+    updates to execute, in order
+    """
+    updates: [pending_gift_private_updates!]!
+  ): [pending_gift_private_mutation_response]
 
   """
   update data of the table: "pending_token_gifts"
@@ -10409,6 +11254,16 @@ type mutation_root {
   ): pending_token_gifts
 
   """
+  update multiples rows of table: "pending_token_gifts"
+  """
+  update_pending_token_gifts_many(
+    """
+    updates to execute, in order
+    """
+    updates: [pending_token_gifts_updates!]!
+  ): [pending_token_gifts_mutation_response]
+
+  """
   update data of the table: "pending_vault_transactions"
   """
   update_pending_vault_transactions(
@@ -10443,6 +11298,16 @@ type mutation_root {
     _set: pending_vault_transactions_set_input
     pk_columns: pending_vault_transactions_pk_columns_input!
   ): pending_vault_transactions
+
+  """
+  update multiples rows of table: "pending_vault_transactions"
+  """
+  update_pending_vault_transactions_many(
+    """
+    updates to execute, in order
+    """
+    updates: [pending_vault_transactions_updates!]!
+  ): [pending_vault_transactions_mutation_response]
 
   """
   update data of the table: "personal_access_tokens"
@@ -10481,6 +11346,16 @@ type mutation_root {
   ): personal_access_tokens
 
   """
+  update multiples rows of table: "personal_access_tokens"
+  """
+  update_personal_access_tokens_many(
+    """
+    updates to execute, in order
+    """
+    updates: [personal_access_tokens_updates!]!
+  ): [personal_access_tokens_mutation_response]
+
+  """
   update data of the table: "profiles"
   """
   update_profiles(
@@ -10515,6 +11390,16 @@ type mutation_root {
     _set: profiles_set_input
     pk_columns: profiles_pk_columns_input!
   ): profiles
+
+  """
+  update multiples rows of table: "profiles"
+  """
+  update_profiles_many(
+    """
+    updates to execute, in order
+    """
+    updates: [profiles_updates!]!
+  ): [profiles_mutation_response]
 
   """
   update data of the table: "teammates"
@@ -10553,6 +11438,16 @@ type mutation_root {
   ): teammates
 
   """
+  update multiples rows of table: "teammates"
+  """
+  update_teammates_many(
+    """
+    updates to execute, in order
+    """
+    updates: [teammates_updates!]!
+  ): [teammates_mutation_response]
+
+  """
   update data of the table: "token_gifts"
   """
   update_token_gifts(
@@ -10587,6 +11482,16 @@ type mutation_root {
     _set: token_gifts_set_input
     pk_columns: token_gifts_pk_columns_input!
   ): token_gifts
+
+  """
+  update multiples rows of table: "token_gifts"
+  """
+  update_token_gifts_many(
+    """
+    updates to execute, in order
+    """
+    updates: [token_gifts_updates!]!
+  ): [token_gifts_mutation_response]
 
   """
   update data of the table: "users"
@@ -10625,6 +11530,16 @@ type mutation_root {
   ): users
 
   """
+  update multiples rows of table: "users"
+  """
+  update_users_many(
+    """
+    updates to execute, in order
+    """
+    updates: [users_updates!]!
+  ): [users_mutation_response]
+
+  """
   update data of the table: "vault_transactions"
   """
   update_vault_transactions(
@@ -10661,6 +11576,16 @@ type mutation_root {
   ): vault_transactions
 
   """
+  update multiples rows of table: "vault_transactions"
+  """
+  update_vault_transactions_many(
+    """
+    updates to execute, in order
+    """
+    updates: [vault_transactions_updates!]!
+  ): [vault_transactions_mutation_response]
+
+  """
   update data of the table: "vault_tx_types"
   """
   update_vault_tx_types(
@@ -10685,6 +11610,16 @@ type mutation_root {
     _set: vault_tx_types_set_input
     pk_columns: vault_tx_types_pk_columns_input!
   ): vault_tx_types
+
+  """
+  update multiples rows of table: "vault_tx_types"
+  """
+  update_vault_tx_types_many(
+    """
+    updates to execute, in order
+    """
+    updates: [vault_tx_types_updates!]!
+  ): [vault_tx_types_mutation_response]
 
   """
   update data of the table: "vaults"
@@ -10723,6 +11658,16 @@ type mutation_root {
   ): vaults
 
   """
+  update multiples rows of table: "vaults"
+  """
+  update_vaults_many(
+    """
+    updates to execute, in order
+    """
+    updates: [vaults_updates!]!
+  ): [vaults_mutation_response]
+
+  """
   update data of the table: "vouches"
   """
   update_vouches(
@@ -10757,6 +11702,16 @@ type mutation_root {
     _set: vouches_set_input
     pk_columns: vouches_pk_columns_input!
   ): vouches
+
+  """
+  update multiples rows of table: "vouches"
+  """
+  update_vouches_many(
+    """
+    updates to execute, in order
+    """
+    updates: [vouches_updates!]!
+  ): [vouches_mutation_response]
   uploadCircleLogo(payload: UploadCircleImageInput!): UpdateCircleResponse
   uploadOrgLogo(payload: UploadOrgImageInput!): UpdateOrgResponse
   uploadProfileAvatar(payload: UploadImageInput!): UpdateProfileResponse
@@ -10965,7 +11920,7 @@ unique or primary key constraints on table "nominees"
 """
 enum nominees_constraint {
   """
-  unique or primary key constraint
+  unique or primary key constraint on columns "id"
   """
   nominees_pkey
 }
@@ -11298,6 +12253,40 @@ input nominees_stddev_samp_order_by {
 }
 
 """
+Streaming cursor of the table "nominees"
+"""
+input nominees_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: nominees_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input nominees_stream_cursor_value_input {
+  address: String
+  circle_id: Int
+  created_at: timestamp
+  description: String
+  ended: Boolean
+  expiry_date: timestamp
+  id: bigint
+  name: String
+  nominated_by_user_id: Int
+  nominated_date: date
+  updated_at: timestamp
+  user_id: Int
+  vouches_required: Int
+}
+
+"""
 aggregate sum on columns
 """
 type nominees_sum_fields {
@@ -11387,6 +12376,19 @@ enum nominees_update_column {
   column name
   """
   vouches_required
+}
+
+input nominees_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: nominees_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: nominees_set_input
+  where: nominees_bool_exp!
 }
 
 """
@@ -11700,7 +12702,7 @@ unique or primary key constraints on table "organizations"
 """
 enum organizations_constraint {
   """
-  unique or primary key constraint
+  unique or primary key constraint on columns "id"
   """
   organizations_pkey
 }
@@ -11900,6 +12902,39 @@ type organizations_stddev_samp_fields {
 }
 
 """
+Streaming cursor of the table "organizations"
+"""
+input organizations_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: organizations_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input organizations_stream_cursor_value_input {
+  created_at: timestamp
+  id: bigint
+  is_verified: Boolean
+  logo: String
+  name: String
+
+  """
+  Indicates a test/sample/sandbox org
+  """
+  sandbox: Boolean
+  telegram_id: String
+  updated_at: timestamp
+}
+
+"""
 aggregate sum on columns
 """
 type organizations_sum_fields {
@@ -11949,6 +12984,19 @@ enum organizations_update_column {
   column name
   """
   updated_at
+}
+
+input organizations_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: organizations_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: organizations_set_input
+  where: organizations_bool_exp!
 }
 
 """
@@ -12179,12 +13227,50 @@ type pending_gift_private_stddev_samp_fields {
 }
 
 """
+Streaming cursor of the table "pending_gift_private"
+"""
+input pending_gift_private_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: pending_gift_private_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input pending_gift_private_stream_cursor_value_input {
+  gift_id: bigint
+  note: String
+  recipient_id: bigint
+  sender_id: bigint
+}
+
+"""
 aggregate sum on columns
 """
 type pending_gift_private_sum_fields {
   gift_id: bigint
   recipient_id: bigint
   sender_id: bigint
+}
+
+input pending_gift_private_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: pending_gift_private_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: pending_gift_private_set_input
+  where: pending_gift_private_bool_exp!
 }
 
 """
@@ -12365,12 +13451,12 @@ unique or primary key constraints on table "pending_token_gifts"
 """
 enum pending_token_gifts_constraint {
   """
-  unique or primary key constraint
+  unique or primary key constraint on columns "id"
   """
   pending_token_gifts_pkey
 
   """
-  unique or primary key constraint
+  unique or primary key constraint on columns "recipient_id", "sender_id", "epoch_id"
   """
   pending_token_gifts_sender_id_recipient_id_epoch_id_key
 }
@@ -12692,6 +13778,39 @@ input pending_token_gifts_stddev_samp_order_by {
 }
 
 """
+Streaming cursor of the table "pending_token_gifts"
+"""
+input pending_token_gifts_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: pending_token_gifts_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input pending_token_gifts_stream_cursor_value_input {
+  circle_id: bigint
+  created_at: timestamp
+  dts_created: timestamp
+  epoch_id: Int
+  id: bigint
+  note: String
+  recipient_address: String
+  recipient_id: bigint
+  sender_address: String
+  sender_id: bigint
+  tokens: Int
+  updated_at: timestamp
+}
+
+"""
 aggregate sum on columns
 """
 type pending_token_gifts_sum_fields {
@@ -12778,6 +13897,19 @@ enum pending_token_gifts_update_column {
   column name
   """
   updated_at
+}
+
+input pending_token_gifts_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: pending_token_gifts_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: pending_token_gifts_set_input
+  where: pending_token_gifts_bool_exp!
 }
 
 """
@@ -12951,7 +14083,7 @@ unique or primary key constraints on table "pending_vault_transactions"
 """
 enum pending_vault_transactions_constraint {
   """
-  unique or primary key constraint
+  unique or primary key constraint on columns "tx_hash"
   """
   pending_vault_transactions_pkey
 }
@@ -13153,6 +14285,35 @@ type pending_vault_transactions_stddev_samp_fields {
 }
 
 """
+Streaming cursor of the table "pending_vault_transactions"
+"""
+input pending_vault_transactions_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: pending_vault_transactions_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input pending_vault_transactions_stream_cursor_value_input {
+  chain_id: Int
+  claim_id: bigint
+  created_at: timestamp
+  created_by: bigint
+  distribution_id: bigint
+  org_id: bigint
+  tx_hash: String
+  tx_type: vault_tx_types_enum
+}
+
+"""
 aggregate sum on columns
 """
 type pending_vault_transactions_sum_fields {
@@ -13206,6 +14367,19 @@ enum pending_vault_transactions_update_column {
   column name
   """
   tx_type
+}
+
+input pending_vault_transactions_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: pending_vault_transactions_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: pending_vault_transactions_set_input
+  where: pending_vault_transactions_bool_exp!
 }
 
 """
@@ -13321,12 +14495,12 @@ unique or primary key constraints on table "personal_access_tokens"
 """
 enum personal_access_tokens_constraint {
   """
-  unique or primary key constraint
+  unique or primary key constraint on columns "id"
   """
   personal_access_tokens_pkey
 
   """
-  unique or primary key constraint
+  unique or primary key constraint on columns "token"
   """
   personal_access_tokens_token_key
 }
@@ -13522,6 +14696,36 @@ type personal_access_tokens_stddev_samp_fields {
 }
 
 """
+Streaming cursor of the table "personal_access_tokens"
+"""
+input personal_access_tokens_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: personal_access_tokens_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input personal_access_tokens_stream_cursor_value_input {
+  abilities: String
+  created_at: timestamp
+  id: bigint
+  last_used_at: timestamp
+  name: String
+  token: String
+  tokenable_id: bigint
+  tokenable_type: String
+  updated_at: timestamp
+}
+
+"""
 aggregate sum on columns
 """
 type personal_access_tokens_sum_fields {
@@ -13577,6 +14781,19 @@ enum personal_access_tokens_update_column {
   column name
   """
   updated_at
+}
+
+input personal_access_tokens_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: personal_access_tokens_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: personal_access_tokens_set_input
+  where: personal_access_tokens_bool_exp!
 }
 
 """
@@ -13870,12 +15087,12 @@ unique or primary key constraints on table "profiles"
 """
 enum profiles_constraint {
   """
-  unique or primary key constraint
+  unique or primary key constraint on columns "address"
   """
   profiles_address_key
 
   """
-  unique or primary key constraint
+  unique or primary key constraint on columns "id"
   """
   profiles_pkey
 }
@@ -14151,6 +15368,43 @@ type profiles_stddev_samp_fields {
 }
 
 """
+Streaming cursor of the table "profiles"
+"""
+input profiles_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: profiles_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input profiles_stream_cursor_value_input {
+  address: String
+  ann_power: Boolean
+  avatar: String
+  background: String
+  bio: String
+  chat_id: String
+  created_at: timestamp
+  discord_username: String
+  github_username: String
+  id: bigint
+  medium_username: String
+  skills: String
+  telegram_username: String
+  twitter_username: String
+  updated_at: timestamp
+  website: String
+}
+
+"""
 aggregate sum on columns
 """
 type profiles_sum_fields {
@@ -14240,6 +15494,19 @@ enum profiles_update_column {
   column name
   """
   website
+}
+
+input profiles_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: profiles_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: profiles_set_input
+  where: profiles_bool_exp!
 }
 
 """
@@ -16197,6 +17464,26 @@ type subscription_root {
   burns_by_pk(id: bigint!): burns
 
   """
+  fetch data from the table in a streaming manner : "burns"
+  """
+  burns_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [burns_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: burns_bool_exp
+  ): [burns!]!
+
+  """
   An array relationship
   """
   circle_api_keys(
@@ -16260,6 +17547,26 @@ type subscription_root {
   fetch data from the table: "circle_api_keys" using primary key columns
   """
   circle_api_keys_by_pk(hash: String!): circle_api_keys
+
+  """
+  fetch data from the table in a streaming manner : "circle_api_keys"
+  """
+  circle_api_keys_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [circle_api_keys_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: circle_api_keys_bool_exp
+  ): [circle_api_keys!]!
 
   """
   fetch data from the table: "circle_integrations"
@@ -16327,6 +17634,26 @@ type subscription_root {
   circle_integrations_by_pk(id: bigint!): circle_integrations
 
   """
+  fetch data from the table in a streaming manner : "circle_integrations"
+  """
+  circle_integrations_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [circle_integrations_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: circle_integrations_bool_exp
+  ): [circle_integrations!]!
+
+  """
   An array relationship
   """
   circle_metadata(
@@ -16392,6 +17719,26 @@ type subscription_root {
   circle_metadata_by_pk(id: bigint!): circle_metadata
 
   """
+  fetch data from the table in a streaming manner : "circle_metadata"
+  """
+  circle_metadata_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [circle_metadata_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: circle_metadata_bool_exp
+  ): [circle_metadata!]!
+
+  """
   fetch data from the table: "circle_private"
   """
   circle_private(
@@ -16450,6 +17797,26 @@ type subscription_root {
     """
     where: circle_private_bool_exp
   ): circle_private_aggregate!
+
+  """
+  fetch data from the table in a streaming manner : "circle_private"
+  """
+  circle_private_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [circle_private_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: circle_private_bool_exp
+  ): [circle_private!]!
 
   """
   fetch data from the table: "circle_share_tokens"
@@ -16517,6 +17884,26 @@ type subscription_root {
   circle_share_tokens_by_pk(circle_id: bigint!, type: Int!): circle_share_tokens
 
   """
+  fetch data from the table in a streaming manner : "circle_share_tokens"
+  """
+  circle_share_tokens_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [circle_share_tokens_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: circle_share_tokens_bool_exp
+  ): [circle_share_tokens!]!
+
+  """
   An array relationship
   """
   circles(
@@ -16580,6 +17967,26 @@ type subscription_root {
   fetch data from the table: "circles" using primary key columns
   """
   circles_by_pk(id: bigint!): circles
+
+  """
+  fetch data from the table in a streaming manner : "circles"
+  """
+  circles_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [circles_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: circles_bool_exp
+  ): [circles!]!
 
   """
   An array relationship
@@ -16647,6 +18054,26 @@ type subscription_root {
   claims_by_pk(id: bigint!): claims
 
   """
+  fetch data from the table in a streaming manner : "claims"
+  """
+  claims_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [claims_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: claims_bool_exp
+  ): [claims!]!
+
+  """
   An array relationship
   """
   contributions(
@@ -16710,6 +18137,26 @@ type subscription_root {
   fetch data from the table: "contributions" using primary key columns
   """
   contributions_by_pk(id: bigint!): contributions
+
+  """
+  fetch data from the table in a streaming manner : "contributions"
+  """
+  contributions_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [contributions_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: contributions_bool_exp
+  ): [contributions!]!
 
   """
   An array relationship
@@ -16777,6 +18224,26 @@ type subscription_root {
   distributions_by_pk(id: bigint!): distributions
 
   """
+  fetch data from the table in a streaming manner : "distributions"
+  """
+  distributions_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [distributions_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: distributions_bool_exp
+  ): [distributions!]!
+
+  """
   An array relationship
   """
   epochs(
@@ -16842,6 +18309,26 @@ type subscription_root {
   epochs_by_pk(id: bigint!): epochs
 
   """
+  fetch data from the table in a streaming manner : "epoches"
+  """
+  epochs_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [epochs_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: epochs_bool_exp
+  ): [epochs!]!
+
+  """
   fetch data from the table: "gift_private"
   """
   gift_private(
@@ -16900,6 +18387,26 @@ type subscription_root {
     """
     where: gift_private_bool_exp
   ): gift_private_aggregate!
+
+  """
+  fetch data from the table in a streaming manner : "gift_private"
+  """
+  gift_private_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [gift_private_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: gift_private_bool_exp
+  ): [gift_private!]!
 
   """
   fetch data from the table: "histories"
@@ -16967,6 +18474,26 @@ type subscription_root {
   histories_by_pk(id: bigint!): histories
 
   """
+  fetch data from the table in a streaming manner : "histories"
+  """
+  histories_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [histories_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: histories_bool_exp
+  ): [histories!]!
+
+  """
   fetch data from the table: "interaction_events"
   """
   interaction_events(
@@ -17030,6 +18557,26 @@ type subscription_root {
   fetch data from the table: "interaction_events" using primary key columns
   """
   interaction_events_by_pk(id: Int!): interaction_events
+
+  """
+  fetch data from the table in a streaming manner : "interaction_events"
+  """
+  interaction_events_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [interaction_events_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: interaction_events_bool_exp
+  ): [interaction_events!]!
 
   """
   An array relationship
@@ -17097,6 +18644,26 @@ type subscription_root {
   nominees_by_pk(id: bigint!): nominees
 
   """
+  fetch data from the table in a streaming manner : "nominees"
+  """
+  nominees_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [nominees_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: nominees_bool_exp
+  ): [nominees!]!
+
+  """
   fetch data from the table: "organizations"
   """
   organizations(
@@ -17162,6 +18729,26 @@ type subscription_root {
   organizations_by_pk(id: bigint!): organizations
 
   """
+  fetch data from the table in a streaming manner : "organizations"
+  """
+  organizations_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [organizations_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: organizations_bool_exp
+  ): [organizations!]!
+
+  """
   fetch data from the table: "pending_gift_private"
   """
   pending_gift_private(
@@ -17220,6 +18807,26 @@ type subscription_root {
     """
     where: pending_gift_private_bool_exp
   ): pending_gift_private_aggregate!
+
+  """
+  fetch data from the table in a streaming manner : "pending_gift_private"
+  """
+  pending_gift_private_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [pending_gift_private_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: pending_gift_private_bool_exp
+  ): [pending_gift_private!]!
 
   """
   An array relationship
@@ -17287,6 +18894,26 @@ type subscription_root {
   pending_token_gifts_by_pk(id: bigint!): pending_token_gifts
 
   """
+  fetch data from the table in a streaming manner : "pending_token_gifts"
+  """
+  pending_token_gifts_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [pending_token_gifts_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: pending_token_gifts_bool_exp
+  ): [pending_token_gifts!]!
+
+  """
   fetch data from the table: "pending_vault_transactions"
   """
   pending_vault_transactions(
@@ -17350,6 +18977,26 @@ type subscription_root {
   fetch data from the table: "pending_vault_transactions" using primary key columns
   """
   pending_vault_transactions_by_pk(tx_hash: String!): pending_vault_transactions
+
+  """
+  fetch data from the table in a streaming manner : "pending_vault_transactions"
+  """
+  pending_vault_transactions_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [pending_vault_transactions_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: pending_vault_transactions_bool_exp
+  ): [pending_vault_transactions!]!
 
   """
   fetch data from the table: "personal_access_tokens"
@@ -17417,6 +19064,26 @@ type subscription_root {
   personal_access_tokens_by_pk(id: bigint!): personal_access_tokens
 
   """
+  fetch data from the table in a streaming manner : "personal_access_tokens"
+  """
+  personal_access_tokens_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [personal_access_tokens_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: personal_access_tokens_bool_exp
+  ): [personal_access_tokens!]!
+
+  """
   fetch data from the table: "profiles"
   """
   profiles(
@@ -17480,6 +19147,26 @@ type subscription_root {
   fetch data from the table: "profiles" using primary key columns
   """
   profiles_by_pk(id: bigint!): profiles
+
+  """
+  fetch data from the table in a streaming manner : "profiles"
+  """
+  profiles_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [profiles_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: profiles_bool_exp
+  ): [profiles!]!
 
   """
   An array relationship
@@ -17547,6 +19234,26 @@ type subscription_root {
   teammates_by_pk(id: bigint!): teammates
 
   """
+  fetch data from the table in a streaming manner : "teammates"
+  """
+  teammates_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [teammates_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: teammates_bool_exp
+  ): [teammates!]!
+
+  """
   An array relationship
   """
   token_gifts(
@@ -17612,6 +19319,26 @@ type subscription_root {
   token_gifts_by_pk(id: bigint!): token_gifts
 
   """
+  fetch data from the table in a streaming manner : "token_gifts"
+  """
+  token_gifts_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [token_gifts_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: token_gifts_bool_exp
+  ): [token_gifts!]!
+
+  """
   fetch data from the table: "user_private"
   """
   user_private(
@@ -17670,6 +19397,26 @@ type subscription_root {
     """
     where: user_private_bool_exp
   ): user_private_aggregate!
+
+  """
+  fetch data from the table in a streaming manner : "user_private"
+  """
+  user_private_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [user_private_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: user_private_bool_exp
+  ): [user_private!]!
 
   """
   An array relationship
@@ -17737,6 +19484,26 @@ type subscription_root {
   users_by_pk(id: bigint!): users
 
   """
+  fetch data from the table in a streaming manner : "users"
+  """
+  users_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [users_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: users_bool_exp
+  ): [users!]!
+
+  """
   An array relationship
   """
   vault_transactions(
@@ -17800,6 +19567,26 @@ type subscription_root {
   fetch data from the table: "vault_transactions" using primary key columns
   """
   vault_transactions_by_pk(id: bigint!): vault_transactions
+
+  """
+  fetch data from the table in a streaming manner : "vault_transactions"
+  """
+  vault_transactions_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [vault_transactions_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: vault_transactions_bool_exp
+  ): [vault_transactions!]!
 
   """
   fetch data from the table: "vault_tx_types"
@@ -17867,6 +19654,26 @@ type subscription_root {
   vault_tx_types_by_pk(value: String!): vault_tx_types
 
   """
+  fetch data from the table in a streaming manner : "vault_tx_types"
+  """
+  vault_tx_types_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [vault_tx_types_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: vault_tx_types_bool_exp
+  ): [vault_tx_types!]!
+
+  """
   An array relationship
   """
   vaults(
@@ -17932,6 +19739,26 @@ type subscription_root {
   vaults_by_pk(id: bigint!): vaults
 
   """
+  fetch data from the table in a streaming manner : "vaults"
+  """
+  vaults_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [vaults_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: vaults_bool_exp
+  ): [vaults!]!
+
+  """
   An array relationship
   """
   vouches(
@@ -17995,6 +19822,26 @@ type subscription_root {
   fetch data from the table: "vouches" using primary key columns
   """
   vouches_by_pk(id: bigint!): vouches
+
+  """
+  fetch data from the table in a streaming manner : "vouches"
+  """
+  vouches_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [vouches_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: vouches_bool_exp
+  ): [vouches!]!
 }
 
 """
@@ -18111,12 +19958,12 @@ unique or primary key constraints on table "teammates"
 """
 enum teammates_constraint {
   """
-  unique or primary key constraint
+  unique or primary key constraint on columns "id"
   """
   teammates_pkey
 
   """
-  unique or primary key constraint
+  unique or primary key constraint on columns "team_mate_id", "user_id"
   """
   teammates_user_id_team_mate_id_key
 }
@@ -18327,6 +20174,32 @@ input teammates_stddev_samp_order_by {
 }
 
 """
+Streaming cursor of the table "teammates"
+"""
+input teammates_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: teammates_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input teammates_stream_cursor_value_input {
+  created_at: timestamp
+  id: bigint
+  team_mate_id: Int
+  updated_at: timestamp
+  user_id: Int
+}
+
+"""
 aggregate sum on columns
 """
 type teammates_sum_fields {
@@ -18372,6 +20245,19 @@ enum teammates_update_column {
   column name
   """
   user_id
+}
+
+input teammates_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: teammates_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: teammates_set_input
+  where: teammates_bool_exp!
 }
 
 """
@@ -18613,7 +20499,7 @@ unique or primary key constraints on table "token_gifts"
 """
 enum token_gifts_constraint {
   """
-  unique or primary key constraint
+  unique or primary key constraint on columns "id"
   """
   token_gifts_pkey
 }
@@ -18935,6 +20821,39 @@ input token_gifts_stddev_samp_order_by {
 }
 
 """
+Streaming cursor of the table "token_gifts"
+"""
+input token_gifts_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: token_gifts_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input token_gifts_stream_cursor_value_input {
+  circle_id: bigint
+  created_at: timestamp
+  dts_created: timestamp
+  epoch_id: Int
+  id: bigint
+  note: String
+  recipient_address: String
+  recipient_id: bigint
+  sender_address: String
+  sender_id: bigint
+  tokens: Int
+  updated_at: timestamp
+}
+
+"""
 aggregate sum on columns
 """
 type token_gifts_sum_fields {
@@ -19021,6 +20940,19 @@ enum token_gifts_update_column {
   column name
   """
   updated_at
+}
+
+input token_gifts_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: token_gifts_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: token_gifts_set_input
+  where: token_gifts_bool_exp!
 }
 
 """
@@ -19264,6 +21196,31 @@ type user_private_stddev_samp_fields {
   circle_id: Float
   fixed_payment_amount: Float
   user_id: Float
+}
+
+"""
+Streaming cursor of the table "user_private"
+"""
+input user_private_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: user_private_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input user_private_stream_cursor_value_input {
+  circle_id: bigint
+  fixed_payment_amount: numeric
+  fixed_payment_token_type: String
+  user_id: bigint
 }
 
 """
@@ -20005,12 +21962,12 @@ unique or primary key constraints on table "users"
 """
 enum users_constraint {
   """
-  unique or primary key constraint
+  unique or primary key constraint on columns "address", "circle_id", "deleted_at"
   """
   users_address_circle_id_deleted_at_key
 
   """
-  unique or primary key constraint
+  unique or primary key constraint on columns "id"
   """
   users_pkey
 }
@@ -20421,6 +22378,45 @@ input users_stddev_samp_order_by {
 }
 
 """
+Streaming cursor of the table "users"
+"""
+input users_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: users_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input users_stream_cursor_value_input {
+  address: String
+  bio: String
+  circle_id: bigint
+  created_at: timestamp
+  deleted_at: timestamp
+  entrance: String
+  epoch_first_visit: Boolean
+  fixed_non_receiver: Boolean
+  fixed_payment_amount: numeric
+  give_token_received: Int
+  give_token_remaining: Int
+  id: bigint
+  name: String
+  non_giver: Boolean
+  non_receiver: Boolean
+  role: Int
+  starting_tokens: Int
+  updated_at: timestamp
+}
+
+"""
 aggregate sum on columns
 """
 type users_sum_fields {
@@ -20539,6 +22535,19 @@ enum users_update_column {
   column name
   """
   updated_at
+}
+
+input users_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: users_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: users_set_input
+  where: users_bool_exp!
 }
 
 """
@@ -20779,7 +22788,7 @@ unique or primary key constraints on table "vault_transactions"
 """
 enum vault_transactions_constraint {
   """
-  unique or primary key constraint
+  unique or primary key constraint on columns "id"
   """
   vault_transactions_pkey
 }
@@ -21054,6 +23063,36 @@ input vault_transactions_stddev_samp_order_by {
 }
 
 """
+Streaming cursor of the table "vault_transactions"
+"""
+input vault_transactions_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: vault_transactions_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input vault_transactions_stream_cursor_value_input {
+  circle_id: bigint
+  created_at: timestamp
+  created_by: bigint
+  distribution_id: bigint
+  id: bigint
+  tx_hash: String
+  tx_type: vault_tx_types_enum
+  updated_at: timestamp
+  vault_id: bigint
+}
+
+"""
 aggregate sum on columns
 """
 type vault_transactions_sum_fields {
@@ -21123,6 +23162,19 @@ enum vault_transactions_update_column {
   column name
   """
   vault_id
+}
+
+input vault_transactions_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: vault_transactions_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: vault_transactions_set_input
+  where: vault_transactions_bool_exp!
 }
 
 """
@@ -21293,7 +23345,7 @@ unique or primary key constraints on table "vault_tx_types"
 """
 enum vault_tx_types_constraint {
   """
-  unique or primary key constraint
+  unique or primary key constraint on columns "value"
   """
   vault_tx_types_pkey
 }
@@ -21422,6 +23474,29 @@ input vault_tx_types_set_input {
 }
 
 """
+Streaming cursor of the table "vault_tx_types"
+"""
+input vault_tx_types_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: vault_tx_types_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input vault_tx_types_stream_cursor_value_input {
+  comment: String
+  value: String
+}
+
+"""
 update columns of table "vault_tx_types"
 """
 enum vault_tx_types_update_column {
@@ -21434,6 +23509,14 @@ enum vault_tx_types_update_column {
   column name
   """
   value
+}
+
+input vault_tx_types_updates {
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: vault_tx_types_set_input
+  where: vault_tx_types_bool_exp!
 }
 
 """
@@ -21692,12 +23775,12 @@ unique or primary key constraints on table "vaults"
 """
 enum vaults_constraint {
   """
-  unique or primary key constraint
+  unique or primary key constraint on columns "id"
   """
   vaults_pkey
 
   """
-  unique or primary key constraint
+  unique or primary key constraint on columns "vault_address"
   """
   vaults_vault_address_key
 }
@@ -22029,6 +24112,39 @@ input vaults_stddev_samp_order_by {
 }
 
 """
+Streaming cursor of the table "vaults"
+"""
+input vaults_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: vaults_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input vaults_stream_cursor_value_input {
+  chain_id: Int
+  created_at: timestamptz
+  created_by: bigint
+  decimals: Int
+  deployment_block: bigint
+  id: bigint
+  org_id: bigint
+  simple_token_address: String
+  symbol: String
+  token_address: String
+  updated_at: timestamptz
+  vault_address: String
+}
+
+"""
 aggregate sum on columns
 """
 type vaults_sum_fields {
@@ -22115,6 +24231,19 @@ enum vaults_update_column {
   column name
   """
   vault_address
+}
+
+input vaults_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: vaults_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: vaults_set_input
+  where: vaults_bool_exp!
 }
 
 """
@@ -22303,7 +24432,7 @@ unique or primary key constraints on table "vouches"
 """
 enum vouches_constraint {
   """
-  unique or primary key constraint
+  unique or primary key constraint on columns "id"
   """
   vouches_pkey
 }
@@ -22514,6 +24643,32 @@ input vouches_stddev_samp_order_by {
 }
 
 """
+Streaming cursor of the table "vouches"
+"""
+input vouches_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: vouches_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input vouches_stream_cursor_value_input {
+  created_at: timestamp
+  id: bigint
+  nominee_id: Int
+  updated_at: timestamp
+  voucher_id: Int
+}
+
+"""
 aggregate sum on columns
 """
 type vouches_sum_fields {
@@ -22559,6 +24714,19 @@ enum vouches_update_column {
   column name
   """
   voucher_id
+}
+
+input vouches_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: vouches_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: vouches_set_input
+  where: vouches_bool_exp!
 }
 
 """
