@@ -1,3 +1,4 @@
+import assert from 'assert';
 import React, { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -113,12 +114,13 @@ export const OrganizationSettingsPage = () => {
         let response = undefined;
         try {
           response = await uploadLogo(orgId, newLogo);
+          assert(response?.uploadOrgLogo?.org?.logo);
         } catch (e: any) {
           showError(e);
           setLogoFile(undefined);
           return;
         }
-        setUploadedLogoUrl(response.uploadOrgLogo?.org.logo);
+        setUploadedLogoUrl(response.uploadOrgLogo.org.logo);
         setLogoFile(undefined);
         setUploadComplete(true);
       }
