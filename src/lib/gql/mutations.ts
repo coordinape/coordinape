@@ -72,7 +72,11 @@ export const updateCircleLogo = async (
             circle_id: variables.$('circleId'),
           },
         },
-        { id: true },
+        {
+          circle: {
+            logo: true,
+          },
+        },
       ],
     },
     {
@@ -521,6 +525,7 @@ export async function updateUser(params: ValueTypes['UpdateUserInput']) {
         },
         {
           id: true,
+          UserResponse: { non_receiver: true },
         },
       ],
     },

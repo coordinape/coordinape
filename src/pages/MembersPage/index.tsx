@@ -30,18 +30,27 @@ import {
   getActiveNominees,
   QUERY_KEY_ACTIVE_NOMINEES,
 } from './getActiveNominees';
+import { LeaveCircleModal } from './LeaveCircleModal';
 import { MembersTable } from './MembersTable';
 import { NomineesTable } from './NomineeTable';
 
 import { IUser } from 'types';
 
+export interface IDeleteUser {
+  name: string;
+  address: string;
+}
+
 const MembersPage = () => {
   const { isMobile } = useMobileDetect();
 
   const [keyword, setKeyword] = useState<string>('');
-  const [deleteUserDialog, setDeleteUserDialog] = useState<IUser | undefined>(
-    undefined
-  );
+  const [deleteUserDialog, setDeleteUserDialog] = useState<
+    IDeleteUser | undefined
+  >(undefined);
+  const [leaveCircleDialog, setLeaveCircleDialog] = useState<
+    IDeleteUser | undefined
+  >(undefined);
   const [newCircle, setNewCircle] = useState<boolean>(false);
   const [maxGiftTokens, setMaxGiftTokens] = useState(ethersConstants.Zero);
 
@@ -57,6 +66,7 @@ const MembersPage = () => {
     myUser: me,
     users: visibleUsers,
     circle: selectedCircle,
+    circleEpochsStatus,
   } = useSelectedCircle();
 
   const { data: circle } = useQuery(
@@ -358,6 +368,7 @@ const MembersPage = () => {
             fixedPayment={fixedPayment}
             availableInVault={availableFixedTokens}
             setDeleteUserDialog={setDeleteUserDialog}
+            setLeaveCircleDialog={setLeaveCircleDialog}
           />
         )}
       </Panel>
@@ -398,6 +409,13 @@ const MembersPage = () => {
           </Button>
         </Flex>
       </Modal>
+      <LeaveCircleModal
+        epochIsActive={circleEpochsStatus.epochIsActive}
+        leaveCircleDialog={leaveCircleDialog}
+        setLeaveCircleDialog={setLeaveCircleDialog}
+        circleName={circle?.name}
+        circleId={circle?.id}
+      ></LeaveCircleModal>
     </SingleColumnLayout>
   );
 };

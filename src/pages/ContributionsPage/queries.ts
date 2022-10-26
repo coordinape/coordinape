@@ -1,7 +1,18 @@
 import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
+import { DateTime } from 'luxon';
+
+import { IN_PRODUCTION } from 'config/env';
 
 import { Awaited } from 'types/shim';
+
+// avoid rendering any epochs from before the launch date
+// yesterday
+const endDateInProd = IN_PRODUCTION
+  ? {
+      _gt: DateTime.fromISO('2022-10-19T00:00:00Z').toISO(),
+    }
+  : undefined;
 
 export const getContributionsAndEpochs = async ({
   circleId,
@@ -39,6 +50,7 @@ export const getContributionsAndEpochs = async ({
         where: {
           circle_id: { _eq: circleId },
           id: epochId ? { _eq: epochId } : undefined,
+          end_date: endDateInProd,
         },
         order_by: [{ end_date: order_by.desc }],
       },

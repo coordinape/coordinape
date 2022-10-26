@@ -31,16 +31,24 @@ export const Text = styled('span', {
     inline: { true: { display: 'inline !important' } },
 
     h1: {
-      true: { fontSize: '$h1', color: '$headingText', fontWeight: '$semibold' },
+      true: {
+        fontSize: '$h1',
+        color: '$headingText',
+        fontWeight: '$semibold',
+        '@sm': { fontSize: '$h2' },
+      },
     },
     h2: {
       true: {
         fontSize: '$h2',
         fontWeight: '$semibold',
         lineHeight: '$shorter',
+        '@sm': { fontSize: '$h3' },
       },
     },
-    h3: { true: { fontSize: '$h3' } },
+    h3: {
+      true: { fontSize: '$h3', '@sm': { fontSize: '$large' } },
+    },
 
     size: {
       small: { fontSize: '$small !important', lineHeight: '$shorter' },
@@ -89,6 +97,9 @@ export const Text = styled('span', {
         lineHeight: '$shorter',
         p: '$xs calc($xs + $xxs)',
         borderRadius: '$1',
+        gap: '$sm',
+        justifyContent: 'center',
+        whiteSpace: 'nowrap',
       },
     },
   },
@@ -98,6 +109,13 @@ export const Text = styled('span', {
       color: 'active',
       css: {
         backgroundColor: '$active',
+      },
+    },
+    {
+      tag: true,
+      color: 'primary',
+      css: {
+        backgroundColor: '$primaryDisabled',
       },
     },
     {

@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 
 import { FileText, Slash } from '../../icons/__generated';
 import { CSS } from '../../stitches.config';
-import { Box, Button, Flex, Panel, Text } from '../../ui';
+import { Box, Flex, Text } from '../../ui';
+import useMobileDetect from 'hooks/useMobileDetect';
 
 import { AvatarAndName } from './AvatarAndName';
 import { ContributorButton } from './ContributorButton';
 import { GiveAllocator } from './GiveAllocator';
+import { GiveRowGrid } from './GiveRowGrid';
 import { Gift, Member } from './index';
 
 // GiveRow is a row for one member in the give page
@@ -38,41 +40,15 @@ export const GiveRow = ({
 
   // noteComplete indicates that this member has a note
   const noteComplete = gift.note && gift.note.length > 0;
+  const { isMobile } = useMobileDetect();
 
   return (
-    <Panel
-      nested
-      css={{
-        ...css,
-        padding: 0,
-        pr: '$md',
-        border: '2px solid transparent',
-        cursor: 'pointer',
-        backgroundColor: docExample || selected ? '$highlight' : undefined,
-        borderColor: docExample || selected ? '$link' : undefined,
-        transition: 'background-color 0.3s, border-color 0.3s',
-        '&:hover': {
-          backgroundColor: '$highlight',
-          borderColor: '$link',
-        },
-        '@sm': {
-          pb: '$sm',
-        },
-      }}
+    <Box
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       onClick={() => setSelectedMember(member)}
     >
-      <Flex
-        alignItems="center"
-        css={{
-          display: 'grid',
-          gridTemplateColumns: '2fr 4fr 4fr',
-          justifyContent: 'space-between',
-          gap: '$lg',
-          '@sm': { gridTemplateColumns: '1fr' },
-        }}
-      >
+      <GiveRowGrid selected={(selected || docExample) ?? false} css={css}>
         <AvatarAndName name={member.name} avatar={member.profile.avatar} />
         <Flex
           css={{
@@ -80,6 +56,12 @@ export const GiveRow = ({
             gridTemplateColumns: '1fr 1fr',
             justifyContent: 'space-between',
             gap: '$lg',
+            '@sm': {
+              gridTemplateColumns: '1fr',
+              gap: 0,
+              justifyItems: 'center',
+              mt: '$md',
+            },
           }}
         >
           <Flex
@@ -88,14 +70,16 @@ export const GiveRow = ({
             }}
             alignItems="center"
           >
-            <ContributorButton
-              css={{
-                '&:hover': { transition: 'visibility 0.1s ease-in' },
-                visibility: hover || member.teammate ? 'visible' : 'hidden',
-              }}
-              member={member}
-              updateTeammate={updateTeammate}
-            />
+            {!isMobile && (
+              <ContributorButton
+                css={{
+                  '&:hover': { transition: 'visibility 0.1s ease-in' },
+                  visibility: hover || member.teammate ? 'visible' : 'hidden',
+                }}
+                member={member}
+                updateTeammate={updateTeammate}
+              />
+            )}
           </Flex>
           {!docExample && (
             <Flex
@@ -107,7 +91,14 @@ export const GiveRow = ({
               <Box>
                 {member.contributions_aggregate?.aggregate &&
                   member.contributions_aggregate?.aggregate.count > 0 && (
-                    <Text variant="label">
+                    <Text
+                      variant="label"
+                      css={{
+                        '@sm': {
+                          mt: '$md',
+                        },
+                      }}
+                    >
                       {member.contributions_aggregate.aggregate.count}{' '}
                       Contribution
                       {member.contributions_aggregate.aggregate.count == 1
@@ -124,26 +115,51 @@ export const GiveRow = ({
           css={{
             justifyContent: 'flex-end',
             minWidth: 0,
+            '@sm': {
+              flexDirection: 'column-reverse',
+              justifyItems: 'center',
+              mt: '$md',
+              gap: '$md',
+            },
           }}
         >
-          {!docExample && (
-            <Button
-              size="small"
-              css={{ mr: '$xl', width: '130px' }}
-              color={noteComplete ? 'complete' : 'primary'}
-              outlined={noteComplete ? false : true}
-            >
-              {noteComplete ? (
-                <>
-                  <FileText /> Note Complete
-                </>
-              ) : (
-                <>
-                  <Slash /> No Feedback
-                </>
-              )}
-            </Button>
-          )}
+          <Flex css={{ gap: '$sm' }}>
+            {isMobile && (
+              <ContributorButton
+                css={{
+                  '&:hover': { transition: 'visibility 0.1s ease-in' },
+                  visibility: hover || member.teammate ? 'visible' : 'hidden',
+                }}
+                member={member}
+                updateTeammate={updateTeammate}
+              />
+            )}
+            {!docExample && (
+              <Text
+                tag
+                css={{
+                  mr: '$xl',
+                  minWidth: '130px',
+                  '@sm': {
+                    mr: 0,
+                    minWidth: 0,
+                    px: '$sm',
+                  },
+                }}
+                color={noteComplete ? 'complete' : 'primary'}
+              >
+                {noteComplete ? (
+                  <>
+                    <FileText /> Note Complete
+                  </>
+                ) : (
+                  <>
+                    <Slash /> No Feedback
+                  </>
+                )}
+              </Text>
+            )}
+          </Flex>
           <GiveAllocator
             disabled={noGivingAllowed}
             adjustGift={adjustGift}
@@ -152,7 +168,7 @@ export const GiveRow = ({
             optedOut={member.non_receiver || member.fixed_non_receiver}
           />
         </Flex>
-      </Flex>
-    </Panel>
+      </GiveRowGrid>
+    </Box>
   );
 };

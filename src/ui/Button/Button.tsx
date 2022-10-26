@@ -153,13 +153,10 @@ export const Button = styled('button', {
           height: '$lg',
           width: '$lg',
         },
-        '&:hover': {
-          color: '$secondary',
-          background: '$surface',
-        },
-        '&:focus': {
-          color: '$secondary',
-          background: '$surface',
+        '&:hover, &:focus': {
+          filter: 'saturate(1)',
+          color: '$primary',
+          background: '$background',
         },
         '&:disabled': {
           color: '$text',
@@ -232,7 +229,7 @@ export const Button = styled('button', {
       color: 'neutral',
       outlined: true,
       css: {
-        color: '$text',
+        color: '$neutral',
         borderColor: '$neutral',
         '&:hover, &:focus': {
           color: '$white',

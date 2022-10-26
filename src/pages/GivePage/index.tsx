@@ -1,25 +1,29 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
+import { updateUser } from 'lib/gql/mutations';
+import debounce from 'lodash/debounce';
 import { Helmet } from 'react-helmet';
-import { useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import { Awaited } from '../../../api-lib/ts4.5shim';
-import { LoadingModal } from '../../components';
+import { LoadingModal, QUERY_KEY_RECEIVE_INFO } from '../../components';
 import { useApeSnackbar } from '../../hooks';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { client } from '../../lib/gql/client';
 import { epochTimeUpcoming } from '../../lib/time';
 import { useSelectedCircle } from '../../recoilState';
+import { paths } from '../../routes/paths';
 import { IEpoch, IMyUser } from '../../types';
-import { Box, Button, Flex, Modal, Panel, Text } from '../../ui';
+import { Box, Button, Flex, Modal, Panel, Text, Link } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 import { getPendingGiftsFrom } from '../AllocationPage/queries';
 
+import { EpochStatementDrawer } from './EpochStatementDrawer';
 import { GiveDrawer } from './GiveDrawer';
 import { GiveRow } from './GiveRow';
 import { MyGiveRow } from './MyGiveRow';
 import { getMembersWithContributions, PotentialTeammate } from './queries';
-import { SavingIndicator } from './SavingIndicator';
+import { SaveState, SavingIndicator } from './SavingIndicator';
 
 export type Gift = Awaited<ReturnType<typeof getPendingGiftsFrom>>[number];
 
@@ -31,7 +35,7 @@ const GivePage = () => {
   const {
     circle: selectedCircle,
     myUser,
-    circleEpochsStatus: { currentEpoch, nextEpoch },
+    circleEpochsStatus: { currentEpoch, nextEpoch, previousEpoch },
   } = useSelectedCircle();
   const { showError } = useApeSnackbar();
 
@@ -54,7 +58,7 @@ const GivePage = () => {
   giftsRef.current = gifts;
 
   // needToSave indicates that there are dirty state changes (notes, allocations) that need to be saved to the backend
-  const [needToSave, setNeedToSave] = useState<boolean | undefined>(undefined);
+  const [saveState, setSaveState] = useState<SaveState>('stable');
 
   // fetch the available members (w/ contribution aggregate count) and the list of teammates
   const { data, refetch: refetchMembers } = useQuery(
@@ -66,7 +70,7 @@ const GivePage = () => {
       return getMembersWithContributions(
         selectedCircle.id,
         address as string,
-        currentEpoch.startDate.toJSDate(),
+        previousEpoch?.endDate.toJSDate() || new Date(0),
         currentEpoch.endDate.toJSDate()
       );
     },
@@ -98,13 +102,6 @@ const GivePage = () => {
     }
     if (data) {
       refetchMembers().then();
-    }
-    // save on nav?
-    if (needToSave) {
-      if (saveTimeout) {
-        clearTimeout(saveTimeout);
-      }
-      saveGifts().then();
     }
   }, [location]);
 
@@ -156,6 +153,7 @@ const GivePage = () => {
   // saveGifts is run asynchronously to save the gifts to the backend
   const saveGifts = async () => {
     // update all the pending gifts
+    setSaveState('saving');
     try {
       await client.mutate({
         updateAllocations: [
@@ -180,13 +178,20 @@ const GivePage = () => {
     } finally {
       // errors don't cause us to retry save, this is an area for improvement later,
       // https://github.com/coordinape/coordinape/issues/1400 -g
-      setNeedToSave(false);
+      setSaveState(prevState => {
+        // this is to check if someone scheduled dirty changes while we were saving
+        if (prevState == 'scheduled') {
+          // need to reschedule, this triggers the useEffect that will reschedule
+          return 'buffering';
+        }
+        return 'saved';
+      });
+      // Do we need to try again? Error? Something happened while we were saving
     }
   };
 
   // adjustGift adjusts a gift by an amount if it is allowed wrt the max give, then schedules saving
   const adjustGift = (recipientId: number, amount: number | null) => {
-    const updated = false;
     setGifts(prevState => {
       // check if this takes us over the limit before updating
       const newGifts = { ...prevState };
@@ -196,6 +201,7 @@ const GivePage = () => {
         tokens: amount !== null ? (gift?.tokens ?? 0) + amount : undefined,
         recipient_id: recipientId,
       };
+
       const afterUpdateTotal = Object.values(newGifts).reduce(
         (total, g) => total + (g.tokens ?? 0),
         0
@@ -206,12 +212,9 @@ const GivePage = () => {
         return prevState;
       }
 
-      setNeedToSave(true);
-      scheduleSave();
       return newGifts;
     });
-
-    return updated;
+    setNeedToSave(true);
   };
 
   // updateNote updates the note of a gift and then schedules saving
@@ -229,23 +232,40 @@ const GivePage = () => {
     });
 
     setNeedToSave(true);
-    scheduleSave();
   };
 
-  // saveTimeout is the handle to the scheduled save in progress
-  const [saveTimeout, setSaveTimeout] =
-    useState<ReturnType<typeof setTimeout>>();
-
-  // scheduleSave clears any existing pending save and schedules a new one
-  const scheduleSave = () => {
-    // we need to save, lets do it
-    // if we have a timer, lets cancel it and reschedule, keep pushing it out if the user is active?
-    if (saveTimeout) {
-      clearTimeout(saveTimeout);
+  const setNeedToSave = (save: boolean) => {
+    if (save) {
+      setSaveState((prevState: SaveState) => {
+        // if we are already scheduled, or are currently saving, set to scheduled
+        // in the case of already saving, this  causes us to reschedule at the end of the save
+        if (prevState == 'scheduled' || prevState == 'saving') {
+          return 'scheduled';
+        }
+        // if we aren't actively saving or already scheduled, move to buffering
+        // this triggers a once and only once scheduling
+        return 'buffering';
+      });
+    } else {
+      setSaveState('stable');
     }
-    // only save every 1s , if user increments or edits note, delay 1s
-    setSaveTimeout(setTimeout(saveGifts, SAVE_BUFFER_PERIOD));
   };
+
+  useEffect(() => {
+    // once we become buffering, we need to schedule
+    // this protection of state change in useEffect allows us to fire this only once
+    // so requests don't stack up
+    if (saveState == 'buffering') {
+      setSaveState('scheduled');
+      scheduleSave();
+    }
+  }, [saveState]);
+
+  // only save every 1s , if user increments or edits note, delay 1s
+  // this is actually protected by the SaveState state machine and this debounce might not be necessary
+  const scheduleSave = useCallback(debounce(saveGifts, SAVE_BUFFER_PERIOD), [
+    saveGifts,
+  ]);
 
   // build the actual members list by combining allUsers, pendingGiftsFrom and startingTeammates
   useEffect(() => {
@@ -285,66 +305,79 @@ const GivePage = () => {
   }
 
   return (
-    <SingleColumnLayout>
-      <Helmet>
-        <title>Give - {selectedCircle.name} - Coordinape</title>
-      </Helmet>
-      <Box>
-        <Box css={{ mb: '$md' }}>
-          <Text h1 semibold inline>
-            GIVE
+    <Box css={{ width: '100%' }}>
+      <Flex
+        css={{ background: '$info', justifyContent: 'center', py: '$md' }}
+        alignItems="center"
+      >
+        <Text>Not ready for the new GIVE experience?</Text>
+        <Link href={paths.allocation(selectedCircle.id)}>
+          <Button outlined color="primary" css={{ ml: '$md' }}>
+            Go Back
+          </Button>
+        </Link>
+      </Flex>
+      <SingleColumnLayout>
+        <Helmet>
+          <title>Give - {selectedCircle.name} - Coordinape</title>
+        </Helmet>
+        <Box>
+          <Box css={{ mb: '$md' }}>
+            <Text h1 semibold inline>
+              GIVE
+            </Text>
+            {currentEpoch && (
+              <Text inline h1 normal css={{ ml: '$md' }}>
+                Epoch {currentEpoch.number}:{' '}
+                {currentEpoch.startDate.toFormat('MMM d')} -{' '}
+                {currentEpoch.endDate.toFormat(
+                  currentEpoch.endDate.month === currentEpoch.startDate.month
+                    ? 'd'
+                    : 'MMM d'
+                )}
+              </Text>
+            )}
+          </Box>
+          <Text css={{ mb: '$md' }}>
+            Reward &amp; thank your teammates for their contributions
           </Text>
-          {currentEpoch && (
-            <Text inline h1 normal css={{ ml: '$md' }}>
-              Epoch {currentEpoch.number}:{' '}
-              {currentEpoch.startDate.toFormat('MMM d')} -{' '}
-              {currentEpoch.endDate.toFormat(
-                currentEpoch.endDate.month === currentEpoch.startDate.month
-                  ? 'd'
-                  : 'MMM d'
+        </Box>
+        {!currentEpoch && (
+          <Panel>
+            <Text semibold inline>
+              Allocations happen during active epochs.{' '}
+              {nextEpoch ? (
+                <Text inline>
+                  Allocation begins in {epochTimeUpcoming(nextEpoch.startDate)}.
+                  {nextEpoch.repeat === 1
+                    ? ' (repeats weekly)'
+                    : nextEpoch.repeat === 2
+                    ? ' (repeats monthly)'
+                    : ''}
+                </Text>
+              ) : (
+                <Text inline>No upcoming epochs scheduled.</Text>
               )}
             </Text>
-          )}
-        </Box>
-        <Text css={{ mb: '$md' }}>
-          Reward &amp; thank your teammates for their contributions
-        </Text>
-      </Box>
-      {!currentEpoch && (
-        <Panel>
-          <Text semibold inline>
-            Allocations happen during active epochs.{' '}
-            {nextEpoch ? (
-              <Text inline>
-                Allocation begins in {epochTimeUpcoming(nextEpoch.startDate)}.
-                {nextEpoch.repeat === 1
-                  ? ' (repeats weekly)'
-                  : nextEpoch.repeat === 2
-                  ? ' (repeats monthly)'
-                  : ''}
-              </Text>
-            ) : (
-              <Text inline>No upcoming epochs scheduled.</Text>
-            )}
-          </Text>
-        </Panel>
-      )}
-      {data && pendingGiftsFrom && (
-        <AllocateContents
-          members={members}
-          updateTeammate={updateTeammate}
-          gifts={gifts}
-          updateNote={updateNote}
-          adjustGift={adjustGift}
-          needToSave={needToSave}
-          setNeedToSave={setNeedToSave}
-          totalGiveUsed={totalGiveUsed}
-          myUser={myUser}
-          maxedOut={totalGiveUsed >= myUser.starting_tokens}
-          currentEpoch={currentEpoch}
-        />
-      )}
-    </SingleColumnLayout>
+          </Panel>
+        )}
+        {data && pendingGiftsFrom && (
+          <AllocateContents
+            members={members}
+            updateTeammate={updateTeammate}
+            gifts={gifts}
+            updateNote={updateNote}
+            adjustGift={adjustGift}
+            saveState={saveState}
+            setNeedToSave={setNeedToSave}
+            totalGiveUsed={totalGiveUsed}
+            myUser={myUser}
+            maxedOut={totalGiveUsed >= myUser.starting_tokens}
+            currentEpoch={currentEpoch}
+          />
+        )}
+      </SingleColumnLayout>
+    </Box>
   );
 };
 
@@ -356,7 +389,7 @@ type AllocateContentsProps = {
   gifts: Record<string, Gift>;
   updateNote(gift: Gift): void;
   adjustGift(recipientId: number, amount: number): void;
-  needToSave: boolean | undefined;
+  saveState: SaveState;
   setNeedToSave(save: boolean | undefined): void;
   totalGiveUsed: number;
   myUser: IMyUser;
@@ -370,7 +403,7 @@ const AllocateContents = ({
   gifts,
   updateNote,
   adjustGift,
-  needToSave,
+  saveState,
   setNeedToSave,
   totalGiveUsed,
   myUser,
@@ -392,6 +425,43 @@ const AllocateContents = ({
     undefined
   );
 
+  // myMember is the current users member in this circle, used for contributionCount
+  const myMember = members.find(m => m.id == myUser.id);
+  // needed to decouple this piece of state from the hard page reloads tied to
+  // fetching the manifest.
+  const [userIsOptedOut, setUserIsOptedOut] = useState(myUser.non_receiver);
+
+  const queryClient = useQueryClient();
+
+  const { mutate: updateNonReceiver, isLoading: isNonReceiverMutationLoading } =
+    useMutation(
+      async (nonReceiver: boolean) =>
+        updateUser({
+          non_receiver: nonReceiver,
+          circle_id: myMember?.circle_id,
+        }),
+      {
+        onSuccess: data => {
+          queryClient.invalidateQueries(QUERY_KEY_RECEIVE_INFO);
+
+          if (data) {
+            setUserIsOptedOut(data.UserResponse.non_receiver);
+          }
+        },
+        onError: e => {
+          console.error(e);
+          showError(e);
+        },
+      }
+    );
+  // Controls the warning modal for when the user is opting out and
+  // already has GIVE allocated to them. This is lifted up here because
+  // the opt-out buttons also exist in th EpochStatementDrawer
+  const [optOutOpen, setOptOutOpen] = useState(false);
+
+  // track epoch statements between drawer openings
+  const [statement, setStatement] = useState(myMember?.bio || '');
+
   // membersToIterate is initialized as a snapshot of filteredMembers when the drawer is brought up on
   // first set of selectedMemberIdx to non-zero
   const [membersToIterate, setMembersToIterate] = useState<Member[]>([]);
@@ -399,6 +469,7 @@ const AllocateContents = ({
   // filteredMembers is the list of all members filtered down by various criteria, which is currently limited to
   // onlyCollaborator or all members
   const filteredMembers = members
+    .filter(m => m.id != myUser.id)
     .filter(m => (onlyCollaborators ? m.teammate : true))
     .sort((a, b) => a.name.localeCompare(b.name));
 
@@ -462,6 +533,7 @@ const AllocateContents = ({
       }
       setMembersToIterate(mtoi);
     }
+    if (myMember) setStatement(myMember.bio || '');
   }, [members]);
 
   // move to the next member in the snapshotted membersToIterate. used by the drawer
@@ -526,6 +598,8 @@ const AllocateContents = ({
           background: '$background',
           zIndex: 3,
           mb: '$md',
+          borderRadius: '$3',
+          '@sm': { boxShadow: '$shadowBottom' },
         }}
       >
         <Panel
@@ -539,11 +613,17 @@ const AllocateContents = ({
               display: 'grid',
               gridTemplateColumns: '1fr 1fr',
               justifyContent: 'space-between',
-              gap: '$lg',
               '@sm': { gridTemplateColumns: '1fr' },
             }}
           >
-            <Flex css={{ flexGrow: 1 }} alignItems="center">
+            <Flex
+              css={{
+                flexGrow: 1,
+                gap: '$md',
+                '@sm': { flexDirection: 'column', gap: '$sm' },
+              }}
+              alignItems="center"
+            >
               <Box>
                 {noGivingAllowed ? (
                   <Text color="neutral" size="large" semibold>
@@ -561,7 +641,6 @@ const AllocateContents = ({
                 color="primary"
                 outlined
                 disabled={maxedOut || noGivingAllowed}
-                css={{ ml: '$md' }}
                 onClick={e => {
                   (e.target as HTMLButtonElement).blur();
                   distributeEvenly();
@@ -571,19 +650,34 @@ const AllocateContents = ({
               </Button>
               <Flex
                 css={{
-                  ml: '$md',
                   alignItems: 'center',
+                  '@sm': { mb: '$sm' },
                 }}
               >
-                <SavingIndicator needToSave={needToSave} />
+                <SavingIndicator saveState={saveState} />
               </Flex>
             </Flex>
-            <Flex css={{ flexShrink: 0, justifyContent: 'flex-end' }}>
-              <Flex>
+            <Flex
+              css={{
+                flexShrink: 0,
+                justifyContent: 'flex-end',
+              }}
+            >
+              <Flex
+                css={{
+                  '@sm': {
+                    flexGrow: '1',
+                    mx: '-$md',
+                    mb: '-$md',
+                  },
+                }}
+              >
                 <Button
                   css={{
                     borderTopRightRadius: 0,
                     borderBottomRightRadius: 0,
+                    '@sm': { borderTopLeftRadius: 0, py: 'calc($sm + $xs)' },
+                    flexGrow: '1',
                   }}
                   color={onlyCollaborators ? 'primary' : 'white'}
                   onClick={() => setOnlyCollaborators(true)}
@@ -594,6 +688,8 @@ const AllocateContents = ({
                   css={{
                     borderTopLeftRadius: 0,
                     borderBottomLeftRadius: 0,
+                    '@sm': { borderTopRightRadius: 0, py: 'calc($sm + $xs)' },
+                    flexGrow: '1',
                   }}
                   color={onlyCollaborators ? 'white' : 'primary'}
                   onClick={() => setOnlyCollaborators(false)}
@@ -605,9 +701,20 @@ const AllocateContents = ({
           </Flex>
         </Panel>
       </Box>
-
-      <Panel css={{ gap: '$md' }}>
-        <MyGiveRow myUser={myUser} />
+      <MyGiveRow
+        statementCompelete={statement.length > 0 ? true : false}
+        optOutOpen={optOutOpen}
+        setOptOutOpen={setOptOutOpen}
+        userIsOptedOut={userIsOptedOut}
+        updateNonReceiver={updateNonReceiver}
+        isNonReceiverMutationLoading={isNonReceiverMutationLoading}
+        myUser={myUser}
+        openEpochStatement={() => setSelectedMember(myMember)}
+        contributionCount={
+          myMember?.contributions_aggregate?.aggregate?.count ?? 0
+        }
+      />
+      <Panel css={{ gap: '$md', mt: '$md' }}>
         {filteredMembers.length > 0 &&
           filteredMembers.map(member => {
             let gift = gifts[member.id];
@@ -711,11 +818,33 @@ const AllocateContents = ({
           paddingTop: 0,
           overflowY: 'scroll',
         }}
-        onClose={() => setSelectedMemberIdx(-1)}
+        onClose={() => {
+          setSelectedMemberIdx(-1);
+          setSelectedMember(undefined);
+        }}
         drawer
-        open={selectedMemberIdx != -1}
+        open={
+          selectedMemberIdx != -1 ||
+          (myMember !== undefined && selectedMember === myMember)
+        }
       >
-        {selectedMember && currentEpoch && (
+        {selectedMember && selectedMember === myMember && currentEpoch && (
+          <>
+            <EpochStatementDrawer
+              myUser={myUser}
+              member={myMember}
+              setOptOutOpen={setOptOutOpen}
+              userIsOptedOut={userIsOptedOut}
+              updateNonReceiver={updateNonReceiver}
+              isNonReceiverMutationLoading={isNonReceiverMutationLoading}
+              start_date={currentEpoch.startDate.toJSDate()}
+              end_date={currentEpoch.endDate.toJSDate()}
+              statement={statement}
+              setStatement={setStatement}
+            />
+          </>
+        )}
+        {selectedMember && selectedMember !== myMember && currentEpoch && (
           <GiveDrawer
             nextMember={nextMember}
             selectedMemberIdx={selectedMemberIdx}
@@ -732,7 +861,7 @@ const AllocateContents = ({
             maxedOut={maxedOut}
             start_date={currentEpoch.startDate.toJSDate()}
             end_date={currentEpoch.endDate.toJSDate()}
-            needToSave={needToSave}
+            saveState={saveState}
             setNeedToSave={setNeedToSave}
             noGivingAllowed={noGivingAllowed}
             updateTeammate={updateTeammate}

@@ -81,7 +81,6 @@ export const HistoryPage = () => {
   );
   const totalPages = Math.ceil(pastEpochs.length / pageSize);
 
-  const nominees = circle?.nominees_aggregate.aggregate?.count || 0;
   const unallocated = (!me?.non_giver && me?.give_token_remaining) || 0;
 
   const { showInfo } = useApeSnackbar();
@@ -112,13 +111,12 @@ export const HistoryPage = () => {
       <Flex
         css={{
           justifyContent: 'space-between',
-          alignItems: 'baseline',
+          alignItems: 'flex-end',
           flexWrap: 'wrap',
+          mb: '$md',
         }}
       >
-        <Text h1 css={{ mb: '$md' }}>
-          Epoch Overview
-        </Text>
+        <Text h1>Epoch Overview</Text>
         {isAdmin && (
           <Button
             color="primary"
@@ -271,8 +269,6 @@ export const HistoryPage = () => {
             css={{ mb: '$md' }}
             circleId={circleId}
             epoch={currentEpoch}
-            vouching={circle?.vouching}
-            nominees={nominees}
             unallocated={unallocated}
             tokenName={circle?.token_name}
             isAdmin={isAdmin}

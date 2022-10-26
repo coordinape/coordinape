@@ -17,20 +17,11 @@ import {
 import { getApiService } from 'services/api';
 import { extraProfile } from 'utils/modelExtenders';
 import { neverEndingPromise } from 'utils/recoil';
-import { getSelfIdProfile } from 'utils/selfIdHelpers';
 import storage from 'utils/storage';
 
 import { rManifest, rFullCircle } from './db';
 
-import {
-  IUser,
-  IMyUser,
-  IEpoch,
-  ICircle,
-  INominee,
-  IProfile,
-  IAuth,
-} from 'types';
+import { IUser, IMyUser, IEpoch, ICircle, INominee, IAuth } from 'types';
 
 const log = debug('recoil');
 
@@ -132,15 +123,8 @@ export const rGiftsMap = selector({
 export const rProfile = selectorFamily({
   key: 'rProfile',
   get: (address: string) => async () => {
-    const [profile, selfIdProfile] = await Promise.all([
-      queries.getProfile(address),
-      getSelfIdProfile(address),
-    ]);
-
-    return {
-      ...selfIdProfile,
-      ...extraProfile(profile),
-    } as IProfile;
+    const profile = await queries.getProfile(address);
+    return extraProfile(profile);
   },
 });
 

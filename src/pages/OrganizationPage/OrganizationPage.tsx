@@ -12,7 +12,7 @@ import { paths } from 'routes/paths';
 import { AppLink, Avatar, Box, Button, Flex, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
-import { getOrgData, QUERY_KEY_MY_ORGS } from './getOrgData';
+import { getOrgData, QUERY_KEY_ORG_DATA } from './getOrgData';
 
 import type { Awaited } from 'types/shim';
 
@@ -23,7 +23,7 @@ export const OrganizationPage = () => {
   const navigate = useNavigate();
   const address = useConnectedAddress();
   const query = useQuery(
-    [QUERY_KEY_MY_ORGS, orgId],
+    [QUERY_KEY_ORG_DATA, orgId],
     () => getOrgData(orgId, address as string),
     {
       enabled: !!address,
@@ -55,7 +55,7 @@ export const OrganizationPage = () => {
           row
           css={{
             mb: '$lg',
-            alignItems: 'baseline',
+            alignItems: 'flex-end',
             justifyContent: 'space-between',
           }}
         >

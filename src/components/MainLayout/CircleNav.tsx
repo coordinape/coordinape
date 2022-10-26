@@ -31,8 +31,9 @@ export const CircleNav = () => {
   const links: [string, string, string[]?][] = useMemo(() => {
     assert(circleId);
     const l: [string, string, string[]?][] = [
+      [paths.contributions(circleId), 'Contributions'],
       [
-        paths.allocation(circleId),
+        paths.givebeta(circleId),
         'Allocate',
         [paths.epoch(circleId), paths.team(circleId), paths.give(circleId)],
       ],

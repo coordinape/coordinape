@@ -125,6 +125,7 @@ export const createUserSchemaInput = z
     non_receiver: z.boolean().optional(),
     role: z.number().min(0).max(1).optional(),
     fixed_payment_amount: z.number().min(0).max(100000000000).optional(),
+    entrance: z.string(),
   })
   .strict();
 

@@ -14,15 +14,15 @@ import {
   Contribution as IntegrationContribution,
 } from 'hooks/useContributions';
 import {
-  // ArrowRight,
   DeworkColor,
-  // WonderColor,
+  WonderColor,
   Check,
   AlertTriangle,
-  Save,
+  RefreshCcw,
   ChevronDown,
   ChevronUp,
 } from 'icons/__generated';
+import { SaveState } from 'pages/GivePage/SavingIndicator';
 import { Panel, Text, Box, Modal, Button, Flex } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -46,6 +46,8 @@ import {
   jumpToEpoch,
   isEpochCurrent,
 } from './util';
+
+const DEBOUNCE_TIMEOUT = 1000;
 
 const nextPrevCss = {
   color: '$text',
@@ -76,10 +78,27 @@ type CurrentIntContribution = {
   epoch?: LinkedElement<Epoch>;
 };
 
+const contributionIcon = (source: string) => {
+  switch (source) {
+    case 'wonder':
+      return <WonderColor css={{ mr: '$md' }} />;
+    default:
+      return <DeworkColor css={{ mr: '$md' }} />;
+  }
+};
+const contributionSource = (source: string) => {
+  switch (source) {
+    case 'wonder':
+      return 'Wonder';
+    default:
+      return 'Dework';
+  }
+};
 const ContributionsPage = () => {
   const address = useConnectedAddress();
   const { circle: selectedCircle } = useSelectedCircle();
   const [modalOpen, setModalOpen] = useState(false);
+  const [saveState, setSaveState] = useState<{ [key: number]: SaveState }>({});
   const [currentContribution, setCurrentContribution] =
     useState<CurrentContribution | null>(null);
   const [currentIntContribution, setCurrentIntContribution] =
@@ -118,6 +137,11 @@ const ContributionsPage = () => {
     formState: { isDirty },
   } = useForm({ mode: 'all' });
 
+  const { field: descriptionField } = useController({
+    name: 'description',
+    control,
+  });
+
   const {
     mutate: createContribution,
     status: createStatus,
@@ -125,25 +149,24 @@ const ContributionsPage = () => {
   } = useMutation(createContributionMutation, {
     onSuccess: newContribution => {
       refetchContributions();
-      if (
-        newContribution.insert_contributions_one?.id ===
-        currentContribution?.contribution.id
-      ) {
-        if (newContribution.insert_contributions_one) {
-          resetField('description', {
-            defaultValue: newContribution.insert_contributions_one.description,
-          });
-          setCurrentContribution({
-            contribution: {
-              ...newContribution.insert_contributions_one,
-              next: () => data?.contributions[1],
-              prev: () => undefined,
-              idx: 0,
-            },
-            epoch: getCurrentEpoch(data?.epochs ?? []),
-          });
-        }
+      if (newContribution.insert_contributions_one) {
+        updateSaveStateForContribution(0, 'stable');
+        updateSaveStateForContribution(
+          newContribution.insert_contributions_one.id,
+          'saved'
+        );
+        setCurrentContribution({
+          contribution: {
+            ...newContribution.insert_contributions_one,
+            description: descriptionField.value as string,
+            next: () => data?.contributions[0],
+            prev: () => undefined,
+            idx: 0,
+          },
+          epoch: getCurrentEpoch(data?.epochs ?? []),
+        });
       } else {
+        updateSaveStateForContribution(0, 'stable');
         resetCreateMutation();
       }
     },
@@ -159,15 +182,20 @@ const ContributionsPage = () => {
       //refetchContributions();
     },
     onSuccess: ({ updateContribution }) => {
-      refetchContributions();
-      if (
-        updateContribution?.updateContribution_Contribution.id ===
-        currentContribution?.contribution.id
-      )
-        resetField('description', {
-          defaultValue:
-            updateContribution?.updateContribution_Contribution.description,
+      updateSaveStateForContribution(
+        updateContribution?.updateContribution_Contribution.id,
+        'saved'
+      );
+      if (currentContribution && updateContribution)
+        setCurrentContribution({
+          ...currentContribution,
+          contribution: {
+            ...currentContribution.contribution,
+            description:
+              updateContribution.updateContribution_Contribution.description,
+          },
         });
+      refetchContributions();
     },
   });
 
@@ -175,19 +203,15 @@ const ContributionsPage = () => {
     deleteContributionMutation,
     {
       mutationKey: ['deleteContribution', currentContribution?.contribution.id],
-      onSuccess: () => {
+      onSuccess: data => {
         setModalOpen(false);
         setCurrentContribution(null);
         refetchContributions();
+        updateSaveStateForContribution(data.contribution_id, 'stable');
         reset();
       },
     }
   );
-
-  const { field: descriptionField } = useController({
-    name: 'description',
-    control,
-  });
 
   const saveContribution = useMemo(() => {
     return (value: string) => {
@@ -211,20 +235,44 @@ const ContributionsPage = () => {
   // the handle of a live function is lost on re-render and we cannot
   // cancel the call when a bunch of typing is happening
   const handleDebouncedDescriptionChange = useMemo(
-    () => debounce((s: typeof saveContribution, v: string) => s(v), 1000),
+    () =>
+      debounce((s: typeof saveContribution, v: string) => {
+        updateSaveStateForContribution(
+          currentContribution?.contribution.id,
+          'saving'
+        );
+        s(v);
+      }, DEBOUNCE_TIMEOUT),
     [currentContribution?.contribution.id]
   );
+
+  const updateSaveStateForContribution = (
+    id: number | undefined,
+    saveState: SaveState
+  ) => {
+    if (id == undefined) {
+      return;
+    }
+    setSaveState(prevState => {
+      const newState = { ...prevState };
+      newState[id] = saveState;
+      return newState;
+    });
+  };
 
   useEffect(() => {
     handleDebouncedDescriptionChange.cancel();
     if (isDirty && descriptionField.value.length > 0) {
+      updateSaveStateForContribution(
+        currentContribution?.contribution.id,
+        'scheduled'
+      );
       handleDebouncedDescriptionChange(
         saveContribution,
         descriptionField.value
       );
     }
     resetUpdateMutation();
-    resetCreateMutation();
   }, [descriptionField.value, currentContribution?.contribution.id]);
 
   const mutationStatus = () =>
@@ -285,8 +333,9 @@ const ContributionsPage = () => {
         <Flex
           css={{
             justifyContent: 'space-between',
-            alignItems: 'baseline',
+            alignItems: 'flex-end',
             flexWrap: 'wrap',
+            gap: '$md',
           }}
         >
           <Text h1>Contributions</Text>
@@ -399,81 +448,111 @@ const ContributionsPage = () => {
                   <ChevronDown size="lg" />
                 </Button>
               </Flex>
-              <Text h2 css={{ gap: '$md', my: '$xl' }}>
-                {currentContribution.epoch.id
-                  ? renderEpochDate(currentContribution.epoch)
-                  : 'Latest'}
-                {getEpochLabel(currentContribution.epoch)}
-                <Text p>
-                  {DateTime.fromISO(
-                    currentContribution.contribution.datetime_created
-                  ).toFormat('LLL dd')}
+              <Flex
+                css={{
+                  alignItems: 'center',
+                  my: '$xl',
+                }}
+              >
+                <Text
+                  h3
+                  semibold
+                  css={{
+                    mr: '$md',
+                  }}
+                >
+                  {currentContribution.epoch.id
+                    ? renderEpochDate(currentContribution.epoch)
+                    : 'Latest'}
                 </Text>
-              </Text>
-              {isEpochCurrent(currentContribution.epoch) ? (
-                <FormInputField
-                  id="description"
-                  name="description"
-                  control={control}
-                  defaultValue={currentContribution.contribution.description}
-                  areaProps={{ rows: 18 }}
-                  disabled={!isEpochCurrent(currentContribution.epoch)}
-                  textArea
-                />
-              ) : (
-                <Panel nested>
-                  <Text p>{currentContribution.contribution.description}</Text>
-                </Panel>
-              )}
-              {isEpochCurrent(currentContribution.epoch) && (
+                {getEpochLabel(currentContribution.epoch)}
+              </Flex>
+              <Flex column css={{ gap: '$sm' }}>
                 <Flex
                   css={{
                     justifyContent: 'space-between',
-                    mt: '$lg',
-                    flexDirection: 'row-reverse',
+                    alignItems: 'flex-end',
                   }}
                 >
-                  <Flex css={{ gap: '$md' }}>
-                    <Text
-                      css={{ gap: '$sm' }}
-                      color={updateStatus === 'error' ? 'alert' : 'neutral'}
-                    >
-                      {mutationStatus() === 'loading' && (
-                        <>
-                          <Save />
-                          Saving...
-                        </>
-                      )}
-                      {(updateStatus === 'success' ||
-                        (createStatus === 'success' &&
-                          updateStatus === 'idle')) && (
-                        <>
-                          <Check /> Changes Saved
-                        </>
-                      )}
-                      {mutationStatus() === 'error' && isDirty && (
-                        <>
-                          <AlertTriangle />
-                          Error
-                        </>
-                      )}
+                  <Text inline semibold size="medium">
+                    Contribution
+                  </Text>
+                  <Text variant="label">
+                    {DateTime.fromISO(
+                      currentContribution.contribution.datetime_created
+                    ).toFormat('LLL dd')}
+                  </Text>
+                </Flex>
+                {isEpochCurrent(currentContribution.epoch) ? (
+                  <FormInputField
+                    id="description"
+                    name="description"
+                    control={control}
+                    defaultValue={currentContribution.contribution.description}
+                    areaProps={{ autoFocus: true }}
+                    disabled={!isEpochCurrent(currentContribution.epoch)}
+                    placeholder="What have you been working on?"
+                    textArea
+                  />
+                ) : (
+                  <Panel nested>
+                    <Text p>
+                      {currentContribution.contribution.description}
                     </Text>
-                  </Flex>
-                  <Button
-                    outlined
-                    color="destructive"
-                    size="medium"
-                    onClick={() => {
-                      handleDebouncedDescriptionChange.cancel();
-                      deleteContribution({
-                        contribution_id: currentContribution.contribution.id,
-                      });
+                  </Panel>
+                )}
+                {isEpochCurrent(currentContribution.epoch) && (
+                  <Flex
+                    css={{
+                      justifyContent: 'space-between',
+                      mt: '$sm',
                     }}
                   >
-                    Delete
-                  </Button>
-                </Flex>
-              )}
+                    <Button
+                      outlined
+                      color="destructive"
+                      size="small"
+                      disabled={!currentContribution.contribution.id}
+                      onClick={() => {
+                        handleDebouncedDescriptionChange.cancel();
+                        deleteContribution({
+                          contribution_id: currentContribution.contribution.id,
+                        });
+                      }}
+                    >
+                      Delete
+                    </Button>
+                    <Flex css={{ gap: '$sm' }}>
+                      <Text
+                        size="small"
+                        css={{ gap: '$sm' }}
+                        color={updateStatus === 'error' ? 'alert' : 'neutral'}
+                      >
+                        {(saveState[currentContribution.contribution.id] ===
+                          'saving' ||
+                          saveState[currentContribution.contribution.id] ===
+                            'scheduled') && (
+                          <>
+                            <RefreshCcw /> Saving...
+                          </>
+                        )}
+                        {saveState[currentContribution.contribution.id] ===
+                          'saved' && (
+                          <>
+                            <Check /> Saved
+                          </>
+                        )}
+                        {mutationStatus() === 'error' && isDirty && (
+                          <>
+                            <AlertTriangle />
+                            Error
+                          </>
+                        )}
+                      </Text>
+                    </Flex>
+                  </Flex>
+                )}
+              </Flex>
             </>
           ) : currentIntContribution ? (
             <>
@@ -483,9 +562,16 @@ const ContributionsPage = () => {
                   : 'Latest'}
                 {getEpochLabel(currentIntContribution.epoch)}
               </Text>
+              <Panel css={{ pl: '0 !important' }}>
+                <Text p size="large" semibold css={{ color: '$headingText' }}>
+                  {contributionSource(
+                    currentIntContribution.contribution.source
+                  )}
+                </Text>
+              </Panel>
               <Panel nested>
                 <Text p>
-                  <DeworkColor css={{ mr: '$md' }} />{' '}
+                  {contributionIcon(currentIntContribution.contribution.source)}
                   {currentIntContribution.contribution.title}
                 </Text>
               </Panel>
@@ -519,9 +605,9 @@ const yearCurrent = (end: string) =>
  */
 const renderEpochDate = (epoch: Epoch) =>
   dedent`
-    Epoch ${epoch.number}: ${DateTime.fromISO(epoch.start_date).toFormat(
-    'LLL dd'
-  )} -
+    Epoch${epoch.number ? ` ${epoch.number}` : ''}: ${DateTime.fromISO(
+    epoch.start_date
+  ).toFormat('LLL dd')} -
     ${DateTime.fromISO(epoch.end_date).toFormat(
       (monthsEqual(epoch.start_date, epoch.end_date) ? '' : 'LLL ') +
         'dd' +
@@ -585,26 +671,29 @@ const EpochGroup = React.memo(function EpochGroup({
 
 type ContributionListProps = {
   contributions: Array<LinkedElement<Contribution>>;
-};
+  epoch: LinkedElement<Epoch>;
+  userAddress?: string;
+} & SetActiveContributionProps;
 const ContributionList = ({
   epoch,
   contributions,
   setActiveContribution,
   currentContribution,
-  latestEpochEndDate,
   userAddress,
-}: ContributionListProps &
-  SetActiveContributionProps & {
-    epoch: LinkedElement<Epoch>;
-    latestEpochEndDate?: string;
-    userAddress?: string;
-  }) => {
-  const currentDateTime = useMemo(() => DateTime.now().toISO(), []);
-
+}: ContributionListProps) => {
+  // epochs are listed in chronologically descending order
+  // so the next epoch in the array is the epoch that ended
+  // before the one here
+  const priorEpoch = epoch.next();
   const integrationContributions = useContributions({
     address: userAddress || '',
-    startDate: epoch ? epoch.next()?.end_date : latestEpochEndDate,
-    endDate: epoch ? epoch.end_date : currentDateTime,
+    startDate: priorEpoch
+      ? priorEpoch.end_date
+      : // add a buffer of time before the start date if this is the first epoch
+        // Querying from epoch time 0 is apparently an unwelcome
+        // practice for some integrators
+        DateTime.fromISO(epoch.start_date).minus({ months: 1 }).toISO(),
+    endDate: epoch.end_date,
     mock: false,
   });
 
@@ -621,6 +710,7 @@ const ContributionList = ({
                     ? '2px solid $link'
                     : '2px solid $border',
                 cursor: 'pointer',
+                transition: 'background-color 0.3s, border-color 0.3s',
                 background:
                   currentContribution?.contribution.id === c.id
                     ? '$highlight'
@@ -675,7 +765,7 @@ const ContributionList = ({
                   maxWidth: '60em',
                 }}
               >
-                <DeworkColor css={{ mr: '$md' }} />
+                {contributionIcon(c.source)}
                 {c.title}
               </Text>
             </Panel>

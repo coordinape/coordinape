@@ -962,6 +962,7 @@ export type ValueTypes = {
   };
   ['UserObj']: {
     address: string;
+    entrance?: string | undefined | null;
     fixed_non_receiver?: boolean | undefined | null;
     name: string;
     non_giver?: boolean | undefined | null;
@@ -8536,6 +8537,8 @@ columns and relationships of "distributions" */
     is_verified?: boolean | `@${string}`;
     logo?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
+    /** Indicates a test/sample/sandbox org */
+    sandbox?: boolean | `@${string}`;
     telegram_id?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     vaults?: [
@@ -8632,6 +8635,7 @@ columns and relationships of "distributions" */
     is_verified?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     logo?: ValueTypes['String_comparison_exp'] | undefined | null;
     name?: ValueTypes['String_comparison_exp'] | undefined | null;
+    sandbox?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     telegram_id?: ValueTypes['String_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     vaults?: ValueTypes['vaults_bool_exp'] | undefined | null;
@@ -8650,6 +8654,8 @@ columns and relationships of "distributions" */
     is_verified?: boolean | undefined | null;
     logo?: string | undefined | null;
     name?: string | undefined | null;
+    /** Indicates a test/sample/sandbox org */
+    sandbox?: boolean | undefined | null;
     telegram_id?: string | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
     vaults?: ValueTypes['vaults_arr_rel_insert_input'] | undefined | null;
@@ -8705,6 +8711,7 @@ columns and relationships of "distributions" */
     is_verified?: ValueTypes['order_by'] | undefined | null;
     logo?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
+    sandbox?: ValueTypes['order_by'] | undefined | null;
     telegram_id?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     vaults_aggregate?:
@@ -8725,6 +8732,8 @@ columns and relationships of "distributions" */
     is_verified?: boolean | undefined | null;
     logo?: string | undefined | null;
     name?: string | undefined | null;
+    /** Indicates a test/sample/sandbox org */
+    sandbox?: boolean | undefined | null;
     telegram_id?: string | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
   };
@@ -14085,6 +14094,7 @@ columns and relationships of "users" */
     ];
     created_at?: boolean | `@${string}`;
     deleted_at?: boolean | `@${string}`;
+    entrance?: boolean | `@${string}`;
     epoch_first_visit?: boolean | `@${string}`;
     fixed_non_receiver?: boolean | `@${string}`;
     fixed_payment_amount?: boolean | `@${string}`;
@@ -14461,6 +14471,7 @@ columns and relationships of "users" */
     contributions?: ValueTypes['contributions_bool_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     deleted_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+    entrance?: ValueTypes['String_comparison_exp'] | undefined | null;
     epoch_first_visit?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     fixed_non_receiver?:
       | ValueTypes['Boolean_comparison_exp']
@@ -14523,6 +14534,7 @@ columns and relationships of "users" */
       | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     deleted_at?: ValueTypes['timestamp'] | undefined | null;
+    entrance?: string | undefined | null;
     epoch_first_visit?: boolean | undefined | null;
     fixed_non_receiver?: boolean | undefined | null;
     fixed_payment_amount?: ValueTypes['numeric'] | undefined | null;
@@ -14566,6 +14578,7 @@ columns and relationships of "users" */
     circle_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     deleted_at?: boolean | `@${string}`;
+    entrance?: boolean | `@${string}`;
     fixed_payment_amount?: boolean | `@${string}`;
     give_token_received?: boolean | `@${string}`;
     give_token_remaining?: boolean | `@${string}`;
@@ -14583,6 +14596,7 @@ columns and relationships of "users" */
     circle_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     deleted_at?: ValueTypes['order_by'] | undefined | null;
+    entrance?: ValueTypes['order_by'] | undefined | null;
     fixed_payment_amount?: ValueTypes['order_by'] | undefined | null;
     give_token_received?: ValueTypes['order_by'] | undefined | null;
     give_token_remaining?: ValueTypes['order_by'] | undefined | null;
@@ -14599,6 +14613,7 @@ columns and relationships of "users" */
     circle_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     deleted_at?: boolean | `@${string}`;
+    entrance?: boolean | `@${string}`;
     fixed_payment_amount?: boolean | `@${string}`;
     give_token_received?: boolean | `@${string}`;
     give_token_remaining?: boolean | `@${string}`;
@@ -14616,6 +14631,7 @@ columns and relationships of "users" */
     circle_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     deleted_at?: ValueTypes['order_by'] | undefined | null;
+    entrance?: ValueTypes['order_by'] | undefined | null;
     fixed_payment_amount?: ValueTypes['order_by'] | undefined | null;
     give_token_received?: ValueTypes['order_by'] | undefined | null;
     give_token_remaining?: ValueTypes['order_by'] | undefined | null;
@@ -14662,6 +14678,7 @@ columns and relationships of "users" */
       | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     deleted_at?: ValueTypes['order_by'] | undefined | null;
+    entrance?: ValueTypes['order_by'] | undefined | null;
     epoch_first_visit?: ValueTypes['order_by'] | undefined | null;
     fixed_non_receiver?: ValueTypes['order_by'] | undefined | null;
     fixed_payment_amount?: ValueTypes['order_by'] | undefined | null;
@@ -14714,6 +14731,7 @@ columns and relationships of "users" */
     circle_id?: ValueTypes['bigint'] | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     deleted_at?: ValueTypes['timestamp'] | undefined | null;
+    entrance?: string | undefined | null;
     epoch_first_visit?: boolean | undefined | null;
     fixed_non_receiver?: boolean | undefined | null;
     fixed_payment_amount?: ValueTypes['numeric'] | undefined | null;
@@ -19374,6 +19392,8 @@ columns and relationships of "distributions" */
     is_verified: boolean;
     logo?: string | undefined;
     name: string;
+    /** Indicates a test/sample/sandbox org */
+    sandbox: boolean;
     telegram_id?: string | undefined;
     updated_at: GraphQLTypes['timestamp'];
     /** An array relationship */
@@ -21080,6 +21100,7 @@ columns and relationships of "users" */
     contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     created_at: GraphQLTypes['timestamp'];
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    entrance?: string | undefined;
     epoch_first_visit: boolean;
     fixed_non_receiver: boolean;
     fixed_payment_amount: GraphQLTypes['numeric'];
@@ -21171,6 +21192,7 @@ columns and relationships of "users" */
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    entrance?: string | undefined;
     fixed_payment_amount?: GraphQLTypes['numeric'] | undefined;
     give_token_received?: number | undefined;
     give_token_remaining?: number | undefined;
@@ -21189,6 +21211,7 @@ columns and relationships of "users" */
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    entrance?: string | undefined;
     fixed_payment_amount?: GraphQLTypes['numeric'] | undefined;
     give_token_received?: number | undefined;
     give_token_remaining?: number | undefined;
@@ -22230,6 +22253,7 @@ export type GraphQLTypes = {
   };
   ['UserObj']: {
     address: string;
+    entrance?: string | undefined;
     fixed_non_receiver?: boolean | undefined;
     name: string;
     non_giver?: boolean | undefined;
@@ -27523,6 +27547,8 @@ columns and relationships of "distributions" */
     is_verified: boolean;
     logo?: string | undefined;
     name: string;
+    /** Indicates a test/sample/sandbox org */
+    sandbox: boolean;
     telegram_id?: string | undefined;
     updated_at: GraphQLTypes['timestamp'];
     /** An array relationship */
@@ -27567,6 +27593,7 @@ columns and relationships of "distributions" */
     is_verified?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     logo?: GraphQLTypes['String_comparison_exp'] | undefined;
     name?: GraphQLTypes['String_comparison_exp'] | undefined;
+    sandbox?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     telegram_id?: GraphQLTypes['String_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     vaults?: GraphQLTypes['vaults_bool_exp'] | undefined;
@@ -27585,6 +27612,8 @@ columns and relationships of "distributions" */
     is_verified?: boolean | undefined;
     logo?: string | undefined;
     name?: string | undefined;
+    /** Indicates a test/sample/sandbox org */
+    sandbox?: boolean | undefined;
     telegram_id?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
     vaults?: GraphQLTypes['vaults_arr_rel_insert_input'] | undefined;
@@ -27637,6 +27666,7 @@ columns and relationships of "distributions" */
     is_verified?: GraphQLTypes['order_by'] | undefined;
     logo?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
+    sandbox?: GraphQLTypes['order_by'] | undefined;
     telegram_id?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     vaults_aggregate?: GraphQLTypes['vaults_aggregate_order_by'] | undefined;
@@ -27654,6 +27684,8 @@ columns and relationships of "distributions" */
     is_verified?: boolean | undefined;
     logo?: string | undefined;
     name?: string | undefined;
+    /** Indicates a test/sample/sandbox org */
+    sandbox?: boolean | undefined;
     telegram_id?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
   };
@@ -30197,6 +30229,7 @@ columns and relationships of "users" */
     contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     created_at: GraphQLTypes['timestamp'];
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    entrance?: string | undefined;
     epoch_first_visit: boolean;
     fixed_non_receiver: boolean;
     fixed_payment_amount: GraphQLTypes['numeric'];
@@ -30314,6 +30347,7 @@ columns and relationships of "users" */
     contributions?: GraphQLTypes['contributions_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+    entrance?: GraphQLTypes['String_comparison_exp'] | undefined;
     epoch_first_visit?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     fixed_non_receiver?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     fixed_payment_amount?: GraphQLTypes['numeric_comparison_exp'] | undefined;
@@ -30366,6 +30400,7 @@ columns and relationships of "users" */
       | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    entrance?: string | undefined;
     epoch_first_visit?: boolean | undefined;
     fixed_non_receiver?: boolean | undefined;
     fixed_payment_amount?: GraphQLTypes['numeric'] | undefined;
@@ -30403,6 +30438,7 @@ columns and relationships of "users" */
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    entrance?: string | undefined;
     fixed_payment_amount?: GraphQLTypes['numeric'] | undefined;
     give_token_received?: number | undefined;
     give_token_remaining?: number | undefined;
@@ -30419,6 +30455,7 @@ columns and relationships of "users" */
     circle_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     deleted_at?: GraphQLTypes['order_by'] | undefined;
+    entrance?: GraphQLTypes['order_by'] | undefined;
     fixed_payment_amount?: GraphQLTypes['order_by'] | undefined;
     give_token_received?: GraphQLTypes['order_by'] | undefined;
     give_token_remaining?: GraphQLTypes['order_by'] | undefined;
@@ -30436,6 +30473,7 @@ columns and relationships of "users" */
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    entrance?: string | undefined;
     fixed_payment_amount?: GraphQLTypes['numeric'] | undefined;
     give_token_received?: number | undefined;
     give_token_remaining?: number | undefined;
@@ -30452,6 +30490,7 @@ columns and relationships of "users" */
     circle_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     deleted_at?: GraphQLTypes['order_by'] | undefined;
+    entrance?: GraphQLTypes['order_by'] | undefined;
     fixed_payment_amount?: GraphQLTypes['order_by'] | undefined;
     give_token_received?: GraphQLTypes['order_by'] | undefined;
     give_token_remaining?: GraphQLTypes['order_by'] | undefined;
@@ -30496,6 +30535,7 @@ columns and relationships of "users" */
       | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     deleted_at?: GraphQLTypes['order_by'] | undefined;
+    entrance?: GraphQLTypes['order_by'] | undefined;
     epoch_first_visit?: GraphQLTypes['order_by'] | undefined;
     fixed_non_receiver?: GraphQLTypes['order_by'] | undefined;
     fixed_payment_amount?: GraphQLTypes['order_by'] | undefined;
@@ -30540,6 +30580,7 @@ columns and relationships of "users" */
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    entrance?: string | undefined;
     epoch_first_visit?: boolean | undefined;
     fixed_non_receiver?: boolean | undefined;
     fixed_payment_amount?: GraphQLTypes['numeric'] | undefined;
@@ -32295,6 +32336,7 @@ export const enum organizations_select_column {
   is_verified = 'is_verified',
   logo = 'logo',
   name = 'name',
+  sandbox = 'sandbox',
   telegram_id = 'telegram_id',
   updated_at = 'updated_at',
 }
@@ -32305,6 +32347,7 @@ export const enum organizations_update_column {
   is_verified = 'is_verified',
   logo = 'logo',
   name = 'name',
+  sandbox = 'sandbox',
   telegram_id = 'telegram_id',
   updated_at = 'updated_at',
 }
@@ -32522,6 +32565,7 @@ export const enum users_select_column {
   circle_id = 'circle_id',
   created_at = 'created_at',
   deleted_at = 'deleted_at',
+  entrance = 'entrance',
   epoch_first_visit = 'epoch_first_visit',
   fixed_non_receiver = 'fixed_non_receiver',
   fixed_payment_amount = 'fixed_payment_amount',
@@ -32542,6 +32586,7 @@ export const enum users_update_column {
   circle_id = 'circle_id',
   created_at = 'created_at',
   deleted_at = 'deleted_at',
+  entrance = 'entrance',
   epoch_first_visit = 'epoch_first_visit',
   fixed_non_receiver = 'fixed_non_receiver',
   fixed_payment_amount = 'fixed_payment_amount',

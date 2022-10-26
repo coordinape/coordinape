@@ -67,7 +67,7 @@ export const CirclesPage = () => {
         row
         css={{
           justifyContent: 'space-between',
-          alignItems: 'baseline',
+          alignItems: 'flex-end',
           mb: '$sm',
           '@sm': {
             flexDirection: 'column',
@@ -180,8 +180,9 @@ const buttons: [
   string,
   ((c: QueryCircle) => boolean)?
 ][] = [
+  [paths.contributions, 'Contributions'],
   [paths.history, 'Epoch Overview'],
-  [paths.allocation, 'Allocation'],
+  [paths.givebeta, 'Allocation'],
   [paths.map, 'Map'],
   [paths.members, 'Members'],
   [paths.circleAdmin, 'Admin', (c: QueryCircle) => c.users[0]?.role !== 1],

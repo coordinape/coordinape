@@ -10,7 +10,7 @@ import { ContributorButton } from './ContributorButton';
 import { GiveAllocator } from './GiveAllocator';
 import { Gift, Member } from './index';
 import { getContributionsForEpoch } from './queries';
-import { SavingIndicator } from './SavingIndicator';
+import { SaveState, SavingIndicator } from './SavingIndicator';
 
 type GiveDrawerProps = {
   member: Member;
@@ -23,8 +23,8 @@ type GiveDrawerProps = {
   selectedMemberIdx: number;
   totalMembers: number;
   nextMember(asc: boolean): void;
-  needToSave: boolean | undefined;
-  setNeedToSave(save: boolean | undefined): void;
+  saveState: SaveState;
+  setNeedToSave(save: boolean): void;
   noGivingAllowed: boolean;
   updateTeammate(id: number, teammate: boolean): void;
 };
@@ -42,7 +42,7 @@ export const GiveDrawer = ({
   selectedMemberIdx,
   totalMembers,
   nextMember,
-  needToSave,
+  saveState,
   setNeedToSave,
   noGivingAllowed,
   updateTeammate,
@@ -68,10 +68,6 @@ export const GiveDrawer = ({
   // note is the current state of the note
   const [note, setNote] = useState(gift.note);
 
-  // saveTimeout is the timeout handle for the buffered async saving
-  const [saveTimeout, setSaveTimeout] =
-    useState<ReturnType<typeof setTimeout>>();
-
   // update the note in the to level page state
   const saveNote = (gift: Gift, note?: string) => {
     updateNote({ ...gift, note: note });
@@ -79,13 +75,8 @@ export const GiveDrawer = ({
 
   // noteChanged schedules a save to the underlying state in the parent component, clearing any pending save
   const noteChanged = (newNote: string) => {
-    setNeedToSave(undefined);
     setNote(newNote);
-    if (saveTimeout) {
-      clearTimeout(saveTimeout);
-    }
-    // only save every 1s , if user increments or edits note, delay 1s
-    setSaveTimeout(setTimeout(() => saveNote({ ...gift }, newNote), 1000));
+    saveNote({ ...gift }, newNote);
   };
 
   useEffect(() => {
@@ -93,7 +84,7 @@ export const GiveDrawer = ({
       // on member change reload the contributions
       refetch().then();
       // reset the need to save indicator so it doesnt say 'Changes Saved'
-      setNeedToSave(undefined);
+      setNeedToSave(false);
     }
   }, [member]);
 
@@ -139,12 +130,19 @@ export const GiveDrawer = ({
       <Flex
         css={{
           pt: '$xl',
-          display: 'grid',
-          width: '100%',
-          gridTemplateColumns: '1fr',
+          gap: '$md',
+          '@sm': {
+            flexDirection: 'column',
+          },
         }}
       >
-        <Flex css={{ flexGrow: 1, minWidth: 0, mb: '$md' }} alignItems="center">
+        <Flex
+          css={{
+            flexGrow: 1,
+            minWidth: 0,
+          }}
+          alignItems="center"
+        >
           <Avatar
             size="small"
             name={member.name}
@@ -158,8 +156,12 @@ export const GiveDrawer = ({
         </Flex>
         <Flex
           css={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
+            justifyContent: 'space-between',
+            gap: '$md',
+            '@sm': {
+              flexDirection: 'column-reverse',
+              alignItems: 'flex-start',
+            },
           }}
           alignItems="center"
         >
@@ -205,13 +207,14 @@ export const GiveDrawer = ({
             width: '100%',
             mt: '$xs',
             mb: '$md',
+            fontSize: '$medium',
           }}
           value={note ?? ''}
           onChange={e => noteChanged(e.target.value)}
           placeholder="Say thanks or give constructive feedback."
         />
         <Flex css={{ justifyContent: 'flex-end', alignItems: 'center' }}>
-          <SavingIndicator needToSave={needToSave} css={{ mr: '$md' }} />
+          <SavingIndicator saveState={saveState} />
         </Flex>
       </Box>
 
@@ -228,8 +231,10 @@ export const GiveDrawer = ({
               Epoch Statement
             </Text>
             <Box css={{ mt: '$sm', pb: '$lg' }}>
-              <Panel nested css={{ mb: '$md' }}>
-                <Text p>{member.bio}</Text>
+              <Panel nested css={{ mb: '$md', p: '$sm' }}>
+                <Text css={{ whiteSpace: 'pre-wrap' }} p>
+                  {member.bio}
+                </Text>
               </Panel>
             </Box>
           </Box>
@@ -253,14 +258,6 @@ export const GiveDrawer = ({
                     has no contributions recorded for this epoch
                   </Text>
                 </Box>
-
-                <Panel info css={{ mt: '$md' }}>
-                  <Text p>
-                    Contributions are coming soon! Members will be able to share
-                    automatic contributions from integrated apps and journal
-                    contributions as they happen.
-                  </Text>
-                </Panel>
               </>
             ) : (
               contributions.map(c => (

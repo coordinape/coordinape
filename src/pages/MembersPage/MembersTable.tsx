@@ -43,6 +43,8 @@ import {
 import { TwoColumnLayout } from 'ui/layouts';
 import { shortenAddress } from 'utils';
 
+import { IDeleteUser } from '.';
+
 import { IUser } from 'types';
 
 const GIFT_CIRCLE_DOCS_URL =
@@ -182,6 +184,7 @@ const MemberRow = ({
   fixedPayment,
   tokenName,
   setDeleteUserDialog,
+  setLeaveCircleDialog,
   circleId,
 }: {
   user: IUser;
@@ -191,7 +194,8 @@ const MemberRow = ({
   availableInVault: string;
   fixedPayment?: FixedPaymentResult;
   tokenName: string | undefined;
-  setDeleteUserDialog: (u: IUser) => void;
+  setDeleteUserDialog: (u: IDeleteUser) => void;
+  setLeaveCircleDialog: (u: IDeleteUser) => void;
   circleId: number;
 }) => {
   // const { getToProfile } = useNavigation();
@@ -312,7 +316,7 @@ const MemberRow = ({
               }}
             >
               {!user.non_giver ? (
-                <Check color="complete" />
+                <Check size="lg" color="complete" />
               ) : (
                 <X size="lg" color="neutral" />
               )}
@@ -346,7 +350,7 @@ const MemberRow = ({
           }}
         >
           {user.role === USER_ROLE_ADMIN ? (
-            <Check color="complete" />
+            <Check size="lg" color="complete" />
           ) : (
             <X size="lg" color="neutral" />
           )}
@@ -378,43 +382,68 @@ const MemberRow = ({
           </>
         )}
         <TD>
-          {isAdmin && user.role !== 2 && (
-            <Button
-              color="primary"
-              size="small"
-              outlined
-              css={{ mr: 0, ml: 'auto ', whiteSpace: 'nowrap' }}
-              onClick={() => {
-                setOpen(prevState => !prevState);
-              }}
-            >
-              {isMobile ? ' Manage' : 'Manage Member'}
-            </Button>
-          )}
-          {isAdmin && user.role === 2 && (
-            <Tooltip content={coordinapeTooltipContent()}>
+          {isAdmin ? (
+            user.role !== 2 ? (
               <Button
-                color="neutral"
+                color="primary"
                 size="small"
                 outlined
                 css={{ mr: 0, ml: 'auto ', whiteSpace: 'nowrap' }}
                 onClick={() => {
-                  const shouldEnable = user.deleted_at !== null;
-                  const confirm = window.confirm(
-                    `${
-                      shouldEnable ? 'Enable' : 'Disable'
-                    } Coordinape in this circle?`
-                  );
-                  if (confirm) {
-                    shouldEnable
-                      ? restoreCoordinape(circleId).catch(e => console.error(e))
-                      : deleteUser(user.address);
-                  }
+                  setOpen(prevState => !prevState);
                 }}
               >
-                {user.deleted_at === null ? 'Disable' : 'Enable'}
+                {isMobile ? ' Manage' : 'Manage Member'}
               </Button>
-            </Tooltip>
+            ) : (
+              <Tooltip content={coordinapeTooltipContent()}>
+                <Button
+                  color="neutral"
+                  size="small"
+                  outlined
+                  css={{ mr: 0, ml: 'auto ', whiteSpace: 'nowrap' }}
+                  onClick={() => {
+                    const shouldEnable = user.deleted_at !== null;
+                    const confirm = window.confirm(
+                      `${
+                        shouldEnable ? 'Enable' : 'Disable'
+                      } Coordinape in this circle?`
+                    );
+                    if (confirm) {
+                      shouldEnable
+                        ? restoreCoordinape(circleId).catch(e =>
+                            console.error(e)
+                          )
+                        : deleteUser(user.address);
+                    }
+                  }}
+                >
+                  {user.deleted_at === null ? 'Disable' : 'Enable'}
+                </Button>
+              </Tooltip>
+            )
+          ) : (
+            user.id === me.id && (
+              <Button
+                color="destructive"
+                size="small"
+                outlined
+                css={{
+                  mr: 0,
+                  ml: 'auto ',
+                  height: '$lg',
+                  whiteSpace: 'nowrap',
+                }}
+                onClick={() => {
+                  setLeaveCircleDialog({
+                    name: user.name,
+                    address: user.address,
+                  });
+                }}
+              >
+                Leave Circle
+              </Button>
+            )
           )}
         </TD>
       </TR>
@@ -478,12 +507,19 @@ const MemberRow = ({
                   size="medium"
                   outlined
                   css={{ height: '$lg', whiteSpace: 'nowrap' }}
-                  disabled={user.id === me.id}
                   onClick={() => {
-                    setDeleteUserDialog(user);
+                    user.id === me.id
+                      ? setLeaveCircleDialog({
+                          name: user.name,
+                          address: user.address,
+                        })
+                      : setDeleteUserDialog({
+                          name: user.name,
+                          address: user.address,
+                        });
                   }}
                 >
-                  Delete Member
+                  {user.id === me.id ? 'Leave Circle' : 'Delete Member'}
                 </Button>
               </Flex>
               <TwoColumnLayout css={{ mt: '56px' }}>
@@ -762,6 +798,7 @@ export const MembersTable = ({
   availableInVault,
   fixedPayment,
   setDeleteUserDialog,
+  setLeaveCircleDialog,
 }: {
   visibleUsers: IUser[];
   myUser: IUser;
@@ -770,7 +807,8 @@ export const MembersTable = ({
   perPage: number;
   availableInVault: string;
   fixedPayment?: FixedPaymentResult;
-  setDeleteUserDialog: (u: IUser) => void;
+  setDeleteUserDialog: (u: IDeleteUser) => void;
+  setLeaveCircleDialog: (u: IDeleteUser) => void;
 }) => {
   const { isMobile } = useMobileDetect();
   const isAdmin = isUserAdmin(me);
@@ -838,7 +876,6 @@ export const MembersTable = ({
     {
       title: 'Actions',
       css: { ...headerStyles, textAlign: 'right' },
-      isHidden: !isAdmin,
     },
   ];
 
@@ -878,6 +915,7 @@ export const MembersTable = ({
             tokenName={circle.tokenName}
             myUser={me}
             setDeleteUserDialog={setDeleteUserDialog}
+            setLeaveCircleDialog={setLeaveCircleDialog}
             circleId={circle.id}
           />
         )}

@@ -59,6 +59,7 @@ export const paths = {
   circleAdmin: circlePath('admin'),
   circleAdminApi: circlePath('admin/api'),
   connectIntegration: circlePath('admin/connect-integration'),
+  contributions: circlePath('contributions'),
   epoch: circlePath('epoch'),
   give: circlePath('give'),
   givebeta: circlePath('givebeta'),
