@@ -97,7 +97,7 @@ function getMockCircleDistribution(type?: DistributionType | undefined) {
     circles_by_pk: {
       fixed_payment_token_type: 'DAI',
       epochs: [{ distributions }],
-      users: [
+      members: [
         {
           id: 1,
           name: 'User 1',

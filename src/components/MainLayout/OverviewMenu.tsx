@@ -177,7 +177,7 @@ export const OverviewMenu = ({
               </Link>
               <Box css={{ display: 'flex', flexDirection: 'column' }}>
                 {sortBy(org.circles, c => c.name)
-                  .filter(c => c.users.length)
+                  .filter(c => c.members.length)
                   .map(circle => (
                     <Link
                       key={circle.id}

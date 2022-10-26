@@ -81,7 +81,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
                   ],
                 },
                 emptyBioUsers: {
-                  users: [
+                  members: [
                     {
                       where: {
                         bio: { _is_null: true },
@@ -185,9 +185,9 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         Total Allocations: ${totalAllocations ?? 0}
         ${circle.token_name || 'GIVE'} sent: ${tokensSent ?? 0}
         Opt outs: ${optOuts ?? 0}
-        Users Allocated: ${usersAllocated ?? 0} / ${optedInUsers ?? 0}
+        Members Allocated: ${usersAllocated ?? 0} / ${optedInUsers ?? 0}
         epoch ending ${timeStringFromDuration(epochTimeRemaining)} from now!
-        Users that made new allocations today:
+        Members that made new allocations today:
           ${sendersToday.join(', ')}
         ${emptyBioNotif}
       `;

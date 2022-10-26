@@ -8,10 +8,10 @@ export const getContributionsForEpoch = async ({
   circleId,
   start_date,
   end_date,
-  userId,
+  memberId,
 }: {
   circleId: number;
-  userId: number;
+  memberId: number;
   start_date: Date;
   end_date: Date;
 }) => {
@@ -23,12 +23,12 @@ export const getContributionsForEpoch = async ({
             { datetime_created: { _gt: start_date.toISOString() } },
             { datetime_created: { _lt: end_date.toISOString() } },
             { circle_id: { _eq: circleId } },
-            { user_id: { _eq: userId } },
+            { member_id: { _eq: memberId } },
           ],
         },
         order_by: [{ datetime_created: order_by.desc }],
       },
-      { id: true, description: true, datetime_created: true, user_id: true },
+      { id: true, description: true, datetime_created: true, member_id: true },
     ],
   });
   return contributions;
@@ -43,7 +43,7 @@ export const getMembersWithContributions = async (
 ) => {
   const data = await client.query(
     {
-      users: [
+      members: [
         {
           where: {
             circle_id: { _eq: circleId },
@@ -78,7 +78,7 @@ export const getMembersWithContributions = async (
       teammates: [
         {
           where: {
-            user: {
+            member: {
               circle_id: { _eq: circleId },
               address: { _ilike: address },
             },
@@ -96,7 +96,7 @@ export const getMembersWithContributions = async (
 
   return {
     startingTeammates: data?.teammates?.map(x => ({ id: x.team_mate_id })),
-    allUsers: data?.users,
+    allUsers: data?.members,
   };
 };
 

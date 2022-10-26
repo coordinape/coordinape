@@ -31,9 +31,9 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     );
     assert(organizations_by_pk);
 
-    const { users } = await adminClient.query(
+    const { members } = await adminClient.query(
       {
-        users: [
+        members: [
           {
             where: {
               circle_id: {
@@ -53,13 +53,13 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         operationName: 'getOrgNameForCRM',
       }
     );
-    assert(users);
-    assert(users.length > 0);
+    assert(members);
+    assert(members.length > 0);
 
     await insertCRMRecord({
       CircleName: name,
       ContactInfo: contact ?? '',
-      MemberName: users[0].name,
+      MemberName: members[0].name,
       OrgName: organizations_by_pk.name,
       // TODO: there is no way to input these yet
       ContactMethod: '',

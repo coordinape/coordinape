@@ -36,7 +36,7 @@ select_permissions:
           _and:
             - deleted_at:
                 _is_null: true
-            - users:
+            - members:
                 _and:
                   - profile:
                       id:

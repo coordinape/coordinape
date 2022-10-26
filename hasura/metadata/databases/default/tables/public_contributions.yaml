@@ -5,7 +5,7 @@ object_relationships:
   - name: circle
     using:
       foreign_key_constraint_on: circle_id
-  - name: members
+  - name: member
     using:
       foreign_key_constraint_on: member_id
 insert_permissions:
@@ -18,7 +18,7 @@ insert_permissions:
                 profile:
                   id:
                     _eq: X-Hasura-User-Id
-          - members:
+          - member:
               profile:
                 id:
                   _eq: X-Hasura-User-Id

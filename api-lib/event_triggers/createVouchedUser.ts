@@ -19,9 +19,9 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     const vouches =
       (nominees_by_pk.nominations_aggregate?.aggregate?.count ?? 0) + 1;
     if (vouches >= vouches_required) {
-      const { users: existingUsers } = await adminClient.query(
+      const { members: existingMembers } = await adminClient.query(
         {
-          users: [
+          members: [
             {
               limit: 1,
               where: {
@@ -36,20 +36,20 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           ],
         },
         {
-          operationName: 'createVouchedUser_findExistingUser',
+          operationName: 'createVouchedMember_findExistingMember',
         }
       );
 
-      if (existingUsers.length > 0) {
+      if (existingMembers.length > 0) {
         return res.status(422).json({
-          message: `user already exists for ${address}`,
+          message: `member already exists for ${address}`,
           code: '422',
         });
       }
 
-      const { insert_users_one } = await adminClient.mutate(
+      const { insert_members_one } = await adminClient.mutate(
         {
-          insert_users_one: [
+          insert_members_one: [
             { object: { name, address, circle_id } },
             {
               id: true,
@@ -57,17 +57,17 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           ],
         },
         {
-          operationName: 'createVouchedUser_insertUser',
+          operationName: 'createVouchedMember_insertMember',
         }
       );
 
-      if (insert_users_one) {
+      if (insert_members_one) {
         await adminClient.mutate(
           {
             // End current nomination
             update_nominees: [
               {
-                _set: { ended: true, user_id: insert_users_one.id },
+                _set: { ended: true, member_id: insert_members_one.id },
                 where: {
                   id: { _eq: id },
                 },
@@ -80,12 +80,14 @@ async function handler(req: VercelRequest, res: VercelResponse) {
             ],
           },
           {
-            operationName: 'createVouchedUser_updateNominees',
+            operationName: 'createVouchedMember_updateNominees',
           }
         );
       }
 
-      res.status(200).json({ message: `user/profile created for ${address}` });
+      res
+        .status(200)
+        .json({ message: `member/profile created for ${address}` });
       return;
     }
     res.status(200).json({ message: `nominee created for ${address}` });

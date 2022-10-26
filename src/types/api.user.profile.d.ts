@@ -17,7 +17,7 @@ export interface IApiProfile {
   created_at?: string;
   updated_at?: string;
   // Specific
-  users?: IApiUser[];
+  members?: IApiUser[];
 }
 
 export interface IApiUser {
@@ -42,7 +42,7 @@ export interface IApiUser {
   // Permissions
   role: number; // 1 is an admin,
   //
-  profile?: Omit<IApiProfile, 'users'>;
+  profile?: Omit<IApiProfile, 'members'>;
   teammates?: IApiUser[];
   fixed_payment_amount?: number;
 }
@@ -60,7 +60,7 @@ export interface IMyUser extends IUser {
 }
 
 export interface IProfile extends IApiProfile {
-  users: IUser[];
+  members: IUser[];
 }
 
 export interface IMyProfile extends IProfile {

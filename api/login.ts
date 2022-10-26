@@ -93,7 +93,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             { object: { address: address } },
             {
               id: true,
-              users: [{}, { circle_id: true }],
+              members: [{}, { circle_id: true }],
             },
           ],
         },
@@ -106,14 +106,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       await insertInteractionEvents({
         event_type: 'first_login',
         profile_id: insert_profiles_one.id,
-        circle_id: insert_profiles_one.users?.[0]?.circle_id,
+        circle_id: insert_profiles_one.members?.[0]?.circle_id,
         data: {
-          brandNew: insert_profiles_one.users
-            ? insert_profiles_one.users.length === 0
+          brandNew: insert_profiles_one.members
+            ? insert_profiles_one.members.length === 0
             : true,
         },
       });
-      // if they have no users, this is a "clean signup"
+      // if they have no members, this is a "clean signup"
     }
     const now = DateTime.now().toISO();
 

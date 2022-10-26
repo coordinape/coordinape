@@ -61,7 +61,7 @@ export const getTeammates = async (
 ) => {
   const data = await client.query(
     {
-      users: [
+      members: [
         {
           where: {
             circle_id: { _eq: selectedCircleId },
@@ -88,7 +88,7 @@ export const getTeammates = async (
       teammates: [
         {
           where: {
-            user: {
+            member: {
               circle_id: { _eq: selectedCircleId },
               address: { _ilike: address },
             },
@@ -131,7 +131,7 @@ export const getTeammates = async (
         return x.teammate ? { ...x.teammate, id: x.team_mate_id } : undefined;
       })
       .filter((x: Teammate | undefined): x is Teammate => !!x),
-    allUsers: data?.users,
+    allUsers: data?.members,
   };
 };
 
@@ -161,7 +161,7 @@ const getAllAvailableUsers = async (
 ) => {
   const data = await client.query(
     {
-      users: [
+      members: [
         {
           where: {
             circle_id: { _eq: selectedCircleId },
@@ -183,7 +183,7 @@ const getAllAvailableUsers = async (
       operationName: 'teammates',
     }
   );
-  return data?.users;
+  return data?.members;
 };
 
 const getSelectedCurrentTeammates = async (
@@ -195,7 +195,7 @@ const getSelectedCurrentTeammates = async (
       teammates: [
         {
           where: {
-            user: {
+            member: {
               circle_id: { _eq: selectedCircleId },
               address: { _eq: address },
             },

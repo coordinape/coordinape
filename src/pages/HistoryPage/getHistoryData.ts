@@ -4,7 +4,7 @@ import { DateTime, Interval } from 'luxon';
 
 import { Awaited } from '../../types/shim';
 
-export const getHistoryData = async (circleId: number, userId: number) => {
+export const getHistoryData = async (circleId: number, memberId: number) => {
   const gq = await client.query(
     {
       circles_by_pk: [
@@ -13,8 +13,8 @@ export const getHistoryData = async (circleId: number, userId: number) => {
           name: true,
           token_name: true,
           vouching: true,
-          users: [
-            { where: { id: { _eq: userId } } },
+          members: [
+            { where: { id: { _eq: memberId } } },
             { role: true, give_token_remaining: true, non_giver: true },
           ],
           organization: {
@@ -80,7 +80,7 @@ export const getHistoryData = async (circleId: number, userId: number) => {
                   __alias: {
                     receivedGifts: {
                       token_gifts: [
-                        { where: { recipient_id: { _eq: userId } } },
+                        { where: { recipient_id: { _eq: memberId } } },
                         {
                           id: true,
                           tokens: true,
@@ -91,7 +91,7 @@ export const getHistoryData = async (circleId: number, userId: number) => {
                     },
                     sentGifts: {
                       token_gifts: [
-                        { where: { sender_id: { _eq: userId } } },
+                        { where: { sender_id: { _eq: memberId } } },
                         {
                           id: true,
                           tokens: true,

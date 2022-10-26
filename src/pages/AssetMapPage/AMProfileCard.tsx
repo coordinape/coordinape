@@ -140,8 +140,8 @@ const AMProfileCard = ({
   const searchRegex = useMapSearchRegex();
 
   const user = assertDef(
-    profile.users.find(u => u.circle_id === circle.id),
-    `No user matching ${circle.id}`
+    profile.members.find(u => u.circle_id === circle.id),
+    `No member matching ${circle.id}`
   );
 
   const isSelected = profile.address === egoAddress;

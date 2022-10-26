@@ -6,11 +6,11 @@ export interface IApiNominee {
   id: number;
   name: string;
   address: string;
-  nominated_by_user_id: number;
+  nominated_by_member_id: number;
   circle_id: number;
   description: string;
   vouches_required: number;
-  user_id?: number;
+  member_id?: number;
   ended?: boolean; // Came back optional from the nominate endpoint
   nominated_date: string;
   expiry_date: string;

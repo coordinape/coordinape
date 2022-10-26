@@ -46,7 +46,7 @@ export const OrganizationPage = () => {
   }
 
   const isAdmin = (org: Required<QueryResult>['organizations_by_pk']) =>
-    org.circles.map(c => c.users[0]).some(u => u && isUserAdmin(u));
+    org.circles.map(c => c.members[0]).some(u => u && isUserAdmin(u));
 
   return (
     <SingleColumnLayout>
@@ -91,7 +91,7 @@ export const OrganizationPage = () => {
           </Flex>
         </Flex>
         <Box css={{ display: 'flex', flexDirection: 'column', gap: '$xl' }}>
-          {sortBy(org.circles, c => [-c.users.length, c.name]).map(circle => (
+          {sortBy(org.circles, c => [-c.members.length, c.name]).map(circle => (
             <CircleRow
               circle={circle}
               key={circle.id}

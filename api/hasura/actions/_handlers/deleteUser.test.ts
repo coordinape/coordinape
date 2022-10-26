@@ -21,13 +21,13 @@ const makeRequest = (userIndex: number) => {
       input: {
         payload: {
           circle_id: mockCircle.id,
-          address: mockCircle.users[userIndex].address,
+          address: mockCircle.members[userIndex].address,
         },
       },
       action: { name: 'deleteUser' },
       session_variables: {
-        'x-hasura-address': mockCircle.users[0].address,
-        'x-hasura-user-id': mockCircle.users[0].id.toString(),
+        'x-hasura-address': mockCircle.members[0].address,
+        'x-hasura-user-id': mockCircle.members[0].id.toString(),
         'x-hasura-role': 'user',
       },
     },
@@ -39,12 +39,12 @@ describe('Delete User action handler', () => {
     const res: any = { status: jest.fn(() => res), json: jest.fn() };
 
     (adminClient.query as jest.Mock).mockImplementation(() =>
-      Promise.resolve({ users: [mockCircle.users[1]] })
+      Promise.resolve({ members: [mockCircle.members[1]] })
     );
 
     (adminClient.mutate as jest.Mock).mockImplementation(() =>
       Promise.resolve({
-        update_users_by_pk: { id: mockCircle.users[1].id },
+        update_members_by_pk: { id: mockCircle.members[1].id },
         delete_teammates: [null],
       })
     );
@@ -61,12 +61,12 @@ describe('Delete User action handler', () => {
     const res: any = { status: jest.fn(() => res), json: jest.fn() };
 
     (adminClient.query as jest.Mock).mockImplementation(() =>
-      Promise.resolve({ users: [mockCircle.users[1]] })
+      Promise.resolve({ members: [mockCircle.members[1]] })
     );
 
     (adminClient.mutate as jest.Mock).mockImplementation(() =>
       Promise.resolve({
-        update_users_by_pk: { id: mockCircle.users[1].id },
+        update_members_by_pk: { id: mockCircle.members[1].id },
         delete_teammates: [null],
       })
     );
@@ -87,12 +87,12 @@ describe('Delete User action handler', () => {
     const res: any = { status: jest.fn(() => res), json: jest.fn() };
 
     (adminClient.query as jest.Mock).mockImplementation(() =>
-      Promise.resolve({ users: [mockCircle.users[0]] })
+      Promise.resolve({ members: [mockCircle.members[0]] })
     );
 
     (adminClient.mutate as jest.Mock).mockImplementation(() =>
       Promise.resolve({
-        update_users_by_pk: { id: mockCircle.users[0].id },
+        update_members_by_pk: { id: mockCircle.members[0].id },
         delete_teammates: [null],
       })
     );

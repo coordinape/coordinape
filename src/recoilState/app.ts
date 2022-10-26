@@ -186,7 +186,7 @@ export const rCircle = selectorFamily<ICircleState, number | undefined>({
         circleId,
         circle,
         myUser: me,
-        users: getCircleUsers().toArray(),
+        members: getCircleUsers().toArray(),
         usersNotMe: getCircleUsers()
           .filter(u => u.id !== me.id)
           .toArray(),
@@ -292,7 +292,7 @@ export interface ICircleState {
   circleId: number;
   circle: ICircle;
   myUser: IMyUser;
-  users: IUser[];
+  members: IUser[];
   usersNotMe: IUser[];
   usersWithDeleted: IUser[];
   circleEpochsStatus: ExtractRecoilType<typeof rCircleEpochsStatus>;

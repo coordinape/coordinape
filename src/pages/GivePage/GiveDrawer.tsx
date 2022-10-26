@@ -53,7 +53,7 @@ export const GiveDrawer = ({
     () =>
       getContributionsForEpoch({
         circleId: member.circle_id,
-        userId: member.id,
+        memberId: member.id,
         start_date,
         end_date,
       }),

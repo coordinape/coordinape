@@ -10,7 +10,7 @@ import {
 } from '../../../../api-lib/HttpError';
 import {
   composeHasuraActionRequestBody,
-  createUsersBulkSchemaInput,
+  createMembersBulkSchemaInput,
 } from '../../../../src/lib/zod';
 
 const USER_ALIAS_PREFIX = 'update_user_';
@@ -22,30 +22,32 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     input: { payload: input },
     session_variables: sessionVariables,
   } = await composeHasuraActionRequestBody(
-    createUsersBulkSchemaInput
+    createMembersBulkSchemaInput
   ).parseAsync(req.body);
 
-  const { circle_id, users } = input;
+  const { circle_id, members } = input;
 
-  const uniqueAddresses = [...new Set(users.map(u => u.address.toLowerCase()))];
+  const uniqueAddresses = [
+    ...new Set(members.map(u => u.address.toLowerCase())),
+  ];
 
   // Check if bulk contains duplicates.
-  if (uniqueAddresses.length < users.length) {
+  if (uniqueAddresses.length < members.length) {
     const dupes = uniqueAddresses.filter(
-      uq => users.filter(u => u.address.toLowerCase() == uq).length > 1
+      uq => members.filter(u => u.address.toLowerCase() == uq).length > 1
     );
     return errorResponseWithStatusCode(
       res,
       {
-        message: `Users list contains duplicate addresses: ${dupes}`,
+        message: `Members list contains duplicate addresses: ${dupes}`,
       },
       422
     );
   }
 
   // Load all members of the provided circle with duplicate addresses.
-  const { users: existingUsers } = await adminClient.query({
-    users: [
+  const { members: existingMembers } = await adminClient.query({
+    members: [
       {
         where: {
           circle_id: { _eq: circle_id },
@@ -63,24 +65,24 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     ],
   });
 
-  const usersToUpdate = existingUsers.map(eu => {
-    const updatedUser = users.find(
+  const membersToUpdate = existingMembers.map(eu => {
+    const updatedMember = members.find(
       u => u.address.toLowerCase() === eu.address.toLowerCase()
     );
     return {
       ...eu,
-      ...updatedUser,
-      give_token_remaining: updatedUser?.starting_tokens,
+      ...updatedMember,
+      give_token_remaining: updatedMember?.starting_tokens,
     };
   });
 
   // Check if a user exists without a soft deletion conflicts with the new bulk.
-  const conflict = usersToUpdate.filter(u => !u.deleted_at);
+  const conflict = membersToUpdate.filter(u => !u.deleted_at);
   if (conflict.length) {
     return errorResponseWithStatusCode(
       res,
       {
-        message: `Users already exist: [${conflict
+        message: `Member already exist: [${conflict
           .map(e => e.address)
           .join(', ')}]`,
       },
@@ -88,21 +90,21 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     );
   }
 
-  const newUsers = users
+  const newMembers = members
     .filter(u => {
-      return !existingUsers.some(
+      return !existingMembers.some(
         eu => eu.address.toLowerCase() === u.address.toLowerCase()
       );
     })
     .map(u => ({ ...u, circle_id }));
 
-  const updateUsersMutation = usersToUpdate.reduce((opts, user) => {
-    opts[USER_ALIAS_PREFIX + user.address] = {
-      update_users_by_pk: [
+  const updateMembersMutation = membersToUpdate.reduce((opts, member) => {
+    opts[USER_ALIAS_PREFIX + member.address] = {
+      update_members_by_pk: [
         {
-          pk_columns: { id: user.id },
+          pk_columns: { id: member.id },
           _set: {
-            ...user,
+            ...member,
             deleted_at: null,
           },
         },
@@ -113,13 +115,13 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     };
 
     // End any active nomination
-    opts[NOMINEE_ALIAS_PREFIX + user.address] = {
+    opts[NOMINEE_ALIAS_PREFIX + member.address] = {
       update_nominees: [
         {
           _set: { ended: true },
           where: {
             circle_id: { _eq: circle_id },
-            address: { _ilike: user.address },
+            address: { _ilike: member.address },
             ended: { _eq: false },
           },
         },
@@ -135,9 +137,9 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   // Update the state after all validations have passed
   const mutationResult = await adminClient.mutate({
-    insert_users: [
+    insert_members: [
       {
-        objects: newUsers,
+        objects: newMembers,
       },
       {
         returning: {
@@ -145,14 +147,18 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         },
       },
     ],
-    __alias: { ...updateUsersMutation },
+    __alias: { ...updateMembersMutation },
   });
 
-  const insertedUsers = mutationResult.insert_users?.returning;
+  const insertedMembers = mutationResult.insert_members?.returning;
 
-  if (!insertedUsers)
+  if (!insertedMembers)
     throw new InternalServerError(
-      `panic: insertedUsers is null; ${JSON.stringify(mutationResult, null, 2)}`
+      `panic: insertedMembers is null; ${JSON.stringify(
+        mutationResult,
+        null,
+        2
+      )}`
     );
 
   let profileId: number;
@@ -161,18 +167,18 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   await insertInteractionEvents(
-    ...insertedUsers.map(invitedUserId => ({
+    ...insertedMembers.map(invitedMemberId => ({
       event_type: 'add_user',
       profile_id: profileId,
       circle_id: input.circle_id,
-      data: { invited_user_id: invitedUserId },
+      data: { invited_user_id: invitedMemberId },
     }))
   );
 
   // Get the returning values from each update-user aliases.
-  const results: Array<{ id: number }> = usersToUpdate
+  const results: Array<{ id: number }> = membersToUpdate
     .map(u => mutationResult[USER_ALIAS_PREFIX + u.address] as { id: number })
-    .concat(insertedUsers);
+    .concat(insertedMembers);
 
   return res.status(200).json(results);
 }

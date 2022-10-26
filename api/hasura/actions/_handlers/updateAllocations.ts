@@ -11,9 +11,9 @@ import {
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
 import {
-  getUserFromProfileIdWithCircle,
+  getMemberFromProfileIdWithCircle,
   getUserWithCircle,
-  UserWithCircleResponse,
+  MemberWithCircleResponse,
 } from '../../../../api-lib/nominees';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import {
@@ -35,12 +35,12 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   } = requestData;
   const { circle_id, allocations } = input;
 
-  let user: UserWithCircleResponse | null = null;
+  let member: MemberWithCircleResponse | null = null;
 
   // Since both api-users and users can call this action, we have different
   // handlers for fetching the target user
   if (sessionVariables.hasuraRole === 'api-user') {
-    assert(input.user_id, 'user_id not specified');
+    assert(input.member_id, 'member_id not specified');
     if (circle_id !== sessionVariables.hasuraCircleId) {
       return errorResponseWithStatusCode(
         res,
@@ -48,22 +48,22 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         403
       );
     }
-    user = await getUserWithCircle(input.user_id, circle_id);
+    member = await getUserWithCircle(input.member_id, circle_id);
   } else if (sessionVariables.hasuraRole === 'user') {
-    user = await getUserFromProfileIdWithCircle(
+    member = await getMemberFromProfileIdWithCircle(
       sessionVariables.hasuraProfileId,
       circle_id
     );
   }
 
-  if (!user) {
+  if (!member) {
     return errorResponseWithStatusCode(
       res,
-      { message: 'User does not belong to this circle' },
+      { message: 'Member does not belong to this circle' },
       422
     );
   }
-  const currentEpoch = user.circle.epochs.pop();
+  const currentEpoch = member.circle.epochs.pop();
   if (!currentEpoch) {
     return errorResponseWithStatusCode(
       res,
@@ -72,7 +72,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     );
   }
 
-  if (allocations.some(a => user && a.recipient_id === user.id)) {
+  if (allocations.some(a => member && a.recipient_id === member.id)) {
     return errorResponseWithStatusCode(
       res,
       { message: 'You cannot allocate to yourself' },
@@ -104,7 +104,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       422
     );
   }
-  const { pending_sent_gifts, starting_tokens } = user;
+  const { pending_sent_gifts, starting_tokens } = member;
 
   const newAllocations = allocations.filter(a =>
     // filter and leave only those that are eligible
@@ -130,14 +130,14 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     if (!recipient) return ops;
 
     const giftTokens =
-      user?.non_giver || recipient.non_receiver ? 0 : gift.tokens;
+      member?.non_giver || recipient.non_receiver ? 0 : gift.tokens;
     overallTokensUsed += giftTokens;
     const existingGift = pending_sent_gifts.find(
       g => g.recipient_id === gift.recipient_id
     );
 
-    ops['updateUser' + gift.recipient_id] = {
-      update_users_by_pk: [
+    ops['updateMember' + gift.recipient_id] = {
+      update_members_by_pk: [
         {
           pk_columns: { id: gift.recipient_id },
           _inc: {
@@ -158,8 +158,8 @@ async function handler(req: VercelRequest, res: VercelResponse) {
                   ...gift,
                   circle_id,
                   epoch_id: currentEpoch.id,
-                  sender_id: user?.id,
-                  sender_address: user?.address,
+                  sender_id: member?.id,
+                  sender_address: member?.address,
                   recipient_address: recipient.address,
                   tokens: giftTokens,
                 },
@@ -182,7 +182,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
               {
                 where: {
                   epoch_id: { _eq: currentEpoch.id },
-                  sender_id: { _eq: user?.id },
+                  sender_id: { _eq: member?.id },
                   recipient_id: { _eq: gift.recipient_id },
                   circle_id: { _eq: circle_id },
                 },
@@ -204,9 +204,9 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   await adminClient.mutate(
     {
-      update_users_by_pk: [
+      update_members_by_pk: [
         {
-          pk_columns: { id: user.id },
+          pk_columns: { id: member.id },
           _set: {
             give_token_remaining: starting_tokens - overallTokensUsed,
           },
@@ -218,7 +218,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           objects: [
             {
               event_type: 'update_allocations',
-              profile_id: user.profile.id,
+              profile_id: member.profile.id,
               circle_id: circle_id,
               data: { updated_notes: updatedNotes },
             },
@@ -231,11 +231,11 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       },
     },
     {
-      operationName: 'updateAllocations_updateUsers',
+      operationName: 'updateAllocations_updateMembers',
     }
   );
 
-  return res.status(200).json({ user_id: user.id });
+  return res.status(200).json({ member_id: member.id });
 }
 
 export default verifyHasuraRequestMiddleware(handler);

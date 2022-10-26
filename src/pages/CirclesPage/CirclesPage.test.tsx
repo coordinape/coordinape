@@ -15,7 +15,7 @@ jest.mock('./getOrgData', () => ({
             id: 2,
             name: 'Test Circle',
             vouching: true,
-            users: [{ role: 1 }],
+            members: [{ role: 1 }],
             epochs: [],
             nominees_aggregate: {
               aggregate: {

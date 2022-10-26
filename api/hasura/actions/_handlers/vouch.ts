@@ -40,7 +40,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     let voucherProfileId: number | null;
     if (sessionVariables.hasuraRole === 'user') {
       voucherProfileId = sessionVariables.hasuraProfileId;
-      // Allow passing in voucher_profile_id for api-users to vouch on behalf of a user
+      // Allow passing in voucher_profile_id for api-users to vouch on behalf of a member
     } else if (sessionVariables.hasuraRole === 'api-user') {
       // Make sure this field is here since it is optional in zod (not required for user-authed non-api key call)
       assert('voucher_profile_id' in input, 'voucher_profile_id not specified');
@@ -107,7 +107,7 @@ async function validate(nomineeId: number, voucherProfileId: number) {
 
   // TODO: could this be handled by a unique index in the vouches table?
   // Check if voucher already has an existing vouch for the nominee
-  if (nominee.nominated_by_user_id === voucher.id) {
+  if (nominee.nominated_by_member_id === voucher.id) {
     throw new ForbiddenError(
       "voucher nominated this nominee so can't additionally vouch"
     );
@@ -153,28 +153,31 @@ async function vouch(nomineeId: number, voucher: Voucher) {
 
 async function convertNomineeToUser(nominee: Nominee) {
   // Get the nominee into the user table
-  let userId = nominee.user_id;
-  if (!userId) {
-    const addedUser = await mutations.insertUser(
+  let memberId = nominee.member_id;
+  if (!memberId) {
+    const addedMember = await mutations.insertMember(
       nominee.address,
       nominee.name,
       nominee.circle_id
     );
-    if (!addedUser) {
-      throw new InternalServerError('unable to add user');
+    if (!addedMember) {
+      throw new InternalServerError('unable to add member');
     }
-    userId = addedUser.id;
-    assert(userId);
+    memberId = addedMember.id;
+    assert(memberId);
   }
   // The profile is automatically created by the createProfile event trigger, if needed
 
-  // attach the user id to the nominee, and mark the nomination ended
-  const updatedNominee = await mutations.updateNomineeUser(nominee.id, userId);
+  // attach the member id to the nominee, and mark the nomination ended
+  const updatedNominee = await mutations.updateNomineeUser(
+    nominee.id,
+    memberId
+  );
   if (!updatedNominee) {
-    throw new InternalServerError('unable to update nominee userId');
+    throw new InternalServerError('unable to update nominee memberId');
   }
 
-  // the nomineeVouchedIn event handlers will run and announce the user being vouched in
+  // the nomineeVouchedIn event handlers will run and announce the member being vouched in
 
   return updatedNominee;
 }

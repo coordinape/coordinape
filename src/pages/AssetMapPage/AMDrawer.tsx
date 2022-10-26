@@ -146,7 +146,7 @@ export const AMDrawer = () => {
       [...rawProfiles].sort((pa, pb) =>
         showRank
           ? (measures.get(pb.address) ?? 0) - (measures.get(pa.address) ?? 0)
-          : pa.users[0]?.name < pb.users[0]?.name
+          : pa.members[0]?.name < pb.members[0]?.name
           ? -1
           : 1
       ),

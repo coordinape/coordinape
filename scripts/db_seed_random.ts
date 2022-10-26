@@ -109,7 +109,7 @@ async function insertFakeData({
     ([circleId, addr]) => fakeMemebership(circleId, addr, getStartTokens)
   );
   const membershipResponse = await mutations.insertMemberships(memberships);
-  const members = membershipResponse.insert_users?.returning ?? [];
+  const members = membershipResponse.insert_members?.returning ?? [];
 
   /*
    * Insert Epochs
@@ -160,7 +160,7 @@ async function insertFakeData({
           address,
           name: faker.name.firstName(),
           description: faker.lorem.sentences(faker.datatype.number(4)),
-          nominated_by_user_id: nominator.id,
+          nominated_by_member_id: nominator.id,
           circle_id: nominator.circle_id,
           vouches_required: 3,
           nominated_date: start.toLocaleString(),
@@ -268,7 +268,7 @@ function fakeMemebership(
     non_receiver: zeroToOne() < 0.2,
     non_giver: zeroToOne() < 0.2,
     fixed_non_receiver: zeroToOne() < 0.1,
-  } as ValueTypes['users_insert_input'];
+  } as ValueTypes['members_insert_input'];
 }
 
 function fakeEpoch(
@@ -320,7 +320,7 @@ type Unwrap<T> = T extends Promise<infer U>
   : T;
 
 type TMemberships = Exclude<
-  Unwrap<ReturnType<typeof mutations.insertMemberships>>['insert_users'],
+  Unwrap<ReturnType<typeof mutations.insertMemberships>>['insert_members'],
   undefined
 >['returning'];
 
@@ -366,15 +366,15 @@ function fakeCircleGifts(
       );
     }
     const circleId = getCircleId();
-    const users = membersByCircle.get(circleId);
+    const members = membersByCircle.get(circleId);
     const availableEpochs = epochs.filter(e => e.circle_id === circleId);
     if (!availableEpochs.length) {
       continue;
     }
     const getEpoch = createSampler(availableEpochs, epochSkew);
 
-    const getSender = createSampler(users || [], giveSkew);
-    const getRecipient = createSampler(users || [], recieveSkew);
+    const getSender = createSampler(members || [], giveSkew);
+    const getRecipient = createSampler(members || [], recieveSkew);
     for (let i = 0; i < roundSize; i++) {
       const recipient = getRecipient();
       const sender = getSender();

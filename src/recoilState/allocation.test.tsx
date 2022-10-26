@@ -16,7 +16,7 @@ test('populate rGiftsMap', async () => {
         recipient_id: 12,
       },
     ],
-    users: [
+    members: [
       { id: 11, name: 'Alice' },
       { id: 12, name: 'Bob' },
     ],

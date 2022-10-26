@@ -218,9 +218,9 @@ const ProfilePageContent = ({
   isMe?: boolean;
 }) => {
   const classes = useStyles();
-  const users = (profile as IMyProfile)?.myUsers ?? profile?.users ?? [];
-  const user = users.find(user => user.circle_id === circleId);
-  const name = user?.name ?? users?.[0]?.name ?? 'unknown';
+  const members = (profile as IMyProfile)?.myUsers ?? profile?.members ?? [];
+  const member = members.find(member => member.circle_id === circleId);
+  const name = member?.name ?? members?.[0]?.name ?? 'unknown';
 
   const setEditProfileOpen = useSetEditProfileOpen();
   const { updateBackground } = useApiWithProfile();
@@ -238,16 +238,16 @@ const ProfilePageContent = ({
     getAvatarPath(profile?.background, '/imgs/background/profile-bg.jpg')
   );
 
-  const recentEpochs = profile?.users?.map(user => ({
-    bio: (user?.bio?.length ?? 0) > 0 ? user.bio : null,
-    circle: user.circle,
+  const recentEpochs = profile?.members?.map(member => ({
+    bio: (member?.bio?.length ?? 0) > 0 ? member.bio : null,
+    circle: member.circle,
   }));
 
   const { showError } = useApeSnackbar();
 
   useEffect(() => {
     if (name === 'unknown') {
-      showError("Couldn't find that user");
+      showError("Couldn't find that member");
       navigate('/');
     }
   }, [name]);
@@ -299,7 +299,7 @@ const ProfilePageContent = ({
         <div className={classes.skillGroup}>
           <ProfileSkills
             skills={profile.skills ?? []}
-            isAdmin={user?.role === 1}
+            isAdmin={member?.role === 1}
             max={50}
           />
         </div>
@@ -307,7 +307,7 @@ const ProfilePageContent = ({
           <ProfileSocialIcons profile={profile} />
         </div>
         <div className={classes.bio}>
-          {user?.role === USER_ROLE_COORDINAPE ? (
+          {member?.role === USER_ROLE_COORDINAPE ? (
             <div>
               Coordinape is the platform you’re using right now! We currently
               offer our service for free and invite people to allocate to us
@@ -327,10 +327,10 @@ const ProfilePageContent = ({
         </div>
       </div>
 
-      {user && !user.isCoordinapeUser && (
+      {member && !member.isCoordinapeUser && (
         <div className={classes.sections}>
           <Section title="My Circles">
-            {profile?.users?.map(
+            {profile?.members?.map(
               u =>
                 u.circle && (
                   <div key={u.id} className={classes.circle}>

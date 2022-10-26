@@ -74,7 +74,7 @@ const manifest = {
     nominees: [],
     pending_gifts: [],
     token_gifts: [],
-    users: [],
+    members: [],
   },
   myUsers: [user],
   profile,

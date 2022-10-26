@@ -27,7 +27,7 @@ export async function fetchAndVerifyContribution({
               { aggregate: { max: { end_date: true } } },
             ],
           },
-          user: {
+          member: {
             address: true,
           },
         },
@@ -39,7 +39,7 @@ export async function fetchAndVerifyContribution({
   if (
     !contribution ||
     contribution.deleted_at ||
-    contribution.user?.address !== userAddress
+    contribution.member?.address !== userAddress
   ) {
     errorResponseWithStatusCode(
       res,

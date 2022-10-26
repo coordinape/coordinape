@@ -62,7 +62,7 @@ export const adminUpdateUserSchemaInput = z
   })
   .strict();
 
-export const deleteUserInput = z
+export const deleteMemberInput = z
   .object({
     circle_id: z.number(),
     address: zEthAddressOnly,
@@ -114,7 +114,7 @@ export const updateUserSchemaInput = z
   })
   .strict();
 
-export const createUserSchemaInput = z
+export const createMemberSchemaInput = z
   .object({
     circle_id: z.number(),
     name: zUsername,
@@ -135,10 +135,10 @@ export const createUserFromTokenInput = z
   })
   .strict();
 
-export const createUsersBulkSchemaInput = z
+export const createMembersBulkSchemaInput = z
   .object({
     circle_id: z.number(),
-    users: createUserSchemaInput.omit({ circle_id: true }).array().min(1),
+    members: createMemberSchemaInput.omit({ circle_id: true }).array().min(1),
   })
   .strict();
 
@@ -311,7 +311,7 @@ export const updateAllocationsInput = z.object({
 });
 
 export const updateAllocationsApiInput = updateAllocationsInput.extend({
-  user_id: z.number().int().positive().optional(),
+  member_id: z.number().int().positive().optional(),
 });
 
 export const allocationCsvInput = z

@@ -62,7 +62,7 @@ export const getProfile = async (address: string): Promise<IApiProfile> => {
           skills: true,
           created_at: true,
           updated_at: true,
-          users: [
+          members: [
             {},
             {
               id: true,
@@ -143,30 +143,30 @@ export const getProfile = async (address: string): Promise<IApiProfile> => {
     throw 'unable to load address: ' + address;
   }
 
-  const adaptedUsers = p.users.map(user => {
-    const adaptedUser: Omit<typeof user, 'teammates | organization'> & {
+  const adaptedMembers = p.members.map(member => {
+    const adaptedMember: Omit<typeof member, 'teammates | organization'> & {
       teammates?: IApiUser[];
-      circle: Omit<typeof user.circle, 'organization'> & {
-        organization: typeof user.circle.organization;
+      circle: Omit<typeof member.circle, 'organization'> & {
+        organization: typeof member.circle.organization;
       };
     } = {
-      ...user,
-      teammates: user.teammates.map(tm => tm.teammate).filter(isDefinedUser),
+      ...member,
+      teammates: member.teammates.map(tm => tm.teammate).filter(isDefinedUser),
       circle: {
-        ...user.circle,
-        organization: user.circle.organization,
+        ...member.circle,
+        organization: member.circle.organization,
       },
     };
-    return adaptedUser;
+    return adaptedMember;
   });
 
-  const adaptedProfile: Omit<typeof p, 'skills' | 'users'> & {
+  const adaptedProfile: Omit<typeof p, 'skills' | 'members'> & {
     skills?: string[];
-    users: IApiUser[];
+    members: IApiUser[];
   } = {
     ...p,
     skills: p.skills && JSON.parse(p.skills),
-    users: adaptedUsers,
+    members: adaptedMembers,
   };
 
   return adaptedProfile;
@@ -245,7 +245,7 @@ export const getFullCircle = async (
           nominees: [
             {
               where: {
-                user: {
+                member: {
                   deleted_at: {
                     _is_null: false,
                   },
@@ -256,11 +256,11 @@ export const getFullCircle = async (
               id: true,
               name: true,
               address: true,
-              nominated_by_user_id: true,
+              nominated_by_member_id: true,
               circle_id: true,
               description: true,
               vouches_required: true,
-              user_id: true,
+              member_id: true,
               ended: true,
               nominated_date: true,
               expiry_date: true,
@@ -294,7 +294,7 @@ export const getFullCircle = async (
               repeat_day_of_month: true,
             },
           ],
-          users: [
+          members: [
             {
               where: {
                 deleted_at: { _is_null: true },
@@ -322,7 +322,7 @@ export const getFullCircle = async (
                 address: true,
                 skills: true,
               },
-              user_private: {
+              member_private: {
                 fixed_payment_token_type: true,
                 fixed_payment_amount: true,
               },
@@ -410,35 +410,35 @@ export const getFullCircle = async (
     );
   }
 
-  const adaptedUsers = circles_by_pk.users.map(user => {
-    const adaptedUser: Omit<typeof user, 'teammates | user_private'> & {
+  const adaptedMembers = circles_by_pk.members.map(member => {
+    const adaptedMember: Omit<typeof member, 'teammates | member_private'> & {
       teammates?: IApiUser[];
-      profile: Omit<typeof user.profile, 'skills'> & {
+      profile: Omit<typeof member.profile, 'skills'> & {
         skills: string[];
       };
       fixed_payment_amount?: number;
     } = {
-      ...user,
-      teammates: user.teammates.map(tm => tm.teammate).filter(isDefinedUser),
+      ...member,
+      teammates: member.teammates.map(tm => tm.teammate).filter(isDefinedUser),
       profile: {
-        ...user.profile,
-        skills: user.profile.skills ? JSON.parse(user.profile.skills) : [],
+        ...member.profile,
+        skills: member.profile.skills ? JSON.parse(member.profile.skills) : [],
       },
-      fixed_payment_amount: user.user_private
-        ? user.user_private.fixed_payment_amount
+      fixed_payment_amount: member.member_private
+        ? member.member_private.fixed_payment_amount
         : 0,
     };
-    return adaptedUser;
+    return adaptedMember;
   });
 
   // TODO: this crazy type stuff can all go away after fetchManifest is ported
   //  and we can refactor/eliminate the old types
   const fullCircle: Omit<
     typeof circles_by_pk,
-    'pending_token_gifts' | 'users'
+    'pending_token_gifts' | 'members'
   > & {
     pending_gifts: IApiTokenGift[];
-    users: IApiUser[];
+    members: IApiUser[];
     circle: Omit<typeof circle, 'organization'> & {
       organization: IProtocol;
     };
@@ -457,7 +457,7 @@ export const getFullCircle = async (
       };
       return notedGift;
     }),
-    users: adaptedUsers,
+    members: adaptedMembers,
   };
   fullCircle.token_gifts = fullCircle.token_gifts.map(tg => {
     const notedGift: Omit<typeof tg, 'gift_private'> & {
@@ -509,7 +509,7 @@ export const fetchManifest = async (address: string): Promise<IApiManifest> => {
           auto_opt_out: true,
           fixed_payment_token_type: true,
           fixed_payment_vault_id: true,
-          users: [{}, { address: true }],
+          members: [{}, { address: true }],
         },
       ],
       epochs: [
@@ -560,7 +560,7 @@ export const fetchManifest = async (address: string): Promise<IApiManifest> => {
           skills: true,
           created_at: true,
           updated_at: true,
-          users: [
+          members: [
             {
               where: { circle: { deleted_at: { _is_null: true } } },
             },
@@ -580,7 +580,7 @@ export const fetchManifest = async (address: string): Promise<IApiManifest> => {
               give_token_remaining: true,
               role: true,
               epoch_first_visit: true,
-              user_private: {
+              member_private: {
                 fixed_payment_amount: true,
               },
               teammates: [
@@ -629,8 +629,10 @@ export const fetchManifest = async (address: string): Promise<IApiManifest> => {
   let circleId;
   if (circles.length > 0) {
     circles.sort((a, b) => {
-      const memberOfa = a.users.filter(u => u.address == p.address).length > 0;
-      const memberOfb = b.users.filter(u => u.address == p.address).length > 0;
+      const memberOfa =
+        a.members.filter(u => u.address == p.address).length > 0;
+      const memberOfb =
+        b.members.filter(u => u.address == p.address).length > 0;
       if (memberOfa && !memberOfb) {
         return -1;
       } else if (memberOfb && !memberOfa) {
@@ -648,27 +650,27 @@ export const fetchManifest = async (address: string): Promise<IApiManifest> => {
     circle = await getFullCircle(circleId);
   }
 
-  const adaptedUsers = p.users.map(user => {
-    const adaptedUser: Omit<typeof user, 'teammates | user_private'> & {
+  const adaptedMembers = p.members.map(member => {
+    const adaptedMember: Omit<typeof member, 'teammates | member_private'> & {
       teammates?: IApiUser[];
       fixed_payment_amount?: number;
     } = {
-      ...user,
-      teammates: user.teammates.map(tm => tm.teammate).filter(isDefinedUser),
-      fixed_payment_amount: user.user_private
-        ? user.user_private.fixed_payment_amount
+      ...member,
+      teammates: member.teammates.map(tm => tm.teammate).filter(isDefinedUser),
+      fixed_payment_amount: member.member_private
+        ? member.member_private.fixed_payment_amount
         : 0,
     };
-    return adaptedUser;
+    return adaptedMember;
   });
 
-  const adaptedProfile: Omit<typeof p, 'skills' | 'users'> & {
+  const adaptedProfile: Omit<typeof p, 'skills' | 'members'> & {
     skills?: string[];
-    users: IApiUser[];
+    members: IApiUser[];
   } = {
     ...p,
     skills: p.skills && JSON.parse(p.skills),
-    users: adaptedUsers,
+    members: adaptedMembers,
   };
 
   const adaptedCircles = circles.map(circle => {
@@ -686,7 +688,7 @@ export const fetchManifest = async (address: string): Promise<IApiManifest> => {
     active_epochs: epochs,
     circles: adaptedCircles,
     circle: circle,
-    myUsers: adaptedProfile.users || [],
+    myUsers: adaptedProfile.members || [],
   };
   return manifest;
 };

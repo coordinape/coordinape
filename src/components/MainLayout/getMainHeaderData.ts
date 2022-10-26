@@ -19,7 +19,7 @@ export const getMainHeaderData = (address: string, chainId: number) =>
             {
               id: true,
               name: true,
-              users: [
+              members: [
                 { where: { address: { _eq: address.toLowerCase() } } },
                 { role: true },
               ],
@@ -46,7 +46,7 @@ export const getMainHeaderData = (address: string, chainId: number) =>
 
 export const QUERY_KEY_MAIN_HEADER = 'MainHeader';
 
-// extracting this from OverviewMenu because a list of all the orgs the user
+// extracting this from OverviewMenu because a list of all the orgs the member
 // belongs to is handy for multiple purposes, so if we use the same cache key,
 // we can reuse it
 export const useMainHeaderQuery = () => {

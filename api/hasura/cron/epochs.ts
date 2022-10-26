@@ -94,7 +94,7 @@ async function getEpochsToNotify() {
                 token_name: true,
                 discord_webhook: true,
                 organization: { name: true },
-                users: [
+                members: [
                   {
                     where: {
                       non_giver: { _eq: false },
@@ -135,7 +135,7 @@ async function getEpochsToNotify() {
                 telegram_id: true,
                 discord_webhook: true,
                 organization: { name: true, telegram_id: true },
-                users: [
+                members: [
                   {
                     where: {
                       deleted_at: { _is_null: true },
@@ -192,7 +192,7 @@ export async function notifyEpochStart({
 
     const message = dedent`
       A new ${circle.organization?.name}/${circle.name} epoch is active!
-      ${eligibleUsersCount} users will be participating and the duration of the epoch will be:
+      ${eligibleUsersCount} members will be participating and the duration of the epoch will be:
       **${epochStartDate.toLocaleString(
         DateTime.DATETIME_FULL
       )}** to **${epochEndDate.toLocaleString(DateTime.DATETIME_FULL)}**
@@ -235,13 +235,13 @@ export async function notifyEpochEnd({
       const { circle } = epoch;
       assert(circle, 'panic: no circle for epoch');
 
-      const usersHodlingGive = circle.users.map(u => u.name);
+      const usersHodlingGive = circle.members.map(u => u.name);
 
       const message = dedent`
       ${circle.organization?.name}/${
         circle.name
       } epoch ends in less than 24 hours!
-      Users that have yet to fully allocate their ${
+      Members that have yet to fully allocate their ${
         circle.token_name || 'GIVE'
       }:
       ${usersHodlingGive.join(', ')}
@@ -304,10 +304,10 @@ export async function endEpoch({ endEpoch: epochs }: EpochsToNotify) {
     }
 
     const usersWithStartingGive = [] as Array<string>;
-    // if auto_opt_out is true, set users where `starting_tokens == give_tokens_remaining to non_receiver = true
+    // if auto_opt_out is true, set members where `starting_tokens == give_tokens_remaining to non_receiver = true
     // copy user bios to histories
     // reset give_tokens_received = 0, give_token_remaining = starting tokens, epoch_first_visit = 1, bio = null
-    const userUpdateMutations = circle.users.reduce((ops, user) => {
+    const userUpdateMutations = circle.members.reduce((ops, user) => {
       const userUserHasAllGive =
         user.give_token_remaining === user.starting_tokens;
       if (userUserHasAllGive) usersWithStartingGive.push(user.name);
@@ -323,7 +323,7 @@ export async function endEpoch({ endEpoch: epochs }: EpochsToNotify) {
         insert_histories_one: [
           {
             object: {
-              user_id: user.id,
+              member_id: user.id,
               bio: user.bio,
               epoch_id: epoch.id,
               circle_id: circle_id,
@@ -333,7 +333,7 @@ export async function endEpoch({ endEpoch: epochs }: EpochsToNotify) {
         ],
       };
       ops[`u${user.id}_userReset`] = {
-        update_users_by_pk: [
+        update_members_by_pk: [
           {
             pk_columns: { id: user.id },
             _set: {
@@ -376,7 +376,7 @@ export async function endEpoch({ endEpoch: epochs }: EpochsToNotify) {
     // send message if notification channel is enabled
     const message = dedent`
       ${circle.organization?.name}/${circle.name} epoch has just ended!
-      Users who did not allocate any ${circle.token_name}:
+      Members who did not allocate any ${circle.token_name}:
       ${usersWithStartingGive.join(', ')}
     `;
     if (circle.discord_webhook)

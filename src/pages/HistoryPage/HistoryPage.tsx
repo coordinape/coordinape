@@ -54,7 +54,7 @@ export const HistoryPage = () => {
   );
 
   const circle = query.data;
-  const me = circle?.users[0];
+  const me = circle?.members[0];
 
   const { deleteEpoch } = useApiAdminCircle(circleId);
 

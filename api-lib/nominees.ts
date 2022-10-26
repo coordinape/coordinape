@@ -25,13 +25,13 @@ export const getNomineeFromAddress = async (
           id: true,
           name: true,
           address: true,
-          nominated_by_user_id: true,
+          nominated_by_member_id: true,
           circle_id: true,
           description: true,
           nominated_date: true,
           expiry_date: true,
           vouches_required: true,
-          user_id: true,
+          member_id: true,
           ended: true,
           created_at: true,
           updated_at: true,
@@ -46,7 +46,7 @@ export const getNomineeFromAddress = async (
   return nominees.pop();
 };
 
-const userWithCircleSelector = Selector('users')({
+const memberWithCircleSelector = Selector('members')({
   pending_sent_gifts: [
     {},
     {
@@ -87,15 +87,15 @@ const userWithCircleSelector = Selector('users')({
   },
 });
 
-export type UserWithCircleResponse = InputType<
-  GraphQLTypes['users'],
-  typeof userWithCircleSelector
+export type MemberWithCircleResponse = InputType<
+  GraphQLTypes['members'],
+  typeof memberWithCircleSelector
 >;
 
-export const getUserFromProfileIdWithCircle = async (
+export const getMemberFromProfileIdWithCircle = async (
   profileId: number,
   circleId: number
-): Promise<UserWithCircleResponse> => {
+): Promise<MemberWithCircleResponse> => {
   const { profiles_by_pk } = await adminClient.query(
     {
       profiles_by_pk: [
@@ -103,54 +103,54 @@ export const getUserFromProfileIdWithCircle = async (
           id: profileId,
         },
         {
-          users: [
+          members: [
             {
               where: {
                 circle_id: { _eq: circleId },
               },
             },
-            userWithCircleSelector,
+            memberWithCircleSelector,
           ],
         },
       ],
     },
     {
-      operationName: 'getUserFromProfileIdWithCircle',
+      operationName: 'getMemberFromProfileIdWithCircle',
     }
   );
   assert(profiles_by_pk, 'Profile cannot be found');
-  const user = profiles_by_pk.users.pop();
-  assert(user, `user for circle_id ${circleId} not found`);
-  return user;
+  const member = profiles_by_pk.members.pop();
+  assert(member, `user for circle_id ${circleId} not found`);
+  return member;
 };
 
 export const getUserWithCircle = async (
-  userId: number,
+  memberId: number,
   circleId: number
-): Promise<UserWithCircleResponse> => {
-  const { users_by_pk: user } = await adminClient.query(
+): Promise<MemberWithCircleResponse> => {
+  const { members_by_pk: member } = await adminClient.query(
     {
-      users_by_pk: [
+      members_by_pk: [
         {
-          id: userId,
+          id: memberId,
         },
-        userWithCircleSelector,
+        memberWithCircleSelector,
       ],
     },
     {
-      operationName: 'getUserWithCircle',
+      operationName: 'getMemberWithCircle',
     }
   );
-  assert(user, 'User cannot be found');
+  assert(member, 'Member cannot be found');
   assert(
-    user.circle.id === circleId,
-    `User does not belong to circle_id ${circleId}.`
+    member.circle.id === circleId,
+    `Member does not belong to circle_id ${circleId}.`
   );
-  return user;
+  return member;
 };
 
 export const insertNominee = async (params: {
-  nominated_by_user_id: number;
+  nominated_by_member_id: number;
   circle_id: number;
   address: string;
   name: string;

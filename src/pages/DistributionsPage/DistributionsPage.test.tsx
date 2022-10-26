@@ -12,7 +12,7 @@ import { getEpochData } from './queries';
 jest.mock('recoilState/app', () => ({
   useSelectedCircle: jest.fn(() => ({
     circle: { id: 2 },
-    users: mockEpoch.circle.users,
+    members: mockEpoch.circle.members,
   })),
 }));
 
@@ -26,7 +26,7 @@ jest.mock('react-router-dom', () => {
   };
 });
 
-const recipient = mockEpoch.circle.users[0];
+const recipient = mockEpoch.circle.members[0];
 
 const mockEpochData = {
   id: 1,
@@ -36,7 +36,7 @@ const mockEpochData = {
   end_date: DateTime.now().plus({ days: 1 }),
   circle: {
     name: mockEpoch.circle.name,
-    users: [{ role: 1 }],
+    members: [{ role: 1 }],
     fixed_payment_vault_id: 2,
     fixed_payment_token_type: 'USDC',
     organization: {
@@ -157,7 +157,7 @@ test('render with no vaults', async () => {
       ...mockEpochData,
       circle: {
         name: mockEpoch.circle.name,
-        users: [{ role: 1 }],
+        members: [{ role: 1 }],
         fixed_payment_vault_id: null,
         fixed_payment_token_type: null,
         organization: {

@@ -8,10 +8,10 @@ export const getFixedPayment = async (circleId: number) => {
       circles_by_pk: [
         { id: circleId },
         {
-          users: [
+          members: [
             {},
             {
-              user_private: { fixed_payment_amount: true },
+              member_private: { fixed_payment_amount: true },
             },
           ],
         },
@@ -22,9 +22,9 @@ export const getFixedPayment = async (circleId: number) => {
     }
   );
 
-  const fixedPayments = circles_by_pk?.users
-    ?.filter(user => user.user_private?.fixed_payment_amount > 0)
-    .map(user => user.user_private?.fixed_payment_amount);
+  const fixedPayments = circles_by_pk?.members
+    ?.filter(member => member.member_private?.fixed_payment_amount > 0)
+    .map(member => member.member_private?.fixed_payment_amount);
 
   const fixedPaymentTotal = fixedPayments?.reduce((a, b) => a + b, 0);
 

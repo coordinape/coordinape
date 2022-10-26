@@ -49,7 +49,7 @@ async function circleFromToken(token: string) {
               name: true,
               logo: true,
             },
-            users: [
+            members: [
               {
                 limit: 3,
                 where: {

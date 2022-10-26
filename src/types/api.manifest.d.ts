@@ -21,7 +21,7 @@ export interface IApiFullCircle {
   nominees: IApiNominee[];
   pending_gifts: IApiTokenGift[];
   token_gifts: IApiTokenGift[];
-  users: IApiUser[];
+  members: IApiUser[];
 }
 
 export interface IApiManifest {

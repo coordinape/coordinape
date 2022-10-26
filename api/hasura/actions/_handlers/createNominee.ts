@@ -6,7 +6,7 @@ import { getExpiredNominees } from '../../../../api-lib/gql/queries';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
 import {
   insertNominee,
-  getUserFromProfileIdWithCircle,
+  getMemberFromProfileIdWithCircle,
   getNomineeFromAddress,
 } from '../../../../api-lib/nominees';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
@@ -29,7 +29,10 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   const { circle_id, address, name, description } = input;
 
   // check if nominator is from the same circle
-  const nominator = await getUserFromProfileIdWithCircle(profileId, circle_id);
+  const nominator = await getMemberFromProfileIdWithCircle(
+    profileId,
+    circle_id
+  );
   if (!nominator) {
     return errorResponseWithStatusCode(
       res,
@@ -39,7 +42,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const {
-    id: nominated_by_user_id,
+    id: nominated_by_member_id,
     circle: { nomination_days_limit, min_vouches: vouches_required },
   } = nominator;
 
@@ -69,7 +72,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   // add an event trigger to check if vouches are enough and insert an uesr/profile
   const nominee = await insertNominee({
-    nominated_by_user_id,
+    nominated_by_member_id,
     circle_id,
     address,
     name,

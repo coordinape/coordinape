@@ -159,7 +159,7 @@ export const useApiBase = () => {
         });
 
         if (select) set(rSelectedCircleIdSource, circleId);
-        fetchSelfIds(fullCircle.users.map(u => u.address));
+        fetchSelfIds(fullCircle.members.map(u => u.address));
       },
     [],
     { who: 'fetchCircle' }

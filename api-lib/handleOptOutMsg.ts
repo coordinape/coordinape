@@ -3,7 +3,7 @@ import { sendSocialMessage } from './sendSocialMessage';
 import { EventTriggerPayload } from './types';
 
 export default async function handleOptOutMsg(
-  payload: EventTriggerPayload<'users', 'UPDATE'>,
+  payload: EventTriggerPayload<'members', 'UPDATE'>,
   channels: { discord?: boolean; telegram?: boolean }
 ) {
   const {

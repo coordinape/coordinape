@@ -16,7 +16,7 @@ const styles = {
 };
 
 export const AllocationsTable = ({
-  users,
+  members,
   totalGive,
   formGiftAmount,
   tokenName,
@@ -27,7 +27,7 @@ export const AllocationsTable = ({
   fixedDist,
   circleDist,
 }: {
-  users: {
+  members: {
     id: number;
     name: string;
     address: string;
@@ -54,7 +54,7 @@ export const AllocationsTable = ({
   fixedDist: EpochDataResult['distributions'][0] | undefined;
   circleDist: EpochDataResult['distributions'][0] | undefined;
 }) => {
-  type User = Exclude<typeof users[0], undefined>;
+  type Member = Exclude<typeof members[0], undefined>;
   const givenPercent = useCallback(
     (received: number) => received / totalGive,
     [totalGive]
@@ -68,8 +68,8 @@ export const AllocationsTable = ({
     if (num < 1) return;
     return (
       <Text p as="p" size="medium" css={{ mt: '$sm' }}>
-        Note: This epoch included {num} deleted {num > 1 ? 'users' : 'user'} who
-        received {sumGive} GIVE.
+        Note: This epoch included {num} deleted {num > 1 ? 'members' : 'member'}{' '}
+        who received {sumGive} GIVE.
       </Text>
     );
   };
@@ -77,7 +77,7 @@ export const AllocationsTable = ({
   const combinedDist =
     tokenName && fixedTokenName && tokenName === fixedTokenName;
 
-  const UserTable = makeTable<User>('UserTable');
+  const UserTable = makeTable<Member>('UserTable');
   const headers = [
     { title: 'Name' },
     { title: 'ETH' },
@@ -130,62 +130,62 @@ export const AllocationsTable = ({
       </Flex>
       <UserTable
         headers={headers}
-        data={users}
+        data={members}
         startingSortIndex={2}
         startingSortDesc
         perPage={10}
         sortByColumn={(index: number) => {
-          if (index === 0) return (u: User) => u.name.toLowerCase();
-          if (index === 1) return (u: User) => u.address.toLowerCase();
-          return (u: User) => u.received;
+          if (index === 0) return (u: Member) => u.name.toLowerCase();
+          if (index === 1) return (u: Member) => u.address.toLowerCase();
+          return (u: Member) => u.received;
         }}
       >
-        {user => (
-          <tr key={user.id}>
+        {member => (
+          <tr key={member.id}>
             <td>
               <Flex
                 row
                 css={{ alignItems: 'center', gap: '$sm', height: '$2xl' }}
               >
-                <Avatar size="small" path={user.avatar} name={user.name} />
-                <Text>{user.name}</Text>
+                <Avatar size="small" path={member.avatar} name={member.name} />
+                <Text>{member.name}</Text>
               </Flex>
             </td>
-            <td>{shortenAddress(user.address)}</td>
-            <td className="alignRight">{user.givers}</td>
-            <td className="alignRight">{user.received}</td>
+            <td>{shortenAddress(member.address)}</td>
+            <td className="alignRight">{member.givers}</td>
+            <td className="alignRight">{member.received}</td>
             <td className="alignRight">
-              {numberWithCommas(givenPercent(user.received) * 100, 2)}%
+              {numberWithCommas(givenPercent(member.received) * 100, 2)}%
             </td>
             <td className="alignRight">
-              {user.circle_claimed
+              {member.circle_claimed
                 ? `${smartRounding(
                     circleDist &&
                       circleDist.distribution_type ===
                         DISTRIBUTION_TYPE.COMBINED
-                      ? user.circle_claimed - user.fixed_payment_amount
-                      : user.circle_claimed
+                      ? member.circle_claimed - member.fixed_payment_amount
+                      : member.circle_claimed
                   )} ${tokenName || 'GIVE'}`
                 : `${smartRounding(
-                    givenPercent(user.received) * formGiftAmount
+                    givenPercent(member.received) * formGiftAmount
                   )} ${tokenName || 'GIVE'}`}
             </td>
             <td className="alignRight">
               {!combinedDist && fixedDist
-                ? smartRounding(user.claimed)
-                : smartRounding(user.fixed_payment_amount)}{' '}
+                ? smartRounding(member.claimed)
+                : smartRounding(member.fixed_payment_amount)}{' '}
               {fixedTokenName || ''}
             </td>
             {combinedDist ? (
               <td className="alignRight">
                 {(() => {
                   if (circleDist && fixedDist) {
-                    return smartRounding(user.combined_claimed);
+                    return smartRounding(member.combined_claimed);
                   }
                   const giftAmt = circleDist
-                    ? user.circle_claimed
-                    : givenPercent(user.received) * formGiftAmount;
-                  return smartRounding(giftAmt + user.fixed_payment_amount);
+                    ? member.circle_claimed
+                    : givenPercent(member.received) * formGiftAmount;
+                  return smartRounding(giftAmt + member.fixed_payment_amount);
                 })()}{' '}
                 {tokenName}
               </td>

@@ -41,7 +41,7 @@ const vaultSelectionPanel = {
 
 type SubmitFormProps = {
   epoch: EpochDataResult;
-  users: (Gift['recipient'] & { received: number })[];
+  members: (Gift['recipient'] & { received: number })[];
   setAmount: (amount: string) => void;
   setGiftVaultId: (giftVaultId: string) => void;
   vaults: { id: number; symbol: string; vault_address: string }[];
@@ -61,7 +61,7 @@ type SubmitFormProps = {
  */
 export function DistributionForm({
   epoch,
-  users,
+  members,
   setAmount,
   setGiftVaultId,
   vaults,
@@ -205,9 +205,9 @@ export function DistributionForm({
         : DISTRIBUTION_TYPE.FIXED;
     const gifts = {} as Record<string, number>;
     if (type === DISTRIBUTION_TYPE.COMBINED) {
-      users.forEach(user => {
-        if (!(user.address in gifts)) gifts[user.address] = 0;
-        gifts[user.address] += user.received;
+      members.forEach(member => {
+        if (!(member.address in gifts)) gifts[member.address] = 0;
+        gifts[member.address] += member.received;
       });
     }
 
@@ -260,8 +260,8 @@ export function DistributionForm({
     const vault = findVault(value.selectedVaultId);
     assert(vault);
 
-    const gifts = users.reduce((ret, user) => {
-      ret[user.address] = user.received;
+    const gifts = members.reduce((ret, member) => {
+      ret[member.address] = member.received;
       return ret;
     }, {} as Record<string, number>);
 

@@ -61,15 +61,15 @@ export const rUserProfileMap = selector<Map<string, IProfile>>({
     iti(get(rUserMapWithFakes).values())
       .groupBy(u => u.address)
       .map(([, us]) => {
-        const users = us.toArray();
-        // Deleted users don't have profiles
+        const members = us.toArray();
+        // Deleted members don't have profiles
         const activeUser = us.find(u => !u.deleted_at);
         const profile = activeUser?.profile?.address
           ? activeUser?.profile
           : createFakeProfile(assertDef(us.first()));
         return {
           ...profile,
-          users,
+          members,
         } as IProfile;
       })
       .toMap(p => p.address),
@@ -189,7 +189,7 @@ export const rMapGraphData = selector<GraphData>({
             )}`
           );
           const user = assertDef(
-            profile.users.find(u => u.circle_id === epoch.circle_id),
+            profile.members.find(u => u.circle_id === epoch.circle_id),
             `Missing user of circle = ${epoch.circle_id} in rMapGraphData at ${profile.address}`
           );
 
@@ -314,7 +314,9 @@ export const rMapNodeSearchStrings = selector<Map<string, string>>({
           return '';
         }
         const selectedCircleId = get(rSelectedCircleId) ?? -1;
-        const user = profile.users.find(u => u.circle_id === selectedCircleId);
+        const user = profile.members.find(
+          u => u.circle_id === selectedCircleId
+        );
 
         return (
           profile.bio +

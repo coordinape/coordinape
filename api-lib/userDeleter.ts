@@ -5,7 +5,7 @@ import type {
 } from '@vercel/node';
 
 import {
-  deleteUserInput,
+  deleteMemberInput,
   composeHasuraActionRequestBodyWithApiPermissions,
 } from '../src/lib/zod';
 
@@ -14,7 +14,7 @@ import { errorResponseWithStatusCode, UnauthorizedError } from './HttpError';
 import { verifyHasuraRequestMiddleware } from './validate';
 
 const requestSchema = composeHasuraActionRequestBodyWithApiPermissions(
-  deleteUserInput,
+  deleteMemberInput,
   []
 );
 

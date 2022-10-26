@@ -22,7 +22,7 @@ jest.mock('./getHistoryData', () => {
         name: 'Yearn',
       },
       vouching: true,
-      users: [{ give_token_remaining: 77, role: 0, non_giver: false }],
+      members: [{ give_token_remaining: 77, role: 0, non_giver: false }],
       nominees_aggregate: {
         aggregate: {
           count: 5,
@@ -63,7 +63,7 @@ jest.mock('./getHistoryData', () => {
               id: 4,
               tokens: 10,
               // @ts-expect-error
-              sender: null, // deleted user
+              sender: null, // deleted member
               gift_private: { note: 'goodbye world' },
             },
           ],

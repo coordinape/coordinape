@@ -3,7 +3,7 @@ import assert from 'assert';
 import { Selector } from './gql/__generated__/zeus';
 import { adminClient } from './gql/adminClient';
 
-const userSelector = Selector('users')({
+const memberSelector = Selector('members')({
   id: true,
   role: true,
   name: true,
@@ -29,13 +29,13 @@ export const getUserFromProfileId = async (
           id: profileId,
         },
         {
-          users: [
+          members: [
             {
               where: {
                 circle_id: { _eq: circleId },
               },
             },
-            userSelector,
+            memberSelector,
           ],
         },
       ],
@@ -45,15 +45,15 @@ export const getUserFromProfileId = async (
     }
   );
   assert(profiles_by_pk, 'Profile cannot be found');
-  const user = profiles_by_pk.users.pop();
-  assert(user, `user for circle_id ${circleId} not found`);
-  return user;
+  const member = profiles_by_pk.members.pop();
+  assert(member, `user for circle_id ${circleId} not found`);
+  return member;
 };
 
 export const getUserFromAddress = async (address: string, circleId: number) => {
-  const { users } = await adminClient.query(
+  const { members } = await adminClient.query(
     {
-      users: [
+      members: [
         {
           where: {
             _and: [
@@ -65,7 +65,7 @@ export const getUserFromAddress = async (address: string, circleId: number) => {
             ],
           },
         },
-        userSelector,
+        memberSelector,
       ],
     },
     {
@@ -73,16 +73,16 @@ export const getUserFromAddress = async (address: string, circleId: number) => {
     }
   );
 
-  return users.pop();
+  return members.pop();
 };
 
 export const getUsersFromUserIds = async (
   userIds: number[],
   circleId: number
 ) => {
-  const { users } = await adminClient.query(
+  const { members } = await adminClient.query(
     {
-      users: [
+      members: [
         {
           where: {
             id: { _in: userIds },
@@ -90,7 +90,7 @@ export const getUsersFromUserIds = async (
             deleted_at: { _is_null: true },
           },
         },
-        userSelector,
+        memberSelector,
       ],
     },
     {
@@ -98,5 +98,5 @@ export const getUsersFromUserIds = async (
     }
   );
 
-  return users;
+  return members;
 };

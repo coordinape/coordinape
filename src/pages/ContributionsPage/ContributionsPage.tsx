@@ -56,7 +56,7 @@ const nextPrevCss = {
 type LinkedContributionsAndEpochs = {
   contributions: Array<LinkedElement<Contribution>>;
   epochs: Array<LinkedElement<Epoch>>;
-  users: ContributionsAndEpochs['users'];
+  members: ContributionsAndEpochs['members'];
 };
 
 type CurrentContribution = {
@@ -80,7 +80,7 @@ const ContributionsPage = () => {
     () =>
       getContributionsAndEpochs({
         circleId: selectedCircle.id,
-        userAddress: address,
+        memberAddress: address,
       }),
     {
       enabled: !!(selectedCircle.id && address),
@@ -180,7 +180,7 @@ const ContributionsPage = () => {
       if (!currentContribution) return;
       currentContribution.contribution.id === 0
         ? createContribution({
-            user_id: currentUserId,
+            member_id: currentUserId,
             circle_id: selectedCircle.id,
             description: value,
           })
@@ -246,7 +246,7 @@ const ContributionsPage = () => {
     return <LoadingModal visible />;
   }
 
-  const currentUserId: number = memoizedEpochData.users[0]?.id;
+  const currentUserId: number = memoizedEpochData.members[0]?.id;
 
   return (
     <>
@@ -498,7 +498,7 @@ const EpochGroup = React.memo(function EpochGroup({
   epochs,
   currentContribution,
   setActiveContribution,
-}: Omit<LinkedContributionsAndEpochs, 'users'> & SetActiveContributionProps) {
+}: Omit<LinkedContributionsAndEpochs, 'members'> & SetActiveContributionProps) {
   const latestEpoch = epochs[0] as Epoch | undefined;
   const activeEpoch = useMemo(() => getCurrentEpoch(epochs), [epochs.length]);
   return (

@@ -30,7 +30,7 @@ export const addVault = (payload: ValueTypes['CreateVaultInput']) =>
                 created_at: true,
                 profile: {
                   address: true,
-                  users: [{}, { circle_id: true, name: true }],
+                  members: [{}, { circle_id: true, name: true }],
                 },
                 distribution: {
                   claims: [{}, { profile_id: true }],

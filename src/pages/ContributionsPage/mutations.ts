@@ -24,7 +24,7 @@ export const createContributionMutation = async (
   return client.mutate({
     insert_contributions_one: [
       { object },
-      { id: true, description: true, datetime_created: true, user_id: true },
+      { id: true, description: true, datetime_created: true, member_id: true },
     ],
   });
 };

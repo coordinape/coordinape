@@ -754,7 +754,7 @@ const MemberRow = ({
 };
 
 export const MembersTable = ({
-  visibleUsers,
+  visibleMembers,
   myUser: me,
   circle,
   filter,
@@ -763,7 +763,7 @@ export const MembersTable = ({
   fixedPayment,
   setDeleteUserDialog,
 }: {
-  visibleUsers: IUser[];
+  visibleMembers: IUser[];
   myUser: IUser;
   circle: CircleSettingsResult;
   filter: (u: IUser) => boolean;
@@ -781,13 +781,13 @@ export const MembersTable = ({
 
   const users: IUser[] = useMemo(() => {
     if (
-      !visibleUsers.some(u => u.address === coordinapeUser.address) &&
-      visibleUsers.length > 0
+      !visibleMembers.some(u => u.address === coordinapeUser.address) &&
+      visibleMembers.length > 0
     ) {
-      return [...visibleUsers, coordinapeUser];
+      return [...visibleMembers, coordinapeUser];
     }
-    return visibleUsers;
-  }, [circle, visibleUsers, coordinapeUser]);
+    return visibleMembers;
+  }, [circle, visibleMembers, coordinapeUser]);
 
   useEffect(() => {
     const filtered = filter ? users.filter(filter) : users;

@@ -30,7 +30,7 @@ export const getActiveNominees = async (circleId: number) => {
           id: true,
           name: true,
           address: true,
-          nominated_by_user_id: true,
+          nominated_by_member_id: true,
           nominations: [
             {},
             {

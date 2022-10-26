@@ -19,7 +19,7 @@ export const mockEpoch = {
   circle: {
     id: 2,
     name: 'Mock Circle',
-    users: [
+    members: [
       {
         address: '0x63c389CB2C573dd3c9239A13a3eb65935Ddb5e2e',
         id: 21,
@@ -77,7 +77,7 @@ export const mockContribution = {
 export const mockCircle = {
   id: 2,
   name: 'Mock Circle',
-  users: [
+  members: [
     {
       address: '0xFeB72759AD9baC5a408563059Fe6EE08663E6e04',
       id: 21,

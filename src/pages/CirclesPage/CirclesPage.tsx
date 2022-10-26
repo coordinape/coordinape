@@ -56,7 +56,7 @@ export const CirclesPage = () => {
   };
 
   const isAdmin = (org: QueryResult['organizations'][0]) =>
-    org.circles.map(c => c.users[0]).some(u => u && isUserAdmin(u));
+    org.circles.map(c => c.members[0]).some(u => u && isUserAdmin(u));
 
   if (query.isLoading || query.isIdle || query.isRefetching)
     return <LoadingModal visible note="CirclesPage" />;
@@ -143,27 +143,29 @@ export const CirclesPage = () => {
               gap: '$xl',
             }}
           >
-            {sortBy(org.circles, c => [-c.users.length, c.name]).map(circle => (
-              <Transition
-                key={circle.id}
-                mountOnEnter
-                unmountOnExit
-                timeout={300}
-                in={
-                  showAllCircles ||
-                  circle.users[0]?.role === 0 ||
-                  circle.users[0]?.role === 1
-                }
-              >
-                {state => (
-                  <CircleRow
-                    circle={circle}
-                    onButtonClick={goToCircle}
-                    state={state}
-                  />
-                )}
-              </Transition>
-            ))}
+            {sortBy(org.circles, c => [-c.members.length, c.name]).map(
+              circle => (
+                <Transition
+                  key={circle.id}
+                  mountOnEnter
+                  unmountOnExit
+                  timeout={300}
+                  in={
+                    showAllCircles ||
+                    circle.members[0]?.role === 0 ||
+                    circle.members[0]?.role === 1
+                  }
+                >
+                  {state => (
+                    <CircleRow
+                      circle={circle}
+                      onButtonClick={goToCircle}
+                      state={state}
+                    />
+                  )}
+                </Transition>
+              )
+            )}
           </Box>
         </Box>
       ))}
@@ -184,7 +186,7 @@ const buttons: [
   [paths.allocation, 'Allocation'],
   [paths.map, 'Map'],
   [paths.members, 'Members'],
-  [paths.circleAdmin, 'Admin', (c: QueryCircle) => c.users[0]?.role !== 1],
+  [paths.circleAdmin, 'Admin', (c: QueryCircle) => c.members[0]?.role !== 1],
 ];
 
 const nonMemberPanelCss: CSS = {
@@ -248,7 +250,7 @@ const GetStarted = () => {
   );
 };
 export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
-  const role = circle.users[0]?.role;
+  const role = circle.members[0]?.role;
   const nonMember = role === undefined;
   const nonMemberCss = nonMember ? { color: '$borderMedium' } : {};
 

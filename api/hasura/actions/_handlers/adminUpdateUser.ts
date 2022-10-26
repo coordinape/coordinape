@@ -27,16 +27,16 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   // new_address that matches existing address can pass through
   if (new_address && new_address !== address) {
     const {
-      users: [existingUserWithNewAddress],
+      members: [existingUserWithNewAddress],
     } = await adminClient.query(
       {
-        users: [
+        members: [
           {
             limit: 1,
             where: {
               address: { _ilike: new_address },
               circle_id: { _eq: circle_id },
-              // ignore soft_deleted users
+              // ignore soft_deleted members
               deleted_at: { _is_null: true },
             },
           },
@@ -54,15 +54,17 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     }
   }
 
-  const user = await queries.getUserAndCurrentEpoch(address, circle_id);
-  if (!user) {
-    throw new UnprocessableError(`User with address ${address} does not exist`);
+  const member = await queries.getMemberAndCurrentEpoch(address, circle_id);
+  if (!member) {
+    throw new UnprocessableError(
+      `Member with address ${address} does not exist`
+    );
   }
 
   if (
-    user.circle.epochs.length > 0 &&
+    member.circle.epochs.length > 0 &&
     input.starting_tokens &&
-    input.starting_tokens !== user.starting_tokens
+    input.starting_tokens !== member.starting_tokens
   ) {
     throw new UnprocessableError(
       `Cannot update starting tokens during an active epoch`
@@ -76,7 +78,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   const mutationResult = await adminClient.mutate(
     {
-      update_users: [
+      update_members: [
         {
           _set: {
             ...updateInput,
@@ -121,7 +123,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     }
   );
 
-  const returnResult = mutationResult.update_users?.returning.pop();
+  const returnResult = mutationResult.update_members?.returning.pop();
   assert(returnResult, 'No return from mutation');
 
   res.status(200).json(returnResult);

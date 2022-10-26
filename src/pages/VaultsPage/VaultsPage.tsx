@@ -42,7 +42,7 @@ const VaultsPage = () => {
   const currentOrg = orgs
     ? orgs.find(o => o.id === currentOrgId) || orgs[0]
     : undefined;
-  const isAdmin = currentOrg?.circles.some(c => isUserAdmin(c.users[0]));
+  const isAdmin = currentOrg?.circles.some(c => isUserAdmin(c.members[0]));
 
   const {
     refetch,

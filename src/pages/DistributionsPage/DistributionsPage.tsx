@@ -59,7 +59,7 @@ export function DistributionsPage() {
 
   const [formGiftAmount, setFormGiftAmount] = useState<string>('0');
   const [giftVaultId, setGiftVaultId] = useState<string>('');
-  const { users: circleUsers, circleId } = useSelectedCircle();
+  const { members: circleMembers, circleId } = useSelectedCircle();
   const { downloadCSV } = useApiAdminCircle(circleId);
 
   if (isIdle || isLoading) return <LoadingModal visible />;
@@ -77,13 +77,13 @@ export function DistributionsPage() {
       </SingleColumnLayout>
     );
 
-  // remove deleted users' (where recipient doesn't exist) allocations from token gifts
+  // remove deleted members' (where recipient doesn't exist) allocations from token gifts
   const gifts = epoch.token_gifts?.filter((g: Gift) => g.recipient) || [];
   const totalGive = gifts.reduce((t, g) => t + g.tokens, 0) || 0;
 
   assert(epoch.circle);
   const circle = epoch.circle;
-  if (!isUserAdmin(circle.users[0])) {
+  if (!isUserAdmin(circle.members[0])) {
     epochError = 'You are not an admin of this circle.';
   } else if (!epoch.ended) {
     epochError = 'This epoch has not ended yet.';
@@ -117,7 +117,7 @@ export function DistributionsPage() {
     );
   };
 
-  const usersWithGiftnFixedAmounts = circleUsers
+  const usersWithGiftnFixedAmounts = circleMembers
     .filter(u => {
       return (
         (fixedDist &&
@@ -230,18 +230,18 @@ export function DistributionsPage() {
               giftVaultId={giftVaultId}
               formGiftAmount={formGiftAmount}
               epoch={epoch}
-              users={usersWithReceivedAmounts}
+              members={usersWithReceivedAmounts}
               setAmount={setFormGiftAmount}
               setGiftVaultId={setGiftVaultId}
               vaults={vaults}
-              circleUsers={circleUsers}
+              circleUsers={circleMembers}
               refetch={refetch}
               totalGive={totalGive}
             />
           </Box>
           <AllocationsTable
             epoch={epoch}
-            users={usersWithGiftnFixedAmounts}
+            members={usersWithGiftnFixedAmounts}
             tokenName={tokenName}
             totalGive={totalGive}
             formGiftAmount={Number(formGiftAmount)}

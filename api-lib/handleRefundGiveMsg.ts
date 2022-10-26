@@ -23,9 +23,9 @@ export default async function handleRefundGiveMsg(
 
   const currentEpoch = await queries.getCurrentEpoch(data.old.circle_id);
   if (currentEpoch) {
-    const { users_by_pk: sender } = await adminClient.query(
+    const { members_by_pk: sender } = await adminClient.query(
       {
-        users_by_pk: [
+        members_by_pk: [
           { id: data.old.sender_id },
           { name: true, non_giver: true },
         ],
@@ -34,9 +34,9 @@ export default async function handleRefundGiveMsg(
         operationName: 'refund_getSenders',
       }
     );
-    const { users_by_pk: recipient } = await adminClient.query(
+    const { members_by_pk: recipient } = await adminClient.query(
       {
-        users_by_pk: [
+        members_by_pk: [
           { id: data.old.recipient_id },
           { name: true, non_receiver: true },
         ],

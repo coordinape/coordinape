@@ -63,7 +63,9 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   return res
     .status(200)
-    .json(mutationResult.insert_users_one ?? mutationResult.update_users_by_pk);
+    .json(
+      mutationResult.insert_members_one ?? mutationResult.update_members_by_pk
+    );
 }
 
 export default verifyHasuraRequestMiddleware(handler);

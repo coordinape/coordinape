@@ -5,13 +5,13 @@ import { Text } from 'ui';
 import { Contribution, Epoch } from './queries';
 
 export const getNewContribution: (
-  userId: number,
+  memberId: number,
   nextContribution: LinkedElement<Contribution>
-) => LinkedElement<Contribution> = (userId: number, nextContribution) => ({
+) => LinkedElement<Contribution> = (memberId: number, nextContribution) => ({
   id: 0,
   description: '',
   datetime_created: DateTime.now().toISO(),
-  user_id: userId,
+  member_id: memberId,
   idx: -1,
   next: () => nextContribution,
   prev: () => undefined,

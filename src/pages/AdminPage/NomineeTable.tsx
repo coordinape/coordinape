@@ -42,7 +42,7 @@ const NomineeRow = ({
   const [vouching, setVouching] = useState(false);
   const vouchDisabled =
     myUser && isNonGiverVoucher != null
-      ? nominee.nominated_by_user_id === myUser.id ||
+      ? nominee.nominated_by_member_id === myUser.id ||
         nominee.nominations.some(n => n.voucher_id === myUser.id) ||
         (isNonGiverVoucher && myUser.non_giver)
       : true;

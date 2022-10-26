@@ -17,7 +17,7 @@ import { SEED_PHRASE, getAccountPath } from './eth';
 
 const devAddress = LOCAL_SEED_ADDRESS.toLowerCase();
 
-const users = new Array(50).fill(null).map((_, idx) => ({
+const members = new Array(50).fill(null).map((_, idx) => ({
   name: faker.unique(faker.name.firstName),
   address: HDNode.fromMnemonic(SEED_PHRASE)
     .derivePath(getAccountPath(idx))
@@ -83,7 +83,7 @@ export async function insertCircles(input: CircleInput) {
 }
 
 type MembershipInput = CircleInput & {
-  membersInput: Array<ValueTypes['users_insert_input']>;
+  membersInput: Array<ValueTypes['members_insert_input']>;
 };
 
 export async function insertMemberships(input: MembershipInput) {
@@ -96,7 +96,7 @@ export async function insertMemberships(input: MembershipInput) {
     }))
   );
   const result = await adminClient.mutate({
-    insert_users: [
+    insert_members: [
       {
         objects: membersInputWithCircleId,
       },
@@ -112,8 +112,8 @@ export async function insertMemberships(input: MembershipInput) {
       },
     ],
   });
-  if (!result.insert_users) throw new Error(`users not created`);
-  return result.insert_users.returning;
+  if (!result.insert_members) throw new Error(`members not created`);
+  return result.insert_members.returning;
 }
 
 async function addAvatar(profileId: number) {
@@ -141,7 +141,7 @@ async function getBase64Avatar() {
 
 export function getMembershipInput(
   input: Partial<MembershipInput> = {},
-  devUser?: ValueTypes['users_insert_input']
+  devMember?: ValueTypes['members_insert_input']
 ): MembershipInput {
   const temp: MembershipInput = {
     organizationInput: {},
@@ -159,29 +159,29 @@ export function getMembershipInput(
     ],
     membersInput: [
       {
-        ...users[0],
+        ...members[0],
         bio: faker.lorem.sentences(3),
         role: 1,
         non_receiver: false,
       },
     ].concat(
-      users.slice(1, 5).map(user => ({
-        ...user,
+      members.slice(1, 5).map(member => ({
+        ...member,
         bio: faker.lorem.sentences(3),
         role: 0,
         starting_tokens: 50,
         non_receiver: false,
       })),
-      users.slice(5, 10).map(user => ({
-        ...user,
+      members.slice(5, 10).map(member => ({
+        ...member,
         bio: faker.lorem.sentences(3),
         role: 0,
         starting_tokens: 0,
         non_giver: true,
         non_receiver: false,
       })),
-      users.slice(10, 15).map(user => ({
-        ...user,
+      members.slice(10, 15).map(member => ({
+        ...member,
         bio: faker.lorem.sentences(3),
         role: 0,
         starting_tokens: 0,
@@ -200,12 +200,12 @@ export function getMembershipInput(
     ? [...temp.membersInput, ...input.membersInput]
     : temp.membersInput;
 
-  if (devUser)
+  if (devMember)
     membersInput.unshift({
       name: 'Meee',
       address: devAddress,
       role: 1,
-      ...devUser,
+      ...devMember,
     });
 
   return { organizationInput, circlesInput, membersInput };
@@ -266,13 +266,13 @@ export async function createContributions(
   input: MemberInput,
   circle_id: number,
   weekIncrement = 2,
-  userSlice = [0, 6]
+  memberSlice = [0, 6]
 ) {
-  const users = input.slice(...userSlice);
+  const members = input.slice(...memberSlice);
 
   let contribution_objects: Array<ValueTypes['contributions_insert_input']> =
     [];
-  for (const user of users) {
+  for (const member of members) {
     for (
       let datetime = DateTime.now();
       datetime > DateTime.now().minus({ years: 1 });
@@ -282,7 +282,7 @@ export async function createContributions(
         generateContributions(() => ({
           circle_id,
           description: faker.lorem.sentences(3),
-          user_id: user.id,
+          member_id: member.id,
           datetime_created: datetime.toISO(),
         }))
       );
@@ -359,7 +359,7 @@ export async function createGifts(
       __alias: pending
         ? {
             member: {
-              update_users_by_pk: [
+              update_members_by_pk: [
                 {
                   pk_columns: { id: member.id },
                   _inc: {
@@ -371,9 +371,9 @@ export async function createGifts(
               ],
             },
             user: {
-              update_users_by_pk: [
+              update_members_by_pk: [
                 {
-                  pk_columns: { id: user.id },
+                  pk_columns: { id: member.id },
                   _inc: {
                     give_token_received: amount,
                     give_token_remaining: -amount,

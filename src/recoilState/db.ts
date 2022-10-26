@@ -63,7 +63,7 @@ export const rManifest = selector<IManifest>({
       ...selfIdProfile,
       ...extraProfile(manifest.profile),
       myUsers,
-      users: myUsers,
+      members: myUsers,
     } as IMyProfile;
 
     return {
@@ -85,7 +85,7 @@ export const rFullCircle = selector<IFullCircle>({
 
     const users = iti(fullCircle.values())
       .flat(fc =>
-        fc.users.map(
+        fc.members.map(
           ({ profile, ...u }) =>
             ({
               profile: {

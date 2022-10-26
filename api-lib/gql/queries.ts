@@ -88,22 +88,22 @@ export async function getCurrentEpoch(
   return currentEpoch;
 }
 
-export async function getUserAndCurrentEpoch(
+export async function getMemberAndCurrentEpoch(
   address: string,
   circleId: number,
-  excludeDeletedUsers = true
-): Promise<typeof user | undefined> {
+  excludeDeletedMembers = true
+): Promise<typeof member | undefined> {
   const {
-    users: [user],
+    members: [member],
   } = await adminClient.query(
     {
-      users: [
+      members: [
         {
           limit: 1,
           where: {
             address: { _ilike: address },
             circle_id: { _eq: circleId },
-            deleted_at: excludeDeletedUsers ? { _is_null: true } : undefined,
+            deleted_at: excludeDeletedMembers ? { _is_null: true } : undefined,
           },
         },
         {
@@ -116,7 +116,7 @@ export async function getUserAndCurrentEpoch(
           give_token_remaining: true,
           fixed_payment_amount: true,
           pending_sent_gifts: [
-            // the join filters down to only gifts to the user
+            // the join filters down to only gifts to the member
             {},
             {
               id: true,
@@ -130,7 +130,7 @@ export async function getUserAndCurrentEpoch(
             },
           ],
           pending_received_gifts: [
-            // the join filters down to only gifts to the user
+            // the join filters down to only gifts to the member
             {},
             {
               id: true,
@@ -164,20 +164,20 @@ export async function getUserAndCurrentEpoch(
       ],
     },
     {
-      operationName: 'getUserAndCurrentEpoch',
+      operationName: 'getMemberAndCurrentEpoch',
     }
   );
-  return user;
+  return member;
 }
 
-export async function getUserByIdAndCurrentEpoch(
+export async function getMemberByIdAndCurrentEpoch(
   id: number,
   circleId: number
-): Promise<typeof user | undefined> {
+): Promise<typeof member | undefined> {
   const {
-    users: [user],
+    members: [member],
   } = await adminClient.query({
-    users: [
+    members: [
       {
         limit: 1,
         where: {
@@ -195,7 +195,7 @@ export async function getUserByIdAndCurrentEpoch(
         give_token_remaining: true,
         fixed_payment_amount: true,
         pending_sent_gifts: [
-          // the join filters down to only gifts to the user
+          // the join filters down to only gifts to the member
           {},
           {
             id: true,
@@ -209,7 +209,7 @@ export async function getUserByIdAndCurrentEpoch(
           },
         ],
         pending_received_gifts: [
-          // the join filters down to only gifts to the user
+          // the join filters down to only gifts to the member
           {},
           {
             id: true,
@@ -242,7 +242,7 @@ export async function getUserByIdAndCurrentEpoch(
       },
     ],
   });
-  return user;
+  return member;
 }
 
 // TODO: This is a big problem if we can't trust the type checker.
@@ -257,7 +257,7 @@ export async function getUserByIdAndCurrentEpoch(
 export async function getProfileAndMembership(address: string) {
   return adminClient.query(
     {
-      users: [
+      members: [
         {
           where: {
             address: {
@@ -304,10 +304,10 @@ export async function getNominee(id: number) {
           nominator: {
             name: true,
           },
-          user_id: true,
+          member_id: true,
           ended: true,
           vouches_required: true,
-          nominated_by_user_id: true,
+          nominated_by_member_id: true,
           nominations_aggregate: [{}, { aggregate: { count: [{}, true] } }],
           circle: {
             only_giver_vouch: true,
@@ -358,7 +358,7 @@ export async function checkAddressAdminInOrg(
         {
           where: {
             address: { _ilike: address },
-            users: {
+            members: {
               role: { _eq: 1 },
               circle: {
                 organization_id: { _eq: organization_id },

@@ -55,7 +55,7 @@ const AdminPage = () => {
   const {
     circleId,
     myUser: me,
-    users: visibleUsers,
+    members: visibleMembers,
     circle: selectedCircle,
   } = useSelectedCircle();
 
@@ -217,8 +217,8 @@ const AdminPage = () => {
           >
             <Text size={'small'} css={{ color: '$headingText' }}>
               <Text>
-                {visibleUsers.length} Member
-                {visibleUsers.length > 1 ? 's' : ''}
+                {visibleMembers.length} Member
+                {visibleMembers.length > 1 ? 's' : ''}
               </Text>
               {circle?.vouching && (
                 <>
@@ -274,8 +274,8 @@ const AdminPage = () => {
           <Text h3>Users</Text>
           <Text size={'small'} css={{ color: '$headingText' }}>
             <Text>
-              {visibleUsers.length} Member
-              {visibleUsers.length > 1 ? 's' : ''}
+              {visibleMembers.length} Member
+              {visibleMembers.length > 1 ? 's' : ''}
             </Text>
             {circle?.vouching && (
               <>
@@ -350,7 +350,7 @@ const AdminPage = () => {
         </Flex>
         {circle && (
           <MembersTable
-            visibleUsers={visibleUsers}
+            visibleMembers={visibleMembers}
             myUser={me}
             circle={circle}
             filter={filterUser}

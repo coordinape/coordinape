@@ -26,7 +26,7 @@ async function run() {
     ]);
   }
 
-  const circleSet = iti(profileResponse.users).toSet(u => u.circle_id);
+  const circleSet = iti(profileResponse.members).toSet(u => u.circle_id);
   const newMemberships = iti(circles)
     .filter(c => !circleSet.has(c.id))
     .map(c => ({
@@ -37,7 +37,7 @@ async function run() {
     }))
     .toArray();
 
-  return (await mutations.insertMemberships(newMemberships)).insert_users
+  return (await mutations.insertMemberships(newMemberships)).insert_members
     ?.returning;
 }
 

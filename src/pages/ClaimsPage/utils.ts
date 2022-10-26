@@ -36,7 +36,7 @@ export function formatDistributionDates(claims: QueryClaim[]) {
 /**
  * Generates a text representation showing the date range and number of
  * distributions in the claims group. This function only relies on the
- * Distribution's creation date in the database since deleted users
+ * Distribution's creation date in the database since deleted members
  * don't have access to epoch data
  * @param claims - a group of claims that can be claimed togoether in one tx.
  */

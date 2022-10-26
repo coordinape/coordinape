@@ -6,18 +6,18 @@ import { Awaited } from 'types/shim';
 export const getContributionsAndEpochs = async ({
   circleId,
   epochId,
-  userAddress,
+  memberAddress,
 }: {
   circleId: number;
   epochId?: number;
-  userAddress?: string;
+  memberAddress?: string;
 }) =>
   client.query({
-    users: [
+    members: [
       {
         where: {
           circle_id: { _eq: circleId },
-          address: { _eq: userAddress?.toLowerCase() },
+          address: { _eq: memberAddress?.toLowerCase() },
         },
       },
       { id: true },
@@ -26,13 +26,13 @@ export const getContributionsAndEpochs = async ({
       {
         where: {
           circle_id: { _eq: circleId },
-          user: userAddress
-            ? { address: { _eq: userAddress.toLowerCase() } }
+          member: memberAddress
+            ? { address: { _eq: memberAddress.toLowerCase() } }
             : undefined,
         },
         order_by: [{ datetime_created: order_by.desc }],
       },
-      { id: true, description: true, datetime_created: true, user_id: true },
+      { id: true, description: true, datetime_created: true, member_id: true },
     ],
     epochs: [
       {

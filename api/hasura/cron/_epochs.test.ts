@@ -52,7 +52,7 @@ const mockCircle = {
     token_name: 'GIVE',
     name: 'circle with ending epoch',
     organization: { name: 'mock Org' },
-    users: [{ name: 'bob' }, { name: 'alice' }],
+    members: [{ name: 'bob' }, { name: 'alice' }],
   },
   endEpoch: {
     id: 1,
@@ -60,7 +60,7 @@ const mockCircle = {
     name: 'circle with epoch that has ended',
     organization: { name: 'mock org' },
     token_name: 'GIVE',
-    users: Array(7)
+    members: Array(7)
       .fill(null)
       .map((_, i) => ({
         name: 'person ' + i,
@@ -166,7 +166,7 @@ describe('epoch Cron Logic', () => {
         circleId: 1,
         message:
           `${orgName}/circle with epoch that has ended epoch has just ended!\n` +
-          'Users who did not allocate any GIVE:\n' +
+          'Members who did not allocate any GIVE:\n' +
           'person 0, person 1',
         notifyOrg: false,
         sanitize: false,
@@ -306,14 +306,14 @@ describe('epoch Cron Logic', () => {
                     bio: 'Repellat quisquam recusandae alias consequuntur corporis. Ratione ut sunt qui amet iure ut libero qui recusandae. Nulla quam ipsam nobis cupiditate sed dignissimos. Incidunt accusantium sed libero repudiandae esse blanditiis natus et eos. Velit omnis et porro ut et ipsam explicabo eligendi occaecati.',
                     circle_id: 1,
                     epoch_id: 9,
-                    user_id: 0,
+                    member_id: 0,
                   },
                 },
                 { __typename: true },
               ],
             },
             u0_userReset: {
-              update_users_by_pk: [
+              update_members_by_pk: [
                 {
                   _set: {
                     bio: null,
@@ -334,14 +334,14 @@ describe('epoch Cron Logic', () => {
                     bio: 'Et saepe eum dicta eum eaque enim ipsum inventore debitis. Aspernatur deserunt quam tempore a velit provident velit. Nostrum ipsam qui nobis repellendus fugiat velit sit. Placeat fuga doloribus. Placeat ullam minima ducimus temporibus modi aut architecto.',
                     circle_id: 1,
                     epoch_id: 9,
-                    user_id: 1,
+                    member_id: 1,
                   },
                 },
                 { __typename: true },
               ],
             },
             u1_userReset: {
-              update_users_by_pk: [
+              update_members_by_pk: [
                 {
                   _set: {
                     bio: null,
@@ -362,14 +362,14 @@ describe('epoch Cron Logic', () => {
                     bio: 'Totam voluptates explicabo exercitationem ut quis. Magni cupiditate sit. Soluta sint non. Ut ullam quos qui illo error sunt laborum ratione a. Quaerat cumque incidunt aut provident esse hic.',
                     circle_id: 1,
                     epoch_id: 9,
-                    user_id: 2,
+                    member_id: 2,
                   },
                 },
                 { __typename: true },
               ],
             },
             u2_userReset: {
-              update_users_by_pk: [
+              update_members_by_pk: [
                 {
                   _set: {
                     bio: null,
@@ -389,14 +389,14 @@ describe('epoch Cron Logic', () => {
                     bio: 'Quos esse ut ab voluptas sed quae nam. Sint autem rerum doloremque. Aut ut ut eos ducimus eos saepe. Vel in ut dolorem et molestiae ea ut sunt. Quidem est consequuntur aut est fuga est placeat ex.',
                     circle_id: 1,
                     epoch_id: 9,
-                    user_id: 3,
+                    member_id: 3,
                   },
                 },
                 { __typename: true },
               ],
             },
             u3_userReset: {
-              update_users_by_pk: [
+              update_members_by_pk: [
                 {
                   _set: {
                     bio: null,
@@ -418,14 +418,14 @@ describe('epoch Cron Logic', () => {
                       'alias est.',
                     circle_id: 1,
                     epoch_id: 9,
-                    user_id: 4,
+                    member_id: 4,
                   },
                 },
                 { __typename: true },
               ],
             },
             u4_userReset: {
-              update_users_by_pk: [
+              update_members_by_pk: [
                 {
                   _set: {
                     bio: null,
@@ -445,14 +445,14 @@ describe('epoch Cron Logic', () => {
                     bio: 'Sequi voluptas culpa non aut rerum impedit. Rem voluptates voluptas fuga totam. Ut non fugiat. Omnis repellat quasi ipsum rem eos quod recusandae. Optio laudantium et incidunt.',
                     circle_id: 1,
                     epoch_id: 9,
-                    user_id: 5,
+                    member_id: 5,
                   },
                 },
                 { __typename: true },
               ],
             },
             u5_userReset: {
-              update_users_by_pk: [
+              update_members_by_pk: [
                 {
                   _set: {
                     bio: null,
@@ -472,14 +472,14 @@ describe('epoch Cron Logic', () => {
                     bio: 'Molestias facere quia et ab quo occaecati quia ipsum. Qui accusantium odit. Molestias dolore aut. Quis ut incidunt omnis delectus voluptas minima quia ut. Sunt qui similique ut quam.',
                     circle_id: 1,
                     epoch_id: 9,
-                    user_id: 6,
+                    member_id: 6,
                   },
                 },
                 { __typename: true },
               ],
             },
             u6_userReset: {
-              update_users_by_pk: [
+              update_members_by_pk: [
                 {
                   _set: {
                     bio: null,
@@ -560,7 +560,7 @@ describe('epoch Cron Logic', () => {
         circleId: 1,
         message:
           'mock org/circle with epoch that has ended epoch has just ended!\n' +
-          'Users who did not allocate any GIVE:\n' +
+          'Members who did not allocate any GIVE:\n' +
           'person 0, person 1',
         notifyOrg: false,
         sanitize: false,
@@ -589,7 +589,7 @@ describe('epoch Cron Logic', () => {
         notifyOrg: false,
         message:
           'mock Org/circle with ending epoch epoch ends in less than 24 hours!\n' +
-          'Users that have yet to fully allocate their GIVE:\n' +
+          'Members that have yet to fully allocate their GIVE:\n' +
           'bob, alice',
         sanitize: false,
       });
@@ -621,7 +621,7 @@ describe('epoch Cron Logic', () => {
         circleId: 1,
         message:
           'mock Org/circle with ending epoch epoch ends in less than 24 hours!\n' +
-          'Users that have yet to fully allocate their GIVE:\n' +
+          'Members that have yet to fully allocate their GIVE:\n' +
           'bob, alice',
         sanitize: false,
         notifyOrg: false,
@@ -656,7 +656,7 @@ describe('epoch Cron Logic', () => {
         notifyOrg: false,
         message:
           'mock Org/circle with ending epoch epoch ends in less than 24 hours!\n' +
-          'Users that have yet to fully allocate their GIVE:\n' +
+          'Members that have yet to fully allocate their GIVE:\n' +
           'bob, alice',
         sanitize: false,
       });
@@ -666,7 +666,7 @@ describe('epoch Cron Logic', () => {
         notifyOrg: false,
         message:
           'mock Org/circle with ending epoch epoch ends in less than 24 hours!\n' +
-          'Users that have yet to fully allocate their GIVE:\n' +
+          'Members that have yet to fully allocate their GIVE:\n' +
           'bob, alice',
         sanitize: false,
       });
@@ -733,7 +733,7 @@ describe('epoch Cron Logic', () => {
         notifyOrg: false,
         message: expect.stringContaining(
           'A new mock Org/mockCircle epoch is active!\n' +
-            '5 users will be participating and the duration of the epoch will be:\n'
+            '5 members will be participating and the duration of the epoch will be:\n'
         ),
         sanitize: false,
       });
@@ -743,7 +743,7 @@ describe('epoch Cron Logic', () => {
         notifyOrg: false,
         message: expect.stringContaining(
           'A new mock Org/mockCircle epoch is active!\n' +
-            '5 users will be participating and the duration of the epoch will be:\n'
+            '5 members will be participating and the duration of the epoch will be:\n'
         ),
         sanitize: false,
       });

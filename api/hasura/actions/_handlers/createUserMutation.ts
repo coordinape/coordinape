@@ -3,9 +3,9 @@ import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { UnprocessableError } from '../../../../api-lib/HttpError';
 
 async function checkExistingUser(address: string, circleId: number) {
-  const { users: existingUsers } = await adminClient.query(
+  const { members: existingMembers } = await adminClient.query(
     {
-      users: [
+      members: [
         {
           limit: 1,
           where: {
@@ -24,24 +24,24 @@ async function checkExistingUser(address: string, circleId: number) {
     }
   );
 
-  const existingUser = existingUsers.pop();
-  if (existingUser && !existingUser.deleted_at) {
-    throw new UnprocessableError('User already exists');
+  const existingMember = existingMembers.pop();
+  if (existingMember && !existingMember.deleted_at) {
+    throw new UnprocessableError('Member already exists');
   }
-  return existingUser;
+  return existingMember;
 }
 
 export async function createUserMutation(
   address: string,
   circleId: number,
-  input: ValueTypes['users_set_input']
+  input: ValueTypes['members_set_input']
 ) {
   const softDeletedUser = await checkExistingUser(address, circleId);
 
   const createUserMutation: ValueTypes['mutation_root'] =
     softDeletedUser?.deleted_at
       ? {
-          update_users_by_pk: [
+          update_members_by_pk: [
             {
               pk_columns: { id: softDeletedUser.id },
               _set: {
@@ -55,7 +55,7 @@ export async function createUserMutation(
           ],
         }
       : {
-          insert_users_one: [
+          insert_members_one: [
             {
               object: {
                 ...input,

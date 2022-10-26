@@ -113,9 +113,9 @@ export function generateCsvValues(
   );
 
   giftTokenSymbol = circleDist ? circleDist.vault.symbol : giftTokenSymbol;
-  const { users } = circle;
+  const { members } = circle;
 
-  return users.map((u, idx) => {
+  return members.map((u, idx) => {
     const received = u.received_gifts.length
       ? u.received_gifts
           .map(g => g.tokens)
@@ -199,7 +199,7 @@ export async function getCircleDetails(circle_id: number, epochId: number) {
               ],
             },
           ],
-          users: [
+          members: [
             {
               where: {
                 _or: [{ deleted_at: { _is_null: true } }],

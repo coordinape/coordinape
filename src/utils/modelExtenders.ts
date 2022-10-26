@@ -26,8 +26,8 @@ import {
 } from 'types';
 
 export const FAKE_ADDRESS = '0xFAKE';
-// Fake users are created to when either the user data is not ready for the
-// edges or when users have been deleted that once existed.
+// Fake members are created to when either the user data is not ready for the
+// edges or when members have been deleted that once existed.
 // Of the later there are a few from early when the coordinape team
 // was actively in the strategist circle to observe and mistakenly got some
 // give.
@@ -37,7 +37,7 @@ export const createFakeProfile = (u: IUser): IProfile => ({
   id: u.id + FAKE_ID_OFFSET,
   address: u.address,
   avatar: '',
-  users: [],
+  members: [],
 });
 export const createFakeUser = (circleId: number): IUser => ({
   name: 'HardDelete',
@@ -69,10 +69,13 @@ export const createFakeUser = (circleId: number): IUser => ({
   teammates: [],
 });
 
-export const extraProfile = ({ users, ...profile }: IApiProfile): IProfile => {
+export const extraProfile = ({
+  members,
+  ...profile
+}: IApiProfile): IProfile => {
   return {
     ...profile,
-    users: (users ?? []).map(u => extraUser(u)),
+    members: (members ?? []).map(u => extraUser(u)),
   };
 };
 
@@ -139,8 +142,8 @@ export const extraNominee = (
       nominee.vouches_required - (nominee.nominations ?? []).length - 1
     ),
     nominator: assertDef(
-      usersMap.get(nominee.nominated_by_user_id),
-      `extraNominee missing user with id, ${nominee.nominated_by_user_id}`
+      usersMap.get(nominee.nominated_by_member_id),
+      `extraNominee missing user with id, ${nominee.nominated_by_member_id}`
     ),
   };
 };

@@ -402,7 +402,7 @@ export async function updateTeammates(circleId: number, teammates: number[]) {
           payload: { circle_id: circleId, teammates: teammates },
         },
         {
-          user_id: true,
+          member_id: true,
         },
       ],
     },
@@ -452,7 +452,7 @@ export async function updateAllocations(
           },
         },
         {
-          user_id: true,
+          member_id: true,
         },
       ],
     },

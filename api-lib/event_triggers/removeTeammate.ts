@@ -14,15 +14,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     event: { data },
   }: EventTriggerPayload<'teammates', 'DELETE'> = req.body;
 
-  const { user_id, team_mate_id } = data.old;
+  const { member_id, team_mate_id } = data.old;
 
   const results = [];
   try {
-    const { users_by_pk } = await adminClient.query(
+    const { members_by_pk } = await adminClient.query(
       {
-        users_by_pk: [
+        members_by_pk: [
           {
-            id: user_id,
+            id: member_id,
           },
           {
             pending_sent_gifts: [
@@ -56,12 +56,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         ],
       },
       {
-        operationName: 'removeTeammates_findUser',
+        operationName: 'removeTeammates_findMember',
       }
     );
-    assert(users_by_pk, 'panic: user must exist');
+    assert(members_by_pk, 'panic: member must exist');
 
-    const { pending_sent_gifts, circle } = users_by_pk;
+    const { pending_sent_gifts, circle } = members_by_pk;
 
     const currentEpoch = circle.epochs.pop();
     if (!currentEpoch || pending_sent_gifts.length === 0) {
@@ -79,7 +79,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       (ops, gift) => {
         if (gift.tokens > 0)
           ops['refund' + gift.id] = {
-            update_users_by_pk: [
+            update_members_by_pk: [
               {
                 pk_columns: { id: gift.recipient_id },
                 _inc: { give_token_received: -gift.tokens },
@@ -98,7 +98,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           {
             where: {
               epoch_id: { _eq: currentEpoch.id },
-              sender_id: { _eq: user_id },
+              sender_id: { _eq: member_id },
               recipient_id: { _eq: team_mate_id },
             },
           },
@@ -106,10 +106,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           { __typename: true, affected_rows: true },
         ],
         __alias: {
-          refundToUser: {
-            update_users_by_pk: [
+          refundToMember: {
+            update_members_by_pk: [
               {
-                pk_columns: { id: user_id },
+                pk_columns: { id: member_id },
                 _inc: { give_token_remaining: totalRefund },
               },
               { give_token_remaining: true, id: true },

@@ -16,10 +16,10 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   const { circle_id } = payload;
 
   const {
-    users: [existingCoordinape],
+    members: [existingCoordinape],
   } = await adminClient.query(
     {
-      users: [
+      members: [
         {
           limit: 1,
           where: {
@@ -37,13 +37,13 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   );
 
   if (!existingCoordinape) {
-    errorResponseWithStatusCode(res, { message: 'user does not exist' }, 422);
+    errorResponseWithStatusCode(res, { message: 'member does not exist' }, 422);
     return;
   }
 
   await adminClient.mutate(
     {
-      update_users_by_pk: [
+      update_members_by_pk: [
         {
           pk_columns: { id: existingCoordinape.id },
           _set: { deleted_at: null },

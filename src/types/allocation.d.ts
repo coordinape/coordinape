@@ -8,7 +8,7 @@ export interface ISimpleGiftUser {
   bio?: string;
   created_at: string;
   name: string;
-  profile?: Omit<IApiProfile, 'users'>;
+  profile?: Omit<IApiProfile, 'members'>;
   role: number;
   address: string;
 }

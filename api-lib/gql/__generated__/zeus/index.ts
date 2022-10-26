@@ -4018,9 +4018,9 @@ columns and relationships of "circle_api_keys" */
     deleted_at?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
-    member_id?: boolean | `@${string}`;
     /** An object relationship */
-    members?: ValueTypes['members'];
+    member?: ValueTypes['members'];
+    member_id?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -4108,8 +4108,8 @@ columns and relationships of "circle_api_keys" */
     deleted_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     description?: ValueTypes['String_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    member?: ValueTypes['members_bool_exp'] | undefined | null;
     member_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
-    members?: ValueTypes['members_bool_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
   };
   /** unique or primary key constraints on table "contributions" */
@@ -4129,8 +4129,8 @@ columns and relationships of "circle_api_keys" */
     deleted_at?: ValueTypes['timestamptz'] | undefined | null;
     description?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
+    member?: ValueTypes['members_obj_rel_insert_input'] | undefined | null;
     member_id?: ValueTypes['bigint'] | undefined | null;
-    members?: ValueTypes['members_obj_rel_insert_input'] | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
   };
   /** aggregate max on columns */
@@ -4202,8 +4202,8 @@ columns and relationships of "circle_api_keys" */
     deleted_at?: ValueTypes['order_by'] | undefined | null;
     description?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    member?: ValueTypes['members_order_by'] | undefined | null;
     member_id?: ValueTypes['order_by'] | undefined | null;
-    members?: ValueTypes['members_order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
   };
   /** primary key columns input for table: contributions */
@@ -17631,9 +17631,9 @@ columns and relationships of "circle_api_keys" */
     deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     description: string;
     id: GraphQLTypes['bigint'];
-    member_id: GraphQLTypes['bigint'];
     /** An object relationship */
-    members: GraphQLTypes['members'];
+    member: GraphQLTypes['members'];
+    member_id: GraphQLTypes['bigint'];
     updated_at: GraphQLTypes['timestamptz'];
   };
   /** aggregated selection of "contributions" */
@@ -24691,9 +24691,9 @@ columns and relationships of "circle_api_keys" */
     deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     description: string;
     id: GraphQLTypes['bigint'];
-    member_id: GraphQLTypes['bigint'];
     /** An object relationship */
-    members: GraphQLTypes['members'];
+    member: GraphQLTypes['members'];
+    member_id: GraphQLTypes['bigint'];
     updated_at: GraphQLTypes['timestamptz'];
   };
   /** aggregated selection of "contributions" */
@@ -24764,8 +24764,8 @@ columns and relationships of "circle_api_keys" */
     deleted_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     description?: GraphQLTypes['String_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    member?: GraphQLTypes['members_bool_exp'] | undefined;
     member_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
-    members?: GraphQLTypes['members_bool_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
   };
   /** unique or primary key constraints on table "contributions" */
@@ -24785,8 +24785,8 @@ columns and relationships of "circle_api_keys" */
     deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    member?: GraphQLTypes['members_obj_rel_insert_input'] | undefined;
     member_id?: GraphQLTypes['bigint'] | undefined;
-    members?: GraphQLTypes['members_obj_rel_insert_input'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregate max on columns */
@@ -24858,8 +24858,8 @@ columns and relationships of "circle_api_keys" */
     deleted_at?: GraphQLTypes['order_by'] | undefined;
     description?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    member?: GraphQLTypes['members_order_by'] | undefined;
     member_id?: GraphQLTypes['order_by'] | undefined;
-    members?: GraphQLTypes['members_order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
   };
   /** primary key columns input for table: contributions */

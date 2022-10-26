@@ -5,28 +5,28 @@ import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
 import { authUserDeleterMiddleware } from '../../../../api-lib/userDeleter';
 import {
-  deleteUserInput,
+  deleteMemberInput,
   composeHasuraActionRequestBody,
 } from '../../../../src/lib/zod';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     input: { payload },
-  } = composeHasuraActionRequestBody(deleteUserInput).parse(req.body);
+  } = composeHasuraActionRequestBody(deleteMemberInput).parse(req.body);
 
   const { circle_id, address } = payload;
 
   const {
-    users: [existingUser],
+    members: [existingMember],
   } = await adminClient.query(
     {
-      users: [
+      members: [
         {
           limit: 1,
           where: {
             address: { _ilike: address },
             circle_id: { _eq: circle_id },
-            // ignore soft_deleted users
+            // ignore soft_deleted members
             deleted_at: { _is_null: true },
           },
         },
@@ -34,20 +34,20 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       ],
     },
     {
-      operationName: 'deleteUser_getExistingUser',
+      operationName: 'deleteMember_getExistingMember',
     }
   );
 
-  if (!existingUser) {
-    errorResponseWithStatusCode(res, { message: 'user does not exist' }, 422);
+  if (!existingMember) {
+    errorResponseWithStatusCode(res, { message: 'member does not exist' }, 422);
     return;
   }
 
   await adminClient.mutate(
     {
-      update_users_by_pk: [
+      update_members_by_pk: [
         {
-          pk_columns: { id: existingUser.id },
+          pk_columns: { id: existingMember.id },
           _set: { deleted_at: DateTime.now().toISO() },
         },
         { __typename: true },
@@ -56,8 +56,8 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         {
           where: {
             _or: [
-              { user_id: { _eq: existingUser.id } },
-              { team_mate_id: { _eq: existingUser.id } },
+              { member_id: { _eq: existingMember.id } },
+              { team_mate_id: { _eq: existingMember.id } },
             ],
           },
         },
@@ -65,7 +65,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       ],
     },
     {
-      operationName: 'deleteUser_delete',
+      operationName: 'deleteMember_delete',
     }
   );
 

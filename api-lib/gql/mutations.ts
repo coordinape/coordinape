@@ -27,13 +27,13 @@ export async function insertProfiles(
 }
 
 export async function insertMemberships(
-  users: ValueTypes['users_insert_input'][]
+  members: ValueTypes['members_insert_input'][]
 ) {
   return adminClient.mutate(
     {
-      insert_users: [
+      insert_members: [
         {
-          objects: users,
+          objects: members,
         },
         {
           returning: {
@@ -44,7 +44,7 @@ export async function insertMemberships(
             non_giver: true,
             non_receiver: true,
             fixed_non_receiver: true,
-            user_private: {
+            member_private: {
               fixed_payment_amount: true,
             },
           },
@@ -236,15 +236,15 @@ export async function insertCircleWithAdmin(
     circle_name: string;
     organization_name?: string;
   },
-  userAddress: string,
+  memberAddress: string,
   coordinapeAddress: string,
   fileName: string | null
 ) {
-  const insertUsers = {
+  const insertMembers = {
     data: [
       {
         name: circleInput.user_name,
-        address: userAddress,
+        address: memberAddress,
         role: 1,
       },
       {
@@ -285,7 +285,7 @@ export async function insertCircleWithAdmin(
             object: {
               name: circleInput.circle_name,
               organization_id: circleInput.organization_id,
-              users: insertUsers,
+              members: insertMembers,
               contact: circleInput.contact,
               logo: fileName,
             },
@@ -311,7 +311,7 @@ export async function insertCircleWithAdmin(
                   {
                     name: circleInput.circle_name,
                     contact: circleInput.contact,
-                    users: insertUsers,
+                    members: insertMembers,
                     logo: fileName,
                   },
                 ],
@@ -354,10 +354,10 @@ export async function insertVouch(nomineeId: number, voucherId: number) {
             address: true,
             name: true,
             circle_id: true,
-            user_id: true,
+            member_id: true,
             ended: true,
             vouches_required: true,
-            nominated_by_user_id: true,
+            nominated_by_member_id: true,
             nominations_aggregate: [{}, { aggregate: { count: [{}, true] } }],
           },
         },
@@ -370,14 +370,14 @@ export async function insertVouch(nomineeId: number, voucherId: number) {
   return insert_vouches_one;
 }
 
-export async function insertUser(
+export async function insertMember(
   address: string,
   name: string,
   circleId: number
 ) {
-  const { insert_users_one } = await adminClient.mutate(
+  const { insert_members_one } = await adminClient.mutate(
     {
-      insert_users_one: [
+      insert_members_one: [
         {
           object: {
             address: address,
@@ -391,13 +391,13 @@ export async function insertUser(
       ],
     },
     {
-      operationName: 'insertUsers',
+      operationName: 'insertMembers',
     }
   );
-  return insert_users_one;
+  return insert_members_one;
 }
 
-export async function updateNomineeUser(nomineeId: number, userId: number) {
+export async function updateNomineeUser(nomineeId: number, memberId: number) {
   const { update_nominees_by_pk } = await adminClient.mutate(
     {
       update_nominees_by_pk: [
@@ -406,7 +406,7 @@ export async function updateNomineeUser(nomineeId: number, userId: number) {
             id: nomineeId,
           },
           _set: {
-            user_id: userId,
+            member_id: memberId,
             ended: true,
           },
         },
@@ -416,7 +416,7 @@ export async function updateNomineeUser(nomineeId: number, userId: number) {
       ],
     },
     {
-      operationName: 'updateNomineeUser',
+      operationName: 'updateNomineeMember',
     }
   );
   return update_nominees_by_pk;

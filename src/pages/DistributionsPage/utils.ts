@@ -1,12 +1,14 @@
 import { IUser } from 'types';
 
 /**
- * Create a map of address > profile_id for all users in either `users` or `gifts`.
- * @param users the epochs active (not deleted) users
+ * Create a map of address > profile_id for all members in either `members` or `gifts`.
+ * @param members the epochs active (not deleted) members
  */
-export function mapProfileIdsByAddress(users: IUser[]): Record<string, number> {
-  return users.reduce((ret, user) => {
-    if (user.profile) ret[user.address.toLowerCase()] = user.profile.id;
+export function mapProfileIdsByAddress(
+  members: IUser[]
+): Record<string, number> {
+  return members.reduce((ret, member) => {
+    if (member.profile) ret[member.address.toLowerCase()] = member.profile.id;
     return ret;
   }, {} as Record<string, number>);
 }

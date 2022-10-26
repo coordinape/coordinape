@@ -25,15 +25,15 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   const { hasuraAddress: address } = session_variables;
 
   const {
-    users: [user],
+    members: [member],
   } = await adminClient.query({
-    users: [
+    members: [
       {
         limit: 1,
         where: {
           address: { _ilike: address },
           circle_id: { _eq: circle_id },
-          // ignore soft_deleted users
+          // ignore soft_deleted members
           deleted_at: { _is_null: true },
         },
       },
@@ -45,9 +45,9 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     ],
   });
 
-  if (!user) {
+  if (!member) {
     return errorResponse(res, {
-      message: `User with address ${address} does not exist`,
+      message: `Member with address ${address} does not exist`,
       code: 422,
     });
   }
@@ -56,23 +56,23 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   const mutationResult = await adminClient.mutate(
     {
-      update_users: [
+      update_members: [
         {
           _set: {
             ...payload,
-            // reset give_token_received if a user is opted out of an
+            // reset give_token_received if a member is opted out of an
             // active epoch
             give_token_received:
-              user.fixed_non_receiver || payload.non_receiver
+              member.fixed_non_receiver || payload.non_receiver
                 ? 0
-                : user.give_token_received,
+                : member.give_token_received,
             // fixed_non_receiver === true is also set for non_receiver
-            non_receiver: user.fixed_non_receiver || payload.non_receiver,
+            non_receiver: member.fixed_non_receiver || payload.non_receiver,
           },
           where: {
             address: { _ilike: address },
             circle_id: { _eq: circle_id },
-            // ignore soft_deleted users
+            // ignore soft_deleted member
             deleted_at: { _is_null: true },
           },
         },
@@ -88,7 +88,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     }
   );
 
-  const returnResult = mutationResult.update_users?.returning.pop();
+  const returnResult = mutationResult.update_members?.returning.pop();
   assert(returnResult, 'No return from mutation');
 
   res.status(200).json(returnResult);
