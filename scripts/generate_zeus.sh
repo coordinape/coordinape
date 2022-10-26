@@ -20,7 +20,7 @@ function generate() {
   done
 
   # pass the rest of the arguments to zeus
-  (set -x; zeus "$HASURA_GRAPHQL_ENDPOINT"/v1/graphql $TMP_GEN_PATH --ts --graphql gql_schemas "$@")
+  (set -x; zeus "$HASURA_GRAPHQL_ENDPOINT"/v1/graphql $TMP_GEN_PATH --ts "$@")
 
   # shamelessly borrowed from
   # https://gist.github.com/maxpoletaev/4ed25183427a2cd7e57a
@@ -51,9 +51,9 @@ function generate() {
   mv -f $TMP_GEN_PATH $GEN_PATH
 }
 
-generate admin $ADMIN_PATH --node -h x-hasura-admin-secret:$HASURA_GRAPHQL_ADMIN_SECRET
+generate admin $ADMIN_PATH --node -h x-hasura-admin-secret:$HASURA_GRAPHQL_ADMIN_SECRET --graphql gql/admin
 sleep 3
-generate user $USER_PATH -h x-hasura-role:user -h "authorization:generate"
+generate user $USER_PATH -h x-hasura-role:user -h "authorization:generate" --graphql gql/user
 
 # fix formatting of generated files
 node_modules/.bin/prettier --write {$ADMIN_PATH,$USER_PATH}
