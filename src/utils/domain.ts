@@ -1,5 +1,3 @@
-import assert from 'assert';
-
 import { STORAGE_URL } from 'config/env';
 
 function hostname(): string {
@@ -47,27 +45,8 @@ export const AUTO_OPEN_WALLET_DIALOG_PARAMS = '?open-wallet';
 export const APP_URL_OPEN_WALLET = `${APP_URL}${AUTO_OPEN_WALLET_DIALOG_PARAMS}`;
 export const APP_PATH_CREATE_CIRCLE = `/new-circle`;
 export const APP_URL_CREATE_CIRCLE = `${APP_URL}${APP_PATH_CREATE_CIRCLE}`;
-export const AVATAR_PLACEHOLDER = '/imgs/avatar/placeholder.jpg';
 
-const getInitialsUrl = (name: string) => {
-  return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}`;
-};
-
-export const getAvatarPath = (
-  avatar?: string,
-  placeholder?: string
-): string => {
-  let path;
-  if (avatar) {
-    path = getAvatarPathWithoutPlaceholder(avatar);
-    assert(path);
-  } else {
-    path = placeholder || AVATAR_PLACEHOLDER;
-  }
-  return path;
-};
-
-export const getAvatarPathWithoutPlaceholder = (avatar?: string) => {
+export const getAvatarPath = (avatar?: string) => {
   if (!avatar) return;
 
   // dont transform if its already a URL
@@ -86,12 +65,6 @@ export const getAvatarPathWithoutPlaceholder = (avatar?: string) => {
   return `${STORAGE_URL}/${avatar}`;
 };
 
-export const getAvatarPathWithFallback = (avatar?: string, name?: string) => {
-  const placeholder = name ? getInitialsUrl(name) : AVATAR_PLACEHOLDER;
-
-  return avatar ? getAvatarPath(avatar) : placeholder;
-};
-
 export const getInitialFromName = (name: string) => {
   const hasSpace = name.indexOf(' ') !== -1;
   const initials =
@@ -102,13 +75,8 @@ export const getInitialFromName = (name: string) => {
   // Returns PR if name is "Peter Edwards Roman"
   // Returns PR if name is "Preben"
 };
+export const getAvatarPathWithFallback = (avatar?: string, name?: string) => {
+  const placeholder = name ? getInitialFromName(name) : getAvatarPath;
 
-export const getCircleAvatar = ({
-  avatar,
-  circleName,
-}: {
-  avatar?: string;
-  circleName: string;
-}) => {
-  return avatar ? getAvatarPath(avatar) : getInitialsUrl(circleName);
+  return avatar ? getAvatarPath(avatar) : placeholder;
 };
