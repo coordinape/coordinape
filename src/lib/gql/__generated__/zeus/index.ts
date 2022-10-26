@@ -623,7 +623,6 @@ export type ValueTypes = {
     user_id?: number | undefined | null;
   };
   ['AllocationsResponse']: AliasType<{
-    /** An object relationship */
     user?: ValueTypes['users'];
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -656,7 +655,6 @@ export type ValueTypes = {
     user_name: string;
   };
   ['CreateCircleResponse']: AliasType<{
-    /** An object relationship */
     circle?: ValueTypes['circles'];
     id?: boolean | `@${string}`;
     users?: [
@@ -699,7 +697,6 @@ export type ValueTypes = {
   };
   ['CreateNomineeResponse']: AliasType<{
     id?: boolean | `@${string}`;
-    /** An object relationship */
     nominee?: ValueTypes['nominees'];
     __typename?: boolean | `@${string}`;
   }>;
@@ -748,7 +745,6 @@ export type ValueTypes = {
     circle_id: number;
   };
   ['EpochResponse']: AliasType<{
-    /** An object relationship */
     epoch?: ValueTypes['epochs'];
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -767,7 +763,6 @@ export type ValueTypes = {
   };
   ['GenerateApiKeyResponse']: AliasType<{
     api_key?: boolean | `@${string}`;
-    /** An object relationship */
     circleApiKey?: ValueTypes['circle_api_keys'];
     hash?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -796,13 +791,11 @@ export type ValueTypes = {
   };
   ['LogVaultTxResponse']: AliasType<{
     id?: boolean | `@${string}`;
-    /** An object relationship */
     vault_tx_return_object?: ValueTypes['vault_transactions'];
     __typename?: boolean | `@${string}`;
   }>;
   ['LogoutResponse']: AliasType<{
     id?: boolean | `@${string}`;
-    /** An object relationship */
     profile?: ValueTypes['profiles'];
     __typename?: boolean | `@${string}`;
   }>;
@@ -866,13 +859,11 @@ export type ValueTypes = {
     vouching_text?: string | undefined | null;
   };
   ['UpdateCircleOutput']: AliasType<{
-    /** An object relationship */
     circle?: ValueTypes['circles'];
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   ['UpdateCircleResponse']: AliasType<{
-    /** An object relationship */
     circle?: ValueTypes['circles'];
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -884,7 +875,6 @@ export type ValueTypes = {
   };
   ['UpdateContributionResponse']: AliasType<{
     id?: boolean | `@${string}`;
-    /** An object relationship */
     updateContribution_Contribution?: ValueTypes['contributions'];
     __typename?: boolean | `@${string}`;
   }>;
@@ -898,13 +888,11 @@ export type ValueTypes = {
   };
   ['UpdateOrgResponse']: AliasType<{
     id?: boolean | `@${string}`;
-    /** An object relationship */
     org?: ValueTypes['organizations'];
     __typename?: boolean | `@${string}`;
   }>;
   ['UpdateProfileResponse']: AliasType<{
     id?: boolean | `@${string}`;
-    /** An object relationship */
     profile?: ValueTypes['profiles'];
     __typename?: boolean | `@${string}`;
   }>;
@@ -913,7 +901,6 @@ export type ValueTypes = {
     teammates: Array<number | undefined | null>;
   };
   ['UpdateTeammatesResponse']: AliasType<{
-    /** An object relationship */
     user?: ValueTypes['users'];
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -946,14 +933,12 @@ export type ValueTypes = {
     starting_tokens?: number | undefined | null;
   };
   ['UserResponse']: AliasType<{
-    /** An object relationship */
     UserResponse?: ValueTypes['users'];
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   ['VaultResponse']: AliasType<{
     id?: boolean | `@${string}`;
-    /** An object relationship */
     vault?: ValueTypes['vaults'];
     __typename?: boolean | `@${string}`;
   }>;
@@ -962,7 +947,6 @@ export type ValueTypes = {
   };
   ['VouchOutput']: AliasType<{
     id?: boolean | `@${string}`;
-    /** An object relationship */
     nominee?: ValueTypes['nominees'];
     __typename?: boolean | `@${string}`;
   }>;
@@ -3609,8 +3593,12 @@ export type ValueTypes = {
     _nin?: Array<ValueTypes['json']> | undefined | null;
   };
   ['jsonb']: unknown;
+  ['jsonb_cast_exp']: {
+    String?: ValueTypes['String_comparison_exp'] | undefined | null;
+  };
   /** Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'. */
   ['jsonb_comparison_exp']: {
+    _cast?: ValueTypes['jsonb_cast_exp'] | undefined | null;
     /** is the column contained in the given json value */
     _contained_in?: ValueTypes['jsonb'] | undefined | null;
     /** does the column contain the given json value at the top level */
@@ -8209,8 +8197,7 @@ export type ModelTypes = {
   };
   ['Allocations']: GraphQLTypes['Allocations'];
   ['AllocationsResponse']: {
-    /** An object relationship */
-    user: GraphQLTypes['users'];
+    user?: GraphQLTypes['users'] | undefined;
     user_id: number;
   };
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
@@ -8221,8 +8208,7 @@ export type ModelTypes = {
   ['CoordinapeInput']: GraphQLTypes['CoordinapeInput'];
   ['CreateCircleInput']: GraphQLTypes['CreateCircleInput'];
   ['CreateCircleResponse']: {
-    /** An object relationship */
-    circle: GraphQLTypes['circles'];
+    circle?: GraphQLTypes['circles'] | undefined;
     id: number;
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
@@ -8231,8 +8217,7 @@ export type ModelTypes = {
   ['CreateNomineeInput']: GraphQLTypes['CreateNomineeInput'];
   ['CreateNomineeResponse']: {
     id?: number | undefined;
-    /** An object relationship */
-    nominee: GraphQLTypes['nominees'];
+    nominee?: GraphQLTypes['nominees'] | undefined;
   };
   ['CreateUserInput']: GraphQLTypes['CreateUserInput'];
   ['CreateUserWithTokenInput']: GraphQLTypes['CreateUserWithTokenInput'];
@@ -8246,15 +8231,13 @@ export type ModelTypes = {
   };
   ['DeleteUserInput']: GraphQLTypes['DeleteUserInput'];
   ['EpochResponse']: {
-    /** An object relationship */
-    epoch: GraphQLTypes['epochs'];
+    epoch?: GraphQLTypes['epochs'] | undefined;
     id: string;
   };
   ['GenerateApiKeyInput']: GraphQLTypes['GenerateApiKeyInput'];
   ['GenerateApiKeyResponse']: {
     api_key: string;
-    /** An object relationship */
-    circleApiKey: GraphQLTypes['circle_api_keys'];
+    circleApiKey?: GraphQLTypes['circle_api_keys'] | undefined;
     hash: string;
   };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
@@ -8262,13 +8245,11 @@ export type ModelTypes = {
   ['LogVaultTxInput']: GraphQLTypes['LogVaultTxInput'];
   ['LogVaultTxResponse']: {
     id: string;
-    /** An object relationship */
-    vault_tx_return_object: GraphQLTypes['vault_transactions'];
+    vault_tx_return_object?: GraphQLTypes['vault_transactions'] | undefined;
   };
   ['LogoutResponse']: {
     id?: number | undefined;
-    /** An object relationship */
-    profile: GraphQLTypes['profiles'];
+    profile?: GraphQLTypes['profiles'] | undefined;
   };
   ['MarkClaimedInput']: GraphQLTypes['MarkClaimedInput'];
   ['MarkClaimedOutput']: {
@@ -8278,36 +8259,30 @@ export type ModelTypes = {
   ['String_comparison_exp']: GraphQLTypes['String_comparison_exp'];
   ['UpdateCircleInput']: GraphQLTypes['UpdateCircleInput'];
   ['UpdateCircleOutput']: {
-    /** An object relationship */
-    circle: GraphQLTypes['circles'];
+    circle?: GraphQLTypes['circles'] | undefined;
     id: number;
   };
   ['UpdateCircleResponse']: {
-    /** An object relationship */
-    circle: GraphQLTypes['circles'];
+    circle?: GraphQLTypes['circles'] | undefined;
     id: number;
   };
   ['UpdateContributionInput']: GraphQLTypes['UpdateContributionInput'];
   ['UpdateContributionResponse']: {
     id: string;
-    /** An object relationship */
-    updateContribution_Contribution: GraphQLTypes['contributions'];
+    updateContribution_Contribution?: GraphQLTypes['contributions'] | undefined;
   };
   ['UpdateEpochInput']: GraphQLTypes['UpdateEpochInput'];
   ['UpdateOrgResponse']: {
     id: number;
-    /** An object relationship */
-    org: GraphQLTypes['organizations'];
+    org?: GraphQLTypes['organizations'] | undefined;
   };
   ['UpdateProfileResponse']: {
     id: number;
-    /** An object relationship */
-    profile: GraphQLTypes['profiles'];
+    profile?: GraphQLTypes['profiles'] | undefined;
   };
   ['UpdateTeammatesInput']: GraphQLTypes['UpdateTeammatesInput'];
   ['UpdateTeammatesResponse']: {
-    /** An object relationship */
-    user: GraphQLTypes['users'];
+    user?: GraphQLTypes['users'] | undefined;
     user_id: string;
   };
   ['UpdateUserInput']: GraphQLTypes['UpdateUserInput'];
@@ -8316,20 +8291,17 @@ export type ModelTypes = {
   ['UploadOrgImageInput']: GraphQLTypes['UploadOrgImageInput'];
   ['UserObj']: GraphQLTypes['UserObj'];
   ['UserResponse']: {
-    /** An object relationship */
-    UserResponse: GraphQLTypes['users'];
+    UserResponse?: GraphQLTypes['users'] | undefined;
     id: string;
   };
   ['VaultResponse']: {
     id: string;
-    /** An object relationship */
-    vault: GraphQLTypes['vaults'];
+    vault?: GraphQLTypes['vaults'] | undefined;
   };
   ['VouchInput']: GraphQLTypes['VouchInput'];
   ['VouchOutput']: {
     id: number;
-    /** An object relationship */
-    nominee: GraphQLTypes['nominees'];
+    nominee?: GraphQLTypes['nominees'] | undefined;
   };
   ['bigint']: number;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
@@ -9226,6 +9198,7 @@ export type ModelTypes = {
   /** Boolean expression to compare columns of type "json". All fields are combined with logical 'AND'. */
   ['json_comparison_exp']: GraphQLTypes['json_comparison_exp'];
   ['jsonb']: any;
+  ['jsonb_cast_exp']: GraphQLTypes['jsonb_cast_exp'];
   /** Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'. */
   ['jsonb_comparison_exp']: GraphQLTypes['jsonb_comparison_exp'];
   /** mutation root */
@@ -10497,8 +10470,7 @@ export type GraphQLTypes = {
   };
   ['AllocationsResponse']: {
     __typename: 'AllocationsResponse';
-    /** An object relationship */
-    user: GraphQLTypes['users'];
+    user?: GraphQLTypes['users'] | undefined;
     user_id: number;
   };
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
@@ -10530,8 +10502,7 @@ export type GraphQLTypes = {
   };
   ['CreateCircleResponse']: {
     __typename: 'CreateCircleResponse';
-    /** An object relationship */
-    circle: GraphQLTypes['circles'];
+    circle?: GraphQLTypes['circles'] | undefined;
     id: number;
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
@@ -10552,8 +10523,7 @@ export type GraphQLTypes = {
   ['CreateNomineeResponse']: {
     __typename: 'CreateNomineeResponse';
     id?: number | undefined;
-    /** An object relationship */
-    nominee: GraphQLTypes['nominees'];
+    nominee?: GraphQLTypes['nominees'] | undefined;
   };
   ['CreateUserInput']: {
     address: string;
@@ -10601,8 +10571,7 @@ export type GraphQLTypes = {
   };
   ['EpochResponse']: {
     __typename: 'EpochResponse';
-    /** An object relationship */
-    epoch: GraphQLTypes['epochs'];
+    epoch?: GraphQLTypes['epochs'] | undefined;
     id: string;
   };
   ['GenerateApiKeyInput']: {
@@ -10620,8 +10589,7 @@ export type GraphQLTypes = {
   ['GenerateApiKeyResponse']: {
     __typename: 'GenerateApiKeyResponse';
     api_key: string;
-    /** An object relationship */
-    circleApiKey: GraphQLTypes['circle_api_keys'];
+    circleApiKey?: GraphQLTypes['circle_api_keys'] | undefined;
     hash: string;
   };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
@@ -10649,14 +10617,12 @@ export type GraphQLTypes = {
   ['LogVaultTxResponse']: {
     __typename: 'LogVaultTxResponse';
     id: string;
-    /** An object relationship */
-    vault_tx_return_object: GraphQLTypes['vault_transactions'];
+    vault_tx_return_object?: GraphQLTypes['vault_transactions'] | undefined;
   };
   ['LogoutResponse']: {
     __typename: 'LogoutResponse';
     id?: number | undefined;
-    /** An object relationship */
-    profile: GraphQLTypes['profiles'];
+    profile?: GraphQLTypes['profiles'] | undefined;
   };
   ['MarkClaimedInput']: {
     claim_id: number;
@@ -10719,14 +10685,12 @@ export type GraphQLTypes = {
   };
   ['UpdateCircleOutput']: {
     __typename: 'UpdateCircleOutput';
-    /** An object relationship */
-    circle: GraphQLTypes['circles'];
+    circle?: GraphQLTypes['circles'] | undefined;
     id: number;
   };
   ['UpdateCircleResponse']: {
     __typename: 'UpdateCircleResponse';
-    /** An object relationship */
-    circle: GraphQLTypes['circles'];
+    circle?: GraphQLTypes['circles'] | undefined;
     id: number;
   };
   ['UpdateContributionInput']: {
@@ -10737,8 +10701,7 @@ export type GraphQLTypes = {
   ['UpdateContributionResponse']: {
     __typename: 'UpdateContributionResponse';
     id: string;
-    /** An object relationship */
-    updateContribution_Contribution: GraphQLTypes['contributions'];
+    updateContribution_Contribution?: GraphQLTypes['contributions'] | undefined;
   };
   ['UpdateEpochInput']: {
     circle_id: number;
@@ -10751,14 +10714,12 @@ export type GraphQLTypes = {
   ['UpdateOrgResponse']: {
     __typename: 'UpdateOrgResponse';
     id: number;
-    /** An object relationship */
-    org: GraphQLTypes['organizations'];
+    org?: GraphQLTypes['organizations'] | undefined;
   };
   ['UpdateProfileResponse']: {
     __typename: 'UpdateProfileResponse';
     id: number;
-    /** An object relationship */
-    profile: GraphQLTypes['profiles'];
+    profile?: GraphQLTypes['profiles'] | undefined;
   };
   ['UpdateTeammatesInput']: {
     circle_id: number;
@@ -10766,8 +10727,7 @@ export type GraphQLTypes = {
   };
   ['UpdateTeammatesResponse']: {
     __typename: 'UpdateTeammatesResponse';
-    /** An object relationship */
-    user: GraphQLTypes['users'];
+    user?: GraphQLTypes['users'] | undefined;
     user_id: string;
   };
   ['UpdateUserInput']: {
@@ -10799,15 +10759,13 @@ export type GraphQLTypes = {
   };
   ['UserResponse']: {
     __typename: 'UserResponse';
-    /** An object relationship */
-    UserResponse: GraphQLTypes['users'];
+    UserResponse?: GraphQLTypes['users'] | undefined;
     id: string;
   };
   ['VaultResponse']: {
     __typename: 'VaultResponse';
     id: string;
-    /** An object relationship */
-    vault: GraphQLTypes['vaults'];
+    vault?: GraphQLTypes['vaults'] | undefined;
   };
   ['VouchInput']: {
     nominee_id: number;
@@ -10815,8 +10773,7 @@ export type GraphQLTypes = {
   ['VouchOutput']: {
     __typename: 'VouchOutput';
     id: number;
-    /** An object relationship */
-    nominee: GraphQLTypes['nominees'];
+    nominee?: GraphQLTypes['nominees'] | undefined;
   };
   ['bigint']: any;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
@@ -12896,8 +12853,12 @@ export type GraphQLTypes = {
     _nin?: Array<GraphQLTypes['json']> | undefined;
   };
   ['jsonb']: any;
+  ['jsonb_cast_exp']: {
+    String?: GraphQLTypes['String_comparison_exp'] | undefined;
+  };
   /** Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'. */
   ['jsonb_comparison_exp']: {
+    _cast?: GraphQLTypes['jsonb_cast_exp'] | undefined;
     /** is the column contained in the given json value */
     _contained_in?: GraphQLTypes['jsonb'] | undefined;
     /** does the column contain the given json value at the top level */

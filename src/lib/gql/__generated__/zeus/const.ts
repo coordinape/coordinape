@@ -1391,7 +1391,11 @@ export const AllTypesProps: Record<string, any> = {
     _nin: 'json',
   },
   jsonb: 'String',
+  jsonb_cast_exp: {
+    String: 'String_comparison_exp',
+  },
   jsonb_comparison_exp: {
+    _cast: 'jsonb_cast_exp',
     _contained_in: 'jsonb',
     _contains: 'jsonb',
     _eq: 'jsonb',

@@ -58,10 +58,7 @@ input Allocations {
 }
 
 type AllocationsResponse {
-  """
-  An object relationship
-  """
-  user: users!
+  user: users
   user_id: Int!
 }
 
@@ -98,10 +95,7 @@ input CreateCircleInput {
 }
 
 type CreateCircleResponse {
-  """
-  An object relationship
-  """
-  circle: circles!
+  circle: circles
   id: Int!
 
   """
@@ -152,11 +146,7 @@ input CreateNomineeInput {
 
 type CreateNomineeResponse {
   id: Int
-
-  """
-  An object relationship
-  """
-  nominee: nominees!
+  nominee: nominees
 }
 
 input CreateUserInput {
@@ -212,10 +202,7 @@ input DeleteUserInput {
 }
 
 type EpochResponse {
-  """
-  An object relationship
-  """
-  epoch: epochs!
+  epoch: epochs
   id: ID!
 }
 
@@ -234,11 +221,7 @@ input GenerateApiKeyInput {
 
 type GenerateApiKeyResponse {
   api_key: String!
-
-  """
-  An object relationship
-  """
-  circleApiKey: circle_api_keys!
+  circleApiKey: circle_api_keys
   hash: String!
 }
 
@@ -270,20 +253,12 @@ input LogVaultTxInput {
 
 type LogVaultTxResponse {
   id: ID!
-
-  """
-  An object relationship
-  """
-  vault_tx_return_object: vault_transactions!
+  vault_tx_return_object: vault_transactions
 }
 
 type LogoutResponse {
   id: Int
-
-  """
-  An object relationship
-  """
-  profile: profiles!
+  profile: profiles
 }
 
 input MarkClaimedInput {
@@ -381,18 +356,12 @@ input UpdateCircleInput {
 }
 
 type UpdateCircleOutput {
-  """
-  An object relationship
-  """
-  circle: circles!
+  circle: circles
   id: Int!
 }
 
 type UpdateCircleResponse {
-  """
-  An object relationship
-  """
-  circle: circles!
+  circle: circles
   id: Int!
 }
 
@@ -404,11 +373,7 @@ input UpdateContributionInput {
 
 type UpdateContributionResponse {
   id: ID!
-
-  """
-  An object relationship
-  """
-  updateContribution_Contribution: contributions!
+  updateContribution_Contribution: contributions
 }
 
 input UpdateEpochInput {
@@ -422,20 +387,12 @@ input UpdateEpochInput {
 
 type UpdateOrgResponse {
   id: Int!
-
-  """
-  An object relationship
-  """
-  org: organizations!
+  org: organizations
 }
 
 type UpdateProfileResponse {
   id: Int!
-
-  """
-  An object relationship
-  """
-  profile: profiles!
+  profile: profiles
 }
 
 input UpdateTeammatesInput {
@@ -444,10 +401,7 @@ input UpdateTeammatesInput {
 }
 
 type UpdateTeammatesResponse {
-  """
-  An object relationship
-  """
-  user: users!
+  user: users
   user_id: ID!
 }
 
@@ -484,20 +438,13 @@ input UserObj {
 }
 
 type UserResponse {
-  """
-  An object relationship
-  """
-  UserResponse: users!
+  UserResponse: users
   id: ID!
 }
 
 type VaultResponse {
   id: ID!
-
-  """
-  An object relationship
-  """
-  vault: vaults!
+  vault: vaults
 }
 
 input VouchInput {
@@ -506,11 +453,7 @@ input VouchInput {
 
 type VouchOutput {
   id: Int!
-
-  """
-  An object relationship
-  """
-  nominee: nominees!
+  nominee: nominees
 }
 
 scalar bigint
@@ -4337,10 +4280,16 @@ input json_comparison_exp {
 
 scalar jsonb
 
+input jsonb_cast_exp {
+  String: String_comparison_exp
+}
+
 """
 Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'.
 """
 input jsonb_comparison_exp {
+  _cast: jsonb_cast_exp
+
   """
   is the column contained in the given json value
   """
