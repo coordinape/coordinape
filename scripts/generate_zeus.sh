@@ -20,7 +20,7 @@ function generate() {
   done
 
   # pass the rest of the arguments to zeus
-  (set -x; zeus "$HASURA_GRAPHQL_ENDPOINT"/v1/graphql $TMP_GEN_PATH --ts "$@")
+  (set -x; zeus "$HASURA_GRAPHQL_ENDPOINT"/v1/graphql $TMP_GEN_PATH --ts --graphql gql_schemas "$@")
 
   # shamelessly borrowed from
   # https://gist.github.com/maxpoletaev/4ed25183427a2cd7e57a
