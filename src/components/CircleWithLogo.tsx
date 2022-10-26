@@ -1,13 +1,11 @@
 import React from 'react';
 
 import { Avatar } from '../ui/Avatar/Avatar';
-import { getCircleAvatar } from '../utils/domain';
 import { Box, Flex, Text } from 'ui';
 
 const CircleWithLogo = ({
   logo,
   name,
-  orgLogo,
   orgName,
   admins,
 }: {
@@ -24,10 +22,7 @@ const CircleWithLogo = ({
         size="xl"
         margin="none"
         css={{ flexShrink: 0 }}
-        path={getCircleAvatar({
-          avatar: logo,
-          circleName: name,
-        })}
+        path={logo}
       />
       <Box css={{ ml: '$lg', flexGrow: 1 }}>
         <Flex alignItems="center">
@@ -36,10 +31,7 @@ const CircleWithLogo = ({
             size="xs"
             margin="none"
             css={{ mr: '$sm' }}
-            path={getCircleAvatar({
-              avatar: orgLogo,
-              circleName: orgName,
-            })}
+            path={logo}
           />
           <Text variant="label">{orgName}</Text>
         </Flex>

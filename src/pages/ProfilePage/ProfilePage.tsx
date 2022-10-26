@@ -20,7 +20,7 @@ import { useMyProfile, useProfile } from 'recoilState/app';
 import { useSetEditProfileOpen } from 'recoilState/ui';
 import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE, paths } from 'routes/paths';
 import { Avatar } from 'ui';
-import { getAvatarPath, getCircleAvatar } from 'utils/domain';
+import { getAvatarPath } from 'utils/domain';
 
 import { IMyProfile, IProfile } from 'types';
 
@@ -337,10 +337,7 @@ const ProfilePageContent = ({
                     <Avatar
                       name={u.circle.name}
                       size="small"
-                      path={getCircleAvatar({
-                        avatar: u.circle.logo,
-                        circleName: u.circle.name,
-                      })}
+                      path={u.circle.logo}
                       onClick={() =>
                         goToCircleHistory(
                           u.circle_id,
