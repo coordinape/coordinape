@@ -59,7 +59,7 @@ export const AvatarUpload = ({ original }: { original?: string }) => {
           setAvatarFile(undefined);
           return;
         }
-        setUploadedAvatarUrl(response.uploadProfileAvatar?.profile.avatar);
+        setUploadedAvatarUrl(response.uploadProfileAvatar?.profile?.avatar);
 
         //to be fixed when profile data is fetched separately
         await fetchManifest();
