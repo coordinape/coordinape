@@ -44,11 +44,12 @@ export const ApiKeyForm: FC<{ onSuccess: (apiKey: string) => void }> = ({
   const mutation = useMutation(generateCircleApiKey, {
     onSuccess: data => {
       queryClient.invalidateQueries('circle-api-keys');
-      if (data) {
+      if (data?.circleApiKey) {
+        const circleApiKey = data?.circleApiKey;
         queryClient.setQueryData<CircleApiKeysResponse[]>(
           ['circle-api-keys', circleId],
           oldKeys => {
-            return [...(oldKeys || []), data.circleApiKey];
+            return [...(oldKeys || []), circleApiKey];
           }
         );
         onSuccess(data.api_key);
