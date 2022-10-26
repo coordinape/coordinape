@@ -51,9 +51,9 @@ function generate() {
   mv -f $TMP_GEN_PATH $GEN_PATH
 }
 
-generate admin $ADMIN_PATH --node -h x-hasura-admin-secret:$HASURA_GRAPHQL_ADMIN_SECRET --graphql gql/admin
+generate admin $ADMIN_PATH --node -h x-hasura-admin-secret:$HASURA_GRAPHQL_ADMIN_SECRET --graphql hasura/schema/admin
 sleep 3
-generate user $USER_PATH -h x-hasura-role:user -h "authorization:generate" --graphql gql/user
+generate user $USER_PATH -h x-hasura-role:user -h "authorization:generate" --graphql hasura/schema/user
 
 # fix formatting of generated files
 node_modules/.bin/prettier --write {$ADMIN_PATH,$USER_PATH}
