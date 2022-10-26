@@ -183,10 +183,13 @@ const ContributionsPage = () => {
     },
     onSuccess: ({ updateContribution }) => {
       updateSaveStateForContribution(
-        updateContribution?.updateContribution_Contribution.id,
+        updateContribution?.updateContribution_Contribution?.id,
         'saved'
       );
-      if (currentContribution && updateContribution)
+      if (
+        currentContribution &&
+        updateContribution?.updateContribution_Contribution
+      )
         setCurrentContribution({
           ...currentContribution,
           contribution: {
