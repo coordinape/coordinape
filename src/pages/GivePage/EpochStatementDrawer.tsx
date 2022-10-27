@@ -76,7 +76,7 @@ export const EpochStatementDrawer = ({
 
   const { mutate: updateEpochStatement } = useMutation(
     async (bio: string) => updateUser({ circle_id: member.circle_id, bio }),
-    { onSuccess: () => setSaving('saved') }
+    { onSettled: (data, error) => setSaving(error ? 'error' : 'saved') }
   );
 
   // update the statement in the to level page state
@@ -204,7 +204,12 @@ export const EpochStatementDrawer = ({
         <Flex
           css={{ justifyContent: 'flex-end', alignItems: 'center', mt: '$sm' }}
         >
-          <SavingIndicator saveState={saving} />
+          <SavingIndicator
+            saveState={saving}
+            retry={() => {
+              updateEpochStatement(statement);
+            }}
+          />
         </Flex>
       </Flex>
 
