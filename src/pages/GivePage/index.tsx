@@ -485,7 +485,6 @@ const AllocateContents = ({
   // that may move a member in/out of the list of filtered members.
   useEffect(() => {
     if (selectedMemberIdx == -1) {
-      // clean up
       setSelectedMember(undefined);
       setMembersToIterate([]);
     } else if (membersToIterate.length == 0) {
@@ -742,6 +741,7 @@ const AllocateContents = ({
           overflowY: 'scroll',
         }}
         onOpenChange={() => {
+          // giveRowFocus()
           setSelectedMemberIdx(-1);
           setSelectedMember(undefined);
         }}
