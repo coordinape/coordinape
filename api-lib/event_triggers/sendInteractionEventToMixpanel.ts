@@ -23,7 +23,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const eventData: { [key: string]: any } = event.data ?? {};
 
     // need to see if the org is a sandbox org to change how we process funnels/events etc
-    if (event.org_id !== undefined) {
+    if (event.org_id !== undefined && event.org_id !== null) {
       eventData['sandbox'] = await isOrgSandbox(event.org_id);
     }
 
