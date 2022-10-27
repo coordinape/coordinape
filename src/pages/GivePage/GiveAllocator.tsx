@@ -55,7 +55,7 @@ export const GiveAllocator = ({
   return (
     <Flex
       css={{
-        width: '13.5rem',
+        minWidth: '13.5rem',
       }}
     >
       {optedOut && (

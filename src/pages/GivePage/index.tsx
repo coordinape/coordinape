@@ -697,6 +697,10 @@ const AllocateContents = ({
         contributionCount={
           myMember?.contributions_aggregate?.aggregate?.count ?? 0
         }
+        // selected={true}
+        selected={
+          selectedMember !== undefined && selectedMember.id === myUser.id
+        }
       />
       <Panel css={{ gap: '$md', mt: '$md' }}>
         {filteredMembers.length > 0 &&
