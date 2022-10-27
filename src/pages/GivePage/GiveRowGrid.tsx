@@ -20,7 +20,7 @@ export const GiveRowGrid = ({
         border: '2px solid transparent',
         cursor: 'pointer',
         backgroundColor: selected ? '$highlight' : undefined,
-        borderColor: selected ? 'gold !important' : undefined,
+        borderColor: selected ? '$link' : undefined,
         transition: 'background-color 0.3s, border-color 0.3s',
         '&:hover': {
           backgroundColor: '$highlight',
