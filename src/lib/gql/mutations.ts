@@ -515,6 +515,10 @@ export async function updateProfile(params: ValueTypes['profiles_set_input']) {
 }
 
 export async function updateUser(params: ValueTypes['UpdateUserInput']) {
+  if (params.bio?.match(/error/) && Math.random() < 0.5) {
+    throw new Error('error');
+  }
+
   const { updateUser } = await client.mutate(
     {
       updateUser: [

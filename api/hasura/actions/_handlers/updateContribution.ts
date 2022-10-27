@@ -32,6 +32,15 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   if (!contribution) return;
 
+  if (description.match(/error/) && Math.random() < 0.5) {
+    errorResponseWithStatusCode(
+      res,
+      { message: 'error in the description' },
+      422
+    );
+    return;
+  }
+
   if (
     datetime_created <
     DateTime.fromISO(

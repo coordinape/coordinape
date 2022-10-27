@@ -110,6 +110,10 @@ const GivePage = () => {
     ? data
     : { allUsers: undefined, startingTeammates: undefined };
 
+  const delay = (ms: number) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  };
+
   // updateTeammate updates the teammate flag of a given member
   // this currently relies on a bulk operation so we have to build the whole teammate list
   // this could be improved by adding a new action for flipping one teammate
@@ -131,6 +135,7 @@ const GivePage = () => {
 
     try {
       // Save this and update the members collection
+      await delay(2000);
       await client.mutate({
         updateTeammates: [
           {

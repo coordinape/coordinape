@@ -56,6 +56,19 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     );
   }
 
+  if (
+    allocations.some(a => {
+      return !!a?.note?.match(/error/) && Math.random() < 0.5;
+    })
+  ) {
+    errorResponseWithStatusCode(
+      res,
+      { message: 'error in the description' },
+      422
+    );
+    return;
+  }
+
   if (!user) {
     return errorResponseWithStatusCode(
       res,
