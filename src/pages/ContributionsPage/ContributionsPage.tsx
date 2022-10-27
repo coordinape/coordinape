@@ -19,9 +19,9 @@ import {
   ChevronDown,
   ChevronUp,
 } from 'icons/__generated';
-import { SavingIndicator, SaveState } from 'pages/GivePage/SavingIndicator';
 import { Panel, Text, Box, Modal, Button, Flex } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
+import { SavingIndicator, SaveState } from 'ui/SavingIndicator';
 
 import {
   deleteContributionMutation,
@@ -139,35 +139,32 @@ const ContributionsPage = () => {
     control,
   });
 
-  const {
-    mutate: createContribution,
-    status: createStatus,
-    reset: resetCreateMutation,
-  } = useMutation(createContributionMutation, {
-    onSuccess: newContribution => {
-      refetchContributions();
-      if (newContribution.insert_contributions_one) {
-        updateSaveStateForContribution(0, 'stable');
-        updateSaveStateForContribution(
-          newContribution.insert_contributions_one.id,
-          'saved'
-        );
-        setCurrentContribution({
-          contribution: {
-            ...newContribution.insert_contributions_one,
-            description: descriptionField.value as string,
-            next: () => data?.contributions[0],
-            prev: () => undefined,
-            idx: 0,
-          },
-          epoch: getCurrentEpoch(data?.epochs ?? []),
-        });
-      } else {
-        updateSaveStateForContribution(0, 'stable');
-        resetCreateMutation();
-      }
-    },
-  });
+  const { mutate: createContribution, reset: resetCreateMutation } =
+    useMutation(createContributionMutation, {
+      onSuccess: newContribution => {
+        refetchContributions();
+        if (newContribution.insert_contributions_one) {
+          updateSaveStateForContribution(0, 'stable');
+          updateSaveStateForContribution(
+            newContribution.insert_contributions_one.id,
+            'saved'
+          );
+          setCurrentContribution({
+            contribution: {
+              ...newContribution.insert_contributions_one,
+              description: descriptionField.value as string,
+              next: () => data?.contributions[0],
+              prev: () => undefined,
+              idx: 0,
+            },
+            epoch: getCurrentEpoch(data?.epochs ?? []),
+          });
+        } else {
+          updateSaveStateForContribution(0, 'stable');
+          resetCreateMutation();
+        }
+      },
+    });
 
   const {
     mutate: mutateContribution,
@@ -175,18 +172,11 @@ const ContributionsPage = () => {
     reset: resetUpdateMutation,
   } = useMutation(updateContributionMutation, {
     mutationKey: ['updateContribution', currentContribution?.contribution.id],
-    onSettled: e => {
-      updateSaveStateForContribution(
-        currentContribution?.contribution.id,
-        status
-      );
-      //refetchContributions();
+    onError: (errors, { id }) => {
+      updateSaveStateForContribution(id, 'error');
     },
-    onSuccess: ({ updateContribution }) => {
-      updateSaveStateForContribution(
-        updateContribution?.updateContribution_Contribution.id,
-        'saved'
-      );
+    onSuccess: ({ updateContribution }, { id }) => {
+      updateSaveStateForContribution(id, 'saved');
       if (currentContribution && updateContribution)
         setCurrentContribution({
           ...currentContribution,
@@ -275,9 +265,6 @@ const ContributionsPage = () => {
     }
     resetUpdateMutation();
   }, [descriptionField.value, currentContribution?.contribution.id]);
-
-  const mutationStatus = () =>
-    currentContribution?.contribution.id === 0 ? createStatus : updateStatus;
 
   // prevents page re-renders when typing out a contribution
   // This seems pretty silly but it's actually a huge optimization
@@ -525,6 +512,10 @@ const ContributionsPage = () => {
                     </Button>
                     <SavingIndicator
                       saveState={saveState[currentContribution.contribution.id]}
+                      retry={() => {
+                        saveContribution(descriptionField.value);
+                        refetchContributions();
+                      }}
                     />
                   </Flex>
                 )}
