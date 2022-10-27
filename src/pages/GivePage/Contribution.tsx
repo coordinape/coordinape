@@ -12,7 +12,6 @@ export const Contribution = ({
   return (
     <Box
       css={{
-        mb: '$xs',
         p: '$md $sm',
         borderBottom: '1px solid $border',
       }}
