@@ -1,3 +1,4 @@
+import assert from 'assert';
 import React, { useState } from 'react';
 
 import { fileToBase64 } from 'lib/base64';
@@ -65,12 +66,13 @@ export const CircleLogoUpload = ({
         let response = undefined;
         try {
           response = await uploadLogo(circleId, newLogo);
+          assert(response.uploadCircleLogo?.circle?.logo);
         } catch (e: any) {
           showError(e);
           setLogoFile(undefined);
           return;
         }
-        setUploadedLogoUrl(response.uploadCircleLogo?.circle.logo);
+        setUploadedLogoUrl(response.uploadCircleLogo.circle.logo);
 
         //to be fixed when profile data is fetched separately
         queryClient.invalidateQueries(QUERY_KEY_CIRCLE_SETTINGS);

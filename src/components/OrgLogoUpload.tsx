@@ -71,7 +71,7 @@ export const OrgLogoUpload = ({
       return;
     }
     setIsUploadingLogo(false);
-    setUploadedLogoUrl(response.uploadOrgLogo?.org.logo);
+    setUploadedLogoUrl(response.uploadOrgLogo?.org?.logo);
     formFileUploadProps.onChange(undefined);
   };
 

@@ -444,7 +444,7 @@ const AllocateContents = ({
         onSuccess: data => {
           queryClient.invalidateQueries(QUERY_KEY_RECEIVE_INFO);
 
-          if (data) {
+          if (data?.UserResponse) {
             setUserIsOptedOut(data.UserResponse.non_receiver);
           }
         },

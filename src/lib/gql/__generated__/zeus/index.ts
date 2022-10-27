@@ -623,7 +623,6 @@ export type ValueTypes = {
     user_id?: number | undefined | null;
   };
   ['AllocationsResponse']: AliasType<{
-    /** An object relationship */
     user?: ValueTypes['users'];
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -656,7 +655,6 @@ export type ValueTypes = {
     user_name: string;
   };
   ['CreateCircleResponse']: AliasType<{
-    /** An object relationship */
     circle?: ValueTypes['circles'];
     id?: boolean | `@${string}`;
     users?: [
@@ -699,7 +697,6 @@ export type ValueTypes = {
   };
   ['CreateNomineeResponse']: AliasType<{
     id?: boolean | `@${string}`;
-    /** An object relationship */
     nominee?: ValueTypes['nominees'];
     __typename?: boolean | `@${string}`;
   }>;
@@ -748,7 +745,6 @@ export type ValueTypes = {
     circle_id: number;
   };
   ['EpochResponse']: AliasType<{
-    /** An object relationship */
     epoch?: ValueTypes['epochs'];
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -767,7 +763,6 @@ export type ValueTypes = {
   };
   ['GenerateApiKeyResponse']: AliasType<{
     api_key?: boolean | `@${string}`;
-    /** An object relationship */
     circleApiKey?: ValueTypes['circle_api_keys'];
     hash?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -796,13 +791,11 @@ export type ValueTypes = {
   };
   ['LogVaultTxResponse']: AliasType<{
     id?: boolean | `@${string}`;
-    /** An object relationship */
     vault_tx_return_object?: ValueTypes['vault_transactions'];
     __typename?: boolean | `@${string}`;
   }>;
   ['LogoutResponse']: AliasType<{
     id?: boolean | `@${string}`;
-    /** An object relationship */
     profile?: ValueTypes['profiles'];
     __typename?: boolean | `@${string}`;
   }>;
@@ -866,13 +859,11 @@ export type ValueTypes = {
     vouching_text?: string | undefined | null;
   };
   ['UpdateCircleOutput']: AliasType<{
-    /** An object relationship */
     circle?: ValueTypes['circles'];
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   ['UpdateCircleResponse']: AliasType<{
-    /** An object relationship */
     circle?: ValueTypes['circles'];
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -884,7 +875,6 @@ export type ValueTypes = {
   };
   ['UpdateContributionResponse']: AliasType<{
     id?: boolean | `@${string}`;
-    /** An object relationship */
     updateContribution_Contribution?: ValueTypes['contributions'];
     __typename?: boolean | `@${string}`;
   }>;
@@ -898,13 +888,11 @@ export type ValueTypes = {
   };
   ['UpdateOrgResponse']: AliasType<{
     id?: boolean | `@${string}`;
-    /** An object relationship */
     org?: ValueTypes['organizations'];
     __typename?: boolean | `@${string}`;
   }>;
   ['UpdateProfileResponse']: AliasType<{
     id?: boolean | `@${string}`;
-    /** An object relationship */
     profile?: ValueTypes['profiles'];
     __typename?: boolean | `@${string}`;
   }>;
@@ -913,7 +901,6 @@ export type ValueTypes = {
     teammates: Array<number | undefined | null>;
   };
   ['UpdateTeammatesResponse']: AliasType<{
-    /** An object relationship */
     user?: ValueTypes['users'];
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -946,14 +933,12 @@ export type ValueTypes = {
     starting_tokens?: number | undefined | null;
   };
   ['UserResponse']: AliasType<{
-    /** An object relationship */
     UserResponse?: ValueTypes['users'];
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   ['VaultResponse']: AliasType<{
     id?: boolean | `@${string}`;
-    /** An object relationship */
     vault?: ValueTypes['vaults'];
     __typename?: boolean | `@${string}`;
   }>;
@@ -962,7 +947,6 @@ export type ValueTypes = {
   };
   ['VouchOutput']: AliasType<{
     id?: boolean | `@${string}`;
-    /** An object relationship */
     nominee?: ValueTypes['nominees'];
     __typename?: boolean | `@${string}`;
   }>;
@@ -1111,6 +1095,25 @@ export type ValueTypes = {
     tokens_burnt?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** Streaming cursor of the table "burns" */
+  ['burns_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['burns_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['burns_stream_cursor_value_input']: {
+    circle_id?: ValueTypes['bigint'] | undefined | null;
+    created_at?: ValueTypes['timestamp'] | undefined | null;
+    epoch_id?: ValueTypes['bigint'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    original_amount?: number | undefined | null;
+    regift_percent?: number | undefined | null;
+    tokens_burnt?: number | undefined | null;
+    updated_at?: ValueTypes['timestamp'] | undefined | null;
+    user_id?: ValueTypes['bigint'] | undefined | null;
+  };
   /** order by sum() on columns of table "burns" */
   ['burns_sum_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
@@ -1151,10 +1154,7 @@ export type ValueTypes = {
     tokens_burnt?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
-  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API.
-
-
-columns and relationships of "circle_api_keys" */
+  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API. */
   ['circle_api_keys']: AliasType<{
     /** An object relationship */
     circle?: ValueTypes['circles'];
@@ -1295,6 +1295,29 @@ columns and relationships of "circle_api_keys" */
     circle_id?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
   };
+  /** Streaming cursor of the table "circle_api_keys" */
+  ['circle_api_keys_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['circle_api_keys_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['circle_api_keys_stream_cursor_value_input']: {
+    circle_id?: ValueTypes['bigint'] | undefined | null;
+    create_vouches?: boolean | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    created_by?: ValueTypes['bigint'] | undefined | null;
+    hash?: string | undefined | null;
+    name?: string | undefined | null;
+    read_circle?: boolean | undefined | null;
+    read_epochs?: boolean | undefined | null;
+    read_member_profiles?: boolean | undefined | null;
+    read_nominees?: boolean | undefined | null;
+    read_pending_token_gifts?: boolean | undefined | null;
+    update_circle?: boolean | undefined | null;
+    update_pending_token_gifts?: boolean | undefined | null;
+  };
   /** order by sum() on columns of table "circle_api_keys" */
   ['circle_api_keys_sum_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
@@ -1380,6 +1403,8 @@ columns and relationships of "circle_api_keys" */
     name?: ValueTypes['String_comparison_exp'] | undefined | null;
     type?: ValueTypes['String_comparison_exp'] | undefined | null;
   };
+  /** unique or primary key constraints on table "circle_integrations" */
+  ['circle_integrations_constraint']: circle_integrations_constraint;
   /** input type for inserting data into table "circle_integrations" */
   ['circle_integrations_insert_input']: {
     circle_id?: ValueTypes['bigint'] | undefined | null;
@@ -1409,6 +1434,12 @@ columns and relationships of "circle_api_keys" */
     returning?: ValueTypes['circle_integrations'];
     __typename?: boolean | `@${string}`;
   }>;
+  /** on_conflict condition type for table "circle_integrations" */
+  ['circle_integrations_on_conflict']: {
+    constraint: ValueTypes['circle_integrations_constraint'];
+    update_columns: Array<ValueTypes['circle_integrations_update_column']>;
+    where?: ValueTypes['circle_integrations_bool_exp'] | undefined | null;
+  };
   /** Ordering options when selecting data from "circle_integrations". */
   ['circle_integrations_order_by']: {
     circle?: ValueTypes['circles_order_by'] | undefined | null;
@@ -1435,11 +1466,28 @@ columns and relationships of "circle_api_keys" */
     circle_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** Streaming cursor of the table "circle_integrations" */
+  ['circle_integrations_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['circle_integrations_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['circle_integrations_stream_cursor_value_input']: {
+    circle_id?: ValueTypes['bigint'] | undefined | null;
+    data?: ValueTypes['json'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    name?: string | undefined | null;
+    type?: string | undefined | null;
+  };
   /** order by sum() on columns of table "circle_integrations" */
   ['circle_integrations_sum_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** placeholder for update columns of table "circle_integrations" (current role has no relevant permissions) */
+  ['circle_integrations_update_column']: circle_integrations_update_column;
   /** order by var_pop() on columns of table "circle_integrations" */
   ['circle_integrations_var_pop_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
@@ -1480,6 +1528,18 @@ columns and relationships of "circle_api_keys" */
   };
   /** select columns of table "circle_private" */
   ['circle_private_select_column']: circle_private_select_column;
+  /** Streaming cursor of the table "circle_private" */
+  ['circle_private_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['circle_private_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['circle_private_stream_cursor_value_input']: {
+    circle_id?: ValueTypes['bigint'] | undefined | null;
+    discord_webhook?: string | undefined | null;
+  };
   /** columns and relationships of "circle_share_tokens" */
   ['circle_share_tokens']: AliasType<{
     /** An object relationship */
@@ -1503,6 +1563,8 @@ columns and relationships of "circle_api_keys" */
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     uuid?: ValueTypes['uuid_comparison_exp'] | undefined | null;
   };
+  /** unique or primary key constraints on table "circle_share_tokens" */
+  ['circle_share_tokens_constraint']: circle_share_tokens_constraint;
   /** input type for inserting data into table "circle_share_tokens" */
   ['circle_share_tokens_insert_input']: {
     circle_id?: ValueTypes['bigint'] | undefined | null;
@@ -1516,6 +1578,12 @@ columns and relationships of "circle_api_keys" */
     returning?: ValueTypes['circle_share_tokens'];
     __typename?: boolean | `@${string}`;
   }>;
+  /** on_conflict condition type for table "circle_share_tokens" */
+  ['circle_share_tokens_on_conflict']: {
+    constraint: ValueTypes['circle_share_tokens_constraint'];
+    update_columns: Array<ValueTypes['circle_share_tokens_update_column']>;
+    where?: ValueTypes['circle_share_tokens_bool_exp'] | undefined | null;
+  };
   /** Ordering options when selecting data from "circle_share_tokens". */
   ['circle_share_tokens_order_by']: {
     circle?: ValueTypes['circles_order_by'] | undefined | null;
@@ -1527,6 +1595,23 @@ columns and relationships of "circle_api_keys" */
   };
   /** select columns of table "circle_share_tokens" */
   ['circle_share_tokens_select_column']: circle_share_tokens_select_column;
+  /** Streaming cursor of the table "circle_share_tokens" */
+  ['circle_share_tokens_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['circle_share_tokens_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['circle_share_tokens_stream_cursor_value_input']: {
+    circle_id?: ValueTypes['bigint'] | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    type?: number | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+    uuid?: ValueTypes['uuid'] | undefined | null;
+  };
+  /** placeholder for update columns of table "circle_share_tokens" (current role has no relevant permissions) */
+  ['circle_share_tokens_update_column']: circle_share_tokens_update_column;
   /** columns and relationships of "circles" */
   ['circles']: AliasType<{
     alloc_text?: boolean | `@${string}`;
@@ -2053,6 +2138,37 @@ columns and relationships of "circle_api_keys" */
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** Streaming cursor of the table "circles" */
+  ['circles_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['circles_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['circles_stream_cursor_value_input']: {
+    alloc_text?: string | undefined | null;
+    auto_opt_out?: boolean | undefined | null;
+    created_at?: ValueTypes['timestamp'] | undefined | null;
+    default_opt_in?: boolean | undefined | null;
+    deleted_at?: ValueTypes['timestamp'] | undefined | null;
+    fixed_payment_token_type?: string | undefined | null;
+    fixed_payment_vault_id?: number | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    is_verified?: boolean | undefined | null;
+    logo?: string | undefined | null;
+    min_vouches?: number | undefined | null;
+    name?: string | undefined | null;
+    nomination_days_limit?: number | undefined | null;
+    only_giver_vouch?: boolean | undefined | null;
+    organization_id?: number | undefined | null;
+    team_sel_text?: string | undefined | null;
+    team_selection?: boolean | undefined | null;
+    token_name?: string | undefined | null;
+    updated_at?: ValueTypes['timestamp'] | undefined | null;
+    vouching?: boolean | undefined | null;
+    vouching_text?: string | undefined | null;
+  };
   /** order by sum() on columns of table "circles" */
   ['circles_sum_order_by']: {
     fixed_payment_vault_id?: ValueTypes['order_by'] | undefined | null;
@@ -2148,7 +2264,7 @@ columns and relationships of "circle_api_keys" */
   /** input type for inserting array relation for remote table "claims" */
   ['claims_arr_rel_insert_input']: {
     data: Array<ValueTypes['claims_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: ValueTypes['claims_on_conflict'] | undefined | null;
   };
   /** aggregate avg on columns */
@@ -2271,7 +2387,7 @@ columns and relationships of "circle_api_keys" */
     returning?: ValueTypes['claims'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on conflict condition type for table "claims" */
+  /** on_conflict condition type for table "claims" */
   ['claims_on_conflict']: {
     constraint: ValueTypes['claims_constraint'];
     update_columns: Array<ValueTypes['claims_update_column']>;
@@ -2360,6 +2476,27 @@ columns and relationships of "circle_api_keys" */
     new_amount?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** Streaming cursor of the table "claims" */
+  ['claims_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['claims_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['claims_stream_cursor_value_input']: {
+    address?: string | undefined | null;
+    amount?: ValueTypes['numeric'] | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    distribution_id?: ValueTypes['bigint'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    index?: ValueTypes['bigint'] | undefined | null;
+    new_amount?: ValueTypes['numeric'] | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    proof?: string | undefined | null;
+    txHash?: string | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+  };
   /** aggregate sum on columns */
   ['claims_sum_fields']: AliasType<{
     amount?: boolean | `@${string}`;
@@ -2381,6 +2518,11 @@ columns and relationships of "circle_api_keys" */
   };
   /** update columns of table "claims" */
   ['claims_update_column']: claims_update_column;
+  ['claims_updates']: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ValueTypes['claims_set_input'] | undefined | null;
+    where: ValueTypes['claims_bool_exp'];
+  };
   /** aggregate var_pop on columns */
   ['claims_var_pop_fields']: AliasType<{
     amount?: boolean | `@${string}`;
@@ -2534,6 +2676,8 @@ columns and relationships of "circle_api_keys" */
     user?: ValueTypes['users_bool_exp'] | undefined | null;
     user_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
   };
+  /** unique or primary key constraints on table "contributions" */
+  ['contributions_constraint']: contributions_constraint;
   /** input type for inserting data into table "contributions" */
   ['contributions_insert_input']: {
     circle_id?: ValueTypes['bigint'] | undefined | null;
@@ -2590,6 +2734,12 @@ columns and relationships of "circle_api_keys" */
     returning?: ValueTypes['contributions'];
     __typename?: boolean | `@${string}`;
   }>;
+  /** on_conflict condition type for table "contributions" */
+  ['contributions_on_conflict']: {
+    constraint: ValueTypes['contributions_constraint'];
+    update_columns: Array<ValueTypes['contributions_update_column']>;
+    where?: ValueTypes['contributions_bool_exp'] | undefined | null;
+  };
   /** Ordering options when selecting data from "contributions". */
   ['contributions_order_by']: {
     circle?: ValueTypes['circles_order_by'] | undefined | null;
@@ -2643,6 +2793,23 @@ columns and relationships of "circle_api_keys" */
     id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** Streaming cursor of the table "contributions" */
+  ['contributions_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['contributions_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['contributions_stream_cursor_value_input']: {
+    circle_id?: ValueTypes['bigint'] | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    datetime_created?: ValueTypes['timestamptz'] | undefined | null;
+    description?: string | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+    user_id?: ValueTypes['bigint'] | undefined | null;
+  };
   /** aggregate sum on columns */
   ['contributions_sum_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -2656,6 +2823,8 @@ columns and relationships of "circle_api_keys" */
     id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** placeholder for update columns of table "contributions" (current role has no relevant permissions) */
+  ['contributions_update_column']: contributions_update_column;
   /** aggregate var_pop on columns */
   ['contributions_var_pop_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -2695,6 +2864,8 @@ columns and relationships of "circle_api_keys" */
     id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** ordering argument of a cursor */
+  ['cursor_ordering']: cursor_ordering;
   ['date']: unknown;
   /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
   ['date_comparison_exp']: {
@@ -2708,10 +2879,7 @@ columns and relationships of "circle_api_keys" */
     _neq?: ValueTypes['date'] | undefined | null;
     _nin?: Array<ValueTypes['date']> | undefined | null;
   };
-  /** Vault Distributions
-
-
-columns and relationships of "distributions" */
+  /** Vault Distributions */
   ['distributions']: AliasType<{
     claims?: [
       {
@@ -3003,10 +3171,10 @@ columns and relationships of "distributions" */
   /** input type for inserting object relation for remote table "distributions" */
   ['distributions_obj_rel_insert_input']: {
     data: ValueTypes['distributions_insert_input'];
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: ValueTypes['distributions_on_conflict'] | undefined | null;
   };
-  /** on conflict condition type for table "distributions" */
+  /** on_conflict condition type for table "distributions" */
   ['distributions_on_conflict']: {
     constraint: ValueTypes['distributions_constraint'];
     update_columns: Array<ValueTypes['distributions_update_column']>;
@@ -3119,6 +3287,29 @@ columns and relationships of "distributions" */
     id?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** Streaming cursor of the table "distributions" */
+  ['distributions_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['distributions_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['distributions_stream_cursor_value_input']: {
+    created_at?: ValueTypes['timestamp'] | undefined | null;
+    created_by?: ValueTypes['bigint'] | undefined | null;
+    distribution_epoch_id?: ValueTypes['bigint'] | undefined | null;
+    distribution_json?: ValueTypes['jsonb'] | undefined | null;
+    distribution_type?: number | undefined | null;
+    epoch_id?: ValueTypes['bigint'] | undefined | null;
+    fixed_amount?: ValueTypes['numeric'] | undefined | null;
+    gift_amount?: ValueTypes['numeric'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    merkle_root?: string | undefined | null;
+    total_amount?: string | undefined | null;
+    tx_hash?: string | undefined | null;
+    vault_id?: ValueTypes['bigint'] | undefined | null;
+  };
   /** aggregate sum on columns */
   ['distributions_sum_fields']: AliasType<{
     created_by?: boolean | `@${string}`;
@@ -3144,6 +3335,13 @@ columns and relationships of "distributions" */
   };
   /** update columns of table "distributions" */
   ['distributions_update_column']: distributions_update_column;
+  ['distributions_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: ValueTypes['distributions_inc_input'] | undefined | null;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ValueTypes['distributions_set_input'] | undefined | null;
+    where: ValueTypes['distributions_bool_exp'];
+  };
   /** aggregate var_pop on columns */
   ['distributions_var_pop_fields']: AliasType<{
     created_by?: boolean | `@${string}`;
@@ -3526,6 +3724,31 @@ columns and relationships of "distributions" */
     repeat?: ValueTypes['order_by'] | undefined | null;
     repeat_day_of_month?: ValueTypes['order_by'] | undefined | null;
   };
+  /** Streaming cursor of the table "epochs" */
+  ['epochs_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['epochs_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['epochs_stream_cursor_value_input']: {
+    circle_id?: number | undefined | null;
+    created_at?: ValueTypes['timestamp'] | undefined | null;
+    days?: number | undefined | null;
+    end_date?: ValueTypes['timestamptz'] | undefined | null;
+    ended?: boolean | undefined | null;
+    grant?: ValueTypes['numeric'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    notified_before_end?: ValueTypes['timestamp'] | undefined | null;
+    notified_end?: ValueTypes['timestamp'] | undefined | null;
+    notified_start?: ValueTypes['timestamp'] | undefined | null;
+    number?: number | undefined | null;
+    repeat?: number | undefined | null;
+    repeat_day_of_month?: number | undefined | null;
+    start_date?: ValueTypes['timestamptz'] | undefined | null;
+    updated_at?: ValueTypes['timestamp'] | undefined | null;
+  };
   /** order by sum() on columns of table "epoches" */
   ['epochs_sum_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
@@ -3601,6 +3824,20 @@ columns and relationships of "distributions" */
   };
   /** select columns of table "gift_private" */
   ['gift_private_select_column']: gift_private_select_column;
+  /** Streaming cursor of the table "gift_private" */
+  ['gift_private_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['gift_private_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['gift_private_stream_cursor_value_input']: {
+    gift_id?: ValueTypes['bigint'] | undefined | null;
+    note?: string | undefined | null;
+    recipient_id?: ValueTypes['bigint'] | undefined | null;
+    sender_id?: ValueTypes['bigint'] | undefined | null;
+  };
   ['json']: unknown;
   /** Boolean expression to compare columns of type "json". All fields are combined with logical 'AND'. */
   ['json_comparison_exp']: {
@@ -3615,8 +3852,12 @@ columns and relationships of "distributions" */
     _nin?: Array<ValueTypes['json']> | undefined | null;
   };
   ['jsonb']: unknown;
+  ['jsonb_cast_exp']: {
+    String?: ValueTypes['String_comparison_exp'] | undefined | null;
+  };
   /** Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'. */
   ['jsonb_comparison_exp']: {
+    _cast?: ValueTypes['jsonb_cast_exp'] | undefined | null;
     /** is the column contained in the given json value */
     _contained_in?: ValueTypes['jsonb'] | undefined | null;
     /** does the column contain the given json value at the top level */
@@ -3746,28 +3987,48 @@ columns and relationships of "distributions" */
     insert_circle_integrations?: [
       {
         /** the rows to be inserted */
-        objects: Array<ValueTypes['circle_integrations_insert_input']>;
+        objects: Array<
+          ValueTypes['circle_integrations_insert_input']
+        > /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['circle_integrations_on_conflict']
+          | undefined
+          | null;
       },
       ValueTypes['circle_integrations_mutation_response']
     ];
     insert_circle_integrations_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['circle_integrations_insert_input'];
+        object: ValueTypes['circle_integrations_insert_input'] /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['circle_integrations_on_conflict']
+          | undefined
+          | null;
       },
       ValueTypes['circle_integrations']
     ];
     insert_circle_share_tokens?: [
       {
         /** the rows to be inserted */
-        objects: Array<ValueTypes['circle_share_tokens_insert_input']>;
+        objects: Array<
+          ValueTypes['circle_share_tokens_insert_input']
+        > /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['circle_share_tokens_on_conflict']
+          | undefined
+          | null;
       },
       ValueTypes['circle_share_tokens_mutation_response']
     ];
     insert_circle_share_tokens_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['circle_share_tokens_insert_input'];
+        object: ValueTypes['circle_share_tokens_insert_input'] /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['circle_share_tokens_on_conflict']
+          | undefined
+          | null;
       },
       ValueTypes['circle_share_tokens']
     ];
@@ -3776,7 +4037,7 @@ columns and relationships of "distributions" */
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['claims_insert_input']
-        > /** on conflict condition */;
+        > /** upsert condition */;
         on_conflict?: ValueTypes['claims_on_conflict'] | undefined | null;
       },
       ValueTypes['claims_mutation_response']
@@ -3784,7 +4045,7 @@ columns and relationships of "distributions" */
     insert_claims_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['claims_insert_input'] /** on conflict condition */;
+        object: ValueTypes['claims_insert_input'] /** upsert condition */;
         on_conflict?: ValueTypes['claims_on_conflict'] | undefined | null;
       },
       ValueTypes['claims']
@@ -3792,14 +4053,24 @@ columns and relationships of "distributions" */
     insert_contributions?: [
       {
         /** the rows to be inserted */
-        objects: Array<ValueTypes['contributions_insert_input']>;
+        objects: Array<
+          ValueTypes['contributions_insert_input']
+        > /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['contributions_on_conflict']
+          | undefined
+          | null;
       },
       ValueTypes['contributions_mutation_response']
     ];
     insert_contributions_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['contributions_insert_input'];
+        object: ValueTypes['contributions_insert_input'] /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['contributions_on_conflict']
+          | undefined
+          | null;
       },
       ValueTypes['contributions']
     ];
@@ -3808,7 +4079,7 @@ columns and relationships of "distributions" */
         /** the rows to be inserted */
         objects: Array<
           ValueTypes['distributions_insert_input']
-        > /** on conflict condition */;
+        > /** upsert condition */;
         on_conflict?:
           | ValueTypes['distributions_on_conflict']
           | undefined
@@ -3819,7 +4090,7 @@ columns and relationships of "distributions" */
     insert_distributions_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['distributions_insert_input'] /** on conflict condition */;
+        object: ValueTypes['distributions_insert_input'] /** upsert condition */;
         on_conflict?:
           | ValueTypes['distributions_on_conflict']
           | undefined
@@ -3830,14 +4101,24 @@ columns and relationships of "distributions" */
     insert_pending_vault_transactions?: [
       {
         /** the rows to be inserted */
-        objects: Array<ValueTypes['pending_vault_transactions_insert_input']>;
+        objects: Array<
+          ValueTypes['pending_vault_transactions_insert_input']
+        > /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['pending_vault_transactions_on_conflict']
+          | undefined
+          | null;
       },
       ValueTypes['pending_vault_transactions_mutation_response']
     ];
     insert_pending_vault_transactions_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['pending_vault_transactions_insert_input'];
+        object: ValueTypes['pending_vault_transactions_insert_input'] /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['pending_vault_transactions_on_conflict']
+          | undefined
+          | null;
       },
       ValueTypes['pending_vault_transactions']
     ];
@@ -3893,6 +4174,13 @@ columns and relationships of "distributions" */
       },
       ValueTypes['claims']
     ];
+    update_claims_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes['claims_updates']>;
+      },
+      ValueTypes['claims_mutation_response']
+    ];
     update_distributions?: [
       {
         /** increments the numeric columns with given value of the filtered values */
@@ -3920,6 +4208,13 @@ columns and relationships of "distributions" */
       },
       ValueTypes['distributions']
     ];
+    update_distributions_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes['distributions_updates']>;
+      },
+      ValueTypes['distributions_mutation_response']
+    ];
     update_organizations?: [
       {
         /** sets the columns of the filtered rows to the given values */
@@ -3939,6 +4234,13 @@ columns and relationships of "distributions" */
       },
       ValueTypes['organizations']
     ];
+    update_organizations_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes['organizations_updates']>;
+      },
+      ValueTypes['organizations_mutation_response']
+    ];
     update_profiles?: [
       {
         /** sets the columns of the filtered rows to the given values */
@@ -3957,6 +4259,13 @@ columns and relationships of "distributions" */
         pk_columns: ValueTypes['profiles_pk_columns_input'];
       },
       ValueTypes['profiles']
+    ];
+    update_profiles_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes['profiles_updates']>;
+      },
+      ValueTypes['profiles_mutation_response']
     ];
     uploadCircleLogo?: [
       { payload: ValueTypes['UploadCircleImageInput'] },
@@ -4248,6 +4557,29 @@ columns and relationships of "distributions" */
     user_id?: ValueTypes['order_by'] | undefined | null;
     vouches_required?: ValueTypes['order_by'] | undefined | null;
   };
+  /** Streaming cursor of the table "nominees" */
+  ['nominees_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['nominees_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['nominees_stream_cursor_value_input']: {
+    address?: string | undefined | null;
+    circle_id?: number | undefined | null;
+    created_at?: ValueTypes['timestamp'] | undefined | null;
+    description?: string | undefined | null;
+    ended?: boolean | undefined | null;
+    expiry_date?: ValueTypes['timestamp'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    name?: string | undefined | null;
+    nominated_by_user_id?: number | undefined | null;
+    nominated_date?: ValueTypes['date'] | undefined | null;
+    updated_at?: ValueTypes['timestamp'] | undefined | null;
+    user_id?: number | undefined | null;
+    vouches_required?: number | undefined | null;
+  };
   /** aggregate sum on columns */
   ['nominees_sum_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -4437,6 +4769,27 @@ columns and relationships of "distributions" */
     name?: string | undefined | null;
     telegram_id?: string | undefined | null;
   };
+  /** Streaming cursor of the table "organizations" */
+  ['organizations_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['organizations_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['organizations_stream_cursor_value_input']: {
+    created_at?: ValueTypes['timestamp'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    logo?: string | undefined | null;
+    name?: string | undefined | null;
+    telegram_id?: string | undefined | null;
+    updated_at?: ValueTypes['timestamp'] | undefined | null;
+  };
+  ['organizations_updates']: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ValueTypes['organizations_set_input'] | undefined | null;
+    where: ValueTypes['organizations_bool_exp'];
+  };
   /** columns and relationships of "pending_gift_private" */
   ['pending_gift_private']: AliasType<{
     gift_id?: boolean | `@${string}`;
@@ -4475,10 +4828,21 @@ columns and relationships of "distributions" */
   };
   /** select columns of table "pending_gift_private" */
   ['pending_gift_private_select_column']: pending_gift_private_select_column;
-  /** GIVE allocations made by circle members for the currently running epoch
-
-
-columns and relationships of "pending_token_gifts" */
+  /** Streaming cursor of the table "pending_gift_private" */
+  ['pending_gift_private_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['pending_gift_private_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['pending_gift_private_stream_cursor_value_input']: {
+    gift_id?: ValueTypes['bigint'] | undefined | null;
+    note?: string | undefined | null;
+    recipient_id?: ValueTypes['bigint'] | undefined | null;
+    sender_id?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** GIVE allocations made by circle members for the currently running epoch */
   ['pending_token_gifts']: AliasType<{
     /** An object relationship */
     circle?: ValueTypes['circles'];
@@ -4648,6 +5012,27 @@ columns and relationships of "pending_token_gifts" */
     sender_id?: ValueTypes['order_by'] | undefined | null;
     tokens?: ValueTypes['order_by'] | undefined | null;
   };
+  /** Streaming cursor of the table "pending_token_gifts" */
+  ['pending_token_gifts_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['pending_token_gifts_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['pending_token_gifts_stream_cursor_value_input']: {
+    circle_id?: ValueTypes['bigint'] | undefined | null;
+    created_at?: ValueTypes['timestamp'] | undefined | null;
+    dts_created?: ValueTypes['timestamp'] | undefined | null;
+    epoch_id?: number | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    recipient_address?: string | undefined | null;
+    recipient_id?: ValueTypes['bigint'] | undefined | null;
+    sender_address?: string | undefined | null;
+    sender_id?: ValueTypes['bigint'] | undefined | null;
+    tokens?: number | undefined | null;
+    updated_at?: ValueTypes['timestamp'] | undefined | null;
+  };
   /** order by sum() on columns of table "pending_token_gifts" */
   ['pending_token_gifts_sum_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
@@ -4684,10 +5069,7 @@ columns and relationships of "pending_token_gifts" */
     sender_id?: ValueTypes['order_by'] | undefined | null;
     tokens?: ValueTypes['order_by'] | undefined | null;
   };
-  /** stores app-specific context to aid in the recovery of incomplete transactions
-
-
-columns and relationships of "pending_vault_transactions" */
+  /** stores app-specific context to aid in the recovery of incomplete transactions */
   ['pending_vault_transactions']: AliasType<{
     chain_id?: boolean | `@${string}`;
     claim_id?: boolean | `@${string}`;
@@ -4732,6 +5114,8 @@ columns and relationships of "pending_vault_transactions" */
       | null;
     vault_tx_type?: ValueTypes['vault_tx_types_bool_exp'] | undefined | null;
   };
+  /** unique or primary key constraints on table "pending_vault_transactions" */
+  ['pending_vault_transactions_constraint']: pending_vault_transactions_constraint;
   /** input type for inserting data into table "pending_vault_transactions" */
   ['pending_vault_transactions_insert_input']: {
     chain_id?: number | undefined | null;
@@ -4753,6 +5137,17 @@ columns and relationships of "pending_vault_transactions" */
     returning?: ValueTypes['pending_vault_transactions'];
     __typename?: boolean | `@${string}`;
   }>;
+  /** on_conflict condition type for table "pending_vault_transactions" */
+  ['pending_vault_transactions_on_conflict']: {
+    constraint: ValueTypes['pending_vault_transactions_constraint'];
+    update_columns: Array<
+      ValueTypes['pending_vault_transactions_update_column']
+    >;
+    where?:
+      | ValueTypes['pending_vault_transactions_bool_exp']
+      | undefined
+      | null;
+  };
   /** Ordering options when selecting data from "pending_vault_transactions". */
   ['pending_vault_transactions_order_by']: {
     chain_id?: ValueTypes['order_by'] | undefined | null;
@@ -4769,10 +5164,26 @@ columns and relationships of "pending_vault_transactions" */
   };
   /** select columns of table "pending_vault_transactions" */
   ['pending_vault_transactions_select_column']: pending_vault_transactions_select_column;
-  /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table
-
-
-columns and relationships of "profiles" */
+  /** Streaming cursor of the table "pending_vault_transactions" */
+  ['pending_vault_transactions_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['pending_vault_transactions_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['pending_vault_transactions_stream_cursor_value_input']: {
+    chain_id?: number | undefined | null;
+    claim_id?: ValueTypes['bigint'] | undefined | null;
+    created_by?: ValueTypes['bigint'] | undefined | null;
+    distribution_id?: ValueTypes['bigint'] | undefined | null;
+    org_id?: ValueTypes['bigint'] | undefined | null;
+    tx_hash?: string | undefined | null;
+    tx_type?: ValueTypes['vault_tx_types_enum'] | undefined | null;
+  };
+  /** placeholder for update columns of table "pending_vault_transactions" (current role has no relevant permissions) */
+  ['pending_vault_transactions_update_column']: pending_vault_transactions_update_column;
+  /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table */
   ['profiles']: AliasType<{
     address?: boolean | `@${string}`;
     avatar?: boolean | `@${string}`;
@@ -4937,6 +5348,35 @@ columns and relationships of "profiles" */
     telegram_username?: string | undefined | null;
     twitter_username?: string | undefined | null;
     website?: string | undefined | null;
+  };
+  /** Streaming cursor of the table "profiles" */
+  ['profiles_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['profiles_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['profiles_stream_cursor_value_input']: {
+    address?: string | undefined | null;
+    avatar?: string | undefined | null;
+    background?: string | undefined | null;
+    bio?: string | undefined | null;
+    created_at?: ValueTypes['timestamp'] | undefined | null;
+    discord_username?: string | undefined | null;
+    github_username?: string | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    medium_username?: string | undefined | null;
+    skills?: string | undefined | null;
+    telegram_username?: string | undefined | null;
+    twitter_username?: string | undefined | null;
+    updated_at?: ValueTypes['timestamp'] | undefined | null;
+    website?: string | undefined | null;
+  };
+  ['profiles_updates']: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ValueTypes['profiles_set_input'] | undefined | null;
+    where: ValueTypes['profiles_bool_exp'];
   };
   ['query_root']: AliasType<{
     burns?: [
@@ -5730,6 +6170,17 @@ columns and relationships of "profiles" */
       ValueTypes['burns']
     ];
     burns_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['burns']];
+    burns_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['burns_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['burns_bool_exp'] | undefined | null;
+      },
+      ValueTypes['burns']
+    ];
     circle_api_keys?: [
       {
         /** distinct select on columns */
@@ -5754,6 +6205,17 @@ columns and relationships of "profiles" */
       ValueTypes['circle_api_keys']
     ];
     circle_api_keys_by_pk?: [{ hash: string }, ValueTypes['circle_api_keys']];
+    circle_api_keys_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['circle_api_keys_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['circle_api_keys_bool_exp'] | undefined | null;
+      },
+      ValueTypes['circle_api_keys']
+    ];
     circle_integrations?: [
       {
         /** distinct select on columns */
@@ -5781,6 +6243,19 @@ columns and relationships of "profiles" */
       { id: ValueTypes['bigint'] },
       ValueTypes['circle_integrations']
     ];
+    circle_integrations_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          | ValueTypes['circle_integrations_stream_cursor_input']
+          | undefined
+          | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['circle_integrations_bool_exp'] | undefined | null;
+      },
+      ValueTypes['circle_integrations']
+    ];
     circle_private?: [
       {
         /** distinct select on columns */
@@ -5800,6 +6275,17 @@ columns and relationships of "profiles" */
           | Array<ValueTypes['circle_private_order_by']>
           | undefined
           | null /** filter the rows returned */;
+        where?: ValueTypes['circle_private_bool_exp'] | undefined | null;
+      },
+      ValueTypes['circle_private']
+    ];
+    circle_private_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['circle_private_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
         where?: ValueTypes['circle_private_bool_exp'] | undefined | null;
       },
       ValueTypes['circle_private']
@@ -5831,6 +6317,19 @@ columns and relationships of "profiles" */
       { circle_id: ValueTypes['bigint']; type: number },
       ValueTypes['circle_share_tokens']
     ];
+    circle_share_tokens_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          | ValueTypes['circle_share_tokens_stream_cursor_input']
+          | undefined
+          | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['circle_share_tokens_bool_exp'] | undefined | null;
+      },
+      ValueTypes['circle_share_tokens']
+    ];
     circles?: [
       {
         /** distinct select on columns */
@@ -5855,6 +6354,17 @@ columns and relationships of "profiles" */
       ValueTypes['circles']
     ];
     circles_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['circles']];
+    circles_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['circles_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['circles_bool_exp'] | undefined | null;
+      },
+      ValueTypes['circles']
+    ];
     claims?: [
       {
         /** distinct select on columns */
@@ -5902,6 +6412,17 @@ columns and relationships of "profiles" */
       ValueTypes['claims_aggregate']
     ];
     claims_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['claims']];
+    claims_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['claims_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['claims_bool_exp'] | undefined | null;
+      },
+      ValueTypes['claims']
+    ];
     contributions?: [
       {
         /** distinct select on columns */
@@ -5950,6 +6471,17 @@ columns and relationships of "profiles" */
     ];
     contributions_by_pk?: [
       { id: ValueTypes['bigint'] },
+      ValueTypes['contributions']
+    ];
+    contributions_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['contributions_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['contributions_bool_exp'] | undefined | null;
+      },
       ValueTypes['contributions']
     ];
     distributions?: [
@@ -6002,6 +6534,17 @@ columns and relationships of "profiles" */
       { id: ValueTypes['bigint'] },
       ValueTypes['distributions']
     ];
+    distributions_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['distributions_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['distributions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['distributions']
+    ];
     epochs?: [
       {
         /** distinct select on columns */
@@ -6026,6 +6569,17 @@ columns and relationships of "profiles" */
       ValueTypes['epochs']
     ];
     epochs_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['epochs']];
+    epochs_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['epochs_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['epochs_bool_exp'] | undefined | null;
+      },
+      ValueTypes['epochs']
+    ];
     gift_private?: [
       {
         /** distinct select on columns */
@@ -6045,6 +6599,17 @@ columns and relationships of "profiles" */
           | Array<ValueTypes['gift_private_order_by']>
           | undefined
           | null /** filter the rows returned */;
+        where?: ValueTypes['gift_private_bool_exp'] | undefined | null;
+      },
+      ValueTypes['gift_private']
+    ];
+    gift_private_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['gift_private_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
         where?: ValueTypes['gift_private_bool_exp'] | undefined | null;
       },
       ValueTypes['gift_private']
@@ -6096,6 +6661,17 @@ columns and relationships of "profiles" */
       ValueTypes['nominees_aggregate']
     ];
     nominees_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['nominees']];
+    nominees_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['nominees_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['nominees_bool_exp'] | undefined | null;
+      },
+      ValueTypes['nominees']
+    ];
     organizations?: [
       {
         /** distinct select on columns */
@@ -6123,6 +6699,17 @@ columns and relationships of "profiles" */
       { id: ValueTypes['bigint'] },
       ValueTypes['organizations']
     ];
+    organizations_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['organizations_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['organizations_bool_exp'] | undefined | null;
+      },
+      ValueTypes['organizations']
+    ];
     pending_gift_private?: [
       {
         /** distinct select on columns */
@@ -6142,6 +6729,19 @@ columns and relationships of "profiles" */
           | Array<ValueTypes['pending_gift_private_order_by']>
           | undefined
           | null /** filter the rows returned */;
+        where?: ValueTypes['pending_gift_private_bool_exp'] | undefined | null;
+      },
+      ValueTypes['pending_gift_private']
+    ];
+    pending_gift_private_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          | ValueTypes['pending_gift_private_stream_cursor_input']
+          | undefined
+          | null
+        > /** filter the rows returned */;
         where?: ValueTypes['pending_gift_private_bool_exp'] | undefined | null;
       },
       ValueTypes['pending_gift_private']
@@ -6171,6 +6771,19 @@ columns and relationships of "profiles" */
     ];
     pending_token_gifts_by_pk?: [
       { id: ValueTypes['bigint'] },
+      ValueTypes['pending_token_gifts']
+    ];
+    pending_token_gifts_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          | ValueTypes['pending_token_gifts_stream_cursor_input']
+          | undefined
+          | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['pending_token_gifts_bool_exp'] | undefined | null;
+      },
       ValueTypes['pending_token_gifts']
     ];
     pending_vault_transactions?: [
@@ -6203,6 +6816,22 @@ columns and relationships of "profiles" */
       { tx_hash: string },
       ValueTypes['pending_vault_transactions']
     ];
+    pending_vault_transactions_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          | ValueTypes['pending_vault_transactions_stream_cursor_input']
+          | undefined
+          | null
+        > /** filter the rows returned */;
+        where?:
+          | ValueTypes['pending_vault_transactions_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['pending_vault_transactions']
+    ];
     profiles?: [
       {
         /** distinct select on columns */
@@ -6227,6 +6856,17 @@ columns and relationships of "profiles" */
       ValueTypes['profiles']
     ];
     profiles_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['profiles']];
+    profiles_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['profiles_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['profiles_bool_exp'] | undefined | null;
+      },
+      ValueTypes['profiles']
+    ];
     teammates?: [
       {
         /** distinct select on columns */
@@ -6251,6 +6891,17 @@ columns and relationships of "profiles" */
       ValueTypes['teammates']
     ];
     teammates_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['teammates']];
+    teammates_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['teammates_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['teammates_bool_exp'] | undefined | null;
+      },
+      ValueTypes['teammates']
+    ];
     token_gifts?: [
       {
         /** distinct select on columns */
@@ -6301,6 +6952,17 @@ columns and relationships of "profiles" */
       { id: ValueTypes['bigint'] },
       ValueTypes['token_gifts']
     ];
+    token_gifts_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['token_gifts_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['token_gifts_bool_exp'] | undefined | null;
+      },
+      ValueTypes['token_gifts']
+    ];
     user_private?: [
       {
         /** distinct select on columns */
@@ -6347,6 +7009,17 @@ columns and relationships of "profiles" */
       },
       ValueTypes['user_private_aggregate']
     ];
+    user_private_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['user_private_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['user_private_bool_exp'] | undefined | null;
+      },
+      ValueTypes['user_private']
+    ];
     users?: [
       {
         /** distinct select on columns */
@@ -6371,6 +7044,17 @@ columns and relationships of "profiles" */
       ValueTypes['users']
     ];
     users_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['users']];
+    users_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['users_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['users_bool_exp'] | undefined | null;
+      },
+      ValueTypes['users']
+    ];
     vault_transactions?: [
       {
         /** distinct select on columns */
@@ -6398,6 +7082,19 @@ columns and relationships of "profiles" */
       { id: ValueTypes['bigint'] },
       ValueTypes['vault_transactions']
     ];
+    vault_transactions_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          | ValueTypes['vault_transactions_stream_cursor_input']
+          | undefined
+          | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['vault_transactions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['vault_transactions']
+    ];
     vault_tx_types?: [
       {
         /** distinct select on columns */
@@ -6422,6 +7119,17 @@ columns and relationships of "profiles" */
       ValueTypes['vault_tx_types']
     ];
     vault_tx_types_by_pk?: [{ value: string }, ValueTypes['vault_tx_types']];
+    vault_tx_types_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['vault_tx_types_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['vault_tx_types_bool_exp'] | undefined | null;
+      },
+      ValueTypes['vault_tx_types']
+    ];
     vaults?: [
       {
         /** distinct select on columns */
@@ -6446,6 +7154,17 @@ columns and relationships of "profiles" */
       ValueTypes['vaults']
     ];
     vaults_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['vaults']];
+    vaults_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['vaults_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['vaults_bool_exp'] | undefined | null;
+      },
+      ValueTypes['vaults']
+    ];
     vouches?: [
       {
         /** distinct select on columns */
@@ -6470,6 +7189,17 @@ columns and relationships of "profiles" */
       ValueTypes['vouches']
     ];
     vouches_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['vouches']];
+    vouches_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['vouches_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['vouches_bool_exp'] | undefined | null;
+      },
+      ValueTypes['vouches']
+    ];
     __typename?: boolean | `@${string}`;
   }>;
   /** columns and relationships of "teammates" */
@@ -6567,6 +7297,21 @@ columns and relationships of "profiles" */
     team_mate_id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** Streaming cursor of the table "teammates" */
+  ['teammates_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['teammates_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['teammates_stream_cursor_value_input']: {
+    created_at?: ValueTypes['timestamp'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    team_mate_id?: number | undefined | null;
+    updated_at?: ValueTypes['timestamp'] | undefined | null;
+    user_id?: number | undefined | null;
+  };
   /** order by sum() on columns of table "teammates" */
   ['teammates_sum_order_by']: {
     id?: ValueTypes['order_by'] | undefined | null;
@@ -6617,10 +7362,7 @@ columns and relationships of "profiles" */
     _neq?: ValueTypes['timestamptz'] | undefined | null;
     _nin?: Array<ValueTypes['timestamptz']> | undefined | null;
   };
-  /** GIVE allocations made by circle members for completed epochs
-
-
-columns and relationships of "token_gifts" */
+  /** GIVE allocations made by circle members for completed epochs */
   ['token_gifts']: AliasType<{
     /** An object relationship */
     circle?: ValueTypes['circles'];
@@ -6872,6 +7614,27 @@ columns and relationships of "token_gifts" */
     sender_id?: ValueTypes['order_by'] | undefined | null;
     tokens?: ValueTypes['order_by'] | undefined | null;
   };
+  /** Streaming cursor of the table "token_gifts" */
+  ['token_gifts_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['token_gifts_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['token_gifts_stream_cursor_value_input']: {
+    circle_id?: ValueTypes['bigint'] | undefined | null;
+    created_at?: ValueTypes['timestamp'] | undefined | null;
+    dts_created?: ValueTypes['timestamp'] | undefined | null;
+    epoch_id?: number | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    recipient_address?: string | undefined | null;
+    recipient_id?: ValueTypes['bigint'] | undefined | null;
+    sender_address?: string | undefined | null;
+    sender_id?: ValueTypes['bigint'] | undefined | null;
+    tokens?: number | undefined | null;
+    updated_at?: ValueTypes['timestamp'] | undefined | null;
+  };
   /** aggregate sum on columns */
   ['token_gifts_sum_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -7054,6 +7817,19 @@ columns and relationships of "token_gifts" */
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** Streaming cursor of the table "user_private" */
+  ['user_private_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['user_private_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['user_private_stream_cursor_value_input']: {
+    fixed_payment_amount?: ValueTypes['numeric'] | undefined | null;
+    fixed_payment_token_type?: string | undefined | null;
+    user_id?: ValueTypes['bigint'] | undefined | null;
+  };
   /** aggregate sum on columns */
   ['user_private_sum_fields']: AliasType<{
     fixed_payment_amount?: boolean | `@${string}`;
@@ -7078,10 +7854,7 @@ columns and relationships of "token_gifts" */
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** Members of a circle
-
-
-columns and relationships of "users" */
+  /** Members of a circle */
   ['users']: AliasType<{
     address?: boolean | `@${string}`;
     bio?: boolean | `@${string}`;
@@ -7563,6 +8336,32 @@ columns and relationships of "users" */
     role?: ValueTypes['order_by'] | undefined | null;
     starting_tokens?: ValueTypes['order_by'] | undefined | null;
   };
+  /** Streaming cursor of the table "users" */
+  ['users_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['users_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['users_stream_cursor_value_input']: {
+    address?: string | undefined | null;
+    bio?: string | undefined | null;
+    circle_id?: ValueTypes['bigint'] | undefined | null;
+    created_at?: ValueTypes['timestamp'] | undefined | null;
+    deleted_at?: ValueTypes['timestamp'] | undefined | null;
+    epoch_first_visit?: boolean | undefined | null;
+    fixed_non_receiver?: boolean | undefined | null;
+    give_token_received?: number | undefined | null;
+    give_token_remaining?: number | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    name?: string | undefined | null;
+    non_giver?: boolean | undefined | null;
+    non_receiver?: boolean | undefined | null;
+    role?: number | undefined | null;
+    starting_tokens?: number | undefined | null;
+    updated_at?: ValueTypes['timestamp'] | undefined | null;
+  };
   /** order by sum() on columns of table "users" */
   ['users_sum_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
@@ -7763,6 +8562,25 @@ columns and relationships of "users" */
     id?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** Streaming cursor of the table "vault_transactions" */
+  ['vault_transactions_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['vault_transactions_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['vault_transactions_stream_cursor_value_input']: {
+    circle_id?: ValueTypes['bigint'] | undefined | null;
+    created_at?: ValueTypes['timestamp'] | undefined | null;
+    created_by?: ValueTypes['bigint'] | undefined | null;
+    distribution_id?: ValueTypes['bigint'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    tx_hash?: string | undefined | null;
+    tx_type?: ValueTypes['vault_tx_types_enum'] | undefined | null;
+    updated_at?: ValueTypes['timestamp'] | undefined | null;
+    vault_id?: ValueTypes['bigint'] | undefined | null;
+  };
   /** order by sum() on columns of table "vault_transactions" */
   ['vault_transactions_sum_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
@@ -7856,6 +8674,18 @@ columns and relationships of "users" */
   };
   /** select columns of table "vault_tx_types" */
   ['vault_tx_types_select_column']: vault_tx_types_select_column;
+  /** Streaming cursor of the table "vault_tx_types" */
+  ['vault_tx_types_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['vault_tx_types_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['vault_tx_types_stream_cursor_value_input']: {
+    comment?: string | undefined | null;
+    value?: string | undefined | null;
+  };
   /** columns and relationships of "vaults" */
   ['vaults']: AliasType<{
     chain_id?: boolean | `@${string}`;
@@ -8071,6 +8901,27 @@ columns and relationships of "users" */
     deployment_block?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** Streaming cursor of the table "vaults" */
+  ['vaults_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['vaults_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['vaults_stream_cursor_value_input']: {
+    chain_id?: number | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    created_by?: ValueTypes['bigint'] | undefined | null;
+    decimals?: number | undefined | null;
+    deployment_block?: ValueTypes['bigint'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    simple_token_address?: string | undefined | null;
+    symbol?: string | undefined | null;
+    token_address?: string | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+    vault_address?: string | undefined | null;
+  };
   /** order by sum() on columns of table "vaults" */
   ['vaults_sum_order_by']: {
     chain_id?: ValueTypes['order_by'] | undefined | null;
@@ -8195,6 +9046,21 @@ columns and relationships of "users" */
     nominee_id?: ValueTypes['order_by'] | undefined | null;
     voucher_id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** Streaming cursor of the table "vouches" */
+  ['vouches_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['vouches_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['vouches_stream_cursor_value_input']: {
+    created_at?: ValueTypes['timestamp'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    nominee_id?: number | undefined | null;
+    updated_at?: ValueTypes['timestamp'] | undefined | null;
+    voucher_id?: number | undefined | null;
+  };
   /** order by sum() on columns of table "vouches" */
   ['vouches_sum_order_by']: {
     id?: ValueTypes['order_by'] | undefined | null;
@@ -8230,8 +9096,7 @@ export type ModelTypes = {
   };
   ['Allocations']: GraphQLTypes['Allocations'];
   ['AllocationsResponse']: {
-    /** An object relationship */
-    user: GraphQLTypes['users'];
+    user?: GraphQLTypes['users'] | undefined;
     user_id: number;
   };
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
@@ -8242,8 +9107,7 @@ export type ModelTypes = {
   ['CoordinapeInput']: GraphQLTypes['CoordinapeInput'];
   ['CreateCircleInput']: GraphQLTypes['CreateCircleInput'];
   ['CreateCircleResponse']: {
-    /** An object relationship */
-    circle: GraphQLTypes['circles'];
+    circle?: GraphQLTypes['circles'] | undefined;
     id: number;
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
@@ -8252,8 +9116,7 @@ export type ModelTypes = {
   ['CreateNomineeInput']: GraphQLTypes['CreateNomineeInput'];
   ['CreateNomineeResponse']: {
     id?: number | undefined;
-    /** An object relationship */
-    nominee: GraphQLTypes['nominees'];
+    nominee?: GraphQLTypes['nominees'] | undefined;
   };
   ['CreateUserInput']: GraphQLTypes['CreateUserInput'];
   ['CreateUserWithTokenInput']: GraphQLTypes['CreateUserWithTokenInput'];
@@ -8267,15 +9130,13 @@ export type ModelTypes = {
   };
   ['DeleteUserInput']: GraphQLTypes['DeleteUserInput'];
   ['EpochResponse']: {
-    /** An object relationship */
-    epoch: GraphQLTypes['epochs'];
+    epoch?: GraphQLTypes['epochs'] | undefined;
     id: string;
   };
   ['GenerateApiKeyInput']: GraphQLTypes['GenerateApiKeyInput'];
   ['GenerateApiKeyResponse']: {
     api_key: string;
-    /** An object relationship */
-    circleApiKey: GraphQLTypes['circle_api_keys'];
+    circleApiKey?: GraphQLTypes['circle_api_keys'] | undefined;
     hash: string;
   };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
@@ -8283,13 +9144,11 @@ export type ModelTypes = {
   ['LogVaultTxInput']: GraphQLTypes['LogVaultTxInput'];
   ['LogVaultTxResponse']: {
     id: string;
-    /** An object relationship */
-    vault_tx_return_object: GraphQLTypes['vault_transactions'];
+    vault_tx_return_object?: GraphQLTypes['vault_transactions'] | undefined;
   };
   ['LogoutResponse']: {
     id?: number | undefined;
-    /** An object relationship */
-    profile: GraphQLTypes['profiles'];
+    profile?: GraphQLTypes['profiles'] | undefined;
   };
   ['MarkClaimedInput']: GraphQLTypes['MarkClaimedInput'];
   ['MarkClaimedOutput']: {
@@ -8299,36 +9158,30 @@ export type ModelTypes = {
   ['String_comparison_exp']: GraphQLTypes['String_comparison_exp'];
   ['UpdateCircleInput']: GraphQLTypes['UpdateCircleInput'];
   ['UpdateCircleOutput']: {
-    /** An object relationship */
-    circle: GraphQLTypes['circles'];
+    circle?: GraphQLTypes['circles'] | undefined;
     id: number;
   };
   ['UpdateCircleResponse']: {
-    /** An object relationship */
-    circle: GraphQLTypes['circles'];
+    circle?: GraphQLTypes['circles'] | undefined;
     id: number;
   };
   ['UpdateContributionInput']: GraphQLTypes['UpdateContributionInput'];
   ['UpdateContributionResponse']: {
     id: string;
-    /** An object relationship */
-    updateContribution_Contribution: GraphQLTypes['contributions'];
+    updateContribution_Contribution?: GraphQLTypes['contributions'] | undefined;
   };
   ['UpdateEpochInput']: GraphQLTypes['UpdateEpochInput'];
   ['UpdateOrgResponse']: {
     id: number;
-    /** An object relationship */
-    org: GraphQLTypes['organizations'];
+    org?: GraphQLTypes['organizations'] | undefined;
   };
   ['UpdateProfileResponse']: {
     id: number;
-    /** An object relationship */
-    profile: GraphQLTypes['profiles'];
+    profile?: GraphQLTypes['profiles'] | undefined;
   };
   ['UpdateTeammatesInput']: GraphQLTypes['UpdateTeammatesInput'];
   ['UpdateTeammatesResponse']: {
-    /** An object relationship */
-    user: GraphQLTypes['users'];
+    user?: GraphQLTypes['users'] | undefined;
     user_id: string;
   };
   ['UpdateUserInput']: GraphQLTypes['UpdateUserInput'];
@@ -8337,20 +9190,17 @@ export type ModelTypes = {
   ['UploadOrgImageInput']: GraphQLTypes['UploadOrgImageInput'];
   ['UserObj']: GraphQLTypes['UserObj'];
   ['UserResponse']: {
-    /** An object relationship */
-    UserResponse: GraphQLTypes['users'];
+    UserResponse?: GraphQLTypes['users'] | undefined;
     id: string;
   };
   ['VaultResponse']: {
     id: string;
-    /** An object relationship */
-    vault: GraphQLTypes['vaults'];
+    vault?: GraphQLTypes['vaults'] | undefined;
   };
   ['VouchInput']: GraphQLTypes['VouchInput'];
   ['VouchOutput']: {
     id: number;
-    /** An object relationship */
-    nominee: GraphQLTypes['nominees'];
+    nominee?: GraphQLTypes['nominees'] | undefined;
   };
   ['bigint']: number;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
@@ -8393,6 +9243,10 @@ export type ModelTypes = {
   ['burns_stddev_pop_order_by']: GraphQLTypes['burns_stddev_pop_order_by'];
   /** order by stddev_samp() on columns of table "burns" */
   ['burns_stddev_samp_order_by']: GraphQLTypes['burns_stddev_samp_order_by'];
+  /** Streaming cursor of the table "burns" */
+  ['burns_stream_cursor_input']: GraphQLTypes['burns_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['burns_stream_cursor_value_input']: GraphQLTypes['burns_stream_cursor_value_input'];
   /** order by sum() on columns of table "burns" */
   ['burns_sum_order_by']: GraphQLTypes['burns_sum_order_by'];
   /** order by var_pop() on columns of table "burns" */
@@ -8401,10 +9255,7 @@ export type ModelTypes = {
   ['burns_var_samp_order_by']: GraphQLTypes['burns_var_samp_order_by'];
   /** order by variance() on columns of table "burns" */
   ['burns_variance_order_by']: GraphQLTypes['burns_variance_order_by'];
-  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API.
-
-
-columns and relationships of "circle_api_keys" */
+  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API. */
   ['circle_api_keys']: {
     /** An object relationship */
     circle: GraphQLTypes['circles'];
@@ -8451,6 +9302,10 @@ columns and relationships of "circle_api_keys" */
   ['circle_api_keys_stddev_pop_order_by']: GraphQLTypes['circle_api_keys_stddev_pop_order_by'];
   /** order by stddev_samp() on columns of table "circle_api_keys" */
   ['circle_api_keys_stddev_samp_order_by']: GraphQLTypes['circle_api_keys_stddev_samp_order_by'];
+  /** Streaming cursor of the table "circle_api_keys" */
+  ['circle_api_keys_stream_cursor_input']: GraphQLTypes['circle_api_keys_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['circle_api_keys_stream_cursor_value_input']: GraphQLTypes['circle_api_keys_stream_cursor_value_input'];
   /** order by sum() on columns of table "circle_api_keys" */
   ['circle_api_keys_sum_order_by']: GraphQLTypes['circle_api_keys_sum_order_by'];
   /** order by var_pop() on columns of table "circle_api_keys" */
@@ -8475,6 +9330,8 @@ columns and relationships of "circle_api_keys" */
   ['circle_integrations_avg_order_by']: GraphQLTypes['circle_integrations_avg_order_by'];
   /** Boolean expression to filter rows from the table "circle_integrations". All fields are combined with a logical 'AND'. */
   ['circle_integrations_bool_exp']: GraphQLTypes['circle_integrations_bool_exp'];
+  /** unique or primary key constraints on table "circle_integrations" */
+  ['circle_integrations_constraint']: GraphQLTypes['circle_integrations_constraint'];
   /** input type for inserting data into table "circle_integrations" */
   ['circle_integrations_insert_input']: GraphQLTypes['circle_integrations_insert_input'];
   /** order by max() on columns of table "circle_integrations" */
@@ -8488,6 +9345,8 @@ columns and relationships of "circle_api_keys" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['circle_integrations']>;
   };
+  /** on_conflict condition type for table "circle_integrations" */
+  ['circle_integrations_on_conflict']: GraphQLTypes['circle_integrations_on_conflict'];
   /** Ordering options when selecting data from "circle_integrations". */
   ['circle_integrations_order_by']: GraphQLTypes['circle_integrations_order_by'];
   /** select columns of table "circle_integrations" */
@@ -8498,8 +9357,14 @@ columns and relationships of "circle_api_keys" */
   ['circle_integrations_stddev_pop_order_by']: GraphQLTypes['circle_integrations_stddev_pop_order_by'];
   /** order by stddev_samp() on columns of table "circle_integrations" */
   ['circle_integrations_stddev_samp_order_by']: GraphQLTypes['circle_integrations_stddev_samp_order_by'];
+  /** Streaming cursor of the table "circle_integrations" */
+  ['circle_integrations_stream_cursor_input']: GraphQLTypes['circle_integrations_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['circle_integrations_stream_cursor_value_input']: GraphQLTypes['circle_integrations_stream_cursor_value_input'];
   /** order by sum() on columns of table "circle_integrations" */
   ['circle_integrations_sum_order_by']: GraphQLTypes['circle_integrations_sum_order_by'];
+  /** placeholder for update columns of table "circle_integrations" (current role has no relevant permissions) */
+  ['circle_integrations_update_column']: GraphQLTypes['circle_integrations_update_column'];
   /** order by var_pop() on columns of table "circle_integrations" */
   ['circle_integrations_var_pop_order_by']: GraphQLTypes['circle_integrations_var_pop_order_by'];
   /** order by var_samp() on columns of table "circle_integrations" */
@@ -8519,6 +9384,10 @@ columns and relationships of "circle_api_keys" */
   ['circle_private_order_by']: GraphQLTypes['circle_private_order_by'];
   /** select columns of table "circle_private" */
   ['circle_private_select_column']: GraphQLTypes['circle_private_select_column'];
+  /** Streaming cursor of the table "circle_private" */
+  ['circle_private_stream_cursor_input']: GraphQLTypes['circle_private_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['circle_private_stream_cursor_value_input']: GraphQLTypes['circle_private_stream_cursor_value_input'];
   /** columns and relationships of "circle_share_tokens" */
   ['circle_share_tokens']: {
     /** An object relationship */
@@ -8531,6 +9400,8 @@ columns and relationships of "circle_api_keys" */
   };
   /** Boolean expression to filter rows from the table "circle_share_tokens". All fields are combined with a logical 'AND'. */
   ['circle_share_tokens_bool_exp']: GraphQLTypes['circle_share_tokens_bool_exp'];
+  /** unique or primary key constraints on table "circle_share_tokens" */
+  ['circle_share_tokens_constraint']: GraphQLTypes['circle_share_tokens_constraint'];
   /** input type for inserting data into table "circle_share_tokens" */
   ['circle_share_tokens_insert_input']: GraphQLTypes['circle_share_tokens_insert_input'];
   /** response of any mutation on the table "circle_share_tokens" */
@@ -8540,10 +9411,18 @@ columns and relationships of "circle_api_keys" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['circle_share_tokens']>;
   };
+  /** on_conflict condition type for table "circle_share_tokens" */
+  ['circle_share_tokens_on_conflict']: GraphQLTypes['circle_share_tokens_on_conflict'];
   /** Ordering options when selecting data from "circle_share_tokens". */
   ['circle_share_tokens_order_by']: GraphQLTypes['circle_share_tokens_order_by'];
   /** select columns of table "circle_share_tokens" */
   ['circle_share_tokens_select_column']: GraphQLTypes['circle_share_tokens_select_column'];
+  /** Streaming cursor of the table "circle_share_tokens" */
+  ['circle_share_tokens_stream_cursor_input']: GraphQLTypes['circle_share_tokens_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['circle_share_tokens_stream_cursor_value_input']: GraphQLTypes['circle_share_tokens_stream_cursor_value_input'];
+  /** placeholder for update columns of table "circle_share_tokens" (current role has no relevant permissions) */
+  ['circle_share_tokens_update_column']: GraphQLTypes['circle_share_tokens_update_column'];
   /** columns and relationships of "circles" */
   ['circles']: {
     alloc_text?: string | undefined;
@@ -8618,6 +9497,10 @@ columns and relationships of "circle_api_keys" */
   ['circles_stddev_pop_order_by']: GraphQLTypes['circles_stddev_pop_order_by'];
   /** order by stddev_samp() on columns of table "circles" */
   ['circles_stddev_samp_order_by']: GraphQLTypes['circles_stddev_samp_order_by'];
+  /** Streaming cursor of the table "circles" */
+  ['circles_stream_cursor_input']: GraphQLTypes['circles_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['circles_stream_cursor_value_input']: GraphQLTypes['circles_stream_cursor_value_input'];
   /** order by sum() on columns of table "circles" */
   ['circles_sum_order_by']: GraphQLTypes['circles_sum_order_by'];
   /** order by var_pop() on columns of table "circles" */
@@ -8723,7 +9606,7 @@ columns and relationships of "circle_api_keys" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['claims']>;
   };
-  /** on conflict condition type for table "claims" */
+  /** on_conflict condition type for table "claims" */
   ['claims_on_conflict']: GraphQLTypes['claims_on_conflict'];
   /** Ordering options when selecting data from "claims". */
   ['claims_order_by']: GraphQLTypes['claims_order_by'];
@@ -8766,6 +9649,10 @@ columns and relationships of "circle_api_keys" */
   };
   /** order by stddev_samp() on columns of table "claims" */
   ['claims_stddev_samp_order_by']: GraphQLTypes['claims_stddev_samp_order_by'];
+  /** Streaming cursor of the table "claims" */
+  ['claims_stream_cursor_input']: GraphQLTypes['claims_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['claims_stream_cursor_value_input']: GraphQLTypes['claims_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['claims_sum_fields']: {
     amount?: GraphQLTypes['numeric'] | undefined;
@@ -8779,6 +9666,7 @@ columns and relationships of "circle_api_keys" */
   ['claims_sum_order_by']: GraphQLTypes['claims_sum_order_by'];
   /** update columns of table "claims" */
   ['claims_update_column']: GraphQLTypes['claims_update_column'];
+  ['claims_updates']: GraphQLTypes['claims_updates'];
   /** aggregate var_pop on columns */
   ['claims_var_pop_fields']: {
     amount?: number | undefined;
@@ -8857,6 +9745,8 @@ columns and relationships of "circle_api_keys" */
   ['contributions_avg_order_by']: GraphQLTypes['contributions_avg_order_by'];
   /** Boolean expression to filter rows from the table "contributions". All fields are combined with a logical 'AND'. */
   ['contributions_bool_exp']: GraphQLTypes['contributions_bool_exp'];
+  /** unique or primary key constraints on table "contributions" */
+  ['contributions_constraint']: GraphQLTypes['contributions_constraint'];
   /** input type for inserting data into table "contributions" */
   ['contributions_insert_input']: GraphQLTypes['contributions_insert_input'];
   /** aggregate max on columns */
@@ -8890,6 +9780,8 @@ columns and relationships of "circle_api_keys" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['contributions']>;
   };
+  /** on_conflict condition type for table "contributions" */
+  ['contributions_on_conflict']: GraphQLTypes['contributions_on_conflict'];
   /** Ordering options when selecting data from "contributions". */
   ['contributions_order_by']: GraphQLTypes['contributions_order_by'];
   /** select columns of table "contributions" */
@@ -8918,6 +9810,10 @@ columns and relationships of "circle_api_keys" */
   };
   /** order by stddev_samp() on columns of table "contributions" */
   ['contributions_stddev_samp_order_by']: GraphQLTypes['contributions_stddev_samp_order_by'];
+  /** Streaming cursor of the table "contributions" */
+  ['contributions_stream_cursor_input']: GraphQLTypes['contributions_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['contributions_stream_cursor_value_input']: GraphQLTypes['contributions_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['contributions_sum_fields']: {
     circle_id?: GraphQLTypes['bigint'] | undefined;
@@ -8926,6 +9822,8 @@ columns and relationships of "circle_api_keys" */
   };
   /** order by sum() on columns of table "contributions" */
   ['contributions_sum_order_by']: GraphQLTypes['contributions_sum_order_by'];
+  /** placeholder for update columns of table "contributions" (current role has no relevant permissions) */
+  ['contributions_update_column']: GraphQLTypes['contributions_update_column'];
   /** aggregate var_pop on columns */
   ['contributions_var_pop_fields']: {
     circle_id?: number | undefined;
@@ -8950,13 +9848,12 @@ columns and relationships of "circle_api_keys" */
   };
   /** order by variance() on columns of table "contributions" */
   ['contributions_variance_order_by']: GraphQLTypes['contributions_variance_order_by'];
+  /** ordering argument of a cursor */
+  ['cursor_ordering']: GraphQLTypes['cursor_ordering'];
   ['date']: any;
   /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
   ['date_comparison_exp']: GraphQLTypes['date_comparison_exp'];
-  /** Vault Distributions
-
-
-columns and relationships of "distributions" */
+  /** Vault Distributions */
   ['distributions']: {
     /** An array relationship */
     claims: Array<GraphQLTypes['claims']>;
@@ -9069,7 +9966,7 @@ columns and relationships of "distributions" */
   };
   /** input type for inserting object relation for remote table "distributions" */
   ['distributions_obj_rel_insert_input']: GraphQLTypes['distributions_obj_rel_insert_input'];
-  /** on conflict condition type for table "distributions" */
+  /** on_conflict condition type for table "distributions" */
   ['distributions_on_conflict']: GraphQLTypes['distributions_on_conflict'];
   /** Ordering options when selecting data from "distributions". */
   ['distributions_order_by']: GraphQLTypes['distributions_order_by'];
@@ -9118,6 +10015,10 @@ columns and relationships of "distributions" */
   };
   /** order by stddev_samp() on columns of table "distributions" */
   ['distributions_stddev_samp_order_by']: GraphQLTypes['distributions_stddev_samp_order_by'];
+  /** Streaming cursor of the table "distributions" */
+  ['distributions_stream_cursor_input']: GraphQLTypes['distributions_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['distributions_stream_cursor_value_input']: GraphQLTypes['distributions_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['distributions_sum_fields']: {
     created_by?: GraphQLTypes['bigint'] | undefined;
@@ -9133,6 +10034,7 @@ columns and relationships of "distributions" */
   ['distributions_sum_order_by']: GraphQLTypes['distributions_sum_order_by'];
   /** update columns of table "distributions" */
   ['distributions_update_column']: GraphQLTypes['distributions_update_column'];
+  ['distributions_updates']: GraphQLTypes['distributions_updates'];
   /** aggregate var_pop on columns */
   ['distributions_var_pop_fields']: {
     created_by?: number | undefined;
@@ -9224,6 +10126,10 @@ columns and relationships of "distributions" */
   ['epochs_stddev_pop_order_by']: GraphQLTypes['epochs_stddev_pop_order_by'];
   /** order by stddev_samp() on columns of table "epoches" */
   ['epochs_stddev_samp_order_by']: GraphQLTypes['epochs_stddev_samp_order_by'];
+  /** Streaming cursor of the table "epochs" */
+  ['epochs_stream_cursor_input']: GraphQLTypes['epochs_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['epochs_stream_cursor_value_input']: GraphQLTypes['epochs_stream_cursor_value_input'];
   /** order by sum() on columns of table "epoches" */
   ['epochs_sum_order_by']: GraphQLTypes['epochs_sum_order_by'];
   /** order by var_pop() on columns of table "epoches" */
@@ -9249,10 +10155,15 @@ columns and relationships of "distributions" */
   ['gift_private_order_by']: GraphQLTypes['gift_private_order_by'];
   /** select columns of table "gift_private" */
   ['gift_private_select_column']: GraphQLTypes['gift_private_select_column'];
+  /** Streaming cursor of the table "gift_private" */
+  ['gift_private_stream_cursor_input']: GraphQLTypes['gift_private_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['gift_private_stream_cursor_value_input']: GraphQLTypes['gift_private_stream_cursor_value_input'];
   ['json']: any;
   /** Boolean expression to compare columns of type "json". All fields are combined with logical 'AND'. */
   ['json_comparison_exp']: GraphQLTypes['json_comparison_exp'];
   ['jsonb']: any;
+  ['jsonb_cast_exp']: GraphQLTypes['jsonb_cast_exp'];
   /** Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'. */
   ['jsonb_comparison_exp']: GraphQLTypes['jsonb_comparison_exp'];
   /** mutation root */
@@ -9359,22 +10270,38 @@ columns and relationships of "distributions" */
     update_claims?: GraphQLTypes['claims_mutation_response'] | undefined;
     /** update single row of the table: "claims" */
     update_claims_by_pk?: GraphQLTypes['claims'] | undefined;
+    /** update multiples rows of table: "claims" */
+    update_claims_many?:
+      | Array<GraphQLTypes['claims_mutation_response'] | undefined>
+      | undefined;
     /** update data of the table: "distributions" */
     update_distributions?:
       | GraphQLTypes['distributions_mutation_response']
       | undefined;
     /** update single row of the table: "distributions" */
     update_distributions_by_pk?: GraphQLTypes['distributions'] | undefined;
+    /** update multiples rows of table: "distributions" */
+    update_distributions_many?:
+      | Array<GraphQLTypes['distributions_mutation_response'] | undefined>
+      | undefined;
     /** update data of the table: "organizations" */
     update_organizations?:
       | GraphQLTypes['organizations_mutation_response']
       | undefined;
     /** update single row of the table: "organizations" */
     update_organizations_by_pk?: GraphQLTypes['organizations'] | undefined;
+    /** update multiples rows of table: "organizations" */
+    update_organizations_many?:
+      | Array<GraphQLTypes['organizations_mutation_response'] | undefined>
+      | undefined;
     /** update data of the table: "profiles" */
     update_profiles?: GraphQLTypes['profiles_mutation_response'] | undefined;
     /** update single row of the table: "profiles" */
     update_profiles_by_pk?: GraphQLTypes['profiles'] | undefined;
+    /** update multiples rows of table: "profiles" */
+    update_profiles_many?:
+      | Array<GraphQLTypes['profiles_mutation_response'] | undefined>
+      | undefined;
     uploadCircleLogo?: GraphQLTypes['UpdateCircleResponse'] | undefined;
     uploadOrgLogo?: GraphQLTypes['UpdateOrgResponse'] | undefined;
     uploadProfileAvatar?: GraphQLTypes['UpdateProfileResponse'] | undefined;
@@ -9506,6 +10433,10 @@ columns and relationships of "distributions" */
   };
   /** order by stddev_samp() on columns of table "nominees" */
   ['nominees_stddev_samp_order_by']: GraphQLTypes['nominees_stddev_samp_order_by'];
+  /** Streaming cursor of the table "nominees" */
+  ['nominees_stream_cursor_input']: GraphQLTypes['nominees_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['nominees_stream_cursor_value_input']: GraphQLTypes['nominees_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['nominees_sum_fields']: {
     circle_id?: number | undefined;
@@ -9581,6 +10512,11 @@ columns and relationships of "distributions" */
   ['organizations_select_column']: GraphQLTypes['organizations_select_column'];
   /** input type for updating data in table "organizations" */
   ['organizations_set_input']: GraphQLTypes['organizations_set_input'];
+  /** Streaming cursor of the table "organizations" */
+  ['organizations_stream_cursor_input']: GraphQLTypes['organizations_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['organizations_stream_cursor_value_input']: GraphQLTypes['organizations_stream_cursor_value_input'];
+  ['organizations_updates']: GraphQLTypes['organizations_updates'];
   /** columns and relationships of "pending_gift_private" */
   ['pending_gift_private']: {
     gift_id?: GraphQLTypes['bigint'] | undefined;
@@ -9598,10 +10534,11 @@ columns and relationships of "distributions" */
   ['pending_gift_private_order_by']: GraphQLTypes['pending_gift_private_order_by'];
   /** select columns of table "pending_gift_private" */
   ['pending_gift_private_select_column']: GraphQLTypes['pending_gift_private_select_column'];
-  /** GIVE allocations made by circle members for the currently running epoch
-
-
-columns and relationships of "pending_token_gifts" */
+  /** Streaming cursor of the table "pending_gift_private" */
+  ['pending_gift_private_stream_cursor_input']: GraphQLTypes['pending_gift_private_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['pending_gift_private_stream_cursor_value_input']: GraphQLTypes['pending_gift_private_stream_cursor_value_input'];
+  /** GIVE allocations made by circle members for the currently running epoch */
   ['pending_token_gifts']: {
     /** An object relationship */
     circle: GraphQLTypes['circles'];
@@ -9645,6 +10582,10 @@ columns and relationships of "pending_token_gifts" */
   ['pending_token_gifts_stddev_pop_order_by']: GraphQLTypes['pending_token_gifts_stddev_pop_order_by'];
   /** order by stddev_samp() on columns of table "pending_token_gifts" */
   ['pending_token_gifts_stddev_samp_order_by']: GraphQLTypes['pending_token_gifts_stddev_samp_order_by'];
+  /** Streaming cursor of the table "pending_token_gifts" */
+  ['pending_token_gifts_stream_cursor_input']: GraphQLTypes['pending_token_gifts_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['pending_token_gifts_stream_cursor_value_input']: GraphQLTypes['pending_token_gifts_stream_cursor_value_input'];
   /** order by sum() on columns of table "pending_token_gifts" */
   ['pending_token_gifts_sum_order_by']: GraphQLTypes['pending_token_gifts_sum_order_by'];
   /** order by var_pop() on columns of table "pending_token_gifts" */
@@ -9653,10 +10594,7 @@ columns and relationships of "pending_token_gifts" */
   ['pending_token_gifts_var_samp_order_by']: GraphQLTypes['pending_token_gifts_var_samp_order_by'];
   /** order by variance() on columns of table "pending_token_gifts" */
   ['pending_token_gifts_variance_order_by']: GraphQLTypes['pending_token_gifts_variance_order_by'];
-  /** stores app-specific context to aid in the recovery of incomplete transactions
-
-
-columns and relationships of "pending_vault_transactions" */
+  /** stores app-specific context to aid in the recovery of incomplete transactions */
   ['pending_vault_transactions']: {
     chain_id: number;
     claim_id?: GraphQLTypes['bigint'] | undefined;
@@ -9676,6 +10614,8 @@ columns and relationships of "pending_vault_transactions" */
   };
   /** Boolean expression to filter rows from the table "pending_vault_transactions". All fields are combined with a logical 'AND'. */
   ['pending_vault_transactions_bool_exp']: GraphQLTypes['pending_vault_transactions_bool_exp'];
+  /** unique or primary key constraints on table "pending_vault_transactions" */
+  ['pending_vault_transactions_constraint']: GraphQLTypes['pending_vault_transactions_constraint'];
   /** input type for inserting data into table "pending_vault_transactions" */
   ['pending_vault_transactions_insert_input']: GraphQLTypes['pending_vault_transactions_insert_input'];
   /** response of any mutation on the table "pending_vault_transactions" */
@@ -9685,14 +10625,19 @@ columns and relationships of "pending_vault_transactions" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['pending_vault_transactions']>;
   };
+  /** on_conflict condition type for table "pending_vault_transactions" */
+  ['pending_vault_transactions_on_conflict']: GraphQLTypes['pending_vault_transactions_on_conflict'];
   /** Ordering options when selecting data from "pending_vault_transactions". */
   ['pending_vault_transactions_order_by']: GraphQLTypes['pending_vault_transactions_order_by'];
   /** select columns of table "pending_vault_transactions" */
   ['pending_vault_transactions_select_column']: GraphQLTypes['pending_vault_transactions_select_column'];
-  /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table
-
-
-columns and relationships of "profiles" */
+  /** Streaming cursor of the table "pending_vault_transactions" */
+  ['pending_vault_transactions_stream_cursor_input']: GraphQLTypes['pending_vault_transactions_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['pending_vault_transactions_stream_cursor_value_input']: GraphQLTypes['pending_vault_transactions_stream_cursor_value_input'];
+  /** placeholder for update columns of table "pending_vault_transactions" (current role has no relevant permissions) */
+  ['pending_vault_transactions_update_column']: GraphQLTypes['pending_vault_transactions_update_column'];
+  /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table */
   ['profiles']: {
     address: string;
     avatar?: string | undefined;
@@ -9732,12 +10677,17 @@ columns and relationships of "profiles" */
   ['profiles_select_column']: GraphQLTypes['profiles_select_column'];
   /** input type for updating data in table "profiles" */
   ['profiles_set_input']: GraphQLTypes['profiles_set_input'];
+  /** Streaming cursor of the table "profiles" */
+  ['profiles_stream_cursor_input']: GraphQLTypes['profiles_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['profiles_stream_cursor_value_input']: GraphQLTypes['profiles_stream_cursor_value_input'];
+  ['profiles_updates']: GraphQLTypes['profiles_updates'];
   ['query_root']: {
     /** An array relationship */
     burns: Array<GraphQLTypes['burns']>;
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
-    /** fetch data from the table: "circle_api_keys" */
+    /** An array relationship */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** fetch data from the table: "circle_api_keys" using primary key columns */
     circle_api_keys_by_pk?: GraphQLTypes['circle_api_keys'] | undefined;
@@ -9847,64 +10797,94 @@ columns and relationships of "profiles" */
     burns: Array<GraphQLTypes['burns']>;
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
-    /** fetch data from the table: "circle_api_keys" */
+    /** fetch data from the table in a streaming manner : "burns" */
+    burns_stream: Array<GraphQLTypes['burns']>;
+    /** An array relationship */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** fetch data from the table: "circle_api_keys" using primary key columns */
     circle_api_keys_by_pk?: GraphQLTypes['circle_api_keys'] | undefined;
+    /** fetch data from the table in a streaming manner : "circle_api_keys" */
+    circle_api_keys_stream: Array<GraphQLTypes['circle_api_keys']>;
     /** fetch data from the table: "circle_integrations" */
     circle_integrations: Array<GraphQLTypes['circle_integrations']>;
     /** fetch data from the table: "circle_integrations" using primary key columns */
     circle_integrations_by_pk?: GraphQLTypes['circle_integrations'] | undefined;
+    /** fetch data from the table in a streaming manner : "circle_integrations" */
+    circle_integrations_stream: Array<GraphQLTypes['circle_integrations']>;
     /** fetch data from the table: "circle_private" */
     circle_private: Array<GraphQLTypes['circle_private']>;
+    /** fetch data from the table in a streaming manner : "circle_private" */
+    circle_private_stream: Array<GraphQLTypes['circle_private']>;
     /** fetch data from the table: "circle_share_tokens" */
     circle_share_tokens: Array<GraphQLTypes['circle_share_tokens']>;
     /** fetch data from the table: "circle_share_tokens" using primary key columns */
     circle_share_tokens_by_pk?: GraphQLTypes['circle_share_tokens'] | undefined;
+    /** fetch data from the table in a streaming manner : "circle_share_tokens" */
+    circle_share_tokens_stream: Array<GraphQLTypes['circle_share_tokens']>;
     /** An array relationship */
     circles: Array<GraphQLTypes['circles']>;
     /** fetch data from the table: "circles" using primary key columns */
     circles_by_pk?: GraphQLTypes['circles'] | undefined;
+    /** fetch data from the table in a streaming manner : "circles" */
+    circles_stream: Array<GraphQLTypes['circles']>;
     /** An array relationship */
     claims: Array<GraphQLTypes['claims']>;
     /** An aggregate relationship */
     claims_aggregate: GraphQLTypes['claims_aggregate'];
     /** fetch data from the table: "claims" using primary key columns */
     claims_by_pk?: GraphQLTypes['claims'] | undefined;
+    /** fetch data from the table in a streaming manner : "claims" */
+    claims_stream: Array<GraphQLTypes['claims']>;
     /** An array relationship */
     contributions: Array<GraphQLTypes['contributions']>;
     /** An aggregate relationship */
     contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     /** fetch data from the table: "contributions" using primary key columns */
     contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
+    /** fetch data from the table in a streaming manner : "contributions" */
+    contributions_stream: Array<GraphQLTypes['contributions']>;
     /** An array relationship */
     distributions: Array<GraphQLTypes['distributions']>;
     /** An aggregate relationship */
     distributions_aggregate: GraphQLTypes['distributions_aggregate'];
     /** fetch data from the table: "distributions" using primary key columns */
     distributions_by_pk?: GraphQLTypes['distributions'] | undefined;
+    /** fetch data from the table in a streaming manner : "distributions" */
+    distributions_stream: Array<GraphQLTypes['distributions']>;
     /** An array relationship */
     epochs: Array<GraphQLTypes['epochs']>;
     /** fetch data from the table: "epoches" using primary key columns */
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
+    /** fetch data from the table in a streaming manner : "epoches" */
+    epochs_stream: Array<GraphQLTypes['epochs']>;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
+    /** fetch data from the table in a streaming manner : "gift_private" */
+    gift_private_stream: Array<GraphQLTypes['gift_private']>;
     /** An array relationship */
     nominees: Array<GraphQLTypes['nominees']>;
     /** An aggregate relationship */
     nominees_aggregate: GraphQLTypes['nominees_aggregate'];
     /** fetch data from the table: "nominees" using primary key columns */
     nominees_by_pk?: GraphQLTypes['nominees'] | undefined;
+    /** fetch data from the table in a streaming manner : "nominees" */
+    nominees_stream: Array<GraphQLTypes['nominees']>;
     /** fetch data from the table: "organizations" */
     organizations: Array<GraphQLTypes['organizations']>;
     /** fetch data from the table: "organizations" using primary key columns */
     organizations_by_pk?: GraphQLTypes['organizations'] | undefined;
+    /** fetch data from the table in a streaming manner : "organizations" */
+    organizations_stream: Array<GraphQLTypes['organizations']>;
     /** fetch data from the table: "pending_gift_private" */
     pending_gift_private: Array<GraphQLTypes['pending_gift_private']>;
+    /** fetch data from the table in a streaming manner : "pending_gift_private" */
+    pending_gift_private_stream: Array<GraphQLTypes['pending_gift_private']>;
     /** An array relationship */
     pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     /** fetch data from the table: "pending_token_gifts" using primary key columns */
     pending_token_gifts_by_pk?: GraphQLTypes['pending_token_gifts'] | undefined;
+    /** fetch data from the table in a streaming manner : "pending_token_gifts" */
+    pending_token_gifts_stream: Array<GraphQLTypes['pending_token_gifts']>;
     /** fetch data from the table: "pending_vault_transactions" */
     pending_vault_transactions: Array<
       GraphQLTypes['pending_vault_transactions']
@@ -9913,44 +10893,66 @@ columns and relationships of "profiles" */
     pending_vault_transactions_by_pk?:
       | GraphQLTypes['pending_vault_transactions']
       | undefined;
+    /** fetch data from the table in a streaming manner : "pending_vault_transactions" */
+    pending_vault_transactions_stream: Array<
+      GraphQLTypes['pending_vault_transactions']
+    >;
     /** fetch data from the table: "profiles" */
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch data from the table: "profiles" using primary key columns */
     profiles_by_pk?: GraphQLTypes['profiles'] | undefined;
+    /** fetch data from the table in a streaming manner : "profiles" */
+    profiles_stream: Array<GraphQLTypes['profiles']>;
     /** An array relationship */
     teammates: Array<GraphQLTypes['teammates']>;
     /** fetch data from the table: "teammates" using primary key columns */
     teammates_by_pk?: GraphQLTypes['teammates'] | undefined;
+    /** fetch data from the table in a streaming manner : "teammates" */
+    teammates_stream: Array<GraphQLTypes['teammates']>;
     /** An array relationship */
     token_gifts: Array<GraphQLTypes['token_gifts']>;
     /** An aggregate relationship */
     token_gifts_aggregate: GraphQLTypes['token_gifts_aggregate'];
     /** fetch data from the table: "token_gifts" using primary key columns */
     token_gifts_by_pk?: GraphQLTypes['token_gifts'] | undefined;
+    /** fetch data from the table in a streaming manner : "token_gifts" */
+    token_gifts_stream: Array<GraphQLTypes['token_gifts']>;
     /** fetch data from the table: "user_private" */
     user_private: Array<GraphQLTypes['user_private']>;
     /** fetch aggregated fields from the table: "user_private" */
     user_private_aggregate: GraphQLTypes['user_private_aggregate'];
+    /** fetch data from the table in a streaming manner : "user_private" */
+    user_private_stream: Array<GraphQLTypes['user_private']>;
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
     /** fetch data from the table: "users" using primary key columns */
     users_by_pk?: GraphQLTypes['users'] | undefined;
+    /** fetch data from the table in a streaming manner : "users" */
+    users_stream: Array<GraphQLTypes['users']>;
     /** An array relationship */
     vault_transactions: Array<GraphQLTypes['vault_transactions']>;
     /** fetch data from the table: "vault_transactions" using primary key columns */
     vault_transactions_by_pk?: GraphQLTypes['vault_transactions'] | undefined;
+    /** fetch data from the table in a streaming manner : "vault_transactions" */
+    vault_transactions_stream: Array<GraphQLTypes['vault_transactions']>;
     /** fetch data from the table: "vault_tx_types" */
     vault_tx_types: Array<GraphQLTypes['vault_tx_types']>;
     /** fetch data from the table: "vault_tx_types" using primary key columns */
     vault_tx_types_by_pk?: GraphQLTypes['vault_tx_types'] | undefined;
+    /** fetch data from the table in a streaming manner : "vault_tx_types" */
+    vault_tx_types_stream: Array<GraphQLTypes['vault_tx_types']>;
     /** An array relationship */
     vaults: Array<GraphQLTypes['vaults']>;
     /** fetch data from the table: "vaults" using primary key columns */
     vaults_by_pk?: GraphQLTypes['vaults'] | undefined;
+    /** fetch data from the table in a streaming manner : "vaults" */
+    vaults_stream: Array<GraphQLTypes['vaults']>;
     /** An array relationship */
     vouches: Array<GraphQLTypes['vouches']>;
     /** fetch data from the table: "vouches" using primary key columns */
     vouches_by_pk?: GraphQLTypes['vouches'] | undefined;
+    /** fetch data from the table in a streaming manner : "vouches" */
+    vouches_stream: Array<GraphQLTypes['vouches']>;
   };
   /** columns and relationships of "teammates" */
   ['teammates']: {
@@ -9984,6 +10986,10 @@ columns and relationships of "profiles" */
   ['teammates_stddev_pop_order_by']: GraphQLTypes['teammates_stddev_pop_order_by'];
   /** order by stddev_samp() on columns of table "teammates" */
   ['teammates_stddev_samp_order_by']: GraphQLTypes['teammates_stddev_samp_order_by'];
+  /** Streaming cursor of the table "teammates" */
+  ['teammates_stream_cursor_input']: GraphQLTypes['teammates_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['teammates_stream_cursor_value_input']: GraphQLTypes['teammates_stream_cursor_value_input'];
   /** order by sum() on columns of table "teammates" */
   ['teammates_sum_order_by']: GraphQLTypes['teammates_sum_order_by'];
   /** order by var_pop() on columns of table "teammates" */
@@ -9998,10 +11004,7 @@ columns and relationships of "profiles" */
   ['timestamptz']: any;
   /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
   ['timestamptz_comparison_exp']: GraphQLTypes['timestamptz_comparison_exp'];
-  /** GIVE allocations made by circle members for completed epochs
-
-
-columns and relationships of "token_gifts" */
+  /** GIVE allocations made by circle members for completed epochs */
   ['token_gifts']: {
     /** An object relationship */
     circle: GraphQLTypes['circles'];
@@ -10128,6 +11131,10 @@ columns and relationships of "token_gifts" */
   };
   /** order by stddev_samp() on columns of table "token_gifts" */
   ['token_gifts_stddev_samp_order_by']: GraphQLTypes['token_gifts_stddev_samp_order_by'];
+  /** Streaming cursor of the table "token_gifts" */
+  ['token_gifts_stream_cursor_input']: GraphQLTypes['token_gifts_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['token_gifts_stream_cursor_value_input']: GraphQLTypes['token_gifts_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['token_gifts_sum_fields']: {
     circle_id?: GraphQLTypes['bigint'] | undefined;
@@ -10239,6 +11246,10 @@ columns and relationships of "token_gifts" */
     fixed_payment_amount?: number | undefined;
     user_id?: number | undefined;
   };
+  /** Streaming cursor of the table "user_private" */
+  ['user_private_stream_cursor_input']: GraphQLTypes['user_private_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['user_private_stream_cursor_value_input']: GraphQLTypes['user_private_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['user_private_sum_fields']: {
     fixed_payment_amount?: GraphQLTypes['numeric'] | undefined;
@@ -10259,10 +11270,7 @@ columns and relationships of "token_gifts" */
     fixed_payment_amount?: number | undefined;
     user_id?: number | undefined;
   };
-  /** Members of a circle
-
-
-columns and relationships of "users" */
+  /** Members of a circle */
   ['users']: {
     address: string;
     bio?: string | undefined;
@@ -10270,7 +11278,7 @@ columns and relationships of "users" */
     burns: Array<GraphQLTypes['burns']>;
     /** An object relationship */
     circle: GraphQLTypes['circles'];
-    /** fetch data from the table: "circle_api_keys" */
+    /** An array relationship */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     circle_id: GraphQLTypes['bigint'];
     /** An array relationship */
@@ -10331,6 +11339,10 @@ columns and relationships of "users" */
   ['users_stddev_pop_order_by']: GraphQLTypes['users_stddev_pop_order_by'];
   /** order by stddev_samp() on columns of table "users" */
   ['users_stddev_samp_order_by']: GraphQLTypes['users_stddev_samp_order_by'];
+  /** Streaming cursor of the table "users" */
+  ['users_stream_cursor_input']: GraphQLTypes['users_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['users_stream_cursor_value_input']: GraphQLTypes['users_stream_cursor_value_input'];
   /** order by sum() on columns of table "users" */
   ['users_sum_order_by']: GraphQLTypes['users_sum_order_by'];
   /** order by var_pop() on columns of table "users" */
@@ -10384,6 +11396,10 @@ columns and relationships of "users" */
   ['vault_transactions_stddev_pop_order_by']: GraphQLTypes['vault_transactions_stddev_pop_order_by'];
   /** order by stddev_samp() on columns of table "vault_transactions" */
   ['vault_transactions_stddev_samp_order_by']: GraphQLTypes['vault_transactions_stddev_samp_order_by'];
+  /** Streaming cursor of the table "vault_transactions" */
+  ['vault_transactions_stream_cursor_input']: GraphQLTypes['vault_transactions_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['vault_transactions_stream_cursor_value_input']: GraphQLTypes['vault_transactions_stream_cursor_value_input'];
   /** order by sum() on columns of table "vault_transactions" */
   ['vault_transactions_sum_order_by']: GraphQLTypes['vault_transactions_sum_order_by'];
   /** order by var_pop() on columns of table "vault_transactions" */
@@ -10408,6 +11424,10 @@ columns and relationships of "users" */
   ['vault_tx_types_order_by']: GraphQLTypes['vault_tx_types_order_by'];
   /** select columns of table "vault_tx_types" */
   ['vault_tx_types_select_column']: GraphQLTypes['vault_tx_types_select_column'];
+  /** Streaming cursor of the table "vault_tx_types" */
+  ['vault_tx_types_stream_cursor_input']: GraphQLTypes['vault_tx_types_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['vault_tx_types_stream_cursor_value_input']: GraphQLTypes['vault_tx_types_stream_cursor_value_input'];
   /** columns and relationships of "vaults" */
   ['vaults']: {
     chain_id: number;
@@ -10452,6 +11472,10 @@ columns and relationships of "users" */
   ['vaults_stddev_pop_order_by']: GraphQLTypes['vaults_stddev_pop_order_by'];
   /** order by stddev_samp() on columns of table "vaults" */
   ['vaults_stddev_samp_order_by']: GraphQLTypes['vaults_stddev_samp_order_by'];
+  /** Streaming cursor of the table "vaults" */
+  ['vaults_stream_cursor_input']: GraphQLTypes['vaults_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['vaults_stream_cursor_value_input']: GraphQLTypes['vaults_stream_cursor_value_input'];
   /** order by sum() on columns of table "vaults" */
   ['vaults_sum_order_by']: GraphQLTypes['vaults_sum_order_by'];
   /** order by var_pop() on columns of table "vaults" */
@@ -10492,6 +11516,10 @@ columns and relationships of "users" */
   ['vouches_stddev_pop_order_by']: GraphQLTypes['vouches_stddev_pop_order_by'];
   /** order by stddev_samp() on columns of table "vouches" */
   ['vouches_stddev_samp_order_by']: GraphQLTypes['vouches_stddev_samp_order_by'];
+  /** Streaming cursor of the table "vouches" */
+  ['vouches_stream_cursor_input']: GraphQLTypes['vouches_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['vouches_stream_cursor_value_input']: GraphQLTypes['vouches_stream_cursor_value_input'];
   /** order by sum() on columns of table "vouches" */
   ['vouches_sum_order_by']: GraphQLTypes['vouches_sum_order_by'];
   /** order by var_pop() on columns of table "vouches" */
@@ -10539,8 +11567,7 @@ export type GraphQLTypes = {
   };
   ['AllocationsResponse']: {
     __typename: 'AllocationsResponse';
-    /** An object relationship */
-    user: GraphQLTypes['users'];
+    user?: GraphQLTypes['users'] | undefined;
     user_id: number;
   };
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
@@ -10572,8 +11599,7 @@ export type GraphQLTypes = {
   };
   ['CreateCircleResponse']: {
     __typename: 'CreateCircleResponse';
-    /** An object relationship */
-    circle: GraphQLTypes['circles'];
+    circle?: GraphQLTypes['circles'] | undefined;
     id: number;
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
@@ -10594,8 +11620,7 @@ export type GraphQLTypes = {
   ['CreateNomineeResponse']: {
     __typename: 'CreateNomineeResponse';
     id?: number | undefined;
-    /** An object relationship */
-    nominee: GraphQLTypes['nominees'];
+    nominee?: GraphQLTypes['nominees'] | undefined;
   };
   ['CreateUserInput']: {
     address: string;
@@ -10643,8 +11668,7 @@ export type GraphQLTypes = {
   };
   ['EpochResponse']: {
     __typename: 'EpochResponse';
-    /** An object relationship */
-    epoch: GraphQLTypes['epochs'];
+    epoch?: GraphQLTypes['epochs'] | undefined;
     id: string;
   };
   ['GenerateApiKeyInput']: {
@@ -10662,8 +11686,7 @@ export type GraphQLTypes = {
   ['GenerateApiKeyResponse']: {
     __typename: 'GenerateApiKeyResponse';
     api_key: string;
-    /** An object relationship */
-    circleApiKey: GraphQLTypes['circle_api_keys'];
+    circleApiKey?: GraphQLTypes['circle_api_keys'] | undefined;
     hash: string;
   };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
@@ -10691,14 +11714,12 @@ export type GraphQLTypes = {
   ['LogVaultTxResponse']: {
     __typename: 'LogVaultTxResponse';
     id: string;
-    /** An object relationship */
-    vault_tx_return_object: GraphQLTypes['vault_transactions'];
+    vault_tx_return_object?: GraphQLTypes['vault_transactions'] | undefined;
   };
   ['LogoutResponse']: {
     __typename: 'LogoutResponse';
     id?: number | undefined;
-    /** An object relationship */
-    profile: GraphQLTypes['profiles'];
+    profile?: GraphQLTypes['profiles'] | undefined;
   };
   ['MarkClaimedInput']: {
     claim_id: number;
@@ -10761,14 +11782,12 @@ export type GraphQLTypes = {
   };
   ['UpdateCircleOutput']: {
     __typename: 'UpdateCircleOutput';
-    /** An object relationship */
-    circle: GraphQLTypes['circles'];
+    circle?: GraphQLTypes['circles'] | undefined;
     id: number;
   };
   ['UpdateCircleResponse']: {
     __typename: 'UpdateCircleResponse';
-    /** An object relationship */
-    circle: GraphQLTypes['circles'];
+    circle?: GraphQLTypes['circles'] | undefined;
     id: number;
   };
   ['UpdateContributionInput']: {
@@ -10779,8 +11798,7 @@ export type GraphQLTypes = {
   ['UpdateContributionResponse']: {
     __typename: 'UpdateContributionResponse';
     id: string;
-    /** An object relationship */
-    updateContribution_Contribution: GraphQLTypes['contributions'];
+    updateContribution_Contribution?: GraphQLTypes['contributions'] | undefined;
   };
   ['UpdateEpochInput']: {
     circle_id: number;
@@ -10793,14 +11811,12 @@ export type GraphQLTypes = {
   ['UpdateOrgResponse']: {
     __typename: 'UpdateOrgResponse';
     id: number;
-    /** An object relationship */
-    org: GraphQLTypes['organizations'];
+    org?: GraphQLTypes['organizations'] | undefined;
   };
   ['UpdateProfileResponse']: {
     __typename: 'UpdateProfileResponse';
     id: number;
-    /** An object relationship */
-    profile: GraphQLTypes['profiles'];
+    profile?: GraphQLTypes['profiles'] | undefined;
   };
   ['UpdateTeammatesInput']: {
     circle_id: number;
@@ -10808,8 +11824,7 @@ export type GraphQLTypes = {
   };
   ['UpdateTeammatesResponse']: {
     __typename: 'UpdateTeammatesResponse';
-    /** An object relationship */
-    user: GraphQLTypes['users'];
+    user?: GraphQLTypes['users'] | undefined;
     user_id: string;
   };
   ['UpdateUserInput']: {
@@ -10841,15 +11856,13 @@ export type GraphQLTypes = {
   };
   ['UserResponse']: {
     __typename: 'UserResponse';
-    /** An object relationship */
-    UserResponse: GraphQLTypes['users'];
+    UserResponse?: GraphQLTypes['users'] | undefined;
     id: string;
   };
   ['VaultResponse']: {
     __typename: 'VaultResponse';
     id: string;
-    /** An object relationship */
-    vault: GraphQLTypes['vaults'];
+    vault?: GraphQLTypes['vaults'] | undefined;
   };
   ['VouchInput']: {
     nominee_id: number;
@@ -10857,8 +11870,7 @@ export type GraphQLTypes = {
   ['VouchOutput']: {
     __typename: 'VouchOutput';
     id: number;
-    /** An object relationship */
-    nominee: GraphQLTypes['nominees'];
+    nominee?: GraphQLTypes['nominees'] | undefined;
   };
   ['bigint']: any;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
@@ -11005,6 +12017,25 @@ export type GraphQLTypes = {
     tokens_burnt?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
+  /** Streaming cursor of the table "burns" */
+  ['burns_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['burns_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['burns_stream_cursor_value_input']: {
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    epoch_id?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    original_amount?: number | undefined;
+    regift_percent?: number | undefined;
+    tokens_burnt?: number | undefined;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
+  };
   /** order by sum() on columns of table "burns" */
   ['burns_sum_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
@@ -11045,10 +12076,7 @@ export type GraphQLTypes = {
     tokens_burnt?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
-  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API.
-
-
-columns and relationships of "circle_api_keys" */
+  /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API. */
   ['circle_api_keys']: {
     __typename: 'circle_api_keys';
     /** An object relationship */
@@ -11176,6 +12204,29 @@ columns and relationships of "circle_api_keys" */
     circle_id?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
   };
+  /** Streaming cursor of the table "circle_api_keys" */
+  ['circle_api_keys_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['circle_api_keys_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['circle_api_keys_stream_cursor_value_input']: {
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    create_vouches?: boolean | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    created_by?: GraphQLTypes['bigint'] | undefined;
+    hash?: string | undefined;
+    name?: string | undefined;
+    read_circle?: boolean | undefined;
+    read_epochs?: boolean | undefined;
+    read_member_profiles?: boolean | undefined;
+    read_nominees?: boolean | undefined;
+    read_pending_token_gifts?: boolean | undefined;
+    update_circle?: boolean | undefined;
+    update_pending_token_gifts?: boolean | undefined;
+  };
   /** order by sum() on columns of table "circle_api_keys" */
   ['circle_api_keys_sum_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
@@ -11246,6 +12297,8 @@ columns and relationships of "circle_api_keys" */
     name?: GraphQLTypes['String_comparison_exp'] | undefined;
     type?: GraphQLTypes['String_comparison_exp'] | undefined;
   };
+  /** unique or primary key constraints on table "circle_integrations" */
+  ['circle_integrations_constraint']: circle_integrations_constraint;
   /** input type for inserting data into table "circle_integrations" */
   ['circle_integrations_insert_input']: {
     circle_id?: GraphQLTypes['bigint'] | undefined;
@@ -11275,6 +12328,12 @@ columns and relationships of "circle_api_keys" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['circle_integrations']>;
   };
+  /** on_conflict condition type for table "circle_integrations" */
+  ['circle_integrations_on_conflict']: {
+    constraint: GraphQLTypes['circle_integrations_constraint'];
+    update_columns: Array<GraphQLTypes['circle_integrations_update_column']>;
+    where?: GraphQLTypes['circle_integrations_bool_exp'] | undefined;
+  };
   /** Ordering options when selecting data from "circle_integrations". */
   ['circle_integrations_order_by']: {
     circle?: GraphQLTypes['circles_order_by'] | undefined;
@@ -11301,11 +12360,28 @@ columns and relationships of "circle_api_keys" */
     circle_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
   };
+  /** Streaming cursor of the table "circle_integrations" */
+  ['circle_integrations_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['circle_integrations_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['circle_integrations_stream_cursor_value_input']: {
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    data?: GraphQLTypes['json'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    name?: string | undefined;
+    type?: string | undefined;
+  };
   /** order by sum() on columns of table "circle_integrations" */
   ['circle_integrations_sum_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
   };
+  /** placeholder for update columns of table "circle_integrations" (current role has no relevant permissions) */
+  ['circle_integrations_update_column']: circle_integrations_update_column;
   /** order by var_pop() on columns of table "circle_integrations" */
   ['circle_integrations_var_pop_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
@@ -11346,6 +12422,18 @@ columns and relationships of "circle_api_keys" */
   };
   /** select columns of table "circle_private" */
   ['circle_private_select_column']: circle_private_select_column;
+  /** Streaming cursor of the table "circle_private" */
+  ['circle_private_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['circle_private_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['circle_private_stream_cursor_value_input']: {
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    discord_webhook?: string | undefined;
+  };
   /** columns and relationships of "circle_share_tokens" */
   ['circle_share_tokens']: {
     __typename: 'circle_share_tokens';
@@ -11369,6 +12457,8 @@ columns and relationships of "circle_api_keys" */
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     uuid?: GraphQLTypes['uuid_comparison_exp'] | undefined;
   };
+  /** unique or primary key constraints on table "circle_share_tokens" */
+  ['circle_share_tokens_constraint']: circle_share_tokens_constraint;
   /** input type for inserting data into table "circle_share_tokens" */
   ['circle_share_tokens_insert_input']: {
     circle_id?: GraphQLTypes['bigint'] | undefined;
@@ -11382,6 +12472,12 @@ columns and relationships of "circle_api_keys" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['circle_share_tokens']>;
   };
+  /** on_conflict condition type for table "circle_share_tokens" */
+  ['circle_share_tokens_on_conflict']: {
+    constraint: GraphQLTypes['circle_share_tokens_constraint'];
+    update_columns: Array<GraphQLTypes['circle_share_tokens_update_column']>;
+    where?: GraphQLTypes['circle_share_tokens_bool_exp'] | undefined;
+  };
   /** Ordering options when selecting data from "circle_share_tokens". */
   ['circle_share_tokens_order_by']: {
     circle?: GraphQLTypes['circles_order_by'] | undefined;
@@ -11393,6 +12489,23 @@ columns and relationships of "circle_api_keys" */
   };
   /** select columns of table "circle_share_tokens" */
   ['circle_share_tokens_select_column']: circle_share_tokens_select_column;
+  /** Streaming cursor of the table "circle_share_tokens" */
+  ['circle_share_tokens_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['circle_share_tokens_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['circle_share_tokens_stream_cursor_value_input']: {
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    type?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    uuid?: GraphQLTypes['uuid'] | undefined;
+  };
+  /** placeholder for update columns of table "circle_share_tokens" (current role has no relevant permissions) */
+  ['circle_share_tokens_update_column']: circle_share_tokens_update_column;
   /** columns and relationships of "circles" */
   ['circles']: {
     __typename: 'circles';
@@ -11627,6 +12740,37 @@ columns and relationships of "circle_api_keys" */
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
   };
+  /** Streaming cursor of the table "circles" */
+  ['circles_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['circles_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['circles_stream_cursor_value_input']: {
+    alloc_text?: string | undefined;
+    auto_opt_out?: boolean | undefined;
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    default_opt_in?: boolean | undefined;
+    deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    fixed_payment_token_type?: string | undefined;
+    fixed_payment_vault_id?: number | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    is_verified?: boolean | undefined;
+    logo?: string | undefined;
+    min_vouches?: number | undefined;
+    name?: string | undefined;
+    nomination_days_limit?: number | undefined;
+    only_giver_vouch?: boolean | undefined;
+    organization_id?: number | undefined;
+    team_sel_text?: string | undefined;
+    team_selection?: boolean | undefined;
+    token_name?: string | undefined;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
+    vouching?: boolean | undefined;
+    vouching_text?: string | undefined;
+  };
   /** order by sum() on columns of table "circles" */
   ['circles_sum_order_by']: {
     fixed_payment_vault_id?: GraphQLTypes['order_by'] | undefined;
@@ -11716,7 +12860,7 @@ columns and relationships of "circle_api_keys" */
   /** input type for inserting array relation for remote table "claims" */
   ['claims_arr_rel_insert_input']: {
     data: Array<GraphQLTypes['claims_insert_input']>;
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: GraphQLTypes['claims_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
@@ -11838,7 +12982,7 @@ columns and relationships of "circle_api_keys" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['claims']>;
   };
-  /** on conflict condition type for table "claims" */
+  /** on_conflict condition type for table "claims" */
   ['claims_on_conflict']: {
     constraint: GraphQLTypes['claims_constraint'];
     update_columns: Array<GraphQLTypes['claims_update_column']>;
@@ -11927,6 +13071,27 @@ columns and relationships of "circle_api_keys" */
     new_amount?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
   };
+  /** Streaming cursor of the table "claims" */
+  ['claims_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['claims_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['claims_stream_cursor_value_input']: {
+    address?: string | undefined;
+    amount?: GraphQLTypes['numeric'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    distribution_id?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    index?: GraphQLTypes['bigint'] | undefined;
+    new_amount?: GraphQLTypes['numeric'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    proof?: string | undefined;
+    txHash?: string | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
   /** aggregate sum on columns */
   ['claims_sum_fields']: {
     __typename: 'claims_sum_fields';
@@ -11948,6 +13113,11 @@ columns and relationships of "circle_api_keys" */
   };
   /** update columns of table "claims" */
   ['claims_update_column']: claims_update_column;
+  ['claims_updates']: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes['claims_set_input'] | undefined;
+    where: GraphQLTypes['claims_bool_exp'];
+  };
   /** aggregate var_pop on columns */
   ['claims_var_pop_fields']: {
     __typename: 'claims_var_pop_fields';
@@ -12085,6 +13255,8 @@ columns and relationships of "circle_api_keys" */
     user?: GraphQLTypes['users_bool_exp'] | undefined;
     user_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
   };
+  /** unique or primary key constraints on table "contributions" */
+  ['contributions_constraint']: contributions_constraint;
   /** input type for inserting data into table "contributions" */
   ['contributions_insert_input']: {
     circle_id?: GraphQLTypes['bigint'] | undefined;
@@ -12141,6 +13313,12 @@ columns and relationships of "circle_api_keys" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['contributions']>;
   };
+  /** on_conflict condition type for table "contributions" */
+  ['contributions_on_conflict']: {
+    constraint: GraphQLTypes['contributions_constraint'];
+    update_columns: Array<GraphQLTypes['contributions_update_column']>;
+    where?: GraphQLTypes['contributions_bool_exp'] | undefined;
+  };
   /** Ordering options when selecting data from "contributions". */
   ['contributions_order_by']: {
     circle?: GraphQLTypes['circles_order_by'] | undefined;
@@ -12194,6 +13372,23 @@ columns and relationships of "circle_api_keys" */
     id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
+  /** Streaming cursor of the table "contributions" */
+  ['contributions_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['contributions_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['contributions_stream_cursor_value_input']: {
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    datetime_created?: GraphQLTypes['timestamptz'] | undefined;
+    description?: string | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
+  };
   /** aggregate sum on columns */
   ['contributions_sum_fields']: {
     __typename: 'contributions_sum_fields';
@@ -12207,6 +13402,8 @@ columns and relationships of "circle_api_keys" */
     id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
+  /** placeholder for update columns of table "contributions" (current role has no relevant permissions) */
+  ['contributions_update_column']: contributions_update_column;
   /** aggregate var_pop on columns */
   ['contributions_var_pop_fields']: {
     __typename: 'contributions_var_pop_fields';
@@ -12246,6 +13443,8 @@ columns and relationships of "circle_api_keys" */
     id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
+  /** ordering argument of a cursor */
+  ['cursor_ordering']: cursor_ordering;
   ['date']: any;
   /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
   ['date_comparison_exp']: {
@@ -12259,10 +13458,7 @@ columns and relationships of "circle_api_keys" */
     _neq?: GraphQLTypes['date'] | undefined;
     _nin?: Array<GraphQLTypes['date']> | undefined;
   };
-  /** Vault Distributions
-
-
-columns and relationships of "distributions" */
+  /** Vault Distributions */
   ['distributions']: {
     __typename: 'distributions';
     /** An array relationship */
@@ -12469,10 +13665,10 @@ columns and relationships of "distributions" */
   /** input type for inserting object relation for remote table "distributions" */
   ['distributions_obj_rel_insert_input']: {
     data: GraphQLTypes['distributions_insert_input'];
-    /** on conflict condition */
+    /** upsert condition */
     on_conflict?: GraphQLTypes['distributions_on_conflict'] | undefined;
   };
-  /** on conflict condition type for table "distributions" */
+  /** on_conflict condition type for table "distributions" */
   ['distributions_on_conflict']: {
     constraint: GraphQLTypes['distributions_constraint'];
     update_columns: Array<GraphQLTypes['distributions_update_column']>;
@@ -12581,6 +13777,29 @@ columns and relationships of "distributions" */
     id?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
   };
+  /** Streaming cursor of the table "distributions" */
+  ['distributions_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['distributions_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['distributions_stream_cursor_value_input']: {
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    created_by?: GraphQLTypes['bigint'] | undefined;
+    distribution_epoch_id?: GraphQLTypes['bigint'] | undefined;
+    distribution_json?: GraphQLTypes['jsonb'] | undefined;
+    distribution_type?: number | undefined;
+    epoch_id?: GraphQLTypes['bigint'] | undefined;
+    fixed_amount?: GraphQLTypes['numeric'] | undefined;
+    gift_amount?: GraphQLTypes['numeric'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    merkle_root?: string | undefined;
+    total_amount?: string | undefined;
+    tx_hash?: string | undefined;
+    vault_id?: GraphQLTypes['bigint'] | undefined;
+  };
   /** aggregate sum on columns */
   ['distributions_sum_fields']: {
     __typename: 'distributions_sum_fields';
@@ -12606,6 +13825,13 @@ columns and relationships of "distributions" */
   };
   /** update columns of table "distributions" */
   ['distributions_update_column']: distributions_update_column;
+  ['distributions_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: GraphQLTypes['distributions_inc_input'] | undefined;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes['distributions_set_input'] | undefined;
+    where: GraphQLTypes['distributions_bool_exp'];
+  };
   /** aggregate var_pop on columns */
   ['distributions_var_pop_fields']: {
     __typename: 'distributions_var_pop_fields';
@@ -12855,6 +14081,31 @@ columns and relationships of "distributions" */
     repeat?: GraphQLTypes['order_by'] | undefined;
     repeat_day_of_month?: GraphQLTypes['order_by'] | undefined;
   };
+  /** Streaming cursor of the table "epochs" */
+  ['epochs_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['epochs_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['epochs_stream_cursor_value_input']: {
+    circle_id?: number | undefined;
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    days?: number | undefined;
+    end_date?: GraphQLTypes['timestamptz'] | undefined;
+    ended?: boolean | undefined;
+    grant?: GraphQLTypes['numeric'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    notified_before_end?: GraphQLTypes['timestamp'] | undefined;
+    notified_end?: GraphQLTypes['timestamp'] | undefined;
+    notified_start?: GraphQLTypes['timestamp'] | undefined;
+    number?: number | undefined;
+    repeat?: number | undefined;
+    repeat_day_of_month?: number | undefined;
+    start_date?: GraphQLTypes['timestamptz'] | undefined;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
+  };
   /** order by sum() on columns of table "epoches" */
   ['epochs_sum_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
@@ -12930,6 +14181,20 @@ columns and relationships of "distributions" */
   };
   /** select columns of table "gift_private" */
   ['gift_private_select_column']: gift_private_select_column;
+  /** Streaming cursor of the table "gift_private" */
+  ['gift_private_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['gift_private_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['gift_private_stream_cursor_value_input']: {
+    gift_id?: GraphQLTypes['bigint'] | undefined;
+    note?: string | undefined;
+    recipient_id?: GraphQLTypes['bigint'] | undefined;
+    sender_id?: GraphQLTypes['bigint'] | undefined;
+  };
   ['json']: any;
   /** Boolean expression to compare columns of type "json". All fields are combined with logical 'AND'. */
   ['json_comparison_exp']: {
@@ -12944,8 +14209,12 @@ columns and relationships of "distributions" */
     _nin?: Array<GraphQLTypes['json']> | undefined;
   };
   ['jsonb']: any;
+  ['jsonb_cast_exp']: {
+    String?: GraphQLTypes['String_comparison_exp'] | undefined;
+  };
   /** Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'. */
   ['jsonb_comparison_exp']: {
+    _cast?: GraphQLTypes['jsonb_cast_exp'] | undefined;
     /** is the column contained in the given json value */
     _contained_in?: GraphQLTypes['jsonb'] | undefined;
     /** does the column contain the given json value at the top level */
@@ -13071,22 +14340,38 @@ columns and relationships of "distributions" */
     update_claims?: GraphQLTypes['claims_mutation_response'] | undefined;
     /** update single row of the table: "claims" */
     update_claims_by_pk?: GraphQLTypes['claims'] | undefined;
+    /** update multiples rows of table: "claims" */
+    update_claims_many?:
+      | Array<GraphQLTypes['claims_mutation_response'] | undefined>
+      | undefined;
     /** update data of the table: "distributions" */
     update_distributions?:
       | GraphQLTypes['distributions_mutation_response']
       | undefined;
     /** update single row of the table: "distributions" */
     update_distributions_by_pk?: GraphQLTypes['distributions'] | undefined;
+    /** update multiples rows of table: "distributions" */
+    update_distributions_many?:
+      | Array<GraphQLTypes['distributions_mutation_response'] | undefined>
+      | undefined;
     /** update data of the table: "organizations" */
     update_organizations?:
       | GraphQLTypes['organizations_mutation_response']
       | undefined;
     /** update single row of the table: "organizations" */
     update_organizations_by_pk?: GraphQLTypes['organizations'] | undefined;
+    /** update multiples rows of table: "organizations" */
+    update_organizations_many?:
+      | Array<GraphQLTypes['organizations_mutation_response'] | undefined>
+      | undefined;
     /** update data of the table: "profiles" */
     update_profiles?: GraphQLTypes['profiles_mutation_response'] | undefined;
     /** update single row of the table: "profiles" */
     update_profiles_by_pk?: GraphQLTypes['profiles'] | undefined;
+    /** update multiples rows of table: "profiles" */
+    update_profiles_many?:
+      | Array<GraphQLTypes['profiles_mutation_response'] | undefined>
+      | undefined;
     uploadCircleLogo?: GraphQLTypes['UpdateCircleResponse'] | undefined;
     uploadOrgLogo?: GraphQLTypes['UpdateOrgResponse'] | undefined;
     uploadProfileAvatar?: GraphQLTypes['UpdateProfileResponse'] | undefined;
@@ -13330,6 +14615,29 @@ columns and relationships of "distributions" */
     user_id?: GraphQLTypes['order_by'] | undefined;
     vouches_required?: GraphQLTypes['order_by'] | undefined;
   };
+  /** Streaming cursor of the table "nominees" */
+  ['nominees_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['nominees_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['nominees_stream_cursor_value_input']: {
+    address?: string | undefined;
+    circle_id?: number | undefined;
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    description?: string | undefined;
+    ended?: boolean | undefined;
+    expiry_date?: GraphQLTypes['timestamp'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    name?: string | undefined;
+    nominated_by_user_id?: number | undefined;
+    nominated_date?: GraphQLTypes['date'] | undefined;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
+    user_id?: number | undefined;
+    vouches_required?: number | undefined;
+  };
   /** aggregate sum on columns */
   ['nominees_sum_fields']: {
     __typename: 'nominees_sum_fields';
@@ -13471,6 +14779,27 @@ columns and relationships of "distributions" */
     name?: string | undefined;
     telegram_id?: string | undefined;
   };
+  /** Streaming cursor of the table "organizations" */
+  ['organizations_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['organizations_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['organizations_stream_cursor_value_input']: {
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    logo?: string | undefined;
+    name?: string | undefined;
+    telegram_id?: string | undefined;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
+  };
+  ['organizations_updates']: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes['organizations_set_input'] | undefined;
+    where: GraphQLTypes['organizations_bool_exp'];
+  };
   /** columns and relationships of "pending_gift_private" */
   ['pending_gift_private']: {
     __typename: 'pending_gift_private';
@@ -13506,10 +14835,21 @@ columns and relationships of "distributions" */
   };
   /** select columns of table "pending_gift_private" */
   ['pending_gift_private_select_column']: pending_gift_private_select_column;
-  /** GIVE allocations made by circle members for the currently running epoch
-
-
-columns and relationships of "pending_token_gifts" */
+  /** Streaming cursor of the table "pending_gift_private" */
+  ['pending_gift_private_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['pending_gift_private_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['pending_gift_private_stream_cursor_value_input']: {
+    gift_id?: GraphQLTypes['bigint'] | undefined;
+    note?: string | undefined;
+    recipient_id?: GraphQLTypes['bigint'] | undefined;
+    sender_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** GIVE allocations made by circle members for the currently running epoch */
   ['pending_token_gifts']: {
     __typename: 'pending_token_gifts';
     /** An object relationship */
@@ -13663,6 +15003,27 @@ columns and relationships of "pending_token_gifts" */
     sender_id?: GraphQLTypes['order_by'] | undefined;
     tokens?: GraphQLTypes['order_by'] | undefined;
   };
+  /** Streaming cursor of the table "pending_token_gifts" */
+  ['pending_token_gifts_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['pending_token_gifts_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['pending_token_gifts_stream_cursor_value_input']: {
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    dts_created?: GraphQLTypes['timestamp'] | undefined;
+    epoch_id?: number | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    recipient_address?: string | undefined;
+    recipient_id?: GraphQLTypes['bigint'] | undefined;
+    sender_address?: string | undefined;
+    sender_id?: GraphQLTypes['bigint'] | undefined;
+    tokens?: number | undefined;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
+  };
   /** order by sum() on columns of table "pending_token_gifts" */
   ['pending_token_gifts_sum_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
@@ -13699,10 +15060,7 @@ columns and relationships of "pending_token_gifts" */
     sender_id?: GraphQLTypes['order_by'] | undefined;
     tokens?: GraphQLTypes['order_by'] | undefined;
   };
-  /** stores app-specific context to aid in the recovery of incomplete transactions
-
-
-columns and relationships of "pending_vault_transactions" */
+  /** stores app-specific context to aid in the recovery of incomplete transactions */
   ['pending_vault_transactions']: {
     __typename: 'pending_vault_transactions';
     chain_id: number;
@@ -13742,6 +15100,8 @@ columns and relationships of "pending_vault_transactions" */
     tx_type?: GraphQLTypes['vault_tx_types_enum_comparison_exp'] | undefined;
     vault_tx_type?: GraphQLTypes['vault_tx_types_bool_exp'] | undefined;
   };
+  /** unique or primary key constraints on table "pending_vault_transactions" */
+  ['pending_vault_transactions_constraint']: pending_vault_transactions_constraint;
   /** input type for inserting data into table "pending_vault_transactions" */
   ['pending_vault_transactions_insert_input']: {
     chain_id?: number | undefined;
@@ -13762,6 +15122,14 @@ columns and relationships of "pending_vault_transactions" */
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['pending_vault_transactions']>;
   };
+  /** on_conflict condition type for table "pending_vault_transactions" */
+  ['pending_vault_transactions_on_conflict']: {
+    constraint: GraphQLTypes['pending_vault_transactions_constraint'];
+    update_columns: Array<
+      GraphQLTypes['pending_vault_transactions_update_column']
+    >;
+    where?: GraphQLTypes['pending_vault_transactions_bool_exp'] | undefined;
+  };
   /** Ordering options when selecting data from "pending_vault_transactions". */
   ['pending_vault_transactions_order_by']: {
     chain_id?: GraphQLTypes['order_by'] | undefined;
@@ -13778,10 +15146,26 @@ columns and relationships of "pending_vault_transactions" */
   };
   /** select columns of table "pending_vault_transactions" */
   ['pending_vault_transactions_select_column']: pending_vault_transactions_select_column;
-  /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table
-
-
-columns and relationships of "profiles" */
+  /** Streaming cursor of the table "pending_vault_transactions" */
+  ['pending_vault_transactions_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['pending_vault_transactions_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['pending_vault_transactions_stream_cursor_value_input']: {
+    chain_id?: number | undefined;
+    claim_id?: GraphQLTypes['bigint'] | undefined;
+    created_by?: GraphQLTypes['bigint'] | undefined;
+    distribution_id?: GraphQLTypes['bigint'] | undefined;
+    org_id?: GraphQLTypes['bigint'] | undefined;
+    tx_hash?: string | undefined;
+    tx_type?: GraphQLTypes['vault_tx_types_enum'] | undefined;
+  };
+  /** placeholder for update columns of table "pending_vault_transactions" (current role has no relevant permissions) */
+  ['pending_vault_transactions_update_column']: pending_vault_transactions_update_column;
+  /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table */
   ['profiles']: {
     __typename: 'profiles';
     address: string;
@@ -13879,13 +15263,42 @@ columns and relationships of "profiles" */
     twitter_username?: string | undefined;
     website?: string | undefined;
   };
+  /** Streaming cursor of the table "profiles" */
+  ['profiles_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['profiles_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['profiles_stream_cursor_value_input']: {
+    address?: string | undefined;
+    avatar?: string | undefined;
+    background?: string | undefined;
+    bio?: string | undefined;
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    discord_username?: string | undefined;
+    github_username?: string | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    medium_username?: string | undefined;
+    skills?: string | undefined;
+    telegram_username?: string | undefined;
+    twitter_username?: string | undefined;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
+    website?: string | undefined;
+  };
+  ['profiles_updates']: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes['profiles_set_input'] | undefined;
+    where: GraphQLTypes['profiles_bool_exp'];
+  };
   ['query_root']: {
     __typename: 'query_root';
     /** An array relationship */
     burns: Array<GraphQLTypes['burns']>;
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
-    /** fetch data from the table: "circle_api_keys" */
+    /** An array relationship */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** fetch data from the table: "circle_api_keys" using primary key columns */
     circle_api_keys_by_pk?: GraphQLTypes['circle_api_keys'] | undefined;
@@ -13996,64 +15409,94 @@ columns and relationships of "profiles" */
     burns: Array<GraphQLTypes['burns']>;
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
-    /** fetch data from the table: "circle_api_keys" */
+    /** fetch data from the table in a streaming manner : "burns" */
+    burns_stream: Array<GraphQLTypes['burns']>;
+    /** An array relationship */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** fetch data from the table: "circle_api_keys" using primary key columns */
     circle_api_keys_by_pk?: GraphQLTypes['circle_api_keys'] | undefined;
+    /** fetch data from the table in a streaming manner : "circle_api_keys" */
+    circle_api_keys_stream: Array<GraphQLTypes['circle_api_keys']>;
     /** fetch data from the table: "circle_integrations" */
     circle_integrations: Array<GraphQLTypes['circle_integrations']>;
     /** fetch data from the table: "circle_integrations" using primary key columns */
     circle_integrations_by_pk?: GraphQLTypes['circle_integrations'] | undefined;
+    /** fetch data from the table in a streaming manner : "circle_integrations" */
+    circle_integrations_stream: Array<GraphQLTypes['circle_integrations']>;
     /** fetch data from the table: "circle_private" */
     circle_private: Array<GraphQLTypes['circle_private']>;
+    /** fetch data from the table in a streaming manner : "circle_private" */
+    circle_private_stream: Array<GraphQLTypes['circle_private']>;
     /** fetch data from the table: "circle_share_tokens" */
     circle_share_tokens: Array<GraphQLTypes['circle_share_tokens']>;
     /** fetch data from the table: "circle_share_tokens" using primary key columns */
     circle_share_tokens_by_pk?: GraphQLTypes['circle_share_tokens'] | undefined;
+    /** fetch data from the table in a streaming manner : "circle_share_tokens" */
+    circle_share_tokens_stream: Array<GraphQLTypes['circle_share_tokens']>;
     /** An array relationship */
     circles: Array<GraphQLTypes['circles']>;
     /** fetch data from the table: "circles" using primary key columns */
     circles_by_pk?: GraphQLTypes['circles'] | undefined;
+    /** fetch data from the table in a streaming manner : "circles" */
+    circles_stream: Array<GraphQLTypes['circles']>;
     /** An array relationship */
     claims: Array<GraphQLTypes['claims']>;
     /** An aggregate relationship */
     claims_aggregate: GraphQLTypes['claims_aggregate'];
     /** fetch data from the table: "claims" using primary key columns */
     claims_by_pk?: GraphQLTypes['claims'] | undefined;
+    /** fetch data from the table in a streaming manner : "claims" */
+    claims_stream: Array<GraphQLTypes['claims']>;
     /** An array relationship */
     contributions: Array<GraphQLTypes['contributions']>;
     /** An aggregate relationship */
     contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     /** fetch data from the table: "contributions" using primary key columns */
     contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
+    /** fetch data from the table in a streaming manner : "contributions" */
+    contributions_stream: Array<GraphQLTypes['contributions']>;
     /** An array relationship */
     distributions: Array<GraphQLTypes['distributions']>;
     /** An aggregate relationship */
     distributions_aggregate: GraphQLTypes['distributions_aggregate'];
     /** fetch data from the table: "distributions" using primary key columns */
     distributions_by_pk?: GraphQLTypes['distributions'] | undefined;
+    /** fetch data from the table in a streaming manner : "distributions" */
+    distributions_stream: Array<GraphQLTypes['distributions']>;
     /** An array relationship */
     epochs: Array<GraphQLTypes['epochs']>;
     /** fetch data from the table: "epoches" using primary key columns */
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
+    /** fetch data from the table in a streaming manner : "epoches" */
+    epochs_stream: Array<GraphQLTypes['epochs']>;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
+    /** fetch data from the table in a streaming manner : "gift_private" */
+    gift_private_stream: Array<GraphQLTypes['gift_private']>;
     /** An array relationship */
     nominees: Array<GraphQLTypes['nominees']>;
     /** An aggregate relationship */
     nominees_aggregate: GraphQLTypes['nominees_aggregate'];
     /** fetch data from the table: "nominees" using primary key columns */
     nominees_by_pk?: GraphQLTypes['nominees'] | undefined;
+    /** fetch data from the table in a streaming manner : "nominees" */
+    nominees_stream: Array<GraphQLTypes['nominees']>;
     /** fetch data from the table: "organizations" */
     organizations: Array<GraphQLTypes['organizations']>;
     /** fetch data from the table: "organizations" using primary key columns */
     organizations_by_pk?: GraphQLTypes['organizations'] | undefined;
+    /** fetch data from the table in a streaming manner : "organizations" */
+    organizations_stream: Array<GraphQLTypes['organizations']>;
     /** fetch data from the table: "pending_gift_private" */
     pending_gift_private: Array<GraphQLTypes['pending_gift_private']>;
+    /** fetch data from the table in a streaming manner : "pending_gift_private" */
+    pending_gift_private_stream: Array<GraphQLTypes['pending_gift_private']>;
     /** An array relationship */
     pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     /** fetch data from the table: "pending_token_gifts" using primary key columns */
     pending_token_gifts_by_pk?: GraphQLTypes['pending_token_gifts'] | undefined;
+    /** fetch data from the table in a streaming manner : "pending_token_gifts" */
+    pending_token_gifts_stream: Array<GraphQLTypes['pending_token_gifts']>;
     /** fetch data from the table: "pending_vault_transactions" */
     pending_vault_transactions: Array<
       GraphQLTypes['pending_vault_transactions']
@@ -14062,44 +15505,66 @@ columns and relationships of "profiles" */
     pending_vault_transactions_by_pk?:
       | GraphQLTypes['pending_vault_transactions']
       | undefined;
+    /** fetch data from the table in a streaming manner : "pending_vault_transactions" */
+    pending_vault_transactions_stream: Array<
+      GraphQLTypes['pending_vault_transactions']
+    >;
     /** fetch data from the table: "profiles" */
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch data from the table: "profiles" using primary key columns */
     profiles_by_pk?: GraphQLTypes['profiles'] | undefined;
+    /** fetch data from the table in a streaming manner : "profiles" */
+    profiles_stream: Array<GraphQLTypes['profiles']>;
     /** An array relationship */
     teammates: Array<GraphQLTypes['teammates']>;
     /** fetch data from the table: "teammates" using primary key columns */
     teammates_by_pk?: GraphQLTypes['teammates'] | undefined;
+    /** fetch data from the table in a streaming manner : "teammates" */
+    teammates_stream: Array<GraphQLTypes['teammates']>;
     /** An array relationship */
     token_gifts: Array<GraphQLTypes['token_gifts']>;
     /** An aggregate relationship */
     token_gifts_aggregate: GraphQLTypes['token_gifts_aggregate'];
     /** fetch data from the table: "token_gifts" using primary key columns */
     token_gifts_by_pk?: GraphQLTypes['token_gifts'] | undefined;
+    /** fetch data from the table in a streaming manner : "token_gifts" */
+    token_gifts_stream: Array<GraphQLTypes['token_gifts']>;
     /** fetch data from the table: "user_private" */
     user_private: Array<GraphQLTypes['user_private']>;
     /** fetch aggregated fields from the table: "user_private" */
     user_private_aggregate: GraphQLTypes['user_private_aggregate'];
+    /** fetch data from the table in a streaming manner : "user_private" */
+    user_private_stream: Array<GraphQLTypes['user_private']>;
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
     /** fetch data from the table: "users" using primary key columns */
     users_by_pk?: GraphQLTypes['users'] | undefined;
+    /** fetch data from the table in a streaming manner : "users" */
+    users_stream: Array<GraphQLTypes['users']>;
     /** An array relationship */
     vault_transactions: Array<GraphQLTypes['vault_transactions']>;
     /** fetch data from the table: "vault_transactions" using primary key columns */
     vault_transactions_by_pk?: GraphQLTypes['vault_transactions'] | undefined;
+    /** fetch data from the table in a streaming manner : "vault_transactions" */
+    vault_transactions_stream: Array<GraphQLTypes['vault_transactions']>;
     /** fetch data from the table: "vault_tx_types" */
     vault_tx_types: Array<GraphQLTypes['vault_tx_types']>;
     /** fetch data from the table: "vault_tx_types" using primary key columns */
     vault_tx_types_by_pk?: GraphQLTypes['vault_tx_types'] | undefined;
+    /** fetch data from the table in a streaming manner : "vault_tx_types" */
+    vault_tx_types_stream: Array<GraphQLTypes['vault_tx_types']>;
     /** An array relationship */
     vaults: Array<GraphQLTypes['vaults']>;
     /** fetch data from the table: "vaults" using primary key columns */
     vaults_by_pk?: GraphQLTypes['vaults'] | undefined;
+    /** fetch data from the table in a streaming manner : "vaults" */
+    vaults_stream: Array<GraphQLTypes['vaults']>;
     /** An array relationship */
     vouches: Array<GraphQLTypes['vouches']>;
     /** fetch data from the table: "vouches" using primary key columns */
     vouches_by_pk?: GraphQLTypes['vouches'] | undefined;
+    /** fetch data from the table in a streaming manner : "vouches" */
+    vouches_stream: Array<GraphQLTypes['vouches']>;
   };
   /** columns and relationships of "teammates" */
   ['teammates']: {
@@ -14193,6 +15658,21 @@ columns and relationships of "profiles" */
     team_mate_id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
+  /** Streaming cursor of the table "teammates" */
+  ['teammates_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['teammates_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['teammates_stream_cursor_value_input']: {
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    team_mate_id?: number | undefined;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
+    user_id?: number | undefined;
+  };
   /** order by sum() on columns of table "teammates" */
   ['teammates_sum_order_by']: {
     id?: GraphQLTypes['order_by'] | undefined;
@@ -14243,10 +15723,7 @@ columns and relationships of "profiles" */
     _neq?: GraphQLTypes['timestamptz'] | undefined;
     _nin?: Array<GraphQLTypes['timestamptz']> | undefined;
   };
-  /** GIVE allocations made by circle members for completed epochs
-
-
-columns and relationships of "token_gifts" */
+  /** GIVE allocations made by circle members for completed epochs */
   ['token_gifts']: {
     __typename: 'token_gifts';
     /** An object relationship */
@@ -14483,6 +15960,27 @@ columns and relationships of "token_gifts" */
     sender_id?: GraphQLTypes['order_by'] | undefined;
     tokens?: GraphQLTypes['order_by'] | undefined;
   };
+  /** Streaming cursor of the table "token_gifts" */
+  ['token_gifts_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['token_gifts_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['token_gifts_stream_cursor_value_input']: {
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    dts_created?: GraphQLTypes['timestamp'] | undefined;
+    epoch_id?: number | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    recipient_address?: string | undefined;
+    recipient_id?: GraphQLTypes['bigint'] | undefined;
+    sender_address?: string | undefined;
+    sender_id?: GraphQLTypes['bigint'] | undefined;
+    tokens?: number | undefined;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
+  };
   /** aggregate sum on columns */
   ['token_gifts_sum_fields']: {
     __typename: 'token_gifts_sum_fields';
@@ -14652,6 +16150,19 @@ columns and relationships of "token_gifts" */
     fixed_payment_amount?: number | undefined;
     user_id?: number | undefined;
   };
+  /** Streaming cursor of the table "user_private" */
+  ['user_private_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['user_private_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['user_private_stream_cursor_value_input']: {
+    fixed_payment_amount?: GraphQLTypes['numeric'] | undefined;
+    fixed_payment_token_type?: string | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
+  };
   /** aggregate sum on columns */
   ['user_private_sum_fields']: {
     __typename: 'user_private_sum_fields';
@@ -14676,10 +16187,7 @@ columns and relationships of "token_gifts" */
     fixed_payment_amount?: number | undefined;
     user_id?: number | undefined;
   };
-  /** Members of a circle
-
-
-columns and relationships of "users" */
+  /** Members of a circle */
   ['users']: {
     __typename: 'users';
     address: string;
@@ -14688,7 +16196,7 @@ columns and relationships of "users" */
     burns: Array<GraphQLTypes['burns']>;
     /** An object relationship */
     circle: GraphQLTypes['circles'];
-    /** fetch data from the table: "circle_api_keys" */
+    /** An array relationship */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     circle_id: GraphQLTypes['bigint'];
     /** An array relationship */
@@ -14894,6 +16402,32 @@ columns and relationships of "users" */
     role?: GraphQLTypes['order_by'] | undefined;
     starting_tokens?: GraphQLTypes['order_by'] | undefined;
   };
+  /** Streaming cursor of the table "users" */
+  ['users_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['users_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['users_stream_cursor_value_input']: {
+    address?: string | undefined;
+    bio?: string | undefined;
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    epoch_first_visit?: boolean | undefined;
+    fixed_non_receiver?: boolean | undefined;
+    give_token_received?: number | undefined;
+    give_token_remaining?: number | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    name?: string | undefined;
+    non_giver?: boolean | undefined;
+    non_receiver?: boolean | undefined;
+    role?: number | undefined;
+    starting_tokens?: number | undefined;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
+  };
   /** order by sum() on columns of table "users" */
   ['users_sum_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
@@ -15077,6 +16611,25 @@ columns and relationships of "users" */
     id?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
   };
+  /** Streaming cursor of the table "vault_transactions" */
+  ['vault_transactions_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['vault_transactions_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['vault_transactions_stream_cursor_value_input']: {
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    created_by?: GraphQLTypes['bigint'] | undefined;
+    distribution_id?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    tx_hash?: string | undefined;
+    tx_type?: GraphQLTypes['vault_tx_types_enum'] | undefined;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
+    vault_id?: GraphQLTypes['bigint'] | undefined;
+  };
   /** order by sum() on columns of table "vault_transactions" */
   ['vault_transactions_sum_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
@@ -15147,6 +16700,18 @@ columns and relationships of "users" */
   };
   /** select columns of table "vault_tx_types" */
   ['vault_tx_types_select_column']: vault_tx_types_select_column;
+  /** Streaming cursor of the table "vault_tx_types" */
+  ['vault_tx_types_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['vault_tx_types_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['vault_tx_types_stream_cursor_value_input']: {
+    comment?: string | undefined;
+    value?: string | undefined;
+  };
   /** columns and relationships of "vaults" */
   ['vaults']: {
     __typename: 'vaults';
@@ -15293,6 +16858,27 @@ columns and relationships of "users" */
     deployment_block?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
   };
+  /** Streaming cursor of the table "vaults" */
+  ['vaults_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['vaults_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['vaults_stream_cursor_value_input']: {
+    chain_id?: number | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    created_by?: GraphQLTypes['bigint'] | undefined;
+    decimals?: number | undefined;
+    deployment_block?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    simple_token_address?: string | undefined;
+    symbol?: string | undefined;
+    token_address?: string | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    vault_address?: string | undefined;
+  };
   /** order by sum() on columns of table "vaults" */
   ['vaults_sum_order_by']: {
     chain_id?: GraphQLTypes['order_by'] | undefined;
@@ -15417,6 +17003,21 @@ columns and relationships of "users" */
     nominee_id?: GraphQLTypes['order_by'] | undefined;
     voucher_id?: GraphQLTypes['order_by'] | undefined;
   };
+  /** Streaming cursor of the table "vouches" */
+  ['vouches_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['vouches_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['vouches_stream_cursor_value_input']: {
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    nominee_id?: number | undefined;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
+    voucher_id?: number | undefined;
+  };
   /** order by sum() on columns of table "vouches" */
   ['vouches_sum_order_by']: {
     id?: GraphQLTypes['order_by'] | undefined;
@@ -15470,6 +17071,10 @@ export const enum circle_api_keys_select_column {
   update_circle = 'update_circle',
   update_pending_token_gifts = 'update_pending_token_gifts',
 }
+/** unique or primary key constraints on table "circle_integrations" */
+export const enum circle_integrations_constraint {
+  circle_integrations_pkey = 'circle_integrations_pkey',
+}
 /** select columns of table "circle_integrations" */
 export const enum circle_integrations_select_column {
   circle_id = 'circle_id',
@@ -15478,10 +17083,19 @@ export const enum circle_integrations_select_column {
   name = 'name',
   type = 'type',
 }
+/** placeholder for update columns of table "circle_integrations" (current role has no relevant permissions) */
+export const enum circle_integrations_update_column {
+  _PLACEHOLDER = '_PLACEHOLDER',
+}
 /** select columns of table "circle_private" */
 export const enum circle_private_select_column {
   circle_id = 'circle_id',
   discord_webhook = 'discord_webhook',
+}
+/** unique or primary key constraints on table "circle_share_tokens" */
+export const enum circle_share_tokens_constraint {
+  circle_share_token_pkey = 'circle_share_token_pkey',
+  circle_share_token_uuid_key = 'circle_share_token_uuid_key',
 }
 /** select columns of table "circle_share_tokens" */
 export const enum circle_share_tokens_select_column {
@@ -15490,6 +17104,10 @@ export const enum circle_share_tokens_select_column {
   type = 'type',
   updated_at = 'updated_at',
   uuid = 'uuid',
+}
+/** placeholder for update columns of table "circle_share_tokens" (current role has no relevant permissions) */
+export const enum circle_share_tokens_update_column {
+  _PLACEHOLDER = '_PLACEHOLDER',
 }
 /** select columns of table "circles" */
 export const enum circles_select_column {
@@ -15537,6 +17155,10 @@ export const enum claims_select_column {
 export const enum claims_update_column {
   txHash = 'txHash',
 }
+/** unique or primary key constraints on table "contributions" */
+export const enum contributions_constraint {
+  contributions_pkey = 'contributions_pkey',
+}
 /** select columns of table "contributions" */
 export const enum contributions_select_column {
   circle_id = 'circle_id',
@@ -15546,6 +17168,15 @@ export const enum contributions_select_column {
   id = 'id',
   updated_at = 'updated_at',
   user_id = 'user_id',
+}
+/** placeholder for update columns of table "contributions" (current role has no relevant permissions) */
+export const enum contributions_update_column {
+  _PLACEHOLDER = '_PLACEHOLDER',
+}
+/** ordering argument of a cursor */
+export const enum cursor_ordering {
+  ASC = 'ASC',
+  DESC = 'DESC',
 }
 /** unique or primary key constraints on table "distributions" */
 export const enum distributions_constraint {
@@ -15652,6 +17283,10 @@ export const enum pending_token_gifts_select_column {
   tokens = 'tokens',
   updated_at = 'updated_at',
 }
+/** unique or primary key constraints on table "pending_vault_transactions" */
+export const enum pending_vault_transactions_constraint {
+  pending_vault_transactions_pkey = 'pending_vault_transactions_pkey',
+}
 /** select columns of table "pending_vault_transactions" */
 export const enum pending_vault_transactions_select_column {
   chain_id = 'chain_id',
@@ -15661,6 +17296,10 @@ export const enum pending_vault_transactions_select_column {
   org_id = 'org_id',
   tx_hash = 'tx_hash',
   tx_type = 'tx_type',
+}
+/** placeholder for update columns of table "pending_vault_transactions" (current role has no relevant permissions) */
+export const enum pending_vault_transactions_update_column {
+  _PLACEHOLDER = '_PLACEHOLDER',
 }
 /** select columns of table "profiles" */
 export const enum profiles_select_column {
