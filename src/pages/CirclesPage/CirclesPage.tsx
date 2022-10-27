@@ -273,7 +273,7 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
 
   return (
     <Panel
-      tabIndex={0}
+      tabIndex={nonMember ? -1 : 0}
       key={circle.id}
       css={{
         display: 'flex',
