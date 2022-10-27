@@ -34,13 +34,4 @@ export const AppLink = styled(NavLink, {
   color: '$link',
   textDecoration: 'none',
   cursor: 'pointer',
-  variants: {
-    variant: {
-      test: {
-        true: {
-          outline: '2px solid gold',
-        },
-      },
-    },
-  },
 });
