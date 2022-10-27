@@ -79,11 +79,9 @@ export const CirclesPage = () => {
         <Text h1 css={{ '@sm': { mb: '$sm' } }}>
           Overview
         </Text>
-        <AppLink to={paths.createCircle}>
-          <Button color="primary" outlined>
-            Create New Circle
-          </Button>
-        </AppLink>
+        <Button as={NavLink} to={paths.createCircle} color="primary" outlined>
+          Create New Circle
+        </Button>
       </Flex>
       <Text
         p
@@ -228,11 +226,16 @@ const GetStarted = () => {
             happening.
           </Text>
           <Box>
-            <AppLink to={paths.createCircle}>
-              <Button color="primary" outlined inline css={{ mr: '$md' }}>
-                Create New Circle
-              </Button>
-            </AppLink>
+            <Button
+              as={NavLink}
+              to={paths.createCircle}
+              color="primary"
+              outlined
+              inline
+              css={{ mr: '$md' }}
+            >
+              Create New Circle
+            </Button>
             <Link href={EXTERNAL_URL_GET_STARTED} target="_blank">
               <Button color="primary" outlined inline css={{ mt: '$md' }}>
                 Get Started Guide
@@ -277,11 +280,6 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
         flexDirection: 'row',
         gap: '$md',
         border: '1px solid transparent',
-        '.hover-buttons': { display: 'none', '@sm': { display: 'flex' } },
-        '&:hover, &:focus': {
-          '.hover-buttons': { display: 'flex' },
-          '.circle-row-menu-indicator': { display: 'none' },
-        },
         ...(nonMember ? nonMemberPanelCss : { cursor: 'pointer' }),
         transition: 'opacity 300ms ease-in-out',
         opacity:
@@ -408,15 +406,6 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
             }}
           >
             <Box
-              className="circle-row-menu-indicator"
-              css={{ '@sm': { display: 'none' } }}
-            >
-              <Text color="neutral" size="large">
-                &middot;&middot;&middot;
-              </Text>
-            </Box>
-            <Box
-              className="hover-buttons"
               css={{
                 display: 'flex',
                 gap: '$sm',
