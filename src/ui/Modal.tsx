@@ -5,7 +5,6 @@ import { fadeIn, fadeOut, slideInRight, slideOutRight } from 'keyframes';
 import { CSS, styled } from 'stitches.config';
 
 import { X } from 'icons/__generated';
-import { Button } from 'ui';
 
 const Overlay = styled(Dialog.Overlay, {
   backgroundColor: '#00000080',
@@ -20,6 +19,13 @@ const Overlay = styled(Dialog.Overlay, {
   "&[data-state='closed']": {
     animation: `${fadeOut} .5s ease`,
   },
+});
+
+const Close = styled(Dialog.Close, {
+  position: 'absolute',
+  right: 'calc($sm + 3px)',
+  top: 'calc($sm + 3px)',
+  cursor: 'pointer',
 });
 
 const Content = styled(Dialog.Content, {
@@ -89,20 +95,9 @@ export const Modal = ({
         <Overlay />
         <Content drawer={drawer} css={css}>
           {(showClose || showClose === undefined) && (
-            <Dialog.Close>
-              <Button
-                color="transparent"
-                size="smallIcon"
-                css={{
-                  position: 'absolute',
-                  right: 'calc($sm + 3px)',
-                  top: '$sm',
-                  fontSize: '$h3',
-                }}
-              >
-                <X size="lg" />
-              </Button>
-            </Dialog.Close>
+            <Close>
+              <X size="lg" />
+            </Close>
           )}
           {title && <Title>{title}</Title>}
           {children}

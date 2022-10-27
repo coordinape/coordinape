@@ -90,9 +90,13 @@ export const OverviewMenu = ({
         css={{ outline: 'none' }}
         ref={triggerRef}
         onKeyDown={e => {
-          if (e.key === 'Enter') {
+          if (e.key === 'Enter' || e.key === ' ') {
             setMouseEnterPopover(true);
           }
+        }}
+        onMouseDown={() => {
+          clearTimeout(timeoutId);
+          setMouseEnterPopover(true);
         }}
         onMouseEnter={() => {
           clearTimeout(timeoutId);
