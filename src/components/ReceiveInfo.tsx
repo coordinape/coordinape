@@ -126,7 +126,9 @@ export const ReceiveInfo = () => {
           </PopoverClose>
           {gifts
             ?.filter(
-              tokenGift => tokenGift.tokens > 0 || tokenGift.gift_private?.note
+              tokenGift =>
+                tokenGift.sender &&
+                (tokenGift.tokens > 0 || tokenGift.gift_private?.note)
             )
             ?.sort(
               (a, b) => +new Date(b.dts_created) - +new Date(a.dts_created)
