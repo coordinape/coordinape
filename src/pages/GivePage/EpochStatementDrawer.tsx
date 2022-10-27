@@ -17,11 +17,11 @@ import {
   ToggleButton,
 } from '../../ui';
 import { paths } from 'routes/paths';
+import { SaveState, SavingIndicator } from 'ui/SavingIndicator';
 
 import { Member } from './';
 import { Contribution } from './Contribution';
 import { getContributionsForEpoch } from './queries';
-import { SaveState, SavingIndicator } from './SavingIndicator';
 
 import { IMyUser } from 'types';
 

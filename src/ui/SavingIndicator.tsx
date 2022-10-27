@@ -1,8 +1,9 @@
 import React from 'react';
 
-import { Check, RefreshCcw, AlertTriangle } from '../../icons/__generated';
-import { CSS } from '../../stitches.config';
-import { Flex, Text } from '../../ui';
+import { CSS } from 'stitches.config';
+
+import { Check, RefreshCcw, AlertTriangle } from 'icons/__generated';
+import { Flex, Text } from 'ui';
 
 export type SaveState =
   | 'stable' // nothing needs to happen
@@ -26,9 +27,10 @@ export const SavingIndicator = ({
   saveState: SaveState;
   css?: CSS;
 }) => {
+  const color = saveState == 'error' ? 'alert' : 'neutral';
   return (
     <Flex css={{ ...css, minHeight: '$lg', alignItems: 'center' }}>
-      <Text size="small" color="neutral" css={{ gap: '$xs' }}>
+      <Text size="small" color={color} css={{ gap: '$xs' }}>
         {(saveState == 'saving' ||
           saveState == 'scheduled' ||
           saveState == 'buffering') && (
@@ -44,7 +46,7 @@ export const SavingIndicator = ({
         {saveState == 'error' && (
           <>
             <AlertTriangle />
-            Error
+            Error Saving
           </>
         )}
       </Text>

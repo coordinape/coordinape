@@ -17,13 +17,13 @@ import { IEpoch, IMyUser } from '../../types';
 import { Box, Button, Flex, Modal, Panel, Text, Link } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 import { getPendingGiftsFrom } from '../AllocationPage/queries';
+import { SaveState, SavingIndicator } from 'ui/SavingIndicator';
 
 import { EpochStatementDrawer } from './EpochStatementDrawer';
 import { GiveDrawer } from './GiveDrawer';
 import { GiveRow } from './GiveRow';
 import { MyGiveRow } from './MyGiveRow';
 import { getMembersWithContributions, PotentialTeammate } from './queries';
-import { SaveState, SavingIndicator } from './SavingIndicator';
 
 export type Gift = Awaited<ReturnType<typeof getPendingGiftsFrom>>[number];
 
