@@ -3,7 +3,7 @@ import React from 'react';
 import { CSS } from 'stitches.config';
 
 import { Check, RefreshCcw, AlertTriangle } from 'icons/__generated';
-import { Flex, Text } from 'ui';
+import { Button, Flex, Text } from 'ui';
 
 export type SaveState =
   | 'stable' // nothing needs to happen
@@ -23,9 +23,11 @@ export type SaveState =
 export const SavingIndicator = ({
   saveState,
   css,
+  retry,
 }: {
   saveState: SaveState;
   css?: CSS;
+  retry?: () => void;
 }) => {
   const color = saveState == 'error' ? 'alert' : 'neutral';
   return (
@@ -47,6 +49,11 @@ export const SavingIndicator = ({
           <>
             <AlertTriangle />
             Error Saving
+            {retry && (
+              <Button size="small" css={{ ml: '$xs' }} onClick={retry}>
+                Retry
+              </Button>
+            )}
           </>
         )}
       </Text>
