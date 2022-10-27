@@ -706,6 +706,7 @@ const ContributionList = ({
         <>
           {contributions.map(c => (
             <Panel
+              tabIndex={0}
               key={c.id}
               css={{
                 border:
@@ -726,6 +727,11 @@ const ContributionList = ({
               nested
               onClick={() => {
                 setActiveContribution(epoch, c, undefined);
+              }}
+              onKeyDown={e => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  setActiveContribution(epoch, c, undefined);
+                }
               }}
             >
               <Flex css={{ justifyContent: 'space-between' }}>

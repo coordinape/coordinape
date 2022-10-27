@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from 'react';
+
 import { ApeInfoTooltip } from '../../components';
 import { Check, Slash, X } from '../../icons/__generated';
 import { IMyUser } from '../../types';
@@ -18,6 +20,7 @@ export const MyGiveRow = ({
   optOutOpen,
   setOptOutOpen,
   statementCompelete,
+  selected,
 }: {
   myUser: IMyUser;
   userIsOptedOut: boolean;
@@ -28,11 +31,34 @@ export const MyGiveRow = ({
   setOptOutOpen: (b: boolean) => void;
   optOutOpen: boolean;
   statementCompelete: boolean;
+  selected: boolean;
 }) => {
+  const newRef = useRef<HTMLButtonElement>(null);
+  const [lastSelected, setLastSelected] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (selected) {
+      // eslint-disable-next-line no-console
+      console.log('if selected', newRef?.current);
+      setLastSelected(true);
+    } else {
+      if (lastSelected) {
+        // eslint-disable-next-line no-console
+        console.log('if last selected', newRef?.current);
+        newRef?.current?.focus();
+      }
+      setLastSelected(false);
+    }
+  }, [selected, lastSelected]);
   return (
-    <Button onClick={openEpochStatement} color="transparent" css={{ p: 0 }}>
+    <Button
+      onClick={openEpochStatement}
+      color="transparent"
+      css={{ p: 0 }}
+      ref={newRef}
+    >
       <GiveRowGrid
-        selected={false}
+        selected={selected}
         css={{
           pl: '$md',
           borderColor: '$surface',
