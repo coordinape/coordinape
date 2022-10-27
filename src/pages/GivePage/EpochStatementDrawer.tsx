@@ -200,6 +200,8 @@ export const EpochStatementDrawer = ({
           value={statement}
           onChange={e => statementChanged(e.target.value)}
           placeholder="Summarize your Contributions"
+          // eslint-disable-next-line jsx-a11y/no-autofocus
+          autoFocus={true}
         />
         <Flex
           css={{ justifyContent: 'flex-end', alignItems: 'center', mt: '$sm' }}

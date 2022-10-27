@@ -209,6 +209,8 @@ export const GiveDrawer = ({
             mb: '$md',
             fontSize: '$medium',
           }}
+          // eslint-disable-next-line jsx-a11y/no-autofocus
+          autoFocus={true}
           value={note ?? ''}
           onChange={e => noteChanged(e.target.value)}
           placeholder="Say thanks or give constructive feedback."
@@ -245,11 +247,11 @@ export const GiveDrawer = ({
             </Box>
           </Box>
         )}
-        <Box>
+        <Flex column>
           <Text semibold size="large">
             Contributions
           </Text>
-          <Box css={{ pb: '$lg' }}>
+          <Box css={{ p: '$md $sm' }}>
             {!contributions && (
               // TODO: Better loading indicator here -g
               <Box>Loading...</Box>
@@ -272,7 +274,7 @@ export const GiveDrawer = ({
                 ))
               ))}
           </Box>
-        </Box>
+        </Flex>
       </Flex>
     </Box>
   );
