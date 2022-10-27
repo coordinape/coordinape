@@ -119,9 +119,9 @@ export function generateCsvValues(
 
   return (
     users?.map((u, idx) => {
-      const claimAmt = circleDist?.claims.find(
-        c => c.profile_id === u.profile?.id
-      )?.new_amount;
+      const claimAmt: number =
+        circleDist?.claims.find(c => c.profile_id === u.profile?.id)
+          ?.new_amount || 0;
 
       const { circleClaimed: cClaimed, fixedPayment } = claimsUnwrappedAmount({
         address: u.address,

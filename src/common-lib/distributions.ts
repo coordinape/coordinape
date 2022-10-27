@@ -1,6 +1,27 @@
 import { FixedNumber } from 'ethers';
 import { formatUnits } from 'ethers/lib/utils';
 
+export const calc = ({
+  address,
+  decimals,
+  fixedGifts,
+  pricePerShare,
+}: {
+  address: string;
+  decimals: number;
+  fixedGifts?: Record<string, string>;
+  pricePerShare?: FixedNumber;
+}) => {
+  return {
+    fixedPaymentAmt: getUserClaimedFixedPaymentAmt({
+      decimals,
+      fixedGifts,
+      address,
+    }),
+    pricePerShare: pricePerShare?.toUnsafeFloat() || 1,
+  };
+};
+
 export const getUserClaimedFixedPaymentAmt = ({
   decimals,
   fixedGifts,
@@ -39,26 +60,6 @@ export const claimsUnwrappedAmount = ({
     circleClaimed = 0;
   if (!address) return { fixedPayment, circleClaimed };
 
-  const calc = ({
-    address,
-    decimals,
-    fixedGifts,
-    pricePerShare,
-  }: {
-    address: string;
-    decimals: number;
-    fixedGifts?: Record<string, string>;
-    pricePerShare?: FixedNumber;
-  }) => {
-    return {
-      fixedPaymentAmt: getUserClaimedFixedPaymentAmt({
-        decimals,
-        fixedGifts,
-        address,
-      }),
-      pricePerShare: pricePerShare?.toUnsafeFloat() || 1,
-    };
-  };
   if (circleDistClaimAmount) {
     const claimAmt = circleDistClaimAmount || 0;
     const { fixedPaymentAmt, pricePerShare } = calc({

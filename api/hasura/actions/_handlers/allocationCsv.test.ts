@@ -55,7 +55,9 @@ const mockEpoch = {
   token_gifts: [{ tokens: 50 }, { tokens: 100 }],
 };
 
-function getMockCircleDistribution(type?: DistributionType | undefined) {
+function getMockCircleDistribution(
+  type?: DistributionType | undefined
+): CircleDetails {
   const distributions = [];
   switch (type) {
     case DISTRIBUTION_TYPE.FIXED:
@@ -129,30 +131,28 @@ function getMockCircleDistribution(type?: DistributionType | undefined) {
       break;
   }
   return {
-    circles_by_pk: {
-      fixed_payment_token_type: 'DAI',
-      epochs: [{ distributions }],
-      users: [
-        {
-          id: 1,
-          name: 'User 1',
-          address: '0x1',
-          fixed_payment_amount: 100,
-          profile: { id: 1 },
-          received_gifts: [{ tokens: 100 }],
-          sent_gifts: [{ tokens: 50 }],
-        },
-        {
-          id: 2,
-          name: 'User 2',
-          address: '0x2',
-          fixed_payment_amount: 101,
-          profile: { id: 2 },
-          received_gifts: [{ tokens: 50 }],
-          sent_gifts: [{ tokens: 100 }],
-        },
-      ],
-    },
+    fixed_payment_token_type: 'DAI',
+    epochs: [{ distributions }],
+    users: [
+      {
+        id: 1,
+        name: 'User 1',
+        address: '0x1',
+        fixed_payment_amount: 100,
+        profile: { id: 1 },
+        received_gifts: [{ tokens: 100 }],
+        sent_gifts: [{ tokens: 50 }],
+      },
+      {
+        id: 2,
+        name: 'User 2',
+        address: '0x2',
+        fixed_payment_amount: 101,
+        profile: { id: 2 },
+        received_gifts: [{ tokens: 50 }],
+        sent_gifts: [{ tokens: 100 }],
+      },
+    ],
   };
 }
 
@@ -184,12 +184,12 @@ describe('Allocation CSV Calculation', () => {
   test('No distribution, just preview values', async () => {
     const circle = getMockCircleDistribution();
     const results = generateCsvValues(
-      circle.circles_by_pk as CircleDetails,
+      circle,
       mockInputs.form_gift_amount,
       mockInputs.gift_token_symbol,
       150,
-      !!circle.circles_by_pk.fixed_payment_token_type,
-      circle.circles_by_pk.fixed_payment_token_type,
+      !!circle.fixed_payment_token_type,
+      circle.fixed_payment_token_type,
       0
     );
     //percentage_of_give
@@ -207,12 +207,12 @@ describe('Allocation CSV Calculation', () => {
   test('Fixed Distribution Only', async () => {
     const circle = getMockCircleDistribution(DISTRIBUTION_TYPE.FIXED);
     const results = generateCsvValues(
-      circle.circles_by_pk as CircleDetails,
+      circle,
       mockInputs.form_gift_amount,
       mockInputs.gift_token_symbol,
       150,
-      !!circle.circles_by_pk.fixed_payment_token_type,
-      circle.circles_by_pk.fixed_payment_token_type,
+      !!circle.fixed_payment_token_type,
+      circle.fixed_payment_token_type,
       0
     );
     //fixed payment amount
@@ -223,12 +223,12 @@ describe('Allocation CSV Calculation', () => {
   test('Gift Distribution Only', async () => {
     const circle = getMockCircleDistribution(DISTRIBUTION_TYPE.GIFT);
     const results = generateCsvValues(
-      circle.circles_by_pk as CircleDetails,
+      circle,
       mockInputs.form_gift_amount,
       mockInputs.gift_token_symbol,
       150,
-      !!circle.circles_by_pk.fixed_payment_token_type,
-      circle.circles_by_pk.fixed_payment_token_type,
+      !!circle.fixed_payment_token_type,
+      circle.fixed_payment_token_type,
       0
     );
     //circle reward claimed
@@ -239,12 +239,12 @@ describe('Allocation CSV Calculation', () => {
   test('Combined Distribution', async () => {
     const circle = getMockCircleDistribution(DISTRIBUTION_TYPE.COMBINED);
     const results = generateCsvValues(
-      circle.circles_by_pk as CircleDetails,
+      circle,
       mockInputs.form_gift_amount,
       mockInputs.gift_token_symbol,
       150,
-      !!circle.circles_by_pk.fixed_payment_token_type,
-      circle.circles_by_pk.fixed_payment_token_type,
+      !!circle.fixed_payment_token_type,
+      circle.fixed_payment_token_type,
       0
     );
     //fixed payment amount
