@@ -13,6 +13,7 @@ import {
   useSetAmEgoAddress,
   AmContextDefault,
 } from 'recoilState/map';
+// i don't know how to remove this AVATAR_PLACEHOLDER
 import { AVATAR_PLACEHOLDER } from 'utils/domain';
 
 import { IMapContext, IMapNodeFG, IMapEdgeFG } from 'types';

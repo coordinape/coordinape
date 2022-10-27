@@ -27,7 +27,6 @@ import {
   Form,
 } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
-import { getCircleAvatar } from 'utils/domain';
 
 export const SummonCirclePage = () => {
   const navigate = useNavigate();
@@ -41,6 +40,7 @@ export const SummonCirclePage = () => {
     avatar: string;
     avatarRaw: File | null;
   }>({
+    // i don't know who to remove this getCircleAvatar in line 44
     avatar: getCircleAvatar({
       avatar: undefined,
       circleName: 'CO',
@@ -205,6 +205,7 @@ export const SummonCirclePage = () => {
                       </Button>
                     </FormLabel>
                   </Flex>
+                  {/* here is another error line 207 */}
                   <input
                     id="upload-logo-button"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {

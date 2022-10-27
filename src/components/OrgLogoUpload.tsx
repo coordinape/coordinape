@@ -24,7 +24,7 @@ export const OrgLogoUpload = ({
   isAdmin: boolean;
 }) => {
   const fileInput = React.createRef<HTMLInputElement>();
-
+  // line 29 doesn't work
   const { imageUrl, formFileUploadProps } = useImageUploader(
     getAvatarPathWithFallback(original, name)
   );
@@ -180,6 +180,7 @@ export const OrgLogoUpload = ({
             )}
           </Box>
         )}
+        {/* input error  */}
         <input
           ref={fileInput}
           accept={VALID_FILE_TYPES.join(', ')}
