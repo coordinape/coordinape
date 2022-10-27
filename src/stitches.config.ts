@@ -276,7 +276,6 @@ export const disabledStyle = {
   pointerEvents: 'none',
   opacity: 0.4,
   cursor: 'default',
-  outline: '2px solid orange',
 };
 
 export const globalStyles = globalCss({
