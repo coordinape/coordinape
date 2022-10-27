@@ -280,6 +280,11 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
         flexDirection: 'row',
         gap: '$md',
         border: '1px solid transparent',
+        '.hover-buttons': { display: 'none', '@sm': { display: 'flex' } },
+        '&:hover, &:focus-within': {
+          '.hover-buttons': { display: 'flex' },
+          '.circle-row-menu-indicator': { display: 'none' },
+        },
         ...(nonMember ? nonMemberPanelCss : { cursor: 'pointer' }),
         transition: 'opacity 300ms ease-in-out',
         opacity:
@@ -406,6 +411,15 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
             }}
           >
             <Box
+              className="circle-row-menu-indicator"
+              css={{ '@sm': { display: 'none' } }}
+            >
+              <Text color="neutral" size="large">
+                &middot;&middot;&middot;
+              </Text>
+            </Box>
+            <Box
+              className="hover-buttons"
               css={{
                 display: 'flex',
                 gap: '$sm',
