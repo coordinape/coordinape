@@ -272,7 +272,17 @@ export const {
   },
 });
 
+export const disabled = {
+  pointerEvents: 'none',
+  opacity: 0.4,
+  cursor: 'default',
+};
+
 export const globalStyles = globalCss({
+  'a:focus-visible, button:focus-visible, [tabindex="0"]:focus-visible': {
+    outline: '2px solid $primary',
+    outlineOffset: '1px',
+  },
   'input, textarea': {
     appearance: 'none',
     borderWidth: 0,

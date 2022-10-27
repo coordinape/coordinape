@@ -52,6 +52,10 @@ export const MyAvatarMenu = () => {
                 setMouseEnterPopover(true);
               }
             }}
+            onMouseDown={() => {
+              clearTimeout(timeoutId);
+              setMouseEnterPopover(true);
+            }}
             onMouseEnter={() => {
               clearTimeout(timeoutId);
               setMouseEnterPopover(true);

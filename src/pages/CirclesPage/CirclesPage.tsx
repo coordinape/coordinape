@@ -126,15 +126,15 @@ export const CirclesPage = () => {
               </AppLink>
             </Flex>
             {isAdmin(org) && (
-              <AppLink to={paths.createCircle + '?org=' + org.id}>
-                <Button
-                  color="primary"
-                  outlined
-                  css={{ whiteSpace: 'nowrap', ml: '$sm' }}
-                >
-                  Add Circle
-                </Button>
-              </AppLink>
+              <Button
+                as={NavLink}
+                to={paths.createCircle + '?org=' + org.id}
+                color="primary"
+                outlined
+                css={{ whiteSpace: 'nowrap', ml: '$sm' }}
+              >
+                Add Circle
+              </Button>
             )}
           </Flex>
           <Box

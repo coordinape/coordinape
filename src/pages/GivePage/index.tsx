@@ -311,11 +311,15 @@ const GivePage = () => {
         alignItems="center"
       >
         <Text>Not ready for the new GIVE experience?</Text>
-        <Link href={paths.allocation(selectedCircle.id)}>
-          <Button outlined color="primary" css={{ ml: '$md' }}>
-            Go Back
-          </Button>
-        </Link>
+        <Button
+          as={Link}
+          href={paths.allocation(selectedCircle.id)}
+          outlined
+          color="primary"
+          css={{ ml: '$md' }}
+        >
+          Go Back
+        </Button>
       </Flex>
       <SingleColumnLayout>
         <Helmet>
