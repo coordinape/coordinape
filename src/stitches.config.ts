@@ -279,6 +279,7 @@ export const disabled = {
 };
 
 export const globalStyles = globalCss({
+  // a11y keyboard navigation outline
   'a:focus-visible, button:focus-visible, [tabindex="0"]:focus-visible': {
     outline: '2px solid $primary',
     outlineOffset: '1px',
