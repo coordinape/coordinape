@@ -6,7 +6,7 @@ import { formatUnits } from 'ethers/lib/utils';
 import { isUserAdmin } from 'lib/users';
 import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
-import { disabled } from 'stitches.config';
+import { disabledStyle } from 'stitches.config';
 
 import { LoadingModal } from 'components';
 import { useApiAdminCircle, useContracts } from 'hooks';
@@ -267,7 +267,7 @@ const MembersPage = () => {
                 color="primary"
                 outlined
                 tabIndex={cannotVouch ? -1 : 0}
-                css={cannotVouch ? disabled : {}}
+                css={cannotVouch ? disabledStyle : {}}
               >
                 Nominate Member
               </Button>

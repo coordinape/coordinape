@@ -272,14 +272,15 @@ export const {
   },
 });
 
-export const disabled = {
+export const disabledStyle = {
   pointerEvents: 'none',
   opacity: 0.4,
   cursor: 'default',
+  outline: '2px solid orange',
 };
 
 export const globalStyles = globalCss({
-  // a11y keyboard navigation outline
+  // a11y keyboard navigation
   'a:focus-visible, button:focus-visible, [tabindex="0"]:focus-visible': {
     outline: '2px solid $primary',
     outlineOffset: '1px',
