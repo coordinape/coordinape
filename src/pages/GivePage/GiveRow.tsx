@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { FileText, Slash } from '../../icons/__generated';
+import { FileText } from '../../icons/__generated';
 import { CSS } from '../../stitches.config';
 import { Button, Box, Flex, Text } from '../../ui';
 import useMobileDetect from 'hooks/useMobileDetect';
@@ -167,9 +167,7 @@ export const GiveRow = ({
                     <FileText /> Note Complete
                   </>
                 ) : (
-                  <>
-                    <Slash /> No Feedback
-                  </>
+                  <>No Feedback</>
                 )}
               </Text>
             )}

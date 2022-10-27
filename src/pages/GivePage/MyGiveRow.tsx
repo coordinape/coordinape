@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { ApeInfoTooltip } from '../../components';
-import { Check, Slash, X } from '../../icons/__generated';
+import { Check, X } from '../../icons/__generated';
 import { IMyUser } from '../../types';
 import { Box, Button, Flex, Text, ToggleButton } from 'ui';
 
@@ -112,7 +112,7 @@ export const MyGiveRow = ({
             </Text>
             {!statementCompelete && (
               <Text tag color="primary">
-                <Slash /> No Epoch Statement
+                No Epoch Statement
               </Text>
             )}
           </Flex>
