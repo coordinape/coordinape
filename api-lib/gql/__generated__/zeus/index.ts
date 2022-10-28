@@ -10611,6 +10611,7 @@ export type ValueTypes = {
     chat_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     discord_username?: boolean | `@${string}`;
+    email?: boolean | `@${string}`;
     github_username?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     medium_username?: boolean | `@${string}`;
@@ -10808,6 +10809,7 @@ export type ValueTypes = {
     chat_id?: ValueTypes['String_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     discord_username?: ValueTypes['String_comparison_exp'] | undefined | null;
+    email?: ValueTypes['String_comparison_exp'] | undefined | null;
     github_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     medium_username?: ValueTypes['String_comparison_exp'] | undefined | null;
@@ -10840,6 +10842,7 @@ export type ValueTypes = {
     chat_id?: string | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     discord_username?: string | undefined | null;
+    email?: string | undefined | null;
     github_username?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     medium_username?: string | undefined | null;
@@ -10865,6 +10868,7 @@ export type ValueTypes = {
     chat_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     discord_username?: boolean | `@${string}`;
+    email?: boolean | `@${string}`;
     github_username?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     medium_username?: boolean | `@${string}`;
@@ -10885,6 +10889,7 @@ export type ValueTypes = {
     chat_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     discord_username?: boolean | `@${string}`;
+    email?: boolean | `@${string}`;
     github_username?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     medium_username?: boolean | `@${string}`;
@@ -10926,6 +10931,7 @@ export type ValueTypes = {
     chat_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     discord_username?: ValueTypes['order_by'] | undefined | null;
+    email?: ValueTypes['order_by'] | undefined | null;
     github_username?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     medium_username?: ValueTypes['order_by'] | undefined | null;
@@ -10961,6 +10967,7 @@ export type ValueTypes = {
     chat_id?: string | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     discord_username?: string | undefined | null;
+    email?: string | undefined | null;
     github_username?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     medium_username?: string | undefined | null;
@@ -21644,6 +21651,7 @@ export type ModelTypes = {
     chat_id?: string | undefined;
     created_at: GraphQLTypes['timestamp'];
     discord_username?: string | undefined;
+    email?: string | undefined;
     github_username?: string | undefined;
     id: GraphQLTypes['bigint'];
     medium_username?: string | undefined;
@@ -21706,6 +21714,7 @@ export type ModelTypes = {
     chat_id?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     discord_username?: string | undefined;
+    email?: string | undefined;
     github_username?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     medium_username?: string | undefined;
@@ -21725,6 +21734,7 @@ export type ModelTypes = {
     chat_id?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     discord_username?: string | undefined;
+    email?: string | undefined;
     github_username?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     medium_username?: string | undefined;
@@ -31038,6 +31048,7 @@ export type GraphQLTypes = {
     chat_id?: string | undefined;
     created_at: GraphQLTypes['timestamp'];
     discord_username?: string | undefined;
+    email?: string | undefined;
     github_username?: string | undefined;
     id: GraphQLTypes['bigint'];
     medium_username?: string | undefined;
@@ -31099,6 +31110,7 @@ export type GraphQLTypes = {
     chat_id?: GraphQLTypes['String_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     discord_username?: GraphQLTypes['String_comparison_exp'] | undefined;
+    email?: GraphQLTypes['String_comparison_exp'] | undefined;
     github_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     medium_username?: GraphQLTypes['String_comparison_exp'] | undefined;
@@ -31130,6 +31142,7 @@ export type GraphQLTypes = {
     chat_id?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     discord_username?: string | undefined;
+    email?: string | undefined;
     github_username?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     medium_username?: string | undefined;
@@ -31155,6 +31168,7 @@ export type GraphQLTypes = {
     chat_id?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     discord_username?: string | undefined;
+    email?: string | undefined;
     github_username?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     medium_username?: string | undefined;
@@ -31175,6 +31189,7 @@ export type GraphQLTypes = {
     chat_id?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     discord_username?: string | undefined;
+    email?: string | undefined;
     github_username?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     medium_username?: string | undefined;
@@ -31215,6 +31230,7 @@ export type GraphQLTypes = {
     chat_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     discord_username?: GraphQLTypes['order_by'] | undefined;
+    email?: GraphQLTypes['order_by'] | undefined;
     github_username?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     medium_username?: GraphQLTypes['order_by'] | undefined;
@@ -31246,6 +31262,7 @@ export type GraphQLTypes = {
     chat_id?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     discord_username?: string | undefined;
+    email?: string | undefined;
     github_username?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     medium_username?: string | undefined;
@@ -35020,6 +35037,7 @@ export const enum profiles_select_column {
   chat_id = 'chat_id',
   created_at = 'created_at',
   discord_username = 'discord_username',
+  email = 'email',
   github_username = 'github_username',
   id = 'id',
   medium_username = 'medium_username',
@@ -35040,6 +35058,7 @@ export const enum profiles_update_column {
   chat_id = 'chat_id',
   created_at = 'created_at',
   discord_username = 'discord_username',
+  email = 'email',
   github_username = 'github_username',
   id = 'id',
   medium_username = 'medium_username',
