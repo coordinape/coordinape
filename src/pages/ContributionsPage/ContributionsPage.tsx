@@ -180,7 +180,7 @@ const ContributionsPage = () => {
       if (
         currentContribution &&
         updateContribution?.updateContribution_Contribution
-      )
+      ) {
         setCurrentContribution({
           ...currentContribution,
           contribution: {
@@ -189,7 +189,8 @@ const ContributionsPage = () => {
               updateContribution.updateContribution_Contribution.description,
           },
         });
-      refetchContributions();
+        refetchContributions();
+      }
     },
   });
 
