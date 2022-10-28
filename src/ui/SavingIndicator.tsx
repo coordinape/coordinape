@@ -1,15 +1,17 @@
 import React from 'react';
 
-import { Check, RefreshCcw } from '../../icons/__generated';
-import { CSS } from '../../stitches.config';
-import { Flex, Text } from '../../ui';
+import { CSS } from 'stitches.config';
+
+import { Check, RefreshCcw, AlertTriangle } from 'icons/__generated';
+import { Button, Flex, Text } from 'ui';
 
 export type SaveState =
   | 'stable' // nothing needs to happen
   | 'buffering' // dirty, and we need to schedule
   | 'scheduled' // we are actually scheduled to save to backend
   | 'saving' // we are actively saving to backend
-  | 'saved'; // we just saved to backend
+  | 'saved' // we just saved to backend
+  | 'error'; // we received an error or unexpected state
 
 // stable->buffering = something was dirtied
 // buffering->scheduled =  dirty state causes scheduling
@@ -21,13 +23,16 @@ export type SaveState =
 export const SavingIndicator = ({
   saveState,
   css,
+  retry,
 }: {
   saveState: SaveState;
   css?: CSS;
+  retry?: () => void;
 }) => {
+  const color = saveState == 'error' ? 'alert' : 'neutral';
   return (
     <Flex css={{ ...css, minHeight: '$lg', alignItems: 'center' }}>
-      <Text size="small" color="neutral" css={{ gap: '$xs' }}>
+      <Text size="small" color={color} css={{ gap: '$xs' }}>
         {(saveState == 'saving' ||
           saveState == 'scheduled' ||
           saveState == 'buffering') && (
@@ -38,6 +43,17 @@ export const SavingIndicator = ({
         {saveState == 'saved' && (
           <>
             <Check /> Saved
+          </>
+        )}
+        {saveState == 'error' && (
+          <>
+            <AlertTriangle />
+            Error Saving
+            {retry && (
+              <Button size="small" css={{ ml: '$xs' }} onClick={retry}>
+                Retry
+              </Button>
+            )}
           </>
         )}
       </Text>

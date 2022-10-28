@@ -17,13 +17,13 @@ import { IEpoch, IMyUser } from '../../types';
 import { Box, Button, Flex, Modal, Panel, Text, Link } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 import { getPendingGiftsFrom } from '../AllocationPage/queries';
+import { SaveState, SavingIndicator } from 'ui/SavingIndicator';
 
 import { EpochStatementDrawer } from './EpochStatementDrawer';
 import { GiveDrawer } from './GiveDrawer';
 import { GiveRow } from './GiveRow';
 import { MyGiveRow } from './MyGiveRow';
 import { getMembersWithContributions, PotentialTeammate } from './queries';
-import { SaveState, SavingIndicator } from './SavingIndicator';
 
 export type Gift = Awaited<ReturnType<typeof getPendingGiftsFrom>>[number];
 
@@ -173,11 +173,6 @@ const GivePage = () => {
           },
         ],
       });
-    } catch (e) {
-      showError(e);
-    } finally {
-      // errors don't cause us to retry save, this is an area for improvement later,
-      // https://github.com/coordinape/coordinape/issues/1400 -g
       setSaveState(prevState => {
         // this is to check if someone scheduled dirty changes while we were saving
         if (prevState == 'scheduled') {
@@ -186,7 +181,9 @@ const GivePage = () => {
         }
         return 'saved';
       });
-      // Do we need to try again? Error? Something happened while we were saving
+    } catch (e) {
+      setSaveState('error');
+      showError(e);
     }
   };
 
@@ -374,6 +371,7 @@ const GivePage = () => {
             myUser={myUser}
             maxedOut={totalGiveUsed >= myUser.starting_tokens}
             currentEpoch={currentEpoch}
+            retrySave={saveGifts}
           />
         )}
       </SingleColumnLayout>
@@ -395,6 +393,7 @@ type AllocateContentsProps = {
   myUser: IMyUser;
   maxedOut: boolean;
   currentEpoch?: IEpoch;
+  retrySave: () => void;
 };
 
 const AllocateContents = ({
@@ -409,6 +408,7 @@ const AllocateContents = ({
   myUser,
   maxedOut,
   currentEpoch,
+  retrySave,
 }: AllocateContentsProps) => {
   const { showError, showInfo } = useApeSnackbar();
 
@@ -654,7 +654,7 @@ const AllocateContents = ({
                   '@sm': { mb: '$sm' },
                 }}
               >
-                <SavingIndicator saveState={saveState} />
+                <SavingIndicator saveState={saveState} retry={retrySave} />
               </Flex>
             </Flex>
             <Flex
