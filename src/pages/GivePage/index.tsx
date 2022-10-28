@@ -697,7 +697,6 @@ const AllocateContents = ({
         contributionCount={
           myMember?.contributions_aggregate?.aggregate?.count ?? 0
         }
-        // selected={true}
         selected={
           selectedMember !== undefined && selectedMember.id === myUser.id
         }
@@ -745,7 +744,6 @@ const AllocateContents = ({
           overflowY: 'scroll',
         }}
         onOpenChange={() => {
-          // giveRowFocus()
           setSelectedMemberIdx(-1);
           setSelectedMember(undefined);
         }}

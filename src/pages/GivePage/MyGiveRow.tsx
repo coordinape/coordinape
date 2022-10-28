@@ -38,13 +38,9 @@ export const MyGiveRow = ({
 
   useEffect(() => {
     if (selected) {
-      // eslint-disable-next-line no-console
-      console.log('if selected', newRef?.current);
       setLastSelected(true);
     } else {
       if (lastSelected) {
-        // eslint-disable-next-line no-console
-        console.log('if last selected', newRef?.current);
         newRef?.current?.focus();
       }
       setLastSelected(false);

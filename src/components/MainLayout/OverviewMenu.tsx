@@ -196,7 +196,6 @@ export const OverviewMenu = ({
                     <Link
                       key={circle.id}
                       type="menu"
-                      // onClick={() => closeAndGo(paths.history(circle.id))}
                       href={paths.history(circle.id)}
                       onClick={e => {
                         if (!e.metaKey || !e.ctrlKey) {
