@@ -106,6 +106,14 @@ export const GiveDrawer = ({
     },
   };
 
+  const notePlaceholders = [
+    'Something I appreciate about your work is ...',
+    "Something I'd like to see more from you is ...",
+    'One of the best parts of working with you is ...',
+    "I'd give you all my GIVE if you ...",
+    'Say thanks or give constructive feedback.',
+  ];
+
   return (
     <Box key={selectedMemberIdx} css={{ height: '100%', pt: '$md' }}>
       <Flex>
@@ -211,7 +219,11 @@ export const GiveDrawer = ({
           }}
           value={note ?? ''}
           onChange={e => noteChanged(e.target.value)}
-          placeholder="Say thanks or give constructive feedback."
+          placeholder={
+            notePlaceholders[
+              Math.floor(Math.random() * notePlaceholders.length)
+            ]
+          }
         />
         <Flex css={{ justifyContent: 'flex-end', alignItems: 'center' }}>
           <SavingIndicator
