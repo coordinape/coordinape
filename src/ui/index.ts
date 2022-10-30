@@ -6,7 +6,7 @@ export * from './Collapsible/Collapsible';
 export * from './Table/Table';
 export * from './Divider/Divider';
 export * from './Flex';
-export * from './Form';
+export * from './Form/Form';
 export * from './FormLabel/FormLabel';
 export * from './HR/HR';
 export * from './Image/Image';
