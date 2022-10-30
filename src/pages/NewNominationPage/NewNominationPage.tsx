@@ -24,8 +24,8 @@ import {
   Flex,
   Panel,
   Tooltip,
+  BackButton,
 } from 'ui';
-import BackButton from 'ui/BackButton';
 import HintButton from 'ui/HintButton';
 import { SingleColumnLayout } from 'ui/layouts';
 

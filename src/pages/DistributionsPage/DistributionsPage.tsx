@@ -12,12 +12,11 @@ import { useParams } from 'react-router-dom';
 import { DISTRIBUTION_TYPE } from '../../config/constants';
 import { useSelectedCircle } from '../../recoilState';
 import { paths } from '../../routes/paths';
-import BackButton from '../../ui/BackButton';
 import { LoadingModal } from 'components';
 import { QUERY_KEY_MAIN_HEADER } from 'components/MainLayout/getMainHeaderData';
 import { useApiAdminCircle, useContracts } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
-import { AppLink, Box, Text } from 'ui';
+import { AppLink, BackButton, Box, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { AllocationsTable } from './AllocationsTable';
