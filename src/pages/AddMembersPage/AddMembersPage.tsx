@@ -3,12 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { LoadingModal } from '../../components';
 import { paths } from '../../routes/paths';
 import { ICircle } from '../../types';
-import BackButton from '../../ui/BackButton';
-import { Box } from '../../ui/Box/Box';
 import HintButton from '../../ui/HintButton';
 import { APP_URL } from '../../utils/domain';
 import { useSelectedCircle } from 'recoilState/app';
-import { AppLink, Flex, Panel, Text } from 'ui';
+import { AppLink, BackButton, Box, Flex, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import CSVImport from './CSVImport';
