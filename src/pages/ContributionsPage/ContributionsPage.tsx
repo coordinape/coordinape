@@ -144,7 +144,10 @@ const ContributionsPage = () => {
         descriptionField.value
       );
     }
-  }, [saveState, currentContribution?.contribution.id]);
+  }, [
+    currentContribution?.contribution.id,
+    saveState[currentContribution?.contribution.id],
+  ]);
 
   const { field: descriptionField } = useController({
     name: 'description',
@@ -156,23 +159,7 @@ const ContributionsPage = () => {
       onSuccess: newContribution => {
         refetchContributions();
         if (newContribution.insert_contributions_one) {
-          // invoke resetField() value if current form is up to date
-          if (
-            descriptionField?.value ==
-            newContribution.insert_contributions_one.description
-          ) {
-            // eslint-disable-next-line no-console
-            console.log('resetting descriptino field');
-            resetField('description', {
-              defaultValue:
-                newContribution.insert_contributions_one.description,
-            });
-          }
           updateSaveStateForContribution(0, 'stable');
-          updateSaveStateForContribution(
-            newContribution.insert_contributions_one.id,
-            'saved'
-          );
           setCurrentContribution({
             contribution: {
               ...newContribution.insert_contributions_one,
@@ -183,6 +170,26 @@ const ContributionsPage = () => {
             },
             epoch: getCurrentEpoch(data?.epochs ?? []),
           });
+
+          if (
+            // invoke resetField() value if current form is up to date
+            descriptionField?.value ==
+            newContribution.insert_contributions_one.description
+          ) {
+            resetField('description', {
+              defaultValue:
+                newContribution.insert_contributions_one.description,
+            });
+            updateSaveStateForContribution(
+              newContribution.insert_contributions_one.id,
+              'saved'
+            );
+          } else {
+            updateSaveStateForContribution(
+              newContribution.insert_contributions_one.id,
+              'buffering'
+            );
+          }
         } else {
           updateSaveStateForContribution(0, 'stable');
           resetCreateMutation();
@@ -275,21 +282,6 @@ const ContributionsPage = () => {
       return newState;
     });
   };
-
-  useEffect(() => {
-    // once we become buffering, we need to schedule
-    // this protection of state change in useEffect allows us to fire this only once
-    // so requests don't stack up
-    if (saveState[currentContribution?.contribution.id] == 'buffering') {
-      updateSaveStateForContribution(
-        currentContribution?.contribution.id,
-        'scheduled'
-      );
-    }
-  }, [
-    currentContribution?.contribution.id,
-    saveState[currentContribution?.contribution.id],
-  ]);
 
   // prevents page re-renders when typing out a contribution
   // This seems pretty silly but it's actually a huge optimization
@@ -501,11 +493,18 @@ const ContributionsPage = () => {
                     areaProps={{
                       autoFocus: true,
                       onChange: e => {
+                        setValue('description', e.target.value);
+                        if (
+                          currentContribution.contribution.id == 0 &&
+                          saveState[currentContribution.contribution.id] ==
+                            'saving'
+                        ) {
+                          return;
+                        }
                         updateSaveStateForContribution(
                           currentContribution.contribution.id,
                           'buffering'
                         );
-                        setValue('description', e.target.value);
                       },
                     }}
                     disabled={!isEpochCurrent(currentContribution.epoch)}
