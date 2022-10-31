@@ -26,6 +26,12 @@ import { IQueryEpoch, QueryFutureEpoch } from './getHistoryData';
 
 const longFormat = "DD 'at' H:mm";
 
+interface EpochConfig {
+  start_date: string;
+  end_date: string;
+  repeat: z.infer<typeof EpochRepeatEnum>;
+}
+
 interface IEpochFormSource {
   epoch?: IQueryEpoch;
   epochs?: IQueryEpoch[];
@@ -164,43 +170,34 @@ const getZodParser = (source?: IEpochFormSource, currentEpoch?: number) => {
       end_date: DateTime.fromISO(end_date).setZone(),
       ...fields,
     }))
-    .transform(({ repeat_view, repeat, repeatStartDate, ...fields }) => {
-      if (repeat_view) {
-        const now = DateTime.now();
-        const weekday = Number.parseInt(fields.weekDay);
-        if (repeat === 'monthly')
-          return {
-            repeat_view,
-            repeat: repeat as TEpochRepeatEnum,
-            repeatStartDate,
-            ...fields,
-            start_date: DateTime.fromISO(repeatStartDate),
-            end_date: DateTime.fromISO(repeatStartDate).plus({ weeks: 2 }),
-          };
-        if (repeat === 'weekly')
-          return {
-            repeat_view,
-            repeat: repeat as TEpochRepeatEnum,
-            repeatStartDate,
-            ...fields,
-            start_date:
-              now.weekday >= weekday
-                ? now.plus({ weeks: 1 }).set({ weekday })
-                : now.set({ weekday }),
-            end_date: DateTime.fromISO(repeatStartDate).plus({ weeks: 1 }),
-          };
+    .transform(({ repeat_view, repeatStartDate, ...fields }) => {
+      if (repeat_view && fields.repeat !== 'none') {
+        const { nextStartDate, nextEndDate } = getNextRepeatingDates(
+          fields.repeat,
+          fields.weekDay,
+          repeatStartDate
+        );
+        return {
+          repeat_view,
+          repeatStartDate,
+          ...fields,
+          start_date: DateTime.fromISO(nextStartDate),
+          end_date: DateTime.fromISO(nextEndDate),
+        };
       }
       return {
         repeat_view,
-        repeat: repeat as TEpochRepeatEnum,
         repeatStartDate,
         ...fields,
       };
     })
     .refine(
-      ({ start_date }) =>
-        start_date > DateTime.now().setZone() ||
-        source?.epoch?.id === currentEpoch,
+      ({ start_date }) => {
+        return (
+          start_date > DateTime.now().setZone() ||
+          (currentEpoch && source?.epoch?.id === currentEpoch)
+        );
+      },
       {
         path: ['start_date'],
         message: 'Start date must be in the future',
@@ -215,6 +212,10 @@ const getZodParser = (source?: IEpochFormSource, currentEpoch?: number) => {
         message: 'Epoch must end in the future',
       }
     )
+    .refine(({ start_date, end_date }) => start_date < end_date, {
+      path: ['end_date'],
+      message: 'End date must come after start date',
+    })
     .refine(({ repeat }) => !(repeat !== 'none' && !!otherRepeating), {
       path: ['repeat'],
       // the getOverlapIssue relies on this invariant.
@@ -226,7 +227,7 @@ const getZodParser = (source?: IEpochFormSource, currentEpoch?: number) => {
     )
     .transform(({ start_date, end_date, ...fields }) => ({
       start_date: start_date.toISO(),
-      end_date: start_date.toISO(),
+      end_date: end_date.toISO(),
       days: end_date.diff(start_date, 'days').days,
       ...fields,
     }));
@@ -286,7 +287,7 @@ const EpochForm = ({
 
   const {
     control,
-    formState: { errors, isDirty },
+    formState: { errors },
     getValues,
     setValue,
     watch,
@@ -299,10 +300,20 @@ const EpochForm = ({
     defaultValues: {
       repeat_view: true,
       repeatStartDate: getMonthStartDates(
-        ((DateTime.now().day + 1) % 29 || 1).toString()
+        source?.epoch?.start_date
+          ? DateTime.fromISO(source.epoch.start_date).day.toString()
+          : ((DateTime.now().day + 1) % 32 || 1).toString()
       )[0].value,
-      repeat: 'monthly',
-      dayOfMonth: ((DateTime.now().day + 1) % 29 || 1).toString(),
+      repeat: Number.isInteger(source?.epoch?.repeat)
+        ? source.epoch?.repeat === 0
+          ? 'none'
+          : source?.epoch?.repeat === 1
+          ? 'weekly'
+          : 'monthly'
+        : 'monthly',
+      dayOfMonth: source?.epoch?.start_date
+        ? DateTime.fromISO(source.epoch.start_date).day.toString()
+        : ((DateTime.now().day + 1) % 32 || 1).toString(),
       weekDay: '1',
       start_date:
         source?.epoch?.start_date ??
@@ -315,26 +326,18 @@ const EpochForm = ({
     },
   });
 
-  const watchFields = useRef<
-    Omit<epochFormSchema, 'repeat'> & { repeat: string | number }
-  >({
-    weekDay: '1',
-    end_date:
-      source?.epoch?.end_date ??
-      DateTime.now().setZone().plus({ days: 15 }).toISO(),
-    start_date:
-      source?.epoch?.start_date ??
-      DateTime.now().setZone().plus({ days: 1 }).toISO(),
-    repeat_view: true,
-    dayOfMonth: '5',
-    repeatStartDate: '',
-    repeat:
-      source?.epoch?.repeat === 2
-        ? 'monthly'
-        : source?.epoch?.repeat === 1
-        ? 'weekly'
-        : 'none',
+  const [epochConfig, setEpochConfig] = useState<EpochConfig>({
+    start_date: source?.epoch
+      ? getValues('start_date')
+      : getValues('repeatStartDate'),
+    end_date: source?.epoch
+      ? getValues('end_date')
+      : DateTime.fromISO(getValues('repeatStartDate'))
+          .plus({ weeks: 2 })
+          .toISO(),
+    repeat: getValues('repeat'),
   });
+
   const extraErrors = useRef(false);
 
   useEffect(() => {
@@ -342,24 +345,34 @@ const EpochForm = ({
       const value: SafeParseReturnType<epochFormSchema, epochSubmissionSchema> =
         getZodParser(source, currentEpoch?.id).safeParse(data);
 
-      if (
-        name === 'repeat_view' &&
-        type === 'change' &&
-        data.repeat_view === true &&
-        data.start_date &&
-        data.end_date
-      ) {
-        /*
-        data.start_date = DateTime.fromISO(data.start_date)
-          .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
-          .toISO();
-        data.end_date = DateTime.fromISO(data.end_date)
-          .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
-          .toISO();
-
-        setValue('start_date', data.start_date);
-        setValue('end_date', data.end_date);
-        */
+      const {
+        repeat_view,
+        repeat,
+        repeatStartDate,
+        weekDay,
+        start_date,
+        end_date,
+      } = data;
+      if (typeof repeat === 'string') {
+        if (repeat_view && repeat !== 'none' && weekDay && repeatStartDate) {
+          const { nextStartDate, nextEndDate } = getNextRepeatingDates(
+            repeat,
+            weekDay,
+            repeatStartDate
+          );
+          setEpochConfig({
+            start_date: nextStartDate,
+            end_date: nextEndDate,
+            repeat,
+          });
+        } else {
+          if (start_date && end_date)
+            setEpochConfig({
+              start_date: start_date,
+              end_date: end_date,
+              repeat: 'none',
+            });
+        }
       }
       if (name === 'dayOfMonth' && type === 'change') {
         setValue(
@@ -367,6 +380,7 @@ const EpochForm = ({
           getMonthStartDates(data.dayOfMonth || '1')[0].value
         );
       }
+      // eslint-ignore-next-line no-console
       if (!value.success) {
         extraErrors.current = true;
         setError('customError', {
@@ -375,62 +389,7 @@ const EpochForm = ({
       } else {
         extraErrors.current = false;
         clearErrors('customError');
-
-        console.table(value.data);
-        const { repeat_view, weekDay, repeat, repeatStartDate } = value.data;
-        if (
-          repeat_view &&
-          (name === 'repeatStartDate' ||
-            name === 'weekDay' ||
-            name === 'dayOfMonth')
-        ) {
-          const now = DateTime.now();
-          const weekday = Number.parseInt(weekDay);
-          let nextStartDate = DateTime.now();
-          let nextEndDate = DateTime.now();
-          if (repeat === 'monthly') {
-            nextStartDate = DateTime.fromISO(repeatStartDate);
-            nextEndDate = nextStartDate.plus({ weeks: 2 });
-          } else if (repeat === 'weekly') {
-            nextStartDate =
-              now.weekday > weekday
-                ? now.plus({ weeks: 1 }).set({ weekday })
-                : now.set({ weekday });
-            nextEndDate = nextStartDate.plus({ weeks: 1 });
-          }
-          nextStartDate = nextStartDate.set({
-            hour: 0,
-            minute: 0,
-            second: 0,
-            millisecond: 0,
-          });
-          nextEndDate = nextEndDate.set({
-            hour: 0,
-            minute: 0,
-            second: 0,
-            millisecond: 0,
-          });
-          console.info('derp', {
-            start: nextStartDate.toISO(),
-            end: nextEndDate.toISO(),
-          });
-          if (
-            name === 'repeatStartDate' ||
-            name === 'weekDay' ||
-            name === 'dayOfMonth'
-          ) {
-            setValue('start_date', nextStartDate.toISO(), {
-              shouldTouch: true,
-            });
-            setValue('end_date', nextEndDate.toISO(), { shouldTouch: true });
-          }
-        }
       }
-
-      console.table({ data });
-      if (data.end_date) watchFields.current.end_date = data.end_date;
-      if (data.repeat) watchFields.current.repeat = data.repeat;
-      if (data.start_date) watchFields.current.start_date = data.start_date;
     });
   });
 
@@ -438,30 +397,27 @@ const EpochForm = ({
     if (extraErrors.current) {
       return;
     }
+
     setSubmitting(true);
+    const payload = {
+      start_date: epochConfig.start_date,
+      // rounding needed to santize fractional days from timezone shifts
+      days: Math.round(
+        DateTime.fromISO(epochConfig.end_date)
+          .diff(DateTime.fromISO(data.start_date))
+          .as('days')
+      ),
+      repeat:
+        epochConfig.repeat === 'weekly'
+          ? 1
+          : epochConfig.repeat === 'monthly'
+          ? 2
+          : 0,
+    };
+
     (source?.epoch
-      ? updateEpoch(source.epoch.id, {
-          start_date: data.start_date,
-          // round is needed to remove daylight savings offsets
-          days: Math.round(
-            DateTime.fromISO(data.end_date)
-              .diff(DateTime.fromISO(data.start_date))
-              .as('days')
-          ),
-          repeat:
-            data.repeat === 'weekly' ? 1 : data.repeat === 'monthly' ? 2 : 0,
-        })
-      : createEpoch({
-          start_date: data.start_date,
-          // round is needed to remove daylight savings offsets
-          days: Math.round(
-            DateTime.fromISO(data.end_date)
-              .diff(DateTime.fromISO(data.start_date))
-              .as('days')
-          ),
-          repeat:
-            data.repeat === 'weekly' ? 1 : data.repeat === 'monthly' ? 2 : 0,
-        })
+      ? updateEpoch(source.epoch.id, payload)
+      : createEpoch(payload)
     )
       .then(() => {
         setSubmitting(false);
@@ -500,7 +456,7 @@ const EpochForm = ({
             <Button
               color="primary"
               type="submit"
-              disabled={submitting || !isDirty || !isEmpty(errors)}
+              disabled={submitting || !isEmpty(errors)}
               onClick={handleSubmit(onSubmit)}
             >
               {submitting ? 'Saving...' : 'Save'}
@@ -703,7 +659,7 @@ const EpochForm = ({
                         css={{ minWidth: '280px', outline: '2px solid red' }}
                         onValueChange={onChange}
                         value={value}
-                        options={Array(28)
+                        options={Array(31)
                           .fill(undefined)
                           .map((_, idx) => ({
                             label: (idx + 1).toString(),
@@ -778,10 +734,10 @@ const EpochForm = ({
                 </Flex>
               </Flex>
               <Text p css={{ mt: '$xl' }}>
-                {summarizeEpoch(watchFields.current)}
+                {summarizeEpoch(epochConfig)}
               </Text>
             </Flex>
-            <Flex column>{epochsPreview(watchFields.current)}</Flex>
+            <Flex column>{epochsPreview(epochConfig)}</Flex>
           </Box>
           {!isEmpty(errors) && (
             <Box
@@ -804,9 +760,7 @@ const EpochForm = ({
   );
 };
 
-const epochsPreview = (
-  value: Omit<epochFormSchema, 'repeat'> & { repeat: string | number }
-) => {
+const epochsPreview = (value: EpochConfig) => {
   const epochStart = DateTime.fromISO(value.start_date).setZone();
   const epochEnd = DateTime.fromISO(value.end_date).setZone();
   return (
@@ -857,9 +811,7 @@ const epochsPreview = (
   );
 };
 
-const summarizeEpoch = (
-  value: Omit<epochFormSchema, 'repeat'> & { repeat: string | number }
-) => {
+const summarizeEpoch = (value: EpochConfig) => {
   const startDate = DateTime.fromISO(value.start_date)
     .setZone()
     .toFormat(longFormat);
@@ -904,4 +856,41 @@ const getMonthStartDates = (day: string) =>
       };
     });
 
+const getNextRepeatingDates = (
+  repeat: Exclude<z.infer<typeof EpochRepeatEnum>, 'none'>,
+  weekDay: string,
+  monthlyStartDate: string
+): { nextStartDate: string; nextEndDate: string } => {
+  const now = DateTime.now();
+  const weekday = Number.parseInt(weekDay);
+  let nextStartDate = DateTime.now();
+  let nextEndDate = DateTime.now();
+  if (repeat === 'monthly') {
+    nextStartDate = DateTime.fromISO(monthlyStartDate).setZone();
+    nextEndDate = nextStartDate.plus({ weeks: 2 });
+  } else if (repeat === 'weekly') {
+    nextStartDate =
+      now.weekday >= weekday
+        ? now.plus({ weeks: 1 }).set({ weekday })
+        : now.set({ weekday });
+    nextEndDate = nextStartDate.plus({ weeks: 1 });
+  }
+  nextStartDate = nextStartDate.set({
+    hour: 0,
+    minute: 0,
+    second: 0,
+    millisecond: 0,
+  });
+  nextEndDate = nextEndDate.set({
+    hour: 0,
+    minute: 0,
+    second: 0,
+    millisecond: 0,
+  });
+
+  return {
+    nextStartDate: nextStartDate.toISO(),
+    nextEndDate: nextEndDate.toISO(),
+  };
+};
 export default EpochForm;
