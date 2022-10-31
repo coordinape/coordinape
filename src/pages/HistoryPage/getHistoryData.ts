@@ -41,6 +41,7 @@ export const getHistoryData = async (circleId: number, userId: number) => {
                   ended: true,
                   days: true,
                   repeat: true,
+                  repeat_data: [{}, true],
                   description: true,
                 },
               ],
@@ -61,6 +62,7 @@ export const getHistoryData = async (circleId: number, userId: number) => {
                   days: true,
                   repeat: true,
                   description: true,
+                  repeat_data: [{}, true],
                 },
               ],
             },
@@ -76,6 +78,7 @@ export const getHistoryData = async (circleId: number, userId: number) => {
                   start_date: true,
                   end_date: true,
                   description: true,
+                  repeat_data: [{}, true],
                   token_gifts_aggregate: [
                     {},
                     { aggregate: { sum: { tokens: true } } },
@@ -149,7 +152,7 @@ export type QueryFutureEpoch = Exclude<
 >['futureEpoch'][0];
 
 export interface IQueryEpoch extends QueryFutureEpoch {
-  repeatEnum: 'weekly' | 'monthly' | 'none';
+  repeatEnum: 'weekly' | 'monthly' | 'none' | 'bimonthly';
   startDate: DateTime;
   interval: Interval;
   // Calculated:
