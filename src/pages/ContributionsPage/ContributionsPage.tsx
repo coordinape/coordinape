@@ -104,7 +104,7 @@ const ContributionsPage = () => {
   const {
     data,
     refetch: refetchContributions,
-    isFetching,
+    dataUpdatedAt,
   } = useQuery(
     ['contributions', selectedCircle.id],
     () =>
@@ -166,32 +166,30 @@ const ContributionsPage = () => {
       },
     });
 
-  const {
-    mutate: mutateContribution,
-    status: updateStatus,
-    reset: resetUpdateMutation,
-  } = useMutation(updateContributionMutation, {
-    mutationKey: ['updateContribution', currentContribution?.contribution.id],
-    onError: (errors, { id }) => {
-      updateSaveStateForContribution(id, 'error');
-    },
-    onSuccess: ({ updateContribution }, { id }) => {
-      updateSaveStateForContribution(id, 'saved');
-      if (
-        currentContribution &&
-        updateContribution?.updateContribution_Contribution
-      )
-        setCurrentContribution({
-          ...currentContribution,
-          contribution: {
-            ...currentContribution.contribution,
-            description:
-              updateContribution.updateContribution_Contribution.description,
-          },
-        });
-      refetchContributions();
-    },
-  });
+  const { mutate: mutateContribution, reset: resetUpdateMutation } =
+    useMutation(updateContributionMutation, {
+      mutationKey: ['updateContribution', currentContribution?.contribution.id],
+      onError: (errors, { id }) => {
+        updateSaveStateForContribution(id, 'error');
+      },
+      onSuccess: ({ updateContribution }, { id }) => {
+        refetchContributions();
+        updateSaveStateForContribution(id, 'saved');
+        if (
+          currentContribution &&
+          updateContribution?.updateContribution_Contribution
+        ) {
+          setCurrentContribution({
+            ...currentContribution,
+            contribution: {
+              ...currentContribution.contribution,
+              description:
+                updateContribution.updateContribution_Contribution.description,
+            },
+          });
+        }
+      },
+    });
 
   const { mutate: deleteContribution } = useMutation(
     deleteContributionMutation,
@@ -280,11 +278,7 @@ const ContributionsPage = () => {
       returnData.epochs = createLinkedArray([currentEpoch, ...data.epochs]);
 
     return returnData;
-  }, [
-    data?.epochs.length,
-    data?.contributions.length,
-    updateStatus === 'success' && isFetching === false,
-  ]);
+  }, [dataUpdatedAt]);
 
   const activeContributionFn = useMemo(
     () =>
