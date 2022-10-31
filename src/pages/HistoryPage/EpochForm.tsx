@@ -6,12 +6,7 @@ import { DateTime, Interval } from 'luxon';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { SafeParseReturnType, z } from 'zod';
 
-import {
-  FormInputField,
-  FormRadioGroup,
-  FormDatePicker,
-  FormTimePicker,
-} from 'components';
+import { FormRadioGroup, FormDatePicker, FormTimePicker } from 'components';
 import { useApiAdminCircle } from 'hooks';
 import { Info } from 'icons/__generated';
 import {
@@ -23,6 +18,7 @@ import {
   Text,
   Button,
   Panel,
+  Select,
   Tooltip,
 } from 'ui';
 
@@ -37,10 +33,15 @@ interface IEpochFormSource {
 const EpochRepeatEnum = z.enum(['none', 'monthly', 'weekly']);
 type TEpochRepeatEnum = typeof EpochRepeatEnum['_type'];
 
-const schema = z
+const submitSchema = z
   .object({
     start_date: z.string(),
+    end_date: z.string(),
     repeat: EpochRepeatEnum,
+    weekDay: z.string(),
+    repeat_view: z.boolean(),
+    dayOfMonth: z.string(),
+    repeatStartDate: z.string(),
     days: z
       .number()
       .refine(n => n >= 1, { message: 'Must be at least one day.' })
@@ -48,6 +49,20 @@ const schema = z
     customError: z.undefined(), //unregistered to disable submitting
   })
   .strict();
+
+const schema = z
+  .object({
+    start_date: z.string(),
+    end_date: z.string(),
+    repeat: EpochRepeatEnum,
+    weekDay: z.string(),
+    dayOfMonth: z.string(),
+    repeatStartDate: z.string(),
+    repeat_view: z.boolean(),
+    customError: z.undefined(), //unregistered to disable submitting
+  })
+  .strict();
+
 const nextIntervalFactory = (repeat: TEpochRepeatEnum) => {
   const increment = repeat === 'weekly' ? { weeks: 1 } : { months: 1 };
   return (i: Interval) =>
@@ -120,17 +135,14 @@ const getZodParser = (source?: IEpochFormSource, currentEpoch?: number) => {
 
   const getOverlapIssue = ({
     start_date,
-    days,
+    end_date,
     repeat,
   }: {
     start_date: DateTime;
-    days: number;
+    end_date: DateTime;
     repeat: TEpochRepeatEnum;
   }) => {
-    const interval = Interval.fromDateTimes(
-      start_date,
-      start_date.plus({ days })
-    );
+    const interval = Interval.fromDateTimes(start_date, end_date);
 
     const collisionMessage = source?.epochs
       ? source?.epochs
@@ -147,10 +159,44 @@ const getZodParser = (source?: IEpochFormSource, currentEpoch?: number) => {
   };
 
   return schema
-    .transform(({ start_date, ...fields }) => ({
+    .transform(({ start_date, end_date, ...fields }) => ({
       start_date: DateTime.fromISO(start_date).setZone(),
+      end_date: DateTime.fromISO(end_date).setZone(),
       ...fields,
     }))
+    .transform(({ repeat_view, repeat, repeatStartDate, ...fields }) => {
+      if (repeat_view) {
+        const now = DateTime.now();
+        const weekday = Number.parseInt(fields.weekDay);
+        if (repeat === 'monthly')
+          return {
+            repeat_view,
+            repeat: repeat as TEpochRepeatEnum,
+            repeatStartDate,
+            ...fields,
+            start_date: DateTime.fromISO(repeatStartDate),
+            end_date: DateTime.fromISO(repeatStartDate).plus({ weeks: 2 }),
+          };
+        if (repeat === 'weekly')
+          return {
+            repeat_view,
+            repeat: repeat as TEpochRepeatEnum,
+            repeatStartDate,
+            ...fields,
+            start_date:
+              now.weekday >= weekday
+                ? now.plus({ weeks: 1 }).set({ weekday })
+                : now.set({ weekday }),
+            end_date: DateTime.fromISO(repeatStartDate).plus({ weeks: 1 }),
+          };
+      }
+      return {
+        repeat_view,
+        repeat: repeat as TEpochRepeatEnum,
+        repeatStartDate,
+        ...fields,
+      };
+    })
     .refine(
       ({ start_date }) =>
         start_date > DateTime.now().setZone() ||
@@ -161,31 +207,14 @@ const getZodParser = (source?: IEpochFormSource, currentEpoch?: number) => {
       }
     )
     .refine(
-      ({ start_date, days }) =>
-        start_date.plus({ days }) > DateTime.now().setZone(),
+      ({ end_date }) => {
+        return end_date > DateTime.now().setZone();
+      },
       {
-        path: ['days'],
+        path: ['end_date'],
         message: 'Epoch must end in the future',
       }
     )
-    .superRefine((val, ctx) => {
-      let message;
-      if (val.days > 7 && val.repeat === 'weekly') {
-        message =
-          'You cannot have more than 7 days length for a weekly repeating epoch.';
-      } else if (val.days > 28 && val.repeat === 'monthly') {
-        message =
-          'You cannot have more than 28 days length for a monthly repeating epoch.';
-      }
-
-      if (message) {
-        ctx.addIssue({
-          path: ['days'],
-          code: z.ZodIssueCode.custom,
-          message,
-        });
-      }
-    })
     .refine(({ repeat }) => !(repeat !== 'none' && !!otherRepeating), {
       path: ['repeat'],
       // the getOverlapIssue relies on this invariant.
@@ -195,25 +224,25 @@ const getZodParser = (source?: IEpochFormSource, currentEpoch?: number) => {
       v => !getOverlapIssue(v),
       v => getOverlapIssue(v) ?? {}
     )
-    .transform(({ start_date, ...fields }) => ({
+    .transform(({ start_date, end_date, ...fields }) => ({
       start_date: start_date.toISO(),
+      end_date: start_date.toISO(),
+      days: end_date.diff(start_date, 'days').days,
       ...fields,
     }));
 };
 
 type epochFormSchema = z.infer<typeof schema>;
+type epochSubmissionSchema = z.infer<typeof submitSchema>;
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const repeat = [
   {
-    label: 'Does not repeat',
-    value: 'none',
-  },
-  {
-    label: 'Repeats monthly',
+    label: 'Monthly',
     value: 'monthly',
   },
   {
-    label: 'Repeats weekly',
+    label: 'Weekly',
     value: 'weekly',
   },
 ];
@@ -254,9 +283,12 @@ const EpochForm = ({
     }),
     [selectedEpoch, epochs, currentEpoch]
   );
+
   const {
     control,
     formState: { errors, isDirty },
+    getValues,
+    setValue,
     watch,
     handleSubmit,
     setError,
@@ -265,20 +297,37 @@ const EpochForm = ({
     resolver: zodResolver(schema),
     mode: 'all',
     defaultValues: {
-      days: source?.epoch?.days ?? source?.epoch?.calculatedDays ?? 4,
+      repeat_view: true,
+      repeatStartDate: getMonthStartDates(
+        ((DateTime.now().day + 1) % 29 || 1).toString()
+      )[0].value,
+      repeat: 'monthly',
+      dayOfMonth: ((DateTime.now().day + 1) % 29 || 1).toString(),
+      weekDay: '1',
       start_date:
         source?.epoch?.start_date ??
         DateTime.now().setZone().plus({ days: 1 }).toISO(),
+      end_date: source?.epoch?.end_date
+        ? DateTime.fromISO(source.epoch.end_date)
+            .plus(source.epoch.days || 0)
+            .toISO()
+        : DateTime.now().setZone().plus({ days: 8 }).toISO(),
     },
   });
 
   const watchFields = useRef<
     Omit<epochFormSchema, 'repeat'> & { repeat: string | number }
   >({
-    days: source?.epoch?.days ?? source?.epoch?.calculatedDays ?? 4,
+    weekDay: '1',
+    end_date:
+      source?.epoch?.end_date ??
+      DateTime.now().setZone().plus({ days: 15 }).toISO(),
     start_date:
       source?.epoch?.start_date ??
       DateTime.now().setZone().plus({ days: 1 }).toISO(),
+    repeat_view: true,
+    dayOfMonth: '5',
+    repeatStartDate: '',
     repeat:
       source?.epoch?.repeat === 2
         ? 'monthly'
@@ -289,9 +338,35 @@ const EpochForm = ({
   const extraErrors = useRef(false);
 
   useEffect(() => {
-    watch(data => {
-      const value: SafeParseReturnType<epochFormSchema, epochFormSchema> =
+    watch((data, { name, type }) => {
+      const value: SafeParseReturnType<epochFormSchema, epochSubmissionSchema> =
         getZodParser(source, currentEpoch?.id).safeParse(data);
+
+      if (
+        name === 'repeat_view' &&
+        type === 'change' &&
+        data.repeat_view === true &&
+        data.start_date &&
+        data.end_date
+      ) {
+        /*
+        data.start_date = DateTime.fromISO(data.start_date)
+          .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
+          .toISO();
+        data.end_date = DateTime.fromISO(data.end_date)
+          .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
+          .toISO();
+
+        setValue('start_date', data.start_date);
+        setValue('end_date', data.end_date);
+        */
+      }
+      if (name === 'dayOfMonth' && type === 'change') {
+        setValue(
+          'repeatStartDate',
+          getMonthStartDates(data.dayOfMonth || '1')[0].value
+        );
+      }
       if (!value.success) {
         extraErrors.current = true;
         setError('customError', {
@@ -300,13 +375,64 @@ const EpochForm = ({
       } else {
         extraErrors.current = false;
         clearErrors('customError');
+
+        console.table(value.data);
+        const { repeat_view, weekDay, repeat, repeatStartDate } = value.data;
+        if (
+          repeat_view &&
+          (name === 'repeatStartDate' ||
+            name === 'weekDay' ||
+            name === 'dayOfMonth')
+        ) {
+          const now = DateTime.now();
+          const weekday = Number.parseInt(weekDay);
+          let nextStartDate = DateTime.now();
+          let nextEndDate = DateTime.now();
+          if (repeat === 'monthly') {
+            nextStartDate = DateTime.fromISO(repeatStartDate);
+            nextEndDate = nextStartDate.plus({ weeks: 2 });
+          } else if (repeat === 'weekly') {
+            nextStartDate =
+              now.weekday > weekday
+                ? now.plus({ weeks: 1 }).set({ weekday })
+                : now.set({ weekday });
+            nextEndDate = nextStartDate.plus({ weeks: 1 });
+          }
+          nextStartDate = nextStartDate.set({
+            hour: 0,
+            minute: 0,
+            second: 0,
+            millisecond: 0,
+          });
+          nextEndDate = nextEndDate.set({
+            hour: 0,
+            minute: 0,
+            second: 0,
+            millisecond: 0,
+          });
+          console.info('derp', {
+            start: nextStartDate.toISO(),
+            end: nextEndDate.toISO(),
+          });
+          if (
+            name === 'repeatStartDate' ||
+            name === 'weekDay' ||
+            name === 'dayOfMonth'
+          ) {
+            setValue('start_date', nextStartDate.toISO(), {
+              shouldTouch: true,
+            });
+            setValue('end_date', nextEndDate.toISO(), { shouldTouch: true });
+          }
+        }
       }
 
-      if (data.days) watchFields.current.days = data.days;
+      console.table({ data });
+      if (data.end_date) watchFields.current.end_date = data.end_date;
       if (data.repeat) watchFields.current.repeat = data.repeat;
       if (data.start_date) watchFields.current.start_date = data.start_date;
     });
-  }, [watch]);
+  });
 
   const onSubmit: SubmitHandler<epochFormSchema> = async data => {
     if (extraErrors.current) {
@@ -315,12 +441,24 @@ const EpochForm = ({
     setSubmitting(true);
     (source?.epoch
       ? updateEpoch(source.epoch.id, {
-          ...data,
+          start_date: data.start_date,
+          // round is needed to remove daylight savings offsets
+          days: Math.round(
+            DateTime.fromISO(data.end_date)
+              .diff(DateTime.fromISO(data.start_date))
+              .as('days')
+          ),
           repeat:
             data.repeat === 'weekly' ? 1 : data.repeat === 'monthly' ? 2 : 0,
         })
       : createEpoch({
-          ...data,
+          start_date: data.start_date,
+          // round is needed to remove daylight savings offsets
+          days: Math.round(
+            DateTime.fromISO(data.end_date)
+              .diff(DateTime.fromISO(data.start_date))
+              .as('days')
+          ),
           repeat:
             data.repeat === 'weekly' ? 1 : data.repeat === 'monthly' ? 2 : 0,
         })
@@ -331,6 +469,8 @@ const EpochForm = ({
       .then(onClose)
       .catch(console.warn);
   };
+
+  const monthStartDates = getMonthStartDates(getValues('dayOfMonth'));
 
   return (
     <Form>
@@ -396,7 +536,25 @@ const EpochForm = ({
             }}
           >
             <Flex column>
-              <Flex css={{ flexWrap: 'wrap', gap: '$md' }}>
+              <Flex column css={{ mt: '$sm ', mb: '$md' }}>
+                <FormRadioGroup
+                  name="repeat_view"
+                  control={control}
+                  options={[
+                    { label: 'Repeats', value: true },
+                    { label: 'Does Not Repeat', value: false },
+                  ]}
+                  label="Type"
+                  infoTooltip="Decide whether the epoch will repeat monthly or weekly or will not repeat after ending"
+                />
+              </Flex>
+              <Flex
+                css={{
+                  flexWrap: 'wrap',
+                  gap: '$md',
+                  display: getValues('repeat_view') ? 'none' : 'flex',
+                }}
+              >
                 <Flex
                   column
                   css={{
@@ -431,23 +589,44 @@ const EpochForm = ({
                     )}
                   />
                 </Flex>
-                <Flex css={{ maxWidth: '150px' }}>
-                  <FormInputField
-                    id="days"
-                    name="days"
-                    defaultValue={
-                      source?.epoch?.days ?? source?.epoch?.calculatedDays ?? 4
-                    }
+                <Flex
+                  column
+                  css={{
+                    alignItems: 'flex-start',
+                    maxWidth: '150px',
+                    gap: '$xs',
+                  }}
+                >
+                  <FormLabel type="label" css={{ fontWeight: '$bold' }}>
+                    End Date{' '}
+                    <Tooltip content="The last day of the epoch in your local time zone">
+                      <Info size="sm" />
+                    </Tooltip>
+                  </FormLabel>
+                  <Controller
                     control={control}
-                    label="Duration (days)"
-                    infoTooltip="How long the epoch lasts in days"
-                    number
+                    name="end_date"
+                    render={({ field: { onChange, value, onBlur } }) => (
+                      <FormDatePicker
+                        onChange={onChange}
+                        value={value}
+                        onBlur={onBlur}
+                        disabled={
+                          selectedEpoch &&
+                          currentEpoch?.id === selectedEpoch?.id
+                        }
+                        format="MMM dd, yyyy"
+                        style={{
+                          marginLeft: 0,
+                        }}
+                      />
+                    )}
                   />
                 </Flex>
                 <Flex column css={{ gap: '$xs' }}>
                   <FormLabel type="label" css={{ fontWeight: '$bold' }}>
-                    Start Time{' '}
-                    <Tooltip content="The start time of the epoch in your local time zone">
+                    Time{' '}
+                    <Tooltip content="The time the epoch will start and end in your local time zone">
                       <Info size="sm" />
                     </Tooltip>
                   </FormLabel>
@@ -481,21 +660,122 @@ const EpochForm = ({
                   </Flex>
                 </Flex>
               </Flex>
-              <Flex column css={{ mt: '$lg ' }}>
-                <FormRadioGroup
-                  name="repeat"
-                  control={control}
-                  defaultValue={
-                    source?.epoch?.repeat === 2
-                      ? 'monthly'
-                      : source?.epoch?.repeat === 1
-                      ? 'weekly'
-                      : 'none'
-                  }
-                  options={repeat}
-                  label="Type"
-                  infoTooltip="Decide whether the epoch will repeat monthly or weekly or will not repeat after ending"
-                />
+              <Flex
+                column
+                css={{
+                  display: getValues('repeat_view') ? 'flex' : 'none',
+                  flexWrap: 'wrap',
+                  gap: '$md',
+                }}
+              >
+                <Flex
+                  css={{
+                    gap: '$xs',
+                  }}
+                >
+                  <Controller
+                    control={control}
+                    name="repeat"
+                    defaultValue="monthly"
+                    render={({ field: { onChange, value } }) => (
+                      <Select
+                        css={{ minWidth: '280px', outline: '2px solid red' }}
+                        options={repeat}
+                        value={value}
+                        onValueChange={onChange}
+                        id="repeat_type"
+                        label="Cycles"
+                      />
+                    )}
+                  />
+                </Flex>
+                <Flex
+                  css={{
+                    gap: '$xs',
+                    display: getValues('repeat') == 'monthly' ? 'flex' : 'none',
+                  }}
+                >
+                  <Controller
+                    control={control}
+                    name="dayOfMonth"
+                    render={({ field: { onChange, value } }) => (
+                      <Select
+                        css={{ minWidth: '280px', outline: '2px solid red' }}
+                        onValueChange={onChange}
+                        value={value}
+                        options={Array(28)
+                          .fill(undefined)
+                          .map((_, idx) => ({
+                            label: (idx + 1).toString(),
+                            value: (idx + 1).toString(),
+                          }))}
+                        id="day_of_month"
+                        label="Day Of Month"
+                      />
+                    )}
+                  />
+                </Flex>
+                <Flex
+                  column
+                  css={{
+                    alignItems: 'flex-start',
+                    maxWidth: '280px',
+                    gap: '$xs',
+                    display: getValues('repeat') == 'monthly' ? 'flex' : 'none',
+                  }}
+                >
+                  <Controller
+                    control={control}
+                    name="repeatStartDate"
+                    render={({ field: { onChange, value } }) => (
+                      <Select
+                        css={{ minWidth: '280px', outline: '2px solid red' }}
+                        defaultValue={monthStartDates[0].value}
+                        onValueChange={onChange}
+                        value={value}
+                        options={monthStartDates}
+                        id="repeatStartDate"
+                        label="Start Date"
+                      />
+                    )}
+                  />
+                </Flex>
+                <Flex
+                  column
+                  css={{
+                    alignItems: 'flex-start',
+                    maxWidth: '280px',
+                    gap: '$xs',
+                    display: getValues('repeat') == 'monthly' ? 'none' : 'flex',
+                  }}
+                >
+                  <Controller
+                    control={control}
+                    name="weekDay"
+                    render={({ field: { onChange, value } }) => (
+                      <Select
+                        css={{ minWidth: '280px', outline: '2px solid red' }}
+                        defaultValue={monthStartDates[0].value}
+                        onValueChange={onChange}
+                        value={value}
+                        options={[
+                          'Monday',
+                          'Tuesday',
+                          'Wednesday',
+                          'Thursday',
+                          'Friday',
+                          'Saturday',
+                          'Sunday',
+                        ].map((d, idx) => ({
+                          label: d,
+                          value: (idx + 1).toString(),
+                        }))}
+                        id="start_date"
+                        label="start_date"
+                      />
+                    )}
+                  />
+                </Flex>
               </Flex>
               <Text p css={{ mt: '$xl' }}>
                 {summarizeEpoch(watchFields.current)}
@@ -513,9 +793,9 @@ const EpochForm = ({
                 color: '$alert',
               }}
             >
-              {Object.values(errors).map((error, i) => (
-                <div key={i}>{error.message}</div>
-              ))}
+              {Object.values(errors).map((error, i) => {
+                return <div key={i}>{error.message}</div>;
+              })}
             </Box>
           )}
         </Panel>
@@ -528,9 +808,7 @@ const epochsPreview = (
   value: Omit<epochFormSchema, 'repeat'> & { repeat: string | number }
 ) => {
   const epochStart = DateTime.fromISO(value.start_date).setZone();
-  const epochEnd = epochStart.plus({
-    days: value.days,
-  });
+  const epochEnd = DateTime.fromISO(value.end_date).setZone();
   return (
     <Flex css={{ flexDirection: 'column', gap: '$xs' }}>
       <Text variant="label">Preview</Text>
@@ -585,9 +863,8 @@ const summarizeEpoch = (
   const startDate = DateTime.fromISO(value.start_date)
     .setZone()
     .toFormat(longFormat);
-  const endDate = DateTime.fromISO(value.start_date)
+  const endDate = DateTime.fromISO(value.end_date)
     .setZone()
-    .plus({ days: value.days })
     .toFormat(longFormat);
 
   const nextRepeat = DateTime.fromISO(value.start_date)
@@ -604,4 +881,27 @@ const summarizeEpoch = (
 
   return `This epoch starts on ${startDate} and will end on ${endDate}. ${repeating}`;
 };
+
+const getMonthStartDates = (day: string) =>
+  Array(5)
+    .fill(undefined)
+    .map((_, idx) => {
+      let monthDiff = idx;
+      const now = DateTime.now();
+      const monthDay = Number.parseInt(day);
+      if (DateTime.now().day >= monthDay) monthDiff += 1;
+      const nextDT = now.set({
+        day: monthDay,
+        month: now.month + monthDiff,
+        hour: 0,
+        minute: 0,
+        second: 0,
+        millisecond: 0,
+      });
+      return {
+        label: nextDT.toLocaleString(),
+        value: nextDT.toISO(),
+      };
+    });
+
 export default EpochForm;
