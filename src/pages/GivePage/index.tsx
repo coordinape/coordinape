@@ -83,6 +83,7 @@ const GivePage = () => {
   );
 
   // fetch the existing pendingGifts from the backend
+  //TODO: (cs) set better refetch options rather than stale infinity
   const { data: pendingGiftsFrom, refetch: refetchGifts } = useQuery(
     ['pending-gifts', selectedCircle.id],
     () => getPendingGiftsFrom(selectedCircle.id, address as string),
@@ -269,8 +270,6 @@ const GivePage = () => {
     if (allUsers && startingTeammates && pendingGiftsFrom) {
       const newMembers: Member[] = allUsers.map(u => ({
         ...u,
-        give: pendingGiftsFrom.find(g => g.recipient_id == u.id)?.tokens ?? 0,
-        note: pendingGiftsFrom.find(g => g.recipient_id == u.id)?.note,
         teammate: startingTeammates.find(t => t.id == u.id) !== undefined,
       }));
 
