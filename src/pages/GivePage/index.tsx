@@ -274,18 +274,20 @@ const GivePage = () => {
         teammate: startingTeammates.find(t => t.id == u.id) !== undefined,
       }));
 
-      // if we don't have any local gifts yet, initialize them from the pending gifts
-      setGifts(prevState =>
-        Object.keys(prevState).length > 0
-          ? prevState
-          : pendingGiftsFrom.reduce<typeof gifts>((map, g) => {
-              map[g.recipient_id] = g;
-              return map;
-            }, {})
-      );
       setMembers(newMembers);
     }
-  }, [startingTeammates, allUsers, pendingGiftsFrom, selectedCircle]);
+  }, [startingTeammates, allUsers, pendingGiftsFrom]);
+
+  useEffect(() => {
+    if (pendingGiftsFrom) {
+      setGifts(
+        pendingGiftsFrom.reduce<typeof gifts>((map, g) => {
+          map[g.recipient_id] = g;
+          return map;
+        }, {})
+      );
+    }
+  }, [pendingGiftsFrom]);
 
   // update the total give used whenever the gifts change
   useEffect(() => {
