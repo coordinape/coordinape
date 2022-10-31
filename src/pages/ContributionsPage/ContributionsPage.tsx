@@ -127,12 +127,24 @@ const ContributionsPage = () => {
     }
   );
 
-  const {
-    control,
-    reset,
-    resetField,
-    formState: { isDirty },
-  } = useForm({ mode: 'all' });
+  const { control, reset, resetField, setValue } = useForm({ mode: 'all' });
+
+  useEffect(() => {
+    // once we become buffering, we need to schedule
+    // this protection of state change in useEffect allows us to fire this only once
+    // so requests don't stack up
+    if (saveState[currentContribution?.contribution.id] == 'buffering') {
+      updateSaveStateForContribution(
+        currentContribution?.contribution.id,
+        'scheduled'
+      );
+      // Should we cancel this too????
+      handleDebouncedDescriptionChange(
+        saveContribution,
+        descriptionField.value
+      );
+    }
+  }, [saveState, currentContribution?.contribution.id]);
 
   const { field: descriptionField } = useController({
     name: 'description',
@@ -144,6 +156,18 @@ const ContributionsPage = () => {
       onSuccess: newContribution => {
         refetchContributions();
         if (newContribution.insert_contributions_one) {
+          // invoke resetField() value if current form is up to date
+          if (
+            descriptionField?.value ==
+            newContribution.insert_contributions_one.description
+          ) {
+            // eslint-disable-next-line no-console
+            console.log('resetting descriptino field');
+            resetField('description', {
+              defaultValue:
+                newContribution.insert_contributions_one.description,
+            });
+          }
           updateSaveStateForContribution(0, 'stable');
           updateSaveStateForContribution(
             newContribution.insert_contributions_one.id,
@@ -256,19 +280,19 @@ const ContributionsPage = () => {
   };
 
   useEffect(() => {
-    handleDebouncedDescriptionChange.cancel();
-    if (isDirty && descriptionField.value.length > 0) {
+    // once we become buffering, we need to schedule
+    // this protection of state change in useEffect allows us to fire this only once
+    // so requests don't stack up
+    if (saveState[currentContribution?.contribution.id] == 'buffering') {
       updateSaveStateForContribution(
         currentContribution?.contribution.id,
         'scheduled'
       );
-      handleDebouncedDescriptionChange(
-        saveContribution,
-        descriptionField.value
-      );
     }
-    resetUpdateMutation();
-  }, [descriptionField.value, currentContribution?.contribution.id]);
+  }, [
+    currentContribution?.contribution.id,
+    saveState[currentContribution?.contribution.id],
+  ]);
 
   // prevents page re-renders when typing out a contribution
   // This seems pretty silly but it's actually a huge optimization
@@ -481,7 +505,16 @@ const ContributionsPage = () => {
                     name="description"
                     control={control}
                     defaultValue={currentContribution.contribution.description}
-                    areaProps={{ autoFocus: true }}
+                    areaProps={{
+                      autoFocus: true,
+                      onChange: e => {
+                        updateSaveStateForContribution(
+                          currentContribution.contribution.id,
+                          'buffering'
+                        );
+                        setValue('description', e.target.value);
+                      },
+                    }}
                     disabled={!isEpochCurrent(currentContribution.epoch)}
                     placeholder="What have you been working on?"
                     textArea
