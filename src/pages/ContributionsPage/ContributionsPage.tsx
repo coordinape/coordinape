@@ -46,6 +46,8 @@ import {
 
 const DEBOUNCE_TIMEOUT = 1000;
 
+const NEW_CONTRIBUTION_ID = 0;
+
 const nextPrevCss = {
   color: '$text',
   padding: '0',
@@ -159,12 +161,12 @@ const ContributionsPage = () => {
       onSuccess: newContribution => {
         refetchContributions();
         if (newContribution.insert_contributions_one) {
-          updateSaveStateForContribution(0, 'stable');
+          updateSaveStateForContribution(NEW_CONTRIBUTION_ID, 'stable');
           setCurrentContribution({
             contribution: {
               ...newContribution.insert_contributions_one,
               description: descriptionField.value as string,
-              next: () => data?.contributions[0],
+              next: () => data?.contributions[NEW_CONTRIBUTION_ID],
               prev: () => undefined,
               idx: 0,
             },
@@ -191,7 +193,7 @@ const ContributionsPage = () => {
             );
           }
         } else {
-          updateSaveStateForContribution(0, 'stable');
+          updateSaveStateForContribution(NEW_CONTRIBUTION_ID, 'stable');
           resetCreateMutation();
         }
       },
@@ -239,7 +241,7 @@ const ContributionsPage = () => {
   const saveContribution = useMemo(() => {
     return (value: string) => {
       if (!currentContribution) return;
-      currentContribution.contribution.id === 0
+      currentContribution.contribution.id === NEW_CONTRIBUTION_ID
         ? createContribution({
             user_id: currentUserId,
             circle_id: selectedCircle.id,
@@ -494,17 +496,21 @@ const ContributionsPage = () => {
                       autoFocus: true,
                       onChange: e => {
                         setValue('description', e.target.value);
+                        // Don't schedule a new save if a createContribution
+                        // request is inflight, since this will create
+                        // a duplicate contribution
                         if (
-                          currentContribution.contribution.id == 0 &&
-                          saveState[currentContribution.contribution.id] ==
-                            'saving'
-                        ) {
-                          return;
-                        }
-                        updateSaveStateForContribution(
-                          currentContribution.contribution.id,
-                          'buffering'
-                        );
+                          !(
+                            currentContribution.contribution.id ===
+                              NEW_CONTRIBUTION_ID &&
+                            saveState[currentContribution.contribution.id] ==
+                              'saving'
+                          )
+                        )
+                          updateSaveStateForContribution(
+                            currentContribution.contribution.id,
+                            'buffering'
+                          );
                       },
                     }}
                     disabled={!isEpochCurrent(currentContribution.epoch)}
