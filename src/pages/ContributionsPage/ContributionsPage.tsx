@@ -278,7 +278,7 @@ const ContributionsPage = () => {
       returnData.epochs = createLinkedArray([currentEpoch, ...data.epochs]);
 
     return returnData;
-  }, [data?.epochs.length, data?.contributions.length, dataUpdatedAt]);
+  }, [dataUpdatedAt]);
 
   const activeContributionFn = useMemo(
     () =>
