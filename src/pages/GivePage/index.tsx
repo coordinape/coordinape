@@ -267,7 +267,7 @@ const GivePage = () => {
 
   // build the actual members list by combining allUsers, pendingGiftsFrom and startingTeammates
   useEffect(() => {
-    if (allUsers && startingTeammates && pendingGiftsFrom) {
+    if (allUsers && startingTeammates) {
       const newMembers: Member[] = allUsers.map(u => ({
         ...u,
         teammate: startingTeammates.find(t => t.id == u.id) !== undefined,
@@ -275,7 +275,7 @@ const GivePage = () => {
 
       setMembers(newMembers);
     }
-  }, [startingTeammates, allUsers, pendingGiftsFrom]);
+  }, [startingTeammates, allUsers]);
 
   useEffect(() => {
     if (pendingGiftsFrom) {
