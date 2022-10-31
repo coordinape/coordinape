@@ -24,7 +24,12 @@ context('Coordinape', () => {
     cy.contains(circleName, { timeout: 120000 });
     cy.contains('There are no scheduled epochs');
     cy.contains('Create Epoch', { timeout: 45000 }).click();
-    cy.getInputByLabel('Duration (days)').type('1').blur();
+    // traverse the div representing the radio component
+    // to get to the radio button
+    cy.contains('Does Not Repeat', { timeout: 45000 })
+      .siblings()
+      .first()
+      .click();
     cy.contains('Save').click();
     cy.contains('starts in 23 hr', { timeout: 120000 });
   });

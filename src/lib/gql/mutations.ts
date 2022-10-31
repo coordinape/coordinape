@@ -476,10 +476,10 @@ export async function updateUser(params: ValueTypes['UpdateUserInput']) {
   return updateUser;
 }
 
-export async function createEpoch(params: ValueTypes['CreateEpochOldInput']) {
-  const { createEpochOld } = await client.mutate(
+export async function createEpoch(params: ValueTypes['CreateEpochInput']) {
+  const { createEpoch } = await client.mutate(
     {
-      createEpochOld: [
+      createEpoch: [
         {
           payload: {
             ...params,
@@ -494,7 +494,7 @@ export async function createEpoch(params: ValueTypes['CreateEpochOldInput']) {
       operationName: 'createEpoch',
     }
   );
-  return createEpochOld;
+  return createEpoch;
 }
 
 export async function updateEpoch(
@@ -522,6 +522,46 @@ export async function updateEpoch(
     }
   );
   return updateEpochOld;
+}
+
+export async function updateActiveRepeatingEpoch(
+  epochId: number,
+  circleId: number,
+  params: {
+    current: UpdateCreateEpochParam;
+    next: Omit<ValueTypes['CreateEpochInput'], 'circle_id'>;
+  }
+) {
+  await client.mutate(
+    {
+      createEpoch: [
+        {
+          payload: {
+            ...params.next,
+            circle_id: circleId,
+          },
+        },
+        {
+          id: true,
+        },
+      ],
+      updateEpoch: [
+        {
+          payload: {
+            ...params.current,
+            circle_id: circleId,
+            id: epochId,
+          },
+        },
+        {
+          id: true,
+        },
+      ],
+    },
+    {
+      operationName: 'updateActiveRepeatingEpoch',
+    }
+  );
 }
 
 export async function allocationCsv(
