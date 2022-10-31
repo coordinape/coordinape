@@ -16,10 +16,11 @@ export default {
         disable: true,
       },
     },
-    content: {
-      table: {
-        disable: true,
-      },
+    as: {
+      disable: true,
+    },
+    ref: {
+      disable: true,
     },
   },
 } as ComponentMeta<typeof FormComponent>;
