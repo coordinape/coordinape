@@ -7,7 +7,6 @@ import { TextArea } from '../TextArea/TextArea';
 import { Panel as PanelComponent } from './Panel';
 
 export default {
-  title: 'Design System/Components/Panel',
   component: PanelComponent,
   decorators: [withDesign, Story => <Story />],
 } as ComponentMeta<typeof PanelComponent>;
