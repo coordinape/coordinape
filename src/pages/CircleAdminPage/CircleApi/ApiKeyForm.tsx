@@ -6,8 +6,7 @@ import { useController, useForm, SubmitHandler } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
 import { z } from 'zod';
 
-import { LoadingModal } from '../../components';
-import { useSelectedCircleId } from '../../recoilState';
+import { LoadingModal } from '../../../components';
 import { Box, Button, CheckBox, Form, FormLabel, Text, TextField } from 'ui';
 
 import { API_PERMISSION_LABELS } from './constants';
@@ -29,10 +28,11 @@ const schema = z.object({
 type FormSchema = z.infer<typeof schema>;
 const resolver = zodResolver(schema);
 
-export const ApiKeyForm: FC<{ onSuccess: (apiKey: string) => void }> = ({
-  onSuccess,
-}) => {
-  const circleId = useSelectedCircleId();
+type Props = {
+  circleId: number;
+  onSuccess: (apiKey: string) => void;
+};
+export const ApiKeyForm: FC<Props> = ({ circleId, onSuccess }) => {
   const {
     control,
     formState: { errors, isValid },

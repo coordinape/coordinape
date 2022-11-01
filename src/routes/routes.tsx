@@ -19,7 +19,6 @@ import {
   useFixCircleState,
   useRoleInCircle,
 } from 'hooks/migration';
-import AdminCircleApiPage from 'pages/AdminCircleApiPage/AdminCircleApiPage';
 import AllocationPage from 'pages/AllocationPage';
 import CircleAdminPage from 'pages/CircleAdminPage';
 import CirclesPage from 'pages/CirclesPage';
@@ -73,7 +72,6 @@ export const AppRoutes = () => {
             path="connect-integration"
             element={<IntegrationCallbackPage />}
           />
-          <Route path="api" element={<AdminCircleApiPage />} />
         </Route>
 
         <Route path="distributions/:epochId" element={<DistributionsPage />} />

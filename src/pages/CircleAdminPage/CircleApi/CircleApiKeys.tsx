@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import { useMutation, useQueryClient } from 'react-query';
 
-import { useSelectedCircleId } from '../../recoilState';
+import { ExternalLink } from '../../../icons/__generated';
+import { useSelectedCircleId } from '../../../recoilState';
+import { getConsoleUrl } from '../../../utils/apiKeyHelper';
 import { LoadingModal } from 'components';
-import { Box, Button, Flex, Modal, Panel, Text } from 'ui';
-import { SingleColumnLayout } from 'ui/layouts';
+import { Button, Flex, Modal, Text } from 'ui';
 
 import { ApiKeyDisplay } from './ApiKeyDisplay';
 import { ApiKeyForm } from './ApiKeyForm';
@@ -13,14 +14,14 @@ import { ApiKeyRow } from './ApiKeyRow';
 import { deleteCircleApiKey } from './mutations';
 import { useCircleApiKeys } from './useCircleApiKeys';
 
-const AdminCircleApiPage = () => {
+export const CircleApiKeys: React.FC = () => {
   const [modal, setModal] = useState<'' | 'create' | 'display'>('');
   const [keyToDelete, setKeyToDelete] = useState('');
   const [displayedKey, setDisplayedKey] = useState('');
+  const circleId = useSelectedCircleId();
 
   const queryClient = useQueryClient();
 
-  const circleId = useSelectedCircleId();
   const { refetch, isLoading, data: apiKeys } = useCircleApiKeys(circleId);
 
   const deleteKeyMutation = useMutation(deleteCircleApiKey, {
@@ -59,43 +60,70 @@ const AdminCircleApiPage = () => {
     setKeyToDelete('');
   };
 
+  const consoleUrl = getConsoleUrl();
+  const hasApiKeys = apiKeys && apiKeys.length > 0;
+
   if (isLoading) return <LoadingModal visible />;
 
   return (
-    <SingleColumnLayout css={{ maxWidth: '$smallScreen' }}>
-      <Box css={{ display: 'flex' }}>
-        <Text h2 css={{ flexGrow: 1 }}>
-          Circle API Keys
-        </Text>
-        <Button color="primary" outlined onClick={() => setModal('create')}>
-          Create API Key
-        </Button>
-      </Box>
-      {apiKeys && apiKeys?.length > 0 ? (
-        apiKeys?.map(apiKey => (
-          <ApiKeyRow
-            key={apiKey.hash}
-            apiKey={apiKey}
-            onDelete={setKeyToDelete}
-          />
-        ))
-      ) : (
-        <Panel>
-          <Text color={'neutral'}>
+    <div>
+      <Flex css={{ flexDirection: 'column' }}>
+        {hasApiKeys ? (
+          apiKeys?.map(apiKey => (
+            <ApiKeyRow
+              key={apiKey.hash}
+              apiKey={apiKey}
+              onDelete={setKeyToDelete}
+            />
+          ))
+        ) : (
+          <Text color={'neutral'} css={{ mb: '$lg', mt: '$sm' }}>
             There are no API keys for your circle yet.
           </Text>
-        </Panel>
-      )}
-      {modal === 'create' && (
-        <Modal onClose={closeModal} title="Create a Circle API Key">
-          <ApiKeyForm onSuccess={displayApiKey} />
-        </Modal>
-      )}
-      {modal === 'display' && displayedKey && (
-        <Modal onClose={closeModal} title="API Key Created">
-          <ApiKeyDisplay apiKey={displayedKey} />
-        </Modal>
-      )}
+        )}
+      </Flex>
+
+      <Flex css={{ gap: '$md' }}>
+        <Button
+          color="primary"
+          outlined
+          onClick={e => {
+            e.preventDefault();
+            setModal('create');
+          }}
+        >
+          Create API Key
+        </Button>
+        {hasApiKeys ? (
+          <Button
+            color="neutral"
+            as={'a'}
+            outlined
+            href={consoleUrl}
+            rel="noreferrer"
+            target="_blank"
+            style={{ textDecoration: 'none' }}
+          >
+            <ExternalLink />
+            GraphQL Explorer
+          </Button>
+        ) : null}
+      </Flex>
+
+      <Modal
+        onClose={closeModal}
+        open={modal === 'create'}
+        title="Create a Circle API Key"
+      >
+        <ApiKeyForm circleId={circleId} onSuccess={displayApiKey} />
+      </Modal>
+      <Modal
+        onClose={closeModal}
+        open={Boolean(modal === 'display' && displayedKey)}
+        title="API Key Created"
+      >
+        <ApiKeyDisplay apiKey={displayedKey} />
+      </Modal>
       <Modal
         open={!!keyToDelete}
         title={`Delete API Key?`}
@@ -112,8 +140,6 @@ const AdminCircleApiPage = () => {
         </Flex>
       </Modal>
       <LoadingModal visible={deleteKeyMutation.isLoading} />
-    </SingleColumnLayout>
+    </div>
   );
 };
-
-export default AdminCircleApiPage;
