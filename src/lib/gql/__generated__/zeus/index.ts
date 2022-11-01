@@ -5194,6 +5194,7 @@ export type ValueTypes = {
     github_username?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     medium_username?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
     skills?: boolean | `@${string}`;
     telegram_username?: boolean | `@${string}`;
     twitter_username?: boolean | `@${string}`;
@@ -5284,6 +5285,7 @@ export type ValueTypes = {
     github_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     medium_username?: ValueTypes['String_comparison_exp'] | undefined | null;
+    name?: ValueTypes['String_comparison_exp'] | undefined | null;
     skills?: ValueTypes['String_comparison_exp'] | undefined | null;
     telegram_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     twitter_username?: ValueTypes['String_comparison_exp'] | undefined | null;
@@ -5315,6 +5317,7 @@ export type ValueTypes = {
     github_username?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     medium_username?: ValueTypes['order_by'] | undefined | null;
+    name?: ValueTypes['order_by'] | undefined | null;
     skills?: ValueTypes['order_by'] | undefined | null;
     telegram_username?: ValueTypes['order_by'] | undefined | null;
     twitter_username?: ValueTypes['order_by'] | undefined | null;
@@ -10648,6 +10651,7 @@ export type ModelTypes = {
     github_username?: string | undefined;
     id: GraphQLTypes['bigint'];
     medium_username?: string | undefined;
+    name?: string | undefined;
     skills?: string | undefined;
     telegram_username?: string | undefined;
     twitter_username?: string | undefined;
@@ -15177,6 +15181,7 @@ export type GraphQLTypes = {
     github_username?: string | undefined;
     id: GraphQLTypes['bigint'];
     medium_username?: string | undefined;
+    name?: string | undefined;
     skills?: string | undefined;
     telegram_username?: string | undefined;
     twitter_username?: string | undefined;
@@ -15203,6 +15208,7 @@ export type GraphQLTypes = {
     github_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     medium_username?: GraphQLTypes['String_comparison_exp'] | undefined;
+    name?: GraphQLTypes['String_comparison_exp'] | undefined;
     skills?: GraphQLTypes['String_comparison_exp'] | undefined;
     telegram_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     twitter_username?: GraphQLTypes['String_comparison_exp'] | undefined;
@@ -15233,6 +15239,7 @@ export type GraphQLTypes = {
     github_username?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     medium_username?: GraphQLTypes['order_by'] | undefined;
+    name?: GraphQLTypes['order_by'] | undefined;
     skills?: GraphQLTypes['order_by'] | undefined;
     telegram_username?: GraphQLTypes['order_by'] | undefined;
     twitter_username?: GraphQLTypes['order_by'] | undefined;
@@ -17312,6 +17319,7 @@ export const enum profiles_select_column {
   github_username = 'github_username',
   id = 'id',
   medium_username = 'medium_username',
+  name = 'name',
   skills = 'skills',
   telegram_username = 'telegram_username',
   twitter_username = 'twitter_username',
