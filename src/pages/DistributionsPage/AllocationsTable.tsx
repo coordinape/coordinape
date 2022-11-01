@@ -92,10 +92,10 @@ export const AllocationsTable = ({
   return (
     <Panel>
       <Flex
+        alignItems="center"
         css={{
           justifyContent: 'space-between',
           mb: '$lg',
-          alignItems: 'center',
         }}
       >
         <Text h3 css={{ fontWeight: '$semibold', color: '$headingText' }}>
@@ -144,7 +144,8 @@ export const AllocationsTable = ({
             <td>
               <Flex
                 row
-                css={{ alignItems: 'center', gap: '$sm', height: '$2xl' }}
+                alignItems="center"
+                css={{ gap: '$sm', height: '$2xl' }}
               >
                 <Avatar size="small" path={user.avatar} name={user.name} />
                 <Text>{user.name}</Text>

@@ -7,7 +7,7 @@ import { Box, Flex, Panel, Text } from '../../ui';
 const MagicLink = ({ magicLink }: { magicLink: string }) => {
   return (
     <Box>
-      <Flex css={{ alignItems: 'center', mb: '$xs' }}>
+      <Flex alignItems="center" css={{ mb: '$xs' }}>
         <Text variant="label">Magic Circle Link</Text>
       </Flex>
       <CopyCodeTextField value={magicLink} />

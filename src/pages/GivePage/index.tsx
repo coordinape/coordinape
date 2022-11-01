@@ -649,12 +649,7 @@ const AllocateContents = ({
               >
                 Distribute Evenly
               </Button>
-              <Flex
-                css={{
-                  alignItems: 'center',
-                  '@sm': { mb: '$sm' },
-                }}
-              >
+              <Flex alignItems="center" css={{ '@sm': { mb: '$sm' } }}>
                 <SavingIndicator saveState={saveState} retry={retrySave} />
               </Flex>
             </Flex>
