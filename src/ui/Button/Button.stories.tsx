@@ -1,38 +1,51 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { withDesign } from 'storybook-addon-designs';
 
-import { Box } from '../Box/Box';
+import { Flex, Text, Box, TextArea, HR } from 'ui';
 
 import { Button, ButtonStory } from './Button';
 
 export default {
-  title: 'Design System/Components/Button',
   component: Button,
-  decorators: [withDesign],
+  decorators: [
+    withDesign,
+    (Story: any) => (
+      <>
+        <Story />
+        <HR />
+        <Text variant="label">Component in Context</Text>
+        <Box css={{ mt: '$md', p: '$md', background: '$surface' }}>
+          <TextArea css={{ width: '100%', background: 'white' }} />
+          <Flex css={{ justifyContent: 'flex-end', mt: '$md' }}>
+            <Story />
+          </Flex>
+        </Box>
+      </>
+    ),
+  ],
+  argTypes: {
+    color: {
+      control: { type: 'select' },
+    },
+  },
 } as ComponentMeta<typeof ButtonStory>;
 
 const Template: ComponentStory<typeof ButtonStory> = args => (
-  <Box css={{ display: 'flex', gap: '$sm' }}>
-    <Button size="small" {...args}>
-      Small {args.children}
+  <Flex css={{ alignItems: 'center', gap: '$sm' }}>
+    <Button size={args.size} {...args}>
+      {args.children}
     </Button>
-    <Button size="medium" {...args}>
-      Medium {args.children}
-    </Button>
-    <Button size="large" {...args}>
-      Large {args.children}
-    </Button>
-  </Box>
+  </Flex>
 );
 
-export const SingleButton = Template.bind({});
+export const Default = Template.bind({});
 
-SingleButton.args = {
-  color: 'destructive',
+Default.args = {
+  color: 'primary',
   children: 'Button',
 };
 
-SingleButton.parameters = {
+Default.parameters = {
   design: {
     type: 'figma',
     url: 'https://www.figma.com/file/wXF7xGVv1j2SqwWfgbamS8/Coordinape-Design-v8?node-id=338%3A94',

@@ -1,5 +1,16 @@
 module.exports = {
-  stories: ['../src/**/*.stories.[tj]s', '../src/**/*.stories.[tj]sx'],
+  stories: [
+    {
+      directory: '../src/ui',
+      titlePrefix: 'Design System/Components/',
+      files: '**/*.stories.*',
+    },
+    {
+      directory: '../src/pages',
+      titlePrefix: 'Design System/Pages/',
+      files: '**/*.stories.*',
+    },
+  ],
   core: {
     builder: 'webpack5',
   },
@@ -9,4 +20,5 @@ module.exports = {
     'storybook-addon-designs',
     '@storybook/preset-create-react-app',
   ],
+  staticDirs: ['../public'],
 };

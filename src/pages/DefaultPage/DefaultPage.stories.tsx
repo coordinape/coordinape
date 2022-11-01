@@ -11,7 +11,6 @@ import { rApiManifest } from 'recoilState';
 import { DefaultPage } from './DefaultPage';
 
 export default {
-  title: 'Design System/Molecules/DefaultPage',
   component: DefaultPage,
   decorators: [withDesign],
 } as ComponentMeta<typeof DefaultPage>;

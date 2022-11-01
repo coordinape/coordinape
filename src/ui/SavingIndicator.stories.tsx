@@ -1,15 +1,14 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import { Box, Flex, TextArea } from 'ui';
+import { Box, Flex, HR, Text, TextArea } from 'ui';
 
-import { SavingIndicator } from './SavingIndicator';
+import { SavingIndicator, StateOptions } from './SavingIndicator';
 
 export default {
-  title: 'Design System/Components/SavingIndicator',
   component: SavingIndicator,
   argTypes: {
     saveState: {
-      options: ['stable', 'buffered', 'scheduled', 'saving', 'saved', 'error'],
+      options: StateOptions,
       control: { type: 'radio' },
     },
     retry: {
@@ -20,6 +19,8 @@ export default {
     (Story: any) => (
       <>
         <Story />
+        <HR />
+        <Text variant="label">Component in Context</Text>
         <Box css={{ mt: '$md', p: '$md', background: '$surface' }}>
           <TextArea css={{ width: '100%', background: 'white' }} />
           <Flex css={{ justifyContent: 'flex-end', mt: '$md' }}>

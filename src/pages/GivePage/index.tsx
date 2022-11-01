@@ -83,6 +83,7 @@ const GivePage = () => {
   );
 
   // fetch the existing pendingGifts from the backend
+  //TODO: (cs) set better refetch options rather than stale infinity
   const { data: pendingGiftsFrom, refetch: refetchGifts } = useQuery(
     ['pending-gifts', selectedCircle.id],
     () => getPendingGiftsFrom(selectedCircle.id, address as string),
@@ -266,26 +267,26 @@ const GivePage = () => {
 
   // build the actual members list by combining allUsers, pendingGiftsFrom and startingTeammates
   useEffect(() => {
-    if (allUsers && startingTeammates && pendingGiftsFrom) {
+    if (allUsers && startingTeammates) {
       const newMembers: Member[] = allUsers.map(u => ({
         ...u,
-        give: pendingGiftsFrom.find(g => g.recipient_id == u.id)?.tokens ?? 0,
-        note: pendingGiftsFrom.find(g => g.recipient_id == u.id)?.note,
         teammate: startingTeammates.find(t => t.id == u.id) !== undefined,
       }));
 
-      // if we don't have any local gifts yet, initialize them from the pending gifts
-      setGifts(prevState =>
-        Object.keys(prevState).length > 0
-          ? prevState
-          : pendingGiftsFrom.reduce<typeof gifts>((map, g) => {
-              map[g.recipient_id] = g;
-              return map;
-            }, {})
-      );
       setMembers(newMembers);
     }
-  }, [startingTeammates, allUsers, pendingGiftsFrom, selectedCircle]);
+  }, [startingTeammates, allUsers]);
+
+  useEffect(() => {
+    if (pendingGiftsFrom) {
+      setGifts(
+        pendingGiftsFrom.reduce<typeof gifts>((map, g) => {
+          map[g.recipient_id] = g;
+          return map;
+        }, {})
+      );
+    }
+  }, [pendingGiftsFrom]);
 
   // update the total give used whenever the gifts change
   useEffect(() => {
