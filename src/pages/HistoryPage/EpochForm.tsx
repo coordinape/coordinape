@@ -393,7 +393,7 @@ const EpochForm = ({
     });
   });
 
-  const onSubmit: SubmitHandler<epochFormSchema> = async data => {
+  const onSubmit: SubmitHandler<epochFormSchema> = async () => {
     if (extraErrors.current) {
       return;
     }
@@ -404,7 +404,7 @@ const EpochForm = ({
       // rounding needed to santize fractional days from timezone shifts
       days: Math.round(
         DateTime.fromISO(epochConfig.end_date)
-          .diff(DateTime.fromISO(data.start_date))
+          .diff(DateTime.fromISO(epochConfig.start_date))
           .as('days')
       ),
       repeat:
@@ -427,7 +427,6 @@ const EpochForm = ({
   };
 
   const monthStartDates = getMonthStartDates(getValues('dayOfMonth'));
-
   return (
     <Form>
       <Panel css={{ mb: '$md', p: '$md' }}>
