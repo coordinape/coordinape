@@ -3,11 +3,8 @@ import React from 'react';
 import { TokenJoinInfo } from '../../../api/circle/landing/[token]';
 import { useMyProfile } from '../../recoilState';
 import { paths } from '../../routes/paths';
-import { AppLink, Box, Button, Panel, Text } from '../../ui';
+import { AppLink, Box, Button, CenteredBox, Flex, Panel, Text } from '../../ui';
 import CircleWithLogo from '../../ui/CircleWithLogo';
-import { Flex } from '../../ui/Flex/Flex';
-
-import CenteredBox from './CenteredBox';
 
 export const AddressIsNotMember = ({
   tokenJoinInfo,
