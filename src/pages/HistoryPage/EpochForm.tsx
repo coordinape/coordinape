@@ -298,19 +298,21 @@ const EpochForm = ({
     resolver: zodResolver(schema),
     mode: 'all',
     defaultValues: {
-      repeat_view: true,
+      repeat_view:
+        typeof source?.epoch?.repeat === 'number'
+          ? source.epoch.repeat > 0
+          : true,
       repeatStartDate: getMonthStartDates(
         source?.epoch?.start_date
           ? DateTime.fromISO(source.epoch.start_date).day.toString()
           : ((DateTime.now().day + 1) % 32 || 1).toString()
       )[0].value,
-      repeat: Number.isInteger(source?.epoch?.repeat)
-        ? source.epoch?.repeat === 0
-          ? 'none'
-          : source?.epoch?.repeat === 1
-          ? 'weekly'
-          : 'monthly'
-        : 'monthly',
+      repeat:
+        typeof source?.epoch?.repeat === 'number'
+          ? source.epoch?.repeat === 1
+            ? 'weekly'
+            : 'monthly'
+          : 'monthly',
       dayOfMonth: source?.epoch?.start_date
         ? DateTime.fromISO(source.epoch.start_date).day.toString()
         : ((DateTime.now().day + 1) % 32 || 1).toString(),
@@ -380,7 +382,7 @@ const EpochForm = ({
           getMonthStartDates(data.dayOfMonth || '1')[0].value
         );
       }
-      // eslint-ignore-next-line no-console
+
       if (!value.success) {
         extraErrors.current = true;
         setError('customError', {
@@ -634,9 +636,13 @@ const EpochForm = ({
                     defaultValue="monthly"
                     render={({ field: { onChange, value } }) => (
                       <Select
-                        css={{ minWidth: '280px', outline: '2px solid red' }}
+                        css={{ minWidth: '280px' }}
                         options={repeat}
                         value={value}
+                        disabled={
+                          selectedEpoch &&
+                          currentEpoch?.id === selectedEpoch?.id
+                        }
                         onValueChange={onChange}
                         id="repeat_type"
                         label="Cycles"
@@ -655,9 +661,13 @@ const EpochForm = ({
                     name="dayOfMonth"
                     render={({ field: { onChange, value } }) => (
                       <Select
-                        css={{ minWidth: '280px', outline: '2px solid red' }}
+                        css={{ minWidth: '280px' }}
                         onValueChange={onChange}
                         value={value}
+                        disabled={
+                          selectedEpoch &&
+                          currentEpoch?.id === selectedEpoch?.id
+                        }
                         options={Array(31)
                           .fill(undefined)
                           .map((_, idx) => ({
@@ -684,10 +694,14 @@ const EpochForm = ({
                     name="repeatStartDate"
                     render={({ field: { onChange, value } }) => (
                       <Select
-                        css={{ minWidth: '280px', outline: '2px solid red' }}
+                        css={{ minWidth: '280px' }}
                         defaultValue={monthStartDates[0].value}
                         onValueChange={onChange}
                         value={value}
+                        disabled={
+                          selectedEpoch &&
+                          currentEpoch?.id === selectedEpoch?.id
+                        }
                         options={monthStartDates}
                         id="repeatStartDate"
                         label="Start Date"
@@ -709,10 +723,14 @@ const EpochForm = ({
                     name="weekDay"
                     render={({ field: { onChange, value } }) => (
                       <Select
-                        css={{ minWidth: '280px', outline: '2px solid red' }}
+                        css={{ minWidth: '280px' }}
                         defaultValue={monthStartDates[0].value}
                         onValueChange={onChange}
                         value={value}
+                        disabled={
+                          selectedEpoch &&
+                          currentEpoch?.id === selectedEpoch?.id
+                        }
                         options={[
                           'Monday',
                           'Tuesday',
