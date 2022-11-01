@@ -41,6 +41,7 @@ import { SingleColumnLayout } from 'ui/layouts';
 import { numberWithCommas } from 'utils';
 
 import { AdminIntegrations } from './AdminIntegrations';
+import { CircleApiKeys } from './CircleApi';
 import { CircleLogoUpload } from './CircleLogoUpload';
 import {
   getCircleSettings,
@@ -101,7 +102,7 @@ const radioGroupOptions = {
 };
 
 const stringBoolTransform = (val: string) => {
-  return val === 'true' ? true : false;
+  return val === 'true';
 };
 
 const schema = z.object({
@@ -843,6 +844,12 @@ export const CircleAdminPage = () => {
                 )}
               </div>
             </Box>
+          </Panel>
+        </Panel>
+        <Panel css={panelStyles}>
+          <Text h2>Circle API Keys</Text>
+          <Panel nested>
+            <CircleApiKeys />
           </Panel>
         </Panel>
         <Panel css={panelStyles}>
