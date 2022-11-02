@@ -42,16 +42,6 @@ const requiredContracts = ['ApeVaultFactory', 'ApeRouter', 'ApeDistributor'];
 export const vaultsSupportedChainIds: string[] = Object.entries(deploymentInfo)
   .filter(([, contracts]) => requiredContracts.every(c => c in contracts))
   .map(x => x[0].toString());
-export const loginSupportedChainIds: { [key: number]: string } = {
-  1: 'Ethereum Mainnet',
-  10: 'Optimism',
-  100: 'Gnosis',
-  137: 'Polygon',
-  250: 'Fantom Opera',
-  42220: 'Celo Mainnet',
-  42161: 'Arbitrum One',
-  43114: 'Avalanche C-Chain',
-};
 
 export class Contracts {
   vaultFactory: ApeVaultFactory;
