@@ -1,30 +1,10 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import faker from 'faker';
-import { withDesign } from 'storybook-addon-designs';
 
 import { Table as TableComponent } from './Table';
 
 export default {
-  title: 'Design System/Components/Table',
   component: TableComponent,
-  decorators: [withDesign, Story => <Story />],
-  argTypes: {
-    ref: {
-      table: {
-        disable: true,
-      },
-    },
-    as: {
-      table: {
-        disable: true,
-      },
-    },
-    css: {
-      table: {
-        disable: true,
-      },
-    },
-  },
 } as ComponentMeta<typeof TableComponent>;
 
 type User = {
