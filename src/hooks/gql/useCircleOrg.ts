@@ -27,6 +27,7 @@ export function useCircleOrg(circleId: number) {
     {
       enabled: !!circleId,
       refetchOnWindowFocus: false,
+      notifyOnChangeProps: ['data'],
     }
   );
 }

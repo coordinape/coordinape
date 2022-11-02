@@ -83,6 +83,7 @@ export function useVaults({
         });
       },
       refetchOnWindowFocus: false,
+      notifyOnChangeProps: ['data'],
     }
   );
 }
