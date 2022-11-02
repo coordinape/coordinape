@@ -1,14 +1,11 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { withDesign } from 'storybook-addon-designs';
 
 import { Panel, Text } from '../../ui';
 
 import CenteredBoxComponent from './CenteredBox';
 
 export default {
-  title: 'Design System/Components/Centered Box',
   component: CenteredBoxComponent,
-  decorators: [withDesign, Story => <Story />],
 } as ComponentMeta<typeof CenteredBoxComponent>;
 
 const Template: ComponentStory<typeof CenteredBoxComponent> = args => (
@@ -21,6 +18,3 @@ const Template: ComponentStory<typeof CenteredBoxComponent> = args => (
 );
 
 export const CenteredBox = Template.bind({});
-CenteredBox.parameters = {
-  controls: { hideNoControlsWarning: true },
-};
