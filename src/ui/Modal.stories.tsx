@@ -3,7 +3,6 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { Flex, Text, Button, Modal as ModalComponent } from './index';
 
 export default {
-  title: 'Design System/Components/Modal',
   component: ModalComponent,
   argTypes: {
     children: {

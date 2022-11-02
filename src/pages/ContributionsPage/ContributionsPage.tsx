@@ -16,15 +16,12 @@ import {
 import {
   DeworkColor,
   WonderColor,
-  Check,
-  AlertTriangle,
-  RefreshCcw,
   ChevronDown,
   ChevronUp,
 } from 'icons/__generated';
-import { SaveState } from 'pages/GivePage/SavingIndicator';
 import { Panel, Text, Box, Modal, Button, Flex } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
+import { SavingIndicator, SaveState } from 'ui/SavingIndicator';
 
 import {
   deleteContributionMutation,
@@ -48,6 +45,8 @@ import {
 } from './util';
 
 const DEBOUNCE_TIMEOUT = 1000;
+
+const NEW_CONTRIBUTION_ID = 0;
 
 const nextPrevCss = {
   color: '$text',
@@ -107,7 +106,7 @@ const ContributionsPage = () => {
   const {
     data,
     refetch: refetchContributions,
-    isFetching,
+    dataUpdatedAt,
   } = useQuery(
     ['contributions', selectedCircle.id],
     () =>
@@ -130,74 +129,100 @@ const ContributionsPage = () => {
     }
   );
 
-  const {
-    control,
-    reset,
-    resetField,
-    formState: { isDirty },
-  } = useForm({ mode: 'all' });
+  const { control, reset, resetField, setValue } = useForm({ mode: 'all' });
+
+  useEffect(() => {
+    // once we become buffering, we need to schedule
+    // this protection of state change in useEffect allows us to fire this only once
+    // so requests don't stack up
+    if (saveState[currentContribution?.contribution.id] == 'buffering') {
+      updateSaveStateForContribution(
+        currentContribution?.contribution.id,
+        'scheduled'
+      );
+      // Should we cancel this too????
+      handleDebouncedDescriptionChange(
+        saveContribution,
+        descriptionField.value
+      );
+    }
+  }, [
+    currentContribution?.contribution.id,
+    saveState[currentContribution?.contribution.id],
+  ]);
 
   const { field: descriptionField } = useController({
     name: 'description',
     control,
   });
 
-  const {
-    mutate: createContribution,
-    status: createStatus,
-    reset: resetCreateMutation,
-  } = useMutation(createContributionMutation, {
-    onSuccess: newContribution => {
-      refetchContributions();
-      if (newContribution.insert_contributions_one) {
-        updateSaveStateForContribution(0, 'stable');
-        updateSaveStateForContribution(
-          newContribution.insert_contributions_one.id,
-          'saved'
-        );
-        setCurrentContribution({
-          contribution: {
-            ...newContribution.insert_contributions_one,
-            description: descriptionField.value as string,
-            next: () => data?.contributions[0],
-            prev: () => undefined,
-            idx: 0,
-          },
-          epoch: getCurrentEpoch(data?.epochs ?? []),
-        });
-      } else {
-        updateSaveStateForContribution(0, 'stable');
-        resetCreateMutation();
-      }
-    },
-  });
+  const { mutate: createContribution, reset: resetCreateMutation } =
+    useMutation(createContributionMutation, {
+      onSuccess: newContribution => {
+        refetchContributions();
+        if (newContribution.insert_contributions_one) {
+          updateSaveStateForContribution(NEW_CONTRIBUTION_ID, 'stable');
+          setCurrentContribution({
+            contribution: {
+              ...newContribution.insert_contributions_one,
+              description: descriptionField.value as string,
+              next: () => data?.contributions[NEW_CONTRIBUTION_ID],
+              prev: () => undefined,
+              idx: 0,
+            },
+            epoch: getCurrentEpoch(data?.epochs ?? []),
+          });
 
-  const {
-    mutate: mutateContribution,
-    status: updateStatus,
-    reset: resetUpdateMutation,
-  } = useMutation(updateContributionMutation, {
-    mutationKey: ['updateContribution', currentContribution?.contribution.id],
-    onSettled: () => {
-      //refetchContributions();
-    },
-    onSuccess: ({ updateContribution }) => {
-      updateSaveStateForContribution(
-        updateContribution?.updateContribution_Contribution.id,
-        'saved'
-      );
-      if (currentContribution && updateContribution)
-        setCurrentContribution({
-          ...currentContribution,
-          contribution: {
-            ...currentContribution.contribution,
-            description:
-              updateContribution.updateContribution_Contribution.description,
-          },
-        });
-      refetchContributions();
-    },
-  });
+          if (
+            // invoke resetField() value if current form is up to date
+            descriptionField?.value ==
+            newContribution.insert_contributions_one.description
+          ) {
+            resetField('description', {
+              defaultValue:
+                newContribution.insert_contributions_one.description,
+            });
+            updateSaveStateForContribution(
+              newContribution.insert_contributions_one.id,
+              'saved'
+            );
+          } else {
+            updateSaveStateForContribution(
+              newContribution.insert_contributions_one.id,
+              'buffering'
+            );
+          }
+        } else {
+          updateSaveStateForContribution(NEW_CONTRIBUTION_ID, 'stable');
+          resetCreateMutation();
+        }
+      },
+    });
+
+  const { mutate: mutateContribution, reset: resetUpdateMutation } =
+    useMutation(updateContributionMutation, {
+      mutationKey: ['updateContribution', currentContribution?.contribution.id],
+      onError: (errors, { id }) => {
+        updateSaveStateForContribution(id, 'error');
+      },
+      onSuccess: ({ updateContribution }, { id }) => {
+        refetchContributions();
+        updateSaveStateForContribution(id, 'saved');
+        if (
+          currentContribution &&
+          updateContribution?.updateContribution_Contribution
+        ) {
+          setCurrentContribution({
+            ...currentContribution,
+            contribution: {
+              ...currentContribution.contribution,
+              description:
+                updateContribution.updateContribution_Contribution.description,
+            },
+          });
+        }
+      },
+    });
 
   const { mutate: deleteContribution } = useMutation(
     deleteContributionMutation,
@@ -216,7 +241,7 @@ const ContributionsPage = () => {
   const saveContribution = useMemo(() => {
     return (value: string) => {
       if (!currentContribution) return;
-      currentContribution.contribution.id === 0
+      currentContribution.contribution.id === NEW_CONTRIBUTION_ID
         ? createContribution({
             user_id: currentUserId,
             circle_id: selectedCircle.id,
@@ -260,24 +285,6 @@ const ContributionsPage = () => {
     });
   };
 
-  useEffect(() => {
-    handleDebouncedDescriptionChange.cancel();
-    if (isDirty && descriptionField.value.length > 0) {
-      updateSaveStateForContribution(
-        currentContribution?.contribution.id,
-        'scheduled'
-      );
-      handleDebouncedDescriptionChange(
-        saveContribution,
-        descriptionField.value
-      );
-    }
-    resetUpdateMutation();
-  }, [descriptionField.value, currentContribution?.contribution.id]);
-
-  const mutationStatus = () =>
-    currentContribution?.contribution.id === 0 ? createStatus : updateStatus;
-
   // prevents page re-renders when typing out a contribution
   // This seems pretty silly but it's actually a huge optimization
   // when 30+ contributions are on the page
@@ -289,11 +296,7 @@ const ContributionsPage = () => {
       returnData.epochs = createLinkedArray([currentEpoch, ...data.epochs]);
 
     return returnData;
-  }, [
-    data?.epochs.length,
-    data?.contributions.length,
-    updateStatus === 'success' && isFetching === false,
-  ]);
+  }, [dataUpdatedAt]);
 
   const activeContributionFn = useMemo(
     () =>
@@ -489,7 +492,27 @@ const ContributionsPage = () => {
                     name="description"
                     control={control}
                     defaultValue={currentContribution.contribution.description}
-                    areaProps={{ autoFocus: true }}
+                    areaProps={{
+                      autoFocus: true,
+                      onChange: e => {
+                        setValue('description', e.target.value);
+                        // Don't schedule a new save if a createContribution
+                        // request is inflight, since this will create
+                        // a duplicate contribution
+                        if (
+                          !(
+                            currentContribution.contribution.id ===
+                              NEW_CONTRIBUTION_ID &&
+                            saveState[currentContribution.contribution.id] ==
+                              'saving'
+                          )
+                        )
+                          updateSaveStateForContribution(
+                            currentContribution.contribution.id,
+                            'buffering'
+                          );
+                      },
+                    }}
                     disabled={!isEpochCurrent(currentContribution.epoch)}
                     placeholder="What have you been working on?"
                     textArea
@@ -522,34 +545,13 @@ const ContributionsPage = () => {
                     >
                       Delete
                     </Button>
-                    <Flex css={{ gap: '$sm' }}>
-                      <Text
-                        size="small"
-                        css={{ gap: '$sm' }}
-                        color={updateStatus === 'error' ? 'alert' : 'neutral'}
-                      >
-                        {(saveState[currentContribution.contribution.id] ===
-                          'saving' ||
-                          saveState[currentContribution.contribution.id] ===
-                            'scheduled') && (
-                          <>
-                            <RefreshCcw /> Saving...
-                          </>
-                        )}
-                        {saveState[currentContribution.contribution.id] ===
-                          'saved' && (
-                          <>
-                            <Check /> Saved
-                          </>
-                        )}
-                        {mutationStatus() === 'error' && isDirty && (
-                          <>
-                            <AlertTriangle />
-                            Error
-                          </>
-                        )}
-                      </Text>
-                    </Flex>
+                    <SavingIndicator
+                      saveState={saveState[currentContribution.contribution.id]}
+                      retry={() => {
+                        saveContribution(descriptionField.value);
+                        refetchContributions();
+                      }}
+                    />
                   </Flex>
                 )}
               </Flex>

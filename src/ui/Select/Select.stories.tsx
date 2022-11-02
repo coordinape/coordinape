@@ -4,7 +4,6 @@ import { withDesign } from 'storybook-addon-designs';
 import { Select } from './Select';
 
 export default {
-  title: 'Design System/Components/Select',
   component: Select,
   decorators: [
     withDesign,

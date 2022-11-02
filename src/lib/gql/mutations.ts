@@ -216,7 +216,7 @@ export const createCircle = async (
   if (!createCircle) {
     throw 'unable to create circle';
   }
-  if (!createCircle.circle.organization) {
+  if (!createCircle.circle?.organization) {
     throw 'circle created but organization not found after creation';
   }
   return {

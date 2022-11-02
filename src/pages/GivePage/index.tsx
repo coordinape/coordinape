@@ -17,13 +17,13 @@ import { IEpoch, IMyUser } from '../../types';
 import { Box, Button, Flex, Modal, Panel, Text, Link } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 import { getPendingGiftsFrom } from '../AllocationPage/queries';
+import { SaveState, SavingIndicator } from 'ui/SavingIndicator';
 
 import { EpochStatementDrawer } from './EpochStatementDrawer';
 import { GiveDrawer } from './GiveDrawer';
 import { GiveRow } from './GiveRow';
 import { MyGiveRow } from './MyGiveRow';
 import { getMembersWithContributions, PotentialTeammate } from './queries';
-import { SaveState, SavingIndicator } from './SavingIndicator';
 
 export type Gift = Awaited<ReturnType<typeof getPendingGiftsFrom>>[number];
 
@@ -83,6 +83,7 @@ const GivePage = () => {
   );
 
   // fetch the existing pendingGifts from the backend
+  //TODO: (cs) set better refetch options rather than stale infinity
   const { data: pendingGiftsFrom, refetch: refetchGifts } = useQuery(
     ['pending-gifts', selectedCircle.id],
     () => getPendingGiftsFrom(selectedCircle.id, address as string),
@@ -173,11 +174,6 @@ const GivePage = () => {
           },
         ],
       });
-    } catch (e) {
-      showError(e);
-    } finally {
-      // errors don't cause us to retry save, this is an area for improvement later,
-      // https://github.com/coordinape/coordinape/issues/1400 -g
       setSaveState(prevState => {
         // this is to check if someone scheduled dirty changes while we were saving
         if (prevState == 'scheduled') {
@@ -186,7 +182,9 @@ const GivePage = () => {
         }
         return 'saved';
       });
-      // Do we need to try again? Error? Something happened while we were saving
+    } catch (e) {
+      setSaveState('error');
+      showError(e);
     }
   };
 
@@ -269,26 +267,26 @@ const GivePage = () => {
 
   // build the actual members list by combining allUsers, pendingGiftsFrom and startingTeammates
   useEffect(() => {
-    if (allUsers && startingTeammates && pendingGiftsFrom) {
+    if (allUsers && startingTeammates) {
       const newMembers: Member[] = allUsers.map(u => ({
         ...u,
-        give: pendingGiftsFrom.find(g => g.recipient_id == u.id)?.tokens ?? 0,
-        note: pendingGiftsFrom.find(g => g.recipient_id == u.id)?.note,
         teammate: startingTeammates.find(t => t.id == u.id) !== undefined,
       }));
 
-      // if we don't have any local gifts yet, initialize them from the pending gifts
-      setGifts(prevState =>
-        Object.keys(prevState).length > 0
-          ? prevState
-          : pendingGiftsFrom.reduce<typeof gifts>((map, g) => {
-              map[g.recipient_id] = g;
-              return map;
-            }, {})
-      );
       setMembers(newMembers);
     }
-  }, [startingTeammates, allUsers, pendingGiftsFrom, selectedCircle]);
+  }, [startingTeammates, allUsers]);
+
+  useEffect(() => {
+    if (pendingGiftsFrom) {
+      setGifts(
+        pendingGiftsFrom.reduce<typeof gifts>((map, g) => {
+          map[g.recipient_id] = g;
+          return map;
+        }, {})
+      );
+    }
+  }, [pendingGiftsFrom]);
 
   // update the total give used whenever the gifts change
   useEffect(() => {
@@ -374,6 +372,7 @@ const GivePage = () => {
             myUser={myUser}
             maxedOut={totalGiveUsed >= myUser.starting_tokens}
             currentEpoch={currentEpoch}
+            retrySave={saveGifts}
           />
         )}
       </SingleColumnLayout>
@@ -395,6 +394,7 @@ type AllocateContentsProps = {
   myUser: IMyUser;
   maxedOut: boolean;
   currentEpoch?: IEpoch;
+  retrySave: () => void;
 };
 
 const AllocateContents = ({
@@ -409,6 +409,7 @@ const AllocateContents = ({
   myUser,
   maxedOut,
   currentEpoch,
+  retrySave,
 }: AllocateContentsProps) => {
   const { showError, showInfo } = useApeSnackbar();
 
@@ -444,7 +445,7 @@ const AllocateContents = ({
         onSuccess: data => {
           queryClient.invalidateQueries(QUERY_KEY_RECEIVE_INFO);
 
-          if (data) {
+          if (data?.UserResponse) {
             setUserIsOptedOut(data.UserResponse.non_receiver);
           }
         },
@@ -654,7 +655,7 @@ const AllocateContents = ({
                   '@sm': { mb: '$sm' },
                 }}
               >
-                <SavingIndicator saveState={saveState} />
+                <SavingIndicator saveState={saveState} retry={retrySave} />
               </Flex>
             </Flex>
             <Flex

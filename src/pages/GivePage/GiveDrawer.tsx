@@ -4,13 +4,13 @@ import { useQuery } from 'react-query';
 
 import { ChevronDown, ChevronUp } from '../../icons/__generated';
 import { Avatar, Box, Button, Flex, Panel, Text, TextArea } from '../../ui';
+import { SaveState, SavingIndicator } from 'ui/SavingIndicator';
 
 import { Contribution } from './Contribution';
 import { ContributorButton } from './ContributorButton';
 import { GiveAllocator } from './GiveAllocator';
 import { Gift, Member } from './index';
 import { getContributionsForEpoch } from './queries';
-import { SaveState, SavingIndicator } from './SavingIndicator';
 
 type GiveDrawerProps = {
   member: Member;
@@ -83,8 +83,12 @@ export const GiveDrawer = ({
     if (member) {
       // on member change reload the contributions
       refetch().then();
-      // reset the need to save indicator so it doesnt say 'Changes Saved'
-      setNeedToSave(false);
+      // reset the need to save indicator so it doesnt say 'Changes Saved' when
+      // it has already moved to 'Saved'.
+
+      if (saveState == 'saved') {
+        setNeedToSave(false);
+      }
     }
   }, [member]);
 
@@ -214,7 +218,12 @@ export const GiveDrawer = ({
           placeholder="Say thanks or give constructive feedback."
         />
         <Flex css={{ justifyContent: 'flex-end', alignItems: 'center' }}>
-          <SavingIndicator saveState={saveState} />
+          <SavingIndicator
+            saveState={saveState}
+            retry={() => {
+              saveNote({ ...gift }, note);
+            }}
+          />
         </Flex>
       </Box>
 
