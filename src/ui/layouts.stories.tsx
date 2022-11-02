@@ -1,5 +1,4 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { withDesign } from 'storybook-addon-designs';
 
 import { Box } from 'ui';
 
@@ -9,16 +8,7 @@ import {
 } from './layouts';
 
 export default {
-  title: 'Design System/Components/Layouts',
   component: SingleColumnLayoutComponent,
-  decorators: [withDesign, Story => <Story />],
-  argTypes: {
-    css: {
-      table: {
-        disable: true,
-      },
-    },
-  },
 } as ComponentMeta<typeof SingleColumnLayoutComponent>;
 
 export const SingleColumnLayout: ComponentStory<
