@@ -1,12 +1,9 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { withDesign } from 'storybook-addon-designs';
 
 import CheckboxComponent from './CheckBox';
 
 export default {
-  title: 'Design System/Components/Checkbox',
   component: CheckboxComponent,
-  decorators: [withDesign, Story => <Story />],
   argTypes: {
     onChange: {
       table: {
