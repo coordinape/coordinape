@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { withDesign } from 'storybook-addon-designs';
 
 import { Text } from '../Text/Text';
 import { Box, Button } from 'ui';
@@ -15,9 +14,7 @@ import {
 } from './Popover';
 
 export default {
-  title: 'Design System/Components/Popover',
   component: PopoverComponent,
-  decorators: [withDesign, Story => <Story />],
 } as ComponentMeta<typeof PopoverComponent>;
 
 const Template: ComponentStory<typeof PopoverComponent> = () => {
@@ -80,6 +77,3 @@ const Template: ComponentStory<typeof PopoverComponent> = () => {
 };
 
 export const Popover = Template.bind({});
-Popover.parameters = {
-  controls: { hideNoControlsWarning: true },
-};
