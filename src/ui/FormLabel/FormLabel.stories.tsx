@@ -1,5 +1,4 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { withDesign } from 'storybook-addon-designs';
 
 import { Info } from 'icons/__generated';
 import { Tooltip } from 'ui';
@@ -10,29 +9,12 @@ import type { FormLabelVariant } from './FormLabel';
 const TYPES: FormLabelVariant[] = ['label', 'radioLabel', 'textField'];
 
 export default {
-  title: 'Design System/Components/Form Label',
   component: FormLabelComponent,
-  decorators: [withDesign, Story => <Story />],
   argTypes: {
     type: {
       options: TYPES,
       control: { type: 'inline-radio' },
       defaultValue: 'label',
-    },
-    ref: {
-      table: {
-        disable: true,
-      },
-    },
-    as: {
-      table: {
-        disable: true,
-      },
-    },
-    css: {
-      table: {
-        disable: true,
-      },
     },
   },
 } as ComponentMeta<typeof FormLabelComponent>;
