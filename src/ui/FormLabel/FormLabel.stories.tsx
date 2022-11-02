@@ -1,7 +1,7 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import { Info } from 'icons/__generated';
-import { Tooltip } from 'ui';
+import { Form, TextField, Tooltip } from 'ui';
 
 import { FormLabel as FormLabelComponent } from './FormLabel';
 import type { FormLabelVariant } from './FormLabel';
@@ -20,12 +20,15 @@ export default {
 } as ComponentMeta<typeof FormLabelComponent>;
 
 const Template: ComponentStory<typeof FormLabelComponent> = args => (
-  <FormLabelComponent {...args}>
-    Form Label Text
-    <Tooltip css={{ ml: '$xs' }} content={<>Tooltip</>}>
-      <Info size="sm" />
-    </Tooltip>
-  </FormLabelComponent>
+  <Form>
+    <FormLabelComponent {...args} htmlFor="textfield">
+      Form Label Text
+      <Tooltip css={{ ml: '$xs' }} content={<>Tooltip</>}>
+        <Info size="sm" />
+      </Tooltip>
+    </FormLabelComponent>
+    <TextField id="textfield" placeholder={'Text Field Placeholder'} />
+  </Form>
 );
 
 export const FormLabel = Template.bind({});
