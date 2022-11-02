@@ -27,7 +27,7 @@ export default async function handleRefundGiveMsg(
       {
         users_by_pk: [
           { id: data.old.sender_id },
-          { name: true, non_giver: true },
+          { name: true, non_giver: true, profile: { name: true } },
         ],
       },
       {
@@ -38,7 +38,7 @@ export default async function handleRefundGiveMsg(
       {
         users_by_pk: [
           { id: data.old.recipient_id },
-          { name: true, non_receiver: true },
+          { name: true, non_receiver: true, profile: { name: true } },
         ],
       },
       {
@@ -53,9 +53,10 @@ export default async function handleRefundGiveMsg(
         // and will be deprecated. This total will be removed when the column
         // is removed
         message:
-          `${sender.name} has been refunded ${data.old.tokens} ${
-            circle?.token_name || 'GIVE'
-          } ` + `from ${recipient.name}`,
+          `${sender.profile.name ?? sender.name} has been refunded ${
+            data.old.tokens
+          } ${circle?.token_name || 'GIVE'} ` +
+          `from ${recipient.profile.name ?? recipient.name}`,
         circleId: data.old.circle_id,
         channels,
       });

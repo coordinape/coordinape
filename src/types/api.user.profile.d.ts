@@ -16,6 +16,7 @@ export interface IApiProfile {
   skills?: string[];
   created_at?: string;
   updated_at?: string;
+  name?: string;
   // Specific
   users?: IApiUser[];
 }

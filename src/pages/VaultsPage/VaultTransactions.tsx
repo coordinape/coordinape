@@ -175,7 +175,9 @@ async function getDepositEvents(
         block: event.blockNumber,
         type: 'Deposit',
         amount: formatUnits(transferEvent.args.value, decimals),
-        details: `By ${user?.name || transferEvent.args.from}`,
+        details: `By ${
+          (txDetails.profile.name ?? user?.name) || transferEvent.args.from
+        }`,
         date: DateTime.fromSeconds(block.timestamp).toFormat('DD'),
         hash: event.transactionHash,
       });
@@ -256,7 +258,9 @@ async function getWithdrawEvents(
       withdraws.push({
         block: event.blockNumber,
         type: 'Withdraw',
-        details: `By ${user?.name || transferEvent.args.from}`,
+        details: `By ${
+          (txDetails.profile.name ?? user?.name) || transferEvent.args.from
+        }`,
         amount: formatUnits(transferEvent.args.value, decimals),
         date: DateTime.fromSeconds(block.timestamp).toFormat('DD'),
         hash: event.transactionHash,

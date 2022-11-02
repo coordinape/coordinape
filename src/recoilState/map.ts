@@ -197,10 +197,10 @@ export const rMapGraphData = selector<GraphData>({
             id: address,
             img: getAvatarPathWithFallback(
               profile?.avatar || user?.profile?.avatar,
-              user.name
+              user.profile?.name ?? user.name
             ),
             profile,
-            name: user.name,
+            name: user.profile?.name ?? user.name,
             epochId: epoch.id,
             userId: user.id,
           };
@@ -323,7 +323,9 @@ export const rMapNodeSearchStrings = selector<Map<string, string>>({
           ' ' +
           profile.skills?.join(' ') +
           ' ' +
-          (user?.name ?? '')
+          (user?.name ?? '') +
+          ' ' +
+          (user?.profile?.name ?? '')
         );
       }
     );

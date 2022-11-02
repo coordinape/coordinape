@@ -476,7 +476,11 @@ const AllocateContents = ({
   const filteredMembers = members
     .filter(m => m.id != myUser.id)
     .filter(m => (onlyCollaborators ? m.teammate : true))
-    .sort((a, b) => a.name.localeCompare(b.name));
+    .sort((a, b) =>
+      a.profile.name
+        ? a.profile.name.localeCompare(b.profile.name ?? b.name)
+        : a.name.localeCompare(b.profile.name ?? b.name)
+    );
 
   // noGivingAllowed is true if the current user is not allowed to give or has 0 tokens
   const noGivingAllowed = myUser.non_giver || myUser.starting_tokens === 0;
@@ -497,6 +501,7 @@ const AllocateContents = ({
     name: 'Friendo',
     profile: {
       id: -301,
+      name: 'Friendo',
     },
   };
 

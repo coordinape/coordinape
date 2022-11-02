@@ -93,6 +93,9 @@ async function handler(req: VercelRequest, res: VercelResponse) {
                     },
                     {
                       name: true,
+                      profile: {
+                        name: true,
+                      },
                     },
                   ],
                 },
@@ -129,6 +132,9 @@ async function handler(req: VercelRequest, res: VercelResponse) {
                     nodes: {
                       sender: {
                         name: true,
+                        profile: {
+                          name: true,
+                        },
                       },
                     },
                   },
@@ -161,7 +167,9 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         .shiftTo('weeks', 'days', 'hours')
         .toObject();
 
-      const sendersToday = dailySenders.nodes.map(node => node.sender.name);
+      const sendersToday = dailySenders.nodes.map(
+        node => node.sender.profile.name ?? node.sender.name
+      );
       const totalAllocations = allocationTotals.aggregate?.totalAllocations;
       const tokensSent = allocationTotals.aggregate?.sum?.sumGive;
       const optOuts = circle?.optOuts.aggregate?.count;
@@ -172,7 +180,9 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         circle.id === CIRCLES.YEARN.COMMUNITY
           ? dedent`
               Opted in contributors who have NOT entered a statement for Epoch:
-              ${circle.emptyBioUsers.map(u => u.name).join(', ')}
+              ${circle.emptyBioUsers
+                .map(u => u.profile.name ?? u.name)
+                .join(', ')}
           `
           : ``;
 
