@@ -1,14 +1,11 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { withDesign } from 'storybook-addon-designs';
 
 import { Box } from 'ui';
 
 import { Flex as FlexComponent } from './Flex';
 
 export default {
-  title: 'Design System/Components/Flex',
   component: FlexComponent,
-  decorators: [withDesign, Story => <Story />],
   argTypes: {
     alignItems: {
       options: ['start', 'center', 'end'],
@@ -17,21 +14,6 @@ export default {
     column: { control: 'boolean' },
     row: { control: 'boolean' },
     disabled: { control: 'boolean' },
-    css: {
-      table: {
-        disable: true,
-      },
-    },
-    ref: {
-      table: {
-        disable: true,
-      },
-    },
-    as: {
-      table: {
-        disable: true,
-      },
-    },
   },
 } as ComponentMeta<typeof FlexComponent>;
 
