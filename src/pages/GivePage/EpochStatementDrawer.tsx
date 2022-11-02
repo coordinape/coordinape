@@ -7,16 +7,8 @@ import { NavLink } from 'react-router-dom';
 
 import { ApeInfoTooltip } from '../../components';
 import { Check, X } from '../../icons/__generated';
-import {
-  Avatar,
-  Box,
-  Button,
-  Flex,
-  Text,
-  TextArea,
-  ToggleButton,
-} from '../../ui';
 import { paths } from 'routes/paths';
+import { Avatar, Box, Button, Flex, Text, TextArea, ToggleButton } from 'ui';
 import { SaveState, SavingIndicator } from 'ui/SavingIndicator';
 
 import { Member } from './';
@@ -191,6 +183,7 @@ export const EpochStatementDrawer = ({
           Epoch Statement
         </Text>
         <TextArea
+          autoSize
           css={{
             backgroundColor: 'white',
             width: '100%',

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 
 import { ChevronDown, ChevronUp } from '../../icons/__generated';
-import { Avatar, Box, Button, Flex, Text, TextArea } from '../../ui';
+import { Avatar, Box, Button, Flex, Text, TextArea } from 'ui';
 import { SaveState, SavingIndicator } from 'ui/SavingIndicator';
 
 import { Contribution } from './Contribution';
@@ -206,6 +206,7 @@ export const GiveDrawer = ({
           {/*</ApeInfoTooltip>*/}
         </Box>
         <TextArea
+          autoSize
           css={{
             backgroundColor: 'white',
             width: '100%',
