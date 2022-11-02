@@ -20,6 +20,9 @@ export const circleApiKeySelector = Selector('circle_api_keys')({
   name: true,
   createdByUser: {
     name: true,
+    profile: {
+      name: true,
+    },
   },
   ...circleApiPermissionsSelector,
 });

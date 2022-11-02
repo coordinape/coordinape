@@ -197,13 +197,13 @@ export const rMapGraphData = selector<GraphData>({
           // to use fallback text like Avatar does
           const img =
             getAvatarPath(profile?.avatar || user?.profile?.avatar) ||
-            `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}`;
+            `https://ui-avatars.com/api/?name=${encodeURIComponent(user.profile?.name ?? user.name)}`;
 
           return {
             id: address,
             img,
             profile,
-            name: user.name,
+            name: user.profile?.name ?? user.name,
             epochId: epoch.id,
             userId: user.id,
           };
@@ -326,7 +326,9 @@ export const rMapNodeSearchStrings = selector<Map<string, string>>({
           ' ' +
           profile.skills?.join(' ') +
           ' ' +
-          (user?.name ?? '')
+          (user?.name ?? '') +
+          ' ' +
+          (user?.profile?.name ?? '')
         );
       }
     );

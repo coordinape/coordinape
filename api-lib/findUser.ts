@@ -7,6 +7,9 @@ const userSelector = Selector('users')({
   id: true,
   role: true,
   name: true,
+  profile: {
+    name: true,
+  },
   address: true,
   circle_id: true,
   give_token_remaining: true,
