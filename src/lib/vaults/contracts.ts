@@ -47,10 +47,10 @@ export const loginSupportedChainIds: { [key: number]: string } = {
   10: 'Optimism',
   100: 'Gnosis',
   137: 'Polygon',
-  250: 'Fantom',
+  250: 'Fantom Opera',
   42220: 'Celo Mainnet',
-  42161: 'Arbitrum',
-  43114: 'Avalanche',
+  42161: 'Arbitrum One',
+  43114: 'Avalanche C-Chain',
 };
 
 export class Contracts {

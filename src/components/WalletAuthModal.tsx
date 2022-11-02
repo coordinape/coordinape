@@ -1,8 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-console */
 import { useState, useEffect } from 'react';
 
 import { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React } from '@web3-react/core';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
+import { ethers } from 'ethers';
+import { loginSupportedChainIds } from 'lib/vaults';
+import _ from 'lodash';
 
 import {
   CircularProgress,
@@ -11,7 +16,7 @@ import {
   makeStyles,
 } from '@material-ui/core';
 
-import { Box, Button, Text } from '../ui';
+import { Box, Button, Text, Flex, HR, Select } from '../ui';
 import { WALLET_ICONS } from 'config/constants';
 import { useApeSnackbar } from 'hooks';
 import { useWalletAuth } from 'recoilState/app';
@@ -38,18 +43,68 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
   const classes = useStyles();
   const [connectMessage, setConnectMessage] = useState<string>('');
 
+  const [defaultChain, setDefaultChain] = useState<string>('1');
+
   const { showError, showInfo } = useApeSnackbar();
   const web3Context = useWeb3React<Web3Provider>();
   const walletAuth = useWalletAuth();
 
   const [isMetamaskEnabled, setIsMetamaskEnabled] = useState<boolean>(false);
 
+  const updateChain = (chainId: string) => {
+    if (supportedChains.find(obj => obj.value == chainId)) {
+      setDefaultChain(chainId);
+    } else {
+      setDefaultChain('unsupported');
+    }
+  };
+
+  const getInitialChain = async (ethereum: any) => {
+    console.log('getInitialChain invoked');
+    // convert hex to decimal
+    const chainId = parseInt(
+      await ethereum.request({ method: 'eth_chainId' }),
+      16
+    ).toString();
+    updateChain(chainId);
+  };
+
+  const switchNetwork = async (targetChainId: string) => {
+    const ethereum = (window as any).ethereum;
+    await ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: targetChainId }],
+    });
+    // refresh
+    window.location.reload();
+  };
+
   useEffect(() => {
     // safe to refer to window here because we are client side -g
-    setIsMetamaskEnabled('ethereum' in window || 'web3' in window);
+    const metamaskEnabled = 'ethereum' in window || 'web3' in window;
+    setIsMetamaskEnabled(metamaskEnabled);
+
+    if (metamaskEnabled) {
+      const ethereum = (window as any).ethereum;
+      ethereum.on('networkChanged', (chain: string) => {
+        console.log({ chain });
+        updateChain(chain);
+        console.log('networkChanged invoked');
+      });
+
+      getInitialChain(ethereum);
+    }
   }, []);
 
   const isConnecting = !!connectMessage;
+
+  const supportedChains = Object.entries(loginSupportedChainIds).map(key => {
+    return { value: key[0], label: key[1] };
+  });
+
+  const loginOptions = _.concat(supportedChains, [
+    { value: 'unsupported', label: 'Unsupported Network' },
+  ]);
 
   const activate = async (connectorName: EConnectorNames) => {
     const newConnector = connectors[connectorName];
@@ -113,30 +168,31 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
       disableBackdropClick={isConnecting}
       open={open}
     >
-      <Box
+      <Flex
+        column
+        alignItems="start"
         css={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'flex-start',
-          alignItems: 'center',
+          gap: '$lg',
           outline: 'none',
           backgroundColor: '$white',
           borderRadius: '$3',
           padding: '$xl',
-          userSelect: `none`,
           width: '$full',
           maxWidth: '500px',
         }}
       >
-        <Text
-          as="h3"
+        <Text h3 semibold>
+          Select Network: current is {defaultChain}
+        </Text>
+        <Select
+          value={defaultChain}
+          options={loginOptions}
           css={{
-            my: '$lg',
-            color: '$text',
-            fontSize: '25px',
-            fontWeight: '$bold',
+            minWidth: '50%',
           }}
-        >
+        />
+        <HR noMargin />
+        <Text h3 semibold>
           Connect Your Wallet
         </Text>
         {isConnecting ? (
@@ -199,7 +255,6 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
           css={{
             display: 'inline',
             fontSize: '$small',
-            marginTop: '$lg',
             textAlign: 'center',
             fontWeight: '$semibold',
           }}
@@ -207,7 +262,7 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
           New to Ethereum?{' '}
           <a href="https://ethereum.org">Learn more about wallets</a>
         </Text>
-      </Box>
+      </Flex>
     </Modal>
   );
 };
