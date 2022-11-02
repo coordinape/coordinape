@@ -278,12 +278,11 @@ const MemberRow = ({
         setShowOptOutChangeWarning(false);
         updateUser(user.address, { ...data, role: data.role ? 1 : 0 })
           .then(() => {
+            showInfo('Saved changes');
             queryClient.invalidateQueries(QUERY_KEY_FIXED_PAYMENT);
           })
           .catch(console.warn);
       }
-
-      showInfo('Saved changes');
     } catch (e) {
       console.warn(e);
     }
