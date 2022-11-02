@@ -46,6 +46,7 @@ export function useVaults({
                   created_at: true,
                   profile: {
                     address: true,
+                    name: true,
                     users: [{}, { circle_id: true, name: true }],
                   },
                   distribution: {

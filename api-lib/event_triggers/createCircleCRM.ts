@@ -46,6 +46,9 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           },
           {
             name: true,
+            profile: {
+              name: true,
+            },
           },
         ],
       },
@@ -59,7 +62,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     await insertCRMRecord({
       CircleName: name,
       ContactInfo: contact ?? '',
-      MemberName: users[0].name,
+      MemberName: users[0].profile.name ?? users[0].name,
       OrgName: organizations_by_pk.name,
       // TODO: there is no way to input these yet
       ContactMethod: '',

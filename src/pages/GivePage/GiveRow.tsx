@@ -100,7 +100,7 @@ export const GiveRow = ({
             },
           }}
         >
-          <AvatarAndName name={member.name} avatar={member.profile.avatar} />
+          <AvatarAndName name={member.profile.name ?? member.name} avatar={member.profile.avatar} />
           {!gridView && !docExample && (
             <Flex>
               {member.contributions_aggregate?.aggregate &&

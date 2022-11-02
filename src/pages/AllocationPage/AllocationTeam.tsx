@@ -359,13 +359,21 @@ const AllocationTeam = ({
         >
           {allUsers
             .filter(a => !a.non_receiver)
-            .sort((a, b) => a.name.localeCompare(b.name))
+            .sort((a, b) =>
+              a.profile.name
+                ? a.profile.name.localeCompare(b.profile.name ?? b.name)
+                : a.name.localeCompare(b.profile.name ?? b.name)
+            )
             .map(user => {
               const selected = localTeammates.some(u => u.id === user.id);
               const pendingSentGifts = givePerUser.get(user.id)?.tokens ?? 0;
               const matched =
                 keyword.length === 0 ||
-                user.name.toLowerCase().includes(keyword.toLowerCase());
+                (user.profile.name
+                  ? user.profile.name
+                      .toLowerCase()
+                      .includes(keyword.toLowerCase())
+                  : user.name.toLowerCase().includes(keyword.toLowerCase()));
 
               return { ...user, selected, matched, pendingSentGifts };
             })
@@ -382,9 +390,9 @@ const AllocationTeam = ({
                 <Avatar
                   size="small"
                   path={user.profile.avatar}
-                  name={user.name}
+                  name={user.profile.name ?? user.name}
                 />
-                {user.name} | {user.pendingSentGifts}
+                {user.profile.name ?? user.name} | {user.pendingSentGifts}
                 <div
                   className={classes.checkmarkIconWrapper}
                   hidden={!user.selected}
@@ -404,14 +412,24 @@ const AllocationTeam = ({
             <div className={classes.teammatesContainer}>
               {allUsers
                 .filter(a => a.non_receiver)
-                .sort((a, b) => a.name.localeCompare(b.name))
+                .sort((a, b) =>
+                  a.profile.name
+                    ? a.profile.name.localeCompare(b.profile.name ?? b.name)
+                    : a.name.localeCompare(b.profile.name ?? b.name)
+                )
                 .map(user => {
                   const selected = localTeammates.some(u => u.id === user.id);
                   const pendingSentGifts =
                     givePerUser.get(user.id)?.tokens ?? 0;
                   const matched =
                     keyword.length === 0 ||
-                    user.name.toLowerCase().includes(keyword.toLowerCase());
+                    (user.profile?.name
+                      ? user.profile?.name
+                          .toLowerCase()
+                          .includes(keyword.toLowerCase())
+                      : user.name
+                          .toLowerCase()
+                          .includes(keyword.toLowerCase()));
 
                   return { ...user, selected, matched, pendingSentGifts };
                 })
@@ -428,9 +446,9 @@ const AllocationTeam = ({
                     <Avatar
                       size="small"
                       path={user.profile.avatar}
-                      name={user.name}
+                      name={user.profile.name ?? user.name}
                     />
-                    {user.name} | {user.pendingSentGifts}
+                    {user.profile.name ?? user.name} | {user.pendingSentGifts}
                     <div
                       className={classes.checkmarkIconWrapper}
                       hidden={!user.selected}
