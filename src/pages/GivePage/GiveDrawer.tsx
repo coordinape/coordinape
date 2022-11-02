@@ -149,13 +149,13 @@ export const GiveDrawer = ({
         >
           <Avatar
             size="small"
-            name={member.name}
+            name={member.profile.name ?? member.name}
             path={member.profile.avatar}
             margin="none"
             css={{ mr: '$sm' }}
           />
           <Text ellipsis h3 semibold>
-            {member.name}
+            {member.profile.name ?? member.name}
           </Text>
         </Flex>
         <Flex
@@ -262,7 +262,7 @@ export const GiveDrawer = ({
                 <Box>
                   <Text inline color="neutral">
                     <Text semibold inline color="neutral">
-                      {member.name}{' '}
+                      {member.profile.name ?? member.name}{' '}
                     </Text>
                     has no contributions recorded for this epoch
                   </Text>

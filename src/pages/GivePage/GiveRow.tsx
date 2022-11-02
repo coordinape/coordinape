@@ -49,7 +49,10 @@ export const GiveRow = ({
       onClick={() => setSelectedMember(member)}
     >
       <GiveRowGrid selected={(selected || docExample) ?? false} css={css}>
-        <AvatarAndName name={member.name} avatar={member.profile.avatar} />
+        <AvatarAndName
+          name={member.profile.name ?? member.name}
+          avatar={member.profile.avatar}
+        />
         <Flex
           css={{
             display: 'grid',

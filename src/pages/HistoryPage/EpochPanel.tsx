@@ -302,13 +302,17 @@ const NotesItem = ({
   return (
     <Box css={{ display: 'flex', my: '$sm' }}>
       <Box css={{ mr: '$md' }}>
-        <Avatar path={other.profile?.avatar} name={other.name} size="medium" />
+        <Avatar
+          path={other.profile?.avatar}
+          name={other.profile.name ?? other.name}
+          size="medium"
+        />
       </Box>
       <Box css={!note ? { alignItems: 'center', display: 'flex' } : {}}>
         {note && <Text css={{ mb: '$xs', lineHeight: 'normal' }}>{note}</Text>}
         <Box css={{ fontSize: '$small', color: '$secondaryText' }}>
           {gift.tokens} {tokenName} {received ? 'received from ' : 'sent to '}
-          {other.name}
+          {other.profile.name ?? other.name}
         </Box>
       </Box>
     </Box>

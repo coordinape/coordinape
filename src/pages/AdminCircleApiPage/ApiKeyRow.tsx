@@ -31,7 +31,8 @@ export function ApiKeyRow({
         <Box css={{ flexGrow: 1 }}>
           <Text h3>{apiKey.name}</Text>
           <Text size={'small'} color={'neutral'}>
-            Created by {apiKey.createdByUser.name}
+            Created by{' '}
+            {apiKey.createdByUser.profile.name ?? apiKey.createdByUser.name}
           </Text>
           <Text variant={'label'} css={{ mt: '$sm' }}>
             {permissionsString || 'No permissions given'}

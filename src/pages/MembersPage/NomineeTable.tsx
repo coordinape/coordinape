@@ -115,11 +115,17 @@ const NomineeRow = ({
                   <Flex css={{ mt: '$sm', gap: '$sm' }}>
                     <Avatar
                       path={nominee.nominator?.profile?.avatar}
-                      name={nominee.nominator?.name}
+                      name={
+                        nominee.nominator?.profile.name ??
+                        nominee.nominator?.name
+                      }
                       size="small"
                       margin="none"
                     />
-                    <Text size="medium">{nominee.nominator?.name}</Text>
+                    <Text size="medium">
+                      {nominee.nominator?.profile.name ??
+                        nominee.nominator?.name}
+                    </Text>
                   </Flex>
                   <Text
                     size="medium"
@@ -163,7 +169,8 @@ const NomineeRow = ({
                                     ? ', '
                                     : ' ,and '
                                   : ' and '
-                                : '') + n.voucher?.name}
+                                : '') + n.voucher?.profile.name ??
+                                n.voucher?.name}
                             </Text>
                           );
                         })

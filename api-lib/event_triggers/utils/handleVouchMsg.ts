@@ -31,7 +31,9 @@ export default async function handleVouchMsg(
 
   // announce the vouching
   await sendSocialMessage({
-    message: `${nominees_by_pk.name} has been vouched for by ${vouch.voucher.name}!`,
+    message: `${nominees_by_pk.name} has been vouched for by ${
+      vouch.voucher.profile.name ?? vouch.voucher.name
+    }!`,
     circleId: nominees_by_pk.circle_id,
     sanitize: true,
     channels,

@@ -125,6 +125,9 @@ export const getProfile = async (address: string): Promise<IApiProfile> => {
                     give_token_remaining: true,
                     role: true,
                     epoch_first_visit: true,
+                    profile: {
+                      name: true,
+                    },
                   },
                 },
               ],

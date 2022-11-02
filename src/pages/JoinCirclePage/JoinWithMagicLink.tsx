@@ -82,7 +82,7 @@ export const JoinWithMagicLink = ({
           orgName={tokenJoinInfo.circle.organization.name}
           orgLogo={tokenJoinInfo.circle.organization.logo}
           admins={tokenJoinInfo.circle.users.map(u => ({
-            name: u.name,
+            name: u.profile.name ?? u.name,
             avatar: u.profile.avatar,
           }))}
         />

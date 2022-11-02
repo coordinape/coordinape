@@ -140,7 +140,7 @@ export function generateCsvValues(
 
     const rowValues: (string | number)[] = [
       idx + 1,
-      u.name,
+      u.profile.name ?? u.name,
       u.address,
       received,
       u.sent_gifts.length
@@ -210,7 +210,7 @@ export async function getCircleDetails(circle_id: number, epochId: number) {
               name: true,
               address: true,
               fixed_payment_amount: true,
-              profile: { id: true },
+              profile: { id: true, name: true },
               received_gifts: [
                 { where: { epoch_id: { _eq: epochId } } },
                 { tokens: true },
