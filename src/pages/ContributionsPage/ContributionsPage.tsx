@@ -4,7 +4,7 @@ import dedent from 'dedent';
 import { debounce } from 'lodash';
 import { DateTime } from 'luxon';
 import { useForm, useController } from 'react-hook-form';
-import { useQuery, useMutation } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { useSelectedCircle } from '../../recoilState';
@@ -103,6 +103,8 @@ const ContributionsPage = () => {
   const [currentIntContribution, setCurrentIntContribution] =
     useState<CurrentIntContribution | null>(null);
 
+  const queryClient = useQueryClient();
+
   const {
     data,
     refetch: refetchContributions,
@@ -160,6 +162,7 @@ const ContributionsPage = () => {
     useMutation(createContributionMutation, {
       onSuccess: newContribution => {
         refetchContributions();
+        queryClient.invalidateQueries({ queryKey: ['allocate-contributions'] });
         if (newContribution.insert_contributions_one) {
           updateSaveStateForContribution(NEW_CONTRIBUTION_ID, 'stable');
           setCurrentContribution({
@@ -234,6 +237,7 @@ const ContributionsPage = () => {
         refetchContributions();
         updateSaveStateForContribution(data.contribution_id, 'stable');
         reset();
+        queryClient.invalidateQueries({ queryKey: ['allocate-contributions'] });
       },
     }
   );
