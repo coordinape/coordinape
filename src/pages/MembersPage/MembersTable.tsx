@@ -882,6 +882,7 @@ export const MembersTable = ({
   return (
     <>
       <MemberTable
+        key={circle.id}
         headers={headers}
         data={view}
         startingSortIndex={0}

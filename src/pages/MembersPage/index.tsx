@@ -71,7 +71,13 @@ const MembersPage = () => {
     circleEpochsStatus,
   } = useSelectedCircle();
 
-  const { data: circle } = useQuery(
+  const {
+    isLoading: circleSettingsLoading,
+    isError: circleSettingshasError,
+    isIdle: circleSettingsIdle,
+    error: circleSettingsError,
+    data: circle,
+  } = useQuery(
     [QUERY_KEY_CIRCLE_SETTINGS, circleId],
     () => getCircleSettings(circleId),
     {
@@ -83,19 +89,11 @@ const MembersPage = () => {
     }
   );
 
-  const { deleteUser } = useApiAdminCircle(circleId);
-
-  const onChangeKeyword = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setKeyword(event.target.value);
-  };
-
-  const isAdmin = isUserAdmin(me);
-
   const {
-    isLoading,
-    isError,
-    isIdle,
-    error,
+    isLoading: activeNomineesLoading,
+    isError: activeNomineeshasError,
+    isIdle: activeNomineesIdle,
+    error: activeNomineesError,
     data: activeNominees,
     refetch: refetchNominees,
   } = useQuery(
@@ -107,12 +105,18 @@ const MembersPage = () => {
 
       //minmize background refetch
       refetchOnWindowFocus: false,
-
+      staleTime: Infinity,
       notifyOnChangeProps: ['data'],
     }
   );
 
-  const { data: fixedPayment } = useQuery(
+  const {
+    isLoading: fixedPaymentLoading,
+    isError: fixedPaymenthasError,
+    isIdle: fixedPaymentIdle,
+    error: fixedPaymentError,
+    data: fixedPayment,
+  } = useQuery(
     [QUERY_KEY_FIXED_PAYMENT, circleId],
     () => getFixedPayment(circleId),
     {
@@ -120,14 +124,20 @@ const MembersPage = () => {
       enabled: !!circleId,
       //minmize background refetch
       refetchOnWindowFocus: false,
-
       staleTime: Infinity,
       notifyOnChangeProps: ['data'],
     }
   );
 
+  const onChangeKeyword = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setKeyword(event.target.value);
+  };
+
+  const isAdmin = isUserAdmin(me);
+
   const contracts = useContracts();
   const orgQuery = useCircleOrg(circleId);
+  const { deleteUser } = useApiAdminCircle(circleId);
 
   const vaultsQuery = useVaults({
     orgId: orgQuery.data?.id,
@@ -208,10 +218,28 @@ const MembersPage = () => {
     formatUnits(maxGiftTokens, getDecimals(stringifiedVaultId()))
   );
 
-  if (isLoading || isIdle) return <LoadingModal visible />;
-  if (isError) {
-    if (error instanceof Error) {
-      console.warn(error.message);
+  if (
+    activeNomineesLoading ||
+    activeNomineesIdle ||
+    circleSettingsLoading ||
+    circleSettingsIdle ||
+    fixedPaymentLoading ||
+    fixedPaymentIdle
+  )
+    return <LoadingModal visible />;
+  if (activeNomineeshasError) {
+    if (activeNomineesError instanceof Error) {
+      console.warn(activeNomineesError.message);
+    }
+  }
+  if (circleSettingshasError) {
+    if (circleSettingsError instanceof Error) {
+      console.warn(circleSettingsError.message);
+    }
+  }
+  if (fixedPaymenthasError) {
+    if (fixedPaymentError instanceof Error) {
+      console.warn(fixedPaymentError.message);
     }
   }
   return (
