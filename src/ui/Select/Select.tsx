@@ -49,7 +49,7 @@ const StyledItem = styled(SelectPrimitive.Item, {
   padding: '$sm $lg',
   position: 'relative',
   userSelect: 'none',
-  '&:focus': {
+  '&:focus, &:hover': {
     backgroundColor: '$text',
     color: '$white',
   },

@@ -142,7 +142,7 @@ export const Button = styled('button', {
         px: '$md',
         boxShadow: '0px 4px 6px rgb(181 193 199 / 30%)',
         borderWidth: '2px',
-        borderRadius: '13px',
+        borderRadius: '$3',
         backgroundColor: 'transparent',
         minWidth: '64px',
         '& svg': {
