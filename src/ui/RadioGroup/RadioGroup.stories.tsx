@@ -1,5 +1,4 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { withDesign } from 'storybook-addon-designs';
 
 import { Flex, FormLabel } from 'ui';
 
@@ -10,26 +9,7 @@ import {
 } from './RadioGroup';
 
 export default {
-  title: 'Design System/Components/RadioGroup',
   component: RadioGroupRootComponent,
-  decorators: [withDesign, Story => <Story />],
-  argTypes: {
-    asChild: {
-      table: {
-        disable: true,
-      },
-    },
-    css: {
-      table: {
-        disable: true,
-      },
-    },
-    as: {
-      table: {
-        disable: true,
-      },
-    },
-  },
 } as ComponentMeta<typeof RadioGroupRootComponent>;
 
 const options = [
