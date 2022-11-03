@@ -13,10 +13,8 @@ import { useApeSnackbar, useApiBase } from '../../hooks';
 import { client } from '../../lib/gql/client';
 import { useMyProfile } from '../../recoilState';
 import { paths } from '../../routes/paths';
-import { Box, Button, TextField, Text, Panel } from '../../ui';
+import { Box, Button, CenteredBox, TextField, Text, Panel } from '../../ui';
 import { normalizeError } from '../../utils/reporting';
-
-import CenteredBox from './CenteredBox';
 
 export const JoinWithMagicLink = ({
   tokenJoinInfo,
