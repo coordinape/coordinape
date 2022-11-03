@@ -25,7 +25,7 @@ export type ClaimAllocationProps = {
 
 export function useClaimAllocation() {
   const contracts = useContracts();
-  useContractNetworksOnly(contracts);
+  useContractNetworksOnly();
   const { showError, showInfo } = useApeSnackbar();
 
   return async ({

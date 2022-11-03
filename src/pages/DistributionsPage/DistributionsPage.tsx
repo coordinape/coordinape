@@ -29,7 +29,7 @@ export function DistributionsPage() {
   const { epochId } = useParams();
   const address = useConnectedAddress();
   const contracts = useContracts();
-  useContractNetworksOnly(contracts);
+  useContractNetworksOnly();
   const queryClient = useQueryClient();
 
   const {

@@ -28,7 +28,7 @@ const VaultsPage = () => {
 
   const [currentOrgId, setCurrentOrgId] = useState<number | undefined>();
 
-  useContractNetworksOnly(contracts);
+  useContractNetworksOnly();
 
   useEffect(() => {
     const orgIndex = circleId
