@@ -23,6 +23,18 @@ array_relationships:
         table:
           schema: public
           name: vault_transactions
+remote_relationships:
+  - definition:
+      remote_field:
+        price_per_share:
+          arguments:
+            chain_id: $chain_id
+            token_address: $token_address
+      hasura_fields:
+        - chain_id
+        - token_address
+      remote_schema: vaults
+    name: price_per_share
 select_permissions:
   - role: user
     permission:
