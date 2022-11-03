@@ -79,6 +79,7 @@ export const paths = {
   claims: '/claims',
   createCircle: APP_PATH_CREATE_CIRCLE,
   developers: '/developers',
+  discord: (snowflake: string) => `/discord/${snowflake}`,
   home: '/',
 
   profile: (address: string) => `/profile/${address}`,
