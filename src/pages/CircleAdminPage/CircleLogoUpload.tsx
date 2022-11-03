@@ -85,7 +85,7 @@ export const CircleLogoUpload = ({
   if (logoFile) return <LoadingModal visible />;
 
   return (
-    <Flex column css={{ alignItems: 'flex-start', gap: '$xs' }}>
+    <Flex column alignItems="start" css={{ gap: '$xs' }}>
       <Flex
         css={{
           alignItems: 'center',
@@ -101,8 +101,8 @@ export const CircleLogoUpload = ({
         />
         <FormLabel htmlFor="upload-logo-button" css={{ flexGrow: '1' }}>
           <Flex
+            alignItems="center"
             css={{
-              alignItems: 'center',
               gap: '$sm',
             }}
           >
