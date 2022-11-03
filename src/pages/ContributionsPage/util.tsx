@@ -37,7 +37,7 @@ export const getCurrentEpoch = (epochs: LinkedElement<Epoch>[]) =>
   getEpoch(epochs, DateTime.now().toISO()) ?? pseudoEpochForLatest(epochs);
 
 export const getEpochLabel = (epoch?: LinkedElement<Epoch>) => {
-  if (!epoch)
+  if (!epoch || isEpochInFuture(epoch))
     return (
       <Text tag color="active">
         Future
@@ -56,8 +56,14 @@ export const getEpochLabel = (epoch?: LinkedElement<Epoch>) => {
   );
 };
 
+export const isEpochCurrentOrLater = (epoch: LinkedElement<Epoch>) =>
+  isEpochCurrent(epoch) || isEpochInFuture(epoch);
+
 export const isEpochCurrent = (epoch: LinkedElement<Epoch>) =>
   isDateTimeInEpoch(epoch, DateTime.now().toISO());
+
+export const isEpochInFuture = (epoch: LinkedElement<Epoch>) =>
+  isDateTimeBeforeEpoch(epoch, DateTime.now().toISO());
 
 type Obj = Record<string, unknown>;
 
@@ -96,7 +102,12 @@ export const getEpoch = (epochs: LinkedElement<Epoch>[], dateTime: string) => {
 export const isDateTimeInEpoch = (epoch: LinkedElement<Epoch>, dt: string) =>
   (epoch.next() == undefined ||
     DateTime.fromISO(epoch.next()?.end_date) <= DateTime.fromISO(dt)) &&
-  epoch.end_date > dt;
+  DateTime.fromISO(epoch.end_date) > DateTime.fromISO(dt);
+
+export const isDateTimeBeforeEpoch = (
+  epoch: LinkedElement<Epoch>,
+  dt: string
+) => DateTime.fromISO(epoch.start_date) > DateTime.fromISO(dt);
 
 export const jumpToEpoch = (
   epoch: LinkedElement<Epoch>,

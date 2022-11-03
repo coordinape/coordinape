@@ -41,7 +41,7 @@ import {
   createLinkedArray,
   LinkedElement,
   jumpToEpoch,
-  isEpochCurrent,
+  isEpochCurrentOrLater,
 } from './util';
 
 const DEBOUNCE_TIMEOUT = 1000;
@@ -351,7 +351,7 @@ const ContributionsPage = () => {
                   currentUserId,
                   memoizedEpochData.contributions[0]
                 ),
-                epoch: memoizedEpochData.epochs[0],
+                epoch: getCurrentEpoch(memoizedEpochData.epochs),
               });
               resetField('description', { defaultValue: '' });
               resetCreateMutation();
@@ -486,7 +486,7 @@ const ContributionsPage = () => {
                     ).toFormat('LLL dd')}
                   </Text>
                 </Flex>
-                {isEpochCurrent(currentContribution.epoch) ? (
+                {isEpochCurrentOrLater(currentContribution.epoch) ? (
                   <FormInputField
                     id="description"
                     name="description"
@@ -513,7 +513,7 @@ const ContributionsPage = () => {
                           );
                       },
                     }}
-                    disabled={!isEpochCurrent(currentContribution.epoch)}
+                    disabled={!isEpochCurrentOrLater(currentContribution.epoch)}
                     placeholder="What have you been working on?"
                     textArea
                   />
@@ -524,7 +524,7 @@ const ContributionsPage = () => {
                     </Text>
                   </Panel>
                 )}
-                {isEpochCurrent(currentContribution.epoch) && (
+                {isEpochCurrentOrLater(currentContribution.epoch) && (
                   <Flex
                     css={{
                       justifyContent: 'space-between',
@@ -632,7 +632,6 @@ const EpochGroup = React.memo(function EpochGroup({
   userAddress,
 }: Omit<LinkedContributionsAndEpochs, 'users'> &
   SetActiveContributionProps & { userAddress?: string }) {
-  const activeEpoch = useMemo(() => getCurrentEpoch(epochs), [epochs.length]);
   return (
     <Flex column css={{ gap: '$1xl' }}>
       {epochs.map((epoch, idx, epochArray) => (
@@ -640,15 +639,7 @@ const EpochGroup = React.memo(function EpochGroup({
           <Box>
             <Text h2 bold css={{ gap: '$md' }}>
               {epoch.id === 0 ? 'Latest' : renderEpochDate(epoch)}
-              {activeEpoch?.id === epoch.id ? (
-                <Text tag color="active">
-                  {epoch.id === 0 ? 'Future' : 'Current'}
-                </Text>
-              ) : (
-                <Text tag color="complete">
-                  Complete
-                </Text>
-              )}
+              {getEpochLabel(epoch)}
             </Text>
           </Box>
           <Panel css={{ gap: '$md', borderRadius: '$4', mt: '$lg' }}>
