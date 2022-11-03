@@ -1,7 +1,7 @@
 import * as SelectPrimitive from '@radix-ui/react-select';
 import { SelectProps } from '@radix-ui/react-select';
 import type * as Stitches from '@stitches/react';
-import { CSS, styled } from 'stitches.config';
+import { CSS, disabledStyle, styled } from 'stitches.config';
 
 import { modifyVariantsForStory } from '../type-utils';
 import { Check, ChevronDown, ChevronUp, Info } from 'icons/__generated';
@@ -53,6 +53,7 @@ const StyledItem = styled(SelectPrimitive.Item, {
     backgroundColor: '$text',
     color: '$white',
   },
+  '&[data-disabled]': disabledStyle,
 });
 
 const StyledItemIndicator = styled(SelectPrimitive.ItemIndicator, {
@@ -101,6 +102,7 @@ export const SelectScrollDownButton = StyledScrollDownButton;
 export type SelectOption = {
   value: React.ReactText;
   label: React.ReactText;
+  disabled?: boolean;
 };
 
 export const Select = (
@@ -156,8 +158,12 @@ export const Select = (
           </SelectScrollUpButton>
           <SelectViewport>
             <SelectGroup id={id}>
-              {options.map(({ value, label }) => (
-                <SelectItem value={String(value)} key={value}>
+              {options.map(({ value, label, disabled }) => (
+                <SelectItem
+                  disabled={disabled}
+                  value={String(value)}
+                  key={value}
+                >
                   <SelectItemText>{label}</SelectItemText>
                   <SelectItemIndicator>
                     <Check />
