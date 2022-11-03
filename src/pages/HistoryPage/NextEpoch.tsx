@@ -55,9 +55,9 @@ export const NextEpoch = ({
   return (
     <Panel css={{ mb: '$md', p: '$md' }}>
       <Flex
+        alignItems="center"
         css={{
           justifyContent: 'space-between',
-          alignItems: 'center',
           gap: '$md',
           flexWrap: 'wrap',
         }}

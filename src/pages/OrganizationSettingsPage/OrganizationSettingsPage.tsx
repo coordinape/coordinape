@@ -159,9 +159,9 @@ export const OrganizationSettingsPage = () => {
       <Box key={org.id} css={{ mb: '$lg' }}>
         <Form id="org_settings">
           <Flex
+            alignItems="center"
             css={{
               justifyContent: 'space-between',
-              alignItems: 'center',
               flexWrap: 'wrap',
               mb: '$2xl',
               gap: '$md',
@@ -224,7 +224,7 @@ export const OrganizationSettingsPage = () => {
                   infoTooltip="Reach out on Discord for detailed instructions setting up telegram notifications."
                   showFieldErrors
                 />
-                <Flex column css={{ alignItems: 'flex-start', gap: '$xs' }}>
+                <Flex column alignItems="start" css={{ gap: '$xs' }}>
                   <Text variant="label" as="label">
                     Organization logo
                     <Tooltip
@@ -236,8 +236,8 @@ export const OrganizationSettingsPage = () => {
                   </Text>
 
                   <Flex
+                    alignItems="center"
                     css={{
-                      alignItems: 'center',
                       gap: '$sm',
                       width: '100%',
                     }}
@@ -253,8 +253,8 @@ export const OrganizationSettingsPage = () => {
                       css={{ flexGrow: '1' }}
                     >
                       <Flex
+                        alignItems="center"
                         css={{
-                          alignItems: 'center',
                           gap: '$sm',
                         }}
                       >

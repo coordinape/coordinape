@@ -399,9 +399,9 @@ export const CircleAdminPage = () => {
     <Form id="circle_admin">
       <SingleColumnLayout>
         <Flex
+          alignItems="center"
           css={{
             justifyContent: 'space-between',
-            alignItems: 'center',
             flexWrap: 'wrap',
             mb: '$lg',
             gap: '$md',
@@ -460,7 +460,7 @@ export const CircleAdminPage = () => {
                 showFieldErrors
               />
 
-              <Flex column css={{ alignItems: 'flex-start', gap: '$xs' }}>
+              <Flex column alignItems="start" css={{ gap: '$xs' }}>
                 <Text variant="label" as="label">
                   Circle logo
                   <Tooltip
@@ -796,9 +796,9 @@ export const CircleAdminPage = () => {
           </Panel>
         </Panel>
         <Flex
+          column
+          alignItems="end"
           css={{
-            flexDirection: 'column',
-            alignItems: 'end',
             gap: '$xs',
           }}
         >

@@ -399,8 +399,8 @@ const EpochForm = ({
               <Flex css={{ flexWrap: 'wrap', gap: '$md' }}>
                 <Flex
                   column
+                  alignItems="start"
                   css={{
-                    alignItems: 'flex-start',
                     maxWidth: '150px',
                     gap: '$xs',
                   }}
@@ -532,7 +532,7 @@ const epochsPreview = (
     days: value.days,
   });
   return (
-    <Flex css={{ flexDirection: 'column', gap: '$xs' }}>
+    <Flex column css={{ gap: '$xs' }}>
       <Text variant="label">Preview</Text>
       <Text bold css={{ mt: '$sm' }}>
         Epoch 1

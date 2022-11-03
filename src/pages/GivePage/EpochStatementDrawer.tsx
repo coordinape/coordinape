@@ -186,7 +186,7 @@ export const EpochStatementDrawer = ({
           </Flex>
         </Flex>
       </Flex>
-      <Flex css={{ flexDirection: 'column', mt: '$xl', gap: '$sm' }}>
+      <Flex column css={{ mt: '$xl', gap: '$sm' }}>
         <Text inline semibold size="large">
           Epoch Statement
         </Text>

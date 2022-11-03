@@ -1,5 +1,5 @@
 import { styled } from '../../stitches.config';
-import { Flex } from 'ui/Flex/Flex';
+import { Flex } from 'ui';
 
 export const Table = styled(Flex, {
   flexDirection: 'column',

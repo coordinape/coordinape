@@ -112,7 +112,7 @@ export const CirclesPage = () => {
               justifyContent: 'space-between',
             }}
           >
-            <Flex css={{ alignItems: 'center' }}>
+            <Flex alignItems="center">
               <AppLink to={paths.organization(org.id)}>
                 <Text
                   h2

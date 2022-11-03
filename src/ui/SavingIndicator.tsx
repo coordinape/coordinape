@@ -33,7 +33,7 @@ export const SavingIndicator = ({
 }) => {
   const color = saveState == 'error' ? 'alert' : 'neutral';
   return (
-    <Flex css={{ ...css, minHeight: '$lg', alignItems: 'center' }}>
+    <Flex alignItems="center" css={{ ...css, minHeight: '$lg' }}>
       <Text size="small" color={color} css={{ gap: '$xs' }}>
         {(saveState == 'saving' ||
           saveState == 'scheduled' ||

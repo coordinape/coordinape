@@ -5,7 +5,7 @@ export { default as CenteredBox } from './CenteredBox/CenteredBox';
 export * from './Checkbox/CheckBox';
 export * from './Collapsible/Collapsible';
 export * from './Divider/Divider';
-export * from './Flex';
+export * from './Flex/Flex';
 export * from './Form';
 export * from './FormLabel/FormLabel';
 export * from './HR/HR';

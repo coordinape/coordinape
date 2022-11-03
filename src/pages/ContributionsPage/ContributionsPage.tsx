@@ -334,9 +334,9 @@ const ContributionsPage = () => {
     <>
       <SingleColumnLayout>
         <Flex
+          alignItems="end"
           css={{
             justifyContent: 'space-between',
-            alignItems: 'flex-end',
             flexWrap: 'wrap',
             gap: '$md',
           }}
@@ -452,8 +452,8 @@ const ContributionsPage = () => {
                 </Button>
               </Flex>
               <Flex
+                alignItems="center"
                 css={{
-                  alignItems: 'center',
                   my: '$xl',
                 }}
               >
