@@ -1,12 +1,10 @@
 import { NavLink } from 'react-router-dom';
-
-import { styled } from '../../stitches.config';
+import { styled } from 'stitches.config';
 
 const COMPOSERS = {
   color: '$link',
   textDecoration: 'none',
   cursor: 'pointer',
-  fontFamily: 'Inter',
   variants: {
     type: {
       menu: {
