@@ -5,14 +5,14 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import {
   discord_users_constraint,
   discord_users_update_column,
-} from '../../../api-lib/gql/__generated__/zeus';
-import { adminClient } from '../../../api-lib/gql/adminClient';
-import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
+} from '../../../../api-lib/gql/__generated__/zeus';
+import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import {
   linkDiscordInputSchema,
   composeHasuraActionRequestBodyWithSession,
   HasuraUserSessionVariables,
-} from '../../../src/lib/zod';
+} from '../../../../src/lib/zod';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {
