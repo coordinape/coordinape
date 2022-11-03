@@ -1,6 +1,6 @@
 import { styled } from 'stitches.config';
 
-import { Box } from '../Box/Box';
+import { Box } from 'ui';
 
 export const Flex = styled(Box, {
   display: 'flex',
