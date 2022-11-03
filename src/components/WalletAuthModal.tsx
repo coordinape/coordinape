@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React } from '@web3-react/core';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
-import { loginSupportedChainIds, switchNetwork } from 'lib/web3-helpers';
+import { loginSupportedChainIds } from 'common-lib/constants';
+import { switchNetwork } from 'lib/web3-helpers';
 import { concat } from 'lodash';
 
 import {

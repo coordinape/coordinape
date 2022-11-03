@@ -2,7 +2,7 @@ import { AbstractConnector } from '@web3-react/abstract-connector';
 import { InjectedConnector } from '@web3-react/injected-connector';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { WalletLinkConnector } from '@web3-react/walletlink-connector';
-import { loginSupportedChainIds } from 'lib/web3-helpers';
+import { loginSupportedChainIds } from 'common-lib/constants';
 
 import { EConnectorNames } from 'config/constants';
 import { INFURA_PROJECT_ID } from 'config/env';
