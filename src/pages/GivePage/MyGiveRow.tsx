@@ -43,12 +43,12 @@ export const MyGiveRow = ({
       >
         <AvatarAndName name={myUser.name} avatar={myUser.profile?.avatar} />
         <Flex
+          alignItems="center"
           css={{
             display: 'grid',
             gridTemplateColumns: '1fr 1fr',
             justifyContent: 'space-between',
             gap: '$lg',
-            alignItems: 'center',
             '@sm': {
               gridTemplateColumns: '1fr',
               justifyItems: 'center',

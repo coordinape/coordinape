@@ -72,8 +72,8 @@ export const CheckBox = React.forwardRef<HTMLButtonElement, CheckBoxProps>(
   ) => (
     <>
       <Flex
+        alignItems="center"
         css={{
-          alignItems: 'center',
           display: 'inline-flex',
         }}
       >

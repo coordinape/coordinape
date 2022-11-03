@@ -166,7 +166,7 @@ const ProfileCardInner = ({
         </div>
         <span className={classes.name}>
           {user.name}
-          <Flex css={{ justifyContent: 'center', alignItems: 'center' }}>
+          <Flex alignItems="center" css={{ justifyContent: 'center' }}>
             {user.profile && <ProfileSocialIcons profile={user.profile} />}
           </Flex>
           {user.role === USER_ROLE_COORDINAPE && (

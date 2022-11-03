@@ -53,13 +53,13 @@ export const OrganizationPage = () => {
       <Box key={org.id} css={{ mb: '$lg' }}>
         <Flex
           row
+          alignItems="end"
           css={{
             mb: '$lg',
-            alignItems: 'flex-end',
             justifyContent: 'space-between',
           }}
         >
-          <Flex css={{ alignItems: 'center' }}>
+          <Flex alignItems="center">
             <Text h2 medium css={{ gap: '$sm', '@sm': { fontSize: '$large' } }}>
               <Avatar path={org.logo} size="small" name={org.name || ''} />
               {org.name || ''}

@@ -24,8 +24,8 @@ export const DefaultPage = () => {
   if (!hasCircles) {
     return (
       <Flex
+        column
         css={{
-          flexDirection: 'column',
           maxWidth: '700px',
           mx: 'auto',
           pt: '$2xl',

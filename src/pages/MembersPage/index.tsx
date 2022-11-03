@@ -214,7 +214,7 @@ const MembersPage = () => {
   }
   return (
     <SingleColumnLayout>
-      <Flex css={{ alignItems: 'center', mb: '$md' }}>
+      <Flex alignItems="center" css={{ mb: '$md' }}>
         <Text h1>Circle Members</Text>
         {!isMobile && (
           <Flex
