@@ -7,6 +7,7 @@ import { savePendingVaultTx } from 'lib/gql/mutations/vaults';
 import { createDistribution } from 'lib/merkle-distributor';
 import { getWrappedAmount } from 'lib/vaults';
 import { uploadEpochRoot } from 'lib/vaults/distributor';
+import mapValues from 'lodash/mapValues';
 
 import { useApeSnackbar, useContracts } from 'hooks';
 import type { Vault } from 'hooks/gql/useVaults';
@@ -139,6 +140,7 @@ export function useSubmitDistribution() {
           ...distribution,
           circleId,
           vaultAddress: vault.vault_address,
+          fixedGifts: mapValues(fixedGifts, v => v.toString()),
         },
         fixed_amount: fixedAmount,
         gift_amount: giftAmount,

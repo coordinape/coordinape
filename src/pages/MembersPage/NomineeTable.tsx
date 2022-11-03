@@ -222,10 +222,10 @@ export const NomineesTable = ({
       {nominees && nominees?.length > 0 && (
         <Panel>
           <Flex
+            alignItems="center"
             css={{
               justifyContent: 'space-between',
               mb: '$lg',
-              alignItems: 'center',
             }}
           >
             <Text h3 css={{ fontWeight: '$semibold', color: '$headingText' }}>

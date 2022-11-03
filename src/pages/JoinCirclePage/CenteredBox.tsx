@@ -6,8 +6,8 @@ import { Flex } from '../../ui/Flex/Flex';
 const CenteredBox = ({ children }: { children: React.ReactNode }) => {
   return (
     <Flex
+      alignItems="center"
       css={{
-        alignItems: 'center',
         justifyContent: 'center',
         mt: '$4xl',
       }}

@@ -219,7 +219,7 @@ export const GiveDrawer = ({
           onChange={e => noteChanged(e.target.value)}
           placeholder="Say thanks or give constructive feedback."
         />
-        <Flex css={{ justifyContent: 'flex-end', alignItems: 'center' }}>
+        <Flex alignItems="center" css={{ justifyContent: 'flex-end' }}>
           <SavingIndicator
             saveState={saveState}
             retry={() => {

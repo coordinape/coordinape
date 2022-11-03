@@ -109,9 +109,9 @@ export const HistoryPage = () => {
   return (
     <SingleColumnLayout>
       <Flex
+        alignItems="end"
         css={{
           justifyContent: 'space-between',
-          alignItems: 'flex-end',
           flexWrap: 'wrap',
           mb: '$md',
         }}

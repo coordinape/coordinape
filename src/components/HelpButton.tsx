@@ -94,12 +94,8 @@ const HelpOption = ({
         fullWidth={true}
         css={{ paddingLeft: '0px' }}
       >
-        <Flex
-          css={{
-            alignItems: 'center',
-          }}
-        >
-          <Flex css={{ mr: '$sm', alignItems: 'center', color: '$text' }}>
+        <Flex alignItems="center">
+          <Flex alignItems="center" css={{ mr: '$sm', color: '$text' }}>
             {icon}
           </Flex>
           {children}
@@ -125,8 +121,8 @@ const HelpButton = () => {
         }}
       >
         <Flex
+          alignItems="center"
           css={{
-            alignItems: 'center',
             justifyContent: 'center',
             width: '100%',
             height: '100%',
@@ -193,12 +189,8 @@ const HelpButton = () => {
             className="my-button"
             style={{ marginTop: 0 }}
           >
-            <Flex
-              css={{
-                alignItems: 'center',
-              }}
-            >
-              <Flex css={{ mr: '$sm', alignItems: 'center', color: '$text' }}>
+            <Flex alignItems="center">
+              <Flex alignItems="center" css={{ mr: '$sm', color: '$text' }}>
                 <GiveReceiveBoth size={'md'} color={'text'} />
               </Flex>
               Share Feedback

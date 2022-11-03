@@ -1,13 +1,10 @@
-import React from 'react';
-
-import { Flex } from './Flex/Flex';
-import { Panel } from './Panel/Panel';
+import { Flex, Panel } from 'ui';
 
 const CenteredBox = ({ children }: { children: React.ReactNode }) => {
   return (
     <Flex
+      alignItems="center"
       css={{
-        alignItems: 'center',
         justifyContent: 'center',
         mt: '$4xl',
       }}

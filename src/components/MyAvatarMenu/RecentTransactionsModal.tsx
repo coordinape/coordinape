@@ -64,7 +64,7 @@ export const RecentTransactionsModal = ({
       <Text h3 css={{ mb: '$lg' }}>
         Your Recent Transactions
       </Text>
-      <Flex css={{ flexDirection: 'column' }}>
+      <Flex column>
         {list.length === 0 && <>Your transactions will appear here.</>}
         {list.map(
           ({ chainId, description, hash, timestamp, status }, index) => (
