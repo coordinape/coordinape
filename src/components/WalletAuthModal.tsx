@@ -1,13 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-console */
 import { useState, useEffect } from 'react';
 
 import { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React } from '@web3-react/core';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
-import { ethers } from 'ethers';
-import { loginSupportedChainIds } from 'lib/vaults';
-import _ from 'lodash';
+import { loginSupportedChainIds } from 'lib/login';
+import { concat } from 'lodash';
 
 import {
   CircularProgress,
@@ -51,16 +48,25 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
 
   const [isMetamaskEnabled, setIsMetamaskEnabled] = useState<boolean>(false);
 
+  const UNSUPPROTED = 'unsupported';
+  const UnsupportedNetwork = defaultChain == UNSUPPROTED;
+  const supportedChains = Object.entries(loginSupportedChainIds).map(key => {
+    return { value: key[0], label: key[1], disabled: false };
+  });
+
+  const loginOptions = concat(supportedChains, [
+    { value: UNSUPPROTED, label: '-', disabled: true },
+  ]);
+
   const updateChain = (chainId: string) => {
     if (supportedChains.find(obj => obj.value == chainId)) {
       setDefaultChain(chainId);
     } else {
-      setDefaultChain('unsupported');
+      setDefaultChain(UNSUPPROTED);
     }
   };
 
   const getInitialChain = async (ethereum: any) => {
-    console.log('getInitialChain invoked');
     // convert hex to decimal
     const chainId = parseInt(
       await ethereum.request({ method: 'eth_chainId' }),
@@ -71,12 +77,25 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
 
   const switchNetwork = async (targetChainId: string) => {
     const ethereum = (window as any).ethereum;
-    await ethereum.request({
-      method: 'wallet_switchEthereumChain',
-      params: [{ chainId: targetChainId }],
-    });
-    // refresh
-    window.location.reload();
+    // convert decimal string to hex
+    const targetChainIdHex = '0x' + parseInt(targetChainId).toString(16);
+
+    try {
+      await ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: targetChainIdHex }],
+      });
+      // refresh
+      window.location.reload();
+    } catch (error: Error | any) {
+      if (error.message.match(/Unrecognized chain ID .*/)) {
+        showInfo(
+          `Unrecognized chain ID: ${targetChainId}. Try adding the chain first.`
+        );
+      } else {
+        throw new Error(error);
+      }
+    }
   };
 
   useEffect(() => {
@@ -87,9 +106,7 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
     if (metamaskEnabled) {
       const ethereum = (window as any).ethereum;
       ethereum.on('networkChanged', (chain: string) => {
-        console.log({ chain });
         updateChain(chain);
-        console.log('networkChanged invoked');
       });
 
       getInitialChain(ethereum);
@@ -97,14 +114,6 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
   }, []);
 
   const isConnecting = !!connectMessage;
-
-  const supportedChains = Object.entries(loginSupportedChainIds).map(key => {
-    return { value: key[0], label: key[1] };
-  });
-
-  const loginOptions = _.concat(supportedChains, [
-    { value: 'unsupported', label: 'Unsupported Network' },
-  ]);
 
   const activate = async (connectorName: EConnectorNames) => {
     const newConnector = connectors[connectorName];
@@ -136,7 +145,7 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
         await ethereum?.removeAllListeners(['networkChanged']);
     } catch (error: any) {
       if (error.message.match(/Unsupported chain id/)) {
-        showInfo('Switch to mainnet to continue.');
+        showInfo('Switch to a supported network to continue.');
       } else if (
         [/rejected the request/, /User denied account authorization/].some(r =>
           error.message.match(r)
@@ -181,87 +190,95 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
           maxWidth: '500px',
         }}
       >
-        <Text h3 semibold>
-          Select Network: current is {defaultChain}
-        </Text>
-        <Select
-          value={defaultChain}
-          options={loginOptions}
-          css={{
-            minWidth: '50%',
-          }}
-        />
+        <Flex column css={{ gap: '$md' }}>
+          <Text h3 semibold>
+            Select Network
+          </Text>
+          <Select
+            value={defaultChain}
+            options={loginOptions}
+            onValueChange={switchNetwork}
+            css={{
+              minWidth: '50%',
+            }}
+          />
+          {UnsupportedNetwork && (
+            <Text variant="formError">Please choose a supported network</Text>
+          )}
+        </Flex>
         <HR noMargin />
-        <Text h3 semibold>
-          Connect Your Wallet
-        </Text>
-        {isConnecting ? (
-          <Box
+        <Flex alignItems="start" column css={{ gap: '$md', width: '$full' }}>
+          <Text h3 semibold>
+            Connect Your Wallet
+          </Text>
+          {isConnecting ? (
+            <Box
+              css={{
+                textAlign: 'center',
+              }}
+            >
+              <CircularProgress />
+              <Typography>{connectMessage}</Typography>
+            </Box>
+          ) : (
+            <Box
+              css={{
+                display: 'grid',
+                gridTemplateColumns: 'auto auto',
+                width: '$full',
+                gap: '$sm',
+                '@xs': {
+                  gridTemplateColumns: 'auto',
+                },
+              }}
+            >
+              <Button
+                variant="wallet"
+                disabled={!isMetamaskEnabled || UnsupportedNetwork}
+                fullWidth
+                onClick={() => {
+                  activate(EConnectorNames.Injected);
+                }}
+              >
+                {isMetamaskEnabled ? 'Metamask' : 'Metamask Not Found'}
+                <WALLET_ICONS.injected />
+              </Button>
+
+              <Button
+                variant="wallet"
+                fullWidth
+                onClick={() => {
+                  activate(EConnectorNames.WalletConnect);
+                }}
+              >
+                Wallet Connect
+                <WALLET_ICONS.walletconnect />
+              </Button>
+
+              <Button
+                variant="wallet"
+                fullWidth
+                onClick={() => {
+                  activate(EConnectorNames.WalletLink);
+                }}
+              >
+                Coinbase Wallet
+                <WALLET_ICONS.walletlink />
+              </Button>
+            </Box>
+          )}
+          <Text
             css={{
+              display: 'inline',
+              fontSize: '$small',
               textAlign: 'center',
+              fontWeight: '$semibold',
             }}
           >
-            <CircularProgress />
-            <Typography>{connectMessage}</Typography>
-          </Box>
-        ) : (
-          <Box
-            css={{
-              display: 'grid',
-              gridTemplateColumns: 'auto auto',
-              width: '$full',
-              gap: '$sm',
-              '@xs': {
-                gridTemplateColumns: 'auto',
-              },
-            }}
-          >
-            <Button
-              variant="wallet"
-              disabled={!isMetamaskEnabled}
-              fullWidth
-              onClick={() => {
-                activate(EConnectorNames.Injected);
-              }}
-            >
-              {isMetamaskEnabled ? 'Metamask' : 'Metamask Not Found'}
-              <WALLET_ICONS.injected />
-            </Button>
-
-            <Button
-              variant="wallet"
-              fullWidth
-              onClick={() => {
-                activate(EConnectorNames.WalletConnect);
-              }}
-            >
-              Wallet Connect
-              <WALLET_ICONS.walletconnect />
-            </Button>
-
-            <Button
-              variant="wallet"
-              fullWidth
-              onClick={() => {
-                activate(EConnectorNames.WalletLink);
-              }}
-            >
-              Coinbase Wallet
-              <WALLET_ICONS.walletlink />
-            </Button>
-          </Box>
-        )}
-        <Text
-          css={{
-            display: 'inline',
-            fontSize: '$small',
-            textAlign: 'center',
-            fontWeight: '$semibold',
-          }}
-        >
-          New to Ethereum?{' '}
-          <a href="https://ethereum.org">Learn more about wallets</a>
-        </Text>
+            New to Ethereum?{' '}
+            <a href="https://ethereum.org">Learn more about wallets</a>
+          </Text>
+        </Flex>
       </Flex>
     </Modal>
   );
