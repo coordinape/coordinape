@@ -1,16 +1,14 @@
 import assert from 'assert';
-import { useEffect } from 'react';
 
-import { useWeb3React } from '@web3-react/core';
 import { BigNumber, BytesLike, ethers } from 'ethers';
 import { vault_tx_types_enum } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import { savePendingVaultTx } from 'lib/gql/mutations/vaults';
 import { encodeCircleId, hasSimpleToken } from 'lib/vaults';
-import { switchNetwork } from 'lib/web3-helpers';
 import max from 'lodash/max';
 
 import { useApeSnackbar, useContracts } from 'hooks';
+import useContractNetworksOnly from 'hooks/useContractNetworksOnly';
 import { sendAndTrackTx } from 'utils/contractHelpers';
 
 import type { QueryClaim } from './queries';
@@ -27,17 +25,8 @@ export type ClaimAllocationProps = {
 
 export function useClaimAllocation() {
   const contracts = useContracts();
-  const { chainId } = useWeb3React();
+  useContractNetworksOnly(contracts);
   const { showError, showInfo } = useApeSnackbar();
-
-  useEffect(() => {
-    if (contracts === undefined) {
-      showError(
-        `Contract interactions do not support chain ${chainId}. Please switch to Ethereum Mainnet.`
-      );
-      switchNetwork('1');
-    }
-  }, [contracts, chainId]);
 
   return async ({
     distribution,

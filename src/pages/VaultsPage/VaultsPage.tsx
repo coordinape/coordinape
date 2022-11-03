@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
 
-import { useWeb3React } from '@web3-react/core';
 import { isUserAdmin } from 'lib/users';
-import { switchNetwork } from 'lib/web3-helpers';
 import { useRecoilValueLoadable } from 'recoil';
 
 import { LoadingModal } from 'components';
 import { useMainHeaderQuery } from 'components/MainLayout/getMainHeaderData';
-import { useApeSnackbar, useContracts } from 'hooks';
+import { useContracts } from 'hooks';
 import { useVaults } from 'hooks/gql/useVaults';
+import useContractNetworksOnly from 'hooks/useContractNetworksOnly';
 import { rSelectedCircleId } from 'recoilState/app';
 import {
   EXTERNAL_URL_LEARN_ABOUT_VAULTS,
@@ -26,19 +25,10 @@ const VaultsPage = () => {
   const circleId = useRecoilValueLoadable(rSelectedCircleId).valueMaybe();
   const orgsQuery = useMainHeaderQuery();
   const contracts = useContracts();
-  const { chainId } = useWeb3React();
 
-  const { showError } = useApeSnackbar();
   const [currentOrgId, setCurrentOrgId] = useState<number | undefined>();
 
-  useEffect(() => {
-    if (contracts === undefined) {
-      showError(
-        `Contract interactions do not support chain ${chainId}. Please switch to Ethereum Mainnet.`
-      );
-      switchNetwork('1');
-    }
-  }, [contracts, chainId]);
+  useContractNetworksOnly(contracts);
 
   useEffect(() => {
     const orgIndex = circleId
