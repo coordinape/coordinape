@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 
 import { isUserAdmin } from 'lib/users';
+import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 
 import HintBanner from '../../components/HintBanner';
@@ -102,6 +103,22 @@ export const HistoryPage = () => {
     setEditEpoch(undefined);
     setNewEpoch(false);
   }, [circleId]);
+
+  const nextRepeatingEpoch: typeof currentEpoch | undefined = useMemo(() => {
+    if (currentEpoch && currentEpoch.repeat > 0) {
+      const { start_date, end_date, repeat } = currentEpoch;
+      return {
+        ...currentEpoch,
+        number: -1,
+        start_date: DateTime.fromISO(start_date)
+          .plus(repeat === 1 ? { weeks: 1 } : { months: 1 })
+          .toISO(),
+        end_date: DateTime.fromISO(end_date)
+          .plus(repeat === 1 ? { weeks: 1 } : { months: 1 })
+          .toISO(),
+      };
+    }
+  }, [currentEpoch?.id, currentEpoch?.repeat]);
 
   if (query.isLoading || query.isIdle)
     return <LoadingModal visible note="HistoryPage" />;
@@ -227,8 +244,20 @@ export const HistoryPage = () => {
         ></EpochForm>
       )}
       <Text h3>Upcoming Epochs</Text>
-      {futureEpochs?.length === 0 && <Text>There are no scheduled epochs</Text>}
+      {futureEpochs?.length === 0 && !nextRepeatingEpoch && (
+        <Text>There are no scheduled epochs</Text>
+      )}
       <Collapsible open={open} onOpenChange={setOpen} css={{ mb: '$md' }}>
+        {nextRepeatingEpoch && (
+          <NextEpoch
+            key={-1}
+            epoch={nextRepeatingEpoch}
+            setEditEpoch={setEditEpoch}
+            isEditing={editEpoch || newEpoch ? true : false}
+            setEpochToDelete={setEpochToDelete}
+            isAdmin={isAdmin}
+          />
+        )}
         {futureEpochs && futureEpochs.length > 0 && (
           <NextEpoch
             key={futureEpochs[0].id}

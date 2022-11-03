@@ -266,7 +266,8 @@ const EpochForm = ({
   onClose: () => void;
 }) => {
   const [submitting, setSubmitting] = useState(false);
-  const { createEpoch, updateEpoch } = useApiAdminCircle(circleId);
+  const { createEpoch, updateEpoch, updateActiveRepeatingEpoch } =
+    useApiAdminCircle(circleId);
 
   const source = useMemo(
     () => ({
@@ -418,7 +419,16 @@ const EpochForm = ({
     };
 
     (source?.epoch
-      ? updateEpoch(source.epoch.id, payload)
+      ? selectedEpoch?.number !== -1
+        ? updateEpoch(source.epoch.id, payload)
+        : updateActiveRepeatingEpoch(source.epoch.id, {
+            current: {
+              start_date: currentEpoch?.start_date || '',
+              days: payload.days,
+              repeat: 0,
+            },
+            next: payload,
+          })
       : createEpoch(payload)
     )
       .then(() => {
@@ -427,6 +437,14 @@ const EpochForm = ({
       .then(onClose)
       .catch(console.warn);
   };
+
+  const shouldFormBeDisabled = useMemo(
+    () =>
+      selectedEpoch &&
+      selectedEpoch.id === currentEpoch?.id &&
+      selectedEpoch.number !== -1,
+    [selectedEpoch, currentEpoch]
+  );
 
   const monthStartDates = getMonthStartDates(getValues('dayOfMonth'));
   return (
@@ -534,10 +552,7 @@ const EpochForm = ({
                         onChange={onChange}
                         value={value}
                         onBlur={onBlur}
-                        disabled={
-                          selectedEpoch &&
-                          currentEpoch?.id === selectedEpoch?.id
-                        }
+                        disabled={shouldFormBeDisabled}
                         format="MMM dd, yyyy"
                         style={{
                           marginLeft: 0,
@@ -568,10 +583,7 @@ const EpochForm = ({
                         onChange={onChange}
                         value={value}
                         onBlur={onBlur}
-                        disabled={
-                          selectedEpoch &&
-                          currentEpoch?.id === selectedEpoch?.id
-                        }
+                        disabled={shouldFormBeDisabled}
                         format="MMM dd, yyyy"
                         style={{
                           marginLeft: 0,
@@ -602,10 +614,7 @@ const EpochForm = ({
                             onBlur={onBlur}
                             onChange={onChange}
                             value={value}
-                            disabled={
-                              selectedEpoch &&
-                              currentEpoch?.id === selectedEpoch?.id
-                            }
+                            disabled={shouldFormBeDisabled}
                           />
                         </Box>
                       )}
@@ -639,10 +648,7 @@ const EpochForm = ({
                         css={{ minWidth: '280px' }}
                         options={repeat}
                         value={value}
-                        disabled={
-                          selectedEpoch &&
-                          currentEpoch?.id === selectedEpoch?.id
-                        }
+                        disabled={shouldFormBeDisabled}
                         onValueChange={onChange}
                         id="repeat_type"
                         label="Cycles"
@@ -664,10 +670,7 @@ const EpochForm = ({
                         css={{ minWidth: '280px' }}
                         onValueChange={onChange}
                         value={value}
-                        disabled={
-                          selectedEpoch &&
-                          currentEpoch?.id === selectedEpoch?.id
-                        }
+                        disabled={shouldFormBeDisabled}
                         options={Array(31)
                           .fill(undefined)
                           .map((_, idx) => ({
@@ -698,10 +701,7 @@ const EpochForm = ({
                         defaultValue={monthStartDates[0].value}
                         onValueChange={onChange}
                         value={value}
-                        disabled={
-                          selectedEpoch &&
-                          currentEpoch?.id === selectedEpoch?.id
-                        }
+                        disabled={shouldFormBeDisabled}
                         options={monthStartDates}
                         id="repeatStartDate"
                         label="Start Date"
@@ -727,10 +727,7 @@ const EpochForm = ({
                         defaultValue={monthStartDates[0].value}
                         onValueChange={onChange}
                         value={value}
-                        disabled={
-                          selectedEpoch &&
-                          currentEpoch?.id === selectedEpoch?.id
-                        }
+                        disabled={shouldFormBeDisabled}
                         options={[
                           'Monday',
                           'Tuesday',

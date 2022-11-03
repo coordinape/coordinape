@@ -42,6 +42,23 @@ export const useApiAdminCircle = (circleId: number) => {
     { hideLoading: false }
   );
 
+  const updateActiveRepeatingEpoch = useRecoilLoadCatch(
+    () =>
+      async (
+        epochId: number,
+        params: {
+          current: UpdateCreateEpochParam;
+          next: Omit<ValueTypes['CreateEpochInput'], 'circle_id'>;
+        }
+      ) => {
+        await mutations.updateEpoch(circleId, epochId, params.current);
+        await mutations.createEpoch({ circle_id: circleId, ...params.next });
+        await fetchCircle({ circleId });
+      },
+    [circleId],
+    { hideLoading: false }
+  );
+
   const updateEpoch = useRecoilLoadCatch(
     () => async (epochId: number, params: UpdateCreateEpochParam) => {
       await mutations.updateEpoch(circleId, epochId, params);
@@ -127,6 +144,7 @@ export const useApiAdminCircle = (circleId: number) => {
     updateCircle,
     updateCircleLogo,
     updateEpoch,
+    updateActiveRepeatingEpoch,
     updateUser,
   };
 };
