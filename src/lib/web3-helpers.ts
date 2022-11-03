@@ -14,6 +14,9 @@ export async function switchNetwork(
   onError?: (e: Error | any) => void
 ): Promise<void> {
   const ethereum = (window as any).ethereum;
+  if (!ethereum) {
+    return;
+  }
   // convert decimal string to hex
   const targetChainIdHex = '0x' + parseInt(targetChainId).toString(16);
 
