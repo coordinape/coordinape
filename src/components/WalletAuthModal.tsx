@@ -58,14 +58,6 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
     { value: UNSUPPROTED, label: '-', disabled: true },
   ]);
 
-  const updateChain = (chainId: string) => {
-    if (supportedChains.find(obj => obj.value == chainId)) {
-      setDefaultChain(chainId);
-    } else {
-      setDefaultChain(UNSUPPROTED);
-    }
-  };
-
   const getInitialChain = async (ethereum: any) => {
     // convert hex to decimal
     const chainId = parseInt(
@@ -75,26 +67,19 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
     updateChain(chainId);
   };
 
-  const switchNetwork = async (targetChainId: string) => {
-    const ethereum = (window as any).ethereum;
-    // convert decimal string to hex
-    const targetChainIdHex = '0x' + parseInt(targetChainId).toString(16);
+  const updateChain = (chainId: string) => {
+    if (supportedChains.find(obj => obj.value == chainId)) {
+      setDefaultChain(chainId);
+    } else {
+      setDefaultChain(UNSUPPROTED);
+    }
+  };
 
-    try {
-      await ethereum.request({
-        method: 'wallet_switchEthereumChain',
-        params: [{ chainId: targetChainIdHex }],
-      });
-      // refresh
-      window.location.reload();
-    } catch (error: Error | any) {
-      if (error.message.match(/Unrecognized chain ID .*/)) {
-        showInfo(
-          `Unrecognized chain ID: ${targetChainId}. Try adding the chain first.`
-        );
-      } else {
-        throw new Error(error);
-      }
+  const onNetworkError = (error: Error | any) => {
+    if (error?.message.match(/Unrecognized chain ID .*/)) {
+      showInfo(`Unrecognized chain ID. Try adding the chain first.`);
+    } else {
+      throw new Error(error);
     }
   };
 
@@ -143,6 +128,11 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
       const ethereum = (window as any).ethereum;
       if (ethereum?.isMetaMask)
         await ethereum?.removeAllListeners(['networkChanged']);
+      ethereum.on('networkChanged', (chain: string) => {
+        // eslint-disable-next-line no-console
+        console.log('network changed to', chain);
+        window.location.reload();
+      });
     } catch (error: any) {
       if (error.message.match(/Unsupported chain id/)) {
         showInfo('Switch to a supported network to continue.');
@@ -197,7 +187,7 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
           <Select
             value={defaultChain}
             options={loginOptions}
-            onValueChange={switchNetwork}
+            onValueChange={v => switchNetwork(v, onNetworkError)}
             css={{
               minWidth: '50%',
             }}
