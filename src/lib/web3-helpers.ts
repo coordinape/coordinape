@@ -23,7 +23,7 @@ export async function switchNetwork(
       params: [{ chainId: targetChainIdHex }],
     });
     // refresh
-    window.location.reload();
+    (window as any).location.reload();
   } catch (error: Error | any) {
     onError && onError(error);
   }

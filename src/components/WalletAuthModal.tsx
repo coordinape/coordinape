@@ -131,7 +131,7 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
       ethereum.on('networkChanged', (chain: string) => {
         // eslint-disable-next-line no-console
         console.log('network changed to', chain);
-        window.location.reload();
+        (window as any).location.reload();
       });
     } catch (error: any) {
       if (error.message.match(/Unsupported chain id/)) {
