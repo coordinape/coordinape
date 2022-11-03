@@ -15,7 +15,7 @@ import { insertInteractionEvents } from '../api-lib/gql/mutations';
 import { errorResponse } from '../api-lib/HttpError';
 import { getProvider } from '../api-lib/provider';
 import { parseInput } from '../api-lib/signature';
-import { loginSupportedChainIds } from '../src/lib/login';
+import { loginSupportedChainIds } from '../src/lib/web3-helpers';
 
 Settings.defaultZone = 'utc';
 

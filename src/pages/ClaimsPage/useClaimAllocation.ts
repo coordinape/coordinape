@@ -1,10 +1,13 @@
 import assert from 'assert';
+import { useEffect } from 'react';
 
+import { useWeb3React } from '@web3-react/core';
 import { BigNumber, BytesLike, ethers } from 'ethers';
 import { vault_tx_types_enum } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import { savePendingVaultTx } from 'lib/gql/mutations/vaults';
 import { encodeCircleId, hasSimpleToken } from 'lib/vaults';
+import { switchNetwork } from 'lib/web3-helpers';
 import max from 'lodash/max';
 
 import { useApeSnackbar, useContracts } from 'hooks';

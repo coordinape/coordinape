@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 
+import { useWeb3React } from '@web3-react/core';
 import { isUserAdmin } from 'lib/users';
+import { switchNetwork } from 'lib/web3-helpers';
 import { useRecoilValueLoadable } from 'recoil';
 
 import { LoadingModal } from 'components';
 import { useMainHeaderQuery } from 'components/MainLayout/getMainHeaderData';
-import { useContracts } from 'hooks';
+import { useApeSnackbar, useContracts } from 'hooks';
 import { useVaults } from 'hooks/gql/useVaults';
 import { rSelectedCircleId } from 'recoilState/app';
 import {
