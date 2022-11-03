@@ -26,8 +26,19 @@ const VaultsPage = () => {
   const circleId = useRecoilValueLoadable(rSelectedCircleId).valueMaybe();
   const orgsQuery = useMainHeaderQuery();
   const contracts = useContracts();
+  const { chainId } = useWeb3React();
 
+  const { showError } = useApeSnackbar();
   const [currentOrgId, setCurrentOrgId] = useState<number | undefined>();
+
+  useEffect(() => {
+    if (contracts === undefined) {
+      showError(
+        `Contract interactions do not support chain ${chainId}. Please switch to Ethereum Mainnet.`
+      );
+      switchNetwork('1');
+    }
+  }, [contracts, chainId]);
 
   useEffect(() => {
     const orgIndex = circleId

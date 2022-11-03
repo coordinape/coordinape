@@ -27,7 +27,17 @@ export type ClaimAllocationProps = {
 
 export function useClaimAllocation() {
   const contracts = useContracts();
+  const { chainId } = useWeb3React();
   const { showError, showInfo } = useApeSnackbar();
+
+  useEffect(() => {
+    if (contracts === undefined) {
+      showError(
+        `Contract interactions do not support chain ${chainId}. Please switch to Ethereum Mainnet.`
+      );
+      switchNetwork('1');
+    }
+  }, [contracts, chainId]);
 
   return async ({
     distribution,
