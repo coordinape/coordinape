@@ -1,11 +1,9 @@
 import React from 'react';
 
 import { getCircleAvatar } from '../utils/domain';
+import { Box, Flex, Text } from 'ui';
 
 import { Avatar } from './Avatar/Avatar';
-import { Box } from './Box/Box';
-import { Flex } from './Flex/Flex';
-import { Text } from './Text/Text';
 
 const CircleWithLogo = ({
   logo,
