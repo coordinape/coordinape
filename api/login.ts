@@ -15,6 +15,7 @@ import { insertInteractionEvents } from '../api-lib/gql/mutations';
 import { errorResponse } from '../api-lib/HttpError';
 import { getProvider } from '../api-lib/provider';
 import { parseInput } from '../api-lib/signature';
+import { loginSupportedChainIds } from '../src/lib/login';
 
 Settings.defaultZone = 'utc';
 
@@ -44,15 +45,29 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         });
       }
 
+      // siweProvider is only used for EIP-1271 contract signature validation.
+      // If we have a provider, use it. If not, swallor no provider error for
+      // supported chains (without support for EP-1271 contract signature
+      // validation)
       let siweProvider: JsonRpcProvider = new JsonRpcProvider();
       try {
         siweProvider = getProvider(message.chainId);
       } catch (error: Error | any) {
-        if (!error.message.match(/chainId .* is unsupported/)) {
-          throw new Error(error);
+        if (error.message) {
+          const chainId: string = error.message.match(
+            /chainId (\d*) is unsupported/
+          )[1];
+          const supported = Object.keys(loginSupportedChainIds).find(
+            obj => obj == chainId
+          );
+          if (!supported) {
+            return errorResponse(res, {
+              message: 'unsupported chain ' + chainId,
+              httpStatus: 401,
+            });
+          }
         }
       }
-      // siweProvider is only used for EIP-1271 contract signature validation
 
       const verificationResult = await message.verify(
         {
