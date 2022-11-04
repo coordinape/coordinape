@@ -24,7 +24,17 @@ export const parameters = {
 };
 
 export const argTypes = {
-  ref: {
+  as: {
+    table: {
+      disable: true,
+    },
+  },
+  asChild: {
+    table: {
+      disable: true,
+    },
+  },
+  css: {
     table: {
       disable: true,
     },
