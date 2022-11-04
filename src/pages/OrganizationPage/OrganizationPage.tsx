@@ -2,14 +2,14 @@ import { isUserAdmin } from 'lib/users';
 import sortBy from 'lodash/sortBy';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
-import { useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 
 import { LoadingModal } from 'components';
 import { scrollToTop } from 'components/MainLayout/MainLayout';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { CircleRow } from 'pages/CirclesPage/CirclesPage';
 import { paths } from 'routes/paths';
-import { AppLink, Avatar, Box, Button, Flex, Text } from 'ui';
+import { Avatar, Box, Button, Flex, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { getOrgData, QUERY_KEY_ORG_DATA } from './getOrgData';
@@ -67,26 +67,26 @@ export const OrganizationPage = () => {
           </Flex>
           <Flex>
             {isAdmin(org) && (
-              <>
-                <AppLink to={paths.createCircle + '?org=' + org.id}>
-                  <Button
-                    color="primary"
-                    css={{ whiteSpace: 'nowrap', ml: '$sm' }}
-                    outlined
-                  >
-                    Add Circle
-                  </Button>
-                </AppLink>
-                <AppLink to={paths.organizationSettings(orgId.toString())}>
-                  <Button
-                    color="primary"
-                    outlined
-                    css={{ whiteSpace: 'nowrap', ml: '$sm' }}
-                  >
-                    Settings
-                  </Button>
-                </AppLink>
-              </>
+              <Flex css={{ gap: '$sm' }}>
+                <Button
+                  as={NavLink}
+                  to={paths.createCircle + '?org=' + org.id}
+                  color="primary"
+                  css={{ whiteSpace: 'nowrap' }}
+                  outlined
+                >
+                  Add Circle
+                </Button>
+                <Button
+                  as={NavLink}
+                  to={paths.organizationSettings(orgId.toString())}
+                  color="primary"
+                  css={{ whiteSpace: 'nowrap' }}
+                  outlined
+                >
+                  Settings
+                </Button>
+              </Flex>
             )}
           </Flex>
         </Flex>

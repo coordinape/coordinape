@@ -60,28 +60,40 @@ export const ReceiveInfo = () => {
 
   return (
     <Popover open={mouseEnterPopover}>
-      <PopoverTrigger>
-        <Button
-          as="a"
-          size="small"
-          color="surface"
-          onMouseEnter={() => {
+      <PopoverTrigger
+        onKeyDown={e => {
+          if (e.key === 'Enter' || e.key === ' ') {
             clearTimeout(timeoutId);
             setMouseEnterPopover(true);
-          }}
-          onMouseLeave={() => {
-            clearTimeout(timeoutId);
-            timeoutId = setTimeout(
-              () => setMouseEnterPopover(false),
-              POPOVER_TIMEOUT
-            );
-          }}
-        >
+          }
+        }}
+        onMouseEnter={() => {
+          clearTimeout(timeoutId);
+          setMouseEnterPopover(true);
+        }}
+        onMouseLeave={() => {
+          clearTimeout(timeoutId);
+          timeoutId = setTimeout(
+            () => setMouseEnterPopover(false),
+            POPOVER_TIMEOUT
+          );
+        }}
+      >
+        <Button tabIndex={-1} size="small" color="surface">
           {!currentNonReceiver ? totalReceived : 0}{' '}
           {data?.myReceived?.token_name ?? 'GIVE'}
         </Button>
       </PopoverTrigger>
       <PopoverContent
+        onKeyDown={e => {
+          if (e.key === 'Escape') {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(
+              () => setMouseEnterPopover(false),
+              POPOVER_TIMEOUT
+            );
+          }
+        }}
         onMouseEnter={() => {
           clearTimeout(timeoutId);
           setMouseEnterPopover(true);

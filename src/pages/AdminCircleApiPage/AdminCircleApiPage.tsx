@@ -87,19 +87,19 @@ const AdminCircleApiPage = () => {
         </Panel>
       )}
       {modal === 'create' && (
-        <Modal onClose={closeModal} title="Create a Circle API Key">
+        <Modal onOpenChange={closeModal} title="Create a Circle API Key">
           <ApiKeyForm onSuccess={displayApiKey} />
         </Modal>
       )}
       {modal === 'display' && displayedKey && (
-        <Modal onClose={closeModal} title="API Key Created">
+        <Modal onOpenChange={closeModal} title="API Key Created">
           <ApiKeyDisplay apiKey={displayedKey} />
         </Modal>
       )}
       <Modal
         open={!!keyToDelete}
         title={`Delete API Key?`}
-        onClose={closeDeleteDialog}
+        onOpenChange={closeDeleteDialog}
       >
         <Flex column alignItems="start" css={{ gap: '$md' }}>
           <Text p bold>

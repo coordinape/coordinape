@@ -117,7 +117,7 @@ export default function DepositModal({
   };
 
   return (
-    <Modal title={`Deposit ${symbol}`} open={true} onClose={onClose}>
+    <Modal title={`Deposit ${symbol}`} open={true} onOpenChange={onClose}>
       <Form
         css={{
           position: 'relative',

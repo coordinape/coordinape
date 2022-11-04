@@ -1,7 +1,9 @@
+import { useEffect, useRef, useState } from 'react';
+
 import { ApeInfoTooltip } from '../../components';
-import { Check, Slash, X } from '../../icons/__generated';
+import { Check, X } from '../../icons/__generated';
 import { IMyUser } from '../../types';
-import { Box, Flex, Text, ToggleButton } from 'ui';
+import { Box, Button, Flex, Text, ToggleButton } from 'ui';
 
 import { AvatarAndName } from './AvatarAndName';
 import { GiveRowGrid } from './GiveRowGrid';
@@ -18,6 +20,7 @@ export const MyGiveRow = ({
   optOutOpen,
   setOptOutOpen,
   statementCompelete,
+  selected,
 }: {
   myUser: IMyUser;
   userIsOptedOut: boolean;
@@ -28,11 +31,30 @@ export const MyGiveRow = ({
   setOptOutOpen: (b: boolean) => void;
   optOutOpen: boolean;
   statementCompelete: boolean;
+  selected: boolean;
 }) => {
+  const newRef = useRef<HTMLButtonElement>(null);
+  const [lastSelected, setLastSelected] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (selected) {
+      setLastSelected(true);
+    } else {
+      if (lastSelected) {
+        newRef?.current?.focus();
+      }
+      setLastSelected(false);
+    }
+  }, [selected, lastSelected]);
   return (
-    <Box onClick={openEpochStatement}>
+    <Button
+      onClick={openEpochStatement}
+      color="transparent"
+      css={{ p: 0 }}
+      ref={newRef}
+    >
       <GiveRowGrid
-        selected={false}
+        selected={selected}
         css={{
           pl: '$md',
           borderColor: '$surface',
@@ -86,7 +108,7 @@ export const MyGiveRow = ({
             </Text>
             {!statementCompelete && (
               <Text tag color="primary">
-                <Slash /> No Epoch Statement
+                No Epoch Statement
               </Text>
             )}
           </Flex>
@@ -154,6 +176,6 @@ export const MyGiveRow = ({
         tokenName={myUser.circle.tokenName}
         give_token_received={myUser.give_token_received}
       />
-    </Box>
+    </Button>
   );
 };

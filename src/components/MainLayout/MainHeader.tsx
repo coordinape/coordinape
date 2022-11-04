@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 
-import { useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
 import { MediaQueryKeys } from 'stitches.config';
 
@@ -9,7 +9,7 @@ import isFeatureEnabled from 'config/features';
 import { useMediaQuery } from 'hooks';
 import { rSelectedCircle } from 'recoilState/app';
 import { isCircleSpecificPath } from 'routes/paths';
-import { AppLink, Box, Button } from 'ui';
+import { Box, Button } from 'ui';
 
 import { CircleNav } from './CircleNav';
 import { useMainHeaderQuery } from './getMainHeaderData';
@@ -104,11 +104,15 @@ const NormalHeader = ({ inCircle }: { inCircle: boolean }) => {
         )}
         <Suspense fallback={null}>
           {isFeatureEnabled('vaults') && showClaimsButton && (
-            <AppLink to="/claims" css={{ mr: '$md' }}>
-              <Button color="complete" size="small">
-                Claim Tokens
-              </Button>
-            </AppLink>
+            <Button
+              as={NavLink}
+              to="/claims"
+              css={{ mr: '$md' }}
+              color="complete"
+              size="small"
+            >
+              Claim Tokens
+            </Button>
           )}
           <MyAvatarMenu />
         </Suspense>
