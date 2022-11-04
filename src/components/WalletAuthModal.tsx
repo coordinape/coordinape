@@ -60,12 +60,14 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
   ]);
 
   const getInitialChain = async (ethereum: any) => {
-    // convert hex to decimal
-    const chainId = parseInt(
-      await ethereum.request({ method: 'eth_chainId' }),
-      16
-    ).toString();
-    updateChain(chainId);
+    if (ethereum) {
+      // convert hex to decimal
+      const chainId = parseInt(
+        await ethereum.request({ method: 'eth_chainId' }),
+        16
+      ).toString();
+      updateChain(chainId);
+    }
   };
 
   const updateChain = (chainId: string) => {
