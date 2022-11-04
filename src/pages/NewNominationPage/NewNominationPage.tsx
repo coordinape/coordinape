@@ -19,12 +19,12 @@ import {
   TextField,
   FormLabel,
   Box,
-  TextArea,
   AppLink,
   Flex,
   Panel,
   Tooltip,
   BackButton,
+  TextArea,
 } from 'ui';
 import HintButton from 'ui/HintButton';
 import { SingleColumnLayout } from 'ui/layouts';
@@ -252,6 +252,7 @@ export const NewNominationPage = () => {
                   </Tooltip>
                 </FormLabel>
                 <TextArea
+                  autoSize
                   rows={4}
                   id="description"
                   {...description}

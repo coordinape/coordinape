@@ -1,9 +1,12 @@
+import { useEffect, useRef } from 'react';
+
 import type * as Stitches from '@stitches/react';
+import autosize from 'autosize';
 
 import { styled } from '../../stitches.config';
 import { modifyVariantsForStory } from '../type-utils';
 
-export const TextArea = styled('textarea', {
+const StyledTextArea = styled('textarea', {
   background: '$surface',
   border: '1px solid transparent',
   '&:focus': {
@@ -32,6 +35,23 @@ export const TextArea = styled('textarea', {
     },
   },
 });
+
+export const TextArea = ({
+  autoSize,
+  ...rest
+}: React.ComponentProps<typeof StyledTextArea> & {
+  autoSize?: boolean;
+}) => {
+  const ref = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
+
+  useEffect(() => {
+    if (ref.current && autoSize) {
+      autosize(ref.current);
+    }
+  }, []);
+
+  return <StyledTextArea {...rest} ref={ref} />;
+};
 
 /* Storybook utility for stitches variant props
 
