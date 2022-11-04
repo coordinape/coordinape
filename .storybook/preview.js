@@ -15,6 +15,7 @@ export const parameters = {
   controls: {
     expanded: true,
     presetColors: colors,
+    hideNoControlsWarning: true,
     matchers: {
       color: /(background|color)$/i,
       date: /Date$/,
