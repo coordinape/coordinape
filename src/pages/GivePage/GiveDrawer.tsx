@@ -8,6 +8,7 @@ import { SaveState, SavingIndicator } from 'ui/SavingIndicator';
 
 import { Contribution } from './Contribution';
 import { ContributorButton } from './ContributorButton';
+import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from './EpochStatementDrawer';
 import { GiveAllocator } from './GiveAllocator';
 import { Gift, Member } from './index';
 import { getContributionsForEpoch } from './queries';
@@ -49,7 +50,7 @@ export const GiveDrawer = ({
 }: GiveDrawerProps) => {
   // fetch the contributions for this particular member
   const { data: contributions, refetch } = useQuery(
-    ['allocate-contributions', member.id],
+    [QUERY_KEY_ALLOCATE_CONTRIBUTIONS, member.id],
     () =>
       getContributionsForEpoch({
         circleId: member.circle_id,
