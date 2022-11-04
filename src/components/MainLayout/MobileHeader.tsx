@@ -12,6 +12,7 @@ import { Box, IconButton, Link, Image, Avatar, AppLink, Button } from 'ui';
 import { shortenAddress } from 'utils';
 
 import { CircleNav } from './CircleNav';
+import { useMainHeaderQuery } from './getMainHeaderData';
 import { TopLevelLinks } from './TopLevelLinks';
 
 const mainLinks = [
@@ -29,6 +30,10 @@ export const MobileHeader = ({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const { icon, address, logout } = useWalletStatus();
+
+  const query = useMainHeaderQuery();
+  const showClaimsButton =
+    (query.data?.claims_aggregate.aggregate?.count || 0) > 0;
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -157,7 +162,7 @@ export const MobileHeader = ({
                 )}
               </Box>
               <Suspense fallback={null}>
-                {isFeatureEnabled('vaults') && (
+                {isFeatureEnabled('vaults') && showClaimsButton && (
                   <AppLink to="/claims" css={{ mr: '$md' }}>
                     <Button
                       color="complete"
