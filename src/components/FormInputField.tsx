@@ -14,7 +14,7 @@ import { Flex, FormLabel, Text, TextArea, TextField, Tooltip } from 'ui';
 type TextFieldProps = React.ComponentProps<typeof TextField>;
 type TextAreaProps = React.ComponentProps<typeof TextArea>;
 
-type TFormInputField<TFieldValues extends FieldValues> = {
+export type TFormInputField<TFieldValues extends FieldValues> = {
   id: string;
   label?: string;
   textArea?: boolean;

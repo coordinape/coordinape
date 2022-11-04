@@ -2,7 +2,7 @@ import { useState, useMemo, useEffect, useRef } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import isEmpty from 'lodash/isEmpty';
-import { DateTime, Interval } from 'luxon';
+import { DateObjectUnits, DateTime, Duration, Interval } from 'luxon';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { SafeParseReturnType, z } from 'zod';
 
@@ -24,7 +24,7 @@ import {
 
 import { IQueryEpoch, QueryFutureEpoch } from './getHistoryData';
 
-const longFormat = "DD 'at' H:mm";
+const longFormat = "DD 'at' HH:mm ZZZZ";
 
 interface EpochConfig {
   start_date: string;
@@ -43,6 +43,7 @@ const submitSchema = z
   .object({
     start_date: z.string(),
     end_date: z.string(),
+    start_time: z.string(),
     repeat: EpochRepeatEnum,
     weekDay: z.string(),
     repeat_view: z.boolean(),
@@ -59,6 +60,7 @@ const submitSchema = z
 const schema = z
   .object({
     start_date: z.string(),
+    start_time: z.string(),
     end_date: z.string(),
     repeat: EpochRepeatEnum,
     weekDay: z.string(),
@@ -318,8 +320,18 @@ const EpochForm = ({
         ? DateTime.fromISO(source.epoch.start_date).day.toString()
         : ((DateTime.now().day + 1) % 32 || 1).toString(),
       weekDay: '1',
+      start_time:
+        (source?.epoch?.start_date &&
+          DateTime.fromISO(source.epoch.start_date).toLocaleString(
+            DateTime.TIME_24_SIMPLE
+          )) ??
+        DateTime.now()
+          .setZone()
+          .plus({ days: 1 })
+          .toLocaleString(DateTime.TIME_24_SIMPLE),
       start_date:
-        source?.epoch?.start_date ??
+        (source?.epoch?.start_date &&
+          DateTime.fromISO(source.epoch.start_date).toISO()) ??
         DateTime.now().setZone().plus({ days: 1 }).toISO(),
       end_date: source?.epoch?.end_date
         ? DateTime.fromISO(source.epoch.end_date)
@@ -364,7 +376,6 @@ const EpochForm = ({
   }, []);
 
   useEffect(() => {
-    console.info('first derp', getValues());
     watch((data, { name, type }) => {
       const {
         repeat_view,
@@ -373,6 +384,7 @@ const EpochForm = ({
         weekDay,
         dayOfMonth,
         start_date,
+        start_time,
         end_date,
       } = data;
       if (name === 'dayOfMonth' && type === 'change') {
@@ -381,6 +393,7 @@ const EpochForm = ({
           getMonthStartDates(dayOfMonth || '1')[0].value
         );
       }
+
       if (typeof repeat === 'string') {
         if (repeat_view && repeat !== 'none' && weekDay && repeatStartDate) {
           const { nextStartDate, nextEndDate } = getNextRepeatingDates(
@@ -394,10 +407,18 @@ const EpochForm = ({
             repeat,
           });
         } else {
-          if (start_date && end_date)
+          if (start_date && end_date && start_time)
             setEpochConfig({
-              start_date: start_date,
-              end_date: end_date,
+              start_date: DateTime.fromISO(start_date)
+                .set(
+                  Duration.fromISOTime(start_time).toObject() as DateObjectUnits
+                )
+                .toISO(),
+              end_date: DateTime.fromISO(end_date)
+                .set(
+                  Duration.fromISOTime(start_time).toObject() as DateObjectUnits
+                )
+                .toISO(),
               repeat: 'none',
             });
         }
@@ -512,11 +533,15 @@ const EpochForm = ({
               </span>
             </Text>
           </Flex>
+          <Flex css={{ mt: '$xl', gap: '$xl' }}>
+            <Text h3>Epoch Frequency</Text>
+            <Text bold>{getRepeat(epochConfig)}</Text>
+          </Flex>
           <Box
             css={{
               display: 'grid',
               gridTemplateColumns: '3fr 1fr',
-              mt: '$1xl',
+              mt: '$md',
               gap: '$2xl',
               '@sm': { gridTemplateColumns: '1fr' },
             }}
@@ -611,25 +636,19 @@ const EpochForm = ({
                     </Tooltip>
                   </FormLabel>
                   <Flex row css={{ gap: '$sm' }}>
-                    <Controller
-                      control={control}
-                      name="start_date"
-                      render={({ field: { onChange, value, onBlur } }) => (
-                        <Box
-                          css={{
-                            maxWidth: '150px',
-                            '> div': { mb: '0 !important' },
-                          }}
-                        >
-                          <FormTimePicker
-                            onBlur={onBlur}
-                            onChange={onChange}
-                            value={value}
-                            disabled={shouldFormBeDisabled}
-                          />
-                        </Box>
-                      )}
-                    />
+                    <Box
+                      css={{
+                        maxWidth: '150px',
+                        '> div': { mb: '0 !important' },
+                      }}
+                    >
+                      <FormTimePicker
+                        id="start_time"
+                        name="start_time"
+                        control={control}
+                        disabled={shouldFormBeDisabled}
+                      />
+                    </Box>
                     <Text font="inter" size="medium">
                       In your
                       <br /> local timezone
@@ -758,9 +777,6 @@ const EpochForm = ({
                   />
                 </Flex>
               </Flex>
-              <Text p css={{ mt: '$xl' }}>
-                {summarizeEpoch(epochConfig)}
-              </Text>
             </Flex>
             <Flex column>{epochsPreview(epochConfig)}</Flex>
           </Box>
@@ -791,6 +807,7 @@ const epochsPreview = (value: EpochConfig) => {
   return (
     <Flex css={{ flexDirection: 'column', gap: '$xs' }}>
       <Text variant="label">Preview</Text>
+      <EpochSummary value={value} />
       <Text bold css={{ mt: '$sm' }}>
         Epoch 1
       </Text>
@@ -836,7 +853,20 @@ const epochsPreview = (value: EpochConfig) => {
   );
 };
 
-const summarizeEpoch = (value: EpochConfig) => {
+const getRepeat = (value: EpochConfig) => {
+  const startDate = DateTime.fromISO(value.start_date).setZone();
+
+  const repeating =
+    value.repeat === 'monthly'
+      ? `Every ${getSuffix(startDate.day)} of the month`
+      : value.repeat === 'weekly'
+      ? `Every ${startDate.weekdayLong}`
+      : "The epoch doesn't repeat.";
+
+  return repeating;
+};
+
+const EpochSummary = ({ value }: { value: EpochConfig }) => {
   const startDate = DateTime.fromISO(value.start_date)
     .setZone()
     .toFormat(longFormat);
@@ -844,19 +874,28 @@ const summarizeEpoch = (value: EpochConfig) => {
     .setZone()
     .toFormat(longFormat);
 
-  const nextRepeat = DateTime.fromISO(value.start_date)
-    .setZone()
-    .plus(value.repeat === 'monthly' ? { months: 1 } : { weeks: 1 })
-    .toFormat('DD');
+  return (
+    <>
+      <Text bold>This Epoch Period</Text>
+      {startDate} <Text bold>to</Text> {endDate}
+    </>
+  );
+};
 
-  const repeating =
-    value.repeat === 'monthly'
-      ? `The epoch is set to repeat every month; the following epoch will start on ${nextRepeat}.`
-      : value.repeat === 'weekly'
-      ? `The epoch is set to repeat every week; the following epoch will start on ${nextRepeat}.`
-      : "The epoch doesn't repeat.";
-
-  return `This epoch starts on ${startDate} and will end on ${endDate}. ${repeating}`;
+const getSuffix = (day: number) => {
+  const onesDigit = day % 10;
+  switch (true) {
+    case ~~((day % 100) / 10) === 1:
+      return day + 'th';
+    case onesDigit === 1:
+      return day + 'st';
+    case onesDigit === 2:
+      return day + 'nd';
+    case onesDigit === 3:
+      return day + 'rd';
+    default:
+      return day + 'th';
+  }
 };
 
 const getMonthStartDates = (day: string) =>
