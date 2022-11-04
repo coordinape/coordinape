@@ -127,6 +127,8 @@ export const getProfile = async (address: string): Promise<IApiProfile> => {
                     role: true,
                     epoch_first_visit: true,
                     profile: {
+                      id: true,
+                      address: true,
                       name: true,
                     },
                   },
@@ -155,7 +157,13 @@ export const getProfile = async (address: string): Promise<IApiProfile> => {
       };
     } = {
       ...user,
-      teammates: user.teammates.map(tm => tm.teammate).filter(isDefinedUser),
+      teammates: user.teammates
+        .map(tm => {
+          const u: IApiUser | undefined = tm.teammate!;
+          return u;
+          return tm.teammate;
+        })
+        .filter(isDefinedUser),
       circle: {
         ...user.circle,
         organization: user.circle.organization,
