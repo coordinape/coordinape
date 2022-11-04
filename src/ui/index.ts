@@ -15,7 +15,7 @@ export * from './Image/Image';
 export * from './Link/Link';
 export * from './Modal';
 export * from './Panel/Panel';
-export * from './Popover';
+export * from './Popover/Popover';
 export * from './RadioGroup/RadioGroup';
 export * from './Select/Select';
 export * from './SvgIcon/SvgIcon';
