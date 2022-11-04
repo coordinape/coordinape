@@ -50,7 +50,7 @@ export const MyGiveRow = ({
     <Button
       onClick={openEpochStatement}
       color="transparent"
-      css={{ p: 0 }}
+      css={{ p: 0, width: '100%' }}
       ref={newRef}
     >
       <GiveRowGrid
