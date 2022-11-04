@@ -91,11 +91,11 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
     const metamaskEnabled = 'ethereum' in window || 'web3' in window;
     setIsMetamaskEnabled(metamaskEnabled);
 
-    const ethereum = window as any;
-    if (metamaskEnabled && ethereum && ethereum.on) {
-      const ethereum = (window as any).ethereum;
-      ethereum?.removeAllListeners(['networkChanged']);
-      ethereum.on('networkChanged', (chain: string) => {
+    const ethereum = (window as any).ethereum;
+
+    if (metamaskEnabled && ethereum) {
+      ethereum.removeAllListeners?.(['networkChanged']);
+      ethereum.on?.('networkChanged', (chain: string) => {
         updateChain(chain);
       });
 
