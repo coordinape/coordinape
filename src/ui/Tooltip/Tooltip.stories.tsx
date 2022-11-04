@@ -6,7 +6,6 @@ import { Info } from 'icons/__generated';
 import { Tooltip as TooltipComponent } from './Tooltip';
 
 export default {
-  title: 'Design System/Components/Tooltip',
   component: TooltipComponent,
   argTypes: {
     children: {

@@ -137,7 +137,7 @@ export const NewNominationPage = () => {
           <BackButton />
         </AppLink>
       </Box>
-      <Flex css={{ alignItems: 'center', mb: '$sm' }}>
+      <Flex alignItems="center" css={{ mb: '$sm' }}>
         <Text h1>Nominate Member</Text>
       </Flex>
       <Box

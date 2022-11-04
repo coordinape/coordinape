@@ -112,7 +112,7 @@ const AddMembersContents = ({
         </AppLink>
       </Box>
 
-      <Flex css={{ alignItems: 'center', mb: '$sm' }}>
+      <Flex alignItems="center" css={{ mb: '$sm' }}>
         <Text h1>Add Members to {circle.name}</Text>
       </Flex>
       <Box css={{ mb: '$md' }}>

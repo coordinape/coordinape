@@ -72,10 +72,10 @@ export const AvatarUpload = ({ original }: { original?: string }) => {
   if (avatarFile) return <LoadingModal visible />;
 
   return (
-    <Flex column css={{ alignItems: 'flex-start', gap: '$xs' }}>
+    <Flex column alignItems="start" css={{ gap: '$xs' }}>
       <Flex
+        alignItems="center"
         css={{
-          alignItems: 'center',
           gap: '$sm',
           width: '100%',
         }}
@@ -88,8 +88,8 @@ export const AvatarUpload = ({ original }: { original?: string }) => {
         />
         <FormLabel htmlFor="upload-avatar-button" css={{ flexGrow: '1' }}>
           <Flex
+            alignItems="center"
             css={{
-              alignItems: 'center',
               gap: '$sm',
             }}
           >

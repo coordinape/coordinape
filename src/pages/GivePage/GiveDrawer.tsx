@@ -83,8 +83,12 @@ export const GiveDrawer = ({
     if (member) {
       // on member change reload the contributions
       refetch().then();
-      // reset the need to save indicator so it doesnt say 'Changes Saved'
-      setNeedToSave(false);
+      // reset the need to save indicator so it doesnt say 'Changes Saved' when
+      // it has already moved to 'Saved'.
+
+      if (saveState == 'saved') {
+        setNeedToSave(false);
+      }
     }
   }, [member]);
 
@@ -213,7 +217,7 @@ export const GiveDrawer = ({
           onChange={e => noteChanged(e.target.value)}
           placeholder="Say thanks or give constructive feedback."
         />
-        <Flex css={{ justifyContent: 'flex-end', alignItems: 'center' }}>
+        <Flex alignItems="center" css={{ justifyContent: 'flex-end' }}>
           <SavingIndicator
             saveState={saveState}
             retry={() => {

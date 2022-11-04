@@ -54,8 +54,8 @@ export const EpochPanel = ({
       onClick={() => showLess && setShowLess(false)}
     >
       <Flex
+        column
         css={{
-          flexDirection: 'column',
           justifyContent: 'flex-start',
           gap: '$sm',
         }}
@@ -151,10 +151,10 @@ export const EpochPanel = ({
         }}
       >
         <Flex
+          alignItems="start"
           css={{
             columnGap: '$3xl',
             rowGap: '$lg',
-            alignItems: 'flex-start',
             justifyContent: 'space-between',
             flexWrap: 'wrap',
             '@xs': {
@@ -231,10 +231,10 @@ export const EpochPanel = ({
         {!showLess && (
           <Flex
             column
+            alignItems="start"
             css={{
               gap: '$md',
               justifyContent: 'space-between',
-              alignItems: 'flex-start',
             }}
           >
             {tab === 0 ? (

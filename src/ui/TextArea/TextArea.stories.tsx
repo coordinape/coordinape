@@ -3,7 +3,6 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { TextArea } from './TextArea';
 
 export default {
-  title: 'Design System/Components/TextArea',
   component: TextArea,
 } as ComponentMeta<typeof TextArea>;
 

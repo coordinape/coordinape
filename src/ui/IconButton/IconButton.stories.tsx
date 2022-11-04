@@ -5,7 +5,6 @@ import { ChevronDown } from 'icons/__generated';
 import { IconButton } from './IconButton';
 
 export default {
-  title: 'Design System/Components/IconButton',
   component: IconButton,
 } as ComponentMeta<typeof IconButton>;
 

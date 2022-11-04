@@ -4,7 +4,6 @@ import { withDesign } from 'storybook-addon-designs';
 import { TextField } from './TextField';
 
 export default {
-  title: 'Design System/Components/TextField',
   component: TextField,
   decorators: [withDesign],
 } as ComponentMeta<typeof TextField>;

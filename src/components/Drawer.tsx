@@ -29,11 +29,11 @@ export const Drawer = ({ open, setOpen, children }: IProps) => {
       </Text>
       {open ? (
         <Flex
+          column
+          alignItems="center"
           css={{
             flexGrow: 1,
             overflowX: 'hidden',
-            flexDirection: 'column',
-            alignItems: 'center',
             ml: '$lg',
             position: 'absolute',
             top: 130,

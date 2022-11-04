@@ -150,7 +150,7 @@ const makeComponent =
           fullWidth && classes.rootFullWidth
         )}
       >
-        <Flex css={{ justifyContent: 'space-between', alignItems: 'end' }}>
+        <Flex alignItems="end" css={{ justifyContent: 'space-between' }}>
           {prelabel && (
             <Text
               variant="label"
