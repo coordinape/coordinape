@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 import { useWeb3React } from '@web3-react/core';
-import { vaultsSupportedChainIds } from 'lib/vaults';
+import { vaultsSupportedChainIds } from 'common-lib/chains';
 import { switchNetwork } from 'lib/web3-helpers';
 
 import { useApeSnackbar } from 'hooks';

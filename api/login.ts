@@ -2,6 +2,7 @@ import assert from 'assert';
 
 import { JsonRpcProvider } from '@ethersproject/providers';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { union } from 'lodash';
 import { DateTime, Settings } from 'luxon';
 import { SiweMessage, SiweErrorType } from 'siwe';
 
@@ -15,6 +16,7 @@ import { insertInteractionEvents } from '../api-lib/gql/mutations';
 import { errorResponse } from '../api-lib/HttpError';
 import { getProvider } from '../api-lib/provider';
 import { parseInput } from '../api-lib/signature';
+import { vaultsSupportedChainIds } from '../src/common-lib/chains';
 import { loginSupportedChainIds } from '../src/common-lib/constants';
 
 Settings.defaultZone = 'utc';
@@ -24,6 +26,11 @@ const allowedDomainsRegex = process.env.SIWE_ALLOWED_DOMAINS?.split(',').filter(
 ) || ['localhost:'];
 
 const allowedDomains = allowedDomainsRegex.map(item => new RegExp(item));
+
+const validChains = union(
+  vaultsSupportedChainIds,
+  Object.keys(loginSupportedChainIds)
+);
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
@@ -57,9 +64,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           const chainId: string = error.message.match(
             /chainId (\d*) is unsupported/
           )[1];
-          const supported = Object.keys(loginSupportedChainIds).find(
-            obj => obj == chainId
-          );
+          const supported = validChains.find(obj => obj == chainId);
           if (!supported) {
             return errorResponse(res, {
               message: 'unsupported chain ' + chainId,

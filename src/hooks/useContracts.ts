@@ -2,7 +2,8 @@ import { useMemo } from 'react';
 
 import { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React } from '@web3-react/core';
-import { vaultsSupportedChainIds, Contracts } from 'lib/vaults';
+import { vaultsSupportedChainIds } from 'common-lib/chains';
+import { Contracts } from 'lib/vaults';
 
 import { logOnce } from 'utils/logger';
 
