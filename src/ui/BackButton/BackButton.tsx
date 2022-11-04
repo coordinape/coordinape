@@ -1,8 +1,7 @@
 import React from 'react';
 
 import { ArrowLeft } from '../../icons/__generated';
-import { Button } from '../Button/Button';
-import { Text } from '../Text/Text';
+import { Button, Text } from 'ui';
 
 const BackButton = () => {
   return (
