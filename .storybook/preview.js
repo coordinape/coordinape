@@ -21,3 +21,21 @@ export const parameters = {
     },
   },
 };
+
+export const argTypes = {
+  as: {
+    table: {
+      disable: true,
+    },
+  },
+  asChild: {
+    table: {
+      disable: true,
+    },
+  },
+  css: {
+    table: {
+      disable: true,
+    },
+  },
+};
