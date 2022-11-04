@@ -216,15 +216,15 @@ const getZodParser = (source?: IEpochFormSource, currentEpoch?: number) => {
       path: ['end_date'],
       message: 'End date must come after start date',
     })
-    .refine(({ repeat }) => !(repeat !== 'none' && !!otherRepeating), {
-      path: ['repeat'],
-      // the getOverlapIssue relies on this invariant.
-      message: `Only one repeating epoch allowed.`,
-    })
     .refine(
       v => !getOverlapIssue(v),
       v => getOverlapIssue(v) ?? {}
     )
+    .refine(({ repeat_view }) => !(repeat_view && !!otherRepeating), {
+      path: ['repeat'],
+      // the getOverlapIssue relies on this invariant.
+      message: `Only one repeating epoch allowed.`,
+    })
     .transform(({ start_date, end_date, ...fields }) => ({
       start_date: start_date.toISO(),
       end_date: end_date.toISO(),
@@ -343,19 +343,44 @@ const EpochForm = ({
 
   const extraErrors = useRef(false);
 
-  useEffect(() => {
-    watch((data, { name, type }) => {
-      const value: SafeParseReturnType<epochFormSchema, epochSubmissionSchema> =
-        getZodParser(source, currentEpoch?.id).safeParse(data);
+  const validateState = (data: Partial<epochFormSchema>) => {
+    const value: SafeParseReturnType<epochFormSchema, epochSubmissionSchema> =
+      getZodParser(source, currentEpoch?.id).safeParse(data);
 
+    if (!value.success) {
+      extraErrors.current = true;
+      setError('customError', {
+        message: value.error.errors[0].message,
+      });
+    } else {
+      extraErrors.current = false;
+      clearErrors('customError');
+    }
+  };
+
+  // validate the default form state on first load
+  useEffect(() => {
+    validateState(getValues());
+  }, []);
+
+  useEffect(() => {
+    console.info('first derp', getValues());
+    watch((data, { name, type }) => {
       const {
         repeat_view,
         repeat,
         repeatStartDate,
         weekDay,
+        dayOfMonth,
         start_date,
         end_date,
       } = data;
+      if (name === 'dayOfMonth' && type === 'change') {
+        setValue(
+          'repeatStartDate',
+          getMonthStartDates(dayOfMonth || '1')[0].value
+        );
+      }
       if (typeof repeat === 'string') {
         if (repeat_view && repeat !== 'none' && weekDay && repeatStartDate) {
           const { nextStartDate, nextEndDate } = getNextRepeatingDates(
@@ -377,22 +402,8 @@ const EpochForm = ({
             });
         }
       }
-      if (name === 'dayOfMonth' && type === 'change') {
-        setValue(
-          'repeatStartDate',
-          getMonthStartDates(data.dayOfMonth || '1')[0].value
-        );
-      }
 
-      if (!value.success) {
-        extraErrors.current = true;
-        setError('customError', {
-          message: value.error.errors[0].message,
-        });
-      } else {
-        extraErrors.current = false;
-        clearErrors('customError');
-      }
+      validateState(data);
     });
   });
 
