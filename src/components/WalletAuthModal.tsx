@@ -93,6 +93,7 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
 
     if (metamaskEnabled) {
       const ethereum = (window as any).ethereum;
+      ethereum?.removeAllListeners(['networkChanged']);
       ethereum.on('networkChanged', (chain: string) => {
         updateChain(chain);
       });
