@@ -19,6 +19,7 @@ import {
   ChevronDown,
   ChevronUp,
 } from 'icons/__generated';
+import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
 import { Panel, Text, Box, Modal, Button, Flex } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { SavingIndicator, SaveState } from 'ui/SavingIndicator';
@@ -162,7 +163,9 @@ const ContributionsPage = () => {
     useMutation(createContributionMutation, {
       onSuccess: newContribution => {
         refetchContributions();
-        queryClient.invalidateQueries({ queryKey: ['allocate-contributions'] });
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY_ALLOCATE_CONTRIBUTIONS],
+        });
         if (newContribution.insert_contributions_one) {
           updateSaveStateForContribution(NEW_CONTRIBUTION_ID, 'stable');
           setCurrentContribution({
@@ -237,7 +240,9 @@ const ContributionsPage = () => {
         refetchContributions();
         updateSaveStateForContribution(data.contribution_id, 'stable');
         reset();
-        queryClient.invalidateQueries({ queryKey: ['allocate-contributions'] });
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY_ALLOCATE_CONTRIBUTIONS],
+        });
       },
     }
   );

@@ -27,6 +27,8 @@ import { IMyUser } from 'types';
 
 const DEBOUNCE_TIMEOUT = 1000;
 
+export const QUERY_KEY_ALLOCATE_CONTRIBUTIONS = 'allocate-contributions';
+
 type StatementDrawerProps = {
   myUser: IMyUser;
   member: Member;
@@ -55,7 +57,7 @@ export const EpochStatementDrawer = ({
 }: StatementDrawerProps) => {
   // fetch the contributions for this particular member
   const { data: contributions } = useQuery(
-    ['allocate-contributions', member.id],
+    [QUERY_KEY_ALLOCATE_CONTRIBUTIONS, member.id],
     () =>
       getContributionsForEpoch({
         circleId: member.circle_id,
