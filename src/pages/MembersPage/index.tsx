@@ -9,7 +9,7 @@ import { NavLink } from 'react-router-dom';
 import { disabledStyle } from 'stitches.config';
 
 import { LoadingModal } from 'components';
-import { useApiAdminCircle, useContracts } from 'hooks';
+import { useApeSnackbar, useApiAdminCircle, useContracts } from 'hooks';
 import { useCircleOrg } from 'hooks/gql/useCircleOrg';
 import { useVaults } from 'hooks/gql/useVaults';
 import useMobileDetect from 'hooks/useMobileDetect';
@@ -45,6 +45,7 @@ export interface IDeleteUser {
 
 const MembersPage = () => {
   const { isMobile } = useMobileDetect();
+  const { showError } = useApeSnackbar();
 
   const [keyword, setKeyword] = useState<string>('');
   const [deleteUserDialog, setDeleteUserDialog] = useState<
@@ -72,9 +73,7 @@ const MembersPage = () => {
   } = useSelectedCircle();
 
   const {
-    isLoading: circleSettingsLoading,
-    isError: circleSettingshasError,
-    isIdle: circleSettingsIdle,
+    isError: circleSettingsHasError,
     error: circleSettingsError,
     data: circle,
   } = useQuery(
@@ -90,9 +89,7 @@ const MembersPage = () => {
   );
 
   const {
-    isLoading: activeNomineesLoading,
-    isError: activeNomineeshasError,
-    isIdle: activeNomineesIdle,
+    isError: activeNomineesHasError,
     error: activeNomineesError,
     data: activeNominees,
     refetch: refetchNominees,
@@ -111,9 +108,7 @@ const MembersPage = () => {
   );
 
   const {
-    isLoading: fixedPaymentLoading,
-    isError: fixedPaymenthasError,
-    isIdle: fixedPaymentIdle,
+    isError: fixedPaymentHasError,
     error: fixedPaymentError,
     data: fixedPayment,
   } = useQuery(
@@ -218,28 +213,22 @@ const MembersPage = () => {
     formatUnits(maxGiftTokens, getDecimals(stringifiedVaultId()))
   );
 
-  if (
-    activeNomineesLoading ||
-    activeNomineesIdle ||
-    circleSettingsLoading ||
-    circleSettingsIdle ||
-    fixedPaymentLoading ||
-    fixedPaymentIdle
-  )
+  if (!activeNominees || !circle || !fixedPayment)
     return <LoadingModal visible />;
-  if (activeNomineeshasError) {
+
+  if (activeNomineesHasError) {
     if (activeNomineesError instanceof Error) {
-      console.warn(activeNomineesError.message);
+      showError(activeNomineesError.message);
     }
   }
-  if (circleSettingshasError) {
+  if (circleSettingsHasError) {
     if (circleSettingsError instanceof Error) {
-      console.warn(circleSettingsError.message);
+      showError(circleSettingsError.message);
     }
   }
-  if (fixedPaymenthasError) {
+  if (fixedPaymentHasError) {
     if (fixedPaymentError instanceof Error) {
-      console.warn(fixedPaymentError.message);
+      showError(fixedPaymentError.message);
     }
   }
   return (
