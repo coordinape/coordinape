@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 
+import MarkdownPreview from '@uiw/react-markdown-preview';
 import { useQuery } from 'react-query';
+import sanitizeHtml from 'sanitize-html';
 
 import { ChevronDown, ChevronUp } from '../../icons/__generated';
 import { Avatar, Box, Button, Flex, Text, TextArea } from 'ui';
@@ -252,9 +254,7 @@ export const GiveDrawer = ({
                 borderBottom: '1px solid $border',
               }}
             >
-              <Text css={{ whiteSpace: 'pre-wrap' }} p>
-                {member.bio}
-              </Text>
+              <MarkdownPreview source={sanitizeHtml(member.bio)} />
             </Box>
           </Box>
         )}
