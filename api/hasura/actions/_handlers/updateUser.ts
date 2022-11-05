@@ -1,6 +1,7 @@
 import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import sanitizeHtml from 'sanitize-html';
 
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { errorResponse } from '../../../../api-lib/HttpError';
@@ -21,7 +22,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   ).parse(req.body);
 
   // Validate no epoches are active for the requested user
-  const { circle_id } = payload;
+  const { circle_id, bio } = payload;
   const { hasuraAddress: address } = session_variables;
 
   const {
@@ -41,6 +42,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         id: true,
         fixed_non_receiver: true,
         give_token_received: true,
+        bio: true,
       },
     ],
   });
@@ -52,14 +54,18 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     });
   }
 
+  let sanitizedBio = undefined;
   // Update the state after all external validations have passed
-
+  if (!!bio?.length && bio !== user.bio) {
+    sanitizedBio = sanitizeHtml(bio);
+  }
   const mutationResult = await adminClient.mutate(
     {
       update_users: [
         {
           _set: {
             ...payload,
+            bio: sanitizedBio ?? bio,
             // reset give_token_received if a user is opted out of an
             // active epoch
             give_token_received:

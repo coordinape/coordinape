@@ -1,9 +1,11 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
+import MarkdownPreview from '@uiw/react-markdown-preview';
 import { updateUser } from 'lib/gql/mutations';
 import debounce from 'lodash/debounce';
 import { useMutation, useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
+import sanitizeHtml from 'sanitize-html';
 
 import { ApeInfoTooltip } from '../../components';
 import { Check, X } from '../../icons/__generated';
@@ -67,6 +69,7 @@ export const EpochStatementDrawer = ({
 
   // saveTimeout is the timeout handle for the buffered async saving
   const [saving, setSaving] = useState<SaveState>('stable');
+  const [showMarkdown, setShowMarkDown] = useState<boolean>(true);
 
   const { mutate: updateEpochStatement } = useMutation(
     async (bio: string) => updateUser({ circle_id: member.circle_id, bio }),
@@ -99,6 +102,12 @@ export const EpochStatementDrawer = ({
     ),
     [saveStatement]
   );
+
+  useEffect(() => {
+    if (!showMarkdown) {
+      document?.getElementById('epoch_statement')?.focus();
+    }
+  }, [showMarkdown]);
 
   return (
     <Box css={{ height: '100%', pt: '$md' }}>
@@ -184,20 +193,40 @@ export const EpochStatementDrawer = ({
         <Text inline semibold size="large">
           Epoch Statement
         </Text>
-        <TextArea
-          autoSize
-          css={{
-            backgroundColor: 'white',
-            width: '100%',
-            fontSize: '$medium',
-            whiteSpace: 'pre-wrap',
-          }}
-          value={statement}
-          onChange={e => statementChanged(e.target.value)}
-          placeholder="Summarize your Contributions"
-          // eslint-disable-next-line jsx-a11y/no-autofocus
-          autoFocus={true}
-        />
+        {showMarkdown && !!statement.length ? (
+          <Box
+            onClick={() => {
+              setShowMarkDown(false);
+            }}
+          >
+            <MarkdownPreview source={sanitizeHtml(statement)} />
+          </Box>
+        ) : (
+          <TextArea
+            id="epoch_statement"
+            autoSize
+            css={{
+              backgroundColor: 'white',
+              width: '100%',
+              fontSize: '$medium',
+              whiteSpace: 'pre-wrap',
+            }}
+            value={statement}
+            onChange={e => statementChanged(e.target.value)}
+            placeholder="Summarize your Contributions"
+            // eslint-disable-next-line jsx-a11y/no-autofocus
+            autoFocus={true}
+            onBlur={() => {
+              if (statement.length > 0) setShowMarkDown(true);
+            }}
+            onFocus={e => {
+              e.currentTarget.setSelectionRange(
+                e.currentTarget.value.length,
+                e.currentTarget.value.length
+              );
+            }}
+          />
+        )}
         <Flex
           css={{ justifyContent: 'flex-end', alignItems: 'center', mt: '$sm' }}
         >
