@@ -138,7 +138,10 @@ const getCollisionMessage = (
   return undefined;
 };
 
-const getZodParser = (source?: IEpochFormSource, currentEpoch?: number) => {
+const getZodParser = (
+  source?: IEpochFormSource,
+  currentEpoch?: { id: number; end_date: string }
+) => {
   const otherRepeating = source?.epochs?.find(e => !!e.repeat);
 
   const getOverlapIssue = ({
@@ -168,8 +171,16 @@ const getZodParser = (source?: IEpochFormSource, currentEpoch?: number) => {
 
   return schema
     .transform(({ start_date, end_date, ...fields }) => ({
-      start_date: DateTime.fromISO(start_date).setZone(),
-      end_date: DateTime.fromISO(end_date).setZone(),
+      start_date: DateTime.fromISO(start_date)
+        .set(
+          Duration.fromISOTime(fields.start_time).toObject() as DateObjectUnits
+        )
+        .setZone(),
+      end_date: DateTime.fromISO(end_date)
+        .set(
+          Duration.fromISOTime(fields.start_time).toObject() as DateObjectUnits
+        )
+        .setZone(),
       ...fields,
     }))
     .transform(({ repeat_view, repeatStartDate, ...fields }) => {
@@ -177,7 +188,8 @@ const getZodParser = (source?: IEpochFormSource, currentEpoch?: number) => {
         const { nextStartDate, nextEndDate } = getNextRepeatingDates(
           fields.repeat,
           fields.weekDay,
-          repeatStartDate
+          repeatStartDate,
+          currentEpoch
         );
         return {
           repeat_view,
@@ -197,7 +209,7 @@ const getZodParser = (source?: IEpochFormSource, currentEpoch?: number) => {
       ({ start_date }) => {
         return (
           start_date > DateTime.now().setZone() ||
-          (currentEpoch && source?.epoch?.id === currentEpoch)
+          (currentEpoch && source?.epoch?.id === currentEpoch.id)
         );
       },
       {
@@ -308,7 +320,8 @@ const EpochForm = ({
       repeatStartDate: getMonthStartDates(
         source?.epoch?.start_date
           ? DateTime.fromISO(source.epoch.start_date).day.toString()
-          : ((DateTime.now().day + 1) % 32 || 1).toString()
+          : ((DateTime.now().day + 1) % 32 || 1).toString(),
+        currentEpoch
       )[0].value,
       repeat:
         typeof source?.epoch?.repeat === 'number'
@@ -357,7 +370,7 @@ const EpochForm = ({
 
   const validateState = (data: Partial<epochFormSchema>) => {
     const value: SafeParseReturnType<epochFormSchema, epochSubmissionSchema> =
-      getZodParser(source, currentEpoch?.id).safeParse(data);
+      getZodParser(source, currentEpoch).safeParse(data);
 
     if (!value.success) {
       extraErrors.current = true;
@@ -387,10 +400,10 @@ const EpochForm = ({
         start_time,
         end_date,
       } = data;
-      if (name === 'dayOfMonth' && type === 'change') {
+      if (name === 'dayOfMonth' && type === 'change' && dayOfMonth) {
         setValue(
           'repeatStartDate',
-          getMonthStartDates(dayOfMonth || '1')[0].value
+          getMonthStartDates(dayOfMonth, currentEpoch)[0].value
         );
       }
 
@@ -399,7 +412,8 @@ const EpochForm = ({
           const { nextStartDate, nextEndDate } = getNextRepeatingDates(
             repeat,
             weekDay,
-            repeatStartDate
+            repeatStartDate,
+            currentEpoch
           );
           setEpochConfig({
             start_date: nextStartDate,
@@ -478,7 +492,10 @@ const EpochForm = ({
     [selectedEpoch, currentEpoch]
   );
 
-  const monthStartDates = getMonthStartDates(getValues('dayOfMonth'));
+  const monthStartDates = getMonthStartDates(
+    getValues('dayOfMonth'),
+    currentEpoch
+  );
   return (
     <Form>
       <Panel css={{ mb: '$md', p: '$md' }}>
@@ -898,17 +915,22 @@ const getSuffix = (day: number) => {
   }
 };
 
-const getMonthStartDates = (day: string) =>
+const getMonthStartDates = (
+  day: string,
+  activeEpoch?: { start_date: string; end_date: string }
+) =>
   Array(5)
     .fill(undefined)
     .map((_, idx) => {
       let monthDiff = idx;
-      const now = DateTime.now();
+      const next = activeEpoch
+        ? DateTime.fromISO(activeEpoch.end_date)
+        : DateTime.now();
       const monthDay = Number.parseInt(day);
-      if (DateTime.now().day >= monthDay) monthDiff += 1;
-      const nextDT = now.set({
+      if (next.day >= monthDay) monthDiff += 1;
+      const nextDT = next.set({
         day: monthDay,
-        month: now.month + monthDiff,
+        month: next.month + monthDiff,
         hour: 0,
         minute: 0,
         second: 0,
@@ -920,23 +942,32 @@ const getMonthStartDates = (day: string) =>
       };
     });
 
+const getWeekStartDates = (
+  weekDay: string,
+  activeEpoch?: { end_date: string }
+) => {
+  const weekday = Number.parseInt(weekDay);
+  const next = activeEpoch
+    ? DateTime.fromISO(activeEpoch.end_date)
+    : DateTime.now();
+  return next.weekday >= weekday
+    ? next.plus({ weeks: 1 }).set({ weekday })
+    : next.set({ weekday });
+};
+
 const getNextRepeatingDates = (
   repeat: Exclude<z.infer<typeof EpochRepeatEnum>, 'none'>,
   weekDay: string,
-  monthlyStartDate: string
+  monthlyStartDate: string,
+  activeEpoch?: { end_date: string }
 ): { nextStartDate: string; nextEndDate: string } => {
-  const now = DateTime.now();
-  const weekday = Number.parseInt(weekDay);
   let nextStartDate = DateTime.now();
   let nextEndDate = DateTime.now();
   if (repeat === 'monthly') {
     nextStartDate = DateTime.fromISO(monthlyStartDate).setZone();
     nextEndDate = nextStartDate.plus({ weeks: 2 });
   } else if (repeat === 'weekly') {
-    nextStartDate =
-      now.weekday >= weekday
-        ? now.plus({ weeks: 1 }).set({ weekday })
-        : now.set({ weekday });
+    nextStartDate = getWeekStartDates(weekDay, activeEpoch);
     nextEndDate = nextStartDate.plus({ weeks: 1 });
   }
   nextStartDate = nextStartDate.set({
@@ -957,4 +988,5 @@ const getNextRepeatingDates = (
     nextEndDate: nextEndDate.toISO(),
   };
 };
+
 export default EpochForm;
