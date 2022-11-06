@@ -39,4 +39,9 @@ export const argTypes = {
       disable: true,
     },
   },
+  ref: {
+    table: {
+      disable: true,
+    },
+  },
 };

@@ -3,7 +3,12 @@ module.exports = {
     {
       directory: '../src/ui',
       titlePrefix: 'Design System/Components/',
-      files: '**/*.stories.*',
+      files: '*/*.stories.*',
+    },
+    {
+      directory: '../src/ui',
+      titlePrefix: 'Design System/Components/',
+      files: '*.stories.*',
     },
     {
       directory: '../src/pages',
@@ -21,4 +26,7 @@ module.exports = {
     '@storybook/preset-create-react-app',
   ],
   staticDirs: ['../public'],
+  features: {
+    storyStoreV7: true,
+  },
 };
