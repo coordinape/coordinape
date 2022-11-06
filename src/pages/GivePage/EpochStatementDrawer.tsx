@@ -5,7 +5,6 @@ import { updateUser } from 'lib/gql/mutations';
 import debounce from 'lodash/debounce';
 import { useMutation, useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
-import sanitizeHtml from 'sanitize-html';
 
 import { ApeInfoTooltip } from '../../components';
 import { Check, X } from '../../icons/__generated';
@@ -199,7 +198,7 @@ export const EpochStatementDrawer = ({
               setShowMarkDown(false);
             }}
           >
-            <MarkdownPreview source={sanitizeHtml(statement)} />
+            <MarkdownPreview source={statement} skipHtml={false} />
           </Box>
         ) : (
           <TextArea
