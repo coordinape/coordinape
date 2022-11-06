@@ -3,20 +3,12 @@ import React, { useCallback, useState } from 'react';
 import { updateUser } from 'lib/gql/mutations';
 import debounce from 'lodash/debounce';
 import { useMutation, useQuery } from 'react-query';
+import { NavLink } from 'react-router-dom';
 
 import { ApeInfoTooltip } from '../../components';
 import { Check, X } from '../../icons/__generated';
-import {
-  Avatar,
-  Box,
-  Button,
-  Flex,
-  AppLink,
-  Text,
-  TextArea,
-  ToggleButton,
-} from '../../ui';
 import { paths } from 'routes/paths';
+import { Avatar, Box, Button, Flex, Text, TextArea, ToggleButton } from 'ui';
 import { SaveState, SavingIndicator } from 'ui/SavingIndicator';
 
 import { Member } from './';
@@ -26,6 +18,8 @@ import { getContributionsForEpoch } from './queries';
 import { IMyUser } from 'types';
 
 const DEBOUNCE_TIMEOUT = 1000;
+
+export const QUERY_KEY_ALLOCATE_CONTRIBUTIONS = 'allocate-contributions';
 
 type StatementDrawerProps = {
   myUser: IMyUser;
@@ -55,7 +49,7 @@ export const EpochStatementDrawer = ({
 }: StatementDrawerProps) => {
   // fetch the contributions for this particular member
   const { data: contributions } = useQuery(
-    ['allocate-contributions', member.id],
+    [QUERY_KEY_ALLOCATE_CONTRIBUTIONS, member.id],
     () =>
       getContributionsForEpoch({
         circleId: member.circle_id,
@@ -191,6 +185,7 @@ export const EpochStatementDrawer = ({
           Epoch Statement
         </Text>
         <TextArea
+          autoSize
           css={{
             backgroundColor: 'white',
             width: '100%',
@@ -200,6 +195,8 @@ export const EpochStatementDrawer = ({
           value={statement}
           onChange={e => statementChanged(e.target.value)}
           placeholder="Summarize your Contributions"
+          // eslint-disable-next-line jsx-a11y/no-autofocus
+          autoFocus={true}
         />
         <Flex
           css={{ justifyContent: 'flex-end', alignItems: 'center', mt: '$sm' }}
@@ -225,14 +222,18 @@ export const EpochStatementDrawer = ({
             Contributions
           </Text>
           {contributions && contributions?.length == 0 && (
-            <AppLink to={paths.contributions(member.circle_id)}>
-              <Button outlined size="small" color="primary">
-                Add Contribution
-              </Button>
-            </AppLink>
+            <Button
+              as={NavLink}
+              to={paths.contributions(member.circle_id)}
+              outlined
+              size="small"
+              color="primary"
+            >
+              Add Contribution
+            </Button>
           )}
         </Flex>
-        <Box css={{ pb: '$lg', mt: '$sm' }}>
+        <Box css={{ pb: '$lg' }}>
           {!contributions && (
             // TODO: Better loading indicator here -g
             <Box>Loading...</Box>

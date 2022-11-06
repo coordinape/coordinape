@@ -50,7 +50,7 @@ export const RemoveCircleModal = ({
   if (isLoading) return <LoadingModal visible />;
 
   return (
-    <Modal onClose={onClose} open={visible}>
+    <Modal onOpenChange={onClose} open={visible}>
       <Flex column css={{ gap: '$xl' }}>
         <Text h2 bold>
           Remove Circle?

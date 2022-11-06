@@ -190,9 +190,8 @@ const VaultsPage = () => {
         <Modal
           drawer
           showClose={!saving}
-          onClose={closeModal}
           open={modal}
-          onOpenChange={setModal}
+          onOpenChange={closeModal}
           title="Create New Vault"
         >
           <CreateForm

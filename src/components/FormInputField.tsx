@@ -111,6 +111,7 @@ export const FormInputField = <TFieldValues extends FieldValues>(
       {textArea && (
         <TextArea
           {...field}
+          autoSize
           css={{
             width: '100%',
             fontWeight: '$normal',

@@ -1,6 +1,6 @@
 import { styled } from '../../stitches.config';
 
-export const FormLabel = styled('label', {
+const COMPOSERS = {
   variants: {
     type: {
       textField: {
@@ -27,6 +27,10 @@ export const FormLabel = styled('label', {
       },
     },
   },
-});
+};
+
+export const FormLabel = styled('label', COMPOSERS);
+
+export type FormLabelVariant = keyof typeof COMPOSERS['variants']['type'];
 
 export default FormLabel;

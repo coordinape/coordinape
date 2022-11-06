@@ -296,7 +296,7 @@ export const HistoryPage = () => {
       )}
       <Modal
         open={!!epochToDelete}
-        onClose={() => setEpochToDelete(undefined)}
+        onOpenChange={() => setEpochToDelete(undefined)}
         title={`Remove Epoch ${
           epochToDelete?.number ? epochToDelete.number : ''
         }`}
