@@ -51,8 +51,7 @@ export const useApiAdminCircle = (circleId: number) => {
           next: Omit<ValueTypes['CreateEpochInput'], 'circle_id'>;
         }
       ) => {
-        await mutations.updateEpoch(circleId, epochId, params.current);
-        await mutations.createEpoch({ circle_id: circleId, ...params.next });
+        await mutations.updateActiveRepeatingEpoch(circleId, epochId, params);
         await fetchCircle({ circleId });
       },
     [circleId],
