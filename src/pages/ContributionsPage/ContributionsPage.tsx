@@ -28,7 +28,7 @@ import {
   Edit,
 } from 'icons/__generated';
 import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
-import { Panel, Text, Box, Modal, Button, Flex,MarkdownPreview  } from 'ui';
+import { Panel, Text, Box, Modal, Button, Flex, MarkdownPreview } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { SavingIndicator, SaveState } from 'ui/SavingIndicator';
 
@@ -444,22 +444,18 @@ const ContributionsPage = () => {
             </Button>
           )}
         </Flex>
-        <Box
-          css={{
-            justifyContent: 'space-between',
-            alignItems: 'flex-end',
-            flexWrap: 'wrap',
-            gap: '$md',
-          }}
-        >
+        <Box>
           {!editHelpText ? (
-            <p>
-              {data?.circles_by_pk?.team_sel_text ??
-                'What have you been working on?'}
-            </p>
-          {(memoizedEpochData.contributions || []).length >= 0 && (
-          <ContributionIntro />
-        )}
+            <>
+              <Text p>
+                {data?.circles_by_pk?.team_sel_text ??
+                  'What have you been working on?'}
+              </Text>
+
+              {(memoizedEpochData.contributions || []).length >= 0 && (
+                <ContributionIntro />
+              )}
+            </>
           ) : (
             <FormInputField
               name="team_sel_text"
@@ -820,7 +816,13 @@ const EpochGroup = React.memo(function EpochGroup({
       {epochs.map((epoch, idx, epochArray) => (
         <Box key={epoch.id}>
           <Box>
-            <Flex css={{ justifyContent: 'space-between' }}>
+            <Flex
+              css={{
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                gap: '$md',
+              }}
+            >
               <Text h2 bold css={{ gap: '$md' }}>
                 {epoch.id === 0 ? 'Latest' : renderEpochDate(epoch)}
                 {getEpochLabel(epoch)}
