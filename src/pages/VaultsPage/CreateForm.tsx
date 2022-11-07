@@ -182,8 +182,8 @@ export const CreateForm = ({
       css={{ display: 'flex', flexDirection: 'column' }}
     >
       <Panel
-        invertForm={activeVaultPanel === 'simple'}
-        nested={activeVaultPanel !== 'simple'}
+        invertForm={activeVaultPanel !== 'simple'}
+        nested={activeVaultPanel === 'simple'}
         css={{ gap: '$md' }}
       >
         <Text h3>CoVault</Text>
@@ -247,8 +247,8 @@ export const CreateForm = ({
       </Panel>
       <HR />
       <Panel
-        invertForm={activeVaultPanel === 'yearn'}
-        nested={activeVaultPanel !== 'yearn'}
+        invertForm={activeVaultPanel !== 'yearn'}
+        nested={activeVaultPanel === 'yearn'}
         css={{ gap: '$md' }}
       >
         <Text h3>Yield-Generating CoVault</Text>

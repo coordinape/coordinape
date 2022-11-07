@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: circle_api_keys
+  schema: public
 object_relationships:
   - name: circle
     using:
@@ -36,6 +36,7 @@ select_permissions:
 delete_permissions:
   - role: user
     permission:
+      backend_only: false
       filter:
         circle:
           users:

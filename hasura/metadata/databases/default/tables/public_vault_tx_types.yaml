@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: vault_tx_types
+  schema: public
 is_enum: true
 array_relationships:
   - name: vault_transactions
@@ -8,8 +8,8 @@ array_relationships:
       foreign_key_constraint_on:
         column: tx_type
         table:
-          schema: public
           name: vault_transactions
+          schema: public
 select_permissions:
   - role: api-user
     permission:

@@ -1,44 +1,44 @@
 table:
-  schema: public
   name: nominees
+  schema: public
 object_relationships:
   - name: circle
     using:
       manual_configuration:
-        remote_table:
-          schema: public
-          name: circles
-        insertion_order: null
         column_mapping:
           circle_id: id
+        insertion_order: null
+        remote_table:
+          name: circles
+          schema: public
   - name: nominator
     using:
       manual_configuration:
-        remote_table:
-          schema: public
-          name: users
-        insertion_order: null
         column_mapping:
           nominated_by_user_id: id
+        insertion_order: null
+        remote_table:
+          name: users
+          schema: public
   - name: user
     using:
       manual_configuration:
-        remote_table:
-          schema: public
-          name: users
-        insertion_order: null
         column_mapping:
           user_id: id
+        insertion_order: null
+        remote_table:
+          name: users
+          schema: public
 array_relationships:
   - name: nominations
     using:
       manual_configuration:
-        remote_table:
-          schema: public
-          name: vouches
-        insertion_order: null
         column_mapping:
           id: nominee_id
+        insertion_order: null
+        remote_table:
+          name: vouches
+          schema: public
 select_permissions:
   - role: api-user
     permission:
@@ -98,8 +98,8 @@ event_triggers:
         columns:
           - ended
     retry_conf:
-      num_retries: 5
       interval_sec: 3600
+      num_retries: 5
       timeout_sec: 60
     webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
     headers:
@@ -112,8 +112,8 @@ event_triggers:
         columns:
           - ended
     retry_conf:
-      num_retries: 5
       interval_sec: 3600
+      num_retries: 5
       timeout_sec: 60
     webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
     headers:
@@ -125,8 +125,8 @@ event_triggers:
       insert:
         columns: '*'
     retry_conf:
-      num_retries: 5
       interval_sec: 10
+      num_retries: 5
       timeout_sec: 60
     webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
     headers:
@@ -138,8 +138,8 @@ event_triggers:
       insert:
         columns: '*'
     retry_conf:
-      num_retries: 5
       interval_sec: 10
+      num_retries: 5
       timeout_sec: 60
     webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
     headers:
@@ -151,8 +151,8 @@ event_triggers:
       insert:
         columns: '*'
     retry_conf:
-      num_retries: 5
       interval_sec: 10
+      num_retries: 5
       timeout_sec: 60
     webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
     headers:
