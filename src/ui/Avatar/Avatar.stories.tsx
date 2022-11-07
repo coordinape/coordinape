@@ -41,5 +41,5 @@ const Template: ComponentStory<typeof AvatarComponent> = args => (
 export const Avatar = Template.bind({});
 Avatar.args = {
   name: 'foo',
-  path: 'https://i.pravatar.cc/300',
+  path: '../imgs/avatar/placeholder.jpg',
 };
