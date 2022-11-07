@@ -13,6 +13,7 @@ import recoverTransactions from '../api/hasura/cron/recoverTransactions';
 import eventManager from '../api/hasura/event_triggers/eventManager';
 import login from '../api/login';
 import time from '../api/time';
+import pgive from '../api/pgive';
 
 const app = express();
 app.use(express.json({ limit: '10mb' })); // for parsing application/json
@@ -47,6 +48,8 @@ app.post('/api/hasura/cron/epochs', tf(epochs));
 app.post('/api/hasura/cron/recoverTransactions', tf(recoverTransactions));
 app.post('/api/login', tf(login));
 app.get('/api/time', tf(time));
+app.get('/api/pgive', tf(pgive));
+
 
 // return empty analytics code
 app.get('/stats/js/script.js', (req, res) => {
