@@ -222,7 +222,9 @@ type getCircleGiftsResult = Awaited<ReturnType<typeof getCircleGifts>>;
 const getCircleGifts = async () => {
   const { circles } = await adminClient.query({
     circles: [
-      {},
+      {
+        limit: 50,
+      },
       {
         id: true,
         name: true,
