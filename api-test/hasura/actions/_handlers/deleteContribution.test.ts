@@ -1,13 +1,13 @@
 import assert from 'assert';
 
-import { adminClient } from '../../api-lib/gql/adminClient';
+import { adminClient } from '../../../../api-lib/gql/adminClient';
 import {
   createCircle,
   createProfile,
   createUser,
   mockUserClient,
-} from '../helpers';
-import { getUniqueAddress } from '../helpers/getUniqueAddress';
+} from '../../../helpers';
+import { getUniqueAddress } from '../../../helpers/getUniqueAddress';
 
 let address, profile, circle, user;
 
