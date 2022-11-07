@@ -132,7 +132,7 @@ export function DistributionsPage() {
       });
       return {
         id: user.id,
-        name: user.name,
+        name: user.profile?.name ?? user.name,
         address: user.address,
         fixedPaymentAmount: user.fixed_payment_amount ?? 0,
         fixedPaymentClaimed: fixedPayment,
