@@ -23,6 +23,7 @@ const generateUser = (): User => ({
 
 const headers: string[] = ['userId', 'firstName', 'lastName', 'jobTitle'];
 
+faker.seed(1);
 const data = Array.from({ length: 8 }).map(generateUser);
 
 const Template: ComponentStory<typeof TableComponent> = args => (
