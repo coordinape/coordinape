@@ -64,6 +64,7 @@ export const navLinkStyle = {
     position: 'unset',
     color: '$text',
     fontWeight: 'normal',
+    p: '$xs 0',
     '&:hover': {
       color: '$black',
       '&::after': {
@@ -71,7 +72,8 @@ export const navLinkStyle = {
       },
     },
     '&.active': {
-      color: '$alert',
+      background: 'none',
+      fontWeight: 'normal',
       '&::after': {
         content: 'none',
       },

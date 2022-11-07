@@ -1,13 +1,14 @@
 import { Suspense, useEffect, useState } from 'react';
 
+import { useNavigate } from 'react-router';
 import { NavLink, useLocation } from 'react-router-dom';
 
 import isFeatureEnabled from 'config/features';
 import { useWalletStatus } from 'hooks/login';
-import { X, Menu } from 'icons/__generated';
+import { X, Menu, ChevronRight } from 'icons/__generated';
 import { useMyProfile } from 'recoilState/app';
 import { paths } from 'routes/paths';
-import { Box, IconButton, Link, Image, Avatar } from 'ui';
+import { Box, IconButton, Link, Image, Avatar, Text, Flex } from 'ui';
 import { shortenAddress } from 'utils';
 
 import { CircleNav } from './CircleNav';
@@ -19,15 +20,17 @@ const mainLinks = [
 ].filter(x => x) as [string, string][];
 
 export const MobileHeader = ({
-  breadcrumb,
+  circle,
   inCircle,
 }: {
-  breadcrumb: string;
+  circle: any;
   inCircle: boolean;
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const { icon, address, logout } = useWalletStatus();
+  const org = inCircle ? circle.organization : null;
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -83,29 +86,64 @@ export const MobileHeader = ({
               pb: '$2xl',
             }}
           >
-            <Box css={{ pb: '$md' }}>
+            <Box css={{ p: '$md' }}>
               <TopLevelLinks links={mainLinks} />
               {inCircle && (
-                <>
-                  <Box
-                    css={{
-                      margin: 0,
-                      marginLeft: '1rem',
-                      color: '$secondaryText',
-                    }}
-                  >
-                    {breadcrumb}
-                  </Box>
+                <Flex
+                  column
+                  css={{
+                    gap: '$sm',
+                    borderTop: '1px solid $border',
+                    mt: '$md',
+                    pt: '$md',
+                  }}
+                >
+                  <Flex alignItems="center" css={{ gap: '$sm' }}>
+                    <Link
+                      css={{ display: 'flex', gap: '$sm' }}
+                      key={circle.id}
+                      type="menu"
+                      onClick={() => {
+                        navigate(paths.organization(org.id.toString()));
+                      }}
+                    >
+                      <Avatar path={org?.logo} size="xs" name={org.name} />
+                      <Text semibold h3>
+                        {org.name}
+                      </Text>
+                    </Link>
+                    <ChevronRight color="neutral" />
+                    <Link
+                      css={{ display: 'flex', gap: '$sm' }}
+                      key={circle.id}
+                      type="menu"
+                      onClick={() => {
+                        navigate(paths.history(circle.id));
+                      }}
+                    >
+                      <Avatar
+                        path={circle?.logo}
+                        size="xs"
+                        name={circle.name}
+                      />
+                      <Text semibold h3>
+                        {circle.name}
+                      </Text>
+                    </Link>
+                  </Flex>
                   <Suspense fallback={<span />}>
                     <CircleNav />
                   </Suspense>
-                </>
+                </Flex>
               )}
-              <Box
+              <Flex
+                column
                 css={{
+                  borderTop: '1px solid $border',
+                  mt: '$md',
+                  pt: '$md',
+                  gap: '$sm',
                   '> *': {
-                    mx: '$md',
-                    py: '$xs',
                     fontSize: '$large',
                     color: '$text',
                   },
@@ -116,7 +154,7 @@ export const MobileHeader = ({
                   to={paths.profile('me')}
                   css={{ display: 'flex', alignItems: 'center', gap: '$sm' }}
                 >
-                  <Box
+                  <Flex
                     css={{
                       width: '$lg',
                       height: '$lg',
@@ -127,34 +165,53 @@ export const MobileHeader = ({
                     }}
                   >
                     <MobileAvatar />
-                  </Box>
-                  My Profile
+                  </Flex>
+                  Profile
                 </Link>
-                <Box
-                  css={{ display: 'flex', alignItems: 'center', gap: '$sm' }}
-                >
-                  <Box
-                    css={{
-                      display: 'flex',
-                      width: '$lg',
-                      height: '$lg',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    {icon}
-                  </Box>
-                  {address && shortenAddress(address)}
-                </Box>
-                {address && (
-                  <Link
-                    css={{ cursor: 'pointer', display: 'block' }}
-                    onClick={logout}
-                  >
-                    Log Out
+                <Link type="menu" as={NavLink} to={paths.circles}>
+                  Circles
+                </Link>
+                {isFeatureEnabled('vaults') && (
+                  <Link type="menu" as={NavLink} to={paths.claims}>
+                    Claims
                   </Link>
                 )}
-              </Box>
+                <Flex
+                  column
+                  css={{
+                    borderTop: '1px solid $border',
+                    mt: '$sm',
+                    pt: '$md',
+                    gap: '$sm',
+                    '> *': {
+                      fontSize: '$large',
+                      color: '$text',
+                    },
+                  }}
+                >
+                  <Flex css={{ alignItems: 'center', gap: '$sm' }}>
+                    <Flex
+                      css={{
+                        width: '$lg',
+                        height: '$lg',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      {icon}
+                    </Flex>
+                    {address && shortenAddress(address)}
+                  </Flex>
+                  {address && (
+                    <Link
+                      css={{ cursor: 'pointer', display: 'block' }}
+                      onClick={logout}
+                    >
+                      Disconnect
+                    </Link>
+                  )}
+                </Flex>
+              </Flex>
             </Box>
           </Box>
         </Box>

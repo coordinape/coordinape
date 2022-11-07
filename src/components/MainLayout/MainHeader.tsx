@@ -20,14 +20,11 @@ export const MainHeader = () => {
   const { circle } = useRecoilValueLoadable(rSelectedCircle).valueMaybe() || {};
   const location = useLocation();
   const inCircle = !!(circle && isCircleSpecificPath(location));
-  const breadcrumb = inCircle
-    ? `${circle.organization.name} > ${circle.name}`
-    : '';
 
   if (useMediaQuery(MediaQueryKeys.sm))
     return (
       <Suspense fallback={null}>
-        <MobileHeader inCircle={!!inCircle} breadcrumb={breadcrumb} />
+        <MobileHeader inCircle={!!inCircle} circle={circle} />
       </Suspense>
     );
 
