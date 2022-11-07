@@ -140,7 +140,7 @@ export type QueryFutureEpoch = Exclude<
 >['futureEpoch'][0];
 
 export interface IQueryEpoch extends QueryFutureEpoch {
-  repeatEnum: 'weekly' | 'monthly' | 'none';
+  repeatEnum: 'weekly' | 'monthly' | 'none' | 'bimonthly';
   startDate: DateTime;
   interval: Interval;
   // Calculated:

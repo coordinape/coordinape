@@ -200,7 +200,7 @@ export const createEpochInput = z
   .object({
     circle_id: z.number().int().positive(),
     start_date: zStringISODateUTC,
-    repeat: z.number().int().min(0).max(2),
+    repeat: z.number().int().min(0).max(3),
     days: z
       .number()
       .min(1, 'Must be at least one day.')
@@ -231,7 +231,7 @@ export const updateEpochInput = z
     id: z.number().int().positive(),
     circle_id: z.number().int().positive(),
     start_date: zStringISODateUTC,
-    repeat: z.number().int().min(0).max(2),
+    repeat: z.number().int().min(0).max(3),
     days: z
       .number()
       .min(1, 'Must be at least one day.')

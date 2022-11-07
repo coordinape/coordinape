@@ -25,6 +25,7 @@ import {
 import { IQueryEpoch, QueryFutureEpoch } from './getHistoryData';
 
 const longFormat = "DD 'at' HH:mm ZZZZ";
+const longFormatNoTz = "DD 'at' HH:mm";
 
 interface EpochConfig {
   start_date: string;
@@ -36,7 +37,7 @@ interface IEpochFormSource {
   epoch?: IQueryEpoch;
   epochs?: IQueryEpoch[];
 }
-const EpochRepeatEnum = z.enum(['none', 'monthly', 'weekly']);
+const EpochRepeatEnum = z.enum(['none', 'monthly', 'weekly', 'bimonthly']);
 type TEpochRepeatEnum = typeof EpochRepeatEnum['_type'];
 
 const submitSchema = z
@@ -86,7 +87,13 @@ const extraEpoch = (raw: QueryFutureEpoch): IQueryEpoch => {
   const calculatedDays = endDate.diff(startDate, 'days').days;
 
   const repeatEnum =
-    raw.repeat === 2 ? 'monthly' : raw.repeat === 1 ? 'weekly' : 'none';
+    raw.repeat === 3
+      ? 'bimonthly'
+      : raw.repeat === 2
+      ? 'monthly'
+      : raw.repeat === 1
+      ? 'weekly'
+      : 'none';
 
   return {
     ...raw,
@@ -250,7 +257,6 @@ const getZodParser = (
 type epochFormSchema = z.infer<typeof schema>;
 type epochSubmissionSchema = z.infer<typeof submitSchema>;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const repeat = [
   {
     label: 'Monthly',
@@ -259,6 +265,10 @@ const repeat = [
   {
     label: 'Weekly',
     value: 'weekly',
+  },
+  {
+    label: 'Twice a Month',
+    value: 'bimonthly',
   },
 ];
 
@@ -327,6 +337,8 @@ const EpochForm = ({
         typeof source?.epoch?.repeat === 'number'
           ? source.epoch?.repeat === 1
             ? 'weekly'
+            : source.epoch.repeat === 3
+            ? 'bimonthly'
             : 'monthly'
           : 'monthly',
       dayOfMonth: source?.epoch?.start_date
@@ -461,6 +473,8 @@ const EpochForm = ({
           ? 1
           : epochConfig.repeat === 'monthly'
           ? 2
+          : epochConfig.repeat === 'bimonthly'
+          ? 3
           : 0,
     };
 
@@ -706,7 +720,8 @@ const EpochForm = ({
                 <Flex
                   css={{
                     gap: '$xs',
-                    display: getValues('repeat') == 'monthly' ? 'flex' : 'none',
+                    display:
+                      getValues('repeat') === 'monthly' ? 'flex' : 'none',
                   }}
                 >
                   <Controller
@@ -762,7 +777,9 @@ const EpochForm = ({
                     alignItems: 'flex-start',
                     maxWidth: '280px',
                     gap: '$xs',
-                    display: getValues('repeat') == 'monthly' ? 'none' : 'flex',
+                    display: getValues('repeat').includes('monthly')
+                      ? 'none'
+                      : 'flex',
                   }}
                 >
                   <Controller
@@ -788,7 +805,7 @@ const EpochForm = ({
                           value: (idx + 1).toString(),
                         }))}
                         id="start_date"
-                        label="start_date"
+                        label="day of week"
                       />
                     )}
                   />
@@ -825,45 +842,67 @@ const epochsPreview = (value: EpochConfig) => {
     <Flex css={{ flexDirection: 'column', gap: '$xs' }}>
       <Text variant="label">Preview</Text>
       <EpochSummary value={value} />
-      <Text bold css={{ mt: '$sm' }}>
+      <Text bold css={{ mt: '$lg' }}>
         Epoch 1
       </Text>
       <Text>
         {epochStart.toFormat('ccc LLL d')} - {epochEnd.toFormat('ccc LLL d')}
       </Text>
-      {(value.repeat === 'weekly' || value.repeat === 'monthly') && (
+      {(value.repeat === 'weekly' || value.repeat.includes('monthly')) && (
         <>
           <Text bold css={{ mt: '$sm' }}>
             Epoch 2
           </Text>
           <Text>
-            {epochStart
-              .plus(value.repeat === 'monthly' ? { months: 1 } : { weeks: 1 })
-              .toFormat('ccc LLL d')}{' '}
+            {value.repeat === 'bimonthly'
+              ? epochEnd.toFormat('ccc LLL d')
+              : epochStart
+                  .plus(
+                    value.repeat === 'monthly'
+                      ? { months: 1 }
+                      : value.repeat === 'weekly'
+                      ? { weeks: 1 }
+                      : {}
+                  )
+                  .toFormat('ccc LLL d')}{' '}
             -{' '}
-            {epochEnd
-              .plus(value.repeat === 'monthly' ? { months: 1 } : { weeks: 1 })
-              .toFormat('ccc LLL d')}
+            {value.repeat === 'bimonthly'
+              ? epochStart.plus({ months: 1 }).toFormat('ccc LLL d')
+              : epochEnd
+                  .plus(
+                    value.repeat === 'monthly' ? { months: 1 } : { weeks: 1 }
+                  )
+                  .toFormat('ccc LLL d')}
           </Text>
           <Text bold css={{ mt: '$sm' }}>
             Epoch 3
           </Text>
           <Text>
-            {epochStart
-              .plus(value.repeat === 'monthly' ? { months: 2 } : { weeks: 2 })
-              .toFormat('ccc LLL d')}{' '}
+            {value.repeat === 'bimonthly'
+              ? epochStart.plus({ months: 1 }).toFormat('ccc LLL d')
+              : epochStart
+                  .plus(
+                    value.repeat === 'monthly' ? { months: 2 } : { weeks: 2 }
+                  )
+                  .toFormat('ccc LLL d')}{' '}
             -{' '}
-            {epochEnd
-              .plus(value.repeat === 'monthly' ? { months: 2 } : { weeks: 2 })
-              .toFormat('ccc LLL d')}
+            {value.repeat === 'bimonthly'
+              ? epochEnd.plus({ months: 1 }).toFormat('ccc LLL d')
+              : epochEnd
+                  .plus(
+                    value.repeat === 'monthly' ? { months: 2 } : { weeks: 2 }
+                  )
+                  .toFormat('ccc LLL d')}
           </Text>
         </>
       )}
-      <Text css={{ mt: '$sm' }}>
-        {value.repeat === 'monthly'
-          ? 'Repeats monthly'
+      <Text bold css={{ mt: '$lg' }}>
+        {value.repeat === 'bimonthly'
+          ? 'Repeats Twice a Month'
+          : value.repeat === 'monthly'
+          ? 'Repeats Every Month'
           : value.repeat === 'weekly'
-          ? 'Repeats weekly'
+          ? 'Repeats Every Week'
           : ''}
       </Text>
     </Flex>
@@ -878,6 +917,8 @@ const getRepeat = (value: EpochConfig) => {
       ? `Every ${getSuffix(startDate.day)} of the month`
       : value.repeat === 'weekly'
       ? `Every ${startDate.weekdayLong}`
+      : value.repeat === 'bimonthly'
+      ? '1st & 15th of Each Month'
       : "The epoch doesn't repeat.";
 
   return repeating;
@@ -886,7 +927,7 @@ const getRepeat = (value: EpochConfig) => {
 const EpochSummary = ({ value }: { value: EpochConfig }) => {
   const startDate = DateTime.fromISO(value.start_date)
     .setZone()
-    .toFormat(longFormat);
+    .toFormat(longFormatNoTz);
   const endDate = DateTime.fromISO(value.end_date)
     .setZone()
     .toFormat(longFormat);
@@ -894,7 +935,10 @@ const EpochSummary = ({ value }: { value: EpochConfig }) => {
   return (
     <>
       <Text bold>This Epoch Period</Text>
-      {startDate} <Text bold>to</Text> {endDate}
+      <Flex css={{ gap: '$sm' }}>
+        {startDate + ' '} <Text bold>to</Text>
+      </Flex>{' '}
+      {endDate}
     </>
   );
 };
@@ -955,6 +999,24 @@ const getWeekStartDates = (
     : next.set({ weekday });
 };
 
+const getBimonthlyStartDates = (activeEpoch?: {
+  end_date: string;
+}): { nextStartDate: DateTime; nextEndDate: DateTime } => {
+  const next = activeEpoch
+    ? DateTime.fromISO(activeEpoch.end_date)
+    : DateTime.now();
+  if (next.day >= 15)
+    return {
+      nextStartDate: next.plus({ months: 1 }).set({ day: 1 }),
+      nextEndDate: next.plus({ months: 1 }).set({ day: 15 }),
+    };
+
+  return {
+    nextStartDate: next.set({ day: 15 }),
+    nextEndDate: next.set({ day: next.daysInMonth + 1 }),
+  };
+};
+
 const getNextRepeatingDates = (
   repeat: Exclude<z.infer<typeof EpochRepeatEnum>, 'none'>,
   weekDay: string,
@@ -965,10 +1027,14 @@ const getNextRepeatingDates = (
   let nextEndDate = DateTime.now();
   if (repeat === 'monthly') {
     nextStartDate = DateTime.fromISO(monthlyStartDate).setZone();
-    nextEndDate = nextStartDate.plus({ weeks: 2 });
+    nextEndDate = nextStartDate.plus({ months: 1 });
   } else if (repeat === 'weekly') {
     nextStartDate = getWeekStartDates(weekDay, activeEpoch);
     nextEndDate = nextStartDate.plus({ weeks: 1 });
+  } else if (repeat === 'bimonthly') {
+    const bimonthlyResult = getBimonthlyStartDates(activeEpoch);
+    nextStartDate = bimonthlyResult.nextStartDate;
+    nextEndDate = bimonthlyResult.nextEndDate;
   }
   nextStartDate = nextStartDate.set({
     hour: 0,
