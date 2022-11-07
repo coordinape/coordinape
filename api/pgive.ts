@@ -223,7 +223,7 @@ const getCircleGifts = async () => {
   const { circles } = await adminClient.query({
     circles: [
       {
-        limit: 50,
+        limit: 1000,
       },
       {
         id: true,
