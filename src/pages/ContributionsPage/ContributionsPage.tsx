@@ -459,25 +459,51 @@ const ContributionsPage = () => {
                 >
                   <ChevronDown size="lg" />
                 </Button>
+                <Button
+                  outlined
+                  color="destructive"
+                  size="small"
+                  disabled={!currentContribution.contribution.id}
+                  onClick={() => {
+                    handleDebouncedDescriptionChange.cancel();
+                    deleteContribution({
+                      contribution_id: currentContribution.contribution.id,
+                    });
+                  }}
+                >
+                  Delete
+                </Button>
               </Flex>
               <Flex
                 alignItems="center"
                 css={{
                   my: '$xl',
+                  justifyContent: 'space-between',
                 }}
               >
-                <Text
-                  h3
-                  semibold
-                  css={{
-                    mr: '$md',
-                  }}
-                >
-                  {currentContribution.epoch.id
-                    ? renderEpochDate(currentContribution.epoch)
-                    : 'Latest'}
-                </Text>
-                {getEpochLabel(currentContribution.epoch)}
+                <Flex>
+                  <Text
+                    h3
+                    semibold
+                    css={{
+                      mr: '$md',
+                    }}
+                  >
+                    {currentContribution.epoch.id
+                      ? renderEpochDate(currentContribution.epoch)
+                      : 'Latest'}
+                  </Text>
+                  {getEpochLabel(currentContribution.epoch)}
+                </Flex>
+                {isEpochCurrentOrLater(currentContribution.epoch) && (
+                  <SavingIndicator
+                    saveState={saveState[currentContribution.contribution.id]}
+                    retry={() => {
+                      saveContribution(descriptionField.value);
+                      refetchContributions();
+                    }}
+                  />
+                )}
               </Flex>
               <Flex column css={{ gap: '$sm' }}>
                 <Flex
@@ -532,36 +558,6 @@ const ContributionsPage = () => {
                       {currentContribution.contribution.description}
                     </Text>
                   </Panel>
-                )}
-                {isEpochCurrentOrLater(currentContribution.epoch) && (
-                  <Flex
-                    css={{
-                      justifyContent: 'space-between',
-                      mt: '$sm',
-                    }}
-                  >
-                    <Button
-                      outlined
-                      color="destructive"
-                      size="small"
-                      disabled={!currentContribution.contribution.id}
-                      onClick={() => {
-                        handleDebouncedDescriptionChange.cancel();
-                        deleteContribution({
-                          contribution_id: currentContribution.contribution.id,
-                        });
-                      }}
-                    >
-                      Delete
-                    </Button>
-                    <SavingIndicator
-                      saveState={saveState[currentContribution.contribution.id]}
-                      retry={() => {
-                        saveContribution(descriptionField.value);
-                        refetchContributions();
-                      }}
-                    />
-                  </Flex>
                 )}
               </Flex>
             </>
