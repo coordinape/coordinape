@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import MarkdownPreview from '@uiw/react-markdown-preview';
 import { updateUser } from 'lib/gql/mutations';
 import debounce from 'lodash/debounce';
 import { useMutation, useQuery } from 'react-query';
@@ -9,7 +8,16 @@ import { NavLink } from 'react-router-dom';
 import { ApeInfoTooltip } from '../../components';
 import { Check, X } from '../../icons/__generated';
 import { paths } from 'routes/paths';
-import { Avatar, Box, Button, Flex, Text, TextArea, ToggleButton } from 'ui';
+import {
+  Avatar,
+  Box,
+  Button,
+  Flex,
+  Text,
+  TextArea,
+  ToggleButton,
+  MarkdownPreview,
+} from 'ui';
 import { SaveState, SavingIndicator } from 'ui/SavingIndicator';
 
 import { Member } from './';
@@ -198,7 +206,7 @@ export const EpochStatementDrawer = ({
               setShowMarkDown(false);
             }}
           >
-            <MarkdownPreview source={statement} skipHtml={false} />
+            <MarkdownPreview source={statement} />
           </Box>
         ) : (
           <TextArea
