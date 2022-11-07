@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: vaults
+  schema: public
 object_relationships:
   - name: organization
     using:
@@ -14,25 +14,25 @@ array_relationships:
       foreign_key_constraint_on:
         column: vault_id
         table:
-          schema: public
           name: distributions
+          schema: public
   - name: vault_transactions
     using:
       foreign_key_constraint_on:
         column: vault_id
         table:
-          schema: public
           name: vault_transactions
+          schema: public
 remote_relationships:
   - definition:
+      hasura_fields:
+        - token_address
+        - chain_id
       remote_field:
         price_per_share:
           arguments:
             chain_id: $chain_id
             token_address: $token_address
-      hasura_fields:
-        - chain_id
-        - token_address
       remote_schema: vaults
     name: price_per_share
 select_permissions:

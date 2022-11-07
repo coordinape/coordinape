@@ -13,9 +13,9 @@
   payload: {}
   retry_conf:
     num_retries: 0
+    retry_interval_seconds: 10
     timeout_seconds: 1200
     tolerance_seconds: 21600
-    retry_interval_seconds: 10
   headers:
     - name: verification_key
       value_from_env: HASURA_EVENT_SECRET
@@ -26,9 +26,9 @@
   payload: {}
   retry_conf:
     num_retries: 0
+    retry_interval_seconds: 10
     timeout_seconds: 240
     tolerance_seconds: 21600
-    retry_interval_seconds: 10
   headers:
     - name: verification_key
       value_from_env: HASURA_EVENT_SECRET

@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: distributions
+  schema: public
 object_relationships:
   - name: epoch
     using:
@@ -17,15 +17,15 @@ array_relationships:
       foreign_key_constraint_on:
         column: distribution_id
         table:
-          schema: public
           name: claims
+          schema: public
   - name: vault_transactions
     using:
       foreign_key_constraint_on:
         column: distribution_id
         table:
-          schema: public
           name: vault_transactions
+          schema: public
 insert_permissions:
   - role: user
     permission:
@@ -48,7 +48,6 @@ insert_permissions:
         - merkle_root
         - total_amount
         - vault_id
-      backend_only: false
 select_permissions:
   - role: user
     permission:

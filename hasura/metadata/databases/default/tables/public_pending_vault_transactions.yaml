@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: pending_vault_transactions
+  schema: public
 object_relationships:
   - name: distribution
     using:
@@ -44,7 +44,6 @@ insert_permissions:
         - org_id
         - tx_hash
         - tx_type
-      backend_only: false
 select_permissions:
   - role: user
     permission:
@@ -62,6 +61,7 @@ select_permissions:
 delete_permissions:
   - role: user
     permission:
+      backend_only: false
       filter:
         created_by:
           _eq: X-Hasura-User-Id

@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: users
+  schema: public
 object_relationships:
   - name: circle
     using:
@@ -11,78 +11,78 @@ object_relationships:
   - name: user_private
     using:
       manual_configuration:
-        remote_table:
-          schema: public
-          name: user_private
-        insertion_order: null
         column_mapping:
           id: user_id
+        insertion_order: null
+        remote_table:
+          name: user_private
+          schema: public
 array_relationships:
   - name: burns
     using:
       foreign_key_constraint_on:
         column: user_id
         table:
-          schema: public
           name: burns
+          schema: public
   - name: circle_api_keys
     using:
       foreign_key_constraint_on:
         column: created_by
         table:
-          schema: public
           name: circle_api_keys
+          schema: public
   - name: contributions
     using:
       foreign_key_constraint_on:
         column: user_id
         table:
-          schema: public
           name: contributions
+          schema: public
   - name: pending_received_gifts
     using:
       foreign_key_constraint_on:
         column: recipient_id
         table:
-          schema: public
           name: pending_token_gifts
+          schema: public
   - name: pending_sent_gifts
     using:
       foreign_key_constraint_on:
         column: sender_id
         table:
-          schema: public
           name: pending_token_gifts
+          schema: public
   - name: received_gifts
     using:
       foreign_key_constraint_on:
         column: recipient_id
         table:
-          schema: public
           name: token_gifts
+          schema: public
   - name: sent_gifts
     using:
       foreign_key_constraint_on:
         column: sender_id
         table:
-          schema: public
           name: token_gifts
+          schema: public
   - name: teammates
     using:
       manual_configuration:
-        remote_table:
-          schema: public
-          name: teammates
-        insertion_order: null
         column_mapping:
           id: user_id
+        insertion_order: null
+        remote_table:
+          name: teammates
+          schema: public
   - name: vouches
     using:
       foreign_key_constraint_on:
         column: voucher_id
         table:
-          schema: public
           name: vouches
+          schema: public
 select_permissions:
   - role: api-user
     permission:
@@ -150,8 +150,8 @@ event_triggers:
           - non_giver
           - non_receiver
     retry_conf:
-      num_retries: 5
       interval_sec: 10
+      num_retries: 5
       timeout_sec: 60
     webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
     headers:
@@ -165,8 +165,8 @@ event_triggers:
           - non_giver
           - non_receiver
     retry_conf:
-      num_retries: 5
       interval_sec: 10
+      num_retries: 5
       timeout_sec: 60
     webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
     headers:
@@ -180,8 +180,8 @@ event_triggers:
           - non_giver
           - non_receiver
     retry_conf:
-      num_retries: 5
       interval_sec: 10
+      num_retries: 5
       timeout_sec: 60
     webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
     headers:

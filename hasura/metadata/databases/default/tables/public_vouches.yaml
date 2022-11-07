@@ -1,25 +1,25 @@
 table:
-  schema: public
   name: vouches
+  schema: public
 object_relationships:
   - name: nominee
     using:
       manual_configuration:
-        remote_table:
-          schema: public
-          name: nominees
-        insertion_order: null
         column_mapping:
           nominee_id: id
+        insertion_order: null
+        remote_table:
+          name: nominees
+          schema: public
   - name: voucher
     using:
       manual_configuration:
-        remote_table:
-          schema: public
-          name: users
-        insertion_order: null
         column_mapping:
           voucher_id: id
+        insertion_order: null
+        remote_table:
+          name: users
+          schema: public
 select_permissions:
   - role: user
     permission:
@@ -43,8 +43,8 @@ event_triggers:
       insert:
         columns: '*'
     retry_conf:
-      num_retries: 5
       interval_sec: 3600
+      num_retries: 5
       timeout_sec: 60
     webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
     headers:
@@ -56,8 +56,8 @@ event_triggers:
       insert:
         columns: '*'
     retry_conf:
-      num_retries: 5
       interval_sec: 3600
+      num_retries: 5
       timeout_sec: 60
     webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
     headers:
