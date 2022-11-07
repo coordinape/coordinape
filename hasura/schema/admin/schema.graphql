@@ -14830,11 +14830,132 @@ type profiles {
   background: String
   bio: String
   chat_id: String
+
+  """
+  An array relationship
+  """
+  claims(
+    """
+    distinct select on columns
+    """
+    distinct_on: [claims_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [claims_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: claims_bool_exp
+  ): [claims!]!
+
+  """
+  An aggregate relationship
+  """
+  claims_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [claims_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [claims_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: claims_bool_exp
+  ): claims_aggregate!
   created_at: timestamp!
   discord_username: String
+
+  """
+  An array relationship
+  """
+  distributions(
+    """
+    distinct select on columns
+    """
+    distinct_on: [distributions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [distributions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: distributions_bool_exp
+  ): [distributions!]!
+
+  """
+  An aggregate relationship
+  """
+  distributions_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [distributions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [distributions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: distributions_bool_exp
+  ): distributions_aggregate!
   github_username: String
   id: bigint!
   medium_username: String
+  name: String
   skills: String
   telegram_username: String
   twitter_username: String
@@ -15067,11 +15188,14 @@ input profiles_bool_exp {
   background: String_comparison_exp
   bio: String_comparison_exp
   chat_id: String_comparison_exp
+  claims: claims_bool_exp
   created_at: timestamp_comparison_exp
   discord_username: String_comparison_exp
+  distributions: distributions_bool_exp
   github_username: String_comparison_exp
   id: bigint_comparison_exp
   medium_username: String_comparison_exp
+  name: String_comparison_exp
   skills: String_comparison_exp
   telegram_username: String_comparison_exp
   twitter_username: String_comparison_exp
@@ -15090,6 +15214,11 @@ enum profiles_constraint {
   unique or primary key constraint on columns "address"
   """
   profiles_address_key
+
+  """
+  unique or primary key constraint on columns "name"
+  """
+  profiles_name_key
 
   """
   unique or primary key constraint on columns "id"
@@ -15114,11 +15243,14 @@ input profiles_insert_input {
   background: String
   bio: String
   chat_id: String
+  claims: claims_arr_rel_insert_input
   created_at: timestamp
   discord_username: String
+  distributions: distributions_arr_rel_insert_input
   github_username: String
   id: bigint
   medium_username: String
+  name: String
   skills: String
   telegram_username: String
   twitter_username: String
@@ -15143,6 +15275,7 @@ type profiles_max_fields {
   github_username: String
   id: bigint
   medium_username: String
+  name: String
   skills: String
   telegram_username: String
   twitter_username: String
@@ -15164,6 +15297,7 @@ type profiles_min_fields {
   github_username: String
   id: bigint
   medium_username: String
+  name: String
   skills: String
   telegram_username: String
   twitter_username: String
@@ -15217,11 +15351,14 @@ input profiles_order_by {
   background: order_by
   bio: order_by
   chat_id: order_by
+  claims_aggregate: claims_aggregate_order_by
   created_at: order_by
   discord_username: order_by
+  distributions_aggregate: distributions_aggregate_order_by
   github_username: order_by
   id: order_by
   medium_username: order_by
+  name: order_by
   skills: order_by
   telegram_username: order_by
   twitter_username: order_by
@@ -15301,6 +15438,11 @@ enum profiles_select_column {
   """
   column name
   """
+  name
+
+  """
+  column name
+  """
   skills
 
   """
@@ -15339,6 +15481,7 @@ input profiles_set_input {
   github_username: String
   id: bigint
   medium_username: String
+  name: String
   skills: String
   telegram_username: String
   twitter_username: String
@@ -15397,6 +15540,7 @@ input profiles_stream_cursor_value_input {
   github_username: String
   id: bigint
   medium_username: String
+  name: String
   skills: String
   telegram_username: String
   twitter_username: String
@@ -15469,6 +15613,11 @@ enum profiles_update_column {
   column name
   """
   medium_username
+
+  """
+  column name
+  """
+  name
 
   """
   column name
@@ -16815,6 +16964,7 @@ type query_root {
   fetch data from the table: "personal_access_tokens" using primary key columns
   """
   personal_access_tokens_by_pk(id: bigint!): personal_access_tokens
+  price_per_share(chain_id: Int!, token_address: String): Float!
 
   """
   fetch data from the table: "profiles"
@@ -23595,6 +23745,7 @@ type vaults {
   An object relationship
   """
   organization: organizations!
+  price_per_share: Float!
 
   """
   An object relationship
