@@ -13,5 +13,5 @@
   },
   "events": { "start": "yarn typecheck:backend" },
   "env": { "NODE_ENV": "development" },
-  "ignore": ["api-test/__tests__"]
+  "ignore": ["api-test/"]
 }
