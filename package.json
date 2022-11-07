@@ -108,6 +108,7 @@
     "hardhat:test": "yarn --cwd hardhat test",
     "test": "./scripts/ci/manager.sh test --jest -i --watchAll",
     "test:ci": "./scripts/ci/manager.sh test --all",
+    "test:up": "./scripts/ci/manager.sh up",
     "lint:check": "eslint \"{{api,api-lib,cypress,hasura,src}/**/*.{js,ts,tsx,graphql},*.{js,ts,tsx,graphql}}\"",
     "lint:fix": "yarn lint:check --fix",
     "prettier": "prettier \"{{api,api-lib,cypress,hasura,src}/**/*.{js,ts,tsx,graphql,json},*.{js,ts,tsx,graphql,json}}\"",

@@ -16,7 +16,7 @@ while [[ "$#" > 0 ]]; do case $1 in
 esac; shift; done
 
 DOCKER_PROJECT_NAME=cape-ci-v2
-DOCKER_CMD="docker compose --profile dev -p $DOCKER_PROJECT_NAME"
+DOCKER_CMD="docker compose -p $DOCKER_PROJECT_NAME"
 
 start_services() {
   # start docker
