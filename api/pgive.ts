@@ -115,6 +115,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 year: endDate.get('year'),
                 potTotal,
                 epochId: epoch.id,
+                givesReceiverBase: baseValuePoints,
+                activeMonthsBonus: activeMonthsBonusTotal,
+                notesBonusTotal: notesBonusTotal,
               };
             } else {
               usersData[g.recipient_id].givesReceived += g.tokens;
@@ -168,6 +171,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     'normalizedPGive',
     'normalizedEpochs',
     'potTotal',
+    'givesReceiverBase',
+    'activeMonthsBonus',
+    'notesBonusTotal',
   ];
   let csvText = `${headers.join(',')}\r\n`;
   Object.keys(epochBasedData).forEach(epochId => {
@@ -187,6 +193,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         u.normalizedPGive.toFixed(2),
         u.normalizedEpochs.join(' '),
         u.potTotal,
+        u.givesReceiverBase,
+        u.activeMonthsBonus,
+        u.notesBonusTotal,
       ].join(',')}\r\n`;
     });
   });
@@ -211,6 +220,9 @@ interface UserData {
   normalizedPGive: number;
   normalizedEpochs: Array<number>;
   potTotal: number;
+  givesReceiverBase: number;
+  activeMonthsBonus: number;
+  notesBonusTotal: number;
 }
 
 interface EpochIndexed {
@@ -223,7 +235,7 @@ const getCircleGifts = async () => {
   const { circles } = await adminClient.query({
     circles: [
       {
-        limit: 1000,
+        limit: 500,
       },
       {
         id: true,
