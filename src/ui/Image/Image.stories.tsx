@@ -13,5 +13,6 @@ const Template: ComponentStory<typeof ImageComponent> = args => (
 export const Image = Template.bind({});
 Image.args = {
   alt: 'Alt property',
-  src: 'https://picsum.photos/200/300',
+  src: '../imgs/avatar/placeholder.jpg',
+  width: 250,
 };
