@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { useQuery } from 'react-query';
 
-import { ChevronDown, ChevronUp } from '../../icons/__generated';
+import { ChevronDown, ChevronsRight, ChevronUp, Edit } from 'icons/__generated';
 import { Avatar, Box, Button, Flex, Text, TextArea } from 'ui';
 import { SaveState, SavingIndicator } from 'ui/SavingIndicator';
 
@@ -28,6 +28,7 @@ type GiveDrawerProps = {
   setNeedToSave(save: boolean): void;
   noGivingAllowed: boolean;
   updateTeammate(id: number, teammate: boolean): void;
+  closeDrawer: () => void;
 };
 
 // GiveDrawer is the focused modal drawer to give/note/view contributions for one member
@@ -47,6 +48,7 @@ export const GiveDrawer = ({
   setNeedToSave,
   noGivingAllowed,
   updateTeammate,
+  closeDrawer,
 }: GiveDrawerProps) => {
   // fetch the contributions for this particular member
   const { data: contributions, refetch } = useQuery(
@@ -112,25 +114,41 @@ export const GiveDrawer = ({
   };
 
   return (
-    <Box key={selectedMemberIdx} css={{ height: '100%', pt: '$md' }}>
-      <Flex>
-        <Button
-          color="white"
-          size="large"
-          css={nextPrevCss}
-          disabled={selectedMemberIdx == 0}
-          onClick={() => nextMember(false)}
-        >
-          <ChevronUp size="lg" />
-        </Button>
-        <Button
-          color="white"
-          css={nextPrevCss}
-          disabled={selectedMemberIdx == totalMembers - 1}
-          onClick={() => nextMember(true)}
-        >
-          <ChevronDown size="lg" />
-        </Button>
+    <Box key={selectedMemberIdx} css={{ height: '100%' }}>
+      <Flex
+        css={{
+          justifyContent: 'space-between',
+        }}
+      >
+        <Flex>
+          <Button
+            onClick={() => {
+              closeDrawer();
+            }}
+            color="textOnly"
+            noPadding
+            css={{ mr: '$lg' }}
+          >
+            <ChevronsRight size="lg" />
+          </Button>
+          <Button
+            color="white"
+            css={nextPrevCss}
+            disabled={selectedMemberIdx == 0}
+            onClick={() => nextMember(false)}
+          >
+            <ChevronUp size="lg" />
+          </Button>
+          <Button
+            color="white"
+            css={nextPrevCss}
+            disabled={selectedMemberIdx == totalMembers - 1}
+            onClick={() => nextMember(true)}
+          >
+            <ChevronDown size="lg" />
+          </Button>
+        </Flex>
+        <ContributorButton member={member} updateTeammate={updateTeammate} />
       </Flex>
       <Flex
         css={{
@@ -170,20 +188,15 @@ export const GiveDrawer = ({
           }}
           alignItems="center"
         >
-          <Flex
-            css={{
-              justifyContent: 'flex-start',
-              mr: '$lg',
-              ml: '0',
-            }}
-          >
-            <ContributorButton
-              member={member}
-              updateTeammate={updateTeammate}
-            />
-          </Flex>
           <Flex css={{ justifyContent: 'flex-end' }}>
-            <Box>
+            <SavingIndicator
+              css={{ mr: '$md' }}
+              saveState={saveState}
+              retry={() => {
+                saveNote({ ...gift }, note);
+              }}
+            />
+            <Flex css={{ '*': { minWidth: 0 } }}>
               <GiveAllocator
                 disabled={noGivingAllowed}
                 adjustGift={adjustGift}
@@ -192,7 +205,7 @@ export const GiveDrawer = ({
                 maxedOut={maxedOut}
                 optedOut={member.non_receiver || member.fixed_non_receiver}
               />
-            </Box>
+            </Flex>
           </Flex>
         </Flex>
       </Flex>
@@ -221,13 +234,15 @@ export const GiveDrawer = ({
           onChange={e => noteChanged(e.target.value)}
           placeholder="Say thanks or give constructive feedback."
         />
-        <Flex alignItems="center" css={{ justifyContent: 'flex-end' }}>
-          <SavingIndicator
-            saveState={saveState}
-            retry={() => {
-              saveNote({ ...gift }, note);
-            }}
-          />
+        <Flex css={{ justifyContent: 'flex-end', mt: '$md' }}>
+          <Button
+            color="primary"
+            disabled={selectedMemberIdx == totalMembers - 1}
+            onClick={() => nextMember(true)}
+          >
+            <Edit />
+            Next
+          </Button>
         </Flex>
       </Box>
 
