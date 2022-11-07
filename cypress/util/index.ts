@@ -72,7 +72,7 @@ export const deriveAccount = (index = 0, seed: string = DEFAULT_SEED) =>
 
 export const gqlQuery = makeThunder({
   url: Cypress.env('NODE_HASURA_URL'),
-  options: {
-    adminSecret: Cypress.env('HASURA_GRAPHQL_ADMIN_SECRET'),
+  headers: {
+    'x-hasura-admin-secret': Cypress.env('HASURA_GRAPHQL_ADMIN_SECRET'),
   },
 })('query');

@@ -1,6 +1,6 @@
 import { HDNode } from '@ethersproject/hdnode';
 
-import { adminClient } from '../../api-lib/gql';
+import { adminClient } from '../../api-lib/gql/adminClient';
 import { getAccountPath, SEED_PHRASE } from '../../scripts/util/eth';
 
 export async function isAddressUnique(address: string): Promise<boolean> {

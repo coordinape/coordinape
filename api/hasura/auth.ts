@@ -6,6 +6,8 @@ import { parseAuthHeader } from '../../api-lib/authHelpers';
 import { IS_LOCAL_ENV, IS_TEST_ENV } from '../../api-lib/config';
 import { adminClient } from '../../api-lib/gql/adminClient';
 
+export const TEST_SKIP_AUTH = 'test-skip-auth';
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     if (IS_LOCAL_ENV) {
@@ -20,7 +22,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (IS_TEST_ENV) {
       // Skip auth checks when testing
-      if (req.headers?.authorization === 'test-skip-auth') {
+      if (req.headers?.authorization === TEST_SKIP_AUTH) {
         res.status(200).json({
           'X-Hasura-User-Id': req.headers?.['x-hasura-user-id'],
           'X-Hasura-Role': req.headers?.['x-hasura-role'],

@@ -4,7 +4,10 @@ import { makeThunder } from './makeThunder';
 
 const thunder = makeThunder({
   url: NODE_HASURA_URL,
-  options: { adminSecret: HASURA_GRAPHQL_ADMIN_SECRET },
+  headers: {
+    'x-hasura-admin-secret': HASURA_GRAPHQL_ADMIN_SECRET,
+    'Hasura-Client-Name': 'serverless-function',
+  },
 });
 
 export const adminClient = {
