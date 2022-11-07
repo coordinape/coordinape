@@ -98,7 +98,10 @@ export const MobileHeader = ({
                     pt: '$md',
                   }}
                 >
-                  <Flex alignItems="center" css={{ gap: '$sm' }}>
+                  <Flex
+                    alignItems="center"
+                    css={{ gap: '$sm', flexWrap: 'wrap' }}
+                  >
                     <Link
                       css={{ display: 'flex', gap: '$sm' }}
                       key={circle.id}
