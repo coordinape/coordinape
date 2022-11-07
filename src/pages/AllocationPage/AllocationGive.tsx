@@ -379,14 +379,26 @@ const AllocationGive = ({
             .sort((a, b) => {
               switch (orderType) {
                 case OrderType.Alphabetical:
-                  return a.user.name.localeCompare(b.user.name);
+                  return a.user.profile?.name
+                    ? a.user.profile?.name.localeCompare(
+                        b.user.profile?.name ?? b.user.name
+                      )
+                    : a.user.name.localeCompare(
+                        b.user.profile?.name ?? b.user.name
+                      );
                 case OrderType.Give_Allocated: {
                   const av = givePerUser.get(a.user.id)?.tokens ?? 0;
                   const bv = givePerUser.get(b.user.id)?.tokens ?? 0;
                   if (av !== bv) {
                     return av - bv;
                   } else {
-                    return a.user.name.localeCompare(b.user.name);
+                    return a.user.profile?.name
+                      ? a.user.profile?.name.localeCompare(
+                          b.user.profile?.name ?? b.user.name
+                        )
+                      : a.user.name.localeCompare(
+                          b.user.profile?.name ?? b.user.name
+                        );
                   }
                 }
                 case OrderType.Opt_In_First: {

@@ -180,11 +180,17 @@ const AMProfileCard = ({
       <Box className={classes.scale} width={`${fraction * 100}%`} />
       <div className={classes.content}>
         <div className={classes.header} onClick={() => onClick(profile)}>
-          <Avatar path={user.profile?.avatar} name={user.name} />
+          <Avatar
+            path={user.profile?.avatar}
+            name={user.profile?.name ?? user.name}
+          />
           <div className={classes.headerText}>
             <span className={classes.headerName}>
-              {reactStringReplace(user.name, searchRegex, (match, i) =>
-                i === 1 ? <strong key={match}>{match}</strong> : null
+              {reactStringReplace(
+                user.profile?.name ?? user.name,
+                searchRegex,
+                (match, i) =>
+                  i === 1 ? <strong key={match}>{match}</strong> : null
               )}
             </span>
             <span className={classes.headerMeasure}>

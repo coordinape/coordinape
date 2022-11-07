@@ -35,7 +35,7 @@ export const SummonCirclePage = () => {
 
   const queryClient = useQueryClient();
 
-  const { address: myAddress, myUsers } = useMyProfile();
+  const { address: myAddress, myUsers, name: profileName } = useMyProfile();
 
   const [logoData, setLogoData] = useState<{
     avatar: string;
@@ -65,7 +65,7 @@ export const SummonCirclePage = () => {
   const source = {
     organization_id: org?.id,
     organization_name: org?.name || '',
-    user_name: myUsers.find(u => u !== undefined)?.name,
+    user_name: profileName ?? myUsers.find(u => u !== undefined)?.name,
   };
 
   const schema = z

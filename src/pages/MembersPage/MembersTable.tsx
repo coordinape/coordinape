@@ -162,7 +162,7 @@ const UserName = ({ user }: { user: IUser }) => {
           minWidth: 0,
         }}
       >
-        {user.name}{' '}
+        {user.profile?.name ?? user.name}{' '}
         {user.role === USER_ROLE_COORDINAPE ? (
           <Tooltip content={coordinapeTooltipContent()}>
             <Info size="sm" />
@@ -436,7 +436,7 @@ const MemberRow = ({
                 }}
                 onClick={() => {
                   setLeaveCircleDialog({
-                    name: user.name,
+                    name: user.profile?.name ?? user.name,
                     address: user.address,
                   });
                 }}
@@ -467,7 +467,7 @@ const MemberRow = ({
                     id="name"
                     name="name"
                     control={control}
-                    defaultValue={user.name}
+                    defaultValue={user.profile?.name ?? user.name}
                     label="Member Name"
                     infoTooltip="Member Displayed Name"
                     showFieldErrors
@@ -514,7 +514,7 @@ const MemberRow = ({
                           address: user.address,
                         })
                       : setDeleteUserDialog({
-                          name: user.name,
+                          name: user.profile?.name ?? user.name,
                           address: user.address,
                         });
                   }}
@@ -887,7 +887,11 @@ export const MembersTable = ({
         startingSortIndex={0}
         perPage={perPage}
         sortByColumn={(index: number) => {
-          if (index === 0) return (u: IUser) => u.name.toLowerCase();
+          if (index === 0)
+            return (u: IUser) =>
+              u.profile?.name
+                ? u.profile.name.toLowerCase()
+                : u.name.toLowerCase();
           if (index === 1) return (u: IUser) => u.address.toLowerCase();
           if (index === 2) return (u: IUser) => u.non_giver;
           if (index === 3) return (u: IUser) => u.non_receiver;
@@ -901,7 +905,10 @@ export const MembersTable = ({
               !!u.fixed_non_receiver || !!u.non_receiver
                 ? -1
                 : u.give_token_received;
-          return (u: IUser) => u.name.toLowerCase();
+          return (u: IUser) =>
+            u.profile?.name
+              ? u.profile.name.toLowerCase()
+              : u.name.toLowerCase();
         }}
       >
         {member => (

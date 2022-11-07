@@ -62,6 +62,7 @@ export const getProfile = async (address: string): Promise<IApiProfile> => {
           skills: true,
           created_at: true,
           updated_at: true,
+          name: true,
           users: [
             {},
             {
@@ -158,9 +159,8 @@ export const getProfile = async (address: string): Promise<IApiProfile> => {
       ...user,
       teammates: user.teammates
         .map(tm => {
-          const u: IApiUser | undefined = tm.teammate!;
+          const u: IApiUser | undefined = tm.teammate;
           return u;
-          return tm.teammate;
         })
         .filter(isDefinedUser),
       circle: {
@@ -332,6 +332,7 @@ export const getFullCircle = async (
                 id: true,
                 address: true,
                 skills: true,
+                name: true,
               },
               user_private: {
                 fixed_payment_token_type: true,
@@ -357,6 +358,11 @@ export const getFullCircle = async (
                     give_token_remaining: true,
                     role: true,
                     epoch_first_visit: true,
+                    profile: {
+                      id: true,
+                      address: true,
+                      name: true,
+                    },
                   },
                 },
               ],
@@ -430,7 +436,12 @@ export const getFullCircle = async (
       fixed_payment_amount?: number;
     } = {
       ...user,
-      teammates: user.teammates.map(tm => tm.teammate).filter(isDefinedUser),
+      teammates: user.teammates
+        .map(tm => {
+          const u: IApiUser | undefined = tm.teammate;
+          return u;
+        })
+        .filter(isDefinedUser),
       profile: {
         ...user.profile,
         skills: user.profile.skills ? JSON.parse(user.profile.skills) : [],
@@ -571,6 +582,7 @@ export const fetchManifest = async (address: string): Promise<IApiManifest> => {
           skills: true,
           created_at: true,
           updated_at: true,
+          name: true,
           users: [
             {
               where: { circle: { deleted_at: { _is_null: true } } },
@@ -613,6 +625,11 @@ export const fetchManifest = async (address: string): Promise<IApiManifest> => {
                     give_token_remaining: true,
                     role: true,
                     epoch_first_visit: true,
+                    profile: {
+                      id: true,
+                      address: true,
+                      name: true,
+                    },
                   },
                 },
               ],
@@ -665,7 +682,12 @@ export const fetchManifest = async (address: string): Promise<IApiManifest> => {
       fixed_payment_amount?: number;
     } = {
       ...user,
-      teammates: user.teammates.map(tm => tm.teammate).filter(isDefinedUser),
+      teammates: user.teammates
+        .map(tm => {
+          const u: IApiUser | undefined = tm.teammate;
+          return u;
+        })
+        .filter(isDefinedUser),
       fixed_payment_amount: user.user_private
         ? user.user_private.fixed_payment_amount
         : 0,
