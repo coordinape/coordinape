@@ -13,6 +13,7 @@ import * as z from 'zod';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { useSelectedCircle } from '../../recoilState';
 import { LoadingModal, FormInputField } from 'components';
+import { useApeSnackbar } from 'hooks';
 import {
   useContributions,
   Contribution as IntegrationContribution,
@@ -27,7 +28,7 @@ import {
   Edit,
 } from 'icons/__generated';
 import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
-import { Panel, Text, Box, Modal, Button, Flex, Form,MarkdownPreview } from 'ui';
+import { Panel, Text, Box, Modal, Button, Flex,MarkdownPreview  } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { SavingIndicator, SaveState } from 'ui/SavingIndicator';
 
@@ -62,7 +63,7 @@ const schema = z.object({
     .string()
     .max(500)
     .refine(val => val.trim().length >= 40, {
-      message: 'At least 40 characters must be writen',
+      message: 'Please write at least 40 characters.',
     }),
 });
 type contributionTextSchema = z.infer<typeof schema>;
@@ -120,7 +121,7 @@ const ContributionsPage = () => {
   const address = useConnectedAddress();
   const { circle: selectedCircle, myUser: me } = useSelectedCircle();
   const [modalOpen, setModalOpen] = useState(false);
-  const [editHelpText, setEditHelpText] = useState(true);
+  const [editHelpText, setEditHelpText] = useState(false);
   const [saveState, setSaveState] = useState<{ [key: number]: SaveState }>({});
   const [currentContribution, setCurrentContribution] =
     useState<CurrentContribution | null>(null);
@@ -130,6 +131,7 @@ const ContributionsPage = () => {
   const [showMarkdown, setShowMarkDown] = useState<boolean>(true);
 
   const queryClient = useQueryClient();
+  const { showError } = useApeSnackbar();
 
   const {
     data,
@@ -173,9 +175,10 @@ const ContributionsPage = () => {
 
       refetchContributions();
     } catch (e) {
+      showError(e);
       console.warn(e);
     }
-    setEditHelpText(true);
+    setEditHelpText(false);
   };
 
   useEffect(() => {
@@ -417,21 +420,19 @@ const ContributionsPage = () => {
           }}
         >
           <Text h1>Contributions</Text>
-          {editHelpText ? (
-            <>
-              {isAdmin && (
-                <Button
-                  outlined
-                  color="primary"
-                  type="submit"
-                  onClick={() => {
-                    setEditHelpText(false);
-                  }}
-                >
-                  Edit Help Text
-                </Button>
-              )}
-            </>
+          {!editHelpText ? (
+            isAdmin && (
+              <Button
+                outlined
+                color="primary"
+                type="submit"
+                onClick={() => {
+                  setEditHelpText(true);
+                }}
+              >
+                Edit Help Text
+              </Button>
+            )
           ) : (
             <Button
               outlined
@@ -443,7 +444,7 @@ const ContributionsPage = () => {
             </Button>
           )}
         </Flex>
-        <Form
+        <Box
           css={{
             justifyContent: 'space-between',
             alignItems: 'flex-end',
@@ -451,10 +452,10 @@ const ContributionsPage = () => {
             gap: '$md',
           }}
         >
-          {editHelpText ? (
+          {!editHelpText ? (
             <p>
               {data?.circles_by_pk?.team_sel_text ??
-                'What have you been working on ?'}
+                'What have you been working on?'}
             </p>
           {(memoizedEpochData.contributions || []).length >= 0 && (
           <ContributionIntro />
@@ -466,14 +467,14 @@ const ContributionsPage = () => {
               control={contributionTextControl}
               defaultValue={data?.circles_by_pk?.team_sel_text}
               label="Contribution Help Text"
-              infoTooltip="Write what you been working on "
+              infoTooltip="Change the default text contributors see on contributions page"
               showFieldErrors
               css={{
-                width: '700px',
+                width: '50%',
               }}
             />
           )}
-        </Form>
+        </Box>
         <EpochGroup
           contributions={memoizedEpochData.contributions || []}
           epochs={memoizedEpochData.epochs || []}
