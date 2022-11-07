@@ -14,21 +14,17 @@ type User = {
   jobTitle: string;
 };
 
-const generateUser = ({ index }: { value: unknown; index: number }): User => {
-  faker.seed(index);
-  return {
-    userId: faker.datatype.uuid(),
-    firstName: faker.name.firstName(),
-    lastName: faker.name.lastName(),
-    jobTitle: faker.name.jobTitle(),
-  };
-};
+const generateUser = (): User => ({
+  userId: faker.datatype.uuid(),
+  firstName: faker.name.firstName(),
+  lastName: faker.name.lastName(),
+  jobTitle: faker.name.jobTitle(),
+});
 
 const headers: string[] = ['userId', 'firstName', 'lastName', 'jobTitle'];
 
-const data = Array.from({ length: 8 }).map(
-  (value: unknown, index: number): User => generateUser({ value, index })
-);
+faker.seed(1);
+const data = Array.from({ length: 8 }).map(generateUser);
 
 const Template: ComponentStory<typeof TableComponent> = args => (
   <TableComponent {...args}>
