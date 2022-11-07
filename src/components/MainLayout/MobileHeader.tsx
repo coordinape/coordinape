@@ -3,6 +3,7 @@ import { Suspense, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { NavLink, useLocation } from 'react-router-dom';
 
+import { RecentTransactionsModal } from 'components/MyAvatarMenu/RecentTransactionsModal';
 import isFeatureEnabled from 'config/features';
 import { useWalletStatus } from 'hooks/login';
 import { X, Menu, ChevronRight } from 'icons/__generated';
@@ -31,6 +32,7 @@ export const MobileHeader = ({
   const { icon, address, logout } = useWalletStatus();
   const org = inCircle ? circle.organization : null;
   const navigate = useNavigate();
+  const [showTxModal, setShowTxModal] = useState(false);
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -42,6 +44,9 @@ export const MobileHeader = ({
 
   return (
     <Box>
+      {showTxModal && (
+        <RecentTransactionsModal onClose={() => setShowTxModal(false)} />
+      )}
       <Box
         css={{
           display: 'flex',
@@ -205,6 +210,11 @@ export const MobileHeader = ({
                     </Flex>
                     {address && shortenAddress(address)}
                   </Flex>
+                  {isFeatureEnabled('vaults') && (
+                    <Link href="#" onClick={() => setShowTxModal(true)}>
+                      Recent Transactions
+                    </Link>
+                  )}
                   {address && (
                     <Link
                       css={{ cursor: 'pointer', display: 'block' }}

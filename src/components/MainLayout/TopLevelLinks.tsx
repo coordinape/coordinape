@@ -66,7 +66,8 @@ export const navLinkStyle = {
     fontWeight: 'normal',
     p: '$xs 0',
     '&:hover': {
-      color: '$black',
+      borderColor: 'transparent',
+      color: '$link',
       '&::after': {
         content: 'none',
       },
