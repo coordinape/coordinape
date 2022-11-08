@@ -4,8 +4,7 @@ let circleId, circleName;
 
 context('Coordinape', () => {
   before(() => {
-    const providerPort = Cypress.env('HARDHAT_GANACHE_PORT');
-    Cypress.on('window:before:load', injectWeb3(providerPort));
+    Cypress.on('window:before:load', injectWeb3());
     return gqlQuery({
       circles: [
         {
