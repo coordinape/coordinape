@@ -14,6 +14,15 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
 
   color: '$text',
   width: '100%',
+  'h1, h2, h3, h4, h5': {
+    borderBottom: 'none !important',
+    mt: '$md !important',
+    pt: '0 !important',
+  },
+  'h1, h2, h3, h4, h5, p': {
+    mb: '0 !important',
+    pb: '$sm !important',
+  },
 });
 
 export const MarkdownPreview = (
