@@ -17,6 +17,7 @@ hardhat/data/
 
 # testing
 /coverage
+/coverage-*
 /cypress/screenshots
 /cypress/videos
 

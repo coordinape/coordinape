@@ -17,6 +17,7 @@ esac; shift; done
 
 DOCKER_PROJECT_NAME=cape-ci-v2
 DOCKER_CMD="docker compose -p $DOCKER_PROJECT_NAME"
+PROJECT_ROOT=$SCRIPT_DIR/../..
 
 start_services() {
   # start docker
@@ -51,6 +52,14 @@ start_services() {
     fi
   done
   echo "All services are ready."
+}
+
+combine_coverage() {
+  rm -r $PROJECT_ROOT/.nyc_output/*
+  cp $PROJECT_ROOT/coverage-jest/coverage-final.json $PROJECT_ROOT/.nyc_output/jest.json
+  cp $PROJECT_ROOT/coverage-cypress/coverage-final.json $PROJECT_ROOT/.nyc_output/cypress.json
+  echo Combined coverage:
+  yarn nyc report -r lcov -r text-summary --report-dir coverage
 }
 
 if [ "${OTHERARGS[0]}" = "up" ]; then
@@ -95,8 +104,17 @@ elif [ "${OTHERARGS[0]}" = "test" ]; then
       yarn cypress open ${OTHERARGS[@]:1} > /dev/null
     else
       yarn cypress run ${OTHERARGS[@]:1}
+      yarn nyc report -r text-summary
     fi
   fi
+
+  # combine coverage reports
+  if [ -z "$INTERACTIVE" ]; then
+    combine_coverage
+  fi
+
+elif [ "${OTHERARGS[0]}" = "combine-coverage" ]; then
+  combine_coverage
 
 else
   echo "No command given. Expected one of: up, down, logs, test"

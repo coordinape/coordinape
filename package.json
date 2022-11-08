@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "@apollo/client": "3.5.7",
+    "@babel/preset-typescript": "^7.18.6",
     "@coordinape/hardhat": "file:./hardhat",
     "@craco/craco": "6.4.3",
     "@date-io/luxon": "1.3.13",
@@ -46,6 +47,7 @@
     "apollo-server-express": "3.10.3",
     "autosize": "^5.0.1",
     "aws-sdk": "^2.1072.0",
+    "babel-plugin-istanbul": "^6.1.1",
     "clsx": "1.1.1",
     "copy-to-clipboard": "^3.3.1",
     "d3-force-3d": "2.3.2",
@@ -107,7 +109,7 @@
     "hardhat:dev": "yarn --cwd hardhat dev",
     "hardhat:ganache": "./scripts/env.sh ./hardhat/scripts/start-ganache.sh",
     "hardhat:test": "yarn --cwd hardhat test",
-    "test": "./scripts/ci/manager.sh test --jest -i --watchAll",
+    "test": "./scripts/ci/manager.sh test --jest -i",
     "test:ci": "./scripts/ci/manager.sh test --all",
     "test:up": "./scripts/ci/manager.sh up",
     "lint:check": "eslint \"{{api,api-lib,cypress,hasura,src}/**/*.{js,ts,tsx,graphql},*.{js,ts,tsx,graphql}}\"",
@@ -163,7 +165,6 @@
     "@glazed/types": "0.1.3",
     "@gqty/cli": "2.3.1",
     "@graphql-eslint/eslint-plugin": "^3.10.4",
-    "@jsdevtools/coverage-istanbul-loader": "^3.0.5",
     "@sentry/webpack-plugin": "^1.18.8",
     "@storybook/addon-actions": "^6.5.13",
     "@storybook/addon-essentials": "^6.5.13",
@@ -239,12 +240,23 @@
     "tmp": "0.2.1",
     "ts-auto-mock": "3.5.0",
     "ts-jest": "^27.1.3",
-    "ts-loader": "^9.4.1",
-    "ttypescript": "^1.5.13",
     "typescript": "4.4.3",
     "util": "0.12.4",
     "vercel": "25.1.0",
     "web3-provider-engine": "15.0.12",
     "webpack": "5"
+  },
+  "nyc": {
+    "all": true,
+    "include": [
+      "{src,api,api-lib}/**/*.{ts,tsx}"
+    ],
+    "exclude": [
+      "**/__generated*/**",
+      "**/__tests__/**",
+      "**/*.d.ts",
+      "**/*.{stories,test}.{ts,tsx}"
+    ],
+    "report-dir": "coverage-cypress"
   }
 }
