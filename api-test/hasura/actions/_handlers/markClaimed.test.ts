@@ -57,7 +57,7 @@ test('reject if no claims were updated', async () => {
 });
 
 test('create interaction_event with unwrapped amount', async () => {
-  const contracts = new Contracts(chainId, provider);
+  const contracts = new Contracts(chainId, provider());
   const { address } = await contracts.createVault('DAI', true);
   let actual;
 

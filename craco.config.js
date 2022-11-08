@@ -1,6 +1,5 @@
 const webpack = require('webpack');
 const SentryCliPlugin = require('@sentry/webpack-plugin');
-const dotenv = require('dotenv');
 
 const {
   SENTRY_AUTH_TOKEN,
@@ -8,7 +7,6 @@ const {
   VERCEL_ENV,
   VERCEL_GIT_COMMIT_SHA,
   VERCEL_URL,
-  CI,
 } = process.env;
 
 const shouldDryRun = !(
@@ -16,10 +14,6 @@ const shouldDryRun = !(
   SENTRY_AUTH_TOKEN &&
   VERCEL_ENV !== 'development'
 );
-
-if (CI && shouldDryRun) {
-  dotenv.config({ path: './.ci.env', override: true });
-}
 
 module.exports = {
   jest: {

@@ -60,7 +60,7 @@ const origError = console.error;
 
 beforeAll(async () => {
   snapshotId = await takeSnapshot();
-  const mainAccount = (await provider.listAccounts())[0];
+  const mainAccount = (await provider().listAccounts())[0];
   await mint({
     token: Asset.DAI,
     address: mainAccount,
