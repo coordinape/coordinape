@@ -16,7 +16,9 @@ const MAX_NOTE_BONUS_PER_USER = 30;
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // try {
 
-  const circles = await getCircleGifts();
+  const { offset, limit } = req.query;
+
+  const circles = await getCircleGifts(limit || '250', offset || '0');
   const epochBasedData: Record<number, Record<string, UserData>> = [];
   circles.forEach(circle => {
     if (circle.epochs.length) {
@@ -231,12 +233,15 @@ interface EpochIndexed {
 }
 
 type getCircleGiftsResult = Awaited<ReturnType<typeof getCircleGifts>>;
-const getCircleGifts = async () => {
+const getCircleGifts = async (
+  limit: string | string[],
+  offset: string | string[]
+) => {
   const { circles } = await adminClient.query({
     circles: [
       {
-        first: 250,
-        offset: 250,
+        limit: limit ? +limit : 250,
+        offset: offset ? +offset : 0,
       },
       {
         id: true,
