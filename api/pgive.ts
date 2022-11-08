@@ -77,7 +77,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           /* Active Months Bonus */
           const activeMonthsBonusTotal =
             Math.min(
-              activeMonths * PER_ACTIVE_MONTH_BONUS,
+              epochIndexed[key].activeMonths * PER_ACTIVE_MONTH_BONUS,
               MAX_ACTIVE_MONTH_BONUS
             ) * uniqueRecipients;
 
