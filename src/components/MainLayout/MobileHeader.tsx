@@ -9,10 +9,11 @@ import { useWalletStatus } from 'hooks/login';
 import { X, Menu, ChevronRight } from 'icons/__generated';
 import { useMyProfile } from 'recoilState/app';
 import { paths } from 'routes/paths';
-import { Box, IconButton, Link, Image, Avatar, Text, Flex } from 'ui';
+import { Box, IconButton, Link, Image, Avatar, Text, Flex, Button } from 'ui';
 import { shortenAddress } from 'utils';
 
 import { CircleNav } from './CircleNav';
+import { useMainHeaderQuery } from './getMainHeaderData';
 import { TopLevelLinks } from './TopLevelLinks';
 
 const mainLinks = [
@@ -33,6 +34,9 @@ export const MobileHeader = ({
   const org = inCircle ? circle.organization : null;
   const navigate = useNavigate();
   const [showTxModal, setShowTxModal] = useState(false);
+
+  const query = useMainHeaderQuery();
+  const hasClaims = (query.data?.claims_aggregate.aggregate?.count || 0) > 0;
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -146,6 +150,7 @@ export const MobileHeader = ({
               )}
               <Flex
                 column
+                alignItems="start"
                 css={{
                   borderTop: '1px solid $border',
                   mt: '$md',
@@ -180,9 +185,25 @@ export const MobileHeader = ({
                   Circles
                 </Link>
                 {isFeatureEnabled('vaults') && (
-                  <Link type="menu" as={NavLink} to={paths.claims}>
-                    Claims
-                  </Link>
+                  <>
+                    {hasClaims ? (
+                      <Button
+                        as={NavLink}
+                        to="/claims"
+                        color="complete"
+                        css={{
+                          color: '$white',
+                          fontWeight: '$normal',
+                        }}
+                      >
+                        Claim Tokens
+                      </Button>
+                    ) : (
+                      <Link type="menu" as={NavLink} to={paths.circles}>
+                        Claims
+                      </Link>
+                    )}
+                  </>
                 )}
                 <Flex
                   column
