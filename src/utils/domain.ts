@@ -83,6 +83,11 @@ export const getAvatarPathWithoutPlaceholder = (avatar?: string) => {
     return avatar;
   }
 
+  // don't transform if it's a local image (e.g. Storybook)
+  if (avatar.startsWith('../imgs')) {
+    return avatar;
+  }
+
   return `${STORAGE_URL}/${avatar}`;
 };
 
