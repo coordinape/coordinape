@@ -4,9 +4,8 @@ let circleId;
 
 context('Coordinape', () => {
   before(() => {
-    const providerPort = Cypress.env('HARDHAT_GANACHE_PORT');
     const userAccount = deriveAccount().address;
-    Cypress.on('window:before:load', injectWeb3(providerPort));
+    Cypress.on('window:before:load', injectWeb3());
     return cy
       .mintErc20('USDC', userAccount, '20000')
       .then(() =>
@@ -89,7 +88,7 @@ context('Coordinape', () => {
     cy.get('table').contains('4,500.00');
 
     // claims allocations
-    cy.contains('button', 'Claim Tokens').click();
+    cy.contains('a', 'Claim Tokens').click();
     cy.contains('button', 'Claim USDC').click();
     cy.contains('Please sign the transaction', { timeout: 120000 });
     cy.contains('Claim succeeded', { timeout: 120000 });

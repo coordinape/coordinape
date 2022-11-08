@@ -19,13 +19,13 @@ import {
   TextField,
   FormLabel,
   Box,
-  TextArea,
   AppLink,
   Flex,
   Panel,
   Tooltip,
+  BackButton,
+  TextArea,
 } from 'ui';
-import BackButton from 'ui/BackButton';
 import HintButton from 'ui/HintButton';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -137,7 +137,7 @@ export const NewNominationPage = () => {
           <BackButton />
         </AppLink>
       </Box>
-      <Flex css={{ alignItems: 'center', mb: '$sm' }}>
+      <Flex alignItems="center" css={{ mb: '$sm' }}>
         <Text h1>Nominate Member</Text>
       </Flex>
       <Box
@@ -252,6 +252,7 @@ export const NewNominationPage = () => {
                   </Tooltip>
                 </FormLabel>
                 <TextArea
+                  autoSize
                   rows={4}
                   id="description"
                   {...description}

@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: pending_token_gifts
+  schema: public
 object_relationships:
   - name: circle
     using:
@@ -8,21 +8,21 @@ object_relationships:
   - name: epoch
     using:
       manual_configuration:
-        remote_table:
-          schema: public
-          name: epoches
-        insertion_order: null
         column_mapping:
           epoch_id: id
+        insertion_order: null
+        remote_table:
+          name: epoches
+          schema: public
   - name: gift_private
     using:
       manual_configuration:
-        remote_table:
-          schema: public
-          name: pending_gift_private
-        insertion_order: null
         column_mapping:
           id: gift_id
+        insertion_order: null
+        remote_table:
+          name: pending_gift_private
+          schema: public
   - name: recipient
     using:
       foreign_key_constraint_on: recipient_id
@@ -75,15 +75,15 @@ select_permissions:
 event_triggers:
   - name: refundGiveDiscord
     definition:
-      enable_manual: false
       delete:
         columns: '*'
+      enable_manual: false
       update:
         columns:
           - tokens
     retry_conf:
-      num_retries: 5
       interval_sec: 10
+      num_retries: 5
       timeout_sec: 60
     webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
     headers:
@@ -91,15 +91,15 @@ event_triggers:
         value_from_env: HASURA_EVENT_SECRET
   - name: refundGiveTelegram
     definition:
-      enable_manual: false
       delete:
         columns: '*'
+      enable_manual: false
       update:
         columns:
           - tokens
     retry_conf:
-      num_retries: 5
       interval_sec: 10
+      num_retries: 5
       timeout_sec: 60
     webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
     headers:

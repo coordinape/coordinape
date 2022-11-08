@@ -455,9 +455,9 @@ const MemberRow = ({
                 {user.name} Member Settings
               </Text>
               <Flex
+                alignItems="center"
                 css={{
                   justifyContent: 'space-between',
-                  alignItems: 'center',
                   gap: '$lg',
                   flexWrap: 'wrap',
                 }}
@@ -482,7 +482,7 @@ const MemberRow = ({
                     showFieldErrors
                     css={{ minWidth: '420px', '@sm': { minWidth: 0 } }}
                   />
-                  <Flex column css={{ alignItems: 'center', gap: '$md' }}>
+                  <Flex column alignItems="center" css={{ gap: '$md' }}>
                     <FormLabel type="label">
                       Circle Admin{' '}
                       <Tooltip
@@ -757,7 +757,7 @@ const MemberRow = ({
                 </Button>
               </Flex>
               <Modal
-                onClose={() => {
+                onOpenChange={() => {
                   setHasAcceptedOptOutWarning(true);
                   setShowOptOutChangeWarning(false);
                 }}

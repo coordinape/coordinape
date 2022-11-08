@@ -55,7 +55,7 @@ export const GiveAllocator = ({
   return (
     <Flex
       css={{
-        width: '13.5rem',
+        minWidth: '13.5rem',
       }}
     >
       {optedOut && (
@@ -122,10 +122,11 @@ export const GiveAllocator = ({
         <TextField
           data-testid="tokenCount"
           value={gift.tokens ?? ''}
-          onChange={evt => setGiftTokens(evt.target.value)}
+          onChange={evt => {
+            setGiftTokens(evt.target.value ? evt.target.value : '0');
+          }}
           maxLength={5}
           disabled={disabled}
-          onBlur={() => setGiftTokens(gift.tokens ? String(gift.tokens) : '0')}
           onClick={e => e.stopPropagation()}
           css={{
             width: '5em',

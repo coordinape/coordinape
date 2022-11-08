@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-import { FileText, Slash } from '../../icons/__generated';
+import { FileText } from '../../icons/__generated';
 import { CSS } from '../../stitches.config';
-import { Box, Flex, Text } from '../../ui';
+import { Button, Box, Flex, Text } from '../../ui';
 import useMobileDetect from 'hooks/useMobileDetect';
 
 import { AvatarAndName } from './AvatarAndName';
@@ -41,12 +41,26 @@ export const GiveRow = ({
   // noteComplete indicates that this member has a note
   const noteComplete = gift.note && gift.note.length > 0;
   const { isMobile } = useMobileDetect();
-
+  const newRef = useRef<HTMLButtonElement>(null);
+  const [lastSelected, setLastSelected] = useState<boolean>(false);
+  useEffect(() => {
+    if (selected) {
+      setLastSelected(true);
+    } else {
+      if (lastSelected) {
+        newRef?.current?.focus();
+      }
+      setLastSelected(false);
+    }
+  }, [selected, lastSelected]);
   return (
-    <Box
+    <Button
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       onClick={() => setSelectedMember(member)}
+      color="transparent"
+      css={{ p: 0 }}
+      ref={newRef}
     >
       <GiveRowGrid selected={(selected || docExample) ?? false} css={css}>
         <AvatarAndName name={member.name} avatar={member.profile.avatar} />
@@ -153,9 +167,7 @@ export const GiveRow = ({
                     <FileText /> Note Complete
                   </>
                 ) : (
-                  <>
-                    <Slash /> No Feedback
-                  </>
+                  <>No Feedback</>
                 )}
               </Text>
             )}
@@ -169,6 +181,6 @@ export const GiveRow = ({
           />
         </Flex>
       </GiveRowGrid>
-    </Box>
+    </Button>
   );
 };

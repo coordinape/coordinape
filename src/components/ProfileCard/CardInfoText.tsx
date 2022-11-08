@@ -9,7 +9,7 @@ export const CardInfoText = ({
   children: React.ReactNode;
 }) => {
   return (
-    <Flex column css={{ alignItems: 'center' }}>
+    <Flex column alignItems="center">
       {tooltip && <ApeInfoTooltip>{tooltip}</ApeInfoTooltip>}
       <Text size="small" css={{ textAlign: 'center', mx: '$xl', mb: '$lg' }}>
         {children}

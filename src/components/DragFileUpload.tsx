@@ -2,10 +2,7 @@ import { ChangeEvent, DragEvent, useRef, useState } from 'react';
 
 import { useApeSnackbar } from '../hooks';
 import { styled } from '../stitches.config';
-import { Box } from '../ui/Box/Box';
-import { Button } from '../ui/Button/Button';
-import { Flex } from '../ui/Flex/Flex';
-import { Text } from '../ui/Text/Text';
+import { Box, Button, Flex, Text } from 'ui';
 
 const HiddenInput = styled('input', {
   display: 'none',

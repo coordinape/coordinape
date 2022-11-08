@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: circle_integrations
+  schema: public
 object_relationships:
   - name: circle
     using:
@@ -21,7 +21,6 @@ insert_permissions:
         - data
         - name
         - type
-      backend_only: false
 select_permissions:
   - role: user
     permission:
@@ -35,6 +34,7 @@ select_permissions:
 delete_permissions:
   - role: user
     permission:
+      backend_only: false
       filter:
         circle:
           users:

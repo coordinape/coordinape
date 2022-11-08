@@ -5,6 +5,7 @@ import sortBy from 'lodash/sortBy';
 import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
+import { NavLink } from 'react-router-dom';
 import { Transition } from 'react-transition-group';
 import type { CSS } from 'stitches.config';
 
@@ -78,11 +79,9 @@ export const CirclesPage = () => {
         <Text h1 css={{ '@sm': { mb: '$sm' } }}>
           Overview
         </Text>
-        <AppLink to={paths.createCircle}>
-          <Button color="primary" outlined>
-            Create New Circle
-          </Button>
-        </AppLink>
+        <Button as={NavLink} to={paths.createCircle} color="primary" outlined>
+          Create New Circle
+        </Button>
       </Flex>
       <Text
         p
@@ -112,7 +111,7 @@ export const CirclesPage = () => {
               justifyContent: 'space-between',
             }}
           >
-            <Flex css={{ alignItems: 'center' }}>
+            <Flex alignItems="center">
               <AppLink to={paths.organization(org.id)}>
                 <Text
                   h2
@@ -125,15 +124,15 @@ export const CirclesPage = () => {
               </AppLink>
             </Flex>
             {isAdmin(org) && (
-              <AppLink to={paths.createCircle + '?org=' + org.id}>
-                <Button
-                  color="primary"
-                  outlined
-                  css={{ whiteSpace: 'nowrap', ml: '$sm' }}
-                >
-                  Add Circle
-                </Button>
-              </AppLink>
+              <Button
+                as={NavLink}
+                to={paths.createCircle + '?org=' + org.id}
+                color="primary"
+                outlined
+                css={{ whiteSpace: 'nowrap', ml: '$sm' }}
+              >
+                Add Circle
+              </Button>
             )}
           </Flex>
           <Box
@@ -227,11 +226,16 @@ const GetStarted = () => {
             happening.
           </Text>
           <Box>
-            <AppLink to={paths.createCircle}>
-              <Button color="primary" outlined inline css={{ mr: '$md' }}>
-                Create New Circle
-              </Button>
-            </AppLink>
+            <Button
+              as={NavLink}
+              to={paths.createCircle}
+              color="primary"
+              outlined
+              inline
+              css={{ mr: '$md' }}
+            >
+              Create New Circle
+            </Button>
             <Link href={EXTERNAL_URL_GET_STARTED} target="_blank">
               <Button color="primary" outlined inline css={{ mt: '$md' }}>
                 Get Started Guide
@@ -269,6 +273,7 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
 
   return (
     <Panel
+      tabIndex={nonMember ? -1 : 0}
       key={circle.id}
       css={{
         display: 'flex',
@@ -276,7 +281,7 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
         gap: '$md',
         border: '1px solid transparent',
         '.hover-buttons': { display: 'none', '@sm': { display: 'flex' } },
-        '&:hover': {
+        '&:hover, &:focus-within': {
           '.hover-buttons': { display: 'flex' },
           '.circle-row-menu-indicator': { display: 'none' },
         },
@@ -432,20 +437,21 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
               {buttons.map(
                 ([pathFn, label, hide]) =>
                   (!hide || !hide(circle)) && (
-                    <AppLink
-                      to={pathFn(circle.id)}
+                    <Button
                       key={label}
-                      onClick={event => event.stopPropagation()}
+                      tabIndex={0}
+                      color="neutral"
+                      outlined
+                      size="small"
+                      css={{ border: 'none', fontWeight: '$semibold' }}
+                      as={NavLink}
+                      to={pathFn(circle.id)}
+                      onClick={(event: { stopPropagation: () => any }) =>
+                        event.stopPropagation()
+                      }
                     >
-                      <Button
-                        color="neutral"
-                        outlined
-                        size="small"
-                        css={{ border: 'none', fontWeight: '$semibold' }}
-                      >
-                        {label}
-                      </Button>
-                    </AppLink>
+                      {label}
+                    </Button>
                   )
               )}
             </Box>

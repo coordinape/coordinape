@@ -309,11 +309,15 @@ const GivePage = () => {
         alignItems="center"
       >
         <Text>Not ready for the new GIVE experience?</Text>
-        <Link href={paths.allocation(selectedCircle.id)}>
-          <Button outlined color="primary" css={{ ml: '$md' }}>
-            Go Back
-          </Button>
-        </Link>
+        <Button
+          as={Link}
+          href={paths.allocation(selectedCircle.id)}
+          outlined
+          color="primary"
+          css={{ ml: '$md' }}
+        >
+          Go Back
+        </Button>
       </Flex>
       <SingleColumnLayout>
         <Helmet>
@@ -501,7 +505,6 @@ const AllocateContents = ({
   // that may move a member in/out of the list of filtered members.
   useEffect(() => {
     if (selectedMemberIdx == -1) {
-      // clean up
       setSelectedMember(undefined);
       setMembersToIterate([]);
     } else if (membersToIterate.length == 0) {
@@ -649,12 +652,7 @@ const AllocateContents = ({
               >
                 Distribute Evenly
               </Button>
-              <Flex
-                css={{
-                  alignItems: 'center',
-                  '@sm': { mb: '$sm' },
-                }}
-              >
+              <Flex alignItems="center" css={{ '@sm': { mb: '$sm' } }}>
                 <SavingIndicator saveState={saveState} retry={retrySave} />
               </Flex>
             </Flex>
@@ -713,6 +711,9 @@ const AllocateContents = ({
         openEpochStatement={() => setSelectedMember(myMember)}
         contributionCount={
           myMember?.contributions_aggregate?.aggregate?.count ?? 0
+        }
+        selected={
+          selectedMember !== undefined && selectedMember.id === myUser.id
         }
       />
       <Panel css={{ gap: '$md', mt: '$md' }}>
@@ -810,7 +811,6 @@ const AllocateContents = ({
           </Flex>
         </Box>
       )}
-
       <Modal
         css={{
           paddingBottom: 0,
@@ -819,7 +819,7 @@ const AllocateContents = ({
           paddingTop: 0,
           overflowY: 'scroll',
         }}
-        onClose={() => {
+        onOpenChange={() => {
           setSelectedMemberIdx(-1);
           setSelectedMember(undefined);
         }}

@@ -1,7 +1,4 @@
-import React from 'react';
-
-import { Flex } from '../../ui/Flex';
-import { Panel } from '../Panel/Panel';
+import { Flex, Panel } from 'ui';
 
 const CenteredBox = ({ children }: { children: React.ReactNode }) => {
   return (

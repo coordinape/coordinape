@@ -311,177 +311,177 @@ custom_types:
   objects:
     - name: CreateCircleResponse
       relationships:
-        - remote_table:
-            schema: public
-            name: users
+        - field_mapping:
+            id: circle_id
           name: users
+          remote_table:
+            name: users
+            schema: public
           source: default
           type: array
-          field_mapping:
-            id: circle_id
-        - remote_table:
-            schema: public
-            name: circles
+        - field_mapping:
+            id: id
           name: circle
+          remote_table:
+            name: circles
+            schema: public
           source: default
           type: object
-          field_mapping:
-            id: id
     - name: UpdateProfileResponse
       relationships:
-        - remote_table:
-            schema: public
-            name: profiles
+        - field_mapping:
+            id: id
           name: profile
+          remote_table:
+            name: profiles
+            schema: public
           source: default
           type: object
-          field_mapping:
-            id: id
     - name: UpdateCircleResponse
       relationships:
-        - remote_table:
-            schema: public
-            name: circles
+        - field_mapping:
+            id: id
           name: circle
+          remote_table:
+            name: circles
+            schema: public
           source: default
           type: object
-          field_mapping:
-            id: id
     - name: LogoutResponse
       relationships:
-        - remote_table:
-            schema: public
-            name: profiles
+        - field_mapping:
+            id: id
           name: profile
+          remote_table:
+            name: profiles
+            schema: public
           source: default
           type: object
-          field_mapping:
-            id: id
     - name: UserResponse
       relationships:
-        - remote_table:
-            schema: public
-            name: users
+        - field_mapping:
+            id: id
           name: UserResponse
+          remote_table:
+            name: users
+            schema: public
           source: default
           type: object
-          field_mapping:
-            id: id
     - name: DeleteEpochResponse
     - name: CreateNomineeResponse
       relationships:
-        - remote_table:
-            schema: public
-            name: nominees
+        - field_mapping:
+            id: id
           name: nominee
+          remote_table:
+            name: nominees
+            schema: public
           source: default
           type: object
-          field_mapping:
-            id: id
     - name: VouchOutput
       relationships:
-        - remote_table:
-            schema: public
-            name: nominees
+        - field_mapping:
+            id: id
           name: nominee
+          remote_table:
+            name: nominees
+            schema: public
           source: default
           type: object
-          field_mapping:
-            id: id
     - name: EpochResponse
       relationships:
-        - remote_table:
-            schema: public
-            name: epoches
+        - field_mapping:
+            id: id
           name: epoch
+          remote_table:
+            name: epoches
+            schema: public
           source: default
           type: object
-          field_mapping:
-            id: id
     - name: UpdateTeammatesResponse
       relationships:
-        - remote_table:
-            schema: public
-            name: users
+        - field_mapping:
+            user_id: id
           name: user
+          remote_table:
+            name: users
+            schema: public
           source: default
           type: object
-          field_mapping:
-            user_id: id
     - name: ConfirmationResponse
     - name: UpdateCircleOutput
       relationships:
-        - remote_table:
-            schema: public
-            name: circles
+        - field_mapping:
+            id: id
           name: circle
+          remote_table:
+            name: circles
+            schema: public
           source: default
           type: object
-          field_mapping:
-            id: id
     - name: AllocationsResponse
       relationships:
-        - remote_table:
-            schema: public
-            name: users
+        - field_mapping:
+            user_id: id
           name: user
+          remote_table:
+            name: users
+            schema: public
           source: default
           type: object
-          field_mapping:
-            user_id: id
     - name: AllocationCsvResponse
     - name: VaultResponse
       relationships:
-        - remote_table:
-            schema: public
-            name: vaults
+        - field_mapping:
+            id: id
           name: vault
+          remote_table:
+            name: vaults
+            schema: public
           source: default
           type: object
-          field_mapping:
-            id: id
     - name: GenerateApiKeyResponse
       relationships:
-        - remote_table:
-            schema: public
-            name: circle_api_keys
+        - field_mapping:
+            hash: hash
           name: circleApiKey
+          remote_table:
+            name: circle_api_keys
+            schema: public
           source: default
           type: object
-          field_mapping:
-            hash: hash
     - name: UpdateOrgResponse
       relationships:
-        - remote_table:
-            schema: public
-            name: organizations
+        - field_mapping:
+            id: id
           name: org
+          remote_table:
+            name: organizations
+            schema: public
           source: default
           type: object
-          field_mapping:
-            id: id
     - name: LogVaultTxResponse
       relationships:
-        - remote_table:
-            schema: public
-            name: vault_transactions
+        - field_mapping:
+            id: id
           name: vault_tx_return_object
+          remote_table:
+            name: vault_transactions
+            schema: public
           source: default
           type: object
-          field_mapping:
-            id: id
     - name: DeleteCircleResponse
     - name: CircleLandingInfoResponse
     - name: UpdateContributionResponse
       relationships:
-        - remote_table:
-            schema: public
-            name: contributions
+        - field_mapping:
+            id: id
           name: updateContribution_Contribution
+          remote_table:
+            name: contributions
+            schema: public
           source: default
           type: object
-          field_mapping:
-            id: id
     - name: MarkClaimedOutput
   scalars:
     - name: timestamptz

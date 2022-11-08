@@ -5,6 +5,8 @@ import { constants as ethersConstants } from 'ethers';
 import { formatUnits } from 'ethers/lib/utils';
 import { isUserAdmin } from 'lib/users';
 import { useQuery } from 'react-query';
+import { NavLink } from 'react-router-dom';
+import { disabledStyle } from 'stitches.config';
 
 import { LoadingModal } from 'components';
 import { useApiAdminCircle, useContracts } from 'hooks';
@@ -214,7 +216,7 @@ const MembersPage = () => {
   }
   return (
     <SingleColumnLayout>
-      <Flex css={{ alignItems: 'center', mb: '$md' }}>
+      <Flex alignItems="center" css={{ mb: '$md' }}>
         <Text h1>Circle Members</Text>
         {!isMobile && (
           <Flex
@@ -247,23 +249,28 @@ const MembersPage = () => {
               )}
             </Text>
             {isAdmin && (
-              <AppLink to={paths.membersAdd(selectedCircle.id)}>
-                <Button color="primary" outlined size="small">
-                  Add Members
-                </Button>
-              </AppLink>
+              <Button
+                as={NavLink}
+                to={paths.membersAdd(selectedCircle.id)}
+                color="primary"
+                outlined
+                size="small"
+              >
+                Add Members
+              </Button>
             )}
             {circle?.hasVouching && (
-              <AppLink to={paths.membersNominate(selectedCircle.id)}>
-                <Button
-                  size="small"
-                  color="primary"
-                  outlined
-                  disabled={cannotVouch}
-                >
-                  Nominate Member
-                </Button>
-              </AppLink>
+              <Button
+                as={NavLink}
+                to={paths.membersNominate(selectedCircle.id)}
+                size="small"
+                color="primary"
+                outlined
+                tabIndex={cannotVouch ? -1 : 0}
+                css={cannotVouch ? disabledStyle : {}}
+              >
+                Nominate Member
+              </Button>
             )}
           </Flex>
         )}
@@ -376,7 +383,7 @@ const MembersPage = () => {
       <Modal
         open={newCircle}
         title="Congrats! You just launched a new circle."
-        onClose={() => setNewCircle(false)}
+        onOpenChange={() => setNewCircle(false)}
       >
         <Flex column alignItems="start" css={{ gap: '$md' }}>
           <Text p>
@@ -391,7 +398,7 @@ const MembersPage = () => {
       <Modal
         open={!!deleteUserDialog}
         title={`Remove ${deleteUserDialog?.name} from circle`}
-        onClose={() => setDeleteUserDialog(undefined)}
+        onOpenChange={() => setDeleteUserDialog(undefined)}
       >
         <Flex column alignItems="start" css={{ gap: '$md' }}>
           <Button

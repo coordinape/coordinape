@@ -44,14 +44,14 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
 
   return (
     <div>
-      <Flex css={{ mb: '$lg', flexDirection: 'column', alignItems: 'start' }}>
+      <Flex column alignItems="start" css={{ mb: '$lg' }}>
         <Text h3 semibold css={{ mb: '$md' }}>
           Dework Integration
         </Text>
         <Flex
+          column
           css={{
             mb: deworkIntegrations?.length ? '$md' : 0,
-            flexDirection: 'column',
             width: '100%',
           }}
         >
@@ -95,14 +95,14 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
         </Button>
       </Flex>
       <HR />
-      <Flex css={{ mb: '$lg', flexDirection: 'column', alignItems: 'start' }}>
+      <Flex column alignItems="start" css={{ mb: '$lg' }}>
         <Text h3 semibold css={{ mb: '$md' }}>
           Wonderverse Integration
         </Text>
         <Flex
+          column
           css={{
             mb: wonderIntegrations?.length ? '$md' : 0,
-            flexDirection: 'column',
             width: '100%',
           }}
         >
@@ -146,7 +146,7 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
         </Button>
       </Flex>
       <HR />
-      <Flex css={{ flexDirection: 'column', alignItems: 'start' }}>
+      <Flex column alignItems="start">
         <Text h3 semibold css={{ mb: '$md' }}>
           Parcel
         </Text>
@@ -167,7 +167,7 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
       <Modal
         open={!!deleteIntegration}
         title={`Remove ${deleteIntegration?.name} from circle`}
-        onClose={() => setDeleteIntegration(undefined)}
+        onOpenChange={() => setDeleteIntegration(undefined)}
       >
         <Flex column alignItems="start" css={{ gap: '$md' }}>
           <Button

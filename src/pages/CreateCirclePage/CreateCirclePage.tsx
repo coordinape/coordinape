@@ -176,7 +176,7 @@ export const SummonCirclePage = () => {
                   '@sm': { gridTemplateColumns: '1fr' },
                 }}
               >
-                <Flex column css={{ alignItems: 'flex-start', gap: '$xs' }}>
+                <Flex column alignItems="start" css={{ gap: '$xs' }}>
                   <Text variant="label" as="label">
                     Circle logo
                     <Tooltip
@@ -188,7 +188,8 @@ export const SummonCirclePage = () => {
                   </Text>
                   <Flex
                     row
-                    css={{ alignItems: 'center', gap: '$sm', width: '100%' }}
+                    alignItems="center"
+                    css={{ gap: '$sm', width: '100%' }}
                   >
                     <Avatar
                       size="medium"

@@ -1,6 +1,6 @@
 import type * as Stitches from '@stitches/react';
 
-import { styled } from '../../stitches.config';
+import { disabledStyle, styled } from '../../stitches.config';
 import { modifyVariantsForStory } from '../type-utils';
 
 export const Button = styled('button', {
@@ -22,11 +22,7 @@ export const Button = styled('button', {
   '&:focus': {
     filter: 'saturate(1.4)',
   },
-  '&[disabled]': {
-    opacity: 0.4,
-    cursor: 'default',
-    pointerEvents: 'none',
-  },
+  '&[disabled]': disabledStyle,
 
   variants: {
     color: {

@@ -4,7 +4,7 @@ import dedent from 'dedent';
 import { debounce } from 'lodash';
 import { DateTime } from 'luxon';
 import { useForm, useController } from 'react-hook-form';
-import { useQuery, useMutation } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { useSelectedCircle } from '../../recoilState';
@@ -19,6 +19,7 @@ import {
   ChevronDown,
   ChevronUp,
 } from 'icons/__generated';
+import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
 import { Panel, Text, Box, Modal, Button, Flex } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { SavingIndicator, SaveState } from 'ui/SavingIndicator';
@@ -41,7 +42,7 @@ import {
   createLinkedArray,
   LinkedElement,
   jumpToEpoch,
-  isEpochCurrent,
+  isEpochCurrentOrLater,
 } from './util';
 
 const DEBOUNCE_TIMEOUT = 1000;
@@ -103,6 +104,8 @@ const ContributionsPage = () => {
   const [currentIntContribution, setCurrentIntContribution] =
     useState<CurrentIntContribution | null>(null);
 
+  const queryClient = useQueryClient();
+
   const {
     data,
     refetch: refetchContributions,
@@ -160,6 +163,9 @@ const ContributionsPage = () => {
     useMutation(createContributionMutation, {
       onSuccess: newContribution => {
         refetchContributions();
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY_ALLOCATE_CONTRIBUTIONS],
+        });
         if (newContribution.insert_contributions_one) {
           updateSaveStateForContribution(NEW_CONTRIBUTION_ID, 'stable');
           setCurrentContribution({
@@ -234,6 +240,9 @@ const ContributionsPage = () => {
         refetchContributions();
         updateSaveStateForContribution(data.contribution_id, 'stable');
         reset();
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY_ALLOCATE_CONTRIBUTIONS],
+        });
       },
     }
   );
@@ -334,9 +343,9 @@ const ContributionsPage = () => {
     <>
       <SingleColumnLayout>
         <Flex
+          alignItems="end"
           css={{
             justifyContent: 'space-between',
-            alignItems: 'flex-end',
             flexWrap: 'wrap',
             gap: '$md',
           }}
@@ -351,7 +360,7 @@ const ContributionsPage = () => {
                   currentUserId,
                   memoizedEpochData.contributions[0]
                 ),
-                epoch: memoizedEpochData.epochs[0],
+                epoch: getCurrentEpoch(memoizedEpochData.epochs),
               });
               resetField('description', { defaultValue: '' });
               resetCreateMutation();
@@ -380,7 +389,7 @@ const ContributionsPage = () => {
           overflowY: 'scroll',
         }}
         open={modalOpen}
-        onClose={() => {
+        onOpenChange={() => {
           setModalOpen(false);
           setCurrentContribution(null);
           setCurrentIntContribution(null);
@@ -452,8 +461,8 @@ const ContributionsPage = () => {
                 </Button>
               </Flex>
               <Flex
+                alignItems="center"
                 css={{
-                  alignItems: 'center',
                   my: '$xl',
                 }}
               >
@@ -486,7 +495,7 @@ const ContributionsPage = () => {
                     ).toFormat('LLL dd')}
                   </Text>
                 </Flex>
-                {isEpochCurrent(currentContribution.epoch) ? (
+                {isEpochCurrentOrLater(currentContribution.epoch) ? (
                   <FormInputField
                     id="description"
                     name="description"
@@ -513,7 +522,7 @@ const ContributionsPage = () => {
                           );
                       },
                     }}
-                    disabled={!isEpochCurrent(currentContribution.epoch)}
+                    disabled={!isEpochCurrentOrLater(currentContribution.epoch)}
                     placeholder="What have you been working on?"
                     textArea
                   />
@@ -524,7 +533,7 @@ const ContributionsPage = () => {
                     </Text>
                   </Panel>
                 )}
-                {isEpochCurrent(currentContribution.epoch) && (
+                {isEpochCurrentOrLater(currentContribution.epoch) && (
                   <Flex
                     css={{
                       justifyContent: 'space-between',
@@ -632,7 +641,6 @@ const EpochGroup = React.memo(function EpochGroup({
   userAddress,
 }: Omit<LinkedContributionsAndEpochs, 'users'> &
   SetActiveContributionProps & { userAddress?: string }) {
-  const activeEpoch = useMemo(() => getCurrentEpoch(epochs), [epochs.length]);
   return (
     <Flex column css={{ gap: '$1xl' }}>
       {epochs.map((epoch, idx, epochArray) => (
@@ -640,15 +648,7 @@ const EpochGroup = React.memo(function EpochGroup({
           <Box>
             <Text h2 bold css={{ gap: '$md' }}>
               {epoch.id === 0 ? 'Latest' : renderEpochDate(epoch)}
-              {activeEpoch?.id === epoch.id ? (
-                <Text tag color="active">
-                  {epoch.id === 0 ? 'Future' : 'Current'}
-                </Text>
-              ) : (
-                <Text tag color="complete">
-                  Complete
-                </Text>
-              )}
+              {getEpochLabel(epoch)}
             </Text>
           </Box>
           <Panel css={{ gap: '$md', borderRadius: '$4', mt: '$lg' }}>
@@ -705,6 +705,7 @@ const ContributionList = ({
         <>
           {contributions.map(c => (
             <Panel
+              tabIndex={0}
               key={c.id}
               css={{
                 border:
@@ -725,6 +726,11 @@ const ContributionList = ({
               nested
               onClick={() => {
                 setActiveContribution(epoch, c, undefined);
+              }}
+              onKeyDown={e => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  setActiveContribution(epoch, c, undefined);
+                }
               }}
             >
               <Flex css={{ justifyContent: 'space-between' }}>

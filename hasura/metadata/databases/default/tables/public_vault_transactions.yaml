@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: vault_transactions
+  schema: public
 object_relationships:
   - name: circle
     using:

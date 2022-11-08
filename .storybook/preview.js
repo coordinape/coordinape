@@ -15,9 +15,28 @@ export const parameters = {
   controls: {
     expanded: true,
     presetColors: colors,
+    hideNoControlsWarning: true,
     matchers: {
       color: /(background|color)$/i,
       date: /Date$/,
+    },
+  },
+};
+
+export const argTypes = {
+  as: {
+    table: {
+      disable: true,
+    },
+  },
+  asChild: {
+    table: {
+      disable: true,
+    },
+  },
+  css: {
+    table: {
+      disable: true,
     },
   },
 };

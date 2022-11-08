@@ -3,12 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { LoadingModal } from '../../components';
 import { paths } from '../../routes/paths';
 import { ICircle } from '../../types';
-import BackButton from '../../ui/BackButton';
-import { Box } from '../../ui/Box/Box';
 import HintButton from '../../ui/HintButton';
 import { APP_URL } from '../../utils/domain';
 import { useSelectedCircle } from 'recoilState/app';
-import { AppLink, Flex, Panel, Text } from 'ui';
+import { AppLink, BackButton, Box, Flex, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import CSVImport from './CSVImport';
@@ -112,7 +110,7 @@ const AddMembersContents = ({
         </AppLink>
       </Box>
 
-      <Flex css={{ alignItems: 'center', mb: '$sm' }}>
+      <Flex alignItems="center" css={{ mb: '$sm' }}>
         <Text h1>Add Members to {circle.name}</Text>
       </Flex>
       <Box css={{ mb: '$md' }}>
