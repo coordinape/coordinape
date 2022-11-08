@@ -17,8 +17,8 @@ module.exports = {
     },
     {
       directory: '../src/components',
-      titlePrefix: 'Design System/Components/',
-      files: '*/*.stories.*',
+      titlePrefix: 'App UI/Compound/',
+      files: '**/*.stories.*',
     },
   ],
   core: {
