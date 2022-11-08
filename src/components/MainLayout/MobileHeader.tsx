@@ -16,22 +16,18 @@ import { CircleNav } from './CircleNav';
 import { useMainHeaderQuery } from './getMainHeaderData';
 import { TopLevelLinks } from './TopLevelLinks';
 
+import { IApiCircle } from 'types';
+
 const mainLinks = [
   [paths.circles, 'Overview'],
   isFeatureEnabled('vaults') && [paths.vaults, 'CoVaults'],
 ].filter(x => x) as [string, string][];
 
-export const MobileHeader = ({
-  circle,
-  inCircle,
-}: {
-  circle: any;
-  inCircle: boolean;
-}) => {
+export const MobileHeader = ({ inCircle }: { inCircle?: IApiCircle }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const { icon, address, logout } = useWalletStatus();
-  const org = inCircle ? circle.organization : null;
+  const org = inCircle ? inCircle?.organization : null;
   const navigate = useNavigate();
   const [showTxModal, setShowTxModal] = useState(false);
 
@@ -142,35 +138,37 @@ export const MobileHeader = ({
                     alignItems="center"
                     css={{ gap: '$sm', flexWrap: 'wrap' }}
                   >
-                    <Link
-                      css={{ display: 'flex', gap: '$sm' }}
-                      key={circle.id}
-                      type="menu"
-                      onClick={() => {
-                        navigate(paths.organization(org.id.toString()));
-                      }}
-                    >
-                      <Avatar path={org?.logo} size="xs" name={org.name} />
-                      <Text semibold h3>
-                        {org.name}
-                      </Text>
-                    </Link>
+                    {org?.id && (
+                      <Link
+                        css={{ display: 'flex', gap: '$sm' }}
+                        key={inCircle.id}
+                        type="menu"
+                        onClick={() => {
+                          navigate(paths.organization(org.id.toString()));
+                        }}
+                      >
+                        <Avatar path={org.logo} size="xs" name={org.name} />
+                        <Text semibold h3>
+                          {org.name}
+                        </Text>
+                      </Link>
+                    )}
                     <ChevronRight color="neutral" />
                     <Link
                       css={{ display: 'flex', gap: '$sm' }}
-                      key={circle.id}
+                      key={inCircle.id}
                       type="menu"
                       onClick={() => {
-                        navigate(paths.history(circle.id));
+                        navigate(paths.history(inCircle.id));
                       }}
                     >
                       <Avatar
-                        path={circle?.logo}
+                        path={inCircle?.logo}
                         size="xs"
-                        name={circle.name}
+                        name={inCircle.name}
                       />
                       <Text semibold h3>
-                        {circle.name}
+                        {inCircle.name}
                       </Text>
                     </Link>
                   </Flex>

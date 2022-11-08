@@ -16,22 +16,25 @@ import { useMainHeaderQuery } from './getMainHeaderData';
 import { MobileHeader } from './MobileHeader';
 import { OverviewMenu } from './OverviewMenu';
 
+import { IApiCircle } from 'types';
+
 export const MainHeader = () => {
   const { circle } = useRecoilValueLoadable(rSelectedCircle).valueMaybe() || {};
   const location = useLocation();
-  const inCircle = !!(circle && isCircleSpecificPath(location));
+  const inCircle =
+    circle && isCircleSpecificPath(location) ? circle : undefined;
 
   if (useMediaQuery(MediaQueryKeys.sm))
     return (
       <Suspense fallback={null}>
-        <MobileHeader inCircle={!!inCircle} circle={circle} />
+        <MobileHeader inCircle={inCircle} />
       </Suspense>
     );
 
   return <NormalHeader inCircle={inCircle} />;
 };
 
-const NormalHeader = ({ inCircle }: { inCircle: boolean }) => {
+const NormalHeader = ({ inCircle }: { inCircle?: IApiCircle }) => {
   const query = useMainHeaderQuery();
   const showClaimsButton =
     (query.data?.claims_aggregate.aggregate?.count || 0) > 0;
