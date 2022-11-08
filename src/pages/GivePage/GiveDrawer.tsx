@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 
 import { ChevronDown, ChevronUp } from '../../icons/__generated';
-import { Avatar, Box, Button, Flex, Text, TextArea } from 'ui';
+import { Avatar, Box, Button, Flex, Text, TextArea, MarkdownPreview } from 'ui';
 import { SaveState, SavingIndicator } from 'ui/SavingIndicator';
 
 import { Contribution } from './Contribution';
@@ -252,9 +252,7 @@ export const GiveDrawer = ({
                 borderBottom: '1px solid $border',
               }}
             >
-              <Text css={{ whiteSpace: 'pre-wrap' }} p>
-                {member.bio}
-              </Text>
+              <MarkdownPreview source={member.bio} />
             </Box>
           </Box>
         )}

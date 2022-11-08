@@ -53,7 +53,6 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   // Update the state after all external validations have passed
-
   const mutationResult = await adminClient.mutate(
     {
       update_users: [
