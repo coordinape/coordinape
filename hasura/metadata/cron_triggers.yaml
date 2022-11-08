@@ -1,3 +1,11 @@
+- name: calcPgives
+  webhook: '{{HASURA_API_BASE_URL}}/cron/calcPgives'
+  schedule: '* 0 * * *'
+  include_in_metadata: true
+  payload: {}
+  headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
 - name: check-nominee
   webhook: '{{HASURA_API_BASE_URL}}/cron/checkNominee'
   schedule: 1 0 * * *

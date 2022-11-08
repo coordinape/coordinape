@@ -16,6 +16,9 @@ object_relationships:
         remote_table:
           name: circles
           schema: public
+  - name: circle_pgive
+    using:
+      foreign_key_constraint_on: circle_pgives_id
 array_relationships:
   - name: burns
     using:
@@ -39,6 +42,13 @@ array_relationships:
         insertion_order: null
         remote_table:
           name: pending_token_gifts
+          schema: public
+  - name: member_epoch_pgives
+    using:
+      foreign_key_constraint_on:
+        column: epoch_id
+        table:
+          name: member_epoch_pgives
           schema: public
   - name: token_gifts
     using:

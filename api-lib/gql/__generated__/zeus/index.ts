@@ -2337,6 +2337,363 @@ export type ValueTypes = {
     circle_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** circle pgive pot allocation */
+  ['circle_pgives']: AliasType<{
+    active_months?: boolean | `@${string}`;
+    circle_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    month?: boolean | `@${string}`;
+    normalized_pgives?: boolean | `@${string}`;
+    year?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "circle_pgives" */
+  ['circle_pgives_aggregate']: AliasType<{
+    aggregate?: ValueTypes['circle_pgives_aggregate_fields'];
+    nodes?: ValueTypes['circle_pgives'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "circle_pgives" */
+  ['circle_pgives_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['circle_pgives_avg_fields'];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes['circle_pgives_select_column']>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`
+    ];
+    max?: ValueTypes['circle_pgives_max_fields'];
+    min?: ValueTypes['circle_pgives_min_fields'];
+    stddev?: ValueTypes['circle_pgives_stddev_fields'];
+    stddev_pop?: ValueTypes['circle_pgives_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['circle_pgives_stddev_samp_fields'];
+    sum?: ValueTypes['circle_pgives_sum_fields'];
+    var_pop?: ValueTypes['circle_pgives_var_pop_fields'];
+    var_samp?: ValueTypes['circle_pgives_var_samp_fields'];
+    variance?: ValueTypes['circle_pgives_variance_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by aggregate values of table "circle_pgives" */
+  ['circle_pgives_aggregate_order_by']: {
+    avg?: ValueTypes['circle_pgives_avg_order_by'] | undefined | null;
+    count?: ValueTypes['order_by'] | undefined | null;
+    max?: ValueTypes['circle_pgives_max_order_by'] | undefined | null;
+    min?: ValueTypes['circle_pgives_min_order_by'] | undefined | null;
+    stddev?: ValueTypes['circle_pgives_stddev_order_by'] | undefined | null;
+    stddev_pop?:
+      | ValueTypes['circle_pgives_stddev_pop_order_by']
+      | undefined
+      | null;
+    stddev_samp?:
+      | ValueTypes['circle_pgives_stddev_samp_order_by']
+      | undefined
+      | null;
+    sum?: ValueTypes['circle_pgives_sum_order_by'] | undefined | null;
+    var_pop?: ValueTypes['circle_pgives_var_pop_order_by'] | undefined | null;
+    var_samp?: ValueTypes['circle_pgives_var_samp_order_by'] | undefined | null;
+    variance?: ValueTypes['circle_pgives_variance_order_by'] | undefined | null;
+  };
+  /** input type for inserting array relation for remote table "circle_pgives" */
+  ['circle_pgives_arr_rel_insert_input']: {
+    data: Array<ValueTypes['circle_pgives_insert_input']>;
+    /** upsert condition */
+    on_conflict?: ValueTypes['circle_pgives_on_conflict'] | undefined | null;
+  };
+  /** aggregate avg on columns */
+  ['circle_pgives_avg_fields']: AliasType<{
+    active_months?: boolean | `@${string}`;
+    circle_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    month?: boolean | `@${string}`;
+    normalized_pgives?: boolean | `@${string}`;
+    year?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by avg() on columns of table "circle_pgives" */
+  ['circle_pgives_avg_order_by']: {
+    active_months?: ValueTypes['order_by'] | undefined | null;
+    circle_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    month?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgives?: ValueTypes['order_by'] | undefined | null;
+    year?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** Boolean expression to filter rows from the table "circle_pgives". All fields are combined with a logical 'AND'. */
+  ['circle_pgives_bool_exp']: {
+    _and?: Array<ValueTypes['circle_pgives_bool_exp']> | undefined | null;
+    _not?: ValueTypes['circle_pgives_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['circle_pgives_bool_exp']> | undefined | null;
+    active_months?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    circle_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    month?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    normalized_pgives?: ValueTypes['numeric_comparison_exp'] | undefined | null;
+    year?: ValueTypes['Int_comparison_exp'] | undefined | null;
+  };
+  /** unique or primary key constraints on table "circle_pgives" */
+  ['circle_pgives_constraint']: circle_pgives_constraint;
+  /** input type for incrementing numeric columns in table "circle_pgives" */
+  ['circle_pgives_inc_input']: {
+    active_months?: number | undefined | null;
+    circle_id?: number | undefined | null;
+    id?: number | undefined | null;
+    month?: number | undefined | null;
+    normalized_pgives?: ValueTypes['numeric'] | undefined | null;
+    year?: number | undefined | null;
+  };
+  /** input type for inserting data into table "circle_pgives" */
+  ['circle_pgives_insert_input']: {
+    active_months?: number | undefined | null;
+    circle_id?: number | undefined | null;
+    id?: number | undefined | null;
+    month?: number | undefined | null;
+    normalized_pgives?: ValueTypes['numeric'] | undefined | null;
+    year?: number | undefined | null;
+  };
+  /** aggregate max on columns */
+  ['circle_pgives_max_fields']: AliasType<{
+    active_months?: boolean | `@${string}`;
+    circle_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    month?: boolean | `@${string}`;
+    normalized_pgives?: boolean | `@${string}`;
+    year?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by max() on columns of table "circle_pgives" */
+  ['circle_pgives_max_order_by']: {
+    active_months?: ValueTypes['order_by'] | undefined | null;
+    circle_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    month?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgives?: ValueTypes['order_by'] | undefined | null;
+    year?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate min on columns */
+  ['circle_pgives_min_fields']: AliasType<{
+    active_months?: boolean | `@${string}`;
+    circle_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    month?: boolean | `@${string}`;
+    normalized_pgives?: boolean | `@${string}`;
+    year?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by min() on columns of table "circle_pgives" */
+  ['circle_pgives_min_order_by']: {
+    active_months?: ValueTypes['order_by'] | undefined | null;
+    circle_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    month?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgives?: ValueTypes['order_by'] | undefined | null;
+    year?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** response of any mutation on the table "circle_pgives" */
+  ['circle_pgives_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['circle_pgives'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** input type for inserting object relation for remote table "circle_pgives" */
+  ['circle_pgives_obj_rel_insert_input']: {
+    data: ValueTypes['circle_pgives_insert_input'];
+    /** upsert condition */
+    on_conflict?: ValueTypes['circle_pgives_on_conflict'] | undefined | null;
+  };
+  /** on_conflict condition type for table "circle_pgives" */
+  ['circle_pgives_on_conflict']: {
+    constraint: ValueTypes['circle_pgives_constraint'];
+    update_columns: Array<ValueTypes['circle_pgives_update_column']>;
+    where?: ValueTypes['circle_pgives_bool_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "circle_pgives". */
+  ['circle_pgives_order_by']: {
+    active_months?: ValueTypes['order_by'] | undefined | null;
+    circle_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    month?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgives?: ValueTypes['order_by'] | undefined | null;
+    year?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** primary key columns input for table: circle_pgives */
+  ['circle_pgives_pk_columns_input']: {
+    id: number;
+  };
+  /** select columns of table "circle_pgives" */
+  ['circle_pgives_select_column']: circle_pgives_select_column;
+  /** input type for updating data in table "circle_pgives" */
+  ['circle_pgives_set_input']: {
+    active_months?: number | undefined | null;
+    circle_id?: number | undefined | null;
+    id?: number | undefined | null;
+    month?: number | undefined | null;
+    normalized_pgives?: ValueTypes['numeric'] | undefined | null;
+    year?: number | undefined | null;
+  };
+  /** aggregate stddev on columns */
+  ['circle_pgives_stddev_fields']: AliasType<{
+    active_months?: boolean | `@${string}`;
+    circle_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    month?: boolean | `@${string}`;
+    normalized_pgives?: boolean | `@${string}`;
+    year?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by stddev() on columns of table "circle_pgives" */
+  ['circle_pgives_stddev_order_by']: {
+    active_months?: ValueTypes['order_by'] | undefined | null;
+    circle_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    month?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgives?: ValueTypes['order_by'] | undefined | null;
+    year?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate stddev_pop on columns */
+  ['circle_pgives_stddev_pop_fields']: AliasType<{
+    active_months?: boolean | `@${string}`;
+    circle_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    month?: boolean | `@${string}`;
+    normalized_pgives?: boolean | `@${string}`;
+    year?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by stddev_pop() on columns of table "circle_pgives" */
+  ['circle_pgives_stddev_pop_order_by']: {
+    active_months?: ValueTypes['order_by'] | undefined | null;
+    circle_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    month?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgives?: ValueTypes['order_by'] | undefined | null;
+    year?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate stddev_samp on columns */
+  ['circle_pgives_stddev_samp_fields']: AliasType<{
+    active_months?: boolean | `@${string}`;
+    circle_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    month?: boolean | `@${string}`;
+    normalized_pgives?: boolean | `@${string}`;
+    year?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by stddev_samp() on columns of table "circle_pgives" */
+  ['circle_pgives_stddev_samp_order_by']: {
+    active_months?: ValueTypes['order_by'] | undefined | null;
+    circle_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    month?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgives?: ValueTypes['order_by'] | undefined | null;
+    year?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** Streaming cursor of the table "circle_pgives" */
+  ['circle_pgives_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['circle_pgives_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['circle_pgives_stream_cursor_value_input']: {
+    active_months?: number | undefined | null;
+    circle_id?: number | undefined | null;
+    id?: number | undefined | null;
+    month?: number | undefined | null;
+    normalized_pgives?: ValueTypes['numeric'] | undefined | null;
+    year?: number | undefined | null;
+  };
+  /** aggregate sum on columns */
+  ['circle_pgives_sum_fields']: AliasType<{
+    active_months?: boolean | `@${string}`;
+    circle_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    month?: boolean | `@${string}`;
+    normalized_pgives?: boolean | `@${string}`;
+    year?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by sum() on columns of table "circle_pgives" */
+  ['circle_pgives_sum_order_by']: {
+    active_months?: ValueTypes['order_by'] | undefined | null;
+    circle_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    month?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgives?: ValueTypes['order_by'] | undefined | null;
+    year?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** update columns of table "circle_pgives" */
+  ['circle_pgives_update_column']: circle_pgives_update_column;
+  ['circle_pgives_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: ValueTypes['circle_pgives_inc_input'] | undefined | null;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ValueTypes['circle_pgives_set_input'] | undefined | null;
+    where: ValueTypes['circle_pgives_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['circle_pgives_var_pop_fields']: AliasType<{
+    active_months?: boolean | `@${string}`;
+    circle_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    month?: boolean | `@${string}`;
+    normalized_pgives?: boolean | `@${string}`;
+    year?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by var_pop() on columns of table "circle_pgives" */
+  ['circle_pgives_var_pop_order_by']: {
+    active_months?: ValueTypes['order_by'] | undefined | null;
+    circle_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    month?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgives?: ValueTypes['order_by'] | undefined | null;
+    year?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate var_samp on columns */
+  ['circle_pgives_var_samp_fields']: AliasType<{
+    active_months?: boolean | `@${string}`;
+    circle_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    month?: boolean | `@${string}`;
+    normalized_pgives?: boolean | `@${string}`;
+    year?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by var_samp() on columns of table "circle_pgives" */
+  ['circle_pgives_var_samp_order_by']: {
+    active_months?: ValueTypes['order_by'] | undefined | null;
+    circle_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    month?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgives?: ValueTypes['order_by'] | undefined | null;
+    year?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate variance on columns */
+  ['circle_pgives_variance_fields']: AliasType<{
+    active_months?: boolean | `@${string}`;
+    circle_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    month?: boolean | `@${string}`;
+    normalized_pgives?: boolean | `@${string}`;
+    year?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by variance() on columns of table "circle_pgives" */
+  ['circle_pgives_variance_order_by']: {
+    active_months?: ValueTypes['order_by'] | undefined | null;
+    circle_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    month?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgives?: ValueTypes['order_by'] | undefined | null;
+    year?: ValueTypes['order_by'] | undefined | null;
+  };
   /** columns and relationships of "circle_private" */
   ['circle_private']: AliasType<{
     /** An object relationship */
@@ -2829,6 +3186,52 @@ export type ValueTypes = {
       },
       ValueTypes['circle_metadata_aggregate']
     ];
+    circle_pgives?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['circle_pgives_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['circle_pgives_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['circle_pgives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['circle_pgives']
+    ];
+    circle_pgives_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['circle_pgives_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['circle_pgives_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['circle_pgives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['circle_pgives_aggregate']
+    ];
     /** An object relationship */
     circle_private?: ValueTypes['circle_private'];
     contact?: boolean | `@${string}`;
@@ -3299,6 +3702,7 @@ export type ValueTypes = {
     auto_opt_out?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     burns?: ValueTypes['burns_bool_exp'] | undefined | null;
     circle_metadata?: ValueTypes['circle_metadata_bool_exp'] | undefined | null;
+    circle_pgives?: ValueTypes['circle_pgives_bool_exp'] | undefined | null;
     circle_private?: ValueTypes['circle_private_bool_exp'] | undefined | null;
     contact?: ValueTypes['String_comparison_exp'] | undefined | null;
     contributions?: ValueTypes['contributions_bool_exp'] | undefined | null;
@@ -3368,6 +3772,10 @@ export type ValueTypes = {
     burns?: ValueTypes['burns_arr_rel_insert_input'] | undefined | null;
     circle_metadata?:
       | ValueTypes['circle_metadata_arr_rel_insert_input']
+      | undefined
+      | null;
+    circle_pgives?:
+      | ValueTypes['circle_pgives_arr_rel_insert_input']
       | undefined
       | null;
     circle_private?:
@@ -3541,6 +3949,10 @@ export type ValueTypes = {
     burns_aggregate?: ValueTypes['burns_aggregate_order_by'] | undefined | null;
     circle_metadata_aggregate?:
       | ValueTypes['circle_metadata_aggregate_order_by']
+      | undefined
+      | null;
+    circle_pgives_aggregate?:
+      | ValueTypes['circle_pgives_aggregate_order_by']
       | undefined
       | null;
     circle_private?: ValueTypes['circle_private_order_by'] | undefined | null;
@@ -5186,6 +5598,7 @@ export type ValueTypes = {
   };
   /** columns and relationships of "epoches" */
   ['epochs']: AliasType<{
+    active_months_bonus?: boolean | `@${string}`;
     burns?: [
       {
         /** distinct select on columns */
@@ -5235,6 +5648,9 @@ export type ValueTypes = {
     /** An object relationship */
     circle?: ValueTypes['circles'];
     circle_id?: boolean | `@${string}`;
+    /** An object relationship */
+    circle_pgive?: ValueTypes['circle_pgives'];
+    circle_pgives_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     days?: boolean | `@${string}`;
     distributions?: [
@@ -5331,12 +5747,61 @@ export type ValueTypes = {
       },
       ValueTypes['pending_token_gifts_aggregate']
     ];
+    gives_receiver_base?: boolean | `@${string}`;
     grant?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    member_epoch_pgives?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['member_epoch_pgives_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['member_epoch_pgives_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['member_epoch_pgives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['member_epoch_pgives']
+    ];
+    member_epoch_pgives_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['member_epoch_pgives_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['member_epoch_pgives_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['member_epoch_pgives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['member_epoch_pgives_aggregate']
+    ];
+    notes_bonus?: boolean | `@${string}`;
     notified_before_end?: boolean | `@${string}`;
     notified_end?: boolean | `@${string}`;
     notified_start?: boolean | `@${string}`;
     number?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
     regift_days?: boolean | `@${string}`;
     repeat?: boolean | `@${string}`;
     repeat_day_of_month?: boolean | `@${string}`;
@@ -5439,11 +5904,16 @@ export type ValueTypes = {
   };
   /** aggregate avg on columns */
   ['epochs_avg_fields']: AliasType<{
+    active_months_bonus?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
+    circle_pgives_id?: boolean | `@${string}`;
     days?: boolean | `@${string}`;
+    gives_receiver_base?: boolean | `@${string}`;
     grant?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    notes_bonus?: boolean | `@${string}`;
     number?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
     regift_days?: boolean | `@${string}`;
     repeat?: boolean | `@${string}`;
     repeat_day_of_month?: boolean | `@${string}`;
@@ -5451,11 +5921,16 @@ export type ValueTypes = {
   }>;
   /** order by avg() on columns of table "epoches" */
   ['epochs_avg_order_by']: {
+    active_months_bonus?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
+    circle_pgives_id?: ValueTypes['order_by'] | undefined | null;
     days?: ValueTypes['order_by'] | undefined | null;
+    gives_receiver_base?: ValueTypes['order_by'] | undefined | null;
     grant?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    notes_bonus?: ValueTypes['order_by'] | undefined | null;
     number?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
     regift_days?: ValueTypes['order_by'] | undefined | null;
     repeat?: ValueTypes['order_by'] | undefined | null;
     repeat_day_of_month?: ValueTypes['order_by'] | undefined | null;
@@ -5465,9 +5940,15 @@ export type ValueTypes = {
     _and?: Array<ValueTypes['epochs_bool_exp']> | undefined | null;
     _not?: ValueTypes['epochs_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['epochs_bool_exp']> | undefined | null;
+    active_months_bonus?:
+      | ValueTypes['numeric_comparison_exp']
+      | undefined
+      | null;
     burns?: ValueTypes['burns_bool_exp'] | undefined | null;
     circle?: ValueTypes['circles_bool_exp'] | undefined | null;
     circle_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    circle_pgive?: ValueTypes['circle_pgives_bool_exp'] | undefined | null;
+    circle_pgives_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     days?: ValueTypes['Int_comparison_exp'] | undefined | null;
     distributions?: ValueTypes['distributions_bool_exp'] | undefined | null;
@@ -5477,8 +5958,17 @@ export type ValueTypes = {
       | ValueTypes['pending_token_gifts_bool_exp']
       | undefined
       | null;
+    gives_receiver_base?:
+      | ValueTypes['numeric_comparison_exp']
+      | undefined
+      | null;
     grant?: ValueTypes['numeric_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    member_epoch_pgives?:
+      | ValueTypes['member_epoch_pgives_bool_exp']
+      | undefined
+      | null;
+    notes_bonus?: ValueTypes['numeric_comparison_exp'] | undefined | null;
     notified_before_end?:
       | ValueTypes['timestamp_comparison_exp']
       | undefined
@@ -5486,6 +5976,7 @@ export type ValueTypes = {
     notified_end?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     notified_start?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     number?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    pgive?: ValueTypes['numeric_comparison_exp'] | undefined | null;
     regift_days?: ValueTypes['Int_comparison_exp'] | undefined | null;
     repeat?: ValueTypes['Int_comparison_exp'] | undefined | null;
     repeat_day_of_month?: ValueTypes['Int_comparison_exp'] | undefined | null;
@@ -5497,20 +5988,31 @@ export type ValueTypes = {
   ['epochs_constraint']: epochs_constraint;
   /** input type for incrementing numeric columns in table "epoches" */
   ['epochs_inc_input']: {
+    active_months_bonus?: ValueTypes['numeric'] | undefined | null;
     circle_id?: number | undefined | null;
+    circle_pgives_id?: number | undefined | null;
     days?: number | undefined | null;
+    gives_receiver_base?: ValueTypes['numeric'] | undefined | null;
     grant?: ValueTypes['numeric'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
+    notes_bonus?: ValueTypes['numeric'] | undefined | null;
     number?: number | undefined | null;
+    pgive?: ValueTypes['numeric'] | undefined | null;
     regift_days?: number | undefined | null;
     repeat?: number | undefined | null;
     repeat_day_of_month?: number | undefined | null;
   };
   /** input type for inserting data into table "epoches" */
   ['epochs_insert_input']: {
+    active_months_bonus?: ValueTypes['numeric'] | undefined | null;
     burns?: ValueTypes['burns_arr_rel_insert_input'] | undefined | null;
     circle?: ValueTypes['circles_obj_rel_insert_input'] | undefined | null;
     circle_id?: number | undefined | null;
+    circle_pgive?:
+      | ValueTypes['circle_pgives_obj_rel_insert_input']
+      | undefined
+      | null;
+    circle_pgives_id?: number | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     days?: number | undefined | null;
     distributions?:
@@ -5523,12 +6025,19 @@ export type ValueTypes = {
       | ValueTypes['pending_token_gifts_arr_rel_insert_input']
       | undefined
       | null;
+    gives_receiver_base?: ValueTypes['numeric'] | undefined | null;
     grant?: ValueTypes['numeric'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
+    member_epoch_pgives?:
+      | ValueTypes['member_epoch_pgives_arr_rel_insert_input']
+      | undefined
+      | null;
+    notes_bonus?: ValueTypes['numeric'] | undefined | null;
     notified_before_end?: ValueTypes['timestamp'] | undefined | null;
     notified_end?: ValueTypes['timestamp'] | undefined | null;
     notified_start?: ValueTypes['timestamp'] | undefined | null;
     number?: number | undefined | null;
+    pgive?: ValueTypes['numeric'] | undefined | null;
     regift_days?: number | undefined | null;
     repeat?: number | undefined | null;
     repeat_day_of_month?: number | undefined | null;
@@ -5541,16 +6050,21 @@ export type ValueTypes = {
   };
   /** aggregate max on columns */
   ['epochs_max_fields']: AliasType<{
+    active_months_bonus?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
+    circle_pgives_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     days?: boolean | `@${string}`;
     end_date?: boolean | `@${string}`;
+    gives_receiver_base?: boolean | `@${string}`;
     grant?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    notes_bonus?: boolean | `@${string}`;
     notified_before_end?: boolean | `@${string}`;
     notified_end?: boolean | `@${string}`;
     notified_start?: boolean | `@${string}`;
     number?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
     regift_days?: boolean | `@${string}`;
     repeat?: boolean | `@${string}`;
     repeat_day_of_month?: boolean | `@${string}`;
@@ -5560,16 +6074,21 @@ export type ValueTypes = {
   }>;
   /** order by max() on columns of table "epoches" */
   ['epochs_max_order_by']: {
+    active_months_bonus?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
+    circle_pgives_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     days?: ValueTypes['order_by'] | undefined | null;
     end_date?: ValueTypes['order_by'] | undefined | null;
+    gives_receiver_base?: ValueTypes['order_by'] | undefined | null;
     grant?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    notes_bonus?: ValueTypes['order_by'] | undefined | null;
     notified_before_end?: ValueTypes['order_by'] | undefined | null;
     notified_end?: ValueTypes['order_by'] | undefined | null;
     notified_start?: ValueTypes['order_by'] | undefined | null;
     number?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
     regift_days?: ValueTypes['order_by'] | undefined | null;
     repeat?: ValueTypes['order_by'] | undefined | null;
     repeat_day_of_month?: ValueTypes['order_by'] | undefined | null;
@@ -5578,16 +6097,21 @@ export type ValueTypes = {
   };
   /** aggregate min on columns */
   ['epochs_min_fields']: AliasType<{
+    active_months_bonus?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
+    circle_pgives_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     days?: boolean | `@${string}`;
     end_date?: boolean | `@${string}`;
+    gives_receiver_base?: boolean | `@${string}`;
     grant?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    notes_bonus?: boolean | `@${string}`;
     notified_before_end?: boolean | `@${string}`;
     notified_end?: boolean | `@${string}`;
     notified_start?: boolean | `@${string}`;
     number?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
     regift_days?: boolean | `@${string}`;
     repeat?: boolean | `@${string}`;
     repeat_day_of_month?: boolean | `@${string}`;
@@ -5597,16 +6121,21 @@ export type ValueTypes = {
   }>;
   /** order by min() on columns of table "epoches" */
   ['epochs_min_order_by']: {
+    active_months_bonus?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
+    circle_pgives_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     days?: ValueTypes['order_by'] | undefined | null;
     end_date?: ValueTypes['order_by'] | undefined | null;
+    gives_receiver_base?: ValueTypes['order_by'] | undefined | null;
     grant?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    notes_bonus?: ValueTypes['order_by'] | undefined | null;
     notified_before_end?: ValueTypes['order_by'] | undefined | null;
     notified_end?: ValueTypes['order_by'] | undefined | null;
     notified_start?: ValueTypes['order_by'] | undefined | null;
     number?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
     regift_days?: ValueTypes['order_by'] | undefined | null;
     repeat?: ValueTypes['order_by'] | undefined | null;
     repeat_day_of_month?: ValueTypes['order_by'] | undefined | null;
@@ -5635,9 +6164,12 @@ export type ValueTypes = {
   };
   /** Ordering options when selecting data from "epoches". */
   ['epochs_order_by']: {
+    active_months_bonus?: ValueTypes['order_by'] | undefined | null;
     burns_aggregate?: ValueTypes['burns_aggregate_order_by'] | undefined | null;
     circle?: ValueTypes['circles_order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
+    circle_pgive?: ValueTypes['circle_pgives_order_by'] | undefined | null;
+    circle_pgives_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     days?: ValueTypes['order_by'] | undefined | null;
     distributions_aggregate?:
@@ -5650,12 +6182,19 @@ export type ValueTypes = {
       | ValueTypes['pending_token_gifts_aggregate_order_by']
       | undefined
       | null;
+    gives_receiver_base?: ValueTypes['order_by'] | undefined | null;
     grant?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    member_epoch_pgives_aggregate?:
+      | ValueTypes['member_epoch_pgives_aggregate_order_by']
+      | undefined
+      | null;
+    notes_bonus?: ValueTypes['order_by'] | undefined | null;
     notified_before_end?: ValueTypes['order_by'] | undefined | null;
     notified_end?: ValueTypes['order_by'] | undefined | null;
     notified_start?: ValueTypes['order_by'] | undefined | null;
     number?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
     regift_days?: ValueTypes['order_by'] | undefined | null;
     repeat?: ValueTypes['order_by'] | undefined | null;
     repeat_day_of_month?: ValueTypes['order_by'] | undefined | null;
@@ -5674,17 +6213,22 @@ export type ValueTypes = {
   ['epochs_select_column']: epochs_select_column;
   /** input type for updating data in table "epoches" */
   ['epochs_set_input']: {
+    active_months_bonus?: ValueTypes['numeric'] | undefined | null;
     circle_id?: number | undefined | null;
+    circle_pgives_id?: number | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     days?: number | undefined | null;
     end_date?: ValueTypes['timestamptz'] | undefined | null;
     ended?: boolean | undefined | null;
+    gives_receiver_base?: ValueTypes['numeric'] | undefined | null;
     grant?: ValueTypes['numeric'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
+    notes_bonus?: ValueTypes['numeric'] | undefined | null;
     notified_before_end?: ValueTypes['timestamp'] | undefined | null;
     notified_end?: ValueTypes['timestamp'] | undefined | null;
     notified_start?: ValueTypes['timestamp'] | undefined | null;
     number?: number | undefined | null;
+    pgive?: ValueTypes['numeric'] | undefined | null;
     regift_days?: number | undefined | null;
     repeat?: number | undefined | null;
     repeat_day_of_month?: number | undefined | null;
@@ -5693,11 +6237,16 @@ export type ValueTypes = {
   };
   /** aggregate stddev on columns */
   ['epochs_stddev_fields']: AliasType<{
+    active_months_bonus?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
+    circle_pgives_id?: boolean | `@${string}`;
     days?: boolean | `@${string}`;
+    gives_receiver_base?: boolean | `@${string}`;
     grant?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    notes_bonus?: boolean | `@${string}`;
     number?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
     regift_days?: boolean | `@${string}`;
     repeat?: boolean | `@${string}`;
     repeat_day_of_month?: boolean | `@${string}`;
@@ -5705,22 +6254,32 @@ export type ValueTypes = {
   }>;
   /** order by stddev() on columns of table "epoches" */
   ['epochs_stddev_order_by']: {
+    active_months_bonus?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
+    circle_pgives_id?: ValueTypes['order_by'] | undefined | null;
     days?: ValueTypes['order_by'] | undefined | null;
+    gives_receiver_base?: ValueTypes['order_by'] | undefined | null;
     grant?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    notes_bonus?: ValueTypes['order_by'] | undefined | null;
     number?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
     regift_days?: ValueTypes['order_by'] | undefined | null;
     repeat?: ValueTypes['order_by'] | undefined | null;
     repeat_day_of_month?: ValueTypes['order_by'] | undefined | null;
   };
   /** aggregate stddev_pop on columns */
   ['epochs_stddev_pop_fields']: AliasType<{
+    active_months_bonus?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
+    circle_pgives_id?: boolean | `@${string}`;
     days?: boolean | `@${string}`;
+    gives_receiver_base?: boolean | `@${string}`;
     grant?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    notes_bonus?: boolean | `@${string}`;
     number?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
     regift_days?: boolean | `@${string}`;
     repeat?: boolean | `@${string}`;
     repeat_day_of_month?: boolean | `@${string}`;
@@ -5728,22 +6287,32 @@ export type ValueTypes = {
   }>;
   /** order by stddev_pop() on columns of table "epoches" */
   ['epochs_stddev_pop_order_by']: {
+    active_months_bonus?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
+    circle_pgives_id?: ValueTypes['order_by'] | undefined | null;
     days?: ValueTypes['order_by'] | undefined | null;
+    gives_receiver_base?: ValueTypes['order_by'] | undefined | null;
     grant?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    notes_bonus?: ValueTypes['order_by'] | undefined | null;
     number?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
     regift_days?: ValueTypes['order_by'] | undefined | null;
     repeat?: ValueTypes['order_by'] | undefined | null;
     repeat_day_of_month?: ValueTypes['order_by'] | undefined | null;
   };
   /** aggregate stddev_samp on columns */
   ['epochs_stddev_samp_fields']: AliasType<{
+    active_months_bonus?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
+    circle_pgives_id?: boolean | `@${string}`;
     days?: boolean | `@${string}`;
+    gives_receiver_base?: boolean | `@${string}`;
     grant?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    notes_bonus?: boolean | `@${string}`;
     number?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
     regift_days?: boolean | `@${string}`;
     repeat?: boolean | `@${string}`;
     repeat_day_of_month?: boolean | `@${string}`;
@@ -5751,11 +6320,16 @@ export type ValueTypes = {
   }>;
   /** order by stddev_samp() on columns of table "epoches" */
   ['epochs_stddev_samp_order_by']: {
+    active_months_bonus?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
+    circle_pgives_id?: ValueTypes['order_by'] | undefined | null;
     days?: ValueTypes['order_by'] | undefined | null;
+    gives_receiver_base?: ValueTypes['order_by'] | undefined | null;
     grant?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    notes_bonus?: ValueTypes['order_by'] | undefined | null;
     number?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
     regift_days?: ValueTypes['order_by'] | undefined | null;
     repeat?: ValueTypes['order_by'] | undefined | null;
     repeat_day_of_month?: ValueTypes['order_by'] | undefined | null;
@@ -5769,17 +6343,22 @@ export type ValueTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ['epochs_stream_cursor_value_input']: {
+    active_months_bonus?: ValueTypes['numeric'] | undefined | null;
     circle_id?: number | undefined | null;
+    circle_pgives_id?: number | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     days?: number | undefined | null;
     end_date?: ValueTypes['timestamptz'] | undefined | null;
     ended?: boolean | undefined | null;
+    gives_receiver_base?: ValueTypes['numeric'] | undefined | null;
     grant?: ValueTypes['numeric'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
+    notes_bonus?: ValueTypes['numeric'] | undefined | null;
     notified_before_end?: ValueTypes['timestamp'] | undefined | null;
     notified_end?: ValueTypes['timestamp'] | undefined | null;
     notified_start?: ValueTypes['timestamp'] | undefined | null;
     number?: number | undefined | null;
+    pgive?: ValueTypes['numeric'] | undefined | null;
     regift_days?: number | undefined | null;
     repeat?: number | undefined | null;
     repeat_day_of_month?: number | undefined | null;
@@ -5788,11 +6367,16 @@ export type ValueTypes = {
   };
   /** aggregate sum on columns */
   ['epochs_sum_fields']: AliasType<{
+    active_months_bonus?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
+    circle_pgives_id?: boolean | `@${string}`;
     days?: boolean | `@${string}`;
+    gives_receiver_base?: boolean | `@${string}`;
     grant?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    notes_bonus?: boolean | `@${string}`;
     number?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
     regift_days?: boolean | `@${string}`;
     repeat?: boolean | `@${string}`;
     repeat_day_of_month?: boolean | `@${string}`;
@@ -5800,11 +6384,16 @@ export type ValueTypes = {
   }>;
   /** order by sum() on columns of table "epoches" */
   ['epochs_sum_order_by']: {
+    active_months_bonus?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
+    circle_pgives_id?: ValueTypes['order_by'] | undefined | null;
     days?: ValueTypes['order_by'] | undefined | null;
+    gives_receiver_base?: ValueTypes['order_by'] | undefined | null;
     grant?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    notes_bonus?: ValueTypes['order_by'] | undefined | null;
     number?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
     regift_days?: ValueTypes['order_by'] | undefined | null;
     repeat?: ValueTypes['order_by'] | undefined | null;
     repeat_day_of_month?: ValueTypes['order_by'] | undefined | null;
@@ -5820,11 +6409,16 @@ export type ValueTypes = {
   };
   /** aggregate var_pop on columns */
   ['epochs_var_pop_fields']: AliasType<{
+    active_months_bonus?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
+    circle_pgives_id?: boolean | `@${string}`;
     days?: boolean | `@${string}`;
+    gives_receiver_base?: boolean | `@${string}`;
     grant?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    notes_bonus?: boolean | `@${string}`;
     number?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
     regift_days?: boolean | `@${string}`;
     repeat?: boolean | `@${string}`;
     repeat_day_of_month?: boolean | `@${string}`;
@@ -5832,22 +6426,32 @@ export type ValueTypes = {
   }>;
   /** order by var_pop() on columns of table "epoches" */
   ['epochs_var_pop_order_by']: {
+    active_months_bonus?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
+    circle_pgives_id?: ValueTypes['order_by'] | undefined | null;
     days?: ValueTypes['order_by'] | undefined | null;
+    gives_receiver_base?: ValueTypes['order_by'] | undefined | null;
     grant?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    notes_bonus?: ValueTypes['order_by'] | undefined | null;
     number?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
     regift_days?: ValueTypes['order_by'] | undefined | null;
     repeat?: ValueTypes['order_by'] | undefined | null;
     repeat_day_of_month?: ValueTypes['order_by'] | undefined | null;
   };
   /** aggregate var_samp on columns */
   ['epochs_var_samp_fields']: AliasType<{
+    active_months_bonus?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
+    circle_pgives_id?: boolean | `@${string}`;
     days?: boolean | `@${string}`;
+    gives_receiver_base?: boolean | `@${string}`;
     grant?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    notes_bonus?: boolean | `@${string}`;
     number?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
     regift_days?: boolean | `@${string}`;
     repeat?: boolean | `@${string}`;
     repeat_day_of_month?: boolean | `@${string}`;
@@ -5855,22 +6459,32 @@ export type ValueTypes = {
   }>;
   /** order by var_samp() on columns of table "epoches" */
   ['epochs_var_samp_order_by']: {
+    active_months_bonus?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
+    circle_pgives_id?: ValueTypes['order_by'] | undefined | null;
     days?: ValueTypes['order_by'] | undefined | null;
+    gives_receiver_base?: ValueTypes['order_by'] | undefined | null;
     grant?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    notes_bonus?: ValueTypes['order_by'] | undefined | null;
     number?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
     regift_days?: ValueTypes['order_by'] | undefined | null;
     repeat?: ValueTypes['order_by'] | undefined | null;
     repeat_day_of_month?: ValueTypes['order_by'] | undefined | null;
   };
   /** aggregate variance on columns */
   ['epochs_variance_fields']: AliasType<{
+    active_months_bonus?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
+    circle_pgives_id?: boolean | `@${string}`;
     days?: boolean | `@${string}`;
+    gives_receiver_base?: boolean | `@${string}`;
     grant?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    notes_bonus?: boolean | `@${string}`;
     number?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
     regift_days?: boolean | `@${string}`;
     repeat?: boolean | `@${string}`;
     repeat_day_of_month?: boolean | `@${string}`;
@@ -5878,11 +6492,16 @@ export type ValueTypes = {
   }>;
   /** order by variance() on columns of table "epoches" */
   ['epochs_variance_order_by']: {
+    active_months_bonus?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
+    circle_pgives_id?: ValueTypes['order_by'] | undefined | null;
     days?: ValueTypes['order_by'] | undefined | null;
+    gives_receiver_base?: ValueTypes['order_by'] | undefined | null;
     grant?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    notes_bonus?: ValueTypes['order_by'] | undefined | null;
     number?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
     regift_days?: ValueTypes['order_by'] | undefined | null;
     repeat?: ValueTypes['order_by'] | undefined | null;
     repeat_day_of_month?: ValueTypes['order_by'] | undefined | null;
@@ -6663,6 +7282,372 @@ export type ValueTypes = {
     _neq?: ValueTypes['jsonb'] | undefined | null;
     _nin?: Array<ValueTypes['jsonb']> | undefined | null;
   };
+  /** member allocated pgives per epoch */
+  ['member_epoch_pgives']: AliasType<{
+    epoch_id?: boolean | `@${string}`;
+    gives_received?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    normalized_pgive?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "member_epoch_pgives" */
+  ['member_epoch_pgives_aggregate']: AliasType<{
+    aggregate?: ValueTypes['member_epoch_pgives_aggregate_fields'];
+    nodes?: ValueTypes['member_epoch_pgives'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "member_epoch_pgives" */
+  ['member_epoch_pgives_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['member_epoch_pgives_avg_fields'];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes['member_epoch_pgives_select_column']>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`
+    ];
+    max?: ValueTypes['member_epoch_pgives_max_fields'];
+    min?: ValueTypes['member_epoch_pgives_min_fields'];
+    stddev?: ValueTypes['member_epoch_pgives_stddev_fields'];
+    stddev_pop?: ValueTypes['member_epoch_pgives_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['member_epoch_pgives_stddev_samp_fields'];
+    sum?: ValueTypes['member_epoch_pgives_sum_fields'];
+    var_pop?: ValueTypes['member_epoch_pgives_var_pop_fields'];
+    var_samp?: ValueTypes['member_epoch_pgives_var_samp_fields'];
+    variance?: ValueTypes['member_epoch_pgives_variance_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by aggregate values of table "member_epoch_pgives" */
+  ['member_epoch_pgives_aggregate_order_by']: {
+    avg?: ValueTypes['member_epoch_pgives_avg_order_by'] | undefined | null;
+    count?: ValueTypes['order_by'] | undefined | null;
+    max?: ValueTypes['member_epoch_pgives_max_order_by'] | undefined | null;
+    min?: ValueTypes['member_epoch_pgives_min_order_by'] | undefined | null;
+    stddev?:
+      | ValueTypes['member_epoch_pgives_stddev_order_by']
+      | undefined
+      | null;
+    stddev_pop?:
+      | ValueTypes['member_epoch_pgives_stddev_pop_order_by']
+      | undefined
+      | null;
+    stddev_samp?:
+      | ValueTypes['member_epoch_pgives_stddev_samp_order_by']
+      | undefined
+      | null;
+    sum?: ValueTypes['member_epoch_pgives_sum_order_by'] | undefined | null;
+    var_pop?:
+      | ValueTypes['member_epoch_pgives_var_pop_order_by']
+      | undefined
+      | null;
+    var_samp?:
+      | ValueTypes['member_epoch_pgives_var_samp_order_by']
+      | undefined
+      | null;
+    variance?:
+      | ValueTypes['member_epoch_pgives_variance_order_by']
+      | undefined
+      | null;
+  };
+  /** input type for inserting array relation for remote table "member_epoch_pgives" */
+  ['member_epoch_pgives_arr_rel_insert_input']: {
+    data: Array<ValueTypes['member_epoch_pgives_insert_input']>;
+    /** upsert condition */
+    on_conflict?:
+      | ValueTypes['member_epoch_pgives_on_conflict']
+      | undefined
+      | null;
+  };
+  /** aggregate avg on columns */
+  ['member_epoch_pgives_avg_fields']: AliasType<{
+    epoch_id?: boolean | `@${string}`;
+    gives_received?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    normalized_pgive?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by avg() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_avg_order_by']: {
+    epoch_id?: ValueTypes['order_by'] | undefined | null;
+    gives_received?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgive?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
+    user_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** Boolean expression to filter rows from the table "member_epoch_pgives". All fields are combined with a logical 'AND'. */
+  ['member_epoch_pgives_bool_exp']: {
+    _and?: Array<ValueTypes['member_epoch_pgives_bool_exp']> | undefined | null;
+    _not?: ValueTypes['member_epoch_pgives_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['member_epoch_pgives_bool_exp']> | undefined | null;
+    epoch_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    gives_received?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    normalized_pgive?: ValueTypes['numeric_comparison_exp'] | undefined | null;
+    pgive?: ValueTypes['numeric_comparison_exp'] | undefined | null;
+    user_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+  };
+  /** unique or primary key constraints on table "member_epoch_pgives" */
+  ['member_epoch_pgives_constraint']: member_epoch_pgives_constraint;
+  /** input type for incrementing numeric columns in table "member_epoch_pgives" */
+  ['member_epoch_pgives_inc_input']: {
+    epoch_id?: number | undefined | null;
+    gives_received?: number | undefined | null;
+    id?: number | undefined | null;
+    normalized_pgive?: ValueTypes['numeric'] | undefined | null;
+    pgive?: ValueTypes['numeric'] | undefined | null;
+    user_id?: number | undefined | null;
+  };
+  /** input type for inserting data into table "member_epoch_pgives" */
+  ['member_epoch_pgives_insert_input']: {
+    epoch_id?: number | undefined | null;
+    gives_received?: number | undefined | null;
+    id?: number | undefined | null;
+    normalized_pgive?: ValueTypes['numeric'] | undefined | null;
+    pgive?: ValueTypes['numeric'] | undefined | null;
+    user_id?: number | undefined | null;
+  };
+  /** aggregate max on columns */
+  ['member_epoch_pgives_max_fields']: AliasType<{
+    epoch_id?: boolean | `@${string}`;
+    gives_received?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    normalized_pgive?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by max() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_max_order_by']: {
+    epoch_id?: ValueTypes['order_by'] | undefined | null;
+    gives_received?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgive?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
+    user_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate min on columns */
+  ['member_epoch_pgives_min_fields']: AliasType<{
+    epoch_id?: boolean | `@${string}`;
+    gives_received?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    normalized_pgive?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by min() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_min_order_by']: {
+    epoch_id?: ValueTypes['order_by'] | undefined | null;
+    gives_received?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgive?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
+    user_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** response of any mutation on the table "member_epoch_pgives" */
+  ['member_epoch_pgives_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['member_epoch_pgives'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** on_conflict condition type for table "member_epoch_pgives" */
+  ['member_epoch_pgives_on_conflict']: {
+    constraint: ValueTypes['member_epoch_pgives_constraint'];
+    update_columns: Array<ValueTypes['member_epoch_pgives_update_column']>;
+    where?: ValueTypes['member_epoch_pgives_bool_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "member_epoch_pgives". */
+  ['member_epoch_pgives_order_by']: {
+    epoch_id?: ValueTypes['order_by'] | undefined | null;
+    gives_received?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgive?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
+    user_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** primary key columns input for table: member_epoch_pgives */
+  ['member_epoch_pgives_pk_columns_input']: {
+    id: number;
+  };
+  /** select columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_select_column']: member_epoch_pgives_select_column;
+  /** input type for updating data in table "member_epoch_pgives" */
+  ['member_epoch_pgives_set_input']: {
+    epoch_id?: number | undefined | null;
+    gives_received?: number | undefined | null;
+    id?: number | undefined | null;
+    normalized_pgive?: ValueTypes['numeric'] | undefined | null;
+    pgive?: ValueTypes['numeric'] | undefined | null;
+    user_id?: number | undefined | null;
+  };
+  /** aggregate stddev on columns */
+  ['member_epoch_pgives_stddev_fields']: AliasType<{
+    epoch_id?: boolean | `@${string}`;
+    gives_received?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    normalized_pgive?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by stddev() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_stddev_order_by']: {
+    epoch_id?: ValueTypes['order_by'] | undefined | null;
+    gives_received?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgive?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
+    user_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate stddev_pop on columns */
+  ['member_epoch_pgives_stddev_pop_fields']: AliasType<{
+    epoch_id?: boolean | `@${string}`;
+    gives_received?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    normalized_pgive?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by stddev_pop() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_stddev_pop_order_by']: {
+    epoch_id?: ValueTypes['order_by'] | undefined | null;
+    gives_received?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgive?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
+    user_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate stddev_samp on columns */
+  ['member_epoch_pgives_stddev_samp_fields']: AliasType<{
+    epoch_id?: boolean | `@${string}`;
+    gives_received?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    normalized_pgive?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by stddev_samp() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_stddev_samp_order_by']: {
+    epoch_id?: ValueTypes['order_by'] | undefined | null;
+    gives_received?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgive?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
+    user_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** Streaming cursor of the table "member_epoch_pgives" */
+  ['member_epoch_pgives_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['member_epoch_pgives_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['member_epoch_pgives_stream_cursor_value_input']: {
+    epoch_id?: number | undefined | null;
+    gives_received?: number | undefined | null;
+    id?: number | undefined | null;
+    normalized_pgive?: ValueTypes['numeric'] | undefined | null;
+    pgive?: ValueTypes['numeric'] | undefined | null;
+    user_id?: number | undefined | null;
+  };
+  /** aggregate sum on columns */
+  ['member_epoch_pgives_sum_fields']: AliasType<{
+    epoch_id?: boolean | `@${string}`;
+    gives_received?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    normalized_pgive?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by sum() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_sum_order_by']: {
+    epoch_id?: ValueTypes['order_by'] | undefined | null;
+    gives_received?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgive?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
+    user_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** update columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_update_column']: member_epoch_pgives_update_column;
+  ['member_epoch_pgives_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: ValueTypes['member_epoch_pgives_inc_input'] | undefined | null;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ValueTypes['member_epoch_pgives_set_input'] | undefined | null;
+    where: ValueTypes['member_epoch_pgives_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['member_epoch_pgives_var_pop_fields']: AliasType<{
+    epoch_id?: boolean | `@${string}`;
+    gives_received?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    normalized_pgive?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by var_pop() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_var_pop_order_by']: {
+    epoch_id?: ValueTypes['order_by'] | undefined | null;
+    gives_received?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgive?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
+    user_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate var_samp on columns */
+  ['member_epoch_pgives_var_samp_fields']: AliasType<{
+    epoch_id?: boolean | `@${string}`;
+    gives_received?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    normalized_pgive?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by var_samp() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_var_samp_order_by']: {
+    epoch_id?: ValueTypes['order_by'] | undefined | null;
+    gives_received?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgive?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
+    user_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate variance on columns */
+  ['member_epoch_pgives_variance_fields']: AliasType<{
+    epoch_id?: boolean | `@${string}`;
+    gives_received?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    normalized_pgive?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by variance() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_variance_order_by']: {
+    epoch_id?: ValueTypes['order_by'] | undefined | null;
+    gives_received?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgive?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
+    user_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** mutation root */
   ['mutation_root']: AliasType<{
     adminUpdateUser?: [
@@ -6762,6 +7747,14 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['circle_metadata']
     ];
+    delete_circle_pgives?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['circle_pgives_bool_exp'];
+      },
+      ValueTypes['circle_pgives_mutation_response']
+    ];
+    delete_circle_pgives_by_pk?: [{ id: number }, ValueTypes['circle_pgives']];
     delete_circle_private?: [
       {
         /** filter the rows which have to be deleted */
@@ -6857,6 +7850,17 @@ export type ValueTypes = {
     delete_interaction_events_by_pk?: [
       { id: number },
       ValueTypes['interaction_events']
+    ];
+    delete_member_epoch_pgives?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['member_epoch_pgives_bool_exp'];
+      },
+      ValueTypes['member_epoch_pgives_mutation_response']
+    ];
+    delete_member_epoch_pgives_by_pk?: [
+      { id: number },
+      ValueTypes['member_epoch_pgives']
     ];
     delete_nominees?: [
       {
@@ -7096,6 +8100,30 @@ export type ValueTypes = {
       },
       ValueTypes['circle_metadata']
     ];
+    insert_circle_pgives?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ValueTypes['circle_pgives_insert_input']
+        > /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['circle_pgives_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['circle_pgives_mutation_response']
+    ];
+    insert_circle_pgives_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['circle_pgives_insert_input'] /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['circle_pgives_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['circle_pgives']
+    ];
     insert_circle_private?: [
       {
         /** the rows to be inserted */
@@ -7291,6 +8319,30 @@ export type ValueTypes = {
           | null;
       },
       ValueTypes['interaction_events']
+    ];
+    insert_member_epoch_pgives?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ValueTypes['member_epoch_pgives_insert_input']
+        > /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['member_epoch_pgives_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['member_epoch_pgives_mutation_response']
+    ];
+    insert_member_epoch_pgives_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['member_epoch_pgives_insert_input'] /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['member_epoch_pgives_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['member_epoch_pgives']
     ];
     insert_nominees?: [
       {
@@ -7745,6 +8797,40 @@ export type ValueTypes = {
       },
       ValueTypes['circle_metadata_mutation_response']
     ];
+    update_circle_pgives?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['circle_pgives_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes['circle_pgives_set_input']
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['circle_pgives_bool_exp'];
+      },
+      ValueTypes['circle_pgives_mutation_response']
+    ];
+    update_circle_pgives_by_pk?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['circle_pgives_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?: ValueTypes['circle_pgives_set_input'] | undefined | null;
+        pk_columns: ValueTypes['circle_pgives_pk_columns_input'];
+      },
+      ValueTypes['circle_pgives']
+    ];
+    update_circle_pgives_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes['circle_pgives_updates']>;
+      },
+      ValueTypes['circle_pgives_mutation_response']
+    ];
     update_circle_private?: [
       {
         /** increments the numeric columns with given value of the filtered values */
@@ -8140,6 +9226,40 @@ export type ValueTypes = {
         updates: Array<ValueTypes['interaction_events_updates']>;
       },
       ValueTypes['interaction_events_mutation_response']
+    ];
+    update_member_epoch_pgives?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['member_epoch_pgives_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes['member_epoch_pgives_set_input']
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['member_epoch_pgives_bool_exp'];
+      },
+      ValueTypes['member_epoch_pgives_mutation_response']
+    ];
+    update_member_epoch_pgives_by_pk?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['member_epoch_pgives_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?: ValueTypes['member_epoch_pgives_set_input'] | undefined | null;
+        pk_columns: ValueTypes['member_epoch_pgives_pk_columns_input'];
+      },
+      ValueTypes['member_epoch_pgives']
+    ];
+    update_member_epoch_pgives_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes['member_epoch_pgives_updates']>;
+      },
+      ValueTypes['member_epoch_pgives_mutation_response']
     ];
     update_nominees?: [
       {
@@ -11344,6 +12464,53 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['circle_metadata']
     ];
+    circle_pgives?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['circle_pgives_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['circle_pgives_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['circle_pgives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['circle_pgives']
+    ];
+    circle_pgives_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['circle_pgives_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['circle_pgives_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['circle_pgives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['circle_pgives_aggregate']
+    ];
+    circle_pgives_by_pk?: [{ id: number }, ValueTypes['circle_pgives']];
     circle_private?: [
       {
         /** distinct select on columns */
@@ -11823,6 +12990,56 @@ export type ValueTypes = {
     interaction_events_by_pk?: [
       { id: number },
       ValueTypes['interaction_events']
+    ];
+    member_epoch_pgives?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['member_epoch_pgives_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['member_epoch_pgives_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['member_epoch_pgives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['member_epoch_pgives']
+    ];
+    member_epoch_pgives_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['member_epoch_pgives_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['member_epoch_pgives_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['member_epoch_pgives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['member_epoch_pgives_aggregate']
+    ];
+    member_epoch_pgives_by_pk?: [
+      { id: number },
+      ValueTypes['member_epoch_pgives']
     ];
     nominees?: [
       {
@@ -12804,6 +14021,64 @@ export type ValueTypes = {
       },
       ValueTypes['circle_metadata']
     ];
+    circle_pgives?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['circle_pgives_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['circle_pgives_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['circle_pgives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['circle_pgives']
+    ];
+    circle_pgives_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['circle_pgives_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['circle_pgives_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['circle_pgives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['circle_pgives_aggregate']
+    ];
+    circle_pgives_by_pk?: [{ id: number }, ValueTypes['circle_pgives']];
+    circle_pgives_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['circle_pgives_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['circle_pgives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['circle_pgives']
+    ];
     circle_private?: [
       {
         /** distinct select on columns */
@@ -13397,6 +14672,69 @@ export type ValueTypes = {
         where?: ValueTypes['interaction_events_bool_exp'] | undefined | null;
       },
       ValueTypes['interaction_events']
+    ];
+    member_epoch_pgives?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['member_epoch_pgives_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['member_epoch_pgives_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['member_epoch_pgives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['member_epoch_pgives']
+    ];
+    member_epoch_pgives_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['member_epoch_pgives_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['member_epoch_pgives_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['member_epoch_pgives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['member_epoch_pgives_aggregate']
+    ];
+    member_epoch_pgives_by_pk?: [
+      { id: number },
+      ValueTypes['member_epoch_pgives']
+    ];
+    member_epoch_pgives_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          | ValueTypes['member_epoch_pgives_stream_cursor_input']
+          | undefined
+          | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['member_epoch_pgives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['member_epoch_pgives']
     ];
     nominees?: [
       {
@@ -18420,6 +19758,182 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "circle_metadata" */
   ['circle_metadata_variance_order_by']: GraphQLTypes['circle_metadata_variance_order_by'];
+  /** circle pgive pot allocation */
+  ['circle_pgives']: {
+    active_months: number;
+    circle_id: number;
+    id: number;
+    month: number;
+    normalized_pgives: GraphQLTypes['numeric'];
+    year: number;
+  };
+  /** aggregated selection of "circle_pgives" */
+  ['circle_pgives_aggregate']: {
+    aggregate?: GraphQLTypes['circle_pgives_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['circle_pgives']>;
+  };
+  /** aggregate fields of "circle_pgives" */
+  ['circle_pgives_aggregate_fields']: {
+    avg?: GraphQLTypes['circle_pgives_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['circle_pgives_max_fields'] | undefined;
+    min?: GraphQLTypes['circle_pgives_min_fields'] | undefined;
+    stddev?: GraphQLTypes['circle_pgives_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['circle_pgives_stddev_pop_fields'] | undefined;
+    stddev_samp?: GraphQLTypes['circle_pgives_stddev_samp_fields'] | undefined;
+    sum?: GraphQLTypes['circle_pgives_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['circle_pgives_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['circle_pgives_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['circle_pgives_variance_fields'] | undefined;
+  };
+  /** order by aggregate values of table "circle_pgives" */
+  ['circle_pgives_aggregate_order_by']: GraphQLTypes['circle_pgives_aggregate_order_by'];
+  /** input type for inserting array relation for remote table "circle_pgives" */
+  ['circle_pgives_arr_rel_insert_input']: GraphQLTypes['circle_pgives_arr_rel_insert_input'];
+  /** aggregate avg on columns */
+  ['circle_pgives_avg_fields']: {
+    active_months?: number | undefined;
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    month?: number | undefined;
+    normalized_pgives?: number | undefined;
+    year?: number | undefined;
+  };
+  /** order by avg() on columns of table "circle_pgives" */
+  ['circle_pgives_avg_order_by']: GraphQLTypes['circle_pgives_avg_order_by'];
+  /** Boolean expression to filter rows from the table "circle_pgives". All fields are combined with a logical 'AND'. */
+  ['circle_pgives_bool_exp']: GraphQLTypes['circle_pgives_bool_exp'];
+  /** unique or primary key constraints on table "circle_pgives" */
+  ['circle_pgives_constraint']: GraphQLTypes['circle_pgives_constraint'];
+  /** input type for incrementing numeric columns in table "circle_pgives" */
+  ['circle_pgives_inc_input']: GraphQLTypes['circle_pgives_inc_input'];
+  /** input type for inserting data into table "circle_pgives" */
+  ['circle_pgives_insert_input']: GraphQLTypes['circle_pgives_insert_input'];
+  /** aggregate max on columns */
+  ['circle_pgives_max_fields']: {
+    active_months?: number | undefined;
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    month?: number | undefined;
+    normalized_pgives?: GraphQLTypes['numeric'] | undefined;
+    year?: number | undefined;
+  };
+  /** order by max() on columns of table "circle_pgives" */
+  ['circle_pgives_max_order_by']: GraphQLTypes['circle_pgives_max_order_by'];
+  /** aggregate min on columns */
+  ['circle_pgives_min_fields']: {
+    active_months?: number | undefined;
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    month?: number | undefined;
+    normalized_pgives?: GraphQLTypes['numeric'] | undefined;
+    year?: number | undefined;
+  };
+  /** order by min() on columns of table "circle_pgives" */
+  ['circle_pgives_min_order_by']: GraphQLTypes['circle_pgives_min_order_by'];
+  /** response of any mutation on the table "circle_pgives" */
+  ['circle_pgives_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['circle_pgives']>;
+  };
+  /** input type for inserting object relation for remote table "circle_pgives" */
+  ['circle_pgives_obj_rel_insert_input']: GraphQLTypes['circle_pgives_obj_rel_insert_input'];
+  /** on_conflict condition type for table "circle_pgives" */
+  ['circle_pgives_on_conflict']: GraphQLTypes['circle_pgives_on_conflict'];
+  /** Ordering options when selecting data from "circle_pgives". */
+  ['circle_pgives_order_by']: GraphQLTypes['circle_pgives_order_by'];
+  /** primary key columns input for table: circle_pgives */
+  ['circle_pgives_pk_columns_input']: GraphQLTypes['circle_pgives_pk_columns_input'];
+  /** select columns of table "circle_pgives" */
+  ['circle_pgives_select_column']: GraphQLTypes['circle_pgives_select_column'];
+  /** input type for updating data in table "circle_pgives" */
+  ['circle_pgives_set_input']: GraphQLTypes['circle_pgives_set_input'];
+  /** aggregate stddev on columns */
+  ['circle_pgives_stddev_fields']: {
+    active_months?: number | undefined;
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    month?: number | undefined;
+    normalized_pgives?: number | undefined;
+    year?: number | undefined;
+  };
+  /** order by stddev() on columns of table "circle_pgives" */
+  ['circle_pgives_stddev_order_by']: GraphQLTypes['circle_pgives_stddev_order_by'];
+  /** aggregate stddev_pop on columns */
+  ['circle_pgives_stddev_pop_fields']: {
+    active_months?: number | undefined;
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    month?: number | undefined;
+    normalized_pgives?: number | undefined;
+    year?: number | undefined;
+  };
+  /** order by stddev_pop() on columns of table "circle_pgives" */
+  ['circle_pgives_stddev_pop_order_by']: GraphQLTypes['circle_pgives_stddev_pop_order_by'];
+  /** aggregate stddev_samp on columns */
+  ['circle_pgives_stddev_samp_fields']: {
+    active_months?: number | undefined;
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    month?: number | undefined;
+    normalized_pgives?: number | undefined;
+    year?: number | undefined;
+  };
+  /** order by stddev_samp() on columns of table "circle_pgives" */
+  ['circle_pgives_stddev_samp_order_by']: GraphQLTypes['circle_pgives_stddev_samp_order_by'];
+  /** Streaming cursor of the table "circle_pgives" */
+  ['circle_pgives_stream_cursor_input']: GraphQLTypes['circle_pgives_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['circle_pgives_stream_cursor_value_input']: GraphQLTypes['circle_pgives_stream_cursor_value_input'];
+  /** aggregate sum on columns */
+  ['circle_pgives_sum_fields']: {
+    active_months?: number | undefined;
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    month?: number | undefined;
+    normalized_pgives?: GraphQLTypes['numeric'] | undefined;
+    year?: number | undefined;
+  };
+  /** order by sum() on columns of table "circle_pgives" */
+  ['circle_pgives_sum_order_by']: GraphQLTypes['circle_pgives_sum_order_by'];
+  /** update columns of table "circle_pgives" */
+  ['circle_pgives_update_column']: GraphQLTypes['circle_pgives_update_column'];
+  ['circle_pgives_updates']: GraphQLTypes['circle_pgives_updates'];
+  /** aggregate var_pop on columns */
+  ['circle_pgives_var_pop_fields']: {
+    active_months?: number | undefined;
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    month?: number | undefined;
+    normalized_pgives?: number | undefined;
+    year?: number | undefined;
+  };
+  /** order by var_pop() on columns of table "circle_pgives" */
+  ['circle_pgives_var_pop_order_by']: GraphQLTypes['circle_pgives_var_pop_order_by'];
+  /** aggregate var_samp on columns */
+  ['circle_pgives_var_samp_fields']: {
+    active_months?: number | undefined;
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    month?: number | undefined;
+    normalized_pgives?: number | undefined;
+    year?: number | undefined;
+  };
+  /** order by var_samp() on columns of table "circle_pgives" */
+  ['circle_pgives_var_samp_order_by']: GraphQLTypes['circle_pgives_var_samp_order_by'];
+  /** aggregate variance on columns */
+  ['circle_pgives_variance_fields']: {
+    active_months?: number | undefined;
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    month?: number | undefined;
+    normalized_pgives?: number | undefined;
+    year?: number | undefined;
+  };
+  /** order by variance() on columns of table "circle_pgives" */
+  ['circle_pgives_variance_order_by']: GraphQLTypes['circle_pgives_variance_order_by'];
   /** columns and relationships of "circle_private" */
   ['circle_private']: {
     /** An object relationship */
@@ -18653,6 +20167,10 @@ export type ModelTypes = {
     circle_metadata: Array<GraphQLTypes['circle_metadata']>;
     /** An aggregate relationship */
     circle_metadata_aggregate: GraphQLTypes['circle_metadata_aggregate'];
+    /** An array relationship */
+    circle_pgives: Array<GraphQLTypes['circle_pgives']>;
+    /** An aggregate relationship */
+    circle_pgives_aggregate: GraphQLTypes['circle_pgives_aggregate'];
     /** An object relationship */
     circle_private?: GraphQLTypes['circle_private'] | undefined;
     contact?: string | undefined;
@@ -19493,6 +21011,7 @@ export type ModelTypes = {
   ['distributions_variance_order_by']: GraphQLTypes['distributions_variance_order_by'];
   /** columns and relationships of "epoches" */
   ['epochs']: {
+    active_months_bonus: GraphQLTypes['numeric'];
     /** An array relationship */
     burns: Array<GraphQLTypes['burns']>;
     /** An aggregate relationship */
@@ -19500,6 +21019,9 @@ export type ModelTypes = {
     /** An object relationship */
     circle?: GraphQLTypes['circles'] | undefined;
     circle_id: number;
+    /** An object relationship */
+    circle_pgive?: GraphQLTypes['circle_pgives'] | undefined;
+    circle_pgives_id?: number | undefined;
     created_at: GraphQLTypes['timestamp'];
     days?: number | undefined;
     /** An array relationship */
@@ -19512,12 +21034,19 @@ export type ModelTypes = {
     epoch_pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     /** An aggregate relationship */
     epoch_pending_token_gifts_aggregate: GraphQLTypes['pending_token_gifts_aggregate'];
+    gives_receiver_base: GraphQLTypes['numeric'];
     grant: GraphQLTypes['numeric'];
     id: GraphQLTypes['bigint'];
+    /** An array relationship */
+    member_epoch_pgives: Array<GraphQLTypes['member_epoch_pgives']>;
+    /** An aggregate relationship */
+    member_epoch_pgives_aggregate: GraphQLTypes['member_epoch_pgives_aggregate'];
+    notes_bonus: GraphQLTypes['numeric'];
     notified_before_end?: GraphQLTypes['timestamp'] | undefined;
     notified_end?: GraphQLTypes['timestamp'] | undefined;
     notified_start?: GraphQLTypes['timestamp'] | undefined;
     number?: number | undefined;
+    pgive: GraphQLTypes['numeric'];
     regift_days: number;
     repeat: number;
     repeat_day_of_month: number;
@@ -19553,11 +21082,16 @@ export type ModelTypes = {
   ['epochs_arr_rel_insert_input']: GraphQLTypes['epochs_arr_rel_insert_input'];
   /** aggregate avg on columns */
   ['epochs_avg_fields']: {
+    active_months_bonus?: number | undefined;
     circle_id?: number | undefined;
+    circle_pgives_id?: number | undefined;
     days?: number | undefined;
+    gives_receiver_base?: number | undefined;
     grant?: number | undefined;
     id?: number | undefined;
+    notes_bonus?: number | undefined;
     number?: number | undefined;
+    pgive?: number | undefined;
     regift_days?: number | undefined;
     repeat?: number | undefined;
     repeat_day_of_month?: number | undefined;
@@ -19574,16 +21108,21 @@ export type ModelTypes = {
   ['epochs_insert_input']: GraphQLTypes['epochs_insert_input'];
   /** aggregate max on columns */
   ['epochs_max_fields']: {
+    active_months_bonus?: GraphQLTypes['numeric'] | undefined;
     circle_id?: number | undefined;
+    circle_pgives_id?: number | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     days?: number | undefined;
     end_date?: GraphQLTypes['timestamptz'] | undefined;
+    gives_receiver_base?: GraphQLTypes['numeric'] | undefined;
     grant?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    notes_bonus?: GraphQLTypes['numeric'] | undefined;
     notified_before_end?: GraphQLTypes['timestamp'] | undefined;
     notified_end?: GraphQLTypes['timestamp'] | undefined;
     notified_start?: GraphQLTypes['timestamp'] | undefined;
     number?: number | undefined;
+    pgive?: GraphQLTypes['numeric'] | undefined;
     regift_days?: number | undefined;
     repeat?: number | undefined;
     repeat_day_of_month?: number | undefined;
@@ -19594,16 +21133,21 @@ export type ModelTypes = {
   ['epochs_max_order_by']: GraphQLTypes['epochs_max_order_by'];
   /** aggregate min on columns */
   ['epochs_min_fields']: {
+    active_months_bonus?: GraphQLTypes['numeric'] | undefined;
     circle_id?: number | undefined;
+    circle_pgives_id?: number | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     days?: number | undefined;
     end_date?: GraphQLTypes['timestamptz'] | undefined;
+    gives_receiver_base?: GraphQLTypes['numeric'] | undefined;
     grant?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    notes_bonus?: GraphQLTypes['numeric'] | undefined;
     notified_before_end?: GraphQLTypes['timestamp'] | undefined;
     notified_end?: GraphQLTypes['timestamp'] | undefined;
     notified_start?: GraphQLTypes['timestamp'] | undefined;
     number?: number | undefined;
+    pgive?: GraphQLTypes['numeric'] | undefined;
     regift_days?: number | undefined;
     repeat?: number | undefined;
     repeat_day_of_month?: number | undefined;
@@ -19633,11 +21177,16 @@ export type ModelTypes = {
   ['epochs_set_input']: GraphQLTypes['epochs_set_input'];
   /** aggregate stddev on columns */
   ['epochs_stddev_fields']: {
+    active_months_bonus?: number | undefined;
     circle_id?: number | undefined;
+    circle_pgives_id?: number | undefined;
     days?: number | undefined;
+    gives_receiver_base?: number | undefined;
     grant?: number | undefined;
     id?: number | undefined;
+    notes_bonus?: number | undefined;
     number?: number | undefined;
+    pgive?: number | undefined;
     regift_days?: number | undefined;
     repeat?: number | undefined;
     repeat_day_of_month?: number | undefined;
@@ -19646,11 +21195,16 @@ export type ModelTypes = {
   ['epochs_stddev_order_by']: GraphQLTypes['epochs_stddev_order_by'];
   /** aggregate stddev_pop on columns */
   ['epochs_stddev_pop_fields']: {
+    active_months_bonus?: number | undefined;
     circle_id?: number | undefined;
+    circle_pgives_id?: number | undefined;
     days?: number | undefined;
+    gives_receiver_base?: number | undefined;
     grant?: number | undefined;
     id?: number | undefined;
+    notes_bonus?: number | undefined;
     number?: number | undefined;
+    pgive?: number | undefined;
     regift_days?: number | undefined;
     repeat?: number | undefined;
     repeat_day_of_month?: number | undefined;
@@ -19659,11 +21213,16 @@ export type ModelTypes = {
   ['epochs_stddev_pop_order_by']: GraphQLTypes['epochs_stddev_pop_order_by'];
   /** aggregate stddev_samp on columns */
   ['epochs_stddev_samp_fields']: {
+    active_months_bonus?: number | undefined;
     circle_id?: number | undefined;
+    circle_pgives_id?: number | undefined;
     days?: number | undefined;
+    gives_receiver_base?: number | undefined;
     grant?: number | undefined;
     id?: number | undefined;
+    notes_bonus?: number | undefined;
     number?: number | undefined;
+    pgive?: number | undefined;
     regift_days?: number | undefined;
     repeat?: number | undefined;
     repeat_day_of_month?: number | undefined;
@@ -19676,11 +21235,16 @@ export type ModelTypes = {
   ['epochs_stream_cursor_value_input']: GraphQLTypes['epochs_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['epochs_sum_fields']: {
+    active_months_bonus?: GraphQLTypes['numeric'] | undefined;
     circle_id?: number | undefined;
+    circle_pgives_id?: number | undefined;
     days?: number | undefined;
+    gives_receiver_base?: GraphQLTypes['numeric'] | undefined;
     grant?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    notes_bonus?: GraphQLTypes['numeric'] | undefined;
     number?: number | undefined;
+    pgive?: GraphQLTypes['numeric'] | undefined;
     regift_days?: number | undefined;
     repeat?: number | undefined;
     repeat_day_of_month?: number | undefined;
@@ -19692,11 +21256,16 @@ export type ModelTypes = {
   ['epochs_updates']: GraphQLTypes['epochs_updates'];
   /** aggregate var_pop on columns */
   ['epochs_var_pop_fields']: {
+    active_months_bonus?: number | undefined;
     circle_id?: number | undefined;
+    circle_pgives_id?: number | undefined;
     days?: number | undefined;
+    gives_receiver_base?: number | undefined;
     grant?: number | undefined;
     id?: number | undefined;
+    notes_bonus?: number | undefined;
     number?: number | undefined;
+    pgive?: number | undefined;
     regift_days?: number | undefined;
     repeat?: number | undefined;
     repeat_day_of_month?: number | undefined;
@@ -19705,11 +21274,16 @@ export type ModelTypes = {
   ['epochs_var_pop_order_by']: GraphQLTypes['epochs_var_pop_order_by'];
   /** aggregate var_samp on columns */
   ['epochs_var_samp_fields']: {
+    active_months_bonus?: number | undefined;
     circle_id?: number | undefined;
+    circle_pgives_id?: number | undefined;
     days?: number | undefined;
+    gives_receiver_base?: number | undefined;
     grant?: number | undefined;
     id?: number | undefined;
+    notes_bonus?: number | undefined;
     number?: number | undefined;
+    pgive?: number | undefined;
     regift_days?: number | undefined;
     repeat?: number | undefined;
     repeat_day_of_month?: number | undefined;
@@ -19718,11 +21292,16 @@ export type ModelTypes = {
   ['epochs_var_samp_order_by']: GraphQLTypes['epochs_var_samp_order_by'];
   /** aggregate variance on columns */
   ['epochs_variance_fields']: {
+    active_months_bonus?: number | undefined;
     circle_id?: number | undefined;
+    circle_pgives_id?: number | undefined;
     days?: number | undefined;
+    gives_receiver_base?: number | undefined;
     grant?: number | undefined;
     id?: number | undefined;
+    notes_bonus?: number | undefined;
     number?: number | undefined;
+    pgive?: number | undefined;
     regift_days?: number | undefined;
     repeat?: number | undefined;
     repeat_day_of_month?: number | undefined;
@@ -20158,6 +21737,186 @@ export type ModelTypes = {
   ['jsonb_cast_exp']: GraphQLTypes['jsonb_cast_exp'];
   /** Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'. */
   ['jsonb_comparison_exp']: GraphQLTypes['jsonb_comparison_exp'];
+  /** member allocated pgives per epoch */
+  ['member_epoch_pgives']: {
+    epoch_id: number;
+    gives_received: number;
+    id: number;
+    normalized_pgive: GraphQLTypes['numeric'];
+    pgive: GraphQLTypes['numeric'];
+    user_id: number;
+  };
+  /** aggregated selection of "member_epoch_pgives" */
+  ['member_epoch_pgives_aggregate']: {
+    aggregate?:
+      | GraphQLTypes['member_epoch_pgives_aggregate_fields']
+      | undefined;
+    nodes: Array<GraphQLTypes['member_epoch_pgives']>;
+  };
+  /** aggregate fields of "member_epoch_pgives" */
+  ['member_epoch_pgives_aggregate_fields']: {
+    avg?: GraphQLTypes['member_epoch_pgives_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['member_epoch_pgives_max_fields'] | undefined;
+    min?: GraphQLTypes['member_epoch_pgives_min_fields'] | undefined;
+    stddev?: GraphQLTypes['member_epoch_pgives_stddev_fields'] | undefined;
+    stddev_pop?:
+      | GraphQLTypes['member_epoch_pgives_stddev_pop_fields']
+      | undefined;
+    stddev_samp?:
+      | GraphQLTypes['member_epoch_pgives_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['member_epoch_pgives_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['member_epoch_pgives_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['member_epoch_pgives_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['member_epoch_pgives_variance_fields'] | undefined;
+  };
+  /** order by aggregate values of table "member_epoch_pgives" */
+  ['member_epoch_pgives_aggregate_order_by']: GraphQLTypes['member_epoch_pgives_aggregate_order_by'];
+  /** input type for inserting array relation for remote table "member_epoch_pgives" */
+  ['member_epoch_pgives_arr_rel_insert_input']: GraphQLTypes['member_epoch_pgives_arr_rel_insert_input'];
+  /** aggregate avg on columns */
+  ['member_epoch_pgives_avg_fields']: {
+    epoch_id?: number | undefined;
+    gives_received?: number | undefined;
+    id?: number | undefined;
+    normalized_pgive?: number | undefined;
+    pgive?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** order by avg() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_avg_order_by']: GraphQLTypes['member_epoch_pgives_avg_order_by'];
+  /** Boolean expression to filter rows from the table "member_epoch_pgives". All fields are combined with a logical 'AND'. */
+  ['member_epoch_pgives_bool_exp']: GraphQLTypes['member_epoch_pgives_bool_exp'];
+  /** unique or primary key constraints on table "member_epoch_pgives" */
+  ['member_epoch_pgives_constraint']: GraphQLTypes['member_epoch_pgives_constraint'];
+  /** input type for incrementing numeric columns in table "member_epoch_pgives" */
+  ['member_epoch_pgives_inc_input']: GraphQLTypes['member_epoch_pgives_inc_input'];
+  /** input type for inserting data into table "member_epoch_pgives" */
+  ['member_epoch_pgives_insert_input']: GraphQLTypes['member_epoch_pgives_insert_input'];
+  /** aggregate max on columns */
+  ['member_epoch_pgives_max_fields']: {
+    epoch_id?: number | undefined;
+    gives_received?: number | undefined;
+    id?: number | undefined;
+    normalized_pgive?: GraphQLTypes['numeric'] | undefined;
+    pgive?: GraphQLTypes['numeric'] | undefined;
+    user_id?: number | undefined;
+  };
+  /** order by max() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_max_order_by']: GraphQLTypes['member_epoch_pgives_max_order_by'];
+  /** aggregate min on columns */
+  ['member_epoch_pgives_min_fields']: {
+    epoch_id?: number | undefined;
+    gives_received?: number | undefined;
+    id?: number | undefined;
+    normalized_pgive?: GraphQLTypes['numeric'] | undefined;
+    pgive?: GraphQLTypes['numeric'] | undefined;
+    user_id?: number | undefined;
+  };
+  /** order by min() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_min_order_by']: GraphQLTypes['member_epoch_pgives_min_order_by'];
+  /** response of any mutation on the table "member_epoch_pgives" */
+  ['member_epoch_pgives_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['member_epoch_pgives']>;
+  };
+  /** on_conflict condition type for table "member_epoch_pgives" */
+  ['member_epoch_pgives_on_conflict']: GraphQLTypes['member_epoch_pgives_on_conflict'];
+  /** Ordering options when selecting data from "member_epoch_pgives". */
+  ['member_epoch_pgives_order_by']: GraphQLTypes['member_epoch_pgives_order_by'];
+  /** primary key columns input for table: member_epoch_pgives */
+  ['member_epoch_pgives_pk_columns_input']: GraphQLTypes['member_epoch_pgives_pk_columns_input'];
+  /** select columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_select_column']: GraphQLTypes['member_epoch_pgives_select_column'];
+  /** input type for updating data in table "member_epoch_pgives" */
+  ['member_epoch_pgives_set_input']: GraphQLTypes['member_epoch_pgives_set_input'];
+  /** aggregate stddev on columns */
+  ['member_epoch_pgives_stddev_fields']: {
+    epoch_id?: number | undefined;
+    gives_received?: number | undefined;
+    id?: number | undefined;
+    normalized_pgive?: number | undefined;
+    pgive?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** order by stddev() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_stddev_order_by']: GraphQLTypes['member_epoch_pgives_stddev_order_by'];
+  /** aggregate stddev_pop on columns */
+  ['member_epoch_pgives_stddev_pop_fields']: {
+    epoch_id?: number | undefined;
+    gives_received?: number | undefined;
+    id?: number | undefined;
+    normalized_pgive?: number | undefined;
+    pgive?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** order by stddev_pop() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_stddev_pop_order_by']: GraphQLTypes['member_epoch_pgives_stddev_pop_order_by'];
+  /** aggregate stddev_samp on columns */
+  ['member_epoch_pgives_stddev_samp_fields']: {
+    epoch_id?: number | undefined;
+    gives_received?: number | undefined;
+    id?: number | undefined;
+    normalized_pgive?: number | undefined;
+    pgive?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** order by stddev_samp() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_stddev_samp_order_by']: GraphQLTypes['member_epoch_pgives_stddev_samp_order_by'];
+  /** Streaming cursor of the table "member_epoch_pgives" */
+  ['member_epoch_pgives_stream_cursor_input']: GraphQLTypes['member_epoch_pgives_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['member_epoch_pgives_stream_cursor_value_input']: GraphQLTypes['member_epoch_pgives_stream_cursor_value_input'];
+  /** aggregate sum on columns */
+  ['member_epoch_pgives_sum_fields']: {
+    epoch_id?: number | undefined;
+    gives_received?: number | undefined;
+    id?: number | undefined;
+    normalized_pgive?: GraphQLTypes['numeric'] | undefined;
+    pgive?: GraphQLTypes['numeric'] | undefined;
+    user_id?: number | undefined;
+  };
+  /** order by sum() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_sum_order_by']: GraphQLTypes['member_epoch_pgives_sum_order_by'];
+  /** update columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_update_column']: GraphQLTypes['member_epoch_pgives_update_column'];
+  ['member_epoch_pgives_updates']: GraphQLTypes['member_epoch_pgives_updates'];
+  /** aggregate var_pop on columns */
+  ['member_epoch_pgives_var_pop_fields']: {
+    epoch_id?: number | undefined;
+    gives_received?: number | undefined;
+    id?: number | undefined;
+    normalized_pgive?: number | undefined;
+    pgive?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** order by var_pop() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_var_pop_order_by']: GraphQLTypes['member_epoch_pgives_var_pop_order_by'];
+  /** aggregate var_samp on columns */
+  ['member_epoch_pgives_var_samp_fields']: {
+    epoch_id?: number | undefined;
+    gives_received?: number | undefined;
+    id?: number | undefined;
+    normalized_pgive?: number | undefined;
+    pgive?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** order by var_samp() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_var_samp_order_by']: GraphQLTypes['member_epoch_pgives_var_samp_order_by'];
+  /** aggregate variance on columns */
+  ['member_epoch_pgives_variance_fields']: {
+    epoch_id?: number | undefined;
+    gives_received?: number | undefined;
+    id?: number | undefined;
+    normalized_pgive?: number | undefined;
+    pgive?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** order by variance() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_variance_order_by']: GraphQLTypes['member_epoch_pgives_variance_order_by'];
   /** mutation root */
   ['mutation_root']: {
     adminUpdateUser?: GraphQLTypes['UserResponse'] | undefined;
@@ -20199,6 +21958,12 @@ export type ModelTypes = {
       | undefined;
     /** delete single row from the table: "circle_metadata" */
     delete_circle_metadata_by_pk?: GraphQLTypes['circle_metadata'] | undefined;
+    /** delete data from the table: "circle_pgives" */
+    delete_circle_pgives?:
+      | GraphQLTypes['circle_pgives_mutation_response']
+      | undefined;
+    /** delete single row from the table: "circle_pgives" */
+    delete_circle_pgives_by_pk?: GraphQLTypes['circle_pgives'] | undefined;
     /** delete data from the table: "circle_private" */
     delete_circle_private?:
       | GraphQLTypes['circle_private_mutation_response']
@@ -20250,6 +22015,14 @@ export type ModelTypes = {
     /** delete single row from the table: "interaction_events" */
     delete_interaction_events_by_pk?:
       | GraphQLTypes['interaction_events']
+      | undefined;
+    /** delete data from the table: "member_epoch_pgives" */
+    delete_member_epoch_pgives?:
+      | GraphQLTypes['member_epoch_pgives_mutation_response']
+      | undefined;
+    /** delete single row from the table: "member_epoch_pgives" */
+    delete_member_epoch_pgives_by_pk?:
+      | GraphQLTypes['member_epoch_pgives']
       | undefined;
     /** delete data from the table: "nominees" */
     delete_nominees?: GraphQLTypes['nominees_mutation_response'] | undefined;
@@ -20355,6 +22128,12 @@ export type ModelTypes = {
       | undefined;
     /** insert a single row into the table: "circle_metadata" */
     insert_circle_metadata_one?: GraphQLTypes['circle_metadata'] | undefined;
+    /** insert data into the table: "circle_pgives" */
+    insert_circle_pgives?:
+      | GraphQLTypes['circle_pgives_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "circle_pgives" */
+    insert_circle_pgives_one?: GraphQLTypes['circle_pgives'] | undefined;
     /** insert data into the table: "circle_private" */
     insert_circle_private?:
       | GraphQLTypes['circle_private_mutation_response']
@@ -20410,6 +22189,14 @@ export type ModelTypes = {
     /** insert a single row into the table: "interaction_events" */
     insert_interaction_events_one?:
       | GraphQLTypes['interaction_events']
+      | undefined;
+    /** insert data into the table: "member_epoch_pgives" */
+    insert_member_epoch_pgives?:
+      | GraphQLTypes['member_epoch_pgives_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "member_epoch_pgives" */
+    insert_member_epoch_pgives_one?:
+      | GraphQLTypes['member_epoch_pgives']
       | undefined;
     /** insert data into the table: "nominees" */
     insert_nominees?: GraphQLTypes['nominees_mutation_response'] | undefined;
@@ -20544,6 +22331,16 @@ export type ModelTypes = {
     update_circle_metadata_many?:
       | Array<GraphQLTypes['circle_metadata_mutation_response'] | undefined>
       | undefined;
+    /** update data of the table: "circle_pgives" */
+    update_circle_pgives?:
+      | GraphQLTypes['circle_pgives_mutation_response']
+      | undefined;
+    /** update single row of the table: "circle_pgives" */
+    update_circle_pgives_by_pk?: GraphQLTypes['circle_pgives'] | undefined;
+    /** update multiples rows of table: "circle_pgives" */
+    update_circle_pgives_many?:
+      | Array<GraphQLTypes['circle_pgives_mutation_response'] | undefined>
+      | undefined;
     /** update data of the table: "circle_private" */
     update_circle_private?:
       | GraphQLTypes['circle_private_mutation_response']
@@ -20635,6 +22432,18 @@ export type ModelTypes = {
     /** update multiples rows of table: "interaction_events" */
     update_interaction_events_many?:
       | Array<GraphQLTypes['interaction_events_mutation_response'] | undefined>
+      | undefined;
+    /** update data of the table: "member_epoch_pgives" */
+    update_member_epoch_pgives?:
+      | GraphQLTypes['member_epoch_pgives_mutation_response']
+      | undefined;
+    /** update single row of the table: "member_epoch_pgives" */
+    update_member_epoch_pgives_by_pk?:
+      | GraphQLTypes['member_epoch_pgives']
+      | undefined;
+    /** update multiples rows of table: "member_epoch_pgives" */
+    update_member_epoch_pgives_many?:
+      | Array<GraphQLTypes['member_epoch_pgives_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "nominees" */
     update_nominees?: GraphQLTypes['nominees_mutation_response'] | undefined;
@@ -21935,6 +23744,12 @@ export type ModelTypes = {
     circle_metadata_aggregate: GraphQLTypes['circle_metadata_aggregate'];
     /** fetch data from the table: "circle_metadata" using primary key columns */
     circle_metadata_by_pk?: GraphQLTypes['circle_metadata'] | undefined;
+    /** An array relationship */
+    circle_pgives: Array<GraphQLTypes['circle_pgives']>;
+    /** An aggregate relationship */
+    circle_pgives_aggregate: GraphQLTypes['circle_pgives_aggregate'];
+    /** fetch data from the table: "circle_pgives" using primary key columns */
+    circle_pgives_by_pk?: GraphQLTypes['circle_pgives'] | undefined;
     /** fetch data from the table: "circle_private" */
     circle_private: Array<GraphQLTypes['circle_private']>;
     /** fetch aggregated fields from the table: "circle_private" */
@@ -21991,6 +23806,12 @@ export type ModelTypes = {
     interaction_events_aggregate: GraphQLTypes['interaction_events_aggregate'];
     /** fetch data from the table: "interaction_events" using primary key columns */
     interaction_events_by_pk?: GraphQLTypes['interaction_events'] | undefined;
+    /** An array relationship */
+    member_epoch_pgives: Array<GraphQLTypes['member_epoch_pgives']>;
+    /** An aggregate relationship */
+    member_epoch_pgives_aggregate: GraphQLTypes['member_epoch_pgives_aggregate'];
+    /** fetch data from the table: "member_epoch_pgives" using primary key columns */
+    member_epoch_pgives_by_pk?: GraphQLTypes['member_epoch_pgives'] | undefined;
     /** An array relationship */
     nominees: Array<GraphQLTypes['nominees']>;
     /** An aggregate relationship */
@@ -22118,6 +23939,14 @@ export type ModelTypes = {
     circle_metadata_by_pk?: GraphQLTypes['circle_metadata'] | undefined;
     /** fetch data from the table in a streaming manner : "circle_metadata" */
     circle_metadata_stream: Array<GraphQLTypes['circle_metadata']>;
+    /** An array relationship */
+    circle_pgives: Array<GraphQLTypes['circle_pgives']>;
+    /** An aggregate relationship */
+    circle_pgives_aggregate: GraphQLTypes['circle_pgives_aggregate'];
+    /** fetch data from the table: "circle_pgives" using primary key columns */
+    circle_pgives_by_pk?: GraphQLTypes['circle_pgives'] | undefined;
+    /** fetch data from the table in a streaming manner : "circle_pgives" */
+    circle_pgives_stream: Array<GraphQLTypes['circle_pgives']>;
     /** fetch data from the table: "circle_private" */
     circle_private: Array<GraphQLTypes['circle_private']>;
     /** fetch aggregated fields from the table: "circle_private" */
@@ -22194,6 +24023,14 @@ export type ModelTypes = {
     interaction_events_by_pk?: GraphQLTypes['interaction_events'] | undefined;
     /** fetch data from the table in a streaming manner : "interaction_events" */
     interaction_events_stream: Array<GraphQLTypes['interaction_events']>;
+    /** An array relationship */
+    member_epoch_pgives: Array<GraphQLTypes['member_epoch_pgives']>;
+    /** An aggregate relationship */
+    member_epoch_pgives_aggregate: GraphQLTypes['member_epoch_pgives_aggregate'];
+    /** fetch data from the table: "member_epoch_pgives" using primary key columns */
+    member_epoch_pgives_by_pk?: GraphQLTypes['member_epoch_pgives'] | undefined;
+    /** fetch data from the table in a streaming manner : "member_epoch_pgives" */
+    member_epoch_pgives_stream: Array<GraphQLTypes['member_epoch_pgives']>;
     /** An array relationship */
     nominees: Array<GraphQLTypes['nominees']>;
     /** An aggregate relationship */
@@ -25294,6 +27131,350 @@ export type GraphQLTypes = {
     circle_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
   };
+  /** circle pgive pot allocation */
+  ['circle_pgives']: {
+    __typename: 'circle_pgives';
+    active_months: number;
+    circle_id: number;
+    id: number;
+    month: number;
+    normalized_pgives: GraphQLTypes['numeric'];
+    year: number;
+  };
+  /** aggregated selection of "circle_pgives" */
+  ['circle_pgives_aggregate']: {
+    __typename: 'circle_pgives_aggregate';
+    aggregate?: GraphQLTypes['circle_pgives_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['circle_pgives']>;
+  };
+  /** aggregate fields of "circle_pgives" */
+  ['circle_pgives_aggregate_fields']: {
+    __typename: 'circle_pgives_aggregate_fields';
+    avg?: GraphQLTypes['circle_pgives_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['circle_pgives_max_fields'] | undefined;
+    min?: GraphQLTypes['circle_pgives_min_fields'] | undefined;
+    stddev?: GraphQLTypes['circle_pgives_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['circle_pgives_stddev_pop_fields'] | undefined;
+    stddev_samp?: GraphQLTypes['circle_pgives_stddev_samp_fields'] | undefined;
+    sum?: GraphQLTypes['circle_pgives_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['circle_pgives_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['circle_pgives_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['circle_pgives_variance_fields'] | undefined;
+  };
+  /** order by aggregate values of table "circle_pgives" */
+  ['circle_pgives_aggregate_order_by']: {
+    avg?: GraphQLTypes['circle_pgives_avg_order_by'] | undefined;
+    count?: GraphQLTypes['order_by'] | undefined;
+    max?: GraphQLTypes['circle_pgives_max_order_by'] | undefined;
+    min?: GraphQLTypes['circle_pgives_min_order_by'] | undefined;
+    stddev?: GraphQLTypes['circle_pgives_stddev_order_by'] | undefined;
+    stddev_pop?: GraphQLTypes['circle_pgives_stddev_pop_order_by'] | undefined;
+    stddev_samp?:
+      | GraphQLTypes['circle_pgives_stddev_samp_order_by']
+      | undefined;
+    sum?: GraphQLTypes['circle_pgives_sum_order_by'] | undefined;
+    var_pop?: GraphQLTypes['circle_pgives_var_pop_order_by'] | undefined;
+    var_samp?: GraphQLTypes['circle_pgives_var_samp_order_by'] | undefined;
+    variance?: GraphQLTypes['circle_pgives_variance_order_by'] | undefined;
+  };
+  /** input type for inserting array relation for remote table "circle_pgives" */
+  ['circle_pgives_arr_rel_insert_input']: {
+    data: Array<GraphQLTypes['circle_pgives_insert_input']>;
+    /** upsert condition */
+    on_conflict?: GraphQLTypes['circle_pgives_on_conflict'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['circle_pgives_avg_fields']: {
+    __typename: 'circle_pgives_avg_fields';
+    active_months?: number | undefined;
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    month?: number | undefined;
+    normalized_pgives?: number | undefined;
+    year?: number | undefined;
+  };
+  /** order by avg() on columns of table "circle_pgives" */
+  ['circle_pgives_avg_order_by']: {
+    active_months?: GraphQLTypes['order_by'] | undefined;
+    circle_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    month?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgives?: GraphQLTypes['order_by'] | undefined;
+    year?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "circle_pgives". All fields are combined with a logical 'AND'. */
+  ['circle_pgives_bool_exp']: {
+    _and?: Array<GraphQLTypes['circle_pgives_bool_exp']> | undefined;
+    _not?: GraphQLTypes['circle_pgives_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['circle_pgives_bool_exp']> | undefined;
+    active_months?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    circle_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    month?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    normalized_pgives?: GraphQLTypes['numeric_comparison_exp'] | undefined;
+    year?: GraphQLTypes['Int_comparison_exp'] | undefined;
+  };
+  /** unique or primary key constraints on table "circle_pgives" */
+  ['circle_pgives_constraint']: circle_pgives_constraint;
+  /** input type for incrementing numeric columns in table "circle_pgives" */
+  ['circle_pgives_inc_input']: {
+    active_months?: number | undefined;
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    month?: number | undefined;
+    normalized_pgives?: GraphQLTypes['numeric'] | undefined;
+    year?: number | undefined;
+  };
+  /** input type for inserting data into table "circle_pgives" */
+  ['circle_pgives_insert_input']: {
+    active_months?: number | undefined;
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    month?: number | undefined;
+    normalized_pgives?: GraphQLTypes['numeric'] | undefined;
+    year?: number | undefined;
+  };
+  /** aggregate max on columns */
+  ['circle_pgives_max_fields']: {
+    __typename: 'circle_pgives_max_fields';
+    active_months?: number | undefined;
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    month?: number | undefined;
+    normalized_pgives?: GraphQLTypes['numeric'] | undefined;
+    year?: number | undefined;
+  };
+  /** order by max() on columns of table "circle_pgives" */
+  ['circle_pgives_max_order_by']: {
+    active_months?: GraphQLTypes['order_by'] | undefined;
+    circle_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    month?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgives?: GraphQLTypes['order_by'] | undefined;
+    year?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['circle_pgives_min_fields']: {
+    __typename: 'circle_pgives_min_fields';
+    active_months?: number | undefined;
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    month?: number | undefined;
+    normalized_pgives?: GraphQLTypes['numeric'] | undefined;
+    year?: number | undefined;
+  };
+  /** order by min() on columns of table "circle_pgives" */
+  ['circle_pgives_min_order_by']: {
+    active_months?: GraphQLTypes['order_by'] | undefined;
+    circle_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    month?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgives?: GraphQLTypes['order_by'] | undefined;
+    year?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** response of any mutation on the table "circle_pgives" */
+  ['circle_pgives_mutation_response']: {
+    __typename: 'circle_pgives_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['circle_pgives']>;
+  };
+  /** input type for inserting object relation for remote table "circle_pgives" */
+  ['circle_pgives_obj_rel_insert_input']: {
+    data: GraphQLTypes['circle_pgives_insert_input'];
+    /** upsert condition */
+    on_conflict?: GraphQLTypes['circle_pgives_on_conflict'] | undefined;
+  };
+  /** on_conflict condition type for table "circle_pgives" */
+  ['circle_pgives_on_conflict']: {
+    constraint: GraphQLTypes['circle_pgives_constraint'];
+    update_columns: Array<GraphQLTypes['circle_pgives_update_column']>;
+    where?: GraphQLTypes['circle_pgives_bool_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "circle_pgives". */
+  ['circle_pgives_order_by']: {
+    active_months?: GraphQLTypes['order_by'] | undefined;
+    circle_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    month?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgives?: GraphQLTypes['order_by'] | undefined;
+    year?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** primary key columns input for table: circle_pgives */
+  ['circle_pgives_pk_columns_input']: {
+    id: number;
+  };
+  /** select columns of table "circle_pgives" */
+  ['circle_pgives_select_column']: circle_pgives_select_column;
+  /** input type for updating data in table "circle_pgives" */
+  ['circle_pgives_set_input']: {
+    active_months?: number | undefined;
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    month?: number | undefined;
+    normalized_pgives?: GraphQLTypes['numeric'] | undefined;
+    year?: number | undefined;
+  };
+  /** aggregate stddev on columns */
+  ['circle_pgives_stddev_fields']: {
+    __typename: 'circle_pgives_stddev_fields';
+    active_months?: number | undefined;
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    month?: number | undefined;
+    normalized_pgives?: number | undefined;
+    year?: number | undefined;
+  };
+  /** order by stddev() on columns of table "circle_pgives" */
+  ['circle_pgives_stddev_order_by']: {
+    active_months?: GraphQLTypes['order_by'] | undefined;
+    circle_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    month?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgives?: GraphQLTypes['order_by'] | undefined;
+    year?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['circle_pgives_stddev_pop_fields']: {
+    __typename: 'circle_pgives_stddev_pop_fields';
+    active_months?: number | undefined;
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    month?: number | undefined;
+    normalized_pgives?: number | undefined;
+    year?: number | undefined;
+  };
+  /** order by stddev_pop() on columns of table "circle_pgives" */
+  ['circle_pgives_stddev_pop_order_by']: {
+    active_months?: GraphQLTypes['order_by'] | undefined;
+    circle_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    month?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgives?: GraphQLTypes['order_by'] | undefined;
+    year?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['circle_pgives_stddev_samp_fields']: {
+    __typename: 'circle_pgives_stddev_samp_fields';
+    active_months?: number | undefined;
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    month?: number | undefined;
+    normalized_pgives?: number | undefined;
+    year?: number | undefined;
+  };
+  /** order by stddev_samp() on columns of table "circle_pgives" */
+  ['circle_pgives_stddev_samp_order_by']: {
+    active_months?: GraphQLTypes['order_by'] | undefined;
+    circle_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    month?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgives?: GraphQLTypes['order_by'] | undefined;
+    year?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Streaming cursor of the table "circle_pgives" */
+  ['circle_pgives_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['circle_pgives_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['circle_pgives_stream_cursor_value_input']: {
+    active_months?: number | undefined;
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    month?: number | undefined;
+    normalized_pgives?: GraphQLTypes['numeric'] | undefined;
+    year?: number | undefined;
+  };
+  /** aggregate sum on columns */
+  ['circle_pgives_sum_fields']: {
+    __typename: 'circle_pgives_sum_fields';
+    active_months?: number | undefined;
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    month?: number | undefined;
+    normalized_pgives?: GraphQLTypes['numeric'] | undefined;
+    year?: number | undefined;
+  };
+  /** order by sum() on columns of table "circle_pgives" */
+  ['circle_pgives_sum_order_by']: {
+    active_months?: GraphQLTypes['order_by'] | undefined;
+    circle_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    month?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgives?: GraphQLTypes['order_by'] | undefined;
+    year?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** update columns of table "circle_pgives" */
+  ['circle_pgives_update_column']: circle_pgives_update_column;
+  ['circle_pgives_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: GraphQLTypes['circle_pgives_inc_input'] | undefined;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes['circle_pgives_set_input'] | undefined;
+    where: GraphQLTypes['circle_pgives_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['circle_pgives_var_pop_fields']: {
+    __typename: 'circle_pgives_var_pop_fields';
+    active_months?: number | undefined;
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    month?: number | undefined;
+    normalized_pgives?: number | undefined;
+    year?: number | undefined;
+  };
+  /** order by var_pop() on columns of table "circle_pgives" */
+  ['circle_pgives_var_pop_order_by']: {
+    active_months?: GraphQLTypes['order_by'] | undefined;
+    circle_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    month?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgives?: GraphQLTypes['order_by'] | undefined;
+    year?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['circle_pgives_var_samp_fields']: {
+    __typename: 'circle_pgives_var_samp_fields';
+    active_months?: number | undefined;
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    month?: number | undefined;
+    normalized_pgives?: number | undefined;
+    year?: number | undefined;
+  };
+  /** order by var_samp() on columns of table "circle_pgives" */
+  ['circle_pgives_var_samp_order_by']: {
+    active_months?: GraphQLTypes['order_by'] | undefined;
+    circle_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    month?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgives?: GraphQLTypes['order_by'] | undefined;
+    year?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate variance on columns */
+  ['circle_pgives_variance_fields']: {
+    __typename: 'circle_pgives_variance_fields';
+    active_months?: number | undefined;
+    circle_id?: number | undefined;
+    id?: number | undefined;
+    month?: number | undefined;
+    normalized_pgives?: number | undefined;
+    year?: number | undefined;
+  };
+  /** order by variance() on columns of table "circle_pgives" */
+  ['circle_pgives_variance_order_by']: {
+    active_months?: GraphQLTypes['order_by'] | undefined;
+    circle_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    month?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgives?: GraphQLTypes['order_by'] | undefined;
+    year?: GraphQLTypes['order_by'] | undefined;
+  };
   /** columns and relationships of "circle_private" */
   ['circle_private']: {
     __typename: 'circle_private';
@@ -25649,6 +27830,10 @@ export type GraphQLTypes = {
     circle_metadata: Array<GraphQLTypes['circle_metadata']>;
     /** An aggregate relationship */
     circle_metadata_aggregate: GraphQLTypes['circle_metadata_aggregate'];
+    /** An array relationship */
+    circle_pgives: Array<GraphQLTypes['circle_pgives']>;
+    /** An aggregate relationship */
+    circle_pgives_aggregate: GraphQLTypes['circle_pgives_aggregate'];
     /** An object relationship */
     circle_private?: GraphQLTypes['circle_private'] | undefined;
     contact?: string | undefined;
@@ -25776,6 +27961,7 @@ export type GraphQLTypes = {
     auto_opt_out?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     burns?: GraphQLTypes['burns_bool_exp'] | undefined;
     circle_metadata?: GraphQLTypes['circle_metadata_bool_exp'] | undefined;
+    circle_pgives?: GraphQLTypes['circle_pgives_bool_exp'] | undefined;
     circle_private?: GraphQLTypes['circle_private_bool_exp'] | undefined;
     contact?: GraphQLTypes['String_comparison_exp'] | undefined;
     contributions?: GraphQLTypes['contributions_bool_exp'] | undefined;
@@ -25833,6 +28019,9 @@ export type GraphQLTypes = {
     burns?: GraphQLTypes['burns_arr_rel_insert_input'] | undefined;
     circle_metadata?:
       | GraphQLTypes['circle_metadata_arr_rel_insert_input']
+      | undefined;
+    circle_pgives?:
+      | GraphQLTypes['circle_pgives_arr_rel_insert_input']
       | undefined;
     circle_private?:
       | GraphQLTypes['circle_private_obj_rel_insert_input']
@@ -25995,6 +28184,9 @@ export type GraphQLTypes = {
     burns_aggregate?: GraphQLTypes['burns_aggregate_order_by'] | undefined;
     circle_metadata_aggregate?:
       | GraphQLTypes['circle_metadata_aggregate_order_by']
+      | undefined;
+    circle_pgives_aggregate?:
+      | GraphQLTypes['circle_pgives_aggregate_order_by']
       | undefined;
     circle_private?: GraphQLTypes['circle_private_order_by'] | undefined;
     contact?: GraphQLTypes['order_by'] | undefined;
@@ -27490,6 +29682,7 @@ export type GraphQLTypes = {
   /** columns and relationships of "epoches" */
   ['epochs']: {
     __typename: 'epochs';
+    active_months_bonus: GraphQLTypes['numeric'];
     /** An array relationship */
     burns: Array<GraphQLTypes['burns']>;
     /** An aggregate relationship */
@@ -27497,6 +29690,9 @@ export type GraphQLTypes = {
     /** An object relationship */
     circle?: GraphQLTypes['circles'] | undefined;
     circle_id: number;
+    /** An object relationship */
+    circle_pgive?: GraphQLTypes['circle_pgives'] | undefined;
+    circle_pgives_id?: number | undefined;
     created_at: GraphQLTypes['timestamp'];
     days?: number | undefined;
     /** An array relationship */
@@ -27509,12 +29705,19 @@ export type GraphQLTypes = {
     epoch_pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     /** An aggregate relationship */
     epoch_pending_token_gifts_aggregate: GraphQLTypes['pending_token_gifts_aggregate'];
+    gives_receiver_base: GraphQLTypes['numeric'];
     grant: GraphQLTypes['numeric'];
     id: GraphQLTypes['bigint'];
+    /** An array relationship */
+    member_epoch_pgives: Array<GraphQLTypes['member_epoch_pgives']>;
+    /** An aggregate relationship */
+    member_epoch_pgives_aggregate: GraphQLTypes['member_epoch_pgives_aggregate'];
+    notes_bonus: GraphQLTypes['numeric'];
     notified_before_end?: GraphQLTypes['timestamp'] | undefined;
     notified_end?: GraphQLTypes['timestamp'] | undefined;
     notified_start?: GraphQLTypes['timestamp'] | undefined;
     number?: number | undefined;
+    pgive: GraphQLTypes['numeric'];
     regift_days: number;
     repeat: number;
     repeat_day_of_month: number;
@@ -27569,22 +29772,32 @@ export type GraphQLTypes = {
   /** aggregate avg on columns */
   ['epochs_avg_fields']: {
     __typename: 'epochs_avg_fields';
+    active_months_bonus?: number | undefined;
     circle_id?: number | undefined;
+    circle_pgives_id?: number | undefined;
     days?: number | undefined;
+    gives_receiver_base?: number | undefined;
     grant?: number | undefined;
     id?: number | undefined;
+    notes_bonus?: number | undefined;
     number?: number | undefined;
+    pgive?: number | undefined;
     regift_days?: number | undefined;
     repeat?: number | undefined;
     repeat_day_of_month?: number | undefined;
   };
   /** order by avg() on columns of table "epoches" */
   ['epochs_avg_order_by']: {
+    active_months_bonus?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
+    circle_pgives_id?: GraphQLTypes['order_by'] | undefined;
     days?: GraphQLTypes['order_by'] | undefined;
+    gives_receiver_base?: GraphQLTypes['order_by'] | undefined;
     grant?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    notes_bonus?: GraphQLTypes['order_by'] | undefined;
     number?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
     regift_days?: GraphQLTypes['order_by'] | undefined;
     repeat?: GraphQLTypes['order_by'] | undefined;
     repeat_day_of_month?: GraphQLTypes['order_by'] | undefined;
@@ -27594,9 +29807,12 @@ export type GraphQLTypes = {
     _and?: Array<GraphQLTypes['epochs_bool_exp']> | undefined;
     _not?: GraphQLTypes['epochs_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['epochs_bool_exp']> | undefined;
+    active_months_bonus?: GraphQLTypes['numeric_comparison_exp'] | undefined;
     burns?: GraphQLTypes['burns_bool_exp'] | undefined;
     circle?: GraphQLTypes['circles_bool_exp'] | undefined;
     circle_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    circle_pgive?: GraphQLTypes['circle_pgives_bool_exp'] | undefined;
+    circle_pgives_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     days?: GraphQLTypes['Int_comparison_exp'] | undefined;
     distributions?: GraphQLTypes['distributions_bool_exp'] | undefined;
@@ -27605,12 +29821,18 @@ export type GraphQLTypes = {
     epoch_pending_token_gifts?:
       | GraphQLTypes['pending_token_gifts_bool_exp']
       | undefined;
+    gives_receiver_base?: GraphQLTypes['numeric_comparison_exp'] | undefined;
     grant?: GraphQLTypes['numeric_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    member_epoch_pgives?:
+      | GraphQLTypes['member_epoch_pgives_bool_exp']
+      | undefined;
+    notes_bonus?: GraphQLTypes['numeric_comparison_exp'] | undefined;
     notified_before_end?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     notified_end?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     notified_start?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     number?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    pgive?: GraphQLTypes['numeric_comparison_exp'] | undefined;
     regift_days?: GraphQLTypes['Int_comparison_exp'] | undefined;
     repeat?: GraphQLTypes['Int_comparison_exp'] | undefined;
     repeat_day_of_month?: GraphQLTypes['Int_comparison_exp'] | undefined;
@@ -27622,20 +29844,30 @@ export type GraphQLTypes = {
   ['epochs_constraint']: epochs_constraint;
   /** input type for incrementing numeric columns in table "epoches" */
   ['epochs_inc_input']: {
+    active_months_bonus?: GraphQLTypes['numeric'] | undefined;
     circle_id?: number | undefined;
+    circle_pgives_id?: number | undefined;
     days?: number | undefined;
+    gives_receiver_base?: GraphQLTypes['numeric'] | undefined;
     grant?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    notes_bonus?: GraphQLTypes['numeric'] | undefined;
     number?: number | undefined;
+    pgive?: GraphQLTypes['numeric'] | undefined;
     regift_days?: number | undefined;
     repeat?: number | undefined;
     repeat_day_of_month?: number | undefined;
   };
   /** input type for inserting data into table "epoches" */
   ['epochs_insert_input']: {
+    active_months_bonus?: GraphQLTypes['numeric'] | undefined;
     burns?: GraphQLTypes['burns_arr_rel_insert_input'] | undefined;
     circle?: GraphQLTypes['circles_obj_rel_insert_input'] | undefined;
     circle_id?: number | undefined;
+    circle_pgive?:
+      | GraphQLTypes['circle_pgives_obj_rel_insert_input']
+      | undefined;
+    circle_pgives_id?: number | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     days?: number | undefined;
     distributions?:
@@ -27646,12 +29878,18 @@ export type GraphQLTypes = {
     epoch_pending_token_gifts?:
       | GraphQLTypes['pending_token_gifts_arr_rel_insert_input']
       | undefined;
+    gives_receiver_base?: GraphQLTypes['numeric'] | undefined;
     grant?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    member_epoch_pgives?:
+      | GraphQLTypes['member_epoch_pgives_arr_rel_insert_input']
+      | undefined;
+    notes_bonus?: GraphQLTypes['numeric'] | undefined;
     notified_before_end?: GraphQLTypes['timestamp'] | undefined;
     notified_end?: GraphQLTypes['timestamp'] | undefined;
     notified_start?: GraphQLTypes['timestamp'] | undefined;
     number?: number | undefined;
+    pgive?: GraphQLTypes['numeric'] | undefined;
     regift_days?: number | undefined;
     repeat?: number | undefined;
     repeat_day_of_month?: number | undefined;
@@ -27662,16 +29900,21 @@ export type GraphQLTypes = {
   /** aggregate max on columns */
   ['epochs_max_fields']: {
     __typename: 'epochs_max_fields';
+    active_months_bonus?: GraphQLTypes['numeric'] | undefined;
     circle_id?: number | undefined;
+    circle_pgives_id?: number | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     days?: number | undefined;
     end_date?: GraphQLTypes['timestamptz'] | undefined;
+    gives_receiver_base?: GraphQLTypes['numeric'] | undefined;
     grant?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    notes_bonus?: GraphQLTypes['numeric'] | undefined;
     notified_before_end?: GraphQLTypes['timestamp'] | undefined;
     notified_end?: GraphQLTypes['timestamp'] | undefined;
     notified_start?: GraphQLTypes['timestamp'] | undefined;
     number?: number | undefined;
+    pgive?: GraphQLTypes['numeric'] | undefined;
     regift_days?: number | undefined;
     repeat?: number | undefined;
     repeat_day_of_month?: number | undefined;
@@ -27680,16 +29923,21 @@ export type GraphQLTypes = {
   };
   /** order by max() on columns of table "epoches" */
   ['epochs_max_order_by']: {
+    active_months_bonus?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
+    circle_pgives_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     days?: GraphQLTypes['order_by'] | undefined;
     end_date?: GraphQLTypes['order_by'] | undefined;
+    gives_receiver_base?: GraphQLTypes['order_by'] | undefined;
     grant?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    notes_bonus?: GraphQLTypes['order_by'] | undefined;
     notified_before_end?: GraphQLTypes['order_by'] | undefined;
     notified_end?: GraphQLTypes['order_by'] | undefined;
     notified_start?: GraphQLTypes['order_by'] | undefined;
     number?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
     regift_days?: GraphQLTypes['order_by'] | undefined;
     repeat?: GraphQLTypes['order_by'] | undefined;
     repeat_day_of_month?: GraphQLTypes['order_by'] | undefined;
@@ -27699,16 +29947,21 @@ export type GraphQLTypes = {
   /** aggregate min on columns */
   ['epochs_min_fields']: {
     __typename: 'epochs_min_fields';
+    active_months_bonus?: GraphQLTypes['numeric'] | undefined;
     circle_id?: number | undefined;
+    circle_pgives_id?: number | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     days?: number | undefined;
     end_date?: GraphQLTypes['timestamptz'] | undefined;
+    gives_receiver_base?: GraphQLTypes['numeric'] | undefined;
     grant?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    notes_bonus?: GraphQLTypes['numeric'] | undefined;
     notified_before_end?: GraphQLTypes['timestamp'] | undefined;
     notified_end?: GraphQLTypes['timestamp'] | undefined;
     notified_start?: GraphQLTypes['timestamp'] | undefined;
     number?: number | undefined;
+    pgive?: GraphQLTypes['numeric'] | undefined;
     regift_days?: number | undefined;
     repeat?: number | undefined;
     repeat_day_of_month?: number | undefined;
@@ -27717,16 +29970,21 @@ export type GraphQLTypes = {
   };
   /** order by min() on columns of table "epoches" */
   ['epochs_min_order_by']: {
+    active_months_bonus?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
+    circle_pgives_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     days?: GraphQLTypes['order_by'] | undefined;
     end_date?: GraphQLTypes['order_by'] | undefined;
+    gives_receiver_base?: GraphQLTypes['order_by'] | undefined;
     grant?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    notes_bonus?: GraphQLTypes['order_by'] | undefined;
     notified_before_end?: GraphQLTypes['order_by'] | undefined;
     notified_end?: GraphQLTypes['order_by'] | undefined;
     notified_start?: GraphQLTypes['order_by'] | undefined;
     number?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
     regift_days?: GraphQLTypes['order_by'] | undefined;
     repeat?: GraphQLTypes['order_by'] | undefined;
     repeat_day_of_month?: GraphQLTypes['order_by'] | undefined;
@@ -27755,9 +30013,12 @@ export type GraphQLTypes = {
   };
   /** Ordering options when selecting data from "epoches". */
   ['epochs_order_by']: {
+    active_months_bonus?: GraphQLTypes['order_by'] | undefined;
     burns_aggregate?: GraphQLTypes['burns_aggregate_order_by'] | undefined;
     circle?: GraphQLTypes['circles_order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
+    circle_pgive?: GraphQLTypes['circle_pgives_order_by'] | undefined;
+    circle_pgives_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     days?: GraphQLTypes['order_by'] | undefined;
     distributions_aggregate?:
@@ -27768,12 +30029,18 @@ export type GraphQLTypes = {
     epoch_pending_token_gifts_aggregate?:
       | GraphQLTypes['pending_token_gifts_aggregate_order_by']
       | undefined;
+    gives_receiver_base?: GraphQLTypes['order_by'] | undefined;
     grant?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    member_epoch_pgives_aggregate?:
+      | GraphQLTypes['member_epoch_pgives_aggregate_order_by']
+      | undefined;
+    notes_bonus?: GraphQLTypes['order_by'] | undefined;
     notified_before_end?: GraphQLTypes['order_by'] | undefined;
     notified_end?: GraphQLTypes['order_by'] | undefined;
     notified_start?: GraphQLTypes['order_by'] | undefined;
     number?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
     regift_days?: GraphQLTypes['order_by'] | undefined;
     repeat?: GraphQLTypes['order_by'] | undefined;
     repeat_day_of_month?: GraphQLTypes['order_by'] | undefined;
@@ -27791,17 +30058,22 @@ export type GraphQLTypes = {
   ['epochs_select_column']: epochs_select_column;
   /** input type for updating data in table "epoches" */
   ['epochs_set_input']: {
+    active_months_bonus?: GraphQLTypes['numeric'] | undefined;
     circle_id?: number | undefined;
+    circle_pgives_id?: number | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     days?: number | undefined;
     end_date?: GraphQLTypes['timestamptz'] | undefined;
     ended?: boolean | undefined;
+    gives_receiver_base?: GraphQLTypes['numeric'] | undefined;
     grant?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    notes_bonus?: GraphQLTypes['numeric'] | undefined;
     notified_before_end?: GraphQLTypes['timestamp'] | undefined;
     notified_end?: GraphQLTypes['timestamp'] | undefined;
     notified_start?: GraphQLTypes['timestamp'] | undefined;
     number?: number | undefined;
+    pgive?: GraphQLTypes['numeric'] | undefined;
     regift_days?: number | undefined;
     repeat?: number | undefined;
     repeat_day_of_month?: number | undefined;
@@ -27811,22 +30083,32 @@ export type GraphQLTypes = {
   /** aggregate stddev on columns */
   ['epochs_stddev_fields']: {
     __typename: 'epochs_stddev_fields';
+    active_months_bonus?: number | undefined;
     circle_id?: number | undefined;
+    circle_pgives_id?: number | undefined;
     days?: number | undefined;
+    gives_receiver_base?: number | undefined;
     grant?: number | undefined;
     id?: number | undefined;
+    notes_bonus?: number | undefined;
     number?: number | undefined;
+    pgive?: number | undefined;
     regift_days?: number | undefined;
     repeat?: number | undefined;
     repeat_day_of_month?: number | undefined;
   };
   /** order by stddev() on columns of table "epoches" */
   ['epochs_stddev_order_by']: {
+    active_months_bonus?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
+    circle_pgives_id?: GraphQLTypes['order_by'] | undefined;
     days?: GraphQLTypes['order_by'] | undefined;
+    gives_receiver_base?: GraphQLTypes['order_by'] | undefined;
     grant?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    notes_bonus?: GraphQLTypes['order_by'] | undefined;
     number?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
     regift_days?: GraphQLTypes['order_by'] | undefined;
     repeat?: GraphQLTypes['order_by'] | undefined;
     repeat_day_of_month?: GraphQLTypes['order_by'] | undefined;
@@ -27834,22 +30116,32 @@ export type GraphQLTypes = {
   /** aggregate stddev_pop on columns */
   ['epochs_stddev_pop_fields']: {
     __typename: 'epochs_stddev_pop_fields';
+    active_months_bonus?: number | undefined;
     circle_id?: number | undefined;
+    circle_pgives_id?: number | undefined;
     days?: number | undefined;
+    gives_receiver_base?: number | undefined;
     grant?: number | undefined;
     id?: number | undefined;
+    notes_bonus?: number | undefined;
     number?: number | undefined;
+    pgive?: number | undefined;
     regift_days?: number | undefined;
     repeat?: number | undefined;
     repeat_day_of_month?: number | undefined;
   };
   /** order by stddev_pop() on columns of table "epoches" */
   ['epochs_stddev_pop_order_by']: {
+    active_months_bonus?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
+    circle_pgives_id?: GraphQLTypes['order_by'] | undefined;
     days?: GraphQLTypes['order_by'] | undefined;
+    gives_receiver_base?: GraphQLTypes['order_by'] | undefined;
     grant?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    notes_bonus?: GraphQLTypes['order_by'] | undefined;
     number?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
     regift_days?: GraphQLTypes['order_by'] | undefined;
     repeat?: GraphQLTypes['order_by'] | undefined;
     repeat_day_of_month?: GraphQLTypes['order_by'] | undefined;
@@ -27857,22 +30149,32 @@ export type GraphQLTypes = {
   /** aggregate stddev_samp on columns */
   ['epochs_stddev_samp_fields']: {
     __typename: 'epochs_stddev_samp_fields';
+    active_months_bonus?: number | undefined;
     circle_id?: number | undefined;
+    circle_pgives_id?: number | undefined;
     days?: number | undefined;
+    gives_receiver_base?: number | undefined;
     grant?: number | undefined;
     id?: number | undefined;
+    notes_bonus?: number | undefined;
     number?: number | undefined;
+    pgive?: number | undefined;
     regift_days?: number | undefined;
     repeat?: number | undefined;
     repeat_day_of_month?: number | undefined;
   };
   /** order by stddev_samp() on columns of table "epoches" */
   ['epochs_stddev_samp_order_by']: {
+    active_months_bonus?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
+    circle_pgives_id?: GraphQLTypes['order_by'] | undefined;
     days?: GraphQLTypes['order_by'] | undefined;
+    gives_receiver_base?: GraphQLTypes['order_by'] | undefined;
     grant?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    notes_bonus?: GraphQLTypes['order_by'] | undefined;
     number?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
     regift_days?: GraphQLTypes['order_by'] | undefined;
     repeat?: GraphQLTypes['order_by'] | undefined;
     repeat_day_of_month?: GraphQLTypes['order_by'] | undefined;
@@ -27886,17 +30188,22 @@ export type GraphQLTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ['epochs_stream_cursor_value_input']: {
+    active_months_bonus?: GraphQLTypes['numeric'] | undefined;
     circle_id?: number | undefined;
+    circle_pgives_id?: number | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     days?: number | undefined;
     end_date?: GraphQLTypes['timestamptz'] | undefined;
     ended?: boolean | undefined;
+    gives_receiver_base?: GraphQLTypes['numeric'] | undefined;
     grant?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    notes_bonus?: GraphQLTypes['numeric'] | undefined;
     notified_before_end?: GraphQLTypes['timestamp'] | undefined;
     notified_end?: GraphQLTypes['timestamp'] | undefined;
     notified_start?: GraphQLTypes['timestamp'] | undefined;
     number?: number | undefined;
+    pgive?: GraphQLTypes['numeric'] | undefined;
     regift_days?: number | undefined;
     repeat?: number | undefined;
     repeat_day_of_month?: number | undefined;
@@ -27906,22 +30213,32 @@ export type GraphQLTypes = {
   /** aggregate sum on columns */
   ['epochs_sum_fields']: {
     __typename: 'epochs_sum_fields';
+    active_months_bonus?: GraphQLTypes['numeric'] | undefined;
     circle_id?: number | undefined;
+    circle_pgives_id?: number | undefined;
     days?: number | undefined;
+    gives_receiver_base?: GraphQLTypes['numeric'] | undefined;
     grant?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    notes_bonus?: GraphQLTypes['numeric'] | undefined;
     number?: number | undefined;
+    pgive?: GraphQLTypes['numeric'] | undefined;
     regift_days?: number | undefined;
     repeat?: number | undefined;
     repeat_day_of_month?: number | undefined;
   };
   /** order by sum() on columns of table "epoches" */
   ['epochs_sum_order_by']: {
+    active_months_bonus?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
+    circle_pgives_id?: GraphQLTypes['order_by'] | undefined;
     days?: GraphQLTypes['order_by'] | undefined;
+    gives_receiver_base?: GraphQLTypes['order_by'] | undefined;
     grant?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    notes_bonus?: GraphQLTypes['order_by'] | undefined;
     number?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
     regift_days?: GraphQLTypes['order_by'] | undefined;
     repeat?: GraphQLTypes['order_by'] | undefined;
     repeat_day_of_month?: GraphQLTypes['order_by'] | undefined;
@@ -27938,22 +30255,32 @@ export type GraphQLTypes = {
   /** aggregate var_pop on columns */
   ['epochs_var_pop_fields']: {
     __typename: 'epochs_var_pop_fields';
+    active_months_bonus?: number | undefined;
     circle_id?: number | undefined;
+    circle_pgives_id?: number | undefined;
     days?: number | undefined;
+    gives_receiver_base?: number | undefined;
     grant?: number | undefined;
     id?: number | undefined;
+    notes_bonus?: number | undefined;
     number?: number | undefined;
+    pgive?: number | undefined;
     regift_days?: number | undefined;
     repeat?: number | undefined;
     repeat_day_of_month?: number | undefined;
   };
   /** order by var_pop() on columns of table "epoches" */
   ['epochs_var_pop_order_by']: {
+    active_months_bonus?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
+    circle_pgives_id?: GraphQLTypes['order_by'] | undefined;
     days?: GraphQLTypes['order_by'] | undefined;
+    gives_receiver_base?: GraphQLTypes['order_by'] | undefined;
     grant?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    notes_bonus?: GraphQLTypes['order_by'] | undefined;
     number?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
     regift_days?: GraphQLTypes['order_by'] | undefined;
     repeat?: GraphQLTypes['order_by'] | undefined;
     repeat_day_of_month?: GraphQLTypes['order_by'] | undefined;
@@ -27961,22 +30288,32 @@ export type GraphQLTypes = {
   /** aggregate var_samp on columns */
   ['epochs_var_samp_fields']: {
     __typename: 'epochs_var_samp_fields';
+    active_months_bonus?: number | undefined;
     circle_id?: number | undefined;
+    circle_pgives_id?: number | undefined;
     days?: number | undefined;
+    gives_receiver_base?: number | undefined;
     grant?: number | undefined;
     id?: number | undefined;
+    notes_bonus?: number | undefined;
     number?: number | undefined;
+    pgive?: number | undefined;
     regift_days?: number | undefined;
     repeat?: number | undefined;
     repeat_day_of_month?: number | undefined;
   };
   /** order by var_samp() on columns of table "epoches" */
   ['epochs_var_samp_order_by']: {
+    active_months_bonus?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
+    circle_pgives_id?: GraphQLTypes['order_by'] | undefined;
     days?: GraphQLTypes['order_by'] | undefined;
+    gives_receiver_base?: GraphQLTypes['order_by'] | undefined;
     grant?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    notes_bonus?: GraphQLTypes['order_by'] | undefined;
     number?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
     regift_days?: GraphQLTypes['order_by'] | undefined;
     repeat?: GraphQLTypes['order_by'] | undefined;
     repeat_day_of_month?: GraphQLTypes['order_by'] | undefined;
@@ -27984,22 +30321,32 @@ export type GraphQLTypes = {
   /** aggregate variance on columns */
   ['epochs_variance_fields']: {
     __typename: 'epochs_variance_fields';
+    active_months_bonus?: number | undefined;
     circle_id?: number | undefined;
+    circle_pgives_id?: number | undefined;
     days?: number | undefined;
+    gives_receiver_base?: number | undefined;
     grant?: number | undefined;
     id?: number | undefined;
+    notes_bonus?: number | undefined;
     number?: number | undefined;
+    pgive?: number | undefined;
     regift_days?: number | undefined;
     repeat?: number | undefined;
     repeat_day_of_month?: number | undefined;
   };
   /** order by variance() on columns of table "epoches" */
   ['epochs_variance_order_by']: {
+    active_months_bonus?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
+    circle_pgives_id?: GraphQLTypes['order_by'] | undefined;
     days?: GraphQLTypes['order_by'] | undefined;
+    gives_receiver_base?: GraphQLTypes['order_by'] | undefined;
     grant?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    notes_bonus?: GraphQLTypes['order_by'] | undefined;
     number?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
     regift_days?: GraphQLTypes['order_by'] | undefined;
     repeat?: GraphQLTypes['order_by'] | undefined;
     repeat_day_of_month?: GraphQLTypes['order_by'] | undefined;
@@ -28745,6 +31092,356 @@ export type GraphQLTypes = {
     _neq?: GraphQLTypes['jsonb'] | undefined;
     _nin?: Array<GraphQLTypes['jsonb']> | undefined;
   };
+  /** member allocated pgives per epoch */
+  ['member_epoch_pgives']: {
+    __typename: 'member_epoch_pgives';
+    epoch_id: number;
+    gives_received: number;
+    id: number;
+    normalized_pgive: GraphQLTypes['numeric'];
+    pgive: GraphQLTypes['numeric'];
+    user_id: number;
+  };
+  /** aggregated selection of "member_epoch_pgives" */
+  ['member_epoch_pgives_aggregate']: {
+    __typename: 'member_epoch_pgives_aggregate';
+    aggregate?:
+      | GraphQLTypes['member_epoch_pgives_aggregate_fields']
+      | undefined;
+    nodes: Array<GraphQLTypes['member_epoch_pgives']>;
+  };
+  /** aggregate fields of "member_epoch_pgives" */
+  ['member_epoch_pgives_aggregate_fields']: {
+    __typename: 'member_epoch_pgives_aggregate_fields';
+    avg?: GraphQLTypes['member_epoch_pgives_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['member_epoch_pgives_max_fields'] | undefined;
+    min?: GraphQLTypes['member_epoch_pgives_min_fields'] | undefined;
+    stddev?: GraphQLTypes['member_epoch_pgives_stddev_fields'] | undefined;
+    stddev_pop?:
+      | GraphQLTypes['member_epoch_pgives_stddev_pop_fields']
+      | undefined;
+    stddev_samp?:
+      | GraphQLTypes['member_epoch_pgives_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['member_epoch_pgives_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['member_epoch_pgives_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['member_epoch_pgives_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['member_epoch_pgives_variance_fields'] | undefined;
+  };
+  /** order by aggregate values of table "member_epoch_pgives" */
+  ['member_epoch_pgives_aggregate_order_by']: {
+    avg?: GraphQLTypes['member_epoch_pgives_avg_order_by'] | undefined;
+    count?: GraphQLTypes['order_by'] | undefined;
+    max?: GraphQLTypes['member_epoch_pgives_max_order_by'] | undefined;
+    min?: GraphQLTypes['member_epoch_pgives_min_order_by'] | undefined;
+    stddev?: GraphQLTypes['member_epoch_pgives_stddev_order_by'] | undefined;
+    stddev_pop?:
+      | GraphQLTypes['member_epoch_pgives_stddev_pop_order_by']
+      | undefined;
+    stddev_samp?:
+      | GraphQLTypes['member_epoch_pgives_stddev_samp_order_by']
+      | undefined;
+    sum?: GraphQLTypes['member_epoch_pgives_sum_order_by'] | undefined;
+    var_pop?: GraphQLTypes['member_epoch_pgives_var_pop_order_by'] | undefined;
+    var_samp?:
+      | GraphQLTypes['member_epoch_pgives_var_samp_order_by']
+      | undefined;
+    variance?:
+      | GraphQLTypes['member_epoch_pgives_variance_order_by']
+      | undefined;
+  };
+  /** input type for inserting array relation for remote table "member_epoch_pgives" */
+  ['member_epoch_pgives_arr_rel_insert_input']: {
+    data: Array<GraphQLTypes['member_epoch_pgives_insert_input']>;
+    /** upsert condition */
+    on_conflict?: GraphQLTypes['member_epoch_pgives_on_conflict'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['member_epoch_pgives_avg_fields']: {
+    __typename: 'member_epoch_pgives_avg_fields';
+    epoch_id?: number | undefined;
+    gives_received?: number | undefined;
+    id?: number | undefined;
+    normalized_pgive?: number | undefined;
+    pgive?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** order by avg() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_avg_order_by']: {
+    epoch_id?: GraphQLTypes['order_by'] | undefined;
+    gives_received?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgive?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
+    user_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "member_epoch_pgives". All fields are combined with a logical 'AND'. */
+  ['member_epoch_pgives_bool_exp']: {
+    _and?: Array<GraphQLTypes['member_epoch_pgives_bool_exp']> | undefined;
+    _not?: GraphQLTypes['member_epoch_pgives_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['member_epoch_pgives_bool_exp']> | undefined;
+    epoch_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    gives_received?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    normalized_pgive?: GraphQLTypes['numeric_comparison_exp'] | undefined;
+    pgive?: GraphQLTypes['numeric_comparison_exp'] | undefined;
+    user_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+  };
+  /** unique or primary key constraints on table "member_epoch_pgives" */
+  ['member_epoch_pgives_constraint']: member_epoch_pgives_constraint;
+  /** input type for incrementing numeric columns in table "member_epoch_pgives" */
+  ['member_epoch_pgives_inc_input']: {
+    epoch_id?: number | undefined;
+    gives_received?: number | undefined;
+    id?: number | undefined;
+    normalized_pgive?: GraphQLTypes['numeric'] | undefined;
+    pgive?: GraphQLTypes['numeric'] | undefined;
+    user_id?: number | undefined;
+  };
+  /** input type for inserting data into table "member_epoch_pgives" */
+  ['member_epoch_pgives_insert_input']: {
+    epoch_id?: number | undefined;
+    gives_received?: number | undefined;
+    id?: number | undefined;
+    normalized_pgive?: GraphQLTypes['numeric'] | undefined;
+    pgive?: GraphQLTypes['numeric'] | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate max on columns */
+  ['member_epoch_pgives_max_fields']: {
+    __typename: 'member_epoch_pgives_max_fields';
+    epoch_id?: number | undefined;
+    gives_received?: number | undefined;
+    id?: number | undefined;
+    normalized_pgive?: GraphQLTypes['numeric'] | undefined;
+    pgive?: GraphQLTypes['numeric'] | undefined;
+    user_id?: number | undefined;
+  };
+  /** order by max() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_max_order_by']: {
+    epoch_id?: GraphQLTypes['order_by'] | undefined;
+    gives_received?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgive?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
+    user_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['member_epoch_pgives_min_fields']: {
+    __typename: 'member_epoch_pgives_min_fields';
+    epoch_id?: number | undefined;
+    gives_received?: number | undefined;
+    id?: number | undefined;
+    normalized_pgive?: GraphQLTypes['numeric'] | undefined;
+    pgive?: GraphQLTypes['numeric'] | undefined;
+    user_id?: number | undefined;
+  };
+  /** order by min() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_min_order_by']: {
+    epoch_id?: GraphQLTypes['order_by'] | undefined;
+    gives_received?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgive?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
+    user_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** response of any mutation on the table "member_epoch_pgives" */
+  ['member_epoch_pgives_mutation_response']: {
+    __typename: 'member_epoch_pgives_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['member_epoch_pgives']>;
+  };
+  /** on_conflict condition type for table "member_epoch_pgives" */
+  ['member_epoch_pgives_on_conflict']: {
+    constraint: GraphQLTypes['member_epoch_pgives_constraint'];
+    update_columns: Array<GraphQLTypes['member_epoch_pgives_update_column']>;
+    where?: GraphQLTypes['member_epoch_pgives_bool_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "member_epoch_pgives". */
+  ['member_epoch_pgives_order_by']: {
+    epoch_id?: GraphQLTypes['order_by'] | undefined;
+    gives_received?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgive?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
+    user_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** primary key columns input for table: member_epoch_pgives */
+  ['member_epoch_pgives_pk_columns_input']: {
+    id: number;
+  };
+  /** select columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_select_column']: member_epoch_pgives_select_column;
+  /** input type for updating data in table "member_epoch_pgives" */
+  ['member_epoch_pgives_set_input']: {
+    epoch_id?: number | undefined;
+    gives_received?: number | undefined;
+    id?: number | undefined;
+    normalized_pgive?: GraphQLTypes['numeric'] | undefined;
+    pgive?: GraphQLTypes['numeric'] | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate stddev on columns */
+  ['member_epoch_pgives_stddev_fields']: {
+    __typename: 'member_epoch_pgives_stddev_fields';
+    epoch_id?: number | undefined;
+    gives_received?: number | undefined;
+    id?: number | undefined;
+    normalized_pgive?: number | undefined;
+    pgive?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** order by stddev() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_stddev_order_by']: {
+    epoch_id?: GraphQLTypes['order_by'] | undefined;
+    gives_received?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgive?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
+    user_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['member_epoch_pgives_stddev_pop_fields']: {
+    __typename: 'member_epoch_pgives_stddev_pop_fields';
+    epoch_id?: number | undefined;
+    gives_received?: number | undefined;
+    id?: number | undefined;
+    normalized_pgive?: number | undefined;
+    pgive?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** order by stddev_pop() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_stddev_pop_order_by']: {
+    epoch_id?: GraphQLTypes['order_by'] | undefined;
+    gives_received?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgive?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
+    user_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['member_epoch_pgives_stddev_samp_fields']: {
+    __typename: 'member_epoch_pgives_stddev_samp_fields';
+    epoch_id?: number | undefined;
+    gives_received?: number | undefined;
+    id?: number | undefined;
+    normalized_pgive?: number | undefined;
+    pgive?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** order by stddev_samp() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_stddev_samp_order_by']: {
+    epoch_id?: GraphQLTypes['order_by'] | undefined;
+    gives_received?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgive?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
+    user_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Streaming cursor of the table "member_epoch_pgives" */
+  ['member_epoch_pgives_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['member_epoch_pgives_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['member_epoch_pgives_stream_cursor_value_input']: {
+    epoch_id?: number | undefined;
+    gives_received?: number | undefined;
+    id?: number | undefined;
+    normalized_pgive?: GraphQLTypes['numeric'] | undefined;
+    pgive?: GraphQLTypes['numeric'] | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate sum on columns */
+  ['member_epoch_pgives_sum_fields']: {
+    __typename: 'member_epoch_pgives_sum_fields';
+    epoch_id?: number | undefined;
+    gives_received?: number | undefined;
+    id?: number | undefined;
+    normalized_pgive?: GraphQLTypes['numeric'] | undefined;
+    pgive?: GraphQLTypes['numeric'] | undefined;
+    user_id?: number | undefined;
+  };
+  /** order by sum() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_sum_order_by']: {
+    epoch_id?: GraphQLTypes['order_by'] | undefined;
+    gives_received?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgive?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
+    user_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** update columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_update_column']: member_epoch_pgives_update_column;
+  ['member_epoch_pgives_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: GraphQLTypes['member_epoch_pgives_inc_input'] | undefined;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes['member_epoch_pgives_set_input'] | undefined;
+    where: GraphQLTypes['member_epoch_pgives_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['member_epoch_pgives_var_pop_fields']: {
+    __typename: 'member_epoch_pgives_var_pop_fields';
+    epoch_id?: number | undefined;
+    gives_received?: number | undefined;
+    id?: number | undefined;
+    normalized_pgive?: number | undefined;
+    pgive?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** order by var_pop() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_var_pop_order_by']: {
+    epoch_id?: GraphQLTypes['order_by'] | undefined;
+    gives_received?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgive?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
+    user_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['member_epoch_pgives_var_samp_fields']: {
+    __typename: 'member_epoch_pgives_var_samp_fields';
+    epoch_id?: number | undefined;
+    gives_received?: number | undefined;
+    id?: number | undefined;
+    normalized_pgive?: number | undefined;
+    pgive?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** order by var_samp() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_var_samp_order_by']: {
+    epoch_id?: GraphQLTypes['order_by'] | undefined;
+    gives_received?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgive?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
+    user_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate variance on columns */
+  ['member_epoch_pgives_variance_fields']: {
+    __typename: 'member_epoch_pgives_variance_fields';
+    epoch_id?: number | undefined;
+    gives_received?: number | undefined;
+    id?: number | undefined;
+    normalized_pgive?: number | undefined;
+    pgive?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** order by variance() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_variance_order_by']: {
+    epoch_id?: GraphQLTypes['order_by'] | undefined;
+    gives_received?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgive?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
+    user_id?: GraphQLTypes['order_by'] | undefined;
+  };
   /** mutation root */
   ['mutation_root']: {
     __typename: 'mutation_root';
@@ -28787,6 +31484,12 @@ export type GraphQLTypes = {
       | undefined;
     /** delete single row from the table: "circle_metadata" */
     delete_circle_metadata_by_pk?: GraphQLTypes['circle_metadata'] | undefined;
+    /** delete data from the table: "circle_pgives" */
+    delete_circle_pgives?:
+      | GraphQLTypes['circle_pgives_mutation_response']
+      | undefined;
+    /** delete single row from the table: "circle_pgives" */
+    delete_circle_pgives_by_pk?: GraphQLTypes['circle_pgives'] | undefined;
     /** delete data from the table: "circle_private" */
     delete_circle_private?:
       | GraphQLTypes['circle_private_mutation_response']
@@ -28838,6 +31541,14 @@ export type GraphQLTypes = {
     /** delete single row from the table: "interaction_events" */
     delete_interaction_events_by_pk?:
       | GraphQLTypes['interaction_events']
+      | undefined;
+    /** delete data from the table: "member_epoch_pgives" */
+    delete_member_epoch_pgives?:
+      | GraphQLTypes['member_epoch_pgives_mutation_response']
+      | undefined;
+    /** delete single row from the table: "member_epoch_pgives" */
+    delete_member_epoch_pgives_by_pk?:
+      | GraphQLTypes['member_epoch_pgives']
       | undefined;
     /** delete data from the table: "nominees" */
     delete_nominees?: GraphQLTypes['nominees_mutation_response'] | undefined;
@@ -28943,6 +31654,12 @@ export type GraphQLTypes = {
       | undefined;
     /** insert a single row into the table: "circle_metadata" */
     insert_circle_metadata_one?: GraphQLTypes['circle_metadata'] | undefined;
+    /** insert data into the table: "circle_pgives" */
+    insert_circle_pgives?:
+      | GraphQLTypes['circle_pgives_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "circle_pgives" */
+    insert_circle_pgives_one?: GraphQLTypes['circle_pgives'] | undefined;
     /** insert data into the table: "circle_private" */
     insert_circle_private?:
       | GraphQLTypes['circle_private_mutation_response']
@@ -28998,6 +31715,14 @@ export type GraphQLTypes = {
     /** insert a single row into the table: "interaction_events" */
     insert_interaction_events_one?:
       | GraphQLTypes['interaction_events']
+      | undefined;
+    /** insert data into the table: "member_epoch_pgives" */
+    insert_member_epoch_pgives?:
+      | GraphQLTypes['member_epoch_pgives_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "member_epoch_pgives" */
+    insert_member_epoch_pgives_one?:
+      | GraphQLTypes['member_epoch_pgives']
       | undefined;
     /** insert data into the table: "nominees" */
     insert_nominees?: GraphQLTypes['nominees_mutation_response'] | undefined;
@@ -29132,6 +31857,16 @@ export type GraphQLTypes = {
     update_circle_metadata_many?:
       | Array<GraphQLTypes['circle_metadata_mutation_response'] | undefined>
       | undefined;
+    /** update data of the table: "circle_pgives" */
+    update_circle_pgives?:
+      | GraphQLTypes['circle_pgives_mutation_response']
+      | undefined;
+    /** update single row of the table: "circle_pgives" */
+    update_circle_pgives_by_pk?: GraphQLTypes['circle_pgives'] | undefined;
+    /** update multiples rows of table: "circle_pgives" */
+    update_circle_pgives_many?:
+      | Array<GraphQLTypes['circle_pgives_mutation_response'] | undefined>
+      | undefined;
     /** update data of the table: "circle_private" */
     update_circle_private?:
       | GraphQLTypes['circle_private_mutation_response']
@@ -29223,6 +31958,18 @@ export type GraphQLTypes = {
     /** update multiples rows of table: "interaction_events" */
     update_interaction_events_many?:
       | Array<GraphQLTypes['interaction_events_mutation_response'] | undefined>
+      | undefined;
+    /** update data of the table: "member_epoch_pgives" */
+    update_member_epoch_pgives?:
+      | GraphQLTypes['member_epoch_pgives_mutation_response']
+      | undefined;
+    /** update single row of the table: "member_epoch_pgives" */
+    update_member_epoch_pgives_by_pk?:
+      | GraphQLTypes['member_epoch_pgives']
+      | undefined;
+    /** update multiples rows of table: "member_epoch_pgives" */
+    update_member_epoch_pgives_many?:
+      | Array<GraphQLTypes['member_epoch_pgives_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "nominees" */
     update_nominees?: GraphQLTypes['nominees_mutation_response'] | undefined;
@@ -31494,6 +34241,12 @@ export type GraphQLTypes = {
     circle_metadata_aggregate: GraphQLTypes['circle_metadata_aggregate'];
     /** fetch data from the table: "circle_metadata" using primary key columns */
     circle_metadata_by_pk?: GraphQLTypes['circle_metadata'] | undefined;
+    /** An array relationship */
+    circle_pgives: Array<GraphQLTypes['circle_pgives']>;
+    /** An aggregate relationship */
+    circle_pgives_aggregate: GraphQLTypes['circle_pgives_aggregate'];
+    /** fetch data from the table: "circle_pgives" using primary key columns */
+    circle_pgives_by_pk?: GraphQLTypes['circle_pgives'] | undefined;
     /** fetch data from the table: "circle_private" */
     circle_private: Array<GraphQLTypes['circle_private']>;
     /** fetch aggregated fields from the table: "circle_private" */
@@ -31550,6 +34303,12 @@ export type GraphQLTypes = {
     interaction_events_aggregate: GraphQLTypes['interaction_events_aggregate'];
     /** fetch data from the table: "interaction_events" using primary key columns */
     interaction_events_by_pk?: GraphQLTypes['interaction_events'] | undefined;
+    /** An array relationship */
+    member_epoch_pgives: Array<GraphQLTypes['member_epoch_pgives']>;
+    /** An aggregate relationship */
+    member_epoch_pgives_aggregate: GraphQLTypes['member_epoch_pgives_aggregate'];
+    /** fetch data from the table: "member_epoch_pgives" using primary key columns */
+    member_epoch_pgives_by_pk?: GraphQLTypes['member_epoch_pgives'] | undefined;
     /** An array relationship */
     nominees: Array<GraphQLTypes['nominees']>;
     /** An aggregate relationship */
@@ -31678,6 +34437,14 @@ export type GraphQLTypes = {
     circle_metadata_by_pk?: GraphQLTypes['circle_metadata'] | undefined;
     /** fetch data from the table in a streaming manner : "circle_metadata" */
     circle_metadata_stream: Array<GraphQLTypes['circle_metadata']>;
+    /** An array relationship */
+    circle_pgives: Array<GraphQLTypes['circle_pgives']>;
+    /** An aggregate relationship */
+    circle_pgives_aggregate: GraphQLTypes['circle_pgives_aggregate'];
+    /** fetch data from the table: "circle_pgives" using primary key columns */
+    circle_pgives_by_pk?: GraphQLTypes['circle_pgives'] | undefined;
+    /** fetch data from the table in a streaming manner : "circle_pgives" */
+    circle_pgives_stream: Array<GraphQLTypes['circle_pgives']>;
     /** fetch data from the table: "circle_private" */
     circle_private: Array<GraphQLTypes['circle_private']>;
     /** fetch aggregated fields from the table: "circle_private" */
@@ -31754,6 +34521,14 @@ export type GraphQLTypes = {
     interaction_events_by_pk?: GraphQLTypes['interaction_events'] | undefined;
     /** fetch data from the table in a streaming manner : "interaction_events" */
     interaction_events_stream: Array<GraphQLTypes['interaction_events']>;
+    /** An array relationship */
+    member_epoch_pgives: Array<GraphQLTypes['member_epoch_pgives']>;
+    /** An aggregate relationship */
+    member_epoch_pgives_aggregate: GraphQLTypes['member_epoch_pgives_aggregate'];
+    /** fetch data from the table: "member_epoch_pgives" using primary key columns */
+    member_epoch_pgives_by_pk?: GraphQLTypes['member_epoch_pgives'] | undefined;
+    /** fetch data from the table in a streaming manner : "member_epoch_pgives" */
+    member_epoch_pgives_stream: Array<GraphQLTypes['member_epoch_pgives']>;
     /** An array relationship */
     nominees: Array<GraphQLTypes['nominees']>;
     /** An aggregate relationship */
@@ -34694,6 +37469,28 @@ export const enum circle_metadata_update_column {
   json = 'json',
   updated_at = 'updated_at',
 }
+/** unique or primary key constraints on table "circle_pgives" */
+export const enum circle_pgives_constraint {
+  circle_pgives_pkey = 'circle_pgives_pkey',
+}
+/** select columns of table "circle_pgives" */
+export const enum circle_pgives_select_column {
+  active_months = 'active_months',
+  circle_id = 'circle_id',
+  id = 'id',
+  month = 'month',
+  normalized_pgives = 'normalized_pgives',
+  year = 'year',
+}
+/** update columns of table "circle_pgives" */
+export const enum circle_pgives_update_column {
+  active_months = 'active_months',
+  circle_id = 'circle_id',
+  id = 'id',
+  month = 'month',
+  normalized_pgives = 'normalized_pgives',
+  year = 'year',
+}
 /** select columns of table "circle_private" */
 export const enum circle_private_select_column {
   circle_id = 'circle_id',
@@ -34885,17 +37682,22 @@ export const enum epochs_constraint {
 }
 /** select columns of table "epoches" */
 export const enum epochs_select_column {
+  active_months_bonus = 'active_months_bonus',
   circle_id = 'circle_id',
+  circle_pgives_id = 'circle_pgives_id',
   created_at = 'created_at',
   days = 'days',
   end_date = 'end_date',
   ended = 'ended',
+  gives_receiver_base = 'gives_receiver_base',
   grant = 'grant',
   id = 'id',
+  notes_bonus = 'notes_bonus',
   notified_before_end = 'notified_before_end',
   notified_end = 'notified_end',
   notified_start = 'notified_start',
   number = 'number',
+  pgive = 'pgive',
   regift_days = 'regift_days',
   repeat = 'repeat',
   repeat_day_of_month = 'repeat_day_of_month',
@@ -34904,17 +37706,22 @@ export const enum epochs_select_column {
 }
 /** update columns of table "epoches" */
 export const enum epochs_update_column {
+  active_months_bonus = 'active_months_bonus',
   circle_id = 'circle_id',
+  circle_pgives_id = 'circle_pgives_id',
   created_at = 'created_at',
   days = 'days',
   end_date = 'end_date',
   ended = 'ended',
+  gives_receiver_base = 'gives_receiver_base',
   grant = 'grant',
   id = 'id',
+  notes_bonus = 'notes_bonus',
   notified_before_end = 'notified_before_end',
   notified_end = 'notified_end',
   notified_start = 'notified_start',
   number = 'number',
+  pgive = 'pgive',
   regift_days = 'regift_days',
   repeat = 'repeat',
   repeat_day_of_month = 'repeat_day_of_month',
@@ -34979,6 +37786,29 @@ export const enum interaction_events_update_column {
   org_id = 'org_id',
   profile_id = 'profile_id',
   updated_at = 'updated_at',
+}
+/** unique or primary key constraints on table "member_epoch_pgives" */
+export const enum member_epoch_pgives_constraint {
+  member_epoch_pgives_pkey = 'member_epoch_pgives_pkey',
+  member_epoch_pgives_user_id_epoch_id_key = 'member_epoch_pgives_user_id_epoch_id_key',
+}
+/** select columns of table "member_epoch_pgives" */
+export const enum member_epoch_pgives_select_column {
+  epoch_id = 'epoch_id',
+  gives_received = 'gives_received',
+  id = 'id',
+  normalized_pgive = 'normalized_pgive',
+  pgive = 'pgive',
+  user_id = 'user_id',
+}
+/** update columns of table "member_epoch_pgives" */
+export const enum member_epoch_pgives_update_column {
+  epoch_id = 'epoch_id',
+  gives_received = 'gives_received',
+  id = 'id',
+  normalized_pgive = 'normalized_pgive',
+  pgive = 'pgive',
+  user_id = 'user_id',
 }
 /** unique or primary key constraints on table "nominees" */
 export const enum nominees_constraint {

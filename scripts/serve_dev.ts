@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import landing from '../api/circle/landing/[token]';
 import actionManager from '../api/hasura/actions/actionManager';
 import auth from '../api/hasura/auth';
+import calcPgives from '../api/hasura/cron/calcPgives';
 import checkNominee from '../api/hasura/cron/checkNominee';
 import dailyUpdate from '../api/hasura/cron/dailyUpdate';
 import epochs from '../api/hasura/cron/epochs';
@@ -43,6 +44,7 @@ app.get('/api/circle/landing/:token', (req, res) => {
 app.get('/api/hasura/auth', tf(auth));
 app.post('/api/hasura/actions/actionManager', tf(actionManager));
 app.post('/api/hasura/event_triggers/eventManager', tf(eventManager));
+app.post('/api/hasura/cron/calcPgives', tf(calcPgives));
 app.post('/api/hasura/cron/checkNominee', tf(checkNominee));
 app.post('/api/hasura/cron/dailyUpdate', tf(dailyUpdate));
 app.post('/api/hasura/cron/epochs', tf(epochs));

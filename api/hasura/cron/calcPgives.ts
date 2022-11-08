@@ -1,9 +1,10 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { DateTime, Settings } from 'luxon';
 
-import { adminClient } from '../api-lib/gql/adminClient';
-import { uploadCsv } from '../api-lib/s3';
-import { Awaited } from '../api-lib/ts4.5shim';
+import { ValueTypes } from '../../../api-lib/gql/__generated__/zeus';
+import { adminClient } from '../../../api-lib/gql/adminClient';
+import { Awaited } from '../../../api-lib/ts4.5shim';
+import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 
 Settings.defaultZone = 'utc';
 
@@ -13,13 +14,16 @@ const PER_ACTIVE_MONTH_BONUS = 8;
 const MAX_ACTIVE_MONTH_BONUS = 96;
 const MAX_NOTE_BONUS_PER_USER = 30;
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+async function handler(req: VercelRequest, res: VercelResponse) {
+  // console.log('cron Running');
   // try {
-
+  const counter = 0;
   const circles = await getCircleGifts();
+  const ops: { [aliasKey: string]: ValueTypes['mutation_root'] } = {};
   const epochBasedData: Record<number, Record<string, UserData>> = [];
-  circles.forEach(circle => {
-    if (circle.epochs.length) {
+  circles.some(async circle => {
+    if (counter >= 200) return true;
+    if (circle.circle_pgives.length === 0 && circle.epochs.length) {
       let activeMonths = 0;
       const epochIndexed: Record<string, EpochIndexed> = {};
 
@@ -43,12 +47,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           epochIndexed[monthKey].epochs.push(epoch);
         });
 
-      Object.keys(epochIndexed).forEach(key => {
-        epochIndexed[key].epochs.forEach(epoch => {
+      const epochKeys = Object.keys(epochIndexed);
+      for (const key in epochKeys) {
+        const epochs = epochIndexed[key].epochs;
+        for (const eKey in epochs) {
+          const epoch = epochs[eKey];
+          const epochEndDate = DateTime.fromISO(epoch.end_date);
           const users = circle.users.filter(u => {
-            const epochEndDate = DateTime.fromISO(epoch.end_date);
             const userCreatedDate = DateTime.fromISO(u.created_at);
-
             return !(
               userCreatedDate >= epochEndDate ||
               (u.deleted_at && DateTime.fromISO(u.deleted_at) < epochEndDate)
@@ -97,6 +103,59 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
           const endDate = DateTime.fromISO(epoch.end_date);
           const usersData: Record<string, UserData> = {};
+          const monthKey = `${epochEndDate.get('year')}-${endDate.get(
+            'month'
+          )}`;
+          const { insert_circle_pgives_one } = await adminClient.mutate(
+            {
+              insert_circle_pgives_one: [
+                {
+                  object: {
+                    circle_id: circle.id,
+                    month: epochEndDate.get('month'),
+                    year: epochEndDate.get('year'),
+                    active_months: epochIndexed[monthKey].activeMonths,
+                  },
+                },
+                { id: true },
+              ],
+            },
+            {
+              operationName: 'testtto',
+            }
+          );
+
+          // ops[`e${epoch.id}_circle`] = {
+          //   insert_circle_pgives_one: [
+          //     {
+          //       object: {
+          //         circle_id: circle.id,
+          //       month: epochEndDate.get('month'),
+          //         year: epochEndDate.get('year'),
+          //         active_months: epochIndexed[monthKey].activeMonths,
+          //       },
+          //     },
+          //     { id: true}
+          //   ],
+          // };
+
+          if (insert_circle_pgives_one) {
+            ops[`e${epoch.id}_epoch`] = {
+              update_epochs_by_pk: [
+                {
+                  pk_columns: { id: epoch.id },
+                  _set: {
+                    pgive: potTotal,
+                    gives_receiver_base: baseValuePoints,
+                    active_months_bonus: activeMonthsBonusTotal,
+                    notes_bonus: notesBonusTotal,
+                    circle_pgives_id: insert_circle_pgives_one.id,
+                  },
+                },
+                { __typename: true },
+              ],
+            };
+          }
 
           /* tabulate user received GIVES in epoch */
           epoch.token_gifts.forEach(g => {
@@ -132,78 +191,90 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               : 0;
           });
           epochBasedData[epoch.id] = usersData;
-        });
+        }
 
         /* Normalize the pGive if there is more than 1 epoch in that month */
-        if (epochIndexed[key].epochs.length > 1) {
-          epochIndexed[key].epochs.forEach(epoch => {
-            Object.keys(epochBasedData[epoch.id]).forEach(recipientId => {
-              let epochsTotalPGive = 0;
-              epochBasedData[epoch.id][recipientId].normalizedEpochs.forEach(
-                eId => {
-                  epochsTotalPGive +=
-                    recipientId in epochBasedData[eId]
-                      ? epochBasedData[eId][recipientId].pGive
-                      : 0;
-                }
-              );
-              epochBasedData[epoch.id][recipientId].normalizedPGive =
-                epochsTotalPGive /
-                epochBasedData[epoch.id][recipientId].normalizedEpochs.length;
-            });
+
+        epochIndexed[key].epochs.forEach(epoch => {
+          Object.keys(epochBasedData[epoch.id]).forEach(recipientId => {
+            let epochsTotalPGive = 0;
+            epochBasedData[epoch.id][recipientId].normalizedEpochs.forEach(
+              eId => {
+                epochsTotalPGive +=
+                  recipientId in epochBasedData[eId]
+                    ? epochBasedData[eId][recipientId].pGive
+                    : 0;
+              }
+            );
+            epochBasedData[epoch.id][recipientId].normalizedPGive =
+              epochsTotalPGive /
+              epochBasedData[epoch.id][recipientId].normalizedEpochs.length;
           });
-        }
-      });
+        });
+      }
     }
   });
 
-  const headers = [
-    'userId',
-    'userName',
-    'month',
-    'year',
-    'epochId',
-    'circleId',
-    'circleName',
-    'givesReceived',
-    'epochTotalGives',
-    'pGive',
-    'normalizedPGive',
-    'normalizedEpochs',
-    'potTotal',
-    'givesReceiverBase',
-    'activeMonthsBonus',
-    'notesBonusTotal',
-  ];
-  let csvText = `${headers.join(',')}\r\n`;
-  Object.keys(epochBasedData).forEach(epochId => {
-    Object.keys(epochBasedData[parseInt(epochId)]).forEach(recipientId => {
-      const u = epochBasedData[parseInt(epochId)][recipientId];
-      csvText += `${[
-        u.userId,
-        u.name.replace(/,/g, ''),
-        u.month,
-        u.year,
-        u.epochId,
-        u.circleId,
-        u.circleName.replace(/,/g, ''),
-        u.givesReceived,
-        u.epochTotalGives,
-        u.pGive.toFixed(2),
-        u.normalizedPGive.toFixed(2),
-        u.normalizedEpochs.join(' '),
-        u.potTotal.toFixed(2),
-        u.givesReceiverBase.toFixed(2),
-        u.activeMonthsBonus.toFixed(2),
-        u.notesBonusTotal.toFixed(2),
-      ].join(',')}\r\n`;
-    });
-  });
+  if (Object.keys(ops).length) {
+    await adminClient.mutate(
+      {
+        __alias: {
+          ...ops,
+        },
+      },
+      {
+        operationName: 'endEpoch_update',
+      }
+    );
+  }
 
-  const fileName = `testpgives.csv`;
-  const result = await uploadCsv(`testpGives/${fileName}`, csvText);
+  // const headers = [
+  //   'userId',
+  //   'userName',
+  //   'month',
+  //   'year',
+  //   'epochId',
+  //   'circleId',
+  //   'circleName',
+  //   'givesReceived',
+  //   'epochTotalGives',
+  //   'pGive',
+  //   'normalizedPGive',
+  //   'normalizedEpochs',
+  //   'potTotal',
+  //   'givesReceiverBase',
+  //   'activeMonthsBonus',
+  //   'notesBonusTotal',
+  // ];
+  // let csvText = `${headers.join(',')}\r\n`;
+  // Object.keys(epochBasedData).forEach(epochId => {
+  //   Object.keys(epochBasedData[parseInt(epochId)]).forEach(recipientId => {
+  //     const u = epochBasedData[parseInt(epochId)][recipientId];
+  //     csvText += `${[
+  //       u.userId,
+  //       u.name,
+  //       u.month,
+  //       u.year,
+  //       u.epochId,
+  //       u.circleId,
+  //       u.circleName,
+  //       u.givesReceived,
+  //       u.epochTotalGives,
+  //       u.pGive.toFixed(2),
+  //       u.normalizedPGive.toFixed(2),
+  //       u.normalizedEpochs.join(' '),
+  //       u.potTotal,
+  //       u.givesReceiverBase,
+  //       u.activeMonthsBonus,
+  //       u.notesBonusTotal,
+  //     ].join(',')}\r\n`;
+  //   });
+  // });
 
-  res.status(200).json({ message: result.Location });
+  // const fileName = `testpgives.csv`;
+  // const result = await uploadCsv(`testpGives/${fileName}`, csvText);
+
+  res.status(200).json({ message: 'yess' });
 }
 
 interface UserData {
@@ -235,9 +306,15 @@ const getCircleGifts = async () => {
   const { circles } = await adminClient.query({
     circles: [
       {
-        limit: 250,
+        // limit: 250,
       },
       {
+        circle_pgives: [
+          {},
+          {
+            id: true,
+          },
+        ],
         id: true,
         name: true,
         epochs: [
@@ -280,3 +357,5 @@ const getCircleGifts = async () => {
 
   return circles;
 };
+
+export default verifyHasuraRequestMiddleware(handler);
