@@ -56,9 +56,9 @@ export class TestProvider {
   }
 }
 
-export const injectWeb3 = (providerPort: string) => (win: any) => {
+export const injectWeb3 = () => (win: any) => {
   const provider = new Web3Provider(
-    new TestProvider('http://localhost:' + providerPort)
+    new TestProvider('http://localhost:' + Cypress.env('HARDHAT_GANACHE_PORT'))
   );
   if (!win.ethereum) {
     Object.defineProperty(win, 'ethereum', { value: provider });
@@ -70,7 +70,9 @@ export const injectWeb3 = (providerPort: string) => (win: any) => {
 export const deriveAccount = (index = 0, seed: string = DEFAULT_SEED) =>
   HDNode.fromMnemonic(seed).derivePath(getAccountPath(index));
 
-export const gqlQuery = makeThunder(
-  Cypress.env('NODE_HASURA_URL'),
-  Cypress.env('HASURA_GRAPHQL_ADMIN_SECRET')
-)('query');
+export const gqlQuery = makeThunder({
+  url: Cypress.env('NODE_HASURA_URL'),
+  headers: {
+    'x-hasura-admin-secret': Cypress.env('HASURA_GRAPHQL_ADMIN_SECRET'),
+  },
+})('query');

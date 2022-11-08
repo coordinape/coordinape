@@ -1,6 +1,7 @@
+import type { JsonRpcProvider } from '@ethersproject/providers';
 import { BigNumber, ethers, utils } from 'ethers';
 
-import { provider } from './provider';
+import { provider as defaultProvider } from './provider';
 import { unlockSigner } from './unlockSigner';
 
 export const tokens = {
@@ -22,22 +23,26 @@ export const tokens = {
   },
 };
 
-export async function mint({
-  token,
-  address,
-  amount,
-}: {
-  token: string;
-  address?: string;
-  amount: string;
-}) {
+export async function mint(
+  {
+    token,
+    address,
+    amount,
+  }: {
+    token: string;
+    address?: string;
+    amount: string;
+  },
+  provider?: JsonRpcProvider
+) {
+  if (!provider) provider = defaultProvider();
   if (!address) address = (await provider.listAccounts())[0];
   switch (token) {
     case 'ETH':
-      await mintEth(address, amount);
+      await mintEth(address, amount, provider);
       break;
     case 'WETH':
-      await mintWeth(address, amount);
+      await mintWeth(address, amount, provider);
       break;
     default:
       await mintToken(token, address, amount);
@@ -45,8 +50,12 @@ export async function mint({
   }
 }
 
-export const mintWeth = async (receiver: string, amount: string) => {
-  await mintEth(receiver, (Number(amount) + 0.1).toString());
+const mintWeth = async (
+  receiver: string,
+  amount: string,
+  provider: JsonRpcProvider
+) => {
+  await mintEth(receiver, (Number(amount) + 0.1).toString(), provider);
   const sender = await unlockSigner(receiver);
   const weth = new ethers.Contract(
     tokens.WETH.addr,
@@ -56,7 +65,11 @@ export const mintWeth = async (receiver: string, amount: string) => {
   await weth.deposit({ value: ethers.utils.parseEther(amount) });
 };
 
-export const mintEth = async (receiver: string, amount: string) => {
+const mintEth = async (
+  receiver: string,
+  amount: string,
+  provider: JsonRpcProvider
+) => {
   const signer = provider.getSigner();
   await signer.sendTransaction({
     to: receiver,
@@ -67,11 +80,13 @@ export const mintEth = async (receiver: string, amount: string) => {
 export const mintToken = async (
   symbol: string,
   receiver: string,
-  amount: string
+  amount: string,
+  provider?: JsonRpcProvider
 ) => {
+  if (!provider) provider = defaultProvider();
   const { whale, addr } = tokens[symbol as keyof typeof tokens];
-  await mintEth(whale, '0.1');
-  const sender = await unlockSigner(whale);
+  await mintEth(whale, '0.1', provider);
+  const sender = await unlockSigner(whale, provider);
   const contract = new ethers.Contract(
     addr,
     [

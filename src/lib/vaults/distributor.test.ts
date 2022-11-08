@@ -2,13 +2,17 @@ import { hexZeroPad } from '@ethersproject/bytes';
 import { AddressZero } from '@ethersproject/constants';
 import { parseUnits } from '@ethersproject/units';
 
+import { provider } from 'utils/testing';
 import { mint, tokens } from 'utils/testing/mint';
-import { chainId, provider } from 'utils/testing/provider';
 
 import { Contracts, encodeCircleId, getWrappedAmount } from '.';
 import { uploadEpochRoot } from './distributor';
 
-const contracts = new Contracts(chainId, provider);
+let contracts: Contracts;
+
+beforeAll(async () => {
+  contracts = await Contracts.fromProvider(provider());
+});
 
 describe('simple token', () => {
   beforeEach(async () => {

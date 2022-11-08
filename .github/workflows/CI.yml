@@ -9,7 +9,7 @@ jobs:
       should_skip: ${{ steps.skip_check.outputs.should_skip }}
     steps:
       - id: skip_check
-        uses: fkirc/skip-duplicate-actions@v4
+        uses: fkirc/skip-duplicate-actions@v5.2.0
         with:
           concurrent_skipping: 'same_content_newer'
           skip_after_successful_duplicate: false
@@ -21,17 +21,17 @@ jobs:
     env:
       CI: true
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v3.1.0
+      - uses: actions/setup-node@v3.5.1
         with:
           node-version: 16.x
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3.0.11
         with:
           path: '**/node_modules'
           key: nodeModules-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3.0.11
         with:
           path: '/home/runner/.cache'
           key: nodeModules-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
@@ -49,54 +49,46 @@ jobs:
       DOCKER_GATEWAY_HOST: 172.17.0.1
       ETHEREUM_RPC_URL: https://mainnet.infura.io/v3/275c8fc2ec294d6aac6bfc881d9a9dff
       HARDHAT_FORK_BLOCK: 13500000
-      HARDHAT_GANACHE_CHAIN_ID: 1338
-      HARDHAT_GANACHE_PORT: 8546
-      IMAGES_AWS_ENDPOINT: http://s3.localhost.localstack.cloud:4566
       IMAGES_AWS_BUCKET: coordinape
-      REACT_APP_S3_BASE_URL: http://coordinape.s3-website.localhost.localstack.cloud:4566
-      REACT_APP_HASURA_URL: http://localhost:8081/v1/graphql
       REACT_APP_INFURA_PROJECT_ID: 275c8fc2ec294d6aac6bfc881d9a9dff
-      CI_HASURA_PORT: 8081
-      CI_POSTGRES_PORT: 4321
-      CI_WEB_PORT: 3001
-      HASURA_EVENT_SECRET: event-secret
-      HASURA_GRAPHQL_ADMIN_SECRET: admin-secret
-      HASURA_GRAPHQL_ENDPOINT: http://localhost:8081
-      LOCAL_POSTGRES_PORT: 5432
-      LOCAL_WEB_PORT: 3000
       LOCAL_POSTGRES_USER: postgres
       LOCAL_POSTGRES_PASSWORD: postgrespassword
       LOCAL_POSTGRES_DATABASE: postgres
-      NODE_HASURA_URL: http://localhost:8081/v1/graphql
+      LOCAL_SEED_ADDRESS: '0x21DF875603Ba765a15F9ae20e633D2DAe42952d9'
       REACT_APP_FEATURE_FLAG_VAULTS: true
+      REACT_APP_FEATURE_FLAG_FIXED_PAYMENTS: true
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v3.1.0
+      - uses: actions/setup-node@v3.5.1
         with:
           node-version: 16.x
 
       - name: Cache node_modules
-        uses: actions/cache@v2
+        uses: actions/cache@v3.0.11
         with:
           path: '**/node_modules'
           key: nodeModules-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
 
       - name: Cache hardhat/node_modules
-        uses: actions/cache@v2
+        uses: actions/cache@v3.0.11
         with:
           path: '**/hardhat/node_modules'
           key: hardhatNodeModules-${{ runner.os }}-${{ hashFiles('**/hardhat/yarn.lock') }}
+
+      - name: Cache Docker images
+        uses: ScribeMD/docker-cache@0.2.6
+        with:
+          key: docker-${{ runner.os }}-${{ hashFiles('**/docker-compose.yml') }}
 
       - run: yarn --frozen-lockfile
       - run: yarn cypress install
       - run: yarn cypress verify
       - run: ./scripts/setup.sh
-      - run: cp .ci.env .env # hasura needs a .env file
-      - run: yarn test:ci
+      - run: ./scripts/ci/manager.sh test --all
 
       - name: Save Cypress artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3.1.1
         if: failure()
         with:
           name: cy-artifacts
@@ -111,7 +103,7 @@ jobs:
           ./codecov
 
       - name: Save coverage report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3.1.1
         with:
           name: coverage
           path: ./coverage
