@@ -27,7 +27,7 @@ start_services() {
     --no-reuse & GANACHE_PID=$!
 
   # start web server
-  ./scripts/serve.sh -p $LOCAL_WEB_PORT 2>&1 & WEB_PID=$!
+  ./scripts/serve.sh --coverage -p $LOCAL_WEB_PORT 2>&1 & WEB_PID=$!
 
   # stop everything when this script exits
   trap 'echo `kill $GANACHE_PID` >/dev/null; \

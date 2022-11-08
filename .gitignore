@@ -41,3 +41,4 @@ yalc.lock
 .idea/
 
 /storybook-static
+.nyc_output/

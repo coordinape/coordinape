@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const SentryCliPlugin = require('@sentry/webpack-plugin');
 
 const {
+  COVERAGE,
   SENTRY_AUTH_TOKEN,
   VERCEL,
   VERCEL_ENV,
@@ -64,7 +65,12 @@ module.exports = {
               fullySpecified: false,
             },
           },
-        ],
+          COVERAGE && {
+            test: /\.tsx?$/,
+            exclude: /node_modules/,
+            use: ['@jsdevtools/coverage-istanbul-loader', 'ts-loader'],
+          },
+        ].filter(x => x),
       },
       ignoreWarnings: [/Failed to parse source map/],
       resolve: {

@@ -24,6 +24,15 @@ if (process.env.DEV_LOGGING) {
   app.use(morgan('ϟ :method :url :status :response-time ms'));
 }
 
+// this global is set when this file is run with `nyc`
+if ((global as any).__coverage__) {
+  app.get('/__coverage__', (req, res) => {
+    res.json({
+      coverage: (global as any).__coverage__ || null,
+    });
+  });
+}
+
 const port = process.argv[2];
 const proxyPort = process.argv[3];
 
