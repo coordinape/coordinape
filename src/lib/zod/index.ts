@@ -47,6 +47,20 @@ export const createCircleSchemaInput = z
     'Either Protocol name should be filled in or a Protocol should be selected.'
   );
 
+export const createContributionSchemaInput = z
+  .object({
+    circle_id: z.number(),
+    description: z.string().min(3).max(1000),
+    user_id: z.number().int().positive(),
+  })
+  .strict();
+
+export const createOrganizationSchemaInput = z
+  .object({
+    name: z.string().min(3).max(255),
+  })
+  .strict();
+
 export const adminUpdateUserSchemaInput = z
   .object({
     circle_id: z.number(),
