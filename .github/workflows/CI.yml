@@ -76,6 +76,11 @@ jobs:
           path: '**/hardhat/node_modules'
           key: hardhatNodeModules-${{ runner.os }}-${{ hashFiles('**/hardhat/yarn.lock') }}
 
+      - name: Cache Docker images
+        uses: ScribeMD/docker-cache@0.2.6
+        with:
+          key: docker-${{ runner.os }}-${{ hashFiles('**/docker-compose.yml') }}
+
       - run: yarn --frozen-lockfile
       - run: yarn cypress install
       - run: yarn cypress verify
