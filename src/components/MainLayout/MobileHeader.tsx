@@ -7,7 +7,7 @@ import { RecentTransactionsModal } from 'components/MyAvatarMenu/RecentTransacti
 import isFeatureEnabled from 'config/features';
 import { useWalletStatus } from 'hooks/login';
 import { X, Menu, ChevronRight } from 'icons/__generated';
-import { useMyProfile } from 'recoilState/app';
+import { useMyProfile } from 'recoilState';
 import { paths } from 'routes/paths';
 import { Box, IconButton, Link, Image, Avatar, Text, Flex, Button } from 'ui';
 import { shortenAddress } from 'utils';
@@ -37,6 +37,7 @@ export const MobileHeader = ({
 
   const query = useMainHeaderQuery();
   const hasClaims = (query.data?.claims_aggregate.aggregate?.count || 0) > 0;
+  const myProfile = useMyProfile();
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -47,66 +48,96 @@ export const MobileHeader = ({
   }, [address]);
 
   return (
-    <Box>
-      {showTxModal && (
-        <RecentTransactionsModal onClose={() => setShowTxModal(false)} />
-      )}
-      <Box
-        css={{
-          display: 'flex',
-          alignItems: 'center',
-          background: '$text',
-          justifyContent: 'space-between',
-          px: '$lg',
-          py: '$md',
-        }}
-      >
-        <Image alt="logo" css={{ height: 40 }} src="/svgs/logo/logo.svg" />
-        <IconButton
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="menu"
-          color="white"
-        >
-          {!isMobileMenuOpen ? <Menu size="lg" /> : <X size="lg" />}
-        </IconButton>
-      </Box>
-      {isMobileMenuOpen && (
+    <Suspense fallback={<span />}>
+      <Box>
+        {showTxModal && (
+          <RecentTransactionsModal onClose={() => setShowTxModal(false)} />
+        )}
         <Box
           css={{
-            height: '100vh',
-            position: 'relative',
-            backgroundColor: '$surface',
+            display: 'flex',
+            alignItems: 'center',
+            background: '$text',
+            justifyContent: 'space-between',
+            px: '$lg',
+            py: '$md',
           }}
         >
+          <Image alt="logo" css={{ height: 40 }} src="/svgs/logo/logo.svg" />
+          <IconButton
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="menu"
+            color="white"
+          >
+            {!isMobileMenuOpen ? <Menu size="lg" /> : <X size="lg" />}
+          </IconButton>
+        </Box>
+        {isMobileMenuOpen && (
           <Box
             css={{
-              display: 'flex',
-              flexDirection: 'column',
-              position: 'absolute',
+              height: '100vh',
+              position: 'relative',
               backgroundColor: '$surface',
-              height: '85%',
-              width: '100%',
-              overflow: 'scroll',
-              overscrollBehaviorY: 'auto',
-              '-webkit-overflow-scrolling': 'touch',
-              zIndex: 2,
-              pt: '$lg',
-              px: '$sm',
-              pb: '$2xl',
             }}
           >
-            <Box css={{ p: '$md' }}>
+            <Flex
+              column
+              css={{
+                display: 'flex',
+                position: 'absolute',
+                backgroundColor: '$surface',
+                height: '85%',
+                width: '100%',
+                overflow: 'scroll',
+                overscrollBehaviorY: 'auto',
+                '-webkit-overflow-scrolling': 'touch',
+                zIndex: 2,
+                p: '$lg',
+                '> div': {
+                  flexDirection: 'column',
+                  alignItems: 'flex-start',
+                  width: '100%',
+                  borderTop: '1px solid $border',
+                  mt: '$md',
+                  pt: '$md',
+                  '&:first-of-type': {
+                    borderTop: 'none',
+                    mt: 0,
+                    pt: 0,
+                  },
+                },
+                div: {
+                  gap: '$sm',
+                },
+                '*': {
+                  fontSize: '$large',
+                  color: '$text',
+                },
+                a: {
+                  position: 'unset',
+                  color: '$text',
+                  fontWeight: 'normal',
+                  p: 0,
+                  '&:hover': {
+                    borderColor: 'transparent',
+                    color: '$link',
+                    '&::after': {
+                      content: 'none',
+                    },
+                  },
+                  '&.active': {
+                    background: 'none',
+                    fontWeight: 'normal',
+                    '&::after': {
+                      content: 'none',
+                    },
+                  },
+                },
+              }}
+            >
               <TopLevelLinks links={mainLinks} />
               {inCircle && (
-                <Flex
-                  column
-                  css={{
-                    gap: '$sm',
-                    borderTop: '1px solid $border',
-                    mt: '$md',
-                    pt: '$md',
-                  }}
-                >
+                <Flex>
                   <Flex
                     alignItems="center"
                     css={{ gap: '$sm', flexWrap: 'wrap' }}
@@ -148,20 +179,7 @@ export const MobileHeader = ({
                   </Suspense>
                 </Flex>
               )}
-              <Flex
-                column
-                alignItems="start"
-                css={{
-                  borderTop: '1px solid $border',
-                  mt: '$md',
-                  pt: '$md',
-                  gap: '$sm',
-                  '> *': {
-                    fontSize: '$large',
-                    color: '$text',
-                  },
-                }}
-              >
+              <Flex column alignItems="start">
                 <Link
                   as={NavLink}
                   to={paths.profile('me')}
@@ -177,7 +195,7 @@ export const MobileHeader = ({
                       },
                     }}
                   >
-                    <MobileAvatar />
+                    <Avatar path={myProfile.avatar} />
                   </Flex>
                   Profile
                 </Link>
@@ -205,32 +223,22 @@ export const MobileHeader = ({
                     )}
                   </>
                 )}
-                <Flex
-                  column
-                  css={{
-                    borderTop: '1px solid $border',
-                    mt: '$sm',
-                    pt: '$md',
-                    gap: '$sm',
-                    '> *': {
-                      fontSize: '$large',
-                      color: '$text',
-                    },
-                  }}
-                >
-                  <Flex css={{ alignItems: 'center', gap: '$sm' }}>
-                    <Flex
-                      css={{
-                        width: '$lg',
-                        height: '$lg',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                    >
-                      {icon}
+                <Flex column>
+                  {address && (
+                    <Flex css={{ alignItems: 'center', gap: '$sm' }}>
+                      <Flex
+                        css={{
+                          width: '$lg',
+                          height: '$lg',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        {icon}
+                      </Flex>
+                      {address && shortenAddress(address)}
                     </Flex>
-                    {address && shortenAddress(address)}
-                  </Flex>
+                  )}
                   {isFeatureEnabled('vaults') && (
                     <Link href="#" onClick={() => setShowTxModal(true)}>
                       Recent Transactions
@@ -246,20 +254,10 @@ export const MobileHeader = ({
                   )}
                 </Flex>
               </Flex>
-            </Box>
+            </Flex>
           </Box>
-        </Box>
-      )}
-    </Box>
-  );
-};
-
-const MobileAvatar = () => {
-  const myProfile = useMyProfile();
-
-  return (
-    <Suspense fallback={null}>
-      <Avatar path={myProfile.avatar} />
+        )}
+      </Box>
     </Suspense>
   );
 };

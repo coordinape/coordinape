@@ -1,47 +1,55 @@
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import { ReactElement, useEffect } from 'react';
 
-import { Box, Flex, HR, Text, TextArea } from 'ui';
-import { SavingIndicator, StateOptions } from 'ui/SavingIndicator';
+import { ComponentStory, ComponentMeta } from '@storybook/react';
+import { SnackbarProvider } from 'notistack';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { MemoryRouter } from 'react-router-dom';
+import { RecoilRoot, useRecoilState } from 'recoil';
+
+import { rApiManifest } from 'recoilState';
+
+import { MobileHeader } from './MobileHeader';
+
+const queryClient = new QueryClient();
+
+const mockManifest = {
+  active_epochs: [],
+  circles: [],
+  myUsers: [],
+  profile: { id: 1, address: '0x0' },
+};
+
+const RecoilFixtures = ({ children }: { children: ReactElement }) => {
+  const [manifest, setManifest] = useRecoilState(rApiManifest);
+  useEffect(() => {
+    setManifest(mockManifest);
+  }, []);
+  return manifest ? children : null;
+};
 
 export default {
-  component: SavingIndicator,
-  argTypes: {
-    saveState: {
-      options: StateOptions,
-      control: { type: 'radio' },
-    },
-    retry: {
-      control: 'function',
-    },
-  },
+  component: MobileHeader,
   decorators: [
     (Story: any) => (
       <>
-        <Story />
-        <HR />
-        <Text variant="label">Component in Context</Text>
-        <Box css={{ mt: '$md', p: '$md', background: '$surface' }}>
-          <TextArea css={{ width: '100%', background: 'white' }} />
-          <Flex css={{ justifyContent: 'flex-end', mt: '$md' }}>
-            <Story />
-          </Flex>
-        </Box>
+        <RecoilRoot>
+          <RecoilFixtures>
+            <MemoryRouter>
+              <SnackbarProvider maxSnack={3}>
+                <QueryClientProvider client={queryClient}>
+                  <Story circle={undefined} inCircle={false} />
+                </QueryClientProvider>
+              </SnackbarProvider>
+            </MemoryRouter>
+          </RecoilFixtures>
+        </RecoilRoot>
       </>
     ),
   ],
-} as ComponentMeta<typeof SavingIndicator>;
+} as ComponentMeta<typeof MobileHeader>;
 
-const Template: ComponentStory<typeof SavingIndicator> = args => (
-  <SavingIndicator {...args} />
+const Template: ComponentStory<typeof MobileHeader> = args => (
+  <MobileHeader {...args} />
 );
 
 export const Default = Template.bind({});
-Default.args = {
-  saveState: 'saved',
-  retry: () => alert("Let's give it a retry!"),
-};
-export const ErrorWithRetry = Template.bind({});
-ErrorWithRetry.args = {
-  saveState: 'error',
-  retry: () => alert('Retried!'),
-};
