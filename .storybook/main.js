@@ -15,6 +15,11 @@ module.exports = {
       titlePrefix: 'Design System/Pages/',
       files: '**/*.stories.*',
     },
+    {
+      directory: '../src/components',
+      titlePrefix: 'Design System/Components/',
+      files: '*/*.stories.*',
+    },
   ],
   core: {
     builder: 'webpack5',
