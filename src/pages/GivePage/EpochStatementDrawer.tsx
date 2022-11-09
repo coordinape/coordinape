@@ -6,7 +6,7 @@ import { useMutation, useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
 import { ApeInfoTooltip } from '../../components';
-import { Check, X } from '../../icons/__generated';
+import { Check, ChevronsRight, X } from 'icons/__generated';
 import { paths } from 'routes/paths';
 import {
   Avatar,
@@ -41,6 +41,7 @@ type StatementDrawerProps = {
   setOptOutOpen: (b: boolean) => void;
   setStatement: (s: string) => void;
   statement: string;
+  closeDrawer: () => void;
 };
 
 // GiveDrawer is the focused modal drawer to give/note/view contributions for one member
@@ -55,6 +56,7 @@ export const EpochStatementDrawer = ({
   setOptOutOpen,
   statement,
   setStatement,
+  closeDrawer,
 }: StatementDrawerProps) => {
   // fetch the contributions for this particular member
   const { data: contributions } = useQuery(
@@ -117,83 +119,84 @@ export const EpochStatementDrawer = ({
   }, [showMarkdown]);
 
   return (
-    <Box css={{ height: '100%', pt: '$md' }}>
+    <Box css={{ height: '100%' }}>
+      <Button
+        onClick={() => {
+          closeDrawer();
+        }}
+        color="textOnly"
+        noPadding
+      >
+        <ChevronsRight size="lg" />
+      </Button>
+
       <Flex
         css={{
-          pt: '$xl',
-          display: 'grid',
-          width: '100%',
-          gridTemplateColumns: '1fr',
+          flexGrow: 1,
+          minWidth: 0,
+          my: '$md',
+          justifyContent: 'space-between',
+          gap: '$md',
+          '@sm': {
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+          },
         }}
+        alignItems="center"
       >
-        <Flex
-          css={{
-            flexGrow: 1,
-            minWidth: 0,
-            mb: '$md',
-            justifyContent: 'space-between',
-            gap: '$md',
-            '@sm': {
-              flexDirection: 'column',
-              alignItems: 'flex-start',
-            },
-          }}
-          alignItems="center"
-        >
-          <Flex>
-            <Avatar
-              size="small"
-              name={member.name}
-              path={member.profile.avatar}
-              margin="none"
-              css={{ mr: '$sm' }}
-            />
-            <Text ellipsis h3 semibold>
-              {member.name}
+        <Flex>
+          <Avatar
+            size="small"
+            name={member.name}
+            path={member.profile.avatar}
+            margin="none"
+            css={{ mr: '$sm' }}
+          />
+          <Text ellipsis h3 semibold>
+            {member.name}
+          </Text>
+        </Flex>
+        <Flex>
+          {myUser.fixed_non_receiver ? (
+            <Text variant="label">
+              You are blocked from receiving {myUser.circle.tokenName}
             </Text>
-          </Flex>
-          <Flex>
-            {myUser.fixed_non_receiver ? (
-              <Text variant="label">
-                You are blocked from receiving {myUser.circle.tokenName}
+          ) : (
+            <>
+              <Text variant="label" css={{ mr: '$md' }}>
+                Receive Give?
+                <ApeInfoTooltip>
+                  Choose no if you want to opt-out from receiving{' '}
+                  {myUser.circle.tokenName}
+                </ApeInfoTooltip>
               </Text>
-            ) : (
-              <>
-                <Text variant="label" css={{ mr: '$md' }}>
-                  Receive Give?
-                  <ApeInfoTooltip>
-                    Choose no if you want to opt-out from receiving{' '}
-                    {myUser.circle.tokenName}
-                  </ApeInfoTooltip>
-                </Text>
-                <ToggleButton
-                  color="complete"
-                  css={{ mr: '$sm' }}
-                  active={!userIsOptedOut}
-                  disabled={isNonReceiverMutationLoading || !userIsOptedOut}
-                  onClick={e => {
-                    e.stopPropagation();
-                    updateNonReceiver(false);
-                  }}
-                >
-                  <Check size="lg" /> Yes
-                </ToggleButton>
-                <ToggleButton
-                  color="destructive"
-                  active={userIsOptedOut}
-                  disabled={isNonReceiverMutationLoading || userIsOptedOut}
-                  onClick={e => {
-                    e.stopPropagation();
-                    myUser.give_token_received > 0
-                      ? setOptOutOpen(true)
-                      : updateNonReceiver(true);
-                  }}
-                >
-                  <X size="lg" /> No
-                </ToggleButton>
-              </>
-            )}
-          </Flex>
+              <ToggleButton
+                color="complete"
+                css={{ mr: '$sm' }}
+                active={!userIsOptedOut}
+                disabled={isNonReceiverMutationLoading || !userIsOptedOut}
+                onClick={e => {
+                  e.stopPropagation();
+                  updateNonReceiver(false);
+                }}
+              >
+                <Check size="lg" /> Yes
+              </ToggleButton>
+              <ToggleButton
+                color="destructive"
+                active={userIsOptedOut}
+                disabled={isNonReceiverMutationLoading || userIsOptedOut}
+                onClick={e => {
+                  e.stopPropagation();
+                  myUser.give_token_received > 0
+                    ? setOptOutOpen(true)
+                    : updateNonReceiver(true);
+                }}
+              >
+                <X size="lg" /> No
+              </ToggleButton>
+            </>
+          )}
         </Flex>
       </Flex>
       <Flex column css={{ mt: '$xl', gap: '$sm' }}>
