@@ -48,6 +48,10 @@ module.exports = {
       },
       resetMocks: false,
       setupFiles: ['<rootDir>/src/utils/test-setup.ts'],
+      moduleNameMapper: {
+        'react-markdown':
+          '<rootDir>/node_modules/react-markdown/react-markdown.min.js',
+      },
     },
   },
   webpack: {
