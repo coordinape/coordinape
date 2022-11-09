@@ -6,17 +6,23 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
 import { RecoilRoot, useRecoilState } from 'recoil';
 
+import { ReactComponent as MetaMaskSVG } from 'assets/svgs/wallet/metamask-color.svg';
 import { rApiManifest } from 'recoilState';
 
 import { MobileHeader } from './MobileHeader';
 
 const queryClient = new QueryClient();
 
+const mockAddress = '0xface0000face0001face0002face0003face0004';
 const mockManifest = {
   active_epochs: [],
   circles: [],
   myUsers: [],
-  profile: { id: 1, address: '0x0' },
+  profile: {
+    id: 1,
+    address: mockAddress,
+    avatar: '../imgs/avatar/placeholder.jpg',
+  },
 };
 
 const RecoilFixtures = ({ children }: { children: ReactElement }) => {
@@ -55,3 +61,10 @@ const Template: ComponentStory<typeof MobileHeader> = args => (
 );
 
 export const Default = Template.bind({});
+Default.args = {
+  walletStatus: {
+    icon: <MetaMaskSVG />,
+    address: mockAddress,
+    logout: () => {},
+  },
+};
