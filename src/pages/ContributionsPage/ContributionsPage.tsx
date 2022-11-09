@@ -464,7 +464,7 @@ const ContributionsPage = () => {
               control={contributionTextControl}
               defaultValue={data?.circles_by_pk?.team_sel_text}
               label="Contribution Help Text"
-              infoTooltip="Change the default text contributors see on contributions page"
+              infoTooltip="Change the text that contributors see on this page."
               showFieldErrors
               css={{
                 width: '50%',
