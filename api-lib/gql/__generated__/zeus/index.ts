@@ -1397,6 +1397,7 @@ export type ValueTypes = {
     /** An object relationship */
     circle?: ValueTypes['circles'];
     circle_id?: boolean | `@${string}`;
+    create_contributions?: boolean | `@${string}`;
     create_vouches?: boolean | `@${string}`;
     /** An object relationship */
     createdByUser?: ValueTypes['users'];
@@ -1405,6 +1406,7 @@ export type ValueTypes = {
     hash?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     read_circle?: boolean | `@${string}`;
+    read_contributions?: boolean | `@${string}`;
     read_epochs?: boolean | `@${string}`;
     read_member_profiles?: boolean | `@${string}`;
     read_nominees?: boolean | `@${string}`;
@@ -1493,6 +1495,10 @@ export type ValueTypes = {
     _or?: Array<ValueTypes['circle_api_keys_bool_exp']> | undefined | null;
     circle?: ValueTypes['circles_bool_exp'] | undefined | null;
     circle_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    create_contributions?:
+      | ValueTypes['Boolean_comparison_exp']
+      | undefined
+      | null;
     create_vouches?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     createdByUser?: ValueTypes['users_bool_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
@@ -1500,6 +1506,10 @@ export type ValueTypes = {
     hash?: ValueTypes['String_comparison_exp'] | undefined | null;
     name?: ValueTypes['String_comparison_exp'] | undefined | null;
     read_circle?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
+    read_contributions?:
+      | ValueTypes['Boolean_comparison_exp']
+      | undefined
+      | null;
     read_epochs?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     read_member_profiles?:
       | ValueTypes['Boolean_comparison_exp']
@@ -1527,6 +1537,7 @@ export type ValueTypes = {
   ['circle_api_keys_insert_input']: {
     circle?: ValueTypes['circles_obj_rel_insert_input'] | undefined | null;
     circle_id?: ValueTypes['bigint'] | undefined | null;
+    create_contributions?: boolean | undefined | null;
     create_vouches?: boolean | undefined | null;
     createdByUser?: ValueTypes['users_obj_rel_insert_input'] | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
@@ -1534,6 +1545,7 @@ export type ValueTypes = {
     hash?: string | undefined | null;
     name?: string | undefined | null;
     read_circle?: boolean | undefined | null;
+    read_contributions?: boolean | undefined | null;
     read_epochs?: boolean | undefined | null;
     read_member_profiles?: boolean | undefined | null;
     read_nominees?: boolean | undefined | null;
@@ -1583,6 +1595,12 @@ export type ValueTypes = {
     returning?: ValueTypes['circle_api_keys'];
     __typename?: boolean | `@${string}`;
   }>;
+  /** input type for inserting object relation for remote table "circle_api_keys" */
+  ['circle_api_keys_obj_rel_insert_input']: {
+    data: ValueTypes['circle_api_keys_insert_input'];
+    /** upsert condition */
+    on_conflict?: ValueTypes['circle_api_keys_on_conflict'] | undefined | null;
+  };
   /** on_conflict condition type for table "circle_api_keys" */
   ['circle_api_keys_on_conflict']: {
     constraint: ValueTypes['circle_api_keys_constraint'];
@@ -1593,6 +1611,7 @@ export type ValueTypes = {
   ['circle_api_keys_order_by']: {
     circle?: ValueTypes['circles_order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
+    create_contributions?: ValueTypes['order_by'] | undefined | null;
     create_vouches?: ValueTypes['order_by'] | undefined | null;
     createdByUser?: ValueTypes['users_order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
@@ -1600,6 +1619,7 @@ export type ValueTypes = {
     hash?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
     read_circle?: ValueTypes['order_by'] | undefined | null;
+    read_contributions?: ValueTypes['order_by'] | undefined | null;
     read_epochs?: ValueTypes['order_by'] | undefined | null;
     read_member_profiles?: ValueTypes['order_by'] | undefined | null;
     read_nominees?: ValueTypes['order_by'] | undefined | null;
@@ -1616,12 +1636,14 @@ export type ValueTypes = {
   /** input type for updating data in table "circle_api_keys" */
   ['circle_api_keys_set_input']: {
     circle_id?: ValueTypes['bigint'] | undefined | null;
+    create_contributions?: boolean | undefined | null;
     create_vouches?: boolean | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     created_by?: ValueTypes['bigint'] | undefined | null;
     hash?: string | undefined | null;
     name?: string | undefined | null;
     read_circle?: boolean | undefined | null;
+    read_contributions?: boolean | undefined | null;
     read_epochs?: boolean | undefined | null;
     read_member_profiles?: boolean | undefined | null;
     read_nominees?: boolean | undefined | null;
@@ -1672,12 +1694,14 @@ export type ValueTypes = {
   /** Initial value of the column from where the streaming should start */
   ['circle_api_keys_stream_cursor_value_input']: {
     circle_id?: ValueTypes['bigint'] | undefined | null;
+    create_contributions?: boolean | undefined | null;
     create_vouches?: boolean | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     created_by?: ValueTypes['bigint'] | undefined | null;
     hash?: string | undefined | null;
     name?: string | undefined | null;
     read_circle?: boolean | undefined | null;
+    read_contributions?: boolean | undefined | null;
     read_epochs?: boolean | undefined | null;
     read_member_profiles?: boolean | undefined | null;
     read_nominees?: boolean | undefined | null;
@@ -4203,6 +4227,9 @@ export type ValueTypes = {
     circle?: ValueTypes['circles'];
     circle_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
+    /** An object relationship */
+    created_with_api_key?: ValueTypes['circle_api_keys'];
+    created_with_api_key_hash?: boolean | `@${string}`;
     datetime_created?: boolean | `@${string}`;
     deleted_at?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
@@ -4290,6 +4317,14 @@ export type ValueTypes = {
     circle?: ValueTypes['circles_bool_exp'] | undefined | null;
     circle_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    created_with_api_key?:
+      | ValueTypes['circle_api_keys_bool_exp']
+      | undefined
+      | null;
+    created_with_api_key_hash?:
+      | ValueTypes['String_comparison_exp']
+      | undefined
+      | null;
     datetime_created?:
       | ValueTypes['timestamptz_comparison_exp']
       | undefined
@@ -4314,6 +4349,11 @@ export type ValueTypes = {
     circle?: ValueTypes['circles_obj_rel_insert_input'] | undefined | null;
     circle_id?: ValueTypes['bigint'] | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
+    created_with_api_key?:
+      | ValueTypes['circle_api_keys_obj_rel_insert_input']
+      | undefined
+      | null;
+    created_with_api_key_hash?: string | undefined | null;
     datetime_created?: ValueTypes['timestamptz'] | undefined | null;
     deleted_at?: ValueTypes['timestamptz'] | undefined | null;
     description?: string | undefined | null;
@@ -4326,6 +4366,7 @@ export type ValueTypes = {
   ['contributions_max_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
+    created_with_api_key_hash?: boolean | `@${string}`;
     datetime_created?: boolean | `@${string}`;
     deleted_at?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
@@ -4338,6 +4379,7 @@ export type ValueTypes = {
   ['contributions_max_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    created_with_api_key_hash?: ValueTypes['order_by'] | undefined | null;
     datetime_created?: ValueTypes['order_by'] | undefined | null;
     deleted_at?: ValueTypes['order_by'] | undefined | null;
     description?: ValueTypes['order_by'] | undefined | null;
@@ -4349,6 +4391,7 @@ export type ValueTypes = {
   ['contributions_min_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
+    created_with_api_key_hash?: boolean | `@${string}`;
     datetime_created?: boolean | `@${string}`;
     deleted_at?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
@@ -4361,6 +4404,7 @@ export type ValueTypes = {
   ['contributions_min_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    created_with_api_key_hash?: ValueTypes['order_by'] | undefined | null;
     datetime_created?: ValueTypes['order_by'] | undefined | null;
     deleted_at?: ValueTypes['order_by'] | undefined | null;
     description?: ValueTypes['order_by'] | undefined | null;
@@ -4387,6 +4431,11 @@ export type ValueTypes = {
     circle?: ValueTypes['circles_order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    created_with_api_key?:
+      | ValueTypes['circle_api_keys_order_by']
+      | undefined
+      | null;
+    created_with_api_key_hash?: ValueTypes['order_by'] | undefined | null;
     datetime_created?: ValueTypes['order_by'] | undefined | null;
     deleted_at?: ValueTypes['order_by'] | undefined | null;
     description?: ValueTypes['order_by'] | undefined | null;
@@ -4405,6 +4454,7 @@ export type ValueTypes = {
   ['contributions_set_input']: {
     circle_id?: ValueTypes['bigint'] | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
+    created_with_api_key_hash?: string | undefined | null;
     datetime_created?: ValueTypes['timestamptz'] | undefined | null;
     deleted_at?: ValueTypes['timestamptz'] | undefined | null;
     description?: string | undefined | null;
@@ -4462,6 +4512,7 @@ export type ValueTypes = {
   ['contributions_stream_cursor_value_input']: {
     circle_id?: ValueTypes['bigint'] | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
+    created_with_api_key_hash?: string | undefined | null;
     datetime_created?: ValueTypes['timestamptz'] | undefined | null;
     deleted_at?: ValueTypes['timestamptz'] | undefined | null;
     description?: string | undefined | null;
@@ -5237,6 +5288,7 @@ export type ValueTypes = {
     circle_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     days?: boolean | `@${string}`;
+    description?: boolean | `@${string}`;
     distributions?: [
       {
         /** distinct select on columns */
@@ -5470,6 +5522,7 @@ export type ValueTypes = {
     circle_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     days?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    description?: ValueTypes['String_comparison_exp'] | undefined | null;
     distributions?: ValueTypes['distributions_bool_exp'] | undefined | null;
     end_date?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     ended?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
@@ -5513,6 +5566,7 @@ export type ValueTypes = {
     circle_id?: number | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     days?: number | undefined | null;
+    description?: string | undefined | null;
     distributions?:
       | ValueTypes['distributions_arr_rel_insert_input']
       | undefined
@@ -5544,6 +5598,7 @@ export type ValueTypes = {
     circle_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     days?: boolean | `@${string}`;
+    description?: boolean | `@${string}`;
     end_date?: boolean | `@${string}`;
     grant?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -5563,6 +5618,7 @@ export type ValueTypes = {
     circle_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     days?: ValueTypes['order_by'] | undefined | null;
+    description?: ValueTypes['order_by'] | undefined | null;
     end_date?: ValueTypes['order_by'] | undefined | null;
     grant?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -5581,6 +5637,7 @@ export type ValueTypes = {
     circle_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     days?: boolean | `@${string}`;
+    description?: boolean | `@${string}`;
     end_date?: boolean | `@${string}`;
     grant?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -5600,6 +5657,7 @@ export type ValueTypes = {
     circle_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     days?: ValueTypes['order_by'] | undefined | null;
+    description?: ValueTypes['order_by'] | undefined | null;
     end_date?: ValueTypes['order_by'] | undefined | null;
     grant?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -5640,6 +5698,7 @@ export type ValueTypes = {
     circle_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     days?: ValueTypes['order_by'] | undefined | null;
+    description?: ValueTypes['order_by'] | undefined | null;
     distributions_aggregate?:
       | ValueTypes['distributions_aggregate_order_by']
       | undefined
@@ -5677,6 +5736,7 @@ export type ValueTypes = {
     circle_id?: number | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     days?: number | undefined | null;
+    description?: string | undefined | null;
     end_date?: ValueTypes['timestamptz'] | undefined | null;
     ended?: boolean | undefined | null;
     grant?: ValueTypes['numeric'] | undefined | null;
@@ -5772,6 +5832,7 @@ export type ValueTypes = {
     circle_id?: number | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     days?: number | undefined | null;
+    description?: string | undefined | null;
     end_date?: ValueTypes['timestamptz'] | undefined | null;
     ended?: boolean | undefined | null;
     grant?: ValueTypes['numeric'] | undefined | null;
@@ -12129,10 +12190,6 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['personal_access_tokens']
     ];
-    price_per_share?: [
-      { chain_id: number; token_address?: string | undefined | null },
-      boolean | `@${string}`
-    ];
     profiles?: [
       {
         /** distinct select on columns */
@@ -16884,7 +16941,6 @@ export type ValueTypes = {
     org_id?: boolean | `@${string}`;
     /** An object relationship */
     organization?: ValueTypes['organizations'];
-    price_per_share?: boolean | `@${string}`;
     /** An object relationship */
     profile?: ValueTypes['profiles'];
     simple_token_address?: boolean | `@${string}`;
@@ -17980,6 +18036,7 @@ export type ModelTypes = {
     /** An object relationship */
     circle: GraphQLTypes['circles'];
     circle_id: GraphQLTypes['bigint'];
+    create_contributions: boolean;
     create_vouches: boolean;
     /** An object relationship */
     createdByUser: GraphQLTypes['users'];
@@ -17988,6 +18045,7 @@ export type ModelTypes = {
     hash: string;
     name: string;
     read_circle: boolean;
+    read_contributions: boolean;
     read_epochs: boolean;
     read_member_profiles: boolean;
     read_nominees: boolean;
@@ -18062,6 +18120,8 @@ export type ModelTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['circle_api_keys']>;
   };
+  /** input type for inserting object relation for remote table "circle_api_keys" */
+  ['circle_api_keys_obj_rel_insert_input']: GraphQLTypes['circle_api_keys_obj_rel_insert_input'];
   /** on_conflict condition type for table "circle_api_keys" */
   ['circle_api_keys_on_conflict']: GraphQLTypes['circle_api_keys_on_conflict'];
   /** Ordering options when selecting data from "circle_api_keys". */
@@ -19094,6 +19154,9 @@ export type ModelTypes = {
     circle: GraphQLTypes['circles'];
     circle_id: GraphQLTypes['bigint'];
     created_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    created_with_api_key?: GraphQLTypes['circle_api_keys'] | undefined;
+    created_with_api_key_hash?: string | undefined;
     datetime_created: GraphQLTypes['timestamptz'];
     deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     description: string;
@@ -19146,6 +19209,7 @@ export type ModelTypes = {
   ['contributions_max_fields']: {
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    created_with_api_key_hash?: string | undefined;
     datetime_created?: GraphQLTypes['timestamptz'] | undefined;
     deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     description?: string | undefined;
@@ -19159,6 +19223,7 @@ export type ModelTypes = {
   ['contributions_min_fields']: {
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    created_with_api_key_hash?: string | undefined;
     datetime_created?: GraphQLTypes['timestamptz'] | undefined;
     deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     description?: string | undefined;
@@ -19502,6 +19567,7 @@ export type ModelTypes = {
     circle_id: number;
     created_at: GraphQLTypes['timestamp'];
     days?: number | undefined;
+    description?: string | undefined;
     /** An array relationship */
     distributions: Array<GraphQLTypes['distributions']>;
     /** An aggregate relationship */
@@ -19577,6 +19643,7 @@ export type ModelTypes = {
     circle_id?: number | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     days?: number | undefined;
+    description?: string | undefined;
     end_date?: GraphQLTypes['timestamptz'] | undefined;
     grant?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -19597,6 +19664,7 @@ export type ModelTypes = {
     circle_id?: number | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     days?: number | undefined;
+    description?: string | undefined;
     end_date?: GraphQLTypes['timestamptz'] | undefined;
     grant?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -22031,7 +22099,6 @@ export type ModelTypes = {
     personal_access_tokens_by_pk?:
       | GraphQLTypes['personal_access_tokens']
       | undefined;
-    price_per_share: number;
     /** fetch data from the table: "profiles" */
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch aggregated fields from the table: "profiles" */
@@ -23310,7 +23377,6 @@ export type ModelTypes = {
     org_id: GraphQLTypes['bigint'];
     /** An object relationship */
     organization: GraphQLTypes['organizations'];
-    price_per_share: number;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     simple_token_address: string;
@@ -24416,6 +24482,7 @@ export type GraphQLTypes = {
     /** An object relationship */
     circle: GraphQLTypes['circles'];
     circle_id: GraphQLTypes['bigint'];
+    create_contributions: boolean;
     create_vouches: boolean;
     /** An object relationship */
     createdByUser: GraphQLTypes['users'];
@@ -24424,6 +24491,7 @@ export type GraphQLTypes = {
     hash: string;
     name: string;
     read_circle: boolean;
+    read_contributions: boolean;
     read_epochs: boolean;
     read_member_profiles: boolean;
     read_nominees: boolean;
@@ -24496,6 +24564,7 @@ export type GraphQLTypes = {
     _or?: Array<GraphQLTypes['circle_api_keys_bool_exp']> | undefined;
     circle?: GraphQLTypes['circles_bool_exp'] | undefined;
     circle_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    create_contributions?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     create_vouches?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     createdByUser?: GraphQLTypes['users_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
@@ -24503,6 +24572,7 @@ export type GraphQLTypes = {
     hash?: GraphQLTypes['String_comparison_exp'] | undefined;
     name?: GraphQLTypes['String_comparison_exp'] | undefined;
     read_circle?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
+    read_contributions?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     read_epochs?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     read_member_profiles?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     read_nominees?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
@@ -24525,6 +24595,7 @@ export type GraphQLTypes = {
   ['circle_api_keys_insert_input']: {
     circle?: GraphQLTypes['circles_obj_rel_insert_input'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
+    create_contributions?: boolean | undefined;
     create_vouches?: boolean | undefined;
     createdByUser?: GraphQLTypes['users_obj_rel_insert_input'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -24532,6 +24603,7 @@ export type GraphQLTypes = {
     hash?: string | undefined;
     name?: string | undefined;
     read_circle?: boolean | undefined;
+    read_contributions?: boolean | undefined;
     read_epochs?: boolean | undefined;
     read_member_profiles?: boolean | undefined;
     read_nominees?: boolean | undefined;
@@ -24581,6 +24653,12 @@ export type GraphQLTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['circle_api_keys']>;
   };
+  /** input type for inserting object relation for remote table "circle_api_keys" */
+  ['circle_api_keys_obj_rel_insert_input']: {
+    data: GraphQLTypes['circle_api_keys_insert_input'];
+    /** upsert condition */
+    on_conflict?: GraphQLTypes['circle_api_keys_on_conflict'] | undefined;
+  };
   /** on_conflict condition type for table "circle_api_keys" */
   ['circle_api_keys_on_conflict']: {
     constraint: GraphQLTypes['circle_api_keys_constraint'];
@@ -24591,6 +24669,7 @@ export type GraphQLTypes = {
   ['circle_api_keys_order_by']: {
     circle?: GraphQLTypes['circles_order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
+    create_contributions?: GraphQLTypes['order_by'] | undefined;
     create_vouches?: GraphQLTypes['order_by'] | undefined;
     createdByUser?: GraphQLTypes['users_order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
@@ -24598,6 +24677,7 @@ export type GraphQLTypes = {
     hash?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
     read_circle?: GraphQLTypes['order_by'] | undefined;
+    read_contributions?: GraphQLTypes['order_by'] | undefined;
     read_epochs?: GraphQLTypes['order_by'] | undefined;
     read_member_profiles?: GraphQLTypes['order_by'] | undefined;
     read_nominees?: GraphQLTypes['order_by'] | undefined;
@@ -24614,12 +24694,14 @@ export type GraphQLTypes = {
   /** input type for updating data in table "circle_api_keys" */
   ['circle_api_keys_set_input']: {
     circle_id?: GraphQLTypes['bigint'] | undefined;
+    create_contributions?: boolean | undefined;
     create_vouches?: boolean | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     created_by?: GraphQLTypes['bigint'] | undefined;
     hash?: string | undefined;
     name?: string | undefined;
     read_circle?: boolean | undefined;
+    read_contributions?: boolean | undefined;
     read_epochs?: boolean | undefined;
     read_member_profiles?: boolean | undefined;
     read_nominees?: boolean | undefined;
@@ -24670,12 +24752,14 @@ export type GraphQLTypes = {
   /** Initial value of the column from where the streaming should start */
   ['circle_api_keys_stream_cursor_value_input']: {
     circle_id?: GraphQLTypes['bigint'] | undefined;
+    create_contributions?: boolean | undefined;
     create_vouches?: boolean | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     created_by?: GraphQLTypes['bigint'] | undefined;
     hash?: string | undefined;
     name?: string | undefined;
     read_circle?: boolean | undefined;
+    read_contributions?: boolean | undefined;
     read_epochs?: boolean | undefined;
     read_member_profiles?: boolean | undefined;
     read_nominees?: boolean | undefined;
@@ -26641,6 +26725,9 @@ export type GraphQLTypes = {
     circle: GraphQLTypes['circles'];
     circle_id: GraphQLTypes['bigint'];
     created_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    created_with_api_key?: GraphQLTypes['circle_api_keys'] | undefined;
+    created_with_api_key_hash?: string | undefined;
     datetime_created: GraphQLTypes['timestamptz'];
     deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     description: string;
@@ -26714,6 +26801,10 @@ export type GraphQLTypes = {
     circle?: GraphQLTypes['circles_bool_exp'] | undefined;
     circle_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    created_with_api_key?: GraphQLTypes['circle_api_keys_bool_exp'] | undefined;
+    created_with_api_key_hash?:
+      | GraphQLTypes['String_comparison_exp']
+      | undefined;
     datetime_created?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     deleted_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     description?: GraphQLTypes['String_comparison_exp'] | undefined;
@@ -26735,6 +26826,10 @@ export type GraphQLTypes = {
     circle?: GraphQLTypes['circles_obj_rel_insert_input'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    created_with_api_key?:
+      | GraphQLTypes['circle_api_keys_obj_rel_insert_input']
+      | undefined;
+    created_with_api_key_hash?: string | undefined;
     datetime_created?: GraphQLTypes['timestamptz'] | undefined;
     deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     description?: string | undefined;
@@ -26748,6 +26843,7 @@ export type GraphQLTypes = {
     __typename: 'contributions_max_fields';
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    created_with_api_key_hash?: string | undefined;
     datetime_created?: GraphQLTypes['timestamptz'] | undefined;
     deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     description?: string | undefined;
@@ -26759,6 +26855,7 @@ export type GraphQLTypes = {
   ['contributions_max_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    created_with_api_key_hash?: GraphQLTypes['order_by'] | undefined;
     datetime_created?: GraphQLTypes['order_by'] | undefined;
     deleted_at?: GraphQLTypes['order_by'] | undefined;
     description?: GraphQLTypes['order_by'] | undefined;
@@ -26771,6 +26868,7 @@ export type GraphQLTypes = {
     __typename: 'contributions_min_fields';
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    created_with_api_key_hash?: string | undefined;
     datetime_created?: GraphQLTypes['timestamptz'] | undefined;
     deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     description?: string | undefined;
@@ -26782,6 +26880,7 @@ export type GraphQLTypes = {
   ['contributions_min_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    created_with_api_key_hash?: GraphQLTypes['order_by'] | undefined;
     datetime_created?: GraphQLTypes['order_by'] | undefined;
     deleted_at?: GraphQLTypes['order_by'] | undefined;
     description?: GraphQLTypes['order_by'] | undefined;
@@ -26808,6 +26907,8 @@ export type GraphQLTypes = {
     circle?: GraphQLTypes['circles_order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    created_with_api_key?: GraphQLTypes['circle_api_keys_order_by'] | undefined;
+    created_with_api_key_hash?: GraphQLTypes['order_by'] | undefined;
     datetime_created?: GraphQLTypes['order_by'] | undefined;
     deleted_at?: GraphQLTypes['order_by'] | undefined;
     description?: GraphQLTypes['order_by'] | undefined;
@@ -26826,6 +26927,7 @@ export type GraphQLTypes = {
   ['contributions_set_input']: {
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    created_with_api_key_hash?: string | undefined;
     datetime_created?: GraphQLTypes['timestamptz'] | undefined;
     deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     description?: string | undefined;
@@ -26883,6 +26985,7 @@ export type GraphQLTypes = {
   ['contributions_stream_cursor_value_input']: {
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    created_with_api_key_hash?: string | undefined;
     datetime_created?: GraphQLTypes['timestamptz'] | undefined;
     deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     description?: string | undefined;
@@ -27499,6 +27602,7 @@ export type GraphQLTypes = {
     circle_id: number;
     created_at: GraphQLTypes['timestamp'];
     days?: number | undefined;
+    description?: string | undefined;
     /** An array relationship */
     distributions: Array<GraphQLTypes['distributions']>;
     /** An aggregate relationship */
@@ -27599,6 +27703,7 @@ export type GraphQLTypes = {
     circle_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     days?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    description?: GraphQLTypes['String_comparison_exp'] | undefined;
     distributions?: GraphQLTypes['distributions_bool_exp'] | undefined;
     end_date?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     ended?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
@@ -27638,6 +27743,7 @@ export type GraphQLTypes = {
     circle_id?: number | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     days?: number | undefined;
+    description?: string | undefined;
     distributions?:
       | GraphQLTypes['distributions_arr_rel_insert_input']
       | undefined;
@@ -27665,6 +27771,7 @@ export type GraphQLTypes = {
     circle_id?: number | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     days?: number | undefined;
+    description?: string | undefined;
     end_date?: GraphQLTypes['timestamptz'] | undefined;
     grant?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -27683,6 +27790,7 @@ export type GraphQLTypes = {
     circle_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     days?: GraphQLTypes['order_by'] | undefined;
+    description?: GraphQLTypes['order_by'] | undefined;
     end_date?: GraphQLTypes['order_by'] | undefined;
     grant?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -27702,6 +27810,7 @@ export type GraphQLTypes = {
     circle_id?: number | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     days?: number | undefined;
+    description?: string | undefined;
     end_date?: GraphQLTypes['timestamptz'] | undefined;
     grant?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -27720,6 +27829,7 @@ export type GraphQLTypes = {
     circle_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     days?: GraphQLTypes['order_by'] | undefined;
+    description?: GraphQLTypes['order_by'] | undefined;
     end_date?: GraphQLTypes['order_by'] | undefined;
     grant?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -27760,6 +27870,7 @@ export type GraphQLTypes = {
     circle_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     days?: GraphQLTypes['order_by'] | undefined;
+    description?: GraphQLTypes['order_by'] | undefined;
     distributions_aggregate?:
       | GraphQLTypes['distributions_aggregate_order_by']
       | undefined;
@@ -27794,6 +27905,7 @@ export type GraphQLTypes = {
     circle_id?: number | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     days?: number | undefined;
+    description?: string | undefined;
     end_date?: GraphQLTypes['timestamptz'] | undefined;
     ended?: boolean | undefined;
     grant?: GraphQLTypes['numeric'] | undefined;
@@ -27889,6 +28001,7 @@ export type GraphQLTypes = {
     circle_id?: number | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     days?: number | undefined;
+    description?: string | undefined;
     end_date?: GraphQLTypes['timestamptz'] | undefined;
     ended?: boolean | undefined;
     grant?: GraphQLTypes['numeric'] | undefined;
@@ -31590,7 +31703,6 @@ export type GraphQLTypes = {
     personal_access_tokens_by_pk?:
       | GraphQLTypes['personal_access_tokens']
       | undefined;
-    price_per_share: number;
     /** fetch data from the table: "profiles" */
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch aggregated fields from the table: "profiles" */
@@ -33877,7 +33989,6 @@ export type GraphQLTypes = {
     org_id: GraphQLTypes['bigint'];
     /** An object relationship */
     organization: GraphQLTypes['organizations'];
-    price_per_share: number;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     simple_token_address: string;
@@ -34621,12 +34732,14 @@ export const enum circle_api_keys_constraint {
 /** select columns of table "circle_api_keys" */
 export const enum circle_api_keys_select_column {
   circle_id = 'circle_id',
+  create_contributions = 'create_contributions',
   create_vouches = 'create_vouches',
   created_at = 'created_at',
   created_by = 'created_by',
   hash = 'hash',
   name = 'name',
   read_circle = 'read_circle',
+  read_contributions = 'read_contributions',
   read_epochs = 'read_epochs',
   read_member_profiles = 'read_member_profiles',
   read_nominees = 'read_nominees',
@@ -34637,12 +34750,14 @@ export const enum circle_api_keys_select_column {
 /** update columns of table "circle_api_keys" */
 export const enum circle_api_keys_update_column {
   circle_id = 'circle_id',
+  create_contributions = 'create_contributions',
   create_vouches = 'create_vouches',
   created_at = 'created_at',
   created_by = 'created_by',
   hash = 'hash',
   name = 'name',
   read_circle = 'read_circle',
+  read_contributions = 'read_contributions',
   read_epochs = 'read_epochs',
   read_member_profiles = 'read_member_profiles',
   read_nominees = 'read_nominees',
@@ -34818,6 +34933,7 @@ export const enum contributions_constraint {
 export const enum contributions_select_column {
   circle_id = 'circle_id',
   created_at = 'created_at',
+  created_with_api_key_hash = 'created_with_api_key_hash',
   datetime_created = 'datetime_created',
   deleted_at = 'deleted_at',
   description = 'description',
@@ -34829,6 +34945,7 @@ export const enum contributions_select_column {
 export const enum contributions_update_column {
   circle_id = 'circle_id',
   created_at = 'created_at',
+  created_with_api_key_hash = 'created_with_api_key_hash',
   datetime_created = 'datetime_created',
   deleted_at = 'deleted_at',
   description = 'description',
@@ -34888,6 +35005,7 @@ export const enum epochs_select_column {
   circle_id = 'circle_id',
   created_at = 'created_at',
   days = 'days',
+  description = 'description',
   end_date = 'end_date',
   ended = 'ended',
   grant = 'grant',
@@ -34907,6 +35025,7 @@ export const enum epochs_update_column {
   circle_id = 'circle_id',
   created_at = 'created_at',
   days = 'days',
+  description = 'description',
   end_date = 'end_date',
   ended = 'ended',
   grant = 'grant',
