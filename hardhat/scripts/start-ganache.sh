@@ -78,7 +78,12 @@ else
   done
 
   # Kill the testnet when this script exits
-  trap 'echo -e "\nGanache is exiting..."; test -z "$(ps -p $PID -o pid=)" || kill $PID' EXIT
+  cleanup() {
+    echo "Ganache is exiting... ($PID)"
+    kill $PID || true
+  }
+  trap echo SIGINT
+  trap cleanup EXIT
 
   if [ ! "$NO_DEPLOY" ]; then
     FORK_MAINNET=1 yarn --cwd hardhat deploy --network ci | awk '{ print "[ganache]", $0 }'
@@ -90,6 +95,6 @@ else
   else
     # The testnet will continue to run until the user shuts it down.
     echo "Testchain is up. Press Ctrl-C to stop it."
-    while true; do sleep 1; done
+    wait
   fi
 fi

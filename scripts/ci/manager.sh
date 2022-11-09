@@ -18,6 +18,8 @@ esac; shift; done
 DOCKER_PROJECT_NAME=cape-ci-v2
 DOCKER_CMD="docker compose -p $DOCKER_PROJECT_NAME"
 PROJECT_ROOT=$SCRIPT_DIR/../..
+GANACHE_PID=""
+WEB_PID=""
 
 start_services() {
   # start docker
@@ -31,9 +33,8 @@ start_services() {
   ./scripts/serve.sh --coverage -p $LOCAL_WEB_PORT 2>&1 & WEB_PID=$!
 
   # stop everything when this script exits
-  trap 'echo `kill $GANACHE_PID` >/dev/null; \
-    echo `kill $WEB_PID` >/dev/null; \
-    $DOCKER_CMD down' EXIT
+  trap echo SIGINT
+  trap stop_services EXIT
 
   sleep 1
   until \
@@ -54,6 +55,15 @@ start_services() {
   echo "All services are ready."
 }
 
+stop_services() {
+  echo Cleaning up...
+  kill $GANACHE_PID || true
+  kill $WEB_PID || true
+  $DOCKER_CMD down -t 3
+  wait
+  exit
+}
+
 combine_coverage() {
   rm -r $PROJECT_ROOT/.nyc_output/*
   cp $PROJECT_ROOT/coverage-jest/coverage-final.json $PROJECT_ROOT/.nyc_output/jest.json
@@ -64,10 +74,10 @@ combine_coverage() {
 
 if [ "${OTHERARGS[0]}" = "up" ]; then
   start_services
-  while true; do read; done
+  wait
 
 elif [ "${OTHERARGS[0]}" = "down" ]; then
-  $DOCKER_CMD down
+  $DOCKER_CMD down -t 3
 
 elif [ "${OTHERARGS[0]}" = "logs" ]; then
   $DOCKER_CMD logs -f ${OTHERARGS[@]:1}
@@ -109,7 +119,7 @@ elif [ "${OTHERARGS[0]}" = "test" ]; then
   fi
 
   # combine coverage reports
-  if [ -z "$INTERACTIVE" ]; then
+  if [ "$ALL" ]; then
     combine_coverage
   fi
 
@@ -118,4 +128,5 @@ elif [ "${OTHERARGS[0]}" = "combine-coverage" ]; then
 
 else
   echo "No command given. Expected one of: up, down, logs, test"
+  exit 1
 fi
