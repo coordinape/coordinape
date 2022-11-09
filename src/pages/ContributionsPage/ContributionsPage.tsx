@@ -798,8 +798,6 @@ const ContributionList = ({
               onKeyDown={e => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   setActiveContribution(epoch, c, undefined);
-                  // eslint-disable-next-line no-console
-                  console.log('derp');
                 }
               }}
             >
@@ -838,8 +836,6 @@ const ContributionList = ({
               onKeyDown={e => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   setActiveContribution(epoch, undefined, c);
-                  // eslint-disable-next-line no-console
-                  console.log('derp2');
                 }
               }}
             >
