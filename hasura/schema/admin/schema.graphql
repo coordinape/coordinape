@@ -3730,6 +3730,7 @@ type circles {
     """
     where: pending_token_gifts_bool_exp
   ): pending_token_gifts_aggregate!
+  show_pending_gives: Boolean!
   team_sel_text: String
   team_selection: Boolean!
   telegram_id: String
@@ -4029,6 +4030,7 @@ input circles_bool_exp {
   organization: organizations_bool_exp
   organization_id: Int_comparison_exp
   pending_token_gifts: pending_token_gifts_bool_exp
+  show_pending_gives: Boolean_comparison_exp
   team_sel_text: String_comparison_exp
   team_selection: Boolean_comparison_exp
   telegram_id: String_comparison_exp
@@ -4093,6 +4095,7 @@ input circles_insert_input {
   organization: organizations_obj_rel_insert_input
   organization_id: Int
   pending_token_gifts: pending_token_gifts_arr_rel_insert_input
+  show_pending_gives: Boolean
   team_sel_text: String
   team_selection: Boolean
   telegram_id: String
@@ -4268,6 +4271,7 @@ input circles_order_by {
   organization: organizations_order_by
   organization_id: order_by
   pending_token_gifts_aggregate: pending_token_gifts_aggregate_order_by
+  show_pending_gives: order_by
   team_sel_text: order_by
   team_selection: order_by
   telegram_id: order_by
@@ -4379,6 +4383,11 @@ enum circles_select_column {
   """
   column name
   """
+  show_pending_gives
+
+  """
+  column name
+  """
   team_sel_text
 
   """
@@ -4433,6 +4442,7 @@ input circles_set_input {
   nomination_days_limit: Int
   only_giver_vouch: Boolean
   organization_id: Int
+  show_pending_gives: Boolean
   team_sel_text: String
   team_selection: Boolean
   telegram_id: String
@@ -4544,6 +4554,7 @@ input circles_stream_cursor_value_input {
   nomination_days_limit: Int
   only_giver_vouch: Boolean
   organization_id: Int
+  show_pending_gives: Boolean
   team_sel_text: String
   team_selection: Boolean
   telegram_id: String
@@ -4663,6 +4674,11 @@ enum circles_update_column {
   column name
   """
   organization_id
+
+  """
+  column name
+  """
+  show_pending_gives
 
   """
   column name

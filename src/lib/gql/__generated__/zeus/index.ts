@@ -1854,6 +1854,7 @@ export type ValueTypes = {
       },
       ValueTypes['pending_token_gifts']
     ];
+    show_pending_gives?: boolean | `@${string}`;
     team_sel_text?: boolean | `@${string}`;
     team_selection?: boolean | `@${string}`;
     token_gifts?: [
@@ -2017,6 +2018,10 @@ export type ValueTypes = {
       | ValueTypes['pending_token_gifts_bool_exp']
       | undefined
       | null;
+    show_pending_gives?:
+      | ValueTypes['Boolean_comparison_exp']
+      | undefined
+      | null;
     team_sel_text?: ValueTypes['String_comparison_exp'] | undefined | null;
     team_selection?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     token_gifts?: ValueTypes['token_gifts_bool_exp'] | undefined | null;
@@ -2110,6 +2115,7 @@ export type ValueTypes = {
       | ValueTypes['pending_token_gifts_aggregate_order_by']
       | undefined
       | null;
+    show_pending_gives?: ValueTypes['order_by'] | undefined | null;
     team_sel_text?: ValueTypes['order_by'] | undefined | null;
     team_selection?: ValueTypes['order_by'] | undefined | null;
     token_gifts_aggregate?:
@@ -2176,6 +2182,7 @@ export type ValueTypes = {
     nomination_days_limit?: number | undefined | null;
     only_giver_vouch?: boolean | undefined | null;
     organization_id?: number | undefined | null;
+    show_pending_gives?: boolean | undefined | null;
     team_sel_text?: string | undefined | null;
     team_selection?: boolean | undefined | null;
     token_name?: string | undefined | null;
@@ -9611,6 +9618,7 @@ export type ModelTypes = {
     organization_id: number;
     /** An array relationship */
     pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
+    show_pending_gives: boolean;
     team_sel_text?: string | undefined;
     team_selection: boolean;
     /** An array relationship */
@@ -12718,6 +12726,7 @@ export type GraphQLTypes = {
     organization_id: number;
     /** An array relationship */
     pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
+    show_pending_gives: boolean;
     team_sel_text?: string | undefined;
     team_selection: boolean;
     /** An array relationship */
@@ -12788,6 +12797,7 @@ export type GraphQLTypes = {
     pending_token_gifts?:
       | GraphQLTypes['pending_token_gifts_bool_exp']
       | undefined;
+    show_pending_gives?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     team_sel_text?: GraphQLTypes['String_comparison_exp'] | undefined;
     team_selection?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     token_gifts?: GraphQLTypes['token_gifts_bool_exp'] | undefined;
@@ -12872,6 +12882,7 @@ export type GraphQLTypes = {
     pending_token_gifts_aggregate?:
       | GraphQLTypes['pending_token_gifts_aggregate_order_by']
       | undefined;
+    show_pending_gives?: GraphQLTypes['order_by'] | undefined;
     team_sel_text?: GraphQLTypes['order_by'] | undefined;
     team_selection?: GraphQLTypes['order_by'] | undefined;
     token_gifts_aggregate?:
@@ -12936,6 +12947,7 @@ export type GraphQLTypes = {
     nomination_days_limit?: number | undefined;
     only_giver_vouch?: boolean | undefined;
     organization_id?: number | undefined;
+    show_pending_gives?: boolean | undefined;
     team_sel_text?: string | undefined;
     team_selection?: boolean | undefined;
     token_name?: string | undefined;
@@ -17338,6 +17350,7 @@ export const enum circles_select_column {
   nomination_days_limit = 'nomination_days_limit',
   only_giver_vouch = 'only_giver_vouch',
   organization_id = 'organization_id',
+  show_pending_gives = 'show_pending_gives',
   team_sel_text = 'team_sel_text',
   team_selection = 'team_selection',
   token_name = 'token_name',

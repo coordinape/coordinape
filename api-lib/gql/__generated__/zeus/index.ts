@@ -3102,6 +3102,7 @@ export type ValueTypes = {
       },
       ValueTypes['pending_token_gifts_aggregate']
     ];
+    show_pending_gives?: boolean | `@${string}`;
     team_sel_text?: boolean | `@${string}`;
     team_selection?: boolean | `@${string}`;
     telegram_id?: boolean | `@${string}`;
@@ -3357,6 +3358,10 @@ export type ValueTypes = {
       | ValueTypes['pending_token_gifts_bool_exp']
       | undefined
       | null;
+    show_pending_gives?:
+      | ValueTypes['Boolean_comparison_exp']
+      | undefined
+      | null;
     team_sel_text?: ValueTypes['String_comparison_exp'] | undefined | null;
     team_selection?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     telegram_id?: ValueTypes['String_comparison_exp'] | undefined | null;
@@ -3431,6 +3436,7 @@ export type ValueTypes = {
       | ValueTypes['pending_token_gifts_arr_rel_insert_input']
       | undefined
       | null;
+    show_pending_gives?: boolean | undefined | null;
     team_sel_text?: string | undefined | null;
     team_selection?: boolean | undefined | null;
     telegram_id?: string | undefined | null;
@@ -3604,6 +3610,7 @@ export type ValueTypes = {
       | ValueTypes['pending_token_gifts_aggregate_order_by']
       | undefined
       | null;
+    show_pending_gives?: ValueTypes['order_by'] | undefined | null;
     team_sel_text?: ValueTypes['order_by'] | undefined | null;
     team_selection?: ValueTypes['order_by'] | undefined | null;
     telegram_id?: ValueTypes['order_by'] | undefined | null;
@@ -3646,6 +3653,7 @@ export type ValueTypes = {
     nomination_days_limit?: number | undefined | null;
     only_giver_vouch?: boolean | undefined | null;
     organization_id?: number | undefined | null;
+    show_pending_gives?: boolean | undefined | null;
     team_sel_text?: string | undefined | null;
     team_selection?: boolean | undefined | null;
     telegram_id?: string | undefined | null;
@@ -3731,6 +3739,7 @@ export type ValueTypes = {
     nomination_days_limit?: number | undefined | null;
     only_giver_vouch?: boolean | undefined | null;
     organization_id?: number | undefined | null;
+    show_pending_gives?: boolean | undefined | null;
     team_sel_text?: string | undefined | null;
     team_selection?: boolean | undefined | null;
     telegram_id?: string | undefined | null;
@@ -18752,6 +18761,7 @@ export type ModelTypes = {
     pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     /** An aggregate relationship */
     pending_token_gifts_aggregate: GraphQLTypes['pending_token_gifts_aggregate'];
+    show_pending_gives: boolean;
     team_sel_text?: string | undefined;
     team_selection: boolean;
     telegram_id?: string | undefined;
@@ -25772,6 +25782,7 @@ export type GraphQLTypes = {
     pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     /** An aggregate relationship */
     pending_token_gifts_aggregate: GraphQLTypes['pending_token_gifts_aggregate'];
+    show_pending_gives: boolean;
     team_sel_text?: string | undefined;
     team_selection: boolean;
     telegram_id?: string | undefined;
@@ -25886,6 +25897,7 @@ export type GraphQLTypes = {
     pending_token_gifts?:
       | GraphQLTypes['pending_token_gifts_bool_exp']
       | undefined;
+    show_pending_gives?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     team_sel_text?: GraphQLTypes['String_comparison_exp'] | undefined;
     team_selection?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     telegram_id?: GraphQLTypes['String_comparison_exp'] | undefined;
@@ -25950,6 +25962,7 @@ export type GraphQLTypes = {
     pending_token_gifts?:
       | GraphQLTypes['pending_token_gifts_arr_rel_insert_input']
       | undefined;
+    show_pending_gives?: boolean | undefined;
     team_sel_text?: string | undefined;
     team_selection?: boolean | undefined;
     telegram_id?: string | undefined;
@@ -26110,6 +26123,7 @@ export type GraphQLTypes = {
     pending_token_gifts_aggregate?:
       | GraphQLTypes['pending_token_gifts_aggregate_order_by']
       | undefined;
+    show_pending_gives?: GraphQLTypes['order_by'] | undefined;
     team_sel_text?: GraphQLTypes['order_by'] | undefined;
     team_selection?: GraphQLTypes['order_by'] | undefined;
     telegram_id?: GraphQLTypes['order_by'] | undefined;
@@ -26150,6 +26164,7 @@ export type GraphQLTypes = {
     nomination_days_limit?: number | undefined;
     only_giver_vouch?: boolean | undefined;
     organization_id?: number | undefined;
+    show_pending_gives?: boolean | undefined;
     team_sel_text?: string | undefined;
     team_selection?: boolean | undefined;
     telegram_id?: string | undefined;
@@ -26235,6 +26250,7 @@ export type GraphQLTypes = {
     nomination_days_limit?: number | undefined;
     only_giver_vouch?: boolean | undefined;
     organization_id?: number | undefined;
+    show_pending_gives?: boolean | undefined;
     team_sel_text?: string | undefined;
     team_selection?: boolean | undefined;
     telegram_id?: string | undefined;
@@ -34858,6 +34874,7 @@ export const enum circles_select_column {
   nomination_days_limit = 'nomination_days_limit',
   only_giver_vouch = 'only_giver_vouch',
   organization_id = 'organization_id',
+  show_pending_gives = 'show_pending_gives',
   team_sel_text = 'team_sel_text',
   team_selection = 'team_selection',
   telegram_id = 'telegram_id',
@@ -34885,6 +34902,7 @@ export const enum circles_update_column {
   nomination_days_limit = 'nomination_days_limit',
   only_giver_vouch = 'only_giver_vouch',
   organization_id = 'organization_id',
+  show_pending_gives = 'show_pending_gives',
   team_sel_text = 'team_sel_text',
   team_selection = 'team_selection',
   telegram_id = 'telegram_id',
