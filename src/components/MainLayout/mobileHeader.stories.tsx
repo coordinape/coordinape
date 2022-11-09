@@ -37,7 +37,7 @@ export default {
             <MemoryRouter>
               <SnackbarProvider maxSnack={3}>
                 <QueryClientProvider client={queryClient}>
-                  <Story circle={undefined} inCircle={false} />
+                  <Story />
                 </QueryClientProvider>
               </SnackbarProvider>
             </MemoryRouter>
