@@ -13,7 +13,7 @@ import { isCircleSpecificPath } from 'routes/paths';
 import { Box, Button } from 'ui';
 
 import { CircleNav } from './CircleNav';
-import { useMainHeaderQuery } from './getMainHeaderData';
+import { MainHeaderQuery, useMainHeaderQuery } from './getMainHeaderData';
 import { MobileHeader } from './MobileHeader';
 import { OverviewMenu } from './OverviewMenu';
 
@@ -25,20 +25,34 @@ export const MainHeader = () => {
   const inCircle =
     circle && isCircleSpecificPath(location) ? circle : undefined;
   const walletStatus = useWalletStatus();
+  const query = useMainHeaderQuery();
 
   if (useMediaQuery(MediaQueryKeys.sm))
     return (
       <Suspense fallback={null}>
-        <MobileHeader inCircle={inCircle} walletStatus={walletStatus} />
+        <MobileHeader
+          inCircle={inCircle}
+          walletStatus={walletStatus}
+          query={query}
+        />
       </Suspense>
     );
 
-  return <NormalHeader inCircle={inCircle} walletStatus={walletStatus} />;
+  return (
+    <NormalHeader
+      inCircle={inCircle}
+      walletStatus={walletStatus}
+      query={query}
+    />
+  );
 };
 
-type Props = { inCircle?: IApiCircle; walletStatus: WalletStatus };
-const NormalHeader = ({ inCircle, walletStatus }: Props) => {
-  const query = useMainHeaderQuery();
+type Props = {
+  inCircle?: IApiCircle;
+  walletStatus: WalletStatus;
+  query: MainHeaderQuery;
+};
+const NormalHeader = ({ inCircle, walletStatus, query }: Props) => {
   const showClaimsButton =
     (query.data?.claims_aggregate.aggregate?.count || 0) > 0;
 

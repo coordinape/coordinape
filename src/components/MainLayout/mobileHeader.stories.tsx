@@ -67,4 +67,26 @@ Default.args = {
     address: mockAddress,
     logout: () => {},
   },
+  query: {
+    data: {
+      organizations: [
+        {
+          id: 1,
+          name: 'Example Org',
+          circles: [
+            {
+              id: 2,
+              name: 'Example Circle',
+              users: [],
+            },
+          ],
+        },
+      ],
+      claims_aggregate: {
+        aggregate: {
+          count: 1,
+        },
+      },
+    },
+  },
 };

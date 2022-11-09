@@ -62,3 +62,5 @@ export const useMainHeaderQuery = () => {
     }
   );
 };
+
+export type MainHeaderQuery = Partial<ReturnType<typeof useMainHeaderQuery>>;

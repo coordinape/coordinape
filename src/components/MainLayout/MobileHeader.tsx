@@ -13,7 +13,7 @@ import { Box, IconButton, Link, Image, Avatar, Text, Flex, Button } from 'ui';
 import { shortenAddress } from 'utils';
 
 import { CircleNav } from './CircleNav';
-import { useMainHeaderQuery } from './getMainHeaderData';
+import type { MainHeaderQuery } from './getMainHeaderData';
 import { TopLevelLinks } from './TopLevelLinks';
 
 import { IApiCircle } from 'types';
@@ -23,8 +23,12 @@ const mainLinks = [
   isFeatureEnabled('vaults') && [paths.vaults, 'CoVaults'],
 ].filter(x => x) as [string, string][];
 
-type Props = { inCircle?: IApiCircle; walletStatus: WalletStatus };
-export const MobileHeader = ({ inCircle, walletStatus }: Props) => {
+type Props = {
+  inCircle?: IApiCircle;
+  walletStatus: WalletStatus;
+  query: MainHeaderQuery;
+};
+export const MobileHeader = ({ inCircle, walletStatus, query }: Props) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const { icon, address, logout } = walletStatus;
@@ -32,7 +36,6 @@ export const MobileHeader = ({ inCircle, walletStatus }: Props) => {
   const navigate = useNavigate();
   const [showTxModal, setShowTxModal] = useState(false);
 
-  const query = useMainHeaderQuery();
   const hasClaims = (query.data?.claims_aggregate.aggregate?.count || 0) > 0;
   const myProfile = useMyProfile();
 
@@ -209,8 +212,8 @@ export const MobileHeader = ({ inCircle, walletStatus }: Props) => {
                         to="/claims"
                         color="complete"
                         css={{
-                          color: '$white',
-                          fontWeight: '$normal',
+                          color: '$white !important',
+                          px: '$sm !important',
                         }}
                       >
                         Claim Tokens
