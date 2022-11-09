@@ -13,8 +13,6 @@ import {
   useSetAmEgoAddress,
   AmContextDefault,
 } from 'recoilState/map';
-// i don't know how to remove this AVATAR_PLACEHOLDER
-import { AVATAR_PLACEHOLDER } from 'utils/domain';
 
 import { IMapContext, IMapNodeFG, IMapEdgeFG } from 'types';
 
@@ -32,7 +30,7 @@ const useStyles = makeStyles(() => ({
     bottom: 0,
   },
 }));
-
+const AVATAR_PLACEHOLDER = '/imgs/avatar/placeholder.jpg';
 const COLOR_NODE_HIGHLIGHT = '#13a2cc';
 const COLOR_NODE_MORE_HIGHLIGHT = '#44cccc';
 const COLOR_GIVE = '#00ce2c';
