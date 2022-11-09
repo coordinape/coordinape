@@ -180,7 +180,6 @@ export const OrgLogoUpload = ({
             )}
           </Box>
         )}
-        {/* input error  */}
         <input
           ref={fileInput}
           accept={VALID_FILE_TYPES.join(', ')}

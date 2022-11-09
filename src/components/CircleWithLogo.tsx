@@ -31,7 +31,7 @@ const CircleWithLogo = ({
             size="xs"
             margin="none"
             css={{ mr: '$sm' }}
-            path={logo}
+            path={orgLogo}
           />
           <Text variant="label">{orgName}</Text>
         </Flex>
