@@ -27,9 +27,15 @@ type Props = {
   inCircle?: IApiCircle;
   walletStatus: WalletStatus;
   query: MainHeaderQuery;
+  startOpen?: boolean;
 };
-export const MobileHeader = ({ inCircle, walletStatus, query }: Props) => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+export const MobileHeader = ({
+  inCircle,
+  walletStatus,
+  query,
+  startOpen,
+}: Props) => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(!!startOpen);
   const location = useLocation();
   const { icon, address, logout } = walletStatus;
   const org = inCircle ? inCircle?.organization : null;
@@ -40,7 +46,7 @@ export const MobileHeader = ({ inCircle, walletStatus, query }: Props) => {
   const myProfile = useMyProfile();
 
   useEffect(() => {
-    setIsMobileMenuOpen(false);
+    !startOpen && setIsMobileMenuOpen(false);
   }, [location]);
 
   useEffect(() => {

@@ -62,6 +62,7 @@ const Template: ComponentStory<typeof Component> = args => (
 
 export const MobileHeader = Template.bind({});
 MobileHeader.args = {
+  startOpen: true,
   walletStatus: {
     icon: <MetaMaskSVG />,
     address: mockAddress,
