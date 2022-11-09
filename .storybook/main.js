@@ -17,7 +17,12 @@ module.exports = {
     },
     {
       directory: '../src/components',
-      titlePrefix: 'App UI/Compound/',
+      titlePrefix: 'App UI',
+      files: '*/*.stories.*',
+    },
+    {
+      directory: '../src/components',
+      titlePrefix: 'App UI',
       files: '**/*.stories.*',
     },
   ],
