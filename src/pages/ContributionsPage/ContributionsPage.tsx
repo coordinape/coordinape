@@ -18,6 +18,9 @@ import {
   WonderColor,
   ChevronDown,
   ChevronUp,
+  Trash2,
+  ChevronsRight,
+  Edit,
 } from 'icons/__generated';
 import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
 import { Panel, Text, Box, Modal, Button, Flex, MarkdownPreview } from 'ui';
@@ -345,6 +348,15 @@ const ContributionsPage = () => {
 
   const currentUserId: number = memoizedEpochData.users[0]?.id;
 
+  const closeDrawer = () => {
+    setModalOpen(false);
+    setCurrentContribution(null);
+    setCurrentIntContribution(null);
+    resetCreateMutation();
+    resetUpdateMutation();
+    reset();
+  };
+
   return (
     <>
       <SingleColumnLayout>
@@ -387,103 +399,132 @@ const ContributionsPage = () => {
       </SingleColumnLayout>
       <Modal
         drawer
-        css={{
-          paddingBottom: 0,
-          paddingLeft: '$md',
-          paddingRight: '$md',
-          paddingTop: 0,
-          overflowY: 'scroll',
-        }}
+        showClose={false}
         open={modalOpen}
         onOpenChange={() => {
-          setModalOpen(false);
-          setCurrentContribution(null);
-          setCurrentIntContribution(null);
-          resetCreateMutation();
-          resetUpdateMutation();
-          reset();
+          closeDrawer();
         }}
       >
-        <Panel invertForm css={{ '& textarea': { resize: 'vertical' } }}>
+        <Panel invertForm css={{ p: 0, '& textarea': { resize: 'vertical' } }}>
           {currentContribution ? (
             <>
-              <Flex>
+              <Flex
+                alignItems="center"
+                css={{ justifyContent: 'space-between' }}
+              >
+                <Flex alignItems="center">
+                  <Button
+                    onClick={() => {
+                      closeDrawer();
+                    }}
+                    color="textOnly"
+                    noPadding
+                    css={{ mr: '$lg' }}
+                  >
+                    <ChevronsRight size="lg" />
+                  </Button>
+                  <Button
+                    color="white"
+                    size="large"
+                    css={nextPrevCss}
+                    disabled={
+                      currentContribution.contribution.prev() === undefined
+                    }
+                    onClick={() => {
+                      const prevContribution =
+                        currentContribution.contribution.prev();
+                      if (!prevContribution) return;
+                      prevContribution.next = () => ({
+                        ...currentContribution.contribution,
+                        description: descriptionField.value,
+                      });
+                      setCurrentContribution({
+                        contribution: prevContribution,
+                        epoch: jumpToEpoch(
+                          currentContribution.epoch,
+                          prevContribution.datetime_created
+                        ),
+                      });
+                      resetField('description', {
+                        defaultValue: prevContribution.description,
+                      });
+                    }}
+                  >
+                    <ChevronUp size="lg" />
+                  </Button>
+                  <Button
+                    color="white"
+                    css={nextPrevCss}
+                    disabled={
+                      currentContribution.contribution.next() === undefined
+                    }
+                    onClick={() => {
+                      const nextContribution =
+                        currentContribution.contribution.next();
+                      if (!nextContribution) return;
+                      nextContribution.prev = () => ({
+                        ...currentContribution.contribution,
+                        description: descriptionField.value,
+                      });
+                      setCurrentContribution({
+                        contribution: nextContribution,
+                        epoch: jumpToEpoch(
+                          currentContribution.epoch,
+                          nextContribution.datetime_created
+                        ),
+                      });
+                      resetField('description', {
+                        defaultValue: nextContribution.description,
+                      });
+                    }}
+                  >
+                    <ChevronDown size="lg" />
+                  </Button>
+                </Flex>
                 <Button
-                  color="white"
-                  size="large"
-                  css={nextPrevCss}
-                  disabled={
-                    currentContribution.contribution.prev() === undefined
-                  }
+                  color="textOnly"
+                  noPadding
+                  disabled={!currentContribution.contribution.id}
                   onClick={() => {
-                    const prevContribution =
-                      currentContribution.contribution.prev();
-                    if (!prevContribution) return;
-                    prevContribution.next = () => ({
-                      ...currentContribution.contribution,
-                      description: descriptionField.value,
-                    });
-                    setCurrentContribution({
-                      contribution: prevContribution,
-                      epoch: jumpToEpoch(
-                        currentContribution.epoch,
-                        prevContribution.datetime_created
-                      ),
-                    });
-                    resetField('description', {
-                      defaultValue: prevContribution.description,
+                    handleDebouncedDescriptionChange.cancel();
+                    deleteContribution({
+                      contribution_id: currentContribution.contribution.id,
                     });
                   }}
                 >
-                  <ChevronUp size="lg" />
-                </Button>
-                <Button
-                  color="white"
-                  css={nextPrevCss}
-                  disabled={
-                    currentContribution.contribution.next() === undefined
-                  }
-                  onClick={() => {
-                    const nextContribution =
-                      currentContribution.contribution.next();
-                    if (!nextContribution) return;
-                    nextContribution.prev = () => ({
-                      ...currentContribution.contribution,
-                      description: descriptionField.value,
-                    });
-                    setCurrentContribution({
-                      contribution: nextContribution,
-                      epoch: jumpToEpoch(
-                        currentContribution.epoch,
-                        nextContribution.datetime_created
-                      ),
-                    });
-                    resetField('description', {
-                      defaultValue: nextContribution.description,
-                    });
-                  }}
-                >
-                  <ChevronDown size="lg" />
+                  <Trash2 />
                 </Button>
               </Flex>
               <Flex
                 alignItems="center"
                 css={{
                   my: '$xl',
+                  justifyContent: 'space-between',
                 }}
               >
-                <Text
-                  h3
-                  semibold
-                  css={{
-                    mr: '$md',
-                  }}
-                >
-                  {currentContribution.epoch.id
-                    ? renderEpochDate(currentContribution.epoch)
-                    : 'Latest'}
-                </Text>
-                {getEpochLabel(currentContribution.epoch)}
+                <Flex>
+                  <Text
+                    h3
+                    semibold
+                    css={{
+                      mr: '$md',
+                    }}
+                  >
+                    {currentContribution.epoch.id
+                      ? renderEpochDate(currentContribution.epoch)
+                      : 'Latest'}
+                  </Text>
+                  {getEpochLabel(currentContribution.epoch)}
+                </Flex>
+                {isEpochCurrentOrLater(currentContribution.epoch) && (
+                  <SavingIndicator
+                    saveState={saveState[currentContribution.contribution.id]}
+                    retry={() => {
+                      saveContribution(descriptionField.value);
+                      refetchContributions();
+                    }}
+                  />
+                )}
               </Flex>
               <Flex column css={{ gap: '$sm' }}>
                 <Flex
@@ -563,36 +604,26 @@ const ContributionsPage = () => {
                     />
                   </Panel>
                 )}
-                {isEpochCurrentOrLater(currentContribution.epoch) && (
-                  <Flex
-                    css={{
-                      justifyContent: 'space-between',
-                      mt: '$sm',
+                <Flex css={{ justifyContent: 'flex-end', mt: '$md' }}>
+                  <Button
+                    color="primary"
+                    onClick={() => {
+                      setCurrentContribution({
+                        contribution: getNewContribution(
+                          currentUserId,
+                          memoizedEpochData.contributions[0]
+                        ),
+                        epoch: getCurrentEpoch(memoizedEpochData.epochs),
+                      });
+                      resetField('description', { defaultValue: '' });
+                      resetCreateMutation();
+                      setModalOpen(true);
                     }}
                   >
-                    <Button
-                      outlined
-                      color="destructive"
-                      size="small"
-                      disabled={!currentContribution.contribution.id}
-                      onClick={() => {
-                        handleDebouncedDescriptionChange.cancel();
-                        deleteContribution({
-                          contribution_id: currentContribution.contribution.id,
-                        });
-                      }}
-                    >
-                      Delete
-                    </Button>
-                    <SavingIndicator
-                      saveState={saveState[currentContribution.contribution.id]}
-                      retry={() => {
-                        saveContribution(descriptionField.value);
-                        refetchContributions();
-                      }}
-                    />
-                  </Flex>
-                )}
+                    <Edit />
+                    New
+                  </Button>
+                </Flex>
               </Flex>
             </>
           ) : currentIntContribution ? (

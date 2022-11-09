@@ -7,7 +7,7 @@ const css = {
   // '& path': { stroke: 'none' }
   // '& path': { stroke: 'none' }
 };
-export const SvgHelpCircle = (props: SvgIconProps) => (
+export const SvgEdit = (props: SvgIconProps) => (
   <SvgIcon
     xmlns="http://www.w3.org/2000/svg"
     width={24}
@@ -17,13 +17,13 @@ export const SvgHelpCircle = (props: SvgIconProps) => (
     strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="help-circle_svg__feather help-circle_svg__feather-help-circle"
+    className="edit_svg__feather edit_svg__feather-edit"
     css={{ ...css, ...(props.css ?? {}) }}
     viewBox="0 0 24 24"
     {...props}
   >
-    <circle cx={12} cy={12} r={10} />
-    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01" />
+    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
   </SvgIcon>
 );
-export default SvgHelpCircle;
+export default SvgEdit;

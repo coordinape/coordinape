@@ -167,7 +167,9 @@ export const GiveRow = ({
                     <FileText /> Note Complete
                   </>
                 ) : (
-                  <>No Feedback</>
+                  <>
+                    <FileText /> Note Empty
+                  </>
                 )}
               </Text>
             )}

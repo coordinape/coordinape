@@ -585,6 +585,11 @@ const AllocateContents = ({
     }
   };
 
+  const closeDrawer = () => {
+    setSelectedMemberIdx(-1);
+    setSelectedMember(undefined);
+  };
+
   return (
     <Box
       css={{
@@ -812,17 +817,10 @@ const AllocateContents = ({
         </Box>
       )}
       <Modal
-        css={{
-          paddingBottom: 0,
-          paddingLeft: '$lg',
-          paddingRight: '$lg',
-          paddingTop: 0,
-          overflowY: 'scroll',
-        }}
         onOpenChange={() => {
-          setSelectedMemberIdx(-1);
-          setSelectedMember(undefined);
+          closeDrawer();
         }}
+        showClose={false}
         drawer
         open={
           selectedMemberIdx != -1 ||
@@ -842,6 +840,9 @@ const AllocateContents = ({
               end_date={currentEpoch.endDate.toJSDate()}
               statement={statement}
               setStatement={setStatement}
+              closeDrawer={() => {
+                closeDrawer();
+              }}
             />
           </>
         )}
@@ -866,6 +867,9 @@ const AllocateContents = ({
             setNeedToSave={setNeedToSave}
             noGivingAllowed={noGivingAllowed}
             updateTeammate={updateTeammate}
+            closeDrawer={() => {
+              closeDrawer();
+            }}
           />
         )}
       </Modal>

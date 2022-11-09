@@ -8,7 +8,7 @@ export const TextField = styled('input', {
   padding: '$sm',
   border: '1px solid transparent',
   '&:focus': {
-    borderColor: '$borderMedium',
+    borderColor: '$primary',
   },
   '&:disabled': {
     opacity: 0.3,
