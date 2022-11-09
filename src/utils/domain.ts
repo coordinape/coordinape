@@ -75,8 +75,8 @@ export const getInitialFromName = (name: string) => {
   // Returns PR if name is "Peter Edwards Roman"
   // Returns PR if name is "Preben"
 };
-export const getAvatarPathWithFallback = (avatar?: string, name?: string) => {
-  const placeholder = name ? getInitialFromName(name) : getAvatarPath;
+export const getAvatarPathWithFallback = (name: string, avatar?: string) => {
+  const placeholder = getInitialFromName(name);
 
-  return avatar ? getAvatarPath(avatar) : placeholder;
+  return getAvatarPath(avatar) ?? placeholder;
 };

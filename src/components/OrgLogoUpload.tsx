@@ -26,7 +26,7 @@ export const OrgLogoUpload = ({
   const fileInput = React.createRef<HTMLInputElement>();
   // line 29 doesn't work
   const { imageUrl, formFileUploadProps } = useImageUploader(
-    getAvatarPathWithFallback(original, name)
+    getAvatarPathWithFallback(name, original)
   );
 
   const [uploadedLogoUrl, setUploadedLogoUrl] = useState<undefined | string>(

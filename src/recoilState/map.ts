@@ -196,8 +196,8 @@ export const rMapGraphData = selector<GraphData>({
           return {
             id: address,
             img: getAvatarPathWithFallback(
-              profile?.avatar || user?.profile?.avatar,
-              user.name
+              user.name,
+              profile?.avatar || user?.profile?.avatar
             ),
             profile,
             name: user.name,

@@ -235,8 +235,7 @@ const ProfilePageContent = ({
     imageUrl: backgroundUrl,
     formFileUploadProps: backgroundUploadProps,
   } = useImageUploader(
-    // problem in line 239
-    getAvatarPath(profile?.background, '/imgs/background/profile-bg.jpg')
+    getAvatarPath(profile?.background) || '/imgs/background/profile-bg.jpg'
   );
 
   const recentEpochs = profile?.users?.map(user => ({
