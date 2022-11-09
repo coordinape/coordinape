@@ -23,6 +23,8 @@ const schema = z.object({
   update_pending_token_gifts: z.boolean(),
   read_member_profiles: z.boolean(),
   read_epochs: z.boolean(),
+  read_contributions: z.boolean(),
+  create_contributions: z.boolean(),
 });
 
 type FormSchema = z.infer<typeof schema>;
@@ -117,6 +119,18 @@ export const ApiKeyForm: FC<Props> = ({ circleId, onSuccess }) => {
     defaultValue: false,
   });
 
+  const { field: readContributions } = useController({
+    name: 'read_contributions',
+    control,
+    defaultValue: false,
+  });
+
+  const { field: createContributions } = useController({
+    name: 'create_contributions',
+    control,
+    defaultValue: false,
+  });
+
   return (
     <Form
       onSubmit={handleSubmit(onSubmit)}
@@ -189,6 +203,13 @@ export const ApiKeyForm: FC<Props> = ({ circleId, onSuccess }) => {
           label={API_PERMISSION_LABELS['read_nominees']}
           infoTooltip={<>Allows reading information about circle nominees.</>}
         />
+        <CheckBox
+          {...readContributions}
+          label={API_PERMISSION_LABELS['read_contributions']}
+          infoTooltip={
+            <>Allows reading contributions added by members in the circle.</>
+          }
+        />
         <Text variant={'label'} css={{ mt: '$md' }}>
           Write Permissions
         </Text>
@@ -215,6 +236,13 @@ export const ApiKeyForm: FC<Props> = ({ circleId, onSuccess }) => {
           label={API_PERMISSION_LABELS['create_vouches']}
           infoTooltip={
             <>Allows vouching for new nominees on behalf of circle members.</>
+          }
+        />
+        <CheckBox
+          {...createContributions}
+          label={API_PERMISSION_LABELS['create_contributions']}
+          infoTooltip={
+            <>Allows adding contributions on behalf of circle members.</>
           }
         />
       </Box>
