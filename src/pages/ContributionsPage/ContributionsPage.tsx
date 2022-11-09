@@ -20,7 +20,7 @@ import {
   ChevronUp,
 } from 'icons/__generated';
 import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
-import { Panel, Text, Box, Modal, Button, Flex } from 'ui';
+import { Panel, Text, Box, Modal, Button, Flex, MarkdownPreview } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { SavingIndicator, SaveState } from 'ui/SavingIndicator';
 
@@ -104,6 +104,8 @@ const ContributionsPage = () => {
   const [currentIntContribution, setCurrentIntContribution] =
     useState<CurrentIntContribution | null>(null);
 
+  const [showMarkdown, setShowMarkDown] = useState<boolean>(true);
+
   const queryClient = useQueryClient();
 
   const {
@@ -149,9 +151,13 @@ const ContributionsPage = () => {
         descriptionField.value
       );
     }
+    if (!showMarkdown) {
+      document?.getElementById('epoch_statement')?.focus();
+    }
   }, [
     currentContribution?.contribution.id,
     saveState[currentContribution?.contribution.id],
+    showMarkdown,
   ]);
 
   const { field: descriptionField } = useController({
@@ -496,41 +502,65 @@ const ContributionsPage = () => {
                   </Text>
                 </Flex>
                 {isEpochCurrentOrLater(currentContribution.epoch) ? (
-                  <FormInputField
-                    id="description"
-                    name="description"
-                    control={control}
-                    defaultValue={currentContribution.contribution.description}
-                    areaProps={{
-                      autoFocus: true,
-                      onChange: e => {
-                        setValue('description', e.target.value);
-                        // Don't schedule a new save if a createContribution
-                        // request is inflight, since this will create
-                        // a duplicate contribution
-                        if (
-                          !(
-                            currentContribution.contribution.id ===
-                              NEW_CONTRIBUTION_ID &&
-                            saveState[currentContribution.contribution.id] ==
-                              'saving'
+                  showMarkdown && !!descriptionField.value.length ? (
+                    <Box
+                      onClick={() => {
+                        setShowMarkDown(false);
+                      }}
+                    >
+                      <MarkdownPreview source={descriptionField.value} />
+                    </Box>
+                  ) : (
+                    <FormInputField
+                      id="description"
+                      name="description"
+                      control={control}
+                      defaultValue={
+                        currentContribution.contribution.description
+                      }
+                      areaProps={{
+                        autoFocus: true,
+                        onChange: e => {
+                          setValue('description', e.target.value);
+                          // Don't schedule a new save if a createContribution
+                          // request is inflight, since this will create
+                          // a duplicate contribution
+                          if (
+                            !(
+                              currentContribution.contribution.id ===
+                                NEW_CONTRIBUTION_ID &&
+                              saveState[currentContribution.contribution.id] ==
+                                'saving'
+                            )
                           )
-                        )
-                          updateSaveStateForContribution(
-                            currentContribution.contribution.id,
-                            'buffering'
+                            updateSaveStateForContribution(
+                              currentContribution.contribution.id,
+                              'buffering'
+                            );
+                        },
+                        onBlur: () => {
+                          if (descriptionField.value.length > 0)
+                            setShowMarkDown(true);
+                        },
+                        onFocus: e => {
+                          e.currentTarget.setSelectionRange(
+                            e.currentTarget.value.length,
+                            e.currentTarget.value.length
                           );
-                      },
-                    }}
-                    disabled={!isEpochCurrentOrLater(currentContribution.epoch)}
-                    placeholder="What have you been working on?"
-                    textArea
-                  />
+                        },
+                      }}
+                      disabled={
+                        !isEpochCurrentOrLater(currentContribution.epoch)
+                      }
+                      placeholder="What have you been working on?"
+                      textArea
+                    />
+                  )
                 ) : (
                   <Panel nested>
-                    <Text p>
-                      {currentContribution.contribution.description}
-                    </Text>
+                    <MarkdownPreview
+                      source={currentContribution.contribution.description}
+                    />
                   </Panel>
                 )}
                 {isEpochCurrentOrLater(currentContribution.epoch) && (

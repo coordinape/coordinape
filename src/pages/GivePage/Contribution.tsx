@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Box, Panel, Text } from '../../ui';
+import { Box, MarkdownPreview } from 'ui';
 
 import { Contributions } from './queries';
 
@@ -16,9 +16,7 @@ export const Contribution = ({
         borderBottom: '1px solid $border',
       }}
     >
-      <Text p css={{ lineHeight: '$shorter' }}>
-        {contribution.description}
-      </Text>
+      <MarkdownPreview source={contribution.description} />
     </Box>
   );
 };
