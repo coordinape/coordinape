@@ -305,7 +305,7 @@ const GivePage = () => {
   return (
     <Box css={{ width: '100%' }}>
       <Flex
-        css={{ background: '$info', justifyContent: 'center', py: '$md' }}
+        css={{ background: '$info', justifyContent: 'center', p: '$md $lg' }}
         alignItems="center"
       >
         <Text>Not ready for the new GIVE experience?</Text>
@@ -314,7 +314,7 @@ const GivePage = () => {
           href={paths.allocation(selectedCircle.id)}
           outlined
           color="primary"
-          css={{ ml: '$md' }}
+          css={{ ml: '$md', whiteSpace: 'nowrap' }}
         >
           Go Back
         </Button>

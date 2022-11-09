@@ -13,17 +13,32 @@ export const chainId = process.env.TEST_ON_HARDHAT_NODE
 const port = process.env.TEST_ON_HARDHAT_NODE
   ? HARDHAT_PORT
   : HARDHAT_GANACHE_PORT;
-export const rpcUrl = `http://localhost:${port}`;
-export const provider = new JsonRpcProvider(rpcUrl);
 
-export const takeSnapshot = async (): Promise<string> => {
-  return (await provider.send('evm_snapshot', [])) as string;
+export const rpcUrl = `http://localhost:${port}`;
+
+let _provider: JsonRpcProvider;
+
+export const provider = () => {
+  if (!_provider) _provider = new JsonRpcProvider(rpcUrl);
+  return _provider;
 };
 
-export const restoreSnapshot = async (snapshotId?: string) => {
+// These functions take optional provider args because the default provider may
+// not always be set up correctly, e.g. in Cypress
+
+export const takeSnapshot = async (
+  myProvider?: JsonRpcProvider
+): Promise<string> => {
+  return (await (myProvider || provider()).send('evm_snapshot', [])) as string;
+};
+
+export const restoreSnapshot = async (
+  snapshotId?: string,
+  myProvider?: JsonRpcProvider
+) => {
   if (!snapshotId) {
     console.error('No snapshot ID provided; not reverting.');
     return;
   }
-  return provider.send('evm_revert', [snapshotId]);
+  return (myProvider || provider()).send('evm_revert', [snapshotId]);
 };

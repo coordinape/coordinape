@@ -1,3 +1,4 @@
+import assert from 'assert';
 import { useEffect, useState } from 'react';
 
 import { TypedEventFilter } from '@coordinape/hardhat/dist/typechain/commons';
@@ -19,7 +20,7 @@ import { useContracts } from 'hooks';
 import { Link, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { numberWithCommas } from 'utils';
-import { getProviderForChain, makeExplorerUrl } from 'utils/provider';
+import { makeExplorerUrl } from 'utils/provider';
 
 import { OwnerProfileLink, VaultExternalLink } from './components';
 import { getVaultAndTransactions } from './queries';
@@ -81,17 +82,26 @@ export const VaultTransactions = () => {
 export function useOnChainTransactions(
   vault: VaultAndTransactions | undefined
 ) {
+  const contracts = useContracts();
   return useQuery(
     ['vault-txs', vault?.id, vault?.vault_transactions.length],
-    async () => (vault ? getOnchainVaultTransactions(vault) : []),
-    { initialData: [] }
+    async () => {
+      assert(contracts);
+      return vault ? getOnchainVaultTransactions(vault, contracts) : [];
+    },
+    { initialData: [], enabled: !!contracts }
   );
 }
 
-export async function getOnchainVaultTransactions(vault: VaultAndTransactions) {
+export async function getOnchainVaultTransactions(
+  vault: VaultAndTransactions,
+  contracts: Contracts
+) {
   const { chain_id } = vault;
-  const provider = getProviderForChain(chain_id);
-  const contracts = new Contracts(chain_id, provider, true);
+  assert(
+    chain_id.toString() === contracts.chainId,
+    'chain id of vault and provider do not match'
+  );
   const eventResults = await Promise.all([
     getDepositEvents(contracts, vault),
     getWithdrawEvents(contracts, vault),

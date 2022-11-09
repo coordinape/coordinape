@@ -7,35 +7,52 @@ import { MediaQueryKeys } from 'stitches.config';
 import { ReceiveInfo, MyAvatarMenu } from 'components';
 import isFeatureEnabled from 'config/features';
 import { useMediaQuery } from 'hooks';
+import { useWalletStatus, WalletStatus } from 'hooks/login';
 import { rSelectedCircle } from 'recoilState/app';
 import { isCircleSpecificPath } from 'routes/paths';
 import { Box, Button } from 'ui';
 
 import { CircleNav } from './CircleNav';
-import { useMainHeaderQuery } from './getMainHeaderData';
+import { MainHeaderQuery, useMainHeaderQuery } from './getMainHeaderData';
 import { MobileHeader } from './MobileHeader';
 import { OverviewMenu } from './OverviewMenu';
+
+import { IApiCircle } from 'types';
 
 export const MainHeader = () => {
   const { circle } = useRecoilValueLoadable(rSelectedCircle).valueMaybe() || {};
   const location = useLocation();
-  const inCircle = !!(circle && isCircleSpecificPath(location));
-  const breadcrumb = inCircle
-    ? `${circle.organization.name} > ${circle.name}`
-    : '';
+  const inCircle =
+    circle && isCircleSpecificPath(location) ? circle : undefined;
+  const walletStatus = useWalletStatus();
+  const query = useMainHeaderQuery();
 
   if (useMediaQuery(MediaQueryKeys.sm))
     return (
       <Suspense fallback={null}>
-        <MobileHeader inCircle={!!inCircle} breadcrumb={breadcrumb} />
+        <MobileHeader
+          inCircle={inCircle}
+          walletStatus={walletStatus}
+          query={query}
+        />
       </Suspense>
     );
 
-  return <NormalHeader inCircle={inCircle} />;
+  return (
+    <NormalHeader
+      inCircle={inCircle}
+      walletStatus={walletStatus}
+      query={query}
+    />
+  );
 };
 
-const NormalHeader = ({ inCircle }: { inCircle: boolean }) => {
-  const query = useMainHeaderQuery();
+type Props = {
+  inCircle?: IApiCircle;
+  walletStatus: WalletStatus;
+  query: MainHeaderQuery;
+};
+const NormalHeader = ({ inCircle, walletStatus, query }: Props) => {
   const showClaimsButton =
     (query.data?.claims_aggregate.aggregate?.count || 0) > 0;
 
@@ -114,7 +131,7 @@ const NormalHeader = ({ inCircle }: { inCircle: boolean }) => {
               Claim Tokens
             </Button>
           )}
-          <MyAvatarMenu />
+          <MyAvatarMenu walletStatus={walletStatus} />
         </Suspense>
       </Box>
     </Box>

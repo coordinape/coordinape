@@ -124,7 +124,6 @@ export const Avatar = ({
   /** User's name is used as a fallback in case of failing to load avatar. */
   name?: string;
   onClick?: () => void;
-  /** represents avatar with smaller size `32x32` */
   size?: 'xl' | 'large' | 'medium' | 'small' | 'xs';
   margin?: 'none' | 'small'; // can be extended if needed
   children?: React.ReactNode;
