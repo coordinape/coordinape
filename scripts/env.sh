@@ -7,9 +7,15 @@
 # same codebase should be avoided.
 
 set -e
-DOTENV_FILE=$(dirname $BASH_SOURCE[0])/../.env
-if [ -f "$DOTENV_FILE" ]; then
-  export $(cat $DOTENV_FILE | sed 's/^#.*$//' | xargs)
+
+# don't overwrite env if re-entering script
+if [ -z "$CAPE_ENV_LOADED" ]; then
+  export CAPE_ENV_LOADED=1
+
+  DOTENV_FILE=$(dirname $BASH_SOURCE[0])/../.env
+  if [ -f "$DOTENV_FILE" ]; then
+    export $(cat $DOTENV_FILE | sed 's/^#.*$//' | xargs)
+  fi
 fi
 
 # parse arguments
