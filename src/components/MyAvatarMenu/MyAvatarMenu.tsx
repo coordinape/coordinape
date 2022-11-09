@@ -6,7 +6,7 @@ import { Hidden } from '@material-ui/core';
 
 import { menuGroupStyle } from 'components/MainLayout/MainHeader';
 import isFeatureEnabled from 'config/features';
-import { useWalletStatus } from 'hooks/login';
+import type { WalletStatus } from 'hooks/login';
 import { useMyProfile } from 'recoilState/app';
 import { paths } from 'routes/paths';
 import {
@@ -23,9 +23,10 @@ import { shortenAddress } from 'utils';
 
 import { RecentTransactionsModal } from './RecentTransactionsModal';
 
-export const MyAvatarMenu = () => {
+type Props = { walletStatus: WalletStatus };
+export const MyAvatarMenu = ({ walletStatus }: Props) => {
   const myProfile = useMyProfile();
-  const { icon, address, logout } = useWalletStatus();
+  const { icon, address, logout } = walletStatus;
   const [showTxModal, setShowTxModal] = useState(false);
 
   const [mouseEnterPopover, setMouseEnterPopover] = useState(false);

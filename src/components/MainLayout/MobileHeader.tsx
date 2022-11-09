@@ -5,7 +5,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 
 import { RecentTransactionsModal } from 'components/MyAvatarMenu/RecentTransactionsModal';
 import isFeatureEnabled from 'config/features';
-import { useWalletStatus } from 'hooks/login';
+import type { WalletStatus } from 'hooks/login';
 import { X, Menu, ChevronRight } from 'icons/__generated';
 import { useMyProfile } from 'recoilState';
 import { paths } from 'routes/paths';
@@ -23,10 +23,11 @@ const mainLinks = [
   isFeatureEnabled('vaults') && [paths.vaults, 'CoVaults'],
 ].filter(x => x) as [string, string][];
 
-export const MobileHeader = ({ inCircle }: { inCircle?: IApiCircle }) => {
+type Props = { inCircle?: IApiCircle; walletStatus: WalletStatus };
+export const MobileHeader = ({ inCircle, walletStatus }: Props) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const { icon, address, logout } = useWalletStatus();
+  const { icon, address, logout } = walletStatus;
   const org = inCircle ? inCircle?.organization : null;
   const navigate = useNavigate();
   const [showTxModal, setShowTxModal] = useState(false);

@@ -7,6 +7,7 @@ import { MediaQueryKeys } from 'stitches.config';
 import { ReceiveInfo, MyAvatarMenu } from 'components';
 import isFeatureEnabled from 'config/features';
 import { useMediaQuery } from 'hooks';
+import { useWalletStatus, WalletStatus } from 'hooks/login';
 import { rSelectedCircle } from 'recoilState/app';
 import { isCircleSpecificPath } from 'routes/paths';
 import { Box, Button } from 'ui';
@@ -23,18 +24,20 @@ export const MainHeader = () => {
   const location = useLocation();
   const inCircle =
     circle && isCircleSpecificPath(location) ? circle : undefined;
+  const walletStatus = useWalletStatus();
 
   if (useMediaQuery(MediaQueryKeys.sm))
     return (
       <Suspense fallback={null}>
-        <MobileHeader inCircle={inCircle} />
+        <MobileHeader inCircle={inCircle} walletStatus={walletStatus} />
       </Suspense>
     );
 
-  return <NormalHeader inCircle={inCircle} />;
+  return <NormalHeader inCircle={inCircle} walletStatus={walletStatus} />;
 };
 
-const NormalHeader = ({ inCircle }: { inCircle?: IApiCircle }) => {
+type Props = { inCircle?: IApiCircle; walletStatus: WalletStatus };
+const NormalHeader = ({ inCircle, walletStatus }: Props) => {
   const query = useMainHeaderQuery();
   const showClaimsButton =
     (query.data?.claims_aggregate.aggregate?.count || 0) > 0;
@@ -114,7 +117,7 @@ const NormalHeader = ({ inCircle }: { inCircle?: IApiCircle }) => {
               Claim Tokens
             </Button>
           )}
-          <MyAvatarMenu />
+          <MyAvatarMenu walletStatus={walletStatus} />
         </Suspense>
       </Box>
     </Box>
