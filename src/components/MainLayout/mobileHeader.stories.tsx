@@ -1,8 +1,6 @@
-import { ReactElement, Suspense, useEffect } from 'react';
+import { ReactElement, Suspense, useLayoutEffect } from 'react';
 
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { SnackbarProvider } from 'notistack';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
 import { RecoilRoot, useRecoilState } from 'recoil';
 
@@ -10,8 +8,6 @@ import { ReactComponent as MetaMaskSVG } from 'assets/svgs/wallet/metamask-color
 import { rApiManifest } from 'recoilState';
 
 import { MobileHeader as Component } from './MobileHeader';
-
-const queryClient = new QueryClient();
 
 const mockAddress = '0xface0000face0001face0002face0003face0004';
 const mockManifest = {
@@ -27,7 +23,7 @@ const mockManifest = {
 
 const RecoilFixtures = ({ children }: { children: ReactElement }) => {
   const [manifest, setManifest] = useRecoilState(rApiManifest);
-  useEffect(() => {
+  useLayoutEffect(() => {
     setManifest(mockManifest);
   }, []);
   return manifest ? children : null;
@@ -37,19 +33,13 @@ export default {
   component: Component,
   decorators: [
     (Story: any) => (
-      <>
-        <RecoilRoot>
-          <RecoilFixtures>
-            <MemoryRouter>
-              <SnackbarProvider maxSnack={3}>
-                <QueryClientProvider client={queryClient}>
-                  <Story />
-                </QueryClientProvider>
-              </SnackbarProvider>
-            </MemoryRouter>
-          </RecoilFixtures>
-        </RecoilRoot>
-      </>
+      <RecoilRoot>
+        <RecoilFixtures>
+          <MemoryRouter>
+            <Story />
+          </MemoryRouter>
+        </RecoilFixtures>
+      </RecoilRoot>
     ),
   ],
 } as ComponentMeta<typeof Component>;
