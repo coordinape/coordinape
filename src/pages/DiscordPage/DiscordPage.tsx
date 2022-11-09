@@ -4,8 +4,7 @@ import { client } from 'lib/gql/client';
 import { useParams } from 'react-router-dom';
 
 import { useMyProfile } from 'recoilState';
-import { Box, Button, Flex, Text } from 'ui';
-import CenteredBox from 'ui/CenteredBox';
+import { Box, Button, CenteredBox, Flex, Text } from 'ui';
 
 export const DiscordPage = () => {
   const snowflake = useParams().snowflake ?? '-1';
