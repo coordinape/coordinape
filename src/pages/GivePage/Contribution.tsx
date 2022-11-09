@@ -16,7 +16,7 @@ export const Contribution = ({
         borderBottom: '1px solid $border',
       }}
     >
-      <MarkdownPreview source={contribution.description} />
+      <MarkdownPreview display source={contribution.description} />
     </Box>
   );
 };

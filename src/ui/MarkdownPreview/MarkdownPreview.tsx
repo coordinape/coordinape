@@ -3,15 +3,10 @@ import { styled } from 'stitches.config';
 
 const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
   border: '1px solid transparent',
-  '&:focus': {
-    borderColor: '$borderMedium',
-    boxSizing: 'border-box',
-  },
-  borderRadius: '8px',
-
+  borderRadius: '$3',
   p: '$sm',
   minHeight: 'calc($2xl * 2)',
-
+  cursor: 'pointer',
   color: '$text',
   width: '100%',
   'h1, h2, h3, h4, h5': {
@@ -22,6 +17,15 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
   'h1, h2, h3, h4, h5, p': {
     mb: '0 !important',
     pb: '$sm !important',
+  },
+  variants: {
+    display: {
+      true: {
+        backgroundColor: 'transparent !important',
+        minHeight: 0,
+        p: 0,
+      },
+    },
   },
 });
 

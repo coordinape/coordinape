@@ -545,8 +545,15 @@ const ContributionsPage = () => {
                 {isEpochCurrentOrLater(currentContribution.epoch) ? (
                   showMarkdown && !!descriptionField.value.length ? (
                     <Box
+                      tabIndex={0}
+                      css={{ borderRadius: '$3' }}
                       onClick={() => {
                         setShowMarkDown(false);
+                      }}
+                      onKeyDown={e => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          setShowMarkDown(false);
+                        }
                       }}
                     >
                       <MarkdownPreview source={descriptionField.value} />
@@ -791,6 +798,8 @@ const ContributionList = ({
               onKeyDown={e => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   setActiveContribution(epoch, c, undefined);
+                  // eslint-disable-next-line no-console
+                  console.log('derp');
                 }
               }}
             >
@@ -825,6 +834,13 @@ const ContributionList = ({
               nested
               onClick={() => {
                 setActiveContribution(epoch, undefined, c);
+              }}
+              onKeyDown={e => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  setActiveContribution(epoch, undefined, c);
+                  // eslint-disable-next-line no-console
+                  console.log('derp2');
+                }
               }}
             >
               <Text
