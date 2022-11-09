@@ -70,6 +70,7 @@ export const colors = {
   black: '#000',
 
   primary: figmaColors.blue12,
+  primaryDark: figmaColors.blue24,
   primaryLight: figmaColors.blue1,
   primaryDisabled: figmaColors.blue4,
   textOnPrimary: '#fff',

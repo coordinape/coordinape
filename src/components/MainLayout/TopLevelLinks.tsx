@@ -60,21 +60,4 @@ export const navLinkStyle = {
     fontWeight: '$bold',
     color: '$text',
   },
-  '@sm': {
-    position: 'unset',
-    color: '$text',
-    fontWeight: 'normal',
-    '&:hover': {
-      color: '$black',
-      '&::after': {
-        content: 'none',
-      },
-    },
-    '&.active': {
-      color: '$alert',
-      '&::after': {
-        content: 'none',
-      },
-    },
-  },
 };
