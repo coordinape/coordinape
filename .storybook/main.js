@@ -3,22 +3,12 @@ module.exports = {
     {
       directory: '../src/ui',
       titlePrefix: 'Design System/Components/',
-      files: '*/*.stories.*',
-    },
-    {
-      directory: '../src/ui',
-      titlePrefix: 'Design System/Components/',
-      files: '*.stories.*',
+      files: '**/*.stories.*',
     },
     {
       directory: '../src/pages',
       titlePrefix: 'Design System/Pages/',
       files: '**/*.stories.*',
-    },
-    {
-      directory: '../src/components',
-      titlePrefix: 'App UI',
-      files: '*/*.stories.*',
     },
     {
       directory: '../src/components',

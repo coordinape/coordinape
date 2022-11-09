@@ -9,7 +9,7 @@ import { RecoilRoot, useRecoilState } from 'recoil';
 import { ReactComponent as MetaMaskSVG } from 'assets/svgs/wallet/metamask-color.svg';
 import { rApiManifest } from 'recoilState';
 
-import { MobileHeader } from './MobileHeader';
+import { MobileHeader as Component } from './MobileHeader';
 
 const queryClient = new QueryClient();
 
@@ -34,7 +34,7 @@ const RecoilFixtures = ({ children }: { children: ReactElement }) => {
 };
 
 export default {
-  component: MobileHeader,
+  component: Component,
   decorators: [
     (Story: any) => (
       <>
@@ -52,16 +52,16 @@ export default {
       </>
     ),
   ],
-} as ComponentMeta<typeof MobileHeader>;
+} as ComponentMeta<typeof Component>;
 
-const Template: ComponentStory<typeof MobileHeader> = args => (
+const Template: ComponentStory<typeof Component> = args => (
   <Suspense fallback={null}>
-    <MobileHeader {...args} />
+    <Component {...args} />
   </Suspense>
 );
 
-export const Default = Template.bind({});
-Default.args = {
+export const MobileHeader = Template.bind({});
+MobileHeader.args = {
   walletStatus: {
     icon: <MetaMaskSVG />,
     address: mockAddress,
