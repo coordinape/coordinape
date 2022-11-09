@@ -202,7 +202,6 @@ export const SummonCirclePage = () => {
                       </Button>
                     </FormLabel>
                   </Flex>
-                  {/* here is another error line 207 */}
                   <input
                     id="upload-logo-button"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
