@@ -2,12 +2,6 @@
 
 METADATA_DIR=./hasura/metadata/databases/default/tables
 
-if [ -z "$CI" ]; then
-  HASURA_ENV="--envfile ../.env"
-else
-  HASURA_ENV="--envfile ../.ci.env"
-fi
-
 # Uncomment event triggers
 for file in "$METADATA_DIR"/public_*.yaml; do
   sed -i'.bak' -e "/event_triggers:/,$"' s/^#//g' "$file"

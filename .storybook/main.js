@@ -10,6 +10,11 @@ module.exports = {
       titlePrefix: 'Design System/Pages/',
       files: '**/*.stories.*',
     },
+    {
+      directory: '../src/components',
+      titlePrefix: 'App UI',
+      files: '**/*.stories.*',
+    },
   ],
   core: {
     builder: 'webpack5',
@@ -21,4 +26,7 @@ module.exports = {
     '@storybook/preset-create-react-app',
   ],
   staticDirs: ['../public'],
+  features: {
+    storyStoreV7: true,
+  },
 };

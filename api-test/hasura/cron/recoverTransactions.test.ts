@@ -28,7 +28,7 @@ test('mix of invalid & valid txs', async () => {
   } as unknown as VercelRequest;
   const res: any = { status: jest.fn(() => res), json: jest.fn() };
 
-  const contracts = new Contracts(chainId, provider);
+  const contracts = new Contracts(chainId, provider());
   const chain_id = Number(contracts.chainId);
   const daiAddress = contracts.getTokenAddress('DAI');
 

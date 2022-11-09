@@ -10,16 +10,14 @@ esac; shift; done
 PROXY_PORT=$(( $RANDOM % 900 + 3100 ))
 
 BROWSER=none PORT=$PROXY_PORT yarn craco start & CRACO_PID=$!
-
-trap 'kill $CRACO_PID' EXIT
-
 until curl -s -o/dev/null http://localhost:$PROXY_PORT; do
   sleep 1
-  if [ -z "$(ps -p $CRACO_PID -o pid=)" ]; then
-    echo "dev server failed to start up."
-    exit 1
-  fi
 done
 
-yarn exec nodemon \
-  -- scripts/serve_dev.ts $PORT $PROXY_PORT
+yarn exec nodemon -- scripts/serve_dev.ts $PORT $PROXY_PORT & NODEMON_PID=$!
+
+trap 'echo -e "\nWeb server (PIDs $CRACO_PID, $NODEMON_PID) is exiting..."; \
+  echo `kill $CRACO_PID` >/dev/null; \
+  echo `kill $NODEMON_PID` >/dev/null' EXIT
+
+while true; do sleep 1; done

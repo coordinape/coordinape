@@ -1,13 +1,13 @@
 import { AddressZero } from '@ethersproject/constants';
 
-import { chainId, provider } from 'utils/testing/provider';
+import { provider } from 'utils/testing';
 
 import { Contracts } from './contracts';
 
 let contracts: Contracts;
 
-beforeEach(() => {
-  contracts = new Contracts(chainId, provider);
+beforeEach(async () => {
+  contracts = await Contracts.fromProvider(provider());
 });
 
 test('getTokenAddress throws on unrecognized input', () => {
