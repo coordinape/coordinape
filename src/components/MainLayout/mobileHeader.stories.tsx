@@ -1,4 +1,4 @@
-import { ReactElement, useEffect } from 'react';
+import { ReactElement, Suspense, useEffect } from 'react';
 
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { SnackbarProvider } from 'notistack';
@@ -49,7 +49,9 @@ export default {
 } as ComponentMeta<typeof MobileHeader>;
 
 const Template: ComponentStory<typeof MobileHeader> = args => (
-  <MobileHeader {...args} />
+  <Suspense fallback={null}>
+    <MobileHeader {...args} />
+  </Suspense>
 );
 
 export const Default = Template.bind({});
