@@ -51,6 +51,7 @@ export const apiFetch =
       .then(handleFetchResponse)
       .then((response: GraphQLResponse) => {
         if (response.errors) {
+          console.log('###', JSON.stringify(response.errors));
           throw new GraphQLError(response);
         }
         return response.data;
