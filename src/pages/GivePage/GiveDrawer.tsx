@@ -267,7 +267,7 @@ export const GiveDrawer = ({
                 borderBottom: '1px solid $border',
               }}
             >
-              <MarkdownPreview source={member.bio} />
+              <MarkdownPreview display source={member.bio} />
             </Box>
           </Box>
         )}

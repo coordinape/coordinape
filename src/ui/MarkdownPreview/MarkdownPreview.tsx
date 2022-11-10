@@ -2,16 +2,12 @@ import ReactMarkdownPreview from '@uiw/react-markdown-preview';
 import { styled } from 'stitches.config';
 
 const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
+  fontFamily: 'Inter !important',
   border: '1px solid transparent',
-  '&:focus': {
-    borderColor: '$borderMedium',
-    boxSizing: 'border-box',
-  },
-  borderRadius: '8px',
-
+  borderRadius: '$3',
   p: '$sm',
   minHeight: 'calc($2xl * 2)',
-
+  cursor: 'pointer',
   color: '$text',
   width: '100%',
   'h1, h2, h3, h4, h5': {
@@ -22,6 +18,20 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
   'h1, h2, h3, h4, h5, p': {
     mb: '0 !important',
     pb: '$sm !important',
+    lineHeight: '$shorter',
+  },
+  variants: {
+    display: {
+      true: {
+        cursor: 'default',
+        backgroundColor: 'rgb(225 229 232) !important',
+        borderColor: '$borderMedium !important',
+        boxShadow: '$shadow1',
+        minHeight: 0,
+        borderRadius: '$1',
+        p: '$md',
+      },
+    },
   },
 });
 
