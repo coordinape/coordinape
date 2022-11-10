@@ -154,13 +154,9 @@ const ContributionsPage = () => {
         descriptionField.value
       );
     }
-    if (!showMarkdown) {
-      document?.getElementById('epoch_statement')?.focus();
-    }
   }, [
     currentContribution?.contribution.id,
     saveState[currentContribution?.contribution.id],
-    showMarkdown,
   ]);
 
   const { field: descriptionField } = useController({
@@ -350,6 +346,7 @@ const ContributionsPage = () => {
 
   const closeDrawer = () => {
     setModalOpen(false);
+    setShowMarkDown(true);
     setCurrentContribution(null);
     setCurrentIntContribution(null);
     resetCreateMutation();
@@ -383,6 +380,7 @@ const ContributionsPage = () => {
               resetField('description', { defaultValue: '' });
               resetCreateMutation();
               setModalOpen(true);
+              setShowMarkDown(false);
             }}
           >
             Add Contribution
@@ -543,7 +541,7 @@ const ContributionsPage = () => {
                   </Text>
                 </Flex>
                 {isEpochCurrentOrLater(currentContribution.epoch) ? (
-                  showMarkdown && !!descriptionField.value.length ? (
+                  showMarkdown ? (
                     <Box
                       tabIndex={0}
                       css={{ borderRadius: '$3' }}
@@ -551,6 +549,7 @@ const ContributionsPage = () => {
                         setShowMarkDown(false);
                       }}
                       onKeyDown={e => {
+                        e.stopPropagation();
                         if (e.key === 'Enter' || e.key === ' ') {
                           setShowMarkDown(false);
                         }
@@ -798,6 +797,8 @@ const ContributionList = ({
               onKeyDown={e => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   setActiveContribution(epoch, c, undefined);
+                  e.preventDefault();
+                  e.stopPropagation();
                 }
               }}
             >
@@ -836,6 +837,8 @@ const ContributionList = ({
               onKeyDown={e => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   setActiveContribution(epoch, undefined, c);
+                  e.preventDefault();
+                  e.stopPropagation();
                 }
               }}
             >
