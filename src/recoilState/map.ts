@@ -11,7 +11,7 @@ import {
 } from 'recoil';
 
 import { assertDef } from 'utils';
-import { getAvatarPathWithFallback } from 'utils/domain';
+import { getAvatarPath } from 'utils/domain';
 import { createFakeUser, createFakeProfile } from 'utils/modelExtenders';
 
 import {
@@ -193,12 +193,15 @@ export const rMapGraphData = selector<GraphData>({
             `Missing user of circle = ${epoch.circle_id} in rMapGraphData at ${profile.address}`
           );
 
+          // FIXME we should stop using ui-avatars.com and rewrite this map code
+          // to use fallback text like Avatar does
+          const img =
+            getAvatarPath(profile?.avatar || user?.profile?.avatar) ||
+            `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}`;
+
           return {
             id: address,
-            img: getAvatarPathWithFallback(
-              user.name,
-              profile?.avatar || user?.profile?.avatar
-            ),
+            img,
             profile,
             name: user.name,
             epochId: epoch.id,
