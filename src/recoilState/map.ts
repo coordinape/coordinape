@@ -216,7 +216,6 @@ export const rMapGraphData = selector<GraphData>({
             n.first(),
             'rMapGraphData, node with epochIds'
           );
-          // problem from line 217-220
           return {
             ...node,
             epochIds: epochIds.toArray(),
