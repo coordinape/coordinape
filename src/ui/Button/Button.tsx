@@ -159,6 +159,14 @@ export const Button = styled('button', {
         },
       },
     },
+    noPadding: {
+      true: {
+        p: 0,
+        '> img, > svg': {
+          mr: 0,
+        },
+      },
+    },
     fullWidth: {
       true: {
         width: '$full',

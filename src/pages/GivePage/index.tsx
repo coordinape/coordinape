@@ -305,7 +305,7 @@ const GivePage = () => {
   return (
     <Box css={{ width: '100%' }}>
       <Flex
-        css={{ background: '$info', justifyContent: 'center', py: '$md' }}
+        css={{ background: '$info', justifyContent: 'center', p: '$md $lg' }}
         alignItems="center"
       >
         <Text>Not ready for the new GIVE experience?</Text>
@@ -314,7 +314,7 @@ const GivePage = () => {
           href={paths.allocation(selectedCircle.id)}
           outlined
           color="primary"
-          css={{ ml: '$md' }}
+          css={{ ml: '$md', whiteSpace: 'nowrap' }}
         >
           Go Back
         </Button>
@@ -585,6 +585,11 @@ const AllocateContents = ({
     }
   };
 
+  const closeDrawer = () => {
+    setSelectedMemberIdx(-1);
+    setSelectedMember(undefined);
+  };
+
   return (
     <Box
       css={{
@@ -812,17 +817,10 @@ const AllocateContents = ({
         </Box>
       )}
       <Modal
-        css={{
-          paddingBottom: 0,
-          paddingLeft: '$lg',
-          paddingRight: '$lg',
-          paddingTop: 0,
-          overflowY: 'scroll',
-        }}
         onOpenChange={() => {
-          setSelectedMemberIdx(-1);
-          setSelectedMember(undefined);
+          closeDrawer();
         }}
+        showClose={false}
         drawer
         open={
           selectedMemberIdx != -1 ||
@@ -842,6 +840,9 @@ const AllocateContents = ({
               end_date={currentEpoch.endDate.toJSDate()}
               statement={statement}
               setStatement={setStatement}
+              closeDrawer={() => {
+                closeDrawer();
+              }}
             />
           </>
         )}
@@ -866,6 +867,9 @@ const AllocateContents = ({
             setNeedToSave={setNeedToSave}
             noGivingAllowed={noGivingAllowed}
             updateTeammate={updateTeammate}
+            closeDrawer={() => {
+              closeDrawer();
+            }}
           />
         )}
       </Modal>

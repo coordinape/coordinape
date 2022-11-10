@@ -217,8 +217,8 @@ const themeOptions = {
       paper: customColor.surface,
     },
     primary: {
-      main: customColor.alert,
-      dark: customColor.alertDark,
+      main: customColor.primary,
+      dark: customColor.primaryDark,
       contrastText: customColor.white,
     },
     secondary: {

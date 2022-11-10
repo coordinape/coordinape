@@ -45,6 +45,8 @@ const Content = styled(Dialog.Content, {
         borderRadius: 0,
         height: '100vh',
         position: 'fixed',
+        p: '$md $lg',
+        overflowY: 'scroll',
         "&[data-state='open']": {
           animation: `${slideInRight} .4s ease-out`,
         },

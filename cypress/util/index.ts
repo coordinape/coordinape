@@ -70,7 +70,9 @@ export const injectWeb3 = () => (win: any) => {
 export const deriveAccount = (index = 0, seed: string = DEFAULT_SEED) =>
   HDNode.fromMnemonic(seed).derivePath(getAccountPath(index));
 
-export const gqlQuery = makeThunder(
-  Cypress.env('NODE_HASURA_URL'),
-  Cypress.env('HASURA_GRAPHQL_ADMIN_SECRET')
-)('query');
+export const gqlQuery = makeThunder({
+  url: Cypress.env('NODE_HASURA_URL'),
+  headers: {
+    'x-hasura-admin-secret': Cypress.env('HASURA_GRAPHQL_ADMIN_SECRET'),
+  },
+})('query');

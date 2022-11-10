@@ -6,7 +6,7 @@ Welcome to the code for [Coordinape](coordinape.com)! If you're new to the proje
 
 # Contributing
 
-Stack: **React**, **Hasura** graphql server & **vercel** serverless functions
+Stack: **React**, [**Hasura**](#hasura), & **Vercel** serverless functions
 
 - NodeJS v14
 - Yarn
@@ -28,9 +28,17 @@ Stack: **React**, **Hasura** graphql server & **vercel** serverless functions
 - Go to http://localhost:3000 and start giving!
 
 If you want to hack on end-to-end tests, or see why one might be failing,
-see our [cypress README].
+see our [cypress README](./cypress/README.md).
 
-[cypress readme]: ./cypress/README.md
+## Running tests
+
+For a one-off test run, run `yarn test:ci`. This starts test instances of Hasura, Postgres, and the web app, populates them with test data, and runs both Jest and Cypress tests against them.
+
+If you want to run tests interactively as you develop:
+
+1. Run `yarn test:up`. This will start the test instances.
+2. In another terminal, run either `yarn test` for the Jest tests, or `yarn cy:dev` for the Cypress tests.
+3. Just Ctrl-C the process in the first terminal when you're done.
 
 # Frontend
 
@@ -39,7 +47,7 @@ More detailed guidelines coming soon.
 When writing new frontend components, please use Stitches instead of Material-UI. See:
 
 - [Intro video with the author of Stitches](https://www.youtube.com/watch?v=Gw28VgyKGkw)
-- [`stitches.config.ts`](https://github.com/coordinape/coordinape/blob/main/src/stitches.config.ts)
+- Theme file: [`stitches.config.ts`](https://github.com/coordinape/coordinape/blob/main/src/stitches.config.ts)
 - [`src/ui`](https://github.com/coordinape/coordinape/tree/main/src/ui), where we have a set of basic components
   - This folder is for simple HTML tags wrapped with `styled`; components with logic and/or state should still go in `src/components`, or in a subfolder named for the main component they belong to.
 
@@ -57,19 +65,18 @@ When writing new frontend components, please use Stitches instead of Material-UI
 
 # Hasura
 
-[Hasura](https://hasura.io/)
-automagically creates a
+[Hasura](https://hasura.io/) creates a
 [GraphQL API](https://hasura.io/learn/graphql/hasura/data-modeling/2-try-user-queries/)
 atop our postgres db. We use it to apply
 [migrations](https://hasura.io/learn/graphql/hasura-advanced/migrations-metadata/2-migration-files/)
 and
 [manage metadata](https://hasura.io/learn/graphql/hasura-advanced/migrations-metadata/3-metadata/).
-Perhaps, the easiest way to get a feel is start the app and run `yarn hasura console`.
+Perhaps the easiest way to get a feel is start the app and run `yarn hasura console`.
 
 ## Working with the schema
 
 - `yarn hasura console` to modify and explore the database
-- `yarn generate` after schema changes to codegen zeus & react-query libs
+- `yarn generate` after schema changes to codegen [Zeus](https://github.com/graphql-editor/graphql-zeus) & [react-query](https://react-query.tanstack.com/) libs
   - Requires `yarn start` to be running
 
 ### Updating migrations / metadata
@@ -82,13 +89,11 @@ yarn hasura migrate apply
 yarn hasura metadata apply
 ```
 
-Alternately, you can just run `yarn docker:stop && yarn docker:start` and Hasura will apply the migrations/metadata automatically.
-
 ## Previewing changes
 
-Any changes you make in `yarn hasura console` will be reflected in your local `hasura` directory as migrations or metadata. In the feature branch a clone of the staging database will be created with the changes.
+Any changes you make in `yarn hasura console` will be automatically exported to your local `hasura` directory as migrations or metadata.
 
-These will be applied to the production instance once the PR is merged.
+These will be applied to the production instance once the PR is merged. You can test them in preview apps by merging them to staging first.
 
 # Hardhat
 
@@ -99,7 +104,8 @@ These will be applied to the production instance once the PR is merged.
   - Needs to have access to archive data
 - `./scripts/rebuild_hardhat.sh` - Rebuild the generated code
 - `yarn test` - Run tests
-  - make sure `HARDHAT_FORK_BLOCK` is set (13500000 is a good value) and `ETHEREUM_RPC_URL` points to an archive node
+  - Make sure `HARDHAT_FORK_BLOCK` is set (13500000 is a good value) and `ETHEREUM_RPC_URL` points to an archive node.
+  - These tests were written when we were just starting to integrate contract support, and have been superseded by the Jest tests in the main app.
 
 # Gitpod (experimental)
 
@@ -117,8 +123,4 @@ See `.gitpod.yml` for details on how Gitpod works.
 
 # Troubleshooting
 
-- `Cannot start service app: error while creating mount source path`
-  Try restarting Docker Desktop
-
-- `TypeError: Cannot read properties of undefined (reading 'replace')`
-  You need to configure a local `.env` file with some private variables. Ask someone for these.
+If you have more questions, please [create an issue](https://github.com/coordinape/coordinape/issues/new/choose) or ask in our [Discord channel](https://discord.com/invite/gBPMAmQ48p) `#devs-all`.

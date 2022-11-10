@@ -114,6 +114,7 @@ export const HistoryPage = () => {
           justifyContent: 'space-between',
           flexWrap: 'wrap',
           mb: '$md',
+          gap: '$md',
         }}
       >
         <Text h1>Epoch Overview</Text>
