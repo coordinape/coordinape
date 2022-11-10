@@ -7,6 +7,7 @@ const CircleWithLogo = ({
   logo,
   name,
   orgName,
+  orgLogo,
   admins,
 }: {
   logo?: string;
