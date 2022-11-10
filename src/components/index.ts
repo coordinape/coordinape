@@ -4,7 +4,6 @@ export * from './ApeTabs';
 export * from './DeprecatedApeTextField';
 export * from './ApeToggle';
 export * from './AvatarUpload';
-export * from './OrgLogoUpload';
 export * from './CoordinapeLogo';
 export * from './Drawer';
 export * from './EditProfileModal';
