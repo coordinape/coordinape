@@ -25,6 +25,7 @@ import {
   Panel,
   Tooltip,
 } from 'ui';
+import { TwoColumnLayout } from 'ui/layouts';
 
 import { IQueryEpoch, QueryFutureEpoch } from './getHistoryData';
 
@@ -41,6 +42,14 @@ const schema = z
   .object({
     start_date: z.string(),
     repeat: EpochRepeatEnum,
+    description: z
+      .string()
+      .refine(val => val.trim().length >= 10, {
+        message: 'Description should be at least 10 characters long',
+      })
+      .refine(val => val.length < 40, {
+        message: 'Description length should not exceed 40 characters',
+      }),
     days: z
       .number()
       .refine(n => n >= 1, { message: 'Must be at least one day.' })
@@ -269,6 +278,7 @@ const EpochForm = ({
       start_date:
         source?.epoch?.start_date ??
         DateTime.now().setZone().plus({ days: 1 }).toISO(),
+      description: source.epoch?.description ?? '',
     },
   });
 
@@ -285,11 +295,13 @@ const EpochForm = ({
         : source?.epoch?.repeat === 1
         ? 'weekly'
         : 'none',
+    description: source?.epoch?.description ?? '',
   });
   const extraErrors = useRef(false);
 
   useEffect(() => {
     watch(data => {
+      console.log('dddd');
       const value: SafeParseReturnType<epochFormSchema, epochFormSchema> =
         getZodParser(source, currentEpoch?.id).safeParse(data);
       if (!value.success) {
@@ -368,35 +380,36 @@ const EpochForm = ({
           </Flex>
         </Flex>
         <Panel nested css={{ mt: '$md' }}>
-          <Flex column>
-            <Text h3 semibold>
-              Epoch Timing
-            </Text>
-            <Text p size="small" css={{ mt: '$md' }}>
-              An Epoch is a period of time where circle members contribute value
-              & allocate {'GIVE'} tokens to one another.{' '}
-              <span>
-                <Link
-                  href="https://docs.coordinape.com/get-started/epochs/create-an-epoch"
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  Learn More
-                </Link>
-              </span>
-            </Text>
-          </Flex>
-          <Box
-            css={{
-              display: 'grid',
-              gridTemplateColumns: '3fr 1fr',
-              mt: '$1xl',
-              gap: '$2xl',
-              '@sm': { gridTemplateColumns: '1fr' },
-            }}
-          >
+          <TwoColumnLayout>
             <Flex column>
-              <Flex css={{ flexWrap: 'wrap', gap: '$md' }}>
+              <Text h3 semibold>
+                Epoch Settings
+              </Text>
+              <Text p size="small" css={{ mt: '$sm ' }}>
+                An Epoch is a period of time where circle members contribute
+                value & allocate {'GIVE'} tokens to one another.{' '}
+                <span>
+                  <Link
+                    href="https://docs.coordinape.com/get-started/epochs/create-an-epoch"
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    Learn More
+                  </Link>
+                </span>
+              </Text>
+            </Flex>
+            <FormInputField
+              id="description"
+              name="description"
+              defaultValue=""
+              control={control}
+              label="DESCRIPTION"
+              infoTooltip="A brief description of this epoch"
+            />
+            <Flex column css={{ gap: '$lg' }}>
+              <Text h3>Epoch Timing</Text>
+              <Flex css={{ gap: '$xs' }}>
                 <Flex
                   column
                   alignItems="start"
@@ -481,28 +494,28 @@ const EpochForm = ({
                   </Flex>
                 </Flex>
               </Flex>
-              <Flex column css={{ mt: '$lg ' }}>
-                <FormRadioGroup
-                  name="repeat"
-                  control={control}
-                  defaultValue={
-                    source?.epoch?.repeat === 2
-                      ? 'monthly'
-                      : source?.epoch?.repeat === 1
-                      ? 'weekly'
-                      : 'none'
-                  }
-                  options={repeat}
-                  label="Type"
-                  infoTooltip="Decide whether the epoch will repeat monthly or weekly or will not repeat after ending"
-                />
-              </Flex>
-              <Text p css={{ mt: '$xl' }}>
+              <FormRadioGroup
+                name="repeat"
+                control={control}
+                defaultValue={
+                  source?.epoch?.repeat === 2
+                    ? 'monthly'
+                    : source?.epoch?.repeat === 1
+                    ? 'weekly'
+                    : 'none'
+                }
+                options={repeat}
+                label="Type"
+                infoTooltip="Decide whether the epoch will repeat monthly or weekly or will not repeat after ending"
+              />
+            </Flex>
+            <Flex column>
+              {epochsPreview(watchFields.current)}
+              <Text p css={{ mt: '$lg' }}>
                 {summarizeEpoch(watchFields.current)}
               </Text>
             </Flex>
-            <Flex column>{epochsPreview(watchFields.current)}</Flex>
-          </Box>
+          </TwoColumnLayout>
           {!isEmpty(errors) && (
             <Box
               css={{
