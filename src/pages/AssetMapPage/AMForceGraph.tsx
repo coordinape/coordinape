@@ -13,7 +13,6 @@ import {
   useSetAmEgoAddress,
   AmContextDefault,
 } from 'recoilState/map';
-import { AVATAR_PLACEHOLDER } from 'utils/domain';
 
 import { IMapContext, IMapNodeFG, IMapEdgeFG } from 'types';
 
@@ -31,7 +30,6 @@ const useStyles = makeStyles(() => ({
     bottom: 0,
   },
 }));
-
 const COLOR_NODE_HIGHLIGHT = '#13a2cc';
 const COLOR_NODE_MORE_HIGHLIGHT = '#44cccc';
 const COLOR_GIVE = '#00ce2c';
@@ -92,11 +90,6 @@ export const AMForceGraph = () => {
   useEffect(() => {
     // These can't be stored in recoil because:
     // Type 'HTMLImageElement' does not satisfy the constraint 'SerializableParam'.
-    if (!images.current.has(AVATAR_PLACEHOLDER)) {
-      const fallbackAvatar = new Image();
-      fallbackAvatar.src = AVATAR_PLACEHOLDER;
-      images.current.set('', fallbackAvatar);
-    }
     recoilMapGraphData.nodes.forEach(node => {
       const path = (node as IMapNodeFG).img;
       if (path && !images.current.has(path)) {

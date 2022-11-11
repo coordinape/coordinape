@@ -82,6 +82,8 @@ export function useVaults({
           return v;
         });
       },
+      refetchOnWindowFocus: false,
+      notifyOnChangeProps: ['data'],
     }
   );
 }

@@ -23,7 +23,7 @@ import {
   Edit,
 } from 'icons/__generated';
 import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
-import { Panel, Text, Box, Modal, Button, Flex } from 'ui';
+import { Panel, Text, Box, Modal, Button, Flex, MarkdownPreview } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { SavingIndicator, SaveState } from 'ui/SavingIndicator';
 
@@ -106,6 +106,8 @@ const ContributionsPage = () => {
     useState<CurrentContribution | null>(null);
   const [currentIntContribution, setCurrentIntContribution] =
     useState<CurrentIntContribution | null>(null);
+
+  const [showMarkdown, setShowMarkDown] = useState<boolean>(true);
 
   const queryClient = useQueryClient();
 
@@ -344,6 +346,7 @@ const ContributionsPage = () => {
 
   const closeDrawer = () => {
     setModalOpen(false);
+    setShowMarkDown(true);
     setCurrentContribution(null);
     setCurrentIntContribution(null);
     resetCreateMutation();
@@ -377,6 +380,7 @@ const ContributionsPage = () => {
               resetField('description', { defaultValue: '' });
               resetCreateMutation();
               setModalOpen(true);
+              setShowMarkDown(false);
             }}
           >
             Add Contribution
@@ -537,41 +541,73 @@ const ContributionsPage = () => {
                   </Text>
                 </Flex>
                 {isEpochCurrentOrLater(currentContribution.epoch) ? (
-                  <FormInputField
-                    id="description"
-                    name="description"
-                    control={control}
-                    defaultValue={currentContribution.contribution.description}
-                    areaProps={{
-                      autoFocus: true,
-                      onChange: e => {
-                        setValue('description', e.target.value);
-                        // Don't schedule a new save if a createContribution
-                        // request is inflight, since this will create
-                        // a duplicate contribution
-                        if (
-                          !(
-                            currentContribution.contribution.id ===
-                              NEW_CONTRIBUTION_ID &&
-                            saveState[currentContribution.contribution.id] ==
-                              'saving'
+                  showMarkdown ? (
+                    <Box
+                      tabIndex={0}
+                      css={{ borderRadius: '$3' }}
+                      onClick={() => {
+                        setShowMarkDown(false);
+                      }}
+                      onKeyDown={e => {
+                        e.stopPropagation();
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          setShowMarkDown(false);
+                        }
+                      }}
+                    >
+                      <MarkdownPreview source={descriptionField.value} />
+                    </Box>
+                  ) : (
+                    <FormInputField
+                      id="description"
+                      name="description"
+                      control={control}
+                      defaultValue={
+                        currentContribution.contribution.description
+                      }
+                      areaProps={{
+                        autoFocus: true,
+                        onChange: e => {
+                          setValue('description', e.target.value);
+                          // Don't schedule a new save if a createContribution
+                          // request is inflight, since this will create
+                          // a duplicate contribution
+                          if (
+                            !(
+                              currentContribution.contribution.id ===
+                                NEW_CONTRIBUTION_ID &&
+                              saveState[currentContribution.contribution.id] ==
+                                'saving'
+                            )
                           )
-                        )
-                          updateSaveStateForContribution(
-                            currentContribution.contribution.id,
-                            'buffering'
+                            updateSaveStateForContribution(
+                              currentContribution.contribution.id,
+                              'buffering'
+                            );
+                        },
+                        onBlur: () => {
+                          if (descriptionField.value.length > 0)
+                            setShowMarkDown(true);
+                        },
+                        onFocus: e => {
+                          e.currentTarget.setSelectionRange(
+                            e.currentTarget.value.length,
+                            e.currentTarget.value.length
                           );
-                      },
-                    }}
-                    disabled={!isEpochCurrentOrLater(currentContribution.epoch)}
-                    placeholder="What have you been working on?"
-                    textArea
-                  />
+                        },
+                      }}
+                      disabled={
+                        !isEpochCurrentOrLater(currentContribution.epoch)
+                      }
+                      placeholder="What have you been working on?"
+                      textArea
+                    />
+                  )
                 ) : (
                   <Panel nested>
-                    <Text p>
-                      {currentContribution.contribution.description}
-                    </Text>
+                    <MarkdownPreview
+                      source={currentContribution.contribution.description}
+                    />
                   </Panel>
                 )}
                 <Flex css={{ justifyContent: 'flex-end', mt: '$md' }}>
@@ -761,6 +797,8 @@ const ContributionList = ({
               onKeyDown={e => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   setActiveContribution(epoch, c, undefined);
+                  e.preventDefault();
+                  e.stopPropagation();
                 }
               }}
             >
@@ -795,6 +833,13 @@ const ContributionList = ({
               nested
               onClick={() => {
                 setActiveContribution(epoch, undefined, c);
+              }}
+              onKeyDown={e => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  setActiveContribution(epoch, undefined, c);
+                  e.preventDefault();
+                  e.stopPropagation();
+                }
               }}
             >
               <Text
