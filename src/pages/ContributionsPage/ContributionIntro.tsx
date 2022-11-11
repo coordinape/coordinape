@@ -1,7 +1,7 @@
 import React from 'react';
 
 import HintBanner from '../../components/HintBanner';
-import { Box, Button, Link, Text } from '../../ui';
+import { Flex, Button, Text } from 'ui';
 
 export const ContributionIntro = () => {
   return (
@@ -12,38 +12,32 @@ export const ContributionIntro = () => {
         your Epoch Statement. Contributions can also be automatically populated
         from other sites such as Dework and Wonder.
       </Text>
-      <Box>
-        <Link
+      <Flex>
+        <Button
+          as="a"
           href={
             'https://docs.coordinape.com/get-started/get-started/new-coordinape-admins/record-contributions#contributions'
           }
           target="_blank"
           rel="noreferrer"
+          color="primary"
+          outlined
+          css={{ mt: '$md', mr: '$md' }}
         >
-          <Button
-            color="primary"
-            outlined
-            inline
-            css={{ mt: '$md', mr: '$md' }}
-          >
-            Contributions Docs
-          </Button>
-        </Link>
-        <Link
+          Contributions Docs
+        </Button>
+        <Button
+          as="a"
           href={'https://docs.coordinape.com/info/integrations'}
           target="_blank"
           rel="noreferrer"
+          color="primary"
+          outlined
+          css={{ mt: '$md', mr: '$md' }}
         >
-          <Button
-            color="primary"
-            outlined
-            inline
-            css={{ mt: '$md', mr: '$md' }}
-          >
-            Integrations Docs
-          </Button>
-        </Link>
-      </Box>
+          Integrations Docs
+        </Button>
+      </Flex>
     </HintBanner>
   );
 };
