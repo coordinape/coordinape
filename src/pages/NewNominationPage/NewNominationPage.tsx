@@ -25,8 +25,8 @@ import {
   Tooltip,
   BackButton,
   TextArea,
+  Link,
 } from 'ui';
-import HintButton from 'ui/HintButton';
 import { SingleColumnLayout } from 'ui/layouts';
 
 const schema = z
@@ -307,13 +307,15 @@ export const NewNominationPage = () => {
             </Panel>
           )}
           <Box css={{ mt: '$md' }}>
-            <HintButton
+            <Link
+              target="_blank"
+              rel="noreferrer"
               href={
                 'https://docs.coordinape.com/get-started/members/vouching-new-members'
               }
             >
               Documentation: Learn More About Vouching
-            </HintButton>
+            </Link>
           </Box>
         </Panel>
       </Form>
