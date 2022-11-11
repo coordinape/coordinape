@@ -27,11 +27,15 @@ import { Panel, Text, Box, Modal, Button, Flex, MarkdownPreview } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { SavingIndicator, SaveState } from 'ui/SavingIndicator';
 
+import { ContributionIntro } from './ContributionIntro';
+import { ContributionPanel } from './ContributionPanel';
+import { ContributionRow } from './ContributionRow';
 import {
   deleteContributionMutation,
   updateContributionMutation,
   createContributionMutation,
 } from './mutations';
+import { PlaceholderContributions } from './PlaceholderContributions';
 import {
   getContributionsAndEpochs,
   ContributionsAndEpochs,
@@ -387,6 +391,9 @@ const ContributionsPage = () => {
           </Button>
         </Flex>
         <Text p>What have you been working on?</Text>
+        {(memoizedEpochData.contributions || []).length >= 0 && (
+          <ContributionIntro />
+        )}
         <EpochGroup
           contributions={memoizedEpochData.contributions || []}
           epochs={memoizedEpochData.epochs || []}
@@ -718,7 +725,7 @@ const EpochGroup = React.memo(function EpochGroup({
               {getEpochLabel(epoch)}
             </Text>
           </Box>
-          <Panel css={{ gap: '$md', borderRadius: '$4', mt: '$lg' }}>
+          <ContributionPanel>
             <ContributionList
               contributions={contributions.filter(
                 contributionFilterFn({
@@ -731,7 +738,11 @@ const EpochGroup = React.memo(function EpochGroup({
               epoch={epoch}
               userAddress={userAddress}
             />
-          </Panel>
+          </ContributionPanel>
+
+          {contributions.length == 0 && idx == 0 && (
+            <PlaceholderContributions />
+          )}
         </Box>
       ))}
     </Flex>
@@ -771,26 +782,11 @@ const ContributionList = ({
       {contributions.length || integrationContributions?.length ? (
         <>
           {contributions.map(c => (
-            <Panel
-              tabIndex={0}
+            <ContributionRow
               key={c.id}
-              css={{
-                border:
-                  currentContribution?.contribution.id === c.id
-                    ? '2px solid $link'
-                    : '2px solid $border',
-                cursor: 'pointer',
-                transition: 'background-color 0.3s, border-color 0.3s',
-                background:
-                  currentContribution?.contribution.id === c.id
-                    ? '$highlight'
-                    : 'white',
-                '&:hover': {
-                  background: '$highlight',
-                  border: '2px solid $link',
-                },
-              }}
-              nested
+              active={currentContribution?.contribution.id === c.id}
+              description={c.description}
+              datetime_created={c.datetime_created}
               onClick={() => {
                 setActiveContribution(epoch, c, undefined);
               }}
@@ -801,22 +797,7 @@ const ContributionList = ({
                   e.stopPropagation();
                 }
               }}
-            >
-              <Flex css={{ justifyContent: 'space-between' }}>
-                <Text
-                  ellipsis
-                  css={{
-                    mr: '10px',
-                    maxWidth: '60em',
-                  }}
-                >
-                  {c.description}
-                </Text>
-                <Text variant="label" css={{ whiteSpace: 'nowrap' }}>
-                  {DateTime.fromISO(c.datetime_created).toFormat('LLL dd')}
-                </Text>
-              </Flex>
-            </Panel>
+            />
           ))}
           {integrationContributions?.map(c => (
             <Panel
