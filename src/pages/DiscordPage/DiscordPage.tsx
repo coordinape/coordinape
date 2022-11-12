@@ -1,23 +1,37 @@
 import { useState } from 'react';
 
 import { client } from 'lib/gql/client';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
-import { useMyProfile } from 'recoilState';
 import { Box, Button, CenteredBox, Flex, Text } from 'ui';
 
+type LinkStatus = 'loading' | 'detached' | 'linking' | 'linked';
+
 export const DiscordPage = () => {
-  const snowflake = useParams().snowflake ?? '-1';
-  const [isLinking, setIsLinking] = useState(false);
-  const { id } = useMyProfile();
+  const { search } = useLocation();
+  const parameters = new URLSearchParams(search);
+
+  const [linkStatus, setLinkStatus] = useState<LinkStatus>('detached');
+
+  // TODO Get link status of the user before attempt to link
 
   const handleLinkDiscordUser = async () => {
     try {
-      setIsLinking(true);
-      await linkDiscordUser({ discord_id: snowflake });
-      setIsLinking(false);
+      setLinkStatus('linking');
+      const code = parameters.get('code');
+      if (!code) {
+        throw new Error('Discord code is required');
+      }
+
+      const response = await fetch(
+        '/api/discord/oauth?' + new URLSearchParams({ code })
+      );
+      const discordUser = await response.json();
+      await linkDiscordUser({ discord_id: discordUser.id });
+
+      setLinkStatus('linked');
     } catch (error) {
-      setIsLinking(false);
+      setLinkStatus('detached');
       console.error('handleLinkDiscordUser', error);
     }
   };
@@ -28,26 +42,41 @@ export const DiscordPage = () => {
         Link Coordinape &harr; Discord
       </Text>
       <Box css={{ pt: '$md', color: '$text' }}>
-        {`Clicking the button below will link your profileId ${id} with your Discord's snowflake ${snowflake}`}
+        {`Clicking the button below will link coordinape to discord`}
       </Box>
       <Flex css={{ justifyContent: 'center', mt: '$md' }}>
         <Button
           size="large"
           color="primary"
-          disabled={isLinking}
+          disabled={linkStatus !== 'detached'}
           onClick={handleLinkDiscordUser}
         >
-          {isLinking ? 'Linking...' : 'Link'}
+          {getLinkStatusLabel(linkStatus)}
         </Button>
       </Flex>
     </CenteredBox>
   );
 };
 
-const linkDiscordUser = (payload: { discord_id: string }) =>
-  client.mutate(
+const linkDiscordUser = async (payload: {
+  discord_id: string;
+}): Promise<void> => {
+  await client.mutate(
     { linkDiscordUser: [{ payload }, { id: true }] },
     { operationName: 'linkDiscordUser' }
   );
+};
+
+const getLinkStatusLabel = (linkStatus: LinkStatus): string => {
+  if (linkStatus === 'linking') {
+    return 'Linking';
+  }
+
+  if (linkStatus === 'linked') {
+    return 'Linked';
+  }
+
+  return 'Link';
+};
 
 export default DiscordPage;

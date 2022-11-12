@@ -3,8 +3,6 @@ import { URLSearchParams } from 'url';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { request } from 'undici';
 
-import { adminClient } from '../api-lib/gql/adminClient';
-
 type AccessTokenResponse = {
   access_token: string;
   expires_in: number;
@@ -19,47 +17,47 @@ type DiscordMember = {
   discriminator: string;
 };
 
-export default async function handler(
-  { query }: VercelRequest,
-  res: VercelResponse
-) {
-  const { code } = query;
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  const { code } = req.query;
 
-  if (code) {
-    try {
-      const tokenResponseData = await request(
-        'https://discord.com/api/oauth2/token',
-        {
-          method: 'POST',
-          body: new URLSearchParams({
-            client_id: process.env.DISCORD_BOT_CLIENT_ID,
-            client_secret: process.env.DISCORD_BOT_CLIENT_SECRET,
-            code,
-            grant_type: 'authorization_code',
-            redirect_uri: process.env.DISCORD_BOT_REDIRECT_URI,
-            scope: 'identify',
-          }).toString(),
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-        }
-      );
+  if (!code) {
+    console.error('code is required');
+  }
 
-      const oauthData: AccessTokenResponse =
-        await tokenResponseData.body.json();
+  // TODO Check if profile is already linked
 
-      const user = await getDiscordMember(oauthData);
+  try {
+    const tokenResponseData = await request(
+      'https://discord.com/api/oauth2/token',
+      {
+        method: 'POST',
+        body: new URLSearchParams({
+          client_id: process.env.DISCORD_BOT_CLIENT_ID,
+          client_secret: process.env.DISCORD_BOT_CLIENT_SECRET,
+          code,
+          grant_type: 'authorization_code',
+          redirect_uri: process.env.DISCORD_BOT_REDIRECT_URI,
+          scope: 'identify',
+        }).toString(),
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      }
+    );
 
-      await linkDiscordUser({ discord_id: user.id });
+    const oauthData: AccessTokenResponse = await tokenResponseData.body.json();
 
-      res.status(200).send(user);
-    } catch (error) {
-      console.error(error);
-    }
+    // TODO Save OAuth data (access_token, token_type, expires_in, refresh_token, scope)
+
+    const user = await getDiscordMember(oauthData);
+
+    res.status(200).send(user);
+  } catch (error) {
+    console.error(error);
   }
 }
 
-async function getDiscordMember({
+export async function getDiscordMember({
   token_type,
   access_token,
 }: AccessTokenResponse): Promise<DiscordMember> {
@@ -74,11 +72,4 @@ async function getDiscordMember({
   } catch (error: any) {
     throw new Error(error);
   }
-}
-
-async function linkDiscordUser(payload: { discord_id: string }) {
-  adminClient.mutate(
-    { linkDiscordUser: [{ payload }, { id: true }] },
-    { operationName: 'linkDiscordUser' }
-  );
 }

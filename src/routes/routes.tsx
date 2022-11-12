@@ -82,8 +82,7 @@ export const AppRoutes = () => {
       <Route path={paths.circles} element={<CirclesPage />} />
       <Route path={paths.createCircle} element={<CreateCirclePage />} />
       <Route path={paths.developers} element={<DevPortalPage />} />
-      <Route path={paths.discordOAuth} element={<DiscordPage />} />
-      <Route path={paths.discord(':snowflake')} element={<DiscordPage />} />
+      <Route path={paths.discordLink} element={<DiscordPage />} />
       <Route path={paths.home} element={<DefaultPage />} />
 
       <Route path={paths.organization(':orgId')}>

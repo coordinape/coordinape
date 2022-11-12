@@ -51,7 +51,7 @@ app.get('/api/hasura/remote/vaults', tf(vaults));
 app.post('/api/hasura/remote/vaults', tf(vaults));
 app.post('/api/login', tf(login));
 app.get('/api/time', tf(time));
-app.get('/discord/oauth', tf(discord));
+app.get('/api/discord/oauth', tf(discord));
 
 // return empty analytics code
 app.get('/stats/js/script.js', (req, res) => {
