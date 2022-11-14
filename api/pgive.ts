@@ -106,6 +106,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               usersData[g.recipient_id.toString()] = {
                 userId: g.recipient_id,
                 name: g.recipient.name,
+                address: g.recipient_address,
                 givesReceived: g.tokens,
                 epochTotalGives: totalTokensSent,
                 pGive: 0,
@@ -162,6 +163,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const headers = [
     'userId',
     'userName',
+    'address',
     'month',
     'year',
     'epochId',
@@ -184,6 +186,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       csvText += `${[
         u.userId,
         u.name.replace(/,/g, ''),
+        u.address,
         u.month,
         u.year,
         u.epochId,
@@ -211,6 +214,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 interface UserData {
   userId: number;
   name: string;
+  address: string;
   month: number;
   year: number;
   epochId: number;
