@@ -617,7 +617,10 @@ const ContributionsPage = () => {
                     />
                   </Panel>
                 )}
-                <Flex css={{ justifyContent: 'flex-end', mt: '$md' }}>
+                <Text size="small" color="neutral" css={{ ml: '$xs' }}>
+                  Markdown Supported
+                </Text>
+                <Flex css={{ justifyContent: 'flex-end', mt: '$xs' }}>
                   <Button
                     color="primary"
                     onClick={() => {
