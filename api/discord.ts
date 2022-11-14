@@ -45,8 +45,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const oauthData: AccessTokenResponse = await tokenResponseData.body.json();
 
-    // TODO Save OAuth data (access_token, token_type, expires_in, refresh_token, scope)
-
     const user = await getDiscordMember(oauthData);
 
     res.status(200).send(user);
