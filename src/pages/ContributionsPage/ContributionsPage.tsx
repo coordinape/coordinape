@@ -538,8 +538,16 @@ const ContributionsPage = () => {
                     alignItems: 'flex-end',
                   }}
                 >
-                  <Text inline semibold size="medium">
+                  <Text inline semibold size="large">
                     Contribution
+                    <Text
+                      inline
+                      size="small"
+                      color="neutral"
+                      css={{ ml: '$sm' }}
+                    >
+                      Markdown Supported
+                    </Text>
                   </Text>
                   <Text variant="label">
                     {DateTime.fromISO(
@@ -617,10 +625,7 @@ const ContributionsPage = () => {
                     />
                   </Panel>
                 )}
-                <Text size="small" color="neutral" css={{ ml: '$xs' }}>
-                  Markdown Supported
-                </Text>
-                <Flex css={{ justifyContent: 'flex-end', mt: '$xs' }}>
+                <Flex css={{ justifyContent: 'flex-end', mt: '$md' }}>
                   <Button
                     color="primary"
                     onClick={() => {
