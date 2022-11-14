@@ -43,13 +43,19 @@ const schema = z
     start_date: z.string(),
     repeat: EpochRepeatEnum,
     description: z
-      .string()
-      .refine(val => val.trim().length >= 10, {
-        message: 'Description should be at least 10 characters long',
-      })
-      .refine(val => val.length < 40, {
-        message: 'Description length should not exceed 40 characters',
-      }),
+      .optional(
+        z.nullable(
+          z
+            .string()
+            .refine(val => val.trim().length >= 10, {
+              message: 'Description should be at least 10 characters long',
+            })
+            .refine(val => val.length < 100, {
+              message: 'Description length should not exceed 100 characters',
+            })
+        )
+      )
+      .transform(val => (val === '' ? null : val)),
     days: z
       .number()
       .refine(n => n >= 1, { message: 'Must be at least one day.' })
@@ -284,7 +290,7 @@ const EpochForm = ({
       start_date:
         source?.epoch?.start_date ??
         DateTime.now().setZone().plus({ days: 1 }).toISO(),
-      description: source.epoch?.description ?? '',
+      description: source.epoch?.description,
     },
   });
 
@@ -301,7 +307,7 @@ const EpochForm = ({
         : source?.epoch?.repeat === 1
         ? 'weekly'
         : 'none',
-    description: source?.epoch?.description ?? '',
+    description: source?.epoch?.description,
   });
   const extraErrors = useRef(false);
 
@@ -334,9 +340,11 @@ const EpochForm = ({
     setSubmitting(true);
     (source?.epoch
       ? updateEpoch(source.epoch.id, {
-          ...data,
+          days: data.days,
+          start_date: data.start_date,
           repeat:
             data.repeat === 'weekly' ? 1 : data.repeat === 'monthly' ? 2 : 0,
+          ...(data.description !== null && { description: data.description }),
         })
       : createEpoch({
           ...data,
@@ -409,7 +417,7 @@ const EpochForm = ({
             <FormInputField
               id="description"
               name="description"
-              defaultValue=""
+              defaultValue={source.epoch?.description}
               control={control}
               label="DESCRIPTION"
               infoTooltip="A brief description of this epoch"

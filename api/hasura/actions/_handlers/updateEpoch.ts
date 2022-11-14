@@ -53,6 +53,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
           end_date: true,
           repeat: true,
           repeat_day_of_month: true,
+          description: true,
         },
       ],
     },

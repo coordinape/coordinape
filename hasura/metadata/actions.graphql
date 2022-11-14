@@ -192,7 +192,7 @@ input CreateEpochInput {
   days: Int!
   repeat: Int!
   grant: Float
-  description: String!
+  description: String
 }
 
 input UpdateTeammatesInput {
@@ -233,7 +233,7 @@ input UpdateEpochInput {
   days: Int!
   repeat: Int!
   grant: Float
-  description: String!
+  description: String
 }
 
 input Allocation {
