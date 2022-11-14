@@ -1132,7 +1132,6 @@ type circle_api_keys {
   """
   circle: circles!
   circle_id: bigint!
-  create_contributions: Boolean!
   create_vouches: Boolean!
 
   """
@@ -1144,7 +1143,6 @@ type circle_api_keys {
   hash: String!
   name: String!
   read_circle: Boolean!
-  read_contributions: Boolean!
   read_epochs: Boolean!
   read_member_profiles: Boolean!
   read_nominees: Boolean!
@@ -1232,7 +1230,6 @@ input circle_api_keys_bool_exp {
   _or: [circle_api_keys_bool_exp!]
   circle: circles_bool_exp
   circle_id: bigint_comparison_exp
-  create_contributions: Boolean_comparison_exp
   create_vouches: Boolean_comparison_exp
   createdByUser: users_bool_exp
   created_at: timestamptz_comparison_exp
@@ -1240,7 +1237,6 @@ input circle_api_keys_bool_exp {
   hash: String_comparison_exp
   name: String_comparison_exp
   read_circle: Boolean_comparison_exp
-  read_contributions: Boolean_comparison_exp
   read_epochs: Boolean_comparison_exp
   read_member_profiles: Boolean_comparison_exp
   read_nominees: Boolean_comparison_exp
@@ -1273,7 +1269,6 @@ input type for inserting data into table "circle_api_keys"
 input circle_api_keys_insert_input {
   circle: circles_obj_rel_insert_input
   circle_id: bigint
-  create_contributions: Boolean
   create_vouches: Boolean
   createdByUser: users_obj_rel_insert_input
   created_at: timestamptz
@@ -1281,7 +1276,6 @@ input circle_api_keys_insert_input {
   hash: String
   name: String
   read_circle: Boolean
-  read_contributions: Boolean
   read_epochs: Boolean
   read_member_profiles: Boolean
   read_nominees: Boolean
@@ -1376,7 +1370,6 @@ Ordering options when selecting data from "circle_api_keys".
 input circle_api_keys_order_by {
   circle: circles_order_by
   circle_id: order_by
-  create_contributions: order_by
   create_vouches: order_by
   createdByUser: users_order_by
   created_at: order_by
@@ -1412,11 +1405,6 @@ enum circle_api_keys_select_column {
   """
   column name
   """
-  create_contributions
-
-  """
-  column name
-  """
   create_vouches
 
   """
@@ -1443,11 +1431,6 @@ enum circle_api_keys_select_column {
   column name
   """
   read_circle
-
-  """
-  column name
-  """
-  read_contributions
 
   """
   column name

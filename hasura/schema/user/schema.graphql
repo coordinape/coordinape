@@ -781,7 +781,6 @@ type circle_api_keys {
   """
   circle: circles!
   circle_id: bigint!
-  create_contributions: Boolean!
   create_vouches: Boolean!
 
   """
@@ -793,7 +792,6 @@ type circle_api_keys {
   hash: String!
   name: String!
   read_circle: Boolean!
-  read_contributions: Boolean!
   read_epochs: Boolean!
   read_member_profiles: Boolean!
   read_nominees: Boolean!
@@ -836,7 +834,6 @@ input circle_api_keys_bool_exp {
   _or: [circle_api_keys_bool_exp!]
   circle: circles_bool_exp
   circle_id: bigint_comparison_exp
-  create_contributions: Boolean_comparison_exp
   create_vouches: Boolean_comparison_exp
   createdByUser: users_bool_exp
   created_at: timestamptz_comparison_exp
@@ -904,7 +901,6 @@ input circle_api_keys_order_by {
   hash: order_by
   name: order_by
   read_circle: order_by
-  read_contributions: order_by
   read_epochs: order_by
   read_member_profiles: order_by
   read_nominees: order_by
@@ -921,11 +917,6 @@ enum circle_api_keys_select_column {
   column name
   """
   circle_id
-
-  """
-  column name
-  """
-  create_contributions
 
   """
   column name
@@ -956,11 +947,6 @@ enum circle_api_keys_select_column {
   column name
   """
   read_circle
-
-  """
-  column name
-  """
-  read_contributions
 
   """
   column name
@@ -1037,14 +1023,12 @@ Initial value of the column from where the streaming should start
 """
 input circle_api_keys_stream_cursor_value_input {
   circle_id: bigint
-  create_contributions: Boolean
   create_vouches: Boolean
   created_at: timestamptz
   created_by: bigint
   hash: String
   name: String
   read_circle: Boolean
-  read_contributions: Boolean
   read_epochs: Boolean
   read_member_profiles: Boolean
   read_nominees: Boolean
@@ -2940,12 +2924,6 @@ type contributions {
   circle: circles!
   circle_id: bigint!
   created_at: timestamptz!
-
-  """
-  An object relationship
-  """
-  created_with_api_key: circle_api_keys
-  created_with_api_key_hash: String
   datetime_created: timestamptz!
   description: String!
   id: bigint!
@@ -3028,8 +3006,6 @@ input contributions_bool_exp {
   circle: circles_bool_exp
   circle_id: bigint_comparison_exp
   created_at: timestamptz_comparison_exp
-  created_with_api_key: circle_api_keys_bool_exp
-  created_with_api_key_hash: String_comparison_exp
   datetime_created: timestamptz_comparison_exp
   description: String_comparison_exp
   id: bigint_comparison_exp
@@ -3063,7 +3039,6 @@ aggregate max on columns
 type contributions_max_fields {
   circle_id: bigint
   created_at: timestamptz
-  created_with_api_key_hash: String
   datetime_created: timestamptz
   description: String
   id: bigint
@@ -3077,7 +3052,6 @@ order by max() on columns of table "contributions"
 input contributions_max_order_by {
   circle_id: order_by
   created_at: order_by
-  created_with_api_key_hash: order_by
   datetime_created: order_by
   description: order_by
   id: order_by
@@ -3091,7 +3065,6 @@ aggregate min on columns
 type contributions_min_fields {
   circle_id: bigint
   created_at: timestamptz
-  created_with_api_key_hash: String
   datetime_created: timestamptz
   description: String
   id: bigint
@@ -3105,7 +3078,6 @@ order by min() on columns of table "contributions"
 input contributions_min_order_by {
   circle_id: order_by
   created_at: order_by
-  created_with_api_key_hash: order_by
   datetime_created: order_by
   description: order_by
   id: order_by
@@ -3144,8 +3116,6 @@ input contributions_order_by {
   circle: circles_order_by
   circle_id: order_by
   created_at: order_by
-  created_with_api_key: circle_api_keys_order_by
-  created_with_api_key_hash: order_by
   datetime_created: order_by
   description: order_by
   id: order_by
@@ -3167,11 +3137,6 @@ enum contributions_select_column {
   column name
   """
   created_at
-
-  """
-  column name
-  """
-  created_with_api_key_hash
 
   """
   column name
@@ -3274,7 +3239,6 @@ Initial value of the column from where the streaming should start
 input contributions_stream_cursor_value_input {
   circle_id: bigint
   created_at: timestamptz
-  created_with_api_key_hash: String
   datetime_created: timestamptz
   description: String
   id: bigint
@@ -7772,7 +7736,7 @@ type query_root {
   fetch data from the table: "pending_vault_transactions" using primary key columns
   """
   pending_vault_transactions_by_pk(tx_hash: String!): pending_vault_transactions
-
+  price_per_share(chain_id: Int!, token_address: String): Float!
   """
   fetch data from the table: "profiles"
   """
@@ -11854,7 +11818,7 @@ type vaults {
   An object relationship
   """
   organization: organizations!
-
+  price_per_share: Float!
   """
   An object relationship
   """
