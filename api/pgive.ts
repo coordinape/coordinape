@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { DateTime, Settings } from 'luxon';
 
+import { order_by } from '../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../api-lib/gql/adminClient';
 import { uploadCsv } from '../api-lib/s3';
 import { Awaited } from '../api-lib/ts4.5shim';
@@ -246,6 +247,7 @@ const getCircleGifts = async (
       {
         limit: limit ? +limit : 250,
         offset: offset ? +offset : 0,
+        order_by: [{ id: order_by.asc }],
       },
       {
         id: true,

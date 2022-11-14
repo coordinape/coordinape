@@ -1,7 +1,11 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { DateTime, Settings } from 'luxon';
 
-import { ValueTypes } from '../../../api-lib/gql/__generated__/zeus';
+import {
+  ValueTypes,
+  GraphQLTypes,
+  order_by,
+} from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { Awaited } from '../../../api-lib/ts4.5shim';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
@@ -15,15 +19,19 @@ const MAX_ACTIVE_MONTH_BONUS = 96;
 const MAX_NOTE_BONUS_PER_USER = 30;
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  // console.log('cron Running');
-  // try {
-  const counter = 0;
-  const circles = await getCircleGifts();
+  let counter = 0;
+  const circles = await getCircleGifts('10000', '0');
   const ops: { [aliasKey: string]: ValueTypes['mutation_root'] } = {};
-  const epochBasedData: Record<number, Record<string, UserData>> = [];
-  circles.some(async circle => {
-    if (counter >= 200) return true;
-    if (circle.circle_pgives.length === 0 && circle.epochs.length) {
+  const epochBasedData: Record<
+    number,
+    Record<
+      string,
+      Omit<GraphQLTypes['member_epoch_pgives'], 'id' | '__typename'>
+    >
+  > = [];
+  circles.forEach(circle => {
+    if (counter >= 100) return true;
+    if (circle.epochs.length && !circle.epochs[0].processed) {
       let activeMonths = 0;
       const epochIndexed: Record<string, EpochIndexed> = {};
 
@@ -47,8 +55,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           epochIndexed[monthKey].epochs.push(epoch);
         });
 
-      const epochKeys = Object.keys(epochIndexed);
-      for (const key in epochKeys) {
+      for (const key in epochIndexed) {
         const epochs = epochIndexed[key].epochs;
         for (const eKey in epochs) {
           const epoch = epochs[eKey];
@@ -101,93 +108,51 @@ async function handler(req: VercelRequest, res: VercelResponse) {
             ? epoch.token_gifts.reduce((total, { tokens }) => total + tokens, 0)
             : 0;
 
-          const endDate = DateTime.fromISO(epoch.end_date);
-          const usersData: Record<string, UserData> = {};
-          const monthKey = `${epochEndDate.get('year')}-${endDate.get(
-            'month'
-          )}`;
-          const { insert_circle_pgives_one } = await adminClient.mutate(
-            {
-              insert_circle_pgives_one: [
-                {
-                  object: {
-                    circle_id: circle.id,
-                    month: epochEndDate.get('month'),
-                    year: epochEndDate.get('year'),
-                    active_months: epochIndexed[monthKey].activeMonths,
-                  },
-                },
-                { id: true },
-              ],
-            },
-            {
-              operationName: 'testtto',
-            }
-          );
+          const usersData: Record<
+            string,
+            Omit<GraphQLTypes['member_epoch_pgives'], 'id' | '__typename'>
+          > = {};
 
-          // ops[`e${epoch.id}_circle`] = {
-          //   insert_circle_pgives_one: [
-          //     {
-          //       object: {
-          //         circle_id: circle.id,
-          //       month: epochEndDate.get('month'),
-          //         year: epochEndDate.get('year'),
-          //         active_months: epochIndexed[monthKey].activeMonths,
-          //       },
-          //     },
-          //     { id: true}
-          //   ],
-          // };
-
-          if (insert_circle_pgives_one) {
-            ops[`e${epoch.id}_epoch`] = {
-              update_epochs_by_pk: [
-                {
-                  pk_columns: { id: epoch.id },
-                  _set: {
-                    pgive: potTotal,
-                    gives_receiver_base: baseValuePoints,
-                    active_months_bonus: activeMonthsBonusTotal,
-                    notes_bonus: notesBonusTotal,
-                    circle_pgives_id: insert_circle_pgives_one.id,
-                  },
+          ops[`e${epoch.id}_epoch`] = {
+            update_epochs_by_pk: [
+              {
+                pk_columns: { id: epoch.id },
+                _set: {
+                  pgive: potTotal,
+                  gives_receiver_base: baseValuePoints,
+                  active_months_bonus: activeMonthsBonusTotal,
+                  notes_bonus: notesBonusTotal,
+                  processed: true,
                 },
-                { __typename: true },
-              ],
-            };
-          }
+              },
+              { __typename: true },
+            ],
+          };
 
           /* tabulate user received GIVES in epoch */
           epoch.token_gifts.forEach(g => {
-            if (!(g.recipient_id.toString() in usersData)) {
-              usersData[g.recipient_id.toString()] = {
-                userId: g.recipient_id,
-                name: g.recipient.name,
-                givesReceived: g.tokens,
-                epochTotalGives: totalTokensSent,
-                pGive: 0,
-                normalizedPGive: 0,
-                circleId: circle.id,
-                circleName: circle.name,
-                normalizedEpochs: epochIndexed[key].epochs.map(e => e.id),
-                month: endDate.get('month'),
-                year: endDate.get('year'),
-                potTotal,
-                epochId: epoch.id,
-                givesReceiverBase: baseValuePoints,
-                activeMonthsBonus: activeMonthsBonusTotal,
-                notesBonusTotal: notesBonusTotal,
+            const strRecId = g.recipient_id.toString();
+            if (!(strRecId in usersData)) {
+              usersData[strRecId] = {
+                user_id: g.recipient_id,
+                gives_received: 0,
+                pgive: 0,
+                normalized_pgive: 0,
+                epoch_id: epoch.id,
               };
-            } else {
-              usersData[g.recipient_id].givesReceived += g.tokens;
             }
+
+            usersData[strRecId].gives_received += g.tokens;
           });
 
           /* Calculate pGive for epoch */
           Object.keys(usersData).forEach(uK => {
-            usersData[uK].pGive = usersData[uK].givesReceived
-              ? (usersData[uK].givesReceived / usersData[uK].epochTotalGives) *
-                usersData[uK].potTotal
+            usersData[uK].pgive = usersData[uK].gives_received
+              ? Math.round(
+                  (usersData[uK].gives_received / totalTokensSent) *
+                    potTotal *
+                    100
+                ) / 100
               : 0;
           });
           epochBasedData[epoch.id] = usersData;
@@ -195,23 +160,36 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
         /* Normalize the pGive if there is more than 1 epoch in that month */
 
-        epochIndexed[key].epochs.forEach(epoch => {
+        epochs.forEach(epoch => {
           Object.keys(epochBasedData[epoch.id]).forEach(recipientId => {
             let epochsTotalPGive = 0;
-            epochBasedData[epoch.id][recipientId].normalizedEpochs.forEach(
-              eId => {
-                epochsTotalPGive +=
-                  recipientId in epochBasedData[eId]
-                    ? epochBasedData[eId][recipientId].pGive
-                    : 0;
-              }
-            );
-            epochBasedData[epoch.id][recipientId].normalizedPGive =
-              epochsTotalPGive /
-              epochBasedData[epoch.id][recipientId].normalizedEpochs.length;
+            epochs.forEach(ep => {
+              epochsTotalPGive +=
+                recipientId in epochBasedData[ep.id]
+                  ? epochBasedData[ep.id][recipientId].pgive
+                  : 0;
+            });
+
+            ops[`e${epoch.id}_epoch_user${recipientId}`] = {
+              insert_member_epoch_pgives_one: [
+                {
+                  object: {
+                    epoch_id: epoch.id,
+                    user_id: Number(recipientId),
+                    pgive: epochBasedData[epoch.id][recipientId].pgive,
+                    gives_received:
+                      epochBasedData[epoch.id][recipientId].gives_received,
+                    normalized_pgive:
+                      Math.round(epochsTotalPGive / epochs.length) / 100,
+                  },
+                },
+                { __typename: true },
+              ],
+            };
           });
         });
       }
+      counter++;
     }
   });
 
@@ -277,45 +255,24 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   res.status(200).json({ message: 'yess' });
 }
 
-interface UserData {
-  userId: number;
-  name: string;
-  month: number;
-  year: number;
-  epochId: number;
-  circleId: number;
-  circleName: string;
-  givesReceived: number;
-  epochTotalGives: number;
-  pGive: number;
-  normalizedPGive: number;
-  normalizedEpochs: Array<number>;
-  potTotal: number;
-  givesReceiverBase: number;
-  activeMonthsBonus: number;
-  notesBonusTotal: number;
-}
-
 interface EpochIndexed {
   epochs: getCircleGiftsResult[0]['epochs'];
   activeMonths: number;
 }
 
 type getCircleGiftsResult = Awaited<ReturnType<typeof getCircleGifts>>;
-const getCircleGifts = async () => {
+const getCircleGifts = async (
+  limit: string | string[],
+  offset: string | string[]
+) => {
   const { circles } = await adminClient.query({
     circles: [
       {
-        first: 250,
-        offset: 250,
+        limit: limit ? +limit : 250,
+        offset: offset ? +offset : 0,
+        order_by: [{ id: order_by.asc }],
       },
       {
-        circle_pgives: [
-          {},
-          {
-            id: true,
-          },
-        ],
         id: true,
         name: true,
         epochs: [
@@ -327,6 +284,7 @@ const getCircleGifts = async () => {
           {
             id: true,
             end_date: true,
+            processed: true,
             token_gifts: [
               {},
               {

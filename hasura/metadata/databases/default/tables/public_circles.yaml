@@ -36,13 +36,6 @@ array_relationships:
         table:
           name: circle_metadata
           schema: public
-  - name: circle_pgives
-    using:
-      foreign_key_constraint_on:
-        column: circle_id
-        table:
-          name: circle_pgives
-          schema: public
   - name: contributions
     using:
       foreign_key_constraint_on:

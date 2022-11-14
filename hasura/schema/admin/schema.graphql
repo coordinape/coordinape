@@ -1132,6 +1132,7 @@ type circle_api_keys {
   """
   circle: circles!
   circle_id: bigint!
+  create_contributions: Boolean!
   create_vouches: Boolean!
 
   """
@@ -1143,6 +1144,7 @@ type circle_api_keys {
   hash: String!
   name: String!
   read_circle: Boolean!
+  read_contributions: Boolean!
   read_epochs: Boolean!
   read_member_profiles: Boolean!
   read_nominees: Boolean!
@@ -1230,6 +1232,7 @@ input circle_api_keys_bool_exp {
   _or: [circle_api_keys_bool_exp!]
   circle: circles_bool_exp
   circle_id: bigint_comparison_exp
+  create_contributions: Boolean_comparison_exp
   create_vouches: Boolean_comparison_exp
   createdByUser: users_bool_exp
   created_at: timestamptz_comparison_exp
@@ -1237,6 +1240,7 @@ input circle_api_keys_bool_exp {
   hash: String_comparison_exp
   name: String_comparison_exp
   read_circle: Boolean_comparison_exp
+  read_contributions: Boolean_comparison_exp
   read_epochs: Boolean_comparison_exp
   read_member_profiles: Boolean_comparison_exp
   read_nominees: Boolean_comparison_exp
@@ -1269,6 +1273,7 @@ input type for inserting data into table "circle_api_keys"
 input circle_api_keys_insert_input {
   circle: circles_obj_rel_insert_input
   circle_id: bigint
+  create_contributions: Boolean
   create_vouches: Boolean
   createdByUser: users_obj_rel_insert_input
   created_at: timestamptz
@@ -1276,6 +1281,7 @@ input circle_api_keys_insert_input {
   hash: String
   name: String
   read_circle: Boolean
+  read_contributions: Boolean
   read_epochs: Boolean
   read_member_profiles: Boolean
   read_nominees: Boolean
@@ -1344,6 +1350,18 @@ type circle_api_keys_mutation_response {
 }
 
 """
+input type for inserting object relation for remote table "circle_api_keys"
+"""
+input circle_api_keys_obj_rel_insert_input {
+  data: circle_api_keys_insert_input!
+
+  """
+  upsert condition
+  """
+  on_conflict: circle_api_keys_on_conflict
+}
+
+"""
 on_conflict condition type for table "circle_api_keys"
 """
 input circle_api_keys_on_conflict {
@@ -1358,6 +1376,7 @@ Ordering options when selecting data from "circle_api_keys".
 input circle_api_keys_order_by {
   circle: circles_order_by
   circle_id: order_by
+  create_contributions: order_by
   create_vouches: order_by
   createdByUser: users_order_by
   created_at: order_by
@@ -1365,6 +1384,7 @@ input circle_api_keys_order_by {
   hash: order_by
   name: order_by
   read_circle: order_by
+  read_contributions: order_by
   read_epochs: order_by
   read_member_profiles: order_by
   read_nominees: order_by
@@ -1388,6 +1408,11 @@ enum circle_api_keys_select_column {
   column name
   """
   circle_id
+
+  """
+  column name
+  """
+  create_contributions
 
   """
   column name
@@ -1418,6 +1443,11 @@ enum circle_api_keys_select_column {
   column name
   """
   read_circle
+
+  """
+  column name
+  """
+  read_contributions
 
   """
   column name
@@ -1455,12 +1485,14 @@ input type for updating data in table "circle_api_keys"
 """
 input circle_api_keys_set_input {
   circle_id: bigint
+  create_contributions: Boolean
   create_vouches: Boolean
   created_at: timestamptz
   created_by: bigint
   hash: String
   name: String
   read_circle: Boolean
+  read_contributions: Boolean
   read_epochs: Boolean
   read_member_profiles: Boolean
   read_nominees: Boolean
@@ -1537,12 +1569,14 @@ Initial value of the column from where the streaming should start
 """
 input circle_api_keys_stream_cursor_value_input {
   circle_id: bigint
+  create_contributions: Boolean
   create_vouches: Boolean
   created_at: timestamptz
   created_by: bigint
   hash: String
   name: String
   read_circle: Boolean
+  read_contributions: Boolean
   read_epochs: Boolean
   read_member_profiles: Boolean
   read_nominees: Boolean
@@ -1579,6 +1613,11 @@ enum circle_api_keys_update_column {
   """
   column name
   """
+  create_contributions
+
+  """
+  column name
+  """
   create_vouches
 
   """
@@ -1605,6 +1644,11 @@ enum circle_api_keys_update_column {
   column name
   """
   read_circle
+
+  """
+  column name
+  """
+  read_contributions
 
   """
   column name
@@ -2619,538 +2663,6 @@ input circle_metadata_variance_order_by {
 }
 
 """
-circle pgive pot allocation
-"""
-type circle_pgives {
-  active_months: Int!
-  circle_id: Int!
-  id: Int!
-  month: Int!
-  normalized_pgives: numeric!
-  year: Int!
-}
-
-"""
-aggregated selection of "circle_pgives"
-"""
-type circle_pgives_aggregate {
-  aggregate: circle_pgives_aggregate_fields
-  nodes: [circle_pgives!]!
-}
-
-"""
-aggregate fields of "circle_pgives"
-"""
-type circle_pgives_aggregate_fields {
-  avg: circle_pgives_avg_fields
-  count(columns: [circle_pgives_select_column!], distinct: Boolean): Int!
-  max: circle_pgives_max_fields
-  min: circle_pgives_min_fields
-  stddev: circle_pgives_stddev_fields
-  stddev_pop: circle_pgives_stddev_pop_fields
-  stddev_samp: circle_pgives_stddev_samp_fields
-  sum: circle_pgives_sum_fields
-  var_pop: circle_pgives_var_pop_fields
-  var_samp: circle_pgives_var_samp_fields
-  variance: circle_pgives_variance_fields
-}
-
-"""
-order by aggregate values of table "circle_pgives"
-"""
-input circle_pgives_aggregate_order_by {
-  avg: circle_pgives_avg_order_by
-  count: order_by
-  max: circle_pgives_max_order_by
-  min: circle_pgives_min_order_by
-  stddev: circle_pgives_stddev_order_by
-  stddev_pop: circle_pgives_stddev_pop_order_by
-  stddev_samp: circle_pgives_stddev_samp_order_by
-  sum: circle_pgives_sum_order_by
-  var_pop: circle_pgives_var_pop_order_by
-  var_samp: circle_pgives_var_samp_order_by
-  variance: circle_pgives_variance_order_by
-}
-
-"""
-input type for inserting array relation for remote table "circle_pgives"
-"""
-input circle_pgives_arr_rel_insert_input {
-  data: [circle_pgives_insert_input!]!
-
-  """
-  upsert condition
-  """
-  on_conflict: circle_pgives_on_conflict
-}
-
-"""
-aggregate avg on columns
-"""
-type circle_pgives_avg_fields {
-  active_months: Float
-  circle_id: Float
-  id: Float
-  month: Float
-  normalized_pgives: Float
-  year: Float
-}
-
-"""
-order by avg() on columns of table "circle_pgives"
-"""
-input circle_pgives_avg_order_by {
-  active_months: order_by
-  circle_id: order_by
-  id: order_by
-  month: order_by
-  normalized_pgives: order_by
-  year: order_by
-}
-
-"""
-Boolean expression to filter rows from the table "circle_pgives". All fields are combined with a logical 'AND'.
-"""
-input circle_pgives_bool_exp {
-  _and: [circle_pgives_bool_exp!]
-  _not: circle_pgives_bool_exp
-  _or: [circle_pgives_bool_exp!]
-  active_months: Int_comparison_exp
-  circle_id: Int_comparison_exp
-  id: Int_comparison_exp
-  month: Int_comparison_exp
-  normalized_pgives: numeric_comparison_exp
-  year: Int_comparison_exp
-}
-
-"""
-unique or primary key constraints on table "circle_pgives"
-"""
-enum circle_pgives_constraint {
-  """
-  unique or primary key constraint on columns "id"
-  """
-  circle_pgives_pkey
-}
-
-"""
-input type for incrementing numeric columns in table "circle_pgives"
-"""
-input circle_pgives_inc_input {
-  active_months: Int
-  circle_id: Int
-  id: Int
-  month: Int
-  normalized_pgives: numeric
-  year: Int
-}
-
-"""
-input type for inserting data into table "circle_pgives"
-"""
-input circle_pgives_insert_input {
-  active_months: Int
-  circle_id: Int
-  id: Int
-  month: Int
-  normalized_pgives: numeric
-  year: Int
-}
-
-"""
-aggregate max on columns
-"""
-type circle_pgives_max_fields {
-  active_months: Int
-  circle_id: Int
-  id: Int
-  month: Int
-  normalized_pgives: numeric
-  year: Int
-}
-
-"""
-order by max() on columns of table "circle_pgives"
-"""
-input circle_pgives_max_order_by {
-  active_months: order_by
-  circle_id: order_by
-  id: order_by
-  month: order_by
-  normalized_pgives: order_by
-  year: order_by
-}
-
-"""
-aggregate min on columns
-"""
-type circle_pgives_min_fields {
-  active_months: Int
-  circle_id: Int
-  id: Int
-  month: Int
-  normalized_pgives: numeric
-  year: Int
-}
-
-"""
-order by min() on columns of table "circle_pgives"
-"""
-input circle_pgives_min_order_by {
-  active_months: order_by
-  circle_id: order_by
-  id: order_by
-  month: order_by
-  normalized_pgives: order_by
-  year: order_by
-}
-
-"""
-response of any mutation on the table "circle_pgives"
-"""
-type circle_pgives_mutation_response {
-  """
-  number of rows affected by the mutation
-  """
-  affected_rows: Int!
-
-  """
-  data from the rows affected by the mutation
-  """
-  returning: [circle_pgives!]!
-}
-
-"""
-input type for inserting object relation for remote table "circle_pgives"
-"""
-input circle_pgives_obj_rel_insert_input {
-  data: circle_pgives_insert_input!
-
-  """
-  upsert condition
-  """
-  on_conflict: circle_pgives_on_conflict
-}
-
-"""
-on_conflict condition type for table "circle_pgives"
-"""
-input circle_pgives_on_conflict {
-  constraint: circle_pgives_constraint!
-  update_columns: [circle_pgives_update_column!]! = []
-  where: circle_pgives_bool_exp
-}
-
-"""
-Ordering options when selecting data from "circle_pgives".
-"""
-input circle_pgives_order_by {
-  active_months: order_by
-  circle_id: order_by
-  id: order_by
-  month: order_by
-  normalized_pgives: order_by
-  year: order_by
-}
-
-"""
-primary key columns input for table: circle_pgives
-"""
-input circle_pgives_pk_columns_input {
-  id: Int!
-}
-
-"""
-select columns of table "circle_pgives"
-"""
-enum circle_pgives_select_column {
-  """
-  column name
-  """
-  active_months
-
-  """
-  column name
-  """
-  circle_id
-
-  """
-  column name
-  """
-  id
-
-  """
-  column name
-  """
-  month
-
-  """
-  column name
-  """
-  normalized_pgives
-
-  """
-  column name
-  """
-  year
-}
-
-"""
-input type for updating data in table "circle_pgives"
-"""
-input circle_pgives_set_input {
-  active_months: Int
-  circle_id: Int
-  id: Int
-  month: Int
-  normalized_pgives: numeric
-  year: Int
-}
-
-"""
-aggregate stddev on columns
-"""
-type circle_pgives_stddev_fields {
-  active_months: Float
-  circle_id: Float
-  id: Float
-  month: Float
-  normalized_pgives: Float
-  year: Float
-}
-
-"""
-order by stddev() on columns of table "circle_pgives"
-"""
-input circle_pgives_stddev_order_by {
-  active_months: order_by
-  circle_id: order_by
-  id: order_by
-  month: order_by
-  normalized_pgives: order_by
-  year: order_by
-}
-
-"""
-aggregate stddev_pop on columns
-"""
-type circle_pgives_stddev_pop_fields {
-  active_months: Float
-  circle_id: Float
-  id: Float
-  month: Float
-  normalized_pgives: Float
-  year: Float
-}
-
-"""
-order by stddev_pop() on columns of table "circle_pgives"
-"""
-input circle_pgives_stddev_pop_order_by {
-  active_months: order_by
-  circle_id: order_by
-  id: order_by
-  month: order_by
-  normalized_pgives: order_by
-  year: order_by
-}
-
-"""
-aggregate stddev_samp on columns
-"""
-type circle_pgives_stddev_samp_fields {
-  active_months: Float
-  circle_id: Float
-  id: Float
-  month: Float
-  normalized_pgives: Float
-  year: Float
-}
-
-"""
-order by stddev_samp() on columns of table "circle_pgives"
-"""
-input circle_pgives_stddev_samp_order_by {
-  active_months: order_by
-  circle_id: order_by
-  id: order_by
-  month: order_by
-  normalized_pgives: order_by
-  year: order_by
-}
-
-"""
-Streaming cursor of the table "circle_pgives"
-"""
-input circle_pgives_stream_cursor_input {
-  """
-  Stream column input with initial value
-  """
-  initial_value: circle_pgives_stream_cursor_value_input!
-
-  """
-  cursor ordering
-  """
-  ordering: cursor_ordering
-}
-
-"""
-Initial value of the column from where the streaming should start
-"""
-input circle_pgives_stream_cursor_value_input {
-  active_months: Int
-  circle_id: Int
-  id: Int
-  month: Int
-  normalized_pgives: numeric
-  year: Int
-}
-
-"""
-aggregate sum on columns
-"""
-type circle_pgives_sum_fields {
-  active_months: Int
-  circle_id: Int
-  id: Int
-  month: Int
-  normalized_pgives: numeric
-  year: Int
-}
-
-"""
-order by sum() on columns of table "circle_pgives"
-"""
-input circle_pgives_sum_order_by {
-  active_months: order_by
-  circle_id: order_by
-  id: order_by
-  month: order_by
-  normalized_pgives: order_by
-  year: order_by
-}
-
-"""
-update columns of table "circle_pgives"
-"""
-enum circle_pgives_update_column {
-  """
-  column name
-  """
-  active_months
-
-  """
-  column name
-  """
-  circle_id
-
-  """
-  column name
-  """
-  id
-
-  """
-  column name
-  """
-  month
-
-  """
-  column name
-  """
-  normalized_pgives
-
-  """
-  column name
-  """
-  year
-}
-
-input circle_pgives_updates {
-  """
-  increments the numeric columns with given value of the filtered values
-  """
-  _inc: circle_pgives_inc_input
-
-  """
-  sets the columns of the filtered rows to the given values
-  """
-  _set: circle_pgives_set_input
-  where: circle_pgives_bool_exp!
-}
-
-"""
-aggregate var_pop on columns
-"""
-type circle_pgives_var_pop_fields {
-  active_months: Float
-  circle_id: Float
-  id: Float
-  month: Float
-  normalized_pgives: Float
-  year: Float
-}
-
-"""
-order by var_pop() on columns of table "circle_pgives"
-"""
-input circle_pgives_var_pop_order_by {
-  active_months: order_by
-  circle_id: order_by
-  id: order_by
-  month: order_by
-  normalized_pgives: order_by
-  year: order_by
-}
-
-"""
-aggregate var_samp on columns
-"""
-type circle_pgives_var_samp_fields {
-  active_months: Float
-  circle_id: Float
-  id: Float
-  month: Float
-  normalized_pgives: Float
-  year: Float
-}
-
-"""
-order by var_samp() on columns of table "circle_pgives"
-"""
-input circle_pgives_var_samp_order_by {
-  active_months: order_by
-  circle_id: order_by
-  id: order_by
-  month: order_by
-  normalized_pgives: order_by
-  year: order_by
-}
-
-"""
-aggregate variance on columns
-"""
-type circle_pgives_variance_fields {
-  active_months: Float
-  circle_id: Float
-  id: Float
-  month: Float
-  normalized_pgives: Float
-  year: Float
-}
-
-"""
-order by variance() on columns of table "circle_pgives"
-"""
-input circle_pgives_variance_order_by {
-  active_months: order_by
-  circle_id: order_by
-  id: order_by
-  month: order_by
-  normalized_pgives: order_by
-  year: order_by
-}
-
-"""
 columns and relationships of "circle_private"
 """
 type circle_private {
@@ -3895,66 +3407,6 @@ type circles {
   ): circle_metadata_aggregate!
 
   """
-  An array relationship
-  """
-  circle_pgives(
-    """
-    distinct select on columns
-    """
-    distinct_on: [circle_pgives_select_column!]
-
-    """
-    limit the number of rows returned
-    """
-    limit: Int
-
-    """
-    skip the first n rows. Use only with order_by
-    """
-    offset: Int
-
-    """
-    sort the rows by one or more columns
-    """
-    order_by: [circle_pgives_order_by!]
-
-    """
-    filter the rows returned
-    """
-    where: circle_pgives_bool_exp
-  ): [circle_pgives!]!
-
-  """
-  An aggregate relationship
-  """
-  circle_pgives_aggregate(
-    """
-    distinct select on columns
-    """
-    distinct_on: [circle_pgives_select_column!]
-
-    """
-    limit the number of rows returned
-    """
-    limit: Int
-
-    """
-    skip the first n rows. Use only with order_by
-    """
-    offset: Int
-
-    """
-    sort the rows by one or more columns
-    """
-    order_by: [circle_pgives_order_by!]
-
-    """
-    filter the rows returned
-    """
-    where: circle_pgives_bool_exp
-  ): circle_pgives_aggregate!
-
-  """
   An object relationship
   """
   circle_private: circle_private
@@ -4555,7 +4007,6 @@ input circles_bool_exp {
   auto_opt_out: Boolean_comparison_exp
   burns: burns_bool_exp
   circle_metadata: circle_metadata_bool_exp
-  circle_pgives: circle_pgives_bool_exp
   circle_private: circle_private_bool_exp
   contact: String_comparison_exp
   contributions: contributions_bool_exp
@@ -4620,7 +4071,6 @@ input circles_insert_input {
   auto_opt_out: Boolean
   burns: burns_arr_rel_insert_input
   circle_metadata: circle_metadata_arr_rel_insert_input
-  circle_pgives: circle_pgives_arr_rel_insert_input
   circle_private: circle_private_obj_rel_insert_input
   contact: String
   contributions: contributions_arr_rel_insert_input
@@ -4796,7 +4246,6 @@ input circles_order_by {
   auto_opt_out: order_by
   burns_aggregate: burns_aggregate_order_by
   circle_metadata_aggregate: circle_metadata_aggregate_order_by
-  circle_pgives_aggregate: circle_pgives_aggregate_order_by
   circle_private: circle_private_order_by
   contact: order_by
   contributions_aggregate: contributions_aggregate_order_by
@@ -5976,6 +5425,12 @@ type contributions {
   circle: circles!
   circle_id: bigint!
   created_at: timestamptz!
+
+  """
+  An object relationship
+  """
+  created_with_api_key: circle_api_keys
+  created_with_api_key_hash: String
   datetime_created: timestamptz!
   deleted_at: timestamptz
   description: String!
@@ -6071,6 +5526,8 @@ input contributions_bool_exp {
   circle: circles_bool_exp
   circle_id: bigint_comparison_exp
   created_at: timestamptz_comparison_exp
+  created_with_api_key: circle_api_keys_bool_exp
+  created_with_api_key_hash: String_comparison_exp
   datetime_created: timestamptz_comparison_exp
   deleted_at: timestamptz_comparison_exp
   description: String_comparison_exp
@@ -6106,6 +5563,8 @@ input contributions_insert_input {
   circle: circles_obj_rel_insert_input
   circle_id: bigint
   created_at: timestamptz
+  created_with_api_key: circle_api_keys_obj_rel_insert_input
+  created_with_api_key_hash: String
   datetime_created: timestamptz
   deleted_at: timestamptz
   description: String
@@ -6121,6 +5580,7 @@ aggregate max on columns
 type contributions_max_fields {
   circle_id: bigint
   created_at: timestamptz
+  created_with_api_key_hash: String
   datetime_created: timestamptz
   deleted_at: timestamptz
   description: String
@@ -6135,6 +5595,7 @@ order by max() on columns of table "contributions"
 input contributions_max_order_by {
   circle_id: order_by
   created_at: order_by
+  created_with_api_key_hash: order_by
   datetime_created: order_by
   deleted_at: order_by
   description: order_by
@@ -6149,6 +5610,7 @@ aggregate min on columns
 type contributions_min_fields {
   circle_id: bigint
   created_at: timestamptz
+  created_with_api_key_hash: String
   datetime_created: timestamptz
   deleted_at: timestamptz
   description: String
@@ -6163,6 +5625,7 @@ order by min() on columns of table "contributions"
 input contributions_min_order_by {
   circle_id: order_by
   created_at: order_by
+  created_with_api_key_hash: order_by
   datetime_created: order_by
   deleted_at: order_by
   description: order_by
@@ -6202,6 +5665,8 @@ input contributions_order_by {
   circle: circles_order_by
   circle_id: order_by
   created_at: order_by
+  created_with_api_key: circle_api_keys_order_by
+  created_with_api_key_hash: order_by
   datetime_created: order_by
   deleted_at: order_by
   description: order_by
@@ -6231,6 +5696,11 @@ enum contributions_select_column {
   column name
   """
   created_at
+
+  """
+  column name
+  """
+  created_with_api_key_hash
 
   """
   column name
@@ -6269,6 +5739,7 @@ input type for updating data in table "contributions"
 input contributions_set_input {
   circle_id: bigint
   created_at: timestamptz
+  created_with_api_key_hash: String
   datetime_created: timestamptz
   deleted_at: timestamptz
   description: String
@@ -6352,6 +5823,7 @@ Initial value of the column from where the streaming should start
 input contributions_stream_cursor_value_input {
   circle_id: bigint
   created_at: timestamptz
+  created_with_api_key_hash: String
   datetime_created: timestamptz
   deleted_at: timestamptz
   description: String
@@ -6391,6 +5863,11 @@ enum contributions_update_column {
   column name
   """
   created_at
+
+  """
+  column name
+  """
+  created_with_api_key_hash
 
   """
   column name
@@ -7529,12 +7006,6 @@ type epochs {
   """
   circle: circles
   circle_id: Int!
-
-  """
-  An object relationship
-  """
-  circle_pgive: circle_pgives
-  circle_pgives_id: Int
   created_at: timestamp!
   days: Int
 
@@ -7728,6 +7199,7 @@ type epochs {
   notified_start: timestamp
   number: Int
   pgive: numeric!
+  processed: Boolean!
   regift_days: Int!
   repeat: Int!
   repeat_day_of_month: Int!
@@ -7855,7 +7327,6 @@ aggregate avg on columns
 type epochs_avg_fields {
   active_months_bonus: Float
   circle_id: Float
-  circle_pgives_id: Float
   days: Float
   gives_receiver_base: Float
   grant: Float
@@ -7874,7 +7345,6 @@ order by avg() on columns of table "epoches"
 input epochs_avg_order_by {
   active_months_bonus: order_by
   circle_id: order_by
-  circle_pgives_id: order_by
   days: order_by
   gives_receiver_base: order_by
   grant: order_by
@@ -7898,8 +7368,6 @@ input epochs_bool_exp {
   burns: burns_bool_exp
   circle: circles_bool_exp
   circle_id: Int_comparison_exp
-  circle_pgive: circle_pgives_bool_exp
-  circle_pgives_id: Int_comparison_exp
   created_at: timestamp_comparison_exp
   days: Int_comparison_exp
   distributions: distributions_bool_exp
@@ -7916,6 +7384,7 @@ input epochs_bool_exp {
   notified_start: timestamp_comparison_exp
   number: Int_comparison_exp
   pgive: numeric_comparison_exp
+  processed: Boolean_comparison_exp
   regift_days: Int_comparison_exp
   repeat: Int_comparison_exp
   repeat_day_of_month: Int_comparison_exp
@@ -7940,7 +7409,6 @@ input type for incrementing numeric columns in table "epoches"
 input epochs_inc_input {
   active_months_bonus: numeric
   circle_id: Int
-  circle_pgives_id: Int
   days: Int
   gives_receiver_base: numeric
   grant: numeric
@@ -7961,8 +7429,6 @@ input epochs_insert_input {
   burns: burns_arr_rel_insert_input
   circle: circles_obj_rel_insert_input
   circle_id: Int
-  circle_pgive: circle_pgives_obj_rel_insert_input
-  circle_pgives_id: Int
   created_at: timestamp
   days: Int
   distributions: distributions_arr_rel_insert_input
@@ -7979,6 +7445,7 @@ input epochs_insert_input {
   notified_start: timestamp
   number: Int
   pgive: numeric
+  processed: Boolean
   regift_days: Int
   repeat: Int
   repeat_day_of_month: Int
@@ -7993,7 +7460,6 @@ aggregate max on columns
 type epochs_max_fields {
   active_months_bonus: numeric
   circle_id: Int
-  circle_pgives_id: Int
   created_at: timestamp
   days: Int
   end_date: timestamptz
@@ -8019,7 +7485,6 @@ order by max() on columns of table "epoches"
 input epochs_max_order_by {
   active_months_bonus: order_by
   circle_id: order_by
-  circle_pgives_id: order_by
   created_at: order_by
   days: order_by
   end_date: order_by
@@ -8045,7 +7510,6 @@ aggregate min on columns
 type epochs_min_fields {
   active_months_bonus: numeric
   circle_id: Int
-  circle_pgives_id: Int
   created_at: timestamp
   days: Int
   end_date: timestamptz
@@ -8071,7 +7535,6 @@ order by min() on columns of table "epoches"
 input epochs_min_order_by {
   active_months_bonus: order_by
   circle_id: order_by
-  circle_pgives_id: order_by
   created_at: order_by
   days: order_by
   end_date: order_by
@@ -8135,8 +7598,6 @@ input epochs_order_by {
   burns_aggregate: burns_aggregate_order_by
   circle: circles_order_by
   circle_id: order_by
-  circle_pgive: circle_pgives_order_by
-  circle_pgives_id: order_by
   created_at: order_by
   days: order_by
   distributions_aggregate: distributions_aggregate_order_by
@@ -8153,6 +7614,7 @@ input epochs_order_by {
   notified_start: order_by
   number: order_by
   pgive: order_by
+  processed: order_by
   regift_days: order_by
   repeat: order_by
   repeat_day_of_month: order_by
@@ -8181,11 +7643,6 @@ enum epochs_select_column {
   column name
   """
   circle_id
-
-  """
-  column name
-  """
-  circle_pgives_id
 
   """
   column name
@@ -8251,6 +7708,11 @@ enum epochs_select_column {
   column name
   """
   pgive
+
+  """
+  column name
+  """
+  processed
 
   """
   column name
@@ -8284,7 +7746,6 @@ input type for updating data in table "epoches"
 input epochs_set_input {
   active_months_bonus: numeric
   circle_id: Int
-  circle_pgives_id: Int
   created_at: timestamp
   days: Int
   end_date: timestamptz
@@ -8298,6 +7759,7 @@ input epochs_set_input {
   notified_start: timestamp
   number: Int
   pgive: numeric
+  processed: Boolean
   regift_days: Int
   repeat: Int
   repeat_day_of_month: Int
@@ -8311,7 +7773,6 @@ aggregate stddev on columns
 type epochs_stddev_fields {
   active_months_bonus: Float
   circle_id: Float
-  circle_pgives_id: Float
   days: Float
   gives_receiver_base: Float
   grant: Float
@@ -8330,7 +7791,6 @@ order by stddev() on columns of table "epoches"
 input epochs_stddev_order_by {
   active_months_bonus: order_by
   circle_id: order_by
-  circle_pgives_id: order_by
   days: order_by
   gives_receiver_base: order_by
   grant: order_by
@@ -8349,7 +7809,6 @@ aggregate stddev_pop on columns
 type epochs_stddev_pop_fields {
   active_months_bonus: Float
   circle_id: Float
-  circle_pgives_id: Float
   days: Float
   gives_receiver_base: Float
   grant: Float
@@ -8368,7 +7827,6 @@ order by stddev_pop() on columns of table "epoches"
 input epochs_stddev_pop_order_by {
   active_months_bonus: order_by
   circle_id: order_by
-  circle_pgives_id: order_by
   days: order_by
   gives_receiver_base: order_by
   grant: order_by
@@ -8387,7 +7845,6 @@ aggregate stddev_samp on columns
 type epochs_stddev_samp_fields {
   active_months_bonus: Float
   circle_id: Float
-  circle_pgives_id: Float
   days: Float
   gives_receiver_base: Float
   grant: Float
@@ -8406,7 +7863,6 @@ order by stddev_samp() on columns of table "epoches"
 input epochs_stddev_samp_order_by {
   active_months_bonus: order_by
   circle_id: order_by
-  circle_pgives_id: order_by
   days: order_by
   gives_receiver_base: order_by
   grant: order_by
@@ -8440,7 +7896,6 @@ Initial value of the column from where the streaming should start
 input epochs_stream_cursor_value_input {
   active_months_bonus: numeric
   circle_id: Int
-  circle_pgives_id: Int
   created_at: timestamp
   days: Int
   end_date: timestamptz
@@ -8454,6 +7909,7 @@ input epochs_stream_cursor_value_input {
   notified_start: timestamp
   number: Int
   pgive: numeric
+  processed: Boolean
   regift_days: Int
   repeat: Int
   repeat_day_of_month: Int
@@ -8467,7 +7923,6 @@ aggregate sum on columns
 type epochs_sum_fields {
   active_months_bonus: numeric
   circle_id: Int
-  circle_pgives_id: Int
   days: Int
   gives_receiver_base: numeric
   grant: numeric
@@ -8486,7 +7941,6 @@ order by sum() on columns of table "epoches"
 input epochs_sum_order_by {
   active_months_bonus: order_by
   circle_id: order_by
-  circle_pgives_id: order_by
   days: order_by
   gives_receiver_base: order_by
   grant: order_by
@@ -8512,11 +7966,6 @@ enum epochs_update_column {
   column name
   """
   circle_id
-
-  """
-  column name
-  """
-  circle_pgives_id
 
   """
   column name
@@ -8582,6 +8031,11 @@ enum epochs_update_column {
   column name
   """
   pgive
+
+  """
+  column name
+  """
+  processed
 
   """
   column name
@@ -8628,7 +8082,6 @@ aggregate var_pop on columns
 type epochs_var_pop_fields {
   active_months_bonus: Float
   circle_id: Float
-  circle_pgives_id: Float
   days: Float
   gives_receiver_base: Float
   grant: Float
@@ -8647,7 +8100,6 @@ order by var_pop() on columns of table "epoches"
 input epochs_var_pop_order_by {
   active_months_bonus: order_by
   circle_id: order_by
-  circle_pgives_id: order_by
   days: order_by
   gives_receiver_base: order_by
   grant: order_by
@@ -8666,7 +8118,6 @@ aggregate var_samp on columns
 type epochs_var_samp_fields {
   active_months_bonus: Float
   circle_id: Float
-  circle_pgives_id: Float
   days: Float
   gives_receiver_base: Float
   grant: Float
@@ -8685,7 +8136,6 @@ order by var_samp() on columns of table "epoches"
 input epochs_var_samp_order_by {
   active_months_bonus: order_by
   circle_id: order_by
-  circle_pgives_id: order_by
   days: order_by
   gives_receiver_base: order_by
   grant: order_by
@@ -8704,7 +8154,6 @@ aggregate variance on columns
 type epochs_variance_fields {
   active_months_bonus: Float
   circle_id: Float
-  circle_pgives_id: Float
   days: Float
   gives_receiver_base: Float
   grant: Float
@@ -8723,7 +8172,6 @@ order by variance() on columns of table "epoches"
 input epochs_variance_order_by {
   active_months_bonus: order_by
   circle_id: order_by
-  circle_pgives_id: order_by
   days: order_by
   gives_receiver_base: order_by
   grant: order_by
@@ -10577,21 +10025,6 @@ type mutation_root {
   delete_circle_metadata_by_pk(id: bigint!): circle_metadata
 
   """
-  delete data from the table: "circle_pgives"
-  """
-  delete_circle_pgives(
-    """
-    filter the rows which have to be deleted
-    """
-    where: circle_pgives_bool_exp!
-  ): circle_pgives_mutation_response
-
-  """
-  delete single row from the table: "circle_pgives"
-  """
-  delete_circle_pgives_by_pk(id: Int!): circle_pgives
-
-  """
   delete data from the table: "circle_private"
   """
   delete_circle_private(
@@ -11080,36 +10513,6 @@ type mutation_root {
     """
     on_conflict: circle_metadata_on_conflict
   ): circle_metadata
-
-  """
-  insert data into the table: "circle_pgives"
-  """
-  insert_circle_pgives(
-    """
-    the rows to be inserted
-    """
-    objects: [circle_pgives_insert_input!]!
-
-    """
-    upsert condition
-    """
-    on_conflict: circle_pgives_on_conflict
-  ): circle_pgives_mutation_response
-
-  """
-  insert a single row into the table: "circle_pgives"
-  """
-  insert_circle_pgives_one(
-    """
-    the row to be inserted
-    """
-    object: circle_pgives_insert_input!
-
-    """
-    upsert condition
-    """
-    on_conflict: circle_pgives_on_conflict
-  ): circle_pgives
 
   """
   insert data into the table: "circle_private"
@@ -12033,52 +11436,6 @@ type mutation_root {
     """
     updates: [circle_metadata_updates!]!
   ): [circle_metadata_mutation_response]
-
-  """
-  update data of the table: "circle_pgives"
-  """
-  update_circle_pgives(
-    """
-    increments the numeric columns with given value of the filtered values
-    """
-    _inc: circle_pgives_inc_input
-
-    """
-    sets the columns of the filtered rows to the given values
-    """
-    _set: circle_pgives_set_input
-
-    """
-    filter the rows which have to be updated
-    """
-    where: circle_pgives_bool_exp!
-  ): circle_pgives_mutation_response
-
-  """
-  update single row of the table: "circle_pgives"
-  """
-  update_circle_pgives_by_pk(
-    """
-    increments the numeric columns with given value of the filtered values
-    """
-    _inc: circle_pgives_inc_input
-
-    """
-    sets the columns of the filtered rows to the given values
-    """
-    _set: circle_pgives_set_input
-    pk_columns: circle_pgives_pk_columns_input!
-  ): circle_pgives
-
-  """
-  update multiples rows of table: "circle_pgives"
-  """
-  update_circle_pgives_many(
-    """
-    updates to execute, in order
-    """
-    updates: [circle_pgives_updates!]!
-  ): [circle_pgives_mutation_response]
 
   """
   update data of the table: "circle_private"
@@ -17500,71 +16857,6 @@ type query_root {
   circle_metadata_by_pk(id: bigint!): circle_metadata
 
   """
-  An array relationship
-  """
-  circle_pgives(
-    """
-    distinct select on columns
-    """
-    distinct_on: [circle_pgives_select_column!]
-
-    """
-    limit the number of rows returned
-    """
-    limit: Int
-
-    """
-    skip the first n rows. Use only with order_by
-    """
-    offset: Int
-
-    """
-    sort the rows by one or more columns
-    """
-    order_by: [circle_pgives_order_by!]
-
-    """
-    filter the rows returned
-    """
-    where: circle_pgives_bool_exp
-  ): [circle_pgives!]!
-
-  """
-  An aggregate relationship
-  """
-  circle_pgives_aggregate(
-    """
-    distinct select on columns
-    """
-    distinct_on: [circle_pgives_select_column!]
-
-    """
-    limit the number of rows returned
-    """
-    limit: Int
-
-    """
-    skip the first n rows. Use only with order_by
-    """
-    offset: Int
-
-    """
-    sort the rows by one or more columns
-    """
-    order_by: [circle_pgives_order_by!]
-
-    """
-    filter the rows returned
-    """
-    where: circle_pgives_bool_exp
-  ): circle_pgives_aggregate!
-
-  """
-  fetch data from the table: "circle_pgives" using primary key columns
-  """
-  circle_pgives_by_pk(id: Int!): circle_pgives
-
-  """
   fetch data from the table: "circle_private"
   """
   circle_private(
@@ -19576,91 +18868,6 @@ type subscription_root {
     """
     where: circle_metadata_bool_exp
   ): [circle_metadata!]!
-
-  """
-  An array relationship
-  """
-  circle_pgives(
-    """
-    distinct select on columns
-    """
-    distinct_on: [circle_pgives_select_column!]
-
-    """
-    limit the number of rows returned
-    """
-    limit: Int
-
-    """
-    skip the first n rows. Use only with order_by
-    """
-    offset: Int
-
-    """
-    sort the rows by one or more columns
-    """
-    order_by: [circle_pgives_order_by!]
-
-    """
-    filter the rows returned
-    """
-    where: circle_pgives_bool_exp
-  ): [circle_pgives!]!
-
-  """
-  An aggregate relationship
-  """
-  circle_pgives_aggregate(
-    """
-    distinct select on columns
-    """
-    distinct_on: [circle_pgives_select_column!]
-
-    """
-    limit the number of rows returned
-    """
-    limit: Int
-
-    """
-    skip the first n rows. Use only with order_by
-    """
-    offset: Int
-
-    """
-    sort the rows by one or more columns
-    """
-    order_by: [circle_pgives_order_by!]
-
-    """
-    filter the rows returned
-    """
-    where: circle_pgives_bool_exp
-  ): circle_pgives_aggregate!
-
-  """
-  fetch data from the table: "circle_pgives" using primary key columns
-  """
-  circle_pgives_by_pk(id: Int!): circle_pgives
-
-  """
-  fetch data from the table in a streaming manner : "circle_pgives"
-  """
-  circle_pgives_stream(
-    """
-    maximum number of rows returned in a single batch
-    """
-    batch_size: Int!
-
-    """
-    cursor to stream the results returned by the query
-    """
-    cursor: [circle_pgives_stream_cursor_input]!
-
-    """
-    filter the rows returned
-    """
-    where: circle_pgives_bool_exp
-  ): [circle_pgives!]!
 
   """
   fetch data from the table: "circle_private"

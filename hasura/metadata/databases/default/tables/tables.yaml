@@ -2,7 +2,6 @@
 - "!include public_circle_api_keys.yaml"
 - "!include public_circle_integrations.yaml"
 - "!include public_circle_metadata.yaml"
-- "!include public_circle_pgives.yaml"
 - "!include public_circle_private.yaml"
 - "!include public_circle_share_tokens.yaml"
 - "!include public_circles.yaml"
