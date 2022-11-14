@@ -841,7 +841,6 @@ input circle_api_keys_bool_exp {
   hash: String_comparison_exp
   name: String_comparison_exp
   read_circle: Boolean_comparison_exp
-  read_contributions: Boolean_comparison_exp
   read_epochs: Boolean_comparison_exp
   read_member_profiles: Boolean_comparison_exp
   read_nominees: Boolean_comparison_exp
@@ -893,7 +892,6 @@ Ordering options when selecting data from "circle_api_keys".
 input circle_api_keys_order_by {
   circle: circles_order_by
   circle_id: order_by
-  create_contributions: order_by
   create_vouches: order_by
   createdByUser: users_order_by
   created_at: order_by
@@ -7737,6 +7735,7 @@ type query_root {
   """
   pending_vault_transactions_by_pk(tx_hash: String!): pending_vault_transactions
   price_per_share(chain_id: Int!, token_address: String): Float!
+
   """
   fetch data from the table: "profiles"
   """
@@ -11819,6 +11818,7 @@ type vaults {
   """
   organization: organizations!
   price_per_share: Float!
+
   """
   An object relationship
   """
