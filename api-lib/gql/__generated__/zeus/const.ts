@@ -1881,6 +1881,10 @@ export const AllTypesProps: Record<string, any> = {
     notes_bonus: 'numeric',
     pgive: 'numeric',
   },
+  epoch_pgive_data_obj_rel_insert_input: {
+    data: 'epoch_pgive_data_insert_input',
+    on_conflict: 'epoch_pgive_data_on_conflict',
+  },
   epoch_pgive_data_on_conflict: {
     constraint: 'epoch_pgive_data_constraint',
     update_columns: 'epoch_pgive_data_update_column',
@@ -2009,6 +2013,7 @@ export const AllTypesProps: Record<string, any> = {
     end_date: 'timestamptz_comparison_exp',
     ended: 'Boolean_comparison_exp',
     epoch_pending_token_gifts: 'pending_token_gifts_bool_exp',
+    epoch_pgive_data: 'epoch_pgive_data_bool_exp',
     grant: 'numeric_comparison_exp',
     id: 'bigint_comparison_exp',
     notified_before_end: 'timestamp_comparison_exp',
@@ -2034,6 +2039,7 @@ export const AllTypesProps: Record<string, any> = {
     distributions: 'distributions_arr_rel_insert_input',
     end_date: 'timestamptz',
     epoch_pending_token_gifts: 'pending_token_gifts_arr_rel_insert_input',
+    epoch_pgive_data: 'epoch_pgive_data_obj_rel_insert_input',
     grant: 'numeric',
     id: 'bigint',
     notified_before_end: 'timestamp',
@@ -2097,6 +2103,7 @@ export const AllTypesProps: Record<string, any> = {
     ended: 'order_by',
     epoch_pending_token_gifts_aggregate:
       'pending_token_gifts_aggregate_order_by',
+    epoch_pgive_data: 'epoch_pgive_data_order_by',
     grant: 'order_by',
     id: 'order_by',
     notified_before_end: 'order_by',
@@ -4584,6 +4591,7 @@ export const AllTypesProps: Record<string, any> = {
     personal_access_tokens_by_pk: {
       id: 'bigint',
     },
+    price_per_share: {},
     profiles: {
       distinct_on: 'profiles_select_column',
       order_by: 'profiles_order_by',
@@ -7863,6 +7871,7 @@ export const ReturnTypes: Record<string, any> = {
     ended: 'Boolean',
     epoch_pending_token_gifts: 'pending_token_gifts',
     epoch_pending_token_gifts_aggregate: 'pending_token_gifts_aggregate',
+    epoch_pgive_data: 'epoch_pgive_data',
     grant: 'numeric',
     id: 'bigint',
     notified_before_end: 'timestamp',
@@ -9430,6 +9439,7 @@ export const ReturnTypes: Record<string, any> = {
     personal_access_tokens: 'personal_access_tokens',
     personal_access_tokens_aggregate: 'personal_access_tokens_aggregate',
     personal_access_tokens_by_pk: 'personal_access_tokens',
+    price_per_share: 'Float',
     profiles: 'profiles',
     profiles_aggregate: 'profiles_aggregate',
     profiles_by_pk: 'profiles',
@@ -10190,6 +10200,7 @@ export const ReturnTypes: Record<string, any> = {
     id: 'bigint',
     org_id: 'bigint',
     organization: 'organizations',
+    price_per_share: 'Float',
     profile: 'profiles',
     simple_token_address: 'String',
     symbol: 'String',

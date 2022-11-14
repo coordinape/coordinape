@@ -5360,6 +5360,12 @@ export type ValueTypes = {
     returning?: ValueTypes['epoch_pgive_data'];
     __typename?: boolean | `@${string}`;
   }>;
+  /** input type for inserting object relation for remote table "epoch_pgive_data" */
+  ['epoch_pgive_data_obj_rel_insert_input']: {
+    data: ValueTypes['epoch_pgive_data_insert_input'];
+    /** upsert condition */
+    on_conflict?: ValueTypes['epoch_pgive_data_on_conflict'] | undefined | null;
+  };
   /** on_conflict condition type for table "epoch_pgive_data" */
   ['epoch_pgive_data_on_conflict']: {
     constraint: ValueTypes['epoch_pgive_data_constraint'];
@@ -5636,6 +5642,8 @@ export type ValueTypes = {
       },
       ValueTypes['pending_token_gifts_aggregate']
     ];
+    /** An object relationship */
+    epoch_pgive_data?: ValueTypes['epoch_pgive_data'];
     grant?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     notified_before_end?: boolean | `@${string}`;
@@ -5782,6 +5790,10 @@ export type ValueTypes = {
       | ValueTypes['pending_token_gifts_bool_exp']
       | undefined
       | null;
+    epoch_pgive_data?:
+      | ValueTypes['epoch_pgive_data_bool_exp']
+      | undefined
+      | null;
     grant?: ValueTypes['numeric_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     notified_before_end?:
@@ -5826,6 +5838,10 @@ export type ValueTypes = {
     ended?: boolean | undefined | null;
     epoch_pending_token_gifts?:
       | ValueTypes['pending_token_gifts_arr_rel_insert_input']
+      | undefined
+      | null;
+    epoch_pgive_data?:
+      | ValueTypes['epoch_pgive_data_obj_rel_insert_input']
       | undefined
       | null;
     grant?: ValueTypes['numeric'] | undefined | null;
@@ -5953,6 +5969,10 @@ export type ValueTypes = {
     ended?: ValueTypes['order_by'] | undefined | null;
     epoch_pending_token_gifts_aggregate?:
       | ValueTypes['pending_token_gifts_aggregate_order_by']
+      | undefined
+      | null;
+    epoch_pgive_data?:
+      | ValueTypes['epoch_pgive_data_order_by']
       | undefined
       | null;
     grant?: ValueTypes['order_by'] | undefined | null;
@@ -12914,6 +12934,10 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['personal_access_tokens']
     ];
+    price_per_share?: [
+      { chain_id: number; token_address?: string | undefined | null },
+      boolean | `@${string}`
+    ];
     profiles?: [
       {
         /** distinct select on columns */
@@ -17786,6 +17810,7 @@ export type ValueTypes = {
     org_id?: boolean | `@${string}`;
     /** An object relationship */
     organization?: ValueTypes['organizations'];
+    price_per_share?: boolean | `@${string}`;
     /** An object relationship */
     profile?: ValueTypes['profiles'];
     simple_token_address?: boolean | `@${string}`;
@@ -20478,6 +20503,8 @@ export type ModelTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['epoch_pgive_data']>;
   };
+  /** input type for inserting object relation for remote table "epoch_pgive_data" */
+  ['epoch_pgive_data_obj_rel_insert_input']: GraphQLTypes['epoch_pgive_data_obj_rel_insert_input'];
   /** on_conflict condition type for table "epoch_pgive_data" */
   ['epoch_pgive_data_on_conflict']: GraphQLTypes['epoch_pgive_data_on_conflict'];
   /** Ordering options when selecting data from "epoch_pgive_data". */
@@ -20579,6 +20606,8 @@ export type ModelTypes = {
     epoch_pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     /** An aggregate relationship */
     epoch_pending_token_gifts_aggregate: GraphQLTypes['pending_token_gifts_aggregate'];
+    /** An object relationship */
+    epoch_pgive_data?: GraphQLTypes['epoch_pgive_data'] | undefined;
     grant: GraphQLTypes['numeric'];
     id: GraphQLTypes['bigint'];
     notified_before_end?: GraphQLTypes['timestamp'] | undefined;
@@ -23324,6 +23353,7 @@ export type ModelTypes = {
     personal_access_tokens_by_pk?:
       | GraphQLTypes['personal_access_tokens']
       | undefined;
+    price_per_share: number;
     /** fetch data from the table: "profiles" */
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch aggregated fields from the table: "profiles" */
@@ -24618,6 +24648,7 @@ export type ModelTypes = {
     org_id: GraphQLTypes['bigint'];
     /** An object relationship */
     organization: GraphQLTypes['organizations'];
+    price_per_share: number;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     simple_token_address: string;
@@ -28943,6 +28974,12 @@ export type GraphQLTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['epoch_pgive_data']>;
   };
+  /** input type for inserting object relation for remote table "epoch_pgive_data" */
+  ['epoch_pgive_data_obj_rel_insert_input']: {
+    data: GraphQLTypes['epoch_pgive_data_insert_input'];
+    /** upsert condition */
+    on_conflict?: GraphQLTypes['epoch_pgive_data_on_conflict'] | undefined;
+  };
   /** on_conflict condition type for table "epoch_pgive_data" */
   ['epoch_pgive_data_on_conflict']: {
     constraint: GraphQLTypes['epoch_pgive_data_constraint'];
@@ -29094,6 +29131,8 @@ export type GraphQLTypes = {
     epoch_pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     /** An aggregate relationship */
     epoch_pending_token_gifts_aggregate: GraphQLTypes['pending_token_gifts_aggregate'];
+    /** An object relationship */
+    epoch_pgive_data?: GraphQLTypes['epoch_pgive_data'] | undefined;
     grant: GraphQLTypes['numeric'];
     id: GraphQLTypes['bigint'];
     notified_before_end?: GraphQLTypes['timestamp'] | undefined;
@@ -29190,6 +29229,7 @@ export type GraphQLTypes = {
     epoch_pending_token_gifts?:
       | GraphQLTypes['pending_token_gifts_bool_exp']
       | undefined;
+    epoch_pgive_data?: GraphQLTypes['epoch_pgive_data_bool_exp'] | undefined;
     grant?: GraphQLTypes['numeric_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     notified_before_end?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
@@ -29230,6 +29270,9 @@ export type GraphQLTypes = {
     ended?: boolean | undefined;
     epoch_pending_token_gifts?:
       | GraphQLTypes['pending_token_gifts_arr_rel_insert_input']
+      | undefined;
+    epoch_pgive_data?:
+      | GraphQLTypes['epoch_pgive_data_obj_rel_insert_input']
       | undefined;
     grant?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -29353,6 +29396,7 @@ export type GraphQLTypes = {
     epoch_pending_token_gifts_aggregate?:
       | GraphQLTypes['pending_token_gifts_aggregate_order_by']
       | undefined;
+    epoch_pgive_data?: GraphQLTypes['epoch_pgive_data_order_by'] | undefined;
     grant?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     notified_before_end?: GraphQLTypes['order_by'] | undefined;
@@ -33483,6 +33527,7 @@ export type GraphQLTypes = {
     personal_access_tokens_by_pk?:
       | GraphQLTypes['personal_access_tokens']
       | undefined;
+    price_per_share: number;
     /** fetch data from the table: "profiles" */
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch aggregated fields from the table: "profiles" */
@@ -35785,6 +35830,7 @@ export type GraphQLTypes = {
     org_id: GraphQLTypes['bigint'];
     /** An object relationship */
     organization: GraphQLTypes['organizations'];
+    price_per_share: number;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     simple_token_address: string;
