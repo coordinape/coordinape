@@ -113,10 +113,10 @@ export const EpochStatementDrawer = ({
   );
 
   useEffect(() => {
-    if (!showMarkdown) {
-      document?.getElementById('epoch_statement')?.focus();
+    if (!statement.length && showMarkdown) {
+      setShowMarkDown(false);
     }
-  }, [showMarkdown]);
+  }, []);
 
   return (
     <Box css={{ height: '100%' }}>
@@ -203,7 +203,7 @@ export const EpochStatementDrawer = ({
         <Text inline semibold size="large">
           Epoch Statement
         </Text>
-        {showMarkdown && !!statement.length ? (
+        {showMarkdown ? (
           <Box
             onClick={() => {
               setShowMarkDown(false);

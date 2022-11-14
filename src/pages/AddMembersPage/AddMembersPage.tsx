@@ -3,10 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { LoadingModal } from '../../components';
 import { paths } from '../../routes/paths';
 import { ICircle } from '../../types';
-import HintButton from '../../ui/HintButton';
 import { APP_URL } from '../../utils/domain';
 import { useSelectedCircle } from 'recoilState/app';
-import { AppLink, BackButton, Box, Flex, Panel, Text } from 'ui';
+import { AppLink, BackButton, Box, Flex, Link, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import CSVImport from './CSVImport';
@@ -189,13 +188,15 @@ const AddMembersContents = ({
           )}
 
           <Box css={{ mt: '$md' }}>
-            <HintButton
+            <Link
+              target="_blank"
+              rel="noreferrer"
               href={
                 'https://docs.coordinape.com/get-started/get-started/new-coordinape-admins/admin-best-practices#ways-to-give'
               }
             >
               Documentation: GIVE Circle Best Practices
-            </HintButton>
+            </Link>
           </Box>
         </Panel>
       </Box>

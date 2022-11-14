@@ -54,6 +54,8 @@ export function DistributionsPage() {
           );
         return d;
       },
+      refetchOnWindowFocus: false,
+      notifyOnChangeProps: ['data'],
     }
   );
 
