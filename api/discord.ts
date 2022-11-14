@@ -24,8 +24,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     console.error('code is required');
   }
 
-  // TODO Check if profile is already linked
-
   try {
     const tokenResponseData = await request(
       'https://discord.com/api/oauth2/token',
