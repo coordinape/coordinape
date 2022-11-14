@@ -634,6 +634,7 @@ const ContributionsPage = () => {
                       resetField('description', { defaultValue: '' });
                       resetCreateMutation();
                       setModalOpen(true);
+                      setShowMarkDown(false);
                     }}
                   >
                     <Edit />
