@@ -73,7 +73,7 @@
     "react-dom": "17.0.1",
     "react-force-graph-2d": "1.23.8",
     "react-helmet": "^6.1.0",
-    "react-hook-form": "^7.27.0",
+    "react-hook-form": "^7.39.3",
     "react-icons": "^4.3.1",
     "react-query": "3.34.8",
     "react-router-dom": "6.2.1",

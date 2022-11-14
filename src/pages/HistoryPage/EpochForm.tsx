@@ -124,7 +124,10 @@ const getCollisionMessage = (
   return undefined;
 };
 
-const getZodParser = (source?: IEpochFormSource, currentEpoch?: number) => {
+const getZodParser = async (
+  source?: IEpochFormSource,
+  currentEpoch?: number
+) => {
   const otherRepeating = source?.epochs?.find(e => !!e.repeat);
 
   const getOverlapIssue = ({
@@ -156,10 +159,13 @@ const getZodParser = (source?: IEpochFormSource, currentEpoch?: number) => {
   };
 
   return schema
-    .transform(({ start_date, ...fields }) => ({
-      start_date: DateTime.fromISO(start_date).setZone(),
-      ...fields,
-    }))
+    .transform(
+      async ({ start_date, ...fields }) =>
+        await {
+          start_date: DateTime.fromISO(start_date).setZone(),
+          ...fields,
+        }
+    )
     .refine(
       ({ start_date }) =>
         start_date > DateTime.now().setZone() ||
@@ -300,10 +306,11 @@ const EpochForm = ({
   const extraErrors = useRef(false);
 
   useEffect(() => {
-    watch(data => {
-      console.log('dddd');
+    watch(async data => {
       const value: SafeParseReturnType<epochFormSchema, epochFormSchema> =
-        getZodParser(source, currentEpoch?.id).safeParse(data);
+        await getZodParser(source, currentEpoch?.id).then(result =>
+          result.safeParseAsync(data)
+        );
       if (!value.success) {
         extraErrors.current = true;
         setError('customError', {
