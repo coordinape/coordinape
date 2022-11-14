@@ -538,8 +538,16 @@ const ContributionsPage = () => {
                     alignItems: 'flex-end',
                   }}
                 >
-                  <Text inline semibold size="medium">
+                  <Text inline semibold size="large">
                     Contribution
+                    <Text
+                      inline
+                      size="small"
+                      color="neutral"
+                      css={{ ml: '$sm' }}
+                    >
+                      Markdown Supported
+                    </Text>
                   </Text>
                   <Text variant="label">
                     {DateTime.fromISO(
@@ -631,6 +639,7 @@ const ContributionsPage = () => {
                       resetField('description', { defaultValue: '' });
                       resetCreateMutation();
                       setModalOpen(true);
+                      setShowMarkDown(false);
                     }}
                   >
                     <Edit />
