@@ -6936,11 +6936,411 @@ input distributions_variance_order_by {
 }
 
 """
+columns and relationships of "epoch_pgive_data"
+"""
+type epoch_pgive_data {
+  active_months_bonus: numeric!
+  created_at: timestamptz!
+
+  """
+  An object relationship
+  """
+  epoch: epochs!
+  epoch_id: Int!
+  gives_receiver_base: numeric!
+  id: Int!
+  notes_bonus: numeric!
+  pgive: numeric!
+}
+
+"""
+aggregated selection of "epoch_pgive_data"
+"""
+type epoch_pgive_data_aggregate {
+  aggregate: epoch_pgive_data_aggregate_fields
+  nodes: [epoch_pgive_data!]!
+}
+
+"""
+aggregate fields of "epoch_pgive_data"
+"""
+type epoch_pgive_data_aggregate_fields {
+  avg: epoch_pgive_data_avg_fields
+  count(columns: [epoch_pgive_data_select_column!], distinct: Boolean): Int!
+  max: epoch_pgive_data_max_fields
+  min: epoch_pgive_data_min_fields
+  stddev: epoch_pgive_data_stddev_fields
+  stddev_pop: epoch_pgive_data_stddev_pop_fields
+  stddev_samp: epoch_pgive_data_stddev_samp_fields
+  sum: epoch_pgive_data_sum_fields
+  var_pop: epoch_pgive_data_var_pop_fields
+  var_samp: epoch_pgive_data_var_samp_fields
+  variance: epoch_pgive_data_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type epoch_pgive_data_avg_fields {
+  active_months_bonus: Float
+  epoch_id: Float
+  gives_receiver_base: Float
+  id: Float
+  notes_bonus: Float
+  pgive: Float
+}
+
+"""
+Boolean expression to filter rows from the table "epoch_pgive_data". All fields are combined with a logical 'AND'.
+"""
+input epoch_pgive_data_bool_exp {
+  _and: [epoch_pgive_data_bool_exp!]
+  _not: epoch_pgive_data_bool_exp
+  _or: [epoch_pgive_data_bool_exp!]
+  active_months_bonus: numeric_comparison_exp
+  created_at: timestamptz_comparison_exp
+  epoch: epochs_bool_exp
+  epoch_id: Int_comparison_exp
+  gives_receiver_base: numeric_comparison_exp
+  id: Int_comparison_exp
+  notes_bonus: numeric_comparison_exp
+  pgive: numeric_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "epoch_pgive_data"
+"""
+enum epoch_pgive_data_constraint {
+  """
+  unique or primary key constraint on columns "epoch_id"
+  """
+  epoch_pgive_data_epoch_id_key
+
+  """
+  unique or primary key constraint on columns "id"
+  """
+  epoch_pgive_data_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "epoch_pgive_data"
+"""
+input epoch_pgive_data_inc_input {
+  active_months_bonus: numeric
+  epoch_id: Int
+  gives_receiver_base: numeric
+  id: Int
+  notes_bonus: numeric
+  pgive: numeric
+}
+
+"""
+input type for inserting data into table "epoch_pgive_data"
+"""
+input epoch_pgive_data_insert_input {
+  active_months_bonus: numeric
+  created_at: timestamptz
+  epoch: epochs_obj_rel_insert_input
+  epoch_id: Int
+  gives_receiver_base: numeric
+  id: Int
+  notes_bonus: numeric
+  pgive: numeric
+}
+
+"""
+aggregate max on columns
+"""
+type epoch_pgive_data_max_fields {
+  active_months_bonus: numeric
+  created_at: timestamptz
+  epoch_id: Int
+  gives_receiver_base: numeric
+  id: Int
+  notes_bonus: numeric
+  pgive: numeric
+}
+
+"""
+aggregate min on columns
+"""
+type epoch_pgive_data_min_fields {
+  active_months_bonus: numeric
+  created_at: timestamptz
+  epoch_id: Int
+  gives_receiver_base: numeric
+  id: Int
+  notes_bonus: numeric
+  pgive: numeric
+}
+
+"""
+response of any mutation on the table "epoch_pgive_data"
+"""
+type epoch_pgive_data_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [epoch_pgive_data!]!
+}
+
+"""
+on_conflict condition type for table "epoch_pgive_data"
+"""
+input epoch_pgive_data_on_conflict {
+  constraint: epoch_pgive_data_constraint!
+  update_columns: [epoch_pgive_data_update_column!]! = []
+  where: epoch_pgive_data_bool_exp
+}
+
+"""
+Ordering options when selecting data from "epoch_pgive_data".
+"""
+input epoch_pgive_data_order_by {
+  active_months_bonus: order_by
+  created_at: order_by
+  epoch: epochs_order_by
+  epoch_id: order_by
+  gives_receiver_base: order_by
+  id: order_by
+  notes_bonus: order_by
+  pgive: order_by
+}
+
+"""
+primary key columns input for table: epoch_pgive_data
+"""
+input epoch_pgive_data_pk_columns_input {
+  id: Int!
+}
+
+"""
+select columns of table "epoch_pgive_data"
+"""
+enum epoch_pgive_data_select_column {
+  """
+  column name
+  """
+  active_months_bonus
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  epoch_id
+
+  """
+  column name
+  """
+  gives_receiver_base
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  notes_bonus
+
+  """
+  column name
+  """
+  pgive
+}
+
+"""
+input type for updating data in table "epoch_pgive_data"
+"""
+input epoch_pgive_data_set_input {
+  active_months_bonus: numeric
+  created_at: timestamptz
+  epoch_id: Int
+  gives_receiver_base: numeric
+  id: Int
+  notes_bonus: numeric
+  pgive: numeric
+}
+
+"""
+aggregate stddev on columns
+"""
+type epoch_pgive_data_stddev_fields {
+  active_months_bonus: Float
+  epoch_id: Float
+  gives_receiver_base: Float
+  id: Float
+  notes_bonus: Float
+  pgive: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type epoch_pgive_data_stddev_pop_fields {
+  active_months_bonus: Float
+  epoch_id: Float
+  gives_receiver_base: Float
+  id: Float
+  notes_bonus: Float
+  pgive: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type epoch_pgive_data_stddev_samp_fields {
+  active_months_bonus: Float
+  epoch_id: Float
+  gives_receiver_base: Float
+  id: Float
+  notes_bonus: Float
+  pgive: Float
+}
+
+"""
+Streaming cursor of the table "epoch_pgive_data"
+"""
+input epoch_pgive_data_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: epoch_pgive_data_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input epoch_pgive_data_stream_cursor_value_input {
+  active_months_bonus: numeric
+  created_at: timestamptz
+  epoch_id: Int
+  gives_receiver_base: numeric
+  id: Int
+  notes_bonus: numeric
+  pgive: numeric
+}
+
+"""
+aggregate sum on columns
+"""
+type epoch_pgive_data_sum_fields {
+  active_months_bonus: numeric
+  epoch_id: Int
+  gives_receiver_base: numeric
+  id: Int
+  notes_bonus: numeric
+  pgive: numeric
+}
+
+"""
+update columns of table "epoch_pgive_data"
+"""
+enum epoch_pgive_data_update_column {
+  """
+  column name
+  """
+  active_months_bonus
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  epoch_id
+
+  """
+  column name
+  """
+  gives_receiver_base
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  notes_bonus
+
+  """
+  column name
+  """
+  pgive
+}
+
+input epoch_pgive_data_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: epoch_pgive_data_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: epoch_pgive_data_set_input
+  where: epoch_pgive_data_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type epoch_pgive_data_var_pop_fields {
+  active_months_bonus: Float
+  epoch_id: Float
+  gives_receiver_base: Float
+  id: Float
+  notes_bonus: Float
+  pgive: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type epoch_pgive_data_var_samp_fields {
+  active_months_bonus: Float
+  epoch_id: Float
+  gives_receiver_base: Float
+  id: Float
+  notes_bonus: Float
+  pgive: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type epoch_pgive_data_variance_fields {
+  active_months_bonus: Float
+  epoch_id: Float
+  gives_receiver_base: Float
+  id: Float
+  notes_bonus: Float
+  pgive: Float
+}
+
+"""
 columns and relationships of "epoches"
 """
 type epochs {
-  active_months_bonus: numeric!
-
   """
   An array relationship
   """
@@ -7130,16 +7530,12 @@ type epochs {
     """
     where: pending_token_gifts_bool_exp
   ): pending_token_gifts_aggregate!
-  gives_receiver_base: numeric!
   grant: numeric!
   id: bigint!
-  notes_bonus: numeric!
   notified_before_end: timestamp
   notified_end: timestamp
   notified_start: timestamp
   number: Int
-  pgive: numeric!
-  processed: Boolean!
   regift_days: Int!
   repeat: Int!
   repeat_day_of_month: Int!
@@ -7265,15 +7661,11 @@ input epochs_arr_rel_insert_input {
 aggregate avg on columns
 """
 type epochs_avg_fields {
-  active_months_bonus: Float
   circle_id: Float
   days: Float
-  gives_receiver_base: Float
   grant: Float
   id: Float
-  notes_bonus: Float
   number: Float
-  pgive: Float
   regift_days: Float
   repeat: Float
   repeat_day_of_month: Float
@@ -7283,15 +7675,11 @@ type epochs_avg_fields {
 order by avg() on columns of table "epoches"
 """
 input epochs_avg_order_by {
-  active_months_bonus: order_by
   circle_id: order_by
   days: order_by
-  gives_receiver_base: order_by
   grant: order_by
   id: order_by
-  notes_bonus: order_by
   number: order_by
-  pgive: order_by
   regift_days: order_by
   repeat: order_by
   repeat_day_of_month: order_by
@@ -7304,7 +7692,6 @@ input epochs_bool_exp {
   _and: [epochs_bool_exp!]
   _not: epochs_bool_exp
   _or: [epochs_bool_exp!]
-  active_months_bonus: numeric_comparison_exp
   burns: burns_bool_exp
   circle: circles_bool_exp
   circle_id: Int_comparison_exp
@@ -7314,16 +7701,12 @@ input epochs_bool_exp {
   end_date: timestamptz_comparison_exp
   ended: Boolean_comparison_exp
   epoch_pending_token_gifts: pending_token_gifts_bool_exp
-  gives_receiver_base: numeric_comparison_exp
   grant: numeric_comparison_exp
   id: bigint_comparison_exp
-  notes_bonus: numeric_comparison_exp
   notified_before_end: timestamp_comparison_exp
   notified_end: timestamp_comparison_exp
   notified_start: timestamp_comparison_exp
   number: Int_comparison_exp
-  pgive: numeric_comparison_exp
-  processed: Boolean_comparison_exp
   regift_days: Int_comparison_exp
   repeat: Int_comparison_exp
   repeat_day_of_month: Int_comparison_exp
@@ -7346,15 +7729,11 @@ enum epochs_constraint {
 input type for incrementing numeric columns in table "epoches"
 """
 input epochs_inc_input {
-  active_months_bonus: numeric
   circle_id: Int
   days: Int
-  gives_receiver_base: numeric
   grant: numeric
   id: bigint
-  notes_bonus: numeric
   number: Int
-  pgive: numeric
   regift_days: Int
   repeat: Int
   repeat_day_of_month: Int
@@ -7364,7 +7743,6 @@ input epochs_inc_input {
 input type for inserting data into table "epoches"
 """
 input epochs_insert_input {
-  active_months_bonus: numeric
   burns: burns_arr_rel_insert_input
   circle: circles_obj_rel_insert_input
   circle_id: Int
@@ -7374,16 +7752,12 @@ input epochs_insert_input {
   end_date: timestamptz
   ended: Boolean
   epoch_pending_token_gifts: pending_token_gifts_arr_rel_insert_input
-  gives_receiver_base: numeric
   grant: numeric
   id: bigint
-  notes_bonus: numeric
   notified_before_end: timestamp
   notified_end: timestamp
   notified_start: timestamp
   number: Int
-  pgive: numeric
-  processed: Boolean
   regift_days: Int
   repeat: Int
   repeat_day_of_month: Int
@@ -7396,20 +7770,16 @@ input epochs_insert_input {
 aggregate max on columns
 """
 type epochs_max_fields {
-  active_months_bonus: numeric
   circle_id: Int
   created_at: timestamp
   days: Int
   end_date: timestamptz
-  gives_receiver_base: numeric
   grant: numeric
   id: bigint
-  notes_bonus: numeric
   notified_before_end: timestamp
   notified_end: timestamp
   notified_start: timestamp
   number: Int
-  pgive: numeric
   regift_days: Int
   repeat: Int
   repeat_day_of_month: Int
@@ -7421,20 +7791,16 @@ type epochs_max_fields {
 order by max() on columns of table "epoches"
 """
 input epochs_max_order_by {
-  active_months_bonus: order_by
   circle_id: order_by
   created_at: order_by
   days: order_by
   end_date: order_by
-  gives_receiver_base: order_by
   grant: order_by
   id: order_by
-  notes_bonus: order_by
   notified_before_end: order_by
   notified_end: order_by
   notified_start: order_by
   number: order_by
-  pgive: order_by
   regift_days: order_by
   repeat: order_by
   repeat_day_of_month: order_by
@@ -7446,20 +7812,16 @@ input epochs_max_order_by {
 aggregate min on columns
 """
 type epochs_min_fields {
-  active_months_bonus: numeric
   circle_id: Int
   created_at: timestamp
   days: Int
   end_date: timestamptz
-  gives_receiver_base: numeric
   grant: numeric
   id: bigint
-  notes_bonus: numeric
   notified_before_end: timestamp
   notified_end: timestamp
   notified_start: timestamp
   number: Int
-  pgive: numeric
   regift_days: Int
   repeat: Int
   repeat_day_of_month: Int
@@ -7471,20 +7833,16 @@ type epochs_min_fields {
 order by min() on columns of table "epoches"
 """
 input epochs_min_order_by {
-  active_months_bonus: order_by
   circle_id: order_by
   created_at: order_by
   days: order_by
   end_date: order_by
-  gives_receiver_base: order_by
   grant: order_by
   id: order_by
-  notes_bonus: order_by
   notified_before_end: order_by
   notified_end: order_by
   notified_start: order_by
   number: order_by
-  pgive: order_by
   regift_days: order_by
   repeat: order_by
   repeat_day_of_month: order_by
@@ -7532,7 +7890,6 @@ input epochs_on_conflict {
 Ordering options when selecting data from "epoches".
 """
 input epochs_order_by {
-  active_months_bonus: order_by
   burns_aggregate: burns_aggregate_order_by
   circle: circles_order_by
   circle_id: order_by
@@ -7542,16 +7899,12 @@ input epochs_order_by {
   end_date: order_by
   ended: order_by
   epoch_pending_token_gifts_aggregate: pending_token_gifts_aggregate_order_by
-  gives_receiver_base: order_by
   grant: order_by
   id: order_by
-  notes_bonus: order_by
   notified_before_end: order_by
   notified_end: order_by
   notified_start: order_by
   number: order_by
-  pgive: order_by
-  processed: order_by
   regift_days: order_by
   repeat: order_by
   repeat_day_of_month: order_by
@@ -7571,11 +7924,6 @@ input epochs_pk_columns_input {
 select columns of table "epoches"
 """
 enum epochs_select_column {
-  """
-  column name
-  """
-  active_months_bonus
-
   """
   column name
   """
@@ -7604,22 +7952,12 @@ enum epochs_select_column {
   """
   column name
   """
-  gives_receiver_base
-
-  """
-  column name
-  """
   grant
 
   """
   column name
   """
   id
-
-  """
-  column name
-  """
-  notes_bonus
 
   """
   column name
@@ -7640,16 +7978,6 @@ enum epochs_select_column {
   column name
   """
   number
-
-  """
-  column name
-  """
-  pgive
-
-  """
-  column name
-  """
-  processed
 
   """
   column name
@@ -7681,22 +8009,17 @@ enum epochs_select_column {
 input type for updating data in table "epoches"
 """
 input epochs_set_input {
-  active_months_bonus: numeric
   circle_id: Int
   created_at: timestamp
   days: Int
   end_date: timestamptz
   ended: Boolean
-  gives_receiver_base: numeric
   grant: numeric
   id: bigint
-  notes_bonus: numeric
   notified_before_end: timestamp
   notified_end: timestamp
   notified_start: timestamp
   number: Int
-  pgive: numeric
-  processed: Boolean
   regift_days: Int
   repeat: Int
   repeat_day_of_month: Int
@@ -7708,15 +8031,11 @@ input epochs_set_input {
 aggregate stddev on columns
 """
 type epochs_stddev_fields {
-  active_months_bonus: Float
   circle_id: Float
   days: Float
-  gives_receiver_base: Float
   grant: Float
   id: Float
-  notes_bonus: Float
   number: Float
-  pgive: Float
   regift_days: Float
   repeat: Float
   repeat_day_of_month: Float
@@ -7726,15 +8045,11 @@ type epochs_stddev_fields {
 order by stddev() on columns of table "epoches"
 """
 input epochs_stddev_order_by {
-  active_months_bonus: order_by
   circle_id: order_by
   days: order_by
-  gives_receiver_base: order_by
   grant: order_by
   id: order_by
-  notes_bonus: order_by
   number: order_by
-  pgive: order_by
   regift_days: order_by
   repeat: order_by
   repeat_day_of_month: order_by
@@ -7744,15 +8059,11 @@ input epochs_stddev_order_by {
 aggregate stddev_pop on columns
 """
 type epochs_stddev_pop_fields {
-  active_months_bonus: Float
   circle_id: Float
   days: Float
-  gives_receiver_base: Float
   grant: Float
   id: Float
-  notes_bonus: Float
   number: Float
-  pgive: Float
   regift_days: Float
   repeat: Float
   repeat_day_of_month: Float
@@ -7762,15 +8073,11 @@ type epochs_stddev_pop_fields {
 order by stddev_pop() on columns of table "epoches"
 """
 input epochs_stddev_pop_order_by {
-  active_months_bonus: order_by
   circle_id: order_by
   days: order_by
-  gives_receiver_base: order_by
   grant: order_by
   id: order_by
-  notes_bonus: order_by
   number: order_by
-  pgive: order_by
   regift_days: order_by
   repeat: order_by
   repeat_day_of_month: order_by
@@ -7780,15 +8087,11 @@ input epochs_stddev_pop_order_by {
 aggregate stddev_samp on columns
 """
 type epochs_stddev_samp_fields {
-  active_months_bonus: Float
   circle_id: Float
   days: Float
-  gives_receiver_base: Float
   grant: Float
   id: Float
-  notes_bonus: Float
   number: Float
-  pgive: Float
   regift_days: Float
   repeat: Float
   repeat_day_of_month: Float
@@ -7798,15 +8101,11 @@ type epochs_stddev_samp_fields {
 order by stddev_samp() on columns of table "epoches"
 """
 input epochs_stddev_samp_order_by {
-  active_months_bonus: order_by
   circle_id: order_by
   days: order_by
-  gives_receiver_base: order_by
   grant: order_by
   id: order_by
-  notes_bonus: order_by
   number: order_by
-  pgive: order_by
   regift_days: order_by
   repeat: order_by
   repeat_day_of_month: order_by
@@ -7831,22 +8130,17 @@ input epochs_stream_cursor_input {
 Initial value of the column from where the streaming should start
 """
 input epochs_stream_cursor_value_input {
-  active_months_bonus: numeric
   circle_id: Int
   created_at: timestamp
   days: Int
   end_date: timestamptz
   ended: Boolean
-  gives_receiver_base: numeric
   grant: numeric
   id: bigint
-  notes_bonus: numeric
   notified_before_end: timestamp
   notified_end: timestamp
   notified_start: timestamp
   number: Int
-  pgive: numeric
-  processed: Boolean
   regift_days: Int
   repeat: Int
   repeat_day_of_month: Int
@@ -7858,15 +8152,11 @@ input epochs_stream_cursor_value_input {
 aggregate sum on columns
 """
 type epochs_sum_fields {
-  active_months_bonus: numeric
   circle_id: Int
   days: Int
-  gives_receiver_base: numeric
   grant: numeric
   id: bigint
-  notes_bonus: numeric
   number: Int
-  pgive: numeric
   regift_days: Int
   repeat: Int
   repeat_day_of_month: Int
@@ -7876,15 +8166,11 @@ type epochs_sum_fields {
 order by sum() on columns of table "epoches"
 """
 input epochs_sum_order_by {
-  active_months_bonus: order_by
   circle_id: order_by
   days: order_by
-  gives_receiver_base: order_by
   grant: order_by
   id: order_by
-  notes_bonus: order_by
   number: order_by
-  pgive: order_by
   regift_days: order_by
   repeat: order_by
   repeat_day_of_month: order_by
@@ -7894,11 +8180,6 @@ input epochs_sum_order_by {
 update columns of table "epoches"
 """
 enum epochs_update_column {
-  """
-  column name
-  """
-  active_months_bonus
-
   """
   column name
   """
@@ -7927,22 +8208,12 @@ enum epochs_update_column {
   """
   column name
   """
-  gives_receiver_base
-
-  """
-  column name
-  """
   grant
 
   """
   column name
   """
   id
-
-  """
-  column name
-  """
-  notes_bonus
 
   """
   column name
@@ -7963,16 +8234,6 @@ enum epochs_update_column {
   column name
   """
   number
-
-  """
-  column name
-  """
-  pgive
-
-  """
-  column name
-  """
-  processed
 
   """
   column name
@@ -8017,15 +8278,11 @@ input epochs_updates {
 aggregate var_pop on columns
 """
 type epochs_var_pop_fields {
-  active_months_bonus: Float
   circle_id: Float
   days: Float
-  gives_receiver_base: Float
   grant: Float
   id: Float
-  notes_bonus: Float
   number: Float
-  pgive: Float
   regift_days: Float
   repeat: Float
   repeat_day_of_month: Float
@@ -8035,15 +8292,11 @@ type epochs_var_pop_fields {
 order by var_pop() on columns of table "epoches"
 """
 input epochs_var_pop_order_by {
-  active_months_bonus: order_by
   circle_id: order_by
   days: order_by
-  gives_receiver_base: order_by
   grant: order_by
   id: order_by
-  notes_bonus: order_by
   number: order_by
-  pgive: order_by
   regift_days: order_by
   repeat: order_by
   repeat_day_of_month: order_by
@@ -8053,15 +8306,11 @@ input epochs_var_pop_order_by {
 aggregate var_samp on columns
 """
 type epochs_var_samp_fields {
-  active_months_bonus: Float
   circle_id: Float
   days: Float
-  gives_receiver_base: Float
   grant: Float
   id: Float
-  notes_bonus: Float
   number: Float
-  pgive: Float
   regift_days: Float
   repeat: Float
   repeat_day_of_month: Float
@@ -8071,15 +8320,11 @@ type epochs_var_samp_fields {
 order by var_samp() on columns of table "epoches"
 """
 input epochs_var_samp_order_by {
-  active_months_bonus: order_by
   circle_id: order_by
   days: order_by
-  gives_receiver_base: order_by
   grant: order_by
   id: order_by
-  notes_bonus: order_by
   number: order_by
-  pgive: order_by
   regift_days: order_by
   repeat: order_by
   repeat_day_of_month: order_by
@@ -8089,15 +8334,11 @@ input epochs_var_samp_order_by {
 aggregate variance on columns
 """
 type epochs_variance_fields {
-  active_months_bonus: Float
   circle_id: Float
   days: Float
-  gives_receiver_base: Float
   grant: Float
   id: Float
-  notes_bonus: Float
   number: Float
-  pgive: Float
   regift_days: Float
   repeat: Float
   repeat_day_of_month: Float
@@ -8107,15 +8348,11 @@ type epochs_variance_fields {
 order by variance() on columns of table "epoches"
 """
 input epochs_variance_order_by {
-  active_months_bonus: order_by
   circle_id: order_by
   days: order_by
-  gives_receiver_base: order_by
   grant: order_by
   id: order_by
-  notes_bonus: order_by
   number: order_by
-  pgive: order_by
   regift_days: order_by
   repeat: order_by
   repeat_day_of_month: order_by
@@ -9916,6 +10153,21 @@ type mutation_root {
   delete_distributions_by_pk(id: bigint!): distributions
 
   """
+  delete data from the table: "epoch_pgive_data"
+  """
+  delete_epoch_pgive_data(
+    """
+    filter the rows which have to be deleted
+    """
+    where: epoch_pgive_data_bool_exp!
+  ): epoch_pgive_data_mutation_response
+
+  """
+  delete single row from the table: "epoch_pgive_data"
+  """
+  delete_epoch_pgive_data_by_pk(id: Int!): epoch_pgive_data
+
+  """
   delete data from the table: "epoches"
   """
   delete_epochs(
@@ -10486,6 +10738,36 @@ type mutation_root {
     """
     on_conflict: distributions_on_conflict
   ): distributions
+
+  """
+  insert data into the table: "epoch_pgive_data"
+  """
+  insert_epoch_pgive_data(
+    """
+    the rows to be inserted
+    """
+    objects: [epoch_pgive_data_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: epoch_pgive_data_on_conflict
+  ): epoch_pgive_data_mutation_response
+
+  """
+  insert a single row into the table: "epoch_pgive_data"
+  """
+  insert_epoch_pgive_data_one(
+    """
+    the row to be inserted
+    """
+    object: epoch_pgive_data_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: epoch_pgive_data_on_conflict
+  ): epoch_pgive_data
 
   """
   insert data into the table: "epoches"
@@ -11549,6 +11831,52 @@ type mutation_root {
     """
     updates: [distributions_updates!]!
   ): [distributions_mutation_response]
+
+  """
+  update data of the table: "epoch_pgive_data"
+  """
+  update_epoch_pgive_data(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: epoch_pgive_data_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: epoch_pgive_data_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: epoch_pgive_data_bool_exp!
+  ): epoch_pgive_data_mutation_response
+
+  """
+  update single row of the table: "epoch_pgive_data"
+  """
+  update_epoch_pgive_data_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: epoch_pgive_data_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: epoch_pgive_data_set_input
+    pk_columns: epoch_pgive_data_pk_columns_input!
+  ): epoch_pgive_data
+
+  """
+  update multiples rows of table: "epoch_pgive_data"
+  """
+  update_epoch_pgive_data_many(
+    """
+    updates to execute, in order
+    """
+    updates: [epoch_pgive_data_updates!]!
+  ): [epoch_pgive_data_mutation_response]
 
   """
   update data of the table: "epoches"
@@ -17045,6 +17373,71 @@ type query_root {
   distributions_by_pk(id: bigint!): distributions
 
   """
+  fetch data from the table: "epoch_pgive_data"
+  """
+  epoch_pgive_data(
+    """
+    distinct select on columns
+    """
+    distinct_on: [epoch_pgive_data_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [epoch_pgive_data_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: epoch_pgive_data_bool_exp
+  ): [epoch_pgive_data!]!
+
+  """
+  fetch aggregated fields from the table: "epoch_pgive_data"
+  """
+  epoch_pgive_data_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [epoch_pgive_data_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [epoch_pgive_data_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: epoch_pgive_data_bool_exp
+  ): epoch_pgive_data_aggregate!
+
+  """
+  fetch data from the table: "epoch_pgive_data" using primary key columns
+  """
+  epoch_pgive_data_by_pk(id: Int!): epoch_pgive_data
+
+  """
   An array relationship
   """
   epochs(
@@ -17748,7 +18141,6 @@ type query_root {
   fetch data from the table: "personal_access_tokens" using primary key columns
   """
   personal_access_tokens_by_pk(id: bigint!): personal_access_tokens
-  price_per_share(chain_id: Int!, token_address: String): Float!
 
   """
   fetch data from the table: "profiles"
@@ -19176,6 +19568,91 @@ type subscription_root {
     """
     where: distributions_bool_exp
   ): [distributions!]!
+
+  """
+  fetch data from the table: "epoch_pgive_data"
+  """
+  epoch_pgive_data(
+    """
+    distinct select on columns
+    """
+    distinct_on: [epoch_pgive_data_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [epoch_pgive_data_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: epoch_pgive_data_bool_exp
+  ): [epoch_pgive_data!]!
+
+  """
+  fetch aggregated fields from the table: "epoch_pgive_data"
+  """
+  epoch_pgive_data_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [epoch_pgive_data_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [epoch_pgive_data_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: epoch_pgive_data_bool_exp
+  ): epoch_pgive_data_aggregate!
+
+  """
+  fetch data from the table: "epoch_pgive_data" using primary key columns
+  """
+  epoch_pgive_data_by_pk(id: Int!): epoch_pgive_data
+
+  """
+  fetch data from the table in a streaming manner : "epoch_pgive_data"
+  """
+  epoch_pgive_data_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [epoch_pgive_data_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: epoch_pgive_data_bool_exp
+  ): [epoch_pgive_data!]!
 
   """
   An array relationship
@@ -24614,7 +25091,6 @@ type vaults {
   An object relationship
   """
   organization: organizations!
-  price_per_share: Float!
 
   """
   An object relationship

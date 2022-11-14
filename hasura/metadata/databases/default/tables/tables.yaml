@@ -8,6 +8,7 @@
 - "!include public_claims.yaml"
 - "!include public_contributions.yaml"
 - "!include public_distributions.yaml"
+- "!include public_epoch_pgive_data.yaml"
 - "!include public_epoches.yaml"
 - "!include public_gift_private.yaml"
 - "!include public_histories.yaml"
