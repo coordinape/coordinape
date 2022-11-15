@@ -17,6 +17,14 @@ type DiscordMember = {
   discriminator: string;
 };
 
+/**
+ * Authorization Code Grant for Discord
+ *
+ * Retrieves the discord user's access token and exchanges it for a user's access token. Uses the access token
+ * to fetch and return discord user's details, including the snowflake id.
+ *
+ * https://discord.com/developers/docs/topics/oauth2#authorization-code-grant
+ */
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { code } = req.query;
 
