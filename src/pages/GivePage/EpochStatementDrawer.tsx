@@ -202,6 +202,9 @@ export const EpochStatementDrawer = ({
       <Flex column css={{ mt: '$xl', gap: '$sm' }}>
         <Text inline semibold size="large">
           Epoch Statement
+          <Text inline size="small" color="neutral" css={{ ml: '$sm' }}>
+            Markdown Supported
+          </Text>
         </Text>
         {showMarkdown ? (
           <Box
