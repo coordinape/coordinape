@@ -383,13 +383,7 @@ const ContributionsPage = () => {
           }}
         >
           <Text h1>Contributions</Text>
-          <Button
-            outlined
-            color="primary"
-            onClick={() => {
-              newContribution();
-            }}
-          >
+          <Button outlined color="primary" onClick={newContribution}>
             Add Contribution
           </Button>
         </Flex>
@@ -646,13 +640,9 @@ const ContributionsPage = () => {
                 <Flex css={{ justifyContent: 'flex-end', mt: '$md' }}>
                   <Button
                     color="primary"
-                    onClick={() => {
-                      newContribution();
-                    }}
+                    onClick={newContribution}
                     // adding onMouseDown because the onBlur event on the markdown-ready textarea was preventing onClick
-                    onMouseDown={() => {
-                      newContribution();
-                    }}
+                    onMouseDown={newContribution}
                   >
                     <Edit />
                     New
