@@ -92,12 +92,33 @@ export const getMembersWithContributions = async (
       operationName: 'membersWithContributions',
     }
   );
-
   return {
     startingTeammates: data?.teammates?.map(x => ({ id: x.team_mate_id })),
     allUsers: data?.users,
   };
 };
+export const getCircleAllocationText = async (circleId: number) => {
+  const { circle } = await client.query({
+    __alias: {
+      circle: {
+        circles_by_pk: [
+          {
+            id: circleId,
+          },
+          {
+            alloc_text: true,
+          },
+        ],
+      },
+    },
+  });
+  return circle;
+};
+
+export type CircleAllocationText = Awaited<
+  ReturnType<typeof getCircleAllocationText>
+>;
+export const QUERY_KEY_CIRCLE_ALLOCATION_TEXT = 'getCircleAllocationText';
 
 export type PotentialTeammate = Awaited<
   ReturnType<typeof getMembersWithContributions>

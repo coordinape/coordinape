@@ -1,9 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { updateUser } from 'lib/gql/mutations';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { updateUser, updateCircle } from 'lib/gql/mutations';
+import { isUserAdmin } from 'lib/users';
 import debounce from 'lodash/debounce';
 import { Helmet } from 'react-helmet';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import * as z from 'zod';
 
 import { Awaited } from '../../../api-lib/ts4.5shim';
 import { LoadingModal, QUERY_KEY_RECEIVE_INFO } from '../../components';
@@ -17,24 +21,40 @@ import { IEpoch, IMyUser } from '../../types';
 import { Box, Button, Flex, Modal, Panel, Text, Link } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 import { getPendingGiftsFrom } from '../AllocationPage/queries';
+import { FormInputField } from 'components';
 import { SaveState, SavingIndicator } from 'ui/SavingIndicator';
 
 import { EpochStatementDrawer } from './EpochStatementDrawer';
 import { GiveDrawer } from './GiveDrawer';
 import { GiveRow } from './GiveRow';
 import { MyGiveRow } from './MyGiveRow';
-import { getMembersWithContributions, PotentialTeammate } from './queries';
+import {
+  getCircleAllocationText,
+  getMembersWithContributions,
+  PotentialTeammate,
+  QUERY_KEY_CIRCLE_ALLOCATION_TEXT,
+} from './queries';
 
 export type Gift = Awaited<ReturnType<typeof getPendingGiftsFrom>>[number];
 
 // the amount of time to wait for inactivity to save
+const schema = z.object({
+  alloc_text: z
+
+    .string()
+    .max(500)
+    .refine(val => val.trim().length >= 40, {
+      message: 'Please write at least 40 characters.',
+    }),
+});
+type allocationTextSchema = z.infer<typeof schema>;
 const SAVE_BUFFER_PERIOD = 1000;
 
 const GivePage = () => {
   const address = useConnectedAddress();
   const {
     circle: selectedCircle,
-    myUser,
+    myUser: me,
     circleEpochsStatus: { currentEpoch, nextEpoch, previousEpoch },
   } = useSelectedCircle();
   const { showError } = useApeSnackbar();
@@ -44,6 +64,7 @@ const GivePage = () => {
 
   // totalGiveUsed is the amount of give used by the current user
   const [totalGiveUsed, setTotalGiveUsed] = useState<number>(0);
+  const [editِِAllocHelpText, setEditAllocHelpText] = useState(false);
 
   // queryClient is the react-query client, for invalidation purposes
   const queryClient = useQueryClient();
@@ -94,6 +115,20 @@ const GivePage = () => {
       staleTime: Infinity,
     }
   );
+
+  const { data: circle } = useQuery(
+    [QUERY_KEY_CIRCLE_ALLOCATION_TEXT, selectedCircle.id],
+    () => getCircleAllocationText(selectedCircle.id),
+    {
+      enabled: !!selectedCircle.id,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+      staleTime: Infinity,
+    }
+  );
+  const [updatedAllocText, setUpdatedAllocText] = useState<
+    string | undefined
+  >();
 
   useEffect(() => {
     // This forces the re-load when GivePage is visited.
@@ -187,6 +222,25 @@ const GivePage = () => {
       showError(e);
     }
   };
+  const { control: allocationTextControl, handleSubmit } =
+    useForm<allocationTextSchema>({
+      resolver: zodResolver(schema),
+      mode: 'all',
+    });
+  const isAdmin = isUserAdmin(me);
+  const onSubmit: SubmitHandler<allocationTextSchema> = async data => {
+    try {
+      await updateCircle({
+        circle_id: selectedCircle.id,
+        alloc_text: data.alloc_text,
+      });
+      setUpdatedAllocText(data.alloc_text);
+    } catch (e) {
+      showError(e);
+      console.warn(e);
+    }
+    setEditAllocHelpText(false);
+  };
 
   // adjustGift adjusts a gift by an amount if it is allowed wrt the max give, then schedules saving
   const adjustGift = (recipientId: number, amount: number | null) => {
@@ -205,7 +259,7 @@ const GivePage = () => {
         0
       );
 
-      if (afterUpdateTotal > myUser.starting_tokens) {
+      if (afterUpdateTotal > me.starting_tokens) {
         // too much , so we can't update!
         return prevState;
       }
@@ -340,9 +394,65 @@ const GivePage = () => {
               </Text>
             )}
           </Box>
-          <Text css={{ mb: '$md' }}>
-            Reward &amp; thank your teammates for their contributions
-          </Text>
+          <Flex
+            alignItems="end"
+            css={{
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              gap: '$md',
+              mb: '$md',
+            }}
+          >
+            <Box
+              css={{
+                width: '50%',
+              }}
+            >
+              {!editِِAllocHelpText ? (
+                <Text>
+                  {updatedAllocText ||
+                    circle?.alloc_text ||
+                    'Reward & thank your teammates for their contributions'}
+                </Text>
+              ) : (
+                <FormInputField
+                  name="alloc_text"
+                  id="finish_work"
+                  control={allocationTextControl}
+                  defaultValue={circle?.alloc_text}
+                  label="Allocation Help Text"
+                  infoTooltip="Change the text that contributors see on this page."
+                  showFieldErrors
+                  css={{
+                    width: '100%',
+                  }}
+                />
+              )}
+            </Box>
+            {!editِِAllocHelpText ? (
+              isAdmin && (
+                <Button
+                  outlined
+                  color="primary"
+                  type="submit"
+                  onClick={() => {
+                    setEditAllocHelpText(true);
+                  }}
+                >
+                  Edit Help Text
+                </Button>
+              )
+            ) : (
+              <Button
+                outlined
+                color="primary"
+                type="submit"
+                onClick={handleSubmit(onSubmit)}
+              >
+                Save
+              </Button>
+            )}
+          </Flex>
         </Box>
         {!currentEpoch && (
           <Panel>
@@ -373,8 +483,8 @@ const GivePage = () => {
             saveState={saveState}
             setNeedToSave={setNeedToSave}
             totalGiveUsed={totalGiveUsed}
-            myUser={myUser}
-            maxedOut={totalGiveUsed >= myUser.starting_tokens}
+            myUser={me}
+            maxedOut={totalGiveUsed >= me.starting_tokens}
             currentEpoch={currentEpoch}
             retrySave={saveGifts}
           />
