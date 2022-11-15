@@ -1,2 +1,2 @@
-alter table "public"."epoches" add column "description" varchar
- null;
+alter table "public"."epoches"
+add column "description" text null;
