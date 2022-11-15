@@ -6990,6 +6990,7 @@ export type ValueTypes = {
   };
   /** member allocated pgives per epoch */
   ['member_epoch_pgives']: AliasType<{
+    created_at?: boolean | `@${string}`;
     /** An object relationship */
     epoch?: ValueTypes['epochs'];
     epoch_id?: boolean | `@${string}`;
@@ -7047,6 +7048,7 @@ export type ValueTypes = {
     _and?: Array<ValueTypes['member_epoch_pgives_bool_exp']> | undefined | null;
     _not?: ValueTypes['member_epoch_pgives_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['member_epoch_pgives_bool_exp']> | undefined | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     epoch?: ValueTypes['epochs_bool_exp'] | undefined | null;
     epoch_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     gives_received?: ValueTypes['Int_comparison_exp'] | undefined | null;
@@ -7069,6 +7071,7 @@ export type ValueTypes = {
   };
   /** input type for inserting data into table "member_epoch_pgives" */
   ['member_epoch_pgives_insert_input']: {
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
     epoch?: ValueTypes['epochs_obj_rel_insert_input'] | undefined | null;
     epoch_id?: number | undefined | null;
     gives_received?: number | undefined | null;
@@ -7080,6 +7083,7 @@ export type ValueTypes = {
   };
   /** aggregate max on columns */
   ['member_epoch_pgives_max_fields']: AliasType<{
+    created_at?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
     gives_received?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -7090,6 +7094,7 @@ export type ValueTypes = {
   }>;
   /** aggregate min on columns */
   ['member_epoch_pgives_min_fields']: AliasType<{
+    created_at?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
     gives_received?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -7114,6 +7119,7 @@ export type ValueTypes = {
   };
   /** Ordering options when selecting data from "member_epoch_pgives". */
   ['member_epoch_pgives_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
     epoch?: ValueTypes['epochs_order_by'] | undefined | null;
     epoch_id?: ValueTypes['order_by'] | undefined | null;
     gives_received?: ValueTypes['order_by'] | undefined | null;
@@ -7131,6 +7137,7 @@ export type ValueTypes = {
   ['member_epoch_pgives_select_column']: member_epoch_pgives_select_column;
   /** input type for updating data in table "member_epoch_pgives" */
   ['member_epoch_pgives_set_input']: {
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
     epoch_id?: number | undefined | null;
     gives_received?: number | undefined | null;
     id?: number | undefined | null;
@@ -7177,6 +7184,7 @@ export type ValueTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ['member_epoch_pgives_stream_cursor_value_input']: {
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
     epoch_id?: number | undefined | null;
     gives_received?: number | undefined | null;
     id?: number | undefined | null;
@@ -21256,6 +21264,7 @@ export type ModelTypes = {
   ['jsonb_comparison_exp']: GraphQLTypes['jsonb_comparison_exp'];
   /** member allocated pgives per epoch */
   ['member_epoch_pgives']: {
+    created_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
     epoch: GraphQLTypes['epochs'];
     epoch_id: number;
@@ -21311,6 +21320,7 @@ export type ModelTypes = {
   ['member_epoch_pgives_insert_input']: GraphQLTypes['member_epoch_pgives_insert_input'];
   /** aggregate max on columns */
   ['member_epoch_pgives_max_fields']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
     epoch_id?: number | undefined;
     gives_received?: number | undefined;
     id?: number | undefined;
@@ -21320,6 +21330,7 @@ export type ModelTypes = {
   };
   /** aggregate min on columns */
   ['member_epoch_pgives_min_fields']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
     epoch_id?: number | undefined;
     gives_received?: number | undefined;
     id?: number | undefined;
@@ -30377,6 +30388,7 @@ export type GraphQLTypes = {
   /** member allocated pgives per epoch */
   ['member_epoch_pgives']: {
     __typename: 'member_epoch_pgives';
+    created_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
     epoch: GraphQLTypes['epochs'];
     epoch_id: number;
@@ -30430,6 +30442,7 @@ export type GraphQLTypes = {
     _and?: Array<GraphQLTypes['member_epoch_pgives_bool_exp']> | undefined;
     _not?: GraphQLTypes['member_epoch_pgives_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['member_epoch_pgives_bool_exp']> | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     epoch?: GraphQLTypes['epochs_bool_exp'] | undefined;
     epoch_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     gives_received?: GraphQLTypes['Int_comparison_exp'] | undefined;
@@ -30452,6 +30465,7 @@ export type GraphQLTypes = {
   };
   /** input type for inserting data into table "member_epoch_pgives" */
   ['member_epoch_pgives_insert_input']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
     epoch?: GraphQLTypes['epochs_obj_rel_insert_input'] | undefined;
     epoch_id?: number | undefined;
     gives_received?: number | undefined;
@@ -30464,6 +30478,7 @@ export type GraphQLTypes = {
   /** aggregate max on columns */
   ['member_epoch_pgives_max_fields']: {
     __typename: 'member_epoch_pgives_max_fields';
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
     epoch_id?: number | undefined;
     gives_received?: number | undefined;
     id?: number | undefined;
@@ -30474,6 +30489,7 @@ export type GraphQLTypes = {
   /** aggregate min on columns */
   ['member_epoch_pgives_min_fields']: {
     __typename: 'member_epoch_pgives_min_fields';
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
     epoch_id?: number | undefined;
     gives_received?: number | undefined;
     id?: number | undefined;
@@ -30497,6 +30513,7 @@ export type GraphQLTypes = {
   };
   /** Ordering options when selecting data from "member_epoch_pgives". */
   ['member_epoch_pgives_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
     epoch?: GraphQLTypes['epochs_order_by'] | undefined;
     epoch_id?: GraphQLTypes['order_by'] | undefined;
     gives_received?: GraphQLTypes['order_by'] | undefined;
@@ -30514,6 +30531,7 @@ export type GraphQLTypes = {
   ['member_epoch_pgives_select_column']: member_epoch_pgives_select_column;
   /** input type for updating data in table "member_epoch_pgives" */
   ['member_epoch_pgives_set_input']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
     epoch_id?: number | undefined;
     gives_received?: number | undefined;
     id?: number | undefined;
@@ -30560,6 +30578,7 @@ export type GraphQLTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ['member_epoch_pgives_stream_cursor_value_input']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
     epoch_id?: number | undefined;
     gives_received?: number | undefined;
     id?: number | undefined;
@@ -36971,6 +36990,7 @@ export const enum member_epoch_pgives_constraint {
 }
 /** select columns of table "member_epoch_pgives" */
 export const enum member_epoch_pgives_select_column {
+  created_at = 'created_at',
   epoch_id = 'epoch_id',
   gives_received = 'gives_received',
   id = 'id',
@@ -36980,6 +37000,7 @@ export const enum member_epoch_pgives_select_column {
 }
 /** update columns of table "member_epoch_pgives" */
 export const enum member_epoch_pgives_update_column {
+  created_at = 'created_at',
   epoch_id = 'epoch_id',
   gives_received = 'gives_received',
   id = 'id',

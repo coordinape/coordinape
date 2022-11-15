@@ -2482,6 +2482,7 @@ export const AllTypesProps: Record<string, any> = {
     _and: 'member_epoch_pgives_bool_exp',
     _not: 'member_epoch_pgives_bool_exp',
     _or: 'member_epoch_pgives_bool_exp',
+    created_at: 'timestamptz_comparison_exp',
     epoch: 'epochs_bool_exp',
     epoch_id: 'Int_comparison_exp',
     gives_received: 'Int_comparison_exp',
@@ -2497,6 +2498,7 @@ export const AllTypesProps: Record<string, any> = {
     pgive: 'numeric',
   },
   member_epoch_pgives_insert_input: {
+    created_at: 'timestamptz',
     epoch: 'epochs_obj_rel_insert_input',
     normalized_pgive: 'numeric',
     pgive: 'numeric',
@@ -2508,6 +2510,7 @@ export const AllTypesProps: Record<string, any> = {
     where: 'member_epoch_pgives_bool_exp',
   },
   member_epoch_pgives_order_by: {
+    created_at: 'order_by',
     epoch: 'epochs_order_by',
     epoch_id: 'order_by',
     gives_received: 'order_by',
@@ -2520,6 +2523,7 @@ export const AllTypesProps: Record<string, any> = {
   member_epoch_pgives_pk_columns_input: {},
   member_epoch_pgives_select_column: true,
   member_epoch_pgives_set_input: {
+    created_at: 'timestamptz',
     normalized_pgive: 'numeric',
     pgive: 'numeric',
   },
@@ -2528,6 +2532,7 @@ export const AllTypesProps: Record<string, any> = {
     ordering: 'cursor_ordering',
   },
   member_epoch_pgives_stream_cursor_value_input: {
+    created_at: 'timestamptz',
     normalized_pgive: 'numeric',
     pgive: 'numeric',
   },
@@ -8305,6 +8310,7 @@ export const ReturnTypes: Record<string, any> = {
     profile_id: 'Float',
   },
   member_epoch_pgives: {
+    created_at: 'timestamptz',
     epoch: 'epochs',
     epoch_id: 'Int',
     gives_received: 'Int',
@@ -8340,6 +8346,7 @@ export const ReturnTypes: Record<string, any> = {
     user_id: 'Float',
   },
   member_epoch_pgives_max_fields: {
+    created_at: 'timestamptz',
     epoch_id: 'Int',
     gives_received: 'Int',
     id: 'Int',
@@ -8348,6 +8355,7 @@ export const ReturnTypes: Record<string, any> = {
     user_id: 'Int',
   },
   member_epoch_pgives_min_fields: {
+    created_at: 'timestamptz',
     epoch_id: 'Int',
     gives_received: 'Int',
     id: 'Int',

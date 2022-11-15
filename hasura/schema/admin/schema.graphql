@@ -9614,6 +9614,8 @@ input jsonb_comparison_exp {
 member allocated pgives per epoch
 """
 type member_epoch_pgives {
+  created_at: timestamptz!
+
   """
   An object relationship
   """
@@ -9675,6 +9677,7 @@ input member_epoch_pgives_bool_exp {
   _and: [member_epoch_pgives_bool_exp!]
   _not: member_epoch_pgives_bool_exp
   _or: [member_epoch_pgives_bool_exp!]
+  created_at: timestamptz_comparison_exp
   epoch: epochs_bool_exp
   epoch_id: Int_comparison_exp
   gives_received: Int_comparison_exp
@@ -9716,6 +9719,7 @@ input member_epoch_pgives_inc_input {
 input type for inserting data into table "member_epoch_pgives"
 """
 input member_epoch_pgives_insert_input {
+  created_at: timestamptz
   epoch: epochs_obj_rel_insert_input
   epoch_id: Int
   gives_received: Int
@@ -9730,6 +9734,7 @@ input member_epoch_pgives_insert_input {
 aggregate max on columns
 """
 type member_epoch_pgives_max_fields {
+  created_at: timestamptz
   epoch_id: Int
   gives_received: Int
   id: Int
@@ -9742,6 +9747,7 @@ type member_epoch_pgives_max_fields {
 aggregate min on columns
 """
 type member_epoch_pgives_min_fields {
+  created_at: timestamptz
   epoch_id: Int
   gives_received: Int
   id: Int
@@ -9778,6 +9784,7 @@ input member_epoch_pgives_on_conflict {
 Ordering options when selecting data from "member_epoch_pgives".
 """
 input member_epoch_pgives_order_by {
+  created_at: order_by
   epoch: epochs_order_by
   epoch_id: order_by
   gives_received: order_by
@@ -9799,6 +9806,11 @@ input member_epoch_pgives_pk_columns_input {
 select columns of table "member_epoch_pgives"
 """
 enum member_epoch_pgives_select_column {
+  """
+  column name
+  """
+  created_at
+
   """
   column name
   """
@@ -9834,6 +9846,7 @@ enum member_epoch_pgives_select_column {
 input type for updating data in table "member_epoch_pgives"
 """
 input member_epoch_pgives_set_input {
+  created_at: timestamptz
   epoch_id: Int
   gives_received: Int
   id: Int
@@ -9897,6 +9910,7 @@ input member_epoch_pgives_stream_cursor_input {
 Initial value of the column from where the streaming should start
 """
 input member_epoch_pgives_stream_cursor_value_input {
+  created_at: timestamptz
   epoch_id: Int
   gives_received: Int
   id: Int
@@ -9921,6 +9935,11 @@ type member_epoch_pgives_sum_fields {
 update columns of table "member_epoch_pgives"
 """
 enum member_epoch_pgives_update_column {
+  """
+  column name
+  """
+  created_at
+
   """
   column name
   """
