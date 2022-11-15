@@ -1,18 +1,11 @@
 {
+  "extends": "@tsconfig/node16/tsconfig.json",
   "compilerOptions": {
-    "target": "esnext",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": ["dom", "dom.iterable", "es2021"],
     "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
-    "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": "src",
@@ -24,8 +17,8 @@
         "transform": "ts-auto-mock/transformer",
         "cacheBetweenTests": false
       }
-    ]
+    ],
+    "sourceMap": true
   },
-  "include": ["src"],
-  "sourceMap": true
+  "include": ["src"]
 }

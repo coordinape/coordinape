@@ -1,10 +1,8 @@
 {
-  "extends": "@tsconfig/node14/tsconfig.json",
+  "extends": "@tsconfig/node16/tsconfig.json",
   "include": ["api/**/*", "api-lib/**/*", "scripts/**/*"],
   "compilerOptions": {
-    "lib": ["es2021", "esnext"],
     "resolveJsonModule": true,
-    "noErrorTruncation": true
-  },
-  "sourceMap": true
+    "sourceMap": true
+  }
 }
