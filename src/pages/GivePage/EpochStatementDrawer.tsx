@@ -222,13 +222,13 @@ export const EpochStatementDrawer = ({
               <MarkdownPreview source={statement} />
             </Box>
           ) : (
-            <Box css={{ position: 'relative', width: '100%' }}>
+            <Box css={{ position: 'relative' }}>
               <TextArea
                 id="epoch_statement"
                 autoSize
                 css={{
                   resize: 'vertical',
-                  pb: '$1xl',
+                  pb: '$xl',
                   width: '100%',
                   minHeight: 'calc($2xl * 2)',
                 }}

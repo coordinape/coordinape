@@ -357,6 +357,19 @@ const ContributionsPage = () => {
     resetUpdateMutation();
     reset();
   };
+  const newContribution = () => {
+    setCurrentContribution({
+      contribution: getNewContribution(
+        currentUserId,
+        memoizedEpochData.contributions[0]
+      ),
+      epoch: getCurrentEpoch(memoizedEpochData.epochs),
+    });
+    resetField('description', { defaultValue: '' });
+    resetCreateMutation();
+    setModalOpen(true);
+    setShowMarkDown(false);
+  };
 
   return (
     <>
@@ -374,17 +387,7 @@ const ContributionsPage = () => {
             outlined
             color="primary"
             onClick={() => {
-              setCurrentContribution({
-                contribution: getNewContribution(
-                  currentUserId,
-                  memoizedEpochData.contributions[0]
-                ),
-                epoch: getCurrentEpoch(memoizedEpochData.epochs),
-              });
-              resetField('description', { defaultValue: '' });
-              resetCreateMutation();
-              setModalOpen(true);
-              setShowMarkDown(false);
+              newContribution();
             }}
           >
             Add Contribution
@@ -573,7 +576,7 @@ const ContributionsPage = () => {
                       <MarkdownPreview source={descriptionField.value} />
                     </Box>
                   ) : (
-                    <>
+                    <Box css={{ position: 'relative' }}>
                       <FormInputField
                         id="description"
                         name="description"
@@ -581,7 +584,8 @@ const ContributionsPage = () => {
                         css={{
                           textarea: {
                             resize: 'vertical',
-                            pb: '$1xl',
+                            pb: '$xl',
+                            minHeight: 'calc($2xl * 2)',
                           },
                         }}
                         defaultValue={
@@ -630,16 +634,16 @@ const ContributionsPage = () => {
                         size="small"
                         color="neutral"
                         css={{
-                          mx: '$sm',
-                          mt: '-$xl',
-                          textAlign: 'right',
+                          position: 'absolute',
+                          right: '$sm',
+                          bottom: '$sm',
                           // to match the browser placeholder color
                           opacity: '0.7',
                         }}
                       >
                         Markdown Supported
                       </Text>
-                    </>
+                    </Box>
                   )
                 ) : (
                   <Panel nested>
@@ -652,19 +656,12 @@ const ContributionsPage = () => {
                 <Flex css={{ justifyContent: 'flex-end', mt: '$md' }}>
                   <Button
                     color="primary"
-                    // using onMouseDown because the onBlur event on the markdown-ready textarea was preventing onClick
+                    onClick={() => {
+                      newContribution();
+                    }}
+                    // adding onMouseDown because the onBlur event on the markdown-ready textarea was preventing onClick
                     onMouseDown={() => {
-                      setCurrentContribution({
-                        contribution: getNewContribution(
-                          currentUserId,
-                          memoizedEpochData.contributions[0]
-                        ),
-                        epoch: getCurrentEpoch(memoizedEpochData.epochs),
-                      });
-                      resetField('description', { defaultValue: '' });
-                      resetCreateMutation();
-                      setModalOpen(true);
-                      setShowMarkDown(false);
+                      newContribution();
                     }}
                   >
                     <Edit />
