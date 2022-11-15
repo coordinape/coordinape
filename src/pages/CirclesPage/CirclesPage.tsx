@@ -290,36 +290,36 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
             }}
           >
             {epoch && startDate && endDate ? (
-              <Box
-                css={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  '@sm': { flexDirection: 'column' },
-                }}
-              >
-                <Text
-                  inline
-                  css={{
-                    whiteSpace: 'nowrap',
-                    pr: '$md',
-                    color: '$headingText',
-                    ...nonMemberCss,
-                  }}
-                >
-                  Epoch {epoch.number}
-                </Text>
-                <Text
-                  inline
-                  semibold
-                  color={'default'}
-                  css={{ whiteSpace: 'nowrap' }}
-                >
-                  {startDate.toFormat('MMM d')} -{' '}
-                  {endDate.toFormat(
-                    endDate.month === startDate.month ? 'd' : 'MMM d'
+              <Flex column>
+                <Flex css={{ gap: '$md' }}>
+                  <Text
+                    inline
+                    semibold
+                    color={'default'}
+                    css={{ whiteSpace: 'nowrap' }}
+                  >
+                    {startDate.toFormat('MMM d')} -{' '}
+                    {endDate.toFormat(
+                      endDate.month === startDate.month ? 'd' : 'MMM d'
+                    )}
+                  </Text>
+                  <Text
+                    size="small"
+                    css={{ color: '$headingText', ...nonMemberCss }}
+                  >
+                    {isCurrent && <span>Allocation Period Open</span>}
+                  </Text>
+                  {!!nomineeCount && (
+                    <Text
+                      size="small"
+                      css={{ color: '$headingText', ...nonMemberCss }}
+                    >
+                      {nomineeCount} Nominee{nomineeCount > 1 ? 's' : ''}
+                    </Text>
                   )}
-                </Text>
-              </Box>
+                </Flex>
+                <Text p>{epoch.description ?? `Epoch ${epoch.number}`}</Text>
+              </Flex>
             ) : (
               <Text
                 css={{
@@ -332,14 +332,6 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
                 No active or upcoming epochs
               </Text>
             )}
-          </Text>
-          <Text size={'small'} css={{ color: '$headingText', ...nonMemberCss }}>
-            {!!nomineeCount && (
-              <span>
-                {nomineeCount} Nominee{nomineeCount > 1 ? 's' : ''}
-              </span>
-            )}
-            {isCurrent && <span>Allocation Period Open</span>}
           </Text>
         </Box>
         {!nonMember && (

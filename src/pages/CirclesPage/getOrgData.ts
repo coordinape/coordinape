@@ -28,7 +28,12 @@ export const getOrgData = (address: string) =>
                   order_by: [{ start_date: order_by.asc }],
                   limit: 1,
                 },
-                { start_date: true, end_date: true, number: true },
+                {
+                  start_date: true,
+                  end_date: true,
+                  number: true,
+                  description: true,
+                },
               ],
               nominees_aggregate: [
                 {

@@ -242,7 +242,9 @@ export function DistributionForm({
           vault.id
         ),
         circleId: circle.id,
-        description: `Submit Distribution for ${circle.name}: Epoch ${epoch.number}`,
+        description: `Submit Distribution for ${circle.name}: ${
+          epoch.description ?? `Epoch ${epoch.number}`
+        }`,
         epochId: epoch.id,
         fixedAmount: String(totalFixedPayment),
         giftAmount:

@@ -184,11 +184,21 @@ export function DistributionsPage() {
       </AppLink>
       <Text h1 css={{ '@sm': { display: 'block' } }}>
         Distributions&nbsp;
-        <Text normal>
-          Epoch {epoch.number}: {startDate.toFormat('MMM d')} -{' '}
+        {!epoch.description && (
+          <Text normal>
+            Epoch {epoch.number}: {startDate.toFormat('MMM d')} -{' '}
+            {endDate.toFormat(
+              endDate.month === startDate.month ? 'd' : 'MMM d'
+            )}
+          </Text>
+        )}
+      </Text>
+      {epoch.description && (
+        <Text size="xl">
+          {epoch.description}: {startDate.toFormat('MMM d')} -{' '}
           {endDate.toFormat(endDate.month === startDate.month ? 'd' : 'MMM d')}
         </Text>
-      </Text>
+      )}
       <Box css={{ maxWidth: '712px' }}>
         <Text p as="p" css={{ my: '$md' }}>
           Please enter your budget for the epoch and review the distribution

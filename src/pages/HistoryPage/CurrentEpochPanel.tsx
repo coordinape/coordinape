@@ -7,7 +7,7 @@ import { paths } from 'routes/paths';
 import { Box, Panel, Text, Button, Flex } from 'ui';
 
 type Props = {
-  epoch: { start_date?: any; end_date: any };
+  epoch: { start_date?: any; end_date: any; description?: string };
   unallocated: number;
   circleId: number;
   tokenName?: string;
@@ -51,6 +51,7 @@ export const CurrentEpochPanel = ({
           {startDate.toFormat('MMM')} {startDate.toFormat('d')} -{' '}
           {endDate.toFormat(endDateFormat)}
         </Text>
+        <Text p>{epoch.description ?? ''}</Text>
         {!isEditing && isAdmin && (
           <Button color="primary" outlined onClick={() => editCurrentEpoch()}>
             Edit Epoch
