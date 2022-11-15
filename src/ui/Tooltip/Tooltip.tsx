@@ -52,7 +52,9 @@ export const Tooltip = ({
   return (
     <HoverCardPrimitive.Root closeDelay={50} openDelay={0}>
       <TooltipTrigger css={css}>{children}</TooltipTrigger>
-      <HoverCardContent>{content}</HoverCardContent>
+      <HoverCardPrimitive.Portal>
+        <HoverCardContent>{content}</HoverCardContent>
+      </HoverCardPrimitive.Portal>
     </HoverCardPrimitive.Root>
   );
 };

@@ -136,18 +136,17 @@ export const ApiKeyForm: FC<Props> = ({ circleId, onSuccess }) => {
       onSubmit={handleSubmit(onSubmit)}
       css={{
         width: '100%',
-        alignItems: 'center',
         display: 'flex',
         flexDirection: 'column',
       }}
     >
-      <Text size="medium">
+      <Text p as="p">
         Circle API keys allow for third party apps to read data from and
         interact with your circle. You can configure specific permissions for
         each key.
       </Text>
-      <FormLabel htmlFor="name" type={'textField'} css={{ mt: '$lg' }}>
-        Label
+      <FormLabel htmlFor="name" type={'label'} css={{ mt: '$lg', mb: '$xs' }}>
+        API Key Name
       </FormLabel>
       <TextField
         css={{ width: '100%' }}
