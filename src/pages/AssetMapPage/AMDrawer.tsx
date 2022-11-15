@@ -134,7 +134,7 @@ export const AMDrawer = () => {
           },
         ].concat(
           amEpochs.map(e => ({
-            label: e.description ?? e.labelGraph,
+            label: e.labelGraph,
             value: e.id,
           }))
         )
