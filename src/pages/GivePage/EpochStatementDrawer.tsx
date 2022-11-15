@@ -222,13 +222,15 @@ export const EpochStatementDrawer = ({
               <MarkdownPreview source={statement} />
             </Box>
           ) : (
-            <>
+            <Box css={{ position: 'relative', width: '100%' }}>
               <TextArea
                 id="epoch_statement"
                 autoSize
                 css={{
                   resize: 'vertical',
                   pb: '$1xl',
+                  width: '100%',
+                  minHeight: 'calc($2xl * 2)',
                 }}
                 value={statement}
                 onChange={e => statementChanged(e.target.value)}
@@ -250,16 +252,16 @@ export const EpochStatementDrawer = ({
                 size="small"
                 color="neutral"
                 css={{
-                  mx: '$sm',
-                  mt: '-$xl',
-                  textAlign: 'right',
+                  position: 'absolute',
+                  right: '$sm',
+                  bottom: '$sm',
                   // to match the browser placeholder color
                   opacity: '0.7',
                 }}
               >
                 Markdown Supported
               </Text>
-            </>
+            </Box>
           )}
           <Flex
             css={{

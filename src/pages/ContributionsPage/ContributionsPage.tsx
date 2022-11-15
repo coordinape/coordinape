@@ -540,6 +540,14 @@ const ContributionsPage = () => {
                 >
                   <Text inline semibold size="large">
                     Contribution
+                    <Text
+                      inline
+                      size="small"
+                      color="neutral"
+                      css={{ ml: '$sm' }}
+                    >
+                      Markdown Supported
+                    </Text>
                   </Text>
                   <Text variant="label">
                     {DateTime.fromISO(
