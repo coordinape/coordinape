@@ -23,15 +23,19 @@ import {
   Edit,
 } from 'icons/__generated';
 import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
-import { Panel, Text, Box, Modal, Button, Flex } from 'ui';
+import { Panel, Text, Box, Modal, Button, Flex, MarkdownPreview } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { SavingIndicator, SaveState } from 'ui/SavingIndicator';
 
+import { ContributionIntro } from './ContributionIntro';
+import { ContributionPanel } from './ContributionPanel';
+import { ContributionRow } from './ContributionRow';
 import {
   deleteContributionMutation,
   updateContributionMutation,
   createContributionMutation,
 } from './mutations';
+import { PlaceholderContributions } from './PlaceholderContributions';
 import {
   getContributionsAndEpochs,
   ContributionsAndEpochs,
@@ -106,6 +110,8 @@ const ContributionsPage = () => {
     useState<CurrentContribution | null>(null);
   const [currentIntContribution, setCurrentIntContribution] =
     useState<CurrentIntContribution | null>(null);
+
+  const [showMarkdown, setShowMarkDown] = useState<boolean>(true);
 
   const queryClient = useQueryClient();
 
@@ -344,6 +350,7 @@ const ContributionsPage = () => {
 
   const closeDrawer = () => {
     setModalOpen(false);
+    setShowMarkDown(true);
     setCurrentContribution(null);
     setCurrentIntContribution(null);
     resetCreateMutation();
@@ -377,12 +384,16 @@ const ContributionsPage = () => {
               resetField('description', { defaultValue: '' });
               resetCreateMutation();
               setModalOpen(true);
+              setShowMarkDown(false);
             }}
           >
             Add Contribution
           </Button>
         </Flex>
         <Text p>What have you been working on?</Text>
+        {(memoizedEpochData.contributions || []).length >= 0 && (
+          <ContributionIntro />
+        )}
         <EpochGroup
           contributions={memoizedEpochData.contributions || []}
           epochs={memoizedEpochData.epochs || []}
@@ -527,8 +538,16 @@ const ContributionsPage = () => {
                     alignItems: 'flex-end',
                   }}
                 >
-                  <Text inline semibold size="medium">
+                  <Text inline semibold size="large">
                     Contribution
+                    <Text
+                      inline
+                      size="small"
+                      color="neutral"
+                      css={{ ml: '$sm' }}
+                    >
+                      Markdown Supported
+                    </Text>
                   </Text>
                   <Text variant="label">
                     {DateTime.fromISO(
@@ -537,41 +556,73 @@ const ContributionsPage = () => {
                   </Text>
                 </Flex>
                 {isEpochCurrentOrLater(currentContribution.epoch) ? (
-                  <FormInputField
-                    id="description"
-                    name="description"
-                    control={control}
-                    defaultValue={currentContribution.contribution.description}
-                    areaProps={{
-                      autoFocus: true,
-                      onChange: e => {
-                        setValue('description', e.target.value);
-                        // Don't schedule a new save if a createContribution
-                        // request is inflight, since this will create
-                        // a duplicate contribution
-                        if (
-                          !(
-                            currentContribution.contribution.id ===
-                              NEW_CONTRIBUTION_ID &&
-                            saveState[currentContribution.contribution.id] ==
-                              'saving'
+                  showMarkdown ? (
+                    <Box
+                      tabIndex={0}
+                      css={{ borderRadius: '$3' }}
+                      onClick={() => {
+                        setShowMarkDown(false);
+                      }}
+                      onKeyDown={e => {
+                        e.stopPropagation();
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          setShowMarkDown(false);
+                        }
+                      }}
+                    >
+                      <MarkdownPreview source={descriptionField.value} />
+                    </Box>
+                  ) : (
+                    <FormInputField
+                      id="description"
+                      name="description"
+                      control={control}
+                      defaultValue={
+                        currentContribution.contribution.description
+                      }
+                      areaProps={{
+                        autoFocus: true,
+                        onChange: e => {
+                          setValue('description', e.target.value);
+                          // Don't schedule a new save if a createContribution
+                          // request is inflight, since this will create
+                          // a duplicate contribution
+                          if (
+                            !(
+                              currentContribution.contribution.id ===
+                                NEW_CONTRIBUTION_ID &&
+                              saveState[currentContribution.contribution.id] ==
+                                'saving'
+                            )
                           )
-                        )
-                          updateSaveStateForContribution(
-                            currentContribution.contribution.id,
-                            'buffering'
+                            updateSaveStateForContribution(
+                              currentContribution.contribution.id,
+                              'buffering'
+                            );
+                        },
+                        onBlur: () => {
+                          if (descriptionField.value.length > 0)
+                            setShowMarkDown(true);
+                        },
+                        onFocus: e => {
+                          e.currentTarget.setSelectionRange(
+                            e.currentTarget.value.length,
+                            e.currentTarget.value.length
                           );
-                      },
-                    }}
-                    disabled={!isEpochCurrentOrLater(currentContribution.epoch)}
-                    placeholder="What have you been working on?"
-                    textArea
-                  />
+                        },
+                      }}
+                      disabled={
+                        !isEpochCurrentOrLater(currentContribution.epoch)
+                      }
+                      placeholder="What have you been working on?"
+                      textArea
+                    />
+                  )
                 ) : (
                   <Panel nested>
-                    <Text p>
-                      {currentContribution.contribution.description}
-                    </Text>
+                    <MarkdownPreview
+                      source={currentContribution.contribution.description}
+                    />
                   </Panel>
                 )}
                 <Flex css={{ justifyContent: 'flex-end', mt: '$md' }}>
@@ -588,6 +639,7 @@ const ContributionsPage = () => {
                       resetField('description', { defaultValue: '' });
                       resetCreateMutation();
                       setModalOpen(true);
+                      setShowMarkDown(false);
                     }}
                   >
                     <Edit />
@@ -682,7 +734,7 @@ const EpochGroup = React.memo(function EpochGroup({
               {getEpochLabel(epoch)}
             </Text>
           </Box>
-          <Panel css={{ gap: '$md', borderRadius: '$4', mt: '$lg' }}>
+          <ContributionPanel>
             <ContributionList
               contributions={contributions.filter(
                 contributionFilterFn({
@@ -695,7 +747,11 @@ const EpochGroup = React.memo(function EpochGroup({
               epoch={epoch}
               userAddress={userAddress}
             />
-          </Panel>
+          </ContributionPanel>
+
+          {contributions.length == 0 && idx == 0 && (
+            <PlaceholderContributions />
+          )}
         </Box>
       ))}
     </Flex>
@@ -735,50 +791,22 @@ const ContributionList = ({
       {contributions.length || integrationContributions?.length ? (
         <>
           {contributions.map(c => (
-            <Panel
-              tabIndex={0}
+            <ContributionRow
               key={c.id}
-              css={{
-                border:
-                  currentContribution?.contribution.id === c.id
-                    ? '2px solid $link'
-                    : '2px solid $border',
-                cursor: 'pointer',
-                transition: 'background-color 0.3s, border-color 0.3s',
-                background:
-                  currentContribution?.contribution.id === c.id
-                    ? '$highlight'
-                    : 'white',
-                '&:hover': {
-                  background: '$highlight',
-                  border: '2px solid $link',
-                },
-              }}
-              nested
+              active={currentContribution?.contribution.id === c.id}
+              description={c.description}
+              datetime_created={c.datetime_created}
               onClick={() => {
                 setActiveContribution(epoch, c, undefined);
               }}
               onKeyDown={e => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   setActiveContribution(epoch, c, undefined);
+                  e.preventDefault();
+                  e.stopPropagation();
                 }
               }}
-            >
-              <Flex css={{ justifyContent: 'space-between' }}>
-                <Text
-                  ellipsis
-                  css={{
-                    mr: '10px',
-                    maxWidth: '60em',
-                  }}
-                >
-                  {c.description}
-                </Text>
-                <Text variant="label" css={{ whiteSpace: 'nowrap' }}>
-                  {DateTime.fromISO(c.datetime_created).toFormat('LLL dd')}
-                </Text>
-              </Flex>
-            </Panel>
+            />
           ))}
           {integrationContributions?.map(c => (
             <Panel
@@ -795,6 +823,13 @@ const ContributionList = ({
               nested
               onClick={() => {
                 setActiveContribution(epoch, undefined, c);
+              }}
+              onKeyDown={e => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  setActiveContribution(epoch, undefined, c);
+                  e.preventDefault();
+                  e.stopPropagation();
+                }
               }}
             >
               <Text

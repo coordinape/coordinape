@@ -113,10 +113,10 @@ export const EpochStatementDrawer = ({
   );
 
   useEffect(() => {
-    if (!showMarkdown) {
-      document?.getElementById('epoch_statement')?.focus();
+    if (!statement.length && showMarkdown) {
+      setShowMarkDown(false);
     }
-  }, [showMarkdown]);
+  }, []);
 
   return (
     <Box css={{ height: '100%' }}>
@@ -202,8 +202,11 @@ export const EpochStatementDrawer = ({
       <Flex column css={{ mt: '$xl', gap: '$sm' }}>
         <Text inline semibold size="large">
           Epoch Statement
+          <Text inline size="small" color="neutral" css={{ ml: '$sm' }}>
+            Markdown Supported
+          </Text>
         </Text>
-        {showMarkdown && !!statement.length ? (
+        {showMarkdown ? (
           <Box
             onClick={() => {
               setShowMarkDown(false);

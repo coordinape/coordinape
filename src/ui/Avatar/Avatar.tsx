@@ -3,10 +3,7 @@ import React from 'react';
 import * as AvatarPrimitive from '@radix-ui/react-avatar';
 
 import { styled, CSS } from '../../stitches.config';
-import {
-  getAvatarPathWithoutPlaceholder,
-  getInitialFromName,
-} from 'utils/domain';
+import { getAvatarPath, getInitialFromName } from 'utils/domain';
 
 const AvatarRoot = styled(AvatarPrimitive.Root, {
   display: 'inline-flex',
@@ -129,7 +126,7 @@ export const Avatar = ({
   children?: React.ReactNode;
   css?: CSS;
 }) => {
-  const avatarPath = getAvatarPathWithoutPlaceholder(path);
+  const avatarPath = getAvatarPath(path);
 
   return (
     <AvatarRoot
