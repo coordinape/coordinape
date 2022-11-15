@@ -250,13 +250,11 @@ export const EpochStatementDrawer = ({
               <Text
                 inline
                 size="small"
-                color="neutral"
+                color="secondary"
                 css={{
                   position: 'absolute',
                   right: '$sm',
                   bottom: '$sm',
-                  // to match the browser placeholder color
-                  opacity: '0.7',
                 }}
               >
                 Markdown Supported
