@@ -5237,6 +5237,7 @@ export type ValueTypes = {
   };
   /** columns and relationships of "epoch_pgive_data" */
   ['epoch_pgive_data']: AliasType<{
+    active_months?: boolean | `@${string}`;
     active_months_bonus?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     /** An object relationship */
@@ -5280,6 +5281,7 @@ export type ValueTypes = {
   }>;
   /** aggregate avg on columns */
   ['epoch_pgive_data_avg_fields']: AliasType<{
+    active_months?: boolean | `@${string}`;
     active_months_bonus?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
     gives_receiver_base?: boolean | `@${string}`;
@@ -5293,6 +5295,7 @@ export type ValueTypes = {
     _and?: Array<ValueTypes['epoch_pgive_data_bool_exp']> | undefined | null;
     _not?: ValueTypes['epoch_pgive_data_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['epoch_pgive_data_bool_exp']> | undefined | null;
+    active_months?: ValueTypes['Int_comparison_exp'] | undefined | null;
     active_months_bonus?:
       | ValueTypes['numeric_comparison_exp']
       | undefined
@@ -5312,6 +5315,7 @@ export type ValueTypes = {
   ['epoch_pgive_data_constraint']: epoch_pgive_data_constraint;
   /** input type for incrementing numeric columns in table "epoch_pgive_data" */
   ['epoch_pgive_data_inc_input']: {
+    active_months?: number | undefined | null;
     active_months_bonus?: ValueTypes['numeric'] | undefined | null;
     epoch_id?: number | undefined | null;
     gives_receiver_base?: ValueTypes['numeric'] | undefined | null;
@@ -5321,6 +5325,7 @@ export type ValueTypes = {
   };
   /** input type for inserting data into table "epoch_pgive_data" */
   ['epoch_pgive_data_insert_input']: {
+    active_months?: number | undefined | null;
     active_months_bonus?: ValueTypes['numeric'] | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     epoch?: ValueTypes['epochs_obj_rel_insert_input'] | undefined | null;
@@ -5332,6 +5337,7 @@ export type ValueTypes = {
   };
   /** aggregate max on columns */
   ['epoch_pgive_data_max_fields']: AliasType<{
+    active_months?: boolean | `@${string}`;
     active_months_bonus?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
@@ -5343,6 +5349,7 @@ export type ValueTypes = {
   }>;
   /** aggregate min on columns */
   ['epoch_pgive_data_min_fields']: AliasType<{
+    active_months?: boolean | `@${string}`;
     active_months_bonus?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
@@ -5374,6 +5381,7 @@ export type ValueTypes = {
   };
   /** Ordering options when selecting data from "epoch_pgive_data". */
   ['epoch_pgive_data_order_by']: {
+    active_months?: ValueTypes['order_by'] | undefined | null;
     active_months_bonus?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     epoch?: ValueTypes['epochs_order_by'] | undefined | null;
@@ -5391,6 +5399,7 @@ export type ValueTypes = {
   ['epoch_pgive_data_select_column']: epoch_pgive_data_select_column;
   /** input type for updating data in table "epoch_pgive_data" */
   ['epoch_pgive_data_set_input']: {
+    active_months?: number | undefined | null;
     active_months_bonus?: ValueTypes['numeric'] | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     epoch_id?: number | undefined | null;
@@ -5401,6 +5410,7 @@ export type ValueTypes = {
   };
   /** aggregate stddev on columns */
   ['epoch_pgive_data_stddev_fields']: AliasType<{
+    active_months?: boolean | `@${string}`;
     active_months_bonus?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
     gives_receiver_base?: boolean | `@${string}`;
@@ -5411,6 +5421,7 @@ export type ValueTypes = {
   }>;
   /** aggregate stddev_pop on columns */
   ['epoch_pgive_data_stddev_pop_fields']: AliasType<{
+    active_months?: boolean | `@${string}`;
     active_months_bonus?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
     gives_receiver_base?: boolean | `@${string}`;
@@ -5421,6 +5432,7 @@ export type ValueTypes = {
   }>;
   /** aggregate stddev_samp on columns */
   ['epoch_pgive_data_stddev_samp_fields']: AliasType<{
+    active_months?: boolean | `@${string}`;
     active_months_bonus?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
     gives_receiver_base?: boolean | `@${string}`;
@@ -5438,6 +5450,7 @@ export type ValueTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ['epoch_pgive_data_stream_cursor_value_input']: {
+    active_months?: number | undefined | null;
     active_months_bonus?: ValueTypes['numeric'] | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     epoch_id?: number | undefined | null;
@@ -5448,6 +5461,7 @@ export type ValueTypes = {
   };
   /** aggregate sum on columns */
   ['epoch_pgive_data_sum_fields']: AliasType<{
+    active_months?: boolean | `@${string}`;
     active_months_bonus?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
     gives_receiver_base?: boolean | `@${string}`;
@@ -5467,6 +5481,7 @@ export type ValueTypes = {
   };
   /** aggregate var_pop on columns */
   ['epoch_pgive_data_var_pop_fields']: AliasType<{
+    active_months?: boolean | `@${string}`;
     active_months_bonus?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
     gives_receiver_base?: boolean | `@${string}`;
@@ -5477,6 +5492,7 @@ export type ValueTypes = {
   }>;
   /** aggregate var_samp on columns */
   ['epoch_pgive_data_var_samp_fields']: AliasType<{
+    active_months?: boolean | `@${string}`;
     active_months_bonus?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
     gives_receiver_base?: boolean | `@${string}`;
@@ -5487,6 +5503,7 @@ export type ValueTypes = {
   }>;
   /** aggregate variance on columns */
   ['epoch_pgive_data_variance_fields']: AliasType<{
+    active_months?: boolean | `@${string}`;
     active_months_bonus?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
     gives_receiver_base?: boolean | `@${string}`;
@@ -20436,6 +20453,7 @@ export type ModelTypes = {
   ['distributions_variance_order_by']: GraphQLTypes['distributions_variance_order_by'];
   /** columns and relationships of "epoch_pgive_data" */
   ['epoch_pgive_data']: {
+    active_months: number;
     active_months_bonus: GraphQLTypes['numeric'];
     created_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
@@ -20469,6 +20487,7 @@ export type ModelTypes = {
   };
   /** aggregate avg on columns */
   ['epoch_pgive_data_avg_fields']: {
+    active_months?: number | undefined;
     active_months_bonus?: number | undefined;
     epoch_id?: number | undefined;
     gives_receiver_base?: number | undefined;
@@ -20486,6 +20505,7 @@ export type ModelTypes = {
   ['epoch_pgive_data_insert_input']: GraphQLTypes['epoch_pgive_data_insert_input'];
   /** aggregate max on columns */
   ['epoch_pgive_data_max_fields']: {
+    active_months?: number | undefined;
     active_months_bonus?: GraphQLTypes['numeric'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     epoch_id?: number | undefined;
@@ -20496,6 +20516,7 @@ export type ModelTypes = {
   };
   /** aggregate min on columns */
   ['epoch_pgive_data_min_fields']: {
+    active_months?: number | undefined;
     active_months_bonus?: GraphQLTypes['numeric'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     epoch_id?: number | undefined;
@@ -20525,6 +20546,7 @@ export type ModelTypes = {
   ['epoch_pgive_data_set_input']: GraphQLTypes['epoch_pgive_data_set_input'];
   /** aggregate stddev on columns */
   ['epoch_pgive_data_stddev_fields']: {
+    active_months?: number | undefined;
     active_months_bonus?: number | undefined;
     epoch_id?: number | undefined;
     gives_receiver_base?: number | undefined;
@@ -20534,6 +20556,7 @@ export type ModelTypes = {
   };
   /** aggregate stddev_pop on columns */
   ['epoch_pgive_data_stddev_pop_fields']: {
+    active_months?: number | undefined;
     active_months_bonus?: number | undefined;
     epoch_id?: number | undefined;
     gives_receiver_base?: number | undefined;
@@ -20543,6 +20566,7 @@ export type ModelTypes = {
   };
   /** aggregate stddev_samp on columns */
   ['epoch_pgive_data_stddev_samp_fields']: {
+    active_months?: number | undefined;
     active_months_bonus?: number | undefined;
     epoch_id?: number | undefined;
     gives_receiver_base?: number | undefined;
@@ -20556,6 +20580,7 @@ export type ModelTypes = {
   ['epoch_pgive_data_stream_cursor_value_input']: GraphQLTypes['epoch_pgive_data_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['epoch_pgive_data_sum_fields']: {
+    active_months?: number | undefined;
     active_months_bonus?: GraphQLTypes['numeric'] | undefined;
     epoch_id?: number | undefined;
     gives_receiver_base?: GraphQLTypes['numeric'] | undefined;
@@ -20568,6 +20593,7 @@ export type ModelTypes = {
   ['epoch_pgive_data_updates']: GraphQLTypes['epoch_pgive_data_updates'];
   /** aggregate var_pop on columns */
   ['epoch_pgive_data_var_pop_fields']: {
+    active_months?: number | undefined;
     active_months_bonus?: number | undefined;
     epoch_id?: number | undefined;
     gives_receiver_base?: number | undefined;
@@ -20577,6 +20603,7 @@ export type ModelTypes = {
   };
   /** aggregate var_samp on columns */
   ['epoch_pgive_data_var_samp_fields']: {
+    active_months?: number | undefined;
     active_months_bonus?: number | undefined;
     epoch_id?: number | undefined;
     gives_receiver_base?: number | undefined;
@@ -20586,6 +20613,7 @@ export type ModelTypes = {
   };
   /** aggregate variance on columns */
   ['epoch_pgive_data_variance_fields']: {
+    active_months?: number | undefined;
     active_months_bonus?: number | undefined;
     epoch_id?: number | undefined;
     gives_receiver_base?: number | undefined;
@@ -28876,6 +28904,7 @@ export type GraphQLTypes = {
   /** columns and relationships of "epoch_pgive_data" */
   ['epoch_pgive_data']: {
     __typename: 'epoch_pgive_data';
+    active_months: number;
     active_months_bonus: GraphQLTypes['numeric'];
     created_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
@@ -28912,6 +28941,7 @@ export type GraphQLTypes = {
   /** aggregate avg on columns */
   ['epoch_pgive_data_avg_fields']: {
     __typename: 'epoch_pgive_data_avg_fields';
+    active_months?: number | undefined;
     active_months_bonus?: number | undefined;
     epoch_id?: number | undefined;
     gives_receiver_base?: number | undefined;
@@ -28924,6 +28954,7 @@ export type GraphQLTypes = {
     _and?: Array<GraphQLTypes['epoch_pgive_data_bool_exp']> | undefined;
     _not?: GraphQLTypes['epoch_pgive_data_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['epoch_pgive_data_bool_exp']> | undefined;
+    active_months?: GraphQLTypes['Int_comparison_exp'] | undefined;
     active_months_bonus?: GraphQLTypes['numeric_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     epoch?: GraphQLTypes['epochs_bool_exp'] | undefined;
@@ -28937,6 +28968,7 @@ export type GraphQLTypes = {
   ['epoch_pgive_data_constraint']: epoch_pgive_data_constraint;
   /** input type for incrementing numeric columns in table "epoch_pgive_data" */
   ['epoch_pgive_data_inc_input']: {
+    active_months?: number | undefined;
     active_months_bonus?: GraphQLTypes['numeric'] | undefined;
     epoch_id?: number | undefined;
     gives_receiver_base?: GraphQLTypes['numeric'] | undefined;
@@ -28946,6 +28978,7 @@ export type GraphQLTypes = {
   };
   /** input type for inserting data into table "epoch_pgive_data" */
   ['epoch_pgive_data_insert_input']: {
+    active_months?: number | undefined;
     active_months_bonus?: GraphQLTypes['numeric'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     epoch?: GraphQLTypes['epochs_obj_rel_insert_input'] | undefined;
@@ -28958,6 +28991,7 @@ export type GraphQLTypes = {
   /** aggregate max on columns */
   ['epoch_pgive_data_max_fields']: {
     __typename: 'epoch_pgive_data_max_fields';
+    active_months?: number | undefined;
     active_months_bonus?: GraphQLTypes['numeric'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     epoch_id?: number | undefined;
@@ -28969,6 +29003,7 @@ export type GraphQLTypes = {
   /** aggregate min on columns */
   ['epoch_pgive_data_min_fields']: {
     __typename: 'epoch_pgive_data_min_fields';
+    active_months?: number | undefined;
     active_months_bonus?: GraphQLTypes['numeric'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     epoch_id?: number | undefined;
@@ -28999,6 +29034,7 @@ export type GraphQLTypes = {
   };
   /** Ordering options when selecting data from "epoch_pgive_data". */
   ['epoch_pgive_data_order_by']: {
+    active_months?: GraphQLTypes['order_by'] | undefined;
     active_months_bonus?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     epoch?: GraphQLTypes['epochs_order_by'] | undefined;
@@ -29016,6 +29052,7 @@ export type GraphQLTypes = {
   ['epoch_pgive_data_select_column']: epoch_pgive_data_select_column;
   /** input type for updating data in table "epoch_pgive_data" */
   ['epoch_pgive_data_set_input']: {
+    active_months?: number | undefined;
     active_months_bonus?: GraphQLTypes['numeric'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     epoch_id?: number | undefined;
@@ -29027,6 +29064,7 @@ export type GraphQLTypes = {
   /** aggregate stddev on columns */
   ['epoch_pgive_data_stddev_fields']: {
     __typename: 'epoch_pgive_data_stddev_fields';
+    active_months?: number | undefined;
     active_months_bonus?: number | undefined;
     epoch_id?: number | undefined;
     gives_receiver_base?: number | undefined;
@@ -29037,6 +29075,7 @@ export type GraphQLTypes = {
   /** aggregate stddev_pop on columns */
   ['epoch_pgive_data_stddev_pop_fields']: {
     __typename: 'epoch_pgive_data_stddev_pop_fields';
+    active_months?: number | undefined;
     active_months_bonus?: number | undefined;
     epoch_id?: number | undefined;
     gives_receiver_base?: number | undefined;
@@ -29047,6 +29086,7 @@ export type GraphQLTypes = {
   /** aggregate stddev_samp on columns */
   ['epoch_pgive_data_stddev_samp_fields']: {
     __typename: 'epoch_pgive_data_stddev_samp_fields';
+    active_months?: number | undefined;
     active_months_bonus?: number | undefined;
     epoch_id?: number | undefined;
     gives_receiver_base?: number | undefined;
@@ -29063,6 +29103,7 @@ export type GraphQLTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ['epoch_pgive_data_stream_cursor_value_input']: {
+    active_months?: number | undefined;
     active_months_bonus?: GraphQLTypes['numeric'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     epoch_id?: number | undefined;
@@ -29074,6 +29115,7 @@ export type GraphQLTypes = {
   /** aggregate sum on columns */
   ['epoch_pgive_data_sum_fields']: {
     __typename: 'epoch_pgive_data_sum_fields';
+    active_months?: number | undefined;
     active_months_bonus?: GraphQLTypes['numeric'] | undefined;
     epoch_id?: number | undefined;
     gives_receiver_base?: GraphQLTypes['numeric'] | undefined;
@@ -29093,6 +29135,7 @@ export type GraphQLTypes = {
   /** aggregate var_pop on columns */
   ['epoch_pgive_data_var_pop_fields']: {
     __typename: 'epoch_pgive_data_var_pop_fields';
+    active_months?: number | undefined;
     active_months_bonus?: number | undefined;
     epoch_id?: number | undefined;
     gives_receiver_base?: number | undefined;
@@ -29103,6 +29146,7 @@ export type GraphQLTypes = {
   /** aggregate var_samp on columns */
   ['epoch_pgive_data_var_samp_fields']: {
     __typename: 'epoch_pgive_data_var_samp_fields';
+    active_months?: number | undefined;
     active_months_bonus?: number | undefined;
     epoch_id?: number | undefined;
     gives_receiver_base?: number | undefined;
@@ -29113,6 +29157,7 @@ export type GraphQLTypes = {
   /** aggregate variance on columns */
   ['epoch_pgive_data_variance_fields']: {
     __typename: 'epoch_pgive_data_variance_fields';
+    active_months?: number | undefined;
     active_months_bonus?: number | undefined;
     epoch_id?: number | undefined;
     gives_receiver_base?: number | undefined;
@@ -36864,6 +36909,7 @@ export const enum epoch_pgive_data_constraint {
 }
 /** select columns of table "epoch_pgive_data" */
 export const enum epoch_pgive_data_select_column {
+  active_months = 'active_months',
   active_months_bonus = 'active_months_bonus',
   created_at = 'created_at',
   epoch_id = 'epoch_id',
@@ -36874,6 +36920,7 @@ export const enum epoch_pgive_data_select_column {
 }
 /** update columns of table "epoch_pgive_data" */
 export const enum epoch_pgive_data_update_column {
+  active_months = 'active_months',
   active_months_bonus = 'active_months_bonus',
   created_at = 'created_at',
   epoch_id = 'epoch_id',

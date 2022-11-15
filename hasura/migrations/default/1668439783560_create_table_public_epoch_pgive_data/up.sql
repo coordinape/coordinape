@@ -5,6 +5,7 @@ CREATE TABLE "public"."epoch_pgive_data"
 "active_months_bonus" numeric NOT NULL DEFAULT 0, 
 "notes_bonus" numeric NOT NULL DEFAULT 0, 
 "epoch_id" integer NOT NULL, 
+"active_months" integer NOT NULL DEFAULT 0, 
 "created_at" timestamptz NOT NULL DEFAULT now(), 
 PRIMARY KEY ("id") , 
 FOREIGN KEY ("epoch_id") REFERENCES "public"."epoches"("id") ON UPDATE restrict ON DELETE restrict, 

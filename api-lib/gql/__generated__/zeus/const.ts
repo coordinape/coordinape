@@ -1857,6 +1857,7 @@ export const AllTypesProps: Record<string, any> = {
     _and: 'epoch_pgive_data_bool_exp',
     _not: 'epoch_pgive_data_bool_exp',
     _or: 'epoch_pgive_data_bool_exp',
+    active_months: 'Int_comparison_exp',
     active_months_bonus: 'numeric_comparison_exp',
     created_at: 'timestamptz_comparison_exp',
     epoch: 'epochs_bool_exp',
@@ -1891,6 +1892,7 @@ export const AllTypesProps: Record<string, any> = {
     where: 'epoch_pgive_data_bool_exp',
   },
   epoch_pgive_data_order_by: {
+    active_months: 'order_by',
     active_months_bonus: 'order_by',
     created_at: 'order_by',
     epoch: 'epochs_order_by',
@@ -7751,6 +7753,7 @@ export const ReturnTypes: Record<string, any> = {
     vault_id: 'Float',
   },
   epoch_pgive_data: {
+    active_months: 'Int',
     active_months_bonus: 'numeric',
     created_at: 'timestamptz',
     epoch: 'epochs',
@@ -7778,6 +7781,7 @@ export const ReturnTypes: Record<string, any> = {
     variance: 'epoch_pgive_data_variance_fields',
   },
   epoch_pgive_data_avg_fields: {
+    active_months: 'Float',
     active_months_bonus: 'Float',
     epoch_id: 'Float',
     gives_receiver_base: 'Float',
@@ -7786,6 +7790,7 @@ export const ReturnTypes: Record<string, any> = {
     pgive: 'Float',
   },
   epoch_pgive_data_max_fields: {
+    active_months: 'Int',
     active_months_bonus: 'numeric',
     created_at: 'timestamptz',
     epoch_id: 'Int',
@@ -7795,6 +7800,7 @@ export const ReturnTypes: Record<string, any> = {
     pgive: 'numeric',
   },
   epoch_pgive_data_min_fields: {
+    active_months: 'Int',
     active_months_bonus: 'numeric',
     created_at: 'timestamptz',
     epoch_id: 'Int',
@@ -7808,6 +7814,7 @@ export const ReturnTypes: Record<string, any> = {
     returning: 'epoch_pgive_data',
   },
   epoch_pgive_data_stddev_fields: {
+    active_months: 'Float',
     active_months_bonus: 'Float',
     epoch_id: 'Float',
     gives_receiver_base: 'Float',
@@ -7816,6 +7823,7 @@ export const ReturnTypes: Record<string, any> = {
     pgive: 'Float',
   },
   epoch_pgive_data_stddev_pop_fields: {
+    active_months: 'Float',
     active_months_bonus: 'Float',
     epoch_id: 'Float',
     gives_receiver_base: 'Float',
@@ -7824,6 +7832,7 @@ export const ReturnTypes: Record<string, any> = {
     pgive: 'Float',
   },
   epoch_pgive_data_stddev_samp_fields: {
+    active_months: 'Float',
     active_months_bonus: 'Float',
     epoch_id: 'Float',
     gives_receiver_base: 'Float',
@@ -7832,6 +7841,7 @@ export const ReturnTypes: Record<string, any> = {
     pgive: 'Float',
   },
   epoch_pgive_data_sum_fields: {
+    active_months: 'Int',
     active_months_bonus: 'numeric',
     epoch_id: 'Int',
     gives_receiver_base: 'numeric',
@@ -7840,6 +7850,7 @@ export const ReturnTypes: Record<string, any> = {
     pgive: 'numeric',
   },
   epoch_pgive_data_var_pop_fields: {
+    active_months: 'Float',
     active_months_bonus: 'Float',
     epoch_id: 'Float',
     gives_receiver_base: 'Float',
@@ -7848,6 +7859,7 @@ export const ReturnTypes: Record<string, any> = {
     pgive: 'Float',
   },
   epoch_pgive_data_var_samp_fields: {
+    active_months: 'Float',
     active_months_bonus: 'Float',
     epoch_id: 'Float',
     gives_receiver_base: 'Float',
@@ -7856,6 +7868,7 @@ export const ReturnTypes: Record<string, any> = {
     pgive: 'Float',
   },
   epoch_pgive_data_variance_fields: {
+    active_months: 'Float',
     active_months_bonus: 'Float',
     epoch_id: 'Float',
     gives_receiver_base: 'Float',

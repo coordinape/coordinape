@@ -6939,6 +6939,7 @@ input distributions_variance_order_by {
 columns and relationships of "epoch_pgive_data"
 """
 type epoch_pgive_data {
+  active_months: Int!
   active_months_bonus: numeric!
   created_at: timestamptz!
 
@@ -6982,6 +6983,7 @@ type epoch_pgive_data_aggregate_fields {
 aggregate avg on columns
 """
 type epoch_pgive_data_avg_fields {
+  active_months: Float
   active_months_bonus: Float
   epoch_id: Float
   gives_receiver_base: Float
@@ -6997,6 +6999,7 @@ input epoch_pgive_data_bool_exp {
   _and: [epoch_pgive_data_bool_exp!]
   _not: epoch_pgive_data_bool_exp
   _or: [epoch_pgive_data_bool_exp!]
+  active_months: Int_comparison_exp
   active_months_bonus: numeric_comparison_exp
   created_at: timestamptz_comparison_exp
   epoch: epochs_bool_exp
@@ -7026,6 +7029,7 @@ enum epoch_pgive_data_constraint {
 input type for incrementing numeric columns in table "epoch_pgive_data"
 """
 input epoch_pgive_data_inc_input {
+  active_months: Int
   active_months_bonus: numeric
   epoch_id: Int
   gives_receiver_base: numeric
@@ -7038,6 +7042,7 @@ input epoch_pgive_data_inc_input {
 input type for inserting data into table "epoch_pgive_data"
 """
 input epoch_pgive_data_insert_input {
+  active_months: Int
   active_months_bonus: numeric
   created_at: timestamptz
   epoch: epochs_obj_rel_insert_input
@@ -7052,6 +7057,7 @@ input epoch_pgive_data_insert_input {
 aggregate max on columns
 """
 type epoch_pgive_data_max_fields {
+  active_months: Int
   active_months_bonus: numeric
   created_at: timestamptz
   epoch_id: Int
@@ -7065,6 +7071,7 @@ type epoch_pgive_data_max_fields {
 aggregate min on columns
 """
 type epoch_pgive_data_min_fields {
+  active_months: Int
   active_months_bonus: numeric
   created_at: timestamptz
   epoch_id: Int
@@ -7114,6 +7121,7 @@ input epoch_pgive_data_on_conflict {
 Ordering options when selecting data from "epoch_pgive_data".
 """
 input epoch_pgive_data_order_by {
+  active_months: order_by
   active_months_bonus: order_by
   created_at: order_by
   epoch: epochs_order_by
@@ -7135,6 +7143,11 @@ input epoch_pgive_data_pk_columns_input {
 select columns of table "epoch_pgive_data"
 """
 enum epoch_pgive_data_select_column {
+  """
+  column name
+  """
+  active_months
+
   """
   column name
   """
@@ -7175,6 +7188,7 @@ enum epoch_pgive_data_select_column {
 input type for updating data in table "epoch_pgive_data"
 """
 input epoch_pgive_data_set_input {
+  active_months: Int
   active_months_bonus: numeric
   created_at: timestamptz
   epoch_id: Int
@@ -7188,6 +7202,7 @@ input epoch_pgive_data_set_input {
 aggregate stddev on columns
 """
 type epoch_pgive_data_stddev_fields {
+  active_months: Float
   active_months_bonus: Float
   epoch_id: Float
   gives_receiver_base: Float
@@ -7200,6 +7215,7 @@ type epoch_pgive_data_stddev_fields {
 aggregate stddev_pop on columns
 """
 type epoch_pgive_data_stddev_pop_fields {
+  active_months: Float
   active_months_bonus: Float
   epoch_id: Float
   gives_receiver_base: Float
@@ -7212,6 +7228,7 @@ type epoch_pgive_data_stddev_pop_fields {
 aggregate stddev_samp on columns
 """
 type epoch_pgive_data_stddev_samp_fields {
+  active_months: Float
   active_months_bonus: Float
   epoch_id: Float
   gives_receiver_base: Float
@@ -7239,6 +7256,7 @@ input epoch_pgive_data_stream_cursor_input {
 Initial value of the column from where the streaming should start
 """
 input epoch_pgive_data_stream_cursor_value_input {
+  active_months: Int
   active_months_bonus: numeric
   created_at: timestamptz
   epoch_id: Int
@@ -7252,6 +7270,7 @@ input epoch_pgive_data_stream_cursor_value_input {
 aggregate sum on columns
 """
 type epoch_pgive_data_sum_fields {
+  active_months: Int
   active_months_bonus: numeric
   epoch_id: Int
   gives_receiver_base: numeric
@@ -7264,6 +7283,11 @@ type epoch_pgive_data_sum_fields {
 update columns of table "epoch_pgive_data"
 """
 enum epoch_pgive_data_update_column {
+  """
+  column name
+  """
+  active_months
+
   """
   column name
   """
@@ -7317,6 +7341,7 @@ input epoch_pgive_data_updates {
 aggregate var_pop on columns
 """
 type epoch_pgive_data_var_pop_fields {
+  active_months: Float
   active_months_bonus: Float
   epoch_id: Float
   gives_receiver_base: Float
@@ -7329,6 +7354,7 @@ type epoch_pgive_data_var_pop_fields {
 aggregate var_samp on columns
 """
 type epoch_pgive_data_var_samp_fields {
+  active_months: Float
   active_months_bonus: Float
   epoch_id: Float
   gives_receiver_base: Float
@@ -7341,6 +7367,7 @@ type epoch_pgive_data_var_samp_fields {
 aggregate variance on columns
 """
 type epoch_pgive_data_variance_fields {
+  active_months: Float
   active_months_bonus: Float
   epoch_id: Float
   gives_receiver_base: Float
