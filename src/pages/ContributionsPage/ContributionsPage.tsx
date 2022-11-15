@@ -449,16 +449,15 @@ const ContributionsPage = () => {
         </Flex>
         <Box>
           {!editHelpText ? (
-            <>
-            <Text p>
-              {updatedTeamSelText ||
-                data?.circles_by_pk?.team_sel_text ||
-                'What have you been working on?'}
-            </Text>
-              {(memoizedEpochData.contributions || []).length >= 0 && (
-                <ContributionIntro />
-              )}
-            </>
+            updatedTeamSelText ||
+            data?.circles_by_pk?.team_sel_text || (
+              <>
+                <Text p>What have you been working on?</Text>
+                {(memoizedEpochData.contributions || []).length >= 0 && (
+                  <ContributionIntro />
+                )}
+              </>
+            )
           ) : (
             <FormInputField
               name="team_sel_text"
