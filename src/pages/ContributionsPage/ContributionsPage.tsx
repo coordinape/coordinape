@@ -410,7 +410,7 @@ const ContributionsPage = () => {
           closeDrawer();
         }}
       >
-        <Panel invertForm css={{ p: 0, '& textarea': { resize: 'vertical' } }}>
+        <Panel invertForm css={{ p: 0 }}>
           {currentContribution ? (
             <>
               <Flex
@@ -540,14 +540,6 @@ const ContributionsPage = () => {
                 >
                   <Text inline semibold size="large">
                     Contribution
-                    <Text
-                      inline
-                      size="small"
-                      color="neutral"
-                      css={{ ml: '$sm' }}
-                    >
-                      Markdown Supported
-                    </Text>
                   </Text>
                   <Text variant="label">
                     {DateTime.fromISO(
@@ -573,50 +565,73 @@ const ContributionsPage = () => {
                       <MarkdownPreview source={descriptionField.value} />
                     </Box>
                   ) : (
-                    <FormInputField
-                      id="description"
-                      name="description"
-                      control={control}
-                      defaultValue={
-                        currentContribution.contribution.description
-                      }
-                      areaProps={{
-                        autoFocus: true,
-                        onChange: e => {
-                          setValue('description', e.target.value);
-                          // Don't schedule a new save if a createContribution
-                          // request is inflight, since this will create
-                          // a duplicate contribution
-                          if (
-                            !(
-                              currentContribution.contribution.id ===
-                                NEW_CONTRIBUTION_ID &&
-                              saveState[currentContribution.contribution.id] ==
-                                'saving'
+                    <>
+                      <FormInputField
+                        id="description"
+                        name="description"
+                        control={control}
+                        css={{
+                          textarea: {
+                            resize: 'vertical',
+                            pb: '$1xl',
+                          },
+                        }}
+                        defaultValue={
+                          currentContribution.contribution.description
+                        }
+                        areaProps={{
+                          autoFocus: true,
+                          onChange: e => {
+                            setValue('description', e.target.value);
+                            // Don't schedule a new save if a createContribution
+                            // request is inflight, since this will create
+                            // a duplicate contribution
+                            if (
+                              !(
+                                currentContribution.contribution.id ===
+                                  NEW_CONTRIBUTION_ID &&
+                                saveState[
+                                  currentContribution.contribution.id
+                                ] == 'saving'
+                              )
                             )
-                          )
-                            updateSaveStateForContribution(
-                              currentContribution.contribution.id,
-                              'buffering'
+                              updateSaveStateForContribution(
+                                currentContribution.contribution.id,
+                                'buffering'
+                              );
+                          },
+                          onBlur: () => {
+                            if (descriptionField.value.length > 0)
+                              setShowMarkDown(true);
+                          },
+                          onFocus: e => {
+                            e.currentTarget.setSelectionRange(
+                              e.currentTarget.value.length,
+                              e.currentTarget.value.length
                             );
-                        },
-                        onBlur: () => {
-                          if (descriptionField.value.length > 0)
-                            setShowMarkDown(true);
-                        },
-                        onFocus: e => {
-                          e.currentTarget.setSelectionRange(
-                            e.currentTarget.value.length,
-                            e.currentTarget.value.length
-                          );
-                        },
-                      }}
-                      disabled={
-                        !isEpochCurrentOrLater(currentContribution.epoch)
-                      }
-                      placeholder="What have you been working on?"
-                      textArea
-                    />
+                          },
+                        }}
+                        disabled={
+                          !isEpochCurrentOrLater(currentContribution.epoch)
+                        }
+                        placeholder="What have you been working on?"
+                        textArea
+                      />
+                      <Text
+                        inline
+                        size="small"
+                        color="neutral"
+                        css={{
+                          mx: '$sm',
+                          mt: '-$xl',
+                          textAlign: 'right',
+                          // to match the browser placeholder color
+                          opacity: '0.7',
+                        }}
+                      >
+                        Markdown Supported
+                      </Text>
+                    </>
                   )
                 ) : (
                   <Panel nested>
@@ -625,10 +640,12 @@ const ContributionsPage = () => {
                     />
                   </Panel>
                 )}
+
                 <Flex css={{ justifyContent: 'flex-end', mt: '$md' }}>
                   <Button
                     color="primary"
-                    onClick={() => {
+                    // using onMouseDown because the onBlur event on the markdown-ready textarea was preventing onClick
+                    onMouseDown={() => {
                       setCurrentContribution({
                         contribution: getNewContribution(
                           currentUserId,

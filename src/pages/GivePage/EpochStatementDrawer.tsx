@@ -17,6 +17,7 @@ import {
   TextArea,
   ToggleButton,
   MarkdownPreview,
+  Panel,
 } from 'ui';
 import { SaveState, SavingIndicator } from 'ui/SavingIndicator';
 
@@ -199,57 +200,82 @@ export const EpochStatementDrawer = ({
           )}
         </Flex>
       </Flex>
-      <Flex column css={{ mt: '$xl', gap: '$sm' }}>
-        <Text inline semibold size="large">
-          Epoch Statement
-          <Text inline size="small" color="neutral" css={{ ml: '$sm' }}>
-            Markdown Supported
+      <Flex column css={{ mt: '$xl' }}>
+        <Panel invertForm css={{ p: 0, gap: '$sm' }}>
+          <Text inline semibold size="large">
+            Epoch Statement
           </Text>
-        </Text>
-        {showMarkdown ? (
-          <Box
-            onClick={() => {
-              setShowMarkDown(false);
+          {showMarkdown ? (
+            <Box
+              tabIndex={0}
+              css={{ borderRadius: '$3' }}
+              onClick={() => {
+                setShowMarkDown(false);
+              }}
+              onKeyDown={e => {
+                e.stopPropagation();
+                if (e.key === 'Enter' || e.key === ' ') {
+                  setShowMarkDown(false);
+                }
+              }}
+            >
+              <MarkdownPreview source={statement} />
+            </Box>
+          ) : (
+            <>
+              <TextArea
+                id="epoch_statement"
+                autoSize
+                css={{
+                  resize: 'vertical',
+                  pb: '$1xl',
+                }}
+                value={statement}
+                onChange={e => statementChanged(e.target.value)}
+                placeholder="Summarize your Contributions"
+                // eslint-disable-next-line jsx-a11y/no-autofocus
+                autoFocus={true}
+                onBlur={() => {
+                  if (statement.length > 0) setShowMarkDown(true);
+                }}
+                onFocus={e => {
+                  e.currentTarget.setSelectionRange(
+                    e.currentTarget.value.length,
+                    e.currentTarget.value.length
+                  );
+                }}
+              />
+              <Text
+                inline
+                size="small"
+                color="neutral"
+                css={{
+                  mx: '$sm',
+                  mt: '-$xl',
+                  textAlign: 'right',
+                  // to match the browser placeholder color
+                  opacity: '0.7',
+                }}
+              >
+                Markdown Supported
+              </Text>
+            </>
+          )}
+          <Flex
+            css={{
+              justifyContent: 'flex-end',
+              alignItems: 'center',
+              mt: '$sm',
             }}
           >
-            <MarkdownPreview source={statement} />
-          </Box>
-        ) : (
-          <TextArea
-            id="epoch_statement"
-            autoSize
-            css={{
-              backgroundColor: 'white',
-              width: '100%',
-              fontSize: '$medium',
-              whiteSpace: 'pre-wrap',
-            }}
-            value={statement}
-            onChange={e => statementChanged(e.target.value)}
-            placeholder="Summarize your Contributions"
-            // eslint-disable-next-line jsx-a11y/no-autofocus
-            autoFocus={true}
-            onBlur={() => {
-              if (statement.length > 0) setShowMarkDown(true);
-            }}
-            onFocus={e => {
-              e.currentTarget.setSelectionRange(
-                e.currentTarget.value.length,
-                e.currentTarget.value.length
-              );
-            }}
-          />
-        )}
-        <Flex
-          css={{ justifyContent: 'flex-end', alignItems: 'center', mt: '$sm' }}
-        >
-          <SavingIndicator
-            saveState={saving}
-            retry={() => {
-              updateEpochStatement(statement);
-            }}
-          />
-        </Flex>
+            <SavingIndicator
+              saveState={saving}
+              retry={() => {
+                updateEpochStatement(statement);
+              }}
+            />
+          </Flex>
+        </Panel>
       </Flex>
 
       <Box
