@@ -138,6 +138,7 @@ select_permissions:
         - nomination_days_limit
         - only_giver_vouch
         - organization_id
+        - show_pending_gives
         - team_sel_text
         - team_selection
         - token_name

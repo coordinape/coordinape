@@ -54,6 +54,7 @@ select_permissions:
         - circle_id
         - created_at
         - days
+        - description
         - end_date
         - ended
         - grant
@@ -79,6 +80,7 @@ select_permissions:
         - circle_id
         - created_at
         - days
+        - description
         - end_date
         - ended
         - grant
