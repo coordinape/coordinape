@@ -166,6 +166,7 @@ const schema = z.object({
     )
   ),
   fixed_payment_vault_id: z.optional(z.string().optional()),
+  hide_gives: z.boolean(),
 });
 
 type CircleAdminFormSchema = z.infer<typeof schema>;
@@ -279,6 +280,12 @@ export const CircleAdminPage = () => {
     defaultValue: circle?.vouching,
   });
 
+  const { field: hideGives } = useController({
+    name: 'hide_gives',
+    control,
+    defaultValue: !circle?.show_pending_gives,
+  });
+
   const { field: discordWebhook, fieldState: discordWebhookState } =
     useController({
       name: 'discord_webhook',
@@ -325,6 +332,7 @@ export const CircleAdminPage = () => {
         team_selection: data.team_selection,
         auto_opt_out: data.auto_opt_out,
         fixed_payment_token_type: data.fixed_payment_token_type,
+        show_pending_gives: !data.hide_gives,
         fixed_payment_vault_id: data.fixed_payment_vault_id
           ? parseInt(data.fixed_payment_vault_id)
           : null,
@@ -563,6 +571,34 @@ export const CircleAdminPage = () => {
                   />
                 }
               />
+            </Flex>
+            <Flex column css={{ mt: '$xl' }}>
+              <FormLabel type="label">
+                GIVE Visibility?{' '}
+                <Tooltip
+                  content={
+                    <div>
+                      {
+                        <RadioToolTip
+                          optionsInfo={[
+                            {
+                              label: 'Enabled',
+                              text: 'Hide received GIVEs and Map page from contributors during active epoch.',
+                            },
+                            {
+                              label: 'Disabled',
+                              text: 'Show received GIVEs and Map page to contributors during active epoch.',
+                            },
+                          ]}
+                        />
+                      }
+                    </div>
+                  }
+                >
+                  <Info size="sm" />
+                </Tooltip>
+              </FormLabel>
+              <CheckBox {...hideGives} label="Hide GIVE Data During Epoch " />
             </Flex>
             <Divider css={{ mt: '$1xl', mb: '$lg' }} />
             <Text h3 semibold css={{ mb: '$sm' }}>
