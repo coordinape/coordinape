@@ -21,6 +21,7 @@ const CheckboxRoot = styled(CheckboxPrimitive.Root, {
   justifyContent: 'center',
   width: '$lg',
   height: '$lg',
+  cursor: 'pointer',
   '&:hover': { borderColor: '$borderMedium' },
   '&:focus': { borderColor: '$borderMedium' },
   variants: {
@@ -51,7 +52,6 @@ const CheckboxIndicator = styled(CheckboxPrimitive.Indicator, {
 
 const Label = styled('label', {
   cursor: 'pointer',
-  flexGrow: 1,
   color: '$text',
   fontSize: '$4',
   userSelect: 'none',
@@ -97,7 +97,7 @@ export const CheckBox = React.forwardRef<HTMLButtonElement, CheckBoxProps>(
         {label && <Label htmlFor={label}>{label}</Label>}
         {infoTooltip && (
           <Tooltip content={infoTooltip}>
-            <Info />
+            <Info color="neutral" />
           </Tooltip>
         )}
       </Flex>

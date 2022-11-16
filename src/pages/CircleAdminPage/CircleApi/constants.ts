@@ -12,4 +12,6 @@ export const API_PERMISSION_LABELS: Record<
   update_circle: 'Update Circle',
   update_pending_token_gifts: 'Update Allocations',
   create_vouches: 'Create Vouches',
+  read_contributions: 'Read Contributions',
+  create_contributions: 'Create Contributions',
 };

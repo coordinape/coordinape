@@ -20606,7 +20606,7 @@ input timestamptz_comparison_exp {
 }
 
 """
-GIVE allocations made by circle members for completed epochs
+GIVE allocations made by circle members for past epochs
 """
 type token_gifts {
   """
