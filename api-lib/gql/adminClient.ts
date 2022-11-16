@@ -8,6 +8,9 @@ const thunder = makeThunder({
     'x-hasura-admin-secret': HASURA_GRAPHQL_ADMIN_SECRET,
     'Hasura-Client-Name': 'serverless-function',
   },
+  // 45 sec - vercel has a 60s timeout and we are trying to figure out why we are hitting it
+  // so setting this lower might help us -g
+  timeout: 45 * 1000,
 });
 
 export const adminClient = {

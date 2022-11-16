@@ -7,6 +7,8 @@ import { styled } from '../../stitches.config';
 import { modifyVariantsForStory } from '../type-utils';
 
 const StyledTextArea = styled('textarea', {
+  fontSize: '$medium',
+  whiteSpace: 'pre-wrap',
   background: '$surface',
   border: '1px solid transparent',
   '&:focus': {
