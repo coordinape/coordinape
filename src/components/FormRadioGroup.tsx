@@ -82,10 +82,16 @@ export const FormRadioGroup = <TFieldValues extends FieldValues>(
             key={option.value.toString()}
             css={{ margin: 'md 0', gap: '$xs' }}
           >
-            <RadioGroupRadio value={option.value.toString()} id="r1">
+            <RadioGroupRadio
+              value={option.value.toString()}
+              id={field.name.toString() + option.value.toString()}
+            >
               <RadioGroupIndicator />
             </RadioGroupRadio>
-            <FormLabel type="radioLabel" htmlFor="r1">
+            <FormLabel
+              type="radioLabel"
+              htmlFor={field.name.toString() + option.value.toString()}
+            >
               {option.label}
             </FormLabel>
           </Flex>

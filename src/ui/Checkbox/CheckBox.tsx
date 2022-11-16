@@ -8,6 +8,10 @@ import { Flex, Tooltip } from 'ui';
 import Text from 'ui/Text/Text';
 
 const CheckboxRoot = styled(CheckboxPrimitive.Root, {
+  button: {
+    cursor: 'pointer',
+    pointerEvents: 'visible',
+  },
   all: 'unset',
   backgroundColor: '$surface',
   boxSizing: 'border-box',
@@ -46,6 +50,7 @@ const CheckboxIndicator = styled(CheckboxPrimitive.Indicator, {
 });
 
 const Label = styled('label', {
+  cursor: 'pointer',
   flexGrow: 1,
   color: '$text',
   fontSize: '$4',
