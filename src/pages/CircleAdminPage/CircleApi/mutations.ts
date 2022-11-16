@@ -1,5 +1,5 @@
-import { ValueTypes } from '../../lib/gql/__generated__/zeus';
-import { client } from '../../lib/gql/client';
+import { ValueTypes } from '../../../lib/gql/__generated__/zeus';
+import { client } from '../../../lib/gql/client';
 
 import { circleApiKeySelector } from './useCircleApiKeys';
 
