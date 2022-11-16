@@ -15,7 +15,7 @@ import {
   Box,
   Link,
   Popover,
-  PopoverPortal,
+  PopoverAnchor,
   PopoverTrigger,
   PopoverContent,
   PopoverClose,
@@ -74,95 +74,94 @@ export const MyAvatarMenu = ({ walletStatus }: Props) => {
             <Link href="#">
               <Avatar path={myProfile.avatar} name="me" />
             </Link>
+            <PopoverAnchor />
           </PopoverTrigger>
-          <PopoverPortal>
-            <PopoverContent
-              onKeyDown={e => {
-                if (e.key === 'Escape') {
-                  setMouseEnterPopover(false);
-                }
-              }}
-              onMouseEnter={() => {
-                clearTimeout(timeoutId);
-                setMouseEnterPopover(true);
-              }}
-              onMouseLeave={() => {
-                clearTimeout(timeoutId);
-                timeoutId = setTimeout(
-                  () => setMouseEnterPopover(false),
-                  POPOVER_TIMEOUT
-                );
-              }}
+          <PopoverContent
+            onKeyDown={e => {
+              if (e.key === 'Escape') {
+                setMouseEnterPopover(false);
+              }
+            }}
+            onMouseEnter={() => {
+              clearTimeout(timeoutId);
+              setMouseEnterPopover(true);
+            }}
+            onMouseLeave={() => {
+              clearTimeout(timeoutId);
+              timeoutId = setTimeout(
+                () => setMouseEnterPopover(false),
+                POPOVER_TIMEOUT
+              );
+            }}
+            css={{
+              background: '$surface',
+              outline: 'none',
+              zIndex: 2,
+              position: 'relative',
+              right: '$md',
+              top: 'calc($lg - $4xl)',
+            }}
+            onClick={closePopover}
+          >
+            <Box
               css={{
-                background: '$surface',
-                outline: 'none',
-                zIndex: 2,
-                position: 'relative',
-                right: '$md',
-                top: 'calc($lg - $4xl)',
+                display: 'flex',
+                flexDirection: 'column',
+                textAlign: 'right',
+                alignItems: 'end',
+                p: '$md',
               }}
-              onClick={closePopover}
             >
+              <PopoverClose asChild>
+                <Box css={{ display: 'flex', alignItems: 'end', pb: '$md' }}>
+                  <Avatar path={myProfile.avatar} />
+                </Box>
+              </PopoverClose>
               <Box
                 css={{
                   display: 'flex',
-                  flexDirection: 'column',
-                  textAlign: 'right',
-                  alignItems: 'end',
-                  p: '$md',
+                  alignItems: 'center',
+                  mb: '$xs',
+                  fontWeight: '$bold',
+                  fontSize: '$large',
                 }}
               >
-                <PopoverClose asChild>
-                  <Box css={{ display: 'flex', alignItems: 'end', pb: '$md' }}>
-                    <Avatar path={myProfile.avatar} />
-                  </Box>
-                </PopoverClose>
-                <Box
-                  css={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    mb: '$xs',
-                    fontWeight: '$bold',
-                    fontSize: '$large',
-                  }}
-                >
-                  <Box css={{ mr: '$sm', display: 'flex' }}>{icon}</Box>
-                  {address && shortenAddress(address)}
-                </Box>
-                {isFeatureEnabled('vaults') && (
-                  <Link
-                    type="menu"
-                    css={{ fontSize: '$xs', color: '$headingText', mb: '$xs' }}
-                    href="#"
-                    onClick={() => setShowTxModal(true)}
-                  >
-                    Recent Transactions
-                  </Link>
-                )}
+                <Box css={{ mr: '$sm', display: 'flex' }}>{icon}</Box>
+                {address && shortenAddress(address)}
+              </Box>
+              {isFeatureEnabled('vaults') && (
                 <Link
                   type="menu"
-                  css={{ fontSize: '$xs', color: '$headingText' }}
-                  onClick={logout}
+                  css={{ fontSize: '$xs', color: '$headingText', mb: '$xs' }}
                   href="#"
+                  onClick={() => setShowTxModal(true)}
                 >
-                  Disconnect
+                  Recent Transactions
                 </Link>
-                <Box css={menuGroupStyle}>
-                  <Link type="menu" as={NavLink} to={paths.profile('me')}>
-                    Profile
+              )}
+              <Link
+                type="menu"
+                css={{ fontSize: '$xs', color: '$headingText' }}
+                onClick={logout}
+                href="#"
+              >
+                Disconnect
+              </Link>
+              <Box css={menuGroupStyle}>
+                <Link type="menu" as={NavLink} to={paths.profile('me')}>
+                  Profile
+                </Link>
+                <Link type="menu" as={NavLink} to={paths.circles}>
+                  Circles
+                </Link>
+                {isFeatureEnabled('vaults') && (
+                  <Link type="menu" as={NavLink} to={paths.claims}>
+                    Claims
                   </Link>
-                  <Link type="menu" as={NavLink} to={paths.circles}>
-                    Circles
-                  </Link>
-                  {isFeatureEnabled('vaults') && (
-                    <Link type="menu" as={NavLink} to={paths.claims}>
-                      Claims
-                    </Link>
-                  )}
-                </Box>
+                )}
               </Box>
-            </PopoverContent>
-          </PopoverPortal>
+            </Box>
+          </PopoverContent>
         </Popover>
       </Hidden>
     </>

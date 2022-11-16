@@ -1,6 +1,10 @@
 import * as PopoverPrimitive from '@radix-ui/react-popover';
 import { styled } from 'stitches.config';
 
+const StyledTrigger = styled(PopoverPrimitive.Trigger, {
+  outline: 'none !important',
+});
+
 const StyledContent = styled(PopoverPrimitive.Content, {
   padding: 0,
   borderRadius: '$3',
@@ -13,7 +17,8 @@ const StyledContent = styled(PopoverPrimitive.Content, {
 
 export const POPOVER_TIMEOUT = 300;
 export const Popover = PopoverPrimitive.Root;
-export const PopoverTrigger = styled(PopoverPrimitive.Trigger, {});
+// export const PopoverTrigger = styled(PopoverPrimitive.Trigger, {});
+export const PopoverTrigger = StyledTrigger;
 export const PopoverAnchor = PopoverPrimitive.Anchor;
 export const PopoverPortal = PopoverPrimitive.Portal;
 export const PopoverContent = StyledContent;
