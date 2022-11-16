@@ -197,6 +197,7 @@ export const createCircle = async (
             created_at: true,
             updated_at: true,
             organization_id: true,
+            show_pending_gives: true,
             organization: {
               id: true,
               name: true,

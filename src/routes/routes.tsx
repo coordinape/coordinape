@@ -18,6 +18,7 @@ import {
   useCanVouch,
   useFixCircleState,
   useRoleInCircle,
+  useShowGive,
 } from 'hooks/migration';
 import AllocationPage from 'pages/AllocationPage';
 import CircleAdminPage from 'pages/CircleAdminPage';
@@ -57,7 +58,9 @@ export const AppRoutes = () => {
         <Route path="epoch" element={allocationPage} />
         <Route path="give" element={allocationPage} />
         <Route path="givebeta" element={<GivePage />} />
-        <Route path="map" element={<LazyAssetMapPage />} />
+        <Route path="map" element={<MapRouteHanlder />}>
+          <Route path="" element={<LazyAssetMapPage />} />
+        </Route>
         <Route path="contributions" element={<ContributionsPage />} />
         <Route path="members" element={<MembersPage />} />
         <Route path="members/add" element={<AdminRouteHandler />}>
@@ -145,5 +148,16 @@ const VouchingRouteHandler = () => {
   const canVouch = useCanVouch(circleId);
 
   if (!canVouch) return <Redirect to={paths.home} note="not admin" />;
+  return <Outlet />;
+};
+
+const MapRouteHanlder = () => {
+  const params = useParams();
+  const circleId = Number(params.circleId);
+  const showGive = useShowGive(circleId);
+  const role = useRoleInCircle(circleId);
+
+  if (!(showGive || isUserAdmin({ role })))
+    return <Redirect to={paths.home} note="wait for current epoch to end" />;
   return <Outlet />;
 };
