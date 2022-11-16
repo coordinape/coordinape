@@ -22,6 +22,7 @@ import {
   PopoverTrigger,
   PopoverContent,
   PopoverClose,
+  PopoverPortal,
   POPOVER_TIMEOUT,
 } from 'ui';
 
@@ -87,7 +88,7 @@ export const OverviewMenu = ({
     <Popover open={mouseEnterPopover}>
       <PopoverTrigger
         tabIndex={-1}
-        css={{ outline: 'none' }}
+        css={{ outline: 'none !important' }}
         ref={triggerRef}
         onKeyDown={e => {
           if (e.key === 'Enter' || e.key === ' ') {
@@ -112,106 +113,112 @@ export const OverviewMenu = ({
       >
         {overviewMenuTrigger}
       </PopoverTrigger>
-      <PopoverContent
-        onKeyDown={e => {
-          if (e.key === 'Escape') {
-            setMouseEnterPopover(false);
-          }
-        }}
-        onMouseEnter={() => {
-          clearTimeout(timeoutId);
-          setMouseEnterPopover(true);
-        }}
-        onMouseLeave={() => {
-          clearTimeout(timeoutId);
-          timeoutId = setTimeout(
-            () => setMouseEnterPopover(false),
-            POPOVER_TIMEOUT
-          );
-        }}
-        // These offset values must be dialed in browser.  CSS values/strings cannot be used, only numbers.
-        sideOffset={-57}
-        alignOffset={1}
-        css={{ outline: 'none', mb: '$lg', zIndex: 2 }}
-      >
-        <Box
+      <PopoverPortal>
+        <PopoverContent
+          onKeyDown={e => {
+            if (e.key === 'Escape') {
+              setMouseEnterPopover(false);
+            }
+          }}
+          onMouseEnter={() => {
+            clearTimeout(timeoutId);
+            setMouseEnterPopover(true);
+          }}
+          onMouseLeave={() => {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(
+              () => setMouseEnterPopover(false),
+              POPOVER_TIMEOUT
+            );
+          }}
           css={{
-            display: 'flex',
-            flexDirection: 'column',
-            p: '$md',
+            outline: 'none',
+            position: 'relative',
+            left: '$xl',
+            top: 'calc($xxs - $3xl)',
+            mb: '$lg',
+            zIndex: 2,
           }}
         >
-          <PopoverClose asChild>
-            <Link
-              type="menu"
-              css={{
-                py: '$sm',
-                fontWeight: '$bold',
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}
-              onClick={
-                inCircle
-                  ? () => closeAndGo(paths.history(circle.id))
-                  : undefined
-              }
-            >
-              {overviewMenuTriggerText}
-              <Box css={{ marginLeft: '$xs', display: 'flex' }}>
-                <ChevronUp size="lg" />
-              </Box>
-            </Link>
-          </PopoverClose>
           <Box
             css={{
               display: 'flex',
               flexDirection: 'column',
-              marginTop: '$sm',
+              p: '$md',
             }}
           >
-            {hasCircles && (
-              <TopLevelLinks links={mainLinks} onClick={closePopover} />
-            )}
-          </Box>
-          {orgs?.map(org => (
-            <Box key={org.id} css={menuGroupStyle}>
+            <PopoverClose asChild>
               <Link
-                key={org.id}
                 type="menu"
-                href={paths.organization(org.id.toString())}
-                onClick={e => {
-                  if (!e.metaKey || !e.ctrlKey) {
-                    e.preventDefault();
-                    closeAndGo(paths.organization(org.id.toString()));
-                  }
+                css={{
+                  py: '$sm',
+                  fontWeight: '$bold',
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
                 }}
+                onClick={
+                  inCircle
+                    ? () => closeAndGo(paths.history(circle.id))
+                    : undefined
+                }
               >
-                <Text variant="label">{org.name}</Text>
+                {overviewMenuTriggerText}
+                <Box css={{ marginLeft: '$xs', display: 'flex' }}>
+                  <ChevronUp size="lg" />
+                </Box>
               </Link>
-              <Box css={{ display: 'flex', flexDirection: 'column' }}>
-                {sortBy(org.circles, c => c.name)
-                  .filter(c => c.users.length)
-                  .map(circle => (
-                    <Link
-                      key={circle.id}
-                      type="menu"
-                      href={paths.history(circle.id)}
-                      onClick={e => {
-                        if (!e.metaKey || !e.ctrlKey) {
-                          e.preventDefault();
-                          closeAndGo(paths.history(circle.id));
-                        }
-                      }}
-                    >
-                      {circle.name}
-                    </Link>
-                  ))}
-              </Box>
+            </PopoverClose>
+            <Box
+              css={{
+                display: 'flex',
+                flexDirection: 'column',
+                marginTop: '$sm',
+              }}
+            >
+              {hasCircles && (
+                <TopLevelLinks links={mainLinks} onClick={closePopover} />
+              )}
             </Box>
-          ))}
-        </Box>
-      </PopoverContent>
+            {orgs?.map(org => (
+              <Box key={org.id} css={menuGroupStyle}>
+                <Link
+                  key={org.id}
+                  type="menu"
+                  href={paths.organization(org.id.toString())}
+                  onClick={e => {
+                    if (!e.metaKey || !e.ctrlKey) {
+                      e.preventDefault();
+                      closeAndGo(paths.organization(org.id.toString()));
+                    }
+                  }}
+                >
+                  <Text variant="label">{org.name}</Text>
+                </Link>
+                <Box css={{ display: 'flex', flexDirection: 'column' }}>
+                  {sortBy(org.circles, c => c.name)
+                    .filter(c => c.users.length)
+                    .map(circle => (
+                      <Link
+                        key={circle.id}
+                        type="menu"
+                        href={paths.history(circle.id)}
+                        onClick={e => {
+                          if (!e.metaKey || !e.ctrlKey) {
+                            e.preventDefault();
+                            closeAndGo(paths.history(circle.id));
+                          }
+                        }}
+                      >
+                        {circle.name}
+                      </Link>
+                    ))}
+                </Box>
+              </Box>
+            ))}
+          </Box>
+        </PopoverContent>
+      </PopoverPortal>
     </Popover>
   );
 };

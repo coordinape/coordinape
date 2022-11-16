@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useRef, useState } from 'react';
 
 import { NavLink } from 'react-router-dom';
@@ -14,6 +15,7 @@ import {
   Box,
   Link,
   Popover,
+  PopoverPortal,
   PopoverTrigger,
   PopoverContent,
   PopoverClose,
@@ -46,7 +48,7 @@ export const MyAvatarMenu = ({ walletStatus }: Props) => {
         <Popover open={mouseEnterPopover}>
           <PopoverTrigger
             tabIndex={-1}
-            css={{ outline: 'none' }}
+            css={{ outline: 'none !important' }}
             ref={triggerRef}
             onKeyDown={e => {
               if (e.key === 'Enter' || e.key === ' ') {
@@ -73,88 +75,94 @@ export const MyAvatarMenu = ({ walletStatus }: Props) => {
               <Avatar path={myProfile.avatar} name="me" />
             </Link>
           </PopoverTrigger>
-          <PopoverContent
-            onKeyDown={e => {
-              if (e.key === 'Escape') {
-                setMouseEnterPopover(false);
-              }
-            }}
-            onMouseEnter={() => {
-              clearTimeout(timeoutId);
-              setMouseEnterPopover(true);
-            }}
-            onMouseLeave={() => {
-              clearTimeout(timeoutId);
-              timeoutId = setTimeout(
-                () => setMouseEnterPopover(false),
-                POPOVER_TIMEOUT
-              );
-            }}
-            // These offset values must be dialed in browser.  CSS values/strings cannot be used, only numbers.
-            sideOffset={-64}
-            alignOffset={-16}
-            css={{ background: '$surface', outline: 'none', zIndex: 2 }}
-            onClick={closePopover}
-          >
-            <Box
-              css={{
-                display: 'flex',
-                flexDirection: 'column',
-                textAlign: 'right',
-                alignItems: 'end',
-                p: '$md',
+          <PopoverPortal>
+            <PopoverContent
+              onKeyDown={e => {
+                if (e.key === 'Escape') {
+                  setMouseEnterPopover(false);
+                }
               }}
+              onMouseEnter={() => {
+                clearTimeout(timeoutId);
+                setMouseEnterPopover(true);
+              }}
+              onMouseLeave={() => {
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(
+                  () => setMouseEnterPopover(false),
+                  POPOVER_TIMEOUT
+                );
+              }}
+              css={{
+                background: '$surface',
+                outline: 'none',
+                zIndex: 2,
+                position: 'relative',
+                right: '$md',
+                top: 'calc($lg - $4xl)',
+              }}
+              onClick={closePopover}
             >
-              <PopoverClose asChild>
-                <Box css={{ display: 'flex', alignItems: 'end', pb: '$md' }}>
-                  <Avatar path={myProfile.avatar} />
-                </Box>
-              </PopoverClose>
               <Box
                 css={{
                   display: 'flex',
-                  alignItems: 'center',
-                  mb: '$xs',
-                  fontWeight: '$bold',
-                  fontSize: '$large',
+                  flexDirection: 'column',
+                  textAlign: 'right',
+                  alignItems: 'end',
+                  p: '$md',
                 }}
               >
-                <Box css={{ mr: '$sm', display: 'flex' }}>{icon}</Box>
-                {address && shortenAddress(address)}
-              </Box>
-              {isFeatureEnabled('vaults') && (
-                <Link
-                  type="menu"
-                  css={{ fontSize: '$xs', color: '$headingText', mb: '$xs' }}
-                  href="#"
-                  onClick={() => setShowTxModal(true)}
+                <PopoverClose asChild>
+                  <Box css={{ display: 'flex', alignItems: 'end', pb: '$md' }}>
+                    <Avatar path={myProfile.avatar} />
+                  </Box>
+                </PopoverClose>
+                <Box
+                  css={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    mb: '$xs',
+                    fontWeight: '$bold',
+                    fontSize: '$large',
+                  }}
                 >
-                  Recent Transactions
-                </Link>
-              )}
-              <Link
-                type="menu"
-                css={{ fontSize: '$xs', color: '$headingText' }}
-                onClick={logout}
-                href="#"
-              >
-                Disconnect
-              </Link>
-              <Box css={menuGroupStyle}>
-                <Link type="menu" as={NavLink} to={paths.profile('me')}>
-                  Profile
-                </Link>
-                <Link type="menu" as={NavLink} to={paths.circles}>
-                  Circles
-                </Link>
+                  <Box css={{ mr: '$sm', display: 'flex' }}>{icon}</Box>
+                  {address && shortenAddress(address)}
+                </Box>
                 {isFeatureEnabled('vaults') && (
-                  <Link type="menu" as={NavLink} to={paths.claims}>
-                    Claims
+                  <Link
+                    type="menu"
+                    css={{ fontSize: '$xs', color: '$headingText', mb: '$xs' }}
+                    href="#"
+                    onClick={() => setShowTxModal(true)}
+                  >
+                    Recent Transactions
                   </Link>
                 )}
+                <Link
+                  type="menu"
+                  css={{ fontSize: '$xs', color: '$headingText' }}
+                  onClick={logout}
+                  href="#"
+                >
+                  Disconnect
+                </Link>
+                <Box css={menuGroupStyle}>
+                  <Link type="menu" as={NavLink} to={paths.profile('me')}>
+                    Profile
+                  </Link>
+                  <Link type="menu" as={NavLink} to={paths.circles}>
+                    Circles
+                  </Link>
+                  {isFeatureEnabled('vaults') && (
+                    <Link type="menu" as={NavLink} to={paths.claims}>
+                      Claims
+                    </Link>
+                  )}
+                </Box>
               </Box>
-            </Box>
-          </PopoverContent>
+            </PopoverContent>
+          </PopoverPortal>
         </Popover>
       </Hidden>
     </>
