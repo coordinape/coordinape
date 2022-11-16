@@ -10,6 +10,7 @@
 ## Test and Deployment Plan
 
 <!-- How have you tested your changes? Are there additional steps required to deploy this change? -->
+<!-- Detail the steps needed to verify that this set of changes does what it's supposed to -> https://github.com/karelianpie/coordinape/blob/main/.github/pull_request_template.md -->
 
 ## Screenshots (if appropriate):
 
