@@ -876,6 +876,7 @@ export type ValueTypes = {
     name?: string | undefined | null;
     nomination_days_limit?: number | undefined | null;
     only_giver_vouch?: boolean | undefined | null;
+    show_pending_gives?: boolean | undefined | null;
     team_sel_text?: string | undefined | null;
     team_selection?: boolean | undefined | null;
     token_name?: string | undefined | null;
@@ -23976,6 +23977,7 @@ export type GraphQLTypes = {
     name?: string | undefined;
     nomination_days_limit?: number | undefined;
     only_giver_vouch?: boolean | undefined;
+    show_pending_gives?: boolean | undefined;
     team_sel_text?: string | undefined;
     team_selection?: boolean | undefined;
     token_name?: string | undefined;
