@@ -1,5 +1,10 @@
+import { useState } from 'react';
+
 import * as HoverCardPrimitive from '@radix-ui/react-hover-card';
 import { CSS, keyframes, styled } from 'stitches.config';
+
+import useMobileDetect from 'hooks/useMobileDetect';
+import { Flex, Link, Modal } from 'ui';
 
 const scaleUpAnimation = keyframes({
   '0%': { opacity: 0, transform: 'scale(0)' },
@@ -53,12 +58,38 @@ export const Tooltip = ({
   children?: React.ReactNode;
   css?: CSS;
 }) => {
+  const { isMobile } = useMobileDetect();
+  const [modal, setModal] = useState(false);
+  const closeModal = () => {
+    setModal(false);
+  };
   return (
-    <HoverCardPrimitive.Root closeDelay={50} openDelay={0}>
-      <TooltipTrigger css={css}>{children}</TooltipTrigger>
-      <HoverCardPrimitive.Portal>
-        <HoverCardContent>{content}</HoverCardContent>
-      </HoverCardPrimitive.Portal>
-    </HoverCardPrimitive.Root>
+    <>
+      {isMobile ? (
+        <div>
+          <Link
+            css={{ display: 'inline-flex', alignItems: 'center' }}
+            color="neutral"
+            onClick={() => setModal(true)}
+          >
+            {children}
+          </Link>
+          <Modal open={modal} onOpenChange={closeModal} css={{ p: '$xl $md' }}>
+            <Flex column alignItems="start" css={{ gap: '$md' }}>
+              {content}
+            </Flex>
+          </Modal>
+        </div>
+      ) : (
+        <>
+          <HoverCardPrimitive.Root closeDelay={50} openDelay={0}>
+            <TooltipTrigger css={css}>{children}</TooltipTrigger>
+            <HoverCardPrimitive.Portal>
+              <HoverCardContent>{content}</HoverCardContent>
+            </HoverCardPrimitive.Portal>
+          </HoverCardPrimitive.Root>
+        </>
+      )}
+    </>
   );
 };
