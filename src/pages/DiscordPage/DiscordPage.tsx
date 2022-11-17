@@ -30,6 +30,7 @@ export const DiscordPage = () => {
     isLoading,
     isIdle,
     isRefetching,
+    isFetched,
   } = useQuery(
     [QUERY_KEY_DISCORD_USERS, profileId],
     () => getDiscordUserByProfileId({ profileId }),
@@ -48,16 +49,29 @@ export const DiscordPage = () => {
 
   useEffect(() => {
     const linkUser = async () => {
-      setLinkStatus('linking');
+      if (!isFetched) {
+        return;
+      }
+
+      if (discordUsers?.some(({ profile_id }) => profile_id === profileId)) {
+        throw new Error('Your profile is already linked');
+      }
+
       const code = parameters.get('code');
       if (!code) {
         throw new Error('Discord code is required');
       }
 
+      setLinkStatus('linking');
+
       const response = await fetch(
         '/api/discord/oauth?' + new URLSearchParams({ code })
       );
       const discordUser = await response.json();
+      if (!discordUser || !discordUser.id) {
+        throw new Error('An error occurred fetching your discord user');
+      }
+
       await linkDiscordUser({ discord_id: discordUser.id });
 
       setLinkStatus('linked');
@@ -70,14 +84,13 @@ export const DiscordPage = () => {
       showError(error);
       navigate(paths.profile('me'));
     });
-  }, []);
+  }, [isFetched]);
 
   return (
     <LoadingModal
       text={getLoadingModalText({
         linkStatus,
         isBusy: isLoading || isIdle || isRefetching,
-        discordId: discordUsers?.[0]?.user_snowflake,
       })}
       visible={true}
       note="global"
@@ -97,19 +110,15 @@ const linkDiscordUser = async (payload: {
 const getLoadingModalText = ({
   linkStatus,
   isBusy,
-  discordId,
 }: {
   linkStatus: LinkStatus;
   isBusy: boolean;
-  discordId?: string;
 }): string => {
   if (isBusy) return 'Loading...';
 
   if (linkStatus === 'linking') return 'Linking...';
 
-  if (linkStatus === 'linked') {
-    return discordId ? `Linked #${discordId}` : `Linked`;
-  }
+  if (linkStatus === 'linked') return `Linked`;
 
   return 'Your profile will be automatically linked';
 };

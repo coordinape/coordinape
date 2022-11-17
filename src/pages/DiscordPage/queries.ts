@@ -14,7 +14,7 @@ export const getDiscordUserByProfileId = async ({
           profile_id: { _eq: profileId },
         },
       },
-      { id: true, user_snowflake: true },
+      { id: true, user_snowflake: true, profile_id: true },
     ],
   });
   return discord_users;
