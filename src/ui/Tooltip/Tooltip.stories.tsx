@@ -1,7 +1,7 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import { Text } from '../Text/Text';
 import { Info } from 'icons/__generated';
+import { Text } from 'ui';
 
 import { Tooltip as TooltipComponent } from './Tooltip';
 

@@ -8,6 +8,10 @@ import { Flex, Tooltip } from 'ui';
 import Text from 'ui/Text/Text';
 
 const CheckboxRoot = styled(CheckboxPrimitive.Root, {
+  button: {
+    cursor: 'pointer',
+    pointerEvents: 'visible',
+  },
   all: 'unset',
   backgroundColor: '$surface',
   boxSizing: 'border-box',
