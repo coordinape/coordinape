@@ -41,10 +41,11 @@ echo "Seeding..."
 ts-node ./scripts/db_seed_test.ts
 
 # Re-enable event triggers post-seeding
+# Don't apply metadata, because disable_cron will do it
 echo "Re-enabling triggers and cron"
-./scripts/enable_triggers.sh
+APPLY_METADATA=no ./scripts/enable_triggers.sh
 
 # disable cron tasks to minimize unexpected CPU spikes
 ./scripts/disable_cron.sh
 
-yarn hasura $HASURA_ENV metadata reload
+yarn hasura metadata reload

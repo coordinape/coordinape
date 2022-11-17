@@ -240,6 +240,15 @@ input Int_comparison_exp {
   _nin: [Int!]
 }
 
+input LinkDiscordUserInput {
+  discord_id: String!
+}
+
+type LinkDiscordUserResponse {
+  id: Int!
+  linkDiscordUser_DiscordUser: discord_users
+}
+
 input LogVaultTxInput {
   amount: Float
   circle_id: Int
@@ -3406,6 +3415,323 @@ input date_comparison_exp {
 }
 
 """
+link a discord role to a circle  to control membership of the circle
+"""
+type discord_roles_circles {
+  """
+  An object relationship
+  """
+  circle: circles!
+  circle_id: bigint!
+  created_at: timestamptz!
+  id: bigint!
+  role: String!
+  updated_at: timestamptz!
+}
+
+"""
+Boolean expression to filter rows from the table "discord.roles_circles". All fields are combined with a logical 'AND'.
+"""
+input discord_roles_circles_bool_exp {
+  _and: [discord_roles_circles_bool_exp!]
+  _not: discord_roles_circles_bool_exp
+  _or: [discord_roles_circles_bool_exp!]
+  circle: circles_bool_exp
+  circle_id: bigint_comparison_exp
+  created_at: timestamptz_comparison_exp
+  id: bigint_comparison_exp
+  role: String_comparison_exp
+  updated_at: timestamptz_comparison_exp
+}
+
+"""
+response of any mutation on the table "discord.roles_circles"
+"""
+type discord_roles_circles_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [discord_roles_circles!]!
+}
+
+"""
+Ordering options when selecting data from "discord.roles_circles".
+"""
+input discord_roles_circles_order_by {
+  circle: circles_order_by
+  circle_id: order_by
+  created_at: order_by
+  id: order_by
+  role: order_by
+  updated_at: order_by
+}
+
+"""
+primary key columns input for table: discord.roles_circles
+"""
+input discord_roles_circles_pk_columns_input {
+  id: bigint!
+}
+
+"""
+select columns of table "discord.roles_circles"
+"""
+enum discord_roles_circles_select_column {
+  """
+  column name
+  """
+  circle_id
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  role
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+input type for updating data in table "discord.roles_circles"
+"""
+input discord_roles_circles_set_input {
+  role: String
+}
+
+"""
+Streaming cursor of the table "discord_roles_circles"
+"""
+input discord_roles_circles_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: discord_roles_circles_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input discord_roles_circles_stream_cursor_value_input {
+  circle_id: bigint
+  created_at: timestamptz
+  id: bigint
+  role: String
+  updated_at: timestamptz
+}
+
+input discord_roles_circles_updates {
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: discord_roles_circles_set_input
+  where: discord_roles_circles_bool_exp!
+}
+
+"""
+link discord user ids to coordinape profiles 1:1
+"""
+type discord_users {
+  created_at: timestamptz!
+  id: bigint!
+
+  """
+  An object relationship
+  """
+  profile: profiles!
+  profile_id: bigint!
+  updated_at: timestamptz!
+  user_snowflake: String!
+}
+
+"""
+Boolean expression to filter rows from the table "discord.users". All fields are combined with a logical 'AND'.
+"""
+input discord_users_bool_exp {
+  _and: [discord_users_bool_exp!]
+  _not: discord_users_bool_exp
+  _or: [discord_users_bool_exp!]
+  created_at: timestamptz_comparison_exp
+  id: bigint_comparison_exp
+  profile: profiles_bool_exp
+  profile_id: bigint_comparison_exp
+  updated_at: timestamptz_comparison_exp
+  user_snowflake: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "discord.users"
+"""
+enum discord_users_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  users_pkey
+
+  """
+  unique or primary key constraint on columns "profile_id"
+  """
+  users_profile_id_key
+
+  """
+  unique or primary key constraint on columns "user_snowflake"
+  """
+  users_user_snowflake_key
+}
+
+"""
+input type for inserting data into table "discord.users"
+"""
+input discord_users_insert_input {
+  user_snowflake: String
+}
+
+"""
+response of any mutation on the table "discord.users"
+"""
+type discord_users_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [discord_users!]!
+}
+
+"""
+on_conflict condition type for table "discord.users"
+"""
+input discord_users_on_conflict {
+  constraint: discord_users_constraint!
+  update_columns: [discord_users_update_column!]! = []
+  where: discord_users_bool_exp
+}
+
+"""
+Ordering options when selecting data from "discord.users".
+"""
+input discord_users_order_by {
+  created_at: order_by
+  id: order_by
+  profile: profiles_order_by
+  profile_id: order_by
+  updated_at: order_by
+  user_snowflake: order_by
+}
+
+"""
+primary key columns input for table: discord.users
+"""
+input discord_users_pk_columns_input {
+  id: bigint!
+}
+
+"""
+select columns of table "discord.users"
+"""
+enum discord_users_select_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  updated_at
+
+  """
+  column name
+  """
+  user_snowflake
+}
+
+"""
+input type for updating data in table "discord.users"
+"""
+input discord_users_set_input {
+  user_snowflake: String
+}
+
+"""
+Streaming cursor of the table "discord_users"
+"""
+input discord_users_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: discord_users_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input discord_users_stream_cursor_value_input {
+  created_at: timestamptz
+  id: bigint
+  profile_id: bigint
+  updated_at: timestamptz
+  user_snowflake: String
+}
+
+"""
+update columns of table "discord.users"
+"""
+enum discord_users_update_column {
+  """
+  column name
+  """
+  user_snowflake
+}
+
+input discord_users_updates {
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: discord_users_set_input
+  where: discord_users_bool_exp!
+}
+
+"""
 Vault Distributions
 """
 type distributions {
@@ -4919,6 +5245,21 @@ type mutation_root {
   ): circle_share_tokens
 
   """
+  delete data from the table: "discord.users"
+  """
+  delete_discord_users(
+    """
+    filter the rows which have to be deleted
+    """
+    where: discord_users_bool_exp!
+  ): discord_users_mutation_response
+
+  """
+  delete single row from the table: "discord.users"
+  """
+  delete_discord_users_by_pk(id: bigint!): discord_users
+
+  """
   delete data from the table: "pending_vault_transactions"
   """
   delete_pending_vault_transactions(
@@ -5061,6 +5402,36 @@ type mutation_root {
   ): contributions
 
   """
+  insert data into the table: "discord.users"
+  """
+  insert_discord_users(
+    """
+    the rows to be inserted
+    """
+    objects: [discord_users_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: discord_users_on_conflict
+  ): discord_users_mutation_response
+
+  """
+  insert a single row into the table: "discord.users"
+  """
+  insert_discord_users_one(
+    """
+    the row to be inserted
+    """
+    object: discord_users_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: discord_users_on_conflict
+  ): discord_users
+
+  """
   insert data into the table: "distributions"
   """
   insert_distributions(
@@ -5119,6 +5490,11 @@ type mutation_root {
     """
     on_conflict: pending_vault_transactions_on_conflict
   ): pending_vault_transactions
+
+  """
+  allow authenticated users to link a discord account to their profile
+  """
+  linkDiscordUser(payload: LinkDiscordUserInput!): LinkDiscordUserResponse
   logoutUser: LogoutResponse
   markClaimed(payload: MarkClaimedInput!): MarkClaimedOutput
   restoreCoordinape(payload: CoordinapeInput!): ConfirmationResponse
@@ -5174,6 +5550,78 @@ type mutation_root {
     """
     updates: [claims_updates!]!
   ): [claims_mutation_response]
+
+  """
+  update data of the table: "discord.roles_circles"
+  """
+  update_discord_roles_circles(
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: discord_roles_circles_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: discord_roles_circles_bool_exp!
+  ): discord_roles_circles_mutation_response
+
+  """
+  update single row of the table: "discord.roles_circles"
+  """
+  update_discord_roles_circles_by_pk(
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: discord_roles_circles_set_input
+    pk_columns: discord_roles_circles_pk_columns_input!
+  ): discord_roles_circles
+
+  """
+  update multiples rows of table: "discord.roles_circles"
+  """
+  update_discord_roles_circles_many(
+    """
+    updates to execute, in order
+    """
+    updates: [discord_roles_circles_updates!]!
+  ): [discord_roles_circles_mutation_response]
+
+  """
+  update data of the table: "discord.users"
+  """
+  update_discord_users(
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: discord_users_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: discord_users_bool_exp!
+  ): discord_users_mutation_response
+
+  """
+  update single row of the table: "discord.users"
+  """
+  update_discord_users_by_pk(
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: discord_users_set_input
+    pk_columns: discord_users_pk_columns_input!
+  ): discord_users
+
+  """
+  update multiples rows of table: "discord.users"
+  """
+  update_discord_users_many(
+    """
+    updates to execute, in order
+    """
+    updates: [discord_users_updates!]!
+  ): [discord_users_mutation_response]
 
   """
   update data of the table: "distributions"
@@ -7464,6 +7912,76 @@ type query_root {
   contributions_by_pk(id: bigint!): contributions
 
   """
+  fetch data from the table: "discord.roles_circles"
+  """
+  discord_roles_circles(
+    """
+    distinct select on columns
+    """
+    distinct_on: [discord_roles_circles_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [discord_roles_circles_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: discord_roles_circles_bool_exp
+  ): [discord_roles_circles!]!
+
+  """
+  fetch data from the table: "discord.roles_circles" using primary key columns
+  """
+  discord_roles_circles_by_pk(id: bigint!): discord_roles_circles
+
+  """
+  fetch data from the table: "discord.users"
+  """
+  discord_users(
+    """
+    distinct select on columns
+    """
+    distinct_on: [discord_users_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [discord_users_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: discord_users_bool_exp
+  ): [discord_users!]!
+
+  """
+  fetch data from the table: "discord.users" using primary key columns
+  """
+  discord_users_by_pk(id: bigint!): discord_users
+
+  """
   An array relationship
   """
   distributions(
@@ -8659,6 +9177,116 @@ type subscription_root {
     """
     where: contributions_bool_exp
   ): [contributions!]!
+
+  """
+  fetch data from the table: "discord.roles_circles"
+  """
+  discord_roles_circles(
+    """
+    distinct select on columns
+    """
+    distinct_on: [discord_roles_circles_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [discord_roles_circles_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: discord_roles_circles_bool_exp
+  ): [discord_roles_circles!]!
+
+  """
+  fetch data from the table: "discord.roles_circles" using primary key columns
+  """
+  discord_roles_circles_by_pk(id: bigint!): discord_roles_circles
+
+  """
+  fetch data from the table in a streaming manner : "discord.roles_circles"
+  """
+  discord_roles_circles_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [discord_roles_circles_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: discord_roles_circles_bool_exp
+  ): [discord_roles_circles!]!
+
+  """
+  fetch data from the table: "discord.users"
+  """
+  discord_users(
+    """
+    distinct select on columns
+    """
+    distinct_on: [discord_users_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [discord_users_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: discord_users_bool_exp
+  ): [discord_users!]!
+
+  """
+  fetch data from the table: "discord.users" using primary key columns
+  """
+  discord_users_by_pk(id: bigint!): discord_users
+
+  """
+  fetch data from the table in a streaming manner : "discord.users"
+  """
+  discord_users_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [discord_users_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: discord_users_bool_exp
+  ): [discord_users!]!
 
   """
   An array relationship
@@ -9953,7 +10581,7 @@ input timestamptz_comparison_exp {
 }
 
 """
-GIVE allocations made by circle members for past epochs
+GIVE allocations made by circle members for completed epochs
 """
 type token_gifts {
   """
