@@ -79,7 +79,7 @@ export const ReceiveInfo = () => {
           );
         }}
       >
-        <Button tabIndex={-1} size="small" color="surface">
+        <Button as="div" tabIndex={-1} size="small" color="surface">
           {!currentNonReceiver ? totalReceived : 0}{' '}
           {data?.myReceived?.token_name ?? 'GIVE'}
         </Button>

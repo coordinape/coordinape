@@ -14,7 +14,6 @@ import {
   Box,
   Link,
   Popover,
-  PopoverAnchor,
   PopoverTrigger,
   PopoverContent,
   PopoverClose,
@@ -73,7 +72,6 @@ export const MyAvatarMenu = ({ walletStatus }: Props) => {
             <Link href="#">
               <Avatar path={myProfile.avatar} name="me" />
             </Link>
-            <PopoverAnchor />
           </PopoverTrigger>
           <PopoverContent
             onKeyDown={e => {

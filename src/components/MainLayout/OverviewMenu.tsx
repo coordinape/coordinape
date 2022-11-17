@@ -22,7 +22,7 @@ import {
   PopoverTrigger,
   PopoverContent,
   PopoverClose,
-  PopoverAnchor,
+  // PopoverAnchor,
   POPOVER_TIMEOUT,
 } from 'ui';
 
@@ -58,7 +58,7 @@ export const OverviewMenu = ({
     ? 'CoVaults'
     : 'Overview';
   const overviewMenuTrigger = (
-    <Link
+    <Text
       css={navLinkStyle}
       className={
         location.pathname === paths.circles ||
@@ -67,13 +67,12 @@ export const OverviewMenu = ({
           ? 'active'
           : ''
       }
-      href="#"
     >
       {overviewMenuTriggerText}
       <Box css={{ marginLeft: '$xs', display: 'flex' }}>
         <ChevronDown size="lg" />
       </Box>
-    </Link>
+    </Text>
   );
 
   const [mouseEnterPopover, setMouseEnterPopover] = useState(false);
@@ -112,7 +111,7 @@ export const OverviewMenu = ({
         }}
       >
         {overviewMenuTrigger}
-        <PopoverAnchor />
+        {/* <PopoverAnchor /> */}
       </PopoverTrigger>
       <PopoverContent
         onKeyDown={e => {
