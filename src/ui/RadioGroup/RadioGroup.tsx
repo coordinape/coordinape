@@ -1,7 +1,11 @@
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
 import { styled } from 'stitches.config';
 
-const StyledToggleGroupRoot = styled(RadioGroupPrimitive.Root, {});
+const StyledToggleGroupRoot = styled(RadioGroupPrimitive.Root, {
+  '*': {
+    cursor: 'pointer',
+  },
+});
 const StyledRadio = styled(RadioGroupPrimitive.Item, {
   all: 'unset',
   backgroundColor: '$surface',

@@ -6,8 +6,7 @@ import { useController, useForm, SubmitHandler } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
 import { z } from 'zod';
 
-import { LoadingModal } from '../../components';
-import { useSelectedCircleId } from '../../recoilState';
+import { LoadingModal } from '../../../components';
 import { Box, Button, CheckBox, Form, FormLabel, Text, TextField } from 'ui';
 
 import { API_PERMISSION_LABELS } from './constants';
@@ -24,15 +23,18 @@ const schema = z.object({
   update_pending_token_gifts: z.boolean(),
   read_member_profiles: z.boolean(),
   read_epochs: z.boolean(),
+  read_contributions: z.boolean(),
+  create_contributions: z.boolean(),
 });
 
 type FormSchema = z.infer<typeof schema>;
 const resolver = zodResolver(schema);
 
-export const ApiKeyForm: FC<{ onSuccess: (apiKey: string) => void }> = ({
-  onSuccess,
-}) => {
-  const circleId = useSelectedCircleId();
+type Props = {
+  circleId: number;
+  onSuccess: (apiKey: string) => void;
+};
+export const ApiKeyForm: FC<Props> = ({ circleId, onSuccess }) => {
   const {
     control,
     formState: { errors, isValid },
@@ -117,23 +119,34 @@ export const ApiKeyForm: FC<{ onSuccess: (apiKey: string) => void }> = ({
     defaultValue: false,
   });
 
+  const { field: readContributions } = useController({
+    name: 'read_contributions',
+    control,
+    defaultValue: false,
+  });
+
+  const { field: createContributions } = useController({
+    name: 'create_contributions',
+    control,
+    defaultValue: false,
+  });
+
   return (
     <Form
       onSubmit={handleSubmit(onSubmit)}
       css={{
         width: '100%',
-        alignItems: 'center',
         display: 'flex',
         flexDirection: 'column',
       }}
     >
-      <Text size="medium">
+      <Text p as="p">
         Circle API keys allow for third party apps to read data from and
         interact with your circle. You can configure specific permissions for
         each key.
       </Text>
-      <FormLabel htmlFor="name" type={'textField'} css={{ mt: '$lg' }}>
-        Label
+      <FormLabel htmlFor="name" type={'label'} css={{ mt: '$lg', mb: '$xs' }}>
+        API Key Name
       </FormLabel>
       <TextField
         css={{ width: '100%' }}
@@ -189,6 +202,13 @@ export const ApiKeyForm: FC<{ onSuccess: (apiKey: string) => void }> = ({
           label={API_PERMISSION_LABELS['read_nominees']}
           infoTooltip={<>Allows reading information about circle nominees.</>}
         />
+        <CheckBox
+          {...readContributions}
+          label={API_PERMISSION_LABELS['read_contributions']}
+          infoTooltip={
+            <>Allows reading contributions added by members in the circle.</>
+          }
+        />
         <Text variant={'label'} css={{ mt: '$md' }}>
           Write Permissions
         </Text>
@@ -215,6 +235,13 @@ export const ApiKeyForm: FC<{ onSuccess: (apiKey: string) => void }> = ({
           label={API_PERMISSION_LABELS['create_vouches']}
           infoTooltip={
             <>Allows vouching for new nominees on behalf of circle members.</>
+          }
+        />
+        <CheckBox
+          {...createContributions}
+          label={API_PERMISSION_LABELS['create_contributions']}
+          infoTooltip={
+            <>Allows adding contributions on behalf of circle members.</>
           }
         />
       </Box>

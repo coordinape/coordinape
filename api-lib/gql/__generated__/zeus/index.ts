@@ -15603,7 +15603,7 @@ export type ValueTypes = {
     _neq?: ValueTypes['timestamptz'] | undefined | null;
     _nin?: Array<ValueTypes['timestamptz']> | undefined | null;
   };
-  /** GIVE allocations made by circle members for completed epochs */
+  /** GIVE allocations made by circle members for past epochs */
   ['token_gifts']: AliasType<{
     /** An object relationship */
     circle?: ValueTypes['circles'];
@@ -23872,7 +23872,7 @@ export type ModelTypes = {
   ['timestamptz']: any;
   /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
   ['timestamptz_comparison_exp']: GraphQLTypes['timestamptz_comparison_exp'];
-  /** GIVE allocations made by circle members for completed epochs */
+  /** GIVE allocations made by circle members for past epochs */
   ['token_gifts']: {
     /** An object relationship */
     circle: GraphQLTypes['circles'];
@@ -34240,7 +34240,7 @@ export type GraphQLTypes = {
     _neq?: GraphQLTypes['timestamptz'] | undefined;
     _nin?: Array<GraphQLTypes['timestamptz']> | undefined;
   };
-  /** GIVE allocations made by circle members for completed epochs */
+  /** GIVE allocations made by circle members for past epochs */
   ['token_gifts']: {
     __typename: 'token_gifts';
     /** An object relationship */
