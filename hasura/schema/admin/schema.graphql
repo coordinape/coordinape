@@ -1422,10 +1422,14 @@ enum circle_api_keys_select_column {
   """
   circle_id
 
-  """column name"""
+  """
+  column name
+  """
   create_contributions
 
-  """column name"""
+  """
+  column name
+  """
   create_vouches
 
   """
@@ -1621,7 +1625,9 @@ enum circle_api_keys_update_column {
   """
   circle_id
 
-  """column name"""
+  """
+  column name
+  """
   create_vouches
 
   """
@@ -4384,7 +4390,9 @@ enum circles_select_column {
   """
   organization_id
 
-  """column name"""
+  """
+  column name
+  """
   team_sel_text
 
   """
@@ -4672,7 +4680,9 @@ enum circles_update_column {
   """
   organization_id
 
-  """column name"""
+  """
+  column name
+  """
   team_sel_text
 
   """
@@ -5703,7 +5713,9 @@ enum contributions_select_column {
   """
   created_at
 
-  """column name"""
+  """
+  column name
+  """
   datetime_created
 
   """
@@ -5863,7 +5875,9 @@ enum contributions_update_column {
   """
   created_at
 
-  """column name"""
+  """
+  column name
+  """
   datetime_created
 
   """
@@ -8204,7 +8218,9 @@ enum epochs_select_column {
   """
   days
 
-  """column name"""
+  """
+  column name
+  """
   end_date
 
   """
@@ -8460,7 +8476,9 @@ enum epochs_update_column {
   """
   days
 
-  """column name"""
+  """
+  column name
+  """
   end_date
 
   """
@@ -21721,7 +21739,9 @@ input timestamptz_comparison_exp {
   _nin: [timestamptz!]
 }
 
-"""GIVE allocations made by circle members for completed epochs"""
+"""
+GIVE allocations made by circle members for completed epochs
+"""
 type token_gifts {
   """
   An object relationship
