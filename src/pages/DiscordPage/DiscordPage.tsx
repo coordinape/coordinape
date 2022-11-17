@@ -81,7 +81,7 @@ export const DiscordPage = () => {
           {getLinkStatusLabel({
             linkStatus,
             isBusy: isLoading || isIdle || isRefetching,
-            discordId: discordUsers?.[0].user_snowflake,
+            discordId: discordUsers?.[0]?.user_snowflake,
           })}
         </Button>
       </Flex>

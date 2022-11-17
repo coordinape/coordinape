@@ -55,6 +55,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const user = await getDiscordMember(oauthData);
 
+    // Send ephemeral message to discord
+
     res.status(200).send(user);
   } catch (error) {
     console.error(error);
