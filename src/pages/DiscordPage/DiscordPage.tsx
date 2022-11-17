@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
+import { LoadingModal } from 'components';
+import { useApeSnackbar } from 'hooks';
 import { useMyProfile } from 'recoilState';
-import { Box, Button, CenteredBox, Flex, Text } from 'ui';
+import { paths } from 'routes/paths';
 
 import { getDiscordUserByProfileId } from './queries';
 
@@ -16,6 +18,8 @@ export const QUERY_KEY_DISCORD_USERS = 'discord-users';
 export const DiscordPage = () => {
   const { search } = useLocation();
   const { id: profileId } = useMyProfile();
+  const { showInfo, showError } = useApeSnackbar();
+  const navigate = useNavigate();
 
   const parameters = new URLSearchParams(search);
 
@@ -42,8 +46,8 @@ export const DiscordPage = () => {
     }
   );
 
-  const handleLinkDiscordUser = async () => {
-    try {
+  useEffect(() => {
+    const linkUser = async () => {
       setLinkStatus('linking');
       const code = parameters.get('code');
       if (!code) {
@@ -57,35 +61,27 @@ export const DiscordPage = () => {
       await linkDiscordUser({ discord_id: discordUser.id });
 
       setLinkStatus('linked');
-    } catch (error) {
-      setLinkStatus('detached');
-      console.error('handleLinkDiscordUser', error);
-    }
-  };
+
+      showInfo('Your profile was successfully linked!');
+      navigate(paths.profile('me'));
+    };
+
+    linkUser().catch(error => {
+      showError(error);
+      navigate(paths.profile('me'));
+    });
+  }, []);
 
   return (
-    <CenteredBox>
-      <Text h1 css={{ justifyContent: 'center' }}>
-        Link Coordinape &harr; Discord
-      </Text>
-      <Box css={{ pt: '$md', color: '$text' }}>
-        {`Clicking the button below will link coordinape to discord`}
-      </Box>
-      <Flex css={{ justifyContent: 'center', mt: '$md' }}>
-        <Button
-          size="large"
-          color="primary"
-          disabled={linkStatus !== 'detached'}
-          onClick={handleLinkDiscordUser}
-        >
-          {getLinkStatusLabel({
-            linkStatus,
-            isBusy: isLoading || isIdle || isRefetching,
-            discordId: discordUsers?.[0]?.user_snowflake,
-          })}
-        </Button>
-      </Flex>
-    </CenteredBox>
+    <LoadingModal
+      text={getLoadingModalText({
+        linkStatus,
+        isBusy: isLoading || isIdle || isRefetching,
+        discordId: discordUsers?.[0]?.user_snowflake,
+      })}
+      visible={true}
+      note="global"
+    />
   );
 };
 
@@ -98,7 +94,7 @@ const linkDiscordUser = async (payload: {
   );
 };
 
-const getLinkStatusLabel = ({
+const getLoadingModalText = ({
   linkStatus,
   isBusy,
   discordId,
@@ -107,19 +103,15 @@ const getLinkStatusLabel = ({
   isBusy: boolean;
   discordId?: string;
 }): string => {
-  if (isBusy) {
-    return 'Loading...';
-  }
+  if (isBusy) return 'Loading...';
 
-  if (linkStatus === 'linking') {
-    return 'Linking';
-  }
+  if (linkStatus === 'linking') return 'Linking...';
 
   if (linkStatus === 'linked') {
     return discordId ? `Linked #${discordId}` : `Linked`;
   }
 
-  return 'Link';
+  return 'Your profile will be automatically linked';
 };
 
 export default DiscordPage;
