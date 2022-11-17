@@ -1,6 +1,6 @@
 - name: calcPgives
   webhook: '{{HASURA_API_BASE_URL}}/cron/calcPgives'
-  schedule: '* * * * *'
+  schedule: '* 0 * * *'
   include_in_metadata: true
   payload: {}
   headers:

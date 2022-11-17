@@ -10,8 +10,8 @@ Settings.defaultZone = 'utc';
 
 const BASE_ACTIVE_POINTS = 100;
 const MAX_BASE_ACTIVE_TOTAL = 3000;
-const PER_ACTIVE_MONTH_BONUS = 8;
-const MAX_ACTIVE_MONTH_BONUS = 96;
+const PER_ACTIVE_MONTH_BONUS = 4;
+const MAX_ACTIVE_MONTH_BONUS = 48;
 const MAX_NOTE_BONUS_PER_USER = 30;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -40,12 +40,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           const endDate = DateTime.fromISO(epoch.end_date);
           const monthKey = `${endDate.get('year')}-${endDate.get('month')}`;
           if (!(monthKey in epochIndexed)) {
-            epochIndexed[monthKey] = { epochs: [], activeMonths };
+            epochIndexed[monthKey] = {
+              epochs: [],
+              activeMonths,
+              totalOptOutPgiveAlloc: {},
+            };
             activeMonths++;
           }
           epochIndexed[monthKey].epochs.push(epoch);
         });
 
+      /* calc base bonuses */
       Object.keys(epochIndexed).forEach(key => {
         epochIndexed[key].epochs.forEach(epoch => {
           const users = circle.users.filter(u => {
@@ -109,6 +114,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 name: g.recipient.name,
                 address: g.recipient_address,
                 givesReceived: g.tokens,
+                notesOnly: g.tokens ? 0 : 1,
                 epochTotalGives: totalTokensSent,
                 pGive: 0,
                 normalizedPGive: 0,
@@ -122,26 +128,83 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 givesReceiverBase: baseValuePoints,
                 activeMonthsBonus: activeMonthsBonusTotal,
                 notesBonusTotal: notesBonusTotal,
+                possibleNotes,
+                giftCount: 1,
+                sentGifts: epoch.token_gifts.filter(
+                  f => f.sender_id === g.recipient_id
+                ).length,
+                optOutBonusAlloc: 0,
               };
             } else {
               usersData[g.recipient_id].givesReceived += g.tokens;
+              usersData[g.recipient_id].giftCount++;
+
+              if (!g.tokens) usersData[g.recipient_id].notesOnly++;
             }
           });
 
-          /* Calculate pGive for epoch */
-          Object.keys(usersData).forEach(uK => {
-            usersData[uK].pGive = usersData[uK].givesReceived
-              ? (usersData[uK].givesReceived / usersData[uK].epochTotalGives) *
-                usersData[uK].potTotal
-              : 0;
-          });
           epochBasedData[epoch.id] = usersData;
         });
+      });
 
-        /* Normalize the pGive if there is more than 1 epoch in that month */
-        if (epochIndexed[key].epochs.length > 1) {
-          epochIndexed[key].epochs.forEach(epoch => {
-            Object.keys(epochBasedData[epoch.id]).forEach(recipientId => {
+      Object.keys(epochIndexed).forEach(key => {
+        /* Calc Opt out bonus from potTotal */
+        epochIndexed[key].epochs.forEach(epoch => {
+          let totalOptOutPgiveAlloc = 0;
+          const recipientIds = Object.keys(epochBasedData[epoch.id]);
+          if (recipientIds.length) {
+            const optOutShare =
+              (0.5 * epochBasedData[epoch.id][recipientIds[0]].potTotal) /
+              recipientIds.length;
+            recipientIds.forEach(recipientId => {
+              const recipient = epochBasedData[epoch.id][recipientId];
+              if (
+                recipient.pGive === 0 &&
+                recipient.sentGifts > 0 &&
+                recipient.notesOnly === recipient.giftCount
+              ) {
+                const optOutBonusAlloc =
+                  Math.round(
+                    (recipient.notesOnly / recipient.possibleNotes) *
+                      optOutShare *
+                      100
+                  ) / 100;
+                epochBasedData[epoch.id][recipientId].optOutBonusAlloc =
+                  optOutBonusAlloc;
+                totalOptOutPgiveAlloc += optOutBonusAlloc;
+              }
+            });
+          }
+          epochIndexed[key].totalOptOutPgiveAlloc[epoch.id] =
+            totalOptOutPgiveAlloc;
+        });
+
+        epochIndexed[key].epochs.forEach(epoch => {
+          const totalOptOutPgiveAlloc = 0;
+          const recipientIds = Object.keys(epochBasedData[epoch.id]);
+          if (recipientIds.length) {
+            /* Calculate pGive per recipient */
+            const totalOptOutPgiveAlloc =
+              epochIndexed[key].totalOptOutPgiveAlloc[epoch.id];
+            recipientIds.forEach(recipientId => {
+              const recipient = epochBasedData[epoch.id][recipientId];
+              if (recipient.givesReceived) {
+                epochBasedData[epoch.id][recipientId].pGive =
+                  (recipient.givesReceived / recipient.epochTotalGives) *
+                  (recipient.potTotal - totalOptOutPgiveAlloc);
+              }
+              epochBasedData[epoch.id][recipientId].pGive +=
+                epochBasedData[epoch.id][recipientId].optOutBonusAlloc;
+            });
+          }
+          epochIndexed[key].totalOptOutPgiveAlloc[epoch.id] =
+            totalOptOutPgiveAlloc;
+        });
+
+        /* Normalize the epochs pgives in the same month */
+        epochIndexed[key].epochs.forEach(epoch => {
+          Object.keys(epochBasedData[epoch.id]).forEach(recipientId => {
+            if (epochIndexed[key].epochs.length > 1) {
               let epochsTotalPGive = 0;
               epochBasedData[epoch.id][recipientId].normalizedEpochs.forEach(
                 eId => {
@@ -154,9 +217,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               epochBasedData[epoch.id][recipientId].normalizedPGive =
                 epochsTotalPGive /
                 epochBasedData[epoch.id][recipientId].normalizedEpochs.length;
-            });
+            } else {
+              epochBasedData[epoch.id][recipientId].normalizedPGive =
+                epochBasedData[epoch.id][recipientId].pGive;
+            }
           });
-        }
+        });
       });
     }
   });
@@ -222,6 +288,7 @@ interface UserData {
   circleId: number;
   circleName: string;
   givesReceived: number;
+  notesOnly: number;
   epochTotalGives: number;
   pGive: number;
   normalizedPGive: number;
@@ -230,11 +297,16 @@ interface UserData {
   givesReceiverBase: number;
   activeMonthsBonus: number;
   notesBonusTotal: number;
+  possibleNotes: number;
+  giftCount: number;
+  sentGifts: number;
+  optOutBonusAlloc: number;
 }
 
 interface EpochIndexed {
   epochs: getCircleGiftsResult[0]['epochs'];
   activeMonths: number;
+  totalOptOutPgiveAlloc: Record<number, number>;
 }
 
 type getCircleGiftsResult = Awaited<ReturnType<typeof getCircleGifts>>;
