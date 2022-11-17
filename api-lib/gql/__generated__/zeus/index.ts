@@ -36354,11 +36354,8 @@ export const enum circle_api_keys_select_column {
   hash = 'hash',
   name = 'name',
   read_circle = 'read_circle',
-<<<<<<< HEAD
   read_contributions = 'read_contributions',
-=======
   read_discord = 'read_discord',
->>>>>>> 33af2727 (Bot schema (#988))
   read_epochs = 'read_epochs',
   read_member_profiles = 'read_member_profiles',
   read_nominees = 'read_nominees',
@@ -36376,11 +36373,8 @@ export const enum circle_api_keys_update_column {
   hash = 'hash',
   name = 'name',
   read_circle = 'read_circle',
-<<<<<<< HEAD
   read_contributions = 'read_contributions',
-=======
   read_discord = 'read_discord',
->>>>>>> 33af2727 (Bot schema (#988))
   read_epochs = 'read_epochs',
   read_member_profiles = 'read_member_profiles',
   read_nominees = 'read_nominees',
