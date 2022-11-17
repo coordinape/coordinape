@@ -62,8 +62,8 @@ const schema = z.object({
 
     .string()
     .max(500)
-    .refine(val => val.trim().length >= 40, {
-      message: 'Please write at least 40 characters.',
+    .refine(val => val.trim().length >= 1, {
+      message: 'Please write something.',
     }),
 });
 type contributionTextSchema = z.infer<typeof schema>;
@@ -423,56 +423,70 @@ const ContributionsPage = () => {
           }}
         >
           <Text h1>Contributions</Text>
-          {!editHelpText ? (
-            isAdmin && (
+        </Flex>
+        {!editHelpText ? (
+          <Flex css={{ gap: '$md', alignContent: 'center' }}>
+            <Text>
+              {updatedTeamSelText
+                ? updatedTeamSelText
+                : data?.circles_by_pk?.team_sel_text
+                ? data?.circles_by_pk?.team_sel_text
+                : 'What have you been working on?'}
+            </Text>
+            {isAdmin && (
               <Button
                 outlined
                 color="primary"
                 type="submit"
+                size="small"
                 onClick={() => {
                   setEditHelpText(true);
                 }}
               >
                 Edit Help Text
               </Button>
-            )
-          ) : (
-            <Button
-              outlined
-              color="primary"
-              type="submit"
-              onClick={handleSubmit(onSubmit)}
-            >
-              Save
-            </Button>
-          )}
-        </Flex>
-        <Box>
-          {!editHelpText ? (
-            updatedTeamSelText ||
-            data?.circles_by_pk?.team_sel_text || (
-              <>
-                <Text p>What have you been working on?</Text>
-                {(memoizedEpochData.contributions || []).length >= 0 && (
-                  <ContributionIntro />
-                )}
-              </>
-            )
-          ) : (
+            )}
+          </Flex>
+        ) : (
+          <Flex css={{ gap: '$md', alignItems: 'flex-start' }}>
             <FormInputField
               name="team_sel_text"
               id="finish_work"
               control={contributionTextControl}
               defaultValue={data?.circles_by_pk?.team_sel_text}
               label="Contribution Help Text"
+              placeholder="Default: 'What have you been working on?'"
               infoTooltip="Change the text that contributors see on this page."
               showFieldErrors
               css={{
                 width: '50%',
+                '@sm': { width: '100%' },
               }}
             />
-          )}
-        </Box>
+            <Flex css={{ gap: '$sm', mt: '$lg' }}>
+              <Button
+                outlined
+                color="primary"
+                type="submit"
+                onClick={handleSubmit(onSubmit)}
+              >
+                Save
+              </Button>
+              <Button
+                outlined
+                color="destructive"
+                onClick={() => {
+                  setEditHelpText(false);
+                }}
+              >
+                Cancel
+              </Button>
+            </Flex>
+          </Flex>
+        )}
+        {(memoizedEpochData.contributions || []).length >= 0 && (
+          <ContributionIntro />
+        )}
         <EpochGroup
           contributions={memoizedEpochData.contributions || []}
           epochs={memoizedEpochData.epochs || []}
@@ -819,6 +833,7 @@ const EpochGroup = React.memo(function EpochGroup({
         <Box key={epoch.id}>
           <Box>
             <Flex
+              alignItems="center"
               css={{
                 justifyContent: 'space-between',
                 flexWrap: 'wrap',
