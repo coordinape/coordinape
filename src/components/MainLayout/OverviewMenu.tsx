@@ -22,7 +22,6 @@ import {
   PopoverTrigger,
   PopoverContent,
   PopoverClose,
-  // PopoverAnchor,
   POPOVER_TIMEOUT,
 } from 'ui';
 
@@ -111,7 +110,6 @@ export const OverviewMenu = ({
         }}
       >
         {overviewMenuTrigger}
-        {/* <PopoverAnchor /> */}
       </PopoverTrigger>
       <PopoverContent
         onKeyDown={e => {
