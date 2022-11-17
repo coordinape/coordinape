@@ -132,11 +132,11 @@ export const OverviewMenu = ({
           outline: 'none',
           position: 'relative',
           left: '$xl',
-          top: 'calc($xxs - $3xl)',
-          mb: '$lg',
-          zIndex: 2,
           // 1px border position bugfix:
           pl: '1px',
+          top: 'calc($xxs - $3xl + 1px)',
+          mb: '$lg',
+          zIndex: 2,
         }}
       >
         <Box
