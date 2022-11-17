@@ -40,7 +40,6 @@ export type Gift = Awaited<ReturnType<typeof getPendingGiftsFrom>>[number];
 // the amount of time to wait for inactivity to save
 const schema = z.object({
   alloc_text: z
-
     .string()
     .max(500)
     .refine(val => val.trim().length >= 40, {
@@ -54,7 +53,7 @@ const GivePage = () => {
   const address = useConnectedAddress();
   const {
     circle: selectedCircle,
-    myUser: me,
+    myUser,
     circleEpochsStatus: { currentEpoch, nextEpoch, previousEpoch },
   } = useSelectedCircle();
   const { showError } = useApeSnackbar();
@@ -227,7 +226,7 @@ const GivePage = () => {
       resolver: zodResolver(schema),
       mode: 'all',
     });
-  const isAdmin = isUserAdmin(me);
+  const isAdmin = isUserAdmin(myUser);
   const onSubmit: SubmitHandler<allocationTextSchema> = async data => {
     try {
       await updateCircle({
@@ -259,7 +258,7 @@ const GivePage = () => {
         0
       );
 
-      if (afterUpdateTotal > me.starting_tokens) {
+      if (afterUpdateTotal > myUser.starting_tokens) {
         // too much , so we can't update!
         return prevState;
       }
@@ -483,8 +482,8 @@ const GivePage = () => {
             saveState={saveState}
             setNeedToSave={setNeedToSave}
             totalGiveUsed={totalGiveUsed}
-            myUser={me}
-            maxedOut={totalGiveUsed >= me.starting_tokens}
+            myUser={myUser}
+            maxedOut={totalGiveUsed >= myUser.starting_tokens}
             currentEpoch={currentEpoch}
             retrySave={saveGifts}
           />
