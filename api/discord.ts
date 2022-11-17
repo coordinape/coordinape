@@ -3,6 +3,12 @@ import { URLSearchParams } from 'url';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { request } from 'undici';
 
+import {
+  DISCORD_BOT_CLIENT_ID,
+  DISCORD_BOT_CLIENT_SECRET,
+  DISCORD_BOT_REDIRECT_URI,
+} from '../api-lib/config';
+
 type AccessTokenResponse = {
   access_token: string;
   expires_in: number;
@@ -38,11 +44,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       {
         method: 'POST',
         body: new URLSearchParams({
-          client_id: process.env.DISCORD_BOT_CLIENT_ID,
-          client_secret: process.env.DISCORD_BOT_CLIENT_SECRET,
+          client_id: DISCORD_BOT_CLIENT_ID,
+          client_secret: DISCORD_BOT_CLIENT_SECRET,
           code,
           grant_type: 'authorization_code',
-          redirect_uri: process.env.DISCORD_BOT_REDIRECT_URI,
+          redirect_uri: DISCORD_BOT_REDIRECT_URI,
           scope: 'identify',
         }).toString(),
         headers: {
