@@ -7,6 +7,7 @@ import { Box, Button } from 'ui';
 
 import {
   Popover as PopoverComponent,
+  PopoverAnchor,
   PopoverClose,
   PopoverContent,
   PopoverTrigger,
@@ -44,13 +45,15 @@ const Template: ComponentStory<typeof PopoverComponent> = () => {
         >
           Popover Trigger
         </Button>
+        <PopoverAnchor />
       </PopoverTrigger>
       <PopoverContent
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
-        align="end"
-        sideOffset={-38}
-        alignOffset={-1}
+        align="start"
+        css={{
+          mt: '$xs',
+        }}
       >
         <Box
           css={{

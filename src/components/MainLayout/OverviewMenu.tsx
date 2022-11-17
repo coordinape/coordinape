@@ -22,6 +22,7 @@ import {
   PopoverTrigger,
   PopoverContent,
   PopoverClose,
+  PopoverAnchor,
   POPOVER_TIMEOUT,
 } from 'ui';
 
@@ -87,7 +88,7 @@ export const OverviewMenu = ({
     <Popover open={mouseEnterPopover}>
       <PopoverTrigger
         tabIndex={-1}
-        css={{ outline: 'none' }}
+        css={{ outline: 'none !important' }}
         ref={triggerRef}
         onKeyDown={e => {
           if (e.key === 'Enter' || e.key === ' ') {
@@ -111,6 +112,7 @@ export const OverviewMenu = ({
         }}
       >
         {overviewMenuTrigger}
+        <PopoverAnchor />
       </PopoverTrigger>
       <PopoverContent
         onKeyDown={e => {
@@ -129,10 +131,16 @@ export const OverviewMenu = ({
             POPOVER_TIMEOUT
           );
         }}
-        // These offset values must be dialed in browser.  CSS values/strings cannot be used, only numbers.
-        sideOffset={-57}
-        alignOffset={1}
-        css={{ outline: 'none', mb: '$lg', zIndex: 2 }}
+        css={{
+          outline: 'none',
+          position: 'relative',
+          left: '$xl',
+          top: 'calc($xxs - $3xl)',
+          mb: '$lg',
+          zIndex: 2,
+          // 1px border position bugfix:
+          pl: '1px',
+        }}
       >
         <Box
           css={{

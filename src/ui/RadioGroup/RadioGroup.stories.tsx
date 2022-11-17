@@ -29,10 +29,12 @@ const Template: ComponentStory<typeof RadioGroupRootComponent> = args => (
   >
     {options.map(({ value, label }) => (
       <Flex key={value} css={{ alignItems: 'center', gap: '$xs' }}>
-        <RadioGroupRadio value={value}>
+        <RadioGroupRadio value={value} id={value}>
           <RadioGroupIndicator />
         </RadioGroupRadio>
-        <FormLabel type="radioLabel">{label}</FormLabel>
+        <FormLabel type="radioLabel" htmlFor={value}>
+          {label}
+        </FormLabel>
       </Flex>
     ))}
   </RadioGroupRootComponent>

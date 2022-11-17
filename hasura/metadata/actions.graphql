@@ -59,6 +59,10 @@ type Mutation {
 }
 
 type Mutation {
+  linkDiscordUser(payload: LinkDiscordUserInput!): LinkDiscordUserResponse
+}
+
+type Mutation {
   logoutUser: LogoutResponse
 }
 
@@ -285,6 +289,9 @@ input GenerateApiKeyInput {
   update_pending_token_gifts: Boolean
   read_member_profiles: Boolean
   read_epochs: Boolean
+  read_contributions: Boolean
+  create_contributions: Boolean
+  read_discord: Boolean
 }
 
 input UploadOrgImageInput {
@@ -333,6 +340,10 @@ input UpdateContributionInput {
 input MarkClaimedInput {
   claim_id: Int!
   tx_hash: String!
+}
+
+input LinkDiscordUserInput {
+  discord_id: String!
 }
 
 type CreateCircleResponse {
@@ -424,6 +435,10 @@ type UpdateContributionResponse {
 
 type MarkClaimedOutput {
   ids: [Int!]!
+}
+
+type LinkDiscordUserResponse {
+  id: Int!
 }
 
 scalar timestamptz

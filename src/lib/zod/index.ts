@@ -116,6 +116,9 @@ export const generateApiKeyInputSchema = z
     update_pending_token_gifts: z.boolean().optional(),
     read_member_profiles: z.boolean().optional(),
     read_epochs: z.boolean().optional(),
+    read_contributions: z.boolean().optional(),
+    create_contributions: z.boolean().optional(),
+    read_discord: z.boolean().optional(),
   })
   .strict();
 
@@ -351,6 +354,12 @@ const IntIdString = z
     'profileId not an integer'
   )
   .transform(val => Number.parseInt(val));
+
+export const linkDiscordInputSchema = z
+  .object({
+    discord_id: z.string(),
+  })
+  .strict();
 
 /*
   Hasura Auth Session Variables

@@ -4,6 +4,7 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 import morgan from 'morgan';
 
 import landing from '../api/circle/landing/[token]';
+import discord from '../api/discord';
 import actionManager from '../api/hasura/actions/actionManager';
 import auth from '../api/hasura/auth';
 import checkNominee from '../api/hasura/cron/checkNominee';
@@ -20,7 +21,7 @@ app.use(express.json({ limit: '10mb' })); // for parsing application/json
 
 if (process.env.DEV_LOGGING) {
   // log all requests to STDOUT
-  app.use(morgan('🚀 :method :url :status :response-time ms'));
+  app.use(morgan('ϟ :method :url :status :response-time ms'));
 }
 
 const port = process.argv[2];
@@ -50,6 +51,7 @@ app.get('/api/hasura/remote/vaults', tf(vaults));
 app.post('/api/hasura/remote/vaults', tf(vaults));
 app.post('/api/login', tf(login));
 app.get('/api/time', tf(time));
+app.get('/api/discord/oauth', tf(discord));
 
 // return empty analytics code
 app.get('/stats/js/script.js', (req, res) => {

@@ -14,6 +14,7 @@ import {
   Box,
   Link,
   Popover,
+  PopoverAnchor,
   PopoverTrigger,
   PopoverContent,
   PopoverClose,
@@ -46,7 +47,7 @@ export const MyAvatarMenu = ({ walletStatus }: Props) => {
         <Popover open={mouseEnterPopover}>
           <PopoverTrigger
             tabIndex={-1}
-            css={{ outline: 'none' }}
+            css={{ outline: 'none !important' }}
             ref={triggerRef}
             onKeyDown={e => {
               if (e.key === 'Enter' || e.key === ' ') {
@@ -72,6 +73,7 @@ export const MyAvatarMenu = ({ walletStatus }: Props) => {
             <Link href="#">
               <Avatar path={myProfile.avatar} name="me" />
             </Link>
+            <PopoverAnchor />
           </PopoverTrigger>
           <PopoverContent
             onKeyDown={e => {
@@ -90,10 +92,14 @@ export const MyAvatarMenu = ({ walletStatus }: Props) => {
                 POPOVER_TIMEOUT
               );
             }}
-            // These offset values must be dialed in browser.  CSS values/strings cannot be used, only numbers.
-            sideOffset={-64}
-            alignOffset={-16}
-            css={{ background: '$surface', outline: 'none', zIndex: 2 }}
+            css={{
+              background: '$surface',
+              outline: 'none',
+              zIndex: 2,
+              position: 'relative',
+              right: '$md',
+              top: 'calc($lg - $4xl)',
+            }}
             onClick={closePopover}
           >
             <Box

@@ -11,6 +11,8 @@ export const circleApiPermissionsSelector = Selector('circle_api_keys')({
   update_circle: true,
   update_pending_token_gifts: true,
   create_vouches: true,
+  read_contributions: true,
+  create_contributions: true,
 });
 
 export const circleApiKeySelector = Selector('circle_api_keys')({
