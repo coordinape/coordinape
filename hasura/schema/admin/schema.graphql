@@ -270,6 +270,15 @@ input Int_comparison_exp {
   _nin: [Int!]
 }
 
+input LinkDiscordUserInput {
+  discord_id: String!
+}
+
+type LinkDiscordUserResponse {
+  id: Int!
+  linkDiscordUser_DiscordUser: discord_users
+}
+
 input LogVaultTxInput {
   amount: Float
   circle_id: Int
@@ -1145,6 +1154,7 @@ type circle_api_keys {
   name: String!
   read_circle: Boolean!
   read_contributions: Boolean!
+  read_discord: Boolean!
   read_epochs: Boolean!
   read_member_profiles: Boolean!
   read_nominees: Boolean!
@@ -1241,6 +1251,7 @@ input circle_api_keys_bool_exp {
   name: String_comparison_exp
   read_circle: Boolean_comparison_exp
   read_contributions: Boolean_comparison_exp
+  read_discord: Boolean_comparison_exp
   read_epochs: Boolean_comparison_exp
   read_member_profiles: Boolean_comparison_exp
   read_nominees: Boolean_comparison_exp
@@ -1282,6 +1293,7 @@ input circle_api_keys_insert_input {
   name: String
   read_circle: Boolean
   read_contributions: Boolean
+  read_discord: Boolean
   read_epochs: Boolean
   read_member_profiles: Boolean
   read_nominees: Boolean
@@ -1385,6 +1397,7 @@ input circle_api_keys_order_by {
   name: order_by
   read_circle: order_by
   read_contributions: order_by
+  read_discord: order_by
   read_epochs: order_by
   read_member_profiles: order_by
   read_nominees: order_by
@@ -1447,7 +1460,7 @@ enum circle_api_keys_select_column {
   """
   column name
   """
-  read_contributions
+  read_discord
 
   """
   column name
@@ -1493,6 +1506,7 @@ input circle_api_keys_set_input {
   name: String
   read_circle: Boolean
   read_contributions: Boolean
+  read_discord: Boolean
   read_epochs: Boolean
   read_member_profiles: Boolean
   read_nominees: Boolean
@@ -1577,6 +1591,7 @@ input circle_api_keys_stream_cursor_value_input {
   name: String
   read_circle: Boolean
   read_contributions: Boolean
+  read_discord: Boolean
   read_epochs: Boolean
   read_member_profiles: Boolean
   read_nominees: Boolean
@@ -1613,11 +1628,6 @@ enum circle_api_keys_update_column {
   """
   column name
   """
-  create_contributions
-
-  """
-  column name
-  """
   create_vouches
 
   """
@@ -1648,7 +1658,7 @@ enum circle_api_keys_update_column {
   """
   column name
   """
-  read_contributions
+  read_discord
 
   """
   column name
@@ -4383,11 +4393,6 @@ enum circles_select_column {
   """
   column name
   """
-  show_pending_gives
-
-  """
-  column name
-  """
   team_sel_text
 
   """
@@ -4674,11 +4679,6 @@ enum circles_update_column {
   column name
   """
   organization_id
-
-  """
-  column name
-  """
-  show_pending_gives
 
   """
   column name
@@ -5716,11 +5716,6 @@ enum contributions_select_column {
   """
   column name
   """
-  created_with_api_key_hash
-
-  """
-  column name
-  """
   datetime_created
 
   """
@@ -5883,11 +5878,6 @@ enum contributions_update_column {
   """
   column name
   """
-  created_with_api_key_hash
-
-  """
-  column name
-  """
   datetime_created
 
   """
@@ -6013,6 +6003,673 @@ input date_comparison_exp {
   _lte: date
   _neq: date
   _nin: [date!]
+}
+
+"""
+link a discord role to a circle  to control membership of the circle
+"""
+type discord_roles_circles {
+  """
+  An object relationship
+  """
+  circle: circles!
+  circle_id: bigint!
+  created_at: timestamptz!
+  id: bigint!
+  role: String!
+  updated_at: timestamptz!
+}
+
+"""
+aggregated selection of "discord.roles_circles"
+"""
+type discord_roles_circles_aggregate {
+  aggregate: discord_roles_circles_aggregate_fields
+  nodes: [discord_roles_circles!]!
+}
+
+"""
+aggregate fields of "discord.roles_circles"
+"""
+type discord_roles_circles_aggregate_fields {
+  avg: discord_roles_circles_avg_fields
+  count(
+    columns: [discord_roles_circles_select_column!]
+    distinct: Boolean
+  ): Int!
+  max: discord_roles_circles_max_fields
+  min: discord_roles_circles_min_fields
+  stddev: discord_roles_circles_stddev_fields
+  stddev_pop: discord_roles_circles_stddev_pop_fields
+  stddev_samp: discord_roles_circles_stddev_samp_fields
+  sum: discord_roles_circles_sum_fields
+  var_pop: discord_roles_circles_var_pop_fields
+  var_samp: discord_roles_circles_var_samp_fields
+  variance: discord_roles_circles_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type discord_roles_circles_avg_fields {
+  circle_id: Float
+  id: Float
+}
+
+"""
+Boolean expression to filter rows from the table "discord.roles_circles". All fields are combined with a logical 'AND'.
+"""
+input discord_roles_circles_bool_exp {
+  _and: [discord_roles_circles_bool_exp!]
+  _not: discord_roles_circles_bool_exp
+  _or: [discord_roles_circles_bool_exp!]
+  circle: circles_bool_exp
+  circle_id: bigint_comparison_exp
+  created_at: timestamptz_comparison_exp
+  id: bigint_comparison_exp
+  role: String_comparison_exp
+  updated_at: timestamptz_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "discord.roles_circles"
+"""
+enum discord_roles_circles_constraint {
+  """
+  unique or primary key constraint on columns "circle_id"
+  """
+  roles_circles_circle_id_key
+
+  """
+  unique or primary key constraint on columns "id"
+  """
+  roles_circles_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "discord.roles_circles"
+"""
+input discord_roles_circles_inc_input {
+  circle_id: bigint
+  id: bigint
+}
+
+"""
+input type for inserting data into table "discord.roles_circles"
+"""
+input discord_roles_circles_insert_input {
+  circle: circles_obj_rel_insert_input
+  circle_id: bigint
+  created_at: timestamptz
+  id: bigint
+  role: String
+  updated_at: timestamptz
+}
+
+"""
+aggregate max on columns
+"""
+type discord_roles_circles_max_fields {
+  circle_id: bigint
+  created_at: timestamptz
+  id: bigint
+  role: String
+  updated_at: timestamptz
+}
+
+"""
+aggregate min on columns
+"""
+type discord_roles_circles_min_fields {
+  circle_id: bigint
+  created_at: timestamptz
+  id: bigint
+  role: String
+  updated_at: timestamptz
+}
+
+"""
+response of any mutation on the table "discord.roles_circles"
+"""
+type discord_roles_circles_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [discord_roles_circles!]!
+}
+
+"""
+on_conflict condition type for table "discord.roles_circles"
+"""
+input discord_roles_circles_on_conflict {
+  constraint: discord_roles_circles_constraint!
+  update_columns: [discord_roles_circles_update_column!]! = []
+  where: discord_roles_circles_bool_exp
+}
+
+"""
+Ordering options when selecting data from "discord.roles_circles".
+"""
+input discord_roles_circles_order_by {
+  circle: circles_order_by
+  circle_id: order_by
+  created_at: order_by
+  id: order_by
+  role: order_by
+  updated_at: order_by
+}
+
+"""
+primary key columns input for table: discord.roles_circles
+"""
+input discord_roles_circles_pk_columns_input {
+  id: bigint!
+}
+
+"""
+select columns of table "discord.roles_circles"
+"""
+enum discord_roles_circles_select_column {
+  """
+  column name
+  """
+  circle_id
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  role
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+input type for updating data in table "discord.roles_circles"
+"""
+input discord_roles_circles_set_input {
+  circle_id: bigint
+  created_at: timestamptz
+  id: bigint
+  role: String
+  updated_at: timestamptz
+}
+
+"""
+aggregate stddev on columns
+"""
+type discord_roles_circles_stddev_fields {
+  circle_id: Float
+  id: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type discord_roles_circles_stddev_pop_fields {
+  circle_id: Float
+  id: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type discord_roles_circles_stddev_samp_fields {
+  circle_id: Float
+  id: Float
+}
+
+"""
+Streaming cursor of the table "discord_roles_circles"
+"""
+input discord_roles_circles_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: discord_roles_circles_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input discord_roles_circles_stream_cursor_value_input {
+  circle_id: bigint
+  created_at: timestamptz
+  id: bigint
+  role: String
+  updated_at: timestamptz
+}
+
+"""
+aggregate sum on columns
+"""
+type discord_roles_circles_sum_fields {
+  circle_id: bigint
+  id: bigint
+}
+
+"""
+update columns of table "discord.roles_circles"
+"""
+enum discord_roles_circles_update_column {
+  """
+  column name
+  """
+  circle_id
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  role
+
+  """
+  column name
+  """
+  updated_at
+}
+
+input discord_roles_circles_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: discord_roles_circles_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: discord_roles_circles_set_input
+  where: discord_roles_circles_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type discord_roles_circles_var_pop_fields {
+  circle_id: Float
+  id: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type discord_roles_circles_var_samp_fields {
+  circle_id: Float
+  id: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type discord_roles_circles_variance_fields {
+  circle_id: Float
+  id: Float
+}
+
+"""
+link discord user ids to coordinape profiles 1:1
+"""
+type discord_users {
+  created_at: timestamptz!
+  id: bigint!
+
+  """
+  An object relationship
+  """
+  profile: profiles!
+  profile_id: bigint!
+  updated_at: timestamptz!
+  user_snowflake: String!
+}
+
+"""
+aggregated selection of "discord.users"
+"""
+type discord_users_aggregate {
+  aggregate: discord_users_aggregate_fields
+  nodes: [discord_users!]!
+}
+
+"""
+aggregate fields of "discord.users"
+"""
+type discord_users_aggregate_fields {
+  avg: discord_users_avg_fields
+  count(columns: [discord_users_select_column!], distinct: Boolean): Int!
+  max: discord_users_max_fields
+  min: discord_users_min_fields
+  stddev: discord_users_stddev_fields
+  stddev_pop: discord_users_stddev_pop_fields
+  stddev_samp: discord_users_stddev_samp_fields
+  sum: discord_users_sum_fields
+  var_pop: discord_users_var_pop_fields
+  var_samp: discord_users_var_samp_fields
+  variance: discord_users_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type discord_users_avg_fields {
+  id: Float
+  profile_id: Float
+}
+
+"""
+Boolean expression to filter rows from the table "discord.users". All fields are combined with a logical 'AND'.
+"""
+input discord_users_bool_exp {
+  _and: [discord_users_bool_exp!]
+  _not: discord_users_bool_exp
+  _or: [discord_users_bool_exp!]
+  created_at: timestamptz_comparison_exp
+  id: bigint_comparison_exp
+  profile: profiles_bool_exp
+  profile_id: bigint_comparison_exp
+  updated_at: timestamptz_comparison_exp
+  user_snowflake: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "discord.users"
+"""
+enum discord_users_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  users_pkey
+
+  """
+  unique or primary key constraint on columns "profile_id"
+  """
+  users_profile_id_key
+
+  """
+  unique or primary key constraint on columns "user_snowflake"
+  """
+  users_user_snowflake_key
+}
+
+"""
+input type for incrementing numeric columns in table "discord.users"
+"""
+input discord_users_inc_input {
+  id: bigint
+  profile_id: bigint
+}
+
+"""
+input type for inserting data into table "discord.users"
+"""
+input discord_users_insert_input {
+  created_at: timestamptz
+  id: bigint
+  profile: profiles_obj_rel_insert_input
+  profile_id: bigint
+  updated_at: timestamptz
+  user_snowflake: String
+}
+
+"""
+aggregate max on columns
+"""
+type discord_users_max_fields {
+  created_at: timestamptz
+  id: bigint
+  profile_id: bigint
+  updated_at: timestamptz
+  user_snowflake: String
+}
+
+"""
+aggregate min on columns
+"""
+type discord_users_min_fields {
+  created_at: timestamptz
+  id: bigint
+  profile_id: bigint
+  updated_at: timestamptz
+  user_snowflake: String
+}
+
+"""
+response of any mutation on the table "discord.users"
+"""
+type discord_users_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [discord_users!]!
+}
+
+"""
+on_conflict condition type for table "discord.users"
+"""
+input discord_users_on_conflict {
+  constraint: discord_users_constraint!
+  update_columns: [discord_users_update_column!]! = []
+  where: discord_users_bool_exp
+}
+
+"""
+Ordering options when selecting data from "discord.users".
+"""
+input discord_users_order_by {
+  created_at: order_by
+  id: order_by
+  profile: profiles_order_by
+  profile_id: order_by
+  updated_at: order_by
+  user_snowflake: order_by
+}
+
+"""
+primary key columns input for table: discord.users
+"""
+input discord_users_pk_columns_input {
+  id: bigint!
+}
+
+"""
+select columns of table "discord.users"
+"""
+enum discord_users_select_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  updated_at
+
+  """
+  column name
+  """
+  user_snowflake
+}
+
+"""
+input type for updating data in table "discord.users"
+"""
+input discord_users_set_input {
+  created_at: timestamptz
+  id: bigint
+  profile_id: bigint
+  updated_at: timestamptz
+  user_snowflake: String
+}
+
+"""
+aggregate stddev on columns
+"""
+type discord_users_stddev_fields {
+  id: Float
+  profile_id: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type discord_users_stddev_pop_fields {
+  id: Float
+  profile_id: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type discord_users_stddev_samp_fields {
+  id: Float
+  profile_id: Float
+}
+
+"""
+Streaming cursor of the table "discord_users"
+"""
+input discord_users_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: discord_users_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input discord_users_stream_cursor_value_input {
+  created_at: timestamptz
+  id: bigint
+  profile_id: bigint
+  updated_at: timestamptz
+  user_snowflake: String
+}
+
+"""
+aggregate sum on columns
+"""
+type discord_users_sum_fields {
+  id: bigint
+  profile_id: bigint
+}
+
+"""
+update columns of table "discord.users"
+"""
+enum discord_users_update_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  updated_at
+
+  """
+  column name
+  """
+  user_snowflake
+}
+
+input discord_users_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: discord_users_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: discord_users_set_input
+  where: discord_users_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type discord_users_var_pop_fields {
+  id: Float
+  profile_id: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type discord_users_var_samp_fields {
+  id: Float
+  profile_id: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type discord_users_variance_fields {
+  id: Float
+  profile_id: Float
 }
 
 """
@@ -7564,11 +8221,6 @@ enum epochs_select_column {
   """
   column name
   """
-  description
-
-  """
-  column name
-  """
   end_date
 
   """
@@ -7823,11 +8475,6 @@ enum epochs_update_column {
   column name
   """
   days
-
-  """
-  column name
-  """
-  description
 
   """
   column name
@@ -9381,6 +10028,36 @@ type mutation_root {
   delete_contributions_by_pk(id: bigint!): contributions
 
   """
+  delete data from the table: "discord.roles_circles"
+  """
+  delete_discord_roles_circles(
+    """
+    filter the rows which have to be deleted
+    """
+    where: discord_roles_circles_bool_exp!
+  ): discord_roles_circles_mutation_response
+
+  """
+  delete single row from the table: "discord.roles_circles"
+  """
+  delete_discord_roles_circles_by_pk(id: bigint!): discord_roles_circles
+
+  """
+  delete data from the table: "discord.users"
+  """
+  delete_discord_users(
+    """
+    filter the rows which have to be deleted
+    """
+    where: discord_users_bool_exp!
+  ): discord_users_mutation_response
+
+  """
+  delete single row from the table: "discord.users"
+  """
+  delete_discord_users_by_pk(id: bigint!): discord_users
+
+  """
   delete data from the table: "distributions"
   """
   delete_distributions(
@@ -9921,6 +10598,66 @@ type mutation_root {
     """
     on_conflict: contributions_on_conflict
   ): contributions
+
+  """
+  insert data into the table: "discord.roles_circles"
+  """
+  insert_discord_roles_circles(
+    """
+    the rows to be inserted
+    """
+    objects: [discord_roles_circles_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: discord_roles_circles_on_conflict
+  ): discord_roles_circles_mutation_response
+
+  """
+  insert a single row into the table: "discord.roles_circles"
+  """
+  insert_discord_roles_circles_one(
+    """
+    the row to be inserted
+    """
+    object: discord_roles_circles_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: discord_roles_circles_on_conflict
+  ): discord_roles_circles
+
+  """
+  insert data into the table: "discord.users"
+  """
+  insert_discord_users(
+    """
+    the rows to be inserted
+    """
+    objects: [discord_users_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: discord_users_on_conflict
+  ): discord_users_mutation_response
+
+  """
+  insert a single row into the table: "discord.users"
+  """
+  insert_discord_users_one(
+    """
+    the row to be inserted
+    """
+    object: discord_users_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: discord_users_on_conflict
+  ): discord_users
 
   """
   insert data into the table: "distributions"
@@ -10471,6 +11208,11 @@ type mutation_root {
     """
     on_conflict: vouches_on_conflict
   ): vouches
+
+  """
+  allow authenticated users to link a discord account to their profile
+  """
+  linkDiscordUser(payload: LinkDiscordUserInput!): LinkDiscordUserResponse
   logoutUser: LogoutResponse
   markClaimed(payload: MarkClaimedInput!): MarkClaimedOutput
   restoreCoordinape(payload: CoordinapeInput!): ConfirmationResponse
@@ -10888,6 +11630,98 @@ type mutation_root {
     """
     updates: [contributions_updates!]!
   ): [contributions_mutation_response]
+
+  """
+  update data of the table: "discord.roles_circles"
+  """
+  update_discord_roles_circles(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: discord_roles_circles_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: discord_roles_circles_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: discord_roles_circles_bool_exp!
+  ): discord_roles_circles_mutation_response
+
+  """
+  update single row of the table: "discord.roles_circles"
+  """
+  update_discord_roles_circles_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: discord_roles_circles_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: discord_roles_circles_set_input
+    pk_columns: discord_roles_circles_pk_columns_input!
+  ): discord_roles_circles
+
+  """
+  update multiples rows of table: "discord.roles_circles"
+  """
+  update_discord_roles_circles_many(
+    """
+    updates to execute, in order
+    """
+    updates: [discord_roles_circles_updates!]!
+  ): [discord_roles_circles_mutation_response]
+
+  """
+  update data of the table: "discord.users"
+  """
+  update_discord_users(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: discord_users_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: discord_users_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: discord_users_bool_exp!
+  ): discord_users_mutation_response
+
+  """
+  update single row of the table: "discord.users"
+  """
+  update_discord_users_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: discord_users_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: discord_users_set_input
+    pk_columns: discord_users_pk_columns_input!
+  ): discord_users
+
+  """
+  update multiples rows of table: "discord.users"
+  """
+  update_discord_users_many(
+    """
+    updates to execute, in order
+    """
+    updates: [discord_users_updates!]!
+  ): [discord_users_mutation_response]
 
   """
   update data of the table: "distributions"
@@ -16369,6 +17203,136 @@ type query_root {
   contributions_by_pk(id: bigint!): contributions
 
   """
+  fetch data from the table: "discord.roles_circles"
+  """
+  discord_roles_circles(
+    """
+    distinct select on columns
+    """
+    distinct_on: [discord_roles_circles_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [discord_roles_circles_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: discord_roles_circles_bool_exp
+  ): [discord_roles_circles!]!
+
+  """
+  fetch aggregated fields from the table: "discord.roles_circles"
+  """
+  discord_roles_circles_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [discord_roles_circles_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [discord_roles_circles_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: discord_roles_circles_bool_exp
+  ): discord_roles_circles_aggregate!
+
+  """
+  fetch data from the table: "discord.roles_circles" using primary key columns
+  """
+  discord_roles_circles_by_pk(id: bigint!): discord_roles_circles
+
+  """
+  fetch data from the table: "discord.users"
+  """
+  discord_users(
+    """
+    distinct select on columns
+    """
+    distinct_on: [discord_users_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [discord_users_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: discord_users_bool_exp
+  ): [discord_users!]!
+
+  """
+  fetch aggregated fields from the table: "discord.users"
+  """
+  discord_users_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [discord_users_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [discord_users_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: discord_users_bool_exp
+  ): discord_users_aggregate!
+
+  """
+  fetch data from the table: "discord.users" using primary key columns
+  """
+  discord_users_by_pk(id: bigint!): discord_users
+
+  """
   An array relationship
   """
   distributions(
@@ -18414,6 +19378,176 @@ type subscription_root {
     """
     where: contributions_bool_exp
   ): [contributions!]!
+
+  """
+  fetch data from the table: "discord.roles_circles"
+  """
+  discord_roles_circles(
+    """
+    distinct select on columns
+    """
+    distinct_on: [discord_roles_circles_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [discord_roles_circles_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: discord_roles_circles_bool_exp
+  ): [discord_roles_circles!]!
+
+  """
+  fetch aggregated fields from the table: "discord.roles_circles"
+  """
+  discord_roles_circles_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [discord_roles_circles_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [discord_roles_circles_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: discord_roles_circles_bool_exp
+  ): discord_roles_circles_aggregate!
+
+  """
+  fetch data from the table: "discord.roles_circles" using primary key columns
+  """
+  discord_roles_circles_by_pk(id: bigint!): discord_roles_circles
+
+  """
+  fetch data from the table in a streaming manner : "discord.roles_circles"
+  """
+  discord_roles_circles_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [discord_roles_circles_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: discord_roles_circles_bool_exp
+  ): [discord_roles_circles!]!
+
+  """
+  fetch data from the table: "discord.users"
+  """
+  discord_users(
+    """
+    distinct select on columns
+    """
+    distinct_on: [discord_users_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [discord_users_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: discord_users_bool_exp
+  ): [discord_users!]!
+
+  """
+  fetch aggregated fields from the table: "discord.users"
+  """
+  discord_users_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [discord_users_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [discord_users_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: discord_users_bool_exp
+  ): discord_users_aggregate!
+
+  """
+  fetch data from the table: "discord.users" using primary key columns
+  """
+  discord_users_by_pk(id: bigint!): discord_users
+
+  """
+  fetch data from the table in a streaming manner : "discord.users"
+  """
+  discord_users_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [discord_users_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: discord_users_bool_exp
+  ): [discord_users!]!
 
   """
   An array relationship
@@ -20606,7 +21740,7 @@ input timestamptz_comparison_exp {
 }
 
 """
-GIVE allocations made by circle members for past epochs
+GIVE allocations made by circle members for completed epochs
 """
 type token_gifts {
   """

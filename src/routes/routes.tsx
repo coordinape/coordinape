@@ -14,6 +14,7 @@ import {
 import AddMembersPage from '../pages/AddMembersPage/AddMembersPage';
 import GivePage from '../pages/GivePage';
 import JoinCirclePage from '../pages/JoinCirclePage';
+import isFeatureEnabled from 'config/features';
 import {
   useCanVouch,
   useFixCircleState,
@@ -27,6 +28,7 @@ import ContributionsPage from 'pages/ContributionsPage';
 import CreateCirclePage from 'pages/CreateCirclePage';
 import DefaultPage from 'pages/DefaultPage';
 import DevPortalPage from 'pages/DevPortalPage';
+import DiscordPage from 'pages/DiscordPage';
 import DistributionsPage from 'pages/DistributionsPage';
 import HistoryPage from 'pages/HistoryPage';
 import IntegrationCallbackPage from 'pages/IntegrationCallbackPage';
@@ -81,6 +83,9 @@ export const AppRoutes = () => {
       <Route path={paths.circles} element={<CirclesPage />} />
       <Route path={paths.createCircle} element={<CreateCirclePage />} />
       <Route path={paths.developers} element={<DevPortalPage />} />
+      {isFeatureEnabled('discord') && (
+        <Route path={paths.discordLink} element={<DiscordPage />} />
+      )}
       <Route path={paths.home} element={<DefaultPage />} />
 
       <Route path={paths.organization(':orgId')}>

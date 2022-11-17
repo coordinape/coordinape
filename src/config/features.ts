@@ -1,6 +1,10 @@
 // add your own feature names here
 
-export type FeatureName = 'vaults' | 'fixed_payments' | 'future_feature';
+export type FeatureName =
+  | 'vaults'
+  | 'fixed_payments'
+  | 'future_feature'
+  | 'discord';
 
 // this is a very simple implementation of build-time feature flags that you can
 // hardcode or set with environment variables

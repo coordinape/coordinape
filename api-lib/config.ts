@@ -71,3 +71,16 @@ export const MIXPANEL_PROJECT_TOKEN: string = getEnvValue(
   'MIXPANEL_PROJECT_TOKEN',
   ''
 );
+
+export const DISCORD_BOT_CLIENT_ID: string = getEnvValue(
+  'DISCORD_BOT_CLIENT_ID',
+  'no_token'
+);
+export const DISCORD_BOT_CLIENT_SECRET: string = getEnvValue(
+  'DISCORD_BOT_CLIENT_SECRET',
+  'no_token'
+);
+export const DISCORD_BOT_REDIRECT_URI: string = getEnvValue(
+  'DISCORD_BOT_REDIRECT_URI',
+  'http://localhost:3000/discord/link'
+);
