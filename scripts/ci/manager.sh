@@ -76,6 +76,11 @@ elif [ "${OTHERARGS[0]}" = "test" ]; then
     CYPRESS=1
   fi
 
+  # can't use yarn seed-db-fresh -- it resets the environment
+  # adding this to PATH for ts-node
+  export PATH=$PATH:$SCRIPT_DIR/../../node_modules/.bin
+  $SCRIPT_DIR/../seed_hasura.sh --clean
+
   if [ "$JEST" ]; then
     if [ "$INTERACTIVE" ]; then
       yarn craco test --runInBand ${OTHERARGS[@]:1}
@@ -86,10 +91,6 @@ elif [ "${OTHERARGS[0]}" = "test" ]; then
   fi
 
   if [ "$CYPRESS" ]; then
-    # can't use yarn seed-db-fresh -- it resets the environment
-    # adding this to PATH for ts-node
-    export PATH=$PATH:$SCRIPT_DIR/../../node_modules/.bin
-    $SCRIPT_DIR/../seed_hasura.sh --clean
     if [ "$INTERACTIVE" ]; then
       yarn cypress open ${OTHERARGS[@]:1} > /dev/null
     else

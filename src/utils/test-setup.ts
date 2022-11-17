@@ -40,4 +40,6 @@ console.warn = (...args) => {
   }
 
   unobserve() {}
+
+  disconnect() {}
 };
