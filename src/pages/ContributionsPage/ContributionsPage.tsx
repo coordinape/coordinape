@@ -484,7 +484,7 @@ const ContributionsPage = () => {
             </Flex>
           </Flex>
         )}
-        {(memoizedEpochData.contributions || []).length >= 0 && (
+        {(memoizedEpochData.contributions || []).length === 0 && (
           <ContributionIntro />
         )}
         <EpochGroup
