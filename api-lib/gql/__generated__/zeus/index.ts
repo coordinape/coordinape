@@ -51,7 +51,6 @@ export const apiFetch =
       .then(handleFetchResponse)
       .then((response: GraphQLResponse) => {
         if (response.errors) {
-          console.log('###', JSON.stringify(response.errors));
           throw new GraphQLError(response);
         }
         return response.data;
@@ -727,8 +726,8 @@ export type ValueTypes = {
     __typename?: boolean | `@${string}`;
   }>;
   ['CreateSampleCircleResponse']: AliasType<{
+    circle?: ValueTypes['circles'];
     id?: boolean | `@${string}`;
-    organization?: ValueTypes['organizations'];
     __typename?: boolean | `@${string}`;
   }>;
   ['CreateUserInput']: {
@@ -787,6 +786,7 @@ export type ValueTypes = {
     name: string;
     read_circle?: boolean | undefined | null;
     read_contributions?: boolean | undefined | null;
+    read_discord?: boolean | undefined | null;
     read_epochs?: boolean | undefined | null;
     read_member_profiles?: boolean | undefined | null;
     read_nominees?: boolean | undefined | null;
@@ -18571,8 +18571,8 @@ export type ModelTypes = {
     nominee?: GraphQLTypes['nominees'] | undefined;
   };
   ['CreateSampleCircleResponse']: {
+    circle?: GraphQLTypes['circles'] | undefined;
     id: number;
-    organization?: GraphQLTypes['organizations'] | undefined;
   };
   ['CreateUserInput']: GraphQLTypes['CreateUserInput'];
   ['CreateUserWithTokenInput']: GraphQLTypes['CreateUserWithTokenInput'];
@@ -24997,8 +24997,8 @@ export type GraphQLTypes = {
   };
   ['CreateSampleCircleResponse']: {
     __typename: 'CreateSampleCircleResponse';
+    circle?: GraphQLTypes['circles'] | undefined;
     id: number;
-    organization?: GraphQLTypes['organizations'] | undefined;
   };
   ['CreateUserInput']: {
     address: string;
@@ -25056,6 +25056,7 @@ export type GraphQLTypes = {
     name: string;
     read_circle?: boolean | undefined;
     read_contributions?: boolean | undefined;
+    read_discord?: boolean | undefined;
     read_epochs?: boolean | undefined;
     read_member_profiles?: boolean | undefined;
     read_nominees?: boolean | undefined;

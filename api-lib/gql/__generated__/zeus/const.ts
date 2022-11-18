@@ -6661,8 +6661,8 @@ export const ReturnTypes: Record<string, any> = {
     nominee: 'nominees',
   },
   CreateSampleCircleResponse: {
+    circle: 'circles',
     id: 'Int',
-    organization: 'organizations',
   },
   DeleteEpochResponse: {
     success: 'Boolean',

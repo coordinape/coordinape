@@ -514,23 +514,13 @@ custom_types:
           source: default
           type: object
 
-    - name: CreateSandboxCircleResponse
+    - name: CreateSampleCircleResponse
       relationships:
         - field_mapping:
             id: id
           name: circle
           remote_table:
             name: circles
-            schema: public
-          source: default
-          type: object
-    - name: CreateSampleCircleResponse
-      relationships:
-        - field_mapping:
-            id: id
-          name: organization
-          remote_table:
-            name: organizations
             schema: public
           source: default
           type: object

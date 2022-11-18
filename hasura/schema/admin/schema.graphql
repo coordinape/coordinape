@@ -180,8 +180,8 @@ type CreateNomineeResponse {
 }
 
 type CreateSampleCircleResponse {
+  circle: circles
   id: Int!
-  organization: organizations
 }
 
 input CreateUserInput {
@@ -248,6 +248,7 @@ input GenerateApiKeyInput {
   name: String!
   read_circle: Boolean
   read_contributions: Boolean
+  read_discord: Boolean
   read_epochs: Boolean
   read_member_profiles: Boolean
   read_nominees: Boolean
@@ -1467,6 +1468,11 @@ enum circle_api_keys_select_column {
   """
   column name
   """
+  read_contributions
+
+  """
+  column name
+  """
   read_discord
 
   """
@@ -1635,6 +1641,11 @@ enum circle_api_keys_update_column {
   """
   column name
   """
+  create_contributions
+
+  """
+  column name
+  """
   create_vouches
 
   """
@@ -1661,6 +1672,11 @@ enum circle_api_keys_update_column {
   column name
   """
   read_circle
+
+  """
+  column name
+  """
+  read_contributions
 
   """
   column name
@@ -4400,6 +4416,11 @@ enum circles_select_column {
   """
   column name
   """
+  show_pending_gives
+
+  """
+  column name
+  """
   team_sel_text
 
   """
@@ -4686,6 +4707,11 @@ enum circles_update_column {
   column name
   """
   organization_id
+
+  """
+  column name
+  """
+  show_pending_gives
 
   """
   column name
@@ -5723,6 +5749,11 @@ enum contributions_select_column {
   """
   column name
   """
+  created_with_api_key_hash
+
+  """
+  column name
+  """
   datetime_created
 
   """
@@ -5881,6 +5912,11 @@ enum contributions_update_column {
   column name
   """
   created_at
+
+  """
+  column name
+  """
+  created_with_api_key_hash
 
   """
   column name
@@ -8228,6 +8264,11 @@ enum epochs_select_column {
   """
   column name
   """
+  description
+
+  """
+  column name
+  """
   end_date
 
   """
@@ -8482,6 +8523,11 @@ enum epochs_update_column {
   column name
   """
   days
+
+  """
+  column name
+  """
+  description
 
   """
   column name
