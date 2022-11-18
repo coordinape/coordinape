@@ -106,6 +106,7 @@ export const FormInputField = <TFieldValues extends FieldValues>(
           id={id}
           error={!!fieldState.error}
           disabled={disabled}
+          placeholder={placeholder}
         ></TextField>
       )}
       {textArea && (
