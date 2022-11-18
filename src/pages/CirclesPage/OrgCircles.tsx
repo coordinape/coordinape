@@ -35,6 +35,7 @@ export const OrgCircles = ({
           mb: '$lg',
           alignItems: 'baseline',
           justifyContent: 'space-between',
+          '@sm': { flexDirection: 'column', gap: '$md' },
         }}
       >
         <Flex alignItems="center">
