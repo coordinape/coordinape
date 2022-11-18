@@ -63,9 +63,7 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
     if (ethereum) {
       // convert hex to decimal
       const chainId = parseInt(
-        ethereum.isMetaMask
-          ? await ethereum.request({ method: 'eth_chainId' })
-          : ethereum.sendAsync({ method: 'eth_chainId' }),
+        await new Web3Provider(ethereum).send('eth_chainId', []),
         16
       ).toString();
       updateChain(chainId);
