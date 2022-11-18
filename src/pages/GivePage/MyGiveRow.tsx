@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ApeInfoTooltip } from '../../components';
 import { Check, X } from '../../icons/__generated';
 import { IMyUser } from '../../types';
-import { Box, Button, Flex, Text, ToggleButton } from 'ui';
+import { Box, Flex, Text, ToggleButton } from 'ui';
 
 import { AvatarAndName } from './AvatarAndName';
 import { GiveRowGrid } from './GiveRowGrid';
@@ -33,7 +33,7 @@ export const MyGiveRow = ({
   statementCompelete: boolean;
   selected: boolean;
 }) => {
-  const newRef = useRef<HTMLButtonElement>(null);
+  const newRef = useRef<HTMLDivElement>(null);
   const [lastSelected, setLastSelected] = useState<boolean>(false);
 
   useEffect(() => {
@@ -47,10 +47,18 @@ export const MyGiveRow = ({
     }
   }, [selected, lastSelected]);
   return (
-    <Button
+    <Box
+      tabIndex={0}
       onClick={openEpochStatement}
+      onKeyDown={e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          openEpochStatement();
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      }}
       color="transparent"
-      css={{ p: 0, width: '100%' }}
+      css={{ p: 0, width: '100%', borderRadius: '$3' }}
       ref={newRef}
     >
       <GiveRowGrid
@@ -176,6 +184,6 @@ export const MyGiveRow = ({
         tokenName={myUser.circle.tokenName}
         give_token_received={myUser.give_token_received}
       />
-    </Button>
+    </Box>
   );
 };

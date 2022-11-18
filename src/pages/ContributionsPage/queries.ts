@@ -62,6 +62,14 @@ export const getContributionsAndEpochs = async ({
         ended: true,
       },
     ],
+    circles_by_pk: [
+      {
+        id: circleId,
+      },
+      {
+        team_sel_text: true,
+      },
+    ],
   });
 
 export type ContributionsAndEpochs = Awaited<
