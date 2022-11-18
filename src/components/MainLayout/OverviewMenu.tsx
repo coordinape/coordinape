@@ -85,8 +85,8 @@ export const OverviewMenu = ({
   return (
     <Popover open={mouseEnterPopover}>
       <PopoverTrigger
-        tabIndex={-1}
-        css={{ outline: 'none !important' }}
+        tabIndex={0}
+        css={{ borderRadius: '$pill' }}
         ref={triggerRef}
         onKeyDown={e => {
           if (e.key === 'Enter' || e.key === ' ') {

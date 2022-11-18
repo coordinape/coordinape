@@ -61,6 +61,7 @@ export const ReceiveInfo = () => {
   return (
     <Popover open={mouseEnterPopover}>
       <PopoverTrigger
+        tabIndex={0}
         onKeyDown={e => {
           if (e.key === 'Enter' || e.key === ' ') {
             clearTimeout(timeoutId);
