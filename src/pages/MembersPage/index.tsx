@@ -408,10 +408,9 @@ const MembersPage = () => {
             /* this length check is the only way to know that this was the prepopulated circle */
             visibleUsers.length > 2 ? (
               <>
-                We’ve set you up with a sample circle prepopulated with members,
-                epochs, contributions, give allocations, and notes. Feel free to
-                add real people and experiment! Make your own non-sample circle
-                when you are ready.
+                We’ve set you up with a sample circle prepopulated with members
+                and data. Feel free to add real people and experiment! Make your
+                own non-sample circle when you are ready.
               </>
             ) : (
               <>
