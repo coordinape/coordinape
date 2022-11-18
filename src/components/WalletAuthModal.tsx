@@ -63,7 +63,9 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
     if (ethereum) {
       // convert hex to decimal
       const chainId = parseInt(
-        await ethereum.request({ method: 'eth_chainId' }),
+        ethereum.isMetaMask
+          ? await ethereum.request({ method: 'eth_chainId' })
+          : ethereum.sendAsync({ method: 'eth_chainId' }),
         16
       ).toString();
       updateChain(chainId);
@@ -94,11 +96,13 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
     const ethereum = (window as any).ethereum;
 
     if (metamaskEnabled && ethereum && ethereum.on) {
-      ethereum.removeAllListeners?.(['networkChanged']);
-      ethereum.on?.('networkChanged', (chain: string) => {
-        updateChain(chain);
-      });
-
+      if (ethereum.isMetaMask) {
+        //
+        ethereum.removeAllListeners?.(['chainChanged']);
+        ethereum.on?.('chainChanged', (chain: string) => {
+          updateChain(chain);
+        });
+      }
       getInitialChain(ethereum);
     }
   }, []);
@@ -132,8 +136,8 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
       // https://github.com/NoahZinsmeister/web3-react/issues/257#issuecomment-904070725
       const ethereum = (window as any).ethereum;
       if (ethereum?.isMetaMask) {
-        await ethereum?.removeAllListeners(['networkChanged']);
-        ethereum.on('networkChanged', () => {
+        await ethereum?.off('chainChanged');
+        ethereum.on('chainChanged', () => {
           (window as any).location.reload();
         });
       }

@@ -48,9 +48,9 @@ export class TestProvider {
     }
     console.error('request log: ', args[0].method);
     if (typeof method === 'object') {
-      throw new Error(
-        'Nested JSON-RPC command: ' + JSON.stringify(args, null, 2)
-      );
+      this.engine.sendAsync([method]);
+      console.warn('Nested JSON-RPC command: ' + JSON.stringify(args, null, 2));
+      return;
     }
     this.engine.sendAsync(...args);
   }
