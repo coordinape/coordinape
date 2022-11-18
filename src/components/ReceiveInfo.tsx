@@ -20,6 +20,7 @@ import {
   PopoverContent,
   Text,
   POPOVER_TIMEOUT,
+  MarkdownPreview,
 } from 'ui';
 
 export const QUERY_KEY_RECEIVE_INFO = 'getReceiveInfo';
@@ -109,6 +110,11 @@ export const ReceiveInfo = () => {
         align="end"
         sideOffset={-38}
         alignOffset={-1}
+        css={{
+          maxHeight: '$smallScreen',
+          overflowY: 'scroll',
+          zIndex: 4,
+        }}
       >
         <Box
           css={{
@@ -181,9 +187,7 @@ export const ReceiveInfo = () => {
                     name={tokenGift.sender.name}
                   />
                   {tokenGift.gift_private?.note ? (
-                    <Text p as="p" size="small">
-                      {tokenGift.gift_private.note}
-                    </Text>
+                    <MarkdownPreview source={tokenGift.gift_private.note} />
                   ) : (
                     <Text color="neutral">-- Empty Note --</Text>
                   )}

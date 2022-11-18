@@ -136,7 +136,7 @@ export const OverviewMenu = ({
           pl: '1px',
           top: 'calc($xxs - $3xl + 1px)',
           mb: '$lg',
-          zIndex: 2,
+          zIndex: 4,
         }}
       >
         <Box
