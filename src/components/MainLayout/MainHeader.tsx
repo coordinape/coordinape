@@ -65,6 +65,7 @@ const NormalHeader = ({ inCircle, walletStatus, query }: Props) => {
         flexDirection: 'column',
         alignItems: 'stretch',
         background: '$headingText',
+        zIndex: '4',
       }}
     >
       <Box
