@@ -63,7 +63,7 @@ const schema = z.object({
     .string()
     .max(500)
     .refine(val => val.trim().length >= 1, {
-      message: 'Please write something.',
+      message: 'Please write something',
     }),
 });
 type contributionTextSchema = z.infer<typeof schema>;

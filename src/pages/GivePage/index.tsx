@@ -42,8 +42,8 @@ const schema = z.object({
   alloc_text: z
     .string()
     .max(500)
-    .refine(val => val.trim().length >= 40, {
-      message: 'Please write at least 40 characters.',
+    .refine(val => val.trim().length >= 1, {
+      message: 'Please write something.',
     }),
 });
 type allocationTextSchema = z.infer<typeof schema>;
