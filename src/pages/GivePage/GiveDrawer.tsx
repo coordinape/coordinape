@@ -289,6 +289,8 @@ export const GiveDrawer = ({
             color="primary"
             disabled={selectedMemberIdx == totalMembers - 1}
             onClick={() => nextMember(true)}
+            // adding onMouseDown because the onBlur event on the markdown-ready textarea was preventing onClick
+            onMouseDown={() => nextMember(true)}
           >
             <Edit />
             Next
