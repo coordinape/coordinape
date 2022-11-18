@@ -323,9 +323,7 @@ const NotesItem = ({
         {note && (
           <MarkdownPreview
             css={{
-              mb: '$xs',
-              borderColor: '$borderMedium !important',
-              borderRadius: '$1',
+              p: 0,
             }}
             source={note}
           />
