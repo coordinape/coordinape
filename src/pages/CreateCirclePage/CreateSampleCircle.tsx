@@ -17,20 +17,19 @@ export const CreateSampleCircle = ({
   const createSampleCircle = async () => {
     try {
       setLoading(true);
-      const { createSampleCircle } = await client.mutate({
+      const { createSampleCircle: created } = await client.mutate({
         createSampleCircle: { id: true },
       });
-      if (!createSampleCircle) {
+      if (!created) {
         throw new Error('create sample circle failed');
       }
       await fetchManifest();
-      onFinish(createSampleCircle.id);
+      onFinish(created.id);
     } catch (e) {
       showError(e);
     } finally {
       setLoading(false);
     }
-    // nav to the created org? or just chill
   };
 
   return (
