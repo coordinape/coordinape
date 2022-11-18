@@ -27,16 +27,11 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     );
   }
 
-  try {
-    const ret = await createSampleCircleForProfile(
-      sessionVariables.hasuraProfileId,
-      sessionVariables.hasuraAddress
-    );
-    return res.status(200).json(ret);
-  } catch (e) {
-    console.error(e);
-    throw e;
-  }
+  const ret = await createSampleCircleForProfile(
+    sessionVariables.hasuraProfileId,
+    sessionVariables.hasuraAddress
+  );
+  return res.status(200).json(ret);
 }
 
 export const createSampleCircleForProfile = async (
@@ -152,12 +147,10 @@ async function createCircle(
   await Promise.all(
     sampleMembers.map(sm =>
       Object.keys(sm.gifts).map(recipIdx => {
-        console.log('recipIndex', +recipIdx);
         const recip: { address?: string; user_id?: number } =
           +recipIdx === 0
             ? { address: userAddress, user_id: circle.users[0].id }
             : sampleMembers.find(sm => sm.index == +recipIdx)!;
-        console.log('recip', +recip);
         const recipGift = sm.gifts[+recipIdx];
         return addSampleAllocation(
           circle.id,

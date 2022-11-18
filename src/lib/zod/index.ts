@@ -61,8 +61,6 @@ export const createOrganizationSchemaInput = z
   })
   .strict();
 
-export const createSampleCircleSchemaInput = z.object({}).optional();
-
 export const adminUpdateUserSchemaInput = z
   .object({
     circle_id: z.number(),

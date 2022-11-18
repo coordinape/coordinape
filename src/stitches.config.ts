@@ -113,8 +113,6 @@ export const colors = {
 
   tag: figmaColors.yellow4,
   tagDark: figmaColors.yellow20,
-
-  blackish: figmaColors.grey24,
 };
 
 // the notistack library is oriented toward Material-UI, so we can't set its
