@@ -63,7 +63,7 @@ const GivePage = () => {
 
   // totalGiveUsed is the amount of give used by the current user
   const [totalGiveUsed, setTotalGiveUsed] = useState<number>(0);
-  const [editِِAllocHelpText, setEditAllocHelpText] = useState(false);
+  const [editAllocHelpText, setEditAllocHelpText] = useState(false);
 
   // queryClient is the react-query client, for invalidation purposes
   const queryClient = useQueryClient();
@@ -400,56 +400,82 @@ const GivePage = () => {
               flexWrap: 'wrap',
               gap: '$md',
               mb: '$md',
+              width: '50%',
+              '@sm': { width: '100%' },
             }}
           >
-            <Box
-              css={{
-                width: '50%',
-              }}
-            >
-              {!editِِAllocHelpText ? (
+            {!editAllocHelpText ? (
+              <Flex
+                css={{
+                  gap: '$md',
+                  alignItems: 'center',
+                  '@sm': { flexDirection: 'column', alignItems: 'start' },
+                }}
+              >
                 <Text>
-                  {updatedAllocText ||
-                    circle?.alloc_text ||
-                    'Reward & thank your teammates for their contributions'}
+                  {updatedAllocText
+                    ? updatedAllocText
+                    : circle?.alloc_text
+                    ? circle?.alloc_text
+                    : 'Reward & thank your teammates for their contributions'}
                 </Text>
-              ) : (
+                {isAdmin && (
+                  <Button
+                    outlined
+                    color="primary"
+                    type="submit"
+                    size="small"
+                    onClick={() => {
+                      setEditAllocHelpText(true);
+                    }}
+                    css={{ whiteSpace: 'nowrap' }}
+                  >
+                    Edit Help Text
+                  </Button>
+                )}
+              </Flex>
+            ) : (
+              <Flex
+                css={{
+                  gap: '$md',
+                  alignItems: 'flex-start',
+                  flexGrow: 1,
+                  '@sm': { flexDirection: 'column' },
+                }}
+              >
                 <FormInputField
                   name="alloc_text"
                   id="finish_work"
                   control={allocationTextControl}
                   defaultValue={circle?.alloc_text}
                   label="Allocation Help Text"
+                  placeholder="Default: 'Reward & thank your teammates for their contributions'"
                   infoTooltip="Change the text that contributors see on this page."
                   showFieldErrors
                   css={{
                     width: '100%',
                   }}
                 />
-              )}
-            </Box>
-            {!editِِAllocHelpText ? (
-              isAdmin && (
-                <Button
-                  outlined
-                  color="primary"
-                  type="submit"
-                  onClick={() => {
-                    setEditAllocHelpText(true);
-                  }}
-                >
-                  Edit Help Text
-                </Button>
-              )
-            ) : (
-              <Button
-                outlined
-                color="primary"
-                type="submit"
-                onClick={handleSubmit(onSubmit)}
-              >
-                Save
-              </Button>
+                <Flex css={{ gap: '$sm', mt: '$lg', '@sm': { mt: 0 } }}>
+                  <Button
+                    outlined
+                    color="primary"
+                    type="submit"
+                    onClick={handleSubmit(onSubmit)}
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    outlined
+                    color="destructive"
+                    onClick={() => {
+                      setEditAllocHelpText(false);
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                </Flex>
+              </Flex>
             )}
           </Flex>
         </Box>
@@ -703,8 +729,6 @@ const AllocateContents = ({
     <Box
       css={{
         position: 'relative',
-        marginTop: '-$2xl',
-        pt: '$2xl',
         pb: '$3xl' /* to make room for help button overlap in bottom right -g */,
       }}
     >
