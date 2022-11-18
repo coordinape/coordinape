@@ -4,7 +4,16 @@ import { TestWrapper } from '../../utils/testing';
 
 import CreateCirclePage from './CreateCirclePage';
 
+// I made an array here and i'm shifting it per test cuz i couldn't figure out
+// how to control diff results per test func with these factory funcs
+// ...seems sketch -g
 const mockProfileResults = [
+  // first test
+  {
+    address: 'abc',
+    myUsers: [],
+  },
+  // second test
   {
     address: 'abc',
     myUsers: [
@@ -18,13 +27,9 @@ const mockProfileResults = [
       },
     ],
   },
-  {
-    address: 'abc',
-    myUsers: [],
-  },
 ];
 jest.mock('recoilState/app', () => ({
-  useMyProfile: () => mockProfileResults.pop(),
+  useMyProfile: () => mockProfileResults.shift(),
 }));
 
 test('basic rendering, no sample circle yet', async () => {
