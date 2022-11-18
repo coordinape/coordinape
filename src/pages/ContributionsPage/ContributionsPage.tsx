@@ -388,7 +388,7 @@ const ContributionsPage = () => {
           </Button>
         </Flex>
         <Text p>What have you been working on?</Text>
-        {(memoizedEpochData.contributions || []).length >= 0 && (
+        {(memoizedEpochData.contributions || []).length === 0 && (
           <ContributionIntro />
         )}
         <EpochGroup
