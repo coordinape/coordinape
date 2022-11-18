@@ -63,7 +63,7 @@ const schema = z.object({
     .string()
     .max(500)
     .refine(val => val.trim().length >= 1, {
-      message: 'Please write something.',
+      message: 'Please write something',
     }),
 });
 type contributionTextSchema = z.infer<typeof schema>;
@@ -414,76 +414,91 @@ const ContributionsPage = () => {
   return (
     <>
       <SingleColumnLayout>
+        <Text h1>Contributions</Text>
         <Flex
           alignItems="end"
           css={{
             justifyContent: 'space-between',
             flexWrap: 'wrap',
             gap: '$md',
+            width: '50%',
+            '@sm': { width: '100%' },
           }}
         >
-          <Text h1>Contributions</Text>
-        </Flex>
-        {!editHelpText ? (
-          <Flex css={{ gap: '$md', alignContent: 'center' }}>
-            <Text>
-              {updatedTeamSelText
-                ? updatedTeamSelText
-                : data?.circles_by_pk?.team_sel_text
-                ? data?.circles_by_pk?.team_sel_text
-                : 'What have you been working on?'}
-            </Text>
-            {isAdmin && (
-              <Button
-                outlined
-                color="primary"
-                type="submit"
-                size="small"
-                onClick={() => {
-                  setEditHelpText(true);
-                }}
-              >
-                Edit Help Text
-              </Button>
-            )}
-          </Flex>
-        ) : (
-          <Flex css={{ gap: '$md', alignItems: 'flex-start' }}>
-            <FormInputField
-              name="team_sel_text"
-              id="finish_work"
-              control={contributionTextControl}
-              defaultValue={data?.circles_by_pk?.team_sel_text}
-              label="Contribution Help Text"
-              placeholder="Default: 'What have you been working on?'"
-              infoTooltip="Change the text that contributors see on this page."
-              showFieldErrors
+          {!editHelpText ? (
+            <Flex
               css={{
-                width: '50%',
-                '@sm': { width: '100%' },
+                gap: '$md',
+                alignItems: 'center',
+                '@sm': { flexDirection: 'column', alignItems: 'start' },
               }}
-            />
-            <Flex css={{ gap: '$sm', mt: '$lg' }}>
-              <Button
-                outlined
-                color="primary"
-                type="submit"
-                onClick={handleSubmit(onSubmit)}
-              >
-                Save
-              </Button>
-              <Button
-                outlined
-                color="destructive"
-                onClick={() => {
-                  setEditHelpText(false);
-                }}
-              >
-                Cancel
-              </Button>
+            >
+              <Text>
+                {updatedTeamSelText
+                  ? updatedTeamSelText
+                  : data?.circles_by_pk?.team_sel_text
+                  ? data?.circles_by_pk?.team_sel_text
+                  : 'What have you been working on?'}
+              </Text>
+              {isAdmin && (
+                <Button
+                  outlined
+                  color="primary"
+                  type="submit"
+                  size="small"
+                  onClick={() => {
+                    setEditHelpText(true);
+                  }}
+                  css={{ whiteSpace: 'nowrap' }}
+                >
+                  Edit Help Text
+                </Button>
+              )}
             </Flex>
-          </Flex>
-        )}
+          ) : (
+            <Flex
+              css={{
+                gap: '$md',
+                alignItems: 'flex-start',
+                flexGrow: 1,
+                '@sm': { flexDirection: 'column' },
+              }}
+            >
+              <FormInputField
+                name="team_sel_text"
+                id="finish_work"
+                control={contributionTextControl}
+                defaultValue={data?.circles_by_pk?.team_sel_text}
+                label="Contribution Help Text"
+                placeholder="Default: 'What have you been working on?'"
+                infoTooltip="Change the text that contributors see on this page."
+                showFieldErrors
+                css={{
+                  width: '100%',
+                }}
+              />
+              <Flex css={{ gap: '$sm', mt: '$lg', '@sm': { mt: 0 } }}>
+                <Button
+                  outlined
+                  color="primary"
+                  type="submit"
+                  onClick={handleSubmit(onSubmit)}
+                >
+                  Save
+                </Button>
+                <Button
+                  outlined
+                  color="destructive"
+                  onClick={() => {
+                    setEditHelpText(false);
+                  }}
+                >
+                  Cancel
+                </Button>
+              </Flex>
+            </Flex>
+          )}
+        </Flex>
         {(memoizedEpochData.contributions || []).length === 0 && (
           <ContributionIntro />
         )}
