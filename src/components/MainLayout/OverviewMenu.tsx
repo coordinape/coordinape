@@ -137,7 +137,7 @@ export const OverviewMenu = ({
           left: '$xl',
           top: 'calc($xxs - $3xl)',
           mb: '$lg',
-          zIndex: 2,
+          zIndex: 4,
           // 1px border position bugfix:
           pl: '1px',
         }}

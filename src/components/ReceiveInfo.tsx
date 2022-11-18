@@ -112,6 +112,7 @@ export const ReceiveInfo = () => {
         css={{
           maxHeight: '$smallScreen',
           overflowY: 'scroll',
+          zIndex: 4,
         }}
       >
         <Box
