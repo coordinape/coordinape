@@ -72,6 +72,7 @@ const NormalHeader = ({ inCircle, walletStatus, query }: Props) => {
           flexDirection: 'column',
           alignItems: 'stretch',
           background: '$headingText',
+          zIndex: '4',
         }}
       >
         <Box
@@ -81,7 +82,7 @@ const NormalHeader = ({ inCircle, walletStatus, query }: Props) => {
             fontWeight: '$black',
           }}
         >
-          COORDINAPE{' '}
+          COORDINAPE
         </Box>
         <Box
           css={{

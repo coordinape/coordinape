@@ -7,7 +7,6 @@ import { Box, Button } from 'ui';
 
 import {
   Popover as PopoverComponent,
-  PopoverAnchor,
   PopoverClose,
   PopoverContent,
   PopoverTrigger,
@@ -45,7 +44,6 @@ const Template: ComponentStory<typeof PopoverComponent> = () => {
         >
           Popover Trigger
         </Button>
-        <PopoverAnchor />
       </PopoverTrigger>
       <PopoverContent
         onMouseEnter={onMouseEnter}
