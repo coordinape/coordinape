@@ -49,14 +49,14 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
 
   const [isMetamaskEnabled, setIsMetamaskEnabled] = useState<boolean>(false);
 
-  const UNSUPPROTED = 'unsupported';
-  const UnsupportedNetwork = defaultChain == UNSUPPROTED;
+  const UNSUPPORTED = 'unsupported';
+  const UnsupportedNetwork = defaultChain == UNSUPPORTED;
   const supportedChains = Object.entries(loginSupportedChainIds).map(key => {
     return { value: key[0], label: key[1], disabled: false };
   });
 
   const loginOptions = concat(supportedChains, [
-    { value: UNSUPPROTED, label: '-', disabled: true },
+    { value: UNSUPPORTED, label: '-', disabled: true },
   ]);
 
   const getInitialChain = async (ethereum: any) => {
@@ -74,7 +74,7 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
     if (supportedChains.find(obj => obj.value == chainId)) {
       setDefaultChain(chainId);
     } else {
-      setDefaultChain(UNSUPPROTED);
+      setDefaultChain(UNSUPPORTED);
     }
   };
 
