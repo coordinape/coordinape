@@ -3,7 +3,6 @@ import { Suspense, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { NavLink, useLocation } from 'react-router-dom';
 
-import { IApiCircle } from '../../types';
 import { RecentTransactionsModal } from 'components/MyAvatarMenu/RecentTransactionsModal';
 import isFeatureEnabled from 'config/features';
 import type { WalletStatus } from 'hooks/login';
@@ -23,8 +22,20 @@ const mainLinks = [
   isFeatureEnabled('vaults') && [paths.vaults, 'CoVaults'],
 ].filter(x => x) as [string, string][];
 
+interface Circle {
+  id: number;
+  logo?: string;
+  name: string;
+  organization: {
+    sample: boolean;
+    logo?: string;
+    name: string;
+    id: number;
+  };
+}
+
 type Props = {
-  inCircle?: IApiCircle;
+  inCircle?: Circle;
   walletStatus: WalletStatus;
   query: MainHeaderQuery;
   startOpen?: boolean;

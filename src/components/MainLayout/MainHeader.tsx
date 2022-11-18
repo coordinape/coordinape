@@ -4,7 +4,6 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
 import { MediaQueryKeys } from 'stitches.config';
 
-import { IApiCircle } from '../../types';
 import { ReceiveInfo, MyAvatarMenu } from 'components';
 import isFeatureEnabled from 'config/features';
 import { useMediaQuery } from 'hooks';
@@ -47,11 +46,18 @@ export const MainHeader = () => {
   );
 };
 
+interface Circle {
+  organization: {
+    sample: boolean;
+  };
+}
+
 type Props = {
-  inCircle?: IApiCircle;
+  inCircle?: Circle;
   walletStatus: WalletStatus;
   query: MainHeaderQuery;
 };
+
 const NormalHeader = ({ inCircle, walletStatus, query }: Props) => {
   const showClaimsButton =
     (query.data?.claims_aggregate.aggregate?.count || 0) > 0;
@@ -136,7 +142,6 @@ const NormalHeader = ({ inCircle, walletStatus, query }: Props) => {
           </Suspense>
         </Box>
       </Box>
-      {/*TODO: mobile indication */}
       {inCircle?.organization.sample && <SampleOrgIndicator />}
     </Box>
   );
