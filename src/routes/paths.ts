@@ -95,3 +95,7 @@ export const paths = {
 
 export const isCircleSpecificPath = (location: Location) =>
   location.pathname.match(/\/circles\/\d+/);
+
+// TODO: this isn't used yet
+export const isOrgSpecificPath = (location: Location) =>
+  location.pathname.match(/\/organizations\/\d+/);

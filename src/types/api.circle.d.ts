@@ -7,6 +7,7 @@ export interface IProtocol {
   is_verified?: boolean;
   created_at?: Date;
   updated_at?: Date;
+  sample: boolean;
 }
 
 export interface IApiCircle {

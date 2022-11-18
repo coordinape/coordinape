@@ -22,9 +22,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const eventData: { [key: string]: any } = event.data ?? {};
 
-    // need to see if the org is a sandbox org to change how we process funnels/events etc
+    // need to see if the org is a sample org to change how we process funnels/events etc
     if (event.org_id !== undefined && event.org_id !== null) {
-      eventData['sandbox'] = await isOrgSandbox(event.org_id);
+      eventData['sample'] = await isOrgSample(event.org_id);
     }
 
     if (event.profile_id) {
@@ -92,14 +92,14 @@ const track = (
   });
 };
 
-async function isOrgSandbox(orgId: number): Promise<boolean> {
+async function isOrgSample(orgId: number): Promise<boolean> {
   const { organizations_by_pk } = await adminClient.query(
     {
       organizations_by_pk: [
         {
           id: orgId,
         },
-        { sandbox: true },
+        { sample: true },
       ],
     },
     {
@@ -107,5 +107,5 @@ async function isOrgSandbox(orgId: number): Promise<boolean> {
     }
   );
 
-  return organizations_by_pk?.sandbox ?? false;
+  return organizations_by_pk?.sample ?? false;
 }

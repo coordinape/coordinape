@@ -46,6 +46,15 @@ actions:
           value_from_env: HASURA_EVENT_SECRET
     permissions:
       - role: user
+  - name: createSampleCircle
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=createSampleCircle'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
   - name: createUser
     definition:
       kind: synchronous
@@ -502,6 +511,17 @@ custom_types:
           remote_table:
             name: users
             schema: discord
+          source: default
+          type: object
+
+    - name: CreateSampleCircleResponse
+      relationships:
+        - field_mapping:
+            id: id
+          name: circle
+          remote_table:
+            name: circles
+            schema: public
           source: default
           type: object
   scalars:

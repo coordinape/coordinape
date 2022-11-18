@@ -17,6 +17,7 @@ const organization: IProtocol = {
   is_verified: false,
   created_at: new Date(0),
   updated_at: new Date(0),
+  sample: false,
 };
 
 const circle: IApiCircle = {

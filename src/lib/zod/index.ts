@@ -494,6 +494,19 @@ export function composeHasuraActionRequestBody<T extends z.ZodRawShape>(
   });
 }
 
+export function composeHasuraActionRequestBodyWithoutPayload() {
+  return z.object({
+    // for some reason, it's unsafe to transform the generic input
+    // to strip away the outer object
+    action: z.object({ name: z.string() }),
+    session_variables: z.union([
+      HasuraAdminSessionVariables,
+      HasuraUserSessionVariables,
+    ]),
+    request_query: z.string().optional(),
+  });
+}
+
 export function composeCrossClientAuthRequestBody<T extends z.ZodRawShape>(
   inputSchema: InputSchema<T>
 ) {

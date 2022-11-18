@@ -502,6 +502,7 @@ const ContributionsPage = () => {
         {(memoizedEpochData.contributions || []).length === 0 && (
           <ContributionIntro />
         )}
+
         <EpochGroup
           contributions={memoizedEpochData.contributions || []}
           epochs={memoizedEpochData.epochs || []}

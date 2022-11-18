@@ -4,12 +4,20 @@ import { TestWrapper } from 'utils/testing';
 
 import { CirclesPage } from './CirclesPage';
 
+jest.mock('../../recoilState', () => ({
+  useMyProfile: async () => ({
+    id: 1,
+  }),
+}));
+
 jest.mock('./getOrgData', () => ({
   getOrgData: async () => ({
     organizations: [
       {
         id: 1,
         name: 'Test Org',
+        sample: false,
+        created_by: 1,
         circles: [
           {
             id: 2,
