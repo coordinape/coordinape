@@ -62,6 +62,7 @@ export const ReceiveInfo = () => {
   return (
     <Popover open={mouseEnterPopover}>
       <PopoverTrigger
+        tabIndex={0}
         onKeyDown={e => {
           if (e.key === 'Enter' || e.key === ' ') {
             clearTimeout(timeoutId);
@@ -80,7 +81,7 @@ export const ReceiveInfo = () => {
           );
         }}
       >
-        <Button tabIndex={-1} size="small" color="surface">
+        <Button as="div" tabIndex={-1} size="small" color="surface">
           {!currentNonReceiver ? totalReceived : 0}{' '}
           {data?.myReceived?.token_name ?? 'GIVE'}
         </Button>
