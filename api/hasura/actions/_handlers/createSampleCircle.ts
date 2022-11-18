@@ -12,17 +12,11 @@ import {
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import { composeHasuraActionRequestBodyWithoutPayload } from '../../../../src/lib/zod';
 
-type CircleInput = Parameters<typeof mutations.insertCircleWithAdmin>[0];
-
-const MEMBER_COUNT = 8;
-const CONTRIBUTION_MAX = 8;
-
-const sampleCircleDefaults: CircleInput = {
-  user_name: 'Me',
-  circle_name: 'Sample DAO Core Circle',
-  organization_name: 'Sample DAO',
-  sampleOrg: true,
-};
+import {
+  sampleCircleDefaults,
+  SampleMember,
+  sampleMembers,
+} from './createSampleCircle_data';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const { session_variables: sessionVariables } =
@@ -33,12 +27,16 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     );
   }
 
-  const ret = await createSampleCircleForProfile(
-    sessionVariables.hasuraProfileId,
-    sessionVariables.hasuraAddress
-  );
-
-  return res.status(200).json(ret);
+  try {
+    const ret = await createSampleCircleForProfile(
+      sessionVariables.hasuraProfileId,
+      sessionVariables.hasuraAddress
+    );
+    return res.status(200).json(ret);
+  } catch (e) {
+    console.error(e);
+    throw e;
+  }
 }
 
 export const createSampleCircleForProfile = async (
@@ -110,7 +108,6 @@ async function createCircle(
   }
 
   // make epoch (recurring weekly?)
-
   const start_date = DateTime.now();
   const end_date = DateTime.now().plus({ days: 7 });
 
@@ -139,47 +136,45 @@ async function createCircle(
     throw new Error('epoch creation failed');
   }
 
-  // TODO: faker seed
-  // add a bunch of members
-  const members = await Promise.all(
-    [...Array(MEMBER_COUNT).keys()].map(() => addSampleMember(circle.id))
+  // make the members in parallel, assign user_id and address
+  await Promise.all(sampleMembers.map(sm => addSampleMember(circle.id, sm)));
+
+  // make the contributions in parallel
+  await Promise.all(
+    sampleMembers.map(sm =>
+      // safe to assert user_id here because it was generated above
+      sm.contributions.map(c =>
+        addSampleContribution(circle.id, sm.user_id!, c)
+      )
+    )
   );
 
-  // add contributions
-  const contributionMutations: Promise<number>[] = [];
-  for (const m of members) {
-    contributionMutations.push(
-      ...[
-        ...Array(
-          faker.datatype.number({ min: 0, max: CONTRIBUTION_MAX })
-        ).keys(),
-      ].map(() => addSampleContribution(circle.id, m.user_id))
-    );
-  }
-  await Promise.all(contributionMutations);
-
-  const allocationTargets = [
-    { user_id: circle.users[0].id, address: userAddress },
-    ...members,
-  ];
-
-  // add allocations
-  const allocateMutations: Promise<void>[] = [];
-  for (const m of members) {
-    allocateMutations.push(
-      ...allocateFully({
-        sender_address: m.address,
-        user_id: m.user_id,
-        circle_id: circle.id,
-        epoch_id: insert_epochs_one.id,
-        targets: allocationTargets,
+  await Promise.all(
+    sampleMembers.map(sm =>
+      Object.keys(sm.gifts).map(recipIdx => {
+        console.log('recipIndex', +recipIdx);
+        const recip: { address?: string; user_id?: number } =
+          +recipIdx === 0
+            ? { address: userAddress, user_id: circle.users[0].id }
+            : sampleMembers.find(sm => sm.index == +recipIdx)!;
+        console.log('recip', +recip);
+        const recipGift = sm.gifts[+recipIdx];
+        return addSampleAllocation(
+          circle.id,
+          insert_epochs_one.id,
+          sm.user_id!,
+          sm.address!,
+          recip.user_id!,
+          recip.address!,
+          recipGift.gift,
+          recipGift.note
+        );
       })
-    );
-  }
-  await Promise.all(allocateMutations);
+    )
+  );
 
   await mutations.insertInteractionEvents({
-    event_type: 'circle_create',
+    event_type: 'sample_circle_create',
     circle_id: circle?.id,
     profile_id: userProfileId,
   });
@@ -188,7 +183,8 @@ async function createCircle(
 }
 
 const addSampleMember = async (
-  circle_id: number
+  circle_id: number,
+  sampleMember: SampleMember
 ): Promise<{ user_id: number; address: string }> => {
   const address = faker.finance.ethereumAddress();
   const { insert_users_one } = await adminClient.mutate({
@@ -196,9 +192,9 @@ const addSampleMember = async (
       {
         object: {
           address,
-          bio: faker.hacker.phrase(),
+          bio: sampleMember.epochStatement,
           circle_id,
-          name: faker.name.firstName(),
+          name: sampleMember.name,
         },
       },
       {
@@ -209,17 +205,24 @@ const addSampleMember = async (
   if (!insert_users_one) {
     throw new Error('insert sample user failed');
   }
+  sampleMember.address = address;
+  sampleMember.user_id = insert_users_one.id;
+
   return { user_id: insert_users_one.id, address };
 };
 
-const addSampleContribution = async (circle_id: number, user_id: number) => {
+const addSampleContribution = async (
+  circle_id: number,
+  user_id: number,
+  contribution: string
+) => {
   const { insert_contributions_one } = await adminClient.mutate({
     insert_contributions_one: [
       {
         object: {
           circle_id,
           user_id,
-          description: faker.hacker.phrase(),
+          description: contribution,
         },
       },
       {
@@ -233,79 +236,37 @@ const addSampleContribution = async (circle_id: number, user_id: number) => {
   return insert_contributions_one.id;
 };
 //
-// const addSampleAllocation = async (circle_id: number, user_id: number) => {
-//   const { insert_contributions_one } = await adminClient.mutate({
-//     insert_contributions_one: [
-//       {
-//         object: {
-//           circle_id,
-//           user_id,
-//           description: faker.hacker.phrase(),
-//         },
-//       },
-//       {
-//         id: true,
-//       },
-//     ],
-//   });
-//   if (!insert_contributions_one) {
-//     throw new Error('insert sample contribution failed');
-//   }
-//   return insert_contributions_one.id;
-// };
-
-const allocateFully = ({
-  circle_id,
-  user_id,
-  targets,
-  epoch_id,
-  sender_address,
-}: {
-  circle_id: number;
-  user_id: number;
-  targets: { user_id: number; address: string }[];
-  epoch_id: number;
-  sender_address: string;
-}) => {
-  let membersRemaining = targets.length;
-  const giveRemaining = 100;
-
-  const randomTargets = faker.random.arrayElements(targets, targets.length);
-  return randomTargets.map(t => {
-    let amount = faker.datatype.number({
-      min: 1,
-      max: 100 / (membersRemaining / 2),
-    });
-    if (membersRemaining === 1 || amount > giveRemaining) {
-      amount = giveRemaining;
-    }
-
-    const note = faker.hacker.phrase();
-
-    membersRemaining--;
-    return new Promise<void>(resolve => {
-      adminClient
-        .mutate({
-          insert_pending_token_gifts_one: [
-            {
-              object: {
-                recipient_id: t.user_id,
-                note: note,
-                circle_id,
-                epoch_id: epoch_id,
-                sender_id: user_id,
-                sender_address: sender_address,
-                recipient_address: t.address,
-                tokens: amount,
-              },
-            },
-            { __typename: true },
-          ],
-        })
-        .then(() => resolve());
-      return;
-    });
+const addSampleAllocation = async (
+  circle_id: number,
+  epoch_id: number,
+  user_id: number,
+  sender_address: string,
+  recipient_id: number,
+  recipient_address: string,
+  gift: number,
+  note?: string
+) => {
+  const { insert_pending_token_gifts_one } = await adminClient.mutate({
+    insert_pending_token_gifts_one: [
+      {
+        object: {
+          recipient_id: recipient_id,
+          note: note,
+          circle_id,
+          epoch_id: epoch_id,
+          sender_id: user_id,
+          sender_address: sender_address,
+          recipient_address: recipient_address,
+          tokens: gift,
+        },
+      },
+      { __typename: true },
+    ],
   });
+  if (!insert_pending_token_gifts_one) {
+    throw new Error('insert sample allocation failed');
+  }
+  return;
 };
 
 export default verifyHasuraRequestMiddleware(handler);
