@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const SentryCliPlugin = require('@sentry/webpack-plugin');
 
 const {
+  COVERAGE,
   SENTRY_AUTH_TOKEN,
   VERCEL,
   VERCEL_ENV,
@@ -31,20 +32,15 @@ module.exports = {
         '<rootDir>/api-test/**/*.{spec,test}.{js,jsx,ts,tsx}',
       ],
       collectCoverageFrom: [
-        'src/**/*.{ts,tsx}',
-        '!src/**/*.d.ts',
-        '!**/__generated__/**',
-        'api/**/*.ts',
-        'api-lib/**/*.ts',
+        '{src,api,api-lib}/**/*.{ts,tsx}',
+        '!**/*.d.ts',
+        '!**/*.stories.tsx',
       ],
+      coverageDirectory: 'coverage-jest',
+      coveragePathIgnorePatterns: ['/node_modules/', '/__generated.*/'],
       coverageReporters: ['json', 'lcov', 'text-summary'],
       transform: {
         '.(ts|tsx)': 'ts-jest',
-      },
-      globals: {
-        'ts-jest': {
-          compiler: 'ttypescript',
-        },
       },
       resetMocks: false,
       setupFiles: ['<rootDir>/src/utils/test-setup.ts'],
@@ -64,7 +60,18 @@ module.exports = {
               fullySpecified: false,
             },
           },
-        ],
+          COVERAGE && {
+            test: /\.(ts|tsx)$/,
+            exclude: /node_modules/,
+            use: {
+              loader: 'babel-loader',
+              options: {
+                presets: ['@babel/preset-typescript'],
+                plugins: ['istanbul'],
+              },
+            },
+          },
+        ].filter(x => x),
       },
       ignoreWarnings: [/Failed to parse source map/],
       resolve: {

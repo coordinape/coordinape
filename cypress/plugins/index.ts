@@ -2,6 +2,7 @@
 // ***********************************************************
 // https://on.cypress.io/plugins-guide
 // ***********************************************************
+import coveragePlugin from '@cypress/code-coverage/task';
 import ddPlugin from 'dd-trace/ci/cypress/plugin';
 
 // This function is called when a project is opened or re-opened (e.g. due to
@@ -13,6 +14,7 @@ import ddPlugin from 'dd-trace/ci/cypress/plugin';
 export default (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
+  coveragePlugin(on, config);
   ddPlugin(on, config);
   config.baseUrl = 'http://localhost:' + config.env.LOCAL_WEB_PORT;
   return config;

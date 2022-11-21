@@ -22,5 +22,9 @@ export default defineConfig({
       'LOCAL_WEB_PORT',
       'NODE_HASURA_URL',
     ]),
+    // the below is enabled by default
+    // codeCoverage: {
+    //   url: `http://localhost:${process.env.LOCAL_WEB_PORT}/__coverage__`,
+    // },
   },
 });
