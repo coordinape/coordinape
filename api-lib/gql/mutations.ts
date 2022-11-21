@@ -237,8 +237,10 @@ export async function insertCircleWithAdmin(
     user_name: string;
     circle_name: string;
     organization_name?: string;
+    sampleOrg?: boolean;
   },
   userAddress: string,
+  userProfileId: number,
   coordinapeAddress: string,
   fileName: string | null
 ) {
@@ -278,6 +280,7 @@ export async function insertCircleWithAdmin(
     team_selection: true,
     only_giver_vouch: true,
     auto_opt_out: true,
+    // Return the newly generated user_id for current profile
   };
   let retVal;
   if (circleInput.organization_id) {
@@ -293,7 +296,21 @@ export async function insertCircleWithAdmin(
               logo: fileName,
             },
           },
-          circleReturn,
+          {
+            ...circleReturn,
+            users: [
+              {
+                where: {
+                  address: {
+                    _eq: userAddress,
+                  },
+                },
+              },
+              {
+                id: true,
+              },
+            ],
+          },
         ],
       },
       {
@@ -309,6 +326,8 @@ export async function insertCircleWithAdmin(
           {
             object: {
               name: circleInput.organization_name,
+              sample: circleInput.sampleOrg,
+              created_by: userProfileId,
               circles: {
                 data: [
                   {
@@ -324,7 +343,21 @@ export async function insertCircleWithAdmin(
           {
             circles: [
               { limit: 1, order_by: [{ id: order_by.desc }] },
-              circleReturn,
+              {
+                ...circleReturn,
+                users: [
+                  {
+                    where: {
+                      address: {
+                        _eq: userAddress,
+                      },
+                    },
+                  },
+                  {
+                    id: true,
+                  },
+                ],
+              },
             ],
           },
         ],

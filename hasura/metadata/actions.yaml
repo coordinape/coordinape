@@ -46,6 +46,15 @@ actions:
           value_from_env: HASURA_EVENT_SECRET
     permissions:
       - role: user
+  - name: createSampleCircle
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=createSampleCircle'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
   - name: createUser
     definition:
       kind: synchronous
@@ -140,6 +149,16 @@ actions:
     permissions:
       - role: user
     comment: Generates an API key for a circle
+  - name: linkDiscordUser
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=linkDiscordUser'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+    comment: allow authenticated users to link a discord account to their profile
   - name: logoutUser
     definition:
       kind: synchronous
@@ -308,6 +327,7 @@ custom_types:
     - name: DeleteContributionInput
     - name: UpdateContributionInput
     - name: MarkClaimedInput
+    - name: LinkDiscordUserInput
   objects:
     - name: CreateCircleResponse
       relationships:
@@ -483,5 +503,26 @@ custom_types:
           source: default
           type: object
     - name: MarkClaimedOutput
+    - name: LinkDiscordUserResponse
+      relationships:
+        - field_mapping:
+            id: id
+          name: linkDiscordUser_DiscordUser
+          remote_table:
+            name: users
+            schema: discord
+          source: default
+          type: object
+
+    - name: CreateSampleCircleResponse
+      relationships:
+        - field_mapping:
+            id: id
+          name: circle
+          remote_table:
+            name: circles
+            schema: public
+          source: default
+          type: object
   scalars:
     - name: timestamptz

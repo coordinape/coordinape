@@ -68,6 +68,8 @@ export const GiveDrawer = ({
     }
   );
 
+  const [showMarkdown, setShowMarkDown] = useState<boolean>(true);
+
   // note is the current state of the note
   const [note, setNote] = useState(gift.note);
 
@@ -89,6 +91,9 @@ export const GiveDrawer = ({
       // reset the need to save indicator so it doesnt say 'Changes Saved' when
       // it has already moved to 'Saved'.
 
+      if (!note || (note.length === 0 && showMarkdown)) {
+        setShowMarkDown(false);
+      }
       if (saveState == 'saved') {
         setNeedToSave(false);
       }
@@ -219,26 +224,73 @@ export const GiveDrawer = ({
           {/*  Giving Feedback in Web3*/}
           {/*</ApeInfoTooltip>*/}
         </Box>
-        <TextArea
-          autoSize
-          css={{
-            backgroundColor: 'white',
-            width: '100%',
-            mt: '$xs',
-            mb: '$md',
-            fontSize: '$medium',
-          }}
-          // eslint-disable-next-line jsx-a11y/no-autofocus
-          autoFocus={true}
-          value={note ?? ''}
-          onChange={e => noteChanged(e.target.value)}
-          placeholder="Say thanks or give constructive feedback."
-        />
+        {showMarkdown ? (
+          <Box
+            tabIndex={0}
+            css={{ borderRadius: '$3' }}
+            onClick={() => {
+              setShowMarkDown(false);
+            }}
+            onKeyDown={e => {
+              e.stopPropagation();
+              if (e.key === 'Enter' || e.key === ' ') {
+                setShowMarkDown(false);
+              }
+            }}
+          >
+            <MarkdownPreview source={note} />
+          </Box>
+        ) : (
+          <Box css={{ position: 'relative' }}>
+            <TextArea
+              autoSize
+              css={{
+                backgroundColor: 'white',
+                width: '100%',
+                mt: '$xs',
+                mb: '$md',
+                pb: '$xl',
+                fontSize: '$medium',
+                resize: 'vertical',
+                minHeight: 'calc($2xl * 2)',
+              }}
+              // eslint-disable-next-line jsx-a11y/no-autofocus
+              autoFocus={true}
+              value={note ?? ''}
+              onChange={e => noteChanged(e.target.value)}
+              onBlur={() => {
+                if (note && note?.length > 0) setShowMarkDown(true);
+              }}
+              onFocus={e => {
+                e.currentTarget.setSelectionRange(
+                  e.currentTarget.value.length,
+                  e.currentTarget.value.length
+                );
+              }}
+              placeholder="Say thanks or give constructive feedback."
+            />
+            <Text
+              inline
+              size="small"
+              color="secondary"
+              css={{
+                position: 'absolute',
+                right: '$sm',
+                bottom: '$sm',
+              }}
+            >
+              Markdown Supported
+            </Text>
+          </Box>
+        )}
+
         <Flex css={{ justifyContent: 'flex-end', mt: '$md' }}>
           <Button
             color="primary"
             disabled={selectedMemberIdx == totalMembers - 1}
             onClick={() => nextMember(true)}
+            // adding onMouseDown because the onBlur event on the markdown-ready textarea was preventing onClick
+            onMouseDown={() => nextMember(true)}
           >
             <Edit />
             Next

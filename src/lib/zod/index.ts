@@ -118,6 +118,7 @@ export const generateApiKeyInputSchema = z
     read_epochs: z.boolean().optional(),
     read_contributions: z.boolean().optional(),
     create_contributions: z.boolean().optional(),
+    read_discord: z.boolean().optional(),
   })
   .strict();
 
@@ -355,6 +356,12 @@ const IntIdString = z
   )
   .transform(val => Number.parseInt(val));
 
+export const linkDiscordInputSchema = z
+  .object({
+    discord_id: z.string(),
+  })
+  .strict();
+
 /*
   Hasura Auth Session Variables
 */
@@ -479,6 +486,19 @@ export function composeHasuraActionRequestBody<T extends z.ZodRawShape>(
     // for some reason, it's unsafe to transform the generic input
     // to strip away the outer object
     input: z.object({ payload: inputSchema }),
+    action: z.object({ name: z.string() }),
+    session_variables: z.union([
+      HasuraAdminSessionVariables,
+      HasuraUserSessionVariables,
+    ]),
+    request_query: z.string().optional(),
+  });
+}
+
+export function composeHasuraActionRequestBodyWithoutPayload() {
+  return z.object({
+    // for some reason, it's unsafe to transform the generic input
+    // to strip away the outer object
     action: z.object({ name: z.string() }),
     session_variables: z.union([
       HasuraAdminSessionVariables,

@@ -21,6 +21,7 @@ import {
   PopoverContent,
   Text,
   POPOVER_TIMEOUT,
+  MarkdownPreview,
 } from 'ui';
 
 export const QUERY_KEY_RECEIVE_INFO = 'getReceiveInfo';
@@ -64,6 +65,7 @@ export const ReceiveInfo = () => {
   return (
     <Popover open={mouseEnterPopover}>
       <PopoverTrigger
+        tabIndex={0}
         onKeyDown={e => {
           if (e.key === 'Enter' || e.key === ' ') {
             clearTimeout(timeoutId);
@@ -82,7 +84,7 @@ export const ReceiveInfo = () => {
           );
         }}
       >
-        <Button tabIndex={-1} size="small" color="surface">
+        <Button as="div" tabIndex={-1} size="small" color="surface">
           {!currentNonReceiver ? totalReceived : 0}{' '}
           {data?.myReceived?.token_name ?? 'GIVE'}
         </Button>
@@ -111,6 +113,11 @@ export const ReceiveInfo = () => {
         align="end"
         sideOffset={-38}
         alignOffset={-1}
+        css={{
+          maxHeight: '$smallScreen',
+          overflowY: 'scroll',
+          zIndex: 4,
+        }}
       >
         <Box
           css={{
@@ -183,9 +190,7 @@ export const ReceiveInfo = () => {
                     name={tokenGift.sender.name}
                   />
                   {tokenGift.gift_private?.note ? (
-                    <Text p as="p" size="small">
-                      {tokenGift.gift_private.note}
-                    </Text>
+                    <MarkdownPreview source={tokenGift.gift_private.note} />
                   ) : (
                     <Text color="neutral">-- Empty Note --</Text>
                   )}
