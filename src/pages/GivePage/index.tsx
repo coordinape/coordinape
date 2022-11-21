@@ -22,6 +22,7 @@ import { Box, Button, Flex, Modal, Panel, Text, Link } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 import { getPendingGiftsFrom } from '../AllocationPage/queries';
 import { FormInputField } from 'components';
+import { Edit3 } from 'icons/__generated';
 import { SaveState, SavingIndicator } from 'ui/SavingIndicator';
 
 import { EpochStatementDrawer } from './EpochStatementDrawer';
@@ -402,7 +403,7 @@ const GivePage = () => {
               flexWrap: 'wrap',
               gap: '$md',
               mb: '$md',
-              width: '50%',
+              width: '60%',
               '@sm': { width: '100%' },
             }}
           >
@@ -414,27 +415,26 @@ const GivePage = () => {
                   '@sm': { flexDirection: 'column', alignItems: 'start' },
                 }}
               >
-                <Text>
+                <Text p as="p">
                   {updatedAllocText
                     ? updatedAllocText
                     : circle?.alloc_text
                     ? circle?.alloc_text
                     : 'Reward & thank your teammates for their contributions'}
+                  {isAdmin && (
+                    <Link
+                      href="#"
+                      iconLink
+                      onClick={() => {
+                        setEditAllocHelpText(true);
+                      }}
+                      css={{ whiteSpace: 'nowrap', ml: '$sm' }}
+                    >
+                      <Edit3 />
+                      Edit
+                    </Link>
+                  )}
                 </Text>
-                {isAdmin && (
-                  <Button
-                    outlined
-                    color="primary"
-                    type="submit"
-                    size="small"
-                    onClick={() => {
-                      setEditAllocHelpText(true);
-                    }}
-                    css={{ whiteSpace: 'nowrap' }}
-                  >
-                    Edit Help Text
-                  </Button>
-                )}
               </Flex>
             ) : (
               <Flex

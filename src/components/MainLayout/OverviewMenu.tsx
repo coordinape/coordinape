@@ -58,7 +58,7 @@ export const OverviewMenu = ({
     : 'Overview';
   const overviewMenuTrigger = (
     <Text
-      css={navLinkStyle}
+      css={{ ...navLinkStyle, mr: 0 }}
       className={
         location.pathname === paths.circles ||
         location.pathname.includes('history') ||
@@ -86,7 +86,7 @@ export const OverviewMenu = ({
     <Popover open={mouseEnterPopover}>
       <PopoverTrigger
         tabIndex={0}
-        css={{ borderRadius: '$pill' }}
+        css={{ borderRadius: '$pill', mr: '$xs' }}
         ref={triggerRef}
         onKeyDown={e => {
           if (e.key === 'Enter' || e.key === ' ') {
