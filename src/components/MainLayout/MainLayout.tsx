@@ -1,6 +1,7 @@
 import { ReactElement, Suspense, useEffect, useState } from 'react';
 
 import { useWeb3React } from '@web3-react/core';
+import { dark } from 'stitches.config';
 
 import HelpButton from '../HelpButton';
 import {
@@ -26,6 +27,7 @@ export const MainLayout = () => {
 
   return (
     <Box
+      className={dark}
       css={{
         position: 'fixed',
         background: '$background',

@@ -274,6 +274,12 @@ export const {
   },
 });
 
+export const dark = createTheme({
+  colors: {
+    primary: 'orangered',
+  },
+});
+
 export const disabledStyle = {
   pointerEvents: 'none',
   opacity: 0.4,
