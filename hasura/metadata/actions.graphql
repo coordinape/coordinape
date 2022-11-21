@@ -226,6 +226,7 @@ input UpdateCircleInput {
   update_webhook: Boolean
   fixed_payment_token_type: String
   fixed_payment_vault_id: Int
+  show_pending_gives: Boolean
 }
 
 input UpdateEpochInput {

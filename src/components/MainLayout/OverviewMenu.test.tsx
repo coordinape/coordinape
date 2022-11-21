@@ -11,8 +11,18 @@ test('basic rendering', async () => {
         id: 1,
         name: 'Foo',
         circles: [
-          { id: 1, name: 'Circle A', users: [{ role: 1 }] },
-          { id: 2, name: 'Circle B', users: [{ role: 0 }] },
+          {
+            id: 1,
+            name: 'Circle A',
+            users: [{ role: 1 }],
+            show_pending_gives: true,
+          },
+          {
+            id: 2,
+            name: 'Circle B',
+            users: [{ role: 0 }],
+            show_pending_gives: true,
+          },
         ],
       },
     ],

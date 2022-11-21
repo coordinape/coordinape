@@ -394,6 +394,7 @@ input UpdateCircleInput {
   name: String
   nomination_days_limit: Int
   only_giver_vouch: Boolean
+  show_pending_gives: Boolean
   team_sel_text: String
   team_selection: Boolean
   token_name: String

@@ -31,6 +31,7 @@ export interface IApiCircle {
   organization: IProtocol;
   auto_opt_out: boolean;
   fixed_payment_token_type?: string;
+  show_pending_gives: boolean;
 }
 
 export interface ICircle extends IApiCircle {

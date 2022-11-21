@@ -294,6 +294,7 @@ export const updateCircleInput = z
     only_giver_vouch: z.boolean().optional(),
     team_sel_text: z.string().optional(),
     team_selection: z.boolean().optional(),
+    show_pending_gives: z.boolean().optional(),
     token_name: z
       .string()
       .max(255)

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import iti from 'itiriri';
 import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
+import { isUserAdmin } from 'lib/users';
 import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 
@@ -27,7 +28,7 @@ export const QUERY_KEY_RECEIVE_INFO = 'getReceiveInfo';
 
 export const ReceiveInfo = () => {
   const {
-    myUser: { id: userId },
+    myUser: { id: userId, role },
     circleId,
   } = useSelectedCircle();
 
@@ -58,7 +59,9 @@ export const ReceiveInfo = () => {
     setMouseEnterPopover(false);
   };
   let timeoutId: ReturnType<typeof setTimeout>;
-
+  const showGives =
+    data?.myReceived?.show_pending_gives || !data?.myReceived?.currentEpoch[0];
+  if (!(showGives || isUserAdmin({ role }))) return <></>;
   return (
     <Popover open={mouseEnterPopover}>
       <PopoverTrigger
@@ -212,6 +215,7 @@ const getReceiveInfo = async (circleId: number, userId: number) => {
             { id: circleId },
             {
               token_name: true,
+              show_pending_gives: true,
               __alias: {
                 currentEpoch: {
                   epochs: [
