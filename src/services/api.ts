@@ -17,7 +17,6 @@ export class APIService {
   }
 
   setProvider(provider?: Web3Provider) {
-    // TODO: this provider doesn't update on networkChanged events
     this.provider = provider;
   }
 
@@ -42,13 +41,15 @@ export class APIService {
       time = Date.now();
     }
 
+    const network = await this.provider?.getNetwork();
+
     const message = new SiweMessage({
       domain: window.location.host,
       address,
       statement: 'Coordinape wants to Sign-In With Ethereum',
       uri: window.location.origin,
       version: '1',
-      chainId: this.provider?.network.chainId,
+      chainId: network?.chainId || 1,
       nonce,
       notBefore: new Date(time).toISOString(),
       expirationTime: new Date(time + SIWE_EXPIRES_AFTER).toISOString(),

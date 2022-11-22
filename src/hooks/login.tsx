@@ -56,6 +56,7 @@ export const useWalletStatus = () => {
 export type WalletStatus = {
   icon: JSX.Element | null;
   address: string | undefined;
+  chainName: string | undefined;
   logout: () => void;
 };
 

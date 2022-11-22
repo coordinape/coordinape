@@ -4,7 +4,6 @@ import { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React } from '@web3-react/core';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { loginSupportedChainIds } from 'common-lib/constants';
-import { switchNetwork } from 'lib/web3-helpers';
 import { concat } from 'lodash';
 
 import {
@@ -15,19 +14,12 @@ import {
 } from '@material-ui/core';
 
 import { Box, Button, Text, Flex, HR, Select } from '../ui';
-import { WALLET_ICONS } from 'config/constants';
+import { EConnectorNames, WALLET_ICONS } from 'config/constants';
 import { useApeSnackbar } from 'hooks';
 import { useWalletAuth } from 'recoilState/app';
 import { connectors } from 'utils/connectors';
 import { AUTO_OPEN_WALLET_DIALOG_PARAMS } from 'utils/domain';
-
-// TODO: why does this error?
-// import { EConnectorNames } from 'types';
-enum EConnectorNames {
-  Injected = 'injected',
-  WalletConnect = 'walletconnect',
-  WalletLink = 'walletlink',
-}
+import { switchNetwork } from 'utils/provider';
 
 const useStyles = makeStyles(() => ({
   modal: {
@@ -61,16 +53,14 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
 
   const getInitialChain = async (ethereum: any) => {
     if (ethereum) {
-      // convert hex to decimal
-      const chainId = parseInt(
-        await new Web3Provider(ethereum).send('eth_chainId', []),
-        16
-      ).toString();
-      updateChain(chainId);
+      updateChain(await new Web3Provider(ethereum).send('eth_chainId', []));
     }
   };
 
-  const updateChain = (chainId: string) => {
+  const updateChain = (chainIdHex: string) => {
+    // convert hex chainId to decimal
+    const chainId = parseInt(chainIdHex, 16).toString();
+
     if (supportedChains.find(obj => obj.value == chainId)) {
       setDefaultChain(chainId);
     } else {
@@ -92,16 +82,19 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
     setIsMetamaskEnabled(metamaskEnabled);
 
     const ethereum = (window as any).ethereum;
+    getInitialChain(ethereum);
 
-    if (metamaskEnabled && ethereum && ethereum.on) {
-      if (ethereum.isMetaMask) {
-        //
-        ethereum.removeAllListeners?.(['chainChanged']);
-        ethereum.on?.('chainChanged', (chain: string) => {
-          updateChain(chain);
-        });
-      }
-      getInitialChain(ethereum);
+    if (ethereum) {
+      // The "any" network will allow spontaneous network changes
+      const provider = new Web3Provider(ethereum, 'any');
+      provider.on('network', (_, oldNetwork) => {
+        // When a Provider makes its initial connection, it emits a "network"
+        // event with a null oldNetwork along with the newNetwork. So, if the
+        // oldNetwork exists, it represents a changing network
+        if (oldNetwork) {
+          window.location.reload();
+        }
+      });
     }
   }, []);
 
@@ -128,17 +121,6 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
 
     try {
       await web3Context.activate(newConnector, () => {}, true);
-
-      // workaround to disable listening for a deprecated event that sends the
-      // wrong network ID
-      // https://github.com/NoahZinsmeister/web3-react/issues/257#issuecomment-904070725
-      const ethereum = (window as any).ethereum;
-      if (ethereum?.isMetaMask) {
-        await ethereum?.off('chainChanged');
-        ethereum.on('chainChanged', () => {
-          (window as any).location.reload();
-        });
-      }
     } catch (error: any) {
       if (error.message.match(/Unsupported chain id/)) {
         showInfo('Switch to a supported network to continue.');

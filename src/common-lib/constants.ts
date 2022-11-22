@@ -17,6 +17,7 @@ let chains: { [key: number]: string } = {
   42220: 'Celo Mainnet',
   42161: 'Arbitrum One',
   43114: 'Avalanche C-Chain',
+  1313161554: 'Aurora Mainnet',
 };
 if (IN_DEVELOPMENT) {
   chains = {
