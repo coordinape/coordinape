@@ -700,6 +700,11 @@ export type ValueTypes = {
     nominee?: ValueTypes['nominees'];
     __typename?: boolean | `@${string}`;
   }>;
+  ['CreateSampleCircleResponse']: AliasType<{
+    circle?: ValueTypes['circles'];
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['CreateUserInput']: {
     address: string;
     circle_id: number;
@@ -751,9 +756,12 @@ export type ValueTypes = {
   }>;
   ['GenerateApiKeyInput']: {
     circle_id: number;
+    create_contributions?: boolean | undefined | null;
     create_vouches?: boolean | undefined | null;
     name: string;
     read_circle?: boolean | undefined | null;
+    read_contributions?: boolean | undefined | null;
+    read_discord?: boolean | undefined | null;
     read_epochs?: boolean | undefined | null;
     read_member_profiles?: boolean | undefined | null;
     read_nominees?: boolean | undefined | null;
@@ -779,6 +787,14 @@ export type ValueTypes = {
     _neq?: number | undefined | null;
     _nin?: Array<number> | undefined | null;
   };
+  ['LinkDiscordUserInput']: {
+    discord_id: string;
+  };
+  ['LinkDiscordUserResponse']: AliasType<{
+    id?: boolean | `@${string}`;
+    linkDiscordUser_DiscordUser?: ValueTypes['discord_users'];
+    __typename?: boolean | `@${string}`;
+  }>;
   ['LogVaultTxInput']: {
     amount?: number | undefined | null;
     circle_id?: number | undefined | null;
@@ -851,6 +867,7 @@ export type ValueTypes = {
     name?: string | undefined | null;
     nomination_days_limit?: number | undefined | null;
     only_giver_vouch?: boolean | undefined | null;
+    show_pending_gives?: boolean | undefined | null;
     team_sel_text?: string | undefined | null;
     team_selection?: boolean | undefined | null;
     token_name?: string | undefined | null;
@@ -2921,6 +2938,166 @@ export type ValueTypes = {
     _neq?: ValueTypes['date'] | undefined | null;
     _nin?: Array<ValueTypes['date']> | undefined | null;
   };
+  /** link a discord role to a circle  to control membership of the circle */
+  ['discord_roles_circles']: AliasType<{
+    /** An object relationship */
+    circle?: ValueTypes['circles'];
+    circle_id?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    role?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "discord.roles_circles". All fields are combined with a logical 'AND'. */
+  ['discord_roles_circles_bool_exp']: {
+    _and?:
+      | Array<ValueTypes['discord_roles_circles_bool_exp']>
+      | undefined
+      | null;
+    _not?: ValueTypes['discord_roles_circles_bool_exp'] | undefined | null;
+    _or?:
+      | Array<ValueTypes['discord_roles_circles_bool_exp']>
+      | undefined
+      | null;
+    circle?: ValueTypes['circles_bool_exp'] | undefined | null;
+    circle_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    role?: ValueTypes['String_comparison_exp'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+  };
+  /** response of any mutation on the table "discord.roles_circles" */
+  ['discord_roles_circles_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['discord_roles_circles'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Ordering options when selecting data from "discord.roles_circles". */
+  ['discord_roles_circles_order_by']: {
+    circle?: ValueTypes['circles_order_by'] | undefined | null;
+    circle_id?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    role?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** primary key columns input for table: discord.roles_circles */
+  ['discord_roles_circles_pk_columns_input']: {
+    id: ValueTypes['bigint'];
+  };
+  /** select columns of table "discord.roles_circles" */
+  ['discord_roles_circles_select_column']: discord_roles_circles_select_column;
+  /** input type for updating data in table "discord.roles_circles" */
+  ['discord_roles_circles_set_input']: {
+    role?: string | undefined | null;
+  };
+  /** Streaming cursor of the table "discord_roles_circles" */
+  ['discord_roles_circles_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['discord_roles_circles_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['discord_roles_circles_stream_cursor_value_input']: {
+    circle_id?: ValueTypes['bigint'] | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    role?: string | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+  };
+  ['discord_roles_circles_updates']: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ValueTypes['discord_roles_circles_set_input'] | undefined | null;
+    where: ValueTypes['discord_roles_circles_bool_exp'];
+  };
+  /** link discord user ids to coordinape profiles 1:1 */
+  ['discord_users']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
+    profile_id?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    user_snowflake?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "discord.users". All fields are combined with a logical 'AND'. */
+  ['discord_users_bool_exp']: {
+    _and?: Array<ValueTypes['discord_users_bool_exp']> | undefined | null;
+    _not?: ValueTypes['discord_users_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['discord_users_bool_exp']> | undefined | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
+    profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    user_snowflake?: ValueTypes['String_comparison_exp'] | undefined | null;
+  };
+  /** unique or primary key constraints on table "discord.users" */
+  ['discord_users_constraint']: discord_users_constraint;
+  /** input type for inserting data into table "discord.users" */
+  ['discord_users_insert_input']: {
+    user_snowflake?: string | undefined | null;
+  };
+  /** response of any mutation on the table "discord.users" */
+  ['discord_users_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['discord_users'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** on_conflict condition type for table "discord.users" */
+  ['discord_users_on_conflict']: {
+    constraint: ValueTypes['discord_users_constraint'];
+    update_columns: Array<ValueTypes['discord_users_update_column']>;
+    where?: ValueTypes['discord_users_bool_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "discord.users". */
+  ['discord_users_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+    user_snowflake?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** primary key columns input for table: discord.users */
+  ['discord_users_pk_columns_input']: {
+    id: ValueTypes['bigint'];
+  };
+  /** select columns of table "discord.users" */
+  ['discord_users_select_column']: discord_users_select_column;
+  /** input type for updating data in table "discord.users" */
+  ['discord_users_set_input']: {
+    user_snowflake?: string | undefined | null;
+  };
+  /** Streaming cursor of the table "discord_users" */
+  ['discord_users_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['discord_users_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['discord_users_stream_cursor_value_input']: {
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+    user_snowflake?: string | undefined | null;
+  };
+  /** update columns of table "discord.users" */
+  ['discord_users_update_column']: discord_users_update_column;
+  ['discord_users_updates']: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ValueTypes['discord_users_set_input'] | undefined | null;
+    where: ValueTypes['discord_users_bool_exp'];
+  };
   /** Vault Distributions */
   ['distributions']: AliasType<{
     claims?: [
@@ -3948,6 +4125,7 @@ export type ValueTypes = {
       { payload: ValueTypes['CreateNomineeInput'] },
       ValueTypes['CreateNomineeResponse']
     ];
+    createSampleCircle?: ValueTypes['CreateSampleCircleResponse'];
     createUser?: [
       { payload: ValueTypes['CreateUserInput'] },
       ValueTypes['UserResponse']
@@ -4016,6 +4194,17 @@ export type ValueTypes = {
     delete_circle_share_tokens_by_pk?: [
       { circle_id: ValueTypes['bigint']; type: number },
       ValueTypes['circle_share_tokens']
+    ];
+    delete_discord_users?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['discord_users_bool_exp'];
+      },
+      ValueTypes['discord_users_mutation_response']
+    ];
+    delete_discord_users_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['discord_users']
     ];
     delete_pending_vault_transactions?: [
       {
@@ -4122,6 +4311,30 @@ export type ValueTypes = {
       },
       ValueTypes['contributions']
     ];
+    insert_discord_users?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ValueTypes['discord_users_insert_input']
+        > /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['discord_users_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['discord_users_mutation_response']
+    ];
+    insert_discord_users_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['discord_users_insert_input'] /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['discord_users_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['discord_users']
+    ];
     insert_distributions?: [
       {
         /** the rows to be inserted */
@@ -4169,6 +4382,10 @@ export type ValueTypes = {
           | null;
       },
       ValueTypes['pending_vault_transactions']
+    ];
+    linkDiscordUser?: [
+      { payload: ValueTypes['LinkDiscordUserInput'] },
+      ValueTypes['LinkDiscordUserResponse']
     ];
     logoutUser?: ValueTypes['LogoutResponse'];
     markClaimed?: [
@@ -4228,6 +4445,58 @@ export type ValueTypes = {
         updates: Array<ValueTypes['claims_updates']>;
       },
       ValueTypes['claims_mutation_response']
+    ];
+    update_discord_roles_circles?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?:
+          | ValueTypes['discord_roles_circles_set_input']
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['discord_roles_circles_bool_exp'];
+      },
+      ValueTypes['discord_roles_circles_mutation_response']
+    ];
+    update_discord_roles_circles_by_pk?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?: ValueTypes['discord_roles_circles_set_input'] | undefined | null;
+        pk_columns: ValueTypes['discord_roles_circles_pk_columns_input'];
+      },
+      ValueTypes['discord_roles_circles']
+    ];
+    update_discord_roles_circles_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes['discord_roles_circles_updates']>;
+      },
+      ValueTypes['discord_roles_circles_mutation_response']
+    ];
+    update_discord_users?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?:
+          | ValueTypes['discord_users_set_input']
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['discord_users_bool_exp'];
+      },
+      ValueTypes['discord_users_mutation_response']
+    ];
+    update_discord_users_by_pk?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?: ValueTypes['discord_users_set_input'] | undefined | null;
+        pk_columns: ValueTypes['discord_users_pk_columns_input'];
+      },
+      ValueTypes['discord_users']
+    ];
+    update_discord_users_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes['discord_users_updates']>;
+      },
+      ValueTypes['discord_users_mutation_response']
     ];
     update_distributions?: [
       {
@@ -4737,9 +5006,14 @@ export type ValueTypes = {
       ValueTypes['circles']
     ];
     created_at?: boolean | `@${string}`;
+    created_by?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     logo?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
+    /** Indicates a test/sample/sandbox org */
+    sample?: boolean | `@${string}`;
     telegram_id?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     vaults?: [
@@ -4774,9 +5048,12 @@ export type ValueTypes = {
     _or?: Array<ValueTypes['organizations_bool_exp']> | undefined | null;
     circles?: ValueTypes['circles_bool_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+    created_by?: ValueTypes['Int_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     logo?: ValueTypes['String_comparison_exp'] | undefined | null;
     name?: ValueTypes['String_comparison_exp'] | undefined | null;
+    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
+    sample?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     telegram_id?: ValueTypes['String_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     vaults?: ValueTypes['vaults_bool_exp'] | undefined | null;
@@ -4796,9 +5073,12 @@ export type ValueTypes = {
       | undefined
       | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    created_by?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     logo?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_order_by'] | undefined | null;
+    sample?: ValueTypes['order_by'] | undefined | null;
     telegram_id?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     vaults_aggregate?:
@@ -4827,9 +5107,12 @@ export type ValueTypes = {
   /** Initial value of the column from where the streaming should start */
   ['organizations_stream_cursor_value_input']: {
     created_at?: ValueTypes['timestamp'] | undefined | null;
+    created_by?: number | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     logo?: string | undefined | null;
     name?: string | undefined | null;
+    /** Indicates a test/sample/sandbox org */
+    sample?: boolean | undefined | null;
     telegram_id?: string | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
   };
@@ -5779,6 +6062,60 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['contributions']
     ];
+    discord_roles_circles?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['discord_roles_circles_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['discord_roles_circles_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['discord_roles_circles_bool_exp'] | undefined | null;
+      },
+      ValueTypes['discord_roles_circles']
+    ];
+    discord_roles_circles_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['discord_roles_circles']
+    ];
+    discord_users?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['discord_users_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['discord_users_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['discord_users_bool_exp'] | undefined | null;
+      },
+      ValueTypes['discord_users']
+    ];
+    discord_users_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['discord_users']
+    ];
     distributions?: [
       {
         /** distinct select on columns */
@@ -6029,6 +6366,10 @@ export type ValueTypes = {
     pending_vault_transactions_by_pk?: [
       { tx_hash: string },
       ValueTypes['pending_vault_transactions']
+    ];
+    price_per_share?: [
+      { chain_id: number; token_address?: string | undefined | null },
+      boolean | `@${string}`
     ];
     profiles?: [
       {
@@ -6637,6 +6978,84 @@ export type ValueTypes = {
         where?: ValueTypes['contributions_bool_exp'] | undefined | null;
       },
       ValueTypes['contributions']
+    ];
+    discord_roles_circles?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['discord_roles_circles_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['discord_roles_circles_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['discord_roles_circles_bool_exp'] | undefined | null;
+      },
+      ValueTypes['discord_roles_circles']
+    ];
+    discord_roles_circles_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['discord_roles_circles']
+    ];
+    discord_roles_circles_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          | ValueTypes['discord_roles_circles_stream_cursor_input']
+          | undefined
+          | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['discord_roles_circles_bool_exp'] | undefined | null;
+      },
+      ValueTypes['discord_roles_circles']
+    ];
+    discord_users?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['discord_users_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['discord_users_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['discord_users_bool_exp'] | undefined | null;
+      },
+      ValueTypes['discord_users']
+    ];
+    discord_users_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['discord_users']
+    ];
+    discord_users_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['discord_users_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['discord_users_bool_exp'] | undefined | null;
+      },
+      ValueTypes['discord_users']
     ];
     distributions?: [
       {
@@ -7516,7 +7935,7 @@ export type ValueTypes = {
     _neq?: ValueTypes['timestamptz'] | undefined | null;
     _nin?: Array<ValueTypes['timestamptz']> | undefined | null;
   };
-  /** GIVE allocations made by circle members for past epochs */
+  /** GIVE allocations made by circle members for completed epochs */
   ['token_gifts']: AliasType<{
     /** An object relationship */
     circle?: ValueTypes['circles'];
@@ -8896,6 +9315,7 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     /** An object relationship */
     organization?: ValueTypes['organizations'];
+    price_per_share?: boolean | `@${string}`;
     /** An object relationship */
     profile?: ValueTypes['profiles'];
     simple_token_address?: boolean | `@${string}`;
@@ -9272,6 +9692,10 @@ export type ModelTypes = {
     id?: number | undefined;
     nominee?: GraphQLTypes['nominees'] | undefined;
   };
+  ['CreateSampleCircleResponse']: {
+    circle?: GraphQLTypes['circles'] | undefined;
+    id: number;
+  };
   ['CreateUserInput']: GraphQLTypes['CreateUserInput'];
   ['CreateUserWithTokenInput']: GraphQLTypes['CreateUserWithTokenInput'];
   ['CreateUsersInput']: GraphQLTypes['CreateUsersInput'];
@@ -9295,6 +9719,11 @@ export type ModelTypes = {
   };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: GraphQLTypes['Int_comparison_exp'];
+  ['LinkDiscordUserInput']: GraphQLTypes['LinkDiscordUserInput'];
+  ['LinkDiscordUserResponse']: {
+    id: number;
+    linkDiscordUser_DiscordUser?: GraphQLTypes['discord_users'] | undefined;
+  };
   ['LogVaultTxInput']: GraphQLTypes['LogVaultTxInput'];
   ['LogVaultTxResponse']: {
     id: string;
@@ -10015,6 +10444,78 @@ export type ModelTypes = {
   ['date']: any;
   /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
   ['date_comparison_exp']: GraphQLTypes['date_comparison_exp'];
+  /** link a discord role to a circle  to control membership of the circle */
+  ['discord_roles_circles']: {
+    /** An object relationship */
+    circle: GraphQLTypes['circles'];
+    circle_id: GraphQLTypes['bigint'];
+    created_at: GraphQLTypes['timestamptz'];
+    id: GraphQLTypes['bigint'];
+    role: string;
+    updated_at: GraphQLTypes['timestamptz'];
+  };
+  /** Boolean expression to filter rows from the table "discord.roles_circles". All fields are combined with a logical 'AND'. */
+  ['discord_roles_circles_bool_exp']: GraphQLTypes['discord_roles_circles_bool_exp'];
+  /** response of any mutation on the table "discord.roles_circles" */
+  ['discord_roles_circles_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['discord_roles_circles']>;
+  };
+  /** Ordering options when selecting data from "discord.roles_circles". */
+  ['discord_roles_circles_order_by']: GraphQLTypes['discord_roles_circles_order_by'];
+  /** primary key columns input for table: discord.roles_circles */
+  ['discord_roles_circles_pk_columns_input']: GraphQLTypes['discord_roles_circles_pk_columns_input'];
+  /** select columns of table "discord.roles_circles" */
+  ['discord_roles_circles_select_column']: GraphQLTypes['discord_roles_circles_select_column'];
+  /** input type for updating data in table "discord.roles_circles" */
+  ['discord_roles_circles_set_input']: GraphQLTypes['discord_roles_circles_set_input'];
+  /** Streaming cursor of the table "discord_roles_circles" */
+  ['discord_roles_circles_stream_cursor_input']: GraphQLTypes['discord_roles_circles_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['discord_roles_circles_stream_cursor_value_input']: GraphQLTypes['discord_roles_circles_stream_cursor_value_input'];
+  ['discord_roles_circles_updates']: GraphQLTypes['discord_roles_circles_updates'];
+  /** link discord user ids to coordinape profiles 1:1 */
+  ['discord_users']: {
+    created_at: GraphQLTypes['timestamptz'];
+    id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+    profile_id: GraphQLTypes['bigint'];
+    updated_at: GraphQLTypes['timestamptz'];
+    user_snowflake: string;
+  };
+  /** Boolean expression to filter rows from the table "discord.users". All fields are combined with a logical 'AND'. */
+  ['discord_users_bool_exp']: GraphQLTypes['discord_users_bool_exp'];
+  /** unique or primary key constraints on table "discord.users" */
+  ['discord_users_constraint']: GraphQLTypes['discord_users_constraint'];
+  /** input type for inserting data into table "discord.users" */
+  ['discord_users_insert_input']: GraphQLTypes['discord_users_insert_input'];
+  /** response of any mutation on the table "discord.users" */
+  ['discord_users_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['discord_users']>;
+  };
+  /** on_conflict condition type for table "discord.users" */
+  ['discord_users_on_conflict']: GraphQLTypes['discord_users_on_conflict'];
+  /** Ordering options when selecting data from "discord.users". */
+  ['discord_users_order_by']: GraphQLTypes['discord_users_order_by'];
+  /** primary key columns input for table: discord.users */
+  ['discord_users_pk_columns_input']: GraphQLTypes['discord_users_pk_columns_input'];
+  /** select columns of table "discord.users" */
+  ['discord_users_select_column']: GraphQLTypes['discord_users_select_column'];
+  /** input type for updating data in table "discord.users" */
+  ['discord_users_set_input']: GraphQLTypes['discord_users_set_input'];
+  /** Streaming cursor of the table "discord_users" */
+  ['discord_users_stream_cursor_input']: GraphQLTypes['discord_users_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['discord_users_stream_cursor_value_input']: GraphQLTypes['discord_users_stream_cursor_value_input'];
+  /** update columns of table "discord.users" */
+  ['discord_users_update_column']: GraphQLTypes['discord_users_update_column'];
+  ['discord_users_updates']: GraphQLTypes['discord_users_updates'];
   /** Vault Distributions */
   ['distributions']: {
     /** An array relationship */
@@ -10336,6 +10837,7 @@ export type ModelTypes = {
     createCircle?: GraphQLTypes['CreateCircleResponse'] | undefined;
     createEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     createNominee?: GraphQLTypes['CreateNomineeResponse'] | undefined;
+    createSampleCircle?: GraphQLTypes['CreateSampleCircleResponse'] | undefined;
     createUser?: GraphQLTypes['UserResponse'] | undefined;
     createUserWithToken?: GraphQLTypes['UserResponse'] | undefined;
     createUsers?: Array<GraphQLTypes['UserResponse'] | undefined> | undefined;
@@ -10368,6 +10870,12 @@ export type ModelTypes = {
     delete_circle_share_tokens_by_pk?:
       | GraphQLTypes['circle_share_tokens']
       | undefined;
+    /** delete data from the table: "discord.users" */
+    delete_discord_users?:
+      | GraphQLTypes['discord_users_mutation_response']
+      | undefined;
+    /** delete single row from the table: "discord.users" */
+    delete_discord_users_by_pk?: GraphQLTypes['discord_users'] | undefined;
     /** delete data from the table: "pending_vault_transactions" */
     delete_pending_vault_transactions?:
       | GraphQLTypes['pending_vault_transactions_mutation_response']
@@ -10404,6 +10912,12 @@ export type ModelTypes = {
       | undefined;
     /** insert a single row into the table: "contributions" */
     insert_contributions_one?: GraphQLTypes['contributions'] | undefined;
+    /** insert data into the table: "discord.users" */
+    insert_discord_users?:
+      | GraphQLTypes['discord_users_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "discord.users" */
+    insert_discord_users_one?: GraphQLTypes['discord_users'] | undefined;
     /** insert data into the table: "distributions" */
     insert_distributions?:
       | GraphQLTypes['distributions_mutation_response']
@@ -10418,6 +10932,8 @@ export type ModelTypes = {
     insert_pending_vault_transactions_one?:
       | GraphQLTypes['pending_vault_transactions']
       | undefined;
+    /** allow authenticated users to link a discord account to their profile */
+    linkDiscordUser?: GraphQLTypes['LinkDiscordUserResponse'] | undefined;
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
     markClaimed?: GraphQLTypes['MarkClaimedOutput'] | undefined;
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
@@ -10436,6 +10952,30 @@ export type ModelTypes = {
     /** update multiples rows of table: "claims" */
     update_claims_many?:
       | Array<GraphQLTypes['claims_mutation_response'] | undefined>
+      | undefined;
+    /** update data of the table: "discord.roles_circles" */
+    update_discord_roles_circles?:
+      | GraphQLTypes['discord_roles_circles_mutation_response']
+      | undefined;
+    /** update single row of the table: "discord.roles_circles" */
+    update_discord_roles_circles_by_pk?:
+      | GraphQLTypes['discord_roles_circles']
+      | undefined;
+    /** update multiples rows of table: "discord.roles_circles" */
+    update_discord_roles_circles_many?:
+      | Array<
+          GraphQLTypes['discord_roles_circles_mutation_response'] | undefined
+        >
+      | undefined;
+    /** update data of the table: "discord.users" */
+    update_discord_users?:
+      | GraphQLTypes['discord_users_mutation_response']
+      | undefined;
+    /** update single row of the table: "discord.users" */
+    update_discord_users_by_pk?: GraphQLTypes['discord_users'] | undefined;
+    /** update multiples rows of table: "discord.users" */
+    update_discord_users_many?:
+      | Array<GraphQLTypes['discord_users_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "distributions" */
     update_distributions?:
@@ -10650,9 +11190,14 @@ export type ModelTypes = {
     /** An array relationship */
     circles: Array<GraphQLTypes['circles']>;
     created_at: GraphQLTypes['timestamp'];
+    created_by?: number | undefined;
     id: GraphQLTypes['bigint'];
     logo?: string | undefined;
     name: string;
+    /** An object relationship */
+    profile?: GraphQLTypes['profiles'] | undefined;
+    /** Indicates a test/sample/sandbox org */
+    sample: boolean;
     telegram_id?: string | undefined;
     updated_at: GraphQLTypes['timestamp'];
     /** An array relationship */
@@ -10889,6 +11434,16 @@ export type ModelTypes = {
     contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     /** fetch data from the table: "contributions" using primary key columns */
     contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
+    /** fetch data from the table: "discord.roles_circles" */
+    discord_roles_circles: Array<GraphQLTypes['discord_roles_circles']>;
+    /** fetch data from the table: "discord.roles_circles" using primary key columns */
+    discord_roles_circles_by_pk?:
+      | GraphQLTypes['discord_roles_circles']
+      | undefined;
+    /** fetch data from the table: "discord.users" */
+    discord_users: Array<GraphQLTypes['discord_users']>;
+    /** fetch data from the table: "discord.users" using primary key columns */
+    discord_users_by_pk?: GraphQLTypes['discord_users'] | undefined;
     /** An array relationship */
     distributions: Array<GraphQLTypes['distributions']>;
     /** An aggregate relationship */
@@ -10925,6 +11480,7 @@ export type ModelTypes = {
     pending_vault_transactions_by_pk?:
       | GraphQLTypes['pending_vault_transactions']
       | undefined;
+    price_per_share: number;
     /** fetch data from the table: "profiles" */
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch data from the table: "profiles" using primary key columns */
@@ -11015,6 +11571,20 @@ export type ModelTypes = {
     contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
     /** fetch data from the table in a streaming manner : "contributions" */
     contributions_stream: Array<GraphQLTypes['contributions']>;
+    /** fetch data from the table: "discord.roles_circles" */
+    discord_roles_circles: Array<GraphQLTypes['discord_roles_circles']>;
+    /** fetch data from the table: "discord.roles_circles" using primary key columns */
+    discord_roles_circles_by_pk?:
+      | GraphQLTypes['discord_roles_circles']
+      | undefined;
+    /** fetch data from the table in a streaming manner : "discord.roles_circles" */
+    discord_roles_circles_stream: Array<GraphQLTypes['discord_roles_circles']>;
+    /** fetch data from the table: "discord.users" */
+    discord_users: Array<GraphQLTypes['discord_users']>;
+    /** fetch data from the table: "discord.users" using primary key columns */
+    discord_users_by_pk?: GraphQLTypes['discord_users'] | undefined;
+    /** fetch data from the table in a streaming manner : "discord.users" */
+    discord_users_stream: Array<GraphQLTypes['discord_users']>;
     /** An array relationship */
     distributions: Array<GraphQLTypes['distributions']>;
     /** An aggregate relationship */
@@ -11176,7 +11746,7 @@ export type ModelTypes = {
   ['timestamptz']: any;
   /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
   ['timestamptz_comparison_exp']: GraphQLTypes['timestamptz_comparison_exp'];
-  /** GIVE allocations made by circle members for past epochs */
+  /** GIVE allocations made by circle members for completed epochs */
   ['token_gifts']: {
     /** An object relationship */
     circle: GraphQLTypes['circles'];
@@ -11614,6 +12184,7 @@ export type ModelTypes = {
     id: GraphQLTypes['bigint'];
     /** An object relationship */
     organization: GraphQLTypes['organizations'];
+    price_per_share: number;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     simple_token_address: string;
@@ -11794,6 +12365,11 @@ export type GraphQLTypes = {
     id?: number | undefined;
     nominee?: GraphQLTypes['nominees'] | undefined;
   };
+  ['CreateSampleCircleResponse']: {
+    __typename: 'CreateSampleCircleResponse';
+    circle?: GraphQLTypes['circles'] | undefined;
+    id: number;
+  };
   ['CreateUserInput']: {
     address: string;
     circle_id: number;
@@ -11845,9 +12421,12 @@ export type GraphQLTypes = {
   };
   ['GenerateApiKeyInput']: {
     circle_id: number;
+    create_contributions?: boolean | undefined;
     create_vouches?: boolean | undefined;
     name: string;
     read_circle?: boolean | undefined;
+    read_contributions?: boolean | undefined;
+    read_discord?: boolean | undefined;
     read_epochs?: boolean | undefined;
     read_member_profiles?: boolean | undefined;
     read_nominees?: boolean | undefined;
@@ -11872,6 +12451,14 @@ export type GraphQLTypes = {
     _lte?: number | undefined;
     _neq?: number | undefined;
     _nin?: Array<number> | undefined;
+  };
+  ['LinkDiscordUserInput']: {
+    discord_id: string;
+  };
+  ['LinkDiscordUserResponse']: {
+    __typename: 'LinkDiscordUserResponse';
+    id: number;
+    linkDiscordUser_DiscordUser?: GraphQLTypes['discord_users'] | undefined;
   };
   ['LogVaultTxInput']: {
     amount?: number | undefined;
@@ -11945,6 +12532,7 @@ export type GraphQLTypes = {
     name?: string | undefined;
     nomination_days_limit?: number | undefined;
     only_giver_vouch?: boolean | undefined;
+    show_pending_gives?: boolean | undefined;
     team_sel_text?: string | undefined;
     team_selection?: boolean | undefined;
     token_name?: string | undefined;
@@ -13656,6 +14244,160 @@ export type GraphQLTypes = {
     _neq?: GraphQLTypes['date'] | undefined;
     _nin?: Array<GraphQLTypes['date']> | undefined;
   };
+  /** link a discord role to a circle  to control membership of the circle */
+  ['discord_roles_circles']: {
+    __typename: 'discord_roles_circles';
+    /** An object relationship */
+    circle: GraphQLTypes['circles'];
+    circle_id: GraphQLTypes['bigint'];
+    created_at: GraphQLTypes['timestamptz'];
+    id: GraphQLTypes['bigint'];
+    role: string;
+    updated_at: GraphQLTypes['timestamptz'];
+  };
+  /** Boolean expression to filter rows from the table "discord.roles_circles". All fields are combined with a logical 'AND'. */
+  ['discord_roles_circles_bool_exp']: {
+    _and?: Array<GraphQLTypes['discord_roles_circles_bool_exp']> | undefined;
+    _not?: GraphQLTypes['discord_roles_circles_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['discord_roles_circles_bool_exp']> | undefined;
+    circle?: GraphQLTypes['circles_bool_exp'] | undefined;
+    circle_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    role?: GraphQLTypes['String_comparison_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+  };
+  /** response of any mutation on the table "discord.roles_circles" */
+  ['discord_roles_circles_mutation_response']: {
+    __typename: 'discord_roles_circles_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['discord_roles_circles']>;
+  };
+  /** Ordering options when selecting data from "discord.roles_circles". */
+  ['discord_roles_circles_order_by']: {
+    circle?: GraphQLTypes['circles_order_by'] | undefined;
+    circle_id?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    role?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** primary key columns input for table: discord.roles_circles */
+  ['discord_roles_circles_pk_columns_input']: {
+    id: GraphQLTypes['bigint'];
+  };
+  /** select columns of table "discord.roles_circles" */
+  ['discord_roles_circles_select_column']: discord_roles_circles_select_column;
+  /** input type for updating data in table "discord.roles_circles" */
+  ['discord_roles_circles_set_input']: {
+    role?: string | undefined;
+  };
+  /** Streaming cursor of the table "discord_roles_circles" */
+  ['discord_roles_circles_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['discord_roles_circles_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['discord_roles_circles_stream_cursor_value_input']: {
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    role?: string | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  ['discord_roles_circles_updates']: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes['discord_roles_circles_set_input'] | undefined;
+    where: GraphQLTypes['discord_roles_circles_bool_exp'];
+  };
+  /** link discord user ids to coordinape profiles 1:1 */
+  ['discord_users']: {
+    __typename: 'discord_users';
+    created_at: GraphQLTypes['timestamptz'];
+    id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+    profile_id: GraphQLTypes['bigint'];
+    updated_at: GraphQLTypes['timestamptz'];
+    user_snowflake: string;
+  };
+  /** Boolean expression to filter rows from the table "discord.users". All fields are combined with a logical 'AND'. */
+  ['discord_users_bool_exp']: {
+    _and?: Array<GraphQLTypes['discord_users_bool_exp']> | undefined;
+    _not?: GraphQLTypes['discord_users_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['discord_users_bool_exp']> | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
+    profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    user_snowflake?: GraphQLTypes['String_comparison_exp'] | undefined;
+  };
+  /** unique or primary key constraints on table "discord.users" */
+  ['discord_users_constraint']: discord_users_constraint;
+  /** input type for inserting data into table "discord.users" */
+  ['discord_users_insert_input']: {
+    user_snowflake?: string | undefined;
+  };
+  /** response of any mutation on the table "discord.users" */
+  ['discord_users_mutation_response']: {
+    __typename: 'discord_users_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['discord_users']>;
+  };
+  /** on_conflict condition type for table "discord.users" */
+  ['discord_users_on_conflict']: {
+    constraint: GraphQLTypes['discord_users_constraint'];
+    update_columns: Array<GraphQLTypes['discord_users_update_column']>;
+    where?: GraphQLTypes['discord_users_bool_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "discord.users". */
+  ['discord_users_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+    user_snowflake?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** primary key columns input for table: discord.users */
+  ['discord_users_pk_columns_input']: {
+    id: GraphQLTypes['bigint'];
+  };
+  /** select columns of table "discord.users" */
+  ['discord_users_select_column']: discord_users_select_column;
+  /** input type for updating data in table "discord.users" */
+  ['discord_users_set_input']: {
+    user_snowflake?: string | undefined;
+  };
+  /** Streaming cursor of the table "discord_users" */
+  ['discord_users_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['discord_users_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['discord_users_stream_cursor_value_input']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    user_snowflake?: string | undefined;
+  };
+  /** update columns of table "discord.users" */
+  ['discord_users_update_column']: discord_users_update_column;
+  ['discord_users_updates']: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes['discord_users_set_input'] | undefined;
+    where: GraphQLTypes['discord_users_bool_exp'];
+  };
   /** Vault Distributions */
   ['distributions']: {
     __typename: 'distributions';
@@ -14447,6 +15189,7 @@ export type GraphQLTypes = {
     createCircle?: GraphQLTypes['CreateCircleResponse'] | undefined;
     createEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     createNominee?: GraphQLTypes['CreateNomineeResponse'] | undefined;
+    createSampleCircle?: GraphQLTypes['CreateSampleCircleResponse'] | undefined;
     createUser?: GraphQLTypes['UserResponse'] | undefined;
     createUserWithToken?: GraphQLTypes['UserResponse'] | undefined;
     createUsers?: Array<GraphQLTypes['UserResponse'] | undefined> | undefined;
@@ -14479,6 +15222,12 @@ export type GraphQLTypes = {
     delete_circle_share_tokens_by_pk?:
       | GraphQLTypes['circle_share_tokens']
       | undefined;
+    /** delete data from the table: "discord.users" */
+    delete_discord_users?:
+      | GraphQLTypes['discord_users_mutation_response']
+      | undefined;
+    /** delete single row from the table: "discord.users" */
+    delete_discord_users_by_pk?: GraphQLTypes['discord_users'] | undefined;
     /** delete data from the table: "pending_vault_transactions" */
     delete_pending_vault_transactions?:
       | GraphQLTypes['pending_vault_transactions_mutation_response']
@@ -14515,6 +15264,12 @@ export type GraphQLTypes = {
       | undefined;
     /** insert a single row into the table: "contributions" */
     insert_contributions_one?: GraphQLTypes['contributions'] | undefined;
+    /** insert data into the table: "discord.users" */
+    insert_discord_users?:
+      | GraphQLTypes['discord_users_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "discord.users" */
+    insert_discord_users_one?: GraphQLTypes['discord_users'] | undefined;
     /** insert data into the table: "distributions" */
     insert_distributions?:
       | GraphQLTypes['distributions_mutation_response']
@@ -14529,6 +15284,8 @@ export type GraphQLTypes = {
     insert_pending_vault_transactions_one?:
       | GraphQLTypes['pending_vault_transactions']
       | undefined;
+    /** allow authenticated users to link a discord account to their profile */
+    linkDiscordUser?: GraphQLTypes['LinkDiscordUserResponse'] | undefined;
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
     markClaimed?: GraphQLTypes['MarkClaimedOutput'] | undefined;
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
@@ -14547,6 +15304,30 @@ export type GraphQLTypes = {
     /** update multiples rows of table: "claims" */
     update_claims_many?:
       | Array<GraphQLTypes['claims_mutation_response'] | undefined>
+      | undefined;
+    /** update data of the table: "discord.roles_circles" */
+    update_discord_roles_circles?:
+      | GraphQLTypes['discord_roles_circles_mutation_response']
+      | undefined;
+    /** update single row of the table: "discord.roles_circles" */
+    update_discord_roles_circles_by_pk?:
+      | GraphQLTypes['discord_roles_circles']
+      | undefined;
+    /** update multiples rows of table: "discord.roles_circles" */
+    update_discord_roles_circles_many?:
+      | Array<
+          GraphQLTypes['discord_roles_circles_mutation_response'] | undefined
+        >
+      | undefined;
+    /** update data of the table: "discord.users" */
+    update_discord_users?:
+      | GraphQLTypes['discord_users_mutation_response']
+      | undefined;
+    /** update single row of the table: "discord.users" */
+    update_discord_users_by_pk?: GraphQLTypes['discord_users'] | undefined;
+    /** update multiples rows of table: "discord.users" */
+    update_discord_users_many?:
+      | Array<GraphQLTypes['discord_users_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "distributions" */
     update_distributions?:
@@ -14931,9 +15712,14 @@ export type GraphQLTypes = {
     /** An array relationship */
     circles: Array<GraphQLTypes['circles']>;
     created_at: GraphQLTypes['timestamp'];
+    created_by?: number | undefined;
     id: GraphQLTypes['bigint'];
     logo?: string | undefined;
     name: string;
+    /** An object relationship */
+    profile?: GraphQLTypes['profiles'] | undefined;
+    /** Indicates a test/sample/sandbox org */
+    sample: boolean;
     telegram_id?: string | undefined;
     updated_at: GraphQLTypes['timestamp'];
     /** An array relationship */
@@ -14946,9 +15732,12 @@ export type GraphQLTypes = {
     _or?: Array<GraphQLTypes['organizations_bool_exp']> | undefined;
     circles?: GraphQLTypes['circles_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+    created_by?: GraphQLTypes['Int_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     logo?: GraphQLTypes['String_comparison_exp'] | undefined;
     name?: GraphQLTypes['String_comparison_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
+    sample?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     telegram_id?: GraphQLTypes['String_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     vaults?: GraphQLTypes['vaults_bool_exp'] | undefined;
@@ -14965,9 +15754,12 @@ export type GraphQLTypes = {
   ['organizations_order_by']: {
     circles_aggregate?: GraphQLTypes['circles_aggregate_order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    created_by?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     logo?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_order_by'] | undefined;
+    sample?: GraphQLTypes['order_by'] | undefined;
     telegram_id?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     vaults_aggregate?: GraphQLTypes['vaults_aggregate_order_by'] | undefined;
@@ -14993,9 +15785,12 @@ export type GraphQLTypes = {
   /** Initial value of the column from where the streaming should start */
   ['organizations_stream_cursor_value_input']: {
     created_at?: GraphQLTypes['timestamp'] | undefined;
+    created_by?: number | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     logo?: string | undefined;
     name?: string | undefined;
+    /** Indicates a test/sample/sandbox org */
+    sample?: boolean | undefined;
     telegram_id?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
   };
@@ -15550,6 +16345,16 @@ export type GraphQLTypes = {
     contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     /** fetch data from the table: "contributions" using primary key columns */
     contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
+    /** fetch data from the table: "discord.roles_circles" */
+    discord_roles_circles: Array<GraphQLTypes['discord_roles_circles']>;
+    /** fetch data from the table: "discord.roles_circles" using primary key columns */
+    discord_roles_circles_by_pk?:
+      | GraphQLTypes['discord_roles_circles']
+      | undefined;
+    /** fetch data from the table: "discord.users" */
+    discord_users: Array<GraphQLTypes['discord_users']>;
+    /** fetch data from the table: "discord.users" using primary key columns */
+    discord_users_by_pk?: GraphQLTypes['discord_users'] | undefined;
     /** An array relationship */
     distributions: Array<GraphQLTypes['distributions']>;
     /** An aggregate relationship */
@@ -15586,6 +16391,7 @@ export type GraphQLTypes = {
     pending_vault_transactions_by_pk?:
       | GraphQLTypes['pending_vault_transactions']
       | undefined;
+    price_per_share: number;
     /** fetch data from the table: "profiles" */
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch data from the table: "profiles" using primary key columns */
@@ -15677,6 +16483,20 @@ export type GraphQLTypes = {
     contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
     /** fetch data from the table in a streaming manner : "contributions" */
     contributions_stream: Array<GraphQLTypes['contributions']>;
+    /** fetch data from the table: "discord.roles_circles" */
+    discord_roles_circles: Array<GraphQLTypes['discord_roles_circles']>;
+    /** fetch data from the table: "discord.roles_circles" using primary key columns */
+    discord_roles_circles_by_pk?:
+      | GraphQLTypes['discord_roles_circles']
+      | undefined;
+    /** fetch data from the table in a streaming manner : "discord.roles_circles" */
+    discord_roles_circles_stream: Array<GraphQLTypes['discord_roles_circles']>;
+    /** fetch data from the table: "discord.users" */
+    discord_users: Array<GraphQLTypes['discord_users']>;
+    /** fetch data from the table: "discord.users" using primary key columns */
+    discord_users_by_pk?: GraphQLTypes['discord_users'] | undefined;
+    /** fetch data from the table in a streaming manner : "discord.users" */
+    discord_users_stream: Array<GraphQLTypes['discord_users']>;
     /** An array relationship */
     distributions: Array<GraphQLTypes['distributions']>;
     /** An aggregate relationship */
@@ -15945,7 +16765,7 @@ export type GraphQLTypes = {
     _neq?: GraphQLTypes['timestamptz'] | undefined;
     _nin?: Array<GraphQLTypes['timestamptz']> | undefined;
   };
-  /** GIVE allocations made by circle members for past epochs */
+  /** GIVE allocations made by circle members for completed epochs */
   ['token_gifts']: {
     __typename: 'token_gifts';
     /** An object relationship */
@@ -16949,6 +17769,7 @@ export type GraphQLTypes = {
     id: GraphQLTypes['bigint'];
     /** An object relationship */
     organization: GraphQLTypes['organizations'];
+    price_per_share: number;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     simple_token_address: string;
@@ -17404,6 +18225,32 @@ export const enum cursor_ordering {
   ASC = 'ASC',
   DESC = 'DESC',
 }
+/** select columns of table "discord.roles_circles" */
+export const enum discord_roles_circles_select_column {
+  circle_id = 'circle_id',
+  created_at = 'created_at',
+  id = 'id',
+  role = 'role',
+  updated_at = 'updated_at',
+}
+/** unique or primary key constraints on table "discord.users" */
+export const enum discord_users_constraint {
+  users_pkey = 'users_pkey',
+  users_profile_id_key = 'users_profile_id_key',
+  users_user_snowflake_key = 'users_user_snowflake_key',
+}
+/** select columns of table "discord.users" */
+export const enum discord_users_select_column {
+  created_at = 'created_at',
+  id = 'id',
+  profile_id = 'profile_id',
+  updated_at = 'updated_at',
+  user_snowflake = 'user_snowflake',
+}
+/** update columns of table "discord.users" */
+export const enum discord_users_update_column {
+  user_snowflake = 'user_snowflake',
+}
 /** unique or primary key constraints on table "distributions" */
 export const enum distributions_constraint {
   distributions_pkey = 'distributions_pkey',
@@ -17483,9 +18330,11 @@ export const enum order_by {
 /** select columns of table "organizations" */
 export const enum organizations_select_column {
   created_at = 'created_at',
+  created_by = 'created_by',
   id = 'id',
   logo = 'logo',
   name = 'name',
+  sample = 'sample',
   telegram_id = 'telegram_id',
   updated_at = 'updated_at',
 }

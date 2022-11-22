@@ -14,10 +14,12 @@ import {
 import AddMembersPage from '../pages/AddMembersPage/AddMembersPage';
 import GivePage from '../pages/GivePage';
 import JoinCirclePage from '../pages/JoinCirclePage';
+import isFeatureEnabled from 'config/features';
 import {
   useCanVouch,
   useFixCircleState,
   useRoleInCircle,
+  useShowGive,
 } from 'hooks/migration';
 import AllocationPage from 'pages/AllocationPage';
 import CircleAdminPage from 'pages/CircleAdminPage';
@@ -27,6 +29,7 @@ import ContributionsPage from 'pages/ContributionsPage';
 import CreateCirclePage from 'pages/CreateCirclePage';
 import DefaultPage from 'pages/DefaultPage';
 import DevPortalPage from 'pages/DevPortalPage';
+import DiscordPage from 'pages/DiscordPage';
 import DistributionsPage from 'pages/DistributionsPage';
 import HistoryPage from 'pages/HistoryPage';
 import IntegrationCallbackPage from 'pages/IntegrationCallbackPage';
@@ -57,7 +60,9 @@ export const AppRoutes = () => {
         <Route path="epoch" element={allocationPage} />
         <Route path="give" element={allocationPage} />
         <Route path="givebeta" element={<GivePage />} />
-        <Route path="map" element={<LazyAssetMapPage />} />
+        <Route path="map" element={<MapRouteHanlder />}>
+          <Route path="" element={<LazyAssetMapPage />} />
+        </Route>
         <Route path="contributions" element={<ContributionsPage />} />
         <Route path="members" element={<MembersPage />} />
         <Route path="members/add" element={<AdminRouteHandler />}>
@@ -81,6 +86,9 @@ export const AppRoutes = () => {
       <Route path={paths.circles} element={<CirclesPage />} />
       <Route path={paths.createCircle} element={<CreateCirclePage />} />
       <Route path={paths.developers} element={<DevPortalPage />} />
+      {isFeatureEnabled('discord') && (
+        <Route path={paths.discordLink} element={<DiscordPage />} />
+      )}
       <Route path={paths.home} element={<DefaultPage />} />
 
       <Route path={paths.organization(':orgId')}>
@@ -145,5 +153,16 @@ const VouchingRouteHandler = () => {
   const canVouch = useCanVouch(circleId);
 
   if (!canVouch) return <Redirect to={paths.home} note="not admin" />;
+  return <Outlet />;
+};
+
+const MapRouteHanlder = () => {
+  const params = useParams();
+  const circleId = Number(params.circleId);
+  const showGive = useShowGive(circleId);
+  const role = useRoleInCircle(circleId);
+
+  if (!(showGive || isUserAdmin({ role })))
+    return <Redirect to={paths.home} note="wait for current epoch to end" />;
   return <Outlet />;
 };

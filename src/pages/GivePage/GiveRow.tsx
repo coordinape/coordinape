@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { FileText } from '../../icons/__generated';
 import { CSS } from '../../stitches.config';
-import { Button, Box, Flex, Text } from '../../ui';
+import { Box, Flex, Text } from '../../ui';
 import useMobileDetect from 'hooks/useMobileDetect';
 
 import { AvatarAndName } from './AvatarAndName';
@@ -41,7 +41,7 @@ export const GiveRow = ({
   // noteComplete indicates that this member has a note
   const noteComplete = gift.note && gift.note.length > 0;
   const { isMobile } = useMobileDetect();
-  const newRef = useRef<HTMLButtonElement>(null);
+  const newRef = useRef<HTMLDivElement>(null);
   const [lastSelected, setLastSelected] = useState<boolean>(false);
   useEffect(() => {
     if (selected) {
@@ -54,12 +54,19 @@ export const GiveRow = ({
     }
   }, [selected, lastSelected]);
   return (
-    <Button
+    <Box
+      tabIndex={0}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       onClick={() => setSelectedMember(member)}
+      onKeyDown={e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          setSelectedMember(member);
+          e.preventDefault();
+        }
+      }}
       color="transparent"
-      css={{ p: 0 }}
+      css={{ p: 0, borderRadius: '$3' }}
       ref={newRef}
     >
       <GiveRowGrid selected={(selected || docExample) ?? false} css={css}>
@@ -183,6 +190,6 @@ export const GiveRow = ({
           />
         </Flex>
       </GiveRowGrid>
-    </Button>
+    </Box>
   );
 };

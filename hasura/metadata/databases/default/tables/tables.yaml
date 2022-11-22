@@ -1,3 +1,5 @@
+- "!include discord_roles_circles.yaml"
+- "!include discord_users.yaml"
 - "!include public_burns.yaml"
 - "!include public_circle_api_keys.yaml"
 - "!include public_circle_integrations.yaml"

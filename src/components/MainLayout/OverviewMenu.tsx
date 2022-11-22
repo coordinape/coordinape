@@ -22,7 +22,6 @@ import {
   PopoverTrigger,
   PopoverContent,
   PopoverClose,
-  PopoverAnchor,
   POPOVER_TIMEOUT,
 } from 'ui';
 
@@ -58,8 +57,8 @@ export const OverviewMenu = ({
     ? 'CoVaults'
     : 'Overview';
   const overviewMenuTrigger = (
-    <Link
-      css={navLinkStyle}
+    <Text
+      css={{ ...navLinkStyle, mr: 0 }}
       className={
         location.pathname === paths.circles ||
         location.pathname.includes('history') ||
@@ -67,13 +66,12 @@ export const OverviewMenu = ({
           ? 'active'
           : ''
       }
-      href="#"
     >
       {overviewMenuTriggerText}
       <Box css={{ marginLeft: '$xs', display: 'flex' }}>
         <ChevronDown size="lg" />
       </Box>
-    </Link>
+    </Text>
   );
 
   const [mouseEnterPopover, setMouseEnterPopover] = useState(false);
@@ -87,8 +85,8 @@ export const OverviewMenu = ({
   return (
     <Popover open={mouseEnterPopover}>
       <PopoverTrigger
-        tabIndex={-1}
-        css={{ outline: 'none !important' }}
+        tabIndex={0}
+        css={{ borderRadius: '$pill', mr: '$xs' }}
         ref={triggerRef}
         onKeyDown={e => {
           if (e.key === 'Enter' || e.key === ' ') {
@@ -112,7 +110,6 @@ export const OverviewMenu = ({
         }}
       >
         {overviewMenuTrigger}
-        <PopoverAnchor />
       </PopoverTrigger>
       <PopoverContent
         onKeyDown={e => {
@@ -135,11 +132,11 @@ export const OverviewMenu = ({
           outline: 'none',
           position: 'relative',
           left: '$xl',
-          top: 'calc($xxs - $3xl)',
-          mb: '$lg',
-          zIndex: 2,
           // 1px border position bugfix:
           pl: '1px',
+          top: 'calc($xxs - $3xl + 1px)',
+          mb: '$lg',
+          zIndex: 4,
         }}
       >
         <Box

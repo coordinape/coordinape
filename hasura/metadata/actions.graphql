@@ -19,6 +19,10 @@ type Mutation {
 }
 
 type Mutation {
+  createSampleCircle: CreateSampleCircleResponse
+}
+
+type Mutation {
   createUser(payload: CreateUserInput!): UserResponse
 }
 
@@ -56,6 +60,10 @@ type Mutation {
 
 type Mutation {
   generateApiKey(payload: GenerateApiKeyInput!): GenerateApiKeyResponse
+}
+
+type Mutation {
+  linkDiscordUser(payload: LinkDiscordUserInput!): LinkDiscordUserResponse
 }
 
 type Mutation {
@@ -218,6 +226,7 @@ input UpdateCircleInput {
   update_webhook: Boolean
   fixed_payment_token_type: String
   fixed_payment_vault_id: Int
+  show_pending_gives: Boolean
 }
 
 input UpdateEpochInput {
@@ -287,6 +296,7 @@ input GenerateApiKeyInput {
   read_epochs: Boolean
   read_contributions: Boolean
   create_contributions: Boolean
+  read_discord: Boolean
 }
 
 input UploadOrgImageInput {
@@ -335,6 +345,10 @@ input UpdateContributionInput {
 input MarkClaimedInput {
   claim_id: Int!
   tx_hash: String!
+}
+
+input LinkDiscordUserInput {
+  discord_id: String!
 }
 
 type CreateCircleResponse {
@@ -426,6 +440,14 @@ type UpdateContributionResponse {
 
 type MarkClaimedOutput {
   ids: [Int!]!
+}
+
+type LinkDiscordUserResponse {
+  id: Int!
+}
+
+type CreateSampleCircleResponse {
+  id: Int!
 }
 
 scalar timestamptz

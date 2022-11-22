@@ -24,6 +24,6 @@ function toggle_cron () {
 
 toggle_cron
 
-yarn hasura $HASURA_ENV metadata apply
+yarn hasura metadata apply
 
 toggle_cron

@@ -119,10 +119,9 @@ jobs:
             ./cypress/screenshots
 
       - name: Codecov
-        run: |
-          curl -Os https://uploader.codecov.io/latest/linux/codecov
-          chmod +x codecov
-          ./codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/lcov.info
 
       - name: Save coverage report
         uses: actions/upload-artifact@v3.1.1

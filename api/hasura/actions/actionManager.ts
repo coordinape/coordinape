@@ -8,6 +8,7 @@ import allocationCsv from './_handlers/allocationCsv';
 import createCircle from './_handlers/createCircle';
 import createEpoch from './_handlers/createEpoch';
 import createNominee from './_handlers/createNominee';
+import createSampleCircle from './_handlers/createSampleCircle';
 import createUser from './_handlers/createUser';
 import createUsers from './_handlers/createUsers';
 import createUserWithToken from './_handlers/createUserWithToken';
@@ -18,6 +19,7 @@ import deleteContribution from './_handlers/deleteContribution';
 import deleteEpoch from './_handlers/deleteEpoch';
 import deleteUser from './_handlers/deleteUser';
 import generateApiKey from './_handlers/generateApiKey';
+import linkDiscordUser from './_handlers/linkDiscordUser';
 import logoutUser from './_handlers/logoutUser';
 import markClaimed from './_handlers/markClaimed';
 import restoreCoordinape from './_handlers/restoreCoordinape';
@@ -40,6 +42,7 @@ const HANDLERS: HandlerDict = {
   createCircle,
   createEpoch,
   createNominee,
+  createSampleCircle,
   createUser,
   createUsers,
   createUserWithToken,
@@ -50,6 +53,7 @@ const HANDLERS: HandlerDict = {
   deleteEpoch,
   deleteUser,
   generateApiKey,
+  linkDiscordUser,
   logoutUser,
   markClaimed,
   restoreCoordinape,

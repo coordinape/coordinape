@@ -9,7 +9,16 @@ import { CSS } from 'stitches.config';
 import isFeatureEnabled from 'config/features';
 import { useApiAdminCircle } from 'hooks';
 import { paths } from 'routes/paths';
-import { Avatar, Box, Panel, Text, Button, AppLink, Flex } from 'ui';
+import {
+  Avatar,
+  Box,
+  Panel,
+  Text,
+  Button,
+  AppLink,
+  Flex,
+  MarkdownPreview,
+} from 'ui';
 
 import type { QueryPastEpoch, QueryDistribution } from './getHistoryData';
 
@@ -300,12 +309,25 @@ const NotesItem = ({
 
   const note = gift.gift_private?.note;
   return (
-    <Box css={{ display: 'flex', my: '$sm' }}>
+    <Box
+      css={{
+        display: 'grid',
+        gridTemplateColumns: '1fr 15fr',
+        my: '$sm',
+      }}
+    >
       <Box css={{ mr: '$md' }}>
         <Avatar path={other.profile?.avatar} name={other.name} size="medium" />
       </Box>
       <Box css={!note ? { alignItems: 'center', display: 'flex' } : {}}>
-        {note && <Text css={{ mb: '$xs', lineHeight: 'normal' }}>{note}</Text>}
+        {note && (
+          <MarkdownPreview
+            css={{
+              p: 0,
+            }}
+            source={note}
+          />
+        )}
         <Box css={{ fontSize: '$small', color: '$secondaryText' }}>
           {gift.tokens} {tokenName} {received ? 'received from ' : 'sent to '}
           {other.name}
