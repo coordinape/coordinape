@@ -10388,6 +10388,7 @@ type member_epoch_pgives {
   gives_received: Int!
   id: Int!
   normalized_pgive: numeric!
+  opt_out_bonus: numeric!
   pgive: numeric!
 
   """
@@ -10430,6 +10431,7 @@ type member_epoch_pgives_avg_fields {
   gives_received: Float
   id: Float
   normalized_pgive: Float
+  opt_out_bonus: Float
   pgive: Float
   user_id: Float
 }
@@ -10447,6 +10449,7 @@ input member_epoch_pgives_bool_exp {
   gives_received: Int_comparison_exp
   id: Int_comparison_exp
   normalized_pgive: numeric_comparison_exp
+  opt_out_bonus: numeric_comparison_exp
   pgive: numeric_comparison_exp
   user: users_bool_exp
   user_id: Int_comparison_exp
@@ -10475,6 +10478,7 @@ input member_epoch_pgives_inc_input {
   gives_received: Int
   id: Int
   normalized_pgive: numeric
+  opt_out_bonus: numeric
   pgive: numeric
   user_id: Int
 }
@@ -10489,6 +10493,7 @@ input member_epoch_pgives_insert_input {
   gives_received: Int
   id: Int
   normalized_pgive: numeric
+  opt_out_bonus: numeric
   pgive: numeric
   user: users_obj_rel_insert_input
   user_id: Int
@@ -10503,6 +10508,7 @@ type member_epoch_pgives_max_fields {
   gives_received: Int
   id: Int
   normalized_pgive: numeric
+  opt_out_bonus: numeric
   pgive: numeric
   user_id: Int
 }
@@ -10516,6 +10522,7 @@ type member_epoch_pgives_min_fields {
   gives_received: Int
   id: Int
   normalized_pgive: numeric
+  opt_out_bonus: numeric
   pgive: numeric
   user_id: Int
 }
@@ -10554,6 +10561,7 @@ input member_epoch_pgives_order_by {
   gives_received: order_by
   id: order_by
   normalized_pgive: order_by
+  opt_out_bonus: order_by
   pgive: order_by
   user: users_order_by
   user_id: order_by
@@ -10598,6 +10606,11 @@ enum member_epoch_pgives_select_column {
   """
   column name
   """
+  opt_out_bonus
+
+  """
+  column name
+  """
   pgive
 
   """
@@ -10615,6 +10628,7 @@ input member_epoch_pgives_set_input {
   gives_received: Int
   id: Int
   normalized_pgive: numeric
+  opt_out_bonus: numeric
   pgive: numeric
   user_id: Int
 }
@@ -10627,6 +10641,7 @@ type member_epoch_pgives_stddev_fields {
   gives_received: Float
   id: Float
   normalized_pgive: Float
+  opt_out_bonus: Float
   pgive: Float
   user_id: Float
 }
@@ -10639,6 +10654,7 @@ type member_epoch_pgives_stddev_pop_fields {
   gives_received: Float
   id: Float
   normalized_pgive: Float
+  opt_out_bonus: Float
   pgive: Float
   user_id: Float
 }
@@ -10651,6 +10667,7 @@ type member_epoch_pgives_stddev_samp_fields {
   gives_received: Float
   id: Float
   normalized_pgive: Float
+  opt_out_bonus: Float
   pgive: Float
   user_id: Float
 }
@@ -10679,6 +10696,7 @@ input member_epoch_pgives_stream_cursor_value_input {
   gives_received: Int
   id: Int
   normalized_pgive: numeric
+  opt_out_bonus: numeric
   pgive: numeric
   user_id: Int
 }
@@ -10691,6 +10709,7 @@ type member_epoch_pgives_sum_fields {
   gives_received: Int
   id: Int
   normalized_pgive: numeric
+  opt_out_bonus: numeric
   pgive: numeric
   user_id: Int
 }
@@ -10727,6 +10746,11 @@ enum member_epoch_pgives_update_column {
   """
   column name
   """
+  opt_out_bonus
+
+  """
+  column name
+  """
   pgive
 
   """
@@ -10756,6 +10780,7 @@ type member_epoch_pgives_var_pop_fields {
   gives_received: Float
   id: Float
   normalized_pgive: Float
+  opt_out_bonus: Float
   pgive: Float
   user_id: Float
 }
@@ -10768,6 +10793,7 @@ type member_epoch_pgives_var_samp_fields {
   gives_received: Float
   id: Float
   normalized_pgive: Float
+  opt_out_bonus: Float
   pgive: Float
   user_id: Float
 }
@@ -10780,6 +10806,7 @@ type member_epoch_pgives_variance_fields {
   gives_received: Float
   id: Float
   normalized_pgive: Float
+  opt_out_bonus: Float
   pgive: Float
   user_id: Float
 }

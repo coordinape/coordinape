@@ -7454,6 +7454,7 @@ export type ValueTypes = {
     gives_received?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     normalized_pgive?: boolean | `@${string}`;
+    opt_out_bonus?: boolean | `@${string}`;
     pgive?: boolean | `@${string}`;
     /** An object relationship */
     user?: ValueTypes['users'];
@@ -7496,6 +7497,7 @@ export type ValueTypes = {
     gives_received?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     normalized_pgive?: boolean | `@${string}`;
+    opt_out_bonus?: boolean | `@${string}`;
     pgive?: boolean | `@${string}`;
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -7511,6 +7513,7 @@ export type ValueTypes = {
     gives_received?: ValueTypes['Int_comparison_exp'] | undefined | null;
     id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     normalized_pgive?: ValueTypes['numeric_comparison_exp'] | undefined | null;
+    opt_out_bonus?: ValueTypes['numeric_comparison_exp'] | undefined | null;
     pgive?: ValueTypes['numeric_comparison_exp'] | undefined | null;
     user?: ValueTypes['users_bool_exp'] | undefined | null;
     user_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
@@ -7523,6 +7526,7 @@ export type ValueTypes = {
     gives_received?: number | undefined | null;
     id?: number | undefined | null;
     normalized_pgive?: ValueTypes['numeric'] | undefined | null;
+    opt_out_bonus?: ValueTypes['numeric'] | undefined | null;
     pgive?: ValueTypes['numeric'] | undefined | null;
     user_id?: number | undefined | null;
   };
@@ -7534,6 +7538,7 @@ export type ValueTypes = {
     gives_received?: number | undefined | null;
     id?: number | undefined | null;
     normalized_pgive?: ValueTypes['numeric'] | undefined | null;
+    opt_out_bonus?: ValueTypes['numeric'] | undefined | null;
     pgive?: ValueTypes['numeric'] | undefined | null;
     user?: ValueTypes['users_obj_rel_insert_input'] | undefined | null;
     user_id?: number | undefined | null;
@@ -7545,6 +7550,7 @@ export type ValueTypes = {
     gives_received?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     normalized_pgive?: boolean | `@${string}`;
+    opt_out_bonus?: boolean | `@${string}`;
     pgive?: boolean | `@${string}`;
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -7556,6 +7562,7 @@ export type ValueTypes = {
     gives_received?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     normalized_pgive?: boolean | `@${string}`;
+    opt_out_bonus?: boolean | `@${string}`;
     pgive?: boolean | `@${string}`;
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -7582,6 +7589,7 @@ export type ValueTypes = {
     gives_received?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     normalized_pgive?: ValueTypes['order_by'] | undefined | null;
+    opt_out_bonus?: ValueTypes['order_by'] | undefined | null;
     pgive?: ValueTypes['order_by'] | undefined | null;
     user?: ValueTypes['users_order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
@@ -7599,6 +7607,7 @@ export type ValueTypes = {
     gives_received?: number | undefined | null;
     id?: number | undefined | null;
     normalized_pgive?: ValueTypes['numeric'] | undefined | null;
+    opt_out_bonus?: ValueTypes['numeric'] | undefined | null;
     pgive?: ValueTypes['numeric'] | undefined | null;
     user_id?: number | undefined | null;
   };
@@ -7608,6 +7617,7 @@ export type ValueTypes = {
     gives_received?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     normalized_pgive?: boolean | `@${string}`;
+    opt_out_bonus?: boolean | `@${string}`;
     pgive?: boolean | `@${string}`;
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -7618,6 +7628,7 @@ export type ValueTypes = {
     gives_received?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     normalized_pgive?: boolean | `@${string}`;
+    opt_out_bonus?: boolean | `@${string}`;
     pgive?: boolean | `@${string}`;
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -7628,6 +7639,7 @@ export type ValueTypes = {
     gives_received?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     normalized_pgive?: boolean | `@${string}`;
+    opt_out_bonus?: boolean | `@${string}`;
     pgive?: boolean | `@${string}`;
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -7646,6 +7658,7 @@ export type ValueTypes = {
     gives_received?: number | undefined | null;
     id?: number | undefined | null;
     normalized_pgive?: ValueTypes['numeric'] | undefined | null;
+    opt_out_bonus?: ValueTypes['numeric'] | undefined | null;
     pgive?: ValueTypes['numeric'] | undefined | null;
     user_id?: number | undefined | null;
   };
@@ -7655,6 +7668,7 @@ export type ValueTypes = {
     gives_received?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     normalized_pgive?: boolean | `@${string}`;
+    opt_out_bonus?: boolean | `@${string}`;
     pgive?: boolean | `@${string}`;
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -7674,6 +7688,7 @@ export type ValueTypes = {
     gives_received?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     normalized_pgive?: boolean | `@${string}`;
+    opt_out_bonus?: boolean | `@${string}`;
     pgive?: boolean | `@${string}`;
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -7684,6 +7699,7 @@ export type ValueTypes = {
     gives_received?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     normalized_pgive?: boolean | `@${string}`;
+    opt_out_bonus?: boolean | `@${string}`;
     pgive?: boolean | `@${string}`;
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -7694,6 +7710,7 @@ export type ValueTypes = {
     gives_received?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     normalized_pgive?: boolean | `@${string}`;
+    opt_out_bonus?: boolean | `@${string}`;
     pgive?: boolean | `@${string}`;
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -22386,6 +22403,7 @@ export type ModelTypes = {
     gives_received: number;
     id: number;
     normalized_pgive: GraphQLTypes['numeric'];
+    opt_out_bonus: GraphQLTypes['numeric'];
     pgive: GraphQLTypes['numeric'];
     /** An object relationship */
     user: GraphQLTypes['users'];
@@ -22422,6 +22440,7 @@ export type ModelTypes = {
     gives_received?: number | undefined;
     id?: number | undefined;
     normalized_pgive?: number | undefined;
+    opt_out_bonus?: number | undefined;
     pgive?: number | undefined;
     user_id?: number | undefined;
   };
@@ -22440,6 +22459,7 @@ export type ModelTypes = {
     gives_received?: number | undefined;
     id?: number | undefined;
     normalized_pgive?: GraphQLTypes['numeric'] | undefined;
+    opt_out_bonus?: GraphQLTypes['numeric'] | undefined;
     pgive?: GraphQLTypes['numeric'] | undefined;
     user_id?: number | undefined;
   };
@@ -22450,6 +22470,7 @@ export type ModelTypes = {
     gives_received?: number | undefined;
     id?: number | undefined;
     normalized_pgive?: GraphQLTypes['numeric'] | undefined;
+    opt_out_bonus?: GraphQLTypes['numeric'] | undefined;
     pgive?: GraphQLTypes['numeric'] | undefined;
     user_id?: number | undefined;
   };
@@ -22476,6 +22497,7 @@ export type ModelTypes = {
     gives_received?: number | undefined;
     id?: number | undefined;
     normalized_pgive?: number | undefined;
+    opt_out_bonus?: number | undefined;
     pgive?: number | undefined;
     user_id?: number | undefined;
   };
@@ -22485,6 +22507,7 @@ export type ModelTypes = {
     gives_received?: number | undefined;
     id?: number | undefined;
     normalized_pgive?: number | undefined;
+    opt_out_bonus?: number | undefined;
     pgive?: number | undefined;
     user_id?: number | undefined;
   };
@@ -22494,6 +22517,7 @@ export type ModelTypes = {
     gives_received?: number | undefined;
     id?: number | undefined;
     normalized_pgive?: number | undefined;
+    opt_out_bonus?: number | undefined;
     pgive?: number | undefined;
     user_id?: number | undefined;
   };
@@ -22507,6 +22531,7 @@ export type ModelTypes = {
     gives_received?: number | undefined;
     id?: number | undefined;
     normalized_pgive?: GraphQLTypes['numeric'] | undefined;
+    opt_out_bonus?: GraphQLTypes['numeric'] | undefined;
     pgive?: GraphQLTypes['numeric'] | undefined;
     user_id?: number | undefined;
   };
@@ -22519,6 +22544,7 @@ export type ModelTypes = {
     gives_received?: number | undefined;
     id?: number | undefined;
     normalized_pgive?: number | undefined;
+    opt_out_bonus?: number | undefined;
     pgive?: number | undefined;
     user_id?: number | undefined;
   };
@@ -22528,6 +22554,7 @@ export type ModelTypes = {
     gives_received?: number | undefined;
     id?: number | undefined;
     normalized_pgive?: number | undefined;
+    opt_out_bonus?: number | undefined;
     pgive?: number | undefined;
     user_id?: number | undefined;
   };
@@ -22537,6 +22564,7 @@ export type ModelTypes = {
     gives_received?: number | undefined;
     id?: number | undefined;
     normalized_pgive?: number | undefined;
+    opt_out_bonus?: number | undefined;
     pgive?: number | undefined;
     user_id?: number | undefined;
   };
@@ -32050,6 +32078,7 @@ export type GraphQLTypes = {
     gives_received: number;
     id: number;
     normalized_pgive: GraphQLTypes['numeric'];
+    opt_out_bonus: GraphQLTypes['numeric'];
     pgive: GraphQLTypes['numeric'];
     /** An object relationship */
     user: GraphQLTypes['users'];
@@ -32089,6 +32118,7 @@ export type GraphQLTypes = {
     gives_received?: number | undefined;
     id?: number | undefined;
     normalized_pgive?: number | undefined;
+    opt_out_bonus?: number | undefined;
     pgive?: number | undefined;
     user_id?: number | undefined;
   };
@@ -32103,6 +32133,7 @@ export type GraphQLTypes = {
     gives_received?: GraphQLTypes['Int_comparison_exp'] | undefined;
     id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     normalized_pgive?: GraphQLTypes['numeric_comparison_exp'] | undefined;
+    opt_out_bonus?: GraphQLTypes['numeric_comparison_exp'] | undefined;
     pgive?: GraphQLTypes['numeric_comparison_exp'] | undefined;
     user?: GraphQLTypes['users_bool_exp'] | undefined;
     user_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
@@ -32115,6 +32146,7 @@ export type GraphQLTypes = {
     gives_received?: number | undefined;
     id?: number | undefined;
     normalized_pgive?: GraphQLTypes['numeric'] | undefined;
+    opt_out_bonus?: GraphQLTypes['numeric'] | undefined;
     pgive?: GraphQLTypes['numeric'] | undefined;
     user_id?: number | undefined;
   };
@@ -32126,6 +32158,7 @@ export type GraphQLTypes = {
     gives_received?: number | undefined;
     id?: number | undefined;
     normalized_pgive?: GraphQLTypes['numeric'] | undefined;
+    opt_out_bonus?: GraphQLTypes['numeric'] | undefined;
     pgive?: GraphQLTypes['numeric'] | undefined;
     user?: GraphQLTypes['users_obj_rel_insert_input'] | undefined;
     user_id?: number | undefined;
@@ -32138,6 +32171,7 @@ export type GraphQLTypes = {
     gives_received?: number | undefined;
     id?: number | undefined;
     normalized_pgive?: GraphQLTypes['numeric'] | undefined;
+    opt_out_bonus?: GraphQLTypes['numeric'] | undefined;
     pgive?: GraphQLTypes['numeric'] | undefined;
     user_id?: number | undefined;
   };
@@ -32149,6 +32183,7 @@ export type GraphQLTypes = {
     gives_received?: number | undefined;
     id?: number | undefined;
     normalized_pgive?: GraphQLTypes['numeric'] | undefined;
+    opt_out_bonus?: GraphQLTypes['numeric'] | undefined;
     pgive?: GraphQLTypes['numeric'] | undefined;
     user_id?: number | undefined;
   };
@@ -32174,6 +32209,7 @@ export type GraphQLTypes = {
     gives_received?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     normalized_pgive?: GraphQLTypes['order_by'] | undefined;
+    opt_out_bonus?: GraphQLTypes['order_by'] | undefined;
     pgive?: GraphQLTypes['order_by'] | undefined;
     user?: GraphQLTypes['users_order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
@@ -32191,6 +32227,7 @@ export type GraphQLTypes = {
     gives_received?: number | undefined;
     id?: number | undefined;
     normalized_pgive?: GraphQLTypes['numeric'] | undefined;
+    opt_out_bonus?: GraphQLTypes['numeric'] | undefined;
     pgive?: GraphQLTypes['numeric'] | undefined;
     user_id?: number | undefined;
   };
@@ -32201,6 +32238,7 @@ export type GraphQLTypes = {
     gives_received?: number | undefined;
     id?: number | undefined;
     normalized_pgive?: number | undefined;
+    opt_out_bonus?: number | undefined;
     pgive?: number | undefined;
     user_id?: number | undefined;
   };
@@ -32211,6 +32249,7 @@ export type GraphQLTypes = {
     gives_received?: number | undefined;
     id?: number | undefined;
     normalized_pgive?: number | undefined;
+    opt_out_bonus?: number | undefined;
     pgive?: number | undefined;
     user_id?: number | undefined;
   };
@@ -32221,6 +32260,7 @@ export type GraphQLTypes = {
     gives_received?: number | undefined;
     id?: number | undefined;
     normalized_pgive?: number | undefined;
+    opt_out_bonus?: number | undefined;
     pgive?: number | undefined;
     user_id?: number | undefined;
   };
@@ -32238,6 +32278,7 @@ export type GraphQLTypes = {
     gives_received?: number | undefined;
     id?: number | undefined;
     normalized_pgive?: GraphQLTypes['numeric'] | undefined;
+    opt_out_bonus?: GraphQLTypes['numeric'] | undefined;
     pgive?: GraphQLTypes['numeric'] | undefined;
     user_id?: number | undefined;
   };
@@ -32248,6 +32289,7 @@ export type GraphQLTypes = {
     gives_received?: number | undefined;
     id?: number | undefined;
     normalized_pgive?: GraphQLTypes['numeric'] | undefined;
+    opt_out_bonus?: GraphQLTypes['numeric'] | undefined;
     pgive?: GraphQLTypes['numeric'] | undefined;
     user_id?: number | undefined;
   };
@@ -32267,6 +32309,7 @@ export type GraphQLTypes = {
     gives_received?: number | undefined;
     id?: number | undefined;
     normalized_pgive?: number | undefined;
+    opt_out_bonus?: number | undefined;
     pgive?: number | undefined;
     user_id?: number | undefined;
   };
@@ -32277,6 +32320,7 @@ export type GraphQLTypes = {
     gives_received?: number | undefined;
     id?: number | undefined;
     normalized_pgive?: number | undefined;
+    opt_out_bonus?: number | undefined;
     pgive?: number | undefined;
     user_id?: number | undefined;
   };
@@ -32287,6 +32331,7 @@ export type GraphQLTypes = {
     gives_received?: number | undefined;
     id?: number | undefined;
     normalized_pgive?: number | undefined;
+    opt_out_bonus?: number | undefined;
     pgive?: number | undefined;
     user_id?: number | undefined;
   };
@@ -38810,6 +38855,7 @@ export const enum member_epoch_pgives_select_column {
   gives_received = 'gives_received',
   id = 'id',
   normalized_pgive = 'normalized_pgive',
+  opt_out_bonus = 'opt_out_bonus',
   pgive = 'pgive',
   user_id = 'user_id',
 }
@@ -38820,6 +38866,7 @@ export const enum member_epoch_pgives_update_column {
   gives_received = 'gives_received',
   id = 'id',
   normalized_pgive = 'normalized_pgive',
+  opt_out_bonus = 'opt_out_bonus',
   pgive = 'pgive',
   user_id = 'user_id',
 }
