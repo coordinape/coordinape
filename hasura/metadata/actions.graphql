@@ -47,6 +47,10 @@ type Mutation {
 }
 
 type Mutation {
+  deleteDiscordUser(payload: DeleteDiscordUserInput!): ConfirmationResponse
+}
+
+type Mutation {
   deleteEpoch(payload: DeleteEpochInput!): DeleteEpochResponse
 }
 
@@ -223,7 +227,6 @@ input UpdateCircleInput {
   update_webhook: Boolean
   fixed_payment_token_type: String
   fixed_payment_vault_id: Int
-  show_pending_gives: Boolean
 }
 
 input UpdateEpochInput {
@@ -347,6 +350,10 @@ input MarkClaimedInput {
 
 input LinkDiscordUserInput {
   discord_id: String!
+}
+
+input DeleteDiscordUserInput {
+  user_snowflake: String!
 }
 
 type CreateCircleResponse {

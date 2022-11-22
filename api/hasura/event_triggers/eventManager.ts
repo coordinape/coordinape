@@ -6,6 +6,7 @@ import createCircleCRM from '../../../api-lib/event_triggers/createCircleCRM';
 import createNomineeDiscord from '../../../api-lib/event_triggers/createNomineeDiscord';
 import createNomineeTelegram from '../../../api-lib/event_triggers/createNomineeTelegram';
 import createVouchedUser from '../../../api-lib/event_triggers/createVouchedUser';
+import discordUserLinked from '../../../api-lib/event_triggers/discordUserLinked';
 import optOutDiscord from '../../../api-lib/event_triggers/optOutDiscord';
 import optOutTelegram from '../../../api-lib/event_triggers/optOutTelegram';
 import refundGiveDiscord from '../../../api-lib/event_triggers/refundGiveDiscord';
@@ -37,6 +38,7 @@ const HANDLERS: HandlerDict = {
   checkNomineeDiscord,
   checkNomineeTelegram,
   removeTeammate,
+  discordUserLinked,
 };
 
 async function eventHandler(req: VercelRequest, res: VercelResponse) {
