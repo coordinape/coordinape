@@ -111,13 +111,13 @@ export const GiveDrawer = ({
       refetch().then();
       // reset the need to save indicator so it doesnt say 'Changes Saved' when
       // it has already moved to 'Saved'.
-
-      if (!note || (note.length === 0 && showMarkdown)) {
-        setShowMarkDown(false);
-      }
       if (saveState == 'saved') {
         setNeedToSave(false);
       }
+    }
+
+    if (showMarkdown && (!note || note.length === 0)) {
+      setShowMarkDown(false);
     }
   }, [member]);
 
