@@ -1,13 +1,17 @@
 // add your own feature names here
 
-export type FeatureName = 'vaults' | 'fixed_payments' | 'future_feature';
+export type FeatureName =
+  | 'vaults'
+  | 'fixed_payments'
+  | 'future_feature'
+  | 'discord';
 
 // this is a very simple implementation of build-time feature flags that you can
 // hardcode or set with environment variables
 
 const staticFeatureFlags: Partial<Record<FeatureName, boolean>> = {
-  vaults: !!process.env.REACT_APP_FEATURE_FLAG_VAULTS,
-  fixed_payments: !!process.env.REACT_APP_FEATURE_FLAG_FIXED_PAYMENTS,
+  vaults: true,
+  fixed_payments: true,
 };
 
 // this code is safe to use in a non-browser environment because of the typeof

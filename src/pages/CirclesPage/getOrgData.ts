@@ -10,6 +10,8 @@ export const getOrgData = (address: string) =>
           id: true,
           name: true,
           logo: true,
+          sample: true,
+          created_by: true,
           circles: [
             {},
             {

@@ -4,9 +4,8 @@ let circleId;
 
 context('Coordinape', () => {
   before(() => {
-    const providerPort = Cypress.env('HARDHAT_GANACHE_PORT');
     const userAccount = deriveAccount().address;
-    Cypress.on('window:before:load', injectWeb3(providerPort));
+    Cypress.on('window:before:load', injectWeb3());
     return cy
       .mintErc20('USDC', userAccount, '20000')
       .then(() =>

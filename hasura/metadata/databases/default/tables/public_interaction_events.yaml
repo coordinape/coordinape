@@ -1,34 +1,34 @@
 table:
-  schema: public
   name: interaction_events
+  schema: public
 object_relationships:
   - name: circle
     using:
       manual_configuration:
-        remote_table:
-          schema: public
-          name: circles
-        insertion_order: null
         column_mapping:
           circle_id: id
+        insertion_order: null
+        remote_table:
+          name: circles
+          schema: public
   - name: organization
     using:
       manual_configuration:
-        remote_table:
-          schema: public
-          name: organizations
-        insertion_order: null
         column_mapping:
           org_id: id
+        insertion_order: null
+        remote_table:
+          name: organizations
+          schema: public
   - name: profile
     using:
       manual_configuration:
-        remote_table:
-          schema: public
-          name: profiles
-        insertion_order: null
         column_mapping:
           profile_id: id
+        insertion_order: null
+        remote_table:
+          name: profiles
+          schema: public
 event_triggers:
   - name: sendInteractionEventToMixpanel
     definition:
@@ -36,8 +36,8 @@ event_triggers:
       insert:
         columns: '*'
     retry_conf:
-      num_retries: 5
       interval_sec: 3600
+      num_retries: 5
       timeout_sec: 60
     webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
     headers:

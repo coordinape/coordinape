@@ -6,7 +6,7 @@ import { Hidden } from '@material-ui/core';
 
 import { menuGroupStyle } from 'components/MainLayout/MainHeader';
 import isFeatureEnabled from 'config/features';
-import { useWalletStatus } from 'hooks/login';
+import type { WalletStatus } from 'hooks/login';
 import { useMyProfile } from 'recoilState/app';
 import { paths } from 'routes/paths';
 import {
@@ -23,9 +23,10 @@ import { shortenAddress } from 'utils';
 
 import { RecentTransactionsModal } from './RecentTransactionsModal';
 
-export const MyAvatarMenu = () => {
+type Props = { walletStatus: WalletStatus };
+export const MyAvatarMenu = ({ walletStatus }: Props) => {
   const myProfile = useMyProfile();
-  const { icon, address, logout, chainName } = useWalletStatus();
+  const { icon, address, chainName, logout } = walletStatus;
   const [showTxModal, setShowTxModal] = useState(false);
 
   const [mouseEnterPopover, setMouseEnterPopover] = useState(false);
@@ -45,7 +46,7 @@ export const MyAvatarMenu = () => {
         <Popover open={mouseEnterPopover}>
           <PopoverTrigger
             tabIndex={-1}
-            css={{ outline: 'none' }}
+            css={{ outline: 'none !important' }}
             ref={triggerRef}
             onKeyDown={e => {
               if (e.key === 'Enter' || e.key === ' ') {
@@ -89,10 +90,14 @@ export const MyAvatarMenu = () => {
                 POPOVER_TIMEOUT
               );
             }}
-            // These offset values must be dialed in browser.  CSS values/strings cannot be used, only numbers.
-            sideOffset={-64}
-            alignOffset={-16}
-            css={{ background: '$surface', outline: 'none', zIndex: 2 }}
+            css={{
+              background: '$surface',
+              outline: 'none',
+              zIndex: 2,
+              position: 'relative',
+              right: '$md',
+              top: 'calc($lg - $4xl)',
+            }}
             onClick={closePopover}
           >
             <Box

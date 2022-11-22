@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: circle_share_tokens
+  schema: public
 object_relationships:
   - name: circle
     using:
@@ -10,6 +10,8 @@ insert_permissions:
     permission:
       check:
         circle:
+          deleted_at:
+            _is_null: true
           users:
             _and:
               - profile:
@@ -17,12 +19,9 @@ insert_permissions:
                     _eq: X-Hasura-User-Id
               - role:
                   _eq: 1
-          deleted_at:
-            _is_null: true
       columns:
         - circle_id
         - type
-      backend_only: false
 select_permissions:
   - role: user
     permission:
@@ -34,6 +33,8 @@ select_permissions:
         - uuid
       filter:
         circle:
+          deleted_at:
+            _is_null: true
           users:
             _and:
               - profile:
@@ -41,13 +42,14 @@ select_permissions:
                     _eq: X-Hasura-User-Id
               - role:
                   _eq: 1
-          deleted_at:
-            _is_null: true
 delete_permissions:
   - role: user
     permission:
+      backend_only: false
       filter:
         circle:
+          deleted_at:
+            _is_null: true
           users:
             _and:
               - profile:
@@ -55,5 +57,3 @@ delete_permissions:
                     _eq: X-Hasura-User-Id
               - role:
                   _eq: 1
-          deleted_at:
-            _is_null: true

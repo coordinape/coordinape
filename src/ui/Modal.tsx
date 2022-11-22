@@ -26,6 +26,7 @@ const Close = styled(Dialog.Close, {
   right: 'calc($sm + 3px)',
   top: 'calc($sm + 3px)',
   cursor: 'pointer',
+  '@sm': { outline: 'none !important' },
 });
 
 const Content = styled(Dialog.Content, {
@@ -45,6 +46,8 @@ const Content = styled(Dialog.Content, {
         borderRadius: 0,
         height: '100vh',
         position: 'fixed',
+        p: '$md $lg',
+        overflowY: 'scroll',
         "&[data-state='open']": {
           animation: `${slideInRight} .4s ease-out`,
         },

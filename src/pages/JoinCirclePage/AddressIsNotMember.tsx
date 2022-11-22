@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { TokenJoinInfo } from '../../../api/circle/landing/[token]';
+import CircleWithLogo from '../../components/CircleWithLogo';
 import { useMyProfile } from '../../recoilState';
 import { paths } from '../../routes/paths';
 import { AppLink, Box, Button, CenteredBox, Flex, Panel, Text } from '../../ui';
-import CircleWithLogo from '../../ui/CircleWithLogo';
 
 export const AddressIsNotMember = ({
   tokenJoinInfo,

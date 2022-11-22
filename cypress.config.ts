@@ -1,4 +1,5 @@
 import { defineConfig } from 'cypress';
+import pick from 'lodash/pick';
 
 import plugins from './cypress/plugins/index';
 
@@ -13,5 +14,17 @@ export default defineConfig({
     setupNodeEvents(on, config) {
       return plugins(on, config);
     },
+  },
+  env: {
+    ...pick(process.env, [
+      'HARDHAT_GANACHE_PORT',
+      'HASURA_GRAPHQL_ADMIN_SECRET',
+      'LOCAL_WEB_PORT',
+      'NODE_HASURA_URL',
+    ]),
+    // the below is enabled by default
+    // codeCoverage: {
+    //   url: `http://localhost:${process.env.LOCAL_WEB_PORT}/__coverage__`,
+    // },
   },
 });

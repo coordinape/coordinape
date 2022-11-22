@@ -1,25 +1,25 @@
 table:
-  schema: public
   name: pending_gift_private
+  schema: public
 object_relationships:
   - name: recipient
     using:
       manual_configuration:
-        remote_table:
-          schema: public
-          name: users
-        insertion_order: null
         column_mapping:
           recipient_id: id
+        insertion_order: null
+        remote_table:
+          name: users
+          schema: public
   - name: sender
     using:
       manual_configuration:
-        remote_table:
-          schema: public
-          name: users
-        insertion_order: null
         column_mapping:
           sender_id: id
+        insertion_order: null
+        remote_table:
+          name: users
+          schema: public
 select_permissions:
   - role: user
     permission:

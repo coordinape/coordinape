@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react';
 
 import { useQuery } from 'react-query';
 
-import { ChevronDown, ChevronUp } from '../../icons/__generated';
-import { Avatar, Box, Button, Flex, Text, TextArea } from '../../ui';
+import { ChevronDown, ChevronsRight, ChevronUp, Edit } from 'icons/__generated';
+import { Avatar, Box, Button, Flex, Text, TextArea, MarkdownPreview } from 'ui';
 import { SaveState, SavingIndicator } from 'ui/SavingIndicator';
 
 import { Contribution } from './Contribution';
 import { ContributorButton } from './ContributorButton';
+import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from './EpochStatementDrawer';
 import { GiveAllocator } from './GiveAllocator';
 import { Gift, Member } from './index';
 import { getContributionsForEpoch } from './queries';
@@ -27,6 +28,7 @@ type GiveDrawerProps = {
   setNeedToSave(save: boolean): void;
   noGivingAllowed: boolean;
   updateTeammate(id: number, teammate: boolean): void;
+  closeDrawer: () => void;
 };
 
 // GiveDrawer is the focused modal drawer to give/note/view contributions for one member
@@ -46,10 +48,11 @@ export const GiveDrawer = ({
   setNeedToSave,
   noGivingAllowed,
   updateTeammate,
+  closeDrawer,
 }: GiveDrawerProps) => {
   // fetch the contributions for this particular member
   const { data: contributions, refetch } = useQuery(
-    ['allocate-contributions', member.id],
+    [QUERY_KEY_ALLOCATE_CONTRIBUTIONS, member.id],
     () =>
       getContributionsForEpoch({
         circleId: member.circle_id,
@@ -64,6 +67,8 @@ export const GiveDrawer = ({
       staleTime: Infinity,
     }
   );
+
+  const [showMarkdown, setShowMarkDown] = useState<boolean>(true);
 
   // note is the current state of the note
   const [note, setNote] = useState(gift.note);
@@ -86,6 +91,9 @@ export const GiveDrawer = ({
       // reset the need to save indicator so it doesnt say 'Changes Saved' when
       // it has already moved to 'Saved'.
 
+      if (!note || (note.length === 0 && showMarkdown)) {
+        setShowMarkDown(false);
+      }
       if (saveState == 'saved') {
         setNeedToSave(false);
       }
@@ -111,25 +119,41 @@ export const GiveDrawer = ({
   };
 
   return (
-    <Box key={selectedMemberIdx} css={{ height: '100%', pt: '$md' }}>
-      <Flex>
-        <Button
-          color="white"
-          size="large"
-          css={nextPrevCss}
-          disabled={selectedMemberIdx == 0}
-          onClick={() => nextMember(false)}
-        >
-          <ChevronUp size="lg" />
-        </Button>
-        <Button
-          color="white"
-          css={nextPrevCss}
-          disabled={selectedMemberIdx == totalMembers - 1}
-          onClick={() => nextMember(true)}
-        >
-          <ChevronDown size="lg" />
-        </Button>
+    <Box key={selectedMemberIdx} css={{ height: '100%' }}>
+      <Flex
+        css={{
+          justifyContent: 'space-between',
+        }}
+      >
+        <Flex>
+          <Button
+            onClick={() => {
+              closeDrawer();
+            }}
+            color="textOnly"
+            noPadding
+            css={{ mr: '$lg' }}
+          >
+            <ChevronsRight size="lg" />
+          </Button>
+          <Button
+            color="white"
+            css={nextPrevCss}
+            disabled={selectedMemberIdx == 0}
+            onClick={() => nextMember(false)}
+          >
+            <ChevronUp size="lg" />
+          </Button>
+          <Button
+            color="white"
+            css={nextPrevCss}
+            disabled={selectedMemberIdx == totalMembers - 1}
+            onClick={() => nextMember(true)}
+          >
+            <ChevronDown size="lg" />
+          </Button>
+        </Flex>
+        <ContributorButton member={member} updateTeammate={updateTeammate} />
       </Flex>
       <Flex
         css={{
@@ -169,20 +193,15 @@ export const GiveDrawer = ({
           }}
           alignItems="center"
         >
-          <Flex
-            css={{
-              justifyContent: 'flex-start',
-              mr: '$lg',
-              ml: '0',
-            }}
-          >
-            <ContributorButton
-              member={member}
-              updateTeammate={updateTeammate}
-            />
-          </Flex>
           <Flex css={{ justifyContent: 'flex-end' }}>
-            <Box>
+            <SavingIndicator
+              css={{ mr: '$md' }}
+              saveState={saveState}
+              retry={() => {
+                saveNote({ ...gift }, note);
+              }}
+            />
+            <Flex css={{ '*': { minWidth: 0 } }}>
               <GiveAllocator
                 disabled={noGivingAllowed}
                 adjustGift={adjustGift}
@@ -191,7 +210,7 @@ export const GiveDrawer = ({
                 maxedOut={maxedOut}
                 optedOut={member.non_receiver || member.fixed_non_receiver}
               />
-            </Box>
+            </Flex>
           </Flex>
         </Flex>
       </Flex>
@@ -205,27 +224,77 @@ export const GiveDrawer = ({
           {/*  Giving Feedback in Web3*/}
           {/*</ApeInfoTooltip>*/}
         </Box>
-        <TextArea
-          css={{
-            backgroundColor: 'white',
-            width: '100%',
-            mt: '$xs',
-            mb: '$md',
-            fontSize: '$medium',
-          }}
-          // eslint-disable-next-line jsx-a11y/no-autofocus
-          autoFocus={true}
-          value={note ?? ''}
-          onChange={e => noteChanged(e.target.value)}
-          placeholder="Say thanks or give constructive feedback."
-        />
-        <Flex alignItems="center" css={{ justifyContent: 'flex-end' }}>
-          <SavingIndicator
-            saveState={saveState}
-            retry={() => {
-              saveNote({ ...gift }, note);
+        {showMarkdown ? (
+          <Box
+            tabIndex={0}
+            css={{ borderRadius: '$3' }}
+            onClick={() => {
+              setShowMarkDown(false);
             }}
-          />
+            onKeyDown={e => {
+              e.stopPropagation();
+              if (e.key === 'Enter' || e.key === ' ') {
+                setShowMarkDown(false);
+              }
+            }}
+          >
+            <MarkdownPreview source={note} />
+          </Box>
+        ) : (
+          <Box css={{ position: 'relative' }}>
+            <TextArea
+              autoSize
+              css={{
+                backgroundColor: 'white',
+                width: '100%',
+                mt: '$xs',
+                mb: '$md',
+                pb: '$xl',
+                fontSize: '$medium',
+                resize: 'vertical',
+                minHeight: 'calc($2xl * 2)',
+              }}
+              // eslint-disable-next-line jsx-a11y/no-autofocus
+              autoFocus={true}
+              value={note ?? ''}
+              onChange={e => noteChanged(e.target.value)}
+              onBlur={() => {
+                if (note && note?.length > 0) setShowMarkDown(true);
+              }}
+              onFocus={e => {
+                e.currentTarget.setSelectionRange(
+                  e.currentTarget.value.length,
+                  e.currentTarget.value.length
+                );
+              }}
+              placeholder="Say thanks or give constructive feedback."
+            />
+            <Text
+              inline
+              size="small"
+              color="secondary"
+              css={{
+                position: 'absolute',
+                right: '$sm',
+                bottom: '$sm',
+              }}
+            >
+              Markdown Supported
+            </Text>
+          </Box>
+        )}
+
+        <Flex css={{ justifyContent: 'flex-end', mt: '$md' }}>
+          <Button
+            color="primary"
+            disabled={selectedMemberIdx == totalMembers - 1}
+            onClick={() => nextMember(true)}
+            // adding onMouseDown because the onBlur event on the markdown-ready textarea was preventing onClick
+            onMouseDown={() => nextMember(true)}
+          >
+            <Edit />
+            Next
+          </Button>
         </Flex>
       </Box>
 
@@ -250,9 +319,7 @@ export const GiveDrawer = ({
                 borderBottom: '1px solid $border',
               }}
             >
-              <Text css={{ whiteSpace: 'pre-wrap' }} p>
-                {member.bio}
-              </Text>
+              <MarkdownPreview display source={member.bio} />
             </Box>
           </Box>
         )}

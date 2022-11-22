@@ -31,32 +31,33 @@ export const SavingIndicator = ({
   css?: CSS;
   retry?: () => void;
 }) => {
-  const color = saveState == 'error' ? 'alert' : 'neutral';
   return (
     <Flex alignItems="center" css={{ ...css, minHeight: '$lg' }}>
-      <Text size="small" color={color} css={{ gap: '$xs' }}>
+      <Text size="small">
         {(saveState == 'saving' ||
           saveState == 'scheduled' ||
           saveState == 'buffering') && (
-          <>
-            <RefreshCcw /> Saving...
-          </>
+          <Text color="neutral" css={{ gap: '$xs' }}>
+            <RefreshCcw /> Saving
+          </Text>
         )}
         {saveState == 'saved' && (
-          <>
+          <Text color="complete" css={{ gap: '$xs' }}>
             <Check /> Saved
-          </>
+          </Text>
         )}
         {saveState == 'error' && (
-          <>
-            <AlertTriangle />
-            Error Saving
+          <Flex css={{ gap: '$xs' }}>
+            <Text color="alert" css={{ gap: '$xs' }}>
+              <AlertTriangle />
+              Error Saving
+            </Text>
             {retry && (
               <Button size="small" css={{ ml: '$xs' }} onClick={retry}>
                 Retry
               </Button>
             )}
-          </>
+          </Flex>
         )}
       </Text>
     </Flex>

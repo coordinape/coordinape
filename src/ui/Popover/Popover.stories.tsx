@@ -48,9 +48,10 @@ const Template: ComponentStory<typeof PopoverComponent> = () => {
       <PopoverContent
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
-        align="end"
-        sideOffset={-38}
-        alignOffset={-1}
+        align="start"
+        css={{
+          mt: '$xs',
+        }}
       >
         <Box
           css={{

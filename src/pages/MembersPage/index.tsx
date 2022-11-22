@@ -9,7 +9,7 @@ import { NavLink } from 'react-router-dom';
 import { disabledStyle } from 'stitches.config';
 
 import { LoadingModal } from 'components';
-import { useApiAdminCircle, useContracts } from 'hooks';
+import { useApeSnackbar, useApiAdminCircle, useContracts } from 'hooks';
 import { useCircleOrg } from 'hooks/gql/useCircleOrg';
 import { useVaults } from 'hooks/gql/useVaults';
 import useMobileDetect from 'hooks/useMobileDetect';
@@ -45,6 +45,7 @@ export interface IDeleteUser {
 
 const MembersPage = () => {
   const { isMobile } = useMobileDetect();
+  const { showError } = useApeSnackbar();
 
   const [keyword, setKeyword] = useState<string>('');
   const [deleteUserDialog, setDeleteUserDialog] = useState<
@@ -71,7 +72,11 @@ const MembersPage = () => {
     circleEpochsStatus,
   } = useSelectedCircle();
 
-  const { data: circle } = useQuery(
+  const {
+    isError: circleSettingsHasError,
+    error: circleSettingsError,
+    data: circle,
+  } = useQuery(
     [QUERY_KEY_CIRCLE_SETTINGS, circleId],
     () => getCircleSettings(circleId),
     {
@@ -83,19 +88,9 @@ const MembersPage = () => {
     }
   );
 
-  const { deleteUser } = useApiAdminCircle(circleId);
-
-  const onChangeKeyword = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setKeyword(event.target.value);
-  };
-
-  const isAdmin = isUserAdmin(me);
-
   const {
-    isLoading,
-    isError,
-    isIdle,
-    error,
+    isError: activeNomineesHasError,
+    error: activeNomineesError,
     data: activeNominees,
     refetch: refetchNominees,
   } = useQuery(
@@ -107,12 +102,16 @@ const MembersPage = () => {
 
       //minmize background refetch
       refetchOnWindowFocus: false,
-
+      staleTime: Infinity,
       notifyOnChangeProps: ['data'],
     }
   );
 
-  const { data: fixedPayment } = useQuery(
+  const {
+    isError: fixedPaymentHasError,
+    error: fixedPaymentError,
+    data: fixedPayment,
+  } = useQuery(
     [QUERY_KEY_FIXED_PAYMENT, circleId],
     () => getFixedPayment(circleId),
     {
@@ -120,14 +119,20 @@ const MembersPage = () => {
       enabled: !!circleId,
       //minmize background refetch
       refetchOnWindowFocus: false,
-
       staleTime: Infinity,
       notifyOnChangeProps: ['data'],
     }
   );
 
+  const onChangeKeyword = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setKeyword(event.target.value);
+  };
+
+  const isAdmin = isUserAdmin(me);
+
   const contracts = useContracts();
   const orgQuery = useCircleOrg(circleId);
+  const { deleteUser } = useApiAdminCircle(circleId);
 
   const vaultsQuery = useVaults({
     orgId: orgQuery.data?.id,
@@ -208,10 +213,22 @@ const MembersPage = () => {
     formatUnits(maxGiftTokens, getDecimals(stringifiedVaultId()))
   );
 
-  if (isLoading || isIdle) return <LoadingModal visible />;
-  if (isError) {
-    if (error instanceof Error) {
-      console.warn(error.message);
+  if (!activeNominees || !circle || !fixedPayment)
+    return <LoadingModal visible />;
+
+  if (activeNomineesHasError) {
+    if (activeNomineesError instanceof Error) {
+      showError(activeNomineesError.message);
+    }
+  }
+  if (circleSettingsHasError) {
+    if (circleSettingsError instanceof Error) {
+      showError(circleSettingsError.message);
+    }
+  }
+  if (fixedPaymentHasError) {
+    if (fixedPaymentError instanceof Error) {
+      showError(fixedPaymentError.message);
     }
   }
   return (
@@ -387,8 +404,20 @@ const MembersPage = () => {
       >
         <Flex column alignItems="start" css={{ gap: '$md' }}>
           <Text p>
-            You’ll need to add your teammates to your circle and schedule an
-            epoch before you can start allocating {circle?.tokenName}.
+            {selectedCircle.organization.sample &&
+            /* this length check is the only way to know that this was the prepopulated circle */
+            visibleUsers.length > 2 ? (
+              <>
+                We’ve set you up with a sample circle prepopulated with members
+                and data. Feel free to add real people and experiment! Make your
+                own non-sample circle when you are ready.
+              </>
+            ) : (
+              <>
+                You’ll need to add your teammates to your circle and schedule an
+                epoch before you can start allocating {circle?.tokenName}.
+              </>
+            )}
           </Text>
           <Button color="primary" onClick={() => setNewCircle(false)}>
             I Understand

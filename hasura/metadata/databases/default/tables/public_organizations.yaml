@@ -1,35 +1,42 @@
 table:
-  schema: public
   name: organizations
+  schema: public
 configuration:
-  custom_root_fields: {}
-  custom_name: organizations
+  column_config: {}
   custom_column_names: {}
+  custom_name: organizations
+  custom_root_fields: {}
+object_relationships:
+  - name: profile
+    using:
+      foreign_key_constraint_on: created_by
 array_relationships:
   - name: circles
     using:
       manual_configuration:
-        remote_table:
-          schema: public
-          name: circles
-        insertion_order: null
         column_mapping:
           id: organization_id
+        insertion_order: null
+        remote_table:
+          name: circles
+          schema: public
   - name: vaults
     using:
       foreign_key_constraint_on:
         column: org_id
         table:
-          schema: public
           name: vaults
+          schema: public
 select_permissions:
   - role: user
     permission:
       columns:
         - created_at
+        - created_by
         - id
         - logo
         - name
+        - sample
         - telegram_id
         - updated_at
       filter:

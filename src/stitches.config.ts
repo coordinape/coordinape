@@ -70,6 +70,7 @@ export const colors = {
   black: '#000',
 
   primary: figmaColors.blue12,
+  primaryDark: figmaColors.blue24,
   primaryLight: figmaColors.blue1,
   primaryDisabled: figmaColors.blue4,
   textOnPrimary: '#fff',
@@ -188,6 +189,7 @@ export const {
       taller: '2',
     },
     shadows: {
+      shadow1: '0px 0px 8px rgba(81, 99, 105, 0.2)',
       shadow4: '0px 0px 3px 0px #0000001C, 0px 0px 16px 0px #0000001F',
       shadowBottom: '0px 6px 11px 0px #0000000d',
       heavy:

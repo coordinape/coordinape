@@ -1,14 +1,13 @@
 const webpack = require('webpack');
 const SentryCliPlugin = require('@sentry/webpack-plugin');
-const dotenv = require('dotenv');
 
 const {
+  COVERAGE,
   SENTRY_AUTH_TOKEN,
   VERCEL,
   VERCEL_ENV,
   VERCEL_GIT_COMMIT_SHA,
   VERCEL_URL,
-  CI,
 } = process.env;
 
 const shouldDryRun = !(
@@ -16,10 +15,6 @@ const shouldDryRun = !(
   SENTRY_AUTH_TOKEN &&
   VERCEL_ENV !== 'development'
 );
-
-if (CI && shouldDryRun) {
-  dotenv.config({ path: './.ci.env', override: true });
-}
 
 module.exports = {
   jest: {
@@ -37,23 +32,22 @@ module.exports = {
         '<rootDir>/api-test/**/*.{spec,test}.{js,jsx,ts,tsx}',
       ],
       collectCoverageFrom: [
-        'src/**/*.{ts,tsx}',
-        '!src/**/*.d.ts',
-        '!**/__generated__/**',
-        'api/**/*.ts',
-        'api-lib/**/*.ts',
+        '{src,api,api-lib}/**/*.{ts,tsx}',
+        '!**/*.d.ts',
+        '!**/*.stories.tsx',
       ],
+      coverageDirectory: 'coverage-jest',
+      coveragePathIgnorePatterns: ['/node_modules/', '/__generated.*/'],
       coverageReporters: ['json', 'lcov', 'text-summary'],
       transform: {
         '.(ts|tsx)': 'ts-jest',
       },
-      globals: {
-        'ts-jest': {
-          compiler: 'ttypescript',
-        },
-      },
       resetMocks: false,
       setupFiles: ['<rootDir>/src/utils/test-setup.ts'],
+      moduleNameMapper: {
+        'react-markdown':
+          '<rootDir>/node_modules/react-markdown/react-markdown.min.js',
+      },
     },
   },
   webpack: {
@@ -66,7 +60,18 @@ module.exports = {
               fullySpecified: false,
             },
           },
-        ],
+          COVERAGE && {
+            test: /\.(ts|tsx)$/,
+            exclude: /node_modules/,
+            use: {
+              loader: 'babel-loader',
+              options: {
+                presets: ['@babel/preset-typescript'],
+                plugins: ['istanbul'],
+              },
+            },
+          },
+        ].filter(x => x),
       },
       ignoreWarnings: [/Failed to parse source map/],
       resolve: {

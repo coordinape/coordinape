@@ -1,25 +1,25 @@
 table:
-  schema: public
   name: teammates
+  schema: public
 object_relationships:
   - name: teammate
     using:
       manual_configuration:
-        remote_table:
-          schema: public
-          name: users
-        insertion_order: null
         column_mapping:
           team_mate_id: id
+        insertion_order: null
+        remote_table:
+          name: users
+          schema: public
   - name: user
     using:
       manual_configuration:
-        remote_table:
-          schema: public
-          name: users
-        insertion_order: null
         column_mapping:
           user_id: id
+        insertion_order: null
+        remote_table:
+          name: users
+          schema: public
 select_permissions:
   - role: user
     permission:
@@ -37,12 +37,12 @@ select_permissions:
 event_triggers:
   - name: removeTeammate
     definition:
-      enable_manual: false
       delete:
         columns: '*'
+      enable_manual: false
     retry_conf:
-      num_retries: 5
       interval_sec: 10
+      num_retries: 5
       timeout_sec: 60
     webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
     headers:

@@ -72,6 +72,11 @@ export class Contracts {
     );
   }
 
+  static async fromProvider(provider: JsonRpcProvider) {
+    const { chainId } = await provider.getNetwork();
+    return new Contracts(chainId, provider);
+  }
+
   get signer() {
     assert(this._signer, 'Contracts instance is read-only');
     return this._signer;

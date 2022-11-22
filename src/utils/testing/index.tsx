@@ -1,6 +1,6 @@
 import { ReactElement, Suspense, useEffect } from 'react';
 
-import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
+import { Web3Provider } from '@ethersproject/providers';
 import { Web3ReactProvider, useWeb3React } from '@web3-react/core';
 import { NetworkConnector } from '@web3-react/network-connector';
 import { SnackbarProvider } from 'notistack';
@@ -12,7 +12,14 @@ import { ThemeProvider } from '@material-ui/styles';
 
 import { createTheme } from 'theme';
 
-import { chainId, rpcUrl } from './provider';
+import {
+  chainId,
+  rpcUrl,
+  provider,
+  takeSnapshot,
+  restoreSnapshot,
+} from './provider';
+export { provider, takeSnapshot, restoreSnapshot };
 
 const theme = createTheme();
 
@@ -67,20 +74,6 @@ export const TestWrapper = ({
       </QueryClientProvider>
     </RecoilRoot>
   );
-};
-
-export const provider = new JsonRpcProvider(rpcUrl);
-
-export const takeSnapshot = async (): Promise<string> => {
-  return (await provider.send('evm_snapshot', [])) as string;
-};
-
-export const restoreSnapshot = async (snapshotId?: string) => {
-  if (!snapshotId) {
-    console.error('No snapshot ID provided; not reverting.');
-    return;
-  }
-  return provider.send('evm_revert', [snapshotId]);
 };
 
 export * from './recoil';

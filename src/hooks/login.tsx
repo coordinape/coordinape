@@ -53,6 +53,12 @@ export const useWalletStatus = () => {
   };
 };
 
+export type WalletStatus = {
+  icon: JSX.Element | null;
+  address: string | undefined;
+  logout: () => void;
+};
+
 export type AuthStep = 'connect' | 'sign' | 'done';
 
 type AuthContextType = [

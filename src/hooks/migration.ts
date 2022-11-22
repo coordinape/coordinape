@@ -53,3 +53,12 @@ export const useSomeCircleId = () => {
   const firstId = useRecoilValue(rApiManifest)?.myUsers[0]?.circle_id;
   return selectedId ? selectedId : firstId;
 };
+
+export const useShowGive = (circleId: number) => {
+  const manifest = useRecoilValue(rManifest);
+  const circle = manifest.circles.find(c => c.id === circleId);
+  const currentEpoch = manifest.epochs.find(
+    e => e.circle_id === circleId && !e.ended
+  );
+  return circle?.show_pending_gives || !currentEpoch;
+};

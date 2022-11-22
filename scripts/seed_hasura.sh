@@ -2,26 +2,7 @@
 set -e
 SCRIPT_DIR="${0%/*}"
 
-# read .env, filtering out comments
-if [ -z "$CI" ]; then
-  DOTENV_FILE=$SCRIPT_DIR/../.env
-else
-  DOTENV_FILE=$SCRIPT_DIR/../.ci.env
-fi
-
-if [ -f "$DOTENV_FILE" ]; then
-  export $(cat $DOTENV_FILE | sed 's/^#.*$//' | xargs)
-fi
-
-if [ -z "$CI" ]; then
-  PORT=$LOCAL_HASURA_PORT
-  POSTGRES_PORT=$LOCAL_POSTGRES_PORT
-else
-  PORT=$CI_HASURA_PORT
-  POSTGRES_PORT=$CI_POSTGRES_PORT
-fi
-
-PG_CXN="postgres://$LOCAL_POSTGRES_USER:$LOCAL_POSTGRES_PASSWORD@localhost:$POSTGRES_PORT/$LOCAL_POSTGRES_DATABASE"
+PG_CXN="postgres://$LOCAL_POSTGRES_USER:$LOCAL_POSTGRES_PASSWORD@localhost:$LOCAL_POSTGRES_PORT/$LOCAL_POSTGRES_DATABASE"
 
 CMD_TRUNCATE_ALL="DO \$\$ BEGIN
   EXECUTE (SELECT 'TRUNCATE TABLE ' || string_agg(oid::regclass::text, ', ') || ' CASCADE'
@@ -31,7 +12,7 @@ CMD_TRUNCATE_ALL="DO \$\$ BEGIN
     AND oid::regclass::text != 'vault_tx_types');
 END\$\$"
 
-until curl -s -o/dev/null http://localhost:"$PORT"; do
+until curl -s -o/dev/null http://localhost:"$LOCAL_HASURA_PORT"; do
   sleep 1
   echo "waiting for hasura to start"
 done
@@ -60,8 +41,11 @@ echo "Seeding..."
 ts-node ./scripts/db_seed_test.ts
 
 # Re-enable event triggers post-seeding
+# Don't apply metadata, because disable_cron will do it
 echo "Re-enabling triggers and cron"
-./scripts/enable_triggers.sh
+APPLY_METADATA=no ./scripts/enable_triggers.sh
 
 # disable cron tasks to minimize unexpected CPU spikes
 ./scripts/disable_cron.sh
+
+yarn hasura metadata reload

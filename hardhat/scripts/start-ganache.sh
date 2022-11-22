@@ -3,13 +3,8 @@
 # adapted from https://github.com/makerdao/testchain/blob/dai.js/scripts/launch
 
 set -e
+set -o pipefail
 SCRIPT_DIR="${0%/*}"
-
-# read .env, filtering out comments
-DOTENV_FILE=$SCRIPT_DIR/../../.env
-if [ -f "$DOTENV_FILE" ]; then
-  export $(cat $DOTENV_FILE | sed 's/^#.*$//' | xargs)
-fi
 
 CHAIN_ID=${HARDHAT_GANACHE_CHAIN_ID:-1338}
 PORT=$HARDHAT_GANACHE_PORT
@@ -20,6 +15,7 @@ EXECARGS=()
 while [[ "$#" > 0 ]]; do case $1 in
   --exec) EXEC=1;;
   --no-deploy) NO_DEPLOY=1;;
+  --no-reuse) NO_REUSE=1;;
   -p|--port) PORT="$2"; shift;;
   -v|--verbose) VERBOSE=1;;
   *) EXECARGS+=($1);;
@@ -36,6 +32,11 @@ if [ ! "$ETHEREUM_RPC_URL" ]; then
 fi
 
 if nc -z 127.0.0.1 $PORT >/dev/null 2>&1; then
+  if [ "$NO_REUSE" ]; then
+    echo "Error! Testchain is already running at port $PORT but --no-reuse was specified."
+    exit 1
+  fi
+  
   echo "Using existing testchain at port $PORT."
 
   if [ "$EXEC" ]; then
@@ -77,10 +78,15 @@ else
   done
 
   # Kill the testnet when this script exits
-  trap "kill $PID" EXIT
+  cleanup() {
+    echo "Ganache is exiting... ($PID)"
+    kill $PID || true
+  }
+  trap echo SIGINT
+  trap cleanup EXIT
 
   if [ ! "$NO_DEPLOY" ]; then
-    FORK_MAINNET=1 yarn --cwd hardhat deploy --network ci
+    FORK_MAINNET=1 yarn --cwd hardhat deploy --network ci | awk '{ print "[ganache]", $0 }'
   fi
 
   if [ "$EXEC" ]; then
@@ -89,6 +95,6 @@ else
   else
     # The testnet will continue to run until the user shuts it down.
     echo "Testchain is up. Press Ctrl-C to stop it."
-    while true; do read; done
+    wait
   fi
 fi

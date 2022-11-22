@@ -1,51 +1,52 @@
 table:
-  schema: public
   name: epoches
+  schema: public
 configuration:
-  custom_root_fields: {}
-  custom_name: epochs
+  column_config: {}
   custom_column_names: {}
+  custom_name: epochs
+  custom_root_fields: {}
 object_relationships:
   - name: circle
     using:
       manual_configuration:
-        remote_table:
-          schema: public
-          name: circles
-        insertion_order: null
         column_mapping:
           circle_id: id
+        insertion_order: null
+        remote_table:
+          name: circles
+          schema: public
 array_relationships:
   - name: burns
     using:
       foreign_key_constraint_on:
         column: epoch_id
         table:
-          schema: public
           name: burns
+          schema: public
   - name: distributions
     using:
       foreign_key_constraint_on:
         column: epoch_id
         table:
-          schema: public
           name: distributions
+          schema: public
   - name: epoch_pending_token_gifts
     using:
       manual_configuration:
-        remote_table:
-          schema: public
-          name: pending_token_gifts
-        insertion_order: null
         column_mapping:
           id: epoch_id
+        insertion_order: null
+        remote_table:
+          name: pending_token_gifts
+          schema: public
   - name: token_gifts
     using:
       foreign_key_constraint_on:
         column: epoch_id
         table:
-          schema: public
           name: token_gifts
+          schema: public
 select_permissions:
   - role: api-user
     permission:
@@ -53,6 +54,7 @@ select_permissions:
         - circle_id
         - created_at
         - days
+        - description
         - end_date
         - ended
         - grant
@@ -78,6 +80,7 @@ select_permissions:
         - circle_id
         - created_at
         - days
+        - description
         - end_date
         - ended
         - grant

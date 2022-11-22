@@ -27,7 +27,8 @@ import {
   Form,
 } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
-import { getCircleAvatar } from 'utils/domain';
+
+import { CreateSampleCircle } from './CreateSampleCircle';
 
 export const SummonCirclePage = () => {
   const navigate = useNavigate();
@@ -38,13 +39,10 @@ export const SummonCirclePage = () => {
   const { address: myAddress, myUsers } = useMyProfile();
 
   const [logoData, setLogoData] = useState<{
-    avatar: string;
+    avatar?: string;
     avatarRaw: File | null;
   }>({
-    avatar: getCircleAvatar({
-      avatar: undefined,
-      circleName: 'CO',
-    }),
+    avatar: undefined,
     avatarRaw: null,
   });
 
@@ -68,6 +66,8 @@ export const SummonCirclePage = () => {
     user_name: myUsers.find(u => u !== undefined)?.name,
   };
 
+  const hasSampleOrg = organizations.find(o => o.sample);
+
   const schema = z
     .object({
       user_name: z.string().refine(val => val.trim().length >= 3, {
@@ -87,6 +87,15 @@ export const SummonCirclePage = () => {
 
   type CreateCircleFormSchema = z.infer<typeof schema>;
 
+  const circleCreated = (circleId: number) => {
+    queryClient.invalidateQueries(QUERY_KEY_MY_ORGS);
+    queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
+    navigate({
+      pathname: paths.paths.members(circleId),
+      search: paths.NEW_CIRCLE_CREATED_PARAMS,
+    });
+  };
+
   const onSubmit: SubmitHandler<CreateCircleFormSchema> = async data => {
     try {
       const image_data_base64 = logoData.avatarRaw
@@ -96,12 +105,7 @@ export const SummonCirclePage = () => {
         ...data,
         image_data_base64,
       });
-      queryClient.invalidateQueries(QUERY_KEY_MY_ORGS);
-      queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
-      navigate({
-        pathname: paths.paths.members(newCircle.id),
-        search: paths.NEW_CIRCLE_CREATED_PARAMS,
-      });
+      circleCreated(newCircle.id);
     } catch (e) {
       console.warn(e);
     }
@@ -152,6 +156,14 @@ export const SummonCirclePage = () => {
         through equitable and transparent payments. To start a circle, we need
         just a bit of information.
       </Text>
+      {!hasSampleOrg && (
+        <Box css={{ mb: '$lg' }}>
+          <Text variant="label" css={{ mb: '$sm' }}>
+            Looking to explore and experiment?
+          </Text>
+          <CreateSampleCircle onFinish={circleCreated} />
+        </Box>
+      )}
       <Panel
         css={{
           mb: '$md',
@@ -192,6 +204,7 @@ export const SummonCirclePage = () => {
                     css={{ gap: '$sm', width: '100%' }}
                   >
                     <Avatar
+                      name="CO"
                       size="medium"
                       margin="none"
                       path={logoData.avatar}

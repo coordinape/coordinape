@@ -106,11 +106,13 @@ export const FormInputField = <TFieldValues extends FieldValues>(
           id={id}
           error={!!fieldState.error}
           disabled={disabled}
+          placeholder={placeholder}
         ></TextField>
       )}
       {textArea && (
         <TextArea
           {...field}
+          autoSize
           css={{
             width: '100%',
             fontWeight: '$normal',

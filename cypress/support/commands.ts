@@ -6,7 +6,15 @@
 // commands please read more here:
 // https://on.cypress.io/custom-commands
 // ***********************************************
+import { JsonRpcProvider } from '@ethersproject/providers';
+
 import { mintToken } from '../../src/utils/testing/mint';
+import '@cypress/code-coverage/support';
+
+const provider = new JsonRpcProvider(
+  `http://localhost:${Cypress.env('HARDHAT_GANACHE_PORT')}`
+);
+
 Cypress.Commands.add('login', () => {
   cy.contains('Metamask').click();
 });
@@ -16,7 +24,7 @@ Cypress.Commands.add('login', () => {
 // Cypress' async context
 Cypress.Commands.add('mintErc20', (...args) => {
   cy.then(async () => {
-    await mintToken(...args);
+    await mintToken(...args, provider);
   });
 });
 

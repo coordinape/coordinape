@@ -1,16 +1,12 @@
 import { useMemo, useState } from 'react';
 
-import { isUserAdmin } from 'lib/users';
-import sortBy from 'lodash/sortBy';
 import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
-import { useNavigate } from 'react-router';
 import { NavLink } from 'react-router-dom';
-import { Transition } from 'react-transition-group';
 import type { CSS } from 'stitches.config';
 
+import { useMyProfile } from '../../recoilState';
 import { LoadingModal } from 'components';
-import { scrollToTop } from 'components/MainLayout/MainLayout';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { User } from 'icons/__generated';
 import {
@@ -18,27 +14,19 @@ import {
   EXTERNAL_URL_GET_STARTED,
   EXTERNAL_URL_DISCORD,
 } from 'routes/paths';
-import {
-  AppLink,
-  Avatar,
-  Box,
-  Button,
-  Flex,
-  Image,
-  Link,
-  Panel,
-  Text,
-} from 'ui';
+import { Box, Button, Flex, Image, Link, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { getOrgData, QUERY_KEY_MY_ORGS } from './getOrgData';
+import { OrgCircles } from './OrgCircles';
 
 import type { Awaited } from 'types/shim';
 type QueryResult = Awaited<ReturnType<typeof getOrgData>>;
+export type OrgWithCircles = QueryResult['organizations'][number];
 
 export const CirclesPage = () => {
-  const navigate = useNavigate();
   const address = useConnectedAddress();
+  const profile = useMyProfile();
   const query = useQuery(
     [QUERY_KEY_MY_ORGS, address],
     () => getOrgData(address as string),
@@ -51,16 +39,18 @@ export const CirclesPage = () => {
 
   const [showAllCircles, setShowAllCircles] = useState(false);
 
-  const goToCircle = (id: number, path: string) => {
-    scrollToTop();
-    navigate(path);
-  };
-
-  const isAdmin = (org: QueryResult['organizations'][0]) =>
-    org.circles.map(c => c.users[0]).some(u => u && isUserAdmin(u));
-
-  if (query.isLoading || query.isIdle || query.isRefetching)
+  if (
+    query.isLoading ||
+    query.isIdle ||
+    query.isRefetching ||
+    orgs == undefined
+  )
     return <LoadingModal visible note="CirclesPage" />;
+
+  // Is there a sample org created by the current profile?
+  const sampleOrg = orgs.find(
+    o => o.sample && o.circles.length > 0 && o.created_by == profile.id
+  );
 
   return (
     <SingleColumnLayout>
@@ -100,72 +90,23 @@ export const CirclesPage = () => {
           {!showAllCircles ? 'Show all circles' : 'Show only my circles'}
         </Text>
       </Text>
-      {orgs?.length == 0 && <GetStarted />}
-      {orgs?.map(org => (
-        <Box key={org.id} css={{ mb: '$lg' }}>
-          <Flex
-            row
-            css={{
-              mb: '$lg',
-              alignItems: 'baseline',
-              justifyContent: 'space-between',
-            }}
-          >
-            <Flex alignItems="center">
-              <AppLink to={paths.organization(org.id)}>
-                <Text
-                  h2
-                  medium
-                  css={{ gap: '$sm', '@sm': { fontSize: '$large' } }}
-                >
-                  <Avatar path={org?.logo} size="small" name={org.name} />
-                  {org.name}
-                </Text>
-              </AppLink>
-            </Flex>
-            {isAdmin(org) && (
-              <Button
-                as={NavLink}
-                to={paths.createCircle + '?org=' + org.id}
-                color="primary"
-                outlined
-                css={{ whiteSpace: 'nowrap', ml: '$sm' }}
-              >
-                Add Circle
-              </Button>
-            )}
-          </Flex>
-          <Box
-            css={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '$xl',
-            }}
-          >
-            {sortBy(org.circles, c => [-c.users.length, c.name]).map(circle => (
-              <Transition
-                key={circle.id}
-                mountOnEnter
-                unmountOnExit
-                timeout={300}
-                in={
-                  showAllCircles ||
-                  circle.users[0]?.role === 0 ||
-                  circle.users[0]?.role === 1
-                }
-              >
-                {state => (
-                  <CircleRow
-                    circle={circle}
-                    onButtonClick={goToCircle}
-                    state={state}
-                  />
-                )}
-              </Transition>
-            ))}
-          </Box>
-        </Box>
-      ))}
+      {/* Show the sample org first*/}
+      {/* Do we have a sample already? If not, lets offer to make one eh */}
+      {sampleOrg && (
+        <OrgCircles
+          key={sampleOrg.id}
+          org={sampleOrg}
+          showAllCircles={showAllCircles}
+        />
+      )}
+      {/* Show the non-sample orgs*/}
+      {orgs
+        ?.filter(o => !o.sample)
+        .map(org => (
+          <OrgCircles key={org.id} org={org} showAllCircles={showAllCircles} />
+        ))}
+      {/* Get Started help! */}
+      {(orgs.length == 0 || (orgs.length == 1 && sampleOrg)) && <GetStarted />}
     </SingleColumnLayout>
   );
 };
@@ -252,6 +193,7 @@ const GetStarted = () => {
     </>
   );
 };
+
 export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
   const role = circle.users[0]?.role;
   const nonMember = role === undefined;

@@ -1,16 +1,12 @@
 import { apiFetch, Thunder } from './__generated__/zeus';
 
-export const makeThunder = (url: string, adminSecret: string) => {
-  return Thunder(async (...params) => {
-    return apiFetch([
-      url,
-      {
-        method: 'POST',
-        headers: {
-          'x-hasura-admin-secret': adminSecret,
-          'Hasura-Client-Name': 'serverless-function',
-        },
-      },
-    ])(...params);
-  });
+type ThunderOptions = {
+  url: string;
+  headers: Record<string, string>;
+  timeout?: number;
 };
+
+export const makeThunder = ({ url, headers, timeout = 0 }: ThunderOptions) =>
+  Thunder(async (...params) =>
+    apiFetch([url, { method: 'POST', headers, timeout: timeout }])(...params)
+  );

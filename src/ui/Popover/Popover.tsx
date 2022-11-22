@@ -15,6 +15,7 @@ export const POPOVER_TIMEOUT = 300;
 export const Popover = PopoverPrimitive.Root;
 export const PopoverTrigger = styled(PopoverPrimitive.Trigger, {});
 export const PopoverAnchor = PopoverPrimitive.Anchor;
+export const PopoverPortal = PopoverPrimitive.Portal;
 export const PopoverContent = StyledContent;
 export const PopoverClose = PopoverPrimitive.Close;
 export const PopoverArrow = PopoverPrimitive.Arrow;

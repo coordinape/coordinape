@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: circle_metadata
+  schema: public
 object_relationships:
   - name: circle
     using:

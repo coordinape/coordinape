@@ -2,9 +2,7 @@
 // for the api/*, perhaps conditionally disable
 // Long term, refactor for monorepo
 import dotenv from 'dotenv';
-if (process.env.CI) {
-  dotenv.config({ path: './.ci.env', override: true });
-} else dotenv.config();
+dotenv.config();
 
 function getEnvValue<T extends string | number>(
   key: string,
@@ -42,6 +40,8 @@ export const TELEGRAM_BOT_BASE_URL = `https://api.telegram.org/bot${getEnvValue(
 )}`;
 export const IS_LOCAL_ENV = process.env.NODE_ENV === 'development';
 
+export const IS_TEST_ENV = process.env.NODE_ENV === 'development' || 'test';
+
 // intentionally don't use getEnv because this is optional
 export const SENTRY_DSN = process.env.SENTRY_DSN;
 
@@ -70,4 +70,17 @@ export const IMAGE_DIR: string = getEnvValue('IMAGE_DIR', '');
 export const MIXPANEL_PROJECT_TOKEN: string = getEnvValue(
   'MIXPANEL_PROJECT_TOKEN',
   ''
+);
+
+export const DISCORD_BOT_CLIENT_ID: string = getEnvValue(
+  'DISCORD_BOT_CLIENT_ID',
+  'no_token'
+);
+export const DISCORD_BOT_CLIENT_SECRET: string = getEnvValue(
+  'DISCORD_BOT_CLIENT_SECRET',
+  'no_token'
+);
+export const DISCORD_BOT_REDIRECT_URI: string = getEnvValue(
+  'DISCORD_BOT_REDIRECT_URI',
+  'http://localhost:3000/discord/link'
 );

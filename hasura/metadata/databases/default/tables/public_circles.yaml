@@ -1,16 +1,16 @@
 table:
-  schema: public
   name: circles
+  schema: public
 object_relationships:
   - name: circle_private
     using:
       manual_configuration:
-        remote_table:
-          schema: public
-          name: circle_private
-        insertion_order: null
         column_mapping:
           id: circle_id
+        insertion_order: null
+        remote_table:
+          name: circle_private
+          schema: public
   - name: organization
     using:
       foreign_key_constraint_on: organization_id
@@ -20,80 +20,80 @@ array_relationships:
       foreign_key_constraint_on:
         column: circle_id
         table:
-          schema: public
           name: circle_api_keys
+          schema: public
   - name: burns
     using:
       foreign_key_constraint_on:
         column: circle_id
         table:
-          schema: public
           name: burns
+          schema: public
   - name: circle_metadata
     using:
       foreign_key_constraint_on:
         column: circle_id
         table:
-          schema: public
           name: circle_metadata
+          schema: public
   - name: contributions
     using:
       foreign_key_constraint_on:
         column: circle_id
         table:
-          schema: public
           name: contributions
+          schema: public
   - name: epochs
     using:
       manual_configuration:
-        remote_table:
-          schema: public
-          name: epoches
-        insertion_order: null
         column_mapping:
           id: circle_id
+        insertion_order: null
+        remote_table:
+          name: epoches
+          schema: public
   - name: integrations
     using:
       foreign_key_constraint_on:
         column: circle_id
         table:
-          schema: public
           name: circle_integrations
+          schema: public
   - name: nominees
     using:
       foreign_key_constraint_on:
         column: circle_id
         table:
-          schema: public
           name: nominees
+          schema: public
   - name: pending_token_gifts
     using:
       foreign_key_constraint_on:
         column: circle_id
         table:
-          schema: public
           name: pending_token_gifts
+          schema: public
   - name: token_gifts
     using:
       foreign_key_constraint_on:
         column: circle_id
         table:
-          schema: public
           name: token_gifts
+          schema: public
   - name: users
     using:
       foreign_key_constraint_on:
         column: circle_id
         table:
-          schema: public
           name: users
+          schema: public
   - name: vault_transactions
     using:
       foreign_key_constraint_on:
         column: circle_id
         table:
-          schema: public
           name: vault_transactions
+          schema: public
 select_permissions:
   - role: api-user
     permission:
@@ -138,6 +138,7 @@ select_permissions:
         - nomination_days_limit
         - only_giver_vouch
         - organization_id
+        - show_pending_gives
         - team_sel_text
         - team_selection
         - token_name
@@ -164,8 +165,8 @@ event_triggers:
       insert:
         columns: '*'
     retry_conf:
-      num_retries: 5
       interval_sec: 3600
+      num_retries: 5
       timeout_sec: 60
     webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
     headers:

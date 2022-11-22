@@ -8,6 +8,10 @@ import { Flex, Tooltip } from 'ui';
 import Text from 'ui/Text/Text';
 
 const CheckboxRoot = styled(CheckboxPrimitive.Root, {
+  button: {
+    cursor: 'pointer',
+    pointerEvents: 'visible',
+  },
   all: 'unset',
   backgroundColor: '$surface',
   boxSizing: 'border-box',
@@ -17,6 +21,7 @@ const CheckboxRoot = styled(CheckboxPrimitive.Root, {
   justifyContent: 'center',
   width: '$lg',
   height: '$lg',
+  cursor: 'pointer',
   '&:hover': { borderColor: '$borderMedium' },
   '&:focus': { borderColor: '$borderMedium' },
   variants: {
@@ -46,7 +51,7 @@ const CheckboxIndicator = styled(CheckboxPrimitive.Indicator, {
 });
 
 const Label = styled('label', {
-  flexGrow: 1,
+  cursor: 'pointer',
   color: '$text',
   fontSize: '$4',
   userSelect: 'none',
@@ -92,7 +97,7 @@ export const CheckBox = React.forwardRef<HTMLButtonElement, CheckBoxProps>(
         {label && <Label htmlFor={label}>{label}</Label>}
         {infoTooltip && (
           <Tooltip content={infoTooltip}>
-            <Info />
+            <Info color="neutral" />
           </Tooltip>
         )}
       </Flex>

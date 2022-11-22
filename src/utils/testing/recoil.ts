@@ -17,6 +17,7 @@ const organization: IProtocol = {
   is_verified: false,
   created_at: new Date(0),
   updated_at: new Date(0),
+  sample: false,
 };
 
 const circle: IApiCircle = {
@@ -37,6 +38,7 @@ const circle: IApiCircle = {
   vouching_text: '',
   updated_at: new Date(0),
   fixed_payment_token_type: '',
+  show_pending_gives: true,
 };
 
 const profile: IApiProfile = {

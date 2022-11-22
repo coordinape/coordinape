@@ -7,116 +7,143 @@ import { MediaQueryKeys } from 'stitches.config';
 import { ReceiveInfo, MyAvatarMenu } from 'components';
 import isFeatureEnabled from 'config/features';
 import { useMediaQuery } from 'hooks';
+import { useWalletStatus, WalletStatus } from 'hooks/login';
 import { rSelectedCircle } from 'recoilState/app';
 import { isCircleSpecificPath } from 'routes/paths';
 import { Box, Button } from 'ui';
 
 import { CircleNav } from './CircleNav';
-import { useMainHeaderQuery } from './getMainHeaderData';
+import { MainHeaderQuery, useMainHeaderQuery } from './getMainHeaderData';
 import { MobileHeader } from './MobileHeader';
 import { OverviewMenu } from './OverviewMenu';
+import { SampleOrgIndicator } from './SampleOrgIndicator';
 
 export const MainHeader = () => {
   const { circle } = useRecoilValueLoadable(rSelectedCircle).valueMaybe() || {};
   const location = useLocation();
-  const inCircle = !!(circle && isCircleSpecificPath(location));
-  const breadcrumb = inCircle
-    ? `${circle.organization.name} > ${circle.name}`
-    : '';
+  const inCircle =
+    circle && isCircleSpecificPath(location) ? circle : undefined;
+  const walletStatus = useWalletStatus();
+  const query = useMainHeaderQuery();
 
   if (useMediaQuery(MediaQueryKeys.sm))
     return (
       <Suspense fallback={null}>
-        <MobileHeader inCircle={!!inCircle} breadcrumb={breadcrumb} />
+        <MobileHeader
+          inCircle={inCircle}
+          walletStatus={walletStatus}
+          query={query}
+        />
       </Suspense>
     );
 
-  return <NormalHeader inCircle={inCircle} />;
+  return (
+    <NormalHeader
+      inCircle={inCircle}
+      walletStatus={walletStatus}
+      query={query}
+    />
+  );
 };
 
-const NormalHeader = ({ inCircle }: { inCircle: boolean }) => {
-  const query = useMainHeaderQuery();
+interface Circle {
+  organization: {
+    sample: boolean;
+  };
+}
+
+type Props = {
+  inCircle?: Circle;
+  walletStatus: WalletStatus;
+  query: MainHeaderQuery;
+};
+
+const NormalHeader = ({ inCircle, walletStatus, query }: Props) => {
   const showClaimsButton =
     (query.data?.claims_aggregate.aggregate?.count || 0) > 0;
 
   return (
-    <Box
-      css={{
-        px: '$xl',
-        height: '$headerHeight',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'stretch',
-        background: '$headingText',
-      }}
-    >
+    <Box>
       <Box
         css={{
-          p: '$sm $md $xs',
-          color: '$neutral',
-          fontWeight: '$black',
-        }}
-      >
-        COORDINAPE
-      </Box>
-      <Box
-        css={{
+          px: '$xl',
+          height: '$headerHeight',
           display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          position: 'relative',
-          '@md': {
-            a: { fontSize: '$md' },
-          },
+          flexDirection: 'column',
+          alignItems: 'stretch',
+          background: '$headingText',
+          zIndex: '4',
         }}
       >
-        <OverviewMenu data={query.data} />
+        <Box
+          css={{
+            p: '$sm $md $xs',
+            color: '$neutral',
+            fontWeight: '$black',
+          }}
+        >
+          COORDINAPE
+        </Box>
         <Box
           css={{
             display: 'flex',
-            flexGrow: 1,
-            justifyContent: 'flex-start',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
             position: 'relative',
+            '@md': {
+              a: { fontSize: '$md' },
+            },
           }}
         >
+          <OverviewMenu data={query.data} />
+          <Box
+            css={{
+              display: 'flex',
+              flexGrow: 1,
+              justifyContent: 'flex-start',
+              position: 'relative',
+            }}
+          >
+            {inCircle && (
+              <Box>
+                <Suspense fallback={null}>
+                  <CircleNav />
+                </Suspense>
+              </Box>
+            )}
+          </Box>
           {inCircle && (
-            <Box>
-              <Suspense fallback={null}>
-                <CircleNav />
-              </Suspense>
-            </Box>
+            <Suspense fallback={null}>
+              <Box
+                css={{
+                  mr: '$md',
+                  '@md': {
+                    scale: 0.8,
+                  },
+                }}
+              >
+                <ReceiveInfo />
+              </Box>
+            </Suspense>
           )}
-        </Box>
-        {inCircle && (
           <Suspense fallback={null}>
-            <Box
-              css={{
-                mr: '$md',
-                '@md': {
-                  scale: 0.8,
-                },
-              }}
-            >
-              <ReceiveInfo />
-            </Box>
+            {isFeatureEnabled('vaults') && showClaimsButton && (
+              <Button
+                as={NavLink}
+                to="/claims"
+                css={{ mr: '$md' }}
+                color="complete"
+                size="small"
+              >
+                Claim Tokens
+              </Button>
+            )}
+            <MyAvatarMenu walletStatus={walletStatus} />
           </Suspense>
-        )}
-        <Suspense fallback={null}>
-          {isFeatureEnabled('vaults') && showClaimsButton && (
-            <Button
-              as={NavLink}
-              to="/claims"
-              css={{ mr: '$md' }}
-              color="complete"
-              size="small"
-            >
-              Claim Tokens
-            </Button>
-          )}
-          <MyAvatarMenu />
-        </Suspense>
+        </Box>
       </Box>
+      {inCircle?.organization.sample && <SampleOrgIndicator />}
     </Box>
   );
 };

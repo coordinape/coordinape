@@ -7,6 +7,7 @@ export interface IProtocol {
   is_verified?: boolean;
   created_at?: Date;
   updated_at?: Date;
+  sample: boolean;
 }
 
 export interface IApiCircle {
@@ -30,6 +31,7 @@ export interface IApiCircle {
   organization: IProtocol;
   auto_opt_out: boolean;
   fixed_payment_token_type?: string;
+  show_pending_gives: boolean;
 }
 
 export interface ICircle extends IApiCircle {
