@@ -1,13 +1,12 @@
 import { createContext, useContext } from 'react';
 
-import { useWeb3React } from '@web3-react/core';
-
 import { ReactComponent as CoinbaseSVG } from 'assets/svgs/wallet/coinbase.svg';
 import { ReactComponent as MetaMaskSVG } from 'assets/svgs/wallet/metamask-color.svg';
 import { ReactComponent as WalletConnectSVG } from 'assets/svgs/wallet/wallet-connect.svg';
 import { EConnectorNames } from 'config/constants';
 import { useApiBase } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
+import { useWeb3React } from 'hooks/useWeb3React';
 import { connectors } from 'utils/connectors';
 
 import useConnectedChain from './useConnectedChain';

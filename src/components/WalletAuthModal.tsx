@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 
 import { Web3Provider } from '@ethersproject/providers';
-import { useWeb3React } from '@web3-react/core';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { loginSupportedChainIds } from 'common-lib/constants';
 import { concat } from 'lodash';
@@ -12,6 +11,7 @@ import { Box, Button, Text, Modal, Flex, HR, Select } from '../ui';
 import { EConnectorNames, WALLET_ICONS } from 'config/constants';
 import isFeatureEnabled from 'config/features';
 import { useApeSnackbar } from 'hooks';
+import { useWeb3React } from 'hooks/useWeb3React';
 import { useWalletAuth } from 'recoilState/app';
 import { connectors } from 'utils/connectors';
 import { AUTO_OPEN_WALLET_DIALOG_PARAMS } from 'utils/domain';
