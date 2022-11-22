@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { DateTime, Settings } from 'luxon';
 
-import { order_by } from '../api-lib/gql/__generated__/zeus';
+// import { order_by } from '../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../api-lib/gql/adminClient';
 import { uploadCsv } from '../api-lib/s3';
 import { Awaited } from '../api-lib/ts4.5shim';
@@ -105,7 +105,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
           const endDate = DateTime.fromISO(epoch.end_date);
           const usersData: Record<string, UserData> = {};
-
+          const hasSentGifts: Record<number, number> = {};
+          epoch.token_gifts.forEach(g => {
+            hasSentGifts[g.sender_id] = 1;
+          });
           /* tabulate user received GIVES in epoch */
           epoch.token_gifts.forEach(g => {
             if (!(g.recipient_id.toString() in usersData)) {
@@ -130,9 +133,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 notesBonusTotal: notesBonusTotal,
                 possibleNotes,
                 giftCount: 1,
-                sentGifts: epoch.token_gifts.filter(
-                  f => f.sender_id === g.recipient_id
-                ).length,
+                sentGifts: g.sender_id in hasSentGifts ? 1 : 0,
                 optOutBonusAlloc: 0,
               };
             } else {
@@ -161,6 +162,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               if (
                 recipient.pGive === 0 &&
                 recipient.sentGifts > 0 &&
+                recipient.notesOnly > 0 &&
                 recipient.notesOnly === recipient.giftCount
               ) {
                 const optOutBonusAlloc =
@@ -194,7 +196,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                   (recipient.potTotal - totalOptOutPgiveAlloc);
               }
               epochBasedData[epoch.id][recipientId].pGive +=
-                epochBasedData[epoch.id][recipientId].optOutBonusAlloc;
+                recipient.optOutBonusAlloc;
             });
           }
           epochIndexed[key].totalOptOutPgiveAlloc[epoch.id] =
@@ -204,22 +206,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         /* Normalize the epochs pgives in the same month */
         epochIndexed[key].epochs.forEach(epoch => {
           Object.keys(epochBasedData[epoch.id]).forEach(recipientId => {
+            const recipient = epochBasedData[epoch.id][recipientId];
             if (epochIndexed[key].epochs.length > 1) {
               let epochsTotalPGive = 0;
-              epochBasedData[epoch.id][recipientId].normalizedEpochs.forEach(
-                eId => {
-                  epochsTotalPGive +=
-                    recipientId in epochBasedData[eId]
-                      ? epochBasedData[eId][recipientId].pGive
-                      : 0;
-                }
-              );
+              recipient.normalizedEpochs.forEach(eId => {
+                epochsTotalPGive +=
+                  recipientId in epochBasedData[eId]
+                    ? epochBasedData[eId][recipientId].pGive
+                    : 0;
+              });
               epochBasedData[epoch.id][recipientId].normalizedPGive =
-                epochsTotalPGive /
-                epochBasedData[epoch.id][recipientId].normalizedEpochs.length;
+                epochsTotalPGive / recipient.normalizedEpochs.length;
             } else {
               epochBasedData[epoch.id][recipientId].normalizedPGive =
-                epochBasedData[epoch.id][recipientId].pGive;
+                recipient.pGive;
             }
           });
         });
@@ -240,6 +240,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     'epochTotalGives',
     'pGive',
     'normalizedPGive',
+    'optOutBonusAlloc',
     'normalizedEpochs',
     'potTotal',
     'givesReceiverBase',
@@ -263,6 +264,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         u.epochTotalGives,
         u.pGive.toFixed(2),
         u.normalizedPGive.toFixed(2),
+        u.optOutBonusAlloc.toFixed(2),
         u.normalizedEpochs.join(' '),
         u.potTotal.toFixed(2),
         u.givesReceiverBase.toFixed(2),
@@ -319,7 +321,7 @@ const getCircleGifts = async (
       {
         limit: limit ? +limit : 250,
         offset: offset ? +offset : 0,
-        order_by: [{ id: order_by.asc }],
+        // order_by: [{ id: order_by.asc }],
       },
       {
         id: true,
