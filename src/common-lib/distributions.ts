@@ -1,7 +1,7 @@
 import { FixedNumber } from 'ethers';
 import { formatUnits } from 'ethers/lib/utils';
 
-export const calc = ({
+const calc = ({
   address,
   decimals,
   fixedGifts,
@@ -22,7 +22,7 @@ export const calc = ({
   };
 };
 
-export const getUserClaimedFixedPaymentAmt = ({
+const getUserClaimedFixedPaymentAmt = ({
   decimals,
   fixedGifts,
   address,
