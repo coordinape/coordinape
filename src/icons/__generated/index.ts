@@ -46,6 +46,7 @@ export { default as GiveReceiveBoth } from './GiveReceiveBoth';
 export { default as GiveReceiveGive } from './GiveReceiveGive';
 export { default as GiveReceiveNone } from './GiveReceiveNone';
 export { default as GiveReceiveReceive } from './GiveReceiveReceive';
+export { default as Grid } from './Grid';
 export { default as HelpCircle } from './HelpCircle';
 export { default as Info } from './Info';
 export { default as Link } from './Link';

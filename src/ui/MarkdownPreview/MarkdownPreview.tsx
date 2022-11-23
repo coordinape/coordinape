@@ -14,6 +14,7 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
     borderBottom: 'none !important',
     mt: '$md !important',
     pt: '0 !important',
+    fontSize: '$large !important',
   },
   'h1, h2, h3, h4, h5, p': {
     mb: '0 !important',
@@ -30,6 +31,14 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
         minHeight: 0,
         borderRadius: '$1',
         p: '$md',
+      },
+    },
+    renderOnly: {
+      true: {
+        backgroundColor: 'transparent !important',
+        minHeight: 0,
+        p: 0,
+        borderRadius: 0,
       },
     },
   },

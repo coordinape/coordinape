@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { ApeInfoTooltip } from '../../components';
-import { Check, X } from '../../icons/__generated';
 import { IMyUser } from '../../types';
+import { AlertTriangle, Check, X } from 'icons/__generated';
 import { Box, Flex, Text, ToggleButton } from 'ui';
 
 import { AvatarAndName } from './AvatarAndName';
@@ -62,119 +62,137 @@ export const MyGiveRow = ({
       ref={newRef}
     >
       <GiveRowGrid
+        gridView={false}
         selected={selected}
         css={{
-          pl: '$md',
+          pl: '$lg',
           borderColor: '$surface',
           '@sm': {
             py: '$sm',
           },
         }}
       >
-        <AvatarAndName name={myUser.name} avatar={myUser.profile?.avatar} />
         <Flex
-          alignItems="center"
           css={{
+            alignItems: 'center',
             display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
+            gridTemplateColumns: '2fr 4fr 4fr',
             justifyContent: 'space-between',
             gap: '$lg',
+            minHeight: 'calc($2xl + $xs)',
             '@sm': {
               gridTemplateColumns: '1fr',
               justifyItems: 'center',
-              gap: '$md',
+              gap: 0,
             },
           }}
         >
-          <Box
-            css={{
-              '@sm': {
-                display: 'none',
-              },
-            }}
-          >
-            {/*shim to get the grid to line up*/}
-            &nbsp;
-          </Box>
+          <AvatarAndName name={myUser.name} avatar={myUser.profile?.avatar} />
           <Flex
+            alignItems="center"
             css={{
-              gap: '$md',
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              justifyContent: 'space-between',
+              gap: '$lg',
               '@sm': {
-                mt: '$md',
+                gridTemplateColumns: '1fr',
+                justifyItems: 'center',
+                gap: '$md',
               },
             }}
           >
-            <Text
-              variant="label"
-              className="contributionLabel"
+            <Box
               css={{
-                whiteSpace: 'nowrap',
+                '@sm': {
+                  display: 'none',
+                },
               }}
             >
-              {contributionCount} contribution
-              {contributionCount == 1 ? '' : 's'}
-            </Text>
-            {!statementCompelete && (
-              <Text tag color="primary">
-                No Epoch Statement
-              </Text>
-            )}
-          </Flex>
-        </Flex>
-        <Flex css={{ justifyContent: 'flex-end', alignItems: 'center' }}>
-          {myUser.fixed_non_receiver ? (
-            <Text variant="label">
-              You are blocked from receiving {myUser.circle.tokenName}
-            </Text>
-          ) : (
+              {/*shim to get the grid to line up*/}
+              &nbsp;
+            </Box>
             <Flex
               css={{
                 gap: '$md',
                 '@sm': {
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: '$sm',
-                  mb: '$xs',
                   mt: '$md',
                 },
               }}
             >
-              <Text variant="label">
-                Receive Give?
-                <ApeInfoTooltip>
-                  Choose no if you want to opt-out from receiving{' '}
-                  {myUser.circle.tokenName}
-                </ApeInfoTooltip>
+              <Text
+                variant="label"
+                className="contributionLabel"
+                css={{
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {contributionCount} contribution
+                {contributionCount == 1 ? '' : 's'}
               </Text>
-              <Flex>
-                <ToggleButton
-                  color="complete"
-                  css={{ mr: '$sm' }}
-                  active={!userIsOptedOut}
-                  disabled={isNonReceiverMutationLoading || !userIsOptedOut}
-                  onClick={e => {
-                    e.stopPropagation();
-                    updateNonReceiver(false);
-                  }}
-                >
-                  <Check size="lg" /> Yes
-                </ToggleButton>
-                <ToggleButton
-                  color="destructive"
-                  active={userIsOptedOut}
-                  disabled={isNonReceiverMutationLoading || userIsOptedOut}
-                  onClick={e => {
-                    e.stopPropagation();
-                    myUser.give_token_received > 0
-                      ? setOptOutOpen(true)
-                      : updateNonReceiver(true);
-                  }}
-                >
-                  <X size="lg" /> No
-                </ToggleButton>
-              </Flex>
+              {!statementCompelete && (
+                <Text tag color="primary">
+                  <AlertTriangle />
+                  No Epoch Statement
+                </Text>
+              )}
             </Flex>
-          )}
+          </Flex>
+          <Flex css={{ justifyContent: 'flex-end', alignItems: 'center' }}>
+            {myUser.fixed_non_receiver ? (
+              <Text variant="label">
+                You are blocked from receiving {myUser.circle.tokenName}
+              </Text>
+            ) : (
+              <Flex
+                css={{
+                  gap: '$md',
+                  '@sm': {
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: '$sm',
+                    mb: '$xs',
+                    mt: '$md',
+                  },
+                }}
+              >
+                <Text variant="label">
+                  Receive Give?
+                  <ApeInfoTooltip>
+                    Choose no if you want to opt-out from receiving{' '}
+                    {myUser.circle.tokenName}
+                  </ApeInfoTooltip>
+                </Text>
+                <Flex>
+                  <ToggleButton
+                    color="complete"
+                    css={{ mr: '$sm' }}
+                    active={!userIsOptedOut}
+                    disabled={isNonReceiverMutationLoading || !userIsOptedOut}
+                    onClick={e => {
+                      e.stopPropagation();
+                      updateNonReceiver(false);
+                    }}
+                  >
+                    <Check size="lg" /> Yes
+                  </ToggleButton>
+                  <ToggleButton
+                    color="destructive"
+                    active={userIsOptedOut}
+                    disabled={isNonReceiverMutationLoading || userIsOptedOut}
+                    onClick={e => {
+                      e.stopPropagation();
+                      myUser.give_token_received > 0
+                        ? setOptOutOpen(true)
+                        : updateNonReceiver(true);
+                    }}
+                  >
+                    <X size="lg" /> No
+                  </ToggleButton>
+                </Flex>
+              </Flex>
+            )}
+          </Flex>
         </Flex>
       </GiveRowGrid>
       <OptOutWarningModal

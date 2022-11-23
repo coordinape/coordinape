@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
-import { useApeSnackbar } from '../../hooks';
-import { X } from '../../icons/__generated';
-import Plus from '../../icons/__generated/Plus';
-import { CSS } from '../../stitches.config';
-import { Box, Button } from '../../ui';
+import { CSS } from 'stitches.config';
+
 import { normalizeError } from '../../utils/reporting';
+import { useApeSnackbar } from 'hooks';
+import { Check, Plus, X } from 'icons/__generated';
+import { Box, Button } from 'ui';
 
 import { Member } from './index';
 
@@ -43,19 +43,26 @@ export const ContributorButton = ({
     <Button
       size="small"
       css={{
-        minWidth: '144px',
+        fontWeight: '$semibold',
+        width: '118px',
+        // '@md': {
+        //   width: 'auto',
+        // },
+        height: '$lg',
         '@sm': {
           visibility: 'visible !important',
           minWidth: 0,
-          flexGrow: 1,
         },
-        gap: '$sm',
+        gap: '$xs',
         whiteSpace: 'nowrap',
         ...css,
         '.remove': { display: 'none' },
         '&:hover': {
           '.remove': {
             display: 'inline',
+          },
+          '.teammate': {
+            display: 'none',
           },
         },
       }}
@@ -65,20 +72,21 @@ export const ContributorButton = ({
       outlined={member.teammate ? false : true}
     >
       {member.teammate && (
-        <Box as="span" className="remove">
-          <X />
-        </Box>
+        <>
+          <Box as="span" className="teammate">
+            <Check />
+          </Box>
+          <Box as="span" className="remove">
+            <X />
+          </Box>
+        </>
       )}
       {!member.teammate && (
         <Box as="span">
           <Plus />
         </Box>
       )}
-      {updatingTeammate
-        ? 'Saving...'
-        : member.teammate
-        ? 'Collaborator'
-        : 'Add Collaborator'}
+      {updatingTeammate ? 'Saving...' : 'Collaborator'}
     </Button>
   );
 };

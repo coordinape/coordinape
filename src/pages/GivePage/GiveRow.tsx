@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { FileText } from '../../icons/__generated';
 import { CSS } from '../../stitches.config';
-import { Box, Flex, Text } from '../../ui';
-import useMobileDetect from 'hooks/useMobileDetect';
+import { AlertTriangle, Check } from 'icons/__generated';
+import { Box, Flex, MarkdownPreview, Panel, Text } from 'ui';
 
 import { AvatarAndName } from './AvatarAndName';
 import { ContributorButton } from './ContributorButton';
@@ -23,6 +22,7 @@ export const GiveRow = ({
   docExample,
   css,
   selected,
+  gridView,
 }: {
   member: Member;
   updateTeammate(id: number, teammate: boolean): Promise<void>;
@@ -34,13 +34,13 @@ export const GiveRow = ({
   docExample?: boolean;
   css?: CSS;
   selected: boolean;
+  gridView: boolean;
 }) => {
   // hover indicates that the row is currently hovered; this is needed to show/hide buttons and change their style
   const [hover, setHover] = useState(docExample);
 
   // noteComplete indicates that this member has a note
   const noteComplete = gift.note && gift.note.length > 0;
-  const { isMobile } = useMobileDetect();
   const newRef = useRef<HTMLDivElement>(null);
   const [lastSelected, setLastSelected] = useState<boolean>(false);
   useEffect(() => {
@@ -69,83 +69,79 @@ export const GiveRow = ({
       css={{ p: 0, borderRadius: '$3' }}
       ref={newRef}
     >
-      <GiveRowGrid selected={(selected || docExample) ?? false} css={css}>
-        <AvatarAndName name={member.name} avatar={member.profile.avatar} />
-        <Flex
+      <GiveRowGrid
+        gridView={gridView}
+        selected={(selected || docExample) ?? false}
+        css={css}
+      >
+        <Panel
+          nested={gridView}
           css={{
+            p: gridView ? '$md' : 0,
+            background: gridView ? '$white' : 'transparent',
+            alignItems: 'center',
             display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
+            gridTemplateColumns: gridView ? '1fr' : '2fr 4fr 4fr',
             justifyContent: 'space-between',
-            gap: '$lg',
+            gap: gridView ? '$md' : '$lg',
+            minHeight: 'calc($2xl + $xs)',
             '@sm': {
               gridTemplateColumns: '1fr',
-              gap: 0,
               justifyItems: 'center',
-              mt: '$md',
+              gap: 0,
             },
           }}
         >
-          <Flex
-            css={{
-              minWidth: 0,
-            }}
-            alignItems="center"
-          >
-            {!isMobile && (
-              <ContributorButton
-                css={{
-                  '&:hover': { transition: 'visibility 0.1s ease-in' },
-                  visibility: hover || member.teammate ? 'visible' : 'hidden',
-                }}
-                member={member}
-                updateTeammate={updateTeammate}
-              />
-            )}
-          </Flex>
-          {!docExample && (
-            <Flex
-              css={{
-                minWidth: 0,
-              }}
-              alignItems="center"
-            >
-              <Box>
-                {member.contributions_aggregate?.aggregate &&
-                  member.contributions_aggregate?.aggregate.count > 0 && (
-                    <Text
-                      variant="label"
-                      css={{
-                        '@sm': {
-                          mt: '$md',
-                        },
-                      }}
-                    >
-                      {member.contributions_aggregate.aggregate.count}{' '}
-                      Contribution
-                      {member.contributions_aggregate.aggregate.count == 1
-                        ? ''
-                        : 's'}
-                    </Text>
-                  )}
-              </Box>
+          <AvatarAndName name={member.name} avatar={member.profile.avatar} />
+          {!gridView && !docExample && (
+            <Flex>
+              {member.contributions_aggregate?.aggregate &&
+                member.contributions_aggregate?.aggregate.count > 0 && (
+                  <Text
+                    variant="label"
+                    css={{
+                      '@sm': {
+                        mt: '$md',
+                      },
+                    }}
+                  >
+                    {member.contributions_aggregate.aggregate.count}{' '}
+                    Contribution
+                    {member.contributions_aggregate.aggregate.count == 1
+                      ? ''
+                      : 's'}
+                  </Text>
+                )}
             </Flex>
           )}
-        </Flex>
-        <Flex
-          alignItems="center"
-          css={{
-            justifyContent: 'flex-end',
-            minWidth: 0,
-            '@sm': {
-              flexDirection: 'column-reverse',
-              justifyItems: 'center',
-              mt: '$md',
-              gap: '$md',
-            },
-          }}
-        >
-          <Flex css={{ gap: '$sm' }}>
-            {isMobile && (
+          <Flex
+            alignItems="center"
+            css={{
+              justifyContent: 'flex-end',
+              flexDirection: gridView ? 'column' : 'row',
+              minWidth: 0,
+              gap: gridView ? '$md' : '$xl',
+              '@sm': {
+                flexDirection: 'column-reverse',
+                justifyItems: 'center',
+                mt: '$md',
+                gap: '$md',
+              },
+            }}
+          >
+            <Flex
+              css={{
+                gap: gridView ? '$sm' : '$xl',
+                width: '100%',
+                flexDirection: gridView ? 'row-reverse' : 'row',
+                justifyContent: gridView ? 'flex-end' : 'space-between',
+                '@sm': {
+                  justifyContent: 'space-around',
+                  width: 'auto',
+                  gap: '$sm',
+                },
+              }}
+            >
               <ContributorButton
                 css={{
                   '&:hover': { transition: 'visibility 0.1s ease-in' },
@@ -154,41 +150,91 @@ export const GiveRow = ({
                 member={member}
                 updateTeammate={updateTeammate}
               />
+              {!docExample && (
+                <Text
+                  tag
+                  css={{
+                    '@sm': {
+                      mr: 0,
+                      minWidth: 0,
+                      px: '$sm',
+                    },
+                  }}
+                  color={noteComplete ? 'complete' : 'primary'}
+                >
+                  {noteComplete ? (
+                    <>
+                      <Check /> Note Complete
+                    </>
+                  ) : (
+                    <>
+                      <AlertTriangle /> Empty Note
+                    </>
+                  )}
+                </Text>
+              )}
+            </Flex>
+            <GiveAllocator
+              disabled={noGivingAllowed}
+              adjustGift={adjustGift}
+              gift={gift}
+              maxedOut={maxedOut}
+              optedOut={member.non_receiver || member.fixed_non_receiver}
+            />
+          </Flex>
+        </Panel>
+        {gridView && (
+          <Flex column css={{ pt: '$md', gap: '$md' }}>
+            {member.bio ? (
+              <>
+                <Text
+                  inline
+                  semibold
+                  size="large"
+                  css={{ color: '$headingText' }}
+                >
+                  Epoch Statement
+                </Text>
+                <MarkdownPreview
+                  renderOnly
+                  source={member.bio}
+                  css={{
+                    height: 'calc($3xl * 2)',
+                    overflow: 'hidden',
+                  }}
+                />
+              </>
+            ) : (
+              <Box css={{ height: 'calc($3xl * 2)' }}></Box>
             )}
             {!docExample && (
-              <Text
-                tag
+              <Flex
                 css={{
-                  mr: '$xl',
-                  minWidth: '130px',
-                  '@sm': {
-                    mr: 0,
-                    minWidth: 0,
-                    px: '$sm',
-                  },
+                  height: '$md',
+                  pt: '$md',
+                  borderTop: '1px solid $border',
+                  justifyContent: 'space-between',
                 }}
-                color={noteComplete ? 'complete' : 'primary'}
               >
-                {noteComplete ? (
-                  <>
-                    <FileText /> Note Complete
-                  </>
-                ) : (
-                  <>
-                    <FileText /> Note Empty
-                  </>
-                )}
-              </Text>
+                {member.contributions_aggregate?.aggregate &&
+                  member.contributions_aggregate?.aggregate.count > 0 && (
+                    <>
+                      <Text variant="label">
+                        {member.contributions_aggregate.aggregate.count}{' '}
+                        Contribution
+                        {member.contributions_aggregate.aggregate.count == 1
+                          ? ''
+                          : 's'}
+                      </Text>
+                      <Text size="small" color="secondary" semibold>
+                        View
+                      </Text>
+                    </>
+                  )}
+              </Flex>
             )}
           </Flex>
-          <GiveAllocator
-            disabled={noGivingAllowed}
-            adjustGift={adjustGift}
-            gift={gift}
-            maxedOut={maxedOut}
-            optedOut={member.non_receiver || member.fixed_non_receiver}
-          />
-        </Flex>
+        )}
       </GiveRowGrid>
     </Box>
   );
