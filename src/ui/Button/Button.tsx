@@ -155,7 +155,7 @@ export const Button = styled('button', {
           background: '$background',
         },
         '&:disabled': {
-          zIndex: -1,
+          color: '$text',
         },
       },
     },
