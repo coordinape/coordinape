@@ -44,7 +44,7 @@ export const ContributorButton = ({
       size="small"
       css={{
         fontWeight: '$semibold',
-        width: '118px',
+        width: '7.5rem',
         // '@md': {
         //   width: 'auto',
         // },

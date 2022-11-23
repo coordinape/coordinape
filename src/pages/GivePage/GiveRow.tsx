@@ -162,7 +162,9 @@ export const GiveRow = ({
                 <Text
                   tag
                   css={{
+                    width: '8.5rem',
                     '@sm': {
+                      width: 'auto',
                       mr: 0,
                       minWidth: 0,
                       px: '$sm',
