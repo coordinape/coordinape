@@ -33,7 +33,7 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
         p: '$md',
       },
     },
-    renderOnly: {
+    render: {
       true: {
         backgroundColor: 'transparent !important',
         minHeight: 0,

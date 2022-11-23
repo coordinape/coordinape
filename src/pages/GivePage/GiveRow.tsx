@@ -66,7 +66,15 @@ export const GiveRow = ({
         }
       }}
       color="transparent"
-      css={{ p: 0, borderRadius: '$3' }}
+      css={{
+        p: 0,
+        borderRadius: '$3',
+        '&:focus-within': {
+          button: {
+            visibility: 'visible',
+          },
+        },
+      }}
       ref={newRef}
     >
       <GiveRowGrid
@@ -185,28 +193,25 @@ export const GiveRow = ({
         </Panel>
         {gridView && (
           <Flex column css={{ pt: '$md', gap: '$md' }}>
-            {member.bio ? (
-              <>
-                <Text
-                  inline
-                  semibold
-                  size="large"
-                  css={{ color: '$headingText' }}
-                >
-                  Epoch Statement
-                </Text>
-                <MarkdownPreview
-                  renderOnly
-                  source={member.bio}
-                  css={{
-                    height: 'calc($3xl * 2)',
-                    overflow: 'hidden',
-                  }}
-                />
-              </>
-            ) : (
-              <Box css={{ height: 'calc($3xl * 2)' }}></Box>
-            )}
+            <Flex
+              column
+              css={{ gap: '$md', height: 'calc($2xl * 3)', overflow: 'hidden' }}
+            >
+              {member.bio && (
+                <>
+                  <Text
+                    inline
+                    semibold
+                    size="large"
+                    css={{ color: '$headingText' }}
+                  >
+                    Epoch Statement
+                  </Text>
+                  <MarkdownPreview render source={member.bio} />
+                </>
+              )}
+            </Flex>
+
             {!docExample && (
               <Flex
                 css={{
