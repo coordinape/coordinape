@@ -95,6 +95,7 @@ export const Text = styled('span', {
         fontSize: '$small',
         fontWeight: '$semibold',
         lineHeight: '$shorter',
+        height: '$lg',
         p: '$xs calc($xs + $xxs)',
         borderRadius: '$1',
         gap: '$sm',

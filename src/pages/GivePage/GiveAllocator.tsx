@@ -56,6 +56,8 @@ export const GiveAllocator = ({
     <Flex
       css={{
         minWidth: '13.5rem',
+        minHeight: 'calc($2xl + $xs - 1px)',
+        alignItems: 'center',
       }}
     >
       {optedOut && (
@@ -129,7 +131,7 @@ export const GiveAllocator = ({
           disabled={disabled}
           onClick={e => e.stopPropagation()}
           css={{
-            width: '5em',
+            width: '100%',
             textAlign: 'center',
             mx: '$sm',
             py: '$xs',
