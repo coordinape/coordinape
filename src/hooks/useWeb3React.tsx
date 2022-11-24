@@ -1,9 +1,14 @@
+import { useState } from 'react';
+
 import { Web3Provider } from '@ethersproject/providers';
 import {
   useWeb3React as useOriginalWeb3React,
   Web3ReactProvider as OriginalWeb3ReactProvider,
 } from '@web3-react/core';
 import type { Web3ReactContextInterface } from '@web3-react/core/dist/types';
+
+import { AuthContext } from 'hooks/login';
+import type { AuthStep } from 'hooks/login';
 
 export function useWeb3React<T = any>(
   key?: string | undefined
@@ -32,7 +37,15 @@ export function Web3ReactProvider({
 }: {
   children: any;
 }): JSX.Element {
-  return OriginalWeb3ReactProvider({ getLibrary, children });
+  const authStepState = useState<AuthStep>('connect');
+
+  return (
+    <OriginalWeb3ReactProvider getLibrary={getLibrary}>
+      <AuthContext.Provider value={authStepState}>
+        {children}
+      </AuthContext.Provider>
+    </OriginalWeb3ReactProvider>
+  );
 }
 
 function getLibrary(provider: any): Web3Provider {
