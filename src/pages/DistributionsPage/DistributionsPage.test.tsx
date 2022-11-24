@@ -2,6 +2,7 @@ import { act, render, screen, waitFor } from '@testing-library/react';
 import { FixedNumber } from 'ethers';
 import pick from 'lodash/pick';
 import { DateTime } from 'luxon';
+import { QueryClient } from 'react-query';
 
 import { TestWrapper } from 'utils/testing';
 import { mockEpoch } from 'utils/testing/mocks';
@@ -71,6 +72,13 @@ jest.mock('./queries', () => ({
   useSubmitDistribution: jest.fn(),
 }));
 
+let queryClient: QueryClient;
+
+afterEach(async () => {
+  await queryClient?.cancelQueries();
+  queryClient?.clear();
+});
+
 test('render without a distribution', async () => {
   (getEpochData as any).mockImplementation(() =>
     Promise.resolve(mockEpochData)
@@ -78,7 +86,12 @@ test('render without a distribution', async () => {
 
   await act(async () => {
     await render(
-      <TestWrapper withWeb3>
+      <TestWrapper
+        withWeb3
+        queryClientCallback={qc => {
+          queryClient = qc;
+        }}
+      >
         <DistributionsPage />
       </TestWrapper>
     );
@@ -119,7 +132,12 @@ test('render with a distribution', async () => {
 
   await act(async () => {
     await render(
-      <TestWrapper withWeb3>
+      <TestWrapper
+        withWeb3
+        queryClientCallback={qc => {
+          queryClient = qc;
+        }}
+      >
         <DistributionsPage />
       </TestWrapper>
     );
@@ -142,7 +160,12 @@ test('render with no allocations', async () => {
 
   await act(async () => {
     await render(
-      <TestWrapper withWeb3>
+      <TestWrapper
+        withWeb3
+        queryClientCallback={qc => {
+          queryClient = qc;
+        }}
+      >
         <DistributionsPage />
       </TestWrapper>
     );
@@ -176,7 +199,12 @@ test('render with no vaults', async () => {
 
   await act(async () => {
     await render(
-      <TestWrapper withWeb3>
+      <TestWrapper
+        withWeb3
+        queryClientCallback={qc => {
+          queryClient = qc;
+        }}
+      >
         <DistributionsPage />
       </TestWrapper>
     );
