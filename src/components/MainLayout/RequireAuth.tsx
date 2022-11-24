@@ -1,16 +1,16 @@
 import { ReactElement, useEffect } from 'react';
 
-import { useWeb3React } from '@web3-react/core';
+import { useFinishAuth } from 'features/auth/useFinishAuth';
+import { useWalletAuth } from 'features/auth/useWalletAuth';
 
 import { LoadingModal, WalletAuthModal } from 'components';
-import { useApiBase } from 'hooks';
 import { useAuthStep } from 'hooks/login';
-import { useWalletAuth } from 'recoilState';
+import { useWeb3React } from 'hooks/useWeb3React';
 
 export const RequireAuth = (props: { children: ReactElement }) => {
-  const address = useWalletAuth().address;
+  const { address, authTokens } = useWalletAuth();
   const web3Context = useWeb3React();
-  const { finishAuth } = useApiBase();
+  const finishAuth = useFinishAuth();
   const [authStep, setAuthStep] = useAuthStep();
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export const RequireAuth = (props: { children: ReactElement }) => {
 
     if (authStep === 'connect' && web3Context.active) {
       setAuthStep('sign');
-      finishAuth({ web3Context }).then(success => {
+      finishAuth({ web3Context, authTokens }).then(success => {
         if (!success) {
           web3Context.deactivate();
         } else {
@@ -34,6 +34,8 @@ export const RequireAuth = (props: { children: ReactElement }) => {
 
   // step 1: get a wallet connection
   if (authStep === 'connect') return <WalletAuthModal open />;
+  // TODO: create a new component that allows the user to choose either
+  // WalletAuthModal or email login
 
   // step 2: reuse an auth token, or get a new one with a signature
   if (authStep !== 'done') return <LoadingModal visible note="RequireAuth" />;

@@ -151,23 +151,6 @@ export const deleteCircleIntegration = async (id: number) =>
     }
   );
 
-export const logout = async (): Promise<boolean> => {
-  const { logoutUser } = await client.mutate(
-    {
-      logoutUser: {
-        id: true,
-      },
-    },
-    {
-      operationName: 'logout',
-    }
-  );
-  if (logoutUser?.id) {
-    return true;
-  }
-  return false;
-};
-
 export const createCircle = async (
   params: CreateCircleParam
 ): Promise<IApiCircle> => {

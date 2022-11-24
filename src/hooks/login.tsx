@@ -1,13 +1,16 @@
+// TODO move this into features/auth after #1544 lands
+
 import { createContext, useContext } from 'react';
+
+import { connectors } from 'features/auth/connectors';
+import { useLogout } from 'features/auth/useLogout';
 
 import { ReactComponent as CoinbaseSVG } from 'assets/svgs/wallet/coinbase.svg';
 import { ReactComponent as MetaMaskSVG } from 'assets/svgs/wallet/metamask-color.svg';
 import { ReactComponent as WalletConnectSVG } from 'assets/svgs/wallet/wallet-connect.svg';
 import { EConnectorNames } from 'config/constants';
-import { useApiBase } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { useWeb3React } from 'hooks/useWeb3React';
-import { connectors } from 'utils/connectors';
 
 import useConnectedChain from './useConnectedChain';
 
@@ -35,7 +38,7 @@ export const useWalletStatus = () => {
   const { connector, deactivate } = useWeb3React();
   const address = useConnectedAddress();
   const { chainName } = useConnectedChain();
-  const { logout } = useApiBase();
+  const logout = useLogout();
 
   return {
     icon: connectorIcon(connector),

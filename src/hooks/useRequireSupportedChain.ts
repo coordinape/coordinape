@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 
-import { useWeb3React } from '@web3-react/core';
 import { supportedChainIds } from 'lib/vaults';
 
 import { useApeSnackbar } from 'hooks';
+import { useWeb3React } from 'hooks/useWeb3React';
 import { switchNetwork } from 'utils/provider';
 
 export default function useRequireSupportedChain() {

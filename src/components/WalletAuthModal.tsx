@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { Web3Provider } from '@ethersproject/providers';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { loginSupportedChainIds } from 'common-lib/constants';
+import { connectors } from 'features/auth/connectors';
+import { useWalletAuth } from 'features/auth/useWalletAuth';
 import { concat } from 'lodash';
 
 import { CircularProgress } from '@material-ui/core';
@@ -12,8 +14,6 @@ import { EConnectorNames, WALLET_ICONS } from 'config/constants';
 import isFeatureEnabled from 'config/features';
 import { useApeSnackbar } from 'hooks';
 import { useWeb3React } from 'hooks/useWeb3React';
-import { useWalletAuth } from 'recoilState/app';
-import { connectors } from 'utils/connectors';
 import { AUTO_OPEN_WALLET_DIALOG_PARAMS } from 'utils/domain';
 import { switchNetwork } from 'utils/provider';
 
@@ -101,6 +101,8 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
     }
 
     try {
+      // after this succeeds, consumers of useWeb3React will re-run and
+      // web3Context.active will be true
       await web3Context.activate(newConnector, () => {}, true);
     } catch (error: any) {
       if (error.message.match(/Unsupported chain id/)) {
