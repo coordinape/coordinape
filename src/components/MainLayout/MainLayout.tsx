@@ -1,9 +1,7 @@
-import { Suspense, useState } from 'react';
+import { Suspense } from 'react';
 
 import HelpButton from '../HelpButton';
 import { GlobalUi, SentryScopeController } from 'components';
-import type { AuthStep } from 'hooks/login';
-import { AuthContext } from 'hooks/login';
 import { AppRoutes } from 'routes/routes';
 import { Box } from 'ui';
 
@@ -14,8 +12,6 @@ import { RequireAuth } from './RequireAuth';
 // have content scroll underneath it
 
 export const MainLayout = () => {
-  const authStepState = useState<AuthStep>('connect');
-
   return (
     <Box
       css={{
@@ -31,25 +27,23 @@ export const MainLayout = () => {
         '& > main': { flex: 1 },
       }}
     >
-      <AuthContext.Provider value={authStepState}>
-        <MainHeader />
-        <RequireAuth>
-          <Suspense fallback={null}>
-            <Box
-              as="main"
-              css={{
-                overflowY: 'auto',
-                '@sm': { zIndex: 1 }, // for hamburger menu
-              }}
-            >
-              <GlobalUi />
-              <SentryScopeController />
-              <AppRoutes />
-            </Box>
-            <HelpButton />
-          </Suspense>
-        </RequireAuth>
-      </AuthContext.Provider>
+      <MainHeader />
+      <RequireAuth>
+        <Suspense fallback={null}>
+          <Box
+            as="main"
+            css={{
+              overflowY: 'auto',
+              '@sm': { zIndex: 1 }, // for hamburger menu
+            }}
+          >
+            <GlobalUi />
+            <SentryScopeController />
+            <AppRoutes />
+          </Box>
+          <HelpButton />
+        </Suspense>
+      </RequireAuth>
     </Box>
   );
 };
