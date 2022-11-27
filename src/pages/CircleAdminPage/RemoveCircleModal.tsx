@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router';
 
 import { LoadingModal } from 'components';
 import { QUERY_KEY_MAIN_HEADER } from 'components/MainLayout/getMainHeaderData';
-import { useApeSnackbar } from 'hooks';
+import { useApeSnackbar, useApiBase } from 'hooks';
 import { QUERY_KEY_MY_ORGS } from 'pages/CirclesPage/getOrgData';
 import { paths } from 'routes/paths';
 import { Button, Flex, Modal, Text } from 'ui';
@@ -26,15 +26,18 @@ export const RemoveCircleModal = ({
 
   const navigate = useNavigate();
   const { showError } = useApeSnackbar();
+  const { fetchManifest, unselectCircle } = useApiBase();
 
   const deleteCircleMutation = useMutation(deleteCircle, {
     onMutate: () => {
       setIsLoading(true);
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.invalidateQueries(QUERY_KEY_MY_ORGS);
       queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
-      navigate(paths.circles);
+      await navigate(paths.circles);
+      await unselectCircle();
+      await fetchManifest();
     },
     onError: err => {
       setIsLoading(false);

@@ -19,6 +19,10 @@ type Mutation {
 }
 
 type Mutation {
+  createSampleCircle: CreateSampleCircleResponse
+}
+
+type Mutation {
   createUser(payload: CreateUserInput!): UserResponse
 }
 
@@ -222,6 +226,7 @@ input UpdateCircleInput {
   update_webhook: Boolean
   fixed_payment_token_type: String
   fixed_payment_vault_id: Int
+  show_pending_gives: Boolean
 }
 
 input UpdateEpochInput {
@@ -438,6 +443,10 @@ type MarkClaimedOutput {
 }
 
 type LinkDiscordUserResponse {
+  id: Int!
+}
+
+type CreateSampleCircleResponse {
   id: Int!
 }
 

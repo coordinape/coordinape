@@ -58,7 +58,13 @@ export const OverviewMenu = ({
     : 'Overview';
   const overviewMenuTrigger = (
     <Text
-      css={navLinkStyle}
+      css={{
+        ...navLinkStyle,
+        mr: 0,
+        '@md': {
+          fontSize: '$md',
+        },
+      }}
       className={
         location.pathname === paths.circles ||
         location.pathname.includes('history') ||
@@ -86,7 +92,10 @@ export const OverviewMenu = ({
     <Popover open={mouseEnterPopover}>
       <PopoverTrigger
         tabIndex={0}
-        css={{ borderRadius: '$pill' }}
+        css={{
+          borderRadius: '$pill',
+          mr: '$xs',
+        }}
         ref={triggerRef}
         onKeyDown={e => {
           if (e.key === 'Enter' || e.key === ' ') {
@@ -136,6 +145,7 @@ export const OverviewMenu = ({
           pl: '1px',
           top: 'calc($xxs - $3xl + 1px)',
           mb: '$lg',
+          minWidth: 'calc($4xl * 2.5)',
           zIndex: 4,
         }}
       >

@@ -15,6 +15,8 @@ import { errorResponse } from '../api-lib/HttpError';
 import { getProvider } from '../api-lib/provider';
 import { parseInput } from '../api-lib/signature';
 
+import { createSampleCircleForProfile } from './hasura/actions/_handlers/createSampleCircle';
+
 Settings.defaultZone = 'utc';
 
 const allowedDomainsRegex = process.env.SIWE_ALLOWED_DOMAINS?.split(',').filter(
@@ -114,6 +116,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         },
       });
       // if they have no users, this is a "clean signup"
+      // let's also add a sample circle?
+      // TODO: this will happen for magic link invite people too, maybe weird
+      await createSampleCircleForProfile(profile.id, address);
     }
     const now = DateTime.now().toISO();
 

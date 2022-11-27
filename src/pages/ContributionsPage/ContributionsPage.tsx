@@ -26,9 +26,19 @@ import {
   Trash2,
   ChevronsRight,
   Edit,
+  Edit3,
 } from 'icons/__generated';
 import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
-import { Panel, Text, Box, Modal, Button, Flex, MarkdownPreview } from 'ui';
+import {
+  Panel,
+  Text,
+  Box,
+  Modal,
+  Button,
+  Flex,
+  MarkdownPreview,
+  Link,
+} from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { SavingIndicator, SaveState } from 'ui/SavingIndicator';
 
@@ -421,7 +431,7 @@ const ContributionsPage = () => {
             justifyContent: 'space-between',
             flexWrap: 'wrap',
             gap: '$md',
-            width: '50%',
+            width: '60%',
             '@sm': { width: '100%' },
           }}
         >
@@ -433,27 +443,26 @@ const ContributionsPage = () => {
                 '@sm': { flexDirection: 'column', alignItems: 'start' },
               }}
             >
-              <Text>
+              <Text p as="p">
                 {updatedTeamSelText
                   ? updatedTeamSelText
                   : data?.circles_by_pk?.team_sel_text
                   ? data?.circles_by_pk?.team_sel_text
                   : 'What have you been working on?'}
+                {isAdmin && (
+                  <Link
+                    href="#"
+                    iconLink
+                    onClick={() => {
+                      setEditHelpText(true);
+                    }}
+                    css={{ whiteSpace: 'nowrap', ml: '$sm' }}
+                  >
+                    <Edit3 />
+                    Edit
+                  </Link>
+                )}
               </Text>
-              {isAdmin && (
-                <Button
-                  outlined
-                  color="primary"
-                  type="submit"
-                  size="small"
-                  onClick={() => {
-                    setEditHelpText(true);
-                  }}
-                  css={{ whiteSpace: 'nowrap' }}
-                >
-                  Edit Help Text
-                </Button>
-              )}
             </Flex>
           ) : (
             <Flex
@@ -502,6 +511,7 @@ const ContributionsPage = () => {
         {(memoizedEpochData.contributions || []).length === 0 && (
           <ContributionIntro />
         )}
+
         <EpochGroup
           contributions={memoizedEpochData.contributions || []}
           epochs={memoizedEpochData.epochs || []}

@@ -17,6 +17,7 @@ hardhat/data/
 
 # testing
 /coverage
+/coverage-*
 /cypress/screenshots
 /cypress/videos
 
@@ -41,3 +42,4 @@ yalc.lock
 .idea/
 
 /storybook-static
+.nyc_output/

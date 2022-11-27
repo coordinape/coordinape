@@ -51,7 +51,6 @@ export const apiFetch =
       .then(handleFetchResponse)
       .then((response: GraphQLResponse) => {
         if (response.errors) {
-          console.log('###', JSON.stringify(response.errors));
           throw new GraphQLError(response);
         }
         return response.data;
@@ -726,6 +725,11 @@ export type ValueTypes = {
     nominee?: ValueTypes['nominees'];
     __typename?: boolean | `@${string}`;
   }>;
+  ['CreateSampleCircleResponse']: AliasType<{
+    circle?: ValueTypes['circles'];
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['CreateUserInput']: {
     address: string;
     circle_id: number;
@@ -777,9 +781,12 @@ export type ValueTypes = {
   }>;
   ['GenerateApiKeyInput']: {
     circle_id: number;
+    create_contributions?: boolean | undefined | null;
     create_vouches?: boolean | undefined | null;
     name: string;
     read_circle?: boolean | undefined | null;
+    read_contributions?: boolean | undefined | null;
+    read_discord?: boolean | undefined | null;
     read_epochs?: boolean | undefined | null;
     read_member_profiles?: boolean | undefined | null;
     read_nominees?: boolean | undefined | null;
@@ -885,6 +892,7 @@ export type ValueTypes = {
     name?: string | undefined | null;
     nomination_days_limit?: number | undefined | null;
     only_giver_vouch?: boolean | undefined | null;
+    show_pending_gives?: boolean | undefined | null;
     team_sel_text?: string | undefined | null;
     team_selection?: boolean | undefined | null;
     token_name?: string | undefined | null;
@@ -7168,6 +7176,7 @@ export type ValueTypes = {
       { payload: ValueTypes['CreateNomineeInput'] },
       ValueTypes['CreateNomineeResponse']
     ];
+    createSampleCircle?: ValueTypes['CreateSampleCircleResponse'];
     createUser?: [
       { payload: ValueTypes['CreateUserInput'] },
       ValueTypes['UserResponse']
@@ -9781,12 +9790,15 @@ export type ValueTypes = {
       ValueTypes['circles_aggregate']
     ];
     created_at?: boolean | `@${string}`;
+    created_by?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     is_verified?: boolean | `@${string}`;
     logo?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
     /** Indicates a test/sample/sandbox org */
-    sandbox?: boolean | `@${string}`;
+    sample?: boolean | `@${string}`;
     telegram_id?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     vaults?: [
@@ -9869,6 +9881,7 @@ export type ValueTypes = {
   }>;
   /** aggregate avg on columns */
   ['organizations_avg_fields']: AliasType<{
+    created_by?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -9879,11 +9892,13 @@ export type ValueTypes = {
     _or?: Array<ValueTypes['organizations_bool_exp']> | undefined | null;
     circles?: ValueTypes['circles_bool_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+    created_by?: ValueTypes['Int_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     is_verified?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     logo?: ValueTypes['String_comparison_exp'] | undefined | null;
     name?: ValueTypes['String_comparison_exp'] | undefined | null;
-    sandbox?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
+    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
+    sample?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     telegram_id?: ValueTypes['String_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     vaults?: ValueTypes['vaults_bool_exp'] | undefined | null;
@@ -9892,18 +9907,21 @@ export type ValueTypes = {
   ['organizations_constraint']: organizations_constraint;
   /** input type for incrementing numeric columns in table "organizations" */
   ['organizations_inc_input']: {
+    created_by?: number | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
   };
   /** input type for inserting data into table "organizations" */
   ['organizations_insert_input']: {
     circles?: ValueTypes['circles_arr_rel_insert_input'] | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
+    created_by?: number | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     is_verified?: boolean | undefined | null;
     logo?: string | undefined | null;
     name?: string | undefined | null;
+    profile?: ValueTypes['profiles_obj_rel_insert_input'] | undefined | null;
     /** Indicates a test/sample/sandbox org */
-    sandbox?: boolean | undefined | null;
+    sample?: boolean | undefined | null;
     telegram_id?: string | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
     vaults?: ValueTypes['vaults_arr_rel_insert_input'] | undefined | null;
@@ -9911,6 +9929,7 @@ export type ValueTypes = {
   /** aggregate max on columns */
   ['organizations_max_fields']: AliasType<{
     created_at?: boolean | `@${string}`;
+    created_by?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     logo?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
@@ -9921,6 +9940,7 @@ export type ValueTypes = {
   /** aggregate min on columns */
   ['organizations_min_fields']: AliasType<{
     created_at?: boolean | `@${string}`;
+    created_by?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     logo?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
@@ -9955,11 +9975,13 @@ export type ValueTypes = {
       | undefined
       | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    created_by?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     is_verified?: ValueTypes['order_by'] | undefined | null;
     logo?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
-    sandbox?: ValueTypes['order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_order_by'] | undefined | null;
+    sample?: ValueTypes['order_by'] | undefined | null;
     telegram_id?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     vaults_aggregate?:
@@ -9976,27 +9998,31 @@ export type ValueTypes = {
   /** input type for updating data in table "organizations" */
   ['organizations_set_input']: {
     created_at?: ValueTypes['timestamp'] | undefined | null;
+    created_by?: number | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     is_verified?: boolean | undefined | null;
     logo?: string | undefined | null;
     name?: string | undefined | null;
     /** Indicates a test/sample/sandbox org */
-    sandbox?: boolean | undefined | null;
+    sample?: boolean | undefined | null;
     telegram_id?: string | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
   };
   /** aggregate stddev on columns */
   ['organizations_stddev_fields']: AliasType<{
+    created_by?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate stddev_pop on columns */
   ['organizations_stddev_pop_fields']: AliasType<{
+    created_by?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate stddev_samp on columns */
   ['organizations_stddev_samp_fields']: AliasType<{
+    created_by?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -10010,17 +10036,19 @@ export type ValueTypes = {
   /** Initial value of the column from where the streaming should start */
   ['organizations_stream_cursor_value_input']: {
     created_at?: ValueTypes['timestamp'] | undefined | null;
+    created_by?: number | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     is_verified?: boolean | undefined | null;
     logo?: string | undefined | null;
     name?: string | undefined | null;
     /** Indicates a test/sample/sandbox org */
-    sandbox?: boolean | undefined | null;
+    sample?: boolean | undefined | null;
     telegram_id?: string | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
   };
   /** aggregate sum on columns */
   ['organizations_sum_fields']: AliasType<{
+    created_by?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -10035,16 +10063,19 @@ export type ValueTypes = {
   };
   /** aggregate var_pop on columns */
   ['organizations_var_pop_fields']: AliasType<{
+    created_by?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate var_samp on columns */
   ['organizations_var_samp_fields']: AliasType<{
+    created_by?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate variance on columns */
   ['organizations_variance_fields']: AliasType<{
+    created_by?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -12854,6 +12885,10 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['personal_access_tokens']
     ];
+    price_per_share?: [
+      { chain_id: number; token_address?: string | undefined | null },
+      boolean | `@${string}`
+    ];
     profiles?: [
       {
         /** distinct select on columns */
@@ -15482,7 +15517,7 @@ export type ValueTypes = {
     _neq?: ValueTypes['timestamptz'] | undefined | null;
     _nin?: Array<ValueTypes['timestamptz']> | undefined | null;
   };
-  /** GIVE allocations made by circle members for past epochs */
+  /** GIVE allocations made by circle members for completed epochs */
   ['token_gifts']: AliasType<{
     /** An object relationship */
     circle?: ValueTypes['circles'];
@@ -17729,6 +17764,7 @@ export type ValueTypes = {
     org_id?: boolean | `@${string}`;
     /** An object relationship */
     organization?: ValueTypes['organizations'];
+    price_per_share?: boolean | `@${string}`;
     /** An object relationship */
     profile?: ValueTypes['profiles'];
     simple_token_address?: boolean | `@${string}`;
@@ -18534,6 +18570,10 @@ export type ModelTypes = {
   ['CreateNomineeResponse']: {
     id?: number | undefined;
     nominee?: GraphQLTypes['nominees'] | undefined;
+  };
+  ['CreateSampleCircleResponse']: {
+    circle?: GraphQLTypes['circles'] | undefined;
+    id: number;
   };
   ['CreateUserInput']: GraphQLTypes['CreateUserInput'];
   ['CreateUserWithTokenInput']: GraphQLTypes['CreateUserWithTokenInput'];
@@ -21272,6 +21312,7 @@ export type ModelTypes = {
     createCircle?: GraphQLTypes['CreateCircleResponse'] | undefined;
     createEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     createNominee?: GraphQLTypes['CreateNomineeResponse'] | undefined;
+    createSampleCircle?: GraphQLTypes['CreateSampleCircleResponse'] | undefined;
     createUser?: GraphQLTypes['UserResponse'] | undefined;
     createUserWithToken?: GraphQLTypes['UserResponse'] | undefined;
     createUsers?: Array<GraphQLTypes['UserResponse'] | undefined> | undefined;
@@ -22153,12 +22194,15 @@ export type ModelTypes = {
     /** An aggregate relationship */
     circles_aggregate: GraphQLTypes['circles_aggregate'];
     created_at: GraphQLTypes['timestamp'];
+    created_by?: number | undefined;
     id: GraphQLTypes['bigint'];
     is_verified: boolean;
     logo?: string | undefined;
     name: string;
+    /** An object relationship */
+    profile?: GraphQLTypes['profiles'] | undefined;
     /** Indicates a test/sample/sandbox org */
-    sandbox: boolean;
+    sample: boolean;
     telegram_id?: string | undefined;
     updated_at: GraphQLTypes['timestamp'];
     /** An array relationship */
@@ -22187,6 +22231,7 @@ export type ModelTypes = {
   };
   /** aggregate avg on columns */
   ['organizations_avg_fields']: {
+    created_by?: number | undefined;
     id?: number | undefined;
   };
   /** Boolean expression to filter rows from the table "organizations". All fields are combined with a logical 'AND'. */
@@ -22200,6 +22245,7 @@ export type ModelTypes = {
   /** aggregate max on columns */
   ['organizations_max_fields']: {
     created_at?: GraphQLTypes['timestamp'] | undefined;
+    created_by?: number | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     logo?: string | undefined;
     name?: string | undefined;
@@ -22209,6 +22255,7 @@ export type ModelTypes = {
   /** aggregate min on columns */
   ['organizations_min_fields']: {
     created_at?: GraphQLTypes['timestamp'] | undefined;
+    created_by?: number | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     logo?: string | undefined;
     name?: string | undefined;
@@ -22236,14 +22283,17 @@ export type ModelTypes = {
   ['organizations_set_input']: GraphQLTypes['organizations_set_input'];
   /** aggregate stddev on columns */
   ['organizations_stddev_fields']: {
+    created_by?: number | undefined;
     id?: number | undefined;
   };
   /** aggregate stddev_pop on columns */
   ['organizations_stddev_pop_fields']: {
+    created_by?: number | undefined;
     id?: number | undefined;
   };
   /** aggregate stddev_samp on columns */
   ['organizations_stddev_samp_fields']: {
+    created_by?: number | undefined;
     id?: number | undefined;
   };
   /** Streaming cursor of the table "organizations" */
@@ -22252,6 +22302,7 @@ export type ModelTypes = {
   ['organizations_stream_cursor_value_input']: GraphQLTypes['organizations_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['organizations_sum_fields']: {
+    created_by?: number | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
   };
   /** update columns of table "organizations" */
@@ -22259,14 +22310,17 @@ export type ModelTypes = {
   ['organizations_updates']: GraphQLTypes['organizations_updates'];
   /** aggregate var_pop on columns */
   ['organizations_var_pop_fields']: {
+    created_by?: number | undefined;
     id?: number | undefined;
   };
   /** aggregate var_samp on columns */
   ['organizations_var_samp_fields']: {
+    created_by?: number | undefined;
     id?: number | undefined;
   };
   /** aggregate variance on columns */
   ['organizations_variance_fields']: {
+    created_by?: number | undefined;
     id?: number | undefined;
   };
   /** columns and relationships of "pending_gift_private" */
@@ -23206,6 +23260,7 @@ export type ModelTypes = {
     personal_access_tokens_by_pk?:
       | GraphQLTypes['personal_access_tokens']
       | undefined;
+    price_per_share: number;
     /** fetch data from the table: "profiles" */
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch aggregated fields from the table: "profiles" */
@@ -23670,7 +23725,7 @@ export type ModelTypes = {
   ['timestamptz']: any;
   /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
   ['timestamptz_comparison_exp']: GraphQLTypes['timestamptz_comparison_exp'];
-  /** GIVE allocations made by circle members for past epochs */
+  /** GIVE allocations made by circle members for completed epochs */
   ['token_gifts']: {
     /** An object relationship */
     circle: GraphQLTypes['circles'];
@@ -24502,6 +24557,7 @@ export type ModelTypes = {
     org_id: GraphQLTypes['bigint'];
     /** An object relationship */
     organization: GraphQLTypes['organizations'];
+    price_per_share: number;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     simple_token_address: string;
@@ -24940,6 +24996,11 @@ export type GraphQLTypes = {
     id?: number | undefined;
     nominee?: GraphQLTypes['nominees'] | undefined;
   };
+  ['CreateSampleCircleResponse']: {
+    __typename: 'CreateSampleCircleResponse';
+    circle?: GraphQLTypes['circles'] | undefined;
+    id: number;
+  };
   ['CreateUserInput']: {
     address: string;
     circle_id: number;
@@ -24991,9 +25052,12 @@ export type GraphQLTypes = {
   };
   ['GenerateApiKeyInput']: {
     circle_id: number;
+    create_contributions?: boolean | undefined;
     create_vouches?: boolean | undefined;
     name: string;
     read_circle?: boolean | undefined;
+    read_contributions?: boolean | undefined;
+    read_discord?: boolean | undefined;
     read_epochs?: boolean | undefined;
     read_member_profiles?: boolean | undefined;
     read_nominees?: boolean | undefined;
@@ -25099,6 +25163,7 @@ export type GraphQLTypes = {
     name?: string | undefined;
     nomination_days_limit?: number | undefined;
     only_giver_vouch?: boolean | undefined;
+    show_pending_gives?: boolean | undefined;
     team_sel_text?: string | undefined;
     team_selection?: boolean | undefined;
     token_name?: string | undefined;
@@ -30395,6 +30460,7 @@ export type GraphQLTypes = {
     createCircle?: GraphQLTypes['CreateCircleResponse'] | undefined;
     createEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     createNominee?: GraphQLTypes['CreateNomineeResponse'] | undefined;
+    createSampleCircle?: GraphQLTypes['CreateSampleCircleResponse'] | undefined;
     createUser?: GraphQLTypes['UserResponse'] | undefined;
     createUserWithToken?: GraphQLTypes['UserResponse'] | undefined;
     createUsers?: Array<GraphQLTypes['UserResponse'] | undefined> | undefined;
@@ -31505,12 +31571,15 @@ export type GraphQLTypes = {
     /** An aggregate relationship */
     circles_aggregate: GraphQLTypes['circles_aggregate'];
     created_at: GraphQLTypes['timestamp'];
+    created_by?: number | undefined;
     id: GraphQLTypes['bigint'];
     is_verified: boolean;
     logo?: string | undefined;
     name: string;
+    /** An object relationship */
+    profile?: GraphQLTypes['profiles'] | undefined;
     /** Indicates a test/sample/sandbox org */
-    sandbox: boolean;
+    sample: boolean;
     telegram_id?: string | undefined;
     updated_at: GraphQLTypes['timestamp'];
     /** An array relationship */
@@ -31542,6 +31611,7 @@ export type GraphQLTypes = {
   /** aggregate avg on columns */
   ['organizations_avg_fields']: {
     __typename: 'organizations_avg_fields';
+    created_by?: number | undefined;
     id?: number | undefined;
   };
   /** Boolean expression to filter rows from the table "organizations". All fields are combined with a logical 'AND'. */
@@ -31551,11 +31621,13 @@ export type GraphQLTypes = {
     _or?: Array<GraphQLTypes['organizations_bool_exp']> | undefined;
     circles?: GraphQLTypes['circles_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+    created_by?: GraphQLTypes['Int_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     is_verified?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     logo?: GraphQLTypes['String_comparison_exp'] | undefined;
     name?: GraphQLTypes['String_comparison_exp'] | undefined;
-    sandbox?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
+    sample?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     telegram_id?: GraphQLTypes['String_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     vaults?: GraphQLTypes['vaults_bool_exp'] | undefined;
@@ -31564,18 +31636,21 @@ export type GraphQLTypes = {
   ['organizations_constraint']: organizations_constraint;
   /** input type for incrementing numeric columns in table "organizations" */
   ['organizations_inc_input']: {
+    created_by?: number | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
   };
   /** input type for inserting data into table "organizations" */
   ['organizations_insert_input']: {
     circles?: GraphQLTypes['circles_arr_rel_insert_input'] | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
+    created_by?: number | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     is_verified?: boolean | undefined;
     logo?: string | undefined;
     name?: string | undefined;
+    profile?: GraphQLTypes['profiles_obj_rel_insert_input'] | undefined;
     /** Indicates a test/sample/sandbox org */
-    sandbox?: boolean | undefined;
+    sample?: boolean | undefined;
     telegram_id?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
     vaults?: GraphQLTypes['vaults_arr_rel_insert_input'] | undefined;
@@ -31584,6 +31659,7 @@ export type GraphQLTypes = {
   ['organizations_max_fields']: {
     __typename: 'organizations_max_fields';
     created_at?: GraphQLTypes['timestamp'] | undefined;
+    created_by?: number | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     logo?: string | undefined;
     name?: string | undefined;
@@ -31594,6 +31670,7 @@ export type GraphQLTypes = {
   ['organizations_min_fields']: {
     __typename: 'organizations_min_fields';
     created_at?: GraphQLTypes['timestamp'] | undefined;
+    created_by?: number | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     logo?: string | undefined;
     name?: string | undefined;
@@ -31624,11 +31701,13 @@ export type GraphQLTypes = {
   ['organizations_order_by']: {
     circles_aggregate?: GraphQLTypes['circles_aggregate_order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    created_by?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     is_verified?: GraphQLTypes['order_by'] | undefined;
     logo?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
-    sandbox?: GraphQLTypes['order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_order_by'] | undefined;
+    sample?: GraphQLTypes['order_by'] | undefined;
     telegram_id?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     vaults_aggregate?: GraphQLTypes['vaults_aggregate_order_by'] | undefined;
@@ -31642,28 +31721,32 @@ export type GraphQLTypes = {
   /** input type for updating data in table "organizations" */
   ['organizations_set_input']: {
     created_at?: GraphQLTypes['timestamp'] | undefined;
+    created_by?: number | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     is_verified?: boolean | undefined;
     logo?: string | undefined;
     name?: string | undefined;
     /** Indicates a test/sample/sandbox org */
-    sandbox?: boolean | undefined;
+    sample?: boolean | undefined;
     telegram_id?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
   };
   /** aggregate stddev on columns */
   ['organizations_stddev_fields']: {
     __typename: 'organizations_stddev_fields';
+    created_by?: number | undefined;
     id?: number | undefined;
   };
   /** aggregate stddev_pop on columns */
   ['organizations_stddev_pop_fields']: {
     __typename: 'organizations_stddev_pop_fields';
+    created_by?: number | undefined;
     id?: number | undefined;
   };
   /** aggregate stddev_samp on columns */
   ['organizations_stddev_samp_fields']: {
     __typename: 'organizations_stddev_samp_fields';
+    created_by?: number | undefined;
     id?: number | undefined;
   };
   /** Streaming cursor of the table "organizations" */
@@ -31676,18 +31759,20 @@ export type GraphQLTypes = {
   /** Initial value of the column from where the streaming should start */
   ['organizations_stream_cursor_value_input']: {
     created_at?: GraphQLTypes['timestamp'] | undefined;
+    created_by?: number | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     is_verified?: boolean | undefined;
     logo?: string | undefined;
     name?: string | undefined;
     /** Indicates a test/sample/sandbox org */
-    sandbox?: boolean | undefined;
+    sample?: boolean | undefined;
     telegram_id?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
   };
   /** aggregate sum on columns */
   ['organizations_sum_fields']: {
     __typename: 'organizations_sum_fields';
+    created_by?: number | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
   };
   /** update columns of table "organizations" */
@@ -31702,16 +31787,19 @@ export type GraphQLTypes = {
   /** aggregate var_pop on columns */
   ['organizations_var_pop_fields']: {
     __typename: 'organizations_var_pop_fields';
+    created_by?: number | undefined;
     id?: number | undefined;
   };
   /** aggregate var_samp on columns */
   ['organizations_var_samp_fields']: {
     __typename: 'organizations_var_samp_fields';
+    created_by?: number | undefined;
     id?: number | undefined;
   };
   /** aggregate variance on columns */
   ['organizations_variance_fields']: {
     __typename: 'organizations_variance_fields';
+    created_by?: number | undefined;
     id?: number | undefined;
   };
   /** columns and relationships of "pending_gift_private" */
@@ -33300,6 +33388,7 @@ export type GraphQLTypes = {
     personal_access_tokens_by_pk?:
       | GraphQLTypes['personal_access_tokens']
       | undefined;
+    price_per_share: number;
     /** fetch data from the table: "profiles" */
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch aggregated fields from the table: "profiles" */
@@ -33919,7 +34008,7 @@ export type GraphQLTypes = {
     _neq?: GraphQLTypes['timestamptz'] | undefined;
     _nin?: Array<GraphQLTypes['timestamptz']> | undefined;
   };
-  /** GIVE allocations made by circle members for past epochs */
+  /** GIVE allocations made by circle members for completed epochs */
   ['token_gifts']: {
     __typename: 'token_gifts';
     /** An object relationship */
@@ -35604,6 +35693,7 @@ export type GraphQLTypes = {
     org_id: GraphQLTypes['bigint'];
     /** An object relationship */
     organization: GraphQLTypes['organizations'];
+    price_per_share: number;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     simple_token_address: string;
@@ -36813,22 +36903,24 @@ export const enum organizations_constraint {
 /** select columns of table "organizations" */
 export const enum organizations_select_column {
   created_at = 'created_at',
+  created_by = 'created_by',
   id = 'id',
   is_verified = 'is_verified',
   logo = 'logo',
   name = 'name',
-  sandbox = 'sandbox',
+  sample = 'sample',
   telegram_id = 'telegram_id',
   updated_at = 'updated_at',
 }
 /** update columns of table "organizations" */
 export const enum organizations_update_column {
   created_at = 'created_at',
+  created_by = 'created_by',
   id = 'id',
   is_verified = 'is_verified',
   logo = 'logo',
   name = 'name',
-  sandbox = 'sandbox',
+  sample = 'sample',
   telegram_id = 'telegram_id',
   updated_at = 'updated_at',
 }

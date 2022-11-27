@@ -12,6 +12,7 @@ const COMPOSERS = {
         color: '$text',
         lineHeight: '$shorter',
         '&:hover': {
+          textDecoration: 'none !important',
           color: '$link',
         },
       },
@@ -22,6 +23,16 @@ const COMPOSERS = {
       },
       neutral: {
         color: '$neutral',
+      },
+    },
+    iconLink: {
+      true: {
+        display: 'inline-flex',
+        alignItems: 'baseline',
+        gap: '$xs',
+        svg: {
+          alignSelf: 'center',
+        },
       },
     },
   },

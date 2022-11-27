@@ -294,6 +294,7 @@ export const updateCircleInput = z
     only_giver_vouch: z.boolean().optional(),
     team_sel_text: z.string().optional(),
     team_selection: z.boolean().optional(),
+    show_pending_gives: z.boolean().optional(),
     token_name: z
       .string()
       .max(255)
@@ -485,6 +486,19 @@ export function composeHasuraActionRequestBody<T extends z.ZodRawShape>(
     // for some reason, it's unsafe to transform the generic input
     // to strip away the outer object
     input: z.object({ payload: inputSchema }),
+    action: z.object({ name: z.string() }),
+    session_variables: z.union([
+      HasuraAdminSessionVariables,
+      HasuraUserSessionVariables,
+    ]),
+    request_query: z.string().optional(),
+  });
+}
+
+export function composeHasuraActionRequestBodyWithoutPayload() {
+  return z.object({
+    // for some reason, it's unsafe to transform the generic input
+    // to strip away the outer object
     action: z.object({ name: z.string() }),
     session_variables: z.union([
       HasuraAdminSessionVariables,
