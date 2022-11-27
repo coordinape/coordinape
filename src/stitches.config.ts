@@ -276,7 +276,12 @@ export const {
 
 export const dark = createTheme({
   colors: {
-    primary: 'orangered',
+    primary: 'indigo',
+  },
+});
+export const light = createTheme({
+  colors: {
+    primary: 'gold',
   },
 });
 

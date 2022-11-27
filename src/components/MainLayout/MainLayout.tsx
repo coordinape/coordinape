@@ -1,13 +1,13 @@
 import { Suspense, useState } from 'react';
 
-import { dark } from 'stitches.config';
+import { dark, light } from 'stitches.config';
 
 import HelpButton from '../HelpButton';
 import { GlobalUi, SentryScopeController } from 'components';
 import type { AuthStep } from 'hooks/login';
 import { AuthContext } from 'hooks/login';
 import { AppRoutes } from 'routes/routes';
-import { Box } from 'ui';
+import { Box, Button, Flex } from 'ui';
 
 import { MainHeader } from './MainHeader';
 import { RequireAuth } from './RequireAuth';
@@ -17,10 +17,11 @@ import { RequireAuth } from './RequireAuth';
 
 export const MainLayout = () => {
   const authStepState = useState<AuthStep>('connect');
+  const [darkTheme, setDarkTheme] = useState(true);
 
   return (
     <Box
-      className={dark}
+      className={darkTheme ? dark : light}
       css={{
         position: 'fixed',
         background: '$background',
@@ -36,6 +37,10 @@ export const MainLayout = () => {
     >
       <AuthContext.Provider value={authStepState}>
         <MainHeader />
+        <Flex>
+          <Button onClick={() => setDarkTheme(true)}>dark</Button>
+          <Button onClick={() => setDarkTheme(false)}>light</Button>
+        </Flex>
         <RequireAuth>
           <Suspense fallback={null}>
             <Box

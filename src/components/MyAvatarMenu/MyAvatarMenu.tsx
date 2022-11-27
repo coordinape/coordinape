@@ -18,6 +18,8 @@ import {
   PopoverContent,
   PopoverClose,
   POPOVER_TIMEOUT,
+  Flex,
+  Button,
 } from 'ui';
 import { shortenAddress } from 'utils';
 
@@ -36,6 +38,20 @@ export const MyAvatarMenu = ({ walletStatus }: Props) => {
     setMouseEnterPopover(false);
   };
   let timeoutId: ReturnType<typeof setTimeout>;
+
+  const currentTheme = 'legacy';
+
+  // type Tx = {
+  //   timestamp: number; // Date.now() format
+  //   description: string;
+  //   hash?: string;
+  //   status: 'pending' | 'confirmed' | 'error';
+  //   chainId: string;
+  // };
+  // eslint-disable-next-line no-console
+  // const getTheme = () => console.log(localStorage.getItem(currentTheme));
+
+  // const saveTheme = () => localStorage.setItem(currentTheme, 'dark');
 
   return (
     <>
@@ -157,6 +173,27 @@ export const MyAvatarMenu = ({ walletStatus }: Props) => {
                   </Link>
                 )}
               </Box>
+              <Flex>
+                <Button
+                  onClick={() => {
+                    localStorage.setItem(currentTheme, 'dark');
+                    // eslint-disable-next-line no-console
+                    console.log(localStorage.getItem(currentTheme));
+                  }}
+                >
+                  Dark
+                </Button>
+                <Button
+                  onClick={() => {
+                    localStorage.setItem(currentTheme, 'light');
+                    // eslint-disable-next-line no-console
+                    console.log(localStorage.getItem(currentTheme));
+                  }}
+                >
+                  Light
+                </Button>
+                {/* <Button onClick={() => getTheme()}>light</Button> */}
+              </Flex>
             </Box>
           </PopoverContent>
         </Popover>
