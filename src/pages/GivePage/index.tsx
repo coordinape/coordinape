@@ -659,6 +659,7 @@ const AllocateContents = ({
     fixed_non_receiver: true,
     non_receiver: true,
     teammate: false,
+    address: '0x23f24381cf8518c4fafdaeeac5c0f7c92b7ae678',
     circle_id: -1,
     contributions_aggregate: {
       aggregate: {
