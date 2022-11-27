@@ -7,6 +7,7 @@ import { insertInteractionEvents } from '../../../../api-lib/gql/mutations';
 import {
   errorResponseWithStatusCode,
   InternalServerError,
+  UnprocessableError,
 } from '../../../../api-lib/HttpError';
 import { ENTRANCE } from '../../../../src/common-lib/constants';
 import {
@@ -135,6 +136,60 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     return opts;
   }, {} as { [aliasKey: string]: ValueTypes['mutation_root'] });
 
+  const { profiles } = await adminClient.query(
+    {
+      profiles: [
+        {
+          where: {
+            _or: newUsers.map(user => {
+              return { address: { _ilike: user.address } };
+            }),
+          },
+        },
+        { id: true, address: true, name: true },
+      ],
+    },
+    {
+      operationName: 'createUsers_getProfiles',
+    }
+  );
+
+  const newProfileUsers = newUsers
+    .filter(user =>
+      profiles.every(
+        profile => profile.address.toLowerCase() !== user.address.toLowerCase()
+      )
+    )
+    .map(user => {
+      return {
+        address: user.address,
+        name: user.name,
+      };
+    });
+
+  const createProfilesMutations = await adminClient.mutate(
+    {
+      insert_profiles: [
+        {
+          objects: newProfileUsers,
+        },
+        {
+          returning: {
+            id: true,
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'createUsers_createProfiles',
+    }
+  );
+  if (
+    !profiles.length &&
+    !createProfilesMutations.insert_profiles?.returning.length
+  ) {
+    throw new UnprocessableError('Failed to create users profiles');
+  }
   // Update the state after all validations have passed
   const mutationResult = await adminClient.mutate({
     insert_users: [
@@ -144,6 +199,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       {
         returning: {
           id: true,
+          address: true,
         },
       },
     ],

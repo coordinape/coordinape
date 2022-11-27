@@ -30,6 +30,19 @@ async function checkExistingUser(address: string, circleId: number) {
   }
   return existingUser;
 }
+async function checkExistingProfile(address: string) {
+  const { profiles } = await adminClient.query(
+    {
+      profiles: [{ where: { address: { _ilike: address } } }, { id: true }],
+    },
+    {
+      operationName: 'createUser_getProfile',
+    }
+  );
+
+  const profile = profiles.pop();
+  return profile;
+}
 
 export async function createUserMutation(
   address: string,
@@ -38,6 +51,52 @@ export async function createUserMutation(
   entrance: string
 ) {
   const softDeletedUser = await checkExistingUser(address, circleId);
+  const profile = await checkExistingProfile(address);
+  let createProfileMutation = null;
+
+  if (!profile) {
+    createProfileMutation = await adminClient.mutate(
+      {
+        insert_profiles_one: [
+          {
+            object: {
+              address: input.address,
+              name: input.name,
+            },
+          },
+          {
+            id: true,
+          },
+        ],
+      },
+      {
+        operationName: 'createUser_createProfile',
+      }
+    );
+  } else {
+    const updateProfileMutation = await adminClient.mutate(
+      {
+        update_profiles_by_pk: [
+          {
+            pk_columns: { id: profile.id },
+            _set: { name: input.name },
+          },
+          {
+            id: true,
+          },
+        ],
+      },
+      {
+        operationName: 'createUser_updateProfile',
+      }
+    );
+    if (!updateProfileMutation) {
+      throw new UnprocessableError('Failed to update user profile');
+    }
+  }
+  if (!profile && !createProfileMutation) {
+    throw new UnprocessableError('Failed to create user profile');
+  }
 
   const createUserMutation: ValueTypes['mutation_root'] =
     softDeletedUser?.deleted_at
