@@ -276,14 +276,18 @@ export const {
 
 export const dark = createTheme({
   colors: {
-    primary: 'indigo',
+    primary: 'lightgreen',
+    background: 'black',
+    surface: 'dimgray',
   },
 });
 export const light = createTheme({
   colors: {
-    primary: 'gold',
+    primary: 'orangered',
   },
 });
+
+export type Theme = 'dark' | 'light' | undefined;
 
 export const disabledStyle = {
   pointerEvents: 'none',

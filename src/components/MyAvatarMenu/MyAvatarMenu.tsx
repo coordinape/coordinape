@@ -1,12 +1,14 @@
 import { useRef, useState } from 'react';
 
 import { NavLink } from 'react-router-dom';
+import { Theme } from 'stitches.config';
 
 import { Hidden } from '@material-ui/core';
 
 import { menuGroupStyle } from 'components/MainLayout/MainHeader';
 import isFeatureEnabled from 'config/features';
 import type { WalletStatus } from 'hooks/login';
+import { Moon, Sun } from 'icons/__generated';
 import { useMyProfile } from 'recoilState/app';
 import { paths } from 'routes/paths';
 import {
@@ -19,14 +21,17 @@ import {
   PopoverClose,
   POPOVER_TIMEOUT,
   Flex,
-  Button,
+  Text,
 } from 'ui';
 import { shortenAddress } from 'utils';
 
 import { RecentTransactionsModal } from './RecentTransactionsModal';
 
-type Props = { walletStatus: WalletStatus };
-export const MyAvatarMenu = ({ walletStatus }: Props) => {
+type Props = {
+  walletStatus: WalletStatus;
+  setCurrentTheme(t: Theme): void;
+};
+export const MyAvatarMenu = ({ walletStatus, setCurrentTheme }: Props) => {
   const myProfile = useMyProfile();
   const { icon, address, logout } = walletStatus;
   const [showTxModal, setShowTxModal] = useState(false);
@@ -38,20 +43,6 @@ export const MyAvatarMenu = ({ walletStatus }: Props) => {
     setMouseEnterPopover(false);
   };
   let timeoutId: ReturnType<typeof setTimeout>;
-
-  const currentTheme = 'legacy';
-
-  // type Tx = {
-  //   timestamp: number; // Date.now() format
-  //   description: string;
-  //   hash?: string;
-  //   status: 'pending' | 'confirmed' | 'error';
-  //   chainId: string;
-  // };
-  // eslint-disable-next-line no-console
-  // const getTheme = () => console.log(localStorage.getItem(currentTheme));
-
-  // const saveTheme = () => localStorage.setItem(currentTheme, 'dark');
 
   return (
     <>
@@ -172,28 +163,50 @@ export const MyAvatarMenu = ({ walletStatus }: Props) => {
                     Claims
                   </Link>
                 )}
+                {/* put this in your browser console
+                localStorage.setItem('feature:theme_switcher', 'true'); */}
+                {isFeatureEnabled('theme_switcher') && (
+                  <Flex
+                    css={{
+                      gap: '$sm',
+                      justifyContent: 'end',
+                      mt: '$sm',
+                      alignItems: 'baseline',
+                    }}
+                  >
+                    <Text variant="label">Theme</Text>
+                    <Link
+                      type="menu"
+                      css={{ mt: '0 !important' }}
+                      onClick={() => {
+                        setCurrentTheme(undefined);
+                        // eslint-disable-next-line no-console
+                        console.log(localStorage['currentTheme']);
+                      }}
+                    >
+                      OG
+                    </Link>
+                    <Link
+                      type="menu"
+                      css={{ mt: '0 !important' }}
+                      onClick={() => {
+                        setCurrentTheme('dark');
+                      }}
+                    >
+                      <Moon />
+                    </Link>
+                    <Link
+                      type="menu"
+                      css={{ mt: '0 !important' }}
+                      onClick={() => {
+                        setCurrentTheme('light');
+                      }}
+                    >
+                      <Sun />
+                    </Link>
+                  </Flex>
+                )}
               </Box>
-              <Flex>
-                <Button
-                  onClick={() => {
-                    localStorage.setItem(currentTheme, 'dark');
-                    // eslint-disable-next-line no-console
-                    console.log(localStorage.getItem(currentTheme));
-                  }}
-                >
-                  Dark
-                </Button>
-                <Button
-                  onClick={() => {
-                    localStorage.setItem(currentTheme, 'light');
-                    // eslint-disable-next-line no-console
-                    console.log(localStorage.getItem(currentTheme));
-                  }}
-                >
-                  Light
-                </Button>
-                {/* <Button onClick={() => getTheme()}>light</Button> */}
-              </Flex>
             </Box>
           </PopoverContent>
         </Popover>

@@ -35,6 +35,7 @@ export { default as ChevronsLeft } from './ChevronsLeft';
 export { default as ChevronsRight } from './ChevronsRight';
 export { default as ChevronsUp } from './ChevronsUp';
 export { default as Clock } from './Clock';
+export { default as CloudDrizzle } from './CloudDrizzle';
 export { default as Collapse } from './Collapse';
 export { default as Copy } from './Copy';
 export { default as Edit3 } from './Edit3';

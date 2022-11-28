@@ -1,13 +1,13 @@
-import { Suspense, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 
-import { dark, light } from 'stitches.config';
+import { dark, light, Theme } from 'stitches.config';
 
 import HelpButton from '../HelpButton';
 import { GlobalUi, SentryScopeController } from 'components';
 import type { AuthStep } from 'hooks/login';
 import { AuthContext } from 'hooks/login';
 import { AppRoutes } from 'routes/routes';
-import { Box, Button, Flex } from 'ui';
+import { Box } from 'ui';
 
 import { MainHeader } from './MainHeader';
 import { RequireAuth } from './RequireAuth';
@@ -17,11 +17,21 @@ import { RequireAuth } from './RequireAuth';
 
 export const MainLayout = () => {
   const authStepState = useState<AuthStep>('connect');
-  const [darkTheme, setDarkTheme] = useState(true);
-
+  const [currentTheme, setCurrentTheme] = useState<Theme>(
+    localStorage['currentTheme']
+  );
+  useEffect(() => {
+    localStorage['currentTheme'] = currentTheme;
+  }, [currentTheme]);
   return (
     <Box
-      className={darkTheme ? dark : light}
+      className={
+        currentTheme === 'dark'
+          ? dark
+          : currentTheme === 'light'
+          ? light
+          : undefined
+      }
       css={{
         position: 'fixed',
         background: '$background',
@@ -36,11 +46,7 @@ export const MainLayout = () => {
       }}
     >
       <AuthContext.Provider value={authStepState}>
-        <MainHeader />
-        <Flex>
-          <Button onClick={() => setDarkTheme(true)}>dark</Button>
-          <Button onClick={() => setDarkTheme(false)}>light</Button>
-        </Flex>
+        <MainHeader setCurrentTheme={setCurrentTheme} />
         <RequireAuth>
           <Suspense fallback={null}>
             <Box

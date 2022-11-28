@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 
 import { NavLink, useLocation } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
-import { MediaQueryKeys } from 'stitches.config';
+import { MediaQueryKeys, Theme } from 'stitches.config';
 
 import { ReceiveInfo, MyAvatarMenu } from 'components';
 import isFeatureEnabled from 'config/features';
@@ -18,7 +18,11 @@ import { MobileHeader } from './MobileHeader';
 import { OverviewMenu } from './OverviewMenu';
 import { SampleOrgIndicator } from './SampleOrgIndicator';
 
-export const MainHeader = () => {
+export const MainHeader = ({
+  setCurrentTheme,
+}: {
+  setCurrentTheme(t: Theme): void;
+}) => {
   const { circle } = useRecoilValueLoadable(rSelectedCircle).valueMaybe() || {};
   const location = useLocation();
   const inCircle =
@@ -42,6 +46,7 @@ export const MainHeader = () => {
       inCircle={inCircle}
       walletStatus={walletStatus}
       query={query}
+      setCurrentTheme={setCurrentTheme}
     />
   );
 };
@@ -56,9 +61,15 @@ type Props = {
   inCircle?: Circle;
   walletStatus: WalletStatus;
   query: MainHeaderQuery;
+  setCurrentTheme(t: Theme): void;
 };
 
-const NormalHeader = ({ inCircle, walletStatus, query }: Props) => {
+const NormalHeader = ({
+  inCircle,
+  walletStatus,
+  query,
+  setCurrentTheme,
+}: Props) => {
   const showClaimsButton =
     (query.data?.claims_aggregate.aggregate?.count || 0) > 0;
 
@@ -139,7 +150,10 @@ const NormalHeader = ({ inCircle, walletStatus, query }: Props) => {
                 Claim Tokens
               </Button>
             )}
-            <MyAvatarMenu walletStatus={walletStatus} />
+            <MyAvatarMenu
+              walletStatus={walletStatus}
+              setCurrentTheme={setCurrentTheme}
+            />
           </Suspense>
         </Box>
       </Box>

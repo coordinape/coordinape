@@ -31,7 +31,7 @@ test('show circle links for distributions route', async () => {
       navigate(`/circles/${fixtures.circle.id}/distributions/10`);
     }, []);
 
-    return <MainHeader />;
+    return <MainHeader setCurrentTheme={() => {}} />;
   };
 
   await act(async () => {

@@ -4,6 +4,7 @@ export type FeatureName =
   | 'vaults'
   | 'fixed_payments'
   | 'future_feature'
+  | 'theme_switcher'
   | 'discord';
 
 // this is a very simple implementation of build-time feature flags that you can
