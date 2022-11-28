@@ -3,7 +3,8 @@ import { ReactElement, useEffect } from 'react';
 import { useFinishAuth } from 'features/auth/useFinishAuth';
 import { useWalletAuth } from 'features/auth/useWalletAuth';
 
-import { LoadingModal, WalletAuthModal } from 'components';
+import { LoadingModal } from 'components';
+import { WalletAuthModal } from 'components/WalletAuthModal';
 import { useAuthStep } from 'hooks/login';
 import { useWeb3React } from 'hooks/useWeb3React';
 
@@ -33,7 +34,7 @@ export const RequireAuth = (props: { children: ReactElement }) => {
   }, [address, web3Context]);
 
   // step 1: get a wallet connection
-  if (authStep === 'connect') return <WalletAuthModal open />;
+  if (authStep === 'connect') return <WalletAuthModal />;
   // TODO: create a new component that allows the user to choose either
   // WalletAuthModal or email login
 

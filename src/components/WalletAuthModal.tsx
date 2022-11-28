@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Web3Provider } from '@ethersproject/providers';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
@@ -17,7 +17,7 @@ import { useWeb3React } from 'hooks/useWeb3React';
 import { AUTO_OPEN_WALLET_DIALOG_PARAMS } from 'utils/domain';
 import { switchNetwork } from 'utils/provider';
 
-export const WalletAuthModal = ({ open }: { open: boolean }) => {
+export const WalletAuthModal = () => {
   const [connectMessage, setConnectMessage] = useState<string>('');
 
   const [selectedChain, setSelectedChain] = useState<string>('1');
@@ -27,6 +27,7 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
   const walletAuth = useWalletAuth();
 
   const [isMetamaskEnabled, setIsMetamaskEnabled] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState(true);
 
   const isMultichainEnabled = isFeatureEnabled('multichain_login');
 
@@ -132,10 +133,24 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
     }
   }, []);
 
+  const inject = async () => {
+    // web3Context.setProvider(new Web3Provider((window as any).ethereum), 'other');
+
+    try {
+      // hide our modal because it interferes with typing into Magic's modal
+      setModalOpen(false);
+    } catch (e) {
+      showError(e);
+    } finally {
+      setModalOpen(true);
+      setConnectMessage('');
+    }
+  };
+
   return (
     <Modal
       showClose={isConnecting}
-      open={open}
+      open={modalOpen}
       css={{
         maxWidth: '500px',
         padding: '$xl',
@@ -221,6 +236,10 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
               >
                 Coinbase Wallet
                 <WALLET_ICONS.walletlink />
+              </Button>
+
+              <Button variant="wallet" fullWidth onClick={inject}>
+                Email
               </Button>
             </Box>
           )}

@@ -84,7 +84,8 @@
     "stream": "^0.0.2",
     "ts-node": "10.7.0",
     "uuid": "^8.3.2",
-    "zod": "3.17.3"
+    "zod": "3.17.3",
+    "zustand": "^4.1.4"
   },
   "resolutions": {
     "canvas-color-tracker": "file:./canvas-color-tracker",
