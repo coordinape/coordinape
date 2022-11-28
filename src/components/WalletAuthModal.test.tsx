@@ -1,6 +1,6 @@
 import { act, render, screen } from '@testing-library/react';
 
-import { WalletAuthModal } from 'components';
+import { WalletAuthModal } from 'components/WalletAuthModal';
 import { TestWrapper } from 'utils/testing';
 
 const ethSpy = jest.fn(() => '0xfa');
@@ -17,7 +17,7 @@ describe('with metamask enabled', () => {
     await act(async () => {
       await render(
         <TestWrapper withWeb3>
-          <WalletAuthModal open />
+          <WalletAuthModal />
         </TestWrapper>
       );
     });
@@ -29,7 +29,7 @@ test('without metamask, the metamask login option is disabled', async () => {
   await act(async () => {
     await render(
       <TestWrapper>
-        <WalletAuthModal open />
+        <WalletAuthModal />
       </TestWrapper>
     );
   });

@@ -1,18 +1,59 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
+import type { JsonRpcProvider } from '@ethersproject/providers';
 import { Web3Provider } from '@ethersproject/providers';
 import {
   useWeb3React as useOriginalWeb3React,
   Web3ReactProvider as OriginalWeb3ReactProvider,
 } from '@web3-react/core';
 import type { Web3ReactContextInterface } from '@web3-react/core/dist/types';
+import { pick } from 'lodash/fp';
+import create from 'zustand';
 
 import { AuthContext } from 'hooks/login';
 import type { AuthStep } from 'hooks/login';
 
+type ProviderType = 'magic' | 'web3auth' | 'other';
+
+interface AuthState {
+  provider: JsonRpcProvider | undefined;
+  address: string | undefined;
+  chainId: number | undefined;
+  providerType: string | undefined;
+  setProvider: (provider?: JsonRpcProvider, type?: ProviderType) => void;
+}
+
+const useAuthStore = create<AuthState>(set => ({
+  provider: undefined,
+  address: undefined,
+  chainId: undefined,
+  providerType: undefined,
+  setProvider: async (provider?: JsonRpcProvider, type?: ProviderType) => {
+    if (!provider) {
+      set({
+        provider: undefined,
+        address: undefined,
+        chainId: undefined,
+        providerType: undefined,
+      });
+      return;
+    }
+
+    const [address, chainId] = await Promise.all([
+      provider.getSigner().getAddress(),
+      provider.getNetwork().then(n => n.chainId),
+    ]);
+    set({ provider, address, chainId, providerType: type });
+  },
+}));
+
+type UseWeb3ReactReturnType<T> = Web3ReactContextInterface<T> & {
+  setProvider: (provider?: JsonRpcProvider, type?: ProviderType) => void;
+};
+
 export function useWeb3React<T = any>(
   key?: string | undefined
-): Web3ReactContextInterface<T> {
+): UseWeb3ReactReturnType<T> {
   // x = in use
   // x connector?: AbstractConnector;
   // x library?: T;
@@ -24,12 +65,33 @@ export function useWeb3React<T = any>(
   // setError: (error: Error) => void;
   // x deactivate: () => void;
 
-  // we'll still call this and pass through values if the user is logged in via web3-react
-  return useOriginalWeb3React(key);
+  // pass through values if the user is logged in via web3-react
+  const context = useOriginalWeb3React(key);
 
-  // but if they're not, we also check our own global auth state (zustand?), and
+  // but if they're not, we also check our own global auth state, and
   // if the user's logged in thru e.g. Magic, return an object with appropriate
   // values, e.g. a provider wrapped with ethers
+  const setProvider = useAuthStore(state => state.setProvider);
+  const { provider, address, chainId } = useAuthStore(
+    pick(['provider', 'address', 'chainId'])
+  );
+  const library = context.library || provider;
+
+  const ret = {
+    ...context,
+    library,
+    active: context.active || !!address,
+    chainId: context.chainId || chainId,
+    account: context.account || address,
+    setProvider,
+    deactivate: context.active ? context.deactivate : () => setProvider(),
+  };
+
+  useEffect(() => {
+    // console.log(ret); // eslint-disable-line
+  }, [ret.active, ret.account]);
+
+  return ret;
 }
 
 export function Web3ReactProvider({

@@ -1,3 +1,9 @@
+//
+// n.b. Don't add to this unless you're REALLY sure that your component will be
+// so widely used, it's really worth it to put it here to save a few keystrokes.
+//
+// the downside of putting things here is it makes coupling easier.
+//
 export * from './ApeAutocomplete';
 export * from './ApeInfoTooltip';
 export * from './ApeTabs';
@@ -34,4 +40,3 @@ export * from './SkillToggles';
 export * from './Spacer';
 export * from './Table';
 export * from './ThreeDotMenu';
-export * from './WalletAuthModal';
