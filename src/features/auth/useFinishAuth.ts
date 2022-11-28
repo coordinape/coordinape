@@ -1,6 +1,6 @@
 import assert from 'assert';
 
-import { Web3Provider } from '@ethersproject/providers';
+import type { Web3Provider } from '@ethersproject/providers';
 import * as Sentry from '@sentry/react';
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types';
 import { connectors } from 'features/auth/connectors';
