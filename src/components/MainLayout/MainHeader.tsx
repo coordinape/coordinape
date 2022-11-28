@@ -19,8 +19,10 @@ import { OverviewMenu } from './OverviewMenu';
 import { SampleOrgIndicator } from './SampleOrgIndicator';
 
 export const MainHeader = ({
+  currentTheme,
   setCurrentTheme,
 }: {
+  currentTheme?: string;
   setCurrentTheme(t: Theme): void;
 }) => {
   const { circle } = useRecoilValueLoadable(rSelectedCircle).valueMaybe() || {};
@@ -47,6 +49,7 @@ export const MainHeader = ({
       walletStatus={walletStatus}
       query={query}
       setCurrentTheme={setCurrentTheme}
+      currentTheme={currentTheme}
     />
   );
 };
@@ -61,6 +64,7 @@ type Props = {
   inCircle?: Circle;
   walletStatus: WalletStatus;
   query: MainHeaderQuery;
+  currentTheme?: string;
   setCurrentTheme(t: Theme): void;
 };
 
@@ -68,6 +72,7 @@ const NormalHeader = ({
   inCircle,
   walletStatus,
   query,
+  currentTheme,
   setCurrentTheme,
 }: Props) => {
   const showClaimsButton =
@@ -153,6 +158,7 @@ const NormalHeader = ({
             <MyAvatarMenu
               walletStatus={walletStatus}
               setCurrentTheme={setCurrentTheme}
+              currentTheme={currentTheme}
             />
           </Suspense>
         </Box>

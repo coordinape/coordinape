@@ -46,7 +46,10 @@ export const MainLayout = () => {
       }}
     >
       <AuthContext.Provider value={authStepState}>
-        <MainHeader setCurrentTheme={setCurrentTheme} />
+        <MainHeader
+          setCurrentTheme={setCurrentTheme}
+          currentTheme={currentTheme}
+        />
         <RequireAuth>
           <Suspense fallback={null}>
             <Box

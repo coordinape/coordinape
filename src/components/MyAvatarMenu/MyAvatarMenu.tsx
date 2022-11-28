@@ -8,7 +8,7 @@ import { Hidden } from '@material-ui/core';
 import { menuGroupStyle } from 'components/MainLayout/MainHeader';
 import isFeatureEnabled from 'config/features';
 import type { WalletStatus } from 'hooks/login';
-import { Moon, Sun } from 'icons/__generated';
+import { CloudDrizzle, Moon, Sun } from 'icons/__generated';
 import { useMyProfile } from 'recoilState/app';
 import { paths } from 'routes/paths';
 import {
@@ -21,7 +21,8 @@ import {
   PopoverClose,
   POPOVER_TIMEOUT,
   Flex,
-  Text,
+  IconButton,
+  Button,
 } from 'ui';
 import { shortenAddress } from 'utils';
 
@@ -29,9 +30,14 @@ import { RecentTransactionsModal } from './RecentTransactionsModal';
 
 type Props = {
   walletStatus: WalletStatus;
+  currentTheme?: string;
   setCurrentTheme(t: Theme): void;
 };
-export const MyAvatarMenu = ({ walletStatus, setCurrentTheme }: Props) => {
+export const MyAvatarMenu = ({
+  walletStatus,
+  currentTheme,
+  setCurrentTheme,
+}: Props) => {
   const myProfile = useMyProfile();
   const { icon, address, logout } = walletStatus;
   const [showTxModal, setShowTxModal] = useState(false);
@@ -163,7 +169,7 @@ export const MyAvatarMenu = ({ walletStatus, setCurrentTheme }: Props) => {
                     Claims
                   </Link>
                 )}
-                {/* put this in your browser console
+                {/* put this in your browser console to enable theme switching
                 localStorage.setItem('feature:theme_switcher', 'true'); */}
                 {isFeatureEnabled('theme_switcher') && (
                   <Flex
@@ -171,39 +177,81 @@ export const MyAvatarMenu = ({ walletStatus, setCurrentTheme }: Props) => {
                       gap: '$sm',
                       justifyContent: 'end',
                       mt: '$sm',
-                      alignItems: 'baseline',
+                      alignItems: 'center',
                     }}
                   >
-                    <Text variant="label">Theme</Text>
-                    <Link
-                      type="menu"
-                      css={{ mt: '0 !important' }}
+                    <Button
+                      size="small"
+                      color="transparent"
+                      css={{
+                        '&:hover': {
+                          color: '$primary',
+                        },
+                        color:
+                          currentTheme === 'system'
+                            ? '$text !important'
+                            : '$secondaryText',
+                      }}
                       onClick={() => {
+                        // fixme for utilizing OS theme selection
                         setCurrentTheme(undefined);
-                        // eslint-disable-next-line no-console
-                        console.log(localStorage['currentTheme']);
                       }}
                     >
-                      OG
-                    </Link>
-                    <Link
-                      type="menu"
-                      css={{ mt: '0 !important' }}
+                      AUTO
+                    </Button>
+                    <IconButton
+                      css={{
+                        p: 0,
+                        '&:hover': {
+                          color: '$primary',
+                        },
+                        color:
+                          currentTheme == undefined
+                            ? '$text !important'
+                            : currentTheme == 'undefined'
+                            ? '$text !important'
+                            : '$secondaryText',
+                      }}
+                      onClick={() => {
+                        setCurrentTheme(undefined);
+                      }}
+                    >
+                      <CloudDrizzle />
+                    </IconButton>
+                    <IconButton
+                      css={{
+                        p: 0,
+                        '&:hover': {
+                          color: '$primary',
+                        },
+                        color:
+                          currentTheme === 'dark'
+                            ? '$text !important'
+                            : '$secondaryText',
+                      }}
                       onClick={() => {
                         setCurrentTheme('dark');
                       }}
                     >
                       <Moon />
-                    </Link>
-                    <Link
-                      type="menu"
-                      css={{ mt: '0 !important' }}
+                    </IconButton>
+                    <IconButton
+                      css={{
+                        p: 0,
+                        '&:hover': {
+                          color: '$primary',
+                        },
+                        color:
+                          currentTheme === 'light'
+                            ? '$text !important'
+                            : '$secondaryText',
+                      }}
                       onClick={() => {
                         setCurrentTheme('light');
                       }}
                     >
                       <Sun />
-                    </Link>
+                    </IconButton>
                   </Flex>
                 )}
               </Box>
