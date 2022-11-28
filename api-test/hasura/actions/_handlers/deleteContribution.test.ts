@@ -57,9 +57,8 @@ describe('Delete Contribution action handler', () => {
         { success: true },
       ],
     });
-    await expect(
-      async () => await result
-    ).rejects.toThrow;
+    expect.assertions(1);
+    await expect(result).rejects.toThrow();
   });
   
 });
