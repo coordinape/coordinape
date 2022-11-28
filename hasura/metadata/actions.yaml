@@ -35,8 +35,7 @@ actions:
       headers:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
-    permissions:
-      - role: user
+    comment: create epoch using new, more flexible api
   - name: createNominee
     definition:
       kind: synchronous
@@ -306,7 +305,6 @@ custom_types:
     - name: CreateNomineeInput
     - name: UpdateUserInput
     - name: VouchInput
-    - name: CreateEpochInput
     - name: UpdateTeammatesInput
     - name: DeleteUserInput
     - name: UpdateCircleInput
@@ -328,6 +326,8 @@ custom_types:
     - name: UpdateContributionInput
     - name: MarkClaimedInput
     - name: LinkDiscordUserInput
+    - name: EpochInputParams
+    - name: CreateEpochInput
   objects:
     - name: CreateCircleResponse
       relationships:
@@ -513,7 +513,6 @@ custom_types:
             schema: discord
           source: default
           type: object
-
     - name: CreateSampleCircleResponse
       relationships:
         - field_mapping:

@@ -190,14 +190,6 @@ input VouchInput {
   nominee_id: Int!
 }
 
-input CreateEpochInput {
-  circle_id: Int!
-  start_date: timestamptz!
-  days: Int!
-  repeat: Int!
-  grant: Float
-}
-
 input UpdateTeammatesInput {
   teammates: [Int]!
   circle_id: Int!
@@ -349,6 +341,43 @@ input MarkClaimedInput {
 
 input LinkDiscordUserInput {
   discord_id: String!
+}
+
+"""
+Hasura doesn't support unions so this logic will be enforced as a zod
+parser
+
+```gql
+union EpochInputParams = CustomEpochParams | MonthlyEpochParams
+
+type CustomEpochParams {
+  type: String!
+  start_date: timestamptz!
+  end_date: timestamptz!
+  frequency: Int!
+  frequency_unit: String!
+}
+
+type MonthlyEpochParams {
+  type: String!
+  weekday: String!
+  week: Int!
+}
+```
+"""
+input EpochInputParams {
+  type: String!
+  start_date: timestamptz!
+  end_date: timestamptz!
+  frequency: Int!
+  frequency_unit: String!
+  weekday: String!
+  week: Int!
+}
+
+input CreateEpochInput {
+  circle_id: Int!
+  params: EpochInputParams!
 }
 
 type CreateCircleResponse {
