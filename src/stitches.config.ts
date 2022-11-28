@@ -8,7 +8,7 @@ import { colors as figmaColors } from 'ui/colors';
 export const MediaQueryKeys = {
   xs: '(max-width: 520px)',
   sm: '(max-width: 960px)',
-  md: '(max-width: 1200px)',
+  md: '(max-width: 1300px)',
   lg: '(max-width: 1800px)',
 } as const;
 

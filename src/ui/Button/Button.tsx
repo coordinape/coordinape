@@ -44,6 +44,7 @@ export const Button = styled('button', {
       },
       surface: {
         backgroundColor: '$surface',
+        color: '$headingText',
         '&:hover': {
           filter: 'saturate(3)',
         },

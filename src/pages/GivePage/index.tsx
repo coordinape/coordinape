@@ -16,13 +16,12 @@ import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { client } from '../../lib/gql/client';
 import { epochTimeUpcoming } from '../../lib/time';
 import { useSelectedCircle } from '../../recoilState';
-import { paths } from '../../routes/paths';
 import { IEpoch, IMyUser } from '../../types';
-import { Box, Button, Flex, Modal, Panel, Text, Link } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 import { getPendingGiftsFrom } from '../AllocationPage/queries';
 import { FormInputField } from 'components';
-import { Edit3 } from 'icons/__generated';
+import { Edit3, Grid, Menu } from 'icons/__generated';
+import { Box, Button, Flex, Modal, Panel, Text, Link } from 'ui';
 import { SaveState, SavingIndicator } from 'ui/SavingIndicator';
 
 import { EpochStatementDrawer } from './EpochStatementDrawer';
@@ -65,6 +64,7 @@ const GivePage = () => {
   // totalGiveUsed is the amount of give used by the current user
   const [totalGiveUsed, setTotalGiveUsed] = useState<number>(0);
   const [editAllocHelpText, setEditAllocHelpText] = useState(false);
+  const [gridView, setGridView] = useState(false);
 
   // queryClient is the react-query client, for invalidation purposes
   const queryClient = useQueryClient();
@@ -358,44 +358,75 @@ const GivePage = () => {
 
   return (
     <Box css={{ width: '100%' }}>
-      {!selectedCircle.organization.sample && (
-        <Flex
-          css={{ background: '$info', justifyContent: 'center', p: '$md $lg' }}
-          alignItems="center"
-        >
-          <Text>Not ready for the new GIVE experience?</Text>
-          <Button
-            as={Link}
-            href={paths.allocation(selectedCircle.id)}
-            outlined
-            color="primary"
-            css={{ ml: '$md', whiteSpace: 'nowrap' }}
-          >
-            Go Back
-          </Button>
-        </Flex>
-      )}
       <SingleColumnLayout>
         <Helmet>
           <title>Give - {selectedCircle.name} - Coordinape</title>
         </Helmet>
         <Box>
-          <Box css={{ mb: '$md' }}>
-            <Text h1 semibold inline>
-              GIVE
-            </Text>
-            {currentEpoch && (
-              <Text inline h1 normal css={{ ml: '$md' }}>
-                Epoch {currentEpoch.number}:{' '}
-                {currentEpoch.startDate.toFormat('MMM d')} -{' '}
-                {currentEpoch.endDate.toFormat(
-                  currentEpoch.endDate.month === currentEpoch.startDate.month
-                    ? 'd'
-                    : 'MMM d'
-                )}
+          <Flex
+            css={{
+              mb: '$md',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <Flex
+              css={{
+                gap: '$sm',
+                '@sm': {
+                  flexDirection: 'column',
+                },
+              }}
+            >
+              <Text h1 semibold inline>
+                GIVE
               </Text>
-            )}
-          </Box>
+              {currentEpoch && (
+                <Text inline h1 normal>
+                  Epoch {currentEpoch.number}:{' '}
+                  {currentEpoch.startDate.toFormat('MMM d')} -{' '}
+                  {currentEpoch.endDate.toFormat(
+                    currentEpoch.endDate.month === currentEpoch.startDate.month
+                      ? 'd'
+                      : 'MMM d'
+                  )}
+                </Text>
+              )}
+            </Flex>
+
+            <Flex
+              css={{
+                '@sm': {
+                  display: 'none',
+                },
+              }}
+            >
+              <Button
+                css={{
+                  borderTopRightRadius: 0,
+                  borderBottomRightRadius: 0,
+                  flexGrow: '1',
+                }}
+                color={gridView ? 'surface' : 'primary'}
+                onClick={() => setGridView(false)}
+              >
+                <Menu />
+                Row
+              </Button>
+              <Button
+                css={{
+                  borderTopLeftRadius: 0,
+                  borderBottomLeftRadius: 0,
+                  flexGrow: '1',
+                }}
+                color={gridView ? 'primary' : 'surface'}
+                onClick={() => setGridView(true)}
+              >
+                <Grid />
+                Card
+              </Button>
+            </Flex>
+          </Flex>
           <Flex
             alignItems="end"
             css={{
@@ -514,6 +545,7 @@ const GivePage = () => {
             maxedOut={totalGiveUsed >= myUser.starting_tokens}
             currentEpoch={currentEpoch}
             retrySave={saveGifts}
+            gridView={gridView}
           />
         )}
       </SingleColumnLayout>
@@ -536,6 +568,7 @@ type AllocateContentsProps = {
   maxedOut: boolean;
   currentEpoch?: IEpoch;
   retrySave: () => void;
+  gridView: boolean;
 };
 
 const AllocateContents = ({
@@ -551,6 +584,7 @@ const AllocateContents = ({
   maxedOut,
   currentEpoch,
   retrySave,
+  gridView,
 }: AllocateContentsProps) => {
   const { showError, showInfo } = useApeSnackbar();
 
@@ -856,7 +890,18 @@ const AllocateContents = ({
           selectedMember !== undefined && selectedMember.id === myUser.id
         }
       />
-      <Panel css={{ gap: '$md', mt: '$md' }}>
+      <Panel
+        css={{
+          gap: '$md',
+          mt: '$md',
+          display: 'grid',
+          background: gridView ? 'transparent' : '$surface',
+          p: gridView ? 0 : '$md',
+          gridTemplateColumns: gridView ? '1fr 1fr 1fr 1fr' : '1fr',
+          '@md': { gridTemplateColumns: gridView ? '1fr 1fr 1fr' : '1fr' },
+          '@sm': { gridTemplateColumns: '1fr' },
+        }}
+      >
         {filteredMembers.length > 0 &&
           filteredMembers.map(member => {
             let gift = gifts[member.id];
@@ -884,6 +929,7 @@ const AllocateContents = ({
                   selectedMember !== undefined &&
                   selectedMember.id === member.id
                 }
+                gridView={gridView}
               />
             );
           })}
@@ -929,6 +975,7 @@ const AllocateContents = ({
                   noGivingAllowed={true}
                   docExample={true}
                   selected={false}
+                  gridView={false}
                 />
                 <Flex css={{ justifyContent: 'center', pt: '$lg' }}>
                   <Text css={{ width: '15em' }}>
