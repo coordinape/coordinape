@@ -8,7 +8,7 @@ Welcome to the code for [Coordinape](coordinape.com)! If you're new to the proje
 
 Stack: **React**, [**Hasura**](#hasura), & **Vercel** serverless functions
 
-- NodeJS v14
+- NodeJS v16
 - Yarn
 - Docker
 - [Vercel CLI](https://vercel.com/cli)

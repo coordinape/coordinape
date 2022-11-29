@@ -9,17 +9,20 @@ export const sampleCircleDefaults: CircleInput = {
   sampleOrg: true,
 };
 
-export type SampleMember = {
+export interface SampleMemberData {
   name: string;
   contributions: string[];
   epochStatement: string;
   index: number;
   gifts: { [key: number]: { gift: number; note?: string } };
-  user_id?: number;
-  address?: string;
-};
+}
 
-export const sampleMembers: SampleMember[] = [
+export interface SampleMember extends SampleMemberData {
+  user_id: number;
+  address: string;
+}
+
+export const sampleMemberData: SampleMemberData[] = [
   {
     index: 6,
     name: 'Beth the Backend Dev',
@@ -167,7 +170,7 @@ export const sampleMembers: SampleMember[] = [
       `Told Diana that the Mobile layout doesn't work the way I think it should`,
       `Discovered the latest change made me lose my settings. I posted to the general channel in discord`,
     ],
-    epochStatement: `I feel like I'm the only one doing any QA. I wish I coud code so that I could just fix this stuff myself. 
+    epochStatement: `I feel like I'm the only one doing any QA. I wish I coud code so that I could just fix this stuff myself.
 - Spent a lot of time with the FTX team to figure out how we could have them run our treasury
 - Researched how we could get 20% yeilds on our treasury through Luna`,
     gifts: {
