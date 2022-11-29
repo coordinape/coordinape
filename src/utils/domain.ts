@@ -41,8 +41,6 @@ export const APP_URL =
     ? origin()
     : origin().replace(hostAndPort(), `app.${hostAndPort()}`);
 
-export const AUTO_OPEN_WALLET_DIALOG_PARAMS = '?open-wallet';
-export const APP_URL_OPEN_WALLET = `${APP_URL}${AUTO_OPEN_WALLET_DIALOG_PARAMS}`;
 export const APP_PATH_CREATE_CIRCLE = `/new-circle`;
 export const APP_URL_CREATE_CIRCLE = `${APP_URL}${APP_PATH_CREATE_CIRCLE}`;
 

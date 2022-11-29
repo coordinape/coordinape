@@ -14,7 +14,6 @@ import { EConnectorNames, WALLET_ICONS } from 'config/constants';
 import isFeatureEnabled from 'config/features';
 import { useApeSnackbar } from 'hooks';
 import { useWeb3React } from 'hooks/useWeb3React';
-import { AUTO_OPEN_WALLET_DIALOG_PARAMS } from 'utils/domain';
 import { switchNetwork } from 'utils/provider';
 
 export const WalletAuthModal = () => {
@@ -124,13 +123,7 @@ export const WalletAuthModal = () => {
   };
 
   useEffect(() => {
-    if (
-      // safe to refer to window here because we are in useEffect -g
-      window.location.search === AUTO_OPEN_WALLET_DIALOG_PARAMS ||
-      walletAuth.connectorName
-    ) {
-      walletAuth.connectorName && activate(walletAuth.connectorName);
-    }
+    if (walletAuth.connectorName) activate(walletAuth.connectorName);
   }, []);
 
   const inject = async () => {
