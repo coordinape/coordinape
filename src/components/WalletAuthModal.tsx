@@ -6,14 +6,9 @@ import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { loginSupportedChainIds } from 'common-lib/constants';
 import { concat } from 'lodash';
 
-import {
-  CircularProgress,
-  Modal,
-  Typography,
-  makeStyles,
-} from '@material-ui/core';
+import { CircularProgress } from '@material-ui/core';
 
-import { Box, Button, Text, Flex, HR, Select } from '../ui';
+import { Box, Button, Text, Modal, Flex, HR, Select } from '../ui';
 import { EConnectorNames, WALLET_ICONS } from 'config/constants';
 import isFeatureEnabled from 'config/features';
 import { useApeSnackbar } from 'hooks';
@@ -22,16 +17,7 @@ import { connectors } from 'utils/connectors';
 import { AUTO_OPEN_WALLET_DIALOG_PARAMS } from 'utils/domain';
 import { switchNetwork } from 'utils/provider';
 
-const useStyles = makeStyles(() => ({
-  modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-}));
-
 export const WalletAuthModal = ({ open }: { open: boolean }) => {
-  const classes = useStyles();
   const [connectMessage, setConnectMessage] = useState<string>('');
 
   const [defaultChain, setDefaultChain] = useState<string>('1');
@@ -153,23 +139,14 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
 
   return (
     <Modal
-      className={classes.modal}
-      disableBackdropClick={isConnecting}
+      showClose={isConnecting}
       open={open}
+      css={{
+        maxWidth: '500px',
+        padding: '$xl',
+      }}
     >
-      <Flex
-        column
-        alignItems="start"
-        css={{
-          gap: '$lg',
-          outline: 'none',
-          backgroundColor: '$white',
-          borderRadius: '$3',
-          padding: '$xl',
-          width: '$full',
-          maxWidth: '500px',
-        }}
-      >
+      <Flex>
         {isMultichainEnabled && (
           <div>
             <Flex column css={{ gap: '$md' }}>
@@ -194,21 +171,17 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
           </div>
         )}
         <Flex alignItems="start" column css={{ gap: '$md', width: '$full' }}>
-          <Text h3 semibold>
+          <Text h3 semibold css={{ justifyContent: 'center', width: '100%' }}>
             Connect Your Wallet
           </Text>
           {UnsupportedNetwork && (
             <Text variant="formError">Please use a supported network</Text>
           )}
           {isConnecting ? (
-            <Box
-              css={{
-                textAlign: 'center',
-              }}
-            >
+            <Flex row css={{ justifyContent: 'center', width: '100%' }}>
               <CircularProgress />
-              <Typography>{connectMessage}</Typography>
-            </Box>
+              <Text css={{ gap: '$sm', padding: '$sm' }}>{connectMessage}</Text>
+            </Flex>
           ) : (
             <Box
               css={{
@@ -258,10 +231,11 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
           )}
           <Text
             css={{
-              display: 'inline',
+              display: 'block',
               fontSize: '$small',
               textAlign: 'center',
               fontWeight: '$semibold',
+              width: '100%',
             }}
           >
             New to Ethereum?{' '}
