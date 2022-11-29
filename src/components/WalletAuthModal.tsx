@@ -31,7 +31,7 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
   const isMultichainEnabled = isFeatureEnabled('multichain_login');
 
   const UNSUPPORTED = 'unsupported';
-  const unsupportedNetwork = defaultChain == UNSUPPORTED;
+  const unsupportedNetwork = selectedChain == UNSUPPORTED;
   const supportedChains = Object.entries(loginSupportedChainIds).map(key => {
     return { value: key[0], label: key[1], disabled: false };
   });
@@ -51,9 +51,9 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
     const chainId = parseInt(chainIdHex, 16).toString();
 
     if (supportedChains.find(obj => obj.value == chainId)) {
-      setDefaultChain(chainId);
+      setSelectedChain(chainId);
     } else {
-      setDefaultChain(UNSUPPORTED);
+      setSelectedChain(UNSUPPORTED);
     }
   };
 
@@ -154,14 +154,14 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
                 Select Network
               </Text>
               <Select
-                value={defaultChain}
+                value={selectedChain}
                 options={loginOptions}
                 onValueChange={v => switchNetwork(v, onNetworkError)}
                 css={{
                   minWidth: '50%',
                 }}
               />
-              {UnsupportedNetwork && (
+              {unsupportedNetwork && (
                 <Text variant="formError">
                   Please choose a supported network
                 </Text>
@@ -174,7 +174,7 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
           <Text h3 semibold css={{ justifyContent: 'center', width: '100%' }}>
             Connect Your Wallet
           </Text>
-          {UnsupportedNetwork && (
+          {unsupportedNetwork && (
             <Text variant="formError">Please use a supported network</Text>
           )}
           {isConnecting ? (
@@ -196,7 +196,7 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
             >
               <Button
                 variant="wallet"
-                disabled={!isMetamaskEnabled || UnsupportedNetwork}
+                disabled={!isMetamaskEnabled || unsupportedNetwork}
                 fullWidth
                 onClick={() => {
                   activate(EConnectorNames.Injected);
