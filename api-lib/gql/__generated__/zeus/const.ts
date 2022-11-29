@@ -35,6 +35,7 @@ export const AllTypesProps: Record<string, any> = {
   DeleteContributionInput: {},
   DeleteDiscordUserInput: {},
   DeleteEpochInput: {},
+  DeleteUserBulkInput: {},
   DeleteUserInput: {},
   GenerateApiKeyInput: {},
   Int_comparison_exp: {},
@@ -3068,6 +3069,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     deleteUser: {
       payload: 'DeleteUserInput',
+    },
+    deleteUserBulk: {
+      payload: 'DeleteUserBulkInput',
     },
     delete_burns: {
       where: 'burns_bool_exp',
@@ -7452,6 +7456,9 @@ export const ReturnTypes: Record<string, any> = {
   DeleteEpochResponse: {
     success: 'Boolean',
   },
+  DeleteUserBulkResponse: {
+    success: 'Boolean',
+  },
   EpochResponse: {
     epoch: 'epochs',
     id: 'ID',
@@ -9711,6 +9718,7 @@ export const ReturnTypes: Record<string, any> = {
     deleteDiscordUser: 'ConfirmationResponse',
     deleteEpoch: 'DeleteEpochResponse',
     deleteUser: 'ConfirmationResponse',
+    deleteUserBulk: 'DeleteUserBulkResponse',
     delete_burns: 'burns_mutation_response',
     delete_burns_by_pk: 'burns',
     delete_circle_api_keys: 'circle_api_keys_mutation_response',
