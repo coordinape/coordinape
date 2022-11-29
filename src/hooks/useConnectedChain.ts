@@ -5,6 +5,6 @@ export default function useConnectedChain() {
   const { chainId } = useWeb3React();
   return {
     chainId,
-    chainName: (chainId && loginSupportedChainIds[chainId]) || undefined,
+    chainName: chainId ? loginSupportedChainIds[chainId.toString()] : undefined,
   };
 }

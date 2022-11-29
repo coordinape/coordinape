@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 import { useWeb3React } from '@web3-react/core';
-import { vaultsSupportedChainIds } from 'common-lib/chains';
+import { supportedChainIds } from 'lib/vaults';
 
 import { useApeSnackbar } from 'hooks';
 import { switchNetwork } from 'utils/provider';
@@ -12,7 +12,7 @@ export default function useContractNetworksOnly() {
 
   useEffect(() => {
     const isSupportedChainId =
-      chainId && vaultsSupportedChainIds.includes(chainId.toString());
+      chainId && supportedChainIds.includes(chainId.toString());
     if (!isSupportedChainId) {
       showError(
         `Contract interactions do not support chain ${chainId}. Please switch to Ethereum Mainnet.`

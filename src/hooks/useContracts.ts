@@ -2,8 +2,7 @@ import { useMemo } from 'react';
 
 import { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React } from '@web3-react/core';
-import { vaultsSupportedChainIds } from 'common-lib/chains';
-import { Contracts } from 'lib/vaults';
+import { supportedChainIds, Contracts } from 'lib/vaults';
 
 import { logOnce } from 'utils/logger';
 
@@ -12,9 +11,7 @@ export function useContracts(): Contracts | undefined {
 
   return useMemo((): Contracts | undefined => {
     if (!library || !chainId) return undefined;
-    const isSupportedChainId = vaultsSupportedChainIds.includes(
-      chainId.toString()
-    );
+    const isSupportedChainId = supportedChainIds.includes(chainId.toString());
     if (!isSupportedChainId) {
       logOnce(`Contracts do not support chain ${chainId}`);
       return undefined;

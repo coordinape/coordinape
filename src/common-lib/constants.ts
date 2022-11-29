@@ -8,7 +8,7 @@ export enum ENTRANCE {
   NOMINATION = 'vouched-in',
 }
 
-let chains: { [key: number]: string } = {
+export const loginSupportedChainIds: Record<string, string> = {
   1: 'Ethereum Mainnet',
   5: 'Görli Testnet',
   10: 'Optimism',
@@ -19,14 +19,5 @@ let chains: { [key: number]: string } = {
   42161: 'Arbitrum One',
   43114: 'Avalanche C-Chain',
   1313161554: 'Aurora Mainnet',
+  ...(IN_DEVELOPMENT && { 1338: 'Localhost' }),
 };
-if (IN_DEVELOPMENT) {
-  chains = {
-    ...chains,
-    ...{
-      1338: 'Localhost',
-    },
-  };
-}
-
-export const loginSupportedChainIds = chains;
