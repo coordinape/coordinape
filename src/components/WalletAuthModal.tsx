@@ -15,6 +15,7 @@ import {
 
 import { Box, Button, Text, Flex, HR, Select } from '../ui';
 import { EConnectorNames, WALLET_ICONS } from 'config/constants';
+import isFeatureEnabled from 'config/features';
 import { useApeSnackbar } from 'hooks';
 import { useWalletAuth } from 'recoilState/app';
 import { connectors } from 'utils/connectors';
@@ -40,6 +41,8 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
   const walletAuth = useWalletAuth();
 
   const [isMetamaskEnabled, setIsMetamaskEnabled] = useState<boolean>(false);
+
+  const isMultichainEnabled = isFeatureEnabled('multichain_login');
 
   const UNSUPPORTED = 'unsupported';
   const UnsupportedNetwork = defaultChain == UNSUPPORTED;
@@ -78,10 +81,9 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
 
   useEffect(() => {
     // safe to refer to window here because we are client side -g
-    const metamaskEnabled = 'ethereum' in window || 'web3' in window;
-    setIsMetamaskEnabled(metamaskEnabled);
-
     const ethereum = (window as any).ethereum;
+    setIsMetamaskEnabled(!!ethereum);
+
     getInitialChain(ethereum);
 
     if (ethereum) {
@@ -168,27 +170,36 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
           maxWidth: '500px',
         }}
       >
-        <Flex column css={{ gap: '$md' }}>
-          <Text h3 semibold>
-            Select Network
-          </Text>
-          <Select
-            value={defaultChain}
-            options={loginOptions}
-            onValueChange={v => switchNetwork(v, onNetworkError)}
-            css={{
-              minWidth: '50%',
-            }}
-          />
-          {UnsupportedNetwork && (
-            <Text variant="formError">Please choose a supported network</Text>
-          )}
-        </Flex>
-        <HR noMargin />
+        {isMultichainEnabled && (
+          <div>
+            <Flex column css={{ gap: '$md' }}>
+              <Text h3 semibold>
+                Select Network
+              </Text>
+              <Select
+                value={defaultChain}
+                options={loginOptions}
+                onValueChange={v => switchNetwork(v, onNetworkError)}
+                css={{
+                  minWidth: '50%',
+                }}
+              />
+              {UnsupportedNetwork && (
+                <Text variant="formError">
+                  Please choose a supported network
+                </Text>
+              )}
+            </Flex>
+            <HR noMargin />
+          </div>
+        )}
         <Flex alignItems="start" column css={{ gap: '$md', width: '$full' }}>
           <Text h3 semibold>
             Connect Your Wallet
           </Text>
+          {UnsupportedNetwork && (
+            <Text variant="formError">Please use a supported network</Text>
+          )}
           {isConnecting ? (
             <Box
               css={{
