@@ -7,7 +7,7 @@ import { LoadingModal } from 'components';
 import { useMainHeaderQuery } from 'components/MainLayout/getMainHeaderData';
 import { useContracts } from 'hooks';
 import { useVaults } from 'hooks/gql/useVaults';
-import useContractNetworksOnly from 'hooks/useContractNetworksOnly';
+import useRequireSupportedChain from 'hooks/useRequireSupportedChain';
 import { rSelectedCircleId } from 'recoilState/app';
 import {
   EXTERNAL_URL_LEARN_ABOUT_VAULTS,
@@ -28,7 +28,7 @@ const VaultsPage = () => {
 
   const [currentOrgId, setCurrentOrgId] = useState<number | undefined>();
 
-  useContractNetworksOnly();
+  useRequireSupportedChain();
 
   useEffect(() => {
     const orgIndex = circleId

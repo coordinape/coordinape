@@ -6,7 +6,7 @@ import { supportedChainIds } from 'lib/vaults';
 import { useApeSnackbar } from 'hooks';
 import { switchNetwork } from 'utils/provider';
 
-export default function useContractNetworksOnly() {
+export default function useRequireSupportedChain() {
   const { chainId } = useWeb3React();
   const { showError } = useApeSnackbar();
 
