@@ -238,9 +238,11 @@ export const WalletAuthModal = () => {
                 <WALLET_ICONS.walletlink />
               </Button>
 
-              <Button variant="wallet" fullWidth onClick={inject}>
-                Email
-              </Button>
+              {isFeatureEnabled('email_login') && (
+                <Button variant="wallet" fullWidth onClick={inject}>
+                  Email
+                </Button>
+              )}
             </Box>
           )}
           <Text
