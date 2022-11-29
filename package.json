@@ -111,7 +111,7 @@
     "test": "./scripts/ci/manager.sh test --jest -i",
     "test:ci": "./scripts/ci/manager.sh test --all",
     "test:up": "./scripts/ci/manager.sh up",
-    "lint:check": "eslint \"{{api,api-lib,cypress,hasura,src}/**/*.{js,ts,tsx,graphql},*.{js,ts,tsx,graphql}}\"",
+    "lint:check": "eslint \"{{api,api-lib,cypress,hasura,src}/**/*.{js,ts,tsx,graphql},*.{js,ts,tsx,graphql}}\" --max-warnings 0",
     "lint:fix": "yarn lint:check --fix",
     "prettier": "prettier \"{{api,api-lib,cypress,hasura,src}/**/*.{js,ts,tsx,graphql,json},*.{js,ts,tsx,graphql,json}}\"",
     "prettier:check": "yarn prettier --check",
