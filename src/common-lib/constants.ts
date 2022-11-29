@@ -10,6 +10,7 @@ export enum ENTRANCE {
 
 let chains: { [key: number]: string } = {
   1: 'Ethereum Mainnet',
+  5: 'Görli Testnet',
   10: 'Optimism',
   100: 'Gnosis',
   137: 'Polygon',
@@ -23,7 +24,6 @@ if (IN_DEVELOPMENT) {
   chains = {
     ...chains,
     ...{
-      5: 'Görli Testnet',
       1338: 'Localhost',
     },
   };
