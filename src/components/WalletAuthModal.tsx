@@ -20,7 +20,7 @@ import { switchNetwork } from 'utils/provider';
 export const WalletAuthModal = ({ open }: { open: boolean }) => {
   const [connectMessage, setConnectMessage] = useState<string>('');
 
-  const [defaultChain, setDefaultChain] = useState<string>('1');
+  const [selectedChain, setSelectedChain] = useState<string>('1');
 
   const { showError, showInfo } = useApeSnackbar();
   const web3Context = useWeb3React<Web3Provider>();
@@ -31,7 +31,7 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
   const isMultichainEnabled = isFeatureEnabled('multichain_login');
 
   const UNSUPPORTED = 'unsupported';
-  const UnsupportedNetwork = defaultChain == UNSUPPORTED;
+  const unsupportedNetwork = defaultChain == UNSUPPORTED;
   const supportedChains = Object.entries(loginSupportedChainIds).map(key => {
     return { value: key[0], label: key[1], disabled: false };
   });
