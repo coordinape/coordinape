@@ -12,9 +12,7 @@ import { Box, Button, Text, Modal, Flex, HR, Select } from '../ui';
 import { EConnectorNames, WALLET_ICONS } from 'config/constants';
 import isFeatureEnabled from 'config/features';
 import { useApeSnackbar } from 'hooks';
-import { useWalletAuth } from 'recoilState/app';
 import { connectors } from 'utils/connectors';
-import { AUTO_OPEN_WALLET_DIALOG_PARAMS } from 'utils/domain';
 import { switchNetwork } from 'utils/provider';
 
 export const WalletAuthModal = ({ open }: { open: boolean }) => {
@@ -24,7 +22,6 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
 
   const { showError, showInfo } = useApeSnackbar();
   const web3Context = useWeb3React<Web3Provider>();
-  const walletAuth = useWalletAuth();
 
   const [isMetamaskEnabled, setIsMetamaskEnabled] = useState<boolean>(false);
 
@@ -101,6 +98,7 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
     }
 
     try {
+      setConnectMessage('');
       await web3Context.activate(newConnector, () => {}, true);
     } catch (error: any) {
       if (error.message.match(/Unsupported chain id/)) {
@@ -116,19 +114,7 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
         web3Context.deactivate();
       }
     }
-
-    setConnectMessage('');
   };
-
-  useEffect(() => {
-    if (
-      // safe to refer to window here because we are in useEffect -g
-      window.location.search === AUTO_OPEN_WALLET_DIALOG_PARAMS ||
-      walletAuth.connectorName
-    ) {
-      walletAuth.connectorName && activate(walletAuth.connectorName);
-    }
-  }, []);
 
   return (
     <Modal
