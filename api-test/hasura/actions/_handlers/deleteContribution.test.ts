@@ -7,10 +7,22 @@ import {
   mockUserClient,
 } from '../../../helpers';
 import { getUniqueAddress } from '../../../helpers/getUniqueAddress';
+import { GraphQLError }  from '../../../../api-lib/gql/__generated__/zeus';
 
 let address, profile, circle, user, contribution;
 
+jest.mock('../../../../api-lib/gql/__generated__/zeus', () => ({
+    GraphQLError: jest.fn().mockImplementation(() => {
+      return { toString: () => {}};
+    })
+}));
+
+const mockGraphQLError = GraphQLError as jest.MockedClass<
+  typeof GraphQLError
+>;
+
 beforeEach(async () => {
+  mockGraphQLError.mockClear();
   address = await getUniqueAddress();
   circle = await createCircle(adminClient);
   profile = await createProfile(adminClient, { address });
@@ -57,8 +69,9 @@ describe('Delete Contribution action handler', () => {
         { success: true },
       ],
     });
-    expect.assertions(1);
-    await expect(result).rejects.toThrow();
+    
+    await expect(result).rejects.toThrow(GraphQLError);
+    expect(mockGraphQLError).toHaveBeenCalledTimes(1);
   });
   
 });
