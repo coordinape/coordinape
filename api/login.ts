@@ -16,8 +16,8 @@ import { insertInteractionEvents } from '../api-lib/gql/mutations';
 import { errorResponse } from '../api-lib/HttpError';
 import { getProvider } from '../api-lib/provider';
 import { parseInput } from '../api-lib/signature';
-import { vaultsSupportedChainIds } from '../src/common-lib/chains';
 import { loginSupportedChainIds } from '../src/common-lib/constants';
+import { supportedChainIds } from '../src/lib/vaults/contracts';
 
 import { createSampleCircleForProfile } from './hasura/actions/_handlers/createSampleCircle';
 
@@ -30,7 +30,7 @@ const allowedDomainsRegex = process.env.SIWE_ALLOWED_DOMAINS?.split(',').filter(
 const allowedDomains = allowedDomainsRegex.map(item => new RegExp(item));
 
 const validChains = union(
-  vaultsSupportedChainIds,
+  supportedChainIds,
   Object.keys(loginSupportedChainIds)
 );
 

@@ -37,6 +37,12 @@ export type {
 
 const log = debug('coordinape:contracts');
 
+const requiredContracts = ['ApeVaultFactory', 'ApeRouter', 'ApeDistributor'];
+
+export const supportedChainIds: string[] = Object.entries(deploymentInfo)
+  .filter(([, contracts]) => requiredContracts.every(c => c in contracts))
+  .map(x => x[0].toString());
+
 export class Contracts {
   vaultFactory: ApeVaultFactory;
   router: ApeRouter;
