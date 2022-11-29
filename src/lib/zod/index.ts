@@ -84,6 +84,13 @@ export const deleteUserInput = z
   })
   .strict();
 
+  export const deleteUserBulkInput = z
+  .object({
+    circle_id: z.number(),
+    addresses: z.array(zEthAddressOnly),
+  })
+  .strict();
+
 export const deleteCircleInput = z
   .object({
     circle_id: z.number(),

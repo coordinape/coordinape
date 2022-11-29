@@ -761,6 +761,14 @@ export type ValueTypes = {
     success?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  ['DeleteUserBulkInput']: {
+    addresses: Array<string>;
+    circle_id: number;
+  };
+  ['DeleteUserBulkResponse']: AliasType<{
+    success?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['DeleteUserInput']: {
     address: string;
     circle_id: number;
@@ -8047,6 +8055,10 @@ export type ValueTypes = {
     deleteUser?: [
       { payload: ValueTypes['DeleteUserInput'] },
       ValueTypes['ConfirmationResponse']
+    ];
+    deleteUserBulk?: [
+      { payload: ValueTypes['DeleteUserBulkInput'] },
+      ValueTypes['DeleteUserBulkResponse']
     ];
     delete_burns?: [
       {
@@ -20009,6 +20021,10 @@ export type ModelTypes = {
   ['DeleteEpochResponse']: {
     success: boolean;
   };
+  ['DeleteUserBulkInput']: GraphQLTypes['DeleteUserBulkInput'];
+  ['DeleteUserBulkResponse']: {
+    success: boolean;
+  };
   ['DeleteUserInput']: GraphQLTypes['DeleteUserInput'];
   ['EpochResponse']: {
     epoch?: GraphQLTypes['epochs'] | undefined;
@@ -23252,6 +23268,7 @@ export type ModelTypes = {
     deleteContribution?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteEpoch?: GraphQLTypes['DeleteEpochResponse'] | undefined;
     deleteUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    deleteUserBulk?: GraphQLTypes['DeleteUserBulkResponse'] | undefined;
     /** delete data from the table: "burns" */
     delete_burns?: GraphQLTypes['burns_mutation_response'] | undefined;
     /** delete single row from the table: "burns" */
@@ -27094,6 +27111,14 @@ export type GraphQLTypes = {
   };
   ['DeleteEpochResponse']: {
     __typename: 'DeleteEpochResponse';
+    success: boolean;
+  };
+  ['DeleteUserBulkInput']: {
+    addresses: Array<string>;
+    circle_id: number;
+  };
+  ['DeleteUserBulkResponse']: {
+    __typename: 'DeleteUserBulkResponse';
     success: boolean;
   };
   ['DeleteUserInput']: {
@@ -33340,6 +33365,7 @@ export type GraphQLTypes = {
     deleteContribution?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteEpoch?: GraphQLTypes['DeleteEpochResponse'] | undefined;
     deleteUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    deleteUserBulk?: GraphQLTypes['DeleteUserBulkResponse'] | undefined;
     /** delete data from the table: "burns" */
     delete_burns?: GraphQLTypes['burns_mutation_response'] | undefined;
     /** delete single row from the table: "burns" */
