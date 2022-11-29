@@ -93,7 +93,7 @@ export const MyAvatarMenu = ({ walletStatus }: Props) => {
             css={{
               background: '$surface',
               outline: 'none',
-              zIndex: 2,
+              zIndex: 4,
               position: 'relative',
               right: '$md',
               top: 'calc($lg - $4xl)',

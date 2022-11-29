@@ -1,22 +1,23 @@
 import { CSS } from '../../stitches.config';
-import { Flex, Panel } from '../../ui';
+import { Panel } from '../../ui';
 
 export const GiveRowGrid = ({
   selected,
+  gridView,
   children,
   css,
 }: {
   selected: boolean;
+  gridView: boolean;
   children: React.ReactNode;
   css?: CSS;
 }) => {
   return (
     <Panel
-      nested
+      nested={!gridView}
       css={{
         flex: 'auto',
-        padding: 0,
-        pr: '$md',
+        p: gridView ? '$md' : '0 $md 0 $sm',
         border: '2px solid transparent',
         cursor: 'pointer',
         backgroundColor: selected ? '$highlight' : undefined,
@@ -27,29 +28,12 @@ export const GiveRowGrid = ({
           borderColor: '$link',
         },
         '@sm': {
-          py: '$md',
-          pr: 0,
+          p: '$md',
         },
         ...css,
       }}
     >
-      <Flex
-        alignItems="center"
-        css={{
-          display: 'grid',
-          gridTemplateColumns: '2fr 4fr 4fr',
-          justifyContent: 'space-between',
-          gap: '$lg',
-          minHeight: 'calc($2xl + $xs)',
-          '@sm': {
-            gridTemplateColumns: '1fr',
-            justifyItems: 'center',
-            gap: 0,
-          },
-        }}
-      >
-        {children}
-      </Flex>
+      {children}
     </Panel>
   );
 };

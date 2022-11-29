@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Box, MarkdownPreview } from 'ui';
 
 import { Contributions } from './queries';

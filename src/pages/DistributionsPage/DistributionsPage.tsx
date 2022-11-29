@@ -16,7 +16,6 @@ import { LoadingModal } from 'components';
 import { QUERY_KEY_MAIN_HEADER } from 'components/MainLayout/getMainHeaderData';
 import { useApiAdminCircle, useContracts } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
-import useContractNetworksOnly from 'hooks/useContractNetworksOnly';
 import { AppLink, BackButton, Box, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -29,7 +28,6 @@ export function DistributionsPage() {
   const { epochId } = useParams();
   const address = useConnectedAddress();
   const contracts = useContracts();
-  useContractNetworksOnly();
   const queryClient = useQueryClient();
 
   const {
@@ -43,7 +41,7 @@ export function DistributionsPage() {
     ['distributions', epochId],
     () => getEpochData(Number.parseInt(epochId || '0'), address, contracts),
     {
-      enabled: !!(contracts && address),
+      enabled: !!address,
       retry: false,
       select: d => {
         if (d.circle)

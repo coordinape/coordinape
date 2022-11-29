@@ -27,6 +27,7 @@ type TestWrapperProps = {
   children: ReactElement;
   getLibrary?: (provider: any) => any; // FIXME
   withWeb3?: boolean;
+  queryClientCallback?: (queryClient: QueryClient) => void;
 };
 
 const defaultGetLibrary = (provider: any) => new Web3Provider(provider);
@@ -48,6 +49,7 @@ export const TestWrapper = ({
   children,
   getLibrary = defaultGetLibrary,
   withWeb3 = false,
+  queryClientCallback,
 }: TestWrapperProps) => {
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -56,6 +58,8 @@ export const TestWrapper = ({
       },
     },
   });
+
+  queryClientCallback?.(queryClient);
 
   return (
     <RecoilRoot>
