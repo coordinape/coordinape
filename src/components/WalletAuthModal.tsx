@@ -40,16 +40,8 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
     { value: UNSUPPORTED, label: '-', disabled: true },
   ]);
 
-  const getInitialChain = async (ethereum: any) => {
-    if (ethereum) {
-      updateChain(await new Web3Provider(ethereum).send('eth_chainId', []));
-    }
-  };
-
-  const updateChain = (chainIdHex: string) => {
-    // convert hex chainId to decimal
-    const chainId = parseInt(chainIdHex, 16).toString();
-
+  const updateChain = async (provider: Web3Provider) => {
+    const chainId = (await provider.getNetwork()).chainId.toString();
     if (supportedChains.find(obj => obj.value == chainId)) {
       setSelectedChain(chainId);
     } else {
@@ -70,11 +62,12 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
     const ethereum = (window as any).ethereum;
     setIsMetamaskEnabled(!!ethereum);
 
-    getInitialChain(ethereum);
-
     if (ethereum) {
       // The "any" network will allow spontaneous network changes
+
       const provider = new Web3Provider(ethereum, 'any');
+
+      updateChain(provider);
       provider.on('network', (_, oldNetwork) => {
         // When a Provider makes its initial connection, it emits a "network"
         // event with a null oldNetwork along with the newNetwork. So, if the
