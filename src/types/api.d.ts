@@ -11,17 +11,6 @@ export interface PostTokenGiftsParam {
   note?: string;
 }
 
-export interface PostUsersParam {
-  name: string;
-  address: string;
-  non_giver?: boolean;
-  fixed_non_receiver?: boolean;
-  non_receiver?: boolean;
-  role?: number;
-  starting_tokens?: number;
-  fixed_payment_amount?: number;
-}
-
 export interface UpdateUsersParam {
   name: string;
   address: string;
