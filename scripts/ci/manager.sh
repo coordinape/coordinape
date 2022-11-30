@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-SCRIPT_DIR="${0%/*}"
+SCRIPT_DIR="$(dirname $BASH_SOURCE[0])"
 . $SCRIPT_DIR/../env.sh --ci
 
 # parse arguments

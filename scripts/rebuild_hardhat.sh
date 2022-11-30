@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-SCRIPT_DIR="${0%/*}"
+SCRIPT_DIR="$(dirname $BASH_SOURCE[0])"
 FIND_DEV_PID="lsof -t -i:8545 -sTCP:LISTEN"
 
 while [[ "$#" > 0 ]]; do case $1 in
