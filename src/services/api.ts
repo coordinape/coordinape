@@ -41,13 +41,15 @@ export class APIService {
       time = Date.now();
     }
 
+    const network = await this.provider?.getNetwork();
+
     const message = new SiweMessage({
       domain: window.location.host,
       address,
       statement: 'Coordinape wants to Sign-In With Ethereum',
       uri: window.location.origin,
       version: '1',
-      chainId: 1,
+      chainId: network?.chainId || 1,
       nonce,
       notBefore: new Date(time).toISOString(),
       expirationTime: new Date(time + SIWE_EXPIRES_AFTER).toISOString(),

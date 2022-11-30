@@ -8,6 +8,7 @@ import { encodeCircleId, hasSimpleToken } from 'lib/vaults';
 import max from 'lodash/max';
 
 import { useApeSnackbar, useContracts } from 'hooks';
+import useRequireSupportedChain from 'hooks/useRequireSupportedChain';
 import { sendAndTrackTx } from 'utils/contractHelpers';
 
 import type { QueryClaim } from './queries';
@@ -24,6 +25,7 @@ export type ClaimAllocationProps = {
 
 export function useClaimAllocation() {
   const contracts = useContracts();
+  useRequireSupportedChain();
   const { showError, showInfo } = useApeSnackbar();
 
   return async ({

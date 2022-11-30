@@ -118,9 +118,6 @@ const NormalHeader = ({ inCircle, walletStatus, query }: Props) => {
               <Box
                 css={{
                   mr: '$md',
-                  '@md': {
-                    scale: 0.8,
-                  },
                 }}
               >
                 <ReceiveInfo />

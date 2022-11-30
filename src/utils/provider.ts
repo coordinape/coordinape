@@ -76,3 +76,26 @@ export function makeExplorerUrl(
       console.warn(`No explorer for chain ID ${chainId}; tx Hash: ` + txHash);
   }
 }
+
+export async function switchNetwork(
+  targetChainId: string,
+  onError?: (e: Error | any) => void
+): Promise<void> {
+  const ethereum = (window as any).ethereum;
+  if (!ethereum) {
+    return;
+  }
+  // convert decimal string to hex
+  const targetChainIdHex = '0x' + parseInt(targetChainId).toString(16);
+
+  try {
+    await ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: targetChainIdHex }],
+    });
+    // refresh
+    (window as any).location.reload();
+  } catch (error: Error | any) {
+    onError && onError(error);
+  }
+}

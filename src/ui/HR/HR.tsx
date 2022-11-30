@@ -7,6 +7,15 @@ export const HR = styled('hr', {
   background: '$border',
   marginTop: '$lg',
   marginBottom: '$md',
+
+  variants: {
+    noMargin: {
+      true: {
+        marginTop: '0',
+        marginBottom: '0',
+      },
+    },
+  },
 });
 
 export default HR;

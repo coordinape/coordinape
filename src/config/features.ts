@@ -4,7 +4,8 @@ export type FeatureName =
   | 'vaults'
   | 'fixed_payments'
   | 'future_feature'
-  | 'discord';
+  | 'discord'
+  | 'multichain_login';
 
 // this is a very simple implementation of build-time feature flags that you can
 // hardcode or set with environment variables
