@@ -1,12 +1,12 @@
 import { ReactElement, useEffect } from 'react';
 
-import { useFinishAuth } from 'features/auth/useFinishAuth';
-import { useWalletAuth } from 'features/auth/useWalletAuth';
-
 import { LoadingModal } from 'components';
-import { WalletAuthModal } from 'components/WalletAuthModal';
-import { useAuthStep } from 'hooks/login';
 import { useWeb3React } from 'hooks/useWeb3React';
+
+import { useAuthStep } from './useAuthStep';
+import { useFinishAuth } from './useFinishAuth';
+import { useWalletAuth } from './useWalletAuth';
+import { WalletAuthModal } from './WalletAuthModal';
 
 export const RequireAuth = (props: { children: ReactElement }) => {
   const { address, authTokens } = useWalletAuth();
@@ -23,13 +23,18 @@ export const RequireAuth = (props: { children: ReactElement }) => {
 
     if (authStep === 'connect' && web3Context.active) {
       setAuthStep('sign');
-      finishAuth({ web3Context, authTokens }).then(success => {
-        if (!success) {
+      finishAuth({ web3Context, authTokens })
+        .then(success => {
+          if (!success) {
+            web3Context.deactivate();
+          } else {
+            setAuthStep('done');
+          }
+        })
+        .catch((e: any) => {
+          console.error(e);
           web3Context.deactivate();
-        } else {
-          setAuthStep('done');
-        }
-      });
+        });
     }
   }, [address, web3Context]);
 

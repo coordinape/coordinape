@@ -1,8 +1,9 @@
 import { client } from 'lib/gql/client';
 import { atom, selector, useRecoilValue } from 'recoil';
 
-import { getApiService } from 'services/api';
 import storage from 'utils/storage';
+
+import { getAuthToken, setAuthToken } from './token';
 
 import { IAuth } from 'types';
 
@@ -14,11 +15,10 @@ const logout = async (): Promise<boolean> => {
   return !!logoutUser?.id;
 };
 
-const updateApiService = ({ address, authTokens }: IAuth) => {
+const updateToken = ({ address, authTokens }: IAuth) => {
   const token = address && authTokens[address];
-  const api = getApiService();
-  if (!token && api.token) logout();
-  api.setAuth(token);
+  if (!token && getAuthToken(false)) logout();
+  setAuthToken(token);
 };
 
 export const rWalletAuth = atom({
@@ -27,14 +27,14 @@ export const rWalletAuth = atom({
     key: 'rWalletAuth/default',
     get: () => {
       const auth = storage.getAuth();
-      updateApiService(auth);
+      updateToken(auth);
       return auth;
     },
   }),
   effects_UNSTABLE: [
     ({ onSet }) => {
       onSet(auth => {
-        updateApiService(auth);
+        updateToken(auth);
         storage.setAuth(auth);
       });
     },

@@ -7,11 +7,10 @@ import {
   Web3ReactProvider as OriginalWeb3ReactProvider,
 } from '@web3-react/core';
 import type { Web3ReactContextInterface } from '@web3-react/core/dist/types';
+import { AuthContext } from 'features/auth/useAuthStep';
+import type { AuthStep } from 'features/auth/useAuthStep';
 import { pick } from 'lodash/fp';
 import create from 'zustand';
-
-import { AuthContext } from 'hooks/login';
-import type { AuthStep } from 'hooks/login';
 
 type ProviderType = 'magic' | 'web3auth' | 'other';
 

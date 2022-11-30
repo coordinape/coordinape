@@ -1,18 +1,13 @@
-// TODO move this into features/auth after #1544 lands
-
-import { createContext, useContext } from 'react';
-
-import { connectors } from 'features/auth/connectors';
-import { useLogout } from 'features/auth/useLogout';
-
 import { ReactComponent as CoinbaseSVG } from 'assets/svgs/wallet/coinbase.svg';
 import { ReactComponent as MetaMaskSVG } from 'assets/svgs/wallet/metamask-color.svg';
 import { ReactComponent as WalletConnectSVG } from 'assets/svgs/wallet/wallet-connect.svg';
 import { EConnectorNames } from 'config/constants';
 import useConnectedAddress from 'hooks/useConnectedAddress';
+import useConnectedChain from 'hooks/useConnectedChain';
 import { useWeb3React } from 'hooks/useWeb3React';
 
-import useConnectedChain from './useConnectedChain';
+import { connectors } from './connectors';
+import { useLogout } from './useLogout';
 
 const connectorIcon = (
   connector: ReturnType<typeof useWeb3React>['connector']
@@ -61,17 +56,3 @@ export type WalletStatus = {
   chainName: string | undefined;
   logout: () => void;
 };
-
-export type AuthStep = 'connect' | 'sign' | 'done';
-
-type AuthContextType = [
-  AuthStep,
-  React.Dispatch<React.SetStateAction<AuthStep>>
-];
-
-export const AuthContext = createContext<AuthContextType>([
-  'connect',
-  () => {},
-]);
-
-export const useAuthStep = () => useContext(AuthContext);

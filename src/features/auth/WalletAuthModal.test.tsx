@@ -1,7 +1,8 @@
 import { act, render, screen } from '@testing-library/react';
 
-import { WalletAuthModal } from 'components/WalletAuthModal';
 import { TestWrapper } from 'utils/testing';
+
+import { WalletAuthModal } from './WalletAuthModal';
 
 const ethSpy = jest.fn(() => '0xfa');
 describe('with metamask enabled', () => {

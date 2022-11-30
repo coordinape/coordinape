@@ -3,14 +3,16 @@ import assert from 'assert';
 import type { Web3Provider } from '@ethersproject/providers';
 import * as Sentry from '@sentry/react';
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types';
-import { connectors } from 'features/auth/connectors';
-import { rWalletAuth } from 'features/auth/useWalletAuth';
 
 import { useApiBase, useRecoilLoadCatch } from 'hooks';
 import { useApeSnackbar } from 'hooks/useApeSnackbar';
 import { rSelectedCircleIdSource } from 'recoilState/app';
 import { rApiManifest, rApiFullCircle } from 'recoilState/db';
-import { getApiService } from 'services/api';
+
+import { connectors } from './connectors';
+import { login } from './login';
+import { setAuthToken } from './token';
+import { rWalletAuth } from './useWalletAuth';
 
 import { EConnectorNames } from 'types';
 
@@ -47,39 +49,39 @@ export const useFinishAuth = () => {
             ([, c]) => connector?.constructor === c.constructor
           )?.[0] as EConnectorNames;
 
-          const api = getApiService();
-          if (!api.provider) api.setProvider(web3Context.library);
-
-          const token = authTokens[address] ?? (await api.login(address)).token;
-          if (token) {
-            // Send a truncated address to sentry to help us debug customer issues
-            Sentry.setTag(
-              'address_truncated',
-              address.substr(0, 8) +
-                '...' +
-                address.substr(address.length - 8, 8)
-            );
-            const newWalletAuth = {
-              connectorName,
-              address,
-              authTokens: { ...authTokens, [address]: token },
-            };
-            set(rWalletAuth, newWalletAuth);
-
-            // passing in newWalletAuth because Recoil snapshot is not updated yet
-            return new Promise(res =>
-              setTimeout(() =>
-                fetchManifest(newWalletAuth)
-                  .then(res)
-                  .catch(() => {
-                    // FIXME don't logout if request timed out
-                    // we had a cached token & it's invalid
-                    clearStateAfterLogout(set);
-                    res(false);
-                  })
-              )
-            );
+          let token = authTokens[address];
+          if (!token) {
+            token = (await login(address, library)).token;
+            setAuthToken(token);
           }
+
+          if (!token) return false;
+
+          // Send a truncated address to sentry to help us debug customer issues
+          Sentry.setTag(
+            'address_truncated',
+            address.substr(0, 8) + '...' + address.substr(address.length - 8, 8)
+          );
+          const newWalletAuth = {
+            connectorName,
+            address,
+            authTokens: { ...authTokens, [address]: token },
+          };
+          set(rWalletAuth, newWalletAuth);
+
+          // passing in newWalletAuth because Recoil snapshot is not updated yet
+          return new Promise(res =>
+            setTimeout(() =>
+              fetchManifest(newWalletAuth)
+                .then(res)
+                .catch(() => {
+                  // FIXME don't logout if request timed out
+                  // we had a cached token & it's invalid
+                  clearStateAfterLogout(set);
+                  res(false);
+                })
+            )
+          );
         } catch (e: any) {
           if (
             [/User denied message signature/].some(r => e.message?.match(r))

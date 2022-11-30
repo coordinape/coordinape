@@ -3,18 +3,19 @@ import { useEffect, useState } from 'react';
 import { Web3Provider } from '@ethersproject/providers';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { loginSupportedChainIds } from 'common-lib/constants';
-import { connectors } from 'features/auth/connectors';
-import { useWalletAuth } from 'features/auth/useWalletAuth';
 import { concat } from 'lodash';
 
 import { CircularProgress } from '@material-ui/core';
 
-import { Box, Button, Text, Modal, Flex, HR, Select } from '../ui';
 import { EConnectorNames, WALLET_ICONS } from 'config/constants';
 import isFeatureEnabled from 'config/features';
 import { useApeSnackbar } from 'hooks';
 import { useWeb3React } from 'hooks/useWeb3React';
+import { Box, Button, Text, Modal, Flex, HR, Select } from 'ui';
 import { switchNetwork } from 'utils/provider';
+
+import { connectors } from './connectors';
+import { useWalletAuth } from './useWalletAuth';
 
 export const WalletAuthModal = () => {
   const [connectMessage, setConnectMessage] = useState<string>('');
@@ -123,7 +124,8 @@ export const WalletAuthModal = () => {
   };
 
   useEffect(() => {
-    if (walletAuth.connectorName) activate(walletAuth.connectorName);
+    if (walletAuth.connectorName && !web3Context.active)
+      activate(walletAuth.connectorName);
   }, []);
 
   const inject = async () => {
@@ -132,6 +134,7 @@ export const WalletAuthModal = () => {
     try {
       // hide our modal because it interferes with typing into Magic's modal
       setModalOpen(false);
+      alert('This button does nothing');
     } catch (e) {
       showError(e);
     } finally {

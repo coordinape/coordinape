@@ -1,12 +1,13 @@
 import { Suspense } from 'react';
 
+import { RequireAuth } from 'features/auth';
+
 import HelpButton from '../HelpButton';
 import { GlobalUi, SentryScopeController } from 'components';
 import { AppRoutes } from 'routes/routes';
 import { Box } from 'ui';
 
 import { MainHeader } from './MainHeader';
-import { RequireAuth } from './RequireAuth';
 
 // this component sets up the top navigation bar to stay fixed on-screen and
 // have content scroll underneath it
