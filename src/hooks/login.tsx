@@ -10,6 +10,8 @@ import { useApiBase } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { connectors } from 'utils/connectors';
 
+import useConnectedChain from './useConnectedChain';
+
 const connectorIcon = (
   connector: ReturnType<typeof useWeb3React>['connector']
 ) => {
@@ -33,11 +35,13 @@ const connectorIcon = (
 export const useWalletStatus = () => {
   const { connector, deactivate } = useWeb3React();
   const address = useConnectedAddress();
+  const { chainName } = useConnectedChain();
   const { logout } = useApiBase();
 
   return {
     icon: connectorIcon(connector),
     address,
+    chainName,
     logout: () => {
       logout();
 
@@ -52,6 +56,7 @@ export const useWalletStatus = () => {
 export type WalletStatus = {
   icon: JSX.Element | null;
   address: string | undefined;
+  chainName: string | undefined;
   logout: () => void;
 };
 
