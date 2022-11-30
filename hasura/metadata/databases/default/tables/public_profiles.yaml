@@ -108,6 +108,7 @@ update_permissions:
         - discord_username
         - github_username
         - medium_username
+        - name
         - skills
         - telegram_username
         - twitter_username

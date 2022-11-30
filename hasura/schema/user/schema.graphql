@@ -2391,6 +2391,73 @@ input circles_variance_order_by {
   organization_id: order_by
 }
 
+scalar citext
+
+"""
+Boolean expression to compare columns of type "citext". All fields are combined with logical 'AND'.
+"""
+input citext_comparison_exp {
+  _eq: citext
+  _gt: citext
+  _gte: citext
+
+  """
+  does the column match the given case-insensitive pattern
+  """
+  _ilike: citext
+  _in: [citext!]
+
+  """
+  does the column match the given POSIX regular expression, case insensitive
+  """
+  _iregex: citext
+  _is_null: Boolean
+
+  """
+  does the column match the given pattern
+  """
+  _like: citext
+  _lt: citext
+  _lte: citext
+  _neq: citext
+
+  """
+  does the column NOT match the given case-insensitive pattern
+  """
+  _nilike: citext
+  _nin: [citext!]
+
+  """
+  does the column NOT match the given POSIX regular expression, case insensitive
+  """
+  _niregex: citext
+
+  """
+  does the column NOT match the given pattern
+  """
+  _nlike: citext
+
+  """
+  does the column NOT match the given POSIX regular expression, case sensitive
+  """
+  _nregex: citext
+
+  """
+  does the column NOT match the given SQL regular expression
+  """
+  _nsimilar: citext
+
+  """
+  does the column match the given POSIX regular expression, case sensitive
+  """
+  _regex: citext
+
+  """
+  does the column match the given SQL regular expression
+  """
+  _similar: citext
+}
+
 """
 columns and relationships of "claims"
 """
@@ -7290,7 +7357,7 @@ type profiles {
   github_username: String
   id: bigint!
   medium_username: String
-  name: String
+  name: citext
   skills: String
   telegram_username: String
   twitter_username: String
@@ -7406,7 +7473,7 @@ input profiles_bool_exp {
   github_username: String_comparison_exp
   id: bigint_comparison_exp
   medium_username: String_comparison_exp
-  name: String_comparison_exp
+  name: citext_comparison_exp
   skills: String_comparison_exp
   telegram_username: String_comparison_exp
   twitter_username: String_comparison_exp
@@ -7555,7 +7622,7 @@ input profiles_set_input {
   discord_username: String
   github_username: String
   medium_username: String
-  name: String
+  name: citext
   skills: String
   telegram_username: String
   twitter_username: String
@@ -7590,7 +7657,7 @@ input profiles_stream_cursor_value_input {
   github_username: String
   id: bigint
   medium_username: String
-  name: String
+  name: citext
   skills: String
   telegram_username: String
   twitter_username: String

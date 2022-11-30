@@ -2229,6 +2229,39 @@ export type ValueTypes = {
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
   };
+  ['citext']: unknown;
+  /** Boolean expression to compare columns of type "citext". All fields are combined with logical 'AND'. */
+  ['citext_comparison_exp']: {
+    _eq?: ValueTypes['citext'] | undefined | null;
+    _gt?: ValueTypes['citext'] | undefined | null;
+    _gte?: ValueTypes['citext'] | undefined | null;
+    /** does the column match the given case-insensitive pattern */
+    _ilike?: ValueTypes['citext'] | undefined | null;
+    _in?: Array<ValueTypes['citext']> | undefined | null;
+    /** does the column match the given POSIX regular expression, case insensitive */
+    _iregex?: ValueTypes['citext'] | undefined | null;
+    _is_null?: boolean | undefined | null;
+    /** does the column match the given pattern */
+    _like?: ValueTypes['citext'] | undefined | null;
+    _lt?: ValueTypes['citext'] | undefined | null;
+    _lte?: ValueTypes['citext'] | undefined | null;
+    _neq?: ValueTypes['citext'] | undefined | null;
+    /** does the column NOT match the given case-insensitive pattern */
+    _nilike?: ValueTypes['citext'] | undefined | null;
+    _nin?: Array<ValueTypes['citext']> | undefined | null;
+    /** does the column NOT match the given POSIX regular expression, case insensitive */
+    _niregex?: ValueTypes['citext'] | undefined | null;
+    /** does the column NOT match the given pattern */
+    _nlike?: ValueTypes['citext'] | undefined | null;
+    /** does the column NOT match the given POSIX regular expression, case sensitive */
+    _nregex?: ValueTypes['citext'] | undefined | null;
+    /** does the column NOT match the given SQL regular expression */
+    _nsimilar?: ValueTypes['citext'] | undefined | null;
+    /** does the column match the given POSIX regular expression, case sensitive */
+    _regex?: ValueTypes['citext'] | undefined | null;
+    /** does the column match the given SQL regular expression */
+    _similar?: ValueTypes['citext'] | undefined | null;
+  };
   /** columns and relationships of "claims" */
   ['claims']: AliasType<{
     address?: boolean | `@${string}`;
@@ -5696,7 +5729,7 @@ export type ValueTypes = {
     github_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     medium_username?: ValueTypes['String_comparison_exp'] | undefined | null;
-    name?: ValueTypes['String_comparison_exp'] | undefined | null;
+    name?: ValueTypes['citext_comparison_exp'] | undefined | null;
     skills?: ValueTypes['String_comparison_exp'] | undefined | null;
     telegram_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     twitter_username?: ValueTypes['String_comparison_exp'] | undefined | null;
@@ -5766,7 +5799,7 @@ export type ValueTypes = {
     discord_username?: string | undefined | null;
     github_username?: string | undefined | null;
     medium_username?: string | undefined | null;
-    name?: string | undefined | null;
+    name?: ValueTypes['citext'] | undefined | null;
     skills?: string | undefined | null;
     telegram_username?: string | undefined | null;
     twitter_username?: string | undefined | null;
@@ -5790,7 +5823,7 @@ export type ValueTypes = {
     github_username?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     medium_username?: string | undefined | null;
-    name?: string | undefined | null;
+    name?: ValueTypes['citext'] | undefined | null;
     skills?: string | undefined | null;
     telegram_username?: string | undefined | null;
     twitter_username?: string | undefined | null;
@@ -10081,6 +10114,9 @@ export type ModelTypes = {
   ['circles_var_samp_order_by']: GraphQLTypes['circles_var_samp_order_by'];
   /** order by variance() on columns of table "circles" */
   ['circles_variance_order_by']: GraphQLTypes['circles_variance_order_by'];
+  ['citext']: any;
+  /** Boolean expression to compare columns of type "citext". All fields are combined with logical 'AND'. */
+  ['citext_comparison_exp']: GraphQLTypes['citext_comparison_exp'];
   /** columns and relationships of "claims" */
   ['claims']: {
     address: string;
@@ -11349,7 +11385,7 @@ export type ModelTypes = {
     github_username?: string | undefined;
     id: GraphQLTypes['bigint'];
     medium_username?: string | undefined;
-    name?: string | undefined;
+    name?: GraphQLTypes['citext'] | undefined;
     skills?: string | undefined;
     telegram_username?: string | undefined;
     twitter_username?: string | undefined;
@@ -13548,6 +13584,39 @@ export type GraphQLTypes = {
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  ['citext']: any;
+  /** Boolean expression to compare columns of type "citext". All fields are combined with logical 'AND'. */
+  ['citext_comparison_exp']: {
+    _eq?: GraphQLTypes['citext'] | undefined;
+    _gt?: GraphQLTypes['citext'] | undefined;
+    _gte?: GraphQLTypes['citext'] | undefined;
+    /** does the column match the given case-insensitive pattern */
+    _ilike?: GraphQLTypes['citext'] | undefined;
+    _in?: Array<GraphQLTypes['citext']> | undefined;
+    /** does the column match the given POSIX regular expression, case insensitive */
+    _iregex?: GraphQLTypes['citext'] | undefined;
+    _is_null?: boolean | undefined;
+    /** does the column match the given pattern */
+    _like?: GraphQLTypes['citext'] | undefined;
+    _lt?: GraphQLTypes['citext'] | undefined;
+    _lte?: GraphQLTypes['citext'] | undefined;
+    _neq?: GraphQLTypes['citext'] | undefined;
+    /** does the column NOT match the given case-insensitive pattern */
+    _nilike?: GraphQLTypes['citext'] | undefined;
+    _nin?: Array<GraphQLTypes['citext']> | undefined;
+    /** does the column NOT match the given POSIX regular expression, case insensitive */
+    _niregex?: GraphQLTypes['citext'] | undefined;
+    /** does the column NOT match the given pattern */
+    _nlike?: GraphQLTypes['citext'] | undefined;
+    /** does the column NOT match the given POSIX regular expression, case sensitive */
+    _nregex?: GraphQLTypes['citext'] | undefined;
+    /** does the column NOT match the given SQL regular expression */
+    _nsimilar?: GraphQLTypes['citext'] | undefined;
+    /** does the column match the given POSIX regular expression, case sensitive */
+    _regex?: GraphQLTypes['citext'] | undefined;
+    /** does the column match the given SQL regular expression */
+    _similar?: GraphQLTypes['citext'] | undefined;
   };
   /** columns and relationships of "claims" */
   ['claims']: {
@@ -16157,7 +16226,7 @@ export type GraphQLTypes = {
     github_username?: string | undefined;
     id: GraphQLTypes['bigint'];
     medium_username?: string | undefined;
-    name?: string | undefined;
+    name?: GraphQLTypes['citext'] | undefined;
     skills?: string | undefined;
     telegram_username?: string | undefined;
     twitter_username?: string | undefined;
@@ -16186,7 +16255,7 @@ export type GraphQLTypes = {
     github_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     medium_username?: GraphQLTypes['String_comparison_exp'] | undefined;
-    name?: GraphQLTypes['String_comparison_exp'] | undefined;
+    name?: GraphQLTypes['citext_comparison_exp'] | undefined;
     skills?: GraphQLTypes['String_comparison_exp'] | undefined;
     telegram_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     twitter_username?: GraphQLTypes['String_comparison_exp'] | undefined;
@@ -16247,7 +16316,7 @@ export type GraphQLTypes = {
     discord_username?: string | undefined;
     github_username?: string | undefined;
     medium_username?: string | undefined;
-    name?: string | undefined;
+    name?: GraphQLTypes['citext'] | undefined;
     skills?: string | undefined;
     telegram_username?: string | undefined;
     twitter_username?: string | undefined;
@@ -16271,7 +16340,7 @@ export type GraphQLTypes = {
     github_username?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     medium_username?: string | undefined;
-    name?: string | undefined;
+    name?: GraphQLTypes['citext'] | undefined;
     skills?: string | undefined;
     telegram_username?: string | undefined;
     twitter_username?: string | undefined;
