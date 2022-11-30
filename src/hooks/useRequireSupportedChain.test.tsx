@@ -1,13 +1,13 @@
 import { render, screen } from '@testing-library/react';
-// @ts-ignore
-import { mockChainId } from '@web3-react/core';
 
+// @ts-ignore
+import { mockChainId } from 'hooks/useWeb3React';
 import { TestWrapper } from 'utils/testing';
 
 import useRequireSupportedChain from './useRequireSupportedChain';
 
-jest.mock('@web3-react/core', () => {
-  const originalModule = jest.requireActual('@web3-react/core');
+jest.mock('hooks/useWeb3React', () => {
+  const originalModule = jest.requireActual('hooks/useWeb3React');
   const mockChainId = jest.fn();
 
   return {
