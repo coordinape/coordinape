@@ -11,11 +11,11 @@ import { GraphQLError }  from '../../../../api-lib/gql/__generated__/zeus';
 
 let address, profile, circle, user, contribution;
 
-jest.mock('../../../../api-lib/gql/__generated__/zeus', () => ({
-    GraphQLError: jest.fn().mockImplementation(() => {
-      return { toString: () => {}};
-    })
-}));
+// jest.mock('../../../../api-lib/gql/__generated__/zeus', () => ({
+//     GraphQLError: jest.fn().mockImplementation(() => {
+//       return { toString: () => {}};
+//     })
+// }));
 
 const mockGraphQLError = GraphQLError as jest.MockedClass<
   typeof GraphQLError
@@ -75,3 +75,23 @@ describe('Delete Contribution action handler', () => {
   });
   
 });
+
+```
+Delete Contribution action handler › Test deletion of a contribution that you did not create
+
+    TypeError: mockGraphQLError.mockClear is not a function
+
+      23 |
+      24 | beforeEach(async () => {
+    > 25 |   mockGraphQLError.mockClear();
+         |                    ^
+      26 |   address = await getUniqueAddress();
+      27 |   circle = await createCircle(adminClient);
+      28 |   profile = await createProfile(adminClient, { address });
+
+      at Object.<anonymous> (api-test/hasura/actions/_handlers/deleteContribution.test.ts:25:20)
+      at TestScheduler.scheduleTests (node_modules/@jest/core/build/TestScheduler.js:333:13)
+      at runJest (node_modules/@jest/core/build/runJest.js:387:19)
+      at _run10000 (node_modules/@jest/core/build/cli/index.js:320:7)
+      at runCLI (node_modules/@jest/core/build/cli/index.js:173:3)
+```
