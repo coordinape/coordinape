@@ -41,12 +41,19 @@ export const WalletAuthModal = () => {
     { value: UNSUPPORTED, label: '-', disabled: true },
   ]);
 
-  const updateChain = async (provider: Web3Provider) => {
+  const updateChain = async (
+    provider: Web3Provider,
+    mounted: { active: boolean }
+  ) => {
     const chainId = (await provider.getNetwork()).chainId.toString();
-    if (supportedChains.find(obj => obj.value == chainId)) {
-      setSelectedChain(chainId);
-    } else {
-      setSelectedChain(UNSUPPORTED);
+
+    // Only update state if component is still mounted
+    if (mounted.active) {
+      if (supportedChains.find(obj => obj.value == chainId)) {
+        setSelectedChain(chainId);
+      } else {
+        setSelectedChain(UNSUPPORTED);
+      }
     }
   };
 
@@ -59,6 +66,7 @@ export const WalletAuthModal = () => {
   };
 
   useEffect(() => {
+    const mounted = { active: true };
     // safe to refer to window here because we are client side -g
     const ethereum = (window as any).ethereum;
     setIsMetamaskEnabled(!!ethereum);
@@ -68,7 +76,7 @@ export const WalletAuthModal = () => {
 
       const provider = new Web3Provider(ethereum, 'any');
 
-      updateChain(provider);
+      updateChain(provider, mounted);
       provider.on('network', (_, oldNetwork) => {
         // When a Provider makes its initial connection, it emits a "network"
         // event with a null oldNetwork along with the newNetwork. So, if the
@@ -78,6 +86,10 @@ export const WalletAuthModal = () => {
         }
       });
     }
+
+    return () => {
+      mounted.active = false;
+    };
   }, []);
 
   const isConnecting = !!connectMessage;
