@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { updateUser, updateCircle } from 'lib/gql/mutations';
 import { isUserAdmin } from 'lib/users';
 import debounce from 'lodash/debounce';
+import { DateTime } from 'luxon';
 import { Helmet } from 'react-helmet';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -546,6 +547,7 @@ const GivePage = () => {
             currentEpoch={currentEpoch}
             retrySave={saveGifts}
             gridView={gridView}
+            previousEpochEndDate={previousEpoch?.endDate}
           />
         )}
       </SingleColumnLayout>
@@ -569,6 +571,7 @@ type AllocateContentsProps = {
   currentEpoch?: IEpoch;
   retrySave: () => void;
   gridView: boolean;
+  previousEpochEndDate?: DateTime;
 };
 
 const AllocateContents = ({
@@ -585,6 +588,7 @@ const AllocateContents = ({
   currentEpoch,
   retrySave,
   gridView,
+  previousEpochEndDate,
 }: AllocateContentsProps) => {
   const { showError, showInfo } = useApeSnackbar();
 
@@ -659,6 +663,7 @@ const AllocateContents = ({
     fixed_non_receiver: true,
     non_receiver: true,
     teammate: false,
+    address: '0x23f24381cf8518c4fafdaeeac5c0f7c92b7ae678',
     circle_id: -1,
     contributions_aggregate: {
       aggregate: {
@@ -1018,7 +1023,13 @@ const AllocateContents = ({
               userIsOptedOut={userIsOptedOut}
               updateNonReceiver={updateNonReceiver}
               isNonReceiverMutationLoading={isNonReceiverMutationLoading}
-              start_date={currentEpoch.startDate.toJSDate()}
+              start_date={
+                previousEpochEndDate
+                  ? previousEpochEndDate.toJSDate()
+                  : DateTime.fromISO(currentEpoch.start_date)
+                      .minus({ months: 1 })
+                      .toJSDate()
+              }
               end_date={currentEpoch.endDate.toJSDate()}
               statement={statement}
               setStatement={setStatement}
@@ -1043,7 +1054,13 @@ const AllocateContents = ({
               }
             }
             maxedOut={maxedOut}
-            start_date={currentEpoch.startDate.toJSDate()}
+            start_date={
+              previousEpochEndDate
+                ? previousEpochEndDate.toJSDate()
+                : DateTime.fromISO(currentEpoch.start_date)
+                    .minus({ months: 1 })
+                    .toJSDate()
+            }
             end_date={currentEpoch.endDate.toJSDate()}
             saveState={saveState}
             setNeedToSave={setNeedToSave}
