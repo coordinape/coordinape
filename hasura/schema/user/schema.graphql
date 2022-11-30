@@ -7555,6 +7555,7 @@ input profiles_set_input {
   discord_username: String
   github_username: String
   medium_username: String
+  name: String
   skills: String
   telegram_username: String
   twitter_username: String

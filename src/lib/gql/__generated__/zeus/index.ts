@@ -5766,6 +5766,7 @@ export type ValueTypes = {
     discord_username?: string | undefined | null;
     github_username?: string | undefined | null;
     medium_username?: string | undefined | null;
+    name?: string | undefined | null;
     skills?: string | undefined | null;
     telegram_username?: string | undefined | null;
     twitter_username?: string | undefined | null;
@@ -16246,6 +16247,7 @@ export type GraphQLTypes = {
     discord_username?: string | undefined;
     github_username?: string | undefined;
     medium_username?: string | undefined;
+    name?: string | undefined;
     skills?: string | undefined;
     telegram_username?: string | undefined;
     twitter_username?: string | undefined;
