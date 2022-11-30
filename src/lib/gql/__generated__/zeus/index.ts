@@ -1,4 +1,6 @@
 /* eslint-disable */
+import { Logger } from '../../../../src/common-lib/log';
+const logger = new Logger('api-lib:zeus');
 
 import { AllTypesProps, ReturnTypes, Ops } from './const';
 export const HOST = 'http://localhost:8080/v1/graphql';
@@ -320,8 +322,7 @@ export interface GraphQLResponse {
 export class GraphQLError extends Error {
   constructor(public response: GraphQLResponse) {
     super('');
-    // eslint-disable-next-line no-console
-    console.info(JSON.stringify(response, null, 2));
+    logger.log(JSON.stringify(response, null, 2));
   }
   toString() {
     return 'GraphQL Response Error';
