@@ -543,6 +543,9 @@ const GivePage = () => {
             totalGiveUsed={totalGiveUsed}
             myUser={myUser}
             maxedOut={totalGiveUsed >= myUser.starting_tokens}
+            contributionsStartDate={
+              previousEpoch?.endDate.toJSDate() || new Date(0)
+            }
             currentEpoch={currentEpoch}
             retrySave={saveGifts}
             gridView={gridView}
@@ -566,6 +569,7 @@ type AllocateContentsProps = {
   totalGiveUsed: number;
   myUser: IMyUser;
   maxedOut: boolean;
+  contributionsStartDate: Date;
   currentEpoch?: IEpoch;
   retrySave: () => void;
   gridView: boolean;
@@ -582,6 +586,7 @@ const AllocateContents = ({
   totalGiveUsed,
   myUser,
   maxedOut,
+  contributionsStartDate,
   currentEpoch,
   retrySave,
   gridView,
@@ -1018,7 +1023,7 @@ const AllocateContents = ({
               userIsOptedOut={userIsOptedOut}
               updateNonReceiver={updateNonReceiver}
               isNonReceiverMutationLoading={isNonReceiverMutationLoading}
-              start_date={currentEpoch.startDate.toJSDate()}
+              start_date={contributionsStartDate}
               end_date={currentEpoch.endDate.toJSDate()}
               statement={statement}
               setStatement={setStatement}
@@ -1043,7 +1048,7 @@ const AllocateContents = ({
               }
             }
             maxedOut={maxedOut}
-            start_date={currentEpoch.startDate.toJSDate()}
+            start_date={contributionsStartDate}
             end_date={currentEpoch.endDate.toJSDate()}
             saveState={saveState}
             setNeedToSave={setNeedToSave}
