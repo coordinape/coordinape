@@ -15,6 +15,7 @@ import { getUniqueAddress } from '../../../helpers/getUniqueAddress';
 let address, profile, circle, user;
 
 beforeEach(async () => {
+  jest.spyOn(console, 'info').mockImplementation(() => {});
   address = await getUniqueAddress();
   circle = await createCircle(adminClient);
   profile = await createProfile(adminClient, { address });
@@ -68,8 +69,17 @@ describe('Update Contribution action handler', () => {
       ],
     });
     
-    expect.assertions(1);
     await expect(result).rejects.toThrow();
+    expect(console.info).toHaveBeenCalledWith(JSON.stringify({
+      "errors": [
+        {
+          "extensions": {
+            "code": "422"
+          },
+          "message": "contribution in an ended epoch is not editable"
+        }
+      ]
+    }, null, 2));
   });
 
   test('cannot move contribution to a closed epoch', async () => {
@@ -95,8 +105,17 @@ describe('Update Contribution action handler', () => {
       ],
     });
     
-    expect.assertions(1);
     await expect(result).rejects.toThrow();
+    expect(console.info).toHaveBeenCalledWith(JSON.stringify({
+      "errors": [
+        {
+          "extensions": {
+            "code": "422"
+          },
+          "message": "cannot reassign contribution to a closed epoch"
+        }
+      ]
+    }, null, 2));
   });
 
   test('cannot modify a contribution from a different user', async () => {
@@ -120,7 +139,16 @@ describe('Update Contribution action handler', () => {
       ],
     });
     
-    expect.assertions(1);
     await expect(result).rejects.toThrow();
+    expect(console.info).toHaveBeenCalledWith(JSON.stringify({
+      "errors": [
+        {
+          "extensions": {
+            "code": "422"
+          },
+          "message": "contribution does not exist"
+        }
+      ]
+    }, null, 2));
   });
 });
