@@ -7,11 +7,7 @@ import { useApiBase } from 'hooks';
 
 import { useRecoilLoadCatch } from './useRecoilLoadCatch';
 
-import {
-  UpdateUsersParam,
-  PostUsersParam,
-  UpdateCreateEpochParam,
-} from 'types';
+import { UpdateUsersParam, UpdateCreateEpochParam } from 'types';
 
 export const useApiAdminCircle = (circleId: number) => {
   const { fetchCircle } = useApiBase();
@@ -67,14 +63,6 @@ export const useApiAdminCircle = (circleId: number) => {
     [circleId]
   );
 
-  const createUser = useRecoilLoadCatch(
-    () => async (params: PostUsersParam) => {
-      await mutations.createUser(circleId, params);
-      await fetchCircle({ circleId });
-    },
-    [circleId]
-  );
-
   const deleteUser = useRecoilLoadCatch(
     () => async (userAddress: string) => {
       await mutations.deleteUser(circleId, userAddress);
@@ -118,7 +106,6 @@ export const useApiAdminCircle = (circleId: number) => {
 
   return {
     createEpoch,
-    createUser,
     deleteEpoch,
     deleteUser,
     downloadCSV,
