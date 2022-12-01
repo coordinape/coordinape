@@ -3,6 +3,7 @@
 export type FeatureName =
   | 'vaults'
   | 'fixed_payments'
+  | 'theme_switcher'
   | 'discord'
   | 'multichain_login'
   | 'email_login';

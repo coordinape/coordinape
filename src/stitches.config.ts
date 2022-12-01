@@ -274,6 +274,21 @@ export const {
   },
 });
 
+export const dark = createTheme({
+  colors: {
+    primary: 'lightgreen',
+    background: 'black',
+    surface: 'dimgray',
+  },
+});
+export const light = createTheme({
+  colors: {
+    primary: 'orangered',
+  },
+});
+
+export type Theme = 'dark' | 'light' | undefined;
+
 export const disabledStyle = {
   pointerEvents: 'none',
   opacity: 0.4,
