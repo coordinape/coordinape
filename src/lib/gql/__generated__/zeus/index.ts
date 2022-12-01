@@ -4745,7 +4745,7 @@ export type ValueTypes = {
     ended?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     expiry_date?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
-    name?: ValueTypes['String_comparison_exp'] | undefined | null;
+    name?: ValueTypes['citext_comparison_exp'] | undefined | null;
     nominated_by_user_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     nominated_date?: ValueTypes['date_comparison_exp'] | undefined | null;
     nominations?: ValueTypes['vouches_bool_exp'] | undefined | null;
@@ -4909,7 +4909,7 @@ export type ValueTypes = {
     ended?: boolean | undefined | null;
     expiry_date?: ValueTypes['timestamp'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
-    name?: string | undefined | null;
+    name?: ValueTypes['citext'] | undefined | null;
     nominated_by_user_id?: number | undefined | null;
     nominated_date?: ValueTypes['date'] | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
@@ -11043,7 +11043,7 @@ export type ModelTypes = {
     ended: boolean;
     expiry_date: GraphQLTypes['timestamp'];
     id: GraphQLTypes['bigint'];
-    name: string;
+    name: GraphQLTypes['citext'];
     nominated_by_user_id: number;
     nominated_date: GraphQLTypes['date'];
     /** An array relationship */
@@ -11097,7 +11097,7 @@ export type ModelTypes = {
     description?: string | undefined;
     expiry_date?: GraphQLTypes['timestamp'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    name?: string | undefined;
+    name?: GraphQLTypes['citext'] | undefined;
     nominated_by_user_id?: number | undefined;
     nominated_date?: GraphQLTypes['date'] | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
@@ -11114,7 +11114,7 @@ export type ModelTypes = {
     description?: string | undefined;
     expiry_date?: GraphQLTypes['timestamp'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    name?: string | undefined;
+    name?: GraphQLTypes['citext'] | undefined;
     nominated_by_user_id?: number | undefined;
     nominated_date?: GraphQLTypes['date'] | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
@@ -15417,7 +15417,7 @@ export type GraphQLTypes = {
     ended: boolean;
     expiry_date: GraphQLTypes['timestamp'];
     id: GraphQLTypes['bigint'];
-    name: string;
+    name: GraphQLTypes['citext'];
     nominated_by_user_id: number;
     nominated_date: GraphQLTypes['date'];
     /** An array relationship */
@@ -15495,7 +15495,7 @@ export type GraphQLTypes = {
     ended?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     expiry_date?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
-    name?: GraphQLTypes['String_comparison_exp'] | undefined;
+    name?: GraphQLTypes['citext_comparison_exp'] | undefined;
     nominated_by_user_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     nominated_date?: GraphQLTypes['date_comparison_exp'] | undefined;
     nominations?: GraphQLTypes['vouches_bool_exp'] | undefined;
@@ -15514,7 +15514,7 @@ export type GraphQLTypes = {
     description?: string | undefined;
     expiry_date?: GraphQLTypes['timestamp'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    name?: string | undefined;
+    name?: GraphQLTypes['citext'] | undefined;
     nominated_by_user_id?: number | undefined;
     nominated_date?: GraphQLTypes['date'] | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
@@ -15545,7 +15545,7 @@ export type GraphQLTypes = {
     description?: string | undefined;
     expiry_date?: GraphQLTypes['timestamp'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    name?: string | undefined;
+    name?: GraphQLTypes['citext'] | undefined;
     nominated_by_user_id?: number | undefined;
     nominated_date?: GraphQLTypes['date'] | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
@@ -15658,7 +15658,7 @@ export type GraphQLTypes = {
     ended?: boolean | undefined;
     expiry_date?: GraphQLTypes['timestamp'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    name?: string | undefined;
+    name?: GraphQLTypes['citext'] | undefined;
     nominated_by_user_id?: number | undefined;
     nominated_date?: GraphQLTypes['date'] | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;

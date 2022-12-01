@@ -13854,7 +13854,7 @@ type nominees {
   ended: Boolean!
   expiry_date: timestamp!
   id: bigint!
-  name: String!
+  name: citext!
   nominated_by_user_id: Int!
   nominated_date: date!
 
@@ -14023,7 +14023,7 @@ input nominees_bool_exp {
   ended: Boolean_comparison_exp
   expiry_date: timestamp_comparison_exp
   id: bigint_comparison_exp
-  name: String_comparison_exp
+  name: citext_comparison_exp
   nominated_by_user_id: Int_comparison_exp
   nominated_date: date_comparison_exp
   nominations: vouches_bool_exp
@@ -14038,6 +14038,11 @@ input nominees_bool_exp {
 unique or primary key constraints on table "nominees"
 """
 enum nominees_constraint {
+  """
+  unique or primary key constraint on columns "name"
+  """
+  nominees_name_key
+
   """
   unique or primary key constraint on columns "id"
   """
@@ -14067,7 +14072,7 @@ input nominees_insert_input {
   ended: Boolean
   expiry_date: timestamp
   id: bigint
-  name: String
+  name: citext
   nominated_by_user_id: Int
   nominated_date: date
   nominations: vouches_arr_rel_insert_input
@@ -14088,7 +14093,7 @@ type nominees_max_fields {
   description: String
   expiry_date: timestamp
   id: bigint
-  name: String
+  name: citext
   nominated_by_user_id: Int
   nominated_date: date
   updated_at: timestamp
@@ -14124,7 +14129,7 @@ type nominees_min_fields {
   description: String
   expiry_date: timestamp
   id: bigint
-  name: String
+  name: citext
   nominated_by_user_id: Int
   nominated_date: date
   updated_at: timestamp
@@ -14297,7 +14302,7 @@ input nominees_set_input {
   ended: Boolean
   expiry_date: timestamp
   id: bigint
-  name: String
+  name: citext
   nominated_by_user_id: Int
   nominated_date: date
   updated_at: timestamp
@@ -14397,7 +14402,7 @@ input nominees_stream_cursor_value_input {
   ended: Boolean
   expiry_date: timestamp
   id: bigint
-  name: String
+  name: citext
   nominated_by_user_id: Int
   nominated_date: date
   updated_at: timestamp
