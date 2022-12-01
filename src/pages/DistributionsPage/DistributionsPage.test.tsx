@@ -1,10 +1,16 @@
+import { AddressZero } from '@ethersproject/constants';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import { FixedNumber } from 'ethers';
+import { Contracts } from 'lib/vaults';
 import pick from 'lodash/pick';
 import { DateTime } from 'luxon';
-import { QueryClient } from 'react-query';
 
-import { TestWrapper } from 'utils/testing';
+import {
+  restoreSnapshot,
+  takeSnapshot,
+  TestWrapper,
+  provider,
+} from 'utils/testing';
 import { mockEpoch } from 'utils/testing/mocks';
 
 import { DistributionsPage } from './DistributionsPage';
@@ -27,39 +33,6 @@ jest.mock('react-router-dom', () => {
   };
 });
 
-const recipient = mockEpoch.circle.users[0];
-
-const mockEpochData = {
-  id: 1,
-  number: mockEpoch.number,
-  ended: true,
-  start_date: DateTime.now().minus({ days: 1 }),
-  end_date: DateTime.now().plus({ days: 1 }),
-  circle: {
-    name: mockEpoch.circle.name,
-    users: [{ role: 1 }],
-    fixed_payment_vault_id: 2,
-    fixed_payment_token_type: 'USDC',
-    organization: {
-      vaults: [
-        {
-          id: 2,
-          symbol: 'USDC',
-          decimals: 6,
-          vault_address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
-        },
-      ],
-    },
-  },
-  token_gifts: [
-    {
-      tokens: 100,
-      recipient: pick(recipient, ['id', 'name', 'address', 'profile']),
-    },
-  ],
-  distributions: [],
-};
-
 jest.mock('./queries', () => ({
   getEpochData: jest.fn(),
   usePreviousDistributions: jest.fn().mockImplementation(() => ({
@@ -72,11 +45,51 @@ jest.mock('./queries', () => ({
   useSubmitDistribution: jest.fn(),
 }));
 
-let queryClient: QueryClient;
+const recipient = mockEpoch.circle.users[0];
+let mockEpochData: any;
+let snapshotId: string;
 
-afterEach(async () => {
-  await queryClient?.cancelQueries();
-  queryClient?.clear();
+beforeAll(async () => {
+  snapshotId = await takeSnapshot();
+  const contracts = await Contracts.fromProvider(provider());
+  const symbol = 'USDC';
+  const vault = await contracts.createVault(symbol, true);
+
+  mockEpochData = {
+    id: 1,
+    number: mockEpoch.number,
+    ended: true,
+    start_date: DateTime.now().minus({ days: 1 }),
+    end_date: DateTime.now().plus({ days: 1 }),
+    circle: {
+      name: mockEpoch.circle.name,
+      users: [{ role: 1 }],
+      fixed_payment_vault_id: 2,
+      fixed_payment_token_type: 'USDC',
+      organization: {
+        vaults: [
+          {
+            id: 2,
+            symbol,
+            decimals: 6,
+            vault_address: vault.address,
+            simple_token_address: AddressZero,
+          },
+        ],
+      },
+    },
+    token_gifts: [
+      {
+        tokens: 100,
+        recipient: pick(recipient, ['id', 'name', 'address', 'profile']),
+      },
+    ],
+    distributions: [],
+  };
+});
+
+afterAll(async () => {
+  await restoreSnapshot(snapshotId);
 });
 
 test('render without a distribution', async () => {
@@ -86,12 +99,7 @@ test('render without a distribution', async () => {
 
   await act(async () => {
     await render(
-      <TestWrapper
-        withWeb3
-        queryClientCallback={qc => {
-          queryClient = qc;
-        }}
-      >
+      <TestWrapper withWeb3>
         <DistributionsPage />
       </TestWrapper>
     );
@@ -132,12 +140,7 @@ test('render with a distribution', async () => {
 
   await act(async () => {
     await render(
-      <TestWrapper
-        withWeb3
-        queryClientCallback={qc => {
-          queryClient = qc;
-        }}
-      >
+      <TestWrapper withWeb3>
         <DistributionsPage />
       </TestWrapper>
     );
@@ -145,6 +148,7 @@ test('render with a distribution', async () => {
 
   await waitFor(() => {
     expect(screen.getByText('Mock User 1')).toBeInTheDocument();
+    expect(screen.queryByText('Avail...')).not.toBeInTheDocument();
   });
 
   expect(screen.getAllByText('10.80 Yearn USDC').length).toEqual(2);
@@ -160,12 +164,7 @@ test('render with no allocations', async () => {
 
   await act(async () => {
     await render(
-      <TestWrapper
-        withWeb3
-        queryClientCallback={qc => {
-          queryClient = qc;
-        }}
-      >
+      <TestWrapper withWeb3>
         <DistributionsPage />
       </TestWrapper>
     );
@@ -173,6 +172,7 @@ test('render with no allocations', async () => {
 
   await waitFor(() => {
     expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
+    expect(screen.queryByText('Avail...')).not.toBeInTheDocument();
   });
 
   expect(screen.getByText('Gift Circle')).toBeInTheDocument();
@@ -199,12 +199,7 @@ test('render with no vaults', async () => {
 
   await act(async () => {
     await render(
-      <TestWrapper
-        withWeb3
-        queryClientCallback={qc => {
-          queryClient = qc;
-        }}
-      >
+      <TestWrapper withWeb3>
         <DistributionsPage />
       </TestWrapper>
     );
@@ -212,6 +207,7 @@ test('render with no vaults', async () => {
 
   await waitFor(() => {
     expect(screen.getByText('Mock User 1')).toBeInTheDocument();
+    expect(screen.queryByText('Avail...')).not.toBeInTheDocument();
   });
 
   expect(screen.getByRole('textbox', { name: /amount/i })).not.toBeDisabled();

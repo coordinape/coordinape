@@ -201,6 +201,7 @@ export class Contracts {
     const receipt = await tx.wait();
     const address = receipt.events?.find(e => e.event === 'VaultCreated')?.args
       ?.vault;
+    assert(address, "Couldn't find address from VaultCreated event");
     return { tx, receipt, address };
   }
 }
