@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import type { JsonRpcProvider } from '@ethersproject/providers';
 import { Web3Provider } from '@ethersproject/providers';
@@ -76,7 +76,7 @@ export function useWeb3React<T = any>(
   );
   const library = context.library || provider;
 
-  const ret = {
+  return {
     ...context,
     library,
     active: context.active || !!address,
@@ -85,12 +85,6 @@ export function useWeb3React<T = any>(
     setProvider,
     deactivate: context.active ? context.deactivate : () => setProvider(),
   };
-
-  useEffect(() => {
-    // console.log(ret); // eslint-disable-line
-  }, [ret.active, ret.account]);
-
-  return ret;
 }
 
 export function Web3ReactProvider({

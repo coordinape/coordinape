@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { Web3Provider } from '@ethersproject/providers';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
@@ -15,7 +15,6 @@ import { Box, Button, Text, Modal, Flex, HR, Select } from 'ui';
 import { switchNetwork } from 'utils/provider';
 
 import { connectors } from './connectors';
-import { useWalletAuth } from './useWalletAuth';
 
 export const WalletAuthModal = () => {
   const [connectMessage, setConnectMessage] = useState<string>('');
@@ -24,7 +23,6 @@ export const WalletAuthModal = () => {
 
   const { showError, showInfo } = useApeSnackbar();
   const web3Context = useWeb3React<Web3Provider>();
-  const walletAuth = useWalletAuth();
 
   const [isMetamaskEnabled, setIsMetamaskEnabled] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState(true);
@@ -41,14 +39,13 @@ export const WalletAuthModal = () => {
     { value: UNSUPPORTED, label: '-', disabled: true },
   ]);
 
-  const updateChain = async (
-    provider: Web3Provider,
-    mounted: { active: boolean }
-  ) => {
+  const mounted = useRef(false);
+
+  const updateChain = async (provider: Web3Provider) => {
     const chainId = (await provider.getNetwork()).chainId.toString();
 
     // Only update state if component is still mounted
-    if (mounted.active) {
+    if (mounted.current) {
       if (supportedChains.find(obj => obj.value == chainId)) {
         setSelectedChain(chainId);
       } else {
@@ -66,7 +63,13 @@ export const WalletAuthModal = () => {
   };
 
   useEffect(() => {
-    const mounted = { active: true };
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+    };
+  }, []);
+
+  useEffect(() => {
     // safe to refer to window here because we are client side -g
     const ethereum = (window as any).ethereum;
     setIsMetamaskEnabled(!!ethereum);
@@ -76,7 +79,7 @@ export const WalletAuthModal = () => {
 
       const provider = new Web3Provider(ethereum, 'any');
 
-      updateChain(provider, mounted);
+      updateChain(provider);
       provider.on('network', (_, oldNetwork) => {
         // When a Provider makes its initial connection, it emits a "network"
         // event with a null oldNetwork along with the newNetwork. So, if the
@@ -86,10 +89,6 @@ export const WalletAuthModal = () => {
         }
       });
     }
-
-    return () => {
-      mounted.active = false;
-    };
   }, []);
 
   const isConnecting = !!connectMessage;
@@ -132,13 +131,8 @@ export const WalletAuthModal = () => {
       }
     }
 
-    setConnectMessage('');
+    if (mounted.current) setConnectMessage('');
   };
-
-  useEffect(() => {
-    if (walletAuth.connectorName && !web3Context.active)
-      activate(walletAuth.connectorName);
-  }, []);
 
   const inject = async () => {
     // web3Context.setProvider(new Web3Provider((window as any).ethereum), 'other');

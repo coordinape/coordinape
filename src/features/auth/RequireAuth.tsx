@@ -1,18 +1,21 @@
 import { ReactElement, useEffect } from 'react';
 
 import { LoadingModal } from 'components';
+import { useApeSnackbar } from 'hooks';
 import { useWeb3React } from 'hooks/useWeb3React';
 
+import { connectors } from './connectors';
 import { useAuthStep } from './useAuthStep';
 import { useFinishAuth } from './useFinishAuth';
 import { useWalletAuth } from './useWalletAuth';
 import { WalletAuthModal } from './WalletAuthModal';
 
 export const RequireAuth = (props: { children: ReactElement }) => {
-  const { address, authTokens } = useWalletAuth();
+  const { address, authTokens, connectorName } = useWalletAuth();
   const web3Context = useWeb3React();
   const finishAuth = useFinishAuth();
   const [authStep, setAuthStep] = useAuthStep();
+  const { showError } = useApeSnackbar();
 
   useEffect(() => {
     // reset after logging out or signature error
@@ -25,10 +28,10 @@ export const RequireAuth = (props: { children: ReactElement }) => {
       setAuthStep('sign');
       finishAuth({ web3Context, authTokens })
         .then(success => {
-          if (!success) {
-            web3Context.deactivate();
-          } else {
+          if (success) {
             setAuthStep('done');
+          } else {
+            web3Context.deactivate();
           }
         })
         .catch((e: any) => {
@@ -38,8 +41,21 @@ export const RequireAuth = (props: { children: ReactElement }) => {
     }
   }, [address, web3Context]);
 
+  // reconnect to saved wallet
+  useEffect(() => {
+    (async () => {
+      if (!connectorName || web3Context.active) return;
+      try {
+        await web3Context.activate(connectors[connectorName], () => {}, true);
+      } catch (e) {
+        showError(e);
+        web3Context.deactivate();
+      }
+    })();
+  }, []);
+
   // step 1: get a wallet connection
-  if (authStep === 'connect') return <WalletAuthModal />;
+  if (authStep === 'connect' && !connectorName) return <WalletAuthModal />;
   // TODO: create a new component that allows the user to choose either
   // WalletAuthModal or email login
 
