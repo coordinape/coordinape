@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 
+import { useWalletStatus } from 'features/auth';
 import { NavLink } from 'react-router-dom';
 import { Theme } from 'stitches.config';
 
@@ -7,7 +8,6 @@ import { Hidden } from '@material-ui/core';
 
 import { menuGroupStyle } from 'components/MainLayout/MainHeader';
 import isFeatureEnabled from 'config/features';
-import type { WalletStatus } from 'hooks/login';
 import { CloudDrizzle, Moon, Sun } from 'icons/__generated';
 import { useMyProfile } from 'recoilState/app';
 import { paths } from 'routes/paths';
@@ -29,17 +29,18 @@ import { shortenAddress } from 'utils';
 import { RecentTransactionsModal } from './RecentTransactionsModal';
 
 type Props = {
-  walletStatus: WalletStatus;
+  walletStatus: ReturnType<typeof useWalletStatus>;
   currentTheme?: string;
   setCurrentTheme(t: Theme): void;
 };
+
 export const MyAvatarMenu = ({
   walletStatus,
   currentTheme,
   setCurrentTheme,
 }: Props) => {
   const myProfile = useMyProfile();
-  const { icon, address, logout } = walletStatus;
+  const { icon, address, chainName, logout } = walletStatus;
   const [showTxModal, setShowTxModal] = useState(false);
 
   const [mouseEnterPopover, setMouseEnterPopover] = useState(false);
@@ -138,6 +139,16 @@ export const MyAvatarMenu = ({
               >
                 <Box css={{ mr: '$sm', display: 'flex' }}>{icon}</Box>
                 {address && shortenAddress(address)}
+              </Box>
+              <Box
+                css={{
+                  display: 'flex',
+                  fontSize: '$xs',
+                  color: '$headingText',
+                  mb: '$xs',
+                }}
+              >
+                Connected Chain: {chainName ?? ''}
               </Box>
               {isFeatureEnabled('vaults') && (
                 <Link

@@ -14,8 +14,9 @@ import { composeHasuraActionRequestBodyWithoutPayload } from '../../../../src/li
 
 import {
   sampleCircleDefaults,
+  SampleMemberData,
   SampleMember,
-  sampleMembers,
+  sampleMemberData,
 } from './createSampleCircle_data';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
@@ -132,33 +133,33 @@ async function createCircle(
   }
 
   // make the members in parallel, assign user_id and address
-  await Promise.all(sampleMembers.map(sm => addSampleMember(circle.id, sm)));
+  const sampleMembers: SampleMember[] = await Promise.all(
+    sampleMemberData.map(sm => addSampleMember(circle.id, sm))
+  );
 
   // make the contributions in parallel
   await Promise.all(
     sampleMembers.map(sm =>
       // safe to assert user_id here because it was generated above
-      sm.contributions.map(c =>
-        addSampleContribution(circle.id, sm.user_id!, c)
-      )
+      sm.contributions.map(c => addSampleContribution(circle.id, sm.user_id, c))
     )
   );
 
   await Promise.all(
     sampleMembers.map(sm =>
       Object.keys(sm.gifts).map(recipIdx => {
-        const recip: { address?: string; user_id?: number } =
-          +recipIdx === 0
+        const recip: { address: string; user_id: number } =
+          recipIdx === '0'
             ? { address: userAddress, user_id: circle.users[0].id }
-            : sampleMembers.find(sm => sm.index == +recipIdx)!;
+            : findMember(recipIdx, sampleMembers);
         const recipGift = sm.gifts[+recipIdx];
         return addSampleAllocation(
           circle.id,
           insert_epochs_one.id,
-          sm.user_id!,
-          sm.address!,
-          recip.user_id!,
-          recip.address!,
+          sm.user_id,
+          sm.address,
+          recip.user_id,
+          recip.address,
           recipGift.gift,
           recipGift.note
         );
@@ -175,19 +176,25 @@ async function createCircle(
   return circle;
 }
 
+const findMember = (id: string, arr: SampleMember[]): SampleMember => {
+  const member = arr.find(sm => sm.index.toString() === id);
+  if (!member) throw new Error('Missing member');
+  return member;
+};
+
 const addSampleMember = async (
   circle_id: number,
-  sampleMember: SampleMember
-): Promise<{ user_id: number; address: string }> => {
+  sample: SampleMemberData
+): Promise<SampleMember> => {
   const address = faker.finance.ethereumAddress();
   const { insert_users_one } = await adminClient.mutate({
     insert_users_one: [
       {
         object: {
           address,
-          bio: sampleMember.epochStatement,
+          bio: sample.epochStatement,
           circle_id,
-          name: sampleMember.name,
+          name: sample.name,
         },
       },
       {
@@ -198,10 +205,8 @@ const addSampleMember = async (
   if (!insert_users_one) {
     throw new Error('insert sample user failed');
   }
-  sampleMember.address = address;
-  sampleMember.user_id = insert_users_one.id;
 
-  return { user_id: insert_users_one.id, address };
+  return { ...sample, user_id: insert_users_one.id, address };
 };
 
 const addSampleContribution = async (

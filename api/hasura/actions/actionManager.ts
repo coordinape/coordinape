@@ -9,7 +9,6 @@ import createCircle from './_handlers/createCircle';
 import createEpoch from './_handlers/createEpoch';
 import createNominee from './_handlers/createNominee';
 import createSampleCircle from './_handlers/createSampleCircle';
-import createUser from './_handlers/createUser';
 import createUsers from './_handlers/createUsers';
 import createUserWithToken from './_handlers/createUserWithToken';
 import createVault from './_handlers/createVault';
@@ -43,7 +42,6 @@ const HANDLERS: HandlerDict = {
   createEpoch,
   createNominee,
   createSampleCircle,
-  createUser,
   createUsers,
   createUserWithToken,
   createVault,

@@ -1,14 +1,13 @@
-import { createContext, useContext } from 'react';
-
-import { useWeb3React } from '@web3-react/core';
-
 import { ReactComponent as CoinbaseSVG } from 'assets/svgs/wallet/coinbase.svg';
 import { ReactComponent as MetaMaskSVG } from 'assets/svgs/wallet/metamask-color.svg';
 import { ReactComponent as WalletConnectSVG } from 'assets/svgs/wallet/wallet-connect.svg';
 import { EConnectorNames } from 'config/constants';
-import { useApiBase } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
-import { connectors } from 'utils/connectors';
+import useConnectedChain from 'hooks/useConnectedChain';
+import { useWeb3React } from 'hooks/useWeb3React';
+
+import { connectors } from './connectors';
+import { useLogout } from './useLogout';
 
 const connectorIcon = (
   connector: ReturnType<typeof useWeb3React>['connector']
@@ -33,11 +32,13 @@ const connectorIcon = (
 export const useWalletStatus = () => {
   const { connector, deactivate } = useWeb3React();
   const address = useConnectedAddress();
-  const { logout } = useApiBase();
+  const { chainName } = useConnectedChain();
+  const logout = useLogout();
 
   return {
     icon: connectorIcon(connector),
     address,
+    chainName,
     logout: () => {
       logout();
 
@@ -52,19 +53,6 @@ export const useWalletStatus = () => {
 export type WalletStatus = {
   icon: JSX.Element | null;
   address: string | undefined;
+  chainName: string | undefined;
   logout: () => void;
 };
-
-export type AuthStep = 'connect' | 'sign' | 'done';
-
-type AuthContextType = [
-  AuthStep,
-  React.Dispatch<React.SetStateAction<AuthStep>>
-];
-
-export const AuthContext = createContext<AuthContextType>([
-  'connect',
-  () => {},
-]);
-
-export const useAuthStep = () => useContext(AuthContext);

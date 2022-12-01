@@ -3,9 +3,10 @@
 export type FeatureName =
   | 'vaults'
   | 'fixed_payments'
-  | 'future_feature'
   | 'theme_switcher'
-  | 'discord';
+  | 'discord'
+  | 'multichain_login'
+  | 'email_login';
 
 // this is a very simple implementation of build-time feature flags that you can
 // hardcode or set with environment variables
@@ -13,6 +14,7 @@ export type FeatureName =
 const staticFeatureFlags: Partial<Record<FeatureName, boolean>> = {
   vaults: true,
   fixed_payments: true,
+  email_login: !!process.env.REACT_APP_FEATURE_FLAG_EMAIL_LOGIN,
 };
 
 // this code is safe to use in a non-browser environment because of the typeof

@@ -11,10 +11,6 @@ import {
   ITokenGift,
 } from 'types';
 
-export interface IApiLogin {
-  token: string;
-}
-
 export interface IApiFullCircle {
   circle: IApiCircle;
   epochs: IApiEpoch[];

@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { useCurrentUserAuthToken } from '../../hooks/useAuthToken';
+import { getAuthToken } from 'features/auth';
+
 import { Box, Button, Panel, Text } from '../../ui';
 import { getConsoleUrl } from '../../utils/apiKeyHelper';
 
@@ -9,10 +10,6 @@ import { getConsoleUrl } from '../../utils/apiKeyHelper';
  * @returns JSX.Element
  */
 export const DevPortalPage: React.FC = () => {
-  const authToken = useCurrentUserAuthToken();
-
-  const consoleUrl = authToken ? getConsoleUrl(authToken, true) : '';
-
   return (
     <Box
       css={{
@@ -41,7 +38,7 @@ export const DevPortalPage: React.FC = () => {
           }}
         >
           <a
-            href={consoleUrl}
+            href={getConsoleUrl(getAuthToken(false), true)}
             rel="noreferrer"
             target="_blank"
             style={{ textDecoration: 'none' }}

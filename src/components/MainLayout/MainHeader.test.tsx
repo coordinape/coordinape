@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 
 import { act, render, screen } from '@testing-library/react';
+import { setAuthToken } from 'features/auth';
 import { useNavigate } from 'react-router-dom';
 
 import { useMediaQuery } from 'hooks';
 import { rSelectedCircleIdSource } from 'recoilState';
-import { getApiService } from 'services/api';
 import { fixtures, TestWrapper, useMockRecoilState } from 'utils/testing';
 
 import { MainHeader } from './MainHeader';
@@ -17,7 +17,7 @@ jest.mock('hooks/useMediaQuery', () => ({
 const snapshotState: any = {};
 
 beforeEach(() => {
-  getApiService().token = 'mock';
+  setAuthToken('mock');
 });
 
 afterEach(() => snapshotState.release?.());

@@ -57,8 +57,18 @@ describe('Delete Contribution action handler', () => {
         { success: true },
       ],
     });
-    expect.assertions(1);
+    jest.spyOn(console, 'info').mockImplementation(() => {});
     await expect(result).rejects.toThrow();
+    expect(console.info).toHaveBeenCalledWith(JSON.stringify({
+      "errors": [
+        {
+          "extensions": {
+            "code": "422"
+          },
+          "message": "contribution does not exist"
+        }
+      ]
+    }, null, 2));
   });
-  
+
 });
