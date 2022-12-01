@@ -1,5 +1,6 @@
-import { useWeb3React } from '@web3-react/core';
 import { loginSupportedChainIds } from 'common-lib/constants';
+
+import { useWeb3React } from './useWeb3React';
 
 export default function useConnectedChain() {
   const { chainId } = useWeb3React();

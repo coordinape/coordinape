@@ -1,12 +1,12 @@
 import { useRef, useState } from 'react';
 
+import { useWalletStatus } from 'features/auth';
 import { NavLink } from 'react-router-dom';
 
 import { Hidden } from '@material-ui/core';
 
 import { menuGroupStyle } from 'components/MainLayout/MainHeader';
 import isFeatureEnabled from 'config/features';
-import type { WalletStatus } from 'hooks/login';
 import { useMyProfile } from 'recoilState/app';
 import { paths } from 'routes/paths';
 import {
@@ -23,7 +23,7 @@ import { shortenAddress } from 'utils';
 
 import { RecentTransactionsModal } from './RecentTransactionsModal';
 
-type Props = { walletStatus: WalletStatus };
+type Props = { walletStatus: ReturnType<typeof useWalletStatus> };
 export const MyAvatarMenu = ({ walletStatus }: Props) => {
   const myProfile = useMyProfile();
   const { icon, address, chainName, logout } = walletStatus;

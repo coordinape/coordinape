@@ -1,4 +1,4 @@
-import { Web3Provider } from '@ethersproject/providers';
+import type { Web3Provider } from '@ethersproject/providers';
 import { ethers } from 'ethers';
 
 export const getSignature = async (data: string, provider?: Web3Provider) => {

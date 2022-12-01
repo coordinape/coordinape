@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 
+import { useWalletStatus } from 'features/auth';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
 import { MediaQueryKeys } from 'stitches.config';
@@ -7,7 +8,6 @@ import { MediaQueryKeys } from 'stitches.config';
 import { ReceiveInfo, MyAvatarMenu } from 'components';
 import isFeatureEnabled from 'config/features';
 import { useMediaQuery } from 'hooks';
-import { useWalletStatus, WalletStatus } from 'hooks/login';
 import { rSelectedCircle } from 'recoilState/app';
 import { isCircleSpecificPath } from 'routes/paths';
 import { Box, Button } from 'ui';
@@ -54,7 +54,7 @@ interface Circle {
 
 type Props = {
   inCircle?: Circle;
-  walletStatus: WalletStatus;
+  walletStatus: ReturnType<typeof useWalletStatus>;
   query: MainHeaderQuery;
 };
 

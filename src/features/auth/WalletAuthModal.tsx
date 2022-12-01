@@ -1,32 +1,31 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { Web3Provider } from '@ethersproject/providers';
-import { useWeb3React } from '@web3-react/core';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { loginSupportedChainIds } from 'common-lib/constants';
 import { concat } from 'lodash';
 
 import { CircularProgress } from '@material-ui/core';
 
-import { Box, Button, Text, Modal, Flex, HR, Select } from '../ui';
 import { EConnectorNames, WALLET_ICONS } from 'config/constants';
 import isFeatureEnabled from 'config/features';
 import { useApeSnackbar } from 'hooks';
-import { useWalletAuth } from 'recoilState/app';
-import { connectors } from 'utils/connectors';
-import { AUTO_OPEN_WALLET_DIALOG_PARAMS } from 'utils/domain';
+import { useWeb3React } from 'hooks/useWeb3React';
+import { Box, Button, Text, Modal, Flex, HR, Select } from 'ui';
 import { switchNetwork } from 'utils/provider';
 
-export const WalletAuthModal = ({ open }: { open: boolean }) => {
+import { connectors } from './connectors';
+
+export const WalletAuthModal = () => {
   const [connectMessage, setConnectMessage] = useState<string>('');
 
   const [selectedChain, setSelectedChain] = useState<string>('1');
 
   const { showError, showInfo } = useApeSnackbar();
   const web3Context = useWeb3React<Web3Provider>();
-  const walletAuth = useWalletAuth();
 
   const [isMetamaskEnabled, setIsMetamaskEnabled] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState(true);
 
   const isMultichainEnabled = isFeatureEnabled('multichain_login');
 
@@ -40,12 +39,18 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
     { value: UNSUPPORTED, label: '-', disabled: true },
   ]);
 
+  const mounted = useRef(false);
+
   const updateChain = async (provider: Web3Provider) => {
     const chainId = (await provider.getNetwork()).chainId.toString();
-    if (supportedChains.find(obj => obj.value == chainId)) {
-      setSelectedChain(chainId);
-    } else {
-      setSelectedChain(UNSUPPORTED);
+
+    // Only update state if component is still mounted
+    if (mounted.current) {
+      if (supportedChains.find(obj => obj.value == chainId)) {
+        setSelectedChain(chainId);
+      } else {
+        setSelectedChain(UNSUPPORTED);
+      }
     }
   };
 
@@ -56,6 +61,13 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
       throw new Error(error);
     }
   };
+
+  useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     // safe to refer to window here because we are client side -g
@@ -101,6 +113,8 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
     }
 
     try {
+      // after this succeeds, consumers of useWeb3React will re-run and
+      // web3Context.active will be true
       await web3Context.activate(newConnector, () => {}, true);
     } catch (error: any) {
       if (error.message.match(/Unsupported chain id/)) {
@@ -117,23 +131,28 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
       }
     }
 
-    setConnectMessage('');
+    if (mounted.current) setConnectMessage('');
   };
 
-  useEffect(() => {
-    if (
-      // safe to refer to window here because we are in useEffect -g
-      window.location.search === AUTO_OPEN_WALLET_DIALOG_PARAMS ||
-      walletAuth.connectorName
-    ) {
-      walletAuth.connectorName && activate(walletAuth.connectorName);
+  const inject = async () => {
+    // web3Context.setProvider(new Web3Provider((window as any).ethereum), 'other');
+
+    try {
+      // hide our modal because it interferes with typing into Magic's modal
+      setModalOpen(false);
+      alert('This button does nothing');
+    } catch (e) {
+      showError(e);
+    } finally {
+      setModalOpen(true);
+      setConnectMessage('');
     }
-  }, []);
+  };
 
   return (
     <Modal
       showClose={isConnecting}
-      open={open}
+      open={modalOpen}
       css={{
         maxWidth: '500px',
         padding: '$xl',
@@ -220,6 +239,12 @@ export const WalletAuthModal = ({ open }: { open: boolean }) => {
                 Coinbase Wallet
                 <WALLET_ICONS.walletlink />
               </Button>
+
+              {isFeatureEnabled('email_login') && (
+                <Button variant="wallet" fullWidth onClick={inject}>
+                  Email
+                </Button>
+              )}
             </Box>
           )}
           <Text
