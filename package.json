@@ -127,11 +127,11 @@
     "env": "./scripts/env.sh"
   },
   "lint-staged": {
-    "{api,api-lib,hasura,src}/**/*.{js,ts,tsx,graphql}": [
+    "{api,api-lib,api-test,hasura,src}/**/*.{js,ts,tsx,graphql}": [
       "eslint --fix",
       "prettier --write"
     ],
-    "{{api,api-lib,cypress,hasura,src}/**/*.json,*.json}": "prettier --write"
+    "{{api,api-lib,api-test,cypress,hasura,src}/**/*.json,*.json}": "prettier --write"
   },
   "husky": {
     "hooks": {
