@@ -26,7 +26,6 @@ export const Paginator = ({
         '> *': {
           width: '$xl',
           height: '$xl !important',
-          fontFamily: 'Inter',
           fontSize: '$medium',
           fontWeight: '$normal',
           padding: 0,

@@ -11,9 +11,6 @@ export const Text = styled('span', {
   textAlign: 'left',
 
   variants: {
-    font: {
-      inter: { fontFamily: 'Inter, sans-serif' },
-    },
     color: {
       default: { color: '$text' },
       neutral: { color: '$neutral' },
@@ -128,7 +125,7 @@ export const Text = styled('span', {
     },
   ],
 
-  defaultVariants: { font: 'inter', color: 'default' },
+  defaultVariants: { color: 'default' },
 });
 
 export default Text;

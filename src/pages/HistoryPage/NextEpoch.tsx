@@ -26,13 +26,7 @@ export const NextEpoch = ({
     const diff = epochTimeUpcoming(startDate);
     return (
       <Flex css={{ flexWrap: 'wrap', gap: '$md' }}>
-        <Text
-          inline
-          bold
-          color="neutral"
-          font="inter"
-          css={{ minWidth: '180px' }}
-        >
+        <Text inline bold color="neutral" css={{ minWidth: '180px' }}>
           {`${startDate.toFormat('LLL d')} - ${
             startDate.month === endDate.month
               ? endDate.day

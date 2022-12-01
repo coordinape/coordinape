@@ -160,6 +160,11 @@ export const {
       round: '50%',
       pill: '9999px',
     },
+    fonts: {
+      display: 'Inter, apple-system, sans-serif',
+      // to make more obvious for testing
+      // display: 'Times New Roman, apple-system, sans-serif',
+    },
     fontSizes: {
       small: '13px',
       medium: '16px',
@@ -277,13 +282,20 @@ export const {
 export const dark = createTheme({
   colors: {
     primary: 'lightgreen',
-    background: 'black',
+    background: '#1E1F21', // New/Grey/9
     surface: 'dimgray',
   },
+  fonts: {
+    display: 'Denim, apple-system, sans-serif',
+  },
 });
+
 export const light = createTheme({
   colors: {
     primary: 'orangered',
+  },
+  fonts: {
+    display: 'Denim, apple-system, sans-serif',
   },
 });
 
@@ -296,6 +308,67 @@ export const disabledStyle = {
 };
 
 export const globalStyles = globalCss({
+  '@font-face': [
+    {
+      fontFamily: 'Denim',
+      fontWeight: 300,
+      src: 'url("/fonts/Denim-Medium.woff2")',
+    },
+    {
+      fontFamily: 'Denim',
+      fontWeight: 300,
+      fontStyle: 'italic',
+      src: 'url("/fonts/Denim-MediumItalic.woff2")',
+    },
+    {
+      fontFamily: 'Denim',
+      fontWeight: 400,
+      src: 'url("/fonts/Denim-Regular.woff2")',
+    },
+    {
+      fontFamily: 'Denim',
+      fontWeight: 400,
+      fontStyle: 'italic',
+      src: 'url("/fonts/Denim-RegularItalic.woff2")',
+    },
+    {
+      // Looking at the fonts, Medium is thicker than regular
+      fontFamily: 'Denim',
+      fontWeight: 500,
+      src: 'url("/fonts/Denim-Medium.woff2")',
+    },
+    {
+      fontFamily: 'Denim',
+      fontWeight: 500,
+      fontStyle: 'italic',
+      src: 'url("/fonts/Denim-MediumItalic.woff2")',
+    },
+    {
+      fontFamily: 'Denim',
+      fontWeight: 600,
+      src: 'url("/fonts/Denim-SemiBold.woff2")',
+    },
+    {
+      fontFamily: 'Denim',
+      fontWeight: 600,
+      fontStyle: 'italic',
+      src: 'url("/fonts/Denim-SemiBoldItalic.woff2")',
+    },
+    {
+      fontFamily: 'Denim',
+      fontWeight: 700,
+      src: 'url("/fonts/Denim-Bold.woff2")',
+    },
+    {
+      fontFamily: 'Denim',
+      fontWeight: 700,
+      fontStyle: 'italic',
+      src: 'url("/fonts/Denim-BoldItalic.woff2")',
+    },
+  ],
+  '*': {
+    fontFamily: '$display',
+  },
   // a11y keyboard navigation
   'a:focus-visible, button:focus-visible, [tabindex="0"]:focus-visible': {
     outline: '2px solid $primary',
