@@ -1,5 +1,4 @@
 import { VercelRequest } from '@vercel/node';
-import { FixedNumber } from 'ethers';
 import { DateTime } from 'luxon';
 
 import { DISTRIBUTION_TYPE } from '../../../../api-lib/constants';
@@ -70,13 +69,13 @@ function getMockCircleDistribution(
           },
         },
         tx_hash: '0x',
-        pricePerShare: FixedNumber.from(1),
         vault: {
           symbol: 'DAI',
           chain_id: 1,
           vault_address: '0x1',
           simple_token_address: '0x0',
           decimals: 18,
+          price_per_share: 1,
         },
         claims: [
           { address: '0x1', profile_id: 1, new_amount: 150 },
@@ -89,13 +88,13 @@ function getMockCircleDistribution(
         distribution_type: DISTRIBUTION_TYPE.GIFT,
         distribution_json: {},
         tx_hash: '0x',
-        pricePerShare: FixedNumber.from(1),
         vault: {
           symbol: 'DAI',
           chain_id: 1,
           vault_address: '0x1',
           simple_token_address: '0x0',
           decimals: 18,
+          price_per_share: 1,
         },
         claims: [
           { address: '0x1', profile_id: 1, new_amount: 150 },
@@ -113,13 +112,13 @@ function getMockCircleDistribution(
           },
         },
         tx_hash: '0x',
-        pricePerShare: FixedNumber.from(1),
         vault: {
           symbol: 'DAI',
           chain_id: 1,
           vault_address: '0x1',
           simple_token_address: '0x0',
           decimals: 18,
+          price_per_share: 1,
         },
         claims: [
           { address: '0x1', profile_id: 1, new_amount: 250 },

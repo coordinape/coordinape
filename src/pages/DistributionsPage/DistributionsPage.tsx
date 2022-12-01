@@ -14,7 +14,7 @@ import { useSelectedCircle } from '../../recoilState';
 import { paths } from '../../routes/paths';
 import { LoadingModal } from 'components';
 import { QUERY_KEY_MAIN_HEADER } from 'components/MainLayout/getMainHeaderData';
-import { useApiAdminCircle, useContracts } from 'hooks';
+import { useApiAdminCircle } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { AppLink, BackButton, Box, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
@@ -27,7 +27,6 @@ import { getEpochData } from './queries';
 export function DistributionsPage() {
   const { epochId } = useParams();
   const address = useConnectedAddress();
-  const contracts = useContracts();
   const queryClient = useQueryClient();
 
   const {
@@ -39,7 +38,7 @@ export function DistributionsPage() {
     refetch: refetchDistributions,
   } = useQuery(
     ['distributions', epochId],
-    () => getEpochData(Number.parseInt(epochId || '0'), address, contracts),
+    () => getEpochData(Number.parseInt(epochId || '0'), address),
     {
       enabled: !!address,
       retry: false,
@@ -124,10 +123,10 @@ export function DistributionsPage() {
         address: user.address,
         fixedDistDecimals: fixedDist?.vault.decimals,
         fixedGifts: fixedDist?.distribution_json.fixedGifts,
-        fixedDistPricePerShare: fixedDist?.pricePerShare,
+        fixedDistPricePerShare: fixedDist?.vault.price_per_share,
         circleDistDecimals: circleDist?.vault.decimals,
         circleDistClaimAmount,
-        circleDistPricePerShare: circleDist?.pricePerShare,
+        circleDistPricePerShare: circleDist?.vault.price_per_share,
         circleFixedGifts: circleDist?.distribution_json.fixedGifts,
       });
       return {

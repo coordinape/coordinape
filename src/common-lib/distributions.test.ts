@@ -1,5 +1,3 @@
-import { FixedNumber } from 'ethers';
-
 import { claimsUnwrappedAmount } from './distributions';
 
 describe('claimsUnwrappedAmount', () => {
@@ -9,7 +7,7 @@ describe('claimsUnwrappedAmount', () => {
       circleDistDecimals: 18,
       // the new_amount col includes fixed payment values as well
       circleDistClaimAmount: 300,
-      circleDistPricePerShare: FixedNumber.from('1'),
+      circleDistPricePerShare: 1,
       circleFixedGifts: { '0x1': '100000000000000000000' },
     });
     expect(circleClaimed).toEqual(200);
@@ -20,9 +18,9 @@ describe('claimsUnwrappedAmount', () => {
       address: '0x1',
       circleDistDecimals: 18,
       circleDistClaimAmount: 200,
-      circleDistPricePerShare: FixedNumber.from('1'),
+      circleDistPricePerShare: 1,
       fixedGifts: { '0x1': '50000000000000000000' },
-      fixedDistPricePerShare: FixedNumber.from('1'),
+      fixedDistPricePerShare: 1,
       fixedDistDecimals: 18,
     });
     expect(circleClaimed).toEqual(200);
@@ -33,9 +31,9 @@ describe('claimsUnwrappedAmount', () => {
       address: '0x1',
       circleDistDecimals: 18,
       circleDistClaimAmount: 200,
-      circleDistPricePerShare: FixedNumber.from('1.2'),
+      circleDistPricePerShare: 1.2,
       fixedGifts: { '0x1': '50000000000000000000' },
-      fixedDistPricePerShare: FixedNumber.from('2'),
+      fixedDistPricePerShare: 2,
       fixedDistDecimals: 18,
     });
     expect(circleClaimed).toEqual(240);

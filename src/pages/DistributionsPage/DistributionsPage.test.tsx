@@ -1,6 +1,5 @@
 import { AddressZero } from '@ethersproject/constants';
 import { act, render, screen, waitFor } from '@testing-library/react';
-import { FixedNumber } from 'ethers';
 import { Contracts } from 'lib/vaults';
 import pick from 'lodash/pick';
 import { DateTime } from 'luxon';
@@ -122,10 +121,12 @@ test('render with a distribution', async () => {
           total_amount: '10000000',
           gift_amount: 500,
           fixed_amount: 5000,
-          pricePerShare: FixedNumber.from('1.08'),
           distribution_type: 1,
           distribution_json: {},
-          vault: mockEpochData.circle.organization.vaults[0],
+          vault: {
+            ...mockEpochData.circle.organization.vaults[0],
+            price_per_share: 1.08,
+          },
           claims: [
             {
               address: '0x63c389CB2C573dd3c9239A13a3eb65935Ddb5e2e',
