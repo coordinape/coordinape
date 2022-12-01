@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 
 import { act, render, screen } from '@testing-library/react';
+import { setAuthToken } from 'features/auth';
 import { useNavigate } from 'react-router-dom';
 
 import { useMediaQuery } from 'hooks';
@@ -14,6 +15,10 @@ jest.mock('hooks/useMediaQuery', () => ({
 }));
 
 const snapshotState: any = {};
+
+beforeEach(() => {
+  setAuthToken('mock');
+});
 
 afterEach(() => snapshotState.release?.());
 
@@ -31,7 +36,7 @@ test('show circle links for distributions route', async () => {
       navigate(`/circles/${fixtures.circle.id}/distributions/10`);
     }, []);
 
-    return <MainHeader />;
+    return <MainHeader currentTheme="dark" setCurrentTheme={() => {}} />;
   };
 
   await act(async () => {

@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 
-import { DateTime } from 'luxon';
 import { useQueries } from 'react-query';
 
 import {
@@ -155,14 +154,14 @@ export function useContributionUsers(timeInput: TimeInput): UserContributions {
 
 export function useContributions(input: {
   address: string;
-  startDate?: string;
-  endDate?: string;
+  startDate: string;
+  endDate: string;
   mock?: boolean;
 }): Array<Contribution> | undefined {
   const { address, startDate, endDate, mock } = input;
   const userToContribution = useContributionUsers({
-    startDate: startDate ?? DateTime.fromMillis(0).toISO(),
-    endDate: endDate ?? DateTime.now().toISO(),
+    startDate,
+    endDate,
   });
   const ret = useMemo(
     () => (address ? userToContribution[address.toLowerCase()] : undefined),

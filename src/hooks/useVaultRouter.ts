@@ -1,5 +1,4 @@
 import { BigNumber } from '@ethersproject/bignumber';
-import { useWeb3React } from '@web3-react/core';
 import { utils, ethers } from 'ethers';
 import { addVaultTx } from 'lib/gql/mutations/vaults';
 import {
@@ -10,6 +9,7 @@ import {
 } from 'lib/vaults';
 import type { Contracts } from 'lib/vaults';
 
+import { useWeb3React } from 'hooks/useWeb3React';
 import { sendAndTrackTx, SendAndTrackTxResult } from 'utils/contractHelpers';
 
 import type { Vault } from './gql/useVaults';

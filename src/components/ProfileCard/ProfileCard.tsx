@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { DateTime } from 'luxon';
+
 import { makeStyles, Button } from '@material-ui/core';
 
 import { ReactComponent as EditProfileSVG } from 'assets/svgs/button/edit-profile.svg';
@@ -126,10 +128,16 @@ const ProfileCardInner = ({
     (userBioTextLength > 93 && skillsLength > 2) || userBioTextLength > 270;
 
   const epochs = useSelectedCircle().circleEpochsStatus;
+  const now = DateTime.now().toISO();
   const contributions = useContributions({
     address: user.address,
-    startDate: epochs.previousEpochEndedOn,
-    endDate: epochs.currentEpoch?.end_date,
+    // run a query that will return nothing if no epoch is active
+    startDate:
+      epochs.previousEpochEndedOn ||
+      (epochs.currentEpoch?.startDate &&
+        epochs.currentEpoch.startDate.minus({ months: 1 }).toISO()) ||
+      now,
+    endDate: epochs.currentEpoch?.end_date || now,
   });
 
   const updateGift = ({ note, tokens }: { note?: string; tokens?: number }) => {

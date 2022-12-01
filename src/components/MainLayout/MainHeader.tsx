@@ -1,13 +1,13 @@
 import { Suspense } from 'react';
 
+import { useWalletStatus } from 'features/auth';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
-import { MediaQueryKeys } from 'stitches.config';
+import { MediaQueryKeys, Theme } from 'stitches.config';
 
 import { ReceiveInfo, MyAvatarMenu } from 'components';
 import isFeatureEnabled from 'config/features';
 import { useMediaQuery } from 'hooks';
-import { useWalletStatus, WalletStatus } from 'hooks/login';
 import { rSelectedCircle } from 'recoilState/app';
 import { isCircleSpecificPath } from 'routes/paths';
 import { Box, Button } from 'ui';
@@ -18,7 +18,13 @@ import { MobileHeader } from './MobileHeader';
 import { OverviewMenu } from './OverviewMenu';
 import { SampleOrgIndicator } from './SampleOrgIndicator';
 
-export const MainHeader = () => {
+export const MainHeader = ({
+  currentTheme,
+  setCurrentTheme,
+}: {
+  currentTheme?: string;
+  setCurrentTheme(t: Theme): void;
+}) => {
   const { circle } = useRecoilValueLoadable(rSelectedCircle).valueMaybe() || {};
   const location = useLocation();
   const inCircle =
@@ -42,6 +48,8 @@ export const MainHeader = () => {
       inCircle={inCircle}
       walletStatus={walletStatus}
       query={query}
+      setCurrentTheme={setCurrentTheme}
+      currentTheme={currentTheme}
     />
   );
 };
@@ -54,11 +62,19 @@ interface Circle {
 
 type Props = {
   inCircle?: Circle;
-  walletStatus: WalletStatus;
+  walletStatus: ReturnType<typeof useWalletStatus>;
   query: MainHeaderQuery;
+  currentTheme?: string;
+  setCurrentTheme(t: Theme): void;
 };
 
-const NormalHeader = ({ inCircle, walletStatus, query }: Props) => {
+const NormalHeader = ({
+  inCircle,
+  walletStatus,
+  query,
+  currentTheme,
+  setCurrentTheme,
+}: Props) => {
   const showClaimsButton =
     (query.data?.claims_aggregate.aggregate?.count || 0) > 0;
 
@@ -118,9 +134,6 @@ const NormalHeader = ({ inCircle, walletStatus, query }: Props) => {
               <Box
                 css={{
                   mr: '$md',
-                  '@md': {
-                    scale: 0.8,
-                  },
                 }}
               >
                 <ReceiveInfo />
@@ -139,7 +152,11 @@ const NormalHeader = ({ inCircle, walletStatus, query }: Props) => {
                 Claim Tokens
               </Button>
             )}
-            <MyAvatarMenu walletStatus={walletStatus} />
+            <MyAvatarMenu
+              walletStatus={walletStatus}
+              setCurrentTheme={setCurrentTheme}
+              currentTheme={currentTheme}
+            />
           </Suspense>
         </Box>
       </Box>

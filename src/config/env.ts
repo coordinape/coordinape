@@ -14,7 +14,9 @@ export const IN_PRODUCTION =
   process.env.NODE_ENV === 'production' &&
   process.env.REACT_APP_VERCEL_ENV !== 'preview';
 
-export const IN_DEVELOPMENT = process.env.NODE_ENV === 'development';
+export const IN_DEVELOPMENT =
+  process.env.NODE_ENV === 'development' ||
+  process.env.REACT_APP_VERCEL_ENV !== 'production';
 
 // TODO: Have prod remove the trailing slash
 export const STORAGE_URL = getEnvValue(

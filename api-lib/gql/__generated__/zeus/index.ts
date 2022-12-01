@@ -730,17 +730,6 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  ['CreateUserInput']: {
-    address: string;
-    circle_id: number;
-    fixed_non_receiver?: boolean | undefined | null;
-    fixed_payment_amount?: number | undefined | null;
-    name: string;
-    non_giver?: boolean | undefined | null;
-    non_receiver?: boolean | undefined | null;
-    role?: number | undefined | null;
-    starting_tokens?: number | undefined | null;
-  };
   ['CreateUserWithTokenInput']: {
     name: string;
     token: string;
@@ -7732,10 +7721,6 @@ export type ValueTypes = {
       ValueTypes['CreateNomineeResponse']
     ];
     createSampleCircle?: ValueTypes['CreateSampleCircleResponse'];
-    createUser?: [
-      { payload: ValueTypes['CreateUserInput'] },
-      ValueTypes['UserResponse']
-    ];
     createUserWithToken?: [
       { payload: ValueTypes['CreateUserWithTokenInput'] },
       ValueTypes['UserResponse']
@@ -19486,7 +19471,6 @@ export type ModelTypes = {
     circle?: GraphQLTypes['circles'] | undefined;
     id: number;
   };
-  ['CreateUserInput']: GraphQLTypes['CreateUserInput'];
   ['CreateUserWithTokenInput']: GraphQLTypes['CreateUserWithTokenInput'];
   ['CreateUsersInput']: GraphQLTypes['CreateUsersInput'];
   ['CreateVaultInput']: GraphQLTypes['CreateVaultInput'];
@@ -22570,7 +22554,6 @@ export type ModelTypes = {
     createEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     createNominee?: GraphQLTypes['CreateNomineeResponse'] | undefined;
     createSampleCircle?: GraphQLTypes['CreateSampleCircleResponse'] | undefined;
-    createUser?: GraphQLTypes['UserResponse'] | undefined;
     createUserWithToken?: GraphQLTypes['UserResponse'] | undefined;
     createUsers?: Array<GraphQLTypes['UserResponse'] | undefined> | undefined;
     createVault?: GraphQLTypes['VaultResponse'] | undefined;
@@ -26339,17 +26322,6 @@ export type GraphQLTypes = {
     __typename: 'CreateSampleCircleResponse';
     circle?: GraphQLTypes['circles'] | undefined;
     id: number;
-  };
-  ['CreateUserInput']: {
-    address: string;
-    circle_id: number;
-    fixed_non_receiver?: boolean | undefined;
-    fixed_payment_amount?: number | undefined;
-    name: string;
-    non_giver?: boolean | undefined;
-    non_receiver?: boolean | undefined;
-    role?: number | undefined;
-    starting_tokens?: number | undefined;
   };
   ['CreateUserWithTokenInput']: {
     name: string;
@@ -32338,7 +32310,6 @@ export type GraphQLTypes = {
     createEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     createNominee?: GraphQLTypes['CreateNomineeResponse'] | undefined;
     createSampleCircle?: GraphQLTypes['CreateSampleCircleResponse'] | undefined;
-    createUser?: GraphQLTypes['UserResponse'] | undefined;
     createUserWithToken?: GraphQLTypes['UserResponse'] | undefined;
     createUsers?: Array<GraphQLTypes['UserResponse'] | undefined> | undefined;
     createVault?: GraphQLTypes['VaultResponse'] | undefined;
