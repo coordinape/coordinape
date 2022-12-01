@@ -224,6 +224,15 @@ type DeleteEpochResponse {
   success: Boolean!
 }
 
+input DeleteUserBulkInput {
+  addresses: [String!]!
+  circle_id: Int!
+}
+
+type DeleteUserBulkResponse {
+  success: Boolean!
+}
+
 input DeleteUserInput {
   address: String!
   circle_id: Int!
@@ -12230,6 +12239,8 @@ type mutation_root {
   deleteDiscordUser(payload: DeleteDiscordUserInput!): ConfirmationResponse
   deleteEpoch(payload: DeleteEpochInput!): DeleteEpochResponse
   deleteUser(payload: DeleteUserInput!): ConfirmationResponse
+  deleteUserBulk(payload: DeleteUserBulkInput!): DeleteUserBulkResponse
+
 
   """
   delete data from the table: "burns"
