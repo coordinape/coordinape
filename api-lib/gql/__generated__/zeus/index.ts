@@ -6090,14 +6090,14 @@ export type ValueTypes = {
       },
       ValueTypes['pending_token_gifts_aggregate']
     ];
-    /** An object relationship */
-    epoch_pgive_data?: ValueTypes['epoch_pgive_data'];
     grant?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     notified_before_end?: boolean | `@${string}`;
     notified_end?: boolean | `@${string}`;
     notified_start?: boolean | `@${string}`;
     number?: boolean | `@${string}`;
+    /** An object relationship */
+    pgive_data?: ValueTypes['epoch_pgive_data'];
     regift_days?: boolean | `@${string}`;
     repeat?: boolean | `@${string}`;
     repeat_day_of_month?: boolean | `@${string}`;
@@ -6239,10 +6239,6 @@ export type ValueTypes = {
       | ValueTypes['pending_token_gifts_bool_exp']
       | undefined
       | null;
-    epoch_pgive_data?:
-      | ValueTypes['epoch_pgive_data_bool_exp']
-      | undefined
-      | null;
     grant?: ValueTypes['numeric_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     notified_before_end?:
@@ -6252,6 +6248,7 @@ export type ValueTypes = {
     notified_end?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     notified_start?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     number?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    pgive_data?: ValueTypes['epoch_pgive_data_bool_exp'] | undefined | null;
     regift_days?: ValueTypes['Int_comparison_exp'] | undefined | null;
     repeat?: ValueTypes['Int_comparison_exp'] | undefined | null;
     repeat_day_of_month?: ValueTypes['Int_comparison_exp'] | undefined | null;
@@ -6290,16 +6287,16 @@ export type ValueTypes = {
       | ValueTypes['pending_token_gifts_arr_rel_insert_input']
       | undefined
       | null;
-    epoch_pgive_data?:
-      | ValueTypes['epoch_pgive_data_obj_rel_insert_input']
-      | undefined
-      | null;
     grant?: ValueTypes['numeric'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     notified_before_end?: ValueTypes['timestamp'] | undefined | null;
     notified_end?: ValueTypes['timestamp'] | undefined | null;
     notified_start?: ValueTypes['timestamp'] | undefined | null;
     number?: number | undefined | null;
+    pgive_data?:
+      | ValueTypes['epoch_pgive_data_obj_rel_insert_input']
+      | undefined
+      | null;
     regift_days?: number | undefined | null;
     repeat?: number | undefined | null;
     repeat_day_of_month?: number | undefined | null;
@@ -6426,16 +6423,13 @@ export type ValueTypes = {
       | ValueTypes['pending_token_gifts_aggregate_order_by']
       | undefined
       | null;
-    epoch_pgive_data?:
-      | ValueTypes['epoch_pgive_data_order_by']
-      | undefined
-      | null;
     grant?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     notified_before_end?: ValueTypes['order_by'] | undefined | null;
     notified_end?: ValueTypes['order_by'] | undefined | null;
     notified_start?: ValueTypes['order_by'] | undefined | null;
     number?: ValueTypes['order_by'] | undefined | null;
+    pgive_data?: ValueTypes['epoch_pgive_data_order_by'] | undefined | null;
     regift_days?: ValueTypes['order_by'] | undefined | null;
     repeat?: ValueTypes['order_by'] | undefined | null;
     repeat_day_of_month?: ValueTypes['order_by'] | undefined | null;
@@ -21744,14 +21738,14 @@ export type ModelTypes = {
     epoch_pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     /** An aggregate relationship */
     epoch_pending_token_gifts_aggregate: GraphQLTypes['pending_token_gifts_aggregate'];
-    /** An object relationship */
-    epoch_pgive_data?: GraphQLTypes['epoch_pgive_data'] | undefined;
     grant: GraphQLTypes['numeric'];
     id: GraphQLTypes['bigint'];
     notified_before_end?: GraphQLTypes['timestamp'] | undefined;
     notified_end?: GraphQLTypes['timestamp'] | undefined;
     notified_start?: GraphQLTypes['timestamp'] | undefined;
     number?: number | undefined;
+    /** An object relationship */
+    pgive_data?: GraphQLTypes['epoch_pgive_data'] | undefined;
     regift_days: number;
     repeat: number;
     repeat_day_of_month: number;
@@ -30816,14 +30810,14 @@ export type GraphQLTypes = {
     epoch_pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     /** An aggregate relationship */
     epoch_pending_token_gifts_aggregate: GraphQLTypes['pending_token_gifts_aggregate'];
-    /** An object relationship */
-    epoch_pgive_data?: GraphQLTypes['epoch_pgive_data'] | undefined;
     grant: GraphQLTypes['numeric'];
     id: GraphQLTypes['bigint'];
     notified_before_end?: GraphQLTypes['timestamp'] | undefined;
     notified_end?: GraphQLTypes['timestamp'] | undefined;
     notified_start?: GraphQLTypes['timestamp'] | undefined;
     number?: number | undefined;
+    /** An object relationship */
+    pgive_data?: GraphQLTypes['epoch_pgive_data'] | undefined;
     regift_days: number;
     repeat: number;
     repeat_day_of_month: number;
@@ -30915,13 +30909,13 @@ export type GraphQLTypes = {
     epoch_pending_token_gifts?:
       | GraphQLTypes['pending_token_gifts_bool_exp']
       | undefined;
-    epoch_pgive_data?: GraphQLTypes['epoch_pgive_data_bool_exp'] | undefined;
     grant?: GraphQLTypes['numeric_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     notified_before_end?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     notified_end?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     notified_start?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     number?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    pgive_data?: GraphQLTypes['epoch_pgive_data_bool_exp'] | undefined;
     regift_days?: GraphQLTypes['Int_comparison_exp'] | undefined;
     repeat?: GraphQLTypes['Int_comparison_exp'] | undefined;
     repeat_day_of_month?: GraphQLTypes['Int_comparison_exp'] | undefined;
@@ -30958,15 +30952,15 @@ export type GraphQLTypes = {
     epoch_pending_token_gifts?:
       | GraphQLTypes['pending_token_gifts_arr_rel_insert_input']
       | undefined;
-    epoch_pgive_data?:
-      | GraphQLTypes['epoch_pgive_data_obj_rel_insert_input']
-      | undefined;
     grant?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     notified_before_end?: GraphQLTypes['timestamp'] | undefined;
     notified_end?: GraphQLTypes['timestamp'] | undefined;
     notified_start?: GraphQLTypes['timestamp'] | undefined;
     number?: number | undefined;
+    pgive_data?:
+      | GraphQLTypes['epoch_pgive_data_obj_rel_insert_input']
+      | undefined;
     regift_days?: number | undefined;
     repeat?: number | undefined;
     repeat_day_of_month?: number | undefined;
@@ -31088,13 +31082,13 @@ export type GraphQLTypes = {
     epoch_pending_token_gifts_aggregate?:
       | GraphQLTypes['pending_token_gifts_aggregate_order_by']
       | undefined;
-    epoch_pgive_data?: GraphQLTypes['epoch_pgive_data_order_by'] | undefined;
     grant?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     notified_before_end?: GraphQLTypes['order_by'] | undefined;
     notified_end?: GraphQLTypes['order_by'] | undefined;
     notified_start?: GraphQLTypes['order_by'] | undefined;
     number?: GraphQLTypes['order_by'] | undefined;
+    pgive_data?: GraphQLTypes['epoch_pgive_data_order_by'] | undefined;
     regift_days?: GraphQLTypes['order_by'] | undefined;
     repeat?: GraphQLTypes['order_by'] | undefined;
     repeat_day_of_month?: GraphQLTypes['order_by'] | undefined;

@@ -8287,17 +8287,17 @@ type epochs {
     """
     where: pending_token_gifts_bool_exp
   ): pending_token_gifts_aggregate!
-
-  """
-  An object relationship
-  """
-  epoch_pgive_data: epoch_pgive_data
   grant: numeric!
   id: bigint!
   notified_before_end: timestamp
   notified_end: timestamp
   notified_start: timestamp
   number: Int
+
+  """
+  An object relationship
+  """
+  pgive_data: epoch_pgive_data
   regift_days: Int!
   repeat: Int!
   repeat_day_of_month: Int!
@@ -8464,13 +8464,13 @@ input epochs_bool_exp {
   end_date: timestamptz_comparison_exp
   ended: Boolean_comparison_exp
   epoch_pending_token_gifts: pending_token_gifts_bool_exp
-  epoch_pgive_data: epoch_pgive_data_bool_exp
   grant: numeric_comparison_exp
   id: bigint_comparison_exp
   notified_before_end: timestamp_comparison_exp
   notified_end: timestamp_comparison_exp
   notified_start: timestamp_comparison_exp
   number: Int_comparison_exp
+  pgive_data: epoch_pgive_data_bool_exp
   regift_days: Int_comparison_exp
   repeat: Int_comparison_exp
   repeat_day_of_month: Int_comparison_exp
@@ -8517,13 +8517,13 @@ input epochs_insert_input {
   end_date: timestamptz
   ended: Boolean
   epoch_pending_token_gifts: pending_token_gifts_arr_rel_insert_input
-  epoch_pgive_data: epoch_pgive_data_obj_rel_insert_input
   grant: numeric
   id: bigint
   notified_before_end: timestamp
   notified_end: timestamp
   notified_start: timestamp
   number: Int
+  pgive_data: epoch_pgive_data_obj_rel_insert_input
   regift_days: Int
   repeat: Int
   repeat_day_of_month: Int
@@ -8670,13 +8670,13 @@ input epochs_order_by {
   end_date: order_by
   ended: order_by
   epoch_pending_token_gifts_aggregate: pending_token_gifts_aggregate_order_by
-  epoch_pgive_data: epoch_pgive_data_order_by
   grant: order_by
   id: order_by
   notified_before_end: order_by
   notified_end: order_by
   notified_start: order_by
   number: order_by
+  pgive_data: epoch_pgive_data_order_by
   regift_days: order_by
   repeat: order_by
   repeat_day_of_month: order_by
