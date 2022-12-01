@@ -1,4 +1,4 @@
-import { Logger } from './log';
+import { DebugLogger } from './log';
 
 jest.mock('debug', () => ({
   __esModule: true,
@@ -19,7 +19,7 @@ afterEach(() => {
   consoleErrorMock.mockClear();
 });
 it('can log to stdout', () => {
-  const logger = new Logger('test');
+  const logger = new DebugLogger('test');
   logger.log('hello');
   expect(consoleLogMock).toBeCalledTimes(1);
   expect(consoleErrorMock).toBeCalledTimes(0);
@@ -27,7 +27,7 @@ it('can log to stdout', () => {
 });
 
 it('can log to stderr', () => {
-  const logger = new Logger('test');
+  const logger = new DebugLogger('test');
   logger.error('alert!');
   expect(consoleLogMock).toBeCalledTimes(0);
   expect(consoleErrorMock).toBeCalledTimes(1);

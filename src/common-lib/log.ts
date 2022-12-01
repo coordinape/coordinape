@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import debug from 'debug';
 
-export class Logger {
+export class DebugLogger {
   log: ReturnType<typeof debug>;
   error: ReturnType<typeof debug>;
   constructor(location: string) {
