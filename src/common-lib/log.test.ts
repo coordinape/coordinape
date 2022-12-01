@@ -1,4 +1,4 @@
-import { DebugLogger } from './log';
+const { DebugLogger } = jest.requireActual('./log');
 
 jest.mock('debug', () => ({
   __esModule: true,
