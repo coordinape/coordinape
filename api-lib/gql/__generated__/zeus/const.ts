@@ -1,11199 +1,11324 @@
 /* eslint-disable */
 
-export const AllTypesProps: Record<string, any> = {
-  AdminUpdateUserInput: {},
-  Allocation: {},
-  AllocationCsvInput: {},
-  Allocations: {
-    allocations: 'Allocation',
-  },
-  Boolean_comparison_exp: {},
-  CoordinapeInput: {},
-  CreateCircleInput: {},
-  CreateCircleResponse: {
-    users: {
-      distinct_on: 'users_select_column',
-      order_by: 'users_order_by',
-      where: 'users_bool_exp',
-    },
-    users_aggregate: {
-      distinct_on: 'users_select_column',
-      order_by: 'users_order_by',
-      where: 'users_bool_exp',
-    },
-  },
-  CreateEpochInput: {
-    start_date: 'timestamptz',
-  },
-  CreateNomineeInput: {},
-  CreateUserWithTokenInput: {},
-  CreateUsersInput: {
-    users: 'UserObj',
-  },
-  CreateVaultInput: {},
-  DeleteCircleInput: {},
-  DeleteContributionInput: {},
-  DeleteEpochInput: {},
-  DeleteUserBulkInput: {},
-  DeleteUserInput: {},
-  GenerateApiKeyInput: {},
-  Int_comparison_exp: {},
-  LinkDiscordUserInput: {},
-  LogVaultTxInput: {},
-  MarkClaimedInput: {},
-  String_comparison_exp: {},
-  UpdateCircleInput: {},
-  UpdateContributionInput: {
-    datetime_created: 'timestamptz',
-  },
-  UpdateEpochInput: {
-    start_date: 'timestamptz',
-  },
-  UpdateTeammatesInput: {},
-  UpdateUserInput: {},
-  UploadCircleImageInput: {},
-  UploadImageInput: {},
-  UploadOrgImageInput: {},
-  UserObj: {},
-  VouchInput: {},
-  bigint: 'String',
-  bigint_comparison_exp: {
-    _eq: 'bigint',
-    _gt: 'bigint',
-    _gte: 'bigint',
-    _in: 'bigint',
-    _lt: 'bigint',
-    _lte: 'bigint',
-    _neq: 'bigint',
-    _nin: 'bigint',
-  },
-  burns_aggregate_fields: {
-    count: {
-      columns: 'burns_select_column',
-    },
-  },
-  burns_aggregate_order_by: {
-    avg: 'burns_avg_order_by',
-    count: 'order_by',
-    max: 'burns_max_order_by',
-    min: 'burns_min_order_by',
-    stddev: 'burns_stddev_order_by',
-    stddev_pop: 'burns_stddev_pop_order_by',
-    stddev_samp: 'burns_stddev_samp_order_by',
-    sum: 'burns_sum_order_by',
-    var_pop: 'burns_var_pop_order_by',
-    var_samp: 'burns_var_samp_order_by',
-    variance: 'burns_variance_order_by',
-  },
-  burns_arr_rel_insert_input: {
-    data: 'burns_insert_input',
-    on_conflict: 'burns_on_conflict',
-  },
-  burns_avg_order_by: {
-    circle_id: 'order_by',
-    epoch_id: 'order_by',
-    id: 'order_by',
-    original_amount: 'order_by',
-    regift_percent: 'order_by',
-    tokens_burnt: 'order_by',
-    user_id: 'order_by',
-  },
-  burns_bool_exp: {
-    _and: 'burns_bool_exp',
-    _not: 'burns_bool_exp',
-    _or: 'burns_bool_exp',
-    circle: 'circles_bool_exp',
-    circle_id: 'bigint_comparison_exp',
-    created_at: 'timestamp_comparison_exp',
-    epoch: 'epochs_bool_exp',
-    epoch_id: 'bigint_comparison_exp',
-    id: 'bigint_comparison_exp',
-    original_amount: 'Int_comparison_exp',
-    regift_percent: 'Int_comparison_exp',
-    tokens_burnt: 'Int_comparison_exp',
-    updated_at: 'timestamp_comparison_exp',
-    user: 'users_bool_exp',
-    user_id: 'bigint_comparison_exp',
-  },
-  burns_constraint: true,
-  burns_inc_input: {
-    circle_id: 'bigint',
-    epoch_id: 'bigint',
-    id: 'bigint',
-    user_id: 'bigint',
-  },
-  burns_insert_input: {
-    circle: 'circles_obj_rel_insert_input',
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    epoch: 'epochs_obj_rel_insert_input',
-    epoch_id: 'bigint',
-    id: 'bigint',
-    updated_at: 'timestamp',
-    user: 'users_obj_rel_insert_input',
-    user_id: 'bigint',
-  },
-  burns_max_order_by: {
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    epoch_id: 'order_by',
-    id: 'order_by',
-    original_amount: 'order_by',
-    regift_percent: 'order_by',
-    tokens_burnt: 'order_by',
-    updated_at: 'order_by',
-    user_id: 'order_by',
-  },
-  burns_min_order_by: {
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    epoch_id: 'order_by',
-    id: 'order_by',
-    original_amount: 'order_by',
-    regift_percent: 'order_by',
-    tokens_burnt: 'order_by',
-    updated_at: 'order_by',
-    user_id: 'order_by',
-  },
-  burns_on_conflict: {
-    constraint: 'burns_constraint',
-    update_columns: 'burns_update_column',
-    where: 'burns_bool_exp',
-  },
-  burns_order_by: {
-    circle: 'circles_order_by',
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    epoch: 'epochs_order_by',
-    epoch_id: 'order_by',
-    id: 'order_by',
-    original_amount: 'order_by',
-    regift_percent: 'order_by',
-    tokens_burnt: 'order_by',
-    updated_at: 'order_by',
-    user: 'users_order_by',
-    user_id: 'order_by',
-  },
-  burns_pk_columns_input: {
-    id: 'bigint',
-  },
-  burns_select_column: true,
-  burns_set_input: {
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    epoch_id: 'bigint',
-    id: 'bigint',
-    updated_at: 'timestamp',
-    user_id: 'bigint',
-  },
-  burns_stddev_order_by: {
-    circle_id: 'order_by',
-    epoch_id: 'order_by',
-    id: 'order_by',
-    original_amount: 'order_by',
-    regift_percent: 'order_by',
-    tokens_burnt: 'order_by',
-    user_id: 'order_by',
-  },
-  burns_stddev_pop_order_by: {
-    circle_id: 'order_by',
-    epoch_id: 'order_by',
-    id: 'order_by',
-    original_amount: 'order_by',
-    regift_percent: 'order_by',
-    tokens_burnt: 'order_by',
-    user_id: 'order_by',
-  },
-  burns_stddev_samp_order_by: {
-    circle_id: 'order_by',
-    epoch_id: 'order_by',
-    id: 'order_by',
-    original_amount: 'order_by',
-    regift_percent: 'order_by',
-    tokens_burnt: 'order_by',
-    user_id: 'order_by',
-  },
-  burns_stream_cursor_input: {
-    initial_value: 'burns_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  burns_stream_cursor_value_input: {
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    epoch_id: 'bigint',
-    id: 'bigint',
-    updated_at: 'timestamp',
-    user_id: 'bigint',
-  },
-  burns_sum_order_by: {
-    circle_id: 'order_by',
-    epoch_id: 'order_by',
-    id: 'order_by',
-    original_amount: 'order_by',
-    regift_percent: 'order_by',
-    tokens_burnt: 'order_by',
-    user_id: 'order_by',
-  },
-  burns_update_column: true,
-  burns_updates: {
-    _inc: 'burns_inc_input',
-    _set: 'burns_set_input',
-    where: 'burns_bool_exp',
-  },
-  burns_var_pop_order_by: {
-    circle_id: 'order_by',
-    epoch_id: 'order_by',
-    id: 'order_by',
-    original_amount: 'order_by',
-    regift_percent: 'order_by',
-    tokens_burnt: 'order_by',
-    user_id: 'order_by',
-  },
-  burns_var_samp_order_by: {
-    circle_id: 'order_by',
-    epoch_id: 'order_by',
-    id: 'order_by',
-    original_amount: 'order_by',
-    regift_percent: 'order_by',
-    tokens_burnt: 'order_by',
-    user_id: 'order_by',
-  },
-  burns_variance_order_by: {
-    circle_id: 'order_by',
-    epoch_id: 'order_by',
-    id: 'order_by',
-    original_amount: 'order_by',
-    regift_percent: 'order_by',
-    tokens_burnt: 'order_by',
-    user_id: 'order_by',
-  },
-  circle_api_keys_aggregate_fields: {
-    count: {
-      columns: 'circle_api_keys_select_column',
-    },
-  },
-  circle_api_keys_aggregate_order_by: {
-    avg: 'circle_api_keys_avg_order_by',
-    count: 'order_by',
-    max: 'circle_api_keys_max_order_by',
-    min: 'circle_api_keys_min_order_by',
-    stddev: 'circle_api_keys_stddev_order_by',
-    stddev_pop: 'circle_api_keys_stddev_pop_order_by',
-    stddev_samp: 'circle_api_keys_stddev_samp_order_by',
-    sum: 'circle_api_keys_sum_order_by',
-    var_pop: 'circle_api_keys_var_pop_order_by',
-    var_samp: 'circle_api_keys_var_samp_order_by',
-    variance: 'circle_api_keys_variance_order_by',
-  },
-  circle_api_keys_arr_rel_insert_input: {
-    data: 'circle_api_keys_insert_input',
-    on_conflict: 'circle_api_keys_on_conflict',
-  },
-  circle_api_keys_avg_order_by: {
-    circle_id: 'order_by',
-    created_by: 'order_by',
-  },
-  circle_api_keys_bool_exp: {
-    _and: 'circle_api_keys_bool_exp',
-    _not: 'circle_api_keys_bool_exp',
-    _or: 'circle_api_keys_bool_exp',
-    circle: 'circles_bool_exp',
-    circle_id: 'bigint_comparison_exp',
-    create_contributions: 'Boolean_comparison_exp',
-    create_vouches: 'Boolean_comparison_exp',
-    createdByUser: 'users_bool_exp',
-    created_at: 'timestamptz_comparison_exp',
-    created_by: 'bigint_comparison_exp',
-    hash: 'String_comparison_exp',
-    name: 'String_comparison_exp',
-    read_circle: 'Boolean_comparison_exp',
-    read_contributions: 'Boolean_comparison_exp',
-    read_discord: 'Boolean_comparison_exp',
-    read_epochs: 'Boolean_comparison_exp',
-    read_member_profiles: 'Boolean_comparison_exp',
-    read_nominees: 'Boolean_comparison_exp',
-    read_pending_token_gifts: 'Boolean_comparison_exp',
-    update_circle: 'Boolean_comparison_exp',
-    update_pending_token_gifts: 'Boolean_comparison_exp',
-  },
-  circle_api_keys_constraint: true,
-  circle_api_keys_inc_input: {
-    circle_id: 'bigint',
-    created_by: 'bigint',
-  },
-  circle_api_keys_insert_input: {
-    circle: 'circles_obj_rel_insert_input',
-    circle_id: 'bigint',
-    createdByUser: 'users_obj_rel_insert_input',
-    created_at: 'timestamptz',
-    created_by: 'bigint',
-  },
-  circle_api_keys_max_order_by: {
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    created_by: 'order_by',
-    hash: 'order_by',
-    name: 'order_by',
-  },
-  circle_api_keys_min_order_by: {
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    created_by: 'order_by',
-    hash: 'order_by',
-    name: 'order_by',
-  },
-  circle_api_keys_obj_rel_insert_input: {
-    data: 'circle_api_keys_insert_input',
-    on_conflict: 'circle_api_keys_on_conflict',
-  },
-  circle_api_keys_on_conflict: {
-    constraint: 'circle_api_keys_constraint',
-    update_columns: 'circle_api_keys_update_column',
-    where: 'circle_api_keys_bool_exp',
-  },
-  circle_api_keys_order_by: {
-    circle: 'circles_order_by',
-    circle_id: 'order_by',
-    create_contributions: 'order_by',
-    create_vouches: 'order_by',
-    createdByUser: 'users_order_by',
-    created_at: 'order_by',
-    created_by: 'order_by',
-    hash: 'order_by',
-    name: 'order_by',
-    read_circle: 'order_by',
-    read_contributions: 'order_by',
-    read_discord: 'order_by',
-    read_epochs: 'order_by',
-    read_member_profiles: 'order_by',
-    read_nominees: 'order_by',
-    read_pending_token_gifts: 'order_by',
-    update_circle: 'order_by',
-    update_pending_token_gifts: 'order_by',
-  },
-  circle_api_keys_pk_columns_input: {},
-  circle_api_keys_select_column: true,
-  circle_api_keys_set_input: {
-    circle_id: 'bigint',
-    created_at: 'timestamptz',
-    created_by: 'bigint',
-  },
-  circle_api_keys_stddev_order_by: {
-    circle_id: 'order_by',
-    created_by: 'order_by',
-  },
-  circle_api_keys_stddev_pop_order_by: {
-    circle_id: 'order_by',
-    created_by: 'order_by',
-  },
-  circle_api_keys_stddev_samp_order_by: {
-    circle_id: 'order_by',
-    created_by: 'order_by',
-  },
-  circle_api_keys_stream_cursor_input: {
-    initial_value: 'circle_api_keys_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  circle_api_keys_stream_cursor_value_input: {
-    circle_id: 'bigint',
-    created_at: 'timestamptz',
-    created_by: 'bigint',
-  },
-  circle_api_keys_sum_order_by: {
-    circle_id: 'order_by',
-    created_by: 'order_by',
-  },
-  circle_api_keys_update_column: true,
-  circle_api_keys_updates: {
-    _inc: 'circle_api_keys_inc_input',
-    _set: 'circle_api_keys_set_input',
-    where: 'circle_api_keys_bool_exp',
-  },
-  circle_api_keys_var_pop_order_by: {
-    circle_id: 'order_by',
-    created_by: 'order_by',
-  },
-  circle_api_keys_var_samp_order_by: {
-    circle_id: 'order_by',
-    created_by: 'order_by',
-  },
-  circle_api_keys_variance_order_by: {
-    circle_id: 'order_by',
-    created_by: 'order_by',
-  },
-  circle_integrations: {
-    data: {},
-  },
-  circle_integrations_aggregate_fields: {
-    count: {
-      columns: 'circle_integrations_select_column',
-    },
-  },
-  circle_integrations_aggregate_order_by: {
-    avg: 'circle_integrations_avg_order_by',
-    count: 'order_by',
-    max: 'circle_integrations_max_order_by',
-    min: 'circle_integrations_min_order_by',
-    stddev: 'circle_integrations_stddev_order_by',
-    stddev_pop: 'circle_integrations_stddev_pop_order_by',
-    stddev_samp: 'circle_integrations_stddev_samp_order_by',
-    sum: 'circle_integrations_sum_order_by',
-    var_pop: 'circle_integrations_var_pop_order_by',
-    var_samp: 'circle_integrations_var_samp_order_by',
-    variance: 'circle_integrations_variance_order_by',
-  },
-  circle_integrations_arr_rel_insert_input: {
-    data: 'circle_integrations_insert_input',
-    on_conflict: 'circle_integrations_on_conflict',
-  },
-  circle_integrations_avg_order_by: {
-    circle_id: 'order_by',
-    id: 'order_by',
-  },
-  circle_integrations_bool_exp: {
-    _and: 'circle_integrations_bool_exp',
-    _not: 'circle_integrations_bool_exp',
-    _or: 'circle_integrations_bool_exp',
-    circle: 'circles_bool_exp',
-    circle_id: 'bigint_comparison_exp',
-    created_at: 'timestamptz_comparison_exp',
-    data: 'json_comparison_exp',
-    id: 'bigint_comparison_exp',
-    name: 'String_comparison_exp',
-    type: 'String_comparison_exp',
-    updated_at: 'timestamptz_comparison_exp',
-  },
-  circle_integrations_constraint: true,
-  circle_integrations_inc_input: {
-    circle_id: 'bigint',
-    id: 'bigint',
-  },
-  circle_integrations_insert_input: {
-    circle: 'circles_obj_rel_insert_input',
-    circle_id: 'bigint',
-    created_at: 'timestamptz',
-    data: 'json',
-    id: 'bigint',
-    updated_at: 'timestamptz',
-  },
-  circle_integrations_max_order_by: {
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    id: 'order_by',
-    name: 'order_by',
-    type: 'order_by',
-    updated_at: 'order_by',
-  },
-  circle_integrations_min_order_by: {
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    id: 'order_by',
-    name: 'order_by',
-    type: 'order_by',
-    updated_at: 'order_by',
-  },
-  circle_integrations_on_conflict: {
-    constraint: 'circle_integrations_constraint',
-    update_columns: 'circle_integrations_update_column',
-    where: 'circle_integrations_bool_exp',
-  },
-  circle_integrations_order_by: {
-    circle: 'circles_order_by',
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    data: 'order_by',
-    id: 'order_by',
-    name: 'order_by',
-    type: 'order_by',
-    updated_at: 'order_by',
-  },
-  circle_integrations_pk_columns_input: {
-    id: 'bigint',
-  },
-  circle_integrations_select_column: true,
-  circle_integrations_set_input: {
-    circle_id: 'bigint',
-    created_at: 'timestamptz',
-    data: 'json',
-    id: 'bigint',
-    updated_at: 'timestamptz',
-  },
-  circle_integrations_stddev_order_by: {
-    circle_id: 'order_by',
-    id: 'order_by',
-  },
-  circle_integrations_stddev_pop_order_by: {
-    circle_id: 'order_by',
-    id: 'order_by',
-  },
-  circle_integrations_stddev_samp_order_by: {
-    circle_id: 'order_by',
-    id: 'order_by',
-  },
-  circle_integrations_stream_cursor_input: {
-    initial_value: 'circle_integrations_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  circle_integrations_stream_cursor_value_input: {
-    circle_id: 'bigint',
-    created_at: 'timestamptz',
-    data: 'json',
-    id: 'bigint',
-    updated_at: 'timestamptz',
-  },
-  circle_integrations_sum_order_by: {
-    circle_id: 'order_by',
-    id: 'order_by',
-  },
-  circle_integrations_update_column: true,
-  circle_integrations_updates: {
-    _inc: 'circle_integrations_inc_input',
-    _set: 'circle_integrations_set_input',
-    where: 'circle_integrations_bool_exp',
-  },
-  circle_integrations_var_pop_order_by: {
-    circle_id: 'order_by',
-    id: 'order_by',
-  },
-  circle_integrations_var_samp_order_by: {
-    circle_id: 'order_by',
-    id: 'order_by',
-  },
-  circle_integrations_variance_order_by: {
-    circle_id: 'order_by',
-    id: 'order_by',
-  },
-  circle_metadata: {
-    json: {},
-  },
-  circle_metadata_aggregate_fields: {
-    count: {
-      columns: 'circle_metadata_select_column',
-    },
-  },
-  circle_metadata_aggregate_order_by: {
-    avg: 'circle_metadata_avg_order_by',
-    count: 'order_by',
-    max: 'circle_metadata_max_order_by',
-    min: 'circle_metadata_min_order_by',
-    stddev: 'circle_metadata_stddev_order_by',
-    stddev_pop: 'circle_metadata_stddev_pop_order_by',
-    stddev_samp: 'circle_metadata_stddev_samp_order_by',
-    sum: 'circle_metadata_sum_order_by',
-    var_pop: 'circle_metadata_var_pop_order_by',
-    var_samp: 'circle_metadata_var_samp_order_by',
-    variance: 'circle_metadata_variance_order_by',
-  },
-  circle_metadata_arr_rel_insert_input: {
-    data: 'circle_metadata_insert_input',
-    on_conflict: 'circle_metadata_on_conflict',
-  },
-  circle_metadata_avg_order_by: {
-    circle_id: 'order_by',
-    id: 'order_by',
-  },
-  circle_metadata_bool_exp: {
-    _and: 'circle_metadata_bool_exp',
-    _not: 'circle_metadata_bool_exp',
-    _or: 'circle_metadata_bool_exp',
-    circle: 'circles_bool_exp',
-    circle_id: 'bigint_comparison_exp',
-    created_at: 'timestamp_comparison_exp',
-    id: 'bigint_comparison_exp',
-    json: 'json_comparison_exp',
-    updated_at: 'timestamp_comparison_exp',
-  },
-  circle_metadata_constraint: true,
-  circle_metadata_inc_input: {
-    circle_id: 'bigint',
-    id: 'bigint',
-  },
-  circle_metadata_insert_input: {
-    circle: 'circles_obj_rel_insert_input',
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    id: 'bigint',
-    json: 'json',
-    updated_at: 'timestamp',
-  },
-  circle_metadata_max_order_by: {
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    id: 'order_by',
-    updated_at: 'order_by',
-  },
-  circle_metadata_min_order_by: {
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    id: 'order_by',
-    updated_at: 'order_by',
-  },
-  circle_metadata_on_conflict: {
-    constraint: 'circle_metadata_constraint',
-    update_columns: 'circle_metadata_update_column',
-    where: 'circle_metadata_bool_exp',
-  },
-  circle_metadata_order_by: {
-    circle: 'circles_order_by',
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    id: 'order_by',
-    json: 'order_by',
-    updated_at: 'order_by',
-  },
-  circle_metadata_pk_columns_input: {
-    id: 'bigint',
-  },
-  circle_metadata_select_column: true,
-  circle_metadata_set_input: {
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    id: 'bigint',
-    json: 'json',
-    updated_at: 'timestamp',
-  },
-  circle_metadata_stddev_order_by: {
-    circle_id: 'order_by',
-    id: 'order_by',
-  },
-  circle_metadata_stddev_pop_order_by: {
-    circle_id: 'order_by',
-    id: 'order_by',
-  },
-  circle_metadata_stddev_samp_order_by: {
-    circle_id: 'order_by',
-    id: 'order_by',
-  },
-  circle_metadata_stream_cursor_input: {
-    initial_value: 'circle_metadata_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  circle_metadata_stream_cursor_value_input: {
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    id: 'bigint',
-    json: 'json',
-    updated_at: 'timestamp',
-  },
-  circle_metadata_sum_order_by: {
-    circle_id: 'order_by',
-    id: 'order_by',
-  },
-  circle_metadata_update_column: true,
-  circle_metadata_updates: {
-    _inc: 'circle_metadata_inc_input',
-    _set: 'circle_metadata_set_input',
-    where: 'circle_metadata_bool_exp',
-  },
-  circle_metadata_var_pop_order_by: {
-    circle_id: 'order_by',
-    id: 'order_by',
-  },
-  circle_metadata_var_samp_order_by: {
-    circle_id: 'order_by',
-    id: 'order_by',
-  },
-  circle_metadata_variance_order_by: {
-    circle_id: 'order_by',
-    id: 'order_by',
-  },
-  circle_private_aggregate_fields: {
-    count: {
-      columns: 'circle_private_select_column',
-    },
-  },
-  circle_private_bool_exp: {
-    _and: 'circle_private_bool_exp',
-    _not: 'circle_private_bool_exp',
-    _or: 'circle_private_bool_exp',
-    circle: 'circles_bool_exp',
-    circle_id: 'bigint_comparison_exp',
-    discord_webhook: 'String_comparison_exp',
-  },
-  circle_private_inc_input: {
-    circle_id: 'bigint',
-  },
-  circle_private_insert_input: {
-    circle: 'circles_obj_rel_insert_input',
-    circle_id: 'bigint',
-  },
-  circle_private_obj_rel_insert_input: {
-    data: 'circle_private_insert_input',
-  },
-  circle_private_order_by: {
-    circle: 'circles_order_by',
-    circle_id: 'order_by',
-    discord_webhook: 'order_by',
-  },
-  circle_private_select_column: true,
-  circle_private_set_input: {
-    circle_id: 'bigint',
-  },
-  circle_private_stream_cursor_input: {
-    initial_value: 'circle_private_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  circle_private_stream_cursor_value_input: {
-    circle_id: 'bigint',
-  },
-  circle_private_updates: {
-    _inc: 'circle_private_inc_input',
-    _set: 'circle_private_set_input',
-    where: 'circle_private_bool_exp',
-  },
-  circle_share_tokens_aggregate_fields: {
-    count: {
-      columns: 'circle_share_tokens_select_column',
-    },
-  },
-  circle_share_tokens_bool_exp: {
-    _and: 'circle_share_tokens_bool_exp',
-    _not: 'circle_share_tokens_bool_exp',
-    _or: 'circle_share_tokens_bool_exp',
-    circle: 'circles_bool_exp',
-    circle_id: 'bigint_comparison_exp',
-    created_at: 'timestamptz_comparison_exp',
-    type: 'Int_comparison_exp',
-    updated_at: 'timestamptz_comparison_exp',
-    uuid: 'uuid_comparison_exp',
-  },
-  circle_share_tokens_constraint: true,
-  circle_share_tokens_inc_input: {
-    circle_id: 'bigint',
-  },
-  circle_share_tokens_insert_input: {
-    circle: 'circles_obj_rel_insert_input',
-    circle_id: 'bigint',
-    created_at: 'timestamptz',
-    updated_at: 'timestamptz',
-    uuid: 'uuid',
-  },
-  circle_share_tokens_on_conflict: {
-    constraint: 'circle_share_tokens_constraint',
-    update_columns: 'circle_share_tokens_update_column',
-    where: 'circle_share_tokens_bool_exp',
-  },
-  circle_share_tokens_order_by: {
-    circle: 'circles_order_by',
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    type: 'order_by',
-    updated_at: 'order_by',
-    uuid: 'order_by',
-  },
-  circle_share_tokens_pk_columns_input: {
-    circle_id: 'bigint',
-  },
-  circle_share_tokens_select_column: true,
-  circle_share_tokens_set_input: {
-    circle_id: 'bigint',
-    created_at: 'timestamptz',
-    updated_at: 'timestamptz',
-    uuid: 'uuid',
-  },
-  circle_share_tokens_stream_cursor_input: {
-    initial_value: 'circle_share_tokens_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  circle_share_tokens_stream_cursor_value_input: {
-    circle_id: 'bigint',
-    created_at: 'timestamptz',
-    updated_at: 'timestamptz',
-    uuid: 'uuid',
-  },
-  circle_share_tokens_update_column: true,
-  circle_share_tokens_updates: {
-    _inc: 'circle_share_tokens_inc_input',
-    _set: 'circle_share_tokens_set_input',
-    where: 'circle_share_tokens_bool_exp',
-  },
-  circles: {
-    api_keys: {
-      distinct_on: 'circle_api_keys_select_column',
-      order_by: 'circle_api_keys_order_by',
-      where: 'circle_api_keys_bool_exp',
-    },
-    api_keys_aggregate: {
-      distinct_on: 'circle_api_keys_select_column',
-      order_by: 'circle_api_keys_order_by',
-      where: 'circle_api_keys_bool_exp',
-    },
-    burns: {
-      distinct_on: 'burns_select_column',
-      order_by: 'burns_order_by',
-      where: 'burns_bool_exp',
-    },
-    burns_aggregate: {
-      distinct_on: 'burns_select_column',
-      order_by: 'burns_order_by',
-      where: 'burns_bool_exp',
-    },
-    circle_metadata: {
-      distinct_on: 'circle_metadata_select_column',
-      order_by: 'circle_metadata_order_by',
-      where: 'circle_metadata_bool_exp',
-    },
-    circle_metadata_aggregate: {
-      distinct_on: 'circle_metadata_select_column',
-      order_by: 'circle_metadata_order_by',
-      where: 'circle_metadata_bool_exp',
-    },
-    contributions: {
-      distinct_on: 'contributions_select_column',
-      order_by: 'contributions_order_by',
-      where: 'contributions_bool_exp',
-    },
-    contributions_aggregate: {
-      distinct_on: 'contributions_select_column',
-      order_by: 'contributions_order_by',
-      where: 'contributions_bool_exp',
-    },
-    epochs: {
-      distinct_on: 'epochs_select_column',
-      order_by: 'epochs_order_by',
-      where: 'epochs_bool_exp',
-    },
-    epochs_aggregate: {
-      distinct_on: 'epochs_select_column',
-      order_by: 'epochs_order_by',
-      where: 'epochs_bool_exp',
-    },
-    integrations: {
-      distinct_on: 'circle_integrations_select_column',
-      order_by: 'circle_integrations_order_by',
-      where: 'circle_integrations_bool_exp',
-    },
-    integrations_aggregate: {
-      distinct_on: 'circle_integrations_select_column',
-      order_by: 'circle_integrations_order_by',
-      where: 'circle_integrations_bool_exp',
-    },
-    nominees: {
-      distinct_on: 'nominees_select_column',
-      order_by: 'nominees_order_by',
-      where: 'nominees_bool_exp',
-    },
-    nominees_aggregate: {
-      distinct_on: 'nominees_select_column',
-      order_by: 'nominees_order_by',
-      where: 'nominees_bool_exp',
-    },
-    pending_token_gifts: {
-      distinct_on: 'pending_token_gifts_select_column',
-      order_by: 'pending_token_gifts_order_by',
-      where: 'pending_token_gifts_bool_exp',
-    },
-    pending_token_gifts_aggregate: {
-      distinct_on: 'pending_token_gifts_select_column',
-      order_by: 'pending_token_gifts_order_by',
-      where: 'pending_token_gifts_bool_exp',
-    },
-    token_gifts: {
-      distinct_on: 'token_gifts_select_column',
-      order_by: 'token_gifts_order_by',
-      where: 'token_gifts_bool_exp',
-    },
-    token_gifts_aggregate: {
-      distinct_on: 'token_gifts_select_column',
-      order_by: 'token_gifts_order_by',
-      where: 'token_gifts_bool_exp',
-    },
-    users: {
-      distinct_on: 'users_select_column',
-      order_by: 'users_order_by',
-      where: 'users_bool_exp',
-    },
-    users_aggregate: {
-      distinct_on: 'users_select_column',
-      order_by: 'users_order_by',
-      where: 'users_bool_exp',
-    },
-    vault_transactions: {
-      distinct_on: 'vault_transactions_select_column',
-      order_by: 'vault_transactions_order_by',
-      where: 'vault_transactions_bool_exp',
-    },
-    vault_transactions_aggregate: {
-      distinct_on: 'vault_transactions_select_column',
-      order_by: 'vault_transactions_order_by',
-      where: 'vault_transactions_bool_exp',
-    },
-  },
-  circles_aggregate_fields: {
-    count: {
-      columns: 'circles_select_column',
-    },
-  },
-  circles_aggregate_order_by: {
-    avg: 'circles_avg_order_by',
-    count: 'order_by',
-    max: 'circles_max_order_by',
-    min: 'circles_min_order_by',
-    stddev: 'circles_stddev_order_by',
-    stddev_pop: 'circles_stddev_pop_order_by',
-    stddev_samp: 'circles_stddev_samp_order_by',
-    sum: 'circles_sum_order_by',
-    var_pop: 'circles_var_pop_order_by',
-    var_samp: 'circles_var_samp_order_by',
-    variance: 'circles_variance_order_by',
-  },
-  circles_arr_rel_insert_input: {
-    data: 'circles_insert_input',
-    on_conflict: 'circles_on_conflict',
-  },
-  circles_avg_order_by: {
-    fixed_payment_vault_id: 'order_by',
-    id: 'order_by',
-    min_vouches: 'order_by',
-    nomination_days_limit: 'order_by',
-    organization_id: 'order_by',
-  },
-  circles_bool_exp: {
-    _and: 'circles_bool_exp',
-    _not: 'circles_bool_exp',
-    _or: 'circles_bool_exp',
-    alloc_text: 'String_comparison_exp',
-    api_keys: 'circle_api_keys_bool_exp',
-    auto_opt_out: 'Boolean_comparison_exp',
-    burns: 'burns_bool_exp',
-    circle_metadata: 'circle_metadata_bool_exp',
-    circle_private: 'circle_private_bool_exp',
-    contact: 'String_comparison_exp',
-    contributions: 'contributions_bool_exp',
-    created_at: 'timestamp_comparison_exp',
-    default_opt_in: 'Boolean_comparison_exp',
-    deleted_at: 'timestamp_comparison_exp',
-    discord_webhook: 'String_comparison_exp',
-    epochs: 'epochs_bool_exp',
-    fixed_payment_token_type: 'String_comparison_exp',
-    fixed_payment_vault_id: 'Int_comparison_exp',
-    id: 'bigint_comparison_exp',
-    integrations: 'circle_integrations_bool_exp',
-    is_verified: 'Boolean_comparison_exp',
-    logo: 'String_comparison_exp',
-    min_vouches: 'Int_comparison_exp',
-    name: 'String_comparison_exp',
-    nomination_days_limit: 'Int_comparison_exp',
-    nominees: 'nominees_bool_exp',
-    only_giver_vouch: 'Boolean_comparison_exp',
-    organization: 'organizations_bool_exp',
-    organization_id: 'Int_comparison_exp',
-    pending_token_gifts: 'pending_token_gifts_bool_exp',
-    show_pending_gives: 'Boolean_comparison_exp',
-    team_sel_text: 'String_comparison_exp',
-    team_selection: 'Boolean_comparison_exp',
-    telegram_id: 'String_comparison_exp',
-    token_gifts: 'token_gifts_bool_exp',
-    token_name: 'String_comparison_exp',
-    updated_at: 'timestamp_comparison_exp',
-    users: 'users_bool_exp',
-    vault_transactions: 'vault_transactions_bool_exp',
-    vouching: 'Boolean_comparison_exp',
-    vouching_text: 'String_comparison_exp',
-  },
-  circles_constraint: true,
-  circles_inc_input: {
-    id: 'bigint',
-  },
-  circles_insert_input: {
-    api_keys: 'circle_api_keys_arr_rel_insert_input',
-    burns: 'burns_arr_rel_insert_input',
-    circle_metadata: 'circle_metadata_arr_rel_insert_input',
-    circle_private: 'circle_private_obj_rel_insert_input',
-    contributions: 'contributions_arr_rel_insert_input',
-    created_at: 'timestamp',
-    deleted_at: 'timestamp',
-    epochs: 'epochs_arr_rel_insert_input',
-    id: 'bigint',
-    integrations: 'circle_integrations_arr_rel_insert_input',
-    nominees: 'nominees_arr_rel_insert_input',
-    organization: 'organizations_obj_rel_insert_input',
-    pending_token_gifts: 'pending_token_gifts_arr_rel_insert_input',
-    token_gifts: 'token_gifts_arr_rel_insert_input',
-    updated_at: 'timestamp',
-    users: 'users_arr_rel_insert_input',
-    vault_transactions: 'vault_transactions_arr_rel_insert_input',
-  },
-  circles_max_order_by: {
-    alloc_text: 'order_by',
-    contact: 'order_by',
-    created_at: 'order_by',
-    deleted_at: 'order_by',
-    discord_webhook: 'order_by',
-    fixed_payment_token_type: 'order_by',
-    fixed_payment_vault_id: 'order_by',
-    id: 'order_by',
-    logo: 'order_by',
-    min_vouches: 'order_by',
-    name: 'order_by',
-    nomination_days_limit: 'order_by',
-    organization_id: 'order_by',
-    team_sel_text: 'order_by',
-    telegram_id: 'order_by',
-    token_name: 'order_by',
-    updated_at: 'order_by',
-    vouching_text: 'order_by',
-  },
-  circles_min_order_by: {
-    alloc_text: 'order_by',
-    contact: 'order_by',
-    created_at: 'order_by',
-    deleted_at: 'order_by',
-    discord_webhook: 'order_by',
-    fixed_payment_token_type: 'order_by',
-    fixed_payment_vault_id: 'order_by',
-    id: 'order_by',
-    logo: 'order_by',
-    min_vouches: 'order_by',
-    name: 'order_by',
-    nomination_days_limit: 'order_by',
-    organization_id: 'order_by',
-    team_sel_text: 'order_by',
-    telegram_id: 'order_by',
-    token_name: 'order_by',
-    updated_at: 'order_by',
-    vouching_text: 'order_by',
-  },
-  circles_obj_rel_insert_input: {
-    data: 'circles_insert_input',
-    on_conflict: 'circles_on_conflict',
-  },
-  circles_on_conflict: {
-    constraint: 'circles_constraint',
-    update_columns: 'circles_update_column',
-    where: 'circles_bool_exp',
-  },
-  circles_order_by: {
-    alloc_text: 'order_by',
-    api_keys_aggregate: 'circle_api_keys_aggregate_order_by',
-    auto_opt_out: 'order_by',
-    burns_aggregate: 'burns_aggregate_order_by',
-    circle_metadata_aggregate: 'circle_metadata_aggregate_order_by',
-    circle_private: 'circle_private_order_by',
-    contact: 'order_by',
-    contributions_aggregate: 'contributions_aggregate_order_by',
-    created_at: 'order_by',
-    default_opt_in: 'order_by',
-    deleted_at: 'order_by',
-    discord_webhook: 'order_by',
-    epochs_aggregate: 'epochs_aggregate_order_by',
-    fixed_payment_token_type: 'order_by',
-    fixed_payment_vault_id: 'order_by',
-    id: 'order_by',
-    integrations_aggregate: 'circle_integrations_aggregate_order_by',
-    is_verified: 'order_by',
-    logo: 'order_by',
-    min_vouches: 'order_by',
-    name: 'order_by',
-    nomination_days_limit: 'order_by',
-    nominees_aggregate: 'nominees_aggregate_order_by',
-    only_giver_vouch: 'order_by',
-    organization: 'organizations_order_by',
-    organization_id: 'order_by',
-    pending_token_gifts_aggregate: 'pending_token_gifts_aggregate_order_by',
-    show_pending_gives: 'order_by',
-    team_sel_text: 'order_by',
-    team_selection: 'order_by',
-    telegram_id: 'order_by',
-    token_gifts_aggregate: 'token_gifts_aggregate_order_by',
-    token_name: 'order_by',
-    updated_at: 'order_by',
-    users_aggregate: 'users_aggregate_order_by',
-    vault_transactions_aggregate: 'vault_transactions_aggregate_order_by',
-    vouching: 'order_by',
-    vouching_text: 'order_by',
-  },
-  circles_pk_columns_input: {
-    id: 'bigint',
-  },
-  circles_select_column: true,
-  circles_set_input: {
-    created_at: 'timestamp',
-    deleted_at: 'timestamp',
-    id: 'bigint',
-    updated_at: 'timestamp',
-  },
-  circles_stddev_order_by: {
-    fixed_payment_vault_id: 'order_by',
-    id: 'order_by',
-    min_vouches: 'order_by',
-    nomination_days_limit: 'order_by',
-    organization_id: 'order_by',
-  },
-  circles_stddev_pop_order_by: {
-    fixed_payment_vault_id: 'order_by',
-    id: 'order_by',
-    min_vouches: 'order_by',
-    nomination_days_limit: 'order_by',
-    organization_id: 'order_by',
-  },
-  circles_stddev_samp_order_by: {
-    fixed_payment_vault_id: 'order_by',
-    id: 'order_by',
-    min_vouches: 'order_by',
-    nomination_days_limit: 'order_by',
-    organization_id: 'order_by',
-  },
-  circles_stream_cursor_input: {
-    initial_value: 'circles_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  circles_stream_cursor_value_input: {
-    created_at: 'timestamp',
-    deleted_at: 'timestamp',
-    id: 'bigint',
-    updated_at: 'timestamp',
-  },
-  circles_sum_order_by: {
-    fixed_payment_vault_id: 'order_by',
-    id: 'order_by',
-    min_vouches: 'order_by',
-    nomination_days_limit: 'order_by',
-    organization_id: 'order_by',
-  },
-  circles_update_column: true,
-  circles_updates: {
-    _inc: 'circles_inc_input',
-    _set: 'circles_set_input',
-    where: 'circles_bool_exp',
-  },
-  circles_var_pop_order_by: {
-    fixed_payment_vault_id: 'order_by',
-    id: 'order_by',
-    min_vouches: 'order_by',
-    nomination_days_limit: 'order_by',
-    organization_id: 'order_by',
-  },
-  circles_var_samp_order_by: {
-    fixed_payment_vault_id: 'order_by',
-    id: 'order_by',
-    min_vouches: 'order_by',
-    nomination_days_limit: 'order_by',
-    organization_id: 'order_by',
-  },
-  circles_variance_order_by: {
-    fixed_payment_vault_id: 'order_by',
-    id: 'order_by',
-    min_vouches: 'order_by',
-    nomination_days_limit: 'order_by',
-    organization_id: 'order_by',
-  },
-  claims_aggregate_fields: {
-    count: {
-      columns: 'claims_select_column',
-    },
-  },
-  claims_aggregate_order_by: {
-    avg: 'claims_avg_order_by',
-    count: 'order_by',
-    max: 'claims_max_order_by',
-    min: 'claims_min_order_by',
-    stddev: 'claims_stddev_order_by',
-    stddev_pop: 'claims_stddev_pop_order_by',
-    stddev_samp: 'claims_stddev_samp_order_by',
-    sum: 'claims_sum_order_by',
-    var_pop: 'claims_var_pop_order_by',
-    var_samp: 'claims_var_samp_order_by',
-    variance: 'claims_variance_order_by',
-  },
-  claims_arr_rel_insert_input: {
-    data: 'claims_insert_input',
-    on_conflict: 'claims_on_conflict',
-  },
-  claims_avg_order_by: {
-    amount: 'order_by',
-    distribution_id: 'order_by',
-    id: 'order_by',
-    index: 'order_by',
-    new_amount: 'order_by',
-    profile_id: 'order_by',
-  },
-  claims_bool_exp: {
-    _and: 'claims_bool_exp',
-    _not: 'claims_bool_exp',
-    _or: 'claims_bool_exp',
-    address: 'String_comparison_exp',
-    amount: 'numeric_comparison_exp',
-    created_at: 'timestamptz_comparison_exp',
-    distribution: 'distributions_bool_exp',
-    distribution_id: 'bigint_comparison_exp',
-    id: 'bigint_comparison_exp',
-    index: 'bigint_comparison_exp',
-    new_amount: 'numeric_comparison_exp',
-    profile: 'profiles_bool_exp',
-    profile_id: 'bigint_comparison_exp',
-    proof: 'String_comparison_exp',
-    txHash: 'String_comparison_exp',
-    updated_at: 'timestamptz_comparison_exp',
-  },
-  claims_constraint: true,
-  claims_inc_input: {
-    amount: 'numeric',
-    distribution_id: 'bigint',
-    id: 'bigint',
-    index: 'bigint',
-    new_amount: 'numeric',
-    profile_id: 'bigint',
-  },
-  claims_insert_input: {
-    amount: 'numeric',
-    created_at: 'timestamptz',
-    distribution: 'distributions_obj_rel_insert_input',
-    distribution_id: 'bigint',
-    id: 'bigint',
-    index: 'bigint',
-    new_amount: 'numeric',
-    profile: 'profiles_obj_rel_insert_input',
-    profile_id: 'bigint',
-    updated_at: 'timestamptz',
-  },
-  claims_max_order_by: {
-    address: 'order_by',
-    amount: 'order_by',
-    created_at: 'order_by',
-    distribution_id: 'order_by',
-    id: 'order_by',
-    index: 'order_by',
-    new_amount: 'order_by',
-    profile_id: 'order_by',
-    proof: 'order_by',
-    txHash: 'order_by',
-    updated_at: 'order_by',
-  },
-  claims_min_order_by: {
-    address: 'order_by',
-    amount: 'order_by',
-    created_at: 'order_by',
-    distribution_id: 'order_by',
-    id: 'order_by',
-    index: 'order_by',
-    new_amount: 'order_by',
-    profile_id: 'order_by',
-    proof: 'order_by',
-    txHash: 'order_by',
-    updated_at: 'order_by',
-  },
-  claims_on_conflict: {
-    constraint: 'claims_constraint',
-    update_columns: 'claims_update_column',
-    where: 'claims_bool_exp',
-  },
-  claims_order_by: {
-    address: 'order_by',
-    amount: 'order_by',
-    created_at: 'order_by',
-    distribution: 'distributions_order_by',
-    distribution_id: 'order_by',
-    id: 'order_by',
-    index: 'order_by',
-    new_amount: 'order_by',
-    profile: 'profiles_order_by',
-    profile_id: 'order_by',
-    proof: 'order_by',
-    txHash: 'order_by',
-    updated_at: 'order_by',
-  },
-  claims_pk_columns_input: {
-    id: 'bigint',
-  },
-  claims_select_column: true,
-  claims_set_input: {
-    amount: 'numeric',
-    created_at: 'timestamptz',
-    distribution_id: 'bigint',
-    id: 'bigint',
-    index: 'bigint',
-    new_amount: 'numeric',
-    profile_id: 'bigint',
-    updated_at: 'timestamptz',
-  },
-  claims_stddev_order_by: {
-    amount: 'order_by',
-    distribution_id: 'order_by',
-    id: 'order_by',
-    index: 'order_by',
-    new_amount: 'order_by',
-    profile_id: 'order_by',
-  },
-  claims_stddev_pop_order_by: {
-    amount: 'order_by',
-    distribution_id: 'order_by',
-    id: 'order_by',
-    index: 'order_by',
-    new_amount: 'order_by',
-    profile_id: 'order_by',
-  },
-  claims_stddev_samp_order_by: {
-    amount: 'order_by',
-    distribution_id: 'order_by',
-    id: 'order_by',
-    index: 'order_by',
-    new_amount: 'order_by',
-    profile_id: 'order_by',
-  },
-  claims_stream_cursor_input: {
-    initial_value: 'claims_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  claims_stream_cursor_value_input: {
-    amount: 'numeric',
-    created_at: 'timestamptz',
-    distribution_id: 'bigint',
-    id: 'bigint',
-    index: 'bigint',
-    new_amount: 'numeric',
-    profile_id: 'bigint',
-    updated_at: 'timestamptz',
-  },
-  claims_sum_order_by: {
-    amount: 'order_by',
-    distribution_id: 'order_by',
-    id: 'order_by',
-    index: 'order_by',
-    new_amount: 'order_by',
-    profile_id: 'order_by',
-  },
-  claims_update_column: true,
-  claims_updates: {
-    _inc: 'claims_inc_input',
-    _set: 'claims_set_input',
-    where: 'claims_bool_exp',
-  },
-  claims_var_pop_order_by: {
-    amount: 'order_by',
-    distribution_id: 'order_by',
-    id: 'order_by',
-    index: 'order_by',
-    new_amount: 'order_by',
-    profile_id: 'order_by',
-  },
-  claims_var_samp_order_by: {
-    amount: 'order_by',
-    distribution_id: 'order_by',
-    id: 'order_by',
-    index: 'order_by',
-    new_amount: 'order_by',
-    profile_id: 'order_by',
-  },
-  claims_variance_order_by: {
-    amount: 'order_by',
-    distribution_id: 'order_by',
-    id: 'order_by',
-    index: 'order_by',
-    new_amount: 'order_by',
-    profile_id: 'order_by',
-  },
-  contributions_aggregate_fields: {
-    count: {
-      columns: 'contributions_select_column',
-    },
-  },
-  contributions_aggregate_order_by: {
-    avg: 'contributions_avg_order_by',
-    count: 'order_by',
-    max: 'contributions_max_order_by',
-    min: 'contributions_min_order_by',
-    stddev: 'contributions_stddev_order_by',
-    stddev_pop: 'contributions_stddev_pop_order_by',
-    stddev_samp: 'contributions_stddev_samp_order_by',
-    sum: 'contributions_sum_order_by',
-    var_pop: 'contributions_var_pop_order_by',
-    var_samp: 'contributions_var_samp_order_by',
-    variance: 'contributions_variance_order_by',
-  },
-  contributions_arr_rel_insert_input: {
-    data: 'contributions_insert_input',
-    on_conflict: 'contributions_on_conflict',
-  },
-  contributions_avg_order_by: {
-    circle_id: 'order_by',
-    id: 'order_by',
-    user_id: 'order_by',
-  },
-  contributions_bool_exp: {
-    _and: 'contributions_bool_exp',
-    _not: 'contributions_bool_exp',
-    _or: 'contributions_bool_exp',
-    circle: 'circles_bool_exp',
-    circle_id: 'bigint_comparison_exp',
-    created_at: 'timestamptz_comparison_exp',
-    created_with_api_key: 'circle_api_keys_bool_exp',
-    created_with_api_key_hash: 'String_comparison_exp',
-    datetime_created: 'timestamptz_comparison_exp',
-    deleted_at: 'timestamptz_comparison_exp',
-    description: 'String_comparison_exp',
-    id: 'bigint_comparison_exp',
-    updated_at: 'timestamptz_comparison_exp',
-    user: 'users_bool_exp',
-    user_id: 'bigint_comparison_exp',
-  },
-  contributions_constraint: true,
-  contributions_inc_input: {
-    circle_id: 'bigint',
-    id: 'bigint',
-    user_id: 'bigint',
-  },
-  contributions_insert_input: {
-    circle: 'circles_obj_rel_insert_input',
-    circle_id: 'bigint',
-    created_at: 'timestamptz',
-    created_with_api_key: 'circle_api_keys_obj_rel_insert_input',
-    datetime_created: 'timestamptz',
-    deleted_at: 'timestamptz',
-    id: 'bigint',
-    updated_at: 'timestamptz',
-    user: 'users_obj_rel_insert_input',
-    user_id: 'bigint',
-  },
-  contributions_max_order_by: {
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    created_with_api_key_hash: 'order_by',
-    datetime_created: 'order_by',
-    deleted_at: 'order_by',
-    description: 'order_by',
-    id: 'order_by',
-    updated_at: 'order_by',
-    user_id: 'order_by',
-  },
-  contributions_min_order_by: {
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    created_with_api_key_hash: 'order_by',
-    datetime_created: 'order_by',
-    deleted_at: 'order_by',
-    description: 'order_by',
-    id: 'order_by',
-    updated_at: 'order_by',
-    user_id: 'order_by',
-  },
-  contributions_on_conflict: {
-    constraint: 'contributions_constraint',
-    update_columns: 'contributions_update_column',
-    where: 'contributions_bool_exp',
-  },
-  contributions_order_by: {
-    circle: 'circles_order_by',
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    created_with_api_key: 'circle_api_keys_order_by',
-    created_with_api_key_hash: 'order_by',
-    datetime_created: 'order_by',
-    deleted_at: 'order_by',
-    description: 'order_by',
-    id: 'order_by',
-    updated_at: 'order_by',
-    user: 'users_order_by',
-    user_id: 'order_by',
-  },
-  contributions_pk_columns_input: {
-    id: 'bigint',
-  },
-  contributions_select_column: true,
-  contributions_set_input: {
-    circle_id: 'bigint',
-    created_at: 'timestamptz',
-    datetime_created: 'timestamptz',
-    deleted_at: 'timestamptz',
-    id: 'bigint',
-    updated_at: 'timestamptz',
-    user_id: 'bigint',
-  },
-  contributions_stddev_order_by: {
-    circle_id: 'order_by',
-    id: 'order_by',
-    user_id: 'order_by',
-  },
-  contributions_stddev_pop_order_by: {
-    circle_id: 'order_by',
-    id: 'order_by',
-    user_id: 'order_by',
-  },
-  contributions_stddev_samp_order_by: {
-    circle_id: 'order_by',
-    id: 'order_by',
-    user_id: 'order_by',
-  },
-  contributions_stream_cursor_input: {
-    initial_value: 'contributions_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  contributions_stream_cursor_value_input: {
-    circle_id: 'bigint',
-    created_at: 'timestamptz',
-    datetime_created: 'timestamptz',
-    deleted_at: 'timestamptz',
-    id: 'bigint',
-    updated_at: 'timestamptz',
-    user_id: 'bigint',
-  },
-  contributions_sum_order_by: {
-    circle_id: 'order_by',
-    id: 'order_by',
-    user_id: 'order_by',
-  },
-  contributions_update_column: true,
-  contributions_updates: {
-    _inc: 'contributions_inc_input',
-    _set: 'contributions_set_input',
-    where: 'contributions_bool_exp',
-  },
-  contributions_var_pop_order_by: {
-    circle_id: 'order_by',
-    id: 'order_by',
-    user_id: 'order_by',
-  },
-  contributions_var_samp_order_by: {
-    circle_id: 'order_by',
-    id: 'order_by',
-    user_id: 'order_by',
-  },
-  contributions_variance_order_by: {
-    circle_id: 'order_by',
-    id: 'order_by',
-    user_id: 'order_by',
-  },
-  cursor_ordering: true,
-  date: 'String',
-  date_comparison_exp: {
-    _eq: 'date',
-    _gt: 'date',
-    _gte: 'date',
-    _in: 'date',
-    _lt: 'date',
-    _lte: 'date',
-    _neq: 'date',
-    _nin: 'date',
-  },
-  discord_roles_circles_aggregate_fields: {
-    count: {
-      columns: 'discord_roles_circles_select_column',
-    },
-  },
-  discord_roles_circles_bool_exp: {
-    _and: 'discord_roles_circles_bool_exp',
-    _not: 'discord_roles_circles_bool_exp',
-    _or: 'discord_roles_circles_bool_exp',
-    circle: 'circles_bool_exp',
-    circle_id: 'bigint_comparison_exp',
-    created_at: 'timestamptz_comparison_exp',
-    id: 'bigint_comparison_exp',
-    role: 'String_comparison_exp',
-    updated_at: 'timestamptz_comparison_exp',
-  },
-  discord_roles_circles_constraint: true,
-  discord_roles_circles_inc_input: {
-    circle_id: 'bigint',
-    id: 'bigint',
-  },
-  discord_roles_circles_insert_input: {
-    circle: 'circles_obj_rel_insert_input',
-    circle_id: 'bigint',
-    created_at: 'timestamptz',
-    id: 'bigint',
-    updated_at: 'timestamptz',
-  },
-  discord_roles_circles_on_conflict: {
-    constraint: 'discord_roles_circles_constraint',
-    update_columns: 'discord_roles_circles_update_column',
-    where: 'discord_roles_circles_bool_exp',
-  },
-  discord_roles_circles_order_by: {
-    circle: 'circles_order_by',
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    id: 'order_by',
-    role: 'order_by',
-    updated_at: 'order_by',
-  },
-  discord_roles_circles_pk_columns_input: {
-    id: 'bigint',
-  },
-  discord_roles_circles_select_column: true,
-  discord_roles_circles_set_input: {
-    circle_id: 'bigint',
-    created_at: 'timestamptz',
-    id: 'bigint',
-    updated_at: 'timestamptz',
-  },
-  discord_roles_circles_stream_cursor_input: {
-    initial_value: 'discord_roles_circles_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  discord_roles_circles_stream_cursor_value_input: {
-    circle_id: 'bigint',
-    created_at: 'timestamptz',
-    id: 'bigint',
-    updated_at: 'timestamptz',
-  },
-  discord_roles_circles_update_column: true,
-  discord_roles_circles_updates: {
-    _inc: 'discord_roles_circles_inc_input',
-    _set: 'discord_roles_circles_set_input',
-    where: 'discord_roles_circles_bool_exp',
-  },
-  discord_users_aggregate_fields: {
-    count: {
-      columns: 'discord_users_select_column',
-    },
-  },
-  discord_users_bool_exp: {
-    _and: 'discord_users_bool_exp',
-    _not: 'discord_users_bool_exp',
-    _or: 'discord_users_bool_exp',
-    created_at: 'timestamptz_comparison_exp',
-    id: 'bigint_comparison_exp',
-    profile: 'profiles_bool_exp',
-    profile_id: 'bigint_comparison_exp',
-    updated_at: 'timestamptz_comparison_exp',
-    user_snowflake: 'String_comparison_exp',
-  },
-  discord_users_constraint: true,
-  discord_users_inc_input: {
-    id: 'bigint',
-    profile_id: 'bigint',
-  },
-  discord_users_insert_input: {
-    created_at: 'timestamptz',
-    id: 'bigint',
-    profile: 'profiles_obj_rel_insert_input',
-    profile_id: 'bigint',
-    updated_at: 'timestamptz',
-  },
-  discord_users_on_conflict: {
-    constraint: 'discord_users_constraint',
-    update_columns: 'discord_users_update_column',
-    where: 'discord_users_bool_exp',
-  },
-  discord_users_order_by: {
-    created_at: 'order_by',
-    id: 'order_by',
-    profile: 'profiles_order_by',
-    profile_id: 'order_by',
-    updated_at: 'order_by',
-    user_snowflake: 'order_by',
-  },
-  discord_users_pk_columns_input: {
-    id: 'bigint',
-  },
-  discord_users_select_column: true,
-  discord_users_set_input: {
-    created_at: 'timestamptz',
-    id: 'bigint',
-    profile_id: 'bigint',
-    updated_at: 'timestamptz',
-  },
-  discord_users_stream_cursor_input: {
-    initial_value: 'discord_users_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  discord_users_stream_cursor_value_input: {
-    created_at: 'timestamptz',
-    id: 'bigint',
-    profile_id: 'bigint',
-    updated_at: 'timestamptz',
-  },
-  discord_users_update_column: true,
-  discord_users_updates: {
-    _inc: 'discord_users_inc_input',
-    _set: 'discord_users_set_input',
-    where: 'discord_users_bool_exp',
-  },
-  distributions: {
-    claims: {
-      distinct_on: 'claims_select_column',
-      order_by: 'claims_order_by',
-      where: 'claims_bool_exp',
-    },
-    claims_aggregate: {
-      distinct_on: 'claims_select_column',
-      order_by: 'claims_order_by',
-      where: 'claims_bool_exp',
-    },
-    distribution_json: {},
-    vault_transactions: {
-      distinct_on: 'vault_transactions_select_column',
-      order_by: 'vault_transactions_order_by',
-      where: 'vault_transactions_bool_exp',
-    },
-    vault_transactions_aggregate: {
-      distinct_on: 'vault_transactions_select_column',
-      order_by: 'vault_transactions_order_by',
-      where: 'vault_transactions_bool_exp',
-    },
-  },
-  distributions_aggregate_fields: {
-    count: {
-      columns: 'distributions_select_column',
-    },
-  },
-  distributions_aggregate_order_by: {
-    avg: 'distributions_avg_order_by',
-    count: 'order_by',
-    max: 'distributions_max_order_by',
-    min: 'distributions_min_order_by',
-    stddev: 'distributions_stddev_order_by',
-    stddev_pop: 'distributions_stddev_pop_order_by',
-    stddev_samp: 'distributions_stddev_samp_order_by',
-    sum: 'distributions_sum_order_by',
-    var_pop: 'distributions_var_pop_order_by',
-    var_samp: 'distributions_var_samp_order_by',
-    variance: 'distributions_variance_order_by',
-  },
-  distributions_append_input: {
-    distribution_json: 'jsonb',
-  },
-  distributions_arr_rel_insert_input: {
-    data: 'distributions_insert_input',
-    on_conflict: 'distributions_on_conflict',
-  },
-  distributions_avg_order_by: {
-    created_by: 'order_by',
-    distribution_epoch_id: 'order_by',
-    distribution_type: 'order_by',
-    epoch_id: 'order_by',
-    fixed_amount: 'order_by',
-    gift_amount: 'order_by',
-    id: 'order_by',
-    vault_id: 'order_by',
-  },
-  distributions_bool_exp: {
-    _and: 'distributions_bool_exp',
-    _not: 'distributions_bool_exp',
-    _or: 'distributions_bool_exp',
-    claims: 'claims_bool_exp',
-    created_at: 'timestamp_comparison_exp',
-    created_by: 'bigint_comparison_exp',
-    distribution_epoch_id: 'bigint_comparison_exp',
-    distribution_json: 'jsonb_comparison_exp',
-    distribution_type: 'Int_comparison_exp',
-    epoch: 'epochs_bool_exp',
-    epoch_id: 'bigint_comparison_exp',
-    fixed_amount: 'numeric_comparison_exp',
-    gift_amount: 'numeric_comparison_exp',
-    id: 'bigint_comparison_exp',
-    merkle_root: 'String_comparison_exp',
-    profile: 'profiles_bool_exp',
-    total_amount: 'String_comparison_exp',
-    tx_hash: 'String_comparison_exp',
-    updated_at: 'timestamp_comparison_exp',
-    vault: 'vaults_bool_exp',
-    vault_id: 'bigint_comparison_exp',
-    vault_transactions: 'vault_transactions_bool_exp',
-  },
-  distributions_constraint: true,
-  distributions_delete_at_path_input: {},
-  distributions_delete_elem_input: {},
-  distributions_delete_key_input: {},
-  distributions_inc_input: {
-    created_by: 'bigint',
-    distribution_epoch_id: 'bigint',
-    epoch_id: 'bigint',
-    fixed_amount: 'numeric',
-    gift_amount: 'numeric',
-    id: 'bigint',
-    vault_id: 'bigint',
-  },
-  distributions_insert_input: {
-    claims: 'claims_arr_rel_insert_input',
-    created_at: 'timestamp',
-    created_by: 'bigint',
-    distribution_epoch_id: 'bigint',
-    distribution_json: 'jsonb',
-    epoch: 'epochs_obj_rel_insert_input',
-    epoch_id: 'bigint',
-    fixed_amount: 'numeric',
-    gift_amount: 'numeric',
-    id: 'bigint',
-    profile: 'profiles_obj_rel_insert_input',
-    updated_at: 'timestamp',
-    vault: 'vaults_obj_rel_insert_input',
-    vault_id: 'bigint',
-    vault_transactions: 'vault_transactions_arr_rel_insert_input',
-  },
-  distributions_max_order_by: {
-    created_at: 'order_by',
-    created_by: 'order_by',
-    distribution_epoch_id: 'order_by',
-    distribution_type: 'order_by',
-    epoch_id: 'order_by',
-    fixed_amount: 'order_by',
-    gift_amount: 'order_by',
-    id: 'order_by',
-    merkle_root: 'order_by',
-    total_amount: 'order_by',
-    tx_hash: 'order_by',
-    updated_at: 'order_by',
-    vault_id: 'order_by',
-  },
-  distributions_min_order_by: {
-    created_at: 'order_by',
-    created_by: 'order_by',
-    distribution_epoch_id: 'order_by',
-    distribution_type: 'order_by',
-    epoch_id: 'order_by',
-    fixed_amount: 'order_by',
-    gift_amount: 'order_by',
-    id: 'order_by',
-    merkle_root: 'order_by',
-    total_amount: 'order_by',
-    tx_hash: 'order_by',
-    updated_at: 'order_by',
-    vault_id: 'order_by',
-  },
-  distributions_obj_rel_insert_input: {
-    data: 'distributions_insert_input',
-    on_conflict: 'distributions_on_conflict',
-  },
-  distributions_on_conflict: {
-    constraint: 'distributions_constraint',
-    update_columns: 'distributions_update_column',
-    where: 'distributions_bool_exp',
-  },
-  distributions_order_by: {
-    claims_aggregate: 'claims_aggregate_order_by',
-    created_at: 'order_by',
-    created_by: 'order_by',
-    distribution_epoch_id: 'order_by',
-    distribution_json: 'order_by',
-    distribution_type: 'order_by',
-    epoch: 'epochs_order_by',
-    epoch_id: 'order_by',
-    fixed_amount: 'order_by',
-    gift_amount: 'order_by',
-    id: 'order_by',
-    merkle_root: 'order_by',
-    profile: 'profiles_order_by',
-    total_amount: 'order_by',
-    tx_hash: 'order_by',
-    updated_at: 'order_by',
-    vault: 'vaults_order_by',
-    vault_id: 'order_by',
-    vault_transactions_aggregate: 'vault_transactions_aggregate_order_by',
-  },
-  distributions_pk_columns_input: {
-    id: 'bigint',
-  },
-  distributions_prepend_input: {
-    distribution_json: 'jsonb',
-  },
-  distributions_select_column: true,
-  distributions_set_input: {
-    created_at: 'timestamp',
-    created_by: 'bigint',
-    distribution_epoch_id: 'bigint',
-    distribution_json: 'jsonb',
-    epoch_id: 'bigint',
-    fixed_amount: 'numeric',
-    gift_amount: 'numeric',
-    id: 'bigint',
-    updated_at: 'timestamp',
-    vault_id: 'bigint',
-  },
-  distributions_stddev_order_by: {
-    created_by: 'order_by',
-    distribution_epoch_id: 'order_by',
-    distribution_type: 'order_by',
-    epoch_id: 'order_by',
-    fixed_amount: 'order_by',
-    gift_amount: 'order_by',
-    id: 'order_by',
-    vault_id: 'order_by',
-  },
-  distributions_stddev_pop_order_by: {
-    created_by: 'order_by',
-    distribution_epoch_id: 'order_by',
-    distribution_type: 'order_by',
-    epoch_id: 'order_by',
-    fixed_amount: 'order_by',
-    gift_amount: 'order_by',
-    id: 'order_by',
-    vault_id: 'order_by',
-  },
-  distributions_stddev_samp_order_by: {
-    created_by: 'order_by',
-    distribution_epoch_id: 'order_by',
-    distribution_type: 'order_by',
-    epoch_id: 'order_by',
-    fixed_amount: 'order_by',
-    gift_amount: 'order_by',
-    id: 'order_by',
-    vault_id: 'order_by',
-  },
-  distributions_stream_cursor_input: {
-    initial_value: 'distributions_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  distributions_stream_cursor_value_input: {
-    created_at: 'timestamp',
-    created_by: 'bigint',
-    distribution_epoch_id: 'bigint',
-    distribution_json: 'jsonb',
-    epoch_id: 'bigint',
-    fixed_amount: 'numeric',
-    gift_amount: 'numeric',
-    id: 'bigint',
-    updated_at: 'timestamp',
-    vault_id: 'bigint',
-  },
-  distributions_sum_order_by: {
-    created_by: 'order_by',
-    distribution_epoch_id: 'order_by',
-    distribution_type: 'order_by',
-    epoch_id: 'order_by',
-    fixed_amount: 'order_by',
-    gift_amount: 'order_by',
-    id: 'order_by',
-    vault_id: 'order_by',
-  },
-  distributions_update_column: true,
-  distributions_updates: {
-    _append: 'distributions_append_input',
-    _delete_at_path: 'distributions_delete_at_path_input',
-    _delete_elem: 'distributions_delete_elem_input',
-    _delete_key: 'distributions_delete_key_input',
-    _inc: 'distributions_inc_input',
-    _prepend: 'distributions_prepend_input',
-    _set: 'distributions_set_input',
-    where: 'distributions_bool_exp',
-  },
-  distributions_var_pop_order_by: {
-    created_by: 'order_by',
-    distribution_epoch_id: 'order_by',
-    distribution_type: 'order_by',
-    epoch_id: 'order_by',
-    fixed_amount: 'order_by',
-    gift_amount: 'order_by',
-    id: 'order_by',
-    vault_id: 'order_by',
-  },
-  distributions_var_samp_order_by: {
-    created_by: 'order_by',
-    distribution_epoch_id: 'order_by',
-    distribution_type: 'order_by',
-    epoch_id: 'order_by',
-    fixed_amount: 'order_by',
-    gift_amount: 'order_by',
-    id: 'order_by',
-    vault_id: 'order_by',
-  },
-  distributions_variance_order_by: {
-    created_by: 'order_by',
-    distribution_epoch_id: 'order_by',
-    distribution_type: 'order_by',
-    epoch_id: 'order_by',
-    fixed_amount: 'order_by',
-    gift_amount: 'order_by',
-    id: 'order_by',
-    vault_id: 'order_by',
-  },
-  epoch_pgive_data_aggregate_fields: {
-    count: {
-      columns: 'epoch_pgive_data_select_column',
-    },
-  },
-  epoch_pgive_data_bool_exp: {
-    _and: 'epoch_pgive_data_bool_exp',
-    _not: 'epoch_pgive_data_bool_exp',
-    _or: 'epoch_pgive_data_bool_exp',
-    active_months: 'Int_comparison_exp',
-    active_months_bonus: 'numeric_comparison_exp',
-    created_at: 'timestamptz_comparison_exp',
-    epoch: 'epochs_bool_exp',
-    epoch_id: 'Int_comparison_exp',
-    gives_receiver_base: 'numeric_comparison_exp',
-    id: 'Int_comparison_exp',
-    notes_bonus: 'numeric_comparison_exp',
-    pgive: 'numeric_comparison_exp',
-  },
-  epoch_pgive_data_constraint: true,
-  epoch_pgive_data_inc_input: {
-    active_months_bonus: 'numeric',
-    gives_receiver_base: 'numeric',
-    notes_bonus: 'numeric',
-    pgive: 'numeric',
-  },
-  epoch_pgive_data_insert_input: {
-    active_months_bonus: 'numeric',
-    created_at: 'timestamptz',
-    epoch: 'epochs_obj_rel_insert_input',
-    gives_receiver_base: 'numeric',
-    notes_bonus: 'numeric',
-    pgive: 'numeric',
-  },
-  epoch_pgive_data_obj_rel_insert_input: {
-    data: 'epoch_pgive_data_insert_input',
-    on_conflict: 'epoch_pgive_data_on_conflict',
-  },
-  epoch_pgive_data_on_conflict: {
-    constraint: 'epoch_pgive_data_constraint',
-    update_columns: 'epoch_pgive_data_update_column',
-    where: 'epoch_pgive_data_bool_exp',
-  },
-  epoch_pgive_data_order_by: {
-    active_months: 'order_by',
-    active_months_bonus: 'order_by',
-    created_at: 'order_by',
-    epoch: 'epochs_order_by',
-    epoch_id: 'order_by',
-    gives_receiver_base: 'order_by',
-    id: 'order_by',
-    notes_bonus: 'order_by',
-    pgive: 'order_by',
-  },
-  epoch_pgive_data_pk_columns_input: {},
-  epoch_pgive_data_select_column: true,
-  epoch_pgive_data_set_input: {
-    active_months_bonus: 'numeric',
-    created_at: 'timestamptz',
-    gives_receiver_base: 'numeric',
-    notes_bonus: 'numeric',
-    pgive: 'numeric',
-  },
-  epoch_pgive_data_stream_cursor_input: {
-    initial_value: 'epoch_pgive_data_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  epoch_pgive_data_stream_cursor_value_input: {
-    active_months_bonus: 'numeric',
-    created_at: 'timestamptz',
-    gives_receiver_base: 'numeric',
-    notes_bonus: 'numeric',
-    pgive: 'numeric',
-  },
-  epoch_pgive_data_update_column: true,
-  epoch_pgive_data_updates: {
-    _inc: 'epoch_pgive_data_inc_input',
-    _set: 'epoch_pgive_data_set_input',
-    where: 'epoch_pgive_data_bool_exp',
-  },
-  epochs: {
-    burns: {
-      distinct_on: 'burns_select_column',
-      order_by: 'burns_order_by',
-      where: 'burns_bool_exp',
-    },
-    burns_aggregate: {
-      distinct_on: 'burns_select_column',
-      order_by: 'burns_order_by',
-      where: 'burns_bool_exp',
-    },
-    distributions: {
-      distinct_on: 'distributions_select_column',
-      order_by: 'distributions_order_by',
-      where: 'distributions_bool_exp',
-    },
-    distributions_aggregate: {
-      distinct_on: 'distributions_select_column',
-      order_by: 'distributions_order_by',
-      where: 'distributions_bool_exp',
-    },
-    epoch_pending_token_gifts: {
-      distinct_on: 'pending_token_gifts_select_column',
-      order_by: 'pending_token_gifts_order_by',
-      where: 'pending_token_gifts_bool_exp',
-    },
-    epoch_pending_token_gifts_aggregate: {
-      distinct_on: 'pending_token_gifts_select_column',
-      order_by: 'pending_token_gifts_order_by',
-      where: 'pending_token_gifts_bool_exp',
-    },
-    token_gifts: {
-      distinct_on: 'token_gifts_select_column',
-      order_by: 'token_gifts_order_by',
-      where: 'token_gifts_bool_exp',
-    },
-    token_gifts_aggregate: {
-      distinct_on: 'token_gifts_select_column',
-      order_by: 'token_gifts_order_by',
-      where: 'token_gifts_bool_exp',
-    },
-  },
-  epochs_aggregate_fields: {
-    count: {
-      columns: 'epochs_select_column',
-    },
-  },
-  epochs_aggregate_order_by: {
-    avg: 'epochs_avg_order_by',
-    count: 'order_by',
-    max: 'epochs_max_order_by',
-    min: 'epochs_min_order_by',
-    stddev: 'epochs_stddev_order_by',
-    stddev_pop: 'epochs_stddev_pop_order_by',
-    stddev_samp: 'epochs_stddev_samp_order_by',
-    sum: 'epochs_sum_order_by',
-    var_pop: 'epochs_var_pop_order_by',
-    var_samp: 'epochs_var_samp_order_by',
-    variance: 'epochs_variance_order_by',
-  },
-  epochs_arr_rel_insert_input: {
-    data: 'epochs_insert_input',
-    on_conflict: 'epochs_on_conflict',
-  },
-  epochs_avg_order_by: {
-    circle_id: 'order_by',
-    days: 'order_by',
-    grant: 'order_by',
-    id: 'order_by',
-    number: 'order_by',
-    regift_days: 'order_by',
-    repeat: 'order_by',
-    repeat_day_of_month: 'order_by',
-  },
-  epochs_bool_exp: {
-    _and: 'epochs_bool_exp',
-    _not: 'epochs_bool_exp',
-    _or: 'epochs_bool_exp',
-    burns: 'burns_bool_exp',
-    circle: 'circles_bool_exp',
-    circle_id: 'Int_comparison_exp',
-    created_at: 'timestamp_comparison_exp',
-    days: 'Int_comparison_exp',
-    description: 'String_comparison_exp',
-    distributions: 'distributions_bool_exp',
-    end_date: 'timestamptz_comparison_exp',
-    ended: 'Boolean_comparison_exp',
-    epoch_pending_token_gifts: 'pending_token_gifts_bool_exp',
-    grant: 'numeric_comparison_exp',
-    id: 'bigint_comparison_exp',
-    notified_before_end: 'timestamp_comparison_exp',
-    notified_end: 'timestamp_comparison_exp',
-    notified_start: 'timestamp_comparison_exp',
-    number: 'Int_comparison_exp',
-    pgive_data: 'epoch_pgive_data_bool_exp',
-    regift_days: 'Int_comparison_exp',
-    repeat: 'Int_comparison_exp',
-    repeat_day_of_month: 'Int_comparison_exp',
-    start_date: 'timestamptz_comparison_exp',
-    token_gifts: 'token_gifts_bool_exp',
-    updated_at: 'timestamp_comparison_exp',
-  },
-  epochs_constraint: true,
-  epochs_inc_input: {
-    grant: 'numeric',
-    id: 'bigint',
-  },
-  epochs_insert_input: {
-    burns: 'burns_arr_rel_insert_input',
-    circle: 'circles_obj_rel_insert_input',
-    created_at: 'timestamp',
-    distributions: 'distributions_arr_rel_insert_input',
-    end_date: 'timestamptz',
-    epoch_pending_token_gifts: 'pending_token_gifts_arr_rel_insert_input',
-    grant: 'numeric',
-    id: 'bigint',
-    notified_before_end: 'timestamp',
-    notified_end: 'timestamp',
-    notified_start: 'timestamp',
-    pgive_data: 'epoch_pgive_data_obj_rel_insert_input',
-    start_date: 'timestamptz',
-    token_gifts: 'token_gifts_arr_rel_insert_input',
-    updated_at: 'timestamp',
-  },
-  epochs_max_order_by: {
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    days: 'order_by',
-    description: 'order_by',
-    end_date: 'order_by',
-    grant: 'order_by',
-    id: 'order_by',
-    notified_before_end: 'order_by',
-    notified_end: 'order_by',
-    notified_start: 'order_by',
-    number: 'order_by',
-    regift_days: 'order_by',
-    repeat: 'order_by',
-    repeat_day_of_month: 'order_by',
-    start_date: 'order_by',
-    updated_at: 'order_by',
-  },
-  epochs_min_order_by: {
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    days: 'order_by',
-    description: 'order_by',
-    end_date: 'order_by',
-    grant: 'order_by',
-    id: 'order_by',
-    notified_before_end: 'order_by',
-    notified_end: 'order_by',
-    notified_start: 'order_by',
-    number: 'order_by',
-    regift_days: 'order_by',
-    repeat: 'order_by',
-    repeat_day_of_month: 'order_by',
-    start_date: 'order_by',
-    updated_at: 'order_by',
-  },
-  epochs_obj_rel_insert_input: {
-    data: 'epochs_insert_input',
-    on_conflict: 'epochs_on_conflict',
-  },
-  epochs_on_conflict: {
-    constraint: 'epochs_constraint',
-    update_columns: 'epochs_update_column',
-    where: 'epochs_bool_exp',
-  },
-  epochs_order_by: {
-    burns_aggregate: 'burns_aggregate_order_by',
-    circle: 'circles_order_by',
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    days: 'order_by',
-    description: 'order_by',
-    distributions_aggregate: 'distributions_aggregate_order_by',
-    end_date: 'order_by',
-    ended: 'order_by',
-    epoch_pending_token_gifts_aggregate:
-      'pending_token_gifts_aggregate_order_by',
-    grant: 'order_by',
-    id: 'order_by',
-    notified_before_end: 'order_by',
-    notified_end: 'order_by',
-    notified_start: 'order_by',
-    number: 'order_by',
-    pgive_data: 'epoch_pgive_data_order_by',
-    regift_days: 'order_by',
-    repeat: 'order_by',
-    repeat_day_of_month: 'order_by',
-    start_date: 'order_by',
-    token_gifts_aggregate: 'token_gifts_aggregate_order_by',
-    updated_at: 'order_by',
-  },
-  epochs_pk_columns_input: {
-    id: 'bigint',
-  },
-  epochs_select_column: true,
-  epochs_set_input: {
-    created_at: 'timestamp',
-    end_date: 'timestamptz',
-    grant: 'numeric',
-    id: 'bigint',
-    notified_before_end: 'timestamp',
-    notified_end: 'timestamp',
-    notified_start: 'timestamp',
-    start_date: 'timestamptz',
-    updated_at: 'timestamp',
-  },
-  epochs_stddev_order_by: {
-    circle_id: 'order_by',
-    days: 'order_by',
-    grant: 'order_by',
-    id: 'order_by',
-    number: 'order_by',
-    regift_days: 'order_by',
-    repeat: 'order_by',
-    repeat_day_of_month: 'order_by',
-  },
-  epochs_stddev_pop_order_by: {
-    circle_id: 'order_by',
-    days: 'order_by',
-    grant: 'order_by',
-    id: 'order_by',
-    number: 'order_by',
-    regift_days: 'order_by',
-    repeat: 'order_by',
-    repeat_day_of_month: 'order_by',
-  },
-  epochs_stddev_samp_order_by: {
-    circle_id: 'order_by',
-    days: 'order_by',
-    grant: 'order_by',
-    id: 'order_by',
-    number: 'order_by',
-    regift_days: 'order_by',
-    repeat: 'order_by',
-    repeat_day_of_month: 'order_by',
-  },
-  epochs_stream_cursor_input: {
-    initial_value: 'epochs_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  epochs_stream_cursor_value_input: {
-    created_at: 'timestamp',
-    end_date: 'timestamptz',
-    grant: 'numeric',
-    id: 'bigint',
-    notified_before_end: 'timestamp',
-    notified_end: 'timestamp',
-    notified_start: 'timestamp',
-    start_date: 'timestamptz',
-    updated_at: 'timestamp',
-  },
-  epochs_sum_order_by: {
-    circle_id: 'order_by',
-    days: 'order_by',
-    grant: 'order_by',
-    id: 'order_by',
-    number: 'order_by',
-    regift_days: 'order_by',
-    repeat: 'order_by',
-    repeat_day_of_month: 'order_by',
-  },
-  epochs_update_column: true,
-  epochs_updates: {
-    _inc: 'epochs_inc_input',
-    _set: 'epochs_set_input',
-    where: 'epochs_bool_exp',
-  },
-  epochs_var_pop_order_by: {
-    circle_id: 'order_by',
-    days: 'order_by',
-    grant: 'order_by',
-    id: 'order_by',
-    number: 'order_by',
-    regift_days: 'order_by',
-    repeat: 'order_by',
-    repeat_day_of_month: 'order_by',
-  },
-  epochs_var_samp_order_by: {
-    circle_id: 'order_by',
-    days: 'order_by',
-    grant: 'order_by',
-    id: 'order_by',
-    number: 'order_by',
-    regift_days: 'order_by',
-    repeat: 'order_by',
-    repeat_day_of_month: 'order_by',
-  },
-  epochs_variance_order_by: {
-    circle_id: 'order_by',
-    days: 'order_by',
-    grant: 'order_by',
-    id: 'order_by',
-    number: 'order_by',
-    regift_days: 'order_by',
-    repeat: 'order_by',
-    repeat_day_of_month: 'order_by',
-  },
-  gift_private_aggregate_fields: {
-    count: {
-      columns: 'gift_private_select_column',
-    },
-  },
-  gift_private_bool_exp: {
-    _and: 'gift_private_bool_exp',
-    _not: 'gift_private_bool_exp',
-    _or: 'gift_private_bool_exp',
-    gift_id: 'bigint_comparison_exp',
-    note: 'String_comparison_exp',
-    recipient: 'users_bool_exp',
-    recipient_id: 'bigint_comparison_exp',
-    sender: 'users_bool_exp',
-    sender_id: 'bigint_comparison_exp',
-  },
-  gift_private_inc_input: {
-    gift_id: 'bigint',
-    recipient_id: 'bigint',
-    sender_id: 'bigint',
-  },
-  gift_private_insert_input: {
-    gift_id: 'bigint',
-    recipient: 'users_obj_rel_insert_input',
-    recipient_id: 'bigint',
-    sender: 'users_obj_rel_insert_input',
-    sender_id: 'bigint',
-  },
-  gift_private_obj_rel_insert_input: {
-    data: 'gift_private_insert_input',
-  },
-  gift_private_order_by: {
-    gift_id: 'order_by',
-    note: 'order_by',
-    recipient: 'users_order_by',
-    recipient_id: 'order_by',
-    sender: 'users_order_by',
-    sender_id: 'order_by',
-  },
-  gift_private_select_column: true,
-  gift_private_set_input: {
-    gift_id: 'bigint',
-    recipient_id: 'bigint',
-    sender_id: 'bigint',
-  },
-  gift_private_stream_cursor_input: {
-    initial_value: 'gift_private_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  gift_private_stream_cursor_value_input: {
-    gift_id: 'bigint',
-    recipient_id: 'bigint',
-    sender_id: 'bigint',
-  },
-  gift_private_updates: {
-    _inc: 'gift_private_inc_input',
-    _set: 'gift_private_set_input',
-    where: 'gift_private_bool_exp',
-  },
-  histories_aggregate_fields: {
-    count: {
-      columns: 'histories_select_column',
-    },
-  },
-  histories_bool_exp: {
-    _and: 'histories_bool_exp',
-    _not: 'histories_bool_exp',
-    _or: 'histories_bool_exp',
-    bio: 'String_comparison_exp',
-    circle: 'circles_bool_exp',
-    circle_id: 'Int_comparison_exp',
-    created_at: 'timestamp_comparison_exp',
-    epoch: 'epochs_bool_exp',
-    epoch_id: 'Int_comparison_exp',
-    id: 'bigint_comparison_exp',
-    updated_at: 'timestamp_comparison_exp',
-    user: 'users_bool_exp',
-    user_id: 'Int_comparison_exp',
-  },
-  histories_constraint: true,
-  histories_inc_input: {
-    id: 'bigint',
-  },
-  histories_insert_input: {
-    circle: 'circles_obj_rel_insert_input',
-    created_at: 'timestamp',
-    epoch: 'epochs_obj_rel_insert_input',
-    id: 'bigint',
-    updated_at: 'timestamp',
-    user: 'users_obj_rel_insert_input',
-  },
-  histories_on_conflict: {
-    constraint: 'histories_constraint',
-    update_columns: 'histories_update_column',
-    where: 'histories_bool_exp',
-  },
-  histories_order_by: {
-    bio: 'order_by',
-    circle: 'circles_order_by',
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    epoch: 'epochs_order_by',
-    epoch_id: 'order_by',
-    id: 'order_by',
-    updated_at: 'order_by',
-    user: 'users_order_by',
-    user_id: 'order_by',
-  },
-  histories_pk_columns_input: {
-    id: 'bigint',
-  },
-  histories_select_column: true,
-  histories_set_input: {
-    created_at: 'timestamp',
-    id: 'bigint',
-    updated_at: 'timestamp',
-  },
-  histories_stream_cursor_input: {
-    initial_value: 'histories_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  histories_stream_cursor_value_input: {
-    created_at: 'timestamp',
-    id: 'bigint',
-    updated_at: 'timestamp',
-  },
-  histories_update_column: true,
-  histories_updates: {
-    _inc: 'histories_inc_input',
-    _set: 'histories_set_input',
-    where: 'histories_bool_exp',
-  },
-  interaction_events: {
-    data: {},
-  },
-  interaction_events_aggregate_fields: {
-    count: {
-      columns: 'interaction_events_select_column',
-    },
-  },
-  interaction_events_append_input: {
-    data: 'jsonb',
-  },
-  interaction_events_bool_exp: {
-    _and: 'interaction_events_bool_exp',
-    _not: 'interaction_events_bool_exp',
-    _or: 'interaction_events_bool_exp',
-    circle: 'circles_bool_exp',
-    circle_id: 'Int_comparison_exp',
-    created_at: 'timestamptz_comparison_exp',
-    data: 'jsonb_comparison_exp',
-    event_subtype: 'String_comparison_exp',
-    event_type: 'String_comparison_exp',
-    id: 'Int_comparison_exp',
-    org_id: 'Int_comparison_exp',
-    organization: 'organizations_bool_exp',
-    profile: 'profiles_bool_exp',
-    profile_id: 'Int_comparison_exp',
-    updated_at: 'timestamptz_comparison_exp',
-  },
-  interaction_events_constraint: true,
-  interaction_events_delete_at_path_input: {},
-  interaction_events_delete_elem_input: {},
-  interaction_events_delete_key_input: {},
-  interaction_events_inc_input: {},
-  interaction_events_insert_input: {
-    circle: 'circles_obj_rel_insert_input',
-    created_at: 'timestamptz',
-    data: 'jsonb',
-    organization: 'organizations_obj_rel_insert_input',
-    profile: 'profiles_obj_rel_insert_input',
-    updated_at: 'timestamptz',
-  },
-  interaction_events_on_conflict: {
-    constraint: 'interaction_events_constraint',
-    update_columns: 'interaction_events_update_column',
-    where: 'interaction_events_bool_exp',
-  },
-  interaction_events_order_by: {
-    circle: 'circles_order_by',
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    data: 'order_by',
-    event_subtype: 'order_by',
-    event_type: 'order_by',
-    id: 'order_by',
-    org_id: 'order_by',
-    organization: 'organizations_order_by',
-    profile: 'profiles_order_by',
-    profile_id: 'order_by',
-    updated_at: 'order_by',
-  },
-  interaction_events_pk_columns_input: {},
-  interaction_events_prepend_input: {
-    data: 'jsonb',
-  },
-  interaction_events_select_column: true,
-  interaction_events_set_input: {
-    created_at: 'timestamptz',
-    data: 'jsonb',
-    updated_at: 'timestamptz',
-  },
-  interaction_events_stream_cursor_input: {
-    initial_value: 'interaction_events_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  interaction_events_stream_cursor_value_input: {
-    created_at: 'timestamptz',
-    data: 'jsonb',
-    updated_at: 'timestamptz',
-  },
-  interaction_events_update_column: true,
-  interaction_events_updates: {
-    _append: 'interaction_events_append_input',
-    _delete_at_path: 'interaction_events_delete_at_path_input',
-    _delete_elem: 'interaction_events_delete_elem_input',
-    _delete_key: 'interaction_events_delete_key_input',
-    _inc: 'interaction_events_inc_input',
-    _prepend: 'interaction_events_prepend_input',
-    _set: 'interaction_events_set_input',
-    where: 'interaction_events_bool_exp',
-  },
-  json: 'String',
-  json_comparison_exp: {
-    _eq: 'json',
-    _gt: 'json',
-    _gte: 'json',
-    _in: 'json',
-    _lt: 'json',
-    _lte: 'json',
-    _neq: 'json',
-    _nin: 'json',
-  },
-  jsonb: 'String',
-  jsonb_cast_exp: {
-    String: 'String_comparison_exp',
-  },
-  jsonb_comparison_exp: {
-    _cast: 'jsonb_cast_exp',
-    _contained_in: 'jsonb',
-    _contains: 'jsonb',
-    _eq: 'jsonb',
-    _gt: 'jsonb',
-    _gte: 'jsonb',
-    _in: 'jsonb',
-    _lt: 'jsonb',
-    _lte: 'jsonb',
-    _neq: 'jsonb',
-    _nin: 'jsonb',
-  },
-  locked_token_distributions: {
-    distribution_json: {},
-  },
-  locked_token_distributions_aggregate_fields: {
-    count: {
-      columns: 'locked_token_distributions_select_column',
-    },
-  },
-  locked_token_distributions_append_input: {
-    distribution_json: 'jsonb',
-  },
-  locked_token_distributions_bool_exp: {
-    _and: 'locked_token_distributions_bool_exp',
-    _not: 'locked_token_distributions_bool_exp',
-    _or: 'locked_token_distributions_bool_exp',
-    distributed_by: 'bigint_comparison_exp',
-    distribution_json: 'jsonb_comparison_exp',
-    epoch: 'epochs_bool_exp',
-    epoch_id: 'bigint_comparison_exp',
-    gift_amount: 'numeric_comparison_exp',
-    id: 'bigint_comparison_exp',
-    profile: 'profiles_bool_exp',
-    tx_hash: 'String_comparison_exp',
-  },
-  locked_token_distributions_constraint: true,
-  locked_token_distributions_delete_at_path_input: {},
-  locked_token_distributions_delete_elem_input: {},
-  locked_token_distributions_delete_key_input: {},
-  locked_token_distributions_inc_input: {
-    distributed_by: 'bigint',
-    epoch_id: 'bigint',
-    gift_amount: 'numeric',
-    id: 'bigint',
-  },
-  locked_token_distributions_insert_input: {
-    distributed_by: 'bigint',
-    distribution_json: 'jsonb',
-    epoch: 'epochs_obj_rel_insert_input',
-    epoch_id: 'bigint',
-    gift_amount: 'numeric',
-    id: 'bigint',
-    profile: 'profiles_obj_rel_insert_input',
-  },
-  locked_token_distributions_on_conflict: {
-    constraint: 'locked_token_distributions_constraint',
-    update_columns: 'locked_token_distributions_update_column',
-    where: 'locked_token_distributions_bool_exp',
-  },
-  locked_token_distributions_order_by: {
-    distributed_by: 'order_by',
-    distribution_json: 'order_by',
-    epoch: 'epochs_order_by',
-    epoch_id: 'order_by',
-    gift_amount: 'order_by',
-    id: 'order_by',
-    profile: 'profiles_order_by',
-    tx_hash: 'order_by',
-  },
-  locked_token_distributions_pk_columns_input: {
-    id: 'bigint',
-  },
-  locked_token_distributions_prepend_input: {
-    distribution_json: 'jsonb',
-  },
-  locked_token_distributions_select_column: true,
-  locked_token_distributions_set_input: {
-    distributed_by: 'bigint',
-    distribution_json: 'jsonb',
-    epoch_id: 'bigint',
-    gift_amount: 'numeric',
-    id: 'bigint',
-  },
-  locked_token_distributions_stream_cursor_input: {
-    initial_value: 'locked_token_distributions_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  locked_token_distributions_stream_cursor_value_input: {
-    distributed_by: 'bigint',
-    distribution_json: 'jsonb',
-    epoch_id: 'bigint',
-    gift_amount: 'numeric',
-    id: 'bigint',
-  },
-  locked_token_distributions_update_column: true,
-  locked_token_distributions_updates: {
-    _append: 'locked_token_distributions_append_input',
-    _delete_at_path: 'locked_token_distributions_delete_at_path_input',
-    _delete_elem: 'locked_token_distributions_delete_elem_input',
-    _delete_key: 'locked_token_distributions_delete_key_input',
-    _inc: 'locked_token_distributions_inc_input',
-    _prepend: 'locked_token_distributions_prepend_input',
-    _set: 'locked_token_distributions_set_input',
-    where: 'locked_token_distributions_bool_exp',
-  },
-  member_epoch_pgives_aggregate_fields: {
-    count: {
-      columns: 'member_epoch_pgives_select_column',
-    },
-  },
-  member_epoch_pgives_bool_exp: {
-    _and: 'member_epoch_pgives_bool_exp',
-    _not: 'member_epoch_pgives_bool_exp',
-    _or: 'member_epoch_pgives_bool_exp',
-    created_at: 'timestamptz_comparison_exp',
-    epoch: 'epochs_bool_exp',
-    epoch_id: 'Int_comparison_exp',
-    gives_received: 'Int_comparison_exp',
-    id: 'Int_comparison_exp',
-    normalized_pgive: 'numeric_comparison_exp',
-    opt_out_bonus: 'numeric_comparison_exp',
-    pgive: 'numeric_comparison_exp',
-    user: 'users_bool_exp',
-    user_id: 'Int_comparison_exp',
-  },
-  member_epoch_pgives_constraint: true,
-  member_epoch_pgives_inc_input: {
-    normalized_pgive: 'numeric',
-    opt_out_bonus: 'numeric',
-    pgive: 'numeric',
-  },
-  member_epoch_pgives_insert_input: {
-    created_at: 'timestamptz',
-    epoch: 'epochs_obj_rel_insert_input',
-    normalized_pgive: 'numeric',
-    opt_out_bonus: 'numeric',
-    pgive: 'numeric',
-    user: 'users_obj_rel_insert_input',
-  },
-  member_epoch_pgives_on_conflict: {
-    constraint: 'member_epoch_pgives_constraint',
-    update_columns: 'member_epoch_pgives_update_column',
-    where: 'member_epoch_pgives_bool_exp',
-  },
-  member_epoch_pgives_order_by: {
-    created_at: 'order_by',
-    epoch: 'epochs_order_by',
-    epoch_id: 'order_by',
-    gives_received: 'order_by',
-    id: 'order_by',
-    normalized_pgive: 'order_by',
-    opt_out_bonus: 'order_by',
-    pgive: 'order_by',
-    user: 'users_order_by',
-    user_id: 'order_by',
-  },
-  member_epoch_pgives_pk_columns_input: {},
-  member_epoch_pgives_select_column: true,
-  member_epoch_pgives_set_input: {
-    created_at: 'timestamptz',
-    normalized_pgive: 'numeric',
-    opt_out_bonus: 'numeric',
-    pgive: 'numeric',
-  },
-  member_epoch_pgives_stream_cursor_input: {
-    initial_value: 'member_epoch_pgives_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  member_epoch_pgives_stream_cursor_value_input: {
-    created_at: 'timestamptz',
-    normalized_pgive: 'numeric',
-    opt_out_bonus: 'numeric',
-    pgive: 'numeric',
-  },
-  member_epoch_pgives_update_column: true,
-  member_epoch_pgives_updates: {
-    _inc: 'member_epoch_pgives_inc_input',
-    _set: 'member_epoch_pgives_set_input',
-    where: 'member_epoch_pgives_bool_exp',
-  },
-  mutation_root: {
-    adminUpdateUser: {
-      payload: 'AdminUpdateUserInput',
-    },
-    allocationCsv: {
-      payload: 'AllocationCsvInput',
-    },
-    createCircle: {
-      payload: 'CreateCircleInput',
-    },
-    createEpoch: {
-      payload: 'CreateEpochInput',
-    },
-    createNominee: {
-      payload: 'CreateNomineeInput',
-    },
-    createUserWithToken: {
-      payload: 'CreateUserWithTokenInput',
-    },
-    createUsers: {
-      payload: 'CreateUsersInput',
-    },
-    createVault: {
-      payload: 'CreateVaultInput',
-    },
-    createVaultTx: {
-      payload: 'LogVaultTxInput',
-    },
-    deleteCircle: {
-      payload: 'DeleteCircleInput',
-    },
-    deleteContribution: {
-      payload: 'DeleteContributionInput',
-    },
-    deleteEpoch: {
-      payload: 'DeleteEpochInput',
-    },
-    deleteUser: {
-      payload: 'DeleteUserInput',
-    },
-    deleteUserBulk: {
-      payload: 'DeleteUserBulkInput',
-    },
-    delete_burns: {
-      where: 'burns_bool_exp',
-    },
-    delete_burns_by_pk: {
-      id: 'bigint',
-    },
-    delete_circle_api_keys: {
-      where: 'circle_api_keys_bool_exp',
-    },
-    delete_circle_api_keys_by_pk: {},
-    delete_circle_integrations: {
-      where: 'circle_integrations_bool_exp',
-    },
-    delete_circle_integrations_by_pk: {
-      id: 'bigint',
-    },
-    delete_circle_metadata: {
-      where: 'circle_metadata_bool_exp',
-    },
-    delete_circle_metadata_by_pk: {
-      id: 'bigint',
-    },
-    delete_circle_private: {
-      where: 'circle_private_bool_exp',
-    },
-    delete_circle_share_tokens: {
-      where: 'circle_share_tokens_bool_exp',
-    },
-    delete_circle_share_tokens_by_pk: {
-      circle_id: 'bigint',
-    },
-    delete_circles: {
-      where: 'circles_bool_exp',
-    },
-    delete_circles_by_pk: {
-      id: 'bigint',
-    },
-    delete_claims: {
-      where: 'claims_bool_exp',
-    },
-    delete_claims_by_pk: {
-      id: 'bigint',
-    },
-    delete_contributions: {
-      where: 'contributions_bool_exp',
-    },
-    delete_contributions_by_pk: {
-      id: 'bigint',
-    },
-    delete_discord_roles_circles: {
-      where: 'discord_roles_circles_bool_exp',
-    },
-    delete_discord_roles_circles_by_pk: {
-      id: 'bigint',
-    },
-    delete_discord_users: {
-      where: 'discord_users_bool_exp',
-    },
-    delete_discord_users_by_pk: {
-      id: 'bigint',
-    },
-    delete_distributions: {
-      where: 'distributions_bool_exp',
-    },
-    delete_distributions_by_pk: {
-      id: 'bigint',
-    },
-    delete_epoch_pgive_data: {
-      where: 'epoch_pgive_data_bool_exp',
-    },
-    delete_epoch_pgive_data_by_pk: {},
-    delete_epochs: {
-      where: 'epochs_bool_exp',
-    },
-    delete_epochs_by_pk: {
-      id: 'bigint',
-    },
-    delete_gift_private: {
-      where: 'gift_private_bool_exp',
-    },
-    delete_histories: {
-      where: 'histories_bool_exp',
-    },
-    delete_histories_by_pk: {
-      id: 'bigint',
-    },
-    delete_interaction_events: {
-      where: 'interaction_events_bool_exp',
-    },
-    delete_interaction_events_by_pk: {},
-    delete_locked_token_distributions: {
-      where: 'locked_token_distributions_bool_exp',
-    },
-    delete_locked_token_distributions_by_pk: {
-      id: 'bigint',
-    },
-    delete_member_epoch_pgives: {
-      where: 'member_epoch_pgives_bool_exp',
-    },
-    delete_member_epoch_pgives_by_pk: {},
-    delete_nominees: {
-      where: 'nominees_bool_exp',
-    },
-    delete_nominees_by_pk: {
-      id: 'bigint',
-    },
-    delete_organizations: {
-      where: 'organizations_bool_exp',
-    },
-    delete_organizations_by_pk: {
-      id: 'bigint',
-    },
-    delete_pending_gift_private: {
-      where: 'pending_gift_private_bool_exp',
-    },
-    delete_pending_token_gifts: {
-      where: 'pending_token_gifts_bool_exp',
-    },
-    delete_pending_token_gifts_by_pk: {
-      id: 'bigint',
-    },
-    delete_pending_vault_transactions: {
-      where: 'pending_vault_transactions_bool_exp',
-    },
-    delete_pending_vault_transactions_by_pk: {},
-    delete_personal_access_tokens: {
-      where: 'personal_access_tokens_bool_exp',
-    },
-    delete_personal_access_tokens_by_pk: {
-      id: 'bigint',
-    },
-    delete_profiles: {
-      where: 'profiles_bool_exp',
-    },
-    delete_profiles_by_pk: {
-      id: 'bigint',
-    },
-    delete_teammates: {
-      where: 'teammates_bool_exp',
-    },
-    delete_teammates_by_pk: {
-      id: 'bigint',
-    },
-    delete_token_gifts: {
-      where: 'token_gifts_bool_exp',
-    },
-    delete_token_gifts_by_pk: {
-      id: 'bigint',
-    },
-    delete_users: {
-      where: 'users_bool_exp',
-    },
-    delete_users_by_pk: {
-      id: 'bigint',
-    },
-    delete_vault_transactions: {
-      where: 'vault_transactions_bool_exp',
-    },
-    delete_vault_transactions_by_pk: {
-      id: 'bigint',
-    },
-    delete_vault_tx_types: {
-      where: 'vault_tx_types_bool_exp',
-    },
-    delete_vault_tx_types_by_pk: {},
-    delete_vaults: {
-      where: 'vaults_bool_exp',
-    },
-    delete_vaults_by_pk: {
-      id: 'bigint',
-    },
-    delete_vouches: {
-      where: 'vouches_bool_exp',
-    },
-    delete_vouches_by_pk: {
-      id: 'bigint',
-    },
-    generateApiKey: {
-      payload: 'GenerateApiKeyInput',
-    },
-    insert_burns: {
-      objects: 'burns_insert_input',
-      on_conflict: 'burns_on_conflict',
-    },
-    insert_burns_one: {
-      object: 'burns_insert_input',
-      on_conflict: 'burns_on_conflict',
-    },
-    insert_circle_api_keys: {
-      objects: 'circle_api_keys_insert_input',
-      on_conflict: 'circle_api_keys_on_conflict',
-    },
-    insert_circle_api_keys_one: {
-      object: 'circle_api_keys_insert_input',
-      on_conflict: 'circle_api_keys_on_conflict',
-    },
-    insert_circle_integrations: {
-      objects: 'circle_integrations_insert_input',
-      on_conflict: 'circle_integrations_on_conflict',
-    },
-    insert_circle_integrations_one: {
-      object: 'circle_integrations_insert_input',
-      on_conflict: 'circle_integrations_on_conflict',
-    },
-    insert_circle_metadata: {
-      objects: 'circle_metadata_insert_input',
-      on_conflict: 'circle_metadata_on_conflict',
-    },
-    insert_circle_metadata_one: {
-      object: 'circle_metadata_insert_input',
-      on_conflict: 'circle_metadata_on_conflict',
-    },
-    insert_circle_private: {
-      objects: 'circle_private_insert_input',
-    },
-    insert_circle_private_one: {
-      object: 'circle_private_insert_input',
-    },
-    insert_circle_share_tokens: {
-      objects: 'circle_share_tokens_insert_input',
-      on_conflict: 'circle_share_tokens_on_conflict',
-    },
-    insert_circle_share_tokens_one: {
-      object: 'circle_share_tokens_insert_input',
-      on_conflict: 'circle_share_tokens_on_conflict',
-    },
-    insert_circles: {
-      objects: 'circles_insert_input',
-      on_conflict: 'circles_on_conflict',
-    },
-    insert_circles_one: {
-      object: 'circles_insert_input',
-      on_conflict: 'circles_on_conflict',
-    },
-    insert_claims: {
-      objects: 'claims_insert_input',
-      on_conflict: 'claims_on_conflict',
-    },
-    insert_claims_one: {
-      object: 'claims_insert_input',
-      on_conflict: 'claims_on_conflict',
-    },
-    insert_contributions: {
-      objects: 'contributions_insert_input',
-      on_conflict: 'contributions_on_conflict',
-    },
-    insert_contributions_one: {
-      object: 'contributions_insert_input',
-      on_conflict: 'contributions_on_conflict',
-    },
-    insert_discord_roles_circles: {
-      objects: 'discord_roles_circles_insert_input',
-      on_conflict: 'discord_roles_circles_on_conflict',
-    },
-    insert_discord_roles_circles_one: {
-      object: 'discord_roles_circles_insert_input',
-      on_conflict: 'discord_roles_circles_on_conflict',
-    },
-    insert_discord_users: {
-      objects: 'discord_users_insert_input',
-      on_conflict: 'discord_users_on_conflict',
-    },
-    insert_discord_users_one: {
-      object: 'discord_users_insert_input',
-      on_conflict: 'discord_users_on_conflict',
-    },
-    insert_distributions: {
-      objects: 'distributions_insert_input',
-      on_conflict: 'distributions_on_conflict',
-    },
-    insert_distributions_one: {
-      object: 'distributions_insert_input',
-      on_conflict: 'distributions_on_conflict',
-    },
-    insert_epoch_pgive_data: {
-      objects: 'epoch_pgive_data_insert_input',
-      on_conflict: 'epoch_pgive_data_on_conflict',
-    },
-    insert_epoch_pgive_data_one: {
-      object: 'epoch_pgive_data_insert_input',
-      on_conflict: 'epoch_pgive_data_on_conflict',
-    },
-    insert_epochs: {
-      objects: 'epochs_insert_input',
-      on_conflict: 'epochs_on_conflict',
-    },
-    insert_epochs_one: {
-      object: 'epochs_insert_input',
-      on_conflict: 'epochs_on_conflict',
-    },
-    insert_gift_private: {
-      objects: 'gift_private_insert_input',
-    },
-    insert_gift_private_one: {
-      object: 'gift_private_insert_input',
-    },
-    insert_histories: {
-      objects: 'histories_insert_input',
-      on_conflict: 'histories_on_conflict',
-    },
-    insert_histories_one: {
-      object: 'histories_insert_input',
-      on_conflict: 'histories_on_conflict',
-    },
-    insert_interaction_events: {
-      objects: 'interaction_events_insert_input',
-      on_conflict: 'interaction_events_on_conflict',
-    },
-    insert_interaction_events_one: {
-      object: 'interaction_events_insert_input',
-      on_conflict: 'interaction_events_on_conflict',
-    },
-    insert_locked_token_distributions: {
-      objects: 'locked_token_distributions_insert_input',
-      on_conflict: 'locked_token_distributions_on_conflict',
-    },
-    insert_locked_token_distributions_one: {
-      object: 'locked_token_distributions_insert_input',
-      on_conflict: 'locked_token_distributions_on_conflict',
-    },
-    insert_member_epoch_pgives: {
-      objects: 'member_epoch_pgives_insert_input',
-      on_conflict: 'member_epoch_pgives_on_conflict',
-    },
-    insert_member_epoch_pgives_one: {
-      object: 'member_epoch_pgives_insert_input',
-      on_conflict: 'member_epoch_pgives_on_conflict',
-    },
-    insert_nominees: {
-      objects: 'nominees_insert_input',
-      on_conflict: 'nominees_on_conflict',
-    },
-    insert_nominees_one: {
-      object: 'nominees_insert_input',
-      on_conflict: 'nominees_on_conflict',
-    },
-    insert_organizations: {
-      objects: 'organizations_insert_input',
-      on_conflict: 'organizations_on_conflict',
-    },
-    insert_organizations_one: {
-      object: 'organizations_insert_input',
-      on_conflict: 'organizations_on_conflict',
-    },
-    insert_pending_gift_private: {
-      objects: 'pending_gift_private_insert_input',
-    },
-    insert_pending_gift_private_one: {
-      object: 'pending_gift_private_insert_input',
-    },
-    insert_pending_token_gifts: {
-      objects: 'pending_token_gifts_insert_input',
-      on_conflict: 'pending_token_gifts_on_conflict',
-    },
-    insert_pending_token_gifts_one: {
-      object: 'pending_token_gifts_insert_input',
-      on_conflict: 'pending_token_gifts_on_conflict',
-    },
-    insert_pending_vault_transactions: {
-      objects: 'pending_vault_transactions_insert_input',
-      on_conflict: 'pending_vault_transactions_on_conflict',
-    },
-    insert_pending_vault_transactions_one: {
-      object: 'pending_vault_transactions_insert_input',
-      on_conflict: 'pending_vault_transactions_on_conflict',
-    },
-    insert_personal_access_tokens: {
-      objects: 'personal_access_tokens_insert_input',
-      on_conflict: 'personal_access_tokens_on_conflict',
-    },
-    insert_personal_access_tokens_one: {
-      object: 'personal_access_tokens_insert_input',
-      on_conflict: 'personal_access_tokens_on_conflict',
-    },
-    insert_profiles: {
-      objects: 'profiles_insert_input',
-      on_conflict: 'profiles_on_conflict',
-    },
-    insert_profiles_one: {
-      object: 'profiles_insert_input',
-      on_conflict: 'profiles_on_conflict',
-    },
-    insert_teammates: {
-      objects: 'teammates_insert_input',
-      on_conflict: 'teammates_on_conflict',
-    },
-    insert_teammates_one: {
-      object: 'teammates_insert_input',
-      on_conflict: 'teammates_on_conflict',
-    },
-    insert_token_gifts: {
-      objects: 'token_gifts_insert_input',
-      on_conflict: 'token_gifts_on_conflict',
-    },
-    insert_token_gifts_one: {
-      object: 'token_gifts_insert_input',
-      on_conflict: 'token_gifts_on_conflict',
-    },
-    insert_users: {
-      objects: 'users_insert_input',
-      on_conflict: 'users_on_conflict',
-    },
-    insert_users_one: {
-      object: 'users_insert_input',
-      on_conflict: 'users_on_conflict',
-    },
-    insert_vault_transactions: {
-      objects: 'vault_transactions_insert_input',
-      on_conflict: 'vault_transactions_on_conflict',
-    },
-    insert_vault_transactions_one: {
-      object: 'vault_transactions_insert_input',
-      on_conflict: 'vault_transactions_on_conflict',
-    },
-    insert_vault_tx_types: {
-      objects: 'vault_tx_types_insert_input',
-      on_conflict: 'vault_tx_types_on_conflict',
-    },
-    insert_vault_tx_types_one: {
-      object: 'vault_tx_types_insert_input',
-      on_conflict: 'vault_tx_types_on_conflict',
-    },
-    insert_vaults: {
-      objects: 'vaults_insert_input',
-      on_conflict: 'vaults_on_conflict',
-    },
-    insert_vaults_one: {
-      object: 'vaults_insert_input',
-      on_conflict: 'vaults_on_conflict',
-    },
-    insert_vouches: {
-      objects: 'vouches_insert_input',
-      on_conflict: 'vouches_on_conflict',
-    },
-    insert_vouches_one: {
-      object: 'vouches_insert_input',
-      on_conflict: 'vouches_on_conflict',
-    },
-    linkDiscordUser: {
-      payload: 'LinkDiscordUserInput',
-    },
-    markClaimed: {
-      payload: 'MarkClaimedInput',
-    },
-    restoreCoordinape: {
-      payload: 'CoordinapeInput',
-    },
-    updateAllocations: {
-      payload: 'Allocations',
-    },
-    updateCircle: {
-      payload: 'UpdateCircleInput',
-    },
-    updateContribution: {
-      payload: 'UpdateContributionInput',
-    },
-    updateEpoch: {
-      payload: 'UpdateEpochInput',
-    },
-    updateTeammates: {
-      payload: 'UpdateTeammatesInput',
-    },
-    updateUser: {
-      payload: 'UpdateUserInput',
-    },
-    update_burns: {
-      _inc: 'burns_inc_input',
-      _set: 'burns_set_input',
-      where: 'burns_bool_exp',
-    },
-    update_burns_by_pk: {
-      _inc: 'burns_inc_input',
-      _set: 'burns_set_input',
-      pk_columns: 'burns_pk_columns_input',
-    },
-    update_burns_many: {
-      updates: 'burns_updates',
-    },
-    update_circle_api_keys: {
-      _inc: 'circle_api_keys_inc_input',
-      _set: 'circle_api_keys_set_input',
-      where: 'circle_api_keys_bool_exp',
-    },
-    update_circle_api_keys_by_pk: {
-      _inc: 'circle_api_keys_inc_input',
-      _set: 'circle_api_keys_set_input',
-      pk_columns: 'circle_api_keys_pk_columns_input',
-    },
-    update_circle_api_keys_many: {
-      updates: 'circle_api_keys_updates',
-    },
-    update_circle_integrations: {
-      _inc: 'circle_integrations_inc_input',
-      _set: 'circle_integrations_set_input',
-      where: 'circle_integrations_bool_exp',
-    },
-    update_circle_integrations_by_pk: {
-      _inc: 'circle_integrations_inc_input',
-      _set: 'circle_integrations_set_input',
-      pk_columns: 'circle_integrations_pk_columns_input',
-    },
-    update_circle_integrations_many: {
-      updates: 'circle_integrations_updates',
-    },
-    update_circle_metadata: {
-      _inc: 'circle_metadata_inc_input',
-      _set: 'circle_metadata_set_input',
-      where: 'circle_metadata_bool_exp',
-    },
-    update_circle_metadata_by_pk: {
-      _inc: 'circle_metadata_inc_input',
-      _set: 'circle_metadata_set_input',
-      pk_columns: 'circle_metadata_pk_columns_input',
-    },
-    update_circle_metadata_many: {
-      updates: 'circle_metadata_updates',
-    },
-    update_circle_private: {
-      _inc: 'circle_private_inc_input',
-      _set: 'circle_private_set_input',
-      where: 'circle_private_bool_exp',
-    },
-    update_circle_private_many: {
-      updates: 'circle_private_updates',
-    },
-    update_circle_share_tokens: {
-      _inc: 'circle_share_tokens_inc_input',
-      _set: 'circle_share_tokens_set_input',
-      where: 'circle_share_tokens_bool_exp',
-    },
-    update_circle_share_tokens_by_pk: {
-      _inc: 'circle_share_tokens_inc_input',
-      _set: 'circle_share_tokens_set_input',
-      pk_columns: 'circle_share_tokens_pk_columns_input',
-    },
-    update_circle_share_tokens_many: {
-      updates: 'circle_share_tokens_updates',
-    },
-    update_circles: {
-      _inc: 'circles_inc_input',
-      _set: 'circles_set_input',
-      where: 'circles_bool_exp',
-    },
-    update_circles_by_pk: {
-      _inc: 'circles_inc_input',
-      _set: 'circles_set_input',
-      pk_columns: 'circles_pk_columns_input',
-    },
-    update_circles_many: {
-      updates: 'circles_updates',
-    },
-    update_claims: {
-      _inc: 'claims_inc_input',
-      _set: 'claims_set_input',
-      where: 'claims_bool_exp',
-    },
-    update_claims_by_pk: {
-      _inc: 'claims_inc_input',
-      _set: 'claims_set_input',
-      pk_columns: 'claims_pk_columns_input',
-    },
-    update_claims_many: {
-      updates: 'claims_updates',
-    },
-    update_contributions: {
-      _inc: 'contributions_inc_input',
-      _set: 'contributions_set_input',
-      where: 'contributions_bool_exp',
-    },
-    update_contributions_by_pk: {
-      _inc: 'contributions_inc_input',
-      _set: 'contributions_set_input',
-      pk_columns: 'contributions_pk_columns_input',
-    },
-    update_contributions_many: {
-      updates: 'contributions_updates',
-    },
-    update_discord_roles_circles: {
-      _inc: 'discord_roles_circles_inc_input',
-      _set: 'discord_roles_circles_set_input',
-      where: 'discord_roles_circles_bool_exp',
-    },
-    update_discord_roles_circles_by_pk: {
-      _inc: 'discord_roles_circles_inc_input',
-      _set: 'discord_roles_circles_set_input',
-      pk_columns: 'discord_roles_circles_pk_columns_input',
-    },
-    update_discord_roles_circles_many: {
-      updates: 'discord_roles_circles_updates',
-    },
-    update_discord_users: {
-      _inc: 'discord_users_inc_input',
-      _set: 'discord_users_set_input',
-      where: 'discord_users_bool_exp',
-    },
-    update_discord_users_by_pk: {
-      _inc: 'discord_users_inc_input',
-      _set: 'discord_users_set_input',
-      pk_columns: 'discord_users_pk_columns_input',
-    },
-    update_discord_users_many: {
-      updates: 'discord_users_updates',
-    },
-    update_distributions: {
-      _append: 'distributions_append_input',
-      _delete_at_path: 'distributions_delete_at_path_input',
-      _delete_elem: 'distributions_delete_elem_input',
-      _delete_key: 'distributions_delete_key_input',
-      _inc: 'distributions_inc_input',
-      _prepend: 'distributions_prepend_input',
-      _set: 'distributions_set_input',
-      where: 'distributions_bool_exp',
-    },
-    update_distributions_by_pk: {
-      _append: 'distributions_append_input',
-      _delete_at_path: 'distributions_delete_at_path_input',
-      _delete_elem: 'distributions_delete_elem_input',
-      _delete_key: 'distributions_delete_key_input',
-      _inc: 'distributions_inc_input',
-      _prepend: 'distributions_prepend_input',
-      _set: 'distributions_set_input',
-      pk_columns: 'distributions_pk_columns_input',
-    },
-    update_distributions_many: {
-      updates: 'distributions_updates',
-    },
-    update_epoch_pgive_data: {
-      _inc: 'epoch_pgive_data_inc_input',
-      _set: 'epoch_pgive_data_set_input',
-      where: 'epoch_pgive_data_bool_exp',
-    },
-    update_epoch_pgive_data_by_pk: {
-      _inc: 'epoch_pgive_data_inc_input',
-      _set: 'epoch_pgive_data_set_input',
-      pk_columns: 'epoch_pgive_data_pk_columns_input',
-    },
-    update_epoch_pgive_data_many: {
-      updates: 'epoch_pgive_data_updates',
-    },
-    update_epochs: {
-      _inc: 'epochs_inc_input',
-      _set: 'epochs_set_input',
-      where: 'epochs_bool_exp',
-    },
-    update_epochs_by_pk: {
-      _inc: 'epochs_inc_input',
-      _set: 'epochs_set_input',
-      pk_columns: 'epochs_pk_columns_input',
-    },
-    update_epochs_many: {
-      updates: 'epochs_updates',
-    },
-    update_gift_private: {
-      _inc: 'gift_private_inc_input',
-      _set: 'gift_private_set_input',
-      where: 'gift_private_bool_exp',
-    },
-    update_gift_private_many: {
-      updates: 'gift_private_updates',
-    },
-    update_histories: {
-      _inc: 'histories_inc_input',
-      _set: 'histories_set_input',
-      where: 'histories_bool_exp',
-    },
-    update_histories_by_pk: {
-      _inc: 'histories_inc_input',
-      _set: 'histories_set_input',
-      pk_columns: 'histories_pk_columns_input',
-    },
-    update_histories_many: {
-      updates: 'histories_updates',
-    },
-    update_interaction_events: {
-      _append: 'interaction_events_append_input',
-      _delete_at_path: 'interaction_events_delete_at_path_input',
-      _delete_elem: 'interaction_events_delete_elem_input',
-      _delete_key: 'interaction_events_delete_key_input',
-      _inc: 'interaction_events_inc_input',
-      _prepend: 'interaction_events_prepend_input',
-      _set: 'interaction_events_set_input',
-      where: 'interaction_events_bool_exp',
-    },
-    update_interaction_events_by_pk: {
-      _append: 'interaction_events_append_input',
-      _delete_at_path: 'interaction_events_delete_at_path_input',
-      _delete_elem: 'interaction_events_delete_elem_input',
-      _delete_key: 'interaction_events_delete_key_input',
-      _inc: 'interaction_events_inc_input',
-      _prepend: 'interaction_events_prepend_input',
-      _set: 'interaction_events_set_input',
-      pk_columns: 'interaction_events_pk_columns_input',
-    },
-    update_interaction_events_many: {
-      updates: 'interaction_events_updates',
-    },
-    update_locked_token_distributions: {
-      _append: 'locked_token_distributions_append_input',
-      _delete_at_path: 'locked_token_distributions_delete_at_path_input',
-      _delete_elem: 'locked_token_distributions_delete_elem_input',
-      _delete_key: 'locked_token_distributions_delete_key_input',
-      _inc: 'locked_token_distributions_inc_input',
-      _prepend: 'locked_token_distributions_prepend_input',
-      _set: 'locked_token_distributions_set_input',
-      where: 'locked_token_distributions_bool_exp',
-    },
-    update_locked_token_distributions_by_pk: {
-      _append: 'locked_token_distributions_append_input',
-      _delete_at_path: 'locked_token_distributions_delete_at_path_input',
-      _delete_elem: 'locked_token_distributions_delete_elem_input',
-      _delete_key: 'locked_token_distributions_delete_key_input',
-      _inc: 'locked_token_distributions_inc_input',
-      _prepend: 'locked_token_distributions_prepend_input',
-      _set: 'locked_token_distributions_set_input',
-      pk_columns: 'locked_token_distributions_pk_columns_input',
-    },
-    update_locked_token_distributions_many: {
-      updates: 'locked_token_distributions_updates',
-    },
-    update_member_epoch_pgives: {
-      _inc: 'member_epoch_pgives_inc_input',
-      _set: 'member_epoch_pgives_set_input',
-      where: 'member_epoch_pgives_bool_exp',
-    },
-    update_member_epoch_pgives_by_pk: {
-      _inc: 'member_epoch_pgives_inc_input',
-      _set: 'member_epoch_pgives_set_input',
-      pk_columns: 'member_epoch_pgives_pk_columns_input',
-    },
-    update_member_epoch_pgives_many: {
-      updates: 'member_epoch_pgives_updates',
-    },
-    update_nominees: {
-      _inc: 'nominees_inc_input',
-      _set: 'nominees_set_input',
-      where: 'nominees_bool_exp',
-    },
-    update_nominees_by_pk: {
-      _inc: 'nominees_inc_input',
-      _set: 'nominees_set_input',
-      pk_columns: 'nominees_pk_columns_input',
-    },
-    update_nominees_many: {
-      updates: 'nominees_updates',
-    },
-    update_organizations: {
-      _inc: 'organizations_inc_input',
-      _set: 'organizations_set_input',
-      where: 'organizations_bool_exp',
-    },
-    update_organizations_by_pk: {
-      _inc: 'organizations_inc_input',
-      _set: 'organizations_set_input',
-      pk_columns: 'organizations_pk_columns_input',
-    },
-    update_organizations_many: {
-      updates: 'organizations_updates',
-    },
-    update_pending_gift_private: {
-      _inc: 'pending_gift_private_inc_input',
-      _set: 'pending_gift_private_set_input',
-      where: 'pending_gift_private_bool_exp',
-    },
-    update_pending_gift_private_many: {
-      updates: 'pending_gift_private_updates',
-    },
-    update_pending_token_gifts: {
-      _inc: 'pending_token_gifts_inc_input',
-      _set: 'pending_token_gifts_set_input',
-      where: 'pending_token_gifts_bool_exp',
-    },
-    update_pending_token_gifts_by_pk: {
-      _inc: 'pending_token_gifts_inc_input',
-      _set: 'pending_token_gifts_set_input',
-      pk_columns: 'pending_token_gifts_pk_columns_input',
-    },
-    update_pending_token_gifts_many: {
-      updates: 'pending_token_gifts_updates',
-    },
-    update_pending_vault_transactions: {
-      _inc: 'pending_vault_transactions_inc_input',
-      _set: 'pending_vault_transactions_set_input',
-      where: 'pending_vault_transactions_bool_exp',
-    },
-    update_pending_vault_transactions_by_pk: {
-      _inc: 'pending_vault_transactions_inc_input',
-      _set: 'pending_vault_transactions_set_input',
-      pk_columns: 'pending_vault_transactions_pk_columns_input',
-    },
-    update_pending_vault_transactions_many: {
-      updates: 'pending_vault_transactions_updates',
-    },
-    update_personal_access_tokens: {
-      _inc: 'personal_access_tokens_inc_input',
-      _set: 'personal_access_tokens_set_input',
-      where: 'personal_access_tokens_bool_exp',
-    },
-    update_personal_access_tokens_by_pk: {
-      _inc: 'personal_access_tokens_inc_input',
-      _set: 'personal_access_tokens_set_input',
-      pk_columns: 'personal_access_tokens_pk_columns_input',
-    },
-    update_personal_access_tokens_many: {
-      updates: 'personal_access_tokens_updates',
-    },
-    update_profiles: {
-      _inc: 'profiles_inc_input',
-      _set: 'profiles_set_input',
-      where: 'profiles_bool_exp',
-    },
-    update_profiles_by_pk: {
-      _inc: 'profiles_inc_input',
-      _set: 'profiles_set_input',
-      pk_columns: 'profiles_pk_columns_input',
-    },
-    update_profiles_many: {
-      updates: 'profiles_updates',
-    },
-    update_teammates: {
-      _inc: 'teammates_inc_input',
-      _set: 'teammates_set_input',
-      where: 'teammates_bool_exp',
-    },
-    update_teammates_by_pk: {
-      _inc: 'teammates_inc_input',
-      _set: 'teammates_set_input',
-      pk_columns: 'teammates_pk_columns_input',
-    },
-    update_teammates_many: {
-      updates: 'teammates_updates',
-    },
-    update_token_gifts: {
-      _inc: 'token_gifts_inc_input',
-      _set: 'token_gifts_set_input',
-      where: 'token_gifts_bool_exp',
-    },
-    update_token_gifts_by_pk: {
-      _inc: 'token_gifts_inc_input',
-      _set: 'token_gifts_set_input',
-      pk_columns: 'token_gifts_pk_columns_input',
-    },
-    update_token_gifts_many: {
-      updates: 'token_gifts_updates',
-    },
-    update_users: {
-      _inc: 'users_inc_input',
-      _set: 'users_set_input',
-      where: 'users_bool_exp',
-    },
-    update_users_by_pk: {
-      _inc: 'users_inc_input',
-      _set: 'users_set_input',
-      pk_columns: 'users_pk_columns_input',
-    },
-    update_users_many: {
-      updates: 'users_updates',
-    },
-    update_vault_transactions: {
-      _inc: 'vault_transactions_inc_input',
-      _set: 'vault_transactions_set_input',
-      where: 'vault_transactions_bool_exp',
-    },
-    update_vault_transactions_by_pk: {
-      _inc: 'vault_transactions_inc_input',
-      _set: 'vault_transactions_set_input',
-      pk_columns: 'vault_transactions_pk_columns_input',
-    },
-    update_vault_transactions_many: {
-      updates: 'vault_transactions_updates',
-    },
-    update_vault_tx_types: {
-      _set: 'vault_tx_types_set_input',
-      where: 'vault_tx_types_bool_exp',
-    },
-    update_vault_tx_types_by_pk: {
-      _set: 'vault_tx_types_set_input',
-      pk_columns: 'vault_tx_types_pk_columns_input',
-    },
-    update_vault_tx_types_many: {
-      updates: 'vault_tx_types_updates',
-    },
-    update_vaults: {
-      _inc: 'vaults_inc_input',
-      _set: 'vaults_set_input',
-      where: 'vaults_bool_exp',
-    },
-    update_vaults_by_pk: {
-      _inc: 'vaults_inc_input',
-      _set: 'vaults_set_input',
-      pk_columns: 'vaults_pk_columns_input',
-    },
-    update_vaults_many: {
-      updates: 'vaults_updates',
-    },
-    update_vouches: {
-      _inc: 'vouches_inc_input',
-      _set: 'vouches_set_input',
-      where: 'vouches_bool_exp',
-    },
-    update_vouches_by_pk: {
-      _inc: 'vouches_inc_input',
-      _set: 'vouches_set_input',
-      pk_columns: 'vouches_pk_columns_input',
-    },
-    update_vouches_many: {
-      updates: 'vouches_updates',
-    },
-    uploadCircleLogo: {
-      payload: 'UploadCircleImageInput',
-    },
-    uploadOrgLogo: {
-      payload: 'UploadOrgImageInput',
-    },
-    uploadProfileAvatar: {
-      payload: 'UploadImageInput',
-    },
-    uploadProfileBackground: {
-      payload: 'UploadImageInput',
-    },
-    vouch: {
-      payload: 'VouchInput',
-    },
-  },
-  nominees: {
-    nominations: {
-      distinct_on: 'vouches_select_column',
-      order_by: 'vouches_order_by',
-      where: 'vouches_bool_exp',
-    },
-    nominations_aggregate: {
-      distinct_on: 'vouches_select_column',
-      order_by: 'vouches_order_by',
-      where: 'vouches_bool_exp',
-    },
-  },
-  nominees_aggregate_fields: {
-    count: {
-      columns: 'nominees_select_column',
-    },
-  },
-  nominees_aggregate_order_by: {
-    avg: 'nominees_avg_order_by',
-    count: 'order_by',
-    max: 'nominees_max_order_by',
-    min: 'nominees_min_order_by',
-    stddev: 'nominees_stddev_order_by',
-    stddev_pop: 'nominees_stddev_pop_order_by',
-    stddev_samp: 'nominees_stddev_samp_order_by',
-    sum: 'nominees_sum_order_by',
-    var_pop: 'nominees_var_pop_order_by',
-    var_samp: 'nominees_var_samp_order_by',
-    variance: 'nominees_variance_order_by',
-  },
-  nominees_arr_rel_insert_input: {
-    data: 'nominees_insert_input',
-    on_conflict: 'nominees_on_conflict',
-  },
-  nominees_avg_order_by: {
-    circle_id: 'order_by',
-    id: 'order_by',
-    nominated_by_user_id: 'order_by',
-    user_id: 'order_by',
-    vouches_required: 'order_by',
-  },
-  nominees_bool_exp: {
-    _and: 'nominees_bool_exp',
-    _not: 'nominees_bool_exp',
-    _or: 'nominees_bool_exp',
-    address: 'String_comparison_exp',
-    circle: 'circles_bool_exp',
-    circle_id: 'Int_comparison_exp',
-    created_at: 'timestamp_comparison_exp',
-    description: 'String_comparison_exp',
-    ended: 'Boolean_comparison_exp',
-    expiry_date: 'timestamp_comparison_exp',
-    id: 'bigint_comparison_exp',
-    name: 'String_comparison_exp',
-    nominated_by_user_id: 'Int_comparison_exp',
-    nominated_date: 'date_comparison_exp',
-    nominations: 'vouches_bool_exp',
-    nominator: 'users_bool_exp',
-    updated_at: 'timestamp_comparison_exp',
-    user: 'users_bool_exp',
-    user_id: 'Int_comparison_exp',
-    vouches_required: 'Int_comparison_exp',
-  },
-  nominees_constraint: true,
-  nominees_inc_input: {
-    id: 'bigint',
-  },
-  nominees_insert_input: {
-    circle: 'circles_obj_rel_insert_input',
-    created_at: 'timestamp',
-    expiry_date: 'timestamp',
-    id: 'bigint',
-    nominated_date: 'date',
-    nominations: 'vouches_arr_rel_insert_input',
-    nominator: 'users_obj_rel_insert_input',
-    updated_at: 'timestamp',
-    user: 'users_obj_rel_insert_input',
-  },
-  nominees_max_order_by: {
-    address: 'order_by',
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    description: 'order_by',
-    expiry_date: 'order_by',
-    id: 'order_by',
-    name: 'order_by',
-    nominated_by_user_id: 'order_by',
-    nominated_date: 'order_by',
-    updated_at: 'order_by',
-    user_id: 'order_by',
-    vouches_required: 'order_by',
-  },
-  nominees_min_order_by: {
-    address: 'order_by',
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    description: 'order_by',
-    expiry_date: 'order_by',
-    id: 'order_by',
-    name: 'order_by',
-    nominated_by_user_id: 'order_by',
-    nominated_date: 'order_by',
-    updated_at: 'order_by',
-    user_id: 'order_by',
-    vouches_required: 'order_by',
-  },
-  nominees_obj_rel_insert_input: {
-    data: 'nominees_insert_input',
-    on_conflict: 'nominees_on_conflict',
-  },
-  nominees_on_conflict: {
-    constraint: 'nominees_constraint',
-    update_columns: 'nominees_update_column',
-    where: 'nominees_bool_exp',
-  },
-  nominees_order_by: {
-    address: 'order_by',
-    circle: 'circles_order_by',
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    description: 'order_by',
-    ended: 'order_by',
-    expiry_date: 'order_by',
-    id: 'order_by',
-    name: 'order_by',
-    nominated_by_user_id: 'order_by',
-    nominated_date: 'order_by',
-    nominations_aggregate: 'vouches_aggregate_order_by',
-    nominator: 'users_order_by',
-    updated_at: 'order_by',
-    user: 'users_order_by',
-    user_id: 'order_by',
-    vouches_required: 'order_by',
-  },
-  nominees_pk_columns_input: {
-    id: 'bigint',
-  },
-  nominees_select_column: true,
-  nominees_set_input: {
-    created_at: 'timestamp',
-    expiry_date: 'timestamp',
-    id: 'bigint',
-    nominated_date: 'date',
-    updated_at: 'timestamp',
-  },
-  nominees_stddev_order_by: {
-    circle_id: 'order_by',
-    id: 'order_by',
-    nominated_by_user_id: 'order_by',
-    user_id: 'order_by',
-    vouches_required: 'order_by',
-  },
-  nominees_stddev_pop_order_by: {
-    circle_id: 'order_by',
-    id: 'order_by',
-    nominated_by_user_id: 'order_by',
-    user_id: 'order_by',
-    vouches_required: 'order_by',
-  },
-  nominees_stddev_samp_order_by: {
-    circle_id: 'order_by',
-    id: 'order_by',
-    nominated_by_user_id: 'order_by',
-    user_id: 'order_by',
-    vouches_required: 'order_by',
-  },
-  nominees_stream_cursor_input: {
-    initial_value: 'nominees_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  nominees_stream_cursor_value_input: {
-    created_at: 'timestamp',
-    expiry_date: 'timestamp',
-    id: 'bigint',
-    nominated_date: 'date',
-    updated_at: 'timestamp',
-  },
-  nominees_sum_order_by: {
-    circle_id: 'order_by',
-    id: 'order_by',
-    nominated_by_user_id: 'order_by',
-    user_id: 'order_by',
-    vouches_required: 'order_by',
-  },
-  nominees_update_column: true,
-  nominees_updates: {
-    _inc: 'nominees_inc_input',
-    _set: 'nominees_set_input',
-    where: 'nominees_bool_exp',
-  },
-  nominees_var_pop_order_by: {
-    circle_id: 'order_by',
-    id: 'order_by',
-    nominated_by_user_id: 'order_by',
-    user_id: 'order_by',
-    vouches_required: 'order_by',
-  },
-  nominees_var_samp_order_by: {
-    circle_id: 'order_by',
-    id: 'order_by',
-    nominated_by_user_id: 'order_by',
-    user_id: 'order_by',
-    vouches_required: 'order_by',
-  },
-  nominees_variance_order_by: {
-    circle_id: 'order_by',
-    id: 'order_by',
-    nominated_by_user_id: 'order_by',
-    user_id: 'order_by',
-    vouches_required: 'order_by',
-  },
-  numeric: 'String',
-  numeric_comparison_exp: {
-    _eq: 'numeric',
-    _gt: 'numeric',
-    _gte: 'numeric',
-    _in: 'numeric',
-    _lt: 'numeric',
-    _lte: 'numeric',
-    _neq: 'numeric',
-    _nin: 'numeric',
-  },
-  order_by: true,
-  organizations: {
-    circles: {
-      distinct_on: 'circles_select_column',
-      order_by: 'circles_order_by',
-      where: 'circles_bool_exp',
-    },
-    circles_aggregate: {
-      distinct_on: 'circles_select_column',
-      order_by: 'circles_order_by',
-      where: 'circles_bool_exp',
-    },
-    vaults: {
-      distinct_on: 'vaults_select_column',
-      order_by: 'vaults_order_by',
-      where: 'vaults_bool_exp',
-    },
-    vaults_aggregate: {
-      distinct_on: 'vaults_select_column',
-      order_by: 'vaults_order_by',
-      where: 'vaults_bool_exp',
-    },
-  },
-  organizations_aggregate_fields: {
-    count: {
-      columns: 'organizations_select_column',
-    },
-  },
-  organizations_bool_exp: {
-    _and: 'organizations_bool_exp',
-    _not: 'organizations_bool_exp',
-    _or: 'organizations_bool_exp',
-    circles: 'circles_bool_exp',
-    created_at: 'timestamp_comparison_exp',
-    created_by: 'Int_comparison_exp',
-    id: 'bigint_comparison_exp',
-    is_verified: 'Boolean_comparison_exp',
-    logo: 'String_comparison_exp',
-    name: 'String_comparison_exp',
-    profile: 'profiles_bool_exp',
-    sample: 'Boolean_comparison_exp',
-    telegram_id: 'String_comparison_exp',
-    updated_at: 'timestamp_comparison_exp',
-    vaults: 'vaults_bool_exp',
-  },
-  organizations_constraint: true,
-  organizations_inc_input: {
-    id: 'bigint',
-  },
-  organizations_insert_input: {
-    circles: 'circles_arr_rel_insert_input',
-    created_at: 'timestamp',
-    id: 'bigint',
-    profile: 'profiles_obj_rel_insert_input',
-    updated_at: 'timestamp',
-    vaults: 'vaults_arr_rel_insert_input',
-  },
-  organizations_obj_rel_insert_input: {
-    data: 'organizations_insert_input',
-    on_conflict: 'organizations_on_conflict',
-  },
-  organizations_on_conflict: {
-    constraint: 'organizations_constraint',
-    update_columns: 'organizations_update_column',
-    where: 'organizations_bool_exp',
-  },
-  organizations_order_by: {
-    circles_aggregate: 'circles_aggregate_order_by',
-    created_at: 'order_by',
-    created_by: 'order_by',
-    id: 'order_by',
-    is_verified: 'order_by',
-    logo: 'order_by',
-    name: 'order_by',
-    profile: 'profiles_order_by',
-    sample: 'order_by',
-    telegram_id: 'order_by',
-    updated_at: 'order_by',
-    vaults_aggregate: 'vaults_aggregate_order_by',
-  },
-  organizations_pk_columns_input: {
-    id: 'bigint',
-  },
-  organizations_select_column: true,
-  organizations_set_input: {
-    created_at: 'timestamp',
-    id: 'bigint',
-    updated_at: 'timestamp',
-  },
-  organizations_stream_cursor_input: {
-    initial_value: 'organizations_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  organizations_stream_cursor_value_input: {
-    created_at: 'timestamp',
-    id: 'bigint',
-    updated_at: 'timestamp',
-  },
-  organizations_update_column: true,
-  organizations_updates: {
-    _inc: 'organizations_inc_input',
-    _set: 'organizations_set_input',
-    where: 'organizations_bool_exp',
-  },
-  pending_gift_private_aggregate_fields: {
-    count: {
-      columns: 'pending_gift_private_select_column',
-    },
-  },
-  pending_gift_private_bool_exp: {
-    _and: 'pending_gift_private_bool_exp',
-    _not: 'pending_gift_private_bool_exp',
-    _or: 'pending_gift_private_bool_exp',
-    gift_id: 'bigint_comparison_exp',
-    note: 'String_comparison_exp',
-    recipient: 'users_bool_exp',
-    recipient_id: 'bigint_comparison_exp',
-    sender: 'users_bool_exp',
-    sender_id: 'bigint_comparison_exp',
-  },
-  pending_gift_private_inc_input: {
-    gift_id: 'bigint',
-    recipient_id: 'bigint',
-    sender_id: 'bigint',
-  },
-  pending_gift_private_insert_input: {
-    gift_id: 'bigint',
-    recipient: 'users_obj_rel_insert_input',
-    recipient_id: 'bigint',
-    sender: 'users_obj_rel_insert_input',
-    sender_id: 'bigint',
-  },
-  pending_gift_private_obj_rel_insert_input: {
-    data: 'pending_gift_private_insert_input',
-  },
-  pending_gift_private_order_by: {
-    gift_id: 'order_by',
-    note: 'order_by',
-    recipient: 'users_order_by',
-    recipient_id: 'order_by',
-    sender: 'users_order_by',
-    sender_id: 'order_by',
-  },
-  pending_gift_private_select_column: true,
-  pending_gift_private_set_input: {
-    gift_id: 'bigint',
-    recipient_id: 'bigint',
-    sender_id: 'bigint',
-  },
-  pending_gift_private_stream_cursor_input: {
-    initial_value: 'pending_gift_private_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  pending_gift_private_stream_cursor_value_input: {
-    gift_id: 'bigint',
-    recipient_id: 'bigint',
-    sender_id: 'bigint',
-  },
-  pending_gift_private_updates: {
-    _inc: 'pending_gift_private_inc_input',
-    _set: 'pending_gift_private_set_input',
-    where: 'pending_gift_private_bool_exp',
-  },
-  pending_token_gifts_aggregate_fields: {
-    count: {
-      columns: 'pending_token_gifts_select_column',
-    },
-  },
-  pending_token_gifts_aggregate_order_by: {
-    avg: 'pending_token_gifts_avg_order_by',
-    count: 'order_by',
-    max: 'pending_token_gifts_max_order_by',
-    min: 'pending_token_gifts_min_order_by',
-    stddev: 'pending_token_gifts_stddev_order_by',
-    stddev_pop: 'pending_token_gifts_stddev_pop_order_by',
-    stddev_samp: 'pending_token_gifts_stddev_samp_order_by',
-    sum: 'pending_token_gifts_sum_order_by',
-    var_pop: 'pending_token_gifts_var_pop_order_by',
-    var_samp: 'pending_token_gifts_var_samp_order_by',
-    variance: 'pending_token_gifts_variance_order_by',
-  },
-  pending_token_gifts_arr_rel_insert_input: {
-    data: 'pending_token_gifts_insert_input',
-    on_conflict: 'pending_token_gifts_on_conflict',
-  },
-  pending_token_gifts_avg_order_by: {
-    circle_id: 'order_by',
-    epoch_id: 'order_by',
-    id: 'order_by',
-    recipient_id: 'order_by',
-    sender_id: 'order_by',
-    tokens: 'order_by',
-  },
-  pending_token_gifts_bool_exp: {
-    _and: 'pending_token_gifts_bool_exp',
-    _not: 'pending_token_gifts_bool_exp',
-    _or: 'pending_token_gifts_bool_exp',
-    circle: 'circles_bool_exp',
-    circle_id: 'bigint_comparison_exp',
-    created_at: 'timestamp_comparison_exp',
-    dts_created: 'timestamp_comparison_exp',
-    epoch: 'epochs_bool_exp',
-    epoch_id: 'Int_comparison_exp',
-    gift_private: 'pending_gift_private_bool_exp',
-    id: 'bigint_comparison_exp',
-    note: 'String_comparison_exp',
-    recipient: 'users_bool_exp',
-    recipient_address: 'String_comparison_exp',
-    recipient_id: 'bigint_comparison_exp',
-    sender: 'users_bool_exp',
-    sender_address: 'String_comparison_exp',
-    sender_id: 'bigint_comparison_exp',
-    tokens: 'Int_comparison_exp',
-    updated_at: 'timestamp_comparison_exp',
-  },
-  pending_token_gifts_constraint: true,
-  pending_token_gifts_inc_input: {
-    circle_id: 'bigint',
-    id: 'bigint',
-    recipient_id: 'bigint',
-    sender_id: 'bigint',
-  },
-  pending_token_gifts_insert_input: {
-    circle: 'circles_obj_rel_insert_input',
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    dts_created: 'timestamp',
-    epoch: 'epochs_obj_rel_insert_input',
-    gift_private: 'pending_gift_private_obj_rel_insert_input',
-    id: 'bigint',
-    recipient: 'users_obj_rel_insert_input',
-    recipient_id: 'bigint',
-    sender: 'users_obj_rel_insert_input',
-    sender_id: 'bigint',
-    updated_at: 'timestamp',
-  },
-  pending_token_gifts_max_order_by: {
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    dts_created: 'order_by',
-    epoch_id: 'order_by',
-    id: 'order_by',
-    note: 'order_by',
-    recipient_address: 'order_by',
-    recipient_id: 'order_by',
-    sender_address: 'order_by',
-    sender_id: 'order_by',
-    tokens: 'order_by',
-    updated_at: 'order_by',
-  },
-  pending_token_gifts_min_order_by: {
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    dts_created: 'order_by',
-    epoch_id: 'order_by',
-    id: 'order_by',
-    note: 'order_by',
-    recipient_address: 'order_by',
-    recipient_id: 'order_by',
-    sender_address: 'order_by',
-    sender_id: 'order_by',
-    tokens: 'order_by',
-    updated_at: 'order_by',
-  },
-  pending_token_gifts_on_conflict: {
-    constraint: 'pending_token_gifts_constraint',
-    update_columns: 'pending_token_gifts_update_column',
-    where: 'pending_token_gifts_bool_exp',
-  },
-  pending_token_gifts_order_by: {
-    circle: 'circles_order_by',
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    dts_created: 'order_by',
-    epoch: 'epochs_order_by',
-    epoch_id: 'order_by',
-    gift_private: 'pending_gift_private_order_by',
-    id: 'order_by',
-    note: 'order_by',
-    recipient: 'users_order_by',
-    recipient_address: 'order_by',
-    recipient_id: 'order_by',
-    sender: 'users_order_by',
-    sender_address: 'order_by',
-    sender_id: 'order_by',
-    tokens: 'order_by',
-    updated_at: 'order_by',
-  },
-  pending_token_gifts_pk_columns_input: {
-    id: 'bigint',
-  },
-  pending_token_gifts_select_column: true,
-  pending_token_gifts_set_input: {
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    dts_created: 'timestamp',
-    id: 'bigint',
-    recipient_id: 'bigint',
-    sender_id: 'bigint',
-    updated_at: 'timestamp',
-  },
-  pending_token_gifts_stddev_order_by: {
-    circle_id: 'order_by',
-    epoch_id: 'order_by',
-    id: 'order_by',
-    recipient_id: 'order_by',
-    sender_id: 'order_by',
-    tokens: 'order_by',
-  },
-  pending_token_gifts_stddev_pop_order_by: {
-    circle_id: 'order_by',
-    epoch_id: 'order_by',
-    id: 'order_by',
-    recipient_id: 'order_by',
-    sender_id: 'order_by',
-    tokens: 'order_by',
-  },
-  pending_token_gifts_stddev_samp_order_by: {
-    circle_id: 'order_by',
-    epoch_id: 'order_by',
-    id: 'order_by',
-    recipient_id: 'order_by',
-    sender_id: 'order_by',
-    tokens: 'order_by',
-  },
-  pending_token_gifts_stream_cursor_input: {
-    initial_value: 'pending_token_gifts_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  pending_token_gifts_stream_cursor_value_input: {
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    dts_created: 'timestamp',
-    id: 'bigint',
-    recipient_id: 'bigint',
-    sender_id: 'bigint',
-    updated_at: 'timestamp',
-  },
-  pending_token_gifts_sum_order_by: {
-    circle_id: 'order_by',
-    epoch_id: 'order_by',
-    id: 'order_by',
-    recipient_id: 'order_by',
-    sender_id: 'order_by',
-    tokens: 'order_by',
-  },
-  pending_token_gifts_update_column: true,
-  pending_token_gifts_updates: {
-    _inc: 'pending_token_gifts_inc_input',
-    _set: 'pending_token_gifts_set_input',
-    where: 'pending_token_gifts_bool_exp',
-  },
-  pending_token_gifts_var_pop_order_by: {
-    circle_id: 'order_by',
-    epoch_id: 'order_by',
-    id: 'order_by',
-    recipient_id: 'order_by',
-    sender_id: 'order_by',
-    tokens: 'order_by',
-  },
-  pending_token_gifts_var_samp_order_by: {
-    circle_id: 'order_by',
-    epoch_id: 'order_by',
-    id: 'order_by',
-    recipient_id: 'order_by',
-    sender_id: 'order_by',
-    tokens: 'order_by',
-  },
-  pending_token_gifts_variance_order_by: {
-    circle_id: 'order_by',
-    epoch_id: 'order_by',
-    id: 'order_by',
-    recipient_id: 'order_by',
-    sender_id: 'order_by',
-    tokens: 'order_by',
-  },
-  pending_vault_transactions_aggregate_fields: {
-    count: {
-      columns: 'pending_vault_transactions_select_column',
-    },
-  },
-  pending_vault_transactions_bool_exp: {
-    _and: 'pending_vault_transactions_bool_exp',
-    _not: 'pending_vault_transactions_bool_exp',
-    _or: 'pending_vault_transactions_bool_exp',
-    chain_id: 'Int_comparison_exp',
-    claim_id: 'bigint_comparison_exp',
-    created_at: 'timestamp_comparison_exp',
-    created_by: 'bigint_comparison_exp',
-    distribution: 'distributions_bool_exp',
-    distribution_id: 'bigint_comparison_exp',
-    org_id: 'bigint_comparison_exp',
-    organization: 'organizations_bool_exp',
-    profile: 'profiles_bool_exp',
-    tx_hash: 'String_comparison_exp',
-    tx_type: 'vault_tx_types_enum_comparison_exp',
-    vault_tx_type: 'vault_tx_types_bool_exp',
-  },
-  pending_vault_transactions_constraint: true,
-  pending_vault_transactions_inc_input: {
-    claim_id: 'bigint',
-    created_by: 'bigint',
-    distribution_id: 'bigint',
-    org_id: 'bigint',
-  },
-  pending_vault_transactions_insert_input: {
-    claim_id: 'bigint',
-    created_at: 'timestamp',
-    created_by: 'bigint',
-    distribution: 'distributions_obj_rel_insert_input',
-    distribution_id: 'bigint',
-    org_id: 'bigint',
-    organization: 'organizations_obj_rel_insert_input',
-    profile: 'profiles_obj_rel_insert_input',
-    tx_type: 'vault_tx_types_enum',
-    vault_tx_type: 'vault_tx_types_obj_rel_insert_input',
-  },
-  pending_vault_transactions_on_conflict: {
-    constraint: 'pending_vault_transactions_constraint',
-    update_columns: 'pending_vault_transactions_update_column',
-    where: 'pending_vault_transactions_bool_exp',
-  },
-  pending_vault_transactions_order_by: {
-    chain_id: 'order_by',
-    claim_id: 'order_by',
-    created_at: 'order_by',
-    created_by: 'order_by',
-    distribution: 'distributions_order_by',
-    distribution_id: 'order_by',
-    org_id: 'order_by',
-    organization: 'organizations_order_by',
-    profile: 'profiles_order_by',
-    tx_hash: 'order_by',
-    tx_type: 'order_by',
-    vault_tx_type: 'vault_tx_types_order_by',
-  },
-  pending_vault_transactions_pk_columns_input: {},
-  pending_vault_transactions_select_column: true,
-  pending_vault_transactions_set_input: {
-    claim_id: 'bigint',
-    created_at: 'timestamp',
-    created_by: 'bigint',
-    distribution_id: 'bigint',
-    org_id: 'bigint',
-    tx_type: 'vault_tx_types_enum',
-  },
-  pending_vault_transactions_stream_cursor_input: {
-    initial_value: 'pending_vault_transactions_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  pending_vault_transactions_stream_cursor_value_input: {
-    claim_id: 'bigint',
-    created_at: 'timestamp',
-    created_by: 'bigint',
-    distribution_id: 'bigint',
-    org_id: 'bigint',
-    tx_type: 'vault_tx_types_enum',
-  },
-  pending_vault_transactions_update_column: true,
-  pending_vault_transactions_updates: {
-    _inc: 'pending_vault_transactions_inc_input',
-    _set: 'pending_vault_transactions_set_input',
-    where: 'pending_vault_transactions_bool_exp',
-  },
-  personal_access_tokens_aggregate_fields: {
-    count: {
-      columns: 'personal_access_tokens_select_column',
-    },
-  },
-  personal_access_tokens_bool_exp: {
-    _and: 'personal_access_tokens_bool_exp',
-    _not: 'personal_access_tokens_bool_exp',
-    _or: 'personal_access_tokens_bool_exp',
-    abilities: 'String_comparison_exp',
-    created_at: 'timestamp_comparison_exp',
-    id: 'bigint_comparison_exp',
-    last_used_at: 'timestamp_comparison_exp',
-    name: 'String_comparison_exp',
-    profile: 'profiles_bool_exp',
-    token: 'String_comparison_exp',
-    tokenable_id: 'bigint_comparison_exp',
-    tokenable_type: 'String_comparison_exp',
-    updated_at: 'timestamp_comparison_exp',
-  },
-  personal_access_tokens_constraint: true,
-  personal_access_tokens_inc_input: {
-    id: 'bigint',
-    tokenable_id: 'bigint',
-  },
-  personal_access_tokens_insert_input: {
-    created_at: 'timestamp',
-    id: 'bigint',
-    last_used_at: 'timestamp',
-    profile: 'profiles_obj_rel_insert_input',
-    tokenable_id: 'bigint',
-    updated_at: 'timestamp',
-  },
-  personal_access_tokens_on_conflict: {
-    constraint: 'personal_access_tokens_constraint',
-    update_columns: 'personal_access_tokens_update_column',
-    where: 'personal_access_tokens_bool_exp',
-  },
-  personal_access_tokens_order_by: {
-    abilities: 'order_by',
-    created_at: 'order_by',
-    id: 'order_by',
-    last_used_at: 'order_by',
-    name: 'order_by',
-    profile: 'profiles_order_by',
-    token: 'order_by',
-    tokenable_id: 'order_by',
-    tokenable_type: 'order_by',
-    updated_at: 'order_by',
-  },
-  personal_access_tokens_pk_columns_input: {
-    id: 'bigint',
-  },
-  personal_access_tokens_select_column: true,
-  personal_access_tokens_set_input: {
-    created_at: 'timestamp',
-    id: 'bigint',
-    last_used_at: 'timestamp',
-    tokenable_id: 'bigint',
-    updated_at: 'timestamp',
-  },
-  personal_access_tokens_stream_cursor_input: {
-    initial_value: 'personal_access_tokens_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  personal_access_tokens_stream_cursor_value_input: {
-    created_at: 'timestamp',
-    id: 'bigint',
-    last_used_at: 'timestamp',
-    tokenable_id: 'bigint',
-    updated_at: 'timestamp',
-  },
-  personal_access_tokens_update_column: true,
-  personal_access_tokens_updates: {
-    _inc: 'personal_access_tokens_inc_input',
-    _set: 'personal_access_tokens_set_input',
-    where: 'personal_access_tokens_bool_exp',
-  },
-  profiles: {
-    claims: {
-      distinct_on: 'claims_select_column',
-      order_by: 'claims_order_by',
-      where: 'claims_bool_exp',
-    },
-    claims_aggregate: {
-      distinct_on: 'claims_select_column',
-      order_by: 'claims_order_by',
-      where: 'claims_bool_exp',
-    },
-    distributions: {
-      distinct_on: 'distributions_select_column',
-      order_by: 'distributions_order_by',
-      where: 'distributions_bool_exp',
-    },
-    distributions_aggregate: {
-      distinct_on: 'distributions_select_column',
-      order_by: 'distributions_order_by',
-      where: 'distributions_bool_exp',
-    },
-    users: {
-      distinct_on: 'users_select_column',
-      order_by: 'users_order_by',
-      where: 'users_bool_exp',
-    },
-    users_aggregate: {
-      distinct_on: 'users_select_column',
-      order_by: 'users_order_by',
-      where: 'users_bool_exp',
-    },
-    vault_transactions: {
-      distinct_on: 'vault_transactions_select_column',
-      order_by: 'vault_transactions_order_by',
-      where: 'vault_transactions_bool_exp',
-    },
-    vault_transactions_aggregate: {
-      distinct_on: 'vault_transactions_select_column',
-      order_by: 'vault_transactions_order_by',
-      where: 'vault_transactions_bool_exp',
-    },
-    vaults: {
-      distinct_on: 'vaults_select_column',
-      order_by: 'vaults_order_by',
-      where: 'vaults_bool_exp',
-    },
-    vaults_aggregate: {
-      distinct_on: 'vaults_select_column',
-      order_by: 'vaults_order_by',
-      where: 'vaults_bool_exp',
-    },
-  },
-  profiles_aggregate_fields: {
-    count: {
-      columns: 'profiles_select_column',
-    },
-  },
-  profiles_bool_exp: {
-    _and: 'profiles_bool_exp',
-    _not: 'profiles_bool_exp',
-    _or: 'profiles_bool_exp',
-    address: 'String_comparison_exp',
-    avatar: 'String_comparison_exp',
-    background: 'String_comparison_exp',
-    bio: 'String_comparison_exp',
-    chat_id: 'String_comparison_exp',
-    claims: 'claims_bool_exp',
-    created_at: 'timestamp_comparison_exp',
-    discord_username: 'String_comparison_exp',
-    distributions: 'distributions_bool_exp',
-    github_username: 'String_comparison_exp',
-    id: 'bigint_comparison_exp',
-    medium_username: 'String_comparison_exp',
-    name: 'String_comparison_exp',
-    skills: 'String_comparison_exp',
-    telegram_username: 'String_comparison_exp',
-    twitter_username: 'String_comparison_exp',
-    updated_at: 'timestamp_comparison_exp',
-    users: 'users_bool_exp',
-    vault_transactions: 'vault_transactions_bool_exp',
-    vaults: 'vaults_bool_exp',
-    website: 'String_comparison_exp',
-  },
-  profiles_constraint: true,
-  profiles_inc_input: {
-    id: 'bigint',
-  },
-  profiles_insert_input: {
-    claims: 'claims_arr_rel_insert_input',
-    created_at: 'timestamp',
-    distributions: 'distributions_arr_rel_insert_input',
-    id: 'bigint',
-    updated_at: 'timestamp',
-    users: 'users_arr_rel_insert_input',
-    vault_transactions: 'vault_transactions_arr_rel_insert_input',
-    vaults: 'vaults_arr_rel_insert_input',
-  },
-  profiles_obj_rel_insert_input: {
-    data: 'profiles_insert_input',
-    on_conflict: 'profiles_on_conflict',
-  },
-  profiles_on_conflict: {
-    constraint: 'profiles_constraint',
-    update_columns: 'profiles_update_column',
-    where: 'profiles_bool_exp',
-  },
-  profiles_order_by: {
-    address: 'order_by',
-    avatar: 'order_by',
-    background: 'order_by',
-    bio: 'order_by',
-    chat_id: 'order_by',
-    claims_aggregate: 'claims_aggregate_order_by',
-    created_at: 'order_by',
-    discord_username: 'order_by',
-    distributions_aggregate: 'distributions_aggregate_order_by',
-    github_username: 'order_by',
-    id: 'order_by',
-    medium_username: 'order_by',
-    name: 'order_by',
-    skills: 'order_by',
-    telegram_username: 'order_by',
-    twitter_username: 'order_by',
-    updated_at: 'order_by',
-    users_aggregate: 'users_aggregate_order_by',
-    vault_transactions_aggregate: 'vault_transactions_aggregate_order_by',
-    vaults_aggregate: 'vaults_aggregate_order_by',
-    website: 'order_by',
-  },
-  profiles_pk_columns_input: {
-    id: 'bigint',
-  },
-  profiles_select_column: true,
-  profiles_set_input: {
-    created_at: 'timestamp',
-    id: 'bigint',
-    updated_at: 'timestamp',
-  },
-  profiles_stream_cursor_input: {
-    initial_value: 'profiles_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  profiles_stream_cursor_value_input: {
-    created_at: 'timestamp',
-    id: 'bigint',
-    updated_at: 'timestamp',
-  },
-  profiles_update_column: true,
-  profiles_updates: {
-    _inc: 'profiles_inc_input',
-    _set: 'profiles_set_input',
-    where: 'profiles_bool_exp',
-  },
-  query_root: {
-    burns: {
-      distinct_on: 'burns_select_column',
-      order_by: 'burns_order_by',
-      where: 'burns_bool_exp',
-    },
-    burns_aggregate: {
-      distinct_on: 'burns_select_column',
-      order_by: 'burns_order_by',
-      where: 'burns_bool_exp',
-    },
-    burns_by_pk: {
-      id: 'bigint',
-    },
-    circle_api_keys: {
-      distinct_on: 'circle_api_keys_select_column',
-      order_by: 'circle_api_keys_order_by',
-      where: 'circle_api_keys_bool_exp',
-    },
-    circle_api_keys_aggregate: {
-      distinct_on: 'circle_api_keys_select_column',
-      order_by: 'circle_api_keys_order_by',
-      where: 'circle_api_keys_bool_exp',
-    },
-    circle_api_keys_by_pk: {},
-    circle_integrations: {
-      distinct_on: 'circle_integrations_select_column',
-      order_by: 'circle_integrations_order_by',
-      where: 'circle_integrations_bool_exp',
-    },
-    circle_integrations_aggregate: {
-      distinct_on: 'circle_integrations_select_column',
-      order_by: 'circle_integrations_order_by',
-      where: 'circle_integrations_bool_exp',
-    },
-    circle_integrations_by_pk: {
-      id: 'bigint',
-    },
-    circle_metadata: {
-      distinct_on: 'circle_metadata_select_column',
-      order_by: 'circle_metadata_order_by',
-      where: 'circle_metadata_bool_exp',
-    },
-    circle_metadata_aggregate: {
-      distinct_on: 'circle_metadata_select_column',
-      order_by: 'circle_metadata_order_by',
-      where: 'circle_metadata_bool_exp',
-    },
-    circle_metadata_by_pk: {
-      id: 'bigint',
-    },
-    circle_private: {
-      distinct_on: 'circle_private_select_column',
-      order_by: 'circle_private_order_by',
-      where: 'circle_private_bool_exp',
-    },
-    circle_private_aggregate: {
-      distinct_on: 'circle_private_select_column',
-      order_by: 'circle_private_order_by',
-      where: 'circle_private_bool_exp',
-    },
-    circle_share_tokens: {
-      distinct_on: 'circle_share_tokens_select_column',
-      order_by: 'circle_share_tokens_order_by',
-      where: 'circle_share_tokens_bool_exp',
-    },
-    circle_share_tokens_aggregate: {
-      distinct_on: 'circle_share_tokens_select_column',
-      order_by: 'circle_share_tokens_order_by',
-      where: 'circle_share_tokens_bool_exp',
-    },
-    circle_share_tokens_by_pk: {
-      circle_id: 'bigint',
-    },
-    circles: {
-      distinct_on: 'circles_select_column',
-      order_by: 'circles_order_by',
-      where: 'circles_bool_exp',
-    },
-    circles_aggregate: {
-      distinct_on: 'circles_select_column',
-      order_by: 'circles_order_by',
-      where: 'circles_bool_exp',
-    },
-    circles_by_pk: {
-      id: 'bigint',
-    },
-    claims: {
-      distinct_on: 'claims_select_column',
-      order_by: 'claims_order_by',
-      where: 'claims_bool_exp',
-    },
-    claims_aggregate: {
-      distinct_on: 'claims_select_column',
-      order_by: 'claims_order_by',
-      where: 'claims_bool_exp',
-    },
-    claims_by_pk: {
-      id: 'bigint',
-    },
-    contributions: {
-      distinct_on: 'contributions_select_column',
-      order_by: 'contributions_order_by',
-      where: 'contributions_bool_exp',
-    },
-    contributions_aggregate: {
-      distinct_on: 'contributions_select_column',
-      order_by: 'contributions_order_by',
-      where: 'contributions_bool_exp',
-    },
-    contributions_by_pk: {
-      id: 'bigint',
-    },
-    discord_roles_circles: {
-      distinct_on: 'discord_roles_circles_select_column',
-      order_by: 'discord_roles_circles_order_by',
-      where: 'discord_roles_circles_bool_exp',
-    },
-    discord_roles_circles_aggregate: {
-      distinct_on: 'discord_roles_circles_select_column',
-      order_by: 'discord_roles_circles_order_by',
-      where: 'discord_roles_circles_bool_exp',
-    },
-    discord_roles_circles_by_pk: {
-      id: 'bigint',
-    },
-    discord_users: {
-      distinct_on: 'discord_users_select_column',
-      order_by: 'discord_users_order_by',
-      where: 'discord_users_bool_exp',
-    },
-    discord_users_aggregate: {
-      distinct_on: 'discord_users_select_column',
-      order_by: 'discord_users_order_by',
-      where: 'discord_users_bool_exp',
-    },
-    discord_users_by_pk: {
-      id: 'bigint',
-    },
-    distributions: {
-      distinct_on: 'distributions_select_column',
-      order_by: 'distributions_order_by',
-      where: 'distributions_bool_exp',
-    },
-    distributions_aggregate: {
-      distinct_on: 'distributions_select_column',
-      order_by: 'distributions_order_by',
-      where: 'distributions_bool_exp',
-    },
-    distributions_by_pk: {
-      id: 'bigint',
-    },
-    epoch_pgive_data: {
-      distinct_on: 'epoch_pgive_data_select_column',
-      order_by: 'epoch_pgive_data_order_by',
-      where: 'epoch_pgive_data_bool_exp',
-    },
-    epoch_pgive_data_aggregate: {
-      distinct_on: 'epoch_pgive_data_select_column',
-      order_by: 'epoch_pgive_data_order_by',
-      where: 'epoch_pgive_data_bool_exp',
-    },
-    epoch_pgive_data_by_pk: {},
-    epochs: {
-      distinct_on: 'epochs_select_column',
-      order_by: 'epochs_order_by',
-      where: 'epochs_bool_exp',
-    },
-    epochs_aggregate: {
-      distinct_on: 'epochs_select_column',
-      order_by: 'epochs_order_by',
-      where: 'epochs_bool_exp',
-    },
-    epochs_by_pk: {
-      id: 'bigint',
-    },
-    gift_private: {
-      distinct_on: 'gift_private_select_column',
-      order_by: 'gift_private_order_by',
-      where: 'gift_private_bool_exp',
-    },
-    gift_private_aggregate: {
-      distinct_on: 'gift_private_select_column',
-      order_by: 'gift_private_order_by',
-      where: 'gift_private_bool_exp',
-    },
-    histories: {
-      distinct_on: 'histories_select_column',
-      order_by: 'histories_order_by',
-      where: 'histories_bool_exp',
-    },
-    histories_aggregate: {
-      distinct_on: 'histories_select_column',
-      order_by: 'histories_order_by',
-      where: 'histories_bool_exp',
-    },
-    histories_by_pk: {
-      id: 'bigint',
-    },
-    interaction_events: {
-      distinct_on: 'interaction_events_select_column',
-      order_by: 'interaction_events_order_by',
-      where: 'interaction_events_bool_exp',
-    },
-    interaction_events_aggregate: {
-      distinct_on: 'interaction_events_select_column',
-      order_by: 'interaction_events_order_by',
-      where: 'interaction_events_bool_exp',
-    },
-    interaction_events_by_pk: {},
-    locked_token_distributions: {
-      distinct_on: 'locked_token_distributions_select_column',
-      order_by: 'locked_token_distributions_order_by',
-      where: 'locked_token_distributions_bool_exp',
-    },
-    locked_token_distributions_aggregate: {
-      distinct_on: 'locked_token_distributions_select_column',
-      order_by: 'locked_token_distributions_order_by',
-      where: 'locked_token_distributions_bool_exp',
-    },
-    locked_token_distributions_by_pk: {
-      id: 'bigint',
-    },
-    member_epoch_pgives: {
-      distinct_on: 'member_epoch_pgives_select_column',
-      order_by: 'member_epoch_pgives_order_by',
-      where: 'member_epoch_pgives_bool_exp',
-    },
-    member_epoch_pgives_aggregate: {
-      distinct_on: 'member_epoch_pgives_select_column',
-      order_by: 'member_epoch_pgives_order_by',
-      where: 'member_epoch_pgives_bool_exp',
-    },
-    member_epoch_pgives_by_pk: {},
-    nominees: {
-      distinct_on: 'nominees_select_column',
-      order_by: 'nominees_order_by',
-      where: 'nominees_bool_exp',
-    },
-    nominees_aggregate: {
-      distinct_on: 'nominees_select_column',
-      order_by: 'nominees_order_by',
-      where: 'nominees_bool_exp',
-    },
-    nominees_by_pk: {
-      id: 'bigint',
-    },
-    organizations: {
-      distinct_on: 'organizations_select_column',
-      order_by: 'organizations_order_by',
-      where: 'organizations_bool_exp',
-    },
-    organizations_aggregate: {
-      distinct_on: 'organizations_select_column',
-      order_by: 'organizations_order_by',
-      where: 'organizations_bool_exp',
-    },
-    organizations_by_pk: {
-      id: 'bigint',
-    },
-    pending_gift_private: {
-      distinct_on: 'pending_gift_private_select_column',
-      order_by: 'pending_gift_private_order_by',
-      where: 'pending_gift_private_bool_exp',
-    },
-    pending_gift_private_aggregate: {
-      distinct_on: 'pending_gift_private_select_column',
-      order_by: 'pending_gift_private_order_by',
-      where: 'pending_gift_private_bool_exp',
-    },
-    pending_token_gifts: {
-      distinct_on: 'pending_token_gifts_select_column',
-      order_by: 'pending_token_gifts_order_by',
-      where: 'pending_token_gifts_bool_exp',
-    },
-    pending_token_gifts_aggregate: {
-      distinct_on: 'pending_token_gifts_select_column',
-      order_by: 'pending_token_gifts_order_by',
-      where: 'pending_token_gifts_bool_exp',
-    },
-    pending_token_gifts_by_pk: {
-      id: 'bigint',
-    },
-    pending_vault_transactions: {
-      distinct_on: 'pending_vault_transactions_select_column',
-      order_by: 'pending_vault_transactions_order_by',
-      where: 'pending_vault_transactions_bool_exp',
-    },
-    pending_vault_transactions_aggregate: {
-      distinct_on: 'pending_vault_transactions_select_column',
-      order_by: 'pending_vault_transactions_order_by',
-      where: 'pending_vault_transactions_bool_exp',
-    },
-    pending_vault_transactions_by_pk: {},
-    personal_access_tokens: {
-      distinct_on: 'personal_access_tokens_select_column',
-      order_by: 'personal_access_tokens_order_by',
-      where: 'personal_access_tokens_bool_exp',
-    },
-    personal_access_tokens_aggregate: {
-      distinct_on: 'personal_access_tokens_select_column',
-      order_by: 'personal_access_tokens_order_by',
-      where: 'personal_access_tokens_bool_exp',
-    },
-    personal_access_tokens_by_pk: {
-      id: 'bigint',
-    },
-    price_per_share: {},
-    profiles: {
-      distinct_on: 'profiles_select_column',
-      order_by: 'profiles_order_by',
-      where: 'profiles_bool_exp',
-    },
-    profiles_aggregate: {
-      distinct_on: 'profiles_select_column',
-      order_by: 'profiles_order_by',
-      where: 'profiles_bool_exp',
-    },
-    profiles_by_pk: {
-      id: 'bigint',
-    },
-    teammates: {
-      distinct_on: 'teammates_select_column',
-      order_by: 'teammates_order_by',
-      where: 'teammates_bool_exp',
-    },
-    teammates_aggregate: {
-      distinct_on: 'teammates_select_column',
-      order_by: 'teammates_order_by',
-      where: 'teammates_bool_exp',
-    },
-    teammates_by_pk: {
-      id: 'bigint',
-    },
-    token_gifts: {
-      distinct_on: 'token_gifts_select_column',
-      order_by: 'token_gifts_order_by',
-      where: 'token_gifts_bool_exp',
-    },
-    token_gifts_aggregate: {
-      distinct_on: 'token_gifts_select_column',
-      order_by: 'token_gifts_order_by',
-      where: 'token_gifts_bool_exp',
-    },
-    token_gifts_by_pk: {
-      id: 'bigint',
-    },
-    user_private: {
-      distinct_on: 'user_private_select_column',
-      order_by: 'user_private_order_by',
-      where: 'user_private_bool_exp',
-    },
-    user_private_aggregate: {
-      distinct_on: 'user_private_select_column',
-      order_by: 'user_private_order_by',
-      where: 'user_private_bool_exp',
-    },
-    users: {
-      distinct_on: 'users_select_column',
-      order_by: 'users_order_by',
-      where: 'users_bool_exp',
-    },
-    users_aggregate: {
-      distinct_on: 'users_select_column',
-      order_by: 'users_order_by',
-      where: 'users_bool_exp',
-    },
-    users_by_pk: {
-      id: 'bigint',
-    },
-    vault_transactions: {
-      distinct_on: 'vault_transactions_select_column',
-      order_by: 'vault_transactions_order_by',
-      where: 'vault_transactions_bool_exp',
-    },
-    vault_transactions_aggregate: {
-      distinct_on: 'vault_transactions_select_column',
-      order_by: 'vault_transactions_order_by',
-      where: 'vault_transactions_bool_exp',
-    },
-    vault_transactions_by_pk: {
-      id: 'bigint',
-    },
-    vault_tx_types: {
-      distinct_on: 'vault_tx_types_select_column',
-      order_by: 'vault_tx_types_order_by',
-      where: 'vault_tx_types_bool_exp',
-    },
-    vault_tx_types_aggregate: {
-      distinct_on: 'vault_tx_types_select_column',
-      order_by: 'vault_tx_types_order_by',
-      where: 'vault_tx_types_bool_exp',
-    },
-    vault_tx_types_by_pk: {},
-    vaults: {
-      distinct_on: 'vaults_select_column',
-      order_by: 'vaults_order_by',
-      where: 'vaults_bool_exp',
-    },
-    vaults_aggregate: {
-      distinct_on: 'vaults_select_column',
-      order_by: 'vaults_order_by',
-      where: 'vaults_bool_exp',
-    },
-    vaults_by_pk: {
-      id: 'bigint',
-    },
-    vouches: {
-      distinct_on: 'vouches_select_column',
-      order_by: 'vouches_order_by',
-      where: 'vouches_bool_exp',
-    },
-    vouches_aggregate: {
-      distinct_on: 'vouches_select_column',
-      order_by: 'vouches_order_by',
-      where: 'vouches_bool_exp',
-    },
-    vouches_by_pk: {
-      id: 'bigint',
-    },
-  },
-  subscription_root: {
-    burns: {
-      distinct_on: 'burns_select_column',
-      order_by: 'burns_order_by',
-      where: 'burns_bool_exp',
-    },
-    burns_aggregate: {
-      distinct_on: 'burns_select_column',
-      order_by: 'burns_order_by',
-      where: 'burns_bool_exp',
-    },
-    burns_by_pk: {
-      id: 'bigint',
-    },
-    burns_stream: {
-      cursor: 'burns_stream_cursor_input',
-      where: 'burns_bool_exp',
-    },
-    circle_api_keys: {
-      distinct_on: 'circle_api_keys_select_column',
-      order_by: 'circle_api_keys_order_by',
-      where: 'circle_api_keys_bool_exp',
-    },
-    circle_api_keys_aggregate: {
-      distinct_on: 'circle_api_keys_select_column',
-      order_by: 'circle_api_keys_order_by',
-      where: 'circle_api_keys_bool_exp',
-    },
-    circle_api_keys_by_pk: {},
-    circle_api_keys_stream: {
-      cursor: 'circle_api_keys_stream_cursor_input',
-      where: 'circle_api_keys_bool_exp',
-    },
-    circle_integrations: {
-      distinct_on: 'circle_integrations_select_column',
-      order_by: 'circle_integrations_order_by',
-      where: 'circle_integrations_bool_exp',
-    },
-    circle_integrations_aggregate: {
-      distinct_on: 'circle_integrations_select_column',
-      order_by: 'circle_integrations_order_by',
-      where: 'circle_integrations_bool_exp',
-    },
-    circle_integrations_by_pk: {
-      id: 'bigint',
-    },
-    circle_integrations_stream: {
-      cursor: 'circle_integrations_stream_cursor_input',
-      where: 'circle_integrations_bool_exp',
-    },
-    circle_metadata: {
-      distinct_on: 'circle_metadata_select_column',
-      order_by: 'circle_metadata_order_by',
-      where: 'circle_metadata_bool_exp',
-    },
-    circle_metadata_aggregate: {
-      distinct_on: 'circle_metadata_select_column',
-      order_by: 'circle_metadata_order_by',
-      where: 'circle_metadata_bool_exp',
-    },
-    circle_metadata_by_pk: {
-      id: 'bigint',
-    },
-    circle_metadata_stream: {
-      cursor: 'circle_metadata_stream_cursor_input',
-      where: 'circle_metadata_bool_exp',
-    },
-    circle_private: {
-      distinct_on: 'circle_private_select_column',
-      order_by: 'circle_private_order_by',
-      where: 'circle_private_bool_exp',
-    },
-    circle_private_aggregate: {
-      distinct_on: 'circle_private_select_column',
-      order_by: 'circle_private_order_by',
-      where: 'circle_private_bool_exp',
-    },
-    circle_private_stream: {
-      cursor: 'circle_private_stream_cursor_input',
-      where: 'circle_private_bool_exp',
-    },
-    circle_share_tokens: {
-      distinct_on: 'circle_share_tokens_select_column',
-      order_by: 'circle_share_tokens_order_by',
-      where: 'circle_share_tokens_bool_exp',
-    },
-    circle_share_tokens_aggregate: {
-      distinct_on: 'circle_share_tokens_select_column',
-      order_by: 'circle_share_tokens_order_by',
-      where: 'circle_share_tokens_bool_exp',
-    },
-    circle_share_tokens_by_pk: {
-      circle_id: 'bigint',
-    },
-    circle_share_tokens_stream: {
-      cursor: 'circle_share_tokens_stream_cursor_input',
-      where: 'circle_share_tokens_bool_exp',
-    },
-    circles: {
-      distinct_on: 'circles_select_column',
-      order_by: 'circles_order_by',
-      where: 'circles_bool_exp',
-    },
-    circles_aggregate: {
-      distinct_on: 'circles_select_column',
-      order_by: 'circles_order_by',
-      where: 'circles_bool_exp',
-    },
-    circles_by_pk: {
-      id: 'bigint',
-    },
-    circles_stream: {
-      cursor: 'circles_stream_cursor_input',
-      where: 'circles_bool_exp',
-    },
-    claims: {
-      distinct_on: 'claims_select_column',
-      order_by: 'claims_order_by',
-      where: 'claims_bool_exp',
-    },
-    claims_aggregate: {
-      distinct_on: 'claims_select_column',
-      order_by: 'claims_order_by',
-      where: 'claims_bool_exp',
-    },
-    claims_by_pk: {
-      id: 'bigint',
-    },
-    claims_stream: {
-      cursor: 'claims_stream_cursor_input',
-      where: 'claims_bool_exp',
-    },
-    contributions: {
-      distinct_on: 'contributions_select_column',
-      order_by: 'contributions_order_by',
-      where: 'contributions_bool_exp',
-    },
-    contributions_aggregate: {
-      distinct_on: 'contributions_select_column',
-      order_by: 'contributions_order_by',
-      where: 'contributions_bool_exp',
-    },
-    contributions_by_pk: {
-      id: 'bigint',
-    },
-    contributions_stream: {
-      cursor: 'contributions_stream_cursor_input',
-      where: 'contributions_bool_exp',
-    },
-    discord_roles_circles: {
-      distinct_on: 'discord_roles_circles_select_column',
-      order_by: 'discord_roles_circles_order_by',
-      where: 'discord_roles_circles_bool_exp',
-    },
-    discord_roles_circles_aggregate: {
-      distinct_on: 'discord_roles_circles_select_column',
-      order_by: 'discord_roles_circles_order_by',
-      where: 'discord_roles_circles_bool_exp',
-    },
-    discord_roles_circles_by_pk: {
-      id: 'bigint',
-    },
-    discord_roles_circles_stream: {
-      cursor: 'discord_roles_circles_stream_cursor_input',
-      where: 'discord_roles_circles_bool_exp',
-    },
-    discord_users: {
-      distinct_on: 'discord_users_select_column',
-      order_by: 'discord_users_order_by',
-      where: 'discord_users_bool_exp',
-    },
-    discord_users_aggregate: {
-      distinct_on: 'discord_users_select_column',
-      order_by: 'discord_users_order_by',
-      where: 'discord_users_bool_exp',
-    },
-    discord_users_by_pk: {
-      id: 'bigint',
-    },
-    discord_users_stream: {
-      cursor: 'discord_users_stream_cursor_input',
-      where: 'discord_users_bool_exp',
-    },
-    distributions: {
-      distinct_on: 'distributions_select_column',
-      order_by: 'distributions_order_by',
-      where: 'distributions_bool_exp',
-    },
-    distributions_aggregate: {
-      distinct_on: 'distributions_select_column',
-      order_by: 'distributions_order_by',
-      where: 'distributions_bool_exp',
-    },
-    distributions_by_pk: {
-      id: 'bigint',
-    },
-    distributions_stream: {
-      cursor: 'distributions_stream_cursor_input',
-      where: 'distributions_bool_exp',
-    },
-    epoch_pgive_data: {
-      distinct_on: 'epoch_pgive_data_select_column',
-      order_by: 'epoch_pgive_data_order_by',
-      where: 'epoch_pgive_data_bool_exp',
-    },
-    epoch_pgive_data_aggregate: {
-      distinct_on: 'epoch_pgive_data_select_column',
-      order_by: 'epoch_pgive_data_order_by',
-      where: 'epoch_pgive_data_bool_exp',
-    },
-    epoch_pgive_data_by_pk: {},
-    epoch_pgive_data_stream: {
-      cursor: 'epoch_pgive_data_stream_cursor_input',
-      where: 'epoch_pgive_data_bool_exp',
-    },
-    epochs: {
-      distinct_on: 'epochs_select_column',
-      order_by: 'epochs_order_by',
-      where: 'epochs_bool_exp',
-    },
-    epochs_aggregate: {
-      distinct_on: 'epochs_select_column',
-      order_by: 'epochs_order_by',
-      where: 'epochs_bool_exp',
-    },
-    epochs_by_pk: {
-      id: 'bigint',
-    },
-    epochs_stream: {
-      cursor: 'epochs_stream_cursor_input',
-      where: 'epochs_bool_exp',
-    },
-    gift_private: {
-      distinct_on: 'gift_private_select_column',
-      order_by: 'gift_private_order_by',
-      where: 'gift_private_bool_exp',
-    },
-    gift_private_aggregate: {
-      distinct_on: 'gift_private_select_column',
-      order_by: 'gift_private_order_by',
-      where: 'gift_private_bool_exp',
-    },
-    gift_private_stream: {
-      cursor: 'gift_private_stream_cursor_input',
-      where: 'gift_private_bool_exp',
-    },
-    histories: {
-      distinct_on: 'histories_select_column',
-      order_by: 'histories_order_by',
-      where: 'histories_bool_exp',
-    },
-    histories_aggregate: {
-      distinct_on: 'histories_select_column',
-      order_by: 'histories_order_by',
-      where: 'histories_bool_exp',
-    },
-    histories_by_pk: {
-      id: 'bigint',
-    },
-    histories_stream: {
-      cursor: 'histories_stream_cursor_input',
-      where: 'histories_bool_exp',
-    },
-    interaction_events: {
-      distinct_on: 'interaction_events_select_column',
-      order_by: 'interaction_events_order_by',
-      where: 'interaction_events_bool_exp',
-    },
-    interaction_events_aggregate: {
-      distinct_on: 'interaction_events_select_column',
-      order_by: 'interaction_events_order_by',
-      where: 'interaction_events_bool_exp',
-    },
-    interaction_events_by_pk: {},
-    interaction_events_stream: {
-      cursor: 'interaction_events_stream_cursor_input',
-      where: 'interaction_events_bool_exp',
-    },
-    locked_token_distributions: {
-      distinct_on: 'locked_token_distributions_select_column',
-      order_by: 'locked_token_distributions_order_by',
-      where: 'locked_token_distributions_bool_exp',
-    },
-    locked_token_distributions_aggregate: {
-      distinct_on: 'locked_token_distributions_select_column',
-      order_by: 'locked_token_distributions_order_by',
-      where: 'locked_token_distributions_bool_exp',
-    },
-    locked_token_distributions_by_pk: {
-      id: 'bigint',
-    },
-    locked_token_distributions_stream: {
-      cursor: 'locked_token_distributions_stream_cursor_input',
-      where: 'locked_token_distributions_bool_exp',
-    },
-    member_epoch_pgives: {
-      distinct_on: 'member_epoch_pgives_select_column',
-      order_by: 'member_epoch_pgives_order_by',
-      where: 'member_epoch_pgives_bool_exp',
-    },
-    member_epoch_pgives_aggregate: {
-      distinct_on: 'member_epoch_pgives_select_column',
-      order_by: 'member_epoch_pgives_order_by',
-      where: 'member_epoch_pgives_bool_exp',
-    },
-    member_epoch_pgives_by_pk: {},
-    member_epoch_pgives_stream: {
-      cursor: 'member_epoch_pgives_stream_cursor_input',
-      where: 'member_epoch_pgives_bool_exp',
-    },
-    nominees: {
-      distinct_on: 'nominees_select_column',
-      order_by: 'nominees_order_by',
-      where: 'nominees_bool_exp',
-    },
-    nominees_aggregate: {
-      distinct_on: 'nominees_select_column',
-      order_by: 'nominees_order_by',
-      where: 'nominees_bool_exp',
-    },
-    nominees_by_pk: {
-      id: 'bigint',
-    },
-    nominees_stream: {
-      cursor: 'nominees_stream_cursor_input',
-      where: 'nominees_bool_exp',
-    },
-    organizations: {
-      distinct_on: 'organizations_select_column',
-      order_by: 'organizations_order_by',
-      where: 'organizations_bool_exp',
-    },
-    organizations_aggregate: {
-      distinct_on: 'organizations_select_column',
-      order_by: 'organizations_order_by',
-      where: 'organizations_bool_exp',
-    },
-    organizations_by_pk: {
-      id: 'bigint',
-    },
-    organizations_stream: {
-      cursor: 'organizations_stream_cursor_input',
-      where: 'organizations_bool_exp',
-    },
-    pending_gift_private: {
-      distinct_on: 'pending_gift_private_select_column',
-      order_by: 'pending_gift_private_order_by',
-      where: 'pending_gift_private_bool_exp',
-    },
-    pending_gift_private_aggregate: {
-      distinct_on: 'pending_gift_private_select_column',
-      order_by: 'pending_gift_private_order_by',
-      where: 'pending_gift_private_bool_exp',
-    },
-    pending_gift_private_stream: {
-      cursor: 'pending_gift_private_stream_cursor_input',
-      where: 'pending_gift_private_bool_exp',
-    },
-    pending_token_gifts: {
-      distinct_on: 'pending_token_gifts_select_column',
-      order_by: 'pending_token_gifts_order_by',
-      where: 'pending_token_gifts_bool_exp',
-    },
-    pending_token_gifts_aggregate: {
-      distinct_on: 'pending_token_gifts_select_column',
-      order_by: 'pending_token_gifts_order_by',
-      where: 'pending_token_gifts_bool_exp',
-    },
-    pending_token_gifts_by_pk: {
-      id: 'bigint',
-    },
-    pending_token_gifts_stream: {
-      cursor: 'pending_token_gifts_stream_cursor_input',
-      where: 'pending_token_gifts_bool_exp',
-    },
-    pending_vault_transactions: {
-      distinct_on: 'pending_vault_transactions_select_column',
-      order_by: 'pending_vault_transactions_order_by',
-      where: 'pending_vault_transactions_bool_exp',
-    },
-    pending_vault_transactions_aggregate: {
-      distinct_on: 'pending_vault_transactions_select_column',
-      order_by: 'pending_vault_transactions_order_by',
-      where: 'pending_vault_transactions_bool_exp',
-    },
-    pending_vault_transactions_by_pk: {},
-    pending_vault_transactions_stream: {
-      cursor: 'pending_vault_transactions_stream_cursor_input',
-      where: 'pending_vault_transactions_bool_exp',
-    },
-    personal_access_tokens: {
-      distinct_on: 'personal_access_tokens_select_column',
-      order_by: 'personal_access_tokens_order_by',
-      where: 'personal_access_tokens_bool_exp',
-    },
-    personal_access_tokens_aggregate: {
-      distinct_on: 'personal_access_tokens_select_column',
-      order_by: 'personal_access_tokens_order_by',
-      where: 'personal_access_tokens_bool_exp',
-    },
-    personal_access_tokens_by_pk: {
-      id: 'bigint',
-    },
-    personal_access_tokens_stream: {
-      cursor: 'personal_access_tokens_stream_cursor_input',
-      where: 'personal_access_tokens_bool_exp',
-    },
-    profiles: {
-      distinct_on: 'profiles_select_column',
-      order_by: 'profiles_order_by',
-      where: 'profiles_bool_exp',
-    },
-    profiles_aggregate: {
-      distinct_on: 'profiles_select_column',
-      order_by: 'profiles_order_by',
-      where: 'profiles_bool_exp',
-    },
-    profiles_by_pk: {
-      id: 'bigint',
-    },
-    profiles_stream: {
-      cursor: 'profiles_stream_cursor_input',
-      where: 'profiles_bool_exp',
-    },
-    teammates: {
-      distinct_on: 'teammates_select_column',
-      order_by: 'teammates_order_by',
-      where: 'teammates_bool_exp',
-    },
-    teammates_aggregate: {
-      distinct_on: 'teammates_select_column',
-      order_by: 'teammates_order_by',
-      where: 'teammates_bool_exp',
-    },
-    teammates_by_pk: {
-      id: 'bigint',
-    },
-    teammates_stream: {
-      cursor: 'teammates_stream_cursor_input',
-      where: 'teammates_bool_exp',
-    },
-    token_gifts: {
-      distinct_on: 'token_gifts_select_column',
-      order_by: 'token_gifts_order_by',
-      where: 'token_gifts_bool_exp',
-    },
-    token_gifts_aggregate: {
-      distinct_on: 'token_gifts_select_column',
-      order_by: 'token_gifts_order_by',
-      where: 'token_gifts_bool_exp',
-    },
-    token_gifts_by_pk: {
-      id: 'bigint',
-    },
-    token_gifts_stream: {
-      cursor: 'token_gifts_stream_cursor_input',
-      where: 'token_gifts_bool_exp',
-    },
-    user_private: {
-      distinct_on: 'user_private_select_column',
-      order_by: 'user_private_order_by',
-      where: 'user_private_bool_exp',
-    },
-    user_private_aggregate: {
-      distinct_on: 'user_private_select_column',
-      order_by: 'user_private_order_by',
-      where: 'user_private_bool_exp',
-    },
-    user_private_stream: {
-      cursor: 'user_private_stream_cursor_input',
-      where: 'user_private_bool_exp',
-    },
-    users: {
-      distinct_on: 'users_select_column',
-      order_by: 'users_order_by',
-      where: 'users_bool_exp',
-    },
-    users_aggregate: {
-      distinct_on: 'users_select_column',
-      order_by: 'users_order_by',
-      where: 'users_bool_exp',
-    },
-    users_by_pk: {
-      id: 'bigint',
-    },
-    users_stream: {
-      cursor: 'users_stream_cursor_input',
-      where: 'users_bool_exp',
-    },
-    vault_transactions: {
-      distinct_on: 'vault_transactions_select_column',
-      order_by: 'vault_transactions_order_by',
-      where: 'vault_transactions_bool_exp',
-    },
-    vault_transactions_aggregate: {
-      distinct_on: 'vault_transactions_select_column',
-      order_by: 'vault_transactions_order_by',
-      where: 'vault_transactions_bool_exp',
-    },
-    vault_transactions_by_pk: {
-      id: 'bigint',
-    },
-    vault_transactions_stream: {
-      cursor: 'vault_transactions_stream_cursor_input',
-      where: 'vault_transactions_bool_exp',
-    },
-    vault_tx_types: {
-      distinct_on: 'vault_tx_types_select_column',
-      order_by: 'vault_tx_types_order_by',
-      where: 'vault_tx_types_bool_exp',
-    },
-    vault_tx_types_aggregate: {
-      distinct_on: 'vault_tx_types_select_column',
-      order_by: 'vault_tx_types_order_by',
-      where: 'vault_tx_types_bool_exp',
-    },
-    vault_tx_types_by_pk: {},
-    vault_tx_types_stream: {
-      cursor: 'vault_tx_types_stream_cursor_input',
-      where: 'vault_tx_types_bool_exp',
-    },
-    vaults: {
-      distinct_on: 'vaults_select_column',
-      order_by: 'vaults_order_by',
-      where: 'vaults_bool_exp',
-    },
-    vaults_aggregate: {
-      distinct_on: 'vaults_select_column',
-      order_by: 'vaults_order_by',
-      where: 'vaults_bool_exp',
-    },
-    vaults_by_pk: {
-      id: 'bigint',
-    },
-    vaults_stream: {
-      cursor: 'vaults_stream_cursor_input',
-      where: 'vaults_bool_exp',
-    },
-    vouches: {
-      distinct_on: 'vouches_select_column',
-      order_by: 'vouches_order_by',
-      where: 'vouches_bool_exp',
-    },
-    vouches_aggregate: {
-      distinct_on: 'vouches_select_column',
-      order_by: 'vouches_order_by',
-      where: 'vouches_bool_exp',
-    },
-    vouches_by_pk: {
-      id: 'bigint',
-    },
-    vouches_stream: {
-      cursor: 'vouches_stream_cursor_input',
-      where: 'vouches_bool_exp',
-    },
-  },
-  teammates_aggregate_fields: {
-    count: {
-      columns: 'teammates_select_column',
-    },
-  },
-  teammates_aggregate_order_by: {
-    avg: 'teammates_avg_order_by',
-    count: 'order_by',
-    max: 'teammates_max_order_by',
-    min: 'teammates_min_order_by',
-    stddev: 'teammates_stddev_order_by',
-    stddev_pop: 'teammates_stddev_pop_order_by',
-    stddev_samp: 'teammates_stddev_samp_order_by',
-    sum: 'teammates_sum_order_by',
-    var_pop: 'teammates_var_pop_order_by',
-    var_samp: 'teammates_var_samp_order_by',
-    variance: 'teammates_variance_order_by',
-  },
-  teammates_arr_rel_insert_input: {
-    data: 'teammates_insert_input',
-    on_conflict: 'teammates_on_conflict',
-  },
-  teammates_avg_order_by: {
-    id: 'order_by',
-    team_mate_id: 'order_by',
-    user_id: 'order_by',
-  },
-  teammates_bool_exp: {
-    _and: 'teammates_bool_exp',
-    _not: 'teammates_bool_exp',
-    _or: 'teammates_bool_exp',
-    created_at: 'timestamp_comparison_exp',
-    id: 'bigint_comparison_exp',
-    team_mate_id: 'Int_comparison_exp',
-    teammate: 'users_bool_exp',
-    updated_at: 'timestamp_comparison_exp',
-    user: 'users_bool_exp',
-    user_id: 'Int_comparison_exp',
-  },
-  teammates_constraint: true,
-  teammates_inc_input: {
-    id: 'bigint',
-  },
-  teammates_insert_input: {
-    created_at: 'timestamp',
-    id: 'bigint',
-    teammate: 'users_obj_rel_insert_input',
-    updated_at: 'timestamp',
-    user: 'users_obj_rel_insert_input',
-  },
-  teammates_max_order_by: {
-    created_at: 'order_by',
-    id: 'order_by',
-    team_mate_id: 'order_by',
-    updated_at: 'order_by',
-    user_id: 'order_by',
-  },
-  teammates_min_order_by: {
-    created_at: 'order_by',
-    id: 'order_by',
-    team_mate_id: 'order_by',
-    updated_at: 'order_by',
-    user_id: 'order_by',
-  },
-  teammates_on_conflict: {
-    constraint: 'teammates_constraint',
-    update_columns: 'teammates_update_column',
-    where: 'teammates_bool_exp',
-  },
-  teammates_order_by: {
-    created_at: 'order_by',
-    id: 'order_by',
-    team_mate_id: 'order_by',
-    teammate: 'users_order_by',
-    updated_at: 'order_by',
-    user: 'users_order_by',
-    user_id: 'order_by',
-  },
-  teammates_pk_columns_input: {
-    id: 'bigint',
-  },
-  teammates_select_column: true,
-  teammates_set_input: {
-    created_at: 'timestamp',
-    id: 'bigint',
-    updated_at: 'timestamp',
-  },
-  teammates_stddev_order_by: {
-    id: 'order_by',
-    team_mate_id: 'order_by',
-    user_id: 'order_by',
-  },
-  teammates_stddev_pop_order_by: {
-    id: 'order_by',
-    team_mate_id: 'order_by',
-    user_id: 'order_by',
-  },
-  teammates_stddev_samp_order_by: {
-    id: 'order_by',
-    team_mate_id: 'order_by',
-    user_id: 'order_by',
-  },
-  teammates_stream_cursor_input: {
-    initial_value: 'teammates_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  teammates_stream_cursor_value_input: {
-    created_at: 'timestamp',
-    id: 'bigint',
-    updated_at: 'timestamp',
-  },
-  teammates_sum_order_by: {
-    id: 'order_by',
-    team_mate_id: 'order_by',
-    user_id: 'order_by',
-  },
-  teammates_update_column: true,
-  teammates_updates: {
-    _inc: 'teammates_inc_input',
-    _set: 'teammates_set_input',
-    where: 'teammates_bool_exp',
-  },
-  teammates_var_pop_order_by: {
-    id: 'order_by',
-    team_mate_id: 'order_by',
-    user_id: 'order_by',
-  },
-  teammates_var_samp_order_by: {
-    id: 'order_by',
-    team_mate_id: 'order_by',
-    user_id: 'order_by',
-  },
-  teammates_variance_order_by: {
-    id: 'order_by',
-    team_mate_id: 'order_by',
-    user_id: 'order_by',
-  },
-  timestamp: 'String',
-  timestamp_comparison_exp: {
-    _eq: 'timestamp',
-    _gt: 'timestamp',
-    _gte: 'timestamp',
-    _in: 'timestamp',
-    _lt: 'timestamp',
-    _lte: 'timestamp',
-    _neq: 'timestamp',
-    _nin: 'timestamp',
-  },
-  timestamptz: 'String',
-  timestamptz_comparison_exp: {
-    _eq: 'timestamptz',
-    _gt: 'timestamptz',
-    _gte: 'timestamptz',
-    _in: 'timestamptz',
-    _lt: 'timestamptz',
-    _lte: 'timestamptz',
-    _neq: 'timestamptz',
-    _nin: 'timestamptz',
-  },
-  token_gifts_aggregate_fields: {
-    count: {
-      columns: 'token_gifts_select_column',
-    },
-  },
-  token_gifts_aggregate_order_by: {
-    avg: 'token_gifts_avg_order_by',
-    count: 'order_by',
-    max: 'token_gifts_max_order_by',
-    min: 'token_gifts_min_order_by',
-    stddev: 'token_gifts_stddev_order_by',
-    stddev_pop: 'token_gifts_stddev_pop_order_by',
-    stddev_samp: 'token_gifts_stddev_samp_order_by',
-    sum: 'token_gifts_sum_order_by',
-    var_pop: 'token_gifts_var_pop_order_by',
-    var_samp: 'token_gifts_var_samp_order_by',
-    variance: 'token_gifts_variance_order_by',
-  },
-  token_gifts_arr_rel_insert_input: {
-    data: 'token_gifts_insert_input',
-    on_conflict: 'token_gifts_on_conflict',
-  },
-  token_gifts_avg_order_by: {
-    circle_id: 'order_by',
-    epoch_id: 'order_by',
-    id: 'order_by',
-    recipient_id: 'order_by',
-    sender_id: 'order_by',
-    tokens: 'order_by',
-  },
-  token_gifts_bool_exp: {
-    _and: 'token_gifts_bool_exp',
-    _not: 'token_gifts_bool_exp',
-    _or: 'token_gifts_bool_exp',
-    circle: 'circles_bool_exp',
-    circle_id: 'bigint_comparison_exp',
-    created_at: 'timestamp_comparison_exp',
-    dts_created: 'timestamp_comparison_exp',
-    epoch: 'epochs_bool_exp',
-    epoch_id: 'Int_comparison_exp',
-    gift_private: 'gift_private_bool_exp',
-    id: 'bigint_comparison_exp',
-    note: 'String_comparison_exp',
-    recipient: 'users_bool_exp',
-    recipient_address: 'String_comparison_exp',
-    recipient_id: 'bigint_comparison_exp',
-    sender: 'users_bool_exp',
-    sender_address: 'String_comparison_exp',
-    sender_id: 'bigint_comparison_exp',
-    tokens: 'Int_comparison_exp',
-    updated_at: 'timestamp_comparison_exp',
-  },
-  token_gifts_constraint: true,
-  token_gifts_inc_input: {
-    circle_id: 'bigint',
-    id: 'bigint',
-    recipient_id: 'bigint',
-    sender_id: 'bigint',
-  },
-  token_gifts_insert_input: {
-    circle: 'circles_obj_rel_insert_input',
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    dts_created: 'timestamp',
-    epoch: 'epochs_obj_rel_insert_input',
-    gift_private: 'gift_private_obj_rel_insert_input',
-    id: 'bigint',
-    recipient: 'users_obj_rel_insert_input',
-    recipient_id: 'bigint',
-    sender: 'users_obj_rel_insert_input',
-    sender_id: 'bigint',
-    updated_at: 'timestamp',
-  },
-  token_gifts_max_order_by: {
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    dts_created: 'order_by',
-    epoch_id: 'order_by',
-    id: 'order_by',
-    note: 'order_by',
-    recipient_address: 'order_by',
-    recipient_id: 'order_by',
-    sender_address: 'order_by',
-    sender_id: 'order_by',
-    tokens: 'order_by',
-    updated_at: 'order_by',
-  },
-  token_gifts_min_order_by: {
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    dts_created: 'order_by',
-    epoch_id: 'order_by',
-    id: 'order_by',
-    note: 'order_by',
-    recipient_address: 'order_by',
-    recipient_id: 'order_by',
-    sender_address: 'order_by',
-    sender_id: 'order_by',
-    tokens: 'order_by',
-    updated_at: 'order_by',
-  },
-  token_gifts_on_conflict: {
-    constraint: 'token_gifts_constraint',
-    update_columns: 'token_gifts_update_column',
-    where: 'token_gifts_bool_exp',
-  },
-  token_gifts_order_by: {
-    circle: 'circles_order_by',
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    dts_created: 'order_by',
-    epoch: 'epochs_order_by',
-    epoch_id: 'order_by',
-    gift_private: 'gift_private_order_by',
-    id: 'order_by',
-    note: 'order_by',
-    recipient: 'users_order_by',
-    recipient_address: 'order_by',
-    recipient_id: 'order_by',
-    sender: 'users_order_by',
-    sender_address: 'order_by',
-    sender_id: 'order_by',
-    tokens: 'order_by',
-    updated_at: 'order_by',
-  },
-  token_gifts_pk_columns_input: {
-    id: 'bigint',
-  },
-  token_gifts_select_column: true,
-  token_gifts_set_input: {
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    dts_created: 'timestamp',
-    id: 'bigint',
-    recipient_id: 'bigint',
-    sender_id: 'bigint',
-    updated_at: 'timestamp',
-  },
-  token_gifts_stddev_order_by: {
-    circle_id: 'order_by',
-    epoch_id: 'order_by',
-    id: 'order_by',
-    recipient_id: 'order_by',
-    sender_id: 'order_by',
-    tokens: 'order_by',
-  },
-  token_gifts_stddev_pop_order_by: {
-    circle_id: 'order_by',
-    epoch_id: 'order_by',
-    id: 'order_by',
-    recipient_id: 'order_by',
-    sender_id: 'order_by',
-    tokens: 'order_by',
-  },
-  token_gifts_stddev_samp_order_by: {
-    circle_id: 'order_by',
-    epoch_id: 'order_by',
-    id: 'order_by',
-    recipient_id: 'order_by',
-    sender_id: 'order_by',
-    tokens: 'order_by',
-  },
-  token_gifts_stream_cursor_input: {
-    initial_value: 'token_gifts_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  token_gifts_stream_cursor_value_input: {
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    dts_created: 'timestamp',
-    id: 'bigint',
-    recipient_id: 'bigint',
-    sender_id: 'bigint',
-    updated_at: 'timestamp',
-  },
-  token_gifts_sum_order_by: {
-    circle_id: 'order_by',
-    epoch_id: 'order_by',
-    id: 'order_by',
-    recipient_id: 'order_by',
-    sender_id: 'order_by',
-    tokens: 'order_by',
-  },
-  token_gifts_update_column: true,
-  token_gifts_updates: {
-    _inc: 'token_gifts_inc_input',
-    _set: 'token_gifts_set_input',
-    where: 'token_gifts_bool_exp',
-  },
-  token_gifts_var_pop_order_by: {
-    circle_id: 'order_by',
-    epoch_id: 'order_by',
-    id: 'order_by',
-    recipient_id: 'order_by',
-    sender_id: 'order_by',
-    tokens: 'order_by',
-  },
-  token_gifts_var_samp_order_by: {
-    circle_id: 'order_by',
-    epoch_id: 'order_by',
-    id: 'order_by',
-    recipient_id: 'order_by',
-    sender_id: 'order_by',
-    tokens: 'order_by',
-  },
-  token_gifts_variance_order_by: {
-    circle_id: 'order_by',
-    epoch_id: 'order_by',
-    id: 'order_by',
-    recipient_id: 'order_by',
-    sender_id: 'order_by',
-    tokens: 'order_by',
-  },
-  user_private_aggregate_fields: {
-    count: {
-      columns: 'user_private_select_column',
-    },
-  },
-  user_private_bool_exp: {
-    _and: 'user_private_bool_exp',
-    _not: 'user_private_bool_exp',
-    _or: 'user_private_bool_exp',
-    circle: 'circles_bool_exp',
-    circle_id: 'bigint_comparison_exp',
-    fixed_payment_amount: 'numeric_comparison_exp',
-    fixed_payment_token_type: 'String_comparison_exp',
-    user: 'users_bool_exp',
-    user_id: 'bigint_comparison_exp',
-  },
-  user_private_insert_input: {
-    circle: 'circles_obj_rel_insert_input',
-    circle_id: 'bigint',
-    fixed_payment_amount: 'numeric',
-    user: 'users_obj_rel_insert_input',
-    user_id: 'bigint',
-  },
-  user_private_obj_rel_insert_input: {
-    data: 'user_private_insert_input',
-  },
-  user_private_order_by: {
-    circle: 'circles_order_by',
-    circle_id: 'order_by',
-    fixed_payment_amount: 'order_by',
-    fixed_payment_token_type: 'order_by',
-    user: 'users_order_by',
-    user_id: 'order_by',
-  },
-  user_private_select_column: true,
-  user_private_stream_cursor_input: {
-    initial_value: 'user_private_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  user_private_stream_cursor_value_input: {
-    circle_id: 'bigint',
-    fixed_payment_amount: 'numeric',
-    user_id: 'bigint',
-  },
-  users: {
-    burns: {
-      distinct_on: 'burns_select_column',
-      order_by: 'burns_order_by',
-      where: 'burns_bool_exp',
-    },
-    burns_aggregate: {
-      distinct_on: 'burns_select_column',
-      order_by: 'burns_order_by',
-      where: 'burns_bool_exp',
-    },
-    circle_api_keys: {
-      distinct_on: 'circle_api_keys_select_column',
-      order_by: 'circle_api_keys_order_by',
-      where: 'circle_api_keys_bool_exp',
-    },
-    circle_api_keys_aggregate: {
-      distinct_on: 'circle_api_keys_select_column',
-      order_by: 'circle_api_keys_order_by',
-      where: 'circle_api_keys_bool_exp',
-    },
-    contributions: {
-      distinct_on: 'contributions_select_column',
-      order_by: 'contributions_order_by',
-      where: 'contributions_bool_exp',
-    },
-    contributions_aggregate: {
-      distinct_on: 'contributions_select_column',
-      order_by: 'contributions_order_by',
-      where: 'contributions_bool_exp',
-    },
-    pending_received_gifts: {
-      distinct_on: 'pending_token_gifts_select_column',
-      order_by: 'pending_token_gifts_order_by',
-      where: 'pending_token_gifts_bool_exp',
-    },
-    pending_received_gifts_aggregate: {
-      distinct_on: 'pending_token_gifts_select_column',
-      order_by: 'pending_token_gifts_order_by',
-      where: 'pending_token_gifts_bool_exp',
-    },
-    pending_sent_gifts: {
-      distinct_on: 'pending_token_gifts_select_column',
-      order_by: 'pending_token_gifts_order_by',
-      where: 'pending_token_gifts_bool_exp',
-    },
-    pending_sent_gifts_aggregate: {
-      distinct_on: 'pending_token_gifts_select_column',
-      order_by: 'pending_token_gifts_order_by',
-      where: 'pending_token_gifts_bool_exp',
-    },
-    received_gifts: {
-      distinct_on: 'token_gifts_select_column',
-      order_by: 'token_gifts_order_by',
-      where: 'token_gifts_bool_exp',
-    },
-    received_gifts_aggregate: {
-      distinct_on: 'token_gifts_select_column',
-      order_by: 'token_gifts_order_by',
-      where: 'token_gifts_bool_exp',
-    },
-    sent_gifts: {
-      distinct_on: 'token_gifts_select_column',
-      order_by: 'token_gifts_order_by',
-      where: 'token_gifts_bool_exp',
-    },
-    sent_gifts_aggregate: {
-      distinct_on: 'token_gifts_select_column',
-      order_by: 'token_gifts_order_by',
-      where: 'token_gifts_bool_exp',
-    },
-    teammates: {
-      distinct_on: 'teammates_select_column',
-      order_by: 'teammates_order_by',
-      where: 'teammates_bool_exp',
-    },
-    teammates_aggregate: {
-      distinct_on: 'teammates_select_column',
-      order_by: 'teammates_order_by',
-      where: 'teammates_bool_exp',
-    },
-    vouches: {
-      distinct_on: 'vouches_select_column',
-      order_by: 'vouches_order_by',
-      where: 'vouches_bool_exp',
-    },
-    vouches_aggregate: {
-      distinct_on: 'vouches_select_column',
-      order_by: 'vouches_order_by',
-      where: 'vouches_bool_exp',
-    },
-  },
-  users_aggregate_fields: {
-    count: {
-      columns: 'users_select_column',
-    },
-  },
-  users_aggregate_order_by: {
-    avg: 'users_avg_order_by',
-    count: 'order_by',
-    max: 'users_max_order_by',
-    min: 'users_min_order_by',
-    stddev: 'users_stddev_order_by',
-    stddev_pop: 'users_stddev_pop_order_by',
-    stddev_samp: 'users_stddev_samp_order_by',
-    sum: 'users_sum_order_by',
-    var_pop: 'users_var_pop_order_by',
-    var_samp: 'users_var_samp_order_by',
-    variance: 'users_variance_order_by',
-  },
-  users_arr_rel_insert_input: {
-    data: 'users_insert_input',
-    on_conflict: 'users_on_conflict',
-  },
-  users_avg_order_by: {
-    circle_id: 'order_by',
-    fixed_payment_amount: 'order_by',
-    give_token_received: 'order_by',
-    give_token_remaining: 'order_by',
-    id: 'order_by',
-    role: 'order_by',
-    starting_tokens: 'order_by',
-  },
-  users_bool_exp: {
-    _and: 'users_bool_exp',
-    _not: 'users_bool_exp',
-    _or: 'users_bool_exp',
-    address: 'String_comparison_exp',
-    bio: 'String_comparison_exp',
-    burns: 'burns_bool_exp',
-    circle: 'circles_bool_exp',
-    circle_api_keys: 'circle_api_keys_bool_exp',
-    circle_id: 'bigint_comparison_exp',
-    contributions: 'contributions_bool_exp',
-    created_at: 'timestamp_comparison_exp',
-    deleted_at: 'timestamp_comparison_exp',
-    entrance: 'String_comparison_exp',
-    epoch_first_visit: 'Boolean_comparison_exp',
-    fixed_non_receiver: 'Boolean_comparison_exp',
-    fixed_payment_amount: 'numeric_comparison_exp',
-    give_token_received: 'Int_comparison_exp',
-    give_token_remaining: 'Int_comparison_exp',
-    id: 'bigint_comparison_exp',
-    name: 'String_comparison_exp',
-    non_giver: 'Boolean_comparison_exp',
-    non_receiver: 'Boolean_comparison_exp',
-    pending_received_gifts: 'pending_token_gifts_bool_exp',
-    pending_sent_gifts: 'pending_token_gifts_bool_exp',
-    profile: 'profiles_bool_exp',
-    received_gifts: 'token_gifts_bool_exp',
-    role: 'Int_comparison_exp',
-    sent_gifts: 'token_gifts_bool_exp',
-    starting_tokens: 'Int_comparison_exp',
-    teammates: 'teammates_bool_exp',
-    updated_at: 'timestamp_comparison_exp',
-    user_private: 'user_private_bool_exp',
-    vouches: 'vouches_bool_exp',
-  },
-  users_constraint: true,
-  users_inc_input: {
-    circle_id: 'bigint',
-    fixed_payment_amount: 'numeric',
-    id: 'bigint',
-  },
-  users_insert_input: {
-    burns: 'burns_arr_rel_insert_input',
-    circle: 'circles_obj_rel_insert_input',
-    circle_api_keys: 'circle_api_keys_arr_rel_insert_input',
-    circle_id: 'bigint',
-    contributions: 'contributions_arr_rel_insert_input',
-    created_at: 'timestamp',
-    deleted_at: 'timestamp',
-    fixed_payment_amount: 'numeric',
-    id: 'bigint',
-    pending_received_gifts: 'pending_token_gifts_arr_rel_insert_input',
-    pending_sent_gifts: 'pending_token_gifts_arr_rel_insert_input',
-    profile: 'profiles_obj_rel_insert_input',
-    received_gifts: 'token_gifts_arr_rel_insert_input',
-    sent_gifts: 'token_gifts_arr_rel_insert_input',
-    teammates: 'teammates_arr_rel_insert_input',
-    updated_at: 'timestamp',
-    user_private: 'user_private_obj_rel_insert_input',
-    vouches: 'vouches_arr_rel_insert_input',
-  },
-  users_max_order_by: {
-    address: 'order_by',
-    bio: 'order_by',
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    deleted_at: 'order_by',
-    entrance: 'order_by',
-    fixed_payment_amount: 'order_by',
-    give_token_received: 'order_by',
-    give_token_remaining: 'order_by',
-    id: 'order_by',
-    name: 'order_by',
-    role: 'order_by',
-    starting_tokens: 'order_by',
-    updated_at: 'order_by',
-  },
-  users_min_order_by: {
-    address: 'order_by',
-    bio: 'order_by',
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    deleted_at: 'order_by',
-    entrance: 'order_by',
-    fixed_payment_amount: 'order_by',
-    give_token_received: 'order_by',
-    give_token_remaining: 'order_by',
-    id: 'order_by',
-    name: 'order_by',
-    role: 'order_by',
-    starting_tokens: 'order_by',
-    updated_at: 'order_by',
-  },
-  users_obj_rel_insert_input: {
-    data: 'users_insert_input',
-    on_conflict: 'users_on_conflict',
-  },
-  users_on_conflict: {
-    constraint: 'users_constraint',
-    update_columns: 'users_update_column',
-    where: 'users_bool_exp',
-  },
-  users_order_by: {
-    address: 'order_by',
-    bio: 'order_by',
-    burns_aggregate: 'burns_aggregate_order_by',
-    circle: 'circles_order_by',
-    circle_api_keys_aggregate: 'circle_api_keys_aggregate_order_by',
-    circle_id: 'order_by',
-    contributions_aggregate: 'contributions_aggregate_order_by',
-    created_at: 'order_by',
-    deleted_at: 'order_by',
-    entrance: 'order_by',
-    epoch_first_visit: 'order_by',
-    fixed_non_receiver: 'order_by',
-    fixed_payment_amount: 'order_by',
-    give_token_received: 'order_by',
-    give_token_remaining: 'order_by',
-    id: 'order_by',
-    name: 'order_by',
-    non_giver: 'order_by',
-    non_receiver: 'order_by',
-    pending_received_gifts_aggregate: 'pending_token_gifts_aggregate_order_by',
-    pending_sent_gifts_aggregate: 'pending_token_gifts_aggregate_order_by',
-    profile: 'profiles_order_by',
-    received_gifts_aggregate: 'token_gifts_aggregate_order_by',
-    role: 'order_by',
-    sent_gifts_aggregate: 'token_gifts_aggregate_order_by',
-    starting_tokens: 'order_by',
-    teammates_aggregate: 'teammates_aggregate_order_by',
-    updated_at: 'order_by',
-    user_private: 'user_private_order_by',
-    vouches_aggregate: 'vouches_aggregate_order_by',
-  },
-  users_pk_columns_input: {
-    id: 'bigint',
-  },
-  users_select_column: true,
-  users_set_input: {
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    deleted_at: 'timestamp',
-    fixed_payment_amount: 'numeric',
-    id: 'bigint',
-    updated_at: 'timestamp',
-  },
-  users_stddev_order_by: {
-    circle_id: 'order_by',
-    fixed_payment_amount: 'order_by',
-    give_token_received: 'order_by',
-    give_token_remaining: 'order_by',
-    id: 'order_by',
-    role: 'order_by',
-    starting_tokens: 'order_by',
-  },
-  users_stddev_pop_order_by: {
-    circle_id: 'order_by',
-    fixed_payment_amount: 'order_by',
-    give_token_received: 'order_by',
-    give_token_remaining: 'order_by',
-    id: 'order_by',
-    role: 'order_by',
-    starting_tokens: 'order_by',
-  },
-  users_stddev_samp_order_by: {
-    circle_id: 'order_by',
-    fixed_payment_amount: 'order_by',
-    give_token_received: 'order_by',
-    give_token_remaining: 'order_by',
-    id: 'order_by',
-    role: 'order_by',
-    starting_tokens: 'order_by',
-  },
-  users_stream_cursor_input: {
-    initial_value: 'users_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  users_stream_cursor_value_input: {
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    deleted_at: 'timestamp',
-    fixed_payment_amount: 'numeric',
-    id: 'bigint',
-    updated_at: 'timestamp',
-  },
-  users_sum_order_by: {
-    circle_id: 'order_by',
-    fixed_payment_amount: 'order_by',
-    give_token_received: 'order_by',
-    give_token_remaining: 'order_by',
-    id: 'order_by',
-    role: 'order_by',
-    starting_tokens: 'order_by',
-  },
-  users_update_column: true,
-  users_updates: {
-    _inc: 'users_inc_input',
-    _set: 'users_set_input',
-    where: 'users_bool_exp',
-  },
-  users_var_pop_order_by: {
-    circle_id: 'order_by',
-    fixed_payment_amount: 'order_by',
-    give_token_received: 'order_by',
-    give_token_remaining: 'order_by',
-    id: 'order_by',
-    role: 'order_by',
-    starting_tokens: 'order_by',
-  },
-  users_var_samp_order_by: {
-    circle_id: 'order_by',
-    fixed_payment_amount: 'order_by',
-    give_token_received: 'order_by',
-    give_token_remaining: 'order_by',
-    id: 'order_by',
-    role: 'order_by',
-    starting_tokens: 'order_by',
-  },
-  users_variance_order_by: {
-    circle_id: 'order_by',
-    fixed_payment_amount: 'order_by',
-    give_token_received: 'order_by',
-    give_token_remaining: 'order_by',
-    id: 'order_by',
-    role: 'order_by',
-    starting_tokens: 'order_by',
-  },
-  uuid: 'String',
-  uuid_comparison_exp: {
-    _eq: 'uuid',
-    _gt: 'uuid',
-    _gte: 'uuid',
-    _in: 'uuid',
-    _lt: 'uuid',
-    _lte: 'uuid',
-    _neq: 'uuid',
-    _nin: 'uuid',
-  },
-  vault_transactions_aggregate_fields: {
-    count: {
-      columns: 'vault_transactions_select_column',
-    },
-  },
-  vault_transactions_aggregate_order_by: {
-    avg: 'vault_transactions_avg_order_by',
-    count: 'order_by',
-    max: 'vault_transactions_max_order_by',
-    min: 'vault_transactions_min_order_by',
-    stddev: 'vault_transactions_stddev_order_by',
-    stddev_pop: 'vault_transactions_stddev_pop_order_by',
-    stddev_samp: 'vault_transactions_stddev_samp_order_by',
-    sum: 'vault_transactions_sum_order_by',
-    var_pop: 'vault_transactions_var_pop_order_by',
-    var_samp: 'vault_transactions_var_samp_order_by',
-    variance: 'vault_transactions_variance_order_by',
-  },
-  vault_transactions_arr_rel_insert_input: {
-    data: 'vault_transactions_insert_input',
-    on_conflict: 'vault_transactions_on_conflict',
-  },
-  vault_transactions_avg_order_by: {
-    circle_id: 'order_by',
-    created_by: 'order_by',
-    distribution_id: 'order_by',
-    id: 'order_by',
-    vault_id: 'order_by',
-  },
-  vault_transactions_bool_exp: {
-    _and: 'vault_transactions_bool_exp',
-    _not: 'vault_transactions_bool_exp',
-    _or: 'vault_transactions_bool_exp',
-    circle: 'circles_bool_exp',
-    circle_id: 'bigint_comparison_exp',
-    created_at: 'timestamp_comparison_exp',
-    created_by: 'bigint_comparison_exp',
-    distribution: 'distributions_bool_exp',
-    distribution_id: 'bigint_comparison_exp',
-    id: 'bigint_comparison_exp',
-    profile: 'profiles_bool_exp',
-    tx_hash: 'String_comparison_exp',
-    tx_type: 'vault_tx_types_enum_comparison_exp',
-    updated_at: 'timestamp_comparison_exp',
-    vault: 'vaults_bool_exp',
-    vault_id: 'bigint_comparison_exp',
-    vault_tx_type: 'vault_tx_types_bool_exp',
-  },
-  vault_transactions_constraint: true,
-  vault_transactions_inc_input: {
-    circle_id: 'bigint',
-    created_by: 'bigint',
-    distribution_id: 'bigint',
-    id: 'bigint',
-    vault_id: 'bigint',
-  },
-  vault_transactions_insert_input: {
-    circle: 'circles_obj_rel_insert_input',
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    created_by: 'bigint',
-    distribution: 'distributions_obj_rel_insert_input',
-    distribution_id: 'bigint',
-    id: 'bigint',
-    profile: 'profiles_obj_rel_insert_input',
-    tx_type: 'vault_tx_types_enum',
-    updated_at: 'timestamp',
-    vault: 'vaults_obj_rel_insert_input',
-    vault_id: 'bigint',
-    vault_tx_type: 'vault_tx_types_obj_rel_insert_input',
-  },
-  vault_transactions_max_order_by: {
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    created_by: 'order_by',
-    distribution_id: 'order_by',
-    id: 'order_by',
-    tx_hash: 'order_by',
-    updated_at: 'order_by',
-    vault_id: 'order_by',
-  },
-  vault_transactions_min_order_by: {
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    created_by: 'order_by',
-    distribution_id: 'order_by',
-    id: 'order_by',
-    tx_hash: 'order_by',
-    updated_at: 'order_by',
-    vault_id: 'order_by',
-  },
-  vault_transactions_on_conflict: {
-    constraint: 'vault_transactions_constraint',
-    update_columns: 'vault_transactions_update_column',
-    where: 'vault_transactions_bool_exp',
-  },
-  vault_transactions_order_by: {
-    circle: 'circles_order_by',
-    circle_id: 'order_by',
-    created_at: 'order_by',
-    created_by: 'order_by',
-    distribution: 'distributions_order_by',
-    distribution_id: 'order_by',
-    id: 'order_by',
-    profile: 'profiles_order_by',
-    tx_hash: 'order_by',
-    tx_type: 'order_by',
-    updated_at: 'order_by',
-    vault: 'vaults_order_by',
-    vault_id: 'order_by',
-    vault_tx_type: 'vault_tx_types_order_by',
-  },
-  vault_transactions_pk_columns_input: {
-    id: 'bigint',
-  },
-  vault_transactions_select_column: true,
-  vault_transactions_set_input: {
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    created_by: 'bigint',
-    distribution_id: 'bigint',
-    id: 'bigint',
-    tx_type: 'vault_tx_types_enum',
-    updated_at: 'timestamp',
-    vault_id: 'bigint',
-  },
-  vault_transactions_stddev_order_by: {
-    circle_id: 'order_by',
-    created_by: 'order_by',
-    distribution_id: 'order_by',
-    id: 'order_by',
-    vault_id: 'order_by',
-  },
-  vault_transactions_stddev_pop_order_by: {
-    circle_id: 'order_by',
-    created_by: 'order_by',
-    distribution_id: 'order_by',
-    id: 'order_by',
-    vault_id: 'order_by',
-  },
-  vault_transactions_stddev_samp_order_by: {
-    circle_id: 'order_by',
-    created_by: 'order_by',
-    distribution_id: 'order_by',
-    id: 'order_by',
-    vault_id: 'order_by',
-  },
-  vault_transactions_stream_cursor_input: {
-    initial_value: 'vault_transactions_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  vault_transactions_stream_cursor_value_input: {
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    created_by: 'bigint',
-    distribution_id: 'bigint',
-    id: 'bigint',
-    tx_type: 'vault_tx_types_enum',
-    updated_at: 'timestamp',
-    vault_id: 'bigint',
-  },
-  vault_transactions_sum_order_by: {
-    circle_id: 'order_by',
-    created_by: 'order_by',
-    distribution_id: 'order_by',
-    id: 'order_by',
-    vault_id: 'order_by',
-  },
-  vault_transactions_update_column: true,
-  vault_transactions_updates: {
-    _inc: 'vault_transactions_inc_input',
-    _set: 'vault_transactions_set_input',
-    where: 'vault_transactions_bool_exp',
-  },
-  vault_transactions_var_pop_order_by: {
-    circle_id: 'order_by',
-    created_by: 'order_by',
-    distribution_id: 'order_by',
-    id: 'order_by',
-    vault_id: 'order_by',
-  },
-  vault_transactions_var_samp_order_by: {
-    circle_id: 'order_by',
-    created_by: 'order_by',
-    distribution_id: 'order_by',
-    id: 'order_by',
-    vault_id: 'order_by',
-  },
-  vault_transactions_variance_order_by: {
-    circle_id: 'order_by',
-    created_by: 'order_by',
-    distribution_id: 'order_by',
-    id: 'order_by',
-    vault_id: 'order_by',
-  },
-  vault_tx_types: {
-    vault_transactions: {
-      distinct_on: 'vault_transactions_select_column',
-      order_by: 'vault_transactions_order_by',
-      where: 'vault_transactions_bool_exp',
-    },
-    vault_transactions_aggregate: {
-      distinct_on: 'vault_transactions_select_column',
-      order_by: 'vault_transactions_order_by',
-      where: 'vault_transactions_bool_exp',
-    },
-  },
-  vault_tx_types_aggregate_fields: {
-    count: {
-      columns: 'vault_tx_types_select_column',
-    },
-  },
-  vault_tx_types_bool_exp: {
-    _and: 'vault_tx_types_bool_exp',
-    _not: 'vault_tx_types_bool_exp',
-    _or: 'vault_tx_types_bool_exp',
-    comment: 'String_comparison_exp',
-    value: 'String_comparison_exp',
-    vault_transactions: 'vault_transactions_bool_exp',
-  },
-  vault_tx_types_constraint: true,
-  vault_tx_types_enum: true,
-  vault_tx_types_enum_comparison_exp: {
-    _eq: 'vault_tx_types_enum',
-    _in: 'vault_tx_types_enum',
-    _neq: 'vault_tx_types_enum',
-    _nin: 'vault_tx_types_enum',
-  },
-  vault_tx_types_insert_input: {
-    vault_transactions: 'vault_transactions_arr_rel_insert_input',
-  },
-  vault_tx_types_obj_rel_insert_input: {
-    data: 'vault_tx_types_insert_input',
-    on_conflict: 'vault_tx_types_on_conflict',
-  },
-  vault_tx_types_on_conflict: {
-    constraint: 'vault_tx_types_constraint',
-    update_columns: 'vault_tx_types_update_column',
-    where: 'vault_tx_types_bool_exp',
-  },
-  vault_tx_types_order_by: {
-    comment: 'order_by',
-    value: 'order_by',
-    vault_transactions_aggregate: 'vault_transactions_aggregate_order_by',
-  },
-  vault_tx_types_pk_columns_input: {},
-  vault_tx_types_select_column: true,
-  vault_tx_types_set_input: {},
-  vault_tx_types_stream_cursor_input: {
-    initial_value: 'vault_tx_types_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  vault_tx_types_stream_cursor_value_input: {},
-  vault_tx_types_update_column: true,
-  vault_tx_types_updates: {
-    _set: 'vault_tx_types_set_input',
-    where: 'vault_tx_types_bool_exp',
-  },
-  vaults: {
-    distributions: {
-      distinct_on: 'distributions_select_column',
-      order_by: 'distributions_order_by',
-      where: 'distributions_bool_exp',
-    },
-    distributions_aggregate: {
-      distinct_on: 'distributions_select_column',
-      order_by: 'distributions_order_by',
-      where: 'distributions_bool_exp',
-    },
-    vault_transactions: {
-      distinct_on: 'vault_transactions_select_column',
-      order_by: 'vault_transactions_order_by',
-      where: 'vault_transactions_bool_exp',
-    },
-    vault_transactions_aggregate: {
-      distinct_on: 'vault_transactions_select_column',
-      order_by: 'vault_transactions_order_by',
-      where: 'vault_transactions_bool_exp',
-    },
-  },
-  vaults_aggregate_fields: {
-    count: {
-      columns: 'vaults_select_column',
-    },
-  },
-  vaults_aggregate_order_by: {
-    avg: 'vaults_avg_order_by',
-    count: 'order_by',
-    max: 'vaults_max_order_by',
-    min: 'vaults_min_order_by',
-    stddev: 'vaults_stddev_order_by',
-    stddev_pop: 'vaults_stddev_pop_order_by',
-    stddev_samp: 'vaults_stddev_samp_order_by',
-    sum: 'vaults_sum_order_by',
-    var_pop: 'vaults_var_pop_order_by',
-    var_samp: 'vaults_var_samp_order_by',
-    variance: 'vaults_variance_order_by',
-  },
-  vaults_arr_rel_insert_input: {
-    data: 'vaults_insert_input',
-    on_conflict: 'vaults_on_conflict',
-  },
-  vaults_avg_order_by: {
-    chain_id: 'order_by',
-    created_by: 'order_by',
-    decimals: 'order_by',
-    deployment_block: 'order_by',
-    id: 'order_by',
-    org_id: 'order_by',
-  },
-  vaults_bool_exp: {
-    _and: 'vaults_bool_exp',
-    _not: 'vaults_bool_exp',
-    _or: 'vaults_bool_exp',
-    chain_id: 'Int_comparison_exp',
-    created_at: 'timestamptz_comparison_exp',
-    created_by: 'bigint_comparison_exp',
-    decimals: 'Int_comparison_exp',
-    deployment_block: 'bigint_comparison_exp',
-    distributions: 'distributions_bool_exp',
-    id: 'bigint_comparison_exp',
-    org_id: 'bigint_comparison_exp',
-    organization: 'organizations_bool_exp',
-    profile: 'profiles_bool_exp',
-    simple_token_address: 'String_comparison_exp',
-    symbol: 'String_comparison_exp',
-    token_address: 'String_comparison_exp',
-    updated_at: 'timestamptz_comparison_exp',
-    vault_address: 'String_comparison_exp',
-    vault_transactions: 'vault_transactions_bool_exp',
-  },
-  vaults_constraint: true,
-  vaults_inc_input: {
-    created_by: 'bigint',
-    deployment_block: 'bigint',
-    id: 'bigint',
-    org_id: 'bigint',
-  },
-  vaults_insert_input: {
-    created_at: 'timestamptz',
-    created_by: 'bigint',
-    deployment_block: 'bigint',
-    distributions: 'distributions_arr_rel_insert_input',
-    id: 'bigint',
-    org_id: 'bigint',
-    organization: 'organizations_obj_rel_insert_input',
-    profile: 'profiles_obj_rel_insert_input',
-    updated_at: 'timestamptz',
-    vault_transactions: 'vault_transactions_arr_rel_insert_input',
-  },
-  vaults_max_order_by: {
-    chain_id: 'order_by',
-    created_at: 'order_by',
-    created_by: 'order_by',
-    decimals: 'order_by',
-    deployment_block: 'order_by',
-    id: 'order_by',
-    org_id: 'order_by',
-    simple_token_address: 'order_by',
-    symbol: 'order_by',
-    token_address: 'order_by',
-    updated_at: 'order_by',
-    vault_address: 'order_by',
-  },
-  vaults_min_order_by: {
-    chain_id: 'order_by',
-    created_at: 'order_by',
-    created_by: 'order_by',
-    decimals: 'order_by',
-    deployment_block: 'order_by',
-    id: 'order_by',
-    org_id: 'order_by',
-    simple_token_address: 'order_by',
-    symbol: 'order_by',
-    token_address: 'order_by',
-    updated_at: 'order_by',
-    vault_address: 'order_by',
-  },
-  vaults_obj_rel_insert_input: {
-    data: 'vaults_insert_input',
-    on_conflict: 'vaults_on_conflict',
-  },
-  vaults_on_conflict: {
-    constraint: 'vaults_constraint',
-    update_columns: 'vaults_update_column',
-    where: 'vaults_bool_exp',
-  },
-  vaults_order_by: {
-    chain_id: 'order_by',
-    created_at: 'order_by',
-    created_by: 'order_by',
-    decimals: 'order_by',
-    deployment_block: 'order_by',
-    distributions_aggregate: 'distributions_aggregate_order_by',
-    id: 'order_by',
-    org_id: 'order_by',
-    organization: 'organizations_order_by',
-    profile: 'profiles_order_by',
-    simple_token_address: 'order_by',
-    symbol: 'order_by',
-    token_address: 'order_by',
-    updated_at: 'order_by',
-    vault_address: 'order_by',
-    vault_transactions_aggregate: 'vault_transactions_aggregate_order_by',
-  },
-  vaults_pk_columns_input: {
-    id: 'bigint',
-  },
-  vaults_select_column: true,
-  vaults_set_input: {
-    created_at: 'timestamptz',
-    created_by: 'bigint',
-    deployment_block: 'bigint',
-    id: 'bigint',
-    org_id: 'bigint',
-    updated_at: 'timestamptz',
-  },
-  vaults_stddev_order_by: {
-    chain_id: 'order_by',
-    created_by: 'order_by',
-    decimals: 'order_by',
-    deployment_block: 'order_by',
-    id: 'order_by',
-    org_id: 'order_by',
-  },
-  vaults_stddev_pop_order_by: {
-    chain_id: 'order_by',
-    created_by: 'order_by',
-    decimals: 'order_by',
-    deployment_block: 'order_by',
-    id: 'order_by',
-    org_id: 'order_by',
-  },
-  vaults_stddev_samp_order_by: {
-    chain_id: 'order_by',
-    created_by: 'order_by',
-    decimals: 'order_by',
-    deployment_block: 'order_by',
-    id: 'order_by',
-    org_id: 'order_by',
-  },
-  vaults_stream_cursor_input: {
-    initial_value: 'vaults_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  vaults_stream_cursor_value_input: {
-    created_at: 'timestamptz',
-    created_by: 'bigint',
-    deployment_block: 'bigint',
-    id: 'bigint',
-    org_id: 'bigint',
-    updated_at: 'timestamptz',
-  },
-  vaults_sum_order_by: {
-    chain_id: 'order_by',
-    created_by: 'order_by',
-    decimals: 'order_by',
-    deployment_block: 'order_by',
-    id: 'order_by',
-    org_id: 'order_by',
-  },
-  vaults_update_column: true,
-  vaults_updates: {
-    _inc: 'vaults_inc_input',
-    _set: 'vaults_set_input',
-    where: 'vaults_bool_exp',
-  },
-  vaults_var_pop_order_by: {
-    chain_id: 'order_by',
-    created_by: 'order_by',
-    decimals: 'order_by',
-    deployment_block: 'order_by',
-    id: 'order_by',
-    org_id: 'order_by',
-  },
-  vaults_var_samp_order_by: {
-    chain_id: 'order_by',
-    created_by: 'order_by',
-    decimals: 'order_by',
-    deployment_block: 'order_by',
-    id: 'order_by',
-    org_id: 'order_by',
-  },
-  vaults_variance_order_by: {
-    chain_id: 'order_by',
-    created_by: 'order_by',
-    decimals: 'order_by',
-    deployment_block: 'order_by',
-    id: 'order_by',
-    org_id: 'order_by',
-  },
-  vouches_aggregate_fields: {
-    count: {
-      columns: 'vouches_select_column',
-    },
-  },
-  vouches_aggregate_order_by: {
-    avg: 'vouches_avg_order_by',
-    count: 'order_by',
-    max: 'vouches_max_order_by',
-    min: 'vouches_min_order_by',
-    stddev: 'vouches_stddev_order_by',
-    stddev_pop: 'vouches_stddev_pop_order_by',
-    stddev_samp: 'vouches_stddev_samp_order_by',
-    sum: 'vouches_sum_order_by',
-    var_pop: 'vouches_var_pop_order_by',
-    var_samp: 'vouches_var_samp_order_by',
-    variance: 'vouches_variance_order_by',
-  },
-  vouches_arr_rel_insert_input: {
-    data: 'vouches_insert_input',
-    on_conflict: 'vouches_on_conflict',
-  },
-  vouches_avg_order_by: {
-    id: 'order_by',
-    nominee_id: 'order_by',
-    voucher_id: 'order_by',
-  },
-  vouches_bool_exp: {
-    _and: 'vouches_bool_exp',
-    _not: 'vouches_bool_exp',
-    _or: 'vouches_bool_exp',
-    created_at: 'timestamp_comparison_exp',
-    id: 'bigint_comparison_exp',
-    nominee: 'nominees_bool_exp',
-    nominee_id: 'Int_comparison_exp',
-    updated_at: 'timestamp_comparison_exp',
-    voucher: 'users_bool_exp',
-    voucher_id: 'Int_comparison_exp',
-  },
-  vouches_constraint: true,
-  vouches_inc_input: {
-    id: 'bigint',
-  },
-  vouches_insert_input: {
-    created_at: 'timestamp',
-    id: 'bigint',
-    nominee: 'nominees_obj_rel_insert_input',
-    updated_at: 'timestamp',
-    voucher: 'users_obj_rel_insert_input',
-  },
-  vouches_max_order_by: {
-    created_at: 'order_by',
-    id: 'order_by',
-    nominee_id: 'order_by',
-    updated_at: 'order_by',
-    voucher_id: 'order_by',
-  },
-  vouches_min_order_by: {
-    created_at: 'order_by',
-    id: 'order_by',
-    nominee_id: 'order_by',
-    updated_at: 'order_by',
-    voucher_id: 'order_by',
-  },
-  vouches_on_conflict: {
-    constraint: 'vouches_constraint',
-    update_columns: 'vouches_update_column',
-    where: 'vouches_bool_exp',
-  },
-  vouches_order_by: {
-    created_at: 'order_by',
-    id: 'order_by',
-    nominee: 'nominees_order_by',
-    nominee_id: 'order_by',
-    updated_at: 'order_by',
-    voucher: 'users_order_by',
-    voucher_id: 'order_by',
-  },
-  vouches_pk_columns_input: {
-    id: 'bigint',
-  },
-  vouches_select_column: true,
-  vouches_set_input: {
-    created_at: 'timestamp',
-    id: 'bigint',
-    updated_at: 'timestamp',
-  },
-  vouches_stddev_order_by: {
-    id: 'order_by',
-    nominee_id: 'order_by',
-    voucher_id: 'order_by',
-  },
-  vouches_stddev_pop_order_by: {
-    id: 'order_by',
-    nominee_id: 'order_by',
-    voucher_id: 'order_by',
-  },
-  vouches_stddev_samp_order_by: {
-    id: 'order_by',
-    nominee_id: 'order_by',
-    voucher_id: 'order_by',
-  },
-  vouches_stream_cursor_input: {
-    initial_value: 'vouches_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  vouches_stream_cursor_value_input: {
-    created_at: 'timestamp',
-    id: 'bigint',
-    updated_at: 'timestamp',
-  },
-  vouches_sum_order_by: {
-    id: 'order_by',
-    nominee_id: 'order_by',
-    voucher_id: 'order_by',
-  },
-  vouches_update_column: true,
-  vouches_updates: {
-    _inc: 'vouches_inc_input',
-    _set: 'vouches_set_input',
-    where: 'vouches_bool_exp',
-  },
-  vouches_var_pop_order_by: {
-    id: 'order_by',
-    nominee_id: 'order_by',
-    voucher_id: 'order_by',
-  },
-  vouches_var_samp_order_by: {
-    id: 'order_by',
-    nominee_id: 'order_by',
-    voucher_id: 'order_by',
-  },
-  vouches_variance_order_by: {
-    id: 'order_by',
-    nominee_id: 'order_by',
-    voucher_id: 'order_by',
-  },
-};
+export const AllTypesProps: Record<string,any> = {
+	AdminUpdateUserInput:{
 
-export const ReturnTypes: Record<string, any> = {
-  cached: {
-    ttl: 'Int',
-    refresh: 'Boolean',
-  },
-  AllocationCsvResponse: {
-    file: 'String',
-  },
-  AllocationsResponse: {
-    user: 'users',
-    user_id: 'Int',
-  },
-  ConfirmationResponse: {
-    success: 'Boolean',
-  },
-  CreateCircleResponse: {
-    circle: 'circles',
-    id: 'Int',
-    users: 'users',
-    users_aggregate: 'users_aggregate',
-  },
-  CreateNomineeResponse: {
-    id: 'Int',
-    nominee: 'nominees',
-  },
-  CreateSampleCircleResponse: {
-    circle: 'circles',
-    id: 'Int',
-  },
-  DeleteEpochResponse: {
-    success: 'Boolean',
-  },
-  DeleteUserBulkResponse: {
-    success: 'Boolean',
-  },
-  EpochResponse: {
-    epoch: 'epochs',
-    id: 'ID',
-  },
-  GenerateApiKeyResponse: {
-    api_key: 'String',
-    circleApiKey: 'circle_api_keys',
-    hash: 'String',
-  },
-  LinkDiscordUserResponse: {
-    id: 'Int',
-    linkDiscordUser_DiscordUser: 'discord_users',
-  },
-  LogVaultTxResponse: {
-    id: 'ID',
-    vault_tx_return_object: 'vault_transactions',
-  },
-  LogoutResponse: {
-    id: 'Int',
-    profile: 'profiles',
-  },
-  MarkClaimedOutput: {
-    ids: 'Int',
-  },
-  UpdateCircleOutput: {
-    circle: 'circles',
-    id: 'Int',
-  },
-  UpdateCircleResponse: {
-    circle: 'circles',
-    id: 'Int',
-  },
-  UpdateContributionResponse: {
-    id: 'ID',
-    updateContribution_Contribution: 'contributions',
-  },
-  UpdateOrgResponse: {
-    id: 'Int',
-    org: 'organizations',
-  },
-  UpdateProfileResponse: {
-    id: 'Int',
-    profile: 'profiles',
-  },
-  UpdateTeammatesResponse: {
-    user: 'users',
-    user_id: 'ID',
-  },
-  UserResponse: {
-    UserResponse: 'users',
-    id: 'ID',
-  },
-  VaultResponse: {
-    id: 'ID',
-    vault: 'vaults',
-  },
-  VouchOutput: {
-    id: 'Int',
-    nominee: 'nominees',
-  },
-  burns: {
-    circle: 'circles',
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    epoch: 'epochs',
-    epoch_id: 'bigint',
-    id: 'bigint',
-    original_amount: 'Int',
-    regift_percent: 'Int',
-    tokens_burnt: 'Int',
-    updated_at: 'timestamp',
-    user: 'users',
-    user_id: 'bigint',
-  },
-  burns_aggregate: {
-    aggregate: 'burns_aggregate_fields',
-    nodes: 'burns',
-  },
-  burns_aggregate_fields: {
-    avg: 'burns_avg_fields',
-    count: 'Int',
-    max: 'burns_max_fields',
-    min: 'burns_min_fields',
-    stddev: 'burns_stddev_fields',
-    stddev_pop: 'burns_stddev_pop_fields',
-    stddev_samp: 'burns_stddev_samp_fields',
-    sum: 'burns_sum_fields',
-    var_pop: 'burns_var_pop_fields',
-    var_samp: 'burns_var_samp_fields',
-    variance: 'burns_variance_fields',
-  },
-  burns_avg_fields: {
-    circle_id: 'Float',
-    epoch_id: 'Float',
-    id: 'Float',
-    original_amount: 'Float',
-    regift_percent: 'Float',
-    tokens_burnt: 'Float',
-    user_id: 'Float',
-  },
-  burns_max_fields: {
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    epoch_id: 'bigint',
-    id: 'bigint',
-    original_amount: 'Int',
-    regift_percent: 'Int',
-    tokens_burnt: 'Int',
-    updated_at: 'timestamp',
-    user_id: 'bigint',
-  },
-  burns_min_fields: {
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    epoch_id: 'bigint',
-    id: 'bigint',
-    original_amount: 'Int',
-    regift_percent: 'Int',
-    tokens_burnt: 'Int',
-    updated_at: 'timestamp',
-    user_id: 'bigint',
-  },
-  burns_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'burns',
-  },
-  burns_stddev_fields: {
-    circle_id: 'Float',
-    epoch_id: 'Float',
-    id: 'Float',
-    original_amount: 'Float',
-    regift_percent: 'Float',
-    tokens_burnt: 'Float',
-    user_id: 'Float',
-  },
-  burns_stddev_pop_fields: {
-    circle_id: 'Float',
-    epoch_id: 'Float',
-    id: 'Float',
-    original_amount: 'Float',
-    regift_percent: 'Float',
-    tokens_burnt: 'Float',
-    user_id: 'Float',
-  },
-  burns_stddev_samp_fields: {
-    circle_id: 'Float',
-    epoch_id: 'Float',
-    id: 'Float',
-    original_amount: 'Float',
-    regift_percent: 'Float',
-    tokens_burnt: 'Float',
-    user_id: 'Float',
-  },
-  burns_sum_fields: {
-    circle_id: 'bigint',
-    epoch_id: 'bigint',
-    id: 'bigint',
-    original_amount: 'Int',
-    regift_percent: 'Int',
-    tokens_burnt: 'Int',
-    user_id: 'bigint',
-  },
-  burns_var_pop_fields: {
-    circle_id: 'Float',
-    epoch_id: 'Float',
-    id: 'Float',
-    original_amount: 'Float',
-    regift_percent: 'Float',
-    tokens_burnt: 'Float',
-    user_id: 'Float',
-  },
-  burns_var_samp_fields: {
-    circle_id: 'Float',
-    epoch_id: 'Float',
-    id: 'Float',
-    original_amount: 'Float',
-    regift_percent: 'Float',
-    tokens_burnt: 'Float',
-    user_id: 'Float',
-  },
-  burns_variance_fields: {
-    circle_id: 'Float',
-    epoch_id: 'Float',
-    id: 'Float',
-    original_amount: 'Float',
-    regift_percent: 'Float',
-    tokens_burnt: 'Float',
-    user_id: 'Float',
-  },
-  circle_api_keys: {
-    circle: 'circles',
-    circle_id: 'bigint',
-    create_contributions: 'Boolean',
-    create_vouches: 'Boolean',
-    createdByUser: 'users',
-    created_at: 'timestamptz',
-    created_by: 'bigint',
-    hash: 'String',
-    name: 'String',
-    read_circle: 'Boolean',
-    read_contributions: 'Boolean',
-    read_discord: 'Boolean',
-    read_epochs: 'Boolean',
-    read_member_profiles: 'Boolean',
-    read_nominees: 'Boolean',
-    read_pending_token_gifts: 'Boolean',
-    update_circle: 'Boolean',
-    update_pending_token_gifts: 'Boolean',
-  },
-  circle_api_keys_aggregate: {
-    aggregate: 'circle_api_keys_aggregate_fields',
-    nodes: 'circle_api_keys',
-  },
-  circle_api_keys_aggregate_fields: {
-    avg: 'circle_api_keys_avg_fields',
-    count: 'Int',
-    max: 'circle_api_keys_max_fields',
-    min: 'circle_api_keys_min_fields',
-    stddev: 'circle_api_keys_stddev_fields',
-    stddev_pop: 'circle_api_keys_stddev_pop_fields',
-    stddev_samp: 'circle_api_keys_stddev_samp_fields',
-    sum: 'circle_api_keys_sum_fields',
-    var_pop: 'circle_api_keys_var_pop_fields',
-    var_samp: 'circle_api_keys_var_samp_fields',
-    variance: 'circle_api_keys_variance_fields',
-  },
-  circle_api_keys_avg_fields: {
-    circle_id: 'Float',
-    created_by: 'Float',
-  },
-  circle_api_keys_max_fields: {
-    circle_id: 'bigint',
-    created_at: 'timestamptz',
-    created_by: 'bigint',
-    hash: 'String',
-    name: 'String',
-  },
-  circle_api_keys_min_fields: {
-    circle_id: 'bigint',
-    created_at: 'timestamptz',
-    created_by: 'bigint',
-    hash: 'String',
-    name: 'String',
-  },
-  circle_api_keys_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'circle_api_keys',
-  },
-  circle_api_keys_stddev_fields: {
-    circle_id: 'Float',
-    created_by: 'Float',
-  },
-  circle_api_keys_stddev_pop_fields: {
-    circle_id: 'Float',
-    created_by: 'Float',
-  },
-  circle_api_keys_stddev_samp_fields: {
-    circle_id: 'Float',
-    created_by: 'Float',
-  },
-  circle_api_keys_sum_fields: {
-    circle_id: 'bigint',
-    created_by: 'bigint',
-  },
-  circle_api_keys_var_pop_fields: {
-    circle_id: 'Float',
-    created_by: 'Float',
-  },
-  circle_api_keys_var_samp_fields: {
-    circle_id: 'Float',
-    created_by: 'Float',
-  },
-  circle_api_keys_variance_fields: {
-    circle_id: 'Float',
-    created_by: 'Float',
-  },
-  circle_integrations: {
-    circle: 'circles',
-    circle_id: 'bigint',
-    created_at: 'timestamptz',
-    data: 'json',
-    id: 'bigint',
-    name: 'String',
-    type: 'String',
-    updated_at: 'timestamptz',
-  },
-  circle_integrations_aggregate: {
-    aggregate: 'circle_integrations_aggregate_fields',
-    nodes: 'circle_integrations',
-  },
-  circle_integrations_aggregate_fields: {
-    avg: 'circle_integrations_avg_fields',
-    count: 'Int',
-    max: 'circle_integrations_max_fields',
-    min: 'circle_integrations_min_fields',
-    stddev: 'circle_integrations_stddev_fields',
-    stddev_pop: 'circle_integrations_stddev_pop_fields',
-    stddev_samp: 'circle_integrations_stddev_samp_fields',
-    sum: 'circle_integrations_sum_fields',
-    var_pop: 'circle_integrations_var_pop_fields',
-    var_samp: 'circle_integrations_var_samp_fields',
-    variance: 'circle_integrations_variance_fields',
-  },
-  circle_integrations_avg_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-  },
-  circle_integrations_max_fields: {
-    circle_id: 'bigint',
-    created_at: 'timestamptz',
-    id: 'bigint',
-    name: 'String',
-    type: 'String',
-    updated_at: 'timestamptz',
-  },
-  circle_integrations_min_fields: {
-    circle_id: 'bigint',
-    created_at: 'timestamptz',
-    id: 'bigint',
-    name: 'String',
-    type: 'String',
-    updated_at: 'timestamptz',
-  },
-  circle_integrations_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'circle_integrations',
-  },
-  circle_integrations_stddev_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-  },
-  circle_integrations_stddev_pop_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-  },
-  circle_integrations_stddev_samp_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-  },
-  circle_integrations_sum_fields: {
-    circle_id: 'bigint',
-    id: 'bigint',
-  },
-  circle_integrations_var_pop_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-  },
-  circle_integrations_var_samp_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-  },
-  circle_integrations_variance_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-  },
-  circle_metadata: {
-    circle: 'circles',
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    id: 'bigint',
-    json: 'json',
-    updated_at: 'timestamp',
-  },
-  circle_metadata_aggregate: {
-    aggregate: 'circle_metadata_aggregate_fields',
-    nodes: 'circle_metadata',
-  },
-  circle_metadata_aggregate_fields: {
-    avg: 'circle_metadata_avg_fields',
-    count: 'Int',
-    max: 'circle_metadata_max_fields',
-    min: 'circle_metadata_min_fields',
-    stddev: 'circle_metadata_stddev_fields',
-    stddev_pop: 'circle_metadata_stddev_pop_fields',
-    stddev_samp: 'circle_metadata_stddev_samp_fields',
-    sum: 'circle_metadata_sum_fields',
-    var_pop: 'circle_metadata_var_pop_fields',
-    var_samp: 'circle_metadata_var_samp_fields',
-    variance: 'circle_metadata_variance_fields',
-  },
-  circle_metadata_avg_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-  },
-  circle_metadata_max_fields: {
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    id: 'bigint',
-    updated_at: 'timestamp',
-  },
-  circle_metadata_min_fields: {
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    id: 'bigint',
-    updated_at: 'timestamp',
-  },
-  circle_metadata_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'circle_metadata',
-  },
-  circle_metadata_stddev_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-  },
-  circle_metadata_stddev_pop_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-  },
-  circle_metadata_stddev_samp_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-  },
-  circle_metadata_sum_fields: {
-    circle_id: 'bigint',
-    id: 'bigint',
-  },
-  circle_metadata_var_pop_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-  },
-  circle_metadata_var_samp_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-  },
-  circle_metadata_variance_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-  },
-  circle_private: {
-    circle: 'circles',
-    circle_id: 'bigint',
-    discord_webhook: 'String',
-  },
-  circle_private_aggregate: {
-    aggregate: 'circle_private_aggregate_fields',
-    nodes: 'circle_private',
-  },
-  circle_private_aggregate_fields: {
-    avg: 'circle_private_avg_fields',
-    count: 'Int',
-    max: 'circle_private_max_fields',
-    min: 'circle_private_min_fields',
-    stddev: 'circle_private_stddev_fields',
-    stddev_pop: 'circle_private_stddev_pop_fields',
-    stddev_samp: 'circle_private_stddev_samp_fields',
-    sum: 'circle_private_sum_fields',
-    var_pop: 'circle_private_var_pop_fields',
-    var_samp: 'circle_private_var_samp_fields',
-    variance: 'circle_private_variance_fields',
-  },
-  circle_private_avg_fields: {
-    circle_id: 'Float',
-  },
-  circle_private_max_fields: {
-    circle_id: 'bigint',
-    discord_webhook: 'String',
-  },
-  circle_private_min_fields: {
-    circle_id: 'bigint',
-    discord_webhook: 'String',
-  },
-  circle_private_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'circle_private',
-  },
-  circle_private_stddev_fields: {
-    circle_id: 'Float',
-  },
-  circle_private_stddev_pop_fields: {
-    circle_id: 'Float',
-  },
-  circle_private_stddev_samp_fields: {
-    circle_id: 'Float',
-  },
-  circle_private_sum_fields: {
-    circle_id: 'bigint',
-  },
-  circle_private_var_pop_fields: {
-    circle_id: 'Float',
-  },
-  circle_private_var_samp_fields: {
-    circle_id: 'Float',
-  },
-  circle_private_variance_fields: {
-    circle_id: 'Float',
-  },
-  circle_share_tokens: {
-    circle: 'circles',
-    circle_id: 'bigint',
-    created_at: 'timestamptz',
-    type: 'Int',
-    updated_at: 'timestamptz',
-    uuid: 'uuid',
-  },
-  circle_share_tokens_aggregate: {
-    aggregate: 'circle_share_tokens_aggregate_fields',
-    nodes: 'circle_share_tokens',
-  },
-  circle_share_tokens_aggregate_fields: {
-    avg: 'circle_share_tokens_avg_fields',
-    count: 'Int',
-    max: 'circle_share_tokens_max_fields',
-    min: 'circle_share_tokens_min_fields',
-    stddev: 'circle_share_tokens_stddev_fields',
-    stddev_pop: 'circle_share_tokens_stddev_pop_fields',
-    stddev_samp: 'circle_share_tokens_stddev_samp_fields',
-    sum: 'circle_share_tokens_sum_fields',
-    var_pop: 'circle_share_tokens_var_pop_fields',
-    var_samp: 'circle_share_tokens_var_samp_fields',
-    variance: 'circle_share_tokens_variance_fields',
-  },
-  circle_share_tokens_avg_fields: {
-    circle_id: 'Float',
-    type: 'Float',
-  },
-  circle_share_tokens_max_fields: {
-    circle_id: 'bigint',
-    created_at: 'timestamptz',
-    type: 'Int',
-    updated_at: 'timestamptz',
-    uuid: 'uuid',
-  },
-  circle_share_tokens_min_fields: {
-    circle_id: 'bigint',
-    created_at: 'timestamptz',
-    type: 'Int',
-    updated_at: 'timestamptz',
-    uuid: 'uuid',
-  },
-  circle_share_tokens_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'circle_share_tokens',
-  },
-  circle_share_tokens_stddev_fields: {
-    circle_id: 'Float',
-    type: 'Float',
-  },
-  circle_share_tokens_stddev_pop_fields: {
-    circle_id: 'Float',
-    type: 'Float',
-  },
-  circle_share_tokens_stddev_samp_fields: {
-    circle_id: 'Float',
-    type: 'Float',
-  },
-  circle_share_tokens_sum_fields: {
-    circle_id: 'bigint',
-    type: 'Int',
-  },
-  circle_share_tokens_var_pop_fields: {
-    circle_id: 'Float',
-    type: 'Float',
-  },
-  circle_share_tokens_var_samp_fields: {
-    circle_id: 'Float',
-    type: 'Float',
-  },
-  circle_share_tokens_variance_fields: {
-    circle_id: 'Float',
-    type: 'Float',
-  },
-  circles: {
-    alloc_text: 'String',
-    api_keys: 'circle_api_keys',
-    api_keys_aggregate: 'circle_api_keys_aggregate',
-    auto_opt_out: 'Boolean',
-    burns: 'burns',
-    burns_aggregate: 'burns_aggregate',
-    circle_metadata: 'circle_metadata',
-    circle_metadata_aggregate: 'circle_metadata_aggregate',
-    circle_private: 'circle_private',
-    contact: 'String',
-    contributions: 'contributions',
-    contributions_aggregate: 'contributions_aggregate',
-    created_at: 'timestamp',
-    default_opt_in: 'Boolean',
-    deleted_at: 'timestamp',
-    discord_webhook: 'String',
-    epochs: 'epochs',
-    epochs_aggregate: 'epochs_aggregate',
-    fixed_payment_token_type: 'String',
-    fixed_payment_vault_id: 'Int',
-    id: 'bigint',
-    integrations: 'circle_integrations',
-    integrations_aggregate: 'circle_integrations_aggregate',
-    is_verified: 'Boolean',
-    logo: 'String',
-    min_vouches: 'Int',
-    name: 'String',
-    nomination_days_limit: 'Int',
-    nominees: 'nominees',
-    nominees_aggregate: 'nominees_aggregate',
-    only_giver_vouch: 'Boolean',
-    organization: 'organizations',
-    organization_id: 'Int',
-    pending_token_gifts: 'pending_token_gifts',
-    pending_token_gifts_aggregate: 'pending_token_gifts_aggregate',
-    show_pending_gives: 'Boolean',
-    team_sel_text: 'String',
-    team_selection: 'Boolean',
-    telegram_id: 'String',
-    token_gifts: 'token_gifts',
-    token_gifts_aggregate: 'token_gifts_aggregate',
-    token_name: 'String',
-    updated_at: 'timestamp',
-    users: 'users',
-    users_aggregate: 'users_aggregate',
-    vault_transactions: 'vault_transactions',
-    vault_transactions_aggregate: 'vault_transactions_aggregate',
-    vouching: 'Boolean',
-    vouching_text: 'String',
-  },
-  circles_aggregate: {
-    aggregate: 'circles_aggregate_fields',
-    nodes: 'circles',
-  },
-  circles_aggregate_fields: {
-    avg: 'circles_avg_fields',
-    count: 'Int',
-    max: 'circles_max_fields',
-    min: 'circles_min_fields',
-    stddev: 'circles_stddev_fields',
-    stddev_pop: 'circles_stddev_pop_fields',
-    stddev_samp: 'circles_stddev_samp_fields',
-    sum: 'circles_sum_fields',
-    var_pop: 'circles_var_pop_fields',
-    var_samp: 'circles_var_samp_fields',
-    variance: 'circles_variance_fields',
-  },
-  circles_avg_fields: {
-    fixed_payment_vault_id: 'Float',
-    id: 'Float',
-    min_vouches: 'Float',
-    nomination_days_limit: 'Float',
-    organization_id: 'Float',
-  },
-  circles_max_fields: {
-    alloc_text: 'String',
-    contact: 'String',
-    created_at: 'timestamp',
-    deleted_at: 'timestamp',
-    discord_webhook: 'String',
-    fixed_payment_token_type: 'String',
-    fixed_payment_vault_id: 'Int',
-    id: 'bigint',
-    logo: 'String',
-    min_vouches: 'Int',
-    name: 'String',
-    nomination_days_limit: 'Int',
-    organization_id: 'Int',
-    team_sel_text: 'String',
-    telegram_id: 'String',
-    token_name: 'String',
-    updated_at: 'timestamp',
-    vouching_text: 'String',
-  },
-  circles_min_fields: {
-    alloc_text: 'String',
-    contact: 'String',
-    created_at: 'timestamp',
-    deleted_at: 'timestamp',
-    discord_webhook: 'String',
-    fixed_payment_token_type: 'String',
-    fixed_payment_vault_id: 'Int',
-    id: 'bigint',
-    logo: 'String',
-    min_vouches: 'Int',
-    name: 'String',
-    nomination_days_limit: 'Int',
-    organization_id: 'Int',
-    team_sel_text: 'String',
-    telegram_id: 'String',
-    token_name: 'String',
-    updated_at: 'timestamp',
-    vouching_text: 'String',
-  },
-  circles_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'circles',
-  },
-  circles_stddev_fields: {
-    fixed_payment_vault_id: 'Float',
-    id: 'Float',
-    min_vouches: 'Float',
-    nomination_days_limit: 'Float',
-    organization_id: 'Float',
-  },
-  circles_stddev_pop_fields: {
-    fixed_payment_vault_id: 'Float',
-    id: 'Float',
-    min_vouches: 'Float',
-    nomination_days_limit: 'Float',
-    organization_id: 'Float',
-  },
-  circles_stddev_samp_fields: {
-    fixed_payment_vault_id: 'Float',
-    id: 'Float',
-    min_vouches: 'Float',
-    nomination_days_limit: 'Float',
-    organization_id: 'Float',
-  },
-  circles_sum_fields: {
-    fixed_payment_vault_id: 'Int',
-    id: 'bigint',
-    min_vouches: 'Int',
-    nomination_days_limit: 'Int',
-    organization_id: 'Int',
-  },
-  circles_var_pop_fields: {
-    fixed_payment_vault_id: 'Float',
-    id: 'Float',
-    min_vouches: 'Float',
-    nomination_days_limit: 'Float',
-    organization_id: 'Float',
-  },
-  circles_var_samp_fields: {
-    fixed_payment_vault_id: 'Float',
-    id: 'Float',
-    min_vouches: 'Float',
-    nomination_days_limit: 'Float',
-    organization_id: 'Float',
-  },
-  circles_variance_fields: {
-    fixed_payment_vault_id: 'Float',
-    id: 'Float',
-    min_vouches: 'Float',
-    nomination_days_limit: 'Float',
-    organization_id: 'Float',
-  },
-  claims: {
-    address: 'String',
-    amount: 'numeric',
-    created_at: 'timestamptz',
-    distribution: 'distributions',
-    distribution_id: 'bigint',
-    id: 'bigint',
-    index: 'bigint',
-    new_amount: 'numeric',
-    profile: 'profiles',
-    profile_id: 'bigint',
-    proof: 'String',
-    txHash: 'String',
-    updated_at: 'timestamptz',
-  },
-  claims_aggregate: {
-    aggregate: 'claims_aggregate_fields',
-    nodes: 'claims',
-  },
-  claims_aggregate_fields: {
-    avg: 'claims_avg_fields',
-    count: 'Int',
-    max: 'claims_max_fields',
-    min: 'claims_min_fields',
-    stddev: 'claims_stddev_fields',
-    stddev_pop: 'claims_stddev_pop_fields',
-    stddev_samp: 'claims_stddev_samp_fields',
-    sum: 'claims_sum_fields',
-    var_pop: 'claims_var_pop_fields',
-    var_samp: 'claims_var_samp_fields',
-    variance: 'claims_variance_fields',
-  },
-  claims_avg_fields: {
-    amount: 'Float',
-    distribution_id: 'Float',
-    id: 'Float',
-    index: 'Float',
-    new_amount: 'Float',
-    profile_id: 'Float',
-  },
-  claims_max_fields: {
-    address: 'String',
-    amount: 'numeric',
-    created_at: 'timestamptz',
-    distribution_id: 'bigint',
-    id: 'bigint',
-    index: 'bigint',
-    new_amount: 'numeric',
-    profile_id: 'bigint',
-    proof: 'String',
-    txHash: 'String',
-    updated_at: 'timestamptz',
-  },
-  claims_min_fields: {
-    address: 'String',
-    amount: 'numeric',
-    created_at: 'timestamptz',
-    distribution_id: 'bigint',
-    id: 'bigint',
-    index: 'bigint',
-    new_amount: 'numeric',
-    profile_id: 'bigint',
-    proof: 'String',
-    txHash: 'String',
-    updated_at: 'timestamptz',
-  },
-  claims_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'claims',
-  },
-  claims_stddev_fields: {
-    amount: 'Float',
-    distribution_id: 'Float',
-    id: 'Float',
-    index: 'Float',
-    new_amount: 'Float',
-    profile_id: 'Float',
-  },
-  claims_stddev_pop_fields: {
-    amount: 'Float',
-    distribution_id: 'Float',
-    id: 'Float',
-    index: 'Float',
-    new_amount: 'Float',
-    profile_id: 'Float',
-  },
-  claims_stddev_samp_fields: {
-    amount: 'Float',
-    distribution_id: 'Float',
-    id: 'Float',
-    index: 'Float',
-    new_amount: 'Float',
-    profile_id: 'Float',
-  },
-  claims_sum_fields: {
-    amount: 'numeric',
-    distribution_id: 'bigint',
-    id: 'bigint',
-    index: 'bigint',
-    new_amount: 'numeric',
-    profile_id: 'bigint',
-  },
-  claims_var_pop_fields: {
-    amount: 'Float',
-    distribution_id: 'Float',
-    id: 'Float',
-    index: 'Float',
-    new_amount: 'Float',
-    profile_id: 'Float',
-  },
-  claims_var_samp_fields: {
-    amount: 'Float',
-    distribution_id: 'Float',
-    id: 'Float',
-    index: 'Float',
-    new_amount: 'Float',
-    profile_id: 'Float',
-  },
-  claims_variance_fields: {
-    amount: 'Float',
-    distribution_id: 'Float',
-    id: 'Float',
-    index: 'Float',
-    new_amount: 'Float',
-    profile_id: 'Float',
-  },
-  contributions: {
-    circle: 'circles',
-    circle_id: 'bigint',
-    created_at: 'timestamptz',
-    created_with_api_key: 'circle_api_keys',
-    created_with_api_key_hash: 'String',
-    datetime_created: 'timestamptz',
-    deleted_at: 'timestamptz',
-    description: 'String',
-    id: 'bigint',
-    updated_at: 'timestamptz',
-    user: 'users',
-    user_id: 'bigint',
-  },
-  contributions_aggregate: {
-    aggregate: 'contributions_aggregate_fields',
-    nodes: 'contributions',
-  },
-  contributions_aggregate_fields: {
-    avg: 'contributions_avg_fields',
-    count: 'Int',
-    max: 'contributions_max_fields',
-    min: 'contributions_min_fields',
-    stddev: 'contributions_stddev_fields',
-    stddev_pop: 'contributions_stddev_pop_fields',
-    stddev_samp: 'contributions_stddev_samp_fields',
-    sum: 'contributions_sum_fields',
-    var_pop: 'contributions_var_pop_fields',
-    var_samp: 'contributions_var_samp_fields',
-    variance: 'contributions_variance_fields',
-  },
-  contributions_avg_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-    user_id: 'Float',
-  },
-  contributions_max_fields: {
-    circle_id: 'bigint',
-    created_at: 'timestamptz',
-    created_with_api_key_hash: 'String',
-    datetime_created: 'timestamptz',
-    deleted_at: 'timestamptz',
-    description: 'String',
-    id: 'bigint',
-    updated_at: 'timestamptz',
-    user_id: 'bigint',
-  },
-  contributions_min_fields: {
-    circle_id: 'bigint',
-    created_at: 'timestamptz',
-    created_with_api_key_hash: 'String',
-    datetime_created: 'timestamptz',
-    deleted_at: 'timestamptz',
-    description: 'String',
-    id: 'bigint',
-    updated_at: 'timestamptz',
-    user_id: 'bigint',
-  },
-  contributions_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'contributions',
-  },
-  contributions_stddev_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-    user_id: 'Float',
-  },
-  contributions_stddev_pop_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-    user_id: 'Float',
-  },
-  contributions_stddev_samp_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-    user_id: 'Float',
-  },
-  contributions_sum_fields: {
-    circle_id: 'bigint',
-    id: 'bigint',
-    user_id: 'bigint',
-  },
-  contributions_var_pop_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-    user_id: 'Float',
-  },
-  contributions_var_samp_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-    user_id: 'Float',
-  },
-  contributions_variance_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-    user_id: 'Float',
-  },
-  discord_roles_circles: {
-    circle: 'circles',
-    circle_id: 'bigint',
-    created_at: 'timestamptz',
-    id: 'bigint',
-    role: 'String',
-    updated_at: 'timestamptz',
-  },
-  discord_roles_circles_aggregate: {
-    aggregate: 'discord_roles_circles_aggregate_fields',
-    nodes: 'discord_roles_circles',
-  },
-  discord_roles_circles_aggregate_fields: {
-    avg: 'discord_roles_circles_avg_fields',
-    count: 'Int',
-    max: 'discord_roles_circles_max_fields',
-    min: 'discord_roles_circles_min_fields',
-    stddev: 'discord_roles_circles_stddev_fields',
-    stddev_pop: 'discord_roles_circles_stddev_pop_fields',
-    stddev_samp: 'discord_roles_circles_stddev_samp_fields',
-    sum: 'discord_roles_circles_sum_fields',
-    var_pop: 'discord_roles_circles_var_pop_fields',
-    var_samp: 'discord_roles_circles_var_samp_fields',
-    variance: 'discord_roles_circles_variance_fields',
-  },
-  discord_roles_circles_avg_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-  },
-  discord_roles_circles_max_fields: {
-    circle_id: 'bigint',
-    created_at: 'timestamptz',
-    id: 'bigint',
-    role: 'String',
-    updated_at: 'timestamptz',
-  },
-  discord_roles_circles_min_fields: {
-    circle_id: 'bigint',
-    created_at: 'timestamptz',
-    id: 'bigint',
-    role: 'String',
-    updated_at: 'timestamptz',
-  },
-  discord_roles_circles_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'discord_roles_circles',
-  },
-  discord_roles_circles_stddev_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-  },
-  discord_roles_circles_stddev_pop_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-  },
-  discord_roles_circles_stddev_samp_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-  },
-  discord_roles_circles_sum_fields: {
-    circle_id: 'bigint',
-    id: 'bigint',
-  },
-  discord_roles_circles_var_pop_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-  },
-  discord_roles_circles_var_samp_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-  },
-  discord_roles_circles_variance_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-  },
-  discord_users: {
-    created_at: 'timestamptz',
-    id: 'bigint',
-    profile: 'profiles',
-    profile_id: 'bigint',
-    updated_at: 'timestamptz',
-    user_snowflake: 'String',
-  },
-  discord_users_aggregate: {
-    aggregate: 'discord_users_aggregate_fields',
-    nodes: 'discord_users',
-  },
-  discord_users_aggregate_fields: {
-    avg: 'discord_users_avg_fields',
-    count: 'Int',
-    max: 'discord_users_max_fields',
-    min: 'discord_users_min_fields',
-    stddev: 'discord_users_stddev_fields',
-    stddev_pop: 'discord_users_stddev_pop_fields',
-    stddev_samp: 'discord_users_stddev_samp_fields',
-    sum: 'discord_users_sum_fields',
-    var_pop: 'discord_users_var_pop_fields',
-    var_samp: 'discord_users_var_samp_fields',
-    variance: 'discord_users_variance_fields',
-  },
-  discord_users_avg_fields: {
-    id: 'Float',
-    profile_id: 'Float',
-  },
-  discord_users_max_fields: {
-    created_at: 'timestamptz',
-    id: 'bigint',
-    profile_id: 'bigint',
-    updated_at: 'timestamptz',
-    user_snowflake: 'String',
-  },
-  discord_users_min_fields: {
-    created_at: 'timestamptz',
-    id: 'bigint',
-    profile_id: 'bigint',
-    updated_at: 'timestamptz',
-    user_snowflake: 'String',
-  },
-  discord_users_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'discord_users',
-  },
-  discord_users_stddev_fields: {
-    id: 'Float',
-    profile_id: 'Float',
-  },
-  discord_users_stddev_pop_fields: {
-    id: 'Float',
-    profile_id: 'Float',
-  },
-  discord_users_stddev_samp_fields: {
-    id: 'Float',
-    profile_id: 'Float',
-  },
-  discord_users_sum_fields: {
-    id: 'bigint',
-    profile_id: 'bigint',
-  },
-  discord_users_var_pop_fields: {
-    id: 'Float',
-    profile_id: 'Float',
-  },
-  discord_users_var_samp_fields: {
-    id: 'Float',
-    profile_id: 'Float',
-  },
-  discord_users_variance_fields: {
-    id: 'Float',
-    profile_id: 'Float',
-  },
-  distributions: {
-    claims: 'claims',
-    claims_aggregate: 'claims_aggregate',
-    created_at: 'timestamp',
-    created_by: 'bigint',
-    distribution_epoch_id: 'bigint',
-    distribution_json: 'jsonb',
-    distribution_type: 'Int',
-    epoch: 'epochs',
-    epoch_id: 'bigint',
-    fixed_amount: 'numeric',
-    gift_amount: 'numeric',
-    id: 'bigint',
-    merkle_root: 'String',
-    profile: 'profiles',
-    total_amount: 'String',
-    tx_hash: 'String',
-    updated_at: 'timestamp',
-    vault: 'vaults',
-    vault_id: 'bigint',
-    vault_transactions: 'vault_transactions',
-    vault_transactions_aggregate: 'vault_transactions_aggregate',
-  },
-  distributions_aggregate: {
-    aggregate: 'distributions_aggregate_fields',
-    nodes: 'distributions',
-  },
-  distributions_aggregate_fields: {
-    avg: 'distributions_avg_fields',
-    count: 'Int',
-    max: 'distributions_max_fields',
-    min: 'distributions_min_fields',
-    stddev: 'distributions_stddev_fields',
-    stddev_pop: 'distributions_stddev_pop_fields',
-    stddev_samp: 'distributions_stddev_samp_fields',
-    sum: 'distributions_sum_fields',
-    var_pop: 'distributions_var_pop_fields',
-    var_samp: 'distributions_var_samp_fields',
-    variance: 'distributions_variance_fields',
-  },
-  distributions_avg_fields: {
-    created_by: 'Float',
-    distribution_epoch_id: 'Float',
-    distribution_type: 'Float',
-    epoch_id: 'Float',
-    fixed_amount: 'Float',
-    gift_amount: 'Float',
-    id: 'Float',
-    vault_id: 'Float',
-  },
-  distributions_max_fields: {
-    created_at: 'timestamp',
-    created_by: 'bigint',
-    distribution_epoch_id: 'bigint',
-    distribution_type: 'Int',
-    epoch_id: 'bigint',
-    fixed_amount: 'numeric',
-    gift_amount: 'numeric',
-    id: 'bigint',
-    merkle_root: 'String',
-    total_amount: 'String',
-    tx_hash: 'String',
-    updated_at: 'timestamp',
-    vault_id: 'bigint',
-  },
-  distributions_min_fields: {
-    created_at: 'timestamp',
-    created_by: 'bigint',
-    distribution_epoch_id: 'bigint',
-    distribution_type: 'Int',
-    epoch_id: 'bigint',
-    fixed_amount: 'numeric',
-    gift_amount: 'numeric',
-    id: 'bigint',
-    merkle_root: 'String',
-    total_amount: 'String',
-    tx_hash: 'String',
-    updated_at: 'timestamp',
-    vault_id: 'bigint',
-  },
-  distributions_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'distributions',
-  },
-  distributions_stddev_fields: {
-    created_by: 'Float',
-    distribution_epoch_id: 'Float',
-    distribution_type: 'Float',
-    epoch_id: 'Float',
-    fixed_amount: 'Float',
-    gift_amount: 'Float',
-    id: 'Float',
-    vault_id: 'Float',
-  },
-  distributions_stddev_pop_fields: {
-    created_by: 'Float',
-    distribution_epoch_id: 'Float',
-    distribution_type: 'Float',
-    epoch_id: 'Float',
-    fixed_amount: 'Float',
-    gift_amount: 'Float',
-    id: 'Float',
-    vault_id: 'Float',
-  },
-  distributions_stddev_samp_fields: {
-    created_by: 'Float',
-    distribution_epoch_id: 'Float',
-    distribution_type: 'Float',
-    epoch_id: 'Float',
-    fixed_amount: 'Float',
-    gift_amount: 'Float',
-    id: 'Float',
-    vault_id: 'Float',
-  },
-  distributions_sum_fields: {
-    created_by: 'bigint',
-    distribution_epoch_id: 'bigint',
-    distribution_type: 'Int',
-    epoch_id: 'bigint',
-    fixed_amount: 'numeric',
-    gift_amount: 'numeric',
-    id: 'bigint',
-    vault_id: 'bigint',
-  },
-  distributions_var_pop_fields: {
-    created_by: 'Float',
-    distribution_epoch_id: 'Float',
-    distribution_type: 'Float',
-    epoch_id: 'Float',
-    fixed_amount: 'Float',
-    gift_amount: 'Float',
-    id: 'Float',
-    vault_id: 'Float',
-  },
-  distributions_var_samp_fields: {
-    created_by: 'Float',
-    distribution_epoch_id: 'Float',
-    distribution_type: 'Float',
-    epoch_id: 'Float',
-    fixed_amount: 'Float',
-    gift_amount: 'Float',
-    id: 'Float',
-    vault_id: 'Float',
-  },
-  distributions_variance_fields: {
-    created_by: 'Float',
-    distribution_epoch_id: 'Float',
-    distribution_type: 'Float',
-    epoch_id: 'Float',
-    fixed_amount: 'Float',
-    gift_amount: 'Float',
-    id: 'Float',
-    vault_id: 'Float',
-  },
-  epoch_pgive_data: {
-    active_months: 'Int',
-    active_months_bonus: 'numeric',
-    created_at: 'timestamptz',
-    epoch: 'epochs',
-    epoch_id: 'Int',
-    gives_receiver_base: 'numeric',
-    id: 'Int',
-    notes_bonus: 'numeric',
-    pgive: 'numeric',
-  },
-  epoch_pgive_data_aggregate: {
-    aggregate: 'epoch_pgive_data_aggregate_fields',
-    nodes: 'epoch_pgive_data',
-  },
-  epoch_pgive_data_aggregate_fields: {
-    avg: 'epoch_pgive_data_avg_fields',
-    count: 'Int',
-    max: 'epoch_pgive_data_max_fields',
-    min: 'epoch_pgive_data_min_fields',
-    stddev: 'epoch_pgive_data_stddev_fields',
-    stddev_pop: 'epoch_pgive_data_stddev_pop_fields',
-    stddev_samp: 'epoch_pgive_data_stddev_samp_fields',
-    sum: 'epoch_pgive_data_sum_fields',
-    var_pop: 'epoch_pgive_data_var_pop_fields',
-    var_samp: 'epoch_pgive_data_var_samp_fields',
-    variance: 'epoch_pgive_data_variance_fields',
-  },
-  epoch_pgive_data_avg_fields: {
-    active_months: 'Float',
-    active_months_bonus: 'Float',
-    epoch_id: 'Float',
-    gives_receiver_base: 'Float',
-    id: 'Float',
-    notes_bonus: 'Float',
-    pgive: 'Float',
-  },
-  epoch_pgive_data_max_fields: {
-    active_months: 'Int',
-    active_months_bonus: 'numeric',
-    created_at: 'timestamptz',
-    epoch_id: 'Int',
-    gives_receiver_base: 'numeric',
-    id: 'Int',
-    notes_bonus: 'numeric',
-    pgive: 'numeric',
-  },
-  epoch_pgive_data_min_fields: {
-    active_months: 'Int',
-    active_months_bonus: 'numeric',
-    created_at: 'timestamptz',
-    epoch_id: 'Int',
-    gives_receiver_base: 'numeric',
-    id: 'Int',
-    notes_bonus: 'numeric',
-    pgive: 'numeric',
-  },
-  epoch_pgive_data_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'epoch_pgive_data',
-  },
-  epoch_pgive_data_stddev_fields: {
-    active_months: 'Float',
-    active_months_bonus: 'Float',
-    epoch_id: 'Float',
-    gives_receiver_base: 'Float',
-    id: 'Float',
-    notes_bonus: 'Float',
-    pgive: 'Float',
-  },
-  epoch_pgive_data_stddev_pop_fields: {
-    active_months: 'Float',
-    active_months_bonus: 'Float',
-    epoch_id: 'Float',
-    gives_receiver_base: 'Float',
-    id: 'Float',
-    notes_bonus: 'Float',
-    pgive: 'Float',
-  },
-  epoch_pgive_data_stddev_samp_fields: {
-    active_months: 'Float',
-    active_months_bonus: 'Float',
-    epoch_id: 'Float',
-    gives_receiver_base: 'Float',
-    id: 'Float',
-    notes_bonus: 'Float',
-    pgive: 'Float',
-  },
-  epoch_pgive_data_sum_fields: {
-    active_months: 'Int',
-    active_months_bonus: 'numeric',
-    epoch_id: 'Int',
-    gives_receiver_base: 'numeric',
-    id: 'Int',
-    notes_bonus: 'numeric',
-    pgive: 'numeric',
-  },
-  epoch_pgive_data_var_pop_fields: {
-    active_months: 'Float',
-    active_months_bonus: 'Float',
-    epoch_id: 'Float',
-    gives_receiver_base: 'Float',
-    id: 'Float',
-    notes_bonus: 'Float',
-    pgive: 'Float',
-  },
-  epoch_pgive_data_var_samp_fields: {
-    active_months: 'Float',
-    active_months_bonus: 'Float',
-    epoch_id: 'Float',
-    gives_receiver_base: 'Float',
-    id: 'Float',
-    notes_bonus: 'Float',
-    pgive: 'Float',
-  },
-  epoch_pgive_data_variance_fields: {
-    active_months: 'Float',
-    active_months_bonus: 'Float',
-    epoch_id: 'Float',
-    gives_receiver_base: 'Float',
-    id: 'Float',
-    notes_bonus: 'Float',
-    pgive: 'Float',
-  },
-  epochs: {
-    burns: 'burns',
-    burns_aggregate: 'burns_aggregate',
-    circle: 'circles',
-    circle_id: 'Int',
-    created_at: 'timestamp',
-    days: 'Int',
-    description: 'String',
-    distributions: 'distributions',
-    distributions_aggregate: 'distributions_aggregate',
-    end_date: 'timestamptz',
-    ended: 'Boolean',
-    epoch_pending_token_gifts: 'pending_token_gifts',
-    epoch_pending_token_gifts_aggregate: 'pending_token_gifts_aggregate',
-    grant: 'numeric',
-    id: 'bigint',
-    notified_before_end: 'timestamp',
-    notified_end: 'timestamp',
-    notified_start: 'timestamp',
-    number: 'Int',
-    pgive_data: 'epoch_pgive_data',
-    regift_days: 'Int',
-    repeat: 'Int',
-    repeat_day_of_month: 'Int',
-    start_date: 'timestamptz',
-    token_gifts: 'token_gifts',
-    token_gifts_aggregate: 'token_gifts_aggregate',
-    updated_at: 'timestamp',
-  },
-  epochs_aggregate: {
-    aggregate: 'epochs_aggregate_fields',
-    nodes: 'epochs',
-  },
-  epochs_aggregate_fields: {
-    avg: 'epochs_avg_fields',
-    count: 'Int',
-    max: 'epochs_max_fields',
-    min: 'epochs_min_fields',
-    stddev: 'epochs_stddev_fields',
-    stddev_pop: 'epochs_stddev_pop_fields',
-    stddev_samp: 'epochs_stddev_samp_fields',
-    sum: 'epochs_sum_fields',
-    var_pop: 'epochs_var_pop_fields',
-    var_samp: 'epochs_var_samp_fields',
-    variance: 'epochs_variance_fields',
-  },
-  epochs_avg_fields: {
-    circle_id: 'Float',
-    days: 'Float',
-    grant: 'Float',
-    id: 'Float',
-    number: 'Float',
-    regift_days: 'Float',
-    repeat: 'Float',
-    repeat_day_of_month: 'Float',
-  },
-  epochs_max_fields: {
-    circle_id: 'Int',
-    created_at: 'timestamp',
-    days: 'Int',
-    description: 'String',
-    end_date: 'timestamptz',
-    grant: 'numeric',
-    id: 'bigint',
-    notified_before_end: 'timestamp',
-    notified_end: 'timestamp',
-    notified_start: 'timestamp',
-    number: 'Int',
-    regift_days: 'Int',
-    repeat: 'Int',
-    repeat_day_of_month: 'Int',
-    start_date: 'timestamptz',
-    updated_at: 'timestamp',
-  },
-  epochs_min_fields: {
-    circle_id: 'Int',
-    created_at: 'timestamp',
-    days: 'Int',
-    description: 'String',
-    end_date: 'timestamptz',
-    grant: 'numeric',
-    id: 'bigint',
-    notified_before_end: 'timestamp',
-    notified_end: 'timestamp',
-    notified_start: 'timestamp',
-    number: 'Int',
-    regift_days: 'Int',
-    repeat: 'Int',
-    repeat_day_of_month: 'Int',
-    start_date: 'timestamptz',
-    updated_at: 'timestamp',
-  },
-  epochs_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'epochs',
-  },
-  epochs_stddev_fields: {
-    circle_id: 'Float',
-    days: 'Float',
-    grant: 'Float',
-    id: 'Float',
-    number: 'Float',
-    regift_days: 'Float',
-    repeat: 'Float',
-    repeat_day_of_month: 'Float',
-  },
-  epochs_stddev_pop_fields: {
-    circle_id: 'Float',
-    days: 'Float',
-    grant: 'Float',
-    id: 'Float',
-    number: 'Float',
-    regift_days: 'Float',
-    repeat: 'Float',
-    repeat_day_of_month: 'Float',
-  },
-  epochs_stddev_samp_fields: {
-    circle_id: 'Float',
-    days: 'Float',
-    grant: 'Float',
-    id: 'Float',
-    number: 'Float',
-    regift_days: 'Float',
-    repeat: 'Float',
-    repeat_day_of_month: 'Float',
-  },
-  epochs_sum_fields: {
-    circle_id: 'Int',
-    days: 'Int',
-    grant: 'numeric',
-    id: 'bigint',
-    number: 'Int',
-    regift_days: 'Int',
-    repeat: 'Int',
-    repeat_day_of_month: 'Int',
-  },
-  epochs_var_pop_fields: {
-    circle_id: 'Float',
-    days: 'Float',
-    grant: 'Float',
-    id: 'Float',
-    number: 'Float',
-    regift_days: 'Float',
-    repeat: 'Float',
-    repeat_day_of_month: 'Float',
-  },
-  epochs_var_samp_fields: {
-    circle_id: 'Float',
-    days: 'Float',
-    grant: 'Float',
-    id: 'Float',
-    number: 'Float',
-    regift_days: 'Float',
-    repeat: 'Float',
-    repeat_day_of_month: 'Float',
-  },
-  epochs_variance_fields: {
-    circle_id: 'Float',
-    days: 'Float',
-    grant: 'Float',
-    id: 'Float',
-    number: 'Float',
-    regift_days: 'Float',
-    repeat: 'Float',
-    repeat_day_of_month: 'Float',
-  },
-  gift_private: {
-    gift_id: 'bigint',
-    note: 'String',
-    recipient: 'users',
-    recipient_id: 'bigint',
-    sender: 'users',
-    sender_id: 'bigint',
-  },
-  gift_private_aggregate: {
-    aggregate: 'gift_private_aggregate_fields',
-    nodes: 'gift_private',
-  },
-  gift_private_aggregate_fields: {
-    avg: 'gift_private_avg_fields',
-    count: 'Int',
-    max: 'gift_private_max_fields',
-    min: 'gift_private_min_fields',
-    stddev: 'gift_private_stddev_fields',
-    stddev_pop: 'gift_private_stddev_pop_fields',
-    stddev_samp: 'gift_private_stddev_samp_fields',
-    sum: 'gift_private_sum_fields',
-    var_pop: 'gift_private_var_pop_fields',
-    var_samp: 'gift_private_var_samp_fields',
-    variance: 'gift_private_variance_fields',
-  },
-  gift_private_avg_fields: {
-    gift_id: 'Float',
-    recipient_id: 'Float',
-    sender_id: 'Float',
-  },
-  gift_private_max_fields: {
-    gift_id: 'bigint',
-    note: 'String',
-    recipient_id: 'bigint',
-    sender_id: 'bigint',
-  },
-  gift_private_min_fields: {
-    gift_id: 'bigint',
-    note: 'String',
-    recipient_id: 'bigint',
-    sender_id: 'bigint',
-  },
-  gift_private_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'gift_private',
-  },
-  gift_private_stddev_fields: {
-    gift_id: 'Float',
-    recipient_id: 'Float',
-    sender_id: 'Float',
-  },
-  gift_private_stddev_pop_fields: {
-    gift_id: 'Float',
-    recipient_id: 'Float',
-    sender_id: 'Float',
-  },
-  gift_private_stddev_samp_fields: {
-    gift_id: 'Float',
-    recipient_id: 'Float',
-    sender_id: 'Float',
-  },
-  gift_private_sum_fields: {
-    gift_id: 'bigint',
-    recipient_id: 'bigint',
-    sender_id: 'bigint',
-  },
-  gift_private_var_pop_fields: {
-    gift_id: 'Float',
-    recipient_id: 'Float',
-    sender_id: 'Float',
-  },
-  gift_private_var_samp_fields: {
-    gift_id: 'Float',
-    recipient_id: 'Float',
-    sender_id: 'Float',
-  },
-  gift_private_variance_fields: {
-    gift_id: 'Float',
-    recipient_id: 'Float',
-    sender_id: 'Float',
-  },
-  histories: {
-    bio: 'String',
-    circle: 'circles',
-    circle_id: 'Int',
-    created_at: 'timestamp',
-    epoch: 'epochs',
-    epoch_id: 'Int',
-    id: 'bigint',
-    updated_at: 'timestamp',
-    user: 'users',
-    user_id: 'Int',
-  },
-  histories_aggregate: {
-    aggregate: 'histories_aggregate_fields',
-    nodes: 'histories',
-  },
-  histories_aggregate_fields: {
-    avg: 'histories_avg_fields',
-    count: 'Int',
-    max: 'histories_max_fields',
-    min: 'histories_min_fields',
-    stddev: 'histories_stddev_fields',
-    stddev_pop: 'histories_stddev_pop_fields',
-    stddev_samp: 'histories_stddev_samp_fields',
-    sum: 'histories_sum_fields',
-    var_pop: 'histories_var_pop_fields',
-    var_samp: 'histories_var_samp_fields',
-    variance: 'histories_variance_fields',
-  },
-  histories_avg_fields: {
-    circle_id: 'Float',
-    epoch_id: 'Float',
-    id: 'Float',
-    user_id: 'Float',
-  },
-  histories_max_fields: {
-    bio: 'String',
-    circle_id: 'Int',
-    created_at: 'timestamp',
-    epoch_id: 'Int',
-    id: 'bigint',
-    updated_at: 'timestamp',
-    user_id: 'Int',
-  },
-  histories_min_fields: {
-    bio: 'String',
-    circle_id: 'Int',
-    created_at: 'timestamp',
-    epoch_id: 'Int',
-    id: 'bigint',
-    updated_at: 'timestamp',
-    user_id: 'Int',
-  },
-  histories_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'histories',
-  },
-  histories_stddev_fields: {
-    circle_id: 'Float',
-    epoch_id: 'Float',
-    id: 'Float',
-    user_id: 'Float',
-  },
-  histories_stddev_pop_fields: {
-    circle_id: 'Float',
-    epoch_id: 'Float',
-    id: 'Float',
-    user_id: 'Float',
-  },
-  histories_stddev_samp_fields: {
-    circle_id: 'Float',
-    epoch_id: 'Float',
-    id: 'Float',
-    user_id: 'Float',
-  },
-  histories_sum_fields: {
-    circle_id: 'Int',
-    epoch_id: 'Int',
-    id: 'bigint',
-    user_id: 'Int',
-  },
-  histories_var_pop_fields: {
-    circle_id: 'Float',
-    epoch_id: 'Float',
-    id: 'Float',
-    user_id: 'Float',
-  },
-  histories_var_samp_fields: {
-    circle_id: 'Float',
-    epoch_id: 'Float',
-    id: 'Float',
-    user_id: 'Float',
-  },
-  histories_variance_fields: {
-    circle_id: 'Float',
-    epoch_id: 'Float',
-    id: 'Float',
-    user_id: 'Float',
-  },
-  interaction_events: {
-    circle: 'circles',
-    circle_id: 'Int',
-    created_at: 'timestamptz',
-    data: 'jsonb',
-    event_subtype: 'String',
-    event_type: 'String',
-    id: 'Int',
-    org_id: 'Int',
-    organization: 'organizations',
-    profile: 'profiles',
-    profile_id: 'Int',
-    updated_at: 'timestamptz',
-  },
-  interaction_events_aggregate: {
-    aggregate: 'interaction_events_aggregate_fields',
-    nodes: 'interaction_events',
-  },
-  interaction_events_aggregate_fields: {
-    avg: 'interaction_events_avg_fields',
-    count: 'Int',
-    max: 'interaction_events_max_fields',
-    min: 'interaction_events_min_fields',
-    stddev: 'interaction_events_stddev_fields',
-    stddev_pop: 'interaction_events_stddev_pop_fields',
-    stddev_samp: 'interaction_events_stddev_samp_fields',
-    sum: 'interaction_events_sum_fields',
-    var_pop: 'interaction_events_var_pop_fields',
-    var_samp: 'interaction_events_var_samp_fields',
-    variance: 'interaction_events_variance_fields',
-  },
-  interaction_events_avg_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-    org_id: 'Float',
-    profile_id: 'Float',
-  },
-  interaction_events_max_fields: {
-    circle_id: 'Int',
-    created_at: 'timestamptz',
-    event_subtype: 'String',
-    event_type: 'String',
-    id: 'Int',
-    org_id: 'Int',
-    profile_id: 'Int',
-    updated_at: 'timestamptz',
-  },
-  interaction_events_min_fields: {
-    circle_id: 'Int',
-    created_at: 'timestamptz',
-    event_subtype: 'String',
-    event_type: 'String',
-    id: 'Int',
-    org_id: 'Int',
-    profile_id: 'Int',
-    updated_at: 'timestamptz',
-  },
-  interaction_events_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'interaction_events',
-  },
-  interaction_events_stddev_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-    org_id: 'Float',
-    profile_id: 'Float',
-  },
-  interaction_events_stddev_pop_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-    org_id: 'Float',
-    profile_id: 'Float',
-  },
-  interaction_events_stddev_samp_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-    org_id: 'Float',
-    profile_id: 'Float',
-  },
-  interaction_events_sum_fields: {
-    circle_id: 'Int',
-    id: 'Int',
-    org_id: 'Int',
-    profile_id: 'Int',
-  },
-  interaction_events_var_pop_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-    org_id: 'Float',
-    profile_id: 'Float',
-  },
-  interaction_events_var_samp_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-    org_id: 'Float',
-    profile_id: 'Float',
-  },
-  interaction_events_variance_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-    org_id: 'Float',
-    profile_id: 'Float',
-  },
-  locked_token_distributions: {
-    distributed_by: 'bigint',
-    distribution_json: 'jsonb',
-    epoch: 'epochs',
-    epoch_id: 'bigint',
-    gift_amount: 'numeric',
-    id: 'bigint',
-    profile: 'profiles',
-    tx_hash: 'String',
-  },
-  locked_token_distributions_aggregate: {
-    aggregate: 'locked_token_distributions_aggregate_fields',
-    nodes: 'locked_token_distributions',
-  },
-  locked_token_distributions_aggregate_fields: {
-    avg: 'locked_token_distributions_avg_fields',
-    count: 'Int',
-    max: 'locked_token_distributions_max_fields',
-    min: 'locked_token_distributions_min_fields',
-    stddev: 'locked_token_distributions_stddev_fields',
-    stddev_pop: 'locked_token_distributions_stddev_pop_fields',
-    stddev_samp: 'locked_token_distributions_stddev_samp_fields',
-    sum: 'locked_token_distributions_sum_fields',
-    var_pop: 'locked_token_distributions_var_pop_fields',
-    var_samp: 'locked_token_distributions_var_samp_fields',
-    variance: 'locked_token_distributions_variance_fields',
-  },
-  locked_token_distributions_avg_fields: {
-    distributed_by: 'Float',
-    epoch_id: 'Float',
-    gift_amount: 'Float',
-    id: 'Float',
-  },
-  locked_token_distributions_max_fields: {
-    distributed_by: 'bigint',
-    epoch_id: 'bigint',
-    gift_amount: 'numeric',
-    id: 'bigint',
-    tx_hash: 'String',
-  },
-  locked_token_distributions_min_fields: {
-    distributed_by: 'bigint',
-    epoch_id: 'bigint',
-    gift_amount: 'numeric',
-    id: 'bigint',
-    tx_hash: 'String',
-  },
-  locked_token_distributions_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'locked_token_distributions',
-  },
-  locked_token_distributions_stddev_fields: {
-    distributed_by: 'Float',
-    epoch_id: 'Float',
-    gift_amount: 'Float',
-    id: 'Float',
-  },
-  locked_token_distributions_stddev_pop_fields: {
-    distributed_by: 'Float',
-    epoch_id: 'Float',
-    gift_amount: 'Float',
-    id: 'Float',
-  },
-  locked_token_distributions_stddev_samp_fields: {
-    distributed_by: 'Float',
-    epoch_id: 'Float',
-    gift_amount: 'Float',
-    id: 'Float',
-  },
-  locked_token_distributions_sum_fields: {
-    distributed_by: 'bigint',
-    epoch_id: 'bigint',
-    gift_amount: 'numeric',
-    id: 'bigint',
-  },
-  locked_token_distributions_var_pop_fields: {
-    distributed_by: 'Float',
-    epoch_id: 'Float',
-    gift_amount: 'Float',
-    id: 'Float',
-  },
-  locked_token_distributions_var_samp_fields: {
-    distributed_by: 'Float',
-    epoch_id: 'Float',
-    gift_amount: 'Float',
-    id: 'Float',
-  },
-  locked_token_distributions_variance_fields: {
-    distributed_by: 'Float',
-    epoch_id: 'Float',
-    gift_amount: 'Float',
-    id: 'Float',
-  },
-  member_epoch_pgives: {
-    created_at: 'timestamptz',
-    epoch: 'epochs',
-    epoch_id: 'Int',
-    gives_received: 'Int',
-    id: 'Int',
-    normalized_pgive: 'numeric',
-    opt_out_bonus: 'numeric',
-    pgive: 'numeric',
-    user: 'users',
-    user_id: 'Int',
-  },
-  member_epoch_pgives_aggregate: {
-    aggregate: 'member_epoch_pgives_aggregate_fields',
-    nodes: 'member_epoch_pgives',
-  },
-  member_epoch_pgives_aggregate_fields: {
-    avg: 'member_epoch_pgives_avg_fields',
-    count: 'Int',
-    max: 'member_epoch_pgives_max_fields',
-    min: 'member_epoch_pgives_min_fields',
-    stddev: 'member_epoch_pgives_stddev_fields',
-    stddev_pop: 'member_epoch_pgives_stddev_pop_fields',
-    stddev_samp: 'member_epoch_pgives_stddev_samp_fields',
-    sum: 'member_epoch_pgives_sum_fields',
-    var_pop: 'member_epoch_pgives_var_pop_fields',
-    var_samp: 'member_epoch_pgives_var_samp_fields',
-    variance: 'member_epoch_pgives_variance_fields',
-  },
-  member_epoch_pgives_avg_fields: {
-    epoch_id: 'Float',
-    gives_received: 'Float',
-    id: 'Float',
-    normalized_pgive: 'Float',
-    opt_out_bonus: 'Float',
-    pgive: 'Float',
-    user_id: 'Float',
-  },
-  member_epoch_pgives_max_fields: {
-    created_at: 'timestamptz',
-    epoch_id: 'Int',
-    gives_received: 'Int',
-    id: 'Int',
-    normalized_pgive: 'numeric',
-    opt_out_bonus: 'numeric',
-    pgive: 'numeric',
-    user_id: 'Int',
-  },
-  member_epoch_pgives_min_fields: {
-    created_at: 'timestamptz',
-    epoch_id: 'Int',
-    gives_received: 'Int',
-    id: 'Int',
-    normalized_pgive: 'numeric',
-    opt_out_bonus: 'numeric',
-    pgive: 'numeric',
-    user_id: 'Int',
-  },
-  member_epoch_pgives_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'member_epoch_pgives',
-  },
-  member_epoch_pgives_stddev_fields: {
-    epoch_id: 'Float',
-    gives_received: 'Float',
-    id: 'Float',
-    normalized_pgive: 'Float',
-    opt_out_bonus: 'Float',
-    pgive: 'Float',
-    user_id: 'Float',
-  },
-  member_epoch_pgives_stddev_pop_fields: {
-    epoch_id: 'Float',
-    gives_received: 'Float',
-    id: 'Float',
-    normalized_pgive: 'Float',
-    opt_out_bonus: 'Float',
-    pgive: 'Float',
-    user_id: 'Float',
-  },
-  member_epoch_pgives_stddev_samp_fields: {
-    epoch_id: 'Float',
-    gives_received: 'Float',
-    id: 'Float',
-    normalized_pgive: 'Float',
-    opt_out_bonus: 'Float',
-    pgive: 'Float',
-    user_id: 'Float',
-  },
-  member_epoch_pgives_sum_fields: {
-    epoch_id: 'Int',
-    gives_received: 'Int',
-    id: 'Int',
-    normalized_pgive: 'numeric',
-    opt_out_bonus: 'numeric',
-    pgive: 'numeric',
-    user_id: 'Int',
-  },
-  member_epoch_pgives_var_pop_fields: {
-    epoch_id: 'Float',
-    gives_received: 'Float',
-    id: 'Float',
-    normalized_pgive: 'Float',
-    opt_out_bonus: 'Float',
-    pgive: 'Float',
-    user_id: 'Float',
-  },
-  member_epoch_pgives_var_samp_fields: {
-    epoch_id: 'Float',
-    gives_received: 'Float',
-    id: 'Float',
-    normalized_pgive: 'Float',
-    opt_out_bonus: 'Float',
-    pgive: 'Float',
-    user_id: 'Float',
-  },
-  member_epoch_pgives_variance_fields: {
-    epoch_id: 'Float',
-    gives_received: 'Float',
-    id: 'Float',
-    normalized_pgive: 'Float',
-    opt_out_bonus: 'Float',
-    pgive: 'Float',
-    user_id: 'Float',
-  },
-  mutation_root: {
-    adminUpdateUser: 'UserResponse',
-    allocationCsv: 'AllocationCsvResponse',
-    createCircle: 'CreateCircleResponse',
-    createEpoch: 'EpochResponse',
-    createNominee: 'CreateNomineeResponse',
-    createSampleCircle: 'CreateSampleCircleResponse',
-    createUserWithToken: 'UserResponse',
-    createUsers: 'UserResponse',
-    createVault: 'VaultResponse',
-    createVaultTx: 'LogVaultTxResponse',
-    deleteCircle: 'ConfirmationResponse',
-    deleteContribution: 'ConfirmationResponse',
-    deleteEpoch: 'DeleteEpochResponse',
-    deleteUser: 'ConfirmationResponse',
-    deleteUserBulk: 'DeleteUserBulkResponse',
-    delete_burns: 'burns_mutation_response',
-    delete_burns_by_pk: 'burns',
-    delete_circle_api_keys: 'circle_api_keys_mutation_response',
-    delete_circle_api_keys_by_pk: 'circle_api_keys',
-    delete_circle_integrations: 'circle_integrations_mutation_response',
-    delete_circle_integrations_by_pk: 'circle_integrations',
-    delete_circle_metadata: 'circle_metadata_mutation_response',
-    delete_circle_metadata_by_pk: 'circle_metadata',
-    delete_circle_private: 'circle_private_mutation_response',
-    delete_circle_share_tokens: 'circle_share_tokens_mutation_response',
-    delete_circle_share_tokens_by_pk: 'circle_share_tokens',
-    delete_circles: 'circles_mutation_response',
-    delete_circles_by_pk: 'circles',
-    delete_claims: 'claims_mutation_response',
-    delete_claims_by_pk: 'claims',
-    delete_contributions: 'contributions_mutation_response',
-    delete_contributions_by_pk: 'contributions',
-    delete_discord_roles_circles: 'discord_roles_circles_mutation_response',
-    delete_discord_roles_circles_by_pk: 'discord_roles_circles',
-    delete_discord_users: 'discord_users_mutation_response',
-    delete_discord_users_by_pk: 'discord_users',
-    delete_distributions: 'distributions_mutation_response',
-    delete_distributions_by_pk: 'distributions',
-    delete_epoch_pgive_data: 'epoch_pgive_data_mutation_response',
-    delete_epoch_pgive_data_by_pk: 'epoch_pgive_data',
-    delete_epochs: 'epochs_mutation_response',
-    delete_epochs_by_pk: 'epochs',
-    delete_gift_private: 'gift_private_mutation_response',
-    delete_histories: 'histories_mutation_response',
-    delete_histories_by_pk: 'histories',
-    delete_interaction_events: 'interaction_events_mutation_response',
-    delete_interaction_events_by_pk: 'interaction_events',
-    delete_locked_token_distributions:
-      'locked_token_distributions_mutation_response',
-    delete_locked_token_distributions_by_pk: 'locked_token_distributions',
-    delete_member_epoch_pgives: 'member_epoch_pgives_mutation_response',
-    delete_member_epoch_pgives_by_pk: 'member_epoch_pgives',
-    delete_nominees: 'nominees_mutation_response',
-    delete_nominees_by_pk: 'nominees',
-    delete_organizations: 'organizations_mutation_response',
-    delete_organizations_by_pk: 'organizations',
-    delete_pending_gift_private: 'pending_gift_private_mutation_response',
-    delete_pending_token_gifts: 'pending_token_gifts_mutation_response',
-    delete_pending_token_gifts_by_pk: 'pending_token_gifts',
-    delete_pending_vault_transactions:
-      'pending_vault_transactions_mutation_response',
-    delete_pending_vault_transactions_by_pk: 'pending_vault_transactions',
-    delete_personal_access_tokens: 'personal_access_tokens_mutation_response',
-    delete_personal_access_tokens_by_pk: 'personal_access_tokens',
-    delete_profiles: 'profiles_mutation_response',
-    delete_profiles_by_pk: 'profiles',
-    delete_teammates: 'teammates_mutation_response',
-    delete_teammates_by_pk: 'teammates',
-    delete_token_gifts: 'token_gifts_mutation_response',
-    delete_token_gifts_by_pk: 'token_gifts',
-    delete_users: 'users_mutation_response',
-    delete_users_by_pk: 'users',
-    delete_vault_transactions: 'vault_transactions_mutation_response',
-    delete_vault_transactions_by_pk: 'vault_transactions',
-    delete_vault_tx_types: 'vault_tx_types_mutation_response',
-    delete_vault_tx_types_by_pk: 'vault_tx_types',
-    delete_vaults: 'vaults_mutation_response',
-    delete_vaults_by_pk: 'vaults',
-    delete_vouches: 'vouches_mutation_response',
-    delete_vouches_by_pk: 'vouches',
-    generateApiKey: 'GenerateApiKeyResponse',
-    insert_burns: 'burns_mutation_response',
-    insert_burns_one: 'burns',
-    insert_circle_api_keys: 'circle_api_keys_mutation_response',
-    insert_circle_api_keys_one: 'circle_api_keys',
-    insert_circle_integrations: 'circle_integrations_mutation_response',
-    insert_circle_integrations_one: 'circle_integrations',
-    insert_circle_metadata: 'circle_metadata_mutation_response',
-    insert_circle_metadata_one: 'circle_metadata',
-    insert_circle_private: 'circle_private_mutation_response',
-    insert_circle_private_one: 'circle_private',
-    insert_circle_share_tokens: 'circle_share_tokens_mutation_response',
-    insert_circle_share_tokens_one: 'circle_share_tokens',
-    insert_circles: 'circles_mutation_response',
-    insert_circles_one: 'circles',
-    insert_claims: 'claims_mutation_response',
-    insert_claims_one: 'claims',
-    insert_contributions: 'contributions_mutation_response',
-    insert_contributions_one: 'contributions',
-    insert_discord_roles_circles: 'discord_roles_circles_mutation_response',
-    insert_discord_roles_circles_one: 'discord_roles_circles',
-    insert_discord_users: 'discord_users_mutation_response',
-    insert_discord_users_one: 'discord_users',
-    insert_distributions: 'distributions_mutation_response',
-    insert_distributions_one: 'distributions',
-    insert_epoch_pgive_data: 'epoch_pgive_data_mutation_response',
-    insert_epoch_pgive_data_one: 'epoch_pgive_data',
-    insert_epochs: 'epochs_mutation_response',
-    insert_epochs_one: 'epochs',
-    insert_gift_private: 'gift_private_mutation_response',
-    insert_gift_private_one: 'gift_private',
-    insert_histories: 'histories_mutation_response',
-    insert_histories_one: 'histories',
-    insert_interaction_events: 'interaction_events_mutation_response',
-    insert_interaction_events_one: 'interaction_events',
-    insert_locked_token_distributions:
-      'locked_token_distributions_mutation_response',
-    insert_locked_token_distributions_one: 'locked_token_distributions',
-    insert_member_epoch_pgives: 'member_epoch_pgives_mutation_response',
-    insert_member_epoch_pgives_one: 'member_epoch_pgives',
-    insert_nominees: 'nominees_mutation_response',
-    insert_nominees_one: 'nominees',
-    insert_organizations: 'organizations_mutation_response',
-    insert_organizations_one: 'organizations',
-    insert_pending_gift_private: 'pending_gift_private_mutation_response',
-    insert_pending_gift_private_one: 'pending_gift_private',
-    insert_pending_token_gifts: 'pending_token_gifts_mutation_response',
-    insert_pending_token_gifts_one: 'pending_token_gifts',
-    insert_pending_vault_transactions:
-      'pending_vault_transactions_mutation_response',
-    insert_pending_vault_transactions_one: 'pending_vault_transactions',
-    insert_personal_access_tokens: 'personal_access_tokens_mutation_response',
-    insert_personal_access_tokens_one: 'personal_access_tokens',
-    insert_profiles: 'profiles_mutation_response',
-    insert_profiles_one: 'profiles',
-    insert_teammates: 'teammates_mutation_response',
-    insert_teammates_one: 'teammates',
-    insert_token_gifts: 'token_gifts_mutation_response',
-    insert_token_gifts_one: 'token_gifts',
-    insert_users: 'users_mutation_response',
-    insert_users_one: 'users',
-    insert_vault_transactions: 'vault_transactions_mutation_response',
-    insert_vault_transactions_one: 'vault_transactions',
-    insert_vault_tx_types: 'vault_tx_types_mutation_response',
-    insert_vault_tx_types_one: 'vault_tx_types',
-    insert_vaults: 'vaults_mutation_response',
-    insert_vaults_one: 'vaults',
-    insert_vouches: 'vouches_mutation_response',
-    insert_vouches_one: 'vouches',
-    linkDiscordUser: 'LinkDiscordUserResponse',
-    logoutUser: 'LogoutResponse',
-    markClaimed: 'MarkClaimedOutput',
-    restoreCoordinape: 'ConfirmationResponse',
-    updateAllocations: 'AllocationsResponse',
-    updateCircle: 'UpdateCircleOutput',
-    updateContribution: 'UpdateContributionResponse',
-    updateEpoch: 'EpochResponse',
-    updateTeammates: 'UpdateTeammatesResponse',
-    updateUser: 'UserResponse',
-    update_burns: 'burns_mutation_response',
-    update_burns_by_pk: 'burns',
-    update_burns_many: 'burns_mutation_response',
-    update_circle_api_keys: 'circle_api_keys_mutation_response',
-    update_circle_api_keys_by_pk: 'circle_api_keys',
-    update_circle_api_keys_many: 'circle_api_keys_mutation_response',
-    update_circle_integrations: 'circle_integrations_mutation_response',
-    update_circle_integrations_by_pk: 'circle_integrations',
-    update_circle_integrations_many: 'circle_integrations_mutation_response',
-    update_circle_metadata: 'circle_metadata_mutation_response',
-    update_circle_metadata_by_pk: 'circle_metadata',
-    update_circle_metadata_many: 'circle_metadata_mutation_response',
-    update_circle_private: 'circle_private_mutation_response',
-    update_circle_private_many: 'circle_private_mutation_response',
-    update_circle_share_tokens: 'circle_share_tokens_mutation_response',
-    update_circle_share_tokens_by_pk: 'circle_share_tokens',
-    update_circle_share_tokens_many: 'circle_share_tokens_mutation_response',
-    update_circles: 'circles_mutation_response',
-    update_circles_by_pk: 'circles',
-    update_circles_many: 'circles_mutation_response',
-    update_claims: 'claims_mutation_response',
-    update_claims_by_pk: 'claims',
-    update_claims_many: 'claims_mutation_response',
-    update_contributions: 'contributions_mutation_response',
-    update_contributions_by_pk: 'contributions',
-    update_contributions_many: 'contributions_mutation_response',
-    update_discord_roles_circles: 'discord_roles_circles_mutation_response',
-    update_discord_roles_circles_by_pk: 'discord_roles_circles',
-    update_discord_roles_circles_many:
-      'discord_roles_circles_mutation_response',
-    update_discord_users: 'discord_users_mutation_response',
-    update_discord_users_by_pk: 'discord_users',
-    update_discord_users_many: 'discord_users_mutation_response',
-    update_distributions: 'distributions_mutation_response',
-    update_distributions_by_pk: 'distributions',
-    update_distributions_many: 'distributions_mutation_response',
-    update_epoch_pgive_data: 'epoch_pgive_data_mutation_response',
-    update_epoch_pgive_data_by_pk: 'epoch_pgive_data',
-    update_epoch_pgive_data_many: 'epoch_pgive_data_mutation_response',
-    update_epochs: 'epochs_mutation_response',
-    update_epochs_by_pk: 'epochs',
-    update_epochs_many: 'epochs_mutation_response',
-    update_gift_private: 'gift_private_mutation_response',
-    update_gift_private_many: 'gift_private_mutation_response',
-    update_histories: 'histories_mutation_response',
-    update_histories_by_pk: 'histories',
-    update_histories_many: 'histories_mutation_response',
-    update_interaction_events: 'interaction_events_mutation_response',
-    update_interaction_events_by_pk: 'interaction_events',
-    update_interaction_events_many: 'interaction_events_mutation_response',
-    update_locked_token_distributions:
-      'locked_token_distributions_mutation_response',
-    update_locked_token_distributions_by_pk: 'locked_token_distributions',
-    update_locked_token_distributions_many:
-      'locked_token_distributions_mutation_response',
-    update_member_epoch_pgives: 'member_epoch_pgives_mutation_response',
-    update_member_epoch_pgives_by_pk: 'member_epoch_pgives',
-    update_member_epoch_pgives_many: 'member_epoch_pgives_mutation_response',
-    update_nominees: 'nominees_mutation_response',
-    update_nominees_by_pk: 'nominees',
-    update_nominees_many: 'nominees_mutation_response',
-    update_organizations: 'organizations_mutation_response',
-    update_organizations_by_pk: 'organizations',
-    update_organizations_many: 'organizations_mutation_response',
-    update_pending_gift_private: 'pending_gift_private_mutation_response',
-    update_pending_gift_private_many: 'pending_gift_private_mutation_response',
-    update_pending_token_gifts: 'pending_token_gifts_mutation_response',
-    update_pending_token_gifts_by_pk: 'pending_token_gifts',
-    update_pending_token_gifts_many: 'pending_token_gifts_mutation_response',
-    update_pending_vault_transactions:
-      'pending_vault_transactions_mutation_response',
-    update_pending_vault_transactions_by_pk: 'pending_vault_transactions',
-    update_pending_vault_transactions_many:
-      'pending_vault_transactions_mutation_response',
-    update_personal_access_tokens: 'personal_access_tokens_mutation_response',
-    update_personal_access_tokens_by_pk: 'personal_access_tokens',
-    update_personal_access_tokens_many:
-      'personal_access_tokens_mutation_response',
-    update_profiles: 'profiles_mutation_response',
-    update_profiles_by_pk: 'profiles',
-    update_profiles_many: 'profiles_mutation_response',
-    update_teammates: 'teammates_mutation_response',
-    update_teammates_by_pk: 'teammates',
-    update_teammates_many: 'teammates_mutation_response',
-    update_token_gifts: 'token_gifts_mutation_response',
-    update_token_gifts_by_pk: 'token_gifts',
-    update_token_gifts_many: 'token_gifts_mutation_response',
-    update_users: 'users_mutation_response',
-    update_users_by_pk: 'users',
-    update_users_many: 'users_mutation_response',
-    update_vault_transactions: 'vault_transactions_mutation_response',
-    update_vault_transactions_by_pk: 'vault_transactions',
-    update_vault_transactions_many: 'vault_transactions_mutation_response',
-    update_vault_tx_types: 'vault_tx_types_mutation_response',
-    update_vault_tx_types_by_pk: 'vault_tx_types',
-    update_vault_tx_types_many: 'vault_tx_types_mutation_response',
-    update_vaults: 'vaults_mutation_response',
-    update_vaults_by_pk: 'vaults',
-    update_vaults_many: 'vaults_mutation_response',
-    update_vouches: 'vouches_mutation_response',
-    update_vouches_by_pk: 'vouches',
-    update_vouches_many: 'vouches_mutation_response',
-    uploadCircleLogo: 'UpdateCircleResponse',
-    uploadOrgLogo: 'UpdateOrgResponse',
-    uploadProfileAvatar: 'UpdateProfileResponse',
-    uploadProfileBackground: 'UpdateProfileResponse',
-    vouch: 'VouchOutput',
-  },
-  nominees: {
-    address: 'String',
-    circle: 'circles',
-    circle_id: 'Int',
-    created_at: 'timestamp',
-    description: 'String',
-    ended: 'Boolean',
-    expiry_date: 'timestamp',
-    id: 'bigint',
-    name: 'String',
-    nominated_by_user_id: 'Int',
-    nominated_date: 'date',
-    nominations: 'vouches',
-    nominations_aggregate: 'vouches_aggregate',
-    nominator: 'users',
-    updated_at: 'timestamp',
-    user: 'users',
-    user_id: 'Int',
-    vouches_required: 'Int',
-  },
-  nominees_aggregate: {
-    aggregate: 'nominees_aggregate_fields',
-    nodes: 'nominees',
-  },
-  nominees_aggregate_fields: {
-    avg: 'nominees_avg_fields',
-    count: 'Int',
-    max: 'nominees_max_fields',
-    min: 'nominees_min_fields',
-    stddev: 'nominees_stddev_fields',
-    stddev_pop: 'nominees_stddev_pop_fields',
-    stddev_samp: 'nominees_stddev_samp_fields',
-    sum: 'nominees_sum_fields',
-    var_pop: 'nominees_var_pop_fields',
-    var_samp: 'nominees_var_samp_fields',
-    variance: 'nominees_variance_fields',
-  },
-  nominees_avg_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-    nominated_by_user_id: 'Float',
-    user_id: 'Float',
-    vouches_required: 'Float',
-  },
-  nominees_max_fields: {
-    address: 'String',
-    circle_id: 'Int',
-    created_at: 'timestamp',
-    description: 'String',
-    expiry_date: 'timestamp',
-    id: 'bigint',
-    name: 'String',
-    nominated_by_user_id: 'Int',
-    nominated_date: 'date',
-    updated_at: 'timestamp',
-    user_id: 'Int',
-    vouches_required: 'Int',
-  },
-  nominees_min_fields: {
-    address: 'String',
-    circle_id: 'Int',
-    created_at: 'timestamp',
-    description: 'String',
-    expiry_date: 'timestamp',
-    id: 'bigint',
-    name: 'String',
-    nominated_by_user_id: 'Int',
-    nominated_date: 'date',
-    updated_at: 'timestamp',
-    user_id: 'Int',
-    vouches_required: 'Int',
-  },
-  nominees_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'nominees',
-  },
-  nominees_stddev_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-    nominated_by_user_id: 'Float',
-    user_id: 'Float',
-    vouches_required: 'Float',
-  },
-  nominees_stddev_pop_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-    nominated_by_user_id: 'Float',
-    user_id: 'Float',
-    vouches_required: 'Float',
-  },
-  nominees_stddev_samp_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-    nominated_by_user_id: 'Float',
-    user_id: 'Float',
-    vouches_required: 'Float',
-  },
-  nominees_sum_fields: {
-    circle_id: 'Int',
-    id: 'bigint',
-    nominated_by_user_id: 'Int',
-    user_id: 'Int',
-    vouches_required: 'Int',
-  },
-  nominees_var_pop_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-    nominated_by_user_id: 'Float',
-    user_id: 'Float',
-    vouches_required: 'Float',
-  },
-  nominees_var_samp_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-    nominated_by_user_id: 'Float',
-    user_id: 'Float',
-    vouches_required: 'Float',
-  },
-  nominees_variance_fields: {
-    circle_id: 'Float',
-    id: 'Float',
-    nominated_by_user_id: 'Float',
-    user_id: 'Float',
-    vouches_required: 'Float',
-  },
-  organizations: {
-    circles: 'circles',
-    circles_aggregate: 'circles_aggregate',
-    created_at: 'timestamp',
-    created_by: 'Int',
-    id: 'bigint',
-    is_verified: 'Boolean',
-    logo: 'String',
-    name: 'String',
-    profile: 'profiles',
-    sample: 'Boolean',
-    telegram_id: 'String',
-    updated_at: 'timestamp',
-    vaults: 'vaults',
-    vaults_aggregate: 'vaults_aggregate',
-  },
-  organizations_aggregate: {
-    aggregate: 'organizations_aggregate_fields',
-    nodes: 'organizations',
-  },
-  organizations_aggregate_fields: {
-    avg: 'organizations_avg_fields',
-    count: 'Int',
-    max: 'organizations_max_fields',
-    min: 'organizations_min_fields',
-    stddev: 'organizations_stddev_fields',
-    stddev_pop: 'organizations_stddev_pop_fields',
-    stddev_samp: 'organizations_stddev_samp_fields',
-    sum: 'organizations_sum_fields',
-    var_pop: 'organizations_var_pop_fields',
-    var_samp: 'organizations_var_samp_fields',
-    variance: 'organizations_variance_fields',
-  },
-  organizations_avg_fields: {
-    created_by: 'Float',
-    id: 'Float',
-  },
-  organizations_max_fields: {
-    created_at: 'timestamp',
-    created_by: 'Int',
-    id: 'bigint',
-    logo: 'String',
-    name: 'String',
-    telegram_id: 'String',
-    updated_at: 'timestamp',
-  },
-  organizations_min_fields: {
-    created_at: 'timestamp',
-    created_by: 'Int',
-    id: 'bigint',
-    logo: 'String',
-    name: 'String',
-    telegram_id: 'String',
-    updated_at: 'timestamp',
-  },
-  organizations_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'organizations',
-  },
-  organizations_stddev_fields: {
-    created_by: 'Float',
-    id: 'Float',
-  },
-  organizations_stddev_pop_fields: {
-    created_by: 'Float',
-    id: 'Float',
-  },
-  organizations_stddev_samp_fields: {
-    created_by: 'Float',
-    id: 'Float',
-  },
-  organizations_sum_fields: {
-    created_by: 'Int',
-    id: 'bigint',
-  },
-  organizations_var_pop_fields: {
-    created_by: 'Float',
-    id: 'Float',
-  },
-  organizations_var_samp_fields: {
-    created_by: 'Float',
-    id: 'Float',
-  },
-  organizations_variance_fields: {
-    created_by: 'Float',
-    id: 'Float',
-  },
-  pending_gift_private: {
-    gift_id: 'bigint',
-    note: 'String',
-    recipient: 'users',
-    recipient_id: 'bigint',
-    sender: 'users',
-    sender_id: 'bigint',
-  },
-  pending_gift_private_aggregate: {
-    aggregate: 'pending_gift_private_aggregate_fields',
-    nodes: 'pending_gift_private',
-  },
-  pending_gift_private_aggregate_fields: {
-    avg: 'pending_gift_private_avg_fields',
-    count: 'Int',
-    max: 'pending_gift_private_max_fields',
-    min: 'pending_gift_private_min_fields',
-    stddev: 'pending_gift_private_stddev_fields',
-    stddev_pop: 'pending_gift_private_stddev_pop_fields',
-    stddev_samp: 'pending_gift_private_stddev_samp_fields',
-    sum: 'pending_gift_private_sum_fields',
-    var_pop: 'pending_gift_private_var_pop_fields',
-    var_samp: 'pending_gift_private_var_samp_fields',
-    variance: 'pending_gift_private_variance_fields',
-  },
-  pending_gift_private_avg_fields: {
-    gift_id: 'Float',
-    recipient_id: 'Float',
-    sender_id: 'Float',
-  },
-  pending_gift_private_max_fields: {
-    gift_id: 'bigint',
-    note: 'String',
-    recipient_id: 'bigint',
-    sender_id: 'bigint',
-  },
-  pending_gift_private_min_fields: {
-    gift_id: 'bigint',
-    note: 'String',
-    recipient_id: 'bigint',
-    sender_id: 'bigint',
-  },
-  pending_gift_private_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'pending_gift_private',
-  },
-  pending_gift_private_stddev_fields: {
-    gift_id: 'Float',
-    recipient_id: 'Float',
-    sender_id: 'Float',
-  },
-  pending_gift_private_stddev_pop_fields: {
-    gift_id: 'Float',
-    recipient_id: 'Float',
-    sender_id: 'Float',
-  },
-  pending_gift_private_stddev_samp_fields: {
-    gift_id: 'Float',
-    recipient_id: 'Float',
-    sender_id: 'Float',
-  },
-  pending_gift_private_sum_fields: {
-    gift_id: 'bigint',
-    recipient_id: 'bigint',
-    sender_id: 'bigint',
-  },
-  pending_gift_private_var_pop_fields: {
-    gift_id: 'Float',
-    recipient_id: 'Float',
-    sender_id: 'Float',
-  },
-  pending_gift_private_var_samp_fields: {
-    gift_id: 'Float',
-    recipient_id: 'Float',
-    sender_id: 'Float',
-  },
-  pending_gift_private_variance_fields: {
-    gift_id: 'Float',
-    recipient_id: 'Float',
-    sender_id: 'Float',
-  },
-  pending_token_gifts: {
-    circle: 'circles',
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    dts_created: 'timestamp',
-    epoch: 'epochs',
-    epoch_id: 'Int',
-    gift_private: 'pending_gift_private',
-    id: 'bigint',
-    note: 'String',
-    recipient: 'users',
-    recipient_address: 'String',
-    recipient_id: 'bigint',
-    sender: 'users',
-    sender_address: 'String',
-    sender_id: 'bigint',
-    tokens: 'Int',
-    updated_at: 'timestamp',
-  },
-  pending_token_gifts_aggregate: {
-    aggregate: 'pending_token_gifts_aggregate_fields',
-    nodes: 'pending_token_gifts',
-  },
-  pending_token_gifts_aggregate_fields: {
-    avg: 'pending_token_gifts_avg_fields',
-    count: 'Int',
-    max: 'pending_token_gifts_max_fields',
-    min: 'pending_token_gifts_min_fields',
-    stddev: 'pending_token_gifts_stddev_fields',
-    stddev_pop: 'pending_token_gifts_stddev_pop_fields',
-    stddev_samp: 'pending_token_gifts_stddev_samp_fields',
-    sum: 'pending_token_gifts_sum_fields',
-    var_pop: 'pending_token_gifts_var_pop_fields',
-    var_samp: 'pending_token_gifts_var_samp_fields',
-    variance: 'pending_token_gifts_variance_fields',
-  },
-  pending_token_gifts_avg_fields: {
-    circle_id: 'Float',
-    epoch_id: 'Float',
-    id: 'Float',
-    recipient_id: 'Float',
-    sender_id: 'Float',
-    tokens: 'Float',
-  },
-  pending_token_gifts_max_fields: {
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    dts_created: 'timestamp',
-    epoch_id: 'Int',
-    id: 'bigint',
-    note: 'String',
-    recipient_address: 'String',
-    recipient_id: 'bigint',
-    sender_address: 'String',
-    sender_id: 'bigint',
-    tokens: 'Int',
-    updated_at: 'timestamp',
-  },
-  pending_token_gifts_min_fields: {
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    dts_created: 'timestamp',
-    epoch_id: 'Int',
-    id: 'bigint',
-    note: 'String',
-    recipient_address: 'String',
-    recipient_id: 'bigint',
-    sender_address: 'String',
-    sender_id: 'bigint',
-    tokens: 'Int',
-    updated_at: 'timestamp',
-  },
-  pending_token_gifts_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'pending_token_gifts',
-  },
-  pending_token_gifts_stddev_fields: {
-    circle_id: 'Float',
-    epoch_id: 'Float',
-    id: 'Float',
-    recipient_id: 'Float',
-    sender_id: 'Float',
-    tokens: 'Float',
-  },
-  pending_token_gifts_stddev_pop_fields: {
-    circle_id: 'Float',
-    epoch_id: 'Float',
-    id: 'Float',
-    recipient_id: 'Float',
-    sender_id: 'Float',
-    tokens: 'Float',
-  },
-  pending_token_gifts_stddev_samp_fields: {
-    circle_id: 'Float',
-    epoch_id: 'Float',
-    id: 'Float',
-    recipient_id: 'Float',
-    sender_id: 'Float',
-    tokens: 'Float',
-  },
-  pending_token_gifts_sum_fields: {
-    circle_id: 'bigint',
-    epoch_id: 'Int',
-    id: 'bigint',
-    recipient_id: 'bigint',
-    sender_id: 'bigint',
-    tokens: 'Int',
-  },
-  pending_token_gifts_var_pop_fields: {
-    circle_id: 'Float',
-    epoch_id: 'Float',
-    id: 'Float',
-    recipient_id: 'Float',
-    sender_id: 'Float',
-    tokens: 'Float',
-  },
-  pending_token_gifts_var_samp_fields: {
-    circle_id: 'Float',
-    epoch_id: 'Float',
-    id: 'Float',
-    recipient_id: 'Float',
-    sender_id: 'Float',
-    tokens: 'Float',
-  },
-  pending_token_gifts_variance_fields: {
-    circle_id: 'Float',
-    epoch_id: 'Float',
-    id: 'Float',
-    recipient_id: 'Float',
-    sender_id: 'Float',
-    tokens: 'Float',
-  },
-  pending_vault_transactions: {
-    chain_id: 'Int',
-    claim_id: 'bigint',
-    created_at: 'timestamp',
-    created_by: 'bigint',
-    distribution: 'distributions',
-    distribution_id: 'bigint',
-    org_id: 'bigint',
-    organization: 'organizations',
-    profile: 'profiles',
-    tx_hash: 'String',
-    tx_type: 'vault_tx_types_enum',
-    vault_tx_type: 'vault_tx_types',
-  },
-  pending_vault_transactions_aggregate: {
-    aggregate: 'pending_vault_transactions_aggregate_fields',
-    nodes: 'pending_vault_transactions',
-  },
-  pending_vault_transactions_aggregate_fields: {
-    avg: 'pending_vault_transactions_avg_fields',
-    count: 'Int',
-    max: 'pending_vault_transactions_max_fields',
-    min: 'pending_vault_transactions_min_fields',
-    stddev: 'pending_vault_transactions_stddev_fields',
-    stddev_pop: 'pending_vault_transactions_stddev_pop_fields',
-    stddev_samp: 'pending_vault_transactions_stddev_samp_fields',
-    sum: 'pending_vault_transactions_sum_fields',
-    var_pop: 'pending_vault_transactions_var_pop_fields',
-    var_samp: 'pending_vault_transactions_var_samp_fields',
-    variance: 'pending_vault_transactions_variance_fields',
-  },
-  pending_vault_transactions_avg_fields: {
-    chain_id: 'Float',
-    claim_id: 'Float',
-    created_by: 'Float',
-    distribution_id: 'Float',
-    org_id: 'Float',
-  },
-  pending_vault_transactions_max_fields: {
-    chain_id: 'Int',
-    claim_id: 'bigint',
-    created_at: 'timestamp',
-    created_by: 'bigint',
-    distribution_id: 'bigint',
-    org_id: 'bigint',
-    tx_hash: 'String',
-  },
-  pending_vault_transactions_min_fields: {
-    chain_id: 'Int',
-    claim_id: 'bigint',
-    created_at: 'timestamp',
-    created_by: 'bigint',
-    distribution_id: 'bigint',
-    org_id: 'bigint',
-    tx_hash: 'String',
-  },
-  pending_vault_transactions_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'pending_vault_transactions',
-  },
-  pending_vault_transactions_stddev_fields: {
-    chain_id: 'Float',
-    claim_id: 'Float',
-    created_by: 'Float',
-    distribution_id: 'Float',
-    org_id: 'Float',
-  },
-  pending_vault_transactions_stddev_pop_fields: {
-    chain_id: 'Float',
-    claim_id: 'Float',
-    created_by: 'Float',
-    distribution_id: 'Float',
-    org_id: 'Float',
-  },
-  pending_vault_transactions_stddev_samp_fields: {
-    chain_id: 'Float',
-    claim_id: 'Float',
-    created_by: 'Float',
-    distribution_id: 'Float',
-    org_id: 'Float',
-  },
-  pending_vault_transactions_sum_fields: {
-    chain_id: 'Int',
-    claim_id: 'bigint',
-    created_by: 'bigint',
-    distribution_id: 'bigint',
-    org_id: 'bigint',
-  },
-  pending_vault_transactions_var_pop_fields: {
-    chain_id: 'Float',
-    claim_id: 'Float',
-    created_by: 'Float',
-    distribution_id: 'Float',
-    org_id: 'Float',
-  },
-  pending_vault_transactions_var_samp_fields: {
-    chain_id: 'Float',
-    claim_id: 'Float',
-    created_by: 'Float',
-    distribution_id: 'Float',
-    org_id: 'Float',
-  },
-  pending_vault_transactions_variance_fields: {
-    chain_id: 'Float',
-    claim_id: 'Float',
-    created_by: 'Float',
-    distribution_id: 'Float',
-    org_id: 'Float',
-  },
-  personal_access_tokens: {
-    abilities: 'String',
-    created_at: 'timestamp',
-    id: 'bigint',
-    last_used_at: 'timestamp',
-    name: 'String',
-    profile: 'profiles',
-    token: 'String',
-    tokenable_id: 'bigint',
-    tokenable_type: 'String',
-    updated_at: 'timestamp',
-  },
-  personal_access_tokens_aggregate: {
-    aggregate: 'personal_access_tokens_aggregate_fields',
-    nodes: 'personal_access_tokens',
-  },
-  personal_access_tokens_aggregate_fields: {
-    avg: 'personal_access_tokens_avg_fields',
-    count: 'Int',
-    max: 'personal_access_tokens_max_fields',
-    min: 'personal_access_tokens_min_fields',
-    stddev: 'personal_access_tokens_stddev_fields',
-    stddev_pop: 'personal_access_tokens_stddev_pop_fields',
-    stddev_samp: 'personal_access_tokens_stddev_samp_fields',
-    sum: 'personal_access_tokens_sum_fields',
-    var_pop: 'personal_access_tokens_var_pop_fields',
-    var_samp: 'personal_access_tokens_var_samp_fields',
-    variance: 'personal_access_tokens_variance_fields',
-  },
-  personal_access_tokens_avg_fields: {
-    id: 'Float',
-    tokenable_id: 'Float',
-  },
-  personal_access_tokens_max_fields: {
-    abilities: 'String',
-    created_at: 'timestamp',
-    id: 'bigint',
-    last_used_at: 'timestamp',
-    name: 'String',
-    token: 'String',
-    tokenable_id: 'bigint',
-    tokenable_type: 'String',
-    updated_at: 'timestamp',
-  },
-  personal_access_tokens_min_fields: {
-    abilities: 'String',
-    created_at: 'timestamp',
-    id: 'bigint',
-    last_used_at: 'timestamp',
-    name: 'String',
-    token: 'String',
-    tokenable_id: 'bigint',
-    tokenable_type: 'String',
-    updated_at: 'timestamp',
-  },
-  personal_access_tokens_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'personal_access_tokens',
-  },
-  personal_access_tokens_stddev_fields: {
-    id: 'Float',
-    tokenable_id: 'Float',
-  },
-  personal_access_tokens_stddev_pop_fields: {
-    id: 'Float',
-    tokenable_id: 'Float',
-  },
-  personal_access_tokens_stddev_samp_fields: {
-    id: 'Float',
-    tokenable_id: 'Float',
-  },
-  personal_access_tokens_sum_fields: {
-    id: 'bigint',
-    tokenable_id: 'bigint',
-  },
-  personal_access_tokens_var_pop_fields: {
-    id: 'Float',
-    tokenable_id: 'Float',
-  },
-  personal_access_tokens_var_samp_fields: {
-    id: 'Float',
-    tokenable_id: 'Float',
-  },
-  personal_access_tokens_variance_fields: {
-    id: 'Float',
-    tokenable_id: 'Float',
-  },
-  profiles: {
-    address: 'String',
-    avatar: 'String',
-    background: 'String',
-    bio: 'String',
-    chat_id: 'String',
-    claims: 'claims',
-    claims_aggregate: 'claims_aggregate',
-    created_at: 'timestamp',
-    discord_username: 'String',
-    distributions: 'distributions',
-    distributions_aggregate: 'distributions_aggregate',
-    github_username: 'String',
-    id: 'bigint',
-    medium_username: 'String',
-    name: 'String',
-    skills: 'String',
-    telegram_username: 'String',
-    twitter_username: 'String',
-    updated_at: 'timestamp',
-    users: 'users',
-    users_aggregate: 'users_aggregate',
-    vault_transactions: 'vault_transactions',
-    vault_transactions_aggregate: 'vault_transactions_aggregate',
-    vaults: 'vaults',
-    vaults_aggregate: 'vaults_aggregate',
-    website: 'String',
-  },
-  profiles_aggregate: {
-    aggregate: 'profiles_aggregate_fields',
-    nodes: 'profiles',
-  },
-  profiles_aggregate_fields: {
-    avg: 'profiles_avg_fields',
-    count: 'Int',
-    max: 'profiles_max_fields',
-    min: 'profiles_min_fields',
-    stddev: 'profiles_stddev_fields',
-    stddev_pop: 'profiles_stddev_pop_fields',
-    stddev_samp: 'profiles_stddev_samp_fields',
-    sum: 'profiles_sum_fields',
-    var_pop: 'profiles_var_pop_fields',
-    var_samp: 'profiles_var_samp_fields',
-    variance: 'profiles_variance_fields',
-  },
-  profiles_avg_fields: {
-    id: 'Float',
-  },
-  profiles_max_fields: {
-    address: 'String',
-    avatar: 'String',
-    background: 'String',
-    bio: 'String',
-    chat_id: 'String',
-    created_at: 'timestamp',
-    discord_username: 'String',
-    github_username: 'String',
-    id: 'bigint',
-    medium_username: 'String',
-    name: 'String',
-    skills: 'String',
-    telegram_username: 'String',
-    twitter_username: 'String',
-    updated_at: 'timestamp',
-    website: 'String',
-  },
-  profiles_min_fields: {
-    address: 'String',
-    avatar: 'String',
-    background: 'String',
-    bio: 'String',
-    chat_id: 'String',
-    created_at: 'timestamp',
-    discord_username: 'String',
-    github_username: 'String',
-    id: 'bigint',
-    medium_username: 'String',
-    name: 'String',
-    skills: 'String',
-    telegram_username: 'String',
-    twitter_username: 'String',
-    updated_at: 'timestamp',
-    website: 'String',
-  },
-  profiles_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'profiles',
-  },
-  profiles_stddev_fields: {
-    id: 'Float',
-  },
-  profiles_stddev_pop_fields: {
-    id: 'Float',
-  },
-  profiles_stddev_samp_fields: {
-    id: 'Float',
-  },
-  profiles_sum_fields: {
-    id: 'bigint',
-  },
-  profiles_var_pop_fields: {
-    id: 'Float',
-  },
-  profiles_var_samp_fields: {
-    id: 'Float',
-  },
-  profiles_variance_fields: {
-    id: 'Float',
-  },
-  query_root: {
-    burns: 'burns',
-    burns_aggregate: 'burns_aggregate',
-    burns_by_pk: 'burns',
-    circle_api_keys: 'circle_api_keys',
-    circle_api_keys_aggregate: 'circle_api_keys_aggregate',
-    circle_api_keys_by_pk: 'circle_api_keys',
-    circle_integrations: 'circle_integrations',
-    circle_integrations_aggregate: 'circle_integrations_aggregate',
-    circle_integrations_by_pk: 'circle_integrations',
-    circle_metadata: 'circle_metadata',
-    circle_metadata_aggregate: 'circle_metadata_aggregate',
-    circle_metadata_by_pk: 'circle_metadata',
-    circle_private: 'circle_private',
-    circle_private_aggregate: 'circle_private_aggregate',
-    circle_share_tokens: 'circle_share_tokens',
-    circle_share_tokens_aggregate: 'circle_share_tokens_aggregate',
-    circle_share_tokens_by_pk: 'circle_share_tokens',
-    circles: 'circles',
-    circles_aggregate: 'circles_aggregate',
-    circles_by_pk: 'circles',
-    claims: 'claims',
-    claims_aggregate: 'claims_aggregate',
-    claims_by_pk: 'claims',
-    contributions: 'contributions',
-    contributions_aggregate: 'contributions_aggregate',
-    contributions_by_pk: 'contributions',
-    discord_roles_circles: 'discord_roles_circles',
-    discord_roles_circles_aggregate: 'discord_roles_circles_aggregate',
-    discord_roles_circles_by_pk: 'discord_roles_circles',
-    discord_users: 'discord_users',
-    discord_users_aggregate: 'discord_users_aggregate',
-    discord_users_by_pk: 'discord_users',
-    distributions: 'distributions',
-    distributions_aggregate: 'distributions_aggregate',
-    distributions_by_pk: 'distributions',
-    epoch_pgive_data: 'epoch_pgive_data',
-    epoch_pgive_data_aggregate: 'epoch_pgive_data_aggregate',
-    epoch_pgive_data_by_pk: 'epoch_pgive_data',
-    epochs: 'epochs',
-    epochs_aggregate: 'epochs_aggregate',
-    epochs_by_pk: 'epochs',
-    gift_private: 'gift_private',
-    gift_private_aggregate: 'gift_private_aggregate',
-    histories: 'histories',
-    histories_aggregate: 'histories_aggregate',
-    histories_by_pk: 'histories',
-    interaction_events: 'interaction_events',
-    interaction_events_aggregate: 'interaction_events_aggregate',
-    interaction_events_by_pk: 'interaction_events',
-    locked_token_distributions: 'locked_token_distributions',
-    locked_token_distributions_aggregate:
-      'locked_token_distributions_aggregate',
-    locked_token_distributions_by_pk: 'locked_token_distributions',
-    member_epoch_pgives: 'member_epoch_pgives',
-    member_epoch_pgives_aggregate: 'member_epoch_pgives_aggregate',
-    member_epoch_pgives_by_pk: 'member_epoch_pgives',
-    nominees: 'nominees',
-    nominees_aggregate: 'nominees_aggregate',
-    nominees_by_pk: 'nominees',
-    organizations: 'organizations',
-    organizations_aggregate: 'organizations_aggregate',
-    organizations_by_pk: 'organizations',
-    pending_gift_private: 'pending_gift_private',
-    pending_gift_private_aggregate: 'pending_gift_private_aggregate',
-    pending_token_gifts: 'pending_token_gifts',
-    pending_token_gifts_aggregate: 'pending_token_gifts_aggregate',
-    pending_token_gifts_by_pk: 'pending_token_gifts',
-    pending_vault_transactions: 'pending_vault_transactions',
-    pending_vault_transactions_aggregate:
-      'pending_vault_transactions_aggregate',
-    pending_vault_transactions_by_pk: 'pending_vault_transactions',
-    personal_access_tokens: 'personal_access_tokens',
-    personal_access_tokens_aggregate: 'personal_access_tokens_aggregate',
-    personal_access_tokens_by_pk: 'personal_access_tokens',
-    price_per_share: 'Float',
-    profiles: 'profiles',
-    profiles_aggregate: 'profiles_aggregate',
-    profiles_by_pk: 'profiles',
-    teammates: 'teammates',
-    teammates_aggregate: 'teammates_aggregate',
-    teammates_by_pk: 'teammates',
-    token_gifts: 'token_gifts',
-    token_gifts_aggregate: 'token_gifts_aggregate',
-    token_gifts_by_pk: 'token_gifts',
-    user_private: 'user_private',
-    user_private_aggregate: 'user_private_aggregate',
-    users: 'users',
-    users_aggregate: 'users_aggregate',
-    users_by_pk: 'users',
-    vault_transactions: 'vault_transactions',
-    vault_transactions_aggregate: 'vault_transactions_aggregate',
-    vault_transactions_by_pk: 'vault_transactions',
-    vault_tx_types: 'vault_tx_types',
-    vault_tx_types_aggregate: 'vault_tx_types_aggregate',
-    vault_tx_types_by_pk: 'vault_tx_types',
-    vaults: 'vaults',
-    vaults_aggregate: 'vaults_aggregate',
-    vaults_by_pk: 'vaults',
-    vouches: 'vouches',
-    vouches_aggregate: 'vouches_aggregate',
-    vouches_by_pk: 'vouches',
-  },
-  subscription_root: {
-    burns: 'burns',
-    burns_aggregate: 'burns_aggregate',
-    burns_by_pk: 'burns',
-    burns_stream: 'burns',
-    circle_api_keys: 'circle_api_keys',
-    circle_api_keys_aggregate: 'circle_api_keys_aggregate',
-    circle_api_keys_by_pk: 'circle_api_keys',
-    circle_api_keys_stream: 'circle_api_keys',
-    circle_integrations: 'circle_integrations',
-    circle_integrations_aggregate: 'circle_integrations_aggregate',
-    circle_integrations_by_pk: 'circle_integrations',
-    circle_integrations_stream: 'circle_integrations',
-    circle_metadata: 'circle_metadata',
-    circle_metadata_aggregate: 'circle_metadata_aggregate',
-    circle_metadata_by_pk: 'circle_metadata',
-    circle_metadata_stream: 'circle_metadata',
-    circle_private: 'circle_private',
-    circle_private_aggregate: 'circle_private_aggregate',
-    circle_private_stream: 'circle_private',
-    circle_share_tokens: 'circle_share_tokens',
-    circle_share_tokens_aggregate: 'circle_share_tokens_aggregate',
-    circle_share_tokens_by_pk: 'circle_share_tokens',
-    circle_share_tokens_stream: 'circle_share_tokens',
-    circles: 'circles',
-    circles_aggregate: 'circles_aggregate',
-    circles_by_pk: 'circles',
-    circles_stream: 'circles',
-    claims: 'claims',
-    claims_aggregate: 'claims_aggregate',
-    claims_by_pk: 'claims',
-    claims_stream: 'claims',
-    contributions: 'contributions',
-    contributions_aggregate: 'contributions_aggregate',
-    contributions_by_pk: 'contributions',
-    contributions_stream: 'contributions',
-    discord_roles_circles: 'discord_roles_circles',
-    discord_roles_circles_aggregate: 'discord_roles_circles_aggregate',
-    discord_roles_circles_by_pk: 'discord_roles_circles',
-    discord_roles_circles_stream: 'discord_roles_circles',
-    discord_users: 'discord_users',
-    discord_users_aggregate: 'discord_users_aggregate',
-    discord_users_by_pk: 'discord_users',
-    discord_users_stream: 'discord_users',
-    distributions: 'distributions',
-    distributions_aggregate: 'distributions_aggregate',
-    distributions_by_pk: 'distributions',
-    distributions_stream: 'distributions',
-    epoch_pgive_data: 'epoch_pgive_data',
-    epoch_pgive_data_aggregate: 'epoch_pgive_data_aggregate',
-    epoch_pgive_data_by_pk: 'epoch_pgive_data',
-    epoch_pgive_data_stream: 'epoch_pgive_data',
-    epochs: 'epochs',
-    epochs_aggregate: 'epochs_aggregate',
-    epochs_by_pk: 'epochs',
-    epochs_stream: 'epochs',
-    gift_private: 'gift_private',
-    gift_private_aggregate: 'gift_private_aggregate',
-    gift_private_stream: 'gift_private',
-    histories: 'histories',
-    histories_aggregate: 'histories_aggregate',
-    histories_by_pk: 'histories',
-    histories_stream: 'histories',
-    interaction_events: 'interaction_events',
-    interaction_events_aggregate: 'interaction_events_aggregate',
-    interaction_events_by_pk: 'interaction_events',
-    interaction_events_stream: 'interaction_events',
-    locked_token_distributions: 'locked_token_distributions',
-    locked_token_distributions_aggregate:
-      'locked_token_distributions_aggregate',
-    locked_token_distributions_by_pk: 'locked_token_distributions',
-    locked_token_distributions_stream: 'locked_token_distributions',
-    member_epoch_pgives: 'member_epoch_pgives',
-    member_epoch_pgives_aggregate: 'member_epoch_pgives_aggregate',
-    member_epoch_pgives_by_pk: 'member_epoch_pgives',
-    member_epoch_pgives_stream: 'member_epoch_pgives',
-    nominees: 'nominees',
-    nominees_aggregate: 'nominees_aggregate',
-    nominees_by_pk: 'nominees',
-    nominees_stream: 'nominees',
-    organizations: 'organizations',
-    organizations_aggregate: 'organizations_aggregate',
-    organizations_by_pk: 'organizations',
-    organizations_stream: 'organizations',
-    pending_gift_private: 'pending_gift_private',
-    pending_gift_private_aggregate: 'pending_gift_private_aggregate',
-    pending_gift_private_stream: 'pending_gift_private',
-    pending_token_gifts: 'pending_token_gifts',
-    pending_token_gifts_aggregate: 'pending_token_gifts_aggregate',
-    pending_token_gifts_by_pk: 'pending_token_gifts',
-    pending_token_gifts_stream: 'pending_token_gifts',
-    pending_vault_transactions: 'pending_vault_transactions',
-    pending_vault_transactions_aggregate:
-      'pending_vault_transactions_aggregate',
-    pending_vault_transactions_by_pk: 'pending_vault_transactions',
-    pending_vault_transactions_stream: 'pending_vault_transactions',
-    personal_access_tokens: 'personal_access_tokens',
-    personal_access_tokens_aggregate: 'personal_access_tokens_aggregate',
-    personal_access_tokens_by_pk: 'personal_access_tokens',
-    personal_access_tokens_stream: 'personal_access_tokens',
-    profiles: 'profiles',
-    profiles_aggregate: 'profiles_aggregate',
-    profiles_by_pk: 'profiles',
-    profiles_stream: 'profiles',
-    teammates: 'teammates',
-    teammates_aggregate: 'teammates_aggregate',
-    teammates_by_pk: 'teammates',
-    teammates_stream: 'teammates',
-    token_gifts: 'token_gifts',
-    token_gifts_aggregate: 'token_gifts_aggregate',
-    token_gifts_by_pk: 'token_gifts',
-    token_gifts_stream: 'token_gifts',
-    user_private: 'user_private',
-    user_private_aggregate: 'user_private_aggregate',
-    user_private_stream: 'user_private',
-    users: 'users',
-    users_aggregate: 'users_aggregate',
-    users_by_pk: 'users',
-    users_stream: 'users',
-    vault_transactions: 'vault_transactions',
-    vault_transactions_aggregate: 'vault_transactions_aggregate',
-    vault_transactions_by_pk: 'vault_transactions',
-    vault_transactions_stream: 'vault_transactions',
-    vault_tx_types: 'vault_tx_types',
-    vault_tx_types_aggregate: 'vault_tx_types_aggregate',
-    vault_tx_types_by_pk: 'vault_tx_types',
-    vault_tx_types_stream: 'vault_tx_types',
-    vaults: 'vaults',
-    vaults_aggregate: 'vaults_aggregate',
-    vaults_by_pk: 'vaults',
-    vaults_stream: 'vaults',
-    vouches: 'vouches',
-    vouches_aggregate: 'vouches_aggregate',
-    vouches_by_pk: 'vouches',
-    vouches_stream: 'vouches',
-  },
-  teammates: {
-    created_at: 'timestamp',
-    id: 'bigint',
-    team_mate_id: 'Int',
-    teammate: 'users',
-    updated_at: 'timestamp',
-    user: 'users',
-    user_id: 'Int',
-  },
-  teammates_aggregate: {
-    aggregate: 'teammates_aggregate_fields',
-    nodes: 'teammates',
-  },
-  teammates_aggregate_fields: {
-    avg: 'teammates_avg_fields',
-    count: 'Int',
-    max: 'teammates_max_fields',
-    min: 'teammates_min_fields',
-    stddev: 'teammates_stddev_fields',
-    stddev_pop: 'teammates_stddev_pop_fields',
-    stddev_samp: 'teammates_stddev_samp_fields',
-    sum: 'teammates_sum_fields',
-    var_pop: 'teammates_var_pop_fields',
-    var_samp: 'teammates_var_samp_fields',
-    variance: 'teammates_variance_fields',
-  },
-  teammates_avg_fields: {
-    id: 'Float',
-    team_mate_id: 'Float',
-    user_id: 'Float',
-  },
-  teammates_max_fields: {
-    created_at: 'timestamp',
-    id: 'bigint',
-    team_mate_id: 'Int',
-    updated_at: 'timestamp',
-    user_id: 'Int',
-  },
-  teammates_min_fields: {
-    created_at: 'timestamp',
-    id: 'bigint',
-    team_mate_id: 'Int',
-    updated_at: 'timestamp',
-    user_id: 'Int',
-  },
-  teammates_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'teammates',
-  },
-  teammates_stddev_fields: {
-    id: 'Float',
-    team_mate_id: 'Float',
-    user_id: 'Float',
-  },
-  teammates_stddev_pop_fields: {
-    id: 'Float',
-    team_mate_id: 'Float',
-    user_id: 'Float',
-  },
-  teammates_stddev_samp_fields: {
-    id: 'Float',
-    team_mate_id: 'Float',
-    user_id: 'Float',
-  },
-  teammates_sum_fields: {
-    id: 'bigint',
-    team_mate_id: 'Int',
-    user_id: 'Int',
-  },
-  teammates_var_pop_fields: {
-    id: 'Float',
-    team_mate_id: 'Float',
-    user_id: 'Float',
-  },
-  teammates_var_samp_fields: {
-    id: 'Float',
-    team_mate_id: 'Float',
-    user_id: 'Float',
-  },
-  teammates_variance_fields: {
-    id: 'Float',
-    team_mate_id: 'Float',
-    user_id: 'Float',
-  },
-  token_gifts: {
-    circle: 'circles',
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    dts_created: 'timestamp',
-    epoch: 'epochs',
-    epoch_id: 'Int',
-    gift_private: 'gift_private',
-    id: 'bigint',
-    note: 'String',
-    recipient: 'users',
-    recipient_address: 'String',
-    recipient_id: 'bigint',
-    sender: 'users',
-    sender_address: 'String',
-    sender_id: 'bigint',
-    tokens: 'Int',
-    updated_at: 'timestamp',
-  },
-  token_gifts_aggregate: {
-    aggregate: 'token_gifts_aggregate_fields',
-    nodes: 'token_gifts',
-  },
-  token_gifts_aggregate_fields: {
-    avg: 'token_gifts_avg_fields',
-    count: 'Int',
-    max: 'token_gifts_max_fields',
-    min: 'token_gifts_min_fields',
-    stddev: 'token_gifts_stddev_fields',
-    stddev_pop: 'token_gifts_stddev_pop_fields',
-    stddev_samp: 'token_gifts_stddev_samp_fields',
-    sum: 'token_gifts_sum_fields',
-    var_pop: 'token_gifts_var_pop_fields',
-    var_samp: 'token_gifts_var_samp_fields',
-    variance: 'token_gifts_variance_fields',
-  },
-  token_gifts_avg_fields: {
-    circle_id: 'Float',
-    epoch_id: 'Float',
-    id: 'Float',
-    recipient_id: 'Float',
-    sender_id: 'Float',
-    tokens: 'Float',
-  },
-  token_gifts_max_fields: {
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    dts_created: 'timestamp',
-    epoch_id: 'Int',
-    id: 'bigint',
-    note: 'String',
-    recipient_address: 'String',
-    recipient_id: 'bigint',
-    sender_address: 'String',
-    sender_id: 'bigint',
-    tokens: 'Int',
-    updated_at: 'timestamp',
-  },
-  token_gifts_min_fields: {
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    dts_created: 'timestamp',
-    epoch_id: 'Int',
-    id: 'bigint',
-    note: 'String',
-    recipient_address: 'String',
-    recipient_id: 'bigint',
-    sender_address: 'String',
-    sender_id: 'bigint',
-    tokens: 'Int',
-    updated_at: 'timestamp',
-  },
-  token_gifts_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'token_gifts',
-  },
-  token_gifts_stddev_fields: {
-    circle_id: 'Float',
-    epoch_id: 'Float',
-    id: 'Float',
-    recipient_id: 'Float',
-    sender_id: 'Float',
-    tokens: 'Float',
-  },
-  token_gifts_stddev_pop_fields: {
-    circle_id: 'Float',
-    epoch_id: 'Float',
-    id: 'Float',
-    recipient_id: 'Float',
-    sender_id: 'Float',
-    tokens: 'Float',
-  },
-  token_gifts_stddev_samp_fields: {
-    circle_id: 'Float',
-    epoch_id: 'Float',
-    id: 'Float',
-    recipient_id: 'Float',
-    sender_id: 'Float',
-    tokens: 'Float',
-  },
-  token_gifts_sum_fields: {
-    circle_id: 'bigint',
-    epoch_id: 'Int',
-    id: 'bigint',
-    recipient_id: 'bigint',
-    sender_id: 'bigint',
-    tokens: 'Int',
-  },
-  token_gifts_var_pop_fields: {
-    circle_id: 'Float',
-    epoch_id: 'Float',
-    id: 'Float',
-    recipient_id: 'Float',
-    sender_id: 'Float',
-    tokens: 'Float',
-  },
-  token_gifts_var_samp_fields: {
-    circle_id: 'Float',
-    epoch_id: 'Float',
-    id: 'Float',
-    recipient_id: 'Float',
-    sender_id: 'Float',
-    tokens: 'Float',
-  },
-  token_gifts_variance_fields: {
-    circle_id: 'Float',
-    epoch_id: 'Float',
-    id: 'Float',
-    recipient_id: 'Float',
-    sender_id: 'Float',
-    tokens: 'Float',
-  },
-  user_private: {
-    circle: 'circles',
-    circle_id: 'bigint',
-    fixed_payment_amount: 'numeric',
-    fixed_payment_token_type: 'String',
-    user: 'users',
-    user_id: 'bigint',
-  },
-  user_private_aggregate: {
-    aggregate: 'user_private_aggregate_fields',
-    nodes: 'user_private',
-  },
-  user_private_aggregate_fields: {
-    avg: 'user_private_avg_fields',
-    count: 'Int',
-    max: 'user_private_max_fields',
-    min: 'user_private_min_fields',
-    stddev: 'user_private_stddev_fields',
-    stddev_pop: 'user_private_stddev_pop_fields',
-    stddev_samp: 'user_private_stddev_samp_fields',
-    sum: 'user_private_sum_fields',
-    var_pop: 'user_private_var_pop_fields',
-    var_samp: 'user_private_var_samp_fields',
-    variance: 'user_private_variance_fields',
-  },
-  user_private_avg_fields: {
-    circle_id: 'Float',
-    fixed_payment_amount: 'Float',
-    user_id: 'Float',
-  },
-  user_private_max_fields: {
-    circle_id: 'bigint',
-    fixed_payment_amount: 'numeric',
-    fixed_payment_token_type: 'String',
-    user_id: 'bigint',
-  },
-  user_private_min_fields: {
-    circle_id: 'bigint',
-    fixed_payment_amount: 'numeric',
-    fixed_payment_token_type: 'String',
-    user_id: 'bigint',
-  },
-  user_private_stddev_fields: {
-    circle_id: 'Float',
-    fixed_payment_amount: 'Float',
-    user_id: 'Float',
-  },
-  user_private_stddev_pop_fields: {
-    circle_id: 'Float',
-    fixed_payment_amount: 'Float',
-    user_id: 'Float',
-  },
-  user_private_stddev_samp_fields: {
-    circle_id: 'Float',
-    fixed_payment_amount: 'Float',
-    user_id: 'Float',
-  },
-  user_private_sum_fields: {
-    circle_id: 'bigint',
-    fixed_payment_amount: 'numeric',
-    user_id: 'bigint',
-  },
-  user_private_var_pop_fields: {
-    circle_id: 'Float',
-    fixed_payment_amount: 'Float',
-    user_id: 'Float',
-  },
-  user_private_var_samp_fields: {
-    circle_id: 'Float',
-    fixed_payment_amount: 'Float',
-    user_id: 'Float',
-  },
-  user_private_variance_fields: {
-    circle_id: 'Float',
-    fixed_payment_amount: 'Float',
-    user_id: 'Float',
-  },
-  users: {
-    address: 'String',
-    bio: 'String',
-    burns: 'burns',
-    burns_aggregate: 'burns_aggregate',
-    circle: 'circles',
-    circle_api_keys: 'circle_api_keys',
-    circle_api_keys_aggregate: 'circle_api_keys_aggregate',
-    circle_id: 'bigint',
-    contributions: 'contributions',
-    contributions_aggregate: 'contributions_aggregate',
-    created_at: 'timestamp',
-    deleted_at: 'timestamp',
-    entrance: 'String',
-    epoch_first_visit: 'Boolean',
-    fixed_non_receiver: 'Boolean',
-    fixed_payment_amount: 'numeric',
-    give_token_received: 'Int',
-    give_token_remaining: 'Int',
-    id: 'bigint',
-    name: 'String',
-    non_giver: 'Boolean',
-    non_receiver: 'Boolean',
-    pending_received_gifts: 'pending_token_gifts',
-    pending_received_gifts_aggregate: 'pending_token_gifts_aggregate',
-    pending_sent_gifts: 'pending_token_gifts',
-    pending_sent_gifts_aggregate: 'pending_token_gifts_aggregate',
-    profile: 'profiles',
-    received_gifts: 'token_gifts',
-    received_gifts_aggregate: 'token_gifts_aggregate',
-    role: 'Int',
-    sent_gifts: 'token_gifts',
-    sent_gifts_aggregate: 'token_gifts_aggregate',
-    starting_tokens: 'Int',
-    teammates: 'teammates',
-    teammates_aggregate: 'teammates_aggregate',
-    updated_at: 'timestamp',
-    user_private: 'user_private',
-    vouches: 'vouches',
-    vouches_aggregate: 'vouches_aggregate',
-  },
-  users_aggregate: {
-    aggregate: 'users_aggregate_fields',
-    nodes: 'users',
-  },
-  users_aggregate_fields: {
-    avg: 'users_avg_fields',
-    count: 'Int',
-    max: 'users_max_fields',
-    min: 'users_min_fields',
-    stddev: 'users_stddev_fields',
-    stddev_pop: 'users_stddev_pop_fields',
-    stddev_samp: 'users_stddev_samp_fields',
-    sum: 'users_sum_fields',
-    var_pop: 'users_var_pop_fields',
-    var_samp: 'users_var_samp_fields',
-    variance: 'users_variance_fields',
-  },
-  users_avg_fields: {
-    circle_id: 'Float',
-    fixed_payment_amount: 'Float',
-    give_token_received: 'Float',
-    give_token_remaining: 'Float',
-    id: 'Float',
-    role: 'Float',
-    starting_tokens: 'Float',
-  },
-  users_max_fields: {
-    address: 'String',
-    bio: 'String',
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    deleted_at: 'timestamp',
-    entrance: 'String',
-    fixed_payment_amount: 'numeric',
-    give_token_received: 'Int',
-    give_token_remaining: 'Int',
-    id: 'bigint',
-    name: 'String',
-    role: 'Int',
-    starting_tokens: 'Int',
-    updated_at: 'timestamp',
-  },
-  users_min_fields: {
-    address: 'String',
-    bio: 'String',
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    deleted_at: 'timestamp',
-    entrance: 'String',
-    fixed_payment_amount: 'numeric',
-    give_token_received: 'Int',
-    give_token_remaining: 'Int',
-    id: 'bigint',
-    name: 'String',
-    role: 'Int',
-    starting_tokens: 'Int',
-    updated_at: 'timestamp',
-  },
-  users_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'users',
-  },
-  users_stddev_fields: {
-    circle_id: 'Float',
-    fixed_payment_amount: 'Float',
-    give_token_received: 'Float',
-    give_token_remaining: 'Float',
-    id: 'Float',
-    role: 'Float',
-    starting_tokens: 'Float',
-  },
-  users_stddev_pop_fields: {
-    circle_id: 'Float',
-    fixed_payment_amount: 'Float',
-    give_token_received: 'Float',
-    give_token_remaining: 'Float',
-    id: 'Float',
-    role: 'Float',
-    starting_tokens: 'Float',
-  },
-  users_stddev_samp_fields: {
-    circle_id: 'Float',
-    fixed_payment_amount: 'Float',
-    give_token_received: 'Float',
-    give_token_remaining: 'Float',
-    id: 'Float',
-    role: 'Float',
-    starting_tokens: 'Float',
-  },
-  users_sum_fields: {
-    circle_id: 'bigint',
-    fixed_payment_amount: 'numeric',
-    give_token_received: 'Int',
-    give_token_remaining: 'Int',
-    id: 'bigint',
-    role: 'Int',
-    starting_tokens: 'Int',
-  },
-  users_var_pop_fields: {
-    circle_id: 'Float',
-    fixed_payment_amount: 'Float',
-    give_token_received: 'Float',
-    give_token_remaining: 'Float',
-    id: 'Float',
-    role: 'Float',
-    starting_tokens: 'Float',
-  },
-  users_var_samp_fields: {
-    circle_id: 'Float',
-    fixed_payment_amount: 'Float',
-    give_token_received: 'Float',
-    give_token_remaining: 'Float',
-    id: 'Float',
-    role: 'Float',
-    starting_tokens: 'Float',
-  },
-  users_variance_fields: {
-    circle_id: 'Float',
-    fixed_payment_amount: 'Float',
-    give_token_received: 'Float',
-    give_token_remaining: 'Float',
-    id: 'Float',
-    role: 'Float',
-    starting_tokens: 'Float',
-  },
-  vault_transactions: {
-    circle: 'circles',
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    created_by: 'bigint',
-    distribution: 'distributions',
-    distribution_id: 'bigint',
-    id: 'bigint',
-    profile: 'profiles',
-    tx_hash: 'String',
-    tx_type: 'vault_tx_types_enum',
-    updated_at: 'timestamp',
-    vault: 'vaults',
-    vault_id: 'bigint',
-    vault_tx_type: 'vault_tx_types',
-  },
-  vault_transactions_aggregate: {
-    aggregate: 'vault_transactions_aggregate_fields',
-    nodes: 'vault_transactions',
-  },
-  vault_transactions_aggregate_fields: {
-    avg: 'vault_transactions_avg_fields',
-    count: 'Int',
-    max: 'vault_transactions_max_fields',
-    min: 'vault_transactions_min_fields',
-    stddev: 'vault_transactions_stddev_fields',
-    stddev_pop: 'vault_transactions_stddev_pop_fields',
-    stddev_samp: 'vault_transactions_stddev_samp_fields',
-    sum: 'vault_transactions_sum_fields',
-    var_pop: 'vault_transactions_var_pop_fields',
-    var_samp: 'vault_transactions_var_samp_fields',
-    variance: 'vault_transactions_variance_fields',
-  },
-  vault_transactions_avg_fields: {
-    circle_id: 'Float',
-    created_by: 'Float',
-    distribution_id: 'Float',
-    id: 'Float',
-    vault_id: 'Float',
-  },
-  vault_transactions_max_fields: {
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    created_by: 'bigint',
-    distribution_id: 'bigint',
-    id: 'bigint',
-    tx_hash: 'String',
-    updated_at: 'timestamp',
-    vault_id: 'bigint',
-  },
-  vault_transactions_min_fields: {
-    circle_id: 'bigint',
-    created_at: 'timestamp',
-    created_by: 'bigint',
-    distribution_id: 'bigint',
-    id: 'bigint',
-    tx_hash: 'String',
-    updated_at: 'timestamp',
-    vault_id: 'bigint',
-  },
-  vault_transactions_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'vault_transactions',
-  },
-  vault_transactions_stddev_fields: {
-    circle_id: 'Float',
-    created_by: 'Float',
-    distribution_id: 'Float',
-    id: 'Float',
-    vault_id: 'Float',
-  },
-  vault_transactions_stddev_pop_fields: {
-    circle_id: 'Float',
-    created_by: 'Float',
-    distribution_id: 'Float',
-    id: 'Float',
-    vault_id: 'Float',
-  },
-  vault_transactions_stddev_samp_fields: {
-    circle_id: 'Float',
-    created_by: 'Float',
-    distribution_id: 'Float',
-    id: 'Float',
-    vault_id: 'Float',
-  },
-  vault_transactions_sum_fields: {
-    circle_id: 'bigint',
-    created_by: 'bigint',
-    distribution_id: 'bigint',
-    id: 'bigint',
-    vault_id: 'bigint',
-  },
-  vault_transactions_var_pop_fields: {
-    circle_id: 'Float',
-    created_by: 'Float',
-    distribution_id: 'Float',
-    id: 'Float',
-    vault_id: 'Float',
-  },
-  vault_transactions_var_samp_fields: {
-    circle_id: 'Float',
-    created_by: 'Float',
-    distribution_id: 'Float',
-    id: 'Float',
-    vault_id: 'Float',
-  },
-  vault_transactions_variance_fields: {
-    circle_id: 'Float',
-    created_by: 'Float',
-    distribution_id: 'Float',
-    id: 'Float',
-    vault_id: 'Float',
-  },
-  vault_tx_types: {
-    comment: 'String',
-    value: 'String',
-    vault_transactions: 'vault_transactions',
-    vault_transactions_aggregate: 'vault_transactions_aggregate',
-  },
-  vault_tx_types_aggregate: {
-    aggregate: 'vault_tx_types_aggregate_fields',
-    nodes: 'vault_tx_types',
-  },
-  vault_tx_types_aggregate_fields: {
-    count: 'Int',
-    max: 'vault_tx_types_max_fields',
-    min: 'vault_tx_types_min_fields',
-  },
-  vault_tx_types_max_fields: {
-    comment: 'String',
-    value: 'String',
-  },
-  vault_tx_types_min_fields: {
-    comment: 'String',
-    value: 'String',
-  },
-  vault_tx_types_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'vault_tx_types',
-  },
-  vaults: {
-    chain_id: 'Int',
-    created_at: 'timestamptz',
-    created_by: 'bigint',
-    decimals: 'Int',
-    deployment_block: 'bigint',
-    distributions: 'distributions',
-    distributions_aggregate: 'distributions_aggregate',
-    id: 'bigint',
-    org_id: 'bigint',
-    organization: 'organizations',
-    price_per_share: 'Float',
-    profile: 'profiles',
-    simple_token_address: 'String',
-    symbol: 'String',
-    token_address: 'String',
-    updated_at: 'timestamptz',
-    vault_address: 'String',
-    vault_transactions: 'vault_transactions',
-    vault_transactions_aggregate: 'vault_transactions_aggregate',
-  },
-  vaults_aggregate: {
-    aggregate: 'vaults_aggregate_fields',
-    nodes: 'vaults',
-  },
-  vaults_aggregate_fields: {
-    avg: 'vaults_avg_fields',
-    count: 'Int',
-    max: 'vaults_max_fields',
-    min: 'vaults_min_fields',
-    stddev: 'vaults_stddev_fields',
-    stddev_pop: 'vaults_stddev_pop_fields',
-    stddev_samp: 'vaults_stddev_samp_fields',
-    sum: 'vaults_sum_fields',
-    var_pop: 'vaults_var_pop_fields',
-    var_samp: 'vaults_var_samp_fields',
-    variance: 'vaults_variance_fields',
-  },
-  vaults_avg_fields: {
-    chain_id: 'Float',
-    created_by: 'Float',
-    decimals: 'Float',
-    deployment_block: 'Float',
-    id: 'Float',
-    org_id: 'Float',
-  },
-  vaults_max_fields: {
-    chain_id: 'Int',
-    created_at: 'timestamptz',
-    created_by: 'bigint',
-    decimals: 'Int',
-    deployment_block: 'bigint',
-    id: 'bigint',
-    org_id: 'bigint',
-    simple_token_address: 'String',
-    symbol: 'String',
-    token_address: 'String',
-    updated_at: 'timestamptz',
-    vault_address: 'String',
-  },
-  vaults_min_fields: {
-    chain_id: 'Int',
-    created_at: 'timestamptz',
-    created_by: 'bigint',
-    decimals: 'Int',
-    deployment_block: 'bigint',
-    id: 'bigint',
-    org_id: 'bigint',
-    simple_token_address: 'String',
-    symbol: 'String',
-    token_address: 'String',
-    updated_at: 'timestamptz',
-    vault_address: 'String',
-  },
-  vaults_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'vaults',
-  },
-  vaults_stddev_fields: {
-    chain_id: 'Float',
-    created_by: 'Float',
-    decimals: 'Float',
-    deployment_block: 'Float',
-    id: 'Float',
-    org_id: 'Float',
-  },
-  vaults_stddev_pop_fields: {
-    chain_id: 'Float',
-    created_by: 'Float',
-    decimals: 'Float',
-    deployment_block: 'Float',
-    id: 'Float',
-    org_id: 'Float',
-  },
-  vaults_stddev_samp_fields: {
-    chain_id: 'Float',
-    created_by: 'Float',
-    decimals: 'Float',
-    deployment_block: 'Float',
-    id: 'Float',
-    org_id: 'Float',
-  },
-  vaults_sum_fields: {
-    chain_id: 'Int',
-    created_by: 'bigint',
-    decimals: 'Int',
-    deployment_block: 'bigint',
-    id: 'bigint',
-    org_id: 'bigint',
-  },
-  vaults_var_pop_fields: {
-    chain_id: 'Float',
-    created_by: 'Float',
-    decimals: 'Float',
-    deployment_block: 'Float',
-    id: 'Float',
-    org_id: 'Float',
-  },
-  vaults_var_samp_fields: {
-    chain_id: 'Float',
-    created_by: 'Float',
-    decimals: 'Float',
-    deployment_block: 'Float',
-    id: 'Float',
-    org_id: 'Float',
-  },
-  vaults_variance_fields: {
-    chain_id: 'Float',
-    created_by: 'Float',
-    decimals: 'Float',
-    deployment_block: 'Float',
-    id: 'Float',
-    org_id: 'Float',
-  },
-  vouches: {
-    created_at: 'timestamp',
-    id: 'bigint',
-    nominee: 'nominees',
-    nominee_id: 'Int',
-    updated_at: 'timestamp',
-    voucher: 'users',
-    voucher_id: 'Int',
-  },
-  vouches_aggregate: {
-    aggregate: 'vouches_aggregate_fields',
-    nodes: 'vouches',
-  },
-  vouches_aggregate_fields: {
-    avg: 'vouches_avg_fields',
-    count: 'Int',
-    max: 'vouches_max_fields',
-    min: 'vouches_min_fields',
-    stddev: 'vouches_stddev_fields',
-    stddev_pop: 'vouches_stddev_pop_fields',
-    stddev_samp: 'vouches_stddev_samp_fields',
-    sum: 'vouches_sum_fields',
-    var_pop: 'vouches_var_pop_fields',
-    var_samp: 'vouches_var_samp_fields',
-    variance: 'vouches_variance_fields',
-  },
-  vouches_avg_fields: {
-    id: 'Float',
-    nominee_id: 'Float',
-    voucher_id: 'Float',
-  },
-  vouches_max_fields: {
-    created_at: 'timestamp',
-    id: 'bigint',
-    nominee_id: 'Int',
-    updated_at: 'timestamp',
-    voucher_id: 'Int',
-  },
-  vouches_min_fields: {
-    created_at: 'timestamp',
-    id: 'bigint',
-    nominee_id: 'Int',
-    updated_at: 'timestamp',
-    voucher_id: 'Int',
-  },
-  vouches_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'vouches',
-  },
-  vouches_stddev_fields: {
-    id: 'Float',
-    nominee_id: 'Float',
-    voucher_id: 'Float',
-  },
-  vouches_stddev_pop_fields: {
-    id: 'Float',
-    nominee_id: 'Float',
-    voucher_id: 'Float',
-  },
-  vouches_stddev_samp_fields: {
-    id: 'Float',
-    nominee_id: 'Float',
-    voucher_id: 'Float',
-  },
-  vouches_sum_fields: {
-    id: 'bigint',
-    nominee_id: 'Int',
-    voucher_id: 'Int',
-  },
-  vouches_var_pop_fields: {
-    id: 'Float',
-    nominee_id: 'Float',
-    voucher_id: 'Float',
-  },
-  vouches_var_samp_fields: {
-    id: 'Float',
-    nominee_id: 'Float',
-    voucher_id: 'Float',
-  },
-  vouches_variance_fields: {
-    id: 'Float',
-    nominee_id: 'Float',
-    voucher_id: 'Float',
-  },
-};
+	},
+	Allocation:{
+
+	},
+	AllocationCsvInput:{
+
+	},
+	Allocations:{
+		allocations:"Allocation"
+	},
+	Boolean_comparison_exp:{
+
+	},
+	CoordinapeInput:{
+
+	},
+	CreateCircleInput:{
+
+	},
+	CreateCircleResponse:{
+		users:{
+			distinct_on:"users_select_column",
+			order_by:"users_order_by",
+			where:"users_bool_exp"
+		},
+		users_aggregate:{
+			distinct_on:"users_select_column",
+			order_by:"users_order_by",
+			where:"users_bool_exp"
+		}
+	},
+	CreateEpochInput:{
+		start_date:"timestamptz"
+	},
+	CreateNomineeInput:{
+
+	},
+	CreateUserWithTokenInput:{
+
+	},
+	CreateUsersInput:{
+		users:"UserObj"
+	},
+	CreateVaultInput:{
+
+	},
+	DeleteCircleInput:{
+
+	},
+	DeleteContributionInput:{
+
+	},
+	DeleteEpochInput:{
+
+	},
+	DeleteUserBulkInput:{
+
+	},
+	DeleteUserInput:{
+
+	},
+	GenerateApiKeyInput:{
+
+	},
+	Int_comparison_exp:{
+
+	},
+	LinkDiscordUserInput:{
+
+	},
+	LogVaultTxInput:{
+
+	},
+	MarkClaimedInput:{
+
+	},
+	String_comparison_exp:{
+
+	},
+	UpdateCircleInput:{
+
+	},
+	UpdateContributionInput:{
+		datetime_created:"timestamptz"
+	},
+	UpdateEpochInput:{
+		start_date:"timestamptz"
+	},
+	UpdateTeammatesInput:{
+
+	},
+	UpdateUserInput:{
+
+	},
+	UploadCircleImageInput:{
+
+	},
+	UploadImageInput:{
+
+	},
+	UploadOrgImageInput:{
+
+	},
+	UserObj:{
+
+	},
+	VouchInput:{
+
+	},
+	bigint: "String",
+	bigint_comparison_exp:{
+		_eq:"bigint",
+		_gt:"bigint",
+		_gte:"bigint",
+		_in:"bigint",
+		_lt:"bigint",
+		_lte:"bigint",
+		_neq:"bigint",
+		_nin:"bigint"
+	},
+	burns_aggregate_fields:{
+		count:{
+			columns:"burns_select_column"
+		}
+	},
+	burns_aggregate_order_by:{
+		avg:"burns_avg_order_by",
+		count:"order_by",
+		max:"burns_max_order_by",
+		min:"burns_min_order_by",
+		stddev:"burns_stddev_order_by",
+		stddev_pop:"burns_stddev_pop_order_by",
+		stddev_samp:"burns_stddev_samp_order_by",
+		sum:"burns_sum_order_by",
+		var_pop:"burns_var_pop_order_by",
+		var_samp:"burns_var_samp_order_by",
+		variance:"burns_variance_order_by"
+	},
+	burns_arr_rel_insert_input:{
+		data:"burns_insert_input",
+		on_conflict:"burns_on_conflict"
+	},
+	burns_avg_order_by:{
+		circle_id:"order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		original_amount:"order_by",
+		regift_percent:"order_by",
+		tokens_burnt:"order_by",
+		user_id:"order_by"
+	},
+	burns_bool_exp:{
+		_and:"burns_bool_exp",
+		_not:"burns_bool_exp",
+		_or:"burns_bool_exp",
+		circle:"circles_bool_exp",
+		circle_id:"bigint_comparison_exp",
+		created_at:"timestamp_comparison_exp",
+		epoch:"epochs_bool_exp",
+		epoch_id:"bigint_comparison_exp",
+		id:"bigint_comparison_exp",
+		original_amount:"Int_comparison_exp",
+		regift_percent:"Int_comparison_exp",
+		tokens_burnt:"Int_comparison_exp",
+		updated_at:"timestamp_comparison_exp",
+		user:"users_bool_exp",
+		user_id:"bigint_comparison_exp"
+	},
+	burns_constraint: true,
+	burns_inc_input:{
+		circle_id:"bigint",
+		epoch_id:"bigint",
+		id:"bigint",
+		user_id:"bigint"
+	},
+	burns_insert_input:{
+		circle:"circles_obj_rel_insert_input",
+		circle_id:"bigint",
+		created_at:"timestamp",
+		epoch:"epochs_obj_rel_insert_input",
+		epoch_id:"bigint",
+		id:"bigint",
+		updated_at:"timestamp",
+		user:"users_obj_rel_insert_input",
+		user_id:"bigint"
+	},
+	burns_max_order_by:{
+		circle_id:"order_by",
+		created_at:"order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		original_amount:"order_by",
+		regift_percent:"order_by",
+		tokens_burnt:"order_by",
+		updated_at:"order_by",
+		user_id:"order_by"
+	},
+	burns_min_order_by:{
+		circle_id:"order_by",
+		created_at:"order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		original_amount:"order_by",
+		regift_percent:"order_by",
+		tokens_burnt:"order_by",
+		updated_at:"order_by",
+		user_id:"order_by"
+	},
+	burns_on_conflict:{
+		constraint:"burns_constraint",
+		update_columns:"burns_update_column",
+		where:"burns_bool_exp"
+	},
+	burns_order_by:{
+		circle:"circles_order_by",
+		circle_id:"order_by",
+		created_at:"order_by",
+		epoch:"epochs_order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		original_amount:"order_by",
+		regift_percent:"order_by",
+		tokens_burnt:"order_by",
+		updated_at:"order_by",
+		user:"users_order_by",
+		user_id:"order_by"
+	},
+	burns_pk_columns_input:{
+		id:"bigint"
+	},
+	burns_select_column: true,
+	burns_set_input:{
+		circle_id:"bigint",
+		created_at:"timestamp",
+		epoch_id:"bigint",
+		id:"bigint",
+		updated_at:"timestamp",
+		user_id:"bigint"
+	},
+	burns_stddev_order_by:{
+		circle_id:"order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		original_amount:"order_by",
+		regift_percent:"order_by",
+		tokens_burnt:"order_by",
+		user_id:"order_by"
+	},
+	burns_stddev_pop_order_by:{
+		circle_id:"order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		original_amount:"order_by",
+		regift_percent:"order_by",
+		tokens_burnt:"order_by",
+		user_id:"order_by"
+	},
+	burns_stddev_samp_order_by:{
+		circle_id:"order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		original_amount:"order_by",
+		regift_percent:"order_by",
+		tokens_burnt:"order_by",
+		user_id:"order_by"
+	},
+	burns_stream_cursor_input:{
+		initial_value:"burns_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	burns_stream_cursor_value_input:{
+		circle_id:"bigint",
+		created_at:"timestamp",
+		epoch_id:"bigint",
+		id:"bigint",
+		updated_at:"timestamp",
+		user_id:"bigint"
+	},
+	burns_sum_order_by:{
+		circle_id:"order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		original_amount:"order_by",
+		regift_percent:"order_by",
+		tokens_burnt:"order_by",
+		user_id:"order_by"
+	},
+	burns_update_column: true,
+	burns_updates:{
+		_inc:"burns_inc_input",
+		_set:"burns_set_input",
+		where:"burns_bool_exp"
+	},
+	burns_var_pop_order_by:{
+		circle_id:"order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		original_amount:"order_by",
+		regift_percent:"order_by",
+		tokens_burnt:"order_by",
+		user_id:"order_by"
+	},
+	burns_var_samp_order_by:{
+		circle_id:"order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		original_amount:"order_by",
+		regift_percent:"order_by",
+		tokens_burnt:"order_by",
+		user_id:"order_by"
+	},
+	burns_variance_order_by:{
+		circle_id:"order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		original_amount:"order_by",
+		regift_percent:"order_by",
+		tokens_burnt:"order_by",
+		user_id:"order_by"
+	},
+	circle_api_keys_aggregate_fields:{
+		count:{
+			columns:"circle_api_keys_select_column"
+		}
+	},
+	circle_api_keys_aggregate_order_by:{
+		avg:"circle_api_keys_avg_order_by",
+		count:"order_by",
+		max:"circle_api_keys_max_order_by",
+		min:"circle_api_keys_min_order_by",
+		stddev:"circle_api_keys_stddev_order_by",
+		stddev_pop:"circle_api_keys_stddev_pop_order_by",
+		stddev_samp:"circle_api_keys_stddev_samp_order_by",
+		sum:"circle_api_keys_sum_order_by",
+		var_pop:"circle_api_keys_var_pop_order_by",
+		var_samp:"circle_api_keys_var_samp_order_by",
+		variance:"circle_api_keys_variance_order_by"
+	},
+	circle_api_keys_arr_rel_insert_input:{
+		data:"circle_api_keys_insert_input",
+		on_conflict:"circle_api_keys_on_conflict"
+	},
+	circle_api_keys_avg_order_by:{
+		circle_id:"order_by",
+		created_by:"order_by"
+	},
+	circle_api_keys_bool_exp:{
+		_and:"circle_api_keys_bool_exp",
+		_not:"circle_api_keys_bool_exp",
+		_or:"circle_api_keys_bool_exp",
+		circle:"circles_bool_exp",
+		circle_id:"bigint_comparison_exp",
+		create_contributions:"Boolean_comparison_exp",
+		create_vouches:"Boolean_comparison_exp",
+		createdByUser:"users_bool_exp",
+		created_at:"timestamptz_comparison_exp",
+		created_by:"bigint_comparison_exp",
+		hash:"String_comparison_exp",
+		name:"String_comparison_exp",
+		read_circle:"Boolean_comparison_exp",
+		read_contributions:"Boolean_comparison_exp",
+		read_discord:"Boolean_comparison_exp",
+		read_epochs:"Boolean_comparison_exp",
+		read_member_profiles:"Boolean_comparison_exp",
+		read_nominees:"Boolean_comparison_exp",
+		read_pending_token_gifts:"Boolean_comparison_exp",
+		update_circle:"Boolean_comparison_exp",
+		update_pending_token_gifts:"Boolean_comparison_exp"
+	},
+	circle_api_keys_constraint: true,
+	circle_api_keys_inc_input:{
+		circle_id:"bigint",
+		created_by:"bigint"
+	},
+	circle_api_keys_insert_input:{
+		circle:"circles_obj_rel_insert_input",
+		circle_id:"bigint",
+		createdByUser:"users_obj_rel_insert_input",
+		created_at:"timestamptz",
+		created_by:"bigint"
+	},
+	circle_api_keys_max_order_by:{
+		circle_id:"order_by",
+		created_at:"order_by",
+		created_by:"order_by",
+		hash:"order_by",
+		name:"order_by"
+	},
+	circle_api_keys_min_order_by:{
+		circle_id:"order_by",
+		created_at:"order_by",
+		created_by:"order_by",
+		hash:"order_by",
+		name:"order_by"
+	},
+	circle_api_keys_obj_rel_insert_input:{
+		data:"circle_api_keys_insert_input",
+		on_conflict:"circle_api_keys_on_conflict"
+	},
+	circle_api_keys_on_conflict:{
+		constraint:"circle_api_keys_constraint",
+		update_columns:"circle_api_keys_update_column",
+		where:"circle_api_keys_bool_exp"
+	},
+	circle_api_keys_order_by:{
+		circle:"circles_order_by",
+		circle_id:"order_by",
+		create_contributions:"order_by",
+		create_vouches:"order_by",
+		createdByUser:"users_order_by",
+		created_at:"order_by",
+		created_by:"order_by",
+		hash:"order_by",
+		name:"order_by",
+		read_circle:"order_by",
+		read_contributions:"order_by",
+		read_discord:"order_by",
+		read_epochs:"order_by",
+		read_member_profiles:"order_by",
+		read_nominees:"order_by",
+		read_pending_token_gifts:"order_by",
+		update_circle:"order_by",
+		update_pending_token_gifts:"order_by"
+	},
+	circle_api_keys_pk_columns_input:{
+
+	},
+	circle_api_keys_select_column: true,
+	circle_api_keys_set_input:{
+		circle_id:"bigint",
+		created_at:"timestamptz",
+		created_by:"bigint"
+	},
+	circle_api_keys_stddev_order_by:{
+		circle_id:"order_by",
+		created_by:"order_by"
+	},
+	circle_api_keys_stddev_pop_order_by:{
+		circle_id:"order_by",
+		created_by:"order_by"
+	},
+	circle_api_keys_stddev_samp_order_by:{
+		circle_id:"order_by",
+		created_by:"order_by"
+	},
+	circle_api_keys_stream_cursor_input:{
+		initial_value:"circle_api_keys_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	circle_api_keys_stream_cursor_value_input:{
+		circle_id:"bigint",
+		created_at:"timestamptz",
+		created_by:"bigint"
+	},
+	circle_api_keys_sum_order_by:{
+		circle_id:"order_by",
+		created_by:"order_by"
+	},
+	circle_api_keys_update_column: true,
+	circle_api_keys_updates:{
+		_inc:"circle_api_keys_inc_input",
+		_set:"circle_api_keys_set_input",
+		where:"circle_api_keys_bool_exp"
+	},
+	circle_api_keys_var_pop_order_by:{
+		circle_id:"order_by",
+		created_by:"order_by"
+	},
+	circle_api_keys_var_samp_order_by:{
+		circle_id:"order_by",
+		created_by:"order_by"
+	},
+	circle_api_keys_variance_order_by:{
+		circle_id:"order_by",
+		created_by:"order_by"
+	},
+	circle_integrations:{
+		data:{
+
+		}
+	},
+	circle_integrations_aggregate_fields:{
+		count:{
+			columns:"circle_integrations_select_column"
+		}
+	},
+	circle_integrations_aggregate_order_by:{
+		avg:"circle_integrations_avg_order_by",
+		count:"order_by",
+		max:"circle_integrations_max_order_by",
+		min:"circle_integrations_min_order_by",
+		stddev:"circle_integrations_stddev_order_by",
+		stddev_pop:"circle_integrations_stddev_pop_order_by",
+		stddev_samp:"circle_integrations_stddev_samp_order_by",
+		sum:"circle_integrations_sum_order_by",
+		var_pop:"circle_integrations_var_pop_order_by",
+		var_samp:"circle_integrations_var_samp_order_by",
+		variance:"circle_integrations_variance_order_by"
+	},
+	circle_integrations_arr_rel_insert_input:{
+		data:"circle_integrations_insert_input",
+		on_conflict:"circle_integrations_on_conflict"
+	},
+	circle_integrations_avg_order_by:{
+		circle_id:"order_by",
+		id:"order_by"
+	},
+	circle_integrations_bool_exp:{
+		_and:"circle_integrations_bool_exp",
+		_not:"circle_integrations_bool_exp",
+		_or:"circle_integrations_bool_exp",
+		circle:"circles_bool_exp",
+		circle_id:"bigint_comparison_exp",
+		created_at:"timestamptz_comparison_exp",
+		data:"json_comparison_exp",
+		id:"bigint_comparison_exp",
+		name:"String_comparison_exp",
+		type:"String_comparison_exp",
+		updated_at:"timestamptz_comparison_exp"
+	},
+	circle_integrations_constraint: true,
+	circle_integrations_inc_input:{
+		circle_id:"bigint",
+		id:"bigint"
+	},
+	circle_integrations_insert_input:{
+		circle:"circles_obj_rel_insert_input",
+		circle_id:"bigint",
+		created_at:"timestamptz",
+		data:"json",
+		id:"bigint",
+		updated_at:"timestamptz"
+	},
+	circle_integrations_max_order_by:{
+		circle_id:"order_by",
+		created_at:"order_by",
+		id:"order_by",
+		name:"order_by",
+		type:"order_by",
+		updated_at:"order_by"
+	},
+	circle_integrations_min_order_by:{
+		circle_id:"order_by",
+		created_at:"order_by",
+		id:"order_by",
+		name:"order_by",
+		type:"order_by",
+		updated_at:"order_by"
+	},
+	circle_integrations_on_conflict:{
+		constraint:"circle_integrations_constraint",
+		update_columns:"circle_integrations_update_column",
+		where:"circle_integrations_bool_exp"
+	},
+	circle_integrations_order_by:{
+		circle:"circles_order_by",
+		circle_id:"order_by",
+		created_at:"order_by",
+		data:"order_by",
+		id:"order_by",
+		name:"order_by",
+		type:"order_by",
+		updated_at:"order_by"
+	},
+	circle_integrations_pk_columns_input:{
+		id:"bigint"
+	},
+	circle_integrations_select_column: true,
+	circle_integrations_set_input:{
+		circle_id:"bigint",
+		created_at:"timestamptz",
+		data:"json",
+		id:"bigint",
+		updated_at:"timestamptz"
+	},
+	circle_integrations_stddev_order_by:{
+		circle_id:"order_by",
+		id:"order_by"
+	},
+	circle_integrations_stddev_pop_order_by:{
+		circle_id:"order_by",
+		id:"order_by"
+	},
+	circle_integrations_stddev_samp_order_by:{
+		circle_id:"order_by",
+		id:"order_by"
+	},
+	circle_integrations_stream_cursor_input:{
+		initial_value:"circle_integrations_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	circle_integrations_stream_cursor_value_input:{
+		circle_id:"bigint",
+		created_at:"timestamptz",
+		data:"json",
+		id:"bigint",
+		updated_at:"timestamptz"
+	},
+	circle_integrations_sum_order_by:{
+		circle_id:"order_by",
+		id:"order_by"
+	},
+	circle_integrations_update_column: true,
+	circle_integrations_updates:{
+		_inc:"circle_integrations_inc_input",
+		_set:"circle_integrations_set_input",
+		where:"circle_integrations_bool_exp"
+	},
+	circle_integrations_var_pop_order_by:{
+		circle_id:"order_by",
+		id:"order_by"
+	},
+	circle_integrations_var_samp_order_by:{
+		circle_id:"order_by",
+		id:"order_by"
+	},
+	circle_integrations_variance_order_by:{
+		circle_id:"order_by",
+		id:"order_by"
+	},
+	circle_metadata:{
+		json:{
+
+		}
+	},
+	circle_metadata_aggregate_fields:{
+		count:{
+			columns:"circle_metadata_select_column"
+		}
+	},
+	circle_metadata_aggregate_order_by:{
+		avg:"circle_metadata_avg_order_by",
+		count:"order_by",
+		max:"circle_metadata_max_order_by",
+		min:"circle_metadata_min_order_by",
+		stddev:"circle_metadata_stddev_order_by",
+		stddev_pop:"circle_metadata_stddev_pop_order_by",
+		stddev_samp:"circle_metadata_stddev_samp_order_by",
+		sum:"circle_metadata_sum_order_by",
+		var_pop:"circle_metadata_var_pop_order_by",
+		var_samp:"circle_metadata_var_samp_order_by",
+		variance:"circle_metadata_variance_order_by"
+	},
+	circle_metadata_arr_rel_insert_input:{
+		data:"circle_metadata_insert_input",
+		on_conflict:"circle_metadata_on_conflict"
+	},
+	circle_metadata_avg_order_by:{
+		circle_id:"order_by",
+		id:"order_by"
+	},
+	circle_metadata_bool_exp:{
+		_and:"circle_metadata_bool_exp",
+		_not:"circle_metadata_bool_exp",
+		_or:"circle_metadata_bool_exp",
+		circle:"circles_bool_exp",
+		circle_id:"bigint_comparison_exp",
+		created_at:"timestamp_comparison_exp",
+		id:"bigint_comparison_exp",
+		json:"json_comparison_exp",
+		updated_at:"timestamp_comparison_exp"
+	},
+	circle_metadata_constraint: true,
+	circle_metadata_inc_input:{
+		circle_id:"bigint",
+		id:"bigint"
+	},
+	circle_metadata_insert_input:{
+		circle:"circles_obj_rel_insert_input",
+		circle_id:"bigint",
+		created_at:"timestamp",
+		id:"bigint",
+		json:"json",
+		updated_at:"timestamp"
+	},
+	circle_metadata_max_order_by:{
+		circle_id:"order_by",
+		created_at:"order_by",
+		id:"order_by",
+		updated_at:"order_by"
+	},
+	circle_metadata_min_order_by:{
+		circle_id:"order_by",
+		created_at:"order_by",
+		id:"order_by",
+		updated_at:"order_by"
+	},
+	circle_metadata_on_conflict:{
+		constraint:"circle_metadata_constraint",
+		update_columns:"circle_metadata_update_column",
+		where:"circle_metadata_bool_exp"
+	},
+	circle_metadata_order_by:{
+		circle:"circles_order_by",
+		circle_id:"order_by",
+		created_at:"order_by",
+		id:"order_by",
+		json:"order_by",
+		updated_at:"order_by"
+	},
+	circle_metadata_pk_columns_input:{
+		id:"bigint"
+	},
+	circle_metadata_select_column: true,
+	circle_metadata_set_input:{
+		circle_id:"bigint",
+		created_at:"timestamp",
+		id:"bigint",
+		json:"json",
+		updated_at:"timestamp"
+	},
+	circle_metadata_stddev_order_by:{
+		circle_id:"order_by",
+		id:"order_by"
+	},
+	circle_metadata_stddev_pop_order_by:{
+		circle_id:"order_by",
+		id:"order_by"
+	},
+	circle_metadata_stddev_samp_order_by:{
+		circle_id:"order_by",
+		id:"order_by"
+	},
+	circle_metadata_stream_cursor_input:{
+		initial_value:"circle_metadata_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	circle_metadata_stream_cursor_value_input:{
+		circle_id:"bigint",
+		created_at:"timestamp",
+		id:"bigint",
+		json:"json",
+		updated_at:"timestamp"
+	},
+	circle_metadata_sum_order_by:{
+		circle_id:"order_by",
+		id:"order_by"
+	},
+	circle_metadata_update_column: true,
+	circle_metadata_updates:{
+		_inc:"circle_metadata_inc_input",
+		_set:"circle_metadata_set_input",
+		where:"circle_metadata_bool_exp"
+	},
+	circle_metadata_var_pop_order_by:{
+		circle_id:"order_by",
+		id:"order_by"
+	},
+	circle_metadata_var_samp_order_by:{
+		circle_id:"order_by",
+		id:"order_by"
+	},
+	circle_metadata_variance_order_by:{
+		circle_id:"order_by",
+		id:"order_by"
+	},
+	circle_private_aggregate_fields:{
+		count:{
+			columns:"circle_private_select_column"
+		}
+	},
+	circle_private_bool_exp:{
+		_and:"circle_private_bool_exp",
+		_not:"circle_private_bool_exp",
+		_or:"circle_private_bool_exp",
+		circle:"circles_bool_exp",
+		circle_id:"bigint_comparison_exp",
+		discord_webhook:"String_comparison_exp"
+	},
+	circle_private_inc_input:{
+		circle_id:"bigint"
+	},
+	circle_private_insert_input:{
+		circle:"circles_obj_rel_insert_input",
+		circle_id:"bigint"
+	},
+	circle_private_obj_rel_insert_input:{
+		data:"circle_private_insert_input"
+	},
+	circle_private_order_by:{
+		circle:"circles_order_by",
+		circle_id:"order_by",
+		discord_webhook:"order_by"
+	},
+	circle_private_select_column: true,
+	circle_private_set_input:{
+		circle_id:"bigint"
+	},
+	circle_private_stream_cursor_input:{
+		initial_value:"circle_private_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	circle_private_stream_cursor_value_input:{
+		circle_id:"bigint"
+	},
+	circle_private_updates:{
+		_inc:"circle_private_inc_input",
+		_set:"circle_private_set_input",
+		where:"circle_private_bool_exp"
+	},
+	circle_share_tokens_aggregate_fields:{
+		count:{
+			columns:"circle_share_tokens_select_column"
+		}
+	},
+	circle_share_tokens_bool_exp:{
+		_and:"circle_share_tokens_bool_exp",
+		_not:"circle_share_tokens_bool_exp",
+		_or:"circle_share_tokens_bool_exp",
+		circle:"circles_bool_exp",
+		circle_id:"bigint_comparison_exp",
+		created_at:"timestamptz_comparison_exp",
+		type:"Int_comparison_exp",
+		updated_at:"timestamptz_comparison_exp",
+		uuid:"uuid_comparison_exp"
+	},
+	circle_share_tokens_constraint: true,
+	circle_share_tokens_inc_input:{
+		circle_id:"bigint"
+	},
+	circle_share_tokens_insert_input:{
+		circle:"circles_obj_rel_insert_input",
+		circle_id:"bigint",
+		created_at:"timestamptz",
+		updated_at:"timestamptz",
+		uuid:"uuid"
+	},
+	circle_share_tokens_on_conflict:{
+		constraint:"circle_share_tokens_constraint",
+		update_columns:"circle_share_tokens_update_column",
+		where:"circle_share_tokens_bool_exp"
+	},
+	circle_share_tokens_order_by:{
+		circle:"circles_order_by",
+		circle_id:"order_by",
+		created_at:"order_by",
+		type:"order_by",
+		updated_at:"order_by",
+		uuid:"order_by"
+	},
+	circle_share_tokens_pk_columns_input:{
+		circle_id:"bigint"
+	},
+	circle_share_tokens_select_column: true,
+	circle_share_tokens_set_input:{
+		circle_id:"bigint",
+		created_at:"timestamptz",
+		updated_at:"timestamptz",
+		uuid:"uuid"
+	},
+	circle_share_tokens_stream_cursor_input:{
+		initial_value:"circle_share_tokens_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	circle_share_tokens_stream_cursor_value_input:{
+		circle_id:"bigint",
+		created_at:"timestamptz",
+		updated_at:"timestamptz",
+		uuid:"uuid"
+	},
+	circle_share_tokens_update_column: true,
+	circle_share_tokens_updates:{
+		_inc:"circle_share_tokens_inc_input",
+		_set:"circle_share_tokens_set_input",
+		where:"circle_share_tokens_bool_exp"
+	},
+	circles:{
+		api_keys:{
+			distinct_on:"circle_api_keys_select_column",
+			order_by:"circle_api_keys_order_by",
+			where:"circle_api_keys_bool_exp"
+		},
+		api_keys_aggregate:{
+			distinct_on:"circle_api_keys_select_column",
+			order_by:"circle_api_keys_order_by",
+			where:"circle_api_keys_bool_exp"
+		},
+		burns:{
+			distinct_on:"burns_select_column",
+			order_by:"burns_order_by",
+			where:"burns_bool_exp"
+		},
+		burns_aggregate:{
+			distinct_on:"burns_select_column",
+			order_by:"burns_order_by",
+			where:"burns_bool_exp"
+		},
+		circle_metadata:{
+			distinct_on:"circle_metadata_select_column",
+			order_by:"circle_metadata_order_by",
+			where:"circle_metadata_bool_exp"
+		},
+		circle_metadata_aggregate:{
+			distinct_on:"circle_metadata_select_column",
+			order_by:"circle_metadata_order_by",
+			where:"circle_metadata_bool_exp"
+		},
+		contributions:{
+			distinct_on:"contributions_select_column",
+			order_by:"contributions_order_by",
+			where:"contributions_bool_exp"
+		},
+		contributions_aggregate:{
+			distinct_on:"contributions_select_column",
+			order_by:"contributions_order_by",
+			where:"contributions_bool_exp"
+		},
+		epochs:{
+			distinct_on:"epochs_select_column",
+			order_by:"epochs_order_by",
+			where:"epochs_bool_exp"
+		},
+		epochs_aggregate:{
+			distinct_on:"epochs_select_column",
+			order_by:"epochs_order_by",
+			where:"epochs_bool_exp"
+		},
+		integrations:{
+			distinct_on:"circle_integrations_select_column",
+			order_by:"circle_integrations_order_by",
+			where:"circle_integrations_bool_exp"
+		},
+		integrations_aggregate:{
+			distinct_on:"circle_integrations_select_column",
+			order_by:"circle_integrations_order_by",
+			where:"circle_integrations_bool_exp"
+		},
+		nominees:{
+			distinct_on:"nominees_select_column",
+			order_by:"nominees_order_by",
+			where:"nominees_bool_exp"
+		},
+		nominees_aggregate:{
+			distinct_on:"nominees_select_column",
+			order_by:"nominees_order_by",
+			where:"nominees_bool_exp"
+		},
+		pending_token_gifts:{
+			distinct_on:"pending_token_gifts_select_column",
+			order_by:"pending_token_gifts_order_by",
+			where:"pending_token_gifts_bool_exp"
+		},
+		pending_token_gifts_aggregate:{
+			distinct_on:"pending_token_gifts_select_column",
+			order_by:"pending_token_gifts_order_by",
+			where:"pending_token_gifts_bool_exp"
+		},
+		token_gifts:{
+			distinct_on:"token_gifts_select_column",
+			order_by:"token_gifts_order_by",
+			where:"token_gifts_bool_exp"
+		},
+		token_gifts_aggregate:{
+			distinct_on:"token_gifts_select_column",
+			order_by:"token_gifts_order_by",
+			where:"token_gifts_bool_exp"
+		},
+		users:{
+			distinct_on:"users_select_column",
+			order_by:"users_order_by",
+			where:"users_bool_exp"
+		},
+		users_aggregate:{
+			distinct_on:"users_select_column",
+			order_by:"users_order_by",
+			where:"users_bool_exp"
+		},
+		vault_transactions:{
+			distinct_on:"vault_transactions_select_column",
+			order_by:"vault_transactions_order_by",
+			where:"vault_transactions_bool_exp"
+		},
+		vault_transactions_aggregate:{
+			distinct_on:"vault_transactions_select_column",
+			order_by:"vault_transactions_order_by",
+			where:"vault_transactions_bool_exp"
+		}
+	},
+	circles_aggregate_fields:{
+		count:{
+			columns:"circles_select_column"
+		}
+	},
+	circles_aggregate_order_by:{
+		avg:"circles_avg_order_by",
+		count:"order_by",
+		max:"circles_max_order_by",
+		min:"circles_min_order_by",
+		stddev:"circles_stddev_order_by",
+		stddev_pop:"circles_stddev_pop_order_by",
+		stddev_samp:"circles_stddev_samp_order_by",
+		sum:"circles_sum_order_by",
+		var_pop:"circles_var_pop_order_by",
+		var_samp:"circles_var_samp_order_by",
+		variance:"circles_variance_order_by"
+	},
+	circles_arr_rel_insert_input:{
+		data:"circles_insert_input",
+		on_conflict:"circles_on_conflict"
+	},
+	circles_avg_order_by:{
+		fixed_payment_vault_id:"order_by",
+		id:"order_by",
+		min_vouches:"order_by",
+		nomination_days_limit:"order_by",
+		organization_id:"order_by"
+	},
+	circles_bool_exp:{
+		_and:"circles_bool_exp",
+		_not:"circles_bool_exp",
+		_or:"circles_bool_exp",
+		alloc_text:"String_comparison_exp",
+		api_keys:"circle_api_keys_bool_exp",
+		auto_opt_out:"Boolean_comparison_exp",
+		burns:"burns_bool_exp",
+		circle_metadata:"circle_metadata_bool_exp",
+		circle_private:"circle_private_bool_exp",
+		contact:"String_comparison_exp",
+		contributions:"contributions_bool_exp",
+		created_at:"timestamp_comparison_exp",
+		default_opt_in:"Boolean_comparison_exp",
+		deleted_at:"timestamp_comparison_exp",
+		discord_webhook:"String_comparison_exp",
+		epochs:"epochs_bool_exp",
+		fixed_payment_token_type:"String_comparison_exp",
+		fixed_payment_vault_id:"Int_comparison_exp",
+		id:"bigint_comparison_exp",
+		integrations:"circle_integrations_bool_exp",
+		is_verified:"Boolean_comparison_exp",
+		logo:"String_comparison_exp",
+		min_vouches:"Int_comparison_exp",
+		name:"String_comparison_exp",
+		nomination_days_limit:"Int_comparison_exp",
+		nominees:"nominees_bool_exp",
+		only_giver_vouch:"Boolean_comparison_exp",
+		organization:"organizations_bool_exp",
+		organization_id:"Int_comparison_exp",
+		pending_token_gifts:"pending_token_gifts_bool_exp",
+		show_pending_gives:"Boolean_comparison_exp",
+		team_sel_text:"String_comparison_exp",
+		team_selection:"Boolean_comparison_exp",
+		telegram_id:"String_comparison_exp",
+		token_gifts:"token_gifts_bool_exp",
+		token_name:"String_comparison_exp",
+		updated_at:"timestamp_comparison_exp",
+		users:"users_bool_exp",
+		vault_transactions:"vault_transactions_bool_exp",
+		vouching:"Boolean_comparison_exp",
+		vouching_text:"String_comparison_exp"
+	},
+	circles_constraint: true,
+	circles_inc_input:{
+		id:"bigint"
+	},
+	circles_insert_input:{
+		api_keys:"circle_api_keys_arr_rel_insert_input",
+		burns:"burns_arr_rel_insert_input",
+		circle_metadata:"circle_metadata_arr_rel_insert_input",
+		circle_private:"circle_private_obj_rel_insert_input",
+		contributions:"contributions_arr_rel_insert_input",
+		created_at:"timestamp",
+		deleted_at:"timestamp",
+		epochs:"epochs_arr_rel_insert_input",
+		id:"bigint",
+		integrations:"circle_integrations_arr_rel_insert_input",
+		nominees:"nominees_arr_rel_insert_input",
+		organization:"organizations_obj_rel_insert_input",
+		pending_token_gifts:"pending_token_gifts_arr_rel_insert_input",
+		token_gifts:"token_gifts_arr_rel_insert_input",
+		updated_at:"timestamp",
+		users:"users_arr_rel_insert_input",
+		vault_transactions:"vault_transactions_arr_rel_insert_input"
+	},
+	circles_max_order_by:{
+		alloc_text:"order_by",
+		contact:"order_by",
+		created_at:"order_by",
+		deleted_at:"order_by",
+		discord_webhook:"order_by",
+		fixed_payment_token_type:"order_by",
+		fixed_payment_vault_id:"order_by",
+		id:"order_by",
+		logo:"order_by",
+		min_vouches:"order_by",
+		name:"order_by",
+		nomination_days_limit:"order_by",
+		organization_id:"order_by",
+		team_sel_text:"order_by",
+		telegram_id:"order_by",
+		token_name:"order_by",
+		updated_at:"order_by",
+		vouching_text:"order_by"
+	},
+	circles_min_order_by:{
+		alloc_text:"order_by",
+		contact:"order_by",
+		created_at:"order_by",
+		deleted_at:"order_by",
+		discord_webhook:"order_by",
+		fixed_payment_token_type:"order_by",
+		fixed_payment_vault_id:"order_by",
+		id:"order_by",
+		logo:"order_by",
+		min_vouches:"order_by",
+		name:"order_by",
+		nomination_days_limit:"order_by",
+		organization_id:"order_by",
+		team_sel_text:"order_by",
+		telegram_id:"order_by",
+		token_name:"order_by",
+		updated_at:"order_by",
+		vouching_text:"order_by"
+	},
+	circles_obj_rel_insert_input:{
+		data:"circles_insert_input",
+		on_conflict:"circles_on_conflict"
+	},
+	circles_on_conflict:{
+		constraint:"circles_constraint",
+		update_columns:"circles_update_column",
+		where:"circles_bool_exp"
+	},
+	circles_order_by:{
+		alloc_text:"order_by",
+		api_keys_aggregate:"circle_api_keys_aggregate_order_by",
+		auto_opt_out:"order_by",
+		burns_aggregate:"burns_aggregate_order_by",
+		circle_metadata_aggregate:"circle_metadata_aggregate_order_by",
+		circle_private:"circle_private_order_by",
+		contact:"order_by",
+		contributions_aggregate:"contributions_aggregate_order_by",
+		created_at:"order_by",
+		default_opt_in:"order_by",
+		deleted_at:"order_by",
+		discord_webhook:"order_by",
+		epochs_aggregate:"epochs_aggregate_order_by",
+		fixed_payment_token_type:"order_by",
+		fixed_payment_vault_id:"order_by",
+		id:"order_by",
+		integrations_aggregate:"circle_integrations_aggregate_order_by",
+		is_verified:"order_by",
+		logo:"order_by",
+		min_vouches:"order_by",
+		name:"order_by",
+		nomination_days_limit:"order_by",
+		nominees_aggregate:"nominees_aggregate_order_by",
+		only_giver_vouch:"order_by",
+		organization:"organizations_order_by",
+		organization_id:"order_by",
+		pending_token_gifts_aggregate:"pending_token_gifts_aggregate_order_by",
+		show_pending_gives:"order_by",
+		team_sel_text:"order_by",
+		team_selection:"order_by",
+		telegram_id:"order_by",
+		token_gifts_aggregate:"token_gifts_aggregate_order_by",
+		token_name:"order_by",
+		updated_at:"order_by",
+		users_aggregate:"users_aggregate_order_by",
+		vault_transactions_aggregate:"vault_transactions_aggregate_order_by",
+		vouching:"order_by",
+		vouching_text:"order_by"
+	},
+	circles_pk_columns_input:{
+		id:"bigint"
+	},
+	circles_select_column: true,
+	circles_set_input:{
+		created_at:"timestamp",
+		deleted_at:"timestamp",
+		id:"bigint",
+		updated_at:"timestamp"
+	},
+	circles_stddev_order_by:{
+		fixed_payment_vault_id:"order_by",
+		id:"order_by",
+		min_vouches:"order_by",
+		nomination_days_limit:"order_by",
+		organization_id:"order_by"
+	},
+	circles_stddev_pop_order_by:{
+		fixed_payment_vault_id:"order_by",
+		id:"order_by",
+		min_vouches:"order_by",
+		nomination_days_limit:"order_by",
+		organization_id:"order_by"
+	},
+	circles_stddev_samp_order_by:{
+		fixed_payment_vault_id:"order_by",
+		id:"order_by",
+		min_vouches:"order_by",
+		nomination_days_limit:"order_by",
+		organization_id:"order_by"
+	},
+	circles_stream_cursor_input:{
+		initial_value:"circles_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	circles_stream_cursor_value_input:{
+		created_at:"timestamp",
+		deleted_at:"timestamp",
+		id:"bigint",
+		updated_at:"timestamp"
+	},
+	circles_sum_order_by:{
+		fixed_payment_vault_id:"order_by",
+		id:"order_by",
+		min_vouches:"order_by",
+		nomination_days_limit:"order_by",
+		organization_id:"order_by"
+	},
+	circles_update_column: true,
+	circles_updates:{
+		_inc:"circles_inc_input",
+		_set:"circles_set_input",
+		where:"circles_bool_exp"
+	},
+	circles_var_pop_order_by:{
+		fixed_payment_vault_id:"order_by",
+		id:"order_by",
+		min_vouches:"order_by",
+		nomination_days_limit:"order_by",
+		organization_id:"order_by"
+	},
+	circles_var_samp_order_by:{
+		fixed_payment_vault_id:"order_by",
+		id:"order_by",
+		min_vouches:"order_by",
+		nomination_days_limit:"order_by",
+		organization_id:"order_by"
+	},
+	circles_variance_order_by:{
+		fixed_payment_vault_id:"order_by",
+		id:"order_by",
+		min_vouches:"order_by",
+		nomination_days_limit:"order_by",
+		organization_id:"order_by"
+	},
+	claims_aggregate_fields:{
+		count:{
+			columns:"claims_select_column"
+		}
+	},
+	claims_aggregate_order_by:{
+		avg:"claims_avg_order_by",
+		count:"order_by",
+		max:"claims_max_order_by",
+		min:"claims_min_order_by",
+		stddev:"claims_stddev_order_by",
+		stddev_pop:"claims_stddev_pop_order_by",
+		stddev_samp:"claims_stddev_samp_order_by",
+		sum:"claims_sum_order_by",
+		var_pop:"claims_var_pop_order_by",
+		var_samp:"claims_var_samp_order_by",
+		variance:"claims_variance_order_by"
+	},
+	claims_arr_rel_insert_input:{
+		data:"claims_insert_input",
+		on_conflict:"claims_on_conflict"
+	},
+	claims_avg_order_by:{
+		amount:"order_by",
+		distribution_id:"order_by",
+		id:"order_by",
+		index:"order_by",
+		new_amount:"order_by",
+		profile_id:"order_by"
+	},
+	claims_bool_exp:{
+		_and:"claims_bool_exp",
+		_not:"claims_bool_exp",
+		_or:"claims_bool_exp",
+		address:"String_comparison_exp",
+		amount:"numeric_comparison_exp",
+		created_at:"timestamptz_comparison_exp",
+		distribution:"distributions_bool_exp",
+		distribution_id:"bigint_comparison_exp",
+		id:"bigint_comparison_exp",
+		index:"bigint_comparison_exp",
+		new_amount:"numeric_comparison_exp",
+		profile:"profiles_bool_exp",
+		profile_id:"bigint_comparison_exp",
+		proof:"String_comparison_exp",
+		txHash:"String_comparison_exp",
+		updated_at:"timestamptz_comparison_exp"
+	},
+	claims_constraint: true,
+	claims_inc_input:{
+		amount:"numeric",
+		distribution_id:"bigint",
+		id:"bigint",
+		index:"bigint",
+		new_amount:"numeric",
+		profile_id:"bigint"
+	},
+	claims_insert_input:{
+		amount:"numeric",
+		created_at:"timestamptz",
+		distribution:"distributions_obj_rel_insert_input",
+		distribution_id:"bigint",
+		id:"bigint",
+		index:"bigint",
+		new_amount:"numeric",
+		profile:"profiles_obj_rel_insert_input",
+		profile_id:"bigint",
+		updated_at:"timestamptz"
+	},
+	claims_max_order_by:{
+		address:"order_by",
+		amount:"order_by",
+		created_at:"order_by",
+		distribution_id:"order_by",
+		id:"order_by",
+		index:"order_by",
+		new_amount:"order_by",
+		profile_id:"order_by",
+		proof:"order_by",
+		txHash:"order_by",
+		updated_at:"order_by"
+	},
+	claims_min_order_by:{
+		address:"order_by",
+		amount:"order_by",
+		created_at:"order_by",
+		distribution_id:"order_by",
+		id:"order_by",
+		index:"order_by",
+		new_amount:"order_by",
+		profile_id:"order_by",
+		proof:"order_by",
+		txHash:"order_by",
+		updated_at:"order_by"
+	},
+	claims_on_conflict:{
+		constraint:"claims_constraint",
+		update_columns:"claims_update_column",
+		where:"claims_bool_exp"
+	},
+	claims_order_by:{
+		address:"order_by",
+		amount:"order_by",
+		created_at:"order_by",
+		distribution:"distributions_order_by",
+		distribution_id:"order_by",
+		id:"order_by",
+		index:"order_by",
+		new_amount:"order_by",
+		profile:"profiles_order_by",
+		profile_id:"order_by",
+		proof:"order_by",
+		txHash:"order_by",
+		updated_at:"order_by"
+	},
+	claims_pk_columns_input:{
+		id:"bigint"
+	},
+	claims_select_column: true,
+	claims_set_input:{
+		amount:"numeric",
+		created_at:"timestamptz",
+		distribution_id:"bigint",
+		id:"bigint",
+		index:"bigint",
+		new_amount:"numeric",
+		profile_id:"bigint",
+		updated_at:"timestamptz"
+	},
+	claims_stddev_order_by:{
+		amount:"order_by",
+		distribution_id:"order_by",
+		id:"order_by",
+		index:"order_by",
+		new_amount:"order_by",
+		profile_id:"order_by"
+	},
+	claims_stddev_pop_order_by:{
+		amount:"order_by",
+		distribution_id:"order_by",
+		id:"order_by",
+		index:"order_by",
+		new_amount:"order_by",
+		profile_id:"order_by"
+	},
+	claims_stddev_samp_order_by:{
+		amount:"order_by",
+		distribution_id:"order_by",
+		id:"order_by",
+		index:"order_by",
+		new_amount:"order_by",
+		profile_id:"order_by"
+	},
+	claims_stream_cursor_input:{
+		initial_value:"claims_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	claims_stream_cursor_value_input:{
+		amount:"numeric",
+		created_at:"timestamptz",
+		distribution_id:"bigint",
+		id:"bigint",
+		index:"bigint",
+		new_amount:"numeric",
+		profile_id:"bigint",
+		updated_at:"timestamptz"
+	},
+	claims_sum_order_by:{
+		amount:"order_by",
+		distribution_id:"order_by",
+		id:"order_by",
+		index:"order_by",
+		new_amount:"order_by",
+		profile_id:"order_by"
+	},
+	claims_update_column: true,
+	claims_updates:{
+		_inc:"claims_inc_input",
+		_set:"claims_set_input",
+		where:"claims_bool_exp"
+	},
+	claims_var_pop_order_by:{
+		amount:"order_by",
+		distribution_id:"order_by",
+		id:"order_by",
+		index:"order_by",
+		new_amount:"order_by",
+		profile_id:"order_by"
+	},
+	claims_var_samp_order_by:{
+		amount:"order_by",
+		distribution_id:"order_by",
+		id:"order_by",
+		index:"order_by",
+		new_amount:"order_by",
+		profile_id:"order_by"
+	},
+	claims_variance_order_by:{
+		amount:"order_by",
+		distribution_id:"order_by",
+		id:"order_by",
+		index:"order_by",
+		new_amount:"order_by",
+		profile_id:"order_by"
+	},
+	contributions_aggregate_fields:{
+		count:{
+			columns:"contributions_select_column"
+		}
+	},
+	contributions_aggregate_order_by:{
+		avg:"contributions_avg_order_by",
+		count:"order_by",
+		max:"contributions_max_order_by",
+		min:"contributions_min_order_by",
+		stddev:"contributions_stddev_order_by",
+		stddev_pop:"contributions_stddev_pop_order_by",
+		stddev_samp:"contributions_stddev_samp_order_by",
+		sum:"contributions_sum_order_by",
+		var_pop:"contributions_var_pop_order_by",
+		var_samp:"contributions_var_samp_order_by",
+		variance:"contributions_variance_order_by"
+	},
+	contributions_arr_rel_insert_input:{
+		data:"contributions_insert_input",
+		on_conflict:"contributions_on_conflict"
+	},
+	contributions_avg_order_by:{
+		circle_id:"order_by",
+		id:"order_by",
+		user_id:"order_by"
+	},
+	contributions_bool_exp:{
+		_and:"contributions_bool_exp",
+		_not:"contributions_bool_exp",
+		_or:"contributions_bool_exp",
+		circle:"circles_bool_exp",
+		circle_id:"bigint_comparison_exp",
+		created_at:"timestamptz_comparison_exp",
+		created_with_api_key:"circle_api_keys_bool_exp",
+		created_with_api_key_hash:"String_comparison_exp",
+		datetime_created:"timestamptz_comparison_exp",
+		deleted_at:"timestamptz_comparison_exp",
+		description:"String_comparison_exp",
+		id:"bigint_comparison_exp",
+		updated_at:"timestamptz_comparison_exp",
+		user:"users_bool_exp",
+		user_id:"bigint_comparison_exp"
+	},
+	contributions_constraint: true,
+	contributions_inc_input:{
+		circle_id:"bigint",
+		id:"bigint",
+		user_id:"bigint"
+	},
+	contributions_insert_input:{
+		circle:"circles_obj_rel_insert_input",
+		circle_id:"bigint",
+		created_at:"timestamptz",
+		created_with_api_key:"circle_api_keys_obj_rel_insert_input",
+		datetime_created:"timestamptz",
+		deleted_at:"timestamptz",
+		id:"bigint",
+		updated_at:"timestamptz",
+		user:"users_obj_rel_insert_input",
+		user_id:"bigint"
+	},
+	contributions_max_order_by:{
+		circle_id:"order_by",
+		created_at:"order_by",
+		created_with_api_key_hash:"order_by",
+		datetime_created:"order_by",
+		deleted_at:"order_by",
+		description:"order_by",
+		id:"order_by",
+		updated_at:"order_by",
+		user_id:"order_by"
+	},
+	contributions_min_order_by:{
+		circle_id:"order_by",
+		created_at:"order_by",
+		created_with_api_key_hash:"order_by",
+		datetime_created:"order_by",
+		deleted_at:"order_by",
+		description:"order_by",
+		id:"order_by",
+		updated_at:"order_by",
+		user_id:"order_by"
+	},
+	contributions_on_conflict:{
+		constraint:"contributions_constraint",
+		update_columns:"contributions_update_column",
+		where:"contributions_bool_exp"
+	},
+	contributions_order_by:{
+		circle:"circles_order_by",
+		circle_id:"order_by",
+		created_at:"order_by",
+		created_with_api_key:"circle_api_keys_order_by",
+		created_with_api_key_hash:"order_by",
+		datetime_created:"order_by",
+		deleted_at:"order_by",
+		description:"order_by",
+		id:"order_by",
+		updated_at:"order_by",
+		user:"users_order_by",
+		user_id:"order_by"
+	},
+	contributions_pk_columns_input:{
+		id:"bigint"
+	},
+	contributions_select_column: true,
+	contributions_set_input:{
+		circle_id:"bigint",
+		created_at:"timestamptz",
+		datetime_created:"timestamptz",
+		deleted_at:"timestamptz",
+		id:"bigint",
+		updated_at:"timestamptz",
+		user_id:"bigint"
+	},
+	contributions_stddev_order_by:{
+		circle_id:"order_by",
+		id:"order_by",
+		user_id:"order_by"
+	},
+	contributions_stddev_pop_order_by:{
+		circle_id:"order_by",
+		id:"order_by",
+		user_id:"order_by"
+	},
+	contributions_stddev_samp_order_by:{
+		circle_id:"order_by",
+		id:"order_by",
+		user_id:"order_by"
+	},
+	contributions_stream_cursor_input:{
+		initial_value:"contributions_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	contributions_stream_cursor_value_input:{
+		circle_id:"bigint",
+		created_at:"timestamptz",
+		datetime_created:"timestamptz",
+		deleted_at:"timestamptz",
+		id:"bigint",
+		updated_at:"timestamptz",
+		user_id:"bigint"
+	},
+	contributions_sum_order_by:{
+		circle_id:"order_by",
+		id:"order_by",
+		user_id:"order_by"
+	},
+	contributions_update_column: true,
+	contributions_updates:{
+		_inc:"contributions_inc_input",
+		_set:"contributions_set_input",
+		where:"contributions_bool_exp"
+	},
+	contributions_var_pop_order_by:{
+		circle_id:"order_by",
+		id:"order_by",
+		user_id:"order_by"
+	},
+	contributions_var_samp_order_by:{
+		circle_id:"order_by",
+		id:"order_by",
+		user_id:"order_by"
+	},
+	contributions_variance_order_by:{
+		circle_id:"order_by",
+		id:"order_by",
+		user_id:"order_by"
+	},
+	cursor_ordering: true,
+	date: "String",
+	date_comparison_exp:{
+		_eq:"date",
+		_gt:"date",
+		_gte:"date",
+		_in:"date",
+		_lt:"date",
+		_lte:"date",
+		_neq:"date",
+		_nin:"date"
+	},
+	discord_roles_circles_aggregate_fields:{
+		count:{
+			columns:"discord_roles_circles_select_column"
+		}
+	},
+	discord_roles_circles_bool_exp:{
+		_and:"discord_roles_circles_bool_exp",
+		_not:"discord_roles_circles_bool_exp",
+		_or:"discord_roles_circles_bool_exp",
+		circle:"circles_bool_exp",
+		circle_id:"bigint_comparison_exp",
+		created_at:"timestamptz_comparison_exp",
+		id:"bigint_comparison_exp",
+		role:"String_comparison_exp",
+		updated_at:"timestamptz_comparison_exp"
+	},
+	discord_roles_circles_constraint: true,
+	discord_roles_circles_inc_input:{
+		circle_id:"bigint",
+		id:"bigint"
+	},
+	discord_roles_circles_insert_input:{
+		circle:"circles_obj_rel_insert_input",
+		circle_id:"bigint",
+		created_at:"timestamptz",
+		id:"bigint",
+		updated_at:"timestamptz"
+	},
+	discord_roles_circles_on_conflict:{
+		constraint:"discord_roles_circles_constraint",
+		update_columns:"discord_roles_circles_update_column",
+		where:"discord_roles_circles_bool_exp"
+	},
+	discord_roles_circles_order_by:{
+		circle:"circles_order_by",
+		circle_id:"order_by",
+		created_at:"order_by",
+		id:"order_by",
+		role:"order_by",
+		updated_at:"order_by"
+	},
+	discord_roles_circles_pk_columns_input:{
+		id:"bigint"
+	},
+	discord_roles_circles_select_column: true,
+	discord_roles_circles_set_input:{
+		circle_id:"bigint",
+		created_at:"timestamptz",
+		id:"bigint",
+		updated_at:"timestamptz"
+	},
+	discord_roles_circles_stream_cursor_input:{
+		initial_value:"discord_roles_circles_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	discord_roles_circles_stream_cursor_value_input:{
+		circle_id:"bigint",
+		created_at:"timestamptz",
+		id:"bigint",
+		updated_at:"timestamptz"
+	},
+	discord_roles_circles_update_column: true,
+	discord_roles_circles_updates:{
+		_inc:"discord_roles_circles_inc_input",
+		_set:"discord_roles_circles_set_input",
+		where:"discord_roles_circles_bool_exp"
+	},
+	discord_users_aggregate_fields:{
+		count:{
+			columns:"discord_users_select_column"
+		}
+	},
+	discord_users_bool_exp:{
+		_and:"discord_users_bool_exp",
+		_not:"discord_users_bool_exp",
+		_or:"discord_users_bool_exp",
+		created_at:"timestamptz_comparison_exp",
+		id:"bigint_comparison_exp",
+		profile:"profiles_bool_exp",
+		profile_id:"bigint_comparison_exp",
+		updated_at:"timestamptz_comparison_exp",
+		user_snowflake:"String_comparison_exp"
+	},
+	discord_users_constraint: true,
+	discord_users_inc_input:{
+		id:"bigint",
+		profile_id:"bigint"
+	},
+	discord_users_insert_input:{
+		created_at:"timestamptz",
+		id:"bigint",
+		profile:"profiles_obj_rel_insert_input",
+		profile_id:"bigint",
+		updated_at:"timestamptz"
+	},
+	discord_users_on_conflict:{
+		constraint:"discord_users_constraint",
+		update_columns:"discord_users_update_column",
+		where:"discord_users_bool_exp"
+	},
+	discord_users_order_by:{
+		created_at:"order_by",
+		id:"order_by",
+		profile:"profiles_order_by",
+		profile_id:"order_by",
+		updated_at:"order_by",
+		user_snowflake:"order_by"
+	},
+	discord_users_pk_columns_input:{
+		id:"bigint"
+	},
+	discord_users_select_column: true,
+	discord_users_set_input:{
+		created_at:"timestamptz",
+		id:"bigint",
+		profile_id:"bigint",
+		updated_at:"timestamptz"
+	},
+	discord_users_stream_cursor_input:{
+		initial_value:"discord_users_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	discord_users_stream_cursor_value_input:{
+		created_at:"timestamptz",
+		id:"bigint",
+		profile_id:"bigint",
+		updated_at:"timestamptz"
+	},
+	discord_users_update_column: true,
+	discord_users_updates:{
+		_inc:"discord_users_inc_input",
+		_set:"discord_users_set_input",
+		where:"discord_users_bool_exp"
+	},
+	distributions:{
+		claims:{
+			distinct_on:"claims_select_column",
+			order_by:"claims_order_by",
+			where:"claims_bool_exp"
+		},
+		claims_aggregate:{
+			distinct_on:"claims_select_column",
+			order_by:"claims_order_by",
+			where:"claims_bool_exp"
+		},
+		distribution_json:{
+
+		},
+		vault_transactions:{
+			distinct_on:"vault_transactions_select_column",
+			order_by:"vault_transactions_order_by",
+			where:"vault_transactions_bool_exp"
+		},
+		vault_transactions_aggregate:{
+			distinct_on:"vault_transactions_select_column",
+			order_by:"vault_transactions_order_by",
+			where:"vault_transactions_bool_exp"
+		}
+	},
+	distributions_aggregate_fields:{
+		count:{
+			columns:"distributions_select_column"
+		}
+	},
+	distributions_aggregate_order_by:{
+		avg:"distributions_avg_order_by",
+		count:"order_by",
+		max:"distributions_max_order_by",
+		min:"distributions_min_order_by",
+		stddev:"distributions_stddev_order_by",
+		stddev_pop:"distributions_stddev_pop_order_by",
+		stddev_samp:"distributions_stddev_samp_order_by",
+		sum:"distributions_sum_order_by",
+		var_pop:"distributions_var_pop_order_by",
+		var_samp:"distributions_var_samp_order_by",
+		variance:"distributions_variance_order_by"
+	},
+	distributions_append_input:{
+		distribution_json:"jsonb"
+	},
+	distributions_arr_rel_insert_input:{
+		data:"distributions_insert_input",
+		on_conflict:"distributions_on_conflict"
+	},
+	distributions_avg_order_by:{
+		created_by:"order_by",
+		distribution_epoch_id:"order_by",
+		distribution_type:"order_by",
+		epoch_id:"order_by",
+		fixed_amount:"order_by",
+		gift_amount:"order_by",
+		id:"order_by",
+		vault_id:"order_by"
+	},
+	distributions_bool_exp:{
+		_and:"distributions_bool_exp",
+		_not:"distributions_bool_exp",
+		_or:"distributions_bool_exp",
+		claims:"claims_bool_exp",
+		created_at:"timestamp_comparison_exp",
+		created_by:"bigint_comparison_exp",
+		distribution_epoch_id:"bigint_comparison_exp",
+		distribution_json:"jsonb_comparison_exp",
+		distribution_type:"Int_comparison_exp",
+		epoch:"epochs_bool_exp",
+		epoch_id:"bigint_comparison_exp",
+		fixed_amount:"numeric_comparison_exp",
+		gift_amount:"numeric_comparison_exp",
+		id:"bigint_comparison_exp",
+		merkle_root:"String_comparison_exp",
+		profile:"profiles_bool_exp",
+		total_amount:"String_comparison_exp",
+		tx_hash:"String_comparison_exp",
+		updated_at:"timestamp_comparison_exp",
+		vault:"vaults_bool_exp",
+		vault_id:"bigint_comparison_exp",
+		vault_transactions:"vault_transactions_bool_exp"
+	},
+	distributions_constraint: true,
+	distributions_delete_at_path_input:{
+
+	},
+	distributions_delete_elem_input:{
+
+	},
+	distributions_delete_key_input:{
+
+	},
+	distributions_inc_input:{
+		created_by:"bigint",
+		distribution_epoch_id:"bigint",
+		epoch_id:"bigint",
+		fixed_amount:"numeric",
+		gift_amount:"numeric",
+		id:"bigint",
+		vault_id:"bigint"
+	},
+	distributions_insert_input:{
+		claims:"claims_arr_rel_insert_input",
+		created_at:"timestamp",
+		created_by:"bigint",
+		distribution_epoch_id:"bigint",
+		distribution_json:"jsonb",
+		epoch:"epochs_obj_rel_insert_input",
+		epoch_id:"bigint",
+		fixed_amount:"numeric",
+		gift_amount:"numeric",
+		id:"bigint",
+		profile:"profiles_obj_rel_insert_input",
+		updated_at:"timestamp",
+		vault:"vaults_obj_rel_insert_input",
+		vault_id:"bigint",
+		vault_transactions:"vault_transactions_arr_rel_insert_input"
+	},
+	distributions_max_order_by:{
+		created_at:"order_by",
+		created_by:"order_by",
+		distribution_epoch_id:"order_by",
+		distribution_type:"order_by",
+		epoch_id:"order_by",
+		fixed_amount:"order_by",
+		gift_amount:"order_by",
+		id:"order_by",
+		merkle_root:"order_by",
+		total_amount:"order_by",
+		tx_hash:"order_by",
+		updated_at:"order_by",
+		vault_id:"order_by"
+	},
+	distributions_min_order_by:{
+		created_at:"order_by",
+		created_by:"order_by",
+		distribution_epoch_id:"order_by",
+		distribution_type:"order_by",
+		epoch_id:"order_by",
+		fixed_amount:"order_by",
+		gift_amount:"order_by",
+		id:"order_by",
+		merkle_root:"order_by",
+		total_amount:"order_by",
+		tx_hash:"order_by",
+		updated_at:"order_by",
+		vault_id:"order_by"
+	},
+	distributions_obj_rel_insert_input:{
+		data:"distributions_insert_input",
+		on_conflict:"distributions_on_conflict"
+	},
+	distributions_on_conflict:{
+		constraint:"distributions_constraint",
+		update_columns:"distributions_update_column",
+		where:"distributions_bool_exp"
+	},
+	distributions_order_by:{
+		claims_aggregate:"claims_aggregate_order_by",
+		created_at:"order_by",
+		created_by:"order_by",
+		distribution_epoch_id:"order_by",
+		distribution_json:"order_by",
+		distribution_type:"order_by",
+		epoch:"epochs_order_by",
+		epoch_id:"order_by",
+		fixed_amount:"order_by",
+		gift_amount:"order_by",
+		id:"order_by",
+		merkle_root:"order_by",
+		profile:"profiles_order_by",
+		total_amount:"order_by",
+		tx_hash:"order_by",
+		updated_at:"order_by",
+		vault:"vaults_order_by",
+		vault_id:"order_by",
+		vault_transactions_aggregate:"vault_transactions_aggregate_order_by"
+	},
+	distributions_pk_columns_input:{
+		id:"bigint"
+	},
+	distributions_prepend_input:{
+		distribution_json:"jsonb"
+	},
+	distributions_select_column: true,
+	distributions_set_input:{
+		created_at:"timestamp",
+		created_by:"bigint",
+		distribution_epoch_id:"bigint",
+		distribution_json:"jsonb",
+		epoch_id:"bigint",
+		fixed_amount:"numeric",
+		gift_amount:"numeric",
+		id:"bigint",
+		updated_at:"timestamp",
+		vault_id:"bigint"
+	},
+	distributions_stddev_order_by:{
+		created_by:"order_by",
+		distribution_epoch_id:"order_by",
+		distribution_type:"order_by",
+		epoch_id:"order_by",
+		fixed_amount:"order_by",
+		gift_amount:"order_by",
+		id:"order_by",
+		vault_id:"order_by"
+	},
+	distributions_stddev_pop_order_by:{
+		created_by:"order_by",
+		distribution_epoch_id:"order_by",
+		distribution_type:"order_by",
+		epoch_id:"order_by",
+		fixed_amount:"order_by",
+		gift_amount:"order_by",
+		id:"order_by",
+		vault_id:"order_by"
+	},
+	distributions_stddev_samp_order_by:{
+		created_by:"order_by",
+		distribution_epoch_id:"order_by",
+		distribution_type:"order_by",
+		epoch_id:"order_by",
+		fixed_amount:"order_by",
+		gift_amount:"order_by",
+		id:"order_by",
+		vault_id:"order_by"
+	},
+	distributions_stream_cursor_input:{
+		initial_value:"distributions_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	distributions_stream_cursor_value_input:{
+		created_at:"timestamp",
+		created_by:"bigint",
+		distribution_epoch_id:"bigint",
+		distribution_json:"jsonb",
+		epoch_id:"bigint",
+		fixed_amount:"numeric",
+		gift_amount:"numeric",
+		id:"bigint",
+		updated_at:"timestamp",
+		vault_id:"bigint"
+	},
+	distributions_sum_order_by:{
+		created_by:"order_by",
+		distribution_epoch_id:"order_by",
+		distribution_type:"order_by",
+		epoch_id:"order_by",
+		fixed_amount:"order_by",
+		gift_amount:"order_by",
+		id:"order_by",
+		vault_id:"order_by"
+	},
+	distributions_update_column: true,
+	distributions_updates:{
+		_append:"distributions_append_input",
+		_delete_at_path:"distributions_delete_at_path_input",
+		_delete_elem:"distributions_delete_elem_input",
+		_delete_key:"distributions_delete_key_input",
+		_inc:"distributions_inc_input",
+		_prepend:"distributions_prepend_input",
+		_set:"distributions_set_input",
+		where:"distributions_bool_exp"
+	},
+	distributions_var_pop_order_by:{
+		created_by:"order_by",
+		distribution_epoch_id:"order_by",
+		distribution_type:"order_by",
+		epoch_id:"order_by",
+		fixed_amount:"order_by",
+		gift_amount:"order_by",
+		id:"order_by",
+		vault_id:"order_by"
+	},
+	distributions_var_samp_order_by:{
+		created_by:"order_by",
+		distribution_epoch_id:"order_by",
+		distribution_type:"order_by",
+		epoch_id:"order_by",
+		fixed_amount:"order_by",
+		gift_amount:"order_by",
+		id:"order_by",
+		vault_id:"order_by"
+	},
+	distributions_variance_order_by:{
+		created_by:"order_by",
+		distribution_epoch_id:"order_by",
+		distribution_type:"order_by",
+		epoch_id:"order_by",
+		fixed_amount:"order_by",
+		gift_amount:"order_by",
+		id:"order_by",
+		vault_id:"order_by"
+	},
+	epoch_pgive_data_aggregate_fields:{
+		count:{
+			columns:"epoch_pgive_data_select_column"
+		}
+	},
+	epoch_pgive_data_bool_exp:{
+		_and:"epoch_pgive_data_bool_exp",
+		_not:"epoch_pgive_data_bool_exp",
+		_or:"epoch_pgive_data_bool_exp",
+		active_months:"Int_comparison_exp",
+		active_months_bonus:"numeric_comparison_exp",
+		created_at:"timestamptz_comparison_exp",
+		epoch:"epochs_bool_exp",
+		epoch_id:"Int_comparison_exp",
+		gives_receiver_base:"numeric_comparison_exp",
+		id:"Int_comparison_exp",
+		notes_bonus:"numeric_comparison_exp",
+		pgive:"numeric_comparison_exp"
+	},
+	epoch_pgive_data_constraint: true,
+	epoch_pgive_data_inc_input:{
+		active_months_bonus:"numeric",
+		gives_receiver_base:"numeric",
+		notes_bonus:"numeric",
+		pgive:"numeric"
+	},
+	epoch_pgive_data_insert_input:{
+		active_months_bonus:"numeric",
+		created_at:"timestamptz",
+		epoch:"epochs_obj_rel_insert_input",
+		gives_receiver_base:"numeric",
+		notes_bonus:"numeric",
+		pgive:"numeric"
+	},
+	epoch_pgive_data_obj_rel_insert_input:{
+		data:"epoch_pgive_data_insert_input",
+		on_conflict:"epoch_pgive_data_on_conflict"
+	},
+	epoch_pgive_data_on_conflict:{
+		constraint:"epoch_pgive_data_constraint",
+		update_columns:"epoch_pgive_data_update_column",
+		where:"epoch_pgive_data_bool_exp"
+	},
+	epoch_pgive_data_order_by:{
+		active_months:"order_by",
+		active_months_bonus:"order_by",
+		created_at:"order_by",
+		epoch:"epochs_order_by",
+		epoch_id:"order_by",
+		gives_receiver_base:"order_by",
+		id:"order_by",
+		notes_bonus:"order_by",
+		pgive:"order_by"
+	},
+	epoch_pgive_data_pk_columns_input:{
+
+	},
+	epoch_pgive_data_select_column: true,
+	epoch_pgive_data_set_input:{
+		active_months_bonus:"numeric",
+		created_at:"timestamptz",
+		gives_receiver_base:"numeric",
+		notes_bonus:"numeric",
+		pgive:"numeric"
+	},
+	epoch_pgive_data_stream_cursor_input:{
+		initial_value:"epoch_pgive_data_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	epoch_pgive_data_stream_cursor_value_input:{
+		active_months_bonus:"numeric",
+		created_at:"timestamptz",
+		gives_receiver_base:"numeric",
+		notes_bonus:"numeric",
+		pgive:"numeric"
+	},
+	epoch_pgive_data_update_column: true,
+	epoch_pgive_data_updates:{
+		_inc:"epoch_pgive_data_inc_input",
+		_set:"epoch_pgive_data_set_input",
+		where:"epoch_pgive_data_bool_exp"
+	},
+	epochs:{
+		burns:{
+			distinct_on:"burns_select_column",
+			order_by:"burns_order_by",
+			where:"burns_bool_exp"
+		},
+		burns_aggregate:{
+			distinct_on:"burns_select_column",
+			order_by:"burns_order_by",
+			where:"burns_bool_exp"
+		},
+		distributions:{
+			distinct_on:"distributions_select_column",
+			order_by:"distributions_order_by",
+			where:"distributions_bool_exp"
+		},
+		distributions_aggregate:{
+			distinct_on:"distributions_select_column",
+			order_by:"distributions_order_by",
+			where:"distributions_bool_exp"
+		},
+		epoch_pending_token_gifts:{
+			distinct_on:"pending_token_gifts_select_column",
+			order_by:"pending_token_gifts_order_by",
+			where:"pending_token_gifts_bool_exp"
+		},
+		epoch_pending_token_gifts_aggregate:{
+			distinct_on:"pending_token_gifts_select_column",
+			order_by:"pending_token_gifts_order_by",
+			where:"pending_token_gifts_bool_exp"
+		},
+		token_gifts:{
+			distinct_on:"token_gifts_select_column",
+			order_by:"token_gifts_order_by",
+			where:"token_gifts_bool_exp"
+		},
+		token_gifts_aggregate:{
+			distinct_on:"token_gifts_select_column",
+			order_by:"token_gifts_order_by",
+			where:"token_gifts_bool_exp"
+		}
+	},
+	epochs_aggregate_fields:{
+		count:{
+			columns:"epochs_select_column"
+		}
+	},
+	epochs_aggregate_order_by:{
+		avg:"epochs_avg_order_by",
+		count:"order_by",
+		max:"epochs_max_order_by",
+		min:"epochs_min_order_by",
+		stddev:"epochs_stddev_order_by",
+		stddev_pop:"epochs_stddev_pop_order_by",
+		stddev_samp:"epochs_stddev_samp_order_by",
+		sum:"epochs_sum_order_by",
+		var_pop:"epochs_var_pop_order_by",
+		var_samp:"epochs_var_samp_order_by",
+		variance:"epochs_variance_order_by"
+	},
+	epochs_arr_rel_insert_input:{
+		data:"epochs_insert_input",
+		on_conflict:"epochs_on_conflict"
+	},
+	epochs_avg_order_by:{
+		circle_id:"order_by",
+		days:"order_by",
+		grant:"order_by",
+		id:"order_by",
+		number:"order_by",
+		regift_days:"order_by",
+		repeat:"order_by",
+		repeat_day_of_month:"order_by"
+	},
+	epochs_bool_exp:{
+		_and:"epochs_bool_exp",
+		_not:"epochs_bool_exp",
+		_or:"epochs_bool_exp",
+		burns:"burns_bool_exp",
+		circle:"circles_bool_exp",
+		circle_id:"Int_comparison_exp",
+		created_at:"timestamp_comparison_exp",
+		days:"Int_comparison_exp",
+		description:"String_comparison_exp",
+		distributions:"distributions_bool_exp",
+		end_date:"timestamptz_comparison_exp",
+		ended:"Boolean_comparison_exp",
+		epoch_pending_token_gifts:"pending_token_gifts_bool_exp",
+		grant:"numeric_comparison_exp",
+		id:"bigint_comparison_exp",
+		notified_before_end:"timestamp_comparison_exp",
+		notified_end:"timestamp_comparison_exp",
+		notified_start:"timestamp_comparison_exp",
+		number:"Int_comparison_exp",
+		pgive_data:"epoch_pgive_data_bool_exp",
+		regift_days:"Int_comparison_exp",
+		repeat:"Int_comparison_exp",
+		repeat_day_of_month:"Int_comparison_exp",
+		start_date:"timestamptz_comparison_exp",
+		token_gifts:"token_gifts_bool_exp",
+		updated_at:"timestamp_comparison_exp"
+	},
+	epochs_constraint: true,
+	epochs_inc_input:{
+		grant:"numeric",
+		id:"bigint"
+	},
+	epochs_insert_input:{
+		burns:"burns_arr_rel_insert_input",
+		circle:"circles_obj_rel_insert_input",
+		created_at:"timestamp",
+		distributions:"distributions_arr_rel_insert_input",
+		end_date:"timestamptz",
+		epoch_pending_token_gifts:"pending_token_gifts_arr_rel_insert_input",
+		grant:"numeric",
+		id:"bigint",
+		notified_before_end:"timestamp",
+		notified_end:"timestamp",
+		notified_start:"timestamp",
+		pgive_data:"epoch_pgive_data_obj_rel_insert_input",
+		start_date:"timestamptz",
+		token_gifts:"token_gifts_arr_rel_insert_input",
+		updated_at:"timestamp"
+	},
+	epochs_max_order_by:{
+		circle_id:"order_by",
+		created_at:"order_by",
+		days:"order_by",
+		description:"order_by",
+		end_date:"order_by",
+		grant:"order_by",
+		id:"order_by",
+		notified_before_end:"order_by",
+		notified_end:"order_by",
+		notified_start:"order_by",
+		number:"order_by",
+		regift_days:"order_by",
+		repeat:"order_by",
+		repeat_day_of_month:"order_by",
+		start_date:"order_by",
+		updated_at:"order_by"
+	},
+	epochs_min_order_by:{
+		circle_id:"order_by",
+		created_at:"order_by",
+		days:"order_by",
+		description:"order_by",
+		end_date:"order_by",
+		grant:"order_by",
+		id:"order_by",
+		notified_before_end:"order_by",
+		notified_end:"order_by",
+		notified_start:"order_by",
+		number:"order_by",
+		regift_days:"order_by",
+		repeat:"order_by",
+		repeat_day_of_month:"order_by",
+		start_date:"order_by",
+		updated_at:"order_by"
+	},
+	epochs_obj_rel_insert_input:{
+		data:"epochs_insert_input",
+		on_conflict:"epochs_on_conflict"
+	},
+	epochs_on_conflict:{
+		constraint:"epochs_constraint",
+		update_columns:"epochs_update_column",
+		where:"epochs_bool_exp"
+	},
+	epochs_order_by:{
+		burns_aggregate:"burns_aggregate_order_by",
+		circle:"circles_order_by",
+		circle_id:"order_by",
+		created_at:"order_by",
+		days:"order_by",
+		description:"order_by",
+		distributions_aggregate:"distributions_aggregate_order_by",
+		end_date:"order_by",
+		ended:"order_by",
+		epoch_pending_token_gifts_aggregate:"pending_token_gifts_aggregate_order_by",
+		grant:"order_by",
+		id:"order_by",
+		notified_before_end:"order_by",
+		notified_end:"order_by",
+		notified_start:"order_by",
+		number:"order_by",
+		pgive_data:"epoch_pgive_data_order_by",
+		regift_days:"order_by",
+		repeat:"order_by",
+		repeat_day_of_month:"order_by",
+		start_date:"order_by",
+		token_gifts_aggregate:"token_gifts_aggregate_order_by",
+		updated_at:"order_by"
+	},
+	epochs_pk_columns_input:{
+		id:"bigint"
+	},
+	epochs_select_column: true,
+	epochs_set_input:{
+		created_at:"timestamp",
+		end_date:"timestamptz",
+		grant:"numeric",
+		id:"bigint",
+		notified_before_end:"timestamp",
+		notified_end:"timestamp",
+		notified_start:"timestamp",
+		start_date:"timestamptz",
+		updated_at:"timestamp"
+	},
+	epochs_stddev_order_by:{
+		circle_id:"order_by",
+		days:"order_by",
+		grant:"order_by",
+		id:"order_by",
+		number:"order_by",
+		regift_days:"order_by",
+		repeat:"order_by",
+		repeat_day_of_month:"order_by"
+	},
+	epochs_stddev_pop_order_by:{
+		circle_id:"order_by",
+		days:"order_by",
+		grant:"order_by",
+		id:"order_by",
+		number:"order_by",
+		regift_days:"order_by",
+		repeat:"order_by",
+		repeat_day_of_month:"order_by"
+	},
+	epochs_stddev_samp_order_by:{
+		circle_id:"order_by",
+		days:"order_by",
+		grant:"order_by",
+		id:"order_by",
+		number:"order_by",
+		regift_days:"order_by",
+		repeat:"order_by",
+		repeat_day_of_month:"order_by"
+	},
+	epochs_stream_cursor_input:{
+		initial_value:"epochs_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	epochs_stream_cursor_value_input:{
+		created_at:"timestamp",
+		end_date:"timestamptz",
+		grant:"numeric",
+		id:"bigint",
+		notified_before_end:"timestamp",
+		notified_end:"timestamp",
+		notified_start:"timestamp",
+		start_date:"timestamptz",
+		updated_at:"timestamp"
+	},
+	epochs_sum_order_by:{
+		circle_id:"order_by",
+		days:"order_by",
+		grant:"order_by",
+		id:"order_by",
+		number:"order_by",
+		regift_days:"order_by",
+		repeat:"order_by",
+		repeat_day_of_month:"order_by"
+	},
+	epochs_update_column: true,
+	epochs_updates:{
+		_inc:"epochs_inc_input",
+		_set:"epochs_set_input",
+		where:"epochs_bool_exp"
+	},
+	epochs_var_pop_order_by:{
+		circle_id:"order_by",
+		days:"order_by",
+		grant:"order_by",
+		id:"order_by",
+		number:"order_by",
+		regift_days:"order_by",
+		repeat:"order_by",
+		repeat_day_of_month:"order_by"
+	},
+	epochs_var_samp_order_by:{
+		circle_id:"order_by",
+		days:"order_by",
+		grant:"order_by",
+		id:"order_by",
+		number:"order_by",
+		regift_days:"order_by",
+		repeat:"order_by",
+		repeat_day_of_month:"order_by"
+	},
+	epochs_variance_order_by:{
+		circle_id:"order_by",
+		days:"order_by",
+		grant:"order_by",
+		id:"order_by",
+		number:"order_by",
+		regift_days:"order_by",
+		repeat:"order_by",
+		repeat_day_of_month:"order_by"
+	},
+	gift_private_aggregate_fields:{
+		count:{
+			columns:"gift_private_select_column"
+		}
+	},
+	gift_private_bool_exp:{
+		_and:"gift_private_bool_exp",
+		_not:"gift_private_bool_exp",
+		_or:"gift_private_bool_exp",
+		gift_id:"bigint_comparison_exp",
+		note:"String_comparison_exp",
+		recipient:"users_bool_exp",
+		recipient_id:"bigint_comparison_exp",
+		sender:"users_bool_exp",
+		sender_id:"bigint_comparison_exp"
+	},
+	gift_private_inc_input:{
+		gift_id:"bigint",
+		recipient_id:"bigint",
+		sender_id:"bigint"
+	},
+	gift_private_insert_input:{
+		gift_id:"bigint",
+		recipient:"users_obj_rel_insert_input",
+		recipient_id:"bigint",
+		sender:"users_obj_rel_insert_input",
+		sender_id:"bigint"
+	},
+	gift_private_obj_rel_insert_input:{
+		data:"gift_private_insert_input"
+	},
+	gift_private_order_by:{
+		gift_id:"order_by",
+		note:"order_by",
+		recipient:"users_order_by",
+		recipient_id:"order_by",
+		sender:"users_order_by",
+		sender_id:"order_by"
+	},
+	gift_private_select_column: true,
+	gift_private_set_input:{
+		gift_id:"bigint",
+		recipient_id:"bigint",
+		sender_id:"bigint"
+	},
+	gift_private_stream_cursor_input:{
+		initial_value:"gift_private_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	gift_private_stream_cursor_value_input:{
+		gift_id:"bigint",
+		recipient_id:"bigint",
+		sender_id:"bigint"
+	},
+	gift_private_updates:{
+		_inc:"gift_private_inc_input",
+		_set:"gift_private_set_input",
+		where:"gift_private_bool_exp"
+	},
+	histories_aggregate_fields:{
+		count:{
+			columns:"histories_select_column"
+		}
+	},
+	histories_bool_exp:{
+		_and:"histories_bool_exp",
+		_not:"histories_bool_exp",
+		_or:"histories_bool_exp",
+		bio:"String_comparison_exp",
+		circle:"circles_bool_exp",
+		circle_id:"Int_comparison_exp",
+		created_at:"timestamp_comparison_exp",
+		epoch:"epochs_bool_exp",
+		epoch_id:"Int_comparison_exp",
+		id:"bigint_comparison_exp",
+		updated_at:"timestamp_comparison_exp",
+		user:"users_bool_exp",
+		user_id:"Int_comparison_exp"
+	},
+	histories_constraint: true,
+	histories_inc_input:{
+		id:"bigint"
+	},
+	histories_insert_input:{
+		circle:"circles_obj_rel_insert_input",
+		created_at:"timestamp",
+		epoch:"epochs_obj_rel_insert_input",
+		id:"bigint",
+		updated_at:"timestamp",
+		user:"users_obj_rel_insert_input"
+	},
+	histories_on_conflict:{
+		constraint:"histories_constraint",
+		update_columns:"histories_update_column",
+		where:"histories_bool_exp"
+	},
+	histories_order_by:{
+		bio:"order_by",
+		circle:"circles_order_by",
+		circle_id:"order_by",
+		created_at:"order_by",
+		epoch:"epochs_order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		updated_at:"order_by",
+		user:"users_order_by",
+		user_id:"order_by"
+	},
+	histories_pk_columns_input:{
+		id:"bigint"
+	},
+	histories_select_column: true,
+	histories_set_input:{
+		created_at:"timestamp",
+		id:"bigint",
+		updated_at:"timestamp"
+	},
+	histories_stream_cursor_input:{
+		initial_value:"histories_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	histories_stream_cursor_value_input:{
+		created_at:"timestamp",
+		id:"bigint",
+		updated_at:"timestamp"
+	},
+	histories_update_column: true,
+	histories_updates:{
+		_inc:"histories_inc_input",
+		_set:"histories_set_input",
+		where:"histories_bool_exp"
+	},
+	interaction_events:{
+		data:{
+
+		}
+	},
+	interaction_events_aggregate_fields:{
+		count:{
+			columns:"interaction_events_select_column"
+		}
+	},
+	interaction_events_append_input:{
+		data:"jsonb"
+	},
+	interaction_events_bool_exp:{
+		_and:"interaction_events_bool_exp",
+		_not:"interaction_events_bool_exp",
+		_or:"interaction_events_bool_exp",
+		circle:"circles_bool_exp",
+		circle_id:"Int_comparison_exp",
+		created_at:"timestamptz_comparison_exp",
+		data:"jsonb_comparison_exp",
+		event_subtype:"String_comparison_exp",
+		event_type:"String_comparison_exp",
+		id:"Int_comparison_exp",
+		org_id:"Int_comparison_exp",
+		organization:"organizations_bool_exp",
+		profile:"profiles_bool_exp",
+		profile_id:"Int_comparison_exp",
+		updated_at:"timestamptz_comparison_exp"
+	},
+	interaction_events_constraint: true,
+	interaction_events_delete_at_path_input:{
+
+	},
+	interaction_events_delete_elem_input:{
+
+	},
+	interaction_events_delete_key_input:{
+
+	},
+	interaction_events_inc_input:{
+
+	},
+	interaction_events_insert_input:{
+		circle:"circles_obj_rel_insert_input",
+		created_at:"timestamptz",
+		data:"jsonb",
+		organization:"organizations_obj_rel_insert_input",
+		profile:"profiles_obj_rel_insert_input",
+		updated_at:"timestamptz"
+	},
+	interaction_events_on_conflict:{
+		constraint:"interaction_events_constraint",
+		update_columns:"interaction_events_update_column",
+		where:"interaction_events_bool_exp"
+	},
+	interaction_events_order_by:{
+		circle:"circles_order_by",
+		circle_id:"order_by",
+		created_at:"order_by",
+		data:"order_by",
+		event_subtype:"order_by",
+		event_type:"order_by",
+		id:"order_by",
+		org_id:"order_by",
+		organization:"organizations_order_by",
+		profile:"profiles_order_by",
+		profile_id:"order_by",
+		updated_at:"order_by"
+	},
+	interaction_events_pk_columns_input:{
+
+	},
+	interaction_events_prepend_input:{
+		data:"jsonb"
+	},
+	interaction_events_select_column: true,
+	interaction_events_set_input:{
+		created_at:"timestamptz",
+		data:"jsonb",
+		updated_at:"timestamptz"
+	},
+	interaction_events_stream_cursor_input:{
+		initial_value:"interaction_events_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	interaction_events_stream_cursor_value_input:{
+		created_at:"timestamptz",
+		data:"jsonb",
+		updated_at:"timestamptz"
+	},
+	interaction_events_update_column: true,
+	interaction_events_updates:{
+		_append:"interaction_events_append_input",
+		_delete_at_path:"interaction_events_delete_at_path_input",
+		_delete_elem:"interaction_events_delete_elem_input",
+		_delete_key:"interaction_events_delete_key_input",
+		_inc:"interaction_events_inc_input",
+		_prepend:"interaction_events_prepend_input",
+		_set:"interaction_events_set_input",
+		where:"interaction_events_bool_exp"
+	},
+	json: "String",
+	json_comparison_exp:{
+		_eq:"json",
+		_gt:"json",
+		_gte:"json",
+		_in:"json",
+		_lt:"json",
+		_lte:"json",
+		_neq:"json",
+		_nin:"json"
+	},
+	jsonb: "String",
+	jsonb_cast_exp:{
+		String:"String_comparison_exp"
+	},
+	jsonb_comparison_exp:{
+		_cast:"jsonb_cast_exp",
+		_contained_in:"jsonb",
+		_contains:"jsonb",
+		_eq:"jsonb",
+		_gt:"jsonb",
+		_gte:"jsonb",
+		_in:"jsonb",
+		_lt:"jsonb",
+		_lte:"jsonb",
+		_neq:"jsonb",
+		_nin:"jsonb"
+	},
+	locked_token_distributions:{
+		distribution_json:{
+
+		}
+	},
+	locked_token_distributions_aggregate_fields:{
+		count:{
+			columns:"locked_token_distributions_select_column"
+		}
+	},
+	locked_token_distributions_append_input:{
+		distribution_json:"jsonb"
+	},
+	locked_token_distributions_bool_exp:{
+		_and:"locked_token_distributions_bool_exp",
+		_not:"locked_token_distributions_bool_exp",
+		_or:"locked_token_distributions_bool_exp",
+		distributed_by:"bigint_comparison_exp",
+		distribution_json:"jsonb_comparison_exp",
+		epoch:"epochs_bool_exp",
+		epoch_id:"bigint_comparison_exp",
+		gift_amount:"numeric_comparison_exp",
+		id:"bigint_comparison_exp",
+		profile:"profiles_bool_exp",
+		tx_hash:"String_comparison_exp"
+	},
+	locked_token_distributions_constraint: true,
+	locked_token_distributions_delete_at_path_input:{
+
+	},
+	locked_token_distributions_delete_elem_input:{
+
+	},
+	locked_token_distributions_delete_key_input:{
+
+	},
+	locked_token_distributions_inc_input:{
+		distributed_by:"bigint",
+		epoch_id:"bigint",
+		gift_amount:"numeric",
+		id:"bigint"
+	},
+	locked_token_distributions_insert_input:{
+		distributed_by:"bigint",
+		distribution_json:"jsonb",
+		epoch:"epochs_obj_rel_insert_input",
+		epoch_id:"bigint",
+		gift_amount:"numeric",
+		id:"bigint",
+		profile:"profiles_obj_rel_insert_input"
+	},
+	locked_token_distributions_on_conflict:{
+		constraint:"locked_token_distributions_constraint",
+		update_columns:"locked_token_distributions_update_column",
+		where:"locked_token_distributions_bool_exp"
+	},
+	locked_token_distributions_order_by:{
+		distributed_by:"order_by",
+		distribution_json:"order_by",
+		epoch:"epochs_order_by",
+		epoch_id:"order_by",
+		gift_amount:"order_by",
+		id:"order_by",
+		profile:"profiles_order_by",
+		tx_hash:"order_by"
+	},
+	locked_token_distributions_pk_columns_input:{
+		id:"bigint"
+	},
+	locked_token_distributions_prepend_input:{
+		distribution_json:"jsonb"
+	},
+	locked_token_distributions_select_column: true,
+	locked_token_distributions_set_input:{
+		distributed_by:"bigint",
+		distribution_json:"jsonb",
+		epoch_id:"bigint",
+		gift_amount:"numeric",
+		id:"bigint"
+	},
+	locked_token_distributions_stream_cursor_input:{
+		initial_value:"locked_token_distributions_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	locked_token_distributions_stream_cursor_value_input:{
+		distributed_by:"bigint",
+		distribution_json:"jsonb",
+		epoch_id:"bigint",
+		gift_amount:"numeric",
+		id:"bigint"
+	},
+	locked_token_distributions_update_column: true,
+	locked_token_distributions_updates:{
+		_append:"locked_token_distributions_append_input",
+		_delete_at_path:"locked_token_distributions_delete_at_path_input",
+		_delete_elem:"locked_token_distributions_delete_elem_input",
+		_delete_key:"locked_token_distributions_delete_key_input",
+		_inc:"locked_token_distributions_inc_input",
+		_prepend:"locked_token_distributions_prepend_input",
+		_set:"locked_token_distributions_set_input",
+		where:"locked_token_distributions_bool_exp"
+	},
+	member_epoch_pgives_aggregate_fields:{
+		count:{
+			columns:"member_epoch_pgives_select_column"
+		}
+	},
+	member_epoch_pgives_bool_exp:{
+		_and:"member_epoch_pgives_bool_exp",
+		_not:"member_epoch_pgives_bool_exp",
+		_or:"member_epoch_pgives_bool_exp",
+		created_at:"timestamptz_comparison_exp",
+		epoch:"epochs_bool_exp",
+		epoch_id:"Int_comparison_exp",
+		gives_received:"Int_comparison_exp",
+		id:"Int_comparison_exp",
+		normalized_pgive:"numeric_comparison_exp",
+		opt_out_bonus:"numeric_comparison_exp",
+		pgive:"numeric_comparison_exp",
+		user:"users_bool_exp",
+		user_id:"Int_comparison_exp"
+	},
+	member_epoch_pgives_constraint: true,
+	member_epoch_pgives_inc_input:{
+		normalized_pgive:"numeric",
+		opt_out_bonus:"numeric",
+		pgive:"numeric"
+	},
+	member_epoch_pgives_insert_input:{
+		created_at:"timestamptz",
+		epoch:"epochs_obj_rel_insert_input",
+		normalized_pgive:"numeric",
+		opt_out_bonus:"numeric",
+		pgive:"numeric",
+		user:"users_obj_rel_insert_input"
+	},
+	member_epoch_pgives_on_conflict:{
+		constraint:"member_epoch_pgives_constraint",
+		update_columns:"member_epoch_pgives_update_column",
+		where:"member_epoch_pgives_bool_exp"
+	},
+	member_epoch_pgives_order_by:{
+		created_at:"order_by",
+		epoch:"epochs_order_by",
+		epoch_id:"order_by",
+		gives_received:"order_by",
+		id:"order_by",
+		normalized_pgive:"order_by",
+		opt_out_bonus:"order_by",
+		pgive:"order_by",
+		user:"users_order_by",
+		user_id:"order_by"
+	},
+	member_epoch_pgives_pk_columns_input:{
+
+	},
+	member_epoch_pgives_select_column: true,
+	member_epoch_pgives_set_input:{
+		created_at:"timestamptz",
+		normalized_pgive:"numeric",
+		opt_out_bonus:"numeric",
+		pgive:"numeric"
+	},
+	member_epoch_pgives_stream_cursor_input:{
+		initial_value:"member_epoch_pgives_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	member_epoch_pgives_stream_cursor_value_input:{
+		created_at:"timestamptz",
+		normalized_pgive:"numeric",
+		opt_out_bonus:"numeric",
+		pgive:"numeric"
+	},
+	member_epoch_pgives_update_column: true,
+	member_epoch_pgives_updates:{
+		_inc:"member_epoch_pgives_inc_input",
+		_set:"member_epoch_pgives_set_input",
+		where:"member_epoch_pgives_bool_exp"
+	},
+	mutation_root:{
+		adminUpdateUser:{
+			payload:"AdminUpdateUserInput"
+		},
+		allocationCsv:{
+			payload:"AllocationCsvInput"
+		},
+		createCircle:{
+			payload:"CreateCircleInput"
+		},
+		createEpoch:{
+			payload:"CreateEpochInput"
+		},
+		createNominee:{
+			payload:"CreateNomineeInput"
+		},
+		createUserWithToken:{
+			payload:"CreateUserWithTokenInput"
+		},
+		createUsers:{
+			payload:"CreateUsersInput"
+		},
+		createVault:{
+			payload:"CreateVaultInput"
+		},
+		createVaultTx:{
+			payload:"LogVaultTxInput"
+		},
+		deleteCircle:{
+			payload:"DeleteCircleInput"
+		},
+		deleteContribution:{
+			payload:"DeleteContributionInput"
+		},
+		deleteEpoch:{
+			payload:"DeleteEpochInput"
+		},
+		deleteUser:{
+			payload:"DeleteUserInput"
+		},
+		deleteUserBulk:{
+			payload:"DeleteUserBulkInput"
+		},
+		delete_burns:{
+			where:"burns_bool_exp"
+		},
+		delete_burns_by_pk:{
+			id:"bigint"
+		},
+		delete_circle_api_keys:{
+			where:"circle_api_keys_bool_exp"
+		},
+		delete_circle_api_keys_by_pk:{
+
+		},
+		delete_circle_integrations:{
+			where:"circle_integrations_bool_exp"
+		},
+		delete_circle_integrations_by_pk:{
+			id:"bigint"
+		},
+		delete_circle_metadata:{
+			where:"circle_metadata_bool_exp"
+		},
+		delete_circle_metadata_by_pk:{
+			id:"bigint"
+		},
+		delete_circle_private:{
+			where:"circle_private_bool_exp"
+		},
+		delete_circle_share_tokens:{
+			where:"circle_share_tokens_bool_exp"
+		},
+		delete_circle_share_tokens_by_pk:{
+			circle_id:"bigint"
+		},
+		delete_circles:{
+			where:"circles_bool_exp"
+		},
+		delete_circles_by_pk:{
+			id:"bigint"
+		},
+		delete_claims:{
+			where:"claims_bool_exp"
+		},
+		delete_claims_by_pk:{
+			id:"bigint"
+		},
+		delete_contributions:{
+			where:"contributions_bool_exp"
+		},
+		delete_contributions_by_pk:{
+			id:"bigint"
+		},
+		delete_discord_roles_circles:{
+			where:"discord_roles_circles_bool_exp"
+		},
+		delete_discord_roles_circles_by_pk:{
+			id:"bigint"
+		},
+		delete_discord_users:{
+			where:"discord_users_bool_exp"
+		},
+		delete_discord_users_by_pk:{
+			id:"bigint"
+		},
+		delete_distributions:{
+			where:"distributions_bool_exp"
+		},
+		delete_distributions_by_pk:{
+			id:"bigint"
+		},
+		delete_epoch_pgive_data:{
+			where:"epoch_pgive_data_bool_exp"
+		},
+		delete_epoch_pgive_data_by_pk:{
+
+		},
+		delete_epochs:{
+			where:"epochs_bool_exp"
+		},
+		delete_epochs_by_pk:{
+			id:"bigint"
+		},
+		delete_gift_private:{
+			where:"gift_private_bool_exp"
+		},
+		delete_histories:{
+			where:"histories_bool_exp"
+		},
+		delete_histories_by_pk:{
+			id:"bigint"
+		},
+		delete_interaction_events:{
+			where:"interaction_events_bool_exp"
+		},
+		delete_interaction_events_by_pk:{
+
+		},
+		delete_locked_token_distributions:{
+			where:"locked_token_distributions_bool_exp"
+		},
+		delete_locked_token_distributions_by_pk:{
+			id:"bigint"
+		},
+		delete_member_epoch_pgives:{
+			where:"member_epoch_pgives_bool_exp"
+		},
+		delete_member_epoch_pgives_by_pk:{
+
+		},
+		delete_nominees:{
+			where:"nominees_bool_exp"
+		},
+		delete_nominees_by_pk:{
+			id:"bigint"
+		},
+		delete_organizations:{
+			where:"organizations_bool_exp"
+		},
+		delete_organizations_by_pk:{
+			id:"bigint"
+		},
+		delete_pending_gift_private:{
+			where:"pending_gift_private_bool_exp"
+		},
+		delete_pending_token_gifts:{
+			where:"pending_token_gifts_bool_exp"
+		},
+		delete_pending_token_gifts_by_pk:{
+			id:"bigint"
+		},
+		delete_pending_vault_transactions:{
+			where:"pending_vault_transactions_bool_exp"
+		},
+		delete_pending_vault_transactions_by_pk:{
+
+		},
+		delete_personal_access_tokens:{
+			where:"personal_access_tokens_bool_exp"
+		},
+		delete_personal_access_tokens_by_pk:{
+			id:"bigint"
+		},
+		delete_profiles:{
+			where:"profiles_bool_exp"
+		},
+		delete_profiles_by_pk:{
+			id:"bigint"
+		},
+		delete_teammates:{
+			where:"teammates_bool_exp"
+		},
+		delete_teammates_by_pk:{
+			id:"bigint"
+		},
+		delete_token_gifts:{
+			where:"token_gifts_bool_exp"
+		},
+		delete_token_gifts_by_pk:{
+			id:"bigint"
+		},
+		delete_users:{
+			where:"users_bool_exp"
+		},
+		delete_users_by_pk:{
+			id:"bigint"
+		},
+		delete_vault_transactions:{
+			where:"vault_transactions_bool_exp"
+		},
+		delete_vault_transactions_by_pk:{
+			id:"bigint"
+		},
+		delete_vault_tx_types:{
+			where:"vault_tx_types_bool_exp"
+		},
+		delete_vault_tx_types_by_pk:{
+
+		},
+		delete_vaults:{
+			where:"vaults_bool_exp"
+		},
+		delete_vaults_by_pk:{
+			id:"bigint"
+		},
+		delete_vouches:{
+			where:"vouches_bool_exp"
+		},
+		delete_vouches_by_pk:{
+			id:"bigint"
+		},
+		generateApiKey:{
+			payload:"GenerateApiKeyInput"
+		},
+		insert_burns:{
+			objects:"burns_insert_input",
+			on_conflict:"burns_on_conflict"
+		},
+		insert_burns_one:{
+			object:"burns_insert_input",
+			on_conflict:"burns_on_conflict"
+		},
+		insert_circle_api_keys:{
+			objects:"circle_api_keys_insert_input",
+			on_conflict:"circle_api_keys_on_conflict"
+		},
+		insert_circle_api_keys_one:{
+			object:"circle_api_keys_insert_input",
+			on_conflict:"circle_api_keys_on_conflict"
+		},
+		insert_circle_integrations:{
+			objects:"circle_integrations_insert_input",
+			on_conflict:"circle_integrations_on_conflict"
+		},
+		insert_circle_integrations_one:{
+			object:"circle_integrations_insert_input",
+			on_conflict:"circle_integrations_on_conflict"
+		},
+		insert_circle_metadata:{
+			objects:"circle_metadata_insert_input",
+			on_conflict:"circle_metadata_on_conflict"
+		},
+		insert_circle_metadata_one:{
+			object:"circle_metadata_insert_input",
+			on_conflict:"circle_metadata_on_conflict"
+		},
+		insert_circle_private:{
+			objects:"circle_private_insert_input"
+		},
+		insert_circle_private_one:{
+			object:"circle_private_insert_input"
+		},
+		insert_circle_share_tokens:{
+			objects:"circle_share_tokens_insert_input",
+			on_conflict:"circle_share_tokens_on_conflict"
+		},
+		insert_circle_share_tokens_one:{
+			object:"circle_share_tokens_insert_input",
+			on_conflict:"circle_share_tokens_on_conflict"
+		},
+		insert_circles:{
+			objects:"circles_insert_input",
+			on_conflict:"circles_on_conflict"
+		},
+		insert_circles_one:{
+			object:"circles_insert_input",
+			on_conflict:"circles_on_conflict"
+		},
+		insert_claims:{
+			objects:"claims_insert_input",
+			on_conflict:"claims_on_conflict"
+		},
+		insert_claims_one:{
+			object:"claims_insert_input",
+			on_conflict:"claims_on_conflict"
+		},
+		insert_contributions:{
+			objects:"contributions_insert_input",
+			on_conflict:"contributions_on_conflict"
+		},
+		insert_contributions_one:{
+			object:"contributions_insert_input",
+			on_conflict:"contributions_on_conflict"
+		},
+		insert_discord_roles_circles:{
+			objects:"discord_roles_circles_insert_input",
+			on_conflict:"discord_roles_circles_on_conflict"
+		},
+		insert_discord_roles_circles_one:{
+			object:"discord_roles_circles_insert_input",
+			on_conflict:"discord_roles_circles_on_conflict"
+		},
+		insert_discord_users:{
+			objects:"discord_users_insert_input",
+			on_conflict:"discord_users_on_conflict"
+		},
+		insert_discord_users_one:{
+			object:"discord_users_insert_input",
+			on_conflict:"discord_users_on_conflict"
+		},
+		insert_distributions:{
+			objects:"distributions_insert_input",
+			on_conflict:"distributions_on_conflict"
+		},
+		insert_distributions_one:{
+			object:"distributions_insert_input",
+			on_conflict:"distributions_on_conflict"
+		},
+		insert_epoch_pgive_data:{
+			objects:"epoch_pgive_data_insert_input",
+			on_conflict:"epoch_pgive_data_on_conflict"
+		},
+		insert_epoch_pgive_data_one:{
+			object:"epoch_pgive_data_insert_input",
+			on_conflict:"epoch_pgive_data_on_conflict"
+		},
+		insert_epochs:{
+			objects:"epochs_insert_input",
+			on_conflict:"epochs_on_conflict"
+		},
+		insert_epochs_one:{
+			object:"epochs_insert_input",
+			on_conflict:"epochs_on_conflict"
+		},
+		insert_gift_private:{
+			objects:"gift_private_insert_input"
+		},
+		insert_gift_private_one:{
+			object:"gift_private_insert_input"
+		},
+		insert_histories:{
+			objects:"histories_insert_input",
+			on_conflict:"histories_on_conflict"
+		},
+		insert_histories_one:{
+			object:"histories_insert_input",
+			on_conflict:"histories_on_conflict"
+		},
+		insert_interaction_events:{
+			objects:"interaction_events_insert_input",
+			on_conflict:"interaction_events_on_conflict"
+		},
+		insert_interaction_events_one:{
+			object:"interaction_events_insert_input",
+			on_conflict:"interaction_events_on_conflict"
+		},
+		insert_locked_token_distributions:{
+			objects:"locked_token_distributions_insert_input",
+			on_conflict:"locked_token_distributions_on_conflict"
+		},
+		insert_locked_token_distributions_one:{
+			object:"locked_token_distributions_insert_input",
+			on_conflict:"locked_token_distributions_on_conflict"
+		},
+		insert_member_epoch_pgives:{
+			objects:"member_epoch_pgives_insert_input",
+			on_conflict:"member_epoch_pgives_on_conflict"
+		},
+		insert_member_epoch_pgives_one:{
+			object:"member_epoch_pgives_insert_input",
+			on_conflict:"member_epoch_pgives_on_conflict"
+		},
+		insert_nominees:{
+			objects:"nominees_insert_input",
+			on_conflict:"nominees_on_conflict"
+		},
+		insert_nominees_one:{
+			object:"nominees_insert_input",
+			on_conflict:"nominees_on_conflict"
+		},
+		insert_organizations:{
+			objects:"organizations_insert_input",
+			on_conflict:"organizations_on_conflict"
+		},
+		insert_organizations_one:{
+			object:"organizations_insert_input",
+			on_conflict:"organizations_on_conflict"
+		},
+		insert_pending_gift_private:{
+			objects:"pending_gift_private_insert_input"
+		},
+		insert_pending_gift_private_one:{
+			object:"pending_gift_private_insert_input"
+		},
+		insert_pending_token_gifts:{
+			objects:"pending_token_gifts_insert_input",
+			on_conflict:"pending_token_gifts_on_conflict"
+		},
+		insert_pending_token_gifts_one:{
+			object:"pending_token_gifts_insert_input",
+			on_conflict:"pending_token_gifts_on_conflict"
+		},
+		insert_pending_vault_transactions:{
+			objects:"pending_vault_transactions_insert_input",
+			on_conflict:"pending_vault_transactions_on_conflict"
+		},
+		insert_pending_vault_transactions_one:{
+			object:"pending_vault_transactions_insert_input",
+			on_conflict:"pending_vault_transactions_on_conflict"
+		},
+		insert_personal_access_tokens:{
+			objects:"personal_access_tokens_insert_input",
+			on_conflict:"personal_access_tokens_on_conflict"
+		},
+		insert_personal_access_tokens_one:{
+			object:"personal_access_tokens_insert_input",
+			on_conflict:"personal_access_tokens_on_conflict"
+		},
+		insert_profiles:{
+			objects:"profiles_insert_input",
+			on_conflict:"profiles_on_conflict"
+		},
+		insert_profiles_one:{
+			object:"profiles_insert_input",
+			on_conflict:"profiles_on_conflict"
+		},
+		insert_teammates:{
+			objects:"teammates_insert_input",
+			on_conflict:"teammates_on_conflict"
+		},
+		insert_teammates_one:{
+			object:"teammates_insert_input",
+			on_conflict:"teammates_on_conflict"
+		},
+		insert_token_gifts:{
+			objects:"token_gifts_insert_input",
+			on_conflict:"token_gifts_on_conflict"
+		},
+		insert_token_gifts_one:{
+			object:"token_gifts_insert_input",
+			on_conflict:"token_gifts_on_conflict"
+		},
+		insert_users:{
+			objects:"users_insert_input",
+			on_conflict:"users_on_conflict"
+		},
+		insert_users_one:{
+			object:"users_insert_input",
+			on_conflict:"users_on_conflict"
+		},
+		insert_vault_transactions:{
+			objects:"vault_transactions_insert_input",
+			on_conflict:"vault_transactions_on_conflict"
+		},
+		insert_vault_transactions_one:{
+			object:"vault_transactions_insert_input",
+			on_conflict:"vault_transactions_on_conflict"
+		},
+		insert_vault_tx_types:{
+			objects:"vault_tx_types_insert_input",
+			on_conflict:"vault_tx_types_on_conflict"
+		},
+		insert_vault_tx_types_one:{
+			object:"vault_tx_types_insert_input",
+			on_conflict:"vault_tx_types_on_conflict"
+		},
+		insert_vaults:{
+			objects:"vaults_insert_input",
+			on_conflict:"vaults_on_conflict"
+		},
+		insert_vaults_one:{
+			object:"vaults_insert_input",
+			on_conflict:"vaults_on_conflict"
+		},
+		insert_vouches:{
+			objects:"vouches_insert_input",
+			on_conflict:"vouches_on_conflict"
+		},
+		insert_vouches_one:{
+			object:"vouches_insert_input",
+			on_conflict:"vouches_on_conflict"
+		},
+		linkDiscordUser:{
+			payload:"LinkDiscordUserInput"
+		},
+		markClaimed:{
+			payload:"MarkClaimedInput"
+		},
+		restoreCoordinape:{
+			payload:"CoordinapeInput"
+		},
+		updateAllocations:{
+			payload:"Allocations"
+		},
+		updateCircle:{
+			payload:"UpdateCircleInput"
+		},
+		updateContribution:{
+			payload:"UpdateContributionInput"
+		},
+		updateEpoch:{
+			payload:"UpdateEpochInput"
+		},
+		updateTeammates:{
+			payload:"UpdateTeammatesInput"
+		},
+		updateUser:{
+			payload:"UpdateUserInput"
+		},
+		update_burns:{
+			_inc:"burns_inc_input",
+			_set:"burns_set_input",
+			where:"burns_bool_exp"
+		},
+		update_burns_by_pk:{
+			_inc:"burns_inc_input",
+			_set:"burns_set_input",
+			pk_columns:"burns_pk_columns_input"
+		},
+		update_burns_many:{
+			updates:"burns_updates"
+		},
+		update_circle_api_keys:{
+			_inc:"circle_api_keys_inc_input",
+			_set:"circle_api_keys_set_input",
+			where:"circle_api_keys_bool_exp"
+		},
+		update_circle_api_keys_by_pk:{
+			_inc:"circle_api_keys_inc_input",
+			_set:"circle_api_keys_set_input",
+			pk_columns:"circle_api_keys_pk_columns_input"
+		},
+		update_circle_api_keys_many:{
+			updates:"circle_api_keys_updates"
+		},
+		update_circle_integrations:{
+			_inc:"circle_integrations_inc_input",
+			_set:"circle_integrations_set_input",
+			where:"circle_integrations_bool_exp"
+		},
+		update_circle_integrations_by_pk:{
+			_inc:"circle_integrations_inc_input",
+			_set:"circle_integrations_set_input",
+			pk_columns:"circle_integrations_pk_columns_input"
+		},
+		update_circle_integrations_many:{
+			updates:"circle_integrations_updates"
+		},
+		update_circle_metadata:{
+			_inc:"circle_metadata_inc_input",
+			_set:"circle_metadata_set_input",
+			where:"circle_metadata_bool_exp"
+		},
+		update_circle_metadata_by_pk:{
+			_inc:"circle_metadata_inc_input",
+			_set:"circle_metadata_set_input",
+			pk_columns:"circle_metadata_pk_columns_input"
+		},
+		update_circle_metadata_many:{
+			updates:"circle_metadata_updates"
+		},
+		update_circle_private:{
+			_inc:"circle_private_inc_input",
+			_set:"circle_private_set_input",
+			where:"circle_private_bool_exp"
+		},
+		update_circle_private_many:{
+			updates:"circle_private_updates"
+		},
+		update_circle_share_tokens:{
+			_inc:"circle_share_tokens_inc_input",
+			_set:"circle_share_tokens_set_input",
+			where:"circle_share_tokens_bool_exp"
+		},
+		update_circle_share_tokens_by_pk:{
+			_inc:"circle_share_tokens_inc_input",
+			_set:"circle_share_tokens_set_input",
+			pk_columns:"circle_share_tokens_pk_columns_input"
+		},
+		update_circle_share_tokens_many:{
+			updates:"circle_share_tokens_updates"
+		},
+		update_circles:{
+			_inc:"circles_inc_input",
+			_set:"circles_set_input",
+			where:"circles_bool_exp"
+		},
+		update_circles_by_pk:{
+			_inc:"circles_inc_input",
+			_set:"circles_set_input",
+			pk_columns:"circles_pk_columns_input"
+		},
+		update_circles_many:{
+			updates:"circles_updates"
+		},
+		update_claims:{
+			_inc:"claims_inc_input",
+			_set:"claims_set_input",
+			where:"claims_bool_exp"
+		},
+		update_claims_by_pk:{
+			_inc:"claims_inc_input",
+			_set:"claims_set_input",
+			pk_columns:"claims_pk_columns_input"
+		},
+		update_claims_many:{
+			updates:"claims_updates"
+		},
+		update_contributions:{
+			_inc:"contributions_inc_input",
+			_set:"contributions_set_input",
+			where:"contributions_bool_exp"
+		},
+		update_contributions_by_pk:{
+			_inc:"contributions_inc_input",
+			_set:"contributions_set_input",
+			pk_columns:"contributions_pk_columns_input"
+		},
+		update_contributions_many:{
+			updates:"contributions_updates"
+		},
+		update_discord_roles_circles:{
+			_inc:"discord_roles_circles_inc_input",
+			_set:"discord_roles_circles_set_input",
+			where:"discord_roles_circles_bool_exp"
+		},
+		update_discord_roles_circles_by_pk:{
+			_inc:"discord_roles_circles_inc_input",
+			_set:"discord_roles_circles_set_input",
+			pk_columns:"discord_roles_circles_pk_columns_input"
+		},
+		update_discord_roles_circles_many:{
+			updates:"discord_roles_circles_updates"
+		},
+		update_discord_users:{
+			_inc:"discord_users_inc_input",
+			_set:"discord_users_set_input",
+			where:"discord_users_bool_exp"
+		},
+		update_discord_users_by_pk:{
+			_inc:"discord_users_inc_input",
+			_set:"discord_users_set_input",
+			pk_columns:"discord_users_pk_columns_input"
+		},
+		update_discord_users_many:{
+			updates:"discord_users_updates"
+		},
+		update_distributions:{
+			_append:"distributions_append_input",
+			_delete_at_path:"distributions_delete_at_path_input",
+			_delete_elem:"distributions_delete_elem_input",
+			_delete_key:"distributions_delete_key_input",
+			_inc:"distributions_inc_input",
+			_prepend:"distributions_prepend_input",
+			_set:"distributions_set_input",
+			where:"distributions_bool_exp"
+		},
+		update_distributions_by_pk:{
+			_append:"distributions_append_input",
+			_delete_at_path:"distributions_delete_at_path_input",
+			_delete_elem:"distributions_delete_elem_input",
+			_delete_key:"distributions_delete_key_input",
+			_inc:"distributions_inc_input",
+			_prepend:"distributions_prepend_input",
+			_set:"distributions_set_input",
+			pk_columns:"distributions_pk_columns_input"
+		},
+		update_distributions_many:{
+			updates:"distributions_updates"
+		},
+		update_epoch_pgive_data:{
+			_inc:"epoch_pgive_data_inc_input",
+			_set:"epoch_pgive_data_set_input",
+			where:"epoch_pgive_data_bool_exp"
+		},
+		update_epoch_pgive_data_by_pk:{
+			_inc:"epoch_pgive_data_inc_input",
+			_set:"epoch_pgive_data_set_input",
+			pk_columns:"epoch_pgive_data_pk_columns_input"
+		},
+		update_epoch_pgive_data_many:{
+			updates:"epoch_pgive_data_updates"
+		},
+		update_epochs:{
+			_inc:"epochs_inc_input",
+			_set:"epochs_set_input",
+			where:"epochs_bool_exp"
+		},
+		update_epochs_by_pk:{
+			_inc:"epochs_inc_input",
+			_set:"epochs_set_input",
+			pk_columns:"epochs_pk_columns_input"
+		},
+		update_epochs_many:{
+			updates:"epochs_updates"
+		},
+		update_gift_private:{
+			_inc:"gift_private_inc_input",
+			_set:"gift_private_set_input",
+			where:"gift_private_bool_exp"
+		},
+		update_gift_private_many:{
+			updates:"gift_private_updates"
+		},
+		update_histories:{
+			_inc:"histories_inc_input",
+			_set:"histories_set_input",
+			where:"histories_bool_exp"
+		},
+		update_histories_by_pk:{
+			_inc:"histories_inc_input",
+			_set:"histories_set_input",
+			pk_columns:"histories_pk_columns_input"
+		},
+		update_histories_many:{
+			updates:"histories_updates"
+		},
+		update_interaction_events:{
+			_append:"interaction_events_append_input",
+			_delete_at_path:"interaction_events_delete_at_path_input",
+			_delete_elem:"interaction_events_delete_elem_input",
+			_delete_key:"interaction_events_delete_key_input",
+			_inc:"interaction_events_inc_input",
+			_prepend:"interaction_events_prepend_input",
+			_set:"interaction_events_set_input",
+			where:"interaction_events_bool_exp"
+		},
+		update_interaction_events_by_pk:{
+			_append:"interaction_events_append_input",
+			_delete_at_path:"interaction_events_delete_at_path_input",
+			_delete_elem:"interaction_events_delete_elem_input",
+			_delete_key:"interaction_events_delete_key_input",
+			_inc:"interaction_events_inc_input",
+			_prepend:"interaction_events_prepend_input",
+			_set:"interaction_events_set_input",
+			pk_columns:"interaction_events_pk_columns_input"
+		},
+		update_interaction_events_many:{
+			updates:"interaction_events_updates"
+		},
+		update_locked_token_distributions:{
+			_append:"locked_token_distributions_append_input",
+			_delete_at_path:"locked_token_distributions_delete_at_path_input",
+			_delete_elem:"locked_token_distributions_delete_elem_input",
+			_delete_key:"locked_token_distributions_delete_key_input",
+			_inc:"locked_token_distributions_inc_input",
+			_prepend:"locked_token_distributions_prepend_input",
+			_set:"locked_token_distributions_set_input",
+			where:"locked_token_distributions_bool_exp"
+		},
+		update_locked_token_distributions_by_pk:{
+			_append:"locked_token_distributions_append_input",
+			_delete_at_path:"locked_token_distributions_delete_at_path_input",
+			_delete_elem:"locked_token_distributions_delete_elem_input",
+			_delete_key:"locked_token_distributions_delete_key_input",
+			_inc:"locked_token_distributions_inc_input",
+			_prepend:"locked_token_distributions_prepend_input",
+			_set:"locked_token_distributions_set_input",
+			pk_columns:"locked_token_distributions_pk_columns_input"
+		},
+		update_locked_token_distributions_many:{
+			updates:"locked_token_distributions_updates"
+		},
+		update_member_epoch_pgives:{
+			_inc:"member_epoch_pgives_inc_input",
+			_set:"member_epoch_pgives_set_input",
+			where:"member_epoch_pgives_bool_exp"
+		},
+		update_member_epoch_pgives_by_pk:{
+			_inc:"member_epoch_pgives_inc_input",
+			_set:"member_epoch_pgives_set_input",
+			pk_columns:"member_epoch_pgives_pk_columns_input"
+		},
+		update_member_epoch_pgives_many:{
+			updates:"member_epoch_pgives_updates"
+		},
+		update_nominees:{
+			_inc:"nominees_inc_input",
+			_set:"nominees_set_input",
+			where:"nominees_bool_exp"
+		},
+		update_nominees_by_pk:{
+			_inc:"nominees_inc_input",
+			_set:"nominees_set_input",
+			pk_columns:"nominees_pk_columns_input"
+		},
+		update_nominees_many:{
+			updates:"nominees_updates"
+		},
+		update_organizations:{
+			_inc:"organizations_inc_input",
+			_set:"organizations_set_input",
+			where:"organizations_bool_exp"
+		},
+		update_organizations_by_pk:{
+			_inc:"organizations_inc_input",
+			_set:"organizations_set_input",
+			pk_columns:"organizations_pk_columns_input"
+		},
+		update_organizations_many:{
+			updates:"organizations_updates"
+		},
+		update_pending_gift_private:{
+			_inc:"pending_gift_private_inc_input",
+			_set:"pending_gift_private_set_input",
+			where:"pending_gift_private_bool_exp"
+		},
+		update_pending_gift_private_many:{
+			updates:"pending_gift_private_updates"
+		},
+		update_pending_token_gifts:{
+			_inc:"pending_token_gifts_inc_input",
+			_set:"pending_token_gifts_set_input",
+			where:"pending_token_gifts_bool_exp"
+		},
+		update_pending_token_gifts_by_pk:{
+			_inc:"pending_token_gifts_inc_input",
+			_set:"pending_token_gifts_set_input",
+			pk_columns:"pending_token_gifts_pk_columns_input"
+		},
+		update_pending_token_gifts_many:{
+			updates:"pending_token_gifts_updates"
+		},
+		update_pending_vault_transactions:{
+			_inc:"pending_vault_transactions_inc_input",
+			_set:"pending_vault_transactions_set_input",
+			where:"pending_vault_transactions_bool_exp"
+		},
+		update_pending_vault_transactions_by_pk:{
+			_inc:"pending_vault_transactions_inc_input",
+			_set:"pending_vault_transactions_set_input",
+			pk_columns:"pending_vault_transactions_pk_columns_input"
+		},
+		update_pending_vault_transactions_many:{
+			updates:"pending_vault_transactions_updates"
+		},
+		update_personal_access_tokens:{
+			_inc:"personal_access_tokens_inc_input",
+			_set:"personal_access_tokens_set_input",
+			where:"personal_access_tokens_bool_exp"
+		},
+		update_personal_access_tokens_by_pk:{
+			_inc:"personal_access_tokens_inc_input",
+			_set:"personal_access_tokens_set_input",
+			pk_columns:"personal_access_tokens_pk_columns_input"
+		},
+		update_personal_access_tokens_many:{
+			updates:"personal_access_tokens_updates"
+		},
+		update_profiles:{
+			_inc:"profiles_inc_input",
+			_set:"profiles_set_input",
+			where:"profiles_bool_exp"
+		},
+		update_profiles_by_pk:{
+			_inc:"profiles_inc_input",
+			_set:"profiles_set_input",
+			pk_columns:"profiles_pk_columns_input"
+		},
+		update_profiles_many:{
+			updates:"profiles_updates"
+		},
+		update_teammates:{
+			_inc:"teammates_inc_input",
+			_set:"teammates_set_input",
+			where:"teammates_bool_exp"
+		},
+		update_teammates_by_pk:{
+			_inc:"teammates_inc_input",
+			_set:"teammates_set_input",
+			pk_columns:"teammates_pk_columns_input"
+		},
+		update_teammates_many:{
+			updates:"teammates_updates"
+		},
+		update_token_gifts:{
+			_inc:"token_gifts_inc_input",
+			_set:"token_gifts_set_input",
+			where:"token_gifts_bool_exp"
+		},
+		update_token_gifts_by_pk:{
+			_inc:"token_gifts_inc_input",
+			_set:"token_gifts_set_input",
+			pk_columns:"token_gifts_pk_columns_input"
+		},
+		update_token_gifts_many:{
+			updates:"token_gifts_updates"
+		},
+		update_users:{
+			_inc:"users_inc_input",
+			_set:"users_set_input",
+			where:"users_bool_exp"
+		},
+		update_users_by_pk:{
+			_inc:"users_inc_input",
+			_set:"users_set_input",
+			pk_columns:"users_pk_columns_input"
+		},
+		update_users_many:{
+			updates:"users_updates"
+		},
+		update_vault_transactions:{
+			_inc:"vault_transactions_inc_input",
+			_set:"vault_transactions_set_input",
+			where:"vault_transactions_bool_exp"
+		},
+		update_vault_transactions_by_pk:{
+			_inc:"vault_transactions_inc_input",
+			_set:"vault_transactions_set_input",
+			pk_columns:"vault_transactions_pk_columns_input"
+		},
+		update_vault_transactions_many:{
+			updates:"vault_transactions_updates"
+		},
+		update_vault_tx_types:{
+			_set:"vault_tx_types_set_input",
+			where:"vault_tx_types_bool_exp"
+		},
+		update_vault_tx_types_by_pk:{
+			_set:"vault_tx_types_set_input",
+			pk_columns:"vault_tx_types_pk_columns_input"
+		},
+		update_vault_tx_types_many:{
+			updates:"vault_tx_types_updates"
+		},
+		update_vaults:{
+			_inc:"vaults_inc_input",
+			_set:"vaults_set_input",
+			where:"vaults_bool_exp"
+		},
+		update_vaults_by_pk:{
+			_inc:"vaults_inc_input",
+			_set:"vaults_set_input",
+			pk_columns:"vaults_pk_columns_input"
+		},
+		update_vaults_many:{
+			updates:"vaults_updates"
+		},
+		update_vouches:{
+			_inc:"vouches_inc_input",
+			_set:"vouches_set_input",
+			where:"vouches_bool_exp"
+		},
+		update_vouches_by_pk:{
+			_inc:"vouches_inc_input",
+			_set:"vouches_set_input",
+			pk_columns:"vouches_pk_columns_input"
+		},
+		update_vouches_many:{
+			updates:"vouches_updates"
+		},
+		uploadCircleLogo:{
+			payload:"UploadCircleImageInput"
+		},
+		uploadOrgLogo:{
+			payload:"UploadOrgImageInput"
+		},
+		uploadProfileAvatar:{
+			payload:"UploadImageInput"
+		},
+		uploadProfileBackground:{
+			payload:"UploadImageInput"
+		},
+		vouch:{
+			payload:"VouchInput"
+		}
+	},
+	nominees:{
+		nominations:{
+			distinct_on:"vouches_select_column",
+			order_by:"vouches_order_by",
+			where:"vouches_bool_exp"
+		},
+		nominations_aggregate:{
+			distinct_on:"vouches_select_column",
+			order_by:"vouches_order_by",
+			where:"vouches_bool_exp"
+		}
+	},
+	nominees_aggregate_fields:{
+		count:{
+			columns:"nominees_select_column"
+		}
+	},
+	nominees_aggregate_order_by:{
+		avg:"nominees_avg_order_by",
+		count:"order_by",
+		max:"nominees_max_order_by",
+		min:"nominees_min_order_by",
+		stddev:"nominees_stddev_order_by",
+		stddev_pop:"nominees_stddev_pop_order_by",
+		stddev_samp:"nominees_stddev_samp_order_by",
+		sum:"nominees_sum_order_by",
+		var_pop:"nominees_var_pop_order_by",
+		var_samp:"nominees_var_samp_order_by",
+		variance:"nominees_variance_order_by"
+	},
+	nominees_arr_rel_insert_input:{
+		data:"nominees_insert_input",
+		on_conflict:"nominees_on_conflict"
+	},
+	nominees_avg_order_by:{
+		circle_id:"order_by",
+		id:"order_by",
+		nominated_by_user_id:"order_by",
+		user_id:"order_by",
+		vouches_required:"order_by"
+	},
+	nominees_bool_exp:{
+		_and:"nominees_bool_exp",
+		_not:"nominees_bool_exp",
+		_or:"nominees_bool_exp",
+		address:"String_comparison_exp",
+		circle:"circles_bool_exp",
+		circle_id:"Int_comparison_exp",
+		created_at:"timestamp_comparison_exp",
+		description:"String_comparison_exp",
+		ended:"Boolean_comparison_exp",
+		expiry_date:"timestamp_comparison_exp",
+		id:"bigint_comparison_exp",
+		name:"String_comparison_exp",
+		nominated_by_user_id:"Int_comparison_exp",
+		nominated_date:"date_comparison_exp",
+		nominations:"vouches_bool_exp",
+		nominator:"users_bool_exp",
+		updated_at:"timestamp_comparison_exp",
+		user:"users_bool_exp",
+		user_id:"Int_comparison_exp",
+		vouches_required:"Int_comparison_exp"
+	},
+	nominees_constraint: true,
+	nominees_inc_input:{
+		id:"bigint"
+	},
+	nominees_insert_input:{
+		circle:"circles_obj_rel_insert_input",
+		created_at:"timestamp",
+		expiry_date:"timestamp",
+		id:"bigint",
+		nominated_date:"date",
+		nominations:"vouches_arr_rel_insert_input",
+		nominator:"users_obj_rel_insert_input",
+		updated_at:"timestamp",
+		user:"users_obj_rel_insert_input"
+	},
+	nominees_max_order_by:{
+		address:"order_by",
+		circle_id:"order_by",
+		created_at:"order_by",
+		description:"order_by",
+		expiry_date:"order_by",
+		id:"order_by",
+		name:"order_by",
+		nominated_by_user_id:"order_by",
+		nominated_date:"order_by",
+		updated_at:"order_by",
+		user_id:"order_by",
+		vouches_required:"order_by"
+	},
+	nominees_min_order_by:{
+		address:"order_by",
+		circle_id:"order_by",
+		created_at:"order_by",
+		description:"order_by",
+		expiry_date:"order_by",
+		id:"order_by",
+		name:"order_by",
+		nominated_by_user_id:"order_by",
+		nominated_date:"order_by",
+		updated_at:"order_by",
+		user_id:"order_by",
+		vouches_required:"order_by"
+	},
+	nominees_obj_rel_insert_input:{
+		data:"nominees_insert_input",
+		on_conflict:"nominees_on_conflict"
+	},
+	nominees_on_conflict:{
+		constraint:"nominees_constraint",
+		update_columns:"nominees_update_column",
+		where:"nominees_bool_exp"
+	},
+	nominees_order_by:{
+		address:"order_by",
+		circle:"circles_order_by",
+		circle_id:"order_by",
+		created_at:"order_by",
+		description:"order_by",
+		ended:"order_by",
+		expiry_date:"order_by",
+		id:"order_by",
+		name:"order_by",
+		nominated_by_user_id:"order_by",
+		nominated_date:"order_by",
+		nominations_aggregate:"vouches_aggregate_order_by",
+		nominator:"users_order_by",
+		updated_at:"order_by",
+		user:"users_order_by",
+		user_id:"order_by",
+		vouches_required:"order_by"
+	},
+	nominees_pk_columns_input:{
+		id:"bigint"
+	},
+	nominees_select_column: true,
+	nominees_set_input:{
+		created_at:"timestamp",
+		expiry_date:"timestamp",
+		id:"bigint",
+		nominated_date:"date",
+		updated_at:"timestamp"
+	},
+	nominees_stddev_order_by:{
+		circle_id:"order_by",
+		id:"order_by",
+		nominated_by_user_id:"order_by",
+		user_id:"order_by",
+		vouches_required:"order_by"
+	},
+	nominees_stddev_pop_order_by:{
+		circle_id:"order_by",
+		id:"order_by",
+		nominated_by_user_id:"order_by",
+		user_id:"order_by",
+		vouches_required:"order_by"
+	},
+	nominees_stddev_samp_order_by:{
+		circle_id:"order_by",
+		id:"order_by",
+		nominated_by_user_id:"order_by",
+		user_id:"order_by",
+		vouches_required:"order_by"
+	},
+	nominees_stream_cursor_input:{
+		initial_value:"nominees_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	nominees_stream_cursor_value_input:{
+		created_at:"timestamp",
+		expiry_date:"timestamp",
+		id:"bigint",
+		nominated_date:"date",
+		updated_at:"timestamp"
+	},
+	nominees_sum_order_by:{
+		circle_id:"order_by",
+		id:"order_by",
+		nominated_by_user_id:"order_by",
+		user_id:"order_by",
+		vouches_required:"order_by"
+	},
+	nominees_update_column: true,
+	nominees_updates:{
+		_inc:"nominees_inc_input",
+		_set:"nominees_set_input",
+		where:"nominees_bool_exp"
+	},
+	nominees_var_pop_order_by:{
+		circle_id:"order_by",
+		id:"order_by",
+		nominated_by_user_id:"order_by",
+		user_id:"order_by",
+		vouches_required:"order_by"
+	},
+	nominees_var_samp_order_by:{
+		circle_id:"order_by",
+		id:"order_by",
+		nominated_by_user_id:"order_by",
+		user_id:"order_by",
+		vouches_required:"order_by"
+	},
+	nominees_variance_order_by:{
+		circle_id:"order_by",
+		id:"order_by",
+		nominated_by_user_id:"order_by",
+		user_id:"order_by",
+		vouches_required:"order_by"
+	},
+	numeric: "String",
+	numeric_comparison_exp:{
+		_eq:"numeric",
+		_gt:"numeric",
+		_gte:"numeric",
+		_in:"numeric",
+		_lt:"numeric",
+		_lte:"numeric",
+		_neq:"numeric",
+		_nin:"numeric"
+	},
+	order_by: true,
+	organizations:{
+		circles:{
+			distinct_on:"circles_select_column",
+			order_by:"circles_order_by",
+			where:"circles_bool_exp"
+		},
+		circles_aggregate:{
+			distinct_on:"circles_select_column",
+			order_by:"circles_order_by",
+			where:"circles_bool_exp"
+		},
+		vaults:{
+			distinct_on:"vaults_select_column",
+			order_by:"vaults_order_by",
+			where:"vaults_bool_exp"
+		},
+		vaults_aggregate:{
+			distinct_on:"vaults_select_column",
+			order_by:"vaults_order_by",
+			where:"vaults_bool_exp"
+		}
+	},
+	organizations_aggregate_fields:{
+		count:{
+			columns:"organizations_select_column"
+		}
+	},
+	organizations_bool_exp:{
+		_and:"organizations_bool_exp",
+		_not:"organizations_bool_exp",
+		_or:"organizations_bool_exp",
+		circles:"circles_bool_exp",
+		created_at:"timestamp_comparison_exp",
+		created_by:"Int_comparison_exp",
+		id:"bigint_comparison_exp",
+		is_verified:"Boolean_comparison_exp",
+		logo:"String_comparison_exp",
+		name:"String_comparison_exp",
+		profile:"profiles_bool_exp",
+		sample:"Boolean_comparison_exp",
+		telegram_id:"String_comparison_exp",
+		updated_at:"timestamp_comparison_exp",
+		vaults:"vaults_bool_exp"
+	},
+	organizations_constraint: true,
+	organizations_inc_input:{
+		id:"bigint"
+	},
+	organizations_insert_input:{
+		circles:"circles_arr_rel_insert_input",
+		created_at:"timestamp",
+		id:"bigint",
+		profile:"profiles_obj_rel_insert_input",
+		updated_at:"timestamp",
+		vaults:"vaults_arr_rel_insert_input"
+	},
+	organizations_obj_rel_insert_input:{
+		data:"organizations_insert_input",
+		on_conflict:"organizations_on_conflict"
+	},
+	organizations_on_conflict:{
+		constraint:"organizations_constraint",
+		update_columns:"organizations_update_column",
+		where:"organizations_bool_exp"
+	},
+	organizations_order_by:{
+		circles_aggregate:"circles_aggregate_order_by",
+		created_at:"order_by",
+		created_by:"order_by",
+		id:"order_by",
+		is_verified:"order_by",
+		logo:"order_by",
+		name:"order_by",
+		profile:"profiles_order_by",
+		sample:"order_by",
+		telegram_id:"order_by",
+		updated_at:"order_by",
+		vaults_aggregate:"vaults_aggregate_order_by"
+	},
+	organizations_pk_columns_input:{
+		id:"bigint"
+	},
+	organizations_select_column: true,
+	organizations_set_input:{
+		created_at:"timestamp",
+		id:"bigint",
+		updated_at:"timestamp"
+	},
+	organizations_stream_cursor_input:{
+		initial_value:"organizations_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	organizations_stream_cursor_value_input:{
+		created_at:"timestamp",
+		id:"bigint",
+		updated_at:"timestamp"
+	},
+	organizations_update_column: true,
+	organizations_updates:{
+		_inc:"organizations_inc_input",
+		_set:"organizations_set_input",
+		where:"organizations_bool_exp"
+	},
+	pending_gift_private_aggregate_fields:{
+		count:{
+			columns:"pending_gift_private_select_column"
+		}
+	},
+	pending_gift_private_bool_exp:{
+		_and:"pending_gift_private_bool_exp",
+		_not:"pending_gift_private_bool_exp",
+		_or:"pending_gift_private_bool_exp",
+		gift_id:"bigint_comparison_exp",
+		note:"String_comparison_exp",
+		recipient:"users_bool_exp",
+		recipient_id:"bigint_comparison_exp",
+		sender:"users_bool_exp",
+		sender_id:"bigint_comparison_exp"
+	},
+	pending_gift_private_inc_input:{
+		gift_id:"bigint",
+		recipient_id:"bigint",
+		sender_id:"bigint"
+	},
+	pending_gift_private_insert_input:{
+		gift_id:"bigint",
+		recipient:"users_obj_rel_insert_input",
+		recipient_id:"bigint",
+		sender:"users_obj_rel_insert_input",
+		sender_id:"bigint"
+	},
+	pending_gift_private_obj_rel_insert_input:{
+		data:"pending_gift_private_insert_input"
+	},
+	pending_gift_private_order_by:{
+		gift_id:"order_by",
+		note:"order_by",
+		recipient:"users_order_by",
+		recipient_id:"order_by",
+		sender:"users_order_by",
+		sender_id:"order_by"
+	},
+	pending_gift_private_select_column: true,
+	pending_gift_private_set_input:{
+		gift_id:"bigint",
+		recipient_id:"bigint",
+		sender_id:"bigint"
+	},
+	pending_gift_private_stream_cursor_input:{
+		initial_value:"pending_gift_private_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	pending_gift_private_stream_cursor_value_input:{
+		gift_id:"bigint",
+		recipient_id:"bigint",
+		sender_id:"bigint"
+	},
+	pending_gift_private_updates:{
+		_inc:"pending_gift_private_inc_input",
+		_set:"pending_gift_private_set_input",
+		where:"pending_gift_private_bool_exp"
+	},
+	pending_token_gifts_aggregate_fields:{
+		count:{
+			columns:"pending_token_gifts_select_column"
+		}
+	},
+	pending_token_gifts_aggregate_order_by:{
+		avg:"pending_token_gifts_avg_order_by",
+		count:"order_by",
+		max:"pending_token_gifts_max_order_by",
+		min:"pending_token_gifts_min_order_by",
+		stddev:"pending_token_gifts_stddev_order_by",
+		stddev_pop:"pending_token_gifts_stddev_pop_order_by",
+		stddev_samp:"pending_token_gifts_stddev_samp_order_by",
+		sum:"pending_token_gifts_sum_order_by",
+		var_pop:"pending_token_gifts_var_pop_order_by",
+		var_samp:"pending_token_gifts_var_samp_order_by",
+		variance:"pending_token_gifts_variance_order_by"
+	},
+	pending_token_gifts_arr_rel_insert_input:{
+		data:"pending_token_gifts_insert_input",
+		on_conflict:"pending_token_gifts_on_conflict"
+	},
+	pending_token_gifts_avg_order_by:{
+		circle_id:"order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		recipient_id:"order_by",
+		sender_id:"order_by",
+		tokens:"order_by"
+	},
+	pending_token_gifts_bool_exp:{
+		_and:"pending_token_gifts_bool_exp",
+		_not:"pending_token_gifts_bool_exp",
+		_or:"pending_token_gifts_bool_exp",
+		circle:"circles_bool_exp",
+		circle_id:"bigint_comparison_exp",
+		created_at:"timestamp_comparison_exp",
+		dts_created:"timestamp_comparison_exp",
+		epoch:"epochs_bool_exp",
+		epoch_id:"Int_comparison_exp",
+		gift_private:"pending_gift_private_bool_exp",
+		id:"bigint_comparison_exp",
+		note:"String_comparison_exp",
+		recipient:"users_bool_exp",
+		recipient_address:"String_comparison_exp",
+		recipient_id:"bigint_comparison_exp",
+		sender:"users_bool_exp",
+		sender_address:"String_comparison_exp",
+		sender_id:"bigint_comparison_exp",
+		tokens:"Int_comparison_exp",
+		updated_at:"timestamp_comparison_exp"
+	},
+	pending_token_gifts_constraint: true,
+	pending_token_gifts_inc_input:{
+		circle_id:"bigint",
+		id:"bigint",
+		recipient_id:"bigint",
+		sender_id:"bigint"
+	},
+	pending_token_gifts_insert_input:{
+		circle:"circles_obj_rel_insert_input",
+		circle_id:"bigint",
+		created_at:"timestamp",
+		dts_created:"timestamp",
+		epoch:"epochs_obj_rel_insert_input",
+		gift_private:"pending_gift_private_obj_rel_insert_input",
+		id:"bigint",
+		recipient:"users_obj_rel_insert_input",
+		recipient_id:"bigint",
+		sender:"users_obj_rel_insert_input",
+		sender_id:"bigint",
+		updated_at:"timestamp"
+	},
+	pending_token_gifts_max_order_by:{
+		circle_id:"order_by",
+		created_at:"order_by",
+		dts_created:"order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		note:"order_by",
+		recipient_address:"order_by",
+		recipient_id:"order_by",
+		sender_address:"order_by",
+		sender_id:"order_by",
+		tokens:"order_by",
+		updated_at:"order_by"
+	},
+	pending_token_gifts_min_order_by:{
+		circle_id:"order_by",
+		created_at:"order_by",
+		dts_created:"order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		note:"order_by",
+		recipient_address:"order_by",
+		recipient_id:"order_by",
+		sender_address:"order_by",
+		sender_id:"order_by",
+		tokens:"order_by",
+		updated_at:"order_by"
+	},
+	pending_token_gifts_on_conflict:{
+		constraint:"pending_token_gifts_constraint",
+		update_columns:"pending_token_gifts_update_column",
+		where:"pending_token_gifts_bool_exp"
+	},
+	pending_token_gifts_order_by:{
+		circle:"circles_order_by",
+		circle_id:"order_by",
+		created_at:"order_by",
+		dts_created:"order_by",
+		epoch:"epochs_order_by",
+		epoch_id:"order_by",
+		gift_private:"pending_gift_private_order_by",
+		id:"order_by",
+		note:"order_by",
+		recipient:"users_order_by",
+		recipient_address:"order_by",
+		recipient_id:"order_by",
+		sender:"users_order_by",
+		sender_address:"order_by",
+		sender_id:"order_by",
+		tokens:"order_by",
+		updated_at:"order_by"
+	},
+	pending_token_gifts_pk_columns_input:{
+		id:"bigint"
+	},
+	pending_token_gifts_select_column: true,
+	pending_token_gifts_set_input:{
+		circle_id:"bigint",
+		created_at:"timestamp",
+		dts_created:"timestamp",
+		id:"bigint",
+		recipient_id:"bigint",
+		sender_id:"bigint",
+		updated_at:"timestamp"
+	},
+	pending_token_gifts_stddev_order_by:{
+		circle_id:"order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		recipient_id:"order_by",
+		sender_id:"order_by",
+		tokens:"order_by"
+	},
+	pending_token_gifts_stddev_pop_order_by:{
+		circle_id:"order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		recipient_id:"order_by",
+		sender_id:"order_by",
+		tokens:"order_by"
+	},
+	pending_token_gifts_stddev_samp_order_by:{
+		circle_id:"order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		recipient_id:"order_by",
+		sender_id:"order_by",
+		tokens:"order_by"
+	},
+	pending_token_gifts_stream_cursor_input:{
+		initial_value:"pending_token_gifts_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	pending_token_gifts_stream_cursor_value_input:{
+		circle_id:"bigint",
+		created_at:"timestamp",
+		dts_created:"timestamp",
+		id:"bigint",
+		recipient_id:"bigint",
+		sender_id:"bigint",
+		updated_at:"timestamp"
+	},
+	pending_token_gifts_sum_order_by:{
+		circle_id:"order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		recipient_id:"order_by",
+		sender_id:"order_by",
+		tokens:"order_by"
+	},
+	pending_token_gifts_update_column: true,
+	pending_token_gifts_updates:{
+		_inc:"pending_token_gifts_inc_input",
+		_set:"pending_token_gifts_set_input",
+		where:"pending_token_gifts_bool_exp"
+	},
+	pending_token_gifts_var_pop_order_by:{
+		circle_id:"order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		recipient_id:"order_by",
+		sender_id:"order_by",
+		tokens:"order_by"
+	},
+	pending_token_gifts_var_samp_order_by:{
+		circle_id:"order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		recipient_id:"order_by",
+		sender_id:"order_by",
+		tokens:"order_by"
+	},
+	pending_token_gifts_variance_order_by:{
+		circle_id:"order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		recipient_id:"order_by",
+		sender_id:"order_by",
+		tokens:"order_by"
+	},
+	pending_vault_transactions_aggregate_fields:{
+		count:{
+			columns:"pending_vault_transactions_select_column"
+		}
+	},
+	pending_vault_transactions_bool_exp:{
+		_and:"pending_vault_transactions_bool_exp",
+		_not:"pending_vault_transactions_bool_exp",
+		_or:"pending_vault_transactions_bool_exp",
+		chain_id:"Int_comparison_exp",
+		claim_id:"bigint_comparison_exp",
+		created_at:"timestamp_comparison_exp",
+		created_by:"bigint_comparison_exp",
+		distribution:"distributions_bool_exp",
+		distribution_id:"bigint_comparison_exp",
+		org_id:"bigint_comparison_exp",
+		organization:"organizations_bool_exp",
+		profile:"profiles_bool_exp",
+		tx_hash:"String_comparison_exp",
+		tx_type:"vault_tx_types_enum_comparison_exp",
+		vault_tx_type:"vault_tx_types_bool_exp"
+	},
+	pending_vault_transactions_constraint: true,
+	pending_vault_transactions_inc_input:{
+		claim_id:"bigint",
+		created_by:"bigint",
+		distribution_id:"bigint",
+		org_id:"bigint"
+	},
+	pending_vault_transactions_insert_input:{
+		claim_id:"bigint",
+		created_at:"timestamp",
+		created_by:"bigint",
+		distribution:"distributions_obj_rel_insert_input",
+		distribution_id:"bigint",
+		org_id:"bigint",
+		organization:"organizations_obj_rel_insert_input",
+		profile:"profiles_obj_rel_insert_input",
+		tx_type:"vault_tx_types_enum",
+		vault_tx_type:"vault_tx_types_obj_rel_insert_input"
+	},
+	pending_vault_transactions_on_conflict:{
+		constraint:"pending_vault_transactions_constraint",
+		update_columns:"pending_vault_transactions_update_column",
+		where:"pending_vault_transactions_bool_exp"
+	},
+	pending_vault_transactions_order_by:{
+		chain_id:"order_by",
+		claim_id:"order_by",
+		created_at:"order_by",
+		created_by:"order_by",
+		distribution:"distributions_order_by",
+		distribution_id:"order_by",
+		org_id:"order_by",
+		organization:"organizations_order_by",
+		profile:"profiles_order_by",
+		tx_hash:"order_by",
+		tx_type:"order_by",
+		vault_tx_type:"vault_tx_types_order_by"
+	},
+	pending_vault_transactions_pk_columns_input:{
+
+	},
+	pending_vault_transactions_select_column: true,
+	pending_vault_transactions_set_input:{
+		claim_id:"bigint",
+		created_at:"timestamp",
+		created_by:"bigint",
+		distribution_id:"bigint",
+		org_id:"bigint",
+		tx_type:"vault_tx_types_enum"
+	},
+	pending_vault_transactions_stream_cursor_input:{
+		initial_value:"pending_vault_transactions_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	pending_vault_transactions_stream_cursor_value_input:{
+		claim_id:"bigint",
+		created_at:"timestamp",
+		created_by:"bigint",
+		distribution_id:"bigint",
+		org_id:"bigint",
+		tx_type:"vault_tx_types_enum"
+	},
+	pending_vault_transactions_update_column: true,
+	pending_vault_transactions_updates:{
+		_inc:"pending_vault_transactions_inc_input",
+		_set:"pending_vault_transactions_set_input",
+		where:"pending_vault_transactions_bool_exp"
+	},
+	personal_access_tokens_aggregate_fields:{
+		count:{
+			columns:"personal_access_tokens_select_column"
+		}
+	},
+	personal_access_tokens_bool_exp:{
+		_and:"personal_access_tokens_bool_exp",
+		_not:"personal_access_tokens_bool_exp",
+		_or:"personal_access_tokens_bool_exp",
+		abilities:"String_comparison_exp",
+		created_at:"timestamp_comparison_exp",
+		id:"bigint_comparison_exp",
+		last_used_at:"timestamp_comparison_exp",
+		name:"String_comparison_exp",
+		profile:"profiles_bool_exp",
+		token:"String_comparison_exp",
+		tokenable_id:"bigint_comparison_exp",
+		tokenable_type:"String_comparison_exp",
+		updated_at:"timestamp_comparison_exp"
+	},
+	personal_access_tokens_constraint: true,
+	personal_access_tokens_inc_input:{
+		id:"bigint",
+		tokenable_id:"bigint"
+	},
+	personal_access_tokens_insert_input:{
+		created_at:"timestamp",
+		id:"bigint",
+		last_used_at:"timestamp",
+		profile:"profiles_obj_rel_insert_input",
+		tokenable_id:"bigint",
+		updated_at:"timestamp"
+	},
+	personal_access_tokens_on_conflict:{
+		constraint:"personal_access_tokens_constraint",
+		update_columns:"personal_access_tokens_update_column",
+		where:"personal_access_tokens_bool_exp"
+	},
+	personal_access_tokens_order_by:{
+		abilities:"order_by",
+		created_at:"order_by",
+		id:"order_by",
+		last_used_at:"order_by",
+		name:"order_by",
+		profile:"profiles_order_by",
+		token:"order_by",
+		tokenable_id:"order_by",
+		tokenable_type:"order_by",
+		updated_at:"order_by"
+	},
+	personal_access_tokens_pk_columns_input:{
+		id:"bigint"
+	},
+	personal_access_tokens_select_column: true,
+	personal_access_tokens_set_input:{
+		created_at:"timestamp",
+		id:"bigint",
+		last_used_at:"timestamp",
+		tokenable_id:"bigint",
+		updated_at:"timestamp"
+	},
+	personal_access_tokens_stream_cursor_input:{
+		initial_value:"personal_access_tokens_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	personal_access_tokens_stream_cursor_value_input:{
+		created_at:"timestamp",
+		id:"bigint",
+		last_used_at:"timestamp",
+		tokenable_id:"bigint",
+		updated_at:"timestamp"
+	},
+	personal_access_tokens_update_column: true,
+	personal_access_tokens_updates:{
+		_inc:"personal_access_tokens_inc_input",
+		_set:"personal_access_tokens_set_input",
+		where:"personal_access_tokens_bool_exp"
+	},
+	profiles:{
+		claims:{
+			distinct_on:"claims_select_column",
+			order_by:"claims_order_by",
+			where:"claims_bool_exp"
+		},
+		claims_aggregate:{
+			distinct_on:"claims_select_column",
+			order_by:"claims_order_by",
+			where:"claims_bool_exp"
+		},
+		distributions:{
+			distinct_on:"distributions_select_column",
+			order_by:"distributions_order_by",
+			where:"distributions_bool_exp"
+		},
+		distributions_aggregate:{
+			distinct_on:"distributions_select_column",
+			order_by:"distributions_order_by",
+			where:"distributions_bool_exp"
+		},
+		users:{
+			distinct_on:"users_select_column",
+			order_by:"users_order_by",
+			where:"users_bool_exp"
+		},
+		users_aggregate:{
+			distinct_on:"users_select_column",
+			order_by:"users_order_by",
+			where:"users_bool_exp"
+		},
+		vault_transactions:{
+			distinct_on:"vault_transactions_select_column",
+			order_by:"vault_transactions_order_by",
+			where:"vault_transactions_bool_exp"
+		},
+		vault_transactions_aggregate:{
+			distinct_on:"vault_transactions_select_column",
+			order_by:"vault_transactions_order_by",
+			where:"vault_transactions_bool_exp"
+		},
+		vaults:{
+			distinct_on:"vaults_select_column",
+			order_by:"vaults_order_by",
+			where:"vaults_bool_exp"
+		},
+		vaults_aggregate:{
+			distinct_on:"vaults_select_column",
+			order_by:"vaults_order_by",
+			where:"vaults_bool_exp"
+		}
+	},
+	profiles_aggregate_fields:{
+		count:{
+			columns:"profiles_select_column"
+		}
+	},
+	profiles_bool_exp:{
+		_and:"profiles_bool_exp",
+		_not:"profiles_bool_exp",
+		_or:"profiles_bool_exp",
+		address:"String_comparison_exp",
+		avatar:"String_comparison_exp",
+		background:"String_comparison_exp",
+		bio:"String_comparison_exp",
+		chat_id:"String_comparison_exp",
+		claims:"claims_bool_exp",
+		created_at:"timestamp_comparison_exp",
+		discord_username:"String_comparison_exp",
+		distributions:"distributions_bool_exp",
+		github_username:"String_comparison_exp",
+		id:"bigint_comparison_exp",
+		medium_username:"String_comparison_exp",
+		name:"String_comparison_exp",
+		skills:"String_comparison_exp",
+		telegram_username:"String_comparison_exp",
+		twitter_username:"String_comparison_exp",
+		updated_at:"timestamp_comparison_exp",
+		users:"users_bool_exp",
+		vault_transactions:"vault_transactions_bool_exp",
+		vaults:"vaults_bool_exp",
+		website:"String_comparison_exp"
+	},
+	profiles_constraint: true,
+	profiles_inc_input:{
+		id:"bigint"
+	},
+	profiles_insert_input:{
+		claims:"claims_arr_rel_insert_input",
+		created_at:"timestamp",
+		distributions:"distributions_arr_rel_insert_input",
+		id:"bigint",
+		updated_at:"timestamp",
+		users:"users_arr_rel_insert_input",
+		vault_transactions:"vault_transactions_arr_rel_insert_input",
+		vaults:"vaults_arr_rel_insert_input"
+	},
+	profiles_obj_rel_insert_input:{
+		data:"profiles_insert_input",
+		on_conflict:"profiles_on_conflict"
+	},
+	profiles_on_conflict:{
+		constraint:"profiles_constraint",
+		update_columns:"profiles_update_column",
+		where:"profiles_bool_exp"
+	},
+	profiles_order_by:{
+		address:"order_by",
+		avatar:"order_by",
+		background:"order_by",
+		bio:"order_by",
+		chat_id:"order_by",
+		claims_aggregate:"claims_aggregate_order_by",
+		created_at:"order_by",
+		discord_username:"order_by",
+		distributions_aggregate:"distributions_aggregate_order_by",
+		github_username:"order_by",
+		id:"order_by",
+		medium_username:"order_by",
+		name:"order_by",
+		skills:"order_by",
+		telegram_username:"order_by",
+		twitter_username:"order_by",
+		updated_at:"order_by",
+		users_aggregate:"users_aggregate_order_by",
+		vault_transactions_aggregate:"vault_transactions_aggregate_order_by",
+		vaults_aggregate:"vaults_aggregate_order_by",
+		website:"order_by"
+	},
+	profiles_pk_columns_input:{
+		id:"bigint"
+	},
+	profiles_select_column: true,
+	profiles_set_input:{
+		created_at:"timestamp",
+		id:"bigint",
+		updated_at:"timestamp"
+	},
+	profiles_stream_cursor_input:{
+		initial_value:"profiles_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	profiles_stream_cursor_value_input:{
+		created_at:"timestamp",
+		id:"bigint",
+		updated_at:"timestamp"
+	},
+	profiles_update_column: true,
+	profiles_updates:{
+		_inc:"profiles_inc_input",
+		_set:"profiles_set_input",
+		where:"profiles_bool_exp"
+	},
+	query_root:{
+		burns:{
+			distinct_on:"burns_select_column",
+			order_by:"burns_order_by",
+			where:"burns_bool_exp"
+		},
+		burns_aggregate:{
+			distinct_on:"burns_select_column",
+			order_by:"burns_order_by",
+			where:"burns_bool_exp"
+		},
+		burns_by_pk:{
+			id:"bigint"
+		},
+		circle_api_keys:{
+			distinct_on:"circle_api_keys_select_column",
+			order_by:"circle_api_keys_order_by",
+			where:"circle_api_keys_bool_exp"
+		},
+		circle_api_keys_aggregate:{
+			distinct_on:"circle_api_keys_select_column",
+			order_by:"circle_api_keys_order_by",
+			where:"circle_api_keys_bool_exp"
+		},
+		circle_api_keys_by_pk:{
+
+		},
+		circle_integrations:{
+			distinct_on:"circle_integrations_select_column",
+			order_by:"circle_integrations_order_by",
+			where:"circle_integrations_bool_exp"
+		},
+		circle_integrations_aggregate:{
+			distinct_on:"circle_integrations_select_column",
+			order_by:"circle_integrations_order_by",
+			where:"circle_integrations_bool_exp"
+		},
+		circle_integrations_by_pk:{
+			id:"bigint"
+		},
+		circle_metadata:{
+			distinct_on:"circle_metadata_select_column",
+			order_by:"circle_metadata_order_by",
+			where:"circle_metadata_bool_exp"
+		},
+		circle_metadata_aggregate:{
+			distinct_on:"circle_metadata_select_column",
+			order_by:"circle_metadata_order_by",
+			where:"circle_metadata_bool_exp"
+		},
+		circle_metadata_by_pk:{
+			id:"bigint"
+		},
+		circle_private:{
+			distinct_on:"circle_private_select_column",
+			order_by:"circle_private_order_by",
+			where:"circle_private_bool_exp"
+		},
+		circle_private_aggregate:{
+			distinct_on:"circle_private_select_column",
+			order_by:"circle_private_order_by",
+			where:"circle_private_bool_exp"
+		},
+		circle_share_tokens:{
+			distinct_on:"circle_share_tokens_select_column",
+			order_by:"circle_share_tokens_order_by",
+			where:"circle_share_tokens_bool_exp"
+		},
+		circle_share_tokens_aggregate:{
+			distinct_on:"circle_share_tokens_select_column",
+			order_by:"circle_share_tokens_order_by",
+			where:"circle_share_tokens_bool_exp"
+		},
+		circle_share_tokens_by_pk:{
+			circle_id:"bigint"
+		},
+		circles:{
+			distinct_on:"circles_select_column",
+			order_by:"circles_order_by",
+			where:"circles_bool_exp"
+		},
+		circles_aggregate:{
+			distinct_on:"circles_select_column",
+			order_by:"circles_order_by",
+			where:"circles_bool_exp"
+		},
+		circles_by_pk:{
+			id:"bigint"
+		},
+		claims:{
+			distinct_on:"claims_select_column",
+			order_by:"claims_order_by",
+			where:"claims_bool_exp"
+		},
+		claims_aggregate:{
+			distinct_on:"claims_select_column",
+			order_by:"claims_order_by",
+			where:"claims_bool_exp"
+		},
+		claims_by_pk:{
+			id:"bigint"
+		},
+		contributions:{
+			distinct_on:"contributions_select_column",
+			order_by:"contributions_order_by",
+			where:"contributions_bool_exp"
+		},
+		contributions_aggregate:{
+			distinct_on:"contributions_select_column",
+			order_by:"contributions_order_by",
+			where:"contributions_bool_exp"
+		},
+		contributions_by_pk:{
+			id:"bigint"
+		},
+		discord_roles_circles:{
+			distinct_on:"discord_roles_circles_select_column",
+			order_by:"discord_roles_circles_order_by",
+			where:"discord_roles_circles_bool_exp"
+		},
+		discord_roles_circles_aggregate:{
+			distinct_on:"discord_roles_circles_select_column",
+			order_by:"discord_roles_circles_order_by",
+			where:"discord_roles_circles_bool_exp"
+		},
+		discord_roles_circles_by_pk:{
+			id:"bigint"
+		},
+		discord_users:{
+			distinct_on:"discord_users_select_column",
+			order_by:"discord_users_order_by",
+			where:"discord_users_bool_exp"
+		},
+		discord_users_aggregate:{
+			distinct_on:"discord_users_select_column",
+			order_by:"discord_users_order_by",
+			where:"discord_users_bool_exp"
+		},
+		discord_users_by_pk:{
+			id:"bigint"
+		},
+		distributions:{
+			distinct_on:"distributions_select_column",
+			order_by:"distributions_order_by",
+			where:"distributions_bool_exp"
+		},
+		distributions_aggregate:{
+			distinct_on:"distributions_select_column",
+			order_by:"distributions_order_by",
+			where:"distributions_bool_exp"
+		},
+		distributions_by_pk:{
+			id:"bigint"
+		},
+		epoch_pgive_data:{
+			distinct_on:"epoch_pgive_data_select_column",
+			order_by:"epoch_pgive_data_order_by",
+			where:"epoch_pgive_data_bool_exp"
+		},
+		epoch_pgive_data_aggregate:{
+			distinct_on:"epoch_pgive_data_select_column",
+			order_by:"epoch_pgive_data_order_by",
+			where:"epoch_pgive_data_bool_exp"
+		},
+		epoch_pgive_data_by_pk:{
+
+		},
+		epochs:{
+			distinct_on:"epochs_select_column",
+			order_by:"epochs_order_by",
+			where:"epochs_bool_exp"
+		},
+		epochs_aggregate:{
+			distinct_on:"epochs_select_column",
+			order_by:"epochs_order_by",
+			where:"epochs_bool_exp"
+		},
+		epochs_by_pk:{
+			id:"bigint"
+		},
+		gift_private:{
+			distinct_on:"gift_private_select_column",
+			order_by:"gift_private_order_by",
+			where:"gift_private_bool_exp"
+		},
+		gift_private_aggregate:{
+			distinct_on:"gift_private_select_column",
+			order_by:"gift_private_order_by",
+			where:"gift_private_bool_exp"
+		},
+		histories:{
+			distinct_on:"histories_select_column",
+			order_by:"histories_order_by",
+			where:"histories_bool_exp"
+		},
+		histories_aggregate:{
+			distinct_on:"histories_select_column",
+			order_by:"histories_order_by",
+			where:"histories_bool_exp"
+		},
+		histories_by_pk:{
+			id:"bigint"
+		},
+		interaction_events:{
+			distinct_on:"interaction_events_select_column",
+			order_by:"interaction_events_order_by",
+			where:"interaction_events_bool_exp"
+		},
+		interaction_events_aggregate:{
+			distinct_on:"interaction_events_select_column",
+			order_by:"interaction_events_order_by",
+			where:"interaction_events_bool_exp"
+		},
+		interaction_events_by_pk:{
+
+		},
+		locked_token_distributions:{
+			distinct_on:"locked_token_distributions_select_column",
+			order_by:"locked_token_distributions_order_by",
+			where:"locked_token_distributions_bool_exp"
+		},
+		locked_token_distributions_aggregate:{
+			distinct_on:"locked_token_distributions_select_column",
+			order_by:"locked_token_distributions_order_by",
+			where:"locked_token_distributions_bool_exp"
+		},
+		locked_token_distributions_by_pk:{
+			id:"bigint"
+		},
+		member_epoch_pgives:{
+			distinct_on:"member_epoch_pgives_select_column",
+			order_by:"member_epoch_pgives_order_by",
+			where:"member_epoch_pgives_bool_exp"
+		},
+		member_epoch_pgives_aggregate:{
+			distinct_on:"member_epoch_pgives_select_column",
+			order_by:"member_epoch_pgives_order_by",
+			where:"member_epoch_pgives_bool_exp"
+		},
+		member_epoch_pgives_by_pk:{
+
+		},
+		nominees:{
+			distinct_on:"nominees_select_column",
+			order_by:"nominees_order_by",
+			where:"nominees_bool_exp"
+		},
+		nominees_aggregate:{
+			distinct_on:"nominees_select_column",
+			order_by:"nominees_order_by",
+			where:"nominees_bool_exp"
+		},
+		nominees_by_pk:{
+			id:"bigint"
+		},
+		organizations:{
+			distinct_on:"organizations_select_column",
+			order_by:"organizations_order_by",
+			where:"organizations_bool_exp"
+		},
+		organizations_aggregate:{
+			distinct_on:"organizations_select_column",
+			order_by:"organizations_order_by",
+			where:"organizations_bool_exp"
+		},
+		organizations_by_pk:{
+			id:"bigint"
+		},
+		pending_gift_private:{
+			distinct_on:"pending_gift_private_select_column",
+			order_by:"pending_gift_private_order_by",
+			where:"pending_gift_private_bool_exp"
+		},
+		pending_gift_private_aggregate:{
+			distinct_on:"pending_gift_private_select_column",
+			order_by:"pending_gift_private_order_by",
+			where:"pending_gift_private_bool_exp"
+		},
+		pending_token_gifts:{
+			distinct_on:"pending_token_gifts_select_column",
+			order_by:"pending_token_gifts_order_by",
+			where:"pending_token_gifts_bool_exp"
+		},
+		pending_token_gifts_aggregate:{
+			distinct_on:"pending_token_gifts_select_column",
+			order_by:"pending_token_gifts_order_by",
+			where:"pending_token_gifts_bool_exp"
+		},
+		pending_token_gifts_by_pk:{
+			id:"bigint"
+		},
+		pending_vault_transactions:{
+			distinct_on:"pending_vault_transactions_select_column",
+			order_by:"pending_vault_transactions_order_by",
+			where:"pending_vault_transactions_bool_exp"
+		},
+		pending_vault_transactions_aggregate:{
+			distinct_on:"pending_vault_transactions_select_column",
+			order_by:"pending_vault_transactions_order_by",
+			where:"pending_vault_transactions_bool_exp"
+		},
+		pending_vault_transactions_by_pk:{
+
+		},
+		personal_access_tokens:{
+			distinct_on:"personal_access_tokens_select_column",
+			order_by:"personal_access_tokens_order_by",
+			where:"personal_access_tokens_bool_exp"
+		},
+		personal_access_tokens_aggregate:{
+			distinct_on:"personal_access_tokens_select_column",
+			order_by:"personal_access_tokens_order_by",
+			where:"personal_access_tokens_bool_exp"
+		},
+		personal_access_tokens_by_pk:{
+			id:"bigint"
+		},
+		price_per_share:{
+
+		},
+		profiles:{
+			distinct_on:"profiles_select_column",
+			order_by:"profiles_order_by",
+			where:"profiles_bool_exp"
+		},
+		profiles_aggregate:{
+			distinct_on:"profiles_select_column",
+			order_by:"profiles_order_by",
+			where:"profiles_bool_exp"
+		},
+		profiles_by_pk:{
+			id:"bigint"
+		},
+		teammates:{
+			distinct_on:"teammates_select_column",
+			order_by:"teammates_order_by",
+			where:"teammates_bool_exp"
+		},
+		teammates_aggregate:{
+			distinct_on:"teammates_select_column",
+			order_by:"teammates_order_by",
+			where:"teammates_bool_exp"
+		},
+		teammates_by_pk:{
+			id:"bigint"
+		},
+		token_gifts:{
+			distinct_on:"token_gifts_select_column",
+			order_by:"token_gifts_order_by",
+			where:"token_gifts_bool_exp"
+		},
+		token_gifts_aggregate:{
+			distinct_on:"token_gifts_select_column",
+			order_by:"token_gifts_order_by",
+			where:"token_gifts_bool_exp"
+		},
+		token_gifts_by_pk:{
+			id:"bigint"
+		},
+		user_private:{
+			distinct_on:"user_private_select_column",
+			order_by:"user_private_order_by",
+			where:"user_private_bool_exp"
+		},
+		user_private_aggregate:{
+			distinct_on:"user_private_select_column",
+			order_by:"user_private_order_by",
+			where:"user_private_bool_exp"
+		},
+		users:{
+			distinct_on:"users_select_column",
+			order_by:"users_order_by",
+			where:"users_bool_exp"
+		},
+		users_aggregate:{
+			distinct_on:"users_select_column",
+			order_by:"users_order_by",
+			where:"users_bool_exp"
+		},
+		users_by_pk:{
+			id:"bigint"
+		},
+		vault_transactions:{
+			distinct_on:"vault_transactions_select_column",
+			order_by:"vault_transactions_order_by",
+			where:"vault_transactions_bool_exp"
+		},
+		vault_transactions_aggregate:{
+			distinct_on:"vault_transactions_select_column",
+			order_by:"vault_transactions_order_by",
+			where:"vault_transactions_bool_exp"
+		},
+		vault_transactions_by_pk:{
+			id:"bigint"
+		},
+		vault_tx_types:{
+			distinct_on:"vault_tx_types_select_column",
+			order_by:"vault_tx_types_order_by",
+			where:"vault_tx_types_bool_exp"
+		},
+		vault_tx_types_aggregate:{
+			distinct_on:"vault_tx_types_select_column",
+			order_by:"vault_tx_types_order_by",
+			where:"vault_tx_types_bool_exp"
+		},
+		vault_tx_types_by_pk:{
+
+		},
+		vaults:{
+			distinct_on:"vaults_select_column",
+			order_by:"vaults_order_by",
+			where:"vaults_bool_exp"
+		},
+		vaults_aggregate:{
+			distinct_on:"vaults_select_column",
+			order_by:"vaults_order_by",
+			where:"vaults_bool_exp"
+		},
+		vaults_by_pk:{
+			id:"bigint"
+		},
+		vouches:{
+			distinct_on:"vouches_select_column",
+			order_by:"vouches_order_by",
+			where:"vouches_bool_exp"
+		},
+		vouches_aggregate:{
+			distinct_on:"vouches_select_column",
+			order_by:"vouches_order_by",
+			where:"vouches_bool_exp"
+		},
+		vouches_by_pk:{
+			id:"bigint"
+		}
+	},
+	subscription_root:{
+		burns:{
+			distinct_on:"burns_select_column",
+			order_by:"burns_order_by",
+			where:"burns_bool_exp"
+		},
+		burns_aggregate:{
+			distinct_on:"burns_select_column",
+			order_by:"burns_order_by",
+			where:"burns_bool_exp"
+		},
+		burns_by_pk:{
+			id:"bigint"
+		},
+		burns_stream:{
+			cursor:"burns_stream_cursor_input",
+			where:"burns_bool_exp"
+		},
+		circle_api_keys:{
+			distinct_on:"circle_api_keys_select_column",
+			order_by:"circle_api_keys_order_by",
+			where:"circle_api_keys_bool_exp"
+		},
+		circle_api_keys_aggregate:{
+			distinct_on:"circle_api_keys_select_column",
+			order_by:"circle_api_keys_order_by",
+			where:"circle_api_keys_bool_exp"
+		},
+		circle_api_keys_by_pk:{
+
+		},
+		circle_api_keys_stream:{
+			cursor:"circle_api_keys_stream_cursor_input",
+			where:"circle_api_keys_bool_exp"
+		},
+		circle_integrations:{
+			distinct_on:"circle_integrations_select_column",
+			order_by:"circle_integrations_order_by",
+			where:"circle_integrations_bool_exp"
+		},
+		circle_integrations_aggregate:{
+			distinct_on:"circle_integrations_select_column",
+			order_by:"circle_integrations_order_by",
+			where:"circle_integrations_bool_exp"
+		},
+		circle_integrations_by_pk:{
+			id:"bigint"
+		},
+		circle_integrations_stream:{
+			cursor:"circle_integrations_stream_cursor_input",
+			where:"circle_integrations_bool_exp"
+		},
+		circle_metadata:{
+			distinct_on:"circle_metadata_select_column",
+			order_by:"circle_metadata_order_by",
+			where:"circle_metadata_bool_exp"
+		},
+		circle_metadata_aggregate:{
+			distinct_on:"circle_metadata_select_column",
+			order_by:"circle_metadata_order_by",
+			where:"circle_metadata_bool_exp"
+		},
+		circle_metadata_by_pk:{
+			id:"bigint"
+		},
+		circle_metadata_stream:{
+			cursor:"circle_metadata_stream_cursor_input",
+			where:"circle_metadata_bool_exp"
+		},
+		circle_private:{
+			distinct_on:"circle_private_select_column",
+			order_by:"circle_private_order_by",
+			where:"circle_private_bool_exp"
+		},
+		circle_private_aggregate:{
+			distinct_on:"circle_private_select_column",
+			order_by:"circle_private_order_by",
+			where:"circle_private_bool_exp"
+		},
+		circle_private_stream:{
+			cursor:"circle_private_stream_cursor_input",
+			where:"circle_private_bool_exp"
+		},
+		circle_share_tokens:{
+			distinct_on:"circle_share_tokens_select_column",
+			order_by:"circle_share_tokens_order_by",
+			where:"circle_share_tokens_bool_exp"
+		},
+		circle_share_tokens_aggregate:{
+			distinct_on:"circle_share_tokens_select_column",
+			order_by:"circle_share_tokens_order_by",
+			where:"circle_share_tokens_bool_exp"
+		},
+		circle_share_tokens_by_pk:{
+			circle_id:"bigint"
+		},
+		circle_share_tokens_stream:{
+			cursor:"circle_share_tokens_stream_cursor_input",
+			where:"circle_share_tokens_bool_exp"
+		},
+		circles:{
+			distinct_on:"circles_select_column",
+			order_by:"circles_order_by",
+			where:"circles_bool_exp"
+		},
+		circles_aggregate:{
+			distinct_on:"circles_select_column",
+			order_by:"circles_order_by",
+			where:"circles_bool_exp"
+		},
+		circles_by_pk:{
+			id:"bigint"
+		},
+		circles_stream:{
+			cursor:"circles_stream_cursor_input",
+			where:"circles_bool_exp"
+		},
+		claims:{
+			distinct_on:"claims_select_column",
+			order_by:"claims_order_by",
+			where:"claims_bool_exp"
+		},
+		claims_aggregate:{
+			distinct_on:"claims_select_column",
+			order_by:"claims_order_by",
+			where:"claims_bool_exp"
+		},
+		claims_by_pk:{
+			id:"bigint"
+		},
+		claims_stream:{
+			cursor:"claims_stream_cursor_input",
+			where:"claims_bool_exp"
+		},
+		contributions:{
+			distinct_on:"contributions_select_column",
+			order_by:"contributions_order_by",
+			where:"contributions_bool_exp"
+		},
+		contributions_aggregate:{
+			distinct_on:"contributions_select_column",
+			order_by:"contributions_order_by",
+			where:"contributions_bool_exp"
+		},
+		contributions_by_pk:{
+			id:"bigint"
+		},
+		contributions_stream:{
+			cursor:"contributions_stream_cursor_input",
+			where:"contributions_bool_exp"
+		},
+		discord_roles_circles:{
+			distinct_on:"discord_roles_circles_select_column",
+			order_by:"discord_roles_circles_order_by",
+			where:"discord_roles_circles_bool_exp"
+		},
+		discord_roles_circles_aggregate:{
+			distinct_on:"discord_roles_circles_select_column",
+			order_by:"discord_roles_circles_order_by",
+			where:"discord_roles_circles_bool_exp"
+		},
+		discord_roles_circles_by_pk:{
+			id:"bigint"
+		},
+		discord_roles_circles_stream:{
+			cursor:"discord_roles_circles_stream_cursor_input",
+			where:"discord_roles_circles_bool_exp"
+		},
+		discord_users:{
+			distinct_on:"discord_users_select_column",
+			order_by:"discord_users_order_by",
+			where:"discord_users_bool_exp"
+		},
+		discord_users_aggregate:{
+			distinct_on:"discord_users_select_column",
+			order_by:"discord_users_order_by",
+			where:"discord_users_bool_exp"
+		},
+		discord_users_by_pk:{
+			id:"bigint"
+		},
+		discord_users_stream:{
+			cursor:"discord_users_stream_cursor_input",
+			where:"discord_users_bool_exp"
+		},
+		distributions:{
+			distinct_on:"distributions_select_column",
+			order_by:"distributions_order_by",
+			where:"distributions_bool_exp"
+		},
+		distributions_aggregate:{
+			distinct_on:"distributions_select_column",
+			order_by:"distributions_order_by",
+			where:"distributions_bool_exp"
+		},
+		distributions_by_pk:{
+			id:"bigint"
+		},
+		distributions_stream:{
+			cursor:"distributions_stream_cursor_input",
+			where:"distributions_bool_exp"
+		},
+		epoch_pgive_data:{
+			distinct_on:"epoch_pgive_data_select_column",
+			order_by:"epoch_pgive_data_order_by",
+			where:"epoch_pgive_data_bool_exp"
+		},
+		epoch_pgive_data_aggregate:{
+			distinct_on:"epoch_pgive_data_select_column",
+			order_by:"epoch_pgive_data_order_by",
+			where:"epoch_pgive_data_bool_exp"
+		},
+		epoch_pgive_data_by_pk:{
+
+		},
+		epoch_pgive_data_stream:{
+			cursor:"epoch_pgive_data_stream_cursor_input",
+			where:"epoch_pgive_data_bool_exp"
+		},
+		epochs:{
+			distinct_on:"epochs_select_column",
+			order_by:"epochs_order_by",
+			where:"epochs_bool_exp"
+		},
+		epochs_aggregate:{
+			distinct_on:"epochs_select_column",
+			order_by:"epochs_order_by",
+			where:"epochs_bool_exp"
+		},
+		epochs_by_pk:{
+			id:"bigint"
+		},
+		epochs_stream:{
+			cursor:"epochs_stream_cursor_input",
+			where:"epochs_bool_exp"
+		},
+		gift_private:{
+			distinct_on:"gift_private_select_column",
+			order_by:"gift_private_order_by",
+			where:"gift_private_bool_exp"
+		},
+		gift_private_aggregate:{
+			distinct_on:"gift_private_select_column",
+			order_by:"gift_private_order_by",
+			where:"gift_private_bool_exp"
+		},
+		gift_private_stream:{
+			cursor:"gift_private_stream_cursor_input",
+			where:"gift_private_bool_exp"
+		},
+		histories:{
+			distinct_on:"histories_select_column",
+			order_by:"histories_order_by",
+			where:"histories_bool_exp"
+		},
+		histories_aggregate:{
+			distinct_on:"histories_select_column",
+			order_by:"histories_order_by",
+			where:"histories_bool_exp"
+		},
+		histories_by_pk:{
+			id:"bigint"
+		},
+		histories_stream:{
+			cursor:"histories_stream_cursor_input",
+			where:"histories_bool_exp"
+		},
+		interaction_events:{
+			distinct_on:"interaction_events_select_column",
+			order_by:"interaction_events_order_by",
+			where:"interaction_events_bool_exp"
+		},
+		interaction_events_aggregate:{
+			distinct_on:"interaction_events_select_column",
+			order_by:"interaction_events_order_by",
+			where:"interaction_events_bool_exp"
+		},
+		interaction_events_by_pk:{
+
+		},
+		interaction_events_stream:{
+			cursor:"interaction_events_stream_cursor_input",
+			where:"interaction_events_bool_exp"
+		},
+		locked_token_distributions:{
+			distinct_on:"locked_token_distributions_select_column",
+			order_by:"locked_token_distributions_order_by",
+			where:"locked_token_distributions_bool_exp"
+		},
+		locked_token_distributions_aggregate:{
+			distinct_on:"locked_token_distributions_select_column",
+			order_by:"locked_token_distributions_order_by",
+			where:"locked_token_distributions_bool_exp"
+		},
+		locked_token_distributions_by_pk:{
+			id:"bigint"
+		},
+		locked_token_distributions_stream:{
+			cursor:"locked_token_distributions_stream_cursor_input",
+			where:"locked_token_distributions_bool_exp"
+		},
+		member_epoch_pgives:{
+			distinct_on:"member_epoch_pgives_select_column",
+			order_by:"member_epoch_pgives_order_by",
+			where:"member_epoch_pgives_bool_exp"
+		},
+		member_epoch_pgives_aggregate:{
+			distinct_on:"member_epoch_pgives_select_column",
+			order_by:"member_epoch_pgives_order_by",
+			where:"member_epoch_pgives_bool_exp"
+		},
+		member_epoch_pgives_by_pk:{
+
+		},
+		member_epoch_pgives_stream:{
+			cursor:"member_epoch_pgives_stream_cursor_input",
+			where:"member_epoch_pgives_bool_exp"
+		},
+		nominees:{
+			distinct_on:"nominees_select_column",
+			order_by:"nominees_order_by",
+			where:"nominees_bool_exp"
+		},
+		nominees_aggregate:{
+			distinct_on:"nominees_select_column",
+			order_by:"nominees_order_by",
+			where:"nominees_bool_exp"
+		},
+		nominees_by_pk:{
+			id:"bigint"
+		},
+		nominees_stream:{
+			cursor:"nominees_stream_cursor_input",
+			where:"nominees_bool_exp"
+		},
+		organizations:{
+			distinct_on:"organizations_select_column",
+			order_by:"organizations_order_by",
+			where:"organizations_bool_exp"
+		},
+		organizations_aggregate:{
+			distinct_on:"organizations_select_column",
+			order_by:"organizations_order_by",
+			where:"organizations_bool_exp"
+		},
+		organizations_by_pk:{
+			id:"bigint"
+		},
+		organizations_stream:{
+			cursor:"organizations_stream_cursor_input",
+			where:"organizations_bool_exp"
+		},
+		pending_gift_private:{
+			distinct_on:"pending_gift_private_select_column",
+			order_by:"pending_gift_private_order_by",
+			where:"pending_gift_private_bool_exp"
+		},
+		pending_gift_private_aggregate:{
+			distinct_on:"pending_gift_private_select_column",
+			order_by:"pending_gift_private_order_by",
+			where:"pending_gift_private_bool_exp"
+		},
+		pending_gift_private_stream:{
+			cursor:"pending_gift_private_stream_cursor_input",
+			where:"pending_gift_private_bool_exp"
+		},
+		pending_token_gifts:{
+			distinct_on:"pending_token_gifts_select_column",
+			order_by:"pending_token_gifts_order_by",
+			where:"pending_token_gifts_bool_exp"
+		},
+		pending_token_gifts_aggregate:{
+			distinct_on:"pending_token_gifts_select_column",
+			order_by:"pending_token_gifts_order_by",
+			where:"pending_token_gifts_bool_exp"
+		},
+		pending_token_gifts_by_pk:{
+			id:"bigint"
+		},
+		pending_token_gifts_stream:{
+			cursor:"pending_token_gifts_stream_cursor_input",
+			where:"pending_token_gifts_bool_exp"
+		},
+		pending_vault_transactions:{
+			distinct_on:"pending_vault_transactions_select_column",
+			order_by:"pending_vault_transactions_order_by",
+			where:"pending_vault_transactions_bool_exp"
+		},
+		pending_vault_transactions_aggregate:{
+			distinct_on:"pending_vault_transactions_select_column",
+			order_by:"pending_vault_transactions_order_by",
+			where:"pending_vault_transactions_bool_exp"
+		},
+		pending_vault_transactions_by_pk:{
+
+		},
+		pending_vault_transactions_stream:{
+			cursor:"pending_vault_transactions_stream_cursor_input",
+			where:"pending_vault_transactions_bool_exp"
+		},
+		personal_access_tokens:{
+			distinct_on:"personal_access_tokens_select_column",
+			order_by:"personal_access_tokens_order_by",
+			where:"personal_access_tokens_bool_exp"
+		},
+		personal_access_tokens_aggregate:{
+			distinct_on:"personal_access_tokens_select_column",
+			order_by:"personal_access_tokens_order_by",
+			where:"personal_access_tokens_bool_exp"
+		},
+		personal_access_tokens_by_pk:{
+			id:"bigint"
+		},
+		personal_access_tokens_stream:{
+			cursor:"personal_access_tokens_stream_cursor_input",
+			where:"personal_access_tokens_bool_exp"
+		},
+		profiles:{
+			distinct_on:"profiles_select_column",
+			order_by:"profiles_order_by",
+			where:"profiles_bool_exp"
+		},
+		profiles_aggregate:{
+			distinct_on:"profiles_select_column",
+			order_by:"profiles_order_by",
+			where:"profiles_bool_exp"
+		},
+		profiles_by_pk:{
+			id:"bigint"
+		},
+		profiles_stream:{
+			cursor:"profiles_stream_cursor_input",
+			where:"profiles_bool_exp"
+		},
+		teammates:{
+			distinct_on:"teammates_select_column",
+			order_by:"teammates_order_by",
+			where:"teammates_bool_exp"
+		},
+		teammates_aggregate:{
+			distinct_on:"teammates_select_column",
+			order_by:"teammates_order_by",
+			where:"teammates_bool_exp"
+		},
+		teammates_by_pk:{
+			id:"bigint"
+		},
+		teammates_stream:{
+			cursor:"teammates_stream_cursor_input",
+			where:"teammates_bool_exp"
+		},
+		token_gifts:{
+			distinct_on:"token_gifts_select_column",
+			order_by:"token_gifts_order_by",
+			where:"token_gifts_bool_exp"
+		},
+		token_gifts_aggregate:{
+			distinct_on:"token_gifts_select_column",
+			order_by:"token_gifts_order_by",
+			where:"token_gifts_bool_exp"
+		},
+		token_gifts_by_pk:{
+			id:"bigint"
+		},
+		token_gifts_stream:{
+			cursor:"token_gifts_stream_cursor_input",
+			where:"token_gifts_bool_exp"
+		},
+		user_private:{
+			distinct_on:"user_private_select_column",
+			order_by:"user_private_order_by",
+			where:"user_private_bool_exp"
+		},
+		user_private_aggregate:{
+			distinct_on:"user_private_select_column",
+			order_by:"user_private_order_by",
+			where:"user_private_bool_exp"
+		},
+		user_private_stream:{
+			cursor:"user_private_stream_cursor_input",
+			where:"user_private_bool_exp"
+		},
+		users:{
+			distinct_on:"users_select_column",
+			order_by:"users_order_by",
+			where:"users_bool_exp"
+		},
+		users_aggregate:{
+			distinct_on:"users_select_column",
+			order_by:"users_order_by",
+			where:"users_bool_exp"
+		},
+		users_by_pk:{
+			id:"bigint"
+		},
+		users_stream:{
+			cursor:"users_stream_cursor_input",
+			where:"users_bool_exp"
+		},
+		vault_transactions:{
+			distinct_on:"vault_transactions_select_column",
+			order_by:"vault_transactions_order_by",
+			where:"vault_transactions_bool_exp"
+		},
+		vault_transactions_aggregate:{
+			distinct_on:"vault_transactions_select_column",
+			order_by:"vault_transactions_order_by",
+			where:"vault_transactions_bool_exp"
+		},
+		vault_transactions_by_pk:{
+			id:"bigint"
+		},
+		vault_transactions_stream:{
+			cursor:"vault_transactions_stream_cursor_input",
+			where:"vault_transactions_bool_exp"
+		},
+		vault_tx_types:{
+			distinct_on:"vault_tx_types_select_column",
+			order_by:"vault_tx_types_order_by",
+			where:"vault_tx_types_bool_exp"
+		},
+		vault_tx_types_aggregate:{
+			distinct_on:"vault_tx_types_select_column",
+			order_by:"vault_tx_types_order_by",
+			where:"vault_tx_types_bool_exp"
+		},
+		vault_tx_types_by_pk:{
+
+		},
+		vault_tx_types_stream:{
+			cursor:"vault_tx_types_stream_cursor_input",
+			where:"vault_tx_types_bool_exp"
+		},
+		vaults:{
+			distinct_on:"vaults_select_column",
+			order_by:"vaults_order_by",
+			where:"vaults_bool_exp"
+		},
+		vaults_aggregate:{
+			distinct_on:"vaults_select_column",
+			order_by:"vaults_order_by",
+			where:"vaults_bool_exp"
+		},
+		vaults_by_pk:{
+			id:"bigint"
+		},
+		vaults_stream:{
+			cursor:"vaults_stream_cursor_input",
+			where:"vaults_bool_exp"
+		},
+		vouches:{
+			distinct_on:"vouches_select_column",
+			order_by:"vouches_order_by",
+			where:"vouches_bool_exp"
+		},
+		vouches_aggregate:{
+			distinct_on:"vouches_select_column",
+			order_by:"vouches_order_by",
+			where:"vouches_bool_exp"
+		},
+		vouches_by_pk:{
+			id:"bigint"
+		},
+		vouches_stream:{
+			cursor:"vouches_stream_cursor_input",
+			where:"vouches_bool_exp"
+		}
+	},
+	teammates_aggregate_fields:{
+		count:{
+			columns:"teammates_select_column"
+		}
+	},
+	teammates_aggregate_order_by:{
+		avg:"teammates_avg_order_by",
+		count:"order_by",
+		max:"teammates_max_order_by",
+		min:"teammates_min_order_by",
+		stddev:"teammates_stddev_order_by",
+		stddev_pop:"teammates_stddev_pop_order_by",
+		stddev_samp:"teammates_stddev_samp_order_by",
+		sum:"teammates_sum_order_by",
+		var_pop:"teammates_var_pop_order_by",
+		var_samp:"teammates_var_samp_order_by",
+		variance:"teammates_variance_order_by"
+	},
+	teammates_arr_rel_insert_input:{
+		data:"teammates_insert_input",
+		on_conflict:"teammates_on_conflict"
+	},
+	teammates_avg_order_by:{
+		id:"order_by",
+		team_mate_id:"order_by",
+		user_id:"order_by"
+	},
+	teammates_bool_exp:{
+		_and:"teammates_bool_exp",
+		_not:"teammates_bool_exp",
+		_or:"teammates_bool_exp",
+		created_at:"timestamp_comparison_exp",
+		id:"bigint_comparison_exp",
+		team_mate_id:"Int_comparison_exp",
+		teammate:"users_bool_exp",
+		updated_at:"timestamp_comparison_exp",
+		user:"users_bool_exp",
+		user_id:"Int_comparison_exp"
+	},
+	teammates_constraint: true,
+	teammates_inc_input:{
+		id:"bigint"
+	},
+	teammates_insert_input:{
+		created_at:"timestamp",
+		id:"bigint",
+		teammate:"users_obj_rel_insert_input",
+		updated_at:"timestamp",
+		user:"users_obj_rel_insert_input"
+	},
+	teammates_max_order_by:{
+		created_at:"order_by",
+		id:"order_by",
+		team_mate_id:"order_by",
+		updated_at:"order_by",
+		user_id:"order_by"
+	},
+	teammates_min_order_by:{
+		created_at:"order_by",
+		id:"order_by",
+		team_mate_id:"order_by",
+		updated_at:"order_by",
+		user_id:"order_by"
+	},
+	teammates_on_conflict:{
+		constraint:"teammates_constraint",
+		update_columns:"teammates_update_column",
+		where:"teammates_bool_exp"
+	},
+	teammates_order_by:{
+		created_at:"order_by",
+		id:"order_by",
+		team_mate_id:"order_by",
+		teammate:"users_order_by",
+		updated_at:"order_by",
+		user:"users_order_by",
+		user_id:"order_by"
+	},
+	teammates_pk_columns_input:{
+		id:"bigint"
+	},
+	teammates_select_column: true,
+	teammates_set_input:{
+		created_at:"timestamp",
+		id:"bigint",
+		updated_at:"timestamp"
+	},
+	teammates_stddev_order_by:{
+		id:"order_by",
+		team_mate_id:"order_by",
+		user_id:"order_by"
+	},
+	teammates_stddev_pop_order_by:{
+		id:"order_by",
+		team_mate_id:"order_by",
+		user_id:"order_by"
+	},
+	teammates_stddev_samp_order_by:{
+		id:"order_by",
+		team_mate_id:"order_by",
+		user_id:"order_by"
+	},
+	teammates_stream_cursor_input:{
+		initial_value:"teammates_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	teammates_stream_cursor_value_input:{
+		created_at:"timestamp",
+		id:"bigint",
+		updated_at:"timestamp"
+	},
+	teammates_sum_order_by:{
+		id:"order_by",
+		team_mate_id:"order_by",
+		user_id:"order_by"
+	},
+	teammates_update_column: true,
+	teammates_updates:{
+		_inc:"teammates_inc_input",
+		_set:"teammates_set_input",
+		where:"teammates_bool_exp"
+	},
+	teammates_var_pop_order_by:{
+		id:"order_by",
+		team_mate_id:"order_by",
+		user_id:"order_by"
+	},
+	teammates_var_samp_order_by:{
+		id:"order_by",
+		team_mate_id:"order_by",
+		user_id:"order_by"
+	},
+	teammates_variance_order_by:{
+		id:"order_by",
+		team_mate_id:"order_by",
+		user_id:"order_by"
+	},
+	timestamp: "String",
+	timestamp_comparison_exp:{
+		_eq:"timestamp",
+		_gt:"timestamp",
+		_gte:"timestamp",
+		_in:"timestamp",
+		_lt:"timestamp",
+		_lte:"timestamp",
+		_neq:"timestamp",
+		_nin:"timestamp"
+	},
+	timestamptz: "String",
+	timestamptz_comparison_exp:{
+		_eq:"timestamptz",
+		_gt:"timestamptz",
+		_gte:"timestamptz",
+		_in:"timestamptz",
+		_lt:"timestamptz",
+		_lte:"timestamptz",
+		_neq:"timestamptz",
+		_nin:"timestamptz"
+	},
+	token_gifts_aggregate_fields:{
+		count:{
+			columns:"token_gifts_select_column"
+		}
+	},
+	token_gifts_aggregate_order_by:{
+		avg:"token_gifts_avg_order_by",
+		count:"order_by",
+		max:"token_gifts_max_order_by",
+		min:"token_gifts_min_order_by",
+		stddev:"token_gifts_stddev_order_by",
+		stddev_pop:"token_gifts_stddev_pop_order_by",
+		stddev_samp:"token_gifts_stddev_samp_order_by",
+		sum:"token_gifts_sum_order_by",
+		var_pop:"token_gifts_var_pop_order_by",
+		var_samp:"token_gifts_var_samp_order_by",
+		variance:"token_gifts_variance_order_by"
+	},
+	token_gifts_arr_rel_insert_input:{
+		data:"token_gifts_insert_input",
+		on_conflict:"token_gifts_on_conflict"
+	},
+	token_gifts_avg_order_by:{
+		circle_id:"order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		recipient_id:"order_by",
+		sender_id:"order_by",
+		tokens:"order_by"
+	},
+	token_gifts_bool_exp:{
+		_and:"token_gifts_bool_exp",
+		_not:"token_gifts_bool_exp",
+		_or:"token_gifts_bool_exp",
+		circle:"circles_bool_exp",
+		circle_id:"bigint_comparison_exp",
+		created_at:"timestamp_comparison_exp",
+		dts_created:"timestamp_comparison_exp",
+		epoch:"epochs_bool_exp",
+		epoch_id:"Int_comparison_exp",
+		gift_private:"gift_private_bool_exp",
+		id:"bigint_comparison_exp",
+		note:"String_comparison_exp",
+		recipient:"users_bool_exp",
+		recipient_address:"String_comparison_exp",
+		recipient_id:"bigint_comparison_exp",
+		sender:"users_bool_exp",
+		sender_address:"String_comparison_exp",
+		sender_id:"bigint_comparison_exp",
+		tokens:"Int_comparison_exp",
+		updated_at:"timestamp_comparison_exp"
+	},
+	token_gifts_constraint: true,
+	token_gifts_inc_input:{
+		circle_id:"bigint",
+		id:"bigint",
+		recipient_id:"bigint",
+		sender_id:"bigint"
+	},
+	token_gifts_insert_input:{
+		circle:"circles_obj_rel_insert_input",
+		circle_id:"bigint",
+		created_at:"timestamp",
+		dts_created:"timestamp",
+		epoch:"epochs_obj_rel_insert_input",
+		gift_private:"gift_private_obj_rel_insert_input",
+		id:"bigint",
+		recipient:"users_obj_rel_insert_input",
+		recipient_id:"bigint",
+		sender:"users_obj_rel_insert_input",
+		sender_id:"bigint",
+		updated_at:"timestamp"
+	},
+	token_gifts_max_order_by:{
+		circle_id:"order_by",
+		created_at:"order_by",
+		dts_created:"order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		note:"order_by",
+		recipient_address:"order_by",
+		recipient_id:"order_by",
+		sender_address:"order_by",
+		sender_id:"order_by",
+		tokens:"order_by",
+		updated_at:"order_by"
+	},
+	token_gifts_min_order_by:{
+		circle_id:"order_by",
+		created_at:"order_by",
+		dts_created:"order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		note:"order_by",
+		recipient_address:"order_by",
+		recipient_id:"order_by",
+		sender_address:"order_by",
+		sender_id:"order_by",
+		tokens:"order_by",
+		updated_at:"order_by"
+	},
+	token_gifts_on_conflict:{
+		constraint:"token_gifts_constraint",
+		update_columns:"token_gifts_update_column",
+		where:"token_gifts_bool_exp"
+	},
+	token_gifts_order_by:{
+		circle:"circles_order_by",
+		circle_id:"order_by",
+		created_at:"order_by",
+		dts_created:"order_by",
+		epoch:"epochs_order_by",
+		epoch_id:"order_by",
+		gift_private:"gift_private_order_by",
+		id:"order_by",
+		note:"order_by",
+		recipient:"users_order_by",
+		recipient_address:"order_by",
+		recipient_id:"order_by",
+		sender:"users_order_by",
+		sender_address:"order_by",
+		sender_id:"order_by",
+		tokens:"order_by",
+		updated_at:"order_by"
+	},
+	token_gifts_pk_columns_input:{
+		id:"bigint"
+	},
+	token_gifts_select_column: true,
+	token_gifts_set_input:{
+		circle_id:"bigint",
+		created_at:"timestamp",
+		dts_created:"timestamp",
+		id:"bigint",
+		recipient_id:"bigint",
+		sender_id:"bigint",
+		updated_at:"timestamp"
+	},
+	token_gifts_stddev_order_by:{
+		circle_id:"order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		recipient_id:"order_by",
+		sender_id:"order_by",
+		tokens:"order_by"
+	},
+	token_gifts_stddev_pop_order_by:{
+		circle_id:"order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		recipient_id:"order_by",
+		sender_id:"order_by",
+		tokens:"order_by"
+	},
+	token_gifts_stddev_samp_order_by:{
+		circle_id:"order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		recipient_id:"order_by",
+		sender_id:"order_by",
+		tokens:"order_by"
+	},
+	token_gifts_stream_cursor_input:{
+		initial_value:"token_gifts_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	token_gifts_stream_cursor_value_input:{
+		circle_id:"bigint",
+		created_at:"timestamp",
+		dts_created:"timestamp",
+		id:"bigint",
+		recipient_id:"bigint",
+		sender_id:"bigint",
+		updated_at:"timestamp"
+	},
+	token_gifts_sum_order_by:{
+		circle_id:"order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		recipient_id:"order_by",
+		sender_id:"order_by",
+		tokens:"order_by"
+	},
+	token_gifts_update_column: true,
+	token_gifts_updates:{
+		_inc:"token_gifts_inc_input",
+		_set:"token_gifts_set_input",
+		where:"token_gifts_bool_exp"
+	},
+	token_gifts_var_pop_order_by:{
+		circle_id:"order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		recipient_id:"order_by",
+		sender_id:"order_by",
+		tokens:"order_by"
+	},
+	token_gifts_var_samp_order_by:{
+		circle_id:"order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		recipient_id:"order_by",
+		sender_id:"order_by",
+		tokens:"order_by"
+	},
+	token_gifts_variance_order_by:{
+		circle_id:"order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		recipient_id:"order_by",
+		sender_id:"order_by",
+		tokens:"order_by"
+	},
+	user_private_aggregate_fields:{
+		count:{
+			columns:"user_private_select_column"
+		}
+	},
+	user_private_bool_exp:{
+		_and:"user_private_bool_exp",
+		_not:"user_private_bool_exp",
+		_or:"user_private_bool_exp",
+		circle:"circles_bool_exp",
+		circle_id:"bigint_comparison_exp",
+		fixed_payment_amount:"numeric_comparison_exp",
+		fixed_payment_token_type:"String_comparison_exp",
+		user:"users_bool_exp",
+		user_id:"bigint_comparison_exp"
+	},
+	user_private_insert_input:{
+		circle:"circles_obj_rel_insert_input",
+		circle_id:"bigint",
+		fixed_payment_amount:"numeric",
+		user:"users_obj_rel_insert_input",
+		user_id:"bigint"
+	},
+	user_private_obj_rel_insert_input:{
+		data:"user_private_insert_input"
+	},
+	user_private_order_by:{
+		circle:"circles_order_by",
+		circle_id:"order_by",
+		fixed_payment_amount:"order_by",
+		fixed_payment_token_type:"order_by",
+		user:"users_order_by",
+		user_id:"order_by"
+	},
+	user_private_select_column: true,
+	user_private_stream_cursor_input:{
+		initial_value:"user_private_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	user_private_stream_cursor_value_input:{
+		circle_id:"bigint",
+		fixed_payment_amount:"numeric",
+		user_id:"bigint"
+	},
+	users:{
+		burns:{
+			distinct_on:"burns_select_column",
+			order_by:"burns_order_by",
+			where:"burns_bool_exp"
+		},
+		burns_aggregate:{
+			distinct_on:"burns_select_column",
+			order_by:"burns_order_by",
+			where:"burns_bool_exp"
+		},
+		circle_api_keys:{
+			distinct_on:"circle_api_keys_select_column",
+			order_by:"circle_api_keys_order_by",
+			where:"circle_api_keys_bool_exp"
+		},
+		circle_api_keys_aggregate:{
+			distinct_on:"circle_api_keys_select_column",
+			order_by:"circle_api_keys_order_by",
+			where:"circle_api_keys_bool_exp"
+		},
+		contributions:{
+			distinct_on:"contributions_select_column",
+			order_by:"contributions_order_by",
+			where:"contributions_bool_exp"
+		},
+		contributions_aggregate:{
+			distinct_on:"contributions_select_column",
+			order_by:"contributions_order_by",
+			where:"contributions_bool_exp"
+		},
+		pending_received_gifts:{
+			distinct_on:"pending_token_gifts_select_column",
+			order_by:"pending_token_gifts_order_by",
+			where:"pending_token_gifts_bool_exp"
+		},
+		pending_received_gifts_aggregate:{
+			distinct_on:"pending_token_gifts_select_column",
+			order_by:"pending_token_gifts_order_by",
+			where:"pending_token_gifts_bool_exp"
+		},
+		pending_sent_gifts:{
+			distinct_on:"pending_token_gifts_select_column",
+			order_by:"pending_token_gifts_order_by",
+			where:"pending_token_gifts_bool_exp"
+		},
+		pending_sent_gifts_aggregate:{
+			distinct_on:"pending_token_gifts_select_column",
+			order_by:"pending_token_gifts_order_by",
+			where:"pending_token_gifts_bool_exp"
+		},
+		received_gifts:{
+			distinct_on:"token_gifts_select_column",
+			order_by:"token_gifts_order_by",
+			where:"token_gifts_bool_exp"
+		},
+		received_gifts_aggregate:{
+			distinct_on:"token_gifts_select_column",
+			order_by:"token_gifts_order_by",
+			where:"token_gifts_bool_exp"
+		},
+		sent_gifts:{
+			distinct_on:"token_gifts_select_column",
+			order_by:"token_gifts_order_by",
+			where:"token_gifts_bool_exp"
+		},
+		sent_gifts_aggregate:{
+			distinct_on:"token_gifts_select_column",
+			order_by:"token_gifts_order_by",
+			where:"token_gifts_bool_exp"
+		},
+		teammates:{
+			distinct_on:"teammates_select_column",
+			order_by:"teammates_order_by",
+			where:"teammates_bool_exp"
+		},
+		teammates_aggregate:{
+			distinct_on:"teammates_select_column",
+			order_by:"teammates_order_by",
+			where:"teammates_bool_exp"
+		},
+		vouches:{
+			distinct_on:"vouches_select_column",
+			order_by:"vouches_order_by",
+			where:"vouches_bool_exp"
+		},
+		vouches_aggregate:{
+			distinct_on:"vouches_select_column",
+			order_by:"vouches_order_by",
+			where:"vouches_bool_exp"
+		}
+	},
+	users_aggregate_fields:{
+		count:{
+			columns:"users_select_column"
+		}
+	},
+	users_aggregate_order_by:{
+		avg:"users_avg_order_by",
+		count:"order_by",
+		max:"users_max_order_by",
+		min:"users_min_order_by",
+		stddev:"users_stddev_order_by",
+		stddev_pop:"users_stddev_pop_order_by",
+		stddev_samp:"users_stddev_samp_order_by",
+		sum:"users_sum_order_by",
+		var_pop:"users_var_pop_order_by",
+		var_samp:"users_var_samp_order_by",
+		variance:"users_variance_order_by"
+	},
+	users_arr_rel_insert_input:{
+		data:"users_insert_input",
+		on_conflict:"users_on_conflict"
+	},
+	users_avg_order_by:{
+		circle_id:"order_by",
+		fixed_payment_amount:"order_by",
+		give_token_received:"order_by",
+		give_token_remaining:"order_by",
+		id:"order_by",
+		role:"order_by",
+		starting_tokens:"order_by"
+	},
+	users_bool_exp:{
+		_and:"users_bool_exp",
+		_not:"users_bool_exp",
+		_or:"users_bool_exp",
+		address:"String_comparison_exp",
+		bio:"String_comparison_exp",
+		burns:"burns_bool_exp",
+		circle:"circles_bool_exp",
+		circle_api_keys:"circle_api_keys_bool_exp",
+		circle_id:"bigint_comparison_exp",
+		contributions:"contributions_bool_exp",
+		created_at:"timestamp_comparison_exp",
+		deleted_at:"timestamp_comparison_exp",
+		entrance:"String_comparison_exp",
+		epoch_first_visit:"Boolean_comparison_exp",
+		fixed_non_receiver:"Boolean_comparison_exp",
+		fixed_payment_amount:"numeric_comparison_exp",
+		give_token_received:"Int_comparison_exp",
+		give_token_remaining:"Int_comparison_exp",
+		id:"bigint_comparison_exp",
+		name:"String_comparison_exp",
+		non_giver:"Boolean_comparison_exp",
+		non_receiver:"Boolean_comparison_exp",
+		pending_received_gifts:"pending_token_gifts_bool_exp",
+		pending_sent_gifts:"pending_token_gifts_bool_exp",
+		profile:"profiles_bool_exp",
+		received_gifts:"token_gifts_bool_exp",
+		role:"Int_comparison_exp",
+		sent_gifts:"token_gifts_bool_exp",
+		starting_tokens:"Int_comparison_exp",
+		teammates:"teammates_bool_exp",
+		updated_at:"timestamp_comparison_exp",
+		user_private:"user_private_bool_exp",
+		vouches:"vouches_bool_exp"
+	},
+	users_constraint: true,
+	users_inc_input:{
+		circle_id:"bigint",
+		fixed_payment_amount:"numeric",
+		id:"bigint"
+	},
+	users_insert_input:{
+		burns:"burns_arr_rel_insert_input",
+		circle:"circles_obj_rel_insert_input",
+		circle_api_keys:"circle_api_keys_arr_rel_insert_input",
+		circle_id:"bigint",
+		contributions:"contributions_arr_rel_insert_input",
+		created_at:"timestamp",
+		deleted_at:"timestamp",
+		fixed_payment_amount:"numeric",
+		id:"bigint",
+		pending_received_gifts:"pending_token_gifts_arr_rel_insert_input",
+		pending_sent_gifts:"pending_token_gifts_arr_rel_insert_input",
+		profile:"profiles_obj_rel_insert_input",
+		received_gifts:"token_gifts_arr_rel_insert_input",
+		sent_gifts:"token_gifts_arr_rel_insert_input",
+		teammates:"teammates_arr_rel_insert_input",
+		updated_at:"timestamp",
+		user_private:"user_private_obj_rel_insert_input",
+		vouches:"vouches_arr_rel_insert_input"
+	},
+	users_max_order_by:{
+		address:"order_by",
+		bio:"order_by",
+		circle_id:"order_by",
+		created_at:"order_by",
+		deleted_at:"order_by",
+		entrance:"order_by",
+		fixed_payment_amount:"order_by",
+		give_token_received:"order_by",
+		give_token_remaining:"order_by",
+		id:"order_by",
+		name:"order_by",
+		role:"order_by",
+		starting_tokens:"order_by",
+		updated_at:"order_by"
+	},
+	users_min_order_by:{
+		address:"order_by",
+		bio:"order_by",
+		circle_id:"order_by",
+		created_at:"order_by",
+		deleted_at:"order_by",
+		entrance:"order_by",
+		fixed_payment_amount:"order_by",
+		give_token_received:"order_by",
+		give_token_remaining:"order_by",
+		id:"order_by",
+		name:"order_by",
+		role:"order_by",
+		starting_tokens:"order_by",
+		updated_at:"order_by"
+	},
+	users_obj_rel_insert_input:{
+		data:"users_insert_input",
+		on_conflict:"users_on_conflict"
+	},
+	users_on_conflict:{
+		constraint:"users_constraint",
+		update_columns:"users_update_column",
+		where:"users_bool_exp"
+	},
+	users_order_by:{
+		address:"order_by",
+		bio:"order_by",
+		burns_aggregate:"burns_aggregate_order_by",
+		circle:"circles_order_by",
+		circle_api_keys_aggregate:"circle_api_keys_aggregate_order_by",
+		circle_id:"order_by",
+		contributions_aggregate:"contributions_aggregate_order_by",
+		created_at:"order_by",
+		deleted_at:"order_by",
+		entrance:"order_by",
+		epoch_first_visit:"order_by",
+		fixed_non_receiver:"order_by",
+		fixed_payment_amount:"order_by",
+		give_token_received:"order_by",
+		give_token_remaining:"order_by",
+		id:"order_by",
+		name:"order_by",
+		non_giver:"order_by",
+		non_receiver:"order_by",
+		pending_received_gifts_aggregate:"pending_token_gifts_aggregate_order_by",
+		pending_sent_gifts_aggregate:"pending_token_gifts_aggregate_order_by",
+		profile:"profiles_order_by",
+		received_gifts_aggregate:"token_gifts_aggregate_order_by",
+		role:"order_by",
+		sent_gifts_aggregate:"token_gifts_aggregate_order_by",
+		starting_tokens:"order_by",
+		teammates_aggregate:"teammates_aggregate_order_by",
+		updated_at:"order_by",
+		user_private:"user_private_order_by",
+		vouches_aggregate:"vouches_aggregate_order_by"
+	},
+	users_pk_columns_input:{
+		id:"bigint"
+	},
+	users_select_column: true,
+	users_set_input:{
+		circle_id:"bigint",
+		created_at:"timestamp",
+		deleted_at:"timestamp",
+		fixed_payment_amount:"numeric",
+		id:"bigint",
+		updated_at:"timestamp"
+	},
+	users_stddev_order_by:{
+		circle_id:"order_by",
+		fixed_payment_amount:"order_by",
+		give_token_received:"order_by",
+		give_token_remaining:"order_by",
+		id:"order_by",
+		role:"order_by",
+		starting_tokens:"order_by"
+	},
+	users_stddev_pop_order_by:{
+		circle_id:"order_by",
+		fixed_payment_amount:"order_by",
+		give_token_received:"order_by",
+		give_token_remaining:"order_by",
+		id:"order_by",
+		role:"order_by",
+		starting_tokens:"order_by"
+	},
+	users_stddev_samp_order_by:{
+		circle_id:"order_by",
+		fixed_payment_amount:"order_by",
+		give_token_received:"order_by",
+		give_token_remaining:"order_by",
+		id:"order_by",
+		role:"order_by",
+		starting_tokens:"order_by"
+	},
+	users_stream_cursor_input:{
+		initial_value:"users_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	users_stream_cursor_value_input:{
+		circle_id:"bigint",
+		created_at:"timestamp",
+		deleted_at:"timestamp",
+		fixed_payment_amount:"numeric",
+		id:"bigint",
+		updated_at:"timestamp"
+	},
+	users_sum_order_by:{
+		circle_id:"order_by",
+		fixed_payment_amount:"order_by",
+		give_token_received:"order_by",
+		give_token_remaining:"order_by",
+		id:"order_by",
+		role:"order_by",
+		starting_tokens:"order_by"
+	},
+	users_update_column: true,
+	users_updates:{
+		_inc:"users_inc_input",
+		_set:"users_set_input",
+		where:"users_bool_exp"
+	},
+	users_var_pop_order_by:{
+		circle_id:"order_by",
+		fixed_payment_amount:"order_by",
+		give_token_received:"order_by",
+		give_token_remaining:"order_by",
+		id:"order_by",
+		role:"order_by",
+		starting_tokens:"order_by"
+	},
+	users_var_samp_order_by:{
+		circle_id:"order_by",
+		fixed_payment_amount:"order_by",
+		give_token_received:"order_by",
+		give_token_remaining:"order_by",
+		id:"order_by",
+		role:"order_by",
+		starting_tokens:"order_by"
+	},
+	users_variance_order_by:{
+		circle_id:"order_by",
+		fixed_payment_amount:"order_by",
+		give_token_received:"order_by",
+		give_token_remaining:"order_by",
+		id:"order_by",
+		role:"order_by",
+		starting_tokens:"order_by"
+	},
+	uuid: "String",
+	uuid_comparison_exp:{
+		_eq:"uuid",
+		_gt:"uuid",
+		_gte:"uuid",
+		_in:"uuid",
+		_lt:"uuid",
+		_lte:"uuid",
+		_neq:"uuid",
+		_nin:"uuid"
+	},
+	vault_transactions_aggregate_fields:{
+		count:{
+			columns:"vault_transactions_select_column"
+		}
+	},
+	vault_transactions_aggregate_order_by:{
+		avg:"vault_transactions_avg_order_by",
+		count:"order_by",
+		max:"vault_transactions_max_order_by",
+		min:"vault_transactions_min_order_by",
+		stddev:"vault_transactions_stddev_order_by",
+		stddev_pop:"vault_transactions_stddev_pop_order_by",
+		stddev_samp:"vault_transactions_stddev_samp_order_by",
+		sum:"vault_transactions_sum_order_by",
+		var_pop:"vault_transactions_var_pop_order_by",
+		var_samp:"vault_transactions_var_samp_order_by",
+		variance:"vault_transactions_variance_order_by"
+	},
+	vault_transactions_arr_rel_insert_input:{
+		data:"vault_transactions_insert_input",
+		on_conflict:"vault_transactions_on_conflict"
+	},
+	vault_transactions_avg_order_by:{
+		circle_id:"order_by",
+		created_by:"order_by",
+		distribution_id:"order_by",
+		id:"order_by",
+		vault_id:"order_by"
+	},
+	vault_transactions_bool_exp:{
+		_and:"vault_transactions_bool_exp",
+		_not:"vault_transactions_bool_exp",
+		_or:"vault_transactions_bool_exp",
+		circle:"circles_bool_exp",
+		circle_id:"bigint_comparison_exp",
+		created_at:"timestamp_comparison_exp",
+		created_by:"bigint_comparison_exp",
+		distribution:"distributions_bool_exp",
+		distribution_id:"bigint_comparison_exp",
+		id:"bigint_comparison_exp",
+		profile:"profiles_bool_exp",
+		tx_hash:"String_comparison_exp",
+		tx_type:"vault_tx_types_enum_comparison_exp",
+		updated_at:"timestamp_comparison_exp",
+		vault:"vaults_bool_exp",
+		vault_id:"bigint_comparison_exp",
+		vault_tx_type:"vault_tx_types_bool_exp"
+	},
+	vault_transactions_constraint: true,
+	vault_transactions_inc_input:{
+		circle_id:"bigint",
+		created_by:"bigint",
+		distribution_id:"bigint",
+		id:"bigint",
+		vault_id:"bigint"
+	},
+	vault_transactions_insert_input:{
+		circle:"circles_obj_rel_insert_input",
+		circle_id:"bigint",
+		created_at:"timestamp",
+		created_by:"bigint",
+		distribution:"distributions_obj_rel_insert_input",
+		distribution_id:"bigint",
+		id:"bigint",
+		profile:"profiles_obj_rel_insert_input",
+		tx_type:"vault_tx_types_enum",
+		updated_at:"timestamp",
+		vault:"vaults_obj_rel_insert_input",
+		vault_id:"bigint",
+		vault_tx_type:"vault_tx_types_obj_rel_insert_input"
+	},
+	vault_transactions_max_order_by:{
+		circle_id:"order_by",
+		created_at:"order_by",
+		created_by:"order_by",
+		distribution_id:"order_by",
+		id:"order_by",
+		tx_hash:"order_by",
+		updated_at:"order_by",
+		vault_id:"order_by"
+	},
+	vault_transactions_min_order_by:{
+		circle_id:"order_by",
+		created_at:"order_by",
+		created_by:"order_by",
+		distribution_id:"order_by",
+		id:"order_by",
+		tx_hash:"order_by",
+		updated_at:"order_by",
+		vault_id:"order_by"
+	},
+	vault_transactions_on_conflict:{
+		constraint:"vault_transactions_constraint",
+		update_columns:"vault_transactions_update_column",
+		where:"vault_transactions_bool_exp"
+	},
+	vault_transactions_order_by:{
+		circle:"circles_order_by",
+		circle_id:"order_by",
+		created_at:"order_by",
+		created_by:"order_by",
+		distribution:"distributions_order_by",
+		distribution_id:"order_by",
+		id:"order_by",
+		profile:"profiles_order_by",
+		tx_hash:"order_by",
+		tx_type:"order_by",
+		updated_at:"order_by",
+		vault:"vaults_order_by",
+		vault_id:"order_by",
+		vault_tx_type:"vault_tx_types_order_by"
+	},
+	vault_transactions_pk_columns_input:{
+		id:"bigint"
+	},
+	vault_transactions_select_column: true,
+	vault_transactions_set_input:{
+		circle_id:"bigint",
+		created_at:"timestamp",
+		created_by:"bigint",
+		distribution_id:"bigint",
+		id:"bigint",
+		tx_type:"vault_tx_types_enum",
+		updated_at:"timestamp",
+		vault_id:"bigint"
+	},
+	vault_transactions_stddev_order_by:{
+		circle_id:"order_by",
+		created_by:"order_by",
+		distribution_id:"order_by",
+		id:"order_by",
+		vault_id:"order_by"
+	},
+	vault_transactions_stddev_pop_order_by:{
+		circle_id:"order_by",
+		created_by:"order_by",
+		distribution_id:"order_by",
+		id:"order_by",
+		vault_id:"order_by"
+	},
+	vault_transactions_stddev_samp_order_by:{
+		circle_id:"order_by",
+		created_by:"order_by",
+		distribution_id:"order_by",
+		id:"order_by",
+		vault_id:"order_by"
+	},
+	vault_transactions_stream_cursor_input:{
+		initial_value:"vault_transactions_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	vault_transactions_stream_cursor_value_input:{
+		circle_id:"bigint",
+		created_at:"timestamp",
+		created_by:"bigint",
+		distribution_id:"bigint",
+		id:"bigint",
+		tx_type:"vault_tx_types_enum",
+		updated_at:"timestamp",
+		vault_id:"bigint"
+	},
+	vault_transactions_sum_order_by:{
+		circle_id:"order_by",
+		created_by:"order_by",
+		distribution_id:"order_by",
+		id:"order_by",
+		vault_id:"order_by"
+	},
+	vault_transactions_update_column: true,
+	vault_transactions_updates:{
+		_inc:"vault_transactions_inc_input",
+		_set:"vault_transactions_set_input",
+		where:"vault_transactions_bool_exp"
+	},
+	vault_transactions_var_pop_order_by:{
+		circle_id:"order_by",
+		created_by:"order_by",
+		distribution_id:"order_by",
+		id:"order_by",
+		vault_id:"order_by"
+	},
+	vault_transactions_var_samp_order_by:{
+		circle_id:"order_by",
+		created_by:"order_by",
+		distribution_id:"order_by",
+		id:"order_by",
+		vault_id:"order_by"
+	},
+	vault_transactions_variance_order_by:{
+		circle_id:"order_by",
+		created_by:"order_by",
+		distribution_id:"order_by",
+		id:"order_by",
+		vault_id:"order_by"
+	},
+	vault_tx_types:{
+		vault_transactions:{
+			distinct_on:"vault_transactions_select_column",
+			order_by:"vault_transactions_order_by",
+			where:"vault_transactions_bool_exp"
+		},
+		vault_transactions_aggregate:{
+			distinct_on:"vault_transactions_select_column",
+			order_by:"vault_transactions_order_by",
+			where:"vault_transactions_bool_exp"
+		}
+	},
+	vault_tx_types_aggregate_fields:{
+		count:{
+			columns:"vault_tx_types_select_column"
+		}
+	},
+	vault_tx_types_bool_exp:{
+		_and:"vault_tx_types_bool_exp",
+		_not:"vault_tx_types_bool_exp",
+		_or:"vault_tx_types_bool_exp",
+		comment:"String_comparison_exp",
+		value:"String_comparison_exp",
+		vault_transactions:"vault_transactions_bool_exp"
+	},
+	vault_tx_types_constraint: true,
+	vault_tx_types_enum: true,
+	vault_tx_types_enum_comparison_exp:{
+		_eq:"vault_tx_types_enum",
+		_in:"vault_tx_types_enum",
+		_neq:"vault_tx_types_enum",
+		_nin:"vault_tx_types_enum"
+	},
+	vault_tx_types_insert_input:{
+		vault_transactions:"vault_transactions_arr_rel_insert_input"
+	},
+	vault_tx_types_obj_rel_insert_input:{
+		data:"vault_tx_types_insert_input",
+		on_conflict:"vault_tx_types_on_conflict"
+	},
+	vault_tx_types_on_conflict:{
+		constraint:"vault_tx_types_constraint",
+		update_columns:"vault_tx_types_update_column",
+		where:"vault_tx_types_bool_exp"
+	},
+	vault_tx_types_order_by:{
+		comment:"order_by",
+		value:"order_by",
+		vault_transactions_aggregate:"vault_transactions_aggregate_order_by"
+	},
+	vault_tx_types_pk_columns_input:{
+
+	},
+	vault_tx_types_select_column: true,
+	vault_tx_types_set_input:{
+
+	},
+	vault_tx_types_stream_cursor_input:{
+		initial_value:"vault_tx_types_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	vault_tx_types_stream_cursor_value_input:{
+
+	},
+	vault_tx_types_update_column: true,
+	vault_tx_types_updates:{
+		_set:"vault_tx_types_set_input",
+		where:"vault_tx_types_bool_exp"
+	},
+	vaults:{
+		distributions:{
+			distinct_on:"distributions_select_column",
+			order_by:"distributions_order_by",
+			where:"distributions_bool_exp"
+		},
+		distributions_aggregate:{
+			distinct_on:"distributions_select_column",
+			order_by:"distributions_order_by",
+			where:"distributions_bool_exp"
+		},
+		vault_transactions:{
+			distinct_on:"vault_transactions_select_column",
+			order_by:"vault_transactions_order_by",
+			where:"vault_transactions_bool_exp"
+		},
+		vault_transactions_aggregate:{
+			distinct_on:"vault_transactions_select_column",
+			order_by:"vault_transactions_order_by",
+			where:"vault_transactions_bool_exp"
+		}
+	},
+	vaults_aggregate_fields:{
+		count:{
+			columns:"vaults_select_column"
+		}
+	},
+	vaults_aggregate_order_by:{
+		avg:"vaults_avg_order_by",
+		count:"order_by",
+		max:"vaults_max_order_by",
+		min:"vaults_min_order_by",
+		stddev:"vaults_stddev_order_by",
+		stddev_pop:"vaults_stddev_pop_order_by",
+		stddev_samp:"vaults_stddev_samp_order_by",
+		sum:"vaults_sum_order_by",
+		var_pop:"vaults_var_pop_order_by",
+		var_samp:"vaults_var_samp_order_by",
+		variance:"vaults_variance_order_by"
+	},
+	vaults_arr_rel_insert_input:{
+		data:"vaults_insert_input",
+		on_conflict:"vaults_on_conflict"
+	},
+	vaults_avg_order_by:{
+		chain_id:"order_by",
+		created_by:"order_by",
+		decimals:"order_by",
+		deployment_block:"order_by",
+		id:"order_by",
+		org_id:"order_by"
+	},
+	vaults_bool_exp:{
+		_and:"vaults_bool_exp",
+		_not:"vaults_bool_exp",
+		_or:"vaults_bool_exp",
+		chain_id:"Int_comparison_exp",
+		created_at:"timestamptz_comparison_exp",
+		created_by:"bigint_comparison_exp",
+		decimals:"Int_comparison_exp",
+		deployment_block:"bigint_comparison_exp",
+		distributions:"distributions_bool_exp",
+		id:"bigint_comparison_exp",
+		org_id:"bigint_comparison_exp",
+		organization:"organizations_bool_exp",
+		profile:"profiles_bool_exp",
+		simple_token_address:"String_comparison_exp",
+		symbol:"String_comparison_exp",
+		token_address:"String_comparison_exp",
+		updated_at:"timestamptz_comparison_exp",
+		vault_address:"String_comparison_exp",
+		vault_transactions:"vault_transactions_bool_exp"
+	},
+	vaults_constraint: true,
+	vaults_inc_input:{
+		created_by:"bigint",
+		deployment_block:"bigint",
+		id:"bigint",
+		org_id:"bigint"
+	},
+	vaults_insert_input:{
+		created_at:"timestamptz",
+		created_by:"bigint",
+		deployment_block:"bigint",
+		distributions:"distributions_arr_rel_insert_input",
+		id:"bigint",
+		org_id:"bigint",
+		organization:"organizations_obj_rel_insert_input",
+		profile:"profiles_obj_rel_insert_input",
+		updated_at:"timestamptz",
+		vault_transactions:"vault_transactions_arr_rel_insert_input"
+	},
+	vaults_max_order_by:{
+		chain_id:"order_by",
+		created_at:"order_by",
+		created_by:"order_by",
+		decimals:"order_by",
+		deployment_block:"order_by",
+		id:"order_by",
+		org_id:"order_by",
+		simple_token_address:"order_by",
+		symbol:"order_by",
+		token_address:"order_by",
+		updated_at:"order_by",
+		vault_address:"order_by"
+	},
+	vaults_min_order_by:{
+		chain_id:"order_by",
+		created_at:"order_by",
+		created_by:"order_by",
+		decimals:"order_by",
+		deployment_block:"order_by",
+		id:"order_by",
+		org_id:"order_by",
+		simple_token_address:"order_by",
+		symbol:"order_by",
+		token_address:"order_by",
+		updated_at:"order_by",
+		vault_address:"order_by"
+	},
+	vaults_obj_rel_insert_input:{
+		data:"vaults_insert_input",
+		on_conflict:"vaults_on_conflict"
+	},
+	vaults_on_conflict:{
+		constraint:"vaults_constraint",
+		update_columns:"vaults_update_column",
+		where:"vaults_bool_exp"
+	},
+	vaults_order_by:{
+		chain_id:"order_by",
+		created_at:"order_by",
+		created_by:"order_by",
+		decimals:"order_by",
+		deployment_block:"order_by",
+		distributions_aggregate:"distributions_aggregate_order_by",
+		id:"order_by",
+		org_id:"order_by",
+		organization:"organizations_order_by",
+		profile:"profiles_order_by",
+		simple_token_address:"order_by",
+		symbol:"order_by",
+		token_address:"order_by",
+		updated_at:"order_by",
+		vault_address:"order_by",
+		vault_transactions_aggregate:"vault_transactions_aggregate_order_by"
+	},
+	vaults_pk_columns_input:{
+		id:"bigint"
+	},
+	vaults_select_column: true,
+	vaults_set_input:{
+		created_at:"timestamptz",
+		created_by:"bigint",
+		deployment_block:"bigint",
+		id:"bigint",
+		org_id:"bigint",
+		updated_at:"timestamptz"
+	},
+	vaults_stddev_order_by:{
+		chain_id:"order_by",
+		created_by:"order_by",
+		decimals:"order_by",
+		deployment_block:"order_by",
+		id:"order_by",
+		org_id:"order_by"
+	},
+	vaults_stddev_pop_order_by:{
+		chain_id:"order_by",
+		created_by:"order_by",
+		decimals:"order_by",
+		deployment_block:"order_by",
+		id:"order_by",
+		org_id:"order_by"
+	},
+	vaults_stddev_samp_order_by:{
+		chain_id:"order_by",
+		created_by:"order_by",
+		decimals:"order_by",
+		deployment_block:"order_by",
+		id:"order_by",
+		org_id:"order_by"
+	},
+	vaults_stream_cursor_input:{
+		initial_value:"vaults_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	vaults_stream_cursor_value_input:{
+		created_at:"timestamptz",
+		created_by:"bigint",
+		deployment_block:"bigint",
+		id:"bigint",
+		org_id:"bigint",
+		updated_at:"timestamptz"
+	},
+	vaults_sum_order_by:{
+		chain_id:"order_by",
+		created_by:"order_by",
+		decimals:"order_by",
+		deployment_block:"order_by",
+		id:"order_by",
+		org_id:"order_by"
+	},
+	vaults_update_column: true,
+	vaults_updates:{
+		_inc:"vaults_inc_input",
+		_set:"vaults_set_input",
+		where:"vaults_bool_exp"
+	},
+	vaults_var_pop_order_by:{
+		chain_id:"order_by",
+		created_by:"order_by",
+		decimals:"order_by",
+		deployment_block:"order_by",
+		id:"order_by",
+		org_id:"order_by"
+	},
+	vaults_var_samp_order_by:{
+		chain_id:"order_by",
+		created_by:"order_by",
+		decimals:"order_by",
+		deployment_block:"order_by",
+		id:"order_by",
+		org_id:"order_by"
+	},
+	vaults_variance_order_by:{
+		chain_id:"order_by",
+		created_by:"order_by",
+		decimals:"order_by",
+		deployment_block:"order_by",
+		id:"order_by",
+		org_id:"order_by"
+	},
+	vouches_aggregate_fields:{
+		count:{
+			columns:"vouches_select_column"
+		}
+	},
+	vouches_aggregate_order_by:{
+		avg:"vouches_avg_order_by",
+		count:"order_by",
+		max:"vouches_max_order_by",
+		min:"vouches_min_order_by",
+		stddev:"vouches_stddev_order_by",
+		stddev_pop:"vouches_stddev_pop_order_by",
+		stddev_samp:"vouches_stddev_samp_order_by",
+		sum:"vouches_sum_order_by",
+		var_pop:"vouches_var_pop_order_by",
+		var_samp:"vouches_var_samp_order_by",
+		variance:"vouches_variance_order_by"
+	},
+	vouches_arr_rel_insert_input:{
+		data:"vouches_insert_input",
+		on_conflict:"vouches_on_conflict"
+	},
+	vouches_avg_order_by:{
+		id:"order_by",
+		nominee_id:"order_by",
+		voucher_id:"order_by"
+	},
+	vouches_bool_exp:{
+		_and:"vouches_bool_exp",
+		_not:"vouches_bool_exp",
+		_or:"vouches_bool_exp",
+		created_at:"timestamp_comparison_exp",
+		id:"bigint_comparison_exp",
+		nominee:"nominees_bool_exp",
+		nominee_id:"Int_comparison_exp",
+		updated_at:"timestamp_comparison_exp",
+		voucher:"users_bool_exp",
+		voucher_id:"Int_comparison_exp"
+	},
+	vouches_constraint: true,
+	vouches_inc_input:{
+		id:"bigint"
+	},
+	vouches_insert_input:{
+		created_at:"timestamp",
+		id:"bigint",
+		nominee:"nominees_obj_rel_insert_input",
+		updated_at:"timestamp",
+		voucher:"users_obj_rel_insert_input"
+	},
+	vouches_max_order_by:{
+		created_at:"order_by",
+		id:"order_by",
+		nominee_id:"order_by",
+		updated_at:"order_by",
+		voucher_id:"order_by"
+	},
+	vouches_min_order_by:{
+		created_at:"order_by",
+		id:"order_by",
+		nominee_id:"order_by",
+		updated_at:"order_by",
+		voucher_id:"order_by"
+	},
+	vouches_on_conflict:{
+		constraint:"vouches_constraint",
+		update_columns:"vouches_update_column",
+		where:"vouches_bool_exp"
+	},
+	vouches_order_by:{
+		created_at:"order_by",
+		id:"order_by",
+		nominee:"nominees_order_by",
+		nominee_id:"order_by",
+		updated_at:"order_by",
+		voucher:"users_order_by",
+		voucher_id:"order_by"
+	},
+	vouches_pk_columns_input:{
+		id:"bigint"
+	},
+	vouches_select_column: true,
+	vouches_set_input:{
+		created_at:"timestamp",
+		id:"bigint",
+		updated_at:"timestamp"
+	},
+	vouches_stddev_order_by:{
+		id:"order_by",
+		nominee_id:"order_by",
+		voucher_id:"order_by"
+	},
+	vouches_stddev_pop_order_by:{
+		id:"order_by",
+		nominee_id:"order_by",
+		voucher_id:"order_by"
+	},
+	vouches_stddev_samp_order_by:{
+		id:"order_by",
+		nominee_id:"order_by",
+		voucher_id:"order_by"
+	},
+	vouches_stream_cursor_input:{
+		initial_value:"vouches_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	vouches_stream_cursor_value_input:{
+		created_at:"timestamp",
+		id:"bigint",
+		updated_at:"timestamp"
+	},
+	vouches_sum_order_by:{
+		id:"order_by",
+		nominee_id:"order_by",
+		voucher_id:"order_by"
+	},
+	vouches_update_column: true,
+	vouches_updates:{
+		_inc:"vouches_inc_input",
+		_set:"vouches_set_input",
+		where:"vouches_bool_exp"
+	},
+	vouches_var_pop_order_by:{
+		id:"order_by",
+		nominee_id:"order_by",
+		voucher_id:"order_by"
+	},
+	vouches_var_samp_order_by:{
+		id:"order_by",
+		nominee_id:"order_by",
+		voucher_id:"order_by"
+	},
+	vouches_variance_order_by:{
+		id:"order_by",
+		nominee_id:"order_by",
+		voucher_id:"order_by"
+	}
+}
+
+export const ReturnTypes: Record<string,any> = {
+	cached:{
+		ttl:"Int",
+		refresh:"Boolean"
+	},
+	AllocationCsvResponse:{
+		file:"String"
+	},
+	AllocationsResponse:{
+		user:"users",
+		user_id:"Int"
+	},
+	ConfirmationResponse:{
+		success:"Boolean"
+	},
+	CreateCircleResponse:{
+		circle:"circles",
+		id:"Int",
+		users:"users",
+		users_aggregate:"users_aggregate"
+	},
+	CreateNomineeResponse:{
+		id:"Int",
+		nominee:"nominees"
+	},
+	CreateSampleCircleResponse:{
+		circle:"circles",
+		id:"Int"
+	},
+	DeleteEpochResponse:{
+		success:"Boolean"
+	},
+	DeleteUserBulkResponse:{
+		success:"Boolean"
+	},
+	EpochResponse:{
+		epoch:"epochs",
+		id:"ID"
+	},
+	GenerateApiKeyResponse:{
+		api_key:"String",
+		circleApiKey:"circle_api_keys",
+		hash:"String"
+	},
+	LinkDiscordUserResponse:{
+		id:"Int",
+		linkDiscordUser_DiscordUser:"discord_users"
+	},
+	LogVaultTxResponse:{
+		id:"ID",
+		vault_tx_return_object:"vault_transactions"
+	},
+	LogoutResponse:{
+		id:"Int",
+		profile:"profiles"
+	},
+	MarkClaimedOutput:{
+		ids:"Int"
+	},
+	UpdateCircleOutput:{
+		circle:"circles",
+		id:"Int"
+	},
+	UpdateCircleResponse:{
+		circle:"circles",
+		id:"Int"
+	},
+	UpdateContributionResponse:{
+		id:"ID",
+		updateContribution_Contribution:"contributions"
+	},
+	UpdateOrgResponse:{
+		id:"Int",
+		org:"organizations"
+	},
+	UpdateProfileResponse:{
+		id:"Int",
+		profile:"profiles"
+	},
+	UpdateTeammatesResponse:{
+		user:"users",
+		user_id:"ID"
+	},
+	UserResponse:{
+		UserResponse:"users",
+		id:"ID"
+	},
+	VaultResponse:{
+		id:"ID",
+		vault:"vaults"
+	},
+	VouchOutput:{
+		id:"Int",
+		nominee:"nominees"
+	},
+	burns:{
+		circle:"circles",
+		circle_id:"bigint",
+		created_at:"timestamp",
+		epoch:"epochs",
+		epoch_id:"bigint",
+		id:"bigint",
+		original_amount:"Int",
+		regift_percent:"Int",
+		tokens_burnt:"Int",
+		updated_at:"timestamp",
+		user:"users",
+		user_id:"bigint"
+	},
+	burns_aggregate:{
+		aggregate:"burns_aggregate_fields",
+		nodes:"burns"
+	},
+	burns_aggregate_fields:{
+		avg:"burns_avg_fields",
+		count:"Int",
+		max:"burns_max_fields",
+		min:"burns_min_fields",
+		stddev:"burns_stddev_fields",
+		stddev_pop:"burns_stddev_pop_fields",
+		stddev_samp:"burns_stddev_samp_fields",
+		sum:"burns_sum_fields",
+		var_pop:"burns_var_pop_fields",
+		var_samp:"burns_var_samp_fields",
+		variance:"burns_variance_fields"
+	},
+	burns_avg_fields:{
+		circle_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		original_amount:"Float",
+		regift_percent:"Float",
+		tokens_burnt:"Float",
+		user_id:"Float"
+	},
+	burns_max_fields:{
+		circle_id:"bigint",
+		created_at:"timestamp",
+		epoch_id:"bigint",
+		id:"bigint",
+		original_amount:"Int",
+		regift_percent:"Int",
+		tokens_burnt:"Int",
+		updated_at:"timestamp",
+		user_id:"bigint"
+	},
+	burns_min_fields:{
+		circle_id:"bigint",
+		created_at:"timestamp",
+		epoch_id:"bigint",
+		id:"bigint",
+		original_amount:"Int",
+		regift_percent:"Int",
+		tokens_burnt:"Int",
+		updated_at:"timestamp",
+		user_id:"bigint"
+	},
+	burns_mutation_response:{
+		affected_rows:"Int",
+		returning:"burns"
+	},
+	burns_stddev_fields:{
+		circle_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		original_amount:"Float",
+		regift_percent:"Float",
+		tokens_burnt:"Float",
+		user_id:"Float"
+	},
+	burns_stddev_pop_fields:{
+		circle_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		original_amount:"Float",
+		regift_percent:"Float",
+		tokens_burnt:"Float",
+		user_id:"Float"
+	},
+	burns_stddev_samp_fields:{
+		circle_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		original_amount:"Float",
+		regift_percent:"Float",
+		tokens_burnt:"Float",
+		user_id:"Float"
+	},
+	burns_sum_fields:{
+		circle_id:"bigint",
+		epoch_id:"bigint",
+		id:"bigint",
+		original_amount:"Int",
+		regift_percent:"Int",
+		tokens_burnt:"Int",
+		user_id:"bigint"
+	},
+	burns_var_pop_fields:{
+		circle_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		original_amount:"Float",
+		regift_percent:"Float",
+		tokens_burnt:"Float",
+		user_id:"Float"
+	},
+	burns_var_samp_fields:{
+		circle_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		original_amount:"Float",
+		regift_percent:"Float",
+		tokens_burnt:"Float",
+		user_id:"Float"
+	},
+	burns_variance_fields:{
+		circle_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		original_amount:"Float",
+		regift_percent:"Float",
+		tokens_burnt:"Float",
+		user_id:"Float"
+	},
+	circle_api_keys:{
+		circle:"circles",
+		circle_id:"bigint",
+		create_contributions:"Boolean",
+		create_vouches:"Boolean",
+		createdByUser:"users",
+		created_at:"timestamptz",
+		created_by:"bigint",
+		hash:"String",
+		name:"String",
+		read_circle:"Boolean",
+		read_contributions:"Boolean",
+		read_discord:"Boolean",
+		read_epochs:"Boolean",
+		read_member_profiles:"Boolean",
+		read_nominees:"Boolean",
+		read_pending_token_gifts:"Boolean",
+		update_circle:"Boolean",
+		update_pending_token_gifts:"Boolean"
+	},
+	circle_api_keys_aggregate:{
+		aggregate:"circle_api_keys_aggregate_fields",
+		nodes:"circle_api_keys"
+	},
+	circle_api_keys_aggregate_fields:{
+		avg:"circle_api_keys_avg_fields",
+		count:"Int",
+		max:"circle_api_keys_max_fields",
+		min:"circle_api_keys_min_fields",
+		stddev:"circle_api_keys_stddev_fields",
+		stddev_pop:"circle_api_keys_stddev_pop_fields",
+		stddev_samp:"circle_api_keys_stddev_samp_fields",
+		sum:"circle_api_keys_sum_fields",
+		var_pop:"circle_api_keys_var_pop_fields",
+		var_samp:"circle_api_keys_var_samp_fields",
+		variance:"circle_api_keys_variance_fields"
+	},
+	circle_api_keys_avg_fields:{
+		circle_id:"Float",
+		created_by:"Float"
+	},
+	circle_api_keys_max_fields:{
+		circle_id:"bigint",
+		created_at:"timestamptz",
+		created_by:"bigint",
+		hash:"String",
+		name:"String"
+	},
+	circle_api_keys_min_fields:{
+		circle_id:"bigint",
+		created_at:"timestamptz",
+		created_by:"bigint",
+		hash:"String",
+		name:"String"
+	},
+	circle_api_keys_mutation_response:{
+		affected_rows:"Int",
+		returning:"circle_api_keys"
+	},
+	circle_api_keys_stddev_fields:{
+		circle_id:"Float",
+		created_by:"Float"
+	},
+	circle_api_keys_stddev_pop_fields:{
+		circle_id:"Float",
+		created_by:"Float"
+	},
+	circle_api_keys_stddev_samp_fields:{
+		circle_id:"Float",
+		created_by:"Float"
+	},
+	circle_api_keys_sum_fields:{
+		circle_id:"bigint",
+		created_by:"bigint"
+	},
+	circle_api_keys_var_pop_fields:{
+		circle_id:"Float",
+		created_by:"Float"
+	},
+	circle_api_keys_var_samp_fields:{
+		circle_id:"Float",
+		created_by:"Float"
+	},
+	circle_api_keys_variance_fields:{
+		circle_id:"Float",
+		created_by:"Float"
+	},
+	circle_integrations:{
+		circle:"circles",
+		circle_id:"bigint",
+		created_at:"timestamptz",
+		data:"json",
+		id:"bigint",
+		name:"String",
+		type:"String",
+		updated_at:"timestamptz"
+	},
+	circle_integrations_aggregate:{
+		aggregate:"circle_integrations_aggregate_fields",
+		nodes:"circle_integrations"
+	},
+	circle_integrations_aggregate_fields:{
+		avg:"circle_integrations_avg_fields",
+		count:"Int",
+		max:"circle_integrations_max_fields",
+		min:"circle_integrations_min_fields",
+		stddev:"circle_integrations_stddev_fields",
+		stddev_pop:"circle_integrations_stddev_pop_fields",
+		stddev_samp:"circle_integrations_stddev_samp_fields",
+		sum:"circle_integrations_sum_fields",
+		var_pop:"circle_integrations_var_pop_fields",
+		var_samp:"circle_integrations_var_samp_fields",
+		variance:"circle_integrations_variance_fields"
+	},
+	circle_integrations_avg_fields:{
+		circle_id:"Float",
+		id:"Float"
+	},
+	circle_integrations_max_fields:{
+		circle_id:"bigint",
+		created_at:"timestamptz",
+		id:"bigint",
+		name:"String",
+		type:"String",
+		updated_at:"timestamptz"
+	},
+	circle_integrations_min_fields:{
+		circle_id:"bigint",
+		created_at:"timestamptz",
+		id:"bigint",
+		name:"String",
+		type:"String",
+		updated_at:"timestamptz"
+	},
+	circle_integrations_mutation_response:{
+		affected_rows:"Int",
+		returning:"circle_integrations"
+	},
+	circle_integrations_stddev_fields:{
+		circle_id:"Float",
+		id:"Float"
+	},
+	circle_integrations_stddev_pop_fields:{
+		circle_id:"Float",
+		id:"Float"
+	},
+	circle_integrations_stddev_samp_fields:{
+		circle_id:"Float",
+		id:"Float"
+	},
+	circle_integrations_sum_fields:{
+		circle_id:"bigint",
+		id:"bigint"
+	},
+	circle_integrations_var_pop_fields:{
+		circle_id:"Float",
+		id:"Float"
+	},
+	circle_integrations_var_samp_fields:{
+		circle_id:"Float",
+		id:"Float"
+	},
+	circle_integrations_variance_fields:{
+		circle_id:"Float",
+		id:"Float"
+	},
+	circle_metadata:{
+		circle:"circles",
+		circle_id:"bigint",
+		created_at:"timestamp",
+		id:"bigint",
+		json:"json",
+		updated_at:"timestamp"
+	},
+	circle_metadata_aggregate:{
+		aggregate:"circle_metadata_aggregate_fields",
+		nodes:"circle_metadata"
+	},
+	circle_metadata_aggregate_fields:{
+		avg:"circle_metadata_avg_fields",
+		count:"Int",
+		max:"circle_metadata_max_fields",
+		min:"circle_metadata_min_fields",
+		stddev:"circle_metadata_stddev_fields",
+		stddev_pop:"circle_metadata_stddev_pop_fields",
+		stddev_samp:"circle_metadata_stddev_samp_fields",
+		sum:"circle_metadata_sum_fields",
+		var_pop:"circle_metadata_var_pop_fields",
+		var_samp:"circle_metadata_var_samp_fields",
+		variance:"circle_metadata_variance_fields"
+	},
+	circle_metadata_avg_fields:{
+		circle_id:"Float",
+		id:"Float"
+	},
+	circle_metadata_max_fields:{
+		circle_id:"bigint",
+		created_at:"timestamp",
+		id:"bigint",
+		updated_at:"timestamp"
+	},
+	circle_metadata_min_fields:{
+		circle_id:"bigint",
+		created_at:"timestamp",
+		id:"bigint",
+		updated_at:"timestamp"
+	},
+	circle_metadata_mutation_response:{
+		affected_rows:"Int",
+		returning:"circle_metadata"
+	},
+	circle_metadata_stddev_fields:{
+		circle_id:"Float",
+		id:"Float"
+	},
+	circle_metadata_stddev_pop_fields:{
+		circle_id:"Float",
+		id:"Float"
+	},
+	circle_metadata_stddev_samp_fields:{
+		circle_id:"Float",
+		id:"Float"
+	},
+	circle_metadata_sum_fields:{
+		circle_id:"bigint",
+		id:"bigint"
+	},
+	circle_metadata_var_pop_fields:{
+		circle_id:"Float",
+		id:"Float"
+	},
+	circle_metadata_var_samp_fields:{
+		circle_id:"Float",
+		id:"Float"
+	},
+	circle_metadata_variance_fields:{
+		circle_id:"Float",
+		id:"Float"
+	},
+	circle_private:{
+		circle:"circles",
+		circle_id:"bigint",
+		discord_webhook:"String"
+	},
+	circle_private_aggregate:{
+		aggregate:"circle_private_aggregate_fields",
+		nodes:"circle_private"
+	},
+	circle_private_aggregate_fields:{
+		avg:"circle_private_avg_fields",
+		count:"Int",
+		max:"circle_private_max_fields",
+		min:"circle_private_min_fields",
+		stddev:"circle_private_stddev_fields",
+		stddev_pop:"circle_private_stddev_pop_fields",
+		stddev_samp:"circle_private_stddev_samp_fields",
+		sum:"circle_private_sum_fields",
+		var_pop:"circle_private_var_pop_fields",
+		var_samp:"circle_private_var_samp_fields",
+		variance:"circle_private_variance_fields"
+	},
+	circle_private_avg_fields:{
+		circle_id:"Float"
+	},
+	circle_private_max_fields:{
+		circle_id:"bigint",
+		discord_webhook:"String"
+	},
+	circle_private_min_fields:{
+		circle_id:"bigint",
+		discord_webhook:"String"
+	},
+	circle_private_mutation_response:{
+		affected_rows:"Int",
+		returning:"circle_private"
+	},
+	circle_private_stddev_fields:{
+		circle_id:"Float"
+	},
+	circle_private_stddev_pop_fields:{
+		circle_id:"Float"
+	},
+	circle_private_stddev_samp_fields:{
+		circle_id:"Float"
+	},
+	circle_private_sum_fields:{
+		circle_id:"bigint"
+	},
+	circle_private_var_pop_fields:{
+		circle_id:"Float"
+	},
+	circle_private_var_samp_fields:{
+		circle_id:"Float"
+	},
+	circle_private_variance_fields:{
+		circle_id:"Float"
+	},
+	circle_share_tokens:{
+		circle:"circles",
+		circle_id:"bigint",
+		created_at:"timestamptz",
+		type:"Int",
+		updated_at:"timestamptz",
+		uuid:"uuid"
+	},
+	circle_share_tokens_aggregate:{
+		aggregate:"circle_share_tokens_aggregate_fields",
+		nodes:"circle_share_tokens"
+	},
+	circle_share_tokens_aggregate_fields:{
+		avg:"circle_share_tokens_avg_fields",
+		count:"Int",
+		max:"circle_share_tokens_max_fields",
+		min:"circle_share_tokens_min_fields",
+		stddev:"circle_share_tokens_stddev_fields",
+		stddev_pop:"circle_share_tokens_stddev_pop_fields",
+		stddev_samp:"circle_share_tokens_stddev_samp_fields",
+		sum:"circle_share_tokens_sum_fields",
+		var_pop:"circle_share_tokens_var_pop_fields",
+		var_samp:"circle_share_tokens_var_samp_fields",
+		variance:"circle_share_tokens_variance_fields"
+	},
+	circle_share_tokens_avg_fields:{
+		circle_id:"Float",
+		type:"Float"
+	},
+	circle_share_tokens_max_fields:{
+		circle_id:"bigint",
+		created_at:"timestamptz",
+		type:"Int",
+		updated_at:"timestamptz",
+		uuid:"uuid"
+	},
+	circle_share_tokens_min_fields:{
+		circle_id:"bigint",
+		created_at:"timestamptz",
+		type:"Int",
+		updated_at:"timestamptz",
+		uuid:"uuid"
+	},
+	circle_share_tokens_mutation_response:{
+		affected_rows:"Int",
+		returning:"circle_share_tokens"
+	},
+	circle_share_tokens_stddev_fields:{
+		circle_id:"Float",
+		type:"Float"
+	},
+	circle_share_tokens_stddev_pop_fields:{
+		circle_id:"Float",
+		type:"Float"
+	},
+	circle_share_tokens_stddev_samp_fields:{
+		circle_id:"Float",
+		type:"Float"
+	},
+	circle_share_tokens_sum_fields:{
+		circle_id:"bigint",
+		type:"Int"
+	},
+	circle_share_tokens_var_pop_fields:{
+		circle_id:"Float",
+		type:"Float"
+	},
+	circle_share_tokens_var_samp_fields:{
+		circle_id:"Float",
+		type:"Float"
+	},
+	circle_share_tokens_variance_fields:{
+		circle_id:"Float",
+		type:"Float"
+	},
+	circles:{
+		alloc_text:"String",
+		api_keys:"circle_api_keys",
+		api_keys_aggregate:"circle_api_keys_aggregate",
+		auto_opt_out:"Boolean",
+		burns:"burns",
+		burns_aggregate:"burns_aggregate",
+		circle_metadata:"circle_metadata",
+		circle_metadata_aggregate:"circle_metadata_aggregate",
+		circle_private:"circle_private",
+		contact:"String",
+		contributions:"contributions",
+		contributions_aggregate:"contributions_aggregate",
+		created_at:"timestamp",
+		default_opt_in:"Boolean",
+		deleted_at:"timestamp",
+		discord_webhook:"String",
+		epochs:"epochs",
+		epochs_aggregate:"epochs_aggregate",
+		fixed_payment_token_type:"String",
+		fixed_payment_vault_id:"Int",
+		id:"bigint",
+		integrations:"circle_integrations",
+		integrations_aggregate:"circle_integrations_aggregate",
+		is_verified:"Boolean",
+		logo:"String",
+		min_vouches:"Int",
+		name:"String",
+		nomination_days_limit:"Int",
+		nominees:"nominees",
+		nominees_aggregate:"nominees_aggregate",
+		only_giver_vouch:"Boolean",
+		organization:"organizations",
+		organization_id:"Int",
+		pending_token_gifts:"pending_token_gifts",
+		pending_token_gifts_aggregate:"pending_token_gifts_aggregate",
+		show_pending_gives:"Boolean",
+		team_sel_text:"String",
+		team_selection:"Boolean",
+		telegram_id:"String",
+		token_gifts:"token_gifts",
+		token_gifts_aggregate:"token_gifts_aggregate",
+		token_name:"String",
+		updated_at:"timestamp",
+		users:"users",
+		users_aggregate:"users_aggregate",
+		vault_transactions:"vault_transactions",
+		vault_transactions_aggregate:"vault_transactions_aggregate",
+		vouching:"Boolean",
+		vouching_text:"String"
+	},
+	circles_aggregate:{
+		aggregate:"circles_aggregate_fields",
+		nodes:"circles"
+	},
+	circles_aggregate_fields:{
+		avg:"circles_avg_fields",
+		count:"Int",
+		max:"circles_max_fields",
+		min:"circles_min_fields",
+		stddev:"circles_stddev_fields",
+		stddev_pop:"circles_stddev_pop_fields",
+		stddev_samp:"circles_stddev_samp_fields",
+		sum:"circles_sum_fields",
+		var_pop:"circles_var_pop_fields",
+		var_samp:"circles_var_samp_fields",
+		variance:"circles_variance_fields"
+	},
+	circles_avg_fields:{
+		fixed_payment_vault_id:"Float",
+		id:"Float",
+		min_vouches:"Float",
+		nomination_days_limit:"Float",
+		organization_id:"Float"
+	},
+	circles_max_fields:{
+		alloc_text:"String",
+		contact:"String",
+		created_at:"timestamp",
+		deleted_at:"timestamp",
+		discord_webhook:"String",
+		fixed_payment_token_type:"String",
+		fixed_payment_vault_id:"Int",
+		id:"bigint",
+		logo:"String",
+		min_vouches:"Int",
+		name:"String",
+		nomination_days_limit:"Int",
+		organization_id:"Int",
+		team_sel_text:"String",
+		telegram_id:"String",
+		token_name:"String",
+		updated_at:"timestamp",
+		vouching_text:"String"
+	},
+	circles_min_fields:{
+		alloc_text:"String",
+		contact:"String",
+		created_at:"timestamp",
+		deleted_at:"timestamp",
+		discord_webhook:"String",
+		fixed_payment_token_type:"String",
+		fixed_payment_vault_id:"Int",
+		id:"bigint",
+		logo:"String",
+		min_vouches:"Int",
+		name:"String",
+		nomination_days_limit:"Int",
+		organization_id:"Int",
+		team_sel_text:"String",
+		telegram_id:"String",
+		token_name:"String",
+		updated_at:"timestamp",
+		vouching_text:"String"
+	},
+	circles_mutation_response:{
+		affected_rows:"Int",
+		returning:"circles"
+	},
+	circles_stddev_fields:{
+		fixed_payment_vault_id:"Float",
+		id:"Float",
+		min_vouches:"Float",
+		nomination_days_limit:"Float",
+		organization_id:"Float"
+	},
+	circles_stddev_pop_fields:{
+		fixed_payment_vault_id:"Float",
+		id:"Float",
+		min_vouches:"Float",
+		nomination_days_limit:"Float",
+		organization_id:"Float"
+	},
+	circles_stddev_samp_fields:{
+		fixed_payment_vault_id:"Float",
+		id:"Float",
+		min_vouches:"Float",
+		nomination_days_limit:"Float",
+		organization_id:"Float"
+	},
+	circles_sum_fields:{
+		fixed_payment_vault_id:"Int",
+		id:"bigint",
+		min_vouches:"Int",
+		nomination_days_limit:"Int",
+		organization_id:"Int"
+	},
+	circles_var_pop_fields:{
+		fixed_payment_vault_id:"Float",
+		id:"Float",
+		min_vouches:"Float",
+		nomination_days_limit:"Float",
+		organization_id:"Float"
+	},
+	circles_var_samp_fields:{
+		fixed_payment_vault_id:"Float",
+		id:"Float",
+		min_vouches:"Float",
+		nomination_days_limit:"Float",
+		organization_id:"Float"
+	},
+	circles_variance_fields:{
+		fixed_payment_vault_id:"Float",
+		id:"Float",
+		min_vouches:"Float",
+		nomination_days_limit:"Float",
+		organization_id:"Float"
+	},
+	claims:{
+		address:"String",
+		amount:"numeric",
+		created_at:"timestamptz",
+		distribution:"distributions",
+		distribution_id:"bigint",
+		id:"bigint",
+		index:"bigint",
+		new_amount:"numeric",
+		profile:"profiles",
+		profile_id:"bigint",
+		proof:"String",
+		txHash:"String",
+		updated_at:"timestamptz"
+	},
+	claims_aggregate:{
+		aggregate:"claims_aggregate_fields",
+		nodes:"claims"
+	},
+	claims_aggregate_fields:{
+		avg:"claims_avg_fields",
+		count:"Int",
+		max:"claims_max_fields",
+		min:"claims_min_fields",
+		stddev:"claims_stddev_fields",
+		stddev_pop:"claims_stddev_pop_fields",
+		stddev_samp:"claims_stddev_samp_fields",
+		sum:"claims_sum_fields",
+		var_pop:"claims_var_pop_fields",
+		var_samp:"claims_var_samp_fields",
+		variance:"claims_variance_fields"
+	},
+	claims_avg_fields:{
+		amount:"Float",
+		distribution_id:"Float",
+		id:"Float",
+		index:"Float",
+		new_amount:"Float",
+		profile_id:"Float"
+	},
+	claims_max_fields:{
+		address:"String",
+		amount:"numeric",
+		created_at:"timestamptz",
+		distribution_id:"bigint",
+		id:"bigint",
+		index:"bigint",
+		new_amount:"numeric",
+		profile_id:"bigint",
+		proof:"String",
+		txHash:"String",
+		updated_at:"timestamptz"
+	},
+	claims_min_fields:{
+		address:"String",
+		amount:"numeric",
+		created_at:"timestamptz",
+		distribution_id:"bigint",
+		id:"bigint",
+		index:"bigint",
+		new_amount:"numeric",
+		profile_id:"bigint",
+		proof:"String",
+		txHash:"String",
+		updated_at:"timestamptz"
+	},
+	claims_mutation_response:{
+		affected_rows:"Int",
+		returning:"claims"
+	},
+	claims_stddev_fields:{
+		amount:"Float",
+		distribution_id:"Float",
+		id:"Float",
+		index:"Float",
+		new_amount:"Float",
+		profile_id:"Float"
+	},
+	claims_stddev_pop_fields:{
+		amount:"Float",
+		distribution_id:"Float",
+		id:"Float",
+		index:"Float",
+		new_amount:"Float",
+		profile_id:"Float"
+	},
+	claims_stddev_samp_fields:{
+		amount:"Float",
+		distribution_id:"Float",
+		id:"Float",
+		index:"Float",
+		new_amount:"Float",
+		profile_id:"Float"
+	},
+	claims_sum_fields:{
+		amount:"numeric",
+		distribution_id:"bigint",
+		id:"bigint",
+		index:"bigint",
+		new_amount:"numeric",
+		profile_id:"bigint"
+	},
+	claims_var_pop_fields:{
+		amount:"Float",
+		distribution_id:"Float",
+		id:"Float",
+		index:"Float",
+		new_amount:"Float",
+		profile_id:"Float"
+	},
+	claims_var_samp_fields:{
+		amount:"Float",
+		distribution_id:"Float",
+		id:"Float",
+		index:"Float",
+		new_amount:"Float",
+		profile_id:"Float"
+	},
+	claims_variance_fields:{
+		amount:"Float",
+		distribution_id:"Float",
+		id:"Float",
+		index:"Float",
+		new_amount:"Float",
+		profile_id:"Float"
+	},
+	contributions:{
+		circle:"circles",
+		circle_id:"bigint",
+		created_at:"timestamptz",
+		created_with_api_key:"circle_api_keys",
+		created_with_api_key_hash:"String",
+		datetime_created:"timestamptz",
+		deleted_at:"timestamptz",
+		description:"String",
+		id:"bigint",
+		updated_at:"timestamptz",
+		user:"users",
+		user_id:"bigint"
+	},
+	contributions_aggregate:{
+		aggregate:"contributions_aggregate_fields",
+		nodes:"contributions"
+	},
+	contributions_aggregate_fields:{
+		avg:"contributions_avg_fields",
+		count:"Int",
+		max:"contributions_max_fields",
+		min:"contributions_min_fields",
+		stddev:"contributions_stddev_fields",
+		stddev_pop:"contributions_stddev_pop_fields",
+		stddev_samp:"contributions_stddev_samp_fields",
+		sum:"contributions_sum_fields",
+		var_pop:"contributions_var_pop_fields",
+		var_samp:"contributions_var_samp_fields",
+		variance:"contributions_variance_fields"
+	},
+	contributions_avg_fields:{
+		circle_id:"Float",
+		id:"Float",
+		user_id:"Float"
+	},
+	contributions_max_fields:{
+		circle_id:"bigint",
+		created_at:"timestamptz",
+		created_with_api_key_hash:"String",
+		datetime_created:"timestamptz",
+		deleted_at:"timestamptz",
+		description:"String",
+		id:"bigint",
+		updated_at:"timestamptz",
+		user_id:"bigint"
+	},
+	contributions_min_fields:{
+		circle_id:"bigint",
+		created_at:"timestamptz",
+		created_with_api_key_hash:"String",
+		datetime_created:"timestamptz",
+		deleted_at:"timestamptz",
+		description:"String",
+		id:"bigint",
+		updated_at:"timestamptz",
+		user_id:"bigint"
+	},
+	contributions_mutation_response:{
+		affected_rows:"Int",
+		returning:"contributions"
+	},
+	contributions_stddev_fields:{
+		circle_id:"Float",
+		id:"Float",
+		user_id:"Float"
+	},
+	contributions_stddev_pop_fields:{
+		circle_id:"Float",
+		id:"Float",
+		user_id:"Float"
+	},
+	contributions_stddev_samp_fields:{
+		circle_id:"Float",
+		id:"Float",
+		user_id:"Float"
+	},
+	contributions_sum_fields:{
+		circle_id:"bigint",
+		id:"bigint",
+		user_id:"bigint"
+	},
+	contributions_var_pop_fields:{
+		circle_id:"Float",
+		id:"Float",
+		user_id:"Float"
+	},
+	contributions_var_samp_fields:{
+		circle_id:"Float",
+		id:"Float",
+		user_id:"Float"
+	},
+	contributions_variance_fields:{
+		circle_id:"Float",
+		id:"Float",
+		user_id:"Float"
+	},
+	discord_roles_circles:{
+		circle:"circles",
+		circle_id:"bigint",
+		created_at:"timestamptz",
+		id:"bigint",
+		role:"String",
+		updated_at:"timestamptz"
+	},
+	discord_roles_circles_aggregate:{
+		aggregate:"discord_roles_circles_aggregate_fields",
+		nodes:"discord_roles_circles"
+	},
+	discord_roles_circles_aggregate_fields:{
+		avg:"discord_roles_circles_avg_fields",
+		count:"Int",
+		max:"discord_roles_circles_max_fields",
+		min:"discord_roles_circles_min_fields",
+		stddev:"discord_roles_circles_stddev_fields",
+		stddev_pop:"discord_roles_circles_stddev_pop_fields",
+		stddev_samp:"discord_roles_circles_stddev_samp_fields",
+		sum:"discord_roles_circles_sum_fields",
+		var_pop:"discord_roles_circles_var_pop_fields",
+		var_samp:"discord_roles_circles_var_samp_fields",
+		variance:"discord_roles_circles_variance_fields"
+	},
+	discord_roles_circles_avg_fields:{
+		circle_id:"Float",
+		id:"Float"
+	},
+	discord_roles_circles_max_fields:{
+		circle_id:"bigint",
+		created_at:"timestamptz",
+		id:"bigint",
+		role:"String",
+		updated_at:"timestamptz"
+	},
+	discord_roles_circles_min_fields:{
+		circle_id:"bigint",
+		created_at:"timestamptz",
+		id:"bigint",
+		role:"String",
+		updated_at:"timestamptz"
+	},
+	discord_roles_circles_mutation_response:{
+		affected_rows:"Int",
+		returning:"discord_roles_circles"
+	},
+	discord_roles_circles_stddev_fields:{
+		circle_id:"Float",
+		id:"Float"
+	},
+	discord_roles_circles_stddev_pop_fields:{
+		circle_id:"Float",
+		id:"Float"
+	},
+	discord_roles_circles_stddev_samp_fields:{
+		circle_id:"Float",
+		id:"Float"
+	},
+	discord_roles_circles_sum_fields:{
+		circle_id:"bigint",
+		id:"bigint"
+	},
+	discord_roles_circles_var_pop_fields:{
+		circle_id:"Float",
+		id:"Float"
+	},
+	discord_roles_circles_var_samp_fields:{
+		circle_id:"Float",
+		id:"Float"
+	},
+	discord_roles_circles_variance_fields:{
+		circle_id:"Float",
+		id:"Float"
+	},
+	discord_users:{
+		created_at:"timestamptz",
+		id:"bigint",
+		profile:"profiles",
+		profile_id:"bigint",
+		updated_at:"timestamptz",
+		user_snowflake:"String"
+	},
+	discord_users_aggregate:{
+		aggregate:"discord_users_aggregate_fields",
+		nodes:"discord_users"
+	},
+	discord_users_aggregate_fields:{
+		avg:"discord_users_avg_fields",
+		count:"Int",
+		max:"discord_users_max_fields",
+		min:"discord_users_min_fields",
+		stddev:"discord_users_stddev_fields",
+		stddev_pop:"discord_users_stddev_pop_fields",
+		stddev_samp:"discord_users_stddev_samp_fields",
+		sum:"discord_users_sum_fields",
+		var_pop:"discord_users_var_pop_fields",
+		var_samp:"discord_users_var_samp_fields",
+		variance:"discord_users_variance_fields"
+	},
+	discord_users_avg_fields:{
+		id:"Float",
+		profile_id:"Float"
+	},
+	discord_users_max_fields:{
+		created_at:"timestamptz",
+		id:"bigint",
+		profile_id:"bigint",
+		updated_at:"timestamptz",
+		user_snowflake:"String"
+	},
+	discord_users_min_fields:{
+		created_at:"timestamptz",
+		id:"bigint",
+		profile_id:"bigint",
+		updated_at:"timestamptz",
+		user_snowflake:"String"
+	},
+	discord_users_mutation_response:{
+		affected_rows:"Int",
+		returning:"discord_users"
+	},
+	discord_users_stddev_fields:{
+		id:"Float",
+		profile_id:"Float"
+	},
+	discord_users_stddev_pop_fields:{
+		id:"Float",
+		profile_id:"Float"
+	},
+	discord_users_stddev_samp_fields:{
+		id:"Float",
+		profile_id:"Float"
+	},
+	discord_users_sum_fields:{
+		id:"bigint",
+		profile_id:"bigint"
+	},
+	discord_users_var_pop_fields:{
+		id:"Float",
+		profile_id:"Float"
+	},
+	discord_users_var_samp_fields:{
+		id:"Float",
+		profile_id:"Float"
+	},
+	discord_users_variance_fields:{
+		id:"Float",
+		profile_id:"Float"
+	},
+	distributions:{
+		claims:"claims",
+		claims_aggregate:"claims_aggregate",
+		created_at:"timestamp",
+		created_by:"bigint",
+		distribution_epoch_id:"bigint",
+		distribution_json:"jsonb",
+		distribution_type:"Int",
+		epoch:"epochs",
+		epoch_id:"bigint",
+		fixed_amount:"numeric",
+		gift_amount:"numeric",
+		id:"bigint",
+		merkle_root:"String",
+		profile:"profiles",
+		total_amount:"String",
+		tx_hash:"String",
+		updated_at:"timestamp",
+		vault:"vaults",
+		vault_id:"bigint",
+		vault_transactions:"vault_transactions",
+		vault_transactions_aggregate:"vault_transactions_aggregate"
+	},
+	distributions_aggregate:{
+		aggregate:"distributions_aggregate_fields",
+		nodes:"distributions"
+	},
+	distributions_aggregate_fields:{
+		avg:"distributions_avg_fields",
+		count:"Int",
+		max:"distributions_max_fields",
+		min:"distributions_min_fields",
+		stddev:"distributions_stddev_fields",
+		stddev_pop:"distributions_stddev_pop_fields",
+		stddev_samp:"distributions_stddev_samp_fields",
+		sum:"distributions_sum_fields",
+		var_pop:"distributions_var_pop_fields",
+		var_samp:"distributions_var_samp_fields",
+		variance:"distributions_variance_fields"
+	},
+	distributions_avg_fields:{
+		created_by:"Float",
+		distribution_epoch_id:"Float",
+		distribution_type:"Float",
+		epoch_id:"Float",
+		fixed_amount:"Float",
+		gift_amount:"Float",
+		id:"Float",
+		vault_id:"Float"
+	},
+	distributions_max_fields:{
+		created_at:"timestamp",
+		created_by:"bigint",
+		distribution_epoch_id:"bigint",
+		distribution_type:"Int",
+		epoch_id:"bigint",
+		fixed_amount:"numeric",
+		gift_amount:"numeric",
+		id:"bigint",
+		merkle_root:"String",
+		total_amount:"String",
+		tx_hash:"String",
+		updated_at:"timestamp",
+		vault_id:"bigint"
+	},
+	distributions_min_fields:{
+		created_at:"timestamp",
+		created_by:"bigint",
+		distribution_epoch_id:"bigint",
+		distribution_type:"Int",
+		epoch_id:"bigint",
+		fixed_amount:"numeric",
+		gift_amount:"numeric",
+		id:"bigint",
+		merkle_root:"String",
+		total_amount:"String",
+		tx_hash:"String",
+		updated_at:"timestamp",
+		vault_id:"bigint"
+	},
+	distributions_mutation_response:{
+		affected_rows:"Int",
+		returning:"distributions"
+	},
+	distributions_stddev_fields:{
+		created_by:"Float",
+		distribution_epoch_id:"Float",
+		distribution_type:"Float",
+		epoch_id:"Float",
+		fixed_amount:"Float",
+		gift_amount:"Float",
+		id:"Float",
+		vault_id:"Float"
+	},
+	distributions_stddev_pop_fields:{
+		created_by:"Float",
+		distribution_epoch_id:"Float",
+		distribution_type:"Float",
+		epoch_id:"Float",
+		fixed_amount:"Float",
+		gift_amount:"Float",
+		id:"Float",
+		vault_id:"Float"
+	},
+	distributions_stddev_samp_fields:{
+		created_by:"Float",
+		distribution_epoch_id:"Float",
+		distribution_type:"Float",
+		epoch_id:"Float",
+		fixed_amount:"Float",
+		gift_amount:"Float",
+		id:"Float",
+		vault_id:"Float"
+	},
+	distributions_sum_fields:{
+		created_by:"bigint",
+		distribution_epoch_id:"bigint",
+		distribution_type:"Int",
+		epoch_id:"bigint",
+		fixed_amount:"numeric",
+		gift_amount:"numeric",
+		id:"bigint",
+		vault_id:"bigint"
+	},
+	distributions_var_pop_fields:{
+		created_by:"Float",
+		distribution_epoch_id:"Float",
+		distribution_type:"Float",
+		epoch_id:"Float",
+		fixed_amount:"Float",
+		gift_amount:"Float",
+		id:"Float",
+		vault_id:"Float"
+	},
+	distributions_var_samp_fields:{
+		created_by:"Float",
+		distribution_epoch_id:"Float",
+		distribution_type:"Float",
+		epoch_id:"Float",
+		fixed_amount:"Float",
+		gift_amount:"Float",
+		id:"Float",
+		vault_id:"Float"
+	},
+	distributions_variance_fields:{
+		created_by:"Float",
+		distribution_epoch_id:"Float",
+		distribution_type:"Float",
+		epoch_id:"Float",
+		fixed_amount:"Float",
+		gift_amount:"Float",
+		id:"Float",
+		vault_id:"Float"
+	},
+	epoch_pgive_data:{
+		active_months:"Int",
+		active_months_bonus:"numeric",
+		created_at:"timestamptz",
+		epoch:"epochs",
+		epoch_id:"Int",
+		gives_receiver_base:"numeric",
+		id:"Int",
+		notes_bonus:"numeric",
+		pgive:"numeric"
+	},
+	epoch_pgive_data_aggregate:{
+		aggregate:"epoch_pgive_data_aggregate_fields",
+		nodes:"epoch_pgive_data"
+	},
+	epoch_pgive_data_aggregate_fields:{
+		avg:"epoch_pgive_data_avg_fields",
+		count:"Int",
+		max:"epoch_pgive_data_max_fields",
+		min:"epoch_pgive_data_min_fields",
+		stddev:"epoch_pgive_data_stddev_fields",
+		stddev_pop:"epoch_pgive_data_stddev_pop_fields",
+		stddev_samp:"epoch_pgive_data_stddev_samp_fields",
+		sum:"epoch_pgive_data_sum_fields",
+		var_pop:"epoch_pgive_data_var_pop_fields",
+		var_samp:"epoch_pgive_data_var_samp_fields",
+		variance:"epoch_pgive_data_variance_fields"
+	},
+	epoch_pgive_data_avg_fields:{
+		active_months:"Float",
+		active_months_bonus:"Float",
+		epoch_id:"Float",
+		gives_receiver_base:"Float",
+		id:"Float",
+		notes_bonus:"Float",
+		pgive:"Float"
+	},
+	epoch_pgive_data_max_fields:{
+		active_months:"Int",
+		active_months_bonus:"numeric",
+		created_at:"timestamptz",
+		epoch_id:"Int",
+		gives_receiver_base:"numeric",
+		id:"Int",
+		notes_bonus:"numeric",
+		pgive:"numeric"
+	},
+	epoch_pgive_data_min_fields:{
+		active_months:"Int",
+		active_months_bonus:"numeric",
+		created_at:"timestamptz",
+		epoch_id:"Int",
+		gives_receiver_base:"numeric",
+		id:"Int",
+		notes_bonus:"numeric",
+		pgive:"numeric"
+	},
+	epoch_pgive_data_mutation_response:{
+		affected_rows:"Int",
+		returning:"epoch_pgive_data"
+	},
+	epoch_pgive_data_stddev_fields:{
+		active_months:"Float",
+		active_months_bonus:"Float",
+		epoch_id:"Float",
+		gives_receiver_base:"Float",
+		id:"Float",
+		notes_bonus:"Float",
+		pgive:"Float"
+	},
+	epoch_pgive_data_stddev_pop_fields:{
+		active_months:"Float",
+		active_months_bonus:"Float",
+		epoch_id:"Float",
+		gives_receiver_base:"Float",
+		id:"Float",
+		notes_bonus:"Float",
+		pgive:"Float"
+	},
+	epoch_pgive_data_stddev_samp_fields:{
+		active_months:"Float",
+		active_months_bonus:"Float",
+		epoch_id:"Float",
+		gives_receiver_base:"Float",
+		id:"Float",
+		notes_bonus:"Float",
+		pgive:"Float"
+	},
+	epoch_pgive_data_sum_fields:{
+		active_months:"Int",
+		active_months_bonus:"numeric",
+		epoch_id:"Int",
+		gives_receiver_base:"numeric",
+		id:"Int",
+		notes_bonus:"numeric",
+		pgive:"numeric"
+	},
+	epoch_pgive_data_var_pop_fields:{
+		active_months:"Float",
+		active_months_bonus:"Float",
+		epoch_id:"Float",
+		gives_receiver_base:"Float",
+		id:"Float",
+		notes_bonus:"Float",
+		pgive:"Float"
+	},
+	epoch_pgive_data_var_samp_fields:{
+		active_months:"Float",
+		active_months_bonus:"Float",
+		epoch_id:"Float",
+		gives_receiver_base:"Float",
+		id:"Float",
+		notes_bonus:"Float",
+		pgive:"Float"
+	},
+	epoch_pgive_data_variance_fields:{
+		active_months:"Float",
+		active_months_bonus:"Float",
+		epoch_id:"Float",
+		gives_receiver_base:"Float",
+		id:"Float",
+		notes_bonus:"Float",
+		pgive:"Float"
+	},
+	epochs:{
+		burns:"burns",
+		burns_aggregate:"burns_aggregate",
+		circle:"circles",
+		circle_id:"Int",
+		created_at:"timestamp",
+		days:"Int",
+		description:"String",
+		distributions:"distributions",
+		distributions_aggregate:"distributions_aggregate",
+		end_date:"timestamptz",
+		ended:"Boolean",
+		epoch_pending_token_gifts:"pending_token_gifts",
+		epoch_pending_token_gifts_aggregate:"pending_token_gifts_aggregate",
+		grant:"numeric",
+		id:"bigint",
+		notified_before_end:"timestamp",
+		notified_end:"timestamp",
+		notified_start:"timestamp",
+		number:"Int",
+		pgive_data:"epoch_pgive_data",
+		regift_days:"Int",
+		repeat:"Int",
+		repeat_day_of_month:"Int",
+		start_date:"timestamptz",
+		token_gifts:"token_gifts",
+		token_gifts_aggregate:"token_gifts_aggregate",
+		updated_at:"timestamp"
+	},
+	epochs_aggregate:{
+		aggregate:"epochs_aggregate_fields",
+		nodes:"epochs"
+	},
+	epochs_aggregate_fields:{
+		avg:"epochs_avg_fields",
+		count:"Int",
+		max:"epochs_max_fields",
+		min:"epochs_min_fields",
+		stddev:"epochs_stddev_fields",
+		stddev_pop:"epochs_stddev_pop_fields",
+		stddev_samp:"epochs_stddev_samp_fields",
+		sum:"epochs_sum_fields",
+		var_pop:"epochs_var_pop_fields",
+		var_samp:"epochs_var_samp_fields",
+		variance:"epochs_variance_fields"
+	},
+	epochs_avg_fields:{
+		circle_id:"Float",
+		days:"Float",
+		grant:"Float",
+		id:"Float",
+		number:"Float",
+		regift_days:"Float",
+		repeat:"Float",
+		repeat_day_of_month:"Float"
+	},
+	epochs_max_fields:{
+		circle_id:"Int",
+		created_at:"timestamp",
+		days:"Int",
+		description:"String",
+		end_date:"timestamptz",
+		grant:"numeric",
+		id:"bigint",
+		notified_before_end:"timestamp",
+		notified_end:"timestamp",
+		notified_start:"timestamp",
+		number:"Int",
+		regift_days:"Int",
+		repeat:"Int",
+		repeat_day_of_month:"Int",
+		start_date:"timestamptz",
+		updated_at:"timestamp"
+	},
+	epochs_min_fields:{
+		circle_id:"Int",
+		created_at:"timestamp",
+		days:"Int",
+		description:"String",
+		end_date:"timestamptz",
+		grant:"numeric",
+		id:"bigint",
+		notified_before_end:"timestamp",
+		notified_end:"timestamp",
+		notified_start:"timestamp",
+		number:"Int",
+		regift_days:"Int",
+		repeat:"Int",
+		repeat_day_of_month:"Int",
+		start_date:"timestamptz",
+		updated_at:"timestamp"
+	},
+	epochs_mutation_response:{
+		affected_rows:"Int",
+		returning:"epochs"
+	},
+	epochs_stddev_fields:{
+		circle_id:"Float",
+		days:"Float",
+		grant:"Float",
+		id:"Float",
+		number:"Float",
+		regift_days:"Float",
+		repeat:"Float",
+		repeat_day_of_month:"Float"
+	},
+	epochs_stddev_pop_fields:{
+		circle_id:"Float",
+		days:"Float",
+		grant:"Float",
+		id:"Float",
+		number:"Float",
+		regift_days:"Float",
+		repeat:"Float",
+		repeat_day_of_month:"Float"
+	},
+	epochs_stddev_samp_fields:{
+		circle_id:"Float",
+		days:"Float",
+		grant:"Float",
+		id:"Float",
+		number:"Float",
+		regift_days:"Float",
+		repeat:"Float",
+		repeat_day_of_month:"Float"
+	},
+	epochs_sum_fields:{
+		circle_id:"Int",
+		days:"Int",
+		grant:"numeric",
+		id:"bigint",
+		number:"Int",
+		regift_days:"Int",
+		repeat:"Int",
+		repeat_day_of_month:"Int"
+	},
+	epochs_var_pop_fields:{
+		circle_id:"Float",
+		days:"Float",
+		grant:"Float",
+		id:"Float",
+		number:"Float",
+		regift_days:"Float",
+		repeat:"Float",
+		repeat_day_of_month:"Float"
+	},
+	epochs_var_samp_fields:{
+		circle_id:"Float",
+		days:"Float",
+		grant:"Float",
+		id:"Float",
+		number:"Float",
+		regift_days:"Float",
+		repeat:"Float",
+		repeat_day_of_month:"Float"
+	},
+	epochs_variance_fields:{
+		circle_id:"Float",
+		days:"Float",
+		grant:"Float",
+		id:"Float",
+		number:"Float",
+		regift_days:"Float",
+		repeat:"Float",
+		repeat_day_of_month:"Float"
+	},
+	gift_private:{
+		gift_id:"bigint",
+		note:"String",
+		recipient:"users",
+		recipient_id:"bigint",
+		sender:"users",
+		sender_id:"bigint"
+	},
+	gift_private_aggregate:{
+		aggregate:"gift_private_aggregate_fields",
+		nodes:"gift_private"
+	},
+	gift_private_aggregate_fields:{
+		avg:"gift_private_avg_fields",
+		count:"Int",
+		max:"gift_private_max_fields",
+		min:"gift_private_min_fields",
+		stddev:"gift_private_stddev_fields",
+		stddev_pop:"gift_private_stddev_pop_fields",
+		stddev_samp:"gift_private_stddev_samp_fields",
+		sum:"gift_private_sum_fields",
+		var_pop:"gift_private_var_pop_fields",
+		var_samp:"gift_private_var_samp_fields",
+		variance:"gift_private_variance_fields"
+	},
+	gift_private_avg_fields:{
+		gift_id:"Float",
+		recipient_id:"Float",
+		sender_id:"Float"
+	},
+	gift_private_max_fields:{
+		gift_id:"bigint",
+		note:"String",
+		recipient_id:"bigint",
+		sender_id:"bigint"
+	},
+	gift_private_min_fields:{
+		gift_id:"bigint",
+		note:"String",
+		recipient_id:"bigint",
+		sender_id:"bigint"
+	},
+	gift_private_mutation_response:{
+		affected_rows:"Int",
+		returning:"gift_private"
+	},
+	gift_private_stddev_fields:{
+		gift_id:"Float",
+		recipient_id:"Float",
+		sender_id:"Float"
+	},
+	gift_private_stddev_pop_fields:{
+		gift_id:"Float",
+		recipient_id:"Float",
+		sender_id:"Float"
+	},
+	gift_private_stddev_samp_fields:{
+		gift_id:"Float",
+		recipient_id:"Float",
+		sender_id:"Float"
+	},
+	gift_private_sum_fields:{
+		gift_id:"bigint",
+		recipient_id:"bigint",
+		sender_id:"bigint"
+	},
+	gift_private_var_pop_fields:{
+		gift_id:"Float",
+		recipient_id:"Float",
+		sender_id:"Float"
+	},
+	gift_private_var_samp_fields:{
+		gift_id:"Float",
+		recipient_id:"Float",
+		sender_id:"Float"
+	},
+	gift_private_variance_fields:{
+		gift_id:"Float",
+		recipient_id:"Float",
+		sender_id:"Float"
+	},
+	histories:{
+		bio:"String",
+		circle:"circles",
+		circle_id:"Int",
+		created_at:"timestamp",
+		epoch:"epochs",
+		epoch_id:"Int",
+		id:"bigint",
+		updated_at:"timestamp",
+		user:"users",
+		user_id:"Int"
+	},
+	histories_aggregate:{
+		aggregate:"histories_aggregate_fields",
+		nodes:"histories"
+	},
+	histories_aggregate_fields:{
+		avg:"histories_avg_fields",
+		count:"Int",
+		max:"histories_max_fields",
+		min:"histories_min_fields",
+		stddev:"histories_stddev_fields",
+		stddev_pop:"histories_stddev_pop_fields",
+		stddev_samp:"histories_stddev_samp_fields",
+		sum:"histories_sum_fields",
+		var_pop:"histories_var_pop_fields",
+		var_samp:"histories_var_samp_fields",
+		variance:"histories_variance_fields"
+	},
+	histories_avg_fields:{
+		circle_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		user_id:"Float"
+	},
+	histories_max_fields:{
+		bio:"String",
+		circle_id:"Int",
+		created_at:"timestamp",
+		epoch_id:"Int",
+		id:"bigint",
+		updated_at:"timestamp",
+		user_id:"Int"
+	},
+	histories_min_fields:{
+		bio:"String",
+		circle_id:"Int",
+		created_at:"timestamp",
+		epoch_id:"Int",
+		id:"bigint",
+		updated_at:"timestamp",
+		user_id:"Int"
+	},
+	histories_mutation_response:{
+		affected_rows:"Int",
+		returning:"histories"
+	},
+	histories_stddev_fields:{
+		circle_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		user_id:"Float"
+	},
+	histories_stddev_pop_fields:{
+		circle_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		user_id:"Float"
+	},
+	histories_stddev_samp_fields:{
+		circle_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		user_id:"Float"
+	},
+	histories_sum_fields:{
+		circle_id:"Int",
+		epoch_id:"Int",
+		id:"bigint",
+		user_id:"Int"
+	},
+	histories_var_pop_fields:{
+		circle_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		user_id:"Float"
+	},
+	histories_var_samp_fields:{
+		circle_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		user_id:"Float"
+	},
+	histories_variance_fields:{
+		circle_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		user_id:"Float"
+	},
+	interaction_events:{
+		circle:"circles",
+		circle_id:"Int",
+		created_at:"timestamptz",
+		data:"jsonb",
+		event_subtype:"String",
+		event_type:"String",
+		id:"Int",
+		org_id:"Int",
+		organization:"organizations",
+		profile:"profiles",
+		profile_id:"Int",
+		updated_at:"timestamptz"
+	},
+	interaction_events_aggregate:{
+		aggregate:"interaction_events_aggregate_fields",
+		nodes:"interaction_events"
+	},
+	interaction_events_aggregate_fields:{
+		avg:"interaction_events_avg_fields",
+		count:"Int",
+		max:"interaction_events_max_fields",
+		min:"interaction_events_min_fields",
+		stddev:"interaction_events_stddev_fields",
+		stddev_pop:"interaction_events_stddev_pop_fields",
+		stddev_samp:"interaction_events_stddev_samp_fields",
+		sum:"interaction_events_sum_fields",
+		var_pop:"interaction_events_var_pop_fields",
+		var_samp:"interaction_events_var_samp_fields",
+		variance:"interaction_events_variance_fields"
+	},
+	interaction_events_avg_fields:{
+		circle_id:"Float",
+		id:"Float",
+		org_id:"Float",
+		profile_id:"Float"
+	},
+	interaction_events_max_fields:{
+		circle_id:"Int",
+		created_at:"timestamptz",
+		event_subtype:"String",
+		event_type:"String",
+		id:"Int",
+		org_id:"Int",
+		profile_id:"Int",
+		updated_at:"timestamptz"
+	},
+	interaction_events_min_fields:{
+		circle_id:"Int",
+		created_at:"timestamptz",
+		event_subtype:"String",
+		event_type:"String",
+		id:"Int",
+		org_id:"Int",
+		profile_id:"Int",
+		updated_at:"timestamptz"
+	},
+	interaction_events_mutation_response:{
+		affected_rows:"Int",
+		returning:"interaction_events"
+	},
+	interaction_events_stddev_fields:{
+		circle_id:"Float",
+		id:"Float",
+		org_id:"Float",
+		profile_id:"Float"
+	},
+	interaction_events_stddev_pop_fields:{
+		circle_id:"Float",
+		id:"Float",
+		org_id:"Float",
+		profile_id:"Float"
+	},
+	interaction_events_stddev_samp_fields:{
+		circle_id:"Float",
+		id:"Float",
+		org_id:"Float",
+		profile_id:"Float"
+	},
+	interaction_events_sum_fields:{
+		circle_id:"Int",
+		id:"Int",
+		org_id:"Int",
+		profile_id:"Int"
+	},
+	interaction_events_var_pop_fields:{
+		circle_id:"Float",
+		id:"Float",
+		org_id:"Float",
+		profile_id:"Float"
+	},
+	interaction_events_var_samp_fields:{
+		circle_id:"Float",
+		id:"Float",
+		org_id:"Float",
+		profile_id:"Float"
+	},
+	interaction_events_variance_fields:{
+		circle_id:"Float",
+		id:"Float",
+		org_id:"Float",
+		profile_id:"Float"
+	},
+	locked_token_distributions:{
+		distributed_by:"bigint",
+		distribution_json:"jsonb",
+		epoch:"epochs",
+		epoch_id:"bigint",
+		gift_amount:"numeric",
+		id:"bigint",
+		profile:"profiles",
+		tx_hash:"String"
+	},
+	locked_token_distributions_aggregate:{
+		aggregate:"locked_token_distributions_aggregate_fields",
+		nodes:"locked_token_distributions"
+	},
+	locked_token_distributions_aggregate_fields:{
+		avg:"locked_token_distributions_avg_fields",
+		count:"Int",
+		max:"locked_token_distributions_max_fields",
+		min:"locked_token_distributions_min_fields",
+		stddev:"locked_token_distributions_stddev_fields",
+		stddev_pop:"locked_token_distributions_stddev_pop_fields",
+		stddev_samp:"locked_token_distributions_stddev_samp_fields",
+		sum:"locked_token_distributions_sum_fields",
+		var_pop:"locked_token_distributions_var_pop_fields",
+		var_samp:"locked_token_distributions_var_samp_fields",
+		variance:"locked_token_distributions_variance_fields"
+	},
+	locked_token_distributions_avg_fields:{
+		distributed_by:"Float",
+		epoch_id:"Float",
+		gift_amount:"Float",
+		id:"Float"
+	},
+	locked_token_distributions_max_fields:{
+		distributed_by:"bigint",
+		epoch_id:"bigint",
+		gift_amount:"numeric",
+		id:"bigint",
+		tx_hash:"String"
+	},
+	locked_token_distributions_min_fields:{
+		distributed_by:"bigint",
+		epoch_id:"bigint",
+		gift_amount:"numeric",
+		id:"bigint",
+		tx_hash:"String"
+	},
+	locked_token_distributions_mutation_response:{
+		affected_rows:"Int",
+		returning:"locked_token_distributions"
+	},
+	locked_token_distributions_stddev_fields:{
+		distributed_by:"Float",
+		epoch_id:"Float",
+		gift_amount:"Float",
+		id:"Float"
+	},
+	locked_token_distributions_stddev_pop_fields:{
+		distributed_by:"Float",
+		epoch_id:"Float",
+		gift_amount:"Float",
+		id:"Float"
+	},
+	locked_token_distributions_stddev_samp_fields:{
+		distributed_by:"Float",
+		epoch_id:"Float",
+		gift_amount:"Float",
+		id:"Float"
+	},
+	locked_token_distributions_sum_fields:{
+		distributed_by:"bigint",
+		epoch_id:"bigint",
+		gift_amount:"numeric",
+		id:"bigint"
+	},
+	locked_token_distributions_var_pop_fields:{
+		distributed_by:"Float",
+		epoch_id:"Float",
+		gift_amount:"Float",
+		id:"Float"
+	},
+	locked_token_distributions_var_samp_fields:{
+		distributed_by:"Float",
+		epoch_id:"Float",
+		gift_amount:"Float",
+		id:"Float"
+	},
+	locked_token_distributions_variance_fields:{
+		distributed_by:"Float",
+		epoch_id:"Float",
+		gift_amount:"Float",
+		id:"Float"
+	},
+	member_epoch_pgives:{
+		created_at:"timestamptz",
+		epoch:"epochs",
+		epoch_id:"Int",
+		gives_received:"Int",
+		id:"Int",
+		normalized_pgive:"numeric",
+		opt_out_bonus:"numeric",
+		pgive:"numeric",
+		user:"users",
+		user_id:"Int"
+	},
+	member_epoch_pgives_aggregate:{
+		aggregate:"member_epoch_pgives_aggregate_fields",
+		nodes:"member_epoch_pgives"
+	},
+	member_epoch_pgives_aggregate_fields:{
+		avg:"member_epoch_pgives_avg_fields",
+		count:"Int",
+		max:"member_epoch_pgives_max_fields",
+		min:"member_epoch_pgives_min_fields",
+		stddev:"member_epoch_pgives_stddev_fields",
+		stddev_pop:"member_epoch_pgives_stddev_pop_fields",
+		stddev_samp:"member_epoch_pgives_stddev_samp_fields",
+		sum:"member_epoch_pgives_sum_fields",
+		var_pop:"member_epoch_pgives_var_pop_fields",
+		var_samp:"member_epoch_pgives_var_samp_fields",
+		variance:"member_epoch_pgives_variance_fields"
+	},
+	member_epoch_pgives_avg_fields:{
+		epoch_id:"Float",
+		gives_received:"Float",
+		id:"Float",
+		normalized_pgive:"Float",
+		opt_out_bonus:"Float",
+		pgive:"Float",
+		user_id:"Float"
+	},
+	member_epoch_pgives_max_fields:{
+		created_at:"timestamptz",
+		epoch_id:"Int",
+		gives_received:"Int",
+		id:"Int",
+		normalized_pgive:"numeric",
+		opt_out_bonus:"numeric",
+		pgive:"numeric",
+		user_id:"Int"
+	},
+	member_epoch_pgives_min_fields:{
+		created_at:"timestamptz",
+		epoch_id:"Int",
+		gives_received:"Int",
+		id:"Int",
+		normalized_pgive:"numeric",
+		opt_out_bonus:"numeric",
+		pgive:"numeric",
+		user_id:"Int"
+	},
+	member_epoch_pgives_mutation_response:{
+		affected_rows:"Int",
+		returning:"member_epoch_pgives"
+	},
+	member_epoch_pgives_stddev_fields:{
+		epoch_id:"Float",
+		gives_received:"Float",
+		id:"Float",
+		normalized_pgive:"Float",
+		opt_out_bonus:"Float",
+		pgive:"Float",
+		user_id:"Float"
+	},
+	member_epoch_pgives_stddev_pop_fields:{
+		epoch_id:"Float",
+		gives_received:"Float",
+		id:"Float",
+		normalized_pgive:"Float",
+		opt_out_bonus:"Float",
+		pgive:"Float",
+		user_id:"Float"
+	},
+	member_epoch_pgives_stddev_samp_fields:{
+		epoch_id:"Float",
+		gives_received:"Float",
+		id:"Float",
+		normalized_pgive:"Float",
+		opt_out_bonus:"Float",
+		pgive:"Float",
+		user_id:"Float"
+	},
+	member_epoch_pgives_sum_fields:{
+		epoch_id:"Int",
+		gives_received:"Int",
+		id:"Int",
+		normalized_pgive:"numeric",
+		opt_out_bonus:"numeric",
+		pgive:"numeric",
+		user_id:"Int"
+	},
+	member_epoch_pgives_var_pop_fields:{
+		epoch_id:"Float",
+		gives_received:"Float",
+		id:"Float",
+		normalized_pgive:"Float",
+		opt_out_bonus:"Float",
+		pgive:"Float",
+		user_id:"Float"
+	},
+	member_epoch_pgives_var_samp_fields:{
+		epoch_id:"Float",
+		gives_received:"Float",
+		id:"Float",
+		normalized_pgive:"Float",
+		opt_out_bonus:"Float",
+		pgive:"Float",
+		user_id:"Float"
+	},
+	member_epoch_pgives_variance_fields:{
+		epoch_id:"Float",
+		gives_received:"Float",
+		id:"Float",
+		normalized_pgive:"Float",
+		opt_out_bonus:"Float",
+		pgive:"Float",
+		user_id:"Float"
+	},
+	mutation_root:{
+		adminUpdateUser:"UserResponse",
+		allocationCsv:"AllocationCsvResponse",
+		createCircle:"CreateCircleResponse",
+		createEpoch:"EpochResponse",
+		createNominee:"CreateNomineeResponse",
+		createSampleCircle:"CreateSampleCircleResponse",
+		createUserWithToken:"UserResponse",
+		createUsers:"UserResponse",
+		createVault:"VaultResponse",
+		createVaultTx:"LogVaultTxResponse",
+		deleteCircle:"ConfirmationResponse",
+		deleteContribution:"ConfirmationResponse",
+		deleteEpoch:"DeleteEpochResponse",
+		deleteUser:"ConfirmationResponse",
+		deleteUserBulk:"DeleteUserBulkResponse",
+		delete_burns:"burns_mutation_response",
+		delete_burns_by_pk:"burns",
+		delete_circle_api_keys:"circle_api_keys_mutation_response",
+		delete_circle_api_keys_by_pk:"circle_api_keys",
+		delete_circle_integrations:"circle_integrations_mutation_response",
+		delete_circle_integrations_by_pk:"circle_integrations",
+		delete_circle_metadata:"circle_metadata_mutation_response",
+		delete_circle_metadata_by_pk:"circle_metadata",
+		delete_circle_private:"circle_private_mutation_response",
+		delete_circle_share_tokens:"circle_share_tokens_mutation_response",
+		delete_circle_share_tokens_by_pk:"circle_share_tokens",
+		delete_circles:"circles_mutation_response",
+		delete_circles_by_pk:"circles",
+		delete_claims:"claims_mutation_response",
+		delete_claims_by_pk:"claims",
+		delete_contributions:"contributions_mutation_response",
+		delete_contributions_by_pk:"contributions",
+		delete_discord_roles_circles:"discord_roles_circles_mutation_response",
+		delete_discord_roles_circles_by_pk:"discord_roles_circles",
+		delete_discord_users:"discord_users_mutation_response",
+		delete_discord_users_by_pk:"discord_users",
+		delete_distributions:"distributions_mutation_response",
+		delete_distributions_by_pk:"distributions",
+		delete_epoch_pgive_data:"epoch_pgive_data_mutation_response",
+		delete_epoch_pgive_data_by_pk:"epoch_pgive_data",
+		delete_epochs:"epochs_mutation_response",
+		delete_epochs_by_pk:"epochs",
+		delete_gift_private:"gift_private_mutation_response",
+		delete_histories:"histories_mutation_response",
+		delete_histories_by_pk:"histories",
+		delete_interaction_events:"interaction_events_mutation_response",
+		delete_interaction_events_by_pk:"interaction_events",
+		delete_locked_token_distributions:"locked_token_distributions_mutation_response",
+		delete_locked_token_distributions_by_pk:"locked_token_distributions",
+		delete_member_epoch_pgives:"member_epoch_pgives_mutation_response",
+		delete_member_epoch_pgives_by_pk:"member_epoch_pgives",
+		delete_nominees:"nominees_mutation_response",
+		delete_nominees_by_pk:"nominees",
+		delete_organizations:"organizations_mutation_response",
+		delete_organizations_by_pk:"organizations",
+		delete_pending_gift_private:"pending_gift_private_mutation_response",
+		delete_pending_token_gifts:"pending_token_gifts_mutation_response",
+		delete_pending_token_gifts_by_pk:"pending_token_gifts",
+		delete_pending_vault_transactions:"pending_vault_transactions_mutation_response",
+		delete_pending_vault_transactions_by_pk:"pending_vault_transactions",
+		delete_personal_access_tokens:"personal_access_tokens_mutation_response",
+		delete_personal_access_tokens_by_pk:"personal_access_tokens",
+		delete_profiles:"profiles_mutation_response",
+		delete_profiles_by_pk:"profiles",
+		delete_teammates:"teammates_mutation_response",
+		delete_teammates_by_pk:"teammates",
+		delete_token_gifts:"token_gifts_mutation_response",
+		delete_token_gifts_by_pk:"token_gifts",
+		delete_users:"users_mutation_response",
+		delete_users_by_pk:"users",
+		delete_vault_transactions:"vault_transactions_mutation_response",
+		delete_vault_transactions_by_pk:"vault_transactions",
+		delete_vault_tx_types:"vault_tx_types_mutation_response",
+		delete_vault_tx_types_by_pk:"vault_tx_types",
+		delete_vaults:"vaults_mutation_response",
+		delete_vaults_by_pk:"vaults",
+		delete_vouches:"vouches_mutation_response",
+		delete_vouches_by_pk:"vouches",
+		generateApiKey:"GenerateApiKeyResponse",
+		insert_burns:"burns_mutation_response",
+		insert_burns_one:"burns",
+		insert_circle_api_keys:"circle_api_keys_mutation_response",
+		insert_circle_api_keys_one:"circle_api_keys",
+		insert_circle_integrations:"circle_integrations_mutation_response",
+		insert_circle_integrations_one:"circle_integrations",
+		insert_circle_metadata:"circle_metadata_mutation_response",
+		insert_circle_metadata_one:"circle_metadata",
+		insert_circle_private:"circle_private_mutation_response",
+		insert_circle_private_one:"circle_private",
+		insert_circle_share_tokens:"circle_share_tokens_mutation_response",
+		insert_circle_share_tokens_one:"circle_share_tokens",
+		insert_circles:"circles_mutation_response",
+		insert_circles_one:"circles",
+		insert_claims:"claims_mutation_response",
+		insert_claims_one:"claims",
+		insert_contributions:"contributions_mutation_response",
+		insert_contributions_one:"contributions",
+		insert_discord_roles_circles:"discord_roles_circles_mutation_response",
+		insert_discord_roles_circles_one:"discord_roles_circles",
+		insert_discord_users:"discord_users_mutation_response",
+		insert_discord_users_one:"discord_users",
+		insert_distributions:"distributions_mutation_response",
+		insert_distributions_one:"distributions",
+		insert_epoch_pgive_data:"epoch_pgive_data_mutation_response",
+		insert_epoch_pgive_data_one:"epoch_pgive_data",
+		insert_epochs:"epochs_mutation_response",
+		insert_epochs_one:"epochs",
+		insert_gift_private:"gift_private_mutation_response",
+		insert_gift_private_one:"gift_private",
+		insert_histories:"histories_mutation_response",
+		insert_histories_one:"histories",
+		insert_interaction_events:"interaction_events_mutation_response",
+		insert_interaction_events_one:"interaction_events",
+		insert_locked_token_distributions:"locked_token_distributions_mutation_response",
+		insert_locked_token_distributions_one:"locked_token_distributions",
+		insert_member_epoch_pgives:"member_epoch_pgives_mutation_response",
+		insert_member_epoch_pgives_one:"member_epoch_pgives",
+		insert_nominees:"nominees_mutation_response",
+		insert_nominees_one:"nominees",
+		insert_organizations:"organizations_mutation_response",
+		insert_organizations_one:"organizations",
+		insert_pending_gift_private:"pending_gift_private_mutation_response",
+		insert_pending_gift_private_one:"pending_gift_private",
+		insert_pending_token_gifts:"pending_token_gifts_mutation_response",
+		insert_pending_token_gifts_one:"pending_token_gifts",
+		insert_pending_vault_transactions:"pending_vault_transactions_mutation_response",
+		insert_pending_vault_transactions_one:"pending_vault_transactions",
+		insert_personal_access_tokens:"personal_access_tokens_mutation_response",
+		insert_personal_access_tokens_one:"personal_access_tokens",
+		insert_profiles:"profiles_mutation_response",
+		insert_profiles_one:"profiles",
+		insert_teammates:"teammates_mutation_response",
+		insert_teammates_one:"teammates",
+		insert_token_gifts:"token_gifts_mutation_response",
+		insert_token_gifts_one:"token_gifts",
+		insert_users:"users_mutation_response",
+		insert_users_one:"users",
+		insert_vault_transactions:"vault_transactions_mutation_response",
+		insert_vault_transactions_one:"vault_transactions",
+		insert_vault_tx_types:"vault_tx_types_mutation_response",
+		insert_vault_tx_types_one:"vault_tx_types",
+		insert_vaults:"vaults_mutation_response",
+		insert_vaults_one:"vaults",
+		insert_vouches:"vouches_mutation_response",
+		insert_vouches_one:"vouches",
+		linkDiscordUser:"LinkDiscordUserResponse",
+		logoutUser:"LogoutResponse",
+		markClaimed:"MarkClaimedOutput",
+		restoreCoordinape:"ConfirmationResponse",
+		updateAllocations:"AllocationsResponse",
+		updateCircle:"UpdateCircleOutput",
+		updateContribution:"UpdateContributionResponse",
+		updateEpoch:"EpochResponse",
+		updateTeammates:"UpdateTeammatesResponse",
+		updateUser:"UserResponse",
+		update_burns:"burns_mutation_response",
+		update_burns_by_pk:"burns",
+		update_burns_many:"burns_mutation_response",
+		update_circle_api_keys:"circle_api_keys_mutation_response",
+		update_circle_api_keys_by_pk:"circle_api_keys",
+		update_circle_api_keys_many:"circle_api_keys_mutation_response",
+		update_circle_integrations:"circle_integrations_mutation_response",
+		update_circle_integrations_by_pk:"circle_integrations",
+		update_circle_integrations_many:"circle_integrations_mutation_response",
+		update_circle_metadata:"circle_metadata_mutation_response",
+		update_circle_metadata_by_pk:"circle_metadata",
+		update_circle_metadata_many:"circle_metadata_mutation_response",
+		update_circle_private:"circle_private_mutation_response",
+		update_circle_private_many:"circle_private_mutation_response",
+		update_circle_share_tokens:"circle_share_tokens_mutation_response",
+		update_circle_share_tokens_by_pk:"circle_share_tokens",
+		update_circle_share_tokens_many:"circle_share_tokens_mutation_response",
+		update_circles:"circles_mutation_response",
+		update_circles_by_pk:"circles",
+		update_circles_many:"circles_mutation_response",
+		update_claims:"claims_mutation_response",
+		update_claims_by_pk:"claims",
+		update_claims_many:"claims_mutation_response",
+		update_contributions:"contributions_mutation_response",
+		update_contributions_by_pk:"contributions",
+		update_contributions_many:"contributions_mutation_response",
+		update_discord_roles_circles:"discord_roles_circles_mutation_response",
+		update_discord_roles_circles_by_pk:"discord_roles_circles",
+		update_discord_roles_circles_many:"discord_roles_circles_mutation_response",
+		update_discord_users:"discord_users_mutation_response",
+		update_discord_users_by_pk:"discord_users",
+		update_discord_users_many:"discord_users_mutation_response",
+		update_distributions:"distributions_mutation_response",
+		update_distributions_by_pk:"distributions",
+		update_distributions_many:"distributions_mutation_response",
+		update_epoch_pgive_data:"epoch_pgive_data_mutation_response",
+		update_epoch_pgive_data_by_pk:"epoch_pgive_data",
+		update_epoch_pgive_data_many:"epoch_pgive_data_mutation_response",
+		update_epochs:"epochs_mutation_response",
+		update_epochs_by_pk:"epochs",
+		update_epochs_many:"epochs_mutation_response",
+		update_gift_private:"gift_private_mutation_response",
+		update_gift_private_many:"gift_private_mutation_response",
+		update_histories:"histories_mutation_response",
+		update_histories_by_pk:"histories",
+		update_histories_many:"histories_mutation_response",
+		update_interaction_events:"interaction_events_mutation_response",
+		update_interaction_events_by_pk:"interaction_events",
+		update_interaction_events_many:"interaction_events_mutation_response",
+		update_locked_token_distributions:"locked_token_distributions_mutation_response",
+		update_locked_token_distributions_by_pk:"locked_token_distributions",
+		update_locked_token_distributions_many:"locked_token_distributions_mutation_response",
+		update_member_epoch_pgives:"member_epoch_pgives_mutation_response",
+		update_member_epoch_pgives_by_pk:"member_epoch_pgives",
+		update_member_epoch_pgives_many:"member_epoch_pgives_mutation_response",
+		update_nominees:"nominees_mutation_response",
+		update_nominees_by_pk:"nominees",
+		update_nominees_many:"nominees_mutation_response",
+		update_organizations:"organizations_mutation_response",
+		update_organizations_by_pk:"organizations",
+		update_organizations_many:"organizations_mutation_response",
+		update_pending_gift_private:"pending_gift_private_mutation_response",
+		update_pending_gift_private_many:"pending_gift_private_mutation_response",
+		update_pending_token_gifts:"pending_token_gifts_mutation_response",
+		update_pending_token_gifts_by_pk:"pending_token_gifts",
+		update_pending_token_gifts_many:"pending_token_gifts_mutation_response",
+		update_pending_vault_transactions:"pending_vault_transactions_mutation_response",
+		update_pending_vault_transactions_by_pk:"pending_vault_transactions",
+		update_pending_vault_transactions_many:"pending_vault_transactions_mutation_response",
+		update_personal_access_tokens:"personal_access_tokens_mutation_response",
+		update_personal_access_tokens_by_pk:"personal_access_tokens",
+		update_personal_access_tokens_many:"personal_access_tokens_mutation_response",
+		update_profiles:"profiles_mutation_response",
+		update_profiles_by_pk:"profiles",
+		update_profiles_many:"profiles_mutation_response",
+		update_teammates:"teammates_mutation_response",
+		update_teammates_by_pk:"teammates",
+		update_teammates_many:"teammates_mutation_response",
+		update_token_gifts:"token_gifts_mutation_response",
+		update_token_gifts_by_pk:"token_gifts",
+		update_token_gifts_many:"token_gifts_mutation_response",
+		update_users:"users_mutation_response",
+		update_users_by_pk:"users",
+		update_users_many:"users_mutation_response",
+		update_vault_transactions:"vault_transactions_mutation_response",
+		update_vault_transactions_by_pk:"vault_transactions",
+		update_vault_transactions_many:"vault_transactions_mutation_response",
+		update_vault_tx_types:"vault_tx_types_mutation_response",
+		update_vault_tx_types_by_pk:"vault_tx_types",
+		update_vault_tx_types_many:"vault_tx_types_mutation_response",
+		update_vaults:"vaults_mutation_response",
+		update_vaults_by_pk:"vaults",
+		update_vaults_many:"vaults_mutation_response",
+		update_vouches:"vouches_mutation_response",
+		update_vouches_by_pk:"vouches",
+		update_vouches_many:"vouches_mutation_response",
+		uploadCircleLogo:"UpdateCircleResponse",
+		uploadOrgLogo:"UpdateOrgResponse",
+		uploadProfileAvatar:"UpdateProfileResponse",
+		uploadProfileBackground:"UpdateProfileResponse",
+		vouch:"VouchOutput"
+	},
+	nominees:{
+		address:"String",
+		circle:"circles",
+		circle_id:"Int",
+		created_at:"timestamp",
+		description:"String",
+		ended:"Boolean",
+		expiry_date:"timestamp",
+		id:"bigint",
+		name:"String",
+		nominated_by_user_id:"Int",
+		nominated_date:"date",
+		nominations:"vouches",
+		nominations_aggregate:"vouches_aggregate",
+		nominator:"users",
+		updated_at:"timestamp",
+		user:"users",
+		user_id:"Int",
+		vouches_required:"Int"
+	},
+	nominees_aggregate:{
+		aggregate:"nominees_aggregate_fields",
+		nodes:"nominees"
+	},
+	nominees_aggregate_fields:{
+		avg:"nominees_avg_fields",
+		count:"Int",
+		max:"nominees_max_fields",
+		min:"nominees_min_fields",
+		stddev:"nominees_stddev_fields",
+		stddev_pop:"nominees_stddev_pop_fields",
+		stddev_samp:"nominees_stddev_samp_fields",
+		sum:"nominees_sum_fields",
+		var_pop:"nominees_var_pop_fields",
+		var_samp:"nominees_var_samp_fields",
+		variance:"nominees_variance_fields"
+	},
+	nominees_avg_fields:{
+		circle_id:"Float",
+		id:"Float",
+		nominated_by_user_id:"Float",
+		user_id:"Float",
+		vouches_required:"Float"
+	},
+	nominees_max_fields:{
+		address:"String",
+		circle_id:"Int",
+		created_at:"timestamp",
+		description:"String",
+		expiry_date:"timestamp",
+		id:"bigint",
+		name:"String",
+		nominated_by_user_id:"Int",
+		nominated_date:"date",
+		updated_at:"timestamp",
+		user_id:"Int",
+		vouches_required:"Int"
+	},
+	nominees_min_fields:{
+		address:"String",
+		circle_id:"Int",
+		created_at:"timestamp",
+		description:"String",
+		expiry_date:"timestamp",
+		id:"bigint",
+		name:"String",
+		nominated_by_user_id:"Int",
+		nominated_date:"date",
+		updated_at:"timestamp",
+		user_id:"Int",
+		vouches_required:"Int"
+	},
+	nominees_mutation_response:{
+		affected_rows:"Int",
+		returning:"nominees"
+	},
+	nominees_stddev_fields:{
+		circle_id:"Float",
+		id:"Float",
+		nominated_by_user_id:"Float",
+		user_id:"Float",
+		vouches_required:"Float"
+	},
+	nominees_stddev_pop_fields:{
+		circle_id:"Float",
+		id:"Float",
+		nominated_by_user_id:"Float",
+		user_id:"Float",
+		vouches_required:"Float"
+	},
+	nominees_stddev_samp_fields:{
+		circle_id:"Float",
+		id:"Float",
+		nominated_by_user_id:"Float",
+		user_id:"Float",
+		vouches_required:"Float"
+	},
+	nominees_sum_fields:{
+		circle_id:"Int",
+		id:"bigint",
+		nominated_by_user_id:"Int",
+		user_id:"Int",
+		vouches_required:"Int"
+	},
+	nominees_var_pop_fields:{
+		circle_id:"Float",
+		id:"Float",
+		nominated_by_user_id:"Float",
+		user_id:"Float",
+		vouches_required:"Float"
+	},
+	nominees_var_samp_fields:{
+		circle_id:"Float",
+		id:"Float",
+		nominated_by_user_id:"Float",
+		user_id:"Float",
+		vouches_required:"Float"
+	},
+	nominees_variance_fields:{
+		circle_id:"Float",
+		id:"Float",
+		nominated_by_user_id:"Float",
+		user_id:"Float",
+		vouches_required:"Float"
+	},
+	organizations:{
+		circles:"circles",
+		circles_aggregate:"circles_aggregate",
+		created_at:"timestamp",
+		created_by:"Int",
+		id:"bigint",
+		is_verified:"Boolean",
+		logo:"String",
+		name:"String",
+		profile:"profiles",
+		sample:"Boolean",
+		telegram_id:"String",
+		updated_at:"timestamp",
+		vaults:"vaults",
+		vaults_aggregate:"vaults_aggregate"
+	},
+	organizations_aggregate:{
+		aggregate:"organizations_aggregate_fields",
+		nodes:"organizations"
+	},
+	organizations_aggregate_fields:{
+		avg:"organizations_avg_fields",
+		count:"Int",
+		max:"organizations_max_fields",
+		min:"organizations_min_fields",
+		stddev:"organizations_stddev_fields",
+		stddev_pop:"organizations_stddev_pop_fields",
+		stddev_samp:"organizations_stddev_samp_fields",
+		sum:"organizations_sum_fields",
+		var_pop:"organizations_var_pop_fields",
+		var_samp:"organizations_var_samp_fields",
+		variance:"organizations_variance_fields"
+	},
+	organizations_avg_fields:{
+		created_by:"Float",
+		id:"Float"
+	},
+	organizations_max_fields:{
+		created_at:"timestamp",
+		created_by:"Int",
+		id:"bigint",
+		logo:"String",
+		name:"String",
+		telegram_id:"String",
+		updated_at:"timestamp"
+	},
+	organizations_min_fields:{
+		created_at:"timestamp",
+		created_by:"Int",
+		id:"bigint",
+		logo:"String",
+		name:"String",
+		telegram_id:"String",
+		updated_at:"timestamp"
+	},
+	organizations_mutation_response:{
+		affected_rows:"Int",
+		returning:"organizations"
+	},
+	organizations_stddev_fields:{
+		created_by:"Float",
+		id:"Float"
+	},
+	organizations_stddev_pop_fields:{
+		created_by:"Float",
+		id:"Float"
+	},
+	organizations_stddev_samp_fields:{
+		created_by:"Float",
+		id:"Float"
+	},
+	organizations_sum_fields:{
+		created_by:"Int",
+		id:"bigint"
+	},
+	organizations_var_pop_fields:{
+		created_by:"Float",
+		id:"Float"
+	},
+	organizations_var_samp_fields:{
+		created_by:"Float",
+		id:"Float"
+	},
+	organizations_variance_fields:{
+		created_by:"Float",
+		id:"Float"
+	},
+	pending_gift_private:{
+		gift_id:"bigint",
+		note:"String",
+		recipient:"users",
+		recipient_id:"bigint",
+		sender:"users",
+		sender_id:"bigint"
+	},
+	pending_gift_private_aggregate:{
+		aggregate:"pending_gift_private_aggregate_fields",
+		nodes:"pending_gift_private"
+	},
+	pending_gift_private_aggregate_fields:{
+		avg:"pending_gift_private_avg_fields",
+		count:"Int",
+		max:"pending_gift_private_max_fields",
+		min:"pending_gift_private_min_fields",
+		stddev:"pending_gift_private_stddev_fields",
+		stddev_pop:"pending_gift_private_stddev_pop_fields",
+		stddev_samp:"pending_gift_private_stddev_samp_fields",
+		sum:"pending_gift_private_sum_fields",
+		var_pop:"pending_gift_private_var_pop_fields",
+		var_samp:"pending_gift_private_var_samp_fields",
+		variance:"pending_gift_private_variance_fields"
+	},
+	pending_gift_private_avg_fields:{
+		gift_id:"Float",
+		recipient_id:"Float",
+		sender_id:"Float"
+	},
+	pending_gift_private_max_fields:{
+		gift_id:"bigint",
+		note:"String",
+		recipient_id:"bigint",
+		sender_id:"bigint"
+	},
+	pending_gift_private_min_fields:{
+		gift_id:"bigint",
+		note:"String",
+		recipient_id:"bigint",
+		sender_id:"bigint"
+	},
+	pending_gift_private_mutation_response:{
+		affected_rows:"Int",
+		returning:"pending_gift_private"
+	},
+	pending_gift_private_stddev_fields:{
+		gift_id:"Float",
+		recipient_id:"Float",
+		sender_id:"Float"
+	},
+	pending_gift_private_stddev_pop_fields:{
+		gift_id:"Float",
+		recipient_id:"Float",
+		sender_id:"Float"
+	},
+	pending_gift_private_stddev_samp_fields:{
+		gift_id:"Float",
+		recipient_id:"Float",
+		sender_id:"Float"
+	},
+	pending_gift_private_sum_fields:{
+		gift_id:"bigint",
+		recipient_id:"bigint",
+		sender_id:"bigint"
+	},
+	pending_gift_private_var_pop_fields:{
+		gift_id:"Float",
+		recipient_id:"Float",
+		sender_id:"Float"
+	},
+	pending_gift_private_var_samp_fields:{
+		gift_id:"Float",
+		recipient_id:"Float",
+		sender_id:"Float"
+	},
+	pending_gift_private_variance_fields:{
+		gift_id:"Float",
+		recipient_id:"Float",
+		sender_id:"Float"
+	},
+	pending_token_gifts:{
+		circle:"circles",
+		circle_id:"bigint",
+		created_at:"timestamp",
+		dts_created:"timestamp",
+		epoch:"epochs",
+		epoch_id:"Int",
+		gift_private:"pending_gift_private",
+		id:"bigint",
+		note:"String",
+		recipient:"users",
+		recipient_address:"String",
+		recipient_id:"bigint",
+		sender:"users",
+		sender_address:"String",
+		sender_id:"bigint",
+		tokens:"Int",
+		updated_at:"timestamp"
+	},
+	pending_token_gifts_aggregate:{
+		aggregate:"pending_token_gifts_aggregate_fields",
+		nodes:"pending_token_gifts"
+	},
+	pending_token_gifts_aggregate_fields:{
+		avg:"pending_token_gifts_avg_fields",
+		count:"Int",
+		max:"pending_token_gifts_max_fields",
+		min:"pending_token_gifts_min_fields",
+		stddev:"pending_token_gifts_stddev_fields",
+		stddev_pop:"pending_token_gifts_stddev_pop_fields",
+		stddev_samp:"pending_token_gifts_stddev_samp_fields",
+		sum:"pending_token_gifts_sum_fields",
+		var_pop:"pending_token_gifts_var_pop_fields",
+		var_samp:"pending_token_gifts_var_samp_fields",
+		variance:"pending_token_gifts_variance_fields"
+	},
+	pending_token_gifts_avg_fields:{
+		circle_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		recipient_id:"Float",
+		sender_id:"Float",
+		tokens:"Float"
+	},
+	pending_token_gifts_max_fields:{
+		circle_id:"bigint",
+		created_at:"timestamp",
+		dts_created:"timestamp",
+		epoch_id:"Int",
+		id:"bigint",
+		note:"String",
+		recipient_address:"String",
+		recipient_id:"bigint",
+		sender_address:"String",
+		sender_id:"bigint",
+		tokens:"Int",
+		updated_at:"timestamp"
+	},
+	pending_token_gifts_min_fields:{
+		circle_id:"bigint",
+		created_at:"timestamp",
+		dts_created:"timestamp",
+		epoch_id:"Int",
+		id:"bigint",
+		note:"String",
+		recipient_address:"String",
+		recipient_id:"bigint",
+		sender_address:"String",
+		sender_id:"bigint",
+		tokens:"Int",
+		updated_at:"timestamp"
+	},
+	pending_token_gifts_mutation_response:{
+		affected_rows:"Int",
+		returning:"pending_token_gifts"
+	},
+	pending_token_gifts_stddev_fields:{
+		circle_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		recipient_id:"Float",
+		sender_id:"Float",
+		tokens:"Float"
+	},
+	pending_token_gifts_stddev_pop_fields:{
+		circle_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		recipient_id:"Float",
+		sender_id:"Float",
+		tokens:"Float"
+	},
+	pending_token_gifts_stddev_samp_fields:{
+		circle_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		recipient_id:"Float",
+		sender_id:"Float",
+		tokens:"Float"
+	},
+	pending_token_gifts_sum_fields:{
+		circle_id:"bigint",
+		epoch_id:"Int",
+		id:"bigint",
+		recipient_id:"bigint",
+		sender_id:"bigint",
+		tokens:"Int"
+	},
+	pending_token_gifts_var_pop_fields:{
+		circle_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		recipient_id:"Float",
+		sender_id:"Float",
+		tokens:"Float"
+	},
+	pending_token_gifts_var_samp_fields:{
+		circle_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		recipient_id:"Float",
+		sender_id:"Float",
+		tokens:"Float"
+	},
+	pending_token_gifts_variance_fields:{
+		circle_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		recipient_id:"Float",
+		sender_id:"Float",
+		tokens:"Float"
+	},
+	pending_vault_transactions:{
+		chain_id:"Int",
+		claim_id:"bigint",
+		created_at:"timestamp",
+		created_by:"bigint",
+		distribution:"distributions",
+		distribution_id:"bigint",
+		org_id:"bigint",
+		organization:"organizations",
+		profile:"profiles",
+		tx_hash:"String",
+		tx_type:"vault_tx_types_enum",
+		vault_tx_type:"vault_tx_types"
+	},
+	pending_vault_transactions_aggregate:{
+		aggregate:"pending_vault_transactions_aggregate_fields",
+		nodes:"pending_vault_transactions"
+	},
+	pending_vault_transactions_aggregate_fields:{
+		avg:"pending_vault_transactions_avg_fields",
+		count:"Int",
+		max:"pending_vault_transactions_max_fields",
+		min:"pending_vault_transactions_min_fields",
+		stddev:"pending_vault_transactions_stddev_fields",
+		stddev_pop:"pending_vault_transactions_stddev_pop_fields",
+		stddev_samp:"pending_vault_transactions_stddev_samp_fields",
+		sum:"pending_vault_transactions_sum_fields",
+		var_pop:"pending_vault_transactions_var_pop_fields",
+		var_samp:"pending_vault_transactions_var_samp_fields",
+		variance:"pending_vault_transactions_variance_fields"
+	},
+	pending_vault_transactions_avg_fields:{
+		chain_id:"Float",
+		claim_id:"Float",
+		created_by:"Float",
+		distribution_id:"Float",
+		org_id:"Float"
+	},
+	pending_vault_transactions_max_fields:{
+		chain_id:"Int",
+		claim_id:"bigint",
+		created_at:"timestamp",
+		created_by:"bigint",
+		distribution_id:"bigint",
+		org_id:"bigint",
+		tx_hash:"String"
+	},
+	pending_vault_transactions_min_fields:{
+		chain_id:"Int",
+		claim_id:"bigint",
+		created_at:"timestamp",
+		created_by:"bigint",
+		distribution_id:"bigint",
+		org_id:"bigint",
+		tx_hash:"String"
+	},
+	pending_vault_transactions_mutation_response:{
+		affected_rows:"Int",
+		returning:"pending_vault_transactions"
+	},
+	pending_vault_transactions_stddev_fields:{
+		chain_id:"Float",
+		claim_id:"Float",
+		created_by:"Float",
+		distribution_id:"Float",
+		org_id:"Float"
+	},
+	pending_vault_transactions_stddev_pop_fields:{
+		chain_id:"Float",
+		claim_id:"Float",
+		created_by:"Float",
+		distribution_id:"Float",
+		org_id:"Float"
+	},
+	pending_vault_transactions_stddev_samp_fields:{
+		chain_id:"Float",
+		claim_id:"Float",
+		created_by:"Float",
+		distribution_id:"Float",
+		org_id:"Float"
+	},
+	pending_vault_transactions_sum_fields:{
+		chain_id:"Int",
+		claim_id:"bigint",
+		created_by:"bigint",
+		distribution_id:"bigint",
+		org_id:"bigint"
+	},
+	pending_vault_transactions_var_pop_fields:{
+		chain_id:"Float",
+		claim_id:"Float",
+		created_by:"Float",
+		distribution_id:"Float",
+		org_id:"Float"
+	},
+	pending_vault_transactions_var_samp_fields:{
+		chain_id:"Float",
+		claim_id:"Float",
+		created_by:"Float",
+		distribution_id:"Float",
+		org_id:"Float"
+	},
+	pending_vault_transactions_variance_fields:{
+		chain_id:"Float",
+		claim_id:"Float",
+		created_by:"Float",
+		distribution_id:"Float",
+		org_id:"Float"
+	},
+	personal_access_tokens:{
+		abilities:"String",
+		created_at:"timestamp",
+		id:"bigint",
+		last_used_at:"timestamp",
+		name:"String",
+		profile:"profiles",
+		token:"String",
+		tokenable_id:"bigint",
+		tokenable_type:"String",
+		updated_at:"timestamp"
+	},
+	personal_access_tokens_aggregate:{
+		aggregate:"personal_access_tokens_aggregate_fields",
+		nodes:"personal_access_tokens"
+	},
+	personal_access_tokens_aggregate_fields:{
+		avg:"personal_access_tokens_avg_fields",
+		count:"Int",
+		max:"personal_access_tokens_max_fields",
+		min:"personal_access_tokens_min_fields",
+		stddev:"personal_access_tokens_stddev_fields",
+		stddev_pop:"personal_access_tokens_stddev_pop_fields",
+		stddev_samp:"personal_access_tokens_stddev_samp_fields",
+		sum:"personal_access_tokens_sum_fields",
+		var_pop:"personal_access_tokens_var_pop_fields",
+		var_samp:"personal_access_tokens_var_samp_fields",
+		variance:"personal_access_tokens_variance_fields"
+	},
+	personal_access_tokens_avg_fields:{
+		id:"Float",
+		tokenable_id:"Float"
+	},
+	personal_access_tokens_max_fields:{
+		abilities:"String",
+		created_at:"timestamp",
+		id:"bigint",
+		last_used_at:"timestamp",
+		name:"String",
+		token:"String",
+		tokenable_id:"bigint",
+		tokenable_type:"String",
+		updated_at:"timestamp"
+	},
+	personal_access_tokens_min_fields:{
+		abilities:"String",
+		created_at:"timestamp",
+		id:"bigint",
+		last_used_at:"timestamp",
+		name:"String",
+		token:"String",
+		tokenable_id:"bigint",
+		tokenable_type:"String",
+		updated_at:"timestamp"
+	},
+	personal_access_tokens_mutation_response:{
+		affected_rows:"Int",
+		returning:"personal_access_tokens"
+	},
+	personal_access_tokens_stddev_fields:{
+		id:"Float",
+		tokenable_id:"Float"
+	},
+	personal_access_tokens_stddev_pop_fields:{
+		id:"Float",
+		tokenable_id:"Float"
+	},
+	personal_access_tokens_stddev_samp_fields:{
+		id:"Float",
+		tokenable_id:"Float"
+	},
+	personal_access_tokens_sum_fields:{
+		id:"bigint",
+		tokenable_id:"bigint"
+	},
+	personal_access_tokens_var_pop_fields:{
+		id:"Float",
+		tokenable_id:"Float"
+	},
+	personal_access_tokens_var_samp_fields:{
+		id:"Float",
+		tokenable_id:"Float"
+	},
+	personal_access_tokens_variance_fields:{
+		id:"Float",
+		tokenable_id:"Float"
+	},
+	profiles:{
+		address:"String",
+		avatar:"String",
+		background:"String",
+		bio:"String",
+		chat_id:"String",
+		claims:"claims",
+		claims_aggregate:"claims_aggregate",
+		created_at:"timestamp",
+		discord_username:"String",
+		distributions:"distributions",
+		distributions_aggregate:"distributions_aggregate",
+		github_username:"String",
+		id:"bigint",
+		medium_username:"String",
+		name:"String",
+		skills:"String",
+		telegram_username:"String",
+		twitter_username:"String",
+		updated_at:"timestamp",
+		users:"users",
+		users_aggregate:"users_aggregate",
+		vault_transactions:"vault_transactions",
+		vault_transactions_aggregate:"vault_transactions_aggregate",
+		vaults:"vaults",
+		vaults_aggregate:"vaults_aggregate",
+		website:"String"
+	},
+	profiles_aggregate:{
+		aggregate:"profiles_aggregate_fields",
+		nodes:"profiles"
+	},
+	profiles_aggregate_fields:{
+		avg:"profiles_avg_fields",
+		count:"Int",
+		max:"profiles_max_fields",
+		min:"profiles_min_fields",
+		stddev:"profiles_stddev_fields",
+		stddev_pop:"profiles_stddev_pop_fields",
+		stddev_samp:"profiles_stddev_samp_fields",
+		sum:"profiles_sum_fields",
+		var_pop:"profiles_var_pop_fields",
+		var_samp:"profiles_var_samp_fields",
+		variance:"profiles_variance_fields"
+	},
+	profiles_avg_fields:{
+		id:"Float"
+	},
+	profiles_max_fields:{
+		address:"String",
+		avatar:"String",
+		background:"String",
+		bio:"String",
+		chat_id:"String",
+		created_at:"timestamp",
+		discord_username:"String",
+		github_username:"String",
+		id:"bigint",
+		medium_username:"String",
+		name:"String",
+		skills:"String",
+		telegram_username:"String",
+		twitter_username:"String",
+		updated_at:"timestamp",
+		website:"String"
+	},
+	profiles_min_fields:{
+		address:"String",
+		avatar:"String",
+		background:"String",
+		bio:"String",
+		chat_id:"String",
+		created_at:"timestamp",
+		discord_username:"String",
+		github_username:"String",
+		id:"bigint",
+		medium_username:"String",
+		name:"String",
+		skills:"String",
+		telegram_username:"String",
+		twitter_username:"String",
+		updated_at:"timestamp",
+		website:"String"
+	},
+	profiles_mutation_response:{
+		affected_rows:"Int",
+		returning:"profiles"
+	},
+	profiles_stddev_fields:{
+		id:"Float"
+	},
+	profiles_stddev_pop_fields:{
+		id:"Float"
+	},
+	profiles_stddev_samp_fields:{
+		id:"Float"
+	},
+	profiles_sum_fields:{
+		id:"bigint"
+	},
+	profiles_var_pop_fields:{
+		id:"Float"
+	},
+	profiles_var_samp_fields:{
+		id:"Float"
+	},
+	profiles_variance_fields:{
+		id:"Float"
+	},
+	query_root:{
+		burns:"burns",
+		burns_aggregate:"burns_aggregate",
+		burns_by_pk:"burns",
+		circle_api_keys:"circle_api_keys",
+		circle_api_keys_aggregate:"circle_api_keys_aggregate",
+		circle_api_keys_by_pk:"circle_api_keys",
+		circle_integrations:"circle_integrations",
+		circle_integrations_aggregate:"circle_integrations_aggregate",
+		circle_integrations_by_pk:"circle_integrations",
+		circle_metadata:"circle_metadata",
+		circle_metadata_aggregate:"circle_metadata_aggregate",
+		circle_metadata_by_pk:"circle_metadata",
+		circle_private:"circle_private",
+		circle_private_aggregate:"circle_private_aggregate",
+		circle_share_tokens:"circle_share_tokens",
+		circle_share_tokens_aggregate:"circle_share_tokens_aggregate",
+		circle_share_tokens_by_pk:"circle_share_tokens",
+		circles:"circles",
+		circles_aggregate:"circles_aggregate",
+		circles_by_pk:"circles",
+		claims:"claims",
+		claims_aggregate:"claims_aggregate",
+		claims_by_pk:"claims",
+		contributions:"contributions",
+		contributions_aggregate:"contributions_aggregate",
+		contributions_by_pk:"contributions",
+		discord_roles_circles:"discord_roles_circles",
+		discord_roles_circles_aggregate:"discord_roles_circles_aggregate",
+		discord_roles_circles_by_pk:"discord_roles_circles",
+		discord_users:"discord_users",
+		discord_users_aggregate:"discord_users_aggregate",
+		discord_users_by_pk:"discord_users",
+		distributions:"distributions",
+		distributions_aggregate:"distributions_aggregate",
+		distributions_by_pk:"distributions",
+		epoch_pgive_data:"epoch_pgive_data",
+		epoch_pgive_data_aggregate:"epoch_pgive_data_aggregate",
+		epoch_pgive_data_by_pk:"epoch_pgive_data",
+		epochs:"epochs",
+		epochs_aggregate:"epochs_aggregate",
+		epochs_by_pk:"epochs",
+		gift_private:"gift_private",
+		gift_private_aggregate:"gift_private_aggregate",
+		histories:"histories",
+		histories_aggregate:"histories_aggregate",
+		histories_by_pk:"histories",
+		interaction_events:"interaction_events",
+		interaction_events_aggregate:"interaction_events_aggregate",
+		interaction_events_by_pk:"interaction_events",
+		locked_token_distributions:"locked_token_distributions",
+		locked_token_distributions_aggregate:"locked_token_distributions_aggregate",
+		locked_token_distributions_by_pk:"locked_token_distributions",
+		member_epoch_pgives:"member_epoch_pgives",
+		member_epoch_pgives_aggregate:"member_epoch_pgives_aggregate",
+		member_epoch_pgives_by_pk:"member_epoch_pgives",
+		nominees:"nominees",
+		nominees_aggregate:"nominees_aggregate",
+		nominees_by_pk:"nominees",
+		organizations:"organizations",
+		organizations_aggregate:"organizations_aggregate",
+		organizations_by_pk:"organizations",
+		pending_gift_private:"pending_gift_private",
+		pending_gift_private_aggregate:"pending_gift_private_aggregate",
+		pending_token_gifts:"pending_token_gifts",
+		pending_token_gifts_aggregate:"pending_token_gifts_aggregate",
+		pending_token_gifts_by_pk:"pending_token_gifts",
+		pending_vault_transactions:"pending_vault_transactions",
+		pending_vault_transactions_aggregate:"pending_vault_transactions_aggregate",
+		pending_vault_transactions_by_pk:"pending_vault_transactions",
+		personal_access_tokens:"personal_access_tokens",
+		personal_access_tokens_aggregate:"personal_access_tokens_aggregate",
+		personal_access_tokens_by_pk:"personal_access_tokens",
+		price_per_share:"Float",
+		profiles:"profiles",
+		profiles_aggregate:"profiles_aggregate",
+		profiles_by_pk:"profiles",
+		teammates:"teammates",
+		teammates_aggregate:"teammates_aggregate",
+		teammates_by_pk:"teammates",
+		token_gifts:"token_gifts",
+		token_gifts_aggregate:"token_gifts_aggregate",
+		token_gifts_by_pk:"token_gifts",
+		user_private:"user_private",
+		user_private_aggregate:"user_private_aggregate",
+		users:"users",
+		users_aggregate:"users_aggregate",
+		users_by_pk:"users",
+		vault_transactions:"vault_transactions",
+		vault_transactions_aggregate:"vault_transactions_aggregate",
+		vault_transactions_by_pk:"vault_transactions",
+		vault_tx_types:"vault_tx_types",
+		vault_tx_types_aggregate:"vault_tx_types_aggregate",
+		vault_tx_types_by_pk:"vault_tx_types",
+		vaults:"vaults",
+		vaults_aggregate:"vaults_aggregate",
+		vaults_by_pk:"vaults",
+		vouches:"vouches",
+		vouches_aggregate:"vouches_aggregate",
+		vouches_by_pk:"vouches"
+	},
+	subscription_root:{
+		burns:"burns",
+		burns_aggregate:"burns_aggregate",
+		burns_by_pk:"burns",
+		burns_stream:"burns",
+		circle_api_keys:"circle_api_keys",
+		circle_api_keys_aggregate:"circle_api_keys_aggregate",
+		circle_api_keys_by_pk:"circle_api_keys",
+		circle_api_keys_stream:"circle_api_keys",
+		circle_integrations:"circle_integrations",
+		circle_integrations_aggregate:"circle_integrations_aggregate",
+		circle_integrations_by_pk:"circle_integrations",
+		circle_integrations_stream:"circle_integrations",
+		circle_metadata:"circle_metadata",
+		circle_metadata_aggregate:"circle_metadata_aggregate",
+		circle_metadata_by_pk:"circle_metadata",
+		circle_metadata_stream:"circle_metadata",
+		circle_private:"circle_private",
+		circle_private_aggregate:"circle_private_aggregate",
+		circle_private_stream:"circle_private",
+		circle_share_tokens:"circle_share_tokens",
+		circle_share_tokens_aggregate:"circle_share_tokens_aggregate",
+		circle_share_tokens_by_pk:"circle_share_tokens",
+		circle_share_tokens_stream:"circle_share_tokens",
+		circles:"circles",
+		circles_aggregate:"circles_aggregate",
+		circles_by_pk:"circles",
+		circles_stream:"circles",
+		claims:"claims",
+		claims_aggregate:"claims_aggregate",
+		claims_by_pk:"claims",
+		claims_stream:"claims",
+		contributions:"contributions",
+		contributions_aggregate:"contributions_aggregate",
+		contributions_by_pk:"contributions",
+		contributions_stream:"contributions",
+		discord_roles_circles:"discord_roles_circles",
+		discord_roles_circles_aggregate:"discord_roles_circles_aggregate",
+		discord_roles_circles_by_pk:"discord_roles_circles",
+		discord_roles_circles_stream:"discord_roles_circles",
+		discord_users:"discord_users",
+		discord_users_aggregate:"discord_users_aggregate",
+		discord_users_by_pk:"discord_users",
+		discord_users_stream:"discord_users",
+		distributions:"distributions",
+		distributions_aggregate:"distributions_aggregate",
+		distributions_by_pk:"distributions",
+		distributions_stream:"distributions",
+		epoch_pgive_data:"epoch_pgive_data",
+		epoch_pgive_data_aggregate:"epoch_pgive_data_aggregate",
+		epoch_pgive_data_by_pk:"epoch_pgive_data",
+		epoch_pgive_data_stream:"epoch_pgive_data",
+		epochs:"epochs",
+		epochs_aggregate:"epochs_aggregate",
+		epochs_by_pk:"epochs",
+		epochs_stream:"epochs",
+		gift_private:"gift_private",
+		gift_private_aggregate:"gift_private_aggregate",
+		gift_private_stream:"gift_private",
+		histories:"histories",
+		histories_aggregate:"histories_aggregate",
+		histories_by_pk:"histories",
+		histories_stream:"histories",
+		interaction_events:"interaction_events",
+		interaction_events_aggregate:"interaction_events_aggregate",
+		interaction_events_by_pk:"interaction_events",
+		interaction_events_stream:"interaction_events",
+		locked_token_distributions:"locked_token_distributions",
+		locked_token_distributions_aggregate:"locked_token_distributions_aggregate",
+		locked_token_distributions_by_pk:"locked_token_distributions",
+		locked_token_distributions_stream:"locked_token_distributions",
+		member_epoch_pgives:"member_epoch_pgives",
+		member_epoch_pgives_aggregate:"member_epoch_pgives_aggregate",
+		member_epoch_pgives_by_pk:"member_epoch_pgives",
+		member_epoch_pgives_stream:"member_epoch_pgives",
+		nominees:"nominees",
+		nominees_aggregate:"nominees_aggregate",
+		nominees_by_pk:"nominees",
+		nominees_stream:"nominees",
+		organizations:"organizations",
+		organizations_aggregate:"organizations_aggregate",
+		organizations_by_pk:"organizations",
+		organizations_stream:"organizations",
+		pending_gift_private:"pending_gift_private",
+		pending_gift_private_aggregate:"pending_gift_private_aggregate",
+		pending_gift_private_stream:"pending_gift_private",
+		pending_token_gifts:"pending_token_gifts",
+		pending_token_gifts_aggregate:"pending_token_gifts_aggregate",
+		pending_token_gifts_by_pk:"pending_token_gifts",
+		pending_token_gifts_stream:"pending_token_gifts",
+		pending_vault_transactions:"pending_vault_transactions",
+		pending_vault_transactions_aggregate:"pending_vault_transactions_aggregate",
+		pending_vault_transactions_by_pk:"pending_vault_transactions",
+		pending_vault_transactions_stream:"pending_vault_transactions",
+		personal_access_tokens:"personal_access_tokens",
+		personal_access_tokens_aggregate:"personal_access_tokens_aggregate",
+		personal_access_tokens_by_pk:"personal_access_tokens",
+		personal_access_tokens_stream:"personal_access_tokens",
+		profiles:"profiles",
+		profiles_aggregate:"profiles_aggregate",
+		profiles_by_pk:"profiles",
+		profiles_stream:"profiles",
+		teammates:"teammates",
+		teammates_aggregate:"teammates_aggregate",
+		teammates_by_pk:"teammates",
+		teammates_stream:"teammates",
+		token_gifts:"token_gifts",
+		token_gifts_aggregate:"token_gifts_aggregate",
+		token_gifts_by_pk:"token_gifts",
+		token_gifts_stream:"token_gifts",
+		user_private:"user_private",
+		user_private_aggregate:"user_private_aggregate",
+		user_private_stream:"user_private",
+		users:"users",
+		users_aggregate:"users_aggregate",
+		users_by_pk:"users",
+		users_stream:"users",
+		vault_transactions:"vault_transactions",
+		vault_transactions_aggregate:"vault_transactions_aggregate",
+		vault_transactions_by_pk:"vault_transactions",
+		vault_transactions_stream:"vault_transactions",
+		vault_tx_types:"vault_tx_types",
+		vault_tx_types_aggregate:"vault_tx_types_aggregate",
+		vault_tx_types_by_pk:"vault_tx_types",
+		vault_tx_types_stream:"vault_tx_types",
+		vaults:"vaults",
+		vaults_aggregate:"vaults_aggregate",
+		vaults_by_pk:"vaults",
+		vaults_stream:"vaults",
+		vouches:"vouches",
+		vouches_aggregate:"vouches_aggregate",
+		vouches_by_pk:"vouches",
+		vouches_stream:"vouches"
+	},
+	teammates:{
+		created_at:"timestamp",
+		id:"bigint",
+		team_mate_id:"Int",
+		teammate:"users",
+		updated_at:"timestamp",
+		user:"users",
+		user_id:"Int"
+	},
+	teammates_aggregate:{
+		aggregate:"teammates_aggregate_fields",
+		nodes:"teammates"
+	},
+	teammates_aggregate_fields:{
+		avg:"teammates_avg_fields",
+		count:"Int",
+		max:"teammates_max_fields",
+		min:"teammates_min_fields",
+		stddev:"teammates_stddev_fields",
+		stddev_pop:"teammates_stddev_pop_fields",
+		stddev_samp:"teammates_stddev_samp_fields",
+		sum:"teammates_sum_fields",
+		var_pop:"teammates_var_pop_fields",
+		var_samp:"teammates_var_samp_fields",
+		variance:"teammates_variance_fields"
+	},
+	teammates_avg_fields:{
+		id:"Float",
+		team_mate_id:"Float",
+		user_id:"Float"
+	},
+	teammates_max_fields:{
+		created_at:"timestamp",
+		id:"bigint",
+		team_mate_id:"Int",
+		updated_at:"timestamp",
+		user_id:"Int"
+	},
+	teammates_min_fields:{
+		created_at:"timestamp",
+		id:"bigint",
+		team_mate_id:"Int",
+		updated_at:"timestamp",
+		user_id:"Int"
+	},
+	teammates_mutation_response:{
+		affected_rows:"Int",
+		returning:"teammates"
+	},
+	teammates_stddev_fields:{
+		id:"Float",
+		team_mate_id:"Float",
+		user_id:"Float"
+	},
+	teammates_stddev_pop_fields:{
+		id:"Float",
+		team_mate_id:"Float",
+		user_id:"Float"
+	},
+	teammates_stddev_samp_fields:{
+		id:"Float",
+		team_mate_id:"Float",
+		user_id:"Float"
+	},
+	teammates_sum_fields:{
+		id:"bigint",
+		team_mate_id:"Int",
+		user_id:"Int"
+	},
+	teammates_var_pop_fields:{
+		id:"Float",
+		team_mate_id:"Float",
+		user_id:"Float"
+	},
+	teammates_var_samp_fields:{
+		id:"Float",
+		team_mate_id:"Float",
+		user_id:"Float"
+	},
+	teammates_variance_fields:{
+		id:"Float",
+		team_mate_id:"Float",
+		user_id:"Float"
+	},
+	token_gifts:{
+		circle:"circles",
+		circle_id:"bigint",
+		created_at:"timestamp",
+		dts_created:"timestamp",
+		epoch:"epochs",
+		epoch_id:"Int",
+		gift_private:"gift_private",
+		id:"bigint",
+		note:"String",
+		recipient:"users",
+		recipient_address:"String",
+		recipient_id:"bigint",
+		sender:"users",
+		sender_address:"String",
+		sender_id:"bigint",
+		tokens:"Int",
+		updated_at:"timestamp"
+	},
+	token_gifts_aggregate:{
+		aggregate:"token_gifts_aggregate_fields",
+		nodes:"token_gifts"
+	},
+	token_gifts_aggregate_fields:{
+		avg:"token_gifts_avg_fields",
+		count:"Int",
+		max:"token_gifts_max_fields",
+		min:"token_gifts_min_fields",
+		stddev:"token_gifts_stddev_fields",
+		stddev_pop:"token_gifts_stddev_pop_fields",
+		stddev_samp:"token_gifts_stddev_samp_fields",
+		sum:"token_gifts_sum_fields",
+		var_pop:"token_gifts_var_pop_fields",
+		var_samp:"token_gifts_var_samp_fields",
+		variance:"token_gifts_variance_fields"
+	},
+	token_gifts_avg_fields:{
+		circle_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		recipient_id:"Float",
+		sender_id:"Float",
+		tokens:"Float"
+	},
+	token_gifts_max_fields:{
+		circle_id:"bigint",
+		created_at:"timestamp",
+		dts_created:"timestamp",
+		epoch_id:"Int",
+		id:"bigint",
+		note:"String",
+		recipient_address:"String",
+		recipient_id:"bigint",
+		sender_address:"String",
+		sender_id:"bigint",
+		tokens:"Int",
+		updated_at:"timestamp"
+	},
+	token_gifts_min_fields:{
+		circle_id:"bigint",
+		created_at:"timestamp",
+		dts_created:"timestamp",
+		epoch_id:"Int",
+		id:"bigint",
+		note:"String",
+		recipient_address:"String",
+		recipient_id:"bigint",
+		sender_address:"String",
+		sender_id:"bigint",
+		tokens:"Int",
+		updated_at:"timestamp"
+	},
+	token_gifts_mutation_response:{
+		affected_rows:"Int",
+		returning:"token_gifts"
+	},
+	token_gifts_stddev_fields:{
+		circle_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		recipient_id:"Float",
+		sender_id:"Float",
+		tokens:"Float"
+	},
+	token_gifts_stddev_pop_fields:{
+		circle_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		recipient_id:"Float",
+		sender_id:"Float",
+		tokens:"Float"
+	},
+	token_gifts_stddev_samp_fields:{
+		circle_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		recipient_id:"Float",
+		sender_id:"Float",
+		tokens:"Float"
+	},
+	token_gifts_sum_fields:{
+		circle_id:"bigint",
+		epoch_id:"Int",
+		id:"bigint",
+		recipient_id:"bigint",
+		sender_id:"bigint",
+		tokens:"Int"
+	},
+	token_gifts_var_pop_fields:{
+		circle_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		recipient_id:"Float",
+		sender_id:"Float",
+		tokens:"Float"
+	},
+	token_gifts_var_samp_fields:{
+		circle_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		recipient_id:"Float",
+		sender_id:"Float",
+		tokens:"Float"
+	},
+	token_gifts_variance_fields:{
+		circle_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		recipient_id:"Float",
+		sender_id:"Float",
+		tokens:"Float"
+	},
+	user_private:{
+		circle:"circles",
+		circle_id:"bigint",
+		fixed_payment_amount:"numeric",
+		fixed_payment_token_type:"String",
+		user:"users",
+		user_id:"bigint"
+	},
+	user_private_aggregate:{
+		aggregate:"user_private_aggregate_fields",
+		nodes:"user_private"
+	},
+	user_private_aggregate_fields:{
+		avg:"user_private_avg_fields",
+		count:"Int",
+		max:"user_private_max_fields",
+		min:"user_private_min_fields",
+		stddev:"user_private_stddev_fields",
+		stddev_pop:"user_private_stddev_pop_fields",
+		stddev_samp:"user_private_stddev_samp_fields",
+		sum:"user_private_sum_fields",
+		var_pop:"user_private_var_pop_fields",
+		var_samp:"user_private_var_samp_fields",
+		variance:"user_private_variance_fields"
+	},
+	user_private_avg_fields:{
+		circle_id:"Float",
+		fixed_payment_amount:"Float",
+		user_id:"Float"
+	},
+	user_private_max_fields:{
+		circle_id:"bigint",
+		fixed_payment_amount:"numeric",
+		fixed_payment_token_type:"String",
+		user_id:"bigint"
+	},
+	user_private_min_fields:{
+		circle_id:"bigint",
+		fixed_payment_amount:"numeric",
+		fixed_payment_token_type:"String",
+		user_id:"bigint"
+	},
+	user_private_stddev_fields:{
+		circle_id:"Float",
+		fixed_payment_amount:"Float",
+		user_id:"Float"
+	},
+	user_private_stddev_pop_fields:{
+		circle_id:"Float",
+		fixed_payment_amount:"Float",
+		user_id:"Float"
+	},
+	user_private_stddev_samp_fields:{
+		circle_id:"Float",
+		fixed_payment_amount:"Float",
+		user_id:"Float"
+	},
+	user_private_sum_fields:{
+		circle_id:"bigint",
+		fixed_payment_amount:"numeric",
+		user_id:"bigint"
+	},
+	user_private_var_pop_fields:{
+		circle_id:"Float",
+		fixed_payment_amount:"Float",
+		user_id:"Float"
+	},
+	user_private_var_samp_fields:{
+		circle_id:"Float",
+		fixed_payment_amount:"Float",
+		user_id:"Float"
+	},
+	user_private_variance_fields:{
+		circle_id:"Float",
+		fixed_payment_amount:"Float",
+		user_id:"Float"
+	},
+	users:{
+		address:"String",
+		bio:"String",
+		burns:"burns",
+		burns_aggregate:"burns_aggregate",
+		circle:"circles",
+		circle_api_keys:"circle_api_keys",
+		circle_api_keys_aggregate:"circle_api_keys_aggregate",
+		circle_id:"bigint",
+		contributions:"contributions",
+		contributions_aggregate:"contributions_aggregate",
+		created_at:"timestamp",
+		deleted_at:"timestamp",
+		entrance:"String",
+		epoch_first_visit:"Boolean",
+		fixed_non_receiver:"Boolean",
+		fixed_payment_amount:"numeric",
+		give_token_received:"Int",
+		give_token_remaining:"Int",
+		id:"bigint",
+		name:"String",
+		non_giver:"Boolean",
+		non_receiver:"Boolean",
+		pending_received_gifts:"pending_token_gifts",
+		pending_received_gifts_aggregate:"pending_token_gifts_aggregate",
+		pending_sent_gifts:"pending_token_gifts",
+		pending_sent_gifts_aggregate:"pending_token_gifts_aggregate",
+		profile:"profiles",
+		received_gifts:"token_gifts",
+		received_gifts_aggregate:"token_gifts_aggregate",
+		role:"Int",
+		sent_gifts:"token_gifts",
+		sent_gifts_aggregate:"token_gifts_aggregate",
+		starting_tokens:"Int",
+		teammates:"teammates",
+		teammates_aggregate:"teammates_aggregate",
+		updated_at:"timestamp",
+		user_private:"user_private",
+		vouches:"vouches",
+		vouches_aggregate:"vouches_aggregate"
+	},
+	users_aggregate:{
+		aggregate:"users_aggregate_fields",
+		nodes:"users"
+	},
+	users_aggregate_fields:{
+		avg:"users_avg_fields",
+		count:"Int",
+		max:"users_max_fields",
+		min:"users_min_fields",
+		stddev:"users_stddev_fields",
+		stddev_pop:"users_stddev_pop_fields",
+		stddev_samp:"users_stddev_samp_fields",
+		sum:"users_sum_fields",
+		var_pop:"users_var_pop_fields",
+		var_samp:"users_var_samp_fields",
+		variance:"users_variance_fields"
+	},
+	users_avg_fields:{
+		circle_id:"Float",
+		fixed_payment_amount:"Float",
+		give_token_received:"Float",
+		give_token_remaining:"Float",
+		id:"Float",
+		role:"Float",
+		starting_tokens:"Float"
+	},
+	users_max_fields:{
+		address:"String",
+		bio:"String",
+		circle_id:"bigint",
+		created_at:"timestamp",
+		deleted_at:"timestamp",
+		entrance:"String",
+		fixed_payment_amount:"numeric",
+		give_token_received:"Int",
+		give_token_remaining:"Int",
+		id:"bigint",
+		name:"String",
+		role:"Int",
+		starting_tokens:"Int",
+		updated_at:"timestamp"
+	},
+	users_min_fields:{
+		address:"String",
+		bio:"String",
+		circle_id:"bigint",
+		created_at:"timestamp",
+		deleted_at:"timestamp",
+		entrance:"String",
+		fixed_payment_amount:"numeric",
+		give_token_received:"Int",
+		give_token_remaining:"Int",
+		id:"bigint",
+		name:"String",
+		role:"Int",
+		starting_tokens:"Int",
+		updated_at:"timestamp"
+	},
+	users_mutation_response:{
+		affected_rows:"Int",
+		returning:"users"
+	},
+	users_stddev_fields:{
+		circle_id:"Float",
+		fixed_payment_amount:"Float",
+		give_token_received:"Float",
+		give_token_remaining:"Float",
+		id:"Float",
+		role:"Float",
+		starting_tokens:"Float"
+	},
+	users_stddev_pop_fields:{
+		circle_id:"Float",
+		fixed_payment_amount:"Float",
+		give_token_received:"Float",
+		give_token_remaining:"Float",
+		id:"Float",
+		role:"Float",
+		starting_tokens:"Float"
+	},
+	users_stddev_samp_fields:{
+		circle_id:"Float",
+		fixed_payment_amount:"Float",
+		give_token_received:"Float",
+		give_token_remaining:"Float",
+		id:"Float",
+		role:"Float",
+		starting_tokens:"Float"
+	},
+	users_sum_fields:{
+		circle_id:"bigint",
+		fixed_payment_amount:"numeric",
+		give_token_received:"Int",
+		give_token_remaining:"Int",
+		id:"bigint",
+		role:"Int",
+		starting_tokens:"Int"
+	},
+	users_var_pop_fields:{
+		circle_id:"Float",
+		fixed_payment_amount:"Float",
+		give_token_received:"Float",
+		give_token_remaining:"Float",
+		id:"Float",
+		role:"Float",
+		starting_tokens:"Float"
+	},
+	users_var_samp_fields:{
+		circle_id:"Float",
+		fixed_payment_amount:"Float",
+		give_token_received:"Float",
+		give_token_remaining:"Float",
+		id:"Float",
+		role:"Float",
+		starting_tokens:"Float"
+	},
+	users_variance_fields:{
+		circle_id:"Float",
+		fixed_payment_amount:"Float",
+		give_token_received:"Float",
+		give_token_remaining:"Float",
+		id:"Float",
+		role:"Float",
+		starting_tokens:"Float"
+	},
+	vault_transactions:{
+		circle:"circles",
+		circle_id:"bigint",
+		created_at:"timestamp",
+		created_by:"bigint",
+		distribution:"distributions",
+		distribution_id:"bigint",
+		id:"bigint",
+		profile:"profiles",
+		tx_hash:"String",
+		tx_type:"vault_tx_types_enum",
+		updated_at:"timestamp",
+		vault:"vaults",
+		vault_id:"bigint",
+		vault_tx_type:"vault_tx_types"
+	},
+	vault_transactions_aggregate:{
+		aggregate:"vault_transactions_aggregate_fields",
+		nodes:"vault_transactions"
+	},
+	vault_transactions_aggregate_fields:{
+		avg:"vault_transactions_avg_fields",
+		count:"Int",
+		max:"vault_transactions_max_fields",
+		min:"vault_transactions_min_fields",
+		stddev:"vault_transactions_stddev_fields",
+		stddev_pop:"vault_transactions_stddev_pop_fields",
+		stddev_samp:"vault_transactions_stddev_samp_fields",
+		sum:"vault_transactions_sum_fields",
+		var_pop:"vault_transactions_var_pop_fields",
+		var_samp:"vault_transactions_var_samp_fields",
+		variance:"vault_transactions_variance_fields"
+	},
+	vault_transactions_avg_fields:{
+		circle_id:"Float",
+		created_by:"Float",
+		distribution_id:"Float",
+		id:"Float",
+		vault_id:"Float"
+	},
+	vault_transactions_max_fields:{
+		circle_id:"bigint",
+		created_at:"timestamp",
+		created_by:"bigint",
+		distribution_id:"bigint",
+		id:"bigint",
+		tx_hash:"String",
+		updated_at:"timestamp",
+		vault_id:"bigint"
+	},
+	vault_transactions_min_fields:{
+		circle_id:"bigint",
+		created_at:"timestamp",
+		created_by:"bigint",
+		distribution_id:"bigint",
+		id:"bigint",
+		tx_hash:"String",
+		updated_at:"timestamp",
+		vault_id:"bigint"
+	},
+	vault_transactions_mutation_response:{
+		affected_rows:"Int",
+		returning:"vault_transactions"
+	},
+	vault_transactions_stddev_fields:{
+		circle_id:"Float",
+		created_by:"Float",
+		distribution_id:"Float",
+		id:"Float",
+		vault_id:"Float"
+	},
+	vault_transactions_stddev_pop_fields:{
+		circle_id:"Float",
+		created_by:"Float",
+		distribution_id:"Float",
+		id:"Float",
+		vault_id:"Float"
+	},
+	vault_transactions_stddev_samp_fields:{
+		circle_id:"Float",
+		created_by:"Float",
+		distribution_id:"Float",
+		id:"Float",
+		vault_id:"Float"
+	},
+	vault_transactions_sum_fields:{
+		circle_id:"bigint",
+		created_by:"bigint",
+		distribution_id:"bigint",
+		id:"bigint",
+		vault_id:"bigint"
+	},
+	vault_transactions_var_pop_fields:{
+		circle_id:"Float",
+		created_by:"Float",
+		distribution_id:"Float",
+		id:"Float",
+		vault_id:"Float"
+	},
+	vault_transactions_var_samp_fields:{
+		circle_id:"Float",
+		created_by:"Float",
+		distribution_id:"Float",
+		id:"Float",
+		vault_id:"Float"
+	},
+	vault_transactions_variance_fields:{
+		circle_id:"Float",
+		created_by:"Float",
+		distribution_id:"Float",
+		id:"Float",
+		vault_id:"Float"
+	},
+	vault_tx_types:{
+		comment:"String",
+		value:"String",
+		vault_transactions:"vault_transactions",
+		vault_transactions_aggregate:"vault_transactions_aggregate"
+	},
+	vault_tx_types_aggregate:{
+		aggregate:"vault_tx_types_aggregate_fields",
+		nodes:"vault_tx_types"
+	},
+	vault_tx_types_aggregate_fields:{
+		count:"Int",
+		max:"vault_tx_types_max_fields",
+		min:"vault_tx_types_min_fields"
+	},
+	vault_tx_types_max_fields:{
+		comment:"String",
+		value:"String"
+	},
+	vault_tx_types_min_fields:{
+		comment:"String",
+		value:"String"
+	},
+	vault_tx_types_mutation_response:{
+		affected_rows:"Int",
+		returning:"vault_tx_types"
+	},
+	vaults:{
+		chain_id:"Int",
+		created_at:"timestamptz",
+		created_by:"bigint",
+		decimals:"Int",
+		deployment_block:"bigint",
+		distributions:"distributions",
+		distributions_aggregate:"distributions_aggregate",
+		id:"bigint",
+		org_id:"bigint",
+		organization:"organizations",
+		price_per_share:"Float",
+		profile:"profiles",
+		simple_token_address:"String",
+		symbol:"String",
+		token_address:"String",
+		updated_at:"timestamptz",
+		vault_address:"String",
+		vault_transactions:"vault_transactions",
+		vault_transactions_aggregate:"vault_transactions_aggregate"
+	},
+	vaults_aggregate:{
+		aggregate:"vaults_aggregate_fields",
+		nodes:"vaults"
+	},
+	vaults_aggregate_fields:{
+		avg:"vaults_avg_fields",
+		count:"Int",
+		max:"vaults_max_fields",
+		min:"vaults_min_fields",
+		stddev:"vaults_stddev_fields",
+		stddev_pop:"vaults_stddev_pop_fields",
+		stddev_samp:"vaults_stddev_samp_fields",
+		sum:"vaults_sum_fields",
+		var_pop:"vaults_var_pop_fields",
+		var_samp:"vaults_var_samp_fields",
+		variance:"vaults_variance_fields"
+	},
+	vaults_avg_fields:{
+		chain_id:"Float",
+		created_by:"Float",
+		decimals:"Float",
+		deployment_block:"Float",
+		id:"Float",
+		org_id:"Float"
+	},
+	vaults_max_fields:{
+		chain_id:"Int",
+		created_at:"timestamptz",
+		created_by:"bigint",
+		decimals:"Int",
+		deployment_block:"bigint",
+		id:"bigint",
+		org_id:"bigint",
+		simple_token_address:"String",
+		symbol:"String",
+		token_address:"String",
+		updated_at:"timestamptz",
+		vault_address:"String"
+	},
+	vaults_min_fields:{
+		chain_id:"Int",
+		created_at:"timestamptz",
+		created_by:"bigint",
+		decimals:"Int",
+		deployment_block:"bigint",
+		id:"bigint",
+		org_id:"bigint",
+		simple_token_address:"String",
+		symbol:"String",
+		token_address:"String",
+		updated_at:"timestamptz",
+		vault_address:"String"
+	},
+	vaults_mutation_response:{
+		affected_rows:"Int",
+		returning:"vaults"
+	},
+	vaults_stddev_fields:{
+		chain_id:"Float",
+		created_by:"Float",
+		decimals:"Float",
+		deployment_block:"Float",
+		id:"Float",
+		org_id:"Float"
+	},
+	vaults_stddev_pop_fields:{
+		chain_id:"Float",
+		created_by:"Float",
+		decimals:"Float",
+		deployment_block:"Float",
+		id:"Float",
+		org_id:"Float"
+	},
+	vaults_stddev_samp_fields:{
+		chain_id:"Float",
+		created_by:"Float",
+		decimals:"Float",
+		deployment_block:"Float",
+		id:"Float",
+		org_id:"Float"
+	},
+	vaults_sum_fields:{
+		chain_id:"Int",
+		created_by:"bigint",
+		decimals:"Int",
+		deployment_block:"bigint",
+		id:"bigint",
+		org_id:"bigint"
+	},
+	vaults_var_pop_fields:{
+		chain_id:"Float",
+		created_by:"Float",
+		decimals:"Float",
+		deployment_block:"Float",
+		id:"Float",
+		org_id:"Float"
+	},
+	vaults_var_samp_fields:{
+		chain_id:"Float",
+		created_by:"Float",
+		decimals:"Float",
+		deployment_block:"Float",
+		id:"Float",
+		org_id:"Float"
+	},
+	vaults_variance_fields:{
+		chain_id:"Float",
+		created_by:"Float",
+		decimals:"Float",
+		deployment_block:"Float",
+		id:"Float",
+		org_id:"Float"
+	},
+	vouches:{
+		created_at:"timestamp",
+		id:"bigint",
+		nominee:"nominees",
+		nominee_id:"Int",
+		updated_at:"timestamp",
+		voucher:"users",
+		voucher_id:"Int"
+	},
+	vouches_aggregate:{
+		aggregate:"vouches_aggregate_fields",
+		nodes:"vouches"
+	},
+	vouches_aggregate_fields:{
+		avg:"vouches_avg_fields",
+		count:"Int",
+		max:"vouches_max_fields",
+		min:"vouches_min_fields",
+		stddev:"vouches_stddev_fields",
+		stddev_pop:"vouches_stddev_pop_fields",
+		stddev_samp:"vouches_stddev_samp_fields",
+		sum:"vouches_sum_fields",
+		var_pop:"vouches_var_pop_fields",
+		var_samp:"vouches_var_samp_fields",
+		variance:"vouches_variance_fields"
+	},
+	vouches_avg_fields:{
+		id:"Float",
+		nominee_id:"Float",
+		voucher_id:"Float"
+	},
+	vouches_max_fields:{
+		created_at:"timestamp",
+		id:"bigint",
+		nominee_id:"Int",
+		updated_at:"timestamp",
+		voucher_id:"Int"
+	},
+	vouches_min_fields:{
+		created_at:"timestamp",
+		id:"bigint",
+		nominee_id:"Int",
+		updated_at:"timestamp",
+		voucher_id:"Int"
+	},
+	vouches_mutation_response:{
+		affected_rows:"Int",
+		returning:"vouches"
+	},
+	vouches_stddev_fields:{
+		id:"Float",
+		nominee_id:"Float",
+		voucher_id:"Float"
+	},
+	vouches_stddev_pop_fields:{
+		id:"Float",
+		nominee_id:"Float",
+		voucher_id:"Float"
+	},
+	vouches_stddev_samp_fields:{
+		id:"Float",
+		nominee_id:"Float",
+		voucher_id:"Float"
+	},
+	vouches_sum_fields:{
+		id:"bigint",
+		nominee_id:"Int",
+		voucher_id:"Int"
+	},
+	vouches_var_pop_fields:{
+		id:"Float",
+		nominee_id:"Float",
+		voucher_id:"Float"
+	},
+	vouches_var_samp_fields:{
+		id:"Float",
+		nominee_id:"Float",
+		voucher_id:"Float"
+	},
+	vouches_variance_fields:{
+		id:"Float",
+		nominee_id:"Float",
+		voucher_id:"Float"
+	}
+}
 
 export const Ops = {
-  mutation: 'mutation_root' as const,
-  query: 'query_root' as const,
-  subscription: 'subscription_root' as const,
-};
+mutation: "mutation_root" as const,
+	query: "query_root" as const,
+	subscription: "subscription_root" as const
+}
