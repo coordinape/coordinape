@@ -12,6 +12,7 @@ import * as z from 'zod';
 
 import { Awaited } from '../../../api-lib/ts4.5shim';
 import { LoadingModal, QUERY_KEY_RECEIVE_INFO } from '../../components';
+import { isFeatureEnabled } from '../../config/features';
 import { useApeSnackbar } from '../../hooks';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { client } from '../../lib/gql/client';
@@ -819,18 +820,23 @@ const AllocateContents = ({
                   </Text>
                 )}
               </Box>
-              <Button
-                size="medium"
-                color="primary"
-                outlined
-                disabled={maxedOut || noGivingAllowed}
-                onClick={e => {
-                  (e.target as HTMLButtonElement).blur();
-                  distributeEvenly();
-                }}
-              >
-                Distribute Evenly
-              </Button>
+              {!isFeatureEnabled(
+                'disable_distribute_evenly',
+                myUser.circle.id
+              ) && (
+                <Button
+                  size="medium"
+                  color="primary"
+                  outlined
+                  disabled={maxedOut || noGivingAllowed}
+                  onClick={e => {
+                    (e.target as HTMLButtonElement).blur();
+                    distributeEvenly();
+                  }}
+                >
+                  Distribute Evenly
+                </Button>
+              )}
               <Flex alignItems="center" css={{ '@sm': { mb: '$sm' } }}>
                 <SavingIndicator saveState={saveState} retry={retrySave} />
               </Flex>
