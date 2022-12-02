@@ -42,8 +42,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     let address;
 
+    let chainId;
+
     try {
       const message = new SiweMessage(data);
+      chainId = message.chainId;
 
       if (
         !allowedDomains.find(allowedRegex => allowedRegex.test(message.domain))
@@ -140,6 +143,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         profile_id: insert_profiles_one.id,
         circle_id: insert_profiles_one.users?.[0]?.circle_id,
         data: {
+          chainId: chainId,
           brandNew: insert_profiles_one.users
             ? insert_profiles_one.users.length === 0
             : true,
