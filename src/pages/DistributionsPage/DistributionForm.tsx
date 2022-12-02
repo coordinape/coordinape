@@ -495,7 +495,8 @@ export function DistributionForm({
                 onChange={value => {
                   amountField.onChange(value);
                   setAmount(value);
-                  updateBalanceState(giftVaultId, value, 'gift');
+                  if (giftVaultId)
+                    updateBalanceState(giftVaultId, value, 'gift');
                 }}
                 apeSize="small"
               />
