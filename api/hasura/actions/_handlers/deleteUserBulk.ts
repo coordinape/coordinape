@@ -12,6 +12,7 @@ import {
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     input: { payload },
+    session_variables: sessionVariables,
   } = composeHasuraActionRequestBody(deleteUserBulkInput).parse(req.body);
 
   const { circle_id, addresses } = payload;
@@ -38,8 +39,9 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       operationName: 'deleteUserBulk_getCurrentEpoch',
     }
   );
-
-  if(!currentEpoch) {
+  
+  // Admin can delete users even when there is no ongoing epoch
+  if(sessionVariables.hasuraRole !== 'admin' && !currentEpoch) {
     return errorResponseWithStatusCode(
       res,
       {
