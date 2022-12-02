@@ -18,6 +18,7 @@ import isFeatureEnabled from 'config/features';
 import { useApeSnackbar, useApiAdminCircle, useContracts } from 'hooks';
 import { useCircleOrg } from 'hooks/gql/useCircleOrg';
 import { useVaults } from 'hooks/gql/useVaults';
+import useRequireSupportedChain from 'hooks/useRequireSupportedChain';
 import { Info } from 'icons/__generated';
 import { useSelectedCircle } from 'recoilState/app';
 import { paths } from 'routes/paths';
@@ -172,6 +173,7 @@ const schema = z.object({
 type CircleAdminFormSchema = z.infer<typeof schema>;
 
 export const CircleAdminPage = () => {
+  useRequireSupportedChain();
   const { circleId, circle: initialData } = useSelectedCircle();
 
   const {
