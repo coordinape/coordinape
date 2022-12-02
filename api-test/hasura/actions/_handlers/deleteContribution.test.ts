@@ -1,4 +1,5 @@
 import { adminClient } from '../../../../api-lib/gql/adminClient';
+const { mockLog } = jest.requireMock('../../../../src/common-lib/log');
 import {
   createCircle,
   createContribution,
@@ -66,7 +67,7 @@ describe('Delete Contribution action handler', () => {
         ],
       })
     ).rejects.toThrow();
-    expect(console.info).toHaveBeenCalledWith(
+    expect(mockLog).toHaveBeenCalledWith(
       JSON.stringify(
         {
           errors: [

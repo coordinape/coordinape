@@ -43,3 +43,5 @@ console.warn = (...args) => {
 
   disconnect() {}
 };
+
+jest.mock('../common-lib/log');
