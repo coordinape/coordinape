@@ -66,37 +66,46 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   // Check that all the addresses exist
-  for (const address of addresses) {
-    const {
-      users: [existingUser],
-    } = await adminClient.query(
-      {
-        users: [
-          {
-            limit: 1,
-            where: {
-              address: { _ilike: address },
-              circle_id: { _eq: circle_id },
-              // ignore soft_deleted users
-              deleted_at: { _is_null: true },
-            },
+  const {
+    users: existingUsers,
+  } = await adminClient.query(
+    {
+      users: [
+        {
+          where: {
+            circle_id: { _eq: circle_id },
+            // ignore soft_deleted users
+            deleted_at: { _is_null: true },
+            _or: uniqueAddresses.map(a => {
+              return { address: { _ilike: a } };
+            }),
           },
-          { id: true },
-        ],
-      },
-      {
-        operationName: 'deleteUserBulk_getExistingUser',
-      }
-    );
-
-    if (!existingUser) {
-      errorResponseWithStatusCode(res, { message: `User with address ${address} does not exist.` }, 422);
-      return;
+        },
+        { 
+          id: true,
+          address: true 
+        },
+      ],
+    },
+    {
+      operationName: 'deleteUserBulk_getExistingUsers',
     }
+  );
 
-    existingUserIds.push(existingUser.id)
+  // Error out if any of the user addresses does not exist
+  if(existingUsers.length < uniqueAddresses.length) {
+    const nonExistingUsers = [];
+    for (const ua of uniqueAddresses) {
+      const userExists = existingUsers.find(eu => eu.address.toLowerCase() === ua.toLowerCase())
+      if (!userExists) {
+        nonExistingUsers.push(ua);
+      }
+    }
+    errorResponseWithStatusCode(res, { message: `Users with these addresses do not exist: ${nonExistingUsers}` }, 422);
   }
 
+
+  // TODO turn into single transaction
   for (const userId of existingUserIds) {
     await adminClient.mutate(
       {
