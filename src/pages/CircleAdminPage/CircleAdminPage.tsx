@@ -891,7 +891,7 @@ export const CircleAdminPage = () => {
           </Panel>
         </Panel>
         <Panel css={panelStyles}>
-          <Text inline bold h2 font="inter">
+          <Text inline bold h2>
             Danger Zone
           </Text>
           <Panel nested>

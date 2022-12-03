@@ -20,7 +20,6 @@ const PaginatorContainer = styled('div', {
 export const PaginatorButton = styled('button', {
   width: '$xl',
   height: '$xl !important',
-  fontFamily: 'Inter',
   fontSize: '$4',
   fontWeight: '$normal',
   padding: 0,
