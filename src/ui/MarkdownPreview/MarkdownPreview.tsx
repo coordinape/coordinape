@@ -2,7 +2,7 @@ import ReactMarkdownPreview from '@uiw/react-markdown-preview';
 import { styled } from 'stitches.config';
 
 const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
-  fontFamily: 'Inter !important',
+  fontFamily: '$display !important',
   border: '1px solid transparent',
   borderRadius: '$3',
   p: '$sm',

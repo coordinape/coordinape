@@ -6,7 +6,14 @@ import { useMutation, useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
 import { ApeInfoTooltip } from '../../components';
-import { Check, ChevronsRight, X } from 'icons/__generated';
+import { useContributions } from 'hooks/useContributions';
+import {
+  Check,
+  ChevronsRight,
+  DeworkColor,
+  WonderColor,
+  X,
+} from 'icons/__generated';
 import { paths } from 'routes/paths';
 import {
   Avatar,
@@ -30,6 +37,15 @@ import { IMyUser } from 'types';
 const DEBOUNCE_TIMEOUT = 1000;
 
 export const QUERY_KEY_ALLOCATE_CONTRIBUTIONS = 'allocate-contributions';
+
+const contributionIcon = (source: string) => {
+  switch (source) {
+    case 'wonder':
+      return <WonderColor css={{ mr: '$md' }} />;
+    default:
+      return <DeworkColor css={{ mr: '$md' }} />;
+  }
+};
 
 type StatementDrawerProps = {
   myUser: IMyUser;
@@ -76,6 +92,12 @@ export const EpochStatementDrawer = ({
       staleTime: Infinity,
     }
   );
+  const integrationContributions = useContributions({
+    address: member.address || '',
+    startDate: start_date.toISOString(),
+    endDate: end_date.toISOString(),
+    mock: false,
+  });
 
   // saveTimeout is the timeout handle for the buffered async saving
   const [saving, setSaving] = useState<SaveState>('stable');
@@ -307,7 +329,9 @@ export const EpochStatementDrawer = ({
             <Box>Loading...</Box>
           )}
           {contributions &&
-            (contributions.length == 0 ? (
+            (contributions.length === 0 &&
+            (!integrationContributions ||
+              integrationContributions?.length === 0) ? (
               <>
                 <Box>
                   <Text inline color="neutral">
@@ -319,6 +343,34 @@ export const EpochStatementDrawer = ({
               contributions.map(c => (
                 <Contribution key={c.id} contribution={c} />
               ))
+            ))}
+          {integrationContributions &&
+            integrationContributions.length > 0 &&
+            integrationContributions.map(c => (
+              <Box
+                key={c.link}
+                css={{
+                  p: '$md $sm',
+                  borderBottom: '1px solid $border',
+                }}
+              >
+                <Text
+                  ellipsis
+                  css={{
+                    cursor: 'default',
+                    backgroundColor: 'rgb(225 229 232) !important',
+                    borderColor: '$borderMedium !important',
+                    boxShadow: '$shadow1',
+                    border: '1px solid transparent',
+                    minHeight: 0,
+                    borderRadius: '$1',
+                    p: '$md',
+                  }}
+                >
+                  {contributionIcon(c.source)}
+                  {c.title}
+                </Text>
+              </Box>
             ))}
         </Box>
       </Box>

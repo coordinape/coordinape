@@ -56,6 +56,7 @@ MobileHeader.args = {
   walletStatus: {
     icon: <MetaMaskSVG />,
     address: mockAddress,
+    chainName: 'Ethereum Mainnet',
     logout: () => {},
   },
   query: {

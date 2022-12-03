@@ -3,7 +3,6 @@ import {
   IApiCircle,
   NominateUserParam,
   PostTokenGiftsParam,
-  PostUsersParam,
   UpdateCreateEpochParam,
   UpdateUsersParam,
 } from '../../types';
@@ -152,23 +151,6 @@ export const deleteCircleIntegration = async (id: number) =>
     }
   );
 
-export const logout = async (): Promise<boolean> => {
-  const { logoutUser } = await client.mutate(
-    {
-      logoutUser: {
-        id: true,
-      },
-    },
-    {
-      operationName: 'logout',
-    }
-  );
-  if (logoutUser?.id) {
-    return true;
-  }
-  return false;
-};
-
 export const createCircle = async (
   params: CreateCircleParam
 ): Promise<IApiCircle> => {
@@ -265,34 +247,6 @@ export const adminUpdateUser = async (
     }
   );
   return adminUpdateUser;
-};
-
-export const createUser = async (circleId: number, params: PostUsersParam) => {
-  await client.mutate(
-    {
-      createUser: [
-        {
-          payload: {
-            circle_id: circleId,
-            name: params.name,
-            address: params.address,
-            role: params.role,
-            non_giver: params.non_giver,
-            non_receiver: params.fixed_non_receiver || params.non_receiver,
-            fixed_non_receiver: params.fixed_non_receiver,
-            starting_tokens: params.starting_tokens,
-            fixed_payment_amount: params.fixed_payment_amount,
-          },
-        },
-        {
-          id: true,
-        },
-      ],
-    },
-    {
-      operationName: 'createUser',
-    }
-  );
 };
 
 export const createNominee = async (

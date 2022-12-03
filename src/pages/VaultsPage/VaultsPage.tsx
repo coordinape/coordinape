@@ -7,6 +7,7 @@ import { LoadingModal } from 'components';
 import { useMainHeaderQuery } from 'components/MainLayout/getMainHeaderData';
 import { useContracts } from 'hooks';
 import { useVaults } from 'hooks/gql/useVaults';
+import useRequireSupportedChain from 'hooks/useRequireSupportedChain';
 import { rSelectedCircleId } from 'recoilState/app';
 import {
   EXTERNAL_URL_LEARN_ABOUT_VAULTS,
@@ -26,6 +27,8 @@ const VaultsPage = () => {
   const contracts = useContracts();
 
   const [currentOrgId, setCurrentOrgId] = useState<number | undefined>();
+
+  useRequireSupportedChain();
 
   useEffect(() => {
     const orgIndex = circleId
@@ -191,14 +194,13 @@ const VaultsPage = () => {
           drawer
           showClose={!saving}
           open={modal}
-          onOpenChange={closeModal}
+          onOpenChange={() => !saving && closeModal()}
           title="Create New Vault"
         >
           <CreateForm
             setSaving={setSaving}
             onSuccess={closeModal}
             orgId={currentOrg?.id}
-            existingVaults={vaults}
           />
         </Modal>
       )}

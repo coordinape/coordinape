@@ -13,11 +13,7 @@ function generate() {
   local TYPE=$1; shift
   local GEN_PATH=$1; shift
   local TMP_GEN_PATH=${TMPDIR:-/tmp}/${TYPE}_`date +%s`
-
-  until curl -s -o/dev/null http://localhost:"$LOCAL_WEB_PORT"; do
-    sleep 1
-    echo "waiting for nodemon"
-  done
+  [[ $1 == '--node' ]] && local IS_NODE=true
 
   # pass the rest of the arguments to zeus
   (set -x; zeus "$HASURA_GRAPHQL_ENDPOINT"/v1/graphql $TMP_GEN_PATH --ts "$@")
@@ -35,12 +31,24 @@ function generate() {
   # use `brew install gsed` on macos to get this
   if [[ "$PLATFORM" == "OSX" || "$PLATFORM" == "BSD" ]]; then
     sed -i "" 's,bigint"]:any,bigint"]:number,g' "$TMP_GEN_PATH"/zeus/index.ts
+    if [[ -v IS_NODE ]]
+    then
+      sed -i "" "2i\import {DebugLogger} from \'../../../../src/common-lib/log\';\nconst logger = new DebugLogger('zeus')" "$TMP_GEN_PATH"/zeus/index.ts
+    else
+      sed -i "" "2i\import {DebugLogger} from \'common-lib/log\';\nconst logger = new DebugLogger('zeus')" "$TMP_GEN_PATH"/zeus/index.ts
+    fi
     sed -i "" 's,bigint"]:unknown,bigint"]:number,g' "$TMP_GEN_PATH"/zeus/index.ts
-    sed -i "" 's/console\.error(response)/\/\/ eslint-disable-next-line no-console\nconsole\.info(JSON\.stringify(response, null, 2))/g' "$TMP_GEN_PATH"/zeus/index.ts
+    sed -i "" 's/console\.error(response)/logger\.log(JSON\.stringify(response, null, 2))/g' "$TMP_GEN_PATH"/zeus/index.ts
   elif [ "$PLATFORM" == "LINUX" ]; then
     sed -i 's,bigint"]:any,bigint"]:number,g' "$TMP_GEN_PATH"/zeus/index.ts
     sed -i 's,bigint"]:unknown,bigint"]:number,g' "$TMP_GEN_PATH"/zeus/index.ts
-    sed -i 's/console\.error(response)/\/\/ eslint-disable-next-line no-console\nconsole\.info(JSON\.stringify(response, null, 2))/g' "$TMP_GEN_PATH"/zeus/index.ts
+    if [[ -v IS_NODE ]]
+    then
+      sed -i "2i\import {DebugLogger} from \'../../../../src/common-lib/log\';\nconst logger = new DebugLogger('zeus')" "$TMP_GEN_PATH"/zeus/index.ts
+    else
+      sed -i "2i\import {DebugLogger} from \'common-lib/log\';\nconst logger = new DebugLogger('zeus')" "$TMP_GEN_PATH"/zeus/index.ts
+    fi
+    sed -i 's/console\.error(response)/logger\.log(JSON\.stringify(response, null, 2))/g' "$TMP_GEN_PATH"/zeus/index.ts
   else
     echo "unknown platform; exiting"
     exit 1

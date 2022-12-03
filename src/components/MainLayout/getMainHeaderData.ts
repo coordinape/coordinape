@@ -1,9 +1,9 @@
-import { useWeb3React } from '@web3-react/core';
+import { useIsLoggedIn } from 'features/auth';
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 
-import { useAuthStep } from 'hooks/login';
 import useConnectedAddress from 'hooks/useConnectedAddress';
+import { useWeb3React } from 'hooks/useWeb3React';
 
 export const getMainHeaderData = (address: string, chainId: number) =>
   client.query(
@@ -52,12 +52,12 @@ export const QUERY_KEY_MAIN_HEADER = 'MainHeader';
 export const useMainHeaderQuery = () => {
   const address = useConnectedAddress();
   const { chainId } = useWeb3React();
-  const [authStep] = useAuthStep();
+  const isLoggedIn = useIsLoggedIn();
   return useQuery(
     [QUERY_KEY_MAIN_HEADER, address],
     () => getMainHeaderData(address as string, chainId as number),
     {
-      enabled: !!address && !!chainId && authStep === 'done',
+      enabled: !!address && !!chainId && isLoggedIn,
       staleTime: Infinity,
     }
   );

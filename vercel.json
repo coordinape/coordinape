@@ -8,5 +8,16 @@
       "source": "/stats/api/event",
       "destination": "https://plausible.io/api/event"
     }
+  ],
+  "headers": [
+    {
+      "source": "/fonts/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000"
+        }
+      ]
+    }
   ]
 }

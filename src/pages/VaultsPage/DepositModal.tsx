@@ -5,6 +5,7 @@ import { Web3Provider } from '@ethersproject/providers';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createWeb3ReactRoot, useWeb3React } from '@web3-react/core';
 import { ethers } from 'ethers';
+import { makeWalletConnectConnector } from 'features/auth/connectors';
 import { getTokenAddress, Contracts, removeYearnPrefix } from 'lib/vaults';
 import round from 'lodash/round';
 import { useForm, useController } from 'react-hook-form';
@@ -18,7 +19,6 @@ import { useContracts } from 'hooks/useContracts';
 import { useVaultRouter } from 'hooks/useVaultRouter';
 import { Box, Button, CheckBox, Form, Link, Modal, Text } from 'ui';
 import { numberWithCommas, shortenAddress } from 'utils';
-import { makeWalletConnectConnector } from 'utils/connectors';
 
 export type DepositModalProps = {
   onClose: () => void;
@@ -168,8 +168,8 @@ export default function DepositModal({
           css={{ color: '$secondaryText', alignSelf: 'center', mt: '$sm' }}
         >
           {usingEth
-            ? 'You will send three transactions: one to convert ETH to WETH, one for WETH approval, and one to deposit WETH'
-            : 'You will sign transactions: one for approval and one for deposit.'}
+            ? 'You will send three transactions: one to convert ETH to WETH, one for WETH approval, and one to deposit WETH.'
+            : 'You will sign two transactions: one for approval and one for deposit.'}
         </Text>
       </Form>
     </Modal>

@@ -1,5 +1,6 @@
 import assert from 'assert';
 
+import { FixedNumber } from 'ethers';
 import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import type { Contracts } from 'lib/vaults';
@@ -11,7 +12,7 @@ export const getEpochData = async (
   myAddress?: string,
   contracts?: Contracts
 ) => {
-  assert(contracts && myAddress);
+  assert(myAddress);
 
   const gq = await client.query(
     {
@@ -123,11 +124,15 @@ export const getEpochData = async (
   const distributions = await Promise.all(
     epoch?.distributions.map(async (dist: typeof epoch.distributions[0]) => ({
       ...dist,
-      pricePerShare: await contracts.getPricePerShare(
-        dist.vault.vault_address,
-        dist.vault.simple_token_address,
-        dist.vault.decimals
-      ),
+      // it's ok to set pricePerShare to 1 when contracts isn't defined because
+      // there are no distributions or vaults in that case anyway
+      pricePerShare: contracts
+        ? await contracts.getPricePerShare(
+            dist.vault.vault_address,
+            dist.vault.simple_token_address,
+            dist.vault.decimals
+          )
+        : FixedNumber.from(1),
     })) || []
   );
 

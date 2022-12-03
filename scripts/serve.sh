@@ -8,7 +8,7 @@ esac; shift; done
 
 [ -z "$PORT" ] && PORT=3000
 
-SCRIPT_DIR="${0%/*}"
+SCRIPT_DIR="$(dirname $BASH_SOURCE[0])"
 BIN=$SCRIPT_DIR/../node_modules/.bin
 PROXY_PORT=$(( $RANDOM % 900 + 3100 ))
 

@@ -41,7 +41,7 @@ export function DistributionsPage() {
     ['distributions', epochId],
     () => getEpochData(Number.parseInt(epochId || '0'), address, contracts),
     {
-      enabled: !!(contracts && address),
+      enabled: !!address,
       retry: false,
       select: d => {
         if (d.circle)

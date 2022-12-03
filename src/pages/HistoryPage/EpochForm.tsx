@@ -474,7 +474,7 @@ const EpochForm = ({
                         </Box>
                       )}
                     />
-                    <Text font="inter" size="medium">
+                    <Text size="medium">
                       In your
                       <br /> local timezone
                     </Text>

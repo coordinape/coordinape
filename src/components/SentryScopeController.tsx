@@ -2,11 +2,7 @@ import React, { useEffect, Suspense } from 'react';
 
 import * as Sentry from '@sentry/browser';
 
-import {
-  useWalletAuth,
-  useMyProfile,
-  useSelectedCircle,
-} from 'recoilState/app';
+import { useMyProfile, useSelectedCircle } from 'recoilState/app';
 import { DOMAIN_IS_LOCALHOST } from 'utils/domain';
 
 export const SentryScopeController = () => {
@@ -41,7 +37,6 @@ const SelectedCircleScope = () => {
   const { myUsers } = useMyProfile();
   const { myUser: selectedMyUser, circle: selectedCircle } =
     useSelectedCircle();
-  const connectorName = useWalletAuth().connectorName;
 
   useEffect(() => {
     Sentry.configureScope(scope => {
@@ -50,7 +45,6 @@ const SelectedCircleScope = () => {
         'selected_circle',
         `${selectedCircle?.organization?.name}-${selectedCircle?.name}`
       );
-      scope.setTag('connector_name', connectorName);
       scope.setTag('selected_circle_admin', selectedMyUser?.role);
       scope.setTag('selected_circle_admin', selectedMyUser?.role);
       scope.setTag('selected_circle_non_giver', selectedMyUser?.non_giver);
@@ -60,7 +54,7 @@ const SelectedCircleScope = () => {
       );
       scope.setTag('number_circles_member_of', myUsers.length);
     });
-  }, [selectedCircle, connectorName, selectedMyUser, myUsers]);
+  }, [selectedCircle, selectedMyUser, myUsers]);
 
   return <></>;
 };

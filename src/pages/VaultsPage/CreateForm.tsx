@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { MouseEvent, useState, useCallback } from 'react';
+import { MouseEvent, useState, useCallback } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ethers } from 'ethers';
-import { Asset, removeYearnPrefix } from 'lib/vaults';
+import { Asset } from 'lib/vaults';
 import type { Contracts } from 'lib/vaults';
 import debounce from 'lodash/debounce';
 import isEmpty from 'lodash/isEmpty';
@@ -11,7 +10,6 @@ import { useController, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
 import { z } from 'zod';
 
-import type { Vault } from 'hooks/gql/useVaults';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultFactory } from 'hooks/useVaultFactory';
 import { PlusCircle } from 'icons/__generated';
@@ -20,8 +18,7 @@ import { makeExplorerUrl } from 'utils/provider';
 
 const useFormSetup = (
   contracts: Contracts | undefined,
-  setCustomSymbol: (s: string | undefined) => void,
-  existingVaults?: Vault[]
+  setCustomSymbol: (s: string | undefined) => void
 ) => {
   const schema = z
     .object({
@@ -63,12 +60,10 @@ export const CreateForm = ({
   onSuccess,
   orgId,
   setSaving,
-  existingVaults,
 }: {
   onSuccess: () => void;
   orgId: number;
   setSaving?: (saving: boolean) => void;
-  existingVaults?: Vault[];
 }) => {
   const contracts = useContracts();
   const { createVault } = useVaultFactory(orgId);
@@ -82,11 +77,11 @@ export const CreateForm = ({
   const [txHash, setTxHash] = useState<string>('');
   const {
     control,
-    formState: { errors, isValid },
+    formState: { errors },
     handleSubmit,
     clearErrors,
     trigger,
-  } = useFormSetup(contracts, setCustomSymbol, existingVaults);
+  } = useFormSetup(contracts, setCustomSymbol);
 
   const {
     field: { onChange, onBlur },

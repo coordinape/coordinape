@@ -1,4 +1,6 @@
 /* eslint-disable */
+import { DebugLogger } from 'common-lib/log';
+const logger = new DebugLogger('zeus');
 
 import { AllTypesProps, ReturnTypes, Ops } from './const';
 export const HOST = 'http://localhost:8080/v1/graphql';
@@ -320,8 +322,7 @@ export interface GraphQLResponse {
 export class GraphQLError extends Error {
   constructor(public response: GraphQLResponse) {
     super('');
-    // eslint-disable-next-line no-console
-    console.info(JSON.stringify(response, null, 2));
+    logger.log(JSON.stringify(response, null, 2));
   }
   toString() {
     return 'GraphQL Response Error';
@@ -705,17 +706,6 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  ['CreateUserInput']: {
-    address: string;
-    circle_id: number;
-    fixed_non_receiver?: boolean | undefined | null;
-    fixed_payment_amount?: number | undefined | null;
-    name: string;
-    non_giver?: boolean | undefined | null;
-    non_receiver?: boolean | undefined | null;
-    role?: number | undefined | null;
-    starting_tokens?: number | undefined | null;
-  };
   ['CreateUserWithTokenInput']: {
     name: string;
     token: string;
@@ -4126,10 +4116,6 @@ export type ValueTypes = {
       ValueTypes['CreateNomineeResponse']
     ];
     createSampleCircle?: ValueTypes['CreateSampleCircleResponse'];
-    createUser?: [
-      { payload: ValueTypes['CreateUserInput'] },
-      ValueTypes['UserResponse']
-    ];
     createUserWithToken?: [
       { payload: ValueTypes['CreateUserWithTokenInput'] },
       ValueTypes['UserResponse']
@@ -9696,7 +9682,6 @@ export type ModelTypes = {
     circle?: GraphQLTypes['circles'] | undefined;
     id: number;
   };
-  ['CreateUserInput']: GraphQLTypes['CreateUserInput'];
   ['CreateUserWithTokenInput']: GraphQLTypes['CreateUserWithTokenInput'];
   ['CreateUsersInput']: GraphQLTypes['CreateUsersInput'];
   ['CreateVaultInput']: GraphQLTypes['CreateVaultInput'];
@@ -10838,7 +10823,6 @@ export type ModelTypes = {
     createEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     createNominee?: GraphQLTypes['CreateNomineeResponse'] | undefined;
     createSampleCircle?: GraphQLTypes['CreateSampleCircleResponse'] | undefined;
-    createUser?: GraphQLTypes['UserResponse'] | undefined;
     createUserWithToken?: GraphQLTypes['UserResponse'] | undefined;
     createUsers?: Array<GraphQLTypes['UserResponse'] | undefined> | undefined;
     createVault?: GraphQLTypes['VaultResponse'] | undefined;
@@ -12369,17 +12353,6 @@ export type GraphQLTypes = {
     __typename: 'CreateSampleCircleResponse';
     circle?: GraphQLTypes['circles'] | undefined;
     id: number;
-  };
-  ['CreateUserInput']: {
-    address: string;
-    circle_id: number;
-    fixed_non_receiver?: boolean | undefined;
-    fixed_payment_amount?: number | undefined;
-    name: string;
-    non_giver?: boolean | undefined;
-    non_receiver?: boolean | undefined;
-    role?: number | undefined;
-    starting_tokens?: number | undefined;
   };
   ['CreateUserWithTokenInput']: {
     name: string;
@@ -15190,7 +15163,6 @@ export type GraphQLTypes = {
     createEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     createNominee?: GraphQLTypes['CreateNomineeResponse'] | undefined;
     createSampleCircle?: GraphQLTypes['CreateSampleCircleResponse'] | undefined;
-    createUser?: GraphQLTypes['UserResponse'] | undefined;
     createUserWithToken?: GraphQLTypes['UserResponse'] | undefined;
     createUsers?: Array<GraphQLTypes['UserResponse'] | undefined> | undefined;
     createVault?: GraphQLTypes['VaultResponse'] | undefined;

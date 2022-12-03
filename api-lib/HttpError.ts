@@ -76,7 +76,10 @@ export class UnprocessableError extends BaseHttpError {
   details?: any;
 }
 
-export function errorResponse(res: VercelResponse, error: any): void {
+export async function errorResponse(
+  res: VercelResponse,
+  error: any
+): Promise<void> {
   if (error instanceof ZodError) {
     return zodParserErrorResponse(res, error);
   } else if (error instanceof GraphQLError) {
@@ -84,14 +87,14 @@ export function errorResponse(res: VercelResponse, error: any): void {
     return errorResponseWithStatusCode(res, err, 422);
   }
   const statusCode = error.httpStatus || 500;
-  errorResponseWithStatusCode(res, error, statusCode);
+  return errorResponseWithStatusCode(res, error, statusCode);
 }
 
-export function errorResponseWithStatusCode(
+export async function errorResponseWithStatusCode(
   res: VercelResponse,
   error: any,
   statusCode: number
-): void {
+): Promise<void> {
   Sentry.withScope(scope => {
     if (error.details) {
       scope.setExtra('details', error.details);
