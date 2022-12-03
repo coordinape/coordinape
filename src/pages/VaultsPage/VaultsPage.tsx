@@ -194,14 +194,13 @@ const VaultsPage = () => {
           drawer
           showClose={!saving}
           open={modal}
-          onOpenChange={closeModal}
+          onOpenChange={() => !saving && closeModal()}
           title="Create New Vault"
         >
           <CreateForm
             setSaving={setSaving}
             onSuccess={closeModal}
             orgId={currentOrg?.id}
-            existingVaults={vaults}
           />
         </Modal>
       )}
