@@ -40,9 +40,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const { data, signature } = input;
 
-    let address;
-
-    let chainId;
+    let address: string;
+    let chainId: number;
 
     try {
       const message = new SiweMessage(data);
