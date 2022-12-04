@@ -1,0 +1,7 @@
+table:
+  name: epoch_pgive_data
+  schema: public
+object_relationships:
+  - name: epoch
+    using:
+      foreign_key_constraint_on: epoch_id

@@ -16,6 +16,13 @@ object_relationships:
         remote_table:
           name: circles
           schema: public
+  - name: pgive_data
+    using:
+      foreign_key_constraint_on:
+        column: epoch_id
+        table:
+          name: epoch_pgive_data
+          schema: public
 array_relationships:
   - name: burns
     using:
