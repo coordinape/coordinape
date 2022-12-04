@@ -3,6 +3,7 @@ import { Suspense, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { NavLink, useLocation } from 'react-router-dom';
 
+import { ReceiveInfo } from 'components';
 import { RecentTransactionsModal } from 'components/MyAvatarMenu/RecentTransactionsModal';
 import isFeatureEnabled from 'config/features';
 import type { WalletStatus } from 'hooks/login';
@@ -198,6 +199,7 @@ export const MobileHeader = ({
                     <Suspense fallback={<span />}>
                       <CircleNav />
                     </Suspense>
+                    <ReceiveInfo />
                   </Flex>
                 )}
                 <Flex column alignItems="start">
