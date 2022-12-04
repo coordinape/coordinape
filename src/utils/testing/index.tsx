@@ -1,7 +1,5 @@
 import { ReactElement, Suspense, useEffect } from 'react';
 
-import { Web3Provider } from '@ethersproject/providers';
-import { Web3ReactProvider, useWeb3React } from '@web3-react/core';
 import { NetworkConnector } from '@web3-react/network-connector';
 import { SnackbarProvider } from 'notistack';
 import { QueryClient, QueryClientProvider } from 'react-query';
@@ -10,6 +8,7 @@ import { RecoilRoot } from 'recoil';
 
 import { ThemeProvider } from '@material-ui/styles';
 
+import { Web3ReactProvider, useWeb3React } from 'hooks/useWeb3React';
 import { createTheme } from 'theme';
 
 import {
@@ -27,9 +26,8 @@ type TestWrapperProps = {
   children: ReactElement;
   getLibrary?: (provider: any) => any; // FIXME
   withWeb3?: boolean;
+  queryClientCallback?: (queryClient: QueryClient) => void;
 };
-
-const defaultGetLibrary = (provider: any) => new Web3Provider(provider);
 
 const connector = new NetworkConnector({
   urls: { [chainId]: rpcUrl },
@@ -46,8 +44,8 @@ const Web3Activator = ({ children, enabled }: Web3ActivatorProps) => {
 
 export const TestWrapper = ({
   children,
-  getLibrary = defaultGetLibrary,
   withWeb3 = false,
+  queryClientCallback,
 }: TestWrapperProps) => {
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -57,11 +55,13 @@ export const TestWrapper = ({
     },
   });
 
+  queryClientCallback?.(queryClient);
+
   return (
     <RecoilRoot>
       <QueryClientProvider client={queryClient}>
         <SnackbarProvider>
-          <Web3ReactProvider getLibrary={getLibrary}>
+          <Web3ReactProvider>
             <Web3Activator enabled={withWeb3}>
               <MemoryRouter>
                 <ThemeProvider theme={theme}>

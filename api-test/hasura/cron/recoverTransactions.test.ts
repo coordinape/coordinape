@@ -1,6 +1,5 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { hexZeroPad } from '@ethersproject/bytes';
-import { AddressZero } from '@ethersproject/constants';
 import { parseUnits } from '@ethersproject/units';
 import type { VercelRequest } from '@vercel/node';
 import { DateTime } from 'luxon';
@@ -32,14 +31,8 @@ test('mix of invalid & valid txs', async () => {
   const chain_id = Number(contracts.chainId);
   const daiAddress = contracts.getTokenAddress('DAI');
 
-  const createVaultTx = await contracts.vaultFactory.createCoVault(
-    AddressZero,
-    daiAddress
-  );
-  const r1 = await createVaultTx.wait();
-  const vaultAddress = r1.events?.find(e => e.event === 'VaultCreated')?.args
-    ?.vault;
-
+  const { tx: createVaultTx, address: vaultAddress } =
+    await contracts.createVault('DAI');
   const token = contracts.getERC20(daiAddress);
   const total = parseUnits('1000', 18);
   await token.transfer(vaultAddress, parseUnits('1000', 18));

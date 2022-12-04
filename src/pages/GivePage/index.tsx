@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { updateUser, updateCircle } from 'lib/gql/mutations';
 import { isUserAdmin } from 'lib/users';
 import debounce from 'lodash/debounce';
+import { DateTime } from 'luxon';
 import { Helmet } from 'react-helmet';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -11,6 +12,7 @@ import * as z from 'zod';
 
 import { Awaited } from '../../../api-lib/ts4.5shim';
 import { LoadingModal, QUERY_KEY_RECEIVE_INFO } from '../../components';
+import { isFeatureEnabled } from '../../config/features';
 import { useApeSnackbar } from '../../hooks';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { client } from '../../lib/gql/client';
@@ -546,6 +548,7 @@ const GivePage = () => {
             currentEpoch={currentEpoch}
             retrySave={saveGifts}
             gridView={gridView}
+            previousEpochEndDate={previousEpoch?.endDate}
           />
         )}
       </SingleColumnLayout>
@@ -569,6 +572,7 @@ type AllocateContentsProps = {
   currentEpoch?: IEpoch;
   retrySave: () => void;
   gridView: boolean;
+  previousEpochEndDate?: DateTime;
 };
 
 const AllocateContents = ({
@@ -585,6 +589,7 @@ const AllocateContents = ({
   currentEpoch,
   retrySave,
   gridView,
+  previousEpochEndDate,
 }: AllocateContentsProps) => {
   const { showError, showInfo } = useApeSnackbar();
 
@@ -659,6 +664,7 @@ const AllocateContents = ({
     fixed_non_receiver: true,
     non_receiver: true,
     teammate: false,
+    address: '0x23f24381cf8518c4fafdaeeac5c0f7c92b7ae678',
     circle_id: -1,
     contributions_aggregate: {
       aggregate: {
@@ -814,18 +820,23 @@ const AllocateContents = ({
                   </Text>
                 )}
               </Box>
-              <Button
-                size="medium"
-                color="primary"
-                outlined
-                disabled={maxedOut || noGivingAllowed}
-                onClick={e => {
-                  (e.target as HTMLButtonElement).blur();
-                  distributeEvenly();
-                }}
-              >
-                Distribute Evenly
-              </Button>
+              {!isFeatureEnabled(
+                'disable_distribute_evenly',
+                myUser.circle.id
+              ) && (
+                <Button
+                  size="medium"
+                  color="primary"
+                  outlined
+                  disabled={maxedOut || noGivingAllowed}
+                  onClick={e => {
+                    (e.target as HTMLButtonElement).blur();
+                    distributeEvenly();
+                  }}
+                >
+                  Distribute Evenly
+                </Button>
+              )}
               <Flex alignItems="center" css={{ '@sm': { mb: '$sm' } }}>
                 <SavingIndicator saveState={saveState} retry={retrySave} />
               </Flex>
@@ -1018,7 +1029,13 @@ const AllocateContents = ({
               userIsOptedOut={userIsOptedOut}
               updateNonReceiver={updateNonReceiver}
               isNonReceiverMutationLoading={isNonReceiverMutationLoading}
-              start_date={currentEpoch.startDate.toJSDate()}
+              start_date={
+                previousEpochEndDate
+                  ? previousEpochEndDate.toJSDate()
+                  : DateTime.fromISO(currentEpoch.start_date)
+                      .minus({ months: 1 })
+                      .toJSDate()
+              }
               end_date={currentEpoch.endDate.toJSDate()}
               statement={statement}
               setStatement={setStatement}
@@ -1043,7 +1060,13 @@ const AllocateContents = ({
               }
             }
             maxedOut={maxedOut}
-            start_date={currentEpoch.startDate.toJSDate()}
+            start_date={
+              previousEpochEndDate
+                ? previousEpochEndDate.toJSDate()
+                : DateTime.fromISO(currentEpoch.start_date)
+                    .minus({ months: 1 })
+                    .toJSDate()
+            }
             end_date={currentEpoch.endDate.toJSDate()}
             saveState={saveState}
             setNeedToSave={setNeedToSave}

@@ -31,8 +31,12 @@ const typography = {
   },
   overline: {
     fontWeight: 500,
-  },
-  fontFamily: ['Inter', 'sans-serif'],
+  } /* TODO: this is for MUI and will not work w/ theme switcher */,
+  fontFamily: [
+    // 'Times New Roman' /* to make more obvious for testing */,
+    'Inter',
+    'sans-serif',
+  ],
 };
 
 export default typography;

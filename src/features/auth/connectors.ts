@@ -2,7 +2,7 @@ import { AbstractConnector } from '@web3-react/abstract-connector';
 import { InjectedConnector } from '@web3-react/injected-connector';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { WalletLinkConnector } from '@web3-react/walletlink-connector';
-import { supportedChainIds } from 'lib/vaults';
+import { loginSupportedChainIds } from 'common-lib/constants';
 
 import { EConnectorNames } from 'config/constants';
 import { INFURA_PROJECT_ID } from 'config/env';
@@ -11,7 +11,7 @@ export const MAINNET_RPC_URL = `https://mainnet.infura.io/v3/${INFURA_PROJECT_ID
 export const GOERLI_RPC_URL = `https://goerli.infura.io/v3/${INFURA_PROJECT_ID}`;
 
 const injected = new InjectedConnector({
-  supportedChainIds: [...supportedChainIds, 1].map(n =>
+  supportedChainIds: Object.keys(loginSupportedChainIds).map(n =>
     // This is the most type-safe way
     // way to handle this conversion to Numbers that the InjectedConnector
     // is expecting, since String.prototype.toString() is idempotent

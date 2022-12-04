@@ -1,16 +1,25 @@
 import faker from 'faker';
+import { z } from 'zod';
 
 import { GraphQLTypes } from '../../api-lib/gql/__generated__/zeus';
 import {
-  createContributionSchemaInput,
   deleteContributionInput,
 } from '../../src/lib/zod';
 
 import type { GQLClientType } from './common';
 
 type InsertContributionInput = Partial<
-  typeof createContributionSchemaInput['_type']
+  typeof contributionSchema['_type']
 >;
+
+const contributionSchema = z
+  .object({
+    circle_id: z.number(),
+    description: z.string().min(3).max(1000),
+    user_id: z.number().int().positive(),
+    datetime_created: z.string()
+  })
+  .strict();
 
 type DeleteContributionInput = typeof deleteContributionInput['_type'];
 

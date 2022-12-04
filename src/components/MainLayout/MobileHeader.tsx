@@ -1,12 +1,12 @@
 import { Suspense, useEffect, useState } from 'react';
 
+import { useWalletStatus } from 'features/auth';
 import { useNavigate } from 'react-router';
 import { NavLink, useLocation } from 'react-router-dom';
 
 import { ReceiveInfo } from 'components';
 import { RecentTransactionsModal } from 'components/MyAvatarMenu/RecentTransactionsModal';
 import isFeatureEnabled from 'config/features';
-import type { WalletStatus } from 'hooks/login';
 import { X, Menu, ChevronRight } from 'icons/__generated';
 import { useMyProfile } from 'recoilState';
 import { paths } from 'routes/paths';
@@ -37,7 +37,7 @@ interface Circle {
 
 type Props = {
   inCircle?: Circle;
-  walletStatus: WalletStatus;
+  walletStatus: ReturnType<typeof useWalletStatus>;
   query: MainHeaderQuery;
   startOpen?: boolean;
 };

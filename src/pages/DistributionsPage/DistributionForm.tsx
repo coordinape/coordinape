@@ -1,5 +1,5 @@
 import assert from 'assert';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { formatRelative, parseISO } from 'date-fns';
@@ -38,6 +38,8 @@ const vaultSelectionPanel = {
   minHeight: '11rem',
   mb: '$lg',
 };
+
+const { Zero } = ethersConstants;
 
 type SubmitFormProps = {
   epoch: EpochDataResult;
@@ -79,10 +81,9 @@ export function DistributionForm({
   const [sufficientFixedPaymentTokens, setSufficientFixPaymentTokens] =
     useState(false);
   const [sufficientGiftTokens, setSufficientGiftTokens] = useState(false);
-  const [maxGiftTokens, setMaxGiftTokens] = useState(ethersConstants.Zero);
-  const [maxFixedPaymentTokens, setMaxFixedPaymentTokens] = useState(
-    ethersConstants.Zero
-  );
+  const [maxGiftTokens, setMaxGiftTokens] = useState<BigNumber>();
+  const [maxFixedPaymentTokens, setMaxFixedPaymentTokens] =
+    useState<BigNumber>();
 
   const { showError } = useApeSnackbar();
   const submitDistribution = useSubmitDistribution();
@@ -104,7 +105,7 @@ export function DistributionForm({
   const DistributionFormSchema = z.object({
     amount: zTokenString(
       '0',
-      formatUnits(maxGiftTokens, giftDecimals),
+      formatUnits(maxGiftTokens || Zero, giftDecimals),
       giftDecimals
     ),
     selectedVaultId: z.string(),
@@ -151,6 +152,16 @@ export function DistributionForm({
     control: fixedControl,
     defaultValue: '0',
   });
+
+  const mounted = useRef(false);
+
+  useEffect(() => {
+    mounted.current = true;
+
+    return () => {
+      mounted.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     if (circleDist) {
@@ -345,12 +356,14 @@ export function DistributionForm({
     amountSet: string,
     formType: string
   ): Promise<void> => {
+    if (!mounted.current) return;
     assert(circle);
     const vault = findVault(vaultId);
     assert(vault);
     const amountSetBN = parseUnits(amountSet || '0', vault.decimals);
     assert(contracts, 'This network is not supported');
     const tokenBalance = await contracts.getVaultBalance(vault);
+    if (!mounted.current) return;
     const isCombinedDist =
       // check if the two symbols are the same
       ((formType === 'gift' && fpVault?.id.toString() === vaultId) ||
@@ -374,8 +387,8 @@ export function DistributionForm({
       // we need to recheck if the fixed payment have sufficient tokens
       if (fpVault?.id.toString() === vaultId)
         setSufficientFixPaymentTokens(
-          maxFixedPaymentTokens.gte(totalFixedPayment) &&
-            ethersConstants.Zero.lt(totalFixedPayment)
+          (maxFixedPaymentTokens || Zero).gte(totalFixedPayment) &&
+            Zero.lt(totalFixedPayment)
         );
     } else {
       setSufficientFixPaymentTokens(
@@ -392,9 +405,15 @@ export function DistributionForm({
     const max = type === 'gift' ? maxGiftTokens : maxFixedPaymentTokens;
     const distribution = type === 'gift' ? circleDist : fixedDist;
     const vaultId = type === 'gift' ? giftVaultId : fpVault?.id.toString();
+    if (!vaultId) return '';
+
+    if (!max) {
+      // updateBalanceState hasn't run yet
+      return 'Avail...';
+    }
     const decimals = getDecimals({ distribution, vaultId });
     const humanNumber = Number(formatUnits(max, decimals));
-    return commify(round(humanNumber, 2));
+    return `Avail. ${commify(round(humanNumber, 2))}`;
   };
 
   return (
@@ -459,7 +478,7 @@ export function DistributionForm({
                   (vaults.length > 0 && !!circleDist)
                 }
                 max={formatUnits(
-                  maxGiftTokens,
+                  maxGiftTokens || Zero,
                   getDecimals({
                     distribution: circleDist,
                     vaultId: giftVaultId,
@@ -472,11 +491,12 @@ export function DistributionForm({
                     gift circle.
                   </>
                 }
-                label={`Avail. ${displayAvailableAmount('gift')}`}
+                label={displayAvailableAmount('gift')}
                 onChange={value => {
                   amountField.onChange(value);
                   setAmount(value);
-                  updateBalanceState(giftVaultId, value, 'gift');
+                  if (giftVaultId)
+                    updateBalanceState(giftVaultId, value, 'gift');
                 }}
                 apeSize="small"
               />
@@ -590,7 +610,7 @@ export function DistributionForm({
                     }
                     disabled={true}
                     max={formatUnits(
-                      maxFixedPaymentTokens,
+                      maxFixedPaymentTokens || Zero,
                       getDecimals({
                         distribution: fixedDist,
                         vaultId: fpVault?.id.toString(),
@@ -603,7 +623,7 @@ export function DistributionForm({
                         fixed payment.
                       </>
                     }
-                    label={`Avail. ${displayAvailableAmount('fixed')}`}
+                    label={displayAvailableAmount('fixed')}
                     onChange={() => {}}
                     apeSize="small"
                   />

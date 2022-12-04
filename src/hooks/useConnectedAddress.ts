@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { useWeb3React } from '@web3-react/core';
+import { useWeb3React } from 'hooks/useWeb3React';
 
 export default function useConnectedAddress() {
   const { account, library } = useWeb3React();

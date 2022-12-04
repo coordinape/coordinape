@@ -9,6 +9,7 @@ import {
   notifyEpochEnd,
   EpochsToNotify,
   endEpoch,
+  makeNextStartDate,
 } from './epochs';
 
 jest.mock('../../../api-lib/gql/adminClient', () => ({
@@ -142,6 +143,12 @@ function getCircle<T extends keyof EpochsToNotify>(
 ) {
   return { ...mockCircle[epochPhase], ...circleInputs };
 }
+
+test('next start date generation', () => {
+  const d1 = DateTime.fromISO('2022-12-02');
+  const n1 = makeNextStartDate(d1, 2, 7);
+  expect(n1.toISODate()).toEqual('2023-01-07');
+});
 
 describe('epoch Cron Logic', () => {
   beforeEach(() => {

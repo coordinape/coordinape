@@ -2,7 +2,6 @@
 
 import debug from 'debug';
 import iti from 'itiriri';
-import * as mutations from 'lib/gql/mutations';
 import * as queries from 'lib/gql/queries';
 import { DateTime } from 'luxon';
 import {
@@ -14,44 +13,14 @@ import {
   useRecoilValueLoadable,
 } from 'recoil';
 
-import { getApiService } from 'services/api';
 import { extraProfile } from 'utils/modelExtenders';
 import { neverEndingPromise } from 'utils/recoil';
-import storage from 'utils/storage';
 
 import { rManifest, rFullCircle } from './db';
 
-import { IUser, IMyUser, IEpoch, ICircle, INominee, IAuth } from 'types';
+import { IUser, IMyUser, IEpoch, ICircle, INominee } from 'types';
 
 const log = debug('recoil');
-
-export const rWalletAuth = atom({
-  key: 'rWalletAuth',
-  default: selector({
-    key: 'rWalletAuth/default',
-    get: () => {
-      const auth = storage.getAuth();
-      updateApiService(auth);
-      return auth;
-    },
-  }),
-  effects_UNSTABLE: [
-    ({ onSet }) => {
-      onSet(auth => {
-        updateApiService(auth);
-        storage.setAuth(auth);
-      });
-    },
-  ],
-});
-
-const updateApiService = ({ address, authTokens }: IAuth) => {
-  const token = address && authTokens[address];
-  // eslint-disable-next-line no-console
-  const api = getApiService();
-  if (!token && api.token) mutations.logout();
-  api.setAuth(token);
-};
 
 export const rSelectedCircleIdSource = atom<number | undefined>({
   key: 'rSelectedCircleIdSource',
@@ -286,7 +255,6 @@ export interface ICircleState {
 export const useHasSelectedCircle = () =>
   useRecoilValueLoadable(rSelectedCircleId).valueMaybe() !== undefined;
 export const useMyProfile = () => useRecoilValue(rMyProfile);
-export const useWalletAuth = () => useRecoilValue(rWalletAuth);
 export const useSelectedCircleId = () => useRecoilValue(rSelectedCircleId);
 export const useCircle = (id: number | undefined) =>
   useRecoilValue(rCircle(id));

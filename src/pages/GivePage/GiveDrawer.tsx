@@ -2,7 +2,15 @@ import { useEffect, useState } from 'react';
 
 import { useQuery } from 'react-query';
 
-import { ChevronDown, ChevronsRight, ChevronUp, Edit } from 'icons/__generated';
+import { useContributions } from 'hooks/useContributions';
+import {
+  ChevronDown,
+  ChevronsRight,
+  ChevronUp,
+  Edit,
+  DeworkColor,
+  WonderColor,
+} from 'icons/__generated';
 import { Avatar, Box, Button, Flex, Text, TextArea, MarkdownPreview } from 'ui';
 import { SaveState, SavingIndicator } from 'ui/SavingIndicator';
 
@@ -30,7 +38,14 @@ type GiveDrawerProps = {
   updateTeammate(id: number, teammate: boolean): void;
   closeDrawer: () => void;
 };
-
+const contributionIcon = (source: string) => {
+  switch (source) {
+    case 'wonder':
+      return <WonderColor css={{ mr: '$md' }} />;
+    default:
+      return <DeworkColor css={{ mr: '$md' }} />;
+  }
+};
 // GiveDrawer is the focused modal drawer to give/note/view contributions for one member
 export const GiveDrawer = ({
   // show,
@@ -67,6 +82,12 @@ export const GiveDrawer = ({
       staleTime: Infinity,
     }
   );
+  const integrationContributions = useContributions({
+    address: member.address || '',
+    startDate: start_date.toISOString(),
+    endDate: end_date.toISOString(),
+    mock: false,
+  });
 
   const [showMarkdown, setShowMarkDown] = useState<boolean>(true);
 
@@ -333,7 +354,9 @@ export const GiveDrawer = ({
               <Box>Loading...</Box>
             )}
             {contributions &&
-              (contributions.length == 0 ? (
+              (contributions.length === 0 &&
+              (!integrationContributions ||
+                integrationContributions?.length === 0) ? (
                 <>
                   <Box>
                     <Text inline color="neutral">
@@ -348,6 +371,34 @@ export const GiveDrawer = ({
                 contributions.map(c => (
                   <Contribution key={c.id} contribution={c} />
                 ))
+              ))}
+            {integrationContributions &&
+              integrationContributions.length > 0 &&
+              integrationContributions.map(c => (
+                <Box
+                  key={c.link}
+                  css={{
+                    p: '$md $sm',
+                    borderBottom: '1px solid $border',
+                  }}
+                >
+                  <Text
+                    ellipsis
+                    css={{
+                      cursor: 'default',
+                      backgroundColor: 'rgb(225 229 232) !important',
+                      borderColor: '$borderMedium !important',
+                      boxShadow: '$shadow1',
+                      border: '1px solid transparent',
+                      minHeight: 0,
+                      borderRadius: '$1',
+                      p: '$md',
+                    }}
+                  >
+                    {contributionIcon(c.source)}
+                    {c.title}
+                  </Text>
+                </Box>
               ))}
           </Box>
         </Flex>

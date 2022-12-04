@@ -356,13 +356,7 @@ const DistributionSummary = ({
   return (
     <AppLink to={paths.distributions(circleId, epochId)}>
       {Object.entries(tokens).map(([token, amount]) => (
-        <Text
-          key={token}
-          bold
-          font="inter"
-          size="large"
-          css={{ color: '$secondaryText' }}
-        >
+        <Text key={token} bold size="large" css={{ color: '$secondaryText' }}>
           {round(amount, 2)} {token}
         </Text>
       ))}

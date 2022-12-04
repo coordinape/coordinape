@@ -154,18 +154,6 @@ type CreateSampleCircleResponse {
   id: Int!
 }
 
-input CreateUserInput {
-  address: String!
-  circle_id: Int!
-  fixed_non_receiver: Boolean
-  fixed_payment_amount: Float
-  name: String!
-  non_giver: Boolean
-  non_receiver: Boolean
-  role: Int
-  starting_tokens: Int
-}
-
 input CreateUserWithTokenInput {
   name: String!
   token: String!
@@ -5192,7 +5180,6 @@ type mutation_root {
   createEpoch(payload: CreateEpochInput!): EpochResponse
   createNominee(payload: CreateNomineeInput!): CreateNomineeResponse
   createSampleCircle: CreateSampleCircleResponse
-  createUser(payload: CreateUserInput!): UserResponse
   createUserWithToken(payload: CreateUserWithTokenInput!): UserResponse
   createUsers(payload: CreateUsersInput!): [UserResponse]
   createVault(payload: CreateVaultInput!): VaultResponse

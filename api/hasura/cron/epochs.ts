@@ -420,6 +420,24 @@ export async function endEpoch({ endEpoch: epochs }: EpochsToNotify) {
     .filter(r => r);
 }
 
+export function makeNextStartDate(
+  start: DateTime,
+  repeat: number,
+  repeat_day_of_month: number
+) {
+  if (repeat === 1) return start.plus({ days: 7 });
+  const nextMonth = start.plus({ months: 1 }).month;
+
+  return DateTime.fromObject({
+    year: nextMonth < start.month ? start.year + 1 : start.year,
+    month: nextMonth,
+    day: Math.min(
+      repeat_day_of_month ?? start.toFormat('d'),
+      getDaysInNextMonth(start)
+    ),
+  });
+}
+
 async function createNextEpoch(epoch: {
   id: number;
   start_date: string;
@@ -443,16 +461,7 @@ async function createNextEpoch(epoch: {
   const days = epochLengthInDays
     ? Duration.fromObject({ days: epochLengthInDays })
     : end.diff(start, 'days');
-  const nextStartDate =
-    repeat === 1
-      ? start.plus({ days: 7 })
-      : DateTime.fromObject({
-          month: start.plus({ months: 1 }).month,
-          day: Math.min(
-            repeat_day_of_month ?? start.toFormat('d'),
-            getDaysInNextMonth(start)
-          ),
-        });
+  const nextStartDate = makeNextStartDate(start, repeat, repeat_day_of_month);
 
   if (nextStartDate < end) {
     errorLog(

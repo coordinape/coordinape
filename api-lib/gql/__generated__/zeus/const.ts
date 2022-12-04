@@ -26,7 +26,6 @@ export const AllTypesProps: Record<string, any> = {
     start_date: 'timestamptz',
   },
   CreateNomineeInput: {},
-  CreateUserInput: {},
   CreateUserWithTokenInput: {},
   CreateUsersInput: {
     users: 'UserObj',
@@ -2550,9 +2549,6 @@ export const AllTypesProps: Record<string, any> = {
     },
     createNominee: {
       payload: 'CreateNomineeInput',
-    },
-    createUser: {
-      payload: 'CreateUserInput',
     },
     createUserWithToken: {
       payload: 'CreateUserWithTokenInput',
@@ -8378,7 +8374,6 @@ export const ReturnTypes: Record<string, any> = {
     createEpoch: 'EpochResponse',
     createNominee: 'CreateNomineeResponse',
     createSampleCircle: 'CreateSampleCircleResponse',
-    createUser: 'UserResponse',
     createUserWithToken: 'UserResponse',
     createUsers: 'UserResponse',
     createVault: 'VaultResponse',

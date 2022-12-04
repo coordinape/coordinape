@@ -67,14 +67,7 @@ describe('yearn token', () => {
 
   test('upload epoch root', async () => {
     const tokenAddress = tokens.DAI.addr;
-    const createVaultTx = await contracts.vaultFactory.createCoVault(
-      tokenAddress,
-      AddressZero
-    );
-    const receipt1 = await createVaultTx.wait();
-    const vaultAddress = receipt1.events?.find(e => e.event === 'VaultCreated')
-      ?.args?.vault;
-
+    const { address: vaultAddress } = await contracts.createVault('DAI', true);
     const token = contracts.getERC20(tokenAddress);
     const vault = {
       vault_address: vaultAddress,

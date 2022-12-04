@@ -56,6 +56,7 @@ export const getMembersWithContributions = async (
           bio: true,
           non_receiver: true,
           fixed_non_receiver: true,
+          address: true,
           profile: {
             avatar: true,
             id: true,

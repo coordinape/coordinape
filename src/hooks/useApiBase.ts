@@ -1,111 +1,16 @@
-import assert from 'assert';
-
-import { Web3Provider } from '@ethersproject/providers';
-import * as Sentry from '@sentry/react';
-import { Web3ReactContextInterface } from '@web3-react/core/dist/types';
 import debug from 'debug';
+import { rWalletAuth } from 'features/auth/useWalletAuth';
 import * as queries from 'lib/gql/queries';
 
 import { useRecoilLoadCatch } from 'hooks';
-import { rSelectedCircleIdSource, rWalletAuth } from 'recoilState/app';
+import { rSelectedCircleIdSource } from 'recoilState/app';
 import { rApiManifest, rApiFullCircle } from 'recoilState/db';
-import { getApiService } from 'services/api';
-import { connectors } from 'utils/connectors';
 
-import { useApeSnackbar } from './useApeSnackbar';
-
-import { EConnectorNames, IAuth } from 'types';
+import { IAuth } from 'types';
 
 const log = debug('useApiBase');
 
-const clearStateAfterLogout = (set: any) => {
-  // this triggers mutations.logout() via recoil effects
-  set(rWalletAuth, { authTokens: {} });
-  set(rApiFullCircle, new Map());
-  set(rApiManifest, undefined);
-  set(rSelectedCircleIdSource, undefined);
-};
-
 export const useApiBase = () => {
-  const { showError } = useApeSnackbar();
-
-  // FIXME it's a bit inconsistent that this catches its own errors instead of
-  // delegating to useRecoilLoadCatch. but we should probably just not use
-  // useRecoilLoadCatch at all and instead just get the walletAuth data from an
-  // ordinary useRecoilValue hook in RequireAuth
-  const finishAuth = useRecoilLoadCatch(
-    ({ snapshot, set }) =>
-      async ({
-        web3Context,
-      }: {
-        web3Context: Web3ReactContextInterface<Web3Provider>;
-      }) => {
-        const { authTokens } = await snapshot.getPromise(rWalletAuth);
-        const { connector, account: address, library } = web3Context;
-        assert(address && library);
-
-        try {
-          const connectorName = Object.entries(connectors).find(
-            ([, c]) => connector?.constructor === c.constructor
-          )?.[0] as EConnectorNames;
-
-          const api = getApiService();
-          if (!api.provider) api.setProvider(web3Context.library);
-
-          const token = authTokens[address] ?? (await api.login(address)).token;
-          if (token) {
-            // Send a truncated address to sentry to help us debug customer issues
-            Sentry.setTag(
-              'address_truncated',
-              address.substr(0, 8) +
-                '...' +
-                address.substr(address.length - 8, 8)
-            );
-            const newWalletAuth = {
-              connectorName,
-              address,
-              authTokens: { ...authTokens, [address]: token },
-            };
-            set(rWalletAuth, newWalletAuth);
-
-            // passing in newWalletAuth because Recoil snapshot is not updated yet
-            return new Promise(res =>
-              setTimeout(() =>
-                fetchManifest(newWalletAuth)
-                  .then(res)
-                  .catch(() => {
-                    // FIXME don't logout if request timed out
-                    // we had a cached token & it's invalid
-                    clearStateAfterLogout(set);
-                    res(false);
-                  })
-              )
-            );
-          }
-        } catch (e: any) {
-          if (
-            [/User denied message signature/].some(r => e.message?.match(r))
-          ) {
-            return false;
-          }
-
-          // for debugging this issue
-          // eslint-disable-next-line no-console
-          console.info(e);
-          showError(`Failed to login: ${e.message || e}`);
-        }
-      },
-    [],
-    { who: 'finishAuth' }
-  );
-
-  const logout = useRecoilLoadCatch(
-    ({ set }) =>
-      async () =>
-        clearStateAfterLogout(set),
-    []
-  );
-
   const fetchManifest = useRecoilLoadCatch(
     ({ snapshot, set }) =>
       async (newWalletAuth?: IAuth) => {
@@ -168,8 +73,6 @@ export const useApiBase = () => {
   );
 
   return {
-    finishAuth,
-    logout,
     fetchManifest,
     fetchCircle,
     selectCircle,
