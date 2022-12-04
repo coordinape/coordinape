@@ -923,6 +923,14 @@ export type ValueTypes = {
     org?: ValueTypes['organizations'];
     __typename?: boolean | `@${string}`;
   }>;
+  ['UpdateProfileNameInput']: {
+    name: string;
+  };
+  ['UpdateProfileNameResponse']: AliasType<{
+    id?: boolean | `@${string}`;
+    profileName?: ValueTypes['profiles'];
+    __typename?: boolean | `@${string}`;
+  }>;
   ['UpdateProfileResponse']: AliasType<{
     id?: boolean | `@${string}`;
     profile?: ValueTypes['profiles'];
@@ -8810,6 +8818,10 @@ export type ValueTypes = {
     updateEpoch?: [
       { payload: ValueTypes['UpdateEpochInput'] },
       ValueTypes['EpochResponse']
+    ];
+    updateProfileName?: [
+      { payload: ValueTypes['UpdateProfileNameInput'] },
+      ValueTypes['UpdateProfileNameResponse']
     ];
     updateTeammates?: [
       { payload: ValueTypes['UpdateTeammatesInput'] },
@@ -19566,6 +19578,11 @@ export type ModelTypes = {
     id: number;
     org?: GraphQLTypes['organizations'] | undefined;
   };
+  ['UpdateProfileNameInput']: GraphQLTypes['UpdateProfileNameInput'];
+  ['UpdateProfileNameResponse']: {
+    id: number;
+    profileName?: GraphQLTypes['profiles'] | undefined;
+  };
   ['UpdateProfileResponse']: {
     id: number;
     profile?: GraphQLTypes['profiles'] | undefined;
@@ -22986,6 +23003,7 @@ export type ModelTypes = {
     /** users can modify contributions and update their dates. */
     updateContribution?: GraphQLTypes['UpdateContributionResponse'] | undefined;
     updateEpoch?: GraphQLTypes['EpochResponse'] | undefined;
+    updateProfileName?: GraphQLTypes['UpdateProfileNameResponse'] | undefined;
     updateTeammates?: GraphQLTypes['UpdateTeammatesResponse'] | undefined;
     /** Update own user */
     updateUser?: GraphQLTypes['UserResponse'] | undefined;
@@ -26551,6 +26569,14 @@ export type GraphQLTypes = {
     __typename: 'UpdateOrgResponse';
     id: number;
     org?: GraphQLTypes['organizations'] | undefined;
+  };
+  ['UpdateProfileNameInput']: {
+    name: string;
+  };
+  ['UpdateProfileNameResponse']: {
+    __typename: 'UpdateProfileNameResponse';
+    id: number;
+    profileName?: GraphQLTypes['profiles'] | undefined;
   };
   ['UpdateProfileResponse']: {
     __typename: 'UpdateProfileResponse';
@@ -32775,6 +32801,7 @@ export type GraphQLTypes = {
     /** users can modify contributions and update their dates. */
     updateContribution?: GraphQLTypes['UpdateContributionResponse'] | undefined;
     updateEpoch?: GraphQLTypes['EpochResponse'] | undefined;
+    updateProfileName?: GraphQLTypes['UpdateProfileNameResponse'] | undefined;
     updateTeammates?: GraphQLTypes['UpdateTeammatesResponse'] | undefined;
     /** Update own user */
     updateUser?: GraphQLTypes['UserResponse'] | undefined;

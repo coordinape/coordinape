@@ -396,6 +396,15 @@ type UpdateOrgResponse {
   org: organizations
 }
 
+input UpdateProfileNameInput {
+  name: String!
+}
+
+type UpdateProfileNameResponse {
+  id: Int!
+  profileName: profiles
+}
+
 type UpdateProfileResponse {
   id: Int!
   profile: profiles
@@ -5572,6 +5581,7 @@ type mutation_root {
     payload: UpdateContributionInput!
   ): UpdateContributionResponse
   updateEpoch(payload: UpdateEpochInput!): EpochResponse
+  updateProfileName(payload: UpdateProfileNameInput!): UpdateProfileNameResponse
   updateTeammates(payload: UpdateTeammatesInput!): UpdateTeammatesResponse
 
   """

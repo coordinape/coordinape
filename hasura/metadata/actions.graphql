@@ -93,6 +93,10 @@ type Mutation {
 }
 
 type Mutation {
+  updateProfileName(payload: UpdateProfileNameInput!): UpdateProfileNameResponse
+}
+
+type Mutation {
   updateTeammates(payload: UpdateTeammatesInput!): UpdateTeammatesResponse
 }
 
@@ -347,6 +351,10 @@ input LinkDiscordUserInput {
   discord_id: String!
 }
 
+input UpdateProfileNameInput {
+  name: String!
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -443,6 +451,10 @@ type LinkDiscordUserResponse {
 }
 
 type CreateSampleCircleResponse {
+  id: Int!
+}
+
+type UpdateProfileNameResponse {
   id: Int!
 }
 
