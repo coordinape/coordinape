@@ -129,10 +129,10 @@ actions:
           value_from_env: HASURA_EVENT_SECRET
     permissions:
       - role: user
-  - name: deleteUserBulk
+  - name: deleteUsers
     definition:
       kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=deleteUserBulk'
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=deleteUsers'
       headers:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
@@ -326,6 +326,7 @@ custom_types:
     - name: MarkClaimedInput
     - name: LinkDiscordUserInput
     - name: DeleteUserBulkInput
+    - name: DeleteUsersInput
   objects:
     - name: CreateCircleResponse
       relationships:
@@ -522,5 +523,6 @@ custom_types:
           source: default
           type: object
     - name: DeleteUserBulkResponse
+    - name: DeleteUsersResponse
   scalars:
     - name: timestamptz

@@ -63,6 +63,10 @@ type Mutation {
 }
 
 type Mutation {
+  deleteUsers(payload: DeleteUsersInput!): DeleteUsersResponse
+}
+
+type Mutation {
   linkDiscordUser(payload: LinkDiscordUserInput!): LinkDiscordUserResponse
 }
 
@@ -358,6 +362,11 @@ input DeleteUserBulkInput {
   addresses: [String!]!
 }
 
+input DeleteUsersInput {
+  circle_id: Int!
+  addresses: [String!]!
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -458,6 +467,10 @@ type CreateSampleCircleResponse {
 }
 
 type DeleteUserBulkResponse {
+  success: Boolean!
+}
+
+type DeleteUsersResponse {
   success: Boolean!
 }
 
