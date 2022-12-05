@@ -136,6 +136,61 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     return opts;
   }, {} as { [aliasKey: string]: ValueTypes['mutation_root'] });
 
+  //check if names are used by other coordinape users
+  const { profiles: existingNames, nominees } = await adminClient.query(
+    {
+      profiles: [
+        {
+          where: {
+            _or: newUsers.map(user => {
+              return {
+                _and: [
+                  { name: { _eq: user.name } },
+                  { address: { _nilike: user.address } },
+                ],
+              };
+            }),
+          },
+        },
+        { name: true },
+      ],
+      nominees: [
+        {
+          where: {
+            ended: { _eq: false },
+            _or: newUsers.map(user => {
+              return {
+                _and: [
+                  { name: { _ilike: user.name } },
+                  { address: { _nilike: user.address } },
+                ],
+              };
+            }),
+          },
+        },
+        { name: true },
+      ],
+    },
+    {
+      operationName: 'createUsers_getExistingNames',
+    }
+  );
+
+  if (existingNames.length > 0 || nominees.length > 0) {
+    const names = existingNames.concat(nominees).map(u => u.name);
+    return errorResponseWithStatusCode(
+      res,
+      {
+        message: `Users list contains ${
+          names.length > 1
+            ? 'names used by other coordinape users'
+            : 'a name used by another coordinape user'
+        }: ${names}`,
+      },
+      422
+    );
+  }
+
   const { profiles } = await adminClient.query(
     {
       profiles: [

@@ -2,7 +2,7 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { getNominees } from '../../../../api-lib/findNominees';
+import { getNomineeWithName } from '../../../../api-lib/findNominees';
 import { getProfilesWithName } from '../../../../api-lib/findProfile';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
@@ -38,7 +38,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     );
   }
 
-  const nominee = await getNominees('updateProfileName', name);
+  const nominee = await getNomineeWithName('updateProfileName', name);
   if (nominee) {
     return errorResponseWithStatusCode(
       res,

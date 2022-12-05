@@ -1,3 +1,7 @@
+import {
+  getProfilesWithAddress,
+  getProfilesWithName,
+} from '../../../../api-lib/findProfile';
 import { ValueTypes } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { UnprocessableError } from '../../../../api-lib/HttpError';
@@ -30,19 +34,6 @@ async function checkExistingUser(address: string, circleId: number) {
   }
   return existingUser;
 }
-async function checkExistingProfile(address: string) {
-  const { profiles } = await adminClient.query(
-    {
-      profiles: [{ where: { address: { _ilike: address } } }, { id: true }],
-    },
-    {
-      operationName: 'createUser_getProfile',
-    }
-  );
-
-  const profile = profiles.pop();
-  return profile;
-}
 
 export async function createUserMutation(
   address: string,
@@ -51,10 +42,19 @@ export async function createUserMutation(
   entrance: string
 ) {
   const softDeletedUser = await checkExistingUser(address, circleId);
-  const profile = await checkExistingProfile(address);
+  const addressProfile = await getProfilesWithAddress('createUser', address);
+  let nameProfile = undefined;
+  if (input.name)
+    nameProfile = await getProfilesWithName('createUser', input.name);
+
+  if (!addressProfile && nameProfile) {
+    throw new UnprocessableError(
+      'This user name is used by another coordinape user'
+    );
+  }
   let createProfileMutation = null;
 
-  if (!profile) {
+  if (!addressProfile && !nameProfile) {
     createProfileMutation = await adminClient.mutate(
       {
         insert_profiles_one: [
@@ -73,12 +73,13 @@ export async function createUserMutation(
         operationName: 'createUser_createProfile',
       }
     );
-  } else {
+  } else if (addressProfile && !addressProfile.name && !nameProfile) {
+    //if the address has a profile with no name this name will be assigned to it
     const updateProfileMutation = await adminClient.mutate(
       {
         update_profiles_by_pk: [
           {
-            pk_columns: { id: profile.id },
+            pk_columns: { id: addressProfile.id },
             _set: { name: input.name },
           },
           {
@@ -94,7 +95,7 @@ export async function createUserMutation(
       throw new UnprocessableError('Failed to update user profile');
     }
   }
-  if (!profile && !createProfileMutation) {
+  if (!addressProfile && !createProfileMutation) {
     throw new UnprocessableError('Failed to create user profile');
   }
 
