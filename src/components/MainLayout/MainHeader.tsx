@@ -10,9 +10,10 @@ import isFeatureEnabled from 'config/features';
 import { useMediaQuery } from 'hooks';
 import { rSelectedCircle } from 'recoilState/app';
 import { isCircleSpecificPath } from 'routes/paths';
-import { Box, Button } from 'ui';
+import { Box, Button, Modal } from 'ui';
 
 import { CircleNav } from './CircleNav';
+import { CreateUserNameForm } from './CreateUserNameForm';
 import { MainHeaderQuery, useMainHeaderQuery } from './getMainHeaderData';
 import { MobileHeader } from './MobileHeader';
 import { OverviewMenu } from './OverviewMenu';
@@ -77,6 +78,8 @@ const NormalHeader = ({
 }: Props) => {
   const showClaimsButton =
     (query.data?.claims_aggregate.aggregate?.count || 0) > 0;
+  const profileLoaded = query.data?.profiles.length;
+  const userName = profileLoaded === 0 ? null : query.data?.profiles[0].name;
 
   return (
     <Box>
@@ -159,6 +162,18 @@ const NormalHeader = ({
             />
           </Suspense>
         </Box>
+        <Modal
+          open={
+            !userName &&
+            !!walletStatus.address &&
+            !!profileLoaded &&
+            profileLoaded > 0
+          }
+          title="Create user name"
+          css={{ overflow: 'scroll' }}
+        >
+          <CreateUserNameForm address={walletStatus.address} />
+        </Modal>
       </Box>
       {inCircle?.organization.sample && <SampleOrgIndicator />}
     </Box>

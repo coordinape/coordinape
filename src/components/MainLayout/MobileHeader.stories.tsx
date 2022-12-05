@@ -79,6 +79,12 @@ MobileHeader.args = {
           count: 1,
         },
       },
+      profiles: [
+        {
+          id: 1,
+          name: 'Ape',
+        },
+      ],
     },
   },
 };
