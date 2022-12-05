@@ -59,9 +59,9 @@ type Mutation {
 }
 
 type Mutation {
-  deleteUserBulk(
-    payload: DeleteUserBulkInput!
-  ): DeleteUserBulkResponse
+  deleteUsers(
+    payload: DeleteUsersInput!
+  ): DeleteUsersResponse
 }
 
 type Mutation {
@@ -372,6 +372,11 @@ input DeleteUserBulkInput {
   addresses: [String!]!
 }
 
+input DeleteUsersInput {
+  circle_id: Int!
+  addresses: [String!]!
+}
+
 input UpdateProfileNameInput {
   name: String!
 }
@@ -505,6 +510,10 @@ type LinkDiscordCircleResponse {
 }
 
 type DeleteUserBulkResponse {
+  success: Boolean!
+}
+
+type DeleteUsersResponse {
   success: Boolean!
 }
 

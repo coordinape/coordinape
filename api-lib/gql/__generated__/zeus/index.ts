@@ -764,18 +764,18 @@ export type ValueTypes = {
     success?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  ['DeleteUserBulkInput']: {
-    addresses: Array<string>;
-    circle_id: number;
-  };
-  ['DeleteUserBulkResponse']: AliasType<{
-    success?: boolean | `@${string}`;
-    __typename?: boolean | `@${string}`;
-  }>;
   ['DeleteUserInput']: {
     address: string;
     circle_id: number;
   };
+  ['DeleteUsersInput']: {
+    addresses: Array<string>;
+    circle_id: number;
+  };
+  ['DeleteUsersResponse']: AliasType<{
+    success?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['EpochResponse']: AliasType<{
     epoch?: ValueTypes['epochs'];
     id?: boolean | `@${string}`;
@@ -8750,9 +8750,9 @@ export type ValueTypes = {
       { payload: ValueTypes['DeleteUserInput'] },
       ValueTypes['ConfirmationResponse']
     ];
-    deleteUserBulk?: [
-      { payload: ValueTypes['DeleteUserBulkInput'] },
-      ValueTypes['DeleteUserBulkResponse']
+    deleteUsers?: [
+      { payload: ValueTypes['DeleteUsersInput'] },
+      ValueTypes['DeleteUsersResponse']
     ];
     delete_burns?: [
       {
@@ -21139,11 +21139,11 @@ export type ModelTypes = {
   ['DeleteEpochResponse']: {
     success: boolean;
   };
-  ['DeleteUserBulkInput']: GraphQLTypes['DeleteUserBulkInput'];
-  ['DeleteUserBulkResponse']: {
+  ['DeleteUserInput']: GraphQLTypes['DeleteUserInput'];
+  ['DeleteUsersInput']: GraphQLTypes['DeleteUsersInput'];
+  ['DeleteUsersResponse']: {
     success: boolean;
   };
-  ['DeleteUserInput']: GraphQLTypes['DeleteUserInput'];
   ['EpochResponse']: {
     epoch?: GraphQLTypes['epochs'] | undefined;
     id: string;
@@ -24727,7 +24727,7 @@ export type ModelTypes = {
     deleteDiscordUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteEpoch?: GraphQLTypes['DeleteEpochResponse'] | undefined;
     deleteUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
-    deleteUserBulk?: GraphQLTypes['DeleteUserBulkResponse'] | undefined;
+    deleteUsers?: GraphQLTypes['DeleteUsersResponse'] | undefined;
     /** delete data from the table: "burns" */
     delete_burns?: GraphQLTypes['burns_mutation_response'] | undefined;
     /** delete single row from the table: "burns" */
@@ -28690,17 +28690,17 @@ export type GraphQLTypes = {
     __typename: 'DeleteEpochResponse';
     success: boolean;
   };
-  ['DeleteUserBulkInput']: {
-    addresses: Array<string>;
-    circle_id: number;
-  };
-  ['DeleteUserBulkResponse']: {
-    __typename: 'DeleteUserBulkResponse';
-    success: boolean;
-  };
   ['DeleteUserInput']: {
     address: string;
     circle_id: number;
+  };
+  ['DeleteUsersInput']: {
+    addresses: Array<string>;
+    circle_id: number;
+  };
+  ['DeleteUsersResponse']: {
+    __typename: 'DeleteUsersResponse';
+    success: boolean;
   };
   ['EpochResponse']: {
     __typename: 'EpochResponse';
@@ -35578,7 +35578,7 @@ export type GraphQLTypes = {
     deleteDiscordUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteEpoch?: GraphQLTypes['DeleteEpochResponse'] | undefined;
     deleteUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
-    deleteUserBulk?: GraphQLTypes['DeleteUserBulkResponse'] | undefined;
+    deleteUsers?: GraphQLTypes['DeleteUsersResponse'] | undefined;
     /** delete data from the table: "burns" */
     delete_burns?: GraphQLTypes['burns_mutation_response'] | undefined;
     /** delete single row from the table: "burns" */
