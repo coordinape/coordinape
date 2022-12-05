@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useImperativeHandle, useRef } from 'react';
 
 import type * as Stitches from '@stitches/react';
 import autosize from 'autosize';
@@ -38,23 +38,31 @@ const StyledTextArea = styled('textarea', {
   },
 });
 
-export const TextArea = ({
-  autoSize,
-  ...rest
-}: React.ComponentProps<typeof StyledTextArea> & {
+type Props = React.ComponentProps<typeof StyledTextArea> & {
   autoSize?: boolean;
-}) => {
-  const ref = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
+};
+
+export const TextArea = React.forwardRef((props: Props, ref) => {
+  const { autoSize, ...rest } = props;
+
+  const textAreaRef = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
+
+  useImperativeHandle(ref, () => ({
+    focus: () => {
+      textAreaRef.current.focus();
+    },
+  }));
 
   useEffect(() => {
-    if (ref.current && autoSize) {
-      autosize(ref.current);
+    if (textAreaRef.current && autoSize) {
+      autosize(textAreaRef.current);
     }
   }, []);
 
-  return <StyledTextArea {...rest} ref={ref} />;
-};
+  return <StyledTextArea {...rest} ref={textAreaRef} />;
+});
 
+TextArea.displayName = 'TextArea';
 /* Storybook utility for stitches variant props
 
 NOTE: this can't live in the stories file because the storybook navigator will take a story and will crash
