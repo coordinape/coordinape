@@ -508,7 +508,7 @@ const MemberRow = ({
                   onClick={() => {
                     user.id === me.id
                       ? setLeaveCircleDialog({
-                          name: user.name,
+                          name: user.profile?.name ?? user.name,
                           address: user.address,
                         })
                       : setDeleteUserDialog({
