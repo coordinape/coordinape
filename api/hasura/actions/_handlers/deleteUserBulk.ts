@@ -104,35 +104,33 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     errorResponseWithStatusCode(res, { message: `Users with these addresses do not exist: ${nonExistingUsers}` }, 422);
   }
 
+  const userIdsDelete = existingUsers.map(eu => eu.id);
 
-  // TODO turn into single transaction
-  for (const userId of existingUserIds) {
-    await adminClient.mutate(
-      {
-        update_users_by_pk: [
-          {
-            pk_columns: { id: userId },
-            _set: { deleted_at: DateTime.now().toISO() },
+  await adminClient.mutate(
+    {
+      update_users: [
+        {
+          where: { id: {_in: userIdsDelete }},
+          _set: { deleted_at: DateTime.now().toISO() },
+        },
+        { __typename: true },
+      ],
+      delete_teammates: [
+        {
+          where: {
+            _or: [
+              { user_id: { _in: userIdsDelete } },
+              { team_mate_id: { _in: userIdsDelete } },
+            ],
           },
-          { __typename: true },
-        ],
-        delete_teammates: [
-          {
-            where: {
-              _or: [
-                { user_id: { _eq: userId } },
-                { team_mate_id: { _eq: userId } },
-              ],
-            },
-          },
-          { __typename: true },
-        ],
-      },
-      {
-        operationName: 'deleteUserBulk_delete',
-      }
-    );
-  }
+        },
+        { __typename: true },
+      ],
+    },
+    {
+      operationName: 'deleteUserBulk_delete',
+    }
+  );
 
   res.status(200).json({
     success: true,
