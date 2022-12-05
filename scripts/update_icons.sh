@@ -24,6 +24,7 @@ trap cleanup EXIT
 cp src/icons/brands/*svg $WORK_DIR
 cp src/icons/custom/*svg $WORK_DIR
 cp src/icons/feather/*svg $WORK_DIR
+cp src/icons/networks/*svg $WORK_DIR
 
 # cleanup whatever old ones are there
 rm -rf src/icons/__generated/*
