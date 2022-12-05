@@ -19,7 +19,7 @@ import { Edit3 } from 'icons/__generated';
 import { useMyProfile, useProfile } from 'recoilState/app';
 import { useSetEditProfileOpen } from 'recoilState/ui';
 import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE, paths } from 'routes/paths';
-import { Avatar } from 'ui';
+import { Avatar, MarkdownPreview } from 'ui';
 import { getAvatarPath } from 'utils/domain';
 
 import { IMyProfile, IProfile } from 'types';
@@ -322,7 +322,7 @@ const ProfilePageContent = ({
               </a>
             </div>
           ) : (
-            profile?.bio
+            <MarkdownPreview source={profile?.bio} />
           )}
         </div>
       </div>
