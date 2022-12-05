@@ -1,0 +1,1 @@
+CREATE TABLE "public"."locked_token_distributions" ("id" bigserial NOT NULL, "epoch_id" bigint NOT NULL, "gift_amount" numeric NOT NULL, "tx_hash" varchar, "distribution_json" jsonb NOT NULL, "distributed_by" varchar NOT NULL, PRIMARY KEY ("id") , FOREIGN KEY ("epoch_id") REFERENCES "public"."epoches"("id") ON UPDATE cascade ON DELETE cascade);

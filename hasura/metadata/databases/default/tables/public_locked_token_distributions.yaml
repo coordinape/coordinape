@@ -1,0 +1,53 @@
+table:
+  name: locked_token_distributions
+  schema: public
+object_relationships:
+  - name: epoch
+    using:
+      foreign_key_constraint_on: epoch_id
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        epoch:
+          circle:
+            users:
+              profile:
+                id:
+                  _eq: X-Hasura-User-Id
+      columns:
+        - distributed_by
+        - distribution_json
+        - epoch_id
+        - gift_amount
+        - tx_hash
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - epoch_id
+        - id
+        - distributed_by
+        - tx_hash
+        - distribution_json
+        - gift_amount
+      filter:
+        epoch:
+          circle:
+            users:
+              profile:
+                id:
+                  _eq: X-Hasura-User-Id
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - tx_hash
+      filter:
+        epoch:
+          circle:
+            users:
+              profile:
+                id:
+                  _eq: X-Hasura-User-Id
+      check: null
