@@ -198,8 +198,8 @@ export const MobileHeader = ({
                     </Flex>
                     <Suspense fallback={<span />}>
                       <CircleNav />
+                      <ReceiveInfo />
                     </Suspense>
-                    <ReceiveInfo />
                   </Flex>
                 )}
                 <Flex column alignItems="start">
