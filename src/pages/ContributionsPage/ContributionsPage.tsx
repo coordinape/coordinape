@@ -788,10 +788,13 @@ const ContributionsPage = () => {
                 </Text>
               </Panel>
               <Panel nested>
-                <Text p>
+                <Link
+                  target="_blank"
+                  href={currentIntContribution.contribution.link}
+                >
                   {contributionIcon(currentIntContribution.contribution.source)}
                   {currentIntContribution.contribution.title}
-                </Text>
+                </Link>
               </Panel>
             </>
           ) : (
