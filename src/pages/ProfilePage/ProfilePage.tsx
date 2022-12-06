@@ -220,7 +220,12 @@ const ProfilePageContent = ({
   const classes = useStyles();
   const users = (profile as IMyProfile)?.myUsers ?? profile?.users ?? [];
   const user = users.find(user => user.circle_id === circleId);
-  const name = user?.name ?? users?.[0]?.name ?? 'unknown';
+  const name =
+    user?.profile?.name ??
+    user?.name ??
+    users?.[0]?.profile?.name ??
+    users?.[0]?.name ??
+    'unknown';
 
   const setEditProfileOpen = useSetEditProfileOpen();
   const { updateBackground } = useApiWithProfile();

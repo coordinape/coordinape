@@ -167,7 +167,7 @@ const MembersPage = () => {
   const filterUser = useMemo(
     () => (u: IUser) => {
       const r = new RegExp(keyword, 'i');
-      return r.test(u.name) || r.test(u.address);
+      return r.test(u.profile?.name ?? u.name) || r.test(u.address);
     },
     [keyword]
   );

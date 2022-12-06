@@ -176,7 +176,7 @@ export const ReceiveInfo = () => {
                     {tokenGift.tokens > 0 && !currentNonReceiver
                       ? `+${tokenGift.tokens} Received from `
                       : 'From '}
-                    {tokenGift.sender?.name}
+                    {tokenGift.sender?.profile.name ?? tokenGift.sender?.name}
                   </Text>
                   <Text color="neutral">
                     {DateTime.fromISO(tokenGift.dts_created).toLocaleString(
@@ -193,7 +193,9 @@ export const ReceiveInfo = () => {
                 >
                   <Avatar
                     path={tokenGift.sender.profile.avatar}
-                    name={tokenGift.sender.name}
+                    name={
+                      tokenGift.sender.profile.name ?? tokenGift.sender.name
+                    }
                   />
                   {tokenGift.gift_private?.note ? (
                     <MarkdownPreview source={tokenGift.gift_private.note} />
@@ -242,7 +244,10 @@ const getReceiveInfo = async (circleId: number, userId: number) => {
                             {
                               id: true,
                               tokens: true,
-                              sender: { name: true, profile: { avatar: true } },
+                              sender: {
+                                name: true,
+                                profile: { avatar: true, name: true },
+                              },
                               gift_private: { note: true },
                               dts_created: true,
                             },
@@ -273,7 +278,10 @@ const getReceiveInfo = async (circleId: number, userId: number) => {
                             {
                               id: true,
                               tokens: true,
-                              sender: { name: true, profile: { avatar: true } },
+                              sender: {
+                                name: true,
+                                profile: { avatar: true, name: true },
+                              },
                               gift_private: { note: true },
                               dts_created: true,
                             },
