@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from 'react';
 import { Web3Provider } from '@ethersproject/providers';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { loginSupportedChainIds } from 'common-lib/constants';
-import { concat } from 'lodash';
 
 import { CircularProgress } from '@material-ui/core';
 
@@ -11,11 +10,11 @@ import { EConnectorNames, WALLET_ICONS } from 'config/constants';
 import isFeatureEnabled from 'config/features';
 import { useApeSnackbar } from 'hooks';
 import { useWeb3React } from 'hooks/useWeb3React';
-import { Box, Button, Text, Modal, Flex, HR, Select } from 'ui';
-import { switchNetwork } from 'utils/provider';
+import { Box, Button, Text, Modal, Flex, HR } from 'ui';
 
 import { connectors } from './connectors';
 import { getMagicProvider } from './magic';
+import { NetworkSelector } from './NetworkSelector';
 
 export const WalletAuthModal = () => {
   const [connectMessage, setConnectMessage] = useState<string>('');
@@ -36,10 +35,6 @@ export const WalletAuthModal = () => {
     return { value: key[0], label: key[1], disabled: false };
   });
 
-  const loginOptions = concat(supportedChains, [
-    { value: UNSUPPORTED, label: '-', disabled: true },
-  ]);
-
   const mounted = useRef(false);
 
   const updateChain = async (provider: Web3Provider) => {
@@ -52,14 +47,6 @@ export const WalletAuthModal = () => {
       } else {
         setSelectedChain(UNSUPPORTED);
       }
-    }
-  };
-
-  const onNetworkError = (error: Error | any) => {
-    if (error?.message.match(/Unrecognized chain ID .*/)) {
-      showInfo(`Unrecognized chain ID. Try adding the chain first.`);
-    } else {
-      throw new Error(error);
     }
   };
 
@@ -158,30 +145,15 @@ export const WalletAuthModal = () => {
         padding: '$xl',
       }}
     >
+      {isMultichainEnabled && (
+        <div>
+          <Flex column css={{ gap: '$md' }}>
+            <NetworkSelector />
+          </Flex>
+          <HR />
+        </div>
+      )}
       <Flex>
-        {isMultichainEnabled && (
-          <div>
-            <Flex column css={{ gap: '$md' }}>
-              <Text h3 semibold>
-                Select Network
-              </Text>
-              <Select
-                value={selectedChain}
-                options={loginOptions}
-                onValueChange={v => switchNetwork(v, onNetworkError)}
-                css={{
-                  minWidth: '50%',
-                }}
-              />
-              {unsupportedNetwork && (
-                <Text variant="formError">
-                  Please choose a supported network
-                </Text>
-              )}
-            </Flex>
-            <HR noMargin />
-          </div>
-        )}
         <Flex alignItems="start" column css={{ gap: '$md', width: '$full' }}>
           <Text h3 semibold css={{ justifyContent: 'center', width: '100%' }}>
             Connect Your Wallet
