@@ -34,7 +34,7 @@ describe('Create Nominee action handler', () => {
             address: nominationAddress,
           },
         },
-        { nominee: { nominated_by_user_id: true, nominator: { name: true } } },
+        { nominee: { nominated_by_user_id: true } },
       ],
     });
     expect(result?.nominee?.nominated_by_user_id).toEqual(user.id);
@@ -48,7 +48,7 @@ describe('Create Nominee action handler', () => {
           {
             payload: { ...default_req, circle_id: circle.id, address },
           },
-          { id: true },
+          { __typename: true },
         ],
       })
     ).rejects.toThrow();
