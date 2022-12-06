@@ -60,6 +60,7 @@ async function circleFromToken(token: string) {
                 name: true,
                 profile: {
                   avatar: true,
+                  name: true,
                 },
               },
             ],

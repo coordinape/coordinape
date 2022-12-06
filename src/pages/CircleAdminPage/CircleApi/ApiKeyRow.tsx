@@ -36,7 +36,8 @@ export function ApiKeyRow({
             {apiKey.name}
           </Text>
           <Text size={'small'} color={'neutral'}>
-            Created by {apiKey.createdByUser.name}
+            Created by{' '}
+            {apiKey.createdByUser.profile.name ?? apiKey.createdByUser.name}
           </Text>
           <Button
             css={{ mt: '$md' }}
