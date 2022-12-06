@@ -12,44 +12,11 @@ import {
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     input: { payload },
-    session_variables: sessionVariables,
   } = composeHasuraActionRequestBody(deleteUserBulkInput).parse(req.body);
 
   const { circle_id, addresses } = payload;
   const existingUserIds : number[] = [];
   const uniqueAddresses = [...new Set(addresses.map(a => a.toLowerCase()))];
-
-  // Check whether circle is in active epoch
-  const {
-    epochs: [currentEpoch],
-  } = await adminClient.query(
-    {
-      epochs: [
-        {
-          where: {
-            circle_id: { _eq: circle_id },
-            end_date: { _gt: 'now()' },
-            start_date: { _lt: 'now()' },
-          },
-        },
-        { id: true },
-      ],
-    },
-    {
-      operationName: 'deleteUserBulk_getCurrentEpoch',
-    }
-  );
-  
-  // Admin can delete users even when there is no ongoing epoch
-  if(sessionVariables.hasuraRole !== 'admin' && !currentEpoch) {
-    return errorResponseWithStatusCode(
-      res,
-      {
-        message: `Circle with id ${circle_id} is not in an active epoch.`,
-      },
-      422
-    );
-  }
 
   // Check if bulk contains duplicates.
   if (uniqueAddresses.length < addresses.length) {
