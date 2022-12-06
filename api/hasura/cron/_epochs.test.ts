@@ -74,7 +74,7 @@ const mockCircle = {
         bio: faker.lorem.sentences(5),
         starting_tokens: 100 * (1 + i),
         give_token_remaining: i > 1 ? 0 : 100 * (1 + i),
-        profile: { name: 'person' + i },
+        profile: { name: 'person ' + i },
       })),
   },
 };
