@@ -65,6 +65,7 @@ export const getEpochData = async (
                 profile: {
                   avatar: true,
                   id: true,
+                  name: true,
                 },
               },
               tokens: true,
