@@ -319,7 +319,7 @@ const NotesItem = ({
       <Box css={{ mr: '$md' }}>
         <Avatar
           path={other.profile?.avatar}
-          name={other.profile.name ?? other.name}
+          name={other.profile?.name ?? other.name}
           size="medium"
         />
       </Box>
@@ -334,7 +334,7 @@ const NotesItem = ({
         )}
         <Box css={{ fontSize: '$small', color: '$secondaryText' }}>
           {gift.tokens} {tokenName} {received ? 'received from ' : 'sent to '}
-          {other.profile.name ?? other.name}
+          {other.profile?.name ?? other.name}
         </Box>
       </Box>
     </Box>

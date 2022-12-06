@@ -53,7 +53,10 @@ const mockCircle = {
     token_name: 'GIVE',
     name: 'circle with ending epoch',
     organization: { name: 'mock Org' },
-    users: [{ name: 'bob' }, { name: 'alice' }],
+    users: [
+      { name: 'bob', profile: { name: 'bob' } },
+      { name: 'alice', profile: { name: 'alice' } },
+    ],
   },
   endEpoch: {
     id: 1,
