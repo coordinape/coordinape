@@ -113,6 +113,12 @@ select_permissions:
                       - read_member_profiles:
                           _eq: true
       limit: 50
+  - role: discord-bot
+    permission:
+      columns:
+        - circle_id
+        - role
+      filter: {}
   - role: user
     permission:
       columns:

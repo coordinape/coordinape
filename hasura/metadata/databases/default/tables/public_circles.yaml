@@ -120,6 +120,12 @@ select_permissions:
             - read_circle:
                 _eq: true
       limit: 5
+  - role: discord-bot
+    permission:
+      columns:
+        - id
+        - name
+      filter: {}
   - role: user
     permission:
       columns:

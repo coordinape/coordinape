@@ -20,6 +20,12 @@ insert_permissions:
         circle_id: x-hasura-Circle-Id
       columns:
         - role
+  - role: discord-bot
+    permission:
+      check: {}
+      columns:
+        - circle_id
+        - role
 select_permissions:
   - role: api-user
     permission:
@@ -35,6 +41,15 @@ select_permissions:
                   _eq: X-Hasura-Api-Key-Hash
               - read_discord:
                   _eq: true
+  - role: discord-bot
+    permission:
+      columns:
+        - circle_id
+        - id
+        - role
+        - created_at
+        - updated_at
+      filter: {}
   - role: user
     permission:
       columns:
@@ -66,6 +81,13 @@ update_permissions:
               - update_circle:
                   _eq: true
       check: null
+  - role: discord-bot
+    permission:
+      columns:
+        - circle_id
+        - role
+      filter: {}
+      check: null
   - role: user
     permission:
       columns:
@@ -94,3 +116,7 @@ delete_permissions:
                   _eq: X-Hasura-Api-Key-Hash
               - update_circle:
                   _eq: true
+  - role: discord-bot
+    permission:
+      backend_only: false
+      filter: {}
