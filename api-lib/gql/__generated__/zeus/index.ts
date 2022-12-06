@@ -10042,6 +10042,8 @@ export type ValueTypes = {
     ];
     /** An object relationship */
     nominator?: ValueTypes['users'];
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
     updated_at?: boolean | `@${string}`;
     /** An object relationship */
     user?: ValueTypes['users'];
@@ -10137,6 +10139,7 @@ export type ValueTypes = {
     nominated_date?: ValueTypes['date_comparison_exp'] | undefined | null;
     nominations?: ValueTypes['vouches_bool_exp'] | undefined | null;
     nominator?: ValueTypes['users_bool_exp'] | undefined | null;
+    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     user?: ValueTypes['users_bool_exp'] | undefined | null;
     user_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
@@ -10167,6 +10170,7 @@ export type ValueTypes = {
     nominated_date?: ValueTypes['date'] | undefined | null;
     nominations?: ValueTypes['vouches_arr_rel_insert_input'] | undefined | null;
     nominator?: ValueTypes['users_obj_rel_insert_input'] | undefined | null;
+    profile?: ValueTypes['profiles_obj_rel_insert_input'] | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
     user?: ValueTypes['users_obj_rel_insert_input'] | undefined | null;
     user_id?: number | undefined | null;
@@ -10272,6 +10276,7 @@ export type ValueTypes = {
       | undefined
       | null;
     nominator?: ValueTypes['users_order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     user?: ValueTypes['users_order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
@@ -23345,7 +23350,7 @@ export type ModelTypes = {
     ended: boolean;
     expiry_date: GraphQLTypes['timestamp'];
     id: GraphQLTypes['bigint'];
-    name: string;
+    name?: string | undefined;
     nominated_by_user_id: number;
     nominated_date: GraphQLTypes['date'];
     /** An array relationship */
@@ -23354,6 +23359,8 @@ export type ModelTypes = {
     nominations_aggregate: GraphQLTypes['vouches_aggregate'];
     /** An object relationship */
     nominator?: GraphQLTypes['users'] | undefined;
+    /** An object relationship */
+    profile?: GraphQLTypes['profiles'] | undefined;
     updated_at: GraphQLTypes['timestamp'];
     /** An object relationship */
     user?: GraphQLTypes['users'] | undefined;
@@ -33144,7 +33151,7 @@ export type GraphQLTypes = {
     ended: boolean;
     expiry_date: GraphQLTypes['timestamp'];
     id: GraphQLTypes['bigint'];
-    name: string;
+    name?: string | undefined;
     nominated_by_user_id: number;
     nominated_date: GraphQLTypes['date'];
     /** An array relationship */
@@ -33153,6 +33160,8 @@ export type GraphQLTypes = {
     nominations_aggregate: GraphQLTypes['vouches_aggregate'];
     /** An object relationship */
     nominator?: GraphQLTypes['users'] | undefined;
+    /** An object relationship */
+    profile?: GraphQLTypes['profiles'] | undefined;
     updated_at: GraphQLTypes['timestamp'];
     /** An object relationship */
     user?: GraphQLTypes['users'] | undefined;
@@ -33235,6 +33244,7 @@ export type GraphQLTypes = {
     nominated_date?: GraphQLTypes['date_comparison_exp'] | undefined;
     nominations?: GraphQLTypes['vouches_bool_exp'] | undefined;
     nominator?: GraphQLTypes['users_bool_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     user?: GraphQLTypes['users_bool_exp'] | undefined;
     user_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
@@ -33265,6 +33275,7 @@ export type GraphQLTypes = {
     nominated_date?: GraphQLTypes['date'] | undefined;
     nominations?: GraphQLTypes['vouches_arr_rel_insert_input'] | undefined;
     nominator?: GraphQLTypes['users_obj_rel_insert_input'] | undefined;
+    profile?: GraphQLTypes['profiles_obj_rel_insert_input'] | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
     user?: GraphQLTypes['users_obj_rel_insert_input'] | undefined;
     user_id?: number | undefined;
@@ -33369,6 +33380,7 @@ export type GraphQLTypes = {
       | GraphQLTypes['vouches_aggregate_order_by']
       | undefined;
     nominator?: GraphQLTypes['users_order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     user?: GraphQLTypes['users_order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;

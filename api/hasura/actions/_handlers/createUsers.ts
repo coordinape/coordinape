@@ -16,6 +16,7 @@ import {
 } from '../../../../src/lib/zod';
 
 const USER_ALIAS_PREFIX = 'update_user_';
+const PROFILE_ALIAS_PREFIX = 'profile_user_';
 const NOMINEE_ALIAS_PREFIX = 'update_nominee_';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
@@ -137,7 +138,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   }, {} as { [aliasKey: string]: ValueTypes['mutation_root'] });
 
   //check if names are used by other coordinape users
-  const { profiles: existingNames, nominees } = await adminClient.query(
+  const { profiles: existingNames } = await adminClient.query(
     {
       profiles: [
         {
@@ -154,30 +155,14 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         },
         { name: true },
       ],
-      nominees: [
-        {
-          where: {
-            ended: { _eq: false },
-            _or: newUsers.map(user => {
-              return {
-                _and: [
-                  { name: { _ilike: user.name } },
-                  { address: { _nilike: user.address } },
-                ],
-              };
-            }),
-          },
-        },
-        { name: true },
-      ],
     },
     {
       operationName: 'createUsers_getExistingNames',
     }
   );
 
-  if (existingNames.length > 0 || nominees.length > 0) {
-    const names = existingNames.concat(nominees).map(u => u.name);
+  if (existingNames.length > 0) {
+    const names = existingNames.map(u => u.name);
     return errorResponseWithStatusCode(
       res,
       {
@@ -209,6 +194,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     }
   );
 
+  //get new users and create profiles for them
   const newProfileUsers = newUsers
     .filter(user =>
       profiles.every(
@@ -222,11 +208,80 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       };
     });
 
-  const createProfilesMutations = await adminClient.mutate(
-    {
-      insert_profiles: [
+  //get new users and create profiles for them
+  const profilesToUpdate = newUsers
+    .filter(user =>
+      profiles.some(
+        profile =>
+          profile.address.toLowerCase() === user.address.toLowerCase() &&
+          !profile.name
+      )
+    )
+    .map(user => {
+      const id = profiles.filter(
+        profile => profile.address.toLowerCase() === user.address.toLowerCase()
+      )[0].id;
+      return {
+        id: id,
+        name: user.name,
+      };
+    });
+
+  if (profilesToUpdate.length > 0 || newProfileUsers.length > 0) {
+    const updateProfilesMutation = profilesToUpdate.reduce((opts, profile) => {
+      opts[PROFILE_ALIAS_PREFIX + profile.id] = {
+        update_profiles_by_pk: [
+          {
+            pk_columns: { id: profile.id },
+            _set: {
+              name: profile.name,
+            },
+          },
+          {
+            id: true,
+          },
+        ],
+      };
+      return opts;
+    }, {} as { [aliasKey: string]: ValueTypes['mutation_root'] });
+
+    const createProfilesMutations = await adminClient.mutate(
+      {
+        insert_profiles: [
+          {
+            objects: newProfileUsers,
+          },
+          {
+            returning: {
+              id: true,
+            },
+          },
+        ],
+        __alias: { ...updateProfilesMutation },
+      },
+      {
+        operationName: 'createUsers_createProfiles',
+      }
+    );
+    if (
+      !profiles.length &&
+      !createProfilesMutations.insert_profiles?.returning.length
+    ) {
+      throw new UnprocessableError('Failed to create users profiles');
+    }
+  }
+
+  //handle new addresses
+  const updateNomineesMutation = newUsers.reduce((opts, user) => {
+    opts[NOMINEE_ALIAS_PREFIX + user.address] = {
+      update_nominees: [
         {
-          objects: newProfileUsers,
+          _set: { ended: true },
+          where: {
+            circle_id: { _eq: circle_id },
+            address: { _ilike: user.address },
+            ended: { _eq: false },
+          },
         },
         {
           returning: {
@@ -234,17 +289,10 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           },
         },
       ],
-    },
-    {
-      operationName: 'createUsers_createProfiles',
-    }
-  );
-  if (
-    !profiles.length &&
-    !createProfilesMutations.insert_profiles?.returning.length
-  ) {
-    throw new UnprocessableError('Failed to create users profiles');
-  }
+    };
+    return opts;
+  }, {} as { [aliasKey: string]: ValueTypes['mutation_root'] });
+
   // Update the state after all validations have passed
   const mutationResult = await adminClient.mutate({
     insert_users: [
@@ -258,7 +306,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         },
       },
     ],
-    __alias: { ...updateUsersMutation },
+    __alias: { ...updateUsersMutation, ...updateNomineesMutation },
   });
 
   const insertedUsers = mutationResult.insert_users?.returning;

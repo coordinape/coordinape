@@ -71,7 +71,7 @@ const NomineeRow = ({
         css={{ cursor: 'pointer' }}
       >
         <TD css={{ borderBottomStyle: open ? 'hidden' : 'initial' }}>
-          {nominee.name}
+          {nominee.profile?.name ?? nominee.name}
         </TD>
         {isAdmin && (
           <TD css={{ borderBottomStyle: open ? 'hidden' : 'initial' }}>
@@ -185,7 +185,9 @@ const NomineeRow = ({
                     onClick={handleVouch}
                     css={{ maxWidth: 'fit-content', mt: '$lg' }}
                   >
-                    {vouching ? 'Vouching...' : `Vouch for ${nominee.name}`}
+                    {vouching
+                      ? 'Vouching...'
+                      : `Vouch for ${nominee.profile?.name ?? nominee.name}`}
                   </Button>
                 </Flex>
               </TwoColumnLayout>
@@ -247,7 +249,13 @@ export const NomineesTable = ({
             startingSortDesc
             perPage={3}
             sortByColumn={(index: number) => {
-              if (index === 0) return (n: Nominee) => n.name.toLowerCase();
+              if (index === 0)
+                return (n: Nominee) =>
+                  n.profile?.name
+                    ? n.profile?.name.toLowerCase()
+                    : n.name
+                    ? n.name.toLowerCase()
+                    : ''; //temporary until profile.name becomes non nullable
               if (index === 1) return (n: Nominee) => n.address.toLowerCase();
               if (index === 2)
                 return (n: Nominee) =>

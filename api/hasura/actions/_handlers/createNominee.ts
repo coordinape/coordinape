@@ -1,14 +1,13 @@
+import assert from 'assert';
+
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import {
-  getNomineeWithAddress,
-  getNomineeWithName,
-} from '../../../../api-lib/findNominees';
 import {
   getProfilesWithAddress,
   getProfilesWithName,
 } from '../../../../api-lib/findProfile';
 import { getUserFromAddress } from '../../../../api-lib/findUser';
+import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { updateExpiredNominees } from '../../../../api-lib/gql/mutations';
 import { getExpiredNominees } from '../../../../api-lib/gql/queries';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
@@ -61,7 +60,6 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     );
   }
 
-  let profileName = undefined;
   // check if the name already exists in profiles
   const profile = await getProfilesWithName('createNominee', name);
   if (
@@ -73,57 +71,27 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       { message: 'This name is used by another coordinape user' },
       422
     );
-  } else if (
-    profile &&
-    profile.address.toLocaleLowerCase() === address.toLocaleLowerCase()
-  ) {
-    profileName = profile.name;
   }
 
-  if (!profileName) {
-    // check if this address has a profile
-    const addressProfile = await getProfilesWithAddress(
-      'createNominee',
-      address
+  // check if this address has a profile
+  const addressProfile = await getProfilesWithAddress('createNominee', address);
+  if (addressProfile && !addressProfile?.name) {
+    //update profile name with the entered name
+    const mutationResult = await adminClient.mutate(
+      {
+        update_profiles_by_pk: [
+          {
+            pk_columns: { id: addressProfile.id },
+            _set: { name: name },
+          },
+          { id: true },
+        ],
+      },
+      { operationName: 'createNominee_updateProfileName' }
     );
-    if (addressProfile) {
-      //profile name will replace Nominee name
-      profileName = addressProfile.name;
-    }
 
-    if (!profileName) {
-      //check if this name is used by another Nominee in all circles
-      const nomineeWithName = await getNomineeWithName('createNominee', name);
-      if (
-        nomineeWithName &&
-        nomineeWithName.address.toLocaleLowerCase() !==
-          address.toLocaleLowerCase()
-      ) {
-        return errorResponseWithStatusCode(
-          res,
-          { message: 'This name is used by another coordinape user' },
-          422
-        );
-      } else if (
-        nomineeWithName &&
-        nomineeWithName.address.toLocaleLowerCase() ===
-          address.toLocaleLowerCase()
-      ) {
-        //to make sure all of the rows contains the same case name
-        profileName = nomineeWithName.name;
-      }
-
-      if (!profileName) {
-        //check if this address is nominated in other circles
-        const nomineeWithAddress = await getNomineeWithAddress(
-          'createNominee',
-          address
-        );
-        if (nomineeWithAddress) {
-          profileName = nomineeWithAddress.name;
-        }
-      }
-    }
+    const returnResult = mutationResult.update_profiles_by_pk?.id;
+    assert(returnResult, 'No return from mutation');
   }
 
   const { nominees } = await getExpiredNominees();
@@ -145,7 +113,6 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     nominated_by_user_id,
     circle_id,
     address,
-    name: profileName ?? name,
     description,
     nomination_days_limit,
     vouches_required,

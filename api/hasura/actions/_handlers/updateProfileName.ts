@@ -2,7 +2,6 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { getNomineeWithName } from '../../../../api-lib/findNominees';
 import { getProfilesWithName } from '../../../../api-lib/findProfile';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
@@ -29,17 +28,6 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     profile.address.toLocaleLowerCase() !==
       session_variables.hasuraAddress.toLocaleLowerCase()
   ) {
-    return errorResponseWithStatusCode(
-      res,
-      {
-        message: `This name is used by another coordinape user`,
-      },
-      422
-    );
-  }
-
-  const nominee = await getNomineeWithName('updateProfileName', name);
-  if (nominee) {
     return errorResponseWithStatusCode(
       res,
       {

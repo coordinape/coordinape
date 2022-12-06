@@ -316,6 +316,9 @@ export async function getNominee(id: number) {
           circle: {
             only_giver_vouch: true,
           },
+          profile: {
+            name: true,
+          },
         },
       ],
     },

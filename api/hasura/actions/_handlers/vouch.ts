@@ -3,14 +3,9 @@ import assert from 'assert';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import {
-  getProfilesWithAddress,
-  getProfilesWithName,
-} from '../../../../api-lib/findProfile';
-import {
   getUserFromAddress,
   getUserFromProfileId,
 } from '../../../../api-lib/findUser';
-import { adminClient } from '../../../../api-lib/gql/adminClient';
 import * as mutations from '../../../../api-lib/gql/mutations';
 import * as queries from '../../../../api-lib/gql/queries';
 import {
@@ -161,61 +156,10 @@ async function convertNomineeToUser(nominee: Nominee) {
   // Get the nominee into the user table
   let userId = nominee.user_id;
 
-  const addressProfile = await getProfilesWithAddress('vouch', nominee.address);
-
-  const nameProfile = await getProfilesWithName('vouch', nominee.name);
-
-  let createProfileMutation = null;
-
-  if (!addressProfile && !nameProfile) {
-    createProfileMutation = await adminClient.mutate(
-      {
-        insert_profiles_one: [
-          {
-            object: {
-              address: nominee.address,
-              name: nominee.name,
-            },
-          },
-          {
-            id: true,
-          },
-        ],
-      },
-      {
-        operationName: 'createUser_createProfile',
-      }
-    );
-  } else if (addressProfile && !addressProfile.name && !nameProfile) {
-    //if the address has a profile with no name this name will be assigned to it
-    const updateProfileMutation = await adminClient.mutate(
-      {
-        update_profiles_by_pk: [
-          {
-            pk_columns: { id: addressProfile.id },
-            _set: { name: nominee.name },
-          },
-          {
-            id: true,
-          },
-        ],
-      },
-      {
-        operationName: 'createUser_updateProfile',
-      }
-    );
-    if (!updateProfileMutation) {
-      throw new UnprocessableError('Failed to update user profile');
-    }
-  }
-  if (!addressProfile && !createProfileMutation) {
-    throw new UnprocessableError('Failed to create user profile');
-  }
-
   if (!userId) {
     const addedUser = await mutations.insertUser(
       nominee.address,
-      nominee.name,
+      nominee.profile?.name ?? nominee.name ?? '',
       nominee.circle_id,
       ENTRANCE.NOMINATION
     );

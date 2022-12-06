@@ -13864,7 +13864,7 @@ type nominees {
   ended: Boolean!
   expiry_date: timestamp!
   id: bigint!
-  name: String!
+  name: String
   nominated_by_user_id: Int!
   nominated_date: date!
 
@@ -13932,6 +13932,11 @@ type nominees {
   An object relationship
   """
   nominator: users
+
+  """
+  An object relationship
+  """
+  profile: profiles
   updated_at: timestamp!
 
   """
@@ -14038,6 +14043,7 @@ input nominees_bool_exp {
   nominated_date: date_comparison_exp
   nominations: vouches_bool_exp
   nominator: users_bool_exp
+  profile: profiles_bool_exp
   updated_at: timestamp_comparison_exp
   user: users_bool_exp
   user_id: Int_comparison_exp
@@ -14082,6 +14088,7 @@ input nominees_insert_input {
   nominated_date: date
   nominations: vouches_arr_rel_insert_input
   nominator: users_obj_rel_insert_input
+  profile: profiles_obj_rel_insert_input
   updated_at: timestamp
   user: users_obj_rel_insert_input
   user_id: Int
@@ -14213,6 +14220,7 @@ input nominees_order_by {
   nominated_date: order_by
   nominations_aggregate: vouches_aggregate_order_by
   nominator: users_order_by
+  profile: profiles_order_by
   updated_at: order_by
   user: users_order_by
   user_id: order_by

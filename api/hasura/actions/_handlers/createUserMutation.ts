@@ -1,8 +1,4 @@
 import {
-  getNomineeWithAddress,
-  getNomineeWithName,
-} from '../../../../api-lib/findNominees';
-import {
   getProfilesWithAddress,
   getProfilesWithName,
 } from '../../../../api-lib/findProfile';
@@ -55,18 +51,6 @@ export async function createUserMutation(
     throw new UnprocessableError(
       'This user name is used by another coordinape user'
     );
-  }
-  if ((!addressProfile || !addressProfile.name) && !nameProfile) {
-    const addressNominee = await getNomineeWithAddress('createUser', address);
-    let nameNominee = undefined;
-    if (input.name)
-      nameNominee = await getNomineeWithName('createUser', input.name);
-
-    if (!addressNominee && nameNominee) {
-      throw new UnprocessableError(
-        'This user name is used by another coordinape user'
-      );
-    }
   }
 
   let createProfileMutation = null;
