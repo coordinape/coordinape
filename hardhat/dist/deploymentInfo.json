@@ -35,7 +35,10 @@
         },
         "YFI": {
             "address": "0x0bc529c00C6401aEF6D220BE8C6Ea1667F6Ad93e"
-        }
+        },
+        "Green ETH": {
+            "address": "0x06a0CCFb89E9B2814afCA6637C22ed83909739Ee"
+          }
     },
     "5": {
         "ApeDistributor": {
@@ -71,6 +74,9 @@
         "USDC": {
             "address": "0xC478a48520005bF9C97b145dE2D8DD2b54Ba4abC"
         },
+        "Green ETH": {
+            "address": "0x7C0951153e3B3A72B86827181bC308E3FDfeb4Ee"
+          },
         "VaultBeacon": {
             "address": "0x174229cf0ce2ADFA37C0231aCcA61323ab6f4be2"
         }

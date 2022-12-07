@@ -24,7 +24,7 @@ import { BigNumber, FixedNumber } from 'ethers';
 
 import { HARDHAT_CHAIN_ID, HARDHAT_GANACHE_CHAIN_ID } from '../../config/env';
 
-import { Asset } from './';
+import { Asset, YearnAsset } from './';
 import { hasSimpleToken } from './tokens';
 
 export type {
@@ -145,10 +145,20 @@ export class Contracts {
     });
   }
 
+  getAvailableYearnTokens(symbols: string[] = Object.values(YearnAsset)) {
+    return symbols.filter(s => {
+      try {
+        this.getTokenAddress(s);
+        return true;
+      } catch (_) {
+        return false;
+      }
+    });
+  }
+
   getTokenAddress(symbol: string): string {
     const info = (deploymentInfo as any)[this.chainId];
     let { address } = info[symbol] || {};
-
     // workaround for mainnet-forked testchains
     if (
       !address &&

@@ -258,7 +258,7 @@ export const CreateForm = ({
           yield in the background.
         </Text>
         <Box css={{ display: 'flex', gap: '$sm', flexWrap: 'wrap' }}>
-          {contracts.getAvailableTokens().map(symbol => (
+          {contracts.getAvailableYearnTokens().map(symbol => (
             <AssetButton
               pill
               color="surface"
