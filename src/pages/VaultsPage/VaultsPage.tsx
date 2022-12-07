@@ -45,11 +45,11 @@ const VaultsPage = () => {
   const currentOrg = orgs
     ? orgs.find(o => o.id === currentOrgId) || orgs[0]
     : undefined;
-  const isAdmin = currentOrg?.circles.some(c => isUserAdmin(c.users[0]));
+  const isAdmin = !!currentOrg?.circles.some(c => isUserAdmin(c.users[0]));
 
   const {
     refetch,
-    isFetching,
+    isLoading,
     data: vaults,
   } = useVaults({ orgId: currentOrg?.id, chainId: Number(contracts?.chainId) });
 
@@ -123,71 +123,14 @@ const VaultsPage = () => {
       >
         Manage Vaults and fund circles with fixed and peer reward payments.
       </Text>
-      {vaults && vaults?.length > 0 ? (
+      {isLoading ? (
+        <Panel>Loading, please wait...</Panel>
+      ) : (vaults?.length || 0) > 0 ? (
         vaults?.map(vault => (
           <VaultRow key={vault.id} vault={vault} css={{ mb: '$sm' }} />
         ))
       ) : (
-        <>
-          {isFetching ? (
-            <Panel>Loading, please wait...</Panel>
-          ) : (
-            <Panel
-              info
-              css={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr',
-                gap: '$md',
-                '@sm': { gridTemplateColumns: '1fr' },
-              }}
-            >
-              <Box>
-                <Text h2 normal>
-                  Welcome to CoVaults
-                </Text>
-              </Box>
-              <Flex
-                column
-                css={{
-                  width: '65%',
-                  '@sm': { width: '100%' },
-                }}
-              >
-                <Text p as="p" css={{ mb: '$md' }}>
-                  CoVaults allow you to compensate your team by storing funds in
-                  the vaults and sending payments promptly after a work cycle
-                  ends.
-                </Text>
-                <Text p as="p" css={{ mb: '$md' }}>
-                  In addition to paying your team, you can earn yield based on{' '}
-                  <Link href={EXTERNAL_URL_YEARN_VAULTS} target="_blank">
-                    the current APYs offered by Yearn
-                  </Link>
-                  . Vaults also enable you to set allowances for distributions
-                  per Circle.
-                </Text>
-                <Box>
-                  {isAdmin && (
-                    <Button
-                      onClick={() => setModal(true)}
-                      color="primary"
-                      outlined
-                      inline
-                      css={{ mr: '$md' }}
-                    >
-                      Create Vault
-                    </Button>
-                  )}
-                  <Link href={EXTERNAL_URL_LEARN_ABOUT_VAULTS} target="_blank">
-                    <Button color="primary" outlined inline css={{ mt: '$md' }}>
-                      Vault Guide
-                    </Button>
-                  </Link>
-                </Box>
-              </Flex>
-            </Panel>
-          )}
-        </>
+        <NoVaults isAdmin={isAdmin} createVault={() => setModal(true)} />
       )}
       {currentOrg && (
         <Modal
@@ -209,3 +152,67 @@ const VaultsPage = () => {
 };
 
 export default VaultsPage;
+
+const NoVaults = ({
+  isAdmin,
+  createVault,
+}: {
+  isAdmin: boolean;
+  createVault: () => void;
+}) => {
+  return (
+    <Panel
+      info
+      css={{
+        display: 'grid',
+        gridTemplateColumns: '1fr 3fr',
+        gap: '$md',
+        '@sm': { gridTemplateColumns: '1fr' },
+      }}
+    >
+      <Box>
+        <Text h2 normal>
+          Welcome to CoVaults
+        </Text>
+      </Box>
+      <Flex
+        column
+        css={{
+          width: '65%',
+          '@sm': { width: '100%' },
+        }}
+      >
+        <Text p as="p" css={{ mb: '$md' }}>
+          CoVaults allow you to compensate your team by storing funds in the
+          vaults and sending payments promptly after a work cycle ends.
+        </Text>
+        <Text p as="p" css={{ mb: '$md' }}>
+          In addition to paying your team, you can earn yield based on{' '}
+          <Link href={EXTERNAL_URL_YEARN_VAULTS} target="_blank">
+            the current APYs offered by Yearn
+          </Link>
+          . Vaults also enable you to set allowances for distributions per
+          Circle.
+        </Text>
+        <Box>
+          {isAdmin && (
+            <Button
+              onClick={createVault}
+              color="primary"
+              outlined
+              inline
+              css={{ mr: '$md' }}
+            >
+              Create Vault
+            </Button>
+          )}
+          <Link href={EXTERNAL_URL_LEARN_ABOUT_VAULTS} target="_blank">
+            <Button color="primary" outlined inline css={{ mt: '$md' }}>
+              Vault Guide
+            </Button>
+          </Link>
+        </Box>
+      </Flex>
+    </Panel>
+  );
+};
