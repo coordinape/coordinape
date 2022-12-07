@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
 
@@ -12,13 +13,17 @@ import { CenteredBox, Panel, Text } from '../../ui';
 
 import { AddressIsNotMember } from './AddressIsNotMember';
 import { JoinWithMagicLink } from './JoinWithMagicLink';
+import {
+  getProfilesWithAddress,
+  QUERY_KEY_PROFILE_BY_ADDRESS,
+} from './queries';
 
 export const JoinCirclePage = () => {
   const { token } = useParams();
 
   const navigate = useNavigate();
 
-  const { myUsers } = useMyProfile();
+  const { myUsers, address } = useMyProfile();
 
   const [tokenError, setTokenError] = useState<string | undefined>();
   const [wrongAddress, setWrongAddress] = useState<boolean | undefined>(
@@ -27,6 +32,17 @@ export const JoinCirclePage = () => {
   const [tokenJoinInfo, setTokenJoinInfo] = useState<
     TokenJoinInfo | undefined
   >();
+
+  const { data: profile } = useQuery(
+    [QUERY_KEY_PROFILE_BY_ADDRESS, address],
+    () => getProfilesWithAddress(address),
+    {
+      enabled: !!address,
+      refetchOnWindowFocus: false,
+      staleTime: Infinity,
+      notifyOnChangeProps: ['data', 'error'],
+    }
+  );
 
   const alreadyMember = (circleId: number) =>
     myUsers.some(u => u.circle_id === circleId);
@@ -70,7 +86,7 @@ export const JoinCirclePage = () => {
   }, []);
 
   // Waiting to validate the token
-  if (!tokenError && !tokenJoinInfo) {
+  if ((!tokenError && !tokenJoinInfo) || !profile) {
     return <LoadingModal visible={true} />;
   }
 
@@ -91,7 +107,12 @@ export const JoinCirclePage = () => {
           <Panel nested>{tokenError}</Panel>
         </CenteredBox>
       )}
-      {tokenJoinInfo && <JoinWithMagicLink tokenJoinInfo={tokenJoinInfo} />}
+      {tokenJoinInfo && (
+        <JoinWithMagicLink
+          tokenJoinInfo={tokenJoinInfo}
+          userName={profile.name}
+        />
+      )}
     </>
   );
 };

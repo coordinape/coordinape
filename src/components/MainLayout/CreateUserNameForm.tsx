@@ -9,6 +9,7 @@ import { zUsername } from '../../forms/formHelpers';
 import { useApeSnackbar } from '../../hooks';
 import { Box, Button, TextField, Text, Form } from '../../ui';
 import { normalizeError } from '../../utils/reporting';
+import { QUERY_KEY_PROFILE_BY_ADDRESS } from 'pages/JoinCirclePage/queries';
 
 import { QUERY_KEY_MAIN_HEADER } from './getMainHeaderData';
 import { updateProfileNameMutation } from './mutations';
@@ -41,6 +42,7 @@ export const CreateUserNameForm = ({ address }: { address?: string }) => {
     },
     onSuccess: async () => {
       queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
+      queryClient.invalidateQueries(QUERY_KEY_PROFILE_BY_ADDRESS);
     },
     onError: err => {
       setLoading(false);

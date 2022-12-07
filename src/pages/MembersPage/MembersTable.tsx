@@ -469,6 +469,7 @@ const MemberRow = ({
                     label="Member Name"
                     infoTooltip="Member Displayed Name"
                     showFieldErrors
+                    disabled={true}
                   />
                   <FormInputField
                     id="address"
