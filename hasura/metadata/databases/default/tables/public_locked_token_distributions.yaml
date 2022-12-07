@@ -12,9 +12,14 @@ insert_permissions:
         epoch:
           circle:
             users:
-              profile:
-                id:
-                  _eq: X-Hasura-User-Id
+              _and:
+                - profile:
+                    id:
+                      _eq: X-Hasura-User-Id
+                - deleted_at:
+                    _is_null: true
+                - role:
+                    _eq: 1
       columns:
         - distributed_by
         - distribution_json
@@ -47,7 +52,12 @@ update_permissions:
         epoch:
           circle:
             users:
-              profile:
-                id:
-                  _eq: X-Hasura-User-Id
+              _and:
+                - profile:
+                    id:
+                      _eq: X-Hasura-User-Id
+                - deleted_at:
+                    _is_null: true
+                - role:
+                    _eq: 1
       check: null
