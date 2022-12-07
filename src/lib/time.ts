@@ -4,6 +4,6 @@ import { DateTime } from 'luxon';
 export const epochTimeUpcoming = (startDate: DateTime) => {
   return startDate
     .diffNow(['days', 'hours', 'minutes'])
-    .toHuman({ unitDisplay: 'short', notation: 'compact' })
+    .toFormat("d' days, 'h' hr, 'm' mins'")
     .replace(/(0 days, |0 hr, )/g, '');
 };
