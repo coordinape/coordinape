@@ -9,6 +9,12 @@ export const HR = styled('hr', {
   marginBottom: '$md',
 
   variants: {
+    sm: {
+      true: {
+        marginTop: '$sm',
+        marginBottom: '$sm',
+      },
+    },
     noMargin: {
       true: {
         marginTop: '0',
