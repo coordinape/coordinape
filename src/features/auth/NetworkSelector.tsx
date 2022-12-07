@@ -1,61 +1,78 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { ReactComponentElement, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import type { Web3Provider } from '@ethersproject/providers';
+import { Web3Provider } from '@ethersproject/providers';
 import { loginSupportedChainIds } from 'common-lib/constants';
-import { number } from 'zod';
 
 import { IN_DEVELOPMENT } from 'config/env';
 import { useApeSnackbar } from 'hooks';
+import { Check, ChevronDown, ChevronUp } from 'icons/__generated';
 import {
-  AuroraLogo,
-  CeloLogo,
-  ChevronDown,
-  ChevronUp,
-  EthColorLogo,
-  EthLogo,
-  FantomLogo,
-  GanacheLogo,
-  OptimismLogo,
-  PolygonMaticLogo,
-} from 'icons/__generated';
-import {
-  Avatar,
   Text,
   Flex,
   HR,
   Popover,
-  PopoverArrow,
   PopoverTrigger,
   PopoverContent,
-  PopoverClose,
-  POPOVER_TIMEOUT,
   Box,
-  IconButton,
   Button,
-  Link,
 } from 'ui';
+import { Network } from 'ui/Network/Network';
 import { switchNetwork } from 'utils/provider';
 
+const NetworkButton = ({
+  chainId,
+  selectedChain,
+  onError,
+}: {
+  chainId: number;
+  selectedChain: number;
+  onError: (error: Error | any) => void;
+}) => {
+  return (
+    <Button
+      fullWidth
+      color="transparent"
+      css={{
+        '&:hover': { 'background-color': '$surface' },
+        transition: 'background-color 200ms ease 0s',
+      }}
+      onClick={() => switchNetwork(chainId.toString(), onError)}
+    >
+      <Network key={chainId} chainId={chainId}>
+        <Text>
+          {loginSupportedChainIds[chainId]}
+          {selectedChain == chainId && <Check size="lg" css={{ pl: '$sm' }} />}
+        </Text>
+      </Network>
+    </Button>
+  );
+};
+
 export const NetworkSelector = () => {
-  const [selectedChain, setSelectedChain] = useState<string>('1');
+  const [selectedChain, setSelectedChain] = useState<number>(1);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const UNSUPPORTED = -1;
+
   const { showInfo } = useApeSnackbar();
-  const UNSUPPORTED = 'unsupported';
-  const unsupportedNetwork = selectedChain == UNSUPPORTED;
+  const injectedWallet = !!(window as any).ethereum;
+  const popoverWidth = 'calc($xl * 7)';
 
-  const updateChain = async (
-    provider: Web3Provider,
-    mounted: { active: boolean }
-  ) => {
-    const chainId = (await provider.getNetwork()).chainId.toString();
+  const onNetworkError = (error: Error | any) => {
+    if (error?.message.match(/Unrecognized chain ID .*/)) {
+      showInfo(
+        `Failed to switch networks. Unrecognized chain ID. Try adding the chain first.`
+      );
+    } else {
+      throw new Error(error);
+    }
+  };
 
-    // Only update state if component is still mounted
-    if (mounted.active) {
-      if (supportedChains.find(obj => obj.value == chainId)) {
-        setSelectedChain(chainId);
-      } else {
-        setSelectedChain(UNSUPPORTED);
-      }
+  const updateChain = async (provider: Web3Provider) => {
+    const chainId = (await provider.getNetwork()).chainId;
+    if (supportedChains.find(obj => +obj.value == chainId)) {
+      setSelectedChain(chainId);
+    } else {
+      setSelectedChain(UNSUPPORTED);
     }
   };
 
@@ -66,135 +83,84 @@ export const NetworkSelector = () => {
   const prodChains = [1, 10, 137, 250, 1313161554];
   const testnetChains = [5, ...(IN_DEVELOPMENT ? [1338] : [])];
 
-  const onNetworkError = (error: Error | any) => {
-    if (error?.message.match(/Unrecognized chain ID .*/)) {
-      showInfo(`Unrecognized chain ID. Try adding the chain first.`);
-    } else {
-      throw new Error(error);
-    }
-  };
+  useEffect(() => {
+    const ethereum = (window as any).ethereum;
+    if (ethereum) {
+      const provider = new Web3Provider(ethereum, 'any');
+      updateChain(provider);
 
-  // eslint-disable-next-line no-console
-  console.log({ supportedChains, loginSupportedChainIds, testnetChains });
-  const [mouseEnterPopover, setMouseEnterPopover] = useState(true);
-  const triggerRef = useRef<HTMLButtonElement>(null);
-  let timeoutId: ReturnType<typeof setTimeout>;
+      provider.on('network', (_, oldNetwork) => {
+        // When a Provider makes its initial connection, it emits a "network"
+        // event with a null oldNetwork along with the newNetwork. So, if the
+        // oldNetwork exists, it represents a changing network
+        if (oldNetwork) {
+          updateChain(provider);
+        }
+      });
+    }
+  }, []);
+
+  const chainName = loginSupportedChainIds[selectedChain] || 'Unknown Chain';
 
   return (
-    <Popover open={mouseEnterPopover}>
-      <Box>
-        <PopoverTrigger
-          tabIndex={0}
-          css={{
-            borderRadius: '$pill',
-            mr: '$xs',
-          }}
-          ref={triggerRef}
-          onKeyDown={e => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              setMouseEnterPopover(true);
-            }
-          }}
-          onMouseDown={() => {
-            clearTimeout(timeoutId);
-            setMouseEnterPopover(true);
-          }}
-          onMouseEnter={() => {
-            clearTimeout(timeoutId);
-            setMouseEnterPopover(true);
-          }}
-          onMouseLeave={() => {
-            clearTimeout(timeoutId);
-            timeoutId = setTimeout(
-              () => setMouseEnterPopover(false),
-              POPOVER_TIMEOUT
-            );
-          }}
-        >
-          <Text>
-            Select Network
-            {mouseEnterPopover ? (
-              <ChevronUp size="lg" />
-            ) : (
-              <ChevronDown size="lg" />
-            )}
-          </Text>
-        </PopoverTrigger>
-        <PopoverContent
-          onKeyDown={e => {
-            if (e.key === 'Escape') {
-              setMouseEnterPopover(false);
-            }
-          }}
-          onMouseEnter={() => {
-            clearTimeout(timeoutId);
-            setMouseEnterPopover(true);
-          }}
-          onMouseLeave={() => {
-            clearTimeout(timeoutId);
-            timeoutId = setTimeout(
-              () => setMouseEnterPopover(false),
-              POPOVER_TIMEOUT
-            );
-          }}
-          css={{
-            // outline: 'none',
-            position: 'relative',
-            left: '55px',
-            // 1px border position bugfix:
-            // pl: '1px',
-            top: 'calc($xxs + 1px)',
-            // mb: '$lg',
-            minWidth: 'calc($4xl * 2.5)',
-            zIndex: 4,
-          }}
-        >
-          <Box
+    <Popover
+      defaultOpen={false}
+      onOpenChange={(open: boolean) => {
+        setIsOpen(open);
+      }}
+    >
+      <Flex
+        css={{
+          justifyContent: 'center',
+        }}
+      >
+        <PopoverTrigger tabIndex={0} asChild={true}>
+          <Button
+            disabled={!injectedWallet}
+            // as="div"
+            color="surface"
             css={{
-              display: 'flex',
-              flexDirection: 'column',
-              p: '$md',
+              width: popoverWidth,
             }}
           >
+            <Network chainId={selectedChain}>
+              {chainName}
+              {isOpen ? <ChevronUp size="lg" /> : <ChevronDown size="lg" />}
+            </Network>
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent
+          css={{
+            mt: '$sm',
+            width: popoverWidth,
+            p: '$sm',
+          }}
+        >
+          <Box>
             {prodChains.map(chainId => {
-              return <Network key={chainId} chainId={chainId} />;
+              return (
+                <NetworkButton
+                  key={chainId}
+                  chainId={chainId}
+                  selectedChain={selectedChain}
+                  onError={onNetworkError}
+                />
+              );
             })}
-            <HR noMargin />
+            <HR sm />
             {testnetChains.map(chainId => {
-              return <Network key={chainId} chainId={chainId} />;
+              return (
+                <NetworkButton
+                  key={chainId}
+                  chainId={chainId}
+                  selectedChain={selectedChain}
+                  onError={onNetworkError}
+                />
+              );
             })}
           </Box>
         </PopoverContent>
-      </Box>
+      </Flex>
     </Popover>
-  );
-};
-
-const Network = ({ chainId }: { chainId: number }) => {
-  const chainLogos: Record<number, any> = {
-    1: <EthLogo nostroke />,
-    5: <EthColorLogo nostroke />,
-    10: <OptimismLogo nostroke />,
-    137: <PolygonMaticLogo nostroke />,
-    1338: <GanacheLogo nostroke />,
-    250: <FantomLogo nostroke />,
-    1313161554: <AuroraLogo nostroke />,
-  };
-  return (
-    <Flex key={chainId} css={{ width: '220px' }}>
-      <Button
-        fullWidth
-        color="transparent"
-        css={{
-          justifyContent: 'flex-start',
-          transition: 'background-color 250ms ease 0s',
-          '&:hover': { 'background-color': '$surface' },
-        }}
-        onClick={() => switchNetwork(chainId.toString())}
-      >
-        {chainLogos[chainId]}
-        <Text css={{ pl: '$xs' }}>{loginSupportedChainIds[chainId]}</Text>
-      </Button>
-    </Flex>
   );
 };
