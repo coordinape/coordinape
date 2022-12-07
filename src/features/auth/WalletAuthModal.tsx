@@ -27,8 +27,6 @@ export const WalletAuthModal = () => {
   const [isMetamaskEnabled, setIsMetamaskEnabled] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState(true);
 
-  const isMultichainEnabled = isFeatureEnabled('multichain_login');
-
   const UNSUPPORTED = 'unsupported';
   const unsupportedNetwork = selectedChain == UNSUPPORTED;
   const supportedChains = Object.entries(loginSupportedChainIds).map(key => {
@@ -211,14 +209,10 @@ export const WalletAuthModal = () => {
                   </Button>
                 )}
               </Box>
-              {isMultichainEnabled && (
-                <div>
-                  <HR />
-                  <Flex column css={{ gap: '$md' }}>
-                    <NetworkSelector />
-                  </Flex>
-                </div>
-              )}
+              <HR />
+              <Flex column css={{ gap: '$md' }}>
+                <NetworkSelector />
+              </Flex>
             </Box>
           )}
           <Text
