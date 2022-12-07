@@ -150,13 +150,6 @@ export const MyAvatarMenu = ({
               >
                 <Network chainId={chainId || 1} />
               </Box>
-              <Box
-                css={{
-                  display: 'flex',
-                  fontSize: '$xs',
-                  mb: '$xs',
-                }}
-              ></Box>
               {isFeatureEnabled('vaults') && (
                 <Link
                   type="menu"
