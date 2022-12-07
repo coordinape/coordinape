@@ -5,7 +5,6 @@ export type FeatureName =
   | 'fixed_payments'
   | 'theme_switcher'
   | 'discord'
-  | 'multichain_login'
   | 'email_login'
   | 'disable_distribute_evenly';
 
@@ -15,7 +14,6 @@ export type FeatureName =
 const staticFeatureFlags: Partial<Record<FeatureName, boolean>> = {
   vaults: true,
   fixed_payments: true,
-  multichain_login: true,
   email_login: !!process.env.REACT_APP_FEATURE_FLAG_EMAIL_LOGIN,
 };
 
