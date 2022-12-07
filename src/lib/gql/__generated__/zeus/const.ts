@@ -2729,7 +2729,6 @@ export const AllTypesProps: Record<string, any> = {
       where: 'pending_vault_transactions_bool_exp',
     },
     pending_vault_transactions_by_pk: {},
-    price_per_share: {},
     profiles: {
       distinct_on: 'profiles_select_column',
       order_by: 'profiles_order_by',
@@ -5129,7 +5128,6 @@ export const ReturnTypes: Record<string, any> = {
     pending_token_gifts_by_pk: 'pending_token_gifts',
     pending_vault_transactions: 'pending_vault_transactions',
     pending_vault_transactions_by_pk: 'pending_vault_transactions',
-    price_per_share: 'Float',
     profiles: 'profiles',
     profiles_by_pk: 'profiles',
     teammates: 'teammates',
@@ -5502,7 +5500,6 @@ export const ReturnTypes: Record<string, any> = {
     distributions_aggregate: 'distributions_aggregate',
     id: 'bigint',
     organization: 'organizations',
-    price_per_share: 'Float',
     profile: 'profiles',
     simple_token_address: 'String',
     symbol: 'String',

@@ -1,6 +1,4 @@
 /* eslint-disable */
-import { DebugLogger } from '../../../../src/common-lib/log';
-const logger = new DebugLogger('zeus');
 
 import { AllTypesProps, ReturnTypes, Ops } from './const';
 import fetch, { Response } from 'node-fetch';
@@ -324,7 +322,8 @@ export interface GraphQLResponse {
 export class GraphQLError extends Error {
   constructor(public response: GraphQLResponse) {
     super('');
-    logger.log(JSON.stringify(response, null, 2));
+    // eslint-disable-next-line no-console
+    console.info(JSON.stringify(response, null, 2));
   }
   toString() {
     return 'GraphQL Response Error';
@@ -753,6 +752,9 @@ export type ValueTypes = {
   ['DeleteContributionInput']: {
     contribution_id: number;
   };
+  ['DeleteDiscordUserInput']: {
+    user_snowflake: string;
+  };
   ['DeleteEpochInput']: {
     circle_id: number;
     id: number;
@@ -883,7 +885,6 @@ export type ValueTypes = {
     name?: string | undefined | null;
     nomination_days_limit?: number | undefined | null;
     only_giver_vouch?: boolean | undefined | null;
-    show_pending_gives?: boolean | undefined | null;
     team_sel_text?: string | undefined | null;
     team_selection?: boolean | undefined | null;
     token_name?: string | undefined | null;
@@ -8040,6 +8041,10 @@ export type ValueTypes = {
       { payload: ValueTypes['DeleteContributionInput'] },
       ValueTypes['ConfirmationResponse']
     ];
+    deleteDiscordUser?: [
+      { payload: ValueTypes['DeleteDiscordUserInput'] },
+      ValueTypes['ConfirmationResponse']
+    ];
     deleteEpoch?: [
       { payload: ValueTypes['DeleteEpochInput'] },
       ValueTypes['DeleteEpochResponse']
@@ -14117,10 +14122,6 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['personal_access_tokens']
     ];
-    price_per_share?: [
-      { chain_id: number; token_address?: string | undefined | null },
-      boolean | `@${string}`
-    ];
     profiles?: [
       {
         /** distinct select on columns */
@@ -19189,7 +19190,6 @@ export type ValueTypes = {
     org_id?: boolean | `@${string}`;
     /** An object relationship */
     organization?: ValueTypes['organizations'];
-    price_per_share?: boolean | `@${string}`;
     /** An object relationship */
     profile?: ValueTypes['profiles'];
     simple_token_address?: boolean | `@${string}`;
@@ -20005,6 +20005,7 @@ export type ModelTypes = {
   ['CreateVaultInput']: GraphQLTypes['CreateVaultInput'];
   ['DeleteCircleInput']: GraphQLTypes['DeleteCircleInput'];
   ['DeleteContributionInput']: GraphQLTypes['DeleteContributionInput'];
+  ['DeleteDiscordUserInput']: GraphQLTypes['DeleteDiscordUserInput'];
   ['DeleteEpochInput']: GraphQLTypes['DeleteEpochInput'];
   ['DeleteEpochResponse']: {
     success: boolean;
@@ -23250,6 +23251,7 @@ export type ModelTypes = {
     createVaultTx?: GraphQLTypes['LogVaultTxResponse'] | undefined;
     deleteCircle?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteContribution?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    deleteDiscordUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteEpoch?: GraphQLTypes['DeleteEpochResponse'] | undefined;
     deleteUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** delete data from the table: "burns" */
@@ -25295,7 +25297,6 @@ export type ModelTypes = {
     personal_access_tokens_by_pk?:
       | GraphQLTypes['personal_access_tokens']
       | undefined;
-    price_per_share: number;
     /** fetch data from the table: "profiles" */
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch aggregated fields from the table: "profiles" */
@@ -26622,7 +26623,6 @@ export type ModelTypes = {
     org_id: GraphQLTypes['bigint'];
     /** An object relationship */
     organization: GraphQLTypes['organizations'];
-    price_per_share: number;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     simple_token_address: string;
@@ -27088,6 +27088,9 @@ export type GraphQLTypes = {
   ['DeleteContributionInput']: {
     contribution_id: number;
   };
+  ['DeleteDiscordUserInput']: {
+    user_snowflake: string;
+  };
   ['DeleteEpochInput']: {
     circle_id: number;
     id: number;
@@ -27218,7 +27221,6 @@ export type GraphQLTypes = {
     name?: string | undefined;
     nomination_days_limit?: number | undefined;
     only_giver_vouch?: boolean | undefined;
-    show_pending_gives?: boolean | undefined;
     team_sel_text?: string | undefined;
     team_selection?: boolean | undefined;
     token_name?: string | undefined;
@@ -33338,6 +33340,7 @@ export type GraphQLTypes = {
     createVaultTx?: GraphQLTypes['LogVaultTxResponse'] | undefined;
     deleteCircle?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteContribution?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    deleteDiscordUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteEpoch?: GraphQLTypes['DeleteEpochResponse'] | undefined;
     deleteUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** delete data from the table: "burns" */
@@ -36358,7 +36361,6 @@ export type GraphQLTypes = {
     personal_access_tokens_by_pk?:
       | GraphQLTypes['personal_access_tokens']
       | undefined;
-    price_per_share: number;
     /** fetch data from the table: "profiles" */
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch aggregated fields from the table: "profiles" */
@@ -38693,7 +38695,6 @@ export type GraphQLTypes = {
     org_id: GraphQLTypes['bigint'];
     /** An object relationship */
     organization: GraphQLTypes['organizations'];
-    price_per_share: number;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     simple_token_address: string;

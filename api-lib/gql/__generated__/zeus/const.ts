@@ -33,6 +33,7 @@ export const AllTypesProps: Record<string, any> = {
   CreateVaultInput: {},
   DeleteCircleInput: {},
   DeleteContributionInput: {},
+  DeleteDiscordUserInput: {},
   DeleteEpochInput: {},
   DeleteUserInput: {},
   GenerateApiKeyInput: {},
@@ -2820,6 +2821,9 @@ export const AllTypesProps: Record<string, any> = {
     deleteContribution: {
       payload: 'DeleteContributionInput',
     },
+    deleteDiscordUser: {
+      payload: 'DeleteDiscordUserInput',
+    },
     deleteEpoch: {
       payload: 'DeleteEpochInput',
     },
@@ -4973,7 +4977,6 @@ export const AllTypesProps: Record<string, any> = {
     personal_access_tokens_by_pk: {
       id: 'bigint',
     },
-    price_per_share: {},
     profiles: {
       distinct_on: 'profiles_select_column',
       order_by: 'profiles_order_by',
@@ -9142,6 +9145,7 @@ export const ReturnTypes: Record<string, any> = {
     createVaultTx: 'LogVaultTxResponse',
     deleteCircle: 'ConfirmationResponse',
     deleteContribution: 'ConfirmationResponse',
+    deleteDiscordUser: 'ConfirmationResponse',
     deleteEpoch: 'DeleteEpochResponse',
     deleteUser: 'ConfirmationResponse',
     delete_burns: 'burns_mutation_response',
@@ -10201,7 +10205,6 @@ export const ReturnTypes: Record<string, any> = {
     personal_access_tokens: 'personal_access_tokens',
     personal_access_tokens_aggregate: 'personal_access_tokens_aggregate',
     personal_access_tokens_by_pk: 'personal_access_tokens',
-    price_per_share: 'Float',
     profiles: 'profiles',
     profiles_aggregate: 'profiles_aggregate',
     profiles_by_pk: 'profiles',
@@ -10975,7 +10978,6 @@ export const ReturnTypes: Record<string, any> = {
     id: 'bigint',
     org_id: 'bigint',
     organization: 'organizations',
-    price_per_share: 'Float',
     profile: 'profiles',
     simple_token_address: 'String',
     symbol: 'String',
