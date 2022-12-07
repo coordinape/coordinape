@@ -111,13 +111,13 @@ export const GiveDrawer = ({
       refetch().then();
       // reset the need to save indicator so it doesnt say 'Changes Saved' when
       // it has already moved to 'Saved'.
-
-      if (!note || (note.length === 0 && showMarkdown)) {
-        setShowMarkDown(false);
-      }
       if (saveState == 'saved') {
         setNeedToSave(false);
       }
+    }
+
+    if (showMarkdown && (!note || note.length === 0)) {
+      setShowMarkDown(false);
     }
   }, [member]);
 
@@ -194,13 +194,13 @@ export const GiveDrawer = ({
         >
           <Avatar
             size="small"
-            name={member.name}
+            name={member.profile.name ?? member.name}
             path={member.profile.avatar}
             margin="none"
             css={{ mr: '$sm' }}
           />
           <Text ellipsis h3 semibold>
-            {member.name}
+            {member.profile.name ?? member.name}
           </Text>
         </Flex>
         <Flex
@@ -361,7 +361,7 @@ export const GiveDrawer = ({
                   <Box>
                     <Text inline color="neutral">
                       <Text semibold inline color="neutral">
-                        {member.name}{' '}
+                        {member.profile.name ?? member.name}{' '}
                       </Text>
                       has no contributions recorded for this epoch
                     </Text>
