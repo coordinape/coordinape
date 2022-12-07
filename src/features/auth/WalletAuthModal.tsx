@@ -145,14 +145,6 @@ export const WalletAuthModal = () => {
         padding: '$xl',
       }}
     >
-      {isMultichainEnabled && (
-        <div>
-          <Flex column css={{ gap: '$md' }}>
-            <NetworkSelector />
-          </Flex>
-          <HR />
-        </div>
-      )}
       <Flex>
         <Flex alignItems="start" column css={{ gap: '$md', width: '$full' }}>
           <Text h3 semibold css={{ justifyContent: 'center', width: '100%' }}>
@@ -167,55 +159,65 @@ export const WalletAuthModal = () => {
               <Text css={{ gap: '$sm', padding: '$sm' }}>{connectMessage}</Text>
             </Flex>
           ) : (
-            <Box
-              css={{
-                display: 'grid',
-                gridTemplateColumns: 'auto auto',
-                width: '$full',
-                gap: '$sm',
-                '@xs': {
-                  gridTemplateColumns: 'auto',
-                },
-              }}
-            >
-              <Button
-                variant="wallet"
-                disabled={!isMetamaskEnabled || unsupportedNetwork}
-                fullWidth
-                onClick={() => {
-                  activate(EConnectorNames.Injected);
+            <Box css={{ width: '$full' }}>
+              <Box
+                css={{
+                  display: 'grid',
+                  gridTemplateColumns: 'auto auto',
+                  width: '$full',
+                  gap: '$sm',
+                  '@xs': {
+                    gridTemplateColumns: 'auto',
+                  },
                 }}
               >
-                {isMetamaskEnabled ? 'Metamask' : 'Metamask Not Found'}
-                <WALLET_ICONS.injected />
-              </Button>
-
-              <Button
-                variant="wallet"
-                fullWidth
-                onClick={() => {
-                  activate(EConnectorNames.WalletConnect);
-                }}
-              >
-                Wallet Connect
-                <WALLET_ICONS.walletconnect />
-              </Button>
-
-              <Button
-                variant="wallet"
-                fullWidth
-                onClick={() => {
-                  activate(EConnectorNames.WalletLink);
-                }}
-              >
-                Coinbase Wallet
-                <WALLET_ICONS.walletlink />
-              </Button>
-
-              {isFeatureEnabled('email_login') && (
-                <Button variant="wallet" fullWidth onClick={inject}>
-                  Email
+                <Button
+                  variant="wallet"
+                  disabled={!isMetamaskEnabled || unsupportedNetwork}
+                  fullWidth
+                  onClick={() => {
+                    activate(EConnectorNames.Injected);
+                  }}
+                >
+                  {isMetamaskEnabled ? 'Metamask' : 'Metamask Not Found'}
+                  <WALLET_ICONS.injected />
                 </Button>
+
+                <Button
+                  variant="wallet"
+                  fullWidth
+                  onClick={() => {
+                    activate(EConnectorNames.WalletConnect);
+                  }}
+                >
+                  Wallet Connect
+                  <WALLET_ICONS.walletconnect />
+                </Button>
+
+                <Button
+                  variant="wallet"
+                  fullWidth
+                  onClick={() => {
+                    activate(EConnectorNames.WalletLink);
+                  }}
+                >
+                  Coinbase Wallet
+                  <WALLET_ICONS.walletlink />
+                </Button>
+
+                {isFeatureEnabled('email_login') && (
+                  <Button variant="wallet" fullWidth onClick={inject}>
+                    Email
+                  </Button>
+                )}
+              </Box>
+              {isMultichainEnabled && (
+                <div>
+                  <HR />
+                  <Flex column css={{ gap: '$md' }}>
+                    <NetworkSelector />
+                  </Flex>
+                </div>
               )}
             </Box>
           )}
