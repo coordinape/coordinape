@@ -1,13 +1,18 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { z } from 'zod';
 
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
-import { ValueTypes } from '../../../../api-lib/gql/__generated__/zeus';
+import {
+  profiles_constraint,
+  profiles_update_column,
+  ValueTypes,
+} from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { insertInteractionEvents } from '../../../../api-lib/gql/mutations';
 import {
+  errorResponse,
   errorResponseWithStatusCode,
   InternalServerError,
-  UnprocessableError,
 } from '../../../../api-lib/HttpError';
 import { ENTRANCE } from '../../../../src/common-lib/constants';
 import {
@@ -16,7 +21,6 @@ import {
 } from '../../../../src/lib/zod';
 
 const USER_ALIAS_PREFIX = 'update_user_';
-const PROFILE_ALIAS_PREFIX = 'profile_user_';
 const NOMINEE_ALIAS_PREFIX = 'update_nominee_';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
@@ -176,80 +180,25 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     );
   }
 
-  const { profiles } = await adminClient.query(
-    {
-      profiles: [
-        {
-          where: {
-            _or: newUsers.map(user => {
-              return { address: { _ilike: user.address } };
-            }),
-          },
-        },
-        { id: true, address: true, name: true },
-      ],
-    },
-    {
-      operationName: 'createUsers_getProfiles',
-    }
-  );
-
-  //get new users and create profiles for them
-  const newProfileUsers = newUsers
-    .filter(user =>
-      profiles.every(
-        profile => profile.address.toLowerCase() !== user.address.toLowerCase()
-      )
-    )
-    .map(user => {
-      return {
-        address: user.address,
-        name: user.name,
-      };
-    });
-
-  //get new users and create profiles for them
-  const profilesToUpdate = newUsers
-    .filter(user =>
-      profiles.some(
-        profile =>
-          profile.address.toLowerCase() === user.address.toLowerCase() &&
-          !profile.name
-      )
-    )
-    .map(user => {
-      const id = profiles.filter(
-        profile => profile.address.toLowerCase() === user.address.toLowerCase()
-      )[0].id;
-      return {
-        id: id,
-        name: user.name,
-      };
-    });
-
-  if (profilesToUpdate.length > 0 || newProfileUsers.length > 0) {
-    const updateProfilesMutation = profilesToUpdate.reduce((opts, profile) => {
-      opts[PROFILE_ALIAS_PREFIX + profile.id] = {
-        update_profiles_by_pk: [
-          {
-            pk_columns: { id: profile.id },
-            _set: {
-              name: profile.name,
-            },
-          },
-          {
-            id: true,
-          },
-        ],
-      };
-      return opts;
-    }, {} as { [aliasKey: string]: ValueTypes['mutation_root'] });
-
-    const createProfilesMutations = await adminClient.mutate(
+  //update profiles table with new names
+  await adminClient
+    .mutate(
       {
         insert_profiles: [
           {
-            objects: newProfileUsers,
+            objects: newUsers.map(user => {
+              return {
+                address: user.address.toLowerCase(),
+                name: user.name,
+              };
+            }),
+            on_conflict: {
+              constraint: profiles_constraint.profiles_address_key,
+              update_columns: [profiles_update_column.name],
+              where: {
+                name: { _is_null: true },
+              },
+            },
           },
           {
             returning: {
@@ -257,19 +206,16 @@ async function handler(req: VercelRequest, res: VercelResponse) {
             },
           },
         ],
-        __alias: { ...updateProfilesMutation },
       },
       {
         operationName: 'createUsers_createProfiles',
       }
-    );
-    if (
-      !profiles.length &&
-      !createProfilesMutations.insert_profiles?.returning.length
-    ) {
-      throw new UnprocessableError('Failed to create users profiles');
-    }
-  }
+    )
+    .catch(err => {
+      if (err instanceof z.ZodError) {
+        return errorResponse(res, err);
+      }
+    });
 
   //handle new addresses
   const updateNomineesMutation = newUsers.reduce((opts, user) => {

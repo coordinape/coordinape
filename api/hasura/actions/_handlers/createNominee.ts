@@ -7,6 +7,10 @@ import {
   getProfilesWithName,
 } from '../../../../api-lib/findProfile';
 import { getUserFromAddress } from '../../../../api-lib/findUser';
+import {
+  profiles_constraint,
+  profiles_update_column,
+} from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { updateExpiredNominees } from '../../../../api-lib/gql/mutations';
 import { getExpiredNominees } from '../../../../api-lib/gql/queries';
@@ -75,22 +79,33 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   // check if this address has a profile
   const addressProfile = await getProfilesWithAddress('createNominee', address);
-  if (addressProfile && !addressProfile?.name) {
+  if (!addressProfile || !addressProfile?.name) {
     //update profile name with the entered name
     const mutationResult = await adminClient.mutate(
       {
-        update_profiles_by_pk: [
+        insert_profiles_one: [
           {
-            pk_columns: { id: addressProfile.id },
-            _set: { name: name },
+            object: {
+              name: name,
+              address: address,
+            },
+            on_conflict: {
+              constraint: profiles_constraint.profiles_address_key,
+              update_columns: [profiles_update_column.name],
+              where: {
+                name: { _is_null: true },
+              },
+            },
           },
-          { id: true },
+          {
+            id: true,
+          },
         ],
       },
       { operationName: 'createNominee_updateProfileName' }
     );
 
-    const returnResult = mutationResult.update_profiles_by_pk?.id;
+    const returnResult = mutationResult.insert_profiles_one?.id;
     assert(returnResult, 'No return from mutation');
   }
 

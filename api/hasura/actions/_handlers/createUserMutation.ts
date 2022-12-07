@@ -2,7 +2,11 @@ import {
   getProfilesWithAddress,
   getProfilesWithName,
 } from '../../../../api-lib/findProfile';
-import { ValueTypes } from '../../../../api-lib/gql/__generated__/zeus';
+import {
+  profiles_constraint,
+  profiles_update_column,
+  ValueTypes,
+} from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { UnprocessableError } from '../../../../api-lib/HttpError';
 
@@ -47,22 +51,31 @@ export async function createUserMutation(
   if (input.name)
     nameProfile = await getProfilesWithName('createUser', input.name);
 
-  if (!addressProfile && nameProfile) {
+  if (
+    nameProfile &&
+    nameProfile.address.toLocaleLowerCase() !==
+      nameProfile.address.toLocaleLowerCase()
+  ) {
     throw new UnprocessableError(
       'This user name is used by another coordinape user'
     );
   }
 
-  let createProfileMutation = null;
-
-  if (!addressProfile && !nameProfile) {
-    createProfileMutation = await adminClient.mutate(
+  if (!addressProfile || (!addressProfile.name && nameProfile)) {
+    const createProfileMutation = await adminClient.mutate(
       {
         insert_profiles_one: [
           {
             object: {
               address: input.address,
               name: input.name,
+            },
+            on_conflict: {
+              constraint: profiles_constraint.profiles_address_key,
+              update_columns: [profiles_update_column.name],
+              where: {
+                name: { _is_null: true },
+              },
             },
           },
           {
@@ -74,30 +87,9 @@ export async function createUserMutation(
         operationName: 'createUser_createProfile',
       }
     );
-  } else if (addressProfile && !addressProfile.name && !nameProfile) {
-    //if the address has a profile with no name this name will be assigned to it
-    const updateProfileMutation = await adminClient.mutate(
-      {
-        update_profiles_by_pk: [
-          {
-            pk_columns: { id: addressProfile.id },
-            _set: { name: input.name },
-          },
-          {
-            id: true,
-          },
-        ],
-      },
-      {
-        operationName: 'createUser_updateProfile',
-      }
-    );
-    if (!updateProfileMutation) {
+    if (!createProfileMutation) {
       throw new UnprocessableError('Failed to update user profile');
     }
-  }
-  if (!addressProfile && !createProfileMutation) {
-    throw new UnprocessableError('Failed to create user profile');
   }
 
   const createUserMutation: ValueTypes['mutation_root'] =
