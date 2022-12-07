@@ -124,7 +124,7 @@ export const generateApiKeyInputSchema = z
 
 export const updateProfileNameSchemaInput = z
   .object({
-    name: z.string(),
+    name: z.string().min(3).max(255),
   })
   .strict();
 
