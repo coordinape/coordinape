@@ -6,6 +6,7 @@ import { Theme } from 'stitches.config';
 
 import { Hidden } from '@material-ui/core';
 
+import { Network } from 'components';
 import { menuGroupStyle } from 'components/MainLayout/MainHeader';
 import isFeatureEnabled from 'config/features';
 import { CloudDrizzle, Moon, Sun } from 'icons/__generated';
@@ -23,7 +24,6 @@ import {
   Flex,
   IconButton,
   Button,
-  Network,
 } from 'ui';
 import { shortenAddress } from 'utils';
 

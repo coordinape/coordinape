@@ -4,23 +4,13 @@ import { useWalletStatus } from 'features/auth';
 import { useNavigate } from 'react-router';
 import { NavLink, useLocation } from 'react-router-dom';
 
-import { ReceiveInfo } from 'components';
+import { Network, ReceiveInfo } from 'components';
 import { RecentTransactionsModal } from 'components/MyAvatarMenu/RecentTransactionsModal';
 import isFeatureEnabled from 'config/features';
 import { X, Menu, ChevronRight } from 'icons/__generated';
 import { useMyProfile } from 'recoilState';
 import { paths } from 'routes/paths';
-import {
-  Box,
-  IconButton,
-  Link,
-  Image,
-  Avatar,
-  Text,
-  Flex,
-  Button,
-  Network,
-} from 'ui';
+import { Box, IconButton, Link, Image, Avatar, Text, Flex, Button } from 'ui';
 import { shortenAddress } from 'utils';
 
 import { CircleNav } from './CircleNav';

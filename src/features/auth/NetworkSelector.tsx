@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Web3Provider } from '@ethersproject/providers';
 import { loginSupportedChainIds } from 'common-lib/constants';
 
+import { Network } from 'components';
 import { IN_DEVELOPMENT } from 'config/env';
 import { useApeSnackbar } from 'hooks';
 import { Check, ChevronDown, ChevronUp } from 'icons/__generated';
@@ -15,7 +16,6 @@ import {
   Box,
   Button,
 } from 'ui';
-import { Network } from 'ui/Network/Network';
 import { switchNetwork } from 'utils/provider';
 
 const NetworkButton = ({
