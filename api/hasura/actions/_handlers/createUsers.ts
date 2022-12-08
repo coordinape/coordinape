@@ -1,5 +1,4 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { z } from 'zod';
 
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
 import {
@@ -10,7 +9,6 @@ import {
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { insertInteractionEvents } from '../../../../api-lib/gql/mutations';
 import {
-  errorResponse,
   errorResponseWithStatusCode,
   InternalServerError,
 } from '../../../../api-lib/HttpError';
@@ -179,41 +177,35 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   //update profiles table with new names
-  await adminClient
-    .mutate(
-      {
-        insert_profiles: [
-          {
-            objects: newUsers.map(user => {
-              return {
-                address: user.address.toLowerCase(),
-                name: user.name,
-              };
-            }),
-            on_conflict: {
-              constraint: profiles_constraint.profiles_address_key,
-              update_columns: [profiles_update_column.name],
-              where: {
-                name: { _is_null: true },
-              },
+  await adminClient.mutate(
+    {
+      insert_profiles: [
+        {
+          objects: newUsers.map(user => {
+            return {
+              address: user.address.toLowerCase(),
+              name: user.name,
+            };
+          }),
+          on_conflict: {
+            constraint: profiles_constraint.profiles_address_key,
+            update_columns: [profiles_update_column.name],
+            where: {
+              name: { _is_null: true },
             },
           },
-          {
-            returning: {
-              id: true,
-            },
+        },
+        {
+          returning: {
+            id: true,
           },
-        ],
-      },
-      {
-        operationName: 'createUsers_createProfiles',
-      }
-    )
-    .catch(err => {
-      if (err instanceof z.ZodError) {
-        return errorResponse(res, err);
-      }
-    });
+        },
+      ],
+    },
+    {
+      operationName: 'createUsers_createProfiles',
+    }
+  );
 
   //handle new addresses
   const updateNomineesMutation = newUsers.reduce((opts, user) => {
