@@ -29,11 +29,16 @@ export const Network = ({
   };
   const chainName = loginSupportedChainIds[chainId] || 'Unknown Chain';
   return (
-    <Flex key={chainId} css={{ width: '$full', alignItems: 'center' }}>
+    <Flex
+      key={chainId}
+      css={{
+        width: '$full',
+        alignItems: 'center',
+      }}
+    >
       {chainLogos[chainId]}
-      <Text color="inherit" css={{ pl: '$sm' }}>
-        {children ?? chainName}
-      </Text>
+      <Text css={{ color: 'inherit', pl: '$sm' }}>{chainName}</Text>
+      {children}
     </Flex>
   );
 };

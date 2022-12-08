@@ -7,7 +7,6 @@ import { IN_DEVELOPMENT } from 'config/env';
 import { useApeSnackbar } from 'hooks';
 import { Check, ChevronDown, ChevronUp } from 'icons/__generated';
 import {
-  Text,
   Flex,
   HR,
   Popover,
@@ -39,10 +38,13 @@ const NetworkButton = ({
       onClick={() => switchNetwork(chainId.toString(), onError)}
     >
       <Network key={chainId} chainId={chainId}>
-        <Text>
-          {loginSupportedChainIds[chainId]}
-          {selectedChain == chainId && <Check size="lg" css={{ pl: '$sm' }} />}
-        </Text>
+        <Flex
+          // This flex pushes the icon to the right
+          css={{
+            flexGrow: 1,
+          }}
+        />
+        {selectedChain == chainId && <Check size="lg" css={{ pl: '$sm' }} />}
       </Network>
     </Button>
   );
@@ -80,8 +82,10 @@ export const NetworkSelector = () => {
     return { value: key[0], label: key[1] };
   });
 
-  const prodChains = [1, 10, 137, 250, 1313161554];
-  const testnetChains = [5, ...(IN_DEVELOPMENT ? [1338] : [])];
+  const chainOrder = [
+    [1, 10, 137, 250, 1313161554],
+    [5, ...(IN_DEVELOPMENT ? [1338] : [])],
+  ];
 
   useEffect(() => {
     const ethereum = (window as any).ethereum;
@@ -100,8 +104,6 @@ export const NetworkSelector = () => {
     }
   }, []);
 
-  const chainName = loginSupportedChainIds[selectedChain] || 'Unknown Chain';
-
   return (
     <Popover
       defaultOpen={false}
@@ -117,14 +119,18 @@ export const NetworkSelector = () => {
         <PopoverTrigger tabIndex={0} asChild={true}>
           <Button
             disabled={!injectedWallet}
-            // as="div"
             color="surface"
             css={{
               width: popoverWidth,
             }}
           >
             <Network chainId={selectedChain}>
-              {chainName}
+              <Flex
+                // This flex pushes Chevron icon to the right
+                css={{
+                  flexGrow: 1,
+                }}
+              />
               {isOpen ? <ChevronUp size="lg" /> : <ChevronDown size="lg" />}
             </Network>
           </Button>
@@ -137,25 +143,21 @@ export const NetworkSelector = () => {
           }}
         >
           <Box>
-            {prodChains.map(chainId => {
+            {chainOrder.map((chainGroup, idx) => {
               return (
-                <NetworkButton
-                  key={chainId}
-                  chainId={chainId}
-                  selectedChain={selectedChain}
-                  onError={onNetworkError}
-                />
-              );
-            })}
-            <HR sm />
-            {testnetChains.map(chainId => {
-              return (
-                <NetworkButton
-                  key={chainId}
-                  chainId={chainId}
-                  selectedChain={selectedChain}
-                  onError={onNetworkError}
-                />
+                <>
+                  {idx > 0 && <HR sm />}
+                  {chainGroup.map(chainId => {
+                    return (
+                      <NetworkButton
+                        key={chainId}
+                        chainId={chainId}
+                        selectedChain={selectedChain}
+                        onError={onNetworkError}
+                      />
+                    );
+                  })}
+                </>
               );
             })}
           </Box>
