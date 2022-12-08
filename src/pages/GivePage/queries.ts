@@ -60,6 +60,7 @@ export const getMembersWithContributions = async (
           profile: {
             avatar: true,
             id: true,
+            name: true,
           },
           contributions_aggregate: [
             {

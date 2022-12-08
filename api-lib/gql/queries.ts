@@ -282,6 +282,7 @@ export async function getProfileAndMembership(address: string) {
         {
           id: true,
           address: true,
+          name: true,
         },
       ],
     },
@@ -303,6 +304,9 @@ export async function getNominee(id: number) {
           circle_id: true,
           nominator: {
             name: true,
+            profile: {
+              name: true,
+            },
           },
           user_id: true,
           ended: true,
@@ -393,6 +397,9 @@ export async function getExistingVouch(nomineeId: number, voucherId: number) {
           id: true,
           voucher: {
             name: true,
+            profile: {
+              name: true,
+            },
           },
         },
       ],

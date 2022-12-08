@@ -53,7 +53,10 @@ const mockCircle = {
     token_name: 'GIVE',
     name: 'circle with ending epoch',
     organization: { name: 'mock Org' },
-    users: [{ name: 'bob' }, { name: 'alice' }],
+    users: [
+      { name: 'bob', profile: { name: 'bob' } },
+      { name: 'alice', profile: { name: 'alice' } },
+    ],
   },
   endEpoch: {
     id: 1,
@@ -71,6 +74,7 @@ const mockCircle = {
         bio: faker.lorem.sentences(5),
         starting_tokens: 100 * (1 + i),
         give_token_remaining: i > 1 ? 0 : 100 * (1 + i),
+        profile: { name: 'person ' + i },
       })),
   },
 };

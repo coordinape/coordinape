@@ -10,7 +10,9 @@ import { IUser } from 'types';
 const otherUser = {
   id: 2,
   address: '0x100020003000400050006000700080009000a001',
-  name: 'Foo',
+  profile: {
+    name: 'Foo',
+  },
 } as IUser;
 
 const startingGift = { user: otherUser, tokens: 1, note: 'hi' };

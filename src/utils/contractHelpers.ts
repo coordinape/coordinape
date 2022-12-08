@@ -1,9 +1,12 @@
+import { DebugLogger } from 'common-lib/log';
 import { ContractTransaction, ContractReceipt } from 'ethers';
 
 import {
   addTransaction,
   updateTransaction,
 } from 'components/MyAvatarMenu/RecentTransactionsModal';
+
+const logger = new DebugLogger('sendAndTrackTx');
 
 type Options = {
   savePending?: (txHash: string) => Promise<void>;
@@ -42,11 +45,15 @@ export const sendAndTrackTx = async (
     const promise = callback();
     showInfo(signingMessage);
     addTransaction({ timestamp, status: 'pending', description, chainId });
+    logger.log(`awaiting tx... description: ${description}`);
     const tx = await promise;
+    logger.log(`done awaiting tx. hash: ${tx.hash}`);
     showInfo(sendingMessage);
     await savePending?.(tx.hash);
     updateTransaction(timestamp, { hash: tx.hash });
+    logger.log('awaiting receipt...');
     const receipt = await tx.wait();
+    logger.log('done awaiting receipt.');
     await deletePending?.(tx.hash);
     updateTransaction(timestamp, { status: 'confirmed' });
     showInfo(minedMessage);

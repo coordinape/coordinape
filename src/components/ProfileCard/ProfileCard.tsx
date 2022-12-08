@@ -154,7 +154,7 @@ const ProfileCardInner = ({
         <Flex />
         <Avatar
           path={user.profile?.avatar}
-          name={user.name}
+          name={user.profile?.name ?? user.name}
           onClick={getToProfile(user.address)}
         />
         <div className={classes.moreContainer}>
@@ -173,7 +173,7 @@ const ProfileCardInner = ({
           />
         </div>
         <span className={classes.name}>
-          {user.name}
+          {user.profile?.name ?? user.name}
           <Flex alignItems="center" css={{ justifyContent: 'center' }}>
             {user.profile && <ProfileSocialIcons profile={user.profile} />}
           </Flex>

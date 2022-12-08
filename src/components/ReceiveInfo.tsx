@@ -84,7 +84,13 @@ export const ReceiveInfo = () => {
           );
         }}
       >
-        <Button as="div" tabIndex={-1} size="small" color="surface">
+        <Button
+          as="div"
+          tabIndex={-1}
+          size="small"
+          color="surface"
+          css={{ ml: '-9px' }}
+        >
           {!currentNonReceiver ? totalReceived : 0}{' '}
           {data?.myReceived?.token_name ?? 'GIVE'}
         </Button>
@@ -170,7 +176,7 @@ export const ReceiveInfo = () => {
                     {tokenGift.tokens > 0 && !currentNonReceiver
                       ? `+${tokenGift.tokens} Received from `
                       : 'From '}
-                    {tokenGift.sender?.name}
+                    {tokenGift.sender?.profile.name ?? tokenGift.sender?.name}
                   </Text>
                   <Text color="neutral">
                     {DateTime.fromISO(tokenGift.dts_created).toLocaleString(
@@ -187,7 +193,9 @@ export const ReceiveInfo = () => {
                 >
                   <Avatar
                     path={tokenGift.sender.profile.avatar}
-                    name={tokenGift.sender.name}
+                    name={
+                      tokenGift.sender.profile.name ?? tokenGift.sender.name
+                    }
                   />
                   {tokenGift.gift_private?.note ? (
                     <MarkdownPreview source={tokenGift.gift_private.note} />
@@ -236,7 +244,10 @@ const getReceiveInfo = async (circleId: number, userId: number) => {
                             {
                               id: true,
                               tokens: true,
-                              sender: { name: true, profile: { avatar: true } },
+                              sender: {
+                                name: true,
+                                profile: { avatar: true, name: true },
+                              },
                               gift_private: { note: true },
                               dts_created: true,
                             },
@@ -267,7 +278,10 @@ const getReceiveInfo = async (circleId: number, userId: number) => {
                             {
                               id: true,
                               tokens: true,
-                              sender: { name: true, profile: { avatar: true } },
+                              sender: {
+                                name: true,
+                                profile: { avatar: true, name: true },
+                              },
                               gift_private: { note: true },
                               dts_created: true,
                             },

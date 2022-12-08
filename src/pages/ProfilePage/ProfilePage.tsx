@@ -19,7 +19,7 @@ import { Edit3 } from 'icons/__generated';
 import { useMyProfile, useProfile } from 'recoilState/app';
 import { useSetEditProfileOpen } from 'recoilState/ui';
 import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE, paths } from 'routes/paths';
-import { Avatar } from 'ui';
+import { Avatar, MarkdownPreview } from 'ui';
 import { getAvatarPath } from 'utils/domain';
 
 import { IMyProfile, IProfile } from 'types';
@@ -220,7 +220,12 @@ const ProfilePageContent = ({
   const classes = useStyles();
   const users = (profile as IMyProfile)?.myUsers ?? profile?.users ?? [];
   const user = users.find(user => user.circle_id === circleId);
-  const name = user?.name ?? users?.[0]?.name ?? 'unknown';
+  const name =
+    user?.profile?.name ??
+    user?.name ??
+    users?.[0]?.profile?.name ??
+    users?.[0]?.name ??
+    'unknown';
 
   const setEditProfileOpen = useSetEditProfileOpen();
   const { updateBackground } = useApiWithProfile();
@@ -322,7 +327,7 @@ const ProfilePageContent = ({
               </a>
             </div>
           ) : (
-            profile?.bio
+            <MarkdownPreview source={profile?.bio} />
           )}
         </div>
       </div>
