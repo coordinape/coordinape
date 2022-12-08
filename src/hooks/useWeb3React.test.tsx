@@ -21,15 +21,17 @@ test('sets & unsets hook values in response to setProvider', async () => {
     const [step, setStep] = useState(1);
 
     useEffect(() => {
-      if (!active && step === 1) {
-        setProvider(provider());
-      } else if (active) {
+      if (step === 1) {
+        if (!active) {
+          setProvider(provider());
+          return;
+        }
         expect(library).toEqual(provider());
         expect(chainId).toEqual(expectedChainId);
         expect(account?.toLowerCase()).toEqual(address);
-        setStep(2);
         deactivate();
-      } else {
+        setStep(2);
+      } else if (step === 2) {
         expect(active).toBeFalsy();
         expect(library).toBeUndefined();
         expect(chainId).toBeUndefined();

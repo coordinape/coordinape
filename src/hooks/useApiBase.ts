@@ -1,12 +1,10 @@
 import debug from 'debug';
-import { rWalletAuth } from 'features/auth/useWalletAuth';
+import { IAuth, rWalletAuth } from 'features/auth/useWalletAuth';
 import * as queries from 'lib/gql/queries';
 
 import { useRecoilLoadCatch } from 'hooks';
 import { rSelectedCircleIdSource } from 'recoilState/app';
 import { rApiManifest, rApiFullCircle } from 'recoilState/db';
-
-import { IAuth } from 'types';
 
 const log = debug('useApiBase');
 
