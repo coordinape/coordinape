@@ -4120,6 +4120,8 @@ export type ValueTypes = {
     epoch_id?: boolean | `@${string}`;
     gift_amount?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
     tx_hash?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -4134,19 +4136,19 @@ export type ValueTypes = {
       | Array<ValueTypes['locked_token_distributions_bool_exp']>
       | undefined
       | null;
-    distributed_by?: ValueTypes['String_comparison_exp'] | undefined | null;
+    distributed_by?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     distribution_json?: ValueTypes['jsonb_comparison_exp'] | undefined | null;
     epoch?: ValueTypes['epochs_bool_exp'] | undefined | null;
     epoch_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     gift_amount?: ValueTypes['numeric_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     tx_hash?: ValueTypes['String_comparison_exp'] | undefined | null;
   };
   /** unique or primary key constraints on table "locked_token_distributions" */
   ['locked_token_distributions_constraint']: locked_token_distributions_constraint;
   /** input type for inserting data into table "locked_token_distributions" */
   ['locked_token_distributions_insert_input']: {
-    distributed_by?: string | undefined | null;
     distribution_json?: ValueTypes['jsonb'] | undefined | null;
     epoch_id?: ValueTypes['bigint'] | undefined | null;
     gift_amount?: ValueTypes['numeric'] | undefined | null;
@@ -4179,6 +4181,7 @@ export type ValueTypes = {
     epoch_id?: ValueTypes['order_by'] | undefined | null;
     gift_amount?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_order_by'] | undefined | null;
     tx_hash?: ValueTypes['order_by'] | undefined | null;
   };
   /** primary key columns input for table: locked_token_distributions */
@@ -4200,7 +4203,7 @@ export type ValueTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ['locked_token_distributions_stream_cursor_value_input']: {
-    distributed_by?: string | undefined | null;
+    distributed_by?: ValueTypes['bigint'] | undefined | null;
     distribution_json?: ValueTypes['jsonb'] | undefined | null;
     epoch_id?: ValueTypes['bigint'] | undefined | null;
     gift_amount?: ValueTypes['numeric'] | undefined | null;
@@ -11096,13 +11099,15 @@ export type ModelTypes = {
   ['jsonb_comparison_exp']: GraphQLTypes['jsonb_comparison_exp'];
   /** columns and relationships of "locked_token_distributions" */
   ['locked_token_distributions']: {
-    distributed_by: string;
+    distributed_by: GraphQLTypes['bigint'];
     distribution_json: GraphQLTypes['jsonb'];
     /** An object relationship */
     epoch: GraphQLTypes['epochs'];
     epoch_id: GraphQLTypes['bigint'];
     gift_amount: GraphQLTypes['numeric'];
     id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
     tx_hash?: string | undefined;
   };
   /** Boolean expression to filter rows from the table "locked_token_distributions". All fields are combined with a logical 'AND'. */
@@ -15543,13 +15548,15 @@ export type GraphQLTypes = {
   /** columns and relationships of "locked_token_distributions" */
   ['locked_token_distributions']: {
     __typename: 'locked_token_distributions';
-    distributed_by: string;
+    distributed_by: GraphQLTypes['bigint'];
     distribution_json: GraphQLTypes['jsonb'];
     /** An object relationship */
     epoch: GraphQLTypes['epochs'];
     epoch_id: GraphQLTypes['bigint'];
     gift_amount: GraphQLTypes['numeric'];
     id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
     tx_hash?: string | undefined;
   };
   /** Boolean expression to filter rows from the table "locked_token_distributions". All fields are combined with a logical 'AND'. */
@@ -15561,19 +15568,19 @@ export type GraphQLTypes = {
     _or?:
       | Array<GraphQLTypes['locked_token_distributions_bool_exp']>
       | undefined;
-    distributed_by?: GraphQLTypes['String_comparison_exp'] | undefined;
+    distributed_by?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     distribution_json?: GraphQLTypes['jsonb_comparison_exp'] | undefined;
     epoch?: GraphQLTypes['epochs_bool_exp'] | undefined;
     epoch_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     gift_amount?: GraphQLTypes['numeric_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     tx_hash?: GraphQLTypes['String_comparison_exp'] | undefined;
   };
   /** unique or primary key constraints on table "locked_token_distributions" */
   ['locked_token_distributions_constraint']: locked_token_distributions_constraint;
   /** input type for inserting data into table "locked_token_distributions" */
   ['locked_token_distributions_insert_input']: {
-    distributed_by?: string | undefined;
     distribution_json?: GraphQLTypes['jsonb'] | undefined;
     epoch_id?: GraphQLTypes['bigint'] | undefined;
     gift_amount?: GraphQLTypes['numeric'] | undefined;
@@ -15603,6 +15610,7 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['order_by'] | undefined;
     gift_amount?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_order_by'] | undefined;
     tx_hash?: GraphQLTypes['order_by'] | undefined;
   };
   /** primary key columns input for table: locked_token_distributions */
@@ -15624,7 +15632,7 @@ export type GraphQLTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ['locked_token_distributions_stream_cursor_value_input']: {
-    distributed_by?: string | undefined;
+    distributed_by?: GraphQLTypes['bigint'] | undefined;
     distribution_json?: GraphQLTypes['jsonb'] | undefined;
     epoch_id?: GraphQLTypes['bigint'] | undefined;
     gift_amount?: GraphQLTypes['numeric'] | undefined;

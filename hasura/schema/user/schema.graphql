@@ -5196,7 +5196,7 @@ input jsonb_comparison_exp {
 columns and relationships of "locked_token_distributions"
 """
 type locked_token_distributions {
-  distributed_by: String!
+  distributed_by: bigint!
   distribution_json(
     """
     JSON select path
@@ -5211,6 +5211,11 @@ type locked_token_distributions {
   epoch_id: bigint!
   gift_amount: numeric!
   id: bigint!
+
+  """
+  An object relationship
+  """
+  profile: profiles!
   tx_hash: String
 }
 
@@ -5221,12 +5226,13 @@ input locked_token_distributions_bool_exp {
   _and: [locked_token_distributions_bool_exp!]
   _not: locked_token_distributions_bool_exp
   _or: [locked_token_distributions_bool_exp!]
-  distributed_by: String_comparison_exp
+  distributed_by: bigint_comparison_exp
   distribution_json: jsonb_comparison_exp
   epoch: epochs_bool_exp
   epoch_id: bigint_comparison_exp
   gift_amount: numeric_comparison_exp
   id: bigint_comparison_exp
+  profile: profiles_bool_exp
   tx_hash: String_comparison_exp
 }
 
@@ -5244,7 +5250,6 @@ enum locked_token_distributions_constraint {
 input type for inserting data into table "locked_token_distributions"
 """
 input locked_token_distributions_insert_input {
-  distributed_by: String
   distribution_json: jsonb
   epoch_id: bigint
   gift_amount: numeric
@@ -5285,6 +5290,7 @@ input locked_token_distributions_order_by {
   epoch_id: order_by
   gift_amount: order_by
   id: order_by
+  profile: profiles_order_by
   tx_hash: order_by
 }
 
@@ -5356,7 +5362,7 @@ input locked_token_distributions_stream_cursor_input {
 Initial value of the column from where the streaming should start
 """
 input locked_token_distributions_stream_cursor_value_input {
-  distributed_by: String
+  distributed_by: bigint
   distribution_json: jsonb
   epoch_id: bigint
   gift_amount: numeric

@@ -10366,7 +10366,7 @@ input jsonb_comparison_exp {
 columns and relationships of "locked_token_distributions"
 """
 type locked_token_distributions {
-  distributed_by: String!
+  distributed_by: bigint!
   distribution_json(
     """
     JSON select path
@@ -10381,6 +10381,11 @@ type locked_token_distributions {
   epoch_id: bigint!
   gift_amount: numeric!
   id: bigint!
+
+  """
+  An object relationship
+  """
+  profile: profiles!
   tx_hash: String
 }
 
@@ -10423,6 +10428,7 @@ input locked_token_distributions_append_input {
 aggregate avg on columns
 """
 type locked_token_distributions_avg_fields {
+  distributed_by: Float
   epoch_id: Float
   gift_amount: Float
   id: Float
@@ -10435,12 +10441,13 @@ input locked_token_distributions_bool_exp {
   _and: [locked_token_distributions_bool_exp!]
   _not: locked_token_distributions_bool_exp
   _or: [locked_token_distributions_bool_exp!]
-  distributed_by: String_comparison_exp
+  distributed_by: bigint_comparison_exp
   distribution_json: jsonb_comparison_exp
   epoch: epochs_bool_exp
   epoch_id: bigint_comparison_exp
   gift_amount: numeric_comparison_exp
   id: bigint_comparison_exp
+  profile: profiles_bool_exp
   tx_hash: String_comparison_exp
 }
 
@@ -10479,6 +10486,7 @@ input locked_token_distributions_delete_key_input {
 input type for incrementing numeric columns in table "locked_token_distributions"
 """
 input locked_token_distributions_inc_input {
+  distributed_by: bigint
   epoch_id: bigint
   gift_amount: numeric
   id: bigint
@@ -10488,12 +10496,13 @@ input locked_token_distributions_inc_input {
 input type for inserting data into table "locked_token_distributions"
 """
 input locked_token_distributions_insert_input {
-  distributed_by: String
+  distributed_by: bigint
   distribution_json: jsonb
   epoch: epochs_obj_rel_insert_input
   epoch_id: bigint
   gift_amount: numeric
   id: bigint
+  profile: profiles_obj_rel_insert_input
   tx_hash: String
 }
 
@@ -10501,7 +10510,7 @@ input locked_token_distributions_insert_input {
 aggregate max on columns
 """
 type locked_token_distributions_max_fields {
-  distributed_by: String
+  distributed_by: bigint
   epoch_id: bigint
   gift_amount: numeric
   id: bigint
@@ -10512,7 +10521,7 @@ type locked_token_distributions_max_fields {
 aggregate min on columns
 """
 type locked_token_distributions_min_fields {
-  distributed_by: String
+  distributed_by: bigint
   epoch_id: bigint
   gift_amount: numeric
   id: bigint
@@ -10553,6 +10562,7 @@ input locked_token_distributions_order_by {
   epoch_id: order_by
   gift_amount: order_by
   id: order_by
+  profile: profiles_order_by
   tx_hash: order_by
 }
 
@@ -10609,7 +10619,7 @@ enum locked_token_distributions_select_column {
 input type for updating data in table "locked_token_distributions"
 """
 input locked_token_distributions_set_input {
-  distributed_by: String
+  distributed_by: bigint
   distribution_json: jsonb
   epoch_id: bigint
   gift_amount: numeric
@@ -10621,6 +10631,7 @@ input locked_token_distributions_set_input {
 aggregate stddev on columns
 """
 type locked_token_distributions_stddev_fields {
+  distributed_by: Float
   epoch_id: Float
   gift_amount: Float
   id: Float
@@ -10630,6 +10641,7 @@ type locked_token_distributions_stddev_fields {
 aggregate stddev_pop on columns
 """
 type locked_token_distributions_stddev_pop_fields {
+  distributed_by: Float
   epoch_id: Float
   gift_amount: Float
   id: Float
@@ -10639,6 +10651,7 @@ type locked_token_distributions_stddev_pop_fields {
 aggregate stddev_samp on columns
 """
 type locked_token_distributions_stddev_samp_fields {
+  distributed_by: Float
   epoch_id: Float
   gift_amount: Float
   id: Float
@@ -10663,7 +10676,7 @@ input locked_token_distributions_stream_cursor_input {
 Initial value of the column from where the streaming should start
 """
 input locked_token_distributions_stream_cursor_value_input {
-  distributed_by: String
+  distributed_by: bigint
   distribution_json: jsonb
   epoch_id: bigint
   gift_amount: numeric
@@ -10675,6 +10688,7 @@ input locked_token_distributions_stream_cursor_value_input {
 aggregate sum on columns
 """
 type locked_token_distributions_sum_fields {
+  distributed_by: bigint
   epoch_id: bigint
   gift_amount: numeric
   id: bigint
@@ -10757,6 +10771,7 @@ input locked_token_distributions_updates {
 aggregate var_pop on columns
 """
 type locked_token_distributions_var_pop_fields {
+  distributed_by: Float
   epoch_id: Float
   gift_amount: Float
   id: Float
@@ -10766,6 +10781,7 @@ type locked_token_distributions_var_pop_fields {
 aggregate var_samp on columns
 """
 type locked_token_distributions_var_samp_fields {
+  distributed_by: Float
   epoch_id: Float
   gift_amount: Float
   id: Float
@@ -10775,6 +10791,7 @@ type locked_token_distributions_var_samp_fields {
 aggregate variance on columns
 """
 type locked_token_distributions_variance_fields {
+  distributed_by: Float
   epoch_id: Float
   gift_amount: Float
   id: Float
