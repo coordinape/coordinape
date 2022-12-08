@@ -30,16 +30,15 @@ async function main() {
   );
 
   const result = mapStyleToNode(file, styles);
-  // eslint-disable-next-line no-console
-
   generateFile(result);
 }
 
 //#region constants
-const FIGMA_FILE_KEY = 'ZHiNW0Wf2bj2VHVIqpjMuh';
-const COLORS_DOCUMENT = '105:2263';
+const FIGMA_FILE_KEY = '358dQZc6GCZVwofUAVTcmf';
+const COLORS_DOCUMENT = '1:13367';
 const FILL = 'FILL';
 const RECTANGLE = 'RECTANGLE';
+const FRAME = 'FRAME';
 //#endregion constants
 
 //#region Types
@@ -66,21 +65,26 @@ const rgbToHex = (r: number, g: number, b: number) => {
 };
 
 const noChildren = (node: any) => node != null && !('children' in node);
-const isRectangle = (node: any) => node != null && node.type === RECTANGLE;
+const isRectangle = (node: any) =>
+  node != null && (node.type === RECTANGLE || node.type === FRAME);
 
 const findStyleInTree = (root: any, styleId: any) => {
   if (noChildren(root)) {
-    return isRectangle(root) && root.styles && root.styles.fill === styleId
+    return isRectangle(root) && root.styles && root.styles.fills === styleId
       ? root
       : undefined;
   } else {
-    return root.children
-      .map((item: any) => findStyleInTree(item, styleId))
-      .reduce(
-        (accumulator: any, current: any) =>
-          accumulator != null ? accumulator : current,
-        undefined
-      );
+    return isRectangle(root) && root.styles && root.styles.fills === styleId
+      ? root
+      : root.children
+          .map((item: any) => {
+            return findStyleInTree(item, styleId);
+          })
+          .reduce(
+            (accumulator: any, current: any) =>
+              accumulator != null ? accumulator : current,
+            undefined
+          );
   }
 };
 
@@ -103,13 +107,18 @@ const mapStyleToNode = (file: any, styles: Styles[]) => {
 
 const generateFile = (
   content: ColorNode[],
-  fileName = './src/ui/colors.ts'
+  fileName = './src/ui/new-colors.ts'
 ) => {
   if (!content) {
     throw new Error('No styles found');
   }
 
   const colorsGroupName: string[] = [];
+  const collator = new Intl.Collator(undefined, {
+    numeric: true,
+    sensitivity: 'base',
+  });
+  content = content.sort((a, b) => collator.compare(a.name, b.name));
 
   const colors = content.reduce((prev, curr) => {
     let colorGroupName;
@@ -119,7 +128,11 @@ const generateFile = (
       colorGroupName = curr.name.split('/')[0];
     }
 
-    const name = curr.name.split('|')[0].replace('/', '').toLowerCase();
+    const name = curr.name
+      .split('|')[0]
+      .replace('New/', '')
+      .replace('/', '')
+      .toLowerCase();
 
     return (
       prev +
@@ -131,7 +144,7 @@ const generateFile = (
   const fileContents = `// Updated at ${new Date().toUTCString()}
 // by scripts/update-figma-colors.ts
 
-export const colors = {
+export const newColors = {
 ${colors}
 };`;
 
