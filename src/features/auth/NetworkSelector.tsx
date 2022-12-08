@@ -44,7 +44,13 @@ const NetworkButton = ({
             flexGrow: 1,
           }}
         />
-        {selectedChain == chainId && <Check size="lg" css={{ pl: '$sm' }} />}
+        {selectedChain == chainId && (
+          <Check
+            size="lg"
+            boldstroke
+            css={{ pl: '$sm', color: '$transparent' }}
+          />
+        )}
       </Network>
     </Button>
   );
