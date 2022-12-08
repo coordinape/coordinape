@@ -11,6 +11,7 @@ import {
   Wonder,
   WonderColor,
 } from 'icons/__generated';
+import HedgeyIntegrationSettings from 'pages/CircleAdminPage/HedgeyIntegrationSettings';
 import { paths } from 'routes/paths';
 import { Flex, Button, Text, HR, Modal } from 'ui';
 
@@ -41,6 +42,13 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
   const wonderIntegrations = integrations?.data?.filter(integration => {
     return integration.type === 'wonder';
   });
+  const hedgeyIntegration = integrations?.data?.find(integration => {
+    return integration.type === 'hedgey';
+  }) as {
+    id: number;
+    type: string;
+    data: { enabled: boolean; lockPeriod: string; transferable: string };
+  };
 
   return (
     <div>
@@ -178,6 +186,11 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
           </Button>
         </Flex>
       </Modal>
+      <HR />
+      <HedgeyIntegrationSettings
+        circleId={circleId}
+        integration={hedgeyIntegration}
+      />
     </div>
   );
 };
