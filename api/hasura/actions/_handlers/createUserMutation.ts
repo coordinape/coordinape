@@ -46,19 +46,16 @@ export async function createUserMutation(
   entrance: string
 ) {
   const softDeletedUser = await checkExistingUser(address, circleId);
-  const addressProfile = await getProfilesWithAddress('createUser', address);
+  const addressProfile = await getProfilesWithAddress(address);
   let nameProfile = undefined;
-  if (input.name)
-    nameProfile = await getProfilesWithName('createUser', input.name);
+  if (input.name) nameProfile = await getProfilesWithName(input.name);
 
   if (
     nameProfile &&
     nameProfile.address.toLocaleLowerCase() !==
       nameProfile.address.toLocaleLowerCase()
   ) {
-    throw new UnprocessableError(
-      'This user name is used by another coordinape user'
-    );
+    throw new UnprocessableError('This name is already in use');
   }
 
   if (!addressProfile || (!addressProfile.name && nameProfile)) {

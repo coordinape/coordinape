@@ -1,15 +1,21 @@
 import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { z } from 'zod';
 
 import { getProfilesWithName } from '../../../../api-lib/findProfile';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
 import {
-  updateProfileNameSchemaInput,
   composeHasuraActionRequestBodyWithSession,
   HasuraUserSessionVariables,
 } from '../../../../src/lib/zod';
+
+export const updateProfileNameSchemaInput = z
+  .object({
+    name: z.string().min(3).max(255),
+  })
+  .strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {
@@ -22,7 +28,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   const { name } = payload;
 
-  const profile = await getProfilesWithName('updateProfileName', name);
+  const profile = await getProfilesWithName(name);
   if (
     profile &&
     profile.address.toLocaleLowerCase() !==
@@ -31,7 +37,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     return errorResponseWithStatusCode(
       res,
       {
-        message: `This name is used by another coordinape user`,
+        message: 'This name is already in use',
       },
       422
     );

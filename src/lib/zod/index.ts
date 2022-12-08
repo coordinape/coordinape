@@ -122,12 +122,6 @@ export const generateApiKeyInputSchema = z
   })
   .strict();
 
-export const updateProfileNameSchemaInput = z
-  .object({
-    name: z.string().min(3).max(255),
-  })
-  .strict();
-
 export const updateUserSchemaInput = z
   .object({
     circle_id: z.number(),

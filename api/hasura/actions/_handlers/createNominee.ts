@@ -65,7 +65,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   // check if the name already exists in profiles
-  const profile = await getProfilesWithName('createNominee', name);
+  const profile = await getProfilesWithName(name);
   if (
     profile &&
     profile.address.toLocaleLowerCase() !== address.toLocaleLowerCase()
@@ -78,7 +78,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   // check if this address has a profile
-  const addressProfile = await getProfilesWithAddress('createNominee', address);
+  const addressProfile = await getProfilesWithAddress(address);
   if (!addressProfile || !addressProfile?.name) {
     //update profile name with the entered name
     const mutationResult = await adminClient.mutate(

@@ -1,6 +1,6 @@
 import { adminClient } from './gql/adminClient';
 
-export const getProfilesWithName = async (source: string, name: string) => {
+export const getProfilesWithName = async (name: string) => {
   const { profiles } = await adminClient.query(
     {
       profiles: [
@@ -15,16 +15,13 @@ export const getProfilesWithName = async (source: string, name: string) => {
       ],
     },
     {
-      operationName: `${source}_getProfilesWithName`,
+      operationName: 'getProfilesWithName',
     }
   );
   return profiles.pop();
 };
 
-export const getProfilesWithAddress = async (
-  source: string,
-  address: string
-) => {
+export const getProfilesWithAddress = async (address: string) => {
   const { profiles } = await adminClient.query(
     {
       profiles: [
@@ -38,7 +35,7 @@ export const getProfilesWithAddress = async (
       ],
     },
     {
-      operationName: `${source}_getProfilesWithAddress`,
+      operationName: 'getProfilesWithAddress',
     }
   );
 

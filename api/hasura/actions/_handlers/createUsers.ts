@@ -171,9 +171,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       res,
       {
         message: `Users list contains ${
-          names.length > 1
-            ? 'names used by other coordinape users'
-            : 'a name used by another coordinape user'
+          names.length > 1 ? 'names already in use' : 'a name already in use'
         }: ${names}`,
       },
       422
