@@ -85,3 +85,36 @@ export function useMarkDistributionDone() {
     }
   );
 }
+
+export function useSaveLockedTokenDistribution() {
+  return useMutation(async (distribution: any) => {
+    const { insert_locked_token_distributions_one } = await client.mutate({
+      insert_locked_token_distributions_one: [
+        {
+          object: {
+            epoch_id: distribution.epoch_id,
+            gift_amount: distribution.gift_amount,
+            distribution_json: distribution.distribution_json,
+            distributed_by: distribution.distributed_by,
+          },
+        },
+        { id: true },
+      ],
+    });
+    return insert_locked_token_distributions_one;
+  });
+}
+
+export function useMarkLockedDistributionDone() {
+  return useMutation(({ id, tx_hash }: { id: number; tx_hash: string }) => {
+    return client.mutate({
+      update_locked_token_distributions_by_pk: [
+        {
+          _set: { tx_hash },
+          pk_columns: { id },
+        },
+        { id: true },
+      ],
+    });
+  });
+}
