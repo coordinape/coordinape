@@ -5,6 +5,9 @@ object_relationships:
   - name: epoch
     using:
       foreign_key_constraint_on: epoch_id
+  - name: profile
+    using:
+      foreign_key_constraint_on: distributed_by
 insert_permissions:
   - role: user
     permission:
@@ -20,8 +23,9 @@ insert_permissions:
                     _is_null: true
                 - role:
                     _eq: 1
+      set:
+        distributed_by: x-hasura-User-Id
       columns:
-        - distributed_by
         - distribution_json
         - epoch_id
         - gift_amount
@@ -30,12 +34,12 @@ select_permissions:
   - role: user
     permission:
       columns:
-        - epoch_id
-        - id
         - distributed_by
-        - tx_hash
         - distribution_json
+        - epoch_id
         - gift_amount
+        - id
+        - tx_hash
       filter:
         epoch:
           circle:
