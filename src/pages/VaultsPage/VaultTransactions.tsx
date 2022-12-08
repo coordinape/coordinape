@@ -313,19 +313,21 @@ async function getDistributionEvents(
     );
     if (txDetails?.tx_type === 'Distribution') {
       const distribution = txDetails.distribution;
-      const epoch = distribution?.epoch;
-      if (!epoch) throw new Error(`Missing epoch for tx ${txDetails.tx_hash}`);
+      if (!distribution) {
+        console.warn(`Missing distribution for tx ${txDetails.tx_hash}`);
+        continue;
+      }
+      const { epoch, fixed_amount, gift_amount } = distribution;
       distributions.push({
         block: event.blockNumber,
         type: 'Distribution',
-        circle: txDetails.distribution?.epoch?.circle?.name || 'unknown',
-        amount: distribution.fixed_amount + distribution.gift_amount,
+        circle: epoch.circle?.name || 'unknown',
+        amount: fixed_amount + gift_amount,
         details: `Distribution for Epoch ${epoch.number}`,
         date: DateTime.fromSeconds(block.timestamp).toFormat('DD'),
         hash: event.transactionHash,
         circleId: decodeCircleId(event.args.circle),
       });
-      continue;
     }
     /* log from outside app
     distributions.push({
