@@ -1,14 +1,13 @@
 import { render, screen } from '@testing-library/react';
-
-// @ts-ignore
-import { mockChainId } from 'hooks/useWeb3React';
-import { TestWrapper } from 'utils/testing';
+import { SnackbarProvider } from 'notistack';
 
 import useRequireSupportedChain from './useRequireSupportedChain';
+// @ts-ignore
+import { Web3ReactProvider, mockChainId } from './useWeb3React';
 
-jest.mock('hooks/useWeb3React', () => {
-  const originalModule = jest.requireActual('hooks/useWeb3React');
-  const mockChainId = jest.fn();
+jest.mock('./useWeb3React', () => {
+  const originalModule = jest.requireActual('./useWeb3React');
+  const mockChainId = jest.fn(() => 'mockme');
 
   return {
     __esModule: true,
@@ -23,6 +22,15 @@ jest.mock('hooks/useWeb3React', () => {
     },
   };
 });
+
+// ???: if i use the default TestWrapper, the call to useWeb3React in
+// Web3Activator gets the correct mock implementations below, but the one we
+// care about in useRequireSupportedChain doesn't
+const TestWrapper = ({ children }: { children: any }) => (
+  <Web3ReactProvider>
+    <SnackbarProvider>{children}</SnackbarProvider>
+  </Web3ReactProvider>
+);
 
 const Harness = () => {
   useRequireSupportedChain();
