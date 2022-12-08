@@ -15,6 +15,7 @@ import { Box, Button, Text, Modal, Flex, HR, Select } from 'ui';
 import { switchNetwork } from 'utils/provider';
 
 import { connectors } from './connectors';
+import { getMagicProvider } from './magic';
 
 export const WalletAuthModal = () => {
   const [connectMessage, setConnectMessage] = useState<string>('');
@@ -135,12 +136,11 @@ export const WalletAuthModal = () => {
   };
 
   const inject = async () => {
-    // web3Context.setProvider(new Web3Provider((window as any).ethereum), 'other');
-
     try {
       // hide our modal because it interferes with typing into Magic's modal
       setModalOpen(false);
-      alert('This button does nothing');
+      const provider = await getMagicProvider();
+      web3Context.setProvider(provider, 'magic');
     } catch (e) {
       showError(e);
     } finally {
