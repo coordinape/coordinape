@@ -101,6 +101,7 @@ export const colors = {
 
   background: figmaColors.grey1,
   surface: figmaColors.grey2,
+  surfaceNested: 'white',
   info: figmaColors.blue4,
   border: figmaColors.grey4,
   borderMedium: figmaColors.grey8,
@@ -282,9 +283,11 @@ export const {
 
 export const dark = createTheme({
   colors: {
-    primary: newFigmaColors.primary4,
+    primary: newFigmaColors.grey1,
     background: newFigmaColors.grey10,
     surface: newFigmaColors.grey9,
+    text: newFigmaColors.grey5,
+    headingText: newFigmaColors.grey4,
   },
   fonts: {
     display: 'Denim, apple-system, sans-serif',
