@@ -18,6 +18,15 @@ array_relationships:
         table:
           name: distributions
           schema: public
+  - name: nominees
+    using:
+      manual_configuration:
+        column_mapping:
+          address: address
+        insertion_order: null
+        remote_table:
+          name: nominees
+          schema: public
   - name: users
     using:
       manual_configuration:
@@ -89,6 +98,14 @@ select_permissions:
       filter:
         _or:
           - users:
+              circle:
+                organization:
+                  circles:
+                    users:
+                      profile:
+                        id:
+                          _eq: X-Hasura-User-Id
+          - nominees:
               circle:
                 organization:
                   circles:

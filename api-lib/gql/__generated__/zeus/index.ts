@@ -12092,6 +12092,52 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     medium_username?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
+    nominees?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['nominees_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['nominees_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['nominees_bool_exp'] | undefined | null;
+      },
+      ValueTypes['nominees']
+    ];
+    nominees_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['nominees_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['nominees_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['nominees_bool_exp'] | undefined | null;
+      },
+      ValueTypes['nominees_aggregate']
+    ];
     skills?: boolean | `@${string}`;
     telegram_username?: boolean | `@${string}`;
     twitter_username?: boolean | `@${string}`;
@@ -12291,6 +12337,7 @@ export type ValueTypes = {
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     medium_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     name?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    nominees?: ValueTypes['nominees_bool_exp'] | undefined | null;
     skills?: ValueTypes['String_comparison_exp'] | undefined | null;
     telegram_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     twitter_username?: ValueTypes['String_comparison_exp'] | undefined | null;
@@ -12328,6 +12375,7 @@ export type ValueTypes = {
     id?: ValueTypes['bigint'] | undefined | null;
     medium_username?: string | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
+    nominees?: ValueTypes['nominees_arr_rel_insert_input'] | undefined | null;
     skills?: string | undefined | null;
     telegram_username?: string | undefined | null;
     twitter_username?: string | undefined | null;
@@ -12422,6 +12470,10 @@ export type ValueTypes = {
     id?: ValueTypes['order_by'] | undefined | null;
     medium_username?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
+    nominees_aggregate?:
+      | ValueTypes['nominees_aggregate_order_by']
+      | undefined
+      | null;
     skills?: ValueTypes['order_by'] | undefined | null;
     telegram_username?: ValueTypes['order_by'] | undefined | null;
     twitter_username?: ValueTypes['order_by'] | undefined | null;
@@ -24340,6 +24392,10 @@ export type ModelTypes = {
     id: GraphQLTypes['bigint'];
     medium_username?: string | undefined;
     name?: GraphQLTypes['citext'] | undefined;
+    /** An array relationship */
+    nominees: Array<GraphQLTypes['nominees']>;
+    /** An aggregate relationship */
+    nominees_aggregate: GraphQLTypes['nominees_aggregate'];
     skills?: string | undefined;
     telegram_username?: string | undefined;
     twitter_username?: string | undefined;
@@ -34968,6 +35024,10 @@ export type GraphQLTypes = {
     id: GraphQLTypes['bigint'];
     medium_username?: string | undefined;
     name?: GraphQLTypes['citext'] | undefined;
+    /** An array relationship */
+    nominees: Array<GraphQLTypes['nominees']>;
+    /** An aggregate relationship */
+    nominees_aggregate: GraphQLTypes['nominees_aggregate'];
     skills?: string | undefined;
     telegram_username?: string | undefined;
     twitter_username?: string | undefined;
@@ -35031,6 +35091,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     medium_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     name?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    nominees?: GraphQLTypes['nominees_bool_exp'] | undefined;
     skills?: GraphQLTypes['String_comparison_exp'] | undefined;
     telegram_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     twitter_username?: GraphQLTypes['String_comparison_exp'] | undefined;
@@ -35066,6 +35127,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     medium_username?: string | undefined;
     name?: GraphQLTypes['citext'] | undefined;
+    nominees?: GraphQLTypes['nominees_arr_rel_insert_input'] | undefined;
     skills?: string | undefined;
     telegram_username?: string | undefined;
     twitter_username?: string | undefined;
@@ -35155,6 +35217,9 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['order_by'] | undefined;
     medium_username?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
+    nominees_aggregate?:
+      | GraphQLTypes['nominees_aggregate_order_by']
+      | undefined;
     skills?: GraphQLTypes['order_by'] | undefined;
     telegram_username?: GraphQLTypes['order_by'] | undefined;
     twitter_username?: GraphQLTypes['order_by'] | undefined;

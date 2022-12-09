@@ -17128,6 +17128,66 @@ type profiles {
   id: bigint!
   medium_username: String
   name: citext
+
+  """
+  An array relationship
+  """
+  nominees(
+    """
+    distinct select on columns
+    """
+    distinct_on: [nominees_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [nominees_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: nominees_bool_exp
+  ): [nominees!]!
+
+  """
+  An aggregate relationship
+  """
+  nominees_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [nominees_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [nominees_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: nominees_bool_exp
+  ): nominees_aggregate!
   skills: String
   telegram_username: String
   twitter_username: String
@@ -17368,6 +17428,7 @@ input profiles_bool_exp {
   id: bigint_comparison_exp
   medium_username: String_comparison_exp
   name: citext_comparison_exp
+  nominees: nominees_bool_exp
   skills: String_comparison_exp
   telegram_username: String_comparison_exp
   twitter_username: String_comparison_exp
@@ -17423,6 +17484,7 @@ input profiles_insert_input {
   id: bigint
   medium_username: String
   name: citext
+  nominees: nominees_arr_rel_insert_input
   skills: String
   telegram_username: String
   twitter_username: String
@@ -17531,6 +17593,7 @@ input profiles_order_by {
   id: order_by
   medium_username: order_by
   name: order_by
+  nominees_aggregate: nominees_aggregate_order_by
   skills: order_by
   telegram_username: order_by
   twitter_username: order_by
