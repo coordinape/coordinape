@@ -25,10 +25,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   chainId: undefined,
   providerType: undefined,
   setProvider: async (provider?: JsonRpcProvider, type?: ProviderType) => {
-    if (get().providerType === 'magic') {
-      getMagic().connect.disconnect();
-    }
     if (!provider) {
+      if (get().providerType === 'magic') {
+        getMagic().connect.disconnect();
+      }
       set({
         provider: undefined,
         address: undefined,

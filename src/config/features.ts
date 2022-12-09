@@ -5,7 +5,6 @@ export type FeatureName =
   | 'fixed_payments'
   | 'theme_switcher'
   | 'discord'
-  | 'multichain_login'
   | 'email_login'
   | 'disable_distribute_evenly';
 

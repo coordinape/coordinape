@@ -55,7 +55,7 @@ export function VaultRow({ vault, css = {} }: { vault: Vault; css?: CSS }) {
   const distributionCount = getDistributions(vault).length;
   const uniqueContributors = getUniqueContributors(vault);
 
-  const { data: vaultTxList, isLoading } = useOnChainTransactions(vault);
+  const { data: vaultTxList, isFetching } = useOnChainTransactions(vault);
 
   return (
     <Panel css={css}>
@@ -133,7 +133,7 @@ export function VaultRow({ vault, css = {} }: { vault: Vault; css?: CSS }) {
         Recent Transactions
       </Text>
       <Box>
-        {isLoading ? (
+        {isFetching ? (
           'Loading...'
         ) : vaultTxList?.length ? (
           <TransactionTable

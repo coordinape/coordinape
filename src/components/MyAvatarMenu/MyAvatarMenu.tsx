@@ -6,6 +6,7 @@ import { Theme } from 'stitches.config';
 
 import { Hidden } from '@material-ui/core';
 
+import { Network } from 'components';
 import { menuGroupStyle } from 'components/MainLayout/MainHeader';
 import isFeatureEnabled from 'config/features';
 import { CloudDrizzle, Moon, Sun } from 'icons/__generated';
@@ -40,7 +41,7 @@ export const MyAvatarMenu = ({
   setCurrentTheme,
 }: Props) => {
   const myProfile = useMyProfile();
-  const { icon, address, chainName, logout } = walletStatus;
+  const { icon, address, chainId, logout } = walletStatus;
   const [showTxModal, setShowTxModal] = useState(false);
 
   const [mouseEnterPopover, setMouseEnterPopover] = useState(false);
@@ -111,6 +112,7 @@ export const MyAvatarMenu = ({
               position: 'relative',
               right: '$md',
               top: 'calc($lg - $4xl)',
+              color: '$headingText',
             }}
             onClick={closePopover}
           >
@@ -132,9 +134,10 @@ export const MyAvatarMenu = ({
                 css={{
                   display: 'flex',
                   alignItems: 'center',
-                  mb: '$xs',
+                  mb: '$sm',
                   fontWeight: '$bold',
                   fontSize: '$large',
+                  color: '$text',
                 }}
               >
                 <Box css={{ mr: '$sm', display: 'flex' }}>{icon}</Box>
@@ -142,13 +145,10 @@ export const MyAvatarMenu = ({
               </Box>
               <Box
                 css={{
-                  display: 'flex',
-                  fontSize: '$xs',
-                  color: '$headingText',
                   mb: '$xs',
                 }}
               >
-                Connected Chain: {chainName ?? ''}
+                <Network chainId={chainId || 1} />
               </Box>
               {isFeatureEnabled('vaults') && (
                 <Link

@@ -2,6 +2,7 @@ import assert from 'assert';
 import { useEffect, useState } from 'react';
 
 import { TypedEventFilter } from '@coordinape/hardhat/dist/typechain/commons';
+import { DebugLogger } from 'common-lib/log';
 import { BigNumber } from 'ethers';
 import { formatUnits } from 'ethers/lib/utils';
 import {
@@ -26,6 +27,8 @@ import { OwnerProfileLink, VaultExternalLink } from './components';
 import { getVaultAndTransactions } from './queries';
 
 import { Awaited } from 'types/shim';
+
+const logger = new DebugLogger('VaultTransactions');
 
 type VaultAndTransactions = Awaited<ReturnType<typeof getVaultAndTransactions>>;
 
@@ -79,17 +82,23 @@ export const VaultTransactions = () => {
   );
 };
 
+export const QUERY_KEY_VAULT_TXS = 'vault-txs';
+
 export function useOnChainTransactions(
   vault: VaultAndTransactions | undefined
 ) {
   const contracts = useContracts();
   return useQuery(
-    ['vault-txs', vault?.id, vault?.vault_transactions.length],
+    [QUERY_KEY_VAULT_TXS, vault?.id],
     async () => {
-      assert(contracts);
-      return vault ? getOnchainVaultTransactions(vault, contracts) : [];
+      assert(contracts && vault);
+      return getOnchainVaultTransactions(vault, contracts);
     },
-    { initialData: [], enabled: !!contracts }
+    {
+      placeholderData: [],
+      enabled: !!(contracts && vault),
+      staleTime: Infinity,
+    }
   );
 }
 
@@ -102,6 +111,7 @@ export async function getOnchainVaultTransactions(
     chain_id.toString() === contracts.chainId,
     'chain id of vault and provider do not match'
   );
+  logger.log('getOnchainVaultTransactions');
   const eventResults = await Promise.all([
     getDepositEvents(contracts, vault),
     getWithdrawEvents(contracts, vault),
@@ -123,6 +133,7 @@ interface RawTransaction {
   amount: string | number;
   hash: string;
 }
+
 async function getDepositEvents(
   contracts: Contracts,
   {
@@ -147,6 +158,9 @@ async function getDepositEvents(
   const depositEvents = await eventsContract.queryFilter(
     depositFilter,
     deployment_block
+  );
+  logger.log(
+    `${vault_address.substring(0, 6)}: deposit events: ${depositEvents.length}`
   );
 
   const tokenFilter = erc20Contract.filters.Transfer(
@@ -243,6 +257,11 @@ async function getWithdrawEvents(
   const withdrawEvents = allWithdrawEvents.filter(
     (_, idx) => eventTxInfo[idx].to.toLowerCase() === vault_address
   );
+  logger.log(
+    `${vault_address.substring(0, 6)}: withdraw events: ${
+      withdrawEvents.length
+    }`
+  );
 
   const withdraws: RawTransaction[] = [];
   for (const event of withdrawEvents) {
@@ -295,6 +314,7 @@ interface RawDistributionTx extends RawTransaction {
   circleId: number;
   circle: string;
 }
+
 async function getDistributionEvents(
   contracts: Contracts,
   { vault_address, deployment_block, vault_transactions }: VaultAndTransactions
@@ -303,6 +323,9 @@ async function getDistributionEvents(
   const distroEvents = await contracts.distributor.queryFilter(
     distroFilter,
     deployment_block
+  );
+  logger.log(
+    `${vault_address.substring(0, 6)}: distro events: ${distroEvents.length}`
   );
 
   const distributions: RawDistributionTx[] = [];

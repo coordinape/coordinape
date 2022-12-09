@@ -12,5 +12,6 @@ export class DebugLogger {
     this.log.log = console.log;
     // print errors to stderr (debug's default)
     this.error = debug(domain + ':error');
+    this.error.log = console.error;
   }
 }
