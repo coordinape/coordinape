@@ -6,7 +6,7 @@ import { loginSupportedChainIds } from 'common-lib/constants';
 import { Network } from 'components';
 import { IN_DEVELOPMENT } from 'config/env';
 import { useApeSnackbar } from 'hooks';
-import { Check, ChevronDown, ChevronUp } from 'icons/__generated';
+import { ChevronDown, ChevronUp } from 'icons/__generated';
 import {
   Flex,
   HR,
@@ -27,6 +27,7 @@ const NetworkButton = ({
   selectedChain: number;
   onError: (error: Error | any) => void;
 }) => {
+  const current = selectedChain == chainId;
   return (
     <Button
       fullWidth
@@ -44,12 +45,16 @@ const NetworkButton = ({
             flexGrow: 1,
           }}
         />
-        {selectedChain == chainId && (
-          <Check
-            size="lg"
-            boldstroke
-            css={{ pl: '$sm', color: '$transparent' }}
-          />
+        {current && (
+          <Flex
+            css={{
+              mr: '$sm',
+              borderRadius: 999,
+              backgroundColor: '$complete',
+              width: '7px',
+              height: '7px',
+            }}
+          ></Flex>
         )}
       </Network>
     </Button>
