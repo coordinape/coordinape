@@ -28,8 +28,19 @@ describe('Delete Circle action handler', () => {
         { success: true },
       ],
     });
-
     expect(result).toEqual({ success: true });
+
+    const { circles_by_pk: queryResult } = await adminClient.query({
+      circles_by_pk: [
+        {
+          id: circle.id,
+        },
+        {
+          deleted_at: true,
+        },
+      ],
+    });
+    expect(queryResult?.deleted_at).toBeTruthy();
   });
   test('Test deletion of circle as a non admin', async () => {
     const newAddress = await getUniqueAddress();
