@@ -19,7 +19,7 @@ export async function createUser(
           entrance: object.entrance ?? '?',
         },
       },
-      { id: true, role: true },
+      { id: true },
     ],
   });
   if (!insert_users_one) {
