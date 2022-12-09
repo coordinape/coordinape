@@ -619,36 +619,41 @@ const ContributionsPage = () => {
                   <Trash2 />
                 </Button>
               </Flex>
-              <Flex
-                alignItems="center"
-                css={{
-                  my: '$xl',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <Flex>
-                  <Text
-                    h3
-                    semibold
-                    css={{
-                      mr: '$md',
-                    }}
-                  >
-                    {currentContribution.epoch.id
-                      ? renderEpochDate(currentContribution.epoch)
-                      : 'Latest'}
-                  </Text>
-                  {getEpochLabel(currentContribution.epoch)}
+              <Flex column css={{ my: '$xl' }}>
+                <Flex
+                  alignItems="center"
+                  css={{
+                    mb: '$sm',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <Flex>
+                    <Text
+                      h3
+                      semibold
+                      css={{
+                        mr: '$md',
+                      }}
+                    >
+                      {currentContribution.epoch.id
+                        ? renderEpochDate(currentContribution.epoch)
+                        : 'Latest'}
+                    </Text>
+                    {getEpochLabel(currentContribution.epoch)}
+                  </Flex>
+                  {isEpochCurrentOrLater(currentContribution.epoch) && (
+                    <SavingIndicator
+                      saveState={saveState[currentContribution.contribution.id]}
+                      retry={() => {
+                        saveContribution(descriptionField.value);
+                        refetchContributions();
+                      }}
+                    />
+                  )}
                 </Flex>
-                {isEpochCurrentOrLater(currentContribution.epoch) && (
-                  <SavingIndicator
-                    saveState={saveState[currentContribution.contribution.id]}
-                    retry={() => {
-                      saveContribution(descriptionField.value);
-                      refetchContributions();
-                    }}
-                  />
-                )}
+                <Text size="medium" css={{ fontWeight: '$medium' }}>
+                  {currentContribution.epoch.description}
+                </Text>
               </Flex>
               <Flex column css={{ gap: '$sm' }}>
                 <Flex
@@ -774,12 +779,17 @@ const ContributionsPage = () => {
             </>
           ) : currentIntContribution ? (
             <>
-              <Text h2 css={{ gap: '$md', my: '$xl' }}>
-                {currentIntContribution.epoch
-                  ? renderEpochDate(currentIntContribution.epoch)
-                  : 'Latest'}
-                {getEpochLabel(currentIntContribution.epoch)}
-              </Text>
+              <Flex column css={{ my: '$xl' }}>
+                <Text h2 css={{ gap: '$md', mb: '$sm' }}>
+                  {currentIntContribution.epoch
+                    ? renderEpochDate(currentIntContribution.epoch)
+                    : 'Latest'}
+                  {getEpochLabel(currentIntContribution.epoch)}
+                </Text>
+                <Text size="medium" css={{ fontWeight: '$medium' }}>
+                  {currentIntContribution?.epoch?.description}
+                </Text>
+              </Flex>
               <Panel css={{ pl: '0 !important' }}>
                 <Text p size="large" semibold css={{ color: '$headingText' }}>
                   {contributionSource(
