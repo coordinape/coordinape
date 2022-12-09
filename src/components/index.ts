@@ -22,6 +22,7 @@ export * from './GlobalUi';
 export * from './LoadingModal';
 export * from './MainLayout/MainLayout';
 export * from './MyAvatarMenu/MyAvatarMenu';
+export * from './Network/Network';
 export * from './OptInput';
 export * from './ProfileCard/ProfileCard';
 export * from './ProfileSkills';
