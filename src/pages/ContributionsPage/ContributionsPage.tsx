@@ -826,9 +826,7 @@ const yearCurrent = (end: string) =>
  */
 const renderEpochDate = (epoch: Epoch) =>
   dedent`
-    ${
-      epoch.description ?? `Epoch${epoch.number ? ` ${epoch.number}` : ''}`
-    }: ${DateTime.fromISO(epoch.start_date).toFormat('LLL dd')} -
+  ${DateTime.fromISO(epoch.start_date).toFormat('LLL dd')} -
     ${DateTime.fromISO(epoch.end_date).toFormat(
       (monthsEqual(epoch.start_date, epoch.end_date) ? '' : 'LLL ') +
         'dd' +
@@ -859,7 +857,7 @@ const EpochGroup = React.memo(function EpochGroup({
     <Flex column css={{ gap: '$1xl' }}>
       {epochs.map((epoch, idx, epochArray) => (
         <Box key={epoch.id}>
-          <Box>
+          <Flex column css={{ gap: '$sm' }}>
             <Flex
               alignItems="center"
               css={{
@@ -882,7 +880,10 @@ const EpochGroup = React.memo(function EpochGroup({
                 </Button>
               )}
             </Flex>
-          </Box>
+            <Text size="medium" css={{ fontWeight: '$medium' }}>
+              {epoch.description}
+            </Text>
+          </Flex>
           <ContributionPanel>
             <ContributionList
               contributions={contributions.filter(

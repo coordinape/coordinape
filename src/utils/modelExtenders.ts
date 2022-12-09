@@ -225,5 +225,5 @@ const getEpochLabel = (epoch: IApiEpoch): string => {
     startDate.month !== endDate.month
       ? `${startDate.toFormat('LLL d')} - ${endDate.toFormat('LLL d')}`
       : `${startDate.monthShort} ${startDate.day} - ${endDate.day}`;
-  return `${epochDescription} ${epochDates}`;
+  return ` ${epochDates}: ${epochDescription}`;
 };

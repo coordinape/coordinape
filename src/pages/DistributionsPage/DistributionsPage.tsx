@@ -195,8 +195,9 @@ export function DistributionsPage() {
       </Text>
       {epoch.description && (
         <Text size="xl">
-          {epoch.description}: {startDate.toFormat('MMM d')} -{' '}
-          {endDate.toFormat(endDate.month === startDate.month ? 'd' : 'MMM d')}
+          {startDate.toFormat('MMM d')} -{' '}
+          {endDate.toFormat(endDate.month === startDate.month ? 'd' : 'MMM d')}:{' '}
+          {epoch.description}
         </Text>
       )}
       <Box css={{ maxWidth: '712px' }}>
