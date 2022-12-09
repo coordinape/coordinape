@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon';
 
 import { adminClient } from '../../../../api-lib/gql/adminClient';
+const { mockLog } = jest.requireMock('../../../../src/common-lib/log');
 import {
   createCircle,
   createEpoch,
@@ -75,5 +76,53 @@ describe('Delete Epoch action handler', () => {
       ],
     });
     expect(result).toEqual({ success: false });
+  });
+
+  test('Test deletion of an epoch which you are not an admin of', async () => {
+    const newAddress = await getUniqueAddress();
+    const newProfile = await createProfile(adminClient, {
+      address: newAddress,
+    });
+    await createUser(adminClient, {
+      address: newAddress,
+      circle_id: circle.id,
+      role: 0,
+    });
+
+    const client = mockUserClient({
+      profileId: newProfile.id,
+      address: newAddress,
+    });
+    const epoch = await createEpoch(adminClient, {
+      circle_id: circle.id,
+      start_date: DateTime.now().plus({ minutes: 1 }),
+    });
+
+    await expect(() =>
+      client.mutate({
+        deleteEpoch: [
+          {
+            payload: { id: epoch.id, circle_id: circle.id },
+          },
+          { success: true },
+        ],
+      })
+    ).rejects.toThrow();
+    expect(mockLog).toHaveBeenCalledWith(
+      JSON.stringify(
+        {
+          errors: [
+            {
+              extensions: {
+                code: '401',
+              },
+              message: 'User not circle admin',
+            },
+          ],
+        },
+        null,
+        2
+      )
+    );
   });
 });
