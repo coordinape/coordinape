@@ -6,7 +6,7 @@ export default function useConnectedAddress() {
   const { account, library } = useWeb3React();
 
   // fallback for certain providers that don't set account directly
-  const [signerAddress, setSignerAddress] = useState();
+  const [signerAddress, setSignerAddress] = useState<string>();
   useEffect(() => {
     if (account) return;
     library?.getSigner().getAddress().then(setSignerAddress);

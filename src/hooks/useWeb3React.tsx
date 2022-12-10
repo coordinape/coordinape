@@ -7,10 +7,13 @@ import {
   Web3ReactProvider as OriginalWeb3ReactProvider,
 } from '@web3-react/core';
 import type { Web3ReactContextInterface } from '@web3-react/core/dist/types';
+import { DebugLogger } from 'common-lib/log';
 import { useAuthStore } from 'features/auth';
 import { MagicModalFixer } from 'features/auth/magic';
 import type { ProviderType } from 'features/auth/store';
 import { pick } from 'lodash/fp';
+
+const logger = new DebugLogger('useWeb3React');
 
 // connector?: AbstractConnector;
 // library?: T;
@@ -41,7 +44,12 @@ export function useWeb3React<T = any>(
   const { provider, address, chainId } = useAuthStore(
     pick(['provider', 'address', 'chainId'])
   );
+
   const library = context.library || provider;
+  // const library = useMemo(() => {
+  //   const p = context.library || provider;
+  //   return p ? makeProviderProxy(p) : undefined;
+  // }, [context.library, provider]) as T | undefined;
 
   return {
     ...context,
@@ -112,3 +120,54 @@ const Web3EventHooks = () => {
 
   return null;
 };
+
+export function makeProviderProxy(provider: any) {
+  const signerProxy = (signer: any) =>
+    new Proxy(signer, {
+      get: (target, key, receiver) => {
+        let m = Reflect.get(target, key, receiver);
+        if (typeof m === 'function') m = m.bind(target);
+        const k = String(key);
+        if (
+          ![
+            '_isSigner',
+            'provider',
+            'getAddress',
+            'call',
+            'sendTransaction',
+          ].includes(k)
+        )
+          logger.log(`signer: ${k}`);
+
+        if (['sendTransaction', 'call'].includes(k)) {
+          return ((...args: any[]) => {
+            const label = `signer.${k}(${JSON.stringify(args)})`;
+            logger.log(`${label}: 🟢`);
+            const ret = m(...args);
+            ret.then(() => logger.log(`${label}: 🔴`));
+            return ret;
+          }).bind(target);
+        }
+
+        return m;
+      },
+    });
+
+  // @ts-ignore
+  const providerProxy: typeof Proxy = new Proxy(provider, {
+    get: (target, key, receiver) => {
+      let m = Reflect.get(target, key, receiver);
+      if (typeof m === 'function') m = m.bind(target);
+      const k = String(key);
+      if (!['on', 'off', 'getSigner'].includes(k)) logger.log(`provider.${k}`);
+
+      if (k === 'getSigner')
+        return ((...args: any[]) =>
+          signerProxy(m.bind(providerProxy)(...args))).bind(target);
+
+      return m;
+    },
+  });
+
+  return providerProxy as unknown as JsonRpcProvider;
+}
