@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import { formatUnits } from 'ethers/lib/utils';
 import { vault_tx_types_enum } from 'lib/gql/__generated__/zeus';
@@ -7,6 +7,7 @@ import { CSS } from 'stitches.config';
 
 import type { Vault } from 'hooks/gql/useVaults';
 import { useBlockListener } from 'hooks/useBlockListener';
+import useConnectedAddress from 'hooks/useConnectedAddress';
 import { useContracts } from 'hooks/useContracts';
 import { paths } from 'routes/paths';
 import { AppLink, Box, Button, Panel, Text } from 'ui';
@@ -17,17 +18,38 @@ import DepositModal, { DepositModalProps } from './DepositModal';
 import { TransactionTable, useOnChainTransactions } from './VaultTransactions';
 import WithdrawModal, { WithdrawModalProps } from './WithdrawModal';
 
-export function VaultRow({ vault, css = {} }: { vault: Vault; css?: CSS }) {
+export function VaultRow({
+  vault,
+  css = {},
+  showRecentTransactions = true,
+}: {
+  vault: Vault;
+  css?: CSS;
+  showRecentTransactions?: boolean;
+}) {
+  const myAddress = useConnectedAddress();
   const [modal, setModal] = useState<ModalLabel>('');
   const [userIsOwner, setUserIsOwner] = useState<boolean>(false);
   const [ownerAddress, setOwnerAddress] = useState<string>('');
   const [balance, setBalance] = useState(0);
   const closeModal = () => setModal('');
   const contracts = useContracts();
+
+  const mounted = useRef(false);
+
+  useEffect(() => {
+    mounted.current = true;
+
+    return () => {
+      mounted.current = false;
+    };
+  }, []);
+
   const updateBalance = () =>
-    contracts
-      ?.getVaultBalance(vault)
-      .then(x => setBalance(Number(formatUnits(x, vault.decimals).toString())));
+    contracts?.getVaultBalance(vault).then(x => {
+      if (!mounted.current) return;
+      setBalance(Number(formatUnits(x, vault.decimals).toString()));
+    });
 
   useBlockListener(updateBalance, [vault.id]);
   // for UI updates when the user is switching between orgs quickly
@@ -42,20 +64,16 @@ export function VaultRow({ vault, css = {} }: { vault: Vault; css?: CSS }) {
         setUserIsOwner(false);
         return;
       }
-      const [ownerAddress, userAddress] = await Promise.all([
-        currentVault.owner(),
-        contracts.getMyAddress(),
-      ]);
+      const ownerAddress = await currentVault.owner();
+      if (!mounted.current) return;
       setOwnerAddress(ownerAddress.toLowerCase());
-      setUserIsOwner(ownerAddress.toLowerCase() === userAddress.toLowerCase());
+      setUserIsOwner(ownerAddress.toLowerCase() === myAddress?.toLowerCase());
     };
     updateOwner();
-  }, [contracts, vault.id]);
+  }, [myAddress, contracts, vault.id]);
 
   const distributionCount = getDistributions(vault).length;
   const uniqueContributors = getUniqueContributors(vault);
-
-  const { data: vaultTxList, isFetching } = useOnChainTransactions(vault);
 
   return (
     <Panel css={css}>
@@ -122,6 +140,16 @@ export function VaultRow({ vault, css = {} }: { vault: Vault; css?: CSS }) {
           <strong>{uniqueContributors}</strong> Unique Contributors Paid
         </Text>
       </Box>
+      {showRecentTransactions && <RecentTransactions vault={vault} />}
+    </Panel>
+  );
+}
+
+const RecentTransactions = ({ vault }: { vault: Vault }) => {
+  const { data: vaultTxList, isFetching } = useOnChainTransactions(vault);
+
+  return (
+    <>
       <Text
         css={{
           color: '$secondaryText',
@@ -155,9 +183,9 @@ export function VaultRow({ vault, css = {} }: { vault: Vault; css?: CSS }) {
           </Box>
         )}
       </Box>
-    </Panel>
+    </>
   );
-}
+};
 
 const getDistributions = (vault: Vault) => {
   return vault.vault_transactions.filter(
