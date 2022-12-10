@@ -1,10 +1,12 @@
 import { Suspense, useEffect, useState } from 'react';
 
 import { RequireAuth } from 'features/auth';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import { dark, light, Theme } from 'stitches.config';
 
 import HelpButton from '../HelpButton';
 import { GlobalUi, SentryScopeController } from 'components';
+import { TroubleshootingContent } from 'components/Troubleshooting';
 import { AppRoutes } from 'routes/routes';
 import { Box } from 'ui';
 
@@ -13,7 +15,7 @@ import { MainHeader } from './MainHeader';
 // this component sets up the top navigation bar to stay fixed on-screen and
 // have content scroll underneath it
 
-export const MainLayout = () => {
+export const MainLayoutInner = () => {
   const [currentTheme, setCurrentTheme] = useState<Theme>(
     localStorage['currentTheme']
   );
@@ -66,7 +68,20 @@ export const MainLayout = () => {
   );
 };
 
-export default MainLayout;
+export const MainLayout = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    (window as any).troubleshoot = () => navigate('/troubleshooting');
+  });
+
+  return (
+    <Routes>
+      <Route path="troubleshooting" element={<TroubleshootingContent />} />
+      <Route path="*" element={<MainLayoutInner />} />
+    </Routes>
+  );
+};
 
 // this is in this file because it depends on the <main> tag defined above
 export const scrollToTop = () => {
