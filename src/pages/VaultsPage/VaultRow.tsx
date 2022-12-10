@@ -55,8 +55,6 @@ export function VaultRow({ vault, css = {} }: { vault: Vault; css?: CSS }) {
   const distributionCount = getDistributions(vault).length;
   const uniqueContributors = getUniqueContributors(vault);
 
-  const { data: vaultTxList, isFetching } = useOnChainTransactions(vault);
-
   return (
     <Panel css={css}>
       <VaultModal
@@ -122,6 +120,16 @@ export function VaultRow({ vault, css = {} }: { vault: Vault; css?: CSS }) {
           <strong>{uniqueContributors}</strong> Unique Contributors Paid
         </Text>
       </Box>
+      <RecentTransactions vault={vault} />
+    </Panel>
+  );
+}
+
+const RecentTransactions = ({ vault }: { vault: Vault }) => {
+  const { data: vaultTxList, isFetching } = useOnChainTransactions(vault);
+
+  return (
+    <>
       <Text
         css={{
           color: '$secondaryText',
@@ -155,9 +163,9 @@ export function VaultRow({ vault, css = {} }: { vault: Vault; css?: CSS }) {
           </Box>
         )}
       </Box>
-    </Panel>
+    </>
   );
-}
+};
 
 const getDistributions = (vault: Vault) => {
   return vault.vault_transactions.filter(
