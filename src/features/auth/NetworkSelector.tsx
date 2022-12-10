@@ -156,7 +156,7 @@ export const NetworkSelector = () => {
           <Box>
             {chainOrder.map((chainGroup, idx) => {
               return (
-                <>
+                <Flex key={idx}>
                   {idx > 0 && <HR sm />}
                   {chainGroup.map(chainId => {
                     return (
@@ -168,7 +168,7 @@ export const NetworkSelector = () => {
                       />
                     );
                   })}
-                </>
+                </Flex>
               );
             })}
           </Box>
