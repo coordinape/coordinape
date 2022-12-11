@@ -6038,6 +6038,336 @@ input date_comparison_exp {
 }
 
 """
+tokens the discord bot uses to operate on circles
+"""
+type discord_circle_api_tokens {
+  channel_snowflake: String!
+  circle_id: bigint!
+  created_at: timestamptz!
+  id: bigint!
+  token: String
+}
+
+"""
+aggregated selection of "discord.circle_api_tokens"
+"""
+type discord_circle_api_tokens_aggregate {
+  aggregate: discord_circle_api_tokens_aggregate_fields
+  nodes: [discord_circle_api_tokens!]!
+}
+
+"""
+aggregate fields of "discord.circle_api_tokens"
+"""
+type discord_circle_api_tokens_aggregate_fields {
+  avg: discord_circle_api_tokens_avg_fields
+  count(
+    columns: [discord_circle_api_tokens_select_column!]
+    distinct: Boolean
+  ): Int!
+  max: discord_circle_api_tokens_max_fields
+  min: discord_circle_api_tokens_min_fields
+  stddev: discord_circle_api_tokens_stddev_fields
+  stddev_pop: discord_circle_api_tokens_stddev_pop_fields
+  stddev_samp: discord_circle_api_tokens_stddev_samp_fields
+  sum: discord_circle_api_tokens_sum_fields
+  var_pop: discord_circle_api_tokens_var_pop_fields
+  var_samp: discord_circle_api_tokens_var_samp_fields
+  variance: discord_circle_api_tokens_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type discord_circle_api_tokens_avg_fields {
+  circle_id: Float
+  id: Float
+}
+
+"""
+Boolean expression to filter rows from the table "discord.circle_api_tokens". All fields are combined with a logical 'AND'.
+"""
+input discord_circle_api_tokens_bool_exp {
+  _and: [discord_circle_api_tokens_bool_exp!]
+  _not: discord_circle_api_tokens_bool_exp
+  _or: [discord_circle_api_tokens_bool_exp!]
+  channel_snowflake: String_comparison_exp
+  circle_id: bigint_comparison_exp
+  created_at: timestamptz_comparison_exp
+  id: bigint_comparison_exp
+  token: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "discord.circle_api_tokens"
+"""
+enum discord_circle_api_tokens_constraint {
+  """
+  unique or primary key constraint on columns "circle_id"
+  """
+  circle_api_tokens_circle_id_key
+
+  """
+  unique or primary key constraint on columns "id"
+  """
+  circle_api_tokens_pkey
+
+  """
+  unique or primary key constraint on columns "token"
+  """
+  circle_api_tokens_token_key
+}
+
+"""
+input type for incrementing numeric columns in table "discord.circle_api_tokens"
+"""
+input discord_circle_api_tokens_inc_input {
+  circle_id: bigint
+  id: bigint
+}
+
+"""
+input type for inserting data into table "discord.circle_api_tokens"
+"""
+input discord_circle_api_tokens_insert_input {
+  channel_snowflake: String
+  circle_id: bigint
+  created_at: timestamptz
+  id: bigint
+  token: String
+}
+
+"""
+aggregate max on columns
+"""
+type discord_circle_api_tokens_max_fields {
+  channel_snowflake: String
+  circle_id: bigint
+  created_at: timestamptz
+  id: bigint
+  token: String
+}
+
+"""
+aggregate min on columns
+"""
+type discord_circle_api_tokens_min_fields {
+  channel_snowflake: String
+  circle_id: bigint
+  created_at: timestamptz
+  id: bigint
+  token: String
+}
+
+"""
+response of any mutation on the table "discord.circle_api_tokens"
+"""
+type discord_circle_api_tokens_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [discord_circle_api_tokens!]!
+}
+
+"""
+on_conflict condition type for table "discord.circle_api_tokens"
+"""
+input discord_circle_api_tokens_on_conflict {
+  constraint: discord_circle_api_tokens_constraint!
+  update_columns: [discord_circle_api_tokens_update_column!]! = []
+  where: discord_circle_api_tokens_bool_exp
+}
+
+"""
+Ordering options when selecting data from "discord.circle_api_tokens".
+"""
+input discord_circle_api_tokens_order_by {
+  channel_snowflake: order_by
+  circle_id: order_by
+  created_at: order_by
+  id: order_by
+  token: order_by
+}
+
+"""
+primary key columns input for table: discord.circle_api_tokens
+"""
+input discord_circle_api_tokens_pk_columns_input {
+  id: bigint!
+}
+
+"""
+select columns of table "discord.circle_api_tokens"
+"""
+enum discord_circle_api_tokens_select_column {
+  """
+  column name
+  """
+  channel_snowflake
+
+  """
+  column name
+  """
+  circle_id
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  token
+}
+
+"""
+input type for updating data in table "discord.circle_api_tokens"
+"""
+input discord_circle_api_tokens_set_input {
+  channel_snowflake: String
+  circle_id: bigint
+  created_at: timestamptz
+  id: bigint
+  token: String
+}
+
+"""
+aggregate stddev on columns
+"""
+type discord_circle_api_tokens_stddev_fields {
+  circle_id: Float
+  id: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type discord_circle_api_tokens_stddev_pop_fields {
+  circle_id: Float
+  id: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type discord_circle_api_tokens_stddev_samp_fields {
+  circle_id: Float
+  id: Float
+}
+
+"""
+Streaming cursor of the table "discord_circle_api_tokens"
+"""
+input discord_circle_api_tokens_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: discord_circle_api_tokens_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input discord_circle_api_tokens_stream_cursor_value_input {
+  channel_snowflake: String
+  circle_id: bigint
+  created_at: timestamptz
+  id: bigint
+  token: String
+}
+
+"""
+aggregate sum on columns
+"""
+type discord_circle_api_tokens_sum_fields {
+  circle_id: bigint
+  id: bigint
+}
+
+"""
+update columns of table "discord.circle_api_tokens"
+"""
+enum discord_circle_api_tokens_update_column {
+  """
+  column name
+  """
+  channel_snowflake
+
+  """
+  column name
+  """
+  circle_id
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  token
+}
+
+input discord_circle_api_tokens_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: discord_circle_api_tokens_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: discord_circle_api_tokens_set_input
+  where: discord_circle_api_tokens_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type discord_circle_api_tokens_var_pop_fields {
+  circle_id: Float
+  id: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type discord_circle_api_tokens_var_samp_fields {
+  circle_id: Float
+  id: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type discord_circle_api_tokens_variance_fields {
+  circle_id: Float
+  id: Float
+}
+
+"""
 link a discord role to a circle  to control membership of the circle
 """
 type discord_roles_circles {
@@ -6048,7 +6378,7 @@ type discord_roles_circles {
   circle_id: bigint!
   created_at: timestamptz!
   id: bigint!
-  role: String!
+  server_role: String!
   updated_at: timestamptz!
 }
 
@@ -6099,7 +6429,7 @@ input discord_roles_circles_bool_exp {
   circle_id: bigint_comparison_exp
   created_at: timestamptz_comparison_exp
   id: bigint_comparison_exp
-  role: String_comparison_exp
+  server_role: String_comparison_exp
   updated_at: timestamptz_comparison_exp
 }
 
@@ -6134,7 +6464,7 @@ input discord_roles_circles_insert_input {
   circle_id: bigint
   created_at: timestamptz
   id: bigint
-  role: String
+  server_role: String
   updated_at: timestamptz
 }
 
@@ -6145,7 +6475,7 @@ type discord_roles_circles_max_fields {
   circle_id: bigint
   created_at: timestamptz
   id: bigint
-  role: String
+  server_role: String
   updated_at: timestamptz
 }
 
@@ -6156,7 +6486,7 @@ type discord_roles_circles_min_fields {
   circle_id: bigint
   created_at: timestamptz
   id: bigint
-  role: String
+  server_role: String
   updated_at: timestamptz
 }
 
@@ -6192,7 +6522,7 @@ input discord_roles_circles_order_by {
   circle_id: order_by
   created_at: order_by
   id: order_by
-  role: order_by
+  server_role: order_by
   updated_at: order_by
 }
 
@@ -6225,7 +6555,7 @@ enum discord_roles_circles_select_column {
   """
   column name
   """
-  role
+  server_role
 
   """
   column name
@@ -6240,7 +6570,7 @@ input discord_roles_circles_set_input {
   circle_id: bigint
   created_at: timestamptz
   id: bigint
-  role: String
+  server_role: String
   updated_at: timestamptz
 }
 
@@ -6290,7 +6620,7 @@ input discord_roles_circles_stream_cursor_value_input {
   circle_id: bigint
   created_at: timestamptz
   id: bigint
-  role: String
+  server_role: String
   updated_at: timestamptz
 }
 
@@ -6324,7 +6654,7 @@ enum discord_roles_circles_update_column {
   """
   column name
   """
-  role
+  server_role
 
   """
   column name
@@ -11391,6 +11721,21 @@ type mutation_root {
   delete_contributions_by_pk(id: bigint!): contributions
 
   """
+  delete data from the table: "discord.circle_api_tokens"
+  """
+  delete_discord_circle_api_tokens(
+    """
+    filter the rows which have to be deleted
+    """
+    where: discord_circle_api_tokens_bool_exp!
+  ): discord_circle_api_tokens_mutation_response
+
+  """
+  delete single row from the table: "discord.circle_api_tokens"
+  """
+  delete_discord_circle_api_tokens_by_pk(id: bigint!): discord_circle_api_tokens
+
+  """
   delete data from the table: "discord.roles_circles"
   """
   delete_discord_roles_circles(
@@ -12008,6 +12353,36 @@ type mutation_root {
     """
     on_conflict: contributions_on_conflict
   ): contributions
+
+  """
+  insert data into the table: "discord.circle_api_tokens"
+  """
+  insert_discord_circle_api_tokens(
+    """
+    the rows to be inserted
+    """
+    objects: [discord_circle_api_tokens_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: discord_circle_api_tokens_on_conflict
+  ): discord_circle_api_tokens_mutation_response
+
+  """
+  insert a single row into the table: "discord.circle_api_tokens"
+  """
+  insert_discord_circle_api_tokens_one(
+    """
+    the row to be inserted
+    """
+    object: discord_circle_api_tokens_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: discord_circle_api_tokens_on_conflict
+  ): discord_circle_api_tokens
 
   """
   insert data into the table: "discord.roles_circles"
@@ -13130,6 +13505,52 @@ type mutation_root {
     """
     updates: [contributions_updates!]!
   ): [contributions_mutation_response]
+
+  """
+  update data of the table: "discord.circle_api_tokens"
+  """
+  update_discord_circle_api_tokens(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: discord_circle_api_tokens_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: discord_circle_api_tokens_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: discord_circle_api_tokens_bool_exp!
+  ): discord_circle_api_tokens_mutation_response
+
+  """
+  update single row of the table: "discord.circle_api_tokens"
+  """
+  update_discord_circle_api_tokens_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: discord_circle_api_tokens_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: discord_circle_api_tokens_set_input
+    pk_columns: discord_circle_api_tokens_pk_columns_input!
+  ): discord_circle_api_tokens
+
+  """
+  update multiples rows of table: "discord.circle_api_tokens"
+  """
+  update_discord_circle_api_tokens_many(
+    """
+    updates to execute, in order
+    """
+    updates: [discord_circle_api_tokens_updates!]!
+  ): [discord_circle_api_tokens_mutation_response]
 
   """
   update data of the table: "discord.roles_circles"
@@ -18926,6 +19347,71 @@ type query_root {
   contributions_by_pk(id: bigint!): contributions
 
   """
+  fetch data from the table: "discord.circle_api_tokens"
+  """
+  discord_circle_api_tokens(
+    """
+    distinct select on columns
+    """
+    distinct_on: [discord_circle_api_tokens_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [discord_circle_api_tokens_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: discord_circle_api_tokens_bool_exp
+  ): [discord_circle_api_tokens!]!
+
+  """
+  fetch aggregated fields from the table: "discord.circle_api_tokens"
+  """
+  discord_circle_api_tokens_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [discord_circle_api_tokens_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [discord_circle_api_tokens_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: discord_circle_api_tokens_bool_exp
+  ): discord_circle_api_tokens_aggregate!
+
+  """
+  fetch data from the table: "discord.circle_api_tokens" using primary key columns
+  """
+  discord_circle_api_tokens_by_pk(id: bigint!): discord_circle_api_tokens
+
+  """
   fetch data from the table: "discord.roles_circles"
   """
   discord_roles_circles(
@@ -19954,6 +20440,7 @@ type query_root {
   fetch data from the table: "personal_access_tokens" using primary key columns
   """
   personal_access_tokens_by_pk(id: bigint!): personal_access_tokens
+  price_per_share(chain_id: Int!, token_address: String): Float!
 
   """
   fetch data from the table: "profiles"
@@ -21296,6 +21783,91 @@ type subscription_root {
     """
     where: contributions_bool_exp
   ): [contributions!]!
+
+  """
+  fetch data from the table: "discord.circle_api_tokens"
+  """
+  discord_circle_api_tokens(
+    """
+    distinct select on columns
+    """
+    distinct_on: [discord_circle_api_tokens_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [discord_circle_api_tokens_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: discord_circle_api_tokens_bool_exp
+  ): [discord_circle_api_tokens!]!
+
+  """
+  fetch aggregated fields from the table: "discord.circle_api_tokens"
+  """
+  discord_circle_api_tokens_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [discord_circle_api_tokens_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [discord_circle_api_tokens_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: discord_circle_api_tokens_bool_exp
+  ): discord_circle_api_tokens_aggregate!
+
+  """
+  fetch data from the table: "discord.circle_api_tokens" using primary key columns
+  """
+  discord_circle_api_tokens_by_pk(id: bigint!): discord_circle_api_tokens
+
+  """
+  fetch data from the table in a streaming manner : "discord.circle_api_tokens"
+  """
+  discord_circle_api_tokens_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [discord_circle_api_tokens_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: discord_circle_api_tokens_bool_exp
+  ): [discord_circle_api_tokens!]!
 
   """
   fetch data from the table: "discord.roles_circles"
@@ -27159,6 +27731,7 @@ type vaults {
   An object relationship
   """
   organization: organizations!
+  price_per_share: Float!
 
   """
   An object relationship

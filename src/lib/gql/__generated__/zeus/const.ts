@@ -1083,7 +1083,7 @@ export const AllTypesProps: Record<string, any> = {
     circle_id: 'bigint_comparison_exp',
     created_at: 'timestamptz_comparison_exp',
     id: 'bigint_comparison_exp',
-    role: 'String_comparison_exp',
+    server_role: 'String_comparison_exp',
     updated_at: 'timestamptz_comparison_exp',
   },
   discord_roles_circles_order_by: {
@@ -1091,7 +1091,7 @@ export const AllTypesProps: Record<string, any> = {
     circle_id: 'order_by',
     created_at: 'order_by',
     id: 'order_by',
-    role: 'order_by',
+    server_role: 'order_by',
     updated_at: 'order_by',
   },
   discord_roles_circles_pk_columns_input: {
@@ -2729,6 +2729,7 @@ export const AllTypesProps: Record<string, any> = {
       where: 'pending_vault_transactions_bool_exp',
     },
     pending_vault_transactions_by_pk: {},
+    price_per_share: {},
     profiles: {
       distinct_on: 'profiles_select_column',
       order_by: 'profiles_order_by',
@@ -4576,7 +4577,7 @@ export const ReturnTypes: Record<string, any> = {
     circle_id: 'bigint',
     created_at: 'timestamptz',
     id: 'bigint',
-    role: 'String',
+    server_role: 'String',
     updated_at: 'timestamptz',
   },
   discord_roles_circles_mutation_response: {
@@ -5128,6 +5129,7 @@ export const ReturnTypes: Record<string, any> = {
     pending_token_gifts_by_pk: 'pending_token_gifts',
     pending_vault_transactions: 'pending_vault_transactions',
     pending_vault_transactions_by_pk: 'pending_vault_transactions',
+    price_per_share: 'Float',
     profiles: 'profiles',
     profiles_by_pk: 'profiles',
     teammates: 'teammates',
@@ -5500,6 +5502,7 @@ export const ReturnTypes: Record<string, any> = {
     distributions_aggregate: 'distributions_aggregate',
     id: 'bigint',
     organization: 'organizations',
+    price_per_share: 'Float',
     profile: 'profiles',
     simple_token_address: 'String',
     symbol: 'String',
