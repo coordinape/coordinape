@@ -2991,7 +2991,7 @@ export type ValueTypes = {
     circle_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
-    role?: boolean | `@${string}`;
+    server_role?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -3010,7 +3010,7 @@ export type ValueTypes = {
     circle_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
-    role?: ValueTypes['String_comparison_exp'] | undefined | null;
+    server_role?: ValueTypes['String_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
   };
   /** response of any mutation on the table "discord.roles_circles" */
@@ -3027,7 +3027,7 @@ export type ValueTypes = {
     circle_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
-    role?: ValueTypes['order_by'] | undefined | null;
+    server_role?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
   };
   /** primary key columns input for table: discord.roles_circles */
@@ -3038,7 +3038,7 @@ export type ValueTypes = {
   ['discord_roles_circles_select_column']: discord_roles_circles_select_column;
   /** input type for updating data in table "discord.roles_circles" */
   ['discord_roles_circles_set_input']: {
-    role?: string | undefined | null;
+    server_role?: string | undefined | null;
   };
   /** Streaming cursor of the table "discord_roles_circles" */
   ['discord_roles_circles_stream_cursor_input']: {
@@ -3052,7 +3052,7 @@ export type ValueTypes = {
     circle_id?: ValueTypes['bigint'] | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
-    role?: string | undefined | null;
+    server_role?: string | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
   };
   ['discord_roles_circles_updates']: {
@@ -11209,7 +11209,7 @@ export type ModelTypes = {
     circle_id: GraphQLTypes['bigint'];
     created_at: GraphQLTypes['timestamptz'];
     id: GraphQLTypes['bigint'];
-    role: string;
+    server_role: string;
     updated_at: GraphQLTypes['timestamptz'];
   };
   /** Boolean expression to filter rows from the table "discord.roles_circles". All fields are combined with a logical 'AND'. */
@@ -15253,7 +15253,7 @@ export type GraphQLTypes = {
     circle_id: GraphQLTypes['bigint'];
     created_at: GraphQLTypes['timestamptz'];
     id: GraphQLTypes['bigint'];
-    role: string;
+    server_role: string;
     updated_at: GraphQLTypes['timestamptz'];
   };
   /** Boolean expression to filter rows from the table "discord.roles_circles". All fields are combined with a logical 'AND'. */
@@ -15265,7 +15265,7 @@ export type GraphQLTypes = {
     circle_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
-    role?: GraphQLTypes['String_comparison_exp'] | undefined;
+    server_role?: GraphQLTypes['String_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
   };
   /** response of any mutation on the table "discord.roles_circles" */
@@ -15282,7 +15282,7 @@ export type GraphQLTypes = {
     circle_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
-    role?: GraphQLTypes['order_by'] | undefined;
+    server_role?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
   };
   /** primary key columns input for table: discord.roles_circles */
@@ -15293,7 +15293,7 @@ export type GraphQLTypes = {
   ['discord_roles_circles_select_column']: discord_roles_circles_select_column;
   /** input type for updating data in table "discord.roles_circles" */
   ['discord_roles_circles_set_input']: {
-    role?: string | undefined;
+    server_role?: string | undefined;
   };
   /** Streaming cursor of the table "discord_roles_circles" */
   ['discord_roles_circles_stream_cursor_input']: {
@@ -15307,7 +15307,7 @@ export type GraphQLTypes = {
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    role?: string | undefined;
+    server_role?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   ['discord_roles_circles_updates']: {
@@ -19658,7 +19658,7 @@ export const enum discord_roles_circles_select_column {
   circle_id = 'circle_id',
   created_at = 'created_at',
   id = 'id',
-  role = 'role',
+  server_role = 'server_role',
   updated_at = 'updated_at',
 }
 /** unique or primary key constraints on table "discord.users" */

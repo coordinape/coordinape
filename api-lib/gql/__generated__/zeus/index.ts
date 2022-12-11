@@ -4664,6 +4664,205 @@ export type ValueTypes = {
     _neq?: ValueTypes['date'] | undefined | null;
     _nin?: Array<ValueTypes['date']> | undefined | null;
   };
+  /** tokens the discord bot uses to operate on circles */
+  ['discord_circle_api_tokens']: AliasType<{
+    channel_snowflake?: boolean | `@${string}`;
+    circle_id?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    token?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "discord.circle_api_tokens" */
+  ['discord_circle_api_tokens_aggregate']: AliasType<{
+    aggregate?: ValueTypes['discord_circle_api_tokens_aggregate_fields'];
+    nodes?: ValueTypes['discord_circle_api_tokens'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "discord.circle_api_tokens" */
+  ['discord_circle_api_tokens_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['discord_circle_api_tokens_avg_fields'];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes['discord_circle_api_tokens_select_column']>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`
+    ];
+    max?: ValueTypes['discord_circle_api_tokens_max_fields'];
+    min?: ValueTypes['discord_circle_api_tokens_min_fields'];
+    stddev?: ValueTypes['discord_circle_api_tokens_stddev_fields'];
+    stddev_pop?: ValueTypes['discord_circle_api_tokens_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['discord_circle_api_tokens_stddev_samp_fields'];
+    sum?: ValueTypes['discord_circle_api_tokens_sum_fields'];
+    var_pop?: ValueTypes['discord_circle_api_tokens_var_pop_fields'];
+    var_samp?: ValueTypes['discord_circle_api_tokens_var_samp_fields'];
+    variance?: ValueTypes['discord_circle_api_tokens_variance_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate avg on columns */
+  ['discord_circle_api_tokens_avg_fields']: AliasType<{
+    circle_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "discord.circle_api_tokens". All fields are combined with a logical 'AND'. */
+  ['discord_circle_api_tokens_bool_exp']: {
+    _and?:
+      | Array<ValueTypes['discord_circle_api_tokens_bool_exp']>
+      | undefined
+      | null;
+    _not?: ValueTypes['discord_circle_api_tokens_bool_exp'] | undefined | null;
+    _or?:
+      | Array<ValueTypes['discord_circle_api_tokens_bool_exp']>
+      | undefined
+      | null;
+    channel_snowflake?: ValueTypes['String_comparison_exp'] | undefined | null;
+    circle_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    token?: ValueTypes['String_comparison_exp'] | undefined | null;
+  };
+  /** unique or primary key constraints on table "discord.circle_api_tokens" */
+  ['discord_circle_api_tokens_constraint']: discord_circle_api_tokens_constraint;
+  /** input type for incrementing numeric columns in table "discord.circle_api_tokens" */
+  ['discord_circle_api_tokens_inc_input']: {
+    circle_id?: ValueTypes['bigint'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** input type for inserting data into table "discord.circle_api_tokens" */
+  ['discord_circle_api_tokens_insert_input']: {
+    channel_snowflake?: string | undefined | null;
+    circle_id?: ValueTypes['bigint'] | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    token?: string | undefined | null;
+  };
+  /** aggregate max on columns */
+  ['discord_circle_api_tokens_max_fields']: AliasType<{
+    channel_snowflake?: boolean | `@${string}`;
+    circle_id?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    token?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ['discord_circle_api_tokens_min_fields']: AliasType<{
+    channel_snowflake?: boolean | `@${string}`;
+    circle_id?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    token?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** response of any mutation on the table "discord.circle_api_tokens" */
+  ['discord_circle_api_tokens_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['discord_circle_api_tokens'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** on_conflict condition type for table "discord.circle_api_tokens" */
+  ['discord_circle_api_tokens_on_conflict']: {
+    constraint: ValueTypes['discord_circle_api_tokens_constraint'];
+    update_columns: Array<
+      ValueTypes['discord_circle_api_tokens_update_column']
+    >;
+    where?: ValueTypes['discord_circle_api_tokens_bool_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "discord.circle_api_tokens". */
+  ['discord_circle_api_tokens_order_by']: {
+    channel_snowflake?: ValueTypes['order_by'] | undefined | null;
+    circle_id?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    token?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** primary key columns input for table: discord.circle_api_tokens */
+  ['discord_circle_api_tokens_pk_columns_input']: {
+    id: ValueTypes['bigint'];
+  };
+  /** select columns of table "discord.circle_api_tokens" */
+  ['discord_circle_api_tokens_select_column']: discord_circle_api_tokens_select_column;
+  /** input type for updating data in table "discord.circle_api_tokens" */
+  ['discord_circle_api_tokens_set_input']: {
+    channel_snowflake?: string | undefined | null;
+    circle_id?: ValueTypes['bigint'] | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    token?: string | undefined | null;
+  };
+  /** aggregate stddev on columns */
+  ['discord_circle_api_tokens_stddev_fields']: AliasType<{
+    circle_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_pop on columns */
+  ['discord_circle_api_tokens_stddev_pop_fields']: AliasType<{
+    circle_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_samp on columns */
+  ['discord_circle_api_tokens_stddev_samp_fields']: AliasType<{
+    circle_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Streaming cursor of the table "discord_circle_api_tokens" */
+  ['discord_circle_api_tokens_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['discord_circle_api_tokens_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['discord_circle_api_tokens_stream_cursor_value_input']: {
+    channel_snowflake?: string | undefined | null;
+    circle_id?: ValueTypes['bigint'] | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    token?: string | undefined | null;
+  };
+  /** aggregate sum on columns */
+  ['discord_circle_api_tokens_sum_fields']: AliasType<{
+    circle_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** update columns of table "discord.circle_api_tokens" */
+  ['discord_circle_api_tokens_update_column']: discord_circle_api_tokens_update_column;
+  ['discord_circle_api_tokens_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: ValueTypes['discord_circle_api_tokens_inc_input'] | undefined | null;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ValueTypes['discord_circle_api_tokens_set_input'] | undefined | null;
+    where: ValueTypes['discord_circle_api_tokens_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['discord_circle_api_tokens_var_pop_fields']: AliasType<{
+    circle_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_samp on columns */
+  ['discord_circle_api_tokens_var_samp_fields']: AliasType<{
+    circle_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate variance on columns */
+  ['discord_circle_api_tokens_variance_fields']: AliasType<{
+    circle_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** link a discord role to a circle  to control membership of the circle */
   ['discord_roles_circles']: AliasType<{
     /** An object relationship */
@@ -4671,7 +4870,7 @@ export type ValueTypes = {
     circle_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
-    role?: boolean | `@${string}`;
+    server_role?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -4726,7 +4925,7 @@ export type ValueTypes = {
     circle_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
-    role?: ValueTypes['String_comparison_exp'] | undefined | null;
+    server_role?: ValueTypes['String_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
   };
   /** unique or primary key constraints on table "discord.roles_circles" */
@@ -4742,7 +4941,7 @@ export type ValueTypes = {
     circle_id?: ValueTypes['bigint'] | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
-    role?: string | undefined | null;
+    server_role?: string | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
   };
   /** aggregate max on columns */
@@ -4750,7 +4949,7 @@ export type ValueTypes = {
     circle_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
-    role?: boolean | `@${string}`;
+    server_role?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -4759,7 +4958,7 @@ export type ValueTypes = {
     circle_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
-    role?: boolean | `@${string}`;
+    server_role?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -4783,7 +4982,7 @@ export type ValueTypes = {
     circle_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
-    role?: ValueTypes['order_by'] | undefined | null;
+    server_role?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
   };
   /** primary key columns input for table: discord.roles_circles */
@@ -4797,7 +4996,7 @@ export type ValueTypes = {
     circle_id?: ValueTypes['bigint'] | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
-    role?: string | undefined | null;
+    server_role?: string | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
   };
   /** aggregate stddev on columns */
@@ -4830,7 +5029,7 @@ export type ValueTypes = {
     circle_id?: ValueTypes['bigint'] | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
-    role?: string | undefined | null;
+    server_role?: string | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
   };
   /** aggregate sum on columns */
@@ -8621,6 +8820,17 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['contributions']
     ];
+    delete_discord_circle_api_tokens?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['discord_circle_api_tokens_bool_exp'];
+      },
+      ValueTypes['discord_circle_api_tokens_mutation_response']
+    ];
+    delete_discord_circle_api_tokens_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['discord_circle_api_tokens']
+    ];
     delete_discord_roles_circles?: [
       {
         /** filter the rows which have to be deleted */
@@ -9070,6 +9280,30 @@ export type ValueTypes = {
           | null;
       },
       ValueTypes['contributions']
+    ];
+    insert_discord_circle_api_tokens?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ValueTypes['discord_circle_api_tokens_insert_input']
+        > /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['discord_circle_api_tokens_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['discord_circle_api_tokens_mutation_response']
+    ];
+    insert_discord_circle_api_tokens_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['discord_circle_api_tokens_insert_input'] /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['discord_circle_api_tokens_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['discord_circle_api_tokens']
     ];
     insert_discord_roles_circles?: [
       {
@@ -9931,6 +10165,43 @@ export type ValueTypes = {
         updates: Array<ValueTypes['contributions_updates']>;
       },
       ValueTypes['contributions_mutation_response']
+    ];
+    update_discord_circle_api_tokens?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['discord_circle_api_tokens_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes['discord_circle_api_tokens_set_input']
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['discord_circle_api_tokens_bool_exp'];
+      },
+      ValueTypes['discord_circle_api_tokens_mutation_response']
+    ];
+    update_discord_circle_api_tokens_by_pk?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['discord_circle_api_tokens_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes['discord_circle_api_tokens_set_input']
+          | undefined
+          | null;
+        pk_columns: ValueTypes['discord_circle_api_tokens_pk_columns_input'];
+      },
+      ValueTypes['discord_circle_api_tokens']
+    ];
+    update_discord_circle_api_tokens_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes['discord_circle_api_tokens_updates']>;
+      },
+      ValueTypes['discord_circle_api_tokens_mutation_response']
     ];
     update_discord_roles_circles?: [
       {
@@ -13894,6 +14165,62 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['contributions']
     ];
+    discord_circle_api_tokens?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['discord_circle_api_tokens_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['discord_circle_api_tokens_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['discord_circle_api_tokens_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['discord_circle_api_tokens']
+    ];
+    discord_circle_api_tokens_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['discord_circle_api_tokens_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['discord_circle_api_tokens_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['discord_circle_api_tokens_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['discord_circle_api_tokens_aggregate']
+    ];
+    discord_circle_api_tokens_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['discord_circle_api_tokens']
+    ];
     discord_roles_circles?: [
       {
         /** distinct select on columns */
@@ -15719,6 +16046,78 @@ export type ValueTypes = {
         where?: ValueTypes['contributions_bool_exp'] | undefined | null;
       },
       ValueTypes['contributions']
+    ];
+    discord_circle_api_tokens?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['discord_circle_api_tokens_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['discord_circle_api_tokens_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['discord_circle_api_tokens_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['discord_circle_api_tokens']
+    ];
+    discord_circle_api_tokens_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['discord_circle_api_tokens_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['discord_circle_api_tokens_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['discord_circle_api_tokens_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['discord_circle_api_tokens_aggregate']
+    ];
+    discord_circle_api_tokens_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['discord_circle_api_tokens']
+    ];
+    discord_circle_api_tokens_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          | ValueTypes['discord_circle_api_tokens_stream_cursor_input']
+          | undefined
+          | null
+        > /** filter the rows returned */;
+        where?:
+          | ValueTypes['discord_circle_api_tokens_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['discord_circle_api_tokens']
     ];
     discord_roles_circles?: [
       {
@@ -22289,6 +22688,135 @@ export type ModelTypes = {
   ['date']: any;
   /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
   ['date_comparison_exp']: GraphQLTypes['date_comparison_exp'];
+  /** tokens the discord bot uses to operate on circles */
+  ['discord_circle_api_tokens']: {
+    channel_snowflake: string;
+    circle_id: GraphQLTypes['bigint'];
+    created_at: GraphQLTypes['timestamptz'];
+    id: GraphQLTypes['bigint'];
+    token?: string | undefined;
+  };
+  /** aggregated selection of "discord.circle_api_tokens" */
+  ['discord_circle_api_tokens_aggregate']: {
+    aggregate?:
+      | GraphQLTypes['discord_circle_api_tokens_aggregate_fields']
+      | undefined;
+    nodes: Array<GraphQLTypes['discord_circle_api_tokens']>;
+  };
+  /** aggregate fields of "discord.circle_api_tokens" */
+  ['discord_circle_api_tokens_aggregate_fields']: {
+    avg?: GraphQLTypes['discord_circle_api_tokens_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['discord_circle_api_tokens_max_fields'] | undefined;
+    min?: GraphQLTypes['discord_circle_api_tokens_min_fields'] | undefined;
+    stddev?:
+      | GraphQLTypes['discord_circle_api_tokens_stddev_fields']
+      | undefined;
+    stddev_pop?:
+      | GraphQLTypes['discord_circle_api_tokens_stddev_pop_fields']
+      | undefined;
+    stddev_samp?:
+      | GraphQLTypes['discord_circle_api_tokens_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['discord_circle_api_tokens_sum_fields'] | undefined;
+    var_pop?:
+      | GraphQLTypes['discord_circle_api_tokens_var_pop_fields']
+      | undefined;
+    var_samp?:
+      | GraphQLTypes['discord_circle_api_tokens_var_samp_fields']
+      | undefined;
+    variance?:
+      | GraphQLTypes['discord_circle_api_tokens_variance_fields']
+      | undefined;
+  };
+  /** aggregate avg on columns */
+  ['discord_circle_api_tokens_avg_fields']: {
+    circle_id?: number | undefined;
+    id?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "discord.circle_api_tokens". All fields are combined with a logical 'AND'. */
+  ['discord_circle_api_tokens_bool_exp']: GraphQLTypes['discord_circle_api_tokens_bool_exp'];
+  /** unique or primary key constraints on table "discord.circle_api_tokens" */
+  ['discord_circle_api_tokens_constraint']: GraphQLTypes['discord_circle_api_tokens_constraint'];
+  /** input type for incrementing numeric columns in table "discord.circle_api_tokens" */
+  ['discord_circle_api_tokens_inc_input']: GraphQLTypes['discord_circle_api_tokens_inc_input'];
+  /** input type for inserting data into table "discord.circle_api_tokens" */
+  ['discord_circle_api_tokens_insert_input']: GraphQLTypes['discord_circle_api_tokens_insert_input'];
+  /** aggregate max on columns */
+  ['discord_circle_api_tokens_max_fields']: {
+    channel_snowflake?: string | undefined;
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    token?: string | undefined;
+  };
+  /** aggregate min on columns */
+  ['discord_circle_api_tokens_min_fields']: {
+    channel_snowflake?: string | undefined;
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    token?: string | undefined;
+  };
+  /** response of any mutation on the table "discord.circle_api_tokens" */
+  ['discord_circle_api_tokens_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['discord_circle_api_tokens']>;
+  };
+  /** on_conflict condition type for table "discord.circle_api_tokens" */
+  ['discord_circle_api_tokens_on_conflict']: GraphQLTypes['discord_circle_api_tokens_on_conflict'];
+  /** Ordering options when selecting data from "discord.circle_api_tokens". */
+  ['discord_circle_api_tokens_order_by']: GraphQLTypes['discord_circle_api_tokens_order_by'];
+  /** primary key columns input for table: discord.circle_api_tokens */
+  ['discord_circle_api_tokens_pk_columns_input']: GraphQLTypes['discord_circle_api_tokens_pk_columns_input'];
+  /** select columns of table "discord.circle_api_tokens" */
+  ['discord_circle_api_tokens_select_column']: GraphQLTypes['discord_circle_api_tokens_select_column'];
+  /** input type for updating data in table "discord.circle_api_tokens" */
+  ['discord_circle_api_tokens_set_input']: GraphQLTypes['discord_circle_api_tokens_set_input'];
+  /** aggregate stddev on columns */
+  ['discord_circle_api_tokens_stddev_fields']: {
+    circle_id?: number | undefined;
+    id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['discord_circle_api_tokens_stddev_pop_fields']: {
+    circle_id?: number | undefined;
+    id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['discord_circle_api_tokens_stddev_samp_fields']: {
+    circle_id?: number | undefined;
+    id?: number | undefined;
+  };
+  /** Streaming cursor of the table "discord_circle_api_tokens" */
+  ['discord_circle_api_tokens_stream_cursor_input']: GraphQLTypes['discord_circle_api_tokens_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['discord_circle_api_tokens_stream_cursor_value_input']: GraphQLTypes['discord_circle_api_tokens_stream_cursor_value_input'];
+  /** aggregate sum on columns */
+  ['discord_circle_api_tokens_sum_fields']: {
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** update columns of table "discord.circle_api_tokens" */
+  ['discord_circle_api_tokens_update_column']: GraphQLTypes['discord_circle_api_tokens_update_column'];
+  ['discord_circle_api_tokens_updates']: GraphQLTypes['discord_circle_api_tokens_updates'];
+  /** aggregate var_pop on columns */
+  ['discord_circle_api_tokens_var_pop_fields']: {
+    circle_id?: number | undefined;
+    id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['discord_circle_api_tokens_var_samp_fields']: {
+    circle_id?: number | undefined;
+    id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['discord_circle_api_tokens_variance_fields']: {
+    circle_id?: number | undefined;
+    id?: number | undefined;
+  };
   /** link a discord role to a circle  to control membership of the circle */
   ['discord_roles_circles']: {
     /** An object relationship */
@@ -22296,7 +22824,7 @@ export type ModelTypes = {
     circle_id: GraphQLTypes['bigint'];
     created_at: GraphQLTypes['timestamptz'];
     id: GraphQLTypes['bigint'];
-    role: string;
+    server_role: string;
     updated_at: GraphQLTypes['timestamptz'];
   };
   /** aggregated selection of "discord.roles_circles" */
@@ -22346,7 +22874,7 @@ export type ModelTypes = {
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    role?: string | undefined;
+    server_role?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregate min on columns */
@@ -22354,7 +22882,7 @@ export type ModelTypes = {
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    role?: string | undefined;
+    server_role?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** response of any mutation on the table "discord.roles_circles" */
@@ -24218,6 +24746,14 @@ export type ModelTypes = {
       | undefined;
     /** delete single row from the table: "contributions" */
     delete_contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
+    /** delete data from the table: "discord.circle_api_tokens" */
+    delete_discord_circle_api_tokens?:
+      | GraphQLTypes['discord_circle_api_tokens_mutation_response']
+      | undefined;
+    /** delete single row from the table: "discord.circle_api_tokens" */
+    delete_discord_circle_api_tokens_by_pk?:
+      | GraphQLTypes['discord_circle_api_tokens']
+      | undefined;
     /** delete data from the table: "discord.roles_circles" */
     delete_discord_roles_circles?:
       | GraphQLTypes['discord_roles_circles_mutation_response']
@@ -24422,6 +24958,14 @@ export type ModelTypes = {
       | undefined;
     /** insert a single row into the table: "contributions" */
     insert_contributions_one?: GraphQLTypes['contributions'] | undefined;
+    /** insert data into the table: "discord.circle_api_tokens" */
+    insert_discord_circle_api_tokens?:
+      | GraphQLTypes['discord_circle_api_tokens_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "discord.circle_api_tokens" */
+    insert_discord_circle_api_tokens_one?:
+      | GraphQLTypes['discord_circle_api_tokens']
+      | undefined;
     /** insert data into the table: "discord.roles_circles" */
     insert_discord_roles_circles?:
       | GraphQLTypes['discord_roles_circles_mutation_response']
@@ -24675,6 +25219,21 @@ export type ModelTypes = {
     /** update multiples rows of table: "contributions" */
     update_contributions_many?:
       | Array<GraphQLTypes['contributions_mutation_response'] | undefined>
+      | undefined;
+    /** update data of the table: "discord.circle_api_tokens" */
+    update_discord_circle_api_tokens?:
+      | GraphQLTypes['discord_circle_api_tokens_mutation_response']
+      | undefined;
+    /** update single row of the table: "discord.circle_api_tokens" */
+    update_discord_circle_api_tokens_by_pk?:
+      | GraphQLTypes['discord_circle_api_tokens']
+      | undefined;
+    /** update multiples rows of table: "discord.circle_api_tokens" */
+    update_discord_circle_api_tokens_many?:
+      | Array<
+          | GraphQLTypes['discord_circle_api_tokens_mutation_response']
+          | undefined
+        >
       | undefined;
     /** update data of the table: "discord.roles_circles" */
     update_discord_roles_circles?:
@@ -26145,6 +26704,14 @@ export type ModelTypes = {
     contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     /** fetch data from the table: "contributions" using primary key columns */
     contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
+    /** fetch data from the table: "discord.circle_api_tokens" */
+    discord_circle_api_tokens: Array<GraphQLTypes['discord_circle_api_tokens']>;
+    /** fetch aggregated fields from the table: "discord.circle_api_tokens" */
+    discord_circle_api_tokens_aggregate: GraphQLTypes['discord_circle_api_tokens_aggregate'];
+    /** fetch data from the table: "discord.circle_api_tokens" using primary key columns */
+    discord_circle_api_tokens_by_pk?:
+      | GraphQLTypes['discord_circle_api_tokens']
+      | undefined;
     /** fetch data from the table: "discord.roles_circles" */
     discord_roles_circles: Array<GraphQLTypes['discord_roles_circles']>;
     /** fetch aggregated fields from the table: "discord.roles_circles" */
@@ -26384,6 +26951,18 @@ export type ModelTypes = {
     contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
     /** fetch data from the table in a streaming manner : "contributions" */
     contributions_stream: Array<GraphQLTypes['contributions']>;
+    /** fetch data from the table: "discord.circle_api_tokens" */
+    discord_circle_api_tokens: Array<GraphQLTypes['discord_circle_api_tokens']>;
+    /** fetch aggregated fields from the table: "discord.circle_api_tokens" */
+    discord_circle_api_tokens_aggregate: GraphQLTypes['discord_circle_api_tokens_aggregate'];
+    /** fetch data from the table: "discord.circle_api_tokens" using primary key columns */
+    discord_circle_api_tokens_by_pk?:
+      | GraphQLTypes['discord_circle_api_tokens']
+      | undefined;
+    /** fetch data from the table in a streaming manner : "discord.circle_api_tokens" */
+    discord_circle_api_tokens_stream: Array<
+      GraphQLTypes['discord_circle_api_tokens']
+    >;
     /** fetch data from the table: "discord.roles_circles" */
     discord_roles_circles: Array<GraphQLTypes['discord_roles_circles']>;
     /** fetch aggregated fields from the table: "discord.roles_circles" */
@@ -31357,6 +31936,206 @@ export type GraphQLTypes = {
     _neq?: GraphQLTypes['date'] | undefined;
     _nin?: Array<GraphQLTypes['date']> | undefined;
   };
+  /** tokens the discord bot uses to operate on circles */
+  ['discord_circle_api_tokens']: {
+    __typename: 'discord_circle_api_tokens';
+    channel_snowflake: string;
+    circle_id: GraphQLTypes['bigint'];
+    created_at: GraphQLTypes['timestamptz'];
+    id: GraphQLTypes['bigint'];
+    token?: string | undefined;
+  };
+  /** aggregated selection of "discord.circle_api_tokens" */
+  ['discord_circle_api_tokens_aggregate']: {
+    __typename: 'discord_circle_api_tokens_aggregate';
+    aggregate?:
+      | GraphQLTypes['discord_circle_api_tokens_aggregate_fields']
+      | undefined;
+    nodes: Array<GraphQLTypes['discord_circle_api_tokens']>;
+  };
+  /** aggregate fields of "discord.circle_api_tokens" */
+  ['discord_circle_api_tokens_aggregate_fields']: {
+    __typename: 'discord_circle_api_tokens_aggregate_fields';
+    avg?: GraphQLTypes['discord_circle_api_tokens_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['discord_circle_api_tokens_max_fields'] | undefined;
+    min?: GraphQLTypes['discord_circle_api_tokens_min_fields'] | undefined;
+    stddev?:
+      | GraphQLTypes['discord_circle_api_tokens_stddev_fields']
+      | undefined;
+    stddev_pop?:
+      | GraphQLTypes['discord_circle_api_tokens_stddev_pop_fields']
+      | undefined;
+    stddev_samp?:
+      | GraphQLTypes['discord_circle_api_tokens_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['discord_circle_api_tokens_sum_fields'] | undefined;
+    var_pop?:
+      | GraphQLTypes['discord_circle_api_tokens_var_pop_fields']
+      | undefined;
+    var_samp?:
+      | GraphQLTypes['discord_circle_api_tokens_var_samp_fields']
+      | undefined;
+    variance?:
+      | GraphQLTypes['discord_circle_api_tokens_variance_fields']
+      | undefined;
+  };
+  /** aggregate avg on columns */
+  ['discord_circle_api_tokens_avg_fields']: {
+    __typename: 'discord_circle_api_tokens_avg_fields';
+    circle_id?: number | undefined;
+    id?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "discord.circle_api_tokens". All fields are combined with a logical 'AND'. */
+  ['discord_circle_api_tokens_bool_exp']: {
+    _and?:
+      | Array<GraphQLTypes['discord_circle_api_tokens_bool_exp']>
+      | undefined;
+    _not?: GraphQLTypes['discord_circle_api_tokens_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['discord_circle_api_tokens_bool_exp']> | undefined;
+    channel_snowflake?: GraphQLTypes['String_comparison_exp'] | undefined;
+    circle_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    token?: GraphQLTypes['String_comparison_exp'] | undefined;
+  };
+  /** unique or primary key constraints on table "discord.circle_api_tokens" */
+  ['discord_circle_api_tokens_constraint']: discord_circle_api_tokens_constraint;
+  /** input type for incrementing numeric columns in table "discord.circle_api_tokens" */
+  ['discord_circle_api_tokens_inc_input']: {
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** input type for inserting data into table "discord.circle_api_tokens" */
+  ['discord_circle_api_tokens_insert_input']: {
+    channel_snowflake?: string | undefined;
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    token?: string | undefined;
+  };
+  /** aggregate max on columns */
+  ['discord_circle_api_tokens_max_fields']: {
+    __typename: 'discord_circle_api_tokens_max_fields';
+    channel_snowflake?: string | undefined;
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    token?: string | undefined;
+  };
+  /** aggregate min on columns */
+  ['discord_circle_api_tokens_min_fields']: {
+    __typename: 'discord_circle_api_tokens_min_fields';
+    channel_snowflake?: string | undefined;
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    token?: string | undefined;
+  };
+  /** response of any mutation on the table "discord.circle_api_tokens" */
+  ['discord_circle_api_tokens_mutation_response']: {
+    __typename: 'discord_circle_api_tokens_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['discord_circle_api_tokens']>;
+  };
+  /** on_conflict condition type for table "discord.circle_api_tokens" */
+  ['discord_circle_api_tokens_on_conflict']: {
+    constraint: GraphQLTypes['discord_circle_api_tokens_constraint'];
+    update_columns: Array<
+      GraphQLTypes['discord_circle_api_tokens_update_column']
+    >;
+    where?: GraphQLTypes['discord_circle_api_tokens_bool_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "discord.circle_api_tokens". */
+  ['discord_circle_api_tokens_order_by']: {
+    channel_snowflake?: GraphQLTypes['order_by'] | undefined;
+    circle_id?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    token?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** primary key columns input for table: discord.circle_api_tokens */
+  ['discord_circle_api_tokens_pk_columns_input']: {
+    id: GraphQLTypes['bigint'];
+  };
+  /** select columns of table "discord.circle_api_tokens" */
+  ['discord_circle_api_tokens_select_column']: discord_circle_api_tokens_select_column;
+  /** input type for updating data in table "discord.circle_api_tokens" */
+  ['discord_circle_api_tokens_set_input']: {
+    channel_snowflake?: string | undefined;
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    token?: string | undefined;
+  };
+  /** aggregate stddev on columns */
+  ['discord_circle_api_tokens_stddev_fields']: {
+    __typename: 'discord_circle_api_tokens_stddev_fields';
+    circle_id?: number | undefined;
+    id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['discord_circle_api_tokens_stddev_pop_fields']: {
+    __typename: 'discord_circle_api_tokens_stddev_pop_fields';
+    circle_id?: number | undefined;
+    id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['discord_circle_api_tokens_stddev_samp_fields']: {
+    __typename: 'discord_circle_api_tokens_stddev_samp_fields';
+    circle_id?: number | undefined;
+    id?: number | undefined;
+  };
+  /** Streaming cursor of the table "discord_circle_api_tokens" */
+  ['discord_circle_api_tokens_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['discord_circle_api_tokens_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['discord_circle_api_tokens_stream_cursor_value_input']: {
+    channel_snowflake?: string | undefined;
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    token?: string | undefined;
+  };
+  /** aggregate sum on columns */
+  ['discord_circle_api_tokens_sum_fields']: {
+    __typename: 'discord_circle_api_tokens_sum_fields';
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** update columns of table "discord.circle_api_tokens" */
+  ['discord_circle_api_tokens_update_column']: discord_circle_api_tokens_update_column;
+  ['discord_circle_api_tokens_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: GraphQLTypes['discord_circle_api_tokens_inc_input'] | undefined;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes['discord_circle_api_tokens_set_input'] | undefined;
+    where: GraphQLTypes['discord_circle_api_tokens_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['discord_circle_api_tokens_var_pop_fields']: {
+    __typename: 'discord_circle_api_tokens_var_pop_fields';
+    circle_id?: number | undefined;
+    id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['discord_circle_api_tokens_var_samp_fields']: {
+    __typename: 'discord_circle_api_tokens_var_samp_fields';
+    circle_id?: number | undefined;
+    id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['discord_circle_api_tokens_variance_fields']: {
+    __typename: 'discord_circle_api_tokens_variance_fields';
+    circle_id?: number | undefined;
+    id?: number | undefined;
+  };
   /** link a discord role to a circle  to control membership of the circle */
   ['discord_roles_circles']: {
     __typename: 'discord_roles_circles';
@@ -31365,7 +32144,7 @@ export type GraphQLTypes = {
     circle_id: GraphQLTypes['bigint'];
     created_at: GraphQLTypes['timestamptz'];
     id: GraphQLTypes['bigint'];
-    role: string;
+    server_role: string;
     updated_at: GraphQLTypes['timestamptz'];
   };
   /** aggregated selection of "discord.roles_circles" */
@@ -31414,7 +32193,7 @@ export type GraphQLTypes = {
     circle_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
-    role?: GraphQLTypes['String_comparison_exp'] | undefined;
+    server_role?: GraphQLTypes['String_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
   };
   /** unique or primary key constraints on table "discord.roles_circles" */
@@ -31430,7 +32209,7 @@ export type GraphQLTypes = {
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    role?: string | undefined;
+    server_role?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregate max on columns */
@@ -31439,7 +32218,7 @@ export type GraphQLTypes = {
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    role?: string | undefined;
+    server_role?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregate min on columns */
@@ -31448,7 +32227,7 @@ export type GraphQLTypes = {
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    role?: string | undefined;
+    server_role?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** response of any mutation on the table "discord.roles_circles" */
@@ -31471,7 +32250,7 @@ export type GraphQLTypes = {
     circle_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
-    role?: GraphQLTypes['order_by'] | undefined;
+    server_role?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
   };
   /** primary key columns input for table: discord.roles_circles */
@@ -31485,7 +32264,7 @@ export type GraphQLTypes = {
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    role?: string | undefined;
+    server_role?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregate stddev on columns */
@@ -31518,7 +32297,7 @@ export type GraphQLTypes = {
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    role?: string | undefined;
+    server_role?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregate sum on columns */
@@ -34796,6 +35575,14 @@ export type GraphQLTypes = {
       | undefined;
     /** delete single row from the table: "contributions" */
     delete_contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
+    /** delete data from the table: "discord.circle_api_tokens" */
+    delete_discord_circle_api_tokens?:
+      | GraphQLTypes['discord_circle_api_tokens_mutation_response']
+      | undefined;
+    /** delete single row from the table: "discord.circle_api_tokens" */
+    delete_discord_circle_api_tokens_by_pk?:
+      | GraphQLTypes['discord_circle_api_tokens']
+      | undefined;
     /** delete data from the table: "discord.roles_circles" */
     delete_discord_roles_circles?:
       | GraphQLTypes['discord_roles_circles_mutation_response']
@@ -35000,6 +35787,14 @@ export type GraphQLTypes = {
       | undefined;
     /** insert a single row into the table: "contributions" */
     insert_contributions_one?: GraphQLTypes['contributions'] | undefined;
+    /** insert data into the table: "discord.circle_api_tokens" */
+    insert_discord_circle_api_tokens?:
+      | GraphQLTypes['discord_circle_api_tokens_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "discord.circle_api_tokens" */
+    insert_discord_circle_api_tokens_one?:
+      | GraphQLTypes['discord_circle_api_tokens']
+      | undefined;
     /** insert data into the table: "discord.roles_circles" */
     insert_discord_roles_circles?:
       | GraphQLTypes['discord_roles_circles_mutation_response']
@@ -35253,6 +36048,21 @@ export type GraphQLTypes = {
     /** update multiples rows of table: "contributions" */
     update_contributions_many?:
       | Array<GraphQLTypes['contributions_mutation_response'] | undefined>
+      | undefined;
+    /** update data of the table: "discord.circle_api_tokens" */
+    update_discord_circle_api_tokens?:
+      | GraphQLTypes['discord_circle_api_tokens_mutation_response']
+      | undefined;
+    /** update single row of the table: "discord.circle_api_tokens" */
+    update_discord_circle_api_tokens_by_pk?:
+      | GraphQLTypes['discord_circle_api_tokens']
+      | undefined;
+    /** update multiples rows of table: "discord.circle_api_tokens" */
+    update_discord_circle_api_tokens_many?:
+      | Array<
+          | GraphQLTypes['discord_circle_api_tokens_mutation_response']
+          | undefined
+        >
       | undefined;
     /** update data of the table: "discord.roles_circles" */
     update_discord_roles_circles?:
@@ -37704,6 +38514,14 @@ export type GraphQLTypes = {
     contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     /** fetch data from the table: "contributions" using primary key columns */
     contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
+    /** fetch data from the table: "discord.circle_api_tokens" */
+    discord_circle_api_tokens: Array<GraphQLTypes['discord_circle_api_tokens']>;
+    /** fetch aggregated fields from the table: "discord.circle_api_tokens" */
+    discord_circle_api_tokens_aggregate: GraphQLTypes['discord_circle_api_tokens_aggregate'];
+    /** fetch data from the table: "discord.circle_api_tokens" using primary key columns */
+    discord_circle_api_tokens_by_pk?:
+      | GraphQLTypes['discord_circle_api_tokens']
+      | undefined;
     /** fetch data from the table: "discord.roles_circles" */
     discord_roles_circles: Array<GraphQLTypes['discord_roles_circles']>;
     /** fetch aggregated fields from the table: "discord.roles_circles" */
@@ -37944,6 +38762,18 @@ export type GraphQLTypes = {
     contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
     /** fetch data from the table in a streaming manner : "contributions" */
     contributions_stream: Array<GraphQLTypes['contributions']>;
+    /** fetch data from the table: "discord.circle_api_tokens" */
+    discord_circle_api_tokens: Array<GraphQLTypes['discord_circle_api_tokens']>;
+    /** fetch aggregated fields from the table: "discord.circle_api_tokens" */
+    discord_circle_api_tokens_aggregate: GraphQLTypes['discord_circle_api_tokens_aggregate'];
+    /** fetch data from the table: "discord.circle_api_tokens" using primary key columns */
+    discord_circle_api_tokens_by_pk?:
+      | GraphQLTypes['discord_circle_api_tokens']
+      | undefined;
+    /** fetch data from the table in a streaming manner : "discord.circle_api_tokens" */
+    discord_circle_api_tokens_stream: Array<
+      GraphQLTypes['discord_circle_api_tokens']
+    >;
     /** fetch data from the table: "discord.roles_circles" */
     discord_roles_circles: Array<GraphQLTypes['discord_roles_circles']>;
     /** fetch aggregated fields from the table: "discord.roles_circles" */
@@ -41141,6 +41971,28 @@ export const enum cursor_ordering {
   ASC = 'ASC',
   DESC = 'DESC',
 }
+/** unique or primary key constraints on table "discord.circle_api_tokens" */
+export const enum discord_circle_api_tokens_constraint {
+  circle_api_tokens_circle_id_key = 'circle_api_tokens_circle_id_key',
+  circle_api_tokens_pkey = 'circle_api_tokens_pkey',
+  circle_api_tokens_token_key = 'circle_api_tokens_token_key',
+}
+/** select columns of table "discord.circle_api_tokens" */
+export const enum discord_circle_api_tokens_select_column {
+  channel_snowflake = 'channel_snowflake',
+  circle_id = 'circle_id',
+  created_at = 'created_at',
+  id = 'id',
+  token = 'token',
+}
+/** update columns of table "discord.circle_api_tokens" */
+export const enum discord_circle_api_tokens_update_column {
+  channel_snowflake = 'channel_snowflake',
+  circle_id = 'circle_id',
+  created_at = 'created_at',
+  id = 'id',
+  token = 'token',
+}
 /** unique or primary key constraints on table "discord.roles_circles" */
 export const enum discord_roles_circles_constraint {
   roles_circles_circle_id_key = 'roles_circles_circle_id_key',
@@ -41151,7 +42003,7 @@ export const enum discord_roles_circles_select_column {
   circle_id = 'circle_id',
   created_at = 'created_at',
   id = 'id',
-  role = 'role',
+  server_role = 'server_role',
   updated_at = 'updated_at',
 }
 /** update columns of table "discord.roles_circles" */
@@ -41159,7 +42011,7 @@ export const enum discord_roles_circles_update_column {
   circle_id = 'circle_id',
   created_at = 'created_at',
   id = 'id',
-  role = 'role',
+  server_role = 'server_role',
   updated_at = 'updated_at',
 }
 /** unique or primary key constraints on table "discord.users" */

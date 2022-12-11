@@ -1105,7 +1105,7 @@ export const AllTypesProps: Record<string, any> = {
     circle_id: 'bigint_comparison_exp',
     created_at: 'timestamptz_comparison_exp',
     id: 'bigint_comparison_exp',
-    role: 'String_comparison_exp',
+    server_role: 'String_comparison_exp',
     updated_at: 'timestamptz_comparison_exp',
   },
   discord_roles_circles_order_by: {
@@ -1113,7 +1113,7 @@ export const AllTypesProps: Record<string, any> = {
     circle_id: 'order_by',
     created_at: 'order_by',
     id: 'order_by',
-    role: 'order_by',
+    server_role: 'order_by',
     updated_at: 'order_by',
   },
   discord_roles_circles_pk_columns_input: {
@@ -4785,7 +4785,7 @@ export const ReturnTypes: Record<string, any> = {
     circle_id: 'bigint',
     created_at: 'timestamptz',
     id: 'bigint',
-    role: 'String',
+    server_role: 'String',
     updated_at: 'timestamptz',
   },
   discord_roles_circles_mutation_response: {
