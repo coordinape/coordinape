@@ -248,12 +248,11 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
           '@sm': { gridTemplateColumns: '1fr 1fr' },
         }}
       >
-        <Box>
+        <Flex column css={{ gap: '$sm' }}>
           <Text
             h3
             semibold
             css={{
-              mb: '$sm',
               minHeight: '$lg',
               alignItems: 'start',
               '@sm': { fontSize: '$large', minHeight: '$xl' },
@@ -262,7 +261,7 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
           >
             {circle.name}
           </Text>
-          <Text color={'neutral'} size={'small'} css={{ ...nonMemberCss }}>
+          <Text color="neutral" size="small" css={{ ...nonMemberCss }}>
             <User size="sm" css={{ mr: '$xs' }} />
             {role === 1
               ? 'Circle Admin'
@@ -270,55 +269,56 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
               ? 'Circle Member'
               : 'Non Member'}
           </Text>
-        </Box>
-        <Box
-          css={{
-            '@sm': {
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'start',
-            },
-          }}
-        >
+        </Flex>
+        <Flex column css={{ gap: '$sm' }}>
           <Text
             h3
             css={{
-              mb: '$sm',
               minHeight: '$lg',
               alignItems: 'end',
               '@sm': { fontSize: '$medium', minHeight: '$xl' },
             }}
           >
             {epoch && startDate && endDate ? (
-              <Flex column>
-                <Flex css={{ gap: '$md' }}>
-                  <Text
-                    inline
-                    semibold
-                    color={'default'}
-                    css={{ whiteSpace: 'nowrap' }}
-                  >
-                    {startDate.toFormat('MMM d')} -{' '}
-                    {endDate.toFormat(
-                      endDate.month === startDate.month ? 'd' : 'MMM d'
-                    )}
-                  </Text>
+              <Flex
+                css={{
+                  gap: '$md',
+                  '@sm': { flexDirection: 'column', gap: '$sm' },
+                }}
+              >
+                <Text
+                  inline
+                  semibold
+                  color={'default'}
+                  css={{ whiteSpace: 'nowrap' }}
+                >
+                  {startDate.toFormat('MMM d')} -{' '}
+                  {endDate.toFormat(
+                    endDate.month === startDate.month ? 'd' : 'MMM d'
+                  )}
+                </Text>
+                <Text
+                  size="small"
+                  css={{
+                    color: '$headingText',
+                    ...nonMemberCss,
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {isCurrent && <span>Allocation Period Open</span>}
+                </Text>
+                {!!nomineeCount && (
                   <Text
                     size="small"
-                    css={{ color: '$headingText', ...nonMemberCss }}
+                    css={{
+                      color: '$headingText',
+                      ...nonMemberCss,
+                      whiteSpace: 'nowrap',
+                    }}
                   >
-                    {isCurrent && <span>Allocation Period Open</span>}
+                    {nomineeCount} Nominee{nomineeCount > 1 ? 's' : ''}
                   </Text>
-                  {!!nomineeCount && (
-                    <Text
-                      size="small"
-                      css={{ color: '$headingText', ...nonMemberCss }}
-                    >
-                      {nomineeCount} Nominee{nomineeCount > 1 ? 's' : ''}
-                    </Text>
-                  )}
-                </Flex>
-                <Text p>{epoch.description ?? `Epoch ${epoch.number}`}</Text>
+                )}
               </Flex>
             ) : (
               <Text
@@ -333,7 +333,10 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
               </Text>
             )}
           </Text>
-        </Box>
+          {epoch && startDate && endDate && (
+            <Text>{epoch.description ?? `Epoch ${epoch.number}`}</Text>
+          )}
+        </Flex>
         {!nonMember && (
           <Box
             css={{

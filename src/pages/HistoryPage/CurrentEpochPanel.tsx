@@ -46,7 +46,7 @@ export const CurrentEpochPanel = ({
         ...css,
       }}
     >
-      <Flex column alignItems="start" css={{ gap: '$md' }}>
+      <Flex column alignItems="start" css={{ gap: '$sm' }}>
         <Text h2>
           {startDate.toFormat('MMM')} {startDate.toFormat('d')} -{' '}
           {endDate.toFormat(endDateFormat)}

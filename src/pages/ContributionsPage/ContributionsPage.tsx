@@ -890,9 +890,11 @@ const EpochGroup = React.memo(function EpochGroup({
                 </Button>
               )}
             </Flex>
-            <Text size="medium" css={{ fontWeight: '$medium' }}>
-              {epoch.description}
-            </Text>
+            {epoch.description && (
+              <Text size="medium" css={{ fontWeight: '$medium' }}>
+                {epoch.description}
+              </Text>
+            )}
           </Flex>
           <ContributionPanel>
             <ContributionList
