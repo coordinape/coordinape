@@ -1,13 +1,15 @@
 import { act, render, screen } from '@testing-library/react';
 
 import { TestWrapper } from 'utils/testing';
+import { TestProvider } from 'utils/testing/ethereum';
+import { rpcUrl } from 'utils/testing/provider';
 
 import { WalletAuthModal } from './WalletAuthModal';
 
-const ethSpy = jest.fn(() => '0xfa');
+const ethMock = new TestProvider(rpcUrl);
 describe('with metamask enabled', () => {
   beforeAll(() => {
-    (window as any).ethereum = ethSpy;
+    (window as any).ethereum = ethMock;
   });
 
   afterAll(() => {
