@@ -11,8 +11,7 @@ import { TwoColumnLayout } from 'ui/layouts';
 import { shortenAddress } from 'utils';
 
 import { IActiveNominee } from './getActiveNominees';
-
-import { IUser } from 'types';
+import { ICircleUser } from './getCircleUsers';
 
 const TD = styled('td', {});
 const TR = styled('tr', {});
@@ -33,7 +32,7 @@ const NomineeRow = ({
   vouchingText,
 }: {
   nominee: IActiveNominee[0];
-  myUser?: IUser;
+  myUser?: ICircleUser;
   isNonGiverVoucher?: boolean;
   refetchNominees: () => void;
   vouchingText: string;
@@ -207,7 +206,7 @@ export const NomineesTable = ({
   vouchingText,
 }: {
   nominees?: IActiveNominee;
-  myUser?: IUser;
+  myUser?: ICircleUser;
   isNonGiverVoucher?: boolean;
   refetchNominees: () => void;
   vouchingText: string;

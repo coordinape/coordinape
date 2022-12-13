@@ -3,8 +3,8 @@ import React, { useState, useMemo, useEffect } from 'react';
 
 import { constants as ethersConstants } from 'ethers';
 import { formatUnits } from 'ethers/lib/utils';
-import { isUserAdmin } from 'lib/users';
 import { useQuery } from 'react-query';
+import { useNavigate } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import { disabledStyle } from 'stitches.config';
 
@@ -12,6 +12,7 @@ import { LoadingModal } from 'components';
 import { useApeSnackbar, useApiAdminCircle, useContracts } from 'hooks';
 import { useCircleOrg } from 'hooks/gql/useCircleOrg';
 import { useVaults } from 'hooks/gql/useVaults';
+import useConnectedAddress from 'hooks/useConnectedAddress';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { Search } from 'icons/__generated';
 import {
@@ -32,11 +33,14 @@ import {
   getActiveNominees,
   QUERY_KEY_ACTIVE_NOMINEES,
 } from './getActiveNominees';
+import {
+  getCircleUsers,
+  ICircleUser,
+  QUERY_KEY_CIRCLE_USERS,
+} from './getCircleUsers';
 import { LeaveCircleModal } from './LeaveCircleModal';
 import { MembersTable } from './MembersTable';
 import { NomineesTable } from './NomineeTable';
-
-import { IUser } from 'types';
 
 export interface IDeleteUser {
   name: string;
@@ -66,11 +70,12 @@ const MembersPage = () => {
 
   const {
     circleId,
-    myUser: me,
-    users: visibleUsers,
     circle: selectedCircle,
     circleEpochsStatus,
   } = useSelectedCircle();
+
+  const address = useConnectedAddress();
+  const navigate = useNavigate();
 
   const {
     isError: circleSettingsHasError,
@@ -108,6 +113,20 @@ const MembersPage = () => {
   );
 
   const {
+    isError: circleUsersHasError,
+    error: circleUsersError,
+    data: visibleUsers,
+  } = useQuery(
+    [QUERY_KEY_CIRCLE_USERS, circleId],
+    () => getCircleUsers(circleId),
+    {
+      // the query will not be executed untill circleId exists
+      enabled: !!circleId,
+      notifyOnChangeProps: ['data'],
+    }
+  );
+
+  const {
     isError: fixedPaymentHasError,
     error: fixedPaymentError,
     data: fixedPayment,
@@ -127,8 +146,6 @@ const MembersPage = () => {
   const onChangeKeyword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(event.target.value);
   };
-
-  const isAdmin = isUserAdmin(me);
 
   const contracts = useContracts();
   const orgQuery = useCircleOrg(circleId);
@@ -160,12 +177,9 @@ const MembersPage = () => {
     updateBalanceState(stringifiedVaultId());
   }, [vaultOptions.length]);
 
-  const nomineeCount = activeNominees?.length || 0;
-  const cannotVouch = circle?.only_giver_vouch && me.non_giver;
-
   // User Columns
   const filterUser = useMemo(
-    () => (u: IUser) => {
+    () => (u: ICircleUser) => {
       const r = new RegExp(keyword, 'i');
       return r.test(u.profile?.name ?? u.name) || r.test(u.address);
     },
@@ -213,12 +227,28 @@ const MembersPage = () => {
     formatUnits(maxGiftTokens, getDecimals(stringifiedVaultId()))
   );
 
-  if (!activeNominees || !circle || !fixedPayment)
+  if (!activeNominees || !circle || !fixedPayment || !visibleUsers)
     return <LoadingModal visible />;
+
+  const me = visibleUsers.find(
+    user => user.address.toLowerCase() === address?.toLocaleLowerCase()
+  );
+
+  if (!me) {
+    navigate(paths.circles);
+    return <></>;
+  }
+  const nomineeCount = activeNominees?.length || 0;
+  const cannotVouch = circle?.only_giver_vouch && me.non_giver;
 
   if (activeNomineesHasError) {
     if (activeNomineesError instanceof Error) {
       showError(activeNomineesError.message);
+    }
+  }
+  if (circleUsersHasError) {
+    if (circleUsersError instanceof Error) {
+      showError(circleUsersError.message);
     }
   }
   if (circleSettingsHasError) {
@@ -265,7 +295,7 @@ const MembersPage = () => {
                 </>
               )}
             </Text>
-            {isAdmin && (
+            {me.isCircleAdmin && (
               <Button
                 as={NavLink}
                 to={paths.membersAdd(selectedCircle.id)}
@@ -329,7 +359,7 @@ const MembersPage = () => {
               gap: '$sm',
             }}
           >
-            {isAdmin && (
+            {me.isCircleAdmin && (
               <AppLink to={paths.membersAdd(selectedCircle.id)}>
                 <Button
                   color="primary"
