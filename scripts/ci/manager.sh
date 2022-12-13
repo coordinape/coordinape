@@ -109,22 +109,22 @@ elif [ "${OTHERARGS[0]}" = "test" ]; then
     fi
   fi
 
-  if [ "$CYPRESS" ]; then
-    if [ "$INTERACTIVE" ]; then
-      yarn cypress open ${OTHERARGS[@]:1} > /dev/null
-    else
-      yarn cypress run ${OTHERARGS[@]:1}
-      yarn nyc report -r text-summary
-    fi
-  fi
+#   if [ "$CYPRESS" ]; then
+#     if [ "$INTERACTIVE" ]; then
+#       yarn cypress open ${OTHERARGS[@]:1} > /dev/null
+#     else
+#       yarn cypress run ${OTHERARGS[@]:1}
+#       yarn nyc report -r text-summary
+#     fi
+#   fi
 
-  # combine coverage reports
-  if [ "$ALL" ]; then
-    combine_coverage
-  fi
+#   # combine coverage reports
+#   if [ "$ALL" ]; then
+#     combine_coverage
+#   fi
 
-elif [ "${OTHERARGS[0]}" = "combine-coverage" ]; then
-  combine_coverage
+# elif [ "${OTHERARGS[0]}" = "combine-coverage" ]; then
+#   combine_coverage
 
 else
   echo "No command given. Expected one of: up, down, logs, test"
