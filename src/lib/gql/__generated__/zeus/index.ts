@@ -6589,6 +6589,10 @@ export type ValueTypes = {
       { tx_hash: string },
       ValueTypes['pending_vault_transactions']
     ];
+    price_per_share?: [
+      { chain_id: number; token_address?: string | undefined | null },
+      boolean | `@${string}`
+    ];
     profiles?: [
       {
         /** distinct select on columns */
@@ -9579,6 +9583,7 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     /** An object relationship */
     organization?: ValueTypes['organizations'];
+    price_per_share?: boolean | `@${string}`;
     /** An object relationship */
     profile?: ValueTypes['profiles'];
     simple_token_address?: boolean | `@${string}`;
@@ -11832,6 +11837,7 @@ export type ModelTypes = {
     pending_vault_transactions_by_pk?:
       | GraphQLTypes['pending_vault_transactions']
       | undefined;
+    price_per_share: number;
     /** fetch data from the table: "profiles" */
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch data from the table: "profiles" using primary key columns */
@@ -12547,6 +12553,7 @@ export type ModelTypes = {
     id: GraphQLTypes['bigint'];
     /** An object relationship */
     organization: GraphQLTypes['organizations'];
+    price_per_share: number;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     simple_token_address: string;
@@ -16898,6 +16905,7 @@ export type GraphQLTypes = {
     pending_vault_transactions_by_pk?:
       | GraphQLTypes['pending_vault_transactions']
       | undefined;
+    price_per_share: number;
     /** fetch data from the table: "profiles" */
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch data from the table: "profiles" using primary key columns */
@@ -18287,6 +18295,7 @@ export type GraphQLTypes = {
     id: GraphQLTypes['bigint'];
     /** An object relationship */
     organization: GraphQLTypes['organizations'];
+    price_per_share: number;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     simple_token_address: string;

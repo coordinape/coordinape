@@ -17490,7 +17490,6 @@ Coordinape user accounts that can belong to one or many circles via the relation
 """
 type profiles {
   address: String!
-  ann_power: Boolean!
   avatar: String
   background: String
   bio: String
@@ -17848,7 +17847,6 @@ input profiles_bool_exp {
   _not: profiles_bool_exp
   _or: [profiles_bool_exp!]
   address: String_comparison_exp
-  ann_power: Boolean_comparison_exp
   avatar: String_comparison_exp
   background: String_comparison_exp
   bio: String_comparison_exp
@@ -17903,7 +17901,6 @@ input type for inserting data into table "profiles"
 """
 input profiles_insert_input {
   address: String
-  ann_power: Boolean
   avatar: String
   background: String
   bio: String
@@ -18011,7 +18008,6 @@ Ordering options when selecting data from "profiles".
 """
 input profiles_order_by {
   address: order_by
-  ann_power: order_by
   avatar: order_by
   background: order_by
   bio: order_by
@@ -18049,11 +18045,6 @@ enum profiles_select_column {
   column name
   """
   address
-
-  """
-  column name
-  """
-  ann_power
 
   """
   column name
@@ -18136,7 +18127,6 @@ input type for updating data in table "profiles"
 """
 input profiles_set_input {
   address: String
-  ann_power: Boolean
   avatar: String
   background: String
   bio: String
@@ -18195,7 +18185,6 @@ Initial value of the column from where the streaming should start
 """
 input profiles_stream_cursor_value_input {
   address: String
-  ann_power: Boolean
   avatar: String
   background: String
   bio: String
@@ -18228,11 +18217,6 @@ enum profiles_update_column {
   column name
   """
   address
-
-  """
-  column name
-  """
-  ann_power
 
   """
   column name
@@ -19954,6 +19938,7 @@ type query_root {
   fetch data from the table: "personal_access_tokens" using primary key columns
   """
   personal_access_tokens_by_pk(id: bigint!): personal_access_tokens
+  price_per_share(chain_id: Int!, token_address: String): Float!
 
   """
   fetch data from the table: "profiles"
@@ -27159,6 +27144,7 @@ type vaults {
   An object relationship
   """
   organization: organizations!
+  price_per_share: Float!
 
   """
   An object relationship

@@ -4575,7 +4575,6 @@ export const AllTypesProps: Record<string, any> = {
     _not: 'profiles_bool_exp',
     _or: 'profiles_bool_exp',
     address: 'String_comparison_exp',
-    ann_power: 'Boolean_comparison_exp',
     avatar: 'String_comparison_exp',
     background: 'String_comparison_exp',
     bio: 'String_comparison_exp',
@@ -4622,7 +4621,6 @@ export const AllTypesProps: Record<string, any> = {
   },
   profiles_order_by: {
     address: 'order_by',
-    ann_power: 'order_by',
     avatar: 'order_by',
     background: 'order_by',
     bio: 'order_by',
@@ -4975,6 +4973,7 @@ export const AllTypesProps: Record<string, any> = {
     personal_access_tokens_by_pk: {
       id: 'bigint',
     },
+    price_per_share: {},
     profiles: {
       distinct_on: 'profiles_select_column',
       order_by: 'profiles_order_by',
@@ -10020,7 +10019,6 @@ export const ReturnTypes: Record<string, any> = {
   },
   profiles: {
     address: 'String',
-    ann_power: 'Boolean',
     avatar: 'String',
     background: 'String',
     bio: 'String',
@@ -10203,6 +10201,7 @@ export const ReturnTypes: Record<string, any> = {
     personal_access_tokens: 'personal_access_tokens',
     personal_access_tokens_aggregate: 'personal_access_tokens_aggregate',
     personal_access_tokens_by_pk: 'personal_access_tokens',
+    price_per_share: 'Float',
     profiles: 'profiles',
     profiles_aggregate: 'profiles_aggregate',
     profiles_by_pk: 'profiles',
@@ -10976,6 +10975,7 @@ export const ReturnTypes: Record<string, any> = {
     id: 'bigint',
     org_id: 'bigint',
     organization: 'organizations',
+    price_per_share: 'Float',
     profile: 'profiles',
     simple_token_address: 'String',
     symbol: 'String',
