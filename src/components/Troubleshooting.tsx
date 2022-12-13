@@ -1,12 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-unused-vars,no-console */
 
-import { parseUnits } from '@ethersproject/units';
-import { DebugLogger } from 'common-lib/log';
+import { useEffect, useState } from 'react';
+
+import { ERC20__factory } from '@coordinape/hardhat/dist/typechain';
+import { Web3Provider } from '@ethersproject/providers';
+import { formatUnits, parseUnits } from '@ethersproject/units';
 import { getMagic, getMagicProvider } from 'features/auth/magic';
 
-import { useContracts } from 'hooks';
-import { useWeb3React } from 'hooks/useWeb3React';
-import { VaultRow } from 'pages/VaultsPage/VaultRow';
 import { Box, Button, Flex, Text } from 'ui';
 
 const randomColor = () => {
@@ -15,96 +15,129 @@ const randomColor = () => {
   return color;
 };
 
-const logger = new DebugLogger('troubleshooting');
+const daiToken = (provider: Web3Provider) => {
+  const address = '0x8e34054aA3F9CD541fE4B0fb9c4A45281178e7c6';
+  return ERC20__factory.connect(address, provider.getSigner());
+};
 
 export const TroubleshootingContent = () => {
-  const web3 = useWeb3React();
-  const contracts = useContracts();
-  const [lastAlive, setLastAlive] = useState<number>(Date.now());
-  const [status, setStatus] = useState<string | undefined>();
-
-  const mounted = useRef(false);
+  const [balance, setBalance] = useState<string | undefined>();
+  const [updaterOn, setUpdaterOn] = useState(false);
+  const [provider, setProvider] = useState<Web3Provider>();
+  const [address, setAddress] = useState<string>();
 
   useEffect(() => {
-    mounted.current = true;
-    return () => {
-      mounted.current = false;
+    if (!provider) return;
+    const callback = (num: number) => {
+      (async () => {
+        if (!provider || !address || !updaterOn) return;
+        const token = daiToken(provider);
+        console.log('updating balance...');
+        const newBalance = await token.balanceOf(address);
+        console.log('balance updated');
+        setBalance(`${formatUnits(newBalance, 18)} at block ${num}`);
+      })();
     };
-  }, []);
 
-  useEffect(() => {
-    if (!web3.active) return;
-
-    const poll = setInterval(async () => {
-      await getMagic().connect.getWalletInfo();
-      if (!mounted.current) return;
-      setLastAlive(Date.now());
-    }, 2000);
-
-    const updateUI = setInterval(() => {
-      const seconds = Math.round((Date.now() - lastAlive) / 1000);
-      if (seconds < 5) setStatus('ok');
-      else setStatus(`no response for ${seconds} seconds`);
-    }, 1000);
+    provider.on('block', callback);
 
     return () => {
-      clearInterval(poll);
-      clearInterval(updateUI);
+      provider.off('block', callback);
     };
-  }, [web3.active, lastAlive]);
+  }, [provider, address, updaterOn]);
 
   const connectMagic = async () => {
-    const p = await getMagicProvider();
-    web3.setProvider(p, 'magic');
+    const m = getMagic();
+    (window as any).magic = m;
+    const provider = await getMagicProvider();
+    setProvider(provider);
+    setAddress((await provider.send('eth_accounts', []))[0]);
+  };
+
+  const connectMetaMask = async () => {
+    const provider = new Web3Provider((window as any).ethereum);
+    setProvider(provider);
+    setAddress((await provider.send('eth_accounts', []))[0]);
   };
 
   const approve = async () => {
-    if (!contracts || !web3.account) {
+    if (!provider || !address) {
       alert('connect first!');
       return;
     }
-    const token = contracts.getToken('DAI');
-    logger.log('approving...');
-    const tx = await token.approve(web3.account, parseUnits('1', 18));
-    logger.log(`submitted ${tx.hash}`);
-    const receipt = await tx.wait();
-    logger.log(`got receipt`);
-    logger.log(receipt);
+    const token = daiToken(provider);
+    console.log('approving...');
+
+    const tx = await token.approve(address, parseUnits('1', 18));
+    console.log(`submitted ${tx.hash}`);
+
+    await tx.wait();
+    console.log(`got receipt`);
+    alert('transaction done!');
+  };
+
+  const minimal = async () => {
+    if (!provider || !address) {
+      return;
+    }
+    const token = daiToken(provider);
+    const promise = token.approve(address, parseUnits('1', 18));
+    setTimeout(async () => {
+      const newBalance = await token.balanceOf(address);
+      console.log('got balance:', newBalance.toString());
+    }, 10000);
+    await promise;
+    console.log('approval done');
   };
 
   return (
-    <Box
-      css={{
-        padding: '$md',
-        border: '3px solid',
-        borderColor: randomColor(),
-        minHeight: '100vh',
-      }}
+    <Flex
+      column
+      css={{ padding: '$xl', gap: '$md', alignContent: 'flex-start' }}
     >
-      <Text h1>Troubleshooting</Text>
-      <Flex column css={{ gap: '$md', mt: '$xl' }}>
-        <Text>Address: {web3.account}</Text>
-        <Text>Magic status: {status}</Text>
+      <Text>First, connect one provider below.</Text>
+      <Flex row css={{ gap: '$sm' }}>
         <Button onClick={connectMagic}>Connect Magic</Button>
-        <Button onClick={approve}>Send Approval</Button>
-        <VaultRow vault={vault} showRecentTransactions={false} />
+        <Button onClick={connectMetaMask}>Connect Metamask</Button>
       </Flex>
-    </Box>
+      <Text>Address: {address}</Text>
+      <Box>
+        <hr />
+      </Box>
+      <Box>
+        <Button onClick={approve}>Send Approval</Button>
+      </Box>
+      <Text>
+        Before activating the block listener (introducing concurrency), sending
+        approval transactions with the button above works normally, as many
+        times as you want.
+      </Text>
+      <Box>
+        <Button onClick={() => setUpdaterOn(true)}>
+          Activate Block Listener
+        </Button>
+      </Box>
+      <Text>
+        When using Magic, after activating the block listener, sending an
+        approval transaction breaks. It may hang during the transaction, or it
+        may succeed, but then not allow any transactions after that. There is no
+        issue when doing this with MetaMask.
+      </Text>
+      <Text>
+        Block listener {updaterOn ? 'on' : 'off'}. Balance: {balance}
+      </Text>
+      <Box>
+        <hr />
+      </Box>
+      <Text>
+        For an even simpler test case, click the button below after connecting a
+        provider. This just starts an approval transaction and then tries to
+        read a balance 10 seconds later. With Magic, the transaction and the
+        call interfere with each other. One or the other will never finish.
+      </Text>
+      <Box>
+        <Button onClick={minimal}>Go!</Button>
+      </Box>
+    </Flex>
   );
-};
-
-const vault = {
-  id: 6,
-  created_at: '2022-12-08T01:04:11.332953+00:00',
-  created_by: 366,
-  decimals: 18,
-  simple_token_address: '0x8e34054aA3F9CD541fE4B0fb9c4A45281178e7c6',
-  symbol: 'DAI',
-  token_address: '0x0000000000000000000000000000000000000000',
-  updated_at: '2022-12-08T01:04:11.332953+00:00',
-  vault_address: '0xae052fef0ebc16783173d8caba3694efe479d036',
-  chain_id: 5,
-  deployment_block: 8063601,
-  organization: { name: 'Org for Claims' },
-  vault_transactions: [],
 };
