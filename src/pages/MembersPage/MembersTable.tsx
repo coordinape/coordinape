@@ -42,7 +42,7 @@ import { TwoColumnLayout } from 'ui/layouts';
 import { shortenAddress } from 'utils';
 
 import { IDeleteUser } from '.';
-import { ICircleUser } from './getCircleUsers';
+import { ICircleUser, QUERY_KEY_CIRCLE_USERS } from './getCircleUsers';
 
 const GIFT_CIRCLE_DOCS_URL =
   'https://docs.coordinape.com/info/documentation/gift_circle';
@@ -284,6 +284,7 @@ const MemberRow = ({
           .then(() => {
             showInfo('Saved changes');
             queryClient.invalidateQueries(QUERY_KEY_FIXED_PAYMENT);
+            queryClient.invalidateQueries(QUERY_KEY_CIRCLE_USERS);
           })
           .catch(console.warn);
       }
