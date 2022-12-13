@@ -67,7 +67,7 @@ stop_services() {
 combine_coverage() {
   rm -r $PROJECT_ROOT/.nyc_output/*
   cp $PROJECT_ROOT/coverage-jest/coverage-final.json $PROJECT_ROOT/.nyc_output/jest.json
-  cp $PROJECT_ROOT/coverage-cypress/coverage-final.json $PROJECT_ROOT/.nyc_output/cypress.json
+  # cp $PROJECT_ROOT/coverage-cypress/coverage-final.json $PROJECT_ROOT/.nyc_output/cypress.json
   echo Combined coverage:
   yarn nyc report -r lcov -r text-summary --report-dir coverage
 }
@@ -118,13 +118,13 @@ elif [ "${OTHERARGS[0]}" = "test" ]; then
 #     fi
 #   fi
 
-#   # combine coverage reports
-#   if [ "$ALL" ]; then
-#     combine_coverage
-#   fi
+  # combine coverage reports
+  if [ "$ALL" ]; then
+    combine_coverage
+  fi
 
-# elif [ "${OTHERARGS[0]}" = "combine-coverage" ]; then
-#   combine_coverage
+elif [ "${OTHERARGS[0]}" = "combine-coverage" ]; then
+  combine_coverage
 
 else
   echo "No command given. Expected one of: up, down, logs, test"
