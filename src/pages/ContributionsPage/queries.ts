@@ -60,6 +60,7 @@ export const getContributionsAndEpochs = async ({
         start_date: true,
         end_date: true,
         ended: true,
+        description: true,
       },
     ],
     circles_by_pk: [

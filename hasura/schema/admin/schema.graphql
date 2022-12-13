@@ -162,6 +162,7 @@ type CreateCircleResponse {
 input CreateEpochInput {
   circle_id: Int!
   days: Int!
+  description: String
   grant: Float
   repeat: Int!
   start_date: timestamptz!
@@ -415,6 +416,7 @@ type UpdateContributionResponse {
 input UpdateEpochInput {
   circle_id: Int!
   days: Int!
+  description: String
   grant: Float
   id: Int!
   repeat: Int!

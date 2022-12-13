@@ -41,6 +41,7 @@ export const getHistoryData = async (circleId: number, userId: number) => {
                   ended: true,
                   days: true,
                   repeat: true,
+                  description: true,
                 },
               ],
             },
@@ -59,6 +60,7 @@ export const getHistoryData = async (circleId: number, userId: number) => {
                   ended: true,
                   days: true,
                   repeat: true,
+                  description: true,
                 },
               ],
             },
@@ -73,6 +75,7 @@ export const getHistoryData = async (circleId: number, userId: number) => {
                   number: true,
                   start_date: true,
                   end_date: true,
+                  description: true,
                   token_gifts_aggregate: [
                     {},
                     { aggregate: { sum: { tokens: true } } },

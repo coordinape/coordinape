@@ -43,6 +43,7 @@ export interface UpdateCreateEpochParam {
   start_date: string; // 2021-07-09T00:00:00.000000Z
   repeat: number; // (0 = no repeat, 1 = weekly, 2 = monthly)
   days: number; // (minimum 1 - 100 maximum)
+  description?: string;
   grant?: number; // decimal
 }
 

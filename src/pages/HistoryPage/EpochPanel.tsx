@@ -73,9 +73,13 @@ export const EpochPanel = ({
           {startDate.toFormat('MMM')} {startDate.toFormat('d')} -{' '}
           {endDate.toFormat(endDateFormat)}
         </Text>
-        <Text inline h3>
-          Epoch {epoch.number}
-        </Text>
+        {epoch.description ? (
+          <Text p>{epoch.description}</Text>
+        ) : (
+          <Text inline h3>
+            Epoch {epoch.number}
+          </Text>
+        )}
       </Flex>
       <Box>
         <Panel nested>

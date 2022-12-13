@@ -381,11 +381,10 @@ const GivePage = () => {
               }}
             >
               <Text h1 semibold inline>
-                GIVE
+                Allocations
               </Text>
               {currentEpoch && (
                 <Text inline h1 normal>
-                  Epoch {currentEpoch.number}:{' '}
                   {currentEpoch.startDate.toFormat('MMM d')} -{' '}
                   {currentEpoch.endDate.toFormat(
                     currentEpoch.endDate.month === currentEpoch.startDate.month
