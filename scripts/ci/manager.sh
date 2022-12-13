@@ -67,7 +67,7 @@ stop_services() {
 combine_coverage() {
   rm -r $PROJECT_ROOT/.nyc_output/*
   cp $PROJECT_ROOT/coverage-jest/coverage-final.json $PROJECT_ROOT/.nyc_output/jest.json
-  # cp $PROJECT_ROOT/coverage-cypress/coverage-final.json $PROJECT_ROOT/.nyc_output/cypress.json
+  cp $PROJECT_ROOT/coverage-cypress/coverage-final.json $PROJECT_ROOT/.nyc_output/cypress.json
   echo Combined coverage:
   yarn nyc report -r lcov -r text-summary --report-dir coverage
 }
@@ -109,14 +109,14 @@ elif [ "${OTHERARGS[0]}" = "test" ]; then
     fi
   fi
 
-#   if [ "$CYPRESS" ]; then
-#     if [ "$INTERACTIVE" ]; then
-#       yarn cypress open ${OTHERARGS[@]:1} > /dev/null
-#     else
-#       yarn cypress run ${OTHERARGS[@]:1}
-#       yarn nyc report -r text-summary
-#     fi
-#   fi
+  if [ "$CYPRESS" ]; then
+    if [ "$INTERACTIVE" ]; then
+      yarn cypress open ${OTHERARGS[@]:1} > /dev/null
+    else
+      yarn cypress run ${OTHERARGS[@]:1}
+      yarn nyc report -r text-summary
+    fi
+  fi
 
   # combine coverage reports
   if [ "$ALL" ]; then
