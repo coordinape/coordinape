@@ -1,6 +1,8 @@
 import { act, render, screen } from '@testing-library/react';
 
 import { TestWrapper } from 'utils/testing';
+import { TestProvider } from 'utils/testing/ethereum';
+import { rpcUrl } from 'utils/testing/provider';
 
 import { NetworkSelector } from './NetworkSelector';
 
@@ -18,7 +20,9 @@ test('without window.ethereum, button is disabled', async () => {
   ).toBeDisabled();
 });
 
-const ethMock = jest.fn(() => '0xfa');
+const ethMock = new TestProvider(rpcUrl);
+ethMock.mockChainId = '0xfa';
+// (ethMock as any).request = jest.fn((...args) => console.log(args));
 
 describe('with metamask enabled', () => {
   beforeAll(() => {
@@ -51,6 +55,7 @@ describe('with metamask enabled', () => {
     });
 
     screen.getByText('Fantom Opera').click();
-    screen.getByText('Polygon');
+    screen.getByText('Polygon').click();
+    expect(ethMock.calls).toContain('wallet_switchEthereumChain');
   });
 });
