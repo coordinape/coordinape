@@ -1,6 +1,6 @@
-import { gqlQuery, injectWeb3 } from '../util';
+// import { gqlQuery, injectWeb3 } from '../util';
 
-let circleId;
+// let circleId;
 
 // context('Coordinape', () => {
 //   before(() => {
