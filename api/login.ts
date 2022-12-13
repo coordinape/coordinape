@@ -186,6 +186,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     await insertInteractionEvents({
       event_type: 'login',
       profile_id: profile.id,
+      data: {
+        chainId,
+      },
     });
     return res
       .status(200)
