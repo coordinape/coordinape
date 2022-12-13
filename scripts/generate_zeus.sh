@@ -31,19 +31,23 @@ function generate() {
   # use `brew install gsed` on macos to get this
   if [[ "$PLATFORM" == "OSX" || "$PLATFORM" == "BSD" ]]; then
     sed -i "" 's,bigint"]:any,bigint"]:number,g' "$TMP_GEN_PATH"/zeus/index.ts
-    if [[ -v IS_NODE ]]
-    then
-      sed -i "" "2i\import {DebugLogger} from \'../../../../src/common-lib/log\';\nconst logger = new DebugLogger('zeus')" "$TMP_GEN_PATH"/zeus/index.ts
+    if [ "$IS_NODE" ]; then
+      sed -E -i "" "2i\\
+import {DebugLogger} from \'../../../../src/common-lib/log\';\\
+const logger = new DebugLogger('zeus')\\
+" "$TMP_GEN_PATH"/zeus/index.ts
     else
-      sed -i "" "2i\import {DebugLogger} from \'common-lib/log\';\nconst logger = new DebugLogger('zeus')" "$TMP_GEN_PATH"/zeus/index.ts
+      sed -E -i "" "2i\\
+import {DebugLogger} from \'common-lib/log\';\\
+const logger = new DebugLogger('zeus')\\
+" "$TMP_GEN_PATH"/zeus/index.ts
     fi
     sed -i "" 's,bigint"]:unknown,bigint"]:number,g' "$TMP_GEN_PATH"/zeus/index.ts
     sed -i "" 's/console\.error(response)/logger\.log(JSON\.stringify(response, null, 2))/g' "$TMP_GEN_PATH"/zeus/index.ts
   elif [ "$PLATFORM" == "LINUX" ]; then
     sed -i 's,bigint"]:any,bigint"]:number,g' "$TMP_GEN_PATH"/zeus/index.ts
     sed -i 's,bigint"]:unknown,bigint"]:number,g' "$TMP_GEN_PATH"/zeus/index.ts
-    if [[ -v IS_NODE ]]
-    then
+    if [ "$IS_NODE" ]; then
       sed -i "2i\import {DebugLogger} from \'../../../../src/common-lib/log\';\nconst logger = new DebugLogger('zeus')" "$TMP_GEN_PATH"/zeus/index.ts
     else
       sed -i "2i\import {DebugLogger} from \'common-lib/log\';\nconst logger = new DebugLogger('zeus')" "$TMP_GEN_PATH"/zeus/index.ts
@@ -53,7 +57,6 @@ function generate() {
     echo "unknown platform; exiting"
     exit 1
   fi
-
 
   test -d $GEN_PATH && rm -r $GEN_PATH
   mv -f $TMP_GEN_PATH $GEN_PATH
