@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import type { JsonRpcProvider } from '@ethersproject/providers';
 import { Web3Provider } from '@ethersproject/providers';
 import {
@@ -62,6 +64,7 @@ export function Web3ReactProvider({
     <OriginalWeb3ReactProvider getLibrary={getLibrary}>
       {children}
       <MagicModalFixer />
+      <Web3EventHooks />
     </OriginalWeb3ReactProvider>
   );
 }
@@ -81,3 +84,31 @@ function getLibrary(provider: any): Web3Provider {
   library.pollingInterval = 12000;
   return library;
 }
+
+const Web3EventHooks = () => {
+  useEffect(() => {
+    const ethereum = (window as any).ethereum;
+    if (ethereum) {
+      // The "any" network will allow spontaneous network changes
+      const provider = new Web3Provider(ethereum, 'any');
+
+      provider.on('network', (_, oldNetwork) => {
+        // When a Provider makes its initial connection, it emits a "network"
+        // event with a null oldNetwork along with the newNetwork. So, if the
+        // oldNetwork exists, it represents a changing network
+        if (oldNetwork) {
+          window.location.reload();
+        }
+      });
+
+      // Web3Provider doesn't work with accountsChanged events:
+      // https://github.com/ethers-io/ethers.js/issues/1396#issuecomment-806380431
+      ethereum.on('accountsChanged', () => {
+        // If account changes, reload!
+        window.location.reload();
+      });
+    }
+  }, []);
+
+  return null;
+};

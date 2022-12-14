@@ -64,16 +64,7 @@ export const WalletAuthModal = () => {
       // The "any" network will allow spontaneous network changes
 
       const provider = new Web3Provider(ethereum, 'any');
-
       updateChain(provider);
-      provider.on('network', (_, oldNetwork) => {
-        // When a Provider makes its initial connection, it emits a "network"
-        // event with a null oldNetwork along with the newNetwork. So, if the
-        // oldNetwork exists, it represents a changing network
-        if (oldNetwork) {
-          window.location.reload();
-        }
-      });
     }
   }, []);
 
