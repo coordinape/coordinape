@@ -6,6 +6,12 @@ object_relationships:
     using:
       foreign_key_constraint_on: profile_id
 insert_permissions:
+  - role: discord-bot
+    permission:
+      check: {}
+      columns:
+        - profile_id
+        - user_snowflake
   - role: user
     permission:
       check: {}
@@ -34,6 +40,15 @@ select_permissions:
                       _eq: true
                   - read_member_profiles:
                       _eq: true
+  - role: discord-bot
+    permission:
+      columns:
+        - id
+        - profile_id
+        - user_snowflake
+        - created_at
+        - updated_at
+      filter: {}
   - role: user
     permission:
       columns:
@@ -47,6 +62,13 @@ select_permissions:
           id:
             _eq: X-Hasura-User-Id
 update_permissions:
+  - role: discord-bot
+    permission:
+      columns:
+        - profile_id
+        - user_snowflake
+      filter: {}
+      check: null
   - role: user
     permission:
       columns:
@@ -57,6 +79,10 @@ update_permissions:
             _eq: X-Hasura-User-Id
       check: null
 delete_permissions:
+  - role: discord-bot
+    permission:
+      backend_only: false
+      filter: {}
   - role: user
     permission:
       backend_only: false
