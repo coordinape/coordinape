@@ -144,6 +144,32 @@ export const getEpochData = async (
 export type EpochDataResult = Awaited<ReturnType<typeof getEpochData>>;
 export type Gift = Exclude<EpochDataResult['token_gifts'], undefined>[0];
 
+export const getPreviousLockedTokenDistribution = async (epochId: number) => {
+  const response = await client.query(
+    {
+      locked_token_distributions: [
+        {
+          limit: 1,
+          where: {
+            epoch_id: { _eq: epochId },
+            tx_hash: { _is_null: false },
+          },
+        },
+        {
+          id: true,
+          distribution_json: [{}, true],
+          tx_hash: true,
+        },
+      ],
+    },
+    {
+      operationName: 'getPreviousLockedTokenDistribution',
+    }
+  );
+  const [lockedTokenDistribution] = response.locked_token_distributions;
+  return lockedTokenDistribution;
+};
+
 export const getPreviousDistribution = async (
   circleId: number,
   vaultId: number
