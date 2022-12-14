@@ -12,8 +12,8 @@ import {
 } from '../../../../api-lib/HttpError';
 import { getProvider } from '../../../../api-lib/provider';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
-import { zEthAddressOnly } from '../../../../src/forms/formHelpers';
 import { Contracts } from '../../../../src/lib/vaults/contracts';
+import { zEthAddressOnly } from '../../../../src/lib/zod/formHelpers';
 
 const inputSchema = z
   .object({

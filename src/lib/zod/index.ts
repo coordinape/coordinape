@@ -3,13 +3,14 @@ import { SiweMessage } from 'siwe';
 import { z } from 'zod';
 
 import { getCircleApiKey } from '../../../api-lib/authHelpers';
+
 import {
   zEthAddressOnly,
   zStringISODateUTC,
   zEthAddress,
   zUsername,
   zCircleName,
-} from '../../forms/formHelpers';
+} from './formHelpers';
 
 const PERSONAL_SIGN_REGEX = /0x[0-9a-f]{130}/;
 
