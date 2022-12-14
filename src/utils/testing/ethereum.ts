@@ -1,3 +1,10 @@
+/*
+This file was derived from the cypress TestProvider in `cypress/util/index.ts`.
+However, there were some issues getting all the tests to pass using one single implementation.
+
+This version should be used for all jest and non-cypress tests.
+*/
+
 /* eslint-disable no-console */
 import { HDNode } from '@ethersproject/hdnode';
 import Wallet from 'ethereumjs-wallet';
