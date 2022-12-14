@@ -9,8 +9,8 @@ import { z } from 'zod';
 
 import { LoadingModal } from '../../components';
 import CopyCodeTextField from '../../components/CopyCodeTextField';
-import { zEthAddress, zUsername } from '../../forms/formHelpers';
 import { useApeSnackbar, useApiBase } from '../../hooks';
+import { zEthAddress, zUsername } from '../../lib/zod/formHelpers';
 import { Box, Button, Flex, Panel, Text } from '../../ui';
 import { Check } from 'icons/__generated';
 import { QUERY_KEY_CIRCLE_SETTINGS } from 'pages/CircleAdminPage/getCircleSettings';
