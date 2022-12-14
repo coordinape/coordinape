@@ -98,9 +98,8 @@ export function DistributionForm({
   const [giftSubmitting, setGiftSubmitting] = useState(false);
   const [fixedSubmitting, setFixedSubmitting] = useState(false);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [previousLockedTokenDistribution, setPreviousLockedTokenDistribution] =
-    useState({});
+    useState({} as any);
 
   useEffect(() => {
     getPreviousLockedTokenDistribution(epoch.id).then(result =>
@@ -273,8 +272,6 @@ export function DistributionForm({
   }, [tokenContractAddress]);
 
   const onFixedFormSubmit: SubmitHandler<TFixedDistributionForm> = async () => {
-    // eslint-disable-next-line no-debugger
-    debugger;
     assert(epoch?.id && circle);
     setFixedSubmitting(true);
     const vault = fpVault;
@@ -868,7 +865,14 @@ export function DistributionForm({
         </Panel>
         {(fixedDist || circleDist) && <Summary distribution={circleDist} />}
         <Flex css={{ justifyContent: 'center', mb: '$sm' }}>
-          {isUsingHedgey && customToken?.symbol ? (
+          {previousLockedTokenDistribution.distribution_json ? (
+            <EtherscanButton
+              tx_hash={previousLockedTokenDistribution.tx_hash}
+              chain_id={
+                previousLockedTokenDistribution.distribution_json.chainId
+              }
+            />
+          ) : isUsingHedgey && customToken?.symbol ? (
             <Button
               color="primary"
               outlined
@@ -878,7 +882,10 @@ export function DistributionForm({
               Submit {customToken.symbol} Distribution
             </Button>
           ) : circleDist ? (
-            <EtherscanButton distribution={circleDist} />
+            <EtherscanButton
+              tx_hash={circleDist.tx_hash as string}
+              chain_id={circleDist.vault.chain_id}
+            />
           ) : isCombinedDistribution() ? (
             <Text css={{ fontSize: '$small' }}>
               Combined Distribution. Total{' '}
@@ -1009,7 +1016,10 @@ export function DistributionForm({
         {(fixedDist || circleDist) && <Summary distribution={fixedDist} />}
         <Flex css={{ justifyContent: 'center', mb: '$sm' }}>
           {fixedDist ? (
-            <EtherscanButton distribution={fixedDist} />
+            <EtherscanButton
+              tx_hash={fixedDist.tx_hash as string}
+              chain_id={fixedDist.vault.chain_id}
+            />
           ) : fpVault ? (
             <Button
               color="primary"
@@ -1061,14 +1071,13 @@ const renderCombinedSum = (giftAmt: string, fixedAmt: string) =>
   formatUnits(parseUnits(giftAmt || '0').add(parseUnits(fixedAmt)));
 
 const EtherscanButton = ({
-  distribution,
+  chain_id,
+  tx_hash,
 }: {
-  distribution: EpochDataResult['distributions'][0];
+  chain_id: number;
+  tx_hash: string;
 }) => {
-  const explorerHref = makeExplorerUrl(
-    distribution.vault.chain_id,
-    distribution.tx_hash
-  );
+  const explorerHref = makeExplorerUrl(chain_id, tx_hash);
   return (
     <Button
       type="button"

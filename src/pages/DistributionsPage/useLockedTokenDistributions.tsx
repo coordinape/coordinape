@@ -49,7 +49,7 @@ export const useLockedTokenDistribution = () => {
     const response = await saveLockedTokenDistribution({
       epoch_id: epochId,
       gift_amount: amount,
-      distribution_json: balances,
+      distribution_json: { chainId: Number(contracts.chainId), balances },
     });
 
     assert(response, 'Locked distribution was not saved.');
