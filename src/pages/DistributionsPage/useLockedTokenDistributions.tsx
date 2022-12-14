@@ -46,18 +46,15 @@ export const useLockedTokenDistribution = () => {
       earnings: weiAmount.mul(gifts[address]).div(totalGive).toString(),
     }));
 
-    const address = await contracts.getMyAddress();
-
     const response = await saveLockedTokenDistribution({
       epoch_id: epochId,
       gift_amount: amount,
       distribution_json: balances,
-      distributed_by: address,
     });
 
     assert(response, 'Locked distribution was not saved.');
 
-    const receipt = await lockedTokenDistribution(
+    const transaction = await lockedTokenDistribution(
       contracts.provider,
       contracts,
       token,
@@ -66,7 +63,7 @@ export const useLockedTokenDistribution = () => {
       hedgeyTransferable,
       balances
     );
-    await receipt.wait();
+    const receipt = await transaction.wait();
     if (!receipt) return;
 
     await markLockedDistributionDone({

@@ -39,7 +39,10 @@ import {
 import { TwoColumnLayout } from 'ui/layouts';
 import { makeExplorerUrl } from 'utils/provider';
 
-import { getPreviousDistribution } from './queries';
+import {
+  getPreviousDistribution,
+  getPreviousLockedTokenDistribution,
+} from './queries';
 import type { EpochDataResult, Gift } from './queries';
 import { useLockedTokenDistribution } from './useLockedTokenDistributions';
 import { useSubmitDistribution } from './useSubmitDistribution';
@@ -95,6 +98,16 @@ export function DistributionForm({
   const [giftSubmitting, setGiftSubmitting] = useState(false);
   const [fixedSubmitting, setFixedSubmitting] = useState(false);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [previousLockedTokenDistribution, setPreviousLockedTokenDistribution] =
+    useState({});
+
+  useEffect(() => {
+    getPreviousLockedTokenDistribution(epoch.id).then(result =>
+      setPreviousLockedTokenDistribution(result)
+    );
+  }, [epoch]);
+
   const [sufficientFixedPaymentTokens, setSufficientFixPaymentTokens] =
     useState(false);
   const [sufficientGiftTokens, setSufficientGiftTokens] = useState(false);
@@ -128,12 +141,13 @@ export function DistributionForm({
       formatUnits(maxGiftTokens || Zero, giftDecimals),
       giftDecimals
     ),
-    selectedVaultId: z.string(),
+    selectedVaultId: z.string().optional(),
     selectedHedgeyVaultId: z.string().optional(),
     hedgeyLockPeriod: z.string().optional(),
     hedgeyTransferable: z.string().optional(),
     tokenContractAddress: z.string(),
   });
+
   const FixedDistributionFormSchema = z.object({
     amount: z.string(),
     selectedVaultId: z.string(),
@@ -346,12 +360,9 @@ export function DistributionForm({
   const onSubmit: SubmitHandler<TDistributionForm> = async (
     value: TDistributionForm
   ) => {
-    // eslint-disable-next-line no-debugger
-    debugger;
     assert(epoch?.id && circle);
     setGiftSubmitting(true);
     const vault = findVault(value.selectedVaultId);
-    assert(vault);
 
     let result;
 
@@ -621,46 +632,10 @@ export function DistributionForm({
     });
   };
 
-  const getSubmitButton = () => {
-    if (isCombinedDistribution()) {
-      return (
-        <Text css={{ fontSize: '$small' }}>
-          Combined Distribution. Total{' '}
-          {renderCombinedSum(formGiftAmount, totalFixedPayment)}{' '}
-          {fpVault?.symbol}
-        </Text>
-      );
-    }
-    // if using a custom token with Hedgey return  custom button
-    if (isUsingHedgey && customToken?.symbol) {
-      return (
-        <Button
-          color="primary"
-          outlined
-          disabled={giftSubmitting || !sufficientGiftTokens}
-          fullWidth
-        >
-          Submit {customToken.symbol} Distribution
-        </Button>
-      );
-    }
-    // standard Vaults button
-    return vaults[0] ? (
-      <Button
-        color="primary"
-        outlined
-        disabled={giftSubmitting || !sufficientGiftTokens}
-        fullWidth
-      >
-        {getButtonText(
-          sufficientGiftTokens,
-          giftVaultId,
-          formGiftAmount,
-          'gift'
-        )}
-      </Button>
-    ) : null;
-  };
+  useEffect(() => {
+    setValue('hedgeyLockPeriod', hedgeyIntegration?.data?.lockPeriod);
+    setValue('hedgeyTransferable', hedgeyIntegration?.data?.transferable);
+  }, [hedgeyIntegration]);
 
   return (
     <TwoColumnLayout>
@@ -893,11 +868,38 @@ export function DistributionForm({
         </Panel>
         {(fixedDist || circleDist) && <Summary distribution={circleDist} />}
         <Flex css={{ justifyContent: 'center', mb: '$sm' }}>
-          {circleDist ? (
+          {isUsingHedgey && customToken?.symbol ? (
+            <Button
+              color="primary"
+              outlined
+              disabled={giftSubmitting || !sufficientGiftTokens}
+              fullWidth
+            >
+              Submit {customToken.symbol} Distribution
+            </Button>
+          ) : circleDist ? (
             <EtherscanButton distribution={circleDist} />
-          ) : (
-            getSubmitButton()
-          )}
+          ) : isCombinedDistribution() ? (
+            <Text css={{ fontSize: '$small' }}>
+              Combined Distribution. Total{' '}
+              {renderCombinedSum(formGiftAmount, totalFixedPayment)}{' '}
+              {fpVault?.symbol}
+            </Text>
+          ) : vaults[0] ? (
+            <Button
+              color="primary"
+              outlined
+              disabled={giftSubmitting || !sufficientGiftTokens}
+              fullWidth
+            >
+              {getButtonText(
+                sufficientGiftTokens,
+                giftVaultId,
+                formGiftAmount,
+                'gift'
+              )}
+            </Button>
+          ) : null}
         </Flex>
       </form>
 
