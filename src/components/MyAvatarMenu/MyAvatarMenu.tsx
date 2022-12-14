@@ -2,14 +2,13 @@ import { useRef, useState } from 'react';
 
 import { useWalletStatus } from 'features/auth';
 import { NavLink } from 'react-router-dom';
-import { Theme } from 'stitches.config';
 
 import { Hidden } from '@material-ui/core';
 
+import { ThemeSwitcher } from '../../features/theming/ThemeSwitcher';
 import { Network } from 'components';
 import { menuGroupStyle } from 'components/MainLayout/MainHeader';
 import isFeatureEnabled from 'config/features';
-import { CloudDrizzle, Moon, Sun } from 'icons/__generated';
 import { useMyProfile } from 'recoilState/app';
 import { paths } from 'routes/paths';
 import {
@@ -21,9 +20,6 @@ import {
   PopoverContent,
   PopoverClose,
   POPOVER_TIMEOUT,
-  Flex,
-  IconButton,
-  Button,
 } from 'ui';
 import { shortenAddress } from 'utils';
 
@@ -31,15 +27,9 @@ import { RecentTransactionsModal } from './RecentTransactionsModal';
 
 type Props = {
   walletStatus: ReturnType<typeof useWalletStatus>;
-  currentTheme?: string;
-  setCurrentTheme(t: Theme): void;
 };
 
-export const MyAvatarMenu = ({
-  walletStatus,
-  currentTheme,
-  setCurrentTheme,
-}: Props) => {
+export const MyAvatarMenu = ({ walletStatus }: Props) => {
   const myProfile = useMyProfile();
   const { icon, address, chainId, logout } = walletStatus;
   const [showTxModal, setShowTxModal] = useState(false);
@@ -182,89 +172,7 @@ export const MyAvatarMenu = ({
                 )}
                 {/* put this in your browser console to enable theme switching
                 localStorage.setItem('feature:theme_switcher', 'true'); */}
-                {isFeatureEnabled('theme_switcher') && (
-                  <Flex
-                    css={{
-                      gap: '$sm',
-                      justifyContent: 'end',
-                      mt: '$sm',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <Button
-                      size="small"
-                      color="transparent"
-                      css={{
-                        '&:hover': {
-                          color: '$primary',
-                        },
-                        color:
-                          currentTheme === 'system'
-                            ? '$text !important'
-                            : '$secondaryText',
-                      }}
-                      onClick={() => {
-                        // fixme for utilizing OS theme selection
-                        setCurrentTheme(undefined);
-                      }}
-                    >
-                      AUTO
-                    </Button>
-                    <IconButton
-                      css={{
-                        p: 0,
-                        '&:hover': {
-                          color: '$primary',
-                        },
-                        color:
-                          currentTheme == undefined
-                            ? '$text !important'
-                            : currentTheme == 'undefined'
-                            ? '$text !important'
-                            : '$secondaryText',
-                      }}
-                      onClick={() => {
-                        setCurrentTheme(undefined);
-                      }}
-                    >
-                      <CloudDrizzle />
-                    </IconButton>
-                    <IconButton
-                      css={{
-                        p: 0,
-                        '&:hover': {
-                          color: '$primary',
-                        },
-                        color:
-                          currentTheme === 'dark'
-                            ? '$text !important'
-                            : '$secondaryText',
-                      }}
-                      onClick={() => {
-                        setCurrentTheme('dark');
-                      }}
-                    >
-                      <Moon />
-                    </IconButton>
-                    <IconButton
-                      css={{
-                        p: 0,
-                        '&:hover': {
-                          color: '$primary',
-                        },
-                        color:
-                          currentTheme === 'light'
-                            ? '$text !important'
-                            : '$secondaryText',
-                      }}
-                      onClick={() => {
-                        setCurrentTheme('light');
-                      }}
-                    >
-                      <Sun />
-                    </IconButton>
-                  </Flex>
-                )}
+                <ThemeSwitcher />
               </Box>
             </Box>
           </PopoverContent>
