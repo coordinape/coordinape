@@ -67,4 +67,4 @@ sleep 3
 generate user $USER_PATH -h x-hasura-role:user -h "authorization:generate" --graphql hasura/schema/user
 
 # fix formatting of generated files
-node_modules/.bin/prettier --write {$ADMIN_PATH,$USER_PATH}
+node_modules/.bin/prettier --write {$ADMIN_PATH,$USER_PATH,hasura/schema}
