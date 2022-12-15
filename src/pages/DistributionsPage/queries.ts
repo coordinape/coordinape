@@ -7,6 +7,19 @@ import type { Contracts } from 'lib/vaults';
 
 import type { Awaited } from 'types/shim';
 
+export const getProfileIds = async (addresses: string[]) => {
+  const { profiles } = await client.query({
+    profiles: [
+      { where: { address: { _in: addresses } } },
+      {
+        id: true,
+        address: true,
+      },
+    ],
+  });
+  return profiles;
+};
+
 export const getEpochData = async (
   epochId: number,
   myAddress?: string,
@@ -157,8 +170,8 @@ export const getPreviousLockedTokenDistribution = async (epochId: number) => {
         },
         {
           id: true,
-          distribution_json: [{}, true],
           tx_hash: true,
+          chain_id: true,
         },
       ],
     },

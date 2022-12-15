@@ -4,6 +4,31 @@ import { Contracts, getUnwrappedAmount } from 'lib/vaults';
 
 import type { Awaited } from 'types/shim';
 
+export const getLockedTokenGifts = async (profileId: number) => {
+  const { locked_token_distribution_gifts } = await client.query({
+    locked_token_distribution_gifts: [
+      {
+        where: {
+          profile_id: { _eq: profileId },
+          locked_token_distribution: { tx_hash: { _is_null: false } },
+        },
+      },
+      {
+        earnings: true,
+        id: true,
+        locked_token_distribution: {
+          token_contract_address: true,
+          tx_hash: true,
+          chain_id: true,
+          token_symbol: true,
+          token_decimals: true,
+        },
+      },
+    ],
+  });
+  return locked_token_distribution_gifts;
+};
+
 export const getClaims = async (
   profileId: number,
   contracts: Contracts

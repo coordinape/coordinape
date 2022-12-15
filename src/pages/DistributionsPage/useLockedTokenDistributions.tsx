@@ -9,6 +9,7 @@ import {
   useMarkLockedDistributionDone,
   useSaveLockedTokenDistribution,
 } from './mutations';
+import { getProfileIds } from './queries';
 
 export const useLockedTokenDistribution = () => {
   const contracts = useContracts();
@@ -32,7 +33,10 @@ export const useLockedTokenDistribution = () => {
       vault ? vault.simple_token_address : tokenContractAddress
     );
 
-    const decimals = await token.decimals();
+    const [symbol, decimals] = await Promise.all([
+      token.symbol(),
+      token.decimals(),
+    ]);
     const weiAmount = parseUnits(amount, decimals);
 
     if (vault) {
@@ -46,10 +50,23 @@ export const useLockedTokenDistribution = () => {
       earnings: weiAmount.mul(gifts[address]).div(totalGive).toString(),
     }));
 
+    const profileIds = await getProfileIds(
+      balances.map(balance => balance.address)
+    );
+
     const response = await saveLockedTokenDistribution({
+      token_symbol: symbol,
+      token_decimals: decimals.toString(),
+      token_contract_address: tokenContractAddress,
       epoch_id: epochId,
       gift_amount: amount,
-      distribution_json: { chainId: Number(contracts.chainId), balances },
+      chain_id: Number(contracts.chainId),
+      locked_token_distribution_gifts: balances.map(balance => ({
+        profile_id: profileIds.find(
+          profile => profile.address === balance.address
+        )?.id,
+        earnings: balance.earnings,
+      })),
     });
 
     assert(response, 'Locked distribution was not saved.');

@@ -101,10 +101,14 @@ export function DistributionForm({
   const [previousLockedTokenDistribution, setPreviousLockedTokenDistribution] =
     useState({} as any);
 
-  useEffect(() => {
+  const loadPreviousLockedTokenDistribution = () => {
     getPreviousLockedTokenDistribution(epoch.id).then(result =>
       setPreviousLockedTokenDistribution(result)
     );
+  };
+
+  useEffect(() => {
+    loadPreviousLockedTokenDistribution();
   }, [epoch]);
 
   const [sufficientFixedPaymentTokens, setSufficientFixPaymentTokens] =
@@ -392,6 +396,7 @@ export function DistributionForm({
       // could be due to user cancellation
       if (!result) return;
 
+      loadPreviousLockedTokenDistribution();
       refetch();
       return;
     }
@@ -553,6 +558,7 @@ export function DistributionForm({
   };
 
   const shouldDisableGiftInput = () => {
+    if (previousLockedTokenDistribution?.tx_hash) return true;
     if (hedgeyIntegration?.data.enabled) return false;
     else
       return (
@@ -865,12 +871,10 @@ export function DistributionForm({
         </Panel>
         {(fixedDist || circleDist) && <Summary distribution={circleDist} />}
         <Flex css={{ justifyContent: 'center', mb: '$sm' }}>
-          {previousLockedTokenDistribution.distribution_json ? (
+          {previousLockedTokenDistribution?.tx_hash ? (
             <EtherscanButton
               tx_hash={previousLockedTokenDistribution.tx_hash}
-              chain_id={
-                previousLockedTokenDistribution.distribution_json.chainId
-              }
+              chain_id={previousLockedTokenDistribution.chain_id}
             />
           ) : isUsingHedgey && customToken?.symbol ? (
             <Button
