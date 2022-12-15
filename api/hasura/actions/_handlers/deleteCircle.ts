@@ -25,18 +25,18 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     return;
   }
 
-  await adminClient.mutate(
-    {
-      update_circles_by_pk: [
-        { pk_columns: { id: circle_id }, _set: { deleted_at: 'now()' } },
-        { __typename: true },
-      ],
-    },
-    { operationName: 'deleteCircle_delete' }
-  );
+  // await adminClient.mutate(
+  //   {
+  //     update_circles_by_pk: [
+  //       { pk_columns: { id: circle_id }, _set: { deleted_at: 'now()' } },
+  //       { __typename: true },
+  //     ],
+  //   },
+  //   { operationName: 'deleteCircle_delete' }
+  // );
 
-  res.status(200).json({
-    success: true,
+  res.status(500).json({
+    success: false,
   });
 }
 
