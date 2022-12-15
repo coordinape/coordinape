@@ -24,13 +24,17 @@ WEB_PID=""
 start_services() {
   # start docker
   $DOCKER_CMD up -d
-  
+
   # start ganache
   $SCRIPT_DIR/../../hardhat/scripts/start-ganache.sh -p $HARDHAT_GANACHE_PORT \
     --no-reuse & GANACHE_PID=$!
 
   # start web server
-  ./scripts/serve.sh --coverage -p $LOCAL_WEB_PORT 2>&1 & WEB_PID=$!
+  if [ "$INTERACTIVE" ]; then
+    ./scripts/serve.sh -p $LOCAL_WEB_PORT 2>&1 & WEB_PID=$!
+  else
+    ./scripts/serve.sh --coverage -p $LOCAL_WEB_PORT 2>&1 & WEB_PID=$!
+  fi
 
   # stop everything when this script exits
   trap echo SIGINT
@@ -59,7 +63,7 @@ stop_services() {
   echo Cleaning up...
   kill $GANACHE_PID || true
   kill $WEB_PID || true
-  $DOCKER_CMD down -t 3
+  $DOCKER_CMD down -v -t 3
   wait
   exit
 }
@@ -73,6 +77,7 @@ combine_coverage() {
 }
 
 if [ "${OTHERARGS[0]}" = "up" ]; then
+  INTERACTIVE=1;
   start_services
   wait
 
@@ -98,7 +103,6 @@ elif [ "${OTHERARGS[0]}" = "test" ]; then
   # can't use yarn seed-db-fresh -- it resets the environment
   # adding this to PATH for ts-node
   export PATH=$PATH:$SCRIPT_DIR/../../node_modules/.bin
-  $SCRIPT_DIR/../seed_hasura.sh --clean
 
   if [ "$JEST" ]; then
     if [ "$INTERACTIVE" ]; then
@@ -110,6 +114,7 @@ elif [ "${OTHERARGS[0]}" = "test" ]; then
   fi
 
   if [ "$CYPRESS" ]; then
+    $SCRIPT_DIR/../seed_hasura.sh --clean
     if [ "$INTERACTIVE" ]; then
       yarn cypress open ${OTHERARGS[@]:1} > /dev/null
     else
