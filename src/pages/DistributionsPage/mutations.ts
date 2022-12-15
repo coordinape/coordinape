@@ -92,10 +92,15 @@ export function useSaveLockedTokenDistribution() {
       insert_locked_token_distributions_one: [
         {
           object: {
-            epoch_id: distribution.epoch_id,
+            token_symbol: distribution.token_symbol,
+            token_decimals: distribution.token_decimals,
+            token_contract_address: distribution.token_contract_address,
             gift_amount: distribution.gift_amount,
-            distribution_json: distribution.distribution_json,
-            distributed_by: distribution.distributed_by,
+            locked_token_distribution_gifts: {
+              data: distribution.locked_token_distribution_gifts,
+            },
+            epoch_id: distribution.epoch_id,
+            chain_id: distribution.chain_id,
           },
         },
         { id: true },
