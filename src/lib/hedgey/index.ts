@@ -56,13 +56,19 @@ export const lockedTokenDistribution = async (
     unlockDates.push(unlockSecondsSinceEpoch);
   });
 
-  return batchNFTMinter.batchMint(
+  const mintFunction =
+    batchNFTMinter[
+      'batchMint(address,address[],address,uint256[],uint256[],uint256)'
+    ];
+
+  return mintFunction(
     hedgeyTransferable === '1'
       ? deploymentInfo.HedgeyTransferableNft.address
       : deploymentInfo.HedgeyNonTransferableNft.address,
     holders,
     tokenAddress,
     amounts,
-    unlockDates
+    unlockDates,
+    2
   );
 };
