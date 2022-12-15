@@ -120,7 +120,7 @@ export async function errorResponseWithStatusCode(
     }
   });
   // We have to await this flush otherwise we exit before reporting to sentry
-  Sentry.flush(awaitSentryFlushMs).then(() => {
+  return Sentry.flush(awaitSentryFlushMs).then(() => {
     const errObject = {
       message: error.message || 'Unexpected error',
       extensions: {

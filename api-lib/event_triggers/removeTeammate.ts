@@ -124,7 +124,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     );
     results.push(newNonGiverResult);
   } catch (e) {
-    errorResponse(res, e);
+    return errorResponse(res, e);
   }
 
   res.status(200).json({

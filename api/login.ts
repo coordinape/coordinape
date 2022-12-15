@@ -194,6 +194,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       .status(200)
       .json({ token: formatAuthHeader(token?.id, tokenString) });
   } catch (error: any) {
-    errorResponse(res, error);
+    return errorResponse(res, error);
   }
 }

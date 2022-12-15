@@ -21,7 +21,7 @@ export const verifyHasuraRequestMiddleware = (handler: VercelApiHandler) => {
       await handler(req, res);
       await sentryFlush();
     } catch (error: any) {
-      errorResponse(res, error);
+      return errorResponse(res, error);
     }
   };
 };
