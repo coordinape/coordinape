@@ -55,7 +55,7 @@ export const useFinishAuth = () => {
 
           let token = authTokens[address];
           if (!token) {
-            token = (await login(address, library)).token;
+            token = (await login(address, library, connectorName)).token;
             setAuthToken(token);
           }
 

@@ -36,6 +36,7 @@ const mockReq = chainId => ({
         data: JSON.stringify({ domain: 'localhost:3000', chainId }),
         hash: 'fakehash',
         signature: '0x' + padStart('1', 130, '0'),
+        connectorName: 'fake',
       },
     },
   },

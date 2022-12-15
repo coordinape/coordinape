@@ -35,7 +35,8 @@ const generatePayload = async (
 
 export const login = async (
   address: string,
-  provider: Web3Provider
+  provider: Web3Provider,
+  connectorName: string
 ): Promise<{ token: string }> => {
   let nonce, time;
   try {
@@ -62,7 +63,14 @@ export const login = async (
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ input: { payload } }),
+    body: JSON.stringify({
+      input: {
+        payload: {
+          ...payload,
+          connectorName,
+        },
+      },
+    }),
   });
 
   const body = await resp.json();
