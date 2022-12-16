@@ -100,6 +100,7 @@ export const colors = {
   blurple: figmaColors.discordblurple,
 
   background: figmaColors.grey1,
+  navBackground: figmaColors.grey16,
   surface: figmaColors.grey2,
   surfaceNested: 'white',
   info: figmaColors.blue4,
@@ -286,8 +287,9 @@ export const dark = createTheme({
   colors: {
     primary: newFigmaColors.grey1,
     background: newFigmaColors.grey10,
-    surface: newFigmaColors.grey9,
-    surfaceNested: newFigmaColors.grey8,
+    navBackground: newFigmaColors.grey9,
+    surface: newFigmaColors.grey8,
+    surfaceNested: newFigmaColors.grey7,
     text: newFigmaColors.grey5,
     headingText: newFigmaColors.grey4,
     info: newFigmaColors.secondary10,

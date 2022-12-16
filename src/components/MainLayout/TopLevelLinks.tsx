@@ -56,7 +56,7 @@ export const navLinkStyle = {
     borderColor: '$secondaryText',
   },
   '&.active': {
-    backgroundColor: '$borderMedium',
+    backgroundColor: '$surface',
     fontWeight: '$bold',
     color: '$text',
   },
