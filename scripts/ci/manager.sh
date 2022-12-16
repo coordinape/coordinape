@@ -76,8 +76,15 @@ combine_coverage() {
   yarn nyc report -r lcov -r text-summary --report-dir coverage
 }
 
+# can't use yarn seed-db-fresh -- it resets the environment
+clean_hasura() {
+  # adding this to PATH for ts-node
+  export PATH=$PATH:$SCRIPT_DIR/../../node_modules/.bin
+  $SCRIPT_DIR/../seed_hasura.sh --clean
+}
+
 if [ "${OTHERARGS[0]}" = "up" ]; then
-  INTERACTIVE=1;
+  INTERACTIVE=1
   start_services
   wait
 
@@ -100,10 +107,6 @@ elif [ "${OTHERARGS[0]}" = "test" ]; then
     CYPRESS=1
   fi
 
-  # can't use yarn seed-db-fresh -- it resets the environment
-  # adding this to PATH for ts-node
-  export PATH=$PATH:$SCRIPT_DIR/../../node_modules/.bin
-
   if [ "$JEST" ]; then
     if [ "$INTERACTIVE" ]; then
       yarn craco test --runInBand ${OTHERARGS[@]:1}
@@ -114,7 +117,7 @@ elif [ "${OTHERARGS[0]}" = "test" ]; then
   fi
 
   if [ "$CYPRESS" ]; then
-    $SCRIPT_DIR/../seed_hasura.sh --clean
+    clean_hasura
     if [ "$INTERACTIVE" ]; then
       yarn cypress open ${OTHERARGS[@]:1} > /dev/null
     else
