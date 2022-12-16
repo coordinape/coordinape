@@ -151,12 +151,12 @@ const GetStarted = () => {
         }}
       >
         <Box>
-          <Text h2 normal>
+          <Text h2 normal color="inherit">
             Get Started
           </Text>
         </Box>
         <Flex column css={{ width: '65%', '@sm': { width: '100%' } }}>
-          <Text p as="p" css={{ mb: '$md' }}>
+          <Text p as="p" color="inherit" css={{ mb: '$md' }}>
             An Organization houses all of your Circles in Coordinape. A Circle
             is equal to a team. Start a Circle, add members, then create an
             epoch.{' '}
