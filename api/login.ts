@@ -25,7 +25,7 @@ Settings.defaultZone = 'utc';
 
 const allowedDomainsRegex = process.env.SIWE_ALLOWED_DOMAINS?.split(',').filter(
   item => item !== ''
-) || ['localhost:'];
+) || ['localhost'];
 
 const allowedDomains = allowedDomainsRegex.map(item => new RegExp(item));
 
