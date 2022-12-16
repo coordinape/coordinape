@@ -96,4 +96,43 @@ describe('Restore Coordinape User action handler', () => {
       )
     );
   });
+  test('Test restoration of a Coordinape User when it is not deleted yet', async () => {
+    const client = mockUserClient({ profileId: profile.id, address });
+    await adminClient.mutate({
+      update_users_by_pk: [
+        {
+          pk_columns: { id: coordUser.id },
+          _set: { deleted_at: null },
+        },
+        { __typename: true },
+      ],
+    });
+    await expect(() =>
+      client.mutate({
+        restoreCoordinape: [
+          {
+            payload: { circle_id: circle.id },
+          },
+          { success: true },
+        ],
+      })
+    ).rejects.toThrow();
+
+    expect(mockLog).toHaveBeenCalledWith(
+      JSON.stringify(
+        {
+          errors: [
+            {
+              extensions: {
+                code: '422',
+              },
+              message: 'user does not exist',
+            },
+          ],
+        },
+        null,
+        2
+      )
+    );
+  });
 });
