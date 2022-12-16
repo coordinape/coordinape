@@ -37,8 +37,11 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   );
 
   if (!existingCoordinape) {
-    errorResponseWithStatusCode(res, { message: 'user does not exist' }, 422);
-    return;
+    return errorResponseWithStatusCode(
+      res,
+      { message: 'user does not exist' },
+      422
+    );
   }
 
   await adminClient.mutate(
