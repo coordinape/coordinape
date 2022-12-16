@@ -1,14 +1,12 @@
 import faker from 'faker';
 
-import { createUserSchemaInput } from '../../src/lib/zod';
+import { GraphQLTypes } from '../../api-lib/gql/__generated__/zeus';
 
 import type { GQLClientType } from './common';
 
-type UserInput = typeof createUserSchemaInput['_type'];
-
 export async function createUser(
   client: GQLClientType,
-  object: Partial<UserInput>
+  object: Partial<GraphQLTypes['users_insert_input']>
 ): Promise<{ id: number }> {
   const { insert_users_one } = await client.mutate({
     insert_users_one: [
@@ -24,7 +22,6 @@ export async function createUser(
       { id: true },
     ],
   });
-
   if (!insert_users_one) {
     throw new Error('User not created');
   }
