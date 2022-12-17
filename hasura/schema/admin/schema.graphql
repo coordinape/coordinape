@@ -211,6 +211,10 @@ input DeleteContributionInput {
   contribution_id: Int!
 }
 
+input DeleteDiscordUserInput {
+  user_snowflake: String!
+}
+
 input DeleteEpochInput {
   circle_id: Int!
   id: Int!
@@ -11256,6 +11260,7 @@ type mutation_root {
   createVaultTx(payload: LogVaultTxInput!): LogVaultTxResponse
   deleteCircle(payload: DeleteCircleInput!): ConfirmationResponse
   deleteContribution(payload: DeleteContributionInput!): ConfirmationResponse
+  deleteDiscordUser(payload: DeleteDiscordUserInput!): ConfirmationResponse
   deleteEpoch(payload: DeleteEpochInput!): DeleteEpochResponse
   deleteUser(payload: DeleteUserInput!): ConfirmationResponse
 

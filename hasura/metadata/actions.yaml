@@ -111,6 +111,10 @@ actions:
           value_from_env: HASURA_EVENT_SECRET
     permissions:
       - role: user
+  - name: deleteDiscordUser
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=deleteDiscordUser'
   - name: deleteEpoch
     definition:
       kind: synchronous
@@ -318,6 +322,7 @@ custom_types:
     - name: UpdateContributionInput
     - name: MarkClaimedInput
     - name: LinkDiscordUserInput
+    - name: DeleteDiscordUserInput
   objects:
     - name: CreateCircleResponse
       relationships:

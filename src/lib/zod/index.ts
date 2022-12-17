@@ -75,6 +75,12 @@ export const deleteUserInput = z
   })
   .strict();
 
+export const deletedDiscordUserInput = z
+  .object({
+    user_snowflake: z.string(),
+  })
+  .strict();
+
 export const deleteCircleInput = z
   .object({
     circle_id: z.number(),

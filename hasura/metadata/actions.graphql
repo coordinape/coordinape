@@ -47,6 +47,10 @@ type Mutation {
 }
 
 type Mutation {
+  deleteDiscordUser(payload: DeleteDiscordUserInput!): ConfirmationResponse
+}
+
+type Mutation {
   deleteEpoch(payload: DeleteEpochInput!): DeleteEpochResponse
 }
 
@@ -347,6 +351,10 @@ input MarkClaimedInput {
 
 input LinkDiscordUserInput {
   discord_id: String!
+}
+
+input DeleteDiscordUserInput {
+  user_snowflake: String!
 }
 
 type CreateCircleResponse {
