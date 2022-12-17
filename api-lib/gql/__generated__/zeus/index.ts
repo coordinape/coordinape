@@ -12395,6 +12395,7 @@ export type ValueTypes = {
       },
       ValueTypes['claims_aggregate']
     ];
+    connector?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     discord_username?: boolean | `@${string}`;
     distributions?: [
@@ -12638,6 +12639,7 @@ export type ValueTypes = {
     bio?: ValueTypes['String_comparison_exp'] | undefined | null;
     chat_id?: ValueTypes['String_comparison_exp'] | undefined | null;
     claims?: ValueTypes['claims_bool_exp'] | undefined | null;
+    connector?: ValueTypes['String_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     discord_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     distributions?: ValueTypes['distributions_bool_exp'] | undefined | null;
@@ -12671,6 +12673,7 @@ export type ValueTypes = {
     bio?: string | undefined | null;
     chat_id?: string | undefined | null;
     claims?: ValueTypes['claims_arr_rel_insert_input'] | undefined | null;
+    connector?: string | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     discord_username?: string | undefined | null;
     distributions?:
@@ -12700,6 +12703,7 @@ export type ValueTypes = {
     background?: boolean | `@${string}`;
     bio?: boolean | `@${string}`;
     chat_id?: boolean | `@${string}`;
+    connector?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     discord_username?: boolean | `@${string}`;
     github_username?: boolean | `@${string}`;
@@ -12720,6 +12724,7 @@ export type ValueTypes = {
     background?: boolean | `@${string}`;
     bio?: boolean | `@${string}`;
     chat_id?: boolean | `@${string}`;
+    connector?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     discord_username?: boolean | `@${string}`;
     github_username?: boolean | `@${string}`;
@@ -12764,6 +12769,7 @@ export type ValueTypes = {
       | ValueTypes['claims_aggregate_order_by']
       | undefined
       | null;
+    connector?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     discord_username?: ValueTypes['order_by'] | undefined | null;
     distributions_aggregate?:
@@ -12802,6 +12808,7 @@ export type ValueTypes = {
     background?: string | undefined | null;
     bio?: string | undefined | null;
     chat_id?: string | undefined | null;
+    connector?: string | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     discord_username?: string | undefined | null;
     github_username?: string | undefined | null;
@@ -12843,6 +12850,7 @@ export type ValueTypes = {
     background?: string | undefined | null;
     bio?: string | undefined | null;
     chat_id?: string | undefined | null;
+    connector?: string | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     discord_username?: string | undefined | null;
     github_username?: string | undefined | null;
@@ -24987,6 +24995,7 @@ export type ModelTypes = {
     claims: Array<GraphQLTypes['claims']>;
     /** An aggregate relationship */
     claims_aggregate: GraphQLTypes['claims_aggregate'];
+    connector?: string | undefined;
     created_at: GraphQLTypes['timestamp'];
     discord_username?: string | undefined;
     /** An array relationship */
@@ -25053,6 +25062,7 @@ export type ModelTypes = {
     background?: string | undefined;
     bio?: string | undefined;
     chat_id?: string | undefined;
+    connector?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     discord_username?: string | undefined;
     github_username?: string | undefined;
@@ -25072,6 +25082,7 @@ export type ModelTypes = {
     background?: string | undefined;
     bio?: string | undefined;
     chat_id?: string | undefined;
+    connector?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     discord_username?: string | undefined;
     github_username?: string | undefined;
@@ -35900,6 +35911,7 @@ export type GraphQLTypes = {
     claims: Array<GraphQLTypes['claims']>;
     /** An aggregate relationship */
     claims_aggregate: GraphQLTypes['claims_aggregate'];
+    connector?: string | undefined;
     created_at: GraphQLTypes['timestamp'];
     discord_username?: string | undefined;
     /** An array relationship */
@@ -35965,6 +35977,7 @@ export type GraphQLTypes = {
     bio?: GraphQLTypes['String_comparison_exp'] | undefined;
     chat_id?: GraphQLTypes['String_comparison_exp'] | undefined;
     claims?: GraphQLTypes['claims_bool_exp'] | undefined;
+    connector?: GraphQLTypes['String_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     discord_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     distributions?: GraphQLTypes['distributions_bool_exp'] | undefined;
@@ -35997,6 +36010,7 @@ export type GraphQLTypes = {
     bio?: string | undefined;
     chat_id?: string | undefined;
     claims?: GraphQLTypes['claims_arr_rel_insert_input'] | undefined;
+    connector?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     discord_username?: string | undefined;
     distributions?:
@@ -36025,6 +36039,7 @@ export type GraphQLTypes = {
     background?: string | undefined;
     bio?: string | undefined;
     chat_id?: string | undefined;
+    connector?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     discord_username?: string | undefined;
     github_username?: string | undefined;
@@ -36045,6 +36060,7 @@ export type GraphQLTypes = {
     background?: string | undefined;
     bio?: string | undefined;
     chat_id?: string | undefined;
+    connector?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     discord_username?: string | undefined;
     github_username?: string | undefined;
@@ -36085,6 +36101,7 @@ export type GraphQLTypes = {
     bio?: GraphQLTypes['order_by'] | undefined;
     chat_id?: GraphQLTypes['order_by'] | undefined;
     claims_aggregate?: GraphQLTypes['claims_aggregate_order_by'] | undefined;
+    connector?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     discord_username?: GraphQLTypes['order_by'] | undefined;
     distributions_aggregate?:
@@ -36118,6 +36135,7 @@ export type GraphQLTypes = {
     background?: string | undefined;
     bio?: string | undefined;
     chat_id?: string | undefined;
+    connector?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     discord_username?: string | undefined;
     github_username?: string | undefined;
@@ -36159,6 +36177,7 @@ export type GraphQLTypes = {
     background?: string | undefined;
     bio?: string | undefined;
     chat_id?: string | undefined;
+    connector?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     discord_username?: string | undefined;
     github_username?: string | undefined;
@@ -40110,6 +40129,7 @@ export const enum profiles_select_column {
   background = 'background',
   bio = 'bio',
   chat_id = 'chat_id',
+  connector = 'connector',
   created_at = 'created_at',
   discord_username = 'discord_username',
   github_username = 'github_username',
@@ -40129,6 +40149,7 @@ export const enum profiles_update_column {
   background = 'background',
   bio = 'bio',
   chat_id = 'chat_id',
+  connector = 'connector',
   created_at = 'created_at',
   discord_username = 'discord_username',
   github_username = 'github_username',

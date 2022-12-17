@@ -25,7 +25,7 @@ Settings.defaultZone = 'utc';
 
 const allowedDomainsRegex = process.env.SIWE_ALLOWED_DOMAINS?.split(',').filter(
   item => item !== ''
-) || ['localhost:'];
+) || ['localhost'];
 
 const allowedDomains = allowedDomainsRegex.map(item => new RegExp(item));
 
@@ -38,7 +38,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const input = parseInput(req);
 
-    const { data, signature } = input;
+    const { data, signature, connectorName } = input;
 
     let address: string;
     let chainId: number;
@@ -79,9 +79,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
 
       const verificationResult = await message.verify(
-        {
-          signature,
-        },
+        { signature },
         { provider: siweProvider }
       );
 
@@ -110,30 +108,44 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const { profiles } = await adminClient.query(
       {
-        profiles: [{ where: { address: { _ilike: address } } }, { id: true }],
+        profiles: [
+          { where: { address: { _ilike: address } } },
+          { id: true, connector: true },
+        ],
       },
-      {
-        operationName: 'login_getProfile',
-      }
+      { operationName: 'login_getProfile' }
     );
 
     let profile = profiles.pop();
     const tokenString = generateTokenString();
 
+    if (profile && !profile.connector) {
+      await adminClient.mutate(
+        {
+          update_profiles_by_pk: [
+            {
+              pk_columns: { id: profile.id },
+              _set: { connector: connectorName },
+            },
+            { id: true },
+          ],
+        },
+        { operationName: 'login_updateProfileConnector' }
+      );
+    }
+
     if (!profile) {
       const { insert_profiles_one } = await adminClient.mutate(
         {
           insert_profiles_one: [
-            { object: { address: address } },
+            { object: { address, connector: connectorName } },
             {
               id: true,
               users: [{}, { circle_id: true }],
             },
           ],
         },
-        {
-          operationName: 'login_insertProfile',
-        }
+        { operationName: 'login_insertProfile' }
       );
       assert(insert_profiles_one, "panic: adding profile didn't succeed");
       profile = insert_profiles_one;
@@ -178,17 +190,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             { id: true },
           ],
         },
-        {
-          operationName: 'login_insertAccessToken',
-        }
+        { operationName: 'login_insertAccessToken' }
       );
 
     await insertInteractionEvents({
       event_type: 'login',
       profile_id: profile.id,
-      data: {
-        chainId,
-      },
+      data: { chainId },
     });
     return res
       .status(200)

@@ -1,5 +1,15 @@
+/*
+# Usage and refactoring note
+
+Don't put zod schemas here that are only used by one or two files. Find a place
+that's more related to the feature that they're for, perhaps in src/features,
+src/lib, or api-lib.
+
+Feel free to move existing schemas to such locations as you modify code that
+they're related to.
+*/
+
 import * as Sentry from '@sentry/react';
-import { SiweMessage } from 'siwe';
 import { z } from 'zod';
 
 import { getCircleApiKey } from '../../../api-lib/authHelpers';
@@ -12,26 +22,7 @@ import {
   zCircleName,
 } from './formHelpers';
 
-const PERSONAL_SIGN_REGEX = /0x[0-9a-f]{130}/;
-
 export const sha256HashString = z.string().length(64);
-
-export const loginInput = z.object({
-  address: zEthAddressOnly,
-  data: z.string().refine(
-    msg => {
-      try {
-        new SiweMessage(msg);
-      } catch (e: unknown) {
-        return false;
-      }
-      return true;
-    },
-    { message: 'Invalid message payload' }
-  ),
-  hash: z.string(),
-  signature: z.string().regex(PERSONAL_SIGN_REGEX),
-});
 
 export const createCircleSchemaInput = z
   .object({

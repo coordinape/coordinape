@@ -17556,6 +17556,7 @@ type profiles {
     """
     where: claims_bool_exp
   ): claims_aggregate!
+  connector: String
   created_at: timestamp!
   discord_username: String
 
@@ -17854,6 +17855,7 @@ input profiles_bool_exp {
   bio: String_comparison_exp
   chat_id: String_comparison_exp
   claims: claims_bool_exp
+  connector: String_comparison_exp
   created_at: timestamp_comparison_exp
   discord_username: String_comparison_exp
   distributions: distributions_bool_exp
@@ -17908,6 +17910,7 @@ input profiles_insert_input {
   bio: String
   chat_id: String
   claims: claims_arr_rel_insert_input
+  connector: String
   created_at: timestamp
   discord_username: String
   distributions: distributions_arr_rel_insert_input
@@ -17934,6 +17937,7 @@ type profiles_max_fields {
   background: String
   bio: String
   chat_id: String
+  connector: String
   created_at: timestamp
   discord_username: String
   github_username: String
@@ -17956,6 +17960,7 @@ type profiles_min_fields {
   background: String
   bio: String
   chat_id: String
+  connector: String
   created_at: timestamp
   discord_username: String
   github_username: String
@@ -18015,6 +18020,7 @@ input profiles_order_by {
   bio: order_by
   chat_id: order_by
   claims_aggregate: claims_aggregate_order_by
+  connector: order_by
   created_at: order_by
   discord_username: order_by
   distributions_aggregate: distributions_aggregate_order_by
@@ -18067,6 +18073,11 @@ enum profiles_select_column {
   column name
   """
   chat_id
+
+  """
+  column name
+  """
+  connector
 
   """
   column name
@@ -18133,6 +18144,7 @@ input profiles_set_input {
   background: String
   bio: String
   chat_id: String
+  connector: String
   created_at: timestamp
   discord_username: String
   github_username: String
@@ -18191,6 +18203,7 @@ input profiles_stream_cursor_value_input {
   background: String
   bio: String
   chat_id: String
+  connector: String
   created_at: timestamp
   discord_username: String
   github_username: String
@@ -18239,6 +18252,11 @@ enum profiles_update_column {
   column name
   """
   chat_id
+
+  """
+  column name
+  """
+  connector
 
   """
   column name
