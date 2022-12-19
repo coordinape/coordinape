@@ -72,7 +72,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   ) {
     return errorResponseWithStatusCode(
       res,
-      { message: 'This name is used by another coordinape user' },
+      { message: 'This name is already in use' },
       422
     );
   }
