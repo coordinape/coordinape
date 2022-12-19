@@ -2,19 +2,17 @@ import assert from 'assert';
 
 import type { Web3Provider } from '@ethersproject/providers';
 import * as Sentry from '@sentry/react';
-import { Web3ReactContextInterface } from '@web3-react/core/dist/types';
 
 import { useApiBase, useRecoilLoadCatch } from 'hooks';
 import { useApeSnackbar } from 'hooks/useApeSnackbar';
+import type { UseWeb3ReactReturnType } from 'hooks/useWeb3React';
 import { rSelectedCircleIdSource } from 'recoilState/app';
 import { rApiManifest, rApiFullCircle } from 'recoilState/db';
 
-import { connectors } from './connectors';
+import { findConnectorName } from './connectors';
 import { login } from './login';
 import { setAuthToken } from './token';
 import { rWalletAuth } from './useWalletAuth';
-
-import { EConnectorNames } from 'types';
 
 export const clearStateAfterLogout = (set: any) => {
   // this triggers logout via recoil's effects_UNSTABLE
@@ -38,20 +36,26 @@ export const useFinishAuth = () => {
         web3Context,
         authTokens,
       }: {
-        web3Context: Web3ReactContextInterface<Web3Provider>;
+        web3Context: UseWeb3ReactReturnType<Web3Provider>;
         authTokens: Record<string, string | undefined>;
       }) => {
-        const { connector, account: address, library } = web3Context;
+        const {
+          connector,
+          account: address,
+          library,
+          providerType,
+        } = web3Context;
         assert(address && library);
 
         try {
-          const connectorName = Object.entries(connectors).find(
-            ([, c]) => connector?.constructor === c.constructor
-          )?.[0] as EConnectorNames;
+          const connectorName = connector
+            ? findConnectorName(connector)
+            : providerType;
+          assert(connectorName);
 
           let token = authTokens[address];
           if (!token) {
-            token = (await login(address, library)).token;
+            token = (await login(address, library, connectorName)).token;
             setAuthToken(token);
           }
 

@@ -4,7 +4,7 @@ import { useWalletStatus } from 'features/auth';
 import { useNavigate } from 'react-router';
 import { NavLink, useLocation } from 'react-router-dom';
 
-import { ReceiveInfo } from 'components';
+import { Network, ReceiveInfo } from 'components';
 import { RecentTransactionsModal } from 'components/MyAvatarMenu/RecentTransactionsModal';
 import isFeatureEnabled from 'config/features';
 import { X, Menu, ChevronRight } from 'icons/__generated';
@@ -61,7 +61,7 @@ export const MobileHeader = ({
 }: Props) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(!!startOpen);
   const location = useLocation();
-  const { icon, address, logout } = walletStatus;
+  const { icon, address, chainId, logout } = walletStatus;
   const org = inCircle ? inCircle?.organization : null;
   const navigate = useNavigate();
   const [showTxModal, setShowTxModal] = useState(false);
@@ -275,6 +275,9 @@ export const MobileHeader = ({
                         {address && shortenAddress(address)}
                       </Flex>
                     )}
+                    <Flex>
+                      <Network chainId={chainId || 1} />
+                    </Flex>
                     {isFeatureEnabled('vaults') && (
                       <Link href="#" onClick={() => setShowTxModal(true)}>
                         Recent Transactions

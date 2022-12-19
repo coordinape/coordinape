@@ -37,6 +37,13 @@ export const SvgIcon = styled('svg', {
         },
       },
     },
+    boldstroke: {
+      true: {
+        '& path, & g, & circle, & rect': {
+          strokeWidth: 3,
+        },
+      },
+    },
     size: {
       inherit: {
         $$size: 'auto',

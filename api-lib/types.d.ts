@@ -15,6 +15,7 @@ type RelationTypes =
   | 'burns_aggregate'
   | 'circle_metadata'
   | 'circle'
+  | 'discord.users'
   | 'gift_private'
   | 'received_gifts'
   | 'received_gifts_aggregate'

@@ -47,6 +47,10 @@ type Mutation {
 }
 
 type Mutation {
+  deleteDiscordUser(payload: DeleteDiscordUserInput!): ConfirmationResponse
+}
+
+type Mutation {
   deleteEpoch(payload: DeleteEpochInput!): DeleteEpochResponse
 }
 
@@ -196,6 +200,7 @@ input CreateEpochInput {
   days: Int!
   repeat: Int!
   grant: Float
+  description: String
 }
 
 input UpdateTeammatesInput {
@@ -236,6 +241,7 @@ input UpdateEpochInput {
   days: Int!
   repeat: Int!
   grant: Float
+  description: String
 }
 
 input Allocation {
@@ -353,6 +359,10 @@ input LinkDiscordUserInput {
 
 input UpdateProfileNameInput {
   name: String!
+}
+
+input DeleteDiscordUserInput {
+  user_snowflake: String!
 }
 
 type CreateCircleResponse {

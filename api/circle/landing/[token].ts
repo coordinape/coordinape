@@ -19,7 +19,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const circle = await circleFromToken(token);
     return res.status(200).send(circle);
   } catch (error: any) {
-    errorResponse(res, error);
+    return errorResponse(res, error);
   }
 }
 

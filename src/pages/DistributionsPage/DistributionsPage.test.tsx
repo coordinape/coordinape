@@ -146,10 +146,13 @@ test('render with a distribution', async () => {
     );
   });
 
-  await waitFor(() => {
-    expect(screen.getByText('Mock User 1')).toBeInTheDocument();
-    expect(screen.queryByText('Avail...')).not.toBeInTheDocument();
-  });
+  await waitFor(
+    () => {
+      expect(screen.getByText('Mock User 1')).toBeInTheDocument();
+      expect(screen.queryByText('Avail...')).not.toBeInTheDocument();
+    },
+    { timeout: 5000 }
+  );
 
   expect(screen.getAllByText('10.80 Yearn USDC').length).toEqual(2);
 });
@@ -170,10 +173,13 @@ test('render with no allocations', async () => {
     );
   });
 
-  await waitFor(() => {
-    expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
-    expect(screen.queryByText('Avail...')).not.toBeInTheDocument();
-  });
+  await waitFor(
+    () => {
+      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
+      expect(screen.queryByText('Avail...')).not.toBeInTheDocument();
+    },
+    { timeout: 5000 }
+  );
 
   expect(screen.getByText('Gift Circle')).toBeInTheDocument();
   expect(

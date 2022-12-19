@@ -1,0 +1,1 @@
+alter table profiles drop column connector;

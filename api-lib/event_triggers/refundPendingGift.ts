@@ -173,8 +173,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       results.push(newNonReceiverResult);
     }
   } catch (e) {
-    errorResponse(res, e);
-    return;
+    return errorResponse(res, e);
   }
 
   res.status(200).json({

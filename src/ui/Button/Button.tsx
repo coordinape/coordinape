@@ -198,7 +198,7 @@ export const Button = styled('button', {
         color: '$primary',
         borderColor: '$primary',
         '&:hover, &:focus': {
-          color: '$white',
+          color: '$background',
           filter: 'saturate(1)',
           backgroundColor: '$primary !important',
         },

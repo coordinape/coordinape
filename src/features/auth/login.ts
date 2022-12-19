@@ -5,13 +5,17 @@ import { getSignature } from 'utils/provider';
 
 const SIWE_EXPIRES_AFTER = 5 * 60000;
 
-const generatePayload = async (
-  address: string,
-  time: number,
-  nonce: string,
-  provider: Web3Provider,
-  chainId = 1
-) => {
+export const generateMessage = ({
+  address,
+  time = Date.now(),
+  nonce,
+  chainId = 1,
+}: {
+  address: string;
+  time?: number;
+  nonce?: string;
+  chainId?: number;
+}) => {
   const message = new SiweMessage({
     domain: window.location.host,
     address,
@@ -19,23 +23,17 @@ const generatePayload = async (
     uri: window.location.origin,
     version: '1',
     chainId,
-    nonce,
+    nonce: nonce || generateNonce(),
     notBefore: new Date(time).toISOString(),
     expirationTime: new Date(time + SIWE_EXPIRES_AFTER).toISOString(),
   });
-  const data = message.prepareMessage();
-  const { signature, hash } = await getSignature(data, provider);
-  return {
-    signature,
-    hash,
-    address,
-    data,
-  };
+  return message.prepareMessage();
 };
 
 export const login = async (
   address: string,
-  provider: Web3Provider
+  provider: Web3Provider,
+  connectorName: string
 ): Promise<{ token: string }> => {
   let nonce, time;
   try {
@@ -48,13 +46,10 @@ export const login = async (
 
   const { chainId } = await provider.getNetwork();
 
-  const payload = await generatePayload(
-    address,
-    time,
-    nonce,
-    provider,
-    chainId
-  );
+  const data = generateMessage({ address, time, nonce, chainId });
+  // this triggers a signature prompt for the user
+  const { signature, hash } = await getSignature(data, provider);
+  const payload = { signature, hash, address, data, connectorName };
 
   const resp = await fetch('/api/login', {
     method: 'POST',

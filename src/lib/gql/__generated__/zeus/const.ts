@@ -384,7 +384,13 @@ export const AllTypesProps: Record<string, any> = {
     name: 'order_by',
     type: 'order_by',
   },
+  circle_integrations_pk_columns_input: {
+    id: 'bigint',
+  },
   circle_integrations_select_column: true,
+  circle_integrations_set_input: {
+    data: 'json',
+  },
   circle_integrations_stddev_order_by: {
     circle_id: 'order_by',
     id: 'order_by',
@@ -411,6 +417,10 @@ export const AllTypesProps: Record<string, any> = {
     id: 'order_by',
   },
   circle_integrations_update_column: true,
+  circle_integrations_updates: {
+    _set: 'circle_integrations_set_input',
+    where: 'circle_integrations_bool_exp',
+  },
   circle_integrations_var_pop_order_by: {
     circle_id: 'order_by',
     id: 'order_by',
@@ -1682,6 +1692,64 @@ export const AllTypesProps: Record<string, any> = {
     _neq: 'jsonb',
     _nin: 'jsonb',
   },
+  locked_token_distributions: {
+    distribution_json: {},
+  },
+  locked_token_distributions_bool_exp: {
+    _and: 'locked_token_distributions_bool_exp',
+    _not: 'locked_token_distributions_bool_exp',
+    _or: 'locked_token_distributions_bool_exp',
+    distributed_by: 'bigint_comparison_exp',
+    distribution_json: 'jsonb_comparison_exp',
+    epoch: 'epochs_bool_exp',
+    epoch_id: 'bigint_comparison_exp',
+    gift_amount: 'numeric_comparison_exp',
+    id: 'bigint_comparison_exp',
+    profile: 'profiles_bool_exp',
+    tx_hash: 'String_comparison_exp',
+  },
+  locked_token_distributions_constraint: true,
+  locked_token_distributions_insert_input: {
+    distribution_json: 'jsonb',
+    epoch_id: 'bigint',
+    gift_amount: 'numeric',
+  },
+  locked_token_distributions_on_conflict: {
+    constraint: 'locked_token_distributions_constraint',
+    update_columns: 'locked_token_distributions_update_column',
+    where: 'locked_token_distributions_bool_exp',
+  },
+  locked_token_distributions_order_by: {
+    distributed_by: 'order_by',
+    distribution_json: 'order_by',
+    epoch: 'epochs_order_by',
+    epoch_id: 'order_by',
+    gift_amount: 'order_by',
+    id: 'order_by',
+    profile: 'profiles_order_by',
+    tx_hash: 'order_by',
+  },
+  locked_token_distributions_pk_columns_input: {
+    id: 'bigint',
+  },
+  locked_token_distributions_select_column: true,
+  locked_token_distributions_set_input: {},
+  locked_token_distributions_stream_cursor_input: {
+    initial_value: 'locked_token_distributions_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  locked_token_distributions_stream_cursor_value_input: {
+    distributed_by: 'bigint',
+    distribution_json: 'jsonb',
+    epoch_id: 'bigint',
+    gift_amount: 'numeric',
+    id: 'bigint',
+  },
+  locked_token_distributions_update_column: true,
+  locked_token_distributions_updates: {
+    _set: 'locked_token_distributions_set_input',
+    where: 'locked_token_distributions_bool_exp',
+  },
   mutation_root: {
     adminUpdateUser: {
       payload: 'AdminUpdateUserInput',
@@ -1799,6 +1867,14 @@ export const AllTypesProps: Record<string, any> = {
       object: 'distributions_insert_input',
       on_conflict: 'distributions_on_conflict',
     },
+    insert_locked_token_distributions: {
+      objects: 'locked_token_distributions_insert_input',
+      on_conflict: 'locked_token_distributions_on_conflict',
+    },
+    insert_locked_token_distributions_one: {
+      object: 'locked_token_distributions_insert_input',
+      on_conflict: 'locked_token_distributions_on_conflict',
+    },
     insert_pending_vault_transactions: {
       objects: 'pending_vault_transactions_insert_input',
       on_conflict: 'pending_vault_transactions_on_conflict',
@@ -1836,6 +1912,17 @@ export const AllTypesProps: Record<string, any> = {
     },
     updateUser: {
       payload: 'UpdateUserInput',
+    },
+    update_circle_integrations: {
+      _set: 'circle_integrations_set_input',
+      where: 'circle_integrations_bool_exp',
+    },
+    update_circle_integrations_by_pk: {
+      _set: 'circle_integrations_set_input',
+      pk_columns: 'circle_integrations_pk_columns_input',
+    },
+    update_circle_integrations_many: {
+      updates: 'circle_integrations_updates',
     },
     update_claims: {
       _set: 'claims_set_input',
@@ -1882,6 +1969,17 @@ export const AllTypesProps: Record<string, any> = {
     },
     update_distributions_many: {
       updates: 'distributions_updates',
+    },
+    update_locked_token_distributions: {
+      _set: 'locked_token_distributions_set_input',
+      where: 'locked_token_distributions_bool_exp',
+    },
+    update_locked_token_distributions_by_pk: {
+      _set: 'locked_token_distributions_set_input',
+      pk_columns: 'locked_token_distributions_pk_columns_input',
+    },
+    update_locked_token_distributions_many: {
+      updates: 'locked_token_distributions_updates',
     },
     update_organizations: {
       _set: 'organizations_set_input',
@@ -2625,6 +2723,14 @@ export const AllTypesProps: Record<string, any> = {
       order_by: 'gift_private_order_by',
       where: 'gift_private_bool_exp',
     },
+    locked_token_distributions: {
+      distinct_on: 'locked_token_distributions_select_column',
+      order_by: 'locked_token_distributions_order_by',
+      where: 'locked_token_distributions_bool_exp',
+    },
+    locked_token_distributions_by_pk: {
+      id: 'bigint',
+    },
     nominees: {
       distinct_on: 'nominees_select_column',
       order_by: 'nominees_order_by',
@@ -2907,6 +3013,18 @@ export const AllTypesProps: Record<string, any> = {
     gift_private_stream: {
       cursor: 'gift_private_stream_cursor_input',
       where: 'gift_private_bool_exp',
+    },
+    locked_token_distributions: {
+      distinct_on: 'locked_token_distributions_select_column',
+      order_by: 'locked_token_distributions_order_by',
+      where: 'locked_token_distributions_bool_exp',
+    },
+    locked_token_distributions_by_pk: {
+      id: 'bigint',
+    },
+    locked_token_distributions_stream: {
+      cursor: 'locked_token_distributions_stream_cursor_input',
+      where: 'locked_token_distributions_bool_exp',
     },
     nominees: {
       distinct_on: 'nominees_select_column',
@@ -4707,6 +4825,20 @@ export const ReturnTypes: Record<string, any> = {
     sender: 'users',
     sender_id: 'bigint',
   },
+  locked_token_distributions: {
+    distributed_by: 'bigint',
+    distribution_json: 'jsonb',
+    epoch: 'epochs',
+    epoch_id: 'bigint',
+    gift_amount: 'numeric',
+    id: 'bigint',
+    profile: 'profiles',
+    tx_hash: 'String',
+  },
+  locked_token_distributions_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'locked_token_distributions',
+  },
   mutation_root: {
     adminUpdateUser: 'UserResponse',
     allocationCsv: 'AllocationCsvResponse',
@@ -4746,6 +4878,9 @@ export const ReturnTypes: Record<string, any> = {
     insert_discord_users_one: 'discord_users',
     insert_distributions: 'distributions_mutation_response',
     insert_distributions_one: 'distributions',
+    insert_locked_token_distributions:
+      'locked_token_distributions_mutation_response',
+    insert_locked_token_distributions_one: 'locked_token_distributions',
     insert_pending_vault_transactions:
       'pending_vault_transactions_mutation_response',
     insert_pending_vault_transactions_one: 'pending_vault_transactions',
@@ -4760,6 +4895,9 @@ export const ReturnTypes: Record<string, any> = {
     updateProfileName: 'UpdateProfileNameResponse',
     updateTeammates: 'UpdateTeammatesResponse',
     updateUser: 'UserResponse',
+    update_circle_integrations: 'circle_integrations_mutation_response',
+    update_circle_integrations_by_pk: 'circle_integrations',
+    update_circle_integrations_many: 'circle_integrations_mutation_response',
     update_claims: 'claims_mutation_response',
     update_claims_by_pk: 'claims',
     update_claims_many: 'claims_mutation_response',
@@ -4773,6 +4911,11 @@ export const ReturnTypes: Record<string, any> = {
     update_distributions: 'distributions_mutation_response',
     update_distributions_by_pk: 'distributions',
     update_distributions_many: 'distributions_mutation_response',
+    update_locked_token_distributions:
+      'locked_token_distributions_mutation_response',
+    update_locked_token_distributions_by_pk: 'locked_token_distributions',
+    update_locked_token_distributions_many:
+      'locked_token_distributions_mutation_response',
     update_organizations: 'organizations_mutation_response',
     update_organizations_by_pk: 'organizations',
     update_organizations_many: 'organizations_mutation_response',
@@ -5024,6 +5167,8 @@ export const ReturnTypes: Record<string, any> = {
     epochs: 'epochs',
     epochs_by_pk: 'epochs',
     gift_private: 'gift_private',
+    locked_token_distributions: 'locked_token_distributions',
+    locked_token_distributions_by_pk: 'locked_token_distributions',
     nominees: 'nominees',
     nominees_aggregate: 'nominees_aggregate',
     nominees_by_pk: 'nominees',
@@ -5096,6 +5241,9 @@ export const ReturnTypes: Record<string, any> = {
     epochs_stream: 'epochs',
     gift_private: 'gift_private',
     gift_private_stream: 'gift_private',
+    locked_token_distributions: 'locked_token_distributions',
+    locked_token_distributions_by_pk: 'locked_token_distributions',
+    locked_token_distributions_stream: 'locked_token_distributions',
     nominees: 'nominees',
     nominees_aggregate: 'nominees_aggregate',
     nominees_by_pk: 'nominees',

@@ -218,11 +218,12 @@ const calculateTimeUntil = (target: DateTime): [boolean, ITiming] => {
 
 const getEpochLabel = (epoch: IApiEpoch): string => {
   const epochNumber = epoch.number ? `Epoch ${epoch.number}` : 'This Epoch';
+  const epochDescription = epoch.description ?? epochNumber;
   const startDate = DateTime.fromISO(epoch.start_date);
   const endDate = DateTime.fromISO(epoch.end_date);
   const epochDates =
     startDate.month !== endDate.month
       ? `${startDate.toFormat('LLL d')} - ${endDate.toFormat('LLL d')}`
       : `${startDate.monthShort} ${startDate.day} - ${endDate.day}`;
-  return `${epochNumber} ${epochDates}`;
+  return ` ${epochDates}: ${epochDescription}`;
 };

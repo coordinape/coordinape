@@ -9,11 +9,34 @@ import {
   pubToAddress,
 } from 'ethereumjs-util';
 import { ethers } from 'ethers';
+import { SiweMessage } from 'siwe';
+import { z } from 'zod';
 
-import { composeCrossClientAuthRequestBody, loginInput } from '../src/lib/zod';
+import { composeCrossClientAuthRequestBody } from '../src/lib/zod';
+import { zEthAddressOnly } from '../src/lib/zod/formHelpers';
 
 import { INFURA_PROJECT_ID } from './config';
 import { errorLog } from './HttpError';
+
+const PERSONAL_SIGN_REGEX = /0x[0-9a-f]{130}/;
+
+const loginInput = z.object({
+  address: zEthAddressOnly,
+  data: z.string().refine(
+    msg => {
+      try {
+        new SiweMessage(msg);
+      } catch (e: unknown) {
+        return false;
+      }
+      return true;
+    },
+    { message: 'Invalid message payload' }
+  ),
+  hash: z.string(),
+  signature: z.string().regex(PERSONAL_SIGN_REGEX),
+  connectorName: z.string(),
+});
 
 export function parseInput(req: VercelRequest) {
   const {

@@ -74,9 +74,10 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   userValues.forEach(rowValues => {
     csvText += `${rowValues.join(',')}\r\n`;
   });
+  const epochName = epochObj.description ?? `epoch-${epochObj.number}`;
   const fileName = `${epochObj.circle?.organization?.name}-${
     epochObj.circle?.name
-  }-epoch-${epochObj.number}-date-${formatCustomDate(
+  }-${epochName}-date-${formatCustomDate(
     epochObj.start_date,
     'ddLLyy'
   )}-${formatCustomDate(epochObj.end_date, 'ddLLyy')}.csv`;

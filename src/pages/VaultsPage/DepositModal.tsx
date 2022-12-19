@@ -9,6 +9,7 @@ import { makeWalletConnectConnector } from 'features/auth/connectors';
 import { getTokenAddress, Contracts, removeYearnPrefix } from 'lib/vaults';
 import round from 'lodash/round';
 import { useForm, useController } from 'react-hook-form';
+import { useQueryClient } from 'react-query';
 import * as z from 'zod';
 
 import { ReactComponent as WalletConnectSVG } from 'assets/svgs/wallet/wallet-connect.svg';
@@ -19,6 +20,8 @@ import { useContracts } from 'hooks/useContracts';
 import { useVaultRouter } from 'hooks/useVaultRouter';
 import { Box, Button, CheckBox, Form, Link, Modal, Text } from 'ui';
 import { numberWithCommas, shortenAddress } from 'utils';
+
+import { QUERY_KEY_VAULT_TXS } from './VaultTransactions';
 
 export type DepositModalProps = {
   onClose: () => void;
@@ -43,6 +46,8 @@ export default function DepositModal({
   useEffect(() => {
     if (contracts) setSelectedContracts(contracts);
   }, [contracts]);
+
+  const queryClient = useQueryClient();
 
   const onConnectSecondWallet = (provider: Web3Provider, chainId: number) => {
     assert(contracts);
@@ -111,6 +116,7 @@ export default function DepositModal({
     deposit(vault, amountField.value.toString(), usingEth).then(({ error }) => {
       setSubmitting(false);
       if (error) return;
+      queryClient.invalidateQueries([QUERY_KEY_VAULT_TXS, vault.id]);
       onDeposit();
       onClose();
     });

@@ -36,6 +36,7 @@ export interface IApiEpoch {
   days?: number; // Used for repeating
   repeat?: number; // 1: weekly, 2: monthly
   repeat_day_of_month: number;
+  description?: string;
 }
 
 export interface IEpoch extends IApiEpoch {

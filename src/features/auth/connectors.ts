@@ -1,3 +1,5 @@
+import assert from 'assert';
+
 import { AbstractConnector } from '@web3-react/abstract-connector';
 import { InjectedConnector } from '@web3-react/injected-connector';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
@@ -34,4 +36,14 @@ export const connectors: { [key in EConnectorNames]: AbstractConnector } = {
   [EConnectorNames.Injected]: injected,
   [EConnectorNames.WalletConnect]: makeWalletConnectConnector(),
   [EConnectorNames.WalletLink]: walletlink,
+};
+
+export const findConnectorName = (
+  connector: AbstractConnector
+): EConnectorNames => {
+  const match = Object.entries(connectors).find(
+    ([, c]) => connector?.constructor === c.constructor
+  );
+  assert(match);
+  return match[0] as EConnectorNames;
 };

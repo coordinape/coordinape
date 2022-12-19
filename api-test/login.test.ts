@@ -1,56 +1,56 @@
-import { AddressZero } from '@ethersproject/constants';
-import padStart from 'lodash/padStart';
-import { SiweMessage } from 'siwe';
+import { hashMessage } from '@ethersproject/hash';
 
+import { adminClient } from '../api-lib/gql/adminClient';
 import handler from '../api/login';
+import { generateMessage } from '../src/features/auth/login';
+import { provider } from '../src/utils/testing/provider';
 
-// FIXME test real signature verification
-jest.mock('siwe', () => {
-  class SiweMessage {
-    constructor(data: any) {
-      (SiweMessage as any).mock(this, data);
-    }
-  }
-  (SiweMessage as any).mock = jest.fn();
-  return { SiweMessage, SiweErrorType: {} };
-});
+let res, address;
 
-let res;
-
-beforeEach(() => {
-  ((SiweMessage as any).mock as jest.Mock).mockImplementation((self, data) => {
-    const parsed = JSON.parse(data);
-    self.domain = parsed.domain;
-    self.chainId = parsed.chainId;
-    self.verify = async () => false;
-  });
-
+beforeEach(async () => {
   res = { status: jest.fn(() => res), json: jest.fn() };
+  address = await provider().getSigner().getAddress();
 });
 
-const mockReq = chainId => ({
-  body: {
-    input: {
-      payload: {
-        address: AddressZero,
-        data: JSON.stringify({ domain: 'localhost:3000', chainId }),
-        hash: 'fakehash',
-        signature: '0x' + padStart('1', 130, '0'),
-      },
-    },
-  },
-});
+const sendMockReq = async (chainId: number, bad?: boolean) => {
+  const data = generateMessage({ address, chainId });
 
-test('invalid chain', async () => {
-  const req = mockReq(777);
+  const payload = {
+    address,
+    data,
+    hash: hashMessage(data),
+    // need to use this because ganache doesn't support personal_sign
+    signature: await provider().getSigner()._legacySignMessage(data),
+    connectorName: 'testing',
+  };
+
+  if (bad) payload.signature = payload.signature.replace('1', '2');
+
+  const req = { body: { input: { payload } } };
   // @ts-ignore
-  await handler(req, res);
+  return handler(req, res);
+};
+
+test('reject invalid chain id', async () => {
+  await sendMockReq(777);
   expect(res.json.mock.calls[0][0].message).toEqual('unsupported chain 777');
 });
 
-test('valid chain', async () => {
-  const req = mockReq(5);
-  // @ts-ignore
-  await handler(req, res);
-  expect(res.json.mock.calls[0][0].message).toEqual('invalid signature');
+test('reject invalid signature', async () => {
+  await sendMockReq(1, true);
+  expect(res.json.mock.calls[0][0].message).toMatch(/SIWE error/);
+});
+
+test('allow login with valid signature', async () => {
+  await sendMockReq(5);
+  expect(res.json.mock.calls[0][0].token).toMatch(/\d+\|[A-Za-z0-9]{40}/);
+
+  const { profiles } = await adminClient.query({
+    profiles: [
+      { where: { address: { _eq: address.toLowerCase() } } },
+      { connector: true },
+    ],
+  });
+
+  expect(profiles[0]?.connector).toBe('testing');
 });

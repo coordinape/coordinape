@@ -1,36 +1,28 @@
+/*
+# Usage and refactoring note
+
+Don't put zod schemas here that are only used by one or two files. Find a place
+that's more related to the feature that they're for, perhaps in src/features,
+src/lib, or api-lib.
+
+Feel free to move existing schemas to such locations as you modify code that
+they're related to.
+*/
+
 import * as Sentry from '@sentry/react';
-import { SiweMessage } from 'siwe';
 import { z } from 'zod';
 
 import { getCircleApiKey } from '../../../api-lib/authHelpers';
+
 import {
   zEthAddressOnly,
   zStringISODateUTC,
   zEthAddress,
   zUsername,
   zCircleName,
-} from '../../forms/formHelpers';
-
-const PERSONAL_SIGN_REGEX = /0x[0-9a-f]{130}/;
+} from './formHelpers';
 
 export const sha256HashString = z.string().length(64);
-
-export const loginInput = z.object({
-  address: zEthAddressOnly,
-  data: z.string().refine(
-    msg => {
-      try {
-        new SiweMessage(msg);
-      } catch (e: unknown) {
-        return false;
-      }
-      return true;
-    },
-    { message: 'Invalid message payload' }
-  ),
-  hash: z.string(),
-  signature: z.string().regex(PERSONAL_SIGN_REGEX),
-});
 
 export const createCircleSchemaInput = z
   .object({
@@ -80,6 +72,12 @@ export const deleteUserInput = z
   .object({
     circle_id: z.number(),
     address: zEthAddressOnly,
+  })
+  .strict();
+
+export const deletedDiscordUserInput = z
+  .object({
+    user_snowflake: z.string(),
   })
   .strict();
 
@@ -218,6 +216,7 @@ export const createEpochInput = z
     circle_id: z.number().int().positive(),
     start_date: zStringISODateUTC,
     repeat: z.number().int().min(0).max(2),
+    description: z.string().min(10).max(100).optional(),
     days: z
       .number()
       .min(1, 'Must be at least one day.')
@@ -249,6 +248,7 @@ export const updateEpochInput = z
     circle_id: z.number().int().positive(),
     start_date: zStringISODateUTC,
     repeat: z.number().int().min(0).max(2),
+    description: z.string().min(10).max(100).optional(),
     days: z
       .number()
       .min(1, 'Must be at least one day.')

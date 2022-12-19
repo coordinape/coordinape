@@ -151,12 +151,12 @@ const GetStarted = () => {
         }}
       >
         <Box>
-          <Text h2 normal>
+          <Text h2 normal color="inherit">
             Get Started
           </Text>
         </Box>
         <Flex column css={{ width: '65%', '@sm': { width: '100%' } }}>
-          <Text p as="p" css={{ mb: '$md' }}>
+          <Text p as="p" color="inherit" css={{ mb: '$md' }}>
             An Organization houses all of your Circles in Coordinape. A Circle
             is equal to a team. Start a Circle, add members, then create an
             epoch.{' '}
@@ -248,12 +248,11 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
           '@sm': { gridTemplateColumns: '1fr 1fr' },
         }}
       >
-        <Box>
+        <Flex column css={{ gap: '$sm' }}>
           <Text
             h3
             semibold
             css={{
-              mb: '$sm',
               minHeight: '$lg',
               alignItems: 'start',
               '@sm': { fontSize: '$large', minHeight: '$xl' },
@@ -262,7 +261,7 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
           >
             {circle.name}
           </Text>
-          <Text color={'neutral'} size={'small'} css={{ ...nonMemberCss }}>
+          <Text color="neutral" size="small" css={{ ...nonMemberCss }}>
             <User size="sm" css={{ mr: '$xs' }} />
             {role === 1
               ? 'Circle Admin'
@@ -270,44 +269,23 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
               ? 'Circle Member'
               : 'Non Member'}
           </Text>
-        </Box>
-        <Box
-          css={{
-            '@sm': {
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'start',
-            },
-          }}
-        >
+        </Flex>
+        <Flex column css={{ gap: '$sm' }}>
           <Text
             h3
             css={{
-              mb: '$sm',
               minHeight: '$lg',
               alignItems: 'end',
               '@sm': { fontSize: '$medium', minHeight: '$xl' },
             }}
           >
             {epoch && startDate && endDate ? (
-              <Box
+              <Flex
                 css={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  '@sm': { flexDirection: 'column' },
+                  gap: '$md',
+                  '@sm': { flexDirection: 'column', gap: '$sm' },
                 }}
               >
-                <Text
-                  inline
-                  css={{
-                    whiteSpace: 'nowrap',
-                    pr: '$md',
-                    color: '$headingText',
-                    ...nonMemberCss,
-                  }}
-                >
-                  Epoch {epoch.number}
-                </Text>
                 <Text
                   inline
                   semibold
@@ -319,7 +297,29 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
                     endDate.month === startDate.month ? 'd' : 'MMM d'
                   )}
                 </Text>
-              </Box>
+                <Text
+                  size="small"
+                  css={{
+                    color: '$headingText',
+                    ...nonMemberCss,
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {isCurrent && <span>Allocation Period Open</span>}
+                </Text>
+                {!!nomineeCount && (
+                  <Text
+                    size="small"
+                    css={{
+                      color: '$headingText',
+                      ...nonMemberCss,
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {nomineeCount} Nominee{nomineeCount > 1 ? 's' : ''}
+                  </Text>
+                )}
+              </Flex>
             ) : (
               <Text
                 css={{
@@ -333,15 +333,10 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
               </Text>
             )}
           </Text>
-          <Text size={'small'} css={{ color: '$headingText', ...nonMemberCss }}>
-            {!!nomineeCount && (
-              <span>
-                {nomineeCount} Nominee{nomineeCount > 1 ? 's' : ''}
-              </span>
-            )}
-            {isCurrent && <span>Allocation Period Open</span>}
-          </Text>
-        </Box>
+          {epoch && startDate && endDate && (
+            <Text>{epoch.description ?? `Epoch ${epoch.number}`}</Text>
+          )}
+        </Flex>
         {!nonMember && (
           <Box
             css={{

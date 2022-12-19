@@ -24,7 +24,7 @@ export const Panel = styled('div', {
     nested: {
       true: {
         padding: '$md',
-        backgroundColor: 'white',
+        backgroundColor: '$surfaceNested',
       },
     },
     invertForm: {
@@ -43,6 +43,7 @@ export const Panel = styled('div', {
     info: {
       true: {
         backgroundColor: '$info',
+        color: '$textOnInfo',
       },
     },
     success: {

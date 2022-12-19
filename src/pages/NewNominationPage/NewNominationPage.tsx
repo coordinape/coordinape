@@ -2,12 +2,12 @@ import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createNominee } from 'lib/gql/mutations';
+import { zEthAddress } from 'lib/zod/formHelpers';
 import isEmpty from 'lodash/isEmpty';
 import { useForm, SubmitHandler, useController } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
 import * as z from 'zod';
 
-import { zEthAddress } from 'forms/formHelpers';
 import { Check, Info } from 'icons/__generated';
 import { QUERY_KEY_ACTIVE_NOMINEES } from 'pages/MembersPage/getActiveNominees';
 import { useSelectedCircle } from 'recoilState/app';
