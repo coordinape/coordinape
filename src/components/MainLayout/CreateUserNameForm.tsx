@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { zUsername } from 'lib/zod/formHelpers';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
 import { z } from 'zod';
 
-import { zUsername } from '../../forms/formHelpers';
 import { useApeSnackbar } from '../../hooks';
 import { Box, Button, TextField, Text, Form } from '../../ui';
 import { normalizeError } from '../../utils/reporting';
