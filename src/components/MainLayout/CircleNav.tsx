@@ -41,9 +41,8 @@ export const CircleNav = () => {
         [paths.epoch(circleId), paths.team(circleId), paths.give(circleId)],
       ],
       [paths.members(circleId), 'Members'],
+      [paths.map(circleId), 'Map'],
     ];
-    if (showGiveInfoQuery.data?.showGiveInfo || myUser.isCircleAdmin)
-      l.push([paths.map(circleId), 'Map']);
     if (myUser.isCircleAdmin) l.push([paths.circleAdmin(circleId), 'Admin']);
 
     return l;
