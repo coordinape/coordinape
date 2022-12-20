@@ -55,19 +55,15 @@ const circlePath = (suffix: string) => (circleId: number) =>
 
 export const paths = {
   // circle-specific
-  allocation: circlePath('allocation'),
   circleAdmin: circlePath('admin'),
   circleAdminApi: circlePath('admin/api'),
   connectIntegration: circlePath('admin/connect-integration'),
   contributions: circlePath('contributions'),
-  epoch: circlePath('epoch'),
   give: circlePath('give'),
-  givebeta: circlePath('givebeta'),
   history: circlePath('history'),
   members: circlePath('members'),
   membersAdd: circlePath('members/add'),
   membersNominate: circlePath('members/nominate'),
-  team: circlePath('team'),
   vouching: circlePath('vouching'),
   distributions: (circleId: number, epochId: number | string) =>
     `/circles/${circleId}/distributions/${epochId}`,

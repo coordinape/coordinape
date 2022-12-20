@@ -85,7 +85,7 @@ export const CurrentEpochPanel = ({
               ? `Allocate Your Remaining ${unallocated} ${tokenName}`
               : `No More ${tokenName} to Allocate`
           }
-          path={paths.givebeta(circleId)}
+          path={paths.give(circleId)}
           linkLabel="Allocate to Teammates"
         />
       </Flex>
