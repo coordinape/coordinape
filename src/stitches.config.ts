@@ -102,8 +102,10 @@ export const colors = {
   surfaceNested: 'white',
   info: figmaColors.blue4,
   textOnInfo: figmaColors.grey20,
+
   border: figmaColors.grey4,
   borderMedium: figmaColors.grey8,
+  borderFocus: figmaColors.blue12,
 
   highlight: figmaColors.blue1,
 
@@ -112,8 +114,11 @@ export const colors = {
   headingText: figmaColors.grey16,
   secondaryText: figmaColors.grey10,
 
-  activeText: figmaColors.yellow20,
-  activeBackground: figmaColors.yellow4,
+  tagActiveText: figmaColors.yellow20,
+  tagActiveBackground: figmaColors.yellow4,
+
+  tagPrimaryText: figmaColors.blue12,
+  tagPrimaryBackground: figmaColors.blue4,
 };
 
 // the notistack library is oriented toward Material-UI, so we can't set its
@@ -282,22 +287,33 @@ export const {
 
 export const dark = createTheme({
   colors: {
-    primary: newFigmaColors.grey1,
+    primary: newFigmaColors.grey3,
+    textOnPrimary: newFigmaColors.grey8,
     background: newFigmaColors.grey10,
     navBackground: newFigmaColors.grey9,
     surface: newFigmaColors.grey8,
-    surfaceNested: newFigmaColors.grey7,
-    text: newFigmaColors.grey1,
-    secondaryText: newFigmaColors.grey6,
+    surfaceNested: newFigmaColors.grey9,
+
+    text: newFigmaColors.grey2,
     headingText: newFigmaColors.grey4,
+    secondaryText: newFigmaColors.grey6,
+
     info: newFigmaColors.secondary10,
     textOnInfo: newFigmaColors.grey1,
-    activeText: newFigmaColors.warning8,
-    activeBackground: newFigmaColors.warning10,
     link: newFigmaColors.primary4,
     alert: newFigmaColors.error6,
     complete: newFigmaColors.success5,
+
+    highlight: newFigmaColors.primary10,
+
     border: newFigmaColors.grey9,
+    borderFocus: newFigmaColors.primary5,
+
+    tagActiveText: newFigmaColors.warning8,
+    tagActiveBackground: newFigmaColors.warning10,
+
+    tagPrimaryText: newFigmaColors.primary7,
+    tagPrimaryBackground: newFigmaColors.primary9,
   },
   fonts: {
     display: 'Denim, apple-system, sans-serif',
@@ -385,7 +401,7 @@ export const globalStyles = globalCss({
   },
   // a11y keyboard navigation
   'a:focus-visible, button:focus-visible, [tabindex="0"]:focus-visible': {
-    outline: '2px solid $primary',
+    outline: '2px solid $borderFocus',
     outlineOffset: '1px',
   },
   'input, textarea': {

@@ -790,11 +790,7 @@ const AllocateContents = ({
           '@sm': { boxShadow: '$shadowBottom' },
         }}
       >
-        <Panel
-          css={{
-            py: '$md',
-          }}
-        >
+        <Box css={{ mb: '$lg' }}>
           <Flex
             alignItems="center"
             css={{
@@ -867,7 +863,7 @@ const AllocateContents = ({
                     '@sm': { borderTopLeftRadius: 0, py: 'calc($sm + $xs)' },
                     flexGrow: '1',
                   }}
-                  color={onlyCollaborators ? 'primary' : 'white'}
+                  color={onlyCollaborators ? 'primary' : 'surface'}
                   onClick={() => setOnlyCollaborators(true)}
                 >
                   Collaborators
@@ -879,7 +875,7 @@ const AllocateContents = ({
                     '@sm': { borderTopRightRadius: 0, py: 'calc($sm + $xs)' },
                     flexGrow: '1',
                   }}
-                  color={onlyCollaborators ? 'white' : 'primary'}
+                  color={onlyCollaborators ? 'surface' : 'primary'}
                   onClick={() => setOnlyCollaborators(false)}
                 >
                   All Members
@@ -887,7 +883,7 @@ const AllocateContents = ({
               </Flex>
             </Flex>
           </Flex>
-        </Panel>
+        </Box>
       </Box>
       <MyGiveRow
         statementCompelete={statement.length > 0 ? true : false}
