@@ -1,14 +1,15 @@
-import React, { useRef, useEffect, useCallback, useMemo } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 
 // import { forceLink, forceCenter } from 'd3-force-3d';
-import cloneDeep from 'lodash/cloneDeep';
 import ForceGraph2D, { NodeObject, LinkObject } from 'react-force-graph-2d';
 import AutoSizer from 'react-virtualized-auto-sizer';
 
 import { makeStyles } from '@material-ui/core';
 
+import { LoadingModal } from 'components';
+import { useMapGraphData } from 'hooks/useMapGraphData';
+import { useSelectedCircleId } from 'recoilState';
 import {
-  useMapGraphData,
   useMapContext,
   useSetAmEgoAddress,
   AmContextDefault,
@@ -54,7 +55,8 @@ const nodeBorderScaler = (f: number) => 0.7 + f * 2.5;
 export const AMForceGraph = () => {
   const classes = useStyles();
   const fgRef = useRef<any>(null);
-  const recoilMapGraphData = useMapGraphData();
+  const circleId = useSelectedCircleId();
+  const mapGraphDataQuery = useMapGraphData(circleId);
   const mapContext = useMapContext();
   const setAmEgoAddress = useSetAmEgoAddress();
 
@@ -62,11 +64,7 @@ export const AMForceGraph = () => {
   const mapCtxRef = useRef<IMapContext>(AmContextDefault);
   const images = useRef<Map<string, HTMLImageElement>>(new Map());
 
-  const mapGraphData = useMemo(() => {
-    // Recoil state isn't mutable, so make a copy
-    return cloneDeep(recoilMapGraphData);
-  }, [recoilMapGraphData]);
-
+  const mapGraphData = mapGraphDataQuery.data;
   useEffect(() => {
     if (mapContext.state === 'hasValue') {
       const ctx = mapContext.contents;
@@ -90,15 +88,17 @@ export const AMForceGraph = () => {
   useEffect(() => {
     // These can't be stored in recoil because:
     // Type 'HTMLImageElement' does not satisfy the constraint 'SerializableParam'.
-    recoilMapGraphData.nodes.forEach(node => {
-      const path = (node as IMapNodeFG).img;
-      if (path && !images.current.has(path)) {
-        const img = new Image();
-        img.src = path;
-        images.current.set(path, img);
-      }
-    });
-  }, [recoilMapGraphData]);
+    if (mapGraphData && mapGraphData.nodes) {
+      mapGraphData.nodes.forEach(node => {
+        const path = (node as IMapNodeFG).img;
+        if (path && !images.current.has(path)) {
+          const img = new Image();
+          img.src = path;
+          images.current.set(path, img);
+        }
+      });
+    }
+  }, [mapGraphData]);
 
   const linkColor = useCallback((edge: IMapEdgeFG) => {
     const { egoAddress, isEgoEdge } = mapCtxRef.current;
@@ -214,6 +214,14 @@ export const AMForceGraph = () => {
   const onBackgroundClick = useCallback(() => {
     setAmEgoAddress('');
   }, []);
+
+  if (
+    !mapGraphData ||
+    mapGraphDataQuery.isLoading ||
+    mapGraphDataQuery.isError ||
+    mapGraphDataQuery.isIdle
+  )
+    return <LoadingModal visible />;
 
   return (
     <div className={classes.root}>
