@@ -153,7 +153,6 @@ export const insertNominee = async (params: {
   nominated_by_user_id: number;
   circle_id: number;
   address: string;
-  name: string;
   description: string;
   nomination_days_limit: number;
   vouches_required: number;

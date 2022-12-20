@@ -469,6 +469,7 @@ const MemberRow = ({
                     label="Member Name"
                     infoTooltip="Member Displayed Name"
                     showFieldErrors
+                    disabled={true}
                   />
                   <FormInputField
                     id="address"
@@ -479,6 +480,7 @@ const MemberRow = ({
                     infoTooltip="Member ETH address used to login and receive tokens"
                     showFieldErrors
                     css={{ minWidth: '420px', '@sm': { minWidth: 0 } }}
+                    disabled={true}
                   />
                   <Flex column alignItems="center" css={{ gap: '$md' }}>
                     <FormLabel type="label">

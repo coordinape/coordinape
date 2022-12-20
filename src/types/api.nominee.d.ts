@@ -1,10 +1,11 @@
 import { DateTime } from 'luxon';
+import { IApiProfile } from 'types';
 
 import { IApiUser, INominator, IUser } from './api.user.profile';
 
 export interface IApiNominee {
   id: number;
-  name: string;
+  name?: string;
   address: string;
   nominated_by_user_id: number;
   circle_id: number;

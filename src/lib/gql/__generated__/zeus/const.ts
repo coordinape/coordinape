@@ -43,6 +43,7 @@ export const AllTypesProps: Record<string, any> = {
   UpdateEpochInput: {
     start_date: 'timestamptz',
   },
+  UpdateProfileNameInput: {},
   UpdateTeammatesInput: {},
   UpdateUserInput: {},
   UploadCircleImageInput: {},
@@ -748,6 +749,27 @@ export const AllTypesProps: Record<string, any> = {
     min_vouches: 'order_by',
     nomination_days_limit: 'order_by',
     organization_id: 'order_by',
+  },
+  citext: 'String',
+  citext_comparison_exp: {
+    _eq: 'citext',
+    _gt: 'citext',
+    _gte: 'citext',
+    _ilike: 'citext',
+    _in: 'citext',
+    _iregex: 'citext',
+    _like: 'citext',
+    _lt: 'citext',
+    _lte: 'citext',
+    _neq: 'citext',
+    _nilike: 'citext',
+    _nin: 'citext',
+    _niregex: 'citext',
+    _nlike: 'citext',
+    _nregex: 'citext',
+    _nsimilar: 'citext',
+    _regex: 'citext',
+    _similar: 'citext',
   },
   claims_aggregate_fields: {
     count: {
@@ -1882,6 +1904,9 @@ export const AllTypesProps: Record<string, any> = {
     updateEpoch: {
       payload: 'UpdateEpochInput',
     },
+    updateProfileName: {
+      payload: 'UpdateProfileNameInput',
+    },
     updateTeammates: {
       payload: 'UpdateTeammatesInput',
     },
@@ -2043,6 +2068,7 @@ export const AllTypesProps: Record<string, any> = {
     nominated_date: 'date_comparison_exp',
     nominations: 'vouches_bool_exp',
     nominator: 'users_bool_exp',
+    profile: 'profiles_bool_exp',
     updated_at: 'timestamp_comparison_exp',
     user: 'users_bool_exp',
     user_id: 'Int_comparison_exp',
@@ -2090,6 +2116,7 @@ export const AllTypesProps: Record<string, any> = {
     nominated_date: 'order_by',
     nominations_aggregate: 'vouches_aggregate_order_by',
     nominator: 'users_order_by',
+    profile: 'profiles_order_by',
     updated_at: 'order_by',
     user: 'users_order_by',
     user_id: 'order_by',
@@ -2488,6 +2515,16 @@ export const AllTypesProps: Record<string, any> = {
       order_by: 'distributions_order_by',
       where: 'distributions_bool_exp',
     },
+    nominees: {
+      distinct_on: 'nominees_select_column',
+      order_by: 'nominees_order_by',
+      where: 'nominees_bool_exp',
+    },
+    nominees_aggregate: {
+      distinct_on: 'nominees_select_column',
+      order_by: 'nominees_order_by',
+      where: 'nominees_bool_exp',
+    },
     users: {
       distinct_on: 'users_select_column',
       order_by: 'users_order_by',
@@ -2519,7 +2556,8 @@ export const AllTypesProps: Record<string, any> = {
     github_username: 'String_comparison_exp',
     id: 'bigint_comparison_exp',
     medium_username: 'String_comparison_exp',
-    name: 'String_comparison_exp',
+    name: 'citext_comparison_exp',
+    nominees: 'nominees_bool_exp',
     skills: 'String_comparison_exp',
     telegram_username: 'String_comparison_exp',
     twitter_username: 'String_comparison_exp',
@@ -2542,6 +2580,7 @@ export const AllTypesProps: Record<string, any> = {
     id: 'order_by',
     medium_username: 'order_by',
     name: 'order_by',
+    nominees_aggregate: 'nominees_aggregate_order_by',
     skills: 'order_by',
     telegram_username: 'order_by',
     twitter_username: 'order_by',
@@ -2555,7 +2594,9 @@ export const AllTypesProps: Record<string, any> = {
     id: 'bigint',
   },
   profiles_select_column: true,
-  profiles_set_input: {},
+  profiles_set_input: {
+    name: 'citext',
+  },
   profiles_stream_cursor_input: {
     initial_value: 'profiles_stream_cursor_value_input',
     ordering: 'cursor_ordering',
@@ -2563,6 +2604,7 @@ export const AllTypesProps: Record<string, any> = {
   profiles_stream_cursor_value_input: {
     created_at: 'timestamp',
     id: 'bigint',
+    name: 'citext',
     updated_at: 'timestamp',
   },
   profiles_updates: {
@@ -4227,6 +4269,10 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Int',
     org: 'organizations',
   },
+  UpdateProfileNameResponse: {
+    id: 'Int',
+    profileName: 'profiles',
+  },
   UpdateProfileResponse: {
     id: 'Int',
     profile: 'profiles',
@@ -4846,6 +4892,7 @@ export const ReturnTypes: Record<string, any> = {
     updateCircle: 'UpdateCircleOutput',
     updateContribution: 'UpdateContributionResponse',
     updateEpoch: 'EpochResponse',
+    updateProfileName: 'UpdateProfileNameResponse',
     updateTeammates: 'UpdateTeammatesResponse',
     updateUser: 'UserResponse',
     update_circle_integrations: 'circle_integrations_mutation_response',
@@ -4895,6 +4942,7 @@ export const ReturnTypes: Record<string, any> = {
     nominated_date: 'date',
     nominations: 'vouches',
     nominator: 'users',
+    profile: 'profiles',
     updated_at: 'timestamp',
     user: 'users',
     user_id: 'Int',
@@ -5075,7 +5123,9 @@ export const ReturnTypes: Record<string, any> = {
     github_username: 'String',
     id: 'bigint',
     medium_username: 'String',
-    name: 'String',
+    name: 'citext',
+    nominees: 'nominees',
+    nominees_aggregate: 'nominees_aggregate',
     skills: 'String',
     telegram_username: 'String',
     twitter_username: 'String',

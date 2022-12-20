@@ -10,9 +10,10 @@ import isFeatureEnabled from 'config/features';
 import { useMediaQuery } from 'hooks';
 import { rSelectedCircle } from 'recoilState/app';
 import { isCircleSpecificPath } from 'routes/paths';
-import { Box, Button } from 'ui';
+import { Box, Button, Modal } from 'ui';
 
 import { CircleNav } from './CircleNav';
+import { CreateUserNameForm } from './CreateUserNameForm';
 import { MainHeaderQuery, useMainHeaderQuery } from './getMainHeaderData';
 import { MobileHeader } from './MobileHeader';
 import { OverviewMenu } from './OverviewMenu';
@@ -32,25 +33,35 @@ export const MainHeader = ({
   const walletStatus = useWalletStatus();
   const query = useMainHeaderQuery();
 
-  if (useMediaQuery(MediaQueryKeys.sm))
-    return (
-      <Suspense fallback={null}>
-        <MobileHeader
+  const isMobile = useMediaQuery(MediaQueryKeys.sm);
+  const profile = query.data?.profiles?.[0];
+  const showNameForm = profile && !profile.name && !!walletStatus.address;
+
+  return (
+    <>
+      {isMobile ? (
+        <Suspense fallback={null}>
+          <MobileHeader
+            inCircle={inCircle}
+            walletStatus={walletStatus}
+            query={query}
+          />
+        </Suspense>
+      ) : (
+        <NormalHeader
           inCircle={inCircle}
           walletStatus={walletStatus}
           query={query}
+          setCurrentTheme={setCurrentTheme}
+          currentTheme={currentTheme}
         />
-      </Suspense>
-    );
-
-  return (
-    <NormalHeader
-      inCircle={inCircle}
-      walletStatus={walletStatus}
-      query={query}
-      setCurrentTheme={setCurrentTheme}
-      currentTheme={currentTheme}
-    />
+      )}
+      {showNameForm && (
+        <Modal open title="What's your name?" css={{ overflow: 'scroll' }}>
+          <CreateUserNameForm address={walletStatus.address} />
+        </Modal>
+      )}
+    </>
   );
 };
 

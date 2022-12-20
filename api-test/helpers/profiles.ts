@@ -1,6 +1,6 @@
 import type { GQLClientType } from './common';
 
-type ProfileInput = { address: string };
+type ProfileInput = { address: string; name?: string };
 
 export async function createProfile(
   client: GQLClientType,

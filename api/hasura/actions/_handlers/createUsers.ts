@@ -1,7 +1,11 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
-import { ValueTypes } from '../../../../api-lib/gql/__generated__/zeus';
+import {
+  profiles_constraint,
+  profiles_update_column,
+  ValueTypes,
+} from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { insertInteractionEvents } from '../../../../api-lib/gql/mutations';
 import {
@@ -37,9 +41,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     );
     return errorResponseWithStatusCode(
       res,
-      {
-        message: `Users list contains duplicate addresses: ${dupes}`,
-      },
+      { message: `Users list contains duplicate addresses: ${dupes}` },
       422
     );
   }
@@ -108,13 +110,91 @@ async function handler(req: VercelRequest, res: VercelResponse) {
             deleted_at: null,
           },
         },
-        {
-          id: true,
-        },
+        { id: true },
       ],
     };
 
     // End any active nomination
+    opts[NOMINEE_ALIAS_PREFIX + user.address] = {
+      update_nominees: [
+        {
+          _set: { ended: true },
+          where: {
+            circle_id: { _eq: circle_id },
+            address: { _ilike: user.address },
+            ended: { _eq: false },
+          },
+        },
+        { returning: { id: true } },
+      ],
+    };
+    return opts;
+  }, {} as { [aliasKey: string]: ValueTypes['mutation_root'] });
+
+  //check if names are used by other coordinape users
+  const { profiles: existingNames } = await adminClient.query(
+    {
+      profiles: [
+        {
+          where: {
+            _or: newUsers.map(user => {
+              return {
+                _and: [
+                  { name: { _eq: user.name } },
+                  { address: { _nilike: user.address } },
+                ],
+              };
+            }),
+          },
+        },
+        { name: true },
+      ],
+    },
+    { operationName: 'createUsers_getExistingNames' }
+  );
+
+  if (existingNames.length > 0) {
+    const names = existingNames.map(u => u.name);
+    return errorResponseWithStatusCode(
+      res,
+      {
+        message: `Users list contains ${
+          names.length > 1 ? 'names already in use' : 'a name already in use'
+        }: ${names}`,
+      },
+      422
+    );
+  }
+
+  //update profiles table with new names
+  await adminClient.mutate(
+    {
+      insert_profiles: [
+        {
+          objects: newUsers.map(user => {
+            return {
+              address: user.address.toLowerCase(),
+              name: user.name,
+            };
+          }),
+          on_conflict: {
+            constraint: profiles_constraint.profiles_address_key,
+            update_columns: [profiles_update_column.name],
+            where: {
+              name: { _is_null: true },
+            },
+          },
+        },
+        { returning: { id: true } },
+      ],
+    },
+    {
+      operationName: 'createUsers_createProfiles',
+    }
+  );
+
+  //handle new addresses
+  const updateNomineesMutation = newUsers.reduce((opts, user) => {
     opts[NOMINEE_ALIAS_PREFIX + user.address] = {
       update_nominees: [
         {
@@ -138,16 +218,12 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   // Update the state after all validations have passed
   const mutationResult = await adminClient.mutate({
     insert_users: [
+      { objects: newUsers },
       {
-        objects: newUsers,
-      },
-      {
-        returning: {
-          id: true,
-        },
+        returning: { id: true, address: true },
       },
     ],
-    __alias: { ...updateUsersMutation },
+    __alias: { ...updateUsersMutation, ...updateNomineesMutation },
   });
 
   const insertedUsers = mutationResult.insert_users?.returning;

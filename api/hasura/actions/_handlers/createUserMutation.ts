@@ -1,4 +1,12 @@
-import { ValueTypes } from '../../../../api-lib/gql/__generated__/zeus';
+import {
+  getProfilesWithAddress,
+  getProfilesWithName,
+} from '../../../../api-lib/findProfile';
+import {
+  profiles_constraint,
+  profiles_update_column,
+  ValueTypes,
+} from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { UnprocessableError } from '../../../../api-lib/HttpError';
 
@@ -13,15 +21,10 @@ async function checkExistingUser(address: string, circleId: number) {
             circle_id: { _eq: circleId },
           },
         },
-        {
-          id: true,
-          deleted_at: true,
-        },
+        { id: true, deleted_at: true },
       ],
     },
-    {
-      operationName: 'createUser_getExistingUser',
-    }
+    { operationName: 'createUser_getExistingUser' }
   );
 
   const existingUser = existingUsers.pop();
@@ -38,6 +41,43 @@ export async function createUserMutation(
   entrance: string
 ) {
   const softDeletedUser = await checkExistingUser(address, circleId);
+  const addressProfile = await getProfilesWithAddress(address);
+  let nameProfile = undefined;
+  if (input.name) nameProfile = await getProfilesWithName(input.name);
+
+  if (
+    nameProfile &&
+    nameProfile.address.toLocaleLowerCase() !==
+      nameProfile.address.toLocaleLowerCase()
+  ) {
+    throw new UnprocessableError('This name is already in use');
+  }
+  if (!addressProfile?.name && !nameProfile) {
+    const createProfileMutation = await adminClient.mutate(
+      {
+        insert_profiles_one: [
+          {
+            object: {
+              address: address,
+              name: input.name,
+            },
+            on_conflict: {
+              constraint: profiles_constraint.profiles_address_key,
+              update_columns: [profiles_update_column.name],
+              where: {
+                name: { _is_null: true },
+              },
+            },
+          },
+          { id: true },
+        ],
+      },
+      { operationName: 'createUser_createProfile' }
+    );
+    if (!createProfileMutation) {
+      throw new UnprocessableError('Failed to update user profile');
+    }
+  }
 
   const createUserMutation: ValueTypes['mutation_root'] =
     softDeletedUser?.deleted_at
@@ -51,9 +91,7 @@ export async function createUserMutation(
                 entrance: entrance,
               },
             },
-            {
-              id: true,
-            },
+            { id: true },
           ],
         }
       : {
@@ -66,9 +104,7 @@ export async function createUserMutation(
                 entrance: entrance,
               },
             },
-            {
-              id: true,
-            },
+            { id: true },
           ],
         };
 
@@ -88,15 +124,11 @@ export async function createUserMutation(
           },
         },
         {
-          returning: {
-            id: true,
-          },
+          returning: { id: true },
         },
       ],
     },
-    {
-      operationName: 'createUser_insert',
-    }
+    { operationName: 'createUser_insert' }
   );
   return mutationResult;
 }
