@@ -52,14 +52,13 @@ export async function createUserMutation(
   ) {
     throw new UnprocessableError('This name is already in use');
   }
-
-  if (!addressProfile || (!addressProfile.name && nameProfile)) {
+  if (!addressProfile?.name && !nameProfile) {
     const createProfileMutation = await adminClient.mutate(
       {
         insert_profiles_one: [
           {
             object: {
-              address: input.address,
+              address: address,
               name: input.name,
             },
             on_conflict: {
