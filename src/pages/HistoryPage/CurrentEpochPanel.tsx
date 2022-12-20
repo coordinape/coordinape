@@ -111,11 +111,12 @@ const Minicard = ({
   linkLabel,
 }: MinicardProps) => {
   return (
-    <Panel
-      nested
+    <Box
       css={{
         width: '100%',
         gap: '$sm',
+        borderLeft: '1px solid $border',
+        pl: '$xl',
         '@sm': {
           minWidth: 0,
         },
@@ -152,6 +153,6 @@ const Minicard = ({
           {linkLabel}
         </Button>
       </Box>
-    </Panel>
+    </Box>
   );
 };

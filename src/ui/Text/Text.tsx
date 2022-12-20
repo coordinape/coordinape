@@ -17,7 +17,7 @@ export const Text = styled('span', {
       alert: { color: '$alert' },
       primary: { color: '$primary' },
       secondary: { color: '$secondaryText' },
-      active: { color: '$activeDark' },
+      active: { color: '$activeText' },
       complete: { color: '$complete' },
       inherit: { color: 'inherit' },
     },
@@ -106,7 +106,7 @@ export const Text = styled('span', {
       tag: true,
       color: 'active',
       css: {
-        backgroundColor: '$active',
+        backgroundColor: '$activeBackground',
       },
     },
     {

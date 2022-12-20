@@ -18,6 +18,7 @@ import {
   AppLink,
   Flex,
   MarkdownPreview,
+  Link,
 } from 'ui';
 
 import type { QueryPastEpoch, QueryDistribution } from './getHistoryData';
@@ -81,82 +82,59 @@ export const EpochPanel = ({
           </Text>
         )}
       </Flex>
-      <Box>
-        <Panel nested>
-          <Text variant="label">You received</Text>
-          <Text bold size="large" css={{ mb: '$md' }}>
-            {totalReceived} {tokenName}
-          </Text>
-          <Text variant="label">Total Distributed</Text>
-          <Text bold size="large">
-            {totalAllocated} {tokenName}
-          </Text>
-          <DistributionSummary
-            distributions={epoch.distributions as QueryDistribution[]}
-            circleId={circleId}
-            epochId={epoch.id}
-          />
-          {isAdmin && (
-            <>
-              {isFeatureEnabled('vaults') ? (
-                <AppLink
-                  css={{
-                    mt: '$md',
-                    mx: '-$md',
-                    mb: '-$md',
-                  }}
-                  to={paths.distributions(circleId, epoch.id)}
-                >
-                  <Button
-                    fullWidth
-                    color="primary"
-                    css={{
-                      whiteSpace: 'nowrap',
-                      borderTopLeftRadius: 0,
-                      borderTopRightRadius: 0,
-                    }}
-                  >
-                    Review / Export
-                  </Button>
-                </AppLink>
-              ) : (
-                <Button
-                  color="primary"
-                  css={{
-                    whiteSpace: 'nowrap',
-                    mt: '$md',
-                    mx: '-$md',
-                    mb: '-$md',
-                    borderTopLeftRadius: 0,
-                    borderTopRightRadius: 0,
-                  }}
-                  onClick={e => {
-                    e.stopPropagation(),
-                      (async () => {
-                        // use the authed api to download the CSV
-                        const csv = await downloadCSV(epoch.number, epoch.id);
+      <Box css={{ borderRight: '1px solid $border' }}>
+        <Text variant="label">You received</Text>
+        <Text bold size="large" css={{ mb: '$md' }}>
+          {totalReceived} {tokenName}
+        </Text>
+        <Text variant="label">Total Distributed</Text>
+        <Text bold size="large">
+          {totalAllocated} {tokenName}
+        </Text>
+        <DistributionSummary
+          distributions={epoch.distributions as QueryDistribution[]}
+          circleId={circleId}
+          epochId={epoch.id}
+        />
+        {isAdmin && (
+          <Box css={{ mt: '$md' }}>
+            {isFeatureEnabled('vaults') ? (
+              <AppLink
+                css={{ fontWeight: '$semibold' }}
+                to={paths.distributions(circleId, epoch.id)}
+              >
+                Review / Export
+              </AppLink>
+            ) : (
+              <Link
+                href="#"
+                css={{ fontWeight: '$semibold' }}
+                onClick={e => {
+                  e.stopPropagation(),
+                    (async () => {
+                      // use the authed api to download the CSV
+                      const csv = await downloadCSV(epoch.number, epoch.id);
 
-                        if (csv?.file) {
-                          const a = document.createElement('a');
-                          a.href = csv.file;
-                          a.click();
-                          a.href = '';
-                        }
+                      if (csv?.file) {
+                        const a = document.createElement('a');
+                        a.href = csv.file;
+                        a.click();
+                        a.href = '';
+                      }
 
-                        return false;
-                      })();
-                  }}
-                >
-                  Export CSV
-                </Button>
-              )}
-            </>
-          )}
-        </Panel>
+                      return false;
+                    })();
+                }}
+              >
+                Export CSV
+              </Link>
+            )}
+          </Box>
+        )}
       </Box>
       <Panel
-        nested
         css={{
+          py: 0,
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
@@ -176,7 +154,9 @@ export const EpochPanel = ({
           }}
         >
           <Flex column css={{ gap: '$sm' }}>
-            <Text>Notes</Text>
+            <Text variant="label" as="label">
+              Notes
+            </Text>
             <Flex css={{ gap: '$md' }}>
               <Box css={{ display: 'flex', gap: '$sm', mb: '$xs' }}>
                 <Button
@@ -219,10 +199,7 @@ export const EpochPanel = ({
               <button
                 onClick={event => (setShowLess(true), event.stopPropagation())}
               >
-                <Text
-                  variant="label"
-                  css={{ color: 'transparent', cursor: 'pointer' }}
-                >
+                <Text variant="label" css={{ cursor: 'pointer' }}>
                   Show More
                 </Text>
               </button>
@@ -330,6 +307,7 @@ const NotesItem = ({
       <Box css={!note ? { alignItems: 'center', display: 'flex' } : {}}>
         {note && (
           <MarkdownPreview
+            render
             css={{
               p: 0,
             }}

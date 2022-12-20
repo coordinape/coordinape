@@ -89,9 +89,6 @@ export const colors = {
   successDisabled: figmaColors.green4,
   successDark: figmaColors.green16,
 
-  active: figmaColors.yellow4,
-  activeDark: figmaColors.yellow20,
-
   secondary: figmaColors.teal12,
   secondaryDark: figmaColors.teal20,
   neutral: figmaColors.grey12,
@@ -115,8 +112,8 @@ export const colors = {
   headingText: figmaColors.grey16,
   secondaryText: figmaColors.grey10,
 
-  tag: figmaColors.yellow4,
-  tagDark: figmaColors.yellow20,
+  activeText: figmaColors.yellow20,
+  activeBackground: figmaColors.yellow4,
 };
 
 // the notistack library is oriented toward Material-UI, so we can't set its
@@ -290,15 +287,17 @@ export const dark = createTheme({
     navBackground: newFigmaColors.grey9,
     surface: newFigmaColors.grey8,
     surfaceNested: newFigmaColors.grey7,
-    text: newFigmaColors.grey5,
+    text: newFigmaColors.grey1,
+    secondaryText: newFigmaColors.grey6,
     headingText: newFigmaColors.grey4,
     info: newFigmaColors.secondary10,
     textOnInfo: newFigmaColors.grey1,
-    active: newFigmaColors.orange2,
-    activeDark: newFigmaColors.orange9,
+    activeText: newFigmaColors.warning8,
+    activeBackground: newFigmaColors.warning10,
     link: newFigmaColors.primary4,
     alert: newFigmaColors.error6,
     complete: newFigmaColors.success5,
+    border: newFigmaColors.grey9,
   },
   fonts: {
     display: 'Denim, apple-system, sans-serif',
