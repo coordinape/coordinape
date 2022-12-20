@@ -41,9 +41,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     );
     return errorResponseWithStatusCode(
       res,
-      {
-        message: `Users list contains duplicate addresses: ${dupes}`,
-      },
+      { message: `Users list contains duplicate addresses: ${dupes}` },
       422
     );
   }
@@ -112,9 +110,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
             deleted_at: null,
           },
         },
-        {
-          id: true,
-        },
+        { id: true },
       ],
     };
 
@@ -129,11 +125,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
             ended: { _eq: false },
           },
         },
-        {
-          returning: {
-            id: true,
-          },
-        },
+        { returning: { id: true } },
       ],
     };
     return opts;
@@ -158,9 +150,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         { name: true },
       ],
     },
-    {
-      operationName: 'createUsers_getExistingNames',
-    }
+    { operationName: 'createUsers_getExistingNames' }
   );
 
   if (existingNames.length > 0) {
@@ -195,11 +185,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
             },
           },
         },
-        {
-          returning: {
-            id: true,
-          },
-        },
+        { returning: { id: true } },
       ],
     },
     {
@@ -232,14 +218,9 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   // Update the state after all validations have passed
   const mutationResult = await adminClient.mutate({
     insert_users: [
+      { objects: newUsers },
       {
-        objects: newUsers,
-      },
-      {
-        returning: {
-          id: true,
-          address: true,
-        },
+        returning: { id: true, address: true },
       },
     ],
     __alias: { ...updateUsersMutation, ...updateNomineesMutation },

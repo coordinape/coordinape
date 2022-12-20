@@ -4,19 +4,11 @@ export const getProfilesWithName = async (name: string) => {
   const { profiles } = await adminClient.query(
     {
       profiles: [
-        {
-          where: { name: { _eq: name } },
-        },
-        {
-          id: true,
-          address: true,
-          name: true,
-        },
+        { where: { name: { _eq: name } } },
+        { id: true, address: true, name: true },
       ],
     },
-    {
-      operationName: 'getProfilesWithName',
-    }
+    { operationName: 'getProfilesWithName' }
   );
   return profiles.pop();
 };
@@ -25,18 +17,11 @@ export const getProfilesWithAddress = async (address: string) => {
   const { profiles } = await adminClient.query(
     {
       profiles: [
-        {
-          where: { address: { _ilike: address } },
-        },
-        {
-          id: true,
-          name: true,
-        },
+        { where: { address: { _ilike: address } } },
+        { id: true, name: true },
       ],
     },
-    {
-      operationName: 'getProfilesWithAddress',
-    }
+    { operationName: 'getProfilesWithAddress' }
   );
 
   return profiles.pop();

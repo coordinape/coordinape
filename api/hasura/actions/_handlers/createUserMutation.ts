@@ -21,15 +21,10 @@ async function checkExistingUser(address: string, circleId: number) {
             circle_id: { _eq: circleId },
           },
         },
-        {
-          id: true,
-          deleted_at: true,
-        },
+        { id: true, deleted_at: true },
       ],
     },
-    {
-      operationName: 'createUser_getExistingUser',
-    }
+    { operationName: 'createUser_getExistingUser' }
   );
 
   const existingUser = existingUsers.pop();
@@ -75,14 +70,10 @@ export async function createUserMutation(
               },
             },
           },
-          {
-            id: true,
-          },
+          { id: true },
         ],
       },
-      {
-        operationName: 'createUser_createProfile',
-      }
+      { operationName: 'createUser_createProfile' }
     );
     if (!createProfileMutation) {
       throw new UnprocessableError('Failed to update user profile');
@@ -101,9 +92,7 @@ export async function createUserMutation(
                 entrance: entrance,
               },
             },
-            {
-              id: true,
-            },
+            { id: true },
           ],
         }
       : {
@@ -116,9 +105,7 @@ export async function createUserMutation(
                 entrance: entrance,
               },
             },
-            {
-              id: true,
-            },
+            { id: true },
           ],
         };
 
@@ -138,15 +125,11 @@ export async function createUserMutation(
           },
         },
         {
-          returning: {
-            id: true,
-          },
+          returning: { id: true },
         },
       ],
     },
-    {
-      operationName: 'createUser_insert',
-    }
+    { operationName: 'createUser_insert' }
   );
   return mutationResult;
 }

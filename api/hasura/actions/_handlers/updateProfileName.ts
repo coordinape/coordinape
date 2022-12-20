@@ -36,9 +36,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   ) {
     return errorResponseWithStatusCode(
       res,
-      {
-        message: 'This name is already in use',
-      },
+      { message: 'This name is already in use' },
       422
     );
   }
@@ -48,18 +46,12 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       update_profiles_by_pk: [
         {
           pk_columns: { id: session_variables.hasuraProfileId },
-          _set: {
-            name: name,
-          },
+          _set: { name },
         },
-        {
-          id: true,
-        },
+        { id: true },
       ],
     },
-    {
-      operationName: 'updateProfileName',
-    }
+    { operationName: 'updateProfileName' }
   );
 
   const returnResult = mutationResult.update_profiles_by_pk?.id;
