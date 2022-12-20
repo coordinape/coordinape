@@ -41,7 +41,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   if (!existingUser) {
     return errorResponseWithStatusCode(
       res,
-      { message: 'user does not exist' },
+      { message: 'User does not exist' },
       422
     );
   }

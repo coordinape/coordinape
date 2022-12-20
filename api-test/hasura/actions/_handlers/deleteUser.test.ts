@@ -86,6 +86,51 @@ describe('Delete User action handler', () => {
     expect(result?.success).toBeTruthy();
   });
 
+  test('Test deletion another a address that doesn\t exist', async () => {
+    const adminAddress = await getUniqueAddress();
+    const adminProfile = await createProfile(adminClient, {
+      address: adminAddress,
+    });
+    await createUser(adminClient, {
+      address: adminAddress,
+      circle_id: circle.id,
+      role: 1,
+    });
+    const client = mockUserClient({
+      profileId: adminProfile.id,
+      address: adminAddress,
+    });
+
+    const nonExistantAddress = await getUniqueAddress();
+
+    await expect(() =>
+      client.mutate({
+        deleteUser: [
+          {
+            payload: { address: nonExistantAddress, circle_id: circle.id },
+          },
+          { success: true },
+        ],
+      })
+    ).rejects.toThrow();
+    expect(mockLog).toHaveBeenCalledWith(
+      JSON.stringify(
+        {
+          errors: [
+            {
+              extensions: {
+                code: '422',
+              },
+              message: 'User does not exist',
+            },
+          ],
+        },
+        null,
+        2
+      )
+    );
+  });
+
   test('Test self delete as non admin ', async () => {
     const client = mockUserClient({ profileId: profile.id, address });
     const { deleteUser: result } = await client.mutate({
