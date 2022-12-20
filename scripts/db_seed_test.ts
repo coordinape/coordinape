@@ -11,11 +11,13 @@ import {
   getCircleName,
   makeManyEpochs,
   createContributions,
+  createProfiles,
 } from './util/seed';
 
 const startTime = Date.now();
 
 async function main() {
+  await createProfiles();
   await createFreshOpenEpochDevAdmin();
   const circleId = await createFreshOpenEpoch();
   await createFreshOpenEpochNoDev();

@@ -31,6 +31,7 @@ export const getActiveNominees = async (circleId: number) => {
           name: true,
           address: true,
           nominated_by_user_id: true,
+          profile: { name: true },
           nominations: [
             {},
             {
@@ -41,19 +42,14 @@ export const getActiveNominees = async (circleId: number) => {
                 name: true,
                 id: true,
                 address: true,
-                profile: {
-                  name: true,
-                },
+                profile: { name: true },
               },
             },
           ],
           nominator: {
             address: true,
             name: true,
-            profile: {
-              avatar: true,
-              name: true,
-            },
+            profile: { avatar: true, name: true },
           },
           description: true,
           nominated_date: true,

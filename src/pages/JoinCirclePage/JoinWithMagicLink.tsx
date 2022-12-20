@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -18,8 +18,10 @@ import { normalizeError } from '../../utils/reporting';
 
 export const JoinWithMagicLink = ({
   tokenJoinInfo,
+  userName,
 }: {
   tokenJoinInfo: TokenJoinInfo;
+  userName?: string;
 }) => {
   const { fetchManifest } = useApiBase();
   const { showError } = useApeSnackbar();
@@ -33,15 +35,21 @@ export const JoinWithMagicLink = ({
     register,
     handleSubmit,
     formState: { errors, isValid },
+    reset,
   } = useForm({
     resolver: zodResolver(joinSchema),
     reValidateMode: 'onChange',
     mode: 'onChange',
     defaultValues: {
-      name: '',
+      name: userName ?? '',
     },
   });
 
+  useEffect(() => {
+    if (userName) {
+      reset({ name: userName });
+    }
+  }, [userName]);
   const submitMagicToken = async ({ name }: { name: string }) => {
     try {
       setLoading(true);
@@ -123,6 +131,7 @@ export const JoinWithMagicLink = ({
               autoComplete="off"
               error={errors.name !== undefined}
               {...register(`name`)}
+              disabled={!!userName}
             />
           </Box>
           <Box>

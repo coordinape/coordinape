@@ -40,6 +40,10 @@ export const getMainHeaderData = (address: string, chainId: number) =>
         },
         { aggregate: { count: [{}, true] } },
       ],
+      profiles: [
+        { limit: 1, where: { address: { _eq: address.toLowerCase() } } },
+        { name: true, id: true },
+      ],
     },
     { operationName: 'getMainHeaderData' }
   );

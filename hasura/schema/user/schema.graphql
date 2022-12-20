@@ -398,6 +398,15 @@ type UpdateOrgResponse {
   org: organizations
 }
 
+input UpdateProfileNameInput {
+  name: String!
+}
+
+type UpdateProfileNameResponse {
+  id: Int!
+  profileName: profiles
+}
+
 type UpdateProfileResponse {
   id: Int!
   profile: profiles
@@ -2413,6 +2422,73 @@ input circles_variance_order_by {
   min_vouches: order_by
   nomination_days_limit: order_by
   organization_id: order_by
+}
+
+scalar citext
+
+"""
+Boolean expression to compare columns of type "citext". All fields are combined with logical 'AND'.
+"""
+input citext_comparison_exp {
+  _eq: citext
+  _gt: citext
+  _gte: citext
+
+  """
+  does the column match the given case-insensitive pattern
+  """
+  _ilike: citext
+  _in: [citext!]
+
+  """
+  does the column match the given POSIX regular expression, case insensitive
+  """
+  _iregex: citext
+  _is_null: Boolean
+
+  """
+  does the column match the given pattern
+  """
+  _like: citext
+  _lt: citext
+  _lte: citext
+  _neq: citext
+
+  """
+  does the column NOT match the given case-insensitive pattern
+  """
+  _nilike: citext
+  _nin: [citext!]
+
+  """
+  does the column NOT match the given POSIX regular expression, case insensitive
+  """
+  _niregex: citext
+
+  """
+  does the column NOT match the given pattern
+  """
+  _nlike: citext
+
+  """
+  does the column NOT match the given POSIX regular expression, case sensitive
+  """
+  _nregex: citext
+
+  """
+  does the column NOT match the given SQL regular expression
+  """
+  _nsimilar: citext
+
+  """
+  does the column match the given POSIX regular expression, case sensitive
+  """
+  _regex: citext
+
+  """
+  does the column match the given SQL regular expression
+  """
+  _similar: citext
 }
 
 """
@@ -5755,6 +5831,7 @@ type mutation_root {
     payload: UpdateContributionInput!
   ): UpdateContributionResponse
   updateEpoch(payload: UpdateEpochInput!): EpochResponse
+  updateProfileName(payload: UpdateProfileNameInput!): UpdateProfileNameResponse
   updateTeammates(payload: UpdateTeammatesInput!): UpdateTeammatesResponse
 
   """
@@ -6082,7 +6159,7 @@ type nominees {
   ended: Boolean!
   expiry_date: timestamp!
   id: bigint!
-  name: String!
+  name: String
   nominated_by_user_id: Int!
   nominated_date: date!
 
@@ -6120,6 +6197,11 @@ type nominees {
   An object relationship
   """
   nominator: users
+
+  """
+  An object relationship
+  """
+  profile: profiles
   updated_at: timestamp!
 
   """
@@ -6214,6 +6296,7 @@ input nominees_bool_exp {
   nominated_date: date_comparison_exp
   nominations: vouches_bool_exp
   nominator: users_bool_exp
+  profile: profiles_bool_exp
   updated_at: timestamp_comparison_exp
   user: users_bool_exp
   user_id: Int_comparison_exp
@@ -6309,6 +6392,7 @@ input nominees_order_by {
   nominated_date: order_by
   nominations_aggregate: vouches_aggregate_order_by
   nominator: users_order_by
+  profile: profiles_order_by
   updated_at: order_by
   user: users_order_by
   user_id: order_by
@@ -7612,7 +7696,67 @@ type profiles {
   github_username: String
   id: bigint!
   medium_username: String
-  name: String
+  name: citext
+
+  """
+  An array relationship
+  """
+  nominees(
+    """
+    distinct select on columns
+    """
+    distinct_on: [nominees_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [nominees_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: nominees_bool_exp
+  ): [nominees!]!
+
+  """
+  An aggregate relationship
+  """
+  nominees_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [nominees_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [nominees_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: nominees_bool_exp
+  ): nominees_aggregate!
   skills: String
   telegram_username: String
   twitter_username: String
@@ -7728,7 +7872,8 @@ input profiles_bool_exp {
   github_username: String_comparison_exp
   id: bigint_comparison_exp
   medium_username: String_comparison_exp
-  name: String_comparison_exp
+  name: citext_comparison_exp
+  nominees: nominees_bool_exp
   skills: String_comparison_exp
   telegram_username: String_comparison_exp
   twitter_username: String_comparison_exp
@@ -7770,6 +7915,7 @@ input profiles_order_by {
   id: order_by
   medium_username: order_by
   name: order_by
+  nominees_aggregate: nominees_aggregate_order_by
   skills: order_by
   telegram_username: order_by
   twitter_username: order_by
@@ -7877,6 +8023,7 @@ input profiles_set_input {
   discord_username: String
   github_username: String
   medium_username: String
+  name: citext
   skills: String
   telegram_username: String
   twitter_username: String
@@ -7911,7 +8058,7 @@ input profiles_stream_cursor_value_input {
   github_username: String
   id: bigint
   medium_username: String
-  name: String
+  name: citext
   skills: String
   telegram_username: String
   twitter_username: String

@@ -132,6 +132,26 @@ export async function getAvatars() {
   await Promise.allSettled(avatarPromises);
 }
 
+export async function createProfiles() {
+  await adminClient.mutate({
+    insert_profiles: [
+      {
+        objects: users.map(user => {
+          return {
+            address: user.address,
+            name: user.name,
+          };
+        }),
+      },
+      {
+        returning: {
+          id: true,
+        },
+      },
+    ],
+  });
+}
+
 async function getBase64Avatar() {
   const url = faker.image.avatar();
   const response = await fetch(url);

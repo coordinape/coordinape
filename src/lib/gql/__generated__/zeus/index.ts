@@ -900,6 +900,14 @@ export type ValueTypes = {
     org?: ValueTypes['organizations'];
     __typename?: boolean | `@${string}`;
   }>;
+  ['UpdateProfileNameInput']: {
+    name: string;
+  };
+  ['UpdateProfileNameResponse']: AliasType<{
+    id?: boolean | `@${string}`;
+    profileName?: ValueTypes['profiles'];
+    __typename?: boolean | `@${string}`;
+  }>;
   ['UpdateProfileResponse']: AliasType<{
     id?: boolean | `@${string}`;
     profile?: ValueTypes['profiles'];
@@ -2243,6 +2251,39 @@ export type ValueTypes = {
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  ['citext']: unknown;
+  /** Boolean expression to compare columns of type "citext". All fields are combined with logical 'AND'. */
+  ['citext_comparison_exp']: {
+    _eq?: ValueTypes['citext'] | undefined | null;
+    _gt?: ValueTypes['citext'] | undefined | null;
+    _gte?: ValueTypes['citext'] | undefined | null;
+    /** does the column match the given case-insensitive pattern */
+    _ilike?: ValueTypes['citext'] | undefined | null;
+    _in?: Array<ValueTypes['citext']> | undefined | null;
+    /** does the column match the given POSIX regular expression, case insensitive */
+    _iregex?: ValueTypes['citext'] | undefined | null;
+    _is_null?: boolean | undefined | null;
+    /** does the column match the given pattern */
+    _like?: ValueTypes['citext'] | undefined | null;
+    _lt?: ValueTypes['citext'] | undefined | null;
+    _lte?: ValueTypes['citext'] | undefined | null;
+    _neq?: ValueTypes['citext'] | undefined | null;
+    /** does the column NOT match the given case-insensitive pattern */
+    _nilike?: ValueTypes['citext'] | undefined | null;
+    _nin?: Array<ValueTypes['citext']> | undefined | null;
+    /** does the column NOT match the given POSIX regular expression, case insensitive */
+    _niregex?: ValueTypes['citext'] | undefined | null;
+    /** does the column NOT match the given pattern */
+    _nlike?: ValueTypes['citext'] | undefined | null;
+    /** does the column NOT match the given POSIX regular expression, case sensitive */
+    _nregex?: ValueTypes['citext'] | undefined | null;
+    /** does the column NOT match the given SQL regular expression */
+    _nsimilar?: ValueTypes['citext'] | undefined | null;
+    /** does the column match the given POSIX regular expression, case sensitive */
+    _regex?: ValueTypes['citext'] | undefined | null;
+    /** does the column match the given SQL regular expression */
+    _similar?: ValueTypes['citext'] | undefined | null;
   };
   /** columns and relationships of "claims" */
   ['claims']: AliasType<{
@@ -4551,6 +4592,10 @@ export type ValueTypes = {
       { payload: ValueTypes['UpdateEpochInput'] },
       ValueTypes['EpochResponse']
     ];
+    updateProfileName?: [
+      { payload: ValueTypes['UpdateProfileNameInput'] },
+      ValueTypes['UpdateProfileNameResponse']
+    ];
     updateTeammates?: [
       { payload: ValueTypes['UpdateTeammatesInput'] },
       ValueTypes['UpdateTeammatesResponse']
@@ -4836,6 +4881,8 @@ export type ValueTypes = {
     ];
     /** An object relationship */
     nominator?: ValueTypes['users'];
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
     updated_at?: boolean | `@${string}`;
     /** An object relationship */
     user?: ValueTypes['users'];
@@ -4925,6 +4972,7 @@ export type ValueTypes = {
     nominated_date?: ValueTypes['date_comparison_exp'] | undefined | null;
     nominations?: ValueTypes['vouches_bool_exp'] | undefined | null;
     nominator?: ValueTypes['users_bool_exp'] | undefined | null;
+    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     user?: ValueTypes['users_bool_exp'] | undefined | null;
     user_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
@@ -5010,6 +5058,7 @@ export type ValueTypes = {
       | undefined
       | null;
     nominator?: ValueTypes['users_order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     user?: ValueTypes['users_order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
@@ -5812,6 +5861,52 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     medium_username?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
+    nominees?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['nominees_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['nominees_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['nominees_bool_exp'] | undefined | null;
+      },
+      ValueTypes['nominees']
+    ];
+    nominees_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['nominees_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['nominees_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['nominees_bool_exp'] | undefined | null;
+      },
+      ValueTypes['nominees_aggregate']
+    ];
     skills?: boolean | `@${string}`;
     telegram_username?: boolean | `@${string}`;
     twitter_username?: boolean | `@${string}`;
@@ -5904,7 +5999,8 @@ export type ValueTypes = {
     github_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     medium_username?: ValueTypes['String_comparison_exp'] | undefined | null;
-    name?: ValueTypes['String_comparison_exp'] | undefined | null;
+    name?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    nominees?: ValueTypes['nominees_bool_exp'] | undefined | null;
     skills?: ValueTypes['String_comparison_exp'] | undefined | null;
     telegram_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     twitter_username?: ValueTypes['String_comparison_exp'] | undefined | null;
@@ -5945,6 +6041,10 @@ export type ValueTypes = {
     id?: ValueTypes['order_by'] | undefined | null;
     medium_username?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
+    nominees_aggregate?:
+      | ValueTypes['nominees_aggregate_order_by']
+      | undefined
+      | null;
     skills?: ValueTypes['order_by'] | undefined | null;
     telegram_username?: ValueTypes['order_by'] | undefined | null;
     twitter_username?: ValueTypes['order_by'] | undefined | null;
@@ -5974,6 +6074,7 @@ export type ValueTypes = {
     discord_username?: string | undefined | null;
     github_username?: string | undefined | null;
     medium_username?: string | undefined | null;
+    name?: ValueTypes['citext'] | undefined | null;
     skills?: string | undefined | null;
     telegram_username?: string | undefined | null;
     twitter_username?: string | undefined | null;
@@ -5997,7 +6098,7 @@ export type ValueTypes = {
     github_username?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     medium_username?: string | undefined | null;
-    name?: string | undefined | null;
+    name?: ValueTypes['citext'] | undefined | null;
     skills?: string | undefined | null;
     telegram_username?: string | undefined | null;
     twitter_username?: string | undefined | null;
@@ -10027,6 +10128,11 @@ export type ModelTypes = {
     id: number;
     org?: GraphQLTypes['organizations'] | undefined;
   };
+  ['UpdateProfileNameInput']: GraphQLTypes['UpdateProfileNameInput'];
+  ['UpdateProfileNameResponse']: {
+    id: number;
+    profileName?: GraphQLTypes['profiles'] | undefined;
+  };
   ['UpdateProfileResponse']: {
     id: number;
     profile?: GraphQLTypes['profiles'] | undefined;
@@ -10369,6 +10475,9 @@ export type ModelTypes = {
   ['circles_var_samp_order_by']: GraphQLTypes['circles_var_samp_order_by'];
   /** order by variance() on columns of table "circles" */
   ['circles_variance_order_by']: GraphQLTypes['circles_variance_order_by'];
+  ['citext']: any;
+  /** Boolean expression to compare columns of type "citext". All fields are combined with logical 'AND'. */
+  ['citext_comparison_exp']: GraphQLTypes['citext_comparison_exp'];
   /** columns and relationships of "claims" */
   ['claims']: {
     address: string;
@@ -11266,6 +11375,7 @@ export type ModelTypes = {
     /** users can modify contributions and update their dates. */
     updateContribution?: GraphQLTypes['UpdateContributionResponse'] | undefined;
     updateEpoch?: GraphQLTypes['EpochResponse'] | undefined;
+    updateProfileName?: GraphQLTypes['UpdateProfileNameResponse'] | undefined;
     updateTeammates?: GraphQLTypes['UpdateTeammatesResponse'] | undefined;
     /** Update own user */
     updateUser?: GraphQLTypes['UserResponse'] | undefined;
@@ -11373,13 +11483,15 @@ export type ModelTypes = {
     ended: boolean;
     expiry_date: GraphQLTypes['timestamp'];
     id: GraphQLTypes['bigint'];
-    name: string;
+    name?: string | undefined;
     nominated_by_user_id: number;
     nominated_date: GraphQLTypes['date'];
     /** An array relationship */
     nominations: Array<GraphQLTypes['vouches']>;
     /** An object relationship */
     nominator?: GraphQLTypes['users'] | undefined;
+    /** An object relationship */
+    profile?: GraphQLTypes['profiles'] | undefined;
     updated_at: GraphQLTypes['timestamp'];
     /** An object relationship */
     user?: GraphQLTypes['users'] | undefined;
@@ -11715,7 +11827,11 @@ export type ModelTypes = {
     github_username?: string | undefined;
     id: GraphQLTypes['bigint'];
     medium_username?: string | undefined;
-    name?: string | undefined;
+    name?: GraphQLTypes['citext'] | undefined;
+    /** An array relationship */
+    nominees: Array<GraphQLTypes['nominees']>;
+    /** An aggregate relationship */
+    nominees_aggregate: GraphQLTypes['nominees_aggregate'];
     skills?: string | undefined;
     telegram_username?: string | undefined;
     twitter_username?: string | undefined;
@@ -12935,6 +13051,14 @@ export type GraphQLTypes = {
     id: number;
     org?: GraphQLTypes['organizations'] | undefined;
   };
+  ['UpdateProfileNameInput']: {
+    name: string;
+  };
+  ['UpdateProfileNameResponse']: {
+    __typename: 'UpdateProfileNameResponse';
+    id: number;
+    profileName?: GraphQLTypes['profiles'] | undefined;
+  };
   ['UpdateProfileResponse']: {
     __typename: 'UpdateProfileResponse';
     id: number;
@@ -13949,6 +14073,39 @@ export type GraphQLTypes = {
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  ['citext']: any;
+  /** Boolean expression to compare columns of type "citext". All fields are combined with logical 'AND'. */
+  ['citext_comparison_exp']: {
+    _eq?: GraphQLTypes['citext'] | undefined;
+    _gt?: GraphQLTypes['citext'] | undefined;
+    _gte?: GraphQLTypes['citext'] | undefined;
+    /** does the column match the given case-insensitive pattern */
+    _ilike?: GraphQLTypes['citext'] | undefined;
+    _in?: Array<GraphQLTypes['citext']> | undefined;
+    /** does the column match the given POSIX regular expression, case insensitive */
+    _iregex?: GraphQLTypes['citext'] | undefined;
+    _is_null?: boolean | undefined;
+    /** does the column match the given pattern */
+    _like?: GraphQLTypes['citext'] | undefined;
+    _lt?: GraphQLTypes['citext'] | undefined;
+    _lte?: GraphQLTypes['citext'] | undefined;
+    _neq?: GraphQLTypes['citext'] | undefined;
+    /** does the column NOT match the given case-insensitive pattern */
+    _nilike?: GraphQLTypes['citext'] | undefined;
+    _nin?: Array<GraphQLTypes['citext']> | undefined;
+    /** does the column NOT match the given POSIX regular expression, case insensitive */
+    _niregex?: GraphQLTypes['citext'] | undefined;
+    /** does the column NOT match the given pattern */
+    _nlike?: GraphQLTypes['citext'] | undefined;
+    /** does the column NOT match the given POSIX regular expression, case sensitive */
+    _nregex?: GraphQLTypes['citext'] | undefined;
+    /** does the column NOT match the given SQL regular expression */
+    _nsimilar?: GraphQLTypes['citext'] | undefined;
+    /** does the column match the given POSIX regular expression, case sensitive */
+    _regex?: GraphQLTypes['citext'] | undefined;
+    /** does the column match the given SQL regular expression */
+    _similar?: GraphQLTypes['citext'] | undefined;
   };
   /** columns and relationships of "claims" */
   ['claims']: {
@@ -15777,6 +15934,7 @@ export type GraphQLTypes = {
     /** users can modify contributions and update their dates. */
     updateContribution?: GraphQLTypes['UpdateContributionResponse'] | undefined;
     updateEpoch?: GraphQLTypes['EpochResponse'] | undefined;
+    updateProfileName?: GraphQLTypes['UpdateProfileNameResponse'] | undefined;
     updateTeammates?: GraphQLTypes['UpdateTeammatesResponse'] | undefined;
     /** Update own user */
     updateUser?: GraphQLTypes['UserResponse'] | undefined;
@@ -15885,13 +16043,15 @@ export type GraphQLTypes = {
     ended: boolean;
     expiry_date: GraphQLTypes['timestamp'];
     id: GraphQLTypes['bigint'];
-    name: string;
+    name?: string | undefined;
     nominated_by_user_id: number;
     nominated_date: GraphQLTypes['date'];
     /** An array relationship */
     nominations: Array<GraphQLTypes['vouches']>;
     /** An object relationship */
     nominator?: GraphQLTypes['users'] | undefined;
+    /** An object relationship */
+    profile?: GraphQLTypes['profiles'] | undefined;
     updated_at: GraphQLTypes['timestamp'];
     /** An object relationship */
     user?: GraphQLTypes['users'] | undefined;
@@ -15968,6 +16128,7 @@ export type GraphQLTypes = {
     nominated_date?: GraphQLTypes['date_comparison_exp'] | undefined;
     nominations?: GraphQLTypes['vouches_bool_exp'] | undefined;
     nominator?: GraphQLTypes['users_bool_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     user?: GraphQLTypes['users_bool_exp'] | undefined;
     user_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
@@ -16052,6 +16213,7 @@ export type GraphQLTypes = {
       | GraphQLTypes['vouches_aggregate_order_by']
       | undefined;
     nominator?: GraphQLTypes['users_order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     user?: GraphQLTypes['users_order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
@@ -16694,7 +16856,11 @@ export type GraphQLTypes = {
     github_username?: string | undefined;
     id: GraphQLTypes['bigint'];
     medium_username?: string | undefined;
-    name?: string | undefined;
+    name?: GraphQLTypes['citext'] | undefined;
+    /** An array relationship */
+    nominees: Array<GraphQLTypes['nominees']>;
+    /** An aggregate relationship */
+    nominees_aggregate: GraphQLTypes['nominees_aggregate'];
     skills?: string | undefined;
     telegram_username?: string | undefined;
     twitter_username?: string | undefined;
@@ -16723,7 +16889,8 @@ export type GraphQLTypes = {
     github_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     medium_username?: GraphQLTypes['String_comparison_exp'] | undefined;
-    name?: GraphQLTypes['String_comparison_exp'] | undefined;
+    name?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    nominees?: GraphQLTypes['nominees_bool_exp'] | undefined;
     skills?: GraphQLTypes['String_comparison_exp'] | undefined;
     telegram_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     twitter_username?: GraphQLTypes['String_comparison_exp'] | undefined;
@@ -16759,6 +16926,9 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['order_by'] | undefined;
     medium_username?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
+    nominees_aggregate?:
+      | GraphQLTypes['nominees_aggregate_order_by']
+      | undefined;
     skills?: GraphQLTypes['order_by'] | undefined;
     telegram_username?: GraphQLTypes['order_by'] | undefined;
     twitter_username?: GraphQLTypes['order_by'] | undefined;
@@ -16784,6 +16954,7 @@ export type GraphQLTypes = {
     discord_username?: string | undefined;
     github_username?: string | undefined;
     medium_username?: string | undefined;
+    name?: GraphQLTypes['citext'] | undefined;
     skills?: string | undefined;
     telegram_username?: string | undefined;
     twitter_username?: string | undefined;
@@ -16807,7 +16978,7 @@ export type GraphQLTypes = {
     github_username?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     medium_username?: string | undefined;
-    name?: string | undefined;
+    name?: GraphQLTypes['citext'] | undefined;
     skills?: string | undefined;
     telegram_username?: string | undefined;
     twitter_username?: string | undefined;

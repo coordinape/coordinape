@@ -20,6 +20,15 @@ object_relationships:
         remote_table:
           name: users
           schema: public
+  - name: profile
+    using:
+      manual_configuration:
+        column_mapping:
+          address: address
+        insertion_order: null
+        remote_table:
+          name: profiles
+          schema: public
   - name: user
     using:
       manual_configuration:

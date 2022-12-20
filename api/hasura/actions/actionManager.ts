@@ -26,6 +26,7 @@ import updateAllocations from './_handlers/updateAllocations';
 import updateCircle from './_handlers/updateCircle';
 import updateContribution from './_handlers/updateContribution';
 import updateEpoch from './_handlers/updateEpoch';
+import updateProfileName from './_handlers/updateProfileName';
 import updateTeammates from './_handlers/updateTeammates';
 import updateUser from './_handlers/updateUser';
 import uploadCircleLogo from './_handlers/uploadCircleLogo';
@@ -59,6 +60,7 @@ const HANDLERS: HandlerDict = {
   updateCircle,
   updateContribution,
   updateEpoch,
+  updateProfileName,
   updateTeammates,
   updateUser,
   uploadCircleLogo,

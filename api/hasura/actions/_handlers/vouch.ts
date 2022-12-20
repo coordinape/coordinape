@@ -155,10 +155,11 @@ async function vouch(nomineeId: number, voucher: Voucher) {
 async function convertNomineeToUser(nominee: Nominee) {
   // Get the nominee into the user table
   let userId = nominee.user_id;
+
   if (!userId) {
     const addedUser = await mutations.insertUser(
       nominee.address,
-      nominee.name,
+      nominee.profile?.name ?? nominee.name ?? '',
       nominee.circle_id,
       ENTRANCE.NOMINATION
     );

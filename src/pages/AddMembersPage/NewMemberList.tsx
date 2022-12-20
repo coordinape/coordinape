@@ -24,6 +24,11 @@ export type NewMember = {
   entrance: string;
 };
 
+type ChangedUser = {
+  oldName?: string;
+  newName: string;
+  address?: string;
+};
 const NewMemberList = ({
   // TODO: revoke comes later - maybe on admin page
   // revokeWelcome,
@@ -41,6 +46,9 @@ const NewMemberList = ({
 
   const [loading, setLoading] = useState<boolean>();
   const [successCount, setSuccessCount] = useState<number>(0);
+  const [changedUsers, setChangedUsers] = useState<ChangedUser[] | undefined>(
+    undefined
+  );
 
   const [defaultMembers, setDefaultMembers] =
     useState<NewMember[]>(preloadedMembers);
@@ -115,6 +123,7 @@ const NewMemberList = ({
     try {
       setLoading(true);
       setSuccessCount(0);
+      setChangedUsers(undefined);
       const filteredMembers = newMembers
         .filter(m => m.address != '' && m.name != '')
         .map(m => ({
@@ -122,7 +131,7 @@ const NewMemberList = ({
           entrance:
             m.entrance === ENTRANCE.CSV ? ENTRANCE.CSV : ENTRANCE.MANUAL,
         }));
-      await client.mutate({
+      const res = await client.mutate({
         createUsers: [
           {
             payload: {
@@ -131,10 +140,37 @@ const NewMemberList = ({
             },
           },
           {
-            __typename: true,
+            UserResponse: {
+              address: true,
+              profile: {
+                name: true,
+              },
+            },
           },
         ],
       });
+
+      const replacedNames = res?.createUsers
+        ?.filter(res =>
+          filteredMembers.find(
+            m =>
+              m.address.toLowerCase() ===
+                res.UserResponse?.address.toLowerCase() &&
+              res.UserResponse.profile.name &&
+              m.name !== res.UserResponse.profile.name
+          )
+        )
+        .map(res => ({
+          oldName: filteredMembers.find(
+            m =>
+              m.address.toLowerCase() ===
+              res.UserResponse?.address.toLowerCase()
+          )?.name,
+          newName: res.UserResponse?.profile.name,
+          address: res.UserResponse?.address,
+        }));
+
+      setChangedUsers(replacedNames);
       // ok it worked, clear out?
       setSuccessCount(filteredMembers.length);
       setDefaultMembers([]);
@@ -248,6 +284,23 @@ const NewMemberList = ({
                 </Text>
               </Flex>
             </Panel>
+
+            {changedUsers && changedUsers.length > 0 && (
+              <Panel alert css={{ mt: '$xl' }}>
+                <Flex column>
+                  <Text size="large">
+                    Some addresses match existing accounts in our system, so
+                    their names will be used:
+                  </Text>
+                  {changedUsers.map(user => (
+                    <Text key={user.newName}>
+                      &ldquo;{user.newName}&ldquo; will be used instead of
+                      &ldquo;{user.oldName}&ldquo; for {user.address}
+                    </Text>
+                  ))}
+                </Flex>
+              </Panel>
+            )}
 
             <Box css={{ mt: '$xl' }}>
               <div>

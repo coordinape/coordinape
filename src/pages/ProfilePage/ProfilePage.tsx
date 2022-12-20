@@ -221,10 +221,11 @@ const ProfilePageContent = ({
   const users = (profile as IMyProfile)?.myUsers ?? profile?.users ?? [];
   const user = users.find(user => user.circle_id === circleId);
   const name =
-    user?.profile?.name ??
-    user?.name ??
-    users?.[0]?.profile?.name ??
-    users?.[0]?.name ??
+    profile.name ||
+    user?.profile?.name ||
+    user?.name ||
+    users?.[0]?.profile?.name ||
+    users?.[0]?.name ||
     'unknown';
 
   const setEditProfileOpen = useSetEditProfileOpen();

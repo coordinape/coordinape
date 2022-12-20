@@ -27,6 +27,7 @@ test('basic rendering', async () => {
       },
     ],
     claims_aggregate: {},
+    profiles: [{ id: 1, name: 'ape' }],
   };
 
   await act(async () => {
