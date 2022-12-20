@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { zUsername } from 'lib/zod/formHelpers';
@@ -64,13 +64,13 @@ export const CreateUserNameForm = ({ address }: { address?: string }) => {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Text p as="p">
-        User name will be displayed to other users in all circles for this
-        address
+        Please set the name that will be displayed for this account in all
+        circles.
       </Text>
       <Box
         css={{
           mb: '$md',
-          mt: '$3xl',
+          mt: '$xl',
           alignItems: 'center',
           display: 'grid',
           gridColumnGap: '$md',
@@ -82,7 +82,6 @@ export const CreateUserNameForm = ({ address }: { address?: string }) => {
             <Text variant="label">Name</Text>
           </Box>
           <TextField
-            inPanel
             placeholder="Name"
             fullWidth
             autoComplete="off"
@@ -95,7 +94,6 @@ export const CreateUserNameForm = ({ address }: { address?: string }) => {
             <Text variant="label">Wallet Address</Text>
           </Box>
           <TextField
-            inPanel
             placeholder="Address"
             fullWidth
             disabled={true}

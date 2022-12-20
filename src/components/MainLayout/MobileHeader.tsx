@@ -10,21 +10,10 @@ import isFeatureEnabled from 'config/features';
 import { X, Menu, ChevronRight } from 'icons/__generated';
 import { useMyProfile } from 'recoilState';
 import { paths } from 'routes/paths';
-import {
-  Box,
-  IconButton,
-  Link,
-  Image,
-  Avatar,
-  Text,
-  Flex,
-  Button,
-  Modal,
-} from 'ui';
+import { Box, IconButton, Link, Image, Avatar, Text, Flex, Button } from 'ui';
 import { shortenAddress } from 'utils';
 
 import { CircleNav } from './CircleNav';
-import { CreateUserNameForm } from './CreateUserNameForm';
 import type { MainHeaderQuery } from './getMainHeaderData';
 import { SampleOrgIndicator } from './SampleOrgIndicator';
 import { TopLevelLinks } from './TopLevelLinks';
@@ -68,8 +57,6 @@ export const MobileHeader = ({
 
   const hasClaims = (query.data?.claims_aggregate.aggregate?.count || 0) > 0;
   const myProfile = useMyProfile();
-  const profileLoaded = query.data?.profiles.length;
-  const userName = profileLoaded === 0 ? null : query.data?.profiles[0].name;
 
   useEffect(() => {
     !startOpen && setIsMobileMenuOpen(false);
@@ -297,18 +284,6 @@ export const MobileHeader = ({
             </Box>
           )}
         </Box>
-        <Modal
-          open={
-            !userName &&
-            !!walletStatus.address &&
-            !!profileLoaded &&
-            profileLoaded > 0
-          }
-          title="Create user name"
-          css={{ overflow: 'scroll' }}
-        >
-          <CreateUserNameForm address={walletStatus.address} />
-        </Modal>
         {inCircle?.organization.sample && <SampleOrgIndicator />}
       </Box>
     </Suspense>

@@ -33,25 +33,35 @@ export const MainHeader = ({
   const walletStatus = useWalletStatus();
   const query = useMainHeaderQuery();
 
-  if (useMediaQuery(MediaQueryKeys.sm))
-    return (
-      <Suspense fallback={null}>
-        <MobileHeader
+  const isMobile = useMediaQuery(MediaQueryKeys.sm);
+  const profile = query.data?.profiles?.[0];
+  const showNameForm = profile && !profile.name && !!walletStatus.address;
+
+  return (
+    <>
+      {isMobile ? (
+        <Suspense fallback={null}>
+          <MobileHeader
+            inCircle={inCircle}
+            walletStatus={walletStatus}
+            query={query}
+          />
+        </Suspense>
+      ) : (
+        <NormalHeader
           inCircle={inCircle}
           walletStatus={walletStatus}
           query={query}
+          setCurrentTheme={setCurrentTheme}
+          currentTheme={currentTheme}
         />
-      </Suspense>
-    );
-
-  return (
-    <NormalHeader
-      inCircle={inCircle}
-      walletStatus={walletStatus}
-      query={query}
-      setCurrentTheme={setCurrentTheme}
-      currentTheme={currentTheme}
-    />
+      )}
+      {showNameForm && (
+        <Modal open title="What's your name?" css={{ overflow: 'scroll' }}>
+          <CreateUserNameForm address={walletStatus.address} />
+        </Modal>
+      )}
+    </>
   );
 };
 
@@ -78,8 +88,6 @@ const NormalHeader = ({
 }: Props) => {
   const showClaimsButton =
     (query.data?.claims_aggregate.aggregate?.count || 0) > 0;
-  const profileLoaded = query.data?.profiles.length;
-  const userName = profileLoaded === 0 ? null : query.data?.profiles[0].name;
 
   return (
     <Box>
@@ -162,18 +170,6 @@ const NormalHeader = ({
             />
           </Suspense>
         </Box>
-        <Modal
-          open={
-            !userName &&
-            !!walletStatus.address &&
-            !!profileLoaded &&
-            profileLoaded > 0
-          }
-          title="Create user name"
-          css={{ overflow: 'scroll' }}
-        >
-          <CreateUserNameForm address={walletStatus.address} />
-        </Modal>
       </Box>
       {inCircle?.organization.sample && <SampleOrgIndicator />}
     </Box>
