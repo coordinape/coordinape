@@ -12,11 +12,11 @@ import { AddressZero } from '@ethersproject/constants';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { ApolloServerPluginLandingPageDisabled } from 'apollo-server-core';
 import { ApolloServer, gql } from 'apollo-server-express';
-import debug from 'debug';
 import { BigNumber, FixedNumber } from 'ethers';
 
 import { getProvider } from '../../../api-lib/provider';
-const log = debug('vaultsql:handler');
+import { DebugLogger } from '../../../src/common-lib/log';
+const logger = new DebugLogger('remote-vaults');
 
 // The GraphQL schema
 const typeDefs = gql`
@@ -39,32 +39,37 @@ const tokenDecimals: Record<string, number> = {
 // this would only change if there were a new Yearn deployment
 const registryAddr = '0x50c1a2eA0a861A967D9d0FFE2AE4012c2E053804';
 
+const pricePerShareHandler = async (
+  _: any,
+  { chain_id, token_address }: { chain_id: number; token_address: string }
+) => {
+  // TODO memoize
+  logger.log(`pricePerShare(${chain_id}, ${token_address})`);
+  if (token_address === AddressZero) return 1;
+
+  try {
+    const provider = getProvider(chain_id);
+    const registry = RegistryAPI__factory.connect(registryAddr, provider);
+
+    // TODO cache this address for each token
+    const yVaultAddr = await registry.latestVault(token_address);
+    const yVault = VaultAPI__factory.connect(yVaultAddr, provider);
+    const pps = await yVault.pricePerShare();
+    const decimals = tokenDecimals[token_address] || 18;
+    const shifter = FixedNumber.from(BigNumber.from(10).pow(decimals));
+    return FixedNumber.from(pps).divUnsafe(shifter).toUnsafeFloat();
+  } catch (e: any) {
+    logger.log(
+      `pricePerShare(${chain_id}, ${token_address}) failed: ${e.message}`
+    );
+    return 1;
+  }
+};
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const resolvers = {
     Query: {
-      price_per_share: async (
-        _: any,
-        { chain_id, token_address }: { chain_id: number; token_address: string }
-      ) => {
-        // TODO memoize
-        log('pricePerShare for', token_address, chain_id);
-        if (token_address === AddressZero) return 1;
-
-        const provider = getProvider(chain_id);
-        const registry = RegistryAPI__factory.connect(registryAddr, provider);
-
-        // TODO cache this address for each token
-        const yVaultAddr = await registry.latestVault(token_address);
-        const yVault = VaultAPI__factory.connect(yVaultAddr, provider);
-        log('yvault');
-
-        const pps = await yVault.pricePerShare();
-        log('pps');
-
-        const decimals = tokenDecimals[token_address] || 18;
-        const shifter = FixedNumber.from(BigNumber.from(10).pow(decimals));
-        return FixedNumber.from(pps).divUnsafe(shifter).toUnsafeFloat();
-      },
+      price_per_share: pricePerShareHandler,
     },
   };
 
