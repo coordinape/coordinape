@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { zEthAddress } from 'lib/zod/formHelpers';
 import { SubmitHandler, useController, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
 import { styled } from 'stitches.config';
@@ -12,7 +13,6 @@ import {
   USER_ROLE_ADMIN,
   USER_ROLE_COORDINAPE,
 } from 'config/constants';
-import { zEthAddress } from 'forms/formHelpers';
 import { useApeSnackbar, useApiAdminCircle, useNavigation } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { Check, X, Slash, Info } from 'icons/__generated';
