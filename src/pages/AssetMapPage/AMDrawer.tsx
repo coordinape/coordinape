@@ -6,6 +6,7 @@ import { makeStyles, Button as MUButton } from '@material-ui/core';
 
 import { Drawer, ApeAutocomplete } from 'components';
 import { SKILLS } from 'config/constants';
+import { useApiBase } from 'hooks';
 import { Filter, Search, Collapse } from 'icons/__generated';
 import { useSelectedCircle } from 'recoilState/app';
 import {
@@ -106,6 +107,7 @@ export const AMDrawer = () => {
   const classes = useStyles();
   const [open, setOpen] = useState<boolean>(true);
   const [showRank, setShowRank] = useState<boolean>(false);
+  const { fetchCircle } = useApiBase();
 
   const { circle } = useSelectedCircle();
   const setSearch = useSetAmSearch();
@@ -124,6 +126,14 @@ export const AMDrawer = () => {
     }
     setAmEpochId(amEpochs[amEpochs.length - 1]?.id);
   }, [amEpochs]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetchCircle({ circleId: circle.id });
+    };
+    fetchData();
+    setAmEpochId(amEpochs[amEpochs.length - 1]?.id);
+  }, []);
 
   const epochOptions = useMemo(() => {
     return amEpochs.length > 0
