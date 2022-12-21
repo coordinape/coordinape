@@ -95,78 +95,75 @@ export default function HedgeyIntegrationSettings(props: {
     }
   };
 
-  return (
-    <>
+  if (!hedgeyEnabled) {
+    return (
       <Flex css={{ flexDirection: 'column', alignItems: 'start' }}>
-        {!hedgeyEnabled && (
-          <>
-            <HedgeyIntro />
-            <Button
-              color="primary"
-              outlined
-              onClick={e => {
-                onSaveHedgeyIntegration(e);
-                setHedgeyEnabled(true);
-              }}
-            >
-              Enable Hedgey Integration
-            </Button>
-          </>
-        )}
-        {hedgeyEnabled && (
-          <>
-            <Flex
-              css={{
-                width: '100%',
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}
-            >
-              <div>
-                <HedgeyIntro />
-              </div>
-              <Button
-                color="destructive"
-                outlined
-                onClick={e => {
-                  e.preventDefault();
-                  setShowDisableModal(true);
-                  // setHedgeyEnabled(false);
-                }}
-              >
-                Disable integration
-              </Button>
-            </Flex>
-            <Flex css={{ gap: '1em', marginBottom: '1em' }}>
-              <Select
-                label="Default lock period"
-                infoTooltip="How long tokens are locked within the recipient's NFT"
-                id="hedgey-default-lock-period"
-                options={hedgeyLockPeriods}
-                defaultValue="12"
-                value={hedgeyLockPeriod}
-                onValueChange={value => setHedgeyLockPeriod(value)}
-              />
-              <Select
-                label="Transferable"
-                infoTooltip="Allow the recipient to transfer their NFT (and their access to the locked tokens) to a different wallet address"
-                id="hedgey-transferable"
-                defaultValue="1"
-                options={[
-                  { label: 'Yes', value: '1' },
-                  { label: 'No', value: '0' },
-                ]}
-                value={hedgeyTransferable}
-                onValueChange={value => setHedgeyTransferable(value)}
-              />
-            </Flex>
-            <Button color="primary" outlined onClick={onSaveHedgeyIntegration}>
-              Save Hedgey settings
-            </Button>
-          </>
-        )}
+        <HedgeyIntro />
+        <Button
+          color="primary"
+          outlined
+          onClick={e => {
+            onSaveHedgeyIntegration(e);
+            setHedgeyEnabled(true);
+          }}
+        >
+          Enable Hedgey Integration
+        </Button>
       </Flex>
+    );
+  }
+
+  return (
+    <Flex css={{ flexDirection: 'column', alignItems: 'start' }}>
+      <Flex
+        css={{
+          width: '100%',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+      >
+        <div>
+          <HedgeyIntro />
+        </div>
+        <Button
+          color="destructive"
+          outlined
+          onClick={e => {
+            e.preventDefault();
+            setShowDisableModal(true);
+            // setHedgeyEnabled(false);
+          }}
+        >
+          Disable integration
+        </Button>
+      </Flex>
+      <Flex css={{ gap: '1em', marginBottom: '1em' }}>
+        <Select
+          label="Default lock period"
+          infoTooltip="How long tokens are locked within the recipient's NFT"
+          id="hedgey-default-lock-period"
+          options={hedgeyLockPeriods}
+          defaultValue="12"
+          value={hedgeyLockPeriod}
+          onValueChange={value => setHedgeyLockPeriod(value)}
+        />
+        <Select
+          label="Transferable"
+          infoTooltip="Allow the recipient to transfer their NFT (and their access to the locked tokens) to a different wallet address"
+          id="hedgey-transferable"
+          defaultValue="1"
+          options={[
+            { label: 'Yes', value: '1' },
+            { label: 'No', value: '0' },
+          ]}
+          value={hedgeyTransferable}
+          onValueChange={value => setHedgeyTransferable(value)}
+        />
+      </Flex>
+      <Button color="primary" outlined onClick={onSaveHedgeyIntegration}>
+        Save Hedgey settings
+      </Button>
       <Modal
         open={showDisableModal}
         title="Disable Hedgey?"
@@ -181,6 +178,6 @@ export default function HedgeyIntegrationSettings(props: {
           Disable Hedgey integration
         </Button>
       </Modal>
-    </>
+    </Flex>
   );
 }
