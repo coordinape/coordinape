@@ -86,7 +86,7 @@ describe('Delete User action handler', () => {
     expect(result?.success).toBeTruthy();
   });
 
-  test('Test deletion another a address that doesn\t exist', async () => {
+  test("Test deletion of an user that doesn't exist in the circle", async () => {
     const adminAddress = await getUniqueAddress();
     const adminProfile = await createProfile(adminClient, {
       address: adminAddress,
