@@ -57,7 +57,12 @@ export const MainHeader = ({
         />
       )}
       {showNameForm && (
-        <Modal open title="What's your name?" css={{ overflow: 'scroll' }}>
+        <Modal
+          open
+          showClose={false}
+          title="What's your name?"
+          css={{ overflow: 'scroll' }}
+        >
           <CreateUserNameForm address={walletStatus.address} />
         </Modal>
       )}

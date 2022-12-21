@@ -7,7 +7,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { z } from 'zod';
 
 import { useApeSnackbar } from '../../hooks';
-import { Box, Button, TextField, Text, Form } from '../../ui';
+import { Box, Button, TextField, Text, Form, Flex } from '../../ui';
 import { normalizeError } from '../../utils/reporting';
 import { QUERY_KEY_PROFILE_BY_ADDRESS } from 'pages/JoinCirclePage/queries';
 
@@ -67,20 +67,18 @@ export const CreateUserNameForm = ({ address }: { address?: string }) => {
         Please set the name that will be displayed for this account in all
         circles.
       </Text>
-      <Box
+      <Flex
+        column
         css={{
-          mb: '$md',
-          mt: '$xl',
-          alignItems: 'center',
-          display: 'grid',
-          gridColumnGap: '$md',
-          gridTemplateColumns: '35fr 65fr',
+          alignItems: 'flex-start',
+          mt: '$lg',
+          gap: '$md',
         }}
       >
         <Box>
-          <Box css={{ mb: '$xs' }}>
-            <Text variant="label">Name</Text>
-          </Box>
+          <Text variant="label" css={{ mb: '$xs' }}>
+            Name
+          </Text>
           <TextField
             placeholder="Name"
             fullWidth
@@ -88,26 +86,23 @@ export const CreateUserNameForm = ({ address }: { address?: string }) => {
             error={errors.name !== undefined}
             {...register(`name`)}
           />
-        </Box>
-        <Box>
-          <Box css={{ mb: '$xs' }}>
-            <Text variant="label">Wallet Address</Text>
+          <Box>
+            {errors.name && (
+              <Text variant="formError" css={{ mt: '$sm', textAlign: 'left' }}>
+                {errors.name.message}
+              </Text>
+            )}
           </Box>
-          <TextField
-            placeholder="Address"
-            fullWidth
-            disabled={true}
-            value={address}
-          />
         </Box>
-        <Box>
-          {errors.name && (
-            <Text variant="formError" css={{ mt: '$sm', textAlign: 'left' }}>
-              {errors.name.message}
-            </Text>
-          )}
+        <Box css={{ mb: '$lg' }}>
+          <Text variant="label" css={{ mb: '$xs' }}>
+            Wallet Address
+          </Text>
+          <Text css={{ width: '100%', wordBreak: 'break-all' }}>
+            {address}{' '}
+          </Text>
         </Box>
-      </Box>
+      </Flex>
       <Box>
         <Button
           type="submit"
