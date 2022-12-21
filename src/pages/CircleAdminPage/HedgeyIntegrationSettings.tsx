@@ -63,13 +63,13 @@ export default function HedgeyIntegrationSettings(props: {
     e.preventDefault();
     if (circleIntegrationId) {
       await updateCircleIntegration(circleIntegrationId, {
-        enabled: hedgeyEnabled,
+        enabled: true,
         lockPeriod: hedgeyLockPeriod,
         transferable: hedgeyTransferable,
       });
     } else {
       await createCircleIntegration(props.circleId, 'hedgey', 'Hedgey', {
-        enabled: hedgeyEnabled,
+        enabled: true,
         lockPeriod: hedgeyLockPeriod,
         transferable: hedgeyTransferable,
       });
@@ -105,7 +105,7 @@ export default function HedgeyIntegrationSettings(props: {
               color="primary"
               outlined
               onClick={e => {
-                e.preventDefault();
+                onSaveHedgeyIntegration(e);
                 setHedgeyEnabled(true);
               }}
             >
