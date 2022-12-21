@@ -22,7 +22,7 @@ beforeEach(async () => {
 });
 
 describe('Delete User action handler', () => {
-  test('Test deletion of another user as non Admin flow', async () => {
+  test('delete another user as a non-admin', async () => {
     const client = mockUserClient({ profileId: profile.id, address });
     const deletingAddress = await getUniqueAddress();
     await createProfile(adminClient, { address: deletingAddress });
@@ -59,7 +59,7 @@ describe('Delete User action handler', () => {
     );
   });
 
-  test('Test deletion another user as an admin flow', async () => {
+  test('delete another user as an admin', async () => {
     const adminAddress = await getUniqueAddress();
     const adminProfile = await createProfile(adminClient, {
       address: adminAddress,
@@ -86,7 +86,7 @@ describe('Delete User action handler', () => {
     expect(result?.success).toBeTruthy();
   });
 
-  test("Test deletion of an user that doesn't exist in the circle", async () => {
+  test("delete a user that doesn't exist in the circle", async () => {
     const adminAddress = await getUniqueAddress();
     const adminProfile = await createProfile(adminClient, {
       address: adminAddress,
@@ -101,13 +101,13 @@ describe('Delete User action handler', () => {
       address: adminAddress,
     });
 
-    const nonExistantAddress = await getUniqueAddress();
+    const nonExistentAddress = await getUniqueAddress();
 
     await expect(() =>
       client.mutate({
         deleteUser: [
           {
-            payload: { address: nonExistantAddress, circle_id: circle.id },
+            payload: { address: nonExistentAddress, circle_id: circle.id },
           },
           { success: true },
         ],
@@ -131,7 +131,7 @@ describe('Delete User action handler', () => {
     );
   });
 
-  test('Test self delete as non admin ', async () => {
+  test('self-delete as non-admin', async () => {
     const client = mockUserClient({ profileId: profile.id, address });
     const { deleteUser: result } = await client.mutate({
       deleteUser: [
