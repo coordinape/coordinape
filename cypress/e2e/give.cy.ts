@@ -22,16 +22,20 @@ context('Coordinape', () => {
     cy.url({ timeout: 120000 }).should('include', '/give');
     cy.contains('thank your teammates').click();
   });
-  // it('can select teammates', () => {
-  //   cy.get('[data-testid=eligibleTeammates]').within(() => {
-  //     cy.get('button').first().click();
-  //     cy.get('button').last().click();
-  //   });
-  //   cy.contains('Save Teammate List').click();
-  //   cy.contains('Thank your teammates by allocating', {
-  //     timeout: 90000,
-  //   });
-  // });
+  it('can select teammates', () => {
+    cy.get('[data-testid=give-row]')
+      .eq(2)
+      .trigger('mouseover')
+      .within(() => {
+        cy.get('[data-testid=collaborator-button]').within(() => {
+          cy.get('span').eq(0).should('not.have.class', 'teammate');
+        });
+        cy.get('[data-testid=collaborator-button]').click().wait(2000);
+        cy.get('[data-testid=collaborator-button]').within(() => {
+          cy.get('span').eq(0).should('have.class', 'teammate');
+        });
+      });
+  });
   it('can allocate to teammates', () => {
     cy.get('[data-testid=give-row]')
       .eq(2)
