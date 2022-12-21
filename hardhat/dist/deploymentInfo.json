@@ -37,7 +37,7 @@
             "address": "0x0bc529c00C6401aEF6D220BE8C6Ea1667F6Ad93e"
         },
         "HedgeyLockedTokenDistribution": {
-            "address": "0xb3d4efe7ecf102afcd3262cf4d5fc768d0c55459"
+            "address": "0xb1c5b2Ca2F0aF1424897aB7377cbeDA4AB9A6699"
         },
         "HedgeyTransferableNft": {
             "address": "0x2aa5d15eb36e5960d056e8fea6e7bb3e2a06a351"
@@ -84,7 +84,7 @@
             "address": "0x174229cf0ce2ADFA37C0231aCcA61323ab6f4be2"
         },
         "HedgeyLockedTokenDistribution": {
-            "address": "0x99b693a65ee51a0cd8dbf1f7e361fb8dde853a01"
+            "address": "0xb1c5b2Ca2F0aF1424897aB7377cbeDA4AB9A6699"
         },
         "HedgeyTransferableNft": {
             "address": "0x400a0f8f027938d766538b8fd0cc4aac8604e501"
@@ -193,7 +193,7 @@
             "address": "0x51A1ceB83B83F1985a81C295d1fF28Afef186E02"
         },
         "HedgeyLockedTokenDistribution": {
-            "address": "0xb3d4efe7ecf102afcd3262cf4d5fc768d0c55459"
+            "address": "0xb1c5b2Ca2F0aF1424897aB7377cbeDA4AB9A6699"
         },
         "HedgeyTransferableNft": {
             "address": "0x2aa5d15eb36e5960d056e8fea6e7bb3e2a06a351"

@@ -31,6 +31,8 @@ type MutationName = keyof ValueTypes['mutation_root'];
     'delete_circle_metadata',
     'delete_gift_private',
     'delete_histories',
+    'delete_locked_token_distributions',
+    'delete_locked_token_distribution_gifts',
   ];
 
   for (const mutation of mutations) {
