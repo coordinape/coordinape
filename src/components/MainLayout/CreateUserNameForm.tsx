@@ -93,12 +93,7 @@ export const CreateUserNameForm = ({ address }: { address?: string }) => {
           <Box css={{ mb: '$xs' }}>
             <Text variant="label">Wallet Address</Text>
           </Box>
-          <TextField
-            placeholder="Address"
-            fullWidth
-            disabled={true}
-            value={address}
-          />
+          <Text css={{ width: '100%' }}>{address} </Text>
         </Box>
         <Box>
           {errors.name && (
