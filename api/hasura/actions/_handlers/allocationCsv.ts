@@ -215,9 +215,9 @@ export async function getCircleDetails(circle_id: number, epochId: number) {
           ],
           users: [
             {
-              where: {
-                _or: [{ deleted_at: { _is_null: true } }],
-              },
+              // where: {
+              //   _or: [{ deleted_at: { _is_null: true } }],
+              // },
             },
             {
               id: true,
