@@ -43,7 +43,14 @@ jest.mock('./queries', () => ({
     },
   })),
   useSubmitDistribution: jest.fn(),
+  getPreviousLockedTokenDistribution: jest.fn(async () => null),
 }));
+
+jest.mock('hooks/gql/useCurrentCircleIntegrations', () => {
+  return {
+    useCurrentCircleIntegrations: () => [],
+  };
+});
 
 const recipient = mockEpoch.circle.users[0];
 let mockEpochData: any;
