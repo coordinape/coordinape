@@ -70,11 +70,14 @@ export const colors = {
   white: '#fff',
   black: '#000',
 
+  cta: figmaColors.blue12,
+  textOnCta: '#fff',
   primary: figmaColors.blue12,
   primaryDark: figmaColors.blue24,
   primaryLight: figmaColors.blue1,
   primaryDisabled: figmaColors.blue4,
   textOnPrimary: '#fff',
+  secondary: figmaColors.blue12,
   textOnSecondary: '#fff',
 
   alert: figmaColors.red12,
@@ -89,7 +92,6 @@ export const colors = {
   successDisabled: figmaColors.green4,
   successDark: figmaColors.green16,
 
-  secondary: figmaColors.teal12,
   secondaryDark: figmaColors.teal20,
   neutral: figmaColors.grey12,
   complete: figmaColors.green12,
@@ -116,6 +118,12 @@ export const colors = {
 
   tagActiveText: figmaColors.yellow20,
   tagActiveBackground: figmaColors.yellow4,
+
+  tagSuccessText: figmaColors.green12,
+  tagSuccessBackground: figmaColors.green1,
+
+  tagAlertText: figmaColors.red16,
+  tagAlertBackground: figmaColors.red4,
 
   tagPrimaryText: figmaColors.blue12,
   tagPrimaryBackground: figmaColors.blue4,
@@ -287,8 +295,13 @@ export const {
 
 export const dark = createTheme({
   colors: {
+    cta: newFigmaColors.primary5,
+    textOnCta: newFigmaColors.primary1,
     primary: newFigmaColors.grey3,
     textOnPrimary: newFigmaColors.grey8,
+    secondary: newFigmaColors.grey7,
+    textOnSecondary: newFigmaColors.grey3,
+
     background: newFigmaColors.grey10,
     navBackground: newFigmaColors.grey9,
     surface: newFigmaColors.grey8,
@@ -311,6 +324,12 @@ export const dark = createTheme({
 
     tagActiveText: newFigmaColors.warning8,
     tagActiveBackground: newFigmaColors.warning10,
+
+    tagSuccessText: newFigmaColors.success5,
+    tagSuccessBackground: newFigmaColors.success10,
+
+    tagAlertText: newFigmaColors.error6,
+    tagAlertBackground: newFigmaColors.error10,
 
     tagPrimaryText: newFigmaColors.primary7,
     tagPrimaryBackground: newFigmaColors.primary9,

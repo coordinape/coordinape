@@ -407,8 +407,10 @@ const GivePage = () => {
                   borderTopRightRadius: 0,
                   borderBottomRightRadius: 0,
                   flexGrow: '1',
+                  fontWeight: gridView ? 'normal' : 'bold',
                 }}
-                color={gridView ? 'surface' : 'primary'}
+                color="secondary"
+                outlined={gridView}
                 onClick={() => setGridView(false)}
               >
                 <Menu />
@@ -419,8 +421,10 @@ const GivePage = () => {
                   borderTopLeftRadius: 0,
                   borderBottomLeftRadius: 0,
                   flexGrow: '1',
+                  fontWeight: gridView ? 'bold' : 'normal',
                 }}
-                color={gridView ? 'primary' : 'surface'}
+                color="secondary"
+                outlined={!gridView}
                 onClick={() => setGridView(true)}
               >
                 <Grid />
@@ -826,8 +830,7 @@ const AllocateContents = ({
               ) && (
                 <Button
                   size="medium"
-                  color="primary"
-                  outlined
+                  color="secondary"
                   disabled={maxedOut || noGivingAllowed}
                   onClick={e => {
                     (e.target as HTMLButtonElement).blur();
@@ -860,10 +863,12 @@ const AllocateContents = ({
                   css={{
                     borderTopRightRadius: 0,
                     borderBottomRightRadius: 0,
+                    fontWeight: onlyCollaborators ? 'bold' : 'normal',
                     '@sm': { borderTopLeftRadius: 0, py: 'calc($sm + $xs)' },
                     flexGrow: '1',
                   }}
-                  color={onlyCollaborators ? 'primary' : 'surface'}
+                  color="secondary"
+                  outlined={!onlyCollaborators}
                   onClick={() => setOnlyCollaborators(true)}
                 >
                   Collaborators
@@ -872,10 +877,12 @@ const AllocateContents = ({
                   css={{
                     borderTopLeftRadius: 0,
                     borderBottomLeftRadius: 0,
+                    fontWeight: onlyCollaborators ? 'normal' : 'bold',
                     '@sm': { borderTopRightRadius: 0, py: 'calc($sm + $xs)' },
                     flexGrow: '1',
                   }}
-                  color={onlyCollaborators ? 'surface' : 'primary'}
+                  color="secondary"
+                  outlined={onlyCollaborators}
                   onClick={() => setOnlyCollaborators(false)}
                 >
                   All Members

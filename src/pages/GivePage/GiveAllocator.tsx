@@ -103,7 +103,7 @@ export const GiveAllocator = ({
             color="transparent"
             css={{
               padding: 0,
-              color: '$primary',
+              color: '$cta',
               transition: '0.1s all ease-out',
               '&:hover': {
                 transform: 'scale(1.1)',
@@ -148,6 +148,7 @@ export const GiveAllocator = ({
             position: 'relative',
             width: iconSize,
             height: iconSize,
+            minWidth: `${iconSize} !important`,
           }}
         >
           <Button
@@ -158,7 +159,7 @@ export const GiveAllocator = ({
             disabled={disabled || maxedOut}
             css={{
               padding: 0,
-              color: '$primary',
+              color: '$cta',
               transition: '0.1s all ease-out',
               '&:hover': {
                 transform: 'scale(1.1)',
