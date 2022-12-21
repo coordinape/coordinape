@@ -132,6 +132,7 @@ type CreateCircleResponse {
 input CreateEpochInput {
   circle_id: Int!
   days: Int!
+  description: String
   grant: Float
   repeat: Int!
   start_date: timestamptz!
@@ -385,6 +386,7 @@ type UpdateContributionResponse {
 input UpdateEpochInput {
   circle_id: Int!
   days: Int!
+  description: String
   grant: Float
   id: Int!
   repeat: Int!
@@ -5598,7 +5600,7 @@ type locked_token_distributions {
   """
   profile: profiles!
   token_contract_address: String
-  token_decimals: String
+  token_decimals: Int!
   token_symbol: String
   tx_hash: String
 }
@@ -5619,7 +5621,7 @@ input locked_token_distributions_bool_exp {
   locked_token_distribution_gifts: locked_token_distribution_gifts_bool_exp
   profile: profiles_bool_exp
   token_contract_address: String_comparison_exp
-  token_decimals: String_comparison_exp
+  token_decimals: Int_comparison_exp
   token_symbol: String_comparison_exp
   tx_hash: String_comparison_exp
 }
@@ -5643,7 +5645,7 @@ input locked_token_distributions_insert_input {
   gift_amount: numeric
   locked_token_distribution_gifts: locked_token_distribution_gifts_arr_rel_insert_input
   token_contract_address: String
-  token_decimals: String
+  token_decimals: Int
   token_symbol: String
   tx_hash: String
 }
@@ -5791,7 +5793,7 @@ input locked_token_distributions_stream_cursor_value_input {
   gift_amount: numeric
   id: bigint
   token_contract_address: String
-  token_decimals: String
+  token_decimals: Int
   token_symbol: String
   tx_hash: String
 }
@@ -9259,6 +9261,7 @@ type query_root {
   fetch data from the table: "pending_vault_transactions" using primary key columns
   """
   pending_vault_transactions_by_pk(tx_hash: String!): pending_vault_transactions
+  price_per_share(chain_id: Int!, token_address: String): Float!
 
   """
   fetch data from the table: "profiles"
@@ -13563,6 +13566,7 @@ type vaults {
   An object relationship
   """
   organization: organizations!
+  price_per_share: Float!
 
   """
   An object relationship
