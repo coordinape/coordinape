@@ -431,7 +431,7 @@ const ContributionsPage = () => {
             justifyContent: 'space-between',
             flexWrap: 'wrap',
             gap: '$md',
-            width: '60%',
+            width: '100%',
             '@sm': { width: '100%' },
           }}
         >
@@ -444,11 +444,26 @@ const ContributionsPage = () => {
               }}
             >
               <Text p as="p">
-                {updatedTeamSelText
-                  ? updatedTeamSelText
-                  : data?.circles_by_pk?.team_sel_text
-                  ? data?.circles_by_pk?.team_sel_text
-                  : 'What have you been working on?'}
+                {updatedTeamSelText ? (
+                  updatedTeamSelText
+                ) : data?.circles_by_pk?.team_sel_text ? (
+                  data?.circles_by_pk?.team_sel_text
+                ) : (
+                  <Text inline>
+                    <Text bold inline>
+                      Contributions
+                    </Text>{' '}
+                    are a great way to highlight the work you are doing.
+                    <br /> You can summarize your Contributions in the
+                    <Text inline bold>
+                      {' '}
+                      Epoch Statement
+                    </Text>{' '}
+                    <Text inline>
+                      when there is an active Epoch by clicking on your row.
+                    </Text>
+                  </Text>
+                )}
                 {isAdmin && (
                   <Link
                     href="#"
@@ -483,7 +498,7 @@ const ContributionsPage = () => {
                 infoTooltip="Change the text that contributors see on this page."
                 showFieldErrors
                 css={{
-                  width: '100%',
+                  width: '60%',
                 }}
               />
               <Flex css={{ gap: '$sm', mt: '$lg', '@sm': { mt: 0 } }}>
