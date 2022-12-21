@@ -6,7 +6,7 @@ import { Flex, Text } from '../../ui';
 export const SampleOrgIndicator = () => (
   <Flex
     css={{
-      backgroundColor: '$active',
+      backgroundColor: '$tagActiveBackground',
       py: '$md',
       justifyContent: 'center',
     }}
@@ -47,7 +47,7 @@ export const SampleOrgIndicator = () => (
         >
           <Text
             css={{
-              color: '$tagDark',
+              color: '$tagActiveText',
               textDecoration: 'none',
               mb: '$xs',
               justifyContent: 'center',
@@ -59,7 +59,7 @@ export const SampleOrgIndicator = () => (
           <Text
             css={{
               textDecoration: 'underline',
-              color: '$tagDark',
+              color: '$tagActiveText',
             }}
             semibold
             size="small"

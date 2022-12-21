@@ -89,9 +89,6 @@ export const colors = {
   successDisabled: figmaColors.green4,
   successDark: figmaColors.green16,
 
-  active: figmaColors.yellow4,
-  activeDark: figmaColors.yellow20,
-
   secondary: figmaColors.teal12,
   secondaryDark: figmaColors.teal20,
   neutral: figmaColors.grey12,
@@ -100,12 +97,15 @@ export const colors = {
   blurple: figmaColors.discordblurple,
 
   background: figmaColors.grey1,
+  navBackground: figmaColors.grey16,
   surface: figmaColors.grey2,
   surfaceNested: 'white',
   info: figmaColors.blue4,
   textOnInfo: figmaColors.grey20,
+
   border: figmaColors.grey4,
   borderMedium: figmaColors.grey8,
+  borderFocus: figmaColors.blue12,
 
   highlight: figmaColors.blue1,
 
@@ -114,8 +114,11 @@ export const colors = {
   headingText: figmaColors.grey16,
   secondaryText: figmaColors.grey10,
 
-  tag: figmaColors.yellow4,
-  tagDark: figmaColors.yellow20,
+  tagActiveText: figmaColors.yellow20,
+  tagActiveBackground: figmaColors.yellow4,
+
+  tagPrimaryText: figmaColors.blue12,
+  tagPrimaryBackground: figmaColors.blue4,
 };
 
 // the notistack library is oriented toward Material-UI, so we can't set its
@@ -284,19 +287,33 @@ export const {
 
 export const dark = createTheme({
   colors: {
-    primary: newFigmaColors.grey1,
+    primary: newFigmaColors.grey3,
+    textOnPrimary: newFigmaColors.grey8,
     background: newFigmaColors.grey10,
-    surface: newFigmaColors.grey9,
-    surfaceNested: newFigmaColors.grey8,
-    text: newFigmaColors.grey5,
+    navBackground: newFigmaColors.grey9,
+    surface: newFigmaColors.grey8,
+    surfaceNested: newFigmaColors.grey9,
+
+    text: newFigmaColors.grey2,
     headingText: newFigmaColors.grey4,
+    secondaryText: newFigmaColors.grey6,
+
     info: newFigmaColors.secondary10,
     textOnInfo: newFigmaColors.grey1,
-    active: newFigmaColors.orange2,
-    activeDark: newFigmaColors.orange9,
     link: newFigmaColors.primary4,
     alert: newFigmaColors.error6,
     complete: newFigmaColors.success5,
+
+    highlight: newFigmaColors.primary10,
+
+    border: newFigmaColors.grey9,
+    borderFocus: newFigmaColors.primary5,
+
+    tagActiveText: newFigmaColors.warning8,
+    tagActiveBackground: newFigmaColors.warning10,
+
+    tagPrimaryText: newFigmaColors.primary7,
+    tagPrimaryBackground: newFigmaColors.primary9,
   },
   fonts: {
     display: 'Denim, apple-system, sans-serif',
@@ -384,7 +401,7 @@ export const globalStyles = globalCss({
   },
   // a11y keyboard navigation
   'a:focus-visible, button:focus-visible, [tabindex="0"]:focus-visible': {
-    outline: '2px solid $primary',
+    outline: '2px solid $borderFocus',
     outlineOffset: '1px',
   },
   'input, textarea': {

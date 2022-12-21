@@ -9,7 +9,7 @@ export const ToggleButton = styled('button', {
   borderWidth: '2px',
   borderRadius: '$3',
   outline: '1px solid $borderMedium',
-  background: '$white',
+  background: '$surfaceNested',
   fontSize: '$small',
   opacity: 0.4,
   display: 'flex',

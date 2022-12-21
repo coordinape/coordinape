@@ -145,7 +145,7 @@ export const OverviewMenu = ({
           pl: '1px',
           top: 'calc($xxs - $3xl + 1px)',
           mb: '$lg',
-          minWidth: 'calc($4xl * 2.5)',
+          minWidth: 'calc($4xl * 4.25)',
           zIndex: 4,
         }}
       >

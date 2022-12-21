@@ -4,7 +4,7 @@ import { styled } from 'stitches.config';
 const StyledContent = styled(PopoverPrimitive.Content, {
   padding: 0,
   borderRadius: '$3',
-  background: '$white',
+  background: '$surface',
   boxShadow: '$heavy',
   display: 'flex',
   flexDirection: 'column',

@@ -98,7 +98,7 @@ const NormalHeader = ({
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'stretch',
-          background: '$headingText',
+          background: '$navBackground',
           zIndex: '4',
         }}
       >

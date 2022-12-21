@@ -57,8 +57,8 @@ export const Button = styled('button', {
         color: 'white',
       },
       tag: {
-        backgroundColor: '$tag',
-        color: '$tagDark',
+        backgroundColor: '$tagActiveBackground',
+        color: '$tagActiveText',
       },
       transparent: {
         padding: '$xs',
@@ -260,17 +260,17 @@ export const Button = styled('button', {
       color: 'tag',
       outlined: true,
       css: {
-        color: '$tagDark',
-        borderColor: '$tag',
+        color: '$tagActiveText',
+        borderColor: '$tagActiveBackground',
         '&:hover': {
-          color: '$tagDark',
+          color: '$tagActiveText',
           filter: 'saturate(1)',
-          backgroundColor: '$tag !important',
+          backgroundColor: '$tagActiveBackground !important',
         },
         '&:focus': {
-          color: '$tagDark',
+          color: '$tagActiveText',
           filter: 'saturate(1)',
-          backgroundColor: '$tag !important',
+          backgroundColor: '$tagActiveBackground !important',
         },
       },
     },
