@@ -615,6 +615,10 @@ export function DistributionForm({
   const onVaultOrSourceChange = (value: string) => {
     if (value === 'hedgey') {
       setIsUsingHedgey(true);
+      setGiftVaultId('');
+      setValue('selectedVaultId', '', {
+        shouldDirty: true,
+      });
       return;
     }
     setIsUsingHedgey(false);
