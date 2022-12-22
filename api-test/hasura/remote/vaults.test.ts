@@ -53,15 +53,21 @@ describe('pricePerShare', () => {
       ],
     });
 
-  const getPrice = () =>
-    adminClient
-      .query({
-        vaults: [
-          { where: { vault_address: { _eq: vault_address } } },
-          { price_per_share: true },
-        ],
-      })
-      .then(res => res.vaults?.[0]?.price_per_share);
+  const getPrice = async () => {
+    try {
+      return await adminClient
+        .query({
+          vaults: [
+            { where: { vault_address: { _eq: vault_address } } },
+            { price_per_share: true },
+          ],
+        })
+        .then(res => res.vaults?.[0]?.price_per_share);
+    } catch (err: any) {
+      if (!err.message) err.message = err.response?.errors.map(e => e.message);
+      console.error(err);
+    }
+  };
 
   test('invalid token address', async () => {
     await setTokens(faker.finance.ethereumAddress(), AddressZero);
