@@ -153,7 +153,7 @@ export const Select = (
             <ChevronDown color="neutral" />
           </SelectIcon>
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent style={{ zIndex: 6 }}>
           <SelectScrollUpButton>
             <ChevronUp color="neutral" />
           </SelectScrollUpButton>
