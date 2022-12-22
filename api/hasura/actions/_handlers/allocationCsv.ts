@@ -40,7 +40,11 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   const totalTokensSent = epochObj.token_gifts.length
     ? epochObj.token_gifts.reduce((total, { tokens }) => total + tokens, 0)
     : 0;
-  const circle = await getCircleDetails(circle_id, epochObj.id);
+  const circle = await getCircleDetails(
+    circle_id,
+    epochObj.id,
+    epochObj.end_date
+  );
   assert(circle, 'No Circle Found');
   const fixedPaymentsEnabled =
     isFeatureEnabled('fixed_payments') && !!circle.fixed_payment_token_type;
@@ -145,7 +149,7 @@ export function generateCsvValues(
 
       const rowValues: (string | number)[] = [
         idx + 1,
-        u.profile.name ?? u.name,
+        (u.deleted_at ? '(Deleted) ' : '') + (u.profile.name ?? u.name),
         u.address,
         received,
         u.sent_gifts.length
@@ -177,7 +181,11 @@ export function generateCsvValues(
 
 export type CircleDetails = Awaited<ReturnType<typeof getCircleDetails>>;
 
-export async function getCircleDetails(circle_id: number, epochId: number) {
+export async function getCircleDetails(
+  circle_id: number,
+  epochId: number,
+  epochEndDate: string
+) {
   const { circles_by_pk } = await adminClient.query(
     {
       circles_by_pk: [
@@ -216,13 +224,17 @@ export async function getCircleDetails(circle_id: number, epochId: number) {
           users: [
             {
               where: {
-                _or: [{ deleted_at: { _is_null: true } }],
+                _or: [
+                  { deleted_at: { _is_null: true } },
+                  { deleted_at: { _gt: epochEndDate } },
+                ],
               },
             },
             {
               id: true,
-              name: true,
               address: true,
+              name: true,
+              deleted_at: true,
               fixed_payment_amount: true,
               profile: { id: true, name: true },
               received_gifts: [
