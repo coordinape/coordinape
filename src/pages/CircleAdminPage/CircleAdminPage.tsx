@@ -135,7 +135,7 @@ const schema = z.object({
     })
   ),
   only_giver_vouch: z.string().transform(stringBoolTransform),
-  team_sel_text: z.optional(
+  cont_help_text: z.optional(
     z.string().refine(val => val.trim().length > 20, {
       message: 'Contribution help text must be at least 20 characters long.',
     })
@@ -324,7 +324,7 @@ export const CircleAdminPage = () => {
         vouching: data.vouching,
         token_name: data.token_name,
         min_vouches: data.min_vouches,
-        team_sel_text: data.team_sel_text,
+        cont_help_text: data.cont_help_text,
         nomination_days_limit: data.nomination_days_limit,
         alloc_text: data.alloc_text,
         discord_webhook: discordWebhookValue,
@@ -714,9 +714,9 @@ export const CircleAdminPage = () => {
               <FormInputField
                 textArea
                 id="contribution_text"
-                name="team_sel_text"
+                name="cont_help_text"
                 control={control}
-                defaultValue={circle?.teamSelText}
+                defaultValue={circle?.contHelpText}
                 css={{ flexGrow: 1, textAlign: 'flex-start' }}
                 label="Contribution Help Text"
                 description="Change the default text contributors see on team selection"
