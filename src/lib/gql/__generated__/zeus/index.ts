@@ -686,6 +686,7 @@ export type ValueTypes = {
   ['CreateEpochInput']: {
     circle_id: number;
     days: number;
+    description?: string | undefined | null;
     grant?: number | undefined | null;
     repeat: number;
     start_date: ValueTypes['timestamptz'];
@@ -888,6 +889,7 @@ export type ValueTypes = {
   ['UpdateEpochInput']: {
     circle_id: number;
     days: number;
+    description?: string | undefined | null;
     grant?: number | undefined | null;
     id: number;
     repeat: number;
@@ -4439,7 +4441,7 @@ export type ValueTypes = {
       | ValueTypes['String_comparison_exp']
       | undefined
       | null;
-    token_decimals?: ValueTypes['String_comparison_exp'] | undefined | null;
+    token_decimals?: ValueTypes['Int_comparison_exp'] | undefined | null;
     token_symbol?: ValueTypes['String_comparison_exp'] | undefined | null;
     tx_hash?: ValueTypes['String_comparison_exp'] | undefined | null;
   };
@@ -4455,7 +4457,7 @@ export type ValueTypes = {
       | undefined
       | null;
     token_contract_address?: string | undefined | null;
-    token_decimals?: string | undefined | null;
+    token_decimals?: number | undefined | null;
     token_symbol?: string | undefined | null;
     tx_hash?: string | undefined | null;
   };
@@ -4530,7 +4532,7 @@ export type ValueTypes = {
     gift_amount?: ValueTypes['numeric'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     token_contract_address?: string | undefined | null;
-    token_decimals?: string | undefined | null;
+    token_decimals?: number | undefined | null;
     token_symbol?: string | undefined | null;
     tx_hash?: string | undefined | null;
   };
@@ -11670,7 +11672,7 @@ export type ModelTypes = {
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     token_contract_address?: string | undefined;
-    token_decimals?: string | undefined;
+    token_decimals: number;
     token_symbol?: string | undefined;
     tx_hash?: string | undefined;
   };
@@ -13315,6 +13317,7 @@ export type GraphQLTypes = {
   ['CreateEpochInput']: {
     circle_id: number;
     days: number;
+    description?: string | undefined;
     grant?: number | undefined;
     repeat: number;
     start_date: GraphQLTypes['timestamptz'];
@@ -13517,6 +13520,7 @@ export type GraphQLTypes = {
   ['UpdateEpochInput']: {
     circle_id: number;
     days: number;
+    description?: string | undefined;
     grant?: number | undefined;
     id: number;
     repeat: number;
@@ -16408,7 +16412,7 @@ export type GraphQLTypes = {
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     token_contract_address?: string | undefined;
-    token_decimals?: string | undefined;
+    token_decimals: number;
     token_symbol?: string | undefined;
     tx_hash?: string | undefined;
   };
@@ -16432,7 +16436,7 @@ export type GraphQLTypes = {
       | undefined;
     profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     token_contract_address?: GraphQLTypes['String_comparison_exp'] | undefined;
-    token_decimals?: GraphQLTypes['String_comparison_exp'] | undefined;
+    token_decimals?: GraphQLTypes['Int_comparison_exp'] | undefined;
     token_symbol?: GraphQLTypes['String_comparison_exp'] | undefined;
     tx_hash?: GraphQLTypes['String_comparison_exp'] | undefined;
   };
@@ -16447,7 +16451,7 @@ export type GraphQLTypes = {
       | GraphQLTypes['locked_token_distribution_gifts_arr_rel_insert_input']
       | undefined;
     token_contract_address?: string | undefined;
-    token_decimals?: string | undefined;
+    token_decimals?: number | undefined;
     token_symbol?: string | undefined;
     tx_hash?: string | undefined;
   };
@@ -16517,7 +16521,7 @@ export type GraphQLTypes = {
     gift_amount?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     token_contract_address?: string | undefined;
-    token_decimals?: string | undefined;
+    token_decimals?: number | undefined;
     token_symbol?: string | undefined;
     tx_hash?: string | undefined;
   };
