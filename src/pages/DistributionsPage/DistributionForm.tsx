@@ -581,11 +581,13 @@ export function DistributionForm({
     return `Avail. ${commify(round(humanNumber, 2))}`;
   };
 
-  const getVaultOptions = (options?: { includeHedgey: boolean }) => {
-    const hedgeyEnabled = true;
+  const getVaultOptions = (options?: {
+    includeHedgey: boolean;
+    includeConnectWallet: boolean;
+  }) => {
     let vaultOptions: SelectOption[] = [];
     if (vaults.length) {
-      const v = vaults.map(t => {
+      vaultOptions = vaults.map(t => {
         return {
           value: t.id.toString(),
           label: options?.includeHedgey
@@ -593,19 +595,21 @@ export function DistributionForm({
             : `CoVault: ${getVaultSymbolAddressString(t)}`,
         };
       });
-      vaultOptions = options?.includeHedgey
-        ? v
-        : [...v, { value: '', label: 'Connected wallet' }];
     } else {
       vaultOptions = options?.includeHedgey
         ? [{ value: '', label: 'No Vaults Available' }]
         : [{ value: '', label: 'Connected wallet' }];
     }
-    const returnValue =
-      hedgeyEnabled && options?.includeHedgey
-        ? [...vaultOptions, { value: 'hedgey', label: 'Hedgey' }]
-        : vaultOptions;
-    return returnValue;
+
+    if (options?.includeHedgey) {
+      vaultOptions.push({ value: 'hedgey', label: 'Hedgey' });
+    }
+
+    if (options?.includeConnectWallet) {
+      vaultOptions.push({ value: '', label: 'Connected wallet' });
+    }
+
+    return vaultOptions;
   };
 
   const onVaultOrSourceChange = (value: string) => {
@@ -663,6 +667,7 @@ export function DistributionForm({
                 })}
                 options={getVaultOptions({
                   includeHedgey: hedgeyIntegration?.data.enabled,
+                  includeConnectWallet: false,
                 })}
               ></Select>
             </Box>
@@ -732,7 +737,10 @@ export function DistributionForm({
                       disabled: shouldDisableGiftInput(),
                       onValueChange: onHedgeyVaultChange,
                     })}
-                    options={getVaultOptions({ includeHedgey: false })}
+                    options={getVaultOptions({
+                      includeHedgey: false,
+                      includeConnectWallet: true,
+                    })}
                   />
                 </Box>
                 <Box css={{ width: '100%', marginTop: '1em' }}>
