@@ -162,6 +162,7 @@ type CreateCircleResponse {
 input CreateEpochInput {
   circle_id: Int!
   days: Int!
+  description: String
   grant: Float
   repeat: Int!
   start_date: timestamptz!
@@ -419,6 +420,7 @@ type UpdateContributionResponse {
 input UpdateEpochInput {
   circle_id: Int!
   days: Int!
+  description: String
   grant: Float
   id: Int!
   repeat: Int!
@@ -10987,7 +10989,7 @@ type locked_token_distributions {
   """
   profile: profiles!
   token_contract_address: String
-  token_decimals: String
+  token_decimals: Int!
   token_symbol: String
   tx_hash: String
 }
@@ -11029,6 +11031,7 @@ type locked_token_distributions_avg_fields {
   epoch_id: Float
   gift_amount: Float
   id: Float
+  token_decimals: Float
 }
 
 """
@@ -11047,7 +11050,7 @@ input locked_token_distributions_bool_exp {
   locked_token_distribution_gifts: locked_token_distribution_gifts_bool_exp
   profile: profiles_bool_exp
   token_contract_address: String_comparison_exp
-  token_decimals: String_comparison_exp
+  token_decimals: Int_comparison_exp
   token_symbol: String_comparison_exp
   tx_hash: String_comparison_exp
 }
@@ -11071,6 +11074,7 @@ input locked_token_distributions_inc_input {
   epoch_id: bigint
   gift_amount: numeric
   id: bigint
+  token_decimals: Int
 }
 
 """
@@ -11086,7 +11090,7 @@ input locked_token_distributions_insert_input {
   locked_token_distribution_gifts: locked_token_distribution_gifts_arr_rel_insert_input
   profile: profiles_obj_rel_insert_input
   token_contract_address: String
-  token_decimals: String
+  token_decimals: Int
   token_symbol: String
   tx_hash: String
 }
@@ -11101,7 +11105,7 @@ type locked_token_distributions_max_fields {
   gift_amount: numeric
   id: bigint
   token_contract_address: String
-  token_decimals: String
+  token_decimals: Int
   token_symbol: String
   tx_hash: String
 }
@@ -11116,7 +11120,7 @@ type locked_token_distributions_min_fields {
   gift_amount: numeric
   id: bigint
   token_contract_address: String
-  token_decimals: String
+  token_decimals: Int
   token_symbol: String
   tx_hash: String
 }
@@ -11242,7 +11246,7 @@ input locked_token_distributions_set_input {
   gift_amount: numeric
   id: bigint
   token_contract_address: String
-  token_decimals: String
+  token_decimals: Int
   token_symbol: String
   tx_hash: String
 }
@@ -11256,6 +11260,7 @@ type locked_token_distributions_stddev_fields {
   epoch_id: Float
   gift_amount: Float
   id: Float
+  token_decimals: Float
 }
 
 """
@@ -11267,6 +11272,7 @@ type locked_token_distributions_stddev_pop_fields {
   epoch_id: Float
   gift_amount: Float
   id: Float
+  token_decimals: Float
 }
 
 """
@@ -11278,6 +11284,7 @@ type locked_token_distributions_stddev_samp_fields {
   epoch_id: Float
   gift_amount: Float
   id: Float
+  token_decimals: Float
 }
 
 """
@@ -11305,7 +11312,7 @@ input locked_token_distributions_stream_cursor_value_input {
   gift_amount: numeric
   id: bigint
   token_contract_address: String
-  token_decimals: String
+  token_decimals: Int
   token_symbol: String
   tx_hash: String
 }
@@ -11319,6 +11326,7 @@ type locked_token_distributions_sum_fields {
   epoch_id: bigint
   gift_amount: numeric
   id: bigint
+  token_decimals: Int
 }
 
 """
@@ -11393,6 +11401,7 @@ type locked_token_distributions_var_pop_fields {
   epoch_id: Float
   gift_amount: Float
   id: Float
+  token_decimals: Float
 }
 
 """
@@ -11404,6 +11413,7 @@ type locked_token_distributions_var_samp_fields {
   epoch_id: Float
   gift_amount: Float
   id: Float
+  token_decimals: Float
 }
 
 """
@@ -11415,6 +11425,7 @@ type locked_token_distributions_variance_fields {
   epoch_id: Float
   gift_amount: Float
   id: Float
+  token_decimals: Float
 }
 
 """
@@ -20759,6 +20770,7 @@ type query_root {
   fetch data from the table: "personal_access_tokens" using primary key columns
   """
   personal_access_tokens_by_pk(id: bigint!): personal_access_tokens
+  price_per_share(chain_id: Int!, token_address: String): Float!
 
   """
   fetch data from the table: "profiles"
@@ -28051,6 +28063,7 @@ type vaults {
   An object relationship
   """
   organization: organizations!
+  price_per_share: Float!
 
   """
   An object relationship
