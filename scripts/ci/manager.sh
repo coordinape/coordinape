@@ -133,6 +133,8 @@ elif [ "${OTHERARGS[0]}" = "test" ]; then
 
 elif [ "${OTHERARGS[0]}" = "combine-coverage" ]; then
   combine_coverage
+elif [ "${OTHERARGS[0]}" = "seed" ]; then
+  clean_hasura
 
 else
   echo "No command given. Expected one of: up, down, logs, test"
