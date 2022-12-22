@@ -18,9 +18,3 @@ export interface ISimpleGift {
   tokens: number;
   note?: string;
 }
-
-export interface IAllocationStep {
-  key: number;
-  buildLabel: (circle: ICircle) => string;
-  pathFn: (circleId: number) => string;
-}

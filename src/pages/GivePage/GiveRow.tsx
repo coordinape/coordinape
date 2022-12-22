@@ -55,6 +55,7 @@ export const GiveRow = ({
   }, [selected, lastSelected]);
   return (
     <Box
+      data-testid="give-row"
       tabIndex={0}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}

@@ -20,7 +20,6 @@ import { epochTimeUpcoming } from '../../lib/time';
 import { useSelectedCircle } from '../../recoilState';
 import { IEpoch, IMyUser } from '../../types';
 import { SingleColumnLayout } from '../../ui/layouts';
-import { getPendingGiftsFrom } from '../AllocationPage/queries';
 import { FormInputField } from 'components';
 import { Edit3, Grid, Menu } from 'icons/__generated';
 import { Box, Button, Flex, Modal, Panel, Text, Link } from 'ui';
@@ -31,6 +30,7 @@ import { GiveDrawer } from './GiveDrawer';
 import { GiveRow } from './GiveRow';
 import { MyGiveRow } from './MyGiveRow';
 import {
+  getPendingGiftsFrom,
   getCircleAllocationText,
   getMembersWithContributions,
   PotentialTeammate,

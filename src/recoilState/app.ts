@@ -10,7 +10,6 @@ import {
   selectorFamily,
   useRecoilValue,
   RecoilValueReadOnly,
-  useRecoilValueLoadable,
 } from 'recoil';
 
 import { extraProfile } from 'utils/modelExtenders';
@@ -252,8 +251,6 @@ export interface ICircleState {
   activeNominees: INominee[];
 }
 
-export const useHasSelectedCircle = () =>
-  useRecoilValueLoadable(rSelectedCircleId).valueMaybe() !== undefined;
 export const useMyProfile = () => useRecoilValue(rMyProfile);
 export const useSelectedCircleId = () => useRecoilValue(rSelectedCircleId);
 export const useCircle = (id: number | undefined) =>
