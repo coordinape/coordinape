@@ -149,7 +149,7 @@ export function generateCsvValues(
 
       const rowValues: (string | number)[] = [
         idx + 1,
-        u.profile.name ?? u.name,
+        (u.deleted_at ? '(Deleted) ' : '') + (u.profile.name ?? u.name),
         u.address,
         received,
         u.sent_gifts.length
@@ -232,8 +232,9 @@ export async function getCircleDetails(
             },
             {
               id: true,
-              name: true,
               address: true,
+              name: true,
+              deleted_at: true,
               fixed_payment_amount: true,
               profile: { id: true, name: true },
               received_gifts: [
