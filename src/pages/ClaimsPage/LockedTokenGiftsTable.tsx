@@ -36,7 +36,9 @@ export default function LockedTokenGiftsTable() {
                 <tr key={lockedTokenGift.id}>
                   <td>
                     {`${ethers.utils.formatUnits(
-                      lockedTokenGift.earnings.toString(),
+                      lockedTokenGift.earnings.toLocaleString('fullwide', {
+                        useGrouping: false,
+                      }),
                       lockedTokenGift.locked_token_distribution.token_decimals
                     )} ${
                       lockedTokenGift.locked_token_distribution.token_symbol
