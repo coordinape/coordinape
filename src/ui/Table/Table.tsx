@@ -8,7 +8,7 @@ export const Table = styled('table', {
     borderBottom: '0.5px solid $lightBackground',
   },
   'thead tr': {
-    backgroundColor: '$white',
+    backgroundColor: '$surfaceNested',
     height: '$1xl',
   },
   'thead tr th': {

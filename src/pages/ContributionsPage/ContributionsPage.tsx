@@ -976,7 +976,6 @@ const ContributionList = ({
               css={{
                 border: '2px solid $border',
                 cursor: 'pointer',
-                background: 'white',
                 '&:hover': {
                   background: '$highlight',
                   border: '2px solid $link',

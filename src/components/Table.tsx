@@ -63,7 +63,11 @@ export function makeTable<T>(displayName: string) {
     return (
       <>
         <Panel
-          css={{ backgroundColor: '$white', padding: '$md', overflowX: 'auto' }}
+          css={{
+            backgroundColor: '$surfaceNested',
+            padding: '$md',
+            overflowX: 'auto',
+          }}
         >
           <Table>
             <thead>

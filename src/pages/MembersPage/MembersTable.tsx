@@ -304,7 +304,6 @@ const MemberRow = ({
           <UserName user={user} />
         </TD>
         {isAdmin && !isMobile && <TD>{shortenAddress(user.address)}</TD>}
-
         {!isMobile && (
           <>
             <TD
