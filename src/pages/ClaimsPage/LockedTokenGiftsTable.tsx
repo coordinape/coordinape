@@ -55,7 +55,7 @@ export default function LockedTokenGiftsTable() {
                   </td>
                   <td>
                     <Link
-                      href="https://v1.hedgey.finance/#/portfolio"
+                      href="https://app.hedgey.finance/my-rewards"
                       target="_blank"
                     >
                       <Button color="primary" size="small" outlined>
