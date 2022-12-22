@@ -5,6 +5,7 @@ import {
   updateCircleIntegration,
 } from 'lib/gql/mutations';
 
+import { useApeSnackbar } from 'hooks';
 import { Button, Flex, Modal, Select, SelectOption, Text } from 'ui';
 
 function HedgeyIntro() {
@@ -51,6 +52,7 @@ export default function HedgeyIntegrationSettings(props: {
   const [hedgeyLockPeriod, setHedgeyLockPeriod] = useState('12');
   const [hedgeyTransferable, setHedgeyTransferable] = useState('0');
   const [showDisableModal, setShowDisableModal] = useState(false);
+  const { showInfo } = useApeSnackbar();
 
   useEffect(() => {
     setCircleIntegrationId(props.integration?.id);
@@ -59,54 +61,47 @@ export default function HedgeyIntegrationSettings(props: {
     setHedgeyTransferable(props.integration?.data.transferable || '0');
   }, [props]);
 
-  const onSaveHedgeyIntegration = async (e: any) => {
-    e.preventDefault();
+  const saveIntegration = async (enabled: boolean) => {
     if (circleIntegrationId) {
       await updateCircleIntegration(circleIntegrationId, {
-        enabled: true,
+        enabled,
         lockPeriod: hedgeyLockPeriod,
         transferable: hedgeyTransferable,
       });
+      showInfo('Saved Hedgey integration changes');
     } else {
-      await createCircleIntegration(props.circleId, 'hedgey', 'Hedgey', {
-        enabled: true,
-        lockPeriod: hedgeyLockPeriod,
-        transferable: hedgeyTransferable,
-      });
+      const { insert_circle_integrations_one } = await createCircleIntegration(
+        props.circleId,
+        'hedgey',
+        'Hedgey',
+        {
+          enabled,
+          lockPeriod: hedgeyLockPeriod,
+          transferable: hedgeyTransferable,
+        }
+      );
+      setCircleIntegrationId(insert_circle_integrations_one?.id);
+      showInfo('Created Hedgey integration');
     }
+  };
+
+  const onSaveHedgeyIntegration = async (e: any) => {
+    e.preventDefault();
+    await saveIntegration(true);
   };
 
   const onDisableHedgey = async (e: any) => {
     e.preventDefault();
     setHedgeyEnabled(false);
     setShowDisableModal(false);
-    if (circleIntegrationId) {
-      await updateCircleIntegration(circleIntegrationId, {
-        enabled: false,
-        lockPeriod: hedgeyLockPeriod,
-        transferable: hedgeyTransferable,
-      });
-    } else {
-      await createCircleIntegration(props.circleId, 'hedgey', 'Hedgey', {
-        enabled: false,
-        lockPeriod: hedgeyLockPeriod,
-        transferable: hedgeyTransferable,
-      });
-    }
+    await saveIntegration(false);
   };
 
   if (!hedgeyEnabled) {
     return (
       <Flex css={{ flexDirection: 'column', alignItems: 'start' }}>
         <HedgeyIntro />
-        <Button
-          color="primary"
-          outlined
-          onClick={e => {
-            onSaveHedgeyIntegration(e);
-            setHedgeyEnabled(true);
-          }}
-        >
+        <Button color="primary" outlined onClick={() => setHedgeyEnabled(true)}>
           Enable Hedgey Integration
         </Button>
       </Flex>
@@ -132,7 +127,6 @@ export default function HedgeyIntegrationSettings(props: {
           onClick={e => {
             e.preventDefault();
             setShowDisableModal(true);
-            // setHedgeyEnabled(false);
           }}
         >
           Disable integration
