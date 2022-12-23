@@ -8,7 +8,7 @@ import '@nomiclabs/hardhat-ethers';
 import '@nomiclabs/hardhat-waffle';
 
 import {
-  ETHEREUM_RPC_URL,
+  HARDHAT_ARCHIVE_RPC_URL,
   FORKED_BLOCK,
   FORK_MAINNET,
   GANACHE_NETWORK_NAME,
@@ -200,7 +200,7 @@ const config: HardhatUserConfig = {
       chainId: +(process.env.HARDHAT_CHAIN_ID || 1337),
       forking: FORK_MAINNET
         ? {
-            url: ETHEREUM_RPC_URL,
+            url: HARDHAT_ARCHIVE_RPC_URL,
             blockNumber: FORKED_BLOCK,
           }
         : undefined,

@@ -268,7 +268,6 @@ export const getFullCircle = async (
             },
             {
               id: true,
-              name: true,
               address: true,
               nominated_by_user_id: true,
               circle_id: true,
@@ -280,6 +279,9 @@ export const getFullCircle = async (
               expiry_date: true,
               created_at: true,
               updated_at: true,
+              profile: {
+                name: true,
+              },
               nominations: [
                 {},
                 {

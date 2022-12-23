@@ -71,7 +71,7 @@ jobs:
     env:
       CI: true
       DOCKER_GATEWAY_HOST: 172.17.0.1
-      ETHEREUM_RPC_URL: https://mainnet.infura.io/v3/275c8fc2ec294d6aac6bfc881d9a9dff
+      HARDHAT_ARCHIVE_RPC_URL: https://mainnet.infura.io/v3/275c8fc2ec294d6aac6bfc881d9a9dff
       HARDHAT_FORK_BLOCK: 13500000
       IMAGES_AWS_BUCKET: coordinape
       REACT_APP_INFURA_PROJECT_ID: 275c8fc2ec294d6aac6bfc881d9a9dff
