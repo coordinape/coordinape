@@ -18,9 +18,9 @@ export default async function handleCheckNomineeMsg(
         (nominees_by_pk.nominations_aggregate?.aggregate?.count ?? 0) + 1;
       let message;
       if (vouches >= data.new.vouches_required) {
-        message = `${nominees_by_pk.name} has received enough vouches and is now in the circle`;
+        message = `${nominees_by_pk.profile?.name} has received enough vouches and is now in the circle`;
       } else if (new Date(data.new.expiry_date) < new Date()) {
-        message = `Nominee ${nominees_by_pk.name} has only received ${nominees_by_pk.nominations_aggregate?.aggregate?.count} vouch(es) and has failed`;
+        message = `Nominee ${nominees_by_pk.profile?.name} has only received ${nominees_by_pk.nominations_aggregate?.aggregate?.count} vouch(es) and has failed`;
       }
 
       if (message) {

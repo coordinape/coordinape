@@ -13,7 +13,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     event: { data },
   }: EventTriggerPayload<'nominees', 'INSERT'> = req.body;
 
-  const { name, address, circle_id, vouches_required, id } = data.new;
+  const { address, circle_id, vouches_required, id } = data.new;
   try {
     const { nominees_by_pk } = await queries.getNominee(id);
     assert(nominees_by_pk);
@@ -53,7 +53,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           insert_users_one: [
             {
               object: {
-                name,
+                name: nominees_by_pk.profile?.name,
                 address,
                 circle_id,
                 entrance: ENTRANCE.NOMINATION,

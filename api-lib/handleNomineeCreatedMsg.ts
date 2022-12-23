@@ -14,10 +14,11 @@ export default async function handleNomineeCreatedMsg(
   if (nominees_by_pk) {
     await sendSocialMessage({
       message:
-        `${data.new.name} has been nominated by ${
+        `${nominees_by_pk?.profile?.name} has been nominated by ${
           nominees_by_pk.nominator?.profile.name ??
           nominees_by_pk.nominator?.name
-        }!.` + ` You can vouch for them at https://app.coordinape.com/vouching`,
+        }!.` +
+        ` You can vouch for them at https://app.coordinape.com/circles/${nominees_by_pk.circle_id}/members`,
       circleId: data.new.circle_id,
       sanitize: false,
       channels,

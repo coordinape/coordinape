@@ -23,7 +23,6 @@ export const getNomineeFromAddress = async (
         },
         {
           id: true,
-          name: true,
           address: true,
           nominated_by_user_id: true,
           circle_id: true,
@@ -35,6 +34,9 @@ export const getNomineeFromAddress = async (
           ended: true,
           created_at: true,
           updated_at: true,
+          profile: {
+            name: true,
+          },
         },
       ],
     },
