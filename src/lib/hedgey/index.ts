@@ -1,10 +1,14 @@
 import { ERC20 } from '@coordinape/hardhat/dist/typechain';
 import { BigNumber, ethers } from 'ethers';
-import { Contracts } from 'lib/vaults';
+
+import { DebugLogger } from '../../common-lib/log';
+import { Contracts } from '../vaults';
 
 import BatchNFTMinter from './BatchNFTMinter.json';
 
 export const INTEGRATION_TYPE = 'hedgey';
+
+const logger = new DebugLogger('hedgey');
 
 export const lockedTokenDistribution = async (
   provider: ethers.providers.JsonRpcProvider,
@@ -15,6 +19,7 @@ export const lockedTokenDistribution = async (
   hedgeyTransferable: string,
   balances: { address: string; earnings: string }[]
 ): Promise<any> => {
+  logger.log('lockedTokenDistribution');
   const signer = provider.getSigner();
   const signerAddress = await signer.getAddress();
   const tokenAddress = token.address;
@@ -63,7 +68,7 @@ export const lockedTokenDistribution = async (
       'batchMint(address,address[],address,uint256[],uint256[],uint256)'
     ];
 
-  return mintFunction(
+  const args = [
     hedgeyTransferable === '1'
       ? deploymentInfo.HedgeyTransferableNft.address
       : deploymentInfo.HedgeyNonTransferableNft.address,
@@ -71,6 +76,8 @@ export const lockedTokenDistribution = async (
     tokenAddress,
     amounts,
     unlockDates,
-    2
-  );
+    2,
+  ];
+  logger.log(args);
+  return mintFunction(...args);
 };
