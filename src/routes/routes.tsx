@@ -21,7 +21,6 @@ import {
   useRoleInCircle,
   useShowGive,
 } from 'hooks/migration';
-import AllocationPage from 'pages/AllocationPage';
 import CircleAdminPage from 'pages/CircleAdminPage';
 import CirclesPage from 'pages/CirclesPage';
 import ClaimsPage from 'pages/ClaimsPage';
@@ -50,16 +49,11 @@ const log = debug('routes');
 const LazyAssetMapPage = lazy(() => import('pages/AssetMapPage'));
 
 export const AppRoutes = () => {
-  const allocationPage = <AllocationPage />;
   return (
     <Routes>
       <Route path="circles/:circleId" element={<CircleRouteHandler />}>
         <Route path="history" element={<HistoryPage />} />
-        <Route path="allocation" element={allocationPage} />
-        <Route path="team" element={allocationPage} />
-        <Route path="epoch" element={allocationPage} />
-        <Route path="give" element={allocationPage} />
-        <Route path="givebeta" element={<GivePage />} />
+        <Route path="give" element={<GivePage />} />
         <Route path="map" element={<MapRouteHanlder />}>
           <Route path="" element={<LazyAssetMapPage />} />
         </Route>

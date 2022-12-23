@@ -1,6 +1,6 @@
 import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
-import { Contracts, getUnwrappedAmount } from 'lib/vaults';
+import { Contracts } from 'lib/vaults';
 
 import type { Awaited } from 'types/shim';
 
@@ -70,6 +70,7 @@ export const getClaims = async (
               simple_token_address: true,
               symbol: true,
               decimals: true,
+              price_per_share: true,
             },
             epoch: {
               id: true,
@@ -99,21 +100,12 @@ export const getClaims = async (
   };
 
   for (const claim of claims) {
-    const { distribution } = claim;
-    const pricePerShare = await contracts.getPricePerShare(
-      distribution.vault.vault_address,
-      distribution.vault.simple_token_address,
-      distribution.vault.decimals
-    );
+    const { price_per_share } = claim.distribution.vault;
 
-    const unwrappedAmount = getUnwrappedAmount(claim.amount, pricePerShare);
-    const unwrappedNewAmount = getUnwrappedAmount(
-      claim.new_amount,
-      pricePerShare
-    );
-
-    (claim as ClaimWithUnwrappedAmount).unwrappedAmount = unwrappedAmount;
-    (claim as ClaimWithUnwrappedAmount).unwrappedNewAmount = unwrappedNewAmount;
+    (claim as ClaimWithUnwrappedAmount).unwrappedAmount =
+      claim.amount * price_per_share;
+    (claim as ClaimWithUnwrappedAmount).unwrappedNewAmount =
+      claim.new_amount * price_per_share;
   }
   return claims;
 };

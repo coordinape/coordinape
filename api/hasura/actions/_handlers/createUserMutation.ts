@@ -47,26 +47,28 @@ export async function createUserMutation(
 
   if (
     nameProfile &&
-    nameProfile.address.toLocaleLowerCase() !==
-      nameProfile.address.toLocaleLowerCase()
+    nameProfile.address.toLocaleLowerCase() !== address.toLocaleLowerCase()
   ) {
     throw new UnprocessableError('This name is already in use');
   }
+  if (
+    addressProfile?.name &&
+    addressProfile.name.toLowerCase() != input.name?.toLowerCase()
+  )
+    throw new UnprocessableError(
+      'This address is already using a different name'
+    );
+
   if (!addressProfile?.name && !nameProfile) {
     const createProfileMutation = await adminClient.mutate(
       {
         insert_profiles_one: [
           {
-            object: {
-              address: address,
-              name: input.name,
-            },
+            object: { address, name: input.name },
             on_conflict: {
               constraint: profiles_constraint.profiles_address_key,
               update_columns: [profiles_update_column.name],
-              where: {
-                name: { _is_null: true },
-              },
+              where: { name: { _is_null: true } },
             },
           },
           { id: true },

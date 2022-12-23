@@ -122,6 +122,55 @@ export type CircleAllocationText = Awaited<
 >;
 export const QUERY_KEY_CIRCLE_ALLOCATION_TEXT = 'getCircleAllocationText';
 
+export const getPendingGiftsFrom = async (
+  selectedCircleId: number,
+  address: string
+) => {
+  const data = await client.query(
+    {
+      pending_token_gifts: [
+        {
+          where: {
+            sender_address: {
+              _ilike: address,
+            },
+            circle_id: {
+              _eq: selectedCircleId,
+            },
+          },
+        },
+        {
+          tokens: true,
+          recipient_id: true,
+          gift_private: {
+            note: true,
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'pendingGiftsFrom',
+    }
+  );
+
+  type GiftWithNote = Omit<
+    typeof data.pending_token_gifts[number],
+    'gift_private' | 'tokens'
+  > & { tokens?: number; note?: string };
+
+  return data.pending_token_gifts.map(g => {
+    const gm = g;
+    const note = g.gift_private?.note;
+    // have to delete this field because spread operator includes it elsewhere and it causes validation issues -g
+    delete gm['gift_private'];
+    const gwn: GiftWithNote = {
+      ...gm,
+      note,
+    };
+    return gwn;
+  });
+};
+
 export type PotentialTeammate = Awaited<
   ReturnType<typeof getMembersWithContributions>
 >['allUsers'][number];

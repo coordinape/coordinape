@@ -553,7 +553,7 @@ export async function getEpoch(
             },
           },
           token_gifts: [
-            { where: { recipient: { deleted_at: { _is_null: true } } } },
+            {},
             {
               tokens: true,
             },

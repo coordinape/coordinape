@@ -35,11 +35,7 @@ export const CircleNav = () => {
     assert(circleId);
     const l: [string, string, string[]?][] = [
       [paths.contributions(circleId), 'Contributions'],
-      [
-        paths.givebeta(circleId),
-        'Allocate',
-        [paths.epoch(circleId), paths.team(circleId), paths.give(circleId)],
-      ],
+      [paths.give(circleId), 'Allocate'],
       [paths.members(circleId), 'Members'],
       [paths.map(circleId), 'Map'],
     ];

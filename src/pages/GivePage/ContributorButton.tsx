@@ -41,6 +41,7 @@ export const ContributorButton = ({
 
   return (
     <Button
+      data-testid="collaborator-button"
       size="small"
       css={{
         fontWeight: '$semibold',

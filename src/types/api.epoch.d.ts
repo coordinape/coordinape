@@ -7,19 +7,6 @@ export interface ITiming {
   seconds: number;
 }
 
-export interface IEpochTiming {
-  hasBegun: boolean;
-  timeUntilStart: ITiming;
-  hasEnded: boolean;
-  timeUntilEnd: ITiming;
-}
-
-export interface IEpochTimings {
-  previousEpochTiming?: IEpochTiming;
-  currentEpochTiming?: IEpochTiming;
-  nextEpochTiming?: IEpochTiming;
-}
-
 export interface IApiEpoch {
   id: number;
   number?: number;

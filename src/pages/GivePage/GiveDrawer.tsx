@@ -264,6 +264,7 @@ export const GiveDrawer = ({
         ) : (
           <Box css={{ position: 'relative' }}>
             <TextArea
+              data-testid="note"
               autoSize
               css={{
                 backgroundColor: 'white',

@@ -27,8 +27,8 @@ import { getEpochData } from './queries';
 export function DistributionsPage() {
   const { epochId } = useParams();
   const address = useConnectedAddress();
-  const contracts = useContracts();
   const queryClient = useQueryClient();
+  const contracts = useContracts();
 
   const {
     isIdle,
@@ -41,7 +41,7 @@ export function DistributionsPage() {
     ['distributions', epochId],
     () => getEpochData(Number.parseInt(epochId || '0'), address, contracts),
     {
-      enabled: !!address,
+      enabled: !!(address && contracts),
       retry: false,
       select: d => {
         if (d.circle)
@@ -124,10 +124,10 @@ export function DistributionsPage() {
         address: user.address,
         fixedDistDecimals: fixedDist?.vault.decimals,
         fixedGifts: fixedDist?.distribution_json.fixedGifts,
-        fixedDistPricePerShare: fixedDist?.pricePerShare,
+        fixedDistPricePerShare: fixedDist?.vault.price_per_share,
         circleDistDecimals: circleDist?.vault.decimals,
         circleDistClaimAmount,
-        circleDistPricePerShare: circleDist?.pricePerShare,
+        circleDistPricePerShare: circleDist?.vault.price_per_share,
         circleFixedGifts: circleDist?.distribution_json.fixedGifts,
       });
       return {
