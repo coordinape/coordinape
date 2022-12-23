@@ -11,8 +11,11 @@ export const GANACHE_NETWORK_NAME = 'ci';
 export const GANACHE_PORT = process.env.HARDHAT_GANACHE_PORT;
 export const GANACHE_URL = `http://127.0.0.1:${GANACHE_PORT}`;
 
-assert(process.env.ETHEREUM_RPC_URL, 'process.env.ETHEREUM_RPC_URL is missing');
-export const ETHEREUM_RPC_URL = process.env.ETHEREUM_RPC_URL;
+assert(
+  process.env.HARDHAT_ARCHIVE_RPC_URL,
+  'process.env.HARDHAT_ARCHIVE_RPC_URL is missing'
+);
+export const HARDHAT_ARCHIVE_RPC_URL = process.env.HARDHAT_ARCHIVE_RPC_URL;
 
 export const FORKED_BLOCK = process.env.HARDHAT_FORK_BLOCK
   ? parseInt(process.env.HARDHAT_FORK_BLOCK)

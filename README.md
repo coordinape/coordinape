@@ -34,9 +34,8 @@ see our [cypress README](./cypress/README.md).
 
 ## Running tests
 
-- Set `ETHEREUM_RPC_URL` in `.env`
+- Setup: Set `HARDHAT_ARCHIVE_RPC_URL` in `.env` to the URL of an RPC node with access to archive data. It's used to set up a mainnet fork for the test environment
   - Could use your Infura project ID: `https://mainnet.infura.io/v3/your_project_id`
-  - Needs to have access to archive data, because it's used to fork mainnet
 
 For a one-off test run, run `yarn test:ci`. This starts test instances of Hasura, Postgres, and the web app, populates them with test data, and runs both Jest and Cypress tests against them.
 

@@ -26,6 +26,13 @@ while [[ "$#" > 0 ]]; do case $1 in
 esac; shift; done
 
 if [ "$SET_CI_VARS" ]; then
+  # backwards compatibility
+  if [ -z "$HARDHAT_ARCHIVE_RPC_URL" ]; then
+    echo '-----------------------------------------------------------------------'
+    echo 'Please rename ETHEREUM_RPC_URL in your .env to HARDHAT_ARCHIVE_RPC_URL.'
+    echo '-----------------------------------------------------------------------'
+    export HARDHAT_ARCHIVE_RPC_URL=$ETHEREUM_RPC_URL
+  fi
   export LOCAL_LOCALSTACK_PORT_RANGE="4666-4683"
   export LOCAL_HASURA_PORT=8087
   export LOCAL_POSTGRES_PORT=5437
