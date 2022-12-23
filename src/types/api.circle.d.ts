@@ -36,8 +36,6 @@ export interface IApiCircle {
 
 export interface ICircle extends IApiCircle {
   tokenName: string;
-  contHelpText: string;
-  allocText: string;
   vouchingText: string;
   hasVouching: boolean;
 }

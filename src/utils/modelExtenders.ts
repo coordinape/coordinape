@@ -88,12 +88,6 @@ export const extraCircle = (circle: IApiCircle): ICircle => {
   return {
     ...circle,
     tokenName,
-    contHelpText:
-      circle.cont_help_text ||
-      `Contributions are a great way to highlight the work you're doing.You can summarize your Contributions in the Epoch Statement when there's an active Epoch by clicking on your row.`,
-    allocText:
-      circle.alloc_text ||
-      `Thank your teammates by allocating them ${tokenName}`,
     vouchingText:
       circle.vouching_text ||
       `Think someone new should be added to the ${circle.name} circle?\nNominate or vouch for them here.`,
