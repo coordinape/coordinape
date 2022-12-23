@@ -19,7 +19,9 @@ Stack: **React**, [**Hasura**](#hasura), & **Vercel** serverless functions
 - `yarn setup`
   - init git submodules & hardhat dependencies
 - `cp .env.example .env`
+- Edit `.env`
   - Set `HARDHAT_OWNER_ADDRESS` and `LOCAL_SEED_ADDRESS` to your local dev wallet
+  - Set `REACT_APP_INFURA_PROJECT_ID` to an Infura project ID, which you can get for free at [infura.io](https://www.infura.io/)
 - `yarn docker:start` - Start **Hasura** and **postgres**
   - Clear the data stored in the docker volumes: `yarn docker:clean`
 - `yarn db-seed-fresh` - Seed the db w/ dummy data
@@ -31,6 +33,10 @@ If you want to hack on end-to-end tests, or see why one might be failing,
 see our [cypress README](./cypress/README.md).
 
 ## Running tests
+
+- Set `ETHEREUM_RPC_URL` in `.env`
+  - Could use your Infura project ID: `https://mainnet.infura.io/v3/your_project_id`
+  - Needs to have access to archive data, because it's used to fork mainnet
 
 For a one-off test run, run `yarn test:ci`. This starts test instances of Hasura, Postgres, and the web app, populates them with test data, and runs both Jest and Cypress tests against them.
 
@@ -99,13 +105,7 @@ These will be applied to the production instance once the PR is merged. You can 
 
 [Hardhat](https://hardhat.org/) is used with [typechain](https://github.com/dethcrypto/TypeChain) to generate TypeScript bindings for the smart contracts, which are in this repo as a git submodule at [`hardhat/contracts`](https://github.com/coordinape/coordinape/tree/main/hardhat/contracts).
 
-- Set `ETHEREUM_RPC_URL` in .env
-  - From Infura project id: [Infura](https://infura.io) & create new project
-  - Needs to have access to archive data
-- `./scripts/rebuild_hardhat.sh` - Rebuild the generated code
-- `yarn test` - Run tests
-  - Make sure `HARDHAT_FORK_BLOCK` is set (13500000 is a good value) and `ETHEREUM_RPC_URL` points to an archive node.
-  - These tests were written when we were just starting to integrate contract support, and have been superseded by the Jest tests in the main app.
+- `./scripts/rebuild_hardhat.sh` - Rebuild the generated code after making changes to contract code
 
 # Gitpod (experimental)
 
