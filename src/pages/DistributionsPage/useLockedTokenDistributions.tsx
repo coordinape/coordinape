@@ -3,6 +3,7 @@ import assert from 'assert';
 import { parseUnits } from 'ethers/lib/utils';
 import { lockedTokenDistribution } from 'lib/hedgey';
 
+import { DebugLogger } from '../../common-lib/log';
 import { useContracts } from 'hooks';
 
 import {
@@ -10,6 +11,8 @@ import {
   useSaveLockedTokenDistribution,
 } from './mutations';
 import { getProfileIds } from './queries';
+
+const logger = new DebugLogger('useLockedTokenDistribution');
 
 export const useLockedTokenDistribution = () => {
   const contracts = useContracts();
@@ -28,7 +31,12 @@ export const useLockedTokenDistribution = () => {
     totalGive,
   }: any) => {
     assert(contracts, 'This network is not supported');
+    logger.log('useLockedTokenDistribution');
 
+    assert(
+      vault?.simple_token_address || tokenContractAddress,
+      'no token address'
+    );
     const token = contracts.getERC20(
       vault ? vault.simple_token_address : tokenContractAddress
     );
@@ -40,6 +48,7 @@ export const useLockedTokenDistribution = () => {
     const weiAmount = parseUnits(amount, decimals);
 
     if (vault) {
+      logger.log(`withdrawing... ${weiAmount.toString()}`);
       const vaultContract = contracts.getVault(vault.vault_address);
       const result = await vaultContract.apeWithdrawSimpleToken(weiAmount);
       await result.wait();
@@ -54,6 +63,7 @@ export const useLockedTokenDistribution = () => {
       balances.map(balance => balance.address)
     );
 
+    logger.log('saving...');
     const response = await saveLockedTokenDistribution({
       token_symbol: symbol,
       token_decimals: decimals.toString(),
@@ -68,6 +78,7 @@ export const useLockedTokenDistribution = () => {
         earnings: balance.earnings,
       })),
     });
+    logger.log('saved');
 
     assert(response, 'Locked distribution was not saved.');
 
