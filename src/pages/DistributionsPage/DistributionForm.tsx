@@ -576,7 +576,7 @@ export function DistributionForm({
     return `Avail. ${commify(round(humanNumber, 2))}`;
   };
 
-  const getVaultOptions = (options?: {
+  const getVaultOptions = (options: {
     includeHedgey: boolean;
     includeConnectWallet: boolean;
   }) => {
@@ -590,10 +590,8 @@ export function DistributionForm({
             : `CoVault: ${getVaultSymbolAddressString(t)}`,
         };
       });
-    } else {
-      vaultOptions = options?.includeHedgey
-        ? [{ value: '', label: 'Connected wallet' }]
-        : [{ value: '', label: 'No Vaults Available' }];
+    } else if (options.includeHedgey) {
+      vaultOptions.push({ value: '', label: 'Connected wallet' });
     }
 
     if (options?.includeHedgey) {
@@ -602,6 +600,10 @@ export function DistributionForm({
 
     if (options?.includeConnectWallet) {
       vaultOptions.push({ value: '', label: 'Connected wallet' });
+    }
+
+    if (vaultOptions.length === 0 && !options?.includeConnectWallet) {
+      vaultOptions.push({ value: '', label: 'No Vaults Available' });
     }
 
     return vaultOptions;
