@@ -23,8 +23,8 @@ context('Coordinape', () => {
     cy.contains('thank your teammates').click();
   });
   it('can select teammates', () => {
-    cy.get('[data-testid=give-row]')
-      .eq(2)
+    cy.contains('Bruce')
+      .parents('[data-testid=give-row]')
       .trigger('mouseover')
       .within(() => {
         cy.get('[data-testid=collaborator-button]').within(() => {
@@ -37,8 +37,8 @@ context('Coordinape', () => {
       });
   });
   it('can allocate to teammates', () => {
-    cy.get('[data-testid=give-row]')
-      .eq(2)
+    cy.contains('Bruce')
+      .parents('[data-testid=give-row]')
       .within(() => {
         cy.get('[data-testid=increment]').multiClick(5);
         cy.contains('Empty Note').click().wait(1000);
@@ -52,14 +52,14 @@ context('Coordinape', () => {
       .wait(1000)
       .type('{esc}');
 
-    cy.get('[data-testid=give-row]')
-      .eq(2)
+    cy.contains('Bruce')
+      .parents('[data-testid=give-row]')
       .within(() => {
         cy.contains('Note Complete').wait(1000);
       });
 
-    cy.get('[data-testid=give-row]')
-      .eq(5)
+    cy.contains('Kasey')
+      .parents('[data-testid=give-row]')
       .within(() => {
         cy.get('[data-testid=tokenCount]')
           .click()
@@ -75,8 +75,8 @@ context('Coordinape', () => {
       .wait(1000)
       .type('{esc}');
 
-    cy.get('[data-testid=give-row]')
-      .eq(5)
+    cy.contains('Kasey')
+      .parents('[data-testid=give-row]')
       .within(() => {
         cy.contains('Note Complete').wait(1000);
       });
