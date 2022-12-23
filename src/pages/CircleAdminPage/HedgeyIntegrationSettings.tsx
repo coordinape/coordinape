@@ -4,6 +4,7 @@ import {
   createCircleIntegration,
   updateCircleIntegration,
 } from 'lib/gql/mutations';
+import { INTEGRATION_TYPE } from 'lib/hedgey';
 
 import { useApeSnackbar } from 'hooks';
 import { Button, Flex, Modal, Select, SelectOption, Text } from 'ui';
@@ -39,7 +40,7 @@ export const hedgeyLockPeriods: SelectOption[] = [
 
 export default function HedgeyIntegrationSettings(props: {
   circleId: number;
-  integration: {
+  integration?: {
     id: number;
     type: string;
     data: { enabled: boolean; lockPeriod: string; transferable: string };
@@ -72,7 +73,7 @@ export default function HedgeyIntegrationSettings(props: {
     } else {
       const { insert_circle_integrations_one } = await createCircleIntegration(
         props.circleId,
-        'hedgey',
+        INTEGRATION_TYPE,
         'Hedgey',
         {
           enabled,

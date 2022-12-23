@@ -4,6 +4,8 @@ import { Contracts } from 'lib/vaults';
 
 import BatchNFTMinter from './BatchNFTMinter.json';
 
+export const INTEGRATION_TYPE = 'hedgey';
+
 export const lockedTokenDistribution = async (
   provider: ethers.providers.JsonRpcProvider,
   contracts: Contracts,
