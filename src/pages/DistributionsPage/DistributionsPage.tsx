@@ -14,7 +14,7 @@ import { useSelectedCircle } from '../../recoilState';
 import { paths } from '../../routes/paths';
 import { LoadingModal } from 'components';
 import { QUERY_KEY_MAIN_HEADER } from 'components/MainLayout/getMainHeaderData';
-import { useApiAdminCircle } from 'hooks';
+import { useApiAdminCircle, useContracts } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { AppLink, BackButton, Box, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
@@ -28,6 +28,7 @@ export function DistributionsPage() {
   const { epochId } = useParams();
   const address = useConnectedAddress();
   const queryClient = useQueryClient();
+  const contracts = useContracts();
 
   const {
     isIdle,
@@ -38,9 +39,9 @@ export function DistributionsPage() {
     refetch: refetchDistributions,
   } = useQuery(
     ['distributions', epochId],
-    () => getEpochData(Number.parseInt(epochId || '0'), address),
+    () => getEpochData(Number.parseInt(epochId || '0'), address, contracts),
     {
-      enabled: !!address,
+      enabled: !!(address && contracts),
       retry: false,
       select: d => {
         if (d.circle)
