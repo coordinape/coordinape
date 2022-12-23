@@ -60,7 +60,7 @@ export const GiveAllocator = ({
         alignItems: 'center',
       }}
     >
-      {optedOut && (
+      {optedOut ? (
         <Flex
           css={{
             flexGrow: 1,
@@ -81,102 +81,103 @@ export const GiveAllocator = ({
             blocked from receiving by the circle admin.
           </ApeInfoTooltip>
         </Flex>
+      ) : (
+        <Flex
+          alignItems="center"
+          css={{
+            display: optedOut ? 'none' : 'flex',
+          }}
+        >
+          <Flex
+            css={{
+              position: 'relative',
+              width: iconSize,
+              height: iconSize,
+            }}
+          >
+            <Button
+              data-testid="decrement"
+              size="small"
+              onClick={decGift}
+              disabled={(gift.tokens ?? 0) < 1 || disabled}
+              color="transparent"
+              css={{
+                padding: 0,
+                color: '$primary',
+                transition: '0.1s all ease-out',
+                '&:hover': {
+                  transform: 'scale(1.1)',
+                },
+                '&:active': {
+                  transform: 'scale(0.9)',
+                },
+                '> svg': {
+                  // This override mr: $xs set in Button for some reason, almost lost my mind over this -g
+                  mr: '0',
+                },
+              }}
+            >
+              <MinusCircle css={{ width: iconSize, height: iconSize }} />
+            </Button>
+            {((gift.tokens ?? 0) < 1 || disabled) && <ClickTrapperIcon />}
+          </Flex>
+          <TextField
+            data-testid="tokenCount"
+            value={gift.tokens ?? ''}
+            onChange={evt => {
+              setGiftTokens(evt.target.value ? evt.target.value : '0');
+            }}
+            maxLength={5}
+            disabled={disabled}
+            onClick={e => e.stopPropagation()}
+            css={{
+              width: '100%',
+              textAlign: 'center',
+              mx: '$sm',
+              py: '$xs',
+              my: '$xs',
+              fontWeight: '$semibold',
+              fontSize: '$h3',
+              backgroundColor: inPanel ? '$white' : '$surface',
+            }}
+            type="number"
+            min="0"
+          />
+          <Flex
+            css={{
+              position: 'relative',
+              width: iconSize,
+              height: iconSize,
+            }}
+          >
+            <Button
+              data-testid="increment"
+              size="small"
+              onClick={incGift}
+              color="transparent"
+              disabled={disabled || maxedOut}
+              css={{
+                padding: 0,
+                color: '$primary',
+                transition: '0.1s all ease-out',
+                '&:hover': {
+                  transform: 'scale(1.1)',
+                },
+                '&:active': {
+                  transform: 'scale(0.9)',
+                },
+                '> svg': {
+                  // This override mr: $xs set in Button for some reason, almost lost my mind over this -g
+                  mr: '0',
+                },
+              }}
+            >
+              <PlusCircle css={{ width: iconSize, height: iconSize }} />
+            </Button>
+            {(disabled || maxedOut) && <ClickTrapperIcon />}
+          </Flex>
+        </Flex>
       )}
-      <Flex
-        alignItems="center"
-        css={{
-          display: optedOut ? 'none' : 'flex',
-        }}
-      >
-        <Flex
-          css={{
-            position: 'relative',
-            width: iconSize,
-            height: iconSize,
-          }}
-        >
-          <Button
-            data-testid="decrement"
-            size="small"
-            onClick={decGift}
-            disabled={(gift.tokens ?? 0) < 1 || disabled}
-            color="transparent"
-            css={{
-              padding: 0,
-              color: '$primary',
-              transition: '0.1s all ease-out',
-              '&:hover': {
-                transform: 'scale(1.1)',
-              },
-              '&:active': {
-                transform: 'scale(0.9)',
-              },
-              '> svg': {
-                // This override mr: $xs set in Button for some reason, almost lost my mind over this -g
-                mr: '0',
-              },
-            }}
-          >
-            <MinusCircle css={{ width: iconSize, height: iconSize }} />
-          </Button>
-          {((gift.tokens ?? 0) < 1 || disabled) && <ClickTrapperIcon />}
-        </Flex>
-        <TextField
-          data-testid="tokenCount"
-          value={gift.tokens ?? ''}
-          onChange={evt => {
-            setGiftTokens(evt.target.value ? evt.target.value : '0');
-          }}
-          maxLength={5}
-          disabled={disabled}
-          onClick={e => e.stopPropagation()}
-          css={{
-            width: '100%',
-            textAlign: 'center',
-            mx: '$sm',
-            py: '$xs',
-            my: '$xs',
-            fontWeight: '$semibold',
-            fontSize: '$h3',
-            backgroundColor: inPanel ? '$white' : '$surface',
-          }}
-          type="number"
-          min="0"
-        />
-        <Flex
-          css={{
-            position: 'relative',
-            width: iconSize,
-            height: iconSize,
-          }}
-        >
-          <Button
-            data-testid="increment"
-            size="small"
-            onClick={incGift}
-            color="transparent"
-            disabled={disabled || maxedOut}
-            css={{
-              padding: 0,
-              color: '$primary',
-              transition: '0.1s all ease-out',
-              '&:hover': {
-                transform: 'scale(1.1)',
-              },
-              '&:active': {
-                transform: 'scale(0.9)',
-              },
-              '> svg': {
-                // This override mr: $xs set in Button for some reason, almost lost my mind over this -g
-                mr: '0',
-              },
-            }}
-          >
-            <PlusCircle css={{ width: iconSize, height: iconSize }} />
-          </Button>
-          {(disabled || maxedOut) && <ClickTrapperIcon />}
-        </Flex>
-      </Flex>
     </Flex>
   );
 };

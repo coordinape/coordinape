@@ -22,7 +22,7 @@ context('Coordinape', () => {
     cy.url({ timeout: 120000 }).should('include', '/give');
     cy.contains('thank your teammates').click();
   });
-  it('can select teammates', () => {
+  it('can add collaborator', () => {
     cy.contains('Bruce')
       .parents('[data-testid=give-row]')
       .trigger('mouseover')
@@ -36,13 +36,22 @@ context('Coordinape', () => {
         });
       });
   });
-  it('can allocate to teammates', () => {
-    cy.contains('Bruce')
+  it('can allocate give by clicking', () => {
+    // Click to add give
+    cy.contains('Lavern')
       .parents('[data-testid=give-row]')
       .within(() => {
         cy.get('[data-testid=increment]').multiClick(5);
-        cy.contains('Empty Note').click().wait(1000);
         cy.get('[data-testid=tokenCount]').should('have.value', '5');
+      });
+  });
+
+  it('can send a note to someone opted out', () => {
+    // send a note to someone opted-out
+    cy.contains('Bruce')
+      .parents('[data-testid=give-row]')
+      .within(() => {
+        cy.contains('Empty Note').click().wait(1000);
       });
 
     cy.get('[data-testid=note]')
@@ -57,7 +66,9 @@ context('Coordinape', () => {
       .within(() => {
         cy.contains('Note Complete').wait(1000);
       });
+  });
 
+  it('can allocate give by entering in to text field, then add note', () => {
     cy.contains('Kasey')
       .parents('[data-testid=give-row]')
       .within(() => {
