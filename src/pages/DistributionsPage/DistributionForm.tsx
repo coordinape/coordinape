@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { formatRelative, parseISO } from 'date-fns';
 import { BigNumber, constants as ethersConstants } from 'ethers';
 import { parseUnits, formatUnits, commify } from 'ethers/lib/utils';
+import { INTEGRATION_TYPE as HEDGEY } from 'lib/hedgey';
 import {
   getVaultSymbolAddressString,
   getWrappedAmount,
@@ -235,13 +236,7 @@ export function DistributionForm({
 
   const integrations = useCurrentCircleIntegrations();
 
-  const hedgeyIntegration = integrations?.data?.find(integration => {
-    return integration.type === 'hedgey';
-  }) as {
-    id: number;
-    type: string;
-    data: { enabled: boolean; lockPeriod: string; transferable: string };
-  };
+  const hedgeyIntegration = integrations?.data?.find(i => i.type === HEDGEY);
 
   const [customToken, setCustomToken] = useState<{
     symbol: string;

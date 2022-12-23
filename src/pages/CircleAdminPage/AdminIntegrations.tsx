@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 
 import * as mutations from 'lib/gql/mutations';
+import { INTEGRATION_TYPE as HEDGEY } from 'lib/hedgey';
 
 import { useCurrentCircleIntegrations } from 'hooks/gql/useCurrentCircleIntegrations';
 import {
@@ -42,13 +43,7 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
   const wonderIntegrations = integrations?.data?.filter(integration => {
     return integration.type === 'wonder';
   });
-  const hedgeyIntegration = integrations?.data?.find(integration => {
-    return integration.type === 'hedgey';
-  }) as {
-    id: number;
-    type: string;
-    data: { enabled: boolean; lockPeriod: string; transferable: string };
-  };
+  const hedgeyIntegration = integrations?.data?.find(i => i.type === HEDGEY);
 
   return (
     <div>
