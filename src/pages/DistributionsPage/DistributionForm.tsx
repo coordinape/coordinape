@@ -15,6 +15,7 @@ import round from 'lodash/round';
 import { useForm, SubmitHandler, useController } from 'react-hook-form';
 import { z } from 'zod';
 
+import { DebugLogger } from '../../common-lib/log';
 import { DISTRIBUTION_TYPE } from '../../config/constants';
 import { paths } from '../../routes/paths';
 import { IUser } from '../../types';
@@ -48,6 +49,8 @@ import type { EpochDataResult, Gift } from './queries';
 import { useLockedTokenDistribution } from './useLockedTokenDistributions';
 import { useSubmitDistribution } from './useSubmitDistribution';
 import { mapProfileIdsByAddress } from './utils';
+
+const logger = new DebugLogger('DistributionForm');
 
 const headerStyle = {
   fontWeight: '$bold',
@@ -359,6 +362,9 @@ export function DistributionForm({
     assert(epoch?.id && circle);
     setGiftSubmitting(true);
     const vault = findVault(value.selectedVaultId);
+    logger.log(
+      `onSubmit: [${value.selectedVaultId}, ${value.tokenContractAddress}]`
+    );
 
     let result;
 
@@ -613,31 +619,23 @@ export function DistributionForm({
     if (value === 'hedgey') {
       setIsUsingHedgey(true);
       setGiftVaultId('');
-      setValue('selectedVaultId', '', {
-        shouldDirty: true,
-      });
+      setValue('selectedVaultId', '', { shouldDirty: true });
       return;
     }
     setIsUsingHedgey(false);
-    setValue('selectedVaultId', value, {
-      shouldDirty: true,
-    });
+    setValue('selectedVaultId', value, { shouldDirty: true });
     setGiftVaultId(value);
     updateBalanceState(value, formGiftAmount, 'gift');
   };
 
   const onHedgeyVaultChange = (value: string) => {
-    setValue('selectedHedgeyVaultId', value, {
-      shouldDirty: true,
-    });
+    setValue('selectedHedgeyVaultId', value, { shouldDirty: true });
     setGiftVaultId(value);
     updateBalanceState(value, formGiftAmount, 'gift');
   };
 
   const onChangeHedgeyLockPeriod = (value: string) => {
-    setValue('hedgeyLockPeriod', value, {
-      shouldDirty: true,
-    });
+    setValue('hedgeyLockPeriod', value, { shouldDirty: true });
   };
 
   useEffect(() => {
@@ -711,7 +709,7 @@ export function DistributionForm({
                       gift circle.
                     </>
                   }
-                  label={`Avail. ${displayAvailableAmount('gift')}`}
+                  label={displayAvailableAmount('gift')}
                   onChange={value => {
                     amountField.onChange(value);
                     setAmount(value);
@@ -827,7 +825,7 @@ export function DistributionForm({
                         this gift circle
                       </>
                     }
-                    label={`Avail. ${displayAvailableAmount('gift')}`}
+                    label={displayAvailableAmount('gift')}
                     onChange={value => {
                       amountField.onChange(value);
                       setAmount(value);
