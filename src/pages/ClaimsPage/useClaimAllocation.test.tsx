@@ -150,7 +150,16 @@ test('claim single successfully', async () => {
                 organization: { id: 3, name: 'org' },
               },
             },
-            vault,
+            vault: {
+              ...vault,
+              price_per_share: (
+                await contracts.getPricePerShare(
+                  vault.vault_address,
+                  vault.simple_token_address,
+                  vault.decimals
+                )
+              ).toUnsafeFloat(),
+            },
           },
           claimIds: [1],
           amount,

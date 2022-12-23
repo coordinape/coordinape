@@ -6,7 +6,7 @@ type ProfileInput = { address: string; name?: string };
 
 export async function createProfile(
   client: GQLClientType,
-  object: ProfileInput
+  object?: ProfileInput
 ): Promise<{ id: number }> {
   if (!object) {
     object = {

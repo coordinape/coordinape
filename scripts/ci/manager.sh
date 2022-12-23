@@ -56,6 +56,11 @@ start_services() {
       exit 1
     fi
   done
+
+  # handle race condition: if hasura started up before the web server, it needs
+  # to reload metadata to enable the remote schema
+  yarn hasura metadata reload
+  
   echo "All services are ready."
 }
 

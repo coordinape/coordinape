@@ -9,12 +9,10 @@ import { formatCustomDate } from '../../../../api-lib/dateTimeHelpers';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getEpoch } from '../../../../api-lib/gql/queries';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
-import { getProvider } from '../../../../api-lib/provider';
 import { uploadCsv } from '../../../../api-lib/s3';
 import { Awaited } from '../../../../api-lib/ts4.5shim';
 import { claimsUnwrappedAmount } from '../../../../src/common-lib/distributions';
 import { isFeatureEnabled } from '../../../../src/config/features';
-import { Contracts } from '../../../../src/lib/vaults';
 import {
   allocationCsvInput,
   composeHasuraActionRequestBody,
@@ -132,10 +130,10 @@ export function generateCsvValues(
         address: u.address,
         fixedDistDecimals: fixedDist?.vault.decimals,
         fixedGifts: fixedDist?.distribution_json.fixedGifts,
-        fixedDistPricePerShare: fixedDist?.pricePerShare,
+        fixedDistPricePerShare: fixedDist?.vault.price_per_share,
         circleDistDecimals: circleDist?.vault.decimals,
         circleDistClaimAmount: claimAmt,
-        circleDistPricePerShare: circleDist?.pricePerShare,
+        circleDistPricePerShare: circleDist?.vault.price_per_share,
       });
       const received = u.received_gifts.length
         ? u.received_gifts
@@ -208,6 +206,7 @@ export async function getCircleDetails(
                     vault_address: true,
                     simple_token_address: true,
                     decimals: true,
+                    price_per_share: true,
                   },
                   claims: [
                     {},
@@ -252,22 +251,11 @@ export async function getCircleDetails(
     },
     { operationName: 'allocationCsv_getGifts' }
   );
-  const chainId =
-    circles_by_pk?.epochs[0]?.distributions[0]?.vault.chain_id || 1;
-  const provider = getProvider(chainId);
-  const contracts = new Contracts(chainId, provider, true);
-  const distributions = await Promise.all(
-    circles_by_pk?.epochs[0]?.distributions.map(async dist => ({
-      ...dist,
-      pricePerShare: await contracts.getPricePerShare(
-        dist.vault.vault_address,
-        dist.vault.simple_token_address,
-        dist.vault.decimals
-      ),
-    })) || []
-  );
   const epoch = circles_by_pk?.epochs[0];
-  return { ...circles_by_pk, epochs: [{ ...epoch, distributions }] };
+  return {
+    ...circles_by_pk,
+    epochs: [{ ...epoch, distributions: epoch?.distributions || [] }],
+  };
 }
 
 export default authCircleAdminMiddleware(handler);
