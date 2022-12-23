@@ -597,8 +597,8 @@ export function DistributionForm({
       });
     } else {
       vaultOptions = options?.includeHedgey
-        ? [{ value: '', label: 'No Vaults Available' }]
-        : [{ value: '', label: 'Connected wallet' }];
+        ? [{ value: '', label: 'Connected wallet' }]
+        : [{ value: '', label: 'No Vaults Available' }];
     }
 
     if (options?.includeHedgey) {
