@@ -7,6 +7,7 @@ import type { CSS } from 'stitches.config';
 
 import { useMyProfile } from '../../recoilState';
 import { LoadingModal } from 'components';
+import { useToast } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { User } from 'icons/__generated';
 import {
@@ -38,6 +39,8 @@ export const CirclesPage = () => {
   const orgs = query.data?.organizations;
 
   const [showAllCircles, setShowAllCircles] = useState(false);
+  const { enqueueToast } = useToast();
+  enqueueToast('test');
 
   if (
     query.isLoading ||
@@ -69,9 +72,20 @@ export const CirclesPage = () => {
         <Text h1 css={{ '@sm': { mb: '$sm' } }}>
           Overview
         </Text>
-        <Button as={NavLink} to={paths.createCircle} color="primary" outlined>
+        <Box css={{ border: '7px solid red' }}>
+          <Button
+            // as={NavLink}
+            // to={paths.createCircle}
+            onClick={() => enqueueToast('Created')}
+            color="primary"
+            outlined
+          >
+            Click for Toast
+          </Button>
+        </Box>
+        {/* <Button as={NavLink} to={paths.createCircle} color="primary" outlined>
           Create New Circle
-        </Button>
+        </Button> */}
       </Flex>
       <Text
         p
@@ -92,13 +106,7 @@ export const CirclesPage = () => {
       </Text>
       {/* Show the sample org first*/}
       {/* Do we have a sample already? If not, lets offer to make one eh */}
-      {sampleOrg && (
-        <OrgCircles
-          key={sampleOrg.id}
-          org={sampleOrg}
-          showAllCircles={showAllCircles}
-        />
-      )}
+      {}
       {/* Show the non-sample orgs*/}
       {orgs
         ?.filter(o => !o.sample)

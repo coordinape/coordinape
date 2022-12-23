@@ -28,6 +28,7 @@
     "@radix-ui/react-popover": "^1.0.2",
     "@radix-ui/react-radio-group": "^1.1.0",
     "@radix-ui/react-select": "^1.1.2",
+    "@radix-ui/react-toast": "^1.1.2",
     "@sentry/integrations": "^7.17.3",
     "@sentry/node": "^7.17.3",
     "@sentry/react": "^7.17.3",

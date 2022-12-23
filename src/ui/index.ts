@@ -27,3 +27,4 @@ export * from './TextArea/TextArea';
 export * from './TextField/TextField';
 export * from './ToggleButton';
 export * from './Tooltip/Tooltip';
+export * from './Toast/Toast';
