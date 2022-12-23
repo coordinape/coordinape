@@ -220,7 +220,6 @@ export async function updateExpiredNominees(idList: number[]) {
         {
           affected_rows: true,
           returning: {
-            name: true,
             expiry_date: true,
           },
         },
@@ -388,13 +387,15 @@ export async function insertVouch(nomineeId: number, voucherId: number) {
           nominee: {
             id: true,
             address: true,
-            name: true,
             circle_id: true,
             user_id: true,
             ended: true,
             vouches_required: true,
             nominated_by_user_id: true,
             nominations_aggregate: [{}, { aggregate: { count: [{}, true] } }],
+            profile: {
+              name: true,
+            },
           },
         },
       ],
