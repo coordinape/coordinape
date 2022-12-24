@@ -665,14 +665,14 @@ export const CircleAdminPage = () => {
                   <Text variant="label" css={{ mb: '$xs' }}>
                     Members
                   </Text>
-                  <Text size="medium">{fixedPayment?.fixedPaymentNumber}</Text>
+                  <Text size="medium">{fixedPayment?.number}</Text>
                 </Flex>
                 <Flex column>
                   <Text variant="label" css={{ mb: '$xs' }}>
                     Fixed Payments Total
                   </Text>
                   <Text size="medium">{`${
-                    fixedPayment?.fixedPaymentTotal
+                    fixedPayment?.total
                   } ${fixedPaymentToken(watchFixedPaymentVaultId)}`}</Text>
                 </Flex>
                 <Flex column>
