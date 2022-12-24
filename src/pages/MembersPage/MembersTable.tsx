@@ -1,7 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { isUserAdmin } from 'lib/users';
 import { zEthAddress } from 'lib/zod/formHelpers';
 import { SubmitHandler, useController, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
@@ -43,8 +42,7 @@ import { TwoColumnLayout } from 'ui/layouts';
 import { shortenAddress } from 'utils';
 
 import { IDeleteUser } from '.';
-
-import { IUser } from 'types';
+import { ICircleUser, QUERY_KEY_CIRCLE_USERS } from './getCircleUsers';
 
 const GIFT_CIRCLE_DOCS_URL =
   'https://docs.coordinape.com/info/documentation/gift_circle';
@@ -77,7 +75,7 @@ const schema = z
 
 type EditUserFormSchema = z.infer<typeof schema>;
 
-const makeCoordinape = (circleId: number): IUser => {
+const makeCoordinape = (circleId: number): ICircleUser => {
   return {
     circle_id: circleId,
     created_at: new Date().toString(),
@@ -98,6 +96,13 @@ const makeCoordinape = (circleId: number): IUser => {
     non_giver: true,
     give_token_remaining: 0,
     bio: 'Coordinape is the platform you’re using right now! We currently offer our service for free and invite people to allocate to us from within your circles. All funds received go towards funding the team and our operations.',
+    profile: {
+      id: -1,
+      name: 'Coordinape',
+      address: USER_COORDINAPE_ADDRESS,
+      skills: '',
+    },
+    fixed_payment_amount: 0,
   };
 };
 
@@ -130,7 +135,7 @@ const coordinapeTooltipContent = () => {
   );
 };
 
-const UserName = ({ user }: { user: IUser }) => {
+const UserName = ({ user }: { user: ICircleUser }) => {
   const { getToProfile } = useNavigation();
 
   return (
@@ -186,8 +191,8 @@ const MemberRow = ({
   setLeaveCircleDialog,
   circleId,
 }: {
-  user: IUser;
-  myUser: IUser;
+  user: ICircleUser;
+  myUser: ICircleUser;
   isAdmin: boolean;
   fixedPaymentToken?: string;
   availableInVault: string;
@@ -279,6 +284,7 @@ const MemberRow = ({
           .then(() => {
             showInfo('Saved changes');
             queryClient.invalidateQueries(QUERY_KEY_FIXED_PAYMENT);
+            queryClient.invalidateQueries(QUERY_KEY_CIRCLE_USERS);
           })
           .catch(console.warn);
       }
@@ -800,10 +806,10 @@ export const MembersTable = ({
   setDeleteUserDialog,
   setLeaveCircleDialog,
 }: {
-  visibleUsers: IUser[];
-  myUser: IUser;
+  visibleUsers: ICircleUser[];
+  myUser: ICircleUser;
   circle: CircleSettingsResult;
-  filter: (u: IUser) => boolean;
+  filter: (u: ICircleUser) => boolean;
   perPage: number;
   availableInVault: string;
   fixedPayment?: FixedPaymentResult;
@@ -811,13 +817,12 @@ export const MembersTable = ({
   setLeaveCircleDialog: (u: IDeleteUser) => void;
 }) => {
   const { isMobile } = useMobileDetect();
-  const isAdmin = isUserAdmin(me);
 
-  const [view, setView] = useState<IUser[]>([]);
+  const [view, setView] = useState<ICircleUser[]>([]);
 
   const coordinapeUser = useMemo(() => makeCoordinape(circle.id), [circle]);
 
-  const users: IUser[] = useMemo(() => {
+  const users: ICircleUser[] = useMemo(() => {
     if (
       !visibleUsers.some(u => u.address === coordinapeUser.address) &&
       visibleUsers.length > 0
@@ -832,11 +837,15 @@ export const MembersTable = ({
     setView(filtered);
   }, [users, perPage, filter, circle]);
 
-  const MemberTable = makeTable<IUser>('MemberTable');
+  const MemberTable = makeTable<ICircleUser>('MemberTable');
 
   const headers = [
     { title: 'Name', css: headerStyles },
-    { title: 'ETH WALLET', css: headerStyles, isHidden: !isAdmin || isMobile },
+    {
+      title: 'ETH WALLET',
+      css: headerStyles,
+      isHidden: !me.isCircleAdmin || isMobile,
+    },
     {
       title: 'Give',
       css: {
@@ -853,7 +862,7 @@ export const MembersTable = ({
     {
       title: 'Fixed Payment',
       css: { ...headerStyles, textAlign: 'center' },
-      isHidden: !circle.fixed_payment_token_type || !isAdmin,
+      isHidden: !circle.fixed_payment_token_type || !me.isCircleAdmin,
     },
     { title: 'Discord Linked', css: { ...headerStyles }, isHidden: true },
     {
@@ -866,12 +875,12 @@ export const MembersTable = ({
     {
       title: `${circle.tokenName} sent`,
       css: { ...headerStyles, textAlign: 'center' },
-      isHidden: !isAdmin,
+      isHidden: !me.isCircleAdmin,
     },
     {
       title: `${circle.tokenName} received`,
       css: { ...headerStyles, textAlign: 'center' },
-      isHidden: !isAdmin,
+      isHidden: !me.isCircleAdmin,
     },
     {
       title: 'Actions',
@@ -889,24 +898,24 @@ export const MembersTable = ({
         perPage={perPage}
         sortByColumn={(index: number) => {
           if (index === 0)
-            return (u: IUser) =>
+            return (u: ICircleUser) =>
               u.profile?.name
                 ? u.profile.name.toLowerCase()
                 : u.name.toLowerCase();
-          if (index === 1) return (u: IUser) => u.address.toLowerCase();
-          if (index === 2) return (u: IUser) => u.non_giver;
-          if (index === 3) return (u: IUser) => u.non_receiver;
-          if (index === 4) return (u: IUser) => u.fixed_payment_amount;
-          if (index === 6) return (u: IUser) => u.isCircleAdmin;
+          if (index === 1) return (u: ICircleUser) => u.address.toLowerCase();
+          if (index === 2) return (u: ICircleUser) => u.non_giver;
+          if (index === 3) return (u: ICircleUser) => u.non_receiver;
+          if (index === 4) return (u: ICircleUser) => u.fixed_payment_amount;
+          if (index === 6) return (u: ICircleUser) => u.isCircleAdmin;
           if (index === 7)
-            return (u: IUser) =>
+            return (u: ICircleUser) =>
               !u.non_giver ? u.starting_tokens - u.give_token_remaining : -1;
           if (index === 8)
-            return (u: IUser) =>
+            return (u: ICircleUser) =>
               !!u.fixed_non_receiver || !!u.non_receiver
                 ? -1
                 : u.give_token_received;
-          return (u: IUser) =>
+          return (u: ICircleUser) =>
             u.profile?.name
               ? u.profile.name.toLowerCase()
               : u.name.toLowerCase();
@@ -914,7 +923,7 @@ export const MembersTable = ({
       >
         {member => (
           <MemberRow
-            isAdmin={isAdmin}
+            isAdmin={me.isCircleAdmin}
             key={member.id}
             user={member}
             fixedPaymentToken={circle.fixed_payment_token_type}
