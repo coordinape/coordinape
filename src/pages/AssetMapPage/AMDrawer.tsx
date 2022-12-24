@@ -119,20 +119,16 @@ export const AMDrawer = () => {
   const amEpochs = useMapEpochs();
   const [amEpochId, setAmEpochId] = useStateAmEpochId();
 
-  // This is the AssetMapPage Controller
   useEffect(() => {
-    if (amEpochs.length === 0) {
-      return;
-    }
+    if (amEpochs.length === 0) return;
     setAmEpochId(amEpochs[amEpochs.length - 1]?.id);
   }, [amEpochs]);
 
+  // ensure data is updated if we just made some allocations
   useEffect(() => {
-    const fetchData = async () => {
+    (async () => {
       await fetchCircle({ circleId: circle.id });
-    };
-    fetchData();
-    setAmEpochId(amEpochs[amEpochs.length - 1]?.id);
+    })();
   }, []);
 
   const epochOptions = useMemo(() => {

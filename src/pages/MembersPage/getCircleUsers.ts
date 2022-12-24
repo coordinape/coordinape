@@ -41,23 +41,12 @@ export const getCircleUsers = async (circleId: number) => {
             name: true,
           },
           role: true,
-          user_private: {
-            fixed_payment_amount: true,
-          },
-          teammates: [
-            {},
-            {
-              teammate: {
-                id: true,
-              },
-            },
-          ],
+          user_private: { fixed_payment_amount: true },
+          teammates: [{}, { teammate: { id: true } }],
         },
       ],
     },
-    {
-      operationName: 'query_getCircleUsers',
-    }
+    { operationName: 'query_getCircleUsers' }
   );
 
   return users.map(user => ({
