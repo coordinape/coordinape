@@ -42,7 +42,7 @@ CREATE TABLE public.circles (
     updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     protocol_id integer,
     token_name character varying(510) DEFAULT 'GIVE'::character varying NOT NULL,
-    cont_help_text text,
+    team_sel_text text,
     alloc_text text,
     telegram_id character varying(510) DEFAULT NULL::character varying,
     logo character varying(510) DEFAULT NULL::character varying,
