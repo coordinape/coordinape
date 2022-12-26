@@ -10,7 +10,7 @@ import {
   removeYearnPrefix,
 } from 'lib/vaults';
 import { useForm, SubmitHandler, useController } from 'react-hook-form';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import * as z from 'zod';
 
 import { FormInputField, FormRadioGroup, LoadingModal } from 'components';
@@ -176,6 +176,7 @@ export const CircleAdminPage = () => {
   useRequireSupportedChain();
   const { circleId, circle: initialData } = useSelectedCircle();
 
+  const queryClient = useQueryClient();
   const {
     isLoading,
     isIdle,
@@ -339,7 +340,7 @@ export const CircleAdminPage = () => {
           ? parseInt(data.fixed_payment_vault_id)
           : null,
       });
-
+      queryClient.invalidateQueries(QUERY_KEY_FIXED_PAYMENT);
       refetch();
       showInfo('Saved changes');
     } catch (e) {
