@@ -18,7 +18,7 @@ import {
   useMapEpochs,
 } from 'recoilState/map';
 import { useDevMode } from 'recoilState/ui';
-import { IconButton, Text, Panel, Select } from 'ui';
+import { IconButton, Text, Panel, Select, Flex } from 'ui';
 
 import AMProfileCard from './AMProfileCard';
 
@@ -30,34 +30,6 @@ interface MetricOption {
 }
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    border: 1,
-  },
-  title: {
-    fontWeight: 300,
-    fontSize: 20,
-    lineHeight: 1.3,
-    margin: theme.spacing(2.5, 0, 0),
-  },
-  controls: {
-    display: 'flex',
-    flexDirection: 'column',
-    backgroundColor: theme.colors.surface,
-    width: '100%',
-    borderRadius: 8,
-    padding: theme.spacing(1, 2),
-    marginBottom: 16,
-  },
-  filterHeader: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingTop: 15 - 8,
-    color: theme.colors.secondaryText,
-  },
   rank: {
     minWidth: 47,
     padding: 0,
@@ -185,19 +157,17 @@ export const AMDrawer = () => {
   };
 
   if (!epochOptions || amEpochId === undefined) {
-    return <div className={classes.root}></div>;
+    return <div />;
   }
 
   return (
     <>
       <Drawer open={open} setOpen={handleSetOpen}>
-        <div className={classes.controls}>
-          <div className={classes.filterHeader}>
+        <Panel css={{ width: '100%', mb: '$md' }}>
+          <Flex css={{ justifyContent: 'space-between', alignItems: 'center' }}>
             <Text
+              semibold
               css={{
-                fontWeight: '$bold',
-                fontSize: '$large',
-                lineHeight: '$short',
                 color: '$headingText',
               }}
             >
@@ -206,8 +176,8 @@ export const AMDrawer = () => {
             <IconButton onClick={() => setOpen(!open)}>
               <Collapse size="lg" />
             </IconButton>
-          </div>
-          {showHiddenFeatures && (
+          </Flex>
+          {!showHiddenFeatures && (
             <MUButton
               onClick={onRankToggle}
               variant="contained"
@@ -243,7 +213,7 @@ export const AMDrawer = () => {
               endAdornment: <Search color="neutral" />,
             }}
           />
-        </div>
+        </Panel>
         <div className={classes.users}>
           {profiles.map(profile => (
             <AMProfileCard
