@@ -44,6 +44,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       res.status(200).json({
         'X-Hasura-Role': 'discord-bot',
       });
+      return;
     }
 
     assert(req.headers?.authorization, 'No token was provided');

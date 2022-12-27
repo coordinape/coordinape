@@ -5,7 +5,6 @@ import { IApiUser, INominator, IUser } from './api.user.profile';
 
 export interface IApiNominee {
   id: number;
-  name?: string;
   address: string;
   nominated_by_user_id: number;
   circle_id: number;
@@ -18,6 +17,7 @@ export interface IApiNominee {
   created_at?: string;
   updated_at?: string;
   nominations?: INominator[];
+  profile?: { name?: string };
 }
 
 export interface INominator {

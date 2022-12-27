@@ -1,6 +1,5 @@
 import assert from 'assert';
 
-import { FixedNumber } from 'ethers';
 import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import type { Contracts } from 'lib/vaults';
@@ -12,7 +11,7 @@ export const getEpochData = async (
   myAddress?: string,
   contracts?: Contracts
 ) => {
-  assert(myAddress);
+  assert(myAddress && contracts);
 
   const gq = await client.query(
     {
@@ -42,6 +41,7 @@ export const getEpochData = async (
                 {
                   where: {
                     profile: { address: { _eq: myAddress.toLowerCase() } },
+                    chain_id: { _eq: Number(contracts.chainId) },
                   },
                 },
                 {
@@ -63,19 +63,13 @@ export const getEpochData = async (
                 id: true,
                 name: true,
                 address: true,
-                profile: {
-                  avatar: true,
-                  id: true,
-                  name: true,
-                },
+                profile: { avatar: true, id: true, name: true },
               },
               tokens: true,
             },
           ],
           distributions: [
-            {
-              where: { tx_hash: { _is_null: false } },
-            },
+            { where: { tx_hash: { _is_null: false } } },
             {
               created_at: true,
               total_amount: true,
@@ -91,13 +85,11 @@ export const getEpochData = async (
                 vault_address: true,
                 simple_token_address: true,
                 chain_id: true,
+                price_per_share: true,
               },
               epoch: {
                 number: true,
-                circle: {
-                  id: true,
-                  name: true,
-                },
+                circle: { id: true, name: true },
               },
               claims: [
                 {},
@@ -106,9 +98,7 @@ export const getEpochData = async (
                   new_amount: true,
                   address: true,
                   profile_id: true,
-                  profile: {
-                    avatar: true,
-                  },
+                  profile: { avatar: true },
                 },
               ],
             },
@@ -116,29 +106,11 @@ export const getEpochData = async (
         },
       ],
     },
-    {
-      operationName: 'getEpochData',
-    }
+    { operationName: 'getEpochData' }
   );
 
   const epoch = gq.epochs_by_pk;
-
-  const distributions = await Promise.all(
-    epoch?.distributions.map(async (dist: typeof epoch.distributions[0]) => ({
-      ...dist,
-      // it's ok to set pricePerShare to 1 when contracts isn't defined because
-      // there are no distributions or vaults in that case anyway
-      pricePerShare: contracts
-        ? await contracts.getPricePerShare(
-            dist.vault.vault_address,
-            dist.vault.simple_token_address,
-            dist.vault.decimals
-          )
-        : FixedNumber.from(1),
-    })) || []
-  );
-
-  return { ...epoch, distributions };
+  return { ...epoch, distributions: epoch?.distributions || [] };
 };
 
 export type EpochDataResult = Awaited<ReturnType<typeof getEpochData>>;

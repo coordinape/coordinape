@@ -300,7 +300,6 @@ export async function getNominee(id: number) {
         {
           id: true,
           address: true,
-          name: true,
           circle_id: true,
           nominator: {
             name: true,
@@ -342,7 +341,6 @@ export async function getExpiredNominees() {
         },
         {
           id: true,
-          name: true,
           circle_id: true,
           nominations_aggregate: [{}, { aggregate: { count: [{}, true] } }],
         },
@@ -553,7 +551,7 @@ export async function getEpoch(
             },
           },
           token_gifts: [
-            { where: { recipient: { deleted_at: { _is_null: true } } } },
+            {},
             {
               tokens: true,
             },

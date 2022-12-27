@@ -1,10 +1,5 @@
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
-export const rWalletModalOpen = atom({
-  key: 'rWalletModalOpen',
-  default: false,
-});
-
 // Use this like a semaphore, add and subtract.
 export const rGlobalLoading = atom({
   key: 'rGlobalLoading',

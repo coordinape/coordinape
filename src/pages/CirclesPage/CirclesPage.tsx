@@ -122,7 +122,7 @@ const buttons: [
 ][] = [
   [paths.contributions, 'Contributions'],
   [paths.history, 'Epoch Overview'],
-  [paths.givebeta, 'Allocation'],
+  [paths.give, 'Allocation'],
   [paths.map, 'Map'],
   [paths.members, 'Members'],
   [paths.circleAdmin, 'Admin', (c: QueryCircle) => c.users[0]?.role !== 1],

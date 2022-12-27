@@ -6,6 +6,7 @@ import { makeStyles, Button as MUButton } from '@material-ui/core';
 
 import { Drawer, ApeAutocomplete } from 'components';
 import { SKILLS } from 'config/constants';
+import { useApiBase } from 'hooks';
 import { Filter, Search, Collapse } from 'icons/__generated';
 import { useSelectedCircle } from 'recoilState/app';
 import {
@@ -78,6 +79,7 @@ export const AMDrawer = () => {
   const classes = useStyles();
   const [open, setOpen] = useState<boolean>(true);
   const [showRank, setShowRank] = useState<boolean>(false);
+  const { fetchCircle } = useApiBase();
 
   const { circle } = useSelectedCircle();
   const setSearch = useSetAmSearch();
@@ -89,13 +91,17 @@ export const AMDrawer = () => {
   const amEpochs = useMapEpochs();
   const [amEpochId, setAmEpochId] = useStateAmEpochId();
 
-  // This is the AssetMapPage Controller
   useEffect(() => {
-    if (amEpochs.length === 0) {
-      return;
-    }
+    if (amEpochs.length === 0) return;
     setAmEpochId(amEpochs[amEpochs.length - 1]?.id);
   }, [amEpochs]);
+
+  // ensure data is updated if we just made some allocations
+  useEffect(() => {
+    (async () => {
+      await fetchCircle({ circleId: circle.id });
+    })();
+  }, []);
 
   const epochOptions = useMemo(() => {
     return amEpochs.length > 0

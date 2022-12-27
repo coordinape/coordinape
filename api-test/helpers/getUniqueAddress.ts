@@ -6,20 +6,9 @@ import { getAccountPath, SEED_PHRASE } from '../../scripts/util/eth';
 export async function isAddressUnique(address: string): Promise<boolean> {
   const { profiles } = await adminClient.query(
     {
-      profiles: [
-        {
-          where: {
-            address: { _ilike: address },
-          },
-        },
-        {
-          id: true,
-        },
-      ],
+      profiles: [{ where: { address: { _ilike: address } } }, { id: true }],
     },
-    {
-      operationName: 'isAddressUnique',
-    }
+    { operationName: 'isAddressUnique' }
   );
 
   return profiles.length === 0;

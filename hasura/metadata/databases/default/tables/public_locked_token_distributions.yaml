@@ -8,6 +8,14 @@ object_relationships:
   - name: profile
     using:
       foreign_key_constraint_on: distributed_by
+array_relationships:
+  - name: locked_token_distribution_gifts
+    using:
+      foreign_key_constraint_on:
+        column: locked_token_distribution_id
+        table:
+          name: locked_token_distribution_gifts
+          schema: public
 insert_permissions:
   - role: user
     permission:
@@ -26,19 +34,25 @@ insert_permissions:
       set:
         distributed_by: x-hasura-User-Id
       columns:
-        - distribution_json
+        - chain_id
         - epoch_id
         - gift_amount
+        - token_contract_address
+        - token_decimals
+        - token_symbol
         - tx_hash
 select_permissions:
   - role: user
     permission:
       columns:
+        - chain_id
         - distributed_by
-        - distribution_json
         - epoch_id
         - gift_amount
         - id
+        - token_contract_address
+        - token_decimals
+        - token_symbol
         - tx_hash
       filter:
         epoch:

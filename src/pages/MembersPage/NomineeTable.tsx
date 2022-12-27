@@ -11,8 +11,7 @@ import { TwoColumnLayout } from 'ui/layouts';
 import { shortenAddress } from 'utils';
 
 import { IActiveNominee } from './getActiveNominees';
-
-import { IUser } from 'types';
+import { ICircleUser } from './getCircleUsers';
 
 const TD = styled('td', {});
 const TR = styled('tr', {});
@@ -33,7 +32,7 @@ const NomineeRow = ({
   vouchingText,
 }: {
   nominee: IActiveNominee[0];
-  myUser?: IUser;
+  myUser?: ICircleUser;
   isNonGiverVoucher?: boolean;
   refetchNominees: () => void;
   vouchingText: string;
@@ -71,7 +70,7 @@ const NomineeRow = ({
         css={{ cursor: 'pointer' }}
       >
         <TD css={{ borderBottomStyle: open ? 'hidden' : 'initial' }}>
-          {nominee.profile?.name ?? nominee.name}
+          {nominee.profile?.name}
         </TD>
         {isAdmin && (
           <TD css={{ borderBottomStyle: open ? 'hidden' : 'initial' }}>
@@ -187,7 +186,7 @@ const NomineeRow = ({
                   >
                     {vouching
                       ? 'Vouching...'
-                      : `Vouch for ${nominee.profile?.name ?? nominee.name}`}
+                      : `Vouch for ${nominee.profile?.name}`}
                   </Button>
                 </Flex>
               </TwoColumnLayout>
@@ -207,7 +206,7 @@ export const NomineesTable = ({
   vouchingText,
 }: {
   nominees?: IActiveNominee;
-  myUser?: IUser;
+  myUser?: ICircleUser;
   isNonGiverVoucher?: boolean;
   refetchNominees: () => void;
   vouchingText: string;
@@ -250,17 +249,12 @@ export const NomineesTable = ({
             perPage={3}
             sortByColumn={(index: number) => {
               if (index === 0)
-                return (n: Nominee) =>
-                  n.profile?.name
-                    ? n.profile?.name.toLowerCase()
-                    : n.name
-                    ? n.name.toLowerCase()
-                    : ''; //temporary until profile.name becomes non nullable
+                return (n: Nominee) => n.profile?.name.toLowerCase();
               if (index === 1) return (n: Nominee) => n.address.toLowerCase();
               if (index === 2)
                 return (n: Nominee) =>
                   n.vouches_required - n.nominations.length + 1;
-              return (n: Nominee) => n.name;
+              return (n: Nominee) => n.profile?.name.toLowerCase();
             }}
           >
             {nominee => (

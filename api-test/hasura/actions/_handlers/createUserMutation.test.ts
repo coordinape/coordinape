@@ -12,105 +12,56 @@ beforeAll(async () => {
   circle = await createCircle(adminClient);
 });
 
-const sendMockReq = async (address: string, name: string, circleId: number) => {
-  await createUserMutation(
+const uniqueName = () =>
+  `${faker.name.firstName()} ${faker.datatype.number(10000)}`;
+
+const runMutation = (address: string, name: string, circleId: number) =>
+  createUserMutation(
     address,
     circleId,
-    {
-      name: name,
-      circle_id: circleId,
-    },
+    { name: name, circle_id: circleId },
     ENTRANCE.MANUAL
   );
+
+const checkNames = async (address, name) => {
+  const query = await adminClient.query({
+    profiles: [{ where: { address: { _ilike: address } } }, { name: true }],
+    users: [{ where: { address: { _ilike: address } } }, { name: true }],
+  });
+  expect(query.profiles[0].name).toMatch(name);
+  expect(query.users[0].name).toMatch(name);
 };
 
 test('create a new user and a profile', async () => {
   const address = await getUniqueAddress();
-  const name = faker.name.firstName(0);
-  await sendMockReq(address, name, circle.id);
-  const query = await adminClient.query({
-    profiles: [{ where: { address: { _ilike: address } } }, { name: true }],
-    users: [{ where: { address: { _ilike: address } } }, { name: true }],
-  });
-  expect(query.profiles[0].name).toMatch(name);
-  expect(query.users[0].name).toMatch(name);
-});
-
-test('create a user with a used name', async () => {
-  const address = await getUniqueAddress();
-  const name = faker.name.firstName(0);
-  await sendMockReq(address, name, circle.id);
-  const query = await adminClient.query({
-    profiles: [{ where: { address: { _ilike: address } } }, { name: true }],
-    users: [{ where: { address: { _ilike: address } } }, { name: true }],
-  });
-  expect(query.profiles[0].name).toMatch(name);
-  expect(query.users[0].name).toMatch(name);
-  const address2 = await getUniqueAddress();
-  await sendMockReq(address2, name, circle.id);
-  const query2 = await adminClient.query({
-    profiles: [{ where: { address: { _ilike: address2 } } }, { name: true }],
-    users: [{ where: { address: { _ilike: address2 } } }, { name: true }],
-  });
-  //the user and the profile won't be created
-  expect(query2.profiles[0].name).toBeNull;
-  expect(query2.users[0].name).toBeNull;
+  const name = uniqueName();
+  await runMutation(address, name, circle.id);
+  await checkNames(address, name);
 });
 
 test('create a user for a profile without a name', async () => {
   const address = await getUniqueAddress();
-  await createProfile(adminClient, { address: address });
+  await createProfile(adminClient, { address });
 
-  const query = await adminClient.query({
-    profiles: [
-      { where: { address: { _ilike: address } } },
-      { name: true, address: true },
-    ],
-    users: [{ where: { address: { _ilike: address } } }, { name: true }],
-  });
-  expect(query.profiles[0].name).toBeNull;
-  expect(query.profiles[0].address.toLowerCase()).toMatch(
-    address.toLowerCase()
-  );
-  expect(query.users).toBeUndefined;
-
-  const name = faker.name.firstName(0);
-  await sendMockReq(address, name, circle.id);
-  const query2 = await adminClient.query({
-    profiles: [{ where: { address: { _ilike: address } } }, { name: true }],
-    users: [{ where: { address: { _ilike: address } } }, { name: true }],
-  });
-  //the new name will be used for profile and user
-  expect(query2.profiles[0].name).toMatch(name);
-  expect(query2.users[0].name).toMatch(name);
+  const name = uniqueName();
+  await runMutation(address, name, circle.id);
+  await checkNames(address, name);
 });
 
-test('create a user for a profile that has a different name', async () => {
+test('prevent using an existing name with a different address', async () => {
   const address = await getUniqueAddress();
-  const name = faker.name.firstName(0);
+  const name = uniqueName();
+  await runMutation(address, name, circle.id);
 
-  await createProfile(adminClient, { address: address, name });
+  const address2 = await getUniqueAddress();
+  await expect(() => runMutation(address2, name, circle.id)).rejects.toThrow();
+});
 
-  const query = await adminClient.query({
-    profiles: [
-      { where: { address: { _ilike: address } } },
-      { name: true, address: true },
-    ],
-    users: [{ where: { address: { _ilike: address } } }, { name: true }],
-  });
-  expect(query.profiles[0].name).toMatch(name);
-  expect(query.profiles[0].address.toLowerCase()).toMatch(
-    address.toLowerCase()
-  );
-  expect(query.users).toBeUndefined;
+test('prevent using an existing address with a different name', async () => {
+  const address = await getUniqueAddress();
+  const name = uniqueName();
+  await createProfile(adminClient, { address, name });
 
-  const name2 = faker.name.firstName(0);
-  await sendMockReq(address, name2, circle.id);
-  const query2 = await adminClient.query({
-    profiles: [{ where: { address: { _ilike: address } } }, { name: true }],
-    users: [{ where: { address: { _ilike: address } } }, { name: true }],
-  });
-  // profile name is unchanged which is used everywhere
-  expect(query2.profiles[0].name).toMatch(name);
-  expect(query2.users[0].name).toMatch(name2);
+  const name2 = uniqueName();
+  await expect(() => runMutation(address, name2, circle.id)).rejects.toThrow();
 });

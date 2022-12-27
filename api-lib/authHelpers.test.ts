@@ -1,4 +1,4 @@
-import { hashTokenString } from '../authHelpers';
+import { hashTokenString } from './authHelpers';
 
 describe('authHelpers', () => {
   test('hashTokenString', () => {

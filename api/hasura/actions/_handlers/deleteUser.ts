@@ -39,8 +39,11 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   );
 
   if (!existingUser) {
-    errorResponseWithStatusCode(res, { message: 'user does not exist' }, 422);
-    return;
+    return errorResponseWithStatusCode(
+      res,
+      { message: 'User does not exist' },
+      422
+    );
   }
 
   await adminClient.mutate(
@@ -69,7 +72,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     }
   );
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
   });
 }
