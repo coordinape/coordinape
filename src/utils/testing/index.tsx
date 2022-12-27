@@ -6,8 +6,9 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
-import { ThemeProvider } from '@material-ui/styles';
+import { ThemeProvider as DeprecatedMaterialUIThemeProvider } from '@material-ui/styles';
 
+import ThemeProvider from '../../features/theming/ThemeProvider';
 import { Web3ReactProvider, useWeb3React } from 'hooks/useWeb3React';
 import { createTheme } from 'theme';
 
@@ -64,8 +65,10 @@ export const TestWrapper = ({
           <Web3ReactProvider>
             <Web3Activator enabled={withWeb3}>
               <MemoryRouter>
-                <ThemeProvider theme={theme}>
-                  <Suspense fallback="Suspended...">{children}</Suspense>
+                <ThemeProvider>
+                  <DeprecatedMaterialUIThemeProvider theme={theme}>
+                    <Suspense fallback="Suspended...">{children}</Suspense>
+                  </DeprecatedMaterialUIThemeProvider>
                 </ThemeProvider>
               </MemoryRouter>
             </Web3Activator>

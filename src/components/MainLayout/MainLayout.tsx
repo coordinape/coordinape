@@ -1,7 +1,6 @@
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense } from 'react';
 
 import { RequireAuth } from 'features/auth';
-import { dark, light, Theme } from 'stitches.config';
 
 import HelpButton from '../HelpButton';
 import { GlobalUi, SentryScopeController } from 'components';
@@ -14,21 +13,8 @@ import { MainHeader } from './MainHeader';
 // have content scroll underneath it
 
 export const MainLayout = () => {
-  const [currentTheme, setCurrentTheme] = useState<Theme>(
-    localStorage['currentTheme']
-  );
-  useEffect(() => {
-    localStorage['currentTheme'] = currentTheme;
-  }, [currentTheme]);
   return (
     <Box
-      className={
-        currentTheme === 'dark'
-          ? dark
-          : currentTheme === 'light'
-          ? light
-          : undefined
-      }
       css={{
         position: 'fixed',
         background: '$background',
@@ -42,10 +28,7 @@ export const MainLayout = () => {
         '& > main': { flex: 1 },
       }}
     >
-      <MainHeader
-        setCurrentTheme={setCurrentTheme}
-        currentTheme={currentTheme}
-      />
+      <MainHeader />
       <RequireAuth>
         <Suspense fallback={null}>
           <Box
