@@ -170,6 +170,12 @@ export const EditProfileModal = ({
         <Flex css={{ columnGap: '$lg', '@sm': { flexDirection: 'column' } }}>
           <Flex column css={{ alignItems: 'center' }}>
             <Text p css={sectionHeader}>
+              Profile Image
+            </Text>
+            <AvatarUpload original={myProfile.avatar} />
+          </Flex>
+          <Flex column css={{ alignItems: 'center' }}>
+            <Text p css={sectionHeader}>
               Profile Name{' '}
               <Tooltip
                 content={
@@ -186,12 +192,6 @@ export const EditProfileModal = ({
               defaultValue={myProfile?.name ?? ''}
               disabled={!data || (!!activeEpochs && activeEpochs > 0)}
             />
-          </Flex>
-          <Flex column css={{ alignItems: 'center' }}>
-            <Text p css={sectionHeader}>
-              Profile Image
-            </Text>
-            <AvatarUpload original={myProfile.avatar} />
           </Flex>
         </Flex>
         <Text p css={sectionHeader}>
