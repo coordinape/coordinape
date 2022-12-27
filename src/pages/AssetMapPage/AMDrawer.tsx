@@ -1,9 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
 
-import clsx from 'clsx';
-
-import { makeStyles, Button as MUButton } from '@material-ui/core';
-
 import { Drawer, ApeAutocomplete } from 'components';
 import { SKILLS } from 'config/constants';
 import { useApiBase } from 'hooks';
@@ -30,53 +26,7 @@ interface MetricOption {
   value: MetricEnum;
 }
 
-const useStyles = makeStyles(theme => ({
-  rank: {
-    minWidth: 47,
-    padding: 0,
-    marginRight: theme.spacing(3),
-  },
-  rankOff: {
-    backgroundColor: theme.colors.white,
-    color: theme.colors.text,
-    '&:hover': {
-      backgroundColor: theme.colors.white,
-      background: theme.colors.white,
-      color: theme.colors.black,
-    },
-  },
-  // Users
-  users: {
-    flexGrow: 1,
-    width: '100%',
-    overflowY: 'scroll',
-    padding: theme.spacing(2, 0),
-    scrollbarColor: theme.colors.secondaryText,
-    scrollbarWidth: 'thin',
-    backgroundColor: theme.colors.surface,
-    '&::-webkit-scrollbar': {
-      backgroundColor: theme.colors.surface,
-      width: 8,
-    },
-    '&::-webkit-scrollbar-track': {
-      backgroundColor: theme.colors.surface,
-    },
-    '&::-webkit-scrollbar-thumb': {
-      backgroundColor: theme.colors.borderMedium,
-    },
-    borderRadius: 8,
-  },
-  toggleButton: {
-    width: 50,
-    display: 'flex',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    padding: theme.spacing(2, 1.5),
-  },
-}));
-
 export const AMDrawer = () => {
-  const classes = useStyles();
   const [open, setOpen] = useState<boolean>(true);
   const [showRank, setShowRank] = useState<boolean>(false);
   const { fetchCircle } = useApiBase();
@@ -171,29 +121,33 @@ export const AMDrawer = () => {
       <Drawer open={open} setOpen={handleSetOpen}>
         <Panel css={{ width: '100%', mb: '$md' }}>
           <Flex css={{ justifyContent: 'space-between', alignItems: 'center' }}>
-            <Text
-              semibold
-              css={{
-                color: '$headingText',
-              }}
-            >
-              Filters
-            </Text>
-            <IconButton onClick={() => setOpen(!open)}>
+            <Flex>
+              <Text
+                semibold
+                css={{
+                  color: '$headingText',
+                  pb: '$sm',
+                  pr: '$sm',
+                }}
+              >
+                Filters
+              </Text>
+              {!showHiddenFeatures && (
+                <IconButton
+                  onClick={onRankToggle}
+                  css={{
+                    height: 'auto',
+                    color: showRank ? '$primary' : '$text',
+                  }}
+                >
+                  <Filter size="lg" />
+                </IconButton>
+              )}
+            </Flex>
+            <IconButton onClick={() => setOpen(!open)} css={{ height: 'auto' }}>
               <Collapse size="lg" />
             </IconButton>
           </Flex>
-          {!showHiddenFeatures && (
-            <MUButton
-              onClick={onRankToggle}
-              variant="contained"
-              color="primary"
-              size="small"
-              className={clsx(classes.rank, { [classes.rankOff]: !showRank })}
-            >
-              <Filter size="lg" />
-            </MUButton>
-          )}
           <Panel invertForm css={{ px: 0, gap: '$md', zIndex: 1 }}>
             <Select
               defaultValue={String(amEpochId)}
@@ -220,7 +174,7 @@ export const AMDrawer = () => {
             }}
           />
         </Panel>
-        <div className={classes.users}>
+        <Panel>
           {profiles.map(profile => (
             <AMProfileCard
               key={profile.id}
@@ -229,7 +183,7 @@ export const AMDrawer = () => {
               circle={circle}
             />
           ))}
-        </div>
+        </Panel>
       </Drawer>
     </>
   );

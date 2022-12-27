@@ -1,10 +1,10 @@
 import React, { useRef, useEffect } from 'react';
 
 import clsx from 'clsx';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import reactStringReplace from 'react-string-replace';
 
-import { makeStyles, Box, Button } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
 import { ProfileSocialIcons } from 'components';
 import {
@@ -13,7 +13,7 @@ import {
   useMapMeasures,
   useMapSearchRegex,
 } from 'recoilState/map';
-import { Avatar } from 'ui';
+import { Avatar, Box, Button } from 'ui';
 import { assertDef } from 'utils';
 
 import { IProfile, ICircle } from 'types';
@@ -21,12 +21,10 @@ import { IProfile, ICircle } from 'types';
 const useStyles = makeStyles(theme => ({
   root: {
     position: 'relative',
-    margin: theme.spacing(3, 2),
+    marginBottom: theme.spacing(2),
     padding: theme.spacing(1.5, 1.75),
     borderRadius: '10px',
-    backgroundColor: theme.colors.background,
-    ['-webkit-mask-image']:
-      'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC)',
+    backgroundColor: 'lavender',
     '& $scale': {
       backgroundColor: 'transparent',
     },
@@ -36,7 +34,7 @@ const useStyles = makeStyles(theme => ({
   },
   rootSummary: {
     '& $scale': {
-      backgroundColor: theme.colors.alert + '40',
+      backgroundColor: theme.colors.primary + '40',
     },
   },
   rootSelected: {
@@ -177,7 +175,7 @@ const AMProfileCard = ({
         [classes.rootSelected]: isSelected,
       })}
     >
-      <Box className={classes.scale} width={`${fraction * 100}%`} />
+      <Box className={classes.scale} css={{ width: `${fraction * 100}%` }} />
       <div className={classes.content}>
         <div className={classes.header} onClick={() => onClick(profile)}>
           <Avatar
@@ -232,9 +230,8 @@ const AMProfileCard = ({
             {isSelected && (
               <div className={classes.seeFullProfile}>
                 <Button
-                  variant="text"
                   size="small"
-                  component={Link}
+                  as={NavLink}
                   color="secondary"
                   to={`/profile/${profile.address}`}
                 >
