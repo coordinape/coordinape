@@ -8,14 +8,14 @@ import { RecoilRoot } from 'recoil';
 
 import { makeStyles } from '@material-ui/core';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import { ThemeProvider } from '@material-ui/styles';
+import { ThemeProvider as DeprecatedMuiThemeProvider } from '@material-ui/styles';
 
 import { ErrorBoundary, MainLayout } from 'components';
 import { Web3ReactProvider } from 'hooks/useWeb3React';
 import { createTheme } from 'theme';
 
+import ThemeProvider from './features/theming/ThemeProvider';
 import { snackbarStyles, globalStyles } from './stitches.config';
-
 import './App.css';
 
 const theme = createTheme();
@@ -32,15 +32,17 @@ function App() {
       <SnackbarProvider maxSnack={3} classes={snackbarClasses}>
         <ErrorBoundary>
           <QueryClientProvider client={queryClient}>
-            <ThemeProvider theme={theme}>
+            <DeprecatedMuiThemeProvider theme={theme}>
               <MuiPickersUtilsProvider utils={LuxonUtils}>
-                <Web3ReactProvider>
-                  <BrowserRouter>
-                    <MainLayout />
-                  </BrowserRouter>
-                </Web3ReactProvider>
+                <ThemeProvider>
+                  <Web3ReactProvider>
+                    <BrowserRouter>
+                      <MainLayout />
+                    </BrowserRouter>
+                  </Web3ReactProvider>
+                </ThemeProvider>
               </MuiPickersUtilsProvider>
-            </ThemeProvider>
+            </DeprecatedMuiThemeProvider>
           </QueryClientProvider>
         </ErrorBoundary>
       </SnackbarProvider>
