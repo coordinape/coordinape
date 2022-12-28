@@ -4,8 +4,6 @@ import clsx from 'clsx';
 import { NavLink } from 'react-router-dom';
 import reactStringReplace from 'react-string-replace';
 
-import { makeStyles } from '@material-ui/core';
-
 import { ProfileSocialIcons } from 'components';
 import {
   useMapMetric,
@@ -18,109 +16,6 @@ import { assertDef } from 'utils';
 
 import { IProfile, ICircle } from 'types';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    position: 'relative',
-    marginBottom: theme.spacing(2),
-    padding: theme.spacing(1.5, 1.75),
-    borderRadius: '10px',
-    backgroundColor: 'lavender',
-    '& $scale': {
-      backgroundColor: 'transparent',
-    },
-    '&:first-child': {
-      marginTop: 0,
-    },
-  },
-  rootSummary: {
-    '& $scale': {
-      backgroundColor: theme.colors.primary + '40',
-    },
-  },
-  rootSelected: {
-    backgroundColor: theme.colors.secondary + '80',
-  },
-  scale: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    bottom: 0,
-  },
-  content: {
-    position: 'relative',
-    left: 0,
-    right: 0,
-    top: 0,
-  },
-  header: {
-    width: '100%',
-    display: 'flex',
-    cursor: 'pointer',
-    '&:hover $headerName': {
-      color: theme.colors.black,
-    },
-  },
-  headerText: {
-    display: 'flex',
-    flexGrow: 1,
-    flexDirection: 'column',
-    marginLeft: theme.spacing(1.25),
-    justifyContent: 'center',
-    overflow: 'hidden',
-  },
-  headerName: {
-    fontSize: 22,
-    fontWeight: 600,
-    lineHeight: 1.2,
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-  },
-  headerMeasure: {
-    fontSize: 14,
-    fontWeight: 300,
-    lineHeight: 1,
-  },
-  avatar: {
-    width: 50,
-    height: 50,
-  },
-  socialContainer: {
-    margin: theme.spacing(2, 0),
-  },
-  skillContainer: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    margin: theme.spacing(1, 0),
-    '& > *': {
-      padding: theme.spacing(0.2, 1),
-      margin: theme.spacing(0.5, 0),
-      background: theme.colors.secondary,
-      textAlign: 'center',
-      fontSize: 12,
-      fontWeight: 300,
-      color: theme.colors.white,
-      borderRadius: 4,
-    },
-    '& > *:not(:first-child)': {
-      marginLeft: theme.spacing(0.5),
-    },
-  },
-  skillMatch: {
-    fontWeight: 700,
-  },
-  bioContainer: {
-    marginTop: theme.spacing(1),
-    fontWeight: 300,
-    fontSize: 14,
-    lineHeight: 1.3,
-    color: theme.colors.text + 'ee',
-  },
-  seeFullProfile: {
-    marginTop: theme.spacing(2),
-    textAlign: 'center',
-  },
-}));
-
 const AMProfileCard = ({
   profile,
   summarize,
@@ -130,7 +25,6 @@ const AMProfileCard = ({
   summarize: boolean;
   circle: ICircle;
 }) => {
-  const classes = useStyles();
   const elemRef = useRef<HTMLDivElement | null>(null);
   const metric = useMapMetric();
   const [egoAddress, setEgoAddress] = useStateAmEgoAddress();
@@ -167,23 +61,122 @@ const AMProfileCard = ({
   };
 
   return (
-    <div
+    <Box
       ref={elemRef}
+      css={{
+        position: 'relative',
+        marginBottom: '$lg',
+        padding: '$lg',
+        borderRadius: '$3',
+        backgroundColor: '$surfaceNested',
+        overflow: 'hidden',
+        '&:first-child': {
+          marginTop: 0,
+        },
+        '&.root .scale': {
+          backgroundColor: 'transparent',
+        },
+        '&.rootSummary .scale': {
+          backgroundColor: '$cta',
+        },
+        '.rootSelected': {
+          backgroundColor: '$secondary',
+        },
+        '.scale': {
+          position: 'absolute',
+          left: 0,
+          top: 0,
+          bottom: 0,
+        },
+        '.content': {
+          position: 'relative',
+          left: 0,
+          right: 0,
+          top: 0,
+        },
+        '.header': {
+          width: '100%',
+          display: 'flex',
+          cursor: 'pointer',
+          '&:hover $headerName': {
+            color: '$text',
+          },
+        },
+        '.headerText': {
+          display: 'flex',
+          flexGrow: 1,
+          flexDirection: 'column',
+          marginLeft: '$lg',
+          justifyContent: 'center',
+          overflow: 'hidden',
+        },
+        '.headerName': {
+          fontSize: 22,
+          fontWeight: 600,
+          lineHeight: 1.2,
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+        },
+        '.headerMeasure': {
+          fontSize: 14,
+          fontWeight: 300,
+          lineHeight: 1,
+        },
+        '.avatar': {
+          width: 50,
+          height: 50,
+        },
+        '.socialContainer': {
+          margin: '$lg 0',
+        },
+        '.skillContainer': {
+          display: 'flex',
+          flexWrap: 'wrap',
+          margin: '$lg 0',
+          '& > *': {
+            padding: '$xs $md',
+            margin: '$md 0',
+            background: '$secondary',
+            textAlign: 'center',
+            fontSize: 12,
+            fontWeight: 300,
+            color: '$background',
+            borderRadius: 4,
+          },
+          '& > *:not(:first-child)': {
+            marginLeft: '$sm',
+          },
+        },
+        '.skillMatch': {
+          fontWeight: 700,
+        },
+        '.bioContainer': {
+          marginTop: '$md',
+          fontWeight: 300,
+          fontSize: 14,
+          lineHeight: 1.3,
+          color: '$text',
+        },
+        '.seeFullProfile': {
+          marginTop: '$lg',
+          textAlign: 'center',
+        },
+      }}
       className={clsx({
-        [classes.root]: true,
-        [classes.rootSummary]: summarize,
-        [classes.rootSelected]: isSelected,
+        ['root']: true,
+        ['rootSummary']: summarize,
+        ['rootSelected']: isSelected,
       })}
     >
-      <Box className={classes.scale} css={{ width: `${fraction * 100}%` }} />
-      <div className={classes.content}>
-        <div className={classes.header} onClick={() => onClick(profile)}>
+      <Box className="scale" css={{ width: `${fraction * 100}%` }} />
+      <div className="content">
+        <div className="header" onClick={() => onClick(profile)}>
           <Avatar
             path={user.profile?.avatar}
             name={user.profile?.name ?? user.name}
           />
-          <div className={classes.headerText}>
-            <span className={classes.headerName}>
+          <div className="headerText">
+            <span className="headerName">
               {reactStringReplace(
                 user.profile?.name ?? user.name,
                 searchRegex,
@@ -191,7 +184,7 @@ const AMProfileCard = ({
                   i === 1 ? <strong key={match}>{match}</strong> : null
               )}
             </span>
-            <span className={classes.headerMeasure}>
+            <span className="headerMeasure">
               {myMeasure && summarize
                 ? myMeasure
                 : user.non_receiver || user.fixed_non_receiver
@@ -203,12 +196,12 @@ const AMProfileCard = ({
         {(!summarize || isSelected) && (
           <>
             {profile?.skills && profile.skills.length > 0 && (
-              <div className={classes.skillContainer}>
+              <div className="skillContainer">
                 {profile.skills.slice(0, 3).map(skill => (
                   <span
                     key={skill}
                     className={
-                      searchRegex?.test(skill) ? classes.skillMatch : undefined
+                      searchRegex?.test(skill) ? 'skillMatch' : undefined
                     }
                   >
                     {skill}
@@ -217,18 +210,18 @@ const AMProfileCard = ({
               </div>
             )}
             {isSelected && (
-              <div className={classes.socialContainer}>
+              <div className="socialContainer">
                 <ProfileSocialIcons profile={profile} />
               </div>
             )}
-            <div className={classes.bioContainer}>
+            <div className="bioContainer">
               {reactStringReplace(bio, searchRegex, (match, i) =>
                 i === 1 ? <strong key={match}>{match}</strong> : null
               )}
             </div>
 
             {isSelected && (
-              <div className={classes.seeFullProfile}>
+              <div className="seeFullProfile">
                 <Button
                   size="small"
                   as={NavLink}
@@ -242,7 +235,7 @@ const AMProfileCard = ({
           </>
         )}
       </div>
-    </div>
+    </Box>
   );
 };
 
