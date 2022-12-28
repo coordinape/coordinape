@@ -38,6 +38,7 @@ export const AllTypesProps: Record<string, any> = {
   DeleteUserInput: {},
   GenerateApiKeyInput: {},
   Int_comparison_exp: {},
+  LinkDiscordCircleInput: {},
   LinkDiscordUserInput: {},
   LogVaultTxInput: {},
   MarkClaimedInput: {},
@@ -3533,6 +3534,9 @@ export const AllTypesProps: Record<string, any> = {
     insert_vouches_one: {
       object: 'vouches_insert_input',
       on_conflict: 'vouches_on_conflict',
+    },
+    linkDiscordCircle: {
+      payload: 'LinkDiscordCircleInput',
     },
     linkDiscordUser: {
       payload: 'LinkDiscordUserInput',
@@ -7457,6 +7461,9 @@ export const ReturnTypes: Record<string, any> = {
     circleApiKey: 'circle_api_keys',
     hash: 'String',
   },
+  LinkDiscordCircleResponse: {
+    id: 'Int',
+  },
   LinkDiscordUserResponse: {
     id: 'Int',
     linkDiscordUser_DiscordUser: 'discord_users',
@@ -9856,6 +9863,7 @@ export const ReturnTypes: Record<string, any> = {
     insert_vaults_one: 'vaults',
     insert_vouches: 'vouches_mutation_response',
     insert_vouches_one: 'vouches',
+    linkDiscordCircle: 'LinkDiscordCircleResponse',
     linkDiscordUser: 'LinkDiscordUserResponse',
     logoutUser: 'LogoutResponse',
     markClaimed: 'MarkClaimedOutput',

@@ -237,6 +237,15 @@ input Int_comparison_exp {
   _nin: [Int!]
 }
 
+input LinkDiscordCircleInput {
+  circle_id: String!
+  token: String!
+}
+
+type LinkDiscordCircleResponse {
+  id: Int!
+}
+
 input LinkDiscordUserInput {
   discord_id: String!
 }
@@ -6193,6 +6202,11 @@ type mutation_root {
     """
     on_conflict: pending_vault_transactions_on_conflict
   ): pending_vault_transactions
+
+  """
+  allow authenticated users to link a discord channel to a circle they admin
+  """
+  linkDiscordCircle(payload: LinkDiscordCircleInput!): LinkDiscordCircleResponse
 
   """
   allow authenticated users to link a discord account to their profile

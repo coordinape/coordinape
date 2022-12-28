@@ -18,6 +18,7 @@ import deleteContribution from './_handlers/deleteContribution';
 import deleteEpoch from './_handlers/deleteEpoch';
 import deleteUser from './_handlers/deleteUser';
 import generateApiKey from './_handlers/generateApiKey';
+import linkDiscordCircle from './_handlers/linkDiscordCircle';
 import linkDiscordUser from './_handlers/linkDiscordUser';
 import logoutUser from './_handlers/logoutUser';
 import markClaimed from './_handlers/markClaimed';
@@ -52,6 +53,7 @@ const HANDLERS: HandlerDict = {
   deleteEpoch,
   deleteUser,
   generateApiKey,
+  linkDiscordCircle,
   linkDiscordUser,
   logoutUser,
   markClaimed,

@@ -806,6 +806,14 @@ export type ValueTypes = {
     _neq?: number | undefined | null;
     _nin?: Array<number> | undefined | null;
   };
+  ['LinkDiscordCircleInput']: {
+    circle_id: string;
+    token: string;
+  };
+  ['LinkDiscordCircleResponse']: AliasType<{
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['LinkDiscordUserInput']: {
     discord_id: string;
   };
@@ -9830,6 +9838,10 @@ export type ValueTypes = {
         on_conflict?: ValueTypes['vouches_on_conflict'] | undefined | null;
       },
       ValueTypes['vouches']
+    ];
+    linkDiscordCircle?: [
+      { payload: ValueTypes['LinkDiscordCircleInput'] },
+      ValueTypes['LinkDiscordCircleResponse']
     ];
     linkDiscordUser?: [
       { payload: ValueTypes['LinkDiscordUserInput'] },
@@ -21125,6 +21137,10 @@ export type ModelTypes = {
   };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: GraphQLTypes['Int_comparison_exp'];
+  ['LinkDiscordCircleInput']: GraphQLTypes['LinkDiscordCircleInput'];
+  ['LinkDiscordCircleResponse']: {
+    id: number;
+  };
   ['LinkDiscordUserInput']: GraphQLTypes['LinkDiscordUserInput'];
   ['LinkDiscordUserResponse']: {
     id: number;
@@ -25120,6 +25136,8 @@ export type ModelTypes = {
     insert_vouches?: GraphQLTypes['vouches_mutation_response'] | undefined;
     /** insert a single row into the table: "vouches" */
     insert_vouches_one?: GraphQLTypes['vouches'] | undefined;
+    /** allow authenticated users to link a discord channel to a circle they admin */
+    linkDiscordCircle?: GraphQLTypes['LinkDiscordCircleResponse'] | undefined;
     /** allow authenticated users to link a discord account to their profile */
     linkDiscordUser?: GraphQLTypes['LinkDiscordUserResponse'] | undefined;
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
@@ -28697,6 +28715,14 @@ export type GraphQLTypes = {
     _lte?: number | undefined;
     _neq?: number | undefined;
     _nin?: Array<number> | undefined;
+  };
+  ['LinkDiscordCircleInput']: {
+    circle_id: string;
+    token: string;
+  };
+  ['LinkDiscordCircleResponse']: {
+    __typename: 'LinkDiscordCircleResponse';
+    id: number;
   };
   ['LinkDiscordUserInput']: {
     discord_id: string;
@@ -35949,6 +35975,8 @@ export type GraphQLTypes = {
     insert_vouches?: GraphQLTypes['vouches_mutation_response'] | undefined;
     /** insert a single row into the table: "vouches" */
     insert_vouches_one?: GraphQLTypes['vouches'] | undefined;
+    /** allow authenticated users to link a discord channel to a circle they admin */
+    linkDiscordCircle?: GraphQLTypes['LinkDiscordCircleResponse'] | undefined;
     /** allow authenticated users to link a discord account to their profile */
     linkDiscordUser?: GraphQLTypes['LinkDiscordUserResponse'] | undefined;
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;

@@ -63,6 +63,10 @@ type Mutation {
 }
 
 type Mutation {
+  linkDiscordCircle(payload: LinkDiscordCircleInput!): LinkDiscordCircleResponse
+}
+
+type Mutation {
   linkDiscordUser(payload: LinkDiscordUserInput!): LinkDiscordUserResponse
 }
 
@@ -365,6 +369,11 @@ input DeleteDiscordUserInput {
   user_snowflake: String!
 }
 
+input LinkDiscordCircleInput {
+  circle_id: String!
+  token: String!
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -465,6 +474,10 @@ type CreateSampleCircleResponse {
 }
 
 type UpdateProfileNameResponse {
+  id: Int!
+}
+
+type LinkDiscordCircleResponse {
   id: Int!
 }
 
