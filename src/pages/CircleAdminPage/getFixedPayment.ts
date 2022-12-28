@@ -8,33 +8,23 @@ export const getFixedPayment = async (circleId: number) => {
       circles_by_pk: [
         { id: circleId },
         {
-          users: [
-            {},
-            {
-              user_private: { fixed_payment_amount: true },
-            },
-          ],
+          users: [{}, { user_private: { fixed_payment_amount: true } }],
+          fixed_payment_vault_id: true,
         },
       ],
     },
-    {
-      operationName: 'getFixedPayment',
-    }
+    { operationName: 'getFixedPayment' }
   );
 
   const fixedPayments = circles_by_pk?.users
     ?.filter(user => user.user_private?.fixed_payment_amount > 0)
     .map(user => user.user_private?.fixed_payment_amount);
 
-  const fixedPaymentTotal = fixedPayments?.reduce((a, b) => a + b, 0);
-
-  const fixedPaymentNumber = fixedPayments?.length;
-
-  const fixedPayment = {
-    fixedPaymentTotal,
-    fixedPaymentNumber,
+  return {
+    total: fixedPayments?.reduce((a, b) => a + b, 0),
+    number: fixedPayments?.length,
+    vaultId: circles_by_pk?.fixed_payment_vault_id,
   };
-  return fixedPayment;
 };
 
 export type FixedPaymentResult = Awaited<ReturnType<typeof getFixedPayment>>;
