@@ -188,7 +188,7 @@ export const ReceiveInfo = () => {
                   css={{
                     gap: '$sm',
                     mt: '$sm',
-                    maxWidth: '20rem',
+                    maxWidth: '30rem',
                   }}
                 >
                   <Avatar
