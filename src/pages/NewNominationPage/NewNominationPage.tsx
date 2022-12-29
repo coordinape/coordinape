@@ -313,7 +313,7 @@ export const NewNominationPage = () => {
                 <Panel alert css={{ mt: '$xl' }}>
                   <Flex column>
                     <Text size="large">
-                      This addresses match an existing account in our system, so
+                      This address matches an existing account in our system, so
                       their name will be used:
                     </Text>
                     <Text>
