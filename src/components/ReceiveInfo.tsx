@@ -130,6 +130,7 @@ export const ReceiveInfo = () => {
             display: 'flex',
             flexDirection: 'column',
             fontSize: '$small',
+            width: '30rem',
             p: '$md',
           }}
         >
@@ -188,7 +189,7 @@ export const ReceiveInfo = () => {
                   css={{
                     gap: '$sm',
                     mt: '$sm',
-                    maxWidth: '30rem',
+                    maxWidth: '100%',
                   }}
                 >
                   <Avatar
