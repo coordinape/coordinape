@@ -11,7 +11,7 @@ import {
   useMapMeasures,
   useMapSearchRegex,
 } from 'recoilState/map';
-import { Avatar, Box, Button } from 'ui';
+import { Avatar, Box, Button, Flex, Text } from 'ui';
 import { assertDef } from 'utils';
 
 import { IProfile, ICircle } from 'types';
@@ -69,7 +69,6 @@ const AMProfileCard = ({
         padding: '$lg',
         borderRadius: '$3',
         backgroundColor: '$surfaceNested',
-        overflow: 'hidden',
         '&:first-child': {
           marginTop: 0,
         },
@@ -77,13 +76,14 @@ const AMProfileCard = ({
           backgroundColor: 'transparent',
         },
         '&.rootSummary .scale': {
-          backgroundColor: '$cta',
+          backgroundColor: '$tagPrimaryBackground',
         },
         '.rootSelected': {
           backgroundColor: '$secondary',
         },
         '.scale': {
           position: 'absolute',
+          borderRadius: '$3',
           left: 0,
           top: 0,
           bottom: 0,
@@ -93,38 +93,6 @@ const AMProfileCard = ({
           left: 0,
           right: 0,
           top: 0,
-        },
-        '.header': {
-          width: '100%',
-          display: 'flex',
-          cursor: 'pointer',
-          '&:hover $headerName': {
-            color: '$text',
-          },
-        },
-        '.headerText': {
-          display: 'flex',
-          flexGrow: 1,
-          flexDirection: 'column',
-          marginLeft: '$lg',
-          justifyContent: 'center',
-          overflow: 'hidden',
-        },
-        '.headerName': {
-          fontSize: 22,
-          fontWeight: 600,
-          lineHeight: 1.2,
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-        },
-        '.headerMeasure': {
-          fontSize: 14,
-          fontWeight: 300,
-          lineHeight: 1,
-        },
-        '.avatar': {
-          width: 50,
-          height: 50,
         },
         '.socialContainer': {
           margin: '$lg 0',
@@ -170,29 +138,32 @@ const AMProfileCard = ({
     >
       <Box className="scale" css={{ width: `${fraction * 100}%` }} />
       <div className="content">
-        <div className="header" onClick={() => onClick(profile)}>
+        <Flex
+          css={{ alignItems: 'center', gap: '$md', cursor: 'pointer' }}
+          onClick={() => onClick(profile)}
+        >
           <Avatar
             path={user.profile?.avatar}
             name={user.profile?.name ?? user.name}
           />
-          <div className="headerText">
-            <span className="headerName">
+          <Box>
+            <Text h3 css={{ display: 'block' }}>
               {reactStringReplace(
                 user.profile?.name ?? user.name,
                 searchRegex,
                 (match, i) =>
                   i === 1 ? <strong key={match}>{match}</strong> : null
               )}
-            </span>
-            <span className="headerMeasure">
+            </Text>
+            <Text>
               {myMeasure && summarize
                 ? myMeasure
                 : user.non_receiver || user.fixed_non_receiver
                 ? 'Opt Out'
                 : ''}
-            </span>
-          </div>
-        </div>
+            </Text>
+          </Box>
+        </Flex>
         {(!summarize || isSelected) && (
           <>
             {profile?.skills && profile.skills.length > 0 && (

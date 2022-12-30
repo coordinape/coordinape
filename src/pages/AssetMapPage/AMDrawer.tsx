@@ -132,12 +132,12 @@ export const AMDrawer = () => {
               >
                 Filters
               </Text>
-              {!showHiddenFeatures && (
+              {showHiddenFeatures && (
                 <IconButton
                   onClick={onRankToggle}
                   css={{
                     height: 'auto',
-                    color: showRank ? '$primary' : '$text',
+                    color: showRank ? '$cta' : '',
                   }}
                 >
                   <Filter size="lg" />
@@ -174,7 +174,7 @@ export const AMDrawer = () => {
             }}
           />
         </Panel>
-        <Panel>
+        <Panel css={{ height: '100%', overflow: 'scroll' }}>
           {profiles.map(profile => (
             <AMProfileCard
               key={profile.id}
