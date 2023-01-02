@@ -146,6 +146,11 @@ export const colors = {
   mapReceiveLink: figmaColors.orange8,
   mapLink: '#00000015',
   mapLinkDim: '#00000008',
+
+  errorColor: newFigmaColors.error6,
+  errorIconBackground: newFigmaColors.error3,
+  successColor: newFigmaColors.success6,
+  successIconBackground: newFigmaColors.success4,
 };
 
 // the notistack library is oriented toward Material-UI, so we can't set its
@@ -238,6 +243,14 @@ export const {
     },
     transitions: {
       quick: 'all 0.2s',
+    },
+    toastify: {
+      'toast-width': '80% !important',
+      'text-color-error': newFigmaColors.error6 + ' !important',
+      'text-color-success': newFigmaColors.success6 + ' !important',
+      'color-progress-info': 'var(--colors-text) !important',
+      'color-progress-success': 'var(--toastify-text-color-success) !important',
+      'color-progress-error': 'var(--toastify-text-color-error) !important',
     },
   },
   media: {
@@ -347,7 +360,8 @@ export const dark = createTheme({
     borderFocus: newFigmaColors.primary5,
 
     tagActiveText: newFigmaColors.warning8,
-    tagActiveBackground: newFigmaColors.warning10,
+    // tagActiveBackground: newFigmaColors.warning10,
+    tagActiveBackground: 'purple',
 
     tagSuccessText: newFigmaColors.success5,
     tagSuccessBackground: newFigmaColors.success10,
@@ -374,6 +388,12 @@ export const dark = createTheme({
     mapNodeFade: '#FFFFFF20',
     mapLink: '#FFFFFF15',
     mapLinkDim: '#FFFFFF08',
+
+    // react-toastify
+    errorColor: newFigmaColors.error6,
+    successColor: newFigmaColors.success6,
+    successIconBackground: newFigmaColors.success10,
+    errorIconBackground: newFigmaColors.error10,
   },
   fonts: {
     display: 'Denim, apple-system, sans-serif',

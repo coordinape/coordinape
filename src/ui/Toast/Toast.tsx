@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from 'react';
 
 import * as ToastPrimitive from '@radix-ui/react-toast';
@@ -15,7 +16,7 @@ const StyledRoot = styled(ToastPrimitive.Root, {
 
 const StyledViewport = styled(ToastPrimitive.Viewport, {
   // --viewport-padding: '25px',
-  position: 'fixed',
+  // position: 'fixed',
   border: '1px solid red',
   bottom: 0,
   right: 0,
@@ -38,44 +39,28 @@ type Props = {
   children?: any;
 };
 
+export const ToastViewport = StyledViewport;
+export const ToastProvider = ToastPrimitive.Provider;
+
 export const Toast = (props: Props) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <ToastPrimitive.Provider>
-      <Button
-        onClick={() => {
-          if (open) {
-            setOpen(false);
-            setTimeout(() => {
-              setOpen(true);
-            }, 400);
-          } else {
-            setOpen(true);
-          }
-        }}
-      >
-        Click Make a Toast
-      </Button>
-      <StyledRoot open={open} onOpenChange={setOpen}>
-        <Flex>
-          {props.title && (
-            <ToastPrimitive.Title>{props.title}</ToastPrimitive.Title>
-          )}
-          <ToastPrimitive.Description>
-            {props.content}
-          </ToastPrimitive.Description>
-          {props.children && (
-            <ToastPrimitive.Action altText="notification" asChild>
-              {props.children}
-            </ToastPrimitive.Action>
-          )}
-          <ToastPrimitive.Close aria-label="Close">
-            <span aria-hidden>×</span>
-          </ToastPrimitive.Close>
-        </Flex>
-      </StyledRoot>
-      <StyledViewport />
-    </ToastPrimitive.Provider>
+    // <StyledRoot open={open} onOpenChange={setOpen}>
+    <Flex className="Toastui">
+      {props.title && (
+        <ToastPrimitive.Title>{props.title}</ToastPrimitive.Title>
+      )}
+      <ToastPrimitive.Description>{props.content}</ToastPrimitive.Description>
+      {props.children && (
+        <ToastPrimitive.Action altText="notification" asChild>
+          {props.children}
+        </ToastPrimitive.Action>
+      )}
+      <ToastPrimitive.Close aria-label="Close">
+        <span aria-hidden>Close ×</span>
+      </ToastPrimitive.Close>
+    </Flex>
+    // </StyledRoot>
   );
 };

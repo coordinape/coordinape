@@ -7,7 +7,7 @@ import type { CSS } from 'stitches.config';
 
 import { useMyProfile } from '../../recoilState';
 import { LoadingModal } from 'components';
-import { useToast } from 'hooks';
+import { useApeSnackbar } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { User } from 'icons/__generated';
 import {
@@ -39,8 +39,7 @@ export const CirclesPage = () => {
   const orgs = query.data?.organizations;
 
   const [showAllCircles, setShowAllCircles] = useState(false);
-  const { enqueueToast } = useToast();
-  enqueueToast('test');
+  const { showInfo } = useApeSnackbar();
 
   if (
     query.isLoading ||
@@ -76,7 +75,9 @@ export const CirclesPage = () => {
           <Button
             // as={NavLink}
             // to={paths.createCircle}
-            onClick={() => enqueueToast('Created')}
+            onClick={() => {
+              showInfo('🦄 Wow so easy!');
+            }}
             color="primary"
             outlined
           >
