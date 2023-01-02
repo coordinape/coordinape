@@ -31,17 +31,6 @@ const useStyles = makeStyles(() => ({
     bottom: 0,
   },
 }));
-// const COLOR_NODE_HIGHLIGHT = theme.colors.cta.value;
-const COLOR_NODE_MORE_HIGHLIGHT = '#44cccc';
-const COLOR_GIVE = '#44cccc';
-const COLOR_RECEIVE = '#d3860d';
-// const COLOR_CIRCULATE = theme.colors.tagActiveText.value;
-const COLOR_NODE = '#000000';
-const COLOR_NODE_FADE = '#00000020';
-// const COLOR_GIVE_LINK = theme.colors.cta.value + '80';
-const COLOR_RECEIVE_LINK = '#d3860d80';
-const COLOR_LINK = '#00000015';
-const COLOR_LINK_DIM = '#00000008';
 
 const MIN_ZOOM = 3;
 
@@ -109,14 +98,14 @@ export const AMForceGraph = ({
     (edge: IMapEdgeFG) => {
       const { egoAddress, isEgoEdge } = mapCtxRef.current;
 
-      let color = COLOR_LINK;
+      let color = stitchesTheme.colors.mapLink.value;
       if (egoAddress) {
-        color = COLOR_LINK_DIM;
+        color = stitchesTheme.colors.mapLinkDim.value;
         if (isEgoEdge(edge, 'gives')) {
-          return COLOR_RECEIVE_LINK;
+          return stitchesTheme.colors.mapReceiveLink.value;
         }
         if (isEgoEdge(edge, 'receives')) {
-          return stitchesTheme.colors.cta.value;
+          return stitchesTheme.colors.mapGiveLink.value;
         }
       }
       return color;
@@ -161,18 +150,22 @@ export const AMForceGraph = ({
       const width = getNodeMeasure(node, nodeBorderScaler);
       const isInBag = bag.has(nid);
 
-      let strokeColor = bag.size || egoAddress ? COLOR_NODE_FADE : COLOR_NODE;
-      if (isInBag) strokeColor = stitchesTheme.colors.cta.value;
-      if (nid === egoAddress) strokeColor = stitchesTheme.colors.cta.value;
+      let strokeColor =
+        bag.size || egoAddress
+          ? stitchesTheme.colors.mapNodeFade.value
+          : stitchesTheme.colors.mapNode.value;
+      if (isInBag) strokeColor = stitchesTheme.colors.mapNodeHighlight.value;
+      if (nid === egoAddress)
+        strokeColor = stitchesTheme.colors.mapNodeHighlight.value;
       if (bag.size && nid === egoAddress)
-        strokeColor = COLOR_NODE_MORE_HIGHLIGHT;
+        strokeColor = stitchesTheme.colors.mapNodeMoreHighlight.value;
       if (egoAddress) {
         const inNode = isEgoNeighbor(node, 'gives');
         const outNode = isEgoNeighbor(node, 'receives');
-        if (inNode) strokeColor = COLOR_GIVE;
-        if (outNode) strokeColor = COLOR_RECEIVE;
+        if (inNode) strokeColor = stitchesTheme.colors.mapGive.value;
+        if (outNode) strokeColor = stitchesTheme.colors.mapReceive.value;
         if (inNode && outNode)
-          strokeColor = stitchesTheme.colors.tagActiveText.value;
+          strokeColor = stitchesTheme.colors.mapCirculate.value;
       }
 
       canvas.beginPath();
@@ -185,7 +178,7 @@ export const AMForceGraph = ({
       canvas.save();
       canvas.beginPath();
       canvas.arc(node.x, node.y, radius, 0, 2 * Math.PI);
-      canvas.fillStyle = COLOR_NODE;
+      canvas.fillStyle = stitchesTheme.colors.mapNode.value;
       canvas.fill();
       canvas.clip();
 

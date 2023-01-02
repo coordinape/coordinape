@@ -7,8 +7,7 @@ import { CSS, styled } from 'stitches.config';
 import { X } from 'icons/__generated';
 
 const Overlay = styled(Dialog.Overlay, {
-  backgroundColor: '$navBackground',
-  opacity: '0.7',
+  backgroundColor: '$modalBackground',
   position: 'fixed',
   inset: 0,
   display: 'grid',
@@ -32,6 +31,8 @@ const Close = styled(Dialog.Close, {
 
 const Content = styled(Dialog.Content, {
   backgroundColor: '$background',
+  border: '1px solid',
+  borderColor: '$modalBorderColor',
   boxShadow: '$shadow1',
   borderRadius: '$3',
   width: '90vw',
