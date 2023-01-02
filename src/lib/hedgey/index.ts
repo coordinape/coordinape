@@ -32,10 +32,11 @@ export const lockedTokenDistribution = async (
   );
 
   if (allowance.lt(amount)) {
-    await token.approve(
+    const transaction = await token.approve(
       deploymentInfo.HedgeyLockedTokenDistribution.address,
       amount
     );
+    await transaction.wait();
   }
 
   const batchNFTMinter = new ethers.Contract(
@@ -68,6 +69,8 @@ export const lockedTokenDistribution = async (
       'batchMint(address,address[],address,uint256[],uint256[],uint256)'
     ];
 
+  const productType = 2;
+
   const args = [
     hedgeyTransferable === '1'
       ? deploymentInfo.HedgeyTransferableNft.address
@@ -76,7 +79,7 @@ export const lockedTokenDistribution = async (
     tokenAddress,
     amounts,
     unlockDates,
-    2,
+    productType,
   ];
   logger.log(args);
   return mintFunction(...args);
