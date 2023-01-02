@@ -1,6 +1,8 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { formatUnits } from 'ethers/lib/utils';
+import { client } from 'lib/gql/client';
 import { zEthAddress } from 'lib/zod/formHelpers';
 import { SubmitHandler, useController, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
@@ -13,7 +15,12 @@ import {
   USER_ROLE_ADMIN,
   USER_ROLE_COORDINAPE,
 } from 'config/constants';
-import { useApeSnackbar, useApiAdminCircle, useNavigation } from 'hooks';
+import {
+  useApeSnackbar,
+  useApiAdminCircle,
+  useNavigation,
+  useContracts,
+} from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { Check, X, Slash, Info } from 'icons/__generated';
 import { CircleSettingsResult } from 'pages/CircleAdminPage/getCircleSettings';
@@ -39,7 +46,7 @@ import {
   ToggleButton,
 } from 'ui';
 import { TwoColumnLayout } from 'ui/layouts';
-import { shortenAddress } from 'utils';
+import { shortenAddress, numberWithCommas } from 'utils';
 
 import { IDeleteUser } from '.';
 import { ICircleUser, QUERY_KEY_CIRCLE_USERS } from './getCircleUsers';
@@ -184,7 +191,6 @@ const MemberRow = ({
   myUser: me,
   isAdmin,
   fixedPaymentToken,
-  availableInVault,
   fixedPayment,
   tokenName,
   setDeleteUserDialog,
@@ -195,7 +201,6 @@ const MemberRow = ({
   myUser: ICircleUser;
   isAdmin: boolean;
   fixedPaymentToken?: string;
-  availableInVault: string;
   fixedPayment?: FixedPaymentResult;
   tokenName: string | undefined;
   setDeleteUserDialog: (u: IDeleteUser) => void;
@@ -250,16 +255,16 @@ const MemberRow = ({
   const fixedPaymentTotal = (
     fixedPaymentAmount: number
   ): { fixedTotal: number; fixedReceivers: number } => {
-    let fixedTotal = fixedPayment?.fixedPaymentTotal ?? 0;
-    let fixedReceivers = fixedPayment?.fixedPaymentNumber ?? 0;
+    let fixedTotal = fixedPayment?.total ?? 0;
+    let fixedReceivers = fixedPayment?.number ?? 0;
     if (!user.fixed_payment_amount && fixedPaymentAmount > 0) {
-      fixedTotal = fixedPayment?.fixedPaymentTotal + fixedPaymentAmount;
-      fixedReceivers = (fixedPayment?.fixedPaymentNumber ?? 0) + 1;
+      fixedTotal = fixedPayment?.total + fixedPaymentAmount;
+      fixedReceivers = (fixedPayment?.number ?? 0) + 1;
     } else if (user.fixed_payment_amount && fixedPaymentAmount > 0) {
       fixedTotal =
-        fixedPayment?.fixedPaymentTotal +
+        fixedPayment?.total +
         (fixedPaymentAmount - (user.fixed_payment_amount ?? 0));
-      fixedReceivers = fixedPayment?.fixedPaymentNumber ?? 1;
+      fixedReceivers = fixedPayment?.number ?? 1;
     }
     return {
       fixedTotal,
@@ -292,6 +297,38 @@ const MemberRow = ({
       console.warn(e);
     }
   };
+
+  const [availableInVault, setAvailableInVault] = useState<string>('');
+  const contracts = useContracts();
+  const mounted = useRef(false);
+
+  useEffect(() => {
+    mounted.current = true;
+
+    return () => {
+      mounted.current = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      if (!contracts || !fixedPayment?.vaultId || !open) return;
+      const { vaults_by_pk: vault } = await client.query({
+        vaults_by_pk: [
+          { id: fixedPayment.vaultId },
+          {
+            simple_token_address: true,
+            vault_address: true,
+            decimals: true,
+          },
+        ],
+      });
+      if (!vault) return;
+      const balance = await contracts.getVaultBalance(vault);
+      const available = formatUnits(balance, vault.decimals);
+      if (mounted.current) setAvailableInVault(numberWithCommas(available));
+    })();
+  }, [contracts, fixedPayment, open]);
 
   return (
     <>
@@ -800,7 +837,6 @@ export const MembersTable = ({
   circle,
   filter,
   perPage,
-  availableInVault,
   fixedPayment,
   setDeleteUserDialog,
   setLeaveCircleDialog,
@@ -810,7 +846,6 @@ export const MembersTable = ({
   circle: CircleSettingsResult;
   filter: (u: ICircleUser) => boolean;
   perPage: number;
-  availableInVault: string;
   fixedPayment?: FixedPaymentResult;
   setDeleteUserDialog: (u: IDeleteUser) => void;
   setLeaveCircleDialog: (u: IDeleteUser) => void;
@@ -927,7 +962,6 @@ export const MembersTable = ({
             user={member}
             fixedPaymentToken={circle.fixed_payment_token_type}
             fixedPayment={fixedPayment}
-            availableInVault={availableInVault}
             tokenName={circle.tokenName}
             myUser={me}
             setDeleteUserDialog={setDeleteUserDialog}
