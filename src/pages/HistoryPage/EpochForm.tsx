@@ -294,7 +294,7 @@ const EpochForm = ({
     },
   });
 
-  const watchFields = useRef<
+  const [watchFields, setWatchFields] = useState<
     Omit<epochFormSchema, 'repeat'> & { repeat: string | number }
   >({
     days: source?.epoch?.days ?? source?.epoch?.calculatedDays ?? 4,
@@ -326,10 +326,11 @@ const EpochForm = ({
         extraErrors.current = false;
         clearErrors('customError');
       }
-
-      if (data.days) watchFields.current.days = data.days;
-      if (data.repeat) watchFields.current.repeat = data.repeat;
-      if (data.start_date) watchFields.current.start_date = data.start_date;
+      const newValues = { ...watchFields };
+      if (data.days) newValues.days = data.days;
+      if (data.repeat) newValues.repeat = data.repeat;
+      if (data.start_date) newValues.start_date = data.start_date;
+      setWatchFields({ ...newValues });
     });
   }, [watch]);
 
@@ -525,9 +526,9 @@ const EpochForm = ({
               />
             </Flex>
             <Flex column>
-              {epochsPreview(watchFields.current)}
+              {epochsPreview(watchFields)}
               <Text p css={{ mt: '$lg' }}>
-                {summarizeEpoch(watchFields.current)}
+                {summarizeEpoch(watchFields)}
               </Text>
             </Flex>
           </TwoColumnLayout>
