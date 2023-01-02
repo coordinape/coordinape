@@ -1,6 +1,6 @@
 import assert from 'assert';
 
-import { parseUnits } from 'ethers/lib/utils';
+import { ethers } from 'ethers';
 import { lockedTokenDistribution } from 'lib/hedgey';
 
 import { DebugLogger } from '../../common-lib/log';
@@ -32,10 +32,22 @@ export const useLockedTokenDistribution = () => {
   }: any) => {
     assert(contracts, 'This network is not supported');
     logger.log('useLockedTokenDistribution');
+    const deploymentInfo = contracts.getDeploymentInfo();
 
     let tokenAddress;
     if (vault) {
-      tokenAddress = vault.simple_token_address || vault.vault_address;
+      if (vault.simple_token_address === ethers.constants.AddressZero) {
+        switch (vault.symbol) {
+          case 'Yearn USDC':
+            tokenAddress = deploymentInfo.USDC.address;
+            break;
+          case 'Yearn DAI':
+            tokenAddress = deploymentInfo.DAI.address;
+            break;
+        }
+      } else {
+        tokenAddress = vault.simple_token_address;
+      }
     } else {
       tokenAddress = tokenContractAddress;
     }
@@ -47,12 +59,17 @@ export const useLockedTokenDistribution = () => {
       token.symbol(),
       token.decimals(),
     ]);
-    const weiAmount = parseUnits(amount, decimals);
+    const weiAmount = ethers.utils.parseUnits(amount, decimals);
 
     if (vault) {
       logger.log(`withdrawing... ${weiAmount.toString()}`);
-      const vaultContract = contracts.getVault(tokenAddress);
-      const result = await vaultContract.apeWithdrawSimpleToken(weiAmount);
+      const vaultContract = contracts.getVault(vault.vault_address);
+      let result;
+      if (vault.simple_token_address === ethers.constants.AddressZero) {
+        result = await vaultContract.apeWithdraw(weiAmount, true);
+      } else {
+        result = await vaultContract.apeWithdrawSimpleToken(weiAmount);
+      }
       await result.wait();
     }
 

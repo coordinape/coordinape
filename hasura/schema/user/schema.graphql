@@ -6539,6 +6539,7 @@ type nominees {
   ended: Boolean!
   expiry_date: timestamp!
   id: bigint!
+  name: String
   nominated_by_user_id: Int!
   nominated_date: date!
 
@@ -6670,6 +6671,7 @@ input nominees_bool_exp {
   ended: Boolean_comparison_exp
   expiry_date: timestamp_comparison_exp
   id: bigint_comparison_exp
+  name: String_comparison_exp
   nominated_by_user_id: Int_comparison_exp
   nominated_date: date_comparison_exp
   nominations: vouches_bool_exp
@@ -6691,6 +6693,7 @@ type nominees_max_fields {
   description: String
   expiry_date: timestamp
   id: bigint
+  name: String
   nominated_by_user_id: Int
   nominated_date: date
   updated_at: timestamp
@@ -6708,6 +6711,7 @@ input nominees_max_order_by {
   description: order_by
   expiry_date: order_by
   id: order_by
+  name: order_by
   nominated_by_user_id: order_by
   nominated_date: order_by
   updated_at: order_by
@@ -6725,6 +6729,7 @@ type nominees_min_fields {
   description: String
   expiry_date: timestamp
   id: bigint
+  name: String
   nominated_by_user_id: Int
   nominated_date: date
   updated_at: timestamp
@@ -6742,6 +6747,7 @@ input nominees_min_order_by {
   description: order_by
   expiry_date: order_by
   id: order_by
+  name: order_by
   nominated_by_user_id: order_by
   nominated_date: order_by
   updated_at: order_by
@@ -6761,6 +6767,7 @@ input nominees_order_by {
   ended: order_by
   expiry_date: order_by
   id: order_by
+  name: order_by
   nominated_by_user_id: order_by
   nominated_date: order_by
   nominations_aggregate: vouches_aggregate_order_by
@@ -6810,6 +6817,11 @@ enum nominees_select_column {
   column name
   """
   id
+
+  """
+  column name
+  """
+  name
 
   """
   column name
@@ -6929,6 +6941,7 @@ input nominees_stream_cursor_value_input {
   ended: Boolean
   expiry_date: timestamp
   id: bigint
+  name: String
   nominated_by_user_id: Int
   nominated_date: date
   updated_at: timestamp
