@@ -14,11 +14,12 @@ const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
   flex: 1,
   justifyContent: 'space-between',
   borderRadius: '$3',
+  border: '1px solid $formInputBorder',
   padding: '$sm',
   lineHeight: '$short',
   fontSize: '$medium',
   width: 'calc(100% - $sm - $sm)',
-  backgroundColor: '$surface',
+  backgroundColor: '$formInputBackground',
   color: '$text',
   '&:hover': { cursor: 'pointer' },
   '&:disabled': {
@@ -30,7 +31,7 @@ const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
 
 const StyledContent = styled(SelectPrimitive.Content, {
   overflow: 'hidden',
-  backgroundColor: '$white',
+  backgroundColor: '$surfaceNested',
   boxShadow: '$heavy',
   borderRadius: '$3',
 });
@@ -50,8 +51,8 @@ const StyledItem = styled(SelectPrimitive.Item, {
   position: 'relative',
   userSelect: 'none',
   '&:focus, &:hover': {
-    backgroundColor: '$text',
-    color: '$white',
+    backgroundColor: '$background',
+    color: '$text',
   },
   '&[data-disabled]': disabledStyle,
 });
@@ -70,7 +71,7 @@ const scrollButtonStyles = {
   alignItems: 'center',
   justifyContent: 'center',
   height: 25,
-  backgroundColor: 'white',
+  backgroundColor: '$surface',
   color: '$grey10',
   cursor: 'default',
 };

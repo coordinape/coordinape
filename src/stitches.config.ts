@@ -127,6 +127,11 @@ export const colors = {
 
   tagPrimaryText: figmaColors.blue12,
   tagPrimaryBackground: figmaColors.blue4,
+
+  formInputText: figmaColors.grey16,
+  formInputBackground: 'white',
+  formInputBorder: figmaColors.grey4,
+  formInputPlaceholder: figmaColors.grey8,
 };
 
 // the notistack library is oriented toward Material-UI, so we can't set its
@@ -333,6 +338,11 @@ export const dark = createTheme({
 
     tagPrimaryText: newFigmaColors.primary7,
     tagPrimaryBackground: newFigmaColors.primary9,
+
+    formInputText: newFigmaColors.grey5,
+    formInputBackground: newFigmaColors.grey9,
+    formInputBorder: newFigmaColors.grey7,
+    formInputPlaceholder: newFigmaColors.grey6,
   },
   fonts: {
     display: 'Denim, apple-system, sans-serif',
@@ -341,7 +351,49 @@ export const dark = createTheme({
 
 export const light = createTheme({
   colors: {
-    primary: 'orangered',
+    cta: newFigmaColors.secondary5,
+    textOnCta: newFigmaColors.primary1,
+    primary: newFigmaColors.grey3,
+    textOnPrimary: newFigmaColors.grey8,
+    secondary: newFigmaColors.grey7,
+    textOnSecondary: newFigmaColors.grey3,
+
+    background: newFigmaColors.grey1,
+    navBackground: newFigmaColors.grey9,
+    surface: newFigmaColors.grey8,
+    surfaceNested: newFigmaColors.grey9,
+
+    text: newFigmaColors.grey2,
+    headingText: newFigmaColors.grey4,
+    secondaryText: newFigmaColors.grey6,
+
+    info: newFigmaColors.secondary10,
+    textOnInfo: newFigmaColors.grey1,
+    link: newFigmaColors.primary4,
+    alert: newFigmaColors.error6,
+    complete: newFigmaColors.success5,
+
+    highlight: newFigmaColors.primary10,
+
+    border: newFigmaColors.grey9,
+    borderFocus: newFigmaColors.primary5,
+
+    tagActiveText: newFigmaColors.warning8,
+    tagActiveBackground: newFigmaColors.warning10,
+
+    tagSuccessText: newFigmaColors.success5,
+    tagSuccessBackground: newFigmaColors.success10,
+
+    tagAlertText: newFigmaColors.error6,
+    tagAlertBackground: newFigmaColors.error10,
+
+    tagPrimaryText: newFigmaColors.primary7,
+    tagPrimaryBackground: newFigmaColors.primary9,
+
+    formInputText: newFigmaColors.grey5,
+    formInputBackground: newFigmaColors.grey9,
+    formInputBorder: newFigmaColors.grey7,
+    formInputPlaceholder: newFigmaColors.grey6,
   },
   fonts: {
     display: 'Denim, apple-system, sans-serif',

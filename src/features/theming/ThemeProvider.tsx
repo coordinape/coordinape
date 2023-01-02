@@ -22,11 +22,13 @@ type Theme = 'dark' | 'light' | typeof defaultThemeName;
 
 type ThemeProviderType = {
   theme: ThemePreference;
+  stitchesTheme: AvailableThemes[string];
   setTheme(newTheme: string): void;
 };
 
 const initialValues: ThemeProviderType = {
   theme: defaultThemeName,
+  stitchesTheme: defaultTheme,
   setTheme: () => {},
 };
 
@@ -37,15 +39,17 @@ type AvailableThemes = {
 };
 
 const available_themes: AvailableThemes = {
-  defaultThemeName: defaultTheme, // stitches' default theme
+  legacy: defaultTheme, // stitches' default theme
   dark: dark,
   light: light,
 };
-
+export type StitchesTheme = AvailableThemes[string];
 const useTheme = (): ThemeProviderType => {
   const [themePreference, setThemePreference] =
     useState<ThemePreference>(defaultThemeName);
   const [theme, setTheme] = useState<Theme>(defaultThemeName);
+  const [stitchesTheme, setStitchesTheme] =
+    useState<AvailableThemes[string]>(defaultTheme);
   const [osTheme, setOsTheme] = useState<MediaTheme | null>(getMediaTheme());
   const html = document.documentElement;
 
@@ -82,6 +86,7 @@ const useTheme = (): ThemeProviderType => {
       html.classList.remove(k);
     }
     html.classList.add(available_themes[theme]);
+    setStitchesTheme(available_themes[theme]);
   }, [theme]);
 
   listenForOSPreferenceChanges(osPref => {
@@ -90,6 +95,7 @@ const useTheme = (): ThemeProviderType => {
 
   return {
     theme: themePreference,
+    stitchesTheme,
     setTheme: (newTheme: ThemePreference) => {
       setThemePreference(newTheme);
       saveThemePreference(newTheme);
@@ -98,11 +104,12 @@ const useTheme = (): ThemeProviderType => {
 };
 
 const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, stitchesTheme } = useTheme();
   return (
     <ThemeContext.Provider
       value={{
         theme: theme,
+        stitchesTheme,
         setTheme: setTheme,
       }}
     >

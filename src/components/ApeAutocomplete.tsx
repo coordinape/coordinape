@@ -31,7 +31,6 @@ export const ApeAutocomplete = React.forwardRef((props: Props, ref) => {
     options,
     InputProps,
     TextFieldProps,
-    // color,
     size,
     error,
     placeholder,
@@ -41,27 +40,22 @@ export const ApeAutocomplete = React.forwardRef((props: Props, ref) => {
     ...otherProps
   } = props;
 
-  // let autocompleteClasses = {
-  //   paper: classes.backgroundDefault,
-  //   listbox: classes.listbox,
-  //   clearIndicator: classes.colorBlack,
-  //   endAdornment: classes.endAdornment,
-  // } as Record<string, string>;
-  // let textfieldClasses = {} as Record<string, string>;
-  // if (color === 'secondary') {
-  //   autocompleteClasses = {
-  //     ...autocompleteClasses,
-  //     paper: classes.backgroundSecondary,
-  //   };
-  //   textfieldClasses = {
-  //     ...textfieldClasses,
-  //     root: classes.autocompleteText,
-  //   };
-  // }
-
   return (
     <Box
       css={{
+        '.root *': {
+          background: '$formInputBackground',
+          color: '$formInputText',
+          '&::placeholder': {
+            color: '$formInputPlaceholder',
+          },
+        },
+        '.formInputWrapper': {
+          border: '1px solid $formInputBorder',
+          '&:focus-within': {
+            borderColor: '$cta',
+          },
+        },
         '.colorBlack': {
           color: '$text',
         },
@@ -84,7 +78,6 @@ export const ApeAutocomplete = React.forwardRef((props: Props, ref) => {
       }}
     >
       <Autocomplete
-        // classes={autocompleteClasses}
         freeSolo
         fullWidth
         onInputChange={
@@ -94,6 +87,7 @@ export const ApeAutocomplete = React.forwardRef((props: Props, ref) => {
         renderInput={(params: AutocompleteRenderInputParams) => {
           return (
             <DeprecatedApeTextFieldWithRef
+              className="root"
               ref={ref}
               {...params}
               InputProps={{
@@ -101,7 +95,6 @@ export const ApeAutocomplete = React.forwardRef((props: Props, ref) => {
                 ...InputProps,
                 classes: {
                   ...(InputProps?.classes ?? {}),
-                  // ...textfieldClasses,
                 },
               }}
               {...TextFieldProps}
