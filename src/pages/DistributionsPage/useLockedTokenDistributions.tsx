@@ -33,13 +33,15 @@ export const useLockedTokenDistribution = () => {
     assert(contracts, 'This network is not supported');
     logger.log('useLockedTokenDistribution');
 
-    assert(
-      vault?.simple_token_address || tokenContractAddress,
-      'no token address'
-    );
-    const token = contracts.getERC20(
-      vault ? vault.simple_token_address : tokenContractAddress
-    );
+    let tokenAddress;
+    if (vault) {
+      tokenAddress = vault.simple_token_address || vault.vault_address;
+    } else {
+      tokenAddress = tokenContractAddress;
+    }
+
+    assert(tokenAddress, 'no token address');
+    const token = contracts.getERC20(tokenAddress);
 
     const [symbol, decimals] = await Promise.all([
       token.symbol(),
@@ -49,7 +51,7 @@ export const useLockedTokenDistribution = () => {
 
     if (vault) {
       logger.log(`withdrawing... ${weiAmount.toString()}`);
-      const vaultContract = contracts.getVault(vault.vault_address);
+      const vaultContract = contracts.getVault(tokenAddress);
       const result = await vaultContract.apeWithdrawSimpleToken(weiAmount);
       await result.wait();
     }
