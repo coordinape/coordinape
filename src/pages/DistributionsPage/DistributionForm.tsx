@@ -70,7 +70,12 @@ type SubmitFormProps = {
   users: (Gift['recipient'] & { received: number })[];
   setAmount: (amount: string) => void;
   setGiftVaultId: (giftVaultId: string) => void;
-  vaults: { id: number; symbol: string; vault_address: string }[];
+  vaults: {
+    id: number;
+    symbol: string;
+    vault_address: string;
+    simple_token_address: string;
+  }[];
   circleUsers: IUser[];
   giftVaultId: string;
   formGiftAmount: string;
@@ -374,12 +379,13 @@ export function DistributionForm({
     }, {} as Record<string, number>);
 
     if (isUsingHedgey) {
+      const hedgeyVault = findVault(value.selectedHedgeyVaultId);
       try {
         result = await lockedTokenDistribution({
           amount: value.amount.toString(),
           tokenContractAddress: value.tokenContractAddress?.toString(),
           gifts,
-          vault,
+          vault: hedgeyVault,
           hedgeyLockPeriod: value.hedgeyLockPeriod,
           hedgeyTransferable: value.hedgeyTransferable,
           epochId: epoch.id,
@@ -596,8 +602,6 @@ export function DistributionForm({
             : `CoVault: ${getVaultSymbolAddressString(t)}`,
         };
       });
-    } else if (options.includeHedgey) {
-      vaultOptions.push({ value: '', label: 'Connected wallet' });
     }
 
     if (options?.includeHedgey) {
