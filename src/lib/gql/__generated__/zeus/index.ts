@@ -5190,6 +5190,7 @@ export type ValueTypes = {
     ended?: boolean | `@${string}`;
     expiry_date?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
     nominated_by_user_id?: boolean | `@${string}`;
     nominated_date?: boolean | `@${string}`;
     nominations?: [
@@ -5303,6 +5304,7 @@ export type ValueTypes = {
     ended?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     expiry_date?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    name?: ValueTypes['String_comparison_exp'] | undefined | null;
     nominated_by_user_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     nominated_date?: ValueTypes['date_comparison_exp'] | undefined | null;
     nominations?: ValueTypes['vouches_bool_exp'] | undefined | null;
@@ -5321,6 +5323,7 @@ export type ValueTypes = {
     description?: boolean | `@${string}`;
     expiry_date?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
     nominated_by_user_id?: boolean | `@${string}`;
     nominated_date?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
@@ -5336,6 +5339,7 @@ export type ValueTypes = {
     description?: ValueTypes['order_by'] | undefined | null;
     expiry_date?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    name?: ValueTypes['order_by'] | undefined | null;
     nominated_by_user_id?: ValueTypes['order_by'] | undefined | null;
     nominated_date?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
@@ -5350,6 +5354,7 @@ export type ValueTypes = {
     description?: boolean | `@${string}`;
     expiry_date?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
     nominated_by_user_id?: boolean | `@${string}`;
     nominated_date?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
@@ -5365,6 +5370,7 @@ export type ValueTypes = {
     description?: ValueTypes['order_by'] | undefined | null;
     expiry_date?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    name?: ValueTypes['order_by'] | undefined | null;
     nominated_by_user_id?: ValueTypes['order_by'] | undefined | null;
     nominated_date?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
@@ -5381,6 +5387,7 @@ export type ValueTypes = {
     ended?: ValueTypes['order_by'] | undefined | null;
     expiry_date?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    name?: ValueTypes['order_by'] | undefined | null;
     nominated_by_user_id?: ValueTypes['order_by'] | undefined | null;
     nominated_date?: ValueTypes['order_by'] | undefined | null;
     nominations_aggregate?:
@@ -5463,6 +5470,7 @@ export type ValueTypes = {
     ended?: boolean | undefined | null;
     expiry_date?: ValueTypes['timestamp'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
+    name?: string | undefined | null;
     nominated_by_user_id?: number | undefined | null;
     nominated_date?: ValueTypes['date'] | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
@@ -11969,6 +11977,7 @@ export type ModelTypes = {
     ended: boolean;
     expiry_date: GraphQLTypes['timestamp'];
     id: GraphQLTypes['bigint'];
+    name?: string | undefined;
     nominated_by_user_id: number;
     nominated_date: GraphQLTypes['date'];
     /** An array relationship */
@@ -12024,6 +12033,7 @@ export type ModelTypes = {
     description?: string | undefined;
     expiry_date?: GraphQLTypes['timestamp'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    name?: string | undefined;
     nominated_by_user_id?: number | undefined;
     nominated_date?: GraphQLTypes['date'] | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
@@ -12040,6 +12050,7 @@ export type ModelTypes = {
     description?: string | undefined;
     expiry_date?: GraphQLTypes['timestamp'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    name?: string | undefined;
     nominated_by_user_id?: number | undefined;
     nominated_date?: GraphQLTypes['date'] | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
@@ -16816,6 +16827,7 @@ export type GraphQLTypes = {
     ended: boolean;
     expiry_date: GraphQLTypes['timestamp'];
     id: GraphQLTypes['bigint'];
+    name?: string | undefined;
     nominated_by_user_id: number;
     nominated_date: GraphQLTypes['date'];
     /** An array relationship */
@@ -16895,6 +16907,7 @@ export type GraphQLTypes = {
     ended?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     expiry_date?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    name?: GraphQLTypes['String_comparison_exp'] | undefined;
     nominated_by_user_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     nominated_date?: GraphQLTypes['date_comparison_exp'] | undefined;
     nominations?: GraphQLTypes['vouches_bool_exp'] | undefined;
@@ -16914,6 +16927,7 @@ export type GraphQLTypes = {
     description?: string | undefined;
     expiry_date?: GraphQLTypes['timestamp'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    name?: string | undefined;
     nominated_by_user_id?: number | undefined;
     nominated_date?: GraphQLTypes['date'] | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
@@ -16928,6 +16942,7 @@ export type GraphQLTypes = {
     description?: GraphQLTypes['order_by'] | undefined;
     expiry_date?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    name?: GraphQLTypes['order_by'] | undefined;
     nominated_by_user_id?: GraphQLTypes['order_by'] | undefined;
     nominated_date?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
@@ -16943,6 +16958,7 @@ export type GraphQLTypes = {
     description?: string | undefined;
     expiry_date?: GraphQLTypes['timestamp'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    name?: string | undefined;
     nominated_by_user_id?: number | undefined;
     nominated_date?: GraphQLTypes['date'] | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
@@ -16957,6 +16973,7 @@ export type GraphQLTypes = {
     description?: GraphQLTypes['order_by'] | undefined;
     expiry_date?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    name?: GraphQLTypes['order_by'] | undefined;
     nominated_by_user_id?: GraphQLTypes['order_by'] | undefined;
     nominated_date?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
@@ -16973,6 +16990,7 @@ export type GraphQLTypes = {
     ended?: GraphQLTypes['order_by'] | undefined;
     expiry_date?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    name?: GraphQLTypes['order_by'] | undefined;
     nominated_by_user_id?: GraphQLTypes['order_by'] | undefined;
     nominated_date?: GraphQLTypes['order_by'] | undefined;
     nominations_aggregate?:
@@ -17054,6 +17072,7 @@ export type GraphQLTypes = {
     ended?: boolean | undefined;
     expiry_date?: GraphQLTypes['timestamp'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    name?: string | undefined;
     nominated_by_user_id?: number | undefined;
     nominated_date?: GraphQLTypes['date'] | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
@@ -19832,6 +19851,7 @@ export const enum nominees_select_column {
   ended = 'ended',
   expiry_date = 'expiry_date',
   id = 'id',
+  name = 'name',
   nominated_by_user_id = 'nominated_by_user_id',
   nominated_date = 'nominated_date',
   updated_at = 'updated_at',
