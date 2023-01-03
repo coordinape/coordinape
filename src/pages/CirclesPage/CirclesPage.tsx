@@ -177,11 +177,17 @@ const GetStarted = () => {
             >
               Create New Circle
             </Button>
-            <Link href={EXTERNAL_URL_GET_STARTED} target="_blank">
-              <Button color="primary" outlined inline css={{ mt: '$md' }}>
-                Get Started Guide
-              </Button>
-            </Link>
+            <Button
+              as={NavLink}
+              to={EXTERNAL_URL_GET_STARTED}
+              target="_blank"
+              color="primary"
+              outlined
+              inline
+              css={{ mt: '$md' }}
+            >
+              Get Started Guide
+            </Button>
           </Box>
         </Flex>
       </Panel>

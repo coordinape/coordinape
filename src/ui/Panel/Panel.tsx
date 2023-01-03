@@ -42,8 +42,8 @@ export const Panel = styled('div', {
     },
     info: {
       true: {
-        backgroundColor: '$info',
-        color: '$textOnInfo',
+        backgroundColor: '$tagPrimaryBackground',
+        color: '$tagPrimaryText',
       },
     },
     success: {
