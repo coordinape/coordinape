@@ -1,32 +1,12 @@
+/* eslint-disable react/display-name */
 import React from 'react';
 
-import { makeStyles, InputProps } from '@material-ui/core';
+import { InputProps } from '@material-ui/core';
 import { Autocomplete, AutocompleteRenderInputParams } from '@material-ui/lab';
 
 import { DeprecatedApeTextFieldWithRef } from 'components/index';
 import type { DeprecatedApeTextField } from 'components/index';
-
-const useStyles = makeStyles(theme => ({
-  colorBlack: {
-    color: theme.colors.black,
-  },
-  endAdornment: {
-    right: theme.spacing(1),
-  },
-  listbox: {
-    overflowX: 'hidden',
-  },
-  backgroundSecondary: {
-    backgroundColor: theme.colors.white,
-  },
-  backgroundDefault: {
-    backgroundColor: theme.colors.white,
-  },
-  autocompleteText: {
-    backgroundColor: theme.colors.white,
-    padding: theme.spacing(0, 1.5),
-  },
-}));
+import { Box } from 'ui';
 
 type Props = Omit<
   React.ComponentProps<typeof Autocomplete>,
@@ -46,14 +26,11 @@ type Props = Omit<
 };
 
 export const ApeAutocomplete = React.forwardRef((props: Props, ref) => {
-  const classes = useStyles();
-
   const {
     onChange,
     options,
     InputProps,
     TextFieldProps,
-    color,
     size,
     error,
     placeholder,
@@ -63,57 +40,75 @@ export const ApeAutocomplete = React.forwardRef((props: Props, ref) => {
     ...otherProps
   } = props;
 
-  let autocompleteClasses = {
-    paper: classes.backgroundDefault,
-    listbox: classes.listbox,
-    clearIndicator: classes.colorBlack,
-    endAdornment: classes.endAdornment,
-  } as Record<string, string>;
-  let textfieldClasses = {} as Record<string, string>;
-  if (color === 'secondary') {
-    autocompleteClasses = {
-      ...autocompleteClasses,
-      paper: classes.backgroundSecondary,
-    };
-    textfieldClasses = {
-      ...textfieldClasses,
-      root: classes.autocompleteText,
-    };
-  }
-
   return (
-    <Autocomplete
-      classes={autocompleteClasses}
-      freeSolo
-      fullWidth
-      onInputChange={
-        onChange ? (_event: any, v: string) => onChange(v) : undefined
-      }
-      options={options}
-      renderInput={(params: AutocompleteRenderInputParams) => {
-        return (
-          <DeprecatedApeTextFieldWithRef
-            ref={ref}
-            {...params}
-            InputProps={{
-              ...params.InputProps,
-              ...InputProps,
-              classes: {
-                ...(InputProps?.classes ?? {}),
-                ...textfieldClasses,
-              },
-            }}
-            {...TextFieldProps}
-            size={size ?? 'medium'}
-            label={label}
-            placeholder={placeholder}
-            helperText={helperText}
-            error={error}
-            apeVariant={isSelect ? 'select' : undefined}
-          />
-        );
+    <Box
+      css={{
+        '.root *': {
+          background: '$formInputBackground',
+          color: '$formInputText',
+          '&::placeholder': {
+            color: '$formInputPlaceholder',
+          },
+        },
+        '.formInputWrapper': {
+          border: '1px solid $formInputBorder',
+          '&:focus-within': {
+            borderColor: '$cta',
+          },
+        },
+        '.colorBlack': {
+          color: '$text',
+        },
+        '.endAdornment': {
+          right: '$sm',
+        },
+        '.listbox': {
+          overflowX: 'hidden',
+        },
+        '.backgroundSecondary': {
+          backgroundColor: '$surfaceNested',
+        },
+        '.backgroundDefault': {
+          backgroundColor: '$surfaceNested',
+        },
+        '.autocompleteText': {
+          backgroundColor: '$surfaceNested',
+          padding: '0 $md',
+        },
       }}
-      {...otherProps}
-    />
+    >
+      <Autocomplete
+        freeSolo
+        fullWidth
+        onInputChange={
+          onChange ? (_event: any, v: string) => onChange(v) : undefined
+        }
+        options={options}
+        renderInput={(params: AutocompleteRenderInputParams) => {
+          return (
+            <DeprecatedApeTextFieldWithRef
+              className="root"
+              ref={ref}
+              {...params}
+              InputProps={{
+                ...params.InputProps,
+                ...InputProps,
+                classes: {
+                  ...(InputProps?.classes ?? {}),
+                },
+              }}
+              {...TextFieldProps}
+              size={size ?? 'medium'}
+              label={label}
+              placeholder={placeholder}
+              helperText={helperText}
+              error={error}
+              apeVariant={isSelect ? 'select' : undefined}
+            />
+          );
+        }}
+        {...otherProps}
+      />
+    </Box>
   );
 });

@@ -39,7 +39,7 @@ export const Button = styled('button', {
         color: '$textOnAlert',
       },
       neutral: {
-        backgroundColor: '$neutral',
+        backgroundColor: '$primary',
         color: 'white',
       },
       surface: {

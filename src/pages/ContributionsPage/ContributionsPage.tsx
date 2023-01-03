@@ -548,7 +548,7 @@ const ContributionsPage = () => {
                     <ChevronsRight size="lg" />
                   </Button>
                   <Button
-                    color="white"
+                    color="neutral"
                     size="large"
                     css={nextPrevCss}
                     disabled={
@@ -976,7 +976,6 @@ const ContributionList = ({
               css={{
                 border: '2px solid $border',
                 cursor: 'pointer',
-                background: 'white',
                 '&:hover': {
                   background: '$highlight',
                   border: '2px solid $link',

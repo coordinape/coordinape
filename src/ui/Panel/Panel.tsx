@@ -31,7 +31,7 @@ export const Panel = styled('div', {
       true: {
         'input, textarea, button[role="radio"], button[role="combobox"], button[role="checkbox"]':
           {
-            backgroundColor: 'white',
+            backgroundColor: '$surfaceNested',
             '&:disabled': {
               borderColor: '$borderMedium',
               background: 'transparent',
@@ -42,8 +42,8 @@ export const Panel = styled('div', {
     },
     info: {
       true: {
-        backgroundColor: '$info',
-        color: '$textOnInfo',
+        backgroundColor: '$tagPrimaryBackground',
+        color: '$tagPrimaryText',
       },
     },
     success: {

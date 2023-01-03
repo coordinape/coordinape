@@ -98,6 +98,7 @@ const makeComponent =
     const inputClasses = {
       ...InputProps?.classes,
       root: clsx(
+        'formInputWrapper',
         classes.inputRoot,
         {
           [classes.inputRootError]: !!error,
@@ -105,6 +106,7 @@ const makeComponent =
         InputProps?.classes?.root
       ),
       input: clsx(
+        'formInput',
         classes.input,
         { [classes.multiLineInput]: multiline },
         InputProps?.classes?.input
