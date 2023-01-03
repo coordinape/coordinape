@@ -32,7 +32,7 @@ context('Coordinape', () => {
       .wait(1000)
       .type("It's annoying that I need to fill forty whole characters here.");
     cy.get('button').contains('Nominate Member').click();
-    cy.contains('You have successfully Nominated Satoshi', {
+    cy.contains('You have successfully nominated Satoshi', {
       timeout: 120000,
     }).should('be.visible');
     cy.get('button').contains('Back').click().wait(5000);
