@@ -78,8 +78,8 @@ const AMProfileCard = ({
         '&.rootSummary .scale': {
           backgroundColor: '$tagPrimaryBackground',
         },
-        '.rootSelected': {
-          backgroundColor: '$secondary',
+        '&.rootSelected': {
+          backgroundColor: '$tagPrimaryBackground',
         },
         '.scale': {
           position: 'absolute',
@@ -87,47 +87,6 @@ const AMProfileCard = ({
           left: 0,
           top: 0,
           bottom: 0,
-        },
-        '.content': {
-          position: 'relative',
-          left: 0,
-          right: 0,
-          top: 0,
-        },
-        '.socialContainer': {
-          margin: '$lg 0',
-        },
-        '.skillContainer': {
-          display: 'flex',
-          flexWrap: 'wrap',
-          margin: '$lg 0',
-          '& > *': {
-            padding: '$xs $md',
-            margin: '$md 0',
-            background: '$secondary',
-            textAlign: 'center',
-            fontSize: 12,
-            fontWeight: 300,
-            color: '$background',
-            borderRadius: 4,
-          },
-          '& > *:not(:first-child)': {
-            marginLeft: '$sm',
-          },
-        },
-        '.skillMatch': {
-          fontWeight: 700,
-        },
-        '.bioContainer': {
-          marginTop: '$md',
-          fontWeight: 300,
-          fontSize: 14,
-          lineHeight: 1.3,
-          color: '$text',
-        },
-        '.seeFullProfile': {
-          marginTop: '$lg',
-          textAlign: 'center',
         },
       }}
       className={clsx({
@@ -137,7 +96,7 @@ const AMProfileCard = ({
       })}
     >
       <Box className="scale" css={{ width: `${fraction * 100}%` }} />
-      <div className="content">
+      <Flex column css={{ gap: '$sm' }}>
         <Flex
           css={{ alignItems: 'center', gap: '$md', cursor: 'pointer' }}
           onClick={() => onClick(profile)}
@@ -167,45 +126,38 @@ const AMProfileCard = ({
         {(!summarize || isSelected) && (
           <>
             {profile?.skills && profile.skills.length > 0 && (
-              <div className="skillContainer">
+              <Flex css={{ gap: '$sm' }}>
                 {profile.skills.slice(0, 3).map(skill => (
-                  <span
-                    key={skill}
-                    className={
-                      searchRegex?.test(skill) ? 'skillMatch' : undefined
-                    }
-                  >
+                  <Text tag color="active" key={skill}>
                     {skill}
-                  </span>
+                  </Text>
                 ))}
-              </div>
+              </Flex>
             )}
             {isSelected && (
-              <div className="socialContainer">
+              <Flex>
                 <ProfileSocialIcons profile={profile} />
-              </div>
+              </Flex>
             )}
-            <div className="bioContainer">
+            <Flex>
               {reactStringReplace(bio, searchRegex, (match, i) =>
                 i === 1 ? <strong key={match}>{match}</strong> : null
               )}
-            </div>
+            </Flex>
 
             {isSelected && (
-              <div className="seeFullProfile">
-                <Button
-                  size="small"
-                  as={NavLink}
-                  color="secondary"
-                  to={`/profile/${profile.address}`}
-                >
-                  See Full Profile →
-                </Button>
-              </div>
+              <Button
+                size="small"
+                as={NavLink}
+                color="secondary"
+                to={`/profile/${profile.address}`}
+              >
+                See Full Profile →
+              </Button>
             )}
           </>
         )}
-      </div>
+      </Flex>
     </Box>
   );
 };
