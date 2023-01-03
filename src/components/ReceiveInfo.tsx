@@ -121,7 +121,7 @@ export const ReceiveInfo = () => {
         sideOffset={-38}
         alignOffset={-1}
         css={{
-          maxHeight: '$smallScreen',
+          maxHeight: '90vh',
           overflowY: 'scroll',
           zIndex: 4,
         }}
@@ -131,6 +131,7 @@ export const ReceiveInfo = () => {
             display: 'flex',
             flexDirection: 'column',
             fontSize: '$small',
+            width: '30rem',
             p: '$md',
           }}
         >
@@ -189,7 +190,7 @@ export const ReceiveInfo = () => {
                   css={{
                     gap: '$sm',
                     mt: '$sm',
-                    maxWidth: '28rem',
+                    maxWidth: '100%',
                   }}
                 >
                   <Avatar
