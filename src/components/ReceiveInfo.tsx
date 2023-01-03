@@ -120,7 +120,7 @@ export const ReceiveInfo = () => {
         sideOffset={-38}
         alignOffset={-1}
         css={{
-          maxHeight: '$smallScreen',
+          maxHeight: '90vh',
           overflowY: 'scroll',
           zIndex: 4,
         }}
