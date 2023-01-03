@@ -305,7 +305,7 @@ export const NewNominationPage = () => {
                 <Flex>
                   <Check color="successDark" size="lg" css={{ mr: '$md' }} />
                   <Text size="large">
-                    You have successfully Nominated {nomineeName} to the circle
+                    You have successfully nominated {nomineeName} to the circle
                   </Text>
                 </Flex>
               </Panel>
