@@ -63,6 +63,7 @@ export const NewNominationPage = () => {
   const [submitting, setSubmitting] = useState(false);
   const [isSuccessful, setIsSuccessful] = useState(false);
   const [nomineeName, setNomineeName] = useState('');
+  const [profileName, setProfileName] = useState(undefined);
 
   const queryClient = useQueryClient();
 
@@ -114,13 +115,15 @@ export const NewNominationPage = () => {
     setSubmitting(true);
     setIsSuccessful(false);
     createNominee(circle.id, data)
-      .then(() => {
-        queryClient.invalidateQueries(QUERY_KEY_ACTIVE_NOMINEES);
-      })
-      .then(() => {
+      .then(res => {
+        const storedName = res?.nominee?.profile?.name;
         setIsSuccessful(true);
         setSubmitting(false);
         setNomineeName(name.value);
+        if (storedName && storedName !== data.name) setProfileName(storedName);
+      })
+      .then(() => {
+        queryClient.invalidateQueries(QUERY_KEY_ACTIVE_NOMINEES);
       })
       .catch(err => {
         if (err.response?.errors?.length > 0) {
@@ -297,14 +300,30 @@ export const NewNominationPage = () => {
             </Button>
           </Panel>
           {isSuccessful && (
-            <Panel success css={{ mt: '$xl' }}>
-              <Flex>
-                <Check color="successDark" size="lg" css={{ mr: '$md' }} />
-                <Text size="large">
-                  You have successfully Nominated {nomineeName} to the circle
-                </Text>
-              </Flex>
-            </Panel>
+            <>
+              <Panel success css={{ mt: '$xl' }}>
+                <Flex>
+                  <Check color="successDark" size="lg" css={{ mr: '$md' }} />
+                  <Text size="large">
+                    You have successfully nominated {nomineeName} to the circle
+                  </Text>
+                </Flex>
+              </Panel>
+              {profileName && (
+                <Panel alert css={{ mt: '$xl' }}>
+                  <Flex column>
+                    <Text size="large">
+                      This address matches an existing account in our system, so
+                      their name will be used:
+                    </Text>
+                    <Text>
+                      &ldquo;{profileName}&ldquo; will be used instead of
+                      &ldquo;{nomineeName}&ldquo;
+                    </Text>
+                  </Flex>
+                </Panel>
+              )}
+            </>
           )}
           <Box css={{ mt: '$md' }}>
             <Link
