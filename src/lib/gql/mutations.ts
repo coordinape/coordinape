@@ -277,7 +277,11 @@ export const createNominee = async (
           },
         },
         {
-          id: true,
+          nominee: {
+            profile: {
+              name: true,
+            },
+          },
         },
       ],
     },
