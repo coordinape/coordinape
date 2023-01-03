@@ -77,7 +77,7 @@ export const MobileHeader = ({
             css={{
               display: 'flex',
               alignItems: 'center',
-              background: '$text',
+              background: '$navBackground',
               justifyContent: 'space-between',
               px: '$lg',
               py: '$md',

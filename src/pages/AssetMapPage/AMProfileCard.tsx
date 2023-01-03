@@ -139,11 +139,11 @@ const AMProfileCard = ({
                 <ProfileSocialIcons profile={profile} />
               </Flex>
             )}
-            <Flex>
+            <Text>
               {reactStringReplace(bio, searchRegex, (match, i) =>
                 i === 1 ? <strong key={match}>{match}</strong> : null
               )}
-            </Flex>
+            </Text>
 
             {isSelected && (
               <Button
