@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { toast } from 'react-toastify';
-import { string } from 'zod';
 
 import { FlattenedGQLError } from '../common-lib/errorHandling';
-import { Flex, Toast, Text, Avatar } from 'ui';
+import { AlertTriangle, Check, Info, X } from 'icons/__generated';
+import { Button, Flex } from 'ui';
 import { normalizeError } from 'utils/reporting';
 
 const defaultErrorMessage = 'Something went wrong.';
@@ -21,38 +20,61 @@ const displayError = (error: any) => {
   return data?.message || error.message || defaultErrorMessage;
 };
 
-const ToastMsg = (msg: string) => {
+const SuccessIcon = () => {
   return (
-    <Flex>
-      <div className="notforgotten">
-        <Toast title={msg} content="some onctent">
-          <Avatar />
-        </Toast>
-      </div>
-    </Flex>
+    <>
+      <Flex
+        css={{
+          backgroundColor: '$successIconBackground',
+          borderRadius: '4px',
+          padding: '4px',
+        }}
+      >
+        <Check boldstroke css={{ color: '$successColor' }} />
+      </Flex>
+    </>
+  );
+};
+const ErrorIcon = () => {
+  return (
+    <>
+      <Flex
+        css={{
+          backgroundColor: '$errorIconBackground',
+          borderRadius: '4px',
+          padding: '4px',
+        }}
+      >
+        <AlertTriangle css={{ color: '$errorColor' }} />
+      </Flex>
+    </>
+  );
+};
+const InfoIcon = () => {
+  return <Info css={{ color: 'var(--colors-text)' }} />;
+};
+
+// boolean | ((props: CloseButtonProps) => ReactNode) | ReactElement<CloseButtonProps, string | JSXElementConstructor<any>> | undefined'
+const CloseButton = (closeToast: any) => {
+  return (
+    <Button css={{ background: 'none' }} as="span" onClick={() => closeToast()}>
+      <X />
+    </Button>
   );
 };
 
-export const useApeSnackbar = () => {
+export const useToast = () => {
   return {
-    showInfo: (message: string) =>
-      toast.info(ToastMsg(message), { autoClose: false, closeOnClick: false }),
+    showInfo: (message: string) => toast.info(message, { icon: InfoIcon }),
+    showSuccess: (message: string) =>
+      toast.success(message, {
+        icon: SuccessIcon,
+        closeButton: CloseButton,
+      }),
     showError: (error: any) =>
       toast.error(displayError(error), {
-        style: { border: '1px solid red' }, // variant: 'error',
-        autoClose: false, // persist: true,
-        // action: (snackbarId: SnackbarKey) => {
-        //   return (
-        //     <Button
-        //       size="small"
-        //       outlined
-        //       css={{ color: '$white' }}
-        //       onClick={() => closeSnackbar(snackbarId)}
-        //     >
-        //       Close
-        //     </Button>
-        //   );
-        // },
+        icon: ErrorIcon,
+        closeButton: CloseButton,
       }),
   };
 };

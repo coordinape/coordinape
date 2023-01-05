@@ -15,7 +15,7 @@ import * as z from 'zod';
 
 import { FormInputField, FormRadioGroup, LoadingModal } from 'components';
 import isFeatureEnabled from 'config/features';
-import { useApeSnackbar, useApiAdminCircle, useContracts } from 'hooks';
+import { useToast, useApiAdminCircle, useContracts } from 'hooks';
 import { useCircleOrg } from 'hooks/gql/useCircleOrg';
 import { useVaults } from 'hooks/gql/useVaults';
 import { Info } from 'icons/__generated';
@@ -217,7 +217,7 @@ export const CircleAdminPage = () => {
   );
 
   const contracts = useContracts();
-  const { showInfo } = useApeSnackbar();
+  const { showInfo } = useToast();
   const orgQuery = useCircleOrg(circleId);
 
   const vaultsQuery = useVaults({

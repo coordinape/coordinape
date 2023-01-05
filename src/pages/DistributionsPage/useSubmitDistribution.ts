@@ -9,7 +9,7 @@ import { getWrappedAmount } from 'lib/vaults';
 import { uploadEpochRoot } from 'lib/vaults/distributor';
 import mapValues from 'lodash/mapValues';
 
-import { useApeSnackbar, useContracts } from 'hooks';
+import { useToast, useContracts } from 'hooks';
 import type { Vault } from 'hooks/gql/useVaults';
 import { sendAndTrackTx } from 'utils/contractHelpers';
 
@@ -61,7 +61,7 @@ export function useSubmitDistribution() {
   //
   const { mutateAsync: saveDistribution } = useSaveDistribution();
   const { mutateAsync: markDistributionDone } = useMarkDistributionDone();
-  const { showError, showInfo } = useApeSnackbar();
+  const { showError, showInfo } = useToast();
 
   return async ({
     amount,

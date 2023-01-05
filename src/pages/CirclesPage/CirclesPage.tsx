@@ -7,7 +7,7 @@ import type { CSS } from 'stitches.config';
 
 import { useMyProfile } from '../../recoilState';
 import { LoadingModal } from 'components';
-import { useApeSnackbar } from 'hooks';
+import { useToast } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { User } from 'icons/__generated';
 import {
@@ -39,7 +39,7 @@ export const CirclesPage = () => {
   const orgs = query.data?.organizations;
 
   const [showAllCircles, setShowAllCircles] = useState(false);
-  const { showInfo } = useApeSnackbar();
+  const { showInfo, showError, showSuccess } = useToast();
 
   if (
     query.isLoading ||

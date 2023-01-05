@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { useApeSnackbar, useApiBase } from '../../hooks';
+import { useToast, useApiBase } from '../../hooks';
 import { client } from '../../lib/gql/client';
 import { Button } from '../../ui';
 import { LoadingModal } from 'components';
@@ -10,7 +10,7 @@ export const CreateSampleCircle = ({
 }: {
   onFinish(circleId: number): void;
 }) => {
-  const { showError } = useApeSnackbar();
+  const { showError } = useToast();
   const [loading, setLoading] = useState(false);
   const { fetchManifest } = useApiBase();
 

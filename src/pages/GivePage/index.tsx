@@ -13,7 +13,7 @@ import * as z from 'zod';
 import { Awaited } from '../../../api-lib/ts4.5shim';
 import { LoadingModal, QUERY_KEY_RECEIVE_INFO } from '../../components';
 import { isFeatureEnabled } from '../../config/features';
-import { useApeSnackbar } from '../../hooks';
+import { useToast } from '../../hooks';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { client } from '../../lib/gql/client';
 import { epochTimeUpcoming } from '../../lib/time';
@@ -58,7 +58,7 @@ const GivePage = () => {
     myUser,
     circleEpochsStatus: { currentEpoch, nextEpoch, previousEpoch },
   } = useSelectedCircle();
-  const { showError } = useApeSnackbar();
+  const { showError } = useToast();
 
   // members is the circle members that may be filtered down for the list view
   const [members, setMembers] = useState<Member[]>([]);
@@ -594,7 +594,7 @@ const AllocateContents = ({
   gridView,
   previousEpochEndDate,
 }: AllocateContentsProps) => {
-  const { showError, showInfo } = useApeSnackbar();
+  const { showError, showInfo } = useToast();
 
   // onlyCollaborators is set to true if the view should be filtered to only include collaborators
   // collaborator is the new replacement term for teammate

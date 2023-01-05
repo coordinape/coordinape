@@ -16,7 +16,7 @@ import {
   USER_ROLE_COORDINAPE,
 } from 'config/constants';
 import {
-  useApeSnackbar,
+  useToast,
   useApiAdminCircle,
   useNavigation,
   useContracts,
@@ -215,7 +215,7 @@ const MemberRow = ({
   const [hasAcceptedOptOutWarning, setHasAcceptedOptOutWarning] =
     useState(false);
 
-  const { showInfo } = useApeSnackbar();
+  const { showInfo } = useToast();
   const { updateUser, restoreCoordinape, deleteUser } =
     useApiAdminCircle(circleId);
   const queryClient = useQueryClient();

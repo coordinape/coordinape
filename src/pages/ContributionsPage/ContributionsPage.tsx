@@ -13,7 +13,7 @@ import * as z from 'zod';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { useSelectedCircle } from '../../recoilState';
 import { LoadingModal, FormInputField } from 'components';
-import { useApeSnackbar } from 'hooks';
+import { useToast } from 'hooks';
 import {
   useContributions,
   Contribution as IntegrationContribution,
@@ -142,7 +142,7 @@ const ContributionsPage = () => {
   const [showMarkdown, setShowMarkDown] = useState<boolean>(true);
 
   const queryClient = useQueryClient();
-  const { showError } = useApeSnackbar();
+  const { showError } = useToast();
 
   const {
     data,

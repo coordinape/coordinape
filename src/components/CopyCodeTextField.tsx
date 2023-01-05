@@ -2,13 +2,13 @@ import React from 'react';
 
 import copy from 'copy-to-clipboard';
 
-import { useApeSnackbar } from 'hooks';
+import { useToast } from 'hooks';
 import { Copy } from 'icons/__generated';
 import { Button, TextField } from 'ui';
 import { Box } from 'ui/Box/Box';
 
 const CopyCodeTextField = ({ value }: { value: string }) => {
-  const { showInfo } = useApeSnackbar();
+  const { showInfo } = useToast();
 
   const copyToClip = () => {
     copy(value);

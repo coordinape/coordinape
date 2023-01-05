@@ -5,7 +5,7 @@ import { ValueTypes, vault_tx_types_enum } from 'lib/gql/__generated__/zeus';
 import { addVault, savePendingVaultTx } from 'lib/gql/mutations/vaults';
 import { Asset } from 'lib/vaults';
 
-import { useApeSnackbar } from 'hooks';
+import { useToast } from 'hooks';
 import type { Vault } from 'hooks/gql/useVaults';
 import { sendAndTrackTx } from 'utils/contractHelpers';
 
@@ -13,7 +13,7 @@ import { useContracts } from './useContracts';
 
 export function useVaultFactory(orgId?: number) {
   const contracts = useContracts();
-  const { showInfo, showError } = useApeSnackbar();
+  const { showInfo, showError } = useToast();
 
   const createVault = async ({
     setTxHash,

@@ -13,7 +13,7 @@ import {
 } from '../../routes/paths';
 import { Paginator } from 'components/Paginator';
 import isFeatureEnabled from 'config/features';
-import { useApeSnackbar, useApiAdminCircle } from 'hooks';
+import { useToast, useApiAdminCircle } from 'hooks';
 import { useSelectedCircle } from 'recoilState/app';
 import {
   Collapsible,
@@ -83,7 +83,7 @@ export const HistoryPage = () => {
 
   const unallocated = (!me?.non_giver && me?.give_token_remaining) || 0;
 
-  const { showInfo } = useApeSnackbar();
+  const { showInfo } = useToast();
 
   const isAdmin = isUserAdmin(me);
 

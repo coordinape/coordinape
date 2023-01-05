@@ -7,7 +7,7 @@ import { savePendingVaultTx } from 'lib/gql/mutations/vaults';
 import { encodeCircleId, hasSimpleToken } from 'lib/vaults';
 import max from 'lodash/max';
 
-import { useApeSnackbar, useContracts } from 'hooks';
+import { useToast, useContracts } from 'hooks';
 import useRequireSupportedChain from 'hooks/useRequireSupportedChain';
 import { sendAndTrackTx } from 'utils/contractHelpers';
 
@@ -26,7 +26,7 @@ export type ClaimAllocationProps = {
 export function useClaimAllocation() {
   const contracts = useContracts();
   useRequireSupportedChain();
-  const { showError, showInfo } = useApeSnackbar();
+  const { showError, showInfo } = useToast();
 
   return async ({
     distribution,

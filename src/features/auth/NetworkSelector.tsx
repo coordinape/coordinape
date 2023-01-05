@@ -5,7 +5,7 @@ import { loginSupportedChainIds } from 'common-lib/constants';
 
 import { Network } from 'components';
 import { IN_DEVELOPMENT } from 'config/env';
-import { useApeSnackbar } from 'hooks';
+import { useToast } from 'hooks';
 import { ChevronDown, ChevronUp } from 'icons/__generated';
 import {
   Flex,
@@ -66,7 +66,7 @@ export const NetworkSelector = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const UNSUPPORTED = -1;
 
-  const { showInfo } = useApeSnackbar();
+  const { showInfo } = useToast();
   const injectedWallet = !!(window as any).ethereum;
   const popoverWidth = 'calc($xl * 7)';
 

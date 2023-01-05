@@ -13,11 +13,11 @@ import { useWeb3React } from 'hooks/useWeb3React';
 import { sendAndTrackTx, SendAndTrackTxResult } from 'utils/contractHelpers';
 
 import type { Vault } from './gql/useVaults';
-import { useApeSnackbar } from './useApeSnackbar';
+import { useToast } from './useApeSnackbar';
 
 export function useVaultRouter(contracts?: Contracts) {
   const { account } = useWeb3React();
-  const { showError, showInfo } = useApeSnackbar();
+  const { showError, showInfo } = useToast();
 
   const deposit = async (
     vault: Vault,
