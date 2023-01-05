@@ -347,8 +347,7 @@ export const dark = createTheme({
     borderFocus: newFigmaColors.primary5,
 
     tagActiveText: newFigmaColors.warning8,
-    // tagActiveBackground: newFigmaColors.warning10,
-    tagActiveBackground: 'purple',
+    tagActiveBackground: newFigmaColors.warning10,
 
     tagSuccessText: newFigmaColors.success5,
     tagSuccessBackground: newFigmaColors.success10,
