@@ -65,6 +65,8 @@ const CloseButton = (props: CloseButtonProps) => {
       css={{
         background: 'none',
         padding: 0,
+        marginRight: '-5px',
+        alignItems: 'flex-start',
       }}
       as="span"
       onClick={(e: React.MouseEvent<HTMLElement>) => props.closeToast(e)}
