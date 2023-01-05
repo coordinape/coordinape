@@ -59,6 +59,7 @@ export { default as Grid } from './Grid';
 export { default as HelpCircle } from './HelpCircle';
 export { default as Info } from './Info';
 export { default as Link } from './Link';
+export { default as Loader } from './Loader';
 export { default as Mail } from './Mail';
 export { default as Medium } from './Medium';
 export { default as Menu } from './Menu';
