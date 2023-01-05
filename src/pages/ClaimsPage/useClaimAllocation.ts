@@ -26,7 +26,7 @@ export type ClaimAllocationProps = {
 export function useClaimAllocation() {
   const contracts = useContracts();
   useRequireSupportedChain();
-  const { showError, showDefault } = useToast();
+  const { showError, showSuccess, showDefault } = useToast();
 
   return async ({
     distribution,
@@ -115,7 +115,7 @@ export function useClaimAllocation() {
       }
 
       await markClaimed({ claim_id: Math.max(...claimIds), tx_hash: txHash });
-      showDefault('Claim succeeded');
+      showSuccess('Claim succeeded');
 
       return txHash;
     } catch (e) {

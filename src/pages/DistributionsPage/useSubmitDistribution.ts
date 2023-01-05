@@ -61,7 +61,7 @@ export function useSubmitDistribution() {
   //
   const { mutateAsync: saveDistribution } = useSaveDistribution();
   const { mutateAsync: markDistributionDone } = useMarkDistributionDone();
-  const { showError, showDefault } = useToast();
+  const { showError, showSuccess, showDefault } = useToast();
 
   return async ({
     amount,
@@ -195,7 +195,7 @@ export function useSubmitDistribution() {
         amount: Number.parseFloat(amount),
         symbol: vault.symbol,
       });
-      showDefault('Distribution saved successfully');
+      showSuccess('Distribution saved successfully');
       return {
         merkleRoot: distribution.merkleRoot,
         totalAmount: BigNumber.from(distribution.tokenTotal),

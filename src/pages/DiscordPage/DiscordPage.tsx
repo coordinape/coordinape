@@ -19,7 +19,7 @@ export const QUERY_KEY_DISCORD_USERS = 'discord-users';
 export const DiscordPage = () => {
   const { search } = useLocation();
   const { id: profileId } = useMyProfile();
-  const { showDefault, showError } = useToast();
+  const { showSuccess, showError } = useToast();
   const navigate = useNavigate();
 
   const parameters = new URLSearchParams(search);
@@ -115,7 +115,7 @@ export const DiscordPage = () => {
 
       setLinkStatus('linked');
 
-      showDefault('Your profile was successfully linked!');
+      showSuccess('Your profile was successfully linked!');
       navigate(paths.profile('me'));
     };
 

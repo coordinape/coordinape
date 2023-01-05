@@ -83,14 +83,14 @@ export const HistoryPage = () => {
 
   const unallocated = (!me?.non_giver && me?.give_token_remaining) || 0;
 
-  const { showDefault } = useToast();
+  const { showDefault, showSuccess } = useToast();
 
   const isAdmin = isUserAdmin(me);
 
   const closeFormHandler = () => {
     if (editEpoch) {
       setEditEpoch(undefined);
-      showDefault('Saved Changes');
+      showSuccess('Saved Changes');
     } else {
       setNewEpoch(false);
       showDefault('Created Epoch');
