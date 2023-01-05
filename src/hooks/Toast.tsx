@@ -1,7 +1,12 @@
-import { toast } from 'react-toastify';
+import {
+  CloseButtonProps,
+  toast,
+  ToastContent,
+  ToastOptions,
+} from 'react-toastify';
 
 import { FlattenedGQLError } from '../common-lib/errorHandling';
-import { AlertTriangle, Check, Info, X } from 'icons/__generated';
+import { Bell, Check, Loader, X } from 'icons/__generated';
 import { Button, Flex } from 'ui';
 import { normalizeError } from 'utils/reporting';
 
@@ -45,36 +50,60 @@ const ErrorIcon = () => {
           padding: '4px',
         }}
       >
-        <AlertTriangle css={{ color: '$errorColor' }} />
+        <Bell boldstroke css={{ color: '$errorColor' }} />
       </Flex>
     </>
   );
 };
 const InfoIcon = () => {
-  return <Info css={{ color: 'var(--colors-text)' }} />;
+  return <Loader css={{ color: 'var(--colors-text)' }} />;
 };
 
-// boolean | ((props: CloseButtonProps) => ReactNode) | ReactElement<CloseButtonProps, string | JSXElementConstructor<any>> | undefined'
-const CloseButton = (closeToast: any) => {
+const CloseButton = (props: CloseButtonProps) => {
   return (
-    <Button css={{ background: 'none' }} as="span" onClick={() => closeToast()}>
+    <Button
+      css={{
+        background: 'none',
+        padding: 0,
+      }}
+      as="span"
+      onClick={(e: React.MouseEvent<HTMLElement>) => props.closeToast(e)}
+    >
       <X />
     </Button>
   );
 };
 
+/*
+Use the approproate method for the type of interaction you need to communicate:
+  showSucess: something has succeeded or completed successfully.
+  showError: something has failed.
+  showDefault: general notifications, including anything that's in-progress.
+*/
 export const useToast = () => {
   return {
-    showInfo: (message: string) => toast.info(message, { icon: InfoIcon }),
-    showSuccess: (message: string) =>
-      toast.success(message, {
+    // rename to showDefault: ...
+    showInfo: (content: ToastContent, props: ToastOptions = {}) =>
+      toast.info(content, {
+        icon: InfoIcon,
+        closeButton: CloseButton,
+        autoClose: false, // TODO: remove
+        ...props,
+      }),
+
+    showSuccess: (content: ToastContent, props: ToastOptions = {}) =>
+      toast.success(content, {
         icon: SuccessIcon,
         closeButton: CloseButton,
+        autoClose: false, // TODO: remove
+        ...props,
       }),
-    showError: (error: any) =>
-      toast.error(displayError(error), {
+    showError: (content: ToastContent | unknown, props: ToastOptions = {}) =>
+      toast.error(displayError(content), {
         icon: ErrorIcon,
         closeButton: CloseButton,
+        autoClose: false, // keep
+        ...props,
       }),
   };
 };

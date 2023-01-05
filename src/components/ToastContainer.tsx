@@ -6,22 +6,23 @@ const StyledContainer = styled(ToastifyContainer, {
   '.Toastify__toast': {
     background: '$formInputBackground',
     borderRadius: '9px',
-    border: '1px solid',
+    border: '1px solid $formInputBackground',
     minWidth: '400px',
     maxWidth: '640px',
     width: '80%',
   },
+  '.Toastify__toast-icon': {
+    marginInlineEnd: '20px',
+  },
   '.Toastify__progress-bar': {
     height: '1px',
   },
-  '.Toastify__toast--info': {
-    borderColor: '$formInputBorder',
-  },
+  '.Toastify__toast--info': {},
   '.Toastify__toast--success': {
     borderColor: '$successColor',
   },
   '.Toastify__toast--error': {
-    borderColor: '$errorIconBackground',
+    borderColor: '$errorColor',
   },
   '.Toastify__toast--success *': {
     color: 'var(--toastify-text-color-success)',
@@ -39,7 +40,7 @@ export const ToastContainer = () => {
     <StyledContainer
       position="bottom-left"
       hideProgressBar={false}
-      autoClose={1500}
+      autoClose={5000}
       newestOnTop
       pauseOnFocusLoss
       draggable
