@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from 'react';
 
 import iti from 'itiriri';
@@ -173,7 +174,7 @@ export const ReceiveInfo = () => {
                 key={tokenGift.id}
               >
                 <Flex css={{ justifyContent: 'space-between' }}>
-                  <Text semibold css={{ mr: '$md' }}>
+                  <Text semibold color="secondary" css={{ mr: '$md' }}>
                     {tokenGift.tokens > 0 && !currentNonReceiver
                       ? `+${tokenGift.tokens} Received from `
                       : 'From '}
@@ -199,7 +200,10 @@ export const ReceiveInfo = () => {
                     }
                   />
                   {tokenGift.gift_private?.note ? (
-                    <MarkdownPreview source={tokenGift.gift_private.note} />
+                    <MarkdownPreview
+                      render
+                      source={tokenGift.gift_private.note}
+                    />
                   ) : (
                     <Text color="neutral">-- Empty Note --</Text>
                   )}

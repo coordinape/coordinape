@@ -44,6 +44,8 @@ export const Drawer = ({ open, setOpen, children }: IProps) => {
             width: 'calc($xl * 12)',
             maxWidth: '95vw',
             zIndex: 1,
+            display: 'grid',
+            gridTemplateRows: '1fr 5fr',
           }}
         >
           {children}

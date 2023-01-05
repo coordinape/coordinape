@@ -222,7 +222,7 @@ export const GiveDrawer = ({
                 saveNote({ ...gift }, note);
               }}
             />
-            <Flex css={{ '*': { minWidth: 0 } }}>
+            <Flex>
               <GiveAllocator
                 disabled={noGivingAllowed}
                 adjustGift={adjustGift}

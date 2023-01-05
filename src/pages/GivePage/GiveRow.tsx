@@ -87,7 +87,7 @@ export const GiveRow = ({
           nested={gridView}
           css={{
             p: gridView ? '$md' : 0,
-            background: gridView ? '$white' : 'transparent',
+            background: gridView ? '$surfaceNested' : 'transparent',
             alignItems: 'center',
             display: 'grid',
             gridTemplateColumns: gridView ? '1fr' : '2fr 4fr 4fr',

@@ -8,7 +8,7 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
   p: '$sm',
   minHeight: 'calc($2xl * 2)',
   cursor: 'pointer',
-  color: '$text',
+  color: '$text !important',
   width: '100%',
   'h1, h2, h3, h4, h5': {
     borderBottom: 'none !important',

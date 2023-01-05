@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useCallback, useMemo } from 'react';
 
 // import { forceLink, forceCenter } from 'd3-force-3d';
+import { StitchesTheme } from 'features/theming/ThemeProvider';
 import cloneDeep from 'lodash/cloneDeep';
 import ForceGraph2D, { NodeObject, LinkObject } from 'react-force-graph-2d';
 import AutoSizer from 'react-virtualized-auto-sizer';
@@ -30,17 +31,6 @@ const useStyles = makeStyles(() => ({
     bottom: 0,
   },
 }));
-const COLOR_NODE_HIGHLIGHT = '#13a2cc';
-const COLOR_NODE_MORE_HIGHLIGHT = '#44cccc';
-const COLOR_GIVE = '#00ce2c';
-const COLOR_RECEIVE = '#d3860d';
-const COLOR_CIRCULATE = '#c9b508';
-const COLOR_NODE = '#000000';
-const COLOR_NODE_FADE = '#00000020';
-const COLOR_GIVE_LINK = '#00ce2c80';
-const COLOR_RECEIVE_LINK = '#d3860d80';
-const COLOR_LINK = '#00000015';
-const COLOR_LINK_DIM = '#00000008';
 
 const MIN_ZOOM = 3;
 
@@ -51,7 +41,11 @@ const nodeBorderScaler = (f: number) => 0.7 + f * 2.5;
 // const linkStrengthToken = (edge: any) => 0.05 / link.tokens;
 // const linkStrengthCounts = (edge: any) => 0.5 / (link.source.linkCount + link.target.linkCount);
 
-export const AMForceGraph = () => {
+export const AMForceGraph = ({
+  stitchesTheme,
+}: {
+  stitchesTheme: StitchesTheme;
+}) => {
   const classes = useStyles();
   const fgRef = useRef<any>(null);
   const recoilMapGraphData = useMapGraphData();
@@ -100,21 +94,24 @@ export const AMForceGraph = () => {
     });
   }, [recoilMapGraphData]);
 
-  const linkColor = useCallback((edge: IMapEdgeFG) => {
-    const { egoAddress, isEgoEdge } = mapCtxRef.current;
+  const linkColor = useCallback(
+    (edge: IMapEdgeFG) => {
+      const { egoAddress, isEgoEdge } = mapCtxRef.current;
 
-    let color = COLOR_LINK;
-    if (egoAddress) {
-      color = COLOR_LINK_DIM;
-      if (isEgoEdge(edge, 'gives')) {
-        return COLOR_RECEIVE_LINK;
+      let color = stitchesTheme.colors.mapLink.value;
+      if (egoAddress) {
+        color = stitchesTheme.colors.mapLinkDim.value;
+        if (isEgoEdge(edge, 'gives')) {
+          return stitchesTheme.colors.mapReceiveLink.value;
+        }
+        if (isEgoEdge(edge, 'receives')) {
+          return stitchesTheme.colors.mapGiveLink.value;
+        }
       }
-      if (isEgoEdge(edge, 'receives')) {
-        return COLOR_GIVE_LINK;
-      }
-    }
-    return color;
-  }, []);
+      return color;
+    },
+    [stitchesTheme]
+  );
 
   const linkDirectionalParticleWidth = useCallback((edge: IMapEdgeFG) => {
     const { getEdgeMeasure, isEgoEdge } = mapCtxRef.current;
@@ -153,17 +150,22 @@ export const AMForceGraph = () => {
       const width = getNodeMeasure(node, nodeBorderScaler);
       const isInBag = bag.has(nid);
 
-      let strokeColor = bag.size || egoAddress ? COLOR_NODE_FADE : COLOR_NODE;
-      if (isInBag) strokeColor = COLOR_NODE_HIGHLIGHT;
-      if (nid === egoAddress) strokeColor = COLOR_NODE_HIGHLIGHT;
+      let strokeColor =
+        bag.size || egoAddress
+          ? stitchesTheme.colors.mapNodeFade.value
+          : stitchesTheme.colors.mapNode.value;
+      if (isInBag) strokeColor = stitchesTheme.colors.mapNodeHighlight.value;
+      if (nid === egoAddress)
+        strokeColor = stitchesTheme.colors.mapNodeHighlight.value;
       if (bag.size && nid === egoAddress)
-        strokeColor = COLOR_NODE_MORE_HIGHLIGHT;
+        strokeColor = stitchesTheme.colors.mapNodeMoreHighlight.value;
       if (egoAddress) {
         const inNode = isEgoNeighbor(node, 'gives');
         const outNode = isEgoNeighbor(node, 'receives');
-        if (inNode) strokeColor = COLOR_GIVE;
-        if (outNode) strokeColor = COLOR_RECEIVE;
-        if (inNode && outNode) strokeColor = COLOR_CIRCULATE;
+        if (inNode) strokeColor = stitchesTheme.colors.mapGive.value;
+        if (outNode) strokeColor = stitchesTheme.colors.mapReceive.value;
+        if (inNode && outNode)
+          strokeColor = stitchesTheme.colors.mapCirculate.value;
       }
 
       canvas.beginPath();
@@ -176,7 +178,7 @@ export const AMForceGraph = () => {
       canvas.save();
       canvas.beginPath();
       canvas.arc(node.x, node.y, radius, 0, 2 * Math.PI);
-      canvas.fillStyle = COLOR_NODE;
+      canvas.fillStyle = stitchesTheme.colors.mapNode.value;
       canvas.fill();
       canvas.clip();
 
@@ -198,7 +200,7 @@ export const AMForceGraph = () => {
 
       canvas.restore();
     },
-    []
+    [stitchesTheme]
   );
 
   const onNodeClick = useCallback((node: IMapNodeFG) => {

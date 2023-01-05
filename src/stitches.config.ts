@@ -70,12 +70,17 @@ export const colors = {
   white: '#fff',
   black: '#000',
 
+  cta: figmaColors.blue12,
+  textOnCta: '#fff',
   primary: figmaColors.blue12,
   primaryDark: figmaColors.blue24,
   primaryLight: figmaColors.blue1,
   primaryDisabled: figmaColors.blue4,
   textOnPrimary: '#fff',
+  secondary: figmaColors.blue12,
   textOnSecondary: '#fff',
+  modalBackground: '#00000090',
+  modalBorderColor: 'transparent',
 
   alert: figmaColors.red12,
   alertLight: figmaColors.red1,
@@ -89,7 +94,6 @@ export const colors = {
   successDisabled: figmaColors.green4,
   successDark: figmaColors.green16,
 
-  secondary: figmaColors.teal12,
   secondaryDark: figmaColors.teal20,
   neutral: figmaColors.grey12,
   complete: figmaColors.green12,
@@ -117,8 +121,31 @@ export const colors = {
   tagActiveText: figmaColors.yellow20,
   tagActiveBackground: figmaColors.yellow4,
 
+  tagSuccessText: figmaColors.green12,
+  tagSuccessBackground: figmaColors.green1,
+
+  tagAlertText: figmaColors.red16,
+  tagAlertBackground: figmaColors.red4,
+
   tagPrimaryText: figmaColors.blue12,
   tagPrimaryBackground: figmaColors.blue4,
+
+  formInputText: figmaColors.grey16,
+  formInputBackground: 'white',
+  formInputBorder: figmaColors.grey4,
+  formInputPlaceholder: figmaColors.grey8,
+
+  mapNodeHighlight: figmaColors.blue12,
+  mapNodeMoreHighlight: figmaColors.teal8,
+  mapGive: figmaColors.green8,
+  mapReceive: figmaColors.orange12,
+  mapCirculate: figmaColors.yellow12,
+  mapNode: '#000000',
+  mapNodeFade: '#00000020',
+  mapGiveLink: figmaColors.green4,
+  mapReceiveLink: figmaColors.orange8,
+  mapLink: '#00000015',
+  mapLinkDim: '#00000008',
 };
 
 // the notistack library is oriented toward Material-UI, so we can't set its
@@ -157,6 +184,9 @@ export const {
       mediumScreen: '1392px',
       headerHeight: '91px',
       ...spaces,
+    },
+    derp: {
+      test: 'gold',
     },
     radii: {
       1: '4px',
@@ -287,8 +317,15 @@ export const {
 
 export const dark = createTheme({
   colors: {
+    cta: newFigmaColors.primary5,
+    textOnCta: newFigmaColors.primary1,
     primary: newFigmaColors.grey3,
     textOnPrimary: newFigmaColors.grey8,
+    secondary: newFigmaColors.grey7,
+    textOnSecondary: newFigmaColors.grey3,
+    modalBackground: '#0000007d',
+    modalBorderColor: newFigmaColors.grey8,
+
     background: newFigmaColors.grey10,
     navBackground: newFigmaColors.grey9,
     surface: newFigmaColors.grey8,
@@ -312,8 +349,31 @@ export const dark = createTheme({
     tagActiveText: newFigmaColors.warning8,
     tagActiveBackground: newFigmaColors.warning10,
 
+    tagSuccessText: newFigmaColors.success5,
+    tagSuccessBackground: newFigmaColors.success10,
+
+    tagAlertText: newFigmaColors.error6,
+    tagAlertBackground: newFigmaColors.error10,
+
     tagPrimaryText: newFigmaColors.primary7,
     tagPrimaryBackground: newFigmaColors.primary9,
+
+    formInputText: newFigmaColors.grey5,
+    formInputBackground: newFigmaColors.grey9,
+    formInputBorder: newFigmaColors.grey7,
+    formInputPlaceholder: newFigmaColors.grey6,
+
+    mapNodeHighlight: newFigmaColors.warning7,
+    mapNodeMoreHighlight: newFigmaColors.warning4,
+    mapGive: newFigmaColors.secondary8,
+    mapReceive: newFigmaColors.secondary2,
+    mapCirculate: newFigmaColors.secondary5,
+    mapNode: newFigmaColors.grey1,
+    mapGiveLink: newFigmaColors.success5,
+    mapReceiveLink: newFigmaColors.orange6,
+    mapNodeFade: '#FFFFFF20',
+    mapLink: '#FFFFFF15',
+    mapLinkDim: '#FFFFFF08',
   },
   fonts: {
     display: 'Denim, apple-system, sans-serif',
@@ -322,7 +382,19 @@ export const dark = createTheme({
 
 export const light = createTheme({
   colors: {
-    primary: 'orangered',
+    cta: newFigmaColors.secondary5,
+
+    mapNodeHighlight: newFigmaColors.warning5,
+    mapNodeMoreHighlight: newFigmaColors.warning3,
+    mapGive: newFigmaColors.secondary8,
+    mapReceive: newFigmaColors.secondary2,
+    mapCirculate: newFigmaColors.secondary5,
+    mapNode: newFigmaColors.grey10,
+    mapGiveLink: newFigmaColors.success5,
+    mapReceiveLink: newFigmaColors.orange6,
+    mapNodeFade: '#00000020',
+    mapLink: '#00000015',
+    mapLinkDim: '#00000008',
   },
   fonts: {
     display: 'Denim, apple-system, sans-serif',

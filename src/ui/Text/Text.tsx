@@ -1,7 +1,7 @@
 import { styled } from '../../stitches.config';
 
 export const Text = styled('span', {
-  lineHeight: '$none',
+  lineHeight: '$shorter',
   margin: '0',
   fontWeight: 400,
   fontVariantNumeric: 'tabular-nums',
@@ -122,7 +122,16 @@ export const Text = styled('span', {
       tag: true,
       color: 'complete',
       css: {
-        backgroundColor: '$successLight',
+        color: '$tagSuccessText',
+        backgroundColor: '$tagSuccessBackground',
+      },
+    },
+    {
+      tag: true,
+      color: 'alert',
+      css: {
+        color: '$tagAlertText',
+        backgroundColor: '$tagAlertBackground',
       },
     },
   ],

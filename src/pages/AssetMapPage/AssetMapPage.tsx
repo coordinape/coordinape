@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 
+import { ThemeContext } from 'features/theming/ThemeProvider';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useRecoilCallback } from 'recoil';
 
@@ -49,7 +50,9 @@ export const AssetMapPage = () => {
   return (
     <div className={classes.root}>
       <AMDrawer />
-      <AMForceGraph />
+      <ThemeContext.Consumer>
+        {({ stitchesTheme }) => <AMForceGraph stitchesTheme={stitchesTheme} />}
+      </ThemeContext.Consumer>
       <DevModeInjector />
     </div>
   );

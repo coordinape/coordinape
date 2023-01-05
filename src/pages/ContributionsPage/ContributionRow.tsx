@@ -25,7 +25,7 @@ export const ContributionRow = ({
         cursor: disabled ? 'auto' : 'pointer',
         opacity: disabled ? 0.5 : 1.0,
         transition: 'background-color 0.3s, border-color 0.3s',
-        background: active ? '$highlight' : 'white',
+        background: active ? '$highlight' : '$surfaceNested',
         '&:hover': disabled
           ? {}
           : {

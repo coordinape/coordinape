@@ -18,7 +18,6 @@ import isFeatureEnabled from 'config/features';
 import { useApeSnackbar, useApiAdminCircle, useContracts } from 'hooks';
 import { useCircleOrg } from 'hooks/gql/useCircleOrg';
 import { useVaults } from 'hooks/gql/useVaults';
-import useRequireSupportedChain from 'hooks/useRequireSupportedChain';
 import { Info } from 'icons/__generated';
 import { useSelectedCircle } from 'recoilState/app';
 import { paths } from 'routes/paths';
@@ -173,7 +172,6 @@ const schema = z.object({
 type CircleAdminFormSchema = z.infer<typeof schema>;
 
 export const CircleAdminPage = () => {
-  useRequireSupportedChain();
   const { circleId, circle: initialData } = useSelectedCircle();
 
   const queryClient = useQueryClient();
@@ -310,7 +308,7 @@ export const CircleAdminPage = () => {
   };
 
   useEffect(() => {
-    updateBalanceState(stringifiedVaultId());
+    if (contracts) updateBalanceState(stringifiedVaultId());
   }, [vaultOptions.length]);
 
   const onSubmit: SubmitHandler<CircleAdminFormSchema> = async data => {
@@ -393,7 +391,7 @@ export const CircleAdminPage = () => {
     isIdle ||
     isRefetching ||
     !circle ||
-    (isFeatureEnabled('vaults') && !vaultsQuery.data) ||
+    (contracts && isFeatureEnabled('vaults') && !vaultsQuery.data) ||
     !orgQuery.data ||
     fixedPaymentIsLoading ||
     fixedPaymentIsIdle
@@ -639,15 +637,17 @@ export const CircleAdminPage = () => {
                           value == '' ? '' : findVault(value)?.symbol,
                           { shouldDirty: true }
                         );
-                        updateBalanceState(
-                          getValues('fixed_payment_vault_id') ?? ''
-                        );
+                        if (contracts)
+                          updateBalanceState(
+                            getValues('fixed_payment_vault_id') ?? ''
+                          );
                       },
                       defaultValue: stringifiedVaultId(),
                     })}
                     id="fixed_payment_vault_id"
                     options={vaultOptions}
                     label="Fixed Payment Vault"
+                    disabled={!contracts}
                   />
                 </Box>
                 <FormInputField
@@ -676,17 +676,19 @@ export const CircleAdminPage = () => {
                     fixedPayment?.total
                   } ${fixedPaymentToken(watchFixedPaymentVaultId)}`}</Text>
                 </Flex>
-                <Flex column>
-                  <Text variant="label" css={{ mb: '$xs' }}>
-                    Available in Vault
-                  </Text>{' '}
-                  <Text size="medium">{`${numberWithCommas(
-                    formatUnits(
-                      maxGiftTokens,
-                      getDecimals(getValues('fixed_payment_vault_id') ?? '')
-                    )
-                  )} ${fixedPaymentToken(watchFixedPaymentVaultId)}`}</Text>
-                </Flex>
+                {contracts && (
+                  <Flex column>
+                    <Text variant="label" css={{ mb: '$xs' }}>
+                      Available in Vault
+                    </Text>{' '}
+                    <Text size="medium">{`${numberWithCommas(
+                      formatUnits(
+                        maxGiftTokens,
+                        getDecimals(getValues('fixed_payment_vault_id') ?? '')
+                      )
+                    )} ${fixedPaymentToken(watchFixedPaymentVaultId)}`}</Text>
+                  </Flex>
+                )}
               </Flex>
             </Panel>
           </Panel>
