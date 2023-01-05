@@ -4,7 +4,7 @@ import type { Web3Provider } from '@ethersproject/providers';
 import * as Sentry from '@sentry/react';
 
 import { useApiBase, useRecoilLoadCatch } from 'hooks';
-import { useToast } from 'hooks/useApeSnackbar';
+import { useToast } from 'hooks/Toast';
 import type { UseWeb3ReactReturnType } from 'hooks/useWeb3React';
 import { rSelectedCircleIdSource } from 'recoilState/app';
 import { rApiManifest, rApiFullCircle } from 'recoilState/db';

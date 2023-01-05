@@ -1,4 +1,3 @@
-export * from './useApeSnackbar';
 export * from './useApiAdminCircle';
 export * from './useApiBase';
 export * from './useApiWithSelectedCircle';

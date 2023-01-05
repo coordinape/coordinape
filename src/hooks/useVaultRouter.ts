@@ -13,7 +13,7 @@ import { useWeb3React } from 'hooks/useWeb3React';
 import { sendAndTrackTx, SendAndTrackTxResult } from 'utils/contractHelpers';
 
 import type { Vault } from './gql/useVaults';
-import { useToast } from './useApeSnackbar';
+import { useToast } from './Toast';
 
 export function useVaultRouter(contracts?: Contracts) {
   const { account } = useWeb3React();

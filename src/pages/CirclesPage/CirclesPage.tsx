@@ -71,7 +71,29 @@ export const CirclesPage = () => {
         <Text h1 css={{ '@sm': { mb: '$sm' } }}>
           Overview
         </Text>
-        <Box css={{ border: '7px solid red' }}>
+        <Box>
+          <Button
+            onClick={() => {
+              showError('The file flowbite-figma-pro was permanently deleted.');
+            }}
+            color="primary"
+            outlined
+            pill
+          >
+            Error
+          </Button>
+          <Button
+            onClick={() => {
+              showSuccess(
+                'The action that you have done was a success! Well done'
+              );
+            }}
+            color="primary"
+            outlined
+            pill
+          >
+            Success
+          </Button>
           <Button
             // as={NavLink}
             // to={paths.createCircle}
@@ -81,7 +103,7 @@ export const CirclesPage = () => {
             color="primary"
             outlined
           >
-            Click for Toast
+            Info
           </Button>
         </Box>
         {/* <Button as={NavLink} to={paths.createCircle} color="primary" outlined>

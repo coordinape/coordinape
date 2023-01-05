@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 import { rGlobalLoading } from 'recoilState/ui';
 import { normalizeError, reportException } from 'utils/reporting';
 
-import { useToast } from './useApeSnackbar';
+import { useToast } from './Toast';
 
 // useLoadAndTryMutation wraps a mutation call with global loading state and snackbar error/success handling
 export const useLoadAndTryMutation = <T>(

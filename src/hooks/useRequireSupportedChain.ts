@@ -9,13 +9,13 @@ import { useWeb3React } from './useWeb3React';
 
 export default function useRequireSupportedChain() {
   const { chainId } = useWeb3React();
-  const { enqueueToast } = useToast();
+  const { showError } = useToast();
 
   useEffect(() => {
     const isSupportedChainId =
       chainId && supportedChainIds.includes(chainId.toString());
     if (!isSupportedChainId) {
-      enqueueToast(
+      showError(
         `Contract interactions do not support chain ${chainId}. Please switch to Ethereum Mainnet.`
       );
       // switchNetwork('1');
