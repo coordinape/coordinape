@@ -1,5 +1,5 @@
 import assert from 'assert';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { claimsUnwrappedAmount } from 'common-lib/distributions';
 import { isUserAdmin } from 'lib/users';
@@ -23,7 +23,7 @@ import { SingleColumnLayout } from 'ui/layouts';
 import { AllocationsTable } from './AllocationsTable';
 import { DistributionForm } from './DistributionForm';
 import type { Gift } from './queries';
-import { getEpochData } from './queries';
+import { getEpochData, getPreviousLockedTokenDistribution } from './queries';
 
 export function DistributionsPage() {
   const { epochId } = useParams();
@@ -64,6 +64,18 @@ export function DistributionsPage() {
   const [giftVaultId, setGiftVaultId] = useState<string>('');
   const { users: circleUsers, circleId } = useSelectedCircle();
   const { downloadCSV } = useApiAdminCircle(circleId);
+  const [previousLockedTokenDistribution, setPreviousLockedTokenDistribution] =
+    useState<any>({});
+
+  const loadPreviousLockedTokenDistribution = () => {
+    getPreviousLockedTokenDistribution(Number.parseInt(epochId || '0')).then(
+      result => setPreviousLockedTokenDistribution(result)
+    );
+  };
+
+  useEffect(() => {
+    loadPreviousLockedTokenDistribution();
+  }, [epochId]);
 
   useRequireSupportedChain();
 
@@ -147,6 +159,18 @@ export function DistributionsPage() {
       };
     });
 
+  if (previousLockedTokenDistribution?.locked_token_distribution_gifts) {
+    usersWithGiftnFixedAmounts.forEach(user => {
+      const usersLockedTokens =
+        previousLockedTokenDistribution.locked_token_distribution_gifts.find(
+          (gift: { profile: { address: string } }) =>
+            gift.profile.address === user.address
+        );
+      if (!usersLockedTokens) return;
+      user.circleClaimed = usersLockedTokens.earnings;
+    });
+  }
+
   const usersWithReceivedAmounts = uniqBy(
     gifts.map(g => g.recipient),
     'id'
@@ -178,6 +202,7 @@ export function DistributionsPage() {
   const refetch = () => {
     refetchDistributions();
     queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
+    loadPreviousLockedTokenDistribution();
   };
 
   return (
@@ -245,6 +270,7 @@ export function DistributionsPage() {
               circleUsers={circleUsers}
               refetch={refetch}
               totalGive={totalGive}
+              previousLockedTokenDistribution={previousLockedTokenDistribution}
             />
           </Box>
           <AllocationsTable
@@ -258,6 +284,16 @@ export function DistributionsPage() {
             downloadCSV={downloadCSV}
             circleDist={circleDist}
             fixedDist={fixedDist}
+            isLockedTokenDistribution={
+              previousLockedTokenDistribution?.locked_token_distribution_gifts !==
+              undefined
+            }
+            lockedTokenDistributionDecimals={
+              previousLockedTokenDistribution?.token_decimals
+            }
+            lockedTokenDistributionSymbol={
+              previousLockedTokenDistribution?.token_symbol
+            }
           />
         </>
       )}

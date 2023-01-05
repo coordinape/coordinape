@@ -144,6 +144,15 @@ export const getPreviousLockedTokenDistribution = async (epochId: number) => {
           id: true,
           tx_hash: true,
           chain_id: true,
+          token_decimals: true,
+          token_symbol: true,
+          locked_token_distribution_gifts: [
+            { where: { earnings: { _gt: 0 } } },
+            {
+              profile: { address: true },
+              earnings: true,
+            },
+          ],
         },
       ],
     },

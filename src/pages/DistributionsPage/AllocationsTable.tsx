@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 
+import { ethers } from 'ethers';
 import sumBy from 'lodash/sumBy';
 import uniqBy from 'lodash/uniqBy';
 
@@ -25,6 +26,9 @@ export const AllocationsTable = ({
   epoch,
   fixedDist,
   circleDist,
+  isLockedTokenDistribution,
+  lockedTokenDistributionDecimals,
+  lockedTokenDistributionSymbol,
 }: {
   users: {
     id: number;
@@ -52,6 +56,9 @@ export const AllocationsTable = ({
   epoch: EpochDataResult;
   fixedDist: EpochDataResult['distributions'][0] | undefined;
   circleDist: EpochDataResult['distributions'][0] | undefined;
+  isLockedTokenDistribution: boolean;
+  lockedTokenDistributionDecimals: number;
+  lockedTokenDistributionSymbol: string;
 }) => {
   type User = Exclude<typeof users[0], undefined>;
   const givenPercent = useCallback(
@@ -77,13 +84,16 @@ export const AllocationsTable = ({
     tokenName && fixedTokenName && tokenName === fixedTokenName;
 
   const UserTable = makeTable<User>('UserTable');
+  const rewardTitle = isLockedTokenDistribution
+    ? 'Locked Token Rewards'
+    : 'Circle Rewards';
   const headers = [
     { title: 'Name' },
     { title: 'ETH' },
     { title: 'Givers', css: styles.alignRight },
     { title: `${giveTokenName || 'GIVE'} Received`, css: styles.alignRight },
     { title: `% of ${giveTokenName || 'GIVE'}`, css: styles.alignRight },
-    { title: 'Circle Rewards', css: styles.alignRight },
+    { title: rewardTitle, css: styles.alignRight },
     { title: 'Fixed Payments', css: styles.alignRight },
   ];
   if (combinedDist) {
@@ -158,7 +168,12 @@ export const AllocationsTable = ({
               {numberWithCommas(givenPercent(user.received) * 100, 2)}%
             </td>
             <td className="alignRight">
-              {circleDist
+              {isLockedTokenDistribution
+                ? `${ethers.utils.formatUnits(
+                    user.circleClaimed.toFixed(),
+                    lockedTokenDistributionDecimals
+                  )} ${lockedTokenDistributionSymbol}`
+                : circleDist
                 ? `${smartRounding(user.circleClaimed)} ${tokenName || 'GIVE'}`
                 : `${smartRounding(
                     givenPercent(user.received) * formGiftAmount
