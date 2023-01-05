@@ -594,7 +594,7 @@ const AllocateContents = ({
   gridView,
   previousEpochEndDate,
 }: AllocateContentsProps) => {
-  const { showError, showInfo } = useToast();
+  const { showError, showDefault } = useToast();
 
   // onlyCollaborators is set to true if the view should be filtered to only include collaborators
   // collaborator is the new replacement term for teammate
@@ -760,7 +760,7 @@ const AllocateContents = ({
       for (const t of targets) {
         adjustGift(t.id, perTarget);
       }
-      showInfo(
+      showDefault(
         `${perTarget} ${myUser.circle.tokenName} distributed to each of ${targets.length} eligible members`
       );
     } else {

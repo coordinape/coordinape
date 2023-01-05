@@ -8,11 +8,11 @@ import { Button, TextField } from 'ui';
 import { Box } from 'ui/Box/Box';
 
 const CopyCodeTextField = ({ value }: { value: string }) => {
-  const { showInfo } = useToast();
+  const { showDefault } = useToast();
 
   const copyToClip = () => {
     copy(value);
-    showInfo('Copied to clipboard');
+    showDefault('Copied to clipboard');
   };
 
   return (

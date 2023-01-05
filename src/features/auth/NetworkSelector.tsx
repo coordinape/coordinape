@@ -66,13 +66,13 @@ export const NetworkSelector = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const UNSUPPORTED = -1;
 
-  const { showInfo } = useToast();
+  const { showDefault } = useToast();
   const injectedWallet = !!(window as any).ethereum;
   const popoverWidth = 'calc($xl * 7)';
 
   const onNetworkError = (error: Error | any) => {
     if (error?.message.match(/Unrecognized chain ID .*/)) {
-      showInfo(
+      showDefault(
         `Failed to switch networks. Unrecognized chain ID. Try adding the chain first.`
       );
     } else {

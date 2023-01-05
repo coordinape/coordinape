@@ -217,7 +217,7 @@ export const CircleAdminPage = () => {
   );
 
   const contracts = useContracts();
-  const { showInfo } = useToast();
+  const { showDefault } = useToast();
   const orgQuery = useCircleOrg(circleId);
 
   const vaultsQuery = useVaults({
@@ -340,7 +340,7 @@ export const CircleAdminPage = () => {
       });
       queryClient.invalidateQueries(QUERY_KEY_FIXED_PAYMENT);
       refetch();
-      showInfo('Saved changes');
+      showDefault('Saved changes');
     } catch (e) {
       console.warn(e);
     }

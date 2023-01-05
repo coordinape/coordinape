@@ -83,17 +83,17 @@ export const HistoryPage = () => {
 
   const unallocated = (!me?.non_giver && me?.give_token_remaining) || 0;
 
-  const { showInfo } = useToast();
+  const { showDefault } = useToast();
 
   const isAdmin = isUserAdmin(me);
 
   const closeFormHandler = () => {
     if (editEpoch) {
       setEditEpoch(undefined);
-      showInfo('Saved Changes');
+      showDefault('Saved Changes');
     } else {
       setNewEpoch(false);
-      showInfo('Created Epoch');
+      showDefault('Created Epoch');
     }
     query.refetch();
   };

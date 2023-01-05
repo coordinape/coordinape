@@ -83,7 +83,7 @@ Use the approproate method for the type of interaction you need to communicate:
 export const useToast = () => {
   return {
     // rename to showDefault: ...
-    showInfo: (content: ToastContent, props: ToastOptions = {}) =>
+    showDefault: (content: ToastContent, props: ToastOptions = {}) =>
       toast.info(content, {
         icon: InfoIcon,
         closeButton: CloseButton,

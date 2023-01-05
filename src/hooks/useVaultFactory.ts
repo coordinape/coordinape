@@ -13,7 +13,7 @@ import { useContracts } from './useContracts';
 
 export function useVaultFactory(orgId?: number) {
   const contracts = useContracts();
-  const { showInfo, showError } = useToast();
+  const { showDefault, showError } = useToast();
 
   const createVault = async ({
     setTxHash,
@@ -47,7 +47,7 @@ export function useVaultFactory(orgId?: number) {
       const { receipt, tx } = await sendAndTrackTx(
         () => contracts.vaultFactory.createCoVault(...args),
         {
-          showInfo,
+          showDefault,
           showError,
           description: `Create ${type || customSymbol} Vault`,
           chainId: contracts.chainId,

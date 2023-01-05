@@ -41,7 +41,7 @@ export const useRecoilLoadCatch = <Args extends ReadonlyArray<unknown>, Return>(
     who?: string;
   } = {}
 ) => {
-  const { showError, showInfo } = useToast();
+  const { showError, showDefault } = useToast();
 
   return useRecoilCallback((intr: CallbackInterface) => {
     const { set } = intr;
@@ -55,7 +55,7 @@ export const useRecoilLoadCatch = <Args extends ReadonlyArray<unknown>, Return>(
           .then(result => {
             !hideLoading && set(rGlobalLoading, v => v - 1);
             log(`done loading: ${who}`);
-            success && showInfo(success);
+            success && showDefault(success);
             resolve(result);
           })
           .catch(err => {

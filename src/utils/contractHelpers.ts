@@ -14,7 +14,7 @@ type Options = {
   signingMessage?: string;
   sendingMessage?: string;
   minedMessage?: string;
-  showInfo: (message: any) => void;
+  showDefault: (message: any) => void;
   showError: (message: any) => void;
   description: string;
   chainId: string;
@@ -32,7 +32,7 @@ export const sendAndTrackTx = async (
     signingMessage = 'Please sign the transaction.',
     sendingMessage = 'Sending transaction...',
     minedMessage = 'Transaction completed',
-    showInfo,
+    showDefault,
     showError,
     description,
     chainId,
@@ -43,12 +43,12 @@ export const sendAndTrackTx = async (
   const timestamp = Date.now();
   try {
     const promise = callback();
-    showInfo(signingMessage);
+    showDefault(signingMessage);
     addTransaction({ timestamp, status: 'pending', description, chainId });
     logger.log(`awaiting tx... description: ${description}`);
     const tx = await promise;
     logger.log(`done awaiting tx. hash: ${tx.hash}`);
-    showInfo(sendingMessage);
+    showDefault(sendingMessage);
     await savePending?.(tx.hash);
     updateTransaction(timestamp, { hash: tx.hash });
     logger.log('awaiting receipt...');
@@ -56,7 +56,7 @@ export const sendAndTrackTx = async (
     logger.log('done awaiting receipt.');
     await deletePending?.(tx.hash);
     updateTransaction(timestamp, { status: 'confirmed' });
-    showInfo(minedMessage);
+    showDefault(minedMessage);
     return { tx, receipt }; // just guessing at a good return value here
   } catch (e: unknown) {
     updateTransaction(timestamp, { status: 'error' });

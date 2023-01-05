@@ -17,7 +17,7 @@ import { useToast } from './Toast';
 
 export function useVaultRouter(contracts?: Contracts) {
   const { account } = useWeb3React();
-  const { showError, showInfo } = useToast();
+  const { showError, showDefault } = useToast();
 
   const deposit = async (
     vault: Vault,
@@ -46,7 +46,7 @@ export function useVaultRouter(contracts?: Contracts) {
         () => weth.deposit({ value: amount }),
         {
           showError,
-          showInfo,
+          showDefault,
           signingMessage: 'Please sign the transaction to wrap your ETH.',
           description: `Deposit ${humanAmount} ETH`,
           chainId: contracts.chainId,
@@ -68,7 +68,7 @@ export function useVaultRouter(contracts?: Contracts) {
         () => token.approve(receiverAddress, amount),
         {
           showError,
-          showInfo,
+          showDefault,
           signingMessage:
             'Please sign the transaction to approve the transfer.',
           description: `Approve ${humanAmount} ${symbol}`,
@@ -89,7 +89,7 @@ export function useVaultRouter(contracts?: Contracts) {
             ),
       {
         showError,
-        showInfo,
+        showDefault,
         signingMessage: 'Please sign the transaction to deposit tokens.',
         description: `Deposit ${humanAmount} ${symbol}`,
         chainId: contracts.chainId,
@@ -125,7 +125,7 @@ export function useVaultRouter(contracts?: Contracts) {
           : vaultContract.apeWithdraw(shares, underlying),
       {
         showError,
-        showInfo,
+        showDefault,
         signingMessage: 'Please sign the transaction to withdraw tokens.',
         chainId: contracts.chainId,
         description: `Withdraw ${humanAmount} ${symbol}`,

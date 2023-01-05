@@ -26,7 +26,7 @@ export type ClaimAllocationProps = {
 export function useClaimAllocation() {
   const contracts = useContracts();
   useRequireSupportedChain();
-  const { showError, showInfo } = useToast();
+  const { showError, showDefault } = useToast();
 
   return async ({
     distribution,
@@ -65,7 +65,7 @@ export function useClaimAllocation() {
             proof
           ),
         {
-          showInfo,
+          showDefault,
           showError,
           description: `Claim Tokens from ${
             epoch?.circle?.name || vault.vault_address
@@ -93,7 +93,7 @@ export function useClaimAllocation() {
       assert(event, 'Claimed event not found');
       assert(txHash, "Claimed event didn't return a transaction hash");
 
-      showInfo('Saving record of claim...');
+      showDefault('Saving record of claim...');
 
       if (unwrapEth) {
         const tokenAddress = isSimpleToken
@@ -107,7 +107,7 @@ export function useClaimAllocation() {
         );
         await sendAndTrackTx(() => weth.withdraw(amount), {
           showError,
-          showInfo,
+          showDefault,
           signingMessage: 'Please sign the transaction to unwrap your WETH.',
           description: `Unwrapped ${amount} ETH`,
           chainId: contracts.chainId,
@@ -115,7 +115,7 @@ export function useClaimAllocation() {
       }
 
       await markClaimed({ claim_id: Math.max(...claimIds), tx_hash: txHash });
-      showInfo('Claim succeeded');
+      showDefault('Claim succeeded');
 
       return txHash;
     } catch (e) {
