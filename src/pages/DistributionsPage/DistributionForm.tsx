@@ -375,7 +375,6 @@ export function DistributionForm({
           hedgeyLockPeriod: value.hedgeyLockPeriod,
           hedgeyTransferable: value.hedgeyTransferable,
           epochId: epoch.id,
-          circleId: circle.id,
           totalGive,
         });
       } catch (err) {

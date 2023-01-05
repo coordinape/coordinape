@@ -29,7 +29,16 @@ export const useLockedTokenDistribution = () => {
     hedgeyTransferable,
     epochId,
     totalGive,
-  }: any) => {
+  }: {
+    amount: string;
+    gifts: any;
+    vault: any;
+    tokenContractAddress: string;
+    hedgeyLockPeriod: string | undefined;
+    hedgeyTransferable: string | undefined;
+    epochId: number;
+    totalGive: number;
+  }) => {
     assert(contracts, 'This network is not supported');
     logger.log('useLockedTokenDistribution');
     const deploymentInfo = contracts.getDeploymentInfo();
