@@ -87,7 +87,6 @@ export const useToast = () => {
       toast.info(content, {
         icon: InfoIcon,
         closeButton: CloseButton,
-        autoClose: false, // TODO: remove
         ...props,
       }),
 
@@ -95,14 +94,13 @@ export const useToast = () => {
       toast.success(content, {
         icon: SuccessIcon,
         closeButton: CloseButton,
-        autoClose: false, // TODO: remove
         ...props,
       }),
     showError: (content: ToastContent | unknown, props: ToastOptions = {}) =>
       toast.error(displayError(content), {
         icon: ErrorIcon,
         closeButton: CloseButton,
-        autoClose: false, // keep
+        autoClose: false,
         ...props,
       }),
   };
