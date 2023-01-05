@@ -3,16 +3,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { zUsername } from 'lib/zod/formHelpers';
 import { SubmitHandler, useController, useForm } from 'react-hook-form';
-import { useQuery } from 'react-query';
 import * as z from 'zod';
 
 import { SkillToggles, AvatarUpload, FormInputField } from 'components/index';
 import { useApiWithProfile } from 'hooks';
-import { Info } from 'icons/__generated';
-import {
-  getUserActiveEpochs,
-  QUERY_KEY_USER_ACTIVE_EPOCHS,
-} from 'pages/ProfilePage/queries';
 import { useMyProfile } from 'recoilState/app';
 import {
   Box,
@@ -23,7 +17,6 @@ import {
   Modal,
   Text,
   TextArea,
-  Tooltip,
 } from 'ui';
 
 const schema = z
@@ -67,17 +60,6 @@ export const EditProfileModal = ({
   const { updateMyProfile } = useApiWithProfile();
 
   const bioFieldRef = useRef<HTMLTextAreaElement>(null);
-
-  const { data } = useQuery(
-    [QUERY_KEY_USER_ACTIVE_EPOCHS, myProfile.id],
-    () => getUserActiveEpochs(myProfile.id),
-    {
-      enabled: !!myProfile.id,
-      refetchOnWindowFocus: false,
-      staleTime: Infinity,
-      notifyOnChangeProps: ['data'],
-    }
-  );
 
   const {
     control,
@@ -137,11 +119,6 @@ export const EditProfileModal = ({
     }
   };
 
-  const activeEpochs = data?.profiles_by_pk?.users.reduce(
-    (total, user) => total + user.circle.epochs.length,
-    0
-  );
-
   return (
     <Modal
       onOpenChange={open => {
@@ -176,21 +153,13 @@ export const EditProfileModal = ({
           </Flex>
           <Flex column css={{ alignItems: 'center' }}>
             <Text p css={sectionHeader}>
-              Profile Name{' '}
-              <Tooltip
-                content={
-                  <div>You can&apos;t edit your name during active epochs</div>
-                }
-              >
-                <Info size="sm" />
-              </Tooltip>
+              Profile Name
             </Text>
             <FormInputField
               id="name"
               name="name"
               control={control}
               defaultValue={myProfile?.name ?? ''}
-              disabled={!data || (!!activeEpochs && activeEpochs > 0)}
             />
           </Flex>
         </Flex>
