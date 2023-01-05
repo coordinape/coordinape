@@ -4,7 +4,7 @@ import { useRecoilCallback, CallbackInterface } from 'recoil';
 import { rGlobalLoading } from 'recoilState/ui';
 import { normalizeError, reportException } from 'utils/reporting';
 
-import { useToast } from './Toast';
+import { useToast } from './useToast';
 const log = debug('useRecoilLoadCatch');
 
 // Make an async call with access to Recoil, errors and a loading modal.
