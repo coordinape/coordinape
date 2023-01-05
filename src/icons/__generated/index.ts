@@ -25,6 +25,8 @@ export { default as ArrowLeft } from './ArrowLeft';
 export { default as ArrowRight } from './ArrowRight';
 export { default as AuroraLogo } from './AuroraLogo';
 export { default as Award } from './Award';
+export { default as BellOff } from './BellOff';
+export { default as Bell } from './Bell';
 export { default as CeloLogo } from './CeloLogo';
 export { default as Check } from './Check';
 export { default as CheckedRadio } from './CheckedRadio';
