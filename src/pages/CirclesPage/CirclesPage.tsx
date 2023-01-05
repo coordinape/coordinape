@@ -7,7 +7,6 @@ import type { CSS } from 'stitches.config';
 
 import { useMyProfile } from '../../recoilState';
 import { LoadingModal } from 'components';
-import { useToast } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { User } from 'icons/__generated';
 import {
@@ -39,7 +38,6 @@ export const CirclesPage = () => {
   const orgs = query.data?.organizations;
 
   const [showAllCircles, setShowAllCircles] = useState(false);
-  const { showDefault: showDefault, showError, showSuccess } = useToast();
 
   if (
     query.isLoading ||
@@ -71,77 +69,9 @@ export const CirclesPage = () => {
         <Text h1 css={{ '@sm': { mb: '$sm' } }}>
           Overview
         </Text>
-        <Box>
-          <Button
-            onClick={() => {
-              showError(
-                'Oh snap, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content. Be sure to use margin utilities to keep things nice and tidy.'
-              );
-            }}
-            color="primary"
-            pill
-          >
-            Error Multiline
-          </Button>
-          <Button
-            onClick={() => {
-              showSuccess(
-                'Well done, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content. Be sure to use margin utilities to keep things nice and tidy.'
-              );
-            }}
-            color="primary"
-            pill
-          >
-            Success Multiline
-          </Button>
-          <Button
-            onClick={() => {
-              showDefault(
-                ' This is a long info message, but its really great because you are really great, really really. Yes you are Im so great too. Were all great. We neven need some more text. What kind of made up words can I create like globularus and the textimonisnyess'
-              );
-            }}
-            color="primary"
-            pill
-          >
-            Info Multiline
-          </Button>
-          <Button
-            onClick={() => {
-              showError('The file flowbite-figma-pro was permanently deleted.');
-            }}
-            color="primary"
-            outlined
-            pill
-          >
-            Error
-          </Button>
-          <Button
-            onClick={() => {
-              showSuccess(
-                'The action that you have done was a success! Well done'
-              );
-            }}
-            color="primary"
-            outlined
-            pill
-          >
-            Success
-          </Button>
-          <Button
-            // as={NavLink}
-            // to={paths.createCircle}
-            onClick={() => {
-              showDefault('🦄 Wow so easy!');
-            }}
-            color="primary"
-            outlined
-          >
-            Info
-          </Button>
-        </Box>
-        {/* <Button as={NavLink} to={paths.createCircle} color="primary" outlined>
+        <Button as={NavLink} to={paths.createCircle} color="primary" outlined>
           Create New Circle
-        </Button> */}
+        </Button>
       </Flex>
       <Text
         p
@@ -162,7 +92,13 @@ export const CirclesPage = () => {
       </Text>
       {/* Show the sample org first*/}
       {/* Do we have a sample already? If not, lets offer to make one eh */}
-      {}
+      {sampleOrg && (
+        <OrgCircles
+          key={sampleOrg.id}
+          org={sampleOrg}
+          showAllCircles={showAllCircles}
+        />
+      )}
       {/* Show the non-sample orgs*/}
       {orgs
         ?.filter(o => !o.sample)
