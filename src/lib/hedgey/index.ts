@@ -15,8 +15,8 @@ export const lockedTokenDistribution = async (
   contracts: Contracts,
   token: ERC20,
   amount: BigNumber,
-  hedgeyLockPeriod: number,
-  hedgeyTransferable: string,
+  hedgeyLockPeriod: string | undefined,
+  hedgeyTransferable: string | undefined,
   balances: { address: string; earnings: string }[]
 ): Promise<any> => {
   logger.log('lockedTokenDistribution');
