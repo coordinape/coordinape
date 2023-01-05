@@ -41,10 +41,7 @@ import {
 import { TwoColumnLayout } from 'ui/layouts';
 import { makeExplorerUrl } from 'utils/provider';
 
-import {
-  getPreviousDistribution,
-  getPreviousLockedTokenDistribution,
-} from './queries';
+import { getPreviousDistribution } from './queries';
 import type { EpochDataResult, Gift } from './queries';
 import { useLockedTokenDistribution } from './useLockedTokenDistributions';
 import { useSubmitDistribution } from './useSubmitDistribution';
@@ -83,6 +80,7 @@ type SubmitFormProps = {
   circleDist: EpochDataResult['distributions'][0] | undefined;
   fixedDist: EpochDataResult['distributions'][0] | undefined;
   totalGive: number;
+  previousLockedTokenDistribution: any;
 };
 
 /**
@@ -103,22 +101,10 @@ export function DistributionForm({
   circleDist,
   fixedDist,
   totalGive,
+  previousLockedTokenDistribution,
 }: SubmitFormProps) {
   const [giftSubmitting, setGiftSubmitting] = useState(false);
   const [fixedSubmitting, setFixedSubmitting] = useState(false);
-
-  const [previousLockedTokenDistribution, setPreviousLockedTokenDistribution] =
-    useState({} as any);
-
-  const loadPreviousLockedTokenDistribution = () => {
-    getPreviousLockedTokenDistribution(epoch.id).then(result =>
-      setPreviousLockedTokenDistribution(result)
-    );
-  };
-
-  useEffect(() => {
-    loadPreviousLockedTokenDistribution();
-  }, [epoch]);
 
   const [sufficientFixedPaymentTokens, setSufficientFixPaymentTokens] =
     useState(false);
@@ -402,8 +388,6 @@ export function DistributionForm({
 
       // could be due to user cancellation
       if (!result) return;
-
-      loadPreviousLockedTokenDistribution();
       refetch();
       return;
     }
