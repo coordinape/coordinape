@@ -60,7 +60,7 @@ test('on invalid chain, shows error', async () => {
     </TestWrapper>
   );
 
-  screen.getByText(
+  await screen.findByText(
     'Contract interactions do not support chain 12345. Please switch to Ethereum Mainnet.'
   );
 });
