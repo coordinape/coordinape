@@ -200,6 +200,16 @@ const GetStarted = () => {
   );
 };
 
+const epochDescription = (epoch: QueryCircle['epochs'][number]) => {
+  return epoch.description
+    ? epoch.description
+    : epoch.number !== null
+    ? `Epoch ${epoch.number}`
+    : DateTime.fromISO(epoch.start_date) > DateTime.now()
+    ? 'Upcoming Epoch'
+    : '';
+};
+
 export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
   const role = circle.users[0]?.role;
   const nonMember = role === undefined;
@@ -340,15 +350,7 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
             )}
           </Text>
           {epoch && startDate && endDate && (
-            <Text>
-              {epoch.description
-                ? epoch.description
-                : epoch.number !== null
-                ? `Epoch ${epoch.number}`
-                : DateTime.fromISO(epoch.start_date) > DateTime.now()
-                ? 'Upcoming Epoch'
-                : ''}
-            </Text>
+            <Text>{epochDescription(epoch)}</Text>
           )}
         </Flex>
         {!nonMember && (
