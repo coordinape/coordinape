@@ -201,13 +201,15 @@ const GetStarted = () => {
 };
 
 const epochDescription = (epoch: QueryCircle['epochs'][number]) => {
-  return epoch.description
-    ? epoch.description
-    : epoch.number !== null
-    ? `Epoch ${epoch.number}`
-    : DateTime.fromISO(epoch.start_date) > DateTime.now()
-    ? 'Upcoming Epoch'
-    : '';
+  if (epoch.description) return epoch.description;
+  else {
+    if (epoch.number !== null) return `Epoch ${epoch.number}`;
+    else {
+      if (DateTime.fromISO(epoch.start_date) > DateTime.now())
+        return 'Upcoming Epoch';
+      else return '';
+    }
+  }
 };
 
 export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
