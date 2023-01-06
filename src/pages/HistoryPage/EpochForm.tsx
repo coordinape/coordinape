@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import isEmpty from 'lodash/isEmpty';
 import { DateTime, Interval } from 'luxon';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import { useQueryClient } from 'react-query';
 import { SafeParseReturnType, z } from 'zod';
 
 import {
@@ -14,6 +15,7 @@ import {
 } from 'components';
 import { useApiAdminCircle } from 'hooks';
 import { Info } from 'icons/__generated';
+import { QUERY_KEY_MY_ORGS } from 'pages/CirclesPage/getOrgData';
 import {
   Box,
   Flex,
@@ -259,6 +261,8 @@ const EpochForm = ({
   const [submitting, setSubmitting] = useState(false);
   const { createEpoch, updateEpoch } = useApiAdminCircle(circleId);
 
+  const queryClient = useQueryClient();
+
   const source = useMemo(
     () => ({
       epoch: selectedEpoch ? extraEpoch(selectedEpoch) : undefined,
@@ -355,6 +359,7 @@ const EpochForm = ({
     )
       .then(() => {
         setSubmitting(false);
+        queryClient.invalidateQueries(QUERY_KEY_MY_ORGS);
       })
       .then(onClose)
       .catch(console.warn);

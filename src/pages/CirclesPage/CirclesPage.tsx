@@ -340,7 +340,15 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
             )}
           </Text>
           {epoch && startDate && endDate && (
-            <Text>{epoch.description ?? `Epoch ${epoch.number}`}</Text>
+            <Text>
+              {epoch.description
+                ? epoch.description
+                : epoch.number !== null
+                ? `Epoch ${epoch.number}`
+                : DateTime.fromISO(epoch.start_date) > DateTime.now()
+                ? 'Upcoming Epoch'
+                : ''}
+            </Text>
           )}
         </Flex>
         {!nonMember && (
