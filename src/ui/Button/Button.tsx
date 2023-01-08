@@ -83,6 +83,21 @@ export const Button = styled('button', {
         backgroundColor: '$dim',
         color: '$textOnDim',
       },
+      navigation: {
+        padding: '$xs',
+        textAlign: 'left',
+        backgroundColor: 'transparent',
+        color: '$navLinkText',
+        '&:hover': {
+          backgroundColor: '$navLinkHoverBackground',
+        },
+        '&:focus': {
+          backgroundColor: '$navLinkHoverBackground',
+        },
+        '&.active': {
+          backgroundColor: '$navLinkHoverBackground',
+        },
+      },
     },
     size: {
       large: {

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { useIsEmailWallet } from 'features/auth';
 import { isUserAdmin } from 'lib/users';
+import { useSearchParams } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
 
 import { LoadingModal } from 'components';
@@ -24,7 +25,12 @@ const VaultsPage = () => {
   const orgsQuery = useMainHeaderQuery();
   const contracts = useContracts();
 
-  const [currentOrgId, setCurrentOrgId] = useState<number | undefined>();
+  const [params] = useSearchParams();
+  const specificOrg = params.get('org') ? Number(params.get('org')) : undefined;
+
+  const [currentOrgId, setCurrentOrgId] = useState<number | undefined>(
+    specificOrg
+  );
 
   useRequireSupportedChain();
 
@@ -81,27 +87,29 @@ const VaultsPage = () => {
           </p>
         </HintBanner>
       )}
-      <Box
-        css={{
-          display: 'flex',
-          flexDirection: 'row',
-          gap: '$md',
-          mb: '$lg',
-          flexWrap: 'wrap',
-        }}
-      >
-        {orgs?.map(org => (
-          <Button
-            css={{ borderRadius: '$pill' }}
-            key={org.id}
-            color="neutral"
-            outlined={org.id !== currentOrgId}
-            onClick={() => setCurrentOrgId(org.id)}
-          >
-            {org.name}
-          </Button>
-        ))}
-      </Box>
+      {!specificOrg && (
+        <Box
+          css={{
+            display: 'flex',
+            flexDirection: 'row',
+            gap: '$md',
+            mb: '$lg',
+            flexWrap: 'wrap',
+          }}
+        >
+          {orgs?.map(org => (
+            <Button
+              css={{ borderRadius: '$pill' }}
+              key={org.id}
+              color="neutral"
+              outlined={org.id !== currentOrgId}
+              onClick={() => setCurrentOrgId(org.id)}
+            >
+              {org.name}
+            </Button>
+          ))}
+        </Box>
+      )}
       <Flex
         row
         css={{

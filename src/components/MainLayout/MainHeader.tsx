@@ -5,7 +5,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
 import { MediaQueryKeys } from 'stitches.config';
 
-import { ReceiveInfo, MyAvatarMenu } from 'components';
+import { MyAvatarMenu, ReceiveInfo } from 'components';
 import isFeatureEnabled from 'config/features';
 import { useMediaQuery } from 'hooks';
 import { rSelectedCircle } from 'recoilState/app';

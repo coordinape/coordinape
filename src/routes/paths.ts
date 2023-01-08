@@ -67,6 +67,7 @@ export const paths = {
   organization: (orgId: string) => `/organizations/${orgId}`,
   organizationSettings: (orgId: string) => `/organizations/${orgId}/settings`,
   vaults: '/vaults',
+  vaultsForOrg: (orgId: string) => `/vaults?org=${orgId}`,
   vaultTxs: (address: string) => `${paths.vaults}/${address}/txs`,
 
   // for circle links
@@ -80,3 +81,10 @@ export const isCircleSpecificPath = (location: Location) =>
 // TODO: this isn't used yet
 export const isOrgSpecificPath = (location: Location) =>
   location.pathname.match(/\/organizations\/\d+/);
+
+export const getCircleFromPath = (location: Location) =>
+  location.pathname.match(/\/circles\/(\d+)/)?.[1];
+
+export const getOrgFromPath = (location: Location) =>
+  location.pathname.match(/\/organizations\/(\d+)/)?.[1] ??
+  location.search.match(/org=(\d+)/)?.[1];

@@ -178,6 +178,7 @@ export const colors = {
   toastifyTextColorError: newFigmaColors.error6,
   toastifyBorderColorError: newFigmaColors.error3,
   toastifyIconBackgroundError: newFigmaColors.error2,
+  navLinkText: figmaColors.grey20,
 };
 
 export const {
@@ -426,6 +427,8 @@ export const dark = createTheme({
     toastifyTextColorError: newFigmaColors.error5,
     toastifyBorderColorError: newFigmaColors.error6,
     toastifyIconBackgroundError: newFigmaColors.error10,
+    navLinkText: newFigmaColors.grey4,
+    navLinkHoverBackground: newFigmaColors.grey8,
   },
   fonts: {
     display: 'Denim, apple-system, sans-serif',
