@@ -1,7 +1,9 @@
-import { Suspense } from 'react';
+import { Suspense, useContext } from 'react';
 
 import { RequireAuth } from 'features/auth';
 
+import { SideNav } from '../../features/nav/SideNav';
+import { ThemeContext } from '../../features/theming/ThemeProvider';
 import HelpButton from '../HelpButton';
 import { GlobalUi, SentryScopeController } from 'components';
 import { AppRoutes } from 'routes/routes';
@@ -13,6 +15,8 @@ import { MainHeader } from './MainHeader';
 // have content scroll underneath it
 
 export const MainLayout = () => {
+  const { themePreference } = useContext(ThemeContext);
+
   return (
     <Box
       css={{
@@ -28,23 +32,32 @@ export const MainLayout = () => {
         '& > main': { flex: 1 },
       }}
     >
-      <MainHeader />
-      <RequireAuth>
-        <Suspense fallback={null}>
-          <Box
-            as="main"
-            css={{
-              overflowY: 'auto',
-              '@sm': { zIndex: 1 }, // for hamburger menu
-            }}
-          >
-            <GlobalUi />
-            <SentryScopeController />
-            <AppRoutes />
-          </Box>
-          <HelpButton />
-        </Suspense>
-      </RequireAuth>
+      <Box css={{ display: 'flex' }}>
+        {(themePreference == 'dark' || themePreference == 'light') && (
+          <SideNav />
+        )}
+        <Box>
+          {themePreference != 'dark' && themePreference != 'light' && (
+            <MainHeader />
+          )}
+          <RequireAuth>
+            <Suspense fallback={null}>
+              <Box
+                as="main"
+                css={{
+                  overflowY: 'auto',
+                  '@sm': { zIndex: 1 }, // for hamburger menu
+                }}
+              >
+                <GlobalUi />
+                <SentryScopeController />
+                <AppRoutes />
+              </Box>
+              <HelpButton />
+            </Suspense>
+          </RequireAuth>
+        </Box>
+      </Box>
     </Box>
   );
 };
