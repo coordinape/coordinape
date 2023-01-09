@@ -235,7 +235,7 @@ export const {
       'toast-width': '80% !important',
       'text-color-error': newFigmaColors.error6 + ' !important',
       'text-color-success': newFigmaColors.success6 + ' !important',
-      'color-progress-info': 'var(--colors-text) !important',
+      'color-progress-light': 'var(--colors-text) !important',
       'color-progress-success': 'var(--toastify-text-color-success) !important',
       'color-progress-error': 'var(--toastify-text-color-error) !important',
     },

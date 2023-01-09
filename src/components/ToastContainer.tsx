@@ -17,7 +17,7 @@ const StyledContainer = styled(ToastifyContainer, {
   '.Toastify__progress-bar': {
     height: '1px',
   },
-  '.Toastify__toast--info': {},
+  '.Toastify__toast--default': {},
   '.Toastify__toast--success': {
     borderColor: '$successColor',
   },
@@ -30,7 +30,7 @@ const StyledContainer = styled(ToastifyContainer, {
   '.Toastify__toast--error *': {
     color: 'var(--toastify-text-color-error)',
   },
-  '.Toastify__toast--info *': {
+  '.Toastify__toast--default *': {
     color: 'var(--colors-text)',
   },
 });
@@ -46,6 +46,7 @@ export const ToastContainer = () => {
       draggable
       limit={3}
       pauseOnHover
+      theme="light"
     />
   );
 };
