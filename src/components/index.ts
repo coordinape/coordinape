@@ -24,7 +24,6 @@ export * from './MainLayout/MainLayout';
 export * from './MyAvatarMenu/MyAvatarMenu';
 export * from './Network/Network';
 export * from './OptInput';
-export * from './ProfileCard/ProfileCard';
 export * from './ProfileSkills';
 export * from './ProfileSocialIcons';
 export * from './ReadMore';
