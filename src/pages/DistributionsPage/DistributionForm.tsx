@@ -1,5 +1,11 @@
 import assert from 'assert';
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { formatRelative, parseISO } from 'date-fns';
@@ -47,6 +53,9 @@ import { useLockedTokenDistribution } from './useLockedTokenDistributions';
 import { useSubmitDistribution } from './useSubmitDistribution';
 import { mapProfileIdsByAddress } from './utils';
 
+import { CustomToken } from 'types/custom.token';
+import { LockedTokenDistribution } from 'types/locked.token.distribution';
+
 const logger = new DebugLogger('DistributionForm');
 
 const headerStyle = {
@@ -80,7 +89,9 @@ type SubmitFormProps = {
   circleDist: EpochDataResult['distributions'][0] | undefined;
   fixedDist: EpochDataResult['distributions'][0] | undefined;
   totalGive: number;
-  previousLockedTokenDistribution: any;
+  previousLockedTokenDistribution: LockedTokenDistribution;
+  setCustomToken: Dispatch<SetStateAction<CustomToken | undefined>>;
+  customToken: CustomToken | undefined;
 };
 
 /**
@@ -102,6 +113,8 @@ export function DistributionForm({
   fixedDist,
   totalGive,
   previousLockedTokenDistribution,
+  setCustomToken,
+  customToken,
 }: SubmitFormProps) {
   const [giftSubmitting, setGiftSubmitting] = useState(false);
   const [fixedSubmitting, setFixedSubmitting] = useState(false);
@@ -231,13 +244,6 @@ export function DistributionForm({
   const integrations = useCurrentCircleIntegrations();
 
   const hedgeyIntegration = integrations?.data?.find(i => i.type === HEDGEY);
-
-  const [customToken, setCustomToken] = useState<{
-    symbol: string;
-    decimals: number;
-    address: string;
-    availableBalance: number | BigNumber;
-  }>();
 
   useEffect(() => {
     if (
