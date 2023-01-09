@@ -11,6 +11,8 @@ import { smartRounding, numberWithCommas, shortenAddress } from 'utils';
 import type { Gift } from './queries';
 import { EpochDataResult } from './queries';
 
+import { CustomToken } from 'types/custom.token';
+
 const styles = {
   alignRight: { textAlign: 'right' },
 };
@@ -29,6 +31,7 @@ export const AllocationsTable = ({
   isLockedTokenDistribution,
   lockedTokenDistributionDecimals,
   lockedTokenDistributionSymbol,
+  customToken,
 }: {
   users: {
     id: number;
@@ -59,6 +62,7 @@ export const AllocationsTable = ({
   isLockedTokenDistribution: boolean;
   lockedTokenDistributionDecimals: number;
   lockedTokenDistributionSymbol: string;
+  customToken: CustomToken | undefined;
 }) => {
   type User = Exclude<typeof users[0], undefined>;
   const givenPercent = useCallback(
@@ -170,14 +174,16 @@ export const AllocationsTable = ({
             <td className="alignRight">
               {isLockedTokenDistribution
                 ? `${ethers.utils.formatUnits(
-                    user.circleClaimed.toFixed(),
+                    user.circleClaimed.toLocaleString('fullwide', {
+                      useGrouping: false,
+                    }),
                     lockedTokenDistributionDecimals
                   )} ${lockedTokenDistributionSymbol}`
                 : circleDist
                 ? `${smartRounding(user.circleClaimed)} ${tokenName || 'GIVE'}`
                 : `${smartRounding(
                     givenPercent(user.received) * formGiftAmount
-                  )} ${tokenName || 'GIVE'}`}
+                  )} ${customToken?.symbol || tokenName || 'GIVE'}`}
             </td>
             <td className="alignRight">
               {fixedDist
