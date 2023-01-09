@@ -1,12 +1,7 @@
-import {
-  render,
-  screen,
-  act,
-  waitFor,
-  fireEvent,
-} from '@testing-library/react';
+import { useEffect } from 'react';
 
-import { Button } from 'ui';
+import { render, screen, act, waitFor } from '@testing-library/react';
+
 import { TestWrapper } from 'utils/testing';
 
 import { useToast } from './useToast';
@@ -14,9 +9,10 @@ import { useToast } from './useToast';
 test('showDefault shows a default themed toast', async () => {
   const { showDefault } = useToast();
   const Harness = () => {
-    return (
-      <Button onClick={() => showDefault('default toast')}>Click Here</Button>
-    );
+    useEffect(() => {
+      showDefault('default toast');
+    }, []);
+    return <></>;
   };
 
   await act(async () => {
@@ -26,41 +22,19 @@ test('showDefault shows a default themed toast', async () => {
       </TestWrapper>
     );
   });
-
-  fireEvent.click(screen.getByText('Click Here'));
 
   await waitFor(async () => {
     expect(screen.getByText('default toast')).toBeInTheDocument();
   });
 });
 
-test('showError shows an error themed toast', async () => {
-  const { showError } = useToast();
-  const Harness = () => {
-    return <Button onClick={() => showError('error toast')}>Click Here</Button>;
-  };
-
-  await act(async () => {
-    render(
-      <TestWrapper>
-        <Harness />
-      </TestWrapper>
-    );
-  });
-
-  fireEvent.click(screen.getByText('Click Here'));
-
-  await waitFor(async () => {
-    expect(screen.getByText('error toast')).toBeInTheDocument();
-  });
-});
-
-test('showSuccess shows a success themed toast', async () => {
+test('showSuccess shows a default themed toast', async () => {
   const { showSuccess } = useToast();
   const Harness = () => {
-    return (
-      <Button onClick={() => showSuccess('success toast')}>Click Here</Button>
-    );
+    useEffect(() => {
+      showSuccess('success toast');
+    }, []);
+    return <></>;
   };
 
   await act(async () => {
@@ -70,10 +44,30 @@ test('showSuccess shows a success themed toast', async () => {
       </TestWrapper>
     );
   });
-
-  fireEvent.click(screen.getByText('Click Here'));
 
   await waitFor(async () => {
     expect(screen.getByText('success toast')).toBeInTheDocument();
+  });
+});
+
+test('showError shows a error themed toast', async () => {
+  const { showError } = useToast();
+  const Harness = () => {
+    useEffect(() => {
+      showError('error toast');
+    }, []);
+    return <></>;
+  };
+
+  await act(async () => {
+    render(
+      <TestWrapper>
+        <Harness />
+      </TestWrapper>
+    );
+  });
+
+  await waitFor(async () => {
+    expect(screen.getByText('error toast')).toBeInTheDocument();
   });
 });
