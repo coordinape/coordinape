@@ -25,6 +25,8 @@ import { DistributionForm } from './DistributionForm';
 import type { Gift } from './queries';
 import { getEpochData, getPreviousLockedTokenDistribution } from './queries';
 
+import { CustomToken } from 'types/custom.token';
+
 export function DistributionsPage() {
   const { epochId } = useParams();
   const address = useConnectedAddress();
@@ -66,6 +68,7 @@ export function DistributionsPage() {
   const { downloadCSV } = useApiAdminCircle(circleId);
   const [previousLockedTokenDistribution, setPreviousLockedTokenDistribution] =
     useState<any>({});
+  const [customToken, setCustomToken] = useState<CustomToken>();
 
   const loadPreviousLockedTokenDistribution = () => {
     getPreviousLockedTokenDistribution(Number.parseInt(epochId || '0')).then(
@@ -271,6 +274,8 @@ export function DistributionsPage() {
               refetch={refetch}
               totalGive={totalGive}
               previousLockedTokenDistribution={previousLockedTokenDistribution}
+              setCustomToken={setCustomToken}
+              customToken={customToken}
             />
           </Box>
           <AllocationsTable
@@ -294,6 +299,7 @@ export function DistributionsPage() {
             lockedTokenDistributionSymbol={
               previousLockedTokenDistribution?.token_symbol
             }
+            customToken={customToken}
           />
         </>
       )}
