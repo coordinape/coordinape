@@ -55,7 +55,7 @@ const ErrorIcon = () => {
     </>
   );
 };
-const InfoIcon = () => {
+const DefaultIcon = () => {
   return <Loader css={{ color: 'var(--colors-text)' }} />;
 };
 
@@ -86,8 +86,8 @@ export const useToast = () => {
   return {
     // rename to showDefault: ...
     showDefault: (content: ToastContent, props: ToastOptions = {}) =>
-      toast.info(content, {
-        icon: InfoIcon,
+      toast(content, {
+        icon: DefaultIcon,
         closeButton: CloseButton,
         ...props,
       }),
