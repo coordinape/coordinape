@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import isEmpty from 'lodash/isEmpty';
 import { DateTime, Interval } from 'luxon';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import { useQueryClient } from 'react-query';
 import { SafeParseReturnType, z } from 'zod';
 
 import {
@@ -14,6 +15,7 @@ import {
 } from 'components';
 import { useApiAdminCircle } from 'hooks';
 import { Info } from 'icons/__generated';
+import { QUERY_KEY_MY_ORGS } from 'pages/CirclesPage/getOrgData';
 import {
   Box,
   Flex,
@@ -259,6 +261,8 @@ const EpochForm = ({
   const [submitting, setSubmitting] = useState(false);
   const { createEpoch, updateEpoch } = useApiAdminCircle(circleId);
 
+  const queryClient = useQueryClient();
+
   const source = useMemo(
     () => ({
       epoch: selectedEpoch ? extraEpoch(selectedEpoch) : undefined,
@@ -294,7 +298,7 @@ const EpochForm = ({
     },
   });
 
-  const watchFields = useRef<
+  const [watchFields, setWatchFields] = useState<
     Omit<epochFormSchema, 'repeat'> & { repeat: string | number }
   >({
     days: source?.epoch?.days ?? source?.epoch?.calculatedDays ?? 4,
@@ -326,10 +330,11 @@ const EpochForm = ({
         extraErrors.current = false;
         clearErrors('customError');
       }
-
-      if (data.days) watchFields.current.days = data.days;
-      if (data.repeat) watchFields.current.repeat = data.repeat;
-      if (data.start_date) watchFields.current.start_date = data.start_date;
+      const newValues = { ...watchFields };
+      if (data.days) newValues.days = data.days;
+      if (data.repeat) newValues.repeat = data.repeat;
+      if (data.start_date) newValues.start_date = data.start_date;
+      setWatchFields({ ...newValues });
     });
   }, [watch]);
 
@@ -354,6 +359,7 @@ const EpochForm = ({
     )
       .then(() => {
         setSubmitting(false);
+        queryClient.invalidateQueries(QUERY_KEY_MY_ORGS);
       })
       .then(onClose)
       .catch(console.warn);
@@ -525,9 +531,9 @@ const EpochForm = ({
               />
             </Flex>
             <Flex column>
-              {epochsPreview(watchFields.current)}
+              {epochsPreview(watchFields)}
               <Text p css={{ mt: '$lg' }}>
-                {summarizeEpoch(watchFields.current)}
+                {summarizeEpoch(watchFields)}
               </Text>
             </Flex>
           </TwoColumnLayout>
