@@ -10,6 +10,11 @@ const StyledContainer = styled(ToastifyContainer, {
     minWidth: '400px',
     maxWidth: '640px',
     width: '80%',
+    '&:hover': {
+      '.toastCloseButton *': {
+        color: '$cta',
+      },
+    },
   },
   '.Toastify__toast-icon': {
     marginInlineEnd: '20px',

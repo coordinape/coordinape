@@ -62,6 +62,7 @@ const DefaultIcon = () => {
 const CloseButton = (props: CloseButtonProps) => {
   return (
     <Button
+      className="toastCloseButton"
       css={{
         background: 'none',
         padding: 0,
