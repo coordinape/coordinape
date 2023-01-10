@@ -1,22 +1,4 @@
-import clsx from 'clsx';
-
-import { makeStyles } from '@material-ui/core';
-
-const useStyles = makeStyles(theme => ({
-  skillItem: {
-    margin: theme.spacing(0.2),
-    padding: theme.spacing(0.2, 1.7),
-    background: theme.colors.secondary,
-    textAlign: 'center',
-    fontSize: 14,
-    fontWeight: 600,
-    color: theme.colors.white,
-    borderRadius: 4,
-  },
-  adminSkillItem: {
-    background: theme.colors.secondaryDark,
-  },
-}));
+import { Box } from 'ui';
 
 export const ProfileSkills = ({
   skills,
@@ -27,23 +9,42 @@ export const ProfileSkills = ({
   isAdmin: boolean;
   max: number;
 }) => {
-  const classes = useStyles();
-
   return (
     <>
       {skills.length > 0 &&
         skills.slice(0, max).map(skill => (
-          <div key={skill} className={classes.skillItem}>
+          <Box
+            key={skill}
+            css={{
+              margin: '$xxs',
+              padding: '$xxs $md',
+              background: '$secondary',
+              textAlign: 'center',
+              fontSize: '$small',
+              fontWeight: '$semibold',
+              color: '$white',
+              borderRadius: 4,
+            }}
+          >
             {skill}
-          </div>
+          </Box>
         ))}
       {isAdmin && (
-        <div
+        <Box
           key="Admin"
-          className={clsx(classes.skillItem, classes.adminSkillItem)}
+          css={{
+            margin: '$xxs',
+            padding: '$xxs $md',
+            background: '$secondaryDark',
+            textAlign: 'center',
+            fontSize: '$small',
+            fontWeight: '$semibold',
+            color: '$white',
+            borderRadius: 4,
+          }}
         >
           Admin
-        </div>
+        </Box>
       )}
     </>
   );
