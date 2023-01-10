@@ -19,7 +19,7 @@ import { Edit3 } from 'icons/__generated';
 import { useMyProfile, useProfile } from 'recoilState/app';
 import { useSetEditProfileOpen } from 'recoilState/ui';
 import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE, paths } from 'routes/paths';
-import { Avatar, MarkdownPreview } from 'ui';
+import { Box, Avatar, MarkdownPreview, Panel } from 'ui';
 import { getAvatarPath } from 'utils/domain';
 
 import { IMyProfile, IProfile } from 'types';
@@ -48,7 +48,7 @@ const useStyles = makeStyles(theme => ({
   },
   headerInside: {
     position: 'relative',
-    height: 300,
+    height: 250,
     width: '100%',
     maxWidth: theme.breakpoints.values.lg,
     padding: theme.spacing(0, 8),
@@ -240,9 +240,7 @@ const ProfilePageContent = ({
   const {
     imageUrl: backgroundUrl,
     formFileUploadProps: backgroundUploadProps,
-  } = useImageUploader(
-    getAvatarPath(profile?.background) || '/imgs/background/profile-bg.jpg'
-  );
+  } = useImageUploader(getAvatarPath(profile?.background) || '');
 
   const recentEpochs = profile?.users?.map(user => ({
     bio: (user?.bio?.length ?? 0) > 0 ? user.bio : null,
@@ -260,13 +258,20 @@ const ProfilePageContent = ({
 
   return (
     <div className={classes.root}>
-      <div className={classes.header}>
-        <img src={backgroundUrl} alt={name} />
+      <Box
+        className={classes.header}
+        css={{
+          background: 'linear-gradient(50deg, $secondaryMedium, $surface)',
+        }}
+      >
+        {backgroundUrl && <img src={backgroundUrl} alt={name} />}
+
         <div className={classes.headerInside}>
           <Avatar
             path={profile?.avatar}
             css={{
-              top: 155,
+              position: 'absolute',
+              bottom: 0,
               width: '143px !important',
               height: '143px !important',
             }}
@@ -298,7 +303,7 @@ const ProfilePageContent = ({
             </>
           )}
         </div>
-      </div>
+      </Box>
 
       <div className={classes.body}>
         <h1 className={classes.name}>{name}</h1>
@@ -312,7 +317,7 @@ const ProfilePageContent = ({
         <div className={classes.socialGroup}>
           <ProfileSocialIcons profile={profile} />
         </div>
-        <div className={classes.bio}>
+        <Panel className={classes.bio}>
           {user?.role === USER_ROLE_COORDINAPE ? (
             <div>
               Coordinape is the platform you’re using right now! We currently
@@ -328,9 +333,9 @@ const ProfilePageContent = ({
               </a>
             </div>
           ) : (
-            <MarkdownPreview source={profile?.bio} />
+            <MarkdownPreview render source={profile?.bio} />
           )}
-        </div>
+        </Panel>
       </div>
 
       {user && !user.isCoordinapeUser && (

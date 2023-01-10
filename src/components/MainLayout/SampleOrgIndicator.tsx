@@ -1,7 +1,5 @@
-import { NavLink } from 'react-router-dom';
-
 import { paths } from '../../routes/paths';
-import { Flex, Text } from '../../ui';
+import { AppLink, Flex, Text } from '../../ui';
 
 export const SampleOrgIndicator = () => (
   <Flex
@@ -38,36 +36,21 @@ export const SampleOrgIndicator = () => (
         pr: '$md',
       }}
     >
-      <NavLink to={paths.createCircle} style={{ textDecoration: 'none' }}>
-        <Flex
-          css={{
-            flexDirection: 'column',
-            justifyItems: 'center',
-          }}
+      <Text
+        css={{
+          color: '$tagActiveText',
+        }}
+        size="small"
+      >
+        Done Testing?
+        <AppLink
+          inlineLink
+          to={paths.createCircle}
+          css={{ color: 'inherit', ml: '$sm' }}
         >
-          <Text
-            css={{
-              color: '$tagActiveText',
-              textDecoration: 'none',
-              mb: '$xs',
-              justifyContent: 'center',
-            }}
-            size="small"
-          >
-            Done Testing?
-          </Text>
-          <Text
-            css={{
-              textDecoration: 'underline',
-              color: '$tagActiveText',
-            }}
-            semibold
-            size="small"
-          >
-            Create a Circle
-          </Text>
-        </Flex>
-      </NavLink>
+          Create a Circle
+        </AppLink>
+      </Text>
     </Flex>
   </Flex>
 );
