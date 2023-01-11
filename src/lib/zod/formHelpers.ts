@@ -16,7 +16,14 @@ const provider = () => {
 
 export const zStringISODateUTC = z
   .string()
-  .transform(s => DateTime.fromISO(s, { zone: 'utc' }));
+  .transform(s => DateTime.fromISO(s, { zone: 'utc' }))
+  .superRefine((dt, ctx) => {
+    if (!dt.isValid)
+      ctx.addIssue({
+        code: z.ZodIssueCode.invalid_date,
+        message: `invalid datetime: ${dt.invalidExplanation}`,
+      });
+  });
 
 export const zEthAddress = z
   .string()

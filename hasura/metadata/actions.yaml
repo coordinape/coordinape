@@ -37,6 +37,7 @@ actions:
           value_from_env: HASURA_EVENT_SECRET
     permissions:
       - role: user
+    comment: create epoch using new, more flexible api
   - name: createNominee
     definition:
       kind: synchronous
@@ -320,7 +321,6 @@ custom_types:
     - name: CreateNomineeInput
     - name: UpdateUserInput
     - name: VouchInput
-    - name: CreateEpochInput
     - name: UpdateTeammatesInput
     - name: DeleteUserInput
     - name: UpdateCircleInput
@@ -344,7 +344,8 @@ custom_types:
     - name: LinkDiscordUserInput
     - name: UpdateProfileNameInput
     - name: DeleteDiscordUserInput
-    - name: LinkDiscordCircleInput
+    - name: EpochInputParams
+    - name: CreateEpochInput
   objects:
     - name: CreateCircleResponse
       relationships:

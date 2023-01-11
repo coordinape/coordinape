@@ -470,7 +470,10 @@ export async function getRepeatingEpoch(
           where: {
             ended: { _eq: false },
             circle_id: { _eq: circle_id },
-            repeat: { _gte: EPOCH_REPEAT.WEEKLY },
+            _or: [
+              { repeat: { _gte: EPOCH_REPEAT.WEEKLY } },
+              { repeat_data: { _is_null: false } },
+            ],
           },
         },
         {

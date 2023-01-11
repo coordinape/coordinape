@@ -558,6 +558,46 @@ export async function updateEpoch(
   return updateEpoch;
 }
 
+export async function updateActiveRepeatingEpoch(
+  epochId: number,
+  circleId: number,
+  params: {
+    current: UpdateCreateEpochParam;
+    next: Omit<ValueTypes['CreateEpochInput'], 'circle_id'>;
+  }
+) {
+  await client.mutate(
+    {
+      createEpoch: [
+        {
+          payload: {
+            ...params.next,
+            circle_id: circleId,
+          },
+        },
+        {
+          id: true,
+        },
+      ],
+      updateEpoch: [
+        {
+          payload: {
+            ...params.current,
+            circle_id: circleId,
+            id: epochId,
+          },
+        },
+        {
+          id: true,
+        },
+      ],
+    },
+    {
+      operationName: 'updateActiveRepeatingEpoch',
+    }
+  );
+}
+
 export async function allocationCsv(
   circleId: number,
   epoch?: number,
