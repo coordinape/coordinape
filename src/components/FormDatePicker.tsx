@@ -1,31 +1,14 @@
 import React from 'react';
 
-import { DateType } from '@date-io/type';
+import { FieldValues } from 'react-hook-form';
 
-import { DatePicker } from '@material-ui/pickers';
+import { FormInputField, TFormInputField } from 'components/index';
 
-import { DeprecatedApeTextField } from 'components/index';
-
-export const FormDatePicker = ({
-  onChange,
-  errorText,
-  error,
-  ...props
-}: Omit<React.ComponentProps<typeof DatePicker>, 'onChange'> & {
-  onChange: (newValue: string) => void;
-  errorText?: string;
-}) => {
-  const handleChange = (date: DateType | null) => {
-    onChange(date?.toISO() ?? '');
-  };
-
-  return (
-    <DatePicker
-      {...props}
-      error={error}
-      helperText={errorText}
-      onChange={handleChange}
-      TextFieldComponent={DeprecatedApeTextField}
-    />
-  );
+export const FormDatePicker = <TFieldValues extends FieldValues>(
+  props: Pick<
+    TFormInputField<TFieldValues>,
+    'defaultValue' | 'id' | 'control' | 'name' | 'disabled' | 'css'
+  >
+) => {
+  return <FormInputField {...props} inputProps={{ type: 'date' }} />;
 };

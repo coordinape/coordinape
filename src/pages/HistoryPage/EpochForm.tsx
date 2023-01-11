@@ -3,7 +3,7 @@ import { useState, useMemo, useEffect, useRef } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import isEmpty from 'lodash/isEmpty';
 import { DateTime, Interval } from 'luxon';
-import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
 import { SafeParseReturnType, z } from 'zod';
 
@@ -430,7 +430,7 @@ const EpochForm = ({
             />
             <Flex column css={{ gap: '$lg' }}>
               <Text h3>Epoch Timing</Text>
-              <Flex css={{ gap: '$xs' }}>
+              <Flex css={{ gap: '$sm' }}>
                 <Flex
                   column
                   alignItems="start"
@@ -445,24 +445,13 @@ const EpochForm = ({
                       <Info size="sm" />
                     </Tooltip>
                   </FormLabel>
-                  <Controller
+                  <FormDatePicker
                     control={control}
+                    id="start_date"
                     name="start_date"
-                    render={({ field: { onChange, value, onBlur } }) => (
-                      <FormDatePicker
-                        onChange={onChange}
-                        value={value}
-                        onBlur={onBlur}
-                        disabled={
-                          selectedEpoch &&
-                          currentEpoch?.id === selectedEpoch?.id
-                        }
-                        format="MMM dd, yyyy"
-                        style={{
-                          marginLeft: 0,
-                        }}
-                      />
-                    )}
+                    disabled={
+                      selectedEpoch && currentEpoch?.id === selectedEpoch?.id
+                    }
                   />
                 </Flex>
                 <Flex css={{ maxWidth: '150px' }}>
@@ -486,28 +475,22 @@ const EpochForm = ({
                     </Tooltip>
                   </FormLabel>
                   <Flex row css={{ gap: '$sm' }}>
-                    <Controller
-                      control={control}
-                      name="start_date"
-                      render={({ field: { onChange, value, onBlur } }) => (
-                        <Box
-                          css={{
-                            maxWidth: '150px',
-                            '> div': { mb: '0 !important' },
-                          }}
-                        >
-                          <FormTimePicker
-                            onBlur={onBlur}
-                            onChange={onChange}
-                            value={value}
-                            disabled={
-                              selectedEpoch &&
-                              currentEpoch?.id === selectedEpoch?.id
-                            }
-                          />
-                        </Box>
-                      )}
-                    />
+                    <Box
+                      css={{
+                        maxWidth: '150px',
+                        '> div': { mb: '0 !important' },
+                      }}
+                    >
+                      <FormTimePicker
+                        control={control}
+                        name="start_date"
+                        id="start_date"
+                        disabled={
+                          selectedEpoch &&
+                          currentEpoch?.id === selectedEpoch?.id
+                        }
+                      />
+                    </Box>
                     <Text size="medium">
                       In your
                       <br /> local timezone
