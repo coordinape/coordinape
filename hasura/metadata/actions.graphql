@@ -202,15 +202,6 @@ input VouchInput {
   nominee_id: Int!
 }
 
-input CreateEpochInput {
-  circle_id: Int!
-  start_date: timestamptz!
-  days: Int!
-  repeat: Int!
-  grant: Float
-  description: String
-}
-
 input UpdateTeammatesInput {
   teammates: [Int]!
   circle_id: Int!
@@ -393,6 +384,22 @@ input UpdateProfileInput {
   github_username: String
   medium_username: String
   website: String
+}
+
+input EpochInputParams {
+  type: String!
+  start_date: timestamptz!
+  end_date: timestamptz!
+  frequency: Int
+  frequency_unit: String
+  weekday: Int
+  week: Int
+  grant: Float
+}
+
+input CreateEpochInput {
+  circle_id: Int!
+  params: EpochInputParams!
 }
 
 type CreateCircleResponse {
