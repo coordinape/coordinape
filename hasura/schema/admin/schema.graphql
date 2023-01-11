@@ -161,11 +161,7 @@ type CreateCircleResponse {
 
 input CreateEpochInput {
   circle_id: Int!
-  days: Int!
-  description: String
-  grant: Float
-  repeat: Int!
-  start_date: timestamptz!
+  params: EpochInputParams!
 }
 
 input CreateNomineeInput {
@@ -227,6 +223,17 @@ type DeleteEpochResponse {
 input DeleteUserInput {
   address: String!
   circle_id: Int!
+}
+
+input EpochInputParams {
+  end_date: timestamptz!
+  frequency: Int
+  frequency_unit: String
+  grant: Float
+  start_date: timestamptz!
+  type: String!
+  week: Int
+  weekday: Int
 }
 
 type EpochResponse {
@@ -8712,6 +8719,12 @@ type epochs {
   pgive_data: epoch_pgive_data
   regift_days: Int!
   repeat: Int!
+  repeat_data(
+    """
+    JSON select path
+    """
+    path: String
+  ): jsonb
   repeat_day_of_month: Int!
   start_date: timestamptz!
 
@@ -8820,6 +8833,13 @@ input epochs_aggregate_order_by {
 }
 
 """
+append existing jsonb value of filtered columns with new jsonb value
+"""
+input epochs_append_input {
+  repeat_data: jsonb
+}
+
+"""
 input type for inserting array relation for remote table "epoches"
 """
 input epochs_arr_rel_insert_input {
@@ -8885,6 +8905,7 @@ input epochs_bool_exp {
   pgive_data: epoch_pgive_data_bool_exp
   regift_days: Int_comparison_exp
   repeat: Int_comparison_exp
+  repeat_data: jsonb_comparison_exp
   repeat_day_of_month: Int_comparison_exp
   start_date: timestamptz_comparison_exp
   token_gifts: token_gifts_bool_exp
@@ -8899,6 +8920,27 @@ enum epochs_constraint {
   unique or primary key constraint on columns "id"
   """
   epoches_pkey
+}
+
+"""
+delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+"""
+input epochs_delete_at_path_input {
+  repeat_data: [String!]
+}
+
+"""
+delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+"""
+input epochs_delete_elem_input {
+  repeat_data: Int
+}
+
+"""
+delete key/value pair or string element. key/value pairs are matched based on their key value
+"""
+input epochs_delete_key_input {
+  repeat_data: String
 }
 
 """
@@ -8938,6 +8980,7 @@ input epochs_insert_input {
   pgive_data: epoch_pgive_data_obj_rel_insert_input
   regift_days: Int
   repeat: Int
+  repeat_data: jsonb
   repeat_day_of_month: Int
   start_date: timestamptz
   token_gifts: token_gifts_arr_rel_insert_input
@@ -9091,6 +9134,7 @@ input epochs_order_by {
   pgive_data: epoch_pgive_data_order_by
   regift_days: order_by
   repeat: order_by
+  repeat_data: order_by
   repeat_day_of_month: order_by
   start_date: order_by
   token_gifts_aggregate: token_gifts_aggregate_order_by
@@ -9102,6 +9146,13 @@ primary key columns input for table: epoches
 """
 input epochs_pk_columns_input {
   id: bigint!
+}
+
+"""
+prepend existing jsonb value of filtered columns with new jsonb value
+"""
+input epochs_prepend_input {
+  repeat_data: jsonb
 }
 
 """
@@ -9181,6 +9232,11 @@ enum epochs_select_column {
   """
   column name
   """
+  repeat_data
+
+  """
+  column name
+  """
   repeat_day_of_month
 
   """
@@ -9212,6 +9268,7 @@ input epochs_set_input {
   number: Int
   regift_days: Int
   repeat: Int
+  repeat_data: jsonb
   repeat_day_of_month: Int
   start_date: timestamptz
   updated_at: timestamp
@@ -9334,6 +9391,7 @@ input epochs_stream_cursor_value_input {
   number: Int
   regift_days: Int
   repeat: Int
+  repeat_data: jsonb
   repeat_day_of_month: Int
   start_date: timestamptz
   updated_at: timestamp
@@ -9444,6 +9502,11 @@ enum epochs_update_column {
   """
   column name
   """
+  repeat_data
+
+  """
+  column name
+  """
   repeat_day_of_month
 
   """
@@ -9459,9 +9522,34 @@ enum epochs_update_column {
 
 input epochs_updates {
   """
+  append existing jsonb value of filtered columns with new jsonb value
+  """
+  _append: epochs_append_input
+
+  """
+  delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+  """
+  _delete_at_path: epochs_delete_at_path_input
+
+  """
+  delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+  """
+  _delete_elem: epochs_delete_elem_input
+
+  """
+  delete key/value pair or string element. key/value pairs are matched based on their key value
+  """
+  _delete_key: epochs_delete_key_input
+
+  """
   increments the numeric columns with given value of the filtered values
   """
   _inc: epochs_inc_input
+
+  """
+  prepend existing jsonb value of filtered columns with new jsonb value
+  """
+  _prepend: epochs_prepend_input
 
   """
   sets the columns of the filtered rows to the given values
@@ -12214,6 +12302,10 @@ type mutation_root {
   adminUpdateUser(payload: AdminUpdateUserInput!): UserResponse
   allocationCsv(payload: AllocationCsvInput!): AllocationCsvResponse
   createCircle(payload: CreateCircleInput!): CreateCircleResponse
+
+  """
+  create epoch using new, more flexible api
+  """
   createEpoch(payload: CreateEpochInput!): EpochResponse
   createNominee(payload: CreateNomineeInput!): CreateNomineeResponse
   createSampleCircle: CreateSampleCircleResponse
@@ -14488,9 +14580,34 @@ type mutation_root {
   """
   update_epochs(
     """
+    append existing jsonb value of filtered columns with new jsonb value
+    """
+    _append: epochs_append_input
+
+    """
+    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    """
+    _delete_at_path: epochs_delete_at_path_input
+
+    """
+    delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+    """
+    _delete_elem: epochs_delete_elem_input
+
+    """
+    delete key/value pair or string element. key/value pairs are matched based on their key value
+    """
+    _delete_key: epochs_delete_key_input
+
+    """
     increments the numeric columns with given value of the filtered values
     """
     _inc: epochs_inc_input
+
+    """
+    prepend existing jsonb value of filtered columns with new jsonb value
+    """
+    _prepend: epochs_prepend_input
 
     """
     sets the columns of the filtered rows to the given values
@@ -14508,9 +14625,34 @@ type mutation_root {
   """
   update_epochs_by_pk(
     """
+    append existing jsonb value of filtered columns with new jsonb value
+    """
+    _append: epochs_append_input
+
+    """
+    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    """
+    _delete_at_path: epochs_delete_at_path_input
+
+    """
+    delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+    """
+    _delete_elem: epochs_delete_elem_input
+
+    """
+    delete key/value pair or string element. key/value pairs are matched based on their key value
+    """
+    _delete_key: epochs_delete_key_input
+
+    """
     increments the numeric columns with given value of the filtered values
     """
     _inc: epochs_inc_input
+
+    """
+    prepend existing jsonb value of filtered columns with new jsonb value
+    """
+    _prepend: epochs_prepend_input
 
     """
     sets the columns of the filtered rows to the given values

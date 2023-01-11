@@ -131,11 +131,7 @@ type CreateCircleResponse {
 
 input CreateEpochInput {
   circle_id: Int!
-  days: Int!
-  description: String
-  grant: Float
-  repeat: Int!
-  start_date: timestamptz!
+  params: EpochInputParams!
 }
 
 input CreateNomineeInput {
@@ -193,6 +189,17 @@ type DeleteEpochResponse {
 input DeleteUserInput {
   address: String!
   circle_id: Int!
+}
+
+input EpochInputParams {
+  end_date: timestamptz!
+  frequency: Int
+  frequency_unit: String
+  grant: Float
+  start_date: timestamptz!
+  type: String!
+  week: Int
+  weekday: Int
 }
 
 type EpochResponse {
@@ -4714,6 +4721,12 @@ type epochs {
   notified_start: timestamp
   number: Int
   repeat: Int!
+  repeat_data(
+    """
+    JSON select path
+    """
+    path: String
+  ): jsonb
   repeat_day_of_month: Int!
   start_date: timestamptz!
 
@@ -4833,6 +4846,7 @@ input epochs_bool_exp {
   notified_start: timestamp_comparison_exp
   number: Int_comparison_exp
   repeat: Int_comparison_exp
+  repeat_data: jsonb_comparison_exp
   repeat_day_of_month: Int_comparison_exp
   start_date: timestamptz_comparison_exp
   token_gifts: token_gifts_bool_exp
@@ -4902,6 +4916,7 @@ input epochs_order_by {
   notified_start: order_by
   number: order_by
   repeat: order_by
+  repeat_data: order_by
   repeat_day_of_month: order_by
   start_date: order_by
   token_gifts_aggregate: token_gifts_aggregate_order_by
@@ -4976,6 +4991,11 @@ enum epochs_select_column {
   column name
   """
   repeat
+
+  """
+  column name
+  """
+  repeat_data
 
   """
   column name
@@ -5064,6 +5084,7 @@ input epochs_stream_cursor_value_input {
   notified_start: timestamp
   number: Int
   repeat: Int
+  repeat_data: jsonb
   repeat_day_of_month: Int
   start_date: timestamptz
   updated_at: timestamp
@@ -5835,6 +5856,10 @@ type mutation_root {
   adminUpdateUser(payload: AdminUpdateUserInput!): UserResponse
   allocationCsv(payload: AllocationCsvInput!): AllocationCsvResponse
   createCircle(payload: CreateCircleInput!): CreateCircleResponse
+
+  """
+  create epoch using new, more flexible api
+  """
   createEpoch(payload: CreateEpochInput!): EpochResponse
   createNominee(payload: CreateNomineeInput!): CreateNomineeResponse
   createSampleCircle: CreateSampleCircleResponse

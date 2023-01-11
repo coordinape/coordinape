@@ -710,11 +710,7 @@ export type ValueTypes = {
   }>;
   ['CreateEpochInput']: {
     circle_id: number;
-    days: number;
-    description?: string | undefined | null;
-    grant?: number | undefined | null;
-    repeat: number;
-    start_date: ValueTypes['timestamptz'];
+    params: ValueTypes['EpochInputParams'];
   };
   ['CreateNomineeInput']: {
     address: string;
@@ -767,6 +763,16 @@ export type ValueTypes = {
   ['DeleteUserInput']: {
     address: string;
     circle_id: number;
+  };
+  ['EpochInputParams']: {
+    end_date: ValueTypes['timestamptz'];
+    frequency?: number | undefined | null;
+    frequency_unit?: string | undefined | null;
+    grant?: number | undefined | null;
+    start_date: ValueTypes['timestamptz'];
+    type: string;
+    week?: number | undefined | null;
+    weekday?: number | undefined | null;
   };
   ['EpochResponse']: AliasType<{
     epoch?: ValueTypes['epochs'];
@@ -6346,6 +6352,12 @@ export type ValueTypes = {
     pgive_data?: ValueTypes['epoch_pgive_data'];
     regift_days?: boolean | `@${string}`;
     repeat?: boolean | `@${string}`;
+    repeat_data?: [
+      {
+        /** JSON select path */ path?: string | undefined | null;
+      },
+      boolean | `@${string}`
+    ];
     repeat_day_of_month?: boolean | `@${string}`;
     start_date?: boolean | `@${string}`;
     token_gifts?: [
@@ -6438,6 +6450,10 @@ export type ValueTypes = {
     var_samp?: ValueTypes['epochs_var_samp_order_by'] | undefined | null;
     variance?: ValueTypes['epochs_variance_order_by'] | undefined | null;
   };
+  /** append existing jsonb value of filtered columns with new jsonb value */
+  ['epochs_append_input']: {
+    repeat_data?: ValueTypes['jsonb'] | undefined | null;
+  };
   /** input type for inserting array relation for remote table "epoches" */
   ['epochs_arr_rel_insert_input']: {
     data: Array<ValueTypes['epochs_insert_input']>;
@@ -6497,6 +6513,7 @@ export type ValueTypes = {
     pgive_data?: ValueTypes['epoch_pgive_data_bool_exp'] | undefined | null;
     regift_days?: ValueTypes['Int_comparison_exp'] | undefined | null;
     repeat?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    repeat_data?: ValueTypes['jsonb_comparison_exp'] | undefined | null;
     repeat_day_of_month?: ValueTypes['Int_comparison_exp'] | undefined | null;
     start_date?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     token_gifts?: ValueTypes['token_gifts_bool_exp'] | undefined | null;
@@ -6504,6 +6521,18 @@ export type ValueTypes = {
   };
   /** unique or primary key constraints on table "epoches" */
   ['epochs_constraint']: epochs_constraint;
+  /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+  ['epochs_delete_at_path_input']: {
+    repeat_data?: Array<string> | undefined | null;
+  };
+  /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+  ['epochs_delete_elem_input']: {
+    repeat_data?: number | undefined | null;
+  };
+  /** delete key/value pair or string element. key/value pairs are matched based on their key value */
+  ['epochs_delete_key_input']: {
+    repeat_data?: string | undefined | null;
+  };
   /** input type for incrementing numeric columns in table "epoches" */
   ['epochs_inc_input']: {
     circle_id?: number | undefined | null;
@@ -6545,6 +6574,7 @@ export type ValueTypes = {
       | null;
     regift_days?: number | undefined | null;
     repeat?: number | undefined | null;
+    repeat_data?: ValueTypes['jsonb'] | undefined | null;
     repeat_day_of_month?: number | undefined | null;
     start_date?: ValueTypes['timestamptz'] | undefined | null;
     token_gifts?:
@@ -6678,6 +6708,7 @@ export type ValueTypes = {
     pgive_data?: ValueTypes['epoch_pgive_data_order_by'] | undefined | null;
     regift_days?: ValueTypes['order_by'] | undefined | null;
     repeat?: ValueTypes['order_by'] | undefined | null;
+    repeat_data?: ValueTypes['order_by'] | undefined | null;
     repeat_day_of_month?: ValueTypes['order_by'] | undefined | null;
     start_date?: ValueTypes['order_by'] | undefined | null;
     token_gifts_aggregate?:
@@ -6689,6 +6720,10 @@ export type ValueTypes = {
   /** primary key columns input for table: epoches */
   ['epochs_pk_columns_input']: {
     id: ValueTypes['bigint'];
+  };
+  /** prepend existing jsonb value of filtered columns with new jsonb value */
+  ['epochs_prepend_input']: {
+    repeat_data?: ValueTypes['jsonb'] | undefined | null;
   };
   /** select columns of table "epoches" */
   ['epochs_select_column']: epochs_select_column;
@@ -6708,6 +6743,7 @@ export type ValueTypes = {
     number?: number | undefined | null;
     regift_days?: number | undefined | null;
     repeat?: number | undefined | null;
+    repeat_data?: ValueTypes['jsonb'] | undefined | null;
     repeat_day_of_month?: number | undefined | null;
     start_date?: ValueTypes['timestamptz'] | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
@@ -6804,6 +6840,7 @@ export type ValueTypes = {
     number?: number | undefined | null;
     regift_days?: number | undefined | null;
     repeat?: number | undefined | null;
+    repeat_data?: ValueTypes['jsonb'] | undefined | null;
     repeat_day_of_month?: number | undefined | null;
     start_date?: ValueTypes['timestamptz'] | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
@@ -6834,8 +6871,21 @@ export type ValueTypes = {
   /** update columns of table "epoches" */
   ['epochs_update_column']: epochs_update_column;
   ['epochs_updates']: {
+    /** append existing jsonb value of filtered columns with new jsonb value */
+    _append?: ValueTypes['epochs_append_input'] | undefined | null;
+    /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+    _delete_at_path?:
+      | ValueTypes['epochs_delete_at_path_input']
+      | undefined
+      | null;
+    /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+    _delete_elem?: ValueTypes['epochs_delete_elem_input'] | undefined | null;
+    /** delete key/value pair or string element. key/value pairs are matched based on their key value */
+    _delete_key?: ValueTypes['epochs_delete_key_input'] | undefined | null;
     /** increments the numeric columns with given value of the filtered values */
     _inc?: ValueTypes['epochs_inc_input'] | undefined | null;
+    /** prepend existing jsonb value of filtered columns with new jsonb value */
+    _prepend?: ValueTypes['epochs_prepend_input'] | undefined | null;
     /** sets the columns of the filtered rows to the given values */
     _set?: ValueTypes['epochs_set_input'] | undefined | null;
     where: ValueTypes['epochs_bool_exp'];
@@ -10396,9 +10446,29 @@ export type ValueTypes = {
     ];
     update_epochs?: [
       {
-        /** increments the numeric columns with given value of the filtered values */
+        /** append existing jsonb value of filtered columns with new jsonb value */
+        _append?:
+          | ValueTypes['epochs_append_input']
+          | undefined
+          | null /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */;
+        _delete_at_path?:
+          | ValueTypes['epochs_delete_at_path_input']
+          | undefined
+          | null /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */;
+        _delete_elem?:
+          | ValueTypes['epochs_delete_elem_input']
+          | undefined
+          | null /** delete key/value pair or string element. key/value pairs are matched based on their key value */;
+        _delete_key?:
+          | ValueTypes['epochs_delete_key_input']
+          | undefined
+          | null /** increments the numeric columns with given value of the filtered values */;
         _inc?:
           | ValueTypes['epochs_inc_input']
+          | undefined
+          | null /** prepend existing jsonb value of filtered columns with new jsonb value */;
+        _prepend?:
+          | ValueTypes['epochs_prepend_input']
           | undefined
           | null /** sets the columns of the filtered rows to the given values */;
         _set?:
@@ -10411,9 +10481,29 @@ export type ValueTypes = {
     ];
     update_epochs_by_pk?: [
       {
-        /** increments the numeric columns with given value of the filtered values */
+        /** append existing jsonb value of filtered columns with new jsonb value */
+        _append?:
+          | ValueTypes['epochs_append_input']
+          | undefined
+          | null /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */;
+        _delete_at_path?:
+          | ValueTypes['epochs_delete_at_path_input']
+          | undefined
+          | null /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */;
+        _delete_elem?:
+          | ValueTypes['epochs_delete_elem_input']
+          | undefined
+          | null /** delete key/value pair or string element. key/value pairs are matched based on their key value */;
+        _delete_key?:
+          | ValueTypes['epochs_delete_key_input']
+          | undefined
+          | null /** increments the numeric columns with given value of the filtered values */;
         _inc?:
           | ValueTypes['epochs_inc_input']
+          | undefined
+          | null /** prepend existing jsonb value of filtered columns with new jsonb value */;
+        _prepend?:
+          | ValueTypes['epochs_prepend_input']
           | undefined
           | null /** sets the columns of the filtered rows to the given values */;
         _set?: ValueTypes['epochs_set_input'] | undefined | null;
@@ -21128,6 +21218,7 @@ export type ModelTypes = {
     success: boolean;
   };
   ['DeleteUserInput']: GraphQLTypes['DeleteUserInput'];
+  ['EpochInputParams']: GraphQLTypes['EpochInputParams'];
   ['EpochResponse']: {
     epoch?: GraphQLTypes['epochs'] | undefined;
     id: string;
@@ -23516,6 +23607,7 @@ export type ModelTypes = {
     pgive_data?: GraphQLTypes['epoch_pgive_data'] | undefined;
     regift_days: number;
     repeat: number;
+    repeat_data?: GraphQLTypes['jsonb'] | undefined;
     repeat_day_of_month: number;
     start_date: GraphQLTypes['timestamptz'];
     /** An array relationship */
@@ -23545,6 +23637,8 @@ export type ModelTypes = {
   };
   /** order by aggregate values of table "epoches" */
   ['epochs_aggregate_order_by']: GraphQLTypes['epochs_aggregate_order_by'];
+  /** append existing jsonb value of filtered columns with new jsonb value */
+  ['epochs_append_input']: GraphQLTypes['epochs_append_input'];
   /** input type for inserting array relation for remote table "epoches" */
   ['epochs_arr_rel_insert_input']: GraphQLTypes['epochs_arr_rel_insert_input'];
   /** aggregate avg on columns */
@@ -23564,6 +23658,12 @@ export type ModelTypes = {
   ['epochs_bool_exp']: GraphQLTypes['epochs_bool_exp'];
   /** unique or primary key constraints on table "epoches" */
   ['epochs_constraint']: GraphQLTypes['epochs_constraint'];
+  /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+  ['epochs_delete_at_path_input']: GraphQLTypes['epochs_delete_at_path_input'];
+  /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+  ['epochs_delete_elem_input']: GraphQLTypes['epochs_delete_elem_input'];
+  /** delete key/value pair or string element. key/value pairs are matched based on their key value */
+  ['epochs_delete_key_input']: GraphQLTypes['epochs_delete_key_input'];
   /** input type for incrementing numeric columns in table "epoches" */
   ['epochs_inc_input']: GraphQLTypes['epochs_inc_input'];
   /** input type for inserting data into table "epoches" */
@@ -23625,6 +23725,8 @@ export type ModelTypes = {
   ['epochs_order_by']: GraphQLTypes['epochs_order_by'];
   /** primary key columns input for table: epoches */
   ['epochs_pk_columns_input']: GraphQLTypes['epochs_pk_columns_input'];
+  /** prepend existing jsonb value of filtered columns with new jsonb value */
+  ['epochs_prepend_input']: GraphQLTypes['epochs_prepend_input'];
   /** select columns of table "epoches" */
   ['epochs_select_column']: GraphQLTypes['epochs_select_column'];
   /** input type for updating data in table "epoches" */
@@ -24698,6 +24800,7 @@ export type ModelTypes = {
     adminUpdateUser?: GraphQLTypes['UserResponse'] | undefined;
     allocationCsv?: GraphQLTypes['AllocationCsvResponse'] | undefined;
     createCircle?: GraphQLTypes['CreateCircleResponse'] | undefined;
+    /** create epoch using new, more flexible api */
     createEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     createNominee?: GraphQLTypes['CreateNomineeResponse'] | undefined;
     createSampleCircle?: GraphQLTypes['CreateSampleCircleResponse'] | undefined;
@@ -28619,11 +28722,7 @@ export type GraphQLTypes = {
   };
   ['CreateEpochInput']: {
     circle_id: number;
-    days: number;
-    description?: string | undefined;
-    grant?: number | undefined;
-    repeat: number;
-    start_date: GraphQLTypes['timestamptz'];
+    params: GraphQLTypes['EpochInputParams'];
   };
   ['CreateNomineeInput']: {
     address: string;
@@ -28676,6 +28775,16 @@ export type GraphQLTypes = {
   ['DeleteUserInput']: {
     address: string;
     circle_id: number;
+  };
+  ['EpochInputParams']: {
+    end_date: GraphQLTypes['timestamptz'];
+    frequency?: number | undefined;
+    frequency_unit?: string | undefined;
+    grant?: number | undefined;
+    start_date: GraphQLTypes['timestamptz'];
+    type: string;
+    week?: number | undefined;
+    weekday?: number | undefined;
   };
   ['EpochResponse']: {
     __typename: 'EpochResponse';
@@ -33366,6 +33475,7 @@ export type GraphQLTypes = {
     pgive_data?: GraphQLTypes['epoch_pgive_data'] | undefined;
     regift_days: number;
     repeat: number;
+    repeat_data?: GraphQLTypes['jsonb'] | undefined;
     repeat_day_of_month: number;
     start_date: GraphQLTypes['timestamptz'];
     /** An array relationship */
@@ -33408,6 +33518,10 @@ export type GraphQLTypes = {
     var_pop?: GraphQLTypes['epochs_var_pop_order_by'] | undefined;
     var_samp?: GraphQLTypes['epochs_var_samp_order_by'] | undefined;
     variance?: GraphQLTypes['epochs_variance_order_by'] | undefined;
+  };
+  /** append existing jsonb value of filtered columns with new jsonb value */
+  ['epochs_append_input']: {
+    repeat_data?: GraphQLTypes['jsonb'] | undefined;
   };
   /** input type for inserting array relation for remote table "epoches" */
   ['epochs_arr_rel_insert_input']: {
@@ -33464,6 +33578,7 @@ export type GraphQLTypes = {
     pgive_data?: GraphQLTypes['epoch_pgive_data_bool_exp'] | undefined;
     regift_days?: GraphQLTypes['Int_comparison_exp'] | undefined;
     repeat?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    repeat_data?: GraphQLTypes['jsonb_comparison_exp'] | undefined;
     repeat_day_of_month?: GraphQLTypes['Int_comparison_exp'] | undefined;
     start_date?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     token_gifts?: GraphQLTypes['token_gifts_bool_exp'] | undefined;
@@ -33471,6 +33586,18 @@ export type GraphQLTypes = {
   };
   /** unique or primary key constraints on table "epoches" */
   ['epochs_constraint']: epochs_constraint;
+  /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+  ['epochs_delete_at_path_input']: {
+    repeat_data?: Array<string> | undefined;
+  };
+  /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+  ['epochs_delete_elem_input']: {
+    repeat_data?: number | undefined;
+  };
+  /** delete key/value pair or string element. key/value pairs are matched based on their key value */
+  ['epochs_delete_key_input']: {
+    repeat_data?: string | undefined;
+  };
   /** input type for incrementing numeric columns in table "epoches" */
   ['epochs_inc_input']: {
     circle_id?: number | undefined;
@@ -33509,6 +33636,7 @@ export type GraphQLTypes = {
       | undefined;
     regift_days?: number | undefined;
     repeat?: number | undefined;
+    repeat_data?: GraphQLTypes['jsonb'] | undefined;
     repeat_day_of_month?: number | undefined;
     start_date?: GraphQLTypes['timestamptz'] | undefined;
     token_gifts?: GraphQLTypes['token_gifts_arr_rel_insert_input'] | undefined;
@@ -33637,6 +33765,7 @@ export type GraphQLTypes = {
     pgive_data?: GraphQLTypes['epoch_pgive_data_order_by'] | undefined;
     regift_days?: GraphQLTypes['order_by'] | undefined;
     repeat?: GraphQLTypes['order_by'] | undefined;
+    repeat_data?: GraphQLTypes['order_by'] | undefined;
     repeat_day_of_month?: GraphQLTypes['order_by'] | undefined;
     start_date?: GraphQLTypes['order_by'] | undefined;
     token_gifts_aggregate?:
@@ -33647,6 +33776,10 @@ export type GraphQLTypes = {
   /** primary key columns input for table: epoches */
   ['epochs_pk_columns_input']: {
     id: GraphQLTypes['bigint'];
+  };
+  /** prepend existing jsonb value of filtered columns with new jsonb value */
+  ['epochs_prepend_input']: {
+    repeat_data?: GraphQLTypes['jsonb'] | undefined;
   };
   /** select columns of table "epoches" */
   ['epochs_select_column']: epochs_select_column;
@@ -33666,6 +33799,7 @@ export type GraphQLTypes = {
     number?: number | undefined;
     regift_days?: number | undefined;
     repeat?: number | undefined;
+    repeat_data?: GraphQLTypes['jsonb'] | undefined;
     repeat_day_of_month?: number | undefined;
     start_date?: GraphQLTypes['timestamptz'] | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
@@ -33762,6 +33896,7 @@ export type GraphQLTypes = {
     number?: number | undefined;
     regift_days?: number | undefined;
     repeat?: number | undefined;
+    repeat_data?: GraphQLTypes['jsonb'] | undefined;
     repeat_day_of_month?: number | undefined;
     start_date?: GraphQLTypes['timestamptz'] | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
@@ -33792,8 +33927,18 @@ export type GraphQLTypes = {
   /** update columns of table "epoches" */
   ['epochs_update_column']: epochs_update_column;
   ['epochs_updates']: {
+    /** append existing jsonb value of filtered columns with new jsonb value */
+    _append?: GraphQLTypes['epochs_append_input'] | undefined;
+    /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+    _delete_at_path?: GraphQLTypes['epochs_delete_at_path_input'] | undefined;
+    /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+    _delete_elem?: GraphQLTypes['epochs_delete_elem_input'] | undefined;
+    /** delete key/value pair or string element. key/value pairs are matched based on their key value */
+    _delete_key?: GraphQLTypes['epochs_delete_key_input'] | undefined;
     /** increments the numeric columns with given value of the filtered values */
     _inc?: GraphQLTypes['epochs_inc_input'] | undefined;
+    /** prepend existing jsonb value of filtered columns with new jsonb value */
+    _prepend?: GraphQLTypes['epochs_prepend_input'] | undefined;
     /** sets the columns of the filtered rows to the given values */
     _set?: GraphQLTypes['epochs_set_input'] | undefined;
     where: GraphQLTypes['epochs_bool_exp'];
@@ -35540,6 +35685,7 @@ export type GraphQLTypes = {
     adminUpdateUser?: GraphQLTypes['UserResponse'] | undefined;
     allocationCsv?: GraphQLTypes['AllocationCsvResponse'] | undefined;
     createCircle?: GraphQLTypes['CreateCircleResponse'] | undefined;
+    /** create epoch using new, more flexible api */
     createEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     createNominee?: GraphQLTypes['CreateNomineeResponse'] | undefined;
     createSampleCircle?: GraphQLTypes['CreateSampleCircleResponse'] | undefined;
@@ -42151,6 +42297,7 @@ export const enum epochs_select_column {
   number = 'number',
   regift_days = 'regift_days',
   repeat = 'repeat',
+  repeat_data = 'repeat_data',
   repeat_day_of_month = 'repeat_day_of_month',
   start_date = 'start_date',
   updated_at = 'updated_at',
@@ -42171,6 +42318,7 @@ export const enum epochs_update_column {
   number = 'number',
   regift_days = 'regift_days',
   repeat = 'repeat',
+  repeat_data = 'repeat_data',
   repeat_day_of_month = 'repeat_day_of_month',
   start_date = 'start_date',
   updated_at = 'updated_at',
