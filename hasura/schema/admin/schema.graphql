@@ -62,6 +62,14 @@ type AllocationsResponse {
   user_id: Int!
 }
 
+input BackfillPgiveInput {
+  circle_limit: Int
+}
+
+type BackfillPgiveResponse {
+  success: Boolean!
+}
+
 """
 Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'.
 """
@@ -13812,6 +13820,11 @@ mutation root
 type mutation_root {
   adminUpdateUser(payload: AdminUpdateUserInput!): UserResponse
   allocationCsv(payload: AllocationCsvInput!): AllocationCsvResponse
+
+  """
+  Backfilling historical pGive data
+  """
+  backfillPgive(pauload: BackfillPgiveInput!): BackfillPgiveResponse
   createCircle(payload: CreateCircleInput!): CreateCircleResponse
 
   """

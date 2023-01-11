@@ -630,6 +630,13 @@ export type ValueTypes = {
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  ['BackfillPgiveInput']: {
+    circle_limit?: number | undefined | null;
+  };
+  ['BackfillPgiveResponse']: AliasType<{
+    success?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
   ['Boolean_comparison_exp']: {
     _eq?: boolean | undefined | null;
@@ -9778,6 +9785,10 @@ export type ValueTypes = {
     allocationCsv?: [
       { payload: ValueTypes['AllocationCsvInput'] },
       ValueTypes['AllocationCsvResponse']
+    ];
+    backfillPgive?: [
+      { pauload: ValueTypes['BackfillPgiveInput'] },
+      ValueTypes['BackfillPgiveResponse']
     ];
     createCircle?: [
       { payload: ValueTypes['CreateCircleInput'] },
@@ -23323,6 +23334,10 @@ export type ModelTypes = {
     user?: GraphQLTypes['users'] | undefined;
     user_id: number;
   };
+  ['BackfillPgiveInput']: GraphQLTypes['BackfillPgiveInput'];
+  ['BackfillPgiveResponse']: {
+    success: boolean;
+  };
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
   ['Boolean_comparison_exp']: GraphQLTypes['Boolean_comparison_exp'];
   ['ConfirmationResponse']: {
@@ -27275,6 +27290,8 @@ export type ModelTypes = {
   ['mutation_root']: {
     adminUpdateUser?: GraphQLTypes['UserResponse'] | undefined;
     allocationCsv?: GraphQLTypes['AllocationCsvResponse'] | undefined;
+    /** Backfilling historical pGive data */
+    backfillPgive?: GraphQLTypes['BackfillPgiveResponse'] | undefined;
     createCircle?: GraphQLTypes['CreateCircleResponse'] | undefined;
     /** create epoch using new, more flexible api */
     createEpoch?: GraphQLTypes['EpochResponse'] | undefined;
@@ -31441,6 +31458,13 @@ export type GraphQLTypes = {
     __typename: 'AllocationsResponse';
     user?: GraphQLTypes['users'] | undefined;
     user_id: number;
+  };
+  ['BackfillPgiveInput']: {
+    circle_limit?: number | undefined;
+  };
+  ['BackfillPgiveResponse']: {
+    __typename: 'BackfillPgiveResponse';
+    success: boolean;
   };
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
   ['Boolean_comparison_exp']: {
@@ -39307,6 +39331,8 @@ export type GraphQLTypes = {
     __typename: 'mutation_root';
     adminUpdateUser?: GraphQLTypes['UserResponse'] | undefined;
     allocationCsv?: GraphQLTypes['AllocationCsvResponse'] | undefined;
+    /** Backfilling historical pGive data */
+    backfillPgive?: GraphQLTypes['BackfillPgiveResponse'] | undefined;
     createCircle?: GraphQLTypes['CreateCircleResponse'] | undefined;
     /** create epoch using new, more flexible api */
     createEpoch?: GraphQLTypes['EpochResponse'] | undefined;
