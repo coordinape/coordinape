@@ -85,15 +85,15 @@ type EditUserFormSchema = z.infer<typeof schema>;
 const makeCoordinape = (circleId: number): ICircleUser => {
   return {
     circle_id: circleId,
-    created_at: new Date().toString(),
+    created_at: new Date(),
     epoch_first_visit: false,
     give_token_received: 0,
     id: -1,
     isCircleAdmin: false,
     isCoordinapeUser: true,
-    deleted_at: new Date().toString(),
+    deleted_at: new Date(),
     teammates: [],
-    updated_at: '',
+    updated_at: new Date(),
     name: 'Coordinape',
     address: USER_COORDINAPE_ADDRESS,
     role: 2,

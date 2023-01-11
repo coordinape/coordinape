@@ -7,18 +7,14 @@ import {
   UpdateUsersParam,
 } from '../../types';
 
-import { useZeusVariables, ValueTypes } from './__generated__/zeus';
+import { ValueTypes } from './__generated__/zeus';
 import { client } from './client';
 
-const profileVars = useZeusVariables({ image_data_base64: 'String!' });
-
 export const updateProfileAvatar = async (image_data_base64: string) => {
-  const variables = profileVars({ image_data_base64 });
-
   return client.mutate(
     {
       uploadProfileAvatar: [
-        { payload: { image_data_base64: variables.$('image_data_base64') } },
+        { payload: { image_data_base64 } },
         {
           profile: {
             avatar: true,
@@ -27,24 +23,20 @@ export const updateProfileAvatar = async (image_data_base64: string) => {
       ],
     },
     {
-      variables,
       operationName: 'updateProfileAvatar',
     }
   );
 };
 
 export const updateProfileBackground = async (image_data_base64: string) => {
-  const variables = profileVars({ image_data_base64 });
-
   return client.mutate(
     {
       uploadProfileBackground: [
-        { payload: { image_data_base64: variables.$('image_data_base64') } },
+        { payload: { image_data_base64 } },
         { id: true },
       ],
     },
     {
-      variables,
       operationName: 'updateProfileBackground',
     }
   );
@@ -54,21 +46,13 @@ export const updateCircleLogo = async (
   circleId: number,
   image_data_base64: string
 ) => {
-  const variables = useZeusVariables({
-    image_data_base64: 'String!',
-    circleId: 'Int!',
-  })({
-    circleId,
-    image_data_base64,
-  });
-
   return client.mutate(
     {
       uploadCircleLogo: [
         {
           payload: {
-            image_data_base64: variables.$('image_data_base64'),
-            circle_id: variables.$('circleId'),
+            image_data_base64,
+            circle_id: circleId,
           },
         },
         {
@@ -79,7 +63,6 @@ export const updateCircleLogo = async (
       ],
     },
     {
-      variables,
       operationName: 'updateCircleLogo',
     }
   );
@@ -88,20 +71,13 @@ export const updateOrgLogo = async (
   orgId: number,
   image_data_base64: string
 ) => {
-  const variables = useZeusVariables({
-    image_data_base64: 'String!',
-    orgId: 'Int!',
-  })({
-    image_data_base64,
-    orgId,
-  });
   return client.mutate(
     {
       uploadOrgLogo: [
         {
           payload: {
-            image_data_base64: variables.$('image_data_base64'),
-            org_id: variables.$('orgId'),
+            image_data_base64,
+            org_id: orgId,
           },
         },
         {
@@ -112,7 +88,6 @@ export const updateOrgLogo = async (
       ],
     },
     {
-      variables,
       operationName: 'updateOrgLogo',
     }
   );

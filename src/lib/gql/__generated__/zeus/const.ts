@@ -51,7 +51,7 @@ export const AllTypesProps: Record<string, any> = {
   UploadOrgImageInput: {},
   UserObj: {},
   VouchInput: {},
-  bigint: 'String',
+  bigint: `scalar.bigint` as const,
   bigint_comparison_exp: {
     _eq: 'bigint',
     _gt: 'bigint',
@@ -137,7 +137,7 @@ export const AllTypesProps: Record<string, any> = {
     user: 'users_order_by',
     user_id: 'order_by',
   },
-  burns_select_column: true,
+  burns_select_column: 'enum' as const,
   burns_stddev_order_by: {
     circle_id: 'order_by',
     epoch_id: 'order_by',
@@ -285,7 +285,7 @@ export const AllTypesProps: Record<string, any> = {
     update_circle: 'order_by',
     update_pending_token_gifts: 'order_by',
   },
-  circle_api_keys_select_column: true,
+  circle_api_keys_select_column: 'enum' as const,
   circle_api_keys_stddev_order_by: {
     circle_id: 'order_by',
     created_by: 'order_by',
@@ -354,7 +354,7 @@ export const AllTypesProps: Record<string, any> = {
     name: 'String_comparison_exp',
     type: 'String_comparison_exp',
   },
-  circle_integrations_constraint: true,
+  circle_integrations_constraint: 'enum' as const,
   circle_integrations_insert_input: {
     circle_id: 'bigint',
     data: 'json',
@@ -387,7 +387,7 @@ export const AllTypesProps: Record<string, any> = {
   circle_integrations_pk_columns_input: {
     id: 'bigint',
   },
-  circle_integrations_select_column: true,
+  circle_integrations_select_column: 'enum' as const,
   circle_integrations_set_input: {
     data: 'json',
   },
@@ -416,7 +416,7 @@ export const AllTypesProps: Record<string, any> = {
     circle_id: 'order_by',
     id: 'order_by',
   },
-  circle_integrations_update_column: true,
+  circle_integrations_update_column: 'enum' as const,
   circle_integrations_updates: {
     _set: 'circle_integrations_set_input',
     where: 'circle_integrations_bool_exp',
@@ -446,7 +446,7 @@ export const AllTypesProps: Record<string, any> = {
     circle_id: 'order_by',
     discord_webhook: 'order_by',
   },
-  circle_private_select_column: true,
+  circle_private_select_column: 'enum' as const,
   circle_private_stream_cursor_input: {
     initial_value: 'circle_private_stream_cursor_value_input',
     ordering: 'cursor_ordering',
@@ -465,7 +465,7 @@ export const AllTypesProps: Record<string, any> = {
     updated_at: 'timestamptz_comparison_exp',
     uuid: 'uuid_comparison_exp',
   },
-  circle_share_tokens_constraint: true,
+  circle_share_tokens_constraint: 'enum' as const,
   circle_share_tokens_insert_input: {
     circle_id: 'bigint',
   },
@@ -482,7 +482,7 @@ export const AllTypesProps: Record<string, any> = {
     updated_at: 'order_by',
     uuid: 'order_by',
   },
-  circle_share_tokens_select_column: true,
+  circle_share_tokens_select_column: 'enum' as const,
   circle_share_tokens_stream_cursor_input: {
     initial_value: 'circle_share_tokens_stream_cursor_value_input',
     ordering: 'cursor_ordering',
@@ -493,7 +493,7 @@ export const AllTypesProps: Record<string, any> = {
     updated_at: 'timestamptz',
     uuid: 'uuid',
   },
-  circle_share_tokens_update_column: true,
+  circle_share_tokens_update_column: 'enum' as const,
   circles: {
     api_keys: {
       distinct_on: 'circle_api_keys_select_column',
@@ -690,7 +690,7 @@ export const AllTypesProps: Record<string, any> = {
     vouching: 'order_by',
     vouching_text: 'order_by',
   },
-  circles_select_column: true,
+  circles_select_column: 'enum' as const,
   circles_stddev_order_by: {
     fixed_payment_vault_id: 'order_by',
     id: 'order_by',
@@ -750,7 +750,7 @@ export const AllTypesProps: Record<string, any> = {
     nomination_days_limit: 'order_by',
     organization_id: 'order_by',
   },
-  citext: 'String',
+  citext: `scalar.citext` as const,
   citext_comparison_exp: {
     _eq: 'citext',
     _gt: 'citext',
@@ -819,7 +819,7 @@ export const AllTypesProps: Record<string, any> = {
     txHash: 'String_comparison_exp',
     updated_at: 'timestamptz_comparison_exp',
   },
-  claims_constraint: true,
+  claims_constraint: 'enum' as const,
   claims_insert_input: {
     amount: 'numeric',
     distribution: 'distributions_obj_rel_insert_input',
@@ -877,7 +877,7 @@ export const AllTypesProps: Record<string, any> = {
   claims_pk_columns_input: {
     id: 'bigint',
   },
-  claims_select_column: true,
+  claims_select_column: 'enum' as const,
   claims_set_input: {},
   claims_stddev_order_by: {
     amount: 'order_by',
@@ -925,7 +925,7 @@ export const AllTypesProps: Record<string, any> = {
     new_amount: 'order_by',
     profile_id: 'order_by',
   },
-  claims_update_column: true,
+  claims_update_column: 'enum' as const,
   claims_updates: {
     _set: 'claims_set_input',
     where: 'claims_bool_exp',
@@ -993,7 +993,7 @@ export const AllTypesProps: Record<string, any> = {
     user: 'users_bool_exp',
     user_id: 'bigint_comparison_exp',
   },
-  contributions_constraint: true,
+  contributions_constraint: 'enum' as const,
   contributions_insert_input: {
     circle_id: 'bigint',
     user_id: 'bigint',
@@ -1036,7 +1036,7 @@ export const AllTypesProps: Record<string, any> = {
     user: 'users_order_by',
     user_id: 'order_by',
   },
-  contributions_select_column: true,
+  contributions_select_column: 'enum' as const,
   contributions_stddev_order_by: {
     circle_id: 'order_by',
     id: 'order_by',
@@ -1069,7 +1069,7 @@ export const AllTypesProps: Record<string, any> = {
     id: 'order_by',
     user_id: 'order_by',
   },
-  contributions_update_column: true,
+  contributions_update_column: 'enum' as const,
   contributions_var_pop_order_by: {
     circle_id: 'order_by',
     id: 'order_by',
@@ -1085,8 +1085,8 @@ export const AllTypesProps: Record<string, any> = {
     id: 'order_by',
     user_id: 'order_by',
   },
-  cursor_ordering: true,
-  date: 'String',
+  cursor_ordering: 'enum' as const,
+  date: `scalar.date` as const,
   date_comparison_exp: {
     _eq: 'date',
     _gt: 'date',
@@ -1119,7 +1119,7 @@ export const AllTypesProps: Record<string, any> = {
   discord_roles_circles_pk_columns_input: {
     id: 'bigint',
   },
-  discord_roles_circles_select_column: true,
+  discord_roles_circles_select_column: 'enum' as const,
   discord_roles_circles_set_input: {},
   discord_roles_circles_stream_cursor_input: {
     initial_value: 'discord_roles_circles_stream_cursor_value_input',
@@ -1146,7 +1146,7 @@ export const AllTypesProps: Record<string, any> = {
     updated_at: 'timestamptz_comparison_exp',
     user_snowflake: 'String_comparison_exp',
   },
-  discord_users_constraint: true,
+  discord_users_constraint: 'enum' as const,
   discord_users_insert_input: {},
   discord_users_on_conflict: {
     constraint: 'discord_users_constraint',
@@ -1164,7 +1164,7 @@ export const AllTypesProps: Record<string, any> = {
   discord_users_pk_columns_input: {
     id: 'bigint',
   },
-  discord_users_select_column: true,
+  discord_users_select_column: 'enum' as const,
   discord_users_set_input: {},
   discord_users_stream_cursor_input: {
     initial_value: 'discord_users_stream_cursor_value_input',
@@ -1176,7 +1176,7 @@ export const AllTypesProps: Record<string, any> = {
     profile_id: 'bigint',
     updated_at: 'timestamptz',
   },
-  discord_users_update_column: true,
+  discord_users_update_column: 'enum' as const,
   discord_users_updates: {
     _set: 'discord_users_set_input',
     where: 'discord_users_bool_exp',
@@ -1250,7 +1250,7 @@ export const AllTypesProps: Record<string, any> = {
     vault_id: 'bigint_comparison_exp',
     vault_transactions: 'vault_transactions_bool_exp',
   },
-  distributions_constraint: true,
+  distributions_constraint: 'enum' as const,
   distributions_inc_input: {
     distribution_epoch_id: 'bigint',
   },
@@ -1323,7 +1323,7 @@ export const AllTypesProps: Record<string, any> = {
   distributions_pk_columns_input: {
     id: 'bigint',
   },
-  distributions_select_column: true,
+  distributions_select_column: 'enum' as const,
   distributions_set_input: {
     distribution_epoch_id: 'bigint',
   },
@@ -1382,7 +1382,7 @@ export const AllTypesProps: Record<string, any> = {
     id: 'order_by',
     vault_id: 'order_by',
   },
-  distributions_update_column: true,
+  distributions_update_column: 'enum' as const,
   distributions_updates: {
     _inc: 'distributions_inc_input',
     _set: 'distributions_set_input',
@@ -1556,7 +1556,7 @@ export const AllTypesProps: Record<string, any> = {
     token_gifts_aggregate: 'token_gifts_aggregate_order_by',
     updated_at: 'order_by',
   },
-  epochs_select_column: true,
+  epochs_select_column: 'enum' as const,
   epochs_stddev_order_by: {
     circle_id: 'order_by',
     days: 'order_by',
@@ -1654,7 +1654,7 @@ export const AllTypesProps: Record<string, any> = {
     sender: 'users_order_by',
     sender_id: 'order_by',
   },
-  gift_private_select_column: true,
+  gift_private_select_column: 'enum' as const,
   gift_private_stream_cursor_input: {
     initial_value: 'gift_private_stream_cursor_value_input',
     ordering: 'cursor_ordering',
@@ -1664,7 +1664,7 @@ export const AllTypesProps: Record<string, any> = {
     recipient_id: 'bigint',
     sender_id: 'bigint',
   },
-  json: 'String',
+  json: `scalar.json` as const,
   json_comparison_exp: {
     _eq: 'json',
     _gt: 'json',
@@ -1675,7 +1675,7 @@ export const AllTypesProps: Record<string, any> = {
     _neq: 'json',
     _nin: 'json',
   },
-  jsonb: 'String',
+  jsonb: `scalar.jsonb` as const,
   jsonb_cast_exp: {
     String: 'String_comparison_exp',
   },
@@ -1726,7 +1726,7 @@ export const AllTypesProps: Record<string, any> = {
     profile: 'profiles_bool_exp',
     profile_id: 'bigint_comparison_exp',
   },
-  locked_token_distribution_gifts_constraint: true,
+  locked_token_distribution_gifts_constraint: 'enum' as const,
   locked_token_distribution_gifts_insert_input: {
     earnings: 'numeric',
     locked_token_distribution:
@@ -1759,7 +1759,7 @@ export const AllTypesProps: Record<string, any> = {
     profile: 'profiles_order_by',
     profile_id: 'order_by',
   },
-  locked_token_distribution_gifts_select_column: true,
+  locked_token_distribution_gifts_select_column: 'enum' as const,
   locked_token_distribution_gifts_stddev_order_by: {
     earnings: 'order_by',
     id: 'order_by',
@@ -1794,7 +1794,7 @@ export const AllTypesProps: Record<string, any> = {
     locked_token_distribution_id: 'order_by',
     profile_id: 'order_by',
   },
-  locked_token_distribution_gifts_update_column: true,
+  locked_token_distribution_gifts_update_column: 'enum' as const,
   locked_token_distribution_gifts_var_pop_order_by: {
     earnings: 'order_by',
     id: 'order_by',
@@ -1837,7 +1837,7 @@ export const AllTypesProps: Record<string, any> = {
     token_symbol: 'String_comparison_exp',
     tx_hash: 'String_comparison_exp',
   },
-  locked_token_distributions_constraint: true,
+  locked_token_distributions_constraint: 'enum' as const,
   locked_token_distributions_insert_input: {
     epoch_id: 'bigint',
     gift_amount: 'numeric',
@@ -1871,7 +1871,7 @@ export const AllTypesProps: Record<string, any> = {
   locked_token_distributions_pk_columns_input: {
     id: 'bigint',
   },
-  locked_token_distributions_select_column: true,
+  locked_token_distributions_select_column: 'enum' as const,
   locked_token_distributions_set_input: {},
   locked_token_distributions_stream_cursor_input: {
     initial_value: 'locked_token_distributions_stream_cursor_value_input',
@@ -1883,7 +1883,7 @@ export const AllTypesProps: Record<string, any> = {
     gift_amount: 'numeric',
     id: 'bigint',
   },
-  locked_token_distributions_update_column: true,
+  locked_token_distributions_update_column: 'enum' as const,
   locked_token_distributions_updates: {
     _set: 'locked_token_distributions_set_input',
     where: 'locked_token_distributions_bool_exp',
@@ -2264,7 +2264,7 @@ export const AllTypesProps: Record<string, any> = {
     user_id: 'order_by',
     vouches_required: 'order_by',
   },
-  nominees_select_column: true,
+  nominees_select_column: 'enum' as const,
   nominees_stddev_order_by: {
     circle_id: 'order_by',
     id: 'order_by',
@@ -2325,7 +2325,7 @@ export const AllTypesProps: Record<string, any> = {
     user_id: 'order_by',
     vouches_required: 'order_by',
   },
-  numeric: 'String',
+  numeric: `scalar.numeric` as const,
   numeric_comparison_exp: {
     _eq: 'numeric',
     _gt: 'numeric',
@@ -2336,7 +2336,7 @@ export const AllTypesProps: Record<string, any> = {
     _neq: 'numeric',
     _nin: 'numeric',
   },
-  order_by: true,
+  order_by: 'enum' as const,
   organizations: {
     circles: {
       distinct_on: 'circles_select_column',
@@ -2381,7 +2381,7 @@ export const AllTypesProps: Record<string, any> = {
   organizations_pk_columns_input: {
     id: 'bigint',
   },
-  organizations_select_column: true,
+  organizations_select_column: 'enum' as const,
   organizations_set_input: {},
   organizations_stream_cursor_input: {
     initial_value: 'organizations_stream_cursor_value_input',
@@ -2415,7 +2415,7 @@ export const AllTypesProps: Record<string, any> = {
     sender: 'users_order_by',
     sender_id: 'order_by',
   },
-  pending_gift_private_select_column: true,
+  pending_gift_private_select_column: 'enum' as const,
   pending_gift_private_stream_cursor_input: {
     initial_value: 'pending_gift_private_stream_cursor_value_input',
     ordering: 'cursor_ordering',
@@ -2511,7 +2511,7 @@ export const AllTypesProps: Record<string, any> = {
     tokens: 'order_by',
     updated_at: 'order_by',
   },
-  pending_token_gifts_select_column: true,
+  pending_token_gifts_select_column: 'enum' as const,
   pending_token_gifts_stddev_order_by: {
     circle_id: 'order_by',
     epoch_id: 'order_by',
@@ -2597,7 +2597,7 @@ export const AllTypesProps: Record<string, any> = {
     tx_type: 'vault_tx_types_enum_comparison_exp',
     vault_tx_type: 'vault_tx_types_bool_exp',
   },
-  pending_vault_transactions_constraint: true,
+  pending_vault_transactions_constraint: 'enum' as const,
   pending_vault_transactions_insert_input: {
     claim_id: 'bigint',
     distribution: 'distributions_obj_rel_insert_input',
@@ -2623,7 +2623,7 @@ export const AllTypesProps: Record<string, any> = {
     tx_type: 'order_by',
     vault_tx_type: 'vault_tx_types_order_by',
   },
-  pending_vault_transactions_select_column: true,
+  pending_vault_transactions_select_column: 'enum' as const,
   pending_vault_transactions_stream_cursor_input: {
     initial_value: 'pending_vault_transactions_stream_cursor_value_input',
     ordering: 'cursor_ordering',
@@ -2635,7 +2635,7 @@ export const AllTypesProps: Record<string, any> = {
     org_id: 'bigint',
     tx_type: 'vault_tx_types_enum',
   },
-  pending_vault_transactions_update_column: true,
+  pending_vault_transactions_update_column: 'enum' as const,
   profiles: {
     claims: {
       distinct_on: 'claims_select_column',
@@ -2735,7 +2735,7 @@ export const AllTypesProps: Record<string, any> = {
   profiles_pk_columns_input: {
     id: 'bigint',
   },
-  profiles_select_column: true,
+  profiles_select_column: 'enum' as const,
   profiles_set_input: {
     name: 'citext',
   },
@@ -3415,7 +3415,7 @@ export const AllTypesProps: Record<string, any> = {
     user: 'users_order_by',
     user_id: 'order_by',
   },
-  teammates_select_column: true,
+  teammates_select_column: 'enum' as const,
   teammates_stddev_order_by: {
     id: 'order_by',
     team_mate_id: 'order_by',
@@ -3460,7 +3460,7 @@ export const AllTypesProps: Record<string, any> = {
     team_mate_id: 'order_by',
     user_id: 'order_by',
   },
-  timestamp: 'String',
+  timestamp: `scalar.timestamp` as const,
   timestamp_comparison_exp: {
     _eq: 'timestamp',
     _gt: 'timestamp',
@@ -3471,7 +3471,7 @@ export const AllTypesProps: Record<string, any> = {
     _neq: 'timestamp',
     _nin: 'timestamp',
   },
-  timestamptz: 'String',
+  timestamptz: `scalar.timestamptz` as const,
   timestamptz_comparison_exp: {
     _eq: 'timestamptz',
     _gt: 'timestamptz',
@@ -3573,7 +3573,7 @@ export const AllTypesProps: Record<string, any> = {
     tokens: 'order_by',
     updated_at: 'order_by',
   },
-  token_gifts_select_column: true,
+  token_gifts_select_column: 'enum' as const,
   token_gifts_stddev_order_by: {
     circle_id: 'order_by',
     epoch_id: 'order_by',
@@ -3665,7 +3665,7 @@ export const AllTypesProps: Record<string, any> = {
     user: 'users_order_by',
     user_id: 'order_by',
   },
-  user_private_select_column: true,
+  user_private_select_column: 'enum' as const,
   user_private_stream_cursor_input: {
     initial_value: 'user_private_stream_cursor_value_input',
     ordering: 'cursor_ordering',
@@ -3848,7 +3848,7 @@ export const AllTypesProps: Record<string, any> = {
     user_private: 'user_private_order_by',
     vouches_aggregate: 'vouches_aggregate_order_by',
   },
-  users_select_column: true,
+  users_select_column: 'enum' as const,
   users_stddev_order_by: {
     circle_id: 'order_by',
     give_token_received: 'order_by',
@@ -3916,7 +3916,7 @@ export const AllTypesProps: Record<string, any> = {
     role: 'order_by',
     starting_tokens: 'order_by',
   },
-  uuid: 'String',
+  uuid: `scalar.uuid` as const,
   uuid_comparison_exp: {
     _eq: 'uuid',
     _gt: 'uuid',
@@ -4002,7 +4002,7 @@ export const AllTypesProps: Record<string, any> = {
     vault_id: 'order_by',
     vault_tx_type: 'vault_tx_types_order_by',
   },
-  vault_transactions_select_column: true,
+  vault_transactions_select_column: 'enum' as const,
   vault_transactions_stddev_order_by: {
     circle_id: 'order_by',
     created_by: 'order_by',
@@ -4081,7 +4081,7 @@ export const AllTypesProps: Record<string, any> = {
     value: 'String_comparison_exp',
     vault_transactions: 'vault_transactions_bool_exp',
   },
-  vault_tx_types_enum: true,
+  vault_tx_types_enum: 'enum' as const,
   vault_tx_types_enum_comparison_exp: {
     _eq: 'vault_tx_types_enum',
     _in: 'vault_tx_types_enum',
@@ -4093,7 +4093,7 @@ export const AllTypesProps: Record<string, any> = {
     value: 'order_by',
     vault_transactions_aggregate: 'vault_transactions_aggregate_order_by',
   },
-  vault_tx_types_select_column: true,
+  vault_tx_types_select_column: 'enum' as const,
   vault_tx_types_stream_cursor_input: {
     initial_value: 'vault_tx_types_stream_cursor_value_input',
     ordering: 'cursor_ordering',
@@ -4199,7 +4199,7 @@ export const AllTypesProps: Record<string, any> = {
     vault_address: 'order_by',
     vault_transactions_aggregate: 'vault_transactions_aggregate_order_by',
   },
-  vaults_select_column: true,
+  vaults_select_column: 'enum' as const,
   vaults_stddev_order_by: {
     chain_id: 'order_by',
     created_by: 'order_by',
@@ -4313,7 +4313,7 @@ export const AllTypesProps: Record<string, any> = {
     voucher: 'users_order_by',
     voucher_id: 'order_by',
   },
-  vouches_select_column: true,
+  vouches_select_column: 'enum' as const,
   vouches_stddev_order_by: {
     id: 'order_by',
     nominee_id: 'order_by',
@@ -4455,6 +4455,7 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Int',
     nominee: 'nominees',
   },
+  bigint: `scalar.bigint` as const,
   burns: {
     circle: 'circles',
     circle_id: 'bigint',
@@ -4560,6 +4561,7 @@ export const ReturnTypes: Record<string, any> = {
     vouching: 'Boolean',
     vouching_text: 'String',
   },
+  citext: `scalar.citext` as const,
   claims: {
     address: 'String',
     amount: 'numeric',
@@ -4780,6 +4782,7 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Float',
     user_id: 'Float',
   },
+  date: `scalar.date` as const,
   discord_roles_circles: {
     circle: 'circles',
     circle_id: 'bigint',
@@ -4987,6 +4990,8 @@ export const ReturnTypes: Record<string, any> = {
     sender: 'users',
     sender_id: 'bigint',
   },
+  json: `scalar.json` as const,
+  jsonb: `scalar.jsonb` as const,
   locked_token_distribution_gifts: {
     earnings: 'numeric',
     id: 'bigint',
@@ -5228,6 +5233,7 @@ export const ReturnTypes: Record<string, any> = {
     user_id: 'Float',
     vouches_required: 'Float',
   },
+  numeric: `scalar.numeric` as const,
   organizations: {
     circles: 'circles',
     created_at: 'timestamp',
@@ -5481,6 +5487,8 @@ export const ReturnTypes: Record<string, any> = {
     user: 'users',
     user_id: 'Int',
   },
+  timestamp: `scalar.timestamp` as const,
+  timestamptz: `scalar.timestamptz` as const,
   token_gifts: {
     circle: 'circles',
     circle_id: 'bigint',
@@ -5705,6 +5713,7 @@ export const ReturnTypes: Record<string, any> = {
     user_private: 'user_private',
     vouches: 'vouches',
   },
+  uuid: `scalar.uuid` as const,
   vault_transactions: {
     circle: 'circles',
     circle_id: 'bigint',

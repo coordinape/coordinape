@@ -57,7 +57,7 @@
     "ethers": "5.5.1",
     "faker": "5.5.3",
     "graphql": "16.2.0",
-    "graphql-zeus": "5.0.2",
+    "graphql-zeus": "^5.2.3",
     "itiriri": "2.0.1",
     "keccak": "^3.0.2",
     "lodash": "4.17.21",

@@ -63,7 +63,7 @@ export const NewNominationPage = () => {
   const [submitting, setSubmitting] = useState(false);
   const [isSuccessful, setIsSuccessful] = useState(false);
   const [nomineeName, setNomineeName] = useState('');
-  const [profileName, setProfileName] = useState(undefined);
+  const [profileName, setProfileName] = useState<string | undefined>(undefined);
 
   const queryClient = useQueryClient();
 

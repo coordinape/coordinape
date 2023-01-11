@@ -1,4 +1,4 @@
-import { ValueTypes, useZeusVariables } from 'lib/gql/__generated__/zeus';
+import { ValueTypes } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import { useMutation } from 'react-query';
 
@@ -7,9 +7,9 @@ export function useSaveDistribution() {
     async (distribution?: ValueTypes['distributions_insert_input']) => {
       // this is not a hook
       // eslint-disable-next-line react-hooks/rules-of-hooks
-      const variables = useZeusVariables({ json: 'jsonb' })({
+      const variables = {
         json: distribution?.distribution_json,
-      });
+      };
 
       const { insert_distributions_one } = await client.mutate(
         {
@@ -17,7 +17,7 @@ export function useSaveDistribution() {
             {
               object: {
                 ...distribution,
-                distribution_json: variables.$('json'),
+                distribution_json: variables.json,
               },
             },
             { id: true },
