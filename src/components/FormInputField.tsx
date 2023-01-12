@@ -68,6 +68,11 @@ export const FormInputField = <TFieldValues extends FieldValues>(
       TFieldValues,
       Path<TFieldValues>
     >;
+  } else if (inputProps?.type === 'datetime-local') {
+    fieldValue = DateTime.fromISO(fieldValue).toISO().slice(0, 16) as PathValue<
+      TFieldValues,
+      Path<TFieldValues>
+    >;
   } else if (inputProps?.type === 'time') {
     fieldValue = DateTime.fromISO(fieldValue).toFormat('T') as PathValue<
       TFieldValues,

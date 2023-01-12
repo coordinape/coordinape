@@ -7,12 +7,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
 import { SafeParseReturnType, z } from 'zod';
 
-import {
-  FormInputField,
-  FormRadioGroup,
-  FormDatePicker,
-  FormTimePicker,
-} from 'components';
+import { FormInputField, FormRadioGroup, FormDateTimePicker } from 'components';
 import { useApiAdminCircle } from 'hooks';
 import { Info } from 'icons/__generated';
 import { QUERY_KEY_MY_ORGS } from 'pages/CirclesPage/getOrgData';
@@ -431,29 +426,6 @@ const EpochForm = ({
             <Flex column css={{ gap: '$lg' }}>
               <Text h3>Epoch Timing</Text>
               <Flex css={{ gap: '$sm' }}>
-                <Flex
-                  column
-                  alignItems="start"
-                  css={{
-                    maxWidth: '150px',
-                    gap: '$xs',
-                  }}
-                >
-                  <FormLabel type="label" css={{ fontWeight: '$bold' }}>
-                    Start Date{' '}
-                    <Tooltip content="The first day of the epoch in your local time zone">
-                      <Info size="sm" />
-                    </Tooltip>
-                  </FormLabel>
-                  <FormDatePicker
-                    control={control}
-                    id="start_date"
-                    name="start_date"
-                    disabled={
-                      selectedEpoch && currentEpoch?.id === selectedEpoch?.id
-                    }
-                  />
-                </Flex>
                 <Flex css={{ maxWidth: '150px' }}>
                   <FormInputField
                     id="days"
@@ -477,11 +449,10 @@ const EpochForm = ({
                   <Flex row css={{ gap: '$sm' }}>
                     <Box
                       css={{
-                        maxWidth: '150px',
                         '> div': { mb: '0 !important' },
                       }}
                     >
-                      <FormTimePicker
+                      <FormDateTimePicker
                         control={control}
                         name="start_date"
                         id="start_date"
@@ -491,7 +462,7 @@ const EpochForm = ({
                         }
                       />
                     </Box>
-                    <Text size="medium">
+                    <Text size="small" color="neutral">
                       In your
                       <br /> local timezone
                     </Text>

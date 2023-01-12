@@ -12,6 +12,7 @@ export * from './Drawer';
 export * from './ErrorBoundary';
 export * from './FormAutocomplete';
 export * from './FormDatePicker';
+export * from './FormDateTimePicker';
 export * from './FormFileUpload';
 export * from './FormInputField';
 export * from './FormRadioGroup';
