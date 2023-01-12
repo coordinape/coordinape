@@ -32,6 +32,7 @@ export const AllTypesProps: Record<string, any> = {
   DeleteUserInput: {},
   GenerateApiKeyInput: {},
   Int_comparison_exp: {},
+  LinkDiscordCircleInput: {},
   LinkDiscordUserInput: {},
   LogVaultTxInput: {},
   MarkClaimedInput: {},
@@ -1105,7 +1106,7 @@ export const AllTypesProps: Record<string, any> = {
     circle_id: 'bigint_comparison_exp',
     created_at: 'timestamptz_comparison_exp',
     id: 'bigint_comparison_exp',
-    role: 'String_comparison_exp',
+    server_role: 'String_comparison_exp',
     updated_at: 'timestamptz_comparison_exp',
   },
   discord_roles_circles_order_by: {
@@ -1113,7 +1114,7 @@ export const AllTypesProps: Record<string, any> = {
     circle_id: 'order_by',
     created_at: 'order_by',
     id: 'order_by',
-    role: 'order_by',
+    server_role: 'order_by',
     updated_at: 'order_by',
   },
   discord_roles_circles_pk_columns_input: {
@@ -2028,6 +2029,9 @@ export const AllTypesProps: Record<string, any> = {
     insert_pending_vault_transactions_one: {
       object: 'pending_vault_transactions_insert_input',
       on_conflict: 'pending_vault_transactions_on_conflict',
+    },
+    linkDiscordCircle: {
+      payload: 'LinkDiscordCircleInput',
     },
     linkDiscordUser: {
       payload: 'LinkDiscordUserInput',
@@ -4400,6 +4404,9 @@ export const ReturnTypes: Record<string, any> = {
     circleApiKey: 'circle_api_keys',
     hash: 'String',
   },
+  LinkDiscordCircleResponse: {
+    id: 'Int',
+  },
   LinkDiscordUserResponse: {
     id: 'Int',
     linkDiscordUser_DiscordUser: 'discord_users',
@@ -4785,7 +4792,7 @@ export const ReturnTypes: Record<string, any> = {
     circle_id: 'bigint',
     created_at: 'timestamptz',
     id: 'bigint',
-    role: 'String',
+    server_role: 'String',
     updated_at: 'timestamptz',
   },
   discord_roles_circles_mutation_response: {
@@ -5066,6 +5073,7 @@ export const ReturnTypes: Record<string, any> = {
     insert_pending_vault_transactions:
       'pending_vault_transactions_mutation_response',
     insert_pending_vault_transactions_one: 'pending_vault_transactions',
+    linkDiscordCircle: 'LinkDiscordCircleResponse',
     linkDiscordUser: 'LinkDiscordUserResponse',
     logoutUser: 'LogoutResponse',
     markClaimed: 'MarkClaimedOutput',
