@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { LoadingModal } from 'components';
 import { useApeSnackbar } from 'hooks';
+import { generateCircleApiKey } from 'pages/CircleAdminPage/CircleApi/mutations';
 import { useMyProfile } from 'recoilState';
 import { paths } from 'routes/paths';
 
@@ -22,6 +23,9 @@ export const DiscordPage = () => {
   const navigate = useNavigate();
 
   const parameters = new URLSearchParams(search);
+  const rowIdParam = parameters.get('id');
+  const circleIdParam = parameters.get('circleId');
+  const codeParam = parameters.get('code');
 
   const [linkStatus, setLinkStatus] = useState<LinkStatus>('detached');
 
@@ -48,7 +52,43 @@ export const DiscordPage = () => {
   );
 
   useEffect(() => {
+    const linkCircle = async () => {
+      if (codeParam || !rowIdParam || !circleIdParam) {
+        return;
+      }
+      const result = await generateCircleApiKey({
+        circle_id: Number(circleIdParam),
+        name: 'discord-bot',
+      });
+
+      if (!result?.api_key) {
+        throw new Error(
+          `An error occurred generating an API key for circle id ${circleIdParam}`
+        );
+      }
+
+      await linkDiscordCircle({
+        token: result.api_key,
+        circle_id: circleIdParam,
+      });
+
+      showInfo('Your API key was successfully generated!');
+      navigate(`/circles/${circleIdParam}/admin`);
+      return;
+    };
+
+    linkCircle().catch(error => {
+      showError(error);
+      navigate(`/circles/${circleIdParam}/admin`);
+    });
+  }, []);
+
+  useEffect(() => {
     const linkUser = async () => {
+      if (rowIdParam || circleIdParam) {
+        return;
+      }
+
       if (!isFetched) {
         return;
       }
@@ -57,15 +97,14 @@ export const DiscordPage = () => {
         throw new Error('Your profile is already linked');
       }
 
-      const code = parameters.get('code');
-      if (!code) {
+      if (!codeParam) {
         throw new Error('Discord code is required');
       }
 
       setLinkStatus('linking');
 
       const response = await fetch(
-        '/api/discord/oauth?' + new URLSearchParams({ code })
+        '/api/discord/oauth?' + new URLSearchParams({ code: codeParam })
       );
       const discordUser = await response.json();
       if (!discordUser || !discordUser.id) {
@@ -95,6 +134,16 @@ export const DiscordPage = () => {
       visible={true}
       note="global"
     />
+  );
+};
+
+const linkDiscordCircle = async (payload: {
+  circle_id: string;
+  token: string;
+}): Promise<void> => {
+  await client.mutate(
+    { linkDiscordCircle: [{ payload }, { id: true }] },
+    { operationName: 'linkDiscordCircle' }
   );
 };
 

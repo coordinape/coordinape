@@ -1,0 +1,25 @@
+table:
+  name: circle_api_tokens
+  schema: discord
+insert_permissions:
+  - role: discord-bot
+    permission:
+      check: {}
+      columns:
+        - channel_snowflake
+        - circle_id
+select_permissions:
+  - role: discord-bot
+    permission:
+      columns:
+        - channel_snowflake
+        - circle_id
+        - created_at
+        - id
+        - token
+      filter: {}
+delete_permissions:
+  - role: discord-bot
+    permission:
+      backend_only: false
+      filter: {}
