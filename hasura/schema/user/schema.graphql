@@ -237,6 +237,15 @@ input Int_comparison_exp {
   _nin: [Int!]
 }
 
+input LinkDiscordCircleInput {
+  circle_id: String!
+  token: String!
+}
+
+type LinkDiscordCircleResponse {
+  id: Int!
+}
+
 input LinkDiscordUserInput {
   discord_id: String!
 }
@@ -3522,7 +3531,7 @@ type discord_roles_circles {
   circle_id: bigint!
   created_at: timestamptz!
   id: bigint!
-  role: String!
+  server_role: String!
   updated_at: timestamptz!
 }
 
@@ -3537,7 +3546,7 @@ input discord_roles_circles_bool_exp {
   circle_id: bigint_comparison_exp
   created_at: timestamptz_comparison_exp
   id: bigint_comparison_exp
-  role: String_comparison_exp
+  server_role: String_comparison_exp
   updated_at: timestamptz_comparison_exp
 }
 
@@ -3564,7 +3573,7 @@ input discord_roles_circles_order_by {
   circle_id: order_by
   created_at: order_by
   id: order_by
-  role: order_by
+  server_role: order_by
   updated_at: order_by
 }
 
@@ -3597,7 +3606,7 @@ enum discord_roles_circles_select_column {
   """
   column name
   """
-  role
+  server_role
 
   """
   column name
@@ -3609,7 +3618,7 @@ enum discord_roles_circles_select_column {
 input type for updating data in table "discord.roles_circles"
 """
 input discord_roles_circles_set_input {
-  role: String
+  server_role: String
 }
 
 """
@@ -3634,7 +3643,7 @@ input discord_roles_circles_stream_cursor_value_input {
   circle_id: bigint
   created_at: timestamptz
   id: bigint
-  role: String
+  server_role: String
   updated_at: timestamptz
 }
 
@@ -6193,6 +6202,11 @@ type mutation_root {
     """
     on_conflict: pending_vault_transactions_on_conflict
   ): pending_vault_transactions
+
+  """
+  allow authenticated users to link a discord channel to a circle they admin
+  """
+  linkDiscordCircle(payload: LinkDiscordCircleInput!): LinkDiscordCircleResponse
 
   """
   allow authenticated users to link a discord account to their profile
