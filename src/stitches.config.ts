@@ -147,8 +147,10 @@ export const colors = {
   mapLink: '#00000015',
   mapLinkDim: '#00000008',
 
+  // react-toastify
   errorColor: newFigmaColors.error6,
   toastBackground: 'white',
+  toastBorderColor: newFigmaColors.grey6,
   errorIconBackground: newFigmaColors.error3,
   successColor: newFigmaColors.success6,
   successIconBackground: newFigmaColors.success4,
@@ -380,6 +382,7 @@ export const dark = createTheme({
     errorColor: newFigmaColors.error6,
     successColor: newFigmaColors.success6,
     toastBackground: newFigmaColors.grey8,
+    toastBorderColor: newFigmaColors.grey7,
     successIconBackground: newFigmaColors.success10,
     errorIconBackground: newFigmaColors.error10,
   },

@@ -4,9 +4,9 @@ import { styled } from 'stitches.config';
 
 const StyledContainer = styled(ToastifyContainer, {
   '.Toastify__toast': {
-    background: '$formInputBackground',
+    background: '$toastBackground',
     borderRadius: '9px',
-    border: '1px solid $formInputBackground',
+    border: '1px solid $toastBorderColor',
     minWidth: '400px',
     maxWidth: '640px',
     width: '80%',
