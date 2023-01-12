@@ -19,7 +19,7 @@ export const QUERY_KEY_DISCORD_USERS = 'discord-users';
 export const DiscordPage = () => {
   const { search } = useLocation();
   const { id: profileId } = useMyProfile();
-  const { showSuccess, showError } = useToast();
+  const { showDefault, showSuccess, showError } = useToast();
   const navigate = useNavigate();
 
   const parameters = new URLSearchParams(search);
