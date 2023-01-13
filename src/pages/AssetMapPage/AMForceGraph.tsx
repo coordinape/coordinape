@@ -5,8 +5,7 @@ import { StitchesTheme } from 'features/theming/ThemeProvider';
 import cloneDeep from 'lodash/cloneDeep';
 import ForceGraph2D, { NodeObject, LinkObject } from 'react-force-graph-2d';
 import AutoSizer from 'react-virtualized-auto-sizer';
-
-import { makeStyles } from '@material-ui/core';
+import { styled } from 'stitches.config';
 
 import {
   useMapGraphData,
@@ -14,23 +13,17 @@ import {
   useSetAmEgoAddress,
   AmContextDefault,
 } from 'recoilState/map';
+import { Box } from 'ui';
 
 import { IMapContext, IMapNodeFG, IMapEdgeFG } from 'types';
 
-const useStyles = makeStyles(() => ({
-  root: {
-    position: 'relative',
-    height: '100%',
-    overflow: 'hidden',
-  },
-  autoSizer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
-}));
+const StyledAutoSizer = styled(AutoSizer, {
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+});
 
 const MIN_ZOOM = 3;
 
@@ -46,7 +39,6 @@ export const AMForceGraph = ({
 }: {
   stitchesTheme: StitchesTheme;
 }) => {
-  const classes = useStyles();
   const fgRef = useRef<any>(null);
   const recoilMapGraphData = useMapGraphData();
   const mapContext = useMapContext();
@@ -218,8 +210,14 @@ export const AMForceGraph = ({
   }, []);
 
   return (
-    <div className={classes.root}>
-      <AutoSizer className={classes.autoSizer}>
+    <Box
+      css={{
+        position: 'relative',
+        height: '100%',
+        overflow: 'hidden',
+      }}
+    >
+      <StyledAutoSizer>
         {({ height, width }) => (
           <ForceGraph2D
             ref={fgRef}
@@ -243,8 +241,8 @@ export const AMForceGraph = ({
             minZoom={MIN_ZOOM}
           />
         )}
-      </AutoSizer>
-    </div>
+      </StyledAutoSizer>
+    </Box>
   );
 };
 
