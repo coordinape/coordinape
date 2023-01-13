@@ -11,6 +11,7 @@ import {
   getRepeatingEpoch,
 } from '../../../../api-lib/gql/queries';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
+import { findSameDayNextMonth } from '../../../../src/common-lib/epochs';
 import {
   composeHasuraActionRequestBodyWithSession,
   HasuraUserSessionVariables,
@@ -40,8 +41,7 @@ const zCustomInputSchema = z
 const zMonthlyInputSchema = z
   .object({
     type: z.literal('monthly'),
-    weekday: z.number().min(1).max(7),
-    week: z.number().min(1).max(6),
+    week: z.number().min(0),
     start_date: zStringISODateUTC,
     end_date: zStringISODateUTC,
   })
@@ -96,9 +96,10 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     case 'custom':
       error = validateCustomInput(params);
       break;
-    case 'monthly':
-      error = new Error('not implemented');
+    case 'monthly': {
+      error = validateMonthlyInput(params);
       break;
+    }
   }
   if (error) {
     errorResponseWithStatusCode(response, error, 422);
@@ -106,6 +107,23 @@ async function handler(request: VercelRequest, response: VercelResponse) {
   }
 
   insertNewEpoch(response, input);
+}
+
+function validateMonthlyInput(
+  input: z.infer<typeof zMonthlyInputSchema>
+): ErrorReturn {
+  const { start_date, end_date } = input;
+
+  const endDateIsValid = findSameDayNextMonth(start_date, input).equals(
+    end_date
+  );
+  if (!endDateIsValid)
+    return new Error(
+      dedent`
+        start day and week "${start_date.toISO()}" do not match the end date
+        "${end_date.toISO()}"
+      `
+    );
 }
 
 function validateCustomInput(
