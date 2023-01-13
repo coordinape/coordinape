@@ -11,7 +11,16 @@ import {
   DeworkColor,
   WonderColor,
 } from 'icons/__generated';
-import { Avatar, Box, Button, Flex, Text, TextArea, MarkdownPreview } from 'ui';
+import {
+  Avatar,
+  Box,
+  Button,
+  Flex,
+  Text,
+  TextArea,
+  MarkdownPreview,
+  Panel,
+} from 'ui';
 import { SaveState, SavingIndicator } from 'ui/SavingIndicator';
 
 import { Contribution } from './Contribution';
@@ -140,7 +149,7 @@ export const GiveDrawer = ({
   };
 
   return (
-    <Box key={selectedMemberIdx} css={{ height: '100%' }}>
+    <Panel invertForm key={selectedMemberIdx} css={{ height: '100%', p: 0 }}>
       <Flex
         css={{
           justifyContent: 'space-between',
@@ -267,7 +276,6 @@ export const GiveDrawer = ({
               data-testid="note"
               autoSize
               css={{
-                backgroundColor: 'white',
                 width: '100%',
                 mt: '$xs',
                 mb: '$md',
@@ -404,6 +412,6 @@ export const GiveDrawer = ({
           </Box>
         </Flex>
       </Flex>
-    </Box>
+    </Panel>
   );
 };

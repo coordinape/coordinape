@@ -114,7 +114,8 @@ export const colors = {
   textOnInfo: figmaColors.grey20,
 
   border: figmaColors.grey4,
-  borderMedium: figmaColors.grey8,
+  borderMedium: newFigmaColors.grey5,
+  borderDim: newFigmaColors.grey4,
   borderFocus: figmaColors.blue12,
 
   highlight: figmaColors.blue1,
@@ -360,6 +361,8 @@ export const dark = createTheme({
     highlight: newFigmaColors.primary10,
 
     border: newFigmaColors.grey9,
+    borderMedium: newFigmaColors.grey6,
+    borderDim: newFigmaColors.grey7,
     borderFocus: newFigmaColors.primary5,
 
     tagActiveText: newFigmaColors.warning8,
