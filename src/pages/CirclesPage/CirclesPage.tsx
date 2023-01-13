@@ -79,16 +79,15 @@ export const CirclesPage = () => {
         css={{ mb: '$lg', width: '50%', '@sm': { width: '100%' } }}
       >
         All your organizations and circles in one place.{' '}
-        <Text
+        <Link
           onClick={() => {
             setShowAllCircles(prev => !prev);
           }}
-          color="primary"
           css={{ cursor: 'pointer' }}
-          inline
+          inlineLink
         >
           {!showAllCircles ? 'Show all circles' : 'Show only my circles'}
-        </Text>
+        </Link>
       </Text>
       {/* Show the sample org first*/}
       {/* Do we have a sample already? If not, lets offer to make one eh */}
