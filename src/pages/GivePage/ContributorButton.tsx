@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { CSS } from 'stitches.config';
 
 import { normalizeError } from '../../utils/reporting';
-import { useApeSnackbar } from 'hooks';
+import { useToast } from 'hooks';
 import { Check, Plus, X } from 'icons/__generated';
 import { Box, Button } from 'ui';
 
@@ -21,7 +21,7 @@ export const ContributorButton = ({
   updateTeammate,
   css,
 }: ContributorButtonProps) => {
-  const { showError } = useApeSnackbar();
+  const { showError } = useToast();
 
   const [updatingTeammate, setUpdatingTeammate] = useState(false);
 

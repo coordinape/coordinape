@@ -9,7 +9,7 @@ import { getWrappedAmount } from 'lib/vaults';
 import { uploadEpochRoot } from 'lib/vaults/distributor';
 import mapValues from 'lodash/mapValues';
 
-import { useApeSnackbar, useContracts } from 'hooks';
+import { useToast, useContracts } from 'hooks';
 import type { Vault } from 'hooks/gql/useVaults';
 import { sendAndTrackTx } from 'utils/contractHelpers';
 
@@ -61,7 +61,7 @@ export function useSubmitDistribution() {
   //
   const { mutateAsync: saveDistribution } = useSaveDistribution();
   const { mutateAsync: markDistributionDone } = useMarkDistributionDone();
-  const { showError, showInfo } = useApeSnackbar();
+  const { showError, showSuccess, showDefault } = useToast();
 
   return async ({
     amount,
@@ -159,7 +159,7 @@ export function useSubmitDistribution() {
             newTotalAmount
           ),
         {
-          showInfo,
+          showDefault,
           showError,
           description,
           chainId: contracts.chainId,
@@ -185,7 +185,7 @@ export function useSubmitDistribution() {
         `no tx hash in receipt: ${JSON.stringify(receipt, null, 2)}`
       );
 
-      showInfo('Saving Distribution...');
+      showDefault('Saving Distribution...');
       await markDistributionDone({
         id: response.id,
         epochId: distributorEpochId.toNumber(),
@@ -195,7 +195,7 @@ export function useSubmitDistribution() {
         amount: Number.parseFloat(amount),
         symbol: vault.symbol,
       });
-      showInfo('Distribution saved successfully');
+      showSuccess('Distribution saved successfully');
       return {
         merkleRoot: distribution.merkleRoot,
         totalAmount: BigNumber.from(distribution.tokenTotal),

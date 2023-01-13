@@ -8,7 +8,7 @@ import { z } from 'zod';
 import { TokenJoinInfo } from '../../../api/circle/landing/[token]';
 import { LoadingModal } from '../../components';
 import CircleWithLogo from '../../components/CircleWithLogo';
-import { useApeSnackbar, useApiBase } from '../../hooks';
+import { useToast, useApiBase } from '../../hooks';
 import { client } from '../../lib/gql/client';
 import { zUsername } from '../../lib/zod/formHelpers';
 import { useMyProfile } from '../../recoilState';
@@ -24,7 +24,7 @@ export const JoinWithMagicLink = ({
   userName?: string;
 }) => {
   const { fetchManifest } = useApiBase();
-  const { showError } = useApeSnackbar();
+  const { showError } = useToast();
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
   const { address } = useMyProfile();

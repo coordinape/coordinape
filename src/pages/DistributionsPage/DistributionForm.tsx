@@ -18,7 +18,7 @@ import { DISTRIBUTION_TYPE } from '../../config/constants';
 import { paths } from '../../routes/paths';
 import { IUser } from '../../types';
 import { LoadingModal, FormTokenField, zTokenString } from 'components';
-import { useApeSnackbar, useContracts } from 'hooks';
+import { useToast, useContracts } from 'hooks';
 import { AppLink, Box, Button, Flex, Panel, Select, Text } from 'ui';
 import { TwoColumnLayout } from 'ui/layouts';
 import { makeExplorerUrl } from 'utils/provider';
@@ -85,7 +85,7 @@ export function DistributionForm({
   const [maxFixedPaymentTokens, setMaxFixedPaymentTokens] =
     useState<BigNumber>();
 
-  const { showError } = useApeSnackbar();
+  const { showError } = useToast();
   const submitDistribution = useSubmitDistribution();
   const contracts = useContracts();
   const circle = epoch.circle;

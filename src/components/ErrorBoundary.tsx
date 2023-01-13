@@ -1,21 +1,10 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 
-import {
-  useSnackbar,
-  SnackbarMessage,
-  OptionsObject,
-  SnackbarKey,
-} from 'notistack';
-
 import { EXTERNAL_URL_DISCORD_SUPPORT } from 'routes/paths';
 import { reportException } from 'utils/reporting';
 
 interface IInnerProps {
   children: ReactNode;
-  enqueueSnackbar: (
-    message: SnackbarMessage,
-    options?: OptionsObject
-  ) => SnackbarKey;
 }
 
 interface State {
@@ -42,12 +31,6 @@ class InnerErrorBoundary extends Component<IInnerProps, State> {
       error?.message,
       error,
       errorInfo
-    );
-    this.props.enqueueSnackbar(
-      error?.response?.data?.message ||
-        error?.message ||
-        'Something went wrong!',
-      { variant: 'error' }
     );
 
     reportException(error, {
@@ -104,10 +87,5 @@ class InnerErrorBoundary extends Component<IInnerProps, State> {
 }
 
 export const ErrorBoundary = ({ children }: { children: ReactNode }) => {
-  const { enqueueSnackbar } = useSnackbar();
-  return (
-    <InnerErrorBoundary enqueueSnackbar={enqueueSnackbar}>
-      {children}
-    </InnerErrorBoundary>
-  );
+  return <InnerErrorBoundary>{children}</InnerErrorBoundary>;
 };

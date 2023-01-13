@@ -13,7 +13,7 @@ import {
   scrollToTop,
 } from 'components';
 import { USER_ROLE_COORDINAPE } from 'config/constants';
-import { useImageUploader, useApiWithProfile, useApeSnackbar } from 'hooks';
+import { useImageUploader, useApiWithProfile, useToast } from 'hooks';
 import { useSomeCircleId } from 'hooks/migration';
 import { Edit3 } from 'icons/__generated';
 import { useMyProfile, useProfile } from 'recoilState/app';
@@ -247,7 +247,7 @@ const ProfilePageContent = ({
     circle: user.circle,
   }));
 
-  const { showError } = useApeSnackbar();
+  const { showError } = useToast();
 
   useEffect(() => {
     if (name === 'unknown') {

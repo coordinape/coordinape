@@ -1,4 +1,4 @@
-import { act, render, screen } from '@testing-library/react';
+import { act, render, screen, fireEvent } from '@testing-library/react';
 
 import { TestWrapper } from 'utils/testing';
 import { TestProvider } from 'utils/testing/ethereum';
@@ -39,4 +39,17 @@ test('without metamask, the metamask login option is disabled', async () => {
 
   const button = screen.getByText('Metamask Not Found');
   expect(button).toBeDisabled;
+});
+
+test('email login explainer', async () => {
+  await act(async () => {
+    await render(
+      <TestWrapper>
+        <WalletAuthModal />
+      </TestWrapper>
+    );
+  });
+  const button = screen.getByText('Email');
+  fireEvent.click(button);
+  screen.getByText('How Email Login Works');
 });
