@@ -5,7 +5,7 @@ import { useQuery } from 'react-query';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { LoadingModal } from 'components';
-import { useApeSnackbar } from 'hooks';
+import { useToast } from 'hooks';
 import { generateCircleApiKey } from 'pages/CircleAdminPage/CircleApi/mutations';
 import { useMyProfile } from 'recoilState';
 import { paths } from 'routes/paths';
@@ -19,7 +19,7 @@ export const QUERY_KEY_DISCORD_USERS = 'discord-users';
 export const DiscordPage = () => {
   const { search } = useLocation();
   const { id: profileId } = useMyProfile();
-  const { showInfo, showError } = useApeSnackbar();
+  const { showDefault, showSuccess, showError } = useToast();
   const navigate = useNavigate();
 
   const parameters = new URLSearchParams(search);
@@ -72,7 +72,7 @@ export const DiscordPage = () => {
         circle_id: circleIdParam,
       });
 
-      showInfo('Your API key was successfully generated!');
+      showDefault('Your API key was successfully generated!');
       navigate(`/circles/${circleIdParam}/admin`);
       return;
     };
@@ -115,7 +115,7 @@ export const DiscordPage = () => {
 
       setLinkStatus('linked');
 
-      showInfo('Your profile was successfully linked!');
+      showSuccess('Your profile was successfully linked!');
       navigate(paths.profile('me'));
     };
 

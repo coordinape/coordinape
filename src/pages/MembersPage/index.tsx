@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 import { disabledStyle } from 'stitches.config';
 
 import { LoadingModal } from 'components';
-import { useApeSnackbar, useApiAdminCircle } from 'hooks';
+import { useToast, useApiAdminCircle } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { Search } from 'icons/__generated';
@@ -43,7 +43,7 @@ export interface IDeleteUser {
 
 const MembersPage = () => {
   const { isMobile } = useMobileDetect();
-  const { showError } = useApeSnackbar();
+  const { showError } = useToast();
 
   const [keyword, setKeyword] = useState<string>('');
   const [deleteUserDialog, setDeleteUserDialog] = useState<

@@ -6,7 +6,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
 import { z } from 'zod';
 
-import { useApeSnackbar } from '../../hooks';
+import { useToast } from '../../hooks';
 import { Box, Button, TextField, Text, Form, Flex } from '../../ui';
 import { normalizeError } from '../../utils/reporting';
 import { QUERY_KEY_PROFILE_BY_ADDRESS } from 'pages/JoinCirclePage/queries';
@@ -18,7 +18,7 @@ const userNameSchema = z.object({ name: zUsername });
 type UserNameFormSchema = z.infer<typeof userNameSchema>;
 
 export const CreateUserNameForm = ({ address }: { address?: string }) => {
-  const { showError } = useApeSnackbar();
+  const { showError } = useToast();
   const [loading, setLoading] = useState<boolean>(false);
   const queryClient = useQueryClient();
 

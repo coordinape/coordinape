@@ -2,7 +2,7 @@ import { ENTRANCE } from 'common-lib/constants';
 import Papa from 'papaparse';
 
 import DragFileUpload from '../../components/DragFileUpload';
-import { useApeSnackbar } from '../../hooks';
+import { useToast } from '../../hooks';
 
 import { NewMember } from './NewMemberList';
 
@@ -11,7 +11,7 @@ const CSVImport = ({
 }: {
   addNewMembers(newMembers: NewMember[]): void;
 }) => {
-  const { showError } = useApeSnackbar();
+  const { showError } = useToast();
 
   const fileUploaded = async (file: File) => {
     const fileData = await file.text();

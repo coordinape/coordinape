@@ -8,7 +8,7 @@ import { CircularProgress } from '@material-ui/core';
 
 import { EConnectorNames, WALLET_ICONS } from 'config/constants';
 import isFeatureEnabled from 'config/features';
-import { useApeSnackbar } from 'hooks';
+import { useToast } from 'hooks';
 import { useWeb3React } from 'hooks/useWeb3React';
 import { Box, Button, Text, Modal, Flex, HR } from 'ui';
 
@@ -21,7 +21,8 @@ const UNSUPPORTED = 'unsupported';
 export const WalletAuthModal = () => {
   const [connectMessage, setConnectMessage] = useState<string>('');
   const [selectedChain, setSelectedChain] = useState<string>('1');
-  const { showError, showInfo } = useApeSnackbar();
+
+  const { showError, showDefault } = useToast();
   const web3Context = useWeb3React<Web3Provider>();
   const [isMetamaskEnabled, setIsMetamaskEnabled] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState(true);
@@ -90,7 +91,7 @@ export const WalletAuthModal = () => {
       await web3Context.activate(newConnector, () => {}, true);
     } catch (error: any) {
       if (error.message.match(/Unsupported chain id/)) {
-        showInfo('Switch to a supported network to continue.');
+        showDefault('Switch to a supported network to continue.');
       } else if (
         [/rejected the request/, /User denied account authorization/].some(r =>
           error.message.match(r)

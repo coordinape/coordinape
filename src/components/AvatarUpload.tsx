@@ -5,7 +5,7 @@ import { updateProfileAvatar } from 'lib/gql/mutations';
 import { MAX_IMAGE_BYTES_LENGTH_BASE64 } from 'lib/images';
 
 import { LoadingModal } from 'components';
-import { useApeSnackbar, useApiBase } from 'hooks';
+import { useToast, useApiBase } from 'hooks';
 import { Check } from 'icons/__generated';
 import { Avatar, Button, Flex, FormLabel, Text } from 'ui';
 import { formatBytes } from 'utils/presentationHelpers';
@@ -22,7 +22,7 @@ export const AvatarUpload = ({ original }: { original?: string }) => {
 
   const fileInput = React.createRef<HTMLInputElement>();
 
-  const { showError } = useApeSnackbar();
+  const { showError } = useToast();
   const { fetchManifest } = useApiBase();
 
   const uploadAvatar = async (avatar: File) => {

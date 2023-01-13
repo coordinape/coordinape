@@ -4,7 +4,7 @@ import type { Web3Provider } from '@ethersproject/providers';
 import * as Sentry from '@sentry/react';
 
 import { useApiBase, useRecoilLoadCatch } from 'hooks';
-import { useApeSnackbar } from 'hooks/useApeSnackbar';
+import { useToast } from 'hooks/useToast';
 import type { UseWeb3ReactReturnType } from 'hooks/useWeb3React';
 import { rSelectedCircleIdSource } from 'recoilState/app';
 import { rApiManifest, rApiFullCircle } from 'recoilState/db';
@@ -23,7 +23,7 @@ export const clearStateAfterLogout = (set: any) => {
 };
 
 export const useFinishAuth = () => {
-  const { showError } = useApeSnackbar();
+  const { showError } = useToast();
   const { fetchManifest } = useApiBase();
 
   // FIXME it's a bit inconsistent that this catches its own errors instead of

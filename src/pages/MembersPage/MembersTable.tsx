@@ -16,7 +16,7 @@ import {
   USER_ROLE_COORDINAPE,
 } from 'config/constants';
 import {
-  useApeSnackbar,
+  useToast,
   useApiAdminCircle,
   useNavigation,
   useContracts,
@@ -215,7 +215,7 @@ const MemberRow = ({
   const [hasAcceptedOptOutWarning, setHasAcceptedOptOutWarning] =
     useState(false);
 
-  const { showInfo } = useApeSnackbar();
+  const { showSuccess } = useToast();
   const { updateUser, restoreCoordinape, deleteUser } =
     useApiAdminCircle(circleId);
   const queryClient = useQueryClient();
@@ -287,7 +287,7 @@ const MemberRow = ({
         setShowOptOutChangeWarning(false);
         updateUser(user.address, { ...data, role: data.role ? 1 : 0 })
           .then(() => {
-            showInfo('Saved changes');
+            showSuccess('Saved changes');
             queryClient.invalidateQueries(QUERY_KEY_FIXED_PAYMENT);
             queryClient.invalidateQueries(QUERY_KEY_CIRCLE_USERS);
           })

@@ -4,7 +4,7 @@ import { useRecoilCallback, CallbackInterface } from 'recoil';
 import { rGlobalLoading } from 'recoilState/ui';
 import { normalizeError, reportException } from 'utils/reporting';
 
-import { useApeSnackbar } from './useApeSnackbar';
+import { useToast } from './useToast';
 const log = debug('useRecoilLoadCatch');
 
 // Make an async call with access to Recoil, errors and a loading modal.
@@ -41,7 +41,7 @@ export const useRecoilLoadCatch = <Args extends ReadonlyArray<unknown>, Return>(
     who?: string;
   } = {}
 ) => {
-  const { showError, showInfo } = useApeSnackbar();
+  const { showError, showDefault } = useToast();
 
   return useRecoilCallback((intr: CallbackInterface) => {
     const { set } = intr;
@@ -55,7 +55,7 @@ export const useRecoilLoadCatch = <Args extends ReadonlyArray<unknown>, Return>(
           .then(result => {
             !hideLoading && set(rGlobalLoading, v => v - 1);
             log(`done loading: ${who}`);
-            success && showInfo(success);
+            success && showDefault(success);
             resolve(result);
           })
           .catch(err => {

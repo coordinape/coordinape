@@ -31,7 +31,7 @@ import {
   zTokenString,
   FormInputField,
 } from 'components';
-import { useApeSnackbar, useContracts } from 'hooks';
+import { useToast, useContracts } from 'hooks';
 import { useCurrentCircleIntegrations } from 'hooks/gql/useCurrentCircleIntegrations';
 import { hedgeyLockPeriods } from 'pages/CircleAdminPage/HedgeyIntegrationSettings';
 import {
@@ -126,7 +126,7 @@ export function DistributionForm({
   const [maxFixedPaymentTokens, setMaxFixedPaymentTokens] =
     useState<BigNumber>();
 
-  const { showError } = useApeSnackbar();
+  const { showError } = useToast();
   const submitDistribution = useSubmitDistribution();
   const lockedTokenDistribution = useLockedTokenDistribution();
   const contracts = useContracts();

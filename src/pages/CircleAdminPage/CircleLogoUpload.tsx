@@ -7,7 +7,7 @@ import { MAX_IMAGE_BYTES_LENGTH_BASE64 } from 'lib/images';
 import { useQueryClient } from 'react-query';
 
 import { LoadingModal } from 'components';
-import { useApeSnackbar } from 'hooks';
+import { useToast } from 'hooks';
 import { Check } from 'icons/__generated';
 import { Avatar, Button, Flex, FormLabel, Text } from 'ui';
 import { formatBytes } from 'utils/presentationHelpers';
@@ -34,7 +34,7 @@ export const CircleLogoUpload = ({
 
   const fileInput = React.createRef<HTMLInputElement>();
 
-  const { showError } = useApeSnackbar();
+  const { showError } = useToast();
   const queryClient = useQueryClient();
 
   const uploadLogo = async (circleId: number, logo: File) => {

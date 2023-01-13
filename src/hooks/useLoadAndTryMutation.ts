@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 import { rGlobalLoading } from 'recoilState/ui';
 import { normalizeError, reportException } from 'utils/reporting';
 
-import { useApeSnackbar } from './useApeSnackbar';
+import { useToast } from './useToast';
 
 // useLoadAndTryMutation wraps a mutation call with global loading state and snackbar error/success handling
 export const useLoadAndTryMutation = <T>(
@@ -11,14 +11,14 @@ export const useLoadAndTryMutation = <T>(
   { hideLoading, success }: { hideLoading?: boolean; success?: string } = {}
 ): (() => Promise<T | undefined>) => {
   const [, setGlobalLoading] = useRecoilState(rGlobalLoading);
-  const { showError, showInfo } = useApeSnackbar();
+  const { showError, showDefault } = useToast();
 
   return async (): Promise<T | undefined> => {
     try {
       !hideLoading && setGlobalLoading(v => v + 1);
       const result = await fn();
       // if success is provided, notify about it
-      success && showInfo(success);
+      success && showDefault(success);
       return result;
     } catch (e) {
       const err = normalizeError(e);
