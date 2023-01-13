@@ -147,6 +147,8 @@ export const colors = {
   mapLink: '#00000015',
   mapLinkDim: '#00000008',
 
+  coMarkBackground: newFigmaColors.primary4,
+
   toastifyBackground: 'white',
   toastifyTextColorDefault: 'var(--colors-text)',
   toastifyBorderColorDefault: newFigmaColors.grey3,
@@ -237,7 +239,6 @@ export const {
       quick: 'all 0.2s',
     },
     toastify: {
-      'toast-width': '80% !important',
       'color-progress-light': 'var(--colors-text) !important',
       'color-progress-success': 'var(--toastify-text-color-success) !important',
       'color-progress-error': 'var(--toastify-text-color-error) !important',

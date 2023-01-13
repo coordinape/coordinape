@@ -6,7 +6,8 @@ import {
 } from 'react-toastify';
 
 import { FlattenedGQLError } from '../common-lib/errorHandling';
-import { Bell, Check, Loader, X } from 'icons/__generated';
+import isFeatureEnabled from 'config/features';
+import { Bell, Check, CoMark, Loader, X } from 'icons/__generated';
 import { Button, Flex } from 'ui';
 import { normalizeError } from 'utils/reporting';
 
@@ -27,36 +28,64 @@ const displayError = (error: any) => {
 
 const SuccessIcon = () => {
   return (
-    <>
-      <Flex
-        css={{
-          backgroundColor: '$toastifyIconBackgroundSuccess',
-          borderRadius: '4px',
-          padding: '4px',
-        }}
-      >
-        <Check boldstroke css={{ color: '$successColor' }} />
-      </Flex>
-    </>
+    <Flex
+      css={{
+        backgroundColor: '$toastifyIconBackgroundSuccess',
+        borderRadius: '$1',
+        p: '$xs',
+      }}
+    >
+      <Check boldstroke css={{ color: '$successColor', padding: '1px' }} />
+    </Flex>
   );
 };
 const ErrorIcon = () => {
   return (
-    <>
-      <Flex
-        css={{
-          backgroundColor: '$toastifyIconBackgroundError',
-          borderRadius: '4px',
-          padding: '4px',
-        }}
-      >
-        <Bell boldstroke css={{ color: '$errorColor' }} />
-      </Flex>
-    </>
+    <Flex
+      css={{
+        backgroundColor: '$toastifyIconBackgroundError',
+        borderRadius: '$1',
+        p: '$xs',
+      }}
+    >
+      <Bell boldstroke css={{ color: '$errorColor' }} />
+    </Flex>
   );
 };
 const DefaultIcon = () => {
-  return <Loader css={{ color: 'var(--colors-text)' }} />;
+  if (isFeatureEnabled('theme_switcher')) {
+    return (
+      <Flex
+        css={{
+          backgroundColor: '$coMarkBackground',
+          borderRadius: '999px',
+          alignItems: 'center',
+          overflow: 'hidden',
+        }}
+      >
+        <CoMark
+          nostroke
+          css={{
+            width: '34px',
+            height: '34px',
+            transform: 'scale(1.35) translate(1.5px, 1px)',
+          }}
+        />
+      </Flex>
+    );
+  } else {
+    return (
+      <Flex
+        css={{
+          backgroundColor: '$surface',
+          borderRadius: '$1',
+          p: '$xs',
+        }}
+      >
+        <Loader boldstroke css={{ color: '$text' }} />
+      </Flex>
+    );
+  }
 };
 
 const CloseButton = (props: CloseButtonProps) => {

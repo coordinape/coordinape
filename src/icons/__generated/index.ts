@@ -1,3 +1,4 @@
+export { default as CoMark } from './CoMark';
 export { default as CoinbaseColor } from './CoinbaseColor';
 export { default as Coinbase } from './Coinbase';
 export { default as CoordinapeColor } from './CoordinapeColor';
