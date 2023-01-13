@@ -70,12 +70,6 @@ export const RequireAuth = (props: { children: ReactElement }) => {
           return;
         }
 
-        // placeholder
-        if (connectorName === 'web3auth') {
-          setAuthStep('connect');
-          return;
-        }
-
         try {
           await web3Context.activate(connectors[connectorName], () => {}, true);
         } catch (e) {
