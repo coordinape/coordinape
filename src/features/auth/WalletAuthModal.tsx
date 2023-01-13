@@ -16,44 +16,39 @@ import { connectors } from './connectors';
 import { getMagicProvider } from './magic';
 import { NetworkSelector } from './NetworkSelector';
 
+const UNSUPPORTED = 'unsupported';
+
 export const WalletAuthModal = () => {
   const [connectMessage, setConnectMessage] = useState<string>('');
-
   const [selectedChain, setSelectedChain] = useState<string>('1');
-
   const { showError, showInfo } = useApeSnackbar();
   const web3Context = useWeb3React<Web3Provider>();
-
   const [isMetamaskEnabled, setIsMetamaskEnabled] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState(true);
-
-  const UNSUPPORTED = 'unsupported';
-  const unsupportedNetwork = selectedChain == UNSUPPORTED;
-  const supportedChains = Object.entries(loginSupportedChainIds).map(key => {
-    return { value: key[0], label: key[1], disabled: false };
-  });
+  const [explainerOpen, setExplainerOpen] = useState(false);
 
   const mounted = useRef(false);
-
-  const updateChain = async (provider: Web3Provider) => {
-    const chainId = (await provider.getNetwork()).chainId.toString();
-
-    // Only update state if component is still mounted
-    if (mounted.current) {
-      if (supportedChains.find(obj => obj.value == chainId)) {
-        setSelectedChain(chainId);
-      } else {
-        setSelectedChain(UNSUPPORTED);
-      }
-    }
-  };
-
   useEffect(() => {
     mounted.current = true;
     return () => {
       mounted.current = false;
     };
   }, []);
+
+  const unsupportedNetwork = selectedChain == UNSUPPORTED;
+
+  const updateChain = async (provider: Web3Provider) => {
+    const chainId = (await provider.getNetwork()).chainId.toString();
+
+    // Only update state if component is still mounted
+    if (mounted.current) {
+      if (loginSupportedChainIds[chainId]) {
+        setSelectedChain(chainId);
+      } else {
+        setSelectedChain(UNSUPPORTED);
+      }
+    }
+  };
 
   useEffect(() => {
     // safe to refer to window here because we are client side -g
@@ -111,6 +106,11 @@ export const WalletAuthModal = () => {
     if (mounted.current) setConnectMessage('');
   };
 
+  const showExplainer = () => {
+    setModalOpen(false);
+    setExplainerOpen(true);
+  };
+
   const inject = async () => {
     try {
       // hide our modal because it interferes with typing into Magic's modal
@@ -125,6 +125,20 @@ export const WalletAuthModal = () => {
     }
   };
 
+  if (explainerOpen)
+    return (
+      <Explainer
+        back={() => {
+          setExplainerOpen(false);
+          setModalOpen(true);
+        }}
+        continue={() => {
+          setExplainerOpen(false);
+          inject();
+        }}
+      />
+    );
+
   return (
     <Modal
       showClose={isConnecting}
@@ -137,6 +151,9 @@ export const WalletAuthModal = () => {
       <Flex>
         <Flex alignItems="start" column css={{ gap: '$md', width: '$full' }}>
           <Text h3 semibold css={{ justifyContent: 'center', width: '100%' }}>
+            Welcome to Coordinape
+          </Text>
+          <Text semibold css={{ justifyContent: 'center', width: '100%' }}>
             Connect Your Wallet
           </Text>
           {unsupportedNetwork && (
@@ -195,7 +212,7 @@ export const WalletAuthModal = () => {
                 </Button>
 
                 {isFeatureEnabled('email_login') && (
-                  <Button variant="wallet" fullWidth onClick={inject}>
+                  <Button variant="wallet" fullWidth onClick={showExplainer}>
                     Email
                   </Button>
                 )}
@@ -219,6 +236,43 @@ export const WalletAuthModal = () => {
             <a href="https://ethereum.org">Learn more about wallets</a>
           </Text>
         </Flex>
+      </Flex>
+    </Modal>
+  );
+};
+
+const Explainer = (props: { back: () => void; continue: () => void }) => {
+  return (
+    <Modal>
+      <Text h3 semibold>
+        How Email Login Works
+      </Text>
+      <p>
+        Because this is a Web3 application, it relies on an Ethereum (or EVM)
+        wallet. When you log in with email, we will create a wallet for you,
+        using a service called <a href="https://magic.link/">magic.link</a>.
+      </p>
+      <p>
+        After entering your email address, you will see a &quot;Signature
+        Request&quot;. This lets our system know that you control your new
+        wallet and its address, to finish logging in.
+      </p>
+      <p>
+        With this wallet, you can receive tokens from Coordinape CoVaults, and
+        interact with the blockchain in other ways.
+      </p>
+      <p>
+        For more information on wallets, web3, and best practices, please read{' '}
+        <a href="https://docs.coordinape.com/info/documentation/email-login-and-web3-best-practices">
+          here
+        </a>
+        .
+      </p>
+      <Flex gap="sm" css={{ justifyContent: 'flex-end' }}>
+        <Button outlined onClick={props.back}>
+          Cancel
+        </Button>
+        <Button onClick={props.continue}>Continue</Button>
       </Flex>
     </Modal>
   );
