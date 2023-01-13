@@ -77,7 +77,7 @@ export const useFinishAuth = () => {
           return new Promise(res =>
             setTimeout(() =>
               fetchManifest(newWalletAuth)
-                .then(res)
+                .then(() => res(true))
                 .catch(() => {
                   // FIXME don't logout if request timed out
                   // we had a cached token & it's invalid
