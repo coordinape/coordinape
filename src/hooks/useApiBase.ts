@@ -22,7 +22,6 @@ export const useApiBase = () => {
 
         const manifest = await queries.fetchManifest(walletAuth.address);
         set(rApiManifest, manifest);
-        return manifest;
       },
     [],
     { who: 'fetchManifest' }
