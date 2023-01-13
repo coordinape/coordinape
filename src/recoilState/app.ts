@@ -48,11 +48,6 @@ export const rSelectedCircleId = selector({
  * rManifest and rFullCircle
  ***************/
 
-export const rMyProfile = selector({
-  key: 'rMyProfile',
-  get: async ({ get }) => get(rManifest).myProfile,
-});
-
 export const rCirclesMap = selector({
   key: 'rCirclesMap',
   get: async ({ get }) => iti(get(rManifest).circles).toMap(c => c.id),
@@ -109,7 +104,7 @@ export const rCircle = selectorFamily<ICircleState, number | undefined>({
           .filter(u => u.circle_id === circleId)
           .filter(u => !u.deleted_at);
 
-      const myProfile = get(rMyProfile);
+      const myProfile = get(rManifest).myProfile;
 
       const myUser = myProfile.myUsers.find(u => u.circle_id === circleId);
 
@@ -251,7 +246,7 @@ export interface ICircleState {
   activeNominees: INominee[];
 }
 
-export const useMyProfile = () => useRecoilValue(rMyProfile);
+export const useMyProfile = () => useRecoilValue(rManifest).myProfile;
 export const useSelectedCircleId = () => useRecoilValue(rSelectedCircleId);
 export const useCircle = (id: number | undefined) =>
   useRecoilValue(rCircle(id));
