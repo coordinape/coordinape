@@ -15,7 +15,7 @@ import * as z from 'zod';
 
 import { FormInputField, FormRadioGroup, LoadingModal } from 'components';
 import isFeatureEnabled from 'config/features';
-import { useApeSnackbar, useApiAdminCircle, useContracts } from 'hooks';
+import { useToast, useApiAdminCircle, useContracts } from 'hooks';
 import { useCircleOrg } from 'hooks/gql/useCircleOrg';
 import { useVaults } from 'hooks/gql/useVaults';
 import { Info } from 'icons/__generated';
@@ -217,7 +217,7 @@ export const CircleAdminPage = () => {
   );
 
   const contracts = useContracts();
-  const { showInfo } = useApeSnackbar();
+  const { showDefault } = useToast();
   const orgQuery = useCircleOrg(circleId);
 
   const vaultsQuery = useVaults({
@@ -340,7 +340,7 @@ export const CircleAdminPage = () => {
       });
       queryClient.invalidateQueries(QUERY_KEY_FIXED_PAYMENT);
       refetch();
-      showInfo('Saved changes');
+      showDefault('Saved changes');
     } catch (e) {
       console.warn(e);
     }

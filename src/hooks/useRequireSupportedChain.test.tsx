@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
-import { SnackbarProvider } from 'notistack';
+
+import { ToastContainer } from 'components/ToastContainer';
 
 import useRequireSupportedChain from './useRequireSupportedChain';
 // @ts-ignore
@@ -28,7 +29,8 @@ jest.mock('./useWeb3React', () => {
 // care about in useRequireSupportedChain doesn't
 const TestWrapper = ({ children }: { children: any }) => (
   <Web3ReactProvider>
-    <SnackbarProvider>{children}</SnackbarProvider>
+    <ToastContainer />
+    {children}
   </Web3ReactProvider>
 );
 
@@ -58,7 +60,7 @@ test('on invalid chain, shows error', async () => {
     </TestWrapper>
   );
 
-  screen.getByText(
+  await screen.findByText(
     'Contract interactions do not support chain 12345. Please switch to Ethereum Mainnet.'
   );
 });

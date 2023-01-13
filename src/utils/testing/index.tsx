@@ -1,7 +1,6 @@
 import { ReactElement, Suspense, useEffect } from 'react';
 
 import { NetworkConnector } from '@web3-react/network-connector';
-import { SnackbarProvider } from 'notistack';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
@@ -9,6 +8,7 @@ import { RecoilRoot } from 'recoil';
 import { ThemeProvider as DeprecatedMaterialUIThemeProvider } from '@material-ui/styles';
 
 import ThemeProvider from '../../features/theming/ThemeProvider';
+import { ToastContainer } from 'components/ToastContainer';
 import { Web3ReactProvider, useWeb3React } from 'hooks/useWeb3React';
 import { createTheme } from 'theme';
 
@@ -60,20 +60,19 @@ export const TestWrapper = ({
 
   return (
     <RecoilRoot>
+      <ToastContainer />
       <QueryClientProvider client={queryClient}>
-        <SnackbarProvider>
-          <Web3ReactProvider>
-            <Web3Activator enabled={withWeb3}>
-              <MemoryRouter>
-                <ThemeProvider>
-                  <DeprecatedMaterialUIThemeProvider theme={theme}>
-                    <Suspense fallback="Suspended...">{children}</Suspense>
-                  </DeprecatedMaterialUIThemeProvider>
-                </ThemeProvider>
-              </MemoryRouter>
-            </Web3Activator>
-          </Web3ReactProvider>
-        </SnackbarProvider>
+        <Web3ReactProvider>
+          <Web3Activator enabled={withWeb3}>
+            <MemoryRouter>
+              <ThemeProvider>
+                <DeprecatedMaterialUIThemeProvider theme={theme}>
+                  <Suspense fallback="Suspended...">{children}</Suspense>
+                </DeprecatedMaterialUIThemeProvider>
+              </ThemeProvider>
+            </MemoryRouter>
+          </Web3Activator>
+        </Web3ReactProvider>
       </QueryClientProvider>
     </RecoilRoot>
   );

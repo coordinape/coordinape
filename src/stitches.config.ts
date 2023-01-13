@@ -146,19 +146,18 @@ export const colors = {
   mapReceiveLink: figmaColors.orange8,
   mapLink: '#00000015',
   mapLinkDim: '#00000008',
-};
 
-// the notistack library is oriented toward Material-UI, so we can't set its
-// styles the normal way
-export const snackbarStyles = {
-  variantError: {
-    backgroundColor: colors.alert,
-    color: colors.textOnAlert,
-  },
-  variantInfo: {
-    backgroundColor: colors.primary,
-    color: colors.textOnPrimary,
-  },
+  coMarkBackground: newFigmaColors.primary4,
+
+  toastifyBackground: 'white',
+  toastifyTextColorDefault: 'var(--colors-text)',
+  toastifyBorderColorDefault: newFigmaColors.grey3,
+  toastifyTextColorSuccess: newFigmaColors.success6,
+  toastifyBorderColorSuccess: newFigmaColors.success4,
+  toastifyIconBackgroundSuccess: newFigmaColors.success2,
+  toastifyTextColorError: newFigmaColors.error6,
+  toastifyBorderColorError: newFigmaColors.error3,
+  toastifyIconBackgroundError: newFigmaColors.error2,
 };
 
 export const {
@@ -238,6 +237,11 @@ export const {
     },
     transitions: {
       quick: 'all 0.2s',
+    },
+    toastify: {
+      'color-progress-light': 'var(--colors-text) !important',
+      'color-progress-success': 'var(--toastify-text-color-success) !important',
+      'color-progress-error': 'var(--toastify-text-color-error) !important',
     },
   },
   media: {
@@ -374,6 +378,14 @@ export const dark = createTheme({
     mapNodeFade: '#FFFFFF20',
     mapLink: '#FFFFFF15',
     mapLinkDim: '#FFFFFF08',
+
+    toastifyBackground: newFigmaColors.grey9,
+    toastifyBorderColorDefault: newFigmaColors.grey6,
+    toastifyBorderColorSuccess: newFigmaColors.success6,
+    toastifyIconBackgroundSuccess: newFigmaColors.success10,
+    toastifyTextColorError: newFigmaColors.error5,
+    toastifyBorderColorError: newFigmaColors.error6,
+    toastifyIconBackgroundError: newFigmaColors.error10,
   },
   fonts: {
     display: 'Denim, apple-system, sans-serif',

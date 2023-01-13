@@ -12,7 +12,7 @@ import { useParams } from 'react-router-dom';
 import * as z from 'zod';
 
 import { LoadingModal, FormInputField } from 'components';
-import { useApeSnackbar } from 'hooks';
+import { useToast } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { Check, Info } from 'icons/__generated';
 import {
@@ -88,7 +88,7 @@ export const OrganizationSettingsPage = () => {
 
   const VALID_FILE_TYPES = ['image/jpg', 'image/jpeg', 'image/png'];
 
-  const { showError } = useApeSnackbar();
+  const { showError } = useToast();
 
   const onInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {

@@ -2,14 +2,14 @@ import { useEffect } from 'react';
 
 import { supportedChainIds } from 'lib/vaults';
 
-import { useApeSnackbar } from 'hooks';
+import { useToast } from 'hooks';
 import { switchNetwork } from 'utils/provider';
 
 import { useWeb3React } from './useWeb3React';
 
 export default function useRequireSupportedChain() {
   const { chainId } = useWeb3React();
-  const { showError } = useApeSnackbar();
+  const { showError } = useToast();
 
   useEffect(() => {
     const isSupportedChainId =

@@ -9,7 +9,7 @@ import { z } from 'zod';
 
 import { LoadingModal } from '../../components';
 import CopyCodeTextField from '../../components/CopyCodeTextField';
-import { useApeSnackbar, useApiBase } from '../../hooks';
+import { useToast, useApiBase } from '../../hooks';
 import { zEthAddress, zUsername } from '../../lib/zod/formHelpers';
 import { Box, Button, Flex, Panel, Text } from '../../ui';
 import { Check } from 'icons/__generated';
@@ -42,7 +42,7 @@ const NewMemberList = ({
   preloadedMembers: NewMember[];
 }) => {
   const { fetchCircle } = useApiBase();
-  const { showError } = useApeSnackbar();
+  const { showError } = useToast();
 
   const [loading, setLoading] = useState<boolean>();
   const [successCount, setSuccessCount] = useState<number>(0);

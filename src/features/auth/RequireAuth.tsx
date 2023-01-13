@@ -3,7 +3,7 @@ import { ReactElement, useEffect } from 'react';
 import { getMagic, getMagicProvider } from 'features/auth/magic';
 
 import { LoadingModal } from 'components';
-import { useApeSnackbar } from 'hooks';
+import { useToast } from 'hooks';
 import { useWeb3React } from 'hooks/useWeb3React';
 
 import { connectors } from './connectors';
@@ -18,7 +18,7 @@ export const RequireAuth = (props: { children: ReactElement }) => {
   const finishAuth = useFinishAuth();
   const authStep = useAuthStore(state => state.step);
   const setAuthStep = useAuthStore(state => state.setStep);
-  const { showError } = useApeSnackbar();
+  const { showError } = useToast();
 
   useEffect(() => {
     if (['reuse', 'connect'].includes(authStep) && web3Context.active) {
