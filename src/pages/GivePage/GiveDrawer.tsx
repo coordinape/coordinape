@@ -158,7 +158,7 @@ export const GiveDrawer = ({
             <ChevronsRight size="lg" />
           </Button>
           <Button
-            color="white"
+            color="dim"
             css={nextPrevCss}
             disabled={selectedMemberIdx == 0}
             onClick={() => nextMember(false)}
@@ -166,7 +166,7 @@ export const GiveDrawer = ({
             <ChevronUp size="lg" />
           </Button>
           <Button
-            color="white"
+            color="dim"
             css={nextPrevCss}
             disabled={selectedMemberIdx == totalMembers - 1}
             onClick={() => nextMember(true)}

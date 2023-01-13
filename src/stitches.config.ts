@@ -97,6 +97,11 @@ export const colors = {
   successDark: figmaColors.green16,
 
   neutral: figmaColors.grey12,
+  textOnNeutral: figmaColors.grey1,
+
+  dim: 'white',
+  textOnDim: figmaColors.blue12,
+
   complete: figmaColors.green12,
   completeLight: figmaColors.green1,
   blurple: figmaColors.discordblurple,
@@ -322,6 +327,10 @@ export const dark = createTheme({
     textOnCta: newFigmaColors.primary1,
     primary: newFigmaColors.grey3,
     textOnPrimary: newFigmaColors.grey8,
+    neutral: newFigmaColors.grey7,
+    textOnNeutral: newFigmaColors.grey4,
+    dim: newFigmaColors.grey8,
+    textOnDim: newFigmaColors.grey2,
     secondary: newFigmaColors.secondary5,
     secondaryMedium: newFigmaColors.secondary7,
     secondaryDark: newFigmaColors.secondary9,
@@ -331,8 +340,8 @@ export const dark = createTheme({
 
     background: newFigmaColors.grey10,
     navBackground: newFigmaColors.grey9,
-    surface: newFigmaColors.grey8,
-    surfaceNested: newFigmaColors.grey9,
+    surface: newFigmaColors.grey9,
+    surfaceNested: newFigmaColors.grey10,
 
     text: newFigmaColors.grey2,
     headingText: newFigmaColors.grey4,

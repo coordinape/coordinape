@@ -87,7 +87,7 @@ export const MobileHeader = ({
             <IconButton
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="menu"
-              color="white"
+              color="dim"
             >
               {!isMobileMenuOpen ? <Menu size="lg" /> : <X size="lg" />}
             </IconButton>

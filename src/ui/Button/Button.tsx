@@ -39,8 +39,8 @@ export const Button = styled('button', {
         color: '$textOnAlert',
       },
       neutral: {
-        backgroundColor: '$primary',
-        color: 'white',
+        backgroundColor: '$neutral',
+        color: '$textOnNeutral',
       },
       surface: {
         backgroundColor: '$surface',
@@ -79,9 +79,9 @@ export const Button = styled('button', {
           textDecoration: 'underline',
         },
       },
-      white: {
-        backgroundColor: '$white',
-        color: '$primary',
+      dim: {
+        backgroundColor: '$dim',
+        color: '$textOnDim',
       },
     },
     size: {

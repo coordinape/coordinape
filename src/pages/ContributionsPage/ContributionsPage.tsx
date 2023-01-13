@@ -577,7 +577,7 @@ const ContributionsPage = () => {
                     <ChevronUp size="lg" />
                   </Button>
                   <Button
-                    color="white"
+                    color="dim"
                     css={nextPrevCss}
                     disabled={
                       currentContribution.contribution.next() === undefined
