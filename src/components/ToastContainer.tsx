@@ -4,9 +4,9 @@ import { styled } from 'stitches.config';
 
 const StyledContainer = styled(ToastifyContainer, {
   '.Toastify__toast': {
-    background: '$toastBackground',
+    background: '$toastifyBackground',
     borderRadius: '9px',
-    border: '1px solid $toastBorderColor',
+    border: '1px solid',
     minWidth: '400px',
     maxWidth: '640px',
     width: '80%',
@@ -22,21 +22,24 @@ const StyledContainer = styled(ToastifyContainer, {
   '.Toastify__progress-bar': {
     height: '1px',
   },
-  '.Toastify__toast--default': {},
-  '.Toastify__toast--success': {
-    borderColor: '$successColor',
+  '.Toastify__toast--default': {
+    borderColor: '$toastifyBorderColorDefault',
   },
-  '.Toastify__toast--error': {
-    borderColor: '$errorColor',
+  '.Toastify__toast--success': {
+    borderColor: '$toastifyBorderColorSuccess',
   },
   '.Toastify__toast--success *': {
-    color: 'var(--toastify-text-color-success)',
+    color: '$toastifyTextColorSuccess',
+  },
+
+  '.Toastify__toast--error': {
+    borderColor: '$toastifyBorderColorError',
   },
   '.Toastify__toast--error *': {
-    color: 'var(--toastify-text-color-error)',
+    color: '$toastifyTextColorError',
   },
   '.Toastify__toast--default *': {
-    color: 'var(--colors-text)',
+    color: '$toastifyTextColorDefault',
   },
 });
 

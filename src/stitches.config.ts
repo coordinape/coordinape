@@ -147,13 +147,15 @@ export const colors = {
   mapLink: '#00000015',
   mapLinkDim: '#00000008',
 
-  // react-toastify
-  errorColor: newFigmaColors.error6,
-  toastBackground: 'white',
-  toastBorderColor: newFigmaColors.grey6,
-  errorIconBackground: newFigmaColors.error3,
-  successColor: newFigmaColors.success6,
-  successIconBackground: newFigmaColors.success4,
+  toastifyBackground: 'white',
+  toastifyTextColorDefault: 'var(--colors-text)',
+  toastifyBorderColorDefault: newFigmaColors.grey3,
+  toastifyTextColorSuccess: newFigmaColors.success6,
+  toastifyBorderColorSuccess: newFigmaColors.success4,
+  toastifyIconBackgroundSuccess: newFigmaColors.success2,
+  toastifyTextColorError: newFigmaColors.error6,
+  toastifyBorderColorError: newFigmaColors.error3,
+  toastifyIconBackgroundError: newFigmaColors.error2,
 };
 
 export const {
@@ -236,8 +238,6 @@ export const {
     },
     toastify: {
       'toast-width': '80% !important',
-      'text-color-error': newFigmaColors.error6 + ' !important',
-      'text-color-success': newFigmaColors.success6 + ' !important',
       'color-progress-light': 'var(--colors-text) !important',
       'color-progress-success': 'var(--toastify-text-color-success) !important',
       'color-progress-error': 'var(--toastify-text-color-error) !important',
@@ -378,13 +378,13 @@ export const dark = createTheme({
     mapLink: '#FFFFFF15',
     mapLinkDim: '#FFFFFF08',
 
-    // react-toastify
-    errorColor: newFigmaColors.error6,
-    successColor: newFigmaColors.success6,
-    toastBackground: newFigmaColors.grey8,
-    toastBorderColor: newFigmaColors.grey7,
-    successIconBackground: newFigmaColors.success10,
-    errorIconBackground: newFigmaColors.error10,
+    toastifyBackground: newFigmaColors.grey9,
+    toastifyBorderColorDefault: newFigmaColors.grey6,
+    toastifyBorderColorSuccess: newFigmaColors.success6,
+    toastifyIconBackgroundSuccess: newFigmaColors.success10,
+    toastifyTextColorError: newFigmaColors.error5,
+    toastifyBorderColorError: newFigmaColors.error6,
+    toastifyIconBackgroundError: newFigmaColors.error10,
   },
   fonts: {
     display: 'Denim, apple-system, sans-serif',

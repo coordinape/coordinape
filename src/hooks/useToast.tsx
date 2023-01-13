@@ -30,7 +30,7 @@ const SuccessIcon = () => {
     <>
       <Flex
         css={{
-          backgroundColor: '$successIconBackground',
+          backgroundColor: '$toastifyIconBackgroundSuccess',
           borderRadius: '4px',
           padding: '4px',
         }}
@@ -45,7 +45,7 @@ const ErrorIcon = () => {
     <>
       <Flex
         css={{
-          backgroundColor: '$errorIconBackground',
+          backgroundColor: '$toastifyIconBackgroundError',
           borderRadius: '4px',
           padding: '4px',
         }}
