@@ -1,23 +1,9 @@
 import { useRef } from 'react';
 
-import { makeStyles, Button, ButtonGroup } from '@material-ui/core';
+import { CSS } from 'stitches.config';
 
 import { X, Share, Edit3 } from 'icons/__generated';
-
-const useStyles = makeStyles(theme => ({
-  smallButton: {
-    minWidth: 15,
-    padding: theme.spacing(0.25),
-    '& .MuiButton-startIcon': {
-      margin: theme.spacing(0, 0.2),
-    },
-  },
-  textButton: {
-    '& .MuiButton-startIcon': {
-      margin: theme.spacing(0, 0.2),
-    },
-  },
-}));
+import { Box, Button, Flex } from 'ui';
 
 export const FormFileUpload = ({
   value,
@@ -26,7 +12,7 @@ export const FormFileUpload = ({
   commit,
   editText,
   uploadText,
-  className,
+  css,
   ...props
 }: {
   value?: File;
@@ -35,13 +21,9 @@ export const FormFileUpload = ({
   commit?: (file: File) => Promise<any>;
   editText?: string;
   uploadText?: string;
-  className?: string;
+  css?: CSS;
 } & Omit<React.ComponentProps<'input'>, 'value' | 'onChange'>) => {
-  const classes = useStyles();
   const fileInput = useRef<HTMLInputElement>(null);
-
-  const buttonClass =
-    !!editText || !!uploadText ? classes.textButton : classes.smallButton;
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
@@ -57,15 +39,11 @@ export const FormFileUpload = ({
   };
 
   return (
-    <div className={className}>
-      <ButtonGroup>
+    <Box css={css}>
+      <Flex>
         {hasChanged && !!commit && (
-          <Button
-            onClick={onSave}
-            startIcon={<Share />}
-            size="small"
-            className={buttonClass}
-          >
+          <Button onClick={onSave} css={{ borderRadius: '$3 0 0 $3' }}>
+            <Share />
             {uploadText}
           </Button>
         )}
@@ -78,22 +56,18 @@ export const FormFileUpload = ({
                 fileInput.current.value = '';
               }
             }}
-            startIcon={<X />}
-            size="small"
-            className={buttonClass}
-          />
+            css={{ borderRadius: '0 $3 $3  0', ml: '1px ' }}
+          >
+            <X />
+          </Button>
         )}
         {!hasChanged && (
-          <Button
-            onClick={() => fileInput.current?.click?.()}
-            startIcon={<Edit3 css={{ mr: '$xs' }} />}
-            size="small"
-            className={buttonClass}
-          >
+          <Button onClick={() => fileInput.current?.click?.()} color="primary">
+            <Edit3 css={{ mr: '$xs' }} />
             {editText}
           </Button>
         )}
-      </ButtonGroup>
+      </Flex>
       <input
         ref={fileInput}
         onChange={onInputChange}
@@ -101,6 +75,6 @@ export const FormFileUpload = ({
         type="file"
         {...props}
       />
-    </div>
+    </Box>
   );
 };
