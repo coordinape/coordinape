@@ -3,8 +3,7 @@ import React, { useEffect } from 'react';
 import { transparentize } from 'polished';
 import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
-
-import { makeStyles, Button } from '@material-ui/core';
+import { colors } from 'stitches.config';
 
 import {
   ProfileSocialIcons,
@@ -19,169 +18,10 @@ import { Edit3 } from 'icons/__generated';
 import { useMyProfile, useProfile } from 'recoilState/app';
 import { useSetEditProfileOpen } from 'recoilState/ui';
 import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE, paths } from 'routes/paths';
-import { Box, Avatar, MarkdownPreview, Panel } from 'ui';
+import { Avatar, Box, Button, Flex, MarkdownPreview, Text } from 'ui';
 import { getAvatarPath } from 'utils/domain';
 
 import { IMyProfile, IProfile } from 'types';
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  header: {
-    position: 'relative',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    height: 307,
-    width: '100%',
-    '& > img': {
-      position: 'absolute',
-      objectFit: 'cover',
-      top: 0,
-      width: '100%',
-      height: 235,
-    },
-  },
-  headerInside: {
-    position: 'relative',
-    height: 250,
-    width: '100%',
-    maxWidth: theme.breakpoints.values.lg,
-    padding: theme.spacing(0, 8),
-    [theme.breakpoints.down('xs')]: {
-      padding: theme.spacing(0, 2),
-    },
-  },
-  body: {
-    width: '100%',
-    maxWidth: theme.breakpoints.values.lg,
-    padding: theme.spacing(0, 8),
-    [theme.breakpoints.down('xs')]: {
-      padding: theme.spacing(0, 2),
-    },
-  },
-  uploadButton: {
-    position: 'absolute',
-    top: 22,
-    right: 16,
-  },
-  editButton: {
-    position: 'absolute',
-    bottom: 0,
-    right: 28,
-  },
-  name: {
-    marginTop: 18,
-    marginBottom: 12,
-    fontSize: 30,
-    fontWeight: 600,
-    color: theme.colors.text,
-    display: '-webkit-box',
-    '-webkit-line-clamp': 4,
-    '-webkit-box-orient': 'vertical',
-    wordBreak: 'break-word',
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
-  },
-  skillGroup: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    padding: '0 10%',
-  },
-  socialGroup: {
-    padding: theme.spacing(3, 0),
-    display: 'flex',
-    alignItems: 'center',
-  },
-  bio: {
-    color: theme.colors.text,
-    paddingBottom: 48,
-    whiteSpace: 'pre-wrap',
-    fontWeight: 300,
-    fontSize: 24,
-    lineHeight: 1.5,
-  },
-
-  sections: {
-    width: '100%',
-    maxWidth: theme.breakpoints.values.lg,
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    columnGap: theme.spacing(3),
-    paddingBottom: theme.spacing(6),
-    [theme.breakpoints.down('sm')]: {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      '& > *': {
-        width: '100%',
-      },
-    },
-  },
-  section: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  sectionHeader: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: transparentize(0.3, theme.colors.text),
-    padding: theme.spacing(0, 0, 1),
-    margin: theme.spacing(4, 0, 2),
-    borderBottom: '0.7px solid rgba(24, 24, 24, 0.1)',
-    width: '60%',
-    minWidth: 300,
-    textAlign: 'center',
-  },
-  sectionBody: {
-    width: '100%',
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-  },
-  sectionBodyColumn: {
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  circle: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    fontSize: 12,
-    lineHeight: 1.5,
-    fontWeight: 300,
-    cursor: 'pointer',
-    color: transparentize(0.3, theme.colors.text),
-    margin: theme.spacing(1),
-    '& > .MuiAvatar-root': {
-      marginBottom: theme.spacing(1),
-      width: 60,
-      height: 60,
-    },
-  },
-  recentEpoch: {
-    textAlign: 'center',
-    fontSize: 18,
-    lineHeight: 1.3,
-  },
-  recentEpochTitle: {
-    color: theme.colors.text,
-    fontWeight: 600,
-  },
-  recentEpochStatement: {
-    color: transparentize(0.3, theme.colors.text),
-    fontWeight: 300,
-    margin: theme.spacing(0.25, 0, 3),
-  },
-}));
 
 export const ProfilePage = () => {
   const { profileAddress: address } = useParams();
@@ -217,7 +57,6 @@ const ProfilePageContent = ({
   circleId: number | undefined;
   isMe?: boolean;
 }) => {
-  const classes = useStyles();
   const users = (profile as IMyProfile)?.myUsers ?? profile?.users ?? [];
   const user = users.find(user => user.circle_id === circleId);
   const name =
@@ -257,16 +96,36 @@ const ProfilePageContent = ({
   }, [name]);
 
   return (
-    <div className={classes.root}>
-      <Box
-        className={classes.header}
+    <Flex column css={{ height: '100%', alignItems: 'center' }}>
+      <Flex
+        column
         css={{
-          background: 'linear-gradient(50deg, $secondaryMedium, $surface)',
+          position: 'relative',
+          alignItems: 'center',
+          height: '307px',
+          width: '100%',
+          '& > img': {
+            position: 'absolute',
+            objectFit: 'cover',
+            top: 0,
+            width: '100%',
+            height: '235px',
+          },
         }}
       >
-        {backgroundUrl && <img src={backgroundUrl} alt={name} />}
-
-        <div className={classes.headerInside}>
+        <img src={backgroundUrl} alt={name} />
+        <Box
+          css={{
+            position: 'relative',
+            height: '300px',
+            width: '100%',
+            maxWidth: '1300px',
+            padding: '0 $3xl',
+            '@xs': {
+              padding: '0 $md',
+            },
+          }}
+        >
           <Avatar
             path={profile?.avatar}
             css={{
@@ -279,7 +138,7 @@ const ProfilePageContent = ({
           {isMe && (
             <>
               <FormFileUpload
-                className={classes.uploadButton}
+                css={{ position: 'absolute', top: 22, right: 16 }}
                 editText="Edit Background"
                 uploadText="Upload Background"
                 {...backgroundUploadProps}
@@ -291,33 +150,65 @@ const ProfilePageContent = ({
                 accept="image/gif, image/jpeg, image/png"
               />
               <Button
-                className={classes.editButton}
-                variant="outlined"
-                color="default"
-                size="small"
-                startIcon={<Edit3 />}
+                css={{ position: 'absolute', bottom: 0, right: 28 }}
+                color="primary"
                 onClick={() => setEditProfileOpen(true)}
               >
+                <Edit3 />
                 Edit Profile
               </Button>
             </>
           )}
-        </div>
-      </Box>
+        </Box>
+      </Flex>
 
-      <div className={classes.body}>
-        <h1 className={classes.name}>{name}</h1>
-        <div className={classes.skillGroup}>
+      <Box
+        css={{
+          width: '100%',
+          maxWidth: '1300px',
+          padding: '0 $3xl',
+          '@xs': {
+            padding: '0 $md',
+          },
+        }}
+      >
+        <Text
+          h2
+          css={{
+            mt: 18,
+            mb: 12,
+            display: '-webkit-box',
+            '-webkit-line-clamp': 4,
+            '-webkit-box-orient': 'vertical',
+            wordBreak: 'break-word',
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
+          }}
+        >
+          {name}
+        </Text>
+        <Flex
+          css={{ flexWrap: 'wrap', justifyContent: 'center', padding: '0 10%' }}
+        >
           <ProfileSkills
             skills={profile.skills ?? []}
             isAdmin={user?.role === 1}
             max={50}
           />
-        </div>
-        <div className={classes.socialGroup}>
+        </Flex>
+        <Flex css={{ padding: '$lg 0', alignItems: 'center' }}>
           <ProfileSocialIcons profile={profile} />
-        </div>
-        <Panel className={classes.bio}>
+        </Flex>
+        <Box
+          css={{
+            color: '$text',
+            pb: '$2xl',
+            whiteSpace: 'pre-wrap',
+            fontWeight: '$light',
+            fontSize: '$h3',
+            lineHeight: '$short',
+          }}
+        >
           {user?.role === USER_ROLE_COORDINAPE ? (
             <div>
               Coordinape is the platform you’re using right now! We currently
@@ -335,16 +226,44 @@ const ProfilePageContent = ({
           ) : (
             <MarkdownPreview render source={profile?.bio} />
           )}
-        </Panel>
-      </div>
-
+        </Box>
+      </Box>
       {user && !user.isCoordinapeUser && (
-        <div className={classes.sections}>
+        <Box
+          css={{
+            width: '100%',
+            maxWidth: '1300px',
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            columnGap: '$lg',
+            pb: '$2xl',
+            '@sm': {
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              '& > *': {
+                width: '100%',
+              },
+            },
+          }}
+        >
           <Section title="My Circles">
             {profile?.users?.map(
               u =>
                 u.circle && (
-                  <div key={u.id} className={classes.circle}>
+                  <Flex
+                    column
+                    key={u.id}
+                    css={{
+                      alignItems: 'center',
+                      fontSize: '$small',
+                      lineHeight: '$short',
+                      fontWeight: '$light',
+                      cursor: 'pointer',
+                      color: transparentize(0.3, colors.text),
+                      margin: '$sm',
+                    }}
+                  >
                     <Avatar
                       name={u.circle.name}
                       size="small"
@@ -361,7 +280,7 @@ const ProfilePageContent = ({
                       {u.circle.organization.name} {u.circle.name}
                     </span>
                     {u.non_receiver && <span>Opted-Out</span>}
-                  </div>
+                  </Flex>
                 )
             )}
           </Section>
@@ -369,19 +288,34 @@ const ProfilePageContent = ({
             {recentEpochs?.map(
               ({ bio, circle }, i) =>
                 circle && (
-                  <div className={classes.recentEpoch} key={i}>
-                    <div className={classes.recentEpochTitle}>
+                  <Box
+                    css={{
+                      textAlign: 'center',
+                      fontSize: '$medium',
+                      lineHeight: '$short',
+                    }}
+                    key={i}
+                  >
+                    <Box css={{ color: '$text', fontWeight: '$semibold' }}>
                       {circle.organization.name} {circle.name}
-                    </div>
-                    <div className={classes.recentEpochStatement}>{bio}</div>
-                  </div>
+                    </Box>
+                    <Box
+                      css={{
+                        color: transparentize(0.3, colors.text),
+                        fontWeight: '$light',
+                        margin: '$xxs 0 $lg',
+                      }}
+                    >
+                      {bio}
+                    </Box>
+                  </Box>
                 )
             )}
           </Section>
           {/* <Section title="Frequent Collaborators">TODO.</Section> */}
-        </div>
+        </Box>
       )}
-    </div>
+    </Flex>
   );
 };
 
@@ -394,17 +328,43 @@ const Section = ({
   children?: React.ReactNode;
   asColumn?: boolean;
 }) => {
-  const classes = useStyles();
-
   return (
-    <div className={classes.section}>
-      <h4 className={classes.sectionHeader}>{title}</h4>
-      <div
-        className={asColumn ? classes.sectionBodyColumn : classes.sectionBody}
+    <Flex column css={{ alignItems: 'center' }}>
+      <Text
+        p
+        css={{
+          fontWeight: '$bold',
+          color: transparentize(0.3, colors.text),
+          padding: '0 0 $sm',
+          margin: '$xl 0 $md',
+          borderBottom: '0.7px solid rgba(24, 24, 24, 0.1)',
+          width: '60%',
+          minWidth: 300,
+          textAlign: 'center',
+        }}
+      >
+        {title}
+      </Text>
+      <Box
+        css={
+          asColumn
+            ? {
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }
+            : {
+                width: '100%',
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'center',
+              }
+        }
       >
         {children}
-      </div>
-    </div>
+      </Box>
+    </Flex>
   );
 };
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { zUsername } from 'lib/zod/formHelpers';
 import { SubmitHandler, useController, useForm } from 'react-hook-form';
 import * as z from 'zod';
 
@@ -21,6 +22,7 @@ import {
 const schema = z
   .object({
     avatar: z.any(),
+    name: zUsername,
     bio: z.string(),
     skills: z.array(z.string()),
     twitter_username: z.string(),
@@ -67,6 +69,7 @@ export const EditProfileModal = ({
     resolver: zodResolver(schema),
     mode: 'onChange',
     defaultValues: {
+      name: myProfile.name ?? '',
       bio: myProfile.bio ?? '',
       skills: myProfile.skills ?? [],
       twitter_username: myProfile.twitter_username ?? '',
@@ -141,11 +144,25 @@ export const EditProfileModal = ({
         }}
       >
         <Text h2>Edit Profile</Text>
-        <Text p css={sectionHeader}>
-          Profile Image
-        </Text>
-        <AvatarUpload original={myProfile.avatar} />
-
+        <Flex css={{ columnGap: '$lg', '@sm': { flexDirection: 'column' } }}>
+          <Flex column css={{ alignItems: 'center' }}>
+            <Text p css={sectionHeader}>
+              Profile Image
+            </Text>
+            <AvatarUpload original={myProfile.avatar} />
+          </Flex>
+          <Flex column css={{ alignItems: 'center' }}>
+            <Text p css={sectionHeader}>
+              Profile Name
+            </Text>
+            <FormInputField
+              id="name"
+              name="name"
+              control={control}
+              defaultValue={myProfile?.name ?? ''}
+            />
+          </Flex>
+        </Flex>
         <Text p css={sectionHeader}>
           Select Your Skills
         </Text>
