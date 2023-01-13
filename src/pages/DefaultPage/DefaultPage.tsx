@@ -2,7 +2,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
 
 import { useHasCircles } from 'hooks/migration';
-import { rMyProfile } from 'recoilState/app';
+import { rManifest } from 'recoilState/db';
 import {
   EXTERNAL_URL_DISCORD,
   EXTERNAL_URL_DOCS,
@@ -15,11 +15,11 @@ import { Box, Button, Flex, Text } from 'ui';
 export const DefaultPage = () => {
   const navigate = useNavigate();
 
-  const myProfile = useRecoilValueLoadable(rMyProfile).valueMaybe();
+  const manifest = useRecoilValueLoadable(rManifest).valueMaybe();
   const hasCircles = useHasCircles();
 
   // still loading
-  if (!myProfile) return null;
+  if (!manifest) return null;
 
   if (!hasCircles) {
     return (
@@ -40,7 +40,7 @@ export const DefaultPage = () => {
         <p>
           If you are supposed to be part of a circle already, contact your
           circle&apos;s admin to make sure they added this address:{' '}
-          {myProfile.address}
+          {manifest.myProfile.address}
         </p>
         <p>Or, create a new circle.</p>
         <Button

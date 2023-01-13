@@ -32,5 +32,10 @@ export const Flex = styled(Box, {
         pointerEvents: 'none',
       },
     },
+    gap: {
+      sm: { gap: '$sm' },
+      md: { gap: '$md' },
+      lg: { gap: '$lg' },
+    },
   },
 });
