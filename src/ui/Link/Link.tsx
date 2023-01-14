@@ -36,9 +36,9 @@ const COMPOSERS = {
     },
     inlineLink: {
       true: {
-        textDecoration: 'underline',
+        textDecoration: 'none',
         '&:hover': {
-          textDecoration: 'none',
+          textDecoration: 'underline',
         },
       },
     },
