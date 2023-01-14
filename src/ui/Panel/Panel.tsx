@@ -25,6 +25,14 @@ export const Panel = styled('div', {
       true: {
         padding: '$md',
         backgroundColor: '$surfaceNested',
+        'input, textarea, button[role="radio"], button[role="combobox"], button[role="checkbox"], .formInputWrapper':
+          {
+            backgroundColor: '$surface !important',
+            borderColor: 'transparent !important',
+          },
+        '.formInputWrapper input': {
+          background: 'transparent !important',
+        },
       },
     },
     invertForm: {
