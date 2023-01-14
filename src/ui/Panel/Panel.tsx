@@ -29,6 +29,9 @@ export const Panel = styled('div', {
           {
             backgroundColor: '$surface !important',
             borderColor: 'transparent !important',
+            '&:focus-within ': {
+              borderColor: '$cta !important',
+            },
           },
         '.formInputWrapper input': {
           background: 'transparent !important',
