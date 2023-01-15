@@ -114,14 +114,6 @@ const schema = z.object({
         message: 'Circle name must be at least 3 characters long.',
       })
   ),
-  alloc_text: z.optional(
-    z
-      .string()
-      .max(5000)
-      .refine(val => val.trim().length >= 20, {
-        message: 'Allocation text must be at least 20 characters long.',
-      })
-  ),
   auto_opt_out: z.string().transform(stringBoolTransform),
   discord_webhook: z.optional(z.string().url().or(z.literal(''))),
   min_vouches: z.optional(
@@ -135,11 +127,6 @@ const schema = z.object({
     })
   ),
   only_giver_vouch: z.string().transform(stringBoolTransform),
-  team_sel_text: z.optional(
-    z.string().refine(val => val.trim().length > 20, {
-      message: 'Contribution help text must be at least 20 characters long.',
-    })
-  ),
   team_selection: z.string().transform(stringBoolTransform),
   token_name: z.optional(
     z
@@ -324,9 +311,7 @@ export const CircleAdminPage = () => {
         vouching: data.vouching,
         token_name: data.token_name,
         min_vouches: data.min_vouches,
-        team_sel_text: data.team_sel_text,
         nomination_days_limit: data.nomination_days_limit,
-        alloc_text: data.alloc_text,
         discord_webhook: discordWebhookValue,
         vouching_text: data.vouching_text,
         only_giver_vouch: data.only_giver_vouch,
@@ -693,50 +678,7 @@ export const CircleAdminPage = () => {
             </Panel>
           </Panel>
         )}
-        <Panel css={panelStyles}>
-          <Text h2>Customization</Text>
-          <Panel nested>
-            <Text h3 semibold css={{ mb: '$sm' }}>
-              Allocation Placeholder Text
-            </Text>
-            <Text p as="p" size="small">
-              Change the default text contributors see during epoch allocation
-            </Text>
-            <Box
-              css={{
-                mt: '$lg',
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                gap: '$lg',
-                '@sm': { gridTemplateColumns: '1fr' },
-              }}
-            >
-              <FormInputField
-                textArea
-                id="contribution_text"
-                name="team_sel_text"
-                control={control}
-                defaultValue={circle?.teamSelText}
-                css={{ flexGrow: 1, textAlign: 'flex-start' }}
-                label="Contribution Help Text"
-                description="Change the default text contributors see on team selection"
-                showFieldErrors
-              />
 
-              <FormInputField
-                textArea
-                id="alloc_text"
-                name="alloc_text"
-                control={control}
-                defaultValue={circle?.allocText}
-                css={{ flexGrow: 1, textAlign: 'flex-start' }}
-                label="Allocation Help Text"
-                description="Change the default text contributors see during epoch allocation"
-                showFieldErrors
-              />
-            </Box>
-          </Panel>
-        </Panel>
         <Panel css={panelStyles}>
           <Text h2>Vouching</Text>
           <Panel nested>
