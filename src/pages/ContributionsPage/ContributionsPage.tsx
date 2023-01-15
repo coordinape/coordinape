@@ -438,69 +438,73 @@ const ContributionsPage = () => {
           {!editHelpText ? (
             <Flex
               css={{
-                gap: '$md',
-                alignItems: 'center',
+                gap: '$sm',
+                alignItems: 'flex-end',
                 '@sm': { flexDirection: 'column', alignItems: 'start' },
               }}
             >
-              <Text p as="p">
-                {updatedContHelpText ? (
+              <MarkdownPreview
+                source={
                   updatedContHelpText
-                ) : data?.circles_by_pk?.cont_help_text ? (
-                  data?.circles_by_pk?.cont_help_text
-                ) : (
-                  <Text inline>
-                    <Text bold inline>
-                      Contributions
-                    </Text>{' '}
-                    are a great way to highlight the work you are doing.
-                    <br /> You can summarize your Contributions in the
-                    <Text inline bold>
-                      {' '}
-                      Epoch Statement
-                    </Text>{' '}
-                    <Text inline>
-                      when there is an active Epoch by clicking on your row.
-                    </Text>
-                  </Text>
-                )}
-                {isAdmin && (
-                  <Link
-                    href="#"
-                    iconLink
-                    onClick={() => {
-                      setEditHelpText(true);
-                    }}
-                    css={{ whiteSpace: 'nowrap', ml: '$sm' }}
-                  >
-                    <Edit3 />
-                    Edit
-                  </Link>
-                )}
-              </Text>
+                    ? updatedContHelpText
+                    : data?.circles_by_pk?.cont_help_text
+                    ? data?.circles_by_pk?.cont_help_text
+                    : 'What have you been working on?'
+                }
+                css={{ minHeight: '0' }}
+              />
+
+              {isAdmin && (
+                <Link
+                  href="#"
+                  iconLink
+                  onClick={() => {
+                    setEditHelpText(true);
+                  }}
+                  css={{ whiteSpace: 'nowrap', ml: '$sm' }}
+                >
+                  <Edit3 />
+                  Edit
+                </Link>
+              )}
             </Flex>
           ) : (
             <Flex
               css={{
                 gap: '$md',
-                alignItems: 'flex-start',
+                alignItems: 'flex-end',
                 flexGrow: 1,
                 '@sm': { flexDirection: 'column' },
               }}
             >
-              <FormInputField
-                name="cont_help_text"
-                id="finish_work"
-                control={contributionTextControl}
-                defaultValue={data?.circles_by_pk?.cont_help_text}
-                label="Contribution Help Text"
-                placeholder="Default: 'What have you been working on?'"
-                infoTooltip="Change the text that contributors see on this page."
-                showFieldErrors
-                css={{
-                  width: '60%',
-                }}
-              />
+              <Box css={{ position: 'relative', width: '100%' }}>
+                <FormInputField
+                  name="cont_help_text"
+                  id="finish_work"
+                  control={contributionTextControl}
+                  defaultValue={data?.circles_by_pk?.cont_help_text}
+                  label="Contribution Help Text"
+                  placeholder="Default: 'What have you been working on?'"
+                  infoTooltip="Change the text that contributors see on this page."
+                  showFieldErrors
+                  textArea
+                  css={{
+                    width: '100%',
+                  }}
+                />
+                <Text
+                  inline
+                  size="small"
+                  color="secondary"
+                  css={{
+                    position: 'absolute',
+                    right: '$sm',
+                    bottom: '$sm',
+                  }}
+                >
+                  Markdown Supported
+                </Text>
+              </Box>
               <Flex css={{ gap: '$sm', mt: '$lg', '@sm': { mt: 0 } }}>
                 <Button
                   outlined
