@@ -17,7 +17,7 @@ export interface IApiCircle {
   default_opt_in: boolean;
   is_verified: boolean;
   alloc_text?: string;
-  cont_help_text?: string;
+  team_sel_text?: string;
   token_name?: string;
   vouching: boolean;
   min_vouches: number;
@@ -36,6 +36,8 @@ export interface IApiCircle {
 
 export interface ICircle extends IApiCircle {
   tokenName: string;
+  teamSelText: string;
+  allocText: string;
   vouchingText: string;
   hasVouching: boolean;
 }

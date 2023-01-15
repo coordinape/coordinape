@@ -68,7 +68,7 @@ export const getContributionsAndEpochs = async ({
         id: circleId,
       },
       {
-        cont_help_text: true,
+        team_sel_text: true,
       },
     ],
   });

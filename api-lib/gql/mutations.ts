@@ -268,7 +268,7 @@ export async function insertCircleWithAdmin(
     id: true,
     name: true,
     organization_id: true,
-    cont_help_text: true,
+    team_sel_text: true,
     alloc_text: true,
     vouching: true,
     min_vouches: true,

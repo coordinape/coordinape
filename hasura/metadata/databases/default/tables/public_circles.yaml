@@ -107,7 +107,7 @@ select_permissions:
         - min_vouches
         - name
         - nomination_days_limit
-        - cont_help_text
+        - team_sel_text
         - team_selection
         - token_name
         - vouching
@@ -145,7 +145,7 @@ select_permissions:
         - only_giver_vouch
         - organization_id
         - show_pending_gives
-        - cont_help_text
+        - team_sel_text
         - team_selection
         - token_name
         - updated_at

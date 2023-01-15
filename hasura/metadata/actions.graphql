@@ -221,7 +221,7 @@ input UpdateCircleInput {
   circle_id: Int!
   name: String
   token_name: String
-  cont_help_text: String
+  team_sel_text: String
   alloc_text: String
   vouching: Boolean
   min_vouches: Int

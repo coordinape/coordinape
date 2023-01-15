@@ -68,7 +68,7 @@ import {
 } from './util';
 
 const schema = z.object({
-  cont_help_text: z
+  team_sel_text: z
 
     .string()
     .max(500)
@@ -169,7 +169,7 @@ const ContributionsPage = () => {
       },
     }
   );
-  const [updatedContHelpText, setUpdatedContHelpText] = useState<
+  const [updatedTeamSelText, setUpdatedTeamSelText] = useState<
     string | undefined
   >();
 
@@ -184,9 +184,9 @@ const ContributionsPage = () => {
     try {
       await updateCircle({
         circle_id: selectedCircle.id,
-        cont_help_text: data.cont_help_text,
+        team_sel_text: data.team_sel_text,
       });
-      setUpdatedContHelpText(data.cont_help_text);
+      setUpdatedTeamSelText(data.team_sel_text);
     } catch (e) {
       showError(e);
       console.warn(e);
@@ -431,7 +431,7 @@ const ContributionsPage = () => {
             justifyContent: 'space-between',
             flexWrap: 'wrap',
             gap: '$md',
-            width: '100%',
+            width: '60%',
             '@sm': { width: '100%' },
           }}
         >
@@ -444,26 +444,11 @@ const ContributionsPage = () => {
               }}
             >
               <Text p as="p">
-                {updatedContHelpText ? (
-                  updatedContHelpText
-                ) : data?.circles_by_pk?.cont_help_text ? (
-                  data?.circles_by_pk?.cont_help_text
-                ) : (
-                  <Text inline>
-                    <Text bold inline>
-                      Contributions
-                    </Text>{' '}
-                    are a great way to highlight the work you are doing.
-                    <br /> You can summarize your Contributions in the
-                    <Text inline bold>
-                      {' '}
-                      Epoch Statement
-                    </Text>{' '}
-                    <Text inline>
-                      when there is an active Epoch by clicking on your row.
-                    </Text>
-                  </Text>
-                )}
+                {updatedTeamSelText
+                  ? updatedTeamSelText
+                  : data?.circles_by_pk?.team_sel_text
+                  ? data?.circles_by_pk?.team_sel_text
+                  : 'What have you been working on?'}
                 {isAdmin && (
                   <Link
                     href="#"
@@ -489,16 +474,16 @@ const ContributionsPage = () => {
               }}
             >
               <FormInputField
-                name="cont_help_text"
+                name="team_sel_text"
                 id="finish_work"
                 control={contributionTextControl}
-                defaultValue={data?.circles_by_pk?.cont_help_text}
+                defaultValue={data?.circles_by_pk?.team_sel_text}
                 label="Contribution Help Text"
                 placeholder="Default: 'What have you been working on?'"
                 infoTooltip="Change the text that contributors see on this page."
                 showFieldErrors
                 css={{
-                  width: '60%',
+                  width: '100%',
                 }}
               />
               <Flex css={{ gap: '$sm', mt: '$lg', '@sm': { mt: 0 } }}>

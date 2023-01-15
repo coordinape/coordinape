@@ -292,7 +292,7 @@ export const updateCircleInput = z
     min_vouches: z.number().min(1).optional(),
     nomination_days_limit: z.number().min(1).optional(),
     only_giver_vouch: z.boolean().optional(),
-    cont_help_text: z.string().optional(),
+    team_sel_text: z.string().optional(),
     team_selection: z.boolean().optional(),
     show_pending_gives: z.boolean().optional(),
     token_name: z
