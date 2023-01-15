@@ -22,7 +22,16 @@ import { IEpoch, IMyUser } from '../../types';
 import { SingleColumnLayout } from '../../ui/layouts';
 import { FormInputField } from 'components';
 import { Edit3, Grid, Menu } from 'icons/__generated';
-import { Box, Button, Flex, Modal, Panel, Text, Link } from 'ui';
+import {
+  Box,
+  Button,
+  Flex,
+  Modal,
+  Panel,
+  Text,
+  Link,
+  MarkdownPreview,
+} from 'ui';
 import { SaveState, SavingIndicator } from 'ui/SavingIndicator';
 
 import { EpochStatementDrawer } from './EpochStatementDrawer';
@@ -446,54 +455,72 @@ const GivePage = () => {
             {!editAllocHelpText ? (
               <Flex
                 css={{
-                  gap: '$md',
-                  alignItems: 'center',
+                  gap: '$sm',
+                  alignItems: 'flex-end',
                   '@sm': { flexDirection: 'column', alignItems: 'start' },
                 }}
               >
-                <Text p as="p">
-                  {updatedAllocText
-                    ? updatedAllocText
-                    : circle?.alloc_text
-                    ? circle?.alloc_text
-                    : 'Reward & thank your teammates for their contributions'}
-                  {isAdmin && (
-                    <Link
-                      href="#"
-                      iconLink
-                      onClick={() => {
-                        setEditAllocHelpText(true);
-                      }}
-                      css={{ whiteSpace: 'nowrap', ml: '$sm' }}
-                    >
-                      <Edit3 />
-                      Edit
-                    </Link>
-                  )}
-                </Text>
+                <MarkdownPreview
+                  source={
+                    updatedAllocText
+                      ? updatedAllocText
+                      : circle?.alloc_text
+                      ? circle?.alloc_text
+                      : 'Reward & thank your teammates for their contributions'
+                  }
+                  css={{ minHeight: '0' }}
+                />
+                {isAdmin && (
+                  <Link
+                    href="#"
+                    iconLink
+                    onClick={() => {
+                      setEditAllocHelpText(true);
+                    }}
+                    css={{ whiteSpace: 'nowrap', ml: '$sm' }}
+                  >
+                    <Edit3 />
+                    Edit
+                  </Link>
+                )}
               </Flex>
             ) : (
               <Flex
                 css={{
                   gap: '$md',
-                  alignItems: 'flex-start',
+                  alignItems: 'flex-end',
                   flexGrow: 1,
                   '@sm': { flexDirection: 'column' },
                 }}
               >
-                <FormInputField
-                  name="alloc_text"
-                  id="finish_work"
-                  control={allocationTextControl}
-                  defaultValue={circle?.alloc_text}
-                  label="Allocation Help Text"
-                  placeholder="Default: 'Reward & thank your teammates for their contributions'"
-                  infoTooltip="Change the text that contributors see on this page."
-                  showFieldErrors
-                  css={{
-                    width: '100%',
-                  }}
-                />
+                <Box css={{ position: 'relative', width: '100%' }}>
+                  <FormInputField
+                    name="alloc_text"
+                    id="finish_work"
+                    control={allocationTextControl}
+                    defaultValue={circle?.alloc_text}
+                    label="Allocation Help Text"
+                    placeholder="Default: 'Reward & thank your teammates for their contributions'"
+                    infoTooltip="Change the text that contributors see on this page."
+                    showFieldErrors
+                    textArea
+                    css={{
+                      width: '100%',
+                    }}
+                  />
+                  <Text
+                    inline
+                    size="small"
+                    color="secondary"
+                    css={{
+                      position: 'absolute',
+                      right: '$sm',
+                      bottom: '$sm',
+                    }}
+                  >
+                    Markdown Supported
+                  </Text>
+                </Box>
                 <Flex css={{ gap: '$sm', mt: '$lg', '@sm': { mt: 0 } }}>
                   <Button
                     outlined
