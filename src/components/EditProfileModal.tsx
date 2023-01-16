@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { zUsername } from 'lib/zod/formHelpers';
+import { provider, zUsername } from 'lib/zod/formHelpers';
 import { SubmitHandler, useController, useForm } from 'react-hook-form';
 import * as z from 'zod';
 
@@ -64,6 +64,7 @@ export const EditProfileModal = ({
   const {
     control,
     handleSubmit,
+    setError,
     formState: { isDirty },
   } = useForm<EditProfileFormSchema>({
     resolver: zodResolver(schema),
@@ -101,7 +102,23 @@ export const EditProfileModal = ({
       setShowMarkDown(false);
     }
   }, [showMarkdown]);
+
   const onSubmit: SubmitHandler<EditProfileFormSchema> = async params => {
+    if (params.name.endsWith('.eth')) {
+      const resolvedAddress = await provider().resolveName(params.name);
+      if (
+        resolvedAddress &&
+        resolvedAddress.toLowerCase() !== myProfile.address.toLowerCase()
+      )
+        setError(
+          'name',
+          {
+            message: `Your profile address does not match the ENS name. If you own ${params.name} please update it to resolve to ${myProfile.address}.`,
+          },
+          { shouldFocus: true }
+        );
+      return;
+    }
     // skills is an array here but the backend expects a json encoded array
     const fixedParams: Omit<typeof params, 'skills' | 'website'> & {
       skills: string;
@@ -156,10 +173,12 @@ export const EditProfileModal = ({
               Profile Name
             </Text>
             <FormInputField
+              css={{ width: '250px' }}
               id="name"
               name="name"
               control={control}
               defaultValue={myProfile?.name ?? ''}
+              showFieldErrors
             />
           </Flex>
         </Flex>
