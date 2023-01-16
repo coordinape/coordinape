@@ -9,6 +9,7 @@ import { Magic } from 'magic-sdk';
 import { IN_PRODUCTION } from 'config/env';
 
 const API_KEY = process.env.REACT_APP_MAGIC_API_KEY;
+export const PROVIDER_TYPE = 'magic';
 
 // FIXME fix typing here
 //

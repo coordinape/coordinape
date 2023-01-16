@@ -41,6 +41,9 @@ export const useApiWithProfile = () => {
           if (err.response.errors[0].message.includes('valid_website')) {
             throw 'provide a valid website starting with https:// or http://';
           }
+          if (err.response.errors[0].message.includes('Uniqueness violation')) {
+            throw 'This name is already in use';
+          }
           // rethrow it if it doesn't match
         }
         throw err;

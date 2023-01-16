@@ -864,6 +864,7 @@ export type ValueTypes = {
     alloc_text?: string | undefined | null;
     auto_opt_out?: boolean | undefined | null;
     circle_id: number;
+    cont_help_text?: string | undefined | null;
     default_opt_in?: boolean | undefined | null;
     discord_webhook?: string | undefined | null;
     fixed_payment_token_type?: string | undefined | null;
@@ -873,7 +874,6 @@ export type ValueTypes = {
     nomination_days_limit?: number | undefined | null;
     only_giver_vouch?: boolean | undefined | null;
     show_pending_gives?: boolean | undefined | null;
-    team_sel_text?: string | undefined | null;
     team_selection?: boolean | undefined | null;
     token_name?: string | undefined | null;
     update_webhook?: boolean | undefined | null;
@@ -1722,6 +1722,7 @@ export type ValueTypes = {
     ];
     /** An object relationship */
     circle_private?: ValueTypes['circle_private'];
+    cont_help_text?: boolean | `@${string}`;
     contributions?: [
       {
         /** distinct select on columns */
@@ -1899,7 +1900,6 @@ export type ValueTypes = {
       ValueTypes['pending_token_gifts']
     ];
     show_pending_gives?: boolean | `@${string}`;
-    team_sel_text?: boolean | `@${string}`;
     team_selection?: boolean | `@${string}`;
     token_gifts?: [
       {
@@ -2031,6 +2031,7 @@ export type ValueTypes = {
     auto_opt_out?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     burns?: ValueTypes['burns_bool_exp'] | undefined | null;
     circle_private?: ValueTypes['circle_private_bool_exp'] | undefined | null;
+    cont_help_text?: ValueTypes['String_comparison_exp'] | undefined | null;
     contributions?: ValueTypes['contributions_bool_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     default_opt_in?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
@@ -2066,7 +2067,6 @@ export type ValueTypes = {
       | ValueTypes['Boolean_comparison_exp']
       | undefined
       | null;
-    team_sel_text?: ValueTypes['String_comparison_exp'] | undefined | null;
     team_selection?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     token_gifts?: ValueTypes['token_gifts_bool_exp'] | undefined | null;
     token_name?: ValueTypes['String_comparison_exp'] | undefined | null;
@@ -2082,6 +2082,7 @@ export type ValueTypes = {
   /** order by max() on columns of table "circles" */
   ['circles_max_order_by']: {
     alloc_text?: ValueTypes['order_by'] | undefined | null;
+    cont_help_text?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     deleted_at?: ValueTypes['order_by'] | undefined | null;
     fixed_payment_token_type?: ValueTypes['order_by'] | undefined | null;
@@ -2092,7 +2093,6 @@ export type ValueTypes = {
     name?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
-    team_sel_text?: ValueTypes['order_by'] | undefined | null;
     token_name?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     vouching_text?: ValueTypes['order_by'] | undefined | null;
@@ -2100,6 +2100,7 @@ export type ValueTypes = {
   /** order by min() on columns of table "circles" */
   ['circles_min_order_by']: {
     alloc_text?: ValueTypes['order_by'] | undefined | null;
+    cont_help_text?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     deleted_at?: ValueTypes['order_by'] | undefined | null;
     fixed_payment_token_type?: ValueTypes['order_by'] | undefined | null;
@@ -2110,7 +2111,6 @@ export type ValueTypes = {
     name?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
-    team_sel_text?: ValueTypes['order_by'] | undefined | null;
     token_name?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     vouching_text?: ValueTypes['order_by'] | undefined | null;
@@ -2125,6 +2125,7 @@ export type ValueTypes = {
     auto_opt_out?: ValueTypes['order_by'] | undefined | null;
     burns_aggregate?: ValueTypes['burns_aggregate_order_by'] | undefined | null;
     circle_private?: ValueTypes['circle_private_order_by'] | undefined | null;
+    cont_help_text?: ValueTypes['order_by'] | undefined | null;
     contributions_aggregate?:
       | ValueTypes['contributions_aggregate_order_by']
       | undefined
@@ -2160,7 +2161,6 @@ export type ValueTypes = {
       | undefined
       | null;
     show_pending_gives?: ValueTypes['order_by'] | undefined | null;
-    team_sel_text?: ValueTypes['order_by'] | undefined | null;
     team_selection?: ValueTypes['order_by'] | undefined | null;
     token_gifts_aggregate?:
       | ValueTypes['token_gifts_aggregate_order_by']
@@ -2213,6 +2213,7 @@ export type ValueTypes = {
   ['circles_stream_cursor_value_input']: {
     alloc_text?: string | undefined | null;
     auto_opt_out?: boolean | undefined | null;
+    cont_help_text?: string | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     default_opt_in?: boolean | undefined | null;
     deleted_at?: ValueTypes['timestamp'] | undefined | null;
@@ -2227,7 +2228,6 @@ export type ValueTypes = {
     only_giver_vouch?: boolean | undefined | null;
     organization_id?: number | undefined | null;
     show_pending_gives?: boolean | undefined | null;
-    team_sel_text?: string | undefined | null;
     team_selection?: boolean | undefined | null;
     token_name?: string | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
@@ -10805,6 +10805,7 @@ export type ModelTypes = {
     burns: Array<GraphQLTypes['burns']>;
     /** An object relationship */
     circle_private?: GraphQLTypes['circle_private'] | undefined;
+    cont_help_text?: string | undefined;
     /** An array relationship */
     contributions: Array<GraphQLTypes['contributions']>;
     /** An aggregate relationship */
@@ -10835,7 +10836,6 @@ export type ModelTypes = {
     /** An array relationship */
     pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     show_pending_gives: boolean;
-    team_sel_text?: string | undefined;
     team_selection: boolean;
     /** An array relationship */
     token_gifts: Array<GraphQLTypes['token_gifts']>;
@@ -13520,6 +13520,7 @@ export type GraphQLTypes = {
     alloc_text?: string | undefined;
     auto_opt_out?: boolean | undefined;
     circle_id: number;
+    cont_help_text?: string | undefined;
     default_opt_in?: boolean | undefined;
     discord_webhook?: string | undefined;
     fixed_payment_token_type?: string | undefined;
@@ -13529,7 +13530,6 @@ export type GraphQLTypes = {
     nomination_days_limit?: number | undefined;
     only_giver_vouch?: boolean | undefined;
     show_pending_gives?: boolean | undefined;
-    team_sel_text?: string | undefined;
     team_selection?: boolean | undefined;
     token_name?: string | undefined;
     update_webhook?: boolean | undefined;
@@ -14303,6 +14303,7 @@ export type GraphQLTypes = {
     burns: Array<GraphQLTypes['burns']>;
     /** An object relationship */
     circle_private?: GraphQLTypes['circle_private'] | undefined;
+    cont_help_text?: string | undefined;
     /** An array relationship */
     contributions: Array<GraphQLTypes['contributions']>;
     /** An aggregate relationship */
@@ -14333,7 +14334,6 @@ export type GraphQLTypes = {
     /** An array relationship */
     pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     show_pending_gives: boolean;
-    team_sel_text?: string | undefined;
     team_selection: boolean;
     /** An array relationship */
     token_gifts: Array<GraphQLTypes['token_gifts']>;
@@ -14380,6 +14380,7 @@ export type GraphQLTypes = {
     auto_opt_out?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     burns?: GraphQLTypes['burns_bool_exp'] | undefined;
     circle_private?: GraphQLTypes['circle_private_bool_exp'] | undefined;
+    cont_help_text?: GraphQLTypes['String_comparison_exp'] | undefined;
     contributions?: GraphQLTypes['contributions_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     default_opt_in?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
@@ -14404,7 +14405,6 @@ export type GraphQLTypes = {
       | GraphQLTypes['pending_token_gifts_bool_exp']
       | undefined;
     show_pending_gives?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
-    team_sel_text?: GraphQLTypes['String_comparison_exp'] | undefined;
     team_selection?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     token_gifts?: GraphQLTypes['token_gifts_bool_exp'] | undefined;
     token_name?: GraphQLTypes['String_comparison_exp'] | undefined;
@@ -14419,6 +14419,7 @@ export type GraphQLTypes = {
   /** order by max() on columns of table "circles" */
   ['circles_max_order_by']: {
     alloc_text?: GraphQLTypes['order_by'] | undefined;
+    cont_help_text?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     deleted_at?: GraphQLTypes['order_by'] | undefined;
     fixed_payment_token_type?: GraphQLTypes['order_by'] | undefined;
@@ -14429,7 +14430,6 @@ export type GraphQLTypes = {
     name?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
-    team_sel_text?: GraphQLTypes['order_by'] | undefined;
     token_name?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     vouching_text?: GraphQLTypes['order_by'] | undefined;
@@ -14437,6 +14437,7 @@ export type GraphQLTypes = {
   /** order by min() on columns of table "circles" */
   ['circles_min_order_by']: {
     alloc_text?: GraphQLTypes['order_by'] | undefined;
+    cont_help_text?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     deleted_at?: GraphQLTypes['order_by'] | undefined;
     fixed_payment_token_type?: GraphQLTypes['order_by'] | undefined;
@@ -14447,7 +14448,6 @@ export type GraphQLTypes = {
     name?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
-    team_sel_text?: GraphQLTypes['order_by'] | undefined;
     token_name?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     vouching_text?: GraphQLTypes['order_by'] | undefined;
@@ -14461,6 +14461,7 @@ export type GraphQLTypes = {
     auto_opt_out?: GraphQLTypes['order_by'] | undefined;
     burns_aggregate?: GraphQLTypes['burns_aggregate_order_by'] | undefined;
     circle_private?: GraphQLTypes['circle_private_order_by'] | undefined;
+    cont_help_text?: GraphQLTypes['order_by'] | undefined;
     contributions_aggregate?:
       | GraphQLTypes['contributions_aggregate_order_by']
       | undefined;
@@ -14489,7 +14490,6 @@ export type GraphQLTypes = {
       | GraphQLTypes['pending_token_gifts_aggregate_order_by']
       | undefined;
     show_pending_gives?: GraphQLTypes['order_by'] | undefined;
-    team_sel_text?: GraphQLTypes['order_by'] | undefined;
     team_selection?: GraphQLTypes['order_by'] | undefined;
     token_gifts_aggregate?:
       | GraphQLTypes['token_gifts_aggregate_order_by']
@@ -14540,6 +14540,7 @@ export type GraphQLTypes = {
   ['circles_stream_cursor_value_input']: {
     alloc_text?: string | undefined;
     auto_opt_out?: boolean | undefined;
+    cont_help_text?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     default_opt_in?: boolean | undefined;
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
@@ -14554,7 +14555,6 @@ export type GraphQLTypes = {
     only_giver_vouch?: boolean | undefined;
     organization_id?: number | undefined;
     show_pending_gives?: boolean | undefined;
-    team_sel_text?: string | undefined;
     team_selection?: boolean | undefined;
     token_name?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
@@ -19643,6 +19643,7 @@ export const enum circle_share_tokens_update_column {
 export const enum circles_select_column {
   alloc_text = 'alloc_text',
   auto_opt_out = 'auto_opt_out',
+  cont_help_text = 'cont_help_text',
   created_at = 'created_at',
   default_opt_in = 'default_opt_in',
   deleted_at = 'deleted_at',
@@ -19657,7 +19658,6 @@ export const enum circles_select_column {
   only_giver_vouch = 'only_giver_vouch',
   organization_id = 'organization_id',
   show_pending_gives = 'show_pending_gives',
-  team_sel_text = 'team_sel_text',
   team_selection = 'team_selection',
   token_name = 'token_name',
   updated_at = 'updated_at',

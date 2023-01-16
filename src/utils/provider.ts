@@ -1,20 +1,23 @@
 import type { Web3Provider } from '@ethersproject/providers';
 import { ethers } from 'ethers';
 
-export const getSignature = async (data: string, provider?: Web3Provider) => {
+export const getSignature = async (
+  data: string,
+  provider?: Web3Provider,
+  timeout = true
+) => {
   if (!provider) throw 'Missing provider for getSignature';
 
   const signer = provider.getSigner();
   const address = await signer.getAddress();
   const signature = await new Promise<string>((resolve, reject) => {
-    const t = setTimeout(
-      () => reject('Waiting for signature, timed out.'),
-      60000
-    );
+    const t =
+      timeout &&
+      setTimeout(() => reject('Waiting for signature, timed out.'), 60000);
     signer
       .signMessage(data)
       .then(sig => {
-        clearTimeout(t);
+        if (t) clearTimeout(t);
         resolve(sig);
       })
       .catch(e => {

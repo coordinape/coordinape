@@ -395,6 +395,7 @@ input UpdateCircleInput {
   alloc_text: String
   auto_opt_out: Boolean
   circle_id: Int!
+  cont_help_text: String
   default_opt_in: Boolean
   discord_webhook: String
   fixed_payment_token_type: String
@@ -404,7 +405,6 @@ input UpdateCircleInput {
   nomination_days_limit: Int
   only_giver_vouch: Boolean
   show_pending_gives: Boolean
-  team_sel_text: String
   team_selection: Boolean
   token_name: String
   update_webhook: Boolean
@@ -3463,6 +3463,7 @@ type circles {
   An object relationship
   """
   circle_private: circle_private
+  cont_help_text: String
   contact: String
 
   """
@@ -3784,7 +3785,6 @@ type circles {
     where: pending_token_gifts_bool_exp
   ): pending_token_gifts_aggregate!
   show_pending_gives: Boolean!
-  team_sel_text: String
   team_selection: Boolean!
   telegram_id: String
 
@@ -4062,6 +4062,7 @@ input circles_bool_exp {
   burns: burns_bool_exp
   circle_metadata: circle_metadata_bool_exp
   circle_private: circle_private_bool_exp
+  cont_help_text: String_comparison_exp
   contact: String_comparison_exp
   contributions: contributions_bool_exp
   created_at: timestamp_comparison_exp
@@ -4084,7 +4085,6 @@ input circles_bool_exp {
   organization_id: Int_comparison_exp
   pending_token_gifts: pending_token_gifts_bool_exp
   show_pending_gives: Boolean_comparison_exp
-  team_sel_text: String_comparison_exp
   team_selection: Boolean_comparison_exp
   telegram_id: String_comparison_exp
   token_gifts: token_gifts_bool_exp
@@ -4127,6 +4127,7 @@ input circles_insert_input {
   burns: burns_arr_rel_insert_input
   circle_metadata: circle_metadata_arr_rel_insert_input
   circle_private: circle_private_obj_rel_insert_input
+  cont_help_text: String
   contact: String
   contributions: contributions_arr_rel_insert_input
   created_at: timestamp
@@ -4149,7 +4150,6 @@ input circles_insert_input {
   organization_id: Int
   pending_token_gifts: pending_token_gifts_arr_rel_insert_input
   show_pending_gives: Boolean
-  team_sel_text: String
   team_selection: Boolean
   telegram_id: String
   token_gifts: token_gifts_arr_rel_insert_input
@@ -4166,6 +4166,7 @@ aggregate max on columns
 """
 type circles_max_fields {
   alloc_text: String
+  cont_help_text: String
   contact: String
   created_at: timestamp
   deleted_at: timestamp
@@ -4178,7 +4179,6 @@ type circles_max_fields {
   name: String
   nomination_days_limit: Int
   organization_id: Int
-  team_sel_text: String
   telegram_id: String
   token_name: String
   updated_at: timestamp
@@ -4190,6 +4190,7 @@ order by max() on columns of table "circles"
 """
 input circles_max_order_by {
   alloc_text: order_by
+  cont_help_text: order_by
   contact: order_by
   created_at: order_by
   deleted_at: order_by
@@ -4202,7 +4203,6 @@ input circles_max_order_by {
   name: order_by
   nomination_days_limit: order_by
   organization_id: order_by
-  team_sel_text: order_by
   telegram_id: order_by
   token_name: order_by
   updated_at: order_by
@@ -4214,6 +4214,7 @@ aggregate min on columns
 """
 type circles_min_fields {
   alloc_text: String
+  cont_help_text: String
   contact: String
   created_at: timestamp
   deleted_at: timestamp
@@ -4226,7 +4227,6 @@ type circles_min_fields {
   name: String
   nomination_days_limit: Int
   organization_id: Int
-  team_sel_text: String
   telegram_id: String
   token_name: String
   updated_at: timestamp
@@ -4238,6 +4238,7 @@ order by min() on columns of table "circles"
 """
 input circles_min_order_by {
   alloc_text: order_by
+  cont_help_text: order_by
   contact: order_by
   created_at: order_by
   deleted_at: order_by
@@ -4250,7 +4251,6 @@ input circles_min_order_by {
   name: order_by
   nomination_days_limit: order_by
   organization_id: order_by
-  team_sel_text: order_by
   telegram_id: order_by
   token_name: order_by
   updated_at: order_by
@@ -4303,6 +4303,7 @@ input circles_order_by {
   burns_aggregate: burns_aggregate_order_by
   circle_metadata_aggregate: circle_metadata_aggregate_order_by
   circle_private: circle_private_order_by
+  cont_help_text: order_by
   contact: order_by
   contributions_aggregate: contributions_aggregate_order_by
   created_at: order_by
@@ -4325,7 +4326,6 @@ input circles_order_by {
   organization_id: order_by
   pending_token_gifts_aggregate: pending_token_gifts_aggregate_order_by
   show_pending_gives: order_by
-  team_sel_text: order_by
   team_selection: order_by
   telegram_id: order_by
   token_gifts_aggregate: token_gifts_aggregate_order_by
@@ -4357,6 +4357,11 @@ enum circles_select_column {
   column name
   """
   auto_opt_out
+
+  """
+  column name
+  """
+  cont_help_text
 
   """
   column name
@@ -4441,11 +4446,6 @@ enum circles_select_column {
   """
   column name
   """
-  team_sel_text
-
-  """
-  column name
-  """
   team_selection
 
   """
@@ -4480,6 +4480,7 @@ input type for updating data in table "circles"
 input circles_set_input {
   alloc_text: String
   auto_opt_out: Boolean
+  cont_help_text: String
   contact: String
   created_at: timestamp
   default_opt_in: Boolean
@@ -4496,7 +4497,6 @@ input circles_set_input {
   only_giver_vouch: Boolean
   organization_id: Int
   show_pending_gives: Boolean
-  team_sel_text: String
   team_selection: Boolean
   telegram_id: String
   token_name: String
@@ -4592,6 +4592,7 @@ Initial value of the column from where the streaming should start
 input circles_stream_cursor_value_input {
   alloc_text: String
   auto_opt_out: Boolean
+  cont_help_text: String
   contact: String
   created_at: timestamp
   default_opt_in: Boolean
@@ -4608,7 +4609,6 @@ input circles_stream_cursor_value_input {
   only_giver_vouch: Boolean
   organization_id: Int
   show_pending_gives: Boolean
-  team_sel_text: String
   team_selection: Boolean
   telegram_id: String
   token_name: String
@@ -4652,6 +4652,11 @@ enum circles_update_column {
   column name
   """
   auto_opt_out
+
+  """
+  column name
+  """
+  cont_help_text
 
   """
   column name
@@ -4732,11 +4737,6 @@ enum circles_update_column {
   column name
   """
   show_pending_gives
-
-  """
-  column name
-  """
-  team_sel_text
 
   """
   column name

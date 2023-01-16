@@ -1,31 +1,10 @@
 import React from 'react';
 
-import clsx from 'clsx';
 import { transparentize } from 'polished';
-
-import { makeStyles, Button } from '@material-ui/core';
+import { colors } from 'stitches.config';
 
 import { SKILLS } from 'config/constants';
-
-const useStyles = makeStyles(theme => ({
-  skillOption: {
-    color: theme.colors.white,
-    background: transparentize(0.67, theme.colors.text),
-    borderRadius: 4,
-    padding: '5px 16px',
-    marginBottom: 8,
-    marginRight: 8,
-    textTransform: 'none',
-    boxShadow: 'none',
-    '&:hover': {
-      background: theme.colors.secondaryText,
-      boxShadow: 'none',
-    },
-    '&.selected': {
-      background: theme.colors.secondary,
-    },
-  },
-}));
+import { Button } from 'ui';
 
 export const SkillToggles = ({
   value,
@@ -34,8 +13,6 @@ export const SkillToggles = ({
   value: string[];
   onChange: (newValue: string[]) => void;
 }) => {
-  const classes = useStyles();
-
   const toggleSkill = (name: string) => {
     onChange(
       value.includes(name)
@@ -49,12 +26,28 @@ export const SkillToggles = ({
       {SKILLS.map(skill => (
         <Button
           key={skill}
-          variant="contained"
-          className={clsx(
-            classes.skillOption,
-            value.includes(skill) ? 'selected' : ''
-          )}
-          onClick={() => toggleSkill(skill)}
+          css={{
+            color: '$white',
+            background: value.includes(skill)
+              ? '$secondary'
+              : transparentize(0.67, colors.text),
+            borderRadius: '$1',
+            padding: '$xs $md',
+            mb: '$sm',
+            mr: '$sm',
+            textTransform: 'none',
+            boxShadow: 'none',
+            '&:hover': {
+              background: value.includes(skill)
+                ? '$secondary'
+                : '$secondaryText',
+              boxShadow: 'none',
+            },
+          }}
+          onClick={e => {
+            e.preventDefault();
+            toggleSkill(skill);
+          }}
         >
           {skill}
         </Button>

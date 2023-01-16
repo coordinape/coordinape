@@ -13,7 +13,7 @@ export async function getCircle(id: number) {
         {
           id: true,
           name: true,
-          team_sel_text: true,
+          cont_help_text: true,
           discord_webhook: true,
           telegram_id: true,
           token_name: true,

@@ -5,14 +5,16 @@ import { Box, Flex, Panel, Text } from '../ui';
 
 const HintBanner = ({
   title,
+  type = 'info',
   children,
 }: {
   title: string;
+  type?: 'info' | 'alert';
   children: React.ReactNode;
 }) => {
   return (
     <Panel
-      info
+      {...{ [type]: true }}
       css={{
         display: 'grid',
         gridTemplateColumns: '1fr 3fr',

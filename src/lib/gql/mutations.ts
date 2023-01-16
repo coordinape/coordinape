@@ -182,7 +182,7 @@ export const createCircle = async (
             default_opt_in: true,
             is_verified: true,
             alloc_text: true,
-            team_sel_text: true,
+            cont_help_text: true,
             token_name: true,
             vouching: true,
             min_vouches: true,

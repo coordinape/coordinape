@@ -48,7 +48,11 @@ export const login = async (
 
   const data = generateMessage({ address, time, nonce, chainId });
   // this triggers a signature prompt for the user
-  const { signature, hash } = await getSignature(data, provider);
+  const { signature, hash } = await getSignature(
+    data,
+    provider,
+    connectorName != 'magic'
+  );
   const payload = { signature, hash, address, data, connectorName };
 
   const resp = await fetch('/api/login', {
