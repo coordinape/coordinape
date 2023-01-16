@@ -462,11 +462,9 @@ const GivePage = () => {
               >
                 <MarkdownPreview
                   source={
-                    updatedAllocText
-                      ? updatedAllocText
-                      : circle?.alloc_text
-                      ? circle?.alloc_text
-                      : 'Reward & thank your teammates for their contributions'
+                    updatedAllocText ??
+                    circle?.alloc_text ??
+                    'Reward & thank your teammates for their contributions'
                   }
                   css={{ minHeight: '0' }}
                 />

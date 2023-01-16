@@ -449,11 +449,9 @@ const ContributionsPage = () => {
             >
               <MarkdownPreview
                 source={
-                  updatedContHelpText
-                    ? updatedContHelpText
-                    : data?.circles_by_pk?.cont_help_text
-                    ? data?.circles_by_pk?.cont_help_text
-                    : CONT_DEFAULT_HELP_TEXT
+                  updatedContHelpText ??
+                  data?.circles_by_pk?.cont_help_text ??
+                  CONT_DEFAULT_HELP_TEXT
                 }
                 css={{ minHeight: '0' }}
               />
