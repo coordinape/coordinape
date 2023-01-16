@@ -3,13 +3,13 @@ import { isAddress } from 'ethers/lib/utils';
 import { DateTime } from 'luxon';
 import { z } from 'zod';
 
+import { INFURA_PROJECT_ID } from '../../config/env';
+
 let _provider: InfuraProvider;
 
 export const provider = () => {
   if (!_provider) {
-    _provider = new InfuraProvider('homestead', {
-      projectId: '9c121af8ebdf4c25aafada12c619e1ae',
-    });
+    _provider = new InfuraProvider('homestead', INFURA_PROJECT_ID);
   }
   return _provider;
 };
