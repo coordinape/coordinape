@@ -26,7 +26,7 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
       true: {
         cursor: 'default',
         backgroundColor: 'transparent !important',
-        borderColor: '$borderDim !important',
+        borderColor: '$border !important',
         minHeight: 0,
         borderRadius: '$1',
         p: '$md',
