@@ -15,7 +15,7 @@ export async function createProfile(
     };
   }
   const { insert_profiles_one } = await client.mutate({
-    insert_profiles_one: [{ object }, { id: true }],
+    insert_profiles_one: [{ object }, { id: true, name: true }],
   });
 
   if (!insert_profiles_one) {
