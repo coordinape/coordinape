@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 
+import { useIsEmailWallet } from 'features/auth';
 import { isUserAdmin } from 'lib/users';
 import { useRecoilValueLoadable } from 'recoil';
 
 import { LoadingModal } from 'components';
+import HintBanner from 'components/HintBanner';
 import { useMainHeaderQuery } from 'components/MainLayout/getMainHeaderData';
 import { useContracts } from 'hooks';
 import { useVaults } from 'hooks/gql/useVaults';
@@ -59,12 +61,30 @@ const VaultsPage = () => {
   };
 
   const [saving, setSaving] = useState(false);
+  const isEmailWallet = useIsEmailWallet();
 
   if (orgsQuery.isLoading || orgsQuery.isIdle)
     return <LoadingModal visible note="VaultsPage" />;
 
   return (
     <SingleColumnLayout>
+      {isEmailWallet && (
+        <HintBanner title="Email-Based Wallets Not Recommended" type="alert">
+          <p>You are logged in with an email-based wallet.</p>
+          <p>
+            It is not recommended to create a vault with one of these wallets.
+            Instead, you can{' '}
+            <a
+              target="_blank"
+              href="https://docs.coordinape.com/info/documentation/email-login-and-web3-best-practices"
+              rel="noreferrer"
+            >
+              export this wallet
+            </a>
+            , or log in with a different wallet.
+          </p>
+        </HintBanner>
+      )}
       <Box
         css={{
           display: 'flex',

@@ -1,9 +1,9 @@
 import type { JsonRpcProvider } from '@ethersproject/providers';
 import create from 'zustand';
 
-import { getMagic } from './magic';
+import { getMagic, PROVIDER_TYPE as MAGIC_PROVIDER_TYPE } from './magic';
 
-export type ProviderType = 'magic' | 'web3auth';
+export type ProviderType = typeof MAGIC_PROVIDER_TYPE;
 type Step = 'reuse' | 'connect' | 'sign' | 'done';
 
 interface AuthState {

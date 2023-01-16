@@ -68,7 +68,7 @@ import {
 } from './util';
 
 const schema = z.object({
-  team_sel_text: z
+  cont_help_text: z
 
     .string()
     .max(500)
@@ -169,7 +169,7 @@ const ContributionsPage = () => {
       },
     }
   );
-  const [updatedTeamSelText, setUpdatedTeamSelText] = useState<
+  const [updatedContHelpText, setUpdatedContHelpText] = useState<
     string | undefined
   >();
 
@@ -184,9 +184,9 @@ const ContributionsPage = () => {
     try {
       await updateCircle({
         circle_id: selectedCircle.id,
-        team_sel_text: data.team_sel_text,
+        cont_help_text: data.cont_help_text,
       });
-      setUpdatedTeamSelText(data.team_sel_text);
+      setUpdatedContHelpText(data.cont_help_text);
     } catch (e) {
       showError(e);
       console.warn(e);
@@ -431,7 +431,7 @@ const ContributionsPage = () => {
             justifyContent: 'space-between',
             flexWrap: 'wrap',
             gap: '$md',
-            width: '60%',
+            width: '100%',
             '@sm': { width: '100%' },
           }}
         >
@@ -444,11 +444,26 @@ const ContributionsPage = () => {
               }}
             >
               <Text p as="p">
-                {updatedTeamSelText
-                  ? updatedTeamSelText
-                  : data?.circles_by_pk?.team_sel_text
-                  ? data?.circles_by_pk?.team_sel_text
-                  : 'What have you been working on?'}
+                {updatedContHelpText ? (
+                  updatedContHelpText
+                ) : data?.circles_by_pk?.cont_help_text ? (
+                  data?.circles_by_pk?.cont_help_text
+                ) : (
+                  <Text inline>
+                    <Text bold inline>
+                      Contributions
+                    </Text>{' '}
+                    are a great way to highlight the work you are doing.
+                    <br /> You can summarize your Contributions in the
+                    <Text inline bold>
+                      {' '}
+                      Epoch Statement
+                    </Text>{' '}
+                    <Text inline>
+                      when there is an active Epoch by clicking on your row.
+                    </Text>
+                  </Text>
+                )}
                 {isAdmin && (
                   <Link
                     href="#"
@@ -474,16 +489,16 @@ const ContributionsPage = () => {
               }}
             >
               <FormInputField
-                name="team_sel_text"
+                name="cont_help_text"
                 id="finish_work"
                 control={contributionTextControl}
-                defaultValue={data?.circles_by_pk?.team_sel_text}
+                defaultValue={data?.circles_by_pk?.cont_help_text}
                 label="Contribution Help Text"
                 placeholder="Default: 'What have you been working on?'"
                 infoTooltip="Change the text that contributors see on this page."
                 showFieldErrors
                 css={{
-                  width: '100%',
+                  width: '60%',
                 }}
               />
               <Flex css={{ gap: '$sm', mt: '$lg', '@sm': { mt: 0 } }}>

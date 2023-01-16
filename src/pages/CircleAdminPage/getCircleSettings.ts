@@ -18,7 +18,7 @@ export const getCircleSettings = async (circleId: number) => {
               default_opt_in: true,
               is_verified: true,
               alloc_text: true,
-              team_sel_text: true,
+              cont_help_text: true,
               token_name: true,
               vouching: true,
               min_vouches: true,
@@ -47,12 +47,6 @@ export const getCircleSettings = async (circleId: number) => {
   const extraCircle = {
     ...circle,
     tokenName,
-    teamSelText:
-      circle?.team_sel_text ||
-      `Think about who you worked with this Epoch, and who you saw adding value to the community. Allocate ${tokenName} to those whose contribution you directly experienced, or whose work supported yours.`,
-    allocText:
-      circle?.alloc_text ||
-      `Thank your teammates by allocating them ${tokenName}`,
     vouchingText:
       circle?.vouching_text ||
       `Think someone new should be added to the ${circle?.name} circle?\nNominate or vouch for them here.`,
