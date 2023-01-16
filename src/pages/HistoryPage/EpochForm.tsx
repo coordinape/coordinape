@@ -18,7 +18,7 @@ import {
   FormTimePicker,
   FormInputField,
 } from 'components';
-import { useApeSnackbar, useApiAdminCircle } from 'hooks';
+import { useToast, useApiAdminCircle } from 'hooks';
 import { Info } from 'icons/__generated';
 import {
   Box,
@@ -478,7 +478,7 @@ const EpochForm = ({
     validateState(getValues());
   }, []);
 
-  const { showError } = useApeSnackbar();
+  const { showError } = useToast();
   useEffect(() => {
     const subscription = watch((data, { name, type }) => {
       const {
