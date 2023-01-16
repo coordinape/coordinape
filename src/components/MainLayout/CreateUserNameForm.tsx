@@ -61,7 +61,7 @@ export const CreateUserNameForm = ({ address }: { address?: string }) => {
     if (data.name.endsWith('.eth')) {
       const resolvedAddress = await provider().resolveName(data.name);
       if (
-        resolvedAddress &&
+        !resolvedAddress ||
         resolvedAddress.toLowerCase() !== address?.toLowerCase()
       )
         setError(

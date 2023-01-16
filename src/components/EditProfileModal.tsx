@@ -107,7 +107,7 @@ export const EditProfileModal = ({
     if (params.name.endsWith('.eth')) {
       const resolvedAddress = await provider().resolveName(params.name);
       if (
-        resolvedAddress &&
+        !resolvedAddress ||
         resolvedAddress.toLowerCase() !== myProfile.address.toLowerCase()
       )
         setError(
