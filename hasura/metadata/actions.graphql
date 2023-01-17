@@ -59,9 +59,7 @@ type Mutation {
 }
 
 type Mutation {
-  deleteUsers(
-    payload: DeleteUsersInput!
-  ): DeleteUsersResponse
+  deleteUsers(payload: DeleteUsersInput!): DeleteUsersResponse
 }
 
 type Mutation {
@@ -518,4 +516,3 @@ type DeleteUsersResponse {
 }
 
 scalar timestamptz
-
