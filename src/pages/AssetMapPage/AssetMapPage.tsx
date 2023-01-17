@@ -8,10 +8,11 @@ import { makeStyles } from '@material-ui/core';
 
 import { useSetAmEgoAddress } from 'recoilState/map';
 import { rDevMode } from 'recoilState/ui';
-import { MAP_HIGHLIGHT_PARAM } from 'routes/paths';
 
 import { AMDrawer } from './AMDrawer';
 import { AMForceGraph } from './AMForceGraph';
+
+const MAP_HIGHLIGHT_PARAM = 'highlight';
 
 const useStyles = makeStyles(theme => ({
   root: {
