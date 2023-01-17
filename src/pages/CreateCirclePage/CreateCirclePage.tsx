@@ -14,7 +14,7 @@ import { useApiWithProfile } from 'hooks';
 import { Info } from 'icons/__generated';
 import { QUERY_KEY_MY_ORGS } from 'pages/CirclesPage/getOrgData';
 import { useMyProfile } from 'recoilState/app';
-import * as paths from 'routes/paths';
+import { paths } from 'routes/paths';
 import {
   Box,
   Button,
@@ -29,6 +29,8 @@ import {
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { CreateSampleCircle } from './CreateSampleCircle';
+
+export const NEW_CIRCLE_CREATED_PARAMS = '?new-circle';
 
 export const SummonCirclePage = () => {
   const navigate = useNavigate();
@@ -91,8 +93,8 @@ export const SummonCirclePage = () => {
     queryClient.invalidateQueries(QUERY_KEY_MY_ORGS);
     queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
     navigate({
-      pathname: paths.paths.members(circleId),
-      search: paths.NEW_CIRCLE_CREATED_PARAMS,
+      pathname: paths.members(circleId),
+      search: NEW_CIRCLE_CREATED_PARAMS,
     });
   };
 

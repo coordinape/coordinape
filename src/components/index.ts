@@ -9,7 +9,6 @@ export * from './ApeInfoTooltip';
 export * from './DeprecatedApeTextField';
 export * from './AvatarUpload';
 export * from './Drawer';
-export * from './EditProfileModal';
 export * from './ErrorBoundary';
 export * from './FormAutocomplete';
 export * from './FormDatePicker';

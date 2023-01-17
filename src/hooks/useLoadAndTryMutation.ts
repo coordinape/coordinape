@@ -1,6 +1,6 @@
 import { useRecoilState } from 'recoil';
 
-import { rGlobalLoading } from 'recoilState/ui';
+import { rGlobalLoading } from 'recoilState';
 import { normalizeError, reportException } from 'utils/reporting';
 
 import { useToast } from './useToast';

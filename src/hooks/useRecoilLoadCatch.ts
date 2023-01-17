@@ -1,7 +1,7 @@
 import debug from 'debug';
 import { useRecoilCallback, CallbackInterface } from 'recoil';
 
-import { rGlobalLoading } from 'recoilState/ui';
+import { rGlobalLoading } from 'recoilState';
 import { normalizeError, reportException } from 'utils/reporting';
 
 import { useToast } from './useToast';
