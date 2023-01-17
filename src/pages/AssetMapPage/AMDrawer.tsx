@@ -4,6 +4,7 @@ import { Drawer, ApeAutocomplete } from 'components';
 import { SKILLS } from 'config/constants';
 import { useApiBase } from 'hooks';
 import { Filter, Search, Collapse } from 'icons/__generated';
+import { useDevMode } from 'recoilState';
 import { useSelectedCircle } from 'recoilState/app';
 import {
   useMapMetric,
@@ -14,7 +15,6 @@ import {
   useStateAmEpochId,
   useMapEpochs,
 } from 'recoilState/map';
-import { useDevMode } from 'recoilState/ui';
 import { IconButton, Text, Panel, Select, Flex } from 'ui';
 
 import AMProfileCard from './AMProfileCard';

@@ -6,8 +6,8 @@ import { useRecoilCallback } from 'recoil';
 
 import { makeStyles } from '@material-ui/core';
 
+import { rDevMode } from 'recoilState';
 import { useSetAmEgoAddress } from 'recoilState/map';
-import { rDevMode } from 'recoilState/ui';
 
 import { AMDrawer } from './AMDrawer';
 import { AMForceGraph } from './AMForceGraph';
@@ -67,9 +67,7 @@ const DevModeInjector = () => {
   useEffect(() => {
     // Setup dev tool: trigger DevMode
     // this is safe to access window because useEffect is only run on client side
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    window.setDevMode = setDevMode;
+    (window as any).setDevMode = setDevMode;
   }, [setDevMode]);
 
   return <></>;
