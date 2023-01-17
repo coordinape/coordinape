@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { updateMyProfile } from 'lib/gql/mutations';
 import { provider, zUsername } from 'lib/zod/formHelpers';
 import { SubmitHandler, useController, useForm } from 'react-hook-form';
+import { useMutation } from 'react-query';
 import * as z from 'zod';
 
 import { SkillToggles, AvatarUpload, FormInputField } from 'components/index';
-import { useApiWithProfile } from 'hooks';
+import { useToast } from 'hooks';
 import { useMyProfile } from 'recoilState/app';
 import {
   Box,
@@ -18,10 +20,10 @@ import {
   Text,
   TextArea,
 } from 'ui';
+import { normalizeError } from 'utils/reporting';
 
 const schema = z
   .object({
-    avatar: z.any(),
     name: zUsername,
     bio: z.string(),
     skills: z.array(z.string()),
@@ -55,9 +57,9 @@ export const EditProfileModal = ({
   onClose: () => void;
 }) => {
   const [showMarkdown, setShowMarkDown] = useState<boolean>(true);
+  const { showError } = useToast();
 
   const myProfile = useMyProfile();
-  const { updateMyProfile } = useApiWithProfile();
 
   const bioFieldRef = useRef<HTMLTextAreaElement>(null);
 
@@ -103,6 +105,20 @@ export const EditProfileModal = ({
     }
   }, [showMarkdown]);
 
+  const updateProfileMutation = useMutation(updateMyProfile, {
+    onSuccess: () => {
+      onClose();
+    },
+    onError: err => {
+      const error = normalizeError(err);
+      if (error.message.includes('valid_website')) {
+        showError('provide a valid website starting with https:// or http://');
+      } else {
+        showError(error.message);
+      }
+    },
+  });
+
   const onSubmit: SubmitHandler<EditProfileFormSchema> = async params => {
     if (params.name.endsWith('.eth')) {
       const resolvedAddress = await provider().resolveName(params.name);
@@ -113,7 +129,7 @@ export const EditProfileModal = ({
         setError(
           'name',
           {
-            message: `Your profile address does not match the ENS name. If you own ${params.name} please update it to resolve to ${myProfile.address}.`,
+            message: `The ENS ${params.name} doesn't resolve to your current address: ${myProfile.address}.`,
           },
           { shouldFocus: true }
         );
@@ -128,12 +144,7 @@ export const EditProfileModal = ({
     if (fixedParams.website == '') {
       fixedParams.website = null;
     }
-    try {
-      await updateMyProfile(fixedParams);
-      onClose();
-    } catch (e: unknown) {
-      console.warn(e);
-    }
+    await updateProfileMutation.mutate(fixedParams);
   };
 
   return (

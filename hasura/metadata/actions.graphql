@@ -101,7 +101,7 @@ type Mutation {
 }
 
 type Mutation {
-  updateProfileName(payload: UpdateProfileNameInput!): UpdateProfileNameResponse
+  updateProfile(payload: UpdateProfileInput!): UpdateProfileResponse
 }
 
 type Mutation {
@@ -372,6 +372,18 @@ input DeleteDiscordUserInput {
 input LinkDiscordCircleInput {
   circle_id: String!
   token: String!
+}
+
+input UpdateProfileInput {
+  name: String!
+  skills: String
+  bio: String
+  telegram_username: String
+  discord_username: String
+  twitter_username: String
+  github_username: String
+  medium_username: String
+  website: String
 }
 
 type CreateCircleResponse {

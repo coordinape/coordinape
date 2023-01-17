@@ -407,13 +407,16 @@ type UpdateOrgResponse {
   org: organizations
 }
 
-input UpdateProfileNameInput {
+input UpdateProfileInput {
+  bio: String
+  discord_username: String
+  github_username: String
+  medium_username: String
   name: String!
-}
-
-type UpdateProfileNameResponse {
-  id: Int!
-  profileName: profiles
+  skills: String
+  telegram_username: String
+  twitter_username: String
+  website: String
 }
 
 type UpdateProfileResponse {
@@ -6225,7 +6228,7 @@ type mutation_root {
     payload: UpdateContributionInput!
   ): UpdateContributionResponse
   updateEpoch(payload: UpdateEpochInput!): EpochResponse
-  updateProfileName(payload: UpdateProfileNameInput!): UpdateProfileNameResponse
+  updateProfile(payload: UpdateProfileInput!): UpdateProfileResponse
   updateTeammates(payload: UpdateTeammatesInput!): UpdateTeammatesResponse
 
   """
@@ -8404,7 +8407,6 @@ input profiles_set_input {
   discord_username: String
   github_username: String
   medium_username: String
-  name: citext
   skills: String
   telegram_username: String
   twitter_username: String

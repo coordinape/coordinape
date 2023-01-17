@@ -67,7 +67,7 @@ export const CreateUserNameForm = ({ address }: { address?: string }) => {
         setError(
           'name',
           {
-            message: `Your profile address does not match the ENS name. If you own ${data.name} please update it to resolve to ${address}.`,
+            message: `The ENS ${data.name} doesn't resolve to your current address: ${address}.`,
           },
           { shouldFocus: true }
         );

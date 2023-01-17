@@ -6,14 +6,24 @@ import { z } from 'zod';
 import { getProfilesWithName } from '../../../../api-lib/findProfile';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
+import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import {
   composeHasuraActionRequestBodyWithSession,
   HasuraUserSessionVariables,
 } from '../../../../src/lib/zod';
+import { provider } from '../../../../src/lib/zod/formHelpers';
 
-export const updateProfileNameSchemaInput = z
+export const updateProfileSchemaInput = z
   .object({
     name: z.string().min(3).max(255),
+    bio: z.string().optional(),
+    skills: z.string().optional(),
+    twitter_username: z.string().optional(),
+    github_username: z.string().optional(),
+    telegram_username: z.string().optional(),
+    discord_username: z.string().optional(),
+    medium_username: z.string().optional(),
+    website: z.string().optional().nullable(),
   })
   .strict();
 
@@ -22,12 +32,28 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     session_variables,
     input: { payload },
   } = composeHasuraActionRequestBodyWithSession(
-    updateProfileNameSchemaInput,
+    updateProfileSchemaInput,
     HasuraUserSessionVariables
   ).parse(req.body);
 
   const { name } = payload;
 
+  if (name.endsWith('.eth')) {
+    const resolvedAddress = await provider().resolveName(name);
+    if (
+      !resolvedAddress ||
+      resolvedAddress.toLowerCase() !==
+        session_variables.hasuraAddress.toLocaleLowerCase()
+    )
+      return errorResponseWithStatusCode(
+        res,
+        {
+          message: `The ENS ${name} doesn't resolve to your current address: ${session_variables.hasuraAddress}.`,
+        },
+        422
+      );
+    return;
+  }
   const profile = await getProfilesWithName(name);
   if (
     profile &&
@@ -46,12 +72,12 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       update_profiles_by_pk: [
         {
           pk_columns: { id: session_variables.hasuraProfileId },
-          _set: { name },
+          _set: { ...payload },
         },
         { id: true },
       ],
     },
-    { operationName: 'updateProfileName' }
+    { operationName: 'updateProfile' }
   );
 
   const returnResult = mutationResult.update_profiles_by_pk?.id;
@@ -61,4 +87,4 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   return;
 }
 
-export default handler;
+export default verifyHasuraRequestMiddleware(handler);
