@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { RequireAuth } from 'features/auth';
 
 import HelpButton from '../HelpButton';
-import { GlobalUi, SentryScopeController } from 'components';
+import { GlobalUi } from 'components/GlobalUi';
 import { AppRoutes } from 'routes/routes';
 import { Box } from 'ui';
 
@@ -29,22 +29,21 @@ export const MainLayout = () => {
       }}
     >
       <MainHeader />
-      <RequireAuth>
-        <Suspense fallback={null}>
-          <Box
-            as="main"
-            css={{
-              overflowY: 'auto',
-              '@sm': { zIndex: 1 }, // for hamburger menu
-            }}
-          >
-            <GlobalUi />
-            <SentryScopeController />
+      <GlobalUi />
+      <HelpButton />
+      <Box
+        as="main"
+        css={{
+          overflowY: 'auto',
+          '@sm': { zIndex: 1 }, // for hamburger menu
+        }}
+      >
+        <RequireAuth>
+          <Suspense fallback={null}>
             <AppRoutes />
-          </Box>
-          <HelpButton />
-        </Suspense>
-      </RequireAuth>
+          </Suspense>
+        </RequireAuth>
+      </Box>
     </Box>
   );
 };

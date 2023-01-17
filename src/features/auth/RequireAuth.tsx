@@ -1,4 +1,4 @@
-import { ReactElement, useEffect } from 'react';
+import { ReactNode, useEffect } from 'react';
 
 import { getMagic, getMagicProvider } from 'features/auth/magic';
 
@@ -12,7 +12,7 @@ import { useFinishAuth } from './useFinishAuth';
 import { useWalletAuth } from './useWalletAuth';
 import { WalletAuthModal } from './WalletAuthModal';
 
-export const RequireAuth = (props: { children: ReactElement }) => {
+export const RequireAuth = (props: { children: ReactNode }) => {
   const { address, authTokens, connectorName } = useWalletAuth();
   const web3Context = useWeb3React();
   const finishAuth = useFinishAuth();
@@ -89,5 +89,5 @@ export const RequireAuth = (props: { children: ReactElement }) => {
     return <LoadingModal visible note={`RequireAuth-${authStep}`} />;
 
   // render routes
-  return props.children;
+  return <>{props.children}</>;
 };
