@@ -10,6 +10,7 @@ const themeEnabled = !!isFeatureEnabled('theme_switcher');
 
 const StyledContainer = styled(ToastifyContainer, {
   '&.Toastify__toast-container': {
+    pointerEvents: 'auto',
     width: '80%',
     minWidth: '400px',
     maxWidth: '660px',
