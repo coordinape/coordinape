@@ -54,8 +54,8 @@ const AddMembersPage = () => {
     }
   };
 
-  const magicLink = APP_URL + '/join/' + magicLinkUuid;
-  const welcomeLink = APP_URL + '/welcome/' + welcomeUuid;
+  const magicLink = APP_URL + paths.join(magicLinkUuid);
+  const welcomeLink = APP_URL + paths.invite(welcomeUuid);
 
   return (
     <>
