@@ -78,6 +78,7 @@ export const colors = {
   primaryDisabled: figmaColors.blue4,
   textOnPrimary: '#fff',
   secondary: figmaColors.blue12,
+  secondaryLight: figmaColors.blue4,
   secondaryMedium: figmaColors.blue8,
   secondaryDark: figmaColors.blue4,
   textOnSecondary: '#fff',
@@ -99,7 +100,7 @@ export const colors = {
   neutral: figmaColors.grey12,
   textOnNeutral: figmaColors.grey1,
 
-  dim: 'white',
+  dim: '#ffffff77',
   textOnDim: figmaColors.blue12,
 
   complete: figmaColors.green12,
@@ -128,14 +129,23 @@ export const colors = {
   tagActiveText: figmaColors.yellow20,
   tagActiveBackground: figmaColors.yellow4,
 
-  tagSuccessText: figmaColors.green12,
-  tagSuccessBackground: figmaColors.green1,
+  tagSuccessText: newFigmaColors.success7,
+  tagSuccessBackground: newFigmaColors.success3,
 
   tagAlertText: figmaColors.red16,
   tagAlertBackground: figmaColors.red4,
 
+  tagWarningText: newFigmaColors.orange6,
+  tagWarningBackground: newFigmaColors.orange2,
+
   tagPrimaryText: figmaColors.blue12,
   tagPrimaryBackground: figmaColors.blue4,
+
+  tagSecondaryText: figmaColors.blue12,
+  tagSecondaryBackground: figmaColors.blue4,
+
+  tagNeutralText: newFigmaColors.neutral7,
+  tagNeutralBackground: newFigmaColors.neutral2,
 
   formInputText: figmaColors.grey16,
   formInputBackground: 'white',
@@ -332,13 +342,13 @@ export const {
 export const dark = createTheme({
   colors: {
     cta: newFigmaColors.primary5,
-    textOnCta: newFigmaColors.primary1,
+    textOnCta: newFigmaColors.primary10,
     primary: newFigmaColors.grey3,
     textOnPrimary: newFigmaColors.grey8,
     neutral: newFigmaColors.grey7,
     textOnNeutral: newFigmaColors.grey4,
     dim: newFigmaColors.grey8,
-    textOnDim: newFigmaColors.grey2,
+    textOnDim: newFigmaColors.grey5,
     secondary: newFigmaColors.secondary5,
     secondaryMedium: newFigmaColors.secondary7,
     secondaryDark: newFigmaColors.secondary9,
@@ -377,8 +387,17 @@ export const dark = createTheme({
     tagAlertText: newFigmaColors.error6,
     tagAlertBackground: newFigmaColors.error10,
 
+    tagWarningText: newFigmaColors.orange5,
+    tagWarningBackground: newFigmaColors.orange10,
+
     tagPrimaryText: newFigmaColors.primary7,
     tagPrimaryBackground: newFigmaColors.primary9,
+
+    tagSecondaryText: newFigmaColors.secondary8,
+    tagSecondaryBackground: newFigmaColors.secondary3,
+
+    tagNeutralText: newFigmaColors.neutral4,
+    tagNeutralBackground: newFigmaColors.neutral8,
 
     formInputText: newFigmaColors.grey5,
     formInputBackground: newFigmaColors.grey9,

@@ -35,7 +35,7 @@ const StyledContainer = styled(ToastifyContainer, {
     height: '1px',
   },
   '.Toastify__toast--default': {
-    borderColor: '$toastifyBorderColorDefault',
+    borderColor: 'transparent',
     '.Toastify__toast-icon': {
       width: themeEnabled && '$2xl',
       m: themeEnabled && '0 -3px 0 -5px',

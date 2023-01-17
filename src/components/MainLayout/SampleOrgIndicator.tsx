@@ -43,11 +43,7 @@ export const SampleOrgIndicator = () => (
         size="small"
       >
         Done Testing?
-        <AppLink
-          inlineLink
-          to={paths.createCircle}
-          css={{ color: 'inherit', ml: '$sm' }}
-        >
+        <AppLink inlineLink to={paths.createCircle} css={{ ml: '$sm' }}>
           Create a Circle
         </AppLink>
       </Text>

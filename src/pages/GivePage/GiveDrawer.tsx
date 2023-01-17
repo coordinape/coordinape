@@ -236,7 +236,6 @@ export const GiveDrawer = ({
                 disabled={noGivingAllowed}
                 adjustGift={adjustGift}
                 gift={gift}
-                inPanel={true}
                 maxedOut={maxedOut}
                 optedOut={member.non_receiver || member.fixed_non_receiver}
               />
@@ -257,7 +256,7 @@ export const GiveDrawer = ({
         {showMarkdown ? (
           <Box
             tabIndex={0}
-            css={{ borderRadius: '$3' }}
+            css={{ borderRadius: '$3', mt: '$sm' }}
             onClick={() => {
               setShowMarkDown(false);
             }}
@@ -331,7 +330,7 @@ export const GiveDrawer = ({
       <Flex
         column
         css={{
-          borderTop: '0.5px solid $secondaryText',
+          borderTop: '0.5px solid $borderDim',
           mt: '$lg',
           pt: '$lg',
           gap: '$md',
@@ -346,7 +345,7 @@ export const GiveDrawer = ({
               css={{
                 mb: '$xs',
                 p: '$md $sm',
-                borderBottom: '1px solid $border',
+                borderBottom: '1px solid $borderDim',
               }}
             >
               <MarkdownPreview display source={member.bio} />
@@ -357,7 +356,7 @@ export const GiveDrawer = ({
           <Text semibold size="large">
             Contributions
           </Text>
-          <Box css={{ p: '$md $sm' }}>
+          <Box css={{ p: '$md 0' }}>
             {!contributions && (
               // TODO: Better loading indicator here -g
               <Box>Loading...</Box>

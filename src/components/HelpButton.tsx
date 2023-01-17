@@ -29,7 +29,7 @@ const HelpButtonContainer = styled('div', {
   padding: '$sm',
   bottom: '$1xl',
   right: '$1xl',
-  backgroundColor: '$background',
+  backgroundColor: '$surface',
   color: '$text',
   textAlign: 'center',
   boxShadow: '$shadow4',

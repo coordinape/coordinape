@@ -63,9 +63,9 @@ export const AppLink = styled(NavLink, {
   variants: {
     inlineLink: {
       true: {
-        textDecoration: 'underline',
+        textDecoration: 'none',
         '&:hover': {
-          textDecoration: 'none',
+          textDecoration: 'underline',
         },
       },
     },

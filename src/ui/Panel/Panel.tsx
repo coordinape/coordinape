@@ -82,12 +82,14 @@ export const Panel = styled('div', {
     },
     success: {
       true: {
-        backgroundColor: '$success',
+        backgroundColor: '$tagSuccessBackground',
+        color: '$tagSuccessText',
       },
     },
     alert: {
       true: {
-        backgroundColor: '$alertLight',
+        backgroundColor: '$tagAlertBackground',
+        color: '$tagAlertText',
       },
     },
     background: {
