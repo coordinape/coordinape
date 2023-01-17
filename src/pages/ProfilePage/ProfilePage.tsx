@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 
 import { transparentize } from 'polished';
 import { useNavigate } from 'react-router';
@@ -11,12 +11,12 @@ import {
   FormFileUpload,
   scrollToTop,
 } from 'components';
+import { EditProfileModal } from 'components/EditProfileModal';
 import { USER_ROLE_COORDINAPE } from 'config/constants';
 import { useImageUploader, useApiWithProfile, useToast } from 'hooks';
 import { useSomeCircleId } from 'hooks/migration';
 import { Edit3 } from 'icons/__generated';
 import { useMyProfile, useProfile } from 'recoilState/app';
-import { useSetEditProfileOpen } from 'recoilState/ui';
 import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE, paths } from 'routes/paths';
 import { Avatar, Box, Button, Flex, MarkdownPreview, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
@@ -68,7 +68,7 @@ const ProfilePageContent = ({
     users?.[0]?.name ||
     'unknown';
 
-  const setEditProfileOpen = useSetEditProfileOpen();
+  const [editProfileOpen, setEditProfileOpen] = useState(false);
   const { updateBackground } = useApiWithProfile();
   const navigate = useNavigate();
 
@@ -152,6 +152,12 @@ const ProfilePageContent = ({
                 <Edit3 />
                 Edit Profile
               </Button>
+              <Suspense fallback={<></>}>
+                <EditProfileModal
+                  open={editProfileOpen}
+                  onClose={() => setEditProfileOpen(false)}
+                />
+              </Suspense>
             </Flex>
           )}
         </SingleColumnLayout>

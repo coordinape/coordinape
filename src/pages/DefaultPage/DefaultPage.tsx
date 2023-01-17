@@ -6,7 +6,6 @@ import { rManifest } from 'recoilState/db';
 import {
   EXTERNAL_URL_DISCORD,
   EXTERNAL_URL_DOCS,
-  EXTERNAL_URL_LANDING_PAGE,
   EXTERNAL_URL_TWITTER,
   paths,
 } from 'routes/paths';
@@ -77,7 +76,7 @@ const Footer = () => (
       },
     }}
   >
-    <a target="_blank" rel="noreferrer" href={EXTERNAL_URL_LANDING_PAGE}>
+    <a target="_blank" rel="noreferrer" href="https://coordinape.com">
       coordinape.com
     </a>
     <a target="_blank" rel="noreferrer" href={EXTERNAL_URL_DISCORD}>

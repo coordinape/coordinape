@@ -1,18 +1,16 @@
 import { useEffect, useState } from 'react';
 
+import { useIsEmailWallet } from 'features/auth';
 import { isUserAdmin } from 'lib/users';
 import { useRecoilValueLoadable } from 'recoil';
 
 import { LoadingModal } from 'components';
+import HintBanner from 'components/HintBanner';
 import { useMainHeaderQuery } from 'components/MainLayout/getMainHeaderData';
 import { useContracts } from 'hooks';
 import { useVaults } from 'hooks/gql/useVaults';
 import useRequireSupportedChain from 'hooks/useRequireSupportedChain';
 import { rSelectedCircleId } from 'recoilState/app';
-import {
-  EXTERNAL_URL_LEARN_ABOUT_VAULTS,
-  EXTERNAL_URL_YEARN_VAULTS,
-} from 'routes/paths';
 import { Box, Button, Flex, Link, Modal, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -59,12 +57,30 @@ const VaultsPage = () => {
   };
 
   const [saving, setSaving] = useState(false);
+  const isEmailWallet = useIsEmailWallet();
 
   if (orgsQuery.isLoading || orgsQuery.isIdle)
     return <LoadingModal visible note="VaultsPage" />;
 
   return (
     <SingleColumnLayout>
+      {isEmailWallet && (
+        <HintBanner title="Email-Based Wallets Not Recommended" type="alert">
+          <p>You are logged in with an email-based wallet.</p>
+          <p>
+            It is not recommended to create a vault with one of these wallets.
+            Instead, you can{' '}
+            <a
+              target="_blank"
+              href="https://docs.coordinape.com/info/documentation/email-login-and-web3-best-practices"
+              rel="noreferrer"
+            >
+              export this wallet
+            </a>
+            , or log in with a different wallet.
+          </p>
+        </HintBanner>
+      )}
       <Box
         css={{
           display: 'flex',
@@ -188,7 +204,7 @@ const NoVaults = ({
         </Text>
         <Text p as="p" css={{ mb: '$md' }}>
           In addition to paying your team, you can earn yield based on{' '}
-          <Link inlineLink href={EXTERNAL_URL_YEARN_VAULTS} target="_blank">
+          <Link inlineLink href="https://yearn.finance/vaults" target="_blank">
             the current APYs offered by Yearn
           </Link>
           . Vaults also enable you to set allowances for distributions per
@@ -206,7 +222,10 @@ const NoVaults = ({
               Create Vault
             </Button>
           )}
-          <Link href={EXTERNAL_URL_LEARN_ABOUT_VAULTS} target="_blank">
+          <Link
+            href="https://docs.coordinape.com/get-started/organizations/vaults"
+            target="_blank"
+          >
             <Button color="primary" outlined inline css={{ mt: '$md' }}>
               Vault Guide
             </Button>

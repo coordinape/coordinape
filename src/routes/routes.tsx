@@ -54,7 +54,7 @@ export const AppRoutes = () => {
       <Route path="circles/:circleId" element={<CircleRouteHandler />}>
         <Route path="history" element={<HistoryPage />} />
         <Route path="give" element={<GivePage />} />
-        <Route path="map" element={<MapRouteHanlder />}>
+        <Route path="map" element={<MapRouteHandler />}>
           <Route path="" element={<LazyAssetMapPage />} />
         </Route>
         <Route path="contributions" element={<ContributionsPage />} />
@@ -150,7 +150,7 @@ const VouchingRouteHandler = () => {
   return <Outlet />;
 };
 
-const MapRouteHanlder = () => {
+const MapRouteHandler = () => {
   const params = useParams();
   const circleId = Number(params.circleId);
   const showGive = useShowGive(circleId);

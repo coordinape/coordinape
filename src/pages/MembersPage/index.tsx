@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import { disabledStyle } from 'stitches.config';
 
+import { NEW_CIRCLE_CREATED_PARAMS } from '../CreateCirclePage/CreateCirclePage';
 import { LoadingModal } from 'components';
 import { useToast, useApiAdminCircle } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
@@ -19,7 +20,7 @@ import {
   QUERY_KEY_FIXED_PAYMENT,
 } from 'pages/CircleAdminPage/getFixedPayment';
 import { useSelectedCircle } from 'recoilState/app';
-import { NEW_CIRCLE_CREATED_PARAMS, paths } from 'routes/paths';
+import { paths } from 'routes/paths';
 import { AppLink, Button, Flex, Modal, Panel, Text, TextField } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
