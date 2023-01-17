@@ -48,10 +48,12 @@ export const TextField = styled('input', {
     },
     error: {
       true: {
-        backgroundColor: '$alertLight',
+        backgroundColor: '$formInputErrorBackground !important',
+        color: '$formInputErrorText !important',
         boxSizing: 'border-box',
-        '&:focus': {
-          borderColor: '$alert',
+        borderColor: '$formInputErrorBorder !important',
+        '&:focus, &:focus-within': {
+          borderColor: '$formInputErrorBorder !important',
         },
       },
     },

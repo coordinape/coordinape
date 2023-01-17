@@ -141,6 +141,9 @@ export const colors = {
   formInputBackground: 'white',
   formInputBorder: figmaColors.grey4,
   formInputPlaceholder: figmaColors.grey8,
+  formInputErrorText: newFigmaColors.error7,
+  formInputErrorBackground: newFigmaColors.error1,
+  formInputErrorBorder: newFigmaColors.error6,
 
   mapNodeHighlight: figmaColors.blue12,
   mapNodeMoreHighlight: figmaColors.teal8,
@@ -381,6 +384,9 @@ export const dark = createTheme({
     formInputBackground: newFigmaColors.grey9,
     formInputBorder: newFigmaColors.grey7,
     formInputPlaceholder: newFigmaColors.grey6,
+    formInputErrorText: newFigmaColors.error9,
+    formInputErrorBackground: newFigmaColors.error4,
+    formInputErrorBorder: newFigmaColors.error7,
 
     mapNodeHighlight: newFigmaColors.warning7,
     mapNodeMoreHighlight: newFigmaColors.warning4,

@@ -13,6 +13,20 @@ export const Panel = styled('div', {
   borderRadius: '$3',
   backgroundColor: '$surface',
   padding: '$md',
+  'input, textarea, button[role="radio"], button[role="combobox"], button[role="checkbox"], .root .formInputWrapper':
+    {
+      backgroundColor: 'transparent',
+      borderColor: '$borderMedium',
+      '&:disabled': {
+        opacity: 1,
+      },
+    },
+  '.root .formInputWrapper': {
+    borderColor: '$borderMedium',
+    '& input': {
+      background: 'transparent',
+    },
+  },
 
   variants: {
     stack: {
@@ -25,30 +39,39 @@ export const Panel = styled('div', {
       true: {
         padding: '$md',
         backgroundColor: '$surfaceNested',
-        'input, textarea, button[role="radio"], button[role="combobox"], button[role="checkbox"], .formInputWrapper':
+        'input, textarea, button[role="radio"], button[role="combobox"], button[role="checkbox"], .root .formInputWrapper':
           {
-            backgroundColor: '$surface !important',
-            borderColor: 'transparent !important',
+            backgroundColor: '$surface',
+            borderColor: 'transparent',
             '&:focus-within ': {
-              borderColor: '$cta !important',
+              borderColor: '$cta',
             },
           },
-        '.formInputWrapper input': {
-          background: 'transparent !important',
+        '.root .formInputWrapper': {
+          borderColor: 'transparent',
+          '& input': {
+            background: 'transparent',
+          },
         },
       },
     },
     invertForm: {
       true: {
-        'input, textarea, button[role="radio"], button[role="combobox"], button[role="checkbox"]':
+        'input, textarea, button[role="radio"], button[role="combobox"], button[role="checkbox"], .root .formInputWrapper':
           {
             backgroundColor: '$surfaceNested',
+            borderColor: 'transparent',
             '&:disabled': {
               borderColor: '$borderMedium',
-              background: 'transparent',
               opacity: 1,
             },
           },
+        '.root .formInputWrapper': {
+          borderColor: 'transparent',
+          '& input': {
+            background: 'transparent',
+          },
+        },
       },
     },
     info: {
