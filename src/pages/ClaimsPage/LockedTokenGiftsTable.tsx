@@ -11,6 +11,10 @@ import { getLockedTokenGifts } from './queries';
 export default function LockedTokenGiftsTable() {
   const profile = useMyProfile();
   const [lockedTokenGifts, setLockedTokenGifts] = useState([] as any[]);
+  const hedgeyPortfolioUrl = (chainId: string) =>
+    chainId === '1'
+      ? 'https://app.hedgey.finance/my-rewards'
+      : 'https://hedgey-app-v2-git-coordinape-test-hedgey-finance.vercel.app/my-rewards';
 
   useEffect(() => {
     getLockedTokenGifts(profile.id).then(setLockedTokenGifts);
@@ -57,7 +61,9 @@ export default function LockedTokenGiftsTable() {
                   </td>
                   <td>
                     <Link
-                      href="https://app.hedgey.finance/my-rewards"
+                      href={hedgeyPortfolioUrl(
+                        lockedTokenGift.locked_token_distribution.chain_id
+                      )}
                       target="_blank"
                     >
                       <Button color="primary" size="small" outlined>
