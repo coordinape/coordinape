@@ -6,12 +6,12 @@ import { z } from 'zod';
 import { getProfilesWithName } from '../../../../api-lib/findProfile';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
+import { getProvider } from '../../../../api-lib/provider';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import {
   composeHasuraActionRequestBodyWithSession,
   HasuraUserSessionVariables,
 } from '../../../../src/lib/zod';
-import { provider } from '../../../../src/lib/zod/formHelpers';
 
 export const updateProfileSchemaInput = z
   .object({
@@ -39,7 +39,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   const { name } = payload;
 
   if (name.endsWith('.eth')) {
-    const resolvedAddress = await provider().resolveName(name);
+    const resolvedAddress = await getProvider(1).resolveName(name);
     if (
       !resolvedAddress ||
       resolvedAddress.toLowerCase() !==
@@ -52,7 +52,6 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         },
         422
       );
-    return;
   }
   const profile = await getProfilesWithName(name);
   if (
