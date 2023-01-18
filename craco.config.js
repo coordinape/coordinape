@@ -48,6 +48,9 @@ module.exports = {
         'react-markdown':
           '<rootDir>/node_modules/react-markdown/react-markdown.min.js',
       },
+      testEnvironmentOptions: {
+        url: `http://localhost:${process.env.LOCAL_WEB_PORT}`,
+      },
     },
   },
   webpack: {
