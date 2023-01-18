@@ -249,11 +249,9 @@ input UpdateCircleInput {
 input UpdateEpochInput {
   id: Int!
   circle_id: Int!
-  start_date: timestamptz!
-  days: Int!
-  repeat: Int!
   grant: Float
   description: String
+  params: EpochInputParams
 }
 
 input Allocation {
@@ -409,11 +407,11 @@ input EpochInputParams {
   duration_unit: String
   weekday: Int
   week: Int
-  grant: Float
 }
 
 input CreateEpochInput {
   circle_id: Int!
+  grant: Float
   params: EpochInputParams!
 }
 

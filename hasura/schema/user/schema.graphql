@@ -131,6 +131,7 @@ type CreateCircleResponse {
 
 input CreateEpochInput {
   circle_id: Int!
+  grant: Float
   params: EpochInputParams!
 }
 
@@ -215,7 +216,6 @@ input EpochInputParams {
   end_date: timestamptz!
   frequency: Int
   frequency_unit: String
-  grant: Float
   start_date: timestamptz!
   type: String!
   week: Int
@@ -421,12 +421,10 @@ type UpdateContributionResponse {
 
 input UpdateEpochInput {
   circle_id: Int!
-  days: Int!
   description: String
   grant: Float
   id: Int!
-  repeat: Int!
-  start_date: timestamptz!
+  params: EpochInputParams
 }
 
 type UpdateOrgResponse {
