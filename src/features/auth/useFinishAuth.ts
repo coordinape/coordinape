@@ -6,25 +6,17 @@ import * as Sentry from '@sentry/react';
 import { useApiBase, useRecoilLoadCatch } from 'hooks';
 import { useToast } from 'hooks/useToast';
 import type { UseWeb3ReactReturnType } from 'hooks/useWeb3React';
-import { rSelectedCircleIdSource } from 'recoilState/app';
-import { rApiManifest, rApiFullCircle } from 'recoilState/db';
 
 import { findConnectorName } from './connectors';
 import { login } from './login';
 import { setAuthToken } from './token';
+import { useLogout } from './useLogout';
 import { rSavedAuth } from './useSavedAuth';
-
-export const clearStateAfterLogout = (set: any) => {
-  // this triggers logout via recoil's effects_UNSTABLE
-  set(rSavedAuth, { authTokens: {} });
-  set(rApiFullCircle, new Map());
-  set(rApiManifest, undefined);
-  set(rSelectedCircleIdSource, undefined);
-};
 
 export const useFinishAuth = () => {
   const { showError } = useToast();
   const { fetchManifest } = useApiBase();
+  const logout = useLogout();
 
   // FIXME it's a bit inconsistent that this catches its own errors instead of
   // delegating to useRecoilLoadCatch. but we should probably just not use
@@ -79,9 +71,9 @@ export const useFinishAuth = () => {
               fetchManifest(newWalletAuth)
                 .then(() => res(true))
                 .catch(() => {
+                  // we had a cached token & it's invalid, so log out
                   // FIXME don't logout if request timed out
-                  // we had a cached token & it's invalid
-                  clearStateAfterLogout(set);
+                  logout();
                   res(false);
                 })
             )
