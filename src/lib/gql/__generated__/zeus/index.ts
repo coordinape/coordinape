@@ -908,14 +908,17 @@ export type ValueTypes = {
     org?: ValueTypes['organizations'];
     __typename?: boolean | `@${string}`;
   }>;
-  ['UpdateProfileNameInput']: {
+  ['UpdateProfileInput']: {
+    bio?: string | undefined | null;
+    discord_username?: string | undefined | null;
+    github_username?: string | undefined | null;
+    medium_username?: string | undefined | null;
     name: string;
+    skills?: string | undefined | null;
+    telegram_username?: string | undefined | null;
+    twitter_username?: string | undefined | null;
+    website?: string | undefined | null;
   };
-  ['UpdateProfileNameResponse']: AliasType<{
-    id?: boolean | `@${string}`;
-    profileName?: ValueTypes['profiles'];
-    __typename?: boolean | `@${string}`;
-  }>;
   ['UpdateProfileResponse']: AliasType<{
     id?: boolean | `@${string}`;
     profile?: ValueTypes['profiles'];
@@ -4911,9 +4914,9 @@ export type ValueTypes = {
       { payload: ValueTypes['UpdateEpochInput'] },
       ValueTypes['EpochResponse']
     ];
-    updateProfileName?: [
-      { payload: ValueTypes['UpdateProfileNameInput'] },
-      ValueTypes['UpdateProfileNameResponse']
+    updateProfile?: [
+      { payload: ValueTypes['UpdateProfileInput'] },
+      ValueTypes['UpdateProfileResponse']
     ];
     updateTeammates?: [
       { payload: ValueTypes['UpdateTeammatesInput'] },
@@ -6385,7 +6388,6 @@ export type ValueTypes = {
     discord_username?: string | undefined | null;
     github_username?: string | undefined | null;
     medium_username?: string | undefined | null;
-    name?: ValueTypes['citext'] | undefined | null;
     skills?: string | undefined | null;
     telegram_username?: string | undefined | null;
     twitter_username?: string | undefined | null;
@@ -10519,11 +10521,7 @@ export type ModelTypes = {
     id: number;
     org?: GraphQLTypes['organizations'] | undefined;
   };
-  ['UpdateProfileNameInput']: GraphQLTypes['UpdateProfileNameInput'];
-  ['UpdateProfileNameResponse']: {
-    id: number;
-    profileName?: GraphQLTypes['profiles'] | undefined;
-  };
+  ['UpdateProfileInput']: GraphQLTypes['UpdateProfileInput'];
   ['UpdateProfileResponse']: {
     id: number;
     profile?: GraphQLTypes['profiles'] | undefined;
@@ -11845,7 +11843,7 @@ export type ModelTypes = {
     /** users can modify contributions and update their dates. */
     updateContribution?: GraphQLTypes['UpdateContributionResponse'] | undefined;
     updateEpoch?: GraphQLTypes['EpochResponse'] | undefined;
-    updateProfileName?: GraphQLTypes['UpdateProfileNameResponse'] | undefined;
+    updateProfile?: GraphQLTypes['UpdateProfileResponse'] | undefined;
     updateTeammates?: GraphQLTypes['UpdateTeammatesResponse'] | undefined;
     /** Update own user */
     updateUser?: GraphQLTypes['UserResponse'] | undefined;
@@ -13546,13 +13544,16 @@ export type GraphQLTypes = {
     id: number;
     org?: GraphQLTypes['organizations'] | undefined;
   };
-  ['UpdateProfileNameInput']: {
+  ['UpdateProfileInput']: {
+    bio?: string | undefined;
+    discord_username?: string | undefined;
+    github_username?: string | undefined;
+    medium_username?: string | undefined;
     name: string;
-  };
-  ['UpdateProfileNameResponse']: {
-    __typename: 'UpdateProfileNameResponse';
-    id: number;
-    profileName?: GraphQLTypes['profiles'] | undefined;
+    skills?: string | undefined;
+    telegram_username?: string | undefined;
+    twitter_username?: string | undefined;
+    website?: string | undefined;
   };
   ['UpdateProfileResponse']: {
     __typename: 'UpdateProfileResponse';
@@ -16677,7 +16678,7 @@ export type GraphQLTypes = {
     /** users can modify contributions and update their dates. */
     updateContribution?: GraphQLTypes['UpdateContributionResponse'] | undefined;
     updateEpoch?: GraphQLTypes['EpochResponse'] | undefined;
-    updateProfileName?: GraphQLTypes['UpdateProfileNameResponse'] | undefined;
+    updateProfile?: GraphQLTypes['UpdateProfileResponse'] | undefined;
     updateTeammates?: GraphQLTypes['UpdateTeammatesResponse'] | undefined;
     /** Update own user */
     updateUser?: GraphQLTypes['UserResponse'] | undefined;
@@ -17689,7 +17690,6 @@ export type GraphQLTypes = {
     discord_username?: string | undefined;
     github_username?: string | undefined;
     medium_username?: string | undefined;
-    name?: GraphQLTypes['citext'] | undefined;
     skills?: string | undefined;
     telegram_username?: string | undefined;
     twitter_username?: string | undefined;

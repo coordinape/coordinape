@@ -50,7 +50,7 @@ export const AllTypesProps: Record<string, any> = {
   UpdateEpochInput: {
     start_date: 'timestamptz',
   },
-  UpdateProfileNameInput: {},
+  UpdateProfileInput: {},
   UpdateTeammatesInput: {},
   UpdateUserInput: {},
   UploadCircleImageInput: {},
@@ -3559,8 +3559,8 @@ export const AllTypesProps: Record<string, any> = {
     updateEpoch: {
       payload: 'UpdateEpochInput',
     },
-    updateProfileName: {
-      payload: 'UpdateProfileNameInput',
+    updateProfile: {
+      payload: 'UpdateProfileInput',
     },
     updateTeammates: {
       payload: 'UpdateTeammatesInput',
@@ -7495,10 +7495,6 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Int',
     org: 'organizations',
   },
-  UpdateProfileNameResponse: {
-    id: 'Int',
-    profileName: 'profiles',
-  },
   UpdateProfileResponse: {
     id: 'Int',
     profile: 'profiles',
@@ -9872,7 +9868,7 @@ export const ReturnTypes: Record<string, any> = {
     updateCircle: 'UpdateCircleOutput',
     updateContribution: 'UpdateContributionResponse',
     updateEpoch: 'EpochResponse',
-    updateProfileName: 'UpdateProfileNameResponse',
+    updateProfile: 'UpdateProfileResponse',
     updateTeammates: 'UpdateTeammatesResponse',
     updateUser: 'UserResponse',
     update_burns: 'burns_mutation_response',
