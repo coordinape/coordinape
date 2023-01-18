@@ -9,7 +9,7 @@ import * as z from 'zod';
 
 import { LoadingModal } from 'components';
 import { SkillToggles, AvatarUpload, FormInputField } from 'components/index';
-import { useToast } from 'hooks';
+import { useApiBase, useToast } from 'hooks';
 import { useMyProfile } from 'recoilState/app';
 import {
   Box,
@@ -86,6 +86,8 @@ export const EditProfileModal = ({
     },
   });
 
+  const { fetchManifest } = useApiBase();
+
   const { field: skillsField } = useController({
     name: 'skills',
     control,
@@ -114,7 +116,8 @@ export const EditProfileModal = ({
     onSettled: () => {
       setIsSaving(false);
     },
-    onSuccess: () => {
+    onSuccess: async () => {
+      fetchManifest();
       onClose();
     },
     onError: err => {
