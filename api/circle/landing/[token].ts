@@ -29,14 +29,8 @@ async function circleFromToken(token: string) {
       circle_share_tokens: [
         {
           where: {
-            uuid: {
-              _eq: token,
-            },
-            circle: {
-              deleted_at: {
-                _is_null: true,
-              },
-            },
+            uuid: { _eq: token },
+            circle: { deleted_at: { _is_null: true } },
           },
         },
         {
@@ -45,32 +39,16 @@ async function circleFromToken(token: string) {
             id: true,
             logo: true,
             name: true,
-            organization: {
-              name: true,
-              logo: true,
-            },
+            organization: { name: true, logo: true },
             users: [
-              {
-                limit: 3,
-                where: {
-                  role: { _eq: 1 },
-                },
-              },
-              {
-                name: true,
-                profile: {
-                  avatar: true,
-                  name: true,
-                },
-              },
+              { limit: 3, where: { role: { _eq: 1 } } },
+              { name: true, profile: { avatar: true, name: true } },
             ],
           },
         },
       ],
     },
-    {
-      operationName: 'circleFromToken',
-    }
+    { operationName: 'circleFromToken' }
   );
 
   const tokenResult = circle_share_tokens?.pop();
