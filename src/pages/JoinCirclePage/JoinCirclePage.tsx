@@ -48,6 +48,7 @@ export const JoinCirclePage = () => {
     myUsers.some(u => u.circle_id === circleId);
 
   useEffect(() => {
+    assert(token);
     const fn = async () => {
       try {
         const res = await fetch('/api/circle/landing/' + token);
@@ -87,7 +88,7 @@ export const JoinCirclePage = () => {
 
   // Waiting to validate the token
   if ((!tokenError && !tokenJoinInfo) || !profile) {
-    return <LoadingModal visible={true} />;
+    return <LoadingModal visible={true} note="token-lookup" />;
   }
 
   if (tokenJoinInfo && wrongAddress) {
