@@ -7,6 +7,7 @@ import { SubmitHandler, useController, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import * as z from 'zod';
 
+import { LoadingModal } from 'components';
 import { SkillToggles, AvatarUpload, FormInputField } from 'components/index';
 import { useToast } from 'hooks';
 import { useMyProfile } from 'recoilState/app';
@@ -57,6 +58,7 @@ export const EditProfileModal = ({
   onClose: () => void;
 }) => {
   const [showMarkdown, setShowMarkDown] = useState<boolean>(true);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
   const { showError } = useToast();
 
   const myProfile = useMyProfile();
@@ -106,6 +108,12 @@ export const EditProfileModal = ({
   }, [showMarkdown]);
 
   const updateProfileMutation = useMutation(updateMyProfile, {
+    onMutate: () => {
+      setIsSaving(true);
+    },
+    onSettled: () => {
+      setIsSaving(false);
+    },
     onSuccess: () => {
       onClose();
     },
@@ -125,7 +133,7 @@ export const EditProfileModal = ({
       if (
         !resolvedAddress ||
         resolvedAddress.toLowerCase() !== myProfile.address.toLowerCase()
-      )
+      ) {
         setError(
           'name',
           {
@@ -133,7 +141,8 @@ export const EditProfileModal = ({
           },
           { shouldFocus: true }
         );
-      return;
+        return;
+      }
     }
     // skills is an array here but the backend expects a json encoded array
     const fixedParams: Omit<typeof params, 'skills' | 'website'> & {
@@ -144,7 +153,7 @@ export const EditProfileModal = ({
     if (fixedParams.website == '') {
       fixedParams.website = null;
     }
-    await updateProfileMutation.mutate(fixedParams);
+    updateProfileMutation.mutate(fixedParams);
   };
 
   return (
@@ -207,7 +216,6 @@ export const EditProfileModal = ({
             onChange={skillsField.onChange}
           />
         </Flex>
-
         <Text p css={sectionHeader}>
           Biography
         </Text>
@@ -268,7 +276,6 @@ export const EditProfileModal = ({
             </Text>
           </Box>
         )}
-
         <Text p css={sectionHeader}>
           Links
         </Text>
@@ -333,6 +340,7 @@ export const EditProfileModal = ({
         <Button disabled={!isDirty} color="primary" type="submit">
           Save
         </Button>
+        {isSaving && <LoadingModal visible />}
       </Form>
     </Modal>
   );
