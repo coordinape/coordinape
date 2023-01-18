@@ -1,6 +1,7 @@
 import assert from 'assert';
 import { useEffect, useState } from 'react';
 
+import { useAuthStateMachine } from 'features/auth/RequireAuth';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
@@ -20,6 +21,7 @@ import {
 } from './queries';
 
 export const JoinCirclePage = () => {
+  useAuthStateMachine(false);
   const { token } = useParams();
 
   const navigate = useNavigate();
@@ -57,7 +59,7 @@ export const JoinCirclePage = () => {
         const res = await fetch('/api/circle/landing/' + token);
         if (!res.ok) {
           setTokenError(
-            'Invalid invite link; check with the Circle Admin, there may be a new link.'
+            'Invalid invite link; check with your Circle Admin for an updated link.'
           );
           return;
         }
@@ -75,7 +77,7 @@ export const JoinCirclePage = () => {
           return;
         }
       } catch (e) {
-        setTokenError('Network error validating invite link');
+        setTokenError('Network error; please reload the page to try again.');
       }
     };
     fn()
@@ -84,17 +86,17 @@ export const JoinCirclePage = () => {
         if (e instanceof Error) {
           setTokenError(e.message ?? 'unknown error');
         } else {
-          setTokenError('invalid token');
+          setTokenError('Invalid token');
         }
       });
   }, []);
 
   // Waiting to validate the token
-  if ((!tokenError && !tokenJoinInfo) || !profile) {
+  if (!tokenError && !tokenJoinInfo) {
     return <LoadingModal visible={true} note="token-lookup" />;
   }
 
-  if (address && tokenJoinInfo && wrongAddress) {
+  if (address && profile && tokenJoinInfo && wrongAddress) {
     return (
       <AddressIsNotMember
         address={address}
@@ -118,10 +120,7 @@ export const JoinCirclePage = () => {
         </CenteredBox>
       )}
       {tokenJoinInfo && (
-        <JoinWithMagicLink
-          tokenJoinInfo={tokenJoinInfo}
-          userName={profile.name}
-        />
+        <JoinWithMagicLink tokenJoinInfo={tokenJoinInfo} profile={profile} />
       )}
     </>
   );

@@ -109,8 +109,6 @@ const LoggedInRoutes = () => {
         element={<VaultTransactions />}
       />
 
-      <Route path={paths.join(':token')} element={<JoinCirclePage />} />
-
       <Route path={paths.invite(':token')} element={<JoinCirclePage />} />
       <Route path="*" element={<Redirect to={paths.home} note="catchall" />} />
     </Routes>
@@ -128,6 +126,7 @@ export const AppRoutes = () => {
           </RequireAuth>
         }
       />
+      <Route path={paths.join(':token')} element={<JoinCirclePage />} />
       <Route
         path="*"
         element={
