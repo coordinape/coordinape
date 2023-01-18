@@ -1,7 +1,3 @@
-import { Suspense } from 'react';
-
-import { RequireAuth } from 'features/auth';
-
 import HelpButton from '../HelpButton';
 import { GlobalUi } from 'components/GlobalUi';
 import { AppRoutes } from 'routes/routes';
@@ -38,11 +34,7 @@ export const MainLayout = () => {
           '@sm': { zIndex: 1 }, // for hamburger menu
         }}
       >
-        <RequireAuth>
-          <Suspense fallback={null}>
-            <AppRoutes />
-          </Suspense>
-        </RequireAuth>
+        <AppRoutes />
       </Box>
     </Box>
   );
