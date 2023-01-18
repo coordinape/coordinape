@@ -86,7 +86,7 @@ const DragFileUpload = ({
         <Box
           css={{
             padding: '$xl',
-            background: dragActive ? '$info' : 'white',
+            background: dragActive ? '$info' : '$surfaceNested',
             borderRadius: '$3',
           }}
         >

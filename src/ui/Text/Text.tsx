@@ -15,6 +15,7 @@ export const Text = styled('span', {
       default: { color: '$text' },
       neutral: { color: '$neutral' },
       alert: { color: '$alert' },
+      warning: { color: '$warning' },
       primary: { color: '$primary' },
       secondary: { color: '$secondaryText' },
       active: { color: '$tagActiveText' },
@@ -132,6 +133,30 @@ export const Text = styled('span', {
       css: {
         color: '$tagAlertText',
         backgroundColor: '$tagAlertBackground',
+      },
+    },
+    {
+      tag: true,
+      color: 'warning',
+      css: {
+        color: '$tagWarningText',
+        backgroundColor: '$tagWarningBackground',
+      },
+    },
+    {
+      tag: true,
+      color: 'secondary',
+      css: {
+        color: '$tagSecondaryText',
+        backgroundColor: '$tagSecondaryBackground',
+      },
+    },
+    {
+      tag: true,
+      color: 'neutral',
+      css: {
+        color: '$tagNeutralText',
+        backgroundColor: '$tagNeutralBackground',
       },
     },
   ],

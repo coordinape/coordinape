@@ -79,16 +79,15 @@ export const CirclesPage = () => {
         css={{ mb: '$lg', width: '50%', '@sm': { width: '100%' } }}
       >
         All your organizations and circles in one place.{' '}
-        <Text
+        <Link
           onClick={() => {
             setShowAllCircles(prev => !prev);
           }}
-          color="primary"
           css={{ cursor: 'pointer' }}
-          inline
+          inlineLink
         >
           {!showAllCircles ? 'Show all circles' : 'Show only my circles'}
-        </Text>
+        </Link>
       </Text>
       {/* Show the sample org first*/}
       {/* Do we have a sample already? If not, lets offer to make one eh */}
@@ -156,11 +155,11 @@ const GetStarted = () => {
           </Text>
         </Box>
         <Flex column css={{ width: '65%', '@sm': { width: '100%' } }}>
-          <Text p as="p" color="inherit" css={{ mb: '$md' }}>
+          <Text p as="p" css={{ mb: '$md' }}>
             An Organization houses all of your Circles in Coordinape. A Circle
             is equal to a team. Start a Circle, add members, then create an
             epoch.{' '}
-            <Link href={EXTERNAL_URL_DISCORD} target="_blank">
+            <Link inlineLink href={EXTERNAL_URL_DISCORD} target="_blank">
               Join our discord
             </Link>{' '}
             where we&apos;re always happy to help and keep you updated on whats

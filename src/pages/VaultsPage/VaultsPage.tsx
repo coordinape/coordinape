@@ -204,7 +204,7 @@ const NoVaults = ({
         </Text>
         <Text p as="p" css={{ mb: '$md' }}>
           In addition to paying your team, you can earn yield based on{' '}
-          <Link href="https://yearn.finance/vaults" target="_blank">
+          <Link inlineLink href="https://yearn.finance/vaults" target="_blank">
             the current APYs offered by Yearn
           </Link>
           . Vaults also enable you to set allowances for distributions per

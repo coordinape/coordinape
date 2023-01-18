@@ -44,14 +44,14 @@ export const ApeAutocomplete = React.forwardRef((props: Props, ref) => {
     <Box
       css={{
         '.root *': {
-          background: '$formInputBackground',
-          color: '$formInputText',
           '&::placeholder': {
             color: '$formInputPlaceholder',
           },
         },
         '.formInputWrapper': {
           border: '1px solid $formInputBorder',
+          background: '$formInputBackground',
+          color: '$formInputText',
           '&:focus-within': {
             borderColor: '$cta',
           },

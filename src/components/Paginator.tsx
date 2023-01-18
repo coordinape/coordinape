@@ -29,7 +29,7 @@ export const Paginator = ({
           fontSize: '$medium',
           fontWeight: '$normal',
           padding: 0,
-          backgroundColor: 'white',
+          backgroundColor: '$dim',
           color: '$text',
         },
         ...css,
@@ -52,7 +52,7 @@ export const Paginator = ({
               : {
                   borderRadius: '$1',
                   backgroundColor: '$link !important',
-                  color: 'white !important',
+                  color: '$textOnCta !important',
                 }
           }
           onClick={() => onSelect(n)}

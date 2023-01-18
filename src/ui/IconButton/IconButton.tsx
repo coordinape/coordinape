@@ -68,7 +68,7 @@ export const IconButton = styled('button', {
       },
     },
     color: {
-      white: {
+      dim: {
         color: '$white',
       },
     },

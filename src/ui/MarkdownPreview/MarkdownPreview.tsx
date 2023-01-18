@@ -10,6 +10,7 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
   cursor: 'pointer',
   color: '$text !important',
   width: '100%',
+  background: '$surfaceNested !important',
   'h1, h2, h3, h4, h5': {
     borderBottom: 'none !important',
     mt: '$md !important',
@@ -25,9 +26,7 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
     display: {
       true: {
         cursor: 'default',
-        backgroundColor: 'rgb(225 229 232) !important',
-        borderColor: '$borderMedium !important',
-        boxShadow: '$shadow1',
+        backgroundColor: '$dim !important',
         minHeight: 0,
         borderRadius: '$1',
         p: '$md',

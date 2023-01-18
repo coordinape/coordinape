@@ -13,6 +13,20 @@ export const Panel = styled('div', {
   borderRadius: '$3',
   backgroundColor: '$surface',
   padding: '$md',
+  'input, textarea, button[role="radio"], button[role="combobox"], button[role="checkbox"], .root .formInputWrapper':
+    {
+      backgroundColor: 'transparent',
+      borderColor: '$borderDim',
+      '&:disabled': {
+        opacity: 1,
+      },
+    },
+  '.root .formInputWrapper': {
+    borderColor: '$borderDim',
+    '& input': {
+      background: 'transparent',
+    },
+  },
 
   variants: {
     stack: {
@@ -25,19 +39,39 @@ export const Panel = styled('div', {
       true: {
         padding: '$md',
         backgroundColor: '$surfaceNested',
+        'input, textarea, button[role="radio"], button[role="combobox"], button[role="checkbox"], .root .formInputWrapper':
+          {
+            backgroundColor: '$surface',
+            borderColor: 'transparent',
+            '&:focus-within ': {
+              borderColor: '$cta',
+            },
+          },
+        '.root .formInputWrapper': {
+          borderColor: 'transparent',
+          '& input': {
+            background: 'transparent',
+          },
+        },
       },
     },
     invertForm: {
       true: {
-        'input, textarea, button[role="radio"], button[role="combobox"], button[role="checkbox"]':
+        'input, textarea, button[role="radio"], button[role="combobox"], button[role="checkbox"], .root .formInputWrapper':
           {
             backgroundColor: '$surfaceNested',
+            borderColor: 'transparent',
             '&:disabled': {
-              borderColor: '$borderMedium',
-              background: 'transparent',
+              borderColor: '$borderDim',
               opacity: 1,
             },
           },
+        '.root .formInputWrapper': {
+          borderColor: 'transparent',
+          '& input': {
+            background: 'transparent',
+          },
+        },
       },
     },
     info: {
@@ -48,12 +82,14 @@ export const Panel = styled('div', {
     },
     success: {
       true: {
-        backgroundColor: '$success',
+        backgroundColor: '$tagSuccessBackground',
+        color: '$tagSuccessText',
       },
     },
     alert: {
       true: {
-        backgroundColor: '$alertLight',
+        backgroundColor: '$tagAlertBackground',
+        color: '$tagAlertText',
       },
     },
     background: {

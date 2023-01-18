@@ -195,7 +195,7 @@ export const EditProfileModal = ({
               }
             }}
           >
-            <MarkdownPreview source={bioField.value} />
+            <MarkdownPreview display source={bioField.value} />
           </Box>
         ) : (
           <Box css={{ position: 'relative', width: '100%' }}>

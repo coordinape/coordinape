@@ -11,7 +11,6 @@ const iconSize = 40;
 type GiveAllocatorProps = {
   adjustGift(recipientId: number, amount: number | null): void;
   gift: Gift;
-  inPanel?: boolean;
   disabled: boolean;
   maxedOut: boolean;
   optedOut: boolean;
@@ -21,7 +20,6 @@ type GiveAllocatorProps = {
 export const GiveAllocator = ({
   adjustGift,
   gift,
-  inPanel = false,
   disabled,
   maxedOut,
   optedOut,
@@ -138,7 +136,7 @@ export const GiveAllocator = ({
               my: '$xs',
               fontWeight: '$semibold',
               fontSize: '$h3',
-              backgroundColor: inPanel ? '$white' : '$surface',
+              backgroundColor: '$dim !important',
             }}
             type="number"
             min="0"

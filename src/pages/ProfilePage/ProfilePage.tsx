@@ -19,6 +19,7 @@ import { Edit3 } from 'icons/__generated';
 import { useMyProfile, useProfile } from 'recoilState/app';
 import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE, paths } from 'routes/paths';
 import { Avatar, Box, Button, Flex, MarkdownPreview, Text } from 'ui';
+import { SingleColumnLayout } from 'ui/layouts';
 import { getAvatarPath } from 'utils/domain';
 
 import { IMyProfile, IProfile } from 'types';
@@ -80,7 +81,8 @@ const ProfilePageContent = ({
     imageUrl: backgroundUrl,
     formFileUploadProps: backgroundUploadProps,
   } = useImageUploader(
-    getAvatarPath(profile?.background) || '/imgs/background/profile-bg.jpg'
+    getAvatarPath(profile?.background) || ''
+    // getAvatarPath(profile?.background) || '/imgs/background/profile-bg.jpg'
   );
 
   const recentEpochs = profile?.users?.map(user => ({
@@ -98,48 +100,44 @@ const ProfilePageContent = ({
   }, [name]);
 
   return (
-    <Flex column css={{ height: '100%', alignItems: 'center' }}>
+    <Flex column>
       <Flex
-        column
+        row
         css={{
-          position: 'relative',
-          alignItems: 'center',
-          height: '307px',
           width: '100%',
-          '& > img': {
-            position: 'absolute',
-            objectFit: 'cover',
-            top: 0,
-            width: '100%',
-            height: '235px',
-          },
+          minHeight: '300px',
+          justifyContent: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          background: backgroundUrl ? `url(${backgroundUrl})` : 'white',
+
+          backgroundImage:
+            'radial-gradient(circle at center -30px, $secondary, $secondaryDark), repeating-radial-gradient(circle at center -30px, $secondaryDark, $secondaryDark, 83px, transparent 106px, transparent 83px)',
+          backgroundBlendMode: 'multiply',
         }}
       >
-        <img src={backgroundUrl} alt={name} />
-        <Box
+        <SingleColumnLayout
           css={{
-            position: 'relative',
-            height: '300px',
             width: '100%',
-            maxWidth: '1300px',
-            padding: '0 $3xl',
-            '@xs': {
-              padding: '0 $md',
-            },
+            p: 0,
+            m: '$lg $lg $lg $2xl',
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
           }}
         >
-          <Avatar
-            path={profile?.avatar}
-            css={{
-              top: 155,
-              width: '143px !important',
-              height: '143px !important',
-            }}
-          />
+          <Flex css={{ alignItems: 'flex-end' }}>
+            <Avatar
+              path={profile?.avatar}
+              css={{
+                width: '143px !important',
+                height: '143px !important',
+              }}
+            />
+          </Flex>
           {isMe && (
-            <>
+            <Flex column css={{ justifyContent: 'space-between' }}>
               <FormFileUpload
-                css={{ position: 'absolute', top: 22, right: 16 }}
                 editText="Edit Background"
                 uploadText="Upload Background"
                 {...backgroundUploadProps}
@@ -150,29 +148,21 @@ const ProfilePageContent = ({
                 }
                 accept="image/gif, image/jpeg, image/png"
               />
-              <Button
-                css={{ position: 'absolute', bottom: 0, right: 28 }}
-                color="primary"
-                onClick={() => setEditProfileOpen(true)}
-              >
+              <Button color="primary" onClick={() => setEditProfileOpen(true)}>
                 <Edit3 />
                 Edit Profile
               </Button>
-            </>
+              <Suspense fallback={<></>}>
+                <EditProfileModal
+                  open={editProfileOpen}
+                  onClose={() => setEditProfileOpen(false)}
+                />
+              </Suspense>
+            </Flex>
           )}
-        </Box>
+        </SingleColumnLayout>
       </Flex>
-
-      <Box
-        css={{
-          width: '100%',
-          maxWidth: '1300px',
-          padding: '0 $3xl',
-          '@xs': {
-            padding: '0 $md',
-          },
-        }}
-      >
+      <SingleColumnLayout css={{ width: '100%' }}>
         <Text
           h2
           css={{
@@ -200,128 +190,114 @@ const ProfilePageContent = ({
         <Flex css={{ padding: '$lg 0', alignItems: 'center' }}>
           <ProfileSocialIcons profile={profile} />
         </Flex>
-        <Box
-          css={{
-            color: '$text',
-            pb: '$2xl',
-            whiteSpace: 'pre-wrap',
-            fontWeight: '$light',
-            fontSize: '$h3',
-            lineHeight: '$short',
-          }}
-        >
-          {user?.role === USER_ROLE_COORDINAPE ? (
-            <div>
-              Coordinape is the platform you’re using right now! We currently
-              offer our service for free and invite people to allocate to us
-              from within your circles. All tokens received go to the Coordinape
-              treasury.{' '}
-              <a
-                href={EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE}
-                rel="noreferrer"
-                target="_blank"
-              >
-                Let us know what you think.
-              </a>
-            </div>
-          ) : (
-            <MarkdownPreview source={profile?.bio} />
-          )}
-        </Box>
-      </Box>
-      {user && !user.isCoordinapeUser && (
-        <Box
-          css={{
-            width: '100%',
-            maxWidth: '1300px',
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            columnGap: '$lg',
-            pb: '$2xl',
-            '@sm': {
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              '& > *': {
-                width: '100%',
+        {user?.role === USER_ROLE_COORDINAPE ? (
+          <div>
+            Coordinape is the platform you’re using right now! We currently
+            offer our service for free and invite people to allocate to us from
+            within your circles. All tokens received go to the Coordinape
+            treasury.{' '}
+            <a
+              href={EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE}
+              rel="noreferrer"
+              target="_blank"
+            >
+              Let us know what you think.
+            </a>
+          </div>
+        ) : (
+          <MarkdownPreview
+            render
+            source={profile?.bio}
+            css={{ cursor: 'default' }}
+          />
+        )}
+        {user && !user.isCoordinapeUser && (
+          <Box
+            css={{
+              width: '100%',
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              columnGap: '$lg',
+              pb: '$2xl',
+              '@sm': {
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                '& > *': {
+                  width: '100%',
+                },
               },
-            },
-          }}
-        >
-          <Section title="My Circles">
-            {profile?.users?.map(
-              u =>
-                u.circle && (
-                  <Flex
-                    column
-                    key={u.id}
-                    css={{
-                      alignItems: 'center',
-                      fontSize: '$small',
-                      lineHeight: '$short',
-                      fontWeight: '$light',
-                      cursor: 'pointer',
-                      color: transparentize(0.3, colors.text),
-                      margin: '$sm',
-                    }}
-                  >
-                    <Avatar
-                      name={u.circle.name}
-                      size="small"
-                      path={u.circle.logo}
-                      onClick={() =>
-                        goToCircleHistory(
-                          u.circle_id,
-                          paths.history(u.circle_id)
-                        )
-                      }
-                    />
-
-                    <span>
-                      {u.circle.organization.name} {u.circle.name}
-                    </span>
-                    {u.non_receiver && <span>Opted-Out</span>}
-                  </Flex>
-                )
-            )}
-          </Section>
-          <Section title="Recent Epoch Activity" asColumn>
-            {recentEpochs?.map(
-              ({ bio, circle }, i) =>
-                circle && (
-                  <Box
-                    css={{
-                      textAlign: 'center',
-                      fontSize: '$medium',
-                      lineHeight: '$short',
-                    }}
-                    key={i}
-                  >
-                    <Box css={{ color: '$text', fontWeight: '$semibold' }}>
-                      {circle.organization.name} {circle.name}
-                    </Box>
-                    <Box
+            }}
+          >
+            <Section title="My Circles">
+              {profile?.users?.map(
+                u =>
+                  u.circle && (
+                    <Flex
+                      column
+                      key={u.id}
                       css={{
-                        color: transparentize(0.3, colors.text),
+                        alignItems: 'center',
+                        fontSize: '$small',
+                        lineHeight: '$short',
                         fontWeight: '$light',
-                        margin: '$xxs 0 $lg',
+                        cursor: 'pointer',
+                        color: transparentize(0.3, colors.text),
+                        margin: '$sm',
                       }}
                     >
-                      {bio}
+                      <Avatar
+                        name={u.circle.name}
+                        size="small"
+                        path={u.circle.logo}
+                        onClick={() =>
+                          goToCircleHistory(
+                            u.circle_id,
+                            paths.history(u.circle_id)
+                          )
+                        }
+                      />
+
+                      <span>
+                        {u.circle.organization.name} {u.circle.name}
+                      </span>
+                      {u.non_receiver && <span>Opted-Out</span>}
+                    </Flex>
+                  )
+              )}
+            </Section>
+            <Section title="Recent Epoch Activity" asColumn>
+              {recentEpochs?.map(
+                ({ bio, circle }, i) =>
+                  circle && (
+                    <Box
+                      css={{
+                        textAlign: 'center',
+                        fontSize: '$medium',
+                        lineHeight: '$short',
+                      }}
+                      key={i}
+                    >
+                      <Box css={{ color: '$text', fontWeight: '$semibold' }}>
+                        {circle.organization.name} {circle.name}
+                      </Box>
+                      <Box
+                        css={{
+                          color: transparentize(0.3, colors.text),
+                          fontWeight: '$light',
+                          margin: '$xxs 0 $lg',
+                        }}
+                      >
+                        {bio}
+                      </Box>
                     </Box>
-                  </Box>
-                )
-            )}
-          </Section>
-          {/* <Section title="Frequent Collaborators">TODO.</Section> */}
-        </Box>
-      )}
-      <Suspense fallback={<></>}>
-        <EditProfileModal
-          open={editProfileOpen}
-          onClose={() => setEditProfileOpen(false)}
-        />
-      </Suspense>
+                  )
+              )}
+            </Section>
+            {/* <Section title="Frequent Collaborators">TODO.</Section> */}
+          </Box>
+        )}
+      </SingleColumnLayout>
     </Flex>
   );
 };

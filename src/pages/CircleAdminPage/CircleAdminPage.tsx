@@ -429,6 +429,7 @@ export const CircleAdminPage = () => {
                   href="https://docs.coordinape.com/get-started/admin/update-circle-settings"
                   rel="noreferrer"
                   target="_blank"
+                  inlineLink
                 >
                   Learn More
                 </Link>
@@ -592,8 +593,10 @@ export const CircleAdminPage = () => {
             </Text>
             <Text p as="p" size="small">
               Edit your epoch timing on the{' '}
-              <AppLink to={paths.history(circleId)}>Epoch Overview</AppLink> by
-              creating or editing an epoch.
+              <AppLink inlineLink to={paths.history(circleId)}>
+                Epoch Overview
+              </AppLink>{' '}
+              by creating or editing an epoch.
             </Text>
           </Panel>
         </Panel>

@@ -12,7 +12,7 @@ const StyledTextArea = styled('textarea', {
   background: '$surface',
   border: '1px solid transparent',
   '&:focus': {
-    borderColor: '$primary',
+    borderColor: '$cta',
     boxSizing: 'border-box',
   },
   '&::placeholder': {
