@@ -321,7 +321,7 @@ export interface GraphQLResponse {
 }
 export class GraphQLError extends Error {
   constructor(public response: GraphQLResponse) {
-    super('');
+    super(response.errors?.map(e => e.message).join('. '));
     logger.log(JSON.stringify(response, null, 2));
   }
   toString() {

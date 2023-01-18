@@ -43,6 +43,7 @@ const logger = new DebugLogger('zeus')\\
 " "$TMP_GEN_PATH"/zeus/index.ts
     fi
     sed -i "" 's,bigint"]:unknown,bigint"]:number,g' "$TMP_GEN_PATH"/zeus/index.ts
+    sed -i "" "s/super('')/super(response.errors?.map(e => e.message).join('. '))/g" "$TMP_GEN_PATH"/zeus/index.ts
     sed -i "" 's/console\.error(response)/logger\.log(JSON\.stringify(response, null, 2))/g' "$TMP_GEN_PATH"/zeus/index.ts
   elif [ "$PLATFORM" == "LINUX" ]; then
     sed -i 's,bigint"]:any,bigint"]:number,g' "$TMP_GEN_PATH"/zeus/index.ts
@@ -52,6 +53,7 @@ const logger = new DebugLogger('zeus')\\
     else
       sed -i "2i\import {DebugLogger} from \'common-lib/log\';\nconst logger = new DebugLogger('zeus')" "$TMP_GEN_PATH"/zeus/index.ts
     fi
+    sed -i "s/super('')/super(response.errors?.map(e => e.message).join('. '))/g" "$TMP_GEN_PATH"/zeus/index.ts
     sed -i 's/console\.error(response)/logger\.log(JSON\.stringify(response, null, 2))/g' "$TMP_GEN_PATH"/zeus/index.ts
   else
     echo "unknown platform; exiting"
