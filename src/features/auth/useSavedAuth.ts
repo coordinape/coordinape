@@ -48,10 +48,10 @@ const getSavedAuth = (): IAuth => {
   }
 };
 
-export const rWalletAuth = atom({
-  key: 'rWalletAuth',
+export const rSavedAuth = atom({
+  key: 'rSavedAuth',
   default: selector({
-    key: 'rWalletAuth/default',
+    key: 'rSavedAuth/default',
     get: () => {
       const auth = getSavedAuth();
       updateToken(auth);
@@ -68,4 +68,4 @@ export const rWalletAuth = atom({
   ],
 });
 
-export const useWalletAuth = () => useRecoilValue(rWalletAuth);
+export const useSavedAuth = () => useRecoilValue(rSavedAuth);

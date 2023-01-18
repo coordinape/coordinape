@@ -12,11 +12,11 @@ import { rApiManifest, rApiFullCircle } from 'recoilState/db';
 import { findConnectorName } from './connectors';
 import { login } from './login';
 import { setAuthToken } from './token';
-import { rWalletAuth } from './useWalletAuth';
+import { rSavedAuth } from './useSavedAuth';
 
 export const clearStateAfterLogout = (set: any) => {
   // this triggers logout via recoil's effects_UNSTABLE
-  set(rWalletAuth, { authTokens: {} });
+  set(rSavedAuth, { authTokens: {} });
   set(rApiFullCircle, new Map());
   set(rApiManifest, undefined);
   set(rSelectedCircleIdSource, undefined);
@@ -71,7 +71,7 @@ export const useFinishAuth = () => {
             address,
             authTokens: { ...authTokens, [address]: token },
           };
-          set(rWalletAuth, newWalletAuth);
+          set(rSavedAuth, newWalletAuth);
 
           // passing in newWalletAuth because Recoil snapshot is not updated yet
           return new Promise(res =>
