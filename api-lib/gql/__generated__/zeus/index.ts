@@ -710,6 +710,7 @@ export type ValueTypes = {
   }>;
   ['CreateEpochInput']: {
     circle_id: number;
+    grant?: number | undefined | null;
     params: ValueTypes['EpochInputParams'];
   };
   ['CreateNomineeInput']: {
@@ -776,7 +777,6 @@ export type ValueTypes = {
     end_date: ValueTypes['timestamptz'];
     frequency?: number | undefined | null;
     frequency_unit?: string | undefined | null;
-    grant?: number | undefined | null;
     start_date: ValueTypes['timestamptz'];
     type: string;
     week?: number | undefined | null;
@@ -938,12 +938,10 @@ export type ValueTypes = {
   }>;
   ['UpdateEpochInput']: {
     circle_id: number;
-    days: number;
     description?: string | undefined | null;
     grant?: number | undefined | null;
     id: number;
-    repeat: number;
-    start_date: ValueTypes['timestamptz'];
+    params?: ValueTypes['EpochInputParams'] | undefined | null;
   };
   ['UpdateOrgResponse']: AliasType<{
     id?: boolean | `@${string}`;
@@ -28750,6 +28748,7 @@ export type GraphQLTypes = {
   };
   ['CreateEpochInput']: {
     circle_id: number;
+    grant?: number | undefined;
     params: GraphQLTypes['EpochInputParams'];
   };
   ['CreateNomineeInput']: {
@@ -28816,7 +28815,6 @@ export type GraphQLTypes = {
     end_date: GraphQLTypes['timestamptz'];
     frequency?: number | undefined;
     frequency_unit?: string | undefined;
-    grant?: number | undefined;
     start_date: GraphQLTypes['timestamptz'];
     type: string;
     week?: number | undefined;
@@ -28978,12 +28976,10 @@ export type GraphQLTypes = {
   };
   ['UpdateEpochInput']: {
     circle_id: number;
-    days: number;
     description?: string | undefined;
     grant?: number | undefined;
     id: number;
-    repeat: number;
-    start_date: GraphQLTypes['timestamptz'];
+    params?: GraphQLTypes['EpochInputParams'] | undefined;
   };
   ['UpdateOrgResponse']: {
     __typename: 'UpdateOrgResponse';

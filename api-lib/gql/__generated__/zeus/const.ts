@@ -53,7 +53,7 @@ export const AllTypesProps: Record<string, any> = {
     datetime_created: 'timestamptz',
   },
   UpdateEpochInput: {
-    start_date: 'timestamptz',
+    params: 'EpochInputParams',
   },
   UpdateProfileInput: {},
   UpdateTeammatesInput: {},

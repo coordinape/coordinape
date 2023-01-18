@@ -109,7 +109,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
   insertNewEpoch(response, input);
 }
 
-function validateMonthlyInput(
+export function validateMonthlyInput(
   input: z.infer<typeof zMonthlyInputSchema>
 ): ErrorReturn {
   const { start_date, end_date } = input;
@@ -126,7 +126,7 @@ function validateMonthlyInput(
     );
 }
 
-function validateCustomInput(
+export function validateCustomInput(
   input: z.infer<typeof zCustomInputSchema>
 ): ErrorReturn {
   const { start_date, end_date, frequency_unit, frequency } = input;
@@ -178,12 +178,16 @@ async function insertNewEpoch(
   response.status(200).json(insert_epochs_one);
 }
 
-async function verifyFutureEndDate({ end_date }: { end_date: DateTime }) {
+export async function verifyFutureEndDate({
+  end_date,
+}: {
+  end_date: DateTime;
+}) {
   if (DateTime.now() > end_date)
     throw new Error(`You cannot create an epoch that ends before now`);
 }
 
-async function verifyStartBeforeEnd({
+export async function verifyStartBeforeEnd({
   start_date,
   end_date,
 }: {
@@ -194,7 +198,7 @@ async function verifyStartBeforeEnd({
     throw new Error(`Start date must precede end date`);
 }
 
-async function checkMultipleRepeatingEpochs(circle_id: number) {
+export async function checkMultipleRepeatingEpochs(circle_id: number) {
   const repeatingEpoch = await getRepeatingEpoch(circle_id);
   if (repeatingEpoch) {
     throw new Error(
@@ -209,14 +213,16 @@ async function checkMultipleRepeatingEpochs(circle_id: number) {
   }
 }
 
-async function checkOverlappingEpoch({
+export async function checkOverlappingEpoch({
+  id,
   circle_id,
   params: { start_date, end_date },
-}: z.infer<typeof EpochInputSchema>) {
+}: z.infer<typeof EpochInputSchema> & { id?: number }) {
   const overlappingEpoch = await getOverlappingEpoch(
     start_date,
     end_date,
-    circle_id
+    circle_id,
+    id
   );
   if (overlappingEpoch) {
     throw new Error(
