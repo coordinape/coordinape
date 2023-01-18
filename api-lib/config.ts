@@ -41,7 +41,7 @@ export const TELEGRAM_BOT_BASE_URL = `https://api.telegram.org/bot${getEnvValue(
 export const IS_LOCAL_ENV = process.env.NODE_ENV === 'development';
 
 export const IS_TEST_ENV = ['development', 'test'].includes(
-  process.env.NODE_ENV
+  process.env.NODE_ENV ?? ''
 );
 
 // intentionally don't use getEnv because this is optional
