@@ -9,7 +9,6 @@ import { ThemeSwitcher } from '../../features/theming/ThemeSwitcher';
 import { Network } from 'components';
 import { menuGroupStyle } from 'components/MainLayout/MainHeader';
 import isFeatureEnabled from 'config/features';
-import { useMyProfile } from 'recoilState/app';
 import { paths } from 'routes/paths';
 import {
   Avatar,
@@ -27,10 +26,10 @@ import { RecentTransactionsModal } from './RecentTransactionsModal';
 
 type Props = {
   walletStatus: ReturnType<typeof useWalletStatus>;
+  avatar: string | undefined;
 };
 
-export const MyAvatarMenu = ({ walletStatus }: Props) => {
-  const myProfile = useMyProfile();
+export const MyAvatarMenu = ({ walletStatus, avatar }: Props) => {
   const { icon, address, chainId, logout } = walletStatus;
   const [showTxModal, setShowTxModal] = useState(false);
 
@@ -75,7 +74,7 @@ export const MyAvatarMenu = ({ walletStatus }: Props) => {
             }}
           >
             <Link href="#">
-              <Avatar path={myProfile.avatar} name="me" />
+              <Avatar path={avatar} name="me" />
             </Link>
           </PopoverTrigger>
           <PopoverContent
@@ -117,7 +116,7 @@ export const MyAvatarMenu = ({ walletStatus }: Props) => {
             >
               <PopoverClose asChild>
                 <Box css={{ display: 'flex', alignItems: 'end', pb: '$md' }}>
-                  <Avatar path={myProfile.avatar} />
+                  <Avatar path={avatar} />
                 </Box>
               </PopoverClose>
               <Box

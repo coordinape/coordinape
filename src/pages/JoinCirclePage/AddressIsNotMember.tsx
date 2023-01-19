@@ -1,18 +1,25 @@
-import React from 'react';
-
 import { TokenJoinInfo } from '../../../api/circle/landing/[token]';
 import CircleWithLogo from '../../components/CircleWithLogo';
-import { useMyProfile } from '../../recoilState';
 import { paths } from '../../routes/paths';
 import { AppLink, Box, Button, CenteredBox, Flex, Panel, Text } from '../../ui';
 
+import { getProfilesWithAddress } from './queries';
+
+import { Awaited } from 'types/shim';
+
+type Users = NonNullable<
+  Awaited<ReturnType<typeof getProfilesWithAddress>>
+>['users'];
+
 export const AddressIsNotMember = ({
   tokenJoinInfo,
+  address,
+  users,
 }: {
   tokenJoinInfo: TokenJoinInfo;
+  address: string;
+  users: Users;
 }) => {
-  const { address, myUsers } = useMyProfile();
-
   const bigText = {
     fontWeight: '$semibold',
     mb: '$sm',
@@ -42,12 +49,12 @@ export const AddressIsNotMember = ({
           </Text>
         </Box>
 
-        {myUsers.length > 0 && (
+        {users.length > 0 ? (
           <>
             <Box css={{ ...bigText, textAlign: 'left', mb: '$lg' }}>
               You are a member of these other circles
             </Box>
-            {myUsers.map(u => (
+            {users.map(u => (
               <AppLink key={u.id} to={paths.history(u.circle_id)}>
                 <Panel
                   nested
@@ -70,9 +77,7 @@ export const AddressIsNotMember = ({
               </AppLink>
             ))}
           </>
-        )}
-
-        {myUsers.length == 0 && (
+        ) : (
           <Box css={{ ...bigText, textAlign: 'center', mb: '$lg' }}>
             You aren&apos;t a member of any circles
           </Box>

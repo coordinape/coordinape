@@ -152,7 +152,10 @@ const NormalHeader = ({ inCircle, walletStatus, query }: Props) => {
                 Claim Tokens
               </Button>
             )}
-            <MyAvatarMenu walletStatus={walletStatus} />
+            <MyAvatarMenu
+              walletStatus={walletStatus}
+              avatar={query.data?.profiles[0]?.avatar}
+            />
           </Suspense>
         </Box>
       </Box>

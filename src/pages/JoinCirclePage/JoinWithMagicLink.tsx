@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -11,10 +11,10 @@ import CircleWithLogo from '../../components/CircleWithLogo';
 import { useToast, useApiBase } from '../../hooks';
 import { client } from '../../lib/gql/client';
 import { zUsername } from '../../lib/zod/formHelpers';
-import { useMyProfile } from '../../recoilState';
 import { paths } from '../../routes/paths';
 import { Box, Button, CenteredBox, TextField, Text, Panel } from '../../ui';
 import { normalizeError } from '../../utils/reporting';
+import useConnectedAddress from 'hooks/useConnectedAddress';
 
 export const JoinWithMagicLink = ({
   tokenJoinInfo,
@@ -27,7 +27,7 @@ export const JoinWithMagicLink = ({
   const { showError } = useToast();
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
-  const { address } = useMyProfile();
+  const address = useConnectedAddress();
 
   const joinSchema = z.object({ name: zUsername });
 
