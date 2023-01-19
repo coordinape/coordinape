@@ -1,4 +1,5 @@
 import { getAuthToken } from 'features/auth';
+import isEmpty from 'lodash/isEmpty';
 
 import { REACT_APP_HASURA_URL } from '../../config/env';
 import { TEST_SKIP_AUTH } from 'utils/testing/api';
@@ -18,8 +19,9 @@ const makeThunder = (headers = {}) =>
       {
         method: 'POST',
         headers: {
-          Authorization:
-            mockHeaders !== {} ? TEST_SKIP_AUTH : 'Bearer ' + getAuthToken(),
+          Authorization: isEmpty(mockHeaders)
+            ? 'Bearer ' + getAuthToken()
+            : TEST_SKIP_AUTH,
           'Hasura-Client-Name': 'web',
           ...mockHeaders,
           ...headers,
