@@ -503,15 +503,13 @@ const ContributionsPage = () => {
               />
               <Flex css={{ gap: '$sm', mt: '$lg', '@sm': { mt: 0 } }}>
                 <Button
-                  outlined
-                  color="primary"
+                  color="secondary"
                   type="submit"
                   onClick={handleSubmit(onSubmit)}
                 >
                   Save
                 </Button>
                 <Button
-                  outlined
                   color="destructive"
                   onClick={() => {
                     setEditHelpText(false);
@@ -896,11 +894,7 @@ const EpochGroup = React.memo(function EpochGroup({
                 {getEpochLabel(epoch)}
               </Text>
               {idx === 0 && (
-                <Button
-                  outlined
-                  color="primary"
-                  onClick={addContributionClickHandler}
-                >
+                <Button color="secondary" onClick={addContributionClickHandler}>
                   Add Contribution
                 </Button>
               )}

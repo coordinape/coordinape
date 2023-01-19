@@ -427,8 +427,7 @@ const MemberRow = ({
             user.role !== 2 ? (
               <Button
                 color="primary"
-                size="small"
-                outlined
+                size="xs"
                 css={{ mr: 0, ml: 'auto ', whiteSpace: 'nowrap' }}
                 onClick={() => {
                   setOpen(prevState => !prevState);
@@ -439,9 +438,8 @@ const MemberRow = ({
             ) : (
               <Tooltip content={coordinapeTooltipContent()}>
                 <Button
-                  color="neutral"
-                  size="small"
-                  outlined
+                  color="primary"
+                  size="xs"
                   css={{ mr: 0, ml: 'auto ', whiteSpace: 'nowrap' }}
                   onClick={() => {
                     const shouldEnable = user.deleted_at !== null;
@@ -466,9 +464,8 @@ const MemberRow = ({
           ) : (
             user.id === me.id && (
               <Button
-                color="destructive"
+                color="secondary"
                 size="small"
-                outlined
                 css={{
                   mr: 0,
                   ml: 'auto ',
@@ -547,8 +544,7 @@ const MemberRow = ({
                 </Flex>
                 <Button
                   color="destructive"
-                  size="medium"
-                  outlined
+                  size="small"
                   css={{ height: '$lg', whiteSpace: 'nowrap' }}
                   onClick={() => {
                     user.id === me.id
@@ -775,8 +771,7 @@ const MemberRow = ({
                 }}
               >
                 <Button
-                  outlined
-                  color="neutral"
+                  color="secondary"
                   size="medium"
                   css={{ whiteSpace: 'nowrap' }}
                   onClick={e => {
@@ -787,7 +782,6 @@ const MemberRow = ({
                   Discard Changes
                 </Button>
                 <Button
-                  outlined
                   color="complete"
                   size="medium"
                   css={{

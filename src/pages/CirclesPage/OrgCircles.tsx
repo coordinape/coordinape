@@ -55,8 +55,7 @@ export const OrgCircles = ({
           <Button
             as={NavLink}
             to={paths.createCircle + '?org=' + org.id}
-            color="primary"
-            outlined
+            color="secondary"
             css={{ whiteSpace: 'nowrap', ml: '$sm' }}
           >
             Add Circle

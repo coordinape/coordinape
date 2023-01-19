@@ -62,8 +62,7 @@ export const RemoveCircleModal = ({
         <Flex css={{ gap: '$lg', flexWrap: 'wrap' }}>
           <Button
             size="large"
-            color="primary"
-            outlined
+            color="secondary"
             css={{ width: '204px' }}
             onClick={onClose}
           >

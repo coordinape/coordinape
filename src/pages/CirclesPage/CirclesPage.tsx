@@ -69,7 +69,7 @@ export const CirclesPage = () => {
         <Text h1 css={{ '@sm': { mb: '$sm' } }}>
           Overview
         </Text>
-        <Button as={NavLink} to={paths.createCircle} color="primary" outlined>
+        <Button as={NavLink} to={paths.createCircle} color="secondary">
           Create New Circle
         </Button>
       </Flex>
@@ -140,22 +140,10 @@ export type CircleRowProps = {
 const GetStarted = () => {
   return (
     <>
-      <Panel
-        info
-        css={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 3fr',
-          gap: '$md',
-          '@sm': { gridTemplateColumns: '1fr' },
-        }}
-      >
-        <Box>
-          <Text h2 normal color="inherit">
-            Get Started
-          </Text>
-        </Box>
-        <Flex column css={{ width: '65%', '@sm': { width: '100%' } }}>
-          <Text p as="p" css={{ mb: '$md' }}>
+      <Panel info>
+        <Flex column css={{ width: '45%', '@sm': { width: '100%' } }}>
+          <Text h2>Get Started</Text>
+          <Text p as="p" css={{ mb: '$md', color: 'inherit' }}>
             An Organization houses all of your Circles in Coordinape. A Circle
             is equal to a team. Start a Circle, add members, then create an
             epoch.{' '}
@@ -165,29 +153,19 @@ const GetStarted = () => {
             where we&apos;re always happy to help and keep you updated on whats
             happening.
           </Text>
-          <Box>
-            <Button
-              as={NavLink}
-              to={paths.createCircle}
-              color="primary"
-              outlined
-              inline
-              css={{ mr: '$md' }}
-            >
+          <Flex css={{ gap: '$md' }}>
+            <Button as={NavLink} to={paths.createCircle} color="cta">
               Create New Circle
             </Button>
             <Button
               as={NavLink}
               to={EXTERNAL_URL_GET_STARTED}
               target="_blank"
-              color="primary"
-              outlined
-              inline
-              css={{ mt: '$md' }}
+              color="secondary"
             >
               Get Started Guide
             </Button>
-          </Box>
+          </Flex>
         </Flex>
       </Panel>
       <Image
@@ -394,10 +372,9 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
                     <Button
                       key={label}
                       tabIndex={0}
-                      color="neutral"
-                      outlined
+                      color="secondary"
                       size="small"
-                      css={{ border: 'none', fontWeight: '$semibold' }}
+                      css={{ border: 'none' }}
                       as={NavLink}
                       to={pathFn(circle.id)}
                       onClick={(event: { stopPropagation: () => any }) =>

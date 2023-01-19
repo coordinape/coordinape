@@ -30,9 +30,7 @@ export const ApiKeyDisplay: FC<{ apiKey: string }> = ({ apiKey }) => {
           target="_blank"
           style={{ textDecoration: 'none' }}
         >
-          <Button color="primary" outlined>
-            Open API Explorer
-          </Button>
+          <Button color="secondary">Open API Explorer</Button>
         </a>
       </Box>
     </Box>

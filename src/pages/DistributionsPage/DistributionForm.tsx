@@ -517,8 +517,7 @@ export function DistributionForm({
             </Text>
           ) : vaults[0] ? (
             <Button
-              color="primary"
-              outlined
+              color="secondary"
               disabled={giftSubmitting || !sufficientGiftTokens}
               fullWidth
             >
@@ -642,8 +641,7 @@ export function DistributionForm({
             <EtherscanButton distribution={fixedDist} />
           ) : fpVault ? (
             <Button
-              color="primary"
-              outlined
+              color="secondary"
               disabled={fixedSubmitting || !sufficientFixedPaymentTokens}
               fullWidth
             >
@@ -702,8 +700,7 @@ const EtherscanButton = ({
   return (
     <Button
       type="button"
-      color="primary"
-      outlined
+      color="secondary"
       fullWidth
       as="a"
       target="_blank"

@@ -290,8 +290,7 @@ export const NewNominationPage = () => {
             )}
             <Button
               css={{ mt: '$lg', gap: '$xs' }}
-              color="primary"
-              outlined
+              color="secondary"
               size="large"
               type="submit"
               disabled={submitting}

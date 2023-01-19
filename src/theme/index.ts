@@ -81,18 +81,6 @@ const themeOptions = {
           padding: 0,
         },
       },
-      outlined: {
-        color: customColor.text,
-        background:
-          'linear-gradient(180deg, rgba(237, 253, 254, 0) 0%, rgba(223, 237, 234, 0.4) 40.1%), linear-gradient(180deg, rgba(237, 253, 254, 0.4) 0%, rgba(237, 253, 254, 0) 100%) rgba(255, 255, 255, 0.9)',
-        border: '0.3px solid rgba(132, 145, 149, 0.2)',
-        boxShadow: '0px 6.5px 9.75px rgba(181, 193, 199, 0.3)',
-        '&:hover': {
-          background: 'rgba(255, 255, 255, 0.9)',
-          border: '0.3px solid rgba(132, 145, 149, 0.2)',
-          boxShadow: '0px 6.5px 9.75px rgba(184, 196, 201, 0.5)',
-        },
-      },
       contained: {
         color: 'white',
         backgroundColor: customColor.secondaryText,
@@ -172,25 +160,6 @@ const themeOptions = {
     MuiSkeleton: {
       root: {
         backgroundColor: 'rgba(255, 255, 255, 0.9)',
-      },
-    },
-    MuiPaginationItem: {
-      outlined: {
-        backgroundColor: 'white',
-        border: '1px solid white',
-        '&.Mui-selected': {
-          backgroundColor: customColor.alert,
-          color: 'white',
-          border: `1px solid ${customColor.surface}`,
-        },
-        '&:hover': {
-          backgroundColor: customColor.alert,
-          color: 'white',
-        },
-        '&.Mui-selected:hover': {
-          backgroundColor: customColor.alert,
-          color: 'white',
-        },
       },
     },
     MuiDivider: {

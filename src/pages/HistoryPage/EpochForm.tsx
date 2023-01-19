@@ -381,8 +381,7 @@ const EpochForm = ({
 
           <Flex css={{ gap: '$md', flexWrap: 'wrap' }}>
             <Button
-              color="primary"
-              outlined
+              color="secondary"
               onClick={() => {
                 selectedEpoch ? setEditEpoch(undefined) : setNewEpoch(false);
               }}

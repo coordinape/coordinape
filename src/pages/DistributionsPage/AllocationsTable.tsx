@@ -103,8 +103,7 @@ export const AllocationsTable = ({
         </Text>
         <Button
           type="button"
-          color="primary"
-          outlined
+          color="secondary"
           onClick={async () => {
             // use the authed api to download the CSV
             if (epoch.number) {

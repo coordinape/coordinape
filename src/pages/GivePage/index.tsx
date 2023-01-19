@@ -496,15 +496,13 @@ const GivePage = () => {
                 />
                 <Flex css={{ gap: '$sm', mt: '$lg', '@sm': { mt: 0 } }}>
                   <Button
-                    outlined
-                    color="primary"
+                    color="secondary"
                     type="submit"
                     onClick={handleSubmit(onSubmit)}
                   >
                     Save
                   </Button>
                   <Button
-                    outlined
                     color="destructive"
                     onClick={() => {
                       setEditAllocHelpText(false);

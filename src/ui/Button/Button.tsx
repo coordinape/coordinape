@@ -15,32 +15,70 @@ export const Button = styled('button', {
   alignItems: 'center',
   lineHeight: '$shorter',
   textDecoration: 'none',
-  '&:hover': {
-    // using saturate until hover colors are defined
-    filter: 'saturate(1.4)',
-  },
-  '&:focus': {
-    filter: 'saturate(1.4)',
-  },
   '&[disabled]': disabledStyle,
 
   variants: {
     color: {
+      cta: {
+        backgroundColor: '$cta',
+        color: '$textOnCta',
+        '&:hover': {
+          backgroundColor: '$ctaHover',
+        },
+      },
       primary: {
-        backgroundColor: '$primary',
-        color: '$textOnPrimary',
+        backgroundColor: '$primaryButton',
+        color: '$primaryButtonText',
+        '&:hover': {
+          backgroundColor: '$primaryButtonHover',
+        },
+        '&:focus-visible': {
+          outline: '3px solid $primaryButtonBorderFocus',
+          outlineOffset: '-3px',
+        },
       },
       secondary: {
-        backgroundColor: '$secondary',
-        color: '$textOnSecondary',
+        backgroundColor: '$secondaryButton',
+        color: '$secondaryButtonText',
+        border: '1px solid $secondaryButtonText',
+        '&:hover': {
+          backgroundColor: '$secondaryButtonHover',
+          color: '$secondaryButtonTextHover',
+          borderColor: '$secondaryButtonBorderHover',
+        },
+        '&:focus-visible': {
+          outline: '3px solid $borderFocus',
+          outlineOffset: '-3px',
+        },
       },
       destructive: {
-        backgroundColor: '$alert',
-        color: '$textOnAlert',
+        backgroundColor: '$destructiveButton',
+        color: '$destructiveButtonText',
+        '&:hover': {
+          backgroundColor: '$destructiveButtonHover',
+        },
+        '&:focus-visible': {
+          outline: '3px solid $destructiveButtonBorderFocus',
+          outlineOffset: '-3px',
+        },
+      },
+      complete: {
+        backgroundColor: '$successButton',
+        color: '$successButtonText',
+        '&:hover': {
+          backgroundColor: '$successButtonHover',
+        },
+        '&:focus-visible': {
+          outline: '3px solid $successButtonBorderFocus',
+          outlineOffset: '-3px',
+        },
       },
       neutral: {
-        backgroundColor: '$neutral',
-        color: '$textOnNeutral',
+        backgroundColor: '$neutralButton',
+        color: '$neutralButtonText',
+        '&:hover': {
+          backgroundColor: '$neutralButtonHover',
+        },
       },
       surface: {
         backgroundColor: '$surface',
@@ -51,10 +89,6 @@ export const Button = styled('button', {
         '&:focus': {
           filter: 'saturate(3)',
         },
-      },
-      complete: {
-        backgroundColor: '$complete',
-        color: 'white',
       },
       tag: {
         backgroundColor: '$tagActiveBackground',
@@ -89,26 +123,45 @@ export const Button = styled('button', {
         minHeight: '$2xl',
         alignItems: 'center',
         lineHeight: '$tall2',
-        fontSize: '$large',
+        fontSize: '$medium',
         fontWeight: '$bold',
         textTransform: 'none',
         borderRadius: '$4',
       },
       medium: {
-        minHeight: '$xl',
-        padding: '$xs calc($sm + $xs)',
+        minHeight: '$1xl',
+        padding: '$sm calc($sm + $xs)',
         fontSize: '$medium',
         fontWeight: '$medium',
         lineHeight: '$shorter',
-        borderRadius: '$3',
+        borderRadius: '$4',
       },
       small: {
+        minHeight: '$xl',
+        padding: '$sm calc($sm + $xs)',
+        fontSize: '$medium',
+        fontWeight: '$medium',
+        lineHeight: '$none',
+        borderRadius: '$4',
+      },
+      xs: {
         minHeight: '$lg',
+        padding: '$xs $sm',
         fontSize: '$small',
         fontWeight: '$medium',
+        lineHeight: '$none',
+        borderRadius: '$3',
+      },
+      tag: {
+        fontSize: '$small',
+        fontWeight: '$semibold',
         lineHeight: '$shorter',
+        height: '$lg',
+        p: '$xs calc($xs + $xxs)',
         borderRadius: '$1',
-        padding: '$xs $sm',
+        gap: '$sm',
+        justifyContent: 'center',
+        whiteSpace: 'nowrap',
       },
       inline: {
         fontSize: '$2',
@@ -131,29 +184,30 @@ export const Button = styled('button', {
     },
     variant: {
       wallet: {
-        fontSize: '15px',
-        fontWeight: 600,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        color: '$text',
-        border: 'solid',
-        margin: '1.6px 0px',
         height: '$2xl',
         px: '$md',
-        boxShadow: '0px 4px 6px rgb(181 193 199 / 30%)',
         borderWidth: '2px',
         borderRadius: '$3',
-        backgroundColor: 'transparent',
         minWidth: '64px',
+
+        backgroundColor: '$secondaryButton',
+        color: '$secondaryButtonText',
+        border: '1px solid $secondaryButtonText',
         '& svg': {
           height: '$lg',
           width: '$lg',
         },
-        '&:hover, &:focus': {
-          filter: 'saturate(1)',
-          color: '$primary',
-          background: '$background',
+        '&:hover': {
+          backgroundColor: '$surface',
+          color: '$secondaryButtonText',
+          borderColor: '$secondaryButtonBorderHover',
+        },
+        '&:focus-visible': {
+          outline: '3px solid $borderFocus',
+          outlineOffset: '-3px',
         },
         '&:disabled': {
           color: '$text',
@@ -175,7 +229,7 @@ export const Button = styled('button', {
     },
     outlined: {
       true: {
-        backgroundColor: 'transparent !important',
+        backgroundColor: 'transparent',
         border: '1px solid',
       },
     },
@@ -192,68 +246,27 @@ export const Button = styled('button', {
   },
   compoundVariants: [
     {
-      color: 'primary',
-      outlined: true,
+      color: 'secondary',
+      size: 'xs',
       css: {
-        color: '$primary',
-        borderColor: '$primary',
-        '&:hover, &:focus': {
-          color: '$background',
-          filter: 'saturate(1)',
-          backgroundColor: '$primary !important',
-        },
+        // subtract border from N-S padding
+        padding: 'calc($xs - 1px) $sm',
       },
     },
     {
       color: 'secondary',
-      outlined: true,
+      size: 'small',
       css: {
-        color: '$secondary',
-        borderColor: '$secondary',
-        '&:hover, &:focus': {
-          color: '$white',
-          filter: 'saturate(1)',
-          backgroundColor: '$secondary !important',
-        },
+        // subtract border from N-S padding
+        padding: 'calc($sm - 1px) calc($sm + $xs)',
       },
     },
     {
-      color: 'destructive',
-      outlined: true,
+      color: 'secondary',
+      size: 'medium',
       css: {
-        color: '$alert',
-        borderColor: '$alert',
-        '&:hover, &:focus': {
-          color: '$white',
-          filter: 'saturate(1)',
-          backgroundColor: '$alert !important',
-        },
-      },
-    },
-    {
-      color: 'neutral',
-      outlined: true,
-      css: {
-        color: '$neutral',
-        borderColor: '$neutral',
-        '&:hover, &:focus': {
-          color: '$white',
-          filter: 'saturate(1)',
-          backgroundColor: '$neutral !important',
-        },
-      },
-    },
-    {
-      color: 'complete',
-      outlined: true,
-      css: {
-        color: '$complete',
-        borderColor: '$complete',
-        '&:hover, &:focus': {
-          color: '$white',
-          filter: 'saturate(1)',
-          backgroundColor: '$complete !important',
-        },
+        // subtract border from N-S padding
+        padding: 'calc($sm - 1px) calc($sm + $xs)',
       },
     },
     {
@@ -277,7 +290,7 @@ export const Button = styled('button', {
   ],
   defaultVariants: {
     size: 'medium',
-    color: 'neutral',
+    color: 'primary',
   },
 });
 

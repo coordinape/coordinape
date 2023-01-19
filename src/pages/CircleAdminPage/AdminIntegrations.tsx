@@ -84,8 +84,7 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
         </Flex>
         <Button
           as="a"
-          color="primary"
-          outlined
+          color="secondary"
           href={`https://app.dework.xyz/apps/install/coordinape?redirect=${redirectUri()}`}
         >
           <Flex css={{ mr: '$sm' }}>
@@ -135,8 +134,7 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
         </Flex>
         <Button
           as="a"
-          color="primary"
-          outlined
+          color="secondary"
           href={`https://app.wonderverse.xyz/apps/install/coordinape?circleId=${circleId}&redirect=${redirectUri()}`}
         >
           <Flex css={{ mr: '$sm' }}>
@@ -152,8 +150,7 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
         </Text>
         <Button
           as="a"
-          color="primary"
-          outlined
+          color="secondary"
           href={
             'https://docs.coordinape.com/get-started/compensation/paying-your-team/parcel'
           }

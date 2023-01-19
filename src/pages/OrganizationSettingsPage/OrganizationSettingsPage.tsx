@@ -169,11 +169,10 @@ export const OrganizationSettingsPage = () => {
           >
             <Text h1>Organization Settings</Text>
             <Button
-              color="primary"
+              color="secondary"
               size="medium"
               type="submit"
               form="circle_admin"
-              outlined
               disabled={!isDirty}
               onClick={handleSubmit(onSubmit)}
             >
@@ -259,8 +258,7 @@ export const OrganizationSettingsPage = () => {
                         }}
                       >
                         <Button
-                          color="primary"
-                          outlined
+                          color="secondary"
                           as="span"
                           css={{
                             display: 'inline-flex',

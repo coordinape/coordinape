@@ -119,9 +119,8 @@ const VaultsPage = () => {
         </Text>
         {isAdmin && (
           <Button
-            color="primary"
+            color="secondary"
             css={{ whiteSpace: 'nowrap' }}
-            outlined
             onClick={() => setModal(true)}
           >
             Create Vault
@@ -214,8 +213,7 @@ const NoVaults = ({
           {isAdmin && (
             <Button
               onClick={createVault}
-              color="primary"
-              outlined
+              color="secondary"
               inline
               css={{ mr: '$md' }}
             >
@@ -226,7 +224,7 @@ const NoVaults = ({
             href="https://docs.coordinape.com/get-started/organizations/vaults"
             target="_blank"
           >
-            <Button color="primary" outlined inline css={{ mt: '$md' }}>
+            <Button color="secondary" inline css={{ mt: '$md' }}>
               Vault Guide
             </Button>
           </Link>

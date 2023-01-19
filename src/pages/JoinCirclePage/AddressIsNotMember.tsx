@@ -81,7 +81,7 @@ export const AddressIsNotMember = ({
         <Flex css={{ justifyContent: 'center', mt: '$xl' }}>
           <Box>
             <AppLink to={paths.profile('me')}>
-              <Button color="primary" outlined inline>
+              <Button color="secondary" inline>
                 Complete Your Profile
               </Button>
             </AppLink>

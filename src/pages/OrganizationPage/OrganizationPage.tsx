@@ -71,18 +71,16 @@ export const OrganizationPage = () => {
                 <Button
                   as={NavLink}
                   to={paths.createCircle + '?org=' + org.id}
-                  color="primary"
                   css={{ whiteSpace: 'nowrap' }}
-                  outlined
+                  color="secondary"
                 >
                   Add Circle
                 </Button>
                 <Button
                   as={NavLink}
                   to={paths.organizationSettings(orgId.toString())}
-                  color="primary"
+                  color="secondary"
                   css={{ whiteSpace: 'nowrap' }}
-                  outlined
                 >
                   Settings
                 </Button>

@@ -99,8 +99,7 @@ export const LeaveCircleModal = ({
                 reset();
                 setLeaveCircleDialog(undefined);
               }}
-              color="neutral"
-              outlined
+              color="secondary"
               size="large"
               css={{ width: '50%' }}
             >

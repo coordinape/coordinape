@@ -404,11 +404,10 @@ export const CircleAdminPage = () => {
         >
           <Text h1>Circle Admin</Text>
           <Button
-            color="primary"
+            color="secondary"
             size="medium"
             type="submit"
             form="circle_admin"
-            outlined
             disabled={!isDirty}
             onClick={handleSubmit(onSubmit)}
           >
@@ -790,11 +789,10 @@ export const CircleAdminPage = () => {
           }}
         >
           <Button
-            color="primary"
+            color="secondary"
             size="medium"
             type="submit"
             form="circle_admin"
-            outlined
             disabled={!isDirty}
             onClick={handleSubmit(onSubmit)}
           >
@@ -824,7 +822,7 @@ export const CircleAdminPage = () => {
 
               <div>
                 {!allowEdit && (
-                  <Button onClick={editDiscordWebhook} color="primary" outlined>
+                  <Button onClick={editDiscordWebhook} color="secondary">
                     Edit WebHook
                   </Button>
                 )}
@@ -842,16 +840,12 @@ export const CircleAdminPage = () => {
           <Text inline bold h2>
             Danger Zone
           </Text>
-          <Panel nested>
+          <Flex column alignItems="start">
             <Text h3 semibold css={{ mb: '$lg' }}>
               Permanently Remove Circle
             </Text>
             <Button
               color="destructive"
-              outlined
-              css={{
-                width: '163px',
-              }}
               onClick={event => {
                 event.preventDefault();
                 setCircleToRemove(1);
@@ -866,7 +860,7 @@ export const CircleAdminPage = () => {
               }}
               visible={!!circleToRemove}
             ></RemoveCircleModal>
-          </Panel>
+          </Flex>
         </Panel>
       </SingleColumnLayout>
     </Form>

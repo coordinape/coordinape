@@ -215,7 +215,7 @@ export const SummonCirclePage = () => {
                       htmlFor="upload-logo-button"
                       css={{ flexGrow: '1' }}
                     >
-                      <Button as="div" color="primary" outlined>
+                      <Button as="div" color="secondary">
                         Upload File
                       </Button>
                     </FormLabel>
@@ -331,11 +331,10 @@ export const SummonCirclePage = () => {
                   You can always change these settings from the Admin panel.
                 </Text>
                 <Button
-                  color="primary"
+                  color="secondary"
                   size="medium"
                   type="submit"
                   form="circle_admin"
-                  outlined
                   disabled={!isValid}
                   css={{ whiteSpace: 'nowrap' }}
                   onClick={handleSubmit(onSubmit)}
