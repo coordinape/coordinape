@@ -393,6 +393,7 @@ export function DistributionForm({
 
       // could be due to user cancellation
       if (!result) return;
+      onVaultOrSourceChange('');
       refetch();
       return;
     }
