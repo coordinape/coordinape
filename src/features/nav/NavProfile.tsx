@@ -12,7 +12,9 @@ import { NavItem } from './NavItem';
 export const NavProfile = () => {
   const profile = useMyProfile();
   const [open, setOpen] = useState(false);
-  const { chainId, logout } = useWalletStatus();
+  const { chainId, logout /*, address */ } = useWalletStatus();
+  // TODO: this isn't working yet
+  // const showNameForm = profile && !profile.name && !!address;
 
   return (
     <Flex
@@ -75,6 +77,17 @@ export const NavProfile = () => {
           </Text>
         </Box>
       )}
+      {/* TODO: this breaks page load */}
+      {/*{showNameForm && false && (*/}
+      {/*  <Modal*/}
+      {/*    open*/}
+      {/*    showClose={false}*/}
+      {/*    title="What's your name?"*/}
+      {/*    css={{ overflow: 'scroll' }}*/}
+      {/*  >*/}
+      {/*    <CreateUserNameForm address={address} />*/}
+      {/*  </Modal>*/}
+      {/*)}*/}
     </Flex>
   );
 };
