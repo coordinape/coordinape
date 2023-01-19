@@ -35,6 +35,6 @@ test('dework integration callback link', async () => {
 
   const button = await screen.findByText('Add Dework Connection');
   expect((button as HTMLLinkElement).href).toEqual(
-    'https://app.dework.xyz/apps/install/coordinape?redirect=http://localhost/circles/1/admin/connect-integration'
+    `https://app.dework.xyz/apps/install/coordinape?redirect=http://${window.location.host}/circles/1/admin/connect-integration`
   );
 });
