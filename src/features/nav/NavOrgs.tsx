@@ -26,6 +26,7 @@ export const NavOrgs = ({
   return (
     <>
       <NavLabel
+        key={'orgLabel'}
         label="Organizations"
         icon={
           <IconButton
@@ -73,7 +74,7 @@ export const NavOrgs = ({
                 {o.name}
               </Text>
             </Flex>
-            {isCurrentOrg && <NavCurrentOrg org={o} />}
+            {isCurrentOrg && <NavCurrentOrg key={'currentOrg'} org={o} />}
           </>
         );
       })}
