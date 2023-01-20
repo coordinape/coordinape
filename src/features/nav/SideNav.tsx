@@ -1,9 +1,9 @@
 import { Suspense, useEffect, useState } from 'react';
 
-import { HomeIcon } from '@radix-ui/react-icons';
 import { QueryClient } from 'react-query';
 import { useLocation } from 'react-router-dom';
 
+import { CoOrg } from '../../icons/__generated';
 import { getCircleFromPath, getOrgFromPath, paths } from '../../routes/paths';
 import { Flex } from '../../ui';
 
@@ -98,7 +98,7 @@ export const SideNav = () => {
           pt: '$xl',
         }}
       >
-        <NavItem label="Home" to={paths.home} icon={<HomeIcon />} />
+        <NavItem label="Home" to={paths.home} icon={<CoOrg nostroke />} />
         {data && (
           <>
             <NavOrgs
