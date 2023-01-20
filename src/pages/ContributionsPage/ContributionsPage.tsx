@@ -561,7 +561,7 @@ const ContributionsPage = () => {
                     <ChevronsRight size="lg" />
                   </Button>
                   <Button
-                    color="primary"
+                    color="dim"
                     size="large"
                     css={nextPrevCss}
                     disabled={
@@ -620,6 +620,11 @@ const ContributionsPage = () => {
                 </Flex>
                 <Button
                   color="textOnly"
+                  css={{
+                    '&:hover': {
+                      color: '$alert',
+                    },
+                  }}
                   noPadding
                   disabled={!currentContribution.contribution.id}
                   onClick={() => {

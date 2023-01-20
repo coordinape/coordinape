@@ -119,6 +119,9 @@ export const Button = styled('button', {
       dim: {
         backgroundColor: '$dim',
         color: '$textOnDim',
+        '&:hover': {
+          backgroundColor: '$dimButtonHover',
+        },
       },
       navigation: {
         padding: '$xs',

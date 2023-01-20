@@ -135,6 +135,7 @@ export const colors = {
   textOnNeutral: figmaColors.grey1,
 
   dim: newFigmaColors.grey1,
+  dimButtonHover: '#ffffff',
   textOnDim: '$primary',
 
   complete: figmaColors.green12,
@@ -427,6 +428,7 @@ export const dark = createTheme({
     neutral: newFigmaColors.grey7,
     textOnNeutral: newFigmaColors.grey4,
     dim: newFigmaColors.grey8,
+    dimButtonHover: newFigmaColors.grey9,
     textOnDim: newFigmaColors.grey5,
     modalBackground: '#0000007d',
     modalBorderColor: newFigmaColors.grey8,
