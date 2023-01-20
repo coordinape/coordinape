@@ -2,9 +2,23 @@ import assert from 'assert';
 
 import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
+import { INTEGRATION_TYPE as HEDGEY } from 'lib/hedgey';
 import type { Contracts } from 'lib/vaults';
 
 import type { Awaited } from 'types/shim';
+
+export const getProfileIds = async (addresses: string[]) => {
+  const { profiles } = await client.query({
+    profiles: [
+      { where: { address: { _in: addresses } } },
+      {
+        id: true,
+        address: true,
+      },
+    ],
+  });
+  return profiles;
+};
 
 export const getEpochData = async (
   epochId: number,
@@ -53,6 +67,7 @@ export const getEpochData = async (
                 },
               ],
             },
+            integrations: [{ where: { type: { _eq: HEDGEY } } }, { id: true }],
           },
           token_gifts: [
             { where: { tokens: { _gt: 0 } } },
@@ -115,6 +130,41 @@ export const getEpochData = async (
 
 export type EpochDataResult = Awaited<ReturnType<typeof getEpochData>>;
 export type Gift = Exclude<EpochDataResult['token_gifts'], undefined>[0];
+
+export const getExistingLockedTokenDistribution = async (epochId: number) => {
+  const response = await client.query(
+    {
+      locked_token_distributions: [
+        {
+          limit: 1,
+          where: {
+            epoch_id: { _eq: epochId },
+            tx_hash: { _is_null: false },
+          },
+        },
+        {
+          id: true,
+          tx_hash: true,
+          chain_id: true,
+          token_decimals: true,
+          token_symbol: true,
+          locked_token_distribution_gifts: [
+            { where: { earnings: { _gt: 0 } } },
+            {
+              profile: { address: true },
+              earnings: true,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      operationName: 'getPreviousLockedTokenDistribution',
+    }
+  );
+  const [lockedTokenDistribution] = response.locked_token_distributions;
+  return lockedTokenDistribution;
+};
 
 export const getPreviousDistribution = async (
   circleId: number,
