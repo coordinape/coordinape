@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import assert from 'assert';
+import { useEffect, useState } from 'react';
 
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
@@ -7,9 +8,9 @@ import { useParams } from 'react-router-dom';
 import { TokenJoinInfo } from '../../../api/circle/landing/[token]';
 import { CircleTokenType } from '../../common-lib/circleShareTokens';
 import { LoadingModal } from '../../components';
-import { useMyProfile } from '../../recoilState';
 import { paths } from '../../routes/paths';
 import { CenteredBox, Panel, Text } from '../../ui';
+import useConnectedAddress from 'hooks/useConnectedAddress';
 
 import { AddressIsNotMember } from './AddressIsNotMember';
 import { JoinWithMagicLink } from './JoinWithMagicLink';
@@ -22,8 +23,7 @@ export const JoinCirclePage = () => {
   const { token } = useParams();
 
   const navigate = useNavigate();
-
-  const { myUsers, address } = useMyProfile();
+  const address = useConnectedAddress();
 
   const [tokenError, setTokenError] = useState<string | undefined>();
   const [wrongAddress, setWrongAddress] = useState<boolean | undefined>(
@@ -35,7 +35,10 @@ export const JoinCirclePage = () => {
 
   const { data: profile } = useQuery(
     [QUERY_KEY_PROFILE_BY_ADDRESS, address],
-    () => getProfilesWithAddress(address),
+    () => {
+      assert(address);
+      return getProfilesWithAddress(address);
+    },
     {
       enabled: !!address,
       refetchOnWindowFocus: false,
@@ -45,9 +48,10 @@ export const JoinCirclePage = () => {
   );
 
   const alreadyMember = (circleId: number) =>
-    myUsers.some(u => u.circle_id === circleId);
+    profile?.users.some(u => u.circle_id === circleId);
 
   useEffect(() => {
+    assert(token);
     const fn = async () => {
       try {
         const res = await fetch('/api/circle/landing/' + token);
@@ -87,11 +91,17 @@ export const JoinCirclePage = () => {
 
   // Waiting to validate the token
   if ((!tokenError && !tokenJoinInfo) || !profile) {
-    return <LoadingModal visible={true} />;
+    return <LoadingModal visible={true} note="token-lookup" />;
   }
 
-  if (tokenJoinInfo && wrongAddress) {
-    return <AddressIsNotMember tokenJoinInfo={tokenJoinInfo} />;
+  if (address && tokenJoinInfo && wrongAddress) {
+    return (
+      <AddressIsNotMember
+        address={address}
+        tokenJoinInfo={tokenJoinInfo}
+        users={profile?.users}
+      />
+    );
   }
 
   return (

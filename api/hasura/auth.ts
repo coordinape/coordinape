@@ -10,8 +10,7 @@ import {
 } from '../../api-lib/config';
 import { adminClient } from '../../api-lib/gql/adminClient';
 import { isFeatureEnabled } from '../../src/config/features';
-
-export const TEST_SKIP_AUTH = 'test-skip-auth';
+import { TEST_SKIP_AUTH } from '../../src/utils/testing/api';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {

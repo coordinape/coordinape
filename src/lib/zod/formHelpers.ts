@@ -7,7 +7,7 @@ import { INFURA_PROJECT_ID } from '../../config/env';
 
 let _provider: InfuraProvider;
 
-const provider = () => {
+export const provider = () => {
   if (!_provider) {
     _provider = new InfuraProvider('homestead', INFURA_PROJECT_ID);
   }

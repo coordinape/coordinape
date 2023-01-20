@@ -1,6 +1,6 @@
 import { NODE_HASURA_URL } from '../../api-lib/config';
 import { makeThunder } from '../../api-lib/gql/makeThunder';
-import { TEST_SKIP_AUTH } from '../../api/hasura/auth';
+import { TEST_SKIP_AUTH } from '../../src/utils/testing/api';
 
 export type UserOptions = {
   profileId: number;

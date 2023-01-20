@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { zUsername } from 'lib/zod/formHelpers';
+import { updateMyProfile } from 'lib/gql/mutations';
+import { provider, zUsername } from 'lib/zod/formHelpers';
 import { SubmitHandler, useController, useForm } from 'react-hook-form';
+import { useMutation } from 'react-query';
 import * as z from 'zod';
 
+import { LoadingModal } from 'components';
 import { SkillToggles, AvatarUpload, FormInputField } from 'components/index';
-import { useApiWithProfile } from 'hooks';
+import { useApiBase, useToast } from 'hooks';
 import { useMyProfile } from 'recoilState/app';
 import {
   Box,
@@ -18,10 +21,10 @@ import {
   Text,
   TextArea,
 } from 'ui';
+import { normalizeError } from 'utils/reporting';
 
 const schema = z
   .object({
-    avatar: z.any(),
     name: zUsername,
     bio: z.string(),
     skills: z.array(z.string()),
@@ -55,15 +58,17 @@ export const EditProfileModal = ({
   onClose: () => void;
 }) => {
   const [showMarkdown, setShowMarkDown] = useState<boolean>(true);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
+  const { showError } = useToast();
 
   const myProfile = useMyProfile();
-  const { updateMyProfile } = useApiWithProfile();
 
   const bioFieldRef = useRef<HTMLTextAreaElement>(null);
 
   const {
     control,
     handleSubmit,
+    setError,
     formState: { isDirty },
   } = useForm<EditProfileFormSchema>({
     resolver: zodResolver(schema),
@@ -80,6 +85,8 @@ export const EditProfileModal = ({
       website: myProfile.website ?? '',
     },
   });
+
+  const { fetchManifest } = useApiBase();
 
   const { field: skillsField } = useController({
     name: 'skills',
@@ -101,7 +108,45 @@ export const EditProfileModal = ({
       setShowMarkDown(false);
     }
   }, [showMarkdown]);
+
+  const updateProfileMutation = useMutation(updateMyProfile, {
+    onMutate: () => {
+      setIsSaving(true);
+    },
+    onSettled: () => {
+      setIsSaving(false);
+    },
+    onSuccess: async () => {
+      fetchManifest();
+      onClose();
+    },
+    onError: err => {
+      const error = normalizeError(err);
+      if (error.message.includes('valid_website')) {
+        showError('provide a valid website starting with https:// or http://');
+      } else {
+        showError(error.message);
+      }
+    },
+  });
+
   const onSubmit: SubmitHandler<EditProfileFormSchema> = async params => {
+    if (params.name.endsWith('.eth')) {
+      const resolvedAddress = await provider().resolveName(params.name);
+      if (
+        !resolvedAddress ||
+        resolvedAddress.toLowerCase() !== myProfile.address.toLowerCase()
+      ) {
+        setError(
+          'name',
+          {
+            message: `The ENS ${params.name} doesn't resolve to your current address: ${myProfile.address}.`,
+          },
+          { shouldFocus: true }
+        );
+        return;
+      }
+    }
     // skills is an array here but the backend expects a json encoded array
     const fixedParams: Omit<typeof params, 'skills' | 'website'> & {
       skills: string;
@@ -111,12 +156,7 @@ export const EditProfileModal = ({
     if (fixedParams.website == '') {
       fixedParams.website = null;
     }
-    try {
-      await updateMyProfile(fixedParams);
-      onClose();
-    } catch (e: unknown) {
-      console.warn(e);
-    }
+    updateProfileMutation.mutate(fixedParams);
   };
 
   return (
@@ -156,10 +196,12 @@ export const EditProfileModal = ({
               Profile Name
             </Text>
             <FormInputField
+              css={{ width: '250px' }}
               id="name"
               name="name"
               control={control}
               defaultValue={myProfile?.name ?? ''}
+              showFieldErrors
             />
           </Flex>
         </Flex>
@@ -177,7 +219,6 @@ export const EditProfileModal = ({
             onChange={skillsField.onChange}
           />
         </Flex>
-
         <Text p css={sectionHeader}>
           Biography
         </Text>
@@ -238,7 +279,6 @@ export const EditProfileModal = ({
             </Text>
           </Box>
         )}
-
         <Text p css={sectionHeader}>
           Links
         </Text>
@@ -303,6 +343,7 @@ export const EditProfileModal = ({
         <Button disabled={!isDirty} color="primary" type="submit">
           Save
         </Button>
+        {isSaving && <LoadingModal visible />}
       </Form>
     </Modal>
   );

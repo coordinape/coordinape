@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { zUsername } from 'lib/zod/formHelpers';
+import { provider, zUsername } from 'lib/zod/formHelpers';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
 import { z } from 'zod';
@@ -58,6 +58,21 @@ export const CreateUserNameForm = ({ address }: { address?: string }) => {
     },
   });
   const onSubmit: SubmitHandler<UserNameFormSchema> = async data => {
+    if (data.name.endsWith('.eth')) {
+      const resolvedAddress = await provider().resolveName(data.name);
+      if (
+        !resolvedAddress ||
+        resolvedAddress.toLowerCase() !== address?.toLowerCase()
+      )
+        setError(
+          'name',
+          {
+            message: `The ENS ${data.name} doesn't resolve to your current address: ${address}.`,
+          },
+          { shouldFocus: true }
+        );
+      return;
+    }
     await profileNameMutation.mutate(data.name);
   };
 

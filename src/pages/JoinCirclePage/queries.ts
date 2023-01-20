@@ -3,7 +3,31 @@ import { client } from 'lib/gql/client';
 export const getProfilesWithAddress = async (address: string) => {
   const { profiles } = await client.query(
     {
-      profiles: [{ where: { address: { _ilike: address } } }, { name: true }],
+      profiles: [
+        { where: { address: { _ilike: address } } },
+        {
+          name: true,
+          users: [
+            {
+              where: {
+                deleted_at: { _is_null: true },
+                circle: {
+                  deleted_at: { _is_null: true },
+                },
+              },
+            },
+            {
+              id: true,
+              circle_id: true,
+              circle: {
+                logo: true,
+                name: true,
+                organization: { logo: true, name: true },
+              },
+            },
+          ],
+        },
+      ],
     },
     { operationName: `joinCircle_getProfilesWithAddress` }
   );

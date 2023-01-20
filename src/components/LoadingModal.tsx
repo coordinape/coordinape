@@ -45,6 +45,7 @@ export const LoadingModal = (props: {
       <div
         className={classes.content}
         data-note={`loading-${props.note || ''}`}
+        data-testid={`loading-${props.note || ''}`}
       >
         <CircularProgress size={80} />
         {text && (

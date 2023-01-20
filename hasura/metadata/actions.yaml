@@ -229,14 +229,14 @@ actions:
           value_from_env: HASURA_EVENT_SECRET
     permissions:
       - role: user
-  - name: updateProfileName
+  - name: updateProfile
     definition:
       kind: synchronous
       handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=updateProfileName'
       forward_client_headers: true
       headers:
         - name: verification_key
-          value: HASURA_EVENT_SECRET
+          value_from_env: HASURA_EVENT_SECRET
     permissions:
       - role: user
   - name: updateTeammates
@@ -345,6 +345,7 @@ custom_types:
     - name: UpdateProfileNameInput
     - name: DeleteDiscordUserInput
     - name: LinkDiscordCircleInput
+    - name: UpdateProfileInput
   objects:
     - name: CreateCircleResponse
       relationships:
