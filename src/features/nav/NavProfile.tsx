@@ -3,18 +3,19 @@ import React, { useState } from 'react';
 import { Network } from '../../components';
 import { useMyProfile } from '../../recoilState';
 import { paths } from '../../routes/paths';
-import { Avatar, Box, Flex, Text } from '../../ui';
+import { Avatar, Box, Flex, Modal, Text } from '../../ui';
 import { useWalletStatus } from '../auth';
 import { ThemeSwitcher } from '../theming/ThemeSwitcher';
+import { CreateUserNameForm } from 'components/MainLayout/CreateUserNameForm';
 
 import { NavItem } from './NavItem';
 
 export const NavProfile = () => {
   const profile = useMyProfile();
   const [open, setOpen] = useState(false);
-  const { chainId, logout /*, address */ } = useWalletStatus();
+  const { chainId, logout, address } = useWalletStatus();
   // TODO: this isn't working yet
-  // const showNameForm = profile && !profile.name && !!address;
+  const showNameForm = profile && !profile.name && !!address;
 
   return (
     <Flex
@@ -77,17 +78,17 @@ export const NavProfile = () => {
           </Text>
         </Box>
       )}
-      {/* TODO: this breaks page load */}
-      {/*{showNameForm && false && (*/}
-      {/*  <Modal*/}
-      {/*    open*/}
-      {/*    showClose={false}*/}
-      {/*    title="What's your name?"*/}
-      {/*    css={{ overflow: 'scroll' }}*/}
-      {/*  >*/}
-      {/*    <CreateUserNameForm address={address} />*/}
-      {/*  </Modal>*/}
-      {/*)}*/}
+      {showNameForm && (
+        <Modal
+          open
+          showClose={false}
+          title="What's your name?"
+          css={{ overflow: 'scroll' }}
+        >
+          <Text>Hello</Text>
+          <CreateUserNameForm address={address} />
+        </Modal>
+      )}
     </Flex>
   );
 };
