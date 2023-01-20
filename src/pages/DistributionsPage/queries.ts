@@ -2,6 +2,7 @@ import assert from 'assert';
 
 import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
+import { INTEGRATION_TYPE as HEDGEY } from 'lib/hedgey';
 import type { Contracts } from 'lib/vaults';
 
 import type { Awaited } from 'types/shim';
@@ -66,6 +67,7 @@ export const getEpochData = async (
                 },
               ],
             },
+            integrations: [{ where: { type: { _eq: HEDGEY } } }, { id: true }],
           },
           token_gifts: [
             { where: { tokens: { _gt: 0 } } },
@@ -129,7 +131,7 @@ export const getEpochData = async (
 export type EpochDataResult = Awaited<ReturnType<typeof getEpochData>>;
 export type Gift = Exclude<EpochDataResult['token_gifts'], undefined>[0];
 
-export const getPreviousLockedTokenDistribution = async (epochId: number) => {
+export const getExistingLockedTokenDistribution = async (epochId: number) => {
   const response = await client.query(
     {
       locked_token_distributions: [
