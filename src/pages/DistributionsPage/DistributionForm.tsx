@@ -50,8 +50,8 @@ import { makeExplorerUrl } from 'utils/provider';
 import { getPreviousDistribution } from './queries';
 import type { EpochDataResult, Gift } from './queries';
 import type { CustomToken, LockedTokenDistribution } from './types';
-import { useLockedTokenDistribution } from './useLockedTokenDistributions';
 import { useSubmitDistribution } from './useSubmitDistribution';
+import { useSubmitLockedTokenDistribution } from './useSubmitLockedTokenDistribution';
 import { mapProfileIdsByAddress } from './utils';
 
 const logger = new DebugLogger('DistributionForm');
@@ -126,7 +126,7 @@ export function DistributionForm({
 
   const { showError } = useToast();
   const submitDistribution = useSubmitDistribution();
-  const lockedTokenDistribution = useLockedTokenDistribution();
+  const submitLockedTokenDistribution = useSubmitLockedTokenDistribution();
   const contracts = useContracts();
   const circle = epoch.circle;
   assert(circle);
@@ -371,7 +371,7 @@ export function DistributionForm({
     if (isUsingHedgey) {
       const hedgeyVault = findVault(value.selectedHedgeyVaultId);
       try {
-        result = await lockedTokenDistribution({
+        result = await submitLockedTokenDistribution({
           amount: value.amount.toString(),
           tokenContractAddress: value.tokenContractAddress?.toString(),
           gifts,
