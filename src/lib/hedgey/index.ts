@@ -1,5 +1,6 @@
 import { ERC20 } from '@coordinape/hardhat/dist/typechain';
 import { BigNumber, ethers } from 'ethers';
+import type { ContractTransaction } from 'ethers';
 
 import { DebugLogger } from '../../common-lib/log';
 import { Contracts } from '../vaults';
@@ -10,7 +11,7 @@ export const INTEGRATION_TYPE = 'hedgey';
 
 const logger = new DebugLogger('hedgey');
 
-export const lockedTokenDistribution = async (
+export const createDistribution = async (
   provider: ethers.providers.JsonRpcProvider,
   contracts: Contracts,
   token: ERC20,
@@ -18,7 +19,7 @@ export const lockedTokenDistribution = async (
   hedgeyLockPeriod: string | undefined,
   hedgeyTransferable: string | undefined,
   balances: { address: string; earnings: string }[]
-): Promise<any> => {
+): Promise<ContractTransaction> => {
   logger.log('lockedTokenDistribution');
   const signer = provider.getSigner();
   const signerAddress = await signer.getAddress();

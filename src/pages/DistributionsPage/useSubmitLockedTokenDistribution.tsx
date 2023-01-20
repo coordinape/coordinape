@@ -1,7 +1,7 @@
 import assert from 'assert';
 
 import { ethers } from 'ethers';
-import { lockedTokenDistribution } from 'lib/hedgey';
+import { createDistribution } from 'lib/hedgey';
 
 import { DebugLogger } from '../../common-lib/log';
 import { useContracts } from 'hooks';
@@ -14,12 +14,10 @@ import { getProfileIds } from './queries';
 
 const logger = new DebugLogger('useLockedTokenDistribution');
 
-export const useLockedTokenDistribution = () => {
+export const useSubmitLockedTokenDistribution = () => {
   const contracts = useContracts();
-  const { mutateAsync: saveLockedTokenDistribution } =
-    useSaveLockedTokenDistribution();
-  const { mutateAsync: markLockedDistributionDone } =
-    useMarkLockedDistributionDone();
+  const { mutateAsync: save } = useSaveLockedTokenDistribution();
+  const { mutateAsync: markDone } = useMarkLockedDistributionDone();
   return async ({
     amount,
     gifts,
@@ -92,7 +90,7 @@ export const useLockedTokenDistribution = () => {
     );
 
     logger.log('saving...');
-    const response = await saveLockedTokenDistribution({
+    const response = await save({
       token_symbol: symbol,
       token_decimals: decimals.toString(),
       token_contract_address: tokenContractAddress,
@@ -110,7 +108,7 @@ export const useLockedTokenDistribution = () => {
 
     assert(response, 'Locked distribution was not saved.');
 
-    const transaction = await lockedTokenDistribution(
+    const transaction = await createDistribution(
       contracts.provider,
       contracts,
       token,
@@ -122,7 +120,7 @@ export const useLockedTokenDistribution = () => {
     const receipt = await transaction.wait();
     if (!receipt) return;
 
-    await markLockedDistributionDone({
+    await markDone({
       id: response.id,
       tx_hash: receipt.transactionHash,
     });
