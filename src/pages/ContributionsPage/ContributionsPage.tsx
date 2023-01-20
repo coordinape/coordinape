@@ -458,7 +458,7 @@ const ContributionsPage = () => {
                   onClick={() => {
                     setEditHelpText(true);
                   }}
-                  css={{ whiteSpace: 'nowrap' }}
+                  css={{ whiteSpace: 'nowrap', mt: '$sm' }}
                 >
                   <Edit3 />
                   Edit

@@ -470,7 +470,7 @@ const GivePage = () => {
                     onClick={() => {
                       setEditAllocHelpText(true);
                     }}
-                    css={{ whiteSpace: 'nowrap' }}
+                    css={{ whiteSpace: 'nowrap', mt: '$sm' }}
                   >
                     <Edit3 />
                     Edit
