@@ -43,11 +43,13 @@ export const SideNav = () => {
     const orgId = getOrgFromPath(location);
 
     for (const o of orgs) {
-      for (const c of o.circles) {
-        if (circleId && c.id == +circleId) {
-          setCurrentCircle(c);
-          setCurrentOrg(o);
-          return;
+      if (circleId) {
+        for (const c of o.circles) {
+          if (c.id == +circleId) {
+            setCurrentCircle(c);
+            setCurrentOrg(o);
+            return;
+          }
         }
       }
       setCurrentCircle(undefined);
