@@ -23,7 +23,7 @@ import { SingleColumnLayout } from 'ui/layouts';
 import { AllocationsTable } from './AllocationsTable';
 import { DistributionForm } from './DistributionForm';
 import type { Gift } from './queries';
-import { getEpochData, getPreviousLockedTokenDistribution } from './queries';
+import { getEpochData, getExistingLockedTokenDistribution } from './queries';
 import type { CustomToken } from './types';
 
 export function DistributionsPage() {
@@ -50,7 +50,6 @@ export function DistributionsPage() {
           d.circle.organization.vaults = d.circle?.organization.vaults.map(
             v => {
               v.symbol = getDisplayTokenString(v);
-
               return v;
             }
           );
@@ -65,18 +64,23 @@ export function DistributionsPage() {
   const [giftVaultId, setGiftVaultId] = useState<string>('');
   const { users: circleUsers, circleId } = useSelectedCircle();
   const { downloadCSV } = useApiAdminCircle(circleId);
-  const [previousLockedTokenDistribution, setPreviousLockedTokenDistribution] =
+  const [existingLockedTokenDistribution, setExistingLockedTokenDistribution] =
     useState<any>({});
   const [customToken, setCustomToken] = useState<CustomToken>();
 
-  const loadPreviousLockedTokenDistribution = () => {
-    getPreviousLockedTokenDistribution(Number.parseInt(epochId || '0')).then(
-      result => setPreviousLockedTokenDistribution(result)
+  // consider Hedgey integration enabled regardless of the value of data.enabled,
+  // because it could be currently disabled but have past data
+  const hedgeyEnabled = (epoch?.circle?.integrations?.length ?? 0) > 0;
+
+  const loadExistingLockedTokenDistribution = () => {
+    if (!hedgeyEnabled) return;
+    getExistingLockedTokenDistribution(Number.parseInt(epochId || '0')).then(
+      setExistingLockedTokenDistribution
     );
   };
 
   useEffect(() => {
-    loadPreviousLockedTokenDistribution();
+    loadExistingLockedTokenDistribution();
   }, [epochId]);
 
   useRequireSupportedChain();
@@ -161,10 +165,10 @@ export function DistributionsPage() {
       };
     });
 
-  if (previousLockedTokenDistribution?.locked_token_distribution_gifts) {
+  if (existingLockedTokenDistribution?.locked_token_distribution_gifts) {
     usersWithGiftnFixedAmounts.forEach(user => {
       const usersLockedTokens =
-        previousLockedTokenDistribution.locked_token_distribution_gifts.find(
+        existingLockedTokenDistribution.locked_token_distribution_gifts.find(
           (gift: { profile: { address: string } }) =>
             gift.profile.address === user.address
         );
@@ -204,7 +208,7 @@ export function DistributionsPage() {
   const refetch = () => {
     refetchDistributions();
     queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
-    loadPreviousLockedTokenDistribution();
+    loadExistingLockedTokenDistribution();
   };
 
   return (
@@ -272,7 +276,7 @@ export function DistributionsPage() {
               circleUsers={circleUsers}
               refetch={refetch}
               totalGive={totalGive}
-              previousLockedTokenDistribution={previousLockedTokenDistribution}
+              existingLockedTokenDistribution={existingLockedTokenDistribution}
               setCustomToken={setCustomToken}
               customToken={customToken}
             />
@@ -289,14 +293,14 @@ export function DistributionsPage() {
             circleDist={circleDist}
             fixedDist={fixedDist}
             isLockedTokenDistribution={
-              previousLockedTokenDistribution?.locked_token_distribution_gifts !==
+              existingLockedTokenDistribution?.locked_token_distribution_gifts !==
               undefined
             }
             lockedTokenDistributionDecimals={
-              previousLockedTokenDistribution?.token_decimals
+              existingLockedTokenDistribution?.token_decimals
             }
             lockedTokenDistributionSymbol={
-              previousLockedTokenDistribution?.token_symbol
+              existingLockedTokenDistribution?.token_symbol
             }
             customToken={customToken}
           />

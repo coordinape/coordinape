@@ -87,7 +87,7 @@ type SubmitFormProps = {
   circleDist: EpochDataResult['distributions'][0] | undefined;
   fixedDist: EpochDataResult['distributions'][0] | undefined;
   totalGive: number;
-  previousLockedTokenDistribution: LockedTokenDistribution;
+  existingLockedTokenDistribution: LockedTokenDistribution;
   setCustomToken: Dispatch<SetStateAction<CustomToken | undefined>>;
   customToken: CustomToken | undefined;
 };
@@ -110,7 +110,7 @@ export function DistributionForm({
   circleDist,
   fixedDist,
   totalGive,
-  previousLockedTokenDistribution,
+  existingLockedTokenDistribution,
   setCustomToken,
   customToken,
 }: SubmitFormProps) {
@@ -553,7 +553,7 @@ export function DistributionForm({
   };
 
   const shouldDisableGiftInput = () => {
-    if (previousLockedTokenDistribution?.tx_hash) return true;
+    if (existingLockedTokenDistribution?.tx_hash) return true;
     if (hedgeyIntegration?.data.enabled) return false;
     else
       return (
@@ -870,10 +870,10 @@ export function DistributionForm({
         </Panel>
         {(fixedDist || circleDist) && <Summary distribution={circleDist} />}
         <Flex css={{ justifyContent: 'center', mb: '$sm' }}>
-          {previousLockedTokenDistribution?.tx_hash ? (
+          {existingLockedTokenDistribution?.tx_hash ? (
             <EtherscanButton
-              tx_hash={previousLockedTokenDistribution.tx_hash}
-              chain_id={previousLockedTokenDistribution.chain_id}
+              tx_hash={existingLockedTokenDistribution.tx_hash}
+              chain_id={existingLockedTokenDistribution.chain_id}
             />
           ) : isUsingHedgey && customToken?.symbol ? (
             <Button
