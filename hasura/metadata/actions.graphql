@@ -101,7 +101,7 @@ type Mutation {
 }
 
 type Mutation {
-  updateProfileName(payload: UpdateProfileNameInput!): UpdateProfileNameResponse
+  updateProfile(payload: UpdateProfileInput!): UpdateProfileResponse
 }
 
 type Mutation {
@@ -374,6 +374,18 @@ input EpochInputParams {
 input CreateEpochInput {
   circle_id: Int!
   params: EpochInputParams!
+}
+
+input UpdateProfileInput {
+  name: String!
+  skills: String
+  bio: String
+  telegram_username: String
+  discord_username: String
+  twitter_username: String
+  github_username: String
+  medium_username: String
+  website: String
 }
 
 type CreateCircleResponse {

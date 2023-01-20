@@ -33,6 +33,7 @@ if [ "$SET_CI_VARS" ]; then
     echo '-----------------------------------------------------------------------'
     export HARDHAT_ARCHIVE_RPC_URL=$ETHEREUM_RPC_URL
   fi
+  export NODE_ENV=development
   export LOCAL_LOCALSTACK_PORT_RANGE="4666-4683"
   export LOCAL_HASURA_PORT=8087
   export LOCAL_POSTGRES_PORT=5437

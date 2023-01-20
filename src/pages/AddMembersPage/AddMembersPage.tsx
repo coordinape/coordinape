@@ -114,9 +114,9 @@ const AddMembersContents = ({
       </Flex>
       <Box css={{ mb: '$md' }}>
         <Text inline>
-          Note that after adding members you can see and manage them in the
-          <AppLink to={paths.members(circle.id)} css={{ display: 'inline' }}>
-            &nbsp;members table.
+          Note that after adding members you can see and manage them in the{' '}
+          <AppLink inlineLink to={paths.members(circle.id)}>
+            members table.
           </AppLink>
         </Text>
       </Box>
@@ -176,12 +176,12 @@ const AddMembersContents = ({
           )}
           {currentTab === Tab.CSV && (
             <Box>
-              <Text css={{ pb: '$lg', pt: '$sm' }} size="large">
+              <Text css={{ pb: '$lg', pt: '$sm' }}>
                 Please import a .CSV file with only these two columns: Name,
                 Address. &nbsp;
-                <a href="/resources/example.csv" download>
+                <Link inlineLink href="/resources/example.csv" download>
                   Download Sample CSV
-                </a>
+                </Link>
               </Text>
               <CSVImport addNewMembers={addMembersFromCSV} />
             </Box>
@@ -189,6 +189,7 @@ const AddMembersContents = ({
 
           <Box css={{ mt: '$md' }}>
             <Link
+              inlineLink
               target="_blank"
               rel="noreferrer"
               href={

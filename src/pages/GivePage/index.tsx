@@ -409,7 +409,7 @@ const GivePage = () => {
                   flexGrow: '1',
                   fontWeight: gridView ? 'normal' : 'bold',
                 }}
-                color="secondary"
+                color="neutral"
                 outlined={gridView}
                 onClick={() => setGridView(false)}
               >
@@ -423,7 +423,7 @@ const GivePage = () => {
                   flexGrow: '1',
                   fontWeight: gridView ? 'bold' : 'normal',
                 }}
-                color="secondary"
+                color="neutral"
                 outlined={!gridView}
                 onClick={() => setGridView(true)}
               >
@@ -830,7 +830,7 @@ const AllocateContents = ({
               ) && (
                 <Button
                   size="medium"
-                  color="secondary"
+                  color="neutral"
                   disabled={maxedOut || noGivingAllowed}
                   onClick={e => {
                     (e.target as HTMLButtonElement).blur();
@@ -867,7 +867,7 @@ const AllocateContents = ({
                     '@sm': { borderTopLeftRadius: 0, py: 'calc($sm + $xs)' },
                     flexGrow: '1',
                   }}
-                  color="secondary"
+                  color="neutral"
                   outlined={!onlyCollaborators}
                   onClick={() => setOnlyCollaborators(true)}
                 >
@@ -881,7 +881,7 @@ const AllocateContents = ({
                     '@sm': { borderTopRightRadius: 0, py: 'calc($sm + $xs)' },
                     flexGrow: '1',
                   }}
-                  color="secondary"
+                  color="neutral"
                   outlined={onlyCollaborators}
                   onClick={() => setOnlyCollaborators(false)}
                 >
@@ -913,8 +913,8 @@ const AllocateContents = ({
           gap: '$md',
           mt: '$md',
           display: 'grid',
-          background: gridView ? 'transparent' : '$surface',
-          p: gridView ? 0 : '$md',
+          background: 'transparent',
+          p: 0,
           gridTemplateColumns: gridView ? '1fr 1fr 1fr 1fr' : '1fr',
           '@md': { gridTemplateColumns: gridView ? '1fr 1fr 1fr' : '1fr' },
           '@sm': { gridTemplateColumns: '1fr' },

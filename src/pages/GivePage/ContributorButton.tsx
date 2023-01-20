@@ -66,8 +66,7 @@ export const ContributorButton = ({
       }}
       disabled={updatingTeammate}
       onClick={toggleTeammate}
-      color={member.teammate ? 'tag' : 'primary'}
-      outlined={member.teammate ? false : true}
+      color={member.teammate ? 'tag' : 'dim'}
     >
       {member.teammate && (
         <>

@@ -42,7 +42,7 @@ export const getMainHeaderData = (address: string, chainId: number) =>
       ],
       profiles: [
         { limit: 1, where: { address: { _eq: address.toLowerCase() } } },
-        { name: true, id: true },
+        { name: true, id: true, avatar: true },
       ],
     },
     { operationName: 'getMainHeaderData' }

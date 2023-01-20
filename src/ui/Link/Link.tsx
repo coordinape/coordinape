@@ -4,7 +4,6 @@ import { styled } from 'stitches.config';
 const COMPOSERS = {
   color: '$link',
   textDecoration: 'none',
-  cursor: 'pointer',
   variants: {
     type: {
       menu: {
@@ -35,6 +34,14 @@ const COMPOSERS = {
         },
       },
     },
+    inlineLink: {
+      true: {
+        textDecoration: 'none',
+        '&:hover': {
+          textDecoration: 'underline',
+        },
+      },
+    },
   },
 };
 
@@ -53,4 +60,14 @@ export const AppLink = styled(NavLink, {
   color: '$link',
   textDecoration: 'none',
   cursor: 'pointer',
+  variants: {
+    inlineLink: {
+      true: {
+        textDecoration: 'none',
+        '&:hover': {
+          textDecoration: 'underline',
+        },
+      },
+    },
+  },
 });

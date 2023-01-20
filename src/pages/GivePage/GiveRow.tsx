@@ -86,8 +86,8 @@ export const GiveRow = ({
         <Panel
           nested={gridView}
           css={{
-            p: gridView ? '$md' : 0,
-            background: gridView ? '$surfaceNested' : 'transparent',
+            p: gridView ? '$md' : '0',
+            background: 'transparent',
             alignItems: 'center',
             display: 'grid',
             gridTemplateColumns: gridView ? '1fr' : '2fr 4fr 4fr',
@@ -174,7 +174,7 @@ export const GiveRow = ({
                       px: '$sm',
                     },
                   }}
-                  color={noteComplete ? 'complete' : 'primary'}
+                  color={noteComplete ? 'complete' : 'neutral'}
                 >
                   {noteComplete ? (
                     <>

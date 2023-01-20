@@ -26,6 +26,7 @@ const Close = styled(Dialog.Close, {
   right: 'calc($sm + 3px)',
   top: 'calc($sm + 3px)',
   cursor: 'pointer',
+  color: '$text',
   '@sm': { outline: 'none !important' },
 });
 

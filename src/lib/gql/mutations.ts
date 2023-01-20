@@ -467,6 +467,19 @@ export async function deleteUser(circleId: number, address: string) {
   return deleteUser;
 }
 
+export async function updateMyProfile(
+  params: ValueTypes['UpdateProfileInput']
+) {
+  await client.mutate(
+    {
+      updateProfile: [{ payload: { ...params } }, { id: true }],
+    },
+    {
+      operationName: 'updateProfile',
+    }
+  );
+}
+
 export async function updateProfile(params: ValueTypes['profiles_set_input']) {
   const { update_profiles } = await client.mutate(
     {

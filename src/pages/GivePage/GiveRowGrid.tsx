@@ -17,10 +17,10 @@ export const GiveRowGrid = ({
       nested={!gridView}
       css={{
         flex: 'auto',
-        p: gridView ? '$md' : '0 $md 0 $sm',
+        p: gridView ? '$md' : '0 $sm !important',
         border: '2px solid transparent',
         cursor: 'pointer',
-        backgroundColor: selected ? '$highlight' : undefined,
+        backgroundColor: selected ? '$highlight' : '$surface',
         borderColor: selected ? '$link' : undefined,
         transition: 'background-color 0.3s, border-color 0.3s',
         '&:hover': {

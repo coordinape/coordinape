@@ -78,6 +78,9 @@ export const colors = {
   primaryDisabled: figmaColors.blue4,
   textOnPrimary: '#fff',
   secondary: figmaColors.blue12,
+  secondaryLight: figmaColors.blue4,
+  secondaryMedium: figmaColors.blue8,
+  secondaryDark: figmaColors.blue4,
   textOnSecondary: '#fff',
   modalBackground: '#00000090',
   modalBorderColor: 'transparent',
@@ -94,8 +97,12 @@ export const colors = {
   successDisabled: figmaColors.green4,
   successDark: figmaColors.green16,
 
-  secondaryDark: figmaColors.teal20,
   neutral: figmaColors.grey12,
+  textOnNeutral: figmaColors.grey1,
+
+  dim: '#ffffff77',
+  textOnDim: figmaColors.blue12,
+
   complete: figmaColors.green12,
   completeLight: figmaColors.green1,
   blurple: figmaColors.discordblurple,
@@ -108,7 +115,8 @@ export const colors = {
   textOnInfo: figmaColors.grey20,
 
   border: figmaColors.grey4,
-  borderMedium: figmaColors.grey8,
+  borderMedium: newFigmaColors.grey5,
+  borderDim: newFigmaColors.grey4,
   borderFocus: figmaColors.blue12,
 
   highlight: figmaColors.blue1,
@@ -121,19 +129,31 @@ export const colors = {
   tagActiveText: figmaColors.yellow20,
   tagActiveBackground: figmaColors.yellow4,
 
-  tagSuccessText: figmaColors.green12,
-  tagSuccessBackground: figmaColors.green1,
+  tagSuccessText: newFigmaColors.success7,
+  tagSuccessBackground: newFigmaColors.success3,
 
   tagAlertText: figmaColors.red16,
   tagAlertBackground: figmaColors.red4,
 
+  tagWarningText: newFigmaColors.orange6,
+  tagWarningBackground: newFigmaColors.orange2,
+
   tagPrimaryText: figmaColors.blue12,
   tagPrimaryBackground: figmaColors.blue4,
+
+  tagSecondaryText: figmaColors.blue12,
+  tagSecondaryBackground: figmaColors.blue4,
+
+  tagNeutralText: newFigmaColors.neutral7,
+  tagNeutralBackground: newFigmaColors.neutral2,
 
   formInputText: figmaColors.grey16,
   formInputBackground: 'white',
   formInputBorder: figmaColors.grey4,
   formInputPlaceholder: figmaColors.grey8,
+  formInputErrorText: newFigmaColors.error7,
+  formInputErrorBackground: newFigmaColors.error1,
+  formInputErrorBorder: newFigmaColors.error6,
 
   mapNodeHighlight: figmaColors.blue12,
   mapNodeMoreHighlight: figmaColors.teal8,
@@ -322,18 +342,24 @@ export const {
 export const dark = createTheme({
   colors: {
     cta: newFigmaColors.primary5,
-    textOnCta: newFigmaColors.primary1,
+    textOnCta: newFigmaColors.primary10,
     primary: newFigmaColors.grey3,
     textOnPrimary: newFigmaColors.grey8,
-    secondary: newFigmaColors.grey7,
+    neutral: newFigmaColors.grey7,
+    textOnNeutral: newFigmaColors.grey4,
+    dim: newFigmaColors.grey8,
+    textOnDim: newFigmaColors.grey5,
+    secondary: newFigmaColors.secondary5,
+    secondaryMedium: newFigmaColors.secondary7,
+    secondaryDark: newFigmaColors.secondary9,
     textOnSecondary: newFigmaColors.grey3,
     modalBackground: '#0000007d',
     modalBorderColor: newFigmaColors.grey8,
 
     background: newFigmaColors.grey10,
     navBackground: newFigmaColors.grey9,
-    surface: newFigmaColors.grey8,
-    surfaceNested: newFigmaColors.grey9,
+    surface: newFigmaColors.grey9,
+    surfaceNested: newFigmaColors.grey10,
 
     text: newFigmaColors.grey2,
     headingText: newFigmaColors.grey4,
@@ -348,6 +374,8 @@ export const dark = createTheme({
     highlight: newFigmaColors.primary10,
 
     border: newFigmaColors.grey9,
+    borderMedium: newFigmaColors.grey6,
+    borderDim: newFigmaColors.grey7,
     borderFocus: newFigmaColors.primary5,
 
     tagActiveText: newFigmaColors.warning8,
@@ -359,13 +387,25 @@ export const dark = createTheme({
     tagAlertText: newFigmaColors.error6,
     tagAlertBackground: newFigmaColors.error10,
 
+    tagWarningText: newFigmaColors.orange5,
+    tagWarningBackground: newFigmaColors.orange10,
+
     tagPrimaryText: newFigmaColors.primary7,
     tagPrimaryBackground: newFigmaColors.primary9,
+
+    tagSecondaryText: newFigmaColors.secondary8,
+    tagSecondaryBackground: newFigmaColors.secondary3,
+
+    tagNeutralText: newFigmaColors.neutral4,
+    tagNeutralBackground: newFigmaColors.neutral8,
 
     formInputText: newFigmaColors.grey5,
     formInputBackground: newFigmaColors.grey9,
     formInputBorder: newFigmaColors.grey7,
     formInputPlaceholder: newFigmaColors.grey6,
+    formInputErrorText: newFigmaColors.error9,
+    formInputErrorBackground: newFigmaColors.error4,
+    formInputErrorBorder: newFigmaColors.error7,
 
     mapNodeHighlight: newFigmaColors.warning7,
     mapNodeMoreHighlight: newFigmaColors.warning4,

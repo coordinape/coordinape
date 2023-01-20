@@ -13,17 +13,14 @@ const MagicLink = ({ magicLink }: { magicLink: string }) => {
       <CopyCodeTextField value={magicLink} />
 
       <Panel alert css={{ mt: '$xl', mb: '$md' }}>
-        <Flex>
+        <Flex alignItems="center">
           <AlertTriangle
-            color="alert"
-            size="xl"
+            size="lg"
             css={{
               mr: '$md',
-              '& path': { stroke: 'none' },
-              flexShrink: 0,
             }}
           />
-          <Text size="large">
+          <Text>
             Anyone with this link can join this circle and set their name. For
             added security, add new members using their wallet addresses.
           </Text>

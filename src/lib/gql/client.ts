@@ -1,8 +1,16 @@
 import { getAuthToken } from 'features/auth';
+import isEmpty from 'lodash/isEmpty';
 
 import { REACT_APP_HASURA_URL } from '../../config/env';
+import { TEST_SKIP_AUTH } from 'utils/testing/api';
 
 import { apiFetch, Thunder } from './__generated__/zeus';
+
+let mockHeaders: Record<string, string> = {};
+
+export const setMockHeaders = (h: Record<string, string>) => {
+  mockHeaders = h;
+};
 
 const makeThunder = (headers = {}) =>
   Thunder(async (...params) =>
@@ -11,8 +19,11 @@ const makeThunder = (headers = {}) =>
       {
         method: 'POST',
         headers: {
-          Authorization: 'Bearer ' + getAuthToken(),
+          Authorization: isEmpty(mockHeaders)
+            ? 'Bearer ' + getAuthToken()
+            : TEST_SKIP_AUTH,
           'Hasura-Client-Name': 'web',
+          ...mockHeaders,
           ...headers,
         },
       },
