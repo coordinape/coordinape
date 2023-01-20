@@ -2,14 +2,12 @@ import { useEffect, useState } from 'react';
 
 import { ethers } from 'ethers';
 
-import { useMyProfile } from '../../recoilState';
 import { Button, Link, Panel, Table, Text } from 'ui';
 import { makeExplorerUrl } from 'utils/provider';
 
 import { getLockedTokenGifts } from './queries';
 
 export default function LockedTokenGiftsTable() {
-  const profile = useMyProfile();
   const [lockedTokenGifts, setLockedTokenGifts] = useState([] as any[]);
   const hedgeyPortfolioUrl = (chainId: string) =>
     chainId === '1'
@@ -17,8 +15,8 @@ export default function LockedTokenGiftsTable() {
       : 'https://hedgey-app-v2-git-coordinape-test-hedgey-finance.vercel.app/my-rewards';
 
   useEffect(() => {
-    getLockedTokenGifts(profile.id).then(setLockedTokenGifts);
-  }, [profile]);
+    getLockedTokenGifts().then(setLockedTokenGifts);
+  }, []);
 
   return (
     <div>
