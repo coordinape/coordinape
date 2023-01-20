@@ -303,6 +303,7 @@ export async function getNominee(id: number) {
         {
           id: true,
           address: true,
+          description: true,
           circle_id: true,
           nominator: {
             name: true,

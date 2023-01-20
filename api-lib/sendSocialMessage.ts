@@ -1,21 +1,38 @@
 import fetch from 'node-fetch';
 
 import { TELEGRAM_BOT_BASE_URL } from './config';
-import { DISCORD_BOT_NAME, DISCORD_BOT_AVATAR_URL } from './constants';
 import * as queries from './gql/queries';
+import { isDiscordEpochEvent } from './utils/isDiscordEpochEvent';
+
+export type DiscordEpochEvent = {
+  channelId: string;
+  roleId: string;
+};
+
+export type DiscordNomination = DiscordEpochEvent & {
+  type: 'nomination';
+  nominee: string;
+  nominator: string;
+  nominationReason: string;
+  numberOfVouches: number;
+  nominationLink: string;
+};
 
 type SocialMessage = {
-  message: string;
+  message?: string;
   circleId: number;
   sanitize?: boolean;
   channels: {
-    discord?: boolean;
+    discord?: DiscordNomination | boolean; // `boolean` just for backward compatibility for now, will be removed
     telegram?: boolean;
   };
   notifyOrg?: boolean;
 };
 
-function cleanStr(str: string) {
+function cleanStr(str?: string) {
+  if (!str) {
+    return '';
+  }
   return str.replace(/:|-|\/|\*|_|`/g, '');
 }
 
@@ -30,15 +47,12 @@ export async function sendSocialMessage({
 
   const { circles_by_pk: circle } = await queries.getCircle(circleId);
 
-  if (channels?.discord && circle?.discord_webhook) {
-    const discordWebhookPost = {
-      content: msg,
-      username: DISCORD_BOT_NAME,
-      avatar_url: DISCORD_BOT_AVATAR_URL,
-    };
-    const res = await fetch(circle.discord_webhook, {
+  if (isDiscordEpochEvent(channels.discord)) {
+    const { type } = channels.discord;
+    // TODO Fix the discord bot endpoint
+    const res = await fetch(`http://localhost:4000/api/epoch/${type}`, {
       method: 'POST',
-      body: JSON.stringify(discordWebhookPost),
+      body: JSON.stringify(channels.discord),
       headers: {
         'Content-Type': 'application/json',
       },
