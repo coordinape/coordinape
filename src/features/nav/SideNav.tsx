@@ -22,7 +22,6 @@ export const InvalidateSideNav = async (queryClient: QueryClient) => {
 export const SideNav = () => {
   /*
     TODO: review semantic color names
-    TODO: icons need fixing
     TODO: a11y
     TODO: favicon
     TODO: scrolly gradient
