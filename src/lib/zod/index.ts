@@ -75,13 +75,6 @@ export const deleteUserInput = z
   })
   .strict();
 
-  export const deleteUserBulkInput = z
-  .object({
-    circle_id: z.number(),
-    addresses: z.array(zEthAddressOnly).min(1),
-  })
-  .strict();
-
 export const deletedDiscordUserInput = z
   .object({
     user_snowflake: z.string(),

@@ -1,23 +1,28 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { DateTime } from 'luxon';
+import { z } from 'zod';
 
+import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
-import { authUserDeleterBulkMiddleware } from '../../../../api-lib/userDeleterBulk';
-import {
-  deleteUserBulkInput,
-  composeHasuraActionRequestBody,
-} from '../../../../src/lib/zod';
+import { composeHasuraActionRequestBody } from '../../../../src/lib/zod';
+import { zEthAddressOnly } from '../../../../src/lib/zod/formHelpers';
+
+export const deleteUsersInput = z
+  .object({
+    circle_id: z.number(),
+    addresses: z.array(zEthAddressOnly).min(1),
+  })
+  .strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     input: { payload },
-  } = composeHasuraActionRequestBody(deleteUserBulkInput).parse(req.body);
+  } = composeHasuraActionRequestBody(deleteUsersInput).parse(req.body);
 
   const { circle_id, addresses } = payload;
-  const existingUserIds : number[] = [];
-  const uniqueAddresses = [...new Set(addresses.map(a => a.toLowerCase()))];
 
+  const uniqueAddresses = [...new Set(addresses.map(a => a.toLowerCase()))];
   // Check if bulk contains duplicates.
   if (uniqueAddresses.length < addresses.length) {
     const dupes = uniqueAddresses.filter(
@@ -33,9 +38,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   // Check that all the addresses exist
-  const {
-    users: existingUsers,
-  } = await adminClient.query(
+  const { users: existingUsers } = await adminClient.query(
     {
       users: [
         {
@@ -48,9 +51,9 @@ async function handler(req: VercelRequest, res: VercelResponse) {
             }),
           },
         },
-        { 
+        {
           id: true,
-          address: true 
+          address: true,
         },
       ],
     },
@@ -60,15 +63,23 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   );
 
   // Error out if any of the user addresses does not exist
-  if(existingUsers.length < uniqueAddresses.length) {
+  if (existingUsers.length < uniqueAddresses.length) {
     const nonExistingUsers = [];
     for (const ua of uniqueAddresses) {
-      const userExists = existingUsers.find(eu => eu.address.toLowerCase() === ua.toLowerCase())
+      const userExists = existingUsers.find(
+        eu => eu.address.toLowerCase() === ua.toLowerCase()
+      );
       if (!userExists) {
         nonExistingUsers.push(ua);
       }
     }
-    errorResponseWithStatusCode(res, { message: `Users with these addresses do not exist: ${nonExistingUsers}` }, 422);
+    errorResponseWithStatusCode(
+      res,
+      {
+        message: `Users with these addresses do not exist: ${nonExistingUsers}`,
+      },
+      422
+    );
   }
 
   const userIdsDelete = existingUsers.map(eu => eu.id);
@@ -77,7 +88,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     {
       update_users: [
         {
-          where: { id: {_in: userIdsDelete }},
+          where: { id: { _in: userIdsDelete } },
           _set: { deleted_at: DateTime.now().toISO() },
         },
         { __typename: true },
@@ -104,4 +115,4 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   });
 }
 
-export default authUserDeleterBulkMiddleware(handler);
+export default authCircleAdminMiddleware(handler);
