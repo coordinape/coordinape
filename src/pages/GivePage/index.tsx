@@ -448,25 +448,20 @@ const GivePage = () => {
               flexWrap: 'wrap',
               gap: '$md',
               mb: '$md',
-              width: '60%',
+              width: '50%',
               '@sm': { width: '100%' },
             }}
           >
             {!editAllocHelpText ? (
-              <Flex
-                css={{
-                  gap: '$sm',
-                  alignItems: 'flex-end',
-                  '@sm': { flexDirection: 'column', alignItems: 'start' },
-                }}
-              >
+              <Flex column>
                 <MarkdownPreview
+                  render
                   source={
                     updatedAllocText ??
                     circle?.alloc_text ??
                     'Reward & thank your teammates for their contributions'
                   }
-                  css={{ minHeight: '0' }}
+                  css={{ minHeight: '0', cursor: 'text' }}
                 />
                 {isAdmin && (
                   <Link
@@ -475,7 +470,7 @@ const GivePage = () => {
                     onClick={() => {
                       setEditAllocHelpText(true);
                     }}
-                    css={{ whiteSpace: 'nowrap', ml: '$sm' }}
+                    css={{ whiteSpace: 'nowrap' }}
                   >
                     <Edit3 />
                     Edit
@@ -484,11 +479,9 @@ const GivePage = () => {
               </Flex>
             ) : (
               <Flex
+                column
                 css={{
-                  gap: '$md',
-                  alignItems: 'flex-end',
                   flexGrow: 1,
-                  '@sm': { flexDirection: 'column' },
                 }}
               >
                 <Box css={{ position: 'relative', width: '100%' }}>
@@ -519,7 +512,7 @@ const GivePage = () => {
                     Markdown Supported
                   </Text>
                 </Box>
-                <Flex css={{ gap: '$sm', mt: '$lg', '@sm': { mt: 0 } }}>
+                <Flex css={{ gap: '$sm', mt: '$md' }}>
                   <Button
                     outlined
                     color="primary"

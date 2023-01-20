@@ -435,25 +435,20 @@ const ContributionsPage = () => {
             justifyContent: 'space-between',
             flexWrap: 'wrap',
             gap: '$md',
-            width: '100%',
+            width: '50%',
             '@sm': { width: '100%' },
           }}
         >
           {!editHelpText ? (
-            <Flex
-              css={{
-                gap: '$sm',
-                alignItems: 'flex-end',
-                '@sm': { flexDirection: 'column', alignItems: 'start' },
-              }}
-            >
+            <Flex column>
               <MarkdownPreview
+                render
                 source={
                   updatedContHelpText ??
                   data?.circles_by_pk?.cont_help_text ??
                   CONT_DEFAULT_HELP_TEXT
                 }
-                css={{ minHeight: '0' }}
+                css={{ minHeight: '0', cursor: 'text' }}
               />
 
               {isAdmin && (
@@ -463,7 +458,7 @@ const ContributionsPage = () => {
                   onClick={() => {
                     setEditHelpText(true);
                   }}
-                  css={{ whiteSpace: 'nowrap', ml: '$sm' }}
+                  css={{ whiteSpace: 'nowrap' }}
                 >
                   <Edit3 />
                   Edit
@@ -472,11 +467,9 @@ const ContributionsPage = () => {
             </Flex>
           ) : (
             <Flex
+              column
               css={{
-                gap: '$md',
-                alignItems: 'flex-end',
                 flexGrow: 1,
-                '@sm': { flexDirection: 'column' },
               }}
             >
               <Box css={{ position: 'relative', width: '100%' }}>
@@ -507,7 +500,7 @@ const ContributionsPage = () => {
                   Markdown Supported
                 </Text>
               </Box>
-              <Flex css={{ gap: '$sm', mt: '$lg', '@sm': { mt: 0 } }}>
+              <Flex css={{ gap: '$sm', mt: '$md' }}>
                 <Button
                   outlined
                   color="primary"
