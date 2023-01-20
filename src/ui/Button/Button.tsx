@@ -75,9 +75,12 @@ export const Button = styled('button', {
       },
       neutral: {
         backgroundColor: '$neutralButton',
+        border: '1px solid transparent',
         color: '$neutralButtonText',
         '&:hover': {
           backgroundColor: '$neutralButtonHover',
+          borderColor: '$neutralButtonHover',
+          color: '$neutralButtonTextHover !important',
         },
       },
       surface: {
@@ -267,6 +270,15 @@ export const Button = styled('button', {
       css: {
         // subtract border from N-S padding
         padding: 'calc($sm - 1px) calc($sm + $xs)',
+      },
+    },
+    {
+      color: 'neutral',
+      outlined: true,
+      css: {
+        background: 'transparent',
+        color: '$neutralButton',
+        borderColor: '$neutralButton',
       },
     },
     {

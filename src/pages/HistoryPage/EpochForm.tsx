@@ -413,6 +413,7 @@ const EpochForm = ({
                     href="https://docs.coordinape.com/get-started/epochs/create-an-epoch"
                     rel="noreferrer"
                     target="_blank"
+                    inlineLink
                   >
                     Learn More
                   </Link>

@@ -326,6 +326,7 @@ export const NewNominationPage = () => {
           )}
           <Box css={{ mt: '$md' }}>
             <Link
+              inlineLink
               target="_blank"
               rel="noreferrer"
               href={

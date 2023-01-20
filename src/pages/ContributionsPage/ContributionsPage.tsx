@@ -561,7 +561,7 @@ const ContributionsPage = () => {
                     <ChevronsRight size="lg" />
                   </Button>
                   <Button
-                    color="neutral"
+                    color="primary"
                     size="large"
                     css={nextPrevCss}
                     disabled={

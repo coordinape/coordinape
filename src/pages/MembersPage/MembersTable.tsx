@@ -577,7 +577,11 @@ const MemberRow = ({
                             <div>
                               Gives the member the ability to reward circle
                               members with giving{' '}
-                              <Link href={GIFT_CIRCLE_DOCS_URL} target="_blank">
+                              <Link
+                                inlineLink
+                                href={GIFT_CIRCLE_DOCS_URL}
+                                target="_blank"
+                              >
                                 Learn More
                               </Link>
                             </div>
@@ -619,7 +623,11 @@ const MemberRow = ({
                             <div>
                               Allows the Contributor to get paid based on the
                               amount of giving allocated by circle members.{' '}
-                              <Link href={GIFT_CIRCLE_DOCS_URL} target="_blank">
+                              <Link
+                                inlineLink
+                                href={GIFT_CIRCLE_DOCS_URL}
+                                target="_blank"
+                              >
                                 Learn More
                               </Link>
                             </div>

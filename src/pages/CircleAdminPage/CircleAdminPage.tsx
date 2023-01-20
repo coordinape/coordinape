@@ -693,6 +693,7 @@ export const CircleAdminPage = () => {
                 href="https://docs.coordinape.com/get-started/admin/enable-vouching"
                 rel="noreferrer"
                 target="_blank"
+                inlineLink
               >
                 Learn More
               </Link>

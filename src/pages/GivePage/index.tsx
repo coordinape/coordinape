@@ -828,7 +828,7 @@ const AllocateContents = ({
               ) && (
                 <Button
                   size="medium"
-                  color="neutral"
+                  color="primary"
                   disabled={maxedOut || noGivingAllowed}
                   onClick={e => {
                     (e.target as HTMLButtonElement).blur();
