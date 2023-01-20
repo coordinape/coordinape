@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { useIsEmailWallet } from 'features/auth';
 import { isUserAdmin } from 'lib/users';
-import { useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
 
 import { LoadingModal } from 'components';
@@ -25,8 +25,8 @@ const VaultsPage = () => {
   const orgsQuery = useMainHeaderQuery();
   const contracts = useContracts();
 
-  const [params] = useSearchParams();
-  const specificOrg = params.get('org') ? Number(params.get('org')) : undefined;
+  const { orgId: orgFromParams } = useParams();
+  const specificOrg = orgFromParams ? Number(orgFromParams) : undefined;
 
   const [currentOrgId, setCurrentOrgId] = useState<number | undefined>(
     specificOrg
