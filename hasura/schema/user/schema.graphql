@@ -195,6 +195,15 @@ input DeleteUserInput {
   circle_id: Int!
 }
 
+input DeleteUsersInput {
+  addresses: [String!]!
+  circle_id: Int!
+}
+
+type DeleteUsersResponse {
+  success: Boolean!
+}
+
 type EpochResponse {
   epoch: epochs
   id: ID!
@@ -5850,6 +5859,7 @@ type mutation_root {
   deleteContribution(payload: DeleteContributionInput!): ConfirmationResponse
   deleteEpoch(payload: DeleteEpochInput!): DeleteEpochResponse
   deleteUser(payload: DeleteUserInput!): ConfirmationResponse
+  deleteUsers(payload: DeleteUsersInput!): DeleteUsersResponse
 
   """
   delete data from the table: "circle_api_keys"

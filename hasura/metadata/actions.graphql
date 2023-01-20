@@ -365,11 +365,6 @@ input LinkDiscordUserInput {
   discord_id: String!
 }
 
-input DeleteUserBulkInput {
-  circle_id: Int!
-  addresses: [String!]!
-}
-
 input DeleteUsersInput {
   circle_id: Int!
   addresses: [String!]!

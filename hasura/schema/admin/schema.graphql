@@ -12241,7 +12241,6 @@ type mutation_root {
   deleteUser(payload: DeleteUserInput!): ConfirmationResponse
   deleteUsers(payload: DeleteUsersInput!): DeleteUsersResponse
 
-
   """
   delete data from the table: "burns"
   """

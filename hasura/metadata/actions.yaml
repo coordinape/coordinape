@@ -140,6 +140,8 @@ actions:
       headers:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
   - name: generateApiKey
     definition:
       kind: synchronous
@@ -349,11 +351,10 @@ custom_types:
     - name: UpdateContributionInput
     - name: MarkClaimedInput
     - name: LinkDiscordUserInput
+    - name: DeleteUsersInput
     - name: UpdateProfileNameInput
     - name: DeleteDiscordUserInput
     - name: LinkDiscordCircleInput
-    - name: DeleteUserBulkInput
-    - name: DeleteUsersInput
     - name: UpdateProfileInput
   objects:
     - name: CreateCircleResponse
