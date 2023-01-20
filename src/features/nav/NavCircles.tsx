@@ -52,7 +52,7 @@ export const NavCircles = ({
                 path={c.logo}
               />
               <Text
-                semibold={isCurrentCircle ? true : undefined}
+                semibold={isCurrentCircle}
                 css={{
                   flexGrow: 1,
                   color: isCurrentCircle ? '$textOnInfo' : '$primary',
