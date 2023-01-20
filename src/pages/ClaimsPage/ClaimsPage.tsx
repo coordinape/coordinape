@@ -129,10 +129,8 @@ export default function ClaimsPage() {
         </ClaimsTable>
       </Panel>
 
-      <Text h2 css={{ mb: '$sm' }}>
-        Claims History
-      </Text>
-      <Panel>
+      <Text h2>Claims History</Text>
+      <Panel css={{ mb: '$lg' }}>
         <ClaimsTable
           headers={[
             { title: 'Organization' },

@@ -18,11 +18,11 @@ export default function LockedTokenGiftsTable() {
     getLockedTokenGifts().then(setLockedTokenGifts);
   }, []);
 
+  if (lockedTokenGifts.length === 0) return null;
+
   return (
-    <div>
-      <Text h2 css={{ mb: '$sm' }}>
-        Locked Tokens
-      </Text>
+    <>
+      <Text h2>Locked Tokens</Text>
       <Panel>
         <Table>
           <thead>
@@ -75,6 +75,6 @@ export default function LockedTokenGiftsTable() {
           </tbody>
         </Table>
       </Panel>
-    </div>
+    </>
   );
 }
