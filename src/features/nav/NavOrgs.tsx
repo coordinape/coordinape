@@ -49,7 +49,7 @@ export const NavOrgs = ({
               as={NavLink}
               key={o.id}
               to={paths.organization(o.id)}
-              css={{ alignItems: 'center', mb: '$sm', textDecoration: 'none' }}
+              css={{ alignItems: 'center', mb: '$md', textDecoration: 'none' }}
             >
               <Avatar
                 name={o.name}

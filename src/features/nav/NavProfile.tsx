@@ -37,6 +37,7 @@ export const NavProfile = () => {
             filter: 'saturate(1)',
           },
         }}
+        tabIndex={0}
         onClick={() => setOpen(prev => !prev)}
       >
         <Avatar
