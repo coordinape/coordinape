@@ -344,70 +344,73 @@ interface EpochIndexed {
 type getCircleGiftsResult = Awaited<ReturnType<typeof getCircleGifts>>;
 const getCircleGifts = async (limit: number) => {
   const firstDayOfThisMonth = DateTime.local().startOf('month');
-  const { circles } = await adminClient.query({
-    circles: [
-      {
-        limit,
-        order_by: [{ id: order_by.asc }],
-        where: {
-          _and: [
-            {
-              _not: {
-                epochs: {
-                  pgive_data: {},
+  const { circles } = await adminClient.query(
+    {
+      circles: [
+        {
+          limit,
+          order_by: [{ id: order_by.asc }],
+          where: {
+            _and: [
+              {
+                _not: {
+                  epochs: {
+                    pgive_data: {},
+                  },
                 },
               },
-            },
+              {
+                epochs: {
+                  ended: { _eq: true },
+                  end_date: { _lt: firstDayOfThisMonth.toISO() },
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: true,
+          name: true,
+          epochs: [
             {
-              epochs: {
+              where: {
                 ended: { _eq: true },
                 end_date: { _lt: firstDayOfThisMonth.toISO() },
               },
             },
+            {
+              id: true,
+              end_date: true,
+              token_gifts: [
+                {},
+                {
+                  sender_id: true,
+                  sender_address: true,
+                  recipient_id: true,
+                  recipient_address: true,
+                  recipient: {
+                    name: true,
+                  },
+                  tokens: true,
+                  note: true,
+                },
+              ],
+            },
+          ],
+          users: [
+            {},
+            {
+              id: true,
+              name: true,
+              deleted_at: true,
+              created_at: true,
+            },
           ],
         },
-      },
-      {
-        id: true,
-        name: true,
-        epochs: [
-          {
-            where: {
-              ended: { _eq: true },
-              end_date: { _lt: firstDayOfThisMonth.toISO() },
-            },
-          },
-          {
-            id: true,
-            end_date: true,
-            token_gifts: [
-              {},
-              {
-                sender_id: true,
-                sender_address: true,
-                recipient_id: true,
-                recipient_address: true,
-                recipient: {
-                  name: true,
-                },
-                tokens: true,
-                note: true,
-              },
-            ],
-          },
-        ],
-        users: [
-          {},
-          {
-            id: true,
-            name: true,
-            deleted_at: true,
-            created_at: true,
-          },
-        ],
-      },
-    ],
-  });
+      ],
+    },
+    { operationName: 'backfillPgiveCircleQuery' }
+  );
   return circles;
 };
 

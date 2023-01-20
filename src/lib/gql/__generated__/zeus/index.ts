@@ -13734,7 +13734,7 @@ export type ModelTypes = {
     activities_aggregate: GraphQLTypes['activities_aggregate'];
     /** fetch data from the table: "activities" using primary key columns */
     activities_by_pk?: GraphQLTypes['activities'] | undefined;
-    /** fetch data from the table in a streaming manner : "activities" */
+    /** fetch data from the table in a streaming manner: "activities" */
     activities_stream: Array<GraphQLTypes['activities']>;
     /** An array relationship */
     burns: Array<GraphQLTypes['burns']>;
@@ -19782,7 +19782,7 @@ export type GraphQLTypes = {
     activities_aggregate: GraphQLTypes['activities_aggregate'];
     /** fetch data from the table: "activities" using primary key columns */
     activities_by_pk?: GraphQLTypes['activities'] | undefined;
-    /** fetch data from the table in a streaming manner : "activities" */
+    /** fetch data from the table in a streaming manner: "activities" */
     activities_stream: Array<GraphQLTypes['activities']>;
     /** An array relationship */
     burns: Array<GraphQLTypes['burns']>;

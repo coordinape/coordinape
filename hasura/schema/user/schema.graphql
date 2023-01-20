@@ -10823,7 +10823,7 @@ type subscription_root {
   activities_by_pk(id: bigint!): activities
 
   """
-  fetch data from the table in a streaming manner : "activities"
+  fetch data from the table in a streaming manner: "activities"
   """
   activities_stream(
     """
