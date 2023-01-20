@@ -15,7 +15,7 @@ export const getNavData = (address: string, chainId: number) =>
           name: true,
           logo: true,
           circles: [
-            {},
+            { where: { users: { address: { _eq: address.toLowerCase() } } } },
             {
               id: true,
               name: true,
