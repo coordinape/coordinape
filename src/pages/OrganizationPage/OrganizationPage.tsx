@@ -79,7 +79,7 @@ export const OrganizationPage = () => {
                 </Button>
                 <Button
                   as={NavLink}
-                  to={paths.organizationSettings(orgId.toString())}
+                  to={paths.organizationSettings(orgId)}
                   color="primary"
                   css={{ whiteSpace: 'nowrap' }}
                   outlined

@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react';
 import max from 'lodash/max';
 import { useQuery, useQueryClient } from 'react-query';
 
+import { InvalidateSideNav } from '../../features/nav';
 import { QUERY_KEY_MAIN_HEADER } from 'components/MainLayout/getMainHeaderData';
 import { useContracts } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
@@ -75,6 +76,7 @@ export const useClaimsTableData = () => {
     if (hash) {
       refetch();
       queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
+      InvalidateSideNav(queryClient);
       setClaiming(val => ({ ...val, [claim.id]: 'claimed' }));
     } else {
       setClaiming(val => ({ ...val, [claim.id]: null }));
