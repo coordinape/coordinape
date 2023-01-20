@@ -50,7 +50,6 @@ export { default as Edit2 } from './Edit2';
 export { default as Edit3 } from './Edit3';
 export { default as Edit } from './Edit';
 export { default as Epoch } from './Epoch';
-export { default as Epoch2 } from './Epoch2';
 export { default as EthColorLogo } from './EthColorLogo';
 export { default as EthLogo } from './EthLogo';
 export { default as ExternalLink } from './ExternalLink';
