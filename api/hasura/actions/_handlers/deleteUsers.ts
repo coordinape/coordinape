@@ -73,7 +73,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         nonExistingUsers.push(ua);
       }
     }
-    errorResponseWithStatusCode(
+    return errorResponseWithStatusCode(
       res,
       {
         message: `Users with these addresses do not exist: ${nonExistingUsers}`,
