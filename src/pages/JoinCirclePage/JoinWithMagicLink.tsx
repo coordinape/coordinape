@@ -53,19 +53,22 @@ export const JoinWithMagicLink = ({
   const submitMagicToken = async ({ name }: { name: string }) => {
     try {
       setLoading(true);
-      const { createUserWithToken } = await client.mutate({
-        createUserWithToken: [
-          {
-            payload: {
-              token: tokenJoinInfo.token,
-              name: name,
+      const { createUserWithToken } = await client.mutate(
+        {
+          createUserWithToken: [
+            {
+              payload: {
+                token: tokenJoinInfo.token,
+                name: name,
+              },
             },
-          },
-          {
-            id: true,
-          },
-        ],
-      });
+            {
+              id: true,
+            },
+          ],
+        },
+        { operationName: 'createUserWithToken' }
+      );
       await fetchManifest();
       if (createUserWithToken?.id) {
         navigate(paths.history(tokenJoinInfo.circle.id));

@@ -15,9 +15,12 @@ import { client, setMockHeaders } from './client';
 
 test('set Bearer authorization with token', async () => {
   setAuthToken('mock-token');
-  const args = (await client.query({
-    profiles: [{}, { name: true }],
-  })) as unknown as [string, Record<string, any>];
+  const args = (await client.query(
+    {
+      profiles: [{}, { name: true }],
+    },
+    { operationName: 'test__getProfile' }
+  )) as unknown as [string, Record<string, any>];
   expect(args[1].headers.Authorization).toEqual('Bearer mock-token');
 });
 
@@ -28,9 +31,12 @@ test('set mock headers', async () => {
     'x-hasura-address': '0xface0101face',
   };
   setMockHeaders(mockHeaders);
-  const args = (await client.query({
-    profiles: [{}, { name: true }],
-  })) as unknown as [string, Record<string, any>];
+  const args = (await client.query(
+    {
+      profiles: [{}, { name: true }],
+    },
+    { operationName: 'test__getProfile' }
+  )) as unknown as [string, Record<string, any>];
   expect(args[1].headers).toMatchObject({
     ...mockHeaders,
     Authorization: TEST_SKIP_AUTH,

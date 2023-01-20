@@ -131,24 +131,29 @@ const NewMemberList = ({
           entrance:
             m.entrance === ENTRANCE.CSV ? ENTRANCE.CSV : ENTRANCE.MANUAL,
         }));
-      const res = await client.mutate({
-        createUsers: [
-          {
-            payload: {
-              circle_id: circleId,
-              users: filteredMembers,
-            },
-          },
-          {
-            UserResponse: {
-              address: true,
-              profile: {
-                name: true,
+      const res = await client.mutate(
+        {
+          createUsers: [
+            {
+              payload: {
+                circle_id: circleId,
+                users: filteredMembers,
               },
             },
-          },
-        ],
-      });
+            {
+              UserResponse: {
+                address: true,
+                profile: {
+                  name: true,
+                },
+              },
+            },
+          ],
+        },
+        {
+          operationName: 'createUsers_newMemberList',
+        }
+      );
 
       const replacedNames = res?.createUsers
         ?.filter(res =>

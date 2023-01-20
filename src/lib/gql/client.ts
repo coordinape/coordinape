@@ -22,7 +22,8 @@ export const setMockHeaders = (h: Record<string, string>) => {
   mockHeaders = h;
 };
 
-export const ThunderButCool =
+/* A bit verbose TS, but this allows us to enforce OperationName as a required */
+export const ThunderRequireOperationName =
   (fn: FetchFunction) =>
   <
     O extends keyof typeof Ops,
@@ -39,7 +40,7 @@ export const ThunderButCool =
     >;
 
 const makeThunder = (headers = {}) =>
-  ThunderButCool(async (...params) =>
+  ThunderRequireOperationName(async (...params) =>
     apiFetch([
       REACT_APP_HASURA_URL,
       {
@@ -57,9 +58,6 @@ const makeThunder = (headers = {}) =>
   );
 
 const thunder = makeThunder();
-
-// const t = ReturnType<thunder('query')>
-// type thunderParams = Parameters<typeof Return thunder('query')>;
 
 export const client = {
   query: thunder('query'),

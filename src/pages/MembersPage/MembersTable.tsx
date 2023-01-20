@@ -314,16 +314,19 @@ const MemberRow = ({
   useEffect(() => {
     (async () => {
       if (!contracts || !fixedPayment?.vaultId || !open) return;
-      const { vaults_by_pk: vault } = await client.query({
-        vaults_by_pk: [
-          { id: fixedPayment.vaultId },
-          {
-            simple_token_address: true,
-            vault_address: true,
-            decimals: true,
-          },
-        ],
-      });
+      const { vaults_by_pk: vault } = await client.query(
+        {
+          vaults_by_pk: [
+            { id: fixedPayment.vaultId },
+            {
+              simple_token_address: true,
+              vault_address: true,
+              decimals: true,
+            },
+          ],
+        },
+        { operationName: 'getVaultsMembersPage' }
+      );
       if (!vault) return;
       const balance = await contracts.getVaultBalance(vault);
       const available = formatUnits(balance, vault.decimals);

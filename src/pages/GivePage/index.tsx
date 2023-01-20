@@ -178,19 +178,24 @@ const GivePage = () => {
 
     try {
       // Save this and update the members collection
-      await client.mutate({
-        updateTeammates: [
-          {
-            payload: {
-              circle_id: selectedCircle.id,
-              teammates: newTeammates,
+      await client.mutate(
+        {
+          updateTeammates: [
+            {
+              payload: {
+                circle_id: selectedCircle.id,
+                teammates: newTeammates,
+              },
             },
-          },
-          {
-            __typename: true,
-          },
-        ],
-      });
+            {
+              __typename: true,
+            },
+          ],
+        },
+        {
+          operationName: 'updateTeammate',
+        }
+      );
       await queryClient.invalidateQueries(['teammates', selectedCircle.id]);
     } catch (e) {
       showError(e);
@@ -202,24 +207,29 @@ const GivePage = () => {
     // update all the pending gifts
     setSaveState('saving');
     try {
-      await client.mutate({
-        updateAllocations: [
-          {
-            payload: {
-              circle_id: selectedCircle.id,
-              allocations: Object.values(giftsRef.current).map(g => ({
-                ...g,
-                tokens: g.tokens ?? 0,
-                // note is required in the db schema
-                note: g.note ?? '',
-              })),
+      await client.mutate(
+        {
+          updateAllocations: [
+            {
+              payload: {
+                circle_id: selectedCircle.id,
+                allocations: Object.values(giftsRef.current).map(g => ({
+                  ...g,
+                  tokens: g.tokens ?? 0,
+                  // note is required in the db schema
+                  note: g.note ?? '',
+                })),
+              },
             },
-          },
-          {
-            __typename: true,
-          },
-        ],
-      });
+            {
+              __typename: true,
+            },
+          ],
+        },
+        {
+          operationName: 'saveGifts',
+        }
+      );
       setSaveState(prevState => {
         // this is to check if someone scheduled dirty changes while we were saving
         if (prevState == 'scheduled') {

@@ -189,21 +189,24 @@ const addSampleMember = async (
   const address =
     '0x' +
     generateAddress(Buffer.from(sample.name), Buffer.from('')).toString('hex');
-  const { insert_users_one } = await adminClient.mutate({
-    insert_users_one: [
-      {
-        object: {
-          address,
-          bio: sample.epochStatement,
-          circle_id,
-          name: sample.name,
+  const { insert_users_one } = await adminClient.mutate(
+    {
+      insert_users_one: [
+        {
+          object: {
+            address,
+            bio: sample.epochStatement,
+            circle_id,
+            name: sample.name,
+          },
         },
-      },
-      {
-        id: true,
-      },
-    ],
-  });
+        {
+          id: true,
+        },
+      ],
+    },
+    { operationName: 'addSampleMember' }
+  );
   if (!insert_users_one) {
     throw new Error('insert sample user failed');
   }
@@ -216,20 +219,23 @@ const addSampleContribution = async (
   user_id: number,
   contribution: string
 ) => {
-  const { insert_contributions_one } = await adminClient.mutate({
-    insert_contributions_one: [
-      {
-        object: {
-          circle_id,
-          user_id,
-          description: contribution,
+  const { insert_contributions_one } = await adminClient.mutate(
+    {
+      insert_contributions_one: [
+        {
+          object: {
+            circle_id,
+            user_id,
+            description: contribution,
+          },
         },
-      },
-      {
-        id: true,
-      },
-    ],
-  });
+        {
+          id: true,
+        },
+      ],
+    },
+    { operationName: 'addSampleContribution' }
+  );
   if (!insert_contributions_one) {
     throw new Error('insert sample contribution failed');
   }
@@ -246,23 +252,26 @@ const addSampleAllocation = async (
   gift: number,
   note?: string
 ) => {
-  const { insert_pending_token_gifts_one } = await adminClient.mutate({
-    insert_pending_token_gifts_one: [
-      {
-        object: {
-          recipient_id: recipient_id,
-          note: note,
-          circle_id,
-          epoch_id: epoch_id,
-          sender_id: user_id,
-          sender_address: sender_address,
-          recipient_address: recipient_address,
-          tokens: gift,
+  const { insert_pending_token_gifts_one } = await adminClient.mutate(
+    {
+      insert_pending_token_gifts_one: [
+        {
+          object: {
+            recipient_id: recipient_id,
+            note: note,
+            circle_id,
+            epoch_id: epoch_id,
+            sender_id: user_id,
+            sender_address: sender_address,
+            recipient_address: recipient_address,
+            tokens: gift,
+          },
         },
-      },
-      { __typename: true },
-    ],
-  });
+        { __typename: true },
+      ],
+    },
+    { operationName: 'addSampleAllocation' }
+  );
   if (!insert_pending_token_gifts_one) {
     throw new Error('insert sample allocation failed');
   }

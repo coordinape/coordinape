@@ -15,22 +15,27 @@ export const getContributionsForEpoch = async ({
   start_date: Date;
   end_date: Date;
 }) => {
-  const { contributions } = await client.query({
-    contributions: [
-      {
-        where: {
-          _and: [
-            { datetime_created: { _gt: start_date.toISOString() } },
-            { datetime_created: { _lt: end_date.toISOString() } },
-            { circle_id: { _eq: circleId } },
-            { user_id: { _eq: userId } },
-          ],
+  const { contributions } = await client.query(
+    {
+      contributions: [
+        {
+          where: {
+            _and: [
+              { datetime_created: { _gt: start_date.toISOString() } },
+              { datetime_created: { _lt: end_date.toISOString() } },
+              { circle_id: { _eq: circleId } },
+              { user_id: { _eq: userId } },
+            ],
+          },
+          order_by: [{ datetime_created: order_by.desc }],
         },
-        order_by: [{ datetime_created: order_by.desc }],
-      },
-      { id: true, description: true, datetime_created: true, user_id: true },
-    ],
-  });
+        { id: true, description: true, datetime_created: true, user_id: true },
+      ],
+    },
+    {
+      operationName: 'getContributionsForEpoch',
+    }
+  );
   return contributions;
 };
 
@@ -100,20 +105,25 @@ export const getMembersWithContributions = async (
   };
 };
 export const getCircleAllocationText = async (circleId: number) => {
-  const { circle } = await client.query({
-    __alias: {
-      circle: {
-        circles_by_pk: [
-          {
-            id: circleId,
-          },
-          {
-            alloc_text: true,
-          },
-        ],
+  const { circle } = await client.query(
+    {
+      __alias: {
+        circle: {
+          circles_by_pk: [
+            {
+              id: circleId,
+            },
+            {
+              alloc_text: true,
+            },
+          ],
+        },
       },
     },
-  });
+    {
+      operationName: 'getCircleAllocationText',
+    }
+  );
   return circle;
 };
 
