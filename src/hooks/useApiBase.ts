@@ -1,5 +1,5 @@
 import debug from 'debug';
-import { IAuth, rWalletAuth } from 'features/auth/useWalletAuth';
+import { IAuth, rSavedAuth } from 'features/auth/useSavedAuth';
 import * as queries from 'lib/gql/queries';
 
 import { useRecoilLoadCatch } from 'hooks';
@@ -13,7 +13,7 @@ export const useApiBase = () => {
     ({ snapshot, set }) =>
       async (newWalletAuth?: IAuth) => {
         const walletAuth =
-          newWalletAuth || (await snapshot.getPromise(rWalletAuth));
+          newWalletAuth || (await snapshot.getPromise(rSavedAuth));
         if (
           !(walletAuth.address && walletAuth.address in walletAuth.authTokens)
         ) {

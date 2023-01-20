@@ -1,10 +1,9 @@
 import assert from 'assert';
 
-import { client } from 'lib/gql/client';
 import { atom, selector, useRecoilValue } from 'recoil';
 
 import type { ProviderType } from './store';
-import { getAuthToken, setAuthToken } from './token';
+import { setAuthToken } from './token';
 
 export enum EConnectorNames {
   Injected = 'injected',
@@ -18,17 +17,8 @@ export interface IAuth {
   authTokens: { [k: string]: string | undefined };
 }
 
-const logout = async (): Promise<boolean> => {
-  const { logoutUser } = await client.mutate(
-    { logoutUser: { id: true } },
-    { operationName: 'logout' }
-  );
-  return !!logoutUser?.id;
-};
-
 const updateToken = ({ address, authTokens }: IAuth) => {
   const token = address && authTokens[address];
-  if (!token && getAuthToken(false)) logout();
   setAuthToken(token);
 };
 
@@ -36,6 +26,7 @@ const AUTH_STORAGE_KEY = 'capeAuth';
 
 const saveAuth = (auth: IAuth) =>
   localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(auth));
+
 const getSavedAuth = (): IAuth => {
   try {
     const auth = localStorage.getItem(AUTH_STORAGE_KEY);
@@ -48,10 +39,10 @@ const getSavedAuth = (): IAuth => {
   }
 };
 
-export const rWalletAuth = atom({
-  key: 'rWalletAuth',
+export const rSavedAuth = atom({
+  key: 'rSavedAuth',
   default: selector({
-    key: 'rWalletAuth/default',
+    key: 'rSavedAuth/default',
     get: () => {
       const auth = getSavedAuth();
       updateToken(auth);
@@ -68,4 +59,4 @@ export const rWalletAuth = atom({
   ],
 });
 
-export const useWalletAuth = () => useRecoilValue(rWalletAuth);
+export const useSavedAuth = () => useRecoilValue(rSavedAuth);

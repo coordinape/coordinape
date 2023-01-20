@@ -33,7 +33,7 @@ export const useWalletStatus = () => {
   const { connector, deactivate } = useWeb3React();
   const address = useConnectedAddress();
   const { chainId, chainName } = useConnectedChain();
-  const logout = useLogout();
+  const logout = useLogout(true);
 
   return {
     icon: connectorIcon(connector),
