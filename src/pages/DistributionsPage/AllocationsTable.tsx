@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 
-import { ethers } from 'ethers';
+import { formatUnits } from 'ethers/lib/utils';
 import sumBy from 'lodash/sumBy';
 import uniqBy from 'lodash/uniqBy';
 
@@ -172,7 +172,7 @@ export const AllocationsTable = ({
             </td>
             <td className="alignRight">
               {isLockedTokenDistribution
-                ? `${ethers.utils.formatUnits(
+                ? `${formatUnits(
                     user.circleClaimed.toLocaleString('fullwide', {
                       useGrouping: false,
                     }),
