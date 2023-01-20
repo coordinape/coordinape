@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Network } from '../../components';
 import { useMyProfile } from '../../recoilState';
 import { paths } from '../../routes/paths';
-import { Avatar, Box, Flex, Text } from '../../ui';
+import { Avatar, Box, Button, Flex, Text } from '../../ui';
 import { useWalletStatus } from '../auth';
 import { ThemeSwitcher } from '../theming/ThemeSwitcher';
 
@@ -26,6 +26,8 @@ export const NavProfile = () => {
       }}
     >
       <Flex
+        as={Button}
+        color={'transparent'}
         css={{
           justifyContent: 'flex-start',
           color: '$navLinkText',

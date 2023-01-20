@@ -20,6 +20,7 @@ export const NavCircles = ({
   return (
     <>
       <NavLabel
+        key={'circlesLabel'}
         label="Circles"
         icon={
           <IconButton
@@ -39,7 +40,12 @@ export const NavCircles = ({
               as={NavLink}
               key={c.id}
               to={paths.history(c.id)}
-              css={{ alignItems: 'center', mb: '$md', textDecoration: 'none' }}
+              css={{
+                alignItems: 'center',
+                mb: '$md',
+                textDecoration: 'none',
+                borderRadius: '$3',
+              }}
             >
               <Avatar
                 name={c.name}
@@ -55,7 +61,7 @@ export const NavCircles = ({
                 semibold={isCurrentCircle}
                 css={{
                   flexGrow: 1,
-                  color: isCurrentCircle ? '$textOnInfo' : '$primary',
+                  color: isCurrentCircle ? '$textOnInfo' : '$navLinkText',
                 }}
               >
                 {c.name}
@@ -64,7 +70,9 @@ export const NavCircles = ({
                 {isCurrentCircle ? <ChevronDown /> : <ChevronRight />}
               </IconButton>
             </Flex>
-            {isCurrentCircle && <NavCurrentCircle circle={c} />}
+            {isCurrentCircle && (
+              <NavCurrentCircle key={'currentCircle'} circle={c} />
+            )}
           </>
         );
       })}

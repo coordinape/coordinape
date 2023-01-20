@@ -22,8 +22,6 @@ export const InvalidateSideNav = async (queryClient: QueryClient) => {
 export const SideNav = () => {
   /*
     TODO: review semantic color names
-    TODO: a11y
-    TODO: favicon
     TODO: scrolly gradient
     TODO: what's your name prompt
    */
@@ -95,9 +93,12 @@ export const SideNav = () => {
           flex: 1,
           overflowY: 'auto',
           pt: '$xl',
+          // So focus outlines don't get cropped
+          mx: '-3px',
+          px: '3px',
         }}
       >
-        <NavItem label="Home" to={paths.home} icon={<CoOrg nostroke />} />
+        <NavItem label="Home" to={paths.circles} icon={<CoOrg nostroke />} />
         {data && (
           <>
             <NavOrgs

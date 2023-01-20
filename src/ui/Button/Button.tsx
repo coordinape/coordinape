@@ -134,7 +134,7 @@ export const Button = styled('button', {
         '&:focus': {
           backgroundColor: '$navLinkHoverBackground',
         },
-        '&.active': {
+        '&.currentPage': {
           backgroundColor: '$navLinkHoverBackground',
         },
       },

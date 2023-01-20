@@ -49,7 +49,12 @@ export const NavOrgs = ({
               as={NavLink}
               key={o.id}
               to={paths.organization(o.id)}
-              css={{ alignItems: 'center', mb: '$md', textDecoration: 'none' }}
+              css={{
+                alignItems: 'center',
+                borderRadius: '$3',
+                mb: '$md',
+                textDecoration: 'none',
+              }}
             >
               <Avatar
                 name={o.name}
@@ -68,7 +73,7 @@ export const NavOrgs = ({
                 semibold={isCurrentOrg ? true : undefined}
                 css={{
                   flexGrow: 1,
-                  color: isCurrentOrg ? '$textOnInfo' : '$primary',
+                  color: isCurrentOrg ? '$textOnInfo' : '$navLinkText',
                 }}
               >
                 {o.name}
