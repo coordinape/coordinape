@@ -59,8 +59,16 @@ export const NavProfile = () => {
       </Flex>
       {open && (
         <Box css={{ mt: '$sm' }}>
-          <NavItem label="Profile" to={paths.profile('me')} />
-          <NavItem label="Claims" to={paths.claims} />
+          <NavItem
+            label="Profile"
+            to={paths.profile('me')}
+            onClick={() => setOpen(false)}
+          />
+          <NavItem
+            label="Claims"
+            to={paths.claims}
+            onClick={() => setOpen(false)}
+          />
           <NavItem label="Disconnect" to="/" onClick={logout} />
           <ThemeSwitcher />
           <Text
