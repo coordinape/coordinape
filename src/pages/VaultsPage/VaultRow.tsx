@@ -98,16 +98,14 @@ export function VaultRow({
         {userIsOwner && (
           <>
             <Button
-              color="primary"
-              outlined
+              color="secondary"
               size="small"
               onClick={() => setModal('deposit')}
             >
               Deposit
             </Button>
             <Button
-              color="primary"
-              outlined
+              color="secondary"
               size="small"
               onClick={() => setModal('withdraw')}
             >

@@ -160,7 +160,7 @@ export const EpochPanel = ({
             <Flex css={{ gap: '$md' }}>
               <Box css={{ display: 'flex', gap: '$sm', mb: '$xs' }}>
                 <Button
-                  outlined
+                  color="secondary"
                   size="small"
                   css={{ borderRadius: '$pill' }}
                   onClick={() => setTab(0)}
@@ -176,7 +176,7 @@ export const EpochPanel = ({
                   </Text>
                 </Button>
                 <Button
-                  outlined
+                  color="secondary"
                   size="small"
                   css={{ borderRadius: '$pill' }}
                   onClick={() => setTab(1)}

@@ -7,12 +7,9 @@ const BackButton = () => {
   return (
     <Button
       size="small"
-      color="neutral"
-      outlined
+      color="secondary"
       css={{
         padding: '$xs $sm',
-        // color: '$neutral',
-        // borderColor: '$neutral',
         '&:hover': {
           path: {
             stroke: '$white',

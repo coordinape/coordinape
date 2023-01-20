@@ -228,8 +228,7 @@ const MembersPage = () => {
               <Button
                 as={NavLink}
                 to={paths.membersAdd(selectedCircle.id)}
-                color="primary"
-                outlined
+                color="secondary"
                 size="small"
               >
                 Add Members
@@ -240,8 +239,7 @@ const MembersPage = () => {
                 as={NavLink}
                 to={paths.membersNominate(selectedCircle.id)}
                 size="small"
-                color="primary"
-                outlined
+                color="secondary"
                 tabIndex={cannotVouch ? -1 : 0}
                 css={cannotVouch ? disabledStyle : {}}
               >
@@ -291,8 +289,7 @@ const MembersPage = () => {
             {me.isCircleAdmin && (
               <AppLink to={paths.membersAdd(selectedCircle.id)}>
                 <Button
-                  color="primary"
-                  outlined
+                  color="secondary"
                   size="small"
                   css={{ minWidth: '130px' }}
                 >
@@ -304,8 +301,7 @@ const MembersPage = () => {
               <AppLink to={paths.membersNominate(selectedCircle.id)}>
                 <Button
                   size="small"
-                  color="primary"
-                  outlined
+                  color="secondary"
                   disabled={cannotVouch}
                   css={{ minWidth: '130px' }}
                 >

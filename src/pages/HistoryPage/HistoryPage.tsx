@@ -120,8 +120,7 @@ export const HistoryPage = () => {
         <Text h1>Epoch Overview</Text>
         {isAdmin && (
           <Button
-            color="primary"
-            outlined
+            color="secondary"
             onClick={() => setNewEpoch(true)}
             disabled={newEpoch || !!editEpoch}
           >
@@ -146,18 +145,12 @@ export const HistoryPage = () => {
             </Text>
             <Box>
               <AppLink to={paths.members(circleId)}>
-                <Button
-                  color="primary"
-                  outlined
-                  inline
-                  css={{ mt: '$md', mr: '$md' }}
-                >
+                <Button color="secondary" inline css={{ mt: '$md', mr: '$md' }}>
                   Add/Import Members
                 </Button>
               </AppLink>
               <Button
-                color="primary"
-                outlined
+                color="secondary"
                 inline
                 css={{ mt: '$md', mr: '$md' }}
                 onClick={() => setNewEpoch(true)}
@@ -167,7 +160,7 @@ export const HistoryPage = () => {
               </Button>
               {isFeatureEnabled('vaults') && (
                 <AppLink to={paths.vaults}>
-                  <Button color="primary" outlined inline css={{ mt: '$md' }}>
+                  <Button color="secondary" inline css={{ mt: '$md' }}>
                     Create a Vault
                   </Button>
                 </AppLink>
@@ -196,12 +189,7 @@ export const HistoryPage = () => {
             </Text>
             <Box>
               <Link href={EXTERNAL_URL_GET_STARTED_MEMBER} target="_blank">
-                <Button
-                  color="primary"
-                  outlined
-                  inline
-                  css={{ mt: '$md', mr: '$md' }}
-                >
+                <Button color="secondary" inline css={{ mt: '$md', mr: '$md' }}>
                   Get Started Guide
                 </Button>
               </Link>
@@ -209,7 +197,7 @@ export const HistoryPage = () => {
                 href={EXTERNAL_URL_GET_STARTED_TUTORIAL_VIDEO}
                 target="_blank"
               >
-                <Button color="primary" outlined inline css={{ mt: '$md' }}>
+                <Button color="secondary" inline css={{ mt: '$md' }}>
                   Watch Tutorial
                 </Button>
               </Link>

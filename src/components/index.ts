@@ -25,7 +25,7 @@ export * from './OptInput';
 export * from './ProfileSkills';
 export * from './ProfileSocialIcons';
 export * from './ReadMore';
-export * from './ReceiveInfo';
+export * from './ReceiveInfo/ReceiveInfo';
 export * from './SkillToggles';
 export * from './Table';
 export * from './ThreeDotMenu';

@@ -315,9 +315,8 @@ export const EpochStatementDrawer = ({
             <Button
               as={NavLink}
               to={paths.contributions(member.circle_id)}
-              outlined
               size="small"
-              color="primary"
+              color="secondary"
             >
               Add Contribution
             </Button>

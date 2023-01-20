@@ -496,15 +496,13 @@ const GivePage = () => {
                 />
                 <Flex css={{ gap: '$sm', mt: '$lg', '@sm': { mt: 0 } }}>
                   <Button
-                    outlined
-                    color="primary"
+                    color="secondary"
                     type="submit"
                     onClick={handleSubmit(onSubmit)}
                   >
                     Save
                   </Button>
                   <Button
-                    outlined
                     color="destructive"
                     onClick={() => {
                       setEditAllocHelpText(false);
@@ -830,7 +828,7 @@ const AllocateContents = ({
               ) && (
                 <Button
                   size="medium"
-                  color="neutral"
+                  color="primary"
                   disabled={maxedOut || noGivingAllowed}
                   onClick={e => {
                     (e.target as HTMLButtonElement).blur();

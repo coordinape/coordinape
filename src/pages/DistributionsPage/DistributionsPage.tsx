@@ -1,5 +1,5 @@
 import assert from 'assert';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { claimsUnwrappedAmount } from 'common-lib/distributions';
 import { isUserAdmin } from 'lib/users';
@@ -10,6 +10,7 @@ import { useQuery, useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
 
 import { DISTRIBUTION_TYPE } from '../../config/constants';
+import { InvalidateSideNav } from '../../features/nav';
 import { useSelectedCircle } from '../../recoilState';
 import { paths } from '../../routes/paths';
 import { LoadingModal } from 'components';
@@ -23,7 +24,8 @@ import { SingleColumnLayout } from 'ui/layouts';
 import { AllocationsTable } from './AllocationsTable';
 import { DistributionForm } from './DistributionForm';
 import type { Gift } from './queries';
-import { getEpochData } from './queries';
+import { getEpochData, getExistingLockedTokenDistribution } from './queries';
+import type { CustomToken } from './types';
 
 export function DistributionsPage() {
   const { epochId } = useParams();
@@ -49,7 +51,6 @@ export function DistributionsPage() {
           d.circle.organization.vaults = d.circle?.organization.vaults.map(
             v => {
               v.symbol = getDisplayTokenString(v);
-
               return v;
             }
           );
@@ -64,6 +65,24 @@ export function DistributionsPage() {
   const [giftVaultId, setGiftVaultId] = useState<string>('');
   const { users: circleUsers, circleId } = useSelectedCircle();
   const { downloadCSV } = useApiAdminCircle(circleId);
+  const [existingLockedTokenDistribution, setExistingLockedTokenDistribution] =
+    useState<any>({});
+  const [customToken, setCustomToken] = useState<CustomToken>();
+
+  // consider Hedgey integration enabled regardless of the value of data.enabled,
+  // because it could be currently disabled but have past data
+  const hedgeyEnabled = (epoch?.circle?.integrations?.length ?? 0) > 0;
+
+  const loadExistingLockedTokenDistribution = () => {
+    if (!hedgeyEnabled) return;
+    getExistingLockedTokenDistribution(Number.parseInt(epochId || '0')).then(
+      setExistingLockedTokenDistribution
+    );
+  };
+
+  useEffect(() => {
+    loadExistingLockedTokenDistribution();
+  }, [epochId]);
 
   useRequireSupportedChain();
 
@@ -147,6 +166,18 @@ export function DistributionsPage() {
       };
     });
 
+  if (existingLockedTokenDistribution?.locked_token_distribution_gifts) {
+    usersWithGiftnFixedAmounts.forEach(user => {
+      const usersLockedTokens =
+        existingLockedTokenDistribution.locked_token_distribution_gifts.find(
+          (gift: { profile: { address: string } }) =>
+            gift.profile.address === user.address
+        );
+      if (!usersLockedTokens) return;
+      user.circleClaimed = usersLockedTokens.earnings;
+    });
+  }
+
   const usersWithReceivedAmounts = uniqBy(
     gifts.map(g => g.recipient),
     'id'
@@ -178,6 +209,8 @@ export function DistributionsPage() {
   const refetch = () => {
     refetchDistributions();
     queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
+    loadExistingLockedTokenDistribution();
+    InvalidateSideNav(queryClient);
   };
 
   return (
@@ -245,6 +278,9 @@ export function DistributionsPage() {
               circleUsers={circleUsers}
               refetch={refetch}
               totalGive={totalGive}
+              existingLockedTokenDistribution={existingLockedTokenDistribution}
+              setCustomToken={setCustomToken}
+              customToken={customToken}
             />
           </Box>
           <AllocationsTable
@@ -258,6 +294,17 @@ export function DistributionsPage() {
             downloadCSV={downloadCSV}
             circleDist={circleDist}
             fixedDist={fixedDist}
+            isLockedTokenDistribution={
+              existingLockedTokenDistribution?.locked_token_distribution_gifts !==
+              undefined
+            }
+            lockedTokenDistributionDecimals={
+              existingLockedTokenDistribution?.token_decimals
+            }
+            lockedTokenDistributionSymbol={
+              existingLockedTokenDistribution?.token_symbol
+            }
+            customToken={customToken}
           />
         </>
       )}

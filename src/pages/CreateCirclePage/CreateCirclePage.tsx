@@ -8,6 +8,7 @@ import { useQueryClient } from 'react-query';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { z } from 'zod';
 
+import { InvalidateSideNav } from '../../features/nav';
 import { FormAutocomplete, FormInputField } from 'components';
 import { QUERY_KEY_MAIN_HEADER } from 'components/MainLayout/getMainHeaderData';
 import { useApiWithProfile } from 'hooks';
@@ -92,6 +93,7 @@ export const SummonCirclePage = () => {
   const circleCreated = (circleId: number) => {
     queryClient.invalidateQueries(QUERY_KEY_MY_ORGS);
     queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
+    InvalidateSideNav(queryClient);
     navigate({
       pathname: paths.members(circleId),
       search: NEW_CIRCLE_CREATED_PARAMS,
@@ -215,7 +217,7 @@ export const SummonCirclePage = () => {
                       htmlFor="upload-logo-button"
                       css={{ flexGrow: '1' }}
                     >
-                      <Button as="div" color="primary" outlined>
+                      <Button as="div" color="secondary">
                         Upload File
                       </Button>
                     </FormLabel>
@@ -331,11 +333,10 @@ export const SummonCirclePage = () => {
                   You can always change these settings from the Admin panel.
                 </Text>
                 <Button
-                  color="primary"
+                  color="secondary"
                   size="medium"
                   type="submit"
                   form="circle_admin"
-                  outlined
                   disabled={!isValid}
                   css={{ whiteSpace: 'nowrap' }}
                   onClick={handleSubmit(onSubmit)}

@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 
-import * as mutations from 'lib/gql/mutations';
+import { INTEGRATION_TYPE as HEDGEY } from 'lib/hedgey';
 
 import { useCurrentCircleIntegrations } from 'hooks/gql/useCurrentCircleIntegrations';
 import {
@@ -11,8 +11,11 @@ import {
   Wonder,
   WonderColor,
 } from 'icons/__generated';
+import HedgeyIntegrationSettings from 'pages/CircleAdminPage/HedgeyIntegrationSettings';
 import { paths } from 'routes/paths';
 import { Flex, Button, Text, HR, Modal } from 'ui';
+
+import { deleteCircleIntegration } from './mutations';
 
 export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
   const integrations = useCurrentCircleIntegrations();
@@ -21,7 +24,7 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
 
   const handleDeleteIntegration = useCallback(async () => {
     if (deleteIntegration) {
-      await mutations.deleteCircleIntegration(deleteIntegration.id);
+      await deleteCircleIntegration(deleteIntegration.id);
       await integrations.refetch();
       setDeleteIntegration(undefined);
     }
@@ -41,6 +44,7 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
   const wonderIntegrations = integrations?.data?.filter(integration => {
     return integration.type === 'wonder';
   });
+  const hedgeyIntegration = integrations?.data?.find(i => i.type === HEDGEY);
 
   return (
     <div>
@@ -84,8 +88,7 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
         </Flex>
         <Button
           as="a"
-          color="primary"
-          outlined
+          color="secondary"
           href={`https://app.dework.xyz/apps/install/coordinape?redirect=${redirectUri()}`}
         >
           <Flex css={{ mr: '$sm' }}>
@@ -135,8 +138,7 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
         </Flex>
         <Button
           as="a"
-          color="primary"
-          outlined
+          color="secondary"
           href={`https://app.wonderverse.xyz/apps/install/coordinape?circleId=${circleId}&redirect=${redirectUri()}`}
         >
           <Flex css={{ mr: '$sm' }}>
@@ -152,8 +154,7 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
         </Text>
         <Button
           as="a"
-          color="primary"
-          outlined
+          color="secondary"
           href={
             'https://docs.coordinape.com/get-started/compensation/paying-your-team/parcel'
           }
@@ -178,6 +179,11 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
           </Button>
         </Flex>
       </Modal>
+      <HR />
+      <HedgeyIntegrationSettings
+        circleId={circleId}
+        integration={hedgeyIntegration}
+      />
     </div>
   );
 };

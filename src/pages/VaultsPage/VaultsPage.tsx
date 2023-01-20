@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { useIsEmailWallet } from 'features/auth';
 import { isUserAdmin } from 'lib/users';
+import { useParams } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
 
 import { LoadingModal } from 'components';
@@ -24,7 +25,12 @@ const VaultsPage = () => {
   const orgsQuery = useMainHeaderQuery();
   const contracts = useContracts();
 
-  const [currentOrgId, setCurrentOrgId] = useState<number | undefined>();
+  const { orgId: orgFromParams } = useParams();
+  const specificOrg = orgFromParams ? Number(orgFromParams) : undefined;
+
+  const [currentOrgId, setCurrentOrgId] = useState<number | undefined>(
+    specificOrg
+  );
 
   useRequireSupportedChain();
 
@@ -81,27 +87,29 @@ const VaultsPage = () => {
           </p>
         </HintBanner>
       )}
-      <Box
-        css={{
-          display: 'flex',
-          flexDirection: 'row',
-          gap: '$md',
-          mb: '$lg',
-          flexWrap: 'wrap',
-        }}
-      >
-        {orgs?.map(org => (
-          <Button
-            css={{ borderRadius: '$pill' }}
-            key={org.id}
-            color="neutral"
-            outlined={org.id !== currentOrgId}
-            onClick={() => setCurrentOrgId(org.id)}
-          >
-            {org.name}
-          </Button>
-        ))}
-      </Box>
+      {!specificOrg && (
+        <Box
+          css={{
+            display: 'flex',
+            flexDirection: 'row',
+            gap: '$md',
+            mb: '$lg',
+            flexWrap: 'wrap',
+          }}
+        >
+          {orgs?.map(org => (
+            <Button
+              css={{ borderRadius: '$pill' }}
+              key={org.id}
+              color="primary"
+              outlined={org.id !== currentOrgId}
+              onClick={() => setCurrentOrgId(org.id)}
+            >
+              {org.name}
+            </Button>
+          ))}
+        </Box>
+      )}
       <Flex
         row
         css={{
@@ -119,9 +127,8 @@ const VaultsPage = () => {
         </Text>
         {isAdmin && (
           <Button
-            color="primary"
+            color="secondary"
             css={{ whiteSpace: 'nowrap' }}
-            outlined
             onClick={() => setModal(true)}
           >
             Create Vault
@@ -214,8 +221,7 @@ const NoVaults = ({
           {isAdmin && (
             <Button
               onClick={createVault}
-              color="primary"
-              outlined
+              color="secondary"
               inline
               css={{ mr: '$md' }}
             >
@@ -226,7 +232,7 @@ const NoVaults = ({
             href="https://docs.coordinape.com/get-started/organizations/vaults"
             target="_blank"
           >
-            <Button color="primary" outlined inline css={{ mt: '$md' }}>
+            <Button color="secondary" inline css={{ mt: '$md' }}>
               Vault Guide
             </Button>
           </Link>

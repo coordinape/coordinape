@@ -87,8 +87,7 @@ const NomineeRow = ({
         </TD>
         <TD css={{ borderBottomStyle: open ? 'hidden' : 'initial' }}>
           <Button
-            color="primary"
-            outlined
+            color="secondary"
             size="small"
             disabled={vouchDisabled || vouching}
             onClick={handleVouch}
@@ -178,7 +177,6 @@ const NomineeRow = ({
                   </Text>
                   <Button
                     color="secondary"
-                    outlined
                     size="medium"
                     disabled={vouchDisabled || vouching}
                     onClick={handleVouch}

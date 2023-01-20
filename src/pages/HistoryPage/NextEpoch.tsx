@@ -59,18 +59,10 @@ export const NextEpoch = ({
         <Text inline>{nextEpochStartLabel}</Text>
         {!isEditing && isAdmin && (
           <Flex css={{ flexWrap: 'wrap', gap: '$md' }}>
-            <Button
-              color="primary"
-              outlined
-              onClick={() => setEditEpoch(epoch)}
-            >
+            <Button color="secondary" onClick={() => setEditEpoch(epoch)}>
               Edit
             </Button>
-            <Button
-              color="destructive"
-              outlined
-              onClick={() => setEpochToDelete(epoch)}
-            >
+            <Button color="destructive" onClick={() => setEpochToDelete(epoch)}>
               Delete
             </Button>
           </Flex>

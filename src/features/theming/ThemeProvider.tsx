@@ -21,12 +21,14 @@ const defaultThemeName = 'legacy';
 type Theme = 'dark' | 'light' | typeof defaultThemeName;
 
 type ThemeProviderType = {
-  theme: ThemePreference;
+  themePreference: ThemePreference;
+  theme: Theme;
   stitchesTheme: AvailableThemes[string];
   setTheme(newTheme: string): void;
 };
 
 const initialValues: ThemeProviderType = {
+  themePreference: defaultThemeName,
   theme: defaultThemeName,
   stitchesTheme: defaultTheme,
   setTheme: () => {},
@@ -94,7 +96,8 @@ const useTheme = (): ThemeProviderType => {
   });
 
   return {
-    theme: themePreference,
+    themePreference: themePreference,
+    theme,
     stitchesTheme,
     setTheme: (newTheme: ThemePreference) => {
       setThemePreference(newTheme);
@@ -104,11 +107,12 @@ const useTheme = (): ThemeProviderType => {
 };
 
 const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  const { theme, setTheme, stitchesTheme } = useTheme();
+  const { themePreference, setTheme, stitchesTheme, theme } = useTheme();
   return (
     <ThemeContext.Provider
       value={{
-        theme: theme,
+        theme,
+        themePreference: themePreference,
         stitchesTheme,
         setTheme: setTheme,
       }}

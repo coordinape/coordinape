@@ -53,7 +53,11 @@ export const CurrentEpochPanel = ({
         </Text>
         <Text p>{epoch.description ?? ''}</Text>
         {!isEditing && isAdmin && (
-          <Button color="primary" outlined onClick={() => editCurrentEpoch()}>
+          <Button
+            color="secondary"
+            size="small"
+            onClick={() => editCurrentEpoch()}
+          >
             Edit Epoch
           </Button>
         )}
@@ -149,7 +153,7 @@ const Minicard = ({
             {content}
           </Text>
         </Box>
-        <Button outlined color="primary" as={NavLink} key={path} to={path}>
+        <Button size="small" color="primary" as={NavLink} key={path} to={path}>
           {linkLabel}
         </Button>
       </Box>

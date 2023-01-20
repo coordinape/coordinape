@@ -43,9 +43,8 @@ export const DefaultPage = () => {
         </p>
         <p>Or, create a new circle.</p>
         <Button
-          color="primary"
+          color="secondary"
           size="large"
-          outlined
           onClick={() => navigate(paths.createCircle)}
           css={{ alignSelf: 'center' }}
         >

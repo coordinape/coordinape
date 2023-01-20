@@ -87,8 +87,7 @@ export const CircleApiKeys: React.FC = () => {
 
       <Flex css={{ gap: '$md' }}>
         <Button
-          color="primary"
-          outlined
+          color="secondary"
           onClick={e => {
             e.preventDefault();
             setModal('create');
@@ -98,9 +97,8 @@ export const CircleApiKeys: React.FC = () => {
         </Button>
         {hasApiKeys ? (
           <Button
-            color="neutral"
+            color="secondary"
             as={'a'}
-            outlined
             href={consoleUrl}
             rel="noreferrer"
             target="_blank"

@@ -6,6 +6,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
 import { z } from 'zod';
 
+import { InvalidateSideNav } from '../../features/nav';
 import { useToast } from '../../hooks';
 import { Box, Button, TextField, Text, Form, Flex } from '../../ui';
 import { normalizeError } from '../../utils/reporting';
@@ -43,6 +44,7 @@ export const CreateUserNameForm = ({ address }: { address?: string }) => {
     onSuccess: async () => {
       queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
       queryClient.invalidateQueries(QUERY_KEY_PROFILE_BY_ADDRESS);
+      InvalidateSideNav(queryClient);
     },
     onError: err => {
       setLoading(false);

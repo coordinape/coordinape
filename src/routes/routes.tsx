@@ -91,6 +91,7 @@ const LoggedInRoutes = () => {
       <Route path={paths.organization(':orgId')}>
         <Route path="" element={<OrganizationPage />} />
         <Route path="settings" element={<OrganizationSettingsPage />} />
+        <Route path={'vaults'} element={<VaultsPage />} />
       </Route>
 
       <Route
