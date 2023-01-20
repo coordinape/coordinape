@@ -36,8 +36,7 @@ export const CreateSampleCircle = ({
     <>
       {loading && <LoadingModal visible={true} />}
       <Button
-        color="primary"
-        outlined
+        color="secondary"
         onClick={() => createSampleCircle()}
         disabled={loading}
       >

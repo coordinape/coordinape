@@ -381,8 +381,7 @@ const EpochForm = ({
 
           <Flex css={{ gap: '$md', flexWrap: 'wrap' }}>
             <Button
-              color="primary"
-              outlined
+              color="secondary"
               onClick={() => {
                 selectedEpoch ? setEditEpoch(undefined) : setNewEpoch(false);
               }}
@@ -414,6 +413,7 @@ const EpochForm = ({
                     href="https://docs.coordinape.com/get-started/epochs/create-an-epoch"
                     rel="noreferrer"
                     target="_blank"
+                    inlineLink
                   >
                     Learn More
                   </Link>

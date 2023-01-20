@@ -104,8 +104,7 @@ export default function ClaimsPage() {
               <ClaimsRowOuter key={claim.id} claim={claim} group={group}>
                 <Flex css={{ justifyContent: 'end' }}>
                   <Button
-                    color="primary"
-                    outlined
+                    color="secondary"
                     css={{
                       fontWeight: '$medium',
                       minHeight: '$xs',
@@ -230,8 +229,7 @@ export function UnwrapEthModal({
 
         <Button
           css={{ mt: '$lg', gap: '$xs' }}
-          color="primary"
-          outlined
+          color="secondary"
           size="large"
           type="submit"
           fullWidth

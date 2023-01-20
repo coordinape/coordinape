@@ -23,7 +23,7 @@ const TabButton = ({
     <Button
       css={{ borderRadius: '$pill', mr: '$md', border: '1px solid $neutral' }}
       key={tab}
-      color="neutral"
+      color="secondary"
       outlined={currentTab !== tab}
       onClick={() => setCurrentTab(tab)}
     >

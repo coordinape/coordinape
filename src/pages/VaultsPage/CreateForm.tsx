@@ -274,8 +274,7 @@ export const CreateForm = ({
         </Box>
       </Panel>
       <Button
-        color="primary"
-        outlined
+        color="secondary"
         size="large"
         css={{ mt: '$lg', width: '100%' }}
         disabled={saving}
@@ -323,8 +322,7 @@ const SavingInProgress = ({
         <Button
           css={{ mt: '$md' }}
           type="button"
-          color="primary"
-          outlined
+          color="secondary"
           fullWidth
           as="a"
           target="_blank"

@@ -36,9 +36,7 @@ export const OptOutWarningModal = ({
         <Flex css={{ gap: '$lg', flexWrap: 'wrap' }}>
           <Button
             size="large"
-            color="primary"
-            outlined
-            // css={{ width: '204px' }}
+            color="secondary"
             onClick={() => setOptOutOpen(false)}
           >
             Cancel

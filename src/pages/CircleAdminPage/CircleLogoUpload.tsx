@@ -108,8 +108,7 @@ export const CircleLogoUpload = ({
           >
             <Button
               id="upload-logo-button"
-              color="primary"
-              outlined
+              color="secondary"
               as="span"
               css={{
                 display: 'inline-flex',

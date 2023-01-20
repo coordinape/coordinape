@@ -155,8 +155,7 @@ export default function DepositModal({
         {symbol === 'WETH' && <CheckBox {...useWeth} label="Use WETH" />}
         <Button
           css={{ mt: '$lg', gap: '$xs' }}
-          color="primary"
-          outlined
+          color="secondary"
           size="large"
           type="submit"
           fullWidth

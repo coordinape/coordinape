@@ -52,7 +52,7 @@ export const Drawer = ({ open, setOpen, children }: IProps) => {
         </Flex>
       ) : (
         <Button
-          outlined
+          color="secondary"
           size="large"
           onClick={() => setOpen(!open)}
           css={{

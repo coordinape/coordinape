@@ -10,7 +10,7 @@ import { EConnectorNames, WALLET_ICONS } from 'config/constants';
 import isFeatureEnabled from 'config/features';
 import { useToast } from 'hooks';
 import { useWeb3React } from 'hooks/useWeb3React';
-import { Box, Button, Text, Modal, Flex, HR } from 'ui';
+import { Box, Button, Text, Modal, Flex, HR, Link } from 'ui';
 
 import { connectors } from './connectors';
 import { getMagicProvider } from './magic';
@@ -172,7 +172,7 @@ export const WalletAuthModal = () => {
                   display: 'grid',
                   gridTemplateColumns: 'auto auto',
                   width: '$full',
-                  gap: '$sm',
+                  gap: '$md',
                   '@xs': {
                     gridTemplateColumns: 'auto',
                   },
@@ -234,7 +234,9 @@ export const WalletAuthModal = () => {
             }}
           >
             New to Ethereum?{' '}
-            <a href="https://ethereum.org">Learn more about wallets</a>
+            <Link inlineLink href="https://ethereum.org">
+              Learn more about wallets
+            </Link>
           </Text>
         </Flex>
       </Flex>
@@ -270,7 +272,7 @@ const Explainer = (props: { back: () => void; continue: () => void }) => {
         .
       </p>
       <Flex gap="sm" css={{ justifyContent: 'flex-end' }}>
-        <Button outlined onClick={props.back}>
+        <Button color="secondary" onClick={props.back}>
           Cancel
         </Button>
         <Button onClick={props.continue}>Continue</Button>

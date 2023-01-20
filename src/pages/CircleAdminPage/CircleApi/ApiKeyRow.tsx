@@ -42,7 +42,6 @@ export function ApiKeyRow({
           <Button
             css={{ mt: '$md' }}
             color="destructive"
-            outlined
             size="small"
             onClick={e => {
               e.preventDefault();

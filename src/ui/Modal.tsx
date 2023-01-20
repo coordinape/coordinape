@@ -31,7 +31,7 @@ const Close = styled(Dialog.Close, {
 });
 
 const Content = styled(Dialog.Content, {
-  backgroundColor: '$background',
+  backgroundColor: '$surface',
   border: '1px solid',
   borderColor: '$modalBorderColor',
   boxShadow: '$shadow1',
@@ -44,7 +44,6 @@ const Content = styled(Dialog.Content, {
   variants: {
     drawer: {
       true: {
-        backgroundColor: '$surface',
         right: 0,
         margin: 0,
         borderRadius: 0,
