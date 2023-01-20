@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
 
-import {
-  createCircleIntegration,
-  updateCircleIntegration,
-} from 'lib/gql/mutations';
 import { INTEGRATION_TYPE } from 'lib/hedgey';
 
 import { useToast } from 'hooks';
 import { Button, Flex, Modal, Select, SelectOption, Text } from 'ui';
+
+import { createCircleIntegration, updateCircleIntegration } from './mutations';
 
 function HedgeyIntro() {
   return (
