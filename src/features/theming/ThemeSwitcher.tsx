@@ -10,11 +10,11 @@ export const ThemeSwitcher = () => {
   }
   return (
     <ThemeContext.Consumer>
-      {({ theme, setTheme }) => (
+      {({ themePreference, setTheme }) => (
         <Flex
           css={{
             gap: '$sm',
-            justifyContent: 'end',
+            justifyContent: 'center',
             mt: '$sm',
             alignItems: 'center',
           }}
@@ -27,7 +27,10 @@ export const ThemeSwitcher = () => {
               '&:hover': {
                 color: '$primary',
               },
-              color: theme === 'auto' ? '$text !important' : '$secondaryText',
+              color:
+                themePreference === 'auto'
+                  ? '$text !important'
+                  : '$secondaryText',
             }}
             onClick={() => {
               // fixme for utilizing OS theme selection
@@ -42,7 +45,10 @@ export const ThemeSwitcher = () => {
               '&:hover': {
                 color: '$primary',
               },
-              color: theme == 'legacy' ? '$text !important' : '$secondaryText',
+              color:
+                themePreference == 'legacy'
+                  ? '$text !important'
+                  : '$secondaryText',
             }}
             onClick={() => {
               setTheme('legacy');
@@ -56,7 +62,10 @@ export const ThemeSwitcher = () => {
               '&:hover': {
                 color: '$primary',
               },
-              color: theme === 'dark' ? '$text !important' : '$secondaryText',
+              color:
+                themePreference === 'dark'
+                  ? '$text !important'
+                  : '$secondaryText',
             }}
             onClick={() => {
               setTheme('dark');
@@ -70,7 +79,10 @@ export const ThemeSwitcher = () => {
               '&:hover': {
                 color: '$primary',
               },
-              color: theme === 'light' ? '$text !important' : '$secondaryText',
+              color:
+                themePreference === 'light'
+                  ? '$text !important'
+                  : '$secondaryText',
             }}
             onClick={() => {
               setTheme('light');

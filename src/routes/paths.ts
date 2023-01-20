@@ -38,6 +38,9 @@ const withSearchParams = (
 const circlePath = (suffix: string) => (circleId: number) =>
   `/circles/${circleId}/${suffix}`;
 
+const orgPath = (suffix: string) => (orgId: number) =>
+  `/organizations/${orgId}/${suffix}`;
+
 export const paths = {
   // circle-specific
   circleAdmin: circlePath('admin'),
@@ -64,10 +67,11 @@ export const paths = {
   home: '/',
 
   profile: (address: string) => `/profile/${address}`,
-  organization: (orgId: string) => `/organizations/${orgId}`,
-  organizationSettings: (orgId: string) => `/organizations/${orgId}/settings`,
   vaults: '/vaults',
   vaultTxs: (address: string) => `${paths.vaults}/${address}/txs`,
+  organization: (orgId: string) => `/organizations/${orgId}`,
+  organizationSettings: orgPath(`settings`),
+  vaultsForOrg: orgPath(`vaults`),
 
   // for circle links
   invite: (token: string) => `/welcome/${token}`,
@@ -80,3 +84,10 @@ export const isCircleSpecificPath = (location: Location) =>
 // TODO: this isn't used yet
 export const isOrgSpecificPath = (location: Location) =>
   location.pathname.match(/\/organizations\/\d+/);
+
+export const getCircleFromPath = (location: Location) =>
+  location.pathname.match(/\/circles\/(\d+)/)?.[1];
+
+export const getOrgFromPath = (location: Location) =>
+  location.pathname.match(/\/organizations\/(\d+)/)?.[1] ??
+  location.search.match(/org=(\d+)/)?.[1];
