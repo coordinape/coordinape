@@ -10,8 +10,7 @@ import { smartRounding, numberWithCommas, shortenAddress } from 'utils';
 
 import type { Gift } from './queries';
 import { EpochDataResult } from './queries';
-
-import { CustomToken } from 'types/custom.token';
+import type { CustomToken } from './types';
 
 const styles = {
   alignRight: { textAlign: 'right' },

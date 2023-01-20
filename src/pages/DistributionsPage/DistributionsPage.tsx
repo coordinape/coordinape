@@ -24,8 +24,7 @@ import { AllocationsTable } from './AllocationsTable';
 import { DistributionForm } from './DistributionForm';
 import type { Gift } from './queries';
 import { getEpochData, getPreviousLockedTokenDistribution } from './queries';
-
-import { CustomToken } from 'types/custom.token';
+import type { CustomToken } from './types';
 
 export function DistributionsPage() {
   const { epochId } = useParams();

@@ -49,12 +49,10 @@ import { makeExplorerUrl } from 'utils/provider';
 
 import { getPreviousDistribution } from './queries';
 import type { EpochDataResult, Gift } from './queries';
+import type { CustomToken, LockedTokenDistribution } from './types';
 import { useLockedTokenDistribution } from './useLockedTokenDistributions';
 import { useSubmitDistribution } from './useSubmitDistribution';
 import { mapProfileIdsByAddress } from './utils';
-
-import { CustomToken } from 'types/custom.token';
-import { LockedTokenDistribution } from 'types/locked.token.distribution';
 
 const logger = new DebugLogger('DistributionForm');
 
