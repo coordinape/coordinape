@@ -154,6 +154,8 @@ export const colors = {
   borderFocus: '$primary',
 
   highlight: figmaColors.blue1,
+  avatarFallback: newFigmaColors.grey3,
+  avatarFallbackText: newFigmaColors.grey8,
 
   link: '$primary',
   text: figmaColors.grey20,
@@ -445,6 +447,8 @@ export const dark = createTheme({
     complete: newFigmaColors.success5,
 
     highlight: newFigmaColors.primary10,
+    avatarFallback: newFigmaColors.grey7,
+    avatarFallbackText: newFigmaColors.grey2,
 
     border: newFigmaColors.grey9,
     borderMedium: newFigmaColors.grey6,
