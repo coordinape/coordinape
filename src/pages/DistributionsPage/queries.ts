@@ -8,15 +8,20 @@ import type { Contracts } from 'lib/vaults';
 import type { Awaited } from 'types/shim';
 
 export const getProfileIds = async (addresses: string[]) => {
-  const { profiles } = await client.query({
-    profiles: [
-      { where: { address: { _in: addresses } } },
-      {
-        id: true,
-        address: true,
-      },
-    ],
-  });
+  const { profiles } = await client.query(
+    {
+      profiles: [
+        { where: { address: { _in: addresses } } },
+        {
+          id: true,
+          address: true,
+        },
+      ],
+    },
+    {
+      operationName: 'getProfileIds__DistributionPage',
+    }
+  );
   return profiles;
 };
 

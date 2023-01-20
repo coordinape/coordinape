@@ -5,26 +5,31 @@ import { Contracts } from 'lib/vaults';
 import type { Awaited } from 'types/shim';
 
 export const getLockedTokenGifts = async () => {
-  const { locked_token_distribution_gifts } = await client.query({
-    locked_token_distribution_gifts: [
-      {
-        where: {
-          locked_token_distribution: { tx_hash: { _is_null: false } },
+  const { locked_token_distribution_gifts } = await client.query(
+    {
+      locked_token_distribution_gifts: [
+        {
+          where: {
+            locked_token_distribution: { tx_hash: { _is_null: false } },
+          },
         },
-      },
-      {
-        earnings: true,
-        id: true,
-        locked_token_distribution: {
-          token_contract_address: true,
-          tx_hash: true,
-          chain_id: true,
-          token_symbol: true,
-          token_decimals: true,
+        {
+          earnings: true,
+          id: true,
+          locked_token_distribution: {
+            token_contract_address: true,
+            tx_hash: true,
+            chain_id: true,
+            token_symbol: true,
+            token_decimals: true,
+          },
         },
-      },
-    ],
-  });
+      ],
+    },
+    {
+      operationName: 'getLockedTokenGifts',
+    }
+  );
   return locked_token_distribution_gifts;
 };
 
