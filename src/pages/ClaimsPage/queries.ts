@@ -4,12 +4,11 @@ import { Contracts } from 'lib/vaults';
 
 import type { Awaited } from 'types/shim';
 
-export const getLockedTokenGifts = async (profileId: number) => {
+export const getLockedTokenGifts = async () => {
   const { locked_token_distribution_gifts } = await client.query({
     locked_token_distribution_gifts: [
       {
         where: {
-          profile_id: { _eq: profileId },
           locked_token_distribution: { tx_hash: { _is_null: false } },
         },
       },
