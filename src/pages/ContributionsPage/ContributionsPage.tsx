@@ -448,7 +448,7 @@ const ContributionsPage = () => {
                   data?.circles_by_pk?.cont_help_text ??
                   CONT_DEFAULT_HELP_TEXT
                 }
-                css={{ minHeight: '0', cursor: 'text' }}
+                css={{ minHeight: '0', cursor: 'auto' }}
               />
 
               {isAdmin && (

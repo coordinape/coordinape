@@ -461,7 +461,7 @@ const GivePage = () => {
                     circle?.alloc_text ??
                     'Reward & thank your teammates for their contributions'
                   }
-                  css={{ minHeight: '0', cursor: 'text' }}
+                  css={{ minHeight: '0', cursor: 'auto' }}
                 />
                 {isAdmin && (
                   <Link
