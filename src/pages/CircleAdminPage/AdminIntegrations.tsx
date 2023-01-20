@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react';
 
-import * as mutations from 'lib/gql/mutations';
 import { INTEGRATION_TYPE as HEDGEY } from 'lib/hedgey';
 
 import { useCurrentCircleIntegrations } from 'hooks/gql/useCurrentCircleIntegrations';
@@ -16,6 +15,8 @@ import HedgeyIntegrationSettings from 'pages/CircleAdminPage/HedgeyIntegrationSe
 import { paths } from 'routes/paths';
 import { Flex, Button, Text, HR, Modal } from 'ui';
 
+import { deleteCircleIntegration } from './mutations';
+
 export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
   const integrations = useCurrentCircleIntegrations();
   const [deleteIntegration, setDeleteIntegration] =
@@ -23,7 +24,7 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
 
   const handleDeleteIntegration = useCallback(async () => {
     if (deleteIntegration) {
-      await mutations.deleteCircleIntegration(deleteIntegration.id);
+      await deleteCircleIntegration(deleteIntegration.id);
       await integrations.refetch();
       setDeleteIntegration(undefined);
     }
