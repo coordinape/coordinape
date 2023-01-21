@@ -25,7 +25,7 @@ export const NavItem = ({
         color="navigation"
         to={to}
         fullWidth
-        css={{ py: '$sm' }}
+        css={{ py: '$sm', pl: '$sm' }}
       >
         <Flex
           css={{
