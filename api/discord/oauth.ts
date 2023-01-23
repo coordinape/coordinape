@@ -7,7 +7,7 @@ import {
   DISCORD_BOT_CLIENT_ID,
   DISCORD_BOT_CLIENT_SECRET,
   DISCORD_BOT_REDIRECT_URI,
-} from '../api-lib/config';
+} from '../../api-lib/config';
 
 type AccessTokenResponse = {
   access_token: string;

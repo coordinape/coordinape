@@ -3,9 +3,9 @@ import assert from 'assert';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
 
+import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import {
   composeHasuraActionRequestBodyWithSession,
   HasuraUserSessionVariables,
@@ -80,4 +80,4 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   return;
 }
 
-export default verifyHasuraRequestMiddleware(handler);
+export default authCircleAdminMiddleware(handler);

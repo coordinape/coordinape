@@ -24,6 +24,7 @@ import { smartRounding } from 'utils';
 import { makeExplorerUrl } from 'utils/provider';
 
 import { useClaimsTableData, ClaimsRowData } from './hooks';
+import LockedTokenGiftsTable from './LockedTokenGiftsTable';
 import { QueryClaim } from './queries';
 import {
   formatDistributionDates,
@@ -38,7 +39,6 @@ const styles = {
 export default function ClaimsPage() {
   // this causes errors if it's run at the top-level
   const ClaimsTable = makeTable<ClaimsRowData>('ClaimsTable');
-
   const {
     isIdle,
     isLoading,
@@ -128,10 +128,8 @@ export default function ClaimsPage() {
         </ClaimsTable>
       </Panel>
 
-      <Text h2 css={{ mb: '$sm' }}>
-        Claims History
-      </Text>
-      <Panel>
+      <Text h2>Claims History</Text>
+      <Panel css={{ mb: '$lg' }}>
         <ClaimsTable
           headers={[
             { title: 'Organization' },
@@ -169,6 +167,7 @@ export default function ClaimsPage() {
           onClose={() => setUnwrapGroup(undefined)}
         />
       </Panel>
+      <LockedTokenGiftsTable />
     </SingleColumnLayout>
   );
 }

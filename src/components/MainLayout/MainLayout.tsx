@@ -1,11 +1,9 @@
-import { Suspense, useContext } from 'react';
-
-import { RequireAuth } from 'features/auth';
+import { useContext } from 'react';
 
 import { SideNav } from '../../features/nav/SideNav';
 import { ThemeContext } from '../../features/theming/ThemeProvider';
 import HelpButton from '../HelpButton';
-import { GlobalUi, SentryScopeController } from 'components';
+import { GlobalUi } from 'components/GlobalUi';
 import { AppRoutes } from 'routes/routes';
 import { Box, Flex } from 'ui';
 
@@ -41,23 +39,18 @@ export const MainLayout = () => {
           {themePreference != 'dark' && themePreference != 'light' && (
             <MainHeader />
           )}
-          <RequireAuth>
-            <Suspense fallback={null}>
-              <Box
-                as="main"
-                css={{
-                  height: '100vh',
-                  overflowY: 'auto',
-                  '@sm': { zIndex: 1 }, // for hamburger menu
-                }}
-              >
-                <GlobalUi />
-                <SentryScopeController />
-                <AppRoutes />
-              </Box>
-              <HelpButton />
-            </Suspense>
-          </RequireAuth>
+          <GlobalUi />
+          <HelpButton />
+          <Box
+            as="main"
+            css={{
+              height: '100vh',
+              overflowY: 'auto',
+              '@sm': { zIndex: 1 }, // for hamburger menu
+            }}
+          >
+            <AppRoutes />
+          </Box>
         </Box>
       </Flex>
     </Box>

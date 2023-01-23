@@ -22,7 +22,16 @@ import { IEpoch, IMyUser } from '../../types';
 import { SingleColumnLayout } from '../../ui/layouts';
 import { FormInputField } from 'components';
 import { Edit3, Grid, Menu } from 'icons/__generated';
-import { Box, Button, Flex, Modal, Panel, Text, Link } from 'ui';
+import {
+  Box,
+  Button,
+  Flex,
+  Modal,
+  Panel,
+  Text,
+  Link,
+  MarkdownPreview,
+} from 'ui';
 import { SaveState, SavingIndicator } from 'ui/SavingIndicator';
 
 import { EpochStatementDrawer } from './EpochStatementDrawer';
@@ -439,62 +448,71 @@ const GivePage = () => {
               flexWrap: 'wrap',
               gap: '$md',
               mb: '$md',
-              width: '60%',
+              width: '50%',
               '@sm': { width: '100%' },
             }}
           >
             {!editAllocHelpText ? (
-              <Flex
-                css={{
-                  gap: '$md',
-                  alignItems: 'center',
-                  '@sm': { flexDirection: 'column', alignItems: 'start' },
-                }}
-              >
-                <Text p as="p">
-                  {updatedAllocText
-                    ? updatedAllocText
-                    : circle?.alloc_text
-                    ? circle?.alloc_text
-                    : 'Reward & thank your teammates for their contributions'}
-                  {isAdmin && (
-                    <Link
-                      href="#"
-                      iconLink
-                      onClick={() => {
-                        setEditAllocHelpText(true);
-                      }}
-                      css={{ whiteSpace: 'nowrap', ml: '$sm' }}
-                    >
-                      <Edit3 />
-                      Edit
-                    </Link>
-                  )}
-                </Text>
+              <Flex column>
+                <MarkdownPreview
+                  render
+                  source={
+                    updatedAllocText ??
+                    circle?.alloc_text ??
+                    'Reward & thank your teammates for their contributions'
+                  }
+                  css={{ minHeight: '0', cursor: 'auto' }}
+                />
+                {isAdmin && (
+                  <Link
+                    href="#"
+                    iconLink
+                    onClick={() => {
+                      setEditAllocHelpText(true);
+                    }}
+                    css={{ whiteSpace: 'nowrap', mt: '$sm' }}
+                  >
+                    <Edit3 />
+                    Edit
+                  </Link>
+                )}
               </Flex>
             ) : (
               <Flex
+                column
                 css={{
-                  gap: '$md',
-                  alignItems: 'flex-start',
                   flexGrow: 1,
-                  '@sm': { flexDirection: 'column' },
                 }}
               >
-                <FormInputField
-                  name="alloc_text"
-                  id="finish_work"
-                  control={allocationTextControl}
-                  defaultValue={circle?.alloc_text}
-                  label="Allocation Help Text"
-                  placeholder="Default: 'Reward & thank your teammates for their contributions'"
-                  infoTooltip="Change the text that contributors see on this page."
-                  showFieldErrors
-                  css={{
-                    width: '100%',
-                  }}
-                />
-                <Flex css={{ gap: '$sm', mt: '$lg', '@sm': { mt: 0 } }}>
+                <Box css={{ position: 'relative', width: '100%' }}>
+                  <FormInputField
+                    name="alloc_text"
+                    id="finish_work"
+                    control={allocationTextControl}
+                    defaultValue={circle?.alloc_text}
+                    label="Allocation Help Text"
+                    placeholder="Default: 'Reward & thank your teammates for their contributions'"
+                    infoTooltip="Change the text that contributors see on this page."
+                    showFieldErrors
+                    textArea
+                    css={{
+                      width: '100%',
+                    }}
+                  />
+                  <Text
+                    inline
+                    size="small"
+                    color="secondary"
+                    css={{
+                      position: 'absolute',
+                      right: '$sm',
+                      bottom: '$sm',
+                    }}
+                  >
+                    Markdown Supported
+                  </Text>
+                </Box>
+                <Flex css={{ gap: '$sm', mt: '$md' }}>
                   <Button
                     color="secondary"
                     type="submit"

@@ -4,7 +4,7 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 import morgan from 'morgan';
 
 import landing from '../api/circle/landing/[token]';
-import discord from '../api/discord';
+import discord from '../api/discord/oauth';
 import actionManager from '../api/hasura/actions/actionManager';
 import auth from '../api/hasura/auth';
 import checkNominee from '../api/hasura/cron/checkNominee';

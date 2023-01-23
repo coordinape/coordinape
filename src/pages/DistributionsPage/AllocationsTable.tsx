@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 
+import { formatUnits } from 'ethers/lib/utils';
 import sumBy from 'lodash/sumBy';
 import uniqBy from 'lodash/uniqBy';
 
@@ -9,6 +10,7 @@ import { smartRounding, numberWithCommas, shortenAddress } from 'utils';
 
 import type { Gift } from './queries';
 import { EpochDataResult } from './queries';
+import type { CustomToken } from './types';
 
 const styles = {
   alignRight: { textAlign: 'right' },
@@ -25,6 +27,10 @@ export const AllocationsTable = ({
   epoch,
   fixedDist,
   circleDist,
+  isLockedTokenDistribution,
+  lockedTokenDistributionDecimals,
+  lockedTokenDistributionSymbol,
+  customToken,
 }: {
   users: {
     id: number;
@@ -52,6 +58,10 @@ export const AllocationsTable = ({
   epoch: EpochDataResult;
   fixedDist: EpochDataResult['distributions'][0] | undefined;
   circleDist: EpochDataResult['distributions'][0] | undefined;
+  isLockedTokenDistribution: boolean;
+  lockedTokenDistributionDecimals: number;
+  lockedTokenDistributionSymbol: string;
+  customToken: CustomToken | undefined;
 }) => {
   type User = Exclude<typeof users[0], undefined>;
   const givenPercent = useCallback(
@@ -77,13 +87,16 @@ export const AllocationsTable = ({
     tokenName && fixedTokenName && tokenName === fixedTokenName;
 
   const UserTable = makeTable<User>('UserTable');
+  const rewardTitle = isLockedTokenDistribution
+    ? 'Locked Token Rewards'
+    : 'Circle Rewards';
   const headers = [
     { title: 'Name' },
     { title: 'ETH' },
     { title: 'Givers', css: styles.alignRight },
     { title: `${giveTokenName || 'GIVE'} Received`, css: styles.alignRight },
     { title: `% of ${giveTokenName || 'GIVE'}`, css: styles.alignRight },
-    { title: 'Circle Rewards', css: styles.alignRight },
+    { title: rewardTitle, css: styles.alignRight },
     { title: 'Fixed Payments', css: styles.alignRight },
   ];
   if (combinedDist) {
@@ -157,11 +170,18 @@ export const AllocationsTable = ({
               {numberWithCommas(givenPercent(user.received) * 100, 2)}%
             </td>
             <td className="alignRight">
-              {circleDist
+              {isLockedTokenDistribution
+                ? `${formatUnits(
+                    user.circleClaimed.toLocaleString('fullwide', {
+                      useGrouping: false,
+                    }),
+                    lockedTokenDistributionDecimals
+                  )} ${lockedTokenDistributionSymbol}`
+                : circleDist
                 ? `${smartRounding(user.circleClaimed)} ${tokenName || 'GIVE'}`
                 : `${smartRounding(
                     givenPercent(user.received) * formGiftAmount
-                  )} ${tokenName || 'GIVE'}`}
+                  )} ${customToken?.symbol || tokenName || 'GIVE'}`}
             </td>
             <td className="alignRight">
               {fixedDist
