@@ -28,18 +28,21 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   // no validation here; It's the caller's responsibility to pass in
   // a valid snowflake
-  const result = await adminClient.mutate({
-    insert_discord_users_one: [
-      {
-        object: { user_snowflake: discord_id, profile_id },
-        on_conflict: {
-          constraint: discord_users_constraint.users_profile_id_key,
-          update_columns: [discord_users_update_column.user_snowflake],
+  const result = await adminClient.mutate(
+    {
+      insert_discord_users_one: [
+        {
+          object: { user_snowflake: discord_id, profile_id },
+          on_conflict: {
+            constraint: discord_users_constraint.users_profile_id_key,
+            update_columns: [discord_users_update_column.user_snowflake],
+          },
         },
-      },
-      { id: true },
-    ],
-  });
+        { id: true },
+      ],
+    },
+    { operationName: 'createDiscordUser' }
+  );
   assert(result.insert_discord_users_one, 'panic: Unexpected GQL response');
   const returnResult = result.insert_discord_users_one;
 

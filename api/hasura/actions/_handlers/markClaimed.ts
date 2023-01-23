@@ -54,28 +54,31 @@ export const updateClaims = async (
 
   // 2. mutate: update all the matching claims with the tx hash
 
-  const { update_claims: result } = await adminClient.mutate({
-    update_claims: [
-      {
-        _set: { txHash },
-        where: {
-          txHash: { _is_null: true },
-          id: { _lte: claimId },
-          profile_id: { _eq: profileId },
-          distribution: {
-            tx_hash: { _is_null: false },
-            vault_id: { _eq: vault.id },
-            epoch: { circle_id: { _eq: circle_id } },
+  const { update_claims: result } = await adminClient.mutate(
+    {
+      update_claims: [
+        {
+          _set: { txHash },
+          where: {
+            txHash: { _is_null: true },
+            id: { _lte: claimId },
+            profile_id: { _eq: profileId },
+            distribution: {
+              tx_hash: { _is_null: false },
+              vault_id: { _eq: vault.id },
+              epoch: { circle_id: { _eq: circle_id } },
+            },
           },
         },
-      },
-      { returning: { id: true, new_amount: true } },
-    ],
-    delete_pending_vault_transactions_by_pk: [
-      { tx_hash: txHash },
-      { __typename: true },
-    ],
-  });
+        { returning: { id: true, new_amount: true } },
+      ],
+      delete_pending_vault_transactions_by_pk: [
+        { tx_hash: txHash },
+        { __typename: true },
+      ],
+    },
+    { operationName: 'updateClaims' }
+  );
 
   if (!result?.returning.length)
     throw new UnprocessableError('updated 0 claims');
@@ -114,32 +117,37 @@ export const updateClaims = async (
 };
 
 const getClaimData = (claimId: number, profileId: number) =>
-  adminClient.query({
-    claims: [
-      {
-        where: {
-          id: { _eq: claimId },
-          profile_id: { _eq: profileId },
-        },
-        limit: 1,
-      },
-      {
-        distribution: {
-          id: true,
-          vault: {
-            id: true,
-            org_id: true,
-            symbol: true,
-            chain_id: true,
-            decimals: true,
-            vault_address: true,
-            simple_token_address: true,
+  adminClient.query(
+    {
+      claims: [
+        {
+          where: {
+            id: { _eq: claimId },
+            profile_id: { _eq: profileId },
           },
-          epoch: { circle_id: true },
+          limit: 1,
         },
-      },
-    ],
-  });
+        {
+          distribution: {
+            id: true,
+            vault: {
+              id: true,
+              org_id: true,
+              symbol: true,
+              chain_id: true,
+              decimals: true,
+              vault_address: true,
+              simple_token_address: true,
+            },
+            epoch: { circle_id: true },
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'getClaims',
+    }
+  );
 
 const unwrap = async (
   amount: number,

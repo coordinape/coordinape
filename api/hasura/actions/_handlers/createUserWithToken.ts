@@ -28,28 +28,31 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   const address = await getAddress(hasuraProfileId);
 
   // get the circleId from the token and make sure its magic
-  const { circle_share_tokens } = await adminClient.query({
-    circle_share_tokens: [
-      {
-        where: {
-          uuid: {
-            _eq: input.token,
-          },
-          circle: {
-            deleted_at: {
-              _is_null: true,
+  const { circle_share_tokens } = await adminClient.query(
+    {
+      circle_share_tokens: [
+        {
+          where: {
+            uuid: {
+              _eq: input.token,
+            },
+            circle: {
+              deleted_at: {
+                _is_null: true,
+              },
+            },
+            type: {
+              _eq: CircleTokenType.Magic,
             },
           },
-          type: {
-            _eq: CircleTokenType.Magic,
-          },
         },
-      },
-      {
-        circle_id: true,
-      },
-    ],
-  });
+        {
+          circle_id: true,
+        },
+      ],
+    },
+    { operationName: 'createShareTokens' }
+  );
 
   const circleId = circle_share_tokens.pop()?.circle_id;
   if (!circleId) {

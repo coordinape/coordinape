@@ -41,14 +41,17 @@ type OrganizationInput = {
 };
 
 async function insertOrganization(input: OrganizationInput): Promise<number> {
-  const result = await adminClient.mutate({
-    insert_organizations_one: [
-      {
-        object: { name: input.name ?? getOrganizationName() },
-      },
-      { id: true },
-    ],
-  });
+  const result = await adminClient.mutate(
+    {
+      insert_organizations_one: [
+        {
+          object: { name: input.name ?? getOrganizationName() },
+        },
+        { id: true },
+      ],
+    },
+    { operationName: 'seed_data' }
+  );
   if (!result.insert_organizations_one) throw new Error(`org not created`);
   return result.insert_organizations_one.id;
 }
@@ -66,18 +69,21 @@ export async function insertCircles(input: CircleInput) {
     min_vouches: 2,
     organization_id: organizationId,
   }));
-  const result = await adminClient.mutate({
-    insert_circles: [
-      {
-        objects: circleInputWithOrganization,
-      },
-      {
-        returning: {
-          id: true,
+  const result = await adminClient.mutate(
+    {
+      insert_circles: [
+        {
+          objects: circleInputWithOrganization,
         },
-      },
-    ],
-  });
+        {
+          returning: {
+            id: true,
+          },
+        },
+      ],
+    },
+    { operationName: 'seed_data' }
+  );
   if (!result.insert_circles) throw new Error(`circles not created`);
   return result.insert_circles.returning.map(r => r.id);
 }
@@ -95,23 +101,26 @@ export async function insertMemberships(input: MembershipInput) {
       give_token_remaining: member.starting_tokens ?? 100,
     }))
   );
-  const result = await adminClient.mutate({
-    insert_users: [
-      {
-        objects: membersInputWithCircleId,
-      },
-      {
-        returning: {
-          id: true,
-          address: true,
-          circle_id: true,
-          non_giver: true,
-          non_receiver: true,
-          give_token_remaining: true,
+  const result = await adminClient.mutate(
+    {
+      insert_users: [
+        {
+          objects: membersInputWithCircleId,
         },
-      },
-    ],
-  });
+        {
+          returning: {
+            id: true,
+            address: true,
+            circle_id: true,
+            non_giver: true,
+            non_receiver: true,
+            give_token_remaining: true,
+          },
+        },
+      ],
+    },
+    { operationName: 'seed_data' }
+  );
   if (!result.insert_users) throw new Error(`users not created`);
   return result.insert_users.returning;
 }
@@ -133,23 +142,26 @@ export async function getAvatars() {
 }
 
 export async function createProfiles() {
-  await adminClient.mutate({
-    insert_profiles: [
-      {
-        objects: users.map(user => {
-          return {
-            address: user.address,
-            name: user.name,
-          };
-        }),
-      },
-      {
-        returning: {
-          id: true,
+  await adminClient.mutate(
+    {
+      insert_profiles: [
+        {
+          objects: users.map(user => {
+            return {
+              address: user.address,
+              name: user.name,
+            };
+          }),
         },
-      },
-    ],
-  });
+        {
+          returning: {
+            id: true,
+          },
+        },
+      ],
+    },
+    { operationName: 'seed_data' }
+  );
 }
 
 async function getBase64Avatar() {
@@ -264,9 +276,12 @@ export async function makeEpoch(
     ended: ended ?? end.diffNow().milliseconds < 0,
   } as ValueTypes['epochs_insert_input'];
 
-  const result = await adminClient.mutate({
-    insert_epochs_one: [{ object: epoch }, { id: true }],
-  });
+  const result = await adminClient.mutate(
+    {
+      insert_epochs_one: [{ object: epoch }, { id: true }],
+    },
+    { operationName: 'seed_data' }
+  );
   if (!result.insert_epochs_one) throw new Error('no epoch created');
   return result.insert_epochs_one.id;
 }
@@ -309,12 +324,15 @@ export async function createContributions(
     }
   }
 
-  await adminClient.mutate({
-    insert_contributions: [
-      { objects: contribution_objects },
-      { __typename: true },
-    ],
-  });
+  await adminClient.mutate(
+    {
+      insert_contributions: [
+        { objects: contribution_objects },
+        { __typename: true },
+      ],
+    },
+    { operationName: 'seed_data' }
+  );
 }
 
 export async function createGifts(
@@ -338,73 +356,76 @@ export async function createGifts(
       if (amount <= 0) break;
     }
     if (member.address === user.address) continue;
-    await adminClient.mutate({
-      [pending ? 'insert_pending_token_gifts' : 'insert_token_gifts']: [
-        {
-          objects: [
-            {
-              sender_id: member.id,
-              epoch_id: epochId,
-              sender_address: member.address,
-              circle_id: user.circle_id,
-              created_at: DateTime.now()
-                .minus({ hours: 9 * i })
-                .toISO(),
-              updated_at: DateTime.now()
-                .minus({ hours: 9 * i })
-                .toISO(),
-              recipient_id: user.id,
-              recipient_address: user.address,
-              tokens: amount,
-            },
-            {
-              sender_id: user.id,
-              epoch_id: epochId,
-              sender_address: user.address,
-              circle_id: user.circle_id,
-              created_at: DateTime.now()
-                .minus({ hours: 9 * i })
-                .toISO(),
-              updated_at: DateTime.now()
-                .minus({ hours: 9 * i })
-                .toISO(),
-              recipient_id: member.id,
-              recipient_address: member.address,
-              tokens: amount,
-            },
-          ],
-        },
-        { __typename: true },
-      ],
-      __alias: pending
-        ? {
-            member: {
-              update_users_by_pk: [
-                {
-                  pk_columns: { id: member.id },
-                  _inc: {
-                    give_token_received: amount,
-                    give_token_remaining: -amount,
+    await adminClient.mutate(
+      {
+        [pending ? 'insert_pending_token_gifts' : 'insert_token_gifts']: [
+          {
+            objects: [
+              {
+                sender_id: member.id,
+                epoch_id: epochId,
+                sender_address: member.address,
+                circle_id: user.circle_id,
+                created_at: DateTime.now()
+                  .minus({ hours: 9 * i })
+                  .toISO(),
+                updated_at: DateTime.now()
+                  .minus({ hours: 9 * i })
+                  .toISO(),
+                recipient_id: user.id,
+                recipient_address: user.address,
+                tokens: amount,
+              },
+              {
+                sender_id: user.id,
+                epoch_id: epochId,
+                sender_address: user.address,
+                circle_id: user.circle_id,
+                created_at: DateTime.now()
+                  .minus({ hours: 9 * i })
+                  .toISO(),
+                updated_at: DateTime.now()
+                  .minus({ hours: 9 * i })
+                  .toISO(),
+                recipient_id: member.id,
+                recipient_address: member.address,
+                tokens: amount,
+              },
+            ],
+          },
+          { __typename: true },
+        ],
+        __alias: pending
+          ? {
+              member: {
+                update_users_by_pk: [
+                  {
+                    pk_columns: { id: member.id },
+                    _inc: {
+                      give_token_received: amount,
+                      give_token_remaining: -amount,
+                    },
                   },
-                },
-                { __typename: true },
-              ],
-            },
-            user: {
-              update_users_by_pk: [
-                {
-                  pk_columns: { id: user.id },
-                  _inc: {
-                    give_token_received: amount,
-                    give_token_remaining: -amount,
+                  { __typename: true },
+                ],
+              },
+              user: {
+                update_users_by_pk: [
+                  {
+                    pk_columns: { id: user.id },
+                    _inc: {
+                      give_token_received: amount,
+                      give_token_remaining: -amount,
+                    },
                   },
-                },
-                { __typename: true },
-              ],
-            },
-          }
-        : undefined,
-    });
+                  { __typename: true },
+                ],
+              },
+            }
+          : undefined,
+      },
+      { operationName: 'seed_data' }
+    );
   }
 }
 

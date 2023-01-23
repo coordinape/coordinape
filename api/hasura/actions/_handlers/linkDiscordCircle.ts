@@ -28,16 +28,21 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   const { circle_id, token } = payload;
 
-  const { discord_circle_api_tokens } = await adminClient.query({
-    discord_circle_api_tokens: [
-      {
-        where: { circle_id: { _eq: Number(circle_id) } },
-      },
-      {
-        token: true,
-      },
-    ],
-  });
+  const { discord_circle_api_tokens } = await adminClient.query(
+    {
+      discord_circle_api_tokens: [
+        {
+          where: { circle_id: { _eq: Number(circle_id) } },
+        },
+        {
+          token: true,
+        },
+      ],
+    },
+    {
+      operationName: 'getDiscordApiTokens',
+    }
+  );
 
   if (
     discord_circle_api_tokens.length === 0 ||
@@ -58,19 +63,22 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     );
   }
 
-  const { update_discord_circle_api_tokens } = await adminClient.mutate({
-    update_discord_circle_api_tokens: [
-      {
-        _set: { token },
-        where: { circle_id: { _eq: Number(circle_id) } },
-      },
-      {
-        returning: {
-          id: true,
+  const { update_discord_circle_api_tokens } = await adminClient.mutate(
+    {
+      update_discord_circle_api_tokens: [
+        {
+          _set: { token },
+          where: { circle_id: { _eq: Number(circle_id) } },
         },
-      },
-    ],
-  });
+        {
+          returning: {
+            id: true,
+          },
+        },
+      ],
+    },
+    { operationName: 'updateDiscordCircleApiTokens' }
+  );
   assert(update_discord_circle_api_tokens, 'panic: Unexpected GQL response');
 
   const returnResult = update_discord_circle_api_tokens.returning.pop();

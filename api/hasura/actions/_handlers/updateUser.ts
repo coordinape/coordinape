@@ -26,24 +26,27 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   const {
     users: [user],
-  } = await adminClient.query({
-    users: [
-      {
-        limit: 1,
-        where: {
-          address: { _ilike: address },
-          circle_id: { _eq: circle_id },
-          // ignore soft_deleted users
-          deleted_at: { _is_null: true },
+  } = await adminClient.query(
+    {
+      users: [
+        {
+          limit: 1,
+          where: {
+            address: { _ilike: address },
+            circle_id: { _eq: circle_id },
+            // ignore soft_deleted users
+            deleted_at: { _is_null: true },
+          },
         },
-      },
-      {
-        id: true,
-        fixed_non_receiver: true,
-        give_token_received: true,
-      },
-    ],
-  });
+        {
+          id: true,
+          fixed_non_receiver: true,
+          give_token_received: true,
+        },
+      ],
+    },
+    { operationName: 'getUsers' }
+  );
 
   if (!user) {
     return errorResponse(res, {

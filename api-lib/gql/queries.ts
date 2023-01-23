@@ -176,72 +176,75 @@ export async function getUserByIdAndCurrentEpoch(
 ): Promise<typeof user | undefined> {
   const {
     users: [user],
-  } = await adminClient.query({
-    users: [
-      {
-        limit: 1,
-        where: {
-          id: { _eq: id },
-          circle_id: { _eq: circleId },
+  } = await adminClient.query(
+    {
+      users: [
+        {
+          limit: 1,
+          where: {
+            id: { _eq: id },
+            circle_id: { _eq: circleId },
+          },
         },
-      },
-      {
-        id: true,
-        fixed_non_receiver: true,
-        non_giver: true,
-        non_receiver: true,
-        starting_tokens: true,
-        give_token_received: true,
-        give_token_remaining: true,
-        fixed_payment_amount: true,
-        pending_sent_gifts: [
-          // the join filters down to only gifts to the user
-          {},
-          {
-            id: true,
-            epoch_id: true,
-            sender_id: true,
-            sender_address: true,
-            recipient_id: true,
-            recipient_address: true,
-            note: true,
-            tokens: true,
-          },
-        ],
-        pending_received_gifts: [
-          // the join filters down to only gifts to the user
-          {},
-          {
-            id: true,
-            epoch_id: true,
-            sender_id: true,
-            sender_address: true,
-            recipient_id: true,
-            recipient_address: true,
-            note: true,
-            tokens: true,
-          },
-        ],
-        circle: {
-          epochs: [
+        {
+          id: true,
+          fixed_non_receiver: true,
+          non_giver: true,
+          non_receiver: true,
+          starting_tokens: true,
+          give_token_received: true,
+          give_token_remaining: true,
+          fixed_payment_amount: true,
+          pending_sent_gifts: [
+            // the join filters down to only gifts to the user
+            {},
             {
-              where: {
-                _and: [
-                  { end_date: { _gt: 'now()' } },
-                  { start_date: { _lt: 'now()' } },
-                ],
-              },
-            },
-            {
-              start_date: true,
-              end_date: true,
               id: true,
+              epoch_id: true,
+              sender_id: true,
+              sender_address: true,
+              recipient_id: true,
+              recipient_address: true,
+              note: true,
+              tokens: true,
             },
           ],
+          pending_received_gifts: [
+            // the join filters down to only gifts to the user
+            {},
+            {
+              id: true,
+              epoch_id: true,
+              sender_id: true,
+              sender_address: true,
+              recipient_id: true,
+              recipient_address: true,
+              note: true,
+              tokens: true,
+            },
+          ],
+          circle: {
+            epochs: [
+              {
+                where: {
+                  _and: [
+                    { end_date: { _gt: 'now()' } },
+                    { start_date: { _lt: 'now()' } },
+                  ],
+                },
+              },
+              {
+                start_date: true,
+                end_date: true,
+                id: true,
+              },
+            ],
+          },
         },
-      },
-    ],
-  });
+      ],
+    },
+    { operationName: 'getUserByIdAndCurrentEpoch' }
+  );
   return user;
 }
 

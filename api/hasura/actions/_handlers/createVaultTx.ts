@@ -155,22 +155,25 @@ const VaultLogUnionSchema = z.discriminatedUnion('tx_type', [
 ]);
 
 async function getVaultForAddress(address: string, vaultId: number) {
-  const result = await adminClient.query({
-    vaults_by_pk: [
-      {
-        id: vaultId,
-      },
-      {
-        organization: {
-          id: true,
-          circles: [
-            { where: { users: { address: { _eq: address } } } },
-            { id: true },
-          ],
+  const result = await adminClient.query(
+    {
+      vaults_by_pk: [
+        {
+          id: vaultId,
         },
-      },
-    ],
-  });
+        {
+          organization: {
+            id: true,
+            circles: [
+              { where: { users: { address: { _eq: address } } } },
+              { id: true },
+            ],
+          },
+        },
+      ],
+    },
+    { operationName: 'getVaultForAddress' }
+  );
   return result.vaults_by_pk;
 }
 
@@ -183,17 +186,20 @@ async function getDistributionForVault({
   tx_hash: string;
   distribution_id: number;
 }) {
-  const result = await adminClient.query({
-    distributions: [
-      {
-        where: {
-          id: { _eq: distribution_id },
-          tx_hash: { _eq: tx_hash },
-          vault_id: { _eq: vault_id },
+  const result = await adminClient.query(
+    {
+      distributions: [
+        {
+          where: {
+            id: { _eq: distribution_id },
+            tx_hash: { _eq: tx_hash },
+            vault_id: { _eq: vault_id },
+          },
         },
-      },
-      { __typename: true },
-    ],
-  });
+        { __typename: true },
+      ],
+    },
+    { operationName: 'getDistributionForVault' }
+  );
   return result.distributions;
 }
