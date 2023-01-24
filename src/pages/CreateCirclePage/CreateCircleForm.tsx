@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { QUERY_KEY_NAV } from 'features/nav/getNavData';
 import { fileToBase64 } from 'lib/base64';
 import uniqBy from 'lodash/uniqBy';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -8,7 +9,6 @@ import { useQueryClient } from 'react-query';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { z } from 'zod';
 
-import { InvalidateSideNav } from '../../features/nav';
 import { FormAutocomplete, FormInputField } from 'components';
 import { QUERY_KEY_MAIN_HEADER } from 'components/MainLayout/getMainHeaderData';
 import { useApiWithProfile } from 'hooks';
@@ -90,7 +90,7 @@ export const CreateCircleForm = ({
   const circleCreated = (circleId: number) => {
     queryClient.invalidateQueries(QUERY_KEY_MY_ORGS);
     queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
-    InvalidateSideNav(queryClient);
+    queryClient.invalidateQueries(QUERY_KEY_NAV);
     navigate({
       pathname: paths.members(circleId),
       search: NEW_CIRCLE_CREATED_PARAMS,
