@@ -38,7 +38,7 @@ const Content = styled(Dialog.Content, {
   borderRadius: '$3',
   width: '90vw',
   maxWidth: '650px',
-  maxHeight: '90vh',
+  maxHeight: '100vh',
   overflow: 'auto',
   padding: '$2xl',
   margin: 'calc($xl * 2) auto $xl',
@@ -67,7 +67,6 @@ const Content = styled(Dialog.Content, {
 const Title = styled(Dialog.Title, {
   fontSize: '$h2',
   display: 'block',
-  marginTop: 'calc($sm * -1)',
   color: '$text',
 });
 
