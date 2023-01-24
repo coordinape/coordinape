@@ -9,9 +9,14 @@ export const NavLogo = ({ css }: { css?: CSS }) => {
     <Box
       as={NavLink}
       to={paths.circles}
-      css={{ ...css, 'svg *': { fill: 'white' } }}
+      css={{
+        ...css,
+        'img, svg': { width: '100%', maxWidth: '250px' },
+        'svg *': { fill: 'white' },
+      }}
     >
       <img src={'/imgs/logo/coordinape-logo-white.png'} alt="coordinape logo" />
+      {/* <img src={'/imgs/logo/coordinape-logo.svg'} alt="coordinape logo" /> */}
     </Box>
   );
 };

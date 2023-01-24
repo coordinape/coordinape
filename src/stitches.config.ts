@@ -521,8 +521,18 @@ export const dark = createTheme({
 
 export const light = createTheme({
   colors: {
+    background: newFigmaColors.grey1,
+    navBackground: newFigmaColors.grey3,
+    surface: newFigmaColors.grey2,
+    surfaceNested: newFigmaColors.grey1,
+    navLinkText: newFigmaColors.grey7,
+    navLinkHoverBackground: newFigmaColors.primary4,
+
     link: newFigmaColors.secondary5,
     borderFocus: newFigmaColors.secondary4,
+
+    avatarFallback: newFigmaColors.grey4,
+    avatarFallbackText: newFigmaColors.grey7,
 
     cta: newFigmaColors.secondary4,
     ctaHover: newFigmaColors.secondary5,
@@ -542,6 +552,30 @@ export const light = createTheme({
 
     panelInfoText: newFigmaColors.secondary9,
     panelInfoBackground: newFigmaColors.secondary1,
+
+    tagActiveText: newFigmaColors.orange1,
+    tagActiveBackground: newFigmaColors.orange5,
+
+    tagSuccessText: newFigmaColors.success2,
+    tagSuccessBackground: newFigmaColors.success5,
+
+    tagAlertText: newFigmaColors.error2,
+    tagAlertBackground: newFigmaColors.error6,
+
+    tagWarningText: newFigmaColors.warning1,
+    tagWarningBackground: newFigmaColors.warning6,
+
+    tagSecondaryText: newFigmaColors.secondary1,
+    tagSecondaryBackground: newFigmaColors.secondary5,
+
+    tagPrimaryText: newFigmaColors.primary2,
+    tagPrimaryBackground: newFigmaColors.primary6,
+
+    tagNeutralText: newFigmaColors.neutral2,
+    tagNeutralBackground: newFigmaColors.neutral6,
+
+    tagDefaultText: newFigmaColors.grey2,
+    tagDefaultBackground: newFigmaColors.grey5,
 
     mapNodeHighlight: newFigmaColors.warning5,
     mapNodeMoreHighlight: newFigmaColors.warning3,

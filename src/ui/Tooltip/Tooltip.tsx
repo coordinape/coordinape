@@ -42,7 +42,7 @@ const TooltipTrigger = styled(HoverCardPrimitive.Trigger, {
   lineHeight: '0',
   cursor: 'pointer',
   svg: {
-    color: '$neutral',
+    color: '$secondaryText',
   },
   '&:hover': {
     color: '$text',

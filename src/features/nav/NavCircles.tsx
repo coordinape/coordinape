@@ -53,7 +53,7 @@ export const NavCircles = ({
                 margin="none"
                 css={{
                   mr: '$sm',
-                  border: isCurrentCircle ? '2px solid $link' : undefined,
+                  outline: isCurrentCircle ? '2px solid $link' : undefined,
                 }}
                 path={c.logo}
               />
@@ -67,10 +67,14 @@ export const NavCircles = ({
                 {c.name}
               </Text>
               <IconButton>
-                {isCurrentCircle ? <ChevronDown /> : <ChevronRight />}
+                {isCurrentCircle || org.circles.length == 1 ? (
+                  <ChevronDown />
+                ) : (
+                  <ChevronRight />
+                )}
               </IconButton>
             </Flex>
-            {isCurrentCircle && (
+            {(isCurrentCircle || org.circles.length == 1) && (
               <NavCurrentCircle key={'currentCircle'} circle={c} />
             )}
           </>
