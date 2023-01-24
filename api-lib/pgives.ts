@@ -12,11 +12,16 @@ Settings.defaultZone = 'utc';
 
 /* These are the main variables used in the algo to calculate the pGive totals   */
 
-const BASE_ACTIVE_POINTS = 100;
-const MAX_BASE_ACTIVE_TOTAL = 3000;
-const PER_ACTIVE_MONTH_BONUS = 4;
-const MAX_ACTIVE_MONTH_BONUS = 48;
-const MAX_NOTE_BONUS_PER_USER = 30;
+const BASE_ACTIVE_POINTS =
+  parseInt(process.env.BASE_ACTIVE_POINTS || '') || 100;
+const MAX_BASE_ACTIVE_TOTAL =
+  parseInt(process.env.MAX_BASE_ACTIVE_TOTAL || '') || 3000;
+const PER_ACTIVE_MONTH_BONUS =
+  parseInt(process.env.PER_ACTIVE_MONTH_BONUS || '') || 4;
+const MAX_ACTIVE_MONTH_BONUS =
+  parseInt(process.env.MAX_ACTIVE_MONTH_BONUS || '') || 48;
+const MAX_NOTE_BONUS_PER_USER =
+  parseInt(process.env.MAX_NOTE_BONUS_PER_USER || '') || 30;
 
 export const genPgives = async (
   circleIds: number[],
