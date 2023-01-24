@@ -64,7 +64,7 @@ export default function LockedTokenGiftsTable() {
                       )}
                       target="_blank"
                     >
-                      <Button color="primary" size="small" outlined>
+                      <Button color="primary" size="small">
                         View Hedgeys
                       </Button>
                     </Link>

@@ -100,7 +100,7 @@ export default function HedgeyIntegrationSettings(props: {
     return (
       <Flex css={{ flexDirection: 'column', alignItems: 'start' }}>
         <HedgeyIntro />
-        <Button color="primary" outlined onClick={() => setHedgeyEnabled(true)}>
+        <Button color="secondary" onClick={() => setHedgeyEnabled(true)}>
           Enable Hedgey Integration
         </Button>
       </Flex>
@@ -122,7 +122,6 @@ export default function HedgeyIntegrationSettings(props: {
         </div>
         <Button
           color="destructive"
-          outlined
           onClick={e => {
             e.preventDefault();
             setShowDisableModal(true);
@@ -154,7 +153,7 @@ export default function HedgeyIntegrationSettings(props: {
           onValueChange={value => setHedgeyTransferable(value)}
         />
       </Flex>
-      <Button color="primary" outlined onClick={onSaveHedgeyIntegration}>
+      <Button color="secondary" onClick={onSaveHedgeyIntegration}>
         Save Hedgey settings
       </Button>
       <Modal

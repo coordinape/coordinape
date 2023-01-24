@@ -878,7 +878,6 @@ export function DistributionForm({
           ) : isUsingHedgey && customToken?.symbol ? (
             <Button
               color="primary"
-              outlined
               disabled={giftSubmitting || !sufficientGiftTokens}
               fullWidth
             >
