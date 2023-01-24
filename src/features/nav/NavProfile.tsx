@@ -1,18 +1,24 @@
 import React, { useState } from 'react';
 
 import { Network } from '../../components';
-import { useMyProfile } from '../../recoilState';
+import { CreateUserNameForm } from '../../components/MainLayout/CreateUserNameForm';
 import { paths } from '../../routes/paths';
-import { Avatar, Box, Button, Flex, Text } from '../../ui';
+import { Avatar, Box, Button, Flex, Modal, Text } from '../../ui';
 import { useWalletStatus } from '../auth';
 import { ThemeSwitcher } from '../theming/ThemeSwitcher';
 
 import { NavItem } from './NavItem';
 
-export const NavProfile = () => {
-  const profile = useMyProfile();
+export const NavProfile = ({
+  name,
+  avatar,
+}: {
+  name: string | undefined;
+  avatar: string | undefined;
+}) => {
   const [open, setOpen] = useState(false);
-  const { chainId, logout } = useWalletStatus();
+  const { chainId, logout, address } = useWalletStatus();
+  const showNameForm = !name && !!address;
 
   return (
     <Flex
@@ -43,20 +49,20 @@ export const NavProfile = () => {
         onClick={() => setOpen(prev => !prev)}
       >
         <Avatar
-          name={profile.name}
+          name={name}
           size="small"
           margin="none"
           css={{
             mr: '$sm',
           }}
-          path={profile.avatar}
+          path={avatar}
         />
         <Box css={{ minWidth: 0 }}>
           <Text color="inherit" semibold>
-            {profile.name}
+            {name}
           </Text>
           <Text color="inherit" size="small" ellipsis>
-            {profile.address}
+            {address}
           </Text>
         </Box>
       </Flex>
@@ -85,6 +91,16 @@ export const NavProfile = () => {
             <Network chainId={chainId || 1} />
           </Text>
         </Box>
+      )}
+      {showNameForm && (
+        <Modal
+          open
+          showClose={false}
+          title="What's your name?"
+          css={{ overflow: 'scroll' }}
+        >
+          <CreateUserNameForm address={address} />
+        </Modal>
       )}
     </Flex>
   );

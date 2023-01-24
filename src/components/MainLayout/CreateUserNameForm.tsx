@@ -6,7 +6,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
 import { z } from 'zod';
 
-import { InvalidateSideNav } from '../../features/nav';
+import { QUERY_KEY_NAV } from '../../features/nav/getNavData';
 import { useToast } from '../../hooks';
 import { Box, Button, TextField, Text, Form, Flex } from '../../ui';
 import { normalizeError } from '../../utils/reporting';
@@ -44,7 +44,7 @@ export const CreateUserNameForm = ({ address }: { address?: string }) => {
     onSuccess: async () => {
       queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
       queryClient.invalidateQueries(QUERY_KEY_PROFILE_BY_ADDRESS);
-      InvalidateSideNav(queryClient);
+      queryClient.invalidateQueries(QUERY_KEY_NAV);
     },
     onError: err => {
       setLoading(false);
@@ -99,6 +99,7 @@ export const CreateUserNameForm = ({ address }: { address?: string }) => {
           <TextField
             placeholder="Name"
             fullWidth
+            inPanel
             autoComplete="off"
             error={errors.name !== undefined}
             {...register(`name`)}
@@ -121,12 +122,7 @@ export const CreateUserNameForm = ({ address }: { address?: string }) => {
         </Box>
       </Flex>
       <Box>
-        <Button
-          type="submit"
-          color="primary"
-          size="large"
-          disabled={loading || !isValid}
-        >
+        <Button type="submit" color="cta" disabled={loading || !isValid}>
           Submit
         </Button>
       </Box>

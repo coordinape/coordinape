@@ -4,7 +4,7 @@ import { deleteCircle } from 'lib/gql/mutations';
 import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router';
 
-import { InvalidateSideNav } from '../../features/nav';
+import { QUERY_KEY_NAV } from '../../features/nav';
 import { LoadingModal } from 'components';
 import { QUERY_KEY_MAIN_HEADER } from 'components/MainLayout/getMainHeaderData';
 import { useToast, useApiBase } from 'hooks';
@@ -36,7 +36,7 @@ export const RemoveCircleModal = ({
     onSuccess: async () => {
       queryClient.invalidateQueries(QUERY_KEY_MY_ORGS);
       queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
-      InvalidateSideNav(queryClient);
+      queryClient.invalidateQueries(QUERY_KEY_NAV);
       await navigate(paths.circles);
       await unselectCircle();
       await fetchManifest();

@@ -50,7 +50,7 @@ export const getNavData = (address: string, chainId: number) =>
       ],
       profiles: [
         { limit: 1, where: { address: { _eq: address.toLowerCase() } } },
-        { name: true, id: true },
+        { name: true, id: true, avatar: true },
       ],
     },
     { operationName: 'getNavData' }
@@ -64,7 +64,17 @@ export const useNavQuery = () => {
   const isLoggedIn = useIsLoggedIn();
   return useQuery(
     [QUERY_KEY_NAV, address],
-    () => getNavData(address as string, chainId as number),
+    async () => {
+      const data = await getNavData(address as string, chainId as number);
+      const profile = data.profiles?.[0];
+      if (!profile) {
+        throw new Error('no profile for current user');
+      }
+      return {
+        ...data,
+        profile,
+      };
+    },
     {
       enabled: !!address && !!chainId && isLoggedIn,
       staleTime: Infinity,

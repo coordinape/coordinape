@@ -10,7 +10,7 @@ import { useQuery, useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
 
 import { DISTRIBUTION_TYPE } from '../../config/constants';
-import { InvalidateSideNav } from '../../features/nav';
+import { QUERY_KEY_NAV } from '../../features/nav';
 import { useSelectedCircle } from '../../recoilState';
 import { paths } from '../../routes/paths';
 import { LoadingModal } from 'components';
@@ -209,8 +209,8 @@ export function DistributionsPage() {
   const refetch = () => {
     refetchDistributions();
     queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
+    queryClient.invalidateQueries(QUERY_KEY_NAV);
     loadExistingLockedTokenDistribution();
-    InvalidateSideNav(queryClient);
   };
 
   return (

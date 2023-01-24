@@ -1,13 +1,12 @@
 import { Suspense, useEffect, useState } from 'react';
 
-import { QueryClient } from 'react-query';
 import { useLocation } from 'react-router-dom';
 
 import { getCircleFromPath, getOrgFromPath, paths } from '../../routes/paths';
 import { CoOrg, Menu, X } from 'icons/__generated';
 import { Flex, IconButton } from 'ui';
 
-import { NavCircle, NavOrg, QUERY_KEY_NAV, useNavQuery } from './getNavData';
+import { NavCircle, NavOrg, useNavQuery } from './getNavData';
 import { NavCircles } from './NavCircles';
 import { NavClaimsButton } from './NavClaimsButton';
 import { NavItem } from './NavItem';
@@ -15,14 +14,9 @@ import { NavLogo } from './NavLogo';
 import { NavOrgs } from './NavOrgs';
 import { NavProfile } from './NavProfile';
 
-export const InvalidateSideNav = async (queryClient: QueryClient) => {
-  await queryClient.invalidateQueries(QUERY_KEY_NAV);
-};
-
 export const SideNav = () => {
   /*
     TODO: review semantic color names
-    TODO: what's your name prompt
    */
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currentCircle, setCurrentCircle] = useState<NavCircle | undefined>(
@@ -162,7 +156,9 @@ export const SideNav = () => {
             },
           }}
         >
-          <NavProfile />
+          {data && (
+            <NavProfile name={data.profile.name} avatar={data.profile.avatar} />
+          )}
         </Flex>
       </Suspense>
     </Flex>

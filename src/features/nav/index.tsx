@@ -1,2 +1,2 @@
 export { SideNav } from './SideNav';
-export { InvalidateSideNav } from './SideNav';
+export { QUERY_KEY_NAV } from './getNavData';
