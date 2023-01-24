@@ -7,7 +7,6 @@ export const AllTypesProps: Record<string, any> = {
   Allocations: {
     allocations: 'Allocation',
   },
-  BackfillPgiveInput: {},
   Boolean_comparison_exp: {},
   CoordinapeInput: {},
   CreateCircleInput: {},
@@ -3624,9 +3623,6 @@ export const AllTypesProps: Record<string, any> = {
     },
     allocationCsv: {
       payload: 'AllocationCsvInput',
-    },
-    backfillPgive: {
-      payload: 'BackfillPgiveInput',
     },
     createCircle: {
       payload: 'CreateCircleInput',
@@ -8512,9 +8508,6 @@ export const ReturnTypes: Record<string, any> = {
     user: 'users',
     user_id: 'Int',
   },
-  BackfillPgiveResponse: {
-    success: 'Boolean',
-  },
   ConfirmationResponse: {
     success: 'Boolean',
   },
@@ -10983,7 +10976,6 @@ export const ReturnTypes: Record<string, any> = {
   mutation_root: {
     adminUpdateUser: 'UserResponse',
     allocationCsv: 'AllocationCsvResponse',
-    backfillPgive: 'BackfillPgiveResponse',
     createCircle: 'CreateCircleResponse',
     createEpoch: 'EpochResponse',
     createEpochOld: 'EpochResponse',

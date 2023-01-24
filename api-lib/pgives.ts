@@ -1,18 +1,13 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { DateTime, Settings } from 'luxon';
 
 import {
   order_by,
   GraphQLTypes,
   ValueTypes,
-} from '../../../../api-lib/gql/__generated__/zeus';
-import { adminClient } from '../../../../api-lib/gql/adminClient';
-import { Awaited } from '../../../../api-lib/ts4.5shim';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
-import {
-  backfillPgiveInput,
-  composeHasuraActionRequestBody,
-} from '../../../../src/lib/zod';
+} from '../api-lib/gql/__generated__/zeus';
+import { adminClient } from '../api-lib/gql/adminClient';
+import { Awaited } from '../api-lib/ts4.5shim';
+
 Settings.defaultZone = 'utc';
 
 /* These are the main variables used in the algo to calculate the pGive totals   */
@@ -23,13 +18,11 @@ const PER_ACTIVE_MONTH_BONUS = 4;
 const MAX_ACTIVE_MONTH_BONUS = 48;
 const MAX_NOTE_BONUS_PER_USER = 30;
 
-async function handler(req: VercelRequest, res: VercelResponse) {
-  const {
-    input: { payload },
-  } = composeHasuraActionRequestBody(backfillPgiveInput).parse(req.body);
-  const { circle_limit } = payload;
-  const circles = await getCircleGifts(circle_limit);
-
+export const genPgives = async (
+  circleIds: number[],
+  startFrom: DateTime,
+  endTo: DateTime
+) => {
   const epochBasedData: Record<
     number,
     Record<string, GraphQLTypes['member_epoch_pgives_insert_input']>
@@ -37,9 +30,25 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   const ops: { [aliasKey: string]: ValueTypes['mutation_root'] } = {};
   const memberObjects: Array<GraphQLTypes['member_epoch_pgives_insert_input']> =
     [];
+
+  const { circles, epoch_pgive_data } = await getCircleGifts(
+    circleIds,
+    startFrom,
+    endTo
+  );
+
   circles.forEach(circle => {
     if (circle.epochs.length) {
-      let activeMonths = 0;
+      let activeMonths =
+        epoch_pgive_data.length &&
+        epoch_pgive_data.filter(e => e.epoch.circle_id === circle.id).length
+          ? Math.max(
+              ...epoch_pgive_data
+                .filter(e => e.epoch.circle_id === circle.id)
+                .map(e => e.active_months)
+            ) + 1
+          : 0;
+
       const epochIndexed: Record<string, EpochIndexed> = {};
 
       /* Sort the epochs by end date first so we could backfill the active months in chronological order */
@@ -251,7 +260,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
           // epoch insert objects
           epochObjects.push({
-            pgive: roundNumbers(potTotal),
+            pgive: potTotal ? roundNumbers(potTotal) : 0,
             gives_receiver_base: roundNumbers(epoch.gives_receiver_base),
             active_months_bonus: roundNumbers(epoch.active_months_bonus),
             notes_bonus: roundNumbers(epoch.notes_bonus),
@@ -305,6 +314,8 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         };
       }
     }
+
+    return;
   });
 
   if (memberObjects.length) {
@@ -329,11 +340,12 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       }
     );
   }
-  res.status(200).json({ success: true });
-}
+};
 
 type EpochData = GraphQLTypes['epoch_pgive_data_insert_input'] &
-  getCircleGiftsResult[0]['epochs'][0] & { normalizedEpochs: Array<number> };
+  getCircleGiftsResult['circles'][0]['epochs'][0] & {
+    normalizedEpochs: Array<number>;
+  };
 
 interface EpochIndexed {
   epochs: Array<EpochData>;
@@ -342,80 +354,113 @@ interface EpochIndexed {
 }
 
 type getCircleGiftsResult = Awaited<ReturnType<typeof getCircleGifts>>;
-const getCircleGifts = async (limit: number) => {
-  const firstDayOfThisMonth = DateTime.local().startOf('month');
-  const { circles } = await adminClient.query(
-    {
-      circles: [
-        {
-          limit,
-          order_by: [{ id: order_by.asc }],
-          where: {
-            _and: [
-              {
-                _not: {
-                  epochs: {
-                    pgive_data: {},
-                  },
-                },
+const getCircleGifts = async (
+  circleIds: Array<number>,
+  startFrom: DateTime,
+  endTo: DateTime
+) => {
+  const { circles, epoch_pgive_data } = await adminClient.query({
+    circles: [
+      {
+        order_by: [{ id: order_by.asc }],
+        where: {
+          id: { _in: circleIds },
+          epochs: {
+            ended: { _eq: true },
+          },
+        },
+      },
+      {
+        id: true,
+        name: true,
+        epochs: [
+          {
+            where: {
+              ended: { _eq: true },
+              end_date: { _gte: startFrom.toISO(), _lte: endTo.toISO() },
+              _not: {
+                /* this filters away epochs that already has pgive data generated */
+                pgive_data: {},
               },
+            },
+          },
+          {
+            id: true,
+            end_date: true,
+            token_gifts: [
+              {},
               {
-                epochs: {
-                  ended: { _eq: true },
-                  end_date: { _lt: firstDayOfThisMonth.toISO() },
+                sender_id: true,
+                sender_address: true,
+                recipient_id: true,
+                recipient_address: true,
+                recipient: {
+                  name: true,
                 },
+                tokens: true,
+                note: true,
               },
             ],
           },
+        ],
+        users: [
+          {},
+          {
+            id: true,
+            name: true,
+            deleted_at: true,
+            created_at: true,
+          },
+        ],
+      },
+    ],
+    epoch_pgive_data: [
+      {
+        where: {
+          epoch: {
+            circle_id: { _in: circleIds },
+          },
         },
-        {
-          id: true,
-          name: true,
-          epochs: [
-            {
-              where: {
-                ended: { _eq: true },
-                end_date: { _lt: firstDayOfThisMonth.toISO() },
-              },
-            },
-            {
-              id: true,
-              end_date: true,
-              token_gifts: [
-                {},
-                {
-                  sender_id: true,
-                  sender_address: true,
-                  recipient_id: true,
-                  recipient_address: true,
-                  recipient: {
-                    name: true,
-                  },
-                  tokens: true,
-                  note: true,
-                },
-              ],
-            },
-          ],
-          users: [
-            {},
-            {
-              id: true,
-              name: true,
-              deleted_at: true,
-              created_at: true,
-            },
-          ],
+      },
+      {
+        active_months: true,
+        epoch: {
+          circle_id: true,
         },
-      ],
-    },
-    { operationName: 'backfillPgiveCircleQuery' }
-  );
-  return circles;
+      },
+    ],
+  });
+
+  return { circles, epoch_pgive_data };
+};
+
+export const getCirclesNoPgiveWithDateFilter = async (
+  startFrom: DateTime,
+  endTo: DateTime
+): Promise<Array<number>> => {
+  const { circles } = await adminClient.query({
+    circles: [
+      {
+        limit: parseInt(process.env.PGIVE_CIRCLE_MAX_PER_CRON || '') || 10,
+        where: {
+          epochs: {
+            ended: { _eq: true },
+            end_date: { _gte: startFrom.toISO(), _lte: endTo.toISO() },
+            _not: {
+              /* this filters away epochs that already has pgive data generated */
+              pgive_data: {},
+            },
+          },
+        },
+      },
+      {
+        id: true,
+      },
+    ],
+  });
+  return circles.length ? circles.map(c => c.id) : [];
 };
 
 const roundNumbers = (value: number) => {
   return Math.round(value * 100) / 100;
 };
-
-export default verifyHasuraRequestMiddleware(handler);

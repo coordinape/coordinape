@@ -7,10 +7,6 @@ type Mutation {
 }
 
 type Mutation {
-  backfillPgive(payload: BackfillPgiveInput!): BackfillPgiveResponse
-}
-
-type Mutation {
   createCircle(payload: CreateCircleInput!): CreateCircleResponse
 }
 

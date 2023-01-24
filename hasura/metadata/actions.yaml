@@ -18,14 +18,6 @@ actions:
           value_from_env: HASURA_EVENT_SECRET
     permissions:
       - role: user
-  - name: backfillPgive
-    definition:
-      kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=backfillPgive'
-      headers:
-        - name: verification_key
-          value_from_env: HASURA_EVENT_SECRET
-    comment: Backfilling historical pGive data
   - name: createCircle
     definition:
       kind: synchronous

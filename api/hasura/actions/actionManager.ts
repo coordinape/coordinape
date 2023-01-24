@@ -5,7 +5,6 @@ import { ActionPayload } from '../../../api-lib/types';
 
 import adminUpdateUser from './_handlers/adminUpdateUser';
 import allocationCsv from './_handlers/allocationCsv';
-import backfillPgive from './_handlers/backfillPgive';
 import createCircle from './_handlers/createCircle';
 import createEpoch from './_handlers/createEpoch';
 import createEpochOld from './_handlers/createEpochOld';
@@ -46,7 +45,6 @@ type HandlerDict = { [handlerName: string]: VercelApiHandler };
 const HANDLERS: HandlerDict = {
   adminUpdateUser,
   allocationCsv,
-  backfillPgive,
   createCircle,
   createEpoch,
   createEpochOld,
