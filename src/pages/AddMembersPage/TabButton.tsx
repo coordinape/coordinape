@@ -21,10 +21,9 @@ const TabButton = ({
 }) => {
   return (
     <Button
-      css={{ borderRadius: '$pill', mr: '$md', border: '1px solid $neutral' }}
+      css={{ borderRadius: '$pill', mr: '$md' }}
       key={tab}
-      color="secondary"
-      outlined={currentTab !== tab}
+      color={currentTab == tab ? 'primary' : 'secondary'}
       onClick={() => setCurrentTab(tab)}
     >
       {children}

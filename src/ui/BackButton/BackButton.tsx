@@ -17,7 +17,7 @@ const BackButton = () => {
         },
       }}
     >
-      <ArrowLeft color={'neutral'} />
+      <ArrowLeft color={'inherit'} />
       <Text color={'inherit'} semibold>
         Back
       </Text>
