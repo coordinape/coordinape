@@ -373,7 +373,7 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
                       key={label}
                       tabIndex={0}
                       color="secondary"
-                      size="small"
+                      size="tag"
                       css={{ border: 'none' }}
                       as={NavLink}
                       to={pathFn(circle.id)}
