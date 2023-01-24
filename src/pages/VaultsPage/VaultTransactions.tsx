@@ -388,7 +388,7 @@ export const TransactionTable = ({
         textTransform: 'uppercase',
         p: '$sm',
       },
-      tbody: { backgroundColor: '$white' },
+      tbody: { backgroundColor: '$surface' },
       tr: {
         borderTop: '1px solid $border',
       },
