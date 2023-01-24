@@ -18,6 +18,7 @@ export const NavCurrentCircle = ({ circle }: { circle: NavCircle }) => {
   const isAdmin = isCircleAdmin(circle);
 
   return (
+    // use enough mb for the scrolly gradient overlay
     <Box css={{ mb: '$4xl' }}>
       <NavItem
         label={
