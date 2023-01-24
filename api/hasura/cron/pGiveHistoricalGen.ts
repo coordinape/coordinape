@@ -10,6 +10,8 @@ import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 Settings.defaultZone = 'utc';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
+  /* The backfill part of the code can be removed once backfill is done */
+
   const backfillTo = process.env.BACKFILL_TO;
   if (!backfillTo) {
     res.status(200).json({
