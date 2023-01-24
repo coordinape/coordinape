@@ -18,7 +18,7 @@ export const NavCurrentCircle = ({ circle }: { circle: NavCircle }) => {
   const isAdmin = isCircleAdmin(circle);
 
   return (
-    <Box css={{ mb: '$md' }}>
+    <Box css={{ mb: '$4xl' }}>
       <NavItem
         label={
           <Flex

@@ -82,6 +82,9 @@ const DEBOUNCE_TIMEOUT = 1000;
 
 const NEW_CONTRIBUTION_ID = 0;
 
+const CONT_DEFAULT_HELP_TEXT =
+  '**Contributions** are a great way to highlight the work you are doing.\n\nYou can summarize your contributions in the **Epoch Statement** when there is an active Epoch by clicking on your row.';
+
 const nextPrevCss = {
   color: '$text',
   padding: '0',
@@ -127,6 +130,7 @@ const contributionSource = (source: string) => {
       return 'Dework';
   }
 };
+
 const ContributionsPage = () => {
   const address = useConnectedAddress();
   const { circle: selectedCircle, myUser: me } = useSelectedCircle();
@@ -431,87 +435,80 @@ const ContributionsPage = () => {
             justifyContent: 'space-between',
             flexWrap: 'wrap',
             gap: '$md',
-            width: '100%',
+            width: '50%',
             '@sm': { width: '100%' },
           }}
         >
           {!editHelpText ? (
-            <Flex
-              css={{
-                gap: '$md',
-                alignItems: 'center',
-                '@sm': { flexDirection: 'column', alignItems: 'start' },
-              }}
-            >
-              <Text p as="p">
-                {updatedContHelpText ? (
-                  updatedContHelpText
-                ) : data?.circles_by_pk?.cont_help_text ? (
-                  data?.circles_by_pk?.cont_help_text
-                ) : (
-                  <Text inline>
-                    <Text bold inline>
-                      Contributions
-                    </Text>{' '}
-                    are a great way to highlight the work you are doing.
-                    <br /> You can summarize your Contributions in the
-                    <Text inline bold>
-                      {' '}
-                      Epoch Statement
-                    </Text>{' '}
-                    <Text inline>
-                      when there is an active Epoch by clicking on your row.
-                    </Text>
-                  </Text>
-                )}
-                {isAdmin && (
-                  <Link
-                    href="#"
-                    iconLink
-                    onClick={() => {
-                      setEditHelpText(true);
-                    }}
-                    css={{ whiteSpace: 'nowrap', ml: '$sm' }}
-                  >
-                    <Edit3 />
-                    Edit
-                  </Link>
-                )}
-              </Text>
+            <Flex column>
+              <MarkdownPreview
+                render
+                source={
+                  updatedContHelpText ??
+                  data?.circles_by_pk?.cont_help_text ??
+                  CONT_DEFAULT_HELP_TEXT
+                }
+                css={{ minHeight: '0', cursor: 'auto' }}
+              />
+
+              {isAdmin && (
+                <Link
+                  href="#"
+                  iconLink
+                  onClick={() => {
+                    setEditHelpText(true);
+                  }}
+                  css={{ whiteSpace: 'nowrap', mt: '$sm' }}
+                >
+                  <Edit3 />
+                  Edit
+                </Link>
+              )}
             </Flex>
           ) : (
             <Flex
+              column
               css={{
-                gap: '$md',
-                alignItems: 'flex-start',
                 flexGrow: 1,
-                '@sm': { flexDirection: 'column' },
               }}
             >
-              <FormInputField
-                name="cont_help_text"
-                id="finish_work"
-                control={contributionTextControl}
-                defaultValue={data?.circles_by_pk?.cont_help_text}
-                label="Contribution Help Text"
-                placeholder="Default: 'What have you been working on?'"
-                infoTooltip="Change the text that contributors see on this page."
-                showFieldErrors
-                css={{
-                  width: '60%',
-                }}
-              />
-              <Flex css={{ gap: '$sm', mt: '$lg', '@sm': { mt: 0 } }}>
+              <Box css={{ position: 'relative', width: '100%' }}>
+                <FormInputField
+                  name="cont_help_text"
+                  id="finish_work"
+                  control={contributionTextControl}
+                  defaultValue={data?.circles_by_pk?.cont_help_text}
+                  label="Contribution Help Text"
+                  placeholder="Default: 'What have you been working on?'"
+                  infoTooltip="Change the text that contributors see on this page."
+                  showFieldErrors
+                  textArea
+                  css={{
+                    width: '100%',
+                  }}
+                />
+                <Text
+                  inline
+                  size="small"
+                  color="secondary"
+                  css={{
+                    position: 'absolute',
+                    right: '$sm',
+                    bottom: '$sm',
+                  }}
+                >
+                  Markdown Supported
+                </Text>
+              </Box>
+              <Flex css={{ gap: '$sm', mt: '$md' }}>
                 <Button
-                  outlined
-                  color="primary"
+                  color="secondary"
                   type="submit"
                   onClick={handleSubmit(onSubmit)}
                 >
                   Save
                 </Button>
                 <Button
-                  outlined
                   color="destructive"
                   onClick={() => {
                     setEditHelpText(false);
@@ -563,7 +560,7 @@ const ContributionsPage = () => {
                     <ChevronsRight size="lg" />
                   </Button>
                   <Button
-                    color="neutral"
+                    color="dim"
                     size="large"
                     css={nextPrevCss}
                     disabled={
@@ -622,6 +619,11 @@ const ContributionsPage = () => {
                 </Flex>
                 <Button
                   color="textOnly"
+                  css={{
+                    '&:hover': {
+                      color: '$alert',
+                    },
+                  }}
                   noPadding
                   disabled={!currentContribution.contribution.id}
                   onClick={() => {
@@ -896,11 +898,7 @@ const EpochGroup = React.memo(function EpochGroup({
                 {getEpochLabel(epoch)}
               </Text>
               {idx === 0 && (
-                <Button
-                  outlined
-                  color="primary"
-                  onClick={addContributionClickHandler}
-                >
+                <Button color="secondary" onClick={addContributionClickHandler}>
                   Add Contribution
                 </Button>
               )}

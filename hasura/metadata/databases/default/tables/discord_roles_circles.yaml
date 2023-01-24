@@ -19,20 +19,25 @@ insert_permissions:
       set:
         circle_id: x-hasura-Circle-Id
       columns:
-        - server_role
+        - discord_channel_id
+        - discord_role_id
   - role: discord-bot
     permission:
       check: {}
       columns:
         - circle_id
-        - server_role
+        - discord_channel_id
+        - discord_role_id
 select_permissions:
   - role: api-user
     permission:
       columns:
         - circle_id
+        - created_at
+        - discord_channel_id
+        - discord_role_id
         - id
-        - server_role
+        - updated_at
       filter:
         circle:
           api_keys:
@@ -46,7 +51,7 @@ select_permissions:
       columns:
         - circle_id
         - id
-        - server_role
+        - discord_role_id
         - created_at
         - updated_at
       filter: {}
@@ -54,9 +59,10 @@ select_permissions:
     permission:
       columns:
         - circle_id
-        - id
-        - server_role
         - created_at
+        - discord_channel_id
+        - discord_role_id
+        - id
         - updated_at
       filter:
         circle:
@@ -71,7 +77,7 @@ update_permissions:
   - role: api-user
     permission:
       columns:
-        - server_role
+        - discord_role_id
       filter:
         circle:
           api_keys:
@@ -85,13 +91,15 @@ update_permissions:
     permission:
       columns:
         - circle_id
-        - server_role
+        - discord_channel_id
+        - discord_role_id
       filter: {}
       check: null
   - role: user
     permission:
       columns:
-        - server_role
+        - discord_channel_id
+        - discord_role_id
       filter:
         circle:
           users:

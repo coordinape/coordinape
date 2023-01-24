@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 
 import { Network } from '../../components';
+import { CreateUserNameForm } from '../../components/MainLayout/CreateUserNameForm';
 import { useMyProfile } from '../../recoilState';
 import { paths } from '../../routes/paths';
-import { Avatar, Box, Flex, Modal, Text } from '../../ui';
+import { Avatar, Box, Button, Flex, Modal, Text } from '../../ui';
 import { useWalletStatus } from '../auth';
 import { ThemeSwitcher } from '../theming/ThemeSwitcher';
-import { CreateUserNameForm } from 'components/MainLayout/CreateUserNameForm';
 
 import { NavItem } from './NavItem';
 
@@ -14,7 +14,6 @@ export const NavProfile = () => {
   const profile = useMyProfile();
   const [open, setOpen] = useState(false);
   const { chainId, logout, address } = useWalletStatus();
-  // TODO: this isn't working yet
   const showNameForm = profile && !profile.name && !!address;
 
   return (
@@ -29,6 +28,8 @@ export const NavProfile = () => {
       }}
     >
       <Flex
+        as={Button}
+        color={'transparent'}
         css={{
           justifyContent: 'flex-start',
           color: '$navLinkText',
@@ -40,6 +41,7 @@ export const NavProfile = () => {
             filter: 'saturate(1)',
           },
         }}
+        tabIndex={0}
         onClick={() => setOpen(prev => !prev)}
       >
         <Avatar
@@ -62,8 +64,16 @@ export const NavProfile = () => {
       </Flex>
       {open && (
         <Box css={{ mt: '$sm' }}>
-          <NavItem label="Profile" to={paths.profile('me')} />
-          <NavItem label="Claims" to={paths.claims} />
+          <NavItem
+            label="Profile"
+            to={paths.profile('me')}
+            onClick={() => setOpen(false)}
+          />
+          <NavItem
+            label="Claims"
+            to={paths.claims}
+            onClick={() => setOpen(false)}
+          />
           <NavItem label="Disconnect" to="/" onClick={logout} />
           <ThemeSwitcher />
           <Text

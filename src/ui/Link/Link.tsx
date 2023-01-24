@@ -23,6 +23,9 @@ const COMPOSERS = {
       neutral: {
         color: '$neutral',
       },
+      secondaryText: {
+        color: '$secondaryText',
+      },
     },
     iconLink: {
       true: {

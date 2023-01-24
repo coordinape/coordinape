@@ -67,21 +67,55 @@ const spaces = {
 };
 
 export const colors = {
-  white: '#fff',
+  white: newFigmaColors.grey1,
   black: '#000',
+  tempPrimaryHover: '#029fff',
 
   cta: figmaColors.blue12,
-  textOnCta: '#fff',
+  ctaHover: '$tempPrimaryHover',
+  textOnCta: newFigmaColors.grey1,
+
   primary: figmaColors.blue12,
+  primaryHover: '$tempPrimaryHover',
   primaryDark: figmaColors.blue24,
   primaryLight: figmaColors.blue1,
   primaryDisabled: figmaColors.blue4,
-  textOnPrimary: '#fff',
-  secondary: figmaColors.blue12,
+  textOnPrimary: newFigmaColors.grey1,
+
+  primaryButton: '$primary',
+  primaryButtonHover: '$tempPrimaryHover',
+  primaryButtonText: newFigmaColors.grey1,
+  primaryButtonBorderFocus: figmaColors.blue8,
+
+  secondaryButton: 'transparent',
+  secondaryButtonHover: '$tempPrimaryHover',
+  secondaryButtonText: '$primary',
+  secondaryButtonTextHover: '$white',
+  secondaryButtonBorderHover: '$tempPrimaryHover',
+  secondaryButtonBorderFocus: figmaColors.blue8,
+
+  destructiveButton: newFigmaColors.error6,
+  destructiveButtonHover: newFigmaColors.error5,
+  destructiveButtonText: newFigmaColors.error1,
+  destructiveButtonBorderFocus: newFigmaColors.error5,
+
+  successButton: newFigmaColors.success6,
+  successButtonHover: newFigmaColors.success5,
+  successButtonText: newFigmaColors.success1,
+  successButtonBorderFocus: newFigmaColors.success5,
+
+  neutralButton: '$primary',
+  neutralButtonHover: '$primaryHover',
+  neutralButtonText: newFigmaColors.grey1,
+  neutralButtonTextHover: newFigmaColors.grey1,
+
+  secondary: '$primary',
+  secondaryHover: '$tempPrimaryHover',
   secondaryLight: figmaColors.blue4,
   secondaryMedium: figmaColors.blue8,
   secondaryDark: figmaColors.blue4,
-  textOnSecondary: '#fff',
+  textOnSecondary: newFigmaColors.grey1,
+
   modalBackground: '#00000090',
   modalBorderColor: 'transparent',
 
@@ -89,7 +123,7 @@ export const colors = {
   alertLight: figmaColors.red1,
   alertDisabled: figmaColors.red4,
   alertDark: figmaColors.red20,
-  textOnAlert: '#fff',
+  textOnAlert: newFigmaColors.grey1,
 
   success: figmaColors.green12,
   derp: figmaColors.green12,
@@ -100,8 +134,9 @@ export const colors = {
   neutral: figmaColors.grey12,
   textOnNeutral: figmaColors.grey1,
 
-  dim: '#ffffff77',
-  textOnDim: figmaColors.blue12,
+  dim: newFigmaColors.grey1,
+  dimButtonHover: '#ffffff',
+  textOnDim: '$primary',
 
   complete: figmaColors.green12,
   completeLight: figmaColors.green1,
@@ -117,14 +152,19 @@ export const colors = {
   border: figmaColors.grey4,
   borderMedium: newFigmaColors.grey5,
   borderDim: newFigmaColors.grey4,
-  borderFocus: figmaColors.blue12,
+  borderFocus: '$primary',
 
   highlight: figmaColors.blue1,
+  avatarFallback: newFigmaColors.grey3,
+  avatarFallbackText: newFigmaColors.grey8,
 
-  link: figmaColors.blue12,
+  link: '$primary',
   text: figmaColors.grey20,
   headingText: figmaColors.grey16,
   secondaryText: figmaColors.grey10,
+
+  panelInfoText: figmaColors.grey16,
+  panelInfoBackground: figmaColors.blue4,
 
   tagActiveText: figmaColors.yellow20,
   tagActiveBackground: figmaColors.yellow4,
@@ -138,14 +178,17 @@ export const colors = {
   tagWarningText: newFigmaColors.orange6,
   tagWarningBackground: newFigmaColors.orange2,
 
-  tagPrimaryText: figmaColors.blue12,
+  tagPrimaryText: '$primary',
   tagPrimaryBackground: figmaColors.blue4,
 
-  tagSecondaryText: figmaColors.blue12,
+  tagSecondaryText: '$primary',
   tagSecondaryBackground: figmaColors.blue4,
 
   tagNeutralText: newFigmaColors.neutral7,
   tagNeutralBackground: newFigmaColors.neutral2,
+
+  tagDefaultText: newFigmaColors.grey2,
+  tagDefaultBackground: newFigmaColors.grey7,
 
   formInputText: figmaColors.grey16,
   formInputBackground: 'white',
@@ -155,7 +198,7 @@ export const colors = {
   formInputErrorBackground: newFigmaColors.error1,
   formInputErrorBorder: newFigmaColors.error6,
 
-  mapNodeHighlight: figmaColors.blue12,
+  mapNodeHighlight: '$primary',
   mapNodeMoreHighlight: figmaColors.teal8,
   mapGive: figmaColors.green8,
   mapReceive: figmaColors.orange12,
@@ -212,7 +255,7 @@ export const {
       1: '4px',
       2: '6px',
       3: '8px',
-      4: '12px',
+      4: '10px',
       round: '50%',
       pill: '9999px',
     },
@@ -343,17 +386,50 @@ export const {
 export const dark = createTheme({
   colors: {
     cta: newFigmaColors.primary5,
+    ctaHover: newFigmaColors.primary6,
     textOnCta: newFigmaColors.primary10,
-    primary: newFigmaColors.grey3,
-    textOnPrimary: newFigmaColors.grey8,
-    neutral: newFigmaColors.grey7,
-    textOnNeutral: newFigmaColors.grey4,
-    dim: newFigmaColors.grey8,
-    textOnDim: newFigmaColors.grey5,
+
+    primary: newFigmaColors.grey7,
+    primaryHover: newFigmaColors.grey8,
+    textOnPrimary: newFigmaColors.grey1,
+
+    primaryButton: newFigmaColors.grey7,
+    primaryButtonHover: newFigmaColors.grey8,
+    primaryButtonText: newFigmaColors.grey1,
+    primaryButtonBorderFocus: newFigmaColors.primary3,
+
+    secondaryButton: newFigmaColors.grey8,
+    secondaryButtonHover: newFigmaColors.grey9,
+    secondaryButtonText: newFigmaColors.grey5,
+    secondaryButtonTextHover: newFigmaColors.primary4,
+    secondaryButtonBorderHover: newFigmaColors.primary4,
+    secondaryButtonBorderFocus: newFigmaColors.primary3,
+
+    destructiveButton: newFigmaColors.error6,
+    destructiveButtonHover: newFigmaColors.error5,
+    destructiveButtonText: newFigmaColors.error1,
+    destructiveButtonBorderFocus: newFigmaColors.error5,
+
+    successButton: newFigmaColors.success6,
+    successButtonHover: newFigmaColors.success5,
+    successButtonText: newFigmaColors.success1,
+    successButtonBorderFocus: newFigmaColors.success5,
+
+    neutralButton: newFigmaColors.grey7,
+    neutralButtonHover: newFigmaColors.grey8,
+    neutralButtonText: newFigmaColors.grey4,
+    neutralButtonTextHover: newFigmaColors.grey4,
+
     secondary: newFigmaColors.secondary5,
     secondaryMedium: newFigmaColors.secondary7,
     secondaryDark: newFigmaColors.secondary9,
     textOnSecondary: newFigmaColors.grey3,
+
+    neutral: newFigmaColors.grey7,
+    textOnNeutral: newFigmaColors.grey4,
+    dim: newFigmaColors.grey8,
+    dimButtonHover: newFigmaColors.grey9,
+    textOnDim: newFigmaColors.grey5,
     modalBackground: '#0000007d',
     modalBorderColor: newFigmaColors.grey8,
 
@@ -373,11 +449,16 @@ export const dark = createTheme({
     complete: newFigmaColors.success5,
 
     highlight: newFigmaColors.primary10,
+    avatarFallback: newFigmaColors.grey7,
+    avatarFallbackText: newFigmaColors.grey2,
 
     border: newFigmaColors.grey9,
     borderMedium: newFigmaColors.grey6,
     borderDim: newFigmaColors.grey7,
     borderFocus: newFigmaColors.primary5,
+
+    panelInfoText: newFigmaColors.grey4,
+    panelInfoBackground: newFigmaColors.grey7,
 
     tagActiveText: newFigmaColors.warning8,
     tagActiveBackground: newFigmaColors.warning10,
@@ -399,6 +480,9 @@ export const dark = createTheme({
 
     tagNeutralText: newFigmaColors.neutral4,
     tagNeutralBackground: newFigmaColors.neutral8,
+
+    tagDefaultText: newFigmaColors.grey2,
+    tagDefaultBackground: newFigmaColors.grey7,
 
     formInputText: newFigmaColors.grey5,
     formInputBackground: newFigmaColors.grey9,
@@ -437,7 +521,61 @@ export const dark = createTheme({
 
 export const light = createTheme({
   colors: {
-    cta: newFigmaColors.secondary5,
+    background: newFigmaColors.grey1,
+    navBackground: newFigmaColors.grey3,
+    surface: newFigmaColors.grey2,
+    surfaceNested: newFigmaColors.grey1,
+    navLinkText: newFigmaColors.grey7,
+    navLinkHoverBackground: newFigmaColors.primary4,
+
+    link: newFigmaColors.secondary5,
+    borderFocus: newFigmaColors.secondary4,
+
+    avatarFallback: newFigmaColors.grey4,
+    avatarFallbackText: newFigmaColors.grey7,
+
+    cta: newFigmaColors.secondary4,
+    ctaHover: newFigmaColors.secondary5,
+    textOnCta: newFigmaColors.grey1,
+
+    primary: newFigmaColors.grey8,
+    primaryHover: newFigmaColors.grey7,
+    textOnPrimary: newFigmaColors.grey4,
+    primaryButtonBorderFocus: newFigmaColors.grey7,
+
+    secondaryButton: '#ffffff22',
+    secondaryButtonHover: newFigmaColors.grey10,
+    secondaryButtonText: newFigmaColors.grey9,
+    secondaryButtonTextHover: newFigmaColors.grey1,
+    secondaryButtonBorderHover: newFigmaColors.grey10,
+    secondaryButtonBorderFocus: newFigmaColors.grey8,
+
+    panelInfoText: newFigmaColors.secondary9,
+    panelInfoBackground: newFigmaColors.secondary1,
+
+    tagActiveText: newFigmaColors.orange1,
+    tagActiveBackground: newFigmaColors.orange5,
+
+    tagSuccessText: newFigmaColors.success2,
+    tagSuccessBackground: newFigmaColors.success5,
+
+    tagAlertText: newFigmaColors.error2,
+    tagAlertBackground: newFigmaColors.error6,
+
+    tagWarningText: newFigmaColors.warning1,
+    tagWarningBackground: newFigmaColors.warning6,
+
+    tagSecondaryText: newFigmaColors.secondary1,
+    tagSecondaryBackground: newFigmaColors.secondary5,
+
+    tagPrimaryText: newFigmaColors.primary2,
+    tagPrimaryBackground: newFigmaColors.primary6,
+
+    tagNeutralText: newFigmaColors.neutral2,
+    tagNeutralBackground: newFigmaColors.neutral6,
+
+    tagDefaultText: newFigmaColors.grey2,
+    tagDefaultBackground: newFigmaColors.grey5,
 
     mapNodeHighlight: newFigmaColors.warning5,
     mapNodeMoreHighlight: newFigmaColors.warning3,

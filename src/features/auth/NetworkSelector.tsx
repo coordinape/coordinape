@@ -130,7 +130,8 @@ export const NetworkSelector = () => {
         <PopoverTrigger tabIndex={0} asChild={true}>
           <Button
             disabled={!injectedWallet}
-            color="surface"
+            color="primary"
+            size="small"
             css={{
               width: popoverWidth,
             }}
@@ -148,6 +149,7 @@ export const NetworkSelector = () => {
         </PopoverTrigger>
         <PopoverContent
           css={{
+            background: '$dim',
             mt: '$sm',
             width: popoverWidth,
             p: '$sm',

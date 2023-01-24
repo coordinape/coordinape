@@ -88,8 +88,7 @@ export default function WithdrawModal({
         />
         <Button
           css={{ mt: '$lg', gap: '$xs' }}
-          color="primary"
-          outlined
+          color="secondary"
           size="medium"
           type="submit"
           disabled={!isValid || submitting}

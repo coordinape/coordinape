@@ -42,6 +42,7 @@ export { default as ChevronsUp } from './ChevronsUp';
 export { default as Circle2 } from './Circle2';
 export { default as Clock } from './Clock';
 export { default as CloudDrizzle } from './CloudDrizzle';
+export { default as CoOrg } from './CoOrg';
 export { default as Collapse } from './Collapse';
 export { default as Copy } from './Copy';
 export { default as DollarSign } from './DollarSign';

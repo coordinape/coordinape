@@ -20,6 +20,7 @@ export const NavCircles = ({
   return (
     <>
       <NavLabel
+        key={'circlesLabel'}
         label="Circles"
         icon={
           <IconButton
@@ -39,7 +40,12 @@ export const NavCircles = ({
               as={NavLink}
               key={c.id}
               to={paths.history(c.id)}
-              css={{ alignItems: 'center', mb: '$md', textDecoration: 'none' }}
+              css={{
+                alignItems: 'center',
+                mb: '$md',
+                textDecoration: 'none',
+                borderRadius: '$3',
+              }}
             >
               <Avatar
                 name={c.name}
@@ -47,24 +53,30 @@ export const NavCircles = ({
                 margin="none"
                 css={{
                   mr: '$sm',
-                  border: isCurrentCircle ? '2px solid $link' : undefined,
+                  outline: isCurrentCircle ? '2px solid $link' : undefined,
                 }}
                 path={c.logo}
               />
               <Text
-                semibold={isCurrentCircle ? true : undefined}
+                semibold={isCurrentCircle}
                 css={{
                   flexGrow: 1,
-                  color: isCurrentCircle ? '$textOnInfo' : '$primary',
+                  color: isCurrentCircle ? '$textOnInfo' : '$navLinkText',
                 }}
               >
                 {c.name}
               </Text>
               <IconButton>
-                {isCurrentCircle ? <ChevronDown /> : <ChevronRight />}
+                {isCurrentCircle || org.circles.length == 1 ? (
+                  <ChevronDown />
+                ) : (
+                  <ChevronRight />
+                )}
               </IconButton>
             </Flex>
-            {isCurrentCircle && <NavCurrentCircle circle={c} />}
+            {(isCurrentCircle || org.circles.length == 1) && (
+              <NavCurrentCircle key={'currentCircle'} circle={c} />
+            )}
           </>
         );
       })}

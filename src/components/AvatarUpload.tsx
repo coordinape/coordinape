@@ -95,8 +95,7 @@ export const AvatarUpload = ({ original }: { original?: string }) => {
           >
             <Button
               id="upload-avatar-button"
-              color="primary"
-              outlined
+              color="secondary"
               as="span"
               css={{
                 display: 'inline-flex',

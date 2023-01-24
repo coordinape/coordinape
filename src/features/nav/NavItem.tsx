@@ -17,18 +17,15 @@ export const NavItem = ({
 }) => {
   const location = useLocation();
 
-  const isPathActive = (path: string) => {
-    return location.pathname == path;
-  };
   return (
     <Box css={{ ml: '$xs', mb: '$xs' }} onClick={onClick}>
       <Button
-        className={isPathActive(to) ? 'active' : undefined}
+        className={location.pathname == to ? 'currentPage' : undefined}
         as={NavLink}
         color="navigation"
         to={to}
         fullWidth
-        css={{ py: '$sm' }}
+        css={{ py: '$sm', pl: '$sm' }}
       >
         <Flex
           css={{

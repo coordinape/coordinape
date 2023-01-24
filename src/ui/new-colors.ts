@@ -1,4 +1,4 @@
-// Updated at Thu, 08 Dec 2022 03:25:33 GMT
+// Updated at Thu, 19 Jan 2023 20:58:32 GMT
 // by scripts/update-figma-colors.ts
 
 export const newColors = {
@@ -19,7 +19,7 @@ export const newColors = {
   grey4: '#c7c8ca',
   grey5: '#b5b7bb',
   grey6: '#8f999f',
-  grey7: '#5d6167',
+  grey7: '#42454a',
   grey8: '#282b30',
   grey9: '#1d1f20',
   grey10: '#060607',

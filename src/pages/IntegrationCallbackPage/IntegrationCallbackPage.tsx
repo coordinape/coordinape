@@ -1,11 +1,13 @@
+// TODO move this to pages/CircleAdminPage or features/integrations
+
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 
-import * as mutations from 'lib/gql/mutations';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Typography } from '@material-ui/core';
 
 import { LoadingModal } from 'components';
+import { createCircleIntegration } from 'pages/CircleAdminPage/mutations';
 import { useSelectedCircle } from 'recoilState';
 import { paths } from 'routes/paths';
 import { Button } from 'ui';
@@ -78,7 +80,7 @@ export const IntegrationCallbackPage: FC = () => {
     if (integration) {
       const data = integration.create(params);
       try {
-        await mutations.createCircleIntegration(
+        await createCircleIntegration(
           circleId,
           integration.name,
           data.integrationName,
@@ -112,8 +114,7 @@ export const IntegrationCallbackPage: FC = () => {
             </Typography>
             <Button
               css={{ width: '100%', marginTop: '$lg' }}
-              color="primary"
-              outlined
+              color="secondary"
               onClick={() => navigate(paths.circleAdmin(circleId))}
             >
               Back to Circle Overview

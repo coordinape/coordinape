@@ -20,8 +20,7 @@ export const ContributionIntro = () => {
           }
           target="_blank"
           rel="noreferrer"
-          color="primary"
-          outlined
+          color="secondary"
           css={{ mt: '$md', mr: '$md' }}
         >
           Contributions Docs
@@ -31,8 +30,7 @@ export const ContributionIntro = () => {
           href={'https://docs.coordinape.com/info/integrations'}
           target="_blank"
           rel="noreferrer"
-          color="primary"
-          outlined
+          color="secondary"
           css={{ mt: '$md', mr: '$md' }}
         >
           Integrations Docs

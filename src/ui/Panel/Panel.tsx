@@ -76,8 +76,8 @@ export const Panel = styled('div', {
     },
     info: {
       true: {
-        backgroundColor: '$tagPrimaryBackground',
-        color: '$tagPrimaryText',
+        backgroundColor: '$panelInfoBackground',
+        color: '$panelInfoText',
       },
     },
     success: {
@@ -90,6 +90,18 @@ export const Panel = styled('div', {
       true: {
         backgroundColor: '$tagAlertBackground',
         color: '$tagAlertText',
+      },
+    },
+    neutral: {
+      true: {
+        backgroundColor: '$tagNeutralBackground',
+        color: '$tagNeutralText',
+      },
+    },
+    default: {
+      true: {
+        backgroundColor: '$tagDefaultBackground',
+        color: '$tagDefaultText',
       },
     },
     background: {

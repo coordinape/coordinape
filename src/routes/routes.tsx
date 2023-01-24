@@ -1,16 +1,18 @@
-import React, { lazy } from 'react';
+import { lazy, Suspense } from 'react';
 
-import debug from 'debug';
+import { RequireAuth } from 'features/auth';
 import { isUserAdmin, isUserMember } from 'lib/users';
 import {
   Routes,
   Route,
   Navigate,
   useParams,
+  useSearchParams,
   Outlet,
   useLocation,
 } from 'react-router-dom';
 
+import { DebugLogger } from '../common-lib/log';
 import AddMembersPage from '../pages/AddMembersPage/AddMembersPage';
 import GivePage from '../pages/GivePage';
 import JoinCirclePage from '../pages/JoinCirclePage';
@@ -41,14 +43,15 @@ import VaultsPage from 'pages/VaultsPage';
 import { VaultTransactions } from 'pages/VaultsPage/VaultTransactions';
 
 import { paths } from './paths';
-const log = debug('routes');
+
+const logger = new DebugLogger('routes');
 
 // TODO: The graph page might be where code splitting can really help load time
 // but that would require the graph libraries to only be imported there.
 // look into this.
 const LazyAssetMapPage = lazy(() => import('pages/AssetMapPage'));
 
-export const AppRoutes = () => {
+const LoggedInRoutes = () => {
   return (
     <Routes>
       <Route path="circles/:circleId" element={<CircleRouteHandler />}>
@@ -88,6 +91,7 @@ export const AppRoutes = () => {
       <Route path={paths.organization(':orgId')}>
         <Route path="" element={<OrganizationPage />} />
         <Route path="settings" element={<OrganizationSettingsPage />} />
+        <Route path={'vaults'} element={<VaultsPage />} />
       </Route>
 
       <Route
@@ -113,9 +117,39 @@ export const AppRoutes = () => {
   );
 };
 
+export const AppRoutes = () => {
+  return (
+    <Routes>
+      <Route
+        path="login"
+        element={
+          <RequireAuth>
+            <RedirectAfterLogin />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="*"
+        element={
+          <RequireAuth>
+            <Suspense fallback={null}>
+              <LoggedInRoutes />
+            </Suspense>
+          </RequireAuth>
+        }
+      />
+    </Routes>
+  );
+};
+
+const RedirectAfterLogin = () => {
+  const [params] = useSearchParams();
+  return <Redirect to={params.get('next') || '/'} note="RedirectAfterLogin" />;
+};
+
 const Redirect = ({ to, note = '' }: { to: string; note?: string }) => {
   const location = useLocation();
-  log(`redirecting ${location.pathname} -> ${to} | ${note}`);
+  logger.log(`redirecting ${location.pathname} -> ${to} | ${note}`);
   return <Navigate to={to} replace />;
 };
 

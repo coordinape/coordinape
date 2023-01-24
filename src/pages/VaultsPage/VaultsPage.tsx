@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { useIsEmailWallet } from 'features/auth';
 import { isUserAdmin } from 'lib/users';
-import { useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
 
 import { LoadingModal } from 'components';
@@ -25,8 +25,8 @@ const VaultsPage = () => {
   const orgsQuery = useMainHeaderQuery();
   const contracts = useContracts();
 
-  const [params] = useSearchParams();
-  const specificOrg = params.get('org') ? Number(params.get('org')) : undefined;
+  const { orgId: orgFromParams } = useParams();
+  const specificOrg = orgFromParams ? Number(orgFromParams) : undefined;
 
   const [currentOrgId, setCurrentOrgId] = useState<number | undefined>(
     specificOrg
@@ -101,7 +101,7 @@ const VaultsPage = () => {
             <Button
               css={{ borderRadius: '$pill' }}
               key={org.id}
-              color="neutral"
+              color="primary"
               outlined={org.id !== currentOrgId}
               onClick={() => setCurrentOrgId(org.id)}
             >
@@ -127,9 +127,8 @@ const VaultsPage = () => {
         </Text>
         {isAdmin && (
           <Button
-            color="primary"
+            color="secondary"
             css={{ whiteSpace: 'nowrap' }}
-            outlined
             onClick={() => setModal(true)}
           >
             Create Vault
@@ -222,8 +221,7 @@ const NoVaults = ({
           {isAdmin && (
             <Button
               onClick={createVault}
-              color="primary"
-              outlined
+              color="secondary"
               inline
               css={{ mr: '$md' }}
             >
@@ -234,7 +232,7 @@ const NoVaults = ({
             href="https://docs.coordinape.com/get-started/organizations/vaults"
             target="_blank"
           >
-            <Button color="primary" outlined inline css={{ mt: '$md' }}>
+            <Button color="secondary" inline css={{ mt: '$md' }}>
               Vault Guide
             </Button>
           </Link>

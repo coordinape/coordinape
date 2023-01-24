@@ -61,6 +61,7 @@ const DefaultIcon = () => {
           borderRadius: '999px',
           alignItems: 'center',
           overflow: 'hidden',
+          flexShrink: 0,
         }}
       >
         <CoMark
@@ -69,6 +70,7 @@ const DefaultIcon = () => {
             width: '34px',
             height: '34px',
             transform: 'scale(1.35) translate(1.5px, 1px)',
+            flexShrink: 0,
           }}
         />
       </Flex>
@@ -80,6 +82,7 @@ const DefaultIcon = () => {
           backgroundColor: '$surface',
           borderRadius: '$1',
           p: '$xs',
+          flexShrink: 0,
         }}
       >
         <Loader boldstroke css={{ color: '$text' }} />

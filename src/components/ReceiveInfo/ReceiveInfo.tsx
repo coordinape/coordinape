@@ -73,7 +73,7 @@ export const ReceiveInfo = () => {
         <Button
           as="div"
           tabIndex={-1}
-          size="small"
+          size="tag"
           color="surface"
           css={{ ml: '-9px' }}
         >

@@ -83,8 +83,8 @@ const AvatarFallback = styled(AvatarPrimitive.Fallback, {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  color: '$text',
-  backgroundColor: '$surface',
+  color: '$avatarFallbackText',
+  backgroundColor: '$avatarFallback',
   lineHeight: 1,
   fontWeight: '$medium',
   variants: {
