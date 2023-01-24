@@ -4,8 +4,7 @@ import { ThemeContext } from 'features/theming/ThemeProvider';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useRecoilCallback } from 'recoil';
 
-import { makeStyles } from '@material-ui/core';
-
+import { Box } from '../../ui';
 import { rDevMode } from 'recoilState';
 import { useSetAmEgoAddress } from 'recoilState/map';
 
@@ -14,26 +13,7 @@ import { AMForceGraph } from './AMForceGraph';
 
 const MAP_HIGHLIGHT_PARAM = 'highlight';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    position: 'relative',
-    height: '100%',
-  },
-  controls: {
-    padding: theme.spacing(2, 4),
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'flex-start',
-    '& > *': {
-      marginRight: theme.spacing(4),
-    },
-  },
-}));
-
 export const AssetMapPage = () => {
-  const classes = useStyles();
   const location = useLocation();
   const navigate = useNavigate();
   const setAmEgoAddress = useSetAmEgoAddress();
@@ -49,13 +29,18 @@ export const AssetMapPage = () => {
   }, [location]);
 
   return (
-    <div className={classes.root}>
+    <Box
+      css={{
+        position: 'relative',
+        height: '100%',
+      }}
+    >
       <AMDrawer />
       <ThemeContext.Consumer>
         {({ stitchesTheme }) => <AMForceGraph stitchesTheme={stitchesTheme} />}
       </ThemeContext.Consumer>
       <DevModeInjector />
-    </div>
+    </Box>
   );
 };
 
