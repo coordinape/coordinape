@@ -106,13 +106,12 @@ const ProfilePageContent = ({
         css={{
           width: '100%',
           minHeight: '300px',
-          justifyContent: 'center',
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
           background: backgroundUrl ? `url(${backgroundUrl})` : 'white',
 
           backgroundImage:
-            'radial-gradient(circle at center -30px, $secondary, $secondaryDark), repeating-radial-gradient(circle at center -30px, $secondaryDark, $secondaryDark, 83px, transparent 106px, transparent 83px)',
+            'radial-gradient(circle at center -30px, $profileGradientStart, $profileGradientEnd), repeating-radial-gradient(circle at center -30px, $profileGradientEnd, $profileGradientEnd, 83px, transparent 106px, transparent 83px)',
           backgroundBlendMode: 'multiply',
         }}
       >
@@ -120,7 +119,7 @@ const ProfilePageContent = ({
           css={{
             width: '100%',
             p: 0,
-            m: '$lg $lg $lg $2xl',
+            m: '$lg auto',
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
@@ -162,7 +161,7 @@ const ProfilePageContent = ({
           )}
         </SingleColumnLayout>
       </Flex>
-      <SingleColumnLayout css={{ width: '100%' }}>
+      <SingleColumnLayout css={{ width: '100%', m: 'auto' }}>
         <Text
           h2
           css={{

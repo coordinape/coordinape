@@ -119,6 +119,9 @@ export const colors = {
   modalBackground: '#00000090',
   modalBorderColor: 'transparent',
 
+  profileGradientStart: newFigmaColors.grey4,
+  profileGradientEnd: newFigmaColors.grey2,
+
   alert: figmaColors.red12,
   alertLight: figmaColors.red1,
   alertDisabled: figmaColors.red4,
@@ -221,7 +224,7 @@ export const colors = {
   toastifyTextColorError: newFigmaColors.error6,
   toastifyBorderColorError: newFigmaColors.error3,
   toastifyIconBackgroundError: newFigmaColors.error2,
-  navLinkText: figmaColors.grey20,
+  navLinkText: newFigmaColors.grey2,
 };
 
 export const {
@@ -433,6 +436,9 @@ export const dark = createTheme({
     modalBackground: '#0000007d',
     modalBorderColor: newFigmaColors.grey8,
 
+    profileGradientStart: newFigmaColors.grey10,
+    profileGradientEnd: newFigmaColors.grey8,
+
     background: newFigmaColors.grey10,
     navBackground: newFigmaColors.grey9,
     surface: newFigmaColors.grey9,
@@ -526,13 +532,16 @@ export const light = createTheme({
     surface: newFigmaColors.grey2,
     surfaceNested: newFigmaColors.grey1,
     navLinkText: newFigmaColors.grey7,
-    navLinkHoverBackground: newFigmaColors.primary4,
+    navLinkHoverBackground: newFigmaColors.grey1,
+
+    profileGradientStart: newFigmaColors.grey4,
+    profileGradientEnd: newFigmaColors.grey2,
 
     link: newFigmaColors.secondary5,
     borderFocus: newFigmaColors.secondary4,
 
-    avatarFallback: newFigmaColors.grey4,
-    avatarFallbackText: newFigmaColors.grey7,
+    avatarFallback: newFigmaColors.grey6,
+    avatarFallbackText: newFigmaColors.grey2,
 
     cta: newFigmaColors.secondary4,
     ctaHover: newFigmaColors.secondary5,
@@ -541,6 +550,7 @@ export const light = createTheme({
     primary: newFigmaColors.grey8,
     primaryHover: newFigmaColors.grey7,
     textOnPrimary: newFigmaColors.grey4,
+    primaryButtonHover: newFigmaColors.grey7,
     primaryButtonBorderFocus: newFigmaColors.grey7,
 
     secondaryButton: '#ffffff22',
@@ -553,26 +563,26 @@ export const light = createTheme({
     panelInfoText: newFigmaColors.secondary9,
     panelInfoBackground: newFigmaColors.secondary1,
 
-    tagActiveText: newFigmaColors.orange1,
-    tagActiveBackground: newFigmaColors.orange5,
+    tagActiveText: newFigmaColors.orange7,
+    tagActiveBackground: newFigmaColors.orange2,
 
-    tagSuccessText: newFigmaColors.success2,
-    tagSuccessBackground: newFigmaColors.success5,
+    tagSuccessText: newFigmaColors.success6,
+    tagSuccessBackground: newFigmaColors.success2,
 
-    tagAlertText: newFigmaColors.error2,
-    tagAlertBackground: newFigmaColors.error6,
+    tagAlertText: newFigmaColors.error5,
+    tagAlertBackground: newFigmaColors.error2,
 
-    tagWarningText: newFigmaColors.warning1,
-    tagWarningBackground: newFigmaColors.warning6,
+    tagWarningText: newFigmaColors.warning6,
+    tagWarningBackground: newFigmaColors.warning2,
 
-    tagSecondaryText: newFigmaColors.secondary1,
-    tagSecondaryBackground: newFigmaColors.secondary5,
+    tagSecondaryText: newFigmaColors.secondary5,
+    tagSecondaryBackground: newFigmaColors.secondary1,
 
-    tagPrimaryText: newFigmaColors.primary2,
-    tagPrimaryBackground: newFigmaColors.primary6,
+    tagPrimaryText: newFigmaColors.primary7,
+    tagPrimaryBackground: newFigmaColors.primary2,
 
-    tagNeutralText: newFigmaColors.neutral2,
-    tagNeutralBackground: newFigmaColors.neutral6,
+    tagNeutralText: newFigmaColors.neutral6,
+    tagNeutralBackground: newFigmaColors.neutral2,
 
     tagDefaultText: newFigmaColors.grey2,
     tagDefaultBackground: newFigmaColors.grey5,
