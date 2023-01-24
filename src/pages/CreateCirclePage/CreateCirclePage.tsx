@@ -11,16 +11,16 @@ export const NEW_CIRCLE_CREATED_PARAMS = '?new-circle';
 export const SummonCirclePage = () => {
   const address = useConnectedAddress();
 
-  const { data } = useQuery(
+  const { data, isLoading, isRefetching, isError } = useQuery(
     [QUERY_KEY_CREATE_CIRCLE, address],
     () => getCreateCircleData(address as string),
     {
       enabled: !!address,
-      staleTime: Infinity,
     }
   );
 
-  if (!data) return <LoadingModal visible />;
+  if (!data || isLoading || isRefetching || isError)
+    return <LoadingModal visible />;
 
   return <CreateCircleForm myAddress={address} source={data} />;
 };

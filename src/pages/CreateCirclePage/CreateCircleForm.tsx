@@ -33,6 +33,25 @@ import { CreateCircleQueryData } from './queries';
 
 export const NEW_CIRCLE_CREATED_PARAMS = '?new-circle';
 
+const schema = z
+  .object({
+    user_name: z.string().refine(val => val.trim().length >= 3, {
+      message: 'Name must be at least 3 characters long.',
+    }),
+    circle_name: z.string().refine(val => val.trim().length >= 3, {
+      message: 'Circle name must be at least 3 characters long.',
+    }),
+    organization_name: z.string().refine(val => val.trim().length >= 3, {
+      message: 'Org name must be at least 3 characters long.',
+    }),
+    organization_id: z.number().optional(),
+    contact: z.string().email(),
+    logoData: z.instanceof(File).optional(),
+  })
+  .strict();
+
+type CreateCircleFormSchema = z.infer<typeof schema>;
+
 export const CreateCircleForm = ({
   myAddress,
   source,
@@ -67,25 +86,6 @@ export const CreateCircleForm = ({
   );
   const org = organizations.find(p => p.id === Number(params.get('org')));
   const hasSampleOrg = organizations.find(o => o.sample);
-
-  const schema = z
-    .object({
-      user_name: z.string().refine(val => val.trim().length >= 3, {
-        message: 'Name must be at least 3 characters long.',
-      }),
-      circle_name: z.string().refine(val => val.trim().length >= 3, {
-        message: 'Circle name must be at least 3 characters long.',
-      }),
-      organization_name: z.string().refine(val => val.trim().length >= 3, {
-        message: 'Org name must be at least 3 characters long.',
-      }),
-      organization_id: z.number().optional(),
-      contact: z.string().email(),
-      logoData: z.instanceof(File).optional(),
-    })
-    .strict();
-
-  type CreateCircleFormSchema = z.infer<typeof schema>;
 
   const circleCreated = (circleId: number) => {
     queryClient.invalidateQueries(QUERY_KEY_MY_ORGS);
