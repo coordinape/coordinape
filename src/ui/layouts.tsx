@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 
+import { ThemeContext } from 'features/theming/ThemeProvider';
 import { CSS } from 'stitches.config';
 
 import { Box } from 'ui';
@@ -14,19 +15,23 @@ export const SingleColumnLayout = ({
   css = {},
 }: SingleColumnLayoutProps) => {
   return (
-    <Box
-      css={{
-        maxWidth: '$mediumScreen',
-        px: '$lg',
-        margin: '$2xl auto',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '$md',
-        ...css,
-      }}
-    >
-      {children}
-    </Box>
+    <ThemeContext.Consumer>
+      {({ theme }) => (
+        <Box
+          css={{
+            maxWidth: '$mediumScreen',
+            px: '$lg',
+            margin: theme == 'legacy' ? '$2xl auto' : '$2xl',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '$md',
+            ...css,
+          }}
+        >
+          {children}
+        </Box>
+      )}
+    </ThemeContext.Consumer>
   );
 };
 

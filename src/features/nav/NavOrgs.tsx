@@ -62,7 +62,7 @@ export const NavOrgs = ({
                 margin="none"
                 css={{
                   mr: '$sm',
-                  border:
+                  outline:
                     isCurrentOrg && !currentCircle
                       ? '2px solid $link'
                       : undefined,

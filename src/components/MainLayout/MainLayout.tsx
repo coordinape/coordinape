@@ -46,7 +46,7 @@ export const MainLayout = () => {
             css={{
               height: '100vh',
               overflowY: 'auto',
-              '@sm': { zIndex: 1 }, // for hamburger menu
+              '@sm': { zIndex: 1, pt: '$3xl' }, // for hamburger menu
             }}
           >
             <AppRoutes />

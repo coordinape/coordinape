@@ -3,9 +3,9 @@ import { Suspense, useEffect, useState } from 'react';
 import { QueryClient } from 'react-query';
 import { useLocation } from 'react-router-dom';
 
-import { CoOrg } from '../../icons/__generated';
 import { getCircleFromPath, getOrgFromPath, paths } from '../../routes/paths';
-import { Flex } from '../../ui';
+import { CoOrg, Menu, X } from 'icons/__generated';
+import { Flex, IconButton } from 'ui';
 
 import { NavCircle, NavOrg, QUERY_KEY_NAV, useNavQuery } from './getNavData';
 import { NavCircles } from './NavCircles';
@@ -22,9 +22,9 @@ export const InvalidateSideNav = async (queryClient: QueryClient) => {
 export const SideNav = () => {
   /*
     TODO: review semantic color names
-    TODO: scrolly gradient
     TODO: what's your name prompt
    */
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currentCircle, setCurrentCircle] = useState<NavCircle | undefined>(
     undefined
   );
@@ -66,26 +66,56 @@ export const SideNav = () => {
     }
   }, [data, location]);
 
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location]);
+
   return (
     <Flex
       css={{
         flexGrow: 0,
         flexShrink: 0,
-        width: '250px',
         background: '$navBackground',
         height: '100vh',
         position: 'static',
-        paddingLeft: '$lg',
-        paddingRight: '$lg',
-        paddingBottom: '$lg',
+        p: '$xl $lg $lg',
         flexDirection: 'column',
+        width: '350px',
+        transition: '.2s ease-in-out',
+        '@lg': { width: '300px' },
+        '@md': { width: '250px' },
+        '@sm': {
+          position: 'absolute',
+          left: mobileMenuOpen ? '0' : '-100vw',
+          width: '100vw',
+          zIndex: 2,
+          background: '$navBackground',
+          pt: '$3xl',
+        },
       }}
     >
-      <NavLogo
+      <Flex
         css={{
-          marginTop: '$xl',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '$md',
+          button: { display: 'none' },
+          '@sm': {
+            background: mobileMenuOpen ? '$surfaceNested' : '$navBackground',
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            p: '$md $lg',
+            button: { display: 'flex' },
+          },
         }}
-      />
+      >
+        <NavLogo />
+        <IconButton onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+          {mobileMenuOpen ? <X size="lg" /> : <Menu size="lg" />}
+        </IconButton>
+      </Flex>
 
       <Flex
         column
@@ -111,23 +141,27 @@ export const SideNav = () => {
             )}
           </>
         )}
-        {/*TODO: little gradient to show there is scrollable content*/}
-        {/*<Box*/}
-        {/*  css={{*/}
-        {/*    position: 'absolute',*/}
-        {/*    bottom: 0,*/}
-        {/*    left: 0,*/}
-        {/*    right: 0,*/}
-        {/*    height: 100,*/}
-        {/*    background: 'red',*/}
-        {/*    zIndex: 3,*/}
-        {/*  }}*/}
-        {/*></Box>*/}
       </Flex>
 
       {showClaimsButton && <NavClaimsButton />}
       <Suspense fallback={null}>
-        <Flex css={{ mt: '$sm', width: '100%' }}>
+        <Flex
+          css={{
+            mt: '$sm',
+            width: '100%',
+            position: 'relative',
+            // gradient overlaying overflowing links
+            '&::after': {
+              content: '',
+              position: 'absolute',
+              background: 'linear-gradient(transparent, $navBackground)',
+              width: '100%',
+              height: '100px',
+              top: '-103px',
+              pointerEvents: 'none',
+            },
+          }}
+        >
           <NavProfile />
         </Flex>
       </Suspense>
