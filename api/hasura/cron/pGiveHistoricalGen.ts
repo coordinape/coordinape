@@ -42,7 +42,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   /* This part of the code will not run until the backfill is completed */
   /* Once all circles are processed it will switch to a cron that processes for the previous month's pgive only*/
-  const previousMonth = DateTime.local();
+  const previousMonth = DateTime.local().minus({ months: 1 });
   startFrom = previousMonth.startOf('month');
   endTo = previousMonth.endOf('month');
 

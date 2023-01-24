@@ -43,7 +43,8 @@ export const genPgives = async (
   );
 
   circles.forEach(circle => {
-    if (circle.epochs.length) {
+    const epochs = circle.epochs.filter(e => !e.pgive_data);
+    if (epochs.length) {
       let activeMonths =
         epoch_pgive_data.length &&
         epoch_pgive_data.filter(e => e.epoch.circle_id === circle.id).length
@@ -58,7 +59,7 @@ export const genPgives = async (
 
       /* Sort the epochs by end date first so we could backfill the active months in chronological order */
 
-      circle.epochs
+      epochs
         .sort((a, b) => {
           const endDateA = DateTime.fromISO(a.end_date);
           const endDateB = DateTime.fromISO(b.end_date);
@@ -392,6 +393,9 @@ const getCircleGifts = async (
           {
             id: true,
             end_date: true,
+            pgive_data: {
+              id: true,
+            },
             token_gifts: [
               {},
               {
