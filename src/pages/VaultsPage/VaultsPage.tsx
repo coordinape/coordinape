@@ -101,8 +101,7 @@ const VaultsPage = () => {
             <Button
               css={{ borderRadius: '$pill' }}
               key={org.id}
-              color="primary"
-              outlined={org.id !== currentOrgId}
+              color={org.id === currentOrgId ? 'primary' : 'secondary'}
               onClick={() => setCurrentOrgId(org.id)}
             >
               {org.name}

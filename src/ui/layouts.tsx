@@ -20,8 +20,9 @@ export const SingleColumnLayout = ({
         <Box
           css={{
             maxWidth: '$mediumScreen',
-            px: '$lg',
-            margin: theme == 'legacy' ? '$2xl auto' : '$2xl',
+            p: '$lg $xl',
+            '@sm': { p: '$xl $lg' },
+            margin: theme == 'legacy' ? '$2xl auto' : '0',
             display: 'flex',
             flexDirection: 'column',
             gap: '$md',

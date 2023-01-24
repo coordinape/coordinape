@@ -14,7 +14,7 @@ export const ThemeSwitcher = () => {
         <Flex
           css={{
             gap: '$sm',
-            justifyContent: 'center',
+            justifyContent: 'start',
             mt: '$sm',
             alignItems: 'center',
           }}
@@ -24,6 +24,7 @@ export const ThemeSwitcher = () => {
             color="transparent"
             css={{
               border: 'none',
+              pr: '$xs',
               '&:hover': {
                 color: '$primary',
               },
@@ -37,7 +38,7 @@ export const ThemeSwitcher = () => {
               setTheme('auto');
             }}
           >
-            AUTO
+            Auto
           </Button>
           <IconButton
             css={{

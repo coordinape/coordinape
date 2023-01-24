@@ -20,6 +20,7 @@ import {
   Modal,
   Text,
   TextArea,
+  Panel,
 } from 'ui';
 import { normalizeError } from 'utils/reporting';
 
@@ -179,171 +180,172 @@ export const EditProfileModal = ({
         css={{
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
           width: '100%',
         }}
       >
-        <Text h2>Edit Profile</Text>
-        <Flex css={{ columnGap: '$lg', '@sm': { flexDirection: 'column' } }}>
-          <Flex column css={{ alignItems: 'center' }}>
-            <Text p css={sectionHeader}>
-              Profile Image
-            </Text>
-            <AvatarUpload original={myProfile.avatar} />
+        <Panel css={{ p: 0, alignItems: 'center' }}>
+          <Text h2>Edit Profile</Text>
+          <Flex css={{ columnGap: '$lg', '@sm': { flexDirection: 'column' } }}>
+            <Flex column css={{ alignItems: 'center' }}>
+              <Text p css={sectionHeader}>
+                Profile Image
+              </Text>
+              <AvatarUpload original={myProfile.avatar} />
+            </Flex>
+            <Flex column css={{ alignItems: 'center' }}>
+              <Text p css={sectionHeader}>
+                Profile Name
+              </Text>
+              <FormInputField
+                css={{ width: '250px' }}
+                id="name"
+                name="name"
+                control={control}
+                defaultValue={myProfile?.name ?? ''}
+                showFieldErrors
+              />
+            </Flex>
           </Flex>
-          <Flex column css={{ alignItems: 'center' }}>
-            <Text p css={sectionHeader}>
-              Profile Name
-            </Text>
-            <FormInputField
-              css={{ width: '250px' }}
-              id="name"
-              name="name"
-              control={control}
-              defaultValue={myProfile?.name ?? ''}
-              showFieldErrors
-            />
-          </Flex>
-        </Flex>
-        <Text p css={sectionHeader}>
-          Select Your Skills
-        </Text>
-        <Flex
-          css={{
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-          }}
-        >
-          <SkillToggles
-            value={skillsField.value}
-            onChange={skillsField.onChange}
-          />
-        </Flex>
-        <Text p css={sectionHeader}>
-          Biography
-        </Text>
-        {showMarkdown ? (
-          <Box
-            tabIndex={0}
-            css={{ borderRadius: '$3', width: '100%' }}
-            onClick={() => {
-              setShowMarkDown(false);
-            }}
-            onKeyDown={e => {
-              e.stopPropagation();
-              if (e.key === 'Enter' || e.key === ' ') {
-                setShowMarkDown(false);
-              }
+          <Text p css={sectionHeader}>
+            Select Your Skills
+          </Text>
+          <Flex
+            css={{
+              flexWrap: 'wrap',
+              justifyContent: 'center',
             }}
           >
-            <MarkdownPreview display source={bioField.value} />
-          </Box>
-        ) : (
-          <Box css={{ position: 'relative', width: '100%' }}>
-            <TextArea
-              autoSize
-              ref={bioFieldRef}
-              name={bioField.name}
-              value={bioField.value}
-              onChange={bioField.onChange}
-              css={{
-                pb: '$xl',
-                width: '100%',
-                resize: 'vertical',
-              }}
-              placeholder="Tell us what you're working on"
-              rows={6}
-              onBlur={() => {
-                bioField.onBlur();
-                if (bioField.value && bioField.value?.length > 0)
-                  setShowMarkDown(true);
-              }}
-              onFocus={e => {
-                e.currentTarget.setSelectionRange(
-                  e.currentTarget.value.length,
-                  e.currentTarget.value.length
-                );
-              }}
+            <SkillToggles
+              value={skillsField.value}
+              onChange={skillsField.onChange}
             />
-            <Text
-              inline
-              size="small"
-              color="secondary"
-              css={{
-                position: 'absolute',
-                right: '$sm',
-                bottom: '$sm',
+          </Flex>
+          <Text p css={sectionHeader}>
+            Biography
+          </Text>
+          {showMarkdown ? (
+            <Box
+              tabIndex={0}
+              css={{ borderRadius: '$3', width: '100%' }}
+              onClick={() => {
+                setShowMarkDown(false);
+              }}
+              onKeyDown={e => {
+                e.stopPropagation();
+                if (e.key === 'Enter' || e.key === ' ') {
+                  setShowMarkDown(false);
+                }
               }}
             >
-              Markdown Supported
-            </Text>
-          </Box>
-        )}
-        <Text p css={sectionHeader}>
-          Links
-        </Text>
-        <Flex
-          css={{
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            '& > *': {
-              margin: '$md',
-            },
-          }}
-        >
-          <FormInputField
-            id="twitter_username"
-            name="twitter_username"
-            control={control}
-            defaultValue={myProfile?.twitter_username ?? ''}
-            label="Twitter"
-            placeholder="Enter username"
-          />
-          <FormInputField
-            id="github_username"
-            name="github_username"
-            control={control}
-            defaultValue={myProfile?.github_username ?? ''}
-            placeholder="Enter username"
-            label="Github"
-          />
-          <FormInputField
-            id="telegram_username"
-            name="telegram_username"
-            control={control}
-            defaultValue={myProfile?.telegram_username ?? ''}
-            placeholder="Enter username"
-            label="Telegram"
-          />
-          <FormInputField
-            id="discord_username"
-            name="discord_username"
-            control={control}
-            defaultValue={myProfile?.discord_username ?? ''}
-            placeholder="Username#xxxx"
-            label="Discord"
-          />
-          <FormInputField
-            id="medium_username"
-            name="medium_username"
-            control={control}
-            defaultValue={myProfile?.medium_username ?? ''}
-            placeholder="Enter username"
-            label="Medium"
-          />
-          <FormInputField
-            id="website"
-            name="website"
-            control={control}
-            defaultValue={myProfile?.website ?? ''}
-            placeholder="https://website.com"
-            label="Website"
-          />
-        </Flex>
-        <Button disabled={!isDirty} color="primary" type="submit">
-          Save
-        </Button>
-        {isSaving && <LoadingModal visible />}
+              <MarkdownPreview display source={bioField.value} />
+            </Box>
+          ) : (
+            <Box css={{ position: 'relative', width: '100%' }}>
+              <TextArea
+                autoSize
+                ref={bioFieldRef}
+                name={bioField.name}
+                value={bioField.value}
+                onChange={bioField.onChange}
+                css={{
+                  pb: '$xl',
+                  width: '100%',
+                  resize: 'vertical',
+                }}
+                placeholder="Tell us what you're working on"
+                rows={6}
+                onBlur={() => {
+                  bioField.onBlur();
+                  if (bioField.value && bioField.value?.length > 0)
+                    setShowMarkDown(true);
+                }}
+                onFocus={e => {
+                  e.currentTarget.setSelectionRange(
+                    e.currentTarget.value.length,
+                    e.currentTarget.value.length
+                  );
+                }}
+              />
+              <Text
+                inline
+                size="small"
+                color="secondary"
+                css={{
+                  position: 'absolute',
+                  right: '$sm',
+                  bottom: '$sm',
+                }}
+              >
+                Markdown Supported
+              </Text>
+            </Box>
+          )}
+          <Text p css={sectionHeader}>
+            Links
+          </Text>
+          <Flex
+            css={{
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+              '& > *': {
+                margin: '$md',
+              },
+            }}
+          >
+            <FormInputField
+              id="twitter_username"
+              name="twitter_username"
+              control={control}
+              defaultValue={myProfile?.twitter_username ?? ''}
+              label="Twitter"
+              placeholder="Enter username"
+            />
+            <FormInputField
+              id="github_username"
+              name="github_username"
+              control={control}
+              defaultValue={myProfile?.github_username ?? ''}
+              placeholder="Enter username"
+              label="Github"
+            />
+            <FormInputField
+              id="telegram_username"
+              name="telegram_username"
+              control={control}
+              defaultValue={myProfile?.telegram_username ?? ''}
+              placeholder="Enter username"
+              label="Telegram"
+            />
+            <FormInputField
+              id="discord_username"
+              name="discord_username"
+              control={control}
+              defaultValue={myProfile?.discord_username ?? ''}
+              placeholder="Username#xxxx"
+              label="Discord"
+            />
+            <FormInputField
+              id="medium_username"
+              name="medium_username"
+              control={control}
+              defaultValue={myProfile?.medium_username ?? ''}
+              placeholder="Enter username"
+              label="Medium"
+            />
+            <FormInputField
+              id="website"
+              name="website"
+              control={control}
+              defaultValue={myProfile?.website ?? ''}
+              placeholder="https://website.com"
+              label="Website"
+            />
+          </Flex>
+          <Button disabled={!isDirty} color="primary" type="submit">
+            Save
+          </Button>
+          {isSaving && <LoadingModal visible />}
+        </Panel>
       </Form>
     </Modal>
   );

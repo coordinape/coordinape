@@ -94,6 +94,21 @@ export const SideNav = () => {
           justifyContent: 'space-between',
           gap: '$md',
           button: { display: 'none' },
+          position: 'relative',
+          zIndex: '2',
+          // gradient overlaying overflowing links
+          '&::after': {
+            content: '',
+            position: 'absolute',
+            background: 'linear-gradient($navBackground, transparent)',
+            width: 'calc(100% + 6px)',
+            height: '$2xl',
+            bottom: '-$2xl',
+            left: '-3px',
+            pointerEvents: 'none',
+            zIndex: '2',
+            display: mobileMenuOpen ? 'block' : 'none',
+          },
           '@sm': {
             background: mobileMenuOpen ? '$surfaceNested' : '$navBackground',
             position: 'fixed',
@@ -120,6 +135,12 @@ export const SideNav = () => {
           // So focus outlines don't get cropped
           mx: '-3px',
           px: '3px',
+          // use enough pb for the scrolly gradient overlay
+          pb: '$4xl',
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
+          scrollbarWidth: 'none',
         }}
       >
         <NavItem label="Home" to={paths.circles} icon={<CoOrg nostroke />} />
@@ -149,10 +170,12 @@ export const SideNav = () => {
               content: '',
               position: 'absolute',
               background: 'linear-gradient(transparent, $navBackground)',
-              width: '100%',
+              width: 'calc(100% + 6px)',
               height: '100px',
               top: '-103px',
+              left: '-3px',
               pointerEvents: 'none',
+              zIndex: '2',
             },
           }}
         >
