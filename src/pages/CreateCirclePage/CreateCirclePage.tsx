@@ -126,7 +126,7 @@ export const SummonCirclePage = () => {
     resolver: zodResolver(schema),
     mode: 'all',
     defaultValues: {
-      user_name: '',
+      user_name: source.user_name,
       circle_name: '',
       organization_name: source.organization_name,
       contact: '',
@@ -305,13 +305,6 @@ export const SummonCirclePage = () => {
                   '@sm': { gridTemplateColumns: '1fr' },
                 }}
               >
-                <FormInputField
-                  id="user_name"
-                  name="user_name"
-                  control={control}
-                  label="Username"
-                  showFieldErrors
-                />
                 <FormInputField
                   id="contact"
                   name="contact"
