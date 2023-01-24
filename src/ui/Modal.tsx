@@ -38,6 +38,8 @@ const Content = styled(Dialog.Content, {
   borderRadius: '$3',
   width: '90vw',
   maxWidth: '650px',
+  maxHeight: '90vh',
+  overflow: 'auto',
   padding: '$2xl',
   margin: 'calc($xl * 2) auto $xl',
   position: 'relative',
