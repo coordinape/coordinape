@@ -64,7 +64,6 @@ const Content = styled(Dialog.Content, {
 
 const Title = styled(Dialog.Title, {
   fontSize: '$h2',
-  fontWeight: '$bold',
   display: 'block',
   marginTop: 'calc($sm * -1)',
   color: '$text',

@@ -156,7 +156,9 @@ export const SideNav = () => {
             },
           }}
         >
-          <NavProfile />
+          {data && (
+            <NavProfile name={data.profile.name} avatar={data.profile.avatar} />
+          )}
         </Flex>
       </Suspense>
     </Flex>

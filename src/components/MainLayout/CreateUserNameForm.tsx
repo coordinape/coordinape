@@ -99,6 +99,7 @@ export const CreateUserNameForm = ({ address }: { address?: string }) => {
           <TextField
             placeholder="Name"
             fullWidth
+            inPanel
             autoComplete="off"
             error={errors.name !== undefined}
             {...register(`name`)}
@@ -121,12 +122,7 @@ export const CreateUserNameForm = ({ address }: { address?: string }) => {
         </Box>
       </Flex>
       <Box>
-        <Button
-          type="submit"
-          color="primary"
-          size="large"
-          disabled={loading || !isValid}
-        >
+        <Button type="submit" color="cta" disabled={loading || !isValid}>
           Submit
         </Button>
       </Box>

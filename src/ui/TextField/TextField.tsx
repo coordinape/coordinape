@@ -28,7 +28,7 @@ export const TextField = styled('input', {
   variants: {
     inPanel: {
       true: {
-        backgroundColor: '$white',
+        backgroundColor: '$surfaceNested',
       },
     },
     size: {
