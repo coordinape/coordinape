@@ -449,10 +449,6 @@ input EndEpochInput {
   circle_id: Int!
 }
 
-input BackfillPgiveInput {
-  circle_limit: Int
-}
-
 type CreateCircleResponse {
   id: Int!
 }
@@ -588,10 +584,6 @@ type GuildInfoOutput {
   member_count: Int!
   admins: [GuildAdmin]
   roles: [GuildRole]
-}
-
-type BackfillPgiveResponse {
-  success: Boolean!
 }
 
 scalar timestamptz

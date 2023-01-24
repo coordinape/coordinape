@@ -350,12 +350,6 @@ export const allocationCsvInput = z
     'Either epoch or a epoch_id must be provided.'
   );
 
-export const backfillPgiveInput = z
-  .object({
-    circle_limit: z.number().int().default(10),
-  })
-  .strict();
-
 const IntIdString = z
   .string()
   .refine(

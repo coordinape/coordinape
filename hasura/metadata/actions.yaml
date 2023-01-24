@@ -402,7 +402,6 @@ custom_types:
     - name: CreateEpochInput
     - name: GuildInfoInput
     - name: EndEpochInput
-    - name: BackfillPgiveInput
   objects:
     - name: CreateCircleResponse
       relationships:
@@ -609,11 +608,14 @@ custom_types:
           source: default
           type: object
     - name: LinkDiscordCircleResponse
+<<<<<<< HEAD
     - name: DeleteUserBulkResponse
     - name: DeleteUsersResponse
     - name: GuildAdmin
     - name: GuildRole
     - name: GuildInfoOutput
     - name: BackfillPgiveResponse
+=======
+>>>>>>> 76e72bf2 (clean up metadata)
   scalars:
     - name: timestamptz
