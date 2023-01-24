@@ -120,7 +120,6 @@ export function VaultRow({
           width: '100%',
           padding: '$md',
           marginTop: '$md',
-          backgroundColor: '$white',
           display: 'grid',
           gridTemplateColumns: '1fr 1fr 2fr',
           gridGap: '$md',
