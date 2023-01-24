@@ -4096,6 +4096,73 @@ export type ValueTypes = {
     id?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** columns and relationships of "epoch_pgive_data" */
+  ['epoch_pgive_data']: AliasType<{
+    active_months?: boolean | `@${string}`;
+    active_months_bonus?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    /** An object relationship */
+    epoch?: ValueTypes['epochs'];
+    epoch_id?: boolean | `@${string}`;
+    gives_receiver_base?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    notes_bonus?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "epoch_pgive_data". All fields are combined with a logical 'AND'. */
+  ['epoch_pgive_data_bool_exp']: {
+    _and?: Array<ValueTypes['epoch_pgive_data_bool_exp']> | undefined | null;
+    _not?: ValueTypes['epoch_pgive_data_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['epoch_pgive_data_bool_exp']> | undefined | null;
+    active_months?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    active_months_bonus?:
+      | ValueTypes['numeric_comparison_exp']
+      | undefined
+      | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    epoch?: ValueTypes['epochs_bool_exp'] | undefined | null;
+    epoch_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    gives_receiver_base?:
+      | ValueTypes['numeric_comparison_exp']
+      | undefined
+      | null;
+    id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    notes_bonus?: ValueTypes['numeric_comparison_exp'] | undefined | null;
+    pgive?: ValueTypes['numeric_comparison_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "epoch_pgive_data". */
+  ['epoch_pgive_data_order_by']: {
+    active_months?: ValueTypes['order_by'] | undefined | null;
+    active_months_bonus?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    epoch?: ValueTypes['epochs_order_by'] | undefined | null;
+    epoch_id?: ValueTypes['order_by'] | undefined | null;
+    gives_receiver_base?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    notes_bonus?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "epoch_pgive_data" */
+  ['epoch_pgive_data_select_column']: epoch_pgive_data_select_column;
+  /** Streaming cursor of the table "epoch_pgive_data" */
+  ['epoch_pgive_data_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['epoch_pgive_data_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['epoch_pgive_data_stream_cursor_value_input']: {
+    active_months?: number | undefined | null;
+    active_months_bonus?: ValueTypes['numeric'] | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    epoch_id?: number | undefined | null;
+    gives_receiver_base?: ValueTypes['numeric'] | undefined | null;
+    id?: number | undefined | null;
+    notes_bonus?: ValueTypes['numeric'] | undefined | null;
+    pgive?: ValueTypes['numeric'] | undefined | null;
+  };
   /** columns and relationships of "epoches" */
   ['epochs']: AliasType<{
     burns?: [
@@ -4200,10 +4267,35 @@ export type ValueTypes = {
     ];
     grant?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    member_epoch_pgives?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['member_epoch_pgives_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['member_epoch_pgives_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['member_epoch_pgives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['member_epoch_pgives']
+    ];
     notified_before_end?: boolean | `@${string}`;
     notified_end?: boolean | `@${string}`;
     notified_start?: boolean | `@${string}`;
     number?: boolean | `@${string}`;
+    /** An object relationship */
+    pgive_data?: ValueTypes['epoch_pgive_data'];
     repeat?: boolean | `@${string}`;
     repeat_data?: [
       {
@@ -4310,6 +4402,10 @@ export type ValueTypes = {
       | null;
     grant?: ValueTypes['numeric_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    member_epoch_pgives?:
+      | ValueTypes['member_epoch_pgives_bool_exp']
+      | undefined
+      | null;
     notified_before_end?:
       | ValueTypes['timestamp_comparison_exp']
       | undefined
@@ -4317,6 +4413,7 @@ export type ValueTypes = {
     notified_end?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     notified_start?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     number?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    pgive_data?: ValueTypes['epoch_pgive_data_bool_exp'] | undefined | null;
     repeat?: ValueTypes['Int_comparison_exp'] | undefined | null;
     repeat_data?: ValueTypes['jsonb_comparison_exp'] | undefined | null;
     repeat_day_of_month?: ValueTypes['Int_comparison_exp'] | undefined | null;
@@ -4392,10 +4489,15 @@ export type ValueTypes = {
       | null;
     grant?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    member_epoch_pgives_aggregate?:
+      | ValueTypes['member_epoch_pgives_aggregate_order_by']
+      | undefined
+      | null;
     notified_before_end?: ValueTypes['order_by'] | undefined | null;
     notified_end?: ValueTypes['order_by'] | undefined | null;
     notified_start?: ValueTypes['order_by'] | undefined | null;
     number?: ValueTypes['order_by'] | undefined | null;
+    pgive_data?: ValueTypes['epoch_pgive_data_order_by'] | undefined | null;
     repeat?: ValueTypes['order_by'] | undefined | null;
     repeat_data?: ValueTypes['order_by'] | undefined | null;
     repeat_day_of_month?: ValueTypes['order_by'] | undefined | null;
@@ -5005,6 +5107,205 @@ export type ValueTypes = {
       | null;
     /** filter the rows which have to be updated */
     where: ValueTypes['locked_token_distributions_bool_exp'];
+  };
+  /** member allocated pgives per epoch */
+  ['member_epoch_pgives']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    /** An object relationship */
+    epoch?: ValueTypes['epochs'];
+    epoch_id?: boolean | `@${string}`;
+    gives_received?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    normalized_pgive?: boolean | `@${string}`;
+    opt_out_bonus?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
+    /** An object relationship */
+    user?: ValueTypes['users'];
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by aggregate values of table "member_epoch_pgives" */
+  ['member_epoch_pgives_aggregate_order_by']: {
+    avg?: ValueTypes['member_epoch_pgives_avg_order_by'] | undefined | null;
+    count?: ValueTypes['order_by'] | undefined | null;
+    max?: ValueTypes['member_epoch_pgives_max_order_by'] | undefined | null;
+    min?: ValueTypes['member_epoch_pgives_min_order_by'] | undefined | null;
+    stddev?:
+      | ValueTypes['member_epoch_pgives_stddev_order_by']
+      | undefined
+      | null;
+    stddev_pop?:
+      | ValueTypes['member_epoch_pgives_stddev_pop_order_by']
+      | undefined
+      | null;
+    stddev_samp?:
+      | ValueTypes['member_epoch_pgives_stddev_samp_order_by']
+      | undefined
+      | null;
+    sum?: ValueTypes['member_epoch_pgives_sum_order_by'] | undefined | null;
+    var_pop?:
+      | ValueTypes['member_epoch_pgives_var_pop_order_by']
+      | undefined
+      | null;
+    var_samp?:
+      | ValueTypes['member_epoch_pgives_var_samp_order_by']
+      | undefined
+      | null;
+    variance?:
+      | ValueTypes['member_epoch_pgives_variance_order_by']
+      | undefined
+      | null;
+  };
+  /** order by avg() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_avg_order_by']: {
+    epoch_id?: ValueTypes['order_by'] | undefined | null;
+    gives_received?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgive?: ValueTypes['order_by'] | undefined | null;
+    opt_out_bonus?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
+    user_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** Boolean expression to filter rows from the table "member_epoch_pgives". All fields are combined with a logical 'AND'. */
+  ['member_epoch_pgives_bool_exp']: {
+    _and?: Array<ValueTypes['member_epoch_pgives_bool_exp']> | undefined | null;
+    _not?: ValueTypes['member_epoch_pgives_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['member_epoch_pgives_bool_exp']> | undefined | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    epoch?: ValueTypes['epochs_bool_exp'] | undefined | null;
+    epoch_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    gives_received?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    normalized_pgive?: ValueTypes['numeric_comparison_exp'] | undefined | null;
+    opt_out_bonus?: ValueTypes['numeric_comparison_exp'] | undefined | null;
+    pgive?: ValueTypes['numeric_comparison_exp'] | undefined | null;
+    user?: ValueTypes['users_bool_exp'] | undefined | null;
+    user_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+  };
+  /** order by max() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_max_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    epoch_id?: ValueTypes['order_by'] | undefined | null;
+    gives_received?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgive?: ValueTypes['order_by'] | undefined | null;
+    opt_out_bonus?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
+    user_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by min() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_min_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    epoch_id?: ValueTypes['order_by'] | undefined | null;
+    gives_received?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgive?: ValueTypes['order_by'] | undefined | null;
+    opt_out_bonus?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
+    user_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "member_epoch_pgives". */
+  ['member_epoch_pgives_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    epoch?: ValueTypes['epochs_order_by'] | undefined | null;
+    epoch_id?: ValueTypes['order_by'] | undefined | null;
+    gives_received?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgive?: ValueTypes['order_by'] | undefined | null;
+    opt_out_bonus?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
+    user?: ValueTypes['users_order_by'] | undefined | null;
+    user_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_select_column']: member_epoch_pgives_select_column;
+  /** order by stddev() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_stddev_order_by']: {
+    epoch_id?: ValueTypes['order_by'] | undefined | null;
+    gives_received?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgive?: ValueTypes['order_by'] | undefined | null;
+    opt_out_bonus?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
+    user_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by stddev_pop() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_stddev_pop_order_by']: {
+    epoch_id?: ValueTypes['order_by'] | undefined | null;
+    gives_received?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgive?: ValueTypes['order_by'] | undefined | null;
+    opt_out_bonus?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
+    user_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by stddev_samp() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_stddev_samp_order_by']: {
+    epoch_id?: ValueTypes['order_by'] | undefined | null;
+    gives_received?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgive?: ValueTypes['order_by'] | undefined | null;
+    opt_out_bonus?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
+    user_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** Streaming cursor of the table "member_epoch_pgives" */
+  ['member_epoch_pgives_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['member_epoch_pgives_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['member_epoch_pgives_stream_cursor_value_input']: {
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    epoch_id?: number | undefined | null;
+    gives_received?: number | undefined | null;
+    id?: number | undefined | null;
+    normalized_pgive?: ValueTypes['numeric'] | undefined | null;
+    opt_out_bonus?: ValueTypes['numeric'] | undefined | null;
+    pgive?: ValueTypes['numeric'] | undefined | null;
+    user_id?: number | undefined | null;
+  };
+  /** order by sum() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_sum_order_by']: {
+    epoch_id?: ValueTypes['order_by'] | undefined | null;
+    gives_received?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgive?: ValueTypes['order_by'] | undefined | null;
+    opt_out_bonus?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
+    user_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by var_pop() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_var_pop_order_by']: {
+    epoch_id?: ValueTypes['order_by'] | undefined | null;
+    gives_received?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgive?: ValueTypes['order_by'] | undefined | null;
+    opt_out_bonus?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
+    user_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by var_samp() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_var_samp_order_by']: {
+    epoch_id?: ValueTypes['order_by'] | undefined | null;
+    gives_received?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgive?: ValueTypes['order_by'] | undefined | null;
+    opt_out_bonus?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
+    user_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by variance() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_variance_order_by']: {
+    epoch_id?: ValueTypes['order_by'] | undefined | null;
+    gives_received?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    normalized_pgive?: ValueTypes['order_by'] | undefined | null;
+    opt_out_bonus?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
+    user_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** mutation root */
   ['mutation_root']: AliasType<{
@@ -7576,6 +7877,30 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['distributions']
     ];
+    epoch_pgive_data?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['epoch_pgive_data_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['epoch_pgive_data_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['epoch_pgive_data_bool_exp'] | undefined | null;
+      },
+      ValueTypes['epoch_pgive_data']
+    ];
+    epoch_pgive_data_by_pk?: [{ id: number }, ValueTypes['epoch_pgive_data']];
     epochs?: [
       {
         /** distinct select on columns */
@@ -7686,6 +8011,33 @@ export type ValueTypes = {
     locked_token_distributions_by_pk?: [
       { id: ValueTypes['bigint'] },
       ValueTypes['locked_token_distributions']
+    ];
+    member_epoch_pgives?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['member_epoch_pgives_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['member_epoch_pgives_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['member_epoch_pgives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['member_epoch_pgives']
+    ];
+    member_epoch_pgives_by_pk?: [
+      { id: number },
+      ValueTypes['member_epoch_pgives']
     ];
     nominees?: [
       {
@@ -8677,6 +9029,41 @@ export type ValueTypes = {
       },
       ValueTypes['distributions']
     ];
+    epoch_pgive_data?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['epoch_pgive_data_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['epoch_pgive_data_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['epoch_pgive_data_bool_exp'] | undefined | null;
+      },
+      ValueTypes['epoch_pgive_data']
+    ];
+    epoch_pgive_data_by_pk?: [{ id: number }, ValueTypes['epoch_pgive_data']];
+    epoch_pgive_data_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['epoch_pgive_data_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['epoch_pgive_data_bool_exp'] | undefined | null;
+      },
+      ValueTypes['epoch_pgive_data']
+    ];
     epochs?: [
       {
         /** distinct select on columns */
@@ -8837,6 +9224,46 @@ export type ValueTypes = {
           | null;
       },
       ValueTypes['locked_token_distributions']
+    ];
+    member_epoch_pgives?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['member_epoch_pgives_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['member_epoch_pgives_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['member_epoch_pgives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['member_epoch_pgives']
+    ];
+    member_epoch_pgives_by_pk?: [
+      { id: number },
+      ValueTypes['member_epoch_pgives']
+    ];
+    member_epoch_pgives_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          | ValueTypes['member_epoch_pgives_stream_cursor_input']
+          | undefined
+          | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['member_epoch_pgives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['member_epoch_pgives']
     ];
     nominees?: [
       {
@@ -10237,6 +10664,29 @@ export type ValueTypes = {
     give_token_received?: boolean | `@${string}`;
     give_token_remaining?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    member_epoch_pgivess?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['member_epoch_pgives_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['member_epoch_pgives_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['member_epoch_pgives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['member_epoch_pgives']
+    ];
     name?: boolean | `@${string}`;
     non_giver?: boolean | `@${string}`;
     non_receiver?: boolean | `@${string}`;
@@ -10482,6 +10932,10 @@ export type ValueTypes = {
     give_token_received?: ValueTypes['Int_comparison_exp'] | undefined | null;
     give_token_remaining?: ValueTypes['Int_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    member_epoch_pgivess?:
+      | ValueTypes['member_epoch_pgives_bool_exp']
+      | undefined
+      | null;
     name?: ValueTypes['String_comparison_exp'] | undefined | null;
     non_giver?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     non_receiver?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
@@ -10563,6 +11017,10 @@ export type ValueTypes = {
     give_token_received?: ValueTypes['order_by'] | undefined | null;
     give_token_remaining?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    member_epoch_pgivess_aggregate?:
+      | ValueTypes['member_epoch_pgives_aggregate_order_by']
+      | undefined
+      | null;
     name?: ValueTypes['order_by'] | undefined | null;
     non_giver?: ValueTypes['order_by'] | undefined | null;
     non_receiver?: ValueTypes['order_by'] | undefined | null;
@@ -12671,6 +13129,29 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "distributions" */
   ['distributions_variance_order_by']: GraphQLTypes['distributions_variance_order_by'];
+  /** columns and relationships of "epoch_pgive_data" */
+  ['epoch_pgive_data']: {
+    active_months: number;
+    active_months_bonus: GraphQLTypes['numeric'];
+    created_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    epoch: GraphQLTypes['epochs'];
+    epoch_id: number;
+    gives_receiver_base: GraphQLTypes['numeric'];
+    id: number;
+    notes_bonus: GraphQLTypes['numeric'];
+    pgive: GraphQLTypes['numeric'];
+  };
+  /** Boolean expression to filter rows from the table "epoch_pgive_data". All fields are combined with a logical 'AND'. */
+  ['epoch_pgive_data_bool_exp']: GraphQLTypes['epoch_pgive_data_bool_exp'];
+  /** Ordering options when selecting data from "epoch_pgive_data". */
+  ['epoch_pgive_data_order_by']: GraphQLTypes['epoch_pgive_data_order_by'];
+  /** select columns of table "epoch_pgive_data" */
+  ['epoch_pgive_data_select_column']: GraphQLTypes['epoch_pgive_data_select_column'];
+  /** Streaming cursor of the table "epoch_pgive_data" */
+  ['epoch_pgive_data_stream_cursor_input']: GraphQLTypes['epoch_pgive_data_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['epoch_pgive_data_stream_cursor_value_input']: GraphQLTypes['epoch_pgive_data_stream_cursor_value_input'];
   /** columns and relationships of "epoches" */
   ['epochs']: {
     /** An array relationship */
@@ -12691,10 +13172,14 @@ export type ModelTypes = {
     epoch_pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     grant: GraphQLTypes['numeric'];
     id: GraphQLTypes['bigint'];
+    /** An array relationship */
+    member_epoch_pgives: Array<GraphQLTypes['member_epoch_pgives']>;
     notified_before_end?: GraphQLTypes['timestamp'] | undefined;
     notified_end?: GraphQLTypes['timestamp'] | undefined;
     notified_start?: GraphQLTypes['timestamp'] | undefined;
     number?: number | undefined;
+    /** An object relationship */
+    pgive_data?: GraphQLTypes['epoch_pgive_data'] | undefined;
     repeat: number;
     repeat_data?: GraphQLTypes['jsonb'] | undefined;
     repeat_day_of_month: number;
@@ -12889,6 +13374,53 @@ export type ModelTypes = {
   /** update columns of table "locked_token_distributions" */
   ['locked_token_distributions_update_column']: GraphQLTypes['locked_token_distributions_update_column'];
   ['locked_token_distributions_updates']: GraphQLTypes['locked_token_distributions_updates'];
+  /** member allocated pgives per epoch */
+  ['member_epoch_pgives']: {
+    created_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    epoch: GraphQLTypes['epochs'];
+    epoch_id: number;
+    gives_received: number;
+    id: number;
+    normalized_pgive: GraphQLTypes['numeric'];
+    opt_out_bonus: GraphQLTypes['numeric'];
+    pgive: GraphQLTypes['numeric'];
+    /** An object relationship */
+    user: GraphQLTypes['users'];
+    user_id: number;
+  };
+  /** order by aggregate values of table "member_epoch_pgives" */
+  ['member_epoch_pgives_aggregate_order_by']: GraphQLTypes['member_epoch_pgives_aggregate_order_by'];
+  /** order by avg() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_avg_order_by']: GraphQLTypes['member_epoch_pgives_avg_order_by'];
+  /** Boolean expression to filter rows from the table "member_epoch_pgives". All fields are combined with a logical 'AND'. */
+  ['member_epoch_pgives_bool_exp']: GraphQLTypes['member_epoch_pgives_bool_exp'];
+  /** order by max() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_max_order_by']: GraphQLTypes['member_epoch_pgives_max_order_by'];
+  /** order by min() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_min_order_by']: GraphQLTypes['member_epoch_pgives_min_order_by'];
+  /** Ordering options when selecting data from "member_epoch_pgives". */
+  ['member_epoch_pgives_order_by']: GraphQLTypes['member_epoch_pgives_order_by'];
+  /** select columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_select_column']: GraphQLTypes['member_epoch_pgives_select_column'];
+  /** order by stddev() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_stddev_order_by']: GraphQLTypes['member_epoch_pgives_stddev_order_by'];
+  /** order by stddev_pop() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_stddev_pop_order_by']: GraphQLTypes['member_epoch_pgives_stddev_pop_order_by'];
+  /** order by stddev_samp() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_stddev_samp_order_by']: GraphQLTypes['member_epoch_pgives_stddev_samp_order_by'];
+  /** Streaming cursor of the table "member_epoch_pgives" */
+  ['member_epoch_pgives_stream_cursor_input']: GraphQLTypes['member_epoch_pgives_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['member_epoch_pgives_stream_cursor_value_input']: GraphQLTypes['member_epoch_pgives_stream_cursor_value_input'];
+  /** order by sum() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_sum_order_by']: GraphQLTypes['member_epoch_pgives_sum_order_by'];
+  /** order by var_pop() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_var_pop_order_by']: GraphQLTypes['member_epoch_pgives_var_pop_order_by'];
+  /** order by var_samp() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_var_samp_order_by']: GraphQLTypes['member_epoch_pgives_var_samp_order_by'];
+  /** order by variance() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_variance_order_by']: GraphQLTypes['member_epoch_pgives_variance_order_by'];
   /** mutation root */
   ['mutation_root']: {
     adminUpdateUser?: GraphQLTypes['UserResponse'] | undefined;
@@ -13636,6 +14168,10 @@ export type ModelTypes = {
     distributions_aggregate: GraphQLTypes['distributions_aggregate'];
     /** fetch data from the table: "distributions" using primary key columns */
     distributions_by_pk?: GraphQLTypes['distributions'] | undefined;
+    /** fetch data from the table: "epoch_pgive_data" */
+    epoch_pgive_data: Array<GraphQLTypes['epoch_pgive_data']>;
+    /** fetch data from the table: "epoch_pgive_data" using primary key columns */
+    epoch_pgive_data_by_pk?: GraphQLTypes['epoch_pgive_data'] | undefined;
     /** An array relationship */
     epochs: Array<GraphQLTypes['epochs']>;
     /** fetch data from the table: "epoches" using primary key columns */
@@ -13659,6 +14195,10 @@ export type ModelTypes = {
     locked_token_distributions_by_pk?:
       | GraphQLTypes['locked_token_distributions']
       | undefined;
+    /** An array relationship */
+    member_epoch_pgives: Array<GraphQLTypes['member_epoch_pgives']>;
+    /** fetch data from the table: "member_epoch_pgives" using primary key columns */
+    member_epoch_pgives_by_pk?: GraphQLTypes['member_epoch_pgives'] | undefined;
     /** An array relationship */
     nominees: Array<GraphQLTypes['nominees']>;
     /** An aggregate relationship */
@@ -13808,6 +14348,12 @@ export type ModelTypes = {
     distributions_by_pk?: GraphQLTypes['distributions'] | undefined;
     /** fetch data from the table in a streaming manner: "distributions" */
     distributions_stream: Array<GraphQLTypes['distributions']>;
+    /** fetch data from the table: "epoch_pgive_data" */
+    epoch_pgive_data: Array<GraphQLTypes['epoch_pgive_data']>;
+    /** fetch data from the table: "epoch_pgive_data" using primary key columns */
+    epoch_pgive_data_by_pk?: GraphQLTypes['epoch_pgive_data'] | undefined;
+    /** fetch data from the table in a streaming manner: "epoch_pgive_data" */
+    epoch_pgive_data_stream: Array<GraphQLTypes['epoch_pgive_data']>;
     /** An array relationship */
     epochs: Array<GraphQLTypes['epochs']>;
     /** fetch data from the table: "epoches" using primary key columns */
@@ -13842,6 +14388,12 @@ export type ModelTypes = {
     locked_token_distributions_stream: Array<
       GraphQLTypes['locked_token_distributions']
     >;
+    /** An array relationship */
+    member_epoch_pgives: Array<GraphQLTypes['member_epoch_pgives']>;
+    /** fetch data from the table: "member_epoch_pgives" using primary key columns */
+    member_epoch_pgives_by_pk?: GraphQLTypes['member_epoch_pgives'] | undefined;
+    /** fetch data from the table in a streaming manner: "member_epoch_pgives" */
+    member_epoch_pgives_stream: Array<GraphQLTypes['member_epoch_pgives']>;
     /** An array relationship */
     nominees: Array<GraphQLTypes['nominees']>;
     /** An aggregate relationship */
@@ -14281,6 +14833,8 @@ export type ModelTypes = {
     give_token_received: number;
     give_token_remaining: number;
     id: GraphQLTypes['bigint'];
+    /** An array relationship */
+    member_epoch_pgivess: Array<GraphQLTypes['member_epoch_pgives']>;
     name: string;
     non_giver: boolean;
     non_receiver: boolean;
@@ -17520,6 +18074,67 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
   };
+  /** columns and relationships of "epoch_pgive_data" */
+  ['epoch_pgive_data']: {
+    __typename: 'epoch_pgive_data';
+    active_months: number;
+    active_months_bonus: GraphQLTypes['numeric'];
+    created_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    epoch: GraphQLTypes['epochs'];
+    epoch_id: number;
+    gives_receiver_base: GraphQLTypes['numeric'];
+    id: number;
+    notes_bonus: GraphQLTypes['numeric'];
+    pgive: GraphQLTypes['numeric'];
+  };
+  /** Boolean expression to filter rows from the table "epoch_pgive_data". All fields are combined with a logical 'AND'. */
+  ['epoch_pgive_data_bool_exp']: {
+    _and?: Array<GraphQLTypes['epoch_pgive_data_bool_exp']> | undefined;
+    _not?: GraphQLTypes['epoch_pgive_data_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['epoch_pgive_data_bool_exp']> | undefined;
+    active_months?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    active_months_bonus?: GraphQLTypes['numeric_comparison_exp'] | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    epoch?: GraphQLTypes['epochs_bool_exp'] | undefined;
+    epoch_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    gives_receiver_base?: GraphQLTypes['numeric_comparison_exp'] | undefined;
+    id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    notes_bonus?: GraphQLTypes['numeric_comparison_exp'] | undefined;
+    pgive?: GraphQLTypes['numeric_comparison_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "epoch_pgive_data". */
+  ['epoch_pgive_data_order_by']: {
+    active_months?: GraphQLTypes['order_by'] | undefined;
+    active_months_bonus?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    epoch?: GraphQLTypes['epochs_order_by'] | undefined;
+    epoch_id?: GraphQLTypes['order_by'] | undefined;
+    gives_receiver_base?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    notes_bonus?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "epoch_pgive_data" */
+  ['epoch_pgive_data_select_column']: epoch_pgive_data_select_column;
+  /** Streaming cursor of the table "epoch_pgive_data" */
+  ['epoch_pgive_data_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['epoch_pgive_data_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['epoch_pgive_data_stream_cursor_value_input']: {
+    active_months?: number | undefined;
+    active_months_bonus?: GraphQLTypes['numeric'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    epoch_id?: number | undefined;
+    gives_receiver_base?: GraphQLTypes['numeric'] | undefined;
+    id?: number | undefined;
+    notes_bonus?: GraphQLTypes['numeric'] | undefined;
+    pgive?: GraphQLTypes['numeric'] | undefined;
+  };
   /** columns and relationships of "epoches" */
   ['epochs']: {
     __typename: 'epochs';
@@ -17541,10 +18156,14 @@ export type GraphQLTypes = {
     epoch_pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     grant: GraphQLTypes['numeric'];
     id: GraphQLTypes['bigint'];
+    /** An array relationship */
+    member_epoch_pgives: Array<GraphQLTypes['member_epoch_pgives']>;
     notified_before_end?: GraphQLTypes['timestamp'] | undefined;
     notified_end?: GraphQLTypes['timestamp'] | undefined;
     notified_start?: GraphQLTypes['timestamp'] | undefined;
     number?: number | undefined;
+    /** An object relationship */
+    pgive_data?: GraphQLTypes['epoch_pgive_data'] | undefined;
     repeat: number;
     repeat_data?: GraphQLTypes['jsonb'] | undefined;
     repeat_day_of_month: number;
@@ -17601,10 +18220,14 @@ export type GraphQLTypes = {
       | undefined;
     grant?: GraphQLTypes['numeric_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    member_epoch_pgives?:
+      | GraphQLTypes['member_epoch_pgives_bool_exp']
+      | undefined;
     notified_before_end?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     notified_end?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     notified_start?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     number?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    pgive_data?: GraphQLTypes['epoch_pgive_data_bool_exp'] | undefined;
     repeat?: GraphQLTypes['Int_comparison_exp'] | undefined;
     repeat_data?: GraphQLTypes['jsonb_comparison_exp'] | undefined;
     repeat_day_of_month?: GraphQLTypes['Int_comparison_exp'] | undefined;
@@ -17677,10 +18300,14 @@ export type GraphQLTypes = {
       | undefined;
     grant?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    member_epoch_pgives_aggregate?:
+      | GraphQLTypes['member_epoch_pgives_aggregate_order_by']
+      | undefined;
     notified_before_end?: GraphQLTypes['order_by'] | undefined;
     notified_end?: GraphQLTypes['order_by'] | undefined;
     notified_start?: GraphQLTypes['order_by'] | undefined;
     number?: GraphQLTypes['order_by'] | undefined;
+    pgive_data?: GraphQLTypes['epoch_pgive_data_order_by'] | undefined;
     repeat?: GraphQLTypes['order_by'] | undefined;
     repeat_data?: GraphQLTypes['order_by'] | undefined;
     repeat_day_of_month?: GraphQLTypes['order_by'] | undefined;
@@ -18231,6 +18858,195 @@ export type GraphQLTypes = {
     _set?: GraphQLTypes['locked_token_distributions_set_input'] | undefined;
     /** filter the rows which have to be updated */
     where: GraphQLTypes['locked_token_distributions_bool_exp'];
+  };
+  /** member allocated pgives per epoch */
+  ['member_epoch_pgives']: {
+    __typename: 'member_epoch_pgives';
+    created_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    epoch: GraphQLTypes['epochs'];
+    epoch_id: number;
+    gives_received: number;
+    id: number;
+    normalized_pgive: GraphQLTypes['numeric'];
+    opt_out_bonus: GraphQLTypes['numeric'];
+    pgive: GraphQLTypes['numeric'];
+    /** An object relationship */
+    user: GraphQLTypes['users'];
+    user_id: number;
+  };
+  /** order by aggregate values of table "member_epoch_pgives" */
+  ['member_epoch_pgives_aggregate_order_by']: {
+    avg?: GraphQLTypes['member_epoch_pgives_avg_order_by'] | undefined;
+    count?: GraphQLTypes['order_by'] | undefined;
+    max?: GraphQLTypes['member_epoch_pgives_max_order_by'] | undefined;
+    min?: GraphQLTypes['member_epoch_pgives_min_order_by'] | undefined;
+    stddev?: GraphQLTypes['member_epoch_pgives_stddev_order_by'] | undefined;
+    stddev_pop?:
+      | GraphQLTypes['member_epoch_pgives_stddev_pop_order_by']
+      | undefined;
+    stddev_samp?:
+      | GraphQLTypes['member_epoch_pgives_stddev_samp_order_by']
+      | undefined;
+    sum?: GraphQLTypes['member_epoch_pgives_sum_order_by'] | undefined;
+    var_pop?: GraphQLTypes['member_epoch_pgives_var_pop_order_by'] | undefined;
+    var_samp?:
+      | GraphQLTypes['member_epoch_pgives_var_samp_order_by']
+      | undefined;
+    variance?:
+      | GraphQLTypes['member_epoch_pgives_variance_order_by']
+      | undefined;
+  };
+  /** order by avg() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_avg_order_by']: {
+    epoch_id?: GraphQLTypes['order_by'] | undefined;
+    gives_received?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgive?: GraphQLTypes['order_by'] | undefined;
+    opt_out_bonus?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
+    user_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "member_epoch_pgives". All fields are combined with a logical 'AND'. */
+  ['member_epoch_pgives_bool_exp']: {
+    _and?: Array<GraphQLTypes['member_epoch_pgives_bool_exp']> | undefined;
+    _not?: GraphQLTypes['member_epoch_pgives_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['member_epoch_pgives_bool_exp']> | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    epoch?: GraphQLTypes['epochs_bool_exp'] | undefined;
+    epoch_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    gives_received?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    normalized_pgive?: GraphQLTypes['numeric_comparison_exp'] | undefined;
+    opt_out_bonus?: GraphQLTypes['numeric_comparison_exp'] | undefined;
+    pgive?: GraphQLTypes['numeric_comparison_exp'] | undefined;
+    user?: GraphQLTypes['users_bool_exp'] | undefined;
+    user_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+  };
+  /** order by max() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_max_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    epoch_id?: GraphQLTypes['order_by'] | undefined;
+    gives_received?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgive?: GraphQLTypes['order_by'] | undefined;
+    opt_out_bonus?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
+    user_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by min() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_min_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    epoch_id?: GraphQLTypes['order_by'] | undefined;
+    gives_received?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgive?: GraphQLTypes['order_by'] | undefined;
+    opt_out_bonus?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
+    user_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Ordering options when selecting data from "member_epoch_pgives". */
+  ['member_epoch_pgives_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    epoch?: GraphQLTypes['epochs_order_by'] | undefined;
+    epoch_id?: GraphQLTypes['order_by'] | undefined;
+    gives_received?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgive?: GraphQLTypes['order_by'] | undefined;
+    opt_out_bonus?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
+    user?: GraphQLTypes['users_order_by'] | undefined;
+    user_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_select_column']: member_epoch_pgives_select_column;
+  /** order by stddev() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_stddev_order_by']: {
+    epoch_id?: GraphQLTypes['order_by'] | undefined;
+    gives_received?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgive?: GraphQLTypes['order_by'] | undefined;
+    opt_out_bonus?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
+    user_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by stddev_pop() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_stddev_pop_order_by']: {
+    epoch_id?: GraphQLTypes['order_by'] | undefined;
+    gives_received?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgive?: GraphQLTypes['order_by'] | undefined;
+    opt_out_bonus?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
+    user_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by stddev_samp() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_stddev_samp_order_by']: {
+    epoch_id?: GraphQLTypes['order_by'] | undefined;
+    gives_received?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgive?: GraphQLTypes['order_by'] | undefined;
+    opt_out_bonus?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
+    user_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Streaming cursor of the table "member_epoch_pgives" */
+  ['member_epoch_pgives_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['member_epoch_pgives_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['member_epoch_pgives_stream_cursor_value_input']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    epoch_id?: number | undefined;
+    gives_received?: number | undefined;
+    id?: number | undefined;
+    normalized_pgive?: GraphQLTypes['numeric'] | undefined;
+    opt_out_bonus?: GraphQLTypes['numeric'] | undefined;
+    pgive?: GraphQLTypes['numeric'] | undefined;
+    user_id?: number | undefined;
+  };
+  /** order by sum() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_sum_order_by']: {
+    epoch_id?: GraphQLTypes['order_by'] | undefined;
+    gives_received?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgive?: GraphQLTypes['order_by'] | undefined;
+    opt_out_bonus?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
+    user_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by var_pop() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_var_pop_order_by']: {
+    epoch_id?: GraphQLTypes['order_by'] | undefined;
+    gives_received?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgive?: GraphQLTypes['order_by'] | undefined;
+    opt_out_bonus?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
+    user_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by var_samp() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_var_samp_order_by']: {
+    epoch_id?: GraphQLTypes['order_by'] | undefined;
+    gives_received?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgive?: GraphQLTypes['order_by'] | undefined;
+    opt_out_bonus?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
+    user_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by variance() on columns of table "member_epoch_pgives" */
+  ['member_epoch_pgives_variance_order_by']: {
+    epoch_id?: GraphQLTypes['order_by'] | undefined;
+    gives_received?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    normalized_pgive?: GraphQLTypes['order_by'] | undefined;
+    opt_out_bonus?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
+    user_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** mutation root */
   ['mutation_root']: {
@@ -19683,6 +20499,10 @@ export type GraphQLTypes = {
     distributions_aggregate: GraphQLTypes['distributions_aggregate'];
     /** fetch data from the table: "distributions" using primary key columns */
     distributions_by_pk?: GraphQLTypes['distributions'] | undefined;
+    /** fetch data from the table: "epoch_pgive_data" */
+    epoch_pgive_data: Array<GraphQLTypes['epoch_pgive_data']>;
+    /** fetch data from the table: "epoch_pgive_data" using primary key columns */
+    epoch_pgive_data_by_pk?: GraphQLTypes['epoch_pgive_data'] | undefined;
     /** An array relationship */
     epochs: Array<GraphQLTypes['epochs']>;
     /** fetch data from the table: "epoches" using primary key columns */
@@ -19706,6 +20526,10 @@ export type GraphQLTypes = {
     locked_token_distributions_by_pk?:
       | GraphQLTypes['locked_token_distributions']
       | undefined;
+    /** An array relationship */
+    member_epoch_pgives: Array<GraphQLTypes['member_epoch_pgives']>;
+    /** fetch data from the table: "member_epoch_pgives" using primary key columns */
+    member_epoch_pgives_by_pk?: GraphQLTypes['member_epoch_pgives'] | undefined;
     /** An array relationship */
     nominees: Array<GraphQLTypes['nominees']>;
     /** An aggregate relationship */
@@ -19856,6 +20680,12 @@ export type GraphQLTypes = {
     distributions_by_pk?: GraphQLTypes['distributions'] | undefined;
     /** fetch data from the table in a streaming manner: "distributions" */
     distributions_stream: Array<GraphQLTypes['distributions']>;
+    /** fetch data from the table: "epoch_pgive_data" */
+    epoch_pgive_data: Array<GraphQLTypes['epoch_pgive_data']>;
+    /** fetch data from the table: "epoch_pgive_data" using primary key columns */
+    epoch_pgive_data_by_pk?: GraphQLTypes['epoch_pgive_data'] | undefined;
+    /** fetch data from the table in a streaming manner: "epoch_pgive_data" */
+    epoch_pgive_data_stream: Array<GraphQLTypes['epoch_pgive_data']>;
     /** An array relationship */
     epochs: Array<GraphQLTypes['epochs']>;
     /** fetch data from the table: "epoches" using primary key columns */
@@ -19890,6 +20720,12 @@ export type GraphQLTypes = {
     locked_token_distributions_stream: Array<
       GraphQLTypes['locked_token_distributions']
     >;
+    /** An array relationship */
+    member_epoch_pgives: Array<GraphQLTypes['member_epoch_pgives']>;
+    /** fetch data from the table: "member_epoch_pgives" using primary key columns */
+    member_epoch_pgives_by_pk?: GraphQLTypes['member_epoch_pgives'] | undefined;
+    /** fetch data from the table in a streaming manner: "member_epoch_pgives" */
+    member_epoch_pgives_stream: Array<GraphQLTypes['member_epoch_pgives']>;
     /** An array relationship */
     nominees: Array<GraphQLTypes['nominees']>;
     /** An aggregate relationship */
@@ -20642,6 +21478,8 @@ export type GraphQLTypes = {
     give_token_received: number;
     give_token_remaining: number;
     id: GraphQLTypes['bigint'];
+    /** An array relationship */
+    member_epoch_pgivess: Array<GraphQLTypes['member_epoch_pgives']>;
     name: string;
     non_giver: boolean;
     non_receiver: boolean;
@@ -20714,6 +21552,9 @@ export type GraphQLTypes = {
     give_token_received?: GraphQLTypes['Int_comparison_exp'] | undefined;
     give_token_remaining?: GraphQLTypes['Int_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    member_epoch_pgivess?:
+      | GraphQLTypes['member_epoch_pgives_bool_exp']
+      | undefined;
     name?: GraphQLTypes['String_comparison_exp'] | undefined;
     non_giver?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     non_receiver?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
@@ -20789,6 +21630,9 @@ export type GraphQLTypes = {
     give_token_received?: GraphQLTypes['order_by'] | undefined;
     give_token_remaining?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    member_epoch_pgivess_aggregate?:
+      | GraphQLTypes['member_epoch_pgives_aggregate_order_by']
+      | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
     non_giver?: GraphQLTypes['order_by'] | undefined;
     non_receiver?: GraphQLTypes['order_by'] | undefined;
@@ -21695,6 +22539,17 @@ export const enum distributions_update_column {
   distribution_epoch_id = 'distribution_epoch_id',
   tx_hash = 'tx_hash',
 }
+/** select columns of table "epoch_pgive_data" */
+export const enum epoch_pgive_data_select_column {
+  active_months = 'active_months',
+  active_months_bonus = 'active_months_bonus',
+  created_at = 'created_at',
+  epoch_id = 'epoch_id',
+  gives_receiver_base = 'gives_receiver_base',
+  id = 'id',
+  notes_bonus = 'notes_bonus',
+  pgive = 'pgive',
+}
 /** select columns of table "epoches" */
 export const enum epochs_select_column {
   circle_id = 'circle_id',
@@ -21756,6 +22611,17 @@ export const enum locked_token_distributions_select_column {
 /** update columns of table "locked_token_distributions" */
 export const enum locked_token_distributions_update_column {
   tx_hash = 'tx_hash',
+}
+/** select columns of table "member_epoch_pgives" */
+export const enum member_epoch_pgives_select_column {
+  created_at = 'created_at',
+  epoch_id = 'epoch_id',
+  gives_received = 'gives_received',
+  id = 'id',
+  normalized_pgive = 'normalized_pgive',
+  opt_out_bonus = 'opt_out_bonus',
+  pgive = 'pgive',
+  user_id = 'user_id',
 }
 /** select columns of table "nominees" */
 export const enum nominees_select_column {
