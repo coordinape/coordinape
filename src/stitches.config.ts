@@ -503,7 +503,7 @@ export const dark = createTheme({
     mapGive: newFigmaColors.secondary8,
     mapReceive: newFigmaColors.secondary2,
     mapCirculate: newFigmaColors.secondary5,
-    mapNode: newFigmaColors.grey1,
+    mapNode: newFigmaColors.grey2,
     mapGiveLink: newFigmaColors.success5,
     mapReceiveLink: newFigmaColors.orange6,
     mapNodeFade: '#FFFFFF20',

@@ -102,6 +102,7 @@ const AMProfileCard = ({
           onClick={() => onClick(profile)}
         >
           <Avatar
+            size="small"
             path={user.profile?.avatar}
             name={user.profile?.name ?? user.name}
           />
