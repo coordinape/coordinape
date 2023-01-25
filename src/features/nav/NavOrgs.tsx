@@ -44,10 +44,9 @@ export const NavOrgs = ({
           return <></>;
         }
         return (
-          <>
+          <Box key={o.id}>
             <Flex
               as={NavLink}
-              key={o.id}
               to={paths.organization(o.id)}
               css={{
                 alignItems: 'center',
@@ -80,7 +79,7 @@ export const NavOrgs = ({
               </Text>
             </Flex>
             {isCurrentOrg && <NavCurrentOrg key={'currentOrg'} org={o} />}
-          </>
+          </Box>
         );
       })}
     </>
