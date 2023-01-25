@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 import { ChevronDown, ChevronRight, PlusCircle } from '../../icons/__generated';
 import { paths } from '../../routes/paths';
-import { Avatar, Flex, IconButton, Text } from '../../ui';
+import { Avatar, Box, Flex, IconButton, Text } from '../../ui';
 
 import { NavCircle, NavOrg } from './getNavData';
 import { NavCurrentCircle } from './NavCurrentCircle';
@@ -35,10 +35,9 @@ export const NavCircles = ({
       {org.circles.map(c => {
         const isCurrentCircle = currentCircle && currentCircle.id == c.id;
         return (
-          <>
+          <Box key={c.id}>
             <Flex
               as={NavLink}
-              key={c.id}
               to={paths.history(c.id)}
               css={{
                 alignItems: 'center',
@@ -77,7 +76,7 @@ export const NavCircles = ({
             {(isCurrentCircle || org.circles.length == 1) && (
               <NavCurrentCircle key={'currentCircle'} circle={c} />
             )}
-          </>
+          </Box>
         );
       })}
     </>
