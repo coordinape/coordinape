@@ -23,7 +23,7 @@ function getChannels(props: GetChannelsProps) {
     return {
       discord: {
         type: 'nomination' as const,
-        channelId: '1057926498524332083', // TODO Find this from the circle
+        channelId: '1067789668290146324', // TODO Find this from the circle
         roleId: '1058334400540061747', // TODO Find this from the circle
         nominee: profile?.name,
         nominator: nominator?.profile.name ?? nominator?.name,
