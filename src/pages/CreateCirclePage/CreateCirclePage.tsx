@@ -16,6 +16,7 @@ export const SummonCirclePage = () => {
     () => getCreateCircleData(address as string),
     {
       enabled: !!address,
+      refetchOnWindowFocus: false,
     }
   );
 
