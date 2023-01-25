@@ -47,24 +47,27 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   // Load all members of the provided circle with duplicate addresses.
-  const { users: existingUsers } = await adminClient.query({
-    users: [
-      {
-        where: {
-          circle_id: { _eq: circle_id },
-          _or: uniqueAddresses.map(add => {
-            return { address: { _ilike: add } };
-          }),
+  const { users: existingUsers } = await adminClient.query(
+    {
+      users: [
+        {
+          where: {
+            circle_id: { _eq: circle_id },
+            _or: uniqueAddresses.map(add => {
+              return { address: { _ilike: add } };
+            }),
+          },
         },
-      },
-      {
-        id: true,
-        address: true,
-        deleted_at: true,
-        starting_tokens: true,
-      },
-    ],
-  });
+        {
+          id: true,
+          address: true,
+          deleted_at: true,
+          starting_tokens: true,
+        },
+      ],
+    },
+    { operationName: 'getExistingUsers' }
+  );
 
   const usersToUpdate = existingUsers.map(eu => {
     const updatedUser = users.find(
@@ -216,15 +219,18 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   }, {} as { [aliasKey: string]: ValueTypes['mutation_root'] });
 
   // Update the state after all validations have passed
-  const mutationResult = await adminClient.mutate({
-    insert_users: [
-      { objects: newUsers },
-      {
-        returning: { id: true, address: true },
-      },
-    ],
-    __alias: { ...updateUsersMutation, ...updateNomineesMutation },
-  });
+  const mutationResult = await adminClient.mutate(
+    {
+      insert_users: [
+        { objects: newUsers },
+        {
+          returning: { id: true, address: true },
+        },
+      ],
+      __alias: { ...updateUsersMutation, ...updateNomineesMutation },
+    },
+    { operationName: 'insertUsersNominees' }
+  );
 
   const insertedUsers = mutationResult.insert_users?.returning;
 

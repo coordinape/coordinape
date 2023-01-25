@@ -7,16 +7,21 @@ export const getDiscordUserByProfileId = async ({
 }: {
   profileId: number;
 }) => {
-  const { discord_users } = await client.query({
-    discord_users: [
-      {
-        where: {
-          profile_id: { _eq: profileId },
+  const { discord_users } = await client.query(
+    {
+      discord_users: [
+        {
+          where: {
+            profile_id: { _eq: profileId },
+          },
         },
-      },
-      { id: true, user_snowflake: true, profile_id: true },
-    ],
-  });
+        { id: true, user_snowflake: true, profile_id: true },
+      ],
+    },
+    {
+      operationName: 'getDiscordUserByProfileId',
+    }
+  );
   return discord_users;
 };
 

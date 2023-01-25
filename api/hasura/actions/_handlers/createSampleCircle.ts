@@ -40,40 +40,48 @@ export const createSampleCircleForProfile = async (
   address: string
 ) => {
   // if the org already exists and was created by this profile, we want to use that org ID
-  const { organizations } = await adminClient.query({
-    organizations: [
-      {
-        where: {
-          sample: { _eq: true },
-          created_by: { _eq: profileID },
+  const { organizations } = await adminClient.query(
+    {
+      organizations: [
+        {
+          where: {
+            sample: { _eq: true },
+            created_by: { _eq: profileID },
+          },
         },
-      },
-      {
-        id: true,
-      },
-    ],
-  });
+        {
+          id: true,
+        },
+      ],
+    },
+    {
+      operationName: 'getExistingOrgId__sampleCircle',
+    }
+  );
 
   const organization_id: number | undefined = organizations.pop()?.id;
 
   // if the circle already exists, thats a problem!
   if (organization_id) {
     // org exists, lets check for any non-deleted circles
-    const { circles_aggregate } = await adminClient.query({
-      circles_aggregate: [
-        {
-          where: {
-            organization_id: { _eq: organization_id },
-            deleted_at: { _is_null: true },
+    const { circles_aggregate } = await adminClient.query(
+      {
+        circles_aggregate: [
+          {
+            where: {
+              organization_id: { _eq: organization_id },
+              deleted_at: { _is_null: true },
+            },
           },
-        },
-        {
-          aggregate: {
-            count: [{}, true],
+          {
+            aggregate: {
+              count: [{}, true],
+            },
           },
-        },
-      ],
-    });
+        ],
+      },
+      { operationName: 'getNonDeletedCircles__sampleCircle' }
+    );
 
     if ((circles_aggregate.aggregate?.count ?? 0) > 0) {
       // the sample org exists and it has at least 1 non-deleted circle
@@ -189,21 +197,24 @@ const addSampleMember = async (
   const address =
     '0x' +
     generateAddress(Buffer.from(sample.name), Buffer.from('')).toString('hex');
-  const { insert_users_one } = await adminClient.mutate({
-    insert_users_one: [
-      {
-        object: {
-          address,
-          bio: sample.epochStatement,
-          circle_id,
-          name: sample.name,
+  const { insert_users_one } = await adminClient.mutate(
+    {
+      insert_users_one: [
+        {
+          object: {
+            address,
+            bio: sample.epochStatement,
+            circle_id,
+            name: sample.name,
+          },
         },
-      },
-      {
-        id: true,
-      },
-    ],
-  });
+        {
+          id: true,
+        },
+      ],
+    },
+    { operationName: 'addSampleMember' }
+  );
   if (!insert_users_one) {
     throw new Error('insert sample user failed');
   }
@@ -216,20 +227,23 @@ const addSampleContribution = async (
   user_id: number,
   contribution: string
 ) => {
-  const { insert_contributions_one } = await adminClient.mutate({
-    insert_contributions_one: [
-      {
-        object: {
-          circle_id,
-          user_id,
-          description: contribution,
+  const { insert_contributions_one } = await adminClient.mutate(
+    {
+      insert_contributions_one: [
+        {
+          object: {
+            circle_id,
+            user_id,
+            description: contribution,
+          },
         },
-      },
-      {
-        id: true,
-      },
-    ],
-  });
+        {
+          id: true,
+        },
+      ],
+    },
+    { operationName: 'addSampleContribution' }
+  );
   if (!insert_contributions_one) {
     throw new Error('insert sample contribution failed');
   }
@@ -246,23 +260,26 @@ const addSampleAllocation = async (
   gift: number,
   note?: string
 ) => {
-  const { insert_pending_token_gifts_one } = await adminClient.mutate({
-    insert_pending_token_gifts_one: [
-      {
-        object: {
-          recipient_id: recipient_id,
-          note: note,
-          circle_id,
-          epoch_id: epoch_id,
-          sender_id: user_id,
-          sender_address: sender_address,
-          recipient_address: recipient_address,
-          tokens: gift,
+  const { insert_pending_token_gifts_one } = await adminClient.mutate(
+    {
+      insert_pending_token_gifts_one: [
+        {
+          object: {
+            recipient_id: recipient_id,
+            note: note,
+            circle_id,
+            epoch_id: epoch_id,
+            sender_id: user_id,
+            sender_address: sender_address,
+            recipient_address: recipient_address,
+            tokens: gift,
+          },
         },
-      },
-      { __typename: true },
-    ],
-  });
+        { __typename: true },
+      ],
+    },
+    { operationName: 'addSampleAllocation' }
+  );
   if (!insert_pending_token_gifts_one) {
     throw new Error('insert sample allocation failed');
   }

@@ -24,32 +24,40 @@ Settings.defaultZone = 'utc';
 
 const assertOrRemove = async (test: any, message: string, hash: string) => {
   if (test) return;
-  await adminClient.mutate({
-    delete_pending_vault_transactions_by_pk: [
-      { tx_hash: hash },
-      { __typename: true },
-    ],
-  });
+  await adminClient.mutate(
+    {
+      delete_pending_vault_transactions_by_pk: [
+        { tx_hash: hash },
+        { __typename: true },
+      ],
+    },
+    { operationName: 'deletePendingVault_transactions_by_pk' }
+  );
   throw message;
 };
 
 const getPendingTxRecords = async () => {
-  const data = await adminClient.query({
-    pending_vault_transactions: [
-      {},
-      {
-        __typename: true,
-        created_at: true,
-        created_by: true,
-        tx_hash: true,
-        tx_type: true,
-        chain_id: true,
-        org_id: true,
-        claim_id: true,
-        distribution_id: true,
-      },
-    ],
-  });
+  const data = await adminClient.query(
+    {
+      pending_vault_transactions: [
+        {},
+        {
+          __typename: true,
+          created_at: true,
+          created_by: true,
+          tx_hash: true,
+          tx_type: true,
+          chain_id: true,
+          org_id: true,
+          claim_id: true,
+          distribution_id: true,
+        },
+      ],
+    },
+    {
+      operationName: 'getPendingTxRecords',
+    }
+  );
   return data.pending_vault_transactions;
 };
 
@@ -180,20 +188,25 @@ const handleClaim = async (
   const log = contracts.distributor.interface.parseLog(rawLog);
   await assertOrRemove(log.name === 'Claimed', 'event name mismatch', tx_hash);
 
-  const { claims_by_pk: data } = await adminClient.query({
-    claims_by_pk: [
-      { id: claim_id },
-      {
-        profile_id: true,
-        address: true,
-        txHash: true,
-        distribution: {
-          vault: { vault_address: true },
-          epoch: { circle: { id: true } },
+  const { claims_by_pk: data } = await adminClient.query(
+    {
+      claims_by_pk: [
+        { id: claim_id },
+        {
+          profile_id: true,
+          address: true,
+          txHash: true,
+          distribution: {
+            vault: { vault_address: true },
+            epoch: { circle: { id: true } },
+          },
         },
-      },
-    ],
-  });
+      ],
+    },
+    {
+      operationName: 'getClaims__recoverTransactions',
+    }
+  );
 
   await assertOrRemove(data, 'claim not found', tx_hash);
   assert(data);
@@ -237,24 +250,27 @@ const handleDistribution = async (
     tx_hash
   );
 
-  const { distributions_by_pk: data } = await adminClient.query({
-    distributions_by_pk: [
-      { id: distribution_id },
-      {
-        vault: {
-          id: true,
-          vault_address: true,
-          symbol: true,
-          simple_token_address: true,
-          decimals: true,
+  const { distributions_by_pk: data } = await adminClient.query(
+    {
+      distributions_by_pk: [
+        { id: distribution_id },
+        {
+          vault: {
+            id: true,
+            vault_address: true,
+            symbol: true,
+            simple_token_address: true,
+            decimals: true,
+          },
+          epoch: { circle_id: true },
+          tx_hash: true,
+          total_amount: true,
+          distribution_json: [{}, true],
         },
-        epoch: { circle_id: true },
-        tx_hash: true,
-        total_amount: true,
-        distribution_json: [{}, true],
-      },
-    ],
-  });
+      ],
+    },
+    { operationName: 'getDistributions__recoverTransactions' }
+  );
   assert(data);
   await assertOrRemove(!data.tx_hash, 'tx_hash already set', tx_hash);
 

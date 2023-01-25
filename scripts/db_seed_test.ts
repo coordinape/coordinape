@@ -37,16 +37,19 @@ main()
   .catch(console.error);
 
 async function getOrganizationIdForCircle(circleId: number) {
-  const { circles_by_pk } = await adminClient.query({
-    circles_by_pk: [
-      {
-        id: circleId,
-      },
-      {
-        organization_id: true,
-      },
-    ],
-  });
+  const { circles_by_pk } = await adminClient.query(
+    {
+      circles_by_pk: [
+        {
+          id: circleId,
+        },
+        {
+          organization_id: true,
+        },
+      ],
+    },
+    { operationName: 'getOrganizationIdForCircle' }
+  );
   return circles_by_pk?.organization_id;
 }
 async function createCircleWithGiftsNotYetEnded() {
@@ -200,7 +203,8 @@ async function createCircleInOrgButNoDevMember(organizationId: number) {
         },
       },
     ],
-  });
+  },
+    { operationName: 'createCircleInOrgButNoDevMember'});
 }
 
 async function createFreshOpenEpochDevAdminWithFixedPaymentToken() {

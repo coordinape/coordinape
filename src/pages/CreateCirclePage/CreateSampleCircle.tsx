@@ -17,9 +17,14 @@ export const CreateSampleCircle = ({
   const createSampleCircle = async () => {
     try {
       setLoading(true);
-      const { createSampleCircle: created } = await client.mutate({
-        createSampleCircle: { id: true },
-      });
+      const { createSampleCircle: created } = await client.mutate(
+        {
+          createSampleCircle: { id: true },
+        },
+        {
+          operationName: 'createSampleCircle',
+        }
+      );
       if (!created) {
         throw new Error('create sample circle failed');
       }

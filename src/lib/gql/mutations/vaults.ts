@@ -58,17 +58,23 @@ export const addVault = (payload: ValueTypes['CreateVaultInput']) =>
   );
 
 export const addVaultTx = (payload: ValueTypes['LogVaultTxInput']) =>
-  client.mutate({
-    createVaultTx: [{ payload }, { __typename: true }],
-  });
+  client.mutate(
+    {
+      createVaultTx: [{ payload }, { __typename: true }],
+    },
+    { operationName: 'createVaultTx' }
+  );
 
 export async function savePendingVaultTx(
   input: ValueTypes['pending_vault_transactions_insert_input']
 ) {
-  client.mutate({
-    insert_pending_vault_transactions_one: [
-      { object: { ...input } },
-      { __typename: true },
-    ],
-  });
+  client.mutate(
+    {
+      insert_pending_vault_transactions_one: [
+        { object: { ...input } },
+        { __typename: true },
+      ],
+    },
+    { operationName: 'savePendingVaultTx' }
+  );
 }

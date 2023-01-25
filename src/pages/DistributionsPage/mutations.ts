@@ -88,38 +88,48 @@ export function useMarkDistributionDone() {
 
 export function useSaveLockedTokenDistribution() {
   return useMutation(async (distribution: any) => {
-    const { insert_locked_token_distributions_one } = await client.mutate({
-      insert_locked_token_distributions_one: [
-        {
-          object: {
-            token_symbol: distribution.token_symbol,
-            token_decimals: distribution.token_decimals,
-            token_contract_address: distribution.token_contract_address,
-            gift_amount: distribution.gift_amount,
-            locked_token_distribution_gifts: {
-              data: distribution.locked_token_distribution_gifts,
+    const { insert_locked_token_distributions_one } = await client.mutate(
+      {
+        insert_locked_token_distributions_one: [
+          {
+            object: {
+              token_symbol: distribution.token_symbol,
+              token_decimals: distribution.token_decimals,
+              token_contract_address: distribution.token_contract_address,
+              gift_amount: distribution.gift_amount,
+              locked_token_distribution_gifts: {
+                data: distribution.locked_token_distribution_gifts,
+              },
+              epoch_id: distribution.epoch_id,
+              chain_id: distribution.chain_id,
             },
-            epoch_id: distribution.epoch_id,
-            chain_id: distribution.chain_id,
           },
-        },
-        { id: true },
-      ],
-    });
+          { id: true },
+        ],
+      },
+      {
+        operationName: 'createLockedTokenDistribution',
+      }
+    );
     return insert_locked_token_distributions_one;
   });
 }
 
 export function useMarkLockedDistributionDone() {
   return useMutation(({ id, tx_hash }: { id: number; tx_hash: string }) => {
-    return client.mutate({
-      update_locked_token_distributions_by_pk: [
-        {
-          _set: { tx_hash },
-          pk_columns: { id },
-        },
-        { id: true },
-      ],
-    });
+    return client.mutate(
+      {
+        update_locked_token_distributions_by_pk: [
+          {
+            _set: { tx_hash },
+            pk_columns: { id },
+          },
+          { id: true },
+        ],
+      },
+      {
+        operationName: 'updateLockedTokenDistribution',
+      }
+    );
   });
 }
