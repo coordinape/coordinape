@@ -1,15 +1,6 @@
-import { Modal, makeStyles } from '@material-ui/core';
-
 import { keyframes } from '../stitches.config';
 import { Box, Text } from '../ui';
-
-const useStyles = makeStyles(() => ({
-  modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-}));
+import { Modal } from 'ui';
 
 const rotation = keyframes({
   '0%': { transform: 'rotate(0deg)' },
@@ -26,20 +17,13 @@ export const LoadingModal = (props: {
   text?: string;
   note?: string;
 }) => {
-  const classes = useStyles();
   const { onClose, text, visible } = props;
 
   return (
-    <Modal
-      className={classes.modal}
-      disableBackdropClick
-      onClose={onClose}
-      open={visible}
-    >
+    <Modal loader open={visible} onOpenChange={onClose}>
       <Box
         css={{
           outline: 'none',
-          padding: '$sm',
           userSelect: `none`,
           textAlign: 'center',
         }}
@@ -64,12 +48,12 @@ export const LoadingModal = (props: {
               top: '50%',
               left: '50%',
               transform: 'scale(0.5) translate(0, 0)',
-              backgroundColor: '#FFF',
+              backgroundColor: '$cta',
               borderRadius: '50%',
               animation: `${animloader} 1s infinite ease-in-out`,
             },
             '&::before': {
-              backgroundColor: '$cta',
+              backgroundColor: '#fff',
               transform: 'scale(0.5) translate(-96px, -96px)',
             },
           }}
