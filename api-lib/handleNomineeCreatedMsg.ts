@@ -1,3 +1,5 @@
+import { isFeatureEnabled } from '../src/config/features';
+
 import * as queries from './gql/queries';
 import { sendSocialMessage } from './sendSocialMessage';
 import { EventTriggerPayload } from './types';
@@ -15,7 +17,7 @@ export default async function handleNomineeCreatedMsg(
     return false;
   }
 
-  if (channels.discord) {
+  if (isFeatureEnabled('discord') && channels.discord) {
     const { profile, nominator, vouches_required, circle_id, description } =
       nominees_by_pk;
 

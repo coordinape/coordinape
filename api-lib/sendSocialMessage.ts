@@ -1,6 +1,9 @@
 import fetch from 'node-fetch';
 
+import { isFeatureEnabled } from '../src/config/features';
+
 import { TELEGRAM_BOT_BASE_URL } from './config';
+import { DISCORD_BOT_NAME, DISCORD_BOT_AVATAR_URL } from './constants';
 import * as queries from './gql/queries';
 import { isDiscordEpochEvent } from './utils/isDiscordEpochEvent';
 
@@ -47,7 +50,7 @@ export async function sendSocialMessage({
 
   const { circles_by_pk: circle } = await queries.getCircle(circleId);
 
-  if (isDiscordEpochEvent(channels.discord)) {
+  if (isFeatureEnabled('discord') && isDiscordEpochEvent(channels.discord)) {
     const { type } = channels.discord;
     // TODO Fix the discord bot endpoint
     const res = await fetch(`http://localhost:4000/api/epoch/${type}`, {
@@ -58,6 +61,29 @@ export async function sendSocialMessage({
       },
     });
 
+    if (!res.ok) {
+      throw new Error(JSON.stringify(await res.json()));
+    }
+  }
+
+  if (
+    !isFeatureEnabled('discord') &&
+    !isDiscordEpochEvent(channels.discord) &&
+    channels?.discord &&
+    circle?.discord_webhook
+  ) {
+    const discordWebhookPost = {
+      content: msg,
+      username: DISCORD_BOT_NAME,
+      avatar_url: DISCORD_BOT_AVATAR_URL,
+    };
+    const res = await fetch(circle.discord_webhook, {
+      method: 'POST',
+      body: JSON.stringify(discordWebhookPost),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
     if (!res.ok) {
       throw new Error(JSON.stringify(await res.json()));
     }
