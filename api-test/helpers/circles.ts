@@ -40,18 +40,21 @@ export async function createCircle(
     organizationId = organization?.id;
   }
 
-  const { insert_circles_one: circle } = await client.mutate({
-    insert_circles_one: [
-      {
-        object: {
-          ...object,
-          name: object?.name ?? getCircleName(),
-          organization_id: organizationId,
+  const { insert_circles_one: circle } = await client.mutate(
+    {
+      insert_circles_one: [
+        {
+          object: {
+            ...object,
+            name: object?.name ?? getCircleName(),
+            organization_id: organizationId,
+          },
         },
-      },
-      { id: true, name: true },
-    ],
-  });
+        { id: true, name: true },
+      ],
+    },
+    { operationName: 'createCircle' }
+  );
 
   assert(circle, 'Circle not created');
   return circle;

@@ -23,18 +23,21 @@ beforeAll(async () => {
   profile = await createProfile(adminClient);
   circle = await createCircle(adminClient);
 
-  const resp = await adminClient.mutate({
-    __alias: {
-      createJoinToken: {
-        insert_circle_share_tokens_one: [
-          {
-            object: { circle_id: circle.id, type: CircleTokenType.Magic },
-          },
-          { uuid: true },
-        ],
+  const resp = await adminClient.mutate(
+    {
+      __alias: {
+        createJoinToken: {
+          insert_circle_share_tokens_one: [
+            {
+              object: { circle_id: circle.id, type: CircleTokenType.Magic },
+            },
+            { uuid: true },
+          ],
+        },
       },
     },
-  });
+    { operationName: 'test' }
+  );
   joinToken = resp.createJoinToken?.uuid;
 });
 

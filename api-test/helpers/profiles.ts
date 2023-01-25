@@ -16,9 +16,15 @@ export async function createProfile(
       name: `${faker.name.firstName()} ${faker.datatype.number(10000)}`,
     };
   }
-  const { insert_profiles_one: profile } = await client.mutate({
-    insert_profiles_one: [{ object }, { id: true, name: true, address: true }],
-  });
+  const { insert_profiles_one: profile } = await client.mutate(
+    {
+      insert_profiles_one: [
+        { object },
+        { id: true, name: true, address: true },
+      ],
+    },
+    { operationName: 'createProfile' }
+  );
   assert(profile, 'Profile not created');
   return profile;
 }
