@@ -45,7 +45,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         },
       ],
     },
-    { operationName: 'getUsers' }
+    { operationName: 'getUsers__updateUser' }
   );
 
   if (!user) {

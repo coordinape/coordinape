@@ -51,7 +51,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         },
       ],
     },
-    { operationName: 'createShareTokens' }
+    { operationName: 'getShareTokens__createUserWithToken' }
   );
 
   const circleId = circle_share_tokens.pop()?.circle_id;
