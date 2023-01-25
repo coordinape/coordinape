@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { useWeb3React } from 'hooks/useWeb3React';
 
-export default function useConnectedAddress() {
+export function useConnectedAddress() {
   const { account, library } = useWeb3React();
 
   // fallback for certain providers that don't set account directly

@@ -2,7 +2,7 @@ import { useIsLoggedIn } from 'features/auth';
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 
-import useConnectedAddress from 'hooks/useConnectedAddress';
+import { useConnectedAddress } from 'hooks/useConnectedAddress';
 import { useWeb3React } from 'hooks/useWeb3React';
 
 export const getNavData = (address: string, chainId: number) =>

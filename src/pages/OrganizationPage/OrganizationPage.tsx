@@ -6,7 +6,7 @@ import { NavLink, useParams } from 'react-router-dom';
 
 import { LoadingModal } from 'components';
 import { scrollToTop } from 'components/MainLayout/MainLayout';
-import useConnectedAddress from 'hooks/useConnectedAddress';
+import { useConnectedAddress } from 'hooks/useConnectedAddress';
 import { CircleRow } from 'pages/CirclesPage/CirclesPage';
 import { paths } from 'routes/paths';
 import { Avatar, Box, Button, Flex, Text } from 'ui';

@@ -3,38 +3,43 @@ import { client } from 'lib/gql/client';
 import { Awaited } from 'types/shim';
 
 export const getCreateCircleData = async (address: string) => {
-  const { users: myUsers, profiles } = await client.query({
-    users: [
-      {
-        where: {
-          _and: [
-            { circle: { deleted_at: { _is_null: true } } },
-            { address: { _ilike: address } },
-          ],
-        },
-      },
-      {
-        name: true,
-        role: true,
-        circle: {
-          organization: {
-            id: true,
-            name: true,
-            sample: true,
+  const { users: myUsers, profiles } = await client.query(
+    {
+      users: [
+        {
+          where: {
+            _and: [
+              { circle: { deleted_at: { _is_null: true } } },
+              { address: { _ilike: address } },
+            ],
           },
         },
-      },
-    ],
-    profiles: [
-      {
-        where: { address: { _ilike: address } },
-        limit: 1,
-      },
-      {
-        name: true,
-      },
-    ],
-  });
+        {
+          name: true,
+          role: true,
+          circle: {
+            organization: {
+              id: true,
+              name: true,
+              sample: true,
+            },
+          },
+        },
+      ],
+      profiles: [
+        {
+          where: { address: { _ilike: address } },
+          limit: 1,
+        },
+        {
+          name: true,
+        },
+      ],
+    },
+    {
+      operationName: 'getCreateCircleData',
+    }
+  );
   const myProfile = profiles.pop();
   return { myUsers, myProfile };
 };

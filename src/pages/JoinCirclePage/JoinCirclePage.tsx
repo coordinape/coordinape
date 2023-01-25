@@ -10,7 +10,7 @@ import { CircleTokenType } from '../../common-lib/circleShareTokens';
 import { LoadingModal } from '../../components';
 import { paths } from '../../routes/paths';
 import { CenteredBox, Panel, Text } from '../../ui';
-import useConnectedAddress from 'hooks/useConnectedAddress';
+import { useConnectedAddress } from 'hooks/useConnectedAddress';
 
 import { AddressIsNotMember } from './AddressIsNotMember';
 import { JoinWithMagicLink } from './JoinWithMagicLink';

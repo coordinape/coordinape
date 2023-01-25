@@ -14,7 +14,7 @@ import { zUsername } from '../../lib/zod/formHelpers';
 import { paths } from '../../routes/paths';
 import { Box, Button, CenteredBox, TextField, Text, Panel } from '../../ui';
 import { normalizeError } from '../../utils/reporting';
-import useConnectedAddress from 'hooks/useConnectedAddress';
+import { useConnectedAddress } from 'hooks/useConnectedAddress';
 
 export const JoinWithMagicLink = ({
   tokenJoinInfo,

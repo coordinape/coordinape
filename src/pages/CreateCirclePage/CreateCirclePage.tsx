@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 
 import { LoadingModal } from 'components';
-import useConnectedAddress from 'hooks/useConnectedAddress';
+import { useConnectedAddress } from 'hooks/useConnectedAddress';
 
 import { CreateCircleForm } from './CreateCircleForm';
 import { getCreateCircleData, QUERY_KEY_CREATE_CIRCLE } from './queries';
