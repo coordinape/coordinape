@@ -12,6 +12,11 @@ export type DiscordEpochEvent = {
   roleId: string;
 };
 
+export type Channels = {
+  discord?: DiscordNomination | boolean; // `boolean` just for backward compatibility for now, will be removed
+  telegram?: boolean;
+};
+
 export type DiscordNomination = DiscordEpochEvent & {
   type: 'nomination';
   nominee: string;
@@ -25,10 +30,7 @@ type SocialMessage = {
   message?: string;
   circleId: number;
   sanitize?: boolean;
-  channels: {
-    discord?: DiscordNomination | boolean; // `boolean` just for backward compatibility for now, will be removed
-    telegram?: boolean;
-  };
+  channels: Channels;
   notifyOrg?: boolean;
 };
 
