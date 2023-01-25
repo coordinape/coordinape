@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { findMonthlyEndDate, findSameDayNextMonth } from 'common-lib/epochs';
 import isEmpty from 'lodash/isEmpty';
 import {
   DateObjectUnits,
@@ -55,8 +56,7 @@ const zCustomInputSchema = z
 const zMonthlyInputSchema = z
   .object({
     type: z.literal('monthly'),
-    weekday: z.number().min(1).max(7),
-    week: z.number().min(1).max(6),
+    week: z.number().min(1),
   })
   .strict();
 
@@ -96,6 +96,7 @@ const submitSchema = z
     custom_interval_qty: z.number().min(1),
     custom_duration_denomination: zFrequencyUnits,
     custom_interval_denomination: zFrequencyUnits,
+    monthly_repeat_datetime: z.string(),
     repeat: EpochRepeatEnum,
     repeatStartDate: z.string(),
     description: z
@@ -126,6 +127,7 @@ const schema = z
     custom_interval_qty: z.number().min(1),
     custom_duration_denomination: zFrequencyUnits,
     custom_interval_denomination: zFrequencyUnits,
+    monthly_repeat_datetime: z.string(),
     end_date: z.string(),
     repeat: EpochRepeatEnum,
     repeatStartDate: z.string(),
@@ -418,7 +420,7 @@ const EpochForm = ({
           ? source.epoch?.repeat > 0
             ? 'custom'
             : 'none'
-          : 'custom',
+          : 'monthly',
       start_time:
         (source?.epoch?.start_date &&
           DateTime.fromISO(source.epoch.start_date).toLocaleString(
@@ -434,6 +436,7 @@ const EpochForm = ({
         DateTime.now().setZone().plus({ days: 1 }).toISODate(),
       description: source.epoch?.description,
       custom_start_date: DateTime.now().plus({ days: 1 }).toISODate(),
+      monthly_repeat_datetime: DateTime.now().plus({ days: 1 }).toISODate(),
       end_date: source?.epoch?.end_date
         ? DateTime.fromISO(source.epoch.end_date)
             .plus(source.epoch.days || 0)
@@ -615,7 +618,10 @@ const EpochForm = ({
         setSubmitting(false);
       })
       .then(onClose)
-      .catch(console.warn);
+      .catch(e => {
+        setSubmitting(false);
+        console.warn(e);
+      });
   };
 
   const shouldFormBeDisabled = useMemo(
@@ -801,7 +807,6 @@ const EpochForm = ({
                     <Controller
                       control={control}
                       name="repeat"
-                      defaultValue="custom"
                       render={({ field: { onChange, value } }) => (
                         <Select
                           css={{ minWidth: '280px' }}
@@ -822,21 +827,37 @@ const EpochForm = ({
                       maxWidth: '280px',
                       gap: '$xs',
                       display:
+                        getValues('repeat') === 'monthly' ? 'flex' : 'none',
+                    }}
+                  >
+                    <FormDatePicker
+                      disabled={shouldFormBeDisabled}
+                      control={control}
+                      id="monthly_repeat_datetime"
+                      name="monthly_repeat_datetime"
+                      css={{ minWidth: '280px' }}
+                      label="Next Start Date"
+                    />
+                  </Flex>
+
+                  <Flex
+                    column
+                    css={{
+                      alignItems: 'flex-start',
+                      maxWidth: '280px',
+                      gap: '$xs',
+                      display:
                         getValues('repeat') === 'custom' ? 'flex' : 'none',
                     }}
                   >
-                    <Text variant="label" as="label">
-                      Start On{' '}
-                      <Tooltip content="The first day of the epoch in your local time zone">
-                        <Info size="sm" />
-                      </Tooltip>
-                    </Text>
                     <FormDatePicker
                       disabled={shouldFormBeDisabled}
                       control={control}
                       id="custom_start_date"
                       name="custom_start_date"
                       css={{ minWidth: '280px' }}
+                      label="Start On"
+                      infoTooltip="The first day of the epoch in your local time zone"
                     />
                     <Flex row css={{ gap: '$sm' }}>
                       <Box
@@ -971,6 +992,28 @@ const MultipleRepeats = (value: EpochConfig) => {
         </>
       );
     }
+    case 'monthly': {
+      const epoch3Start = findSameDayNextMonth(epochEnd, value.repeat_data);
+      const epoch3End = findSameDayNextMonth(epoch3Start, value.repeat_data);
+      return (
+        <>
+          <Text bold css={{ mt: '$sm' }}>
+            Epoch 2
+          </Text>
+          <Text>
+            {epochEnd.toFormat('ccc LLL d')} -{' '}
+            {epoch3Start.toFormat('ccc LLL d')}
+          </Text>
+          <Text bold css={{ mt: '$sm' }}>
+            Epoch 3
+          </Text>
+          <Text>
+            {epoch3Start.toFormat('ccc LLL d')} -{' '}
+            {epoch3End.toFormat('ccc LLL d')}
+          </Text>
+        </>
+      );
+    }
     default:
       return <></>;
   }
@@ -995,14 +1038,28 @@ const epochsPreview = (value: EpochConfig) => {
   );
 };
 
-const getRepeat = (value: EpochConfig) => {
-  const startDate = DateTime.fromISO(value.start_date).setZone();
+const getWeekDay = (id: number) => {
+  return [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday',
+  ][id];
+};
 
+const getRepeat = (value: EpochConfig) => {
+  const startDate = DateTime.fromISO(value.start_date);
   switch (value.repeat_data?.type) {
     case 'custom':
       return `repeats every ${value.repeat_data.frequency} ${value.repeat_data.frequency_unit}`;
     case 'monthly':
-      return `Every ${getSuffix(startDate.day)} of the month`;
+      return `Every ${getSuffix(value.repeat_data.week + 1)} ${getWeekDay(
+        startDate.weekday
+      )} of the month`;
     default:
       return `The epoch doesn't repeat.`;
   }
@@ -1079,14 +1136,14 @@ const getNextRepeatingDates = (
     | 'custom_duration_denomination'
     | 'custom_interval_qty'
     | 'custom_interval_denomination'
+    | 'monthly_repeat_datetime'
   >
 ): { nextStartDate: string; nextEndDate: string } => {
   let nextStartDate = DateTime.now();
   let nextEndDate = DateTime.now();
   if (data.repeat === 'monthly') {
-    // FIXME
-    nextStartDate = nextStartDate.plus({ months: 1 });
-    nextEndDate = nextStartDate.plus({ months: 2 });
+    nextStartDate = DateTime.fromISO(data.monthly_repeat_datetime);
+    nextEndDate = findMonthlyEndDate(nextStartDate);
   } else if (data.repeat === 'custom') {
     nextStartDate = DateTime.fromISO(data.custom_start_date);
     nextEndDate = nextStartDate.plus({
@@ -1123,10 +1180,11 @@ const buildRepeatData = (
       frequency_unit: data.custom_interval_denomination,
     };
   //else  if repeat === 'monthly'
+
+  const monthlyRepeat = DateTime.fromISO(data.monthly_repeat_datetime);
   return {
     type: 'monthly',
-    weekday: 1,
-    week: 1,
+    week: Math.floor((monthlyRepeat.day - 1) / 7),
   };
 };
 
