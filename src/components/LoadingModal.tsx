@@ -1,6 +1,5 @@
 import { keyframes } from '../stitches.config';
-import { Box, Text } from '../ui';
-import { Modal } from 'ui';
+import { Box, Text, Modal } from 'ui';
 
 const rotation = keyframes({
   '0%': { transform: 'rotate(0deg)' },
