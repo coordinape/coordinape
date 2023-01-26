@@ -404,7 +404,7 @@ input DeleteDiscordUserInput {
 }
 
 input LinkDiscordCircleInput {
-  circle_id: String!
+  circle_id: Int!
   token: String!
 }
 

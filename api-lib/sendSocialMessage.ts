@@ -12,8 +12,8 @@ export type DiscordEpochEvent = {
   roleId: string;
 };
 
-export type Channels = {
-  discord?: DiscordNomination | boolean; // `boolean` just for backward compatibility for now, will be removed
+export type Channels<T> = {
+  discord?: T | boolean; // `boolean` just for backward compatibility for now, will be removed
   telegram?: boolean;
 };
 
@@ -26,11 +26,24 @@ export type DiscordNomination = DiscordEpochEvent & {
   nominationLink: string;
 };
 
+export type DiscordOptsOut = DiscordEpochEvent & {
+  type: 'user-opts-out';
+  discordId?: string;
+  address?: string;
+  circleName: string;
+  refunds: {
+    username: string;
+    give: number;
+  }[];
+};
+
+type SocialMessageChannels = DiscordNomination | DiscordOptsOut;
+
 type SocialMessage = {
   message?: string;
   circleId: number;
   sanitize?: boolean;
-  channels: Channels;
+  channels: Channels<SocialMessageChannels>;
   notifyOrg?: boolean;
 };
 

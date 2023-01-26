@@ -296,7 +296,7 @@ input Int_comparison_exp {
 }
 
 input LinkDiscordCircleInput {
-  circle_id: String!
+  circle_id: Int!
   token: String!
 }
 

@@ -13,7 +13,7 @@ import {
 
 export const linkDiscordCircleInputSchema = z
   .object({
-    circle_id: z.string(),
+    circle_id: z.number(),
     token: z.string(),
   })
   .strict();

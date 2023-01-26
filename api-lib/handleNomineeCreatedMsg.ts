@@ -1,15 +1,20 @@
+/* eslint-disable no-console */
 import { isFeatureEnabled } from '../src/config/features';
 
 import * as queries from './gql/queries';
-import { Channels, sendSocialMessage } from './sendSocialMessage';
+import {
+  Channels,
+  DiscordNomination,
+  sendSocialMessage,
+} from './sendSocialMessage';
 import { Awaited } from './ts4.5shim';
 import { EventTriggerPayload } from './types';
 
 type GetChannelsProps = Awaited<
   ReturnType<typeof queries.getNominee>
->['nominees_by_pk'] & { channels: Channels };
+>['nominees_by_pk'] & { channels: Channels<DiscordNomination> };
 
-function getChannels(props: GetChannelsProps) {
+function getChannels(props: GetChannelsProps): Channels<DiscordNomination> {
   const {
     channels,
     circle_id,

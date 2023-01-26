@@ -69,7 +69,7 @@ export const DiscordPage = () => {
 
       await linkDiscordCircle({
         token: result.api_key,
-        circle_id: circleIdParam,
+        circle_id: Number(circleIdParam),
       });
 
       showDefault('Your API key was successfully generated!');
@@ -138,7 +138,7 @@ export const DiscordPage = () => {
 };
 
 const linkDiscordCircle = async (payload: {
-  circle_id: string;
+  circle_id: number;
   token: string;
 }): Promise<void> => {
   await client.mutate(

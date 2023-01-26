@@ -860,7 +860,7 @@ export type ValueTypes = {
     _nin?: Array<number> | undefined | null;
   };
   ['LinkDiscordCircleInput']: {
-    circle_id: string;
+    circle_id: number;
     token: string;
   };
   ['LinkDiscordCircleResponse']: AliasType<{
@@ -29078,7 +29078,7 @@ export type GraphQLTypes = {
     _nin?: Array<number> | undefined;
   };
   ['LinkDiscordCircleInput']: {
-    circle_id: string;
+    circle_id: number;
     token: string;
   };
   ['LinkDiscordCircleResponse']: {
