@@ -375,6 +375,7 @@ export async function createGifts(
                 recipient_id: user.id,
                 recipient_address: user.address,
                 tokens: amount,
+                note: faker.lorem.sentences(3),
               },
               {
                 sender_id: user.id,
@@ -390,6 +391,7 @@ export async function createGifts(
                 recipient_id: member.id,
                 recipient_address: member.address,
                 tokens: amount,
+                note: faker.lorem.sentences(3),
               },
             ],
           },

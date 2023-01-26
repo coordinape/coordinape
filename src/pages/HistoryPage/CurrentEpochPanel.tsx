@@ -55,13 +55,17 @@ export const CurrentEpochPanel = ({
       <Flex
         column
         alignItems="start"
-        css={{ gap: '$sm', borderRight: '2px solid $borderDim' }}
+        css={{ gap: '$sm', borderRight: '1px solid $borderDim' }}
       >
         <Text h1 css={{ color: '$currentEpochDate', fontSize: '$h1Temp' }}>
           {startDate.toFormat('MMM')} {startDate.toFormat('d')} -{' '}
           {endDate.toFormat(endDateFormat)}
         </Text>
-        <Text h2 p css={{ color: '$currentEpochDescription' }}>
+        <Text
+          h2
+          p
+          css={{ color: '$currentEpochDescription', fontSize: '$h2Temp' }}
+        >
           {epoch.description ?? 'Epoch ' + epoch.number}
         </Text>
         {!isEditing && isAdmin && (
@@ -133,7 +137,10 @@ const Minicard = ({
       css={{
         width: '100%',
         gap: '$sm',
-        borderLeft: '1px solid $border',
+        borderLeft: '1px solid $borderDim',
+        '&:first-of-type': {
+          borderLeft: 'none',
+        },
         pl: '$xl',
         '@sm': {
           minWidth: 0,

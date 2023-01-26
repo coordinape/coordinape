@@ -157,9 +157,9 @@ export const colors = {
   hr: figmaColors.grey4,
   contentHeaderBorder: 'transparent',
   borderMedium: newFigmaColors.grey5,
-  borderDim: newFigmaColors.grey4,
+  borderDim: newFigmaColors.grey3,
   borderFocus: '$primary',
-  borderFocusBright: '$primary',
+  borderFocusBright: 'transparent',
 
   highlight: figmaColors.blue1,
   avatarFallback: newFigmaColors.grey3,
@@ -280,6 +280,7 @@ export const {
       h2: '32px',
       h1: '48px',
       h1Temp: '26px',
+      h2Temp: '18px',
     },
     fontWeights: {
       hairline: 100,
