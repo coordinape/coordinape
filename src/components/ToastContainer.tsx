@@ -23,7 +23,7 @@ const StyledContainer = styled(ToastifyContainer, {
     '.toastCloseButton svg': {
       transition: 'transform 0.3s ease-in-out',
     },
-    boxShadow: '0px 20px 25px -5px rgba(0, 0, 0, 0.1)',
+    boxShadow: '$toastifyShadow',
     '&:hover': {
       toastCloseButton: {
         background: 'transparent',
