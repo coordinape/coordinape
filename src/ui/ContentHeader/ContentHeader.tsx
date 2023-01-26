@@ -23,7 +23,7 @@ const ContentHeader = ({ children }: { children: React.ReactNode }) => {
       >
         {children}
       </Flex>
-      <HR />
+      <HR flush />
     </Flex>
   );
 };

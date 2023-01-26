@@ -533,7 +533,7 @@ export const dark = createTheme({
     navLinkHoverBackground: newFigmaColors.grey8,
   },
   fontSizes: {
-    small: '13px',
+    small: '14px',
     medium: '16px',
     large: '20px',
     h3: '24px',
