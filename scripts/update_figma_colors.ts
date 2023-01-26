@@ -1,3 +1,4 @@
+/* eslint-disable */
 import fs from 'fs';
 import path from 'path';
 
@@ -98,7 +99,16 @@ const mapStyleToNode = (file: any, styles: Styles[]) => {
 
     if (color) {
       const { r, g, b } = color;
-      colorNodes.push({ name, color: rgbToHex(r * 255, g * 255, b * 255) });
+      console.log(name, 'color', color);
+      console.log(name, 'fills', node.fills[0]);
+      colorNodes.push({
+        name,
+        color: rgbToHex(
+          Math.round(r * 255),
+          Math.round(g * 255),
+          Math.round(b * 255)
+        ),
+      });
     }
   });
 

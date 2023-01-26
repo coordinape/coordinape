@@ -243,6 +243,7 @@ const apeVariants: any = (
           },
         },
         input: {
+          borderRadius: size === 'small' ? 8 : 16,
           padding: theme.spacing(0.75, 1, 0.75),
           fontSize: size === 'small' ? 16 : 32,
           lineHeight: 1.33,
@@ -320,7 +321,7 @@ const useBaseStyles = makeStyles<
     fontSize: 16,
     lineHeight: 1.375,
     fontWeight: 400,
-
+    borderRadius: 8,
     '&::placeholder': {
       color: theme.colors.secondaryText,
     },

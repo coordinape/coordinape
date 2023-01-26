@@ -39,8 +39,8 @@ export const Text = styled('span', {
     h2: {
       true: {
         fontSize: '$h2',
+        color: '$headingText',
         fontWeight: '$semibold',
-        lineHeight: '$shorter',
         '@sm': { fontSize: '$h3' },
       },
     },
@@ -57,9 +57,9 @@ export const Text = styled('span', {
     variant: {
       label: {
         color: '$secondaryText',
-        textTransform: 'uppercase',
+        textTransform: '$textTransforms$label',
         fontSize: '$small',
-        fontWeight: '$bold',
+        fontWeight: '$labelBold',
         lineHeight: '$shorter',
         display: 'flex',
         gap: '$xs',

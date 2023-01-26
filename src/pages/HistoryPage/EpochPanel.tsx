@@ -1,27 +1,15 @@
-import { useState } from 'react';
-
 import fp from 'lodash/fp';
 import round from 'lodash/round';
-import sortBy from 'lodash/sortBy';
 import { DateTime } from 'luxon';
 import { CSS } from 'stitches.config';
 
 import isFeatureEnabled from 'config/features';
 import { useApiAdminCircle } from 'hooks';
 import { paths } from 'routes/paths';
-import {
-  Avatar,
-  Box,
-  Panel,
-  Text,
-  Button,
-  AppLink,
-  Flex,
-  MarkdownPreview,
-  Link,
-} from 'ui';
+import { Box, Panel, Text, AppLink, Flex, Link, Button } from 'ui';
 
 import type { QueryPastEpoch, QueryDistribution } from './getHistoryData';
+import { NotesSection } from './Notes';
 
 type EpochPanelProps = {
   circleId: number;
@@ -38,8 +26,6 @@ export const EpochPanel = ({
   isAdmin,
   css = {},
 }: EpochPanelProps) => {
-  const [tab, setTab] = useState(0);
-  const [showLess, setShowLess] = useState(true);
   const startDate = DateTime.fromISO(epoch.start_date);
   const endDate = DateTime.fromISO(epoch.end_date);
   const endDateFormat = endDate.month === startDate.month ? 'd' : 'MMM d';
@@ -56,12 +42,12 @@ export const EpochPanel = ({
     <Panel
       css={{
         display: 'grid',
-        gridTemplateColumns: '23fr 15fr 62fr',
+        gridTemplateColumns: '23fr 87fr',
         gap: '$md',
+        border: '1px solid $borderDim',
         '@sm': { display: 'flex' },
         ...css,
       }}
-      onClick={() => showLess && setShowLess(false)}
     >
       <Flex
         column
@@ -82,244 +68,74 @@ export const EpochPanel = ({
           </Text>
         )}
       </Flex>
-      <Box css={{ borderRight: '1px solid $border' }}>
-        <Text variant="label">You received</Text>
-        <Text bold size="large" css={{ mb: '$md' }}>
-          {totalReceived} {tokenName}
-        </Text>
-        <Text variant="label">Total Distributed</Text>
-        <Text bold size="large">
-          {totalAllocated} {tokenName}
-        </Text>
-        <DistributionSummary
-          distributions={epoch.distributions as QueryDistribution[]}
-          circleId={circleId}
-          epochId={epoch.id}
-        />
-        {isAdmin && (
-          <Box css={{ mt: '$md' }}>
-            {isFeatureEnabled('vaults') ? (
-              <AppLink
-                css={{ fontWeight: '$semibold' }}
-                to={paths.distributions(circleId, epoch.id)}
-              >
-                Review / Export
-              </AppLink>
-            ) : (
-              <Link
-                href="#"
-                css={{ fontWeight: '$semibold' }}
-                onClick={e => {
-                  e.stopPropagation(),
-                    (async () => {
-                      // use the authed api to download the CSV
-                      const csv = await downloadCSV(epoch.number, epoch.id);
-
-                      if (csv?.file) {
-                        const a = document.createElement('a');
-                        a.href = csv.file;
-                        a.click();
-                        a.href = '';
-                      }
-
-                      return false;
-                    })();
-                }}
-              >
-                Export CSV
-              </Link>
-            )}
-          </Box>
-        )}
-      </Box>
-      <Panel
-        css={{
-          py: 0,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          color: '$text',
-        }}
-      >
+      <Flex column>
         <Flex
-          alignItems="start"
           css={{
-            columnGap: '$3xl',
-            rowGap: '$lg',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            '@xs': {
-              flexDirection: 'column',
-            },
+            // display: 'grid',
+            // gridTemplateColumns: '1fr 1fr 1fr',
+            gap: '$2xl',
           }}
         >
-          <Flex column css={{ gap: '$sm' }}>
-            <Text variant="label" as="label">
-              Notes
+          <Flex column>
+            <Text variant="label">You Received</Text>
+            <Text bold size="large" css={{ my: '$sm' }}>
+              {totalReceived} {tokenName}
             </Text>
-            <Flex css={{ gap: '$md' }}>
-              <Box css={{ display: 'flex', gap: '$sm', mb: '$xs' }}>
-                <Button
-                  color="secondary"
-                  size="small"
-                  css={{ borderRadius: '$pill' }}
-                  onClick={() => setTab(0)}
-                >
-                  <Text
-                    variant="label"
-                    css={{
-                      color:
-                        tab === 0 && !showLess ? '$text' : '$secondaryText',
-                    }}
-                  >
-                    {received.filter(g => g.gift_private?.note).length} Received
-                  </Text>
-                </Button>
-                <Button
-                  color="secondary"
-                  size="small"
-                  css={{ borderRadius: '$pill' }}
-                  onClick={() => setTab(1)}
-                >
-                  <Text
-                    variant="label"
-                    css={{
-                      color:
-                        tab === 1 && !showLess ? '$text' : '$secondaryText',
-                    }}
-                  >
-                    {sent.filter(g => g.gift_private?.note).length} Sent
-                  </Text>
-                </Button>
-              </Box>
-            </Flex>
           </Flex>
-          <Box>
-            {showLess ? (
-              <button
-                onClick={event => (setShowLess(true), event.stopPropagation())}
-              >
-                <Text variant="label" css={{ cursor: 'pointer' }}>
-                  Show More
-                </Text>
-              </button>
-            ) : (
-              <button
-                onClick={event => (setShowLess(true), event.stopPropagation())}
-              >
-                <Text
-                  variant="label"
-                  css={{ color: '$primary', cursor: 'pointer' }}
-                >
-                  Show Less
-                </Text>
-              </button>
+          <Flex column>
+            <Text variant="label">Total Distributed</Text>
+            <Text bold size="large" css={{ my: '$sm' }}>
+              {totalAllocated} {tokenName}
+            </Text>
+          </Flex>
+          <Flex column>
+            <DistributionSummary
+              distributions={epoch.distributions as QueryDistribution[]}
+              circleId={circleId}
+              epochId={epoch.id}
+            />
+            {isAdmin && (
+              <Box css={{ mt: '$lg' }}>
+                {isFeatureEnabled('vaults') ? (
+                  <Button
+                    color="cta"
+                    as={AppLink}
+                    to={paths.distributions(circleId, epoch.id)}
+                  >
+                    Review &amp; Export
+                  </Button>
+                ) : (
+                  <Link
+                    href="#"
+                    css={{ fontWeight: '$semibold' }}
+                    onClick={e => {
+                      e.stopPropagation(),
+                        (async () => {
+                          // use the authed api to download the CSV
+                          const csv = await downloadCSV(epoch.number, epoch.id);
+
+                          if (csv?.file) {
+                            const a = document.createElement('a');
+                            a.href = csv.file;
+                            a.click();
+                            a.href = '';
+                          }
+
+                          return false;
+                        })();
+                    }}
+                  >
+                    Export CSV
+                  </Link>
+                )}
+              </Box>
             )}
-          </Box>
+          </Flex>
         </Flex>
 
-        {!showLess && (
-          <Flex
-            column
-            alignItems="start"
-            css={{
-              gap: '$md',
-              justifyContent: 'space-between',
-            }}
-          >
-            {tab === 0 ? (
-              <Notes tokenName={tokenName} data={received} received />
-            ) : (
-              <Notes tokenName={tokenName} data={sent} />
-            )}
-          </Flex>
-        )}
-      </Panel>
+        <NotesSection sent={sent} received={received} tokenName={tokenName} />
+      </Flex>
     </Panel>
-  );
-};
-
-type QueryReceivedGift = QueryPastEpoch['receivedGifts'][0];
-type QuerySentGift = QueryPastEpoch['sentGifts'][0];
-type QueryGift = QueryReceivedGift | QuerySentGift;
-
-type NotesProps = {
-  tokenName: string;
-  data: QueryGift[];
-  received?: boolean;
-};
-
-const Notes = ({ data, received = false, tokenName }: NotesProps) => {
-  if (data.length === 0) {
-    return (
-      <Box css={{ mt: '$md' }}>
-        <Text variant="label">
-          You did not {received ? 'receive' : 'send'} any notes
-        </Text>
-      </Box>
-    );
-  }
-
-  const sorted = sortBy(data, gift => -gift.tokens);
-
-  return (
-    <>
-      {sorted.map(gift => (
-        <NotesItem
-          key={gift.id}
-          gift={gift}
-          received={received}
-          tokenName={tokenName}
-        />
-      ))}
-    </>
-  );
-};
-
-const NotesItem = ({
-  gift,
-  received,
-  tokenName,
-}: {
-  gift: QueryGift;
-  received: boolean;
-  tokenName: string;
-}) => {
-  const other = (gift as QueryReceivedGift).sender ||
-    (gift as QuerySentGift).recipient || { name: 'Deleted User' };
-
-  const note = gift.gift_private?.note;
-  return (
-    <Box
-      css={{
-        display: 'grid',
-        gridTemplateColumns: '1fr 15fr',
-        my: '$sm',
-      }}
-    >
-      <Box css={{ mr: '$md' }}>
-        <Avatar
-          path={other.profile?.avatar}
-          name={other.profile?.name ?? other.name}
-          size="medium"
-        />
-      </Box>
-      <Box css={!note ? { alignItems: 'center', display: 'flex' } : {}}>
-        {note && (
-          <MarkdownPreview
-            render
-            css={{
-              p: 0,
-            }}
-            source={note}
-          />
-        )}
-        <Box css={{ fontSize: '$small', color: '$secondaryText' }}>
-          {gift.tokens} {tokenName} {received ? 'received from ' : 'sent to '}
-          {other.profile?.name ?? other.name}
-        </Box>
-      </Box>
-    </Box>
   );
 };
 
@@ -332,7 +148,7 @@ const DistributionSummary = ({
   circleId: number;
   epochId: number;
 }) => {
-  if (!isFeatureEnabled('vaults') || !distributions.length) return null;
+  if (!distributions.length) return null;
 
   const tokens = fp.flow(
     fp.groupBy<QueryDistribution>(dist => dist.vault.symbol),

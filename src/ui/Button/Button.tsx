@@ -52,6 +52,17 @@ export const Button = styled('button', {
           outlineOffset: '-3px',
         },
       },
+      selectedSecondary: {
+        backgroundColor: '$secondaryButtonHover',
+        color: '$secondaryButtonTextHover',
+        border: '1px solid $secondaryButtonBorderHover',
+        '&:hover': {
+          filter: 'brightness(0.8)',
+        },
+        '&:focus-visible': {
+          filter: 'brightness(0.8)',
+        },
+      },
       destructive: {
         backgroundColor: '$destructiveButton',
         color: '$destructiveButtonText',
