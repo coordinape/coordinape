@@ -10,36 +10,38 @@ jest.mock('../../recoilState', () => ({
   }),
 }));
 
-jest.mock('./getOrgData', () => ({
-  getOrgData: async () => ({
-    organizations: [
-      {
-        id: 1,
-        name: 'Test Org',
-        sample: false,
-        created_by: 1,
-        circles: [
-          {
-            id: 2,
-            name: 'Test Circle',
-            vouching: true,
-            users: [{ role: 1 }],
-            epochs: [],
-            nominees_aggregate: {
-              aggregate: {
-                count: 5,
+jest.mock('./getOrgData', () => {
+  return {
+    getOrgData: async () => ({
+      organizations: [
+        {
+          id: 1,
+          name: 'Test Org',
+          sample: false,
+          created_by: 1,
+          circles: [
+            {
+              id: 2,
+              name: 'Test Circle',
+              vouching: true,
+              users: [{ role: 1 }],
+              epochs: [],
+              nominees_aggregate: {
+                aggregate: {
+                  count: 5,
+                },
               },
             },
-          },
-        ],
-      },
-    ],
-  }),
-}));
+          ],
+        },
+      ],
+    }),
+  };
+});
 
 test('basic rendering', async () => {
   await act(async () => {
-    await render(
+    render(
       <TestWrapper withWeb3>
         <CirclesPage />
       </TestWrapper>
