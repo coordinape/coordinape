@@ -1,6 +1,66 @@
+import { isFeatureEnabled } from '../../../src/config/features';
 import * as queries from '../../gql/queries';
-import { sendSocialMessage } from '../../sendSocialMessage';
+import {
+  Channels,
+  DiscordVouchSuccessful,
+  DiscordVouchUnsuccessful,
+  sendSocialMessage,
+} from '../../sendSocialMessage';
+import { Awaited } from '../../ts4.5shim';
 import { EventTriggerPayload } from '../../types';
+
+type GetChannelsVouchUnsuccessfulProps = {
+  nominee: Awaited<ReturnType<typeof queries.getNominee>>['nominees_by_pk'];
+} & {
+  channels: Channels<DiscordVouchUnsuccessful>;
+};
+
+type GetChannelsVouchSuccessfulProps = {
+  nominee: Awaited<ReturnType<typeof queries.getNominee>>['nominees_by_pk'];
+} & {
+  channels: Channels<DiscordVouchSuccessful>;
+};
+
+function getChannelsVouchUnsuccessful(
+  props: GetChannelsVouchUnsuccessfulProps
+): Channels<DiscordVouchUnsuccessful> {
+  const { channels, nominee } = props || {};
+
+  if (isFeatureEnabled('discord') && channels.discord) {
+    return {
+      discord: {
+        type: 'vouch-unsuccessful' as const,
+        channelId: '1067789668290146324', // TODO Find this from the circle
+        roleId: '1058334400540061747', // TODO Find this from the circle
+        nominee: nominee?.profile?.name,
+      },
+    };
+  }
+
+  return channels;
+}
+
+function getChannelsVouchSuccessful(
+  props: GetChannelsVouchSuccessfulProps
+): Channels<DiscordVouchSuccessful> {
+  const { channels, nominee } = props || {};
+
+  if (isFeatureEnabled('discord') && channels.discord) {
+    return {
+      discord: {
+        type: 'vouch-successful' as const,
+        channelId: '1067789668290146324', // TODO Find this from the circle
+        roleId: '1058334400540061747', // TODO Find this from the circle
+        nominee: nominee?.profile?.name,
+        nomineeProfile: `https://app.coordinape.com//profile/${nominee?.address}`,
+        nominationReason: '', // TODO Do we even have this?
+        vouchers: [], // TODO Where to get this from?
+      },
+    };
+  }
+
+  return channels;
+}
 
 export default async function handleCheckNomineeMsg(
   payload: EventTriggerPayload<'nominees', 'UPDATE'>,
@@ -16,18 +76,25 @@ export default async function handleCheckNomineeMsg(
     if (nominees_by_pk) {
       const vouches =
         (nominees_by_pk.nominations_aggregate?.aggregate?.count ?? 0) + 1;
-      let message;
-      if (vouches >= data.new.vouches_required) {
-        message = `${nominees_by_pk.profile?.name} has received enough vouches and is now in the circle`;
-      } else if (new Date(data.new.expiry_date) < new Date()) {
-        message = `Nominee ${nominees_by_pk.profile?.name} has only received ${nominees_by_pk.nominations_aggregate?.aggregate?.count} vouch(es) and has failed`;
-      }
 
-      if (message) {
+      if (vouches >= data.new.vouches_required) {
         await sendSocialMessage({
-          message,
+          message: `${nominees_by_pk.profile?.name} has received enough vouches and is now in the circle`,
           circleId: nominees_by_pk.circle_id,
-          channels,
+          channels: getChannelsVouchSuccessful({
+            nominee: nominees_by_pk,
+            channels,
+          }),
+        });
+        return true;
+      } else if (new Date(data.new.expiry_date) < new Date()) {
+        await sendSocialMessage({
+          message: `Nominee ${nominees_by_pk.profile?.name} has only received ${nominees_by_pk.nominations_aggregate?.aggregate?.count} vouch(es) and has failed`,
+          circleId: nominees_by_pk.circle_id,
+          channels: getChannelsVouchUnsuccessful({
+            nominee: nominees_by_pk,
+            channels,
+          }),
         });
         return true;
       }
