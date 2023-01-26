@@ -14,7 +14,7 @@ import { Awaited } from '../../../api-lib/ts4.5shim';
 import { LoadingModal, QUERY_KEY_RECEIVE_INFO } from '../../components';
 import { isFeatureEnabled } from '../../config/features';
 import { useToast } from '../../hooks';
-import { useConnectedAddress } from '../../hooks/useConnectedAddress';
+import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { client } from '../../lib/gql/client';
 import { epochTimeUpcoming } from '../../lib/time';
 import { useSelectedCircle } from '../../recoilState';

@@ -8,7 +8,7 @@ import { disabledStyle } from 'stitches.config';
 import { NEW_CIRCLE_CREATED_PARAMS } from '../CreateCirclePage/CreateCirclePage';
 import { LoadingModal } from 'components';
 import { useToast, useApiAdminCircle } from 'hooks';
-import { useConnectedAddress } from 'hooks/useConnectedAddress';
+import useConnectedAddress from 'hooks/useConnectedAddress';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { Search } from 'icons/__generated';
 import {

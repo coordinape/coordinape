@@ -13,7 +13,7 @@ import * as z from 'zod';
 
 import { LoadingModal, FormInputField } from 'components';
 import { useToast } from 'hooks';
-import { useConnectedAddress } from 'hooks/useConnectedAddress';
+import useConnectedAddress from 'hooks/useConnectedAddress';
 import { Check, Info } from 'icons/__generated';
 import {
   getOrgData,

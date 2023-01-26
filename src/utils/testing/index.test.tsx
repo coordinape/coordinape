@@ -1,6 +1,6 @@
 import { render, waitFor } from '@testing-library/react';
 
-import { useConnectedAddress } from 'hooks/useConnectedAddress';
+import useConnectedAddress from 'hooks/useConnectedAddress';
 
 import { TestWrapper } from '.';
 

@@ -10,7 +10,7 @@ import { useForm, SubmitHandler, useController } from 'react-hook-form';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import * as z from 'zod';
 
-import { useConnectedAddress } from '../../hooks/useConnectedAddress';
+import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { useSelectedCircle } from '../../recoilState';
 import { LoadingModal, FormInputField } from 'components';
 import { useToast } from 'hooks';

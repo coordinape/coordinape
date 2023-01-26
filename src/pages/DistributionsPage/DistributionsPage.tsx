@@ -16,7 +16,7 @@ import { paths } from '../../routes/paths';
 import { LoadingModal } from 'components';
 import { QUERY_KEY_MAIN_HEADER } from 'components/MainLayout/getMainHeaderData';
 import { useApiAdminCircle, useContracts } from 'hooks';
-import { useConnectedAddress } from 'hooks/useConnectedAddress';
+import useConnectedAddress from 'hooks/useConnectedAddress';
 import useRequireSupportedChain from 'hooks/useRequireSupportedChain';
 import { AppLink, BackButton, Box, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';

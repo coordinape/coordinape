@@ -4,11 +4,7 @@ import { TestWrapper } from '../../utils/testing';
 
 import CreateCirclePage from './CreateCirclePage';
 
-jest.mock('hooks/useConnectedAddress', () => {
-  return {
-    useConnectedAddress: () => 'abc',
-  };
-});
+jest.mock('hooks/useConnectedAddress', () => () => 'abc');
 
 jest.mock('./queries', () => {
   return {

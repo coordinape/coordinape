@@ -7,7 +7,7 @@ import { CSS } from 'stitches.config';
 
 import type { Vault } from 'hooks/gql/useVaults';
 import { useBlockListener } from 'hooks/useBlockListener';
-import { useConnectedAddress } from 'hooks/useConnectedAddress';
+import useConnectedAddress from 'hooks/useConnectedAddress';
 import { useContracts } from 'hooks/useContracts';
 import { paths } from 'routes/paths';
 import { AppLink, Box, Button, Panel, Text } from 'ui';

@@ -7,7 +7,7 @@ import { useQuery, useQueryClient } from 'react-query';
 import { QUERY_KEY_NAV } from '../../features/nav';
 import { QUERY_KEY_MAIN_HEADER } from 'components/MainLayout/getMainHeaderData';
 import { useContracts } from 'hooks';
-import { useConnectedAddress } from 'hooks/useConnectedAddress';
+import useConnectedAddress from 'hooks/useConnectedAddress';
 import { useMyProfile } from 'recoilState/app';
 
 import { getClaims, QueryClaim } from './queries';

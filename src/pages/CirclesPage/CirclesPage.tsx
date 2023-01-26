@@ -7,7 +7,7 @@ import type { CSS } from 'stitches.config';
 
 import { useMyProfile } from '../../recoilState';
 import { LoadingModal } from 'components';
-import { useConnectedAddress } from 'hooks/useConnectedAddress';
+import useConnectedAddress from 'hooks/useConnectedAddress';
 import { User } from 'icons/__generated';
 import {
   paths,
