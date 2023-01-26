@@ -13,10 +13,12 @@ import { sendSocialMessage } from '../../../api-lib/sendSocialMessage';
 import { Awaited } from '../../../api-lib/ts4.5shim';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import { findMonthlyEndDate } from '../../../src/common-lib/epochs';
+import { isFeatureEnabled } from '../../../src/config/features';
 import {
   zCustomRepeatData,
   zMonthlyRepeatData,
 } from '../actions/_handlers/createEpoch';
+
 Settings.defaultZone = 'utc';
 
 export const zEpochRepeatData = z.discriminatedUnion('type', [
@@ -220,13 +222,31 @@ export async function notifyEpochStart({
       )}** to **${epochEndDate.toLocaleString(DateTime.DATETIME_FULL)}**
     `;
 
-    if (circle.discord_webhook)
+    if (isFeatureEnabled('discord') && circle.discord_webhook) {
+      await sendSocialMessage({
+        message,
+        circleId: circle.id,
+        channels: {
+          discord: {
+            type: 'start' as const,
+            channelId: '1067789668290146324', // TODO Find this from the circle
+            roleId: '1058334400540061747', // TODO Find this from the circle
+            epochName: `Epoch ${epochNumber}`,
+            circleName: `${circle.organization?.name}/${circle.name}`,
+            startTime: start_date,
+            endTime: end_date,
+          },
+        },
+        sanitize: false,
+      });
+    } else if (circle.discord_webhook) {
       await notifyAndUpdateEpoch(
         message,
         { discord: true },
         epoch,
         updateEpochStartNotification
       );
+    }
 
     if (circle.telegram_id)
       await notifyAndUpdateEpoch(
@@ -269,7 +289,26 @@ export async function notifyEpochEnd({
       ${usersHodlingGive.join(', ')}
     `;
 
-      if (circle.discord_webhook)
+      if (isFeatureEnabled('discord') && circle.discord_webhook) {
+        await sendSocialMessage({
+          message,
+          circleId: circle.id,
+          channels: {
+            discord: {
+              type: 'end' as const,
+              channelId: '1067789668290146324', // TODO Find this from the circle
+              roleId: '1058334400540061747', // TODO Find this from the circle
+              epochName: `Epoch ${epoch.number}`,
+              circleName: `${circle.organization?.name}/${circle.name}`,
+              endTime: epoch.end_date,
+              giveCount: 1000, // TODO How to get this?
+              userCount: circle.users.length,
+              circleHistoryLink: `https://app.coordinape.com/circles/${circle.id}/history`,
+            },
+          },
+          sanitize: false,
+        });
+      } else if (circle.discord_webhook)
         await notifyAndUpdateEpoch(
           message,
           { discord: true },

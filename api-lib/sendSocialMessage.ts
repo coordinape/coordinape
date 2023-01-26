@@ -59,12 +59,32 @@ export type DiscordVouchUnsuccessful = DiscordEpochEvent & {
   nominee: string;
 };
 
+export type DiscordStart = DiscordEpochEvent & {
+  type: 'start';
+  epochName: string;
+  circleName: string;
+  startTime: string;
+  endTime: string;
+};
+
+export type DiscordEnd = DiscordEpochEvent & {
+  type: 'end';
+  epochName: string;
+  circleName: string;
+  endTime: string;
+  giveCount: number;
+  userCount: number;
+  circleHistoryLink: string;
+};
+
 type SocialMessageChannels =
   | DiscordNomination
   | DiscordOptsOut
   | DiscordVouch
   | DiscordVouchSuccessful
-  | DiscordVouchUnsuccessful;
+  | DiscordVouchUnsuccessful
+  | DiscordStart
+  | DiscordEnd;
 
 type SocialMessage = {
   message?: string;
