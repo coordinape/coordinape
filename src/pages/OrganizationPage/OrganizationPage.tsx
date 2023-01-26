@@ -9,7 +9,7 @@ import { scrollToTop } from 'components/MainLayout/MainLayout';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { CircleRow } from 'pages/CirclesPage/CirclesPage';
 import { paths } from 'routes/paths';
-import { Avatar, Box, Button, Flex, Text } from 'ui';
+import { Avatar, Box, Button, ContentHeader, Flex, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { getOrgData, QUERY_KEY_ORG_DATA } from './getOrgData';
@@ -51,43 +51,32 @@ export const OrganizationPage = () => {
   return (
     <SingleColumnLayout>
       <Box key={org.id} css={{ mb: '$lg' }}>
-        <Flex
-          row
-          alignItems="end"
-          css={{
-            mb: '$lg',
-            justifyContent: 'space-between',
-          }}
-        >
-          <Flex alignItems="center">
-            <Text h2 medium css={{ gap: '$sm', '@sm': { fontSize: '$large' } }}>
+        <ContentHeader>
+          <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
+            <Text h1 css={{ gap: '$sm' }}>
               <Avatar path={org.logo} size="small" name={org.name || ''} />
               {org.name || ''}
             </Text>
           </Flex>
-          <Flex>
-            {isAdmin(org) && (
-              <Flex css={{ gap: '$sm' }}>
-                <Button
-                  as={NavLink}
-                  to={paths.createCircle + '?org=' + org.id}
-                  css={{ whiteSpace: 'nowrap' }}
-                  color="secondary"
-                >
-                  Add Circle
-                </Button>
-                <Button
-                  as={NavLink}
-                  to={paths.organizationSettings(orgId)}
-                  color="secondary"
-                  css={{ whiteSpace: 'nowrap' }}
-                >
-                  Settings
-                </Button>
-              </Flex>
-            )}
-          </Flex>
-        </Flex>
+          {isAdmin(org) && (
+            <Flex css={{ gap: '$sm' }}>
+              <Button
+                as={NavLink}
+                to={paths.organizationSettings(orgId)}
+                color="primary"
+              >
+                Settings
+              </Button>
+              <Button
+                as={NavLink}
+                to={paths.createCircle + '?org=' + org.id}
+                color="cta"
+              >
+                Add Circle
+              </Button>
+            </Flex>
+          )}
+        </ContentHeader>
         <Box css={{ display: 'flex', flexDirection: 'column', gap: '$xl' }}>
           {sortBy(org.circles, c => [-c.users.length, c.name]).map(circle => (
             <CircleRow

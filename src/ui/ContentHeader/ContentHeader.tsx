@@ -16,6 +16,9 @@ const ContentHeader = ({ children }: { children: React.ReactNode }) => {
           justifyContent: 'space-between',
           alignItems: 'flex-start',
           gap: '$md',
+          '& p': {
+            maxWidth: '50em',
+          },
           '@sm': {
             flexDirection: 'column',
           },

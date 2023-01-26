@@ -12,7 +12,7 @@ import { useContracts } from 'hooks';
 import { useVaults } from 'hooks/gql/useVaults';
 import useRequireSupportedChain from 'hooks/useRequireSupportedChain';
 import { rSelectedCircleId } from 'recoilState/app';
-import { Box, Button, Flex, Link, Modal, Panel, Text } from 'ui';
+import { Box, Button, ContentHeader, Flex, Link, Modal, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { CreateForm } from './CreateForm';
@@ -109,42 +109,20 @@ const VaultsPage = () => {
           ))}
         </Box>
       )}
-      <Flex
-        row
-        css={{
-          justifyContent: 'space-between',
-          alignItems: 'baseline',
-          mb: '$sm',
-          '@sm': {
-            flexDirection: 'column',
-            alignItems: 'start',
-          },
-        }}
-      >
-        <Text h1 css={{ '@sm': { mb: '$sm' } }}>
-          {currentOrg?.name} Vaults
-        </Text>
+      <ContentHeader>
+        <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
+          <Text h1>{currentOrg?.name} Vaults</Text>
+          <Text p as="p">
+            Manage Vaults and fund circles with fixed and peer reward payments.
+          </Text>
+        </Flex>
         {isAdmin && (
-          <Button
-            color="secondary"
-            css={{ whiteSpace: 'nowrap' }}
-            onClick={() => setModal(true)}
-          >
+          <Button color="cta" onClick={() => setModal(true)}>
             Create Vault
           </Button>
         )}
-      </Flex>
-      <Text
-        p
-        as="p"
-        css={{
-          mb: '$lg',
-          width: '50%',
-          '@sm': { width: '100%' },
-        }}
-      >
-        Manage Vaults and fund circles with fixed and peer reward payments.
-      </Text>
+      </ContentHeader>
+
       {isLoading ? (
         <Panel>Loading, please wait...</Panel>
       ) : (vaults?.length || 0) > 0 ? (

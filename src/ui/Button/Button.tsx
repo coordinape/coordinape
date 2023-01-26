@@ -306,8 +306,8 @@ export const Button = styled('button', {
       color: 'neutral',
       outlined: true,
       css: {
-        background: 'transparent',
-        color: '$neutralButton',
+        background: '$neutralButtonOutlineBackground',
+        color: '$neutralButtonOutlineText',
         borderColor: '$neutralButton',
       },
     },

@@ -57,7 +57,7 @@ export const CirclesPage = () => {
       <ContentHeader>
         <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
           <Text h1>Overview</Text>
-          <Text p as="p" css={{ maxWidth: '50em' }}>
+          <Text p as="p">
             All your organizations and circles in one place.{' '}
             <Link
               onClick={() => {

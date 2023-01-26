@@ -105,6 +105,8 @@ export const colors = {
   successButtonBorderFocus: newFigmaColors.success5,
 
   neutralButton: '$primary',
+  neutralButtonOutlineBackground: newFigmaColors.grey1,
+  neutralButtonOutlineText: '$primary',
   neutralButtonHover: '$primaryHover',
   neutralButtonText: newFigmaColors.grey1,
   neutralButtonTextHover: newFigmaColors.grey1,
@@ -427,9 +429,11 @@ export const dark = createTheme({
     successButtonBorderFocus: newFigmaColors.success5,
 
     neutralButton: newFigmaColors.grey7,
-    neutralButtonHover: newFigmaColors.grey8,
-    neutralButtonText: newFigmaColors.grey4,
-    neutralButtonTextHover: newFigmaColors.grey4,
+    neutralButtonOutlineBackground: newFigmaColors.grey9,
+    neutralButtonOutlineText: newFigmaColors.grey4,
+    neutralButtonHover: newFigmaColors.grey6,
+    neutralButtonText: newFigmaColors.grey3,
+    neutralButtonTextHover: newFigmaColors.grey3,
 
     secondary: newFigmaColors.secondary5,
     secondaryMedium: newFigmaColors.secondary7,

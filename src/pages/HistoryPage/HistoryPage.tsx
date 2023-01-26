@@ -114,7 +114,9 @@ export const HistoryPage = () => {
           <Text h1 css={{ mb: '$sm' }}>
             {circle.name} Overview
           </Text>
-          <Text>Your current and past epochs.</Text>
+          <Text p as="p">
+            Your current and past epochs.
+          </Text>
         </Flex>
         {isAdmin && (
           <Button
