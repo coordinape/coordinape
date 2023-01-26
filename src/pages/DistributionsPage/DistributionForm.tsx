@@ -553,6 +553,7 @@ export function DistributionForm({
   };
 
   const shouldDisableGiftInput = () => {
+    if (!contracts) return true;
     if (existingLockedTokenDistribution?.tx_hash) return true;
     if (hedgeyIntegration?.data.enabled) return false;
     else
@@ -660,7 +661,6 @@ export function DistributionForm({
                   includeHedgey: hedgeyIntegration?.data.enabled,
                   includeConnectWallet: false,
                 })}
-                disabled={!contracts}
               ></Select>
             </Box>
             <Box css={{ width: '100%' }}>
@@ -733,7 +733,6 @@ export function DistributionForm({
                       includeHedgey: false,
                       includeConnectWallet: true,
                     })}
-                    disabled={!contracts}
                   />
                 </Box>
                 <Box css={{ width: '100%', marginTop: '1em' }}>
