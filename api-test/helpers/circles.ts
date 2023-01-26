@@ -1,3 +1,5 @@
+import assert from 'assert';
+
 import faker from 'faker';
 import { z } from 'zod';
 
@@ -24,7 +26,7 @@ export function getCircleName() {
 export async function createCircle(
   client: GQLClientType,
   object?: Partial<CircleInput>
-): Promise<{ id: number }> {
+) {
   let organizationId = object?.organization_id;
 
   if (!organizationId) {
@@ -38,24 +40,22 @@ export async function createCircle(
     organizationId = organization?.id;
   }
 
-  const { insert_circles_one } = await client.mutate({
-    insert_circles_one: [
-      {
-        object: {
-          ...object,
-          name: object?.name ?? getCircleName(),
-          organization_id: organizationId,
+  const { insert_circles_one: circle } = await client.mutate(
+    {
+      insert_circles_one: [
+        {
+          object: {
+            ...object,
+            name: object?.name ?? getCircleName(),
+            organization_id: organizationId,
+          },
         },
-      },
-      {
-        id: true,
-      },
-    ],
-  });
+        { id: true, name: true },
+      ],
+    },
+    { operationName: 'createCircle' }
+  );
 
-  if (!insert_circles_one) {
-    throw new Error('Circle not created');
-  }
-
-  return insert_circles_one;
+  assert(circle, 'Circle not created');
+  return circle;
 }

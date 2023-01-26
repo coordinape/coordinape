@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
+import { NavLink } from 'react-router-dom';
 import { z } from 'zod';
 
-import { TokenJoinInfo } from '../../../api/circle/landing/[token]';
+import type { TokenJoinInfo } from '../../../api/circle/landing/[token]';
 import { LoadingModal } from '../../components';
 import CircleWithLogo from '../../components/CircleWithLogo';
 import { useToast, useApiBase } from '../../hooks';
@@ -18,16 +19,85 @@ import useConnectedAddress from 'hooks/useConnectedAddress';
 
 export const JoinWithMagicLink = ({
   tokenJoinInfo,
+  profile,
+}: {
+  tokenJoinInfo: TokenJoinInfo;
+  profile?: { name?: string };
+}) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const location = useLocation();
+  const {
+    circle,
+    circle: { organization, users },
+  } = tokenJoinInfo;
+
+  return (
+    <CenteredBox>
+      {loading && <LoadingModal visible={true} />}
+      <Panel nested>
+        <CircleWithLogo
+          logo={circle.logo}
+          name={circle.name}
+          orgName={organization.name}
+          orgLogo={organization.logo}
+          admins={users.map(u => ({
+            name: u.profile.name ?? u.name,
+            avatar: u.profile.avatar,
+          }))}
+        />
+      </Panel>
+      <Box css={{ textAlign: 'center', mt: '$3xl', mb: '$xl' }}>
+        <Text h2 inline bold color="neutral">
+          Join the {circle.name} Circle
+        </Text>
+      </Box>
+      <Box>
+        <Text
+          css={{
+            justifyContent: 'center',
+          }}
+        >
+          You&apos;ve been invited to join the {circle.name} Circle at{' '}
+          {organization.name}!
+        </Text>
+      </Box>
+      {profile ? (
+        <JoinForm
+          tokenJoinInfo={tokenJoinInfo}
+          loading={loading}
+          setLoading={setLoading}
+          userName={profile.name}
+        />
+      ) : (
+        <Button
+          as={NavLink}
+          to={`/login?next=${location.pathname}`}
+          css={{ mt: '$md' }}
+          size="large"
+          color="primary"
+        >
+          Connect Wallet
+        </Button>
+      )}
+    </CenteredBox>
+  );
+};
+
+const JoinForm = ({
+  tokenJoinInfo,
+  loading,
+  setLoading,
   userName,
 }: {
   tokenJoinInfo: TokenJoinInfo;
+  loading: boolean;
+  setLoading: (loading: boolean) => void;
   userName?: string;
 }) => {
+  const address = useConnectedAddress();
   const { fetchManifest } = useApiBase();
   const { showError } = useToast();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState<boolean>(false);
-  const address = useConnectedAddress();
 
   const joinSchema = z.object({ name: zUsername });
 
@@ -40,38 +110,27 @@ export const JoinWithMagicLink = ({
     resolver: zodResolver(joinSchema),
     reValidateMode: 'onChange',
     mode: 'onChange',
-    defaultValues: {
-      name: userName ?? '',
-    },
+    defaultValues: { name: userName ?? '' },
   });
 
   useEffect(() => {
-    if (userName) {
-      reset({ name: userName });
-    }
+    if (userName) reset({ name: userName });
   }, [userName]);
+
+  const { token, circle } = tokenJoinInfo;
+
   const submitMagicToken = async ({ name }: { name: string }) => {
     try {
       setLoading(true);
       const { createUserWithToken } = await client.mutate(
         {
-          createUserWithToken: [
-            {
-              payload: {
-                token: tokenJoinInfo.token,
-                name: name,
-              },
-            },
-            {
-              id: true,
-            },
-          ],
+          createUserWithToken: [{ payload: { token, name } }, { id: true }],
         },
         { operationName: 'createUserWithToken' }
       );
       await fetchManifest();
       if (createUserWithToken?.id) {
-        navigate(paths.history(tokenJoinInfo.circle.id));
+        navigate(paths.history(circle.id));
       }
     } catch (e) {
       const err = normalizeError(e);
@@ -82,93 +141,62 @@ export const JoinWithMagicLink = ({
   };
 
   return (
-    <CenteredBox>
-      {loading && <LoadingModal visible={true} />}
-      <Panel nested>
-        <CircleWithLogo
-          logo={tokenJoinInfo.circle.logo}
-          name={tokenJoinInfo.circle.name}
-          orgName={tokenJoinInfo.circle.organization.name}
-          orgLogo={tokenJoinInfo.circle.organization.logo}
-          admins={tokenJoinInfo.circle.users.map(u => ({
-            name: u.profile.name ?? u.name,
-            avatar: u.profile.avatar,
-          }))}
-        />
-      </Panel>
-      <Box css={{ textAlign: 'center', mt: '$3xl', mb: '$xl' }}>
-        <Text h2 inline bold color="neutral">
-          Join the {tokenJoinInfo.circle.name} Circle
-        </Text>
-      </Box>
-      <Box>
-        <Text
-          css={{
-            justifyContent: 'center',
-          }}
-        >
-          You&apos;ve been invited to join the {tokenJoinInfo.circle.name}{' '}
-          Circle at {tokenJoinInfo.circle.organization.name}!
-        </Text>
-      </Box>
-
-      <form onSubmit={handleSubmit(submitMagicToken)}>
-        <Box
-          css={{
-            mb: '$md',
-            mt: '$3xl',
-            alignItems: 'center',
-            display: 'grid',
-            gridColumnGap: '$md',
-            gridTemplateColumns: '35fr 65fr',
-          }}
-        >
-          <Box>
-            <Box css={{ mb: '$xs' }}>
-              <Text variant="label">Name</Text>
-            </Box>
-            <TextField
-              inPanel
-              placeholder="Name"
-              fullWidth
-              autoComplete="off"
-              error={errors.name !== undefined}
-              {...register(`name`)}
-              disabled={!!userName}
-            />
+    <form onSubmit={handleSubmit(submitMagicToken)}>
+      <Box
+        css={{
+          mb: '$md',
+          mt: '$3xl',
+          alignItems: 'center',
+          display: 'grid',
+          gridColumnGap: '$md',
+          gridTemplateColumns: '35fr 65fr',
+        }}
+      >
+        <Box>
+          <Box css={{ mb: '$xs' }}>
+            <Text variant="label">Name</Text>
           </Box>
-          <Box>
-            <Box css={{ mb: '$xs' }}>
-              <Text variant="label">Wallet Address</Text>
-            </Box>
-            <TextField
-              inPanel
-              placeholder="Address"
-              fullWidth
-              disabled={true}
-              value={address}
-            />
-          </Box>
-          <Box>
-            {errors.name && (
-              <Text variant="formError" css={{ mt: '$sm', textAlign: 'left' }}>
-                {errors.name.message}
-              </Text>
-            )}
-          </Box>
+          <TextField
+            inPanel
+            placeholder="Name"
+            fullWidth
+            autoComplete="off"
+            error={errors.name !== undefined}
+            {...register(`name`)}
+            disabled={!!userName}
+          />
         </Box>
         <Box>
-          <Button
-            type="submit"
-            color="primary"
+          <Box css={{ mb: '$xs' }}>
+            <Text variant="label">Wallet Address</Text>
+          </Box>
+          <TextField
+            inPanel
+            placeholder="Address"
             fullWidth
-            size="large"
-            disabled={loading || !isValid}
-          >
-            Join
-          </Button>
+            disabled={true}
+            value={address}
+          />
         </Box>
-      </form>
-    </CenteredBox>
+        <Box>
+          {errors.name && (
+            <Text variant="formError" css={{ mt: '$sm', textAlign: 'left' }}>
+              {errors.name.message}
+            </Text>
+          )}
+        </Box>
+      </Box>
+      <Box>
+        <Button
+          type="submit"
+          color="primary"
+          fullWidth
+          size="large"
+          disabled={loading || !isValid}
+        >
+          Join
+        </Button>
+      </Box>
+    </form>
   );
 };
