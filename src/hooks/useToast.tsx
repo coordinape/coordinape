@@ -1,3 +1,4 @@
+import copy from 'copy-to-clipboard';
 import {
   CloseButtonProps,
   toast,
@@ -7,7 +8,7 @@ import {
 
 import { FlattenedGQLError } from '../common-lib/errorHandling';
 import isFeatureEnabled from 'config/features';
-import { Bell, Check, CoMark, Loader, X } from 'icons/__generated';
+import { Bell, Check, CoMark, Copy, Loader, X } from 'icons/__generated';
 import { Button, Flex } from 'ui';
 import { normalizeError } from 'utils/reporting';
 
@@ -102,10 +103,38 @@ const CloseButton = (props: CloseButtonProps) => {
         marginRight: '-5px',
         alignItems: 'flex-start',
       }}
-      onClick={(e: React.MouseEvent<HTMLElement>) => props.closeToast(e)}
+      onClick={(e: React.MouseEvent<HTMLElement>) => {
+        // eslint-disable-next-line no-console
+        console.log('close button clicked');
+        props.closeToast(e);
+      }}
     >
       <X />
     </Button>
+  );
+};
+
+const ToastBody = (content: ToastContent) => {
+  const text = content?.toString() || '';
+  const copyContent = () => {
+    copy(text);
+    // eslint-disable-next-line no-console
+    console.log('copied:', text);
+  };
+  return (
+    <Flex
+      css={{ cursor: 'pointer' }}
+      className="toastContent"
+      onClick={(e: React.MouseEvent<HTMLElement>) => {
+        copyContent();
+        e.preventDefault();
+      }}
+    >
+      <Flex css={{ alignSelf: 'flex-start', flexGrow: '2' }}>{content}</Flex>
+      <Flex css={{ alignSelf: 'flex-end' }}>
+        <Copy />
+      </Flex>
+    </Flex>
   );
 };
 
@@ -119,21 +148,20 @@ export const useToast = () => {
   return {
     // rename to showDefault: ...
     showDefault: (content: ToastContent, props: ToastOptions = {}) =>
-      toast(content, {
+      toast(ToastBody(content), {
         icon: DefaultIcon,
         closeButton: CloseButton,
-        autoClose: false,
         ...props,
       }),
 
     showSuccess: (content: ToastContent, props: ToastOptions = {}) =>
-      toast.success(content, {
+      toast.success(ToastBody(content), {
         icon: SuccessIcon,
         closeButton: CloseButton,
         ...props,
       }),
     showError: (content: ToastContent | unknown, props: ToastOptions = {}) =>
-      toast.error(displayError(content), {
+      toast.error(ToastBody(displayError(content)), {
         icon: ErrorIcon,
         closeButton: CloseButton,
         autoClose: false,

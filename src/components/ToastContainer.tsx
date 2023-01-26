@@ -31,6 +31,14 @@ const StyledContainer = styled(ToastifyContainer, {
         transform: 'rotate(90deg)',
       },
     },
+    '.toastContent': {
+      '&:hover': {
+        svg: {
+          opacity: '0.5',
+          transition: 'transform 0.3s',
+        },
+      },
+    },
   },
   '.Toastify__toast-icon': {
     mr: '20px',
@@ -70,6 +78,7 @@ export const ToastContainer = () => {
       hideProgressBar={false}
       autoClose={5000}
       newestOnTop
+      closeOnClick={false}
       pauseOnFocusLoss
       draggable
       limit={3}
