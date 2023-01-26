@@ -98,7 +98,7 @@ async function updateEpoch(
             ...existingEpoch,
             start_date: start_date.toISO(),
             end_date: end_date.toISO(),
-            repeat_data: repeatData.type !== 'one-off' ? repeatData : undefined,
+            repeat_data: repeatData.type !== 'one-off' ? repeatData : null,
           },
           pk_columns: { id },
         },
