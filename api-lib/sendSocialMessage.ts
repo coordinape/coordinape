@@ -37,7 +37,16 @@ export type DiscordOptsOut = DiscordEpochEvent & {
   }[];
 };
 
-type SocialMessageChannels = DiscordNomination | DiscordOptsOut;
+export type DiscordVouch = DiscordEpochEvent & {
+  type: 'vouch';
+  nominee: string;
+  voucher: string;
+  nominationReason: string;
+  currentVouches: number;
+  requiredVouches: number;
+};
+
+type SocialMessageChannels = DiscordNomination | DiscordOptsOut | DiscordVouch;
 
 type SocialMessage = {
   message?: string;

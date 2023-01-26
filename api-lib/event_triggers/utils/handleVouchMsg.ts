@@ -1,7 +1,46 @@
 import * as queries from '../../../api-lib/gql/queries';
+import { isFeatureEnabled } from '../../../src/config/features';
 import { NotFoundError } from '../../HttpError';
-import { sendSocialMessage } from '../../sendSocialMessage';
+import {
+  Channels,
+  DiscordVouch,
+  sendSocialMessage,
+} from '../../sendSocialMessage';
+import { Awaited } from '../../ts4.5shim';
 import { EventTriggerPayload } from '../../types';
+
+type Vouch = Awaited<ReturnType<typeof queries.getExistingVouch>>['vouches'][0];
+
+type Nominee = Awaited<ReturnType<typeof queries.getNominee>>['nominees_by_pk'];
+
+type GetChannelsProps = { vouch: Vouch } & { nominee: Nominee } & {
+  channels: Channels<DiscordVouch>;
+};
+
+function getChannels(props: GetChannelsProps): Channels<DiscordVouch> {
+  const {
+    channels,
+    vouch: { voucher },
+    nominee,
+  } = props || {};
+
+  if (isFeatureEnabled('discord') && channels.discord) {
+    return {
+      discord: {
+        type: 'vouch' as const,
+        channelId: '1067789668290146324', // TODO Find this from the circle
+        roleId: '1058334400540061747', // TODO Find this from the circle
+        nominee: nominee?.profile?.name,
+        voucher: voucher?.profile.name ?? voucher?.name ?? 'Someone',
+        nominationReason: 'nominationReason', // TODO Do we even have this?
+        currentVouches: 0, // TODO Where to get this from?
+        requiredVouches: 0, // TODO Where to get this from?
+      },
+    };
+  }
+
+  return channels;
+}
 
 export default async function handleVouchMsg(
   payload: EventTriggerPayload<'vouches', 'INSERT'>,
@@ -36,7 +75,7 @@ export default async function handleVouchMsg(
     }!`,
     circleId: nominees_by_pk.circle_id,
     sanitize: true,
-    channels,
+    channels: getChannels({ vouch, nominee: nominees_by_pk, channels }),
   });
 
   return true;
