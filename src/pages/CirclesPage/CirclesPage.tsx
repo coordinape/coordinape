@@ -8,6 +8,7 @@ import type { CSS } from 'stitches.config';
 import { useMyProfile } from '../../recoilState';
 import { LoadingModal } from 'components';
 import useConnectedAddress from 'hooks/useConnectedAddress';
+import { useToast } from 'hooks/useToast';
 import { User } from 'icons/__generated';
 import {
   paths,
@@ -27,6 +28,7 @@ export type OrgWithCircles = QueryResult['organizations'][number];
 export const CirclesPage = () => {
   const address = useConnectedAddress();
   const profile = useMyProfile();
+  const { showDefault, showError, showSuccess } = useToast();
   const query = useQuery(
     [QUERY_KEY_MY_ORGS, address],
     () => getOrgData(address as string),
@@ -38,6 +40,17 @@ export const CirclesPage = () => {
   const orgs = query.data?.organizations;
 
   const [showAllCircles, setShowAllCircles] = useState(false);
+
+  const Msg = () => (
+    <Box role="dialog" tabIndex={0}>
+      Lorem ipsum dolor
+    </Box>
+  );
+
+  const displayMsg = () => {
+    showSuccess(<Msg />);
+    // toast(Msg) would also work
+  };
 
   if (
     query.isLoading ||
@@ -69,7 +82,53 @@ export const CirclesPage = () => {
         <Text h1 css={{ '@sm': { mb: '$sm' } }}>
           Overview
         </Text>
-        <Button as={NavLink} to={paths.createCircle} color="secondary">
+
+        <Box>
+          <Button onClick={displayMsg} color="primary" pill>
+            Error Multiline
+          </Button>
+          <Button onClick={displayMsg} color="primary" pill>
+            Success Multiline
+          </Button>
+          <Button
+            onClick={() => {
+              showDefault(
+                ' This is a long info message, but its really great because you are really great, really really. Yes you are Im so great too. Were all great. We neven need some more text. What kind of made up words can I create like globularus and the textimonisnyess'
+              );
+            }}
+            color="primary"
+          >
+            Info Multiline
+          </Button>
+          <Button
+            onClick={() => {
+              showError('The file flowbite-figma-pro was permanently deleted.');
+            }}
+            color="primary"
+          >
+            Error
+          </Button>
+          <Button
+            onClick={() => {
+              showSuccess(
+                'The action that you have done was a success! Well done'
+              );
+            }}
+            color="primary"
+          >
+            Success
+          </Button>
+          <Button
+            onClick={() => {
+              showDefault('🦄 Wow so easy!');
+            }}
+            color="primary"
+          >
+            Info
+          </Button>
+        </Box>
+
+        <Button as={NavLink} to={paths.createCircle} color="primary">
           Create New Circle
         </Button>
       </Flex>
