@@ -510,7 +510,7 @@ export const dark = createTheme({
     mapLink: '#FFFFFF15',
     mapLinkDim: '#FFFFFF08',
 
-    toastifyBackground: newFigmaColors.grey9,
+    toastifyBackground: newFigmaColors.grey8,
     toastifyBorderColorDefault: newFigmaColors.grey6,
     toastifyBorderColorSuccess: newFigmaColors.success6,
     toastifyIconBackgroundSuccess: newFigmaColors.success10,
