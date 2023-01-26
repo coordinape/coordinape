@@ -492,7 +492,7 @@ export function DistributionForm({
     amountSet: string,
     formType: string
   ): Promise<void> => {
-    if (!mounted.current) return;
+    if (!mounted.current || !contracts) return;
     function calculateIfCombinedDist() {
       if (isUsingHedgey) {
         return false;
@@ -553,6 +553,7 @@ export function DistributionForm({
   };
 
   const shouldDisableGiftInput = () => {
+    if (!contracts) return true;
     if (existingLockedTokenDistribution?.tx_hash) return true;
     if (hedgeyIntegration?.data.enabled) return false;
     else
@@ -841,6 +842,7 @@ export function DistributionForm({
                       defaultValue: hedgeyIntegration?.data.lockPeriod,
                       onValueChange: onChangeHedgeyLockPeriod,
                     })}
+                    disabled={!contracts}
                   />
                 </Box>
                 <Box css={{ width: '100%', marginTop: '1em' }}>
@@ -862,6 +864,7 @@ export function DistributionForm({
                           shouldDirty: true,
                         }),
                     })}
+                    disabled={!contracts}
                   />
                 </Box>
               </TwoColumnLayout>
@@ -897,7 +900,7 @@ export function DistributionForm({
           ) : vaults[0] ? (
             <Button
               color="secondary"
-              disabled={giftSubmitting || !sufficientGiftTokens}
+              disabled={giftSubmitting || !sufficientGiftTokens || !contracts}
               fullWidth
             >
               {getButtonText(
@@ -965,6 +968,7 @@ export function DistributionForm({
                           ]
                         : [{ value: '', label: 'No Vaults Available' }]
                     }
+                    disabled={!contracts}
                   ></Select>
                 </Box>
                 <Box css={{ width: '100%' }}>
@@ -1024,7 +1028,9 @@ export function DistributionForm({
           ) : fpVault ? (
             <Button
               color="secondary"
-              disabled={fixedSubmitting || !sufficientFixedPaymentTokens}
+              disabled={
+                fixedSubmitting || !sufficientFixedPaymentTokens || !contracts
+              }
               fullWidth
             >
               {getButtonText(

@@ -17,7 +17,6 @@ import { LoadingModal } from 'components';
 import { QUERY_KEY_MAIN_HEADER } from 'components/MainLayout/getMainHeaderData';
 import { useApiAdminCircle, useContracts } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
-import useRequireSupportedChain from 'hooks/useRequireSupportedChain';
 import { AppLink, BackButton, Box, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -44,10 +43,10 @@ export function DistributionsPage() {
     ['distributions', epochId],
     () => getEpochData(Number.parseInt(epochId || '0'), address, contracts),
     {
-      enabled: !!(address && contracts),
+      enabled: !!address,
       retry: false,
       select: d => {
-        if (d.circle)
+        if (d.circle && d.circle.organization)
           d.circle.organization.vaults = d.circle?.organization.vaults.map(
             v => {
               v.symbol = getDisplayTokenString(v);
@@ -83,8 +82,6 @@ export function DistributionsPage() {
   useEffect(() => {
     loadExistingLockedTokenDistribution();
   }, [epochId]);
-
-  useRequireSupportedChain();
 
   if (isIdle || isLoading) return <LoadingModal visible />;
 
@@ -189,14 +186,16 @@ export function DistributionsPage() {
         .reduce((t, g) => t + g.tokens, 0) || 0,
   }));
 
-  const vaults = circle.organization.vaults || [];
+  const vaults = circle.organization?.vaults || [];
   const giftVault = vaults.find(v => v.id.toString() === giftVaultId);
   const fixedVault = vaults.find(v => v.id === circle.fixed_payment_vault_id);
-  const tokenName = circleDist
-    ? getDisplayTokenString(circleDist.vault)
-    : giftVault
-    ? getDisplayTokenString(giftVault)
-    : '';
+  const tokenName = contracts
+    ? circleDist
+      ? getDisplayTokenString(circleDist.vault)
+      : giftVault
+      ? getDisplayTokenString(giftVault)
+      : ''
+    : circle.fixed_payment_token_type;
   const fixedTokenName = fixedDist
     ? getDisplayTokenString(fixedDist.vault)
     : fixedVault

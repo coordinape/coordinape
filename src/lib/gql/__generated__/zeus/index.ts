@@ -740,6 +740,14 @@ export type ValueTypes = {
     address: string;
     circle_id: number;
   };
+  ['DeleteUsersInput']: {
+    addresses: Array<string>;
+    circle_id: number;
+  };
+  ['DeleteUsersResponse']: AliasType<{
+    success?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['EpochResponse']: AliasType<{
     epoch?: ValueTypes['epochs'];
     id?: boolean | `@${string}`;
@@ -4616,6 +4624,10 @@ export type ValueTypes = {
     deleteUser?: [
       { payload: ValueTypes['DeleteUserInput'] },
       ValueTypes['ConfirmationResponse']
+    ];
+    deleteUsers?: [
+      { payload: ValueTypes['DeleteUsersInput'] },
+      ValueTypes['DeleteUsersResponse']
     ];
     delete_circle_api_keys?: [
       {
@@ -10471,6 +10483,10 @@ export type ModelTypes = {
     success: boolean;
   };
   ['DeleteUserInput']: GraphQLTypes['DeleteUserInput'];
+  ['DeleteUsersInput']: GraphQLTypes['DeleteUsersInput'];
+  ['DeleteUsersResponse']: {
+    success: boolean;
+  };
   ['EpochResponse']: {
     epoch?: GraphQLTypes['epochs'] | undefined;
     id: string;
@@ -11737,6 +11753,7 @@ export type ModelTypes = {
     deleteContribution?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteEpoch?: GraphQLTypes['DeleteEpochResponse'] | undefined;
     deleteUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    deleteUsers?: GraphQLTypes['DeleteUsersResponse'] | undefined;
     /** delete data from the table: "circle_api_keys" */
     delete_circle_api_keys?:
       | GraphQLTypes['circle_api_keys_mutation_response']
@@ -13381,6 +13398,14 @@ export type GraphQLTypes = {
   ['DeleteUserInput']: {
     address: string;
     circle_id: number;
+  };
+  ['DeleteUsersInput']: {
+    addresses: Array<string>;
+    circle_id: number;
+  };
+  ['DeleteUsersResponse']: {
+    __typename: 'DeleteUsersResponse';
+    success: boolean;
   };
   ['EpochResponse']: {
     __typename: 'EpochResponse';
@@ -16577,6 +16602,7 @@ export type GraphQLTypes = {
     deleteContribution?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteEpoch?: GraphQLTypes['DeleteEpochResponse'] | undefined;
     deleteUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    deleteUsers?: GraphQLTypes['DeleteUsersResponse'] | undefined;
     /** delete data from the table: "circle_api_keys" */
     delete_circle_api_keys?:
       | GraphQLTypes['circle_api_keys_mutation_response']
