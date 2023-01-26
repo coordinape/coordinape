@@ -756,14 +756,25 @@ describe('epoch Cron Logic', () => {
       expect(result).toEqual([]);
       expect(mockSendSocial).toBeCalledTimes(1);
       expect(mockSendSocial).toBeCalledWith({
-        channels: { discord: true },
+        channels: {
+          discord: {
+            channelId: '1067789668290146324',
+            circleHistoryLink: 'https://app.coordinape.com/circles/1/history',
+            circleName: 'mock Org/circle with ending epoch',
+            endTime: mockEpoch.notifyEndEpochs.end_date,
+            epochName: 'Epoch 3',
+            giveCount: 1000,
+            roleId: '1058334400540061747',
+            type: 'end',
+            userCount: 2,
+          },
+        },
         circleId: 1,
         message:
           'mock Org/circle with ending epoch epoch ends in less than 24 hours!\n' +
           'Users that have yet to fully allocate their GIVE:\n' +
           'bob, alice',
         sanitize: false,
-        notifyOrg: false,
       });
       expect(mockMutation).toBeCalledTimes(1);
       expect(mockMutation).toBeCalledWith(
@@ -800,9 +811,20 @@ describe('epoch Cron Logic', () => {
         sanitize: false,
       });
       expect(mockSendSocial).toBeCalledWith({
-        channels: { discord: true },
+        channels: {
+          discord: {
+            channelId: '1067789668290146324',
+            circleHistoryLink: 'https://app.coordinape.com/circles/1/history',
+            circleName: 'mock Org/circle with ending epoch',
+            endTime: mockEpoch.notifyEndEpochs.end_date,
+            epochName: 'Epoch 3',
+            giveCount: 1000,
+            roleId: '1058334400540061747',
+            type: 'end',
+            userCount: 2,
+          },
+        },
         circleId: 1,
-        notifyOrg: false,
         message:
           'mock Org/circle with ending epoch epoch ends in less than 24 hours!\n' +
           'Users that have yet to fully allocate their GIVE:\n' +
@@ -867,9 +889,18 @@ describe('epoch Cron Logic', () => {
       );
       expect(mockSendSocial).toBeCalledTimes(2);
       expect(mockSendSocial).toBeCalledWith({
-        channels: { discord: true },
+        channels: {
+          discord: {
+            channelId: '1067789668290146324',
+            circleName: 'mock Org/mockCircle',
+            endTime: mockEpoch.notifyStartEpochs.end_date,
+            epochName: 'Epoch 1',
+            roleId: '1058334400540061747',
+            startTime: mockEpoch.notifyStartEpochs.start_date,
+            type: 'start',
+          },
+        },
         circleId: 5,
-        notifyOrg: false,
         message: expect.stringContaining(
           'A new mock Org/mockCircle epoch is active!\n' +
             '5 users will be participating and the duration of the epoch will be:\n'

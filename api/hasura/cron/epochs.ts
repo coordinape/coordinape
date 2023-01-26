@@ -239,6 +239,7 @@ export async function notifyEpochStart({
         },
         sanitize: false,
       });
+      updateEpochStartNotification(epoch.id);
     } else if (circle.discord_webhook) {
       await notifyAndUpdateEpoch(
         message,
@@ -308,6 +309,7 @@ export async function notifyEpochEnd({
           },
           sanitize: false,
         });
+        updateEpochEndSoonNotification(epoch.id);
       } else if (circle.discord_webhook)
         await notifyAndUpdateEpoch(
           message,
