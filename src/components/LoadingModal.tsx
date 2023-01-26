@@ -28,6 +28,7 @@ export const LoadingModal = (props: {
         }}
         data-note={`loading-${props.note || ''}`}
         data-testid={`loading-${props.note || ''}`}
+        role="progressbar"
       >
         <Box
           css={{
