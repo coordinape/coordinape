@@ -59,6 +59,10 @@ type Mutation {
 }
 
 type Mutation {
+  deleteUsers(payload: DeleteUsersInput!): DeleteUsersResponse
+}
+
+type Mutation {
   generateApiKey(payload: GenerateApiKeyInput!): GenerateApiKeyResponse
 }
 
@@ -361,6 +365,11 @@ input LinkDiscordUserInput {
   discord_id: String!
 }
 
+input DeleteUsersInput {
+  circle_id: Int!
+  addresses: [String!]!
+}
+
 input UpdateProfileNameInput {
   name: String!
 }
@@ -491,6 +500,14 @@ type UpdateProfileNameResponse {
 
 type LinkDiscordCircleResponse {
   id: Int!
+}
+
+type DeleteUserBulkResponse {
+  success: Boolean!
+}
+
+type DeleteUsersResponse {
+  success: Boolean!
 }
 
 scalar timestamptz
