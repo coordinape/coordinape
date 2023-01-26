@@ -1,10 +1,10 @@
 import { styled } from '../../stitches.config';
 
 export const HR = styled('hr', {
-  height: 1,
+  height: '0.5px',
   width: '100%',
   border: 'none',
-  background: '$border',
+  background: '$borderDim',
   marginTop: '$md',
   marginBottom: '$md',
 
@@ -24,8 +24,8 @@ export const HR = styled('hr', {
     flush: {
       true: {
         // TODO uncomment these negative margin rules after redesign launch
-        // marginLeft: '-$xl',
-        // width: 'calc(100% + $xl)',
+        marginLeft: '-$xl',
+        width: 'calc(100% + $xl)',
       },
     },
   },

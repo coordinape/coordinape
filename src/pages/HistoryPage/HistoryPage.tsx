@@ -26,6 +26,7 @@ import {
   Box,
   AppLink,
   Modal,
+  ContentHeader,
 } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -108,26 +109,13 @@ export const HistoryPage = () => {
 
   return (
     <SingleColumnLayout>
-      <Flex
-        alignItems="end"
-        css={{
-          justifyContent: 'space-between',
-          alignItems: 'flex-start',
-          flexWrap: 'wrap',
-          mb: '$md',
-          gap: '$md',
-          pb: '$lg',
-          mx: '-$xl',
-          px: '$xl',
-          borderBottom: '1px solid $neutral',
-        }}
-      >
-        <Box>
+      <ContentHeader>
+        <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
           <Text h1 css={{ mb: '$sm' }}>
             {circle.name} Overview
           </Text>
           <Text>Your current and past epochs.</Text>
-        </Box>
+        </Flex>
         {isAdmin && (
           <Button
             css={{ mt: '$sm' }}
@@ -138,7 +126,8 @@ export const HistoryPage = () => {
             Create Epoch
           </Button>
         )}
-      </Flex>
+      </ContentHeader>
+
       {/* show some help for admins who don't have an epoch yet */}
       {isAdmin &&
         circle &&

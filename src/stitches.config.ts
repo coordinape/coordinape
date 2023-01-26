@@ -152,6 +152,8 @@ export const colors = {
   textOnInfo: figmaColors.grey20,
 
   border: figmaColors.grey4,
+  hr: figmaColors.grey4,
+  contentHeaderBorder: 'transparent',
   borderMedium: newFigmaColors.grey5,
   borderDim: newFigmaColors.grey4,
   borderFocus: '$primary',
@@ -466,6 +468,7 @@ export const dark = createTheme({
     border: newFigmaColors.grey9,
     borderMedium: newFigmaColors.grey6,
     borderDim: newFigmaColors.grey7,
+    contentHeaderBorder: newFigmaColors.grey7,
     borderFocus: newFigmaColors.primary5,
     borderFocusBright: newFigmaColors.primary3,
 

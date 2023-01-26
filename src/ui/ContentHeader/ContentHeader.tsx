@@ -2,7 +2,15 @@ import { Flex, HR } from 'ui';
 
 const ContentHeader = ({ children }: { children: React.ReactNode }) => {
   return (
-    <Flex column css={{ gap: '$sm' }}>
+    <Flex
+      column
+      css={{
+        gap: '$sm',
+        hr: {
+          background: '$contentHeaderBorder',
+        },
+      }}
+    >
       <Flex
         css={{
           justifyContent: 'space-between',

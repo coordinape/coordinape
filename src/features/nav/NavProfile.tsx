@@ -46,6 +46,7 @@ export const NavProfile = ({
         }}
         tabIndex={0}
         onClick={() => setOpen(prev => !prev)}
+        // onBlur={() => setOpen(false)}
       >
         <Avatar
           name={name}
