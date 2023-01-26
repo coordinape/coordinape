@@ -25,8 +25,8 @@ export const NextEpoch = ({
     const endDate = DateTime.fromISO(epoch.end_date);
     const diff = epochTimeUpcoming(startDate);
     return (
-      <Flex css={{ flexWrap: 'wrap', gap: '$md' }}>
-        <Text inline bold color="neutral">
+      <Flex css={{ flexWrap: 'wrap', gap: '$xl' }}>
+        <Text size="xl" medium inline>
           {`${startDate.toFormat('LLL d')} - ${
             startDate.month === endDate.month
               ? endDate.day
@@ -47,7 +47,7 @@ export const NextEpoch = ({
   }, [epoch]);
 
   return (
-    <Panel css={{ mb: '$md', p: '$md' }}>
+    <Panel css={{ mb: '$md', p: '$md', border: '1px solid $borderDim' }}>
       <Flex
         alignItems="center"
         css={{
@@ -59,11 +59,19 @@ export const NextEpoch = ({
         <Text inline>{nextEpochStartLabel}</Text>
         {!isEditing && isAdmin && (
           <Flex css={{ flexWrap: 'wrap', gap: '$md' }}>
-            <Button color="secondary" onClick={() => setEditEpoch(epoch)}>
-              Edit
+            <Button
+              color="secondary"
+              size="small"
+              onClick={() => setEditEpoch(epoch)}
+            >
+              Edit epoch
             </Button>
-            <Button color="destructive" onClick={() => setEpochToDelete(epoch)}>
-              Delete
+            <Button
+              color="neutral"
+              size="small"
+              onClick={() => setEpochToDelete(epoch)}
+            >
+              Delete Epoch
             </Button>
           </Flex>
         )}

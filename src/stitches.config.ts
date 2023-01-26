@@ -129,7 +129,6 @@ export const colors = {
   textOnAlert: newFigmaColors.grey1,
 
   success: figmaColors.green12,
-  derp: figmaColors.green12,
   successLight: figmaColors.green1,
   successDisabled: figmaColors.green4,
   successDark: figmaColors.green16,
@@ -156,6 +155,7 @@ export const colors = {
   borderMedium: newFigmaColors.grey5,
   borderDim: newFigmaColors.grey4,
   borderFocus: '$primary',
+  borderFocusBright: '$primary',
 
   highlight: figmaColors.blue1,
   avatarFallback: newFigmaColors.grey3,
@@ -225,6 +225,10 @@ export const colors = {
   toastifyBorderColorError: newFigmaColors.error3,
   toastifyIconBackgroundError: newFigmaColors.error2,
   navLinkText: newFigmaColors.grey2,
+
+  // TODO: improve
+  currentEpochDate: figmaColors.grey20,
+  currentEpochDescription: figmaColors.grey20,
 };
 
 export const {
@@ -250,9 +254,6 @@ export const {
       mediumScreen: '1392px',
       headerHeight: '91px',
       ...spaces,
-    },
-    derp: {
-      test: 'gold',
     },
     radii: {
       1: '4px',
@@ -285,6 +286,7 @@ export const {
       bold: 700,
       extrabold: 800,
       black: 900,
+      labelBold: '$bold',
     },
     lineHeights: {
       none: 1,
@@ -309,6 +311,9 @@ export const {
       'color-progress-light': 'var(--colors-text) !important',
       'color-progress-success': 'var(--toastify-text-color-success) !important',
       'color-progress-error': 'var(--toastify-text-color-error) !important',
+    },
+    textTransforms: {
+      label: 'uppercase',
     },
   },
   media: {
@@ -388,7 +393,7 @@ export const {
 
 export const dark = createTheme({
   colors: {
-    cta: newFigmaColors.primary5,
+    cta: newFigmaColors.primary4,
     ctaHover: newFigmaColors.primary6,
     textOnCta: newFigmaColors.primary10,
 
@@ -444,8 +449,8 @@ export const dark = createTheme({
     surface: newFigmaColors.grey9,
     surfaceNested: newFigmaColors.grey10,
 
-    text: newFigmaColors.grey2,
-    headingText: newFigmaColors.grey4,
+    text: newFigmaColors.grey4,
+    headingText: newFigmaColors.grey2,
     secondaryText: newFigmaColors.grey6,
 
     info: newFigmaColors.secondary10,
@@ -462,6 +467,10 @@ export const dark = createTheme({
     borderMedium: newFigmaColors.grey6,
     borderDim: newFigmaColors.grey7,
     borderFocus: newFigmaColors.primary5,
+    borderFocusBright: newFigmaColors.primary3,
+
+    currentEpochDate: newFigmaColors.primary2,
+    currentEpochDescription: newFigmaColors.primary6,
 
     panelInfoText: newFigmaColors.grey4,
     panelInfoBackground: newFigmaColors.grey7,
@@ -520,8 +529,22 @@ export const dark = createTheme({
     navLinkText: newFigmaColors.grey4,
     navLinkHoverBackground: newFigmaColors.grey8,
   },
+  fontSizes: {
+    small: '13px',
+    medium: '16px',
+    large: '20px',
+    h3: '24px',
+    h2: '18px',
+    h1: '26px',
+  },
   fonts: {
     display: 'Denim, apple-system, sans-serif',
+  },
+  fontWeights: {
+    labelBold: '$semibold',
+  },
+  textTransforms: {
+    label: 'none',
   },
 });
 

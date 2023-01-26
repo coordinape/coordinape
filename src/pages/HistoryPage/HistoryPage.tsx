@@ -103,7 +103,7 @@ export const HistoryPage = () => {
     setNewEpoch(false);
   }, [circleId]);
 
-  if (query.isLoading || query.isIdle)
+  if (query.isLoading || query.isIdle || !circle)
     return <LoadingModal visible note="HistoryPage" />;
 
   return (
@@ -112,15 +112,26 @@ export const HistoryPage = () => {
         alignItems="end"
         css={{
           justifyContent: 'space-between',
+          alignItems: 'flex-start',
           flexWrap: 'wrap',
           mb: '$md',
           gap: '$md',
+          pb: '$lg',
+          mx: '-$xl',
+          px: '$xl',
+          borderBottom: '1px solid $neutral',
         }}
       >
-        <Text h1>Epoch Overview</Text>
+        <Box>
+          <Text h1 css={{ mb: '$sm' }}>
+            {circle.name} Overview
+          </Text>
+          <Text>Your current and past epochs.</Text>
+        </Box>
         {isAdmin && (
           <Button
-            color="secondary"
+            css={{ mt: '$sm' }}
+            color="cta"
             onClick={() => setNewEpoch(true)}
             disabled={newEpoch || !!editEpoch}
           >
@@ -216,7 +227,7 @@ export const HistoryPage = () => {
         ></EpochForm>
       )}
 
-      <Text h3>Upcoming Epochs</Text>
+      <Text h2>Upcoming Epochs</Text>
       {futureEpochs?.length === 0 && <Text>There are no scheduled epochs</Text>}
       <Collapsible open={open} onOpenChange={setOpen} css={{ mb: '$md' }}>
         {futureEpochs && futureEpochs.length > 0 && (
@@ -254,7 +265,7 @@ export const HistoryPage = () => {
       </Collapsible>
       {currentEpoch && (
         <>
-          <Text h3>Current</Text>
+          <Text h2>Current Epoch</Text>
           <CurrentEpochPanel
             css={{ mb: '$md' }}
             circleId={circleId}
@@ -271,7 +282,7 @@ export const HistoryPage = () => {
       )}
       {pastEpochs.length > 0 && (
         <>
-          <Text h3>Past</Text>
+          <Text h2>Past Epochs</Text>
           {shownPastEpochs.map((epoch: QueryPastEpoch) => (
             <EpochPanel
               key={epoch.id}
