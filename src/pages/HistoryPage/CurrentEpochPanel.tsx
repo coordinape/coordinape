@@ -57,7 +57,7 @@ export const CurrentEpochPanel = ({
         alignItems="start"
         css={{ gap: '$sm', borderRight: '2px solid $borderDim' }}
       >
-        <Text h1 css={{ color: '$currentEpochDate' }}>
+        <Text h1 css={{ color: '$currentEpochDate', fontSize: '$h1Temp' }}>
           {startDate.toFormat('MMM')} {startDate.toFormat('d')} -{' '}
           {endDate.toFormat(endDateFormat)}
         </Text>

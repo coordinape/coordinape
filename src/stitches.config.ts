@@ -277,6 +277,7 @@ export const {
       h3: '24px',
       h2: '32px',
       h1: '48px',
+      h1Temp: '26px',
     },
     fontWeights: {
       hairline: 100,
@@ -539,6 +540,7 @@ export const dark = createTheme({
     h3: '24px',
     h2: '18px',
     h1: '26px',
+    h1Temp: '26px',
   },
   lineHeights: {
     none: 1,
