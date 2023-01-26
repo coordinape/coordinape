@@ -5,6 +5,7 @@ export * from './Button/Button';
 export { default as CenteredBox } from './CenteredBox/CenteredBox';
 export * from './Checkbox/CheckBox';
 export * from './Collapsible/Collapsible';
+export { default as ContentHeader } from './ContentHeader/ContentHeader';
 export * from './Divider/Divider';
 export * from './Flex/Flex';
 export * from './Form';

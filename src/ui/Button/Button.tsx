@@ -15,6 +15,7 @@ export const Button = styled('button', {
   alignItems: 'center',
   lineHeight: '$shorter',
   textDecoration: 'none',
+  whiteSpace: 'nowrap',
   '&[disabled]': disabledStyle,
 
   variants: {

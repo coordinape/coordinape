@@ -25,9 +25,8 @@ export const NavProfile = ({
       column
       css={{
         color: 'inherit',
-        border: '1px solid $borderFocus',
+        border: '1px solid $neutral',
         borderRadius: '$3',
-
         width: '100%',
       }}
     >
@@ -41,7 +40,7 @@ export const NavProfile = ({
           padding: '$xs $sm',
           borderRadius: '$3',
           '&:hover, &:focus': {
-            backgroundColor: '$highlight',
+            backgroundColor: '$dim',
             filter: 'saturate(1)',
           },
         }}

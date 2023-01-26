@@ -5,7 +5,7 @@ export const HR = styled('hr', {
   width: '100%',
   border: 'none',
   background: '$border',
-  marginTop: '$lg',
+  marginTop: '$md',
   marginBottom: '$md',
 
   variants: {
@@ -19,6 +19,13 @@ export const HR = styled('hr', {
       true: {
         marginTop: '0',
         marginBottom: '0',
+      },
+    },
+    flush: {
+      true: {
+        // TODO uncomment these negative margin rules after redesign launch
+        // marginLeft: '-$xl',
+        // width: 'calc(100% + $xl)',
       },
     },
   },

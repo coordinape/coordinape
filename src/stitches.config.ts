@@ -387,6 +387,23 @@ export const {
 });
 
 export const dark = createTheme({
+  fontSizes: {
+    small: '14px',
+    medium: '16px',
+    large: '18px',
+    h3: '16px',
+    h2: '18px',
+    h1: '26px',
+  },
+  lineHeights: {
+    none: 1,
+    shorter: '120%',
+    short: 1.375,
+    base: 1.5,
+    tall: 1.625,
+    tall2: 1.75,
+    taller: '2',
+  },
   colors: {
     cta: newFigmaColors.primary5,
     ctaHover: newFigmaColors.primary6,
@@ -444,9 +461,9 @@ export const dark = createTheme({
     surface: newFigmaColors.grey9,
     surfaceNested: newFigmaColors.grey10,
 
-    text: newFigmaColors.grey2,
-    headingText: newFigmaColors.grey4,
-    secondaryText: newFigmaColors.grey6,
+    text: newFigmaColors.grey4,
+    headingText: newFigmaColors.grey2,
+    secondaryText: newFigmaColors.grey5,
 
     info: newFigmaColors.secondary10,
     textOnInfo: newFigmaColors.grey1,

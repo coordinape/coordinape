@@ -14,7 +14,7 @@ import {
   EXTERNAL_URL_GET_STARTED,
   EXTERNAL_URL_DISCORD,
 } from 'routes/paths';
-import { Box, Button, Flex, Image, Link, Panel, Text } from 'ui';
+import { Box, Button, ContentHeader, Flex, Image, Link, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { getOrgData, QUERY_KEY_MY_ORGS } from './getOrgData';
@@ -54,41 +54,27 @@ export const CirclesPage = () => {
 
   return (
     <SingleColumnLayout>
-      <Flex
-        row
-        css={{
-          justifyContent: 'space-between',
-          alignItems: 'flex-end',
-          mb: '$sm',
-          '@sm': {
-            flexDirection: 'column',
-            alignItems: 'start',
-          },
-        }}
-      >
-        <Text h1 css={{ '@sm': { mb: '$sm' } }}>
-          Overview
-        </Text>
-        <Button as={NavLink} to={paths.createCircle} color="secondary">
+      <ContentHeader>
+        <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
+          <Text h1>Overview</Text>
+          <Text p as="p" css={{ maxWidth: '50em' }}>
+            All your organizations and circles in one place.{' '}
+            <Link
+              onClick={() => {
+                setShowAllCircles(prev => !prev);
+              }}
+              css={{ cursor: 'pointer' }}
+              inlineLink
+            >
+              {!showAllCircles ? 'Show all circles' : 'Show only my circles'}
+            </Link>
+          </Text>
+        </Flex>
+        <Button as={NavLink} to={paths.createCircle} color="cta">
           Create New Circle
         </Button>
-      </Flex>
-      <Text
-        p
-        as="p"
-        css={{ mb: '$lg', width: '50%', '@sm': { width: '100%' } }}
-      >
-        All your organizations and circles in one place.{' '}
-        <Link
-          onClick={() => {
-            setShowAllCircles(prev => !prev);
-          }}
-          css={{ cursor: 'pointer' }}
-          inlineLink
-        >
-          {!showAllCircles ? 'Show all circles' : 'Show only my circles'}
-        </Link>
-      </Text>
+      </ContentHeader>
+
       {/* Show the sample org first*/}
       {/* Do we have a sample already? If not, lets offer to make one eh */}
       {sampleOrg && (
