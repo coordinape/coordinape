@@ -19,7 +19,7 @@ import {
   FormTimePicker,
   FormInputField,
 } from 'components';
-import { useToast, useApiAdminCircle } from 'hooks';
+import { useApiAdminCircle } from 'hooks';
 import { Info } from 'icons/__generated';
 import {
   Box,
@@ -217,13 +217,15 @@ const getCollisionMessage = (
   let rp = r;
   while (rp.start < c.end) {
     if (rp.overlaps(c)) {
-      return e.repeatEnum !== 'none' || e.repeat_data?.type !== 'one-off'
-        ? `Overlap with repeating epoch ${e.number ?? 'x'}: ${rp.toFormat(
-            longFormat
-          )}`
-        : `After repeat, new epoch overlaps ${
-            e.number ?? 'x'
-          }: ${e.startDate.toFormat(longFormat)}`;
+      if (e.repeatEnum !== 'none' || e.repeat_data?.type !== 'one-off') {
+        return `Overlap with repeating epoch ${e.number ?? 'x'}: ${rp.toFormat(
+          longFormat
+        )}`;
+      } else {
+        return `After repeat, new epoch overlaps ${
+          e.number ?? 'x'
+        }: ${e.startDate.toFormat(longFormat)}`;
+      }
     }
     rp = next(rp);
   }
@@ -235,9 +237,11 @@ const getZodParser = (
   source?: IEpochFormSource,
   currentEpoch?: { id: number; end_date: string }
 ) => {
-  const otherRepeating = source?.epochs?.find(
-    e => !!e.repeat || !!e.repeat_data
-  );
+  const otherRepeating = source?.epoch
+    ? source.epoch.id > -1
+      ? source?.epochs?.find(e => !!e.repeat || !!e.repeat_data)
+      : null
+    : source?.epochs?.find(e => !!e.repeat || !!e.repeat_data);
 
   const getOverlapIssue = ({
     start_date,
@@ -249,11 +253,14 @@ const getZodParser = (
   }) => {
     const interval = Interval.fromDateTimes(start_date, end_date);
 
-    const collisionMessage = source?.epochs
-      ? source?.epochs
-          .map(e => getCollisionMessage(interval, buildRepeatData(formData), e))
-          .find(m => m !== undefined)
-      : undefined;
+    const otherEpochs = source?.epochs
+      ? source.epoch?.id > -1 || !source.epoch
+        ? source.epochs
+        : source.epochs.filter(e => !e.repeat_data)
+      : [];
+    const collisionMessage = otherEpochs
+      .map(e => getCollisionMessage(interval, buildRepeatData(formData), e))
+      .find(m => m !== undefined);
 
     return collisionMessage === undefined
       ? undefined
@@ -372,7 +379,8 @@ const EpochForm = ({
   onClose: () => void;
 }) => {
   const [submitting, setSubmitting] = useState(false);
-  const { createEpoch } = useApiAdminCircle(circleId);
+  const { createEpoch, updateEpoch, updateActiveRepeatingEpoch } =
+    useApiAdminCircle(circleId);
 
   const source = useMemo(
     () => ({
@@ -404,24 +412,14 @@ const EpochForm = ({
     resolver: zodResolver(schema),
     mode: 'all',
     defaultValues: {
-      repeat_view:
-        typeof source?.epoch?.repeat === 'number'
-          ? source.epoch.repeat > 0
-            ? 'repeats'
-            : 'one-off'
-          : 'repeats',
+      repeat_view: source.epoch?.repeat_data ? 'repeats' : 'one-off',
       repeatStartDate: getMonthStartDates(
         source?.epoch?.start_date
           ? DateTime.fromISO(source.epoch.start_date).day.toString()
           : ((DateTime.now().day + 1) % 32 || 1).toString(),
         currentEpoch
       )[0].value,
-      repeat:
-        typeof source?.epoch?.repeat === 'number'
-          ? source.epoch?.repeat > 0
-            ? 'custom'
-            : 'none'
-          : 'monthly',
+      repeat: source.epoch?.repeat_data?.type ?? 'custom',
       start_time:
         (source?.epoch?.start_date &&
           DateTime.fromISO(source.epoch.start_date).toLocaleString(
@@ -436,8 +434,12 @@ const EpochForm = ({
           DateTime.fromISO(source.epoch.start_date).toISODate()) ??
         DateTime.now().setZone().plus({ days: 1 }).toISODate(),
       description: source.epoch?.description,
-      custom_start_date: DateTime.now().plus({ days: 1 }).toISODate(),
-      monthly_repeat_datetime: DateTime.now().plus({ days: 1 }).toISODate(),
+      custom_start_date: source.epoch?.repeat_data
+        ? DateTime.fromISO(source.epoch.start_date).toISODate()
+        : DateTime.now().plus({ days: 1 }).toISODate(),
+      monthly_repeat_datetime: source.epoch?.repeat_data
+        ? DateTime.fromISO(source.epoch.start_date).toISODate()
+        : DateTime.now().plus({ days: 1 }).toISODate(),
       end_date: source?.epoch?.end_date
         ? DateTime.fromISO(source.epoch.end_date)
             .plus(source.epoch.days || 0)
@@ -452,10 +454,12 @@ const EpochForm = ({
       : getValues('repeatStartDate'),
     end_date: source?.epoch
       ? getValues('end_date')
-      : DateTime.fromISO(getValues('repeatStartDate'))
-          .plus({ months: 1 })
-          .toISO(),
-    repeat_data: { type: 'custom', frequency_unit: 'months', frequency: 1 },
+      : findMonthlyEndDate(
+          DateTime.fromISO(getValues('repeatStartDate'))
+        ).toISO(),
+    repeat_data: source?.epoch
+      ? source?.epoch?.repeat_data
+      : { type: 'custom', frequency_unit: 'months', frequency: 1 },
   });
 
   const extraErrors = useRef(false);
@@ -481,7 +485,6 @@ const EpochForm = ({
     validateState(getValues());
   }, []);
 
-  const { showError } = useToast();
   useEffect(() => {
     const subscription = watch((data, { name, type }) => {
       const {
@@ -601,18 +604,17 @@ const EpochForm = ({
 
     (source?.epoch
       ? selectedEpoch?.number !== -1
-        ? Promise.resolve(showError('updateEpoch not yet implemented')) //updateEpoch(source.epoch.id, payload)
-        : Promise.resolve(
-            showError('updateActiveRepeatingEpoch not yet implemented')
-          ) /* updateActiveRepeatingEpoch(source.epoch.id, {
+        ? updateEpoch(source.epoch.id, payload)
+        : currentEpoch
+        ? updateActiveRepeatingEpoch(currentEpoch.id, {
             current: {
-              start_date: currentEpoch?.start_date || '',
-              days: payload.days,
-              repeat: 0,
+              start_date: currentEpoch.start_date,
+              end_date: currentEpoch.end_date,
+              type: 'one-off',
             },
             next: payload,
           })
-          */
+        : Promise.reject('panic: could not update epoch')
       : createEpoch(payload)
     )
       .then(() => {
@@ -629,7 +631,8 @@ const EpochForm = ({
     () =>
       selectedEpoch &&
       selectedEpoch.id === currentEpoch?.id &&
-      selectedEpoch.number !== -1,
+      selectedEpoch.number !== -1 &&
+      false,
     [selectedEpoch, currentEpoch]
   );
 
@@ -837,7 +840,7 @@ const EpochForm = ({
                       id="monthly_repeat_datetime"
                       name="monthly_repeat_datetime"
                       css={{ minWidth: '280px' }}
-                      label="Next Start Date"
+                      label="Start Date"
                     />
                   </Flex>
 
@@ -1128,7 +1131,7 @@ const getMonthStartDates = (
       };
     });
 
-const getNextRepeatingDates = (
+export const getNextRepeatingDates = (
   data: Pick<
     epochFormSchema,
     | 'repeat'

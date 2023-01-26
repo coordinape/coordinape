@@ -7,7 +7,7 @@ import { useApiBase } from 'hooks';
 
 import { useRecoilLoadCatch } from './useRecoilLoadCatch';
 
-import { UpdateUsersParam, UpdateCreateEpochParam } from 'types';
+import { UpdateUsersParam } from 'types';
 
 export const useApiAdminCircle = (circleId: number) => {
   const { fetchCircle } = useApiBase();
@@ -38,27 +38,35 @@ export const useApiAdminCircle = (circleId: number) => {
     { hideLoading: false }
   );
 
-  const updateActiveRepeatingEpoch = useRecoilLoadCatch(
+  const updateEpoch = useRecoilLoadCatch(
     () =>
       async (
         epochId: number,
-        params: {
-          current: UpdateCreateEpochParam;
-          next: Omit<ValueTypes['CreateEpochInput'], 'circle_id'>;
-        }
+        params: ValueTypes['UpdateEpochInput']['params']
       ) => {
-        await mutations.updateActiveRepeatingEpoch(circleId, epochId, params);
+        await mutations.updateEpoch({
+          params,
+          id: epochId,
+          circle_id: circleId,
+        });
         await fetchCircle({ circleId });
       },
     [circleId],
     { hideLoading: false }
   );
 
-  const updateEpoch = useRecoilLoadCatch(
-    () => async (epochId: number, params: UpdateCreateEpochParam) => {
-      await mutations.updateEpoch(circleId, epochId, params);
-      await fetchCircle({ circleId });
-    },
+  const updateActiveRepeatingEpoch = useRecoilLoadCatch(
+    () =>
+      async (
+        epochId: number,
+        params: {
+          current: ValueTypes['UpdateEpochInput']['params'];
+          next: ValueTypes['CreateEpochInput']['params'];
+        }
+      ) => {
+        await mutations.updateActiveRepeatingEpoch(circleId, epochId, params);
+        await fetchCircle({ circleId });
+      },
     [circleId],
     { hideLoading: false }
   );
