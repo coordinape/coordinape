@@ -61,6 +61,20 @@ const Content = styled(Dialog.Content, {
         },
       },
     },
+    loader: {
+      true: {
+        background: 'transparent',
+        m: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        maxWidth: 'none',
+        height: '100vh',
+        border: 'none',
+        borderRadius: '0',
+      },
+    },
   },
 });
 
@@ -79,6 +93,7 @@ type ModalProps = {
   onOpenChange?: (open: boolean) => void;
   showClose?: boolean;
   drawer?: boolean;
+  loader?: boolean;
 };
 export const Modal = ({
   children,
@@ -89,6 +104,7 @@ export const Modal = ({
   open = true,
   showClose = true,
   drawer,
+  loader,
 }: ModalProps) => {
   return (
     <Dialog.Root
@@ -99,8 +115,8 @@ export const Modal = ({
     >
       <Dialog.Portal>
         <Overlay />
-        <Content drawer={drawer} css={css}>
-          {(showClose || showClose === undefined) && (
+        <Content drawer={drawer} css={css} loader={loader}>
+          {(showClose || showClose === undefined) && !loader && (
             <Close>
               <X size="lg" />
             </Close>
