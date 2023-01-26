@@ -9,7 +9,7 @@ import {
 import { FlattenedGQLError } from '../common-lib/errorHandling';
 import isFeatureEnabled from 'config/features';
 import { Bell, Check, CoMark, Copy, Loader, X } from 'icons/__generated';
-import { Button, Flex } from 'ui';
+import { Box, Button, Flex } from 'ui';
 import { normalizeError } from 'utils/reporting';
 
 const defaultErrorMessage = 'Something went wrong.';
@@ -95,13 +95,12 @@ const DefaultIcon = () => {
 const CloseButton = (props: CloseButtonProps) => {
   return (
     <Button
+      color="transparent"
       className="toastCloseButton"
       tabIndex={0}
       css={{
-        background: 'none',
         padding: 0,
-        marginRight: '-5px',
-        alignItems: 'flex-start',
+        minHeight: '0',
       }}
       onClick={(e: React.MouseEvent<HTMLElement>) => {
         // eslint-disable-next-line no-console
@@ -109,7 +108,7 @@ const CloseButton = (props: CloseButtonProps) => {
         props.closeToast(e);
       }}
     >
-      <X />
+      <X css={{ mr: '0 !important' }} />
     </Button>
   );
 };
@@ -122,7 +121,7 @@ const ToastBody = (content: ToastContent) => {
     console.log('copied:', text);
   };
   return (
-    <Flex
+    <Box
       css={{ cursor: 'pointer' }}
       className="toastContent"
       onClick={(e: React.MouseEvent<HTMLElement>) => {
@@ -130,11 +129,8 @@ const ToastBody = (content: ToastContent) => {
         e.preventDefault();
       }}
     >
-      <Flex css={{ alignSelf: 'flex-start', flexGrow: '2' }}>{content}</Flex>
-      <Flex css={{ alignSelf: 'flex-end' }}>
-        <Copy />
-      </Flex>
-    </Flex>
+      {content} <Copy css={{ ml: '$xs', alignSelf: 'center' }} />
+    </Box>
   );
 };
 
