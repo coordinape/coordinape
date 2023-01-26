@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 
+import { findMonthlyEndDate } from 'common-lib/epochs';
 import { isUserAdmin } from 'lib/users';
 import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
@@ -57,7 +58,7 @@ export const HistoryPage = () => {
   const circle = query.data;
   const me = circle?.users[0];
 
-  const { deleteEpoch } = useApiAdminCircle(circleId);
+  const { deleteEpoch, updateEpoch } = useApiAdminCircle(circleId);
 
   const [editEpoch, setEditEpoch] = useState<QueryFutureEpoch | undefined>(
     undefined
@@ -104,21 +105,40 @@ export const HistoryPage = () => {
     setNewEpoch(false);
   }, [circleId]);
 
+  const getNextRepeatingDates = (epoch: NonNullable<typeof currentEpoch>) => {
+    const { start_date, end_date, repeat_data } = epoch;
+
+    if (!repeat_data) return null;
+    if (repeat_data.type === 'monthly') {
+      const nextStartDate = DateTime.fromISO(end_date);
+      return {
+        nextStartDate,
+        nextEndDate: findMonthlyEndDate(nextStartDate),
+      };
+    } /*if (repeat_data === 'custom')*/ else {
+      const nextStartDate = DateTime.fromISO(start_date).plus({
+        [repeat_data.frequency_unit]: repeat_data.frequency,
+      });
+      const nextEndDate = DateTime.fromISO(end_date).plus({
+        [repeat_data.frequency_unit]: repeat_data.frequency,
+      });
+      return { nextStartDate, nextEndDate };
+    }
+  };
+
   const nextRepeatingEpoch: typeof currentEpoch | undefined = useMemo(() => {
-    if (currentEpoch && currentEpoch.repeat > 0) {
-      const { start_date, end_date, repeat } = currentEpoch;
+    if (currentEpoch && currentEpoch.repeat_data) {
+      const nextEpochDates = getNextRepeatingDates(currentEpoch);
+      if (!nextEpochDates) return currentEpoch;
       return {
         ...currentEpoch,
+        id: -1,
         number: -1,
-        start_date: DateTime.fromISO(start_date)
-          .plus(repeat === 1 ? { weeks: 1 } : { months: 1 })
-          .toISO(),
-        end_date: DateTime.fromISO(end_date)
-          .plus(repeat === 1 ? { weeks: 1 } : { months: 1 })
-          .toISO(),
+        start_date: nextEpochDates.nextStartDate,
+        end_date: nextEpochDates.nextEndDate,
       };
     }
-  }, [currentEpoch?.id, currentEpoch?.repeat]);
+  }, [currentEpoch?.id, currentEpoch?.repeat_data]);
 
   if (query.isLoading || query.isIdle)
     return <LoadingModal visible note="HistoryPage" />;
@@ -317,21 +337,31 @@ export const HistoryPage = () => {
         open={!!epochToDelete}
         onOpenChange={() => setEpochToDelete(undefined)}
         title={`Remove Epoch ${
-          epochToDelete?.number ? epochToDelete.number : ''
+          epochToDelete?.number && epochToDelete.number > -1
+            ? epochToDelete.number
+            : JSON.stringify(currentEpoch)
         }`}
       >
         <Flex column alignItems="start" css={{ gap: '$md' }}>
           <Button
             color="destructive"
-            onClick={
-              epochToDelete
-                ? () =>
-                    deleteEpoch(epochToDelete?.id)
-                      .then(() => setEpochToDelete(undefined))
-                      .then(() => query.refetch())
-                      .catch(() => setEpochToDelete(undefined))
-                : undefined
-            }
+            onClick={() => {
+              epochToDelete && epochToDelete.id > -1
+                ? deleteEpoch(epochToDelete?.id)
+                    .then(() => setEpochToDelete(undefined))
+                    .then(() => query.refetch())
+                    .catch(() => setEpochToDelete(undefined))
+                : currentEpoch
+                ? updateEpoch(currentEpoch.id, {
+                    end_date: currentEpoch.end_date,
+                    start_date: currentEpoch.start_date,
+                    type: 'one-off',
+                  })
+                    .then(() => setEpochToDelete(undefined))
+                    .then(() => query.refetch())
+                    .catch(() => setEpochToDelete(undefined))
+                : undefined;
+            }}
           >
             Remove
           </Button>
