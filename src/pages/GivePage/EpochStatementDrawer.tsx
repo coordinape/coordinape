@@ -5,7 +5,6 @@ import debounce from 'lodash/debounce';
 import { useMutation, useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
-import { ApeInfoTooltip } from '../../components';
 import { useContributions } from 'hooks/useContributions';
 import {
   Check,
@@ -16,6 +15,7 @@ import {
 } from 'icons/__generated';
 import { paths } from 'routes/paths';
 import {
+  InfoTooltip,
   Avatar,
   Box,
   Button,
@@ -188,10 +188,10 @@ export const EpochStatementDrawer = ({
             <>
               <Text variant="label" css={{ mr: '$md' }}>
                 Receive Give?
-                <ApeInfoTooltip>
+                <InfoTooltip>
                   Choose no if you want to opt-out from receiving{' '}
                   {myUser.circle.tokenName}
-                </ApeInfoTooltip>
+                </InfoTooltip>
               </Text>
               <ToggleButton
                 color="complete"

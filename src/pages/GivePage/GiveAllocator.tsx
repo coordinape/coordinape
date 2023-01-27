@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { ApeInfoTooltip } from '../../components';
 import { MinusCircle, PlusCircle } from '../../icons/__generated';
 import { Box, Button, Flex, Text, TextField } from '../../ui';
+import { InfoTooltip } from 'ui';
 
 import { Gift } from './index';
 
@@ -74,10 +74,10 @@ export const GiveAllocator = ({
           >
             OPTED OUT OF GIVE
           </Text>
-          <ApeInfoTooltip>
+          <InfoTooltip>
             This member has either opted-out of receiving GIVE or has been
             blocked from receiving by the circle admin.
-          </ApeInfoTooltip>
+          </InfoTooltip>
         </Flex>
       ) : (
         <Flex

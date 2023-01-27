@@ -248,10 +248,10 @@ export const GiveDrawer = ({
           <Text inline semibold size="large" css={{ mr: '$xs' }}>
             Leave a Note
           </Text>
-          {/*<ApeInfoTooltip>*/}
-          {/*  Want to leave better feedback? Check out Coordinape’s Guide to*/}
-          {/*  Giving Feedback in Web3*/}
-          {/*</ApeInfoTooltip>*/}
+          {/*<InfoTooltip>*/}
+          {/*  Want to leave better feedback? Check out Coordinape&apos;s Guide to*/}
+          {/*  Giving Feedback in Web3 */}
+          {/*</InfoTooltip>*/}
         </Box>
         {showMarkdown ? (
           <Box

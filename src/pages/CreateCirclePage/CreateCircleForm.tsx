@@ -12,7 +12,6 @@ import { z } from 'zod';
 import { FormAutocomplete, FormInputField } from 'components';
 import { QUERY_KEY_MAIN_HEADER } from 'components/MainLayout/getMainHeaderData';
 import { useApiWithProfile } from 'hooks';
-import { Info } from 'icons/__generated';
 import { QUERY_KEY_MY_ORGS } from 'pages/CirclesPage/getOrgData';
 import { paths } from 'routes/paths';
 import {
@@ -24,8 +23,8 @@ import {
   Avatar,
   Panel,
   Text,
-  Tooltip,
   Form,
+  InfoTooltip,
 } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -188,12 +187,7 @@ export const CreateCircleForm = ({
                 <Flex column alignItems="start" css={{ gap: '$xs' }}>
                   <Text variant="label" as="label">
                     Circle logo
-                    <Tooltip
-                      css={{ ml: '$xs' }}
-                      content={<div>Upload a logo to your circle</div>}
-                    >
-                      <Info size="sm" />
-                    </Tooltip>
+                    <InfoTooltip>Upload a logo to your circle</InfoTooltip>
                   </Text>
                   <Flex
                     row

@@ -5,7 +5,6 @@
 // the downside of putting things here is it makes coupling easier.
 //
 export * from './ApeAutocomplete';
-export * from './ApeInfoTooltip';
 export * from './DeprecatedApeTextField';
 export * from './AvatarUpload';
 export * from './Drawer';
