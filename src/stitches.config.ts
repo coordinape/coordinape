@@ -309,6 +309,7 @@ export const {
       shadowBottom: '0px 6px 11px 0px #0000000d',
       heavy:
         '0px 0px 3px 0px #0000001C, 0px 0px 16px 0px #0000001F, 0px 0px 87px 0px #0000003D',
+      toastifyShadow: '$shadow1',
     },
     transitions: {
       quick: 'all 0.2s',
@@ -528,7 +529,7 @@ export const dark = createTheme({
     mapLink: '#FFFFFF15',
     mapLinkDim: '#FFFFFF08',
 
-    toastifyBackground: newFigmaColors.grey9,
+    toastifyBackground: newFigmaColors.grey8,
     toastifyBorderColorDefault: newFigmaColors.grey6,
     toastifyBorderColorSuccess: newFigmaColors.success6,
     toastifyIconBackgroundSuccess: newFigmaColors.success10,
@@ -555,6 +556,9 @@ export const dark = createTheme({
     tall: 1.625,
     tall2: 1.75,
     taller: '2',
+  },
+  shadows: {
+    toastifyShadow: '0px 5px 25px -5px black',
   },
   fonts: {
     display: 'Denim, apple-system, sans-serif',
