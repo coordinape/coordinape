@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import copy from 'copy-to-clipboard';
 import {
   CloseButtonProps,
@@ -9,7 +11,7 @@ import {
 import { FlattenedGQLError } from '../common-lib/errorHandling';
 import isFeatureEnabled from 'config/features';
 import { Bell, Check, CoMark, Copy, Loader, X } from 'icons/__generated';
-import { Box, Button, Flex } from 'ui';
+import { Text, Box, Button, Flex } from 'ui';
 import { normalizeError } from 'utils/reporting';
 
 const defaultErrorMessage = 'Something went wrong.';
@@ -103,8 +105,6 @@ const CloseButton = (props: CloseButtonProps) => {
         minHeight: '0',
       }}
       onClick={(e: React.MouseEvent<HTMLElement>) => {
-        // eslint-disable-next-line no-console
-        console.log('close button clicked');
         props.closeToast(e);
       }}
     >
@@ -113,12 +113,12 @@ const CloseButton = (props: CloseButtonProps) => {
   );
 };
 
-const ToastBody = (content: ToastContent) => {
+const ToastBody = ({ content }: { content: string }) => {
+  const [copied, setCopied] = useState<boolean>(false);
   const text = content?.toString() || '';
   const copyContent = () => {
     copy(text);
-    // eslint-disable-next-line no-console
-    console.log('copied:', text);
+    setCopied(true);
   };
   return (
     <Box
@@ -129,7 +129,17 @@ const ToastBody = (content: ToastContent) => {
         e.preventDefault();
       }}
     >
-      {content} <Copy css={{ ml: '$xs', alignSelf: 'center' }} />
+      {content}{' '}
+      {copied ? (
+        <>
+          <Check css={{ mx: '$xxs', alignSelf: 'center' }} />
+          <Text inline semibold>
+            copied
+          </Text>
+        </>
+      ) : (
+        <Copy css={{ ml: '$xxs', alignSelf: 'center' }} />
+      )}
     </Box>
   );
 };
@@ -144,24 +154,32 @@ export const useToast = () => {
   return {
     // rename to showDefault: ...
     showDefault: (content: ToastContent, props: ToastOptions = {}) =>
-      toast(ToastBody(content), {
+      toast(content, {
         icon: DefaultIcon,
-        closeButton: CloseButton,
-        ...props,
-      }),
-
-    showSuccess: (content: ToastContent, props: ToastOptions = {}) =>
-      toast.success(ToastBody(content), {
-        icon: SuccessIcon,
-        closeButton: CloseButton,
-        ...props,
-      }),
-    showError: (content: ToastContent | unknown, props: ToastOptions = {}) =>
-      toast.error(ToastBody(displayError(content)), {
-        icon: ErrorIcon,
         closeButton: CloseButton,
         autoClose: false,
         ...props,
       }),
+
+    showSuccess: (content: ToastContent, props: ToastOptions = {}) =>
+      toast.success(content, {
+        icon: SuccessIcon,
+        closeButton: CloseButton,
+        ...props,
+      }),
+    showError: (content: ToastContent | unknown, props: ToastOptions = {}) => {
+      let toastContent = displayError(content);
+      if (typeof toastContent !== 'string') {
+        toastContent = JSON.stringify(toastContent);
+      }
+
+      const body = <ToastBody content={toastContent as string} />;
+      toast.error(body, {
+        icon: ErrorIcon,
+        closeButton: CloseButton,
+        autoClose: false,
+        ...props,
+      });
+    },
   };
 };

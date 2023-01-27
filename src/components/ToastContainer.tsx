@@ -34,7 +34,7 @@ const StyledContainer = styled(ToastifyContainer, {
       '&:hover': {
         svg: {
           opacity: '0.5',
-          transition: 'transform 0.3s',
+          transition: 'opacity 0.1s',
         },
       },
     },
@@ -79,7 +79,7 @@ export const ToastContainer = () => {
       newestOnTop
       closeOnClick={false}
       pauseOnFocusLoss
-      draggable
+      draggable={true}
       limit={3}
       pauseOnHover
       theme="light"
