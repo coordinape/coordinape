@@ -49,11 +49,14 @@ function getChannelsVouchSuccessful(
     return {
       discordBot: {
         type: 'vouch-successful' as const,
+        // these are available in the returned `circle` object now
         channelId: '1067789668290146324', // TODO Find this from the circle
         roleId: '1058334400540061747', // TODO Find this from the circle
         nominee: nominee?.profile?.name,
         nomineeProfile: `https://app.coordinape.com//profile/${nominee?.address}`,
+        // nominateReason: available in the event trigger payload in the `description` column
         nominationReason: '', // TODO Do we even have this?
+        // vouchers: available in the `vouches` table via the `nominations`
         vouchers: [], // TODO Where to get this from?
       },
     };

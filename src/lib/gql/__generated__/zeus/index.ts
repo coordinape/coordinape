@@ -1831,6 +1831,8 @@ export type ValueTypes = {
     created_at?: boolean | `@${string}`;
     default_opt_in?: boolean | `@${string}`;
     deleted_at?: boolean | `@${string}`;
+    /** An object relationship */
+    discord_circle?: ValueTypes['discord_roles_circles'];
     epochs?: [
       {
         /** distinct select on columns */
@@ -2099,6 +2101,10 @@ export type ValueTypes = {
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     default_opt_in?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     deleted_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+    discord_circle?:
+      | ValueTypes['discord_roles_circles_bool_exp']
+      | undefined
+      | null;
     epochs?: ValueTypes['epochs_bool_exp'] | undefined | null;
     fixed_payment_token_type?:
       | ValueTypes['String_comparison_exp']
@@ -2202,6 +2208,10 @@ export type ValueTypes = {
     created_at?: ValueTypes['order_by'] | undefined | null;
     default_opt_in?: ValueTypes['order_by'] | undefined | null;
     deleted_at?: ValueTypes['order_by'] | undefined | null;
+    discord_circle?:
+      | ValueTypes['discord_roles_circles_order_by']
+      | undefined
+      | null;
     epochs_aggregate?:
       | ValueTypes['epochs_aggregate_order_by']
       | undefined
@@ -6392,6 +6402,8 @@ export type ValueTypes = {
     telegram_username?: boolean | `@${string}`;
     twitter_username?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
+    /** An object relationship */
+    user?: ValueTypes['discord_users'];
     users?: [
       {
         /** distinct select on columns */
@@ -6486,6 +6498,7 @@ export type ValueTypes = {
     telegram_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     twitter_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+    user?: ValueTypes['discord_users_bool_exp'] | undefined | null;
     users?: ValueTypes['users_bool_exp'] | undefined | null;
     vault_transactions?:
       | ValueTypes['vault_transactions_bool_exp']
@@ -6530,6 +6543,7 @@ export type ValueTypes = {
     telegram_username?: ValueTypes['order_by'] | undefined | null;
     twitter_username?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
+    user?: ValueTypes['discord_users_order_by'] | undefined | null;
     users_aggregate?: ValueTypes['users_aggregate_order_by'] | undefined | null;
     vault_transactions_aggregate?:
       | ValueTypes['vault_transactions_aggregate_order_by']
@@ -10994,6 +11008,8 @@ export type ModelTypes = {
     created_at: GraphQLTypes['timestamp'];
     default_opt_in: boolean;
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    /** An object relationship */
+    discord_circle?: GraphQLTypes['discord_roles_circles'] | undefined;
     /** An array relationship */
     epochs: Array<GraphQLTypes['epochs']>;
     fixed_payment_token_type?: string | undefined;
@@ -12529,6 +12545,8 @@ export type ModelTypes = {
     telegram_username?: string | undefined;
     twitter_username?: string | undefined;
     updated_at: GraphQLTypes['timestamp'];
+    /** An object relationship */
+    user?: GraphQLTypes['discord_users'] | undefined;
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
     /** An array relationship */
@@ -14579,6 +14597,8 @@ export type GraphQLTypes = {
     created_at: GraphQLTypes['timestamp'];
     default_opt_in: boolean;
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    /** An object relationship */
+    discord_circle?: GraphQLTypes['discord_roles_circles'] | undefined;
     /** An array relationship */
     epochs: Array<GraphQLTypes['epochs']>;
     fixed_payment_token_type?: string | undefined;
@@ -14657,6 +14677,7 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     default_opt_in?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+    discord_circle?: GraphQLTypes['discord_roles_circles_bool_exp'] | undefined;
     epochs?: GraphQLTypes['epochs_bool_exp'] | undefined;
     fixed_payment_token_type?:
       | GraphQLTypes['String_comparison_exp']
@@ -14746,6 +14767,7 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['order_by'] | undefined;
     default_opt_in?: GraphQLTypes['order_by'] | undefined;
     deleted_at?: GraphQLTypes['order_by'] | undefined;
+    discord_circle?: GraphQLTypes['discord_roles_circles_order_by'] | undefined;
     epochs_aggregate?: GraphQLTypes['epochs_aggregate_order_by'] | undefined;
     fixed_payment_token_type?: GraphQLTypes['order_by'] | undefined;
     fixed_payment_vault_id?: GraphQLTypes['order_by'] | undefined;
@@ -17963,6 +17985,8 @@ export type GraphQLTypes = {
     telegram_username?: string | undefined;
     twitter_username?: string | undefined;
     updated_at: GraphQLTypes['timestamp'];
+    /** An object relationship */
+    user?: GraphQLTypes['discord_users'] | undefined;
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
     /** An array relationship */
@@ -17993,6 +18017,7 @@ export type GraphQLTypes = {
     telegram_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     twitter_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+    user?: GraphQLTypes['discord_users_bool_exp'] | undefined;
     users?: GraphQLTypes['users_bool_exp'] | undefined;
     vault_transactions?:
       | GraphQLTypes['vault_transactions_bool_exp']
@@ -18031,6 +18056,7 @@ export type GraphQLTypes = {
     telegram_username?: GraphQLTypes['order_by'] | undefined;
     twitter_username?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
+    user?: GraphQLTypes['discord_users_order_by'] | undefined;
     users_aggregate?: GraphQLTypes['users_aggregate_order_by'] | undefined;
     vault_transactions_aggregate?:
       | GraphQLTypes['vault_transactions_aggregate_order_by']

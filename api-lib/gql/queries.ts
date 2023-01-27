@@ -17,6 +17,7 @@ export async function getCircle(id: number) {
           discord_webhook: true,
           telegram_id: true,
           token_name: true,
+          discord_circle: { discord_channel_id: true, discord_role_id: true },
           organization: {
             telegram_id: true,
           },
@@ -286,6 +287,7 @@ export async function getProfileAndMembership(address: string) {
           id: true,
           address: true,
           name: true,
+          user: { user_snowflake: true },
         },
       ],
     },
@@ -318,9 +320,19 @@ export async function getNominee(id: number) {
           nominations_aggregate: [{}, { aggregate: { count: [{}, true] } }],
           circle: {
             only_giver_vouch: true,
+            discord_circle: { discord_role_id: true, discord_channel_id: true },
           },
+          nominations: [
+            {},
+            {
+              voucher: {
+                profile: { name: true, user: { user_snowflake: true } },
+              },
+            },
+          ],
           profile: {
             name: true,
+            user: { user_snowflake: true },
           },
         },
       ],

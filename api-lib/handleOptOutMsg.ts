@@ -24,8 +24,11 @@ function getChannels(props: GetChannelsProps): Channels<DiscordOptsOut> {
     return {
       discordBot: {
         type: 'user-opts-out' as const,
+        // available in `getCircle`
         channelId: '1067789668290146324', // TODO Find this from the circle
+        // available in `getCircle`
         roleId: '1058334400540061747', // TODO Find this from the circle
+        // available in `getProfileAndMembership`
         discordId: '912489726894800946', // TODO Find this from the user
         address: data.new.address,
         circleName: circle?.name ?? 'Unknown',

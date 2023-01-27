@@ -11,6 +11,15 @@ object_relationships:
         remote_table:
           name: circle_private
           schema: public
+  - name: discord_circle
+    using:
+      manual_configuration:
+        column_mapping:
+          id: circle_id
+        insertion_order: null
+        remote_table:
+          name: roles_circles
+          schema: discord
   - name: organization
     using:
       foreign_key_constraint_on: organization_id
@@ -43,6 +52,15 @@ array_relationships:
         table:
           name: contributions
           schema: public
+  - name: discord_access_tokens
+    using:
+      manual_configuration:
+        column_mapping:
+          id: circle_id
+        insertion_order: null
+        remote_table:
+          name: circle_api_tokens
+          schema: discord
   - name: epochs
     using:
       manual_configuration:
