@@ -157,7 +157,6 @@ export const useToast = () => {
       toast(content, {
         icon: DefaultIcon,
         closeButton: CloseButton,
-        autoClose: false,
         ...props,
       }),
 
