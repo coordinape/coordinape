@@ -5,7 +5,7 @@ import { paths } from '../../routes/paths';
 import { ICircle } from '../../types';
 import { APP_URL } from '../../utils/domain';
 import { useSelectedCircle } from 'recoilState/app';
-import { AppLink, BackButton, Box, Flex, Link, Panel, Text } from 'ui';
+import { AppLink, Box, ContentHeader, Flex, Link, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import CSVImport from './CSVImport';
@@ -103,23 +103,18 @@ const AddMembersContents = ({
 
   return (
     <SingleColumnLayout>
-      <Box>
-        <AppLink to={paths.members(circle.id)}>
-          <BackButton />
-        </AppLink>
-      </Box>
+      <ContentHeader>
+        <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
+          <Text h1>Add Members to {circle.name}</Text>
+          <Text p as="p">
+            Note that after adding members you can see and manage them in the{' '}
+            <AppLink inlineLink to={paths.members(circle.id)}>
+              members table.
+            </AppLink>
+          </Text>
+        </Flex>
+      </ContentHeader>
 
-      <Flex alignItems="center" css={{ mb: '$sm' }}>
-        <Text h1>Add Members to {circle.name}</Text>
-      </Flex>
-      <Box css={{ mb: '$md' }}>
-        <Text inline>
-          Note that after adding members you can see and manage them in the{' '}
-          <AppLink inlineLink to={paths.members(circle.id)}>
-            members table.
-          </AppLink>
-        </Text>
-      </Box>
       <Flex css={{ mb: '$sm' }}>
         <TabButton
           tab={Tab.ETH}

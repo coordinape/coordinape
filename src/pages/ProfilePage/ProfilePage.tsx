@@ -118,7 +118,7 @@ const ProfilePageContent = ({
         <SingleColumnLayout
           css={{
             width: '100%',
-            p: 0,
+            p: '0 $lg',
             m: '$lg auto',
             display: 'flex',
             flexDirection: 'row',

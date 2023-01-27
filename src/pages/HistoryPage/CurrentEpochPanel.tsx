@@ -2,12 +2,17 @@ import { DateTime, Interval } from 'luxon';
 import { NavLink } from 'react-router-dom';
 import { CSS } from 'stitches.config';
 
-import { Award, PlusCircle } from 'icons/__generated';
+import { Give, PlusCircle } from 'icons/__generated';
 import { paths } from 'routes/paths';
 import { Box, Panel, Text, Button, Flex } from 'ui';
 
 type Props = {
-  epoch: { start_date?: any; end_date: any; description?: string };
+  epoch: {
+    start_date?: any;
+    end_date: any;
+    description?: string;
+    number?: number;
+  };
   unallocated: number;
   circleId: number;
   tokenName?: string;
@@ -42,16 +47,27 @@ export const CurrentEpochPanel = ({
         display: 'grid',
         gridTemplateColumns: '1fr 3fr',
         gap: '$md',
+        border: '1px solid $borderFocusBright',
         '@sm': { gridTemplateColumns: '1fr' },
         ...css,
       }}
     >
-      <Flex column alignItems="start" css={{ gap: '$sm' }}>
-        <Text h2>
+      <Flex
+        column
+        alignItems="start"
+        css={{ gap: '$sm', borderRight: '1px solid $borderDim' }}
+      >
+        <Text h1 css={{ color: '$currentEpochDate', fontSize: '$h1Temp' }}>
           {startDate.toFormat('MMM')} {startDate.toFormat('d')} -{' '}
           {endDate.toFormat(endDateFormat)}
         </Text>
-        <Text p>{epoch.description ?? ''}</Text>
+        <Text
+          h2
+          p
+          css={{ color: '$currentEpochDescription', fontSize: '$h2Temp' }}
+        >
+          {epoch.description ?? 'Epoch ' + epoch.number}
+        </Text>
         {!isEditing && isAdmin && (
           <Button
             color="secondary"
@@ -71,7 +87,7 @@ export const CurrentEpochPanel = ({
         <Minicard
           icon={<PlusCircle />}
           title="Contributions"
-          color="$complete"
+          color="$text"
           content={
             epochDaysRemaining == 0
               ? 'Today is the Last Day to Add Contributions'
@@ -81,16 +97,18 @@ export const CurrentEpochPanel = ({
           linkLabel="Add Contribution"
         />
         <Minicard
-          icon={<Award />}
-          title="Allocations"
-          color={unallocated > 0 ? '$alert' : '$secondaryText'}
+          icon={<Give nostroke />}
+          title="GIVE"
+          // TODO: maybe we want to continue to highlight some color here
+          // color={unallocated > 0 ? '$alert' : '$secondaryText'}
+          color="$text"
           content={
             unallocated > 0
               ? `Allocate Your Remaining ${unallocated} ${tokenName}`
-              : `No More ${tokenName} to Allocate`
+              : `No More ${tokenName} to Allocate ${unallocated}`
           }
           path={paths.give(circleId)}
-          linkLabel="Allocate to Teammates"
+          linkLabel="GIVE to Teammates"
         />
       </Flex>
     </Panel>
@@ -119,7 +137,10 @@ const Minicard = ({
       css={{
         width: '100%',
         gap: '$sm',
-        borderLeft: '1px solid $border',
+        borderLeft: '1px solid $borderDim',
+        '&:first-of-type': {
+          borderLeft: 'none',
+        },
         pl: '$xl',
         '@sm': {
           minWidth: 0,
@@ -139,7 +160,7 @@ const Minicard = ({
       >
         <Box>
           <Text variant="label" css={{ mb: '$sm' }}>
-            {icon}
+            <Flex css={{ mr: '$xs' }}>{icon}</Flex>
             {title}
           </Text>
           <Text

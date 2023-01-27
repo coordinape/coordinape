@@ -105,6 +105,8 @@ export const colors = {
   successButtonBorderFocus: newFigmaColors.success5,
 
   neutralButton: '$primary',
+  neutralButtonOutlineBackground: newFigmaColors.grey1,
+  neutralButtonOutlineText: '$primary',
   neutralButtonHover: '$primaryHover',
   neutralButtonText: newFigmaColors.grey1,
   neutralButtonTextHover: newFigmaColors.grey1,
@@ -129,7 +131,6 @@ export const colors = {
   textOnAlert: newFigmaColors.grey1,
 
   success: figmaColors.green12,
-  derp: figmaColors.green12,
   successLight: figmaColors.green1,
   successDisabled: figmaColors.green4,
   successDark: figmaColors.green16,
@@ -153,9 +154,12 @@ export const colors = {
   textOnInfo: figmaColors.grey20,
 
   border: figmaColors.grey4,
+  hr: figmaColors.grey4,
+  contentHeaderBorder: 'transparent',
   borderMedium: newFigmaColors.grey5,
-  borderDim: newFigmaColors.grey4,
+  borderDim: newFigmaColors.grey3,
   borderFocus: '$primary',
+  borderFocusBright: 'transparent',
 
   highlight: figmaColors.blue1,
   avatarFallback: newFigmaColors.grey3,
@@ -225,6 +229,10 @@ export const colors = {
   toastifyBorderColorError: newFigmaColors.error3,
   toastifyIconBackgroundError: newFigmaColors.error2,
   navLinkText: newFigmaColors.grey2,
+
+  // TODO: improve
+  currentEpochDate: figmaColors.grey20,
+  currentEpochDescription: figmaColors.grey20,
 };
 
 export const {
@@ -251,9 +259,6 @@ export const {
       headerHeight: '91px',
       ...spaces,
     },
-    derp: {
-      test: 'gold',
-    },
     radii: {
       1: '4px',
       2: '6px',
@@ -274,6 +279,8 @@ export const {
       h3: '24px',
       h2: '32px',
       h1: '48px',
+      h1Temp: '26px',
+      h2Temp: '18px',
     },
     fontWeights: {
       hairline: 100,
@@ -285,6 +292,7 @@ export const {
       bold: 700,
       extrabold: 800,
       black: 900,
+      labelBold: '$bold',
     },
     lineHeights: {
       none: 1,
@@ -310,6 +318,9 @@ export const {
       'color-progress-light': 'var(--colors-text) !important',
       'color-progress-success': 'var(--toastify-text-color-success) !important',
       'color-progress-error': 'var(--toastify-text-color-error) !important',
+    },
+    textTransforms: {
+      label: 'uppercase',
     },
   },
   media: {
@@ -389,7 +400,7 @@ export const {
 
 export const dark = createTheme({
   colors: {
-    cta: newFigmaColors.primary5,
+    cta: newFigmaColors.primary4,
     ctaHover: newFigmaColors.primary6,
     textOnCta: newFigmaColors.primary10,
 
@@ -420,9 +431,11 @@ export const dark = createTheme({
     successButtonBorderFocus: newFigmaColors.success5,
 
     neutralButton: newFigmaColors.grey7,
-    neutralButtonHover: newFigmaColors.grey8,
-    neutralButtonText: newFigmaColors.grey4,
-    neutralButtonTextHover: newFigmaColors.grey4,
+    neutralButtonOutlineBackground: newFigmaColors.grey9,
+    neutralButtonOutlineText: newFigmaColors.grey4,
+    neutralButtonHover: newFigmaColors.grey6,
+    neutralButtonText: newFigmaColors.grey3,
+    neutralButtonTextHover: newFigmaColors.grey3,
 
     secondary: newFigmaColors.secondary5,
     secondaryMedium: newFigmaColors.secondary7,
@@ -445,8 +458,8 @@ export const dark = createTheme({
     surface: newFigmaColors.grey9,
     surfaceNested: newFigmaColors.grey10,
 
-    text: newFigmaColors.grey2,
-    headingText: newFigmaColors.grey4,
+    text: newFigmaColors.grey4,
+    headingText: newFigmaColors.grey2,
     secondaryText: newFigmaColors.grey6,
 
     info: newFigmaColors.secondary10,
@@ -462,7 +475,12 @@ export const dark = createTheme({
     border: newFigmaColors.grey9,
     borderMedium: newFigmaColors.grey6,
     borderDim: newFigmaColors.grey7,
+    contentHeaderBorder: newFigmaColors.grey7,
     borderFocus: newFigmaColors.primary5,
+    borderFocusBright: newFigmaColors.primary3,
+
+    currentEpochDate: newFigmaColors.primary2,
+    currentEpochDescription: newFigmaColors.primary6,
 
     panelInfoText: newFigmaColors.grey4,
     panelInfoBackground: newFigmaColors.grey7,
@@ -521,11 +539,35 @@ export const dark = createTheme({
     navLinkText: newFigmaColors.grey4,
     navLinkHoverBackground: newFigmaColors.grey8,
   },
+  fontSizes: {
+    small: '14px',
+    medium: '16px',
+    large: '20px',
+    h3: '24px',
+    h2: '18px',
+    h1: '26px',
+    h1Temp: '26px',
+  },
+  lineHeights: {
+    none: 1,
+    shorter: '120%',
+    short: 1.375,
+    base: 1.5,
+    tall: 1.625,
+    tall2: 1.75,
+    taller: '2',
+  },
   shadows: {
     toastifyShadow: '0px 5px 25px -5px black',
   },
   fonts: {
     display: 'Denim, apple-system, sans-serif',
+  },
+  fontWeights: {
+    labelBold: '$semibold',
+  },
+  textTransforms: {
+    label: 'none',
   },
 });
 

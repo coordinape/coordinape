@@ -23,6 +23,7 @@ import { SingleColumnLayout } from '../../ui/layouts';
 import { FormInputField } from 'components';
 import { Edit3, Grid, Menu } from 'icons/__generated';
 import {
+  ContentHeader,
   Box,
   Button,
   Flex,
@@ -383,14 +384,8 @@ const GivePage = () => {
         <Helmet>
           <title>Give - {selectedCircle.name} - Coordinape</title>
         </Helmet>
-        <Box>
-          <Flex
-            css={{
-              mb: '$md',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
+        <ContentHeader>
+          <Flex column css={{ gap: '$sm', width: '100%' }}>
             <Flex
               css={{
                 gap: '$sm',
@@ -413,55 +408,6 @@ const GivePage = () => {
                 </Text>
               )}
             </Flex>
-
-            <Flex
-              css={{
-                '@sm': {
-                  display: 'none',
-                },
-              }}
-            >
-              <Button
-                css={{
-                  borderTopRightRadius: 0,
-                  borderBottomRightRadius: 0,
-                  flexGrow: '1',
-                  fontWeight: gridView ? 'normal' : 'bold',
-                }}
-                color="neutral"
-                outlined={gridView}
-                onClick={() => setGridView(false)}
-              >
-                <Menu />
-                Row
-              </Button>
-              <Button
-                css={{
-                  borderTopLeftRadius: 0,
-                  borderBottomLeftRadius: 0,
-                  flexGrow: '1',
-                  fontWeight: gridView ? 'bold' : 'normal',
-                }}
-                color="neutral"
-                outlined={!gridView}
-                onClick={() => setGridView(true)}
-              >
-                <Grid />
-                Card
-              </Button>
-            </Flex>
-          </Flex>
-          <Flex
-            alignItems="end"
-            css={{
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              gap: '$md',
-              mb: '$md',
-              width: '50%',
-              '@sm': { width: '100%' },
-            }}
-          >
             {!editAllocHelpText ? (
               <Flex column>
                 <MarkdownPreview
@@ -480,7 +426,7 @@ const GivePage = () => {
                     onClick={() => {
                       setEditAllocHelpText(true);
                     }}
-                    css={{ whiteSpace: 'nowrap', mt: '$sm' }}
+                    css={{ whiteSpace: 'nowrap' }}
                   >
                     <Edit3 />
                     Edit
@@ -491,7 +437,7 @@ const GivePage = () => {
               <Flex
                 column
                 css={{
-                  flexGrow: 1,
+                  width: '100%',
                 }}
               >
                 <Box css={{ position: 'relative', width: '100%' }}>
@@ -524,25 +470,63 @@ const GivePage = () => {
                 </Box>
                 <Flex css={{ gap: '$sm', mt: '$md' }}>
                   <Button
+                    size="small"
                     color="secondary"
-                    type="submit"
-                    onClick={handleSubmit(onSubmit)}
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    color="destructive"
                     onClick={() => {
                       setEditAllocHelpText(false);
                     }}
                   >
                     Cancel
                   </Button>
+                  <Button
+                    size="small"
+                    color="primary"
+                    type="submit"
+                    onClick={handleSubmit(onSubmit)}
+                  >
+                    Save
+                  </Button>
                 </Flex>
               </Flex>
             )}
           </Flex>
-        </Box>
+          <Flex
+            css={{
+              '@sm': {
+                display: 'none',
+              },
+            }}
+          >
+            <Button
+              css={{
+                borderTopRightRadius: 0,
+                borderBottomRightRadius: 0,
+                flexGrow: '1',
+                fontWeight: gridView ? 'normal' : 'bold',
+              }}
+              color="neutral"
+              outlined={gridView}
+              onClick={() => setGridView(false)}
+            >
+              <Menu />
+              Row
+            </Button>
+            <Button
+              css={{
+                borderTopLeftRadius: 0,
+                borderBottomLeftRadius: 0,
+                flexGrow: '1',
+                fontWeight: gridView ? 'bold' : 'normal',
+              }}
+              color="neutral"
+              outlined={!gridView}
+              onClick={() => setGridView(true)}
+            >
+              <Grid />
+              Card
+            </Button>
+          </Flex>
+        </ContentHeader>
         {!currentEpoch && (
           <Panel>
             <Text semibold inline>

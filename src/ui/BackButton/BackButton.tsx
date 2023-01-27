@@ -12,7 +12,7 @@ const BackButton = () => {
         padding: '$xs $sm',
         '&:hover': {
           path: {
-            stroke: '$white',
+            stroke: 'currentColor',
           },
         },
       }}

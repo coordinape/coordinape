@@ -21,7 +21,7 @@ import {
 } from 'pages/CircleAdminPage/getFixedPayment';
 import { useSelectedCircle } from 'recoilState/app';
 import { paths } from 'routes/paths';
-import { AppLink, Button, Flex, Modal, Panel, Text, TextField } from 'ui';
+import { Button, ContentHeader, Flex, Modal, Panel, Text, TextField } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import {
@@ -192,8 +192,13 @@ const MembersPage = () => {
   }
   return (
     <SingleColumnLayout>
-      <Flex alignItems="center" css={{ mb: '$md' }}>
-        <Text h1>Circle Members</Text>
+      <ContentHeader>
+        <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
+          <Text h1>Circle Members</Text>
+          <Text p as="p">
+            Manage, nominate and vouch for members.
+          </Text>
+        </Flex>
         {!isMobile && (
           <Flex
             css={{
@@ -228,8 +233,7 @@ const MembersPage = () => {
               <Button
                 as={NavLink}
                 to={paths.membersAdd(selectedCircle.id)}
-                color="secondary"
-                size="small"
+                color="cta"
               >
                 Add Members
               </Button>
@@ -238,8 +242,7 @@ const MembersPage = () => {
               <Button
                 as={NavLink}
                 to={paths.membersNominate(selectedCircle.id)}
-                size="small"
-                color="secondary"
+                color="cta"
                 tabIndex={cannotVouch ? -1 : 0}
                 css={cannotVouch ? disabledStyle : {}}
               >
@@ -248,70 +251,8 @@ const MembersPage = () => {
             )}
           </Flex>
         )}
-      </Flex>
-      <Text size="medium" css={{ mb: '$lg' }}>
-        Manage, nominate and vouch for members.
-      </Text>
+      </ContentHeader>
 
-      {isMobile && (
-        <Flex
-          column
-          css={{
-            width: 'auto',
-            marginTop: '$xl',
-            gap: '$sm',
-          }}
-        >
-          <Text h3>Users</Text>
-          <Text size={'small'} css={{ color: '$headingText' }}>
-            <Text>
-              {visibleUsers.length} Member
-              {visibleUsers.length > 1 ? 's' : ''}
-            </Text>
-            {circle?.vouching && (
-              <>
-                <Text css={{ whiteSpace: 'pre-wrap', color: '$secondaryText' }}>
-                  {' | '}
-                </Text>
-                <Text>
-                  {nomineeCount} Nominee{nomineeCount > 1 ? 's' : ''}
-                </Text>
-              </>
-            )}
-          </Text>
-          <Flex
-            css={{
-              flexWrap: 'wrap',
-              justifyContent: 'flex-start',
-              gap: '$sm',
-            }}
-          >
-            {me.isCircleAdmin && (
-              <AppLink to={paths.membersAdd(selectedCircle.id)}>
-                <Button
-                  color="secondary"
-                  size="small"
-                  css={{ minWidth: '130px' }}
-                >
-                  Add Members
-                </Button>
-              </AppLink>
-            )}
-            {circle?.hasVouching && (
-              <AppLink to={paths.membersNominate(selectedCircle.id)}>
-                <Button
-                  size="small"
-                  color="secondary"
-                  disabled={cannotVouch}
-                  css={{ minWidth: '130px' }}
-                >
-                  Nominate Member
-                </Button>
-              </AppLink>
-            )}
-          </Flex>
-        </Flex>
-      )}
       {circle?.vouching && (
         <NomineesTable
           refetchNominees={refetch}

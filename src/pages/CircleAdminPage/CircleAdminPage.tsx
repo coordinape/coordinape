@@ -24,6 +24,7 @@ import { paths } from 'routes/paths';
 import {
   Box,
   Button,
+  ContentHeader,
   Divider,
   Link,
   Flex,
@@ -393,19 +394,12 @@ export const CircleAdminPage = () => {
   return (
     <Form id="circle_admin">
       <SingleColumnLayout>
-        <Flex
-          alignItems="center"
-          css={{
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            mb: '$lg',
-            gap: '$md',
-          }}
-        >
-          <Text h1>Circle Admin</Text>
+        <ContentHeader>
+          <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
+            <Text h1>Circle Admin</Text>
+          </Flex>
           <Button
-            color="secondary"
-            size="medium"
+            color="primary"
             type="submit"
             form="circle_admin"
             disabled={!isDirty}
@@ -413,7 +407,7 @@ export const CircleAdminPage = () => {
           >
             Save Settings
           </Button>
-        </Flex>
+        </ContentHeader>
         <Panel css={panelStyles}>
           <Text h2>General</Text>
           <Panel nested>

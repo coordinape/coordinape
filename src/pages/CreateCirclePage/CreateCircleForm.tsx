@@ -18,6 +18,7 @@ import { paths } from 'routes/paths';
 import {
   Box,
   Button,
+  ContentHeader,
   Flex,
   FormLabel,
   Avatar,
@@ -142,22 +143,16 @@ export const CreateCircleForm = ({
 
   return (
     <SingleColumnLayout>
-      <Text h1 css={{ mb: '$sm' }}>
-        Create a Circle
-      </Text>
-      <Text
-        p
-        as="p"
-        css={{
-          mb: '$xl',
-          width: '50%',
-          '@sm': { width: '100%' },
-        }}
-      >
-        Coordinape circles allow you to collectively reward circle members
-        through equitable and transparent payments. To start a circle, we need
-        just a bit of information.
-      </Text>
+      <ContentHeader>
+        <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
+          <Text h1>Create a Circle</Text>
+          <Text p as="p">
+            Coordinape circles allow you to collectively reward circle members
+            through equitable and transparent payments. To start a circle, we
+            need just a bit of information.
+          </Text>
+        </Flex>
+      </ContentHeader>
       {!hasSampleOrg && (
         <Box css={{ mb: '$lg' }}>
           <Text variant="label" css={{ mb: '$sm' }}>

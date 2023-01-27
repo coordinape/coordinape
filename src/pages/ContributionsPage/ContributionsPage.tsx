@@ -30,6 +30,7 @@ import {
 } from 'icons/__generated';
 import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
 import {
+  ContentHeader,
   Panel,
   Text,
   Box,
@@ -428,98 +429,94 @@ const ContributionsPage = () => {
   return (
     <>
       <SingleColumnLayout>
-        <Text h1>Contributions</Text>
-        <Flex
-          alignItems="end"
-          css={{
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            gap: '$md',
-            width: '50%',
-            '@sm': { width: '100%' },
-          }}
-        >
-          {!editHelpText ? (
-            <Flex column>
-              <MarkdownPreview
-                render
-                source={
-                  updatedContHelpText ??
-                  data?.circles_by_pk?.cont_help_text ??
-                  CONT_DEFAULT_HELP_TEXT
-                }
-                css={{ minHeight: '0', cursor: 'auto' }}
-              />
-
-              {isAdmin && (
-                <Link
-                  href="#"
-                  iconLink
-                  onClick={() => {
-                    setEditHelpText(true);
-                  }}
-                  css={{ whiteSpace: 'nowrap', mt: '$sm' }}
-                >
-                  <Edit3 />
-                  Edit
-                </Link>
-              )}
-            </Flex>
-          ) : (
-            <Flex
-              column
-              css={{
-                flexGrow: 1,
-              }}
-            >
-              <Box css={{ position: 'relative', width: '100%' }}>
-                <FormInputField
-                  name="cont_help_text"
-                  id="finish_work"
-                  control={contributionTextControl}
-                  defaultValue={data?.circles_by_pk?.cont_help_text}
-                  label="Contribution Help Text"
-                  placeholder="Default: 'What have you been working on?'"
-                  infoTooltip="Change the text that contributors see on this page."
-                  showFieldErrors
-                  textArea
-                  css={{
-                    width: '100%',
-                  }}
+        <ContentHeader>
+          <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
+            <Text h1>Contributions</Text>
+            {!editHelpText ? (
+              <Flex column>
+                <MarkdownPreview
+                  render
+                  source={
+                    updatedContHelpText ??
+                    data?.circles_by_pk?.cont_help_text ??
+                    CONT_DEFAULT_HELP_TEXT
+                  }
+                  css={{ minHeight: '0', cursor: 'auto' }}
                 />
-                <Text
-                  inline
-                  size="small"
-                  color="secondary"
-                  css={{
-                    position: 'absolute',
-                    right: '$sm',
-                    bottom: '$sm',
-                  }}
-                >
-                  Markdown Supported
-                </Text>
-              </Box>
-              <Flex css={{ gap: '$sm', mt: '$md' }}>
-                <Button
-                  color="secondary"
-                  type="submit"
-                  onClick={handleSubmit(onSubmit)}
-                >
-                  Save
-                </Button>
-                <Button
-                  color="destructive"
-                  onClick={() => {
-                    setEditHelpText(false);
-                  }}
-                >
-                  Cancel
-                </Button>
+
+                {isAdmin && (
+                  <Link
+                    href="#"
+                    iconLink
+                    onClick={() => {
+                      setEditHelpText(true);
+                    }}
+                    css={{ whiteSpace: 'nowrap' }}
+                  >
+                    <Edit3 />
+                    Edit
+                  </Link>
+                )}
               </Flex>
-            </Flex>
-          )}
-        </Flex>
+            ) : (
+              <Flex
+                column
+                css={{
+                  width: '100%',
+                }}
+              >
+                <Box css={{ position: 'relative', width: '100%' }}>
+                  <FormInputField
+                    name="cont_help_text"
+                    id="finish_work"
+                    control={contributionTextControl}
+                    defaultValue={data?.circles_by_pk?.cont_help_text}
+                    label="Contribution Help Text"
+                    placeholder="Default: 'What have you been working on?'"
+                    infoTooltip="Change the text that contributors see on this page."
+                    showFieldErrors
+                    textArea
+                    css={{
+                      width: '100%',
+                    }}
+                  />
+                  <Text
+                    inline
+                    size="small"
+                    color="secondary"
+                    css={{
+                      position: 'absolute',
+                      right: '$sm',
+                      bottom: '$sm',
+                    }}
+                  >
+                    Markdown Supported
+                  </Text>
+                </Box>
+                <Flex css={{ gap: '$sm', mt: '$md' }}>
+                  <Button
+                    size="small"
+                    color="secondary"
+                    onClick={() => {
+                      setEditHelpText(false);
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    size="small"
+                    color="primary"
+                    type="submit"
+                    onClick={handleSubmit(onSubmit)}
+                  >
+                    Save
+                  </Button>
+                </Flex>
+              </Flex>
+            )}
+          </Flex>
+        </ContentHeader>
+
         {(memoizedEpochData.contributions || []).length === 0 && (
           <ContributionIntro />
         )}

@@ -15,6 +15,7 @@ export const Button = styled('button', {
   alignItems: 'center',
   lineHeight: '$shorter',
   textDecoration: 'none',
+  whiteSpace: 'nowrap',
   '&[disabled]': disabledStyle,
 
   variants: {
@@ -49,6 +50,17 @@ export const Button = styled('button', {
         '&:focus-visible': {
           outline: '3px solid $borderFocus',
           outlineOffset: '-3px',
+        },
+      },
+      selectedSecondary: {
+        backgroundColor: '$secondaryButtonHover',
+        color: '$secondaryButtonTextHover',
+        border: '1px solid $secondaryButtonBorderHover',
+        '&:hover': {
+          filter: 'brightness(0.8)',
+        },
+        '&:focus-visible': {
+          filter: 'brightness(0.8)',
         },
       },
       destructive: {
@@ -294,8 +306,8 @@ export const Button = styled('button', {
       color: 'neutral',
       outlined: true,
       css: {
-        background: 'transparent',
-        color: '$neutralButton',
+        background: '$neutralButtonOutlineBackground',
+        color: '$neutralButtonOutlineText',
         borderColor: '$neutralButton',
       },
     },
