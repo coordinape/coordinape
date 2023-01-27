@@ -206,6 +206,8 @@ export const colors = {
   formInputErrorText: newFigmaColors.error7,
   formInputErrorBackground: newFigmaColors.error1,
   formInputErrorBorder: newFigmaColors.error6,
+  formRadioBorderUnselected: '$tempPrimaryHover',
+  formRadioBorderSelected: '$primary',
 
   mapNodeHighlight: '$primary',
   mapNodeMoreHighlight: figmaColors.teal8,
@@ -521,6 +523,8 @@ export const dark = createTheme({
     formInputErrorText: newFigmaColors.error9,
     formInputErrorBackground: newFigmaColors.error4,
     formInputErrorBorder: newFigmaColors.error7,
+    formRadioBorderUnselected: newFigmaColors.primary7,
+    formRadioBorderSelected: newFigmaColors.primary4,
 
     mapNodeHighlight: newFigmaColors.warning7,
     mapNodeMoreHighlight: newFigmaColors.warning4,

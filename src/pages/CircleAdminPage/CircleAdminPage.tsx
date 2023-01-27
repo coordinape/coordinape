@@ -410,7 +410,7 @@ export const CircleAdminPage = () => {
         </ContentHeader>
         <Panel css={panelStyles}>
           <Text h2>General</Text>
-          <Panel css={{ p: 0 }}>
+          <Panel css={{ p: '$sm 0' }}>
             <Text h3 semibold css={{ mb: '$sm' }}>
               Circle Settings
             </Text>
@@ -596,7 +596,7 @@ export const CircleAdminPage = () => {
         {isFeatureEnabled('fixed_payments') && (
           <Panel css={panelStyles}>
             <Text h2>Fixed Payments</Text>
-            <Panel css={{ p: 0 }}>
+            <Panel css={{ p: '$sm 0' }}>
               <Box
                 css={{
                   display: 'grid',
@@ -677,7 +677,7 @@ export const CircleAdminPage = () => {
 
         <Panel css={panelStyles}>
           <Text h2>Vouching</Text>
-          <Panel css={{ p: 0 }}>
+          <Panel css={{ p: '$sm 0' }}>
             <Text h3 semibold css={{ mb: '$sm' }}>
               Vouching Settings
             </Text>
@@ -797,7 +797,7 @@ export const CircleAdminPage = () => {
         <HR />
         <Panel css={panelStyles}>
           <Text h2>Integration</Text>
-          <Panel css={{ p: 0 }}>
+          <Panel css={{ p: '$sm 0' }}>
             <AdminIntegrations circleId={circleId} />
             <HR />
             <Box>
@@ -827,7 +827,7 @@ export const CircleAdminPage = () => {
         </Panel>
         <Panel css={panelStyles}>
           <Text h2>Circle API Keys</Text>
-          <Panel css={{ p: 0 }}>
+          <Panel css={{ p: '$sm 0' }}>
             <CircleApiKeys />
           </Panel>
         </Panel>
