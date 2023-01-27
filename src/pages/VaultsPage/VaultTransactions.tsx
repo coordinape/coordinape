@@ -14,8 +14,8 @@ import { Contracts } from 'lib/vaults/contracts';
 import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
-import { styled } from 'stitches.config';
 
+import { makeTable } from '../../components';
 import { LoadingModal } from 'components/LoadingModal';
 import { useContracts } from 'hooks';
 import { Link, Panel, Text } from 'ui';
@@ -31,6 +31,9 @@ import { Awaited } from 'types/shim';
 const logger = new DebugLogger('VaultTransactions');
 
 type VaultAndTransactions = Awaited<ReturnType<typeof getVaultAndTransactions>>;
+
+// TODO: type guard the VaultTxList or make circle optional???
+// TODO: figure out how to test
 
 export const VaultTransactions = () => {
   const { address } = useParams();
@@ -76,6 +79,7 @@ export const VaultTransactions = () => {
           />
         </Text>
         <OwnerProfileLink ownerAddress={ownerAddress}></OwnerProfileLink>
+        {/* @ts-ignore */}
         <TransactionTable chainId={vault.chain_id} rows={vaultTxList} />
       </Panel>
     </SingleColumnLayout>
@@ -368,68 +372,50 @@ async function getDistributionEvents(
   return distributions;
 }
 
-const Table = styled('table', {});
+const TransactionTableLayout = makeTable<RawDistributionTx>('TransactionTable');
+
+const styles = {
+  alignRight: { textAlign: 'right' },
+};
 
 export const TransactionTable = ({
   rows,
   chainId,
 }: {
-  rows: any[];
+  rows: RawDistributionTx[];
   chainId: number;
 }) => (
-  <Table
-    css={{
-      width: '100%',
-      borderSpacing: 0,
-      fontSize: '$small',
-      th: {
-        textAlign: 'left',
-        color: '$secondaryText',
-        textTransform: 'uppercase',
-        p: '$sm',
-      },
-      tbody: { backgroundColor: '$surface', borderRadius: '$3' },
-      tr: {
-        borderTop: '1px solid $border',
-      },
-      td: {
-        p: '$sm',
-        color: '$text',
-      },
-      'th, td': {
-        '&.alignRight': {
-          textAlign: 'right',
-        },
-      },
+  <TransactionTableLayout
+    headers={[
+      { title: 'Date' },
+      { title: 'Circle' },
+      { title: 'Type' },
+      { title: 'Details' },
+      { title: 'Amount', css: styles.alignRight },
+      { title: 'Transaction', css: styles.alignRight },
+    ]}
+    data={rows}
+    startingSortIndex={0}
+    startingSortDesc={true}
+    sortByColumn={() => {
+      return c => c;
     }}
   >
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Circle</th>
-        <th>Type</th>
-        <th>Details</th>
-        <th className="alignRight">Amount</th>
-        <th className="alignRight">Transaction</th>
+    {row => (
+      <tr key={row.hash}>
+        <td>{row.date}</td>
+        <td>{row.circle}</td>
+        <td>{row.type}</td>
+        <td>{row.details}</td>
+        <td className="alignRight">{numberWithCommas(row.amount, 2)}</td>
+        <td className="alignRight">
+          <Link target="_blank" href={makeExplorerUrl(chainId, row.hash)}>
+            View on Etherscan
+          </Link>
+        </td>
       </tr>
-    </thead>
-    <tbody>
-      {rows.map(row => (
-        <tr key={row.hash}>
-          <td>{row.date}</td>
-          <td>{row.circle}</td>
-          <td>{row.type}</td>
-          <td>{row.details}</td>
-          <td className="alignRight">{numberWithCommas(row.amount, 2)}</td>
-          <td className="alignRight">
-            <Link target="_blank" href={makeExplorerUrl(chainId, row.hash)}>
-              View on Etherscan
-            </Link>
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  </Table>
+    )}
+  </TransactionTableLayout>
 );
 
 export const dummyTableData = [

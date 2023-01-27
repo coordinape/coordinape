@@ -97,18 +97,10 @@ export function VaultRow({
 
         {userIsOwner && (
           <>
-            <Button
-              color="secondary"
-              size="small"
-              onClick={() => setModal('deposit')}
-            >
+            <Button color="secondary" onClick={() => setModal('deposit')}>
               Deposit
             </Button>
-            <Button
-              color="secondary"
-              size="small"
-              onClick={() => setModal('withdraw')}
-            >
+            <Button color="secondary" onClick={() => setModal('withdraw')}>
               Withdraw
             </Button>
           </>
@@ -168,7 +160,7 @@ const RecentTransactions = ({ vault }: { vault: Vault }) => {
             rows={vaultTxList.slice(0, 3)}
           />
         ) : (
-          'No Transactions Yet'
+          <Text>No Transactions Yet</Text>
         )}
 
         {!!vaultTxList?.length && (
