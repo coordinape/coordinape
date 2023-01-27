@@ -30,7 +30,7 @@ export const ContributionRow = ({
           ? {}
           : {
               background: '$highlight',
-              border: '2px solid $link',
+              border: '1px solid $link',
             },
       }}
     >
