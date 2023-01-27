@@ -39,6 +39,9 @@ const CopyCodeTextField = ({ value }: { value: string }) => {
           border: 'none', //''1px solid $text !important',
           alignItems: 'center',
           pr: '48px',
+          '&:hover': {
+            color: '$link !important',
+          },
         }}
       />
       <Button

@@ -305,13 +305,13 @@ const NewMemberList = ({
 
             {changedUsers && changedUsers.length > 0 && (
               <Panel alert css={{ mt: '$xl' }}>
-                <Flex column>
-                  <Text size="large">
+                <Flex column css={{ gap: '$sm' }}>
+                  <Text color="inherit" size="medium">
                     Some addresses match existing accounts in our system, so
                     their names will be used:
                   </Text>
                   {changedUsers.map(user => (
-                    <Text key={user.newName}>
+                    <Text color="inherit" key={user.newName}>
                       &ldquo;{user.newName}&ldquo; will be used instead of
                       &ldquo;{user.oldName}&ldquo; for {user.address}
                     </Text>
