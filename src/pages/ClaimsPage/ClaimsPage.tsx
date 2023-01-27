@@ -5,9 +5,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useController, useForm } from 'react-hook-form';
 import * as z from 'zod';
 
-import { ApeInfoTooltip, LoadingModal, makeTable } from 'components';
+import { LoadingModal, makeTable } from 'components';
 import { DISTRIBUTION_TYPE } from 'config/constants';
 import {
+  InfoTooltip,
   Avatar,
   Box,
   ContentHeader,
@@ -294,7 +295,7 @@ const ClaimsRow: React.FC<ClaimsRowData> = ({ claim, group, children }) => {
       </td>
       <td>
         <Text size="small" css={{ lineHeight: 0 }}>
-          <ApeInfoTooltip>{groupTooltipInfo(group)}</ApeInfoTooltip>
+          <InfoTooltip>{groupTooltipInfo(group)}</InfoTooltip>
           <Text size="small" css={{ ml: '$xs' }}>
             {formatDistributionDates(group)}
           </Text>
@@ -323,7 +324,7 @@ const DeletedUserClaimsRow: React.FC<ClaimsRowData> = ({ group, children }) => {
       </td>
       <td>
         <Text size="small" css={{ lineHeight: 0 }}>
-          <ApeInfoTooltip>{groupTooltipInfo(group)}</ApeInfoTooltip>
+          <InfoTooltip>{groupTooltipInfo(group)}</InfoTooltip>
           <Text size="small" css={{ ml: '$xs' }}>
             {formatDeletedDistributionDates(group)}
           </Text>

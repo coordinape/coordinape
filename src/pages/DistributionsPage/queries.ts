@@ -30,7 +30,7 @@ export const getEpochData = async (
   myAddress?: string,
   contracts?: Contracts
 ) => {
-  assert(myAddress && contracts);
+  assert(myAddress);
 
   const gq = await client.query(
     {
@@ -54,24 +54,26 @@ export const getEpochData = async (
               { where: { address: { _eq: myAddress.toLowerCase() } } },
               { role: true },
             ],
-            organization: {
-              name: true,
-              vaults: [
-                {
-                  where: {
-                    profile: { address: { _eq: myAddress.toLowerCase() } },
-                    chain_id: { _eq: Number(contracts.chainId) },
+            ...(!!contracts && {
+              organization: {
+                name: true,
+                vaults: [
+                  {
+                    where: {
+                      profile: { address: { _eq: myAddress.toLowerCase() } },
+                      chain_id: { _eq: Number(contracts.chainId) },
+                    },
                   },
-                },
-                {
-                  id: true,
-                  symbol: true,
-                  decimals: true,
-                  vault_address: true,
-                  simple_token_address: true,
-                },
-              ],
-            },
+                  {
+                    id: true,
+                    symbol: true,
+                    decimals: true,
+                    vault_address: true,
+                    simple_token_address: true,
+                  },
+                ],
+              },
+            }),
             integrations: [{ where: { type: { _eq: HEDGEY } } }, { id: true }],
           },
           token_gifts: [

@@ -10,6 +10,7 @@ import { QUERY_KEY_NAV } from '../../features/nav/getNavData';
 import { useToast } from '../../hooks';
 import { Box, Button, TextField, Text, Form, Flex } from '../../ui';
 import { normalizeError } from '../../utils/reporting';
+import { QUERY_KEY_CREATE_CIRCLE } from 'pages/CreateCirclePage/queries';
 import { QUERY_KEY_PROFILE_BY_ADDRESS } from 'pages/JoinCirclePage/queries';
 
 import { QUERY_KEY_MAIN_HEADER } from './getMainHeaderData';
@@ -45,6 +46,7 @@ export const CreateUserNameForm = ({ address }: { address?: string }) => {
       queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
       queryClient.invalidateQueries(QUERY_KEY_PROFILE_BY_ADDRESS);
       queryClient.invalidateQueries(QUERY_KEY_NAV);
+      queryClient.invalidateQueries(QUERY_KEY_CREATE_CIRCLE);
     },
     onError: err => {
       setLoading(false);

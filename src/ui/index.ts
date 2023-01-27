@@ -13,6 +13,7 @@ export * from './FormLabel/FormLabel';
 export * from './HR/HR';
 export * from './Icon/Icon';
 export * from './IconButton/IconButton';
+export * from './Tooltip/InfoTooltip';
 export * from './Image/Image';
 export * from './Link/Link';
 export * from './MarkdownPreview/MarkdownPreview';

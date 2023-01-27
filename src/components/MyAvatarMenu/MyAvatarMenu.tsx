@@ -41,6 +41,8 @@ export const MyAvatarMenu = ({ walletStatus, avatar }: Props) => {
   };
   let timeoutId: ReturnType<typeof setTimeout>;
 
+  if (!address) return null;
+
   return (
     <>
       {showTxModal && (

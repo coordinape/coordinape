@@ -11,8 +11,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
-import { ApeInfoTooltip } from 'components/index';
-import { Text, Flex } from 'ui';
+import { Text, Flex, InfoTooltip } from 'ui';
 
 const ApeTextVariants = {
   default: 'default',
@@ -162,7 +161,7 @@ const makeComponent =
               css={{ mb: '$xs' }}
             >
               {prelabel}
-              {infoTooltip && <ApeInfoTooltip>{infoTooltip}</ApeInfoTooltip>}
+              {infoTooltip && <InfoTooltip>{infoTooltip}</InfoTooltip>}
             </Text>
           )}
           {(label || infoTooltip) && (
@@ -175,7 +174,7 @@ const makeComponent =
             >
               {label}{' '}
               {!prelabel && infoTooltip && (
-                <ApeInfoTooltip>{infoTooltip}</ApeInfoTooltip>
+                <InfoTooltip>{infoTooltip}</InfoTooltip>
               )}
             </Text>
           )}

@@ -157,9 +157,9 @@ export const colors = {
   hr: figmaColors.grey4,
   contentHeaderBorder: 'transparent',
   borderMedium: newFigmaColors.grey5,
-  borderDim: newFigmaColors.grey4,
+  borderDim: newFigmaColors.grey3,
   borderFocus: '$primary',
-  borderFocusBright: '$primary',
+  borderFocusBright: 'transparent',
 
   highlight: figmaColors.blue1,
   avatarFallback: newFigmaColors.grey3,
@@ -280,6 +280,7 @@ export const {
       h2: '32px',
       h1: '48px',
       h1Temp: '26px',
+      h2Temp: '18px',
     },
     fontWeights: {
       hairline: 100,
@@ -308,6 +309,7 @@ export const {
       shadowBottom: '0px 6px 11px 0px #0000000d',
       heavy:
         '0px 0px 3px 0px #0000001C, 0px 0px 16px 0px #0000001F, 0px 0px 87px 0px #0000003D',
+      toastifyShadow: '$shadow1',
     },
     transitions: {
       quick: 'all 0.2s',
@@ -527,7 +529,7 @@ export const dark = createTheme({
     mapLink: '#FFFFFF15',
     mapLinkDim: '#FFFFFF08',
 
-    toastifyBackground: newFigmaColors.grey9,
+    toastifyBackground: newFigmaColors.grey8,
     toastifyBorderColorDefault: newFigmaColors.grey6,
     toastifyBorderColorSuccess: newFigmaColors.success6,
     toastifyIconBackgroundSuccess: newFigmaColors.success10,
@@ -554,6 +556,9 @@ export const dark = createTheme({
     tall: 1.625,
     tall2: 1.75,
     taller: '2',
+  },
+  shadows: {
+    toastifyShadow: '0px 5px 25px -5px black',
   },
   fonts: {
     display: 'Denim, apple-system, sans-serif',

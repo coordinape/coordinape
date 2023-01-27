@@ -4,33 +4,50 @@ import { TestWrapper } from '../../utils/testing';
 
 import CreateCirclePage from './CreateCirclePage';
 
-// I made an array here and i'm shifting it per test cuz i couldn't figure out
-// how to control diff results per test func with these factory funcs
-// ...seems sketch -g
-const mockProfileResults = [
-  // first test
-  {
-    address: 'abc',
-    myUsers: [],
-  },
-  // second test
-  {
-    address: 'abc',
-    myUsers: [
-      {
-        isCircleAdmin: true,
-        circle: {
-          organization: {
-            sample: true,
+jest.mock('hooks/useConnectedAddress', () => () => 'abc');
+
+jest.mock('./queries', () => {
+  return {
+    getCreateCircleData: jest
+      .fn()
+      .mockImplementationOnce(async () => ({
+        myUsers: [
+          {
+            name: 'abc',
+            role: 0,
+            circle: {
+              organization: {
+                id: 1,
+                name: 'test',
+                sample: false,
+              },
+            },
           },
+        ],
+        myProfile: {
+          name: 'abc',
         },
-      },
-    ],
-  },
-];
-jest.mock('recoilState/app', () => ({
-  useMyProfile: () => mockProfileResults.shift(),
-}));
+      }))
+      .mockImplementationOnce(async () => ({
+        myUsers: [
+          {
+            name: 'abc',
+            role: 1,
+            circle: {
+              organization: {
+                id: 1,
+                name: 'test',
+                sample: true,
+              },
+            },
+          },
+        ],
+        myProfile: {
+          name: 'abc',
+        },
+      })),
+  };
+});
 
 test('basic rendering, no sample circle yet', async () => {
   await act(async () => {

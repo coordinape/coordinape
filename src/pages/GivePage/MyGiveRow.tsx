@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { ApeInfoTooltip } from '../../components';
 import { IMyUser } from '../../types';
 import { AlertTriangle, Check, X } from 'icons/__generated';
-import { Box, Flex, Text, ToggleButton } from 'ui';
+import { InfoTooltip, Box, Flex, Text, ToggleButton } from 'ui';
 
 import { AvatarAndName } from './AvatarAndName';
 import { GiveRowGrid } from './GiveRowGrid';
@@ -161,10 +160,10 @@ export const MyGiveRow = ({
               >
                 <Text variant="label">
                   Receive Give?
-                  <ApeInfoTooltip>
+                  <InfoTooltip>
                     Choose no if you want to opt-out from receiving{' '}
                     {myUser.circle.tokenName}
-                  </ApeInfoTooltip>
+                  </InfoTooltip>
                 </Text>
                 <Flex>
                   <ToggleButton

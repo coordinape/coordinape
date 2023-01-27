@@ -47,7 +47,7 @@ context('Coordinape', () => {
     cy.contains('You have added 1 member!', { timeout: 120000 }).should(
       'be.visible'
     );
-    cy.get('button').contains('Back').click();
+    cy.get('a').contains('Members').click();
     cy.contains('A Test User', { timeout: 120000 }).should('be.visible');
   });
 });

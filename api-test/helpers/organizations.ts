@@ -10,16 +10,19 @@ export async function createOrganization(
   client: GQLClientType,
   object?: OrganizationInput
 ) {
-  const { insert_organizations_one } = await client.mutate({
-    insert_organizations_one: [
-      {
-        object: object || {
-          name: faker.company.companyName(),
+  const { insert_organizations_one } = await client.mutate(
+    {
+      insert_organizations_one: [
+        {
+          object: object || {
+            name: faker.company.companyName(),
+          },
         },
-      },
-      { id: true, name: true },
-    ],
-  });
+        { id: true, name: true },
+      ],
+    },
+    { operationName: 'createOrganization' }
+  );
 
   if (!insert_organizations_one) {
     throw new Error('Organization not created');
