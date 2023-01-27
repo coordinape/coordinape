@@ -82,6 +82,7 @@ const Title = styled(Dialog.Title, {
   fontSize: '$h2',
   display: 'block',
   color: '$text',
+  fontWeight: '$semibold',
 });
 
 type ModalProps = {
