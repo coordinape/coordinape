@@ -65,7 +65,9 @@ export const MyGiveRow = ({
         selected={selected}
         css={{
           pl: '$lg',
-          borderColor: '$tagWarningText',
+          // borderColor: '$tagWarningText',
+          borderColor: 'transparent',
+          background: '$activePanel',
           '@sm': {
             py: '$sm',
           },

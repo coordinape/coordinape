@@ -16,13 +16,13 @@ export const Panel = styled('div', {
   'input, textarea, button[role="radio"], button[role="combobox"], button[role="checkbox"], .root .formInputWrapper':
     {
       backgroundColor: 'transparent',
-      borderColor: '$borderDim',
+      borderColor: '$formInputBorder',
       '&:disabled': {
         opacity: 1,
       },
     },
   '.root .formInputWrapper': {
-    borderColor: '$borderDim',
+    borderColor: '$formInputBorder',
     '& input': {
       background: 'transparent',
     },
@@ -62,7 +62,7 @@ export const Panel = styled('div', {
             backgroundColor: '$surfaceNested',
             borderColor: 'transparent',
             '&:disabled': {
-              borderColor: '$borderDim',
+              borderColor: '$formInputBorder',
               opacity: 1,
             },
           },

@@ -141,6 +141,7 @@ export const colors = {
   dim: newFigmaColors.grey1,
   dimButtonHover: '#ffffff',
   textOnDim: '$primary',
+  activePanel: newFigmaColors.grey2,
 
   complete: figmaColors.green12,
   completeLight: figmaColors.green1,
@@ -160,6 +161,7 @@ export const colors = {
   borderDim: newFigmaColors.grey3,
   borderFocus: '$primary',
   borderFocusBright: 'transparent',
+  borderTable: newFigmaColors.grey4,
 
   highlight: figmaColors.blue1,
   avatarFallback: newFigmaColors.grey3,
@@ -199,7 +201,7 @@ export const colors = {
 
   formInputText: figmaColors.grey16,
   formInputBackground: 'white',
-  formInputBorder: figmaColors.grey4,
+  formInputBorder: newFigmaColors.grey4,
   formInputPlaceholder: figmaColors.grey8,
   formInputErrorText: newFigmaColors.error7,
   formInputErrorBackground: newFigmaColors.error1,
@@ -310,6 +312,7 @@ export const {
       heavy:
         '0px 0px 3px 0px #0000001C, 0px 0px 16px 0px #0000001F, 0px 0px 87px 0px #0000003D',
       toastifyShadow: '$shadow1',
+      modalShadow: '$shadow1',
     },
     transitions: {
       quick: 'all 0.2s',
@@ -449,6 +452,7 @@ export const dark = createTheme({
     textOnDim: newFigmaColors.grey5,
     modalBackground: '#0000007d',
     modalBorderColor: newFigmaColors.grey8,
+    activePanel: newFigmaColors.grey8,
 
     profileGradientStart: newFigmaColors.grey10,
     profileGradientEnd: newFigmaColors.grey8,
@@ -478,6 +482,7 @@ export const dark = createTheme({
     contentHeaderBorder: newFigmaColors.grey7,
     borderFocus: newFigmaColors.primary5,
     borderFocusBright: newFigmaColors.primary3,
+    borderTable: newFigmaColors.grey7,
 
     currentEpochDate: newFigmaColors.primary2,
     currentEpochDescription: newFigmaColors.primary6,
@@ -559,6 +564,7 @@ export const dark = createTheme({
   },
   shadows: {
     toastifyShadow: '0px 5px 25px -5px black',
+    modalShadow: '0 5px 70px 28px black',
   },
   fonts: {
     display: 'Denim, apple-system, sans-serif',

@@ -1,4 +1,4 @@
-import { Panel } from '../../ui';
+import { Flex } from '../../ui';
 
 export const ContributionPanel = ({
   children,
@@ -6,8 +6,8 @@ export const ContributionPanel = ({
   children: React.ReactNode;
 }) => {
   return (
-    <Panel css={{ gap: '$md', borderRadius: '$4', mt: '$lg' }}>
+    <Flex column css={{ gap: '$md', mt: '$lg' }}>
       {children}
-    </Panel>
+    </Flex>
   );
 };

@@ -230,7 +230,7 @@ const NewMemberList = ({
 
   return (
     <Box>
-      <Panel nested>
+      <Panel>
         <form onSubmit={handleSubmit(submitNewMembers)}>
           {loading && <LoadingModal visible={true} />}
           <Box data-testid="new-members">

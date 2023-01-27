@@ -21,11 +21,11 @@ export const ContributionRow = ({
       {...rest}
       tabIndex={0}
       css={{
-        border: active ? '2px solid $link' : '2px solid $border',
+        border: active ? '1px solid $link' : '1px solid $borderDim',
         cursor: disabled ? 'auto' : 'pointer',
         opacity: disabled ? 0.5 : 1.0,
         transition: 'background-color 0.3s, border-color 0.3s',
-        background: active ? '$highlight' : '$surfaceNested',
+        background: active ? '$highlight' : '$surface',
         '&:hover': disabled
           ? {}
           : {
@@ -33,7 +33,6 @@ export const ContributionRow = ({
               border: '2px solid $link',
             },
       }}
-      nested
     >
       <Flex css={{ justifyContent: 'space-between' }}>
         <Text
