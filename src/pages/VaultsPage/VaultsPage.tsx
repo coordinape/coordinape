@@ -124,7 +124,9 @@ const VaultsPage = () => {
       </ContentHeader>
 
       {isLoading ? (
-        <Panel>Loading, please wait...</Panel>
+        <Panel>
+          <Text>Loading, please wait...</Text>
+        </Panel>
       ) : (vaults?.length || 0) > 0 ? (
         vaults?.map(vault => (
           <VaultRow key={vault.id} vault={vault} css={{ mb: '$sm' }} />
