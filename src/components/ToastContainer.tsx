@@ -20,15 +20,22 @@ const StyledContainer = styled(ToastifyContainer, {
     background: '$toastifyBackground',
     borderRadius: '9px',
     border: '1px solid',
+    alignItems: 'flex-start',
     '.toastCloseButton svg': {
       transition: 'transform 0.3s ease-in-out',
     },
+    boxShadow: '$toastifyShadow',
     '&:hover': {
-      toastCloseButton: {
-        background: 'transparent',
-      },
       '.toastCloseButton svg': {
         transform: 'rotate(90deg)',
+      },
+    },
+    '.toastContent': {
+      '&:hover': {
+        svg: {
+          opacity: '0.5',
+          transition: 'opacity 0.1s',
+        },
       },
     },
   },
@@ -70,8 +77,9 @@ export const ToastContainer = () => {
       hideProgressBar={false}
       autoClose={5000}
       newestOnTop
+      closeOnClick={false}
       pauseOnFocusLoss
-      draggable
+      draggable={true}
       limit={3}
       pauseOnHover
       theme="light"
