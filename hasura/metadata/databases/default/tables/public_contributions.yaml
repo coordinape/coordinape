@@ -89,3 +89,24 @@ select_permissions:
           - deleted_at:
               _is_null: true
       allow_aggregations: true
+event_triggers:
+  - name: createContributionInteractionEvent
+    definition:
+      enable_manual: false
+      insert:
+        columns: '*'
+    retry_conf:
+      interval_sec: 3600
+      num_retries: 5
+      timeout_sec: 60
+    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager'
+    headers:
+      - name: verification_key
+        value_from_env: HASURA_EVENT_SECRET
+    cleanup_config:
+      batch_size: 10000
+      clean_invocation_logs: false
+      clear_older_than: 168
+      paused: true
+      schedule: 0 0 * * *
+      timeout: 60
