@@ -192,7 +192,6 @@ type CreateSampleCircleResponse {
 }
 
 input CreateUserWithTokenInput {
-  name: String!
   token: String!
 }
 
@@ -281,6 +280,32 @@ type GenerateApiKeyResponse {
   api_key: String!
   circleApiKey: circle_api_keys
   hash: String!
+}
+
+type GuildAdmin {
+  address: String!
+}
+
+input GuildInfoInput {
+  id: String!
+}
+
+type GuildInfoOutput {
+  admins: [GuildAdmin]
+  description: String!
+  id: Int!
+  image_url: String!
+  member_count: Int!
+  name: String!
+  roles: [GuildRole]
+  url_name: String!
+}
+
+type GuildRole {
+  id: Int!
+  image_url: String!
+  member_count: Int!
+  name: String!
 }
 
 """
@@ -420,6 +445,8 @@ input UpdateCircleInput {
   discord_webhook: String
   fixed_payment_token_type: String
   fixed_payment_vault_id: Int
+  guild_id: Int
+  guild_role_id: Int
   min_vouches: Int
   name: String
   nomination_days_limit: Int
@@ -3622,6 +3649,8 @@ type circles {
   ): epochs_aggregate!
   fixed_payment_token_type: String
   fixed_payment_vault_id: Int
+  guild_id: Int
+  guild_role_id: Int
   id: bigint!
 
   """
@@ -4063,6 +4092,8 @@ aggregate avg on columns
 """
 type circles_avg_fields {
   fixed_payment_vault_id: Float
+  guild_id: Float
+  guild_role_id: Float
   id: Float
   min_vouches: Float
   nomination_days_limit: Float
@@ -4074,6 +4105,8 @@ order by avg() on columns of table "circles"
 """
 input circles_avg_order_by {
   fixed_payment_vault_id: order_by
+  guild_id: order_by
+  guild_role_id: order_by
   id: order_by
   min_vouches: order_by
   nomination_days_limit: order_by
@@ -4103,6 +4136,8 @@ input circles_bool_exp {
   epochs: epochs_bool_exp
   fixed_payment_token_type: String_comparison_exp
   fixed_payment_vault_id: Int_comparison_exp
+  guild_id: Int_comparison_exp
+  guild_role_id: Int_comparison_exp
   id: bigint_comparison_exp
   integrations: circle_integrations_bool_exp
   is_verified: Boolean_comparison_exp
@@ -4142,6 +4177,8 @@ input type for incrementing numeric columns in table "circles"
 """
 input circles_inc_input {
   fixed_payment_vault_id: Int
+  guild_id: Int
+  guild_role_id: Int
   id: bigint
   min_vouches: Int
   nomination_days_limit: Int
@@ -4168,6 +4205,8 @@ input circles_insert_input {
   epochs: epochs_arr_rel_insert_input
   fixed_payment_token_type: String
   fixed_payment_vault_id: Int
+  guild_id: Int
+  guild_role_id: Int
   id: bigint
   integrations: circle_integrations_arr_rel_insert_input
   is_verified: Boolean
@@ -4204,6 +4243,8 @@ type circles_max_fields {
   discord_webhook: String
   fixed_payment_token_type: String
   fixed_payment_vault_id: Int
+  guild_id: Int
+  guild_role_id: Int
   id: bigint
   logo: String
   min_vouches: Int
@@ -4228,6 +4269,8 @@ input circles_max_order_by {
   discord_webhook: order_by
   fixed_payment_token_type: order_by
   fixed_payment_vault_id: order_by
+  guild_id: order_by
+  guild_role_id: order_by
   id: order_by
   logo: order_by
   min_vouches: order_by
@@ -4252,6 +4295,8 @@ type circles_min_fields {
   discord_webhook: String
   fixed_payment_token_type: String
   fixed_payment_vault_id: Int
+  guild_id: Int
+  guild_role_id: Int
   id: bigint
   logo: String
   min_vouches: Int
@@ -4276,6 +4321,8 @@ input circles_min_order_by {
   discord_webhook: order_by
   fixed_payment_token_type: order_by
   fixed_payment_vault_id: order_by
+  guild_id: order_by
+  guild_role_id: order_by
   id: order_by
   logo: order_by
   min_vouches: order_by
@@ -4344,6 +4391,8 @@ input circles_order_by {
   epochs_aggregate: epochs_aggregate_order_by
   fixed_payment_token_type: order_by
   fixed_payment_vault_id: order_by
+  guild_id: order_by
+  guild_role_id: order_by
   id: order_by
   integrations_aggregate: circle_integrations_aggregate_order_by
   is_verified: order_by
@@ -4428,6 +4477,16 @@ enum circles_select_column {
   column name
   """
   fixed_payment_vault_id
+
+  """
+  column name
+  """
+  guild_id
+
+  """
+  column name
+  """
+  guild_role_id
 
   """
   column name
@@ -4519,6 +4578,8 @@ input circles_set_input {
   discord_webhook: String
   fixed_payment_token_type: String
   fixed_payment_vault_id: Int
+  guild_id: Int
+  guild_role_id: Int
   id: bigint
   is_verified: Boolean
   logo: String
@@ -4541,6 +4602,8 @@ aggregate stddev on columns
 """
 type circles_stddev_fields {
   fixed_payment_vault_id: Float
+  guild_id: Float
+  guild_role_id: Float
   id: Float
   min_vouches: Float
   nomination_days_limit: Float
@@ -4552,6 +4615,8 @@ order by stddev() on columns of table "circles"
 """
 input circles_stddev_order_by {
   fixed_payment_vault_id: order_by
+  guild_id: order_by
+  guild_role_id: order_by
   id: order_by
   min_vouches: order_by
   nomination_days_limit: order_by
@@ -4563,6 +4628,8 @@ aggregate stddev_pop on columns
 """
 type circles_stddev_pop_fields {
   fixed_payment_vault_id: Float
+  guild_id: Float
+  guild_role_id: Float
   id: Float
   min_vouches: Float
   nomination_days_limit: Float
@@ -4574,6 +4641,8 @@ order by stddev_pop() on columns of table "circles"
 """
 input circles_stddev_pop_order_by {
   fixed_payment_vault_id: order_by
+  guild_id: order_by
+  guild_role_id: order_by
   id: order_by
   min_vouches: order_by
   nomination_days_limit: order_by
@@ -4585,6 +4654,8 @@ aggregate stddev_samp on columns
 """
 type circles_stddev_samp_fields {
   fixed_payment_vault_id: Float
+  guild_id: Float
+  guild_role_id: Float
   id: Float
   min_vouches: Float
   nomination_days_limit: Float
@@ -4596,6 +4667,8 @@ order by stddev_samp() on columns of table "circles"
 """
 input circles_stddev_samp_order_by {
   fixed_payment_vault_id: order_by
+  guild_id: order_by
+  guild_role_id: order_by
   id: order_by
   min_vouches: order_by
   nomination_days_limit: order_by
@@ -4631,6 +4704,8 @@ input circles_stream_cursor_value_input {
   discord_webhook: String
   fixed_payment_token_type: String
   fixed_payment_vault_id: Int
+  guild_id: Int
+  guild_role_id: Int
   id: bigint
   is_verified: Boolean
   logo: String
@@ -4653,6 +4728,8 @@ aggregate sum on columns
 """
 type circles_sum_fields {
   fixed_payment_vault_id: Int
+  guild_id: Int
+  guild_role_id: Int
   id: bigint
   min_vouches: Int
   nomination_days_limit: Int
@@ -4664,6 +4741,8 @@ order by sum() on columns of table "circles"
 """
 input circles_sum_order_by {
   fixed_payment_vault_id: order_by
+  guild_id: order_by
+  guild_role_id: order_by
   id: order_by
   min_vouches: order_by
   nomination_days_limit: order_by
@@ -4723,6 +4802,16 @@ enum circles_update_column {
   column name
   """
   fixed_payment_vault_id
+
+  """
+  column name
+  """
+  guild_id
+
+  """
+  column name
+  """
+  guild_role_id
 
   """
   column name
@@ -4818,6 +4907,8 @@ aggregate var_pop on columns
 """
 type circles_var_pop_fields {
   fixed_payment_vault_id: Float
+  guild_id: Float
+  guild_role_id: Float
   id: Float
   min_vouches: Float
   nomination_days_limit: Float
@@ -4829,6 +4920,8 @@ order by var_pop() on columns of table "circles"
 """
 input circles_var_pop_order_by {
   fixed_payment_vault_id: order_by
+  guild_id: order_by
+  guild_role_id: order_by
   id: order_by
   min_vouches: order_by
   nomination_days_limit: order_by
@@ -4840,6 +4933,8 @@ aggregate var_samp on columns
 """
 type circles_var_samp_fields {
   fixed_payment_vault_id: Float
+  guild_id: Float
+  guild_role_id: Float
   id: Float
   min_vouches: Float
   nomination_days_limit: Float
@@ -4851,6 +4946,8 @@ order by var_samp() on columns of table "circles"
 """
 input circles_var_samp_order_by {
   fixed_payment_vault_id: order_by
+  guild_id: order_by
+  guild_role_id: order_by
   id: order_by
   min_vouches: order_by
   nomination_days_limit: order_by
@@ -4862,6 +4959,8 @@ aggregate variance on columns
 """
 type circles_variance_fields {
   fixed_payment_vault_id: Float
+  guild_id: Float
+  guild_role_id: Float
   id: Float
   min_vouches: Float
   nomination_days_limit: Float
@@ -4873,6 +4972,8 @@ order by variance() on columns of table "circles"
 """
 input circles_variance_order_by {
   fixed_payment_vault_id: order_by
+  guild_id: order_by
+  guild_role_id: order_by
   id: order_by
   min_vouches: order_by
   nomination_days_limit: order_by
@@ -6509,6 +6610,7 @@ type discord_roles_circles {
   discord_channel_id: String!
   discord_role_id: String!
   id: bigint!
+  server_channel: String!
   updated_at: timestamptz!
 }
 
@@ -6561,6 +6663,7 @@ input discord_roles_circles_bool_exp {
   discord_channel_id: String_comparison_exp
   discord_role_id: String_comparison_exp
   id: bigint_comparison_exp
+  server_channel: String_comparison_exp
   updated_at: timestamptz_comparison_exp
 }
 
@@ -6597,6 +6700,7 @@ input discord_roles_circles_insert_input {
   discord_channel_id: String
   discord_role_id: String
   id: bigint
+  server_channel: String
   updated_at: timestamptz
 }
 
@@ -6609,6 +6713,7 @@ type discord_roles_circles_max_fields {
   discord_channel_id: String
   discord_role_id: String
   id: bigint
+  server_channel: String
   updated_at: timestamptz
 }
 
@@ -6621,6 +6726,7 @@ type discord_roles_circles_min_fields {
   discord_channel_id: String
   discord_role_id: String
   id: bigint
+  server_channel: String
   updated_at: timestamptz
 }
 
@@ -6658,6 +6764,7 @@ input discord_roles_circles_order_by {
   discord_channel_id: order_by
   discord_role_id: order_by
   id: order_by
+  server_channel: order_by
   updated_at: order_by
 }
 
@@ -6700,6 +6807,11 @@ enum discord_roles_circles_select_column {
   """
   column name
   """
+  server_channel
+
+  """
+  column name
+  """
   updated_at
 }
 
@@ -6712,6 +6824,7 @@ input discord_roles_circles_set_input {
   discord_channel_id: String
   discord_role_id: String
   id: bigint
+  server_channel: String
   updated_at: timestamptz
 }
 
@@ -6763,6 +6876,7 @@ input discord_roles_circles_stream_cursor_value_input {
   discord_channel_id: String
   discord_role_id: String
   id: bigint
+  server_channel: String
   updated_at: timestamptz
 }
 
@@ -6802,6 +6916,11 @@ enum discord_roles_circles_update_column {
   column name
   """
   id
+
+  """
+  column name
+  """
+  server_channel
 
   """
   column name
@@ -20732,6 +20851,7 @@ type query_root {
     """
     where: gift_private_bool_exp
   ): gift_private_aggregate!
+  guildInfo(payload: GuildInfoInput!): GuildInfoOutput
 
   """
   fetch data from the table: "histories"

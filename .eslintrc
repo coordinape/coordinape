@@ -156,8 +156,8 @@
             "InputValueDefinition": "snake_case",
             "ScalarTypeDefinition": "snake_case",
             "Argument": "snake_case",
-            "FieldDefinition[parent.name.value!=Mutation]": "snake_case",
-            "FieldDefinition[parent.name.value=Mutation]": "camelCase"
+            "FieldDefinition[parent.name.value!=/Query|Mutation/]": "snake_case",
+            "FieldDefinition[parent.name.value=/Mutation|Query/]": "camelCase"
           }
         ]
       },

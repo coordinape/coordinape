@@ -6,6 +6,7 @@ export type FeatureName =
   | 'theme_switcher'
   | 'discord'
   | 'email_login'
+  | 'guild'
   | 'disable_distribute_evenly';
 
 // this is a very simple implementation of build-time feature flags that you can

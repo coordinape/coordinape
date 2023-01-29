@@ -1,5 +1,5 @@
 import assert from 'assert';
-import React, { MouseEvent, useState, useEffect } from 'react';
+import React, { MouseEvent, useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { constants as ethersConstants } from 'ethers';
@@ -9,33 +9,37 @@ import {
   removeAddressSuffix,
   removeYearnPrefix,
 } from 'lib/vaults';
-import { useForm, SubmitHandler, useController } from 'react-hook-form';
+import { SubmitHandler, useController, useForm } from 'react-hook-form';
 import { useQuery, useQueryClient } from 'react-query';
+import { useLocation } from 'react-router-dom';
 import * as z from 'zod';
 
+import { fetchGuildInfo } from '../../features/guild/fetchGuildInfo';
+import { Guild } from '../../features/guild/Guild';
+import { GuildInfoWithMembership } from '../../features/guild/guild-api';
 import { FormInputField, FormRadioGroup, LoadingModal } from 'components';
 import isFeatureEnabled from 'config/features';
-import { useToast, useApiAdminCircle, useContracts } from 'hooks';
+import { useApiAdminCircle, useApiBase, useContracts, useToast } from 'hooks';
 import { useCircleOrg } from 'hooks/gql/useCircleOrg';
 import { useVaults } from 'hooks/gql/useVaults';
 import { Info } from 'icons/__generated';
 import { useSelectedCircle } from 'recoilState/app';
 import { paths } from 'routes/paths';
 import {
+  AppLink,
   Box,
   Button,
+  CheckBox,
   ContentHeader,
   Divider,
-  Link,
   Flex,
   Form,
   HR,
+  Link,
   Panel,
+  Select,
   Text,
   Tooltip,
-  CheckBox,
-  AppLink,
-  Select,
 } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { numberWithCommas } from 'utils';
@@ -154,12 +158,24 @@ const schema = z.object({
   ),
   fixed_payment_vault_id: z.optional(z.string().optional()),
   hide_gives: z.boolean(),
+  guild_id: z.optional(z.number().or(z.string())),
+  guild_role_id: z.optional(z.string()),
 });
 
 type CircleAdminFormSchema = z.infer<typeof schema>;
 
 export const CircleAdminPage = () => {
   const { circleId, circle: initialData } = useSelectedCircle();
+  const { hash } = useLocation();
+  const { fetchManifest } = useApiBase();
+
+  const [hasScrolled, setHasScrolled] = useState(false);
+  const scrollToGuild = (element: HTMLDivElement) => {
+    if (element && !hasScrolled && hash === '#guild') {
+      element.scrollIntoView(true);
+      setHasScrolled(true);
+    }
+  };
 
   const queryClient = useQueryClient();
   const {
@@ -282,6 +298,48 @@ export const CircleAdminPage = () => {
     });
 
   const watchFixedPaymentVaultId = watch('fixed_payment_vault_id');
+  const watchGuild = watch('guild_id');
+
+  const [guildInfo, setGuildInfo] = useState<
+    GuildInfoWithMembership | undefined
+  >(undefined);
+  const [guildError, setGuildError] = useState<string | undefined>(undefined);
+  const [guildLoading, setGuildLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    setGuildError(undefined);
+    if (watchGuild) {
+      loadGuild(watchGuild);
+    } else {
+      setGuildInfo(undefined);
+    }
+  }, [watchGuild]);
+
+  useEffect(() => {
+    if (circle?.guild_id) {
+      loadGuild(circle.guild_id);
+    }
+  }, [circle]);
+
+  const loadGuild = (guildId: string | number) => {
+    setGuildLoading(true);
+    setGuildInfo(undefined);
+    fetchGuildInfo(guildId)
+      .then(g => {
+        if (watchGuild == circle?.guild_id) {
+          // if this is first load, lets be nice and put the name in there
+          setValue('guild_id', g.url_name, { shouldDirty: false });
+        }
+        setGuildInfo(g);
+      })
+      .catch(() => {
+        setGuildInfo(undefined);
+        setGuildError('Guild not found');
+      })
+      .finally(() => {
+        setGuildLoading(false);
+      });
+  };
 
   const editDiscordWebhook = async (event: MouseEvent) => {
     event.preventDefault();
@@ -322,9 +380,16 @@ export const CircleAdminPage = () => {
         fixed_payment_vault_id: data.fixed_payment_vault_id
           ? parseInt(data.fixed_payment_vault_id)
           : null,
+        guild_id: guildInfo ? guildInfo.id : null,
+        guild_role_id:
+          guildInfo && data.guild_role_id && data.guild_role_id != '-1'
+            ? parseInt(data.guild_role_id)
+            : null,
       });
       queryClient.invalidateQueries(QUERY_KEY_FIXED_PAYMENT);
+      fetchManifest();
       refetch();
+
       showDefault('Saved changes');
     } catch (e) {
       console.warn(e);
@@ -376,7 +441,7 @@ export const CircleAdminPage = () => {
     isIdle ||
     isRefetching ||
     !circle ||
-    (contracts && isFeatureEnabled('vaults') && !vaultsQuery.data) ||
+    (contracts && !vaultsQuery.data) ||
     !orgQuery.data ||
     fixedPaymentIsLoading ||
     fixedPaymentIsIdle
@@ -822,6 +887,77 @@ export const CircleAdminPage = () => {
                 )}
               </div>
             </Box>
+            {isFeatureEnabled('guild') && (
+              <Box>
+                <HR />
+                <Text
+                  ref={scrollToGuild}
+                  id="guild"
+                  h3
+                  semibold
+                  css={{ mb: '$md' }}
+                >
+                  Guild.xyz
+                </Text>
+                <FormInputField
+                  id="guild_id"
+                  name="guild_id"
+                  control={control}
+                  placeholder="https://guild.xyz/your-guild - URL or unique Guild ID"
+                  defaultValue={circle?.guild_id ? '' + circle.guild_id : ''}
+                  label="Connect a Guild that will grant the ability to join this Circle"
+                  description=""
+                  showFieldErrors
+                />
+
+                {watchGuild && (
+                  <Box css={{ mt: '$md' }}>
+                    {guildLoading ? (
+                      <Text>Checking guild...</Text>
+                    ) : guildInfo ? (
+                      <Box>
+                        <Text variant="label" css={{ mb: '$sm' }}>
+                          Allow members of this Guild to join
+                        </Text>
+                        <Guild info={guildInfo} />
+                        <Box css={{ mt: '$md' }}>
+                          <Select
+                            {...(register('guild_role_id'),
+                            {
+                              onValueChange: value => {
+                                setValue('guild_role_id', value, {
+                                  shouldDirty: true,
+                                });
+                              },
+                              defaultValue: circle.guild_role_id
+                                ? '' + circle.guild_role_id
+                                : '-1',
+                            })}
+                            id="guild_role_id"
+                            options={[
+                              {
+                                label: `Any Role - ${guildInfo.member_count} members`,
+                                value: '-1',
+                              },
+                              ...guildInfo.roles.map(r => ({
+                                value: '' + r.id,
+                                label: r.name + ` - ${r.member_count} members`,
+                              })),
+                            ]}
+                            label="Required Guild Role"
+                            disabled={!guildInfo}
+                          />
+                        </Box>
+                      </Box>
+                    ) : guildError ? (
+                      <Text color="alert">{guildError}</Text>
+                    ) : (
+                      <Text>No guild connected.</Text>
+                    )}
+                  </Box>
+                )}
+              </Box>
+            )}
           </Panel>
         </Panel>
         <Panel css={panelStyles}>

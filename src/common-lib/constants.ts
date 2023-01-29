@@ -6,6 +6,8 @@ export enum ENTRANCE {
   MANUAL = 'manual-address-entry',
   CSV = 'CSV',
   NOMINATION = 'vouched-in',
+
+  GUILD = 'guild',
 }
 
 export const loginSupportedChainIds: Record<string, string> = {

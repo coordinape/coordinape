@@ -65,7 +65,7 @@ const logger = new DebugLogger('zeus')\\
 }
 
 generate admin $ADMIN_PATH --node -h x-hasura-admin-secret:$HASURA_GRAPHQL_ADMIN_SECRET --graphql hasura/schema/admin
-sleep 3
+sleep 6
 generate user $USER_PATH -h x-hasura-role:user -h "authorization:generate" --graphql hasura/schema/user
 
 # fix formatting of generated files

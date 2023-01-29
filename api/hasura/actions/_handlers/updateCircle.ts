@@ -3,7 +3,12 @@ import { VercelRequest, VercelResponse } from '@vercel/node';
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
 import { endNominees, updateCircle } from '../../../../api-lib/gql/mutations';
 import { getCircle } from '../../../../api-lib/gql/queries';
-import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
+import {
+  errorResponseWithStatusCode,
+  InternalServerError,
+  UnprocessableError,
+} from '../../../../api-lib/HttpError';
+import { guildInfoFromAPI } from '../../../../src/features/guild/guild-api';
 import {
   composeHasuraActionRequestBodyWithApiPermissions,
   updateCircleInput,
@@ -30,6 +35,27 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       422
     );
     return;
+  }
+
+  if (input.guild_id) {
+    try {
+      // make sure this guild number is good
+      const guildInfo = await guildInfoFromAPI(input.guild_id);
+      // make sure the role is valid
+      if (
+        input.guild_role_id &&
+        !guildInfo.roles.some(r => r.id == input.guild_role_id)
+      ) {
+        throw new UnprocessableError('invalid guild role');
+      }
+    } catch (e) {
+      if (typeof e == typeof UnprocessableError) {
+        throw e;
+      }
+      throw new InternalServerError('Unable to fetch info from guild', e);
+    }
+  } else {
+    input.guild_role_id = null;
   }
 
   const updated = await updateCircle(input);

@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
+import { NavLink } from 'react-router-dom';
+
 import { LoadingModal } from '../../components';
+import CopyCodeTextField from '../../components/CopyCodeTextField';
+import { isFeatureEnabled } from '../../config/features';
+import { fetchGuildInfo } from '../../features/guild/fetchGuildInfo';
+import { Guild } from '../../features/guild/Guild';
+import { GuildInfo } from '../../features/guild/guild-api';
 import { paths } from '../../routes/paths';
 import { ICircle } from '../../types';
 import { APP_URL } from '../../utils/domain';
@@ -88,11 +95,27 @@ const AddMembersContents = ({
 
   const [preloadedMembers, setPreloadedMembers] = useState<NewMember[]>([]);
 
+  const [guildInfo, setGuildInfo] = useState<GuildInfo | undefined>(undefined);
+
+  const [guildMessage, setGuildMessage] = useState<string>('');
+
   const addMembersFromCSV = (newMembers: NewMember[]) => {
     // Switch to ETH tab, set the preloaded values
     setPreloadedMembers(newMembers);
     setCurrentTab(Tab.ETH);
   };
+
+  useEffect(() => {
+    if (circle.guild_id) {
+      setGuildMessage('Loading Guild...');
+      fetchGuildInfo(circle.guild_id)
+        .then(info => {
+          setGuildInfo(info);
+          setGuildMessage('');
+        })
+        .catch(() => setGuildMessage('Unable to load from Guild.xyz'));
+    }
+  }, []);
 
   useEffect(() => {
     if (currentTab != Tab.ETH) {
@@ -137,6 +160,15 @@ const AddMembersContents = ({
         >
           CSV Import
         </TabButton>
+        {isFeatureEnabled('guild') && (
+          <TabButton
+            tab={Tab.GUILD}
+            currentTab={currentTab}
+            setCurrentTab={setCurrentTab}
+          >
+            Guild.xyz
+          </TabButton>
+        )}
       </Flex>
 
       <Box
@@ -179,6 +211,64 @@ const AddMembersContents = ({
                 </Link>
               </Text>
               <CSVImport addNewMembers={addMembersFromCSV} />
+            </Box>
+          )}
+          {currentTab === Tab.GUILD && (
+            <Box>
+              {circle.guild_id ? (
+                <Flex column css={{ mb: '$lg' }}>
+                  <Flex
+                    alignItems="center"
+                    css={{
+                      mb: '$lg',
+                      justifyContent: 'space-between',
+                    }}
+                  >
+                    <Text h2>This Circle is connected to Guild.xyz</Text>
+                    <Link
+                      as={NavLink}
+                      inlineLink
+                      to={paths.circleAdmin(circle.id) + '#guild'}
+                      download
+                      css={{ ml: '$sm' }}
+                    >
+                      Edit Settings
+                    </Link>
+                  </Flex>
+
+                  <Text>{guildMessage}</Text>
+                  {guildInfo && (
+                    <Guild info={guildInfo} role={circle.guild_role_id} />
+                  )}
+                  <Text variant="label" css={{ mb: '$xs', mt: '$lg' }}>
+                    Share this link with Guild members
+                  </Text>
+                  <CopyCodeTextField value={welcomeLink} />
+                </Flex>
+              ) : (
+                <Text css={{ pb: '$lg', pt: '$sm' }}>
+                  You can integrate with{' '}
+                  <Link
+                    css={{ mx: '$xs' }}
+                    target="_blank"
+                    rel="noreferrer"
+                    inlineLink
+                    href="https://guild.xyz"
+                  >
+                    Guild.xyz
+                  </Link>
+                  to help people join your Circle.
+                  <Link
+                    as={NavLink}
+                    inlineLink
+                    to={paths.circleAdmin(circle.id) + '#guild'}
+                    download
+                    css={{ ml: '$sm' }}
+                  >
+                    Configure Guild.xyz Settings
+                  </Link>
+                </Text>
+              )}
             </Box>
           )}
         </Panel>

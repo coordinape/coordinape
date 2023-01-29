@@ -6,6 +6,7 @@ export const enum Tab {
   ETH,
   CSV,
   LINK,
+  GUILD = 3,
 }
 
 const TabButton = ({

@@ -41,12 +41,12 @@ export function useCircleApiKeys(circleId: number | undefined) {
           ],
         },
         {
-          operationName: 'getCircleApiKeys',
+          operationName: 'useCircleApiKeys',
         }
       );
       return circle_api_keys;
     },
-    { enabled: !!circleId }
+    { enabled: !!circleId, refetchOnWindowFocus: false }
   );
 }
 

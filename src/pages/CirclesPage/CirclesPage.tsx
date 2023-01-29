@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
@@ -10,9 +10,9 @@ import { LoadingModal } from 'components';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { User } from 'icons/__generated';
 import {
-  paths,
-  EXTERNAL_URL_GET_STARTED,
   EXTERNAL_URL_DISCORD,
+  EXTERNAL_URL_GET_STARTED,
+  paths,
 } from 'routes/paths';
 import { Box, Button, ContentHeader, Flex, Image, Link, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
@@ -21,6 +21,7 @@ import { getOrgData, QUERY_KEY_MY_ORGS } from './getOrgData';
 import { OrgCircles } from './OrgCircles';
 
 import type { Awaited } from 'types/shim';
+
 type QueryResult = Awaited<ReturnType<typeof getOrgData>>;
 export type OrgWithCircles = QueryResult['organizations'][number];
 
@@ -38,6 +39,19 @@ export const CirclesPage = () => {
   const orgs = query.data?.organizations;
 
   const [showAllCircles, setShowAllCircles] = useState(false);
+  const [sampleOrg, setSampleOrg] = useState<OrgWithCircles | undefined>(
+    undefined
+  );
+
+  useEffect(() => {
+    if (orgs) {
+      setSampleOrg(
+        orgs.find(
+          o => o.sample && o.circles.length > 0 && o.created_by == profile.id
+        )
+      );
+    }
+  }, [orgs]);
 
   if (
     query.isLoading ||
@@ -46,11 +60,6 @@ export const CirclesPage = () => {
     orgs == undefined
   )
     return <LoadingModal visible note="CirclesPage" />;
-
-  // Is there a sample org created by the current profile?
-  const sampleOrg = orgs.find(
-    o => o.sample && o.circles.length > 0 && o.created_by == profile.id
-  );
 
   return (
     <SingleColumnLayout>
@@ -86,7 +95,7 @@ export const CirclesPage = () => {
       )}
       {/* Show the non-sample orgs*/}
       {orgs
-        ?.filter(o => !o.sample)
+        ?.filter(o => !(o.sample && o.created_by == profile.id))
         .map(org => (
           <OrgCircles key={org.id} org={org} showAllCircles={showAllCircles} />
         ))}

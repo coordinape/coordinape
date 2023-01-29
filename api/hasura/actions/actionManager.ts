@@ -1,4 +1,4 @@
-import { VercelRequest, VercelResponse, VercelApiHandler } from '@vercel/node';
+import { VercelApiHandler, VercelRequest, VercelResponse } from '@vercel/node';
 
 import { GraphQLTypes } from '../../../api-lib/gql/__generated__/zeus';
 import { ActionPayload } from '../../../api-lib/types';
@@ -20,6 +20,7 @@ import deleteEpoch from './_handlers/deleteEpoch';
 import deleteUser from './_handlers/deleteUser';
 import deleteUsers from './_handlers/deleteUsers';
 import generateApiKey from './_handlers/generateApiKey';
+import guildInfo from './_handlers/getGuildInfo';
 import linkDiscordCircle from './_handlers/linkDiscordCircle';
 import linkDiscordUser from './_handlers/linkDiscordUser';
 import logoutUser from './_handlers/logoutUser';
@@ -58,6 +59,7 @@ const HANDLERS: HandlerDict = {
   deleteUser,
   deleteUsers,
   generateApiKey,
+  guildInfo,
   linkDiscordCircle,
   linkDiscordUser,
   logoutUser,

@@ -39,6 +39,8 @@ async function circleFromToken(token: string) {
             id: true,
             logo: true,
             name: true,
+            guild_id: true,
+            guild_role_id: true,
             organization: { name: true, logo: true },
             users: [
               { limit: 3, where: { role: { _eq: 1 } } },

@@ -33,6 +33,8 @@ export const getCircleSettings = async (circleId: number) => {
               fixed_payment_token_type: true,
               fixed_payment_vault_id: true,
               show_pending_gives: true,
+              guild_id: true,
+              guild_role_id: true,
             },
           ],
         },

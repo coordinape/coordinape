@@ -15,11 +15,11 @@ import { z } from 'zod';
 import { getCircleApiKey } from '../../../api-lib/authHelpers';
 
 import {
+  zCircleName,
+  zEthAddress,
   zEthAddressOnly,
   zStringISODateUTC,
-  zEthAddress,
   zUsername,
-  zCircleName,
 } from './formHelpers';
 
 export const sha256HashString = z.string().length(64);
@@ -147,7 +147,6 @@ export const createUserSchemaInput = z
 export const createUserFromTokenInput = z
   .object({
     token: z.string().uuid(),
-    name: zUsername,
   })
   .strict();
 
@@ -309,6 +308,8 @@ export const updateCircleInput = z
       .transform(s => (s === 'Disabled' ? null : s))
       .optional(),
     fixed_payment_vault_id: z.number().positive().nullable().optional(),
+    guild_id: z.number().nullable(),
+    guild_role_id: z.number().nullable(),
   })
   .strict();
 

@@ -70,10 +70,7 @@ describe('join page', () => {
         </Routes>
       </TestWrapper>
     );
-    await screen.findByText('Wallet Address');
-    screen.getByText(
-      (_, el) => el instanceof HTMLInputElement && el.value === profile.address
-    );
+    await screen.findByText('Join Circle');
   });
 });
 
