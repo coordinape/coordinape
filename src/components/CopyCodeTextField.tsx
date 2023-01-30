@@ -16,9 +16,15 @@ const CopyCodeTextField = ({ value }: { value: string }) => {
   };
 
   return (
-    <Box css={{ position: 'relative', flexGrow: 1 }}>
+    <Box
+      css={{
+        position: 'relative',
+        width: '100%',
+        flexGrow: 1,
+      }}
+    >
       <TextField
-        inPanel
+        // inPanel
         value={value}
         readOnly={true}
         onClick={copyToClip}
@@ -29,14 +35,28 @@ const CopyCodeTextField = ({ value }: { value: string }) => {
           fontSize: '$small',
           textAlign: 'left',
           pl: '$sm',
+          background: '$dim !important',
+          border: 'none', //''1px solid $text !important',
+          alignItems: 'center',
+          pr: '48px',
+          '&:hover': {
+            color: '$link !important',
+          },
         }}
       />
       <Button
         color={'transparent'}
-        css={{ ml: '$sm', position: 'absolute', top: 0, right: 0 }}
+        css={{
+          ml: '$sm',
+          position: 'absolute',
+          top: 4,
+          right: 4,
+          padding: 4,
+          minHeight: 0,
+        }}
         onClick={copyToClip}
       >
-        <Copy color={'neutral'} size={'md'} />
+        <Copy color={'text'} size={'md'} />
       </Button>
     </Box>
   );
