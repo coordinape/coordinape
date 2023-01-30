@@ -14,7 +14,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             user_id,
             created_at,
             created_with_api_key_hash,
-            description,
             id,
           },
         },
@@ -27,8 +26,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       profile_id: user_id,
       data: {
         created_at: created_at,
-        description_length: description.length,
-        created_with_api_key_hash: !!created_with_api_key_hash,
+        created_with_api_key: !!created_with_api_key_hash,
         contribution_id: id,
       },
     });
