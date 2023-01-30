@@ -11,7 +11,7 @@ import {
 } from '../../helpers';
 import { getUniqueAddress } from '../../helpers/getUniqueAddress';
 
-let circle, epoch, user1, user2, user3;
+let circle, epoch1, epoch2, user1, user2, user3;
 beforeEach(async () => {
   const address1 = await getUniqueAddress();
   const address2 = await getUniqueAddress();
@@ -37,9 +37,15 @@ beforeEach(async () => {
     created_at: createDate,
   });
 
-  epoch = await createEpoch(adminClient, {
+  epoch1 = await createEpoch(adminClient, {
     circle_id: circle.id,
     start_date: DateTime.local().minus({ months: 2 }),
+    days: 3,
+  });
+
+  epoch2 = await createEpoch(adminClient, {
+    circle_id: circle.id,
+    start_date: DateTime.local().minus({ months: 2 }).plus({ days: 3 }),
     days: 3,
   });
 
@@ -51,7 +57,7 @@ beforeEach(async () => {
     tokens: 10,
     note: 'note',
     circle_id: circle.id,
-    epoch_id: epoch.id,
+    epoch_id: epoch1.id,
   });
 
   await createTokenGift(adminClient, {
@@ -62,7 +68,7 @@ beforeEach(async () => {
     tokens: 40,
     note: 'note',
     circle_id: circle.id,
-    epoch_id: epoch.id,
+    epoch_id: epoch1.id,
   });
 
   await createTokenGift(adminClient, {
@@ -73,7 +79,7 @@ beforeEach(async () => {
     tokens: 0,
     note: 'note',
     circle_id: circle.id,
-    epoch_id: epoch.id,
+    epoch_id: epoch1.id,
   });
   await createTokenGift(adminClient, {
     sender_id: user3.id,
@@ -83,7 +89,50 @@ beforeEach(async () => {
     tokens: 10,
     note: 'note',
     circle_id: circle.id,
-    epoch_id: epoch.id,
+    epoch_id: epoch1.id,
+  });
+
+  await createTokenGift(adminClient, {
+    sender_id: user1.id,
+    sender_address: address1,
+    recipient_id: user2.id,
+    recipient_address: address2,
+    tokens: 10,
+    note: 'note',
+    circle_id: circle.id,
+    epoch_id: epoch2.id,
+  });
+
+  await createTokenGift(adminClient, {
+    sender_id: user2.id,
+    sender_address: address2,
+    recipient_id: user1.id,
+    recipient_address: address1,
+    tokens: 40,
+    note: 'note',
+    circle_id: circle.id,
+    epoch_id: epoch2.id,
+  });
+
+  await createTokenGift(adminClient, {
+    sender_id: user2.id,
+    sender_address: address2,
+    recipient_id: user3.id,
+    recipient_address: address3,
+    tokens: 0,
+    note: 'note',
+    circle_id: circle.id,
+    epoch_id: epoch2.id,
+  });
+  await createTokenGift(adminClient, {
+    sender_id: user3.id,
+    sender_address: address3,
+    recipient_id: user1.id,
+    recipient_address: address1,
+    tokens: 10,
+    note: 'note',
+    circle_id: circle.id,
+    epoch_id: epoch2.id,
   });
 });
 
@@ -103,7 +152,7 @@ test('Test backfilling of pgive', async () => {
     epoch_pgive_data: [
       {
         where: {
-          epoch_id: { _eq: epoch.id },
+          epoch_id: { _in: [epoch1.id, epoch2.id] },
         },
       },
       {
@@ -115,7 +164,7 @@ test('Test backfilling of pgive', async () => {
     member_epoch_pgives: [
       {
         where: {
-          epoch_id: { _eq: epoch.id },
+          epoch_id: { _in: [epoch1.id, epoch2.id] },
         },
       },
       {
