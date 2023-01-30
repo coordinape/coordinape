@@ -6,14 +6,14 @@ import {
   genPgives,
 } from '../../../api-lib/pgives';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
+import { BACKFILL_TO } from '../../../src/config/env';
 
 Settings.defaultZone = 'utc';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   /* The backfill part of the code can be removed once backfill is done */
 
-  const backfillTo = process.env.BACKFILL_TO;
-  if (!backfillTo) {
+  if (!BACKFILL_TO) {
     res.status(200).json({
       message: `BACKFILL_TO env has not been set yet`,
     });
@@ -24,7 +24,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   /* Filter for epochs that ended from genesis to the end of the BACKFILL_TO month that pgive data has not been generated yet */
 
   let startFrom = DateTime.fromISO('2021-01-01');
-  let endTo = DateTime.fromISO(backfillTo).endOf('month');
+  let endTo = DateTime.fromISO(BACKFILL_TO).endOf('month');
   const circleIds = await getCirclesNoPgiveWithDateFilter(startFrom, endTo);
 
   /* If there are still unprocessed circles so it continues to generate historical pgives data */
@@ -35,6 +35,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       message: `circle_id ${circleIds.join(
         ','
       )} historical pgives are processed`,
+      circleIds,
     });
 
     return;
@@ -44,6 +45,14 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   /* Once all circles are processed it will switch to a cron that processes for the previous month's pgive only*/
   const previousMonth = DateTime.local().minus({ months: 1 });
   startFrom = previousMonth.startOf('month');
+  if (endTo >= startFrom) {
+    res.status(200).json({
+      message: `BACKFILL_TO date has not pass yet.`,
+      circleIds: [],
+    });
+    return;
+  }
+
   endTo = previousMonth.endOf('month');
 
   /* Filter for epochs that ended from the previous month that pgive data has not been generated yet */
@@ -61,6 +70,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       : `all circles have already been processed for the ${previousMonth.month}/${previousMonth.year} period`;
   res.status(200).json({
     message,
+    circleIds: lastMonthCircleIds,
   });
   return;
 }

@@ -7,6 +7,7 @@ import {
 } from '../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../api-lib/gql/adminClient';
 import { Awaited } from '../api-lib/ts4.5shim';
+import { PGIVE_CIRCLE_MAX_PER_CRON } from '../src/config/env';
 
 Settings.defaultZone = 'utc';
 
@@ -213,18 +214,20 @@ export const genPgives = async (
               In the DB we did not track if a user was opted out during an epoch 
               so we assume it by checking if all gifts received were notes only */
 
+              let optOutBonusAlloc = 0;
               if (
+                possibleNotes &&
                 recipientId in hasSentGifts &&
                 recipientId in notesOnly &&
                 giftCount[recipientId] === notesOnly[recipientId]
               ) {
-                const optOutBonusAlloc = roundNumbers(
+                optOutBonusAlloc = roundNumbers(
                   (notesOnly[recipientId] / possibleNotes) * optOutShare
                 );
-                epochBasedData[epoch.id][recipientId].opt_out_bonus =
-                  optOutBonusAlloc;
-                totalOptOutPgiveAlloc += optOutBonusAlloc;
               }
+              epochBasedData[epoch.id][recipientId].opt_out_bonus =
+                optOutBonusAlloc;
+              totalOptOutPgiveAlloc += optOutBonusAlloc;
             });
           }
           epochIndexedData.totalOptOutPgiveAlloc[epoch.id] =
@@ -320,7 +323,6 @@ export const genPgives = async (
         };
       }
     }
-
     return;
   });
 
@@ -450,7 +452,7 @@ export const getCirclesNoPgiveWithDateFilter = async (
   const { circles } = await adminClient.query({
     circles: [
       {
-        limit: parseInt(process.env.PGIVE_CIRCLE_MAX_PER_CRON || '') || 10,
+        limit: PGIVE_CIRCLE_MAX_PER_CRON || 10,
         where: {
           epochs: {
             ended: { _eq: true },
