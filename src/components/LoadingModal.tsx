@@ -10,6 +10,8 @@ const animloader = keyframes({
   '50%': { transform: 'scale(1) translate(-50%, -50%);' },
 });
 
+const loadingSize = 64;
+
 export const LoadingModal = (props: {
   visible: boolean;
   onClose?: () => void;
@@ -32,8 +34,8 @@ export const LoadingModal = (props: {
       >
         <Box
           css={{
-            width: '96px',
-            height: '96px',
+            width: loadingSize + 'px',
+            height: loadingSize + 'px',
             margin: '15px auto',
             position: 'relative',
             color: '#FFF',
@@ -43,8 +45,8 @@ export const LoadingModal = (props: {
               content: '',
               boxSizing: 'border-box',
               position: 'absolute',
-              width: '48px',
-              height: '48px',
+              width: loadingSize / 2 + 'px',
+              height: loadingSize / 2 + 'px',
               top: '50%',
               left: '50%',
               transform: 'scale(0.5) translate(0, 0)',
@@ -54,7 +56,7 @@ export const LoadingModal = (props: {
             },
             '&::before': {
               backgroundColor: '#fff',
-              transform: 'scale(0.5) translate(-96px, -96px)',
+              transform: `scale(0.5) translate(-${loadingSize}px, -${loadingSize}px)`,
             },
           }}
         ></Box>

@@ -89,9 +89,9 @@ export const Button = styled('button', {
         backgroundColor: '$neutralButton',
         border: '1px solid transparent',
         color: '$neutralButtonText',
-        '&:hover': {
-          backgroundColor: '$neutralButtonHover',
-          borderColor: '$neutralButtonHover',
+        '&:hover, &[data-selected=true]': {
+          backgroundColor: '$neutralButtonHover !important',
+          borderColor: '$neutralButtonHover !important',
           color: '$neutralButtonTextHover !important',
         },
       },
@@ -157,7 +157,7 @@ export const Button = styled('button', {
         alignItems: 'center',
         lineHeight: '$tall2',
         fontSize: '$medium',
-        fontWeight: '$bold',
+        fontWeight: '$medium',
         textTransform: 'none',
         borderRadius: '$4',
       },

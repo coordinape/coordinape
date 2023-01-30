@@ -230,7 +230,7 @@ const NewMemberList = ({
 
   return (
     <Box>
-      <Panel>
+      <Panel invertForm css={{ padding: 0 }}>
         <form onSubmit={handleSubmit(submitNewMembers)}>
           {loading && <LoadingModal visible={true} />}
           <Box data-testid="new-members">
@@ -278,27 +278,40 @@ const NewMemberList = ({
       <div ref={successRef}>
         {successCount > 0 && (
           <>
-            <Panel success css={{ mt: '$xl' }}>
+            <Panel
+              css={{ mt: '$xl', border: '1px solid $currentEpochDescription' }}
+            >
               <Flex>
-                <Check color="successDark" size="lg" css={{ mr: '$md' }} />
-                <Text size="large">
-                  You have added {successCount} member
-                  {successCount == 1 ? '' : 's'}
-                  !&nbsp;
-                  <Text bold>Share the link to get them started.</Text>
-                </Text>
+                <Check
+                  color="currentEpochDescription"
+                  size="lg"
+                  css={{ mr: '$md' }}
+                />
+                <Box css={{ color: '$currentEpochDescription', flexGrow: 1 }}>
+                  <Text size="medium" color="inherit">
+                    You have added {successCount} member
+                    {successCount == 1 ? '' : 's'}
+                    !&nbsp;
+                    <Text semibold color="inherit">
+                      Share this link to get them started.
+                    </Text>
+                  </Text>
+                  <Box css={{ mt: '$md' }}>
+                    <CopyCodeTextField value={welcomeLink} />
+                  </Box>
+                </Box>
               </Flex>
             </Panel>
 
             {changedUsers && changedUsers.length > 0 && (
               <Panel alert css={{ mt: '$xl' }}>
-                <Flex column>
-                  <Text size="large">
+                <Flex column css={{ gap: '$sm' }}>
+                  <Text color="inherit" size="medium">
                     Some addresses match existing accounts in our system, so
                     their names will be used:
                   </Text>
                   {changedUsers.map(user => (
-                    <Text key={user.newName}>
+                    <Text color="inherit" key={user.newName}>
                       &ldquo;{user.newName}&ldquo; will be used instead of
                       &ldquo;{user.oldName}&ldquo; for {user.address}
                     </Text>
@@ -307,18 +320,18 @@ const NewMemberList = ({
               </Panel>
             )}
 
-            <Box css={{ mt: '$xl' }}>
-              <div>
-                <Text variant="label" css={{ mb: '$xs' }}>
-                  Shareable Circle Link
-                </Text>
-                <CopyCodeTextField value={welcomeLink} />
-                {/* Revoke is disabled for now until we figure out the UI for it*/}
-                {/*<Button color={'transparent'} onClick={revokeWelcome}>*/}
-                {/*  <Working />*/}
-                {/*</Button>*/}
-              </div>
-            </Box>
+            {/*<Box css={{ mt: '$xl' }}>*/}
+            {/*  <div>*/}
+            {/*    <Text variant="label" css={{ mb: '$xs' }}>*/}
+            {/*      Shareable Circle Link*/}
+            {/*    </Text>*/}
+
+            {/*    /!* Revoke is disabled for now until we figure out the UI for it*!/*/}
+            {/*    /!*<Button color={'transparent'} onClick={revokeWelcome}>*!/*/}
+            {/*    /!*  <Working />*!/*/}
+            {/*    /!*</Button>*!/*/}
+            {/*  </div>*/}
+            {/*</Box>*/}
           </>
         )}
       </div>

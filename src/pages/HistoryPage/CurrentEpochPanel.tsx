@@ -66,7 +66,12 @@ export const CurrentEpochPanel = ({
           p
           css={{ color: '$currentEpochDescription', fontSize: '$h2Temp' }}
         >
-          {epoch.description ?? 'Epoch ' + epoch.number}
+          {
+            epoch.description ??
+              'Epoch ' +
+                (epoch.number ??
+                  '') /* TODO: why is this null sometime? just from data seeding? */
+          }
         </Text>
         {!isEditing && isAdmin && (
           <Button

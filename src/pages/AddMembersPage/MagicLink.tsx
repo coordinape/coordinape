@@ -18,9 +18,10 @@ const MagicLink = ({ magicLink }: { magicLink: string }) => {
             size="lg"
             css={{
               mr: '$md',
+              flexShrink: 0,
             }}
           />
-          <Text>
+          <Text color="inherit">
             Anyone with this link can join this circle and set their name. For
             added security, add new members using their wallet addresses.
           </Text>

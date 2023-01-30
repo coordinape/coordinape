@@ -176,11 +176,7 @@ export const CreateForm = ({
       onSubmit={handleSubmit(onSubmit)}
       css={{ display: 'flex', flexDirection: 'column' }}
     >
-      <Panel
-        invertForm={activeVaultPanel !== 'simple'}
-        nested={activeVaultPanel === 'simple'}
-        css={{ gap: '$md' }}
-      >
+      <Panel selected={activeVaultPanel === 'simple'} css={{ gap: '$md' }}>
         <Text h3>CoVault</Text>
         <Text p as="p">
           CoVaults allow you to fund your circles with any ERC-20 token as your
@@ -190,7 +186,7 @@ export const CreateForm = ({
           {contracts.getAvailableTokens().map(symbol => (
             <AssetButton
               pill
-              color="surface"
+              color="neutral"
               key={symbol}
               data-selected={`${symbol}simple` === asset}
               onClick={event => pickAsset('simple', symbol, event)}
@@ -202,17 +198,21 @@ export const CreateForm = ({
                 width={25}
                 style={{ paddingRight: 0 }}
               />
-              <Text css={{ ml: '$xs' }}>{symbol}</Text>
+              <Text color="inherit" css={{ ml: '$xs' }}>
+                {symbol}
+              </Text>
             </AssetButton>
           ))}
           <AssetButton
             pill
-            color="surface"
+            color="neutral"
             data-selected={'customsimple' === asset}
             onClick={e => pickAsset('simple', 'custom', e)}
           >
             <PlusCircle size="lg" color="neutral" />
-            <Text css={{ ml: '$xs' }}>{'Other ERC-20 Token'}</Text>
+            <Text color="inherit" css={{ ml: '$xs' }}>
+              {'Other ERC-20 Token'}
+            </Text>
           </AssetButton>
         </Box>
         {displayCustomToken && (
@@ -241,11 +241,7 @@ export const CreateForm = ({
         )}
       </Panel>
       <HR />
-      <Panel
-        invertForm={activeVaultPanel !== 'yearn'}
-        nested={activeVaultPanel === 'yearn'}
-        css={{ gap: '$md' }}
-      >
+      <Panel selected={activeVaultPanel === 'yearn'} css={{ gap: '$md' }}>
         <Text h3>Yield-Generating CoVault</Text>
         <Text p as="p">
           Create a CoVault that receives DAI or USDC, and will use{'  '}
@@ -256,7 +252,7 @@ export const CreateForm = ({
           {contracts.getAvailableTokens().map(symbol => (
             <AssetButton
               pill
-              color="surface"
+              color="neutral"
               key={symbol}
               data-selected={`${symbol}yearn` === asset}
               onClick={event => pickAsset('yearn', symbol, event)}
@@ -268,7 +264,9 @@ export const CreateForm = ({
                 width={25}
                 style={{ paddingRight: 0 }}
               />
-              <Text css={{ ml: '$xs' }}>Yearn {symbol}</Text>
+              <Text color="inherit" css={{ ml: '$xs' }}>
+                Yearn {symbol}
+              </Text>
             </AssetButton>
           ))}
         </Box>
@@ -296,10 +294,6 @@ const AssetButton = styled(Button, {
   pl: '$sm',
   pr: '$md',
   height: '37px',
-  '&:hover, &[data-selected=true]': {
-    backgroundColor: '$secondaryText !important',
-    '> span': { color: 'white !important' },
-  },
 });
 
 const SavingInProgress = ({

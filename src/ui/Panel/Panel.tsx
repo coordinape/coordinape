@@ -29,6 +29,11 @@ export const Panel = styled('div', {
   },
 
   variants: {
+    selected: {
+      true: {
+        outline: '1px solid $borderFocusBright',
+      },
+    },
     stack: {
       true: {
         display: 'flex',

@@ -440,7 +440,7 @@ export const dark = createTheme({
     neutralButtonOutlineText: newFigmaColors.grey4,
     neutralButtonHover: newFigmaColors.grey6,
     neutralButtonText: newFigmaColors.grey3,
-    neutralButtonTextHover: newFigmaColors.grey3,
+    neutralButtonTextHover: newFigmaColors.grey8,
 
     secondary: newFigmaColors.secondary5,
     secondaryMedium: newFigmaColors.secondary7,

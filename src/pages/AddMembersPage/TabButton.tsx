@@ -21,9 +21,10 @@ const TabButton = ({
 }) => {
   return (
     <Button
-      css={{ borderRadius: '$pill', mr: '$md' }}
+      css={{ mr: '$md' }}
       key={tab}
-      color={currentTab == tab ? 'primary' : 'secondary'}
+      size="small"
+      color={currentTab == tab ? 'selectedSecondary' : 'secondary'}
       onClick={() => setCurrentTab(tab)}
     >
       {children}

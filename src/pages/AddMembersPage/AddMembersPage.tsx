@@ -150,7 +150,7 @@ const AddMembersContents = ({
         <Panel>
           {currentTab === Tab.ETH && (
             <Box>
-              <Text css={{ pb: '$lg', pt: '$sm' }} size="large">
+              <Text css={{ pb: '$lg', pt: '$sm' }} size="medium">
                 Add new members by wallet address.
               </Text>
               <NewMemberList
@@ -163,7 +163,7 @@ const AddMembersContents = ({
           )}
           {currentTab === Tab.LINK && (
             <Box>
-              <Text css={{ pb: '$lg', pt: '$sm' }} size="large">
+              <Text css={{ pb: '$lg', pt: '$sm' }} size="medium">
                 Add new members by sharing a magic link.
               </Text>
               <MagicLink magicLink={magicLink} />
@@ -181,20 +181,19 @@ const AddMembersContents = ({
               <CSVImport addNewMembers={addMembersFromCSV} />
             </Box>
           )}
-
-          <Box css={{ mt: '$md' }}>
-            <Link
-              inlineLink
-              target="_blank"
-              rel="noreferrer"
-              href={
-                'https://docs.coordinape.com/get-started/get-started/new-coordinape-admins/admin-best-practices#ways-to-give'
-              }
-            >
-              Documentation: GIVE Circle Best Practices
-            </Link>
-          </Box>
         </Panel>
+        <Box css={{ mt: '$lg' }}>
+          <Link
+            inlineLink
+            target="_blank"
+            rel="noreferrer"
+            href={
+              'https://docs.coordinape.com/get-started/get-started/new-coordinape-admins/admin-best-practices#ways-to-give'
+            }
+          >
+            Documentation: GIVE Circle Best Practices
+          </Link>
+        </Box>
       </Box>
     </SingleColumnLayout>
   );
