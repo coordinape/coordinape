@@ -476,10 +476,10 @@ export async function updateUser(params: ValueTypes['UpdateUserInput']) {
   return updateUser;
 }
 
-export async function createEpoch(params: ValueTypes['CreateEpochInput']) {
-  const { createEpoch } = await client.mutate(
+export async function createEpoch(params: ValueTypes['CreateEpochOldInput']) {
+  const { createEpochOld } = await client.mutate(
     {
-      createEpoch: [
+      createEpochOld: [
         {
           payload: {
             ...params,
@@ -494,7 +494,7 @@ export async function createEpoch(params: ValueTypes['CreateEpochInput']) {
       operationName: 'createEpoch',
     }
   );
-  return createEpoch;
+  return createEpochOld;
 }
 
 export async function updateEpoch(

@@ -712,6 +712,14 @@ export type ValueTypes = {
     circle_id: number;
     params: ValueTypes['EpochInputParams'];
   };
+  ['CreateEpochOldInput']: {
+    circle_id: number;
+    days: number;
+    description?: string | undefined | null;
+    grant?: number | undefined | null;
+    repeat: number;
+    start_date: ValueTypes['timestamptz'];
+  };
   ['CreateNomineeInput']: {
     address: string;
     circle_id: number;
@@ -8765,6 +8773,10 @@ export type ValueTypes = {
     ];
     createEpoch?: [
       { payload: ValueTypes['CreateEpochInput'] },
+      ValueTypes['EpochResponse']
+    ];
+    createEpochOld?: [
+      { payload: ValueTypes['CreateEpochOldInput'] },
       ValueTypes['EpochResponse']
     ];
     createNominee?: [
@@ -21218,6 +21230,7 @@ export type ModelTypes = {
     users_aggregate: GraphQLTypes['users_aggregate'];
   };
   ['CreateEpochInput']: GraphQLTypes['CreateEpochInput'];
+  ['CreateEpochOldInput']: GraphQLTypes['CreateEpochOldInput'];
   ['CreateNomineeInput']: GraphQLTypes['CreateNomineeInput'];
   ['CreateNomineeResponse']: {
     id?: number | undefined;
@@ -24829,6 +24842,7 @@ export type ModelTypes = {
     createCircle?: GraphQLTypes['CreateCircleResponse'] | undefined;
     /** create epoch using new, more flexible api */
     createEpoch?: GraphQLTypes['EpochResponse'] | undefined;
+    createEpochOld?: GraphQLTypes['EpochResponse'] | undefined;
     createNominee?: GraphQLTypes['CreateNomineeResponse'] | undefined;
     createSampleCircle?: GraphQLTypes['CreateSampleCircleResponse'] | undefined;
     createUserWithToken?: GraphQLTypes['UserResponse'] | undefined;
@@ -28751,6 +28765,14 @@ export type GraphQLTypes = {
   ['CreateEpochInput']: {
     circle_id: number;
     params: GraphQLTypes['EpochInputParams'];
+  };
+  ['CreateEpochOldInput']: {
+    circle_id: number;
+    days: number;
+    description?: string | undefined;
+    grant?: number | undefined;
+    repeat: number;
+    start_date: GraphQLTypes['timestamptz'];
   };
   ['CreateNomineeInput']: {
     address: string;
@@ -35731,6 +35753,7 @@ export type GraphQLTypes = {
     createCircle?: GraphQLTypes['CreateCircleResponse'] | undefined;
     /** create epoch using new, more flexible api */
     createEpoch?: GraphQLTypes['EpochResponse'] | undefined;
+    createEpochOld?: GraphQLTypes['EpochResponse'] | undefined;
     createNominee?: GraphQLTypes['CreateNomineeResponse'] | undefined;
     createSampleCircle?: GraphQLTypes['CreateSampleCircleResponse'] | undefined;
     createUserWithToken?: GraphQLTypes['UserResponse'] | undefined;

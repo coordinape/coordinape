@@ -259,7 +259,7 @@ const EpochForm = ({
   onClose: () => void;
 }) => {
   const [submitting, setSubmitting] = useState(false);
-  const { /*createEpoch,*/ updateEpoch } = useApiAdminCircle(circleId);
+  const { createEpoch, updateEpoch } = useApiAdminCircle(circleId);
 
   const queryClient = useQueryClient();
 
@@ -351,13 +351,11 @@ const EpochForm = ({
             data.repeat === 'weekly' ? 1 : data.repeat === 'monthly' ? 2 : 0,
           ...(data.description !== null && { description: data.description }),
         })
-      : /* createEpoch({
+      : createEpoch({
           ...data,
           repeat:
             data.repeat === 'weekly' ? 1 : data.repeat === 'monthly' ? 2 : 0,
         })
-        */
-        Promise.resolve(console.error('TODO'))
     )
       .then(() => {
         setSubmitting(false);

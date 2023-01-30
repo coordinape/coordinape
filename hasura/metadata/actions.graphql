@@ -11,6 +11,10 @@ type Mutation {
 }
 
 type Mutation {
+  createEpochOld(payload: CreateEpochOldInput!): EpochResponse
+}
+
+type Mutation {
   createEpoch(payload: CreateEpochInput!): EpochResponse
 }
 
@@ -200,6 +204,15 @@ input UpdateUserInput {
 
 input VouchInput {
   nominee_id: Int!
+}
+
+input CreateEpochOldInput {
+  circle_id: Int!
+  start_date: timestamptz!
+  days: Int!
+  repeat: Int!
+  grant: Float
+  description: String
 }
 
 input UpdateTeammatesInput {

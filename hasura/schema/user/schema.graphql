@@ -134,6 +134,15 @@ input CreateEpochInput {
   params: EpochInputParams!
 }
 
+input CreateEpochOldInput {
+  circle_id: Int!
+  days: Int!
+  description: String
+  grant: Float
+  repeat: Int!
+  start_date: timestamptz!
+}
+
 input CreateNomineeInput {
   address: String!
   circle_id: Int!
@@ -5880,6 +5889,7 @@ type mutation_root {
   create epoch using new, more flexible api
   """
   createEpoch(payload: CreateEpochInput!): EpochResponse
+  createEpochOld(payload: CreateEpochOldInput!): EpochResponse
   createNominee(payload: CreateNomineeInput!): CreateNomineeResponse
   createSampleCircle: CreateSampleCircleResponse
   createUserWithToken(payload: CreateUserWithTokenInput!): UserResponse
