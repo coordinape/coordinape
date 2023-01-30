@@ -35,6 +35,10 @@ export function findSameDayNextMonth(
     nextEndDate = nextEndDate.plus({ weeks: week + 1 });
   }
 
+  while (week > 3 && nextMonthStart.plus({ months: 1 }) < nextEndDate) {
+    nextEndDate = nextEndDate.minus({ weeks: 1 });
+  }
+
   return nextEndDate;
 }
 
