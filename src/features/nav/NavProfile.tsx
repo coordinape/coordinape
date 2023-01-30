@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+/* eslint-disable no-console */
+import React, { useEffect, useRef, useState } from 'react';
 
 import { Network } from '../../components';
 import { CreateUserNameForm } from '../../components/MainLayout/CreateUserNameForm';
@@ -20,8 +21,27 @@ export const NavProfile = ({
   const { chainId, logout, address } = useWalletStatus();
   const showNameForm = !name && !!address;
 
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        ref.current &&
+        event.target &&
+        !ref.current.contains(event.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener('click', handleClickOutside, true);
+    return () => {
+      document.removeEventListener('click', handleClickOutside, true);
+    };
+  }, []);
+
   return (
     <Flex
+      ref={ref}
       column
       css={{
         color: 'inherit',
