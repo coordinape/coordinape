@@ -11,7 +11,13 @@ export const NavLogo = ({ css }: { css?: CSS }) => {
       to={paths.circles}
       css={{
         ...css,
-        'img, svg': { width: '100%', maxWidth: '250px' },
+        'img, svg': {
+          width: '100%',
+          maxWidth: '250px',
+          '@sm': {
+            maxWidth: '190px',
+          },
+        },
         'svg *': { fill: 'white' },
       }}
     >
