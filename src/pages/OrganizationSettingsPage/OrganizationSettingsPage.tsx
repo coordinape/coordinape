@@ -26,7 +26,6 @@ import {
   Button,
   Flex,
   Form,
-  FormLabel,
   Link,
   Panel,
   Text,
@@ -181,119 +180,114 @@ export const OrganizationSettingsPage = () => {
           </Flex>
 
           <Panel>
-            <Panel nested>
-              <Text p as="p" size="small">
-                Organizations can have many Circles with them and help with
-                organizing groups working within the same organization.{' '}
-                <span>
-                  <Link
-                    href="https://docs.coordinape.com/get-started/admin/update-organization-settings"
-                    rel="noreferrer"
-                    target="_blank"
-                  >
-                    Read The Docs.
-                  </Link>
-                </span>
-              </Text>
-              <Box
-                css={{
-                  mt: '$lg',
-                  display: 'grid',
-                  gridTemplateColumns: `1fr 1fr 1fr`,
-                  gap: '$lg',
-                  '@sm': { gridTemplateColumns: '1fr' },
-                }}
-              >
-                <FormInputField
-                  id="name"
-                  name="name"
-                  control={control}
-                  defaultValue={org?.name}
-                  label="Organization Name"
-                  infoTooltip="The name of the Organization, which is visible to all circles' members."
-                  showFieldErrors
-                />
+            <Text p as="p" size="small">
+              Organizations can have many Circles with them and help with
+              organizing groups working within the same organization.{' '}
+              <span>
+                <Link
+                  href="https://docs.coordinape.com/get-started/admin/update-organization-settings"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  Read The Docs.
+                </Link>
+              </span>
+            </Text>
+            <Box
+              css={{
+                mt: '$lg',
+                display: 'grid',
+                gridTemplateColumns: `1fr 1fr 1fr`,
+                gap: '$lg',
+                '@sm': { gridTemplateColumns: '1fr' },
+              }}
+            >
+              <FormInputField
+                id="name"
+                name="name"
+                control={control}
+                defaultValue={org?.name}
+                label="Organization Name"
+                infoTooltip="The name of the Organization, which is visible to all circles' members."
+                showFieldErrors
+              />
 
-                <FormInputField
-                  id="telegram_id"
-                  name="telegram_id"
-                  control={control}
-                  defaultValue={org?.telegram_id}
-                  label="Telegram Notifications Chat ID"
-                  infoTooltip="Reach out on Discord for detailed instructions setting up telegram notifications."
-                  showFieldErrors
-                />
-                <Flex column alignItems="start" css={{ gap: '$xs' }}>
-                  <Text variant="label" as="label">
-                    Organization logo
-                    <Tooltip
-                      css={{ ml: '$xs' }}
-                      content={<div>Upload a logo for your organization</div>}
-                    >
-                      <Info size="sm" />
-                    </Tooltip>
-                  </Text>
-
-                  <Flex
-                    alignItems="center"
-                    css={{
-                      gap: '$sm',
-                      width: '100%',
-                    }}
+              <FormInputField
+                id="telegram_id"
+                name="telegram_id"
+                control={control}
+                defaultValue={org?.telegram_id}
+                label="Telegram Notifications Chat ID"
+                infoTooltip="Reach out on Discord for detailed instructions setting up telegram notifications."
+                showFieldErrors
+              />
+              <Flex column alignItems="start" css={{ gap: '$xs' }}>
+                <Text variant="label" as="label">
+                  Organization logo
+                  <Tooltip
+                    css={{ ml: '$xs' }}
+                    content={<div>Upload a logo for your organization</div>}
                   >
-                    <Avatar
-                      size="medium"
-                      margin="none"
-                      path={uploadedLogoUrl ? uploadedLogoUrl : org.logo}
-                      name={org?.name}
-                    />
-                    <FormLabel
-                      htmlFor="upload-logo-button"
-                      css={{ flexGrow: '1' }}
+                    <Info size="sm" />
+                  </Tooltip>
+                </Text>
+
+                <Flex
+                  alignItems="center"
+                  css={{
+                    gap: '$sm',
+                    width: '100%',
+                  }}
+                >
+                  <Avatar
+                    size="medium"
+                    margin="none"
+                    path={uploadedLogoUrl ? uploadedLogoUrl : org.logo}
+                    name={org?.name}
+                  />
+                  <Text variant="label" as="label" htmlFor="upload-logo-button">
+                    <Flex
+                      alignItems="center"
+                      css={{
+                        gap: '$sm',
+                      }}
                     >
-                      <Flex
-                        alignItems="center"
+                      <Button
+                        color="secondary"
+                        as="span"
                         css={{
-                          gap: '$sm',
+                          display: 'inline-flex',
+                        }}
+                        onClick={() => {
+                          setUploadComplete(false);
+                          fileInput.current?.click?.();
                         }}
                       >
-                        <Button
-                          color="secondary"
-                          as="span"
+                        Select File
+                      </Button>
+                      {uploadComplete && (
+                        <Text
+                          size="small"
+                          color="neutral"
                           css={{
-                            display: 'inline-flex',
-                          }}
-                          onClick={() => {
-                            setUploadComplete(false);
-                            fileInput.current?.click?.();
+                            gap: '$xs',
                           }}
                         >
-                          Select File
-                        </Button>
-                        {uploadComplete && (
-                          <Text
-                            size="small"
-                            color="neutral"
-                            css={{
-                              gap: '$xs',
-                            }}
-                          >
-                            <Check /> Logo Saved!
-                          </Text>
-                        )}
-                        <input
-                          ref={fileInput}
-                          accept={VALID_FILE_TYPES.join(', ')}
-                          onChange={onInputChange}
-                          style={{ display: 'none' }}
-                          type="file"
-                        />
-                      </Flex>
-                    </FormLabel>
-                  </Flex>
+                          <Check /> Logo Saved!
+                        </Text>
+                      )}
+                      <input
+                        ref={fileInput}
+                        accept={VALID_FILE_TYPES.join(', ')}
+                        onChange={onInputChange}
+                        style={{ display: 'none' }}
+                        type="file"
+                      />
+                    </Flex>
+                  </Text>
                 </Flex>
-              </Box>
-            </Panel>
+              </Flex>
+            </Box>
           </Panel>
         </Form>
       </Box>

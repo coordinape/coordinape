@@ -29,7 +29,6 @@ import {
   Link,
   Flex,
   Form,
-  FormLabel,
   HR,
   Panel,
   Text,
@@ -553,7 +552,7 @@ export const CircleAdminPage = () => {
               />
             </Flex>
             <Flex column css={{ mt: '$xl' }}>
-              <FormLabel type="label">
+              <Text variant="label" as="label">
                 GIVE Visibility?{' '}
                 <Tooltip
                   content={
@@ -577,7 +576,7 @@ export const CircleAdminPage = () => {
                 >
                   <Info size="sm" />
                 </Tooltip>
-              </FormLabel>
+              </Text>
               <CheckBox {...hideGives} label="Hide GIVE Data During Epoch " />
             </Flex>
             <Divider css={{ mt: '$1xl', mb: '$lg' }} />
@@ -707,7 +706,7 @@ export const CircleAdminPage = () => {
                   '@sm': { gridColumnEnd: 'span 1' },
                 }}
               >
-                <FormLabel type="label">
+                <Text variant="label" as="label">
                   Enable Vouching?{' '}
                   <Tooltip
                     content={
@@ -731,7 +730,7 @@ export const CircleAdminPage = () => {
                   >
                     <Info size="sm" />
                   </Tooltip>
-                </FormLabel>
+                </Text>
                 <CheckBox {...vouching} label="Vouching" />
               </Box>
               <FormInputField

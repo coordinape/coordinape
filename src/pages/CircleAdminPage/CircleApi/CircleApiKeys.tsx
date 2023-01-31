@@ -79,7 +79,7 @@ export const CircleApiKeys: React.FC = () => {
             />
           ))
         ) : (
-          <Text color={'neutral'} css={{ mb: '$lg' }}>
+          <Text color="secondary" css={{ mb: '$lg' }}>
             There are no API keys for your circle yet.
           </Text>
         )}

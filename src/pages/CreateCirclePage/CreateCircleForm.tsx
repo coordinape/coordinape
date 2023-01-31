@@ -19,7 +19,6 @@ import {
   Button,
   ContentHeader,
   Flex,
-  FormLabel,
   Avatar,
   Panel,
   Text,
@@ -200,14 +199,15 @@ export const CreateCircleForm = ({
                       margin="none"
                       path={logoData.avatar}
                     />
-                    <FormLabel
+                    <Text
+                      variant="label"
+                      as="label"
                       htmlFor="upload-logo-button"
-                      css={{ flexGrow: '1' }}
                     >
                       <Button as="div" color="secondary">
                         Upload File
                       </Button>
-                    </FormLabel>
+                    </Text>
                   </Flex>
                   <input
                     id="upload-logo-button"

@@ -7,7 +7,7 @@ import { MAX_IMAGE_BYTES_LENGTH_BASE64 } from 'lib/images';
 import { LoadingModal } from 'components';
 import { useToast, useApiBase } from 'hooks';
 import { Check } from 'icons/__generated';
-import { Avatar, Button, Flex, FormLabel, Text } from 'ui';
+import { Avatar, Button, Flex, Text } from 'ui';
 import { formatBytes } from 'utils/presentationHelpers';
 
 const VALID_FILE_TYPES = ['image/jpg', 'image/jpeg', 'image/png'];
@@ -86,7 +86,7 @@ export const AvatarUpload = ({ original }: { original?: string }) => {
           path={uploadedAvatarUrl ? uploadedAvatarUrl : original}
           name={'me'}
         />
-        <FormLabel htmlFor="upload-avatar-button" css={{ flexGrow: '1' }}>
+        <Text variant="label" as="label" htmlFor="upload-avatar-button">
           <Flex
             alignItems="center"
             css={{
@@ -126,7 +126,7 @@ export const AvatarUpload = ({ original }: { original?: string }) => {
               type="file"
             />
           </Flex>
-        </FormLabel>
+        </Text>
       </Flex>
     </Flex>
   );

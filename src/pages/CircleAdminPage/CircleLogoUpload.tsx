@@ -9,7 +9,7 @@ import { useQueryClient } from 'react-query';
 import { LoadingModal } from 'components';
 import { useToast } from 'hooks';
 import { Check } from 'icons/__generated';
-import { Avatar, Button, Flex, FormLabel, Text } from 'ui';
+import { Avatar, Button, Flex, Text } from 'ui';
 import { formatBytes } from 'utils/presentationHelpers';
 
 import { QUERY_KEY_CIRCLE_SETTINGS } from './getCircleSettings';
@@ -99,7 +99,7 @@ export const CircleLogoUpload = ({
           path={uploadedLogoUrl ? uploadedLogoUrl : original}
           name={circleName}
         />
-        <FormLabel htmlFor="upload-logo-button" css={{ flexGrow: '1' }}>
+        <Text variant="label" as="label" htmlFor="upload-logo-button">
           <Flex
             alignItems="center"
             css={{
@@ -139,7 +139,7 @@ export const CircleLogoUpload = ({
               type="file"
             />
           </Flex>
-        </FormLabel>
+        </Text>
       </Flex>
     </Flex>
   );

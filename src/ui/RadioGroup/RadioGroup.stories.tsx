@@ -1,6 +1,6 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import { Flex, FormLabel } from 'ui';
+import { Flex, Text } from 'ui';
 
 import {
   RadioGroupIndicator,
@@ -32,9 +32,9 @@ const Template: ComponentStory<typeof RadioGroupRootComponent> = args => (
         <RadioGroupRadio value={value} id={value}>
           <RadioGroupIndicator />
         </RadioGroupRadio>
-        <FormLabel type="radioLabel" htmlFor={value}>
+        <Text variant="label" as="label" htmlFor={value}>
           {label}
-        </FormLabel>
+        </Text>
       </Flex>
     ))}
   </RadioGroupRootComponent>

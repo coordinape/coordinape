@@ -573,6 +573,7 @@ export const dark = createTheme({
     taller: '2',
   },
   shadows: {
+    shadow1: '0px 0px 35px 12px rgb(0 0 0 / 40%)',
     toastifyShadow: '0px 5px 25px -5px black',
     modalShadow: '0 5px 70px 28px black',
   },
@@ -614,6 +615,8 @@ export const light = createTheme({
     textOnPrimary: newFigmaColors.grey4,
     primaryButtonHover: newFigmaColors.grey7,
     primaryButtonBorderFocus: newFigmaColors.grey7,
+
+    contentHeaderBorder: newFigmaColors.grey3,
 
     formRadioBorderUnselected: newFigmaColors.secondary2,
     formRadioBorderSelected: newFigmaColors.secondary5,

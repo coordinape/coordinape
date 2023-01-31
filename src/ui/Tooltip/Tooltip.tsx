@@ -22,7 +22,7 @@ const HoverCardContent = styled(HoverCardPrimitive.Content, {
   fontWeight: '$normal',
   maxWidth: 240,
   boxShadow: '$shadow1',
-  backgroundColor: '$surface',
+  backgroundColor: '$toastifyBackground',
   color: '$text',
   '@media (prefers-reduced-motion: no-preference)': {
     animationDuration: '400ms',

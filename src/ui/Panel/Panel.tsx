@@ -27,7 +27,6 @@ export const Panel = styled('div', {
       background: 'transparent',
     },
   },
-
   variants: {
     selected: {
       true: {

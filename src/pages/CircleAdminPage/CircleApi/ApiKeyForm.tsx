@@ -7,7 +7,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { z } from 'zod';
 
 import { LoadingModal } from '../../../components';
-import { Box, Button, CheckBox, Form, FormLabel, Text, TextField } from 'ui';
+import { Box, Button, CheckBox, Form, Text, TextField, Panel } from 'ui';
 
 import { API_PERMISSION_LABELS } from './constants';
 import { generateCircleApiKey } from './mutations';
@@ -132,140 +132,144 @@ export const ApiKeyForm: FC<Props> = ({ circleId, onSuccess }) => {
   });
 
   return (
-    <Form
-      onSubmit={handleSubmit(onSubmit)}
-      css={{
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-    >
-      <Text p as="p">
-        Circle API keys allow for third party apps to read data from and
-        interact with your circle. You can configure specific permissions for
-        each key.
-      </Text>
-      <FormLabel htmlFor="name" type={'label'} css={{ mt: '$lg', mb: '$xs' }}>
-        API Key Name
-      </FormLabel>
-      <TextField
-        css={{ width: '100%' }}
-        id="name"
-        placeholder={'What is this API key for?'}
-        {...name}
-      />
-      <Box
+    <Panel css={{ p: 0 }}>
+      <Form
+        onSubmit={handleSubmit(onSubmit)}
         css={{
-          display: 'flex',
-          gap: '$sm',
-          my: '$lg',
-          flexDirection: 'column',
           width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '$sm',
         }}
       >
-        <Text variant={'label'}>Read-only Permissions</Text>
-        <CheckBox
-          {...readCircle}
-          label={API_PERMISSION_LABELS['read_circle']}
-          infoTooltip={
-            <>Allows reading your circle name, logo, and configuration.</>
-          }
+        <Text p as="p" css={{ mb: '$md' }}>
+          Circle API keys allow for third party apps to read data from and
+          interact with your circle. You can configure specific permissions for
+          each key.
+        </Text>
+        <Text variant="label" as="label" htmlFor="name">
+          API Key Name
+        </Text>
+        <TextField
+          id="name"
+          placeholder={'What is this API key for?'}
+          {...name}
         />
+        <Box
+          css={{
+            display: 'flex',
+            gap: '$sm',
+            my: '$lg',
+            flexDirection: 'column',
+            width: '100%',
+          }}
+        >
+          <Text variant={'label'}>Read-only Permissions</Text>
+          <CheckBox
+            {...readCircle}
+            label={API_PERMISSION_LABELS['read_circle']}
+            infoTooltip={
+              <>Allows reading your circle name, logo, and configuration.</>
+            }
+          />
 
-        <CheckBox
-          {...readEpochs}
-          label={API_PERMISSION_LABELS['read_epochs']}
-          infoTooltip={<>Allows reading information about historical epochs.</>}
-        />
-        <CheckBox
-          {...readMemberProfiles}
-          label={API_PERMISSION_LABELS['read_member_profiles']}
-          infoTooltip={
-            <>
-              Allows reading member profiles (name, socials, avatars), excluding
-              wallet addresses.
-            </>
-          }
-        />
-        <CheckBox
-          {...readPendingTokenGifts}
-          label={API_PERMISSION_LABELS['read_pending_token_gifts']}
-          infoTooltip={
-            <>
-              Allows reading pending allocations in the current epoch (excluding
-              notes).
-            </>
-          }
-        />
-        <CheckBox
-          {...readNominees}
-          label={API_PERMISSION_LABELS['read_nominees']}
-          infoTooltip={<>Allows reading information about circle nominees.</>}
-        />
-        <CheckBox
-          {...readContributions}
-          label={API_PERMISSION_LABELS['read_contributions']}
-          infoTooltip={
-            <>Allows reading contributions added by members in the circle.</>
-          }
-        />
-        <Text variant={'label'} css={{ mt: '$md' }}>
-          Write Permissions
-        </Text>
+          <CheckBox
+            {...readEpochs}
+            label={API_PERMISSION_LABELS['read_epochs']}
+            infoTooltip={
+              <>Allows reading information about historical epochs.</>
+            }
+          />
+          <CheckBox
+            {...readMemberProfiles}
+            label={API_PERMISSION_LABELS['read_member_profiles']}
+            infoTooltip={
+              <>
+                Allows reading member profiles (name, socials, avatars),
+                excluding wallet addresses.
+              </>
+            }
+          />
+          <CheckBox
+            {...readPendingTokenGifts}
+            label={API_PERMISSION_LABELS['read_pending_token_gifts']}
+            infoTooltip={
+              <>
+                Allows reading pending allocations in the current epoch
+                (excluding notes).
+              </>
+            }
+          />
+          <CheckBox
+            {...readNominees}
+            label={API_PERMISSION_LABELS['read_nominees']}
+            infoTooltip={<>Allows reading information about circle nominees.</>}
+          />
+          <CheckBox
+            {...readContributions}
+            label={API_PERMISSION_LABELS['read_contributions']}
+            infoTooltip={
+              <>Allows reading contributions added by members in the circle.</>
+            }
+          />
+          <Text variant={'label'} css={{ mt: '$md' }}>
+            Write Permissions
+          </Text>
 
-        <CheckBox
-          {...updateCircle}
-          label={API_PERMISSION_LABELS['update_circle']}
-          infoTooltip={
-            <>Allows updating your circle name, logo, and configuration.</>
-          }
-        />
-        <CheckBox
-          {...updatePendingTokenGifts}
-          label={API_PERMISSION_LABELS['update_pending_token_gifts']}
-          infoTooltip={
-            <>
-              Allows updating pending allocations in the current epoch on behalf
-              of circle members.
-            </>
-          }
-        />
-        <CheckBox
-          {...createVouches}
-          label={API_PERMISSION_LABELS['create_vouches']}
-          infoTooltip={
-            <>Allows vouching for new nominees on behalf of circle members.</>
-          }
-        />
-        <CheckBox
-          {...createContributions}
-          label={API_PERMISSION_LABELS['create_contributions']}
-          infoTooltip={
-            <>Allows adding contributions on behalf of circle members.</>
-          }
-        />
-      </Box>
-      <Button
-        size="large"
-        color="primary"
-        css={{ mt: '$lg', width: '100%' }}
-        disabled={!isValid || mutation.isLoading}
-      >
-        Generate Key
-      </Button>
-      {!isEmpty(errors) && (
-        <Text color="alert" css={{ mt: '$sm' }}>
-          {Object.values(errors)
-            .map(e => e.message)
-            .join('. ')}
-        </Text>
-      )}
-      {mutation.isError && (
-        <Text color="alert" css={{ mt: '$sm' }}>
-          {(mutation.error as Error).message}
-        </Text>
-      )}
-      <LoadingModal visible={mutation.isLoading} />
-    </Form>
+          <CheckBox
+            {...updateCircle}
+            label={API_PERMISSION_LABELS['update_circle']}
+            infoTooltip={
+              <>Allows updating your circle name, logo, and configuration.</>
+            }
+          />
+          <CheckBox
+            {...updatePendingTokenGifts}
+            label={API_PERMISSION_LABELS['update_pending_token_gifts']}
+            infoTooltip={
+              <>
+                Allows updating pending allocations in the current epoch on
+                behalf of circle members.
+              </>
+            }
+          />
+          <CheckBox
+            {...createVouches}
+            label={API_PERMISSION_LABELS['create_vouches']}
+            infoTooltip={
+              <>Allows vouching for new nominees on behalf of circle members.</>
+            }
+          />
+          <CheckBox
+            {...createContributions}
+            label={API_PERMISSION_LABELS['create_contributions']}
+            infoTooltip={
+              <>Allows adding contributions on behalf of circle members.</>
+            }
+          />
+        </Box>
+        <Button
+          size="large"
+          color="primary"
+          css={{ mt: '$lg', width: '100%' }}
+          disabled={!isValid || mutation.isLoading}
+        >
+          Generate Key
+        </Button>
+        {!isEmpty(errors) && (
+          <Text color="alert" css={{ mt: '$sm' }}>
+            {Object.values(errors)
+              .map(e => e.message)
+              .join('. ')}
+          </Text>
+        )}
+        {mutation.isError && (
+          <Text color="alert" css={{ mt: '$sm' }}>
+            {(mutation.error as Error).message}
+          </Text>
+        )}
+        <LoadingModal visible={mutation.isLoading} />
+      </Form>
+    </Panel>
   );
 };
