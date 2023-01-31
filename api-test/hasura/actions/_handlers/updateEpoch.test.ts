@@ -13,7 +13,7 @@ import {
 } from '../../../helpers';
 import { getUniqueAddress } from '../../../helpers/getUniqueAddress';
 
-let address, profile, circle, client, epochId;
+let address, profile, circle, client, epochId, futureEpochId;
 
 const now = DateTime.now();
 const DURATION_IN_DAYS = 3;
@@ -46,6 +46,31 @@ beforeEach(async () => {
     ],
   });
   epochId = result.createEpoch.id as number;
+
+  const nextStart = now.plus({ years: 1 });
+  const futureResult = await client.mutate({
+    createEpoch: [
+      {
+        payload: {
+          circle_id: circle.id,
+          params: {
+            type: 'one-off',
+            start_date: nextStart.toISO(),
+            end_date: nextStart.plus({ days: DURATION_IN_DAYS }).toISO(),
+          },
+        },
+      },
+      {
+        id: true,
+        epoch: {
+          start_date: true,
+          end_date: true,
+          repeat_data: [{}, true],
+        },
+      },
+    ],
+  });
+  futureEpochId = futureResult.createEpoch.id as number;
 });
 
 describe('updateEpoch', () => {
@@ -709,9 +734,12 @@ describe('updateEpoch', () => {
         })
       );
     });
-    xtest('handles cases at the end of the month correctly', async () => {
+    test('handles cases for future epochs at the end of the month correctly', async () => {
       let result;
-      const start = DateTime.now().startOf('month').plus({ weeks: 6 });
+      const start = DateTime.now()
+        .plus({ years: 1 })
+        .startOf('month')
+        .plus({ weeks: 6 });
       const params = {
         type: 'monthly',
         start_date: start.toISO(),
@@ -725,7 +753,7 @@ describe('updateEpoch', () => {
           updateEpoch: [
             {
               payload: {
-                id: epochId,
+                id: futureEpochId,
                 circle_id: circle.id,
                 params,
               },
