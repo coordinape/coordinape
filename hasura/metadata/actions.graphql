@@ -405,6 +405,8 @@ input EpochInputParams {
   end_date: timestamptz!
   frequency: Int
   frequency_unit: String
+  duration: Int
+  duration_unit: String
   weekday: Int
   week: Int
   grant: Float

@@ -32,6 +32,8 @@ const zCustomInputSchema = z
     type: z.literal('custom'),
     frequency: z.coerce.number().min(1),
     frequency_unit: zFrequencyUnits,
+    duration: z.coerce.number().min(1),
+    duration_unit: zFrequencyUnits,
     start_date: zStringISODateUTC,
     end_date: zStringISODateUTC,
   })
@@ -111,8 +113,16 @@ async function handler(request: VercelRequest, response: VercelResponse) {
 function validateCustomInput(
   input: z.infer<typeof zCustomInputSchema>
 ): ErrorReturn {
-  const { start_date, end_date, frequency_unit, frequency } = input;
+  const {
+    start_date,
+    end_date,
+    frequency_unit,
+    frequency,
+    duration,
+    duration_unit,
+  } = input;
   const interval = Interval.fromDateTimes(start_date, end_date);
+  const repeatDuration = Duration.fromObject({ [duration_unit]: duration });
   const frequencyDuration = Duration.fromObject({
     [frequency_unit]: frequency,
   });
@@ -123,6 +133,20 @@ function validateCustomInput(
           interval.length(frequency_unit) + ' ' + frequency_unit
         } is longer than chosen
         frequency ${frequencyDuration.as(frequency_unit) + ' ' + frequency_unit}
+      `
+    );
+
+  if (
+    interval.length(frequency_unit) > repeatDuration.as(frequency_unit) ||
+    interval.length(frequency_unit) < repeatDuration.as(frequency_unit)
+  )
+    return new Error(
+      dedent`
+        epoch date range ${
+          interval.length(duration_unit) + ' ' + duration_unit
+        } does not match the specified duration ${
+        repeatDuration.as(duration_unit) + ' ' + duration_unit
+      }
       `
     );
 }

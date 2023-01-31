@@ -753,6 +753,8 @@ export type ValueTypes = {
     __typename?: boolean | `@${string}`;
   }>;
   ['EpochInputParams']: {
+    duration?: number | undefined | null;
+    duration_unit?: string | undefined | null;
     end_date: ValueTypes['timestamptz'];
     frequency?: number | undefined | null;
     frequency_unit?: string | undefined | null;
@@ -13444,6 +13446,8 @@ export type GraphQLTypes = {
     success: boolean;
   };
   ['EpochInputParams']: {
+    duration?: number | undefined;
+    duration_unit?: string | undefined;
     end_date: GraphQLTypes['timestamptz'];
     frequency?: number | undefined;
     frequency_unit?: string | undefined;

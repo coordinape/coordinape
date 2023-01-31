@@ -244,6 +244,8 @@ type DeleteUsersResponse {
 }
 
 input EpochInputParams {
+  duration: Int
+  duration_unit: String
   end_date: timestamptz!
   frequency: Int
   frequency_unit: String
