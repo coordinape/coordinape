@@ -953,6 +953,15 @@ export type ValueTypes = {
     id: number;
     params?: ValueTypes['EpochInputParams'] | undefined | null;
   };
+  ['UpdateEpochOldInput']: {
+    circle_id: number;
+    days: number;
+    description?: string | undefined | null;
+    grant?: number | undefined | null;
+    id: number;
+    repeat: number;
+    start_date: ValueTypes['timestamptz'];
+  };
   ['UpdateOrgResponse']: AliasType<{
     id?: boolean | `@${string}`;
     org?: ValueTypes['organizations'];
@@ -9955,6 +9964,10 @@ export type ValueTypes = {
     ];
     updateEpoch?: [
       { payload: ValueTypes['UpdateEpochInput'] },
+      ValueTypes['EpochResponse']
+    ];
+    updateEpochOld?: [
+      { payload: ValueTypes['UpdateEpochOldInput'] },
       ValueTypes['EpochResponse']
     ];
     updateProfile?: [
@@ -21307,6 +21320,7 @@ export type ModelTypes = {
     updateContribution_Contribution?: GraphQLTypes['contributions'] | undefined;
   };
   ['UpdateEpochInput']: GraphQLTypes['UpdateEpochInput'];
+  ['UpdateEpochOldInput']: GraphQLTypes['UpdateEpochOldInput'];
   ['UpdateOrgResponse']: {
     id: number;
     org?: GraphQLTypes['organizations'] | undefined;
@@ -25292,6 +25306,7 @@ export type ModelTypes = {
     /** users can modify contributions and update their dates. */
     updateContribution?: GraphQLTypes['UpdateContributionResponse'] | undefined;
     updateEpoch?: GraphQLTypes['EpochResponse'] | undefined;
+    updateEpochOld?: GraphQLTypes['EpochResponse'] | undefined;
     updateProfile?: GraphQLTypes['UpdateProfileResponse'] | undefined;
     updateTeammates?: GraphQLTypes['UpdateTeammatesResponse'] | undefined;
     /** Update own user */
@@ -29006,6 +29021,15 @@ export type GraphQLTypes = {
     grant?: number | undefined;
     id: number;
     params?: GraphQLTypes['EpochInputParams'] | undefined;
+  };
+  ['UpdateEpochOldInput']: {
+    circle_id: number;
+    days: number;
+    description?: string | undefined;
+    grant?: number | undefined;
+    id: number;
+    repeat: number;
+    start_date: GraphQLTypes['timestamptz'];
   };
   ['UpdateOrgResponse']: {
     __typename: 'UpdateOrgResponse';
@@ -36203,6 +36227,7 @@ export type GraphQLTypes = {
     /** users can modify contributions and update their dates. */
     updateContribution?: GraphQLTypes['UpdateContributionResponse'] | undefined;
     updateEpoch?: GraphQLTypes['EpochResponse'] | undefined;
+    updateEpochOld?: GraphQLTypes['EpochResponse'] | undefined;
     updateProfile?: GraphQLTypes['UpdateProfileResponse'] | undefined;
     updateTeammates?: GraphQLTypes['UpdateTeammatesResponse'] | undefined;
     /** Update own user */

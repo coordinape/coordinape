@@ -11,11 +11,11 @@ type Mutation {
 }
 
 type Mutation {
-  createEpochOld(payload: CreateEpochOldInput!): EpochResponse
+  createEpoch(payload: CreateEpochInput!): EpochResponse
 }
 
 type Mutation {
-  createEpoch(payload: CreateEpochInput!): EpochResponse
+  createEpochOld(payload: CreateEpochOldInput!): EpochResponse
 }
 
 type Mutation {
@@ -106,6 +106,10 @@ type Mutation {
 
 type Mutation {
   updateEpoch(payload: UpdateEpochInput!): EpochResponse
+}
+
+type Mutation {
+  updateEpochOld(payload: UpdateEpochOldInput!): EpochResponse
 }
 
 type Mutation {
@@ -244,6 +248,16 @@ input UpdateCircleInput {
   fixed_payment_token_type: String
   fixed_payment_vault_id: Int
   show_pending_gives: Boolean
+}
+
+input UpdateEpochOldInput {
+  id: Int!
+  circle_id: Int!
+  start_date: timestamptz!
+  days: Int!
+  repeat: Int!
+  grant: Float
+  description: String
 }
 
 input UpdateEpochInput {

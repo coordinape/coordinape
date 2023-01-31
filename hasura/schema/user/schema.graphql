@@ -427,6 +427,16 @@ input UpdateEpochInput {
   params: EpochInputParams
 }
 
+input UpdateEpochOldInput {
+  circle_id: Int!
+  days: Int!
+  description: String
+  grant: Float
+  id: Int!
+  repeat: Int!
+  start_date: timestamptz!
+}
+
 type UpdateOrgResponse {
   id: Int!
   org: organizations
@@ -6283,6 +6293,7 @@ type mutation_root {
     payload: UpdateContributionInput!
   ): UpdateContributionResponse
   updateEpoch(payload: UpdateEpochInput!): EpochResponse
+  updateEpochOld(payload: UpdateEpochOldInput!): EpochResponse
   updateProfile(payload: UpdateProfileInput!): UpdateProfileResponse
   updateTeammates(payload: UpdateTeammatesInput!): UpdateTeammatesResponse
 

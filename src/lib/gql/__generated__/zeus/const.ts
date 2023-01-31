@@ -52,6 +52,9 @@ export const AllTypesProps: Record<string, any> = {
   UpdateEpochInput: {
     params: 'EpochInputParams',
   },
+  UpdateEpochOldInput: {
+    start_date: 'timestamptz',
+  },
   UpdateProfileInput: {},
   UpdateTeammatesInput: {},
   UpdateUserInput: {},
@@ -2073,6 +2076,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     updateEpoch: {
       payload: 'UpdateEpochInput',
+    },
+    updateEpochOld: {
+      payload: 'UpdateEpochOldInput',
     },
     updateProfile: {
       payload: 'UpdateProfileInput',
@@ -5103,6 +5109,7 @@ export const ReturnTypes: Record<string, any> = {
     updateCircle: 'UpdateCircleOutput',
     updateContribution: 'UpdateContributionResponse',
     updateEpoch: 'EpochResponse',
+    updateEpochOld: 'EpochResponse',
     updateProfile: 'UpdateProfileResponse',
     updateTeammates: 'UpdateTeammatesResponse',
     updateUser: 'UserResponse',
