@@ -69,7 +69,7 @@ const spaces = {
 export const colors = {
   white: newFigmaColors.grey1,
   black: '#000',
-  tempPrimaryHover: '#029fff',
+  tempPrimaryHover: '#72B2EE',
 
   cta: figmaColors.blue12,
   ctaHover: '$tempPrimaryHover',
@@ -208,6 +208,7 @@ export const colors = {
   formInputErrorBorder: newFigmaColors.error6,
   formRadioBorderUnselected: '$tempPrimaryHover',
   formRadioBorderSelected: '$primary',
+  formRadioBackground: '$formInputBackground',
   formInputSelectBackground: newFigmaColors.grey2,
   formInputSelectHover: newFigmaColors.grey1,
 
@@ -527,6 +528,7 @@ export const dark = createTheme({
     formInputErrorBorder: newFigmaColors.error7,
     formRadioBorderUnselected: newFigmaColors.primary7,
     formRadioBorderSelected: newFigmaColors.primary4,
+    formRadioBackground: newFigmaColors.primary10,
     formInputSelectBackground: newFigmaColors.grey8,
     formInputSelectHover: newFigmaColors.grey9,
 
@@ -615,6 +617,7 @@ export const light = createTheme({
 
     formRadioBorderUnselected: newFigmaColors.secondary2,
     formRadioBorderSelected: newFigmaColors.secondary5,
+    formRadioBackground: newFigmaColors.grey2,
 
     secondaryButton: '#ffffff22',
     secondaryButtonHover: newFigmaColors.grey10,
