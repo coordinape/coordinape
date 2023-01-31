@@ -168,8 +168,7 @@ export const OrganizationSettingsPage = () => {
           >
             <Text h1>Organization Settings</Text>
             <Button
-              color="secondary"
-              size="medium"
+              color="cta"
               type="submit"
               form="circle_admin"
               disabled={!isDirty}

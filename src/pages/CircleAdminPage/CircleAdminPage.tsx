@@ -398,7 +398,7 @@ export const CircleAdminPage = () => {
             <Text h1>Circle Admin</Text>
           </Flex>
           <Button
-            color="primary"
+            color="cta"
             type="submit"
             form="circle_admin"
             disabled={!isDirty}
