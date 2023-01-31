@@ -89,6 +89,8 @@ describe('updateEpoch', () => {
                   type: 'custom',
                   start_date: then.plus({ days: 4 }).toISO(),
                   end_date: then.plus({ days: 6 }).toISO(),
+                  duration: 2,
+                  duration_unit: 'days',
                   frequency: 1,
                   frequency_unit: 'weeks',
                 },
@@ -109,6 +111,8 @@ describe('updateEpoch', () => {
                   type: 'custom',
                   start_date: now.toISO(),
                   end_date: now.plus({ days: 3 }).toISO(),
+                  duration: 3,
+                  duration_unit: 'days',
                   frequency: 1,
                   frequency_unit: 'weeks',
                 },
@@ -144,6 +148,8 @@ describe('updateEpoch', () => {
                   type: 'custom',
                   start_date: prior.toISO(),
                   end_date: prior.plus({ days: 3 }).toISO(),
+                  duration: 3,
+                  duration_unit: 'days',
                   frequency: 1,
                   frequency_unit: 'days',
                 },
@@ -179,6 +185,8 @@ describe('updateEpoch', () => {
                   type: 'custom',
                   start_date: now.toISO(),
                   end_date: now.toISO(),
+                  duration: 1,
+                  duration_unit: 'days',
                   frequency: 1,
                   frequency_unit: 'days',
                 },
@@ -366,6 +374,8 @@ describe('updateEpoch', () => {
                   type: 'custom',
                   start_date: now.toISO(),
                   end_date: now.plus({ days: DURATION_IN_DAYS }).toISO(),
+                  duration: DURATION_IN_DAYS,
+                  duration_unit: 'days',
                   frequency: 1,
                   frequency_unit: 'weeks',
                 },
@@ -392,6 +402,8 @@ describe('updateEpoch', () => {
         expect.objectContaining({
           repeat_data: {
             type: 'custom',
+            duration: DURATION_IN_DAYS,
+            duration_unit: 'days',
             frequency: 1,
             frequency_unit: 'weeks',
           },
@@ -417,6 +429,8 @@ describe('updateEpoch', () => {
                   type: 'custom',
                   start_date: now.toISO(),
                   end_date: now.plus({ weeks: DURATION_IN_WEEKS }).toISO(),
+                  duration: DURATION_IN_WEEKS,
+                  duration_unit: 'weeks',
                   frequency: 1,
                   frequency_unit: 'weeks',
                 },
@@ -443,6 +457,8 @@ describe('updateEpoch', () => {
         expect.objectContaining({
           repeat_data: {
             type: 'custom',
+            duration: DURATION_IN_WEEKS,
+            duration_unit: 'weeks',
             frequency: 1,
             frequency_unit: 'weeks',
           },
@@ -470,6 +486,8 @@ describe('updateEpoch', () => {
                   type: 'custom',
                   start_date: now.toISO(),
                   end_date: now.plus({ weeks: DURATION_IN_WEEKS }).toISO(),
+                  duration: DURATION_IN_WEEKS,
+                  duration_unit: 'weeks',
                   frequency: 1,
                   frequency_unit: 'months',
                 },
@@ -496,6 +514,8 @@ describe('updateEpoch', () => {
         expect.objectContaining({
           repeat_data: {
             type: 'custom',
+            duration: DURATION_IN_WEEKS,
+            duration_unit: 'weeks',
             frequency: 1,
             frequency_unit: 'months',
           },
@@ -523,6 +543,8 @@ describe('updateEpoch', () => {
                   type: 'custom',
                   start_date: now.toISO(),
                   end_date: now.plus({ months: DURATION_IN_MONTHS }).toISO(),
+                  duration: DURATION_IN_MONTHS,
+                  duration_unit: 'months',
                   frequency: 1,
                   frequency_unit: 'months',
                 },
@@ -549,6 +571,8 @@ describe('updateEpoch', () => {
         expect.objectContaining({
           repeat_data: {
             type: 'custom',
+            duration: DURATION_IN_MONTHS,
+            duration_unit: 'months',
             frequency: 1,
             frequency_unit: 'months',
           },
@@ -573,6 +597,8 @@ describe('updateEpoch', () => {
                   type: 'custom',
                   start_date: now.toISO(),
                   end_date: now.plus({ days: 3 }).toISO(),
+                  duration: 3,
+                  duration_unit: 'days',
                   frequency: 1,
                   frequency_unit: 'days',
                 },
@@ -597,6 +623,8 @@ describe('updateEpoch', () => {
         type: 'custom',
         start_date: 'a',
         end_date: 'b',
+        duration: 0,
+        duration_unit: 'decades',
         frequency: 'bad',
         frequency_unit: 'years',
       });
@@ -610,6 +638,14 @@ describe('updateEpoch', () => {
           end_date: {
             _errors: [
               'invalid datetime: the input "b" can\'t be parsed as ISO 8601',
+            ],
+          },
+          duration: { _errors: ['Number must be greater than or equal to 1'] },
+          duration_unit: {
+            _errors: [
+              'Invalid literal value, expected "days"',
+              'Invalid literal value, expected "weeks"',
+              'Invalid literal value, expected "months"',
             ],
           },
           frequency: { _errors: ['Expected number, received nan'] },
@@ -630,6 +666,14 @@ describe('updateEpoch', () => {
           _errors: ["Unrecognized key(s) in object: 'bad'"],
           start_date: { _errors: ['Required'] },
           end_date: { _errors: ['Required'] },
+          duration: { _errors: ['Expected number, received nan'] },
+          duration_unit: {
+            _errors: [
+              'Invalid literal value, expected "days"',
+              'Invalid literal value, expected "weeks"',
+              'Invalid literal value, expected "months"',
+            ],
+          },
           frequency: { _errors: ['Expected number, received nan'] },
           frequency_unit: {
             _errors: [

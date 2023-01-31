@@ -85,27 +85,11 @@ async function updateEpoch(
   existingEpoch: ExistingEpoch,
   {
     id,
-    circle_id,
-    grant,
     params: { start_date, end_date, ...repeatData },
   }: z.infer<typeof EpochUpdateSchema>
 ) {
   const { update_epochs_by_pk } = await adminClient.mutate(
     {
-      insert_epochs_one: [
-        {
-          object: {
-            circle_id,
-            grant,
-            start_date: start_date.toISO(),
-            end_date: end_date.toISO(),
-            repeat_data: repeatData.type !== 'one-off' ? repeatData : undefined,
-          },
-        },
-        {
-          id: true,
-        },
-      ],
       update_epochs_by_pk: [
         {
           _set: {
