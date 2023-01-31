@@ -13,16 +13,17 @@ export const Panel = styled('div', {
   borderRadius: '$3',
   backgroundColor: '$surface',
   padding: '$md',
+  // TODO clean up all these nested panel rules after theme migration
   'input, textarea, button[role="radio"], button[role="combobox"], button[role="checkbox"], .root .formInputWrapper':
     {
-      backgroundColor: 'transparent',
-      borderColor: '$borderDim',
+      backgroundColor: '$formInputBackground',
+      borderColor: '$formInputBorder',
       '&:disabled': {
         opacity: 1,
       },
     },
   '.root .formInputWrapper': {
-    borderColor: '$borderDim',
+    borderColor: '$formInputBorder',
     '& input': {
       background: 'transparent',
     },
@@ -67,7 +68,7 @@ export const Panel = styled('div', {
             backgroundColor: '$surfaceNested',
             borderColor: 'transparent',
             '&:disabled': {
-              borderColor: '$borderDim',
+              borderColor: '$formInputBorder',
               opacity: 1,
             },
           },

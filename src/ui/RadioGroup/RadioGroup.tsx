@@ -9,12 +9,19 @@ const StyledToggleGroupRoot = styled(RadioGroupPrimitive.Root, {
 const StyledRadio = styled(RadioGroupPrimitive.Item, {
   all: 'unset',
   backgroundColor: '$surface',
-  width: 25,
-  height: 25,
+  width: 20,
+  height: 20,
   borderRadius: '100%',
   boxShadow: '0 2px 10px $surface',
-  '&:hover': { backgroundColor: '$completeLight' },
-  '&:focus': { boxShadow: `0 0 0 2px surface` },
+  border: '2px solid',
+  borderColor: '$formRadioBorderSelected !important',
+  "&[data-state='unchecked']": {
+    borderColor: '$formRadioBorderUnselected !important',
+  },
+  '&:hover, &:focus': {
+    backgroundColor: '$completeLight',
+    borderColor: '$formRadioBorderSelected !important',
+  },
 });
 
 const StyledIndicator = styled(RadioGroupPrimitive.Indicator, {
@@ -30,7 +37,7 @@ const StyledIndicator = styled(RadioGroupPrimitive.Indicator, {
     width: 14,
     height: 14,
     borderRadius: '50%',
-    backgroundColor: '$complete',
+    backgroundColor: '$formRadioBorderSelected',
   },
 });
 

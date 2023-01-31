@@ -515,6 +515,9 @@ const ContributionsPage = () => {
               </Flex>
             )}
           </Flex>
+          <Button color="cta" onClick={newContribution}>
+            Add Contribution
+          </Button>
         </ContentHeader>
 
         {(memoizedEpochData.contributions || []).length === 0 && (
@@ -527,7 +530,6 @@ const ContributionsPage = () => {
           currentContribution={currentContribution}
           setActiveContribution={activeContributionFn}
           userAddress={address}
-          addContributionClickHandler={newContribution}
         />
       </SingleColumnLayout>
       <Modal
@@ -871,11 +873,9 @@ const EpochGroup = React.memo(function EpochGroup({
   currentContribution,
   setActiveContribution,
   userAddress,
-  addContributionClickHandler,
 }: Omit<LinkedContributionsAndEpochs, 'users'> &
   SetActiveContributionProps & {
     userAddress?: string;
-    addContributionClickHandler: () => void;
   }) {
   return (
     <Flex column css={{ gap: '$1xl' }}>
@@ -894,11 +894,6 @@ const EpochGroup = React.memo(function EpochGroup({
                 {epoch.id === 0 ? 'Latest' : renderEpochDate(epoch)}
                 {getEpochLabel(epoch)}
               </Text>
-              {idx === 0 && (
-                <Button color="secondary" onClick={addContributionClickHandler}>
-                  Add Contribution
-                </Button>
-              )}
             </Flex>
             {epoch.description && (
               <Text size="medium" css={{ fontWeight: '$medium' }}>
@@ -984,14 +979,13 @@ const ContributionList = ({
             <Panel
               key={c.title}
               css={{
-                border: '2px solid $border',
+                border: '1px solid $border',
                 cursor: 'pointer',
                 '&:hover': {
                   background: '$highlight',
-                  border: '2px solid $link',
+                  borderColor: '$link',
                 },
               }}
-              nested
               onClick={() => {
                 setActiveContribution(epoch, undefined, c);
               }}

@@ -5,10 +5,9 @@ export const Table = styled('table', {
   borderCollapse: 'collapse',
   fontSize: '$small',
   tr: {
-    borderBottom: '0.5px solid $lightBackground',
+    borderBottom: '0.5px solid $borderTable',
   },
   'thead tr': {
-    backgroundColor: '$surfaceNested',
     height: '$1xl',
   },
   'thead tr th': {
@@ -31,8 +30,7 @@ export const Table = styled('table', {
     paddingLeft: '$md',
   },
   'tbody tr': {
-    borderBottom: '0.5px solid $border',
-    backgroundColor: '$background',
+    borderBottom: '0.5px solid $borderTable',
     height: '$1xl',
   },
   'tbody tr:first-child': {

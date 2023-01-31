@@ -394,7 +394,7 @@ export const CircleAdminPage = () => {
   return (
     <Form id="circle_admin">
       <SingleColumnLayout>
-        <ContentHeader>
+        <ContentHeader sticky>
           <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
             <Text h1>Circle Admin</Text>
           </Flex>
@@ -410,7 +410,7 @@ export const CircleAdminPage = () => {
         </ContentHeader>
         <Panel css={panelStyles}>
           <Text h2>General</Text>
-          <Panel nested>
+          <Panel css={{ p: '$sm 0' }}>
             <Text h3 semibold css={{ mb: '$sm' }}>
               Circle Settings
             </Text>
@@ -596,7 +596,7 @@ export const CircleAdminPage = () => {
         {isFeatureEnabled('fixed_payments') && (
           <Panel css={panelStyles}>
             <Text h2>Fixed Payments</Text>
-            <Panel nested>
+            <Panel css={{ p: '$sm 0' }}>
               <Box
                 css={{
                   display: 'grid',
@@ -677,7 +677,7 @@ export const CircleAdminPage = () => {
 
         <Panel css={panelStyles}>
           <Text h2>Vouching</Text>
-          <Panel nested>
+          <Panel css={{ p: '$sm 0' }}>
             <Text h3 semibold css={{ mb: '$sm' }}>
               Vouching Settings
             </Text>
@@ -784,7 +784,7 @@ export const CircleAdminPage = () => {
           }}
         >
           <Button
-            color="secondary"
+            color="cta"
             size="medium"
             type="submit"
             form="circle_admin"
@@ -797,7 +797,7 @@ export const CircleAdminPage = () => {
         <HR />
         <Panel css={panelStyles}>
           <Text h2>Integration</Text>
-          <Panel nested>
+          <Panel css={{ p: '$sm 0' }}>
             <AdminIntegrations circleId={circleId} />
             <HR />
             <Box>
@@ -827,7 +827,7 @@ export const CircleAdminPage = () => {
         </Panel>
         <Panel css={panelStyles}>
           <Text h2>Circle API Keys</Text>
-          <Panel nested>
+          <Panel css={{ p: '$sm 0' }}>
             <CircleApiKeys />
           </Panel>
         </Panel>

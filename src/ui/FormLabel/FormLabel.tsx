@@ -18,7 +18,6 @@ const COMPOSERS = {
       },
       label: {
         color: '$secondaryText',
-        textTransform: 'uppercase',
         fontSize: '$small',
         fontWeight: '$bold',
         lineHeight: '$shorter',

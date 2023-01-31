@@ -34,7 +34,7 @@ const Content = styled(Dialog.Content, {
   backgroundColor: '$surface',
   border: '1px solid',
   borderColor: '$modalBorderColor',
-  boxShadow: '$shadow1',
+  boxShadow: '$modalShadow',
   borderRadius: '$3',
   width: '90vw',
   maxWidth: '650px',

@@ -18,18 +18,19 @@ export const MainLayout = () => {
   return (
     <Box
       css={{
-        position: 'fixed',
         background: '$background',
+        position: 'fixed',
         top: 0,
         left: 0,
         right: 0,
         bottom: 0,
         display: 'flex',
         flexDirection: 'column',
+        overflow: themePreference == 'legacy' ? 'auto' : undefined,
         '& > main': { flex: 1, flexGrow: 1 },
       }}
     >
-      <Flex css={{ height: '100vh' }}>
+      <Flex css={{ height: 'auto' }}>
         {/*// TODO(rebrand): remove this after rebrand launch*/}
         {(themePreference == 'dark' || themePreference == 'light') && (
           <SideNav />
@@ -44,9 +45,12 @@ export const MainLayout = () => {
           <Box
             as="main"
             css={{
-              height: '100vh',
+              height: themePreference == 'legacy' ? 'auto' : '100vh',
               overflowY: 'auto',
-              '@sm': { zIndex: 1, pt: '$3xl' }, // for hamburger menu
+              '@sm': {
+                zIndex: 1,
+                pt: themePreference == 'legacy' ? '0' : '$3xl',
+              }, // for hamburger menu
             }}
           >
             <AppRoutes />

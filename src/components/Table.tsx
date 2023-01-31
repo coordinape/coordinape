@@ -3,7 +3,7 @@ import { ReactNode, useMemo, useState } from 'react';
 import sortBy from 'lodash/sortBy';
 import type { CSS } from 'stitches.config';
 
-import { Box, Panel, Table } from 'ui';
+import { Box, Table } from 'ui';
 
 import { Paginator } from './Paginator';
 
@@ -62,38 +62,33 @@ export function makeTable<T>(displayName: string) {
 
     return (
       <>
-        <Panel
-          css={{
-            backgroundColor: '$surfaceNested',
-            padding: '$md',
-            overflowX: 'auto',
-          }}
-        >
-          <Table>
-            <thead>
-              <tr>
-                {headers.map(
-                  (header, index: number) =>
-                    !header.isHidden && (
-                      <th key={index}>
-                        <Box
-                          onClick={() => resort(index)}
-                          css={{ cursor: 'pointer', ...header.css }}
-                        >
-                          {header.title}
-                          {sortIndex === index ? (sortDesc ? ' ↓' : ' ↑') : ''}
-                        </Box>
-                      </th>
-                    )
-                )}
-              </tr>
-            </thead>
-            <tbody>{pagedView.map(children)}</tbody>
-          </Table>
-        </Panel>
-        <Panel css={{ pt: '$md !important' }}>
-          <Paginator pages={totalPages} current={page} onSelect={setPage} />
-        </Panel>
+        <Table>
+          <thead>
+            <tr>
+              {headers.map(
+                (header, index: number) =>
+                  !header.isHidden && (
+                    <th key={index}>
+                      <Box
+                        onClick={() => resort(index)}
+                        css={{ cursor: 'pointer', ...header.css }}
+                      >
+                        {header.title}
+                        {sortIndex === index ? (sortDesc ? ' ↓' : ' ↑') : ''}
+                      </Box>
+                    </th>
+                  )
+              )}
+            </tr>
+          </thead>
+          <tbody>{pagedView.map(children)}</tbody>
+        </Table>
+        <Paginator
+          pages={totalPages}
+          current={page}
+          onSelect={setPage}
+          css={{ mt: '$md', mr: '$md' }}
+        />
       </>
     );
   };

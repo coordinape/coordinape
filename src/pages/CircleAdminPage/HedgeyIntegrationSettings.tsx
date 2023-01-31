@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { INTEGRATION_TYPE } from 'lib/hedgey';
 
 import { useToast } from 'hooks';
-import { Button, Flex, Modal, Select, SelectOption, Text } from 'ui';
+import { Button, Flex, Link, Modal, Select, SelectOption, Text } from 'ui';
 
 import { createCircleIntegration, updateCircleIntegration } from './mutations';
 
@@ -15,9 +15,14 @@ function HedgeyIntro() {
       </Text>
       <Text p size="small" css={{ mb: '$md' }}>
         Hedgey is a protocol for locking tokens during fundraising and payroll.{' '}
-        <a href="https://hedgey.finance" target="_blank" rel="noreferrer">
+        <Link
+          inlineLink
+          href="https://hedgey.finance"
+          target="_blank"
+          rel="noreferrer"
+        >
           Find out more
-        </a>
+        </Link>
       </Text>
     </>
   );

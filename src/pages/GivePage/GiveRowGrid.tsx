@@ -18,7 +18,7 @@ export const GiveRowGrid = ({
       css={{
         flex: 'auto',
         p: gridView ? '$md' : '0 $sm !important',
-        border: '2px solid transparent',
+        border: '1px solid $borderDim',
         cursor: 'pointer',
         backgroundColor: selected ? '$highlight' : '$surface',
         borderColor: selected ? '$link' : undefined,
