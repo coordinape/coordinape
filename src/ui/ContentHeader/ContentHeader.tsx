@@ -1,4 +1,4 @@
-import { Flex, HR } from 'ui';
+import { Flex } from 'ui';
 
 const ContentHeader = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -6,8 +6,18 @@ const ContentHeader = ({ children }: { children: React.ReactNode }) => {
       column
       css={{
         gap: '$sm',
-        hr: {
-          background: '$contentHeaderBorder',
+        position: sticky ? 'sticky' : undefined,
+        top: sticky ? '0' : undefined,
+        zIndex: 2,
+        background: '$background',
+        border: '1px solid $contentHeaderBorder',
+        // compensate for default page top and left padding:
+        p: '$lg 0 $lg $xl',
+        m: '-$lg 0 $lg -$xl',
+        '@sm': {
+          position: 'static',
+          zIndex: 'auto',
+          mr: '-$xl',
         },
       }}
     >
@@ -26,7 +36,6 @@ const ContentHeader = ({ children }: { children: React.ReactNode }) => {
       >
         {children}
       </Flex>
-      <HR flush />
     </Flex>
   );
 };

@@ -784,7 +784,7 @@ export const CircleAdminPage = () => {
           }}
         >
           <Button
-            color="secondary"
+            color="cta"
             size="medium"
             type="submit"
             form="circle_admin"
