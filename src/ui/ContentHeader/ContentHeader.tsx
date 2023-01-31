@@ -1,6 +1,12 @@
 import { Flex } from 'ui';
 
-const ContentHeader = ({ children }: { children: React.ReactNode }) => {
+const ContentHeader = ({
+  children,
+  sticky,
+}: {
+  children: React.ReactNode;
+  sticky?: boolean;
+}) => {
   return (
     <Flex
       column
