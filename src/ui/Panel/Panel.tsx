@@ -13,9 +13,10 @@ export const Panel = styled('div', {
   borderRadius: '$3',
   backgroundColor: '$surface',
   padding: '$md',
+  // TODO clean up all these nested panel rules after theme migration
   'input, textarea, button[role="radio"], button[role="combobox"], button[role="checkbox"], .root .formInputWrapper':
     {
-      backgroundColor: 'transparent',
+      backgroundColor: '$formInputBackground',
       borderColor: '$formInputBorder',
       '&:disabled': {
         opacity: 1,

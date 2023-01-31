@@ -200,14 +200,16 @@ export const colors = {
   tagDefaultBackground: newFigmaColors.grey7,
 
   formInputText: figmaColors.grey16,
-  formInputBackground: 'white',
-  formInputBorder: newFigmaColors.grey4,
+  formInputBackground: '#FFFFFF66',
+  formInputBorder: newFigmaColors.grey5,
   formInputPlaceholder: figmaColors.grey8,
   formInputErrorText: newFigmaColors.error7,
   formInputErrorBackground: newFigmaColors.error1,
   formInputErrorBorder: newFigmaColors.error6,
   formRadioBorderUnselected: '$tempPrimaryHover',
   formRadioBorderSelected: '$primary',
+  formInputSelectBackground: newFigmaColors.grey2,
+  formInputSelectHover: newFigmaColors.grey1,
 
   mapNodeHighlight: '$primary',
   mapNodeMoreHighlight: figmaColors.teal8,
@@ -525,6 +527,8 @@ export const dark = createTheme({
     formInputErrorBorder: newFigmaColors.error7,
     formRadioBorderUnselected: newFigmaColors.primary7,
     formRadioBorderSelected: newFigmaColors.primary4,
+    formInputSelectBackground: newFigmaColors.grey8,
+    formInputSelectHover: newFigmaColors.grey9,
 
     mapNodeHighlight: newFigmaColors.warning7,
     mapNodeMoreHighlight: newFigmaColors.warning4,
@@ -608,6 +612,9 @@ export const light = createTheme({
     textOnPrimary: newFigmaColors.grey4,
     primaryButtonHover: newFigmaColors.grey7,
     primaryButtonBorderFocus: newFigmaColors.grey7,
+
+    formRadioBorderUnselected: newFigmaColors.secondary2,
+    formRadioBorderSelected: newFigmaColors.secondary5,
 
     secondaryButton: '#ffffff22',
     secondaryButtonHover: newFigmaColors.grey10,

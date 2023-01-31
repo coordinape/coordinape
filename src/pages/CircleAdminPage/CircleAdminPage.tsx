@@ -394,7 +394,7 @@ export const CircleAdminPage = () => {
   return (
     <Form id="circle_admin">
       <SingleColumnLayout>
-        <ContentHeader>
+        <ContentHeader sticky>
           <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
             <Text h1>Circle Admin</Text>
           </Flex>

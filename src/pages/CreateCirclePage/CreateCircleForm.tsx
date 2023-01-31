@@ -172,7 +172,7 @@ export const CreateCircleForm = ({
         <Box>
           <Text h2>Get Started</Text>
         </Box>
-        <Panel nested>
+        <Panel>
           <Form id="create_circle_form">
             <div>
               <Box
@@ -309,7 +309,7 @@ export const CreateCircleForm = ({
                   flexGrow: 1,
                 }}
               >
-                <Text color={'neutral'}>
+                <Text color="secondary">
                   You can always change these settings from the Admin panel.
                 </Text>
                 <Button

@@ -31,7 +31,7 @@ const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
 
 const StyledContent = styled(SelectPrimitive.Content, {
   overflow: 'hidden',
-  backgroundColor: '$surfaceNested',
+  backgroundColor: '$formInputSelectBackground',
   boxShadow: '$heavy',
   borderRadius: '$3',
 });
@@ -51,7 +51,7 @@ const StyledItem = styled(SelectPrimitive.Item, {
   position: 'relative',
   userSelect: 'none',
   '&:focus, &:hover': {
-    backgroundColor: '$background',
+    backgroundColor: '$formInputSelectHover',
     color: '$text',
   },
   '&[data-disabled]': disabledStyle,
