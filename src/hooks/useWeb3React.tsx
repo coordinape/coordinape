@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import type { JsonRpcProvider } from '@ethersproject/providers';
 import { Web3Provider } from '@ethersproject/providers';
@@ -86,29 +86,34 @@ function getLibrary(provider: any): Web3Provider {
 }
 
 const Web3EventHooks = () => {
+  const [prevAddress, setPrevAddress] = useState<string>();
+
   useEffect(() => {
     const ethereum = (window as any).ethereum;
-    if (ethereum) {
-      // The "any" network will allow spontaneous network changes
-      const provider = new Web3Provider(ethereum, 'any');
+    if (!ethereum) return;
 
-      provider.on('network', (_, oldNetwork) => {
-        // When a Provider makes its initial connection, it emits a "network"
-        // event with a null oldNetwork along with the newNetwork. So, if the
-        // oldNetwork exists, it represents a changing network
-        if (oldNetwork) {
-          window.location.reload();
-        }
-      });
+    // The "any" network will allow spontaneous network changes
+    const provider = new Web3Provider(ethereum, 'any');
 
-      // Web3Provider doesn't work with accountsChanged events:
-      // https://github.com/ethers-io/ethers.js/issues/1396#issuecomment-806380431
-      ethereum.on('accountsChanged', () => {
-        // If account changes, reload!
-        window.location.reload();
-      });
-    }
-  }, []);
+    provider.on('network', (_, oldNetwork) => {
+      // When a Provider makes its initial connection, it emits a "network"
+      // event with a null oldNetwork along with the newNetwork. So, if the
+      // oldNetwork exists, it represents a changing network
+      if (oldNetwork) window.location.reload();
+    });
+  });
+
+  useEffect(() => {
+    // Web3Provider doesn't work with accountsChanged events:
+    // https://github.com/ethers-io/ethers.js/issues/1396#issuecomment-806380431
+    //
+    // reload only if the account has changed: this event also fires the first
+    // time an account is connected, and we do not want to reload in that case.
+    (window as any).ethereum?.on('accountsChanged', (address: string) => {
+      if (prevAddress) window.location.reload();
+      setPrevAddress(address);
+    });
+  }, [prevAddress]);
 
   return null;
 };
