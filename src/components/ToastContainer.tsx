@@ -48,6 +48,12 @@ const StyledContainer = styled(ToastifyContainer, {
   '.Toastify__progress-bar': {
     height: '1px',
   },
+  '.Toastify__progress-bar--success': {
+    background: '$toastifyBorderColorSuccess',
+  },
+  '.Toastify__progress-bar--default': {
+    background: '$text',
+  },
   '.Toastify__toast--default': {
     borderColor: 'transparent',
     '.Toastify__toast-icon': {
