@@ -57,6 +57,22 @@ const tokens = {
         .div(ethers_1.BigNumber.from(10).pow(decimals))
         .toNumber());
 });
+(0, config_1.task)('wrap', 'Wraps the given amount of ETH to WETH')
+    .addParam('amount', 'The amount to wrap')
+    .setAction(async (args, hre) => {
+    const sender = await (0, unlockSigner_1.unlockSigner)(constants_1.HARDHAT_OWNER_ADDRESS, hre);
+    const weth = new ethers_1.ethers.Contract(tokens.WETH.addr, ['function deposit() public payable'], sender);
+    await weth.deposit({ value: ethers_1.ethers.utils.parseEther(args.amount) });
+    console.log(`Wrapped ${args.amount} ETH for ${constants_1.HARDHAT_OWNER_ADDRESS}`);
+});
+(0, config_1.task)('unwrap', 'Unwraps the given amount of WETH to ETH')
+    .addParam('amount', 'The amount to unwrap')
+    .setAction(async (args, hre) => {
+    const sender = await (0, unlockSigner_1.unlockSigner)(constants_1.HARDHAT_OWNER_ADDRESS, hre);
+    const weth = new ethers_1.ethers.Contract(tokens.WETH.addr, ['function withdraw(uint wad) public'], sender);
+    await weth.withdraw(ethers_1.ethers.utils.parseEther(args.amount));
+    console.log(`Unwrapped ${args.amount} WETH for ${constants_1.HARDHAT_OWNER_ADDRESS}`);
+});
 (0, config_1.task)('mint', 'Mints the given token to specified account')
     .addParam('token', 'The token symbol')
     .addParam('address', 'The recipient', constants_1.HARDHAT_OWNER_ADDRESS)
@@ -69,13 +85,6 @@ const tokens = {
             value: ethers_1.ethers.utils.parseEther(amount),
         });
         console.log(`Sent ${amount} ETH to ${receiver}`);
-    };
-    const mintWeth = async (receiver, amount) => {
-        await mintEth(receiver, (Number(amount) + 0.1).toString());
-        const sender = await (0, unlockSigner_1.unlockSigner)(receiver, hre);
-        const weth = new ethers_1.ethers.Contract(tokens.WETH.addr, ['function deposit() public payable'], sender);
-        await weth.deposit({ value: ethers_1.ethers.utils.parseEther(amount) });
-        console.log(`Sent ${amount} WETH to ${receiver}`);
     };
     const mintToken = async (symbol, receiver, amount) => {
         const { whale, addr } = tokens[symbol];
@@ -93,9 +102,6 @@ const tokens = {
     switch (args.token) {
         case 'ETH':
             await mintEth(args.address, args.amount);
-            break;
-        case 'WETH':
-            await mintWeth(args.address, args.amount);
             break;
         default:
             try {
@@ -149,7 +155,7 @@ const config = {
             chainId: +(process.env.HARDHAT_CHAIN_ID || 1337),
             forking: constants_1.FORK_MAINNET
                 ? {
-                    url: constants_1.ETHEREUM_RPC_URL,
+                    url: constants_1.HARDHAT_ARCHIVE_RPC_URL,
                     blockNumber: constants_1.FORKED_BLOCK,
                 }
                 : undefined,

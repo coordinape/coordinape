@@ -3,7 +3,7 @@ export declare const FORK_MAINNET: string | undefined;
 export declare const GANACHE_NETWORK_NAME = "ci";
 export declare const GANACHE_PORT: string | undefined;
 export declare const GANACHE_URL: string;
-export declare const ETHEREUM_RPC_URL: string;
+export declare const HARDHAT_ARCHIVE_RPC_URL: string;
 export declare const FORKED_BLOCK: number | undefined;
 export declare const HARDHAT_OWNER_ADDRESS: string;
 export declare const YEARN_REGISTRY_ADDRESS = "0x50c1a2eA0a861A967D9d0FFE2AE4012c2E053804";
