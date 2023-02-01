@@ -32,6 +32,7 @@ import {
   HR,
   Panel,
   Text,
+  TextField,
   Tooltip,
   CheckBox,
   AppLink,
@@ -805,9 +806,12 @@ export const CircleAdminPage = () => {
               </Text>
               {allowEdit && (
                 <>
-                  <input readOnly={!allowEdit} {...discordWebhook} />
+                  <Text variant="label" as="label">
+                    Webhook Url
+                  </Text>
+                  <TextField readOnly={!allowEdit} {...discordWebhook} />
                   {discordWebhookState.error && (
-                    <Text color="alert" css={{ px: '$xl', fontSize: '$3' }}>
+                    <Text color="alert" css={{ fontSize: '$3' }}>
                       {discordWebhookState.error.message}
                     </Text>
                   )}
