@@ -435,6 +435,10 @@ const EpochForm = ({
           DateTime.fromISO(source.epoch.start_date).toISODate()) ??
         DateTime.now().setZone().plus({ days: 1 }).toISODate(),
       description: source.epoch?.description,
+      custom_duration_denomination: source.epoch?.repeat_data?.duration_unit,
+      custom_duration_qty: source.epoch?.repeat_data?.duration,
+      custom_interval_qty: source.epoch?.repeat_data?.frequency,
+      custom_interval_denomination: source.epoch?.repeat_data?.frequency_unit,
       custom_start_date: source.epoch?.repeat_data
         ? DateTime.fromISO(source.epoch.start_date).toISODate()
         : DateTime.now().plus({ days: 1 }).toISODate(),
@@ -451,10 +455,10 @@ const EpochForm = ({
 
   const [epochConfig, setEpochConfig] = useState<EpochConfig>({
     start_date: source?.epoch
-      ? getValues('start_date')
+      ? source.epoch.start_date
       : getValues('repeatStartDate'),
     end_date: source?.epoch
-      ? getValues('end_date')
+      ? source.epoch.end_date
       : findMonthlyEndDate(
           DateTime.fromISO(getValues('repeatStartDate'))
         ).toISO(),
