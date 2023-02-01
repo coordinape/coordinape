@@ -186,7 +186,7 @@ export const CreateForm = ({
           {contracts.getAvailableTokens().map(symbol => (
             <AssetButton
               pill
-              color="neutral"
+              color="secondary"
               key={symbol}
               data-selected={`${symbol}simple` === asset}
               onClick={event => pickAsset('simple', symbol, event)}
@@ -205,7 +205,7 @@ export const CreateForm = ({
           ))}
           <AssetButton
             pill
-            color="neutral"
+            color="secondary"
             data-selected={'customsimple' === asset}
             onClick={e => pickAsset('simple', 'custom', e)}
           >
@@ -252,7 +252,7 @@ export const CreateForm = ({
           {contracts.getAvailableTokens().map(symbol => (
             <AssetButton
               pill
-              color="neutral"
+              color="secondary"
               key={symbol}
               data-selected={`${symbol}yearn` === asset}
               onClick={event => pickAsset('yearn', symbol, event)}
@@ -294,6 +294,10 @@ const AssetButton = styled(Button, {
   pl: '$sm',
   pr: '$md',
   height: '37px',
+  '&[data-selected=true]': {
+    backgroundColor: '$primaryButton',
+    color: '$primaryButtonText',
+  },
 });
 
 const SavingInProgress = ({
