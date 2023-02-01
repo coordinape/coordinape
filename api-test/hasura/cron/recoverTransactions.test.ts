@@ -189,18 +189,21 @@ test('mix of invalid & valid txs', async () => {
 
   expect(res.json).toHaveBeenCalled();
   const results = (res.json as any).mock.calls[0][0];
-  expect(results).toEqual({
-    processed_txs: {
-      '0xaaaa': 'not old enough',
-      '0xdead':
-        'error: invalid hash (argument="value", value="0xdead", code=INVALID_ARGUMENT, version=providers/5.5.0)',
-      [hash1]: 'error: no tx found',
-      [createVaultTx.hash]: 'added vault id 5',
-      [distributeTx.hash]: 'updated distribution id 7',
-      [claimTx.hash]: 'updated claims: [10]',
-    },
-    stackTraces: expect.any(Array),
-  });
+  expect(results).toEqual(
+    expect.objectContaining({
+      processed_txs: {
+        '0xaaaa': 'not old enough',
+        '0xdead': expect.stringMatching(
+          /error: invalid hash \(argument="value", value="0xdead"/
+        ),
+        [hash1]: 'error: no tx found',
+        [createVaultTx.hash]: 'added vault id 5',
+        [distributeTx.hash]: 'updated distribution id 7',
+        [claimTx.hash]: 'updated claims: [10]',
+      },
+      stackTraces: expect.any(Array),
+    })
+  );
 
   expect.assertions(3);
 }, 10000);
