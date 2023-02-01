@@ -18,6 +18,9 @@ export const AllTypesProps: Record<string, any> = {
     },
   },
   CreateEpochInput: {
+    params: 'EpochInputParams',
+  },
+  CreateEpochOldInput: {
     start_date: 'timestamptz',
   },
   CreateNomineeInput: {},
@@ -31,6 +34,10 @@ export const AllTypesProps: Record<string, any> = {
   DeleteEpochInput: {},
   DeleteUserInput: {},
   DeleteUsersInput: {},
+  EpochInputParams: {
+    end_date: 'timestamptz',
+    start_date: 'timestamptz',
+  },
   GenerateApiKeyInput: {},
   Int_comparison_exp: {},
   LinkDiscordCircleInput: {},
@@ -1443,6 +1450,7 @@ export const AllTypesProps: Record<string, any> = {
       order_by: 'pending_token_gifts_order_by',
       where: 'pending_token_gifts_bool_exp',
     },
+    repeat_data: {},
     token_gifts: {
       distinct_on: 'token_gifts_select_column',
       order_by: 'token_gifts_order_by',
@@ -1497,6 +1505,7 @@ export const AllTypesProps: Record<string, any> = {
     notified_start: 'timestamp_comparison_exp',
     number: 'Int_comparison_exp',
     repeat: 'Int_comparison_exp',
+    repeat_data: 'jsonb_comparison_exp',
     repeat_day_of_month: 'Int_comparison_exp',
     start_date: 'timestamptz_comparison_exp',
     token_gifts: 'token_gifts_bool_exp',
@@ -1555,6 +1564,7 @@ export const AllTypesProps: Record<string, any> = {
     notified_start: 'order_by',
     number: 'order_by',
     repeat: 'order_by',
+    repeat_data: 'order_by',
     repeat_day_of_month: 'order_by',
     start_date: 'order_by',
     token_gifts_aggregate: 'token_gifts_aggregate_order_by',
@@ -1600,6 +1610,7 @@ export const AllTypesProps: Record<string, any> = {
     notified_before_end: 'timestamp',
     notified_end: 'timestamp',
     notified_start: 'timestamp',
+    repeat_data: 'jsonb',
     start_date: 'timestamptz',
     updated_at: 'timestamp',
   },
@@ -1904,6 +1915,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     createEpoch: {
       payload: 'CreateEpochInput',
+    },
+    createEpochOld: {
+      payload: 'CreateEpochOldInput',
     },
     createNominee: {
       payload: 'CreateNomineeInput',
@@ -4984,6 +4998,7 @@ export const ReturnTypes: Record<string, any> = {
     notified_start: 'timestamp',
     number: 'Int',
     repeat: 'Int',
+    repeat_data: 'jsonb',
     repeat_day_of_month: 'Int',
     start_date: 'timestamptz',
     token_gifts: 'token_gifts',
@@ -5033,6 +5048,7 @@ export const ReturnTypes: Record<string, any> = {
     allocationCsv: 'AllocationCsvResponse',
     createCircle: 'CreateCircleResponse',
     createEpoch: 'EpochResponse',
+    createEpochOld: 'EpochResponse',
     createNominee: 'CreateNomineeResponse',
     createSampleCircle: 'CreateSampleCircleResponse',
     createUserWithToken: 'UserResponse',

@@ -685,6 +685,10 @@ export type ValueTypes = {
   }>;
   ['CreateEpochInput']: {
     circle_id: number;
+    params: ValueTypes['EpochInputParams'];
+  };
+  ['CreateEpochOldInput']: {
+    circle_id: number;
     days: number;
     description?: string | undefined | null;
     grant?: number | undefined | null;
@@ -748,6 +752,18 @@ export type ValueTypes = {
     success?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  ['EpochInputParams']: {
+    duration?: number | undefined | null;
+    duration_unit?: string | undefined | null;
+    end_date: ValueTypes['timestamptz'];
+    frequency?: number | undefined | null;
+    frequency_unit?: string | undefined | null;
+    grant?: number | undefined | null;
+    start_date: ValueTypes['timestamptz'];
+    type: string;
+    week?: number | undefined | null;
+    weekday?: number | undefined | null;
+  };
   ['EpochResponse']: AliasType<{
     epoch?: ValueTypes['epochs'];
     id?: boolean | `@${string}`;
@@ -3809,6 +3825,12 @@ export type ValueTypes = {
     notified_start?: boolean | `@${string}`;
     number?: boolean | `@${string}`;
     repeat?: boolean | `@${string}`;
+    repeat_data?: [
+      {
+        /** JSON select path */ path?: string | undefined | null;
+      },
+      boolean | `@${string}`
+    ];
     repeat_day_of_month?: boolean | `@${string}`;
     start_date?: boolean | `@${string}`;
     token_gifts?: [
@@ -3912,6 +3934,7 @@ export type ValueTypes = {
     notified_start?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     number?: ValueTypes['Int_comparison_exp'] | undefined | null;
     repeat?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    repeat_data?: ValueTypes['jsonb_comparison_exp'] | undefined | null;
     repeat_day_of_month?: ValueTypes['Int_comparison_exp'] | undefined | null;
     start_date?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     token_gifts?: ValueTypes['token_gifts_bool_exp'] | undefined | null;
@@ -3978,6 +4001,7 @@ export type ValueTypes = {
     notified_start?: ValueTypes['order_by'] | undefined | null;
     number?: ValueTypes['order_by'] | undefined | null;
     repeat?: ValueTypes['order_by'] | undefined | null;
+    repeat_data?: ValueTypes['order_by'] | undefined | null;
     repeat_day_of_month?: ValueTypes['order_by'] | undefined | null;
     start_date?: ValueTypes['order_by'] | undefined | null;
     token_gifts_aggregate?:
@@ -4040,6 +4064,7 @@ export type ValueTypes = {
     notified_start?: ValueTypes['timestamp'] | undefined | null;
     number?: number | undefined | null;
     repeat?: number | undefined | null;
+    repeat_data?: ValueTypes['jsonb'] | undefined | null;
     repeat_day_of_month?: number | undefined | null;
     start_date?: ValueTypes['timestamptz'] | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
@@ -4586,6 +4611,10 @@ export type ValueTypes = {
     ];
     createEpoch?: [
       { payload: ValueTypes['CreateEpochInput'] },
+      ValueTypes['EpochResponse']
+    ];
+    createEpochOld?: [
+      { payload: ValueTypes['CreateEpochOldInput'] },
       ValueTypes['EpochResponse']
     ];
     createNominee?: [
@@ -10464,6 +10493,7 @@ export type ModelTypes = {
     users: Array<GraphQLTypes['users']>;
   };
   ['CreateEpochInput']: GraphQLTypes['CreateEpochInput'];
+  ['CreateEpochOldInput']: GraphQLTypes['CreateEpochOldInput'];
   ['CreateNomineeInput']: GraphQLTypes['CreateNomineeInput'];
   ['CreateNomineeResponse']: {
     id?: number | undefined;
@@ -10487,6 +10517,7 @@ export type ModelTypes = {
   ['DeleteUsersResponse']: {
     success: boolean;
   };
+  ['EpochInputParams']: GraphQLTypes['EpochInputParams'];
   ['EpochResponse']: {
     epoch?: GraphQLTypes['epochs'] | undefined;
     id: string;
@@ -11556,6 +11587,7 @@ export type ModelTypes = {
     notified_start?: GraphQLTypes['timestamp'] | undefined;
     number?: number | undefined;
     repeat: number;
+    repeat_data?: GraphQLTypes['jsonb'] | undefined;
     repeat_day_of_month: number;
     start_date: GraphQLTypes['timestamptz'];
     /** An array relationship */
@@ -11741,7 +11773,9 @@ export type ModelTypes = {
     adminUpdateUser?: GraphQLTypes['UserResponse'] | undefined;
     allocationCsv?: GraphQLTypes['AllocationCsvResponse'] | undefined;
     createCircle?: GraphQLTypes['CreateCircleResponse'] | undefined;
+    /** create epoch using new, more flexible api */
     createEpoch?: GraphQLTypes['EpochResponse'] | undefined;
+    createEpochOld?: GraphQLTypes['EpochResponse'] | undefined;
     createNominee?: GraphQLTypes['CreateNomineeResponse'] | undefined;
     createSampleCircle?: GraphQLTypes['CreateSampleCircleResponse'] | undefined;
     createUserWithToken?: GraphQLTypes['UserResponse'] | undefined;
@@ -13344,6 +13378,10 @@ export type GraphQLTypes = {
   };
   ['CreateEpochInput']: {
     circle_id: number;
+    params: GraphQLTypes['EpochInputParams'];
+  };
+  ['CreateEpochOldInput']: {
+    circle_id: number;
     days: number;
     description?: string | undefined;
     grant?: number | undefined;
@@ -13406,6 +13444,18 @@ export type GraphQLTypes = {
   ['DeleteUsersResponse']: {
     __typename: 'DeleteUsersResponse';
     success: boolean;
+  };
+  ['EpochInputParams']: {
+    duration?: number | undefined;
+    duration_unit?: string | undefined;
+    end_date: GraphQLTypes['timestamptz'];
+    frequency?: number | undefined;
+    frequency_unit?: string | undefined;
+    grant?: number | undefined;
+    start_date: GraphQLTypes['timestamptz'];
+    type: string;
+    week?: number | undefined;
+    weekday?: number | undefined;
   };
   ['EpochResponse']: {
     __typename: 'EpochResponse';
@@ -15931,6 +15981,7 @@ export type GraphQLTypes = {
     notified_start?: GraphQLTypes['timestamp'] | undefined;
     number?: number | undefined;
     repeat: number;
+    repeat_data?: GraphQLTypes['jsonb'] | undefined;
     repeat_day_of_month: number;
     start_date: GraphQLTypes['timestamptz'];
     /** An array relationship */
@@ -15987,6 +16038,7 @@ export type GraphQLTypes = {
     notified_start?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     number?: GraphQLTypes['Int_comparison_exp'] | undefined;
     repeat?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    repeat_data?: GraphQLTypes['jsonb_comparison_exp'] | undefined;
     repeat_day_of_month?: GraphQLTypes['Int_comparison_exp'] | undefined;
     start_date?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     token_gifts?: GraphQLTypes['token_gifts_bool_exp'] | undefined;
@@ -16051,6 +16103,7 @@ export type GraphQLTypes = {
     notified_start?: GraphQLTypes['order_by'] | undefined;
     number?: GraphQLTypes['order_by'] | undefined;
     repeat?: GraphQLTypes['order_by'] | undefined;
+    repeat_data?: GraphQLTypes['order_by'] | undefined;
     repeat_day_of_month?: GraphQLTypes['order_by'] | undefined;
     start_date?: GraphQLTypes['order_by'] | undefined;
     token_gifts_aggregate?:
@@ -16112,6 +16165,7 @@ export type GraphQLTypes = {
     notified_start?: GraphQLTypes['timestamp'] | undefined;
     number?: number | undefined;
     repeat?: number | undefined;
+    repeat_data?: GraphQLTypes['jsonb'] | undefined;
     repeat_day_of_month?: number | undefined;
     start_date?: GraphQLTypes['timestamptz'] | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
@@ -16590,7 +16644,9 @@ export type GraphQLTypes = {
     adminUpdateUser?: GraphQLTypes['UserResponse'] | undefined;
     allocationCsv?: GraphQLTypes['AllocationCsvResponse'] | undefined;
     createCircle?: GraphQLTypes['CreateCircleResponse'] | undefined;
+    /** create epoch using new, more flexible api */
     createEpoch?: GraphQLTypes['EpochResponse'] | undefined;
+    createEpochOld?: GraphQLTypes['EpochResponse'] | undefined;
     createNominee?: GraphQLTypes['CreateNomineeResponse'] | undefined;
     createSampleCircle?: GraphQLTypes['CreateSampleCircleResponse'] | undefined;
     createUserWithToken?: GraphQLTypes['UserResponse'] | undefined;
@@ -19785,6 +19841,7 @@ export const enum epochs_select_column {
   notified_start = 'notified_start',
   number = 'number',
   repeat = 'repeat',
+  repeat_data = 'repeat_data',
   repeat_day_of_month = 'repeat_day_of_month',
   start_date = 'start_date',
   updated_at = 'updated_at',

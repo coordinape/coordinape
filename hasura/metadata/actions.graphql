@@ -11,6 +11,10 @@ type Mutation {
 }
 
 type Mutation {
+  createEpochOld(payload: CreateEpochOldInput!): EpochResponse
+}
+
+type Mutation {
   createEpoch(payload: CreateEpochInput!): EpochResponse
 }
 
@@ -202,7 +206,7 @@ input VouchInput {
   nominee_id: Int!
 }
 
-input CreateEpochInput {
+input CreateEpochOldInput {
   circle_id: Int!
   start_date: timestamptz!
   days: Int!
@@ -393,6 +397,24 @@ input UpdateProfileInput {
   github_username: String
   medium_username: String
   website: String
+}
+
+input EpochInputParams {
+  type: String!
+  start_date: timestamptz!
+  end_date: timestamptz!
+  frequency: Int
+  frequency_unit: String
+  duration: Int
+  duration_unit: String
+  weekday: Int
+  week: Int
+  grant: Float
+}
+
+input CreateEpochInput {
+  circle_id: Int!
+  params: EpochInputParams!
 }
 
 type CreateCircleResponse {
