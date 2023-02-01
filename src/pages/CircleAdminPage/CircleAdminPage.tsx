@@ -29,6 +29,7 @@ import {
   Link,
   Flex,
   Form,
+  FormGroup,
   HR,
   Panel,
   Text,
@@ -805,17 +806,21 @@ export const CircleAdminPage = () => {
                 Discord Webhook
               </Text>
               {allowEdit && (
-                <>
+                <FormGroup>
                   <Text variant="label" as="label">
                     Webhook Url
                   </Text>
-                  <TextField readOnly={!allowEdit} {...discordWebhook} />
+                  <TextField
+                    error={discordWebhookState.error ? true : false}
+                    readOnly={!allowEdit}
+                    {...discordWebhook}
+                  />
                   {discordWebhookState.error && (
-                    <Text color="alert" css={{ fontSize: '$3' }}>
+                    <Text color="alert" css={{ fontSize: '$small' }}>
                       {discordWebhookState.error.message}
                     </Text>
                   )}
-                </>
+                </FormGroup>
               )}
 
               <div>
