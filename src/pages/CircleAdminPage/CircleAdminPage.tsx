@@ -29,11 +29,9 @@ import {
   Link,
   Flex,
   Form,
-  FormGroup,
   HR,
   Panel,
   Text,
-  TextField,
   Tooltip,
   CheckBox,
   AppLink,
@@ -276,12 +274,11 @@ export const CircleAdminPage = () => {
     defaultValue: !circle?.show_pending_gives,
   });
 
-  const { field: discordWebhook, fieldState: discordWebhookState } =
-    useController({
-      name: 'discord_webhook',
-      control,
-      defaultValue: '',
-    });
+  const { field: discordWebhook } = useController({
+    name: 'discord_webhook',
+    control,
+    defaultValue: '',
+  });
 
   const watchFixedPaymentVaultId = watch('fixed_payment_vault_id');
 
@@ -806,21 +803,17 @@ export const CircleAdminPage = () => {
                 Discord Webhook
               </Text>
               {allowEdit && (
-                <FormGroup>
-                  <Text variant="label" as="label">
-                    Webhook Url
-                  </Text>
-                  <TextField
-                    error={discordWebhookState.error ? true : false}
-                    readOnly={!allowEdit}
-                    {...discordWebhook}
-                  />
-                  {discordWebhookState.error && (
-                    <Text color="alert" css={{ fontSize: '$small' }}>
-                      {discordWebhookState.error.message}
-                    </Text>
-                  )}
-                </FormGroup>
+                <FormInputField
+                  control={control}
+                  css={{
+                    alignItems: 'flex-start',
+                    input: { width: '100%', maxWidth: '30rem' },
+                  }}
+                  id="discord_webhook"
+                  name="discord_webhook"
+                  label="Webhook Url"
+                  showFieldErrors
+                />
               )}
 
               <div>
