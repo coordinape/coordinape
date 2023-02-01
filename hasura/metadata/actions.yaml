@@ -28,15 +28,6 @@ actions:
           value_from_env: HASURA_EVENT_SECRET
     permissions:
       - role: user
-  - name: createEpochOld
-    definition:
-      kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=createEpochOld'
-      headers:
-        - name: verification_key
-          value_from_env: HASURA_EVENT_SECRET
-    permissions:
-      - role: user
   - name: createEpoch
     definition:
       kind: synchronous
@@ -47,6 +38,15 @@ actions:
     permissions:
       - role: user
     comment: create epoch using new, more flexible api
+  - name: createEpochOld
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=createEpochOld'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
   - name: createNominee
     definition:
       kind: synchronous
@@ -248,6 +248,15 @@ actions:
           value_from_env: HASURA_EVENT_SECRET
     permissions:
       - role: user
+  - name: updateEpochOld
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=updateEpochOld'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
   - name: updateProfile
     definition:
       kind: synchronous
@@ -343,6 +352,7 @@ custom_types:
     - name: UpdateTeammatesInput
     - name: DeleteUserInput
     - name: UpdateCircleInput
+    - name: UpdateEpochOldInput
     - name: UpdateEpochInput
     - name: Allocation
     - name: Allocations

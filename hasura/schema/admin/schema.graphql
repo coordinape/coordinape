@@ -161,6 +161,7 @@ type CreateCircleResponse {
 
 input CreateEpochInput {
   circle_id: Int!
+  grant: Float
   params: EpochInputParams!
 }
 
@@ -249,7 +250,6 @@ input EpochInputParams {
   end_date: timestamptz!
   frequency: Int
   frequency_unit: String
-  grant: Float
   start_date: timestamptz!
   type: String!
   week: Int
@@ -454,6 +454,14 @@ type UpdateContributionResponse {
 }
 
 input UpdateEpochInput {
+  circle_id: Int!
+  description: String
+  grant: Float
+  id: Int!
+  params: EpochInputParams
+}
+
+input UpdateEpochOldInput {
   circle_id: Int!
   days: Int!
   description: String
@@ -13929,6 +13937,7 @@ type mutation_root {
     payload: UpdateContributionInput!
   ): UpdateContributionResponse
   updateEpoch(payload: UpdateEpochInput!): EpochResponse
+  updateEpochOld(payload: UpdateEpochOldInput!): EpochResponse
   updateProfile(payload: UpdateProfileInput!): UpdateProfileResponse
   updateTeammates(payload: UpdateTeammatesInput!): UpdateTeammatesResponse
 

@@ -502,9 +502,9 @@ export async function updateEpoch(
   epochId: number,
   params: UpdateCreateEpochParam
 ) {
-  const { updateEpoch } = await client.mutate(
+  const { updateEpochOld } = await client.mutate(
     {
-      updateEpoch: [
+      updateEpochOld: [
         {
           payload: {
             circle_id: circleId,
@@ -518,10 +518,10 @@ export async function updateEpoch(
       ],
     },
     {
-      operationName: 'updateEpoch',
+      operationName: 'updateEpochOld',
     }
   );
-  return updateEpoch;
+  return updateEpochOld;
 }
 
 export async function allocationCsv(

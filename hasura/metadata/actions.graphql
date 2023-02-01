@@ -11,11 +11,11 @@ type Mutation {
 }
 
 type Mutation {
-  createEpochOld(payload: CreateEpochOldInput!): EpochResponse
+  createEpoch(payload: CreateEpochInput!): EpochResponse
 }
 
 type Mutation {
-  createEpoch(payload: CreateEpochInput!): EpochResponse
+  createEpochOld(payload: CreateEpochOldInput!): EpochResponse
 }
 
 type Mutation {
@@ -106,6 +106,10 @@ type Mutation {
 
 type Mutation {
   updateEpoch(payload: UpdateEpochInput!): EpochResponse
+}
+
+type Mutation {
+  updateEpochOld(payload: UpdateEpochOldInput!): EpochResponse
 }
 
 type Mutation {
@@ -246,7 +250,7 @@ input UpdateCircleInput {
   show_pending_gives: Boolean
 }
 
-input UpdateEpochInput {
+input UpdateEpochOldInput {
   id: Int!
   circle_id: Int!
   start_date: timestamptz!
@@ -254,6 +258,14 @@ input UpdateEpochInput {
   repeat: Int!
   grant: Float
   description: String
+}
+
+input UpdateEpochInput {
+  id: Int!
+  circle_id: Int!
+  grant: Float
+  description: String
+  params: EpochInputParams
 }
 
 input Allocation {
@@ -409,11 +421,11 @@ input EpochInputParams {
   duration_unit: String
   weekday: Int
   week: Int
-  grant: Float
 }
 
 input CreateEpochInput {
   circle_id: Int!
+  grant: Float
   params: EpochInputParams!
 }
 

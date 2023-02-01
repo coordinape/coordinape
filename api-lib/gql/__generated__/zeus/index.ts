@@ -710,6 +710,7 @@ export type ValueTypes = {
   }>;
   ['CreateEpochInput']: {
     circle_id: number;
+    grant?: number | undefined | null;
     params: ValueTypes['EpochInputParams'];
   };
   ['CreateEpochOldInput']: {
@@ -786,7 +787,6 @@ export type ValueTypes = {
     end_date: ValueTypes['timestamptz'];
     frequency?: number | undefined | null;
     frequency_unit?: string | undefined | null;
-    grant?: number | undefined | null;
     start_date: ValueTypes['timestamptz'];
     type: string;
     week?: number | undefined | null;
@@ -947,6 +947,13 @@ export type ValueTypes = {
     __typename?: boolean | `@${string}`;
   }>;
   ['UpdateEpochInput']: {
+    circle_id: number;
+    description?: string | undefined | null;
+    grant?: number | undefined | null;
+    id: number;
+    params?: ValueTypes['EpochInputParams'] | undefined | null;
+  };
+  ['UpdateEpochOldInput']: {
     circle_id: number;
     days: number;
     description?: string | undefined | null;
@@ -9957,6 +9964,10 @@ export type ValueTypes = {
     ];
     updateEpoch?: [
       { payload: ValueTypes['UpdateEpochInput'] },
+      ValueTypes['EpochResponse']
+    ];
+    updateEpochOld?: [
+      { payload: ValueTypes['UpdateEpochOldInput'] },
       ValueTypes['EpochResponse']
     ];
     updateProfile?: [
@@ -21309,6 +21320,7 @@ export type ModelTypes = {
     updateContribution_Contribution?: GraphQLTypes['contributions'] | undefined;
   };
   ['UpdateEpochInput']: GraphQLTypes['UpdateEpochInput'];
+  ['UpdateEpochOldInput']: GraphQLTypes['UpdateEpochOldInput'];
   ['UpdateOrgResponse']: {
     id: number;
     org?: GraphQLTypes['organizations'] | undefined;
@@ -25294,6 +25306,7 @@ export type ModelTypes = {
     /** users can modify contributions and update their dates. */
     updateContribution?: GraphQLTypes['UpdateContributionResponse'] | undefined;
     updateEpoch?: GraphQLTypes['EpochResponse'] | undefined;
+    updateEpochOld?: GraphQLTypes['EpochResponse'] | undefined;
     updateProfile?: GraphQLTypes['UpdateProfileResponse'] | undefined;
     updateTeammates?: GraphQLTypes['UpdateTeammatesResponse'] | undefined;
     /** Update own user */
@@ -28766,6 +28779,7 @@ export type GraphQLTypes = {
   };
   ['CreateEpochInput']: {
     circle_id: number;
+    grant?: number | undefined;
     params: GraphQLTypes['EpochInputParams'];
   };
   ['CreateEpochOldInput']: {
@@ -28842,7 +28856,6 @@ export type GraphQLTypes = {
     end_date: GraphQLTypes['timestamptz'];
     frequency?: number | undefined;
     frequency_unit?: string | undefined;
-    grant?: number | undefined;
     start_date: GraphQLTypes['timestamptz'];
     type: string;
     week?: number | undefined;
@@ -29003,6 +29016,13 @@ export type GraphQLTypes = {
     updateContribution_Contribution?: GraphQLTypes['contributions'] | undefined;
   };
   ['UpdateEpochInput']: {
+    circle_id: number;
+    description?: string | undefined;
+    grant?: number | undefined;
+    id: number;
+    params?: GraphQLTypes['EpochInputParams'] | undefined;
+  };
+  ['UpdateEpochOldInput']: {
     circle_id: number;
     days: number;
     description?: string | undefined;
@@ -36207,6 +36227,7 @@ export type GraphQLTypes = {
     /** users can modify contributions and update their dates. */
     updateContribution?: GraphQLTypes['UpdateContributionResponse'] | undefined;
     updateEpoch?: GraphQLTypes['EpochResponse'] | undefined;
+    updateEpochOld?: GraphQLTypes['EpochResponse'] | undefined;
     updateProfile?: GraphQLTypes['UpdateProfileResponse'] | undefined;
     updateTeammates?: GraphQLTypes['UpdateTeammatesResponse'] | undefined;
     /** Update own user */
