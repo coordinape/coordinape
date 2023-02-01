@@ -14,7 +14,7 @@ export const SvgPlusCircle = (props: SvgIconProps) => (
     height={24}
     fill="none"
     stroke="currentColor"
-    strokeWidth={2}
+    strokeWidth={1}
     strokeLinecap="round"
     strokeLinejoin="round"
     className="plus-circle_svg__feather plus-circle_svg__feather-plus-circle"
