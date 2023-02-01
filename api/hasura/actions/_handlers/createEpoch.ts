@@ -21,11 +21,7 @@ Settings.defaultZone = 'utc';
 
 type ErrorReturn = Error | undefined;
 
-const zFrequencyUnits = z.union([
-  z.literal('days'),
-  z.literal('weeks'),
-  z.literal('months'),
-]);
+const zFrequencyUnits = z.enum(['days', 'weeks', 'months']);
 
 const zCustomInputSchema = z
   .object({

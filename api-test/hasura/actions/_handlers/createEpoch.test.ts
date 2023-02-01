@@ -576,17 +576,13 @@ describe('createEpoch', () => {
           duration: { _errors: ['Number must be greater than or equal to 1'] },
           duration_unit: {
             _errors: [
-              'Invalid literal value, expected "days"',
-              'Invalid literal value, expected "weeks"',
-              'Invalid literal value, expected "months"',
+              "Invalid enum value. Expected 'days' | 'weeks' | 'months', received 'years'",
             ],
           },
           frequency: { _errors: ['Expected number, received nan'] },
           frequency_unit: {
             _errors: [
-              'Invalid literal value, expected "days"',
-              'Invalid literal value, expected "weeks"',
-              'Invalid literal value, expected "months"',
+              "Invalid enum value. Expected 'days' | 'weeks' | 'months', received 'years'",
             ],
           },
         });
@@ -601,19 +597,11 @@ describe('createEpoch', () => {
           end_date: { _errors: ['Required'] },
           duration: { _errors: ['Expected number, received nan'] },
           duration_unit: {
-            _errors: [
-              'Invalid literal value, expected "days"',
-              'Invalid literal value, expected "weeks"',
-              'Invalid literal value, expected "months"',
-            ],
+            _errors: ['Required'],
           },
           frequency: { _errors: ['Expected number, received nan'] },
           frequency_unit: {
-            _errors: [
-              'Invalid literal value, expected "days"',
-              'Invalid literal value, expected "weeks"',
-              'Invalid literal value, expected "months"',
-            ],
+            _errors: ['Required'],
           },
         });
     });
