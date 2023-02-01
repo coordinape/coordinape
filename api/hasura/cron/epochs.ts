@@ -227,7 +227,7 @@ export async function notifyEpochStart({
         message,
         circleId: circle.id,
         channels: {
-          discord: {
+          discordBot: {
             type: 'start' as const,
             channelId: '1067789668290146324', // TODO Find this from the circle
             roleId: '1058334400540061747', // TODO Find this from the circle
@@ -295,7 +295,7 @@ export async function notifyEpochEnd({
           message,
           circleId: circle.id,
           channels: {
-            discord: {
+            discordBot: {
               type: 'end' as const,
               channelId: '1067789668290146324', // TODO Find this from the circle
               roleId: '1058334400540061747', // TODO Find this from the circle

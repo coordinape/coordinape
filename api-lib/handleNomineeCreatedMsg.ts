@@ -24,9 +24,9 @@ function getChannels(props: GetChannelsProps): Channels<DiscordNomination> {
     vouches_required,
   } = props || {};
 
-  if (isFeatureEnabled('discord') && channels.discord) {
+  if (isFeatureEnabled('discord') && channels.discordBot) {
     return {
-      discord: {
+      discordBot: {
         type: 'nomination' as const,
         channelId: '1067789668290146324', // TODO Find this from the circle
         roleId: '1058334400540061747', // TODO Find this from the circle

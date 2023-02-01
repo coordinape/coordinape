@@ -5,7 +5,6 @@ import { isFeatureEnabled } from '../src/config/features';
 import { TELEGRAM_BOT_BASE_URL } from './config';
 import { DISCORD_BOT_NAME, DISCORD_BOT_AVATAR_URL } from './constants';
 import * as queries from './gql/queries';
-import { isDiscordEpochEvent } from './utils/isDiscordEpochEvent';
 
 export type DiscordEpochEvent = {
   channelId: string;
@@ -13,7 +12,8 @@ export type DiscordEpochEvent = {
 };
 
 export type Channels<T> = {
-  discord?: T | boolean; // `boolean` just for backward compatibility for now, will be removed
+  discord?: boolean;
+  discordBot?: T;
   telegram?: boolean;
 };
 
@@ -112,8 +112,8 @@ export async function sendSocialMessage({
 
   const { circles_by_pk: circle } = await queries.getCircle(circleId);
 
-  if (isFeatureEnabled('discord') && isDiscordEpochEvent(channels.discord)) {
-    const { type } = channels.discord;
+  if (isFeatureEnabled('discord') && channels.discordBot) {
+    const { type } = channels.discordBot;
     // TODO Fix the discord bot endpoint
     const res = await fetch(`http://localhost:4000/api/epoch/${type}`, {
       method: 'POST',
@@ -128,12 +128,7 @@ export async function sendSocialMessage({
     }
   }
 
-  if (
-    !isFeatureEnabled('discord') &&
-    !isDiscordEpochEvent(channels.discord) &&
-    channels?.discord &&
-    circle?.discord_webhook
-  ) {
+  if (channels?.discord && circle?.discord_webhook) {
     const discordWebhookPost = {
       content: msg,
       username: DISCORD_BOT_NAME,

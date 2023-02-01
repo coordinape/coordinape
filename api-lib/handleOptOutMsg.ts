@@ -20,9 +20,9 @@ type GetChannelsProps = {
 function getChannels(props: GetChannelsProps): Channels<DiscordOptsOut> {
   const { channels, circle, data } = props || {};
 
-  if (isFeatureEnabled('discord') && channels.discord) {
+  if (isFeatureEnabled('discord') && channels.discordBot) {
     return {
-      discord: {
+      discordBot: {
         type: 'user-opts-out' as const,
         channelId: '1067789668290146324', // TODO Find this from the circle
         roleId: '1058334400540061747', // TODO Find this from the circle
