@@ -322,11 +322,6 @@ export const {
     transitions: {
       quick: 'all 0.2s',
     },
-    toastify: {
-      'color-progress-light': 'var(--colors-text) !important',
-      'color-progress-success': 'var(--toastify-text-color-success) !important',
-      'color-progress-error': 'var(--toastify-text-color-error) !important',
-    },
     textTransforms: {
       label: 'uppercase',
     },

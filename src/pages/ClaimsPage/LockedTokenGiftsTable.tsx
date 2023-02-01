@@ -11,10 +11,10 @@ import { getLockedTokenGifts } from './queries';
 export default function LockedTokenGiftsTable() {
   const profile = useMyProfile();
   const [lockedTokenGifts, setLockedTokenGifts] = useState([] as any[]);
-  const hedgeyPortfolioUrl = (chainId: string) =>
-    chainId === '1'
-      ? 'https://app.hedgey.finance/my-rewards'
-      : 'https://hedgey-app-v2-git-coordinape-test-hedgey-finance.vercel.app/my-rewards';
+  const hedgeyPortfolioUrl = (chainId: number) =>
+    chainId === 5
+      ? 'https://hedgey-app-v2-git-coordinape-test-hedgey-finance.vercel.app/my-rewards'
+      : 'https://app.hedgey.finance/my-rewards';
 
   useEffect(() => {
     getLockedTokenGifts(profile.id).then(setLockedTokenGifts);
