@@ -32,7 +32,7 @@ export const AssetMapPage = () => {
     <Box
       css={{
         position: 'relative',
-        height: '100%',
+        height: '100vh',
       }}
     >
       <AMDrawer />
