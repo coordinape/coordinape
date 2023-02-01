@@ -38,7 +38,6 @@ import {
   Divider,
   Flex,
   Form,
-  FormLabel,
   Link,
   Modal,
   Tooltip,
@@ -526,7 +525,7 @@ const MemberRow = ({
                     disabled={true}
                   />
                   <Flex column alignItems="center" css={{ gap: '$md' }}>
-                    <FormLabel type="label">
+                    <Text variant="label" as="label">
                       Circle Admin{' '}
                       <Tooltip
                         css={{ ml: '$xs' }}
@@ -541,7 +540,7 @@ const MemberRow = ({
                       >
                         <Info size="sm" />
                       </Tooltip>
-                    </FormLabel>
+                    </Text>
                     <CheckBox {...userRole} />
                   </Flex>
                 </Flex>
@@ -573,7 +572,7 @@ const MemberRow = ({
                   </Text>
                   <Flex css={{ gap: '$md', mb: '$md', flexWrap: 'wrap' }}>
                     <Flex column css={{ gap: '$xs' }}>
-                      <FormLabel type="label">
+                      <Text variant="label" as="label">
                         Give Tokens?
                         <Tooltip
                           content={
@@ -592,7 +591,7 @@ const MemberRow = ({
                         >
                           <Info size="sm" />
                         </Tooltip>
-                      </FormLabel>
+                      </Text>
                       <Flex css={{ gap: '$sm', flexWrap: 'wrap' }}>
                         <ToggleButton
                           color="complete"
@@ -619,7 +618,7 @@ const MemberRow = ({
                       </Flex>
                     </Flex>
                     <Flex column css={{ gap: '$xs' }}>
-                      <FormLabel type="label">
+                      <Text variant="label" as="label">
                         Receive Tokens?
                         <Tooltip
                           content={
@@ -638,7 +637,7 @@ const MemberRow = ({
                         >
                           <Info size="sm" />
                         </Tooltip>
-                      </FormLabel>
+                      </Text>
                       <Flex css={{ flexWrap: 'wrap', gap: '$sm' }}>
                         <ToggleButton
                           color="complete"

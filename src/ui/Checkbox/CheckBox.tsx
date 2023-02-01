@@ -13,7 +13,7 @@ const CheckboxRoot = styled(CheckboxPrimitive.Root, {
     pointerEvents: 'visible',
   },
   all: 'unset',
-  backgroundColor: '$surface',
+  backgroundColor: '$formRadioBackground',
   boxSizing: 'border-box',
   borderRadius: '$1',
   display: 'flex',
@@ -22,15 +22,24 @@ const CheckboxRoot = styled(CheckboxPrimitive.Root, {
   width: '$lg',
   height: '$lg',
   cursor: 'pointer',
-  '&:hover': { borderColor: '$borderMedium' },
-  '&:focus': { borderColor: '$borderMedium' },
+  border: '2px solid',
+  '&:hover, &:focus': {
+    borderColor: '$formRadioBorderSelected',
+  },
+  "&[data-state='checked']": {
+    borderColor: 'transparent',
+    backgroundColor: '$formRadioBorderSelected',
+    svg: {
+      color: '$surface',
+    },
+  },
   variants: {
     border: {
       default: {
-        border: '2px solid $border',
+        borderColor: '$formRadioBorderUnselected',
       },
       error: {
-        border: '2px solid $alert',
+        borderColor: '$alert',
       },
     },
   },
@@ -45,9 +54,8 @@ const CheckboxIndicator = styled(CheckboxPrimitive.Indicator, {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  color: '$complete',
-  backgroundColor: '$transparent',
-  transform: 'scale(1.5)',
+  color: '$formRadioBorderSelected',
+  transform: 'scale(1.2)',
 });
 
 const Label = styled('label', {

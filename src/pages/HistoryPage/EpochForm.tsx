@@ -16,17 +16,7 @@ import {
 import { useApiAdminCircle } from 'hooks';
 import { Info } from 'icons/__generated';
 import { QUERY_KEY_MY_ORGS } from 'pages/CirclesPage/getOrgData';
-import {
-  Box,
-  Flex,
-  Form,
-  FormLabel,
-  Link,
-  Text,
-  Button,
-  Panel,
-  Tooltip,
-} from 'ui';
+import { Box, Flex, Form, Link, Text, Button, Panel, Tooltip } from 'ui';
 import { TwoColumnLayout } from 'ui/layouts';
 
 import { IQueryEpoch, QueryFutureEpoch } from './getHistoryData';
@@ -439,12 +429,12 @@ const EpochForm = ({
                     gap: '$xs',
                   }}
                 >
-                  <FormLabel type="label" css={{ fontWeight: '$bold' }}>
+                  <Text variant="label" as="label">
                     Start Date{' '}
                     <Tooltip content="The first day of the epoch in your local time zone">
                       <Info size="sm" />
                     </Tooltip>
-                  </FormLabel>
+                  </Text>
                   <Controller
                     control={control}
                     name="start_date"
@@ -479,12 +469,12 @@ const EpochForm = ({
                   />
                 </Flex>
                 <Flex column css={{ gap: '$xs' }}>
-                  <FormLabel type="label" css={{ fontWeight: '$bold' }}>
+                  <Text variant="label" as="label">
                     Start Time{' '}
                     <Tooltip content="The start time of the epoch in your local time zone">
                       <Info size="sm" />
                     </Tooltip>
-                  </FormLabel>
+                  </Text>
                   <Flex row css={{ gap: '$sm' }}>
                     <Controller
                       control={control}

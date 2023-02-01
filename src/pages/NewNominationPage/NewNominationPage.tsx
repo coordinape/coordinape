@@ -17,7 +17,6 @@ import {
   Button,
   Text,
   TextField,
-  FormLabel,
   Box,
   AppLink,
   Flex,
@@ -194,7 +193,7 @@ export const NewNominationPage = () => {
                 'column-gap': '$lg',
               }}
             >
-              <FormLabel htmlFor="name" type="label">
+              <Text variant="label" as="label" htmlFor="name">
                 Name
                 <Tooltip
                   content={
@@ -206,8 +205,8 @@ export const NewNominationPage = () => {
                 >
                   <Info size="sm" />
                 </Tooltip>
-              </FormLabel>
-              <FormLabel htmlFor="address" type="label">
+              </Text>
+              <Text variant="label" as="label" htmlFor="address">
                 ETH Address
                 <Tooltip
                   content={
@@ -219,7 +218,7 @@ export const NewNominationPage = () => {
                 >
                   <Info size="sm" />
                 </Tooltip>
-              </FormLabel>
+              </Text>
               <TextField
                 css={{ height: '$2xl', width: '100%' }}
                 id="name"
@@ -241,7 +240,7 @@ export const NewNominationPage = () => {
                   mt: '$1xl',
                 }}
               >
-                <FormLabel htmlFor="description" type="label">
+                <Text variant="label" as="label" htmlFor="description">
                   Why are you nominating this person?
                   <Tooltip
                     content={
@@ -253,7 +252,7 @@ export const NewNominationPage = () => {
                   >
                     <Info size="sm" />
                   </Tooltip>
-                </FormLabel>
+                </Text>
                 <TextArea
                   autoSize
                   rows={4}

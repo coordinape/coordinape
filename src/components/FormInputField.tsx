@@ -9,7 +9,7 @@ import {
 import type { CSS } from 'stitches.config';
 
 import { Info } from 'icons/__generated';
-import { Flex, FormLabel, Text, TextArea, TextField, Tooltip } from 'ui';
+import { Flex, Text, TextArea, TextField, Tooltip } from 'ui';
 
 type TextFieldProps = React.ComponentProps<typeof TextField>;
 type TextAreaProps = React.ComponentProps<typeof TextArea>;
@@ -76,22 +76,14 @@ export const FormInputField = <TFieldValues extends FieldValues>(
       }}
     >
       {(label || infoTooltip) && (
-        <FormLabel
-          type="label"
-          css={{
-            fontWeight: '$bold',
-            display: 'inline-flex',
-            alignItems: 'center',
-          }}
-          htmlFor={id}
-        >
+        <Text variant="label" as="label" htmlFor={id}>
           {label}{' '}
           {infoTooltip && (
             <Tooltip content={<div>{infoTooltip}</div>}>
               <Info size="sm" />
             </Tooltip>
           )}
-        </FormLabel>
+        </Text>
       )}
       {description && <Text size="small">{description}</Text>}
       {!textArea && (

@@ -5,7 +5,7 @@ import { CSS, disabledStyle, styled } from 'stitches.config';
 
 import { modifyVariantsForStory } from '../type-utils';
 import { Check, ChevronDown, ChevronUp, Info } from 'icons/__generated';
-import { Flex, FormLabel, Tooltip } from 'ui';
+import { Flex, Text, Tooltip } from 'ui';
 
 const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
   all: 'unset',
@@ -137,14 +137,14 @@ export const Select = (
       }}
     >
       {(label || infoTooltip) && (
-        <FormLabel type="label" css={{ fontWeight: '$bold' }} htmlFor={id}>
+        <Text variant="label" as="label" htmlFor={id}>
           {label}{' '}
           {infoTooltip && (
             <Tooltip content={<div>{infoTooltip}</div>}>
               <Info size="sm" />
             </Tooltip>
           )}
-        </FormLabel>
+        </Text>
       )}
       <RadixSelect defaultValue={defaultValue} {...props}>
         <SelectTrigger disabled={disabled}>

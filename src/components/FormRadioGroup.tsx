@@ -10,11 +10,11 @@ import {
 import { Info } from 'icons/__generated';
 import {
   Flex,
-  FormLabel,
   RadioGroupRoot,
   RadioGroupIndicator,
   RadioGroupRadio,
   Tooltip,
+  Text,
 } from 'ui';
 
 type TFormRadioGroup<TFieldValues extends FieldValues> = {
@@ -46,21 +46,14 @@ export const FormRadioGroup = <TFieldValues extends FieldValues>(
         pointerEvents: disabled ? 'none' : 'auto',
       }}
     >
-      <FormLabel
-        type="label"
-        css={{
-          fontWeight: '$bold',
-          display: 'inline-flex',
-          alignItems: 'center',
-        }}
-      >
+      <Text variant="label" as="label">
         {label}{' '}
         {infoTooltip && (
           <Tooltip content={infoTooltip}>
             <Info size="sm" />
           </Tooltip>
         )}
-      </FormLabel>
+      </Text>
 
       <RadioGroupRoot
         css={{
@@ -80,7 +73,7 @@ export const FormRadioGroup = <TFieldValues extends FieldValues>(
           <Flex
             alignItems="center"
             key={option.value.toString()}
-            css={{ margin: 'md 0', gap: '$xs' }}
+            css={{ margin: 'md 0', gap: '$sm' }}
           >
             <RadioGroupRadio
               value={option.value.toString()}
@@ -88,12 +81,12 @@ export const FormRadioGroup = <TFieldValues extends FieldValues>(
             >
               <RadioGroupIndicator />
             </RadioGroupRadio>
-            <FormLabel
-              type="radioLabel"
+            <Text
+              as="label"
               htmlFor={field.name.toString() + option.value.toString()}
             >
               {option.label}
-            </FormLabel>
+            </Text>
           </Flex>
         ))}
       </RadioGroupRoot>

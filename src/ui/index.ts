@@ -9,7 +9,6 @@ export { default as ContentHeader } from './ContentHeader/ContentHeader';
 export * from './Divider/Divider';
 export * from './Flex/Flex';
 export * from './Form';
-export * from './FormLabel/FormLabel';
 export * from './HR/HR';
 export * from './Icon/Icon';
 export * from './IconButton/IconButton';

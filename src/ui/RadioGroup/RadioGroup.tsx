@@ -8,7 +8,7 @@ const StyledToggleGroupRoot = styled(RadioGroupPrimitive.Root, {
 });
 const StyledRadio = styled(RadioGroupPrimitive.Item, {
   all: 'unset',
-  backgroundColor: '$surface',
+  backgroundColor: '$formRadioBackground',
   width: 20,
   height: 20,
   borderRadius: '100%',
@@ -19,7 +19,6 @@ const StyledRadio = styled(RadioGroupPrimitive.Item, {
     borderColor: '$formRadioBorderUnselected !important',
   },
   '&:hover, &:focus': {
-    backgroundColor: '$completeLight',
     borderColor: '$formRadioBorderSelected !important',
   },
 });

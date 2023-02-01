@@ -1,4 +1,4 @@
-import { css, styled } from '../../stitches.config';
+import { css, styled } from 'stitches.config';
 
 export const panelStyles = css({
   gridTemplateColumns: '1fr',
@@ -14,21 +14,19 @@ export const Panel = styled('div', {
   backgroundColor: '$surface',
   padding: '$md',
   // TODO clean up all these nested panel rules after theme migration
-  'input, textarea, button[role="radio"], button[role="combobox"], button[role="checkbox"], .root .formInputWrapper':
-    {
-      backgroundColor: '$formInputBackground',
-      borderColor: '$formInputBorder',
-      '&:disabled': {
-        opacity: 1,
-      },
+  'input, textarea, button[role="combobox"], .root .formInputWrapper': {
+    backgroundColor: '$formInputBackground',
+    borderColor: '$formInputBorder',
+    '&:disabled': {
+      opacity: 1,
     },
+  },
   '.root .formInputWrapper': {
     borderColor: '$formInputBorder',
     '& input': {
       background: 'transparent',
     },
   },
-
   variants: {
     selected: {
       true: {
@@ -45,14 +43,13 @@ export const Panel = styled('div', {
       true: {
         padding: '$md',
         backgroundColor: '$surfaceNested',
-        'input, textarea, button[role="radio"], button[role="combobox"], button[role="checkbox"], .root .formInputWrapper':
-          {
-            backgroundColor: '$surface',
-            borderColor: 'transparent',
-            '&:focus-within ': {
-              borderColor: '$cta',
-            },
+        'input, textarea, button[role="combobox"], .root .formInputWrapper': {
+          backgroundColor: '$surface',
+          borderColor: 'transparent',
+          '&:focus-within ': {
+            borderColor: '$cta',
           },
+        },
         '.root .formInputWrapper': {
           borderColor: 'transparent',
           '& input': {
@@ -63,15 +60,14 @@ export const Panel = styled('div', {
     },
     invertForm: {
       true: {
-        'input, textarea, button[role="radio"], button[role="combobox"], button[role="checkbox"], .root .formInputWrapper':
-          {
-            backgroundColor: '$surfaceNested',
-            borderColor: 'transparent',
-            '&:disabled': {
-              borderColor: '$formInputBorder',
-              opacity: 1,
-            },
+        'input, textarea, button[role="combobox"], .root .formInputWrapper': {
+          backgroundColor: '$surfaceNested',
+          borderColor: 'transparent',
+          '&:disabled': {
+            borderColor: '$formInputBorder',
+            opacity: 1,
           },
+        },
         '.root .formInputWrapper': {
           borderColor: 'transparent',
           '& input': {
