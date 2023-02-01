@@ -48,6 +48,8 @@ const zFrequencyUnits = z.union([
 const zCustomInputSchema = z
   .object({
     type: z.literal('custom'),
+    duration: z.coerce.number().min(1),
+    duration_unit: zFrequencyUnits,
     frequency: z.coerce.number().min(1),
     frequency_unit: zFrequencyUnits,
   })
@@ -1179,6 +1181,8 @@ const buildRepeatData = (
   if (data.repeat === 'custom')
     return {
       type: 'custom',
+      duration: data.custom_duration_qty,
+      duration_unit: data.custom_duration_denomination,
       frequency: data.custom_interval_qty,
       frequency_unit: data.custom_interval_denomination,
     };
