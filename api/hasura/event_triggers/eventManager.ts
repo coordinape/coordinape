@@ -1,8 +1,9 @@
-import { VercelRequest, VercelResponse, VercelApiHandler } from '@vercel/node';
+import { VercelApiHandler, VercelRequest, VercelResponse } from '@vercel/node';
 
 import checkNomineeDiscord from '../../../api-lib/event_triggers/checkNomineeDiscord';
 import checkNomineeTelegram from '../../../api-lib/event_triggers/checkNomineeTelegram';
 import createCircleCRM from '../../../api-lib/event_triggers/createCircleCRM';
+import createContributionInteractionEvent from '../../../api-lib/event_triggers/createContributionInteractionEvent';
 import createNomineeDiscord from '../../../api-lib/event_triggers/createNomineeDiscord';
 import createNomineeTelegram from '../../../api-lib/event_triggers/createNomineeTelegram';
 import createVouchedUser from '../../../api-lib/event_triggers/createVouchedUser';
@@ -23,22 +24,23 @@ import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 type HandlerDict = { [handlerName: string]: VercelApiHandler };
 
 const HANDLERS: HandlerDict = {
-  createNomineeDiscord,
-  createNomineeTelegram,
-  createCircleCRM,
-  createVouchedUser,
-  sendInteractionEventToMixpanel,
-  optOutDiscord,
-  optOutTelegram,
-  refundGiveTelegram,
-  refundGiveDiscord,
-  refundPendingGift,
-  vouchDiscord,
-  vouchTelegram,
   checkNomineeDiscord,
   checkNomineeTelegram,
-  removeTeammate,
+  createCircleCRM,
+  createContributionInteractionEvent,
+  createNomineeDiscord,
+  createNomineeTelegram,
+  createVouchedUser,
   discordUserLinked,
+  optOutDiscord,
+  optOutTelegram,
+  refundGiveDiscord,
+  refundGiveTelegram,
+  refundPendingGift,
+  removeTeammate,
+  sendInteractionEventToMixpanel,
+  vouchDiscord,
+  vouchTelegram,
 };
 
 async function eventHandler(req: VercelRequest, res: VercelResponse) {
