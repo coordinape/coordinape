@@ -170,6 +170,7 @@ export function useSubmitDistribution() {
               chain_id: Number.parseInt(contracts.chainId),
               tx_type: vault_tx_types_enum.Distribution,
             }),
+          contract: contracts.distributor,
         }
       );
 

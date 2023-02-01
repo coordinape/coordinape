@@ -50,6 +50,7 @@ export function useVaultRouter(contracts?: Contracts) {
           signingMessage: 'Please sign the transaction to wrap your ETH.',
           description: `Deposit ${humanAmount} ETH`,
           chainId: contracts.chainId,
+          contract: weth,
         }
       );
 
@@ -73,6 +74,7 @@ export function useVaultRouter(contracts?: Contracts) {
             'Please sign the transaction to approve the transfer.',
           description: `Approve ${humanAmount} ${symbol}`,
           chainId: contracts.chainId,
+          contract: token,
         }
       );
       if (result.error) return result;
@@ -93,6 +95,7 @@ export function useVaultRouter(contracts?: Contracts) {
         signingMessage: 'Please sign the transaction to deposit tokens.',
         description: `Deposit ${humanAmount} ${symbol}`,
         chainId: contracts.chainId,
+        contract: isSimpleToken ? token : contracts.router,
       }
     );
     if (txResult?.tx)
@@ -129,6 +132,7 @@ export function useVaultRouter(contracts?: Contracts) {
         signingMessage: 'Please sign the transaction to withdraw tokens.',
         chainId: contracts.chainId,
         description: `Withdraw ${humanAmount} ${symbol}`,
+        contract: vaultContract,
       }
     );
     if (txResult?.tx)

@@ -51,6 +51,7 @@ export function useVaultFactory(orgId?: number) {
           showError,
           description: `Create ${type || customSymbol} Vault`,
           chainId: contracts.chainId,
+          contract: contracts.vaultFactory,
           savePending: async (txHash: string) => {
             if (setTxHash) setTxHash(txHash);
             return savePendingVaultTx({

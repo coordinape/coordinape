@@ -78,6 +78,7 @@ export function useClaimAllocation() {
               chain_id: Number.parseInt(contracts.chainId),
               tx_type: vault_tx_types_enum.Claim,
             }),
+          contract: contracts.distributor,
         }
       );
 
@@ -111,6 +112,7 @@ export function useClaimAllocation() {
           signingMessage: 'Please sign the transaction to unwrap your WETH.',
           description: `Unwrapped ${amount} ETH`,
           chainId: contracts.chainId,
+          contract: weth,
         });
       }
 
