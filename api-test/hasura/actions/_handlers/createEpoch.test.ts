@@ -4,6 +4,7 @@ import { DateTime, Interval } from 'luxon';
 
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { zEpochInputParams } from '../../../../api/hasura/actions/_handlers/createEpoch';
+import { findSameDayNextMonth } from '../../../../src/common-lib/epochs';
 import {
   createCircle,
   createProfile,
@@ -108,7 +109,7 @@ describe('createEpoch', () => {
       );
     });
 
-    test('errors when epoch ends before or as soon as it starts ', async () => {
+    test('errors when epoch ends before or as soon as it starts', async () => {
       expect.assertions(1);
       const now = DateTime.now().plus({ weeks: 2 });
       const thunk = async () =>
@@ -608,13 +609,144 @@ describe('createEpoch', () => {
   });
 
   describe('monthly input', () => {
-    test.todo('errors on malformed input');
-    test.todo(
-      'creates a new epoch on the correct day of the correct week of the month'
-    );
-    test.todo('handles cases at the end of the month correctly');
-    test.todo(
-      'always extends the epoch to end on the start date of the following month'
-    );
+    test('errors on malformed input', async () => {
+      const now = DateTime.now();
+      const params = {
+        type: 'monthly',
+        start_date: now.toISO(),
+        end_date: findSameDayNextMonth(now, {
+          week: Math.floor(now.day / 7),
+        })
+          .plus({ days: 1 })
+          .toISO(),
+        week: Math.floor(now.day / 7),
+      };
+      const first = async () =>
+        client.mutate({
+          createEpoch: [
+            {
+              payload: {
+                circle_id: circle.id,
+                params,
+              },
+            },
+            {
+              epoch: {
+                start_date: true,
+                end_date: true,
+                repeat_data: [{}, true],
+              },
+            },
+          ],
+        });
+
+      await expect(first).rejects.toThrow(/do not match the end date/);
+    });
+
+    test('creates a new epoch on the correct day of the correct week of the month', async () => {
+      let result;
+      const now = DateTime.now();
+      const params = {
+        type: 'monthly',
+        start_date: now.toISO(),
+        end_date: findSameDayNextMonth(now, {
+          week: Math.floor(now.day / 7),
+        }).toISO(),
+        week: Math.floor(now.day / 7),
+      };
+      const first = async () =>
+        client.mutate({
+          createEpoch: [
+            {
+              payload: {
+                circle_id: circle.id,
+                params,
+              },
+            },
+            {
+              epoch: {
+                start_date: true,
+                end_date: true,
+                repeat_data: [{}, true],
+              },
+            },
+          ],
+        });
+      try {
+        result = await first();
+      } catch (e: any) {
+        console.error(e.response.errors);
+      }
+      const epoch = result?.createEpoch?.epoch;
+      assert(epoch);
+      const { start_date, end_date } = epoch;
+      expect(DateTime.fromISO(start_date).zoneName).toBe('UTC');
+      expect(DateTime.fromISO(end_date).zoneName).toBe('UTC');
+      expect(epoch).toEqual(
+        expect.objectContaining({
+          repeat_data: {
+            type: 'monthly',
+            week: params.week,
+          },
+          start_date: expect.stringContaining(
+            params.start_date.substring(0, 16)
+          ),
+          end_date: expect.stringContaining(params.end_date.substring(0, 16)),
+        })
+      );
+    });
+
+    test('handles cases at the end of the month correctly', async () => {
+      let result;
+      const start = DateTime.now().startOf('month').plus({ weeks: 6 });
+      const params = {
+        type: 'monthly',
+        start_date: start.toISO(),
+        end_date: findSameDayNextMonth(start, {
+          week: 6,
+        }).toISO(),
+        week: 6,
+      };
+      const first = async () =>
+        client.mutate({
+          createEpoch: [
+            {
+              payload: {
+                circle_id: circle.id,
+                params,
+              },
+            },
+            {
+              epoch: {
+                start_date: true,
+                end_date: true,
+                repeat_data: [{}, true],
+              },
+            },
+          ],
+        });
+      try {
+        result = await first();
+      } catch (e: any) {
+        console.error(e.response.errors);
+      }
+      const epoch = result?.createEpoch?.epoch;
+      assert(epoch);
+      const { start_date, end_date } = epoch;
+      expect(DateTime.fromISO(start_date).zoneName).toBe('UTC');
+      expect(DateTime.fromISO(end_date).zoneName).toBe('UTC');
+      expect(epoch).toEqual(
+        expect.objectContaining({
+          repeat_data: {
+            type: 'monthly',
+            week: 6,
+          },
+          start_date: expect.stringContaining(
+            params.start_date.substring(0, 16)
+          ),
+          end_date: expect.stringContaining(params.end_date.substring(0, 16)),
+        })
+      );
+    });
   });
 });
