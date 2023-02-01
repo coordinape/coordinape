@@ -207,7 +207,7 @@ const getCollisionMessage = (
   // Only one will be allowed to be repeating
   // Set r as the repeating and c as the constant interval.
   const [r, c, next] =
-    e.repeatEnum !== 'none' || e.repeat_data?.type !== 'one-off'
+    e.repeatEnum !== 'none' || e.repeat_data
       ? [e.interval, newInterval, nextIntervalFactory(e.repeat, e.repeat_data)]
       : [newInterval, e.interval, nextIntervalFactory(0, newRepeat)];
 
@@ -218,7 +218,7 @@ const getCollisionMessage = (
   let rp = r;
   while (rp.start < c.end) {
     if (rp.overlaps(c)) {
-      if (e.repeatEnum !== 'none' || e.repeat_data?.type !== 'one-off') {
+      if (e.repeatEnum !== 'none' || e.repeat_data) {
         return `Overlap with repeating epoch ${e.number ?? 'x'}: ${rp.toFormat(
           longFormat
         )}`;
