@@ -6,43 +6,42 @@ export const ToggleButton = styled('button', {
   $$color: '$colors$primary',
   py: '$sm',
   px: '$md',
-  borderWidth: '2px',
+  border: '2px solid',
   borderRadius: '$3',
-  outline: '1px solid $borderMedium',
-  background: '$surfaceNested',
+  borderColor: '$borderMedium',
+  background: '$dim',
   fontSize: '$small',
-  opacity: 0.4,
+  opacity: 0.25,
   display: 'flex',
   alignItems: 'center',
   color: '$headingText',
   gap: '$xs',
+  'svg *': {
+    color: '$text',
+  },
   '&:enabled': {
     cursor: 'pointer',
     '&:hover': {
       opacity: 0.8,
-      outline: '2px solid $$color',
+      borderColor: '$$color',
     },
   },
   variants: {
     color: {
       destructive: {
         $$color: '$colors$alert',
-        'svg *': {
-          color: '$alert',
-        },
+        borderColor: '$$color',
       },
       complete: {
-        $$color: '$colors$complete',
-        'svg *': {
-          color: '$complete',
-        },
+        $$color: '$colors$cta',
+        borderColor: '$$color',
       },
     },
     active: {
       true: {
         opacity: '1 !important',
         cursor: 'default !important',
-        outline: '2px solid $$color',
+        borderColor: '$$color',
       },
     },
   },
