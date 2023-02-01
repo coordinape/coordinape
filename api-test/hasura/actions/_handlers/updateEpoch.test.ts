@@ -17,6 +17,7 @@ let address, profile, circle, client, epochId, futureEpochId;
 
 const now = DateTime.now();
 const DURATION_IN_DAYS = 3;
+
 beforeEach(async () => {
   address = await getUniqueAddress();
   circle = await createCircle(adminClient);
@@ -128,12 +129,11 @@ describe('updateEpoch', () => {
         console.error(e);
         return;
       }
-      return second().catch((e: any) => {
-        expect(e.response.errors[0].message).toContain(
-          'You cannot have more than one repeating active epoch.'
-        );
-      });
+      await expect(second).rejects.toThrow(
+        'You cannot have more than one repeating active epoch.'
+      );
     });
+
     test('errors when epoch ends in the past', async () => {
       expect.assertions(1);
       const prior = DateTime.now().minus({ weeks: 2 });
@@ -165,12 +165,11 @@ describe('updateEpoch', () => {
             },
           ],
         });
-      return thunk().catch((e: any) => {
-        expect(e.response.errors[0].message).toMatch(
-          'You cannot create an epoch that ends before now'
-        );
-      });
+      await expect(thunk).rejects.toThrow(
+        'You cannot create an epoch that ends before now'
+      );
     });
+
     test('errors when epoch ends before or as soon as it starts ', async () => {
       expect.assertions(1);
       const now = DateTime.now().plus({ weeks: 2 });
@@ -201,12 +200,9 @@ describe('updateEpoch', () => {
             },
           ],
         });
-      return thunk().catch((e: any) => {
-        expect(e.response.errors[0].message).toMatch(
-          'Start date must precede end date'
-        );
-      });
+      await expect(thunk).rejects.toThrow('Start date must precede end date');
     });
+
     test('errors when an overlapping epoch exists', async () => {
       expect.assertions(1);
       const next = DateTime.now().plus({ months: 1 });
@@ -251,10 +247,9 @@ describe('updateEpoch', () => {
         console.error(JSON.stringify(e));
         return;
       }
-      return second().catch((e: any) => {
-        expect(e.response.errors[0].message).toContain('This epoch overlaps');
-      });
+      await expect(second).rejects.toThrow('This epoch overlaps');
     });
+
     test("errors when epoch doesn't exist", async () => {
       const thunk = async () =>
         client.mutate({
@@ -274,11 +269,10 @@ describe('updateEpoch', () => {
           ],
         });
 
-      return thunk().catch((e: any) => {
-        expect(e.response.errors[0].message).toContain('Epoch not found');
-      });
+      await expect(thunk).rejects.toThrow('Epoch not found');
     });
   });
+
   describe('one-off input', () => {
     it('can update a one-off epoch', async () => {
       expect.assertions(2);
@@ -327,6 +321,7 @@ describe('updateEpoch', () => {
         DateTime.fromISO(end_date).diff(DateTime.fromISO(start_date)).as('days')
       ).toBe(DURATION_IN_DAYS);
     });
+
     test('errors on malformed input', () => {
       let result = zEpochInputParams.safeParse({
         type: 'one-off',
@@ -358,6 +353,7 @@ describe('updateEpoch', () => {
         });
     });
   });
+
   describe('custom input', () => {
     test('can update repeating weekly epochs with gaps', async () => {
       const DURATION_IN_DAYS = 3;
@@ -414,6 +410,7 @@ describe('updateEpoch', () => {
         DateTime.fromISO(end_date).diff(DateTime.fromISO(start_date)).as('days')
       ).toBe(DURATION_IN_DAYS);
     });
+
     test('can update repeating weekly epochs without gaps', async () => {
       const DURATION_IN_WEEKS = 1;
       let result;
@@ -471,6 +468,7 @@ describe('updateEpoch', () => {
           .as('weeks')
       ).toBe(DURATION_IN_WEEKS);
     });
+
     test('can update repeating monthly epochs with gaps', async () => {
       const DURATION_IN_WEEKS = 2;
       let result;
@@ -528,6 +526,7 @@ describe('updateEpoch', () => {
           .as('weeks')
       ).toBe(DURATION_IN_WEEKS);
     });
+
     test('can update repeating monthly epochs without gaps', async () => {
       const DURATION_IN_MONTHS = 1;
       let result;
@@ -583,6 +582,7 @@ describe('updateEpoch', () => {
         Interval.fromISO(start_date + '/' + end_date).length('months')
       ).toBe(DURATION_IN_MONTHS);
     });
+
     test('cannot repeat with a frequency that is shorter than the duration', async () => {
       expect.assertions(1);
       const now = DateTime.now();
@@ -614,10 +614,9 @@ describe('updateEpoch', () => {
             },
           ],
         });
-      return thunk().catch((e: any) => {
-        expect(e.response.errors[0].message).toMatch('is longer than chosen');
-      });
+      await expect(thunk).rejects.toThrow('is longer than chosen');
     });
+
     test('errors on malformed input', () => {
       let result = zEpochInputParams.safeParse({
         type: 'custom',
@@ -673,6 +672,7 @@ describe('updateEpoch', () => {
         });
     });
   });
+
   describe('monthly input', () => {
     test('errors on malformed input', async () => {
       const now = DateTime.now();
@@ -686,7 +686,7 @@ describe('updateEpoch', () => {
           .toISO(),
         week: Math.floor(now.day / 7),
       };
-      const first = async () =>
+      const thunk = async () =>
         client.mutate({
           updateEpoch: [
             {
@@ -706,11 +706,7 @@ describe('updateEpoch', () => {
           ],
         });
 
-      return first().catch((e: any) => {
-        expect(e.response.errors[0].message).toContain(
-          'do not match the end date'
-        );
-      });
+      await expect(thunk).rejects.toThrow('do not match the end date');
     });
 
     test('updates a new epoch on the correct day of the correct week of the month', async () => {
@@ -766,6 +762,7 @@ describe('updateEpoch', () => {
         })
       );
     });
+
     test('handles cases for future epochs at the end of the month correctly', async () => {
       let result;
       const start = DateTime.now()
