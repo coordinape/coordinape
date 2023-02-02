@@ -526,6 +526,26 @@ export async function updateEpoch(
   return updateEpoch;
 }
 
+export async function updateEpochDescription(id: number, description: string) {
+  await client.mutate(
+    {
+      update_epochs_by_pk: [
+        {
+          pk_columns: { id: id },
+          _set: { description: description },
+        },
+        {
+          id: true,
+        },
+      ],
+    },
+    {
+      operationName: 'updateEpochDescription',
+    }
+  );
+  return true;
+}
+
 export async function updateActiveRepeatingEpoch(
   circleId: number,
   epochId: number,

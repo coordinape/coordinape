@@ -4038,6 +4038,14 @@ export type ValueTypes = {
     start_date?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
   };
+  /** response of any mutation on the table "epoches" */
+  ['epochs_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['epochs'];
+    __typename?: boolean | `@${string}`;
+  }>;
   /** Ordering options when selecting data from "epoches". */
   ['epochs_order_by']: {
     burns_aggregate?: ValueTypes['burns_aggregate_order_by'] | undefined | null;
@@ -4072,8 +4080,16 @@ export type ValueTypes = {
       | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
   };
+  /** primary key columns input for table: epoches */
+  ['epochs_pk_columns_input']: {
+    id: ValueTypes['bigint'];
+  };
   /** select columns of table "epoches" */
   ['epochs_select_column']: epochs_select_column;
+  /** input type for updating data in table "epoches" */
+  ['epochs_set_input']: {
+    description?: string | undefined | null;
+  };
   /** order by stddev() on columns of table "epoches" */
   ['epochs_stddev_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
@@ -4140,6 +4156,11 @@ export type ValueTypes = {
     number?: ValueTypes['order_by'] | undefined | null;
     repeat?: ValueTypes['order_by'] | undefined | null;
     repeat_day_of_month?: ValueTypes['order_by'] | undefined | null;
+  };
+  ['epochs_updates']: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ValueTypes['epochs_set_input'] | undefined | null;
+    where: ValueTypes['epochs_bool_exp'];
   };
   /** order by var_pop() on columns of table "epoches" */
   ['epochs_var_pop_order_by']: {
@@ -5175,6 +5196,32 @@ export type ValueTypes = {
         updates: Array<ValueTypes['distributions_updates']>;
       },
       ValueTypes['distributions_mutation_response']
+    ];
+    update_epochs?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?:
+          | ValueTypes['epochs_set_input']
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['epochs_bool_exp'];
+      },
+      ValueTypes['epochs_mutation_response']
+    ];
+    update_epochs_by_pk?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?: ValueTypes['epochs_set_input'] | undefined | null;
+        pk_columns: ValueTypes['epochs_pk_columns_input'];
+      },
+      ValueTypes['epochs']
+    ];
+    update_epochs_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes['epochs_updates']>;
+      },
+      ValueTypes['epochs_mutation_response']
     ];
     update_locked_token_distributions?: [
       {
@@ -11699,10 +11746,21 @@ export type ModelTypes = {
   ['epochs_max_order_by']: GraphQLTypes['epochs_max_order_by'];
   /** order by min() on columns of table "epoches" */
   ['epochs_min_order_by']: GraphQLTypes['epochs_min_order_by'];
+  /** response of any mutation on the table "epoches" */
+  ['epochs_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['epochs']>;
+  };
   /** Ordering options when selecting data from "epoches". */
   ['epochs_order_by']: GraphQLTypes['epochs_order_by'];
+  /** primary key columns input for table: epoches */
+  ['epochs_pk_columns_input']: GraphQLTypes['epochs_pk_columns_input'];
   /** select columns of table "epoches" */
   ['epochs_select_column']: GraphQLTypes['epochs_select_column'];
+  /** input type for updating data in table "epoches" */
+  ['epochs_set_input']: GraphQLTypes['epochs_set_input'];
   /** order by stddev() on columns of table "epoches" */
   ['epochs_stddev_order_by']: GraphQLTypes['epochs_stddev_order_by'];
   /** order by stddev_pop() on columns of table "epoches" */
@@ -11715,6 +11773,7 @@ export type ModelTypes = {
   ['epochs_stream_cursor_value_input']: GraphQLTypes['epochs_stream_cursor_value_input'];
   /** order by sum() on columns of table "epoches" */
   ['epochs_sum_order_by']: GraphQLTypes['epochs_sum_order_by'];
+  ['epochs_updates']: GraphQLTypes['epochs_updates'];
   /** order by var_pop() on columns of table "epoches" */
   ['epochs_var_pop_order_by']: GraphQLTypes['epochs_var_pop_order_by'];
   /** order by var_samp() on columns of table "epoches" */
@@ -12051,6 +12110,14 @@ export type ModelTypes = {
     /** update multiples rows of table: "distributions" */
     update_distributions_many?:
       | Array<GraphQLTypes['distributions_mutation_response'] | undefined>
+      | undefined;
+    /** update data of the table: "epoches" */
+    update_epochs?: GraphQLTypes['epochs_mutation_response'] | undefined;
+    /** update single row of the table: "epoches" */
+    update_epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
+    /** update multiples rows of table: "epoches" */
+    update_epochs_many?:
+      | Array<GraphQLTypes['epochs_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "locked_token_distributions" */
     update_locked_token_distributions?:
@@ -16237,6 +16304,14 @@ export type GraphQLTypes = {
     start_date?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
   };
+  /** response of any mutation on the table "epoches" */
+  ['epochs_mutation_response']: {
+    __typename: 'epochs_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['epochs']>;
+  };
   /** Ordering options when selecting data from "epoches". */
   ['epochs_order_by']: {
     burns_aggregate?: GraphQLTypes['burns_aggregate_order_by'] | undefined;
@@ -16268,8 +16343,16 @@ export type GraphQLTypes = {
       | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
   };
+  /** primary key columns input for table: epoches */
+  ['epochs_pk_columns_input']: {
+    id: GraphQLTypes['bigint'];
+  };
   /** select columns of table "epoches" */
   ['epochs_select_column']: epochs_select_column;
+  /** input type for updating data in table "epoches" */
+  ['epochs_set_input']: {
+    description?: string | undefined;
+  };
   /** order by stddev() on columns of table "epoches" */
   ['epochs_stddev_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
@@ -16336,6 +16419,11 @@ export type GraphQLTypes = {
     number?: GraphQLTypes['order_by'] | undefined;
     repeat?: GraphQLTypes['order_by'] | undefined;
     repeat_day_of_month?: GraphQLTypes['order_by'] | undefined;
+  };
+  ['epochs_updates']: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes['epochs_set_input'] | undefined;
+    where: GraphQLTypes['epochs_bool_exp'];
   };
   /** order by var_pop() on columns of table "epoches" */
   ['epochs_var_pop_order_by']: {
@@ -16986,6 +17074,14 @@ export type GraphQLTypes = {
     /** update multiples rows of table: "distributions" */
     update_distributions_many?:
       | Array<GraphQLTypes['distributions_mutation_response'] | undefined>
+      | undefined;
+    /** update data of the table: "epoches" */
+    update_epochs?: GraphQLTypes['epochs_mutation_response'] | undefined;
+    /** update single row of the table: "epoches" */
+    update_epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
+    /** update multiples rows of table: "epoches" */
+    update_epochs_many?:
+      | Array<GraphQLTypes['epochs_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "locked_token_distributions" */
     update_locked_token_distributions?:
