@@ -590,7 +590,6 @@ async function createNextEpochOld(epoch: {
   const days = epochLengthInDays
     ? Duration.fromObject({ days: epochLengthInDays })
     : end.diff(start, 'days');
-  console.log('ssssss');
 
   const nextStartDate = makeNextStartDate(start, repeat, repeat_day_of_month);
 
