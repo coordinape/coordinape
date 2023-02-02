@@ -527,7 +527,7 @@ export async function updateEpoch(
 }
 
 export async function updateEpochDescription(id: number, description: string) {
-  await client.mutate(
+  const { update_epochs_by_pk } = await client.mutate(
     {
       update_epochs_by_pk: [
         {
@@ -543,7 +543,8 @@ export async function updateEpochDescription(id: number, description: string) {
       operationName: 'updateEpochDescription',
     }
   );
-  return true;
+  if (!update_epochs_by_pk) throw 'failed to update epoch description';
+  return update_epochs_by_pk;
 }
 
 export async function updateActiveRepeatingEpoch(
