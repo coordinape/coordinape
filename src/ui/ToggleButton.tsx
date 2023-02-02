@@ -33,7 +33,7 @@ export const ToggleButton = styled('button', {
         borderColor: '$$color',
       },
       complete: {
-        $$color: '$colors$complete',
+        $$color: '$colors$toggleButtonYes',
         borderColor: '$$color',
       },
     },
