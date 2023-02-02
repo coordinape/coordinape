@@ -582,6 +582,9 @@ const EpochForm = ({
       end_date: epochConfig.end_date,
     };
 
+    // eslint-disable-next-line no-console
+    console.log({ payload });
+
     (source?.epoch
       ? selectedEpoch?.number !== -1
         ? updateEpoch(source.epoch.id, { params: payload })

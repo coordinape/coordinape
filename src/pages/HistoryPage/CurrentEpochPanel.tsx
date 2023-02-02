@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { updateEpochDescription } from 'lib/gql/mutations';
 import { DateTime, Interval } from 'luxon';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
@@ -17,6 +18,7 @@ type Props = {
   epoch: {
     start_date?: any;
     end_date: any;
+    id: number;
     description?: string;
     number?: number;
   };
@@ -76,6 +78,7 @@ export const CurrentEpochPanel = ({
         <EpochDescription
           description={epochDescriptionText}
           isAdmin={isAdmin}
+          epochId={epoch.id}
         />
         {!isEditing && isAdmin && (
           <Button
@@ -195,45 +198,47 @@ const Minicard = ({
 type EpochDescriptionProps = {
   description: string;
   isAdmin: boolean;
+  epochId: number;
 };
-const EpochDescription = ({ description, isAdmin }: EpochDescriptionProps) => {
-  const { showError } = useToast();
+const EpochDescription = ({
+  description,
+  isAdmin,
+  epochId,
+}: EpochDescriptionProps) => {
+  const { showError, showSuccess } = useToast();
+  const [submitting, setSubmitting] = useState(false);
   const [editDescription, setEditDescription] = useState(false);
 
   const zEpochDescriptionSchema = z.object({
     description: z
-      .optional(
-        z.nullable(
-          z
-            .string()
-            .refine(val => val.trim().length >= 10, {
-              message: 'Description should be at least 10 characters long',
-            })
-            .refine(val => val.length < 100, {
-              message: 'Description length should not exceed 100 characters',
-            })
-        )
-      )
+      .string()
+      .refine(val => val.trim().length >= 10, {
+        message: 'Description should be at least 10 characters long',
+      })
+      .refine(val => val.length < 100, {
+        message: 'Description length should not exceed 100 characters',
+      })
       .transform(val => (val === '' ? null : val)),
   });
 
   type EpochDescriptionSchema = z.infer<typeof zEpochDescriptionSchema>;
 
   const onSubmit: SubmitHandler<EpochDescriptionSchema> = async data => {
+    if (!data.description) {
+      return;
+    }
+
     try {
-      // eslint-disable-next-line no-console
-      console.log(data);
-      // TODO: implement saving
-      // await updateCircle({
-      //   circle_id: selectedCircle.id,
-      //   cont_help_text: data.cont_help_text,
-      // });
-      // setUpdatedContHelpText(data.cont_help_text);
+      setSubmitting(true);
+      await updateEpochDescription(epochId, data.description);
+      showSuccess('Epoch Description Saved!');
     } catch (e) {
       showError(e);
       console.warn(e);
+    } finally {
+      setSubmitting(false);
+      setEditDescription(false);
     }
-    setEditDescription(false);
   };
 
   const { control: epochDescriptionControl, handleSubmit } =
@@ -302,6 +307,7 @@ const EpochDescription = ({ description, isAdmin }: EpochDescriptionProps) => {
                 color="primary"
                 type="submit"
                 onClick={handleSubmit(onSubmit)}
+                disabled={submitting}
               >
                 Save
               </Button>
