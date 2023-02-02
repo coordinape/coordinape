@@ -29,7 +29,7 @@ export const ToggleButton = styled('button', {
   variants: {
     color: {
       destructive: {
-        $$color: '$colors$alert',
+        $$color: '$colors$toggleButtonNo',
         borderColor: '$$color',
       },
       complete: {
