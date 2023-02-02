@@ -14,7 +14,6 @@ export const SvgMinusCircle = (props: SvgIconProps) => (
     height={24}
     fill="none"
     stroke="currentColor"
-    strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
     className="minus-circle_svg__feather minus-circle_svg__feather-minus-circle"
