@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { updateEpochDescription } from 'lib/gql/mutations';
@@ -48,9 +48,10 @@ export const CurrentEpochPanel = ({
 
   const endDateFormat = endDate.month === startDate.month ? 'd' : 'MMM d';
 
-  // TODO: why is this null sometime? just from data seeding?
-  const epochDescriptionText =
-    epoch.description ?? 'Epoch ' + (epoch.number ?? '');
+  // TODO: why is epoch.number null sometimes? just from data seeding?
+  const [epochDescriptionText, setEpochDescriptionText] = useState<string>(
+    epoch.description ?? 'Epoch ' + (epoch.number ?? '')
+  );
 
   return (
     <Panel
@@ -79,6 +80,7 @@ export const CurrentEpochPanel = ({
           description={epochDescriptionText}
           isAdmin={isAdmin}
           epochId={epoch.id}
+          setDescriptionText={setEpochDescriptionText}
         />
         {!isEditing && isAdmin && (
           <Button
@@ -199,11 +201,13 @@ type EpochDescriptionProps = {
   description: string;
   isAdmin: boolean;
   epochId: number;
+  setDescriptionText: Dispatch<SetStateAction<string>>;
 };
 const EpochDescription = ({
   description,
   isAdmin,
   epochId,
+  setDescriptionText,
 }: EpochDescriptionProps) => {
   const { showError, showSuccess } = useToast();
   const [submitting, setSubmitting] = useState(false);
@@ -212,13 +216,9 @@ const EpochDescription = ({
   const zEpochDescriptionSchema = z.object({
     description: z
       .string()
-      .refine(val => val.trim().length >= 10, {
-        message: 'Description should be at least 10 characters long',
-      })
-      .refine(val => val.length < 100, {
-        message: 'Description length should not exceed 100 characters',
-      })
-      .transform(val => (val === '' ? null : val)),
+      .trim()
+      .min(1, { message: 'Must be at least 1 characters long' })
+      .max(100, { message: 'Must be 100 or fewer characters long' }),
   });
 
   type EpochDescriptionSchema = z.infer<typeof zEpochDescriptionSchema>;
@@ -231,6 +231,7 @@ const EpochDescription = ({
     try {
       setSubmitting(true);
       await updateEpochDescription(epochId, data.description);
+      setDescriptionText(data.description);
       showSuccess('Epoch Description Saved!');
     } catch (e) {
       showError(e);
