@@ -63,12 +63,17 @@ const AMProfileCard = ({
   return (
     <Box
       ref={elemRef}
+      onClick={() => onClick(profile)}
       css={{
         position: 'relative',
         marginBottom: '$lg',
         padding: '$lg',
         borderRadius: '$3',
+        cursor: 'pointer',
         backgroundColor: '$surfaceNested',
+        '&:hover': {
+          backgroundColor: '$dim',
+        },
         '&:first-child': {
           marginTop: 0,
         },
@@ -98,8 +103,10 @@ const AMProfileCard = ({
       <Box className="scale" css={{ width: `${fraction * 100}%` }} />
       <Flex column css={{ gap: '$sm' }}>
         <Flex
-          css={{ alignItems: 'center', gap: '$md', cursor: 'pointer' }}
-          onClick={() => onClick(profile)}
+          css={{
+            alignItems: 'center',
+            gap: '$md',
+          }}
         >
           <Avatar
             size="small"
@@ -140,7 +147,7 @@ const AMProfileCard = ({
                 <ProfileSocialIcons profile={profile} />
               </Flex>
             )}
-            <Text>
+            <Text p as="p" size="small">
               {reactStringReplace(bio, searchRegex, (match, i) =>
                 i === 1 ? <strong key={match}>{match}</strong> : null
               )}
