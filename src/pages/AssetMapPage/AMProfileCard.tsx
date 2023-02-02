@@ -4,7 +4,6 @@ import clsx from 'clsx';
 import { NavLink } from 'react-router-dom';
 import reactStringReplace from 'react-string-replace';
 
-import { ProfileSocialIcons } from 'components';
 import {
   useMapMetric,
   useStateAmEgoAddress,
@@ -67,11 +66,16 @@ const AMProfileCard = ({
       css={{
         position: 'relative',
         marginBottom: '$md',
-        padding: '$md',
+        padding: '$sm $md',
         borderRadius: '$3',
         cursor: 'pointer',
         backgroundColor: '$surface',
         border: '1px solid transparent',
+        '.summaryText': {
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+        },
         '&:hover': {
           borderColor: '$link',
         },
@@ -83,9 +87,11 @@ const AMProfileCard = ({
           pointerEvents: 'none',
         },
         '&.rootSelected, &.rootSummary .scale': {
-          // backgroundColor: '$tagPrimaryBackground',
           borderColor: '$borderFocus',
           backgroundColor: '$highlight',
+          '.summaryText': {
+            whiteSpace: 'normal',
+          },
         },
         '.scale': {
           position: 'absolute',
@@ -143,12 +149,13 @@ const AMProfileCard = ({
                 ))}
               </Flex>
             )}
-            {isSelected && (
-              <Flex>
-                <ProfileSocialIcons profile={profile} />
-              </Flex>
-            )}
-            <Text p as="p" size="small">
+            <Text
+              p
+              as="p"
+              size="small"
+              color="secondary"
+              className="summaryText"
+            >
               {reactStringReplace(bio, searchRegex, (match, i) =>
                 i === 1 ? <strong key={match}>{match}</strong> : null
               )}
