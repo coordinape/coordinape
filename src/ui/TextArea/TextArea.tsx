@@ -10,7 +10,7 @@ const StyledTextArea = styled('textarea', {
   fontSize: '$medium',
   whiteSpace: 'pre-wrap',
   background: '$surface',
-  border: '1px solid transparent',
+  border: '1px solid $formInputBorder',
   '&:focus': {
     borderColor: '$cta',
     boxSizing: 'border-box',

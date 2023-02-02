@@ -17,8 +17,9 @@ export const Panel = styled('div', {
   'input, textarea, button[role="combobox"], .root .formInputWrapper': {
     backgroundColor: '$formInputBackground',
     borderColor: '$formInputBorder',
+    transition: 'opacity 0.3s ease-in-out',
     '&:disabled': {
-      opacity: 1,
+      opacity: 0.2,
     },
   },
   '.root .formInputWrapper': {

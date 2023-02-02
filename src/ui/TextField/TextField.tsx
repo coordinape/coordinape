@@ -4,11 +4,11 @@ import { styled } from '../../stitches.config';
 import { modifyVariantsForStory } from '../type-utils';
 
 export const TextField = styled('input', {
-  background: '$surface',
+  background: '$formInputBackground',
   padding: '$sm',
-  border: '1px solid transparent',
+  border: '1px solid $formInputBorder',
   '&:focus': {
-    borderColor: '$primary',
+    borderColor: '$formInputBorderFocus',
   },
   '&:disabled': {
     opacity: 0.3,

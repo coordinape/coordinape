@@ -202,6 +202,7 @@ export const colors = {
   formInputText: figmaColors.grey16,
   formInputBackground: '#FFFFFF66',
   formInputBorder: newFigmaColors.grey5,
+  formInputBorderFocus: '$primary',
   formInputPlaceholder: figmaColors.grey8,
   formInputErrorText: newFigmaColors.error7,
   formInputErrorBackground: newFigmaColors.error1,
@@ -517,6 +518,7 @@ export const dark = createTheme({
     formInputText: newFigmaColors.grey5,
     formInputBackground: newFigmaColors.grey9,
     formInputBorder: newFigmaColors.grey7,
+    formInputBorderFocus: newFigmaColors.primary4,
     formInputPlaceholder: newFigmaColors.grey6,
     formInputErrorText: newFigmaColors.error9,
     formInputErrorBackground: newFigmaColors.error4,
@@ -613,6 +615,7 @@ export const light = createTheme({
 
     contentHeaderBorder: newFigmaColors.grey3,
 
+    formInputBorderFocus: newFigmaColors.secondary5,
     formRadioBorderUnselected: newFigmaColors.secondary2,
     formRadioBorderSelected: newFigmaColors.secondary5,
     formRadioBackground: newFigmaColors.grey2,
