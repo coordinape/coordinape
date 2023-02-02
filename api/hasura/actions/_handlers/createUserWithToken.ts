@@ -7,9 +7,9 @@ import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import { CircleTokenType } from '../../../../src/common-lib/circleShareTokens';
 import { ENTRANCE } from '../../../../src/common-lib/constants';
 import {
+  composeHasuraActionRequestBodyWithSession,
   createUserFromTokenInput,
   HasuraUserSessionVariables,
-  composeHasuraActionRequestBodyWithSession,
 } from '../../../../src/lib/zod';
 
 import { createUserMutation } from './createUserMutation';
@@ -27,7 +27,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   const { hasuraProfileId } = sessionVariables;
   const address = await getAddress(hasuraProfileId);
 
-  // get the circleId from the token and make sure its magic
+  // get the circleId from the token and make sure its an invite token
   const { circle_share_tokens } = await adminClient.query(
     {
       circle_share_tokens: [
@@ -42,7 +42,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
               },
             },
             type: {
-              _eq: CircleTokenType.Magic,
+              _eq: CircleTokenType.Invite,
             },
           },
         },

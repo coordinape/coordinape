@@ -9,15 +9,15 @@ import { z } from 'zod';
 import type { TokenJoinInfo } from '../../../api/circle/landing/[token]';
 import { LoadingModal } from '../../components';
 import CircleWithLogo from '../../components/CircleWithLogo';
-import { useToast, useApiBase } from '../../hooks';
+import { useApiBase, useToast } from '../../hooks';
 import { client } from '../../lib/gql/client';
 import { zUsername } from '../../lib/zod/formHelpers';
 import { paths } from '../../routes/paths';
-import { Box, Button, CenteredBox, TextField, Text, Panel } from '../../ui';
+import { Box, Button, CenteredBox, Panel, Text, TextField } from '../../ui';
 import { normalizeError } from '../../utils/reporting';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 
-export const JoinWithMagicLink = ({
+export const JoinWithInviteLink = ({
   tokenJoinInfo,
   profile,
 }: {
@@ -119,7 +119,7 @@ const JoinForm = ({
 
   const { token, circle } = tokenJoinInfo;
 
-  const submitMagicToken = async ({ name }: { name: string }) => {
+  const submitInviteToken = async ({ name }: { name: string }) => {
     try {
       setLoading(true);
       const { createUserWithToken } = await client.mutate(
@@ -141,7 +141,7 @@ const JoinForm = ({
   };
 
   return (
-    <form onSubmit={handleSubmit(submitMagicToken)}>
+    <form onSubmit={handleSubmit(submitInviteToken)}>
       <Box
         css={{
           mb: '$md',

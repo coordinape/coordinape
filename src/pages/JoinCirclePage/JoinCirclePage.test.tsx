@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react';
 import { CircleTokenType } from 'common-lib/circleShareTokens';
 import { useAuthStore } from 'features/auth';
 import { setMockHeaders } from 'lib/gql/client';
-import { Routes, Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { createProfile } from '../../../api-test/helpers';
@@ -29,7 +29,7 @@ beforeAll(async () => {
         createJoinToken: {
           insert_circle_share_tokens_one: [
             {
-              object: { circle_id: circle.id, type: CircleTokenType.Magic },
+              object: { circle_id: circle.id, type: CircleTokenType.Invite },
             },
             { uuid: true },
           ],

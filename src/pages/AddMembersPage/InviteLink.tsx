@@ -4,13 +4,13 @@ import CopyCodeTextField from '../../components/CopyCodeTextField';
 import { AlertTriangle } from '../../icons/__generated';
 import { Box, Flex, Panel, Text } from '../../ui';
 
-const MagicLink = ({ magicLink }: { magicLink: string }) => {
+const InviteLink = ({ inviteLink }: { inviteLink: string }) => {
   return (
     <Box>
       <Flex alignItems="center" css={{ mb: '$xs' }}>
-        <Text variant="label">Magic Circle Link</Text>
+        <Text variant="label">Circle Invite Link</Text>
       </Flex>
-      <CopyCodeTextField value={magicLink} />
+      <CopyCodeTextField value={inviteLink} />
 
       <Panel alert css={{ mt: '$xl', mb: '$md' }}>
         <Flex alignItems="center">
@@ -22,8 +22,8 @@ const MagicLink = ({ magicLink }: { magicLink: string }) => {
             }}
           />
           <Text color="inherit">
-            Anyone with this link can join this circle and set their name. For
-            added security, add new members using their wallet addresses.
+            Anyone with this link can join this circle. For added security, add
+            new members using their wallet addresses.
           </Text>
         </Flex>
       </Panel>
@@ -31,4 +31,4 @@ const MagicLink = ({ magicLink }: { magicLink: string }) => {
   );
 };
 
-export default MagicLink;
+export default InviteLink;

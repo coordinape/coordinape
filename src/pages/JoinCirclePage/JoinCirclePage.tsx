@@ -14,7 +14,7 @@ import { CenteredBox, Panel, Text } from '../../ui';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 
 import { AddressIsNotMember } from './AddressIsNotMember';
-import { JoinWithMagicLink } from './JoinWithMagicLink';
+import { JoinWithInviteLink } from './JoinWithInviteLink';
 import {
   getProfilesWithAddress,
   QUERY_KEY_PROFILE_BY_ADDRESS,
@@ -120,7 +120,7 @@ export const JoinCirclePage = () => {
         </CenteredBox>
       )}
       {tokenJoinInfo && (
-        <JoinWithMagicLink tokenJoinInfo={tokenJoinInfo} profile={profile} />
+        <JoinWithInviteLink tokenJoinInfo={tokenJoinInfo} profile={profile} />
       )}
     </>
   );
