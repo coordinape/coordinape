@@ -66,25 +66,26 @@ const AMProfileCard = ({
       onClick={() => onClick(profile)}
       css={{
         position: 'relative',
-        marginBottom: '$lg',
-        padding: '$lg',
+        marginBottom: '$md',
+        padding: '$md',
         borderRadius: '$3',
         cursor: 'pointer',
-        backgroundColor: '$surfaceNested',
+        backgroundColor: '$surface',
+        border: '1px solid transparent',
         '&:hover': {
-          backgroundColor: '$dim',
+          borderColor: '$link',
         },
         '&:first-child': {
           marginTop: 0,
         },
         '&.root .scale': {
           backgroundColor: 'transparent',
+          pointerEvents: 'none',
         },
-        '&.rootSummary .scale': {
-          backgroundColor: '$tagPrimaryBackground',
-        },
-        '&.rootSelected': {
-          backgroundColor: '$tagPrimaryBackground',
+        '&.rootSelected, &.rootSummary .scale': {
+          // backgroundColor: '$tagPrimaryBackground',
+          borderColor: '$borderFocus',
+          backgroundColor: '$highlight',
         },
         '.scale': {
           position: 'absolute',
@@ -105,7 +106,7 @@ const AMProfileCard = ({
         <Flex
           css={{
             alignItems: 'center',
-            gap: '$md',
+            gap: '$sm',
           }}
         >
           <Avatar
@@ -114,7 +115,7 @@ const AMProfileCard = ({
             name={user.profile?.name ?? user.name}
           />
           <Box>
-            <Text h3 css={{ display: 'block' }}>
+            <Text size="large" css={{ display: 'block' }}>
               {reactStringReplace(
                 user.profile?.name ?? user.name,
                 searchRegex,
@@ -136,7 +137,7 @@ const AMProfileCard = ({
             {profile?.skills && profile.skills.length > 0 && (
               <Flex css={{ gap: '$sm' }}>
                 {profile.skills.slice(0, 3).map(skill => (
-                  <Text tag color="active" key={skill}>
+                  <Text tag color="secondary" key={skill}>
                     {skill}
                   </Text>
                 ))}

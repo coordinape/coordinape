@@ -591,6 +591,8 @@ export const light = createTheme({
     surfaceNested: newFigmaColors.grey1,
     navLinkText: newFigmaColors.grey7,
     navLinkHoverBackground: newFigmaColors.grey1,
+    dim: newFigmaColors.grey4,
+    highlight: newFigmaColors.secondary1,
 
     profileGradientStart: newFigmaColors.grey4,
     profileGradientEnd: newFigmaColors.grey2,
