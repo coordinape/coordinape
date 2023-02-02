@@ -224,8 +224,7 @@ const apeVariants: any = (
             size === 'small'
               ? theme.spacing(0.5, 1, 0.5)
               : theme.spacing(0, 1, 0),
-          backgroundColor:
-            size === 'small' ? theme.colors.white : theme.colors.surface,
+          backgroundColor: 'gold',
           borderRadius: size === 'small' ? 8 : 16,
           color: theme.colors.text,
           border: `1px solid ${theme.colors.border}`,
@@ -239,6 +238,7 @@ const apeVariants: any = (
           '&.Mui-error, &.Mui-error .MuiInputBase-input': {
             backgroundColor: theme.colors.alertLight,
             color: theme.colors.alert,
+            outline: '2px solid springgreen',
           },
         },
         input: {

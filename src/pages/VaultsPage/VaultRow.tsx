@@ -10,7 +10,7 @@ import { useBlockListener } from 'hooks/useBlockListener';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { useContracts } from 'hooks/useContracts';
 import { paths } from 'routes/paths';
-import { AppLink, Box, Button, Panel, Text } from 'ui';
+import { AppLink, Box, Button, Flex, Panel, Text } from 'ui';
 import { smartRounding } from 'utils';
 
 import { OwnerProfileLink, VaultExternalLink } from './components';
@@ -85,10 +85,10 @@ export function VaultRow({
         onUpdateBalance={updateBalance}
       />
       <Box
-        css={{ display: 'flex', alignItems: 'center', gap: '$md', mb: '$xs' }}
+        css={{ display: 'flex', alignItems: 'center', gap: '$sm', mb: '$xs' }}
       >
-        <Text h3 css={{ flexGrow: 1 }}>
-          {vault.symbol || '...'} CoVault
+        <Text h3 css={{ flexGrow: 1, gap: '$sm' }}>
+          <Text>{vault.symbol || '...'} CoVault</Text>
           <VaultExternalLink
             chainId={vault.chain_id}
             vaultAddress={vault.vault_address}
@@ -159,21 +159,26 @@ const RecentTransactions = ({ vault }: { vault: Vault }) => {
       >
         Recent Transactions
       </Text>
-      <Box>
+      <Flex>
         {isFetching ? (
-          'Loading...'
+          <Text p color="secondary">
+            Loading...
+          </Text>
         ) : vaultTxList?.length ? (
           <TransactionTable
             chainId={vault.chain_id}
             rows={vaultTxList.slice(0, 3)}
           />
         ) : (
-          'No Transactions Yet'
+          <Text tag color="neutral">
+            No Transactions Yet
+          </Text>
         )}
 
         {!!vaultTxList?.length && (
           <Box css={{ textAlign: 'center', mt: '$md' }}>
             <AppLink
+              inlineLink
               css={{ color: '$secondaryText' }}
               to={paths.vaultTxs(vault.vault_address)}
             >
@@ -181,7 +186,7 @@ const RecentTransactions = ({ vault }: { vault: Vault }) => {
             </AppLink>
           </Box>
         )}
-      </Box>
+      </Flex>
     </>
   );
 };
