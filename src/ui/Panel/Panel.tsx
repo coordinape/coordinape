@@ -30,15 +30,19 @@ export const Panel = styled(PanelBase, {
     },
   },
   // TODO clean up all these nested panel rules after theme migration
-  'input, textarea, button[role="combobox"], .root .formInputWrapper, .formInputWrapper':
+  'input, textarea, button[role="combobox"], .root .formInputWrapper, .formInputWrapper, .MuiInputBase-root.Mui-disabled':
     {
       backgroundColor: '$formInputBackground',
       borderColor: '$formInputBorder',
+      color: '$formInputText',
+      '&:focus-within': {
+        borderColor: '$borderFocus',
+      },
       '&.Mui-error': {
         color: '$alert',
         background: '$formInputErrorBackground',
         borderColor: '$formInputErrorBorder',
-        '+div span, span': {
+        '+div span, span, a': {
           color: '$alert',
         },
         input: {
@@ -46,8 +50,9 @@ export const Panel = styled(PanelBase, {
           background: 'transparent',
         },
       },
-      '&:disabled': {
-        opacity: 1,
+      '&:disabled, &.Mui-disabled': {
+        opacity: 0.2,
+        pointerEvents: 'none',
       },
     },
   '.root .formInputWrapper': {

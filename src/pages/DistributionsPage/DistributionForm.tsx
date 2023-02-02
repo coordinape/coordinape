@@ -39,6 +39,7 @@ import {
   Box,
   Button,
   Flex,
+  Link,
   Panel,
   Select,
   SelectOption,
@@ -915,7 +916,7 @@ export function DistributionForm({
       </form>
 
       <form onSubmit={fixedHandleSubmit(onFixedFormSubmit)}>
-        <Panel invertForm css={vaultSelectionPanel}>
+        <Panel css={vaultSelectionPanel}>
           <Flex>
             <Text h2 css={{ ...headerStyle, flexGrow: 1 }}>
               Fixed Payments
@@ -925,7 +926,7 @@ export function DistributionForm({
                 to={paths.circleAdmin(circle.id)}
                 css={{ textDecoration: 'none' }}
               >
-                <Text css={{ color: '$primary' }}>Edit Settings</Text>
+                <Link inlineLink>Edit Settings</Link>
               </AppLink>
             </Box>
           </Flex>
@@ -938,7 +939,7 @@ export function DistributionForm({
                 mt: '$md',
                 textAlign: 'center',
                 fontSize: '$small',
-                color: '$neutral',
+                color: '$secondaryText',
               }}
             >
               Fixed Payments are Disabled
@@ -1027,7 +1028,7 @@ export function DistributionForm({
             />
           ) : fpVault ? (
             <Button
-              color="secondary"
+              color="primary"
               disabled={
                 fixedSubmitting || !sufficientFixedPaymentTokens || !contracts
               }

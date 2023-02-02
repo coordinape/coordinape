@@ -7,7 +7,7 @@ import {
   DeprecatedApeTextField,
   DeprecatedApeTextFieldWithRef,
 } from 'components/index';
-import { Text } from 'ui';
+import { Link } from 'ui';
 
 export const zTokenString = (min: string, max: string, decimals: number) =>
   z.string().refine(
@@ -84,12 +84,13 @@ export const FormTokenField = React.forwardRef((props: Props, ref) => {
       {...otherProps}
       InputProps={{
         startAdornment: (
-          <Text
-            css={{ color: '$primary', cursor: 'pointer' }}
+          <Link
+            inlineLink
+            css={{ color: '$cta', cursor: 'pointer' }}
             onClick={() => onChange(max)}
           >
             Max
-          </Text>
+          </Link>
         ),
         endAdornment: symbol.toUpperCase(),
       }}
