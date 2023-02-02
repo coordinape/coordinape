@@ -499,7 +499,12 @@ export async function createEpoch(params: ValueTypes['CreateEpochInput']) {
 export async function updateEpoch(
   updateParams: ValueTypes['UpdateEpochInput']
 ) {
-  const { circle_id: circleId, id: epochId, params } = updateParams;
+  const {
+    circle_id: circleId,
+    id: epochId,
+    params,
+    description,
+  } = updateParams;
   const { updateEpoch } = await client.mutate(
     {
       updateEpoch: [
@@ -508,6 +513,7 @@ export async function updateEpoch(
             circle_id: circleId,
             id: epochId,
             params,
+            description,
           },
         },
         {

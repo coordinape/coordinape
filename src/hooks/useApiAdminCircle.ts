@@ -42,12 +42,19 @@ export const useApiAdminCircle = (circleId: number) => {
     () =>
       async (
         epochId: number,
-        params: ValueTypes['UpdateEpochInput']['params']
+        {
+          params,
+          description,
+        }: {
+          params: ValueTypes['UpdateEpochInput']['params'];
+          description?: string;
+        }
       ) => {
         await mutations.updateEpoch({
           params,
           id: epochId,
           circle_id: circleId,
+          description,
         });
         await fetchCircle({ circleId });
       },

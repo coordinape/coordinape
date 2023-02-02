@@ -355,9 +355,11 @@ export const HistoryPage = () => {
                     .catch(() => setEpochToDelete(undefined))
                 : currentEpoch
                 ? updateEpoch(currentEpoch.id, {
-                    end_date: currentEpoch.end_date,
-                    start_date: currentEpoch.start_date,
-                    type: 'one-off',
+                    params: {
+                      end_date: currentEpoch.end_date,
+                      start_date: currentEpoch.start_date,
+                      type: 'one-off',
+                    },
                   })
                     .then(() => setEpochToDelete(undefined))
                     .then(() => query.refetch())

@@ -609,7 +609,7 @@ const EpochForm = ({
 
     (source?.epoch
       ? selectedEpoch?.number !== -1
-        ? updateEpoch(source.epoch.id, payload)
+        ? updateEpoch(source.epoch.id, { params: payload })
         : currentEpoch
         ? updateActiveRepeatingEpoch(currentEpoch.id, {
             current: {
