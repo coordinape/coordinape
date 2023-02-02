@@ -413,7 +413,11 @@ const EpochForm = ({
     resolver: zodResolver(schema),
     mode: 'all',
     defaultValues: {
-      repeat_view: source.epoch?.repeat_data ? 'repeats' : 'one-off',
+      repeat_view: source.epoch
+        ? source.epoch.repeat_data
+          ? 'repeats'
+          : 'one-off'
+        : 'repeats',
       repeatStartDate: getMonthStartDates(
         source?.epoch?.start_date
           ? DateTime.fromISO(source.epoch.start_date).day.toString()
@@ -464,7 +468,13 @@ const EpochForm = ({
         ).toISO(),
     repeat_data: source?.epoch
       ? source?.epoch?.repeat_data
-      : { type: 'custom', frequency_unit: 'months', frequency: 1 },
+      : {
+          type: 'custom',
+          frequency_unit: 'months',
+          frequency: 1,
+          duration: 1,
+          duration_unit: 'months',
+        },
   });
 
   const extraErrors = useRef(false);
