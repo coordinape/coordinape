@@ -174,7 +174,17 @@ export const AMDrawer = () => {
             }}
           />
         </Panel>
-        <Panel css={{ height: '100%', overflow: 'scroll' }}>
+        <Flex
+          column
+          css={{
+            height: '100%',
+            overflow: 'scroll',
+            '&::-webkit-scrollbar': {
+              display: 'none',
+            },
+            scrollbarWidth: 'none',
+          }}
+        >
           {profiles.map(profile => (
             <AMProfileCard
               key={profile.id}
@@ -183,7 +193,7 @@ export const AMDrawer = () => {
               circle={circle}
             />
           ))}
-        </Panel>
+        </Flex>
       </Drawer>
     </>
   );
