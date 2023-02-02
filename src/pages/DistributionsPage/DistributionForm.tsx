@@ -64,7 +64,7 @@ const headerStyle = {
 const vaultSelectionPanel = {
   padding: '$md',
   minHeight: '11rem',
-  mb: '$lg',
+  mb: '$md',
 };
 
 const { Zero } = ethersConstants;
@@ -639,7 +639,7 @@ export function DistributionForm({
   return (
     <TwoColumnLayout>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Panel invertForm css={vaultSelectionPanel}>
+        <Panel css={vaultSelectionPanel}>
           <Text h2 css={headerStyle}>
             Gift Circle
           </Text>
@@ -872,7 +872,7 @@ export function DistributionForm({
           )}
         </Panel>
         {(fixedDist || circleDist) && <Summary distribution={circleDist} />}
-        <Flex css={{ justifyContent: 'center', mb: '$sm' }}>
+        <Flex css={{ justifyContent: 'flex-end', mb: '$sm' }}>
           {existingLockedTokenDistribution?.tx_hash ? (
             <EtherscanButton
               tx_hash={existingLockedTokenDistribution.tx_hash}
@@ -899,9 +899,9 @@ export function DistributionForm({
             </Text>
           ) : vaults[0] ? (
             <Button
-              color="secondary"
-              disabled={giftSubmitting || !sufficientGiftTokens || !contracts}
               fullWidth
+              color="primary"
+              disabled={giftSubmitting || !sufficientGiftTokens || !contracts}
             >
               {getButtonText(
                 sufficientGiftTokens,

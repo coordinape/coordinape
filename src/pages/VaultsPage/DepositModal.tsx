@@ -18,7 +18,7 @@ import type { Vault } from 'hooks/gql/useVaults';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultRouter } from 'hooks/useVaultRouter';
-import { Box, Button, CheckBox, Form, Link, Modal, Text } from 'ui';
+import { Box, Button, CheckBox, Form, Link, Modal, Text, Panel } from 'ui';
 import { numberWithCommas, shortenAddress } from 'utils';
 
 import { QUERY_KEY_VAULT_TXS } from './VaultTransactions';
@@ -124,59 +124,60 @@ export default function DepositModal({
 
   return (
     <Modal title={`Deposit ${symbol}`} open={true} onOpenChange={onClose}>
-      <Form
-        css={{
-          position: 'relative',
-          display: 'flex',
-          flexDirection: 'column',
-          width: '100%',
-          padding: '$sm 0 $lg',
-          overflowY: 'auto',
-        }}
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <SecondWallet
-          onConnect={onConnectSecondWallet}
-          onDisconnect={onDisconnectSecondWallet}
-          validChainId={isChainIdMatching}
-        />
+      <Panel ghost>
+        <Form
+          css={{
+            position: 'relative',
+            display: 'flex',
+            flexDirection: 'column',
+            width: '100%',
+            padding: '$sm 0 $lg',
+            overflowY: 'auto',
+          }}
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <SecondWallet
+            onConnect={onConnectSecondWallet}
+            onDisconnect={onDisconnectSecondWallet}
+            validChainId={isChainIdMatching}
+          />
 
-        <FormTokenField
-          max={max}
-          symbol={usingEth ? 'ETH' : symbol}
-          decimals={vault.decimals}
-          label={`Available: ${numberWithCommas(round(max, 4))} ${
-            usingEth ? 'ETH' : symbol
-          }`}
-          error={!!errors.amount}
-          errorText={errors.amount?.message}
-          {...amountField}
-        />
-        {symbol === 'WETH' && <CheckBox {...useWeth} label="Use WETH" />}
-        <Button
-          css={{ mt: '$lg', gap: '$xs' }}
-          color="secondary"
-          size="large"
-          type="submit"
-          fullWidth
-          disabled={!isChainIdMatching || !isValid || submitting}
-        >
-          {submitting
-            ? 'Depositing Funds...'
-            : `Approve and Deposit into ${vault.symbol} Vault ${shortenAddress(
-                vault.vault_address,
-                false
-              )}`}
-        </Button>
-        <Text
-          size="small"
-          css={{ color: '$secondaryText', alignSelf: 'center', mt: '$sm' }}
-        >
-          {usingEth
-            ? 'You will send three transactions: one to convert ETH to WETH, one for WETH approval, and one to deposit WETH.'
-            : 'You will sign two transactions: one for approval and one for deposit.'}
-        </Text>
-      </Form>
+          <FormTokenField
+            max={max}
+            symbol={usingEth ? 'ETH' : symbol}
+            decimals={vault.decimals}
+            label={`Available: ${numberWithCommas(round(max, 4))} ${
+              usingEth ? 'ETH' : symbol
+            }`}
+            error={!!errors.amount}
+            errorText={errors.amount?.message}
+            {...amountField}
+          />
+          {symbol === 'WETH' && <CheckBox {...useWeth} label="Use WETH" />}
+          <Button
+            css={{ mt: '$md', gap: '$xs' }}
+            color="primary"
+            size="large"
+            type="submit"
+            fullWidth
+            disabled={!isChainIdMatching || !isValid || submitting}
+          >
+            {submitting
+              ? 'Depositing Funds...'
+              : `Approve and Deposit into ${
+                  vault.symbol
+                } Vault ${shortenAddress(vault.vault_address, false)}`}
+          </Button>
+          <Text
+            size="small"
+            css={{ color: '$secondaryText', alignSelf: 'center', mt: '$sm' }}
+          >
+            {usingEth
+              ? 'You will send three transactions: one to convert ETH to WETH, one for WETH approval, and one to deposit WETH.'
+              : 'You will sign two transactions: one for approval and one for deposit.'}
+          </Text>
+        </Form>
+      </Panel>
     </Modal>
   );
 }

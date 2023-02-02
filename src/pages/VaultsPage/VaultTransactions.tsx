@@ -388,11 +388,8 @@ export const TransactionTable = ({
         textTransform: 'uppercase',
         p: '$sm',
       },
-      tbody: { backgroundColor: '$surface', borderRadius: '$3' },
-      tr: {
-        borderTop: '1px solid $border',
-      },
       td: {
+        borderTop: '1px solid $borderTable',
         p: '$sm',
         color: '$text',
       },
@@ -422,7 +419,11 @@ export const TransactionTable = ({
           <td>{row.details}</td>
           <td className="alignRight">{numberWithCommas(row.amount, 2)}</td>
           <td className="alignRight">
-            <Link target="_blank" href={makeExplorerUrl(chainId, row.hash)}>
+            <Link
+              inlineLink
+              target="_blank"
+              href={makeExplorerUrl(chainId, row.hash)}
+            >
               View on Etherscan
             </Link>
           </td>

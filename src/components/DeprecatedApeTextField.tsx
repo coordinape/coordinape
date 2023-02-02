@@ -220,29 +220,9 @@ const apeVariants: any = (
           color: theme.colors.text,
         },
         inputRoot: {
-          padding:
-            size === 'small'
-              ? theme.spacing(0.5, 1, 0.5)
-              : theme.spacing(0, 1, 0),
-          backgroundColor: 'gold',
-          borderRadius: size === 'small' ? 8 : 16,
-          color: theme.colors.text,
-          border: `1px solid ${theme.colors.border}`,
-          transition: 'border 200ms ease-out',
-          '&:focus-within': {
-            border: `1px solid ${theme.colors.secondary}80`,
-          },
-          '&.Mui-disabled': {
-            backgroundColor: theme.colors.surface,
-          },
-          '&.Mui-error, &.Mui-error .MuiInputBase-input': {
-            backgroundColor: theme.colors.alertLight,
-            color: theme.colors.alert,
-            outline: '2px solid springgreen',
-          },
+          padding: theme.spacing(0, 1, 0),
         },
         input: {
-          borderRadius: size === 'small' ? 8 : 16,
           padding: theme.spacing(0.75, 1, 0.75),
           fontSize: size === 'small' ? 16 : 32,
           lineHeight: 1.33,

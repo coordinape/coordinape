@@ -17,6 +17,7 @@ export const Text = styled('span', {
       alert: { color: '$alert' },
       warning: { color: '$warning' },
       primary: { color: '$primary' },
+      cta: { color: '$cta' },
       secondary: { color: '$secondaryText' },
       active: { color: '$tagActiveText' },
       complete: { color: '$complete' },

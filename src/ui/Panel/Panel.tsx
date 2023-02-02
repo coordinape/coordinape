@@ -9,18 +9,38 @@ export const panelStyles = css({
   borderRadius: '$3',
 });
 
-export const Panel = styled('div', {
+const PanelBase = styled('div');
+
+export const Panel = styled(PanelBase, {
   borderRadius: '$3',
   backgroundColor: '$surface',
   padding: '$md',
-  // TODO clean up all these nested panel rules after theme migration
-  'input, textarea, button[role="combobox"], .root .formInputWrapper': {
-    backgroundColor: '$formInputBackground',
-    borderColor: '$formInputBorder',
-    '&:disabled': {
-      opacity: 1,
-    },
+  border: '1px solid $borderDim',
+  [`${PanelBase}`]: {
+    // any nested panels shouldn't have border by default
+    border: 'none',
   },
+  // TODO clean up all these nested panel rules after theme migration
+  'input, textarea, button[role="combobox"], .root .formInputWrapper, .formInputWrapper':
+    {
+      backgroundColor: '$formInputBackground',
+      borderColor: '$formInputBorder',
+      '&.Mui-error': {
+        color: '$alert',
+        background: '$formInputErrorBackground',
+        borderColor: '$formInputErrorBorder',
+        '+div span, span': {
+          color: '$alert',
+        },
+        input: {
+          color: '$formInputErrorText',
+          background: 'transparent',
+        },
+      },
+      '&:disabled': {
+        opacity: 1,
+      },
+    },
   '.root .formInputWrapper': {
     borderColor: '$formInputBorder',
     '& input': {
@@ -33,6 +53,14 @@ export const Panel = styled('div', {
         outline: '1px solid $borderFocusBright',
       },
     },
+    ghost: {
+      true: {
+        padding: 0,
+        background: 'transparent',
+        borderRadius: 0,
+        border: 'none',
+      },
+    },
     stack: {
       true: {
         display: 'flex',
@@ -43,6 +71,7 @@ export const Panel = styled('div', {
       true: {
         padding: '$md',
         backgroundColor: '$surfaceNested',
+        borderColor: 'transparent',
         'input, textarea, button[role="combobox"], .root .formInputWrapper': {
           backgroundColor: '$surface',
           borderColor: 'transparent',
