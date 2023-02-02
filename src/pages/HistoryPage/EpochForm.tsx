@@ -102,20 +102,6 @@ const schema = z
     repeat: EpochRepeatEnum,
     repeatStartDate: z.string(),
     repeat_view: z.string(),
-    description: z
-      .optional(
-        z.nullable(
-          z
-            .string()
-            .refine(val => val.trim().length >= 10, {
-              message: 'Description should be at least 10 characters long',
-            })
-            .refine(val => val.length < 100, {
-              message: 'Description length should not exceed 100 characters',
-            })
-        )
-      )
-      .transform(val => (val === '' ? null : val)),
     customError: z.undefined(), //unregistered to disable submitting
   })
   .strict();
@@ -401,7 +387,6 @@ const EpochForm = ({
         (source?.epoch?.start_date &&
           DateTime.fromISO(source.epoch.start_date).toISODate()) ??
         DateTime.now().setZone().plus({ days: 1 }).toISODate(),
-      description: source.epoch?.description,
       custom_duration_denomination: source.epoch?.repeat_data?.duration_unit,
       custom_duration_qty: source.epoch?.repeat_data?.duration,
       custom_interval_qty: source.epoch?.repeat_data?.frequency,
@@ -582,9 +567,6 @@ const EpochForm = ({
       end_date: epochConfig.end_date,
     };
 
-    // eslint-disable-next-line no-console
-    console.log({ payload });
-
     (source?.epoch
       ? selectedEpoch?.number !== -1
         ? updateEpoch(source.epoch.id, { params: payload })
@@ -677,14 +659,6 @@ const EpochForm = ({
           </TwoColumnLayout>
           <TwoColumnLayout>
             <Flex column css={{ gap: '$sm' }}>
-              <FormInputField
-                id="description"
-                name="description"
-                defaultValue={source.epoch?.description}
-                control={control}
-                label="DESCRIPTION"
-                infoTooltip="A brief description of this epoch"
-              />
               <Flex column css={{ gap: '$sm' }}>
                 <Text h3>Epoch Frequency</Text>
                 <Flex column css={{ mt: '$sm ', mb: '$md' }}>
