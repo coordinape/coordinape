@@ -287,7 +287,6 @@ const EpochDescription = ({
                 id="epoch_description_edit"
                 control={epochDescriptionControl}
                 defaultValue={description}
-                areaProps={{ rows: 2 }}
                 label="Epoch Description"
                 showFieldErrors
                 textArea
