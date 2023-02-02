@@ -4,7 +4,6 @@ import clsx from 'clsx';
 import { NavLink } from 'react-router-dom';
 import reactStringReplace from 'react-string-replace';
 
-import { ProfileSocialIcons } from 'components';
 import {
   useMapMetric,
   useStateAmEgoAddress,
@@ -63,23 +62,36 @@ const AMProfileCard = ({
   return (
     <Box
       ref={elemRef}
+      onClick={() => onClick(profile)}
       css={{
         position: 'relative',
-        marginBottom: '$lg',
-        padding: '$lg',
+        marginBottom: '$md',
+        padding: '$sm $md',
         borderRadius: '$3',
-        backgroundColor: '$surfaceNested',
+        cursor: 'pointer',
+        backgroundColor: '$surface',
+        border: '1px solid transparent',
+        '.summaryText': {
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+        },
+        '&:hover': {
+          borderColor: '$link',
+        },
         '&:first-child': {
           marginTop: 0,
         },
         '&.root .scale': {
           backgroundColor: 'transparent',
+          pointerEvents: 'none',
         },
-        '&.rootSummary .scale': {
-          backgroundColor: '$tagPrimaryBackground',
-        },
-        '&.rootSelected': {
-          backgroundColor: '$tagPrimaryBackground',
+        '&.rootSelected, &.rootSummary .scale': {
+          borderColor: '$borderFocus',
+          backgroundColor: '$highlight',
+          '.summaryText': {
+            whiteSpace: 'normal',
+          },
         },
         '.scale': {
           position: 'absolute',
@@ -98,8 +110,10 @@ const AMProfileCard = ({
       <Box className="scale" css={{ width: `${fraction * 100}%` }} />
       <Flex column css={{ gap: '$sm' }}>
         <Flex
-          css={{ alignItems: 'center', gap: '$md', cursor: 'pointer' }}
-          onClick={() => onClick(profile)}
+          css={{
+            alignItems: 'center',
+            gap: '$sm',
+          }}
         >
           <Avatar
             size="small"
@@ -107,7 +121,7 @@ const AMProfileCard = ({
             name={user.profile?.name ?? user.name}
           />
           <Box>
-            <Text h3 css={{ display: 'block' }}>
+            <Text size="large" css={{ display: 'block' }}>
               {reactStringReplace(
                 user.profile?.name ?? user.name,
                 searchRegex,
@@ -129,18 +143,19 @@ const AMProfileCard = ({
             {profile?.skills && profile.skills.length > 0 && (
               <Flex css={{ gap: '$sm' }}>
                 {profile.skills.slice(0, 3).map(skill => (
-                  <Text tag color="active" key={skill}>
+                  <Text tag color="secondary" key={skill}>
                     {skill}
                   </Text>
                 ))}
               </Flex>
             )}
-            {isSelected && (
-              <Flex>
-                <ProfileSocialIcons profile={profile} />
-              </Flex>
-            )}
-            <Text>
+            <Text
+              p
+              as="p"
+              size="small"
+              color="secondary"
+              className="summaryText"
+            >
               {reactStringReplace(bio, searchRegex, (match, i) =>
                 i === 1 ? <strong key={match}>{match}</strong> : null
               )}

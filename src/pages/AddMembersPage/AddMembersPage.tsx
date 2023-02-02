@@ -9,13 +9,13 @@ import { AppLink, Box, ContentHeader, Flex, Link, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import CSVImport from './CSVImport';
-import MagicLink from './MagicLink';
+import InviteLink from './InviteLink';
 import NewMemberList, { NewMember } from './NewMemberList';
 import TabButton, { Tab } from './TabButton';
 import {
-  deleteMagicToken,
+  deleteInviteToken,
   deleteWelcomeToken,
-  useMagicToken,
+  useInviteToken,
   useWelcomeToken,
 } from './useCircleTokens';
 
@@ -24,21 +24,21 @@ const AddMembersPage = () => {
 
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { data: magicLinkUuid, refetch: refetchMagicToken } =
-    useMagicToken(circleId);
+  const { data: inviteLinkUuid, refetch: fetchInviteToken } =
+    useInviteToken(circleId);
   const { data: welcomeUuid, refetch: refetchWelcomeToken } =
     useWelcomeToken(circleId);
 
   // Wait for initial load, show nothing but loading modal
-  if (!magicLinkUuid || !welcomeUuid) {
+  if (!inviteLinkUuid || !welcomeUuid) {
     return <LoadingModal visible={true} />;
   }
 
-  const revokeMagic = async () => {
+  const revokeInvite = async () => {
     try {
       setLoading(true);
-      await deleteMagicToken(circleId);
-      await refetchMagicToken();
+      await deleteInviteToken(circleId);
+      await fetchInviteToken();
     } finally {
       setLoading(false);
     }
@@ -54,7 +54,7 @@ const AddMembersPage = () => {
     }
   };
 
-  const magicLink = APP_URL + paths.join(magicLinkUuid);
+  const inviteLink = APP_URL + paths.join(inviteLinkUuid);
   const welcomeLink = APP_URL + paths.invite(welcomeUuid);
 
   return (
@@ -63,8 +63,8 @@ const AddMembersPage = () => {
       <AddMembersContents
         circle={circle}
         welcomeLink={welcomeLink}
-        magicLink={magicLink}
-        revokeMagic={revokeMagic}
+        inviteLink={inviteLink}
+        revokeInvite={revokeInvite}
         revokeWelcome={revokeWelcome}
       />
     </>
@@ -74,14 +74,14 @@ const AddMembersPage = () => {
 const AddMembersContents = ({
   circle,
   welcomeLink,
-  magicLink,
-  // revokeMagic, TODO: add revoke in a later PR when UI is better defined
+  inviteLink,
+  // revokeInvite, TODO: add revoke in a later PR when UI is better defined
   revokeWelcome,
 }: {
   circle: ICircle;
   welcomeLink: string;
-  magicLink: string;
-  revokeMagic(): void;
+  inviteLink: string;
+  revokeInvite(): void;
   revokeWelcome(): void;
 }) => {
   const [currentTab, setCurrentTab] = useState<Tab>(Tab.ETH);
@@ -128,7 +128,7 @@ const AddMembersContents = ({
           currentTab={currentTab}
           setCurrentTab={setCurrentTab}
         >
-          Magic Link
+          Invite Link
         </TabButton>
         <TabButton
           tab={Tab.CSV}
@@ -164,9 +164,9 @@ const AddMembersContents = ({
           {currentTab === Tab.LINK && (
             <Box>
               <Text css={{ pb: '$lg', pt: '$sm' }} size="medium">
-                Add new members by sharing a magic link.
+                Add new members by sharing an invite link.
               </Text>
-              <MagicLink magicLink={magicLink} />
+              <InviteLink inviteLink={inviteLink} />
             </Box>
           )}
           {currentTab === Tab.CSV && (

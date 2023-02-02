@@ -5,16 +5,16 @@ import { useQuery } from 'react-query';
 import { CircleTokenType } from '../../common-lib/circleShareTokens';
 import { client } from '../../lib/gql/client';
 
-export const useMagicToken = (circleId: number) => {
-  return useCircleTokens(circleId, CircleTokenType.Magic);
+export const useInviteToken = (circleId: number) => {
+  return useCircleTokens(circleId, CircleTokenType.Invite);
 };
 
 export const useWelcomeToken = (circleId: number) => {
   return useCircleTokens(circleId, CircleTokenType.Welcome);
 };
 
-export const deleteMagicToken = (circleId: number) => {
-  return deleteToken(circleId, CircleTokenType.Magic);
+export const deleteInviteToken = (circleId: number) => {
+  return deleteToken(circleId, CircleTokenType.Invite);
 };
 
 export const deleteWelcomeToken = (circleId: number) => {

@@ -233,6 +233,7 @@ export const GiveDrawer = ({
             />
             <Flex>
               <GiveAllocator
+                small
                 disabled={noGivingAllowed}
                 adjustGift={adjustGift}
                 gift={gift}

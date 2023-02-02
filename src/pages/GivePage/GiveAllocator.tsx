@@ -1,12 +1,11 @@
 import React from 'react';
 
+import type { CSS } from 'stitches.config';
+
 import { MinusCircle, PlusCircle } from '../../icons/__generated';
-import { Box, Button, Flex, Text, TextField } from '../../ui';
-import { InfoTooltip } from 'ui';
+import { Box, Button, Flex, Text, TextField, InfoTooltip } from 'ui';
 
 import { Gift } from './index';
-
-const iconSize = 40;
 
 type GiveAllocatorProps = {
   adjustGift(recipientId: number, amount: number | null): void;
@@ -14,6 +13,8 @@ type GiveAllocatorProps = {
   disabled: boolean;
   maxedOut: boolean;
   optedOut: boolean;
+  small?: boolean;
+  css?: CSS;
 };
 
 // GiveAllocator is the widget that shows the GIVE you have allocated to someone and lets you increment/decrement
@@ -23,7 +24,11 @@ export const GiveAllocator = ({
   disabled,
   maxedOut,
   optedOut,
+  small = false,
+  css,
 }: GiveAllocatorProps) => {
+  const iconSize = small ? 32 : 38;
+
   //incGift increments the gift by 1
   const incGift = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
@@ -53,9 +58,11 @@ export const GiveAllocator = ({
   return (
     <Flex
       css={{
-        minWidth: '13.5rem',
+        minWidth: small ? 0 : '13.5rem',
+        width: small ? '10.5rem' : 'auto',
         minHeight: 'calc($2xl + $xs - 1px)',
         alignItems: 'center',
+        ...css,
       }}
     >
       {optedOut ? (
@@ -130,12 +137,14 @@ export const GiveAllocator = ({
             onClick={e => e.stopPropagation()}
             css={{
               width: '100%',
+              height: iconSize,
+              minHeight: 0,
               textAlign: 'center',
-              mx: '$sm',
+              m: '0 $sm !important',
               py: '$xs',
               my: '$xs',
               fontWeight: '$semibold',
-              fontSize: '$h3',
+              fontSize: '$h2Temp',
               backgroundColor: '$dim !important',
             }}
             type="number"
@@ -191,8 +200,8 @@ const ClickTrapperIcon = () => (
       position: 'absolute',
       top: 0,
       left: 0,
-      width: iconSize,
-      height: iconSize,
+      width: '100%',
+      height: '100%',
     }}
   ></Box>
 );

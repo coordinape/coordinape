@@ -2,7 +2,7 @@ import { IN_DEVELOPMENT } from '../config/env';
 
 export enum ENTRANCE {
   ADMIN = 'circle-create-initial-admin',
-  LINK = 'magic-link',
+  LINK = 'invite-link',
   MANUAL = 'manual-address-entry',
   CSV = 'CSV',
   NOMINATION = 'vouched-in',

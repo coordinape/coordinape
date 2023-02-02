@@ -1,10 +1,8 @@
-// Updated at Thu, 26 Jan 2023 05:16:21 GMT
+// Updated at Thu, 02 Feb 2023 18:21:02 GMT
 // by scripts/update-figma-colors.ts
 
 export const newColors = {
-  // Grey
-  grey7: '#42464a',
-  // New
+  // Error
   error1: '#fdf2f2',
   error2: '#fde8e8',
   error3: '#fbd5d5',
@@ -15,15 +13,18 @@ export const newColors = {
   error8: '#c81e1e',
   error9: '#7a1616',
   error10: '#4e1313',
+  // Grey
   grey1: '#fcfcfc',
   grey2: '#f2f2f2',
   grey3: '#e6e9e7',
   grey4: '#c8c9cb',
   grey5: '#b6b8bb',
   grey6: '#8f999f',
+  grey7: '#42464a',
   grey8: '#292c31',
   grey9: '#1e1f21',
   grey10: '#070707',
+  // Neutral
   neutral1: '#fefffd',
   neutral2: '#d5d8d0',
   neutral3: '#cbcec5',
@@ -32,18 +33,20 @@ export const newColors = {
   neutral6: '#5f6159',
   neutral7: '#51534c',
   neutral8: '#383935',
-  neutral9: '#1f201d',
+  neutral9: '#1E1F21',
   neutral10: '#0d0d0c',
+  // Orange
   orange1: '#fff3e5',
   orange2: '#ffe1bf',
   orange3: '#ffce98',
   orange4: '#ffb873',
   orange5: '#f5993f',
-  orange6: '#eb8f35',
+  orange6: '#B66F05',
   orange7: '#d18006',
   orange8: '#b66f05',
   orange9: '#a35a07',
   orange10: '#7c3e02',
+  // Primary
   primary1: '#f5f8ed',
   primary2: '#eef5d9',
   primary3: '#e8f5c0',
@@ -54,9 +57,10 @@ export const newColors = {
   primary8: '#72804b',
   primary9: '#444d2c',
   primary10: '#202414',
-  secondary1: '#ded5f2',
-  secondary2: '#b4a2e8',
-  secondary3: '#8465dc',
+  // Secondary
+  secondary1: '#f3f1f7',
+  secondary2: '#ded5f2',
+  secondary3: '#8d71da',
   secondary4: '#6c47d7',
   secondary5: '#602dcb',
   secondary6: '#5226ae',
@@ -64,8 +68,9 @@ export const newColors = {
   secondary8: '#311974',
   secondary9: '#2a1458',
   secondary10: '#120c3a',
+  // Success
   success1: '#f3faf7',
-  success2: '#def7ec',
+  success2: '#DEF7EC',
   success3: '#bcf0da',
   success4: '#84e1bc',
   success5: '#31c48d',
@@ -74,6 +79,7 @@ export const newColors = {
   success8: '#046c4e',
   success9: '#03543f',
   success10: '#014737',
+  // Warning
   warning1: '#fdfdea',
   warning2: '#fdf6b2',
   warning3: '#fce96a',

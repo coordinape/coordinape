@@ -21,6 +21,15 @@ export const Panel = styled(PanelBase, {
     border: 'none',
   },
   // TODO clean up all these nested panel rules after theme migration
+  'input, textarea, button[role="combobox"], .root .formInputWrapper': {
+    backgroundColor: '$formInputBackground',
+    borderColor: '$formInputBorder',
+    transition: 'opacity 0.3s ease-in-out',
+    '&:disabled': {
+      opacity: 0.2,
+    },
+  },
+  // TODO clean up all these nested panel rules after theme migration
   'input, textarea, button[role="combobox"], .root .formInputWrapper, .formInputWrapper':
     {
       backgroundColor: '$formInputBackground',
