@@ -4,6 +4,7 @@ import { Network } from '../../components';
 import { CreateUserNameForm } from '../../components/MainLayout/CreateUserNameForm';
 import { paths } from '../../routes/paths';
 import { Avatar, Box, Button, Flex, Modal, Text } from '../../ui';
+import { shortenAddressWithFrontLength } from '../../utils';
 import { useWalletStatus } from '../auth';
 import { ThemeSwitcher } from '../theming/ThemeSwitcher';
 
@@ -81,7 +82,7 @@ export const NavProfile = ({
             {name}
           </Text>
           <Text color="inherit" size="small" ellipsis>
-            {address}
+            {address && shortenAddressWithFrontLength(address, 8)}
           </Text>
         </Box>
       </Flex>

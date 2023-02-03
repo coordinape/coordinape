@@ -33,12 +33,12 @@ export const NavCircles = ({
         }
       />
       {org.circles.map(c => {
-        const isCurrentCircle = currentCircle && currentCircle.id == c.id;
+        const isCurrentCircle =
+          org.circles.length == 1 ||
+          (currentCircle && currentCircle.id == c.id);
         return (
           <Box key={c.id}>
             <Flex
-              as={NavLink}
-              to={paths.history(c.id)}
               css={{
                 alignItems: 'center',
                 mb: '$md',
@@ -46,34 +46,62 @@ export const NavCircles = ({
                 borderRadius: '$3',
               }}
             >
-              <Avatar
-                name={c.name}
-                size="small"
-                margin="none"
+              <Flex
+                as={NavLink}
+                to={paths.history(c.id)}
                 css={{
-                  mr: '$sm',
-                  outline: isCurrentCircle ? '2px solid $link' : undefined,
-                }}
-                path={c.logo}
-              />
-              <Text
-                semibold={isCurrentCircle}
-                css={{
+                  alignItems: 'center',
+                  textDecoration: 'none',
+                  borderRadius: '$3',
                   flexGrow: 1,
-                  color: isCurrentCircle ? '$textOnInfo' : '$navLinkText',
+                  '&:hover': {
+                    [`${IconButton}`]: {
+                      color: org.circles.length == 1 ? undefined : '$cta',
+                    },
+                  },
                 }}
               >
-                {c.name}
-              </Text>
-              <IconButton>
-                {isCurrentCircle || org.circles.length == 1 ? (
-                  <ChevronDown />
-                ) : (
-                  <ChevronRight />
+                <Avatar
+                  name={c.name}
+                  size="small"
+                  margin="none"
+                  css={{
+                    mr: '$sm',
+                    outline: isCurrentCircle ? '2px solid $link' : undefined,
+                  }}
+                  path={c.logo}
+                />
+                <Text
+                  semibold={isCurrentCircle}
+                  css={{
+                    flexGrow: 1,
+                    color: isCurrentCircle ? '$textOnInfo' : '$navLinkText',
+                  }}
+                >
+                  {c.name}
+                </Text>
+                {!isCurrentCircle && (
+                  <IconButton>
+                    <ChevronRight />
+                  </IconButton>
                 )}
-              </IconButton>
+                {isCurrentCircle && org.circles.length == 1 && (
+                  <IconButton>
+                    <ChevronDown />
+                  </IconButton>
+                )}
+              </Flex>
+              {isCurrentCircle && org.circles.length != 1 && (
+                <IconButton
+                  as={NavLink}
+                  to={paths.organization(org.id)}
+                  css={{ '&:hover': { color: '$cta' } }}
+                >
+                  <ChevronDown />
+                </IconButton>
+              )}
             </Flex>
-            {(isCurrentCircle || org.circles.length == 1) && (
+            {isCurrentCircle && (
               <NavCurrentCircle key={'currentCircle'} circle={c} />
             )}
           </Box>
