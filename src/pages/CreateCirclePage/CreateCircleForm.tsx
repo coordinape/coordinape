@@ -199,15 +199,9 @@ export const CreateCircleForm = ({
                       margin="none"
                       path={logoData.avatar}
                     />
-                    <Text
-                      variant="label"
-                      as="label"
-                      htmlFor="upload-logo-button"
-                    >
-                      <Button as="div" color="secondary">
-                        Upload File
-                      </Button>
-                    </Text>
+                    <Button as="div" color="secondary">
+                      Upload File
+                    </Button>
                   </Flex>
                   <input
                     id="upload-logo-button"
