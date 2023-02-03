@@ -80,6 +80,10 @@ async function getEpochsToNotify() {
                     aggregate: { count: [{}, true] },
                   },
                 ],
+                discord_circle: {
+                  discord_channel_id: true,
+                  discord_role_id: true,
+                },
               },
             },
           ],
@@ -123,7 +127,21 @@ async function getEpochsToNotify() {
                     },
                   },
                 ],
+                discord_circle: {
+                  discord_channel_id: true,
+                  discord_role_id: true,
+                },
               },
+              token_gifts: [
+                {
+                  where: {
+                    tokens: { _gt: 0 },
+                  },
+                },
+                {
+                  tokens: true,
+                },
+              ],
             },
           ],
         },
@@ -223,14 +241,21 @@ export async function notifyEpochStart({
     `;
 
     if (isFeatureEnabled('discord') && circle.discord_webhook) {
+      const { discord_channel_id: channelId, discord_role_id: roleId } =
+        circle?.discord_circle || {};
+
+      if (!channelId || !roleId) {
+        return null;
+      }
+
       await sendSocialMessage({
         message,
         circleId: circle.id,
         channels: {
           discordBot: {
             type: 'start' as const,
-            channelId: '1067789668290146324', // TODO Find this from the circle
-            roleId: '1058334400540061747', // TODO Find this from the circle
+            channelId,
+            roleId,
             epochName: `Epoch ${epochNumber}`,
             circleName: `${circle.organization?.name}/${circle.name}`,
             startTime: start_date,
@@ -291,18 +316,28 @@ export async function notifyEpochEnd({
     `;
 
       if (isFeatureEnabled('discord') && circle.discord_webhook) {
+        const { discord_channel_id: channelId, discord_role_id: roleId } =
+          circle?.discord_circle || {};
+
+        if (!channelId || !roleId) {
+          return null;
+        }
+
         await sendSocialMessage({
           message,
           circleId: circle.id,
           channels: {
             discordBot: {
               type: 'end' as const,
-              channelId: '1067789668290146324', // TODO Find this from the circle
-              roleId: '1058334400540061747', // TODO Find this from the circle
+              channelId,
+              roleId,
               epochName: `Epoch ${epoch.number}`,
               circleName: `${circle.organization?.name}/${circle.name}`,
               endTime: epoch.end_date,
-              giveCount: 1000, // TODO How to get this?
+              giveCount: epoch.token_gifts.reduce(
+                (total, { tokens }) => tokens + total,
+                0
+              ),
               userCount: circle.users.length,
               circleHistoryLink: `https://app.coordinape.com/circles/${circle.id}/history`,
             },
