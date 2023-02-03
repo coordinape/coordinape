@@ -70,6 +70,10 @@ type Mutation {
   generateApiKey(payload: GenerateApiKeyInput!): GenerateApiKeyResponse
 }
 
+type Query {
+  getGuildInfo(payload: GuildInfoInput!): GuildInfoOutput
+}
+
 type Mutation {
   linkDiscordCircle(payload: LinkDiscordCircleInput!): LinkDiscordCircleResponse
 }
@@ -248,6 +252,8 @@ input UpdateCircleInput {
   fixed_payment_token_type: String
   fixed_payment_vault_id: Int
   show_pending_gives: Boolean
+  guild_id: Int
+  guild_role_id: Int
 }
 
 input UpdateEpochOldInput {
@@ -358,7 +364,6 @@ input CircleLandingInfoInput {
 }
 
 input CreateUserWithTokenInput {
-  name: String!
   token: String!
 }
 
@@ -427,6 +432,10 @@ input CreateEpochInput {
   circle_id: Int!
   grant: Float
   params: EpochInputParams!
+}
+
+input GuildInfoInput {
+  id: String!
 }
 
 type CreateCircleResponse {
@@ -542,6 +551,28 @@ type DeleteUserBulkResponse {
 
 type DeleteUsersResponse {
   success: Boolean!
+}
+
+type GuildAdmin {
+  address: String!
+}
+
+type GuildRole {
+  name: String!
+  image_url: String!
+  id: Int!
+  member_count: Int!
+}
+
+type GuildInfoOutput {
+  id: Int!
+  name: String!
+  url_name: String!
+  description: String!
+  image_url: String!
+  member_count: Int!
+  admins: [GuildAdmin]
+  roles: [GuildRole]
 }
 
 scalar timestamptz

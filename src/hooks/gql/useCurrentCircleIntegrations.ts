@@ -6,27 +6,38 @@ import { useSelectedCircle } from '../../recoilState';
 export function useCurrentCircleIntegrations() {
   const { circleId } = useSelectedCircle();
 
-  return useQuery(['circle-integrations', circleId], async () => {
-    const res = await client.query(
-      {
-        circles_by_pk: [
-          { id: circleId },
-          {
-            id: true,
-            integrations: [
-              {},
-              { id: true, type: true, name: true, data: [{ path: '$' }, true] },
-            ],
-          },
-        ],
-      },
-      {
-        operationName: 'circle_integrations',
-      }
-    );
+  return useQuery(
+    ['circle-integrations', circleId],
+    async () => {
+      const res = await client.query(
+        {
+          circles_by_pk: [
+            { id: circleId },
+            {
+              id: true,
+              integrations: [
+                {},
+                {
+                  id: true,
+                  type: true,
+                  name: true,
+                  data: [{ path: '$' }, true],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          operationName: 'circle_integrations',
+        }
+      );
 
-    return res.circles_by_pk?.integrations;
-  });
+      return res.circles_by_pk?.integrations;
+    },
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
 }
 
 export type Integration = NonNullable<

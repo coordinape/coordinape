@@ -1,4 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { AuthenticationError } from 'apollo-server-express';
 
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getAddress } from '../../../../api-lib/gql/queries';
@@ -6,6 +7,7 @@ import { UnprocessableError } from '../../../../api-lib/HttpError';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import { CircleTokenType } from '../../../../src/common-lib/circleShareTokens';
 import { ENTRANCE } from '../../../../src/common-lib/constants';
+import { isGuildMember } from '../../../../src/features/guild/guild-api';
 import {
   composeHasuraActionRequestBodyWithSession,
   createUserFromTokenInput,
@@ -26,8 +28,31 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   // get address from currrent user
   const { hasuraProfileId } = sessionVariables;
   const address = await getAddress(hasuraProfileId);
+  const { profiles } = await adminClient.query(
+    {
+      profiles: [
+        {
+          where: {
+            address: { _ilike: address },
+          },
+        },
+        {
+          name: true,
+        },
+      ],
+    },
+    { operationName: 'getProfileNameForCreateUser' }
+  );
 
-  // get the circleId from the token and make sure its an invite token
+  const profile = profiles.pop();
+  if (!profile?.name) {
+    throw new UnprocessableError(
+      'must have your profile name set before you join a circle'
+    );
+  }
+
+  // get the circleId from the token - it's ok if this is a welcome token or a invite token
+  // we'll check invite vs welcome below to make sure its ok for them to join
   const { circle_share_tokens } = await adminClient.query(
     {
       circle_share_tokens: [
@@ -41,33 +66,54 @@ async function handler(req: VercelRequest, res: VercelResponse) {
                 _is_null: true,
               },
             },
-            type: {
-              _eq: CircleTokenType.Invite,
-            },
           },
         },
         {
           circle_id: true,
+          type: true,
+          circle: {
+            guild_id: true,
+            guild_role_id: true,
+          },
         },
       ],
     },
-    { operationName: 'getShareTokens__createUserWithToken' }
+    { operationName: 'getShareTokens__joinCircle' }
   );
 
-  const circleId = circle_share_tokens.pop()?.circle_id;
+  const token = circle_share_tokens.pop();
+  const circleId = token?.circle_id;
   if (!circleId) {
     throw new UnprocessableError('invalid circle link');
   }
 
+  let entrance = ENTRANCE.LINK;
+  // if its an invite link, they can join, if not they better have another way to join!
+  if (token.type != CircleTokenType.Invite) {
+    // check guild
+    if (!token.circle.guild_id) {
+      throw new AuthenticationError('not allowed to join');
+    }
+    const guildOk = await isGuildMember(
+      token.circle.guild_id,
+      address,
+      token.circle.guild_role_id
+    );
+    if (!guildOk) {
+      throw new AuthenticationError('not allowed to join');
+    }
+    entrance = ENTRANCE.GUILD;
+  }
+  // ok - they can join
   // create the user
   const mutationResult = await createUserMutation(
     address,
     circleId,
     {
-      name: input.name,
       circle_id: circleId,
+      name: profile.name,
     },
-    ENTRANCE.LINK
+    entrance
   );
 
   return res

@@ -53,43 +53,44 @@ export const JoinCirclePage = () => {
     profile?.users.some(u => u.circle_id === circleId);
 
   useEffect(() => {
-    assert(token);
-    const fn = async () => {
-      try {
-        const res = await fetch('/api/circle/landing/' + token);
+    try {
+      fetch('/api/circle/landing/' + token).then(res => {
         if (!res.ok) {
           setTokenError(
             'Invalid invite link; check with your Circle Admin for an updated link.'
           );
           return;
         }
-        const info: TokenJoinInfo = JSON.parse(await res.text());
-
-        if (alreadyMember(info.circle.id)) {
-          // shoot them off the history page
-          navigate(paths.history(info.circle.id));
-          return;
-        }
-
-        setTokenJoinInfo(info);
-        if (info.type === CircleTokenType.Welcome) {
-          setWrongAddress(true);
-          return;
-        }
-      } catch (e) {
-        setTokenError('Network error; please reload the page to try again.');
-      }
-    };
-    fn()
-      .then()
-      .catch(e => {
-        if (e instanceof Error) {
-          setTokenError(e.message ?? 'unknown error');
-        } else {
-          setTokenError('Invalid token');
-        }
+        res.json().then((info: TokenJoinInfo) => {
+          setTokenJoinInfo(info);
+        });
       });
+    } catch (e) {
+      if (e instanceof Error) {
+        setTokenError(e.message ?? 'unknown error');
+      } else {
+        setTokenError('Invalid token or network error');
+      }
+    }
   }, []);
+
+  useEffect(() => {
+    if (profile && tokenJoinInfo) {
+      if (alreadyMember(tokenJoinInfo.circle.id)) {
+        // shoot them off the history page
+        navigate(paths.history(tokenJoinInfo.circle.id));
+        return;
+      } else {
+        // eslint-disable-next-line no-console
+        console.log('not a member', profile);
+      }
+
+      if (tokenJoinInfo.type === CircleTokenType.Welcome) {
+        setWrongAddress(true);
+        return;
+      }
+    }
+  }, [tokenJoinInfo, profile]);
 
   // Waiting to validate the token
   if (!tokenError && !tokenJoinInfo) {

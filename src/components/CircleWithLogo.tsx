@@ -20,7 +20,7 @@ const CircleWithLogo = ({
     <Flex alignItems="center" css={{ textAlign: 'left' }}>
       <Avatar
         name={name}
-        size="xl"
+        size="large"
         margin="none"
         css={{ flexShrink: 0 }}
         path={logo}
@@ -47,7 +47,7 @@ const CircleWithLogo = ({
               textOverflow: 'ellipsis',
               whiteSpace: '',
               color: '$text',
-              fontSize: '$h2',
+              fontSize: '$h2Temp',
               fontWeight: '$bold',
             }}
           >

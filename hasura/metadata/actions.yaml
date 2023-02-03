@@ -162,6 +162,13 @@ actions:
     permissions:
       - role: user
     comment: Generates an API key for a circle
+  - name: getGuildInfo
+    definition:
+      kind: ""
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=getGuildInfo'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
   - name: linkDiscordCircle
     definition:
       kind: synchronous
@@ -378,6 +385,7 @@ custom_types:
     - name: UpdateProfileInput
     - name: EpochInputParams
     - name: CreateEpochInput
+    - name: GuildInfoInput
   objects:
     - name: CreateCircleResponse
       relationships:
@@ -586,5 +594,8 @@ custom_types:
     - name: LinkDiscordCircleResponse
     - name: DeleteUserBulkResponse
     - name: DeleteUsersResponse
+    - name: GuildAdmin
+    - name: GuildRole
+    - name: GuildInfoOutput
   scalars:
     - name: timestamptz

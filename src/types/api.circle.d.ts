@@ -1,5 +1,3 @@
-import { IEpoch } from './api.epoch';
-
 export interface IProtocol {
   id: number;
   name: string;
@@ -32,6 +30,9 @@ export interface IApiCircle {
   auto_opt_out: boolean;
   fixed_payment_token_type?: string;
   show_pending_gives: boolean;
+
+  guild_id?: number;
+  guild_role_id?: number;
 }
 
 export interface ICircle extends IApiCircle {

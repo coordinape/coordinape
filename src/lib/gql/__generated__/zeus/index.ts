@@ -713,7 +713,6 @@ export type ValueTypes = {
     __typename?: boolean | `@${string}`;
   }>;
   ['CreateUserWithTokenInput']: {
-    name: string;
     token: string;
   };
   ['CreateUsersInput']: {
@@ -788,6 +787,31 @@ export type ValueTypes = {
     api_key?: boolean | `@${string}`;
     circleApiKey?: ValueTypes['circle_api_keys'];
     hash?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['GuildAdmin']: AliasType<{
+    address?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['GuildInfoInput']: {
+    id: string;
+  };
+  ['GuildInfoOutput']: AliasType<{
+    admins?: ValueTypes['GuildAdmin'];
+    description?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    image_url?: boolean | `@${string}`;
+    member_count?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
+    roles?: ValueTypes['GuildRole'];
+    url_name?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['GuildRole']: AliasType<{
+    id?: boolean | `@${string}`;
+    image_url?: boolean | `@${string}`;
+    member_count?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
@@ -887,6 +911,8 @@ export type ValueTypes = {
     discord_webhook?: string | undefined | null;
     fixed_payment_token_type?: string | undefined | null;
     fixed_payment_vault_id?: number | undefined | null;
+    guild_id?: number | undefined | null;
+    guild_role_id?: number | undefined | null;
     min_vouches?: number | undefined | null;
     name?: string | undefined | null;
     nomination_days_limit?: number | undefined | null;
@@ -1825,6 +1851,8 @@ export type ValueTypes = {
     ];
     fixed_payment_token_type?: boolean | `@${string}`;
     fixed_payment_vault_id?: boolean | `@${string}`;
+    guild_id?: boolean | `@${string}`;
+    guild_role_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     integrations?: [
       {
@@ -2044,6 +2072,8 @@ export type ValueTypes = {
   /** order by avg() on columns of table "circles" */
   ['circles_avg_order_by']: {
     fixed_payment_vault_id?: ValueTypes['order_by'] | undefined | null;
+    guild_id?: ValueTypes['order_by'] | undefined | null;
+    guild_role_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
@@ -2073,6 +2103,8 @@ export type ValueTypes = {
       | ValueTypes['Int_comparison_exp']
       | undefined
       | null;
+    guild_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    guild_role_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     integrations?:
       | ValueTypes['circle_integrations_bool_exp']
@@ -2115,6 +2147,8 @@ export type ValueTypes = {
     deleted_at?: ValueTypes['order_by'] | undefined | null;
     fixed_payment_token_type?: ValueTypes['order_by'] | undefined | null;
     fixed_payment_vault_id?: ValueTypes['order_by'] | undefined | null;
+    guild_id?: ValueTypes['order_by'] | undefined | null;
+    guild_role_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     logo?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
@@ -2133,6 +2167,8 @@ export type ValueTypes = {
     deleted_at?: ValueTypes['order_by'] | undefined | null;
     fixed_payment_token_type?: ValueTypes['order_by'] | undefined | null;
     fixed_payment_vault_id?: ValueTypes['order_by'] | undefined | null;
+    guild_id?: ValueTypes['order_by'] | undefined | null;
+    guild_role_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     logo?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
@@ -2167,6 +2203,8 @@ export type ValueTypes = {
       | null;
     fixed_payment_token_type?: ValueTypes['order_by'] | undefined | null;
     fixed_payment_vault_id?: ValueTypes['order_by'] | undefined | null;
+    guild_id?: ValueTypes['order_by'] | undefined | null;
+    guild_role_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     integrations_aggregate?:
       | ValueTypes['circle_integrations_aggregate_order_by']
@@ -2209,6 +2247,8 @@ export type ValueTypes = {
   /** order by stddev() on columns of table "circles" */
   ['circles_stddev_order_by']: {
     fixed_payment_vault_id?: ValueTypes['order_by'] | undefined | null;
+    guild_id?: ValueTypes['order_by'] | undefined | null;
+    guild_role_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
@@ -2217,6 +2257,8 @@ export type ValueTypes = {
   /** order by stddev_pop() on columns of table "circles" */
   ['circles_stddev_pop_order_by']: {
     fixed_payment_vault_id?: ValueTypes['order_by'] | undefined | null;
+    guild_id?: ValueTypes['order_by'] | undefined | null;
+    guild_role_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
@@ -2225,6 +2267,8 @@ export type ValueTypes = {
   /** order by stddev_samp() on columns of table "circles" */
   ['circles_stddev_samp_order_by']: {
     fixed_payment_vault_id?: ValueTypes['order_by'] | undefined | null;
+    guild_id?: ValueTypes['order_by'] | undefined | null;
+    guild_role_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
@@ -2247,6 +2291,8 @@ export type ValueTypes = {
     deleted_at?: ValueTypes['timestamp'] | undefined | null;
     fixed_payment_token_type?: string | undefined | null;
     fixed_payment_vault_id?: number | undefined | null;
+    guild_id?: number | undefined | null;
+    guild_role_id?: number | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     is_verified?: boolean | undefined | null;
     logo?: string | undefined | null;
@@ -2265,6 +2311,8 @@ export type ValueTypes = {
   /** order by sum() on columns of table "circles" */
   ['circles_sum_order_by']: {
     fixed_payment_vault_id?: ValueTypes['order_by'] | undefined | null;
+    guild_id?: ValueTypes['order_by'] | undefined | null;
+    guild_role_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
@@ -2273,6 +2321,8 @@ export type ValueTypes = {
   /** order by var_pop() on columns of table "circles" */
   ['circles_var_pop_order_by']: {
     fixed_payment_vault_id?: ValueTypes['order_by'] | undefined | null;
+    guild_id?: ValueTypes['order_by'] | undefined | null;
+    guild_role_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
@@ -2281,6 +2331,8 @@ export type ValueTypes = {
   /** order by var_samp() on columns of table "circles" */
   ['circles_var_samp_order_by']: {
     fixed_payment_vault_id?: ValueTypes['order_by'] | undefined | null;
+    guild_id?: ValueTypes['order_by'] | undefined | null;
+    guild_role_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
@@ -2289,6 +2341,8 @@ export type ValueTypes = {
   /** order by variance() on columns of table "circles" */
   ['circles_variance_order_by']: {
     fixed_payment_vault_id?: ValueTypes['order_by'] | undefined | null;
+    guild_id?: ValueTypes['order_by'] | undefined | null;
+    guild_role_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
@@ -6878,6 +6932,10 @@ export type ValueTypes = {
       },
       ValueTypes['gift_private']
     ];
+    guildInfo?: [
+      { payload: ValueTypes['GuildInfoInput'] },
+      ValueTypes['GuildInfoOutput']
+    ];
     locked_token_distribution_gifts?: [
       {
         /** distinct select on columns */
@@ -10539,6 +10597,26 @@ export type ModelTypes = {
     circleApiKey?: GraphQLTypes['circle_api_keys'] | undefined;
     hash: string;
   };
+  ['GuildAdmin']: {
+    address: string;
+  };
+  ['GuildInfoInput']: GraphQLTypes['GuildInfoInput'];
+  ['GuildInfoOutput']: {
+    admins?: Array<GraphQLTypes['GuildAdmin'] | undefined> | undefined;
+    description: string;
+    id: number;
+    image_url: string;
+    member_count: number;
+    name: string;
+    roles?: Array<GraphQLTypes['GuildRole'] | undefined> | undefined;
+    url_name: string;
+  };
+  ['GuildRole']: {
+    id: number;
+    image_url: string;
+    member_count: number;
+    name: string;
+  };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: GraphQLTypes['Int_comparison_exp'];
   ['LinkDiscordCircleInput']: GraphQLTypes['LinkDiscordCircleInput'];
@@ -10863,6 +10941,8 @@ export type ModelTypes = {
     epochs: Array<GraphQLTypes['epochs']>;
     fixed_payment_token_type?: string | undefined;
     fixed_payment_vault_id?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     id: GraphQLTypes['bigint'];
     /** An array relationship */
     integrations: Array<GraphQLTypes['circle_integrations']>;
@@ -12458,6 +12538,7 @@ export type ModelTypes = {
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
+    guildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
     /** An array relationship */
     locked_token_distribution_gifts: Array<
       GraphQLTypes['locked_token_distribution_gifts']
@@ -13419,7 +13500,6 @@ export type GraphQLTypes = {
     id: number;
   };
   ['CreateUserWithTokenInput']: {
-    name: string;
     token: string;
   };
   ['CreateUsersInput']: {
@@ -13495,6 +13575,31 @@ export type GraphQLTypes = {
     api_key: string;
     circleApiKey?: GraphQLTypes['circle_api_keys'] | undefined;
     hash: string;
+  };
+  ['GuildAdmin']: {
+    __typename: 'GuildAdmin';
+    address: string;
+  };
+  ['GuildInfoInput']: {
+    id: string;
+  };
+  ['GuildInfoOutput']: {
+    __typename: 'GuildInfoOutput';
+    admins?: Array<GraphQLTypes['GuildAdmin'] | undefined> | undefined;
+    description: string;
+    id: number;
+    image_url: string;
+    member_count: number;
+    name: string;
+    roles?: Array<GraphQLTypes['GuildRole'] | undefined> | undefined;
+    url_name: string;
+  };
+  ['GuildRole']: {
+    __typename: 'GuildRole';
+    id: number;
+    image_url: string;
+    member_count: number;
+    name: string;
   };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: {
@@ -13593,6 +13698,8 @@ export type GraphQLTypes = {
     discord_webhook?: string | undefined;
     fixed_payment_token_type?: string | undefined;
     fixed_payment_vault_id?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     min_vouches?: number | undefined;
     name?: string | undefined;
     nomination_days_limit?: number | undefined;
@@ -14393,6 +14500,8 @@ export type GraphQLTypes = {
     epochs: Array<GraphQLTypes['epochs']>;
     fixed_payment_token_type?: string | undefined;
     fixed_payment_vault_id?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     id: GraphQLTypes['bigint'];
     /** An array relationship */
     integrations: Array<GraphQLTypes['circle_integrations']>;
@@ -14443,6 +14552,8 @@ export type GraphQLTypes = {
   /** order by avg() on columns of table "circles" */
   ['circles_avg_order_by']: {
     fixed_payment_vault_id?: GraphQLTypes['order_by'] | undefined;
+    guild_id?: GraphQLTypes['order_by'] | undefined;
+    guild_role_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
@@ -14468,6 +14579,8 @@ export type GraphQLTypes = {
       | GraphQLTypes['String_comparison_exp']
       | undefined;
     fixed_payment_vault_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    guild_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    guild_role_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     integrations?: GraphQLTypes['circle_integrations_bool_exp'] | undefined;
     is_verified?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
@@ -14502,6 +14615,8 @@ export type GraphQLTypes = {
     deleted_at?: GraphQLTypes['order_by'] | undefined;
     fixed_payment_token_type?: GraphQLTypes['order_by'] | undefined;
     fixed_payment_vault_id?: GraphQLTypes['order_by'] | undefined;
+    guild_id?: GraphQLTypes['order_by'] | undefined;
+    guild_role_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     logo?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
@@ -14520,6 +14635,8 @@ export type GraphQLTypes = {
     deleted_at?: GraphQLTypes['order_by'] | undefined;
     fixed_payment_token_type?: GraphQLTypes['order_by'] | undefined;
     fixed_payment_vault_id?: GraphQLTypes['order_by'] | undefined;
+    guild_id?: GraphQLTypes['order_by'] | undefined;
+    guild_role_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     logo?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
@@ -14549,6 +14666,8 @@ export type GraphQLTypes = {
     epochs_aggregate?: GraphQLTypes['epochs_aggregate_order_by'] | undefined;
     fixed_payment_token_type?: GraphQLTypes['order_by'] | undefined;
     fixed_payment_vault_id?: GraphQLTypes['order_by'] | undefined;
+    guild_id?: GraphQLTypes['order_by'] | undefined;
+    guild_role_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     integrations_aggregate?:
       | GraphQLTypes['circle_integrations_aggregate_order_by']
@@ -14586,6 +14705,8 @@ export type GraphQLTypes = {
   /** order by stddev() on columns of table "circles" */
   ['circles_stddev_order_by']: {
     fixed_payment_vault_id?: GraphQLTypes['order_by'] | undefined;
+    guild_id?: GraphQLTypes['order_by'] | undefined;
+    guild_role_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
@@ -14594,6 +14715,8 @@ export type GraphQLTypes = {
   /** order by stddev_pop() on columns of table "circles" */
   ['circles_stddev_pop_order_by']: {
     fixed_payment_vault_id?: GraphQLTypes['order_by'] | undefined;
+    guild_id?: GraphQLTypes['order_by'] | undefined;
+    guild_role_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
@@ -14602,6 +14725,8 @@ export type GraphQLTypes = {
   /** order by stddev_samp() on columns of table "circles" */
   ['circles_stddev_samp_order_by']: {
     fixed_payment_vault_id?: GraphQLTypes['order_by'] | undefined;
+    guild_id?: GraphQLTypes['order_by'] | undefined;
+    guild_role_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
@@ -14624,6 +14749,8 @@ export type GraphQLTypes = {
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
     fixed_payment_token_type?: string | undefined;
     fixed_payment_vault_id?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     is_verified?: boolean | undefined;
     logo?: string | undefined;
@@ -14642,6 +14769,8 @@ export type GraphQLTypes = {
   /** order by sum() on columns of table "circles" */
   ['circles_sum_order_by']: {
     fixed_payment_vault_id?: GraphQLTypes['order_by'] | undefined;
+    guild_id?: GraphQLTypes['order_by'] | undefined;
+    guild_role_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
@@ -14650,6 +14779,8 @@ export type GraphQLTypes = {
   /** order by var_pop() on columns of table "circles" */
   ['circles_var_pop_order_by']: {
     fixed_payment_vault_id?: GraphQLTypes['order_by'] | undefined;
+    guild_id?: GraphQLTypes['order_by'] | undefined;
+    guild_role_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
@@ -14658,6 +14789,8 @@ export type GraphQLTypes = {
   /** order by var_samp() on columns of table "circles" */
   ['circles_var_samp_order_by']: {
     fixed_payment_vault_id?: GraphQLTypes['order_by'] | undefined;
+    guild_id?: GraphQLTypes['order_by'] | undefined;
+    guild_role_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
@@ -14666,6 +14799,8 @@ export type GraphQLTypes = {
   /** order by variance() on columns of table "circles" */
   ['circles_variance_order_by']: {
     fixed_payment_vault_id?: GraphQLTypes['order_by'] | undefined;
+    guild_id?: GraphQLTypes['order_by'] | undefined;
+    guild_role_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
@@ -17897,6 +18032,7 @@ export type GraphQLTypes = {
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
+    guildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
     /** An array relationship */
     locked_token_distribution_gifts: Array<
       GraphQLTypes['locked_token_distribution_gifts']
@@ -19734,6 +19870,8 @@ export const enum circles_select_column {
   deleted_at = 'deleted_at',
   fixed_payment_token_type = 'fixed_payment_token_type',
   fixed_payment_vault_id = 'fixed_payment_vault_id',
+  guild_id = 'guild_id',
+  guild_role_id = 'guild_role_id',
   id = 'id',
   is_verified = 'is_verified',
   logo = 'logo',

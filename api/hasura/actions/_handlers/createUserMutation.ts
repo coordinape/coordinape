@@ -53,6 +53,7 @@ export async function createUserMutation(
   }
   if (
     addressProfile?.name &&
+    input.name &&
     addressProfile.name.toLowerCase() != input.name?.toLowerCase()
   )
     throw new UnprocessableError(
