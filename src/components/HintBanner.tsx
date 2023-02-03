@@ -23,7 +23,9 @@ const HintBanner = ({
           alignItems: 'flex-start',
         }}
       >
-        <Text h2>{title}</Text>
+        <Text h2 as="h2">
+          {title}
+        </Text>
         {children}
       </Flex>
     </Panel>
