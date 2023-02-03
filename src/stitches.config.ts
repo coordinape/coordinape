@@ -146,6 +146,8 @@ export const colors = {
   complete: figmaColors.green12,
   completeLight: figmaColors.green1,
   blurple: figmaColors.discordblurple,
+  toggleButtonYes: figmaColors.green12,
+  toggleButtonNo: '$alert',
 
   background: figmaColors.grey1,
   navBackground: figmaColors.grey16,
@@ -472,6 +474,8 @@ export const dark = createTheme({
     link: newFigmaColors.primary4,
     alert: newFigmaColors.error6,
     complete: newFigmaColors.success5,
+    toggleButtonYes: '$cta',
+    toggleButtonNo: '$alert',
 
     highlight: newFigmaColors.primary10,
     avatarFallback: newFigmaColors.grey7,
@@ -608,6 +612,8 @@ export const light = createTheme({
     cta: newFigmaColors.secondary4,
     ctaHover: newFigmaColors.secondary5,
     textOnCta: newFigmaColors.grey1,
+    toggleButtonYes: newFigmaColors.success5,
+    toggleButtonNo: '$alert',
 
     primary: newFigmaColors.grey8,
     primaryHover: newFigmaColors.grey7,
