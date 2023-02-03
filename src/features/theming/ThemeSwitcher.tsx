@@ -11,35 +11,7 @@ export const ThemeSwitcher = () => {
   return (
     <ThemeContext.Consumer>
       {({ themePreference, setTheme }) => (
-        <Flex
-          css={{
-            gap: '$sm',
-            justifyContent: 'start',
-            mt: '$sm',
-            alignItems: 'center',
-          }}
-        >
-          <Button
-            size="small"
-            color="transparent"
-            css={{
-              border: 'none',
-              pr: '$xs',
-              '&:hover': {
-                color: '$primary',
-              },
-              color:
-                themePreference === 'auto'
-                  ? '$text !important'
-                  : '$secondaryText',
-            }}
-            onClick={() => {
-              // fixme for utilizing OS theme selection
-              setTheme('auto');
-            }}
-          >
-            Auto
-          </Button>
+        <Flex column css={{ pl: '$sm', display: 'inline-flex' }}>
           <IconButton
             css={{
               p: 0,
@@ -57,40 +29,92 @@ export const ThemeSwitcher = () => {
           >
             <CloudDrizzle />
           </IconButton>
-          <IconButton
+          <Flex
             css={{
-              p: 0,
-              '&:hover': {
-                color: '$primary',
-              },
-              color:
-                themePreference === 'dark'
-                  ? '$text !important'
-                  : '$secondaryText',
-            }}
-            onClick={() => {
-              setTheme('dark');
+              gap: '$xs',
+              justifyContent: 'start',
+              mt: '$sm',
+              alignItems: 'center',
+              border: '1px solid $borderMedium',
+              borderRadius: '$pill',
+              p: '$xxs $sm',
+              display: 'inline-flex',
             }}
           >
-            <Moon />
-          </IconButton>
-          <IconButton
-            css={{
-              p: 0,
-              '&:hover': {
-                color: '$primary',
-              },
-              color:
-                themePreference === 'light'
-                  ? '$text !important'
-                  : '$secondaryText',
-            }}
-            onClick={() => {
-              setTheme('light');
-            }}
-          >
-            <Sun />
-          </IconButton>
+            <IconButton
+              css={{
+                p: 0,
+                borderRadius: '$round',
+                '&:hover': {
+                  color: '$cta',
+                  background: '$primaryButtonHover',
+                },
+                background:
+                  themePreference === 'dark'
+                    ? '$cta !important'
+                    : 'transparent',
+                color:
+                  themePreference === 'dark'
+                    ? '$textOnCta !important'
+                    : '$secondaryText',
+              }}
+              onClick={() => {
+                setTheme('dark');
+              }}
+            >
+              <Moon />
+            </IconButton>
+            <Button
+              size="small"
+              css={{
+                border: 'none',
+                p: '$xs $sm',
+                minHeight: 0,
+                borderRadius: '$pill',
+                '&:hover': {
+                  color: '$cta',
+                  background: '$primaryButtonHover',
+                },
+                background:
+                  themePreference === 'auto'
+                    ? '$cta !important'
+                    : 'transparent',
+                color:
+                  themePreference === 'auto'
+                    ? '$textOnCta !important'
+                    : '$secondaryText',
+              }}
+              onClick={() => {
+                // fixme for utilizing OS theme selection
+                setTheme('auto');
+              }}
+            >
+              Auto
+            </Button>
+            <IconButton
+              css={{
+                p: 0,
+                borderRadius: '$round',
+                '&:hover': {
+                  color: '$cta',
+                  background: '$primaryButtonHover',
+                },
+                background:
+                  themePreference === 'light'
+                    ? '$cta !important'
+                    : 'transparent',
+                color:
+                  themePreference === 'light'
+                    ? '$textOnCta !important'
+                    : '$secondaryText',
+              }}
+              onClick={() => {
+                setTheme('light');
+              }}
+            >
+              <Sun />
+            </IconButton>
+          </Flex>
         </Flex>
       )}
     </ThemeContext.Consumer>
