@@ -22,32 +22,21 @@ export const ThemeSwitcher = () => {
   return (
     <ThemeContext.Consumer>
       {({ themePreference, setTheme }) => (
-        <Flex column css={{ pl: '$sm', display: 'inline-flex' }}>
-          <IconButton
-            css={{
-              p: 0,
-              '&:hover': {
-                color: '$primary',
-              },
-              color:
-                themePreference == 'legacy'
-                  ? '$text !important'
-                  : '$secondaryText',
-            }}
-            onClick={() => {
-              setTheme('legacy');
-            }}
-          >
-            <CloudDrizzle />
-          </IconButton>
+        <Flex
+          css={{
+            m: '$sm 0 $md',
+            px: '$sm',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
           <Flex
             css={{
               gap: '$xs',
               justifyContent: 'start',
-              mt: '$sm',
               alignItems: 'center',
               // border: '1px solid $borderDim',
-              background: '$neutral',
+              background: '$dim',
               borderRadius: '$pill',
               p: '$xxs',
               display: 'inline-flex',
@@ -71,6 +60,8 @@ export const ThemeSwitcher = () => {
                     ? `calc(100% - ${handleHeight} - 2px)`
                     : themePreference === 'auto'
                     ? `calc(50% - ${handleHeight})`
+                    : themePreference === 'legacy'
+                    ? '-9999px'
                     : 'auto',
               },
             }}
@@ -81,7 +72,7 @@ export const ThemeSwitcher = () => {
                 color:
                   themePreference === 'dark'
                     ? '$textOnCta !important'
-                    : '$secondaryText',
+                    : '$textOnDim',
               }}
               onClick={() => {
                 setTheme('dark');
@@ -101,7 +92,7 @@ export const ThemeSwitcher = () => {
                 color:
                   themePreference === 'auto'
                     ? '$textOnCta !important'
-                    : '$secondaryText',
+                    : '$textOnDim',
               }}
               onClick={() => {
                 setTheme('auto');
@@ -115,7 +106,7 @@ export const ThemeSwitcher = () => {
                 color:
                   themePreference === 'light'
                     ? '$textOnCta !important'
-                    : '$secondaryText',
+                    : '$textOnDim',
               }}
               onClick={() => {
                 setTheme('light');
@@ -124,6 +115,21 @@ export const ThemeSwitcher = () => {
               <Sun />
             </IconButton>
           </Flex>
+          <IconButton
+            css={{
+              p: 0,
+              '&:hover': {
+                color: '$primary',
+              },
+              color:
+                themePreference == 'legacy' ? '$text !important' : '$textOnDim',
+            }}
+            onClick={() => {
+              setTheme('legacy');
+            }}
+          >
+            <CloudDrizzle />
+          </IconButton>
         </Flex>
       )}
     </ThemeContext.Consumer>
