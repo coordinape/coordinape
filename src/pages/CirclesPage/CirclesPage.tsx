@@ -7,6 +7,7 @@ import type { CSS } from 'stitches.config';
 
 import { useMyProfile } from '../../recoilState';
 import { LoadingModal } from 'components';
+import HintBanner from 'components/HintBanner';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { User } from 'icons/__generated';
 import {
@@ -135,34 +136,30 @@ export type CircleRowProps = {
 const GetStarted = () => {
   return (
     <>
-      <Panel info>
-        <Flex column css={{ width: '45%', '@sm': { width: '100%' } }}>
-          <Text h2>Get Started</Text>
-          <Text p as="p" css={{ mb: '$md', color: 'inherit' }}>
-            An Organization houses all of your Circles in Coordinape. A Circle
-            is equal to a team. Start a Circle, add members, then create an
-            epoch.{' '}
-            <Link inlineLink href={EXTERNAL_URL_DISCORD} target="_blank">
-              Join our discord
-            </Link>{' '}
-            where we&apos;re always happy to help and keep you updated on whats
-            happening.
-          </Text>
-          <Flex css={{ gap: '$md' }}>
-            <Button as={NavLink} to={paths.createCircle} color="cta">
-              Create New Circle
-            </Button>
-            <Button
-              as={NavLink}
-              to={EXTERNAL_URL_GET_STARTED}
-              target="_blank"
-              color="secondary"
-            >
-              Get Started Guide
-            </Button>
-          </Flex>
+      <HintBanner title={'Get Started'}>
+        <Text p as="p" css={{ color: 'inherit' }}>
+          An Organization houses all of your Circles in Coordinape. A Circle is
+          equal to a team. Start a Circle, add members, then create an epoch.{' '}
+          <Link inlineLink href={EXTERNAL_URL_DISCORD} target="_blank">
+            Join our discord
+          </Link>{' '}
+          where we&apos;re always happy to help and keep you updated on whats
+          happening.
+        </Text>
+        <Flex css={{ gap: '$md' }}>
+          <Button as={NavLink} to={paths.createCircle} color="cta">
+            Create New Circle
+          </Button>
+          <Button
+            as={NavLink}
+            to={EXTERNAL_URL_GET_STARTED}
+            target="_blank"
+            color="secondary"
+          >
+            Get Started Guide
+          </Button>
         </Flex>
-      </Panel>
+      </HintBanner>
       <Image
         alt="Illustration of circle allocations"
         css={{ mt: '$3xl', mx: 'auto', width: '100%', maxWidth: '600px' }}

@@ -72,19 +72,22 @@ const VaultsPage = () => {
     <SingleColumnLayout>
       {isEmailWallet && (
         <HintBanner title="Email-Based Wallets Not Recommended" type="alert">
-          <p>You are logged in with an email-based wallet.</p>
-          <p>
+          <Text p as="p">
+            You are logged in with an email-based wallet.
+          </Text>
+          <Text p as="p">
             It is not recommended to create a vault with one of these wallets.
             Instead, you can{' '}
-            <a
+            <Link
+              inlineLink
               target="_blank"
               href="https://docs.coordinape.com/info/documentation/email-login-and-web3-best-practices"
               rel="noreferrer"
             >
               export this wallet
-            </a>
+            </Link>
             , or log in with a different wallet.
-          </p>
+          </Text>
         </HintBanner>
       )}
       {!specificOrg && (
@@ -122,7 +125,6 @@ const VaultsPage = () => {
           </Button>
         )}
       </ContentHeader>
-
       {isLoading ? (
         <Panel>
           <Text>Loading, please wait...</Text>
@@ -163,60 +165,34 @@ const NoVaults = ({
   createVault: () => void;
 }) => {
   return (
-    <Panel
-      info
-      css={{
-        display: 'grid',
-        gridTemplateColumns: '1fr 3fr',
-        gap: '$md',
-        '@sm': { gridTemplateColumns: '1fr' },
-      }}
-    >
-      <Box>
-        <Text h2 normal>
-          Welcome to CoVaults
-        </Text>
-      </Box>
-      <Flex
-        column
-        css={{
-          width: '65%',
-          '@sm': { width: '100%' },
-        }}
-      >
-        <Text p as="p" css={{ mb: '$md' }}>
-          CoVaults allow you to compensate your team by storing funds in the
-          vaults and sending payments promptly after a work cycle ends.
-        </Text>
-        <Text p as="p" css={{ mb: '$md' }}>
-          In addition to paying your team, you can earn yield based on{' '}
-          <Link inlineLink href="https://yearn.finance/vaults" target="_blank">
-            the current APYs offered by Yearn
-          </Link>
-          . Vaults also enable you to set allowances for distributions per
-          Circle.
-        </Text>
-        <Box>
-          {isAdmin && (
-            <Button
-              onClick={createVault}
-              color="secondary"
-              inline
-              css={{ mr: '$md' }}
-            >
-              Create Vault
-            </Button>
-          )}
-          <Link
-            href="https://docs.coordinape.com/get-started/organizations/vaults"
-            target="_blank"
-          >
-            <Button color="secondary" inline css={{ mt: '$md' }}>
-              Vault Guide
-            </Button>
-          </Link>
-        </Box>
+    <HintBanner title={'Welcome to CoVaults'}>
+      <Text p as="p" css={{ color: 'inherit' }}>
+        CoVaults allow you to compensate your team by storing funds in the
+        vaults and sending payments promptly after a work cycle ends.
+      </Text>
+      <Text p as="p" css={{ color: 'inherit' }}>
+        In addition to paying your team, you can earn yield based on{' '}
+        <Link inlineLink href="https://yearn.finance/vaults" target="_blank">
+          the current APYs offered by Yearn
+        </Link>
+        . Vaults also enable you to set allowances for distributions per Circle.
+      </Text>
+      <Flex css={{ gap: '$md' }}>
+        {isAdmin && (
+          <Button onClick={createVault} color="secondary" inline>
+            Create Vault
+          </Button>
+        )}
+        <Button
+          as="a"
+          href="https://docs.coordinape.com/get-started/organizations/vaults"
+          target="_blank"
+          color="secondary"
+          inline
+        >
+          Vault Guide
+        </Button>
       </Flex>
-    </Panel>
+    </HintBanner>
   );
 };

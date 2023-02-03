@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { styled } from '../stitches.config';
-import { Box, Flex, Panel, Text } from '../ui';
+import { Flex, Panel, Text } from '../ui';
 
 const HintBanner = ({
   title,
@@ -13,22 +13,17 @@ const HintBanner = ({
   children: React.ReactNode;
 }) => {
   return (
-    <Panel
-      {...{ [type]: true }}
-      css={{
-        display: 'grid',
-        gridTemplateColumns: '1fr 3fr',
-        gap: '$md',
-        mb: '$xl',
-        '@sm': { gridTemplateColumns: '1fr' },
-      }}
-    >
-      <Box>
-        <Text h2 normal>
-          {title}
-        </Text>
-      </Box>
-      <Flex column css={{ width: '65%', '@sm': { width: '100%' } }}>
+    <Panel {...{ [type]: true }} css={{ mb: '$lg' }}>
+      <Flex
+        column
+        css={{
+          gap: '$md',
+          width: '100%',
+          maxWidth: '40em',
+          alignItems: 'flex-start',
+        }}
+      >
+        <Text h2>{title}</Text>
         {children}
       </Flex>
     </Panel>

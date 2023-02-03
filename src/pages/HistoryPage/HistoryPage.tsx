@@ -23,7 +23,6 @@ import {
   Text,
   Flex,
   Link,
-  Box,
   AppLink,
   Modal,
   ContentHeader,
@@ -129,6 +128,24 @@ export const HistoryPage = () => {
           </Button>
         )}
       </ContentHeader>
+      {isFeatureEnabled('epoch_timing') && (
+        <HintBanner title={'Epoch Timing Settings'}>
+          <Text p as="p" css={{ color: 'inherit' }}>
+            Heads up, our settings for epoch timing has changed.
+          </Text>
+          <Button
+            as="a"
+            href={
+              'https://docs.coordinape.com/get-started/epochs/create-an-epoch'
+            }
+            target="_blank"
+            rel="noreferrer"
+            color="secondary"
+          >
+            Epochs Docs
+          </Button>
+        </HintBanner>
+      )}
 
       {/* show some help for admins who don't have an epoch yet */}
       {isAdmin &&
@@ -137,7 +154,7 @@ export const HistoryPage = () => {
         pastEpochs.length == 0 &&
         (!futureEpochs || futureEpochs.length == 0) && (
           <HintBanner title={'Get started'}>
-            <Text p as="p" css={{ mb: '$md' }}>
+            <Text p as="p">
               Yay! You’ve created a new circle. Start adding members, creating
               and funding a vault, create an epoch and join our discord where
               we’re always happy to help and keep you updated on whats
@@ -145,16 +162,15 @@ export const HistoryPage = () => {
               <AppLink to={paths.circleAdmin(circleId)}>Circle Admin</AppLink>{' '}
               for additional settings.
             </Text>
-            <Box>
+            <Flex css={{ gap: '$md' }}>
               <AppLink to={paths.members(circleId)}>
-                <Button color="secondary" inline css={{ mt: '$md', mr: '$md' }}>
+                <Button color="secondary" inline>
                   Add/Import Members
                 </Button>
               </AppLink>
               <Button
                 color="secondary"
                 inline
-                css={{ mt: '$md', mr: '$md' }}
                 onClick={() => setNewEpoch(true)}
                 disabled={newEpoch || !!editEpoch}
               >
@@ -162,12 +178,12 @@ export const HistoryPage = () => {
               </Button>
               {isFeatureEnabled('vaults') && (
                 <AppLink to={paths.vaults}>
-                  <Button color="secondary" inline css={{ mt: '$md' }}>
+                  <Button color="secondary" inline>
                     Create a Vault
                   </Button>
                 </AppLink>
               )}
-            </Box>
+            </Flex>
           </HintBanner>
         )}
       {/* show some help for nonAdmin members who haven't gifted in an epoch */}
@@ -177,7 +193,7 @@ export const HistoryPage = () => {
           p => p.sentGifts.length > 0 || p.receivedGifts.length > 0
         ).length == 0 && (
           <HintBanner title={'Get started'}>
-            <Text p as="p" css={{ mb: '$md' }}>
+            <Text p as="p">
               Let your circles know who you are by{' '}
               <AppLink to={paths.profile('me')}>
                 completing your profile
@@ -189,9 +205,9 @@ export const HistoryPage = () => {
               where we’re always happy to help and keep you updated on whats
               happening.
             </Text>
-            <Box>
+            <Flex css={{ gap: '$md' }}>
               <Link href={EXTERNAL_URL_GET_STARTED_MEMBER} target="_blank">
-                <Button color="secondary" inline css={{ mt: '$md', mr: '$md' }}>
+                <Button color="secondary" inline>
                   Get Started Guide
                 </Button>
               </Link>
@@ -199,11 +215,11 @@ export const HistoryPage = () => {
                 href={EXTERNAL_URL_GET_STARTED_TUTORIAL_VIDEO}
                 target="_blank"
               >
-                <Button color="secondary" inline css={{ mt: '$md' }}>
+                <Button color="secondary" inline>
                   Watch Tutorial
                 </Button>
               </Link>
-            </Box>
+            </Flex>
           </HintBanner>
         )}
       {(editEpoch || newEpoch) && (
