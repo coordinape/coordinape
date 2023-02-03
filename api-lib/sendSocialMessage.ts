@@ -113,11 +113,11 @@ export async function sendSocialMessage({
   const { circles_by_pk: circle } = await queries.getCircle(circleId);
 
   if (isFeatureEnabled('discord') && channels?.discordBot) {
-    const { type } = channels?.discordBot || {};
+    const { type } = channels.discordBot;
     // TODO Fix the discord bot endpoint
     const res = await fetch(`http://localhost:4000/api/epoch/${type}`, {
       method: 'POST',
-      body: JSON.stringify(channels.discord),
+      body: JSON.stringify(channels.discordBot),
       headers: {
         'Content-Type': 'application/json',
       },

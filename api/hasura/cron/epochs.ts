@@ -240,14 +240,10 @@ export async function notifyEpochStart({
       )}** to **${epochEndDate.toLocaleString(DateTime.DATETIME_FULL)}**
     `;
 
-    if (isFeatureEnabled('discord') && circle.discord_webhook) {
-      const { discord_channel_id: channelId, discord_role_id: roleId } =
-        circle?.discord_circle || {};
+    const { discord_channel_id: channelId, discord_role_id: roleId } =
+      circle?.discord_circle || {};
 
-      if (!channelId || !roleId) {
-        return null;
-      }
-
+    if (isFeatureEnabled('discord') && channelId && roleId) {
       await sendSocialMessage({
         message,
         circleId: circle.id,
@@ -315,14 +311,10 @@ export async function notifyEpochEnd({
       ${usersHodlingGive.join(', ')}
     `;
 
-      if (isFeatureEnabled('discord') && circle.discord_webhook) {
-        const { discord_channel_id: channelId, discord_role_id: roleId } =
-          circle?.discord_circle || {};
+      const { discord_channel_id: channelId, discord_role_id: roleId } =
+        circle?.discord_circle || {};
 
-        if (!channelId || !roleId) {
-          return null;
-        }
-
+      if (isFeatureEnabled('discord') && channelId && roleId) {
         await sendSocialMessage({
           message,
           circleId: circle.id,

@@ -21,13 +21,13 @@ type GetChannelsProps = {
 function getChannels(props: GetChannelsProps): Channels<DiscordOptsOut> {
   const { channels, circle, data, profiles } = props || {};
 
-  if (isFeatureEnabled('discord') && channels?.discordBot) {
-    const { discord_channel_id: channelId, discord_role_id: roleId } =
-      circle?.discord_circle || {};
+  const { discord_channel_id: channelId, discord_role_id: roleId } =
+    circle?.discord_circle || {};
 
+  if (isFeatureEnabled('discord') && channelId && roleId) {
     const user = profiles[0].user;
 
-    if (!channelId || !roleId || !user) {
+    if (!user) {
       return null;
     }
 
