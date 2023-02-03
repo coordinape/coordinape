@@ -9,12 +9,11 @@ import {
 import { Awaited } from '../../ts4.5shim';
 import { EventTriggerPayload } from '../../types';
 
-type Vouch = Awaited<ReturnType<typeof queries.getExistingVouch>>['vouches'][0];
-
-type Nominee = Awaited<ReturnType<typeof queries.getNominee>>['nominees_by_pk'];
-
-type GetChannelsProps = { vouch: Vouch } & { nominee: Nominee } & {
+type GetChannelsProps = {
   channels: Channels<DiscordVouch>;
+  circle: Awaited<ReturnType<typeof queries.getCircle>>['circles_by_pk'];
+  nominee: Awaited<ReturnType<typeof queries.getNominee>>['nominees_by_pk'];
+  vouch: Awaited<ReturnType<typeof queries.getExistingVouch>>['vouches'][0];
 };
 
 function getChannels(props: GetChannelsProps): Channels<DiscordVouch> {
@@ -22,19 +21,30 @@ function getChannels(props: GetChannelsProps): Channels<DiscordVouch> {
     channels,
     vouch: { voucher },
     nominee,
+    circle,
   } = props || {};
 
   if (isFeatureEnabled('discord') && channels?.discordBot) {
+    const { discord_channel_id: channelId, discord_role_id: roleId } =
+      circle?.discord_circle || {};
+
+    if (!channelId || !roleId) {
+      return null;
+    }
+
     return {
       discordBot: {
         type: 'vouch' as const,
-        channelId: '1067789668290146324', // TODO Find this from the circle
-        roleId: '1058334400540061747', // TODO Find this from the circle
+        channelId,
+        roleId,
         nominee: nominee?.profile?.name,
         voucher: voucher?.profile.name ?? voucher?.name ?? 'Someone',
-        nominationReason: 'nominationReason', // TODO Do we even have this?
-        currentVouches: 0, // TODO Where to get this from?
-        requiredVouches: 0, // TODO Where to get this from?
+        nominationReason: nominee?.description ?? 'unknown reason',
+        currentVouches: Math.max(
+          0,
+          (nominee?.nominations_aggregate.aggregate?.count ?? 0) - 1
+        ),
+        requiredVouches: nominee?.vouches_required ?? 0,
       },
     };
   }
@@ -63,19 +73,21 @@ export default async function handleVouchMsg(
 
   const nomineeId = data.new.nominee_id;
 
-  const { nominees_by_pk } = await queries.getNominee(nomineeId);
-  if (!nominees_by_pk) {
+  const { nominees_by_pk: nominee } = await queries.getNominee(nomineeId);
+  if (!nominee) {
     throw 'nominee not found ' + nomineeId;
   }
 
+  const { circles_by_pk: circle } = await queries.getCircle(nominee.circle_id);
+
   // announce the vouching
   await sendSocialMessage({
-    message: `${nominees_by_pk.profile?.name} has been vouched for by ${
+    message: `${nominee.profile?.name} has been vouched for by ${
       vouch.voucher.profile.name ?? vouch.voucher.name
     }!`,
-    circleId: nominees_by_pk.circle_id,
+    circleId: nominee.circle_id,
     sanitize: true,
-    channels: getChannels({ vouch, nominee: nominees_by_pk, channels }),
+    channels: getChannels({ vouch, nominee, channels, circle }),
   });
 
   return true;
