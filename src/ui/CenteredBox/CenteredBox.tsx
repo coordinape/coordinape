@@ -12,6 +12,7 @@ const CenteredBox = ({ children }: { children: React.ReactNode }) => {
       <Panel
         css={{
           width: '50%',
+          maxWidth: '700px',
           textAlign: 'center',
           padding: '$xl',
           '@sm': { width: '90%' },

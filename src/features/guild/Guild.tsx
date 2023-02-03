@@ -1,6 +1,7 @@
 import GuildLogo from '../../assets/svgs/guild-logo.svg';
 import { CSS } from '../../stitches.config';
 import { Flex, Image, Panel, Text } from '../../ui';
+import { ExternalLink } from 'icons/__generated';
 
 import { GuildInfoWithMembership } from './guild-api';
 
@@ -66,8 +67,9 @@ export const Guild = ({
                     src={GuildLogo}
                   />
                 </Flex>
-                <Text h2 css={{ flexGrow: 1 }}>
+                <Text h2 css={{ flexGrow: 1, fontSize: '$h2Temp' }}>
                   {info.name}
+                  <ExternalLink css={{ ml: '$sm' }} />
                 </Text>
               </Flex>
               {role &&

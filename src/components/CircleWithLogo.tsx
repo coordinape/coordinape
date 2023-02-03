@@ -47,7 +47,7 @@ const CircleWithLogo = ({
               textOverflow: 'ellipsis',
               whiteSpace: '',
               color: '$text',
-              fontSize: '$h2',
+              fontSize: '$h2Temp',
               fontWeight: '$bold',
             }}
           >
