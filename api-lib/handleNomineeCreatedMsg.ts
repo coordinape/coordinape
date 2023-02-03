@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { isFeatureEnabled } from '../src/config/features';
 
 import * as queries from './gql/queries';
@@ -10,30 +9,35 @@ import {
 import { Awaited } from './ts4.5shim';
 import { EventTriggerPayload } from './types';
 
-type GetChannelsProps = Awaited<
-  ReturnType<typeof queries.getNominee>
->['nominees_by_pk'] & { channels: Channels<DiscordNomination> };
+type GetChannelsProps = {
+  nominee: Awaited<ReturnType<typeof queries.getNominee>>['nominees_by_pk'];
+  channels: Channels<DiscordNomination>;
+  circle: Awaited<ReturnType<typeof queries.getCircle>>['circles_by_pk'];
+};
 
 function getChannels(props: GetChannelsProps): Channels<DiscordNomination> {
-  const {
-    channels,
-    circle_id,
-    profile,
-    nominator,
-    description,
-    vouches_required,
-  } = props || {};
+  const { channels, nominee, circle } = props || {};
 
   if (isFeatureEnabled('discord') && channels?.discordBot) {
+    const { discord_channel_id: channelId, discord_role_id: roleId } =
+      circle?.discord_circle || {};
+
+    const { circle_id, profile, nominator, description, vouches_required } =
+      nominee || {};
+
+    if (!channelId || !roleId || !profile || !nominator) {
+      return null;
+    }
+
     return {
       discordBot: {
         type: 'nomination' as const,
-        channelId: '1067789668290146324', // TODO Find this from the circle
-        roleId: '1058334400540061747', // TODO Find this from the circle
-        nominee: profile?.name,
-        nominator: nominator?.profile.name ?? nominator?.name,
-        nominationReason: description,
-        numberOfVouches: vouches_required,
+        channelId,
+        roleId,
+        nominee: profile.name,
+        nominator: nominator.profile.name ?? nominator.name,
+        nominationReason: description ?? 'unknown',
+        numberOfVouches: vouches_required ?? 0,
         nominationLink: `https://app.coordinape.com/circles/${circle_id}/members`,
       },
     };
@@ -50,20 +54,22 @@ export default async function handleNomineeCreatedMsg(
     event: { data },
   } = payload;
 
-  const { nominees_by_pk } = await queries.getNominee(data.new.id);
+  const { nominees_by_pk: nominee } = await queries.getNominee(data.new.id);
 
-  if (!nominees_by_pk) {
+  if (!nominee) {
     return false;
   }
 
+  const { circles_by_pk: circle } = await queries.getCircle(nominee.circle_id);
+
   await sendSocialMessage({
     message:
-      `${nominees_by_pk?.profile?.name} has been nominated by ${
-        nominees_by_pk.nominator?.profile.name ?? nominees_by_pk.nominator?.name
+      `${nominee?.profile?.name} has been nominated by ${
+        nominee.nominator?.profile.name ?? nominee.nominator?.name
       }!.` +
-      ` You can vouch for them at https://app.coordinape.com/circles/${nominees_by_pk.circle_id}/members`,
+      ` You can vouch for them at https://app.coordinape.com/circles/${nominee.circle_id}/members`,
     circleId: data.new.circle_id,
-    channels: getChannels({ ...nominees_by_pk, channels }),
+    channels: getChannels({ nominee, channels, circle }),
     sanitize: false,
   });
 
