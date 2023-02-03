@@ -4,6 +4,17 @@ import { Button, Flex, IconButton } from '../../ui';
 
 import { ThemeContext } from './ThemeProvider';
 
+const themeOptionStyles = {
+  p: 0,
+  zIndex: 1,
+  borderRadius: '$pill',
+  background: 'transparent',
+  '&:hover': {
+    color: '$text',
+  },
+};
+const handleHeight = '24px';
+
 export const ThemeSwitcher = () => {
   if (!isFeatureEnabled('theme_switcher')) {
     return <></>;
@@ -35,24 +46,38 @@ export const ThemeSwitcher = () => {
               justifyContent: 'start',
               mt: '$sm',
               alignItems: 'center',
-              border: '1px solid $borderMedium',
+              // border: '1px solid $borderDim',
+              background: '$neutral',
               borderRadius: '$pill',
-              p: '$xxs $sm',
+              p: '$xxs',
               display: 'inline-flex',
+              position: 'relative',
+              '&:after': {
+                content: '',
+                background: '$neutralButtonHover',
+                height: handleHeight,
+                width:
+                  themePreference === 'auto'
+                    ? `calc(${handleHeight} * 2)`
+                    : handleHeight,
+                position: 'absolute',
+                borderRadius: '$pill',
+                transition: 'all 0.2s ease-in-out',
+                zIndex: 0,
+                left:
+                  themePreference === 'dark'
+                    ? '2px'
+                    : themePreference === 'light'
+                    ? `calc(100% - ${handleHeight} - 2px)`
+                    : themePreference === 'auto'
+                    ? `calc(50% - ${handleHeight})`
+                    : 'auto',
+              },
             }}
           >
             <IconButton
               css={{
-                p: 0,
-                borderRadius: '$round',
-                '&:hover': {
-                  color: '$cta',
-                  background: '$primaryButtonHover',
-                },
-                background:
-                  themePreference === 'dark'
-                    ? '$cta !important'
-                    : 'transparent',
+                ...themeOptionStyles,
                 color:
                   themePreference === 'dark'
                     ? '$textOnCta !important'
@@ -66,26 +91,19 @@ export const ThemeSwitcher = () => {
             </IconButton>
             <Button
               size="small"
+              color="transparent"
               css={{
+                ...themeOptionStyles,
                 border: 'none',
                 p: '$xs $sm',
                 minHeight: 0,
                 borderRadius: '$pill',
-                '&:hover': {
-                  color: '$cta',
-                  background: '$primaryButtonHover',
-                },
-                background:
-                  themePreference === 'auto'
-                    ? '$cta !important'
-                    : 'transparent',
                 color:
                   themePreference === 'auto'
                     ? '$textOnCta !important'
                     : '$secondaryText',
               }}
               onClick={() => {
-                // fixme for utilizing OS theme selection
                 setTheme('auto');
               }}
             >
@@ -93,16 +111,7 @@ export const ThemeSwitcher = () => {
             </Button>
             <IconButton
               css={{
-                p: 0,
-                borderRadius: '$round',
-                '&:hover': {
-                  color: '$cta',
-                  background: '$primaryButtonHover',
-                },
-                background:
-                  themePreference === 'light'
-                    ? '$cta !important'
-                    : 'transparent',
+                ...themeOptionStyles,
                 color:
                   themePreference === 'light'
                     ? '$textOnCta !important'
