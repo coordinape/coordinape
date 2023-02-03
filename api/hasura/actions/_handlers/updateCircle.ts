@@ -49,7 +49,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         throw new UnprocessableError('invalid guild role');
       }
     } catch (e) {
-      if (typeof e == typeof UnprocessableError) {
+      if (e instanceof UnprocessableError) {
         throw e;
       }
       throw new InternalServerError('Unable to fetch info from guild', e);
