@@ -387,9 +387,10 @@ export const TransactionTable = ({
         color: '$secondaryText',
         textTransform: 'uppercase',
         p: '$sm',
+        borderBottom: '1px solid $borderTable',
       },
       td: {
-        borderTop: '1px solid $borderTable',
+        borderBottom: '1px solid $borderTable',
         p: '$sm',
         color: '$text',
       },
