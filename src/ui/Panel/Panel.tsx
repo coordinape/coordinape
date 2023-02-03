@@ -1,4 +1,4 @@
-import { css, styled } from 'stitches.config';
+import { css, styled, disabledStyle } from 'stitches.config';
 
 export const panelStyles = css({
   gridTemplateColumns: '1fr',
@@ -25,9 +25,7 @@ export const Panel = styled(PanelBase, {
     backgroundColor: '$formInputBackground',
     borderColor: '$formInputBorder',
     transition: 'opacity 0.3s ease-in-out',
-    '&:disabled': {
-      opacity: 0.2,
-    },
+    '&:disabled': disabledStyle,
   },
   // TODO clean up all these nested panel rules after theme migration
   'input, textarea, button[role="combobox"], .root .formInputWrapper, .formInputWrapper, .MuiInputBase-root.Mui-disabled':
@@ -50,10 +48,11 @@ export const Panel = styled(PanelBase, {
           background: 'transparent',
         },
       },
-      '&:disabled, &.Mui-disabled': {
-        opacity: 0.2,
-        pointerEvents: 'none',
+      "input[data-testid='FormTokenField']": {
+        // keep the inner input from getting double opacitied
+        opacity: '1 !important',
       },
+      '&.Mui-disabled': disabledStyle,
     },
   '.root .formInputWrapper': {
     borderColor: '$formInputBorder',

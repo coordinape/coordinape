@@ -2,7 +2,8 @@
 
 import React from 'react';
 
-import { styled } from '../../stitches.config';
+import { styled, disabledStyle } from 'stitches.config';
+
 import { ChevronLeft, ChevronRight, MoreHorizontal } from 'icons/__generated';
 
 const defaults = {
@@ -36,12 +37,7 @@ export const PaginatorButton = styled('button', {
     backgroundColor: '$primary',
     color: '$white',
   },
-  '&:disabled': {
-    opacity: '0.4',
-    backgroundColor: 'transparent',
-    color: 'inherit',
-    cursor: 'default',
-  },
+  '&:disabled': disabledStyle,
   variants: {
     active: {
       true: {

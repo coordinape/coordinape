@@ -40,6 +40,7 @@ import {
   Form,
   Link,
   Modal,
+  TextField,
   Tooltip,
   Text,
   ToggleButton,
@@ -707,7 +708,7 @@ const MemberRow = ({
                     Fixed Payment
                   </Text>
                   <Flex
-                    css={{ gap: '$md', flexWrap: 'wrap' }}
+                    css={{ gap: '$md', flexWrap: 'wrap', mb: '$md' }}
                     disabled={!fixedPaymentToken}
                   >
                     <FormInputField
@@ -719,54 +720,49 @@ const MemberRow = ({
                       label="Member Fixed Payment"
                       infoTooltip="Fixed Amount tokens allocated to this user regardless of gives received"
                       showFieldErrors
-                      css={{ width: '190px' }}
                     />
-                    <Flex column>
-                      <Text
-                        variant="label"
-                        css={{ mb: '$xs', whiteSpace: 'nowrap' }}
-                      >
+                    <Flex column css={{ gap: '$xs' }}>
+                      <Text variant="label" as="label">
                         Members
                       </Text>
-                      <Text size="medium">
-                        {
+                      <TextField
+                        value={
                           fixedPaymentTotal(watchFixedPaymentAmount)
                             .fixedReceivers
                         }
-                      </Text>
+                        disabled
+                        readOnly
+                      />
                     </Flex>
-                    <Flex column>
-                      <Text
-                        variant="label"
-                        css={{ mb: '$xs', whiteSpace: 'nowrap' }}
-                      >
+                    <Flex column css={{ gap: '$xs' }}>
+                      <Text variant="label" as="label">
                         Fixed Payments Total
                       </Text>
-                      <Text size="medium">{`${
-                        fixedPaymentTotal(watchFixedPaymentAmount).fixedTotal
-                      } ${fixedPaymentToken ?? ''}`}</Text>
+                      <TextField
+                        value={`${
+                          fixedPaymentTotal(watchFixedPaymentAmount).fixedTotal
+                        } ${fixedPaymentToken ?? ''}`}
+                        disabled
+                        readOnly
+                      />
                     </Flex>
-                    <Flex column>
-                      <Text
-                        css={{ mb: '$xs', whiteSpace: 'nowrap' }}
-                        variant="label"
-                      >
+                    <Flex column css={{ gap: '$xs' }}>
+                      <Text variant="label" as="label">
                         Available in Vault
                       </Text>{' '}
-                      <Text size="medium">{`${availableInVault ?? ''} ${
-                        fixedPaymentToken ?? ''
-                      }`}</Text>
+                      <TextField
+                        value={`${availableInVault ?? ''} ${
+                          fixedPaymentToken ?? ''
+                        }`}
+                        disabled
+                        readOnly
+                      />
                     </Flex>
                   </Flex>
                   <Box css={{ fontSize: '$small', alignSelf: 'flex-end' }}>
                     Edit Fixed Payment Token in{' '}
-                    <AppLink
-                      to={paths.circleAdmin(user.circle_id)}
-                      css={{ textDecoration: 'none' }}
-                    >
-                      <Text inline css={{ color: '$primary' }}>
-                        Circle Settings
-                      </Text>
+                    <AppLink inlineLink to={paths.circleAdmin(user.circle_id)}>
+                      Circle Settings
                     </AppLink>
                   </Box>
                 </Flex>
