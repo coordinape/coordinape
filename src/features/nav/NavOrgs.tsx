@@ -27,7 +27,7 @@ export const NavOrgs = ({
     <>
       <NavLabel
         key={'orgLabel'}
-        label="Organizations"
+        label={currentOrg ? 'Organization' : 'Organizations'}
         icon={
           <IconButton
             as={NavLink}

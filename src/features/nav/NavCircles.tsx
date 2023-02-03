@@ -21,7 +21,7 @@ export const NavCircles = ({
     <>
       <NavLabel
         key={'circlesLabel'}
-        label="Circles"
+        label={currentCircle ? 'Circle' : 'Circles'}
         icon={
           <IconButton
             as={NavLink}
