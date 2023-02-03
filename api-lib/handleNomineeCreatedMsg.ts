@@ -24,7 +24,7 @@ function getChannels(props: GetChannelsProps): Channels<DiscordNomination> {
     vouches_required,
   } = props || {};
 
-  if (isFeatureEnabled('discord') && channels.discordBot) {
+  if (isFeatureEnabled('discord') && channels?.discordBot) {
     return {
       discordBot: {
         type: 'nomination' as const,

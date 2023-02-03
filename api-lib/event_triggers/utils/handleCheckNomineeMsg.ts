@@ -9,30 +9,43 @@ import {
 import { Awaited } from '../../ts4.5shim';
 import { EventTriggerPayload } from '../../types';
 
+type Nominee = Awaited<ReturnType<typeof queries.getNominee>>['nominees_by_pk'];
+
 type GetChannelsVouchUnsuccessfulProps = {
-  nominee: Awaited<ReturnType<typeof queries.getNominee>>['nominees_by_pk'];
-} & {
+  payload: EventTriggerPayload<'nominees', 'UPDATE'>;
   channels: Channels<DiscordVouchUnsuccessful>;
+  circle: Awaited<ReturnType<typeof queries.getCircle>>['circles_by_pk'];
+  nominee: Nominee;
 };
 
 type GetChannelsVouchSuccessfulProps = {
-  nominee: Awaited<ReturnType<typeof queries.getNominee>>['nominees_by_pk'];
-} & {
+  payload: EventTriggerPayload<'nominees', 'UPDATE'>;
   channels: Channels<DiscordVouchSuccessful>;
+  circle: Awaited<ReturnType<typeof queries.getCircle>>['circles_by_pk'];
+  nominee: Nominee;
 };
 
 function getChannelsVouchUnsuccessful(
   props: GetChannelsVouchUnsuccessfulProps
 ): Channels<DiscordVouchUnsuccessful> {
-  const { channels, nominee } = props || {};
+  const { channels, circle, nominee } = props || {};
 
-  if (isFeatureEnabled('discord') && channels.discordBot) {
+  if (isFeatureEnabled('discord') && channels?.discordBot) {
+    const { profile } = nominee || {};
+
+    const { discord_channel_id: channelId, discord_role_id: roleId } =
+      circle?.discord_circle || {};
+
+    if (!channelId || !roleId || !profile) {
+      return null;
+    }
+
     return {
       discordBot: {
         type: 'vouch-unsuccessful' as const,
-        channelId: '1067789668290146324', // TODO Find this from the circle
-        roleId: '1058334400540061747', // TODO Find this from the circle
-        nominee: nominee?.profile?.name,
+        channelId,
+        roleId,
+        nominee: profile.name,
       },
     };
   }
@@ -43,21 +56,27 @@ function getChannelsVouchUnsuccessful(
 function getChannelsVouchSuccessful(
   props: GetChannelsVouchSuccessfulProps
 ): Channels<DiscordVouchSuccessful> {
-  const { channels, nominee } = props || {};
+  const { payload, channels, circle, nominee } = props || {};
 
-  if (isFeatureEnabled('discord') && channels.discordBot) {
+  if (isFeatureEnabled('discord') && channels?.discordBot) {
+    const { profile, address, nominations } = nominee || {};
+
+    const { discord_channel_id: channelId, discord_role_id: roleId } =
+      circle?.discord_circle || {};
+
+    if (!channelId || !roleId || !profile || !address || !nominations) {
+      return null;
+    }
+
     return {
       discordBot: {
         type: 'vouch-successful' as const,
-        // these are available in the returned `circle` object now
-        channelId: '1067789668290146324', // TODO Find this from the circle
-        roleId: '1058334400540061747', // TODO Find this from the circle
-        nominee: nominee?.profile?.name,
-        nomineeProfile: `https://app.coordinape.com//profile/${nominee?.address}`,
-        // nominateReason: available in the event trigger payload in the `description` column
-        nominationReason: '', // TODO Do we even have this?
-        // vouchers: available in the `vouches` table via the `nominations`
-        vouchers: [], // TODO Where to get this from?
+        channelId,
+        roleId,
+        nominee: profile.name,
+        nomineeProfile: `https://app.coordinape.com//profile/${address}`,
+        nominationReason: payload.event.data.new.description,
+        vouchers: nominations.map(({ voucher }) => voucher?.profile.name) ?? [],
       },
     };
   }
@@ -74,30 +93,49 @@ export default async function handleCheckNomineeMsg(
   } = payload;
 
   if (data.old.ended === false && data.new.ended === true) {
-    const { nominees_by_pk } = await queries.getNominee(data.new.id);
+    const { nominees_by_pk: nominee } = await queries.getNominee(data.new.id);
 
-    if (nominees_by_pk) {
+    if (nominee) {
       const vouches =
-        (nominees_by_pk.nominations_aggregate?.aggregate?.count ?? 0) + 1;
+        (nominee.nominations_aggregate?.aggregate?.count ?? 0) + 1;
 
       if (vouches >= data.new.vouches_required) {
+        const { circles_by_pk: circle } = await queries.getCircle(
+          nominee.circle_id
+        );
         await sendSocialMessage({
-          message: `${nominees_by_pk.profile?.name} has received enough vouches and is now in the circle`,
-          circleId: nominees_by_pk.circle_id,
+          message: `${nominee.profile?.name} has received enough vouches and is now in the circle`,
           channels: getChannelsVouchSuccessful({
-            nominee: nominees_by_pk,
+            payload,
+            nominee,
             channels,
+            circle,
           }),
+          circleId: nominee.circle_id,
         });
         return true;
-      } else if (new Date(data.new.expiry_date) < new Date()) {
+      }
+
+      if (new Date(data.new.expiry_date) < new Date()) {
+        const { circles_by_pk: circle } = await queries.getCircle(
+          nominee.circle_id
+        );
+
+        const vouches = nominee.nominations_aggregate?.aggregate?.count ?? 0;
+
         await sendSocialMessage({
-          message: `Nominee ${nominees_by_pk.profile?.name} has only received ${nominees_by_pk.nominations_aggregate?.aggregate?.count} vouch(es) and has failed`,
-          circleId: nominees_by_pk.circle_id,
+          message: `Nominee ${
+            nominee.profile?.name
+          } has only received ${vouches} vouch${
+            vouches === 1 ? '' : 'es'
+          } and has failed`,
           channels: getChannelsVouchUnsuccessful({
-            nominee: nominees_by_pk,
+            payload,
+            nominee,
             channels,
+            circle,
           }),
+          circleId: nominee.circle_id,
         });
         return true;
       }

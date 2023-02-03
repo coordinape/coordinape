@@ -20,7 +20,7 @@ type GetChannelsProps = {
 function getChannels(props: GetChannelsProps): Channels<DiscordOptsOut> {
   const { channels, circle, data } = props || {};
 
-  if (isFeatureEnabled('discord') && channels.discordBot) {
+  if (isFeatureEnabled('discord') && channels?.discordBot) {
     return {
       discordBot: {
         type: 'user-opts-out' as const,
