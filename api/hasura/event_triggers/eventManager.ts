@@ -5,6 +5,7 @@ import checkNomineeTelegram from '../../../api-lib/event_triggers/checkNomineeTe
 import createCircleCRM from '../../../api-lib/event_triggers/createCircleCRM';
 import createContributionInteractionEvent from '../../../api-lib/event_triggers/createContributionInteractionEvent';
 import createNomineeDiscord from '../../../api-lib/event_triggers/createNomineeDiscord';
+import createNomineeDiscordBot from '../../../api-lib/event_triggers/createNomineeDiscordBot';
 import createNomineeTelegram from '../../../api-lib/event_triggers/createNomineeTelegram';
 import createVouchedUser from '../../../api-lib/event_triggers/createVouchedUser';
 import discordUserLinked from '../../../api-lib/event_triggers/discordUserLinked';
@@ -29,6 +30,7 @@ const HANDLERS: HandlerDict = {
   createCircleCRM,
   createContributionInteractionEvent,
   createNomineeDiscord,
+  createNomineeDiscordBot,
   createNomineeTelegram,
   createVouchedUser,
   discordUserLinked,

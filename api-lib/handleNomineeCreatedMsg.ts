@@ -21,7 +21,12 @@ function getChannels(props: GetChannelsProps): Channels<DiscordNomination> {
   const { discord_channel_id: channelId, discord_role_id: roleId } =
     circle?.discord_circle || {};
 
-  if (isFeatureEnabled('discord') && channelId && roleId) {
+  if (
+    channels?.isDiscordBot &&
+    isFeatureEnabled('discord') &&
+    channelId &&
+    roleId
+  ) {
     const { circle_id, profile, nominator, description, vouches_required } =
       nominee || {};
 
@@ -30,6 +35,7 @@ function getChannels(props: GetChannelsProps): Channels<DiscordNomination> {
     }
 
     return {
+      isDiscordBot: true,
       discordBot: {
         type: 'nomination' as const,
         channelId,

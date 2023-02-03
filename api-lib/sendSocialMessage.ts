@@ -14,6 +14,7 @@ export type DiscordEpochEvent = {
 export type Channels<T> = {
   discord?: boolean;
   discordBot?: T;
+  isDiscordBot?: boolean;
   telegram?: boolean;
 } | null;
 
@@ -112,8 +113,8 @@ export async function sendSocialMessage({
 
   const { circles_by_pk: circle } = await queries.getCircle(circleId);
 
-  if (isFeatureEnabled('discord') && channels?.discordBot) {
-    const { type } = channels.discordBot;
+  if (isFeatureEnabled('discord') && channels?.isDiscordBot) {
+    const { type } = channels.discordBot || {};
     // TODO Fix the discord bot endpoint
     const res = await fetch(`http://localhost:4000/api/epoch/${type}`, {
       method: 'POST',
