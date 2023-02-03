@@ -99,47 +99,45 @@ export const CircleLogoUpload = ({
           path={uploadedLogoUrl ? uploadedLogoUrl : original}
           name={circleName}
         />
-        <Text variant="label" as="label" htmlFor="upload-logo-button">
-          <Flex
-            alignItems="center"
+        <Flex
+          alignItems="center"
+          css={{
+            gap: '$sm',
+          }}
+        >
+          <Button
+            id="upload-logo-button"
+            color="secondary"
+            as="span"
             css={{
-              gap: '$sm',
+              display: 'inline-flex',
+            }}
+            onClick={() => {
+              setUploadComplete(false);
+              fileInput.current?.click?.();
             }}
           >
-            <Button
-              id="upload-logo-button"
-              color="secondary"
-              as="span"
+            Select File
+          </Button>
+          {uploadComplete && (
+            <Text
+              size="small"
+              color="neutral"
               css={{
-                display: 'inline-flex',
-              }}
-              onClick={() => {
-                setUploadComplete(false);
-                fileInput.current?.click?.();
+                gap: '$xs',
               }}
             >
-              Select File
-            </Button>
-            {uploadComplete && (
-              <Text
-                size="small"
-                color="neutral"
-                css={{
-                  gap: '$xs',
-                }}
-              >
-                <Check /> Logo Saved!
-              </Text>
-            )}
-            <input
-              ref={fileInput}
-              accept={VALID_FILE_TYPES.join(', ')}
-              onChange={onInputChange}
-              style={{ display: 'none' }}
-              type="file"
-            />
-          </Flex>
-        </Text>
+              <Check /> Logo Saved!
+            </Text>
+          )}
+          <input
+            ref={fileInput}
+            accept={VALID_FILE_TYPES.join(', ')}
+            onChange={onInputChange}
+            style={{ display: 'none' }}
+            type="file"
+          />
+        </Flex>
       </Flex>
     </Flex>
   );

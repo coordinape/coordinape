@@ -86,47 +86,45 @@ export const AvatarUpload = ({ original }: { original?: string }) => {
           path={uploadedAvatarUrl ? uploadedAvatarUrl : original}
           name={'me'}
         />
-        <Text variant="label" as="label" htmlFor="upload-avatar-button">
-          <Flex
-            alignItems="center"
+        <Flex
+          alignItems="center"
+          css={{
+            gap: '$sm',
+          }}
+        >
+          <Button
+            id="upload-avatar-button"
+            color="secondary"
+            as="span"
             css={{
-              gap: '$sm',
+              display: 'inline-flex',
+            }}
+            onClick={() => {
+              setUploadComplete(false);
+              fileInput.current?.click?.();
             }}
           >
-            <Button
-              id="upload-avatar-button"
-              color="secondary"
-              as="span"
+            Select File
+          </Button>
+          {uploadComplete && (
+            <Text
+              size="small"
+              color="neutral"
               css={{
-                display: 'inline-flex',
-              }}
-              onClick={() => {
-                setUploadComplete(false);
-                fileInput.current?.click?.();
+                gap: '$xs',
               }}
             >
-              Select File
-            </Button>
-            {uploadComplete && (
-              <Text
-                size="small"
-                color="neutral"
-                css={{
-                  gap: '$xs',
-                }}
-              >
-                <Check /> Avatar Saved!
-              </Text>
-            )}
-            <input
-              ref={fileInput}
-              accept={VALID_FILE_TYPES.join(', ')}
-              onChange={onInputChange}
-              style={{ display: 'none' }}
-              type="file"
-            />
-          </Flex>
-        </Text>
+              <Check /> Avatar Saved!
+            </Text>
+          )}
+          <input
+            ref={fileInput}
+            accept={VALID_FILE_TYPES.join(', ')}
+            onChange={onInputChange}
+            style={{ display: 'none' }}
+            type="file"
+          />
+        </Flex>
       </Flex>
     </Flex>
   );
