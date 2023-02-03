@@ -47,7 +47,7 @@ export const EndEpochDialog = ({
 
   return (
     <Modal
-      open={!!endEpochDialog}
+      open={endEpochDialog}
       title={`End current epoch?`}
       onOpenChange={() => {
         setEndEpochDialog(false);
