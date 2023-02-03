@@ -180,6 +180,25 @@ export const HistoryPage = () => {
           <Text p as="p">
             Your current and past epochs.
           </Text>
+          {isFeatureEnabled('epoch_timing') && (
+            <HintBanner title={'Epoch Timing Settings'}>
+              <Text p as="p" css={{ mb: '$md' }}>
+                Heads up, our settings for epoch timing has changed.
+              </Text>
+              <Button
+                as="a"
+                href={
+                  'https://docs.coordinape.com/get-started/epochs/create-an-epoch'
+                }
+                target="_blank"
+                rel="noreferrer"
+                color="secondary"
+                css={{ mt: '$md', mr: '$md', width: 'fit-content' }}
+              >
+                Epochs Docs
+              </Button>
+            </HintBanner>
+          )}
         </Flex>
         {isAdmin && (
           <Button
