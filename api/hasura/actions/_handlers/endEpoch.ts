@@ -20,9 +20,9 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     input: { payload: input },
   } = composeHasuraActionRequestBody(EpochEndSchema).parse(request.body);
 
-  const deletingEpoch = await getExistingEpoch(input);
+  const endingEpoch = await getExistingEpoch(input);
 
-  if (!deletingEpoch) {
+  if (!endingEpoch) {
     errorResponseWithStatusCode(
       response,
       {
@@ -33,7 +33,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     return;
   }
 
-  const { update_epochs_by_pk: deletedEpoch } = await adminClient.mutate(
+  const { update_epochs_by_pk: endedEpoch } = await adminClient.mutate(
     {
       update_epochs_by_pk: [
         {
@@ -51,8 +51,8 @@ async function handler(request: VercelRequest, response: VercelResponse) {
       operationName: 'endEpoch_updateEpoch',
     }
   );
-  await endEpochHandler(deletingEpoch);
-  return response.status(200).json(deletedEpoch);
+  await endEpochHandler(endingEpoch);
+  return response.status(200).json(endedEpoch);
 }
 
 async function getExistingEpoch({
@@ -60,7 +60,7 @@ async function getExistingEpoch({
   id,
 }: z.infer<typeof EpochEndSchema>) {
   const {
-    epochs: [deletingEpoch],
+    epochs: [endingEpoch],
   } = await adminClient.query(
     {
       epochs: [
@@ -134,7 +134,7 @@ async function getExistingEpoch({
     }
   );
 
-  return deletingEpoch;
+  return endingEpoch;
 }
 
 export default authCircleAdminMiddleware(handler);
