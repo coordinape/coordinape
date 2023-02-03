@@ -17,6 +17,7 @@ const staticFeatureFlags: Partial<Record<FeatureName, boolean>> = {
   fixed_payments: true,
   email_login: !!process.env.REACT_APP_FEATURE_FLAG_EMAIL_LOGIN,
   discord: true,
+  guild: true,
 };
 
 // this code is safe to use in a non-browser environment because of the typeof
