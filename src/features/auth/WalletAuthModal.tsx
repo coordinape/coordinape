@@ -10,6 +10,7 @@ import { EConnectorNames, WALLET_ICONS } from 'config/constants';
 import isFeatureEnabled from 'config/features';
 import { useToast } from 'hooks';
 import { useWeb3React } from 'hooks/useWeb3React';
+import { Mail } from 'icons/__generated';
 import { Box, Button, Text, Modal, Flex, HR, Link } from 'ui';
 
 import { connectors } from './connectors';
@@ -215,6 +216,7 @@ export const WalletAuthModal = () => {
                 {isFeatureEnabled('email_login') && (
                   <Button variant="wallet" fullWidth onClick={showExplainer}>
                     Email
+                    <Mail />
                   </Button>
                 )}
               </Box>
