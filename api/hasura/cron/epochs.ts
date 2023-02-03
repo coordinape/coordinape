@@ -248,6 +248,7 @@ export async function notifyEpochStart({
         message,
         circleId: circle.id,
         channels: {
+          isDiscordBot: true,
           discordBot: {
             type: 'start' as const,
             channelId,
@@ -319,6 +320,7 @@ export async function notifyEpochEnd({
           message,
           circleId: circle.id,
           channels: {
+            isDiscordBot: true,
             discordBot: {
               type: 'end' as const,
               channelId,

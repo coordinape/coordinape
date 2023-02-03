@@ -15,10 +15,6 @@ type Mutation {
 }
 
 type Mutation {
-  createEpochOld(payload: CreateEpochOldInput!): EpochResponse
-}
-
-type Mutation {
   createNominee(payload: CreateNomineeInput!): CreateNomineeResponse
 }
 
@@ -114,10 +110,6 @@ type Mutation {
 
 type Mutation {
   updateEpoch(payload: UpdateEpochInput!): EpochResponse
-}
-
-type Mutation {
-  updateEpochOld(payload: UpdateEpochOldInput!): EpochResponse
 }
 
 type Mutation {
@@ -218,7 +210,7 @@ input VouchInput {
   nominee_id: Int!
 }
 
-input CreateEpochOldInput {
+input CreateEpochInput {
   circle_id: Int!
   start_date: timestamptz!
   days: Int!
@@ -260,7 +252,7 @@ input UpdateCircleInput {
   guild_role_id: Int
 }
 
-input UpdateEpochOldInput {
+input UpdateEpochInput {
   id: Int!
   circle_id: Int!
   start_date: timestamptz!
@@ -268,14 +260,6 @@ input UpdateEpochOldInput {
   repeat: Int!
   grant: Float
   description: String
-}
-
-input UpdateEpochInput {
-  id: Int!
-  circle_id: Int!
-  grant: Float
-  description: String
-  params: EpochInputParams
 }
 
 input Allocation {

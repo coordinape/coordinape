@@ -33,7 +33,12 @@ function getChannelsVouchUnsuccessful(
   const { discord_channel_id: channelId, discord_role_id: roleId } =
     circle?.discord_circle || {};
 
-  if (isFeatureEnabled('discord') && channelId && roleId) {
+  if (
+    channels?.isDiscordBot &&
+    isFeatureEnabled('discord') &&
+    channelId &&
+    roleId
+  ) {
     const { profile } = nominee || {};
 
     if (!profile) {
@@ -41,6 +46,7 @@ function getChannelsVouchUnsuccessful(
     }
 
     return {
+      isDiscordBot: true,
       discordBot: {
         type: 'vouch-unsuccessful' as const,
         channelId,
@@ -61,7 +67,12 @@ function getChannelsVouchSuccessful(
   const { discord_channel_id: channelId, discord_role_id: roleId } =
     circle?.discord_circle || {};
 
-  if (isFeatureEnabled('discord') && channelId && roleId) {
+  if (
+    channels?.isDiscordBot &&
+    isFeatureEnabled('discord') &&
+    channelId &&
+    roleId
+  ) {
     const { profile, address, nominations } = nominee || {};
 
     if (!profile || !address || !nominations) {
@@ -69,12 +80,13 @@ function getChannelsVouchSuccessful(
     }
 
     return {
+      isDiscordBot: true,
       discordBot: {
         type: 'vouch-successful' as const,
         channelId,
         roleId,
         nominee: profile.name,
-        nomineeProfile: `https://app.coordinape.com//profile/${address}`,
+        nomineeProfile: `https://app.coordinape.com/profile/${address}`,
         nominationReason: payload.event.data.new.description,
         vouchers: nominations.map(({ voucher }) => voucher?.profile.name) ?? [],
       },
@@ -86,7 +98,7 @@ function getChannelsVouchSuccessful(
 
 export default async function handleCheckNomineeMsg(
   payload: EventTriggerPayload<'nominees', 'UPDATE'>,
-  channels: { discord?: boolean; telegram?: boolean }
+  channels: { discord?: boolean; isDiscordBot?: boolean; telegram?: boolean }
 ) {
   const {
     event: { data },

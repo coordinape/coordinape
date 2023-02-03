@@ -24,7 +24,12 @@ function getChannels(props: GetChannelsProps): Channels<DiscordOptsOut> {
   const { discord_channel_id: channelId, discord_role_id: roleId } =
     circle?.discord_circle || {};
 
-  if (isFeatureEnabled('discord') && channelId && roleId) {
+  if (
+    channels?.isDiscordBot &&
+    isFeatureEnabled('discord') &&
+    channelId &&
+    roleId
+  ) {
     const user = profiles[0].user;
 
     if (!user) {
@@ -32,6 +37,7 @@ function getChannels(props: GetChannelsProps): Channels<DiscordOptsOut> {
     }
 
     return {
+      isDiscordBot: true,
       discordBot: {
         type: 'user-opts-out' as const,
         channelId,
@@ -54,7 +60,7 @@ function getChannels(props: GetChannelsProps): Channels<DiscordOptsOut> {
 
 export default async function handleOptOutMsg(
   payload: EventTriggerPayload<'users', 'UPDATE'>,
-  channels: { discord?: boolean; telegram?: boolean }
+  channels: { discord?: boolean; isDiscordBot?: boolean; telegram?: boolean }
 ) {
   const {
     event: { data },

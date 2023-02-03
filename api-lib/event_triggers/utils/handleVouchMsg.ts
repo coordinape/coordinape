@@ -27,8 +27,14 @@ function getChannels(props: GetChannelsProps): Channels<DiscordVouch> {
   const { discord_channel_id: channelId, discord_role_id: roleId } =
     circle?.discord_circle || {};
 
-  if (isFeatureEnabled('discord') && channelId && roleId) {
+  if (
+    channels?.isDiscordBot &&
+    isFeatureEnabled('discord') &&
+    channelId &&
+    roleId
+  ) {
     return {
+      isDiscordBot: true,
       discordBot: {
         type: 'vouch' as const,
         channelId,
@@ -50,7 +56,7 @@ function getChannels(props: GetChannelsProps): Channels<DiscordVouch> {
 
 export default async function handleVouchMsg(
   payload: EventTriggerPayload<'vouches', 'INSERT'>,
-  channels: { discord?: boolean; telegram?: boolean }
+  channels: { discord?: boolean; isDiscordBot?: boolean; telegram?: boolean }
 ) {
   const {
     event: { data },
