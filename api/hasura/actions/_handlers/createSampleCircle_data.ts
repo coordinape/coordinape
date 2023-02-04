@@ -150,7 +150,7 @@ export const sampleMemberData: SampleMemberData[] = [
     name: 'Harry the Helper',
     avatar: 'https://coordinape-prod.s3.amazonaws.com/sdao-harry.jpg',
     contributions: [
-      `I walked serval new users through how to use our app in the #support Channel **The Coordinape Team** has some promising stuff happening!`,
+      `I walked several new users through how to use our app in the #support Channel **The Coordinape Team** has some promising stuff happening!`,
       `Met with the team from **BanklessDAO** to see if we could collaborate on the onboarding quest that Sue was talking about in the all hands`,
       `I found a small bug on the allocation page, created a github issue for it with screenshots and a video explaining it.`,
       `QA for the mobile layout with Francine **AMPED FOR DARK MODE**`,

@@ -18,8 +18,8 @@ import {
 const startTime = Date.now();
 
 async function main() {
-  await createSampleDAOProfiles();
   await createProfiles();
+  await createSampleDAOProfiles();
   await createFreshOpenEpochDevAdmin();
   const circleId = await createFreshOpenEpoch();
   await createFreshOpenEpochNoDev();

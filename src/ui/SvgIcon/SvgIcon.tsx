@@ -1,6 +1,6 @@
 import type * as Stitches from '@stitches/react';
 
-import { styled, theme, CSS } from '../../stitches.config';
+import { CSS, styled, theme } from '../../stitches.config';
 
 const { colors } = theme;
 
@@ -61,7 +61,7 @@ export const SvgIcon = styled('svg', {
         $$size: '22px',
       },
       xl: {
-        $$size: '48px',
+        $$size: '32px',
       },
     },
   },
