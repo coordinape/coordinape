@@ -18,15 +18,24 @@ import {
 } from '../../../../src/lib/zod';
 import { zStringISODateUTC } from '../../../../src/lib/zod/formHelpers';
 
-Settings.defaultZone = 'utc';
+Settings.defaultZone = 'UTC';
 
 type ErrorReturn = Error | undefined;
+
+const zTimeZone = z
+  .string()
+  .default('UTC')
+  .transform(tz => {
+    const dtWithZone = DateTime.now().setZone(tz);
+    return dtWithZone.zone.name;
+  });
 
 const zFrequencyUnits = z.enum(['days', 'weeks', 'months']);
 
 const zCustomInputSchema = z
   .object({
     type: z.literal('custom'),
+    time_zone: zTimeZone,
     frequency: z.coerce.number().min(1),
     frequency_unit: zFrequencyUnits,
     duration: z.coerce.number().min(1),
@@ -39,6 +48,7 @@ const zCustomInputSchema = z
 const zMonthlyInputSchema = z
   .object({
     type: z.literal('monthly'),
+    time_zone: zTimeZone,
     week: z.number().min(0),
     start_date: zStringISODateUTC,
     end_date: zStringISODateUTC,
@@ -93,6 +103,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
   switch (params.type) {
     case 'custom':
       error = validateCustomInput(params);
+      input.params.end_date = eliminateUtcDrift(params);
       break;
     case 'monthly': {
       error = validateMonthlyInput(params);
@@ -124,17 +135,33 @@ export function validateMonthlyInput(
     );
 }
 
-export function validateCustomInput(
-  input: z.infer<typeof zCustomInputSchema>
-): ErrorReturn {
-  const {
-    start_date,
-    end_date,
-    frequency_unit,
-    frequency,
-    duration,
-    duration_unit,
-  } = input;
+export function eliminateUtcDrift({
+  start_date,
+  end_date,
+  time_zone,
+  duration,
+  duration_unit,
+}: z.infer<typeof zCustomInputSchema>): DateTime {
+  // if we're dealing with an unknown timezone we need to eliminate
+  // any timezone-related drift by ensuring the end_date matches the
+  // duration math exactly
+  if (time_zone === 'UTC') {
+    return start_date.plus({
+      [duration_unit]: duration,
+    });
+  }
+  return end_date;
+}
+
+export function validateCustomInput({
+  start_date,
+  end_date,
+  frequency_unit,
+  frequency,
+  duration,
+  time_zone,
+  duration_unit,
+}: z.infer<typeof zCustomInputSchema>): ErrorReturn {
   const interval = Interval.fromDateTimes(start_date, end_date);
   const repeatDuration = Duration.fromObject({ [duration_unit]: duration });
   const frequencyDuration = Duration.fromObject({
@@ -150,9 +177,14 @@ export function validateCustomInput(
       `
     );
 
+  // allow for some wiggle-room to account for seasonal time shifts
+  // in days, weeks and months
   if (
-    interval.length(frequency_unit) > repeatDuration.as(frequency_unit) ||
-    interval.length(frequency_unit) < repeatDuration.as(frequency_unit)
+    time_zone === 'UTC'
+      ? Math.abs(duration - interval.length(duration_unit)) > 0.03
+      : !end_date
+          .setZone(time_zone)
+          .equals(start_date.setZone(time_zone).plus(repeatDuration))
   )
     return new Error(
       dedent`
