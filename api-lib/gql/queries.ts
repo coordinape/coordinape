@@ -64,6 +64,22 @@ export async function getCircles() {
   ).circles;
 }
 
+export async function getOrgByCircle(circle_id: number) {
+  return await adminClient.query(
+    {
+      circles_by_pk: [
+        { id: circle_id },
+        {
+          organization_id: true,
+        },
+      ],
+    },
+    {
+      operationName: 'getOrgByCircle',
+    }
+  );
+}
+
 export async function getCurrentEpoch(
   circle_id: number
 ): Promise<typeof currentEpoch | undefined> {

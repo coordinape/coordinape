@@ -5,6 +5,7 @@ CREATE TABLE "public"."activities" (
     "actor_profile_id" bigint NOT NULL,
     "target_profile_id" bigint,
     "contribution_id" bigint,
+    "epoch_id" bigint,
 
     "action" varchar(100) NOT NULL,
 
@@ -19,13 +20,13 @@ CREATE TABLE "public"."activities" (
   FOREIGN KEY ("target_profile_id") REFERENCES "public"."profiles"("id") ON UPDATE CASCADE ON DELETE set null,
 
   FOREIGN KEY ("contribution_id") REFERENCES "public"."contributions"("id") ON UPDATE CASCADE ON DELETE set null,
+  FOREIGN KEY ("epoch_id") REFERENCES "public"."epoches"("id") ON UPDATE CASCADE ON DELETE set null,
 
   CONSTRAINT "enforce_foreign_key_exists"
     CHECK (
       circle_id IS NOT NULL OR
-      organization_id IS NOT NULL OR
-      actor_profile_id IS NOT NULL OR
       target_profile_id IS NOT NULL OR
+      epoch_id IS NOT NULL OR
       contribution_id IS NOT NULL
     )
 );

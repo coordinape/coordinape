@@ -534,3 +534,15 @@ export async function insertInteractionEvents(
   );
   return;
 }
+
+export async function insertActivity(
+  activity: GraphQLTypes['activities_insert_input']
+) {
+  await adminClient.mutate(
+    {
+      insert_activities_one: [{ object: activity }, { __typename: true }],
+    },
+    { operationName: 'insertActivity' }
+  );
+  return;
+}

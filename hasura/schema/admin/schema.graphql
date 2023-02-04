@@ -587,6 +587,431 @@ type VouchOutput {
   nominee: nominees
 }
 
+"""
+Table containing activity on our platform
+"""
+type activities {
+  action: String!
+  actor_profile_id: bigint!
+  circle_id: bigint
+  contribution_id: bigint
+  created_at: timestamptz!
+  id: bigint!
+  organization_id: bigint!
+  target_profile_id: bigint
+  updated_at: timestamptz!
+}
+
+"""
+aggregated selection of "activities"
+"""
+type activities_aggregate {
+  aggregate: activities_aggregate_fields
+  nodes: [activities!]!
+}
+
+"""
+aggregate fields of "activities"
+"""
+type activities_aggregate_fields {
+  avg: activities_avg_fields
+  count(columns: [activities_select_column!], distinct: Boolean): Int!
+  max: activities_max_fields
+  min: activities_min_fields
+  stddev: activities_stddev_fields
+  stddev_pop: activities_stddev_pop_fields
+  stddev_samp: activities_stddev_samp_fields
+  sum: activities_sum_fields
+  var_pop: activities_var_pop_fields
+  var_samp: activities_var_samp_fields
+  variance: activities_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type activities_avg_fields {
+  actor_profile_id: Float
+  circle_id: Float
+  contribution_id: Float
+  id: Float
+  organization_id: Float
+  target_profile_id: Float
+}
+
+"""
+Boolean expression to filter rows from the table "activities". All fields are combined with a logical 'AND'.
+"""
+input activities_bool_exp {
+  _and: [activities_bool_exp!]
+  _not: activities_bool_exp
+  _or: [activities_bool_exp!]
+  action: String_comparison_exp
+  actor_profile_id: bigint_comparison_exp
+  circle_id: bigint_comparison_exp
+  contribution_id: bigint_comparison_exp
+  created_at: timestamptz_comparison_exp
+  id: bigint_comparison_exp
+  organization_id: bigint_comparison_exp
+  target_profile_id: bigint_comparison_exp
+  updated_at: timestamptz_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "activities"
+"""
+enum activities_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  activities_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "activities"
+"""
+input activities_inc_input {
+  actor_profile_id: bigint
+  circle_id: bigint
+  contribution_id: bigint
+  id: bigint
+  organization_id: bigint
+  target_profile_id: bigint
+}
+
+"""
+input type for inserting data into table "activities"
+"""
+input activities_insert_input {
+  action: String
+  actor_profile_id: bigint
+  circle_id: bigint
+  contribution_id: bigint
+  created_at: timestamptz
+  id: bigint
+  organization_id: bigint
+  target_profile_id: bigint
+  updated_at: timestamptz
+}
+
+"""
+aggregate max on columns
+"""
+type activities_max_fields {
+  action: String
+  actor_profile_id: bigint
+  circle_id: bigint
+  contribution_id: bigint
+  created_at: timestamptz
+  id: bigint
+  organization_id: bigint
+  target_profile_id: bigint
+  updated_at: timestamptz
+}
+
+"""
+aggregate min on columns
+"""
+type activities_min_fields {
+  action: String
+  actor_profile_id: bigint
+  circle_id: bigint
+  contribution_id: bigint
+  created_at: timestamptz
+  id: bigint
+  organization_id: bigint
+  target_profile_id: bigint
+  updated_at: timestamptz
+}
+
+"""
+response of any mutation on the table "activities"
+"""
+type activities_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [activities!]!
+}
+
+"""
+on_conflict condition type for table "activities"
+"""
+input activities_on_conflict {
+  constraint: activities_constraint!
+  update_columns: [activities_update_column!]! = []
+  where: activities_bool_exp
+}
+
+"""
+Ordering options when selecting data from "activities".
+"""
+input activities_order_by {
+  action: order_by
+  actor_profile_id: order_by
+  circle_id: order_by
+  contribution_id: order_by
+  created_at: order_by
+  id: order_by
+  organization_id: order_by
+  target_profile_id: order_by
+  updated_at: order_by
+}
+
+"""
+primary key columns input for table: activities
+"""
+input activities_pk_columns_input {
+  id: bigint!
+}
+
+"""
+select columns of table "activities"
+"""
+enum activities_select_column {
+  """
+  column name
+  """
+  action
+
+  """
+  column name
+  """
+  actor_profile_id
+
+  """
+  column name
+  """
+  circle_id
+
+  """
+  column name
+  """
+  contribution_id
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  organization_id
+
+  """
+  column name
+  """
+  target_profile_id
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+input type for updating data in table "activities"
+"""
+input activities_set_input {
+  action: String
+  actor_profile_id: bigint
+  circle_id: bigint
+  contribution_id: bigint
+  created_at: timestamptz
+  id: bigint
+  organization_id: bigint
+  target_profile_id: bigint
+  updated_at: timestamptz
+}
+
+"""
+aggregate stddev on columns
+"""
+type activities_stddev_fields {
+  actor_profile_id: Float
+  circle_id: Float
+  contribution_id: Float
+  id: Float
+  organization_id: Float
+  target_profile_id: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type activities_stddev_pop_fields {
+  actor_profile_id: Float
+  circle_id: Float
+  contribution_id: Float
+  id: Float
+  organization_id: Float
+  target_profile_id: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type activities_stddev_samp_fields {
+  actor_profile_id: Float
+  circle_id: Float
+  contribution_id: Float
+  id: Float
+  organization_id: Float
+  target_profile_id: Float
+}
+
+"""
+Streaming cursor of the table "activities"
+"""
+input activities_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: activities_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input activities_stream_cursor_value_input {
+  action: String
+  actor_profile_id: bigint
+  circle_id: bigint
+  contribution_id: bigint
+  created_at: timestamptz
+  id: bigint
+  organization_id: bigint
+  target_profile_id: bigint
+  updated_at: timestamptz
+}
+
+"""
+aggregate sum on columns
+"""
+type activities_sum_fields {
+  actor_profile_id: bigint
+  circle_id: bigint
+  contribution_id: bigint
+  id: bigint
+  organization_id: bigint
+  target_profile_id: bigint
+}
+
+"""
+update columns of table "activities"
+"""
+enum activities_update_column {
+  """
+  column name
+  """
+  action
+
+  """
+  column name
+  """
+  actor_profile_id
+
+  """
+  column name
+  """
+  circle_id
+
+  """
+  column name
+  """
+  contribution_id
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  organization_id
+
+  """
+  column name
+  """
+  target_profile_id
+
+  """
+  column name
+  """
+  updated_at
+}
+
+input activities_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: activities_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: activities_set_input
+  where: activities_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type activities_var_pop_fields {
+  actor_profile_id: Float
+  circle_id: Float
+  contribution_id: Float
+  id: Float
+  organization_id: Float
+  target_profile_id: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type activities_var_samp_fields {
+  actor_profile_id: Float
+  circle_id: Float
+  contribution_id: Float
+  id: Float
+  organization_id: Float
+  target_profile_id: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type activities_variance_fields {
+  actor_profile_id: Float
+  circle_id: Float
+  contribution_id: Float
+  id: Float
+  organization_id: Float
+  target_profile_id: Float
+}
+
 scalar bigint
 
 """
@@ -12771,6 +13196,21 @@ type mutation_root {
   deleteUsers(payload: DeleteUsersInput!): DeleteUsersResponse
 
   """
+  delete data from the table: "activities"
+  """
+  delete_activities(
+    """
+    filter the rows which have to be deleted
+    """
+    where: activities_bool_exp!
+  ): activities_mutation_response
+
+  """
+  delete single row from the table: "activities"
+  """
+  delete_activities_by_pk(id: bigint!): activities
+
+  """
   delete data from the table: "burns"
   """
   delete_burns(
@@ -13294,6 +13734,36 @@ type mutation_root {
   Generates an API key for a circle
   """
   generateApiKey(payload: GenerateApiKeyInput!): GenerateApiKeyResponse
+
+  """
+  insert data into the table: "activities"
+  """
+  insert_activities(
+    """
+    the rows to be inserted
+    """
+    objects: [activities_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: activities_on_conflict
+  ): activities_mutation_response
+
+  """
+  insert a single row into the table: "activities"
+  """
+  insert_activities_one(
+    """
+    the row to be inserted
+    """
+    object: activities_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: activities_on_conflict
+  ): activities
 
   """
   insert data into the table: "burns"
@@ -14345,6 +14815,52 @@ type mutation_root {
   Update own user
   """
   updateUser(payload: UpdateUserInput!): UserResponse
+
+  """
+  update data of the table: "activities"
+  """
+  update_activities(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: activities_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: activities_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: activities_bool_exp!
+  ): activities_mutation_response
+
+  """
+  update single row of the table: "activities"
+  """
+  update_activities_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: activities_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: activities_set_input
+    pk_columns: activities_pk_columns_input!
+  ): activities
+
+  """
+  update multiples rows of table: "activities"
+  """
+  update_activities_many(
+    """
+    updates to execute, in order
+    """
+    updates: [activities_updates!]!
+  ): [activities_mutation_response]
 
   """
   update data of the table: "burns"
@@ -20162,6 +20678,71 @@ type profiles_variance_fields {
 
 type query_root {
   """
+  fetch data from the table: "activities"
+  """
+  activities(
+    """
+    distinct select on columns
+    """
+    distinct_on: [activities_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [activities_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: activities_bool_exp
+  ): [activities!]!
+
+  """
+  fetch aggregated fields from the table: "activities"
+  """
+  activities_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [activities_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [activities_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: activities_bool_exp
+  ): activities_aggregate!
+
+  """
+  fetch data from the table: "activities" using primary key columns
+  """
+  activities_by_pk(id: bigint!): activities
+
+  """
   An array relationship
   """
   burns(
@@ -22487,6 +23068,91 @@ type query_root {
 }
 
 type subscription_root {
+  """
+  fetch data from the table: "activities"
+  """
+  activities(
+    """
+    distinct select on columns
+    """
+    distinct_on: [activities_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [activities_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: activities_bool_exp
+  ): [activities!]!
+
+  """
+  fetch aggregated fields from the table: "activities"
+  """
+  activities_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [activities_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [activities_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: activities_bool_exp
+  ): activities_aggregate!
+
+  """
+  fetch data from the table: "activities" using primary key columns
+  """
+  activities_by_pk(id: bigint!): activities
+
+  """
+  fetch data from the table in a streaming manner : "activities"
+  """
+  activities_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [activities_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: activities_bool_exp
+  ): [activities!]!
+
   """
   An array relationship
   """

@@ -3,6 +3,7 @@ import { VercelApiHandler, VercelRequest, VercelResponse } from '@vercel/node';
 import checkNomineeDiscord from '../../../api-lib/event_triggers/checkNomineeDiscord';
 import checkNomineeDiscordBot from '../../../api-lib/event_triggers/checkNomineeDiscordBot';
 import checkNomineeTelegram from '../../../api-lib/event_triggers/checkNomineeTelegram';
+import createActivity from '../../../api-lib/event_triggers/createActivity';
 import createCircleCRM from '../../../api-lib/event_triggers/createCircleCRM';
 import createContributionInteractionEvent from '../../../api-lib/event_triggers/createContributionInteractionEvent';
 import createNomineeDiscord from '../../../api-lib/event_triggers/createNomineeDiscord';
@@ -30,6 +31,7 @@ import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 type HandlerDict = { [handlerName: string]: VercelApiHandler };
 
 const HANDLERS: HandlerDict = {
+  createActivity,
   checkNomineeDiscord,
   checkNomineeDiscordBot,
   checkNomineeTelegram,
