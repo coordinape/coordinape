@@ -22,17 +22,19 @@ Settings.defaultZone = 'UTC';
 
 type ErrorReturn = Error | undefined;
 
-const zTimeZone = z
+export const zTimeZone = z
   .string()
   .default('UTC')
   .transform(tz => {
+    // returns the defaultZone if the provided string value is an invalid
+    // or unsupported IANA time zone
     const dtWithZone = DateTime.now().setZone(tz);
     return dtWithZone.zone.name;
   });
 
-const zFrequencyUnits = z.enum(['days', 'weeks', 'months']);
+export const zFrequencyUnits = z.enum(['days', 'weeks', 'months']);
 
-const zCustomInputSchema = z
+export const zCustomRepeatData = z
   .object({
     type: z.literal('custom'),
     time_zone: zTimeZone,
@@ -40,16 +42,26 @@ const zCustomInputSchema = z
     frequency_unit: zFrequencyUnits,
     duration: z.coerce.number().min(1),
     duration_unit: zFrequencyUnits,
+  })
+  .strict();
+
+export const zMonthlyRepeatData = z
+  .object({
+    type: z.literal('monthly'),
+    time_zone: zTimeZone,
+    week: z.number().min(0),
+  })
+  .strict();
+
+const zCustomInputSchema = zCustomRepeatData
+  .extend({
     start_date: zStringISODateUTC,
     end_date: zStringISODateUTC,
   })
   .strict();
 
-const zMonthlyInputSchema = z
-  .object({
-    type: z.literal('monthly'),
-    time_zone: zTimeZone,
-    week: z.number().min(0),
+const zMonthlyInputSchema = zMonthlyRepeatData
+  .extend({
     start_date: zStringISODateUTC,
     end_date: zStringISODateUTC,
   })

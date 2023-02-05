@@ -3,6 +3,7 @@ import assert from 'assert';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import dedent from 'dedent';
 import { DateTime, Duration, Settings } from 'luxon';
+import { z } from 'zod';
 
 import { ValueTypes } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
@@ -11,8 +12,19 @@ import { errorLog } from '../../../api-lib/HttpError';
 import { sendSocialMessage } from '../../../api-lib/sendSocialMessage';
 import { Awaited } from '../../../api-lib/ts4.5shim';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
-
+import { findMonthlyEndDate } from '../../../src/common-lib/epochs';
+import {
+  zCustomRepeatData,
+  zMonthlyRepeatData,
+} from '../actions/_handlers/createEpoch';
 Settings.defaultZone = 'utc';
+
+export const zEpochRepeatData = z.discriminatedUnion('type', [
+  zCustomRepeatData,
+  zMonthlyRepeatData,
+]);
+
+export type RepeatData = z.infer<typeof zEpochRepeatData>;
 
 export type EpochsToNotify = Awaited<ReturnType<typeof getEpochsToNotify>>;
 
@@ -127,6 +139,7 @@ async function getEpochsToNotify() {
               repeat: true,
               number: true,
               days: true,
+              repeat_data: [{}, true],
               repeat_day_of_month: true,
               start_date: true,
               end_date: true,
@@ -409,13 +422,16 @@ export async function endEpoch({ endEpoch: epochs }: EpochsToNotify) {
       await notifyEpochStatus(message, { telegram: true }, epoch, true);
 
     // set up another repeating epoch if configured
-    // key: repeat 0 - no repeat, 1 - weekly, 2 - monthly
-    // if weekly add seven days to start date
-    if (epoch.repeat > 0) {
-      const { start_date, end_date } = epoch;
-      assert(start_date, 'panic: no start date');
-      assert(end_date, 'panic: no end date');
-      await createNextEpoch({ ...epoch, start_date, end_date });
+    const { start_date, end_date, repeat_data } = epoch;
+    assert(start_date, 'panic: no start date');
+    assert(end_date, 'panic: no end date');
+    if (repeat_data) {
+      await createNextEpoch({ ...epoch, start_date, end_date, repeat_data });
+    } else if (epoch.repeat > 0) {
+      // temporarily allow support for old repeat logic
+      // This is simple enough to remove post-cutover
+      // TODO Remove support for old repeat logic
+      await createNextEpochOld({ ...epoch, start_date, end_date });
     }
   });
 
@@ -445,7 +461,110 @@ export function makeNextStartDate(
   });
 }
 
-async function createNextEpoch(epoch: {
+export async function createNextEpoch(epoch: {
+  id: number;
+  start_date: string;
+  end_date: string;
+  circle_id: number;
+  repeat_data: unknown;
+  circle?: { telegram_id?: string; discord_webhook?: string };
+}) {
+  const { repeat_data, id, circle } = epoch;
+  const parseResult = zEpochRepeatData.safeParse(repeat_data);
+
+  if (!parseResult.success) {
+    errorLog(`epoch id ${id}: invalid repeat data: ${repeat_data}`);
+    return;
+  }
+
+  const { nextStartDate, nextEndDate } = calculateNextEpoch(
+    epoch,
+    parseResult.data
+  );
+  const existingEpoch = await getOverlappingEpoch(
+    nextStartDate,
+    nextEndDate,
+    epoch.circle_id
+  );
+
+  if (existingEpoch) {
+    errorLog(
+      dedent`
+        For circle id ${epoch.circle_id},  ${nextStartDate} overlaps
+        with the another epoch: existing epoch id: ${existingEpoch?.id},
+        start: ${existingEpoch?.start_date}, end: ${existingEpoch?.end_date}
+      `,
+      false
+    );
+    return;
+  }
+
+  await adminClient.mutate(
+    {
+      insert_epochs_one: [
+        {
+          object: {
+            circle_id: epoch.circle_id,
+            start_date: nextStartDate.toISO(),
+            end_date: nextEndDate.toISO(),
+            repeat_data,
+          },
+        },
+        { __typename: true },
+      ],
+    },
+    {
+      operationName: 'createNextEpoch',
+    }
+  );
+  const message = dedent`
+      A new repeating epoch has been created: ${nextStartDate.toLocaleString(
+        DateTime.DATETIME_FULL
+      )} to ${nextEndDate.toLocaleString(DateTime.DATETIME_FULL)}
+    `;
+
+  if (circle?.discord_webhook)
+    await notifyEpochStatus(message, { discord: true }, epoch);
+
+  if (circle?.telegram_id)
+    await notifyEpochStatus(message, { telegram: true }, epoch);
+}
+
+export function calculateNextEpoch(
+  {
+    start_date,
+    end_date,
+  }: {
+    start_date: string;
+    end_date: string;
+  },
+  repeatData: z.infer<typeof zEpochRepeatData>
+): { nextStartDate: DateTime; nextEndDate: DateTime } {
+  switch (repeatData.type) {
+    case 'custom': {
+      const {
+        duration,
+        duration_unit,
+        frequency,
+        frequency_unit,
+        time_zone: zone,
+      } = repeatData;
+      const nextStartDate = DateTime.fromISO(start_date, { zone }).plus({
+        [frequency_unit]: frequency,
+      });
+      const nextEndDate = nextStartDate.plus({ [duration_unit]: duration });
+      return { nextStartDate, nextEndDate };
+    }
+    case 'monthly': {
+      const { time_zone: zone } = repeatData;
+      const nextStartDate = DateTime.fromISO(end_date, { zone });
+      const nextEndDate = findMonthlyEndDate(nextStartDate);
+      return { nextStartDate, nextEndDate };
+    }
+  }
+}
+
+async function createNextEpochOld(epoch: {
   id: number;
   start_date: string;
   end_date: string;
@@ -511,7 +630,7 @@ async function createNextEpoch(epoch: {
       ],
     },
     {
-      operationName: 'createNextEpoch',
+      operationName: 'createNextEpochOld',
     }
   );
 

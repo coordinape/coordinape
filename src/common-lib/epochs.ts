@@ -42,12 +42,6 @@ export function findSameDayNextMonth(
   return nextEndDate;
 }
 
-/**
- * @dev This function is not safe for generating subsequent epoch start dates
- * in an existing cycle of repeating monthly epoichs
- * and is only meant to provide a porcelain interface for users creating a new
- * set of repeating epochs, either in the UI or via the API.
- */
 export function findMonthlyEndDate(start: DateTime): DateTime {
   const week = Math.floor((start.day - 1) / 7);
   return findSameDayNextMonth(start, { week });
