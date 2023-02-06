@@ -20,3 +20,26 @@ object_relationships:
   - name: target_profile
     using:
       foreign_key_constraint_on: target_profile_id
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - actor_profile_id
+        - circle_id
+        - contribution_id
+        - epoch_id
+        - id
+        - organization_id
+        - target_profile_id
+        - action
+        - created_at
+        - updated_at
+      filter:
+        _and:
+          - organization:
+              circles:
+                users:
+                  profile:
+                    id:
+                      _eq: X-Hasura-User-Id
+      allow_aggregations: true
