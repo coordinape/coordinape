@@ -93,6 +93,7 @@ const mockEpoch = {
     number: 3,
     end_date: DateTime.now().plus({ days: 1 }),
     circle: mockCircle.notifyEndEpochs,
+    token_gifts: [{ tokens: 50 }, { tokens: 100 }],
   },
   endEpoch: {
     id: 9,
@@ -287,6 +288,7 @@ describe('epoch Cron Logic', () => {
     mockSendSocial.mockReset();
     mockMutation.mockReset();
   });
+
   describe('endEpoch', () => {
     test('should notify of the epoch end', async () => {
       const orgName = 'big ol party';
@@ -707,6 +709,7 @@ describe('epoch Cron Logic', () => {
       expect(mockSendSocial).toBeCalledTimes(2);
     });
   });
+
   describe('notifyEpochEnd', () => {
     test('no notifications enabled', async () => {
       const input = getEpochInput('notifyEndEpochs', {});
@@ -715,6 +718,7 @@ describe('epoch Cron Logic', () => {
       expect(mockSendSocial).not.toBeCalled();
       expect(mockMutation).not.toBeCalled();
     });
+
     test('notifications enabled for Telegram', async () => {
       const input = getEpochInput('notifyEndEpochs', {
         circle: getCircle('notifyEndEpochs', { telegram_id: '-29' }),
@@ -746,6 +750,7 @@ describe('epoch Cron Logic', () => {
         { operationName: 'updateEpochEndSoonNotification' }
       );
     });
+
     test('notifications enabled for Discord', async () => {
       const input = getEpochInput('notifyEndEpochs', {
         circle: getCircle('notifyEndEpochs', {
@@ -757,14 +762,54 @@ describe('epoch Cron Logic', () => {
       expect(mockSendSocial).toBeCalledTimes(1);
       expect(mockSendSocial).toBeCalledWith({
         channels: {
-          discord: {
-            channelId: '1067789668290146324',
+          discord: true,
+        },
+        circleId: 1,
+        message:
+          'mock Org/circle with ending epoch epoch ends in less than 24 hours!\n' +
+          'Users that have yet to fully allocate their GIVE:\n' +
+          'bob, alice',
+        notifyOrg: false,
+        sanitize: false,
+      });
+      expect(mockMutation).toBeCalledTimes(1);
+      expect(mockMutation).toBeCalledWith(
+        {
+          update_epochs_by_pk: [
+            {
+              _set: { notified_before_end: expect.stringMatching(isoTime) },
+              pk_columns: { id: 9 },
+            },
+            { id: true },
+          ],
+        },
+        { operationName: 'updateEpochEndSoonNotification' }
+      );
+    });
+
+    test('notifications enabled for Discord Bot', async () => {
+      const input = getEpochInput('notifyEndEpochs', {
+        circle: getCircle('notifyEndEpochs', {
+          discord_circle: {
+            discord_channel_id: '123',
+            discord_role_id: '456',
+          },
+        }),
+      });
+      const result = await notifyEpochEnd(input);
+      expect(result).toEqual([]);
+      expect(mockSendSocial).toBeCalledTimes(1);
+      expect(mockSendSocial).toBeCalledWith({
+        channels: {
+          isDiscordBot: true,
+          discordBot: {
+            channelId: '123',
             circleHistoryLink: 'https://app.coordinape.com/circles/1/history',
             circleName: 'mock Org/circle with ending epoch',
             endTime: mockEpoch.notifyEndEpochs.end_date,
             epochName: 'Epoch 3',
-            giveCount: 1000,
-            roleId: '1058334400540061747',
+            giveCount: 150,
+            roleId: '456',
             type: 'end',
             userCount: 2,
           },
@@ -790,36 +835,32 @@ describe('epoch Cron Logic', () => {
         { operationName: 'updateEpochEndSoonNotification' }
       );
     });
-    test('notifications enabled for both channels', async () => {
+
+    test('notifications enabled for all channels (telegram, discord and discord bot)', async () => {
       const input = getEpochInput('notifyEndEpochs', {
         circle: getCircle('notifyEndEpochs', {
           discord_webhook: 'https://discord.webhook',
           telegram_id: '-7',
+          discord_circle: {
+            discord_channel_id: '123',
+            discord_role_id: '456',
+          },
         }),
       });
       const result = await notifyEpochEnd(input);
       expect(result).toEqual([]);
-      expect(mockSendSocial).toBeCalledTimes(2);
-      expect(mockSendSocial).toBeCalledWith({
-        channels: { telegram: true },
-        circleId: 1,
-        notifyOrg: false,
-        message:
-          'mock Org/circle with ending epoch epoch ends in less than 24 hours!\n' +
-          'Users that have yet to fully allocate their GIVE:\n' +
-          'bob, alice',
-        sanitize: false,
-      });
+      expect(mockSendSocial).toBeCalledTimes(3);
       expect(mockSendSocial).toBeCalledWith({
         channels: {
-          discord: {
-            channelId: '1067789668290146324',
+          isDiscordBot: true,
+          discordBot: {
+            channelId: '123',
             circleHistoryLink: 'https://app.coordinape.com/circles/1/history',
             circleName: 'mock Org/circle with ending epoch',
             endTime: mockEpoch.notifyEndEpochs.end_date,
             epochName: 'Epoch 3',
-            giveCount: 1000,
-            roleId: '1058334400540061747',
+            giveCount: 150,
+            roleId: '456',
             type: 'end',
             userCount: 2,
           },
@@ -831,7 +872,29 @@ describe('epoch Cron Logic', () => {
           'bob, alice',
         sanitize: false,
       });
-      expect(mockMutation).toBeCalledTimes(2);
+      expect(mockSendSocial).toBeCalledWith({
+        channels: {
+          discord: true,
+        },
+        circleId: 1,
+        message:
+          'mock Org/circle with ending epoch epoch ends in less than 24 hours!\n' +
+          'Users that have yet to fully allocate their GIVE:\n' +
+          'bob, alice',
+        notifyOrg: false,
+        sanitize: false,
+      });
+      expect(mockSendSocial).toBeCalledWith({
+        channels: { telegram: true },
+        circleId: 1,
+        notifyOrg: false,
+        message:
+          'mock Org/circle with ending epoch epoch ends in less than 24 hours!\n' +
+          'Users that have yet to fully allocate their GIVE:\n' +
+          'bob, alice',
+        sanitize: false,
+      });
+      expect(mockMutation).toBeCalledTimes(3);
       expect(mockMutation).toBeCalledWith(
         {
           update_epochs_by_pk: [
@@ -846,6 +909,7 @@ describe('epoch Cron Logic', () => {
       );
     });
   });
+
   describe('notifyEpochStart', () => {
     test('no prior epoch and no notifications enabled', async () => {
       const input = getEpochInput('notifyStartEpochs', {});
@@ -862,7 +926,8 @@ describe('epoch Cron Logic', () => {
         { operationName: 'cron_setNextEpochNumber_update' }
       );
     });
-    test('prior epoch and both notifications enabled', async () => {
+
+    test('prior epoch and all notifications enabled (telegram, discord and discord bot)', async () => {
       const input = getEpochInput('notifyStartEpochs', {
         circle_id: 5,
         number: 1,
@@ -870,11 +935,15 @@ describe('epoch Cron Logic', () => {
           id: 5,
           discord_webhook: 'test_hook',
           telegram_id: '5',
+          discord_circle: {
+            discord_channel_id: '123',
+            discord_role_id: '456',
+          },
         }),
       });
       const result = await notifyEpochStart(input);
       expect(result).toEqual([]);
-      expect(mockMutation).toBeCalledTimes(2);
+      expect(mockMutation).toBeCalledTimes(3);
       expect(mockMutation).toBeCalledWith(
         {
           update_epochs_by_pk: [
@@ -887,15 +956,16 @@ describe('epoch Cron Logic', () => {
         },
         { operationName: 'updateEpochStartNotification' }
       );
-      expect(mockSendSocial).toBeCalledTimes(2);
+      expect(mockSendSocial).toBeCalledTimes(3);
       expect(mockSendSocial).toBeCalledWith({
         channels: {
-          discord: {
-            channelId: '1067789668290146324',
+          isDiscordBot: true,
+          discordBot: {
+            channelId: '123',
             circleName: 'mock Org/mockCircle',
             endTime: mockEpoch.notifyStartEpochs.end_date,
             epochName: 'Epoch 1',
-            roleId: '1058334400540061747',
+            roleId: '456',
             startTime: mockEpoch.notifyStartEpochs.start_date,
             type: 'start',
           },
@@ -905,6 +975,16 @@ describe('epoch Cron Logic', () => {
           'A new mock Org/mockCircle epoch is active!\n' +
             '5 users will be participating and the duration of the epoch will be:\n'
         ),
+        sanitize: false,
+      });
+      expect(mockSendSocial).toBeCalledWith({
+        channels: { discord: true },
+        circleId: 5,
+        message: expect.stringContaining(
+          'A new mock Org/mockCircle epoch is active!\n' +
+            '5 users will be participating and the duration of the epoch will be:\n'
+        ),
+        notifyOrg: false,
         sanitize: false,
       });
       expect(mockSendSocial).toBeCalledWith({
@@ -918,6 +998,7 @@ describe('epoch Cron Logic', () => {
         sanitize: false,
       });
     });
+
     test("social message throw doesn't bubble up", async () => {
       const spy = jest.spyOn(console, 'error').mockImplementationOnce(() => {});
       mockSendSocial.mockImplementationOnce(async () => {
@@ -932,6 +1013,7 @@ describe('epoch Cron Logic', () => {
         'Error sending telegram notification for epoch id 9: derp'
       );
     });
+
     test('setEpochNumber throw is handled', async () => {
       mockMutation.mockImplementationOnce(async () => {
         throw new Error('mutation failure');

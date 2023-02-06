@@ -30,6 +30,18 @@ export type RepeatData = z.infer<typeof zEpochRepeatData>;
 
 export type EpochsToNotify = Awaited<ReturnType<typeof getEpochsToNotify>>;
 
+function isDiscordBotLinked(circle?: {
+  discord_circle?: {
+    discord_channel_id?: string;
+    discord_role_id?: string;
+  };
+}) {
+  return (
+    circle?.discord_circle?.discord_channel_id &&
+    circle.discord_circle.discord_role_id
+  );
+}
+
 async function handler(req: VercelRequest, res: VercelResponse) {
   const epochResult = await getEpochsToNotify();
 
@@ -262,7 +274,9 @@ export async function notifyEpochStart({
         sanitize: false,
       });
       updateEpochStartNotification(epoch.id);
-    } else if (circle.discord_webhook) {
+    }
+
+    if (circle.discord_webhook) {
       await notifyAndUpdateEpoch(
         message,
         { discord: true },
@@ -295,7 +309,12 @@ export async function notifyEpochEnd({
   notifyEndEpochs: epochs,
 }: EpochsToNotify) {
   const notifyEpochsEnding = epochs
-    .filter(e => e.circle?.telegram_id || e.circle?.discord_webhook)
+    .filter(
+      ({ circle }) =>
+        circle?.telegram_id ||
+        circle?.discord_webhook ||
+        isDiscordBotLinked(circle)
+    )
     .map(async epoch => {
       const { circle } = epoch;
       assert(circle, 'panic: no circle for epoch');
@@ -328,7 +347,7 @@ export async function notifyEpochEnd({
               epochName: `Epoch ${epoch.number}`,
               circleName: `${circle.organization?.name}/${circle.name}`,
               endTime: epoch.end_date,
-              giveCount: epoch.token_gifts.reduce(
+              giveCount: epoch.token_gifts?.reduce(
                 (total, { tokens }) => tokens + total,
                 0
               ),
@@ -339,21 +358,25 @@ export async function notifyEpochEnd({
           sanitize: false,
         });
         updateEpochEndSoonNotification(epoch.id);
-      } else if (circle.discord_webhook)
+      }
+
+      if (circle.discord_webhook) {
         await notifyAndUpdateEpoch(
           message,
           { discord: true },
           epoch,
           updateEpochEndSoonNotification
         );
+      }
 
-      if (circle.telegram_id)
+      if (circle.telegram_id) {
         await notifyAndUpdateEpoch(
           message,
           { telegram: true },
           epoch,
           updateEpochEndSoonNotification
         );
+      }
     });
   const results = await Promise.allSettled(notifyEpochsEnding);
 
