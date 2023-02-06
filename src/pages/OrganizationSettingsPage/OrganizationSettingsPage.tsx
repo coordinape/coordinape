@@ -118,6 +118,7 @@ export const OrganizationSettingsPage = () => {
           response = await uploadLogo(orgId, newLogo);
           assert(response?.uploadOrgLogo?.org?.logo);
           queryClient.invalidateQueries(QUERY_KEY_NAV);
+          queryClient.invalidateQueries(QUERY_KEY_ORG_DATA);
         } catch (e: any) {
           showError(e);
           setLogoFile(undefined);
