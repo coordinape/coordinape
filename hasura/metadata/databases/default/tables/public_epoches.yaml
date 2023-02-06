@@ -97,6 +97,7 @@ select_permissions:
         - notified_start
         - number
         - repeat
+        - repeat_data
         - repeat_day_of_month
         - start_date
         - updated_at
