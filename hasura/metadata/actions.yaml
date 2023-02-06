@@ -173,7 +173,7 @@ actions:
     comment: Generates an API key for a circle
   - name: getGuildInfo
     definition:
-      kind: ''
+      kind: ""
       handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=getGuildInfo'
       headers:
         - name: verification_key
