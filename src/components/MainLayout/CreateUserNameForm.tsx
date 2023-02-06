@@ -67,7 +67,7 @@ export const CreateUserNameForm = ({ address }: { address?: string }) => {
       if (
         !resolvedAddress ||
         resolvedAddress.toLowerCase() !== address?.toLowerCase()
-      )
+      ) {
         setError(
           'name',
           {
@@ -75,7 +75,8 @@ export const CreateUserNameForm = ({ address }: { address?: string }) => {
           },
           { shouldFocus: true }
         );
-      return;
+        return;
+      }
     }
     await profileNameMutation.mutate(data.name);
   };
