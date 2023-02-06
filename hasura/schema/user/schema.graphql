@@ -527,6 +527,346 @@ type VouchOutput {
   nominee: nominees
 }
 
+"""
+Table containing activity on our platform
+"""
+type activities {
+  action: String!
+
+  """
+  An object relationship
+  """
+  actor_profile: profiles!
+  actor_profile_id: bigint!
+
+  """
+  An object relationship
+  """
+  circle: circles
+  circle_id: bigint
+
+  """
+  An object relationship
+  """
+  contribution: contributions
+  contribution_id: bigint
+  created_at: timestamptz!
+
+  """
+  An object relationship
+  """
+  epoch: epochs
+  epoch_id: bigint
+  id: bigint!
+
+  """
+  An object relationship
+  """
+  organization: organizations!
+  organization_id: bigint!
+
+  """
+  An object relationship
+  """
+  target_profile: profiles
+  target_profile_id: bigint
+  updated_at: timestamptz!
+}
+
+"""
+aggregated selection of "activities"
+"""
+type activities_aggregate {
+  aggregate: activities_aggregate_fields
+  nodes: [activities!]!
+}
+
+"""
+aggregate fields of "activities"
+"""
+type activities_aggregate_fields {
+  avg: activities_avg_fields
+  count(columns: [activities_select_column!], distinct: Boolean): Int!
+  max: activities_max_fields
+  min: activities_min_fields
+  stddev: activities_stddev_fields
+  stddev_pop: activities_stddev_pop_fields
+  stddev_samp: activities_stddev_samp_fields
+  sum: activities_sum_fields
+  var_pop: activities_var_pop_fields
+  var_samp: activities_var_samp_fields
+  variance: activities_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type activities_avg_fields {
+  actor_profile_id: Float
+  circle_id: Float
+  contribution_id: Float
+  epoch_id: Float
+  id: Float
+  organization_id: Float
+  target_profile_id: Float
+}
+
+"""
+Boolean expression to filter rows from the table "activities". All fields are combined with a logical 'AND'.
+"""
+input activities_bool_exp {
+  _and: [activities_bool_exp!]
+  _not: activities_bool_exp
+  _or: [activities_bool_exp!]
+  action: String_comparison_exp
+  actor_profile: profiles_bool_exp
+  actor_profile_id: bigint_comparison_exp
+  circle: circles_bool_exp
+  circle_id: bigint_comparison_exp
+  contribution: contributions_bool_exp
+  contribution_id: bigint_comparison_exp
+  created_at: timestamptz_comparison_exp
+  epoch: epochs_bool_exp
+  epoch_id: bigint_comparison_exp
+  id: bigint_comparison_exp
+  organization: organizations_bool_exp
+  organization_id: bigint_comparison_exp
+  target_profile: profiles_bool_exp
+  target_profile_id: bigint_comparison_exp
+  updated_at: timestamptz_comparison_exp
+}
+
+"""
+aggregate max on columns
+"""
+type activities_max_fields {
+  action: String
+  actor_profile_id: bigint
+  circle_id: bigint
+  contribution_id: bigint
+  created_at: timestamptz
+  epoch_id: bigint
+  id: bigint
+  organization_id: bigint
+  target_profile_id: bigint
+  updated_at: timestamptz
+}
+
+"""
+aggregate min on columns
+"""
+type activities_min_fields {
+  action: String
+  actor_profile_id: bigint
+  circle_id: bigint
+  contribution_id: bigint
+  created_at: timestamptz
+  epoch_id: bigint
+  id: bigint
+  organization_id: bigint
+  target_profile_id: bigint
+  updated_at: timestamptz
+}
+
+"""
+Ordering options when selecting data from "activities".
+"""
+input activities_order_by {
+  action: order_by
+  actor_profile: profiles_order_by
+  actor_profile_id: order_by
+  circle: circles_order_by
+  circle_id: order_by
+  contribution: contributions_order_by
+  contribution_id: order_by
+  created_at: order_by
+  epoch: epochs_order_by
+  epoch_id: order_by
+  id: order_by
+  organization: organizations_order_by
+  organization_id: order_by
+  target_profile: profiles_order_by
+  target_profile_id: order_by
+  updated_at: order_by
+}
+
+"""
+select columns of table "activities"
+"""
+enum activities_select_column {
+  """
+  column name
+  """
+  action
+
+  """
+  column name
+  """
+  actor_profile_id
+
+  """
+  column name
+  """
+  circle_id
+
+  """
+  column name
+  """
+  contribution_id
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  epoch_id
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  organization_id
+
+  """
+  column name
+  """
+  target_profile_id
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+aggregate stddev on columns
+"""
+type activities_stddev_fields {
+  actor_profile_id: Float
+  circle_id: Float
+  contribution_id: Float
+  epoch_id: Float
+  id: Float
+  organization_id: Float
+  target_profile_id: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type activities_stddev_pop_fields {
+  actor_profile_id: Float
+  circle_id: Float
+  contribution_id: Float
+  epoch_id: Float
+  id: Float
+  organization_id: Float
+  target_profile_id: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type activities_stddev_samp_fields {
+  actor_profile_id: Float
+  circle_id: Float
+  contribution_id: Float
+  epoch_id: Float
+  id: Float
+  organization_id: Float
+  target_profile_id: Float
+}
+
+"""
+Streaming cursor of the table "activities"
+"""
+input activities_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: activities_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input activities_stream_cursor_value_input {
+  action: String
+  actor_profile_id: bigint
+  circle_id: bigint
+  contribution_id: bigint
+  created_at: timestamptz
+  epoch_id: bigint
+  id: bigint
+  organization_id: bigint
+  target_profile_id: bigint
+  updated_at: timestamptz
+}
+
+"""
+aggregate sum on columns
+"""
+type activities_sum_fields {
+  actor_profile_id: bigint
+  circle_id: bigint
+  contribution_id: bigint
+  epoch_id: bigint
+  id: bigint
+  organization_id: bigint
+  target_profile_id: bigint
+}
+
+"""
+aggregate var_pop on columns
+"""
+type activities_var_pop_fields {
+  actor_profile_id: Float
+  circle_id: Float
+  contribution_id: Float
+  epoch_id: Float
+  id: Float
+  organization_id: Float
+  target_profile_id: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type activities_var_samp_fields {
+  actor_profile_id: Float
+  circle_id: Float
+  contribution_id: Float
+  epoch_id: Float
+  id: Float
+  organization_id: Float
+  target_profile_id: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type activities_variance_fields {
+  actor_profile_id: Float
+  circle_id: Float
+  contribution_id: Float
+  epoch_id: Float
+  id: Float
+  organization_id: Float
+  target_profile_id: Float
+}
+
 scalar bigint
 
 """
@@ -8658,6 +8998,71 @@ input profiles_updates {
 
 type query_root {
   """
+  fetch data from the table: "activities"
+  """
+  activities(
+    """
+    distinct select on columns
+    """
+    distinct_on: [activities_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [activities_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: activities_bool_exp
+  ): [activities!]!
+
+  """
+  fetch aggregated fields from the table: "activities"
+  """
+  activities_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [activities_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [activities_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: activities_bool_exp
+  ): activities_aggregate!
+
+  """
+  fetch data from the table: "activities" using primary key columns
+  """
+  activities_by_pk(id: bigint!): activities
+
+  """
   An array relationship
   """
   burns(
@@ -9838,6 +10243,91 @@ type query_root {
 }
 
 type subscription_root {
+  """
+  fetch data from the table: "activities"
+  """
+  activities(
+    """
+    distinct select on columns
+    """
+    distinct_on: [activities_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [activities_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: activities_bool_exp
+  ): [activities!]!
+
+  """
+  fetch aggregated fields from the table: "activities"
+  """
+  activities_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [activities_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [activities_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: activities_bool_exp
+  ): activities_aggregate!
+
+  """
+  fetch data from the table: "activities" using primary key columns
+  """
+  activities_by_pk(id: bigint!): activities
+
+  """
+  fetch data from the table in a streaming manner : "activities"
+  """
+  activities_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [activities_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: activities_bool_exp
+  ): [activities!]!
+
   """
   An array relationship
   """

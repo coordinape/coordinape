@@ -592,12 +592,43 @@ Table containing activity on our platform
 """
 type activities {
   action: String!
+
+  """
+  An object relationship
+  """
+  actor_profile: profiles!
   actor_profile_id: bigint!
+
+  """
+  An object relationship
+  """
+  circle: circles
   circle_id: bigint
+
+  """
+  An object relationship
+  """
+  contribution: contributions
   contribution_id: bigint
   created_at: timestamptz!
+
+  """
+  An object relationship
+  """
+  epoch: epochs
+  epoch_id: bigint
   id: bigint!
+
+  """
+  An object relationship
+  """
+  organization: organizations!
   organization_id: bigint!
+
+  """
+  An object relationship
+  """
+  target_profile: profiles
   target_profile_id: bigint
   updated_at: timestamptz!
 }
@@ -634,6 +665,7 @@ type activities_avg_fields {
   actor_profile_id: Float
   circle_id: Float
   contribution_id: Float
+  epoch_id: Float
   id: Float
   organization_id: Float
   target_profile_id: Float
@@ -647,12 +679,19 @@ input activities_bool_exp {
   _not: activities_bool_exp
   _or: [activities_bool_exp!]
   action: String_comparison_exp
+  actor_profile: profiles_bool_exp
   actor_profile_id: bigint_comparison_exp
+  circle: circles_bool_exp
   circle_id: bigint_comparison_exp
+  contribution: contributions_bool_exp
   contribution_id: bigint_comparison_exp
   created_at: timestamptz_comparison_exp
+  epoch: epochs_bool_exp
+  epoch_id: bigint_comparison_exp
   id: bigint_comparison_exp
+  organization: organizations_bool_exp
   organization_id: bigint_comparison_exp
+  target_profile: profiles_bool_exp
   target_profile_id: bigint_comparison_exp
   updated_at: timestamptz_comparison_exp
 }
@@ -674,6 +713,7 @@ input activities_inc_input {
   actor_profile_id: bigint
   circle_id: bigint
   contribution_id: bigint
+  epoch_id: bigint
   id: bigint
   organization_id: bigint
   target_profile_id: bigint
@@ -684,12 +724,19 @@ input type for inserting data into table "activities"
 """
 input activities_insert_input {
   action: String
+  actor_profile: profiles_obj_rel_insert_input
   actor_profile_id: bigint
+  circle: circles_obj_rel_insert_input
   circle_id: bigint
+  contribution: contributions_obj_rel_insert_input
   contribution_id: bigint
   created_at: timestamptz
+  epoch: epochs_obj_rel_insert_input
+  epoch_id: bigint
   id: bigint
+  organization: organizations_obj_rel_insert_input
   organization_id: bigint
+  target_profile: profiles_obj_rel_insert_input
   target_profile_id: bigint
   updated_at: timestamptz
 }
@@ -703,6 +750,7 @@ type activities_max_fields {
   circle_id: bigint
   contribution_id: bigint
   created_at: timestamptz
+  epoch_id: bigint
   id: bigint
   organization_id: bigint
   target_profile_id: bigint
@@ -718,6 +766,7 @@ type activities_min_fields {
   circle_id: bigint
   contribution_id: bigint
   created_at: timestamptz
+  epoch_id: bigint
   id: bigint
   organization_id: bigint
   target_profile_id: bigint
@@ -753,12 +802,19 @@ Ordering options when selecting data from "activities".
 """
 input activities_order_by {
   action: order_by
+  actor_profile: profiles_order_by
   actor_profile_id: order_by
+  circle: circles_order_by
   circle_id: order_by
+  contribution: contributions_order_by
   contribution_id: order_by
   created_at: order_by
+  epoch: epochs_order_by
+  epoch_id: order_by
   id: order_by
+  organization: organizations_order_by
   organization_id: order_by
+  target_profile: profiles_order_by
   target_profile_id: order_by
   updated_at: order_by
 }
@@ -802,6 +858,11 @@ enum activities_select_column {
   """
   column name
   """
+  epoch_id
+
+  """
+  column name
+  """
   id
 
   """
@@ -829,6 +890,7 @@ input activities_set_input {
   circle_id: bigint
   contribution_id: bigint
   created_at: timestamptz
+  epoch_id: bigint
   id: bigint
   organization_id: bigint
   target_profile_id: bigint
@@ -842,6 +904,7 @@ type activities_stddev_fields {
   actor_profile_id: Float
   circle_id: Float
   contribution_id: Float
+  epoch_id: Float
   id: Float
   organization_id: Float
   target_profile_id: Float
@@ -854,6 +917,7 @@ type activities_stddev_pop_fields {
   actor_profile_id: Float
   circle_id: Float
   contribution_id: Float
+  epoch_id: Float
   id: Float
   organization_id: Float
   target_profile_id: Float
@@ -866,6 +930,7 @@ type activities_stddev_samp_fields {
   actor_profile_id: Float
   circle_id: Float
   contribution_id: Float
+  epoch_id: Float
   id: Float
   organization_id: Float
   target_profile_id: Float
@@ -895,6 +960,7 @@ input activities_stream_cursor_value_input {
   circle_id: bigint
   contribution_id: bigint
   created_at: timestamptz
+  epoch_id: bigint
   id: bigint
   organization_id: bigint
   target_profile_id: bigint
@@ -908,6 +974,7 @@ type activities_sum_fields {
   actor_profile_id: bigint
   circle_id: bigint
   contribution_id: bigint
+  epoch_id: bigint
   id: bigint
   organization_id: bigint
   target_profile_id: bigint
@@ -941,6 +1008,11 @@ enum activities_update_column {
   column name
   """
   created_at
+
+  """
+  column name
+  """
+  epoch_id
 
   """
   column name
@@ -983,6 +1055,7 @@ type activities_var_pop_fields {
   actor_profile_id: Float
   circle_id: Float
   contribution_id: Float
+  epoch_id: Float
   id: Float
   organization_id: Float
   target_profile_id: Float
@@ -995,6 +1068,7 @@ type activities_var_samp_fields {
   actor_profile_id: Float
   circle_id: Float
   contribution_id: Float
+  epoch_id: Float
   id: Float
   organization_id: Float
   target_profile_id: Float
@@ -1007,6 +1081,7 @@ type activities_variance_fields {
   actor_profile_id: Float
   circle_id: Float
   contribution_id: Float
+  epoch_id: Float
   id: Float
   organization_id: Float
   target_profile_id: Float
@@ -6417,6 +6492,18 @@ type contributions_mutation_response {
   data from the rows affected by the mutation
   """
   returning: [contributions!]!
+}
+
+"""
+input type for inserting object relation for remote table "contributions"
+"""
+input contributions_obj_rel_insert_input {
+  data: contributions_insert_input!
+
+  """
+  upsert condition
+  """
+  on_conflict: contributions_on_conflict
 }
 
 """

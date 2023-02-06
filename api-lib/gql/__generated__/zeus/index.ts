@@ -1071,12 +1071,25 @@ export type ValueTypes = {
   /** Table containing activity on our platform */
   ['activities']: AliasType<{
     action?: boolean | `@${string}`;
+    /** An object relationship */
+    actor_profile?: ValueTypes['profiles'];
     actor_profile_id?: boolean | `@${string}`;
+    /** An object relationship */
+    circle?: ValueTypes['circles'];
     circle_id?: boolean | `@${string}`;
+    /** An object relationship */
+    contribution?: ValueTypes['contributions'];
     contribution_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
+    /** An object relationship */
+    epoch?: ValueTypes['epochs'];
+    epoch_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    /** An object relationship */
+    organization?: ValueTypes['organizations'];
     organization_id?: boolean | `@${string}`;
+    /** An object relationship */
+    target_profile?: ValueTypes['profiles'];
     target_profile_id?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -1116,6 +1129,7 @@ export type ValueTypes = {
     actor_profile_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     contribution_id?: boolean | `@${string}`;
+    epoch_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
@@ -1127,12 +1141,19 @@ export type ValueTypes = {
     _not?: ValueTypes['activities_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['activities_bool_exp']> | undefined | null;
     action?: ValueTypes['String_comparison_exp'] | undefined | null;
+    actor_profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     actor_profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    circle?: ValueTypes['circles_bool_exp'] | undefined | null;
     circle_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    contribution?: ValueTypes['contributions_bool_exp'] | undefined | null;
     contribution_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    epoch?: ValueTypes['epochs_bool_exp'] | undefined | null;
+    epoch_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    organization?: ValueTypes['organizations_bool_exp'] | undefined | null;
     organization_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    target_profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     target_profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
   };
@@ -1143,6 +1164,7 @@ export type ValueTypes = {
     actor_profile_id?: ValueTypes['bigint'] | undefined | null;
     circle_id?: ValueTypes['bigint'] | undefined | null;
     contribution_id?: ValueTypes['bigint'] | undefined | null;
+    epoch_id?: ValueTypes['bigint'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     organization_id?: ValueTypes['bigint'] | undefined | null;
     target_profile_id?: ValueTypes['bigint'] | undefined | null;
@@ -1150,12 +1172,31 @@ export type ValueTypes = {
   /** input type for inserting data into table "activities" */
   ['activities_insert_input']: {
     action?: string | undefined | null;
+    actor_profile?:
+      | ValueTypes['profiles_obj_rel_insert_input']
+      | undefined
+      | null;
     actor_profile_id?: ValueTypes['bigint'] | undefined | null;
+    circle?: ValueTypes['circles_obj_rel_insert_input'] | undefined | null;
     circle_id?: ValueTypes['bigint'] | undefined | null;
+    contribution?:
+      | ValueTypes['contributions_obj_rel_insert_input']
+      | undefined
+      | null;
     contribution_id?: ValueTypes['bigint'] | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
+    epoch?: ValueTypes['epochs_obj_rel_insert_input'] | undefined | null;
+    epoch_id?: ValueTypes['bigint'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
+    organization?:
+      | ValueTypes['organizations_obj_rel_insert_input']
+      | undefined
+      | null;
     organization_id?: ValueTypes['bigint'] | undefined | null;
+    target_profile?:
+      | ValueTypes['profiles_obj_rel_insert_input']
+      | undefined
+      | null;
     target_profile_id?: ValueTypes['bigint'] | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
   };
@@ -1166,6 +1207,7 @@ export type ValueTypes = {
     circle_id?: boolean | `@${string}`;
     contribution_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
+    epoch_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
@@ -1179,6 +1221,7 @@ export type ValueTypes = {
     circle_id?: boolean | `@${string}`;
     contribution_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
+    epoch_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
@@ -1202,12 +1245,19 @@ export type ValueTypes = {
   /** Ordering options when selecting data from "activities". */
   ['activities_order_by']: {
     action?: ValueTypes['order_by'] | undefined | null;
+    actor_profile?: ValueTypes['profiles_order_by'] | undefined | null;
     actor_profile_id?: ValueTypes['order_by'] | undefined | null;
+    circle?: ValueTypes['circles_order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
+    contribution?: ValueTypes['contributions_order_by'] | undefined | null;
     contribution_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    epoch?: ValueTypes['epochs_order_by'] | undefined | null;
+    epoch_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    organization?: ValueTypes['organizations_order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    target_profile?: ValueTypes['profiles_order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
   };
@@ -1224,6 +1274,7 @@ export type ValueTypes = {
     circle_id?: ValueTypes['bigint'] | undefined | null;
     contribution_id?: ValueTypes['bigint'] | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
+    epoch_id?: ValueTypes['bigint'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     organization_id?: ValueTypes['bigint'] | undefined | null;
     target_profile_id?: ValueTypes['bigint'] | undefined | null;
@@ -1234,6 +1285,7 @@ export type ValueTypes = {
     actor_profile_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     contribution_id?: boolean | `@${string}`;
+    epoch_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
@@ -1244,6 +1296,7 @@ export type ValueTypes = {
     actor_profile_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     contribution_id?: boolean | `@${string}`;
+    epoch_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
@@ -1254,6 +1307,7 @@ export type ValueTypes = {
     actor_profile_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     contribution_id?: boolean | `@${string}`;
+    epoch_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
@@ -1273,6 +1327,7 @@ export type ValueTypes = {
     circle_id?: ValueTypes['bigint'] | undefined | null;
     contribution_id?: ValueTypes['bigint'] | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
+    epoch_id?: ValueTypes['bigint'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     organization_id?: ValueTypes['bigint'] | undefined | null;
     target_profile_id?: ValueTypes['bigint'] | undefined | null;
@@ -1283,6 +1338,7 @@ export type ValueTypes = {
     actor_profile_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     contribution_id?: boolean | `@${string}`;
+    epoch_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
@@ -1302,6 +1358,7 @@ export type ValueTypes = {
     actor_profile_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     contribution_id?: boolean | `@${string}`;
+    epoch_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
@@ -1312,6 +1369,7 @@ export type ValueTypes = {
     actor_profile_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     contribution_id?: boolean | `@${string}`;
+    epoch_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
@@ -1322,6 +1380,7 @@ export type ValueTypes = {
     actor_profile_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     contribution_id?: boolean | `@${string}`;
+    epoch_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
@@ -4952,6 +5011,12 @@ export type ValueTypes = {
     returning?: ValueTypes['contributions'];
     __typename?: boolean | `@${string}`;
   }>;
+  /** input type for inserting object relation for remote table "contributions" */
+  ['contributions_obj_rel_insert_input']: {
+    data: ValueTypes['contributions_insert_input'];
+    /** upsert condition */
+    on_conflict?: ValueTypes['contributions_on_conflict'] | undefined | null;
+  };
   /** on_conflict condition type for table "contributions" */
   ['contributions_on_conflict']: {
     constraint: ValueTypes['contributions_constraint'];
@@ -22200,12 +22265,25 @@ export type ModelTypes = {
   /** Table containing activity on our platform */
   ['activities']: {
     action: string;
+    /** An object relationship */
+    actor_profile: GraphQLTypes['profiles'];
     actor_profile_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    circle?: GraphQLTypes['circles'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    contribution?: GraphQLTypes['contributions'] | undefined;
     contribution_id?: GraphQLTypes['bigint'] | undefined;
     created_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    epoch?: GraphQLTypes['epochs'] | undefined;
+    epoch_id?: GraphQLTypes['bigint'] | undefined;
     id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    organization: GraphQLTypes['organizations'];
     organization_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    target_profile?: GraphQLTypes['profiles'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at: GraphQLTypes['timestamptz'];
   };
@@ -22233,6 +22311,7 @@ export type ModelTypes = {
     actor_profile_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
+    epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
     target_profile_id?: number | undefined;
@@ -22252,6 +22331,7 @@ export type ModelTypes = {
     circle_id?: GraphQLTypes['bigint'] | undefined;
     contribution_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    epoch_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -22264,6 +22344,7 @@ export type ModelTypes = {
     circle_id?: GraphQLTypes['bigint'] | undefined;
     contribution_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    epoch_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -22291,6 +22372,7 @@ export type ModelTypes = {
     actor_profile_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
+    epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
     target_profile_id?: number | undefined;
@@ -22300,6 +22382,7 @@ export type ModelTypes = {
     actor_profile_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
+    epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
     target_profile_id?: number | undefined;
@@ -22309,6 +22392,7 @@ export type ModelTypes = {
     actor_profile_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
+    epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
     target_profile_id?: number | undefined;
@@ -22322,6 +22406,7 @@ export type ModelTypes = {
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     contribution_id?: GraphQLTypes['bigint'] | undefined;
+    epoch_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -22334,6 +22419,7 @@ export type ModelTypes = {
     actor_profile_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
+    epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
     target_profile_id?: number | undefined;
@@ -22343,6 +22429,7 @@ export type ModelTypes = {
     actor_profile_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
+    epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
     target_profile_id?: number | undefined;
@@ -22352,6 +22439,7 @@ export type ModelTypes = {
     actor_profile_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
+    epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
     target_profile_id?: number | undefined;
@@ -23798,6 +23886,8 @@ export type ModelTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['contributions']>;
   };
+  /** input type for inserting object relation for remote table "contributions" */
+  ['contributions_obj_rel_insert_input']: GraphQLTypes['contributions_obj_rel_insert_input'];
   /** on_conflict condition type for table "contributions" */
   ['contributions_on_conflict']: GraphQLTypes['contributions_on_conflict'];
   /** Ordering options when selecting data from "contributions". */
@@ -30251,12 +30341,25 @@ export type GraphQLTypes = {
   ['activities']: {
     __typename: 'activities';
     action: string;
+    /** An object relationship */
+    actor_profile: GraphQLTypes['profiles'];
     actor_profile_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    circle?: GraphQLTypes['circles'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    contribution?: GraphQLTypes['contributions'] | undefined;
     contribution_id?: GraphQLTypes['bigint'] | undefined;
     created_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    epoch?: GraphQLTypes['epochs'] | undefined;
+    epoch_id?: GraphQLTypes['bigint'] | undefined;
     id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    organization: GraphQLTypes['organizations'];
     organization_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    target_profile?: GraphQLTypes['profiles'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at: GraphQLTypes['timestamptz'];
   };
@@ -30287,6 +30390,7 @@ export type GraphQLTypes = {
     actor_profile_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
+    epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
     target_profile_id?: number | undefined;
@@ -30297,12 +30401,19 @@ export type GraphQLTypes = {
     _not?: GraphQLTypes['activities_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['activities_bool_exp']> | undefined;
     action?: GraphQLTypes['String_comparison_exp'] | undefined;
+    actor_profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     actor_profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    circle?: GraphQLTypes['circles_bool_exp'] | undefined;
     circle_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    contribution?: GraphQLTypes['contributions_bool_exp'] | undefined;
     contribution_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    epoch?: GraphQLTypes['epochs_bool_exp'] | undefined;
+    epoch_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    organization?: GraphQLTypes['organizations_bool_exp'] | undefined;
     organization_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    target_profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     target_profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
   };
@@ -30313,6 +30424,7 @@ export type GraphQLTypes = {
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     contribution_id?: GraphQLTypes['bigint'] | undefined;
+    epoch_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -30320,12 +30432,23 @@ export type GraphQLTypes = {
   /** input type for inserting data into table "activities" */
   ['activities_insert_input']: {
     action?: string | undefined;
+    actor_profile?: GraphQLTypes['profiles_obj_rel_insert_input'] | undefined;
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    circle?: GraphQLTypes['circles_obj_rel_insert_input'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
+    contribution?:
+      | GraphQLTypes['contributions_obj_rel_insert_input']
+      | undefined;
     contribution_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    epoch?: GraphQLTypes['epochs_obj_rel_insert_input'] | undefined;
+    epoch_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    organization?:
+      | GraphQLTypes['organizations_obj_rel_insert_input']
+      | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
+    target_profile?: GraphQLTypes['profiles_obj_rel_insert_input'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
@@ -30337,6 +30460,7 @@ export type GraphQLTypes = {
     circle_id?: GraphQLTypes['bigint'] | undefined;
     contribution_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    epoch_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -30350,6 +30474,7 @@ export type GraphQLTypes = {
     circle_id?: GraphQLTypes['bigint'] | undefined;
     contribution_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    epoch_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -30372,12 +30497,19 @@ export type GraphQLTypes = {
   /** Ordering options when selecting data from "activities". */
   ['activities_order_by']: {
     action?: GraphQLTypes['order_by'] | undefined;
+    actor_profile?: GraphQLTypes['profiles_order_by'] | undefined;
     actor_profile_id?: GraphQLTypes['order_by'] | undefined;
+    circle?: GraphQLTypes['circles_order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
+    contribution?: GraphQLTypes['contributions_order_by'] | undefined;
     contribution_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    epoch?: GraphQLTypes['epochs_order_by'] | undefined;
+    epoch_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    organization?: GraphQLTypes['organizations_order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    target_profile?: GraphQLTypes['profiles_order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
   };
@@ -30394,6 +30526,7 @@ export type GraphQLTypes = {
     circle_id?: GraphQLTypes['bigint'] | undefined;
     contribution_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    epoch_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -30405,6 +30538,7 @@ export type GraphQLTypes = {
     actor_profile_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
+    epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
     target_profile_id?: number | undefined;
@@ -30415,6 +30549,7 @@ export type GraphQLTypes = {
     actor_profile_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
+    epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
     target_profile_id?: number | undefined;
@@ -30425,6 +30560,7 @@ export type GraphQLTypes = {
     actor_profile_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
+    epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
     target_profile_id?: number | undefined;
@@ -30443,6 +30579,7 @@ export type GraphQLTypes = {
     circle_id?: GraphQLTypes['bigint'] | undefined;
     contribution_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    epoch_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -30454,6 +30591,7 @@ export type GraphQLTypes = {
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     contribution_id?: GraphQLTypes['bigint'] | undefined;
+    epoch_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -30473,6 +30611,7 @@ export type GraphQLTypes = {
     actor_profile_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
+    epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
     target_profile_id?: number | undefined;
@@ -30483,6 +30622,7 @@ export type GraphQLTypes = {
     actor_profile_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
+    epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
     target_profile_id?: number | undefined;
@@ -30493,6 +30633,7 @@ export type GraphQLTypes = {
     actor_profile_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
+    epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
     target_profile_id?: number | undefined;
@@ -33446,6 +33587,12 @@ export type GraphQLTypes = {
     affected_rows: number;
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['contributions']>;
+  };
+  /** input type for inserting object relation for remote table "contributions" */
+  ['contributions_obj_rel_insert_input']: {
+    data: GraphQLTypes['contributions_insert_input'];
+    /** upsert condition */
+    on_conflict?: GraphQLTypes['contributions_on_conflict'] | undefined;
   };
   /** on_conflict condition type for table "contributions" */
   ['contributions_on_conflict']: {
@@ -43638,6 +43785,7 @@ export const enum activities_select_column {
   circle_id = 'circle_id',
   contribution_id = 'contribution_id',
   created_at = 'created_at',
+  epoch_id = 'epoch_id',
   id = 'id',
   organization_id = 'organization_id',
   target_profile_id = 'target_profile_id',
@@ -43650,6 +43798,7 @@ export const enum activities_update_column {
   circle_id = 'circle_id',
   contribution_id = 'contribution_id',
   created_at = 'created_at',
+  epoch_id = 'epoch_id',
   id = 'id',
   organization_id = 'organization_id',
   target_profile_id = 'target_profile_id',
