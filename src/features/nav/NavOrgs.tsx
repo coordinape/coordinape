@@ -41,7 +41,7 @@ export const NavOrgs = ({
       {orgs.map(o => {
         const isCurrentOrg = currentOrg && currentOrg.id == o.id;
         if (currentOrg && !isCurrentOrg) {
-          return <></>;
+          return null;
         }
         return (
           <Box key={o.id}>
