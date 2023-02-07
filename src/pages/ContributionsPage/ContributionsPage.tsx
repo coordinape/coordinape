@@ -14,13 +14,8 @@ import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { useSelectedCircle } from '../../recoilState';
 import { LoadingModal, FormInputField } from 'components';
 import { useToast } from 'hooks';
+import { Contribution as IntegrationContribution } from 'hooks/useContributions';
 import {
-  useContributions,
-  Contribution as IntegrationContribution,
-} from 'hooks/useContributions';
-import {
-  DeworkColor,
-  WonderColor,
   ChevronDown,
   ChevronUp,
   Trash2,
@@ -44,20 +39,21 @@ import { SingleColumnLayout } from 'ui/layouts';
 import { SavingIndicator, SaveState } from 'ui/SavingIndicator';
 
 import { ContributionIntro } from './ContributionIntro';
+import { ContributionList } from './ContributionList';
 import { ContributionPanel } from './ContributionPanel';
-import { ContributionRow } from './ContributionRow';
 import {
   deleteContributionMutation,
   updateContributionMutation,
   createContributionMutation,
 } from './mutations';
 import { PlaceholderContributions } from './PlaceholderContributions';
-import {
-  getContributionsAndEpochs,
-  ContributionsAndEpochs,
-  Contribution,
-  Epoch,
-} from './queries';
+import { getContributionsAndEpochs, Contribution, Epoch } from './queries';
+import type {
+  CurrentContribution,
+  CurrentIntContribution,
+  LinkedContributionsAndEpochs,
+  SetActiveContributionProps,
+} from './types';
 import {
   getCurrentEpoch,
   getNewContribution,
@@ -66,6 +62,7 @@ import {
   LinkedElement,
   jumpToEpoch,
   isEpochCurrentOrLater,
+  contributionIcon,
 } from './util';
 
 const schema = z.object({
@@ -100,29 +97,6 @@ const nextPrevCss = {
   },
 };
 
-type LinkedContributionsAndEpochs = {
-  contributions: Array<LinkedElement<Contribution>>;
-  epochs: Array<LinkedElement<Epoch>>;
-  users: ContributionsAndEpochs['users'];
-};
-
-type CurrentContribution = {
-  contribution: LinkedElement<Contribution>;
-  epoch: LinkedElement<Epoch>;
-};
-type CurrentIntContribution = {
-  contribution: IntegrationContribution;
-  epoch?: LinkedElement<Epoch>;
-};
-
-const contributionIcon = (source: string) => {
-  switch (source) {
-    case 'wonder':
-      return <WonderColor css={{ mr: '$md' }} />;
-    default:
-      return <DeworkColor css={{ mr: '$md' }} />;
-  }
-};
 const contributionSource = (source: string) => {
   switch (source) {
     case 'wonder':
@@ -412,7 +386,7 @@ const ContributionsPage = () => {
     resetUpdateMutation();
     reset();
   };
-  const newContribution = () => {
+  const addNewContribution = () => {
     setCurrentContribution({
       contribution: getNewContribution(
         currentUserId,
@@ -515,7 +489,7 @@ const ContributionsPage = () => {
               </Flex>
             )}
           </Flex>
-          <Button color="cta" onClick={newContribution}>
+          <Button color="cta" onClick={addNewContribution}>
             Add Contribution
           </Button>
         </ContentHeader>
@@ -783,9 +757,9 @@ const ContributionsPage = () => {
                 <Flex css={{ justifyContent: 'flex-end', mt: '$md' }}>
                   <Button
                     color="primary"
-                    onClick={newContribution}
+                    onClick={addNewContribution}
                     // adding onMouseDown because the onBlur event on the markdown-ready textarea was preventing onClick
-                    onMouseDown={newContribution}
+                    onMouseDown={addNewContribution}
                   >
                     <Edit />
                     New
@@ -832,14 +806,6 @@ const ContributionsPage = () => {
   );
 };
 
-type SetActiveContributionProps = {
-  setActiveContribution: (
-    e: LinkedElement<Epoch>,
-    c?: LinkedElement<Contribution>,
-    intC?: IntegrationContribution
-  ) => void;
-  currentContribution: CurrentContribution | null;
-};
 const monthsEqual = (start: string, end: string) =>
   DateTime.fromISO(start).month === DateTime.fromISO(end).month;
 
@@ -924,99 +890,5 @@ const EpochGroup = React.memo(function EpochGroup({
     </Flex>
   );
 });
-
-type ContributionListProps = {
-  contributions: Array<LinkedElement<Contribution>>;
-  epoch: LinkedElement<Epoch>;
-  userAddress?: string;
-} & SetActiveContributionProps;
-const ContributionList = ({
-  epoch,
-  contributions,
-  setActiveContribution,
-  currentContribution,
-  userAddress,
-}: ContributionListProps) => {
-  // epochs are listed in chronologically descending order
-  // so the next epoch in the array is the epoch that ended
-  // before the one here
-  const priorEpoch = epoch.next();
-  const integrationContributions = useContributions({
-    address: userAddress || '',
-    startDate: priorEpoch
-      ? priorEpoch.end_date
-      : // add a buffer of time before the start date if this is the first epoch
-        // Querying from epoch time 0 is apparently an unwelcome
-        // practice for some integrators
-        DateTime.fromISO(epoch.start_date).minus({ months: 1 }).toISO(),
-    endDate: epoch.end_date,
-    mock: false,
-  });
-
-  return (
-    <>
-      {contributions.length || integrationContributions?.length ? (
-        <>
-          {contributions.map(c => (
-            <ContributionRow
-              key={c.id}
-              active={currentContribution?.contribution.id === c.id}
-              description={c.description}
-              datetime_created={c.datetime_created}
-              onClick={() => {
-                setActiveContribution(epoch, c, undefined);
-              }}
-              onKeyDown={e => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  setActiveContribution(epoch, c, undefined);
-                  e.preventDefault();
-                  e.stopPropagation();
-                }
-              }}
-            />
-          ))}
-          {integrationContributions?.map(c => (
-            <Panel
-              key={c.title}
-              css={{
-                border: '1px solid $border',
-                cursor: 'pointer',
-                '&:hover': {
-                  background: '$highlight',
-                  borderColor: '$link',
-                },
-              }}
-              onClick={() => {
-                setActiveContribution(epoch, undefined, c);
-              }}
-              onKeyDown={e => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  setActiveContribution(epoch, undefined, c);
-                  e.preventDefault();
-                  e.stopPropagation();
-                }
-              }}
-            >
-              <Text
-                ellipsis
-                css={{
-                  mr: '10px',
-                  maxWidth: '60em',
-                }}
-              >
-                {contributionIcon(c.source)}
-                {c.title}
-              </Text>
-            </Panel>
-          ))}
-        </>
-      ) : epoch.id !== 0 ? (
-        <Text>You don&apos;t have any contributions in this epoch</Text>
-      ) : (
-        <Text>You don&apos;t have any contributions yet</Text>
-      )}
-    </>
-  );
-};
 
 export default ContributionsPage;
