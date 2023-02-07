@@ -341,7 +341,7 @@ export const HistoryPage = () => {
         title={`Remove Epoch ${
           epochToDelete?.number && epochToDelete.number > -1
             ? epochToDelete.number
-            : JSON.stringify(currentEpoch)
+            : ''
         }`}
       >
         <Flex column alignItems="start" css={{ gap: '$md' }}>

@@ -88,38 +88,6 @@ interface IEpochFormSource {
 }
 const EpochRepeatEnum = z.enum(['none', 'monthly', 'custom']);
 
-const submitSchema = z
-  .object({
-    start_date: z.string(),
-    end_date: z.string(),
-    start_time: z.string(),
-    custom_start_date: z.string(),
-    custom_duration_qty: z.number().min(1),
-    custom_interval_qty: z.number().min(1),
-    custom_duration_denomination: zFrequencyUnits,
-    custom_interval_denomination: zFrequencyUnits,
-    monthly_repeat_datetime: z.string(),
-    repeat: EpochRepeatEnum,
-    repeatStartDate: z.string(),
-    description: z
-      .optional(
-        z.nullable(
-          z
-            .string()
-            .refine(val => val.trim().length >= 10, {
-              message: 'Description should be at least 10 characters long',
-            })
-            .refine(val => val.length < 100, {
-              message: 'Description length should not exceed 100 characters',
-            })
-        )
-      )
-      .transform(val => (val === '' ? null : val)),
-    repeat_view: z.string(),
-    customError: z.undefined(), //unregistered to disable submitting
-  })
-  .strict();
-
 const schema = z
   .object({
     start_date: z.string(),
@@ -349,7 +317,6 @@ const getZodParser = (
 };
 
 type epochFormSchema = z.infer<typeof schema>;
-type epochSubmissionSchema = z.infer<typeof submitSchema>;
 
 const repeat = [
   {
@@ -418,12 +385,8 @@ const EpochForm = ({
           ? 'repeats'
           : 'one-off'
         : 'repeats',
-      repeatStartDate: getMonthStartDates(
-        source?.epoch?.start_date
-          ? DateTime.fromISO(source.epoch.start_date).day.toString()
-          : ((DateTime.now().day + 1) % 32 || 1).toString(),
-        currentEpoch
-      )[0].value,
+      repeatStartDate:
+        source?.epoch?.start_date || DateTime.now().plus({ days: 1 }).toISO(),
       repeat: source.epoch?.repeat_data?.type ?? 'custom',
       start_time:
         (source?.epoch?.start_date &&
@@ -482,7 +445,7 @@ const EpochForm = ({
   const extraErrors = useRef(false);
 
   const validateState = (data: Partial<epochFormSchema>) => {
-    const value: SafeParseReturnType<epochFormSchema, epochSubmissionSchema> =
+    const value: SafeParseReturnType<epochFormSchema, epochFormSchema> =
       getZodParser(source, currentEpoch).safeParse(data);
 
     if (!value.success) {
@@ -893,7 +856,7 @@ const EpochForm = ({
                           infoTooltip="The duration of each epoch"
                           disabled={shouldFormBeDisabled}
                           defaultValue={1}
-                          inputProps={{ min: 0 }}
+                          inputProps={{ min: 0, max: 99 }}
                           control={control}
                           id="custom_duration_qty"
                           name="custom_duration_qty"
@@ -925,7 +888,7 @@ const EpochForm = ({
                         number
                         disabled={shouldFormBeDisabled}
                         defaultValue={1}
-                        inputProps={{ min: 0 }}
+                        inputProps={{ min: 0, max: 99 }}
                         control={control}
                         id="custom_interval_qty"
                         name="custom_interval_qty"
@@ -1078,9 +1041,11 @@ const getRepeat = (value: EpochConfig) => {
     case 'custom':
       return `repeats every ${value.repeat_data.frequency} ${value.repeat_data.frequency_unit}`;
     case 'monthly':
-      return `Every ${getSuffix(value.repeat_data.week + 1)} ${getWeekDay(
-        startDate.weekday
-      )} of the month`;
+      return `${
+        value.repeat_data.week > 3
+          ? 'The last '
+          : `Every ${getSuffix(value.repeat_data.week + 1)} `
+      } ${getWeekDay(startDate.weekday)} of the month`;
     default:
       return `The epoch doesn't repeat.`;
   }
@@ -1098,9 +1063,11 @@ const EpochSummary = ({ value }: { value: EpochConfig }) => {
     <>
       <Text bold>This Epoch Period</Text>
       <Flex css={{ gap: '$sm' }}>
-        {startDate + ' '} <Text bold>to</Text>
+        <Text>
+          {startDate + ' '} <Text bold>to</Text>
+        </Text>
       </Flex>{' '}
-      {endDate}
+      <Text>{endDate}</Text>
     </>
   );
 };
@@ -1120,33 +1087,6 @@ const getSuffix = (day: number) => {
       return day + 'th';
   }
 };
-
-const getMonthStartDates = (
-  day: string,
-  activeEpoch?: { start_date: string; end_date: string }
-) =>
-  Array(5)
-    .fill(undefined)
-    .map((_, idx) => {
-      let monthDiff = idx;
-      const next = activeEpoch
-        ? DateTime.fromISO(activeEpoch.end_date)
-        : DateTime.now();
-      const monthDay = Number.parseInt(day);
-      if (next.day >= monthDay) monthDiff += 1;
-      const nextDT = next.set({
-        day: monthDay,
-        month: next.month + monthDiff,
-        hour: 0,
-        minute: 0,
-        second: 0,
-        millisecond: 0,
-      });
-      return {
-        label: nextDT.toLocaleString(),
-        value: nextDT.toISO(),
-      };
-    });
 
 export const getNextRepeatingDates = (
   data: Pick<
