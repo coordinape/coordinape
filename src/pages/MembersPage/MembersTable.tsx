@@ -772,8 +772,8 @@ const MemberRow = ({
                   mt: '$lg',
                   mb: '$2xl',
                   gap: '$md',
-                  justifyContent: 'space-between',
                   flexWrap: 'wrap',
+                  justifyContent: 'flex-end',
                 }}
               >
                 <Button
@@ -788,7 +788,7 @@ const MemberRow = ({
                   Discard Changes
                 </Button>
                 <Button
-                  color="complete"
+                  color="cta"
                   size="medium"
                   css={{
                     justifySelf: 'end',
