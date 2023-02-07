@@ -44,7 +44,7 @@ export const NavProfile = ({
       column
       css={{
         color: 'inherit',
-        border: '1px solid $neutral',
+        border: '1px solid $borderDim',
         borderRadius: '$3',
         width: '100%',
       }}
