@@ -386,6 +386,7 @@ const ContributionsPage = () => {
     resetUpdateMutation();
     reset();
   };
+
   const addNewContribution = () => {
     setCurrentContribution({
       contribution: getNewContribution(
@@ -422,9 +423,7 @@ const ContributionsPage = () => {
                   <Link
                     href="#"
                     iconLink
-                    onClick={() => {
-                      setEditHelpText(true);
-                    }}
+                    onClick={() => setEditHelpText(true)}
                     css={{ whiteSpace: 'nowrap' }}
                   >
                     <Edit3 />
@@ -433,12 +432,7 @@ const ContributionsPage = () => {
                 )}
               </Flex>
             ) : (
-              <Flex
-                column
-                css={{
-                  width: '100%',
-                }}
-              >
+              <Flex column css={{ width: '100%' }}>
                 <Box css={{ position: 'relative', width: '100%' }}>
                   <FormInputField
                     name="cont_help_text"
@@ -450,19 +444,13 @@ const ContributionsPage = () => {
                     infoTooltip="Change the text that contributors see on this page."
                     showFieldErrors
                     textArea
-                    css={{
-                      width: '100%',
-                    }}
+                    css={{ width: '100%' }}
                   />
                   <Text
                     inline
                     size="small"
                     color="secondary"
-                    css={{
-                      position: 'absolute',
-                      right: '$sm',
-                      bottom: '$sm',
-                    }}
+                    css={{ position: 'absolute', right: '$sm', bottom: '$sm' }}
                   >
                     Markdown Supported
                   </Text>
@@ -471,9 +459,7 @@ const ContributionsPage = () => {
                   <Button
                     size="small"
                     color="secondary"
-                    onClick={() => {
-                      setEditHelpText(false);
-                    }}
+                    onClick={() => setEditHelpText(false)}
                   >
                     Cancel
                   </Button>
@@ -510,9 +496,7 @@ const ContributionsPage = () => {
         drawer
         showClose={false}
         open={modalOpen}
-        onOpenChange={() => {
-          closeDrawer();
-        }}
+        onOpenChange={closeDrawer}
       >
         <Panel invertForm css={{ p: 0 }}>
           {currentContribution ? (
@@ -523,9 +507,7 @@ const ContributionsPage = () => {
               >
                 <Flex alignItems="center">
                   <Button
-                    onClick={() => {
-                      closeDrawer();
-                    }}
+                    onClick={closeDrawer}
                     color="textOnly"
                     noPadding
                     css={{ mr: '$lg' }}
@@ -536,9 +518,7 @@ const ContributionsPage = () => {
                     color="dim"
                     size="large"
                     css={nextPrevCss}
-                    disabled={
-                      currentContribution.contribution.prev() === undefined
-                    }
+                    disabled={!currentContribution.contribution.prev()}
                     onClick={() => {
                       const prevContribution =
                         currentContribution.contribution.prev();
@@ -564,9 +544,7 @@ const ContributionsPage = () => {
                   <Button
                     color="dim"
                     css={nextPrevCss}
-                    disabled={
-                      currentContribution.contribution.next() === undefined
-                    }
+                    disabled={!currentContribution.contribution.next()}
                     onClick={() => {
                       const nextContribution =
                         currentContribution.contribution.next();
@@ -592,11 +570,7 @@ const ContributionsPage = () => {
                 </Flex>
                 <Button
                   color="textOnly"
-                  css={{
-                    '&:hover': {
-                      color: '$alert',
-                    },
-                  }}
+                  css={{ '&:hover': { color: '$alert' } }}
                   noPadding
                   disabled={!currentContribution.contribution.id}
                   onClick={() => {
@@ -612,34 +586,16 @@ const ContributionsPage = () => {
               <Flex column css={{ my: '$xl' }}>
                 <Flex
                   alignItems="center"
-                  css={{
-                    mb: '$sm',
-                    justifyContent: 'space-between',
-                  }}
+                  css={{ mb: '$sm', justifyContent: 'space-between' }}
                 >
                   <Flex>
-                    <Text
-                      h3
-                      semibold
-                      css={{
-                        mr: '$md',
-                      }}
-                    >
+                    <Text h3 semibold css={{ mr: '$md' }}>
                       {currentContribution.epoch.id
                         ? renderEpochDate(currentContribution.epoch)
                         : 'Latest'}
                     </Text>
                     {getEpochLabel(currentContribution.epoch)}
                   </Flex>
-                  {isEpochCurrentOrLater(currentContribution.epoch) && (
-                    <SavingIndicator
-                      saveState={saveState[currentContribution.contribution.id]}
-                      retry={() => {
-                        saveContribution(descriptionField.value);
-                        refetchContributions();
-                      }}
-                    />
-                  )}
                 </Flex>
                 <Text size="medium" css={{ fontWeight: '$medium' }}>
                   {currentContribution.epoch.description}
@@ -655,20 +611,31 @@ const ContributionsPage = () => {
                   <Text inline semibold size="large">
                     Contribution
                   </Text>
-                  <Text variant="label">
-                    {DateTime.fromISO(
-                      currentContribution.contribution.datetime_created
-                    ).toFormat('LLL dd')}
-                  </Text>
+                  <Flex css={{ gap: '$sm' }}>
+                    {isEpochCurrentOrLater(currentContribution.epoch) && (
+                      <SavingIndicator
+                        saveState={
+                          saveState[currentContribution.contribution.id]
+                        }
+                        retry={() => {
+                          saveContribution(descriptionField.value);
+                          refetchContributions();
+                        }}
+                      />
+                    )}
+                    <Text variant="label">
+                      {DateTime.fromISO(
+                        currentContribution.contribution.datetime_created
+                      ).toFormat('LLL dd')}
+                    </Text>
+                  </Flex>
                 </Flex>
                 {isEpochCurrentOrLater(currentContribution.epoch) ? (
                   showMarkdown ? (
                     <Box
                       tabIndex={0}
                       css={{ borderRadius: '$3' }}
-                      onClick={() => {
-                        setShowMarkDown(false);
-                      }}
+                      onClick={() => setShowMarkDown(false)}
                       onKeyDown={e => {
                         e.stopPropagation();
                         if (e.key === 'Enter' || e.key === ' ') {
@@ -754,7 +721,7 @@ const ContributionsPage = () => {
                   </Panel>
                 )}
 
-                <Flex css={{ justifyContent: 'flex-end', mt: '$md' }}>
+                <Flex css={{ justifyContent: 'flex-end' }}>
                   <Button
                     color="primary"
                     onClick={addNewContribution}
@@ -767,41 +734,44 @@ const ContributionsPage = () => {
                 </Flex>
               </Flex>
             </>
-          ) : currentIntContribution ? (
-            <>
-              <Flex column css={{ my: '$xl' }}>
-                <Text h2 css={{ gap: '$md', mb: '$sm' }}>
-                  {currentIntContribution.epoch
-                    ? renderEpochDate(currentIntContribution.epoch)
-                    : 'Latest'}
-                  {getEpochLabel(currentIntContribution.epoch)}
-                </Text>
-                <Text size="medium" css={{ fontWeight: '$medium' }}>
-                  {currentIntContribution?.epoch?.description}
-                </Text>
-              </Flex>
-              <Panel css={{ pl: '0 !important' }}>
-                <Text p size="large" semibold css={{ color: '$headingText' }}>
-                  {contributionSource(
-                    currentIntContribution.contribution.source
-                  )}
-                </Text>
-              </Panel>
-              <Panel nested>
-                <Link
-                  target="_blank"
-                  href={currentIntContribution.contribution.link}
-                >
-                  {contributionIcon(currentIntContribution.contribution.source)}
-                  {currentIntContribution.contribution.title}
-                </Link>
-              </Panel>
-            </>
           ) : (
-            <></>
+            currentIntContribution && (
+              <IntegrationContributionDetail data={currentIntContribution} />
+            )
           )}
         </Panel>
       </Modal>
+    </>
+  );
+};
+
+const IntegrationContributionDetail = ({
+  data: { epoch, contribution },
+}: {
+  data: CurrentIntContribution;
+}) => {
+  return (
+    <>
+      <Flex column css={{ my: '$xl' }}>
+        <Text h2 css={{ gap: '$md', mb: '$sm' }}>
+          {epoch ? renderEpochDate(epoch) : 'Latest'}
+          {getEpochLabel(epoch)}
+        </Text>
+        <Text size="medium" css={{ fontWeight: '$medium' }}>
+          {epoch?.description}
+        </Text>
+      </Flex>
+      <Panel css={{ pl: '0 !important' }}>
+        <Text p size="large" semibold css={{ color: '$headingText' }}>
+          {contributionSource(contribution.source)}
+        </Text>
+      </Panel>
+      <Panel nested>
+        <Link target="_blank" href={contribution.link}>
+          {contributionIcon(contribution.source)}
+          {contribution.title}
+        </Link>
+      </Panel>
     </>
   );
 };
