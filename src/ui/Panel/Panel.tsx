@@ -1,4 +1,4 @@
-import { css, styled } from 'stitches.config';
+import { css, styled, disabledStyle } from 'stitches.config';
 
 export const panelStyles = css({
   gridTemplateColumns: '1fr',
@@ -9,19 +9,51 @@ export const panelStyles = css({
   borderRadius: '$3',
 });
 
-export const Panel = styled('div', {
+const PanelBase = styled('div');
+
+export const Panel = styled(PanelBase, {
   borderRadius: '$3',
   backgroundColor: '$surface',
   padding: '$md',
+  border: '1px solid $borderDim',
+  [`${PanelBase}`]: {
+    // any nested panels shouldn't have border by default
+    border: 'none',
+  },
   // TODO clean up all these nested panel rules after theme migration
   'input, textarea, button[role="combobox"], .root .formInputWrapper': {
     backgroundColor: '$formInputBackground',
     borderColor: '$formInputBorder',
     transition: 'opacity 0.3s ease-in-out',
-    '&:disabled': {
-      opacity: 0.2,
-    },
+    '&:disabled': disabledStyle,
   },
+  // TODO clean up all these nested panel rules after theme migration
+  'input, textarea, button[role="combobox"], .root .formInputWrapper, .formInputWrapper, .MuiInputBase-root.Mui-disabled':
+    {
+      backgroundColor: '$formInputBackground',
+      borderColor: '$formInputBorder',
+      color: '$formInputText',
+      '&:focus-within': {
+        borderColor: '$borderFocus',
+      },
+      '&.Mui-error': {
+        color: '$alert',
+        background: '$formInputErrorBackground',
+        borderColor: '$formInputErrorBorder',
+        '+div span, span, a': {
+          color: '$alert',
+        },
+        input: {
+          color: '$formInputErrorText',
+          background: 'transparent',
+        },
+      },
+      "input[data-testid='FormTokenField']": {
+        // keep the inner input from getting double opacitied
+        opacity: '1 !important',
+      },
+      '&.Mui-disabled': disabledStyle,
+    },
   '.root .formInputWrapper': {
     borderColor: '$formInputBorder',
     '& input': {
@@ -34,6 +66,14 @@ export const Panel = styled('div', {
         outline: '1px solid $borderFocusBright',
       },
     },
+    ghost: {
+      true: {
+        padding: 0,
+        background: 'transparent',
+        borderRadius: 0,
+        border: 'none',
+      },
+    },
     stack: {
       true: {
         display: 'flex',
@@ -44,6 +84,7 @@ export const Panel = styled('div', {
       true: {
         padding: '$md',
         backgroundColor: '$surfaceNested',
+        borderColor: 'transparent',
         'input, textarea, button[role="combobox"], .root .formInputWrapper': {
           backgroundColor: '$surface',
           borderColor: 'transparent',

@@ -10,7 +10,7 @@ import { FormTokenField, zTokenString } from 'components';
 import type { Vault } from 'hooks/gql/useVaults';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultRouter } from 'hooks/useVaultRouter';
-import { Form, Button, Modal } from 'ui';
+import { Form, Button, Modal, Panel } from 'ui';
 import { numberWithCommas, shortenAddress } from 'utils';
 
 export type WithdrawModalProps = {
@@ -62,45 +62,45 @@ export default function WithdrawModal({
       open={true}
       onOpenChange={onClose}
     >
-      <Form
-        css={{
-          position: 'relative',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          backgroundColor: 'white',
-          width: '100%',
-          padding: '0 0 $lg',
-          overflowY: 'auto',
-        }}
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <FormTokenField
-          max={balance.toString()}
-          symbol={removeYearnPrefix(vault.symbol)}
-          decimals={vault.decimals}
-          label={`Available to Withdraw: ${numberWithCommas(
-            round(balance, 4)
-          )} ${removeYearnPrefix(vault.symbol).toUpperCase()}`}
-          error={!!errors.amount}
-          errorText={errors.amount?.message}
-          {...amountField}
-        />
-        <Button
-          css={{ mt: '$lg', gap: '$xs' }}
-          color="secondary"
-          size="medium"
-          type="submit"
-          disabled={!isValid || submitting}
+      <Panel ghost>
+        <Form
+          css={{
+            position: 'relative',
+            display: 'flex',
+            flexDirection: 'column',
+            width: '100%',
+            padding: '0 0 $lg',
+            overflowY: 'auto',
+          }}
+          onSubmit={handleSubmit(onSubmit)}
         >
-          {submitting
-            ? 'Withdrawing Funds...'
-            : `Withdraw from ${vault.symbol} Vault ${shortenAddress(
-                vault.vault_address,
-                false
-              )}`}
-        </Button>
-      </Form>
+          <FormTokenField
+            max={balance.toString()}
+            symbol={removeYearnPrefix(vault.symbol)}
+            decimals={vault.decimals}
+            label={`Available to Withdraw: ${numberWithCommas(
+              round(balance, 4)
+            )} ${removeYearnPrefix(vault.symbol).toUpperCase()}`}
+            error={!!errors.amount}
+            errorText={errors.amount?.message}
+            {...amountField}
+          />
+          <Button
+            css={{ mt: '$md', gap: '$xs' }}
+            color="primary"
+            size="large"
+            type="submit"
+            disabled={!isValid || submitting}
+          >
+            {submitting
+              ? 'Withdrawing Funds...'
+              : `Withdraw from ${vault.symbol} Vault ${shortenAddress(
+                  vault.vault_address,
+                  false
+                )}`}
+          </Button>
+        </Form>
+      </Panel>
     </Modal>
   );
 }
