@@ -1,8 +1,21 @@
 import { DateTime } from 'luxon';
 
+import { DeworkColor, WonderColor } from 'icons/__generated';
 import { Text } from 'ui';
 
 import { Contribution, Epoch } from './queries';
+
+type Obj = Record<string, unknown>;
+
+type LinkedElementYieldFn<A extends Obj> = () => LinkedElement<A> | undefined;
+
+export interface LinkedInterface<A extends Obj> {
+  next: LinkedElementYieldFn<A>;
+  prev: LinkedElementYieldFn<A>;
+  idx: number;
+}
+
+export type LinkedElement<A extends Obj> = LinkedInterface<A> & A;
 
 export const getNewContribution: (
   userId: number,
@@ -65,18 +78,6 @@ export const isEpochCurrent = (epoch: LinkedElement<Epoch>) =>
 export const isEpochInFuture = (epoch: LinkedElement<Epoch>) =>
   isDateTimeBeforeEpoch(epoch, DateTime.now().toISO());
 
-type Obj = Record<string, unknown>;
-
-type LinkedElementYieldFn<A extends Obj> = () => LinkedElement<A> | undefined;
-
-export interface LinkedInterface<A extends Obj> {
-  next: LinkedElementYieldFn<A>;
-  prev: LinkedElementYieldFn<A>;
-  idx: number;
-}
-
-export type LinkedElement<A extends Obj> = LinkedInterface<A> & A;
-
 export function createLinkedArray<T extends Obj>(
   a: Array<T> | Array<LinkedElement<T>>
 ): Array<LinkedElement<T>> {
@@ -123,4 +124,13 @@ export const jumpToEpoch = (
   if (!nextEpoch) throw new Error('Epoch does not Exist');
   nextEpoch.prev = () => epoch;
   return jumpToEpoch(nextEpoch, dateTime);
+};
+
+export const contributionIcon = (source: string) => {
+  switch (source) {
+    case 'wonder':
+      return <WonderColor css={{ mr: '$md' }} />;
+    default:
+      return <DeworkColor css={{ mr: '$md' }} />;
+  }
 };
