@@ -1,0 +1,2 @@
+ALTER TABLE "public"."profiles"
+ADD COLUMN "prompt_name" BOOLEAN NOT NULL DEFAULT FALSE;
