@@ -924,7 +924,7 @@ const EpochForm = ({
                 })}
               </Box>
             )}
-            {currentEpoch?.id === selectedEpoch?.id && (
+            {selectedEpoch?.id && currentEpoch?.id === selectedEpoch?.id && (
               <Button
                 color="destructive"
                 css={{ width: 'fit-content', alignSelf: 'flex-end' }}
