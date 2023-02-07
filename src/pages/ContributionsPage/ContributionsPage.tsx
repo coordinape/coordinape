@@ -387,6 +387,10 @@ const ContributionsPage = () => {
     reset();
   };
 
+  const readyForNewContribution: boolean =
+    !saveState[NEW_CONTRIBUTION_ID] ||
+    saveState[NEW_CONTRIBUTION_ID] === 'stable';
+
   const addNewContribution = () => {
     setCurrentContribution({
       contribution: getNewContribution(
@@ -727,6 +731,7 @@ const ContributionsPage = () => {
                     onClick={addNewContribution}
                     // adding onMouseDown because the onBlur event on the markdown-ready textarea was preventing onClick
                     onMouseDown={addNewContribution}
+                    disabled={!readyForNewContribution}
                   >
                     <Edit />
                     New
