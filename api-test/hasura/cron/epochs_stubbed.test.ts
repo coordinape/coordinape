@@ -1,16 +1,16 @@
 import faker from 'faker';
-import { DateTime } from 'luxon';
+import { DateTime, Interval } from 'luxon';
 
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { sendSocialMessage } from '../../../api-lib/sendSocialMessage';
-
 import {
   notifyEpochStart,
   notifyEpochEnd,
   EpochsToNotify,
   endEpoch,
   makeNextStartDate,
-} from './epochs';
+  calculateNextEpoch,
+} from '../../../api/hasura/cron/epochs';
 
 jest.mock('../../../api-lib/gql/adminClient', () => ({
   adminClient: { query: jest.fn(), mutate: jest.fn() },
@@ -148,10 +148,138 @@ function getCircle<T extends keyof EpochsToNotify>(
   return { ...mockCircle[epochPhase], ...circleInputs };
 }
 
-test('next start date generation', () => {
-  const d1 = DateTime.fromISO('2022-12-02');
-  const n1 = makeNextStartDate(d1, 2, 7);
-  expect(n1.toISODate()).toEqual('2023-01-07');
+describe('next start date generation', () => {
+  test('makeNextStartDate', () => {
+    const d1 = DateTime.fromISO('2022-12-02');
+    const n1 = makeNextStartDate(d1, 2, 7);
+    expect(n1.toISODate()).toEqual('2023-01-07');
+  });
+  describe('calculateNextEpoch', () => {
+    test('calculates epoch correctly', () => {
+      const start = DateTime.utc(2023, 2);
+      let end = start.plus({ weeks: 1 });
+      let result = calculateNextEpoch(
+        {
+          start_date: start.toISO(),
+          end_date: end.toISO(),
+        },
+        {
+          type: 'custom',
+          frequency: 1,
+          frequency_unit: 'weeks',
+          duration: 1,
+          duration_unit: 'weeks',
+          time_zone: 'UTC',
+        }
+      );
+      expect(result.nextStartDate).toEqual(end);
+      expect(result.nextStartDate).toEqual(start.plus({ weeks: 1 }));
+      expect(result.nextEndDate).toEqual(
+        result.nextStartDate.plus({ weeks: 1 })
+      );
+
+      end = start.plus({ weeks: 1 });
+      result = calculateNextEpoch(
+        {
+          start_date: start.toISO(),
+          end_date: end.toISO(),
+        },
+        {
+          type: 'custom',
+          frequency: 2,
+          frequency_unit: 'weeks',
+          duration: 1,
+          duration_unit: 'weeks',
+          time_zone: 'UTC',
+        }
+      );
+      expect(result.nextStartDate).toEqual(start.plus({ weeks: 2 }));
+      expect(result.nextEndDate).toEqual(
+        result.nextStartDate.plus({ weeks: 1 })
+      );
+
+      end = start.plus({ days: 5 });
+      result = calculateNextEpoch(
+        {
+          start_date: start.toISO(),
+          end_date: end.toISO(),
+        },
+        {
+          type: 'custom',
+          frequency: 3,
+          frequency_unit: 'weeks',
+          duration: 5,
+          duration_unit: 'days',
+          time_zone: 'UTC',
+        }
+      );
+      expect(result.nextStartDate).toEqual(start.plus({ weeks: 3 }));
+      expect(result.nextEndDate).toEqual(
+        result.nextStartDate.plus({ days: 5 })
+      );
+    });
+    test('calculates epoch containing a DST shift correctly', () => {
+      const zone = 'America/Chicago';
+      const start = DateTime.local(2023, 2, { zone });
+      const end = start.plus({ weeks: 2 });
+      const result = calculateNextEpoch(
+        {
+          start_date: start.toISO(),
+          end_date: end.toISO(),
+        },
+        {
+          type: 'custom',
+          frequency: 1,
+          frequency_unit: 'months',
+          duration: 2,
+          duration_unit: 'weeks',
+          time_zone: zone,
+        }
+      );
+      expect(result.nextStartDate).toEqual(start.plus({ months: 1 }));
+      expect(result.nextEndDate).toEqual(
+        result.nextStartDate.plus({ weeks: 2 })
+      );
+
+      expect(
+        Interval.fromDateTimes(start, end).toDuration().as('hours') -
+          Interval.fromDateTimes(result.nextStartDate, result.nextEndDate)
+            .toDuration()
+            .as('hours')
+      ).toBe(1);
+    });
+    test('calculates epoch after DST correctly', () => {
+      const zone = 'America/Chicago';
+      const start = DateTime.local(2023, 3, { zone });
+      const end = start.plus({ weeks: 2 });
+      const result = calculateNextEpoch(
+        {
+          start_date: start.toISO(),
+          end_date: end.toISO(),
+        },
+        {
+          type: 'custom',
+          frequency: 2,
+          frequency_unit: 'weeks',
+          duration: 2,
+          duration_unit: 'weeks',
+          time_zone: zone,
+        }
+      );
+      expect(result.nextStartDate).toEqual(end);
+      expect(result.nextStartDate).toEqual(start.plus({ weeks: 2 }));
+      expect(result.nextEndDate).toEqual(
+        result.nextStartDate.plus({ weeks: 2 })
+      );
+
+      expect(
+        Interval.fromDateTimes(result.nextStartDate, result.nextEndDate)
+          .toDuration()
+          .as('hours') -
+          Interval.fromDateTimes(start, end).toDuration().as('hours')
+      ).toBe(1);
+    });
+  });
 });
 
 describe('epoch Cron Logic', () => {
@@ -537,7 +665,7 @@ describe('epoch Cron Logic', () => {
           ],
         },
         {
-          operationName: 'createNextEpoch',
+          operationName: 'createNextEpochOld',
         }
       );
       expect(mockMutation).toBeCalledWith(

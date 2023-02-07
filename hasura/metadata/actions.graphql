@@ -420,6 +420,7 @@ input EpochInputParams {
   type: String!
   start_date: timestamptz!
   end_date: timestamptz!
+  time_zone: String
   frequency: Int
   frequency_unit: String
   duration: Int

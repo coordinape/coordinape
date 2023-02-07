@@ -304,6 +304,7 @@ describe('createEpoch', () => {
             type: 'custom',
             duration: DURATION_IN_DAYS,
             duration_unit: 'days',
+            time_zone: 'UTC',
             frequency: 1,
             frequency_unit: 'weeks',
           },
@@ -359,6 +360,7 @@ describe('createEpoch', () => {
             type: 'custom',
             duration: DURATION_IN_WEEKS,
             duration_unit: 'weeks',
+            time_zone: 'UTC',
             frequency: 1,
             frequency_unit: 'weeks',
           },
@@ -388,6 +390,7 @@ describe('createEpoch', () => {
                   end_date: now.plus({ weeks: DURATION_IN_WEEKS }).toISO(),
                   duration: DURATION_IN_WEEKS,
                   duration_unit: 'weeks',
+                  time_zone: 'Asia/Tbilisi',
                   frequency: 1,
                   frequency_unit: 'months',
                 },
@@ -416,6 +419,7 @@ describe('createEpoch', () => {
             type: 'custom',
             duration: DURATION_IN_WEEKS,
             duration_unit: 'weeks',
+            time_zone: 'Asia/Tbilisi',
             frequency: 1,
             frequency_unit: 'months',
           },
@@ -445,6 +449,7 @@ describe('createEpoch', () => {
                   end_date: now.plus({ months: DURATION_IN_MONTHS }).toISO(),
                   duration: DURATION_IN_MONTHS,
                   duration_unit: 'months',
+                  time_zone: 'bad_zone',
                   frequency: 1,
                   frequency_unit: 'months',
                 },
@@ -473,7 +478,221 @@ describe('createEpoch', () => {
             type: 'custom',
             duration: DURATION_IN_MONTHS,
             duration_unit: 'months',
+            time_zone: 'UTC',
             frequency: 1,
+            frequency_unit: 'months',
+          },
+        })
+      );
+      const { start_date, end_date } = epoch;
+      expect(
+        Interval.fromISO(start_date + '/' + end_date).length('months')
+      ).toBe(DURATION_IN_MONTHS);
+    });
+
+    test('cannot update an epoch where the durations mismatch', async () => {
+      expect.assertions(1);
+      const now = DateTime.now();
+      const thunk = async () =>
+        client.mutate({
+          createEpoch: [
+            {
+              payload: {
+                circle_id: circle.id,
+                params: {
+                  type: 'custom',
+                  start_date: now.toISO(),
+                  end_date: now.plus({ months: 1, days: 1 }).toISO(),
+                  duration: 1,
+                  duration_unit: 'months',
+                  frequency: 2,
+                  frequency_unit: 'months',
+                },
+              },
+            },
+            {
+              __typename: true,
+              epoch: {
+                start_date: true,
+                end_date: true,
+                repeat_data: [{}, true],
+              },
+            },
+          ],
+        });
+      await expect(thunk).rejects.toThrow(
+        'does not match the specified duration 1 months'
+      );
+    });
+
+    test("doesn't adjust epoch end_date for a supported timezone leaving DST", async () => {
+      const DURATION_IN_MONTHS = 1;
+      let result;
+      const now = DateTime.now()
+        .setZone('America/New_York')
+        .plus({ years: 1 })
+        .set({ month: 11, day: 1 });
+      const first = async () =>
+        client.mutate({
+          createEpoch: [
+            {
+              payload: {
+                circle_id: circle.id,
+                params: {
+                  type: 'custom',
+                  start_date: now.toISO(),
+                  end_date: now.plus({ months: DURATION_IN_MONTHS }).toISO(),
+                  duration: DURATION_IN_MONTHS,
+                  duration_unit: 'months',
+                  time_zone: 'America/New_York',
+                  frequency: 2,
+                  frequency_unit: 'months',
+                },
+              },
+            },
+            {
+              __typename: true,
+              epoch: {
+                start_date: true,
+                end_date: true,
+                repeat_data: [{}, true],
+              },
+            },
+          ],
+        });
+      try {
+        result = await first();
+      } catch (e: any) {
+        console.error(e.response.errors);
+      }
+      const epoch = result?.createEpoch?.epoch;
+      assert(epoch);
+      expect(epoch).toEqual(
+        expect.objectContaining({
+          repeat_data: {
+            type: 'custom',
+            duration: DURATION_IN_MONTHS,
+            duration_unit: 'months',
+            time_zone: 'America/New_York',
+            frequency: 2,
+            frequency_unit: 'months',
+          },
+        })
+      );
+      const { start_date, end_date } = epoch;
+      expect(
+        Interval.fromISO(start_date + '/' + end_date).length('months')
+      ).toBeGreaterThan(DURATION_IN_MONTHS);
+    });
+    test("doesn't adjust epoch end_date for a supported timezone entering DST", async () => {
+      const DURATION_IN_MONTHS = 1;
+      let result;
+      const now = DateTime.now()
+        .setZone('America/New_York')
+        .plus({ years: 1 })
+        .set({ month: 3, day: 1 });
+      const first = async () =>
+        client.mutate({
+          createEpoch: [
+            {
+              payload: {
+                circle_id: circle.id,
+                params: {
+                  type: 'custom',
+                  start_date: now.toISO(),
+                  end_date: now.plus({ months: DURATION_IN_MONTHS }).toISO(),
+                  duration: DURATION_IN_MONTHS,
+                  duration_unit: 'months',
+                  time_zone: 'America/New_York',
+                  frequency: 2,
+                  frequency_unit: 'months',
+                },
+              },
+            },
+            {
+              __typename: true,
+              epoch: {
+                start_date: true,
+                end_date: true,
+                repeat_data: [{}, true],
+              },
+            },
+          ],
+        });
+      try {
+        result = await first();
+      } catch (e: any) {
+        console.error(e.response.errors);
+      }
+      const epoch = result?.createEpoch?.epoch;
+      assert(epoch);
+      expect(epoch).toEqual(
+        expect.objectContaining({
+          repeat_data: {
+            type: 'custom',
+            duration: DURATION_IN_MONTHS,
+            duration_unit: 'months',
+            time_zone: 'America/New_York',
+            frequency: 2,
+            frequency_unit: 'months',
+          },
+        })
+      );
+      const { start_date, end_date } = epoch;
+      expect(
+        Interval.fromISO(start_date + '/' + end_date).length('months')
+      ).toBeLessThan(DURATION_IN_MONTHS);
+    });
+
+    test('can adjust epoch end_date for an unsupported timezone', async () => {
+      const DURATION_IN_MONTHS = 1;
+      let result;
+      const now = DateTime.now().plus({ years: 1 }).set({ month: 3, day: 1 });
+      const first = async () =>
+        client.mutate({
+          createEpoch: [
+            {
+              payload: {
+                circle_id: circle.id,
+                params: {
+                  type: 'custom',
+                  start_date: now.toISO(),
+                  end_date: now
+                    .plus({ months: DURATION_IN_MONTHS, hours: 1 })
+                    .toISO(),
+                  duration: DURATION_IN_MONTHS,
+                  duration_unit: 'months',
+                  time_zone: 'bad_zone',
+                  frequency: 2,
+                  frequency_unit: 'months',
+                },
+              },
+            },
+            {
+              __typename: true,
+              epoch: {
+                start_date: true,
+                end_date: true,
+                repeat_data: [{}, true],
+              },
+            },
+          ],
+        });
+      try {
+        result = await first();
+      } catch (e: any) {
+        console.error(e.response.errors);
+      }
+      const epoch = result?.createEpoch?.epoch;
+      assert(epoch);
+      expect(epoch).toEqual(
+        expect.objectContaining({
+          repeat_data: {
+            type: 'custom',
+            duration: DURATION_IN_MONTHS,
+            duration_unit: 'months',
+            time_zone: 'UTC',
+            frequency: 2,
             frequency_unit: 'months',
           },
         })
@@ -686,6 +905,7 @@ describe('createEpoch', () => {
         expect.objectContaining({
           repeat_data: {
             type: 'monthly',
+            time_zone: 'UTC',
             week: params.week,
           },
           start_date: expect.stringContaining(
@@ -739,6 +959,7 @@ describe('createEpoch', () => {
         expect.objectContaining({
           repeat_data: {
             type: 'monthly',
+            time_zone: 'UTC',
             week: 6,
           },
           start_date: expect.stringContaining(

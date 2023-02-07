@@ -787,6 +787,7 @@ export type ValueTypes = {
     frequency?: number | undefined | null;
     frequency_unit?: string | undefined | null;
     start_date: ValueTypes['timestamptz'];
+    time_zone?: string | undefined | null;
     type: string;
     week?: number | undefined | null;
     weekday?: number | undefined | null;
@@ -28994,6 +28995,7 @@ export type GraphQLTypes = {
     frequency?: number | undefined;
     frequency_unit?: string | undefined;
     start_date: GraphQLTypes['timestamptz'];
+    time_zone?: string | undefined;
     type: string;
     week?: number | undefined;
     weekday?: number | undefined;

@@ -216,6 +216,7 @@ input EpochInputParams {
   frequency: Int
   frequency_unit: String
   start_date: timestamptz!
+  time_zone: String
   type: String!
   week: Int
   weekday: Int
