@@ -217,7 +217,6 @@ const apeVariants: any = (
           fontSize: 16,
           fontWeight: 400,
           lineHeight: 1.2,
-          // color: theme.colors.text,
         },
         inputRoot: {
           padding:
@@ -231,9 +230,6 @@ const apeVariants: any = (
           lineHeight: 1.33,
           fontWeight: 400,
           textAlign: 'right',
-          // '&::placeholder': {
-          //   color: theme.colors.secondaryText,
-          // },
         },
       };
     case 'select':
@@ -278,7 +274,6 @@ const useBaseStyles = makeStyles<
     padding: theme.spacing(0, 0, 1),
     fontSize: 15,
     lineHeight: 1,
-    // color: theme.colors.text + '80',
   },
   inputRoot: ({ variant, size }) => ({
     backgroundColor: theme.colors.surface,
