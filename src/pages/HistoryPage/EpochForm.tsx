@@ -353,7 +353,7 @@ type epochSubmissionSchema = z.infer<typeof submitSchema>;
 
 const repeat = [
   {
-    label: 'Monthly',
+    label: 'Full Month',
     value: 'monthly',
   },
   {
@@ -467,8 +467,10 @@ const EpochForm = ({
           DateTime.fromISO(getValues('repeatStartDate'))
         ).toISO(),
     repeat_data: source?.epoch
-      ? source?.epoch?.repeat_data
-      : {
+      ? // fall back to the one-off input config if the epoch is non-repeating
+        source?.epoch?.repeat_data || { type: 'one-off' }
+      : // default to custom
+        {
           type: 'custom',
           frequency_unit: 'months',
           frequency: 1,
@@ -891,7 +893,7 @@ const EpochForm = ({
                           infoTooltip="The duration of each epoch"
                           disabled={shouldFormBeDisabled}
                           defaultValue={1}
-                          inputProps={{ min: 1 }}
+                          inputProps={{ min: 0 }}
                           control={control}
                           id="custom_duration_qty"
                           name="custom_duration_qty"
@@ -923,7 +925,7 @@ const EpochForm = ({
                         number
                         disabled={shouldFormBeDisabled}
                         defaultValue={1}
-                        inputProps={{ min: 1 }}
+                        inputProps={{ min: 0 }}
                         control={control}
                         id="custom_interval_qty"
                         name="custom_interval_qty"

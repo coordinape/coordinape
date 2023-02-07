@@ -70,6 +70,7 @@ const zMonthlyInputSchema = zMonthlyRepeatData
 const zSingleInputSchema = z
   .object({
     type: z.literal('one-off'),
+    time_zone: zTimeZone.optional(),
     start_date: zStringISODateUTC,
     end_date: zStringISODateUTC,
   })
