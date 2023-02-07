@@ -31,6 +31,7 @@ export const useApiAdminCircle = (circleId: number) => {
 
   const createEpoch = useRecoilLoadCatch(
     () => async (params: ValueTypes['CreateEpochInput']['params']) => {
+      params.time_zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
       await mutations.createEpoch({ circle_id: circleId, params });
       await fetchCircle({ circleId });
     },
@@ -50,6 +51,9 @@ export const useApiAdminCircle = (circleId: number) => {
           description?: string;
         }
       ) => {
+        if (params)
+          params.time_zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
         await mutations.updateEpoch({
           params,
           id: epochId,

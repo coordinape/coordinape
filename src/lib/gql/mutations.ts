@@ -480,9 +480,7 @@ export async function createEpoch(params: ValueTypes['CreateEpochInput']) {
     {
       createEpoch: [
         {
-          payload: {
-            ...params,
-          },
+          payload: params,
         },
         {
           id: true,
