@@ -7,9 +7,16 @@ BEGIN;
 --  "frequency_unit": "weeks"
 --  "duration": <days column>
 --  "duration_unit": "days"
+--  "time_zone": "UTC"
 -- }
 
-UPDATE "public"."epoches" SET repeat_data = jsonb_build_object('frequency', 1, 'frequency_unit', 'weeks', 'duration', days, 'duration_unit', 'days')
+UPDATE "public"."epoches" SET repeat_data = jsonb_build_object(
+  'frequency',      1,
+  'frequency_unit', 'weeks',
+  'duration',       days,
+  'duration_unit',  'days',
+  'time_zone',      'UTC'
+)
 WHERE repeat = 1;
 
 -- For all "monthly" repeating epoches, these are represented as "repeat: 2" in the old schema. In the new schema, these are represented as "
@@ -18,8 +25,15 @@ WHERE repeat = 1;
 --  "frequency_unit": "months"
 --  "duration": <days column>
 --  "duration_unit": "days"
+--  "time_zone": "UTC"
 -- }
-UPDATE "public"."epoches" SET repeat_data = jsonb_build_object('frequency', 1, 'frequency_unit', 'months', 'duration', days, 'duration_unit', 'days')
+UPDATE "public"."epoches" SET repeat_data = jsonb_build_object(
+  'frequency',      1,
+  'frequency_unit', 'months',
+  'duration',       days,
+  'duration_unit',  'days',
+  'time_zone',      'UTC'
+)
 WHERE repeat = 2;
 
 COMMIT;
