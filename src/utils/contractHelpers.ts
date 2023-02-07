@@ -1,11 +1,14 @@
+import { Logger } from '@ethersproject/logger';
 import { DebugLogger } from 'common-lib/log';
-import { ContractTransaction, ContractReceipt } from 'ethers';
+import { ContractTransaction, ContractReceipt, BaseContract } from 'ethers';
+import { addContractWait } from 'lib/ethers/addContractWait';
 
 import {
   addTransaction,
   updateTransaction,
 } from 'components/MyAvatarMenu/RecentTransactionsModal';
 
+const { TRANSACTION_REPLACED } = Logger.errors;
 const logger = new DebugLogger('sendAndTrackTx');
 
 type Options = {
@@ -14,10 +17,11 @@ type Options = {
   signingMessage?: string;
   sendingMessage?: string;
   minedMessage?: string;
-  showDefault: (message: any) => void;
-  showError: (message: any) => void;
+  showDefault?: (message: any) => void;
+  showError?: (message: any) => void;
   description: string;
   chainId: string;
+  contract?: BaseContract;
 };
 
 export type SendAndTrackTxResult = {
@@ -38,29 +42,50 @@ export const sendAndTrackTx = async (
     chainId,
     savePending,
     deletePending,
+    contract,
   }: Options
 ): Promise<SendAndTrackTxResult> => {
   const timestamp = Date.now();
   try {
     const promise = callback();
-    showDefault(signingMessage);
+    showDefault?.(signingMessage);
     addTransaction({ timestamp, status: 'pending', description, chainId });
     logger.log(`awaiting tx... description: ${description}`);
-    const tx = await promise;
+
+    let tx = await promise;
     logger.log(`done awaiting tx. hash: ${tx.hash}`);
-    showDefault(sendingMessage);
-    await savePending?.(tx.hash);
-    updateTransaction(timestamp, { hash: tx.hash });
-    logger.log('awaiting receipt...');
-    const receipt = await tx.wait();
+    showDefault?.(sendingMessage);
+
+    const getReceipt = async (): Promise<ContractReceipt> => {
+      await savePending?.(tx.hash);
+      updateTransaction(timestamp, { hash: tx.hash });
+      logger.log('awaiting receipt...');
+
+      try {
+        return await tx.wait();
+      } catch (err: any) {
+        const { code, reason } = err;
+        // https://docs.ethers.org/v5/api/utils/logger/#errors--transaction-replaced
+        if (code === TRANSACTION_REPLACED && reason === 'repriced') {
+          tx = err.replacement;
+          logger.log('transaction repriced! new hash:', tx.hash);
+          if (contract) addContractWait(contract, tx);
+          return await getReceipt();
+        } else {
+          throw err;
+        }
+      }
+    };
+
+    const receipt = await getReceipt();
     logger.log('done awaiting receipt.');
     await deletePending?.(tx.hash);
     updateTransaction(timestamp, { status: 'confirmed' });
-    showDefault(minedMessage);
-    return { tx, receipt }; // just guessing at a good return value here
+    showDefault?.(minedMessage);
+    return { tx, receipt };
   } catch (e: unknown) {
     updateTransaction(timestamp, { status: 'error' });
-    showError(e);
+    showError?.(e);
     return { error: e }; // best behavior here TBD
   }
 };
