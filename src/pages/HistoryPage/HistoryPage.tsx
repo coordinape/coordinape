@@ -128,24 +128,6 @@ export const HistoryPage = () => {
           </Button>
         )}
       </ContentHeader>
-      {isFeatureEnabled('epoch_timing') && (
-        <HintBanner title={'Epoch Timing Settings'}>
-          <Text p as="p" css={{ color: 'inherit' }}>
-            Heads up, our settings for epoch timing has changed.
-          </Text>
-          <Button
-            as="a"
-            href={
-              'https://docs.coordinape.com/get-started/epochs/create-an-epoch'
-            }
-            target="_blank"
-            rel="noreferrer"
-            color="secondary"
-          >
-            Epochs Docs
-          </Button>
-        </HintBanner>
-      )}
 
       {/* show some help for admins who don't have an epoch yet */}
       {isAdmin &&

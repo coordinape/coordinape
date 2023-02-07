@@ -448,7 +448,7 @@ export const dark = createTheme({
     secondaryDark: newFigmaColors.secondary9,
     textOnSecondary: newFigmaColors.grey3,
 
-    neutral: newFigmaColors.grey7,
+    neutral: newFigmaColors.grey6,
     textOnNeutral: newFigmaColors.grey4,
     dim: newFigmaColors.grey8,
     dimButtonHover: newFigmaColors.grey9,
