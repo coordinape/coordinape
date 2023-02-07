@@ -3,7 +3,6 @@ import { DateTime, Interval } from 'luxon';
 
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { sendSocialMessage } from '../../../api-lib/sendSocialMessage';
-
 import {
   notifyEpochStart,
   notifyEpochEnd,
@@ -11,7 +10,7 @@ import {
   endEpoch,
   makeNextStartDate,
   calculateNextEpoch,
-} from './epochs';
+} from '../../../api/hasura/cron/epochs';
 
 jest.mock('../../../api-lib/gql/adminClient', () => ({
   adminClient: { query: jest.fn(), mutate: jest.fn() },
