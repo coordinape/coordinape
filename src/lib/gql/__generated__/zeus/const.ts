@@ -34,6 +34,7 @@ export const AllTypesProps: Record<string, any> = {
   DeleteEpochInput: {},
   DeleteUserInput: {},
   DeleteUsersInput: {},
+  EndEpochInput: {},
   EpochInputParams: {
     end_date: 'timestamptz',
     start_date: 'timestamptz',
@@ -2011,6 +2012,9 @@ export const AllTypesProps: Record<string, any> = {
       where: 'pending_vault_transactions_bool_exp',
     },
     delete_pending_vault_transactions_by_pk: {},
+    endEpoch: {
+      payload: 'EndEpochInput',
+    },
     generateApiKey: {
       payload: 'GenerateApiKeyInput',
     },
@@ -5149,6 +5153,7 @@ export const ReturnTypes: Record<string, any> = {
     delete_pending_vault_transactions:
       'pending_vault_transactions_mutation_response',
     delete_pending_vault_transactions_by_pk: 'pending_vault_transactions',
+    endEpoch: 'EpochResponse',
     generateApiKey: 'GenerateApiKeyResponse',
     insert_circle_integrations: 'circle_integrations_mutation_response',
     insert_circle_integrations_one: 'circle_integrations',

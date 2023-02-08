@@ -243,6 +243,11 @@ type DeleteUsersResponse {
   success: Boolean!
 }
 
+input EndEpochInput {
+  circle_id: Int!
+  id: Int!
+}
+
 input EpochInputParams {
   duration: Int
   duration_unit: String
@@ -13009,6 +13014,7 @@ type mutation_root {
   delete single row from the table: "vouches"
   """
   delete_vouches_by_pk(id: bigint!): vouches
+  endEpoch(payload: EndEpochInput!): EpochResponse
 
   """
   Generates an API key for a circle

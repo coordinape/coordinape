@@ -298,141 +298,7 @@ export async function notifyEpochEnd({
 
 export async function endEpoch({ endEpoch: epochs }: EpochsToNotify) {
   const endingPromises = epochs.map(async epoch => {
-    const {
-      epoch_pending_token_gifts: pending_gifts,
-      circle,
-      circle_id,
-    } = epoch;
-    assert(circle, `panic: circle #${circle_id} does not exist`);
-
-    // copy pending_gift_tokens to token_gifts
-    // delete pending_gift_tokens
-    if (pending_gifts.length) {
-      await adminClient.mutate(
-        {
-          insert_token_gifts: [
-            { objects: pending_gifts },
-            { __typename: true, affected_rows: true },
-          ],
-          delete_pending_token_gifts: [
-            { where: { epoch_id: { _eq: epoch.id } } },
-            { affected_rows: true },
-          ],
-        },
-        {
-          operationName: 'endEpoch_insertAndDeleteGifts',
-        }
-      );
-    }
-
-    const usersWithStartingGive = [] as Array<string>;
-    // if auto_opt_out is true, set users where `starting_tokens == give_tokens_remaining to non_receiver = true
-    // copy user bios to histories
-    // reset give_tokens_received = 0, give_token_remaining = starting tokens, epoch_first_visit = 1, bio = null
-    const userUpdateMutations = circle.users.reduce((ops, user) => {
-      const userUserHasAllGive =
-        user.give_token_remaining === user.starting_tokens;
-      if (userUserHasAllGive)
-        usersWithStartingGive.push(user.profile.name ?? user.name);
-      const optOutMutation =
-        !user.non_giver &&
-        !user.non_receiver &&
-        circle.auto_opt_out &&
-        userUserHasAllGive
-          ? { non_receiver: true }
-          : {};
-
-      ops[`u${user.id}_history`] = {
-        insert_histories_one: [
-          {
-            object: {
-              user_id: user.id,
-              bio: user.bio,
-              epoch_id: epoch.id,
-              circle_id: circle_id,
-            },
-          },
-          { __typename: true },
-        ],
-      };
-      ops[`u${user.id}_userReset`] = {
-        update_users_by_pk: [
-          {
-            pk_columns: { id: user.id },
-            _set: {
-              give_token_received: 0,
-              give_token_remaining: user.starting_tokens,
-              epoch_first_visit: true,
-              bio: null,
-              ...optOutMutation,
-            },
-          },
-          { __typename: true },
-        ],
-      };
-      return ops;
-    }, {} as { [aliasKey: string]: ValueTypes['mutation_root'] });
-
-    await adminClient.mutate(
-      {
-        update_epochs_by_pk: [
-          {
-            pk_columns: { id: epoch.id },
-            _set: {
-              ended: true,
-            },
-          },
-          { __typename: true },
-        ],
-        __alias: {
-          ...userUpdateMutations,
-        },
-      },
-      {
-        operationName: 'endEpoch_update',
-      }
-    );
-
-    // set epoch number if not existent yet
-    if (epoch.number == null) await setNextEpochNumber(epoch);
-
-    // send message if notification channel is enabled
-    const message = dedent`
-      ${circle.organization?.name}/${circle.name} epoch has just ended!
-      Users who did not allocate any ${circle.token_name}:
-      ${usersWithStartingGive.join(', ')}
-    `;
-    if (circle.discord_webhook)
-      await notifyAndUpdateEpoch(
-        message,
-        { discord: true },
-        epoch,
-        updateEndEpochNotification
-      );
-
-    if (circle.telegram_id)
-      await notifyAndUpdateEpoch(
-        message,
-        { telegram: true },
-        epoch,
-        updateEndEpochNotification
-      );
-
-    if (circle.organization?.telegram_id)
-      await notifyEpochStatus(message, { telegram: true }, epoch, true);
-
-    // set up another repeating epoch if configured
-    const { start_date, end_date, repeat_data } = epoch;
-    assert(start_date, 'panic: no start date');
-    assert(end_date, 'panic: no end date');
-    if (repeat_data) {
-      await createNextEpoch({ ...epoch, start_date, end_date, repeat_data });
-    } else if (epoch.repeat > 0) {
-      // temporarily allow support for old repeat logic
-      // This is simple enough to remove post-cutover
-      // TODO Remove support for old repeat logic
-      await createNextEpochOld({ ...epoch, start_date, end_date });
-    }
+    await endEpochHandler(epoch);
   });
 
   const results = await Promise.allSettled(endingPromises);
@@ -441,6 +307,143 @@ export async function endEpoch({ endEpoch: epochs }: EpochsToNotify) {
       if (r.status === 'rejected') return r.reason;
     })
     .filter(r => r);
+}
+
+export async function endEpochHandler(
+  epoch: Pick<EpochsToNotify, 'endEpoch'>['endEpoch'][number]
+) {
+  const { epoch_pending_token_gifts: pending_gifts, circle, circle_id } = epoch;
+  assert(circle, `panic: circle #${circle_id} does not exist`);
+
+  // copy pending_gift_tokens to token_gifts
+  // delete pending_gift_tokens
+  if (pending_gifts.length) {
+    await adminClient.mutate(
+      {
+        insert_token_gifts: [
+          { objects: pending_gifts },
+          { __typename: true, affected_rows: true },
+        ],
+        delete_pending_token_gifts: [
+          { where: { epoch_id: { _eq: epoch.id } } },
+          { affected_rows: true },
+        ],
+      },
+      {
+        operationName: 'endEpoch_insertAndDeleteGifts',
+      }
+    );
+  }
+
+  const usersWithStartingGive = [] as Array<string>;
+  // if auto_opt_out is true, set users where `starting_tokens == give_tokens_remaining to non_receiver = true
+  // copy user bios to histories
+  // reset give_tokens_received = 0, give_token_remaining = starting tokens, epoch_first_visit = 1, bio = null
+  const userUpdateMutations = circle.users.reduce((ops, user) => {
+    const userUserHasAllGive =
+      user.give_token_remaining === user.starting_tokens;
+    if (userUserHasAllGive)
+      usersWithStartingGive.push(user.profile.name ?? user.name);
+    const optOutMutation =
+      !user.non_giver &&
+      !user.non_receiver &&
+      circle.auto_opt_out &&
+      userUserHasAllGive
+        ? { non_receiver: true }
+        : {};
+
+    ops[`u${user.id}_history`] = {
+      insert_histories_one: [
+        {
+          object: {
+            user_id: user.id,
+            bio: user.bio,
+            epoch_id: epoch.id,
+            circle_id: circle_id,
+          },
+        },
+        { __typename: true },
+      ],
+    };
+    ops[`u${user.id}_userReset`] = {
+      update_users_by_pk: [
+        {
+          pk_columns: { id: user.id },
+          _set: {
+            give_token_received: 0,
+            give_token_remaining: user.starting_tokens,
+            epoch_first_visit: true,
+            bio: null,
+            ...optOutMutation,
+          },
+        },
+        { __typename: true },
+      ],
+    };
+    return ops;
+  }, {} as { [aliasKey: string]: ValueTypes['mutation_root'] });
+
+  await adminClient.mutate(
+    {
+      update_epochs_by_pk: [
+        {
+          pk_columns: { id: epoch.id },
+          _set: {
+            ended: true,
+          },
+        },
+        { __typename: true },
+      ],
+      __alias: {
+        ...userUpdateMutations,
+      },
+    },
+    {
+      operationName: 'endEpoch_update',
+    }
+  );
+
+  // set epoch number if not existent yet
+  if (epoch.number == null) await setNextEpochNumber(epoch);
+
+  // send message if notification channel is enabled
+  const message = dedent`
+      ${circle.organization?.name}/${circle.name} epoch has just ended!
+      Users who did not allocate any ${circle.token_name}:
+      ${usersWithStartingGive.join(', ')}
+    `;
+
+  if (circle.discord_webhook)
+    await notifyAndUpdateEpoch(
+      message,
+      { discord: true },
+      epoch,
+      updateEndEpochNotification
+    );
+
+  if (circle.telegram_id)
+    await notifyAndUpdateEpoch(
+      message,
+      { telegram: true },
+      epoch,
+      updateEndEpochNotification
+    );
+
+  if (circle.organization?.telegram_id)
+    await notifyEpochStatus(message, { telegram: true }, epoch, true);
+
+  // set up another repeating epoch if configured
+  const { start_date, end_date, repeat_data } = epoch;
+  assert(start_date, 'panic: no start date');
+  assert(end_date, 'panic: no end date');
+  if (repeat_data) {
+    await createNextEpoch({ ...epoch, start_date, end_date, repeat_data });
+  } else if (epoch.repeat > 0) {
+    // temporarily allow support for old repeat logic
+    // This is simple enough to remove post-cutover
+    // TODO Remove support for old repeat logic
+    await createNextEpochOld({ ...epoch, start_date, end_date });
+  }
 }
 
 export function makeNextStartDate(
@@ -587,6 +590,8 @@ async function createNextEpochOld(epoch: {
   const days = epochLengthInDays
     ? Duration.fromObject({ days: epochLengthInDays })
     : end.diff(start, 'days');
+  console.log('ssssss');
+
   const nextStartDate = makeNextStartDate(start, repeat, repeat_day_of_month);
 
   if (nextStartDate < end) {
@@ -612,7 +617,6 @@ async function createNextEpochOld(epoch: {
     );
     return;
   }
-
   await adminClient.mutate(
     {
       insert_epochs_one: [

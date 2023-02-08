@@ -780,6 +780,10 @@ export type ValueTypes = {
     success?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  ['EndEpochInput']: {
+    circle_id: number;
+    id: number;
+  };
   ['EpochInputParams']: {
     duration?: number | undefined | null;
     duration_unit?: string | undefined | null;
@@ -9279,6 +9283,10 @@ export type ValueTypes = {
     delete_vouches_by_pk?: [
       { id: ValueTypes['bigint'] },
       ValueTypes['vouches']
+    ];
+    endEpoch?: [
+      { payload: ValueTypes['EndEpochInput'] },
+      ValueTypes['EpochResponse']
     ];
     generateApiKey?: [
       { payload: ValueTypes['GenerateApiKeyInput'] },
@@ -21361,6 +21369,7 @@ export type ModelTypes = {
   ['DeleteUsersResponse']: {
     success: boolean;
   };
+  ['EndEpochInput']: GraphQLTypes['EndEpochInput'];
   ['EpochInputParams']: GraphQLTypes['EpochInputParams'];
   ['EpochResponse']: {
     epoch?: GraphQLTypes['epochs'] | undefined;
@@ -25216,6 +25225,7 @@ export type ModelTypes = {
     delete_vouches?: GraphQLTypes['vouches_mutation_response'] | undefined;
     /** delete single row from the table: "vouches" */
     delete_vouches_by_pk?: GraphQLTypes['vouches'] | undefined;
+    endEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     /** Generates an API key for a circle */
     generateApiKey?: GraphQLTypes['GenerateApiKeyResponse'] | undefined;
     /** insert data into the table: "burns" */
@@ -28987,6 +28997,10 @@ export type GraphQLTypes = {
   ['DeleteUsersResponse']: {
     __typename: 'DeleteUsersResponse';
     success: boolean;
+  };
+  ['EndEpochInput']: {
+    circle_id: number;
+    id: number;
   };
   ['EpochInputParams']: {
     duration?: number | undefined;
@@ -36227,6 +36241,7 @@ export type GraphQLTypes = {
     delete_vouches?: GraphQLTypes['vouches_mutation_response'] | undefined;
     /** delete single row from the table: "vouches" */
     delete_vouches_by_pk?: GraphQLTypes['vouches'] | undefined;
+    endEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     /** Generates an API key for a circle */
     generateApiKey?: GraphQLTypes['GenerateApiKeyResponse'] | undefined;
     /** insert data into the table: "burns" */

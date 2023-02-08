@@ -40,6 +40,7 @@ import {
   QueryPastEpoch,
   QueryFutureEpoch,
   QueryCurrentEpoch,
+  QUERY_KEY_ACTIVE_HISTORY,
 } from './getHistoryData';
 import { NextEpoch } from './NextEpoch';
 
@@ -52,7 +53,7 @@ export const HistoryPage = () => {
   } = useSelectedCircle();
 
   const query = useQuery(
-    ['history', circleId],
+    [QUERY_KEY_ACTIVE_HISTORY, circleId],
     () => getHistoryData(circleId, userId),
     { enabled: !!userId && !!circleId }
   );

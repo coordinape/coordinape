@@ -752,6 +752,10 @@ export type ValueTypes = {
     success?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  ['EndEpochInput']: {
+    circle_id: number;
+    id: number;
+  };
   ['EpochInputParams']: {
     duration?: number | undefined | null;
     duration_unit?: string | undefined | null;
@@ -4795,6 +4799,10 @@ export type ValueTypes = {
     delete_pending_vault_transactions_by_pk?: [
       { tx_hash: string },
       ValueTypes['pending_vault_transactions']
+    ];
+    endEpoch?: [
+      { payload: ValueTypes['EndEpochInput'] },
+      ValueTypes['EpochResponse']
     ];
     generateApiKey?: [
       { payload: ValueTypes['GenerateApiKeyInput'] },
@@ -10634,6 +10642,7 @@ export type ModelTypes = {
   ['DeleteUsersResponse']: {
     success: boolean;
   };
+  ['EndEpochInput']: GraphQLTypes['EndEpochInput'];
   ['EpochInputParams']: GraphQLTypes['EpochInputParams'];
   ['EpochResponse']: {
     epoch?: GraphQLTypes['epochs'] | undefined;
@@ -11976,6 +11985,7 @@ export type ModelTypes = {
     delete_pending_vault_transactions_by_pk?:
       | GraphQLTypes['pending_vault_transactions']
       | undefined;
+    endEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     /** Generates an API key for a circle */
     generateApiKey?: GraphQLTypes['GenerateApiKeyResponse'] | undefined;
     /** insert data into the table: "circle_integrations" */
@@ -13606,6 +13616,10 @@ export type GraphQLTypes = {
   ['DeleteUsersResponse']: {
     __typename: 'DeleteUsersResponse';
     success: boolean;
+  };
+  ['EndEpochInput']: {
+    circle_id: number;
+    id: number;
   };
   ['EpochInputParams']: {
     duration?: number | undefined;
@@ -16940,6 +16954,7 @@ export type GraphQLTypes = {
     delete_pending_vault_transactions_by_pk?:
       | GraphQLTypes['pending_vault_transactions']
       | undefined;
+    endEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     /** Generates an API key for a circle */
     generateApiKey?: GraphQLTypes['GenerateApiKeyResponse'] | undefined;
     /** insert data into the table: "circle_integrations" */
