@@ -141,7 +141,7 @@ export const colors = {
   dim: newFigmaColors.grey1,
   dimButtonHover: '#ffffff',
   textOnDim: '$primary',
-  activePanel: newFigmaColors.grey2,
+  activePanel: '#e6f1fc',
 
   complete: figmaColors.green12,
   completeLight: figmaColors.green1,
