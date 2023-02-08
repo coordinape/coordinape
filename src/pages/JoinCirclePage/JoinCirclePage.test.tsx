@@ -3,13 +3,13 @@ import assert from 'assert';
 import { render, screen } from '@testing-library/react';
 import { CircleTokenType } from 'common-lib/circleShareTokens';
 import { useAuthStore } from 'features/auth';
-import { setMockHeaders } from 'lib/gql/client';
 import { Route, Routes } from 'react-router-dom';
 
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { createProfile } from '../../../api-test/helpers';
 import { createCircle } from '../../../api-test/helpers/circles';
 import { TestWrapper } from 'utils/testing';
+import { setupMockClientForProfile } from 'utils/testing/client';
 
 import { JoinCirclePage } from './JoinCirclePage';
 
@@ -57,11 +57,7 @@ describe('join page', () => {
 
   test('valid token, logged in', async () => {
     useAuthStore.setState({ step: 'done', address: profile.address });
-    setMockHeaders({
-      'x-hasura-role': 'user',
-      'x-hasura-address': profile.address,
-      'x-hasura-user-id': profile.id.toString(),
-    });
+    setupMockClientForProfile(profile);
 
     render(
       <TestWrapper routeHistory={[`/join/${joinToken}`]}>
