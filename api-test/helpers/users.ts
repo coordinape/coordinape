@@ -1,14 +1,22 @@
+import assert from 'assert';
+
 import faker from 'faker';
 
 import { GraphQLTypes } from '../../api-lib/gql/__generated__/zeus';
 
 import type { GQLClientType } from './common';
+import { createProfile } from './profiles';
 
 export async function createUser(
   client: GQLClientType,
   object: Partial<GraphQLTypes['users_insert_input']>
-): Promise<{ id: number }> {
-  const { insert_users_one } = await client.mutate(
+) {
+  if (!object.address) {
+    const profile = await createProfile(client);
+    object.address = profile.address;
+  }
+
+  const { insert_users_one: user } = await client.mutate(
     {
       insert_users_one: [
         {
@@ -20,14 +28,17 @@ export async function createUser(
             entrance: object.entrance ?? '?',
           },
         },
-        { id: true },
+        {
+          id: true,
+          address: true,
+          circle_id: true,
+          role: true,
+          profile: { id: true, address: true, name: true },
+        },
       ],
     },
     { operationName: 'createUser' }
   );
-  if (!insert_users_one) {
-    throw new Error('User not created');
-  }
-
-  return insert_users_one;
+  assert(user, 'User not created');
+  return user;
 }
