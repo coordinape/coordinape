@@ -215,7 +215,7 @@ export const AllocationsTable = ({
       >
         <Text p as="p" size="medium" css={{ mt: '$sm' }}>
           <Link
-            css={{ color: '$primary' }}
+            inlineLink
             target="_blank"
             href="https://docs.coordinape.com/get-started/compensation/paying-your-team"
           >

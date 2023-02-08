@@ -216,6 +216,7 @@ input EpochInputParams {
   frequency: Int
   frequency_unit: String
   start_date: timestamptz!
+  time_zone: String
   type: String!
   week: Int
   weekday: Int
@@ -4999,6 +5000,21 @@ input epochs_min_order_by {
 }
 
 """
+response of any mutation on the table "epoches"
+"""
+type epochs_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [epochs!]!
+}
+
+"""
 Ordering options when selecting data from "epoches".
 """
 input epochs_order_by {
@@ -5024,6 +5040,13 @@ input epochs_order_by {
   start_date: order_by
   token_gifts_aggregate: token_gifts_aggregate_order_by
   updated_at: order_by
+}
+
+"""
+primary key columns input for table: epoches
+"""
+input epochs_pk_columns_input {
+  id: bigint!
 }
 
 """
@@ -5117,6 +5140,13 @@ enum epochs_select_column {
 }
 
 """
+input type for updating data in table "epoches"
+"""
+input epochs_set_input {
+  description: String
+}
+
+"""
 order by stddev() on columns of table "epoches"
 """
 input epochs_stddev_order_by {
@@ -5204,6 +5234,14 @@ input epochs_sum_order_by {
   number: order_by
   repeat: order_by
   repeat_day_of_month: order_by
+}
+
+input epochs_updates {
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: epochs_set_input
+  where: epochs_bool_exp!
 }
 
 """
@@ -6556,6 +6594,42 @@ type mutation_root {
     """
     updates: [distributions_updates!]!
   ): [distributions_mutation_response]
+
+  """
+  update data of the table: "epoches"
+  """
+  update_epochs(
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: epochs_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: epochs_bool_exp!
+  ): epochs_mutation_response
+
+  """
+  update single row of the table: "epoches"
+  """
+  update_epochs_by_pk(
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: epochs_set_input
+    pk_columns: epochs_pk_columns_input!
+  ): epochs
+
+  """
+  update multiples rows of table: "epoches"
+  """
+  update_epochs_many(
+    """
+    updates to execute, in order
+    """
+    updates: [epochs_updates!]!
+  ): [epochs_mutation_response]
 
   """
   update data of the table: "locked_token_distributions"

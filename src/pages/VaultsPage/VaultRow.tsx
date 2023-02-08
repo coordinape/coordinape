@@ -10,7 +10,7 @@ import { useBlockListener } from 'hooks/useBlockListener';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { useContracts } from 'hooks/useContracts';
 import { paths } from 'routes/paths';
-import { AppLink, Box, Button, Panel, Text } from 'ui';
+import { AppLink, Box, Button, Flex, Panel, Text } from 'ui';
 import { smartRounding } from 'utils';
 
 import { OwnerProfileLink, VaultExternalLink } from './components';
@@ -85,10 +85,10 @@ export function VaultRow({
         onUpdateBalance={updateBalance}
       />
       <Box
-        css={{ display: 'flex', alignItems: 'center', gap: '$md', mb: '$xs' }}
+        css={{ display: 'flex', alignItems: 'center', gap: '$sm', mb: '$xs' }}
       >
-        <Text h3 css={{ flexGrow: 1 }}>
-          {vault.symbol || '...'} CoVault
+        <Text h3 css={{ flexGrow: 1, gap: '$sm' }}>
+          <Text>{vault.symbol || '...'} CoVault</Text>
           <VaultExternalLink
             chainId={vault.chain_id}
             vaultAddress={vault.vault_address}
@@ -115,21 +115,23 @@ export function VaultRow({
         )}
       </Box>
       <OwnerProfileLink ownerAddress={ownerAddress} />
-      <Box
+      <Panel
         css={{
           width: '100%',
-          padding: '$md',
+          p: 'calc($sm + $xs) $md',
           marginTop: '$md',
-          backgroundColor: '$surface',
-          borderRadius: '$3',
+          backgroundColor: '$highlight',
+          border: '1px solid $borderFocus !important',
           display: 'grid',
           gridTemplateColumns: '1fr 1fr 2fr',
           gridGap: '$md',
           alignItems: 'center',
         }}
       >
-        <Text h3>Current Balance</Text>
-        <Text h3>
+        <Text h2 color="cta" css={{ fontSize: '$h2Temp' }}>
+          Current Balance
+        </Text>
+        <Text h2 color="cta" css={{ fontSize: '$h2Temp' }}>
           {smartRounding(balance)}{' '}
           {removeYearnPrefix(vault.symbol).toUpperCase()}
         </Text>
@@ -138,7 +140,7 @@ export function VaultRow({
           {distributionCount !== 1 && 's'} -{' '}
           <strong>{uniqueContributors}</strong> Unique Contributors Paid
         </Text>
-      </Box>
+      </Panel>
       {showRecentTransactions && <RecentTransactions vault={vault} />}
     </Panel>
   );
@@ -148,41 +150,48 @@ const RecentTransactions = ({ vault }: { vault: Vault }) => {
   const { data: vaultTxList, isFetching } = useOnChainTransactions(vault);
 
   return (
-    <>
-      <Text
+    <Flex column>
+      <Flex
         css={{
-          color: '$secondaryText',
-          fontSize: '$large',
-          marginTop: '$lg',
-          marginBottom: '$md',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          m: '$lg $sm $sm',
         }}
       >
-        Recent Transactions
-      </Text>
-      <Box>
-        {isFetching ? (
-          'Loading...'
-        ) : vaultTxList?.length ? (
-          <TransactionTable
-            chainId={vault.chain_id}
-            rows={vaultTxList.slice(0, 3)}
-          />
-        ) : (
-          'No Transactions Yet'
-        )}
-
+        <Text
+          css={{
+            fontSize: '$large',
+          }}
+        >
+          Recent Transactions
+        </Text>
         {!!vaultTxList?.length && (
-          <Box css={{ textAlign: 'center', mt: '$md' }}>
-            <AppLink
-              css={{ color: '$secondaryText' }}
-              to={paths.vaultTxs(vault.vault_address)}
-            >
+          <Text
+            css={{
+              fontSize: '$small',
+            }}
+          >
+            <AppLink inlineLink to={paths.vaultTxs(vault.vault_address)}>
               View All Transactions
             </AppLink>
-          </Box>
+          </Text>
         )}
-      </Box>
-    </>
+      </Flex>
+      {isFetching ? (
+        <Text p color="secondary">
+          Loading...
+        </Text>
+      ) : vaultTxList?.length ? (
+        <TransactionTable
+          chainId={vault.chain_id}
+          rows={vaultTxList.slice(0, 3)}
+        />
+      ) : (
+        <Text tag color="neutral">
+          No Transactions Yet
+        </Text>
+      )}
+    </Flex>
   );
 };
 

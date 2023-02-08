@@ -1,15 +1,24 @@
+import { Dispatch, SetStateAction, useState } from 'react';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import { updateEpochDescription } from 'lib/gql/mutations';
 import { DateTime, Interval } from 'luxon';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
 import { CSS } from 'stitches.config';
+import * as z from 'zod';
 
-import { Give, PlusCircle } from 'icons/__generated';
+import { FormInputField } from 'components';
+import { useToast } from 'hooks';
+import { Edit, Give, PlusCircle } from 'icons/__generated';
 import { paths } from 'routes/paths';
-import { Box, Panel, Text, Button, Flex } from 'ui';
+import { Box, Panel, Text, Button, Flex, IconButton, HR } from 'ui';
 
 type Props = {
   epoch: {
     start_date?: any;
     end_date: any;
+    id: number;
     description?: string;
     number?: number;
   };
@@ -39,6 +48,11 @@ export const CurrentEpochPanel = ({
 
   const endDateFormat = endDate.month === startDate.month ? 'd' : 'MMM d';
 
+  // TODO: why is epoch.number null sometimes? just from data seeding?
+  const [epochDescriptionText, setEpochDescriptionText] = useState<string>(
+    epoch.description ?? 'Epoch ' + (epoch.number ?? '')
+  );
+
   return (
     <Panel
       css={{
@@ -61,20 +75,16 @@ export const CurrentEpochPanel = ({
           {startDate.toFormat('MMM')} {startDate.toFormat('d')} -{' '}
           {endDate.toFormat(endDateFormat)}
         </Text>
-        <Text
-          h2
-          p
-          css={{ color: '$currentEpochDescription', fontSize: '$h2Temp' }}
-        >
-          {
-            epoch.description ??
-              'Epoch ' +
-                (epoch.number ??
-                  '') /* TODO: why is this null sometime? just from data seeding? */
-          }
-        </Text>
+
+        <EpochDescription
+          description={epochDescriptionText}
+          isAdmin={isAdmin}
+          epochId={epoch.id}
+          setDescriptionText={setEpochDescriptionText}
+        />
         {!isEditing && isAdmin && (
           <Button
+            css={{ mt: '$md' }}
             color="secondary"
             size="small"
             onClick={() => editCurrentEpoch()}
@@ -184,5 +194,128 @@ const Minicard = ({
         </Button>
       </Box>
     </Box>
+  );
+};
+
+type EpochDescriptionProps = {
+  description: string;
+  isAdmin: boolean;
+  epochId: number;
+  setDescriptionText: Dispatch<SetStateAction<string>>;
+};
+const EpochDescription = ({
+  description,
+  isAdmin,
+  epochId,
+  setDescriptionText,
+}: EpochDescriptionProps) => {
+  const { showError, showSuccess } = useToast();
+  const [submitting, setSubmitting] = useState(false);
+  const [editDescription, setEditDescription] = useState(false);
+
+  const zEpochDescriptionSchema = z.object({
+    description: z
+      .string()
+      .trim()
+      .min(1, { message: 'Must be at least 1 characters long' })
+      .max(100, { message: 'Must be 100 or fewer characters long' }),
+  });
+
+  type EpochDescriptionSchema = z.infer<typeof zEpochDescriptionSchema>;
+
+  const onSubmit: SubmitHandler<EpochDescriptionSchema> = async data => {
+    if (!data.description) {
+      return;
+    }
+
+    try {
+      setSubmitting(true);
+      await updateEpochDescription(epochId, data.description);
+      setDescriptionText(data.description);
+      showSuccess('Epoch Description Saved!');
+    } catch (e) {
+      showError(e);
+      console.warn(e);
+    } finally {
+      setSubmitting(false);
+      setEditDescription(false);
+    }
+  };
+
+  const { control: epochDescriptionControl, handleSubmit } =
+    useForm<EpochDescriptionSchema>({
+      resolver: zodResolver(zEpochDescriptionSchema),
+      mode: 'all',
+    });
+
+  return (
+    <Flex css={{ width: '100%' }}>
+      {!editDescription ? (
+        <Flex css={{ alignItems: 'center' }}>
+          <Text
+            medium
+            css={{
+              color: '$ctaHover',
+            }}
+          >
+            {description}
+          </Text>
+          {isAdmin && (
+            <IconButton
+              onClick={() => setEditDescription(true)}
+              css={{
+                color: '$ctaHover',
+              }}
+            >
+              <Edit />
+            </IconButton>
+          )}
+        </Flex>
+      ) : (
+        isAdmin && (
+          <Flex
+            column
+            css={{
+              width: '100%',
+              pr: '$md',
+            }}
+          >
+            <Box>
+              <FormInputField
+                css={{ width: '100%' }}
+                name="description"
+                id="epoch_description_edit"
+                control={epochDescriptionControl}
+                defaultValue={description}
+                label="Epoch Description"
+                showFieldErrors
+                textArea
+              />
+            </Box>
+            <Flex css={{ gap: '$sm', mt: '$md' }}>
+              <Button
+                size="small"
+                color="secondary"
+                onClick={() => {
+                  setEditDescription(false);
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                size="small"
+                color="primary"
+                type="submit"
+                onClick={handleSubmit(onSubmit)}
+                disabled={submitting}
+              >
+                Save
+              </Button>
+            </Flex>
+            <HR />
+          </Flex>
+        )
+      )}
+    </Flex>
   );
 };

@@ -14,7 +14,7 @@ import { Flex, Text, TextArea, TextField, Tooltip } from 'ui';
 type TextFieldProps = React.ComponentProps<typeof TextField>;
 type TextAreaProps = React.ComponentProps<typeof TextArea>;
 
-type TFormInputField<TFieldValues extends FieldValues> = {
+export type TFormInputField<TFieldValues extends FieldValues> = {
   id: string;
   label?: string;
   textArea?: boolean;
@@ -27,6 +27,7 @@ type TFormInputField<TFieldValues extends FieldValues> = {
   disabled?: boolean;
   css?: CSS;
   number?: boolean;
+  handleChange?: (e: string) => any;
   showFieldErrors?: boolean;
 } & UseControllerProps<TFieldValues>;
 
@@ -49,6 +50,7 @@ export const FormInputField = <TFieldValues extends FieldValues>(
     number,
     showFieldErrors,
     placeholder,
+    handleChange,
   } = props;
 
   const { field, fieldState } = useController({
@@ -59,12 +61,19 @@ export const FormInputField = <TFieldValues extends FieldValues>(
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!number) {
-      field.onChange(e.target.value);
+      if (handleChange) field.onChange(handleChange(e.target.value));
+      else field.onChange(e.target.value);
     } else {
       //convert string to number for input numbers to be parsed by ZOD
-      field.onChange(
-        !Number.isNaN(parseInt(e.target.value)) ? parseInt(e.target.value) : 0
-      );
+      let value = !Number.isNaN(parseFloat(e.target.value))
+        ? parseFloat(e.target.value)
+        : 0;
+      if (inputProps?.min && parseFloat(inputProps.min.toString()) > value)
+        value = parseFloat(inputProps.min.toString());
+
+      if (inputProps?.max && parseFloat(inputProps.max.toString()) < value)
+        value = parseFloat(inputProps.max.toString());
+      field.onChange(value);
     }
   };
   return (

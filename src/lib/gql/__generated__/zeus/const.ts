@@ -1598,7 +1598,11 @@ export const AllTypesProps: Record<string, any> = {
     token_gifts_aggregate: 'token_gifts_aggregate_order_by',
     updated_at: 'order_by',
   },
+  epochs_pk_columns_input: {
+    id: 'bigint',
+  },
   epochs_select_column: true,
+  epochs_set_input: {},
   epochs_stddev_order_by: {
     circle_id: 'order_by',
     days: 'order_by',
@@ -1650,6 +1654,10 @@ export const AllTypesProps: Record<string, any> = {
     number: 'order_by',
     repeat: 'order_by',
     repeat_day_of_month: 'order_by',
+  },
+  epochs_updates: {
+    _set: 'epochs_set_input',
+    where: 'epochs_bool_exp',
   },
   epochs_var_pop_order_by: {
     circle_id: 'order_by',
@@ -2170,6 +2178,17 @@ export const AllTypesProps: Record<string, any> = {
     },
     update_distributions_many: {
       updates: 'distributions_updates',
+    },
+    update_epochs: {
+      _set: 'epochs_set_input',
+      where: 'epochs_bool_exp',
+    },
+    update_epochs_by_pk: {
+      _set: 'epochs_set_input',
+      pk_columns: 'epochs_pk_columns_input',
+    },
+    update_epochs_many: {
+      updates: 'epochs_updates',
     },
     update_locked_token_distributions: {
       _set: 'locked_token_distributions_set_input',
@@ -5060,6 +5079,10 @@ export const ReturnTypes: Record<string, any> = {
     token_gifts_aggregate: 'token_gifts_aggregate',
     updated_at: 'timestamp',
   },
+  epochs_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'epochs',
+  },
   gift_private: {
     gift_id: 'bigint',
     note: 'String',
@@ -5178,6 +5201,9 @@ export const ReturnTypes: Record<string, any> = {
     update_distributions: 'distributions_mutation_response',
     update_distributions_by_pk: 'distributions',
     update_distributions_many: 'distributions_mutation_response',
+    update_epochs: 'epochs_mutation_response',
+    update_epochs_by_pk: 'epochs',
+    update_epochs_many: 'epochs_mutation_response',
     update_locked_token_distributions:
       'locked_token_distributions_mutation_response',
     update_locked_token_distributions_by_pk: 'locked_token_distributions',

@@ -39,6 +39,7 @@ import {
   Box,
   Button,
   Flex,
+  Link,
   Panel,
   Select,
   SelectOption,
@@ -64,7 +65,7 @@ const headerStyle = {
 const vaultSelectionPanel = {
   padding: '$md',
   minHeight: '11rem',
-  mb: '$lg',
+  mb: '$md',
 };
 
 const { Zero } = ethersConstants;
@@ -639,7 +640,7 @@ export function DistributionForm({
   return (
     <TwoColumnLayout>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Panel invertForm css={vaultSelectionPanel}>
+        <Panel css={vaultSelectionPanel}>
           <Text h2 css={headerStyle}>
             Gift Circle
           </Text>
@@ -872,7 +873,7 @@ export function DistributionForm({
           )}
         </Panel>
         {(fixedDist || circleDist) && <Summary distribution={circleDist} />}
-        <Flex css={{ justifyContent: 'center', mb: '$sm' }}>
+        <Flex css={{ justifyContent: 'flex-end', mb: '$sm' }}>
           {existingLockedTokenDistribution?.tx_hash ? (
             <EtherscanButton
               tx_hash={existingLockedTokenDistribution.tx_hash}
@@ -899,9 +900,9 @@ export function DistributionForm({
             </Text>
           ) : vaults[0] ? (
             <Button
-              color="secondary"
-              disabled={giftSubmitting || !sufficientGiftTokens || !contracts}
               fullWidth
+              color="primary"
+              disabled={giftSubmitting || !sufficientGiftTokens || !contracts}
             >
               {getButtonText(
                 sufficientGiftTokens,
@@ -915,7 +916,7 @@ export function DistributionForm({
       </form>
 
       <form onSubmit={fixedHandleSubmit(onFixedFormSubmit)}>
-        <Panel invertForm css={vaultSelectionPanel}>
+        <Panel css={vaultSelectionPanel}>
           <Flex>
             <Text h2 css={{ ...headerStyle, flexGrow: 1 }}>
               Fixed Payments
@@ -925,7 +926,7 @@ export function DistributionForm({
                 to={paths.circleAdmin(circle.id)}
                 css={{ textDecoration: 'none' }}
               >
-                <Text css={{ color: '$primary' }}>Edit Settings</Text>
+                <Link inlineLink>Edit Settings</Link>
               </AppLink>
             </Box>
           </Flex>
@@ -938,7 +939,7 @@ export function DistributionForm({
                 mt: '$md',
                 textAlign: 'center',
                 fontSize: '$small',
-                color: '$neutral',
+                color: '$secondaryText',
               }}
             >
               Fixed Payments are Disabled
@@ -1027,7 +1028,7 @@ export function DistributionForm({
             />
           ) : fpVault ? (
             <Button
-              color="secondary"
+              color="primary"
               disabled={
                 fixedSubmitting || !sufficientFixedPaymentTokens || !contracts
               }

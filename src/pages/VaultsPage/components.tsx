@@ -12,11 +12,10 @@ export const VaultExternalLink = ({
 }) => {
   return (
     <Link
-      css={{ color: '$primary' }}
+      inlineLink
       target="_blank"
       href={makeExplorerUrl(chainId, vaultAddress, 'address')}
     >
-      &nbsp;
       {shortenAddress(vaultAddress, false)}
     </Link>
   );
@@ -30,7 +29,7 @@ export const OwnerProfileLink = ({
   return (
     <Text p as="p" size="small">
       Owner:{' '}
-      <AppLink to={paths.profile(ownerAddress)}>
+      <AppLink inlineLink to={paths.profile(ownerAddress)}>
         {shortenAddress(ownerAddress)}
       </AppLink>
     </Text>

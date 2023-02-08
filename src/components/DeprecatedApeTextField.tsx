@@ -217,40 +217,19 @@ const apeVariants: any = (
           fontSize: 16,
           fontWeight: 400,
           lineHeight: 1.2,
-          color: theme.colors.text,
         },
         inputRoot: {
           padding:
             size === 'small'
               ? theme.spacing(0.5, 1, 0.5)
               : theme.spacing(0, 1, 0),
-          backgroundColor:
-            size === 'small' ? theme.colors.white : theme.colors.surface,
-          borderRadius: size === 'small' ? 8 : 16,
-          color: theme.colors.text,
-          border: `1px solid ${theme.colors.border}`,
-          transition: 'border 200ms ease-out',
-          '&:focus-within': {
-            border: `1px solid ${theme.colors.secondary}80`,
-          },
-          '&.Mui-disabled': {
-            backgroundColor: theme.colors.surface,
-          },
-          '&.Mui-error, &.Mui-error .MuiInputBase-input': {
-            backgroundColor: theme.colors.alertLight,
-            color: theme.colors.alert,
-          },
         },
         input: {
-          borderRadius: size === 'small' ? 8 : 16,
           padding: theme.spacing(0.75, 1, 0.75),
           fontSize: size === 'small' ? 16 : 32,
           lineHeight: 1.33,
           fontWeight: 400,
           textAlign: 'right',
-          '&::placeholder': {
-            color: theme.colors.secondaryText,
-          },
         },
       };
     case 'select':
@@ -295,17 +274,12 @@ const useBaseStyles = makeStyles<
     padding: theme.spacing(0, 0, 1),
     fontSize: 15,
     lineHeight: 1,
-    color: theme.colors.text + '80',
   },
   inputRoot: ({ variant, size }) => ({
     backgroundColor: theme.colors.surface,
     borderRadius: 8,
     color: theme.colors.text,
     border: `1px solid transparent`,
-    transition: 'border 200ms ease-out',
-    '&:focus-within': {
-      borderColor: theme.colors.borderMedium,
-    },
     ...apeVariants(theme, variant, size)?.inputRoot,
   }),
   inputRootError: {

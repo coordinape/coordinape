@@ -32,14 +32,10 @@ export const MainLayout = () => {
     >
       <Flex css={{ height: 'auto' }}>
         {/*// TODO(rebrand): remove this after rebrand launch*/}
-        {(themePreference == 'dark' || themePreference == 'light') && (
-          <SideNav />
-        )}
+        {themePreference != 'legacy' && <SideNav />}
         <Box css={{ width: '100%' }}>
           {/*// TODO(rebrand): remove this after rebrand launch*/}
-          {themePreference != 'dark' && themePreference != 'light' && (
-            <MainHeader />
-          )}
+          {themePreference == 'legacy' && <MainHeader />}
           <GlobalUi />
           <HelpButton />
           <Box

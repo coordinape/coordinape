@@ -11,6 +11,7 @@ import { composeHasuraActionRequestBody } from '../../../../src/lib/zod';
 import {
   zEpochInputParams,
   checkOverlappingEpoch,
+  eliminateUtcDrift,
   verifyFutureEndDate,
   verifyStartBeforeEnd,
   checkMultipleRepeatingEpochs,
@@ -66,6 +67,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
   switch (params.type) {
     case 'custom':
       error = validateCustomInput(params);
+      input.params.end_date = eliminateUtcDrift(params);
       break;
     case 'monthly': {
       error = validateMonthlyInput(params);
@@ -96,7 +98,7 @@ async function updateEpoch(
             ...existingEpoch,
             start_date: start_date.toISO(),
             end_date: end_date.toISO(),
-            repeat_data: repeatData.type !== 'one-off' ? repeatData : undefined,
+            repeat_data: repeatData.type !== 'one-off' ? repeatData : null,
           },
           pk_columns: { id },
         },

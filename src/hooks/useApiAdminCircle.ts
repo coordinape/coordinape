@@ -7,7 +7,7 @@ import { useApiBase } from 'hooks';
 
 import { useRecoilLoadCatch } from './useRecoilLoadCatch';
 
-import { UpdateUsersParam, UpdateCreateEpochParam } from 'types';
+import { UpdateUsersParam } from 'types';
 
 export const useApiAdminCircle = (circleId: number) => {
   const { fetchCircle } = useApiBase();
@@ -30,20 +30,54 @@ export const useApiAdminCircle = (circleId: number) => {
   );
 
   const createEpoch = useRecoilLoadCatch(
+    () => async (params: ValueTypes['CreateEpochInput']['params']) => {
+      params.time_zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      await mutations.createEpoch({ circle_id: circleId, params });
+      await fetchCircle({ circleId });
+    },
+    [circleId],
+    { hideLoading: false }
+  );
+
+  const updateEpoch = useRecoilLoadCatch(
     () =>
-      async (params: Omit<ValueTypes['CreateEpochOldInput'], 'circle_id'>) => {
-        await mutations.createEpoch({ circle_id: circleId, ...params });
+      async (
+        epochId: number,
+        {
+          params,
+          description,
+        }: {
+          params: ValueTypes['UpdateEpochInput']['params'];
+          description?: string;
+        }
+      ) => {
+        if (params)
+          params.time_zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+        await mutations.updateEpoch({
+          params,
+          id: epochId,
+          circle_id: circleId,
+          description,
+        });
         await fetchCircle({ circleId });
       },
     [circleId],
     { hideLoading: false }
   );
 
-  const updateEpoch = useRecoilLoadCatch(
-    () => async (epochId: number, params: UpdateCreateEpochParam) => {
-      await mutations.updateEpoch(circleId, epochId, params);
-      await fetchCircle({ circleId });
-    },
+  const updateActiveRepeatingEpoch = useRecoilLoadCatch(
+    () =>
+      async (
+        epochId: number,
+        params: {
+          current: ValueTypes['UpdateEpochInput']['params'];
+          next: ValueTypes['CreateEpochInput']['params'];
+        }
+      ) => {
+        await mutations.updateActiveRepeatingEpoch(circleId, epochId, params);
+        await fetchCircle({ circleId });
+      },
     [circleId],
     { hideLoading: false }
   );
@@ -115,6 +149,7 @@ export const useApiAdminCircle = (circleId: number) => {
     updateCircle,
     updateCircleLogo,
     updateEpoch,
+    updateActiveRepeatingEpoch,
     updateUser,
   };
 };
