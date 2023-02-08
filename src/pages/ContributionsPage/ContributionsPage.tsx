@@ -25,7 +25,6 @@ import {
   ChevronUp,
   Trash2,
   ChevronsRight,
-  Edit,
   Edit3,
 } from 'icons/__generated';
 import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
@@ -540,7 +539,7 @@ const ContributionsPage = () => {
           closeDrawer();
         }}
       >
-        <Panel invertForm css={{ p: 0 }}>
+        <Panel ghost>
           {currentContribution ? (
             <>
               <Flex
@@ -773,11 +772,10 @@ const ContributionsPage = () => {
                     </Box>
                   )
                 ) : (
-                  <Panel nested>
-                    <MarkdownPreview
-                      source={currentContribution.contribution.description}
-                    />
-                  </Panel>
+                  <MarkdownPreview
+                    display
+                    source={currentContribution.contribution.description}
+                  />
                 )}
 
                 <Flex css={{ justifyContent: 'flex-end', mt: '$md' }}>
@@ -787,7 +785,6 @@ const ContributionsPage = () => {
                     // adding onMouseDown because the onBlur event on the markdown-ready textarea was preventing onClick
                     onMouseDown={newContribution}
                   >
-                    <Edit />
                     New
                   </Button>
                 </Flex>

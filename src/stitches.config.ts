@@ -141,7 +141,7 @@ export const colors = {
   dim: newFigmaColors.grey1,
   dimButtonHover: '#ffffff',
   textOnDim: '$primary',
-  activePanel: newFigmaColors.grey2,
+  activePanel: '#e6f1fc',
 
   complete: figmaColors.green12,
   completeLight: figmaColors.green1,
@@ -259,6 +259,10 @@ export const {
     colors,
     space: {
       ...spaces,
+    },
+    letterSpacings: {
+      body: 'normal',
+      header: 'normal',
     },
     sizes: {
       max: 'max-content',
@@ -448,7 +452,7 @@ export const dark = createTheme({
     secondaryDark: newFigmaColors.secondary9,
     textOnSecondary: newFigmaColors.grey3,
 
-    neutral: newFigmaColors.grey7,
+    neutral: newFigmaColors.grey6,
     textOnNeutral: newFigmaColors.grey4,
     dim: newFigmaColors.grey8,
     dimButtonHover: newFigmaColors.grey9,
@@ -573,6 +577,10 @@ export const dark = createTheme({
     tall2: 1.75,
     taller: '2',
   },
+  letterSpacings: {
+    body: '0.01em',
+    header: '0.02em',
+  },
   shadows: {
     shadow1: '0px 0px 35px 12px rgb(0 0 0 / 40%)',
     toastifyShadow: '0px 5px 25px -5px black',
@@ -615,11 +623,12 @@ export const light = createTheme({
     toggleButtonYes: newFigmaColors.success5,
     toggleButtonNo: '$alert',
 
-    primary: newFigmaColors.grey8,
-    primaryHover: newFigmaColors.grey7,
-    textOnPrimary: newFigmaColors.grey4,
-    primaryButtonHover: newFigmaColors.grey7,
-    primaryButtonBorderFocus: newFigmaColors.grey7,
+    primary: newFigmaColors.grey4,
+    primaryHover: newFigmaColors.grey3,
+    primaryButtonText: newFigmaColors.grey7,
+    textOnPrimary: newFigmaColors.grey7,
+    primaryButtonHover: newFigmaColors.grey3,
+    primaryButtonBorderFocus: newFigmaColors.grey5,
 
     contentHeaderBorder: newFigmaColors.grey3,
 
@@ -674,8 +683,36 @@ export const light = createTheme({
     mapLink: '#00000015',
     mapLinkDim: '#00000008',
   },
+  fontSizes: {
+    small: '14px',
+    medium: '16px',
+    large: '20px',
+    h3: '24px',
+    h2: '18px',
+    h1: '26px',
+    h1Temp: '26px',
+  },
+  lineHeights: {
+    none: 1,
+    shorter: '120%',
+    short: 1.375,
+    base: 1.5,
+    tall: 1.625,
+    tall2: 1.75,
+    taller: '2',
+  },
+  letterSpacings: {
+    body: '0.01em',
+    header: '0.02em',
+  },
   fonts: {
     display: 'Denim, apple-system, sans-serif',
+  },
+  fontWeights: {
+    labelBold: '$semibold',
+  },
+  textTransforms: {
+    label: 'none',
   },
 });
 
@@ -748,6 +785,9 @@ export const globalStyles = globalCss({
   ],
   '*': {
     fontFamily: '$display',
+  },
+  body: {
+    letterSpacing: '$body',
   },
   // a11y keyboard navigation
   'a:focus-visible, button:focus-visible, [tabindex="0"]:focus-visible': {

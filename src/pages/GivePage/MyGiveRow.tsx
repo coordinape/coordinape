@@ -68,6 +68,9 @@ export const MyGiveRow = ({
           // borderColor: '$tagWarningText',
           borderColor: 'transparent',
           background: '$activePanel',
+          '&:hover': {
+            borderColor: '$borderDim',
+          },
           '@sm': {
             py: '$sm',
           },

@@ -34,6 +34,7 @@ export const Text = styled('span', {
         fontSize: '$h1',
         color: '$headingText',
         fontWeight: '$semibold',
+        letterSpacing: '$header',
         '@sm': { fontSize: '$h2' },
       },
     },
@@ -42,11 +43,16 @@ export const Text = styled('span', {
         fontSize: '$h2',
         color: '$headingText',
         fontWeight: '$semibold',
+        letterSpacing: '$header',
         '@sm': { fontSize: '$h3' },
       },
     },
     h3: {
-      true: { fontSize: '$h3', '@sm': { fontSize: '$large' } },
+      true: {
+        fontSize: '$h3',
+        letterSpacing: '$header',
+        '@sm': { fontSize: '$large' },
+      },
     },
 
     size: {

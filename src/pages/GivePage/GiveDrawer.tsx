@@ -7,7 +7,6 @@ import {
   ChevronDown,
   ChevronsRight,
   ChevronUp,
-  Edit,
   DeworkColor,
   WonderColor,
 } from 'icons/__generated';
@@ -149,7 +148,7 @@ export const GiveDrawer = ({
   };
 
   return (
-    <Panel invertForm key={selectedMemberIdx} css={{ height: '100%', p: 0 }}>
+    <Panel ghost key={selectedMemberIdx} css={{ height: '100%' }}>
       <Flex
         css={{
           justifyContent: 'space-between',
@@ -322,7 +321,6 @@ export const GiveDrawer = ({
             // adding onMouseDown because the onBlur event on the markdown-ready textarea was preventing onClick
             onMouseDown={() => nextMember(true)}
           >
-            <Edit />
             Next
           </Button>
         </Flex>
