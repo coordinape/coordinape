@@ -137,70 +137,57 @@ export const NewNominationPage = () => {
 
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Panel invertForm>
-          <Flex
-            column
-            css={{
-              gap: '$md',
-              '.formGroup': {
-                width: '100%',
-                flexDirection: 'column',
-                gap: '$xs',
-              },
-            }}
-          >
+          <Flex column css={{ gap: '$md' }}>
             <Flex row css={{ gap: '$md' }}>
-              <Flex className="formGroup">
-                <FormInputField
-                  id="name"
-                  name="name"
-                  control={control}
-                  label="Name"
-                  infoTooltip="Nominee name that will be displayed to other members for
-                  vouching"
-                  showFieldErrors
-                />
-              </Flex>
-              <Flex className="formGroup">
-                <FormInputField
-                  id="address"
-                  {...address}
-                  // name="address"
-                  control={control}
-                  label="Wallet Address"
-                  infoTooltip="Eth address that will be used by Nominee to login to the
-                  circle"
-                  showFieldErrors
-                />
-              </Flex>
-            </Flex>
-            <Flex className="formGroup">
               <FormInputField
-                textArea
-                areaProps={{
-                  placeholder:
-                    'Tell us why the person should be added to the circle, such as what they have achieved or what they will do in the future.',
-                }}
-                id="description"
-                {...description}
-                // name="description"
+                id="name"
+                name="name"
+                css={{ width: '100%' }}
                 control={control}
-                label="Why are you nominating this person?"
-                infoTooltip="Nominee description that will introduce the nominee to the
-                  vouchers"
+                label="Name"
+                infoTooltip="Nominee name that will be displayed to other members for
+                  vouching"
+                showFieldErrors
+              />
+
+              <FormInputField
+                id="address"
+                css={{ width: '100%' }}
+                {...address}
+                // name="address"
+                control={control}
+                label="Wallet Address"
+                infoTooltip="Eth address that will be used by Nominee to login to the
+                  circle"
                 showFieldErrors
               />
             </Flex>
-            <Flex className="formGroup">
-              <Button
-                css={{ mt: '$lg', gap: '$xs' }}
-                color="primary"
-                size="large"
-                type="submit"
-                disabled={!isValid || submitting}
-              >
-                {submitting ? 'Saving...' : 'Nominate Member'}
-              </Button>
-            </Flex>
+
+            <FormInputField
+              textArea
+              areaProps={{
+                placeholder:
+                  'Tell us why the person should be added to the circle, such as what they have achieved or what they will do in the future.',
+              }}
+              id="description"
+              {...description}
+              // name="description"
+              control={control}
+              label="Why are you nominating this person?"
+              infoTooltip="Nominee description that will introduce the nominee to the
+                  vouchers"
+              showFieldErrors
+            />
+
+            <Button
+              css={{ mt: '$lg', gap: '$xs' }}
+              color="primary"
+              size="large"
+              type="submit"
+              disabled={!isValid || submitting}
+            >
+              {submitting ? 'Saving...' : 'Nominate Member'}
+            </Button>
           </Flex>
           {isSuccessful && (
             <>
@@ -216,16 +203,14 @@ export const NewNominationPage = () => {
               </Text>
               {profileName && (
                 <Panel alert css={{ mt: '$xl' }}>
-                  <Flex className="formGroup">
-                    <Text size="large">
-                      This address matches an existing account in our system, so
-                      their name will be used:
-                    </Text>
-                    <Text>
-                      &ldquo;{profileName}&ldquo; will be used instead of
-                      &ldquo;{nomineeName}&ldquo;
-                    </Text>
-                  </Flex>
+                  <Text size="large">
+                    This address matches an existing account in our system, so
+                    their name will be used:
+                  </Text>
+                  <Text>
+                    &ldquo;{profileName}&ldquo; will be used instead of &ldquo;
+                    {nomineeName}&ldquo;
+                  </Text>
                 </Panel>
               )}
             </>
