@@ -194,7 +194,7 @@ export const HistoryPage = () => {
       {isFeatureEnabled('epoch_timing') && (
         <HintBanner title={'Epoch Timing Settings'}>
           <Text p as="p" css={{ color: 'inherit' }}>
-            Heads up, our settings for epoch timing has changed.
+            Heads up, we&apos;ve released updated settings for epoch timing.
           </Text>
           <Button
             as="a"
@@ -205,7 +205,7 @@ export const HistoryPage = () => {
             rel="noreferrer"
             color="secondary"
           >
-            Epochs Docs
+            Read the docs to learn more.
           </Button>
         </HintBanner>
       )}
