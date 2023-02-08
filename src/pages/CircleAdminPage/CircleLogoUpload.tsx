@@ -1,6 +1,7 @@
 import assert from 'assert';
 import React, { useState } from 'react';
 
+import { QUERY_KEY_NAV } from 'features/nav/getNavData';
 import { fileToBase64 } from 'lib/base64';
 import { updateCircleLogo } from 'lib/gql/mutations';
 import { MAX_IMAGE_BYTES_LENGTH_BASE64 } from 'lib/images';
@@ -34,7 +35,7 @@ export const CircleLogoUpload = ({
 
   const fileInput = React.createRef<HTMLInputElement>();
 
-  const { showError } = useToast();
+  const { showSuccess, showError } = useToast();
   const queryClient = useQueryClient();
 
   const uploadLogo = async (circleId: number, logo: File) => {
@@ -67,6 +68,8 @@ export const CircleLogoUpload = ({
         try {
           response = await uploadLogo(circleId, newLogo);
           assert(response.uploadCircleLogo?.circle?.logo);
+          queryClient.invalidateQueries(QUERY_KEY_NAV);
+          showSuccess('Circle logo updated!');
         } catch (e: any) {
           showError(e);
           setLogoFile(undefined);
