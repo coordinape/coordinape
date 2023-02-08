@@ -785,6 +785,9 @@ export const globalStyles = globalCss({
   '*': {
     fontFamily: '$display',
   },
+  body: {
+    letterSpacing: '$body',
+  },
   // a11y keyboard navigation
   'a:focus-visible, button:focus-visible, [tabindex="0"]:focus-visible': {
     outline: '2px solid $borderFocus',

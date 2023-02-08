@@ -67,7 +67,6 @@ export const Text = styled('span', {
         fontSize: '$small',
         fontWeight: '$labelBold',
         lineHeight: '$shorter',
-        letterSpacing: '$body',
         display: 'flex',
         gap: '$xs',
       },
@@ -83,7 +82,6 @@ export const Text = styled('span', {
         color: '$text',
         fontSize: '$medium',
         lineHeight: '$base',
-        letterSpacing: '$body',
       },
     },
     ellipsis: {
