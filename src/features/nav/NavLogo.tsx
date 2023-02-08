@@ -12,10 +12,10 @@ export const NavLogo = ({ css }: { css?: CSS }) => {
       css={{
         ...css,
         'img, svg': {
-          width: '100%',
-          maxWidth: '250px',
+          width: '65%',
+          minWidth: '140px',
           '@sm': {
-            maxWidth: '190px',
+            maxWidth: '140px',
           },
         },
         'svg *': { fill: 'white' },
