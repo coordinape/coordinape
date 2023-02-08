@@ -623,11 +623,12 @@ export const light = createTheme({
     toggleButtonYes: newFigmaColors.success5,
     toggleButtonNo: '$alert',
 
-    primary: newFigmaColors.grey8,
-    primaryHover: newFigmaColors.grey7,
-    textOnPrimary: newFigmaColors.grey4,
-    primaryButtonHover: newFigmaColors.grey7,
-    primaryButtonBorderFocus: newFigmaColors.grey7,
+    primary: newFigmaColors.grey4,
+    primaryHover: newFigmaColors.grey3,
+    primaryButtonText: newFigmaColors.grey7,
+    textOnPrimary: newFigmaColors.grey7,
+    primaryButtonHover: newFigmaColors.grey3,
+    primaryButtonBorderFocus: newFigmaColors.grey5,
 
     contentHeaderBorder: newFigmaColors.grey3,
 

@@ -19,9 +19,7 @@ export const AvatarAndName = ({
       }}
     >
       <Avatar size="small" name={name} path={avatar} css={{ mr: '$sm' }} />
-      <Text h3 semibold ellipsis>
-        {name}
-      </Text>
+      <Text ellipsis>{name}</Text>
     </Flex>
   );
 };

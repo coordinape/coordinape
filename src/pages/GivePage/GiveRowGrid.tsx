@@ -24,8 +24,8 @@ export const GiveRowGrid = ({
         borderColor: selected ? '$link' : undefined,
         transition: 'background-color 0.3s, border-color 0.3s',
         '&:hover': {
-          backgroundColor: '$highlight',
-          borderColor: '$borderFocus',
+          backgroundColor: '$activePanel',
+          borderColor: 'transparent',
         },
         '@sm': {
           p: '$md',

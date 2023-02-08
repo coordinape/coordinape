@@ -8,7 +8,7 @@ const HintBanner = ({
   type = 'info',
   children,
 }: {
-  title: string;
+  title?: string;
   type?: 'info' | 'alert';
   children: React.ReactNode;
 }) => {
@@ -23,7 +23,7 @@ const HintBanner = ({
           alignItems: 'flex-start',
         }}
       >
-        <Text h2>{title}</Text>
+        {title && <Text h2>{title}</Text>}
         {children}
       </Flex>
     </Panel>

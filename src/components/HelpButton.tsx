@@ -38,7 +38,7 @@ const HelpButtonContainer = styled('div', {
   zIndex: 3,
   '&[data-open="true"]': {
     width: '270px', // magic number to make it look nice and not be crazy on mobile -g
-    height: '298px', // magic number, yep. If i do auto the animations are terrible -g
+    height: '300px', // magic number, yep. If i do auto the animations are terrible -g
     borderRadius: '$3',
     '.help-icon': {
       transition: null,
@@ -90,6 +90,7 @@ const HelpOption = ({
   return (
     <a href={href} target={'_blank'} rel={'noreferrer'}>
       <Button
+        size="small"
         color={'transparent'}
         fullWidth={true}
         css={{ paddingLeft: '0px' }}
@@ -128,7 +129,7 @@ const HelpButton = () => {
             height: '100%',
           }}
         >
-          <Text semibold css={{ fontSize: '$h2' }}>
+          <Text semibold h1 css={{ fontSize: '$h1Temp' }}>
             ?
           </Text>
         </Flex>
@@ -155,11 +156,11 @@ const HelpButton = () => {
             <X size={'md'} color={'inherit'} />
           </Box>
         </Flex>
-        <div>
-          <Text size="small" css={{ mt: '$sm', mb: '$lg' }}>
+        <Box css={{ mt: '$sm' }}>
+          <Text size="small" css={{ mt: '$sm', mb: '$md' }}>
             Ask us anything
           </Text>
-        </div>
+        </Box>
         <HelpOption
           href={EXTERNAL_URL_DISCORD}
           icon={<Discord size={'md'} color={'text'} />}
@@ -191,13 +192,13 @@ const HelpButton = () => {
           >
             <Flex alignItems="center">
               <Flex alignItems="center" css={{ mr: '$sm', color: '$text' }}>
-                <GiveReceiveBoth size={'md'} color={'text'} />
+                <GiveReceiveBoth nostroke size={'md'} color={'text'} />
               </Flex>
               Share Feedback
             </Flex>
           </PopupButton>
         </Button>
-        <Box css={{ borderTop: '0.5px solid $borderMedium', mt: '$sm' }}>
+        <Box css={{ borderTop: '0.5px solid $borderDim', mt: '$sm' }}>
           <HelpOption
             href={EXTERNAL_URL_DOCS}
             icon={<FileText size={'md'} color={'text'} />}

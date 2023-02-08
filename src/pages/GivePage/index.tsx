@@ -21,6 +21,7 @@ import { useSelectedCircle } from '../../recoilState';
 import { IEpoch, IMyUser } from '../../types';
 import { SingleColumnLayout } from '../../ui/layouts';
 import { FormInputField } from 'components';
+import HintBanner from 'components/HintBanner';
 import { Edit3, Grid, Menu } from 'icons/__generated';
 import {
   ContentHeader,
@@ -28,7 +29,6 @@ import {
   Button,
   Flex,
   Modal,
-  Panel,
   Text,
   Link,
   MarkdownPreview,
@@ -528,7 +528,7 @@ const GivePage = () => {
           </Flex>
         </ContentHeader>
         {!currentEpoch && (
-          <Panel>
+          <HintBanner>
             <Text semibold inline>
               Allocations happen during active epochs.{' '}
               {nextEpoch ? (
@@ -544,7 +544,7 @@ const GivePage = () => {
                 <Text inline>No upcoming epochs scheduled.</Text>
               )}
             </Text>
-          </Panel>
+          </HintBanner>
         )}
         {data && pendingGiftsFrom && (
           <AllocateContents
@@ -828,7 +828,7 @@ const AllocateContents = ({
                     You have no GIVE to allocate
                   </Text>
                 ) : (
-                  <Text color="complete" size="large" semibold>
+                  <Text color="cta" size="large" semibold>
                     {totalGiveUsed} of {myUser.starting_tokens}{' '}
                     {myUser.circle.tokenName ? myUser.circle.tokenName : 'GIVE'}
                   </Text>
@@ -918,7 +918,7 @@ const AllocateContents = ({
           selectedMember !== undefined && selectedMember.id === myUser.id
         }
       />
-      <Panel
+      <Box
         css={{
           gap: '$md',
           mt: '$md',
@@ -961,7 +961,7 @@ const AllocateContents = ({
               />
             );
           })}
-      </Panel>
+      </Box>
 
       {filteredMembers.length == 0 && (
         <Box>

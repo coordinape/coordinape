@@ -183,7 +183,7 @@ export const EditProfileModal = ({
           width: '100%',
         }}
       >
-        <Panel css={{ p: 0, alignItems: 'center' }}>
+        <Panel ghost css={{ alignItems: 'center' }}>
           <Text h2>Edit Profile</Text>
           <Flex css={{ columnGap: '$lg', '@sm': { flexDirection: 'column' } }}>
             <Flex column css={{ alignItems: 'center' }}>
@@ -341,7 +341,7 @@ export const EditProfileModal = ({
               label="Website"
             />
           </Flex>
-          <Button disabled={!isDirty} color="primary" type="submit">
+          <Button disabled={!isDirty} color="cta" type="submit">
             Save
           </Button>
           {isSaving && <LoadingModal visible />}
