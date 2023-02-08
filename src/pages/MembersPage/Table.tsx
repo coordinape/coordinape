@@ -1,4 +1,4 @@
-import { styled } from '../../stitches.config';
+import { disabledStyle, styled } from '../../stitches.config';
 import { Flex } from 'ui';
 
 export const Table = styled(Flex, {
@@ -91,9 +91,7 @@ export const Cell = styled('td', {
       },
     },
     disabled: {
-      true: {
-        opacity: 0.3,
-      },
+      true: disabledStyle,
     },
   },
   defaultVariants: {
