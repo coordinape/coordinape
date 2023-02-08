@@ -145,11 +145,9 @@ export const getHistoryData = async (circleId: number, userId: number) => {
 };
 
 export type QueryResult = Awaited<ReturnType<typeof getHistoryData>>;
-export type QueryPastEpoch = Exclude<QueryResult, undefined>['pastEpochs'][0];
-export type QueryFutureEpoch = Exclude<
-  QueryResult,
-  undefined
->['futureEpoch'][0];
+export type QueryPastEpoch = NonNullable<QueryResult>['pastEpochs'][0];
+export type QueryCurrentEpoch = NonNullable<QueryResult>['currentEpoch'][0];
+export type QueryFutureEpoch = NonNullable<QueryResult>['futureEpoch'][0];
 
 export interface IQueryEpoch extends QueryFutureEpoch {
   repeatEnum: 'weekly' | 'monthly' | 'none' | 'bimonthly';

@@ -39,6 +39,7 @@ import {
   getHistoryData,
   QueryPastEpoch,
   QueryFutureEpoch,
+  QueryCurrentEpoch,
 } from './getHistoryData';
 import { NextEpoch } from './NextEpoch';
 
@@ -106,6 +107,22 @@ export const HistoryPage = () => {
     setNewEpoch(false);
   }, [circleId]);
 
+  const deleteEpochHandler = async (
+    epochToDelete: QueryFutureEpoch | undefined,
+    currentEpoch: QueryCurrentEpoch | undefined
+  ) => {
+    if (epochToDelete && epochToDelete.id > -1) {
+      return deleteEpoch(epochToDelete?.id);
+    } else if (currentEpoch)
+      return updateEpoch(currentEpoch.id, {
+        params: {
+          end_date: currentEpoch.end_date,
+          start_date: currentEpoch.start_date,
+          type: 'one-off',
+        },
+      });
+  };
+
   const getNextRepeatingDates = (epoch: NonNullable<typeof currentEpoch>) => {
     const { start_date, end_date, repeat_data } = epoch;
 
@@ -135,8 +152,8 @@ export const HistoryPage = () => {
         ...currentEpoch,
         id: -1,
         number: -1,
-        start_date: nextEpochDates.nextStartDate,
-        end_date: nextEpochDates.nextEndDate,
+        start_date: nextEpochDates.nextStartDate.toISO(),
+        end_date: nextEpochDates.nextEndDate.toISO(),
       };
     }
   }, [currentEpoch?.id, currentEpoch?.repeat_data]);
@@ -347,25 +364,12 @@ export const HistoryPage = () => {
         <Flex column alignItems="start" css={{ gap: '$md' }}>
           <Button
             color="destructive"
-            onClick={() => {
-              epochToDelete && epochToDelete.id > -1
-                ? deleteEpoch(epochToDelete?.id)
-                    .then(() => setEpochToDelete(undefined))
-                    .then(() => query.refetch())
-                    .catch(() => setEpochToDelete(undefined))
-                : currentEpoch
-                ? updateEpoch(currentEpoch.id, {
-                    params: {
-                      end_date: currentEpoch.end_date,
-                      start_date: currentEpoch.start_date,
-                      type: 'one-off',
-                    },
-                  })
-                    .then(() => setEpochToDelete(undefined))
-                    .then(() => query.refetch())
-                    .catch(() => setEpochToDelete(undefined))
-                : undefined;
-            }}
+            onClick={() =>
+              deleteEpochHandler(epochToDelete, currentEpoch)
+                .then(() => setEpochToDelete(undefined))
+                .then(() => query.refetch())
+                .catch(() => setEpochToDelete(undefined))
+            }
           >
             Remove
           </Button>
