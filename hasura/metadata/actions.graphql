@@ -67,6 +67,10 @@ type Mutation {
 }
 
 type Mutation {
+  endEpoch(payload: EndEpochInput!): EpochResponse
+}
+
+type Mutation {
   generateApiKey(payload: GenerateApiKeyInput!): GenerateApiKeyResponse
 }
 
@@ -437,6 +441,11 @@ input CreateEpochInput {
 
 input GuildInfoInput {
   id: String!
+}
+
+input EndEpochInput {
+  id: Int!
+  circle_id: Int!
 }
 
 type CreateCircleResponse {

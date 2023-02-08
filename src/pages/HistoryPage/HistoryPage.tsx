@@ -33,6 +33,7 @@ import {
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { CurrentEpochPanel } from './CurrentEpochPanel';
+import { EndEpochDialog } from './EndEpochDialog';
 import EpochForm from './EpochForm';
 import { EpochPanel } from './EpochPanel';
 import {
@@ -40,6 +41,7 @@ import {
   QueryPastEpoch,
   QueryFutureEpoch,
   QueryCurrentEpoch,
+  QUERY_KEY_ACTIVE_HISTORY,
 } from './getHistoryData';
 import { NextEpoch } from './NextEpoch';
 
@@ -52,7 +54,7 @@ export const HistoryPage = () => {
   } = useSelectedCircle();
 
   const query = useQuery(
-    ['history', circleId],
+    [QUERY_KEY_ACTIVE_HISTORY, circleId],
     () => getHistoryData(circleId, userId),
     { enabled: !!userId && !!circleId }
   );
@@ -65,6 +67,7 @@ export const HistoryPage = () => {
   const [editEpoch, setEditEpoch] = useState<QueryFutureEpoch | undefined>(
     undefined
   );
+  const [endEpochDialog, setEndEpochDialog] = useState<boolean>(false);
   const [newEpoch, setNewEpoch] = useState<boolean>(false);
   const [epochToDelete, setEpochToDelete] = useState<
     QueryFutureEpoch | undefined
@@ -93,8 +96,14 @@ export const HistoryPage = () => {
 
   const closeFormHandler = () => {
     if (editEpoch) {
-      setEditEpoch(undefined);
-      showSuccess('Saved Changes');
+      if (endEpochDialog) {
+        setEditEpoch(undefined);
+        setEndEpochDialog(false);
+        showSuccess('Epoch Ended');
+      } else {
+        setEditEpoch(undefined);
+        showSuccess('Saved Changes');
+      }
     } else {
       setNewEpoch(false);
       showDefault('Created Epoch');
@@ -267,6 +276,7 @@ export const HistoryPage = () => {
           selectedEpoch={editEpoch}
           currentEpoch={currentEpoch}
           setEditEpoch={setEditEpoch}
+          setEndEpochDialog={setEndEpochDialog}
           setNewEpoch={setNewEpoch}
           onClose={closeFormHandler}
         ></EpochForm>
@@ -375,6 +385,15 @@ export const HistoryPage = () => {
           </Button>
         </Flex>
       </Modal>
+      {endEpochDialog && currentEpoch?.id && (
+        <EndEpochDialog
+          epochId={currentEpoch?.id}
+          circleId={circleId}
+          endEpochDialog={endEpochDialog}
+          setEndEpochDialog={setEndEpochDialog}
+          onClose={closeFormHandler}
+        />
+      )}
     </SingleColumnLayout>
   );
 };

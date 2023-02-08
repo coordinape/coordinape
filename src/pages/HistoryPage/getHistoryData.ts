@@ -144,6 +144,8 @@ export const getHistoryData = async (circleId: number, userId: number) => {
   return gq.circles_by_pk;
 };
 
+export const QUERY_KEY_ACTIVE_HISTORY = 'history';
+
 export type QueryResult = Awaited<ReturnType<typeof getHistoryData>>;
 export type QueryPastEpoch = NonNullable<QueryResult>['pastEpochs'][0];
 export type QueryCurrentEpoch = NonNullable<QueryResult>['currentEpoch'][0];
