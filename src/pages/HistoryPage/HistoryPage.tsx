@@ -1,6 +1,8 @@
 import { useState, useMemo, useEffect } from 'react';
 
+import { findMonthlyEndDate } from 'common-lib/epochs';
 import { isUserAdmin } from 'lib/users';
+import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 
 import { LoadingModal } from '../../components';
@@ -37,6 +39,7 @@ import {
   getHistoryData,
   QueryPastEpoch,
   QueryFutureEpoch,
+  QueryCurrentEpoch,
 } from './getHistoryData';
 import { NextEpoch } from './NextEpoch';
 
@@ -57,7 +60,7 @@ export const HistoryPage = () => {
   const circle = query.data;
   const me = circle?.users[0];
 
-  const { deleteEpoch } = useApiAdminCircle(circleId);
+  const { deleteEpoch, updateEpoch } = useApiAdminCircle(circleId);
 
   const [editEpoch, setEditEpoch] = useState<QueryFutureEpoch | undefined>(
     undefined
@@ -103,6 +106,57 @@ export const HistoryPage = () => {
     setEditEpoch(undefined);
     setNewEpoch(false);
   }, [circleId]);
+
+  const deleteEpochHandler = async (
+    epochToDelete: QueryFutureEpoch | undefined,
+    currentEpoch: QueryCurrentEpoch | undefined
+  ) => {
+    if (epochToDelete && epochToDelete.id > -1) {
+      return deleteEpoch(epochToDelete?.id);
+    } else if (currentEpoch)
+      return updateEpoch(currentEpoch.id, {
+        params: {
+          end_date: currentEpoch.end_date,
+          start_date: currentEpoch.start_date,
+          type: 'one-off',
+        },
+      });
+  };
+
+  const getNextRepeatingDates = (epoch: NonNullable<typeof currentEpoch>) => {
+    const { start_date, end_date, repeat_data } = epoch;
+
+    if (!repeat_data) return null;
+    if (repeat_data.type === 'monthly') {
+      const nextStartDate = DateTime.fromISO(end_date);
+      return {
+        nextStartDate,
+        nextEndDate: findMonthlyEndDate(nextStartDate),
+      };
+    } /*if (repeat_data === 'custom')*/ else {
+      const nextStartDate = DateTime.fromISO(start_date).plus({
+        [repeat_data.frequency_unit]: repeat_data.frequency,
+      });
+      const nextEndDate = DateTime.fromISO(end_date).plus({
+        [repeat_data.frequency_unit]: repeat_data.frequency,
+      });
+      return { nextStartDate, nextEndDate };
+    }
+  };
+
+  const nextRepeatingEpoch: typeof currentEpoch | undefined = useMemo(() => {
+    if (currentEpoch && currentEpoch.repeat_data) {
+      const nextEpochDates = getNextRepeatingDates(currentEpoch);
+      if (!nextEpochDates) return currentEpoch;
+      return {
+        ...currentEpoch,
+        id: -1,
+        number: -1,
+        start_date: nextEpochDates.nextStartDate.toISO(),
+        end_date: nextEpochDates.nextEndDate.toISO(),
+      };
+    }
+  }, [currentEpoch?.id, currentEpoch?.repeat_data]);
 
   if (query.isLoading || query.isIdle || !circle)
     return <LoadingModal visible note="HistoryPage" />;
@@ -219,8 +273,20 @@ export const HistoryPage = () => {
       )}
 
       <Text h2>Upcoming Epochs</Text>
-      {futureEpochs?.length === 0 && <Text>There are no scheduled epochs</Text>}
+      {futureEpochs?.length === 0 && !nextRepeatingEpoch && (
+        <Text>There are no scheduled epochs</Text>
+      )}
       <Collapsible open={open} onOpenChange={setOpen} css={{ mb: '$md' }}>
+        {nextRepeatingEpoch && (
+          <NextEpoch
+            key={-1}
+            epoch={nextRepeatingEpoch}
+            setEditEpoch={setEditEpoch}
+            isEditing={editEpoch || newEpoch ? true : false}
+            setEpochToDelete={setEpochToDelete}
+            isAdmin={isAdmin}
+          />
+        )}
         {futureEpochs && futureEpochs.length > 0 && (
           <NextEpoch
             key={futureEpochs[0].id}
@@ -290,20 +356,19 @@ export const HistoryPage = () => {
         open={!!epochToDelete}
         onOpenChange={() => setEpochToDelete(undefined)}
         title={`Remove Epoch ${
-          epochToDelete?.number ? epochToDelete.number : ''
+          epochToDelete?.number && epochToDelete.number > -1
+            ? epochToDelete.number
+            : ''
         }`}
       >
         <Flex column alignItems="start" css={{ gap: '$md' }}>
           <Button
             color="destructive"
-            onClick={
-              epochToDelete
-                ? () =>
-                    deleteEpoch(epochToDelete?.id)
-                      .then(() => setEpochToDelete(undefined))
-                      .then(() => query.refetch())
-                      .catch(() => setEpochToDelete(undefined))
-                : undefined
+            onClick={() =>
+              deleteEpochHandler(epochToDelete, currentEpoch)
+                .then(() => setEpochToDelete(undefined))
+                .then(() => query.refetch())
+                .catch(() => setEpochToDelete(undefined))
             }
           >
             Remove

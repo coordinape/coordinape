@@ -46,17 +46,20 @@ test('handles weekly boundaries correctly', () => {
   let result = findSameDayNextMonth(start, { week: 0 });
   expect(result.toISO()).toBe('2023-05-05T00:00:00.000Z');
   // week 5
-  // 6th Friday each month truncated to last Friday
-  result = findSameDayNextMonth(start, { week: 5 });
-  expect(result.toISO()).toBe('2023-04-28T00:00:00.000Z');
+  // 5th Tuesday each month truncated to last Tuesday
+  start = DateTime.fromISO('2023-01-31T00:00:00.000Z');
+  result = findSameDayNextMonth(start, { week: 4 });
+  expect(result.toISO()).toBe('2023-02-28T00:00:00.000Z');
 
   // week 1
   // 2nd Saturday each month
   start = DateTime.fromISO('2023-04-08T00:00:00.000Z');
   result = findSameDayNextMonth(start, { week: 1 });
   expect(result.toISO()).toBe('2023-05-13T00:00:00.000Z');
-  // week 6
-  // 6th Saturday each month truncated to the last Saturday
-  result = findSameDayNextMonth(start, { week: 6 });
-  expect(result.toISO()).toBe('2023-04-29T00:00:00.000Z');
+  // week 5
+  // 5th Tuesday each month
+  start = DateTime.fromISO('2023-02-28T00:00:00.000Z');
+  // 5th Tuesday each month truncated to the last Tuesday
+  result = findSameDayNextMonth(start, { week: 4 });
+  expect(result.toISO()).toBe('2023-03-28T00:00:00.000Z');
 });

@@ -3,7 +3,6 @@ import {
   IApiCircle,
   NominateUserParam,
   PostTokenGiftsParam,
-  UpdateCreateEpochParam,
   UpdateUsersParam,
 } from '../../types';
 
@@ -476,14 +475,12 @@ export async function updateUser(params: ValueTypes['UpdateUserInput']) {
   return updateUser;
 }
 
-export async function createEpoch(params: ValueTypes['CreateEpochOldInput']) {
-  const { createEpochOld } = await client.mutate(
+export async function createEpoch(params: ValueTypes['CreateEpochInput']) {
+  const { createEpoch } = await client.mutate(
     {
-      createEpochOld: [
+      createEpoch: [
         {
-          payload: {
-            ...params,
-          },
+          payload: params,
         },
         {
           id: true,
@@ -494,22 +491,27 @@ export async function createEpoch(params: ValueTypes['CreateEpochOldInput']) {
       operationName: 'createEpoch',
     }
   );
-  return createEpochOld;
+  return createEpoch;
 }
 
 export async function updateEpoch(
-  circleId: number,
-  epochId: number,
-  params: UpdateCreateEpochParam
+  updateParams: ValueTypes['UpdateEpochInput']
 ) {
-  const { updateEpochOld } = await client.mutate(
+  const {
+    circle_id: circleId,
+    id: epochId,
+    params,
+    description,
+  } = updateParams;
+  const { updateEpoch } = await client.mutate(
     {
-      updateEpochOld: [
+      updateEpoch: [
         {
           payload: {
             circle_id: circleId,
             id: epochId,
-            ...params,
+            params,
+            description,
           },
         },
         {
@@ -518,10 +520,62 @@ export async function updateEpoch(
       ],
     },
     {
-      operationName: 'updateEpochOld',
+      operationName: 'updateEpoch',
     }
   );
-  return updateEpochOld;
+  return updateEpoch;
+}
+
+export async function updateActiveRepeatingEpoch(
+  circleId: number,
+  epochId: number,
+  params: {
+    current: ValueTypes['UpdateEpochInput']['params'];
+    next: ValueTypes['CreateEpochInput']['params'];
+  }
+) {
+  // TODO create a backend handler that sequentially executes these handlers
+  // action handlers are not executed purely sequentially when passed in the
+  // same mutation. In this specific case, the create handler executes
+  // seemingly concurrently with the update handler, which yields an
+  // "overlapping epoch" error
+  await client.mutate(
+    {
+      updateEpoch: [
+        {
+          payload: {
+            params: params.current,
+            circle_id: circleId,
+            id: epochId,
+          },
+        },
+        {
+          id: true,
+        },
+      ],
+    },
+    {
+      operationName: 'updateActiveRepeatingEpochUpdate',
+    }
+  );
+  await client.mutate(
+    {
+      createEpoch: [
+        {
+          payload: {
+            params: params.next,
+            circle_id: circleId,
+          },
+        },
+        {
+          id: true,
+        },
+      ],
+    },
+    {
+      operationName: 'updateActiveRepeatingEpochCreate',
+    }
+  );
 }
 
 export async function allocationCsv(
