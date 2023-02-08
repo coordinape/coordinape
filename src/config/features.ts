@@ -8,7 +8,7 @@ export type FeatureName =
   | 'email_login'
   | 'guild'
   | 'disable_distribute_evenly'
-  | 'epoch_timing';
+  | 'epoch_timing_banner';
 
 // this is a very simple implementation of build-time feature flags that you can
 // hardcode or set with environment variables
@@ -19,7 +19,7 @@ const staticFeatureFlags: Partial<Record<FeatureName, boolean>> = {
   email_login: !!process.env.REACT_APP_FEATURE_FLAG_EMAIL_LOGIN,
   discord: true,
   guild: true,
-  epoch_timing: true,
+  epoch_timing_banner: !!process.env.REACT_APP_FEATURE_FLAG_EPOCH_TIMING_BANNER,
 };
 
 // this code is safe to use in a non-browser environment because of the typeof
