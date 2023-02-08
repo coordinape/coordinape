@@ -134,6 +134,9 @@ export const Panel = styled(PanelBase, {
       true: {
         backgroundColor: '$tagAlertBackground',
         color: '$tagAlertText',
+        'h1, h2': {
+          color: '$alert',
+        },
       },
     },
     neutral: {
