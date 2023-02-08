@@ -40,6 +40,7 @@ export const AllTypesProps: Record<string, any> = {
   DeleteEpochInput: {},
   DeleteUserInput: {},
   DeleteUsersInput: {},
+  EndEpochInput: {},
   EpochInputParams: {
     end_date: 'timestamptz',
     start_date: 'timestamptz',
@@ -3323,6 +3324,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     delete_vouches_by_pk: {
       id: 'bigint',
+    },
+    endEpoch: {
+      payload: 'EndEpochInput',
     },
     generateApiKey: {
       payload: 'GenerateApiKeyInput',
@@ -9918,6 +9922,7 @@ export const ReturnTypes: Record<string, any> = {
     delete_vaults_by_pk: 'vaults',
     delete_vouches: 'vouches_mutation_response',
     delete_vouches_by_pk: 'vouches',
+    endEpoch: 'EpochResponse',
     generateApiKey: 'GenerateApiKeyResponse',
     insert_burns: 'burns_mutation_response',
     insert_burns_one: 'burns',

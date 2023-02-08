@@ -209,6 +209,11 @@ type DeleteUsersResponse {
   success: Boolean!
 }
 
+input EndEpochInput {
+  circle_id: Int!
+  id: Int!
+}
+
 input EpochInputParams {
   duration: Int
   duration_unit: String
@@ -6098,6 +6103,7 @@ type mutation_root {
   delete_pending_vault_transactions_by_pk(
     tx_hash: String!
   ): pending_vault_transactions
+  endEpoch(payload: EndEpochInput!): EpochResponse
 
   """
   Generates an API key for a circle

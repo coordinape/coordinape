@@ -23,7 +23,11 @@ const HintBanner = ({
           alignItems: 'flex-start',
         }}
       >
-        {title && <Text h2>{title}</Text>}
+        {title && (
+          <Text h2 as="h2">
+            {title}
+          </Text>
+        )}
         {children}
       </Flex>
     </Panel>
