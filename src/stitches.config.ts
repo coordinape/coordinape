@@ -260,6 +260,10 @@ export const {
     space: {
       ...spaces,
     },
+    letterSpacings: {
+      body: 'normal',
+      header: 'normal',
+    },
     sizes: {
       max: 'max-content',
       min: 'min-content',
@@ -573,6 +577,10 @@ export const dark = createTheme({
     tall2: 1.75,
     taller: '2',
   },
+  letterSpacings: {
+    body: '0.01em',
+    header: '0.02em',
+  },
   shadows: {
     shadow1: '0px 0px 35px 12px rgb(0 0 0 / 40%)',
     toastifyShadow: '0px 5px 25px -5px black',
@@ -674,8 +682,36 @@ export const light = createTheme({
     mapLink: '#00000015',
     mapLinkDim: '#00000008',
   },
+  fontSizes: {
+    small: '14px',
+    medium: '16px',
+    large: '20px',
+    h3: '24px',
+    h2: '18px',
+    h1: '26px',
+    h1Temp: '26px',
+  },
+  lineHeights: {
+    none: 1,
+    shorter: '120%',
+    short: 1.375,
+    base: 1.5,
+    tall: 1.625,
+    tall2: 1.75,
+    taller: '2',
+  },
+  letterSpacings: {
+    body: '0.01em',
+    header: '0.02em',
+  },
   fonts: {
     display: 'Denim, apple-system, sans-serif',
+  },
+  fontWeights: {
+    labelBold: '$semibold',
+  },
+  textTransforms: {
+    label: 'none',
   },
 });
 

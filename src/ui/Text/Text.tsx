@@ -33,6 +33,7 @@ export const Text = styled('span', {
         fontSize: '$h1',
         color: '$headingText',
         fontWeight: '$semibold',
+        letterSpacing: '$header',
         '@sm': { fontSize: '$h2' },
       },
     },
@@ -41,11 +42,16 @@ export const Text = styled('span', {
         fontSize: '$h2',
         color: '$headingText',
         fontWeight: '$semibold',
+        letterSpacing: '$header',
         '@sm': { fontSize: '$h3' },
       },
     },
     h3: {
-      true: { fontSize: '$h3', '@sm': { fontSize: '$large' } },
+      true: {
+        fontSize: '$h3',
+        letterSpacing: '$header',
+        '@sm': { fontSize: '$large' },
+      },
     },
 
     size: {
@@ -61,6 +67,7 @@ export const Text = styled('span', {
         fontSize: '$small',
         fontWeight: '$labelBold',
         lineHeight: '$shorter',
+        letterSpacing: '$body',
         display: 'flex',
         gap: '$xs',
       },
@@ -76,6 +83,7 @@ export const Text = styled('span', {
         color: '$text',
         fontSize: '$medium',
         lineHeight: '$base',
+        letterSpacing: '$body',
       },
     },
     ellipsis: {
