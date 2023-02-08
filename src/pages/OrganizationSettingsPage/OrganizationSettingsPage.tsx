@@ -2,11 +2,12 @@ import assert from 'assert';
 import React, { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { QUERY_KEY_NAV } from 'features/nav/getNavData';
 import { fileToBase64 } from 'lib/base64';
 import { updateOrgLogo } from 'lib/gql/mutations';
 import { MAX_IMAGE_BYTES_LENGTH_BASE64 } from 'lib/images';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
 import * as z from 'zod';
@@ -55,6 +56,8 @@ export const OrganizationSettingsPage = () => {
   const orgId = Number.parseInt(useParams().orgId ?? '-1');
   const navigate = useNavigate();
   const address = useConnectedAddress();
+  const queryClient = useQueryClient();
+
   const { data, refetch, isLoading, isIdle, isRefetching } = useQuery(
     [QUERY_KEY_ORG_DATA, orgId],
     () => getOrgData(orgId, address as string),
@@ -114,6 +117,8 @@ export const OrganizationSettingsPage = () => {
         try {
           response = await uploadLogo(orgId, newLogo);
           assert(response?.uploadOrgLogo?.org?.logo);
+          queryClient.invalidateQueries(QUERY_KEY_NAV);
+          queryClient.invalidateQueries(QUERY_KEY_ORG_DATA);
         } catch (e: any) {
           showError(e);
           setLogoFile(undefined);
