@@ -14,13 +14,8 @@ import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { useSelectedCircle } from '../../recoilState';
 import { LoadingModal, FormInputField } from 'components';
 import { useToast } from 'hooks';
+import { Contribution as IntegrationContribution } from 'hooks/useContributions';
 import {
-  useContributions,
-  Contribution as IntegrationContribution,
-} from 'hooks/useContributions';
-import {
-  DeworkColor,
-  WonderColor,
   ChevronDown,
   ChevronUp,
   Trash2,
@@ -43,20 +38,21 @@ import { SingleColumnLayout } from 'ui/layouts';
 import { SavingIndicator, SaveState } from 'ui/SavingIndicator';
 
 import { ContributionIntro } from './ContributionIntro';
+import { ContributionList } from './ContributionList';
 import { ContributionPanel } from './ContributionPanel';
-import { ContributionRow } from './ContributionRow';
 import {
   deleteContributionMutation,
   updateContributionMutation,
   createContributionMutation,
 } from './mutations';
 import { PlaceholderContributions } from './PlaceholderContributions';
-import {
-  getContributionsAndEpochs,
-  ContributionsAndEpochs,
-  Contribution,
-  Epoch,
-} from './queries';
+import { getContributionsAndEpochs, Contribution, Epoch } from './queries';
+import type {
+  CurrentContribution,
+  CurrentIntContribution,
+  LinkedContributionsAndEpochs,
+  SetActiveContributionProps,
+} from './types';
 import {
   getCurrentEpoch,
   getNewContribution,
@@ -65,6 +61,7 @@ import {
   LinkedElement,
   jumpToEpoch,
   isEpochCurrentOrLater,
+  contributionIcon,
 } from './util';
 
 const schema = z.object({
@@ -99,29 +96,6 @@ const nextPrevCss = {
   },
 };
 
-type LinkedContributionsAndEpochs = {
-  contributions: Array<LinkedElement<Contribution>>;
-  epochs: Array<LinkedElement<Epoch>>;
-  users: ContributionsAndEpochs['users'];
-};
-
-type CurrentContribution = {
-  contribution: LinkedElement<Contribution>;
-  epoch: LinkedElement<Epoch>;
-};
-type CurrentIntContribution = {
-  contribution: IntegrationContribution;
-  epoch?: LinkedElement<Epoch>;
-};
-
-const contributionIcon = (source: string) => {
-  switch (source) {
-    case 'wonder':
-      return <WonderColor css={{ mr: '$md' }} />;
-    default:
-      return <DeworkColor css={{ mr: '$md' }} />;
-  }
-};
 const contributionSource = (source: string) => {
   switch (source) {
     case 'wonder':
@@ -411,7 +385,12 @@ const ContributionsPage = () => {
     resetUpdateMutation();
     reset();
   };
-  const newContribution = () => {
+
+  const readyForNewContribution: boolean =
+    !saveState[NEW_CONTRIBUTION_ID] ||
+    saveState[NEW_CONTRIBUTION_ID] === 'stable';
+
+  const addNewContribution = () => {
     setCurrentContribution({
       contribution: getNewContribution(
         currentUserId,
@@ -447,9 +426,7 @@ const ContributionsPage = () => {
                   <Link
                     href="#"
                     iconLink
-                    onClick={() => {
-                      setEditHelpText(true);
-                    }}
+                    onClick={() => setEditHelpText(true)}
                     css={{ whiteSpace: 'nowrap' }}
                   >
                     <Edit3 />
@@ -458,12 +435,7 @@ const ContributionsPage = () => {
                 )}
               </Flex>
             ) : (
-              <Flex
-                column
-                css={{
-                  width: '100%',
-                }}
-              >
+              <Flex column css={{ width: '100%' }}>
                 <Box css={{ position: 'relative', width: '100%' }}>
                   <FormInputField
                     name="cont_help_text"
@@ -475,19 +447,13 @@ const ContributionsPage = () => {
                     infoTooltip="Change the text that contributors see on this page."
                     showFieldErrors
                     textArea
-                    css={{
-                      width: '100%',
-                    }}
+                    css={{ width: '100%' }}
                   />
                   <Text
                     inline
                     size="small"
                     color="secondary"
-                    css={{
-                      position: 'absolute',
-                      right: '$sm',
-                      bottom: '$sm',
-                    }}
+                    css={{ position: 'absolute', right: '$sm', bottom: '$sm' }}
                   >
                     Markdown Supported
                   </Text>
@@ -496,9 +462,7 @@ const ContributionsPage = () => {
                   <Button
                     size="small"
                     color="secondary"
-                    onClick={() => {
-                      setEditHelpText(false);
-                    }}
+                    onClick={() => setEditHelpText(false)}
                   >
                     Cancel
                   </Button>
@@ -514,7 +478,7 @@ const ContributionsPage = () => {
               </Flex>
             )}
           </Flex>
-          <Button color="cta" onClick={newContribution}>
+          <Button color="cta" onClick={addNewContribution}>
             Add Contribution
           </Button>
         </ContentHeader>
@@ -535,9 +499,7 @@ const ContributionsPage = () => {
         drawer
         showClose={false}
         open={modalOpen}
-        onOpenChange={() => {
-          closeDrawer();
-        }}
+        onOpenChange={closeDrawer}
       >
         <Panel ghost>
           {currentContribution ? (
@@ -548,9 +510,7 @@ const ContributionsPage = () => {
               >
                 <Flex alignItems="center">
                   <Button
-                    onClick={() => {
-                      closeDrawer();
-                    }}
+                    onClick={closeDrawer}
                     color="textOnly"
                     noPadding
                     css={{ mr: '$lg' }}
@@ -561,9 +521,7 @@ const ContributionsPage = () => {
                     color="dim"
                     size="large"
                     css={nextPrevCss}
-                    disabled={
-                      currentContribution.contribution.prev() === undefined
-                    }
+                    disabled={!currentContribution.contribution.prev()}
                     onClick={() => {
                       const prevContribution =
                         currentContribution.contribution.prev();
@@ -589,9 +547,7 @@ const ContributionsPage = () => {
                   <Button
                     color="dim"
                     css={nextPrevCss}
-                    disabled={
-                      currentContribution.contribution.next() === undefined
-                    }
+                    disabled={!currentContribution.contribution.next()}
                     onClick={() => {
                       const nextContribution =
                         currentContribution.contribution.next();
@@ -617,11 +573,7 @@ const ContributionsPage = () => {
                 </Flex>
                 <Button
                   color="textOnly"
-                  css={{
-                    '&:hover': {
-                      color: '$alert',
-                    },
-                  }}
+                  css={{ '&:hover': { color: '$alert' } }}
                   noPadding
                   disabled={!currentContribution.contribution.id}
                   onClick={() => {
@@ -637,34 +589,16 @@ const ContributionsPage = () => {
               <Flex column css={{ my: '$xl' }}>
                 <Flex
                   alignItems="center"
-                  css={{
-                    mb: '$sm',
-                    justifyContent: 'space-between',
-                  }}
+                  css={{ mb: '$sm', justifyContent: 'space-between' }}
                 >
                   <Flex>
-                    <Text
-                      h3
-                      semibold
-                      css={{
-                        mr: '$md',
-                      }}
-                    >
+                    <Text h3 semibold css={{ mr: '$md' }}>
                       {currentContribution.epoch.id
                         ? renderEpochDate(currentContribution.epoch)
                         : 'Latest'}
                     </Text>
                     {getEpochLabel(currentContribution.epoch)}
                   </Flex>
-                  {isEpochCurrentOrLater(currentContribution.epoch) && (
-                    <SavingIndicator
-                      saveState={saveState[currentContribution.contribution.id]}
-                      retry={() => {
-                        saveContribution(descriptionField.value);
-                        refetchContributions();
-                      }}
-                    />
-                  )}
                 </Flex>
                 <Text size="medium" css={{ fontWeight: '$medium' }}>
                   {currentContribution.epoch.description}
@@ -680,20 +614,31 @@ const ContributionsPage = () => {
                   <Text inline semibold size="large">
                     Contribution
                   </Text>
-                  <Text variant="label">
-                    {DateTime.fromISO(
-                      currentContribution.contribution.datetime_created
-                    ).toFormat('LLL dd')}
-                  </Text>
+                  <Flex css={{ gap: '$sm' }}>
+                    {isEpochCurrentOrLater(currentContribution.epoch) && (
+                      <SavingIndicator
+                        saveState={
+                          saveState[currentContribution.contribution.id]
+                        }
+                        retry={() => {
+                          saveContribution(descriptionField.value);
+                          refetchContributions();
+                        }}
+                      />
+                    )}
+                    <Text variant="label">
+                      {DateTime.fromISO(
+                        currentContribution.contribution.datetime_created
+                      ).toFormat('LLL dd')}
+                    </Text>
+                  </Flex>
                 </Flex>
                 {isEpochCurrentOrLater(currentContribution.epoch) ? (
                   showMarkdown ? (
                     <Box
                       tabIndex={0}
                       css={{ borderRadius: '$3' }}
-                      onClick={() => {
-                        setShowMarkDown(false);
-                      }}
+                      onClick={() => setShowMarkDown(false)}
                       onKeyDown={e => {
                         e.stopPropagation();
                         if (e.key === 'Enter' || e.key === ' ') {
@@ -778,50 +723,23 @@ const ContributionsPage = () => {
                   />
                 )}
 
-                <Flex css={{ justifyContent: 'flex-end', mt: '$md' }}>
+                <Flex css={{ justifyContent: 'flex-end' }}>
                   <Button
                     color="primary"
-                    onClick={newContribution}
+                    onClick={addNewContribution}
                     // adding onMouseDown because the onBlur event on the markdown-ready textarea was preventing onClick
-                    onMouseDown={newContribution}
+                    onMouseDown={addNewContribution}
+                    disabled={!readyForNewContribution}
                   >
                     New
                   </Button>
                 </Flex>
               </Flex>
             </>
-          ) : currentIntContribution ? (
-            <>
-              <Flex column css={{ my: '$xl' }}>
-                <Text h2 css={{ gap: '$md', mb: '$sm' }}>
-                  {currentIntContribution.epoch
-                    ? renderEpochDate(currentIntContribution.epoch)
-                    : 'Latest'}
-                  {getEpochLabel(currentIntContribution.epoch)}
-                </Text>
-                <Text size="medium" css={{ fontWeight: '$medium' }}>
-                  {currentIntContribution?.epoch?.description}
-                </Text>
-              </Flex>
-              <Panel css={{ pl: '0 !important' }}>
-                <Text p size="large" semibold css={{ color: '$headingText' }}>
-                  {contributionSource(
-                    currentIntContribution.contribution.source
-                  )}
-                </Text>
-              </Panel>
-              <Panel nested>
-                <Link
-                  target="_blank"
-                  href={currentIntContribution.contribution.link}
-                >
-                  {contributionIcon(currentIntContribution.contribution.source)}
-                  {currentIntContribution.contribution.title}
-                </Link>
-              </Panel>
-            </>
           ) : (
-            <></>
+            currentIntContribution && (
+              <IntegrationContributionDetail data={currentIntContribution} />
+            )
           )}
         </Panel>
       </Modal>
@@ -829,14 +747,37 @@ const ContributionsPage = () => {
   );
 };
 
-type SetActiveContributionProps = {
-  setActiveContribution: (
-    e: LinkedElement<Epoch>,
-    c?: LinkedElement<Contribution>,
-    intC?: IntegrationContribution
-  ) => void;
-  currentContribution: CurrentContribution | null;
+const IntegrationContributionDetail = ({
+  data: { epoch, contribution },
+}: {
+  data: CurrentIntContribution;
+}) => {
+  return (
+    <>
+      <Flex column css={{ my: '$xl' }}>
+        <Text h2 css={{ gap: '$md', mb: '$sm' }}>
+          {epoch ? renderEpochDate(epoch) : 'Latest'}
+          {getEpochLabel(epoch)}
+        </Text>
+        <Text size="medium" css={{ fontWeight: '$medium' }}>
+          {epoch?.description}
+        </Text>
+      </Flex>
+      <Panel css={{ pl: '0 !important' }}>
+        <Text p size="large" semibold css={{ color: '$headingText' }}>
+          {contributionSource(contribution.source)}
+        </Text>
+      </Panel>
+      <Panel nested>
+        <Link target="_blank" href={contribution.link}>
+          {contributionIcon(contribution.source)}
+          {contribution.title}
+        </Link>
+      </Panel>
+    </>
+  );
 };
+
 const monthsEqual = (start: string, end: string) =>
   DateTime.fromISO(start).month === DateTime.fromISO(end).month;
 
@@ -921,99 +862,5 @@ const EpochGroup = React.memo(function EpochGroup({
     </Flex>
   );
 });
-
-type ContributionListProps = {
-  contributions: Array<LinkedElement<Contribution>>;
-  epoch: LinkedElement<Epoch>;
-  userAddress?: string;
-} & SetActiveContributionProps;
-const ContributionList = ({
-  epoch,
-  contributions,
-  setActiveContribution,
-  currentContribution,
-  userAddress,
-}: ContributionListProps) => {
-  // epochs are listed in chronologically descending order
-  // so the next epoch in the array is the epoch that ended
-  // before the one here
-  const priorEpoch = epoch.next();
-  const integrationContributions = useContributions({
-    address: userAddress || '',
-    startDate: priorEpoch
-      ? priorEpoch.end_date
-      : // add a buffer of time before the start date if this is the first epoch
-        // Querying from epoch time 0 is apparently an unwelcome
-        // practice for some integrators
-        DateTime.fromISO(epoch.start_date).minus({ months: 1 }).toISO(),
-    endDate: epoch.end_date,
-    mock: false,
-  });
-
-  return (
-    <>
-      {contributions.length || integrationContributions?.length ? (
-        <>
-          {contributions.map(c => (
-            <ContributionRow
-              key={c.id}
-              active={currentContribution?.contribution.id === c.id}
-              description={c.description}
-              datetime_created={c.datetime_created}
-              onClick={() => {
-                setActiveContribution(epoch, c, undefined);
-              }}
-              onKeyDown={e => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  setActiveContribution(epoch, c, undefined);
-                  e.preventDefault();
-                  e.stopPropagation();
-                }
-              }}
-            />
-          ))}
-          {integrationContributions?.map(c => (
-            <Panel
-              key={c.title}
-              css={{
-                border: '1px solid $border',
-                cursor: 'pointer',
-                '&:hover': {
-                  background: '$highlight',
-                  borderColor: '$link',
-                },
-              }}
-              onClick={() => {
-                setActiveContribution(epoch, undefined, c);
-              }}
-              onKeyDown={e => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  setActiveContribution(epoch, undefined, c);
-                  e.preventDefault();
-                  e.stopPropagation();
-                }
-              }}
-            >
-              <Text
-                ellipsis
-                css={{
-                  mr: '10px',
-                  maxWidth: '60em',
-                }}
-              >
-                {contributionIcon(c.source)}
-                {c.title}
-              </Text>
-            </Panel>
-          ))}
-        </>
-      ) : epoch.id !== 0 ? (
-        <Text>You don&apos;t have any contributions in this epoch</Text>
-      ) : (
-        <Text>You don&apos;t have any contributions yet</Text>
-      )}
-    </>
-  );
-};
 
 export default ContributionsPage;
