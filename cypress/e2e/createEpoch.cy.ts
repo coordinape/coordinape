@@ -32,5 +32,8 @@ context('Coordinape', () => {
       .click();
     cy.contains('Save').click();
     cy.contains('starts in 23 hr', { timeout: 120000 });
+    cy.contains('Delete Epoch').click();
+    cy.contains('button', 'Remove').click();
+    cy.contains('There are no scheduled epochs', { timeout: 12000 });
   });
 });
