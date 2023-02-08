@@ -61,7 +61,7 @@
     "itiriri": "2.0.1",
     "keccak": "^3.0.2",
     "lodash": "4.17.21",
-    "luxon": "3.0.4",
+    "luxon": "3.2.1",
     "magic-sdk": "^10.1.0",
     "mixpanel": "^0.17.0",
     "morgan": "^1.10.0",
