@@ -204,7 +204,26 @@ export const GiveRow = ({
               css={{ gap: '$md', height: 'calc($2xl * 3)', overflow: 'hidden' }}
             >
               {member.bio && (
-                <>
+                <Flex
+                  column
+                  className="epochStatementWrapper"
+                  css={{
+                    position: 'relative',
+                    height: '100%',
+                    // gradient overlaying overflowing links
+                    '&::after': {
+                      content: '',
+                      position: 'absolute',
+                      background: 'linear-gradient(transparent, $surface)',
+                      width: '100%',
+                      height: '80px',
+                      bottom: 0,
+                      left: 0,
+                      pointerEvents: 'none',
+                      zIndex: 2,
+                    },
+                  }}
+                >
                   <Text
                     inline
                     semibold
@@ -214,7 +233,7 @@ export const GiveRow = ({
                     Epoch Statement
                   </Text>
                   <MarkdownPreview render source={member.bio} />
-                </>
+                </Flex>
               )}
             </Flex>
 
