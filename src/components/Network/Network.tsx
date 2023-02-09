@@ -34,10 +34,11 @@ export const Network = ({
       css={{
         width: '$full',
         alignItems: 'center',
+        gap: '$xs',
       }}
     >
       {chainLogos[chainId]}
-      <Text css={{ color: 'inherit', pl: '$sm' }}>{chainName}</Text>
+      <Text size="small">{chainName}</Text>
       {children}
     </Flex>
   );

@@ -605,14 +605,22 @@ export const light = createTheme({
     surfaceNested: newFigmaColors.grey1,
     navLinkText: newFigmaColors.grey7,
     navLinkHoverBackground: newFigmaColors.grey1,
-    dim: newFigmaColors.grey4,
+    dim: newFigmaColors.grey2,
     highlight: newFigmaColors.secondary1,
+
+    border: figmaColors.grey4,
+    hr: figmaColors.grey4,
+    contentHeaderBorder: newFigmaColors.grey3,
+    borderMedium: newFigmaColors.grey5,
+    borderDim: newFigmaColors.grey4,
+    borderFocus: newFigmaColors.secondary4,
+    borderFocusBright: newFigmaColors.secondary5,
+    borderTable: newFigmaColors.grey4,
 
     profileGradientStart: newFigmaColors.grey4,
     profileGradientEnd: newFigmaColors.grey2,
 
     link: newFigmaColors.secondary5,
-    borderFocus: newFigmaColors.secondary4,
 
     avatarFallback: newFigmaColors.grey6,
     avatarFallbackText: newFigmaColors.grey2,
@@ -623,14 +631,13 @@ export const light = createTheme({
     toggleButtonYes: newFigmaColors.success5,
     toggleButtonNo: '$alert',
 
-    primary: newFigmaColors.grey4,
-    primaryHover: newFigmaColors.grey3,
-    primaryButtonText: newFigmaColors.grey7,
-    textOnPrimary: newFigmaColors.grey7,
-    primaryButtonHover: newFigmaColors.grey3,
+    primary: newFigmaColors.grey8,
+    primaryButton: newFigmaColors.grey8,
+    primaryHover: newFigmaColors.grey10,
+    primaryButtonHover: newFigmaColors.grey10,
+    primaryButtonText: newFigmaColors.grey2,
+    textOnPrimary: newFigmaColors.grey2,
     primaryButtonBorderFocus: newFigmaColors.grey5,
-
-    contentHeaderBorder: newFigmaColors.grey3,
 
     formInputBorderFocus: newFigmaColors.secondary5,
     formRadioBorderUnselected: newFigmaColors.secondary2,
@@ -639,7 +646,7 @@ export const light = createTheme({
 
     secondaryButton: '#ffffff22',
     secondaryButtonHover: newFigmaColors.grey10,
-    secondaryButtonText: newFigmaColors.grey9,
+    secondaryButtonText: newFigmaColors.grey8,
     secondaryButtonTextHover: newFigmaColors.grey1,
     secondaryButtonBorderHover: newFigmaColors.grey10,
     secondaryButtonBorderFocus: newFigmaColors.grey8,
@@ -788,6 +795,7 @@ export const globalStyles = globalCss({
   },
   body: {
     letterSpacing: '$body',
+    color: '$text',
   },
   // a11y keyboard navigation
   'a:focus-visible, button:focus-visible, [tabindex="0"]:focus-visible': {

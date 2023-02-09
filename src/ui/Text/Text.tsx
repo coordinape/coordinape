@@ -168,7 +168,7 @@ export const Text = styled('span', {
     },
   ],
 
-  defaultVariants: { color: 'default' },
+  defaultVariants: { color: 'inherit' },
 });
 
 export default Text;

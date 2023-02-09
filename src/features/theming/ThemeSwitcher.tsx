@@ -9,6 +9,7 @@ const themeOptionStyles = {
   zIndex: 1,
   borderRadius: '$pill',
   background: 'transparent',
+  fontWeight: 'normal',
   '&:hover': {
     color: '$text',
   },
@@ -35,7 +36,6 @@ export const ThemeSwitcher = () => {
               gap: '$xs',
               justifyContent: 'start',
               alignItems: 'center',
-              // border: '1px solid $borderDim',
               background: '$dim',
               borderRadius: '$pill',
               p: '$xxs',
@@ -43,7 +43,7 @@ export const ThemeSwitcher = () => {
               position: 'relative',
               '&:after': {
                 content: '',
-                background: '$neutralButtonHover',
+                background: '$neutral',
                 height: handleHeight,
                 width:
                   themePreference === 'auto'
@@ -71,8 +71,8 @@ export const ThemeSwitcher = () => {
                 ...themeOptionStyles,
                 color:
                   themePreference === 'dark'
-                    ? '$textOnCta !important'
-                    : '$textOnDim',
+                    ? '$background !important'
+                    : '$navLinkText',
               }}
               onClick={() => {
                 setTheme('dark');
@@ -91,8 +91,8 @@ export const ThemeSwitcher = () => {
                 borderRadius: '$pill',
                 color:
                   themePreference === 'auto'
-                    ? '$textOnCta !important'
-                    : '$textOnDim',
+                    ? '$background !important'
+                    : '$navLinkText',
               }}
               onClick={() => {
                 setTheme('auto');
@@ -105,8 +105,8 @@ export const ThemeSwitcher = () => {
                 ...themeOptionStyles,
                 color:
                   themePreference === 'light'
-                    ? '$textOnCta !important'
-                    : '$textOnDim',
+                    ? '$background !important'
+                    : '$navLinkText',
               }}
               onClick={() => {
                 setTheme('light');
@@ -122,7 +122,9 @@ export const ThemeSwitcher = () => {
                 color: '$primary',
               },
               color:
-                themePreference == 'legacy' ? '$text !important' : '$textOnDim',
+                themePreference == 'legacy'
+                  ? '$background !important'
+                  : '$navLinkText',
             }}
             onClick={() => {
               setTheme('legacy');

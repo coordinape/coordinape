@@ -17,6 +17,15 @@ export const shortenAddress = (address: string, backAddress = true) => {
   return `${front}...${address.substring(address.length - 4)}`;
 };
 
+export const shortenAddressWithFrontLength = (
+  address: string,
+  length: number
+) => {
+  const front = address.substring(0, length);
+
+  return `${front}...${address.substring(address.length - 4)}`;
+};
+
 export const smartRounding = (x: number | string | undefined) => {
   const ceiling = 10;
   if (!x || Number(x) > ceiling) return numberWithCommas(x, 2);

@@ -223,7 +223,7 @@ export const EpochStatementDrawer = ({
         </Flex>
       </Flex>
       <Flex column css={{ mt: '$xl' }}>
-        <Panel invertForm css={{ p: 0, gap: '$sm' }}>
+        <Panel ghost invertForm css={{ gap: '$sm' }}>
           <Text inline semibold size="large">
             Epoch Statement
           </Text>
