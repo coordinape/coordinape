@@ -9,7 +9,7 @@ export const NavClaimsButton = ({ css }: { css?: CSS }) => {
       tag
       as={NavLink}
       to="/claims"
-      css={{ ...css, textDecoration: 'none' }}
+      css={{ ...css, textDecoration: 'none', zIndex: 3 }}
       color="complete"
       size="small"
     >

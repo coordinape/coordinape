@@ -22,10 +22,13 @@ export const GiveRowGrid = ({
         cursor: 'pointer',
         backgroundColor: selected ? '$highlight' : '$surface',
         borderColor: selected ? '$link' : undefined,
-        transition: 'background-color 0.3s, border-color 0.3s',
+        transition: 'border-color 0.3s',
         '&:hover': {
           backgroundColor: '$activePanel',
           borderColor: 'transparent',
+          '.epochStatementWrapper::after': {
+            background: 'linear-gradient(transparent, $activePanel)',
+          },
         },
         '@sm': {
           p: '$md',

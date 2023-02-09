@@ -9,8 +9,9 @@ const themeOptionStyles = {
   zIndex: 1,
   borderRadius: '$pill',
   background: 'transparent',
+  fontWeight: 'normal',
   '&:hover': {
-    color: '$text',
+    color: '$toggleTextHover',
   },
 };
 const handleHeight = '24px';
@@ -35,15 +36,14 @@ export const ThemeSwitcher = () => {
               gap: '$xs',
               justifyContent: 'start',
               alignItems: 'center',
-              // border: '1px solid $borderDim',
-              background: '$dim',
+              background: '$toggleBackground',
               borderRadius: '$pill',
               p: '$xxs',
               display: 'inline-flex',
               position: 'relative',
               '&:after': {
                 content: '',
-                background: '$neutralButtonHover',
+                background: '$toggleSelectedBackground',
                 height: handleHeight,
                 width:
                   themePreference === 'auto'
@@ -71,8 +71,8 @@ export const ThemeSwitcher = () => {
                 ...themeOptionStyles,
                 color:
                   themePreference === 'dark'
-                    ? '$textOnCta !important'
-                    : '$textOnDim',
+                    ? '$toggleSelectedText !important'
+                    : '$toggleText',
               }}
               onClick={() => {
                 setTheme('dark');
@@ -91,8 +91,8 @@ export const ThemeSwitcher = () => {
                 borderRadius: '$pill',
                 color:
                   themePreference === 'auto'
-                    ? '$textOnCta !important'
-                    : '$textOnDim',
+                    ? '$toggleSelectedText !important'
+                    : '$toggleText',
               }}
               onClick={() => {
                 setTheme('auto');
@@ -105,8 +105,8 @@ export const ThemeSwitcher = () => {
                 ...themeOptionStyles,
                 color:
                   themePreference === 'light'
-                    ? '$textOnCta !important'
-                    : '$textOnDim',
+                    ? '$toggleSelectedText !important'
+                    : '$toggleText',
               }}
               onClick={() => {
                 setTheme('light');
@@ -118,11 +118,10 @@ export const ThemeSwitcher = () => {
           <IconButton
             css={{
               p: 0,
-              '&:hover': {
-                color: '$primary',
-              },
               color:
-                themePreference == 'legacy' ? '$text !important' : '$textOnDim',
+                themePreference == 'legacy'
+                  ? '$primary !important'
+                  : '$toggleText',
             }}
             onClick={() => {
               setTheme('legacy');

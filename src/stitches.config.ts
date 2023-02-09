@@ -203,6 +203,7 @@ export const colors = {
 
   formInputText: figmaColors.grey16,
   formInputBackground: '#FFFFFF66',
+  formInputBorderlessBright: figmaColors.grey1,
   formInputBorder: newFigmaColors.grey5,
   formInputBorderFocus: '$primary',
   formInputPlaceholder: figmaColors.grey8,
@@ -214,6 +215,12 @@ export const colors = {
   formRadioBackground: '$formInputBackground',
   formInputSelectBackground: newFigmaColors.grey2,
   formInputSelectHover: newFigmaColors.grey1,
+
+  toggleBackground: newFigmaColors.grey1,
+  toggleText: newFigmaColors.grey6,
+  toggleTextHover: '$primary',
+  toggleSelectedBackground: '$primary',
+  toggleSelectedText: newFigmaColors.grey1,
 
   mapNodeHighlight: '$primary',
   mapNodeMoreHighlight: figmaColors.teal8,
@@ -525,6 +532,7 @@ export const dark = createTheme({
 
     formInputText: newFigmaColors.grey5,
     formInputBackground: newFigmaColors.grey9,
+    formInputBorderlessBright: newFigmaColors.grey8,
     formInputBorder: newFigmaColors.grey7,
     formInputBorderFocus: newFigmaColors.primary4,
     formInputPlaceholder: newFigmaColors.grey6,
@@ -536,6 +544,12 @@ export const dark = createTheme({
     formRadioBackground: newFigmaColors.primary10,
     formInputSelectBackground: newFigmaColors.grey8,
     formInputSelectHover: newFigmaColors.grey9,
+
+    toggleBackground: newFigmaColors.grey8,
+    toggleText: newFigmaColors.grey4,
+    toggleTextHover: newFigmaColors.grey3,
+    toggleSelectedBackground: newFigmaColors.grey6,
+    toggleSelectedText: newFigmaColors.grey10,
 
     mapNodeHighlight: newFigmaColors.warning7,
     mapNodeMoreHighlight: newFigmaColors.warning4,
@@ -605,14 +619,23 @@ export const light = createTheme({
     surfaceNested: newFigmaColors.grey1,
     navLinkText: newFigmaColors.grey7,
     navLinkHoverBackground: newFigmaColors.grey1,
-    dim: newFigmaColors.grey4,
+    dim: newFigmaColors.grey2,
     highlight: newFigmaColors.secondary1,
+
+    border: figmaColors.grey4,
+    hr: figmaColors.grey4,
+    contentHeaderBorder: newFigmaColors.grey3,
+    borderMedium: newFigmaColors.grey5,
+    borderDim: newFigmaColors.grey4,
+    borderFocus: newFigmaColors.secondary4,
+    borderFocusBright: newFigmaColors.secondary5,
+    borderTable: newFigmaColors.grey4,
+    activePanel: newFigmaColors.secondary1,
 
     profileGradientStart: newFigmaColors.grey4,
     profileGradientEnd: newFigmaColors.grey2,
 
     link: newFigmaColors.secondary5,
-    borderFocus: newFigmaColors.secondary4,
 
     avatarFallback: newFigmaColors.grey6,
     avatarFallbackText: newFigmaColors.grey2,
@@ -623,15 +646,24 @@ export const light = createTheme({
     toggleButtonYes: newFigmaColors.success5,
     toggleButtonNo: '$alert',
 
-    primary: newFigmaColors.grey4,
-    primaryHover: newFigmaColors.grey3,
-    primaryButtonText: newFigmaColors.grey7,
-    textOnPrimary: newFigmaColors.grey7,
-    primaryButtonHover: newFigmaColors.grey3,
+    primary: newFigmaColors.grey8,
+    primaryButton: newFigmaColors.grey8,
+    primaryHover: newFigmaColors.grey10,
+    primaryButtonHover: newFigmaColors.grey10,
+    primaryButtonText: newFigmaColors.grey2,
+    textOnPrimary: newFigmaColors.grey2,
     primaryButtonBorderFocus: newFigmaColors.grey5,
 
-    contentHeaderBorder: newFigmaColors.grey3,
-
+    formInputText: figmaColors.grey16,
+    formInputBackground: '#FFFFFF66',
+    formInputBorderlessBright: figmaColors.grey1,
+    formInputBorder: newFigmaColors.grey5,
+    formInputPlaceholder: figmaColors.grey8,
+    formInputErrorText: newFigmaColors.error7,
+    formInputErrorBackground: newFigmaColors.error1,
+    formInputErrorBorder: newFigmaColors.error6,
+    formInputSelectBackground: newFigmaColors.grey2,
+    formInputSelectHover: newFigmaColors.grey1,
     formInputBorderFocus: newFigmaColors.secondary5,
     formRadioBorderUnselected: newFigmaColors.secondary2,
     formRadioBorderSelected: newFigmaColors.secondary5,
@@ -639,7 +671,7 @@ export const light = createTheme({
 
     secondaryButton: '#ffffff22',
     secondaryButtonHover: newFigmaColors.grey10,
-    secondaryButtonText: newFigmaColors.grey9,
+    secondaryButtonText: newFigmaColors.grey8,
     secondaryButtonTextHover: newFigmaColors.grey1,
     secondaryButtonBorderHover: newFigmaColors.grey10,
     secondaryButtonBorderFocus: newFigmaColors.grey8,
@@ -670,6 +702,12 @@ export const light = createTheme({
 
     tagDefaultText: newFigmaColors.grey2,
     tagDefaultBackground: newFigmaColors.grey5,
+
+    toggleBackground: newFigmaColors.grey2,
+    toggleText: newFigmaColors.grey6,
+    toggleTextHover: newFigmaColors.grey9,
+    toggleSelectedBackground: newFigmaColors.grey6,
+    toggleSelectedText: newFigmaColors.grey1,
 
     mapNodeHighlight: newFigmaColors.warning5,
     mapNodeMoreHighlight: newFigmaColors.warning3,
@@ -788,6 +826,7 @@ export const globalStyles = globalCss({
   },
   body: {
     letterSpacing: '$body',
+    color: '$text',
   },
   // a11y keyboard navigation
   'a:focus-visible, button:focus-visible, [tabindex="0"]:focus-visible': {

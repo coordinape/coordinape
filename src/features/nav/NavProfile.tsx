@@ -6,6 +6,7 @@ import { paths } from '../../routes/paths';
 import { Avatar, Box, Button, Flex, Modal, Text } from '../../ui';
 import { useWalletStatus } from '../auth';
 import { ThemeSwitcher } from '../theming/ThemeSwitcher';
+import { shortenAddressWithFrontLength } from 'utils';
 
 import { NavItem } from './NavItem';
 
@@ -50,22 +51,25 @@ export const NavProfile = ({
       }}
     >
       <Flex
+        row
         as={Button}
-        color={'transparent'}
+        color="transparent"
         css={{
           justifyContent: 'flex-start',
+          alignItems: 'flex-start',
           color: '$navLinkText',
           cursor: 'pointer',
           padding: '$xs $sm',
           borderRadius: '$3',
-          '&:hover, &:focus': {
-            backgroundColor: '$dim',
-            filter: 'saturate(1)',
+          borderBottomLeftRadius: open ? 0 : '$3',
+          borderBottomRightRadius: open ? 0 : '$3',
+          borderBottom: open ? '1px dashed $borderDim' : 'none',
+          '&:hover': {
+            background: '$dim',
           },
         }}
         tabIndex={0}
         onClick={() => setOpen(prev => !prev)}
-        // onBlur={() => setOpen(false)}
       >
         <Avatar
           name={name}
@@ -73,16 +77,25 @@ export const NavProfile = ({
           margin="none"
           css={{
             mr: '$sm',
+            mt: '$xs',
           }}
           path={avatar}
         />
         <Box css={{ minWidth: 0 }}>
-          <Text color="inherit" semibold>
-            {name}
+          <Text semibold>{name}</Text>
+          <Text size="small" ellipsis>
+            {address && shortenAddressWithFrontLength(address, 4)}
           </Text>
-          <Text color="inherit" size="small" ellipsis>
-            {address}
-          </Text>
+          {open && (
+            <Text
+              color="neutral"
+              css={{
+                svg: { display: 'none' },
+              }}
+            >
+              <Network chainId={chainId || 1} />
+            </Text>
+          )}
         </Box>
       </Flex>
       {open && (
@@ -99,16 +112,6 @@ export const NavProfile = ({
           />
           <NavItem label="Disconnect" to="/" onClick={logout} />
           <ThemeSwitcher />
-          <Text
-            tag
-            color="neutral"
-            css={{
-              margin: '$sm',
-              'svg *': { fill: '$navLinkText' },
-            }}
-          >
-            <Network chainId={chainId || 1} />
-          </Text>
         </Box>
       )}
       {showNameForm && (

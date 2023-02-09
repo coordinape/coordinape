@@ -926,7 +926,8 @@ const AllocateContents = ({
           background: 'transparent',
           p: 0,
           gridTemplateColumns: gridView ? '1fr 1fr 1fr 1fr' : '1fr',
-          '@md': { gridTemplateColumns: gridView ? '1fr 1fr 1fr' : '1fr' },
+          '@lg': { gridTemplateColumns: gridView ? '1fr 1fr 1fr' : '1fr' },
+          '@md': { gridTemplateColumns: gridView ? '1fr 1fr' : '1fr' },
           '@sm': { gridTemplateColumns: '1fr' },
         }}
       >
