@@ -30,6 +30,7 @@ type Props = {
   editingEpoch?: number;
   isAdmin: boolean;
   css?: CSS;
+  children?: React.ReactNode;
 };
 export const CurrentEpochPanel = ({
   epoch,
@@ -38,8 +39,8 @@ export const CurrentEpochPanel = ({
   tokenName = 'GIVE',
   editCurrentEpoch,
   isEditing,
-  editingEpoch,
   isAdmin,
+  children,
   css = {},
 }: Props) => {
   const startDate = DateTime.fromISO(epoch.start_date);
@@ -58,80 +59,92 @@ export const CurrentEpochPanel = ({
   return (
     <Panel
       css={{
-        mb: editingEpoch && editingEpoch === epoch.id ? 0 : '$xl',
-        ...(editingEpoch &&
-          epoch.id && {
-            borderRadius: '$3 $3 0 0',
-            borderWidth: '1px 1px 0 0 !important',
-          }),
-        alignItems: 'start',
-        display: 'grid',
-        gridTemplateColumns: '1fr 3fr',
-        gap: '$md',
+        mb: '$xl',
         border: '1px solid $borderFocusBright',
-        '@sm': { gridTemplateColumns: '1fr' },
         ...css,
       }}
     >
       <Flex
-        column
-        alignItems="start"
-        css={{ gap: '$sm', borderRight: '1px solid $borderDim' }}
+        css={{
+          alignItems: 'start',
+          display: 'grid',
+          gridTemplateColumns: '1fr 3fr',
+          gap: '$md',
+          '@sm': { gridTemplateColumns: '1fr' },
+        }}
       >
-        <Text h1 css={{ color: '$currentEpochDate', fontSize: '$h1Temp' }}>
-          {startDate.toFormat('MMM')} {startDate.toFormat('d')} -{' '}
-          {endDate.toFormat(endDateFormat)}
-        </Text>
+        <Flex
+          column
+          alignItems="start"
+          css={{ gap: '$sm', borderRight: '1px solid $borderDim' }}
+        >
+          <Text h1 css={{ color: '$currentEpochDate', fontSize: '$h1Temp' }}>
+            {startDate.toFormat('MMM')} {startDate.toFormat('d')} -{' '}
+            {endDate.toFormat(endDateFormat)}
+          </Text>
 
-        <EpochDescription
-          description={epochDescriptionText}
-          isAdmin={isAdmin}
-          epochId={epoch.id}
-          setDescriptionText={setEpochDescriptionText}
-        />
-        {!isEditing && isAdmin && (
-          <Button
-            css={{ mt: '$md' }}
-            color="secondary"
-            size="small"
-            onClick={() => editCurrentEpoch()}
-          >
-            Edit Epoch
-          </Button>
-        )}
+          <EpochDescription
+            description={epochDescriptionText}
+            isAdmin={isAdmin}
+            epochId={epoch.id}
+            setDescriptionText={setEpochDescriptionText}
+          />
+          {!isEditing && isAdmin && (
+            <Button
+              css={{ mt: '$md' }}
+              color="secondary"
+              size="small"
+              onClick={() => editCurrentEpoch()}
+            >
+              Edit Epoch
+            </Button>
+          )}
+        </Flex>
+        <Flex
+          css={{
+            gap: '$md',
+            '@sm': { flexDirection: 'column' },
+          }}
+        >
+          <Minicard
+            icon={<PlusCircle />}
+            title="Contributions"
+            color="$text"
+            content={
+              epochDaysRemaining == 0
+                ? 'Today is the Last Day to Add Contributions'
+                : `${epochDaysRemaining} ${daysPlural} Left to Add Contributions`
+            }
+            path={paths.contributions(circleId)}
+            linkLabel="Add Contribution"
+          />
+          <Minicard
+            icon={<Give nostroke />}
+            title="GIVE"
+            // TODO: maybe we want to continue to highlight some color here
+            // color={unallocated > 0 ? '$alert' : '$secondaryText'}
+            color="$text"
+            content={
+              unallocated > 0
+                ? `Allocate Your Remaining ${unallocated} ${tokenName}`
+                : `No More ${tokenName} to Allocate ${unallocated}`
+            }
+            path={paths.give(circleId)}
+            linkLabel="GIVE to Teammates"
+          />
+        </Flex>
       </Flex>
       <Flex
         css={{
-          gap: '$md',
-          '@sm': { flexDirection: 'column' },
+          '.epochFormContainer': {
+            mt: '$lg',
+            px: '0',
+            borderTop: '1px solid $borderDim',
+            borderRadius: 0,
+          },
         }}
       >
-        <Minicard
-          icon={<PlusCircle />}
-          title="Contributions"
-          color="$text"
-          content={
-            epochDaysRemaining == 0
-              ? 'Today is the Last Day to Add Contributions'
-              : `${epochDaysRemaining} ${daysPlural} Left to Add Contributions`
-          }
-          path={paths.contributions(circleId)}
-          linkLabel="Add Contribution"
-        />
-        <Minicard
-          icon={<Give nostroke />}
-          title="GIVE"
-          // TODO: maybe we want to continue to highlight some color here
-          // color={unallocated > 0 ? '$alert' : '$secondaryText'}
-          color="$text"
-          content={
-            unallocated > 0
-              ? `Allocate Your Remaining ${unallocated} ${tokenName}`
-              : `No More ${tokenName} to Allocate ${unallocated}`
-          }
-          path={paths.give(circleId)}
-          linkLabel="GIVE to Teammates"
-        />
+        {children}
       </Flex>
     </Panel>
   );

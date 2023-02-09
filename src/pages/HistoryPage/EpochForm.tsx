@@ -641,16 +641,12 @@ const EpochForm = ({
 
   return (
     <Panel
+      className="epochFormContainer"
       css={{
         mb: '$md',
         p: '$md',
         border: '1px solid $borderDim',
-        ...(editingEpoch &&
-          selectedEpoch?.id === currentEpoch?.id && {
-            mt: '-$md',
-            borderWidth: '0 0 1px 1px !important',
-            borderRadius: '0 0 $3 $3 ',
-          }),
+        width: '100%',
       }}
     >
       <Flex

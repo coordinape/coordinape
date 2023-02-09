@@ -208,7 +208,6 @@ export const HistoryPage = () => {
           </Button>
         </HintBanner>
       )}
-
       {/* show some help for admins who don't have an epoch yet */}
       {isAdmin &&
         circle &&
@@ -299,7 +298,6 @@ export const HistoryPage = () => {
           isEditing={editEpoch || newEpoch ? true : false}
         ></EpochForm>
       )}
-
       <Text h2>Upcoming Epochs</Text>
       {futureEpochs?.length === 0 && !nextRepeatingEpoch && (
         <Text>There are no scheduled epochs</Text>
@@ -322,7 +320,6 @@ export const HistoryPage = () => {
             isAdmin={isAdmin}
           ></EpochForm>
         )}
-
         {futureEpochs && futureEpochs.length > 0 && (
           <EpochForm
             key={futureEpochs[0].id}
@@ -340,7 +337,6 @@ export const HistoryPage = () => {
             editingEpoch={editEpoch?.id}
           ></EpochForm>
         )}
-
         <CollapsibleContent>
           {futureEpochs?.slice(1).map(e => (
             <EpochForm
@@ -384,23 +380,24 @@ export const HistoryPage = () => {
             editCurrentEpoch={() => {
               setEditEpoch(currentEpoch);
             }}
-          />
-          {editEpoch && editEpoch?.id === currentEpoch.id && (
-            <EpochForm
-              circleId={circleId}
-              epochs={futureEpochs}
-              selectedEpoch={currentEpoch}
-              currentEpoch={currentEpoch}
-              setEditEpoch={setEditEpoch}
-              setEndEpochDialog={setEndEpochDialog}
-              setNewEpoch={setNewEpoch}
-              onClose={closeFormHandler}
-              isEditing={editEpoch || newEpoch ? true : false}
-              editingEpoch={editEpoch?.id}
-              setEpochToDelete={setEpochToDelete}
-              isAdmin={isAdmin}
-            ></EpochForm>
-          )}
+          >
+            {editEpoch && editEpoch?.id === currentEpoch.id && (
+              <EpochForm
+                circleId={circleId}
+                epochs={futureEpochs}
+                selectedEpoch={currentEpoch}
+                currentEpoch={currentEpoch}
+                setEditEpoch={setEditEpoch}
+                setEndEpochDialog={setEndEpochDialog}
+                setNewEpoch={setNewEpoch}
+                onClose={closeFormHandler}
+                isEditing={editEpoch || newEpoch ? true : false}
+                editingEpoch={editEpoch?.id}
+                setEpochToDelete={setEpochToDelete}
+                isAdmin={isAdmin}
+              ></EpochForm>
+            )}
+          </CurrentEpochPanel>
         </>
       )}
       {pastEpochs.length > 0 && (
