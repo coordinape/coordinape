@@ -84,7 +84,6 @@ export const GiveRow = ({
         css={css}
       >
         <Panel
-          nested={gridView}
           css={{
             p: gridView ? '$md' : '0',
             background: 'transparent',
@@ -189,6 +188,11 @@ export const GiveRow = ({
               )}
             </Flex>
             <GiveAllocator
+              css={{
+                input: {
+                  backgroundColor: '$formInputBorderlessBright !important',
+                },
+              }}
               disabled={noGivingAllowed}
               adjustGift={adjustGift}
               gift={gift}

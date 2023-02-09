@@ -203,6 +203,7 @@ export const colors = {
 
   formInputText: figmaColors.grey16,
   formInputBackground: '#FFFFFF66',
+  formInputBorderlessBright: figmaColors.grey1,
   formInputBorder: newFigmaColors.grey5,
   formInputBorderFocus: '$primary',
   formInputPlaceholder: figmaColors.grey8,
@@ -531,6 +532,7 @@ export const dark = createTheme({
 
     formInputText: newFigmaColors.grey5,
     formInputBackground: newFigmaColors.grey9,
+    formInputBorderlessBright: newFigmaColors.grey8,
     formInputBorder: newFigmaColors.grey7,
     formInputBorderFocus: newFigmaColors.primary4,
     formInputPlaceholder: newFigmaColors.grey6,
@@ -628,6 +630,7 @@ export const light = createTheme({
     borderFocus: newFigmaColors.secondary4,
     borderFocusBright: newFigmaColors.secondary5,
     borderTable: newFigmaColors.grey4,
+    activePanel: newFigmaColors.secondary1,
 
     profileGradientStart: newFigmaColors.grey4,
     profileGradientEnd: newFigmaColors.grey2,
@@ -651,6 +654,16 @@ export const light = createTheme({
     textOnPrimary: newFigmaColors.grey2,
     primaryButtonBorderFocus: newFigmaColors.grey5,
 
+    formInputText: figmaColors.grey16,
+    formInputBackground: '#FFFFFF66',
+    formInputBorderlessBright: figmaColors.grey1,
+    formInputBorder: newFigmaColors.grey5,
+    formInputPlaceholder: figmaColors.grey8,
+    formInputErrorText: newFigmaColors.error7,
+    formInputErrorBackground: newFigmaColors.error1,
+    formInputErrorBorder: newFigmaColors.error6,
+    formInputSelectBackground: newFigmaColors.grey2,
+    formInputSelectHover: newFigmaColors.grey1,
     formInputBorderFocus: newFigmaColors.secondary5,
     formRadioBorderUnselected: newFigmaColors.secondary2,
     formRadioBorderSelected: newFigmaColors.secondary5,
