@@ -62,7 +62,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     res.status(200).json({
-      message: `activty recorded`,
+      message: `activity recorded`,
     });
   } catch (e) {
     return errorResponse(res, e);

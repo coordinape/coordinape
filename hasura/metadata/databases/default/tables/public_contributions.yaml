@@ -90,7 +90,7 @@ select_permissions:
               _is_null: true
       allow_aggregations: true
 event_triggers:
-  - name: createActivity
+  - name: contributionInsertCreateActivity
     definition:
       enable_manual: false
       insert:

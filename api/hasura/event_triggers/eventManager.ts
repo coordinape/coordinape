@@ -31,7 +31,9 @@ import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 type HandlerDict = { [handlerName: string]: VercelApiHandler };
 
 const HANDLERS: HandlerDict = {
-  createActivity,
+  usersInsertCreateActivity: createActivity,
+  epochInsertCreateActivity: createActivity,
+  contributionInsertCreateActivity: createActivity,
   checkNomineeDiscord,
   checkNomineeDiscordBot,
   checkNomineeTelegram,
