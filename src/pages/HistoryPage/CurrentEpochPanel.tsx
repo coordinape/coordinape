@@ -27,6 +27,7 @@ type Props = {
   tokenName?: string;
   editCurrentEpoch: () => void;
   isEditing: boolean;
+  editingEpoch?: number;
   isAdmin: boolean;
   css?: CSS;
 };
@@ -37,6 +38,7 @@ export const CurrentEpochPanel = ({
   tokenName = 'GIVE',
   editCurrentEpoch,
   isEditing,
+  editingEpoch,
   isAdmin,
   css = {},
 }: Props) => {
@@ -56,7 +58,7 @@ export const CurrentEpochPanel = ({
   return (
     <Panel
       css={{
-        mb: '$xl',
+        mb: editingEpoch === epoch.id ? 0 : '$xl',
         alignItems: 'start',
         display: 'grid',
         gridTemplateColumns: '1fr 3fr',
