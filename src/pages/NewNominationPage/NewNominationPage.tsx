@@ -154,7 +154,6 @@ export const NewNominationPage = () => {
                 id="address"
                 css={{ width: '100%' }}
                 {...address}
-                // name="address"
                 control={control}
                 label="Wallet Address"
                 infoTooltip="Eth address that will be used by Nominee to login to the
@@ -171,7 +170,6 @@ export const NewNominationPage = () => {
               }}
               id="description"
               {...description}
-              // name="description"
               control={control}
               label="Why are you nominating this person?"
               infoTooltip="Nominee description that will introduce the nominee to the
