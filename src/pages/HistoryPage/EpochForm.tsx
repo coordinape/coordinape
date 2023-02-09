@@ -343,6 +343,7 @@ const EpochForm = ({
   editingEpoch?: number;
   isAdmin: boolean;
 }) => {
+  console.log(selectedEpoch);
   const [submitting, setSubmitting] = useState(false);
 
   const { createEpoch, updateEpoch, updateActiveRepeatingEpoch } =
@@ -640,7 +641,19 @@ const EpochForm = ({
   );
 
   return (
-    <Panel css={{ mb: '$md', p: '$md', border: '1px solid $borderDim' }}>
+    <Panel
+      css={{
+        mb: '$md',
+        p: '$md',
+        border: '1px solid $borderDim',
+        ...(editingEpoch &&
+          selectedEpoch?.id === currentEpoch?.id && {
+            mt: '-$md',
+            borderWidth: '0 0 1px 1px !important',
+            borderRadius: '0 0 $3 $3 ',
+          }),
+      }}
+    >
       <Flex
         alignItems="center"
         css={{
@@ -653,9 +666,7 @@ const EpochForm = ({
           selectedEpoch.id !== currentEpoch?.id ? (
             <Text inline>{nextEpochStartLabel}</Text>
           ) : (
-            <Text semibold css={{ color: '$secondaryText', fontSize: 'large' }}>
-              Current Epoch
-            </Text>
+            <Box></Box>
           )
         ) : (
           <Text semibold css={{ color: '$secondaryText', fontSize: 'large' }}>

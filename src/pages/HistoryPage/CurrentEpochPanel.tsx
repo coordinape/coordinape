@@ -58,7 +58,12 @@ export const CurrentEpochPanel = ({
   return (
     <Panel
       css={{
-        mb: editingEpoch === epoch.id ? 0 : '$xl',
+        mb: editingEpoch && editingEpoch === epoch.id ? 0 : '$xl',
+        ...(editingEpoch &&
+          epoch.id && {
+            borderRadius: '$3 $3 0 0',
+            borderWidth: '1px 1px 0 0 !important',
+          }),
         alignItems: 'start',
         display: 'grid',
         gridTemplateColumns: '1fr 3fr',
