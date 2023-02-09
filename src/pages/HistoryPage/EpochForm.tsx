@@ -343,7 +343,6 @@ const EpochForm = ({
   editingEpoch?: number;
   isAdmin: boolean;
 }) => {
-  console.log(selectedEpoch);
   const [submitting, setSubmitting] = useState(false);
 
   const { createEpoch, updateEpoch, updateActiveRepeatingEpoch } =
