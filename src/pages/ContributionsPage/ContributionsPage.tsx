@@ -478,7 +478,11 @@ const ContributionsPage = () => {
               </Flex>
             )}
           </Flex>
-          <Button color="cta" onClick={addNewContribution}>
+          <Button
+            color="cta"
+            onClick={addNewContribution}
+            disabled={!readyForNewContribution}
+          >
             Add Contribution
           </Button>
         </ContentHeader>
