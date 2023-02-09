@@ -215,6 +215,12 @@ export const colors = {
   formInputSelectBackground: newFigmaColors.grey2,
   formInputSelectHover: newFigmaColors.grey1,
 
+  toggleBackground: newFigmaColors.grey1,
+  toggleText: newFigmaColors.grey6,
+  toggleTextHover: '$primary',
+  toggleSelectedBackground: '$primary',
+  toggleSelectedText: newFigmaColors.grey1,
+
   mapNodeHighlight: '$primary',
   mapNodeMoreHighlight: figmaColors.teal8,
   mapGive: figmaColors.green8,
@@ -537,6 +543,12 @@ export const dark = createTheme({
     formInputSelectBackground: newFigmaColors.grey8,
     formInputSelectHover: newFigmaColors.grey9,
 
+    toggleBackground: newFigmaColors.grey8,
+    toggleText: newFigmaColors.grey4,
+    toggleTextHover: newFigmaColors.grey3,
+    toggleSelectedBackground: newFigmaColors.grey6,
+    toggleSelectedText: newFigmaColors.grey10,
+
     mapNodeHighlight: newFigmaColors.warning7,
     mapNodeMoreHighlight: newFigmaColors.warning4,
     mapGive: newFigmaColors.secondary8,
@@ -677,6 +689,12 @@ export const light = createTheme({
 
     tagDefaultText: newFigmaColors.grey2,
     tagDefaultBackground: newFigmaColors.grey5,
+
+    toggleBackground: newFigmaColors.grey2,
+    toggleText: newFigmaColors.grey6,
+    toggleTextHover: newFigmaColors.grey9,
+    toggleSelectedBackground: newFigmaColors.grey6,
+    toggleSelectedText: newFigmaColors.grey1,
 
     mapNodeHighlight: newFigmaColors.warning5,
     mapNodeMoreHighlight: newFigmaColors.warning3,
