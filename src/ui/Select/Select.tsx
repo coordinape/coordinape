@@ -22,11 +22,7 @@ const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
   backgroundColor: '$formInputBackground',
   color: '$text',
   '&:hover': { cursor: 'pointer' },
-  '&:disabled': {
-    cursor: 'pointer',
-    pointerEvents: 'none',
-    opacity: 0.3,
-  },
+  '&:disabled': disabledStyle,
 });
 
 const StyledContent = styled(SelectPrimitive.Content, {

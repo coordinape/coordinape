@@ -3,29 +3,16 @@ import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createNominee } from 'lib/gql/mutations';
 import { zEthAddress } from 'lib/zod/formHelpers';
-import isEmpty from 'lodash/isEmpty';
 import { useForm, SubmitHandler, useController } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
 import * as z from 'zod';
 
-import { Check, Info } from 'icons/__generated';
+import { FormInputField } from 'components';
+import { useToast } from 'hooks';
+import { Check } from 'icons/__generated';
 import { QUERY_KEY_ACTIVE_NOMINEES } from 'pages/MembersPage/getActiveNominees';
 import { useSelectedCircle } from 'recoilState/app';
-import { paths } from 'routes/paths';
-import {
-  Form,
-  Button,
-  Text,
-  TextField,
-  Box,
-  AppLink,
-  Flex,
-  Panel,
-  Tooltip,
-  BackButton,
-  TextArea,
-  Link,
-} from 'ui';
+import { Form, ContentHeader, Button, Text, Box, Flex, Panel, Link } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 const schema = z
@@ -34,9 +21,7 @@ const schema = z
       message: 'Name must be at least 3 characters long.',
     }),
     address: zEthAddress,
-    description: z
-      .string()
-      .min(40, 'Description must be at least 40 characters long.'),
+    description: z.string().min(1, 'May not be blank.'),
   })
   .strict();
 
@@ -58,6 +43,7 @@ function addServerErrors<T>(
 }
 
 export const NewNominationPage = () => {
+  const { showError } = useToast();
   const { circle } = useSelectedCircle();
   const [submitting, setSubmitting] = useState(false);
   const [isSuccessful, setIsSuccessful] = useState(false);
@@ -86,7 +72,7 @@ export const NewNominationPage = () => {
     control,
     handleSubmit,
     setError,
-    formState: { errors },
+    formState: { isValid },
   } = useForm<NominateFormSchema>({
     resolver: zodResolver(schema),
     mode: 'all',
@@ -128,197 +114,101 @@ export const NewNominationPage = () => {
         if (err.response?.errors?.length > 0) {
           err = err.response.errors;
           setSubmitting(false);
+          err.map((e: Error) => {
+            showError(e);
+          });
           addServerErrors(err, setError);
         }
       });
   };
   return (
     <SingleColumnLayout>
-      <Box>
-        <AppLink to={paths.members(circle.id)}>
-          <BackButton />
-        </AppLink>
-      </Box>
-      <Flex alignItems="center" css={{ mb: '$sm' }}>
-        <Text h1>Nominate Member</Text>
-      </Flex>
-      <Box
-        css={{
-          mb: '$md',
-          width: '70%',
-          '@md': {
-            width: '100%',
-          },
-        }}
-      >
-        <Text inline semibold>
-          Vouch by circle members required.{' '}
-        </Text>
-        <Text inline>{nominateDescription}</Text>
-      </Box>
-      <Form
-        css={{
-          position: 'relative',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'flex-start',
-          backgroundColor: 'white',
-          width: '100%',
-          padding: '0 0 $lg',
-          overflowY: 'auto',
-          maxHeight: '100vh',
-        }}
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <Panel
-          css={{
-            width: '100%',
-          }}
-        >
-          <Panel
-            nested
-            css={{
-              width: '70%',
-              '@md': {
-                width: '100%',
-              },
-            }}
-          >
-            <Box
-              css={{
-                display: 'grid',
-                mb: '$md',
-                'grid-template-columns': '1fr 1fr',
-                'grid-template-rows': 'auto auto',
-                'column-gap': '$lg',
-              }}
-            >
-              <Text variant="label" as="label" htmlFor="name">
-                Name
-                <Tooltip
-                  content={
-                    <div>
-                      Nominee name that will be displayed to other members for
-                      vouching
-                    </div>
-                  }
-                >
-                  <Info size="sm" />
-                </Tooltip>
-              </Text>
-              <Text variant="label" as="label" htmlFor="address">
-                ETH Address
-                <Tooltip
-                  content={
-                    <div>
-                      Eth address that will be used by Nominee to login to the
-                      circle
-                    </div>
-                  }
-                >
-                  <Info size="sm" />
-                </Tooltip>
-              </Text>
-              <TextField
-                css={{ height: '$2xl', width: '100%' }}
+      <ContentHeader>
+        <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
+          <Text h1>Nominate Member</Text>
+          <Text p as="p">
+            <Text inline semibold>
+              Vouch by circle members required.{' '}
+            </Text>
+            {nominateDescription}
+          </Text>
+        </Flex>
+      </ContentHeader>
+
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Panel invertForm>
+          <Flex column css={{ gap: '$md' }}>
+            <Flex row css={{ gap: '$md' }}>
+              <FormInputField
                 id="name"
-                {...name}
+                name="name"
+                css={{ width: '100%' }}
+                control={control}
+                label="Name"
+                infoTooltip="Nominee name that will be displayed to other members for
+                  vouching"
+                showFieldErrors
               />
 
-              <TextField
-                css={{ height: '$2xl', width: '100%' }}
+              <FormInputField
                 id="address"
+                css={{ width: '100%' }}
                 {...address}
+                control={control}
+                label="Wallet Address"
+                infoTooltip="Eth address that will be used by Nominee to login to the
+                  circle"
+                showFieldErrors
               />
-              <Box
-                css={{
-                  'grid-column': '1 / -1',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  width: '100%',
-                  mt: '$1xl',
-                }}
-              >
-                <Text variant="label" as="label" htmlFor="description">
-                  Why are you nominating this person?
-                  <Tooltip
-                    content={
-                      <div>
-                        Nominee description that will introduce the nominee to
-                        the vouchers
-                      </div>
-                    }
-                  >
-                    <Info size="sm" />
-                  </Tooltip>
-                </Text>
-                <TextArea
-                  autoSize
-                  rows={4}
-                  id="description"
-                  {...description}
-                  maxLength={280}
-                  placeholder="Tell us why the person should be added to the circle, such as what they have achieved or what they will do in the future."
-                  css={{
-                    width: '100%',
-                    ta: 'left',
-                    p: '0 $sm',
-                    fontWeight: '$light',
-                    fontSize: '$medium',
-                    lineHeight: '$base',
-                    color: '$text',
-                  }}
-                />
-              </Box>
-            </Box>
-            {!isEmpty(errors) && (
-              <Box
-                css={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  margin: 0,
-                  color: '$alert',
-                }}
-              >
-                {Object.values(errors).map((error, i) => (
-                  <div key={i}>{error.message}</div>
-                ))}
-              </Box>
-            )}
+            </Flex>
+
+            <FormInputField
+              textArea
+              areaProps={{
+                placeholder:
+                  'Tell us why the person should be added to the circle, such as what they have achieved or what they will do in the future.',
+              }}
+              id="description"
+              {...description}
+              control={control}
+              label="Why are you nominating this person?"
+              infoTooltip="Nominee description that will introduce the nominee to the
+                  vouchers"
+              showFieldErrors
+            />
+
             <Button
               css={{ mt: '$lg', gap: '$xs' }}
-              color="secondary"
+              color="primary"
               size="large"
               type="submit"
-              disabled={submitting}
+              disabled={!isValid || submitting}
             >
               {submitting ? 'Saving...' : 'Nominate Member'}
             </Button>
-          </Panel>
+          </Flex>
           {isSuccessful && (
             <>
-              <Panel success css={{ mt: '$xl' }}>
-                <Flex>
-                  <Check color="successDark" size="lg" css={{ mr: '$md' }} />
-                  <Text size="large">
-                    You have successfully nominated {nomineeName} to the circle
-                  </Text>
+              <Text
+                tag
+                color="complete"
+                css={{ mt: '$xl', py: '$sm', height: 'auto' }}
+              >
+                <Flex css={{ gap: '$sm' }}>
+                  <Check />
+                  You have successfully nominated {nomineeName} to the circle
                 </Flex>
-              </Panel>
+              </Text>
               {profileName && (
                 <Panel alert css={{ mt: '$xl' }}>
-                  <Flex column>
-                    <Text size="large">
-                      This address matches an existing account in our system, so
-                      their name will be used:
-                    </Text>
-                    <Text>
-                      &ldquo;{profileName}&ldquo; will be used instead of
-                      &ldquo;{nomineeName}&ldquo;
-                    </Text>
-                  </Flex>
+                  <Text size="large">
+                    This address matches an existing account in our system, so
+                    their name will be used:
+                  </Text>
+                  <Text>
+                    &ldquo;{profileName}&ldquo; will be used instead of &ldquo;
+                    {nomineeName}&ldquo;
+                  </Text>
                 </Panel>
               )}
             </>
