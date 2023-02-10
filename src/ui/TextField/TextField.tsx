@@ -1,6 +1,6 @@
 import type * as Stitches from '@stitches/react';
 
-import { styled } from '../../stitches.config';
+import { disabledStyle, styled } from '../../stitches.config';
 import { modifyVariantsForStory } from '../type-utils';
 
 export const TextField = styled('input', {
@@ -10,9 +10,7 @@ export const TextField = styled('input', {
   '&:focus': {
     borderColor: '$formInputBorderFocus',
   },
-  '&:disabled': {
-    opacity: 0.3,
-  },
+  '&:disabled': disabledStyle,
   '&::placeholder': {
     color: '$secondaryText',
   },

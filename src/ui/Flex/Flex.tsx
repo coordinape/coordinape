@@ -1,4 +1,4 @@
-import { styled } from 'stitches.config';
+import { disabledStyle, styled } from 'stitches.config';
 
 import { Box } from 'ui';
 
@@ -27,10 +27,7 @@ export const Flex = styled(Box, {
       },
     },
     disabled: {
-      true: {
-        opacity: 0.3,
-        pointerEvents: 'none',
-      },
+      true: disabledStyle,
     },
     gap: {
       sm: { gap: '$sm' },

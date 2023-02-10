@@ -31,8 +31,13 @@ const StyledTextArea = styled('textarea', {
   variants: {
     error: {
       true: {
-        borderColor: 'transparent',
-        backgroundColor: '$alertLight',
+        backgroundColor: '$formInputErrorBackground !important',
+        color: '$formInputErrorText !important',
+        boxSizing: 'border-box',
+        borderColor: '$formInputErrorBorder !important',
+        '&:focus, &:focus-within': {
+          borderColor: '$formInputErrorBorder !important',
+        },
       },
     },
   },

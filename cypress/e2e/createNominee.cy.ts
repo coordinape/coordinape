@@ -35,9 +35,9 @@ context('Coordinape', () => {
     cy.contains('You have successfully nominated Satoshi', {
       timeout: 120000,
     }).should('be.visible');
-    cy.get('button').contains('Back').click().wait(5000);
     cy.contains('Satoshi').click();
-    cy.contains('Vouch for Satoshi', { timeout: 120000 });
+    cy.visit(`/circles/${circleId}/members`);
+    cy.contains('Satoshi', { timeout: 120000 });
     //cy.contains('GQL Query Error', { timeout: 45000 }).should('not.exist');
   });
 });
