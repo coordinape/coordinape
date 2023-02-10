@@ -38,7 +38,7 @@ export const NotesSection = ({
             >
               {received.filter(g => g.gift_private?.note).length} Received
             </Button>
-            {sent && sent?.length > 0 && (
+            {!!sent?.length && (
               <Button
                 className="sentButton"
                 color={tab === 'sent' ? 'selectedSecondary' : 'secondary'}
@@ -65,7 +65,7 @@ export const NotesSection = ({
           {tab === 'received' && (
             <Notes tokenName={tokenName} data={received} received />
           )}
-          {sent && sent?.length > 0 && tab === 'sent' && (
+          {!!sent?.length && tab === 'sent' && (
             <Notes tokenName={tokenName} data={sent} />
           )}
         </Flex>
