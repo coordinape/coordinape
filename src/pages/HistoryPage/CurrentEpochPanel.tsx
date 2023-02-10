@@ -58,8 +58,6 @@ export const CurrentEpochPanel = ({
 
   const { gifts, showGives } = useReceiveInfo(circleId, userId);
 
-  const received = gifts;
-
   // TODO: why is epoch.number null sometimes? just from data seeding?
   const [epochDescriptionText, setEpochDescriptionText] = useState<string>(
     epoch.description ?? 'Epoch ' + (epoch.number ?? '')
@@ -150,7 +148,7 @@ export const CurrentEpochPanel = ({
             />
           </Flex>
           {(showGives || isAdmin) && (
-            <NotesSection sent={[]} received={received} tokenName={tokenName} />
+            <NotesSection sent={[]} received={gifts} tokenName={tokenName} />
           )}
         </Flex>
       </Flex>
