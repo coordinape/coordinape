@@ -139,8 +139,6 @@ export const CurrentEpochPanel = ({
             <Minicard
               icon={<Give nostroke />}
               title="GIVE"
-              // TODO: maybe we want to continue to highlight some color here
-              // color={unallocated > 0 ? '$alert' : '$secondaryText'}
               color="$text"
               content={
                 unallocated > 0
