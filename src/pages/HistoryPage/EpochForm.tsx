@@ -804,6 +804,7 @@ const EpochForm = ({
                         row
                         css={{
                           gap: '$lg',
+                          '@sm': { flexDirection: 'column' },
                         }}
                       >
                         <Controller
