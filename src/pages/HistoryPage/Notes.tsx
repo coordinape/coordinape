@@ -16,7 +16,7 @@ export const NotesSection = ({
   tokenName,
 }: {
   received: QueryPastEpoch['receivedGifts'];
-  sent: QueryPastEpoch['sentGifts'];
+  sent?: QueryPastEpoch['sentGifts'];
   tokenName: string;
 }) => {
   const [tab, setTab] = useState<'sent' | 'received' | null>(null);
@@ -38,13 +38,18 @@ export const NotesSection = ({
             >
               {received.filter(g => g.gift_private?.note).length} Received
             </Button>
-            <Button
-              color={tab === 'sent' ? 'selectedSecondary' : 'secondary'}
-              size="small"
-              onClick={() => setTab(prev => (prev === 'sent' ? null : 'sent'))}
-            >
-              {sent.filter(g => g.gift_private?.note).length} Sent
-            </Button>
+            {sent && sent?.length > 0 && (
+              <Button
+                className="sentButton"
+                color={tab === 'sent' ? 'selectedSecondary' : 'secondary'}
+                size="small"
+                onClick={() =>
+                  setTab(prev => (prev === 'sent' ? null : 'sent'))
+                }
+              >
+                {sent.filter(g => g.gift_private?.note).length} Sent
+              </Button>
+            )}
           </Box>
         </Flex>
       </Flex>
@@ -57,9 +62,10 @@ export const NotesSection = ({
             justifyContent: 'space-between',
           }}
         >
-          {tab === 'received' ? (
+          {tab === 'received' && (
             <Notes tokenName={tokenName} data={received} received />
-          ) : (
+          )}
+          {sent && sent?.length > 0 && tab === 'sent' && (
             <Notes tokenName={tokenName} data={sent} />
           )}
         </Flex>

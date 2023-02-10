@@ -41,21 +41,15 @@ export const EpochPanel = ({
   return (
     <Panel
       css={{
+        alignItems: 'start',
         display: 'grid',
-        gridTemplateColumns: '23fr 87fr',
+        gridTemplateColumns: '1fr 3fr',
         gap: '$md',
-        border: '1px solid $borderDim',
-        '@sm': { display: 'flex' },
+        '@sm': { gridTemplateColumns: '1fr' },
         ...css,
       }}
     >
-      <Flex
-        column
-        css={{
-          justifyContent: 'flex-start',
-          gap: '$sm',
-        }}
-      >
+      <Flex column css={{ gap: '$sm' }}>
         <Text semibold inline h2>
           {startDate.toFormat('MMM')} {startDate.toFormat('d')} -{' '}
           {endDate.toFormat(endDateFormat)}
@@ -68,23 +62,28 @@ export const EpochPanel = ({
           </Text>
         )}
       </Flex>
-      <Flex column>
-        <Flex
-          css={{
-            // display: 'grid',
-            // gridTemplateColumns: '1fr 1fr 1fr',
-            gap: '$2xl',
-          }}
-        >
-          <Flex column>
+      <Flex
+        column
+        css={{
+          borderLeft: '1px solid $borderDim',
+          pl: '$xl',
+          gap: '$lg',
+          '@sm': {
+            borderLeft: 'none',
+            pl: 0,
+          },
+        }}
+      >
+        <Flex css={{ alignItems: 'center', gap: '$2xl' }}>
+          <Flex column css={{ gap: '$sm' }}>
             <Text variant="label">You Received</Text>
-            <Text bold size="large" css={{ my: '$sm' }}>
+            <Text bold size="large">
               {totalReceived} {tokenName}
             </Text>
           </Flex>
-          <Flex column>
+          <Flex column css={{ gap: '$sm' }}>
             <Text variant="label">Total Distributed</Text>
-            <Text bold size="large" css={{ my: '$sm' }}>
+            <Text bold size="large">
               {totalAllocated} {tokenName}
             </Text>
           </Flex>
@@ -95,7 +94,7 @@ export const EpochPanel = ({
               epochId={epoch.id}
             />
             {isAdmin && (
-              <Box css={{ mt: '$lg' }}>
+              <Box>
                 {isFeatureEnabled('vaults') ? (
                   <Button
                     color="cta"

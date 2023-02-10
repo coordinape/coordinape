@@ -668,49 +668,10 @@ const EpochForm = ({
             New Epoch
           </Text>
         )}
-        {!isEditing && isAdmin ? (
-          <Flex css={{ flexWrap: 'wrap', gap: '$md' }}>
-            <Button
-              color="secondary"
-              size="small"
-              onClick={() => setEditEpoch(selectedEpoch)}
-            >
-              Edit epoch
-            </Button>
-            <Button
-              color="neutral"
-              size="small"
-              onClick={() => setEpochToDelete(selectedEpoch)}
-            >
-              Delete Epoch
-            </Button>
-          </Flex>
-        ) : editingEpoch === selectedEpoch?.id && isAdmin ? (
-          <Flex css={{ gap: '$md', flexWrap: 'wrap' }}>
-            <Button
-              color="secondary"
-              onClick={() => {
-                selectedEpoch ? setEditEpoch(undefined) : setNewEpoch(false);
-              }}
-            >
-              Cancel
-            </Button>
-            <Button
-              color="primary"
-              type="submit"
-              disabled={submitting || !isEmpty(errors)}
-              onClick={handleSubmit(onSubmit)}
-            >
-              {submitting ? 'Saving...' : 'Save'}
-            </Button>
-          </Flex>
-        ) : (
-          <></>
-        )}
       </Flex>
       {editingEpoch === selectedEpoch?.id && (
         <Form>
-          <Panel nested css={{ mt: '$md' }}>
+          <Panel ghost css={{ mt: '$md' }}>
             <Flex column css={{ rowGap: '$lg' }}>
               <TwoColumnLayout>
                 <Flex column>
@@ -736,8 +697,7 @@ const EpochForm = ({
               <TwoColumnLayout>
                 <Flex column css={{ gap: '$sm' }}>
                   <Flex column css={{ gap: '$sm' }}>
-                    <Text h3>Epoch Frequency</Text>
-                    <Flex column css={{ mt: '$sm ', mb: '$md' }}>
+                    <Flex column css={{ mb: '$md' }}>
                       <FormRadioGroup
                         name="repeat_view"
                         control={control}
@@ -822,7 +782,7 @@ const EpochForm = ({
                               disabled={shouldFormBeDisabled}
                             />
                           </Box>
-                          <Text size="medium">
+                          <Text size="small">
                             In your
                             <br /> local timezone
                           </Text>
@@ -841,8 +801,9 @@ const EpochForm = ({
                       }}
                     >
                       <Flex
+                        row
                         css={{
-                          gap: '$xs',
+                          gap: '$lg',
                         }}
                       >
                         <Controller
@@ -850,7 +811,7 @@ const EpochForm = ({
                           name="repeat"
                           render={({ field: { onChange, value } }) => (
                             <Select
-                              css={{ minWidth: '280px' }}
+                              css={{ width: '100%' }}
                               options={repeat}
                               value={value}
                               disabled={shouldFormBeDisabled}
@@ -860,71 +821,74 @@ const EpochForm = ({
                             />
                           )}
                         />
-                      </Flex>
-                      <Flex
-                        column
-                        css={{
-                          alignItems: 'flex-start',
-                          maxWidth: '280px',
-                          gap: '$xs',
-                          display:
-                            getValues('repeat') === 'monthly' ? 'flex' : 'none',
-                        }}
-                      >
                         <FormDatePicker
                           disabled={shouldFormBeDisabled}
                           control={control}
                           id="monthly_repeat_datetime"
                           name="monthly_repeat_datetime"
-                          css={{ minWidth: '280px' }}
+                          css={{
+                            width: '100%',
+                            display:
+                              getValues('repeat') === 'monthly'
+                                ? 'flex'
+                                : 'none',
+                          }}
                           label="Start Date"
                         />
-                      </Flex>
-                      <Flex
-                        column
-                        css={{
-                          alignItems: 'flex-start',
-                          maxWidth: '280px',
-                          gap: '$xs',
-                          display:
-                            getValues('repeat') === 'custom' ? 'flex' : 'none',
-                        }}
-                      >
                         <FormDatePicker
                           disabled={shouldFormBeDisabled}
                           control={control}
                           id="custom_start_date"
                           name="custom_start_date"
-                          css={{ minWidth: '280px' }}
+                          css={{
+                            width: '100%',
+                            display:
+                              getValues('repeat') === 'custom'
+                                ? 'flex'
+                                : 'none',
+                          }}
                           label="Start On"
                           infoTooltip="The first day of the epoch in your local time zone"
                         />
-                        <Flex row css={{ gap: '$sm' }}>
-                          <Box
-                            css={{
-                              maxWidth: '80px',
-                              '> div': { mb: '0 !important' },
-                            }}
-                          >
-                            <FormInputField
-                              number
-                              label="Length"
-                              infoTooltip="The duration of each epoch"
-                              disabled={shouldFormBeDisabled}
-                              defaultValue={1}
-                              inputProps={{ min: 0, max: 99 }}
-                              control={control}
-                              id="custom_duration_qty"
-                              name="custom_duration_qty"
-                            />
-                          </Box>
+                      </Flex>
+
+                      <Flex
+                        row
+                        css={{
+                          gap: '$lg',
+                          display:
+                            getValues('repeat') === 'custom' ? 'flex' : 'none',
+                        }}
+                      >
+                        <Flex
+                          row
+                          css={{
+                            gap: '$sm',
+                            alignItems: 'flex-end',
+                            flexGrow: 1,
+                          }}
+                        >
+                          <FormInputField
+                            number
+                            label="Length"
+                            css={{ maxWidth: '3rem' }}
+                            infoTooltip="The duration of each epoch"
+                            disabled={shouldFormBeDisabled}
+                            defaultValue={1}
+                            inputProps={{ min: 0, max: 99 }}
+                            control={control}
+                            id="custom_duration_qty"
+                            name="custom_duration_qty"
+                          />
                           <Controller
                             control={control}
                             name="custom_duration_denomination"
                             defaultValue="months"
                             render={({ field: { onChange, value } }) => (
                               <Select
-                                css={{ minWidth: '200px', mt: '20px' }}
+                                css={{
+                                  width: '100%',
+                                }}
                                 options={[
                                   { label: 'Month', value: 'months' },
                                   { label: 'Week', value: 'weeks' },
@@ -938,24 +902,38 @@ const EpochForm = ({
                             )}
                           />
                         </Flex>
-                        <Flex row css={{ gap: '$sm' }}>
-                          <Text variant="label">Repeats Every</Text>
-                          <FormInputField
-                            number
-                            disabled={shouldFormBeDisabled}
-                            defaultValue={1}
-                            inputProps={{ min: 0, max: 99 }}
-                            control={control}
-                            id="custom_interval_qty"
-                            name="custom_interval_qty"
-                          />
+                        <Flex
+                          row
+                          css={{
+                            gap: '$sm',
+                            alignItems: 'flex-end',
+                            flexGrow: 1,
+                          }}
+                        >
+                          <Flex column css={{ gap: '$xs', maxWidth: '3rem' }}>
+                            <Text
+                              variant="label"
+                              css={{ whiteSpace: 'nowrap' }}
+                            >
+                              Repeats Every
+                            </Text>
+                            <FormInputField
+                              number
+                              disabled={shouldFormBeDisabled}
+                              defaultValue={1}
+                              inputProps={{ min: 0, max: 99 }}
+                              control={control}
+                              id="custom_interval_qty"
+                              name="custom_interval_qty"
+                            />
+                          </Flex>
                           <Controller
                             control={control}
                             name="custom_interval_denomination"
                             defaultValue="months"
                             render={({ field: { onChange, value } }) => (
                               <Select
-                                css={{ minWidth: '100px' }}
+                                css={{ width: '100%' }}
                                 options={[
                                   { label: 'Month', value: 'months' },
                                   { label: 'Week', value: 'weeks' },
@@ -973,21 +951,23 @@ const EpochForm = ({
                     </Flex>
                   </Flex>
                 </Flex>
-                <Flex column>
-                  <Flex column>{epochsPreview(epochConfig)}</Flex>
-                  <Flex css={{ mt: '$xl', gap: '$xl' }}>
+                <Flex column css={{ gap: '$xs' }}>
+                  <Text variant="label">Preview</Text>
+                  <Panel nested css={{ gap: '$md' }}>
+                    {epochsPreview(epochConfig)}
                     <Text bold>{getRepeat(epochConfig)}</Text>
-                  </Flex>
+                  </Panel>
                 </Flex>
               </TwoColumnLayout>
               {!isEmpty(errors) && (
-                <Box
+                <Text
+                  tag
+                  color="alert"
                   css={{
                     display: 'flex',
                     flexDirection: 'column',
-                    justifyContent: 'center',
-                    mt: '$md',
-                    color: '$alert',
+                    p: '$sm',
+                    height: 'auto',
                   }}
                 >
                   {Object.values(errors).map((error, i) => {
@@ -996,20 +976,65 @@ const EpochForm = ({
                     }
                     return <div key={i}>{error.message}</div>;
                   })}
-                </Box>
+                </Text>
               )}
-              {selectedEpoch?.id && currentEpoch?.id === selectedEpoch?.id && (
-                <Button
-                  color="destructive"
-                  css={{ width: 'fit-content', alignSelf: 'flex-end' }}
-                  onClick={async e => {
-                    e.preventDefault();
-                    setEndEpochDialog(true);
-                  }}
-                >
-                  End Epoch
-                </Button>
-              )}
+              <Flex css={{ mt: '$md', justifyContent: 'space-between' }}>
+                {selectedEpoch?.id && currentEpoch?.id === selectedEpoch?.id && (
+                  <Button
+                    color="destructive"
+                    css={{ width: 'fit-content', alignSelf: 'flex-end' }}
+                    onClick={async e => {
+                      e.preventDefault();
+                      setEndEpochDialog(true);
+                    }}
+                  >
+                    End Epoch
+                  </Button>
+                )}
+                <Flex css={{ gap: '$sm' }}>
+                  {!isEditing && isAdmin ? (
+                    <>
+                      <Button
+                        color="secondary"
+                        size="small"
+                        onClick={() => setEditEpoch(selectedEpoch)}
+                      >
+                        Edit epoch
+                      </Button>
+                      <Button
+                        color="neutral"
+                        size="small"
+                        onClick={() => setEpochToDelete(selectedEpoch)}
+                      >
+                        Delete Epoch
+                      </Button>
+                    </>
+                  ) : editingEpoch === selectedEpoch?.id && isAdmin ? (
+                    <>
+                      <Button
+                        color="secondary"
+                        onClick={() => {
+                          selectedEpoch
+                            ? setEditEpoch(undefined)
+                            : setNewEpoch(false);
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        color="cta"
+                        type="submit"
+                        disabled={submitting || !isEmpty(errors)}
+                        onClick={handleSubmit(onSubmit)}
+                      >
+                        {submitting ? 'Saving...' : 'Save'}
+                      </Button>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                </Flex>
+              </Flex>
             </Flex>
           </Panel>
         </Form>
@@ -1029,20 +1054,20 @@ const MultipleRepeats = (value: EpochConfig) => {
       const freq2 = { [frequency_unit]: frequency + frequency };
       return (
         <>
-          <Text bold css={{ mt: '$sm' }}>
-            Epoch 2
-          </Text>
-          <Text>
-            {epochStart.plus(freq).toFormat('ccc LLL d')} -{' '}
-            {epochEnd.plus(freq).toFormat('ccc LLL d')}
-          </Text>
-          <Text bold css={{ mt: '$sm' }}>
-            Epoch 3
-          </Text>
-          <Text>
-            {epochStart.plus(freq2).toFormat('ccc LLL d')} -{' '}
-            {epochEnd.plus(freq2).toFormat('ccc LLL d')}
-          </Text>
+          <Box>
+            <Text bold>Next Epoch</Text>
+            <Text>
+              {epochStart.plus(freq).toFormat('ccc LLL d')} -{' '}
+              {epochEnd.plus(freq).toFormat('ccc LLL d')}
+            </Text>
+          </Box>
+          <Box>
+            <Text bold>Next Epoch +1</Text>
+            <Text>
+              {epochStart.plus(freq2).toFormat('ccc LLL d')} -{' '}
+              {epochEnd.plus(freq2).toFormat('ccc LLL d')}
+            </Text>
+          </Box>
         </>
       );
     }
@@ -1051,20 +1076,20 @@ const MultipleRepeats = (value: EpochConfig) => {
       const epoch3End = findSameDayNextMonth(epoch3Start, value.repeat_data);
       return (
         <>
-          <Text bold css={{ mt: '$sm' }}>
-            Epoch 2
-          </Text>
-          <Text>
-            {epochEnd.toFormat('ccc LLL d')} -{' '}
-            {epoch3Start.toFormat('ccc LLL d')}
-          </Text>
-          <Text bold css={{ mt: '$sm' }}>
-            Epoch 3
-          </Text>
-          <Text>
-            {epoch3Start.toFormat('ccc LLL d')} -{' '}
-            {epoch3End.toFormat('ccc LLL d')}
-          </Text>
+          <Box>
+            <Text bold>Next Epoch</Text>
+            <Text>
+              {epochEnd.toFormat('ccc LLL d')} -{' '}
+              {epoch3Start.toFormat('ccc LLL d')}
+            </Text>
+          </Box>
+          <Box>
+            <Text bold>Next Epoch +1</Text>
+            <Text>
+              {epoch3Start.toFormat('ccc LLL d')} -{' '}
+              {epoch3End.toFormat('ccc LLL d')}
+            </Text>
+          </Box>
         </>
       );
     }
@@ -1073,22 +1098,13 @@ const MultipleRepeats = (value: EpochConfig) => {
   }
 };
 const epochsPreview = (value: EpochConfig) => {
-  const epochStart = DateTime.fromISO(value.start_date).setZone();
-  const epochEnd = DateTime.fromISO(value.end_date).setZone();
-
   return (
-    <Flex column css={{ gap: '$xs' }}>
-      <Text variant="label">Preview</Text>
-      <EpochSummary value={value} />
-      <Text bold css={{ mt: '$lg' }}>
-        Epoch 1
-      </Text>
-      <Text>
-        {epochStart.toFormat('ccc LLL d')} - {epochEnd.toFormat('ccc LLL d')}
-      </Text>
-
+    <>
+      <Box>
+        <EpochSummary value={value} />
+      </Box>
       <MultipleRepeats {...value} />
-    </Flex>
+    </>
   );
 };
 
@@ -1133,8 +1149,8 @@ const EpochSummary = ({ value }: { value: EpochConfig }) => {
     <>
       <Text bold>This Epoch Period</Text>
       <Flex css={{ gap: '$sm' }}>
-        <Text>
-          {startDate + ' '} <Text bold>to</Text>
+        <Text css={{ gap: '$xs' }}>
+          {startDate + ' '} <Text bold> to</Text>
         </Text>
       </Flex>{' '}
       <Text>{endDate}</Text>

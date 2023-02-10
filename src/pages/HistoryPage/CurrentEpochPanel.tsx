@@ -9,10 +9,13 @@ import { CSS } from 'stitches.config';
 import * as z from 'zod';
 
 import { FormInputField } from 'components';
+import { useReceiveInfo } from 'components/ReceiveInfo/useReceiveInfo';
 import { useToast } from 'hooks';
 import { Edit, Give, PlusCircle } from 'icons/__generated';
 import { paths } from 'routes/paths';
 import { Box, Panel, Text, Button, Flex, IconButton, HR } from 'ui';
+
+import { NotesSection } from './Notes';
 
 type Props = {
   epoch: {
@@ -22,6 +25,7 @@ type Props = {
     description?: string;
     number?: number;
   };
+  userId: number;
   unallocated: number;
   circleId: number;
   tokenName?: string;
@@ -34,6 +38,7 @@ type Props = {
 };
 export const CurrentEpochPanel = ({
   epoch,
+  userId,
   unallocated,
   circleId,
   tokenName = 'GIVE',
@@ -51,6 +56,10 @@ export const CurrentEpochPanel = ({
 
   const endDateFormat = endDate.month === startDate.month ? 'd' : 'MMM d';
 
+  const { gifts } = useReceiveInfo(circleId, userId);
+
+  const received = gifts;
+
   // TODO: why is epoch.number null sometimes? just from data seeding?
   const [epochDescriptionText, setEpochDescriptionText] = useState<string>(
     epoch.description ?? 'Epoch ' + (epoch.number ?? '')
@@ -65,19 +74,16 @@ export const CurrentEpochPanel = ({
       }}
     >
       <Flex
+        row
         css={{
-          alignItems: 'start',
           display: 'grid',
+          width: '100%',
           gridTemplateColumns: '1fr 3fr',
           gap: '$md',
           '@sm': { gridTemplateColumns: '1fr' },
         }}
       >
-        <Flex
-          column
-          alignItems="start"
-          css={{ gap: '$sm', borderRight: '1px solid $borderDim' }}
-        >
+        <Flex column alignItems="start" css={{ gap: '$sm' }}>
           <Text h1 css={{ color: '$currentEpochDate', fontSize: '$h1Temp' }}>
             {startDate.toFormat('MMM')} {startDate.toFormat('d')} -{' '}
             {endDate.toFormat(endDateFormat)}
@@ -101,51 +107,68 @@ export const CurrentEpochPanel = ({
           )}
         </Flex>
         <Flex
+          column
           css={{
-            gap: '$md',
-            '@sm': { flexDirection: 'column' },
+            gap: '$lg',
+            borderLeft: '1px solid $borderDim',
+            pl: '$xl',
+            '@sm': {
+              borderLeft: 'none',
+              pl: 0,
+            },
           }}
         >
-          <Minicard
-            icon={<PlusCircle />}
-            title="Contributions"
-            color="$text"
-            content={
-              epochDaysRemaining == 0
-                ? 'Today is the Last Day to Add Contributions'
-                : `${epochDaysRemaining} ${daysPlural} Left to Add Contributions`
-            }
-            path={paths.contributions(circleId)}
-            linkLabel="Add Contribution"
-          />
-          <Minicard
-            icon={<Give nostroke />}
-            title="GIVE"
-            // TODO: maybe we want to continue to highlight some color here
-            // color={unallocated > 0 ? '$alert' : '$secondaryText'}
-            color="$text"
-            content={
-              unallocated > 0
-                ? `Allocate Your Remaining ${unallocated} ${tokenName}`
-                : `No More ${tokenName} to Allocate ${unallocated}`
-            }
-            path={paths.give(circleId)}
-            linkLabel="GIVE to Teammates"
-          />
+          <Flex
+            css={{
+              gap: '$md',
+              '@sm': { flexDirection: 'column' },
+            }}
+          >
+            <Minicard
+              icon={<PlusCircle />}
+              title="Contributions"
+              color="$text"
+              content={
+                epochDaysRemaining == 0
+                  ? 'Today is the Last Day to Add Contributions'
+                  : `${epochDaysRemaining} ${daysPlural} Left to Add Contributions`
+              }
+              path={paths.contributions(circleId)}
+              linkLabel="Add Contribution"
+            />
+            <Minicard
+              icon={<Give nostroke />}
+              title="GIVE"
+              // TODO: maybe we want to continue to highlight some color here
+              // color={unallocated > 0 ? '$alert' : '$secondaryText'}
+              color="$text"
+              content={
+                unallocated > 0
+                  ? `Allocate Your Remaining ${unallocated} ${tokenName}`
+                  : `No More ${tokenName} to Allocate ${unallocated}`
+              }
+              path={paths.give(circleId)}
+              linkLabel="GIVE to Teammates"
+            />
+          </Flex>
+          <NotesSection sent={[]} received={received} tokenName={tokenName} />
         </Flex>
       </Flex>
-      <Flex
-        css={{
-          '.epochFormContainer': {
-            mt: '$lg',
-            px: '0',
-            borderTop: '1px solid $borderDim',
-            borderRadius: 0,
-          },
-        }}
-      >
-        {children}
-      </Flex>
+      {children && (
+        <Flex
+          css={{
+            '.epochFormContainer': {
+              m: '$lg 0 0 0',
+              px: '0',
+              borderTop: '1px dashed $borderDim',
+              borderRadius: 0,
+              gridColumn: '1 / 3',
+            },
+          }}
+        >
+          {children}
+        </Flex>
+      )}
     </Panel>
   );
 };
@@ -172,11 +195,6 @@ const Minicard = ({
       css={{
         width: '100%',
         gap: '$sm',
-        borderLeft: '1px solid $borderDim',
-        '&:first-of-type': {
-          borderLeft: 'none',
-        },
-        pl: '$xl',
         '@sm': {
           minWidth: 0,
         },

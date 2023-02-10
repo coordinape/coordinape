@@ -120,18 +120,21 @@ export const Panel = styled(PanelBase, {
     },
     info: {
       true: {
+        border: 'none',
         backgroundColor: '$panelInfoBackground',
         color: '$panelInfoText',
       },
     },
     success: {
       true: {
+        border: 'none',
         backgroundColor: '$tagSuccessBackground',
         color: '$tagSuccessText',
       },
     },
     alert: {
       true: {
+        border: 'none',
         backgroundColor: '$tagAlertBackground',
         color: '$tagAlertText',
         'h1, h2': {
@@ -141,12 +144,14 @@ export const Panel = styled(PanelBase, {
     },
     neutral: {
       true: {
+        border: 'none',
         backgroundColor: '$tagNeutralBackground',
         color: '$tagNeutralText',
       },
     },
     default: {
       true: {
+        border: 'none',
         backgroundColor: '$tagDefaultBackground',
         color: '$tagDefaultText',
       },
