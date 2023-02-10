@@ -56,7 +56,7 @@ export const CurrentEpochPanel = ({
 
   const endDateFormat = endDate.month === startDate.month ? 'd' : 'MMM d';
 
-  const { gifts } = useReceiveInfo(circleId, userId);
+  const { gifts, showGives } = useReceiveInfo(circleId, userId);
 
   const received = gifts;
 
@@ -151,7 +151,9 @@ export const CurrentEpochPanel = ({
               linkLabel="GIVE to Teammates"
             />
           </Flex>
-          <NotesSection sent={[]} received={received} tokenName={tokenName} />
+          {(showGives || isAdmin) && (
+            <NotesSection sent={[]} received={received} tokenName={tokenName} />
+          )}
         </Flex>
       </Flex>
       {children && (
