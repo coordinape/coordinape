@@ -46,7 +46,7 @@ jest.mock('./getHistoryData', () => {
           end_date: now.plus({ hours: 1 }),
           repeat: 0,
           days: 7,
-          id: 0,
+          id: 1,
           number: 0,
           circle_id: 0,
           ended: true,

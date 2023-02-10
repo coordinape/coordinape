@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect, useRef } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { findMonthlyEndDate, findSameDayNextMonth } from 'common-lib/epochs';
+import epochTimeUpcoming from 'lib/time';
 import isEmpty from 'lodash/isEmpty';
 import {
   DateObjectUnits,
@@ -324,6 +325,10 @@ const EpochForm = ({
   setEditEpoch,
   setEndEpochDialog,
   onClose,
+  setEpochToDelete,
+  isEditing,
+  editingEpoch,
+  isAdmin,
 }: {
   selectedEpoch: QueryFutureEpoch | undefined;
   epochs: QueryFutureEpoch[] | undefined;
@@ -333,6 +338,10 @@ const EpochForm = ({
   setEndEpochDialog: (e: boolean) => void;
   setEditEpoch: (e: QueryFutureEpoch | undefined) => void;
   onClose: () => void;
+  setEpochToDelete: (e: QueryFutureEpoch | undefined) => void;
+  isEditing: boolean;
+  editingEpoch?: number;
+  isAdmin: boolean;
 }) => {
   const [submitting, setSubmitting] = useState(false);
 
@@ -355,6 +364,32 @@ const EpochForm = ({
     }),
     [selectedEpoch, epochs, currentEpoch]
   );
+
+  const nextEpochStartLabel = useMemo(() => {
+    const startDate = DateTime.fromISO(selectedEpoch?.start_date);
+    const endDate = DateTime.fromISO(selectedEpoch?.end_date);
+    const diff = epochTimeUpcoming(startDate);
+    return (
+      <Flex css={{ flexWrap: 'wrap', gap: '$xl' }}>
+        <Text size="xl" medium inline>
+          {`${startDate.toFormat('LLL d')} - ${
+            startDate.month === endDate.month
+              ? endDate.day
+              : endDate.toFormat('LLL d')
+          }`}
+        </Text>
+        <Text>
+          {`starts in ${diff}${
+            selectedEpoch?.repeat === 1
+              ? ' (repeats weekly)'
+              : selectedEpoch?.repeat === 2
+              ? ' (repeats monthly)'
+              : ''
+          }`}
+        </Text>
+      </Flex>
+    );
+  }, [selectedEpoch]);
 
   const {
     control,
@@ -605,18 +640,52 @@ const EpochForm = ({
   );
 
   return (
-    <Form>
-      <Panel css={{ mb: '$md', p: '$md' }}>
-        <Flex
-          css={{
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            gap: '$md',
-          }}
-        >
+    <Panel
+      className="epochFormContainer"
+      css={{
+        mb: '$md',
+        p: '$md',
+        border: '1px solid $borderDim',
+        width: '100%',
+      }}
+    >
+      <Flex
+        alignItems="center"
+        css={{
+          justifyContent: 'space-between',
+          gap: '$md',
+          flexWrap: 'wrap',
+        }}
+      >
+        {selectedEpoch ? (
+          selectedEpoch.id !== currentEpoch?.id ? (
+            <Text inline>{nextEpochStartLabel}</Text>
+          ) : (
+            <Box></Box>
+          )
+        ) : (
           <Text semibold css={{ color: '$secondaryText', fontSize: 'large' }}>
-            {selectedEpoch ? 'Edit Epoch' : 'New Epoch'}
+            New Epoch
           </Text>
+        )}
+        {!isEditing && isAdmin ? (
+          <Flex css={{ flexWrap: 'wrap', gap: '$md' }}>
+            <Button
+              color="secondary"
+              size="small"
+              onClick={() => setEditEpoch(selectedEpoch)}
+            >
+              Edit epoch
+            </Button>
+            <Button
+              color="neutral"
+              size="small"
+              onClick={() => setEpochToDelete(selectedEpoch)}
+            >
+              Delete Epoch
+            </Button>
+          </Flex>
+        ) : editingEpoch === selectedEpoch?.id && isAdmin ? (
           <Flex css={{ gap: '$md', flexWrap: 'wrap' }}>
             <Button
               color="secondary"
@@ -635,311 +704,317 @@ const EpochForm = ({
               {submitting ? 'Saving...' : 'Save'}
             </Button>
           </Flex>
-        </Flex>
-        <Panel nested css={{ mt: '$md' }}>
-          <Flex column css={{ rowGap: '$lg' }}>
-            <TwoColumnLayout>
-              <Flex column>
-                <Text h3 semibold>
-                  Epoch Settings
-                </Text>
-                <Text p size="small" css={{ mt: '$sm ' }}>
-                  An Epoch is a period of time where circle members contribute
-                  value & allocate {'GIVE'} tokens to one another.{' '}
-                  <span>
-                    <Link
-                      href="https://docs.coordinape.com/get-started/epochs/create-an-epoch"
-                      rel="noreferrer"
-                      target="_blank"
-                      inlineLink
-                    >
-                      Learn More
-                    </Link>
-                  </span>
-                </Text>
-              </Flex>
-            </TwoColumnLayout>
-            <TwoColumnLayout>
-              <Flex column css={{ gap: '$sm' }}>
+        ) : (
+          <></>
+        )}
+      </Flex>
+      {editingEpoch === selectedEpoch?.id && (
+        <Form>
+          <Panel nested css={{ mt: '$md' }}>
+            <Flex column css={{ rowGap: '$lg' }}>
+              <TwoColumnLayout>
+                <Flex column>
+                  <Text h3 semibold>
+                    Epoch Settings
+                  </Text>
+                  <Text p size="small" css={{ mt: '$sm ' }}>
+                    An Epoch is a period of time where circle members contribute
+                    value & allocate {'GIVE'} tokens to one another.{' '}
+                    <span>
+                      <Link
+                        href="https://docs.coordinape.com/get-started/epochs/create-an-epoch"
+                        rel="noreferrer"
+                        target="_blank"
+                        inlineLink
+                      >
+                        Learn More
+                      </Link>
+                    </span>
+                  </Text>
+                </Flex>
+              </TwoColumnLayout>
+              <TwoColumnLayout>
                 <Flex column css={{ gap: '$sm' }}>
-                  <Text h3>Epoch Frequency</Text>
-                  <Flex column css={{ mt: '$sm ', mb: '$md' }}>
-                    <FormRadioGroup
-                      name="repeat_view"
-                      control={control}
-                      options={[
-                        { label: 'Repeats', value: 'repeats' },
-                        { label: 'Does Not Repeat', value: 'one-off' },
-                      ]}
-                      label="Type"
-                      infoTooltip="Decide whether the epoch will repeat monthly or weekly or will not repeat after ending"
-                    />
-                  </Flex>
-                  <Flex
-                    css={{
-                      flexWrap: 'wrap',
-                      gap: '$md',
-                      display:
-                        getValues('repeat_view') === 'one-off'
-                          ? 'flex'
-                          : 'none',
-                    }}
-                  >
-                    <Flex
-                      column
-                      alignItems="start"
-                      css={{
-                        maxWidth: '150px',
-                        gap: '$xs',
-                      }}
-                    >
-                      <Text variant="label" as="label">
-                        Start Date{' '}
-                        <Tooltip content="The first day of the epoch in your local time zone">
-                          <Info size="sm" />
-                        </Tooltip>
-                      </Text>
-                      <FormDatePicker
-                        name="start_date"
-                        id="start_date"
+                  <Flex column css={{ gap: '$sm' }}>
+                    <Text h3>Epoch Frequency</Text>
+                    <Flex column css={{ mt: '$sm ', mb: '$md' }}>
+                      <FormRadioGroup
+                        name="repeat_view"
                         control={control}
-                        disabled={shouldFormBeDisabled}
+                        options={[
+                          { label: 'Repeats', value: 'repeats' },
+                          { label: 'Does Not Repeat', value: 'one-off' },
+                        ]}
+                        label="Type"
+                        infoTooltip="Decide whether the epoch will repeat monthly or weekly or will not repeat after ending"
                       />
                     </Flex>
                     <Flex
-                      column
                       css={{
-                        alignItems: 'flex-start',
-                        maxWidth: '150px',
-                        gap: '$xs',
+                        flexWrap: 'wrap',
+                        gap: '$md',
+                        display:
+                          getValues('repeat_view') === 'one-off'
+                            ? 'flex'
+                            : 'none',
                       }}
                     >
-                      <Text variant="label" as="label">
-                        End Date{' '}
-                        <Tooltip content="The last day of the epoch in your local time zone">
-                          <Info size="sm" />
-                        </Tooltip>
-                      </Text>
-                      <FormDatePicker
-                        disabled={shouldFormBeDisabled}
-                        control={control}
-                        id="end_date"
-                        name="end_date"
-                      />
-                    </Flex>
-                    <Flex column css={{ gap: '$xs' }}>
-                      <Text variant="label" as="label">
-                        Time{' '}
-                        <Tooltip content="The time the epoch will start and end in your local time zone">
-                          <Info size="sm" />
-                        </Tooltip>
-                      </Text>
-                      <Flex row css={{ gap: '$sm' }}>
-                        <Box
-                          css={{
-                            maxWidth: '150px',
-                            '> div': { mb: '0 !important' },
-                          }}
-                        >
-                          <FormTimePicker
-                            id="start_time"
-                            name="start_time"
-                            control={control}
-                            disabled={shouldFormBeDisabled}
-                          />
-                        </Box>
-                        <Text size="medium">
-                          In your
-                          <br /> local timezone
+                      <Flex
+                        column
+                        alignItems="start"
+                        css={{
+                          maxWidth: '150px',
+                          gap: '$xs',
+                        }}
+                      >
+                        <Text variant="label" as="label">
+                          Start Date{' '}
+                          <Tooltip content="The first day of the epoch in your local time zone">
+                            <Info size="sm" />
+                          </Tooltip>
                         </Text>
+                        <FormDatePicker
+                          name="start_date"
+                          id="start_date"
+                          control={control}
+                          disabled={shouldFormBeDisabled}
+                        />
+                      </Flex>
+                      <Flex
+                        column
+                        css={{
+                          alignItems: 'flex-start',
+                          maxWidth: '150px',
+                          gap: '$xs',
+                        }}
+                      >
+                        <Text variant="label" as="label">
+                          End Date{' '}
+                          <Tooltip content="The last day of the epoch in your local time zone">
+                            <Info size="sm" />
+                          </Tooltip>
+                        </Text>
+                        <FormDatePicker
+                          disabled={shouldFormBeDisabled}
+                          control={control}
+                          id="end_date"
+                          name="end_date"
+                        />
+                      </Flex>
+                      <Flex column css={{ gap: '$xs' }}>
+                        <Text variant="label" as="label">
+                          Time{' '}
+                          <Tooltip content="The time the epoch will start and end in your local time zone">
+                            <Info size="sm" />
+                          </Tooltip>
+                        </Text>
+                        <Flex row css={{ gap: '$sm' }}>
+                          <Box
+                            css={{
+                              maxWidth: '150px',
+                              '> div': { mb: '0 !important' },
+                            }}
+                          >
+                            <FormTimePicker
+                              id="start_time"
+                              name="start_time"
+                              control={control}
+                              disabled={shouldFormBeDisabled}
+                            />
+                          </Box>
+                          <Text size="medium">
+                            In your
+                            <br /> local timezone
+                          </Text>
+                        </Flex>
                       </Flex>
                     </Flex>
-                  </Flex>
-                  <Flex
-                    column
-                    css={{
-                      display:
-                        getValues('repeat_view') === 'repeats'
-                          ? 'flex'
-                          : 'none',
-                      flexWrap: 'wrap',
-                      gap: '$md',
-                    }}
-                  >
                     <Flex
+                      column
                       css={{
-                        gap: '$xs',
+                        display:
+                          getValues('repeat_view') === 'repeats'
+                            ? 'flex'
+                            : 'none',
+                        flexWrap: 'wrap',
+                        gap: '$md',
                       }}
                     >
-                      <Controller
-                        control={control}
-                        name="repeat"
-                        render={({ field: { onChange, value } }) => (
-                          <Select
-                            css={{ minWidth: '280px' }}
-                            options={repeat}
-                            value={value}
-                            disabled={shouldFormBeDisabled}
-                            onValueChange={onChange}
-                            id="repeat_type"
-                            label="Cycles"
+                      <Flex
+                        css={{
+                          gap: '$xs',
+                        }}
+                      >
+                        <Controller
+                          control={control}
+                          name="repeat"
+                          render={({ field: { onChange, value } }) => (
+                            <Select
+                              css={{ minWidth: '280px' }}
+                              options={repeat}
+                              value={value}
+                              disabled={shouldFormBeDisabled}
+                              onValueChange={onChange}
+                              id="repeat_type"
+                              label="Cycles"
+                            />
+                          )}
+                        />
+                      </Flex>
+                      <Flex
+                        column
+                        css={{
+                          alignItems: 'flex-start',
+                          maxWidth: '280px',
+                          gap: '$xs',
+                          display:
+                            getValues('repeat') === 'monthly' ? 'flex' : 'none',
+                        }}
+                      >
+                        <FormDatePicker
+                          disabled={shouldFormBeDisabled}
+                          control={control}
+                          id="monthly_repeat_datetime"
+                          name="monthly_repeat_datetime"
+                          css={{ minWidth: '280px' }}
+                          label="Start Date"
+                        />
+                      </Flex>
+                      <Flex
+                        column
+                        css={{
+                          alignItems: 'flex-start',
+                          maxWidth: '280px',
+                          gap: '$xs',
+                          display:
+                            getValues('repeat') === 'custom' ? 'flex' : 'none',
+                        }}
+                      >
+                        <FormDatePicker
+                          disabled={shouldFormBeDisabled}
+                          control={control}
+                          id="custom_start_date"
+                          name="custom_start_date"
+                          css={{ minWidth: '280px' }}
+                          label="Start On"
+                          infoTooltip="The first day of the epoch in your local time zone"
+                        />
+                        <Flex row css={{ gap: '$sm' }}>
+                          <Box
+                            css={{
+                              maxWidth: '80px',
+                              '> div': { mb: '0 !important' },
+                            }}
+                          >
+                            <FormInputField
+                              number
+                              label="Length"
+                              infoTooltip="The duration of each epoch"
+                              disabled={shouldFormBeDisabled}
+                              defaultValue={1}
+                              inputProps={{ min: 0, max: 99 }}
+                              control={control}
+                              id="custom_duration_qty"
+                              name="custom_duration_qty"
+                            />
+                          </Box>
+                          <Controller
+                            control={control}
+                            name="custom_duration_denomination"
+                            defaultValue="months"
+                            render={({ field: { onChange, value } }) => (
+                              <Select
+                                css={{ minWidth: '200px', mt: '20px' }}
+                                options={[
+                                  { label: 'Month', value: 'months' },
+                                  { label: 'Week', value: 'weeks' },
+                                  { label: 'Day', value: 'days' },
+                                ]}
+                                value={value}
+                                disabled={shouldFormBeDisabled}
+                                onValueChange={onChange}
+                                id="custom_duration_denomination"
+                              />
+                            )}
                           />
-                        )}
-                      />
-                    </Flex>
-                    <Flex
-                      column
-                      css={{
-                        alignItems: 'flex-start',
-                        maxWidth: '280px',
-                        gap: '$xs',
-                        display:
-                          getValues('repeat') === 'monthly' ? 'flex' : 'none',
-                      }}
-                    >
-                      <FormDatePicker
-                        disabled={shouldFormBeDisabled}
-                        control={control}
-                        id="monthly_repeat_datetime"
-                        name="monthly_repeat_datetime"
-                        css={{ minWidth: '280px' }}
-                        label="Start Date"
-                      />
-                    </Flex>
-                    <Flex
-                      column
-                      css={{
-                        alignItems: 'flex-start',
-                        maxWidth: '280px',
-                        gap: '$xs',
-                        display:
-                          getValues('repeat') === 'custom' ? 'flex' : 'none',
-                      }}
-                    >
-                      <FormDatePicker
-                        disabled={shouldFormBeDisabled}
-                        control={control}
-                        id="custom_start_date"
-                        name="custom_start_date"
-                        css={{ minWidth: '280px' }}
-                        label="Start On"
-                        infoTooltip="The first day of the epoch in your local time zone"
-                      />
-                      <Flex row css={{ gap: '$sm' }}>
-                        <Box
-                          css={{
-                            maxWidth: '80px',
-                            '> div': { mb: '0 !important' },
-                          }}
-                        >
+                        </Flex>
+                        <Flex row css={{ gap: '$sm' }}>
+                          <Text variant="label">Repeats Every</Text>
                           <FormInputField
                             number
-                            label="Length"
-                            infoTooltip="The duration of each epoch"
                             disabled={shouldFormBeDisabled}
                             defaultValue={1}
                             inputProps={{ min: 0, max: 99 }}
                             control={control}
-                            id="custom_duration_qty"
-                            name="custom_duration_qty"
+                            id="custom_interval_qty"
+                            name="custom_interval_qty"
                           />
-                        </Box>
-                        <Controller
-                          control={control}
-                          name="custom_duration_denomination"
-                          defaultValue="months"
-                          render={({ field: { onChange, value } }) => (
-                            <Select
-                              css={{ minWidth: '200px', mt: '20px' }}
-                              options={[
-                                { label: 'Month', value: 'months' },
-                                { label: 'Week', value: 'weeks' },
-                                { label: 'Day', value: 'days' },
-                              ]}
-                              value={value}
-                              disabled={shouldFormBeDisabled}
-                              onValueChange={onChange}
-                              id="custom_duration_denomination"
-                            />
-                          )}
-                        />
-                      </Flex>
-                      <Flex row css={{ gap: '$sm' }}>
-                        <Text variant="label">Repeats Every</Text>
-                        <FormInputField
-                          number
-                          disabled={shouldFormBeDisabled}
-                          defaultValue={1}
-                          inputProps={{ min: 0, max: 99 }}
-                          control={control}
-                          id="custom_interval_qty"
-                          name="custom_interval_qty"
-                        />
-                        <Controller
-                          control={control}
-                          name="custom_interval_denomination"
-                          defaultValue="months"
-                          render={({ field: { onChange, value } }) => (
-                            <Select
-                              css={{ minWidth: '100px' }}
-                              options={[
-                                { label: 'Month', value: 'months' },
-                                { label: 'Week', value: 'weeks' },
-                                { label: 'Day', value: 'days' },
-                              ]}
-                              value={value}
-                              disabled={shouldFormBeDisabled}
-                              onValueChange={onChange}
-                              id="custom_interval_denomination"
-                            />
-                          )}
-                        />
+                          <Controller
+                            control={control}
+                            name="custom_interval_denomination"
+                            defaultValue="months"
+                            render={({ field: { onChange, value } }) => (
+                              <Select
+                                css={{ minWidth: '100px' }}
+                                options={[
+                                  { label: 'Month', value: 'months' },
+                                  { label: 'Week', value: 'weeks' },
+                                  { label: 'Day', value: 'days' },
+                                ]}
+                                value={value}
+                                disabled={shouldFormBeDisabled}
+                                onValueChange={onChange}
+                                id="custom_interval_denomination"
+                              />
+                            )}
+                          />
+                        </Flex>
                       </Flex>
                     </Flex>
                   </Flex>
                 </Flex>
-              </Flex>
-              <Flex column>
-                <Flex column>{epochsPreview(epochConfig)}</Flex>
-                <Flex css={{ mt: '$xl', gap: '$xl' }}>
-                  <Text bold>{getRepeat(epochConfig)}</Text>
+                <Flex column>
+                  <Flex column>{epochsPreview(epochConfig)}</Flex>
+                  <Flex css={{ mt: '$xl', gap: '$xl' }}>
+                    <Text bold>{getRepeat(epochConfig)}</Text>
+                  </Flex>
                 </Flex>
-              </Flex>
-            </TwoColumnLayout>
-            {!isEmpty(errors) && (
-              <Box
-                css={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  mt: '$md',
-                  color: '$alert',
-                }}
-              >
-                {Object.values(errors).map((error, i) => {
-                  {
-                    console.warn(error);
-                  }
-                  return <div key={i}>{error.message}</div>;
-                })}
-              </Box>
-            )}
-            {selectedEpoch?.id && currentEpoch?.id === selectedEpoch?.id && (
-              <Button
-                color="destructive"
-                css={{ width: 'fit-content', alignSelf: 'flex-end' }}
-                onClick={async e => {
-                  e.preventDefault();
-                  setEndEpochDialog(true);
-                }}
-              >
-                End Epoch
-              </Button>
-            )}
-          </Flex>
-        </Panel>
-      </Panel>
-    </Form>
+              </TwoColumnLayout>
+              {!isEmpty(errors) && (
+                <Box
+                  css={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    mt: '$md',
+                    color: '$alert',
+                  }}
+                >
+                  {Object.values(errors).map((error, i) => {
+                    {
+                      console.warn(error);
+                    }
+                    return <div key={i}>{error.message}</div>;
+                  })}
+                </Box>
+              )}
+              {selectedEpoch?.id && currentEpoch?.id === selectedEpoch?.id && (
+                <Button
+                  color="destructive"
+                  css={{ width: 'fit-content', alignSelf: 'flex-end' }}
+                  onClick={async e => {
+                    e.preventDefault();
+                    setEndEpochDialog(true);
+                  }}
+                >
+                  End Epoch
+                </Button>
+              )}
+            </Flex>
+          </Panel>
+        </Form>
+      )}
+    </Panel>
   );
 };
 
