@@ -25,7 +25,10 @@ const staticFeatureFlags: Partial<Record<FeatureName, boolean>> = {
 // as an error, so we explicitly ignore it.
 const isLocallyOn = (name: FeatureName, circleId?: number) => {
   // This is to explicitly (experimentally) disable distribute evenly for Bankless DAO-WIDE (GP,L1,L2) -g
-  if (circleId == 3575 && name == 'disable_distribute_evenly') {
+  if (
+    (circleId == 3575 || circleId == 1998) &&
+    name == 'disable_distribute_evenly'
+  ) {
     return true;
   }
 
