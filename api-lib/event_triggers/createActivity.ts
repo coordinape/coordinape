@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { adminClient } from '../gql/adminClient';
 import { insertActivity } from '../gql/mutations';
+import { getOrgAndProfile, getOrgByEpoch } from '../gql/queries';
 import { errorResponse } from '../HttpError';
 import { EventTriggerPayload } from '../types';
 
@@ -10,51 +10,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     | EventTriggerPayload<'contributions', 'INSERT'>
     | EventTriggerPayload<'epochs', 'INSERT'>
     | EventTriggerPayload<'users', 'INSERT'>;
-
-  const getOrgAndProfile = async (user_id: number, circle_id: number) => {
-    const data = await adminClient.query(
-      {
-        circles_by_pk: [
-          { id: circle_id },
-          {
-            id: true,
-            organization_id: true,
-            users: [
-              { where: { id: { _eq: user_id } } },
-              {
-                profile: { id: true },
-              },
-            ],
-          },
-        ],
-      },
-      {
-        operationName: 'getOrgByCircle',
-      }
-    );
-
-    return data.circles_by_pk;
-  };
-
-  const getOrgByEpoch = async (epoch_id: number) => {
-    const data = await adminClient.query(
-      {
-        epochs_by_pk: [
-          { id: epoch_id },
-          {
-            circle: {
-              organization: { id: true },
-            },
-          },
-        ],
-      },
-      {
-        operationName: 'getOrgByEpoch',
-      }
-    );
-
-    return data.epochs_by_pk;
-  };
 
   try {
     const {
@@ -70,7 +25,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               new: { id, user_id, circle_id, created_at },
             },
           },
-          table: { name: table_name },
         }: EventTriggerPayload<'contributions', 'INSERT'> = req.body;
 
         const data = await getOrgAndProfile(user_id, circle_id);
@@ -93,7 +47,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               new: { id, circle_id, created_at },
             },
           },
-          table: { name: table_name },
         }: EventTriggerPayload<'epochs', 'INSERT'> = req.body;
 
         const data = await getOrgByEpoch(id);
@@ -115,7 +68,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               new: { id, circle_id, created_at },
             },
           },
-          table: { name: table_name },
         }: EventTriggerPayload<'users', 'INSERT'> = req.body;
 
         const data = await getOrgAndProfile(id, circle_id);

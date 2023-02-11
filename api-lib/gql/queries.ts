@@ -64,13 +64,20 @@ export async function getCircles() {
   ).circles;
 }
 
-export async function getOrgByCircle(circle_id: number) {
-  return await adminClient.query(
+export async function getOrgAndProfile(user_id: number, circle_id: number) {
+  const data = await adminClient.query(
     {
       circles_by_pk: [
         { id: circle_id },
         {
+          id: true,
           organization_id: true,
+          users: [
+            { where: { id: { _eq: user_id } } },
+            {
+              profile: { id: true },
+            },
+          ],
         },
       ],
     },
@@ -78,6 +85,27 @@ export async function getOrgByCircle(circle_id: number) {
       operationName: 'getOrgByCircle',
     }
   );
+
+  return data.circles_by_pk;
+}
+export async function getOrgByEpoch(epoch_id: number) {
+  const data = await adminClient.query(
+    {
+      epochs_by_pk: [
+        { id: epoch_id },
+        {
+          circle: {
+            organization: { id: true },
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'getOrgByEpoch',
+    }
+  );
+
+  return data.epochs_by_pk;
 }
 
 export async function getCurrentEpoch(
