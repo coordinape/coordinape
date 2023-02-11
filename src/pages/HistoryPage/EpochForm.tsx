@@ -668,6 +668,24 @@ const EpochForm = ({
             New Epoch
           </Text>
         )}
+        {!isEditing && isAdmin && (
+          <Flex css={{ flexWrap: 'wrap', gap: '$md' }}>
+            <Button
+              color="secondary"
+              size="small"
+              onClick={() => setEditEpoch(selectedEpoch)}
+            >
+              Edit epoch
+            </Button>
+            <Button
+              color="neutral"
+              size="small"
+              onClick={() => setEpochToDelete(selectedEpoch)}
+            >
+              Delete Epoch
+            </Button>
+          </Flex>
+        )}
       </Flex>
       {editingEpoch === selectedEpoch?.id && (
         <Form>
@@ -979,38 +997,15 @@ const EpochForm = ({
                   })}
                 </Text>
               )}
-              <Flex css={{ mt: '$md', justifyContent: 'space-between' }}>
-                {selectedEpoch?.id && currentEpoch?.id === selectedEpoch?.id && (
-                  <Button
-                    color="destructive"
-                    css={{ width: 'fit-content', alignSelf: 'flex-end' }}
-                    onClick={async e => {
-                      e.preventDefault();
-                      setEndEpochDialog(true);
-                    }}
-                  >
-                    End Epoch
-                  </Button>
-                )}
+              <Flex
+                css={{
+                  mt: '$md',
+                  justifyContent: 'space-between',
+                  flexDirection: 'row-reverse',
+                }}
+              >
                 <Flex css={{ gap: '$sm' }}>
-                  {!isEditing && isAdmin ? (
-                    <>
-                      <Button
-                        color="secondary"
-                        size="small"
-                        onClick={() => setEditEpoch(selectedEpoch)}
-                      >
-                        Edit epoch
-                      </Button>
-                      <Button
-                        color="neutral"
-                        size="small"
-                        onClick={() => setEpochToDelete(selectedEpoch)}
-                      >
-                        Delete Epoch
-                      </Button>
-                    </>
-                  ) : editingEpoch === selectedEpoch?.id && isAdmin ? (
+                  {editingEpoch === selectedEpoch?.id && isAdmin && (
                     <>
                       <Button
                         color="secondary"
@@ -1031,10 +1026,20 @@ const EpochForm = ({
                         {submitting ? 'Saving...' : 'Save'}
                       </Button>
                     </>
-                  ) : (
-                    <></>
                   )}
                 </Flex>
+                {selectedEpoch?.id && currentEpoch?.id === selectedEpoch?.id && (
+                  <Button
+                    color="destructive"
+                    css={{ width: 'fit-content', alignSelf: 'flex-end' }}
+                    onClick={async e => {
+                      e.preventDefault();
+                      setEndEpochDialog(true);
+                    }}
+                  >
+                    End Epoch
+                  </Button>
+                )}
               </Flex>
             </Flex>
           </Panel>
