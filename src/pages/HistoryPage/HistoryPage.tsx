@@ -358,7 +358,7 @@ export const HistoryPage = () => {
         </CollapsibleContent>
         {futureEpochs && futureEpochs.length > 1 && (
           <CollapsibleTrigger asChild>
-            <Link css={{ fontWeight: '$bold' }}>
+            <Link inlineLink>
               {!open
                 ? `View ${futureEpochs.length - 1} More`
                 : 'Hide Upcoming Epochs'}
@@ -371,6 +371,7 @@ export const HistoryPage = () => {
           <Text h2>Current Epoch</Text>
           <CurrentEpochPanel
             circleId={circleId}
+            userId={userId}
             epoch={currentEpoch}
             unallocated={unallocated}
             tokenName={circle?.token_name}

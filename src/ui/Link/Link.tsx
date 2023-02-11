@@ -40,6 +40,7 @@ const COMPOSERS = {
     inlineLink: {
       true: {
         textDecoration: 'none',
+        cursor: 'pointer',
         '&:hover': {
           textDecoration: 'underline',
         },

@@ -279,30 +279,6 @@ export const Button = styled('button', {
   },
   compoundVariants: [
     {
-      color: 'secondary',
-      size: 'xs',
-      css: {
-        // subtract border from N-S padding
-        padding: 'calc($xs - 1px) $sm',
-      },
-    },
-    {
-      color: 'secondary',
-      size: 'small',
-      css: {
-        // subtract border from N-S padding
-        padding: 'calc($sm - 1px) calc($sm + $xs)',
-      },
-    },
-    {
-      color: 'secondary',
-      size: 'medium',
-      css: {
-        // subtract border from N-S padding
-        padding: 'calc($sm - 1px) calc($sm + $xs)',
-      },
-    },
-    {
       color: 'neutral',
       outlined: true,
       css: {

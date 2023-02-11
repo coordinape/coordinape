@@ -160,7 +160,7 @@ export const colors = {
   hr: figmaColors.grey4,
   contentHeaderBorder: 'transparent',
   borderMedium: newFigmaColors.grey5,
-  borderDim: newFigmaColors.grey3,
+  borderDim: newFigmaColors.grey4,
   borderFocus: '$primary',
   borderFocusBright: 'transparent',
   borderTable: newFigmaColors.grey4,

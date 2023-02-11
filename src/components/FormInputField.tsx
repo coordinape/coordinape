@@ -97,7 +97,12 @@ export const FormInputField = <TFieldValues extends FieldValues>(
       {description && <Text size="small">{description}</Text>}
       {!textArea && (
         <TextField
-          css={{ width: '100%' }}
+          css={{
+            width: '100%',
+            '&::-webkit-calendar-picker-indicator': {
+              filter: 'invert(1) brightness(0.6)',
+            },
+          }}
           onChange={changeHandler}
           name={field.name}
           onBlur={field.onBlur}
