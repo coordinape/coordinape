@@ -6,8 +6,6 @@ import { insertActivity } from '../../../api-lib/gql/mutations';
 
 import { payloads } from './createActivity.payloads';
 
-const { invalid_payload, contribution_insert } = payloads;
-
 jest.mock('../../../api-lib/gql/adminClient', () => ({
   adminClient: { query: jest.fn() },
 }));
@@ -18,20 +16,13 @@ jest.mock('../../../api-lib/gql/mutations', () => ({
 
 describe('Create Activity Event Trigger', () => {
   describe('#handler', () => {
-    beforeEach(() => {
-      (adminClient.query as jest.Mock).mockImplementation(() =>
-        Promise.resolve({
-          circles_by_pk: {
-            id: 3,
-            organization_id: 9,
-            users: [{ profile: { id: 187 } }],
-          },
-        })
-      );
+    beforeEach(() => {});
+    afterEach(() => {
+      jest.clearAllMocks();
     });
     test('throws an error on unknown table name', async () => {
       try {
-        const req = { body: invalid_payload } as VercelRequest;
+        const req = { body: payloads.invalid_payload } as VercelRequest;
         const res = {
           status: jest.fn(() => res),
           json: jest.fn(),
@@ -47,33 +38,6 @@ describe('Create Activity Event Trigger', () => {
     });
 
     test('can receive contribution insert and inserts new activty', async () => {
-      try {
-        const req = { body: payloads.contribution_insert } as VercelRequest;
-        const res = {
-          status: jest.fn(() => res),
-          json: jest.fn(),
-        } as unknown as VercelResponse;
-
-        await handler(req, res);
-
-        expect(insertActivity as jest.Mock).toBeCalledTimes(1);
-        expect(insertActivity as jest.Mock).toBeCalledWith(
-          expect.objectContaining({
-            circle_id: 373,
-            organization_id: 9,
-            contribution_id: 538,
-            action: 'contributions_insert',
-            actor_profile_id: 187,
-          })
-        );
-        expect(res.status).toHaveBeenCalledWith(200);
-        expect(res.json).toHaveBeenCalledWith({ message: 'activity recorded' });
-      } catch (e) {
-        console.error(e);
-      }
-    });
-
-    xtest('can receive users insert and inserts new activty', async () => {
       (adminClient.query as jest.Mock).mockImplementation(() =>
         Promise.resolve({
           circles_by_pk: {
@@ -84,67 +48,94 @@ describe('Create Activity Event Trigger', () => {
         })
       );
 
+      let req, res;
       try {
-        const req = { body: contribution_insert } as VercelRequest;
-        const res = {
+        req = { body: payloads.contribution_insert } as VercelRequest;
+        res = {
           status: jest.fn(() => res),
           json: jest.fn(),
         } as unknown as VercelResponse;
 
         await handler(req, res);
-
-        expect(insertActivity as jest.Mock).toBeCalledTimes(1);
-        expect(insertActivity as jest.Mock).toBeCalledWith(
-          expect.objectContaining({
-            circle_id: 373,
-            organization_id: 9,
-            contribution_id: 538,
-            action: 'contributions_insert',
-            actor_profile_id: 187,
-          })
-        );
-        expect(res.status).toHaveBeenCalledWith(200);
-        expect(res.json).toHaveBeenCalledWith({ message: 'activity recorded' });
       } catch (e) {
         console.error(e);
       }
+
+      expect(insertActivity as jest.Mock).toBeCalledTimes(1);
+      expect(insertActivity as jest.Mock).toBeCalledWith(
+        expect.objectContaining({
+          circle_id: 373,
+          organization_id: 9,
+          contribution_id: 538,
+          action: 'contributions_insert',
+          actor_profile_id: 187,
+        })
+      );
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith({ message: 'activity recorded' });
     });
 
-    xtest('can receive epochs insert and inserts new activty', async () => {
+    test('can receive users insert and inserts new activty', async () => {
       (adminClient.query as jest.Mock).mockImplementation(() =>
         Promise.resolve({
           circles_by_pk: {
-            id: 3,
+            id: 15,
             organization_id: 9,
-            users: [{ profile: { id: 187 } }],
+            users: [{ profile: { id: 100 } }],
           },
         })
       );
 
+      let req, res;
       try {
-        const req = { body: contributions_payload } as VercelRequest;
-        const res = {
+        req = { body: payloads.user_insert };
+        res = {
           status: jest.fn(() => res),
           json: jest.fn(),
         } as unknown as VercelResponse;
 
         await handler(req, res);
-
-        expect(insertActivity as jest.Mock).toBeCalledTimes(1);
-        expect(insertActivity as jest.Mock).toBeCalledWith(
-          expect.objectContaining({
-            circle_id: 373,
-            organization_id: 9,
-            contribution_id: 538,
-            action: 'contributions_insert',
-            actor_profile_id: 187,
-          })
-        );
-        expect(res.status).toHaveBeenCalledWith(200);
-        expect(res.json).toHaveBeenCalledWith({ message: 'activity recorded' });
       } catch (e) {
         console.error(e);
       }
+      expect(insertActivity as jest.Mock).toBeCalledTimes(1);
+      expect(insertActivity as jest.Mock).toBeCalledWith(
+        expect.objectContaining({
+          circle_id: 15,
+          organization_id: 9,
+          user_id: 267,
+          action: 'users_insert',
+          actor_profile_id: 100,
+        })
+      );
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith({ message: 'activity recorded' });
+    });
+
+    test('can receive epochs insert and inserts new activty', async () => {
+      let req, res;
+      try {
+        req = { body: payloads.epoch_insert } as VercelRequest;
+        res = {
+          status: jest.fn(() => res),
+          json: jest.fn(),
+        } as unknown as VercelResponse;
+
+        await handler(req, res);
+      } catch (e) {
+        console.error(e);
+      }
+
+      expect(insertActivity as jest.Mock).toBeCalledTimes(1);
+      expect(insertActivity as jest.Mock).toBeCalledWith(
+        expect.objectContaining({
+          circle_id: 15,
+          epoch_id: 47,
+          action: 'epoches_insert',
+        })
+      );
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith({ message: 'activity recorded' });
     });
   });
 });

@@ -6,6 +6,11 @@ import { errorResponse } from '../HttpError';
 import { EventTriggerPayload } from '../types';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  type Events =
+    | EventTriggerPayload<'contributions', 'INSERT'>
+    | EventTriggerPayload<'epochs', 'INSERT'>
+    | EventTriggerPayload<'users', 'INSERT'>;
+
   const getHelperData = async (user_id: number, circle_id: number) => {
     const data = await adminClient.query(
       {
@@ -33,19 +38,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     const {
-      event: {
-        op: operation,
-        data: {
-          new: { id, user_id, circle_id, created_at },
-        },
-      },
       table: { name: table_name },
-    }: EventTriggerPayload<'contributions', 'INSERT'> = req.body;
-
-    const data = await getHelperData(user_id, circle_id);
+    }: Events = req.body;
 
     switch (table_name) {
       case 'contributions': {
+        const {
+          event: {
+            op: operation,
+            data: {
+              new: { id, user_id, circle_id, created_at },
+            },
+          },
+          table: { name: table_name },
+        }: EventTriggerPayload<'contributions', 'INSERT'> = req.body;
+
+        const data = await getHelperData(user_id, circle_id);
+
         await insertActivity({
           contribution_id: id,
           action: `${table_name}_${operation.toLowerCase()}`,
@@ -53,6 +62,50 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           circle_id: circle_id,
           organization_id: data?.organization_id,
           created_at: created_at,
+        });
+        break;
+      }
+      case 'epoches': {
+        const {
+          event: {
+            op: operation,
+            data: {
+              new: { id, circle_id, created_at },
+            },
+          },
+          table: { name: table_name },
+        }: EventTriggerPayload<'epochs', 'INSERT'> = req.body;
+
+        // const data = await getHelperData(user_id, circle_id);
+
+        await insertActivity({
+          epoch_id: id,
+          action: `${table_name}_${operation.toLowerCase()}`,
+          circle_id: circle_id,
+          created_at: created_at,
+        });
+        break;
+      }
+      case 'users': {
+        const {
+          event: {
+            op: operation,
+            data: {
+              new: { id, circle_id, created_at },
+            },
+          },
+          table: { name: table_name },
+        }: EventTriggerPayload<'users', 'INSERT'> = req.body;
+
+        const data = await getHelperData(id, circle_id);
+
+        await insertActivity({
+          action: `${table_name}_${operation.toLowerCase()}`,
+          circle_id: circle_id,
+          created_at: created_at,
+          organization_id: data?.organization_id,
+          actor_profile_id: data?.users[0].profile.id,
+          user_id: id,
         });
         break;
       }
