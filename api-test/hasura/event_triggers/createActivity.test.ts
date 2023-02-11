@@ -16,7 +16,6 @@ jest.mock('../../../api-lib/gql/mutations', () => ({
 
 describe('Create Activity Event Trigger', () => {
   describe('#handler', () => {
-    beforeEach(() => {});
     afterEach(() => {
       jest.clearAllMocks();
     });
@@ -113,6 +112,15 @@ describe('Create Activity Event Trigger', () => {
     });
 
     test('can receive epochs insert and inserts new activty', async () => {
+      (adminClient.query as jest.Mock).mockImplementation(() =>
+        Promise.resolve({
+          epochs_by_pk: {
+            id: 3,
+            circle: { organization: { id: 5 } },
+          },
+        })
+      );
+
       let req, res;
       try {
         req = { body: payloads.epoch_insert } as VercelRequest;

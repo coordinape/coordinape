@@ -11,7 +11,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     | EventTriggerPayload<'epochs', 'INSERT'>
     | EventTriggerPayload<'users', 'INSERT'>;
 
-  const getHelperData = async (user_id: number, circle_id: number) => {
+  const getOrgAndProfile = async (user_id: number, circle_id: number) => {
     const data = await adminClient.query(
       {
         circles_by_pk: [
@@ -36,6 +36,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return data.circles_by_pk;
   };
 
+  const getOrgByEpoch = async (epoch_id: number) => {
+    const data = await adminClient.query(
+      {
+        epochs_by_pk: [
+          { id: epoch_id },
+          {
+            circle: {
+              organization: { id: true },
+            },
+          },
+        ],
+      },
+      {
+        operationName: 'getOrgByEpoch',
+      }
+    );
+
+    return data.epochs_by_pk;
+  };
+
   try {
     const {
       table: { name: table_name },
@@ -53,7 +73,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           table: { name: table_name },
         }: EventTriggerPayload<'contributions', 'INSERT'> = req.body;
 
-        const data = await getHelperData(user_id, circle_id);
+        const data = await getOrgAndProfile(user_id, circle_id);
 
         await insertActivity({
           contribution_id: id,
@@ -76,13 +96,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           table: { name: table_name },
         }: EventTriggerPayload<'epochs', 'INSERT'> = req.body;
 
-        // const data = await getHelperData(user_id, circle_id);
+        const data = await getOrgByEpoch(id);
 
         await insertActivity({
           epoch_id: id,
           action: `${table_name}_${operation.toLowerCase()}`,
           circle_id: circle_id,
           created_at: created_at,
+          organization_id: data?.circle?.organization.id,
         });
         break;
       }
@@ -97,7 +118,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           table: { name: table_name },
         }: EventTriggerPayload<'users', 'INSERT'> = req.body;
 
-        const data = await getHelperData(id, circle_id);
+        const data = await getOrgAndProfile(id, circle_id);
 
         await insertActivity({
           action: `${table_name}_${operation.toLowerCase()}`,
