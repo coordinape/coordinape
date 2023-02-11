@@ -96,6 +96,8 @@ export const AllTypesProps: Record<string, any> = {
     target_profile: 'profiles_bool_exp',
     target_profile_id: 'bigint_comparison_exp',
     updated_at: 'timestamptz_comparison_exp',
+    user: 'users_bool_exp',
+    user_id: 'bigint_comparison_exp',
   },
   activities_constraint: true,
   activities_inc_input: {
@@ -106,6 +108,7 @@ export const AllTypesProps: Record<string, any> = {
     id: 'bigint',
     organization_id: 'bigint',
     target_profile_id: 'bigint',
+    user_id: 'bigint',
   },
   activities_insert_input: {
     actor_profile: 'profiles_obj_rel_insert_input',
@@ -123,6 +126,8 @@ export const AllTypesProps: Record<string, any> = {
     target_profile: 'profiles_obj_rel_insert_input',
     target_profile_id: 'bigint',
     updated_at: 'timestamptz',
+    user: 'users_obj_rel_insert_input',
+    user_id: 'bigint',
   },
   activities_on_conflict: {
     constraint: 'activities_constraint',
@@ -146,6 +151,8 @@ export const AllTypesProps: Record<string, any> = {
     target_profile: 'profiles_order_by',
     target_profile_id: 'order_by',
     updated_at: 'order_by',
+    user: 'users_order_by',
+    user_id: 'order_by',
   },
   activities_pk_columns_input: {
     id: 'bigint',
@@ -161,6 +168,7 @@ export const AllTypesProps: Record<string, any> = {
     organization_id: 'bigint',
     target_profile_id: 'bigint',
     updated_at: 'timestamptz',
+    user_id: 'bigint',
   },
   activities_stream_cursor_input: {
     initial_value: 'activities_stream_cursor_value_input',
@@ -176,6 +184,7 @@ export const AllTypesProps: Record<string, any> = {
     organization_id: 'bigint',
     target_profile_id: 'bigint',
     updated_at: 'timestamptz',
+    user_id: 'bigint',
   },
   activities_update_column: true,
   activities_updates: {
@@ -5235,6 +5244,7 @@ export const AllTypesProps: Record<string, any> = {
     medium_username: 'String_comparison_exp',
     name: 'citext_comparison_exp',
     nominees: 'nominees_bool_exp',
+    prompt_name: 'Boolean_comparison_exp',
     skills: 'String_comparison_exp',
     telegram_username: 'String_comparison_exp',
     twitter_username: 'String_comparison_exp',
@@ -5287,6 +5297,7 @@ export const AllTypesProps: Record<string, any> = {
     medium_username: 'order_by',
     name: 'order_by',
     nominees_aggregate: 'nominees_aggregate_order_by',
+    prompt_name: 'order_by',
     skills: 'order_by',
     telegram_username: 'order_by',
     twitter_username: 'order_by',
@@ -7934,6 +7945,8 @@ export const ReturnTypes: Record<string, any> = {
     target_profile: 'profiles',
     target_profile_id: 'bigint',
     updated_at: 'timestamptz',
+    user: 'users',
+    user_id: 'bigint',
   },
   activities_aggregate: {
     aggregate: 'activities_aggregate_fields',
@@ -7960,6 +7973,7 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Float',
     organization_id: 'Float',
     target_profile_id: 'Float',
+    user_id: 'Float',
   },
   activities_max_fields: {
     action: 'String',
@@ -7972,6 +7986,7 @@ export const ReturnTypes: Record<string, any> = {
     organization_id: 'bigint',
     target_profile_id: 'bigint',
     updated_at: 'timestamptz',
+    user_id: 'bigint',
   },
   activities_min_fields: {
     action: 'String',
@@ -7984,6 +7999,7 @@ export const ReturnTypes: Record<string, any> = {
     organization_id: 'bigint',
     target_profile_id: 'bigint',
     updated_at: 'timestamptz',
+    user_id: 'bigint',
   },
   activities_mutation_response: {
     affected_rows: 'Int',
@@ -7997,6 +8013,7 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Float',
     organization_id: 'Float',
     target_profile_id: 'Float',
+    user_id: 'Float',
   },
   activities_stddev_pop_fields: {
     actor_profile_id: 'Float',
@@ -8006,6 +8023,7 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Float',
     organization_id: 'Float',
     target_profile_id: 'Float',
+    user_id: 'Float',
   },
   activities_stddev_samp_fields: {
     actor_profile_id: 'Float',
@@ -8015,6 +8033,7 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Float',
     organization_id: 'Float',
     target_profile_id: 'Float',
+    user_id: 'Float',
   },
   activities_sum_fields: {
     actor_profile_id: 'bigint',
@@ -8024,6 +8043,7 @@ export const ReturnTypes: Record<string, any> = {
     id: 'bigint',
     organization_id: 'bigint',
     target_profile_id: 'bigint',
+    user_id: 'bigint',
   },
   activities_var_pop_fields: {
     actor_profile_id: 'Float',
@@ -8033,6 +8053,7 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Float',
     organization_id: 'Float',
     target_profile_id: 'Float',
+    user_id: 'Float',
   },
   activities_var_samp_fields: {
     actor_profile_id: 'Float',
@@ -8042,6 +8063,7 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Float',
     organization_id: 'Float',
     target_profile_id: 'Float',
+    user_id: 'Float',
   },
   activities_variance_fields: {
     actor_profile_id: 'Float',
@@ -8051,6 +8073,7 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Float',
     organization_id: 'Float',
     target_profile_id: 'Float',
+    user_id: 'Float',
   },
   burns: {
     circle: 'circles',
@@ -11206,6 +11229,7 @@ export const ReturnTypes: Record<string, any> = {
     name: 'citext',
     nominees: 'nominees',
     nominees_aggregate: 'nominees_aggregate',
+    prompt_name: 'Boolean',
     skills: 'String',
     telegram_username: 'String',
     twitter_username: 'String',

@@ -1092,6 +1092,9 @@ export type ValueTypes = {
     target_profile?: ValueTypes['profiles'];
     target_profile_id?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
+    /** An object relationship */
+    user?: ValueTypes['users'];
+    user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregated selection of "activities" */
@@ -1133,6 +1136,7 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** Boolean expression to filter rows from the table "activities". All fields are combined with a logical 'AND'. */
@@ -1156,6 +1160,8 @@ export type ValueTypes = {
     target_profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     target_profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    user?: ValueTypes['users_bool_exp'] | undefined | null;
+    user_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
   };
   /** unique or primary key constraints on table "activities" */
   ['activities_constraint']: activities_constraint;
@@ -1168,6 +1174,7 @@ export type ValueTypes = {
     id?: ValueTypes['bigint'] | undefined | null;
     organization_id?: ValueTypes['bigint'] | undefined | null;
     target_profile_id?: ValueTypes['bigint'] | undefined | null;
+    user_id?: ValueTypes['bigint'] | undefined | null;
   };
   /** input type for inserting data into table "activities" */
   ['activities_insert_input']: {
@@ -1199,6 +1206,8 @@ export type ValueTypes = {
       | null;
     target_profile_id?: ValueTypes['bigint'] | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
+    user?: ValueTypes['users_obj_rel_insert_input'] | undefined | null;
+    user_id?: ValueTypes['bigint'] | undefined | null;
   };
   /** aggregate max on columns */
   ['activities_max_fields']: AliasType<{
@@ -1212,6 +1221,7 @@ export type ValueTypes = {
     organization_id?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate min on columns */
@@ -1226,6 +1236,7 @@ export type ValueTypes = {
     organization_id?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** response of any mutation on the table "activities" */
@@ -1260,6 +1271,8 @@ export type ValueTypes = {
     target_profile?: ValueTypes['profiles_order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
+    user?: ValueTypes['users_order_by'] | undefined | null;
+    user_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** primary key columns input for table: activities */
   ['activities_pk_columns_input']: {
@@ -1279,6 +1292,7 @@ export type ValueTypes = {
     organization_id?: ValueTypes['bigint'] | undefined | null;
     target_profile_id?: ValueTypes['bigint'] | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
+    user_id?: ValueTypes['bigint'] | undefined | null;
   };
   /** aggregate stddev on columns */
   ['activities_stddev_fields']: AliasType<{
@@ -1289,6 +1303,7 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate stddev_pop on columns */
@@ -1300,6 +1315,7 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate stddev_samp on columns */
@@ -1311,6 +1327,7 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** Streaming cursor of the table "activities" */
@@ -1332,6 +1349,7 @@ export type ValueTypes = {
     organization_id?: ValueTypes['bigint'] | undefined | null;
     target_profile_id?: ValueTypes['bigint'] | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
+    user_id?: ValueTypes['bigint'] | undefined | null;
   };
   /** aggregate sum on columns */
   ['activities_sum_fields']: AliasType<{
@@ -1342,6 +1360,7 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** update columns of table "activities" */
@@ -1362,6 +1381,7 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate var_samp on columns */
@@ -1373,6 +1393,7 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate variance on columns */
@@ -1384,6 +1405,7 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   ['bigint']: number;
@@ -14204,6 +14226,7 @@ export type ValueTypes = {
       },
       ValueTypes['nominees_aggregate']
     ];
+    prompt_name?: boolean | `@${string}`;
     skills?: boolean | `@${string}`;
     telegram_username?: boolean | `@${string}`;
     twitter_username?: boolean | `@${string}`;
@@ -14406,6 +14429,7 @@ export type ValueTypes = {
     medium_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     name?: ValueTypes['citext_comparison_exp'] | undefined | null;
     nominees?: ValueTypes['nominees_bool_exp'] | undefined | null;
+    prompt_name?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     skills?: ValueTypes['String_comparison_exp'] | undefined | null;
     telegram_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     twitter_username?: ValueTypes['String_comparison_exp'] | undefined | null;
@@ -14445,6 +14469,7 @@ export type ValueTypes = {
     medium_username?: string | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
     nominees?: ValueTypes['nominees_arr_rel_insert_input'] | undefined | null;
+    prompt_name?: boolean | undefined | null;
     skills?: string | undefined | null;
     telegram_username?: string | undefined | null;
     twitter_username?: string | undefined | null;
@@ -14546,6 +14571,7 @@ export type ValueTypes = {
       | ValueTypes['nominees_aggregate_order_by']
       | undefined
       | null;
+    prompt_name?: ValueTypes['order_by'] | undefined | null;
     skills?: ValueTypes['order_by'] | undefined | null;
     telegram_username?: ValueTypes['order_by'] | undefined | null;
     twitter_username?: ValueTypes['order_by'] | undefined | null;
@@ -14582,6 +14608,7 @@ export type ValueTypes = {
     id?: ValueTypes['bigint'] | undefined | null;
     medium_username?: string | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
+    prompt_name?: boolean | undefined | null;
     skills?: string | undefined | null;
     telegram_username?: string | undefined | null;
     twitter_username?: string | undefined | null;
@@ -14624,6 +14651,7 @@ export type ValueTypes = {
     id?: ValueTypes['bigint'] | undefined | null;
     medium_username?: string | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
+    prompt_name?: boolean | undefined | null;
     skills?: string | undefined | null;
     telegram_username?: string | undefined | null;
     twitter_username?: string | undefined | null;
@@ -22266,8 +22294,8 @@ export type ModelTypes = {
   ['activities']: {
     action: string;
     /** An object relationship */
-    actor_profile: GraphQLTypes['profiles'];
-    actor_profile_id: GraphQLTypes['bigint'];
+    actor_profile?: GraphQLTypes['profiles'] | undefined;
+    actor_profile_id?: GraphQLTypes['bigint'] | undefined;
     /** An object relationship */
     circle?: GraphQLTypes['circles'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
@@ -22286,6 +22314,9 @@ export type ModelTypes = {
     target_profile?: GraphQLTypes['profiles'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    user?: GraphQLTypes['users'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** aggregated selection of "activities" */
   ['activities_aggregate']: {
@@ -22315,6 +22346,7 @@ export type ModelTypes = {
     id?: number | undefined;
     organization_id?: number | undefined;
     target_profile_id?: number | undefined;
+    user_id?: number | undefined;
   };
   /** Boolean expression to filter rows from the table "activities". All fields are combined with a logical 'AND'. */
   ['activities_bool_exp']: GraphQLTypes['activities_bool_exp'];
@@ -22336,6 +22368,7 @@ export type ModelTypes = {
     organization_id?: GraphQLTypes['bigint'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** aggregate min on columns */
   ['activities_min_fields']: {
@@ -22349,6 +22382,7 @@ export type ModelTypes = {
     organization_id?: GraphQLTypes['bigint'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** response of any mutation on the table "activities" */
   ['activities_mutation_response']: {
@@ -22376,6 +22410,7 @@ export type ModelTypes = {
     id?: number | undefined;
     organization_id?: number | undefined;
     target_profile_id?: number | undefined;
+    user_id?: number | undefined;
   };
   /** aggregate stddev_pop on columns */
   ['activities_stddev_pop_fields']: {
@@ -22386,6 +22421,7 @@ export type ModelTypes = {
     id?: number | undefined;
     organization_id?: number | undefined;
     target_profile_id?: number | undefined;
+    user_id?: number | undefined;
   };
   /** aggregate stddev_samp on columns */
   ['activities_stddev_samp_fields']: {
@@ -22396,6 +22432,7 @@ export type ModelTypes = {
     id?: number | undefined;
     organization_id?: number | undefined;
     target_profile_id?: number | undefined;
+    user_id?: number | undefined;
   };
   /** Streaming cursor of the table "activities" */
   ['activities_stream_cursor_input']: GraphQLTypes['activities_stream_cursor_input'];
@@ -22410,6 +22447,7 @@ export type ModelTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** update columns of table "activities" */
   ['activities_update_column']: GraphQLTypes['activities_update_column'];
@@ -22423,6 +22461,7 @@ export type ModelTypes = {
     id?: number | undefined;
     organization_id?: number | undefined;
     target_profile_id?: number | undefined;
+    user_id?: number | undefined;
   };
   /** aggregate var_samp on columns */
   ['activities_var_samp_fields']: {
@@ -22433,6 +22472,7 @@ export type ModelTypes = {
     id?: number | undefined;
     organization_id?: number | undefined;
     target_profile_id?: number | undefined;
+    user_id?: number | undefined;
   };
   /** aggregate variance on columns */
   ['activities_variance_fields']: {
@@ -22443,6 +22483,7 @@ export type ModelTypes = {
     id?: number | undefined;
     organization_id?: number | undefined;
     target_profile_id?: number | undefined;
+    user_id?: number | undefined;
   };
   ['bigint']: number;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
@@ -27868,6 +27909,7 @@ export type ModelTypes = {
     nominees: Array<GraphQLTypes['nominees']>;
     /** An aggregate relationship */
     nominees_aggregate: GraphQLTypes['nominees_aggregate'];
+    prompt_name: boolean;
     skills?: string | undefined;
     telegram_username?: string | undefined;
     twitter_username?: string | undefined;
@@ -30342,8 +30384,8 @@ export type GraphQLTypes = {
     __typename: 'activities';
     action: string;
     /** An object relationship */
-    actor_profile: GraphQLTypes['profiles'];
-    actor_profile_id: GraphQLTypes['bigint'];
+    actor_profile?: GraphQLTypes['profiles'] | undefined;
+    actor_profile_id?: GraphQLTypes['bigint'] | undefined;
     /** An object relationship */
     circle?: GraphQLTypes['circles'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
@@ -30362,6 +30404,9 @@ export type GraphQLTypes = {
     target_profile?: GraphQLTypes['profiles'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    user?: GraphQLTypes['users'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** aggregated selection of "activities" */
   ['activities_aggregate']: {
@@ -30394,6 +30439,7 @@ export type GraphQLTypes = {
     id?: number | undefined;
     organization_id?: number | undefined;
     target_profile_id?: number | undefined;
+    user_id?: number | undefined;
   };
   /** Boolean expression to filter rows from the table "activities". All fields are combined with a logical 'AND'. */
   ['activities_bool_exp']: {
@@ -30416,6 +30462,8 @@ export type GraphQLTypes = {
     target_profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     target_profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    user?: GraphQLTypes['users_bool_exp'] | undefined;
+    user_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
   };
   /** unique or primary key constraints on table "activities" */
   ['activities_constraint']: activities_constraint;
@@ -30428,6 +30476,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** input type for inserting data into table "activities" */
   ['activities_insert_input']: {
@@ -30451,6 +30500,8 @@ export type GraphQLTypes = {
     target_profile?: GraphQLTypes['profiles_obj_rel_insert_input'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    user?: GraphQLTypes['users_obj_rel_insert_input'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** aggregate max on columns */
   ['activities_max_fields']: {
@@ -30465,6 +30516,7 @@ export type GraphQLTypes = {
     organization_id?: GraphQLTypes['bigint'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** aggregate min on columns */
   ['activities_min_fields']: {
@@ -30479,6 +30531,7 @@ export type GraphQLTypes = {
     organization_id?: GraphQLTypes['bigint'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** response of any mutation on the table "activities" */
   ['activities_mutation_response']: {
@@ -30512,6 +30565,8 @@ export type GraphQLTypes = {
     target_profile?: GraphQLTypes['profiles_order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
+    user?: GraphQLTypes['users_order_by'] | undefined;
+    user_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** primary key columns input for table: activities */
   ['activities_pk_columns_input']: {
@@ -30531,6 +30586,7 @@ export type GraphQLTypes = {
     organization_id?: GraphQLTypes['bigint'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** aggregate stddev on columns */
   ['activities_stddev_fields']: {
@@ -30542,6 +30598,7 @@ export type GraphQLTypes = {
     id?: number | undefined;
     organization_id?: number | undefined;
     target_profile_id?: number | undefined;
+    user_id?: number | undefined;
   };
   /** aggregate stddev_pop on columns */
   ['activities_stddev_pop_fields']: {
@@ -30553,6 +30610,7 @@ export type GraphQLTypes = {
     id?: number | undefined;
     organization_id?: number | undefined;
     target_profile_id?: number | undefined;
+    user_id?: number | undefined;
   };
   /** aggregate stddev_samp on columns */
   ['activities_stddev_samp_fields']: {
@@ -30564,6 +30622,7 @@ export type GraphQLTypes = {
     id?: number | undefined;
     organization_id?: number | undefined;
     target_profile_id?: number | undefined;
+    user_id?: number | undefined;
   };
   /** Streaming cursor of the table "activities" */
   ['activities_stream_cursor_input']: {
@@ -30584,6 +30643,7 @@ export type GraphQLTypes = {
     organization_id?: GraphQLTypes['bigint'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** aggregate sum on columns */
   ['activities_sum_fields']: {
@@ -30595,6 +30655,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** update columns of table "activities" */
   ['activities_update_column']: activities_update_column;
@@ -30615,6 +30676,7 @@ export type GraphQLTypes = {
     id?: number | undefined;
     organization_id?: number | undefined;
     target_profile_id?: number | undefined;
+    user_id?: number | undefined;
   };
   /** aggregate var_samp on columns */
   ['activities_var_samp_fields']: {
@@ -30626,6 +30688,7 @@ export type GraphQLTypes = {
     id?: number | undefined;
     organization_id?: number | undefined;
     target_profile_id?: number | undefined;
+    user_id?: number | undefined;
   };
   /** aggregate variance on columns */
   ['activities_variance_fields']: {
@@ -30637,6 +30700,7 @@ export type GraphQLTypes = {
     id?: number | undefined;
     organization_id?: number | undefined;
     target_profile_id?: number | undefined;
+    user_id?: number | undefined;
   };
   ['bigint']: any;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
@@ -40206,6 +40270,7 @@ export type GraphQLTypes = {
     nominees: Array<GraphQLTypes['nominees']>;
     /** An aggregate relationship */
     nominees_aggregate: GraphQLTypes['nominees_aggregate'];
+    prompt_name: boolean;
     skills?: string | undefined;
     telegram_username?: string | undefined;
     twitter_username?: string | undefined;
@@ -40272,6 +40337,7 @@ export type GraphQLTypes = {
     medium_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     name?: GraphQLTypes['citext_comparison_exp'] | undefined;
     nominees?: GraphQLTypes['nominees_bool_exp'] | undefined;
+    prompt_name?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     skills?: GraphQLTypes['String_comparison_exp'] | undefined;
     telegram_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     twitter_username?: GraphQLTypes['String_comparison_exp'] | undefined;
@@ -40309,6 +40375,7 @@ export type GraphQLTypes = {
     medium_username?: string | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     nominees?: GraphQLTypes['nominees_arr_rel_insert_input'] | undefined;
+    prompt_name?: boolean | undefined;
     skills?: string | undefined;
     telegram_username?: string | undefined;
     twitter_username?: string | undefined;
@@ -40404,6 +40471,7 @@ export type GraphQLTypes = {
     nominees_aggregate?:
       | GraphQLTypes['nominees_aggregate_order_by']
       | undefined;
+    prompt_name?: GraphQLTypes['order_by'] | undefined;
     skills?: GraphQLTypes['order_by'] | undefined;
     telegram_username?: GraphQLTypes['order_by'] | undefined;
     twitter_username?: GraphQLTypes['order_by'] | undefined;
@@ -40436,6 +40504,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     medium_username?: string | undefined;
     name?: GraphQLTypes['citext'] | undefined;
+    prompt_name?: boolean | undefined;
     skills?: string | undefined;
     telegram_username?: string | undefined;
     twitter_username?: string | undefined;
@@ -40478,6 +40547,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     medium_username?: string | undefined;
     name?: GraphQLTypes['citext'] | undefined;
+    prompt_name?: boolean | undefined;
     skills?: string | undefined;
     telegram_username?: string | undefined;
     twitter_username?: string | undefined;
@@ -43790,6 +43860,7 @@ export const enum activities_select_column {
   organization_id = 'organization_id',
   target_profile_id = 'target_profile_id',
   updated_at = 'updated_at',
+  user_id = 'user_id',
 }
 /** update columns of table "activities" */
 export const enum activities_update_column {
@@ -43803,6 +43874,7 @@ export const enum activities_update_column {
   organization_id = 'organization_id',
   target_profile_id = 'target_profile_id',
   updated_at = 'updated_at',
+  user_id = 'user_id',
 }
 /** unique or primary key constraints on table "burns" */
 export const enum burns_constraint {
@@ -44573,6 +44645,7 @@ export const enum profiles_select_column {
   id = 'id',
   medium_username = 'medium_username',
   name = 'name',
+  prompt_name = 'prompt_name',
   skills = 'skills',
   telegram_username = 'telegram_username',
   twitter_username = 'twitter_username',
@@ -44593,6 +44666,7 @@ export const enum profiles_update_column {
   id = 'id',
   medium_username = 'medium_username',
   name = 'name',
+  prompt_name = 'prompt_name',
   skills = 'skills',
   telegram_username = 'telegram_username',
   twitter_username = 'twitter_username',

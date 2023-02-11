@@ -536,8 +536,8 @@ type activities {
   """
   An object relationship
   """
-  actor_profile: profiles!
-  actor_profile_id: bigint!
+  actor_profile: profiles
+  actor_profile_id: bigint
 
   """
   An object relationship
@@ -571,6 +571,11 @@ type activities {
   target_profile: profiles
   target_profile_id: bigint
   updated_at: timestamptz!
+
+  """
+  An object relationship
+  """
+  user: users
 }
 
 """
@@ -634,6 +639,7 @@ input activities_bool_exp {
   target_profile: profiles_bool_exp
   target_profile_id: bigint_comparison_exp
   updated_at: timestamptz_comparison_exp
+  user: users_bool_exp
 }
 
 """
@@ -688,6 +694,7 @@ input activities_order_by {
   target_profile: profiles_order_by
   target_profile_id: order_by
   updated_at: order_by
+  user: users_order_by
 }
 
 """

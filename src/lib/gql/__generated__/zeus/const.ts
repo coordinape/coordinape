@@ -89,6 +89,7 @@ export const AllTypesProps: Record<string, any> = {
     target_profile: 'profiles_bool_exp',
     target_profile_id: 'bigint_comparison_exp',
     updated_at: 'timestamptz_comparison_exp',
+    user: 'users_bool_exp',
   },
   activities_order_by: {
     action: 'order_by',
@@ -107,6 +108,7 @@ export const AllTypesProps: Record<string, any> = {
     target_profile: 'profiles_order_by',
     target_profile_id: 'order_by',
     updated_at: 'order_by',
+    user: 'users_order_by',
   },
   activities_select_column: true,
   activities_stream_cursor_input: {
@@ -4646,6 +4648,7 @@ export const ReturnTypes: Record<string, any> = {
     target_profile: 'profiles',
     target_profile_id: 'bigint',
     updated_at: 'timestamptz',
+    user: 'users',
   },
   activities_aggregate: {
     aggregate: 'activities_aggregate_fields',

@@ -596,8 +596,8 @@ type activities {
   """
   An object relationship
   """
-  actor_profile: profiles!
-  actor_profile_id: bigint!
+  actor_profile: profiles
+  actor_profile_id: bigint
 
   """
   An object relationship
@@ -631,6 +631,12 @@ type activities {
   target_profile: profiles
   target_profile_id: bigint
   updated_at: timestamptz!
+
+  """
+  An object relationship
+  """
+  user: users
+  user_id: bigint
 }
 
 """
@@ -669,6 +675,7 @@ type activities_avg_fields {
   id: Float
   organization_id: Float
   target_profile_id: Float
+  user_id: Float
 }
 
 """
@@ -694,6 +701,8 @@ input activities_bool_exp {
   target_profile: profiles_bool_exp
   target_profile_id: bigint_comparison_exp
   updated_at: timestamptz_comparison_exp
+  user: users_bool_exp
+  user_id: bigint_comparison_exp
 }
 
 """
@@ -717,6 +726,7 @@ input activities_inc_input {
   id: bigint
   organization_id: bigint
   target_profile_id: bigint
+  user_id: bigint
 }
 
 """
@@ -739,6 +749,8 @@ input activities_insert_input {
   target_profile: profiles_obj_rel_insert_input
   target_profile_id: bigint
   updated_at: timestamptz
+  user: users_obj_rel_insert_input
+  user_id: bigint
 }
 
 """
@@ -755,6 +767,7 @@ type activities_max_fields {
   organization_id: bigint
   target_profile_id: bigint
   updated_at: timestamptz
+  user_id: bigint
 }
 
 """
@@ -771,6 +784,7 @@ type activities_min_fields {
   organization_id: bigint
   target_profile_id: bigint
   updated_at: timestamptz
+  user_id: bigint
 }
 
 """
@@ -817,6 +831,8 @@ input activities_order_by {
   target_profile: profiles_order_by
   target_profile_id: order_by
   updated_at: order_by
+  user: users_order_by
+  user_id: order_by
 }
 
 """
@@ -879,6 +895,11 @@ enum activities_select_column {
   column name
   """
   updated_at
+
+  """
+  column name
+  """
+  user_id
 }
 
 """
@@ -895,6 +916,7 @@ input activities_set_input {
   organization_id: bigint
   target_profile_id: bigint
   updated_at: timestamptz
+  user_id: bigint
 }
 
 """
@@ -908,6 +930,7 @@ type activities_stddev_fields {
   id: Float
   organization_id: Float
   target_profile_id: Float
+  user_id: Float
 }
 
 """
@@ -921,6 +944,7 @@ type activities_stddev_pop_fields {
   id: Float
   organization_id: Float
   target_profile_id: Float
+  user_id: Float
 }
 
 """
@@ -934,6 +958,7 @@ type activities_stddev_samp_fields {
   id: Float
   organization_id: Float
   target_profile_id: Float
+  user_id: Float
 }
 
 """
@@ -965,6 +990,7 @@ input activities_stream_cursor_value_input {
   organization_id: bigint
   target_profile_id: bigint
   updated_at: timestamptz
+  user_id: bigint
 }
 
 """
@@ -978,6 +1004,7 @@ type activities_sum_fields {
   id: bigint
   organization_id: bigint
   target_profile_id: bigint
+  user_id: bigint
 }
 
 """
@@ -1033,6 +1060,11 @@ enum activities_update_column {
   column name
   """
   updated_at
+
+  """
+  column name
+  """
+  user_id
 }
 
 input activities_updates {
@@ -1059,6 +1091,7 @@ type activities_var_pop_fields {
   id: Float
   organization_id: Float
   target_profile_id: Float
+  user_id: Float
 }
 
 """
@@ -1072,6 +1105,7 @@ type activities_var_samp_fields {
   id: Float
   organization_id: Float
   target_profile_id: Float
+  user_id: Float
 }
 
 """
@@ -1085,6 +1119,7 @@ type activities_variance_fields {
   id: Float
   organization_id: Float
   target_profile_id: Float
+  user_id: Float
 }
 
 scalar bigint
@@ -20027,6 +20062,7 @@ type profiles {
     """
     where: nominees_bool_exp
   ): nominees_aggregate!
+  prompt_name: Boolean!
   skills: String
   telegram_username: String
   twitter_username: String
@@ -20273,6 +20309,7 @@ input profiles_bool_exp {
   medium_username: String_comparison_exp
   name: citext_comparison_exp
   nominees: nominees_bool_exp
+  prompt_name: Boolean_comparison_exp
   skills: String_comparison_exp
   telegram_username: String_comparison_exp
   twitter_username: String_comparison_exp
@@ -20330,6 +20367,7 @@ input profiles_insert_input {
   medium_username: String
   name: citext
   nominees: nominees_arr_rel_insert_input
+  prompt_name: Boolean
   skills: String
   telegram_username: String
   twitter_username: String
@@ -20442,6 +20480,7 @@ input profiles_order_by {
   medium_username: order_by
   name: order_by
   nominees_aggregate: nominees_aggregate_order_by
+  prompt_name: order_by
   skills: order_by
   telegram_username: order_by
   twitter_username: order_by
@@ -20527,6 +20566,11 @@ enum profiles_select_column {
   """
   column name
   """
+  prompt_name
+
+  """
+  column name
+  """
   skills
 
   """
@@ -20566,6 +20610,7 @@ input profiles_set_input {
   id: bigint
   medium_username: String
   name: citext
+  prompt_name: Boolean
   skills: String
   telegram_username: String
   twitter_username: String
@@ -20625,6 +20670,7 @@ input profiles_stream_cursor_value_input {
   id: bigint
   medium_username: String
   name: citext
+  prompt_name: Boolean
   skills: String
   telegram_username: String
   twitter_username: String
@@ -20702,6 +20748,11 @@ enum profiles_update_column {
   column name
   """
   name
+
+  """
+  column name
+  """
+  prompt_name
 
   """
   column name

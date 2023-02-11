@@ -1039,6 +1039,8 @@ export type ValueTypes = {
     target_profile?: ValueTypes['profiles'];
     target_profile_id?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
+    /** An object relationship */
+    user?: ValueTypes['users'];
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregated selection of "activities" */
@@ -1103,6 +1105,7 @@ export type ValueTypes = {
     target_profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     target_profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    user?: ValueTypes['users_bool_exp'] | undefined | null;
   };
   /** aggregate max on columns */
   ['activities_max_fields']: AliasType<{
@@ -1150,6 +1153,7 @@ export type ValueTypes = {
     target_profile?: ValueTypes['profiles_order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
+    user?: ValueTypes['users_order_by'] | undefined | null;
   };
   /** select columns of table "activities" */
   ['activities_select_column']: activities_select_column;
@@ -11061,8 +11065,8 @@ export type ModelTypes = {
   ['activities']: {
     action: string;
     /** An object relationship */
-    actor_profile: GraphQLTypes['profiles'];
-    actor_profile_id: GraphQLTypes['bigint'];
+    actor_profile?: GraphQLTypes['profiles'] | undefined;
+    actor_profile_id?: GraphQLTypes['bigint'] | undefined;
     /** An object relationship */
     circle?: GraphQLTypes['circles'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
@@ -11081,6 +11085,8 @@ export type ModelTypes = {
     target_profile?: GraphQLTypes['profiles'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    user?: GraphQLTypes['users'] | undefined;
   };
   /** aggregated selection of "activities" */
   ['activities_aggregate']: {
@@ -14372,8 +14378,8 @@ export type GraphQLTypes = {
     __typename: 'activities';
     action: string;
     /** An object relationship */
-    actor_profile: GraphQLTypes['profiles'];
-    actor_profile_id: GraphQLTypes['bigint'];
+    actor_profile?: GraphQLTypes['profiles'] | undefined;
+    actor_profile_id?: GraphQLTypes['bigint'] | undefined;
     /** An object relationship */
     circle?: GraphQLTypes['circles'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
@@ -14392,6 +14398,8 @@ export type GraphQLTypes = {
     target_profile?: GraphQLTypes['profiles'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    user?: GraphQLTypes['users'] | undefined;
   };
   /** aggregated selection of "activities" */
   ['activities_aggregate']: {
@@ -14446,6 +14454,7 @@ export type GraphQLTypes = {
     target_profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     target_profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    user?: GraphQLTypes['users_bool_exp'] | undefined;
   };
   /** aggregate max on columns */
   ['activities_max_fields']: {
@@ -14493,6 +14502,7 @@ export type GraphQLTypes = {
     target_profile?: GraphQLTypes['profiles_order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
+    user?: GraphQLTypes['users_order_by'] | undefined;
   };
   /** select columns of table "activities" */
   ['activities_select_column']: activities_select_column;
