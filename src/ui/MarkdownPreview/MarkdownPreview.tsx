@@ -1,4 +1,5 @@
 import ReactMarkdownPreview from '@uiw/react-markdown-preview';
+import { ThemeContext } from 'features/theming/ThemeProvider';
 import { styled } from 'stitches.config';
 
 const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
@@ -23,6 +24,14 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
     pb: '$sm !important',
     lineHeight: '$shorter',
   },
+  'pre, code': {
+    background: 'transparent !important',
+    '*': {
+      fontFamily:
+        "Consolas, 'Liberation Mono', Menlo, Courier, monospace !important",
+    },
+  },
+  '.copied': {},
   variants: {
     display: {
       true: {
@@ -50,24 +59,29 @@ export const MarkdownPreview = (
   props: React.ComponentProps<typeof StyledMarkdownPreview>
 ) => {
   return (
-    <StyledMarkdownPreview
-      {...props}
-      skipHtml={false}
-      rehypeRewrite={(node, index, parent) => {
-        if (
-          node.type === 'element' &&
-          node.tagName &&
-          node.tagName === 'a' &&
-          parent &&
-          parent.type === 'element' &&
-          /^h(1|2|3|4|5|6)/.test(parent.tagName)
-        ) {
-          parent.children = parent.children.slice(1);
-        }
-      }}
-      warpperElement={{
-        'data-color-mode': 'light',
-      }}
-    />
+    <ThemeContext.Consumer>
+      {({ theme }) => (
+        <StyledMarkdownPreview
+          {...props}
+          skipHtml={false}
+          disableCopy={true}
+          rehypeRewrite={(node, index, parent) => {
+            if (
+              node.type === 'element' &&
+              node.tagName &&
+              node.tagName === 'a' &&
+              parent &&
+              parent.type === 'element' &&
+              /^h(1|2|3|4|5|6)/.test(parent.tagName)
+            ) {
+              parent.children = parent.children.slice(1);
+            }
+          }}
+          warpperElement={{
+            'data-color-mode': theme === 'light' ? 'light' : 'dark',
+          }}
+        />
+      )}
+    </ThemeContext.Consumer>
   );
 };
