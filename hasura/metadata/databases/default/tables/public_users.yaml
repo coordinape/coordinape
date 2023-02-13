@@ -127,6 +127,7 @@ select_permissions:
         - circle_id
         - created_at
         - deleted_at
+        - entrance
         - epoch_first_visit
         - fixed_non_receiver
         - give_token_received
