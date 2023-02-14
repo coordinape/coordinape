@@ -24,7 +24,6 @@ context('Coordinape', () => {
     cy.get('.contentHeader').invoke('css', 'position', 'static');
     cy.getInputByLabel('Token name for CSV export', { timeout: 120000 })
       .clear()
-      .scrollIntoView({ offset: { top: 200, left: 0 } })
       .type('DAI')
       .blur();
     cy.intercept({
