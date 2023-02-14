@@ -35,6 +35,13 @@ array_relationships:
         remote_table:
           name: nominees
           schema: public
+  - name: org_members
+    using:
+      foreign_key_constraint_on:
+        column: profile_id
+        table:
+          name: org_members
+          schema: public
   - name: users
     using:
       manual_configuration:
@@ -128,6 +135,17 @@ select_permissions:
                           _eq: X-Hasura-User-Id
           - id:
               _eq: X-Hasura-User-Id
+          - org_members:
+              _and:
+                - deleted_at:
+                    _is_null: true
+                - organization:
+                    members:
+                      _and:
+                        - deleted_at:
+                            _is_null: true
+                        - profile_id:
+                            _eq: X-Hasura-User-Id
 update_permissions:
   - role: user
     permission:

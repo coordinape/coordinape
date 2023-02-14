@@ -23,6 +23,7 @@ type MutationName = keyof ValueTypes['mutation_root'];
     'delete_circle_share_tokens',
     'delete_circles',
     'delete_vaults',
+    'delete_org_members',
     'delete_organizations',
     'delete_profiles',
     'delete_burns',
@@ -37,12 +38,8 @@ type MutationName = keyof ValueTypes['mutation_root'];
 
   for (const mutation of mutations) {
     const res = await adminClient.mutate(
-      {
-        [mutation]: [{ where: {} }, { affected_rows: true }],
-      },
-      {
-        operationName: 'db_clean',
-      }
+      { [mutation]: [{ where: {} }, { affected_rows: true }] },
+      { operationName: 'db_clean' }
     );
 
     // @ts-ignore

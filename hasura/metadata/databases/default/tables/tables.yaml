@@ -20,6 +20,7 @@
 - "!include public_locked_token_distributions.yaml"
 - "!include public_member_epoch_pgives.yaml"
 - "!include public_nominees.yaml"
+- "!include public_org_members.yaml"
 - "!include public_organizations.yaml"
 - "!include public_pending_gift_private.yaml"
 - "!include public_pending_token_gifts.yaml"
