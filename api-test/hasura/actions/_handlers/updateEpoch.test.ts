@@ -751,8 +751,9 @@ describe('updateEpoch', () => {
 
     test('can update repeating monthly epochs without gaps', async () => {
       const DURATION_IN_MONTHS = 1;
+      const ZONE = 'America/Chicago';
       let result;
-      const now = DateTime.now();
+      const now = DateTime.now().setZone(ZONE);
       const first = async () =>
         client.mutate({
           updateEpoch: [
@@ -764,7 +765,7 @@ describe('updateEpoch', () => {
                   type: 'custom',
                   start_date: now.toISO(),
                   end_date: now.plus({ months: DURATION_IN_MONTHS }).toISO(),
-                  time_zone: 'America/Chicago',
+                  time_zone: ZONE,
                   duration: DURATION_IN_MONTHS,
                   duration_unit: 'months',
                   frequency: 1,
@@ -795,15 +796,21 @@ describe('updateEpoch', () => {
             type: 'custom',
             duration: DURATION_IN_MONTHS,
             duration_unit: 'months',
-            time_zone: 'America/Chicago',
+            time_zone: ZONE,
             frequency: 1,
             frequency_unit: 'months',
           },
         })
       );
-      const { start_date, end_date } = epoch;
+      const {
+        start_date,
+        end_date,
+        repeat_data: { time_zone },
+      } = epoch;
       expect(
-        Interval.fromISO(start_date + '/' + end_date).length('months')
+        Interval.fromISO(start_date + '/' + end_date, {
+          zone: time_zone,
+        }).length('months')
       ).toBe(DURATION_IN_MONTHS);
     });
 
