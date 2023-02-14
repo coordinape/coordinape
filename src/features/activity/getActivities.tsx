@@ -5,9 +5,9 @@ import { client } from '../../lib/gql/client';
 const PAGE_SIZE = 10;
 
 export const getActivities = async (circleId: number, page: number) => {
-  const { contributions } = await client.query(
+  const { activities } = await client.query(
     {
-      contributions: [
+      activities: [
         {
           where: {
             circle_id: { _eq: circleId },
@@ -23,35 +23,61 @@ export const getActivities = async (circleId: number, page: number) => {
         {
           id: true,
           created_at: true,
-          description: true,
-          user: {
+          updated_at: true,
+          action: true,
+          actor_profile: {
+            id: true,
             name: true,
-            profile: {
+            avatar: true,
+          },
+          target_profile: {
+            id: true,
+            name: true,
+            avatar: true,
+          },
+          circle: {
+            id: true,
+            name: true,
+          },
+          organization: {
+            id: true,
+            name: true,
+          },
+          contribution: {
+            description: true,
+            user: {
               name: true,
-              avatar: true,
+              profile: {
+                name: true,
+                avatar: true,
+              },
+            },
+          },
+          epoch: {
+            id: true,
+            description: true,
+            start_date: true,
+            end_date: true,
+            ended: true,
+            circle: {
+              id: true,
+              name: true,
+            },
+          },
+          user: {
+            id: true,
+            circle_id: true,
+            entrance: true,
+            profile: {
+              id: true,
+              name: true,
+              address: true,
             },
           },
         },
       ],
     },
-    {
-      operationName: 'getActivity__circleActivity',
-    }
+    { operationName: 'getActivities' }
   );
-
-  // type Contrib = Awaited<typeof contributions>['contributions'][number];
-  // type User = Contrib['user'];
-  // const hasProfile = (c: [number] | undefined): c is IApiUser => {
-  //   return !!user;
-  // };
-
-  // TODO: make the database handle this properly
-  return contributions.map(c => ({
-    ...c,
-    user: {
-      ...c.user,
-      name: c.user.name as string,
-      profile: { ...c.user.profile, name: c.user.profile.name as string },
-    },
-  }));
+  return activities;
 };

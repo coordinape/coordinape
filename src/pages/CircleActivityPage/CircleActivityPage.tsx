@@ -41,6 +41,11 @@ export const CircleActivityPage = () => {
   );
 
   useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log({ data });
+  });
+
+  useEffect(() => {
     const element = observerRef.current;
     if (element) {
       const option = { threshold: 0 };
