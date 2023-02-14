@@ -72,7 +72,7 @@ export const NavOrgs = ({
                 semibold={isCurrentOrg ? true : undefined}
                 css={{
                   flexGrow: 1,
-                  color: isCurrentOrg ? '$textOnInfo' : '$navLinkText',
+                  color: isCurrentOrg ? '$text' : '$navLinkText',
                 }}
               >
                 {o.name}

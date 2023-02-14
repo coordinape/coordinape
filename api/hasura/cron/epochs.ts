@@ -476,7 +476,11 @@ export async function createNextEpoch(epoch: {
   const parseResult = zEpochRepeatData.safeParse(repeat_data);
 
   if (!parseResult.success) {
-    errorLog(`epoch id ${id}: invalid repeat data: ${repeat_data}`);
+    errorLog(
+      `epoch id ${id}: invalid repeat data: ${JSON.stringify(
+        repeat_data
+      )}: ${JSON.stringify(parseResult)}`
+    );
     return;
   }
 

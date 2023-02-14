@@ -509,14 +509,14 @@ export const dark = createTheme({
     tagActiveText: newFigmaColors.warning8,
     tagActiveBackground: newFigmaColors.warning10,
 
+    tagWarningText: newFigmaColors.orange5,
+    tagWarningBackground: newFigmaColors.orange10,
+
     tagSuccessText: newFigmaColors.success5,
     tagSuccessBackground: newFigmaColors.success10,
 
     tagAlertText: newFigmaColors.error6,
     tagAlertBackground: newFigmaColors.error10,
-
-    tagWarningText: newFigmaColors.orange5,
-    tagWarningBackground: newFigmaColors.orange10,
 
     tagPrimaryText: newFigmaColors.primary7,
     tagPrimaryBackground: newFigmaColors.primary9,
@@ -613,52 +613,123 @@ export const dark = createTheme({
 
 export const light = createTheme({
   colors: {
+    white: newFigmaColors.grey1,
+    black: newFigmaColors.grey10,
+    link: newFigmaColors.secondary5,
+    text: newFigmaColors.grey7,
+    headingText: newFigmaColors.grey7,
+    secondaryText: newFigmaColors.grey6,
+
     background: newFigmaColors.grey1,
     navBackground: newFigmaColors.grey3,
     surface: newFigmaColors.grey2,
     surfaceNested: newFigmaColors.grey1,
     navLinkText: newFigmaColors.grey7,
     navLinkHoverBackground: newFigmaColors.grey1,
-    dim: newFigmaColors.grey2,
     highlight: newFigmaColors.secondary1,
-
-    border: figmaColors.grey4,
-    hr: figmaColors.grey4,
+    border: newFigmaColors.grey5,
+    hr: newFigmaColors.grey5,
     contentHeaderBorder: newFigmaColors.grey3,
-    borderMedium: newFigmaColors.grey5,
+    borderMedium: newFigmaColors.grey6,
     borderDim: newFigmaColors.grey4,
     borderFocus: newFigmaColors.secondary4,
     borderFocusBright: newFigmaColors.secondary5,
     borderTable: newFigmaColors.grey4,
     activePanel: newFigmaColors.secondary1,
 
-    profileGradientStart: newFigmaColors.grey4,
-    profileGradientEnd: newFigmaColors.grey2,
-
-    link: newFigmaColors.secondary5,
-
-    avatarFallback: newFigmaColors.grey6,
-    avatarFallbackText: newFigmaColors.grey2,
+    dim: newFigmaColors.grey1,
+    dimButtonHover: '#FFFFFF',
+    textOnDim: newFigmaColors.grey5,
 
     cta: newFigmaColors.secondary4,
     ctaHover: newFigmaColors.secondary5,
     textOnCta: newFigmaColors.grey1,
+
+    primary: newFigmaColors.grey8,
+    primaryHover: newFigmaColors.grey10,
+
+    primaryDark: newFigmaColors.grey10,
+    primaryLight: newFigmaColors.grey6,
+    primaryDisabled: newFigmaColors.grey4,
+    textOnPrimary: newFigmaColors.grey2,
+
+    secondary: newFigmaColors.grey8,
+    secondaryHover: newFigmaColors.grey10,
+    secondaryLight: figmaColors.blue4,
+    secondaryMedium: figmaColors.blue8,
+    secondaryDark: figmaColors.blue4,
+    textOnSecondary: newFigmaColors.grey1,
+
+    primaryButton: newFigmaColors.grey8,
+    primaryButtonHover: newFigmaColors.grey10,
+    primaryButtonText: newFigmaColors.grey2,
+    primaryButtonBorderFocus: newFigmaColors.grey5,
+
+    secondaryButton: '#ffffff22',
+    secondaryButtonHover: newFigmaColors.grey10,
+    secondaryButtonText: newFigmaColors.grey8,
+    secondaryButtonTextHover: newFigmaColors.grey1,
+    secondaryButtonBorderHover: newFigmaColors.grey10,
+    secondaryButtonBorderFocus: newFigmaColors.grey8,
+
+    destructiveButton: newFigmaColors.error6,
+    destructiveButtonHover: newFigmaColors.error7,
+    destructiveButtonText: newFigmaColors.error1,
+    destructiveButtonBorderFocus: newFigmaColors.error5,
+
+    successButton: newFigmaColors.success6,
+    successButtonHover: newFigmaColors.success5,
+    successButtonText: newFigmaColors.success1,
+    successButtonBorderFocus: newFigmaColors.success5,
+
+    neutralButton: '$primaryButton',
+    neutralButtonOutlineBackground: newFigmaColors.grey1,
+    neutralButtonOutlineText: '$primaryButton',
+    neutralButtonHover: '$primaryButtonHover',
+    neutralButtonText: newFigmaColors.grey1,
+    neutralButtonTextHover: newFigmaColors.grey1,
+
+    modalBackground: '#00000090',
+    modalBorderColor: 'transparent',
+
+    profileGradientStart: newFigmaColors.grey4,
+    profileGradientEnd: newFigmaColors.grey2,
+
+    alert: newFigmaColors.error5,
+    alertLight: newFigmaColors.error4,
+    alertDisabled: newFigmaColors.error3,
+    alertDark: newFigmaColors.error7,
+    textOnAlert: newFigmaColors.error1,
+
+    success: newFigmaColors.success5,
+    successLight: newFigmaColors.success4,
+    successDisabled: newFigmaColors.success3,
+    successDark: newFigmaColors.success6,
+
+    neutral: newFigmaColors.neutral4,
+    textOnNeutral: newFigmaColors.neutral1,
+
+    complete: '$success',
+    completeLight: '$successLight',
+    blurple: figmaColors.discordblurple,
+
+    avatarFallback: newFigmaColors.grey6,
+    avatarFallbackText: newFigmaColors.grey2,
+
     toggleButtonYes: newFigmaColors.success5,
     toggleButtonNo: '$alert',
 
-    primary: newFigmaColors.grey8,
-    primaryButton: newFigmaColors.grey8,
-    primaryHover: newFigmaColors.grey10,
-    primaryButtonHover: newFigmaColors.grey10,
-    primaryButtonText: newFigmaColors.grey2,
-    textOnPrimary: newFigmaColors.grey2,
-    primaryButtonBorderFocus: newFigmaColors.grey5,
+    toggleBackground: newFigmaColors.grey2,
+    toggleText: newFigmaColors.grey6,
+    toggleTextHover: newFigmaColors.grey9,
+    toggleSelectedBackground: newFigmaColors.grey6,
+    toggleSelectedText: newFigmaColors.grey1,
 
-    formInputText: figmaColors.grey16,
+    formInputText: newFigmaColors.grey7,
     formInputBackground: '#FFFFFF66',
-    formInputBorderlessBright: figmaColors.grey1,
-    formInputBorder: newFigmaColors.grey5,
-    formInputPlaceholder: figmaColors.grey8,
+    formInputBorderlessBright: newFigmaColors.grey1,
+    formInputBorder: newFigmaColors.grey6,
+    formInputPlaceholder: newFigmaColors.grey4,
     formInputErrorText: newFigmaColors.error7,
     formInputErrorBackground: newFigmaColors.error1,
     formInputErrorBorder: newFigmaColors.error6,
@@ -669,27 +740,20 @@ export const light = createTheme({
     formRadioBorderSelected: newFigmaColors.secondary5,
     formRadioBackground: newFigmaColors.grey2,
 
-    secondaryButton: '#ffffff22',
-    secondaryButtonHover: newFigmaColors.grey10,
-    secondaryButtonText: newFigmaColors.grey8,
-    secondaryButtonTextHover: newFigmaColors.grey1,
-    secondaryButtonBorderHover: newFigmaColors.grey10,
-    secondaryButtonBorderFocus: newFigmaColors.grey8,
-
     panelInfoText: newFigmaColors.secondary9,
     panelInfoBackground: newFigmaColors.secondary1,
 
-    tagActiveText: newFigmaColors.orange7,
-    tagActiveBackground: newFigmaColors.orange2,
+    tagActiveText: newFigmaColors.warning7,
+    tagActiveBackground: newFigmaColors.warning2,
+
+    tagWarningText: newFigmaColors.orange7,
+    tagWarningBackground: newFigmaColors.orange2,
 
     tagSuccessText: newFigmaColors.success6,
     tagSuccessBackground: newFigmaColors.success2,
 
     tagAlertText: newFigmaColors.error5,
     tagAlertBackground: newFigmaColors.error2,
-
-    tagWarningText: newFigmaColors.warning6,
-    tagWarningBackground: newFigmaColors.warning2,
 
     tagSecondaryText: newFigmaColors.secondary5,
     tagSecondaryBackground: newFigmaColors.secondary1,
@@ -703,12 +767,6 @@ export const light = createTheme({
     tagDefaultText: newFigmaColors.grey2,
     tagDefaultBackground: newFigmaColors.grey5,
 
-    toggleBackground: newFigmaColors.grey2,
-    toggleText: newFigmaColors.grey6,
-    toggleTextHover: newFigmaColors.grey9,
-    toggleSelectedBackground: newFigmaColors.grey6,
-    toggleSelectedText: newFigmaColors.grey1,
-
     mapNodeHighlight: newFigmaColors.warning5,
     mapNodeMoreHighlight: newFigmaColors.warning3,
     mapGive: newFigmaColors.secondary8,
@@ -720,6 +778,22 @@ export const light = createTheme({
     mapNodeFade: '#00000020',
     mapLink: '#00000015',
     mapLinkDim: '#00000008',
+
+    coMarkBackground: newFigmaColors.primary4,
+
+    toastifyBackground: 'white',
+    toastifyTextColorDefault: 'var(--colors-text)',
+    toastifyBorderColorDefault: newFigmaColors.grey3,
+    toastifyTextColorSuccess: newFigmaColors.success6,
+    toastifyBorderColorSuccess: newFigmaColors.success4,
+    toastifyIconBackgroundSuccess: newFigmaColors.success2,
+    toastifyTextColorError: newFigmaColors.error6,
+    toastifyBorderColorError: newFigmaColors.error3,
+    toastifyIconBackgroundError: newFigmaColors.error2,
+
+    // TODO: improve
+    currentEpochDate: newFigmaColors.grey7,
+    currentEpochDescription: newFigmaColors.grey7,
   },
   fontSizes: {
     small: '14px',

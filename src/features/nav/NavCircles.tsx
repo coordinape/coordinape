@@ -60,7 +60,7 @@ export const NavCircles = ({
                 semibold={isCurrentCircle}
                 css={{
                   flexGrow: 1,
-                  color: isCurrentCircle ? '$textOnInfo' : '$navLinkText',
+                  color: isCurrentCircle ? '$text' : '$navLinkText',
                 }}
               >
                 {c.name}

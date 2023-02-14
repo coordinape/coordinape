@@ -356,7 +356,7 @@ const MemberRow = ({
             <TD
               css={{
                 textAlign: 'center !important',
-                minWidth: '$4xl',
+                minWidth: '$3xl',
               }}
             >
               {!user.non_giver ? (
@@ -368,7 +368,7 @@ const MemberRow = ({
             <TD
               css={{
                 textAlign: 'center !important',
-                minWidth: '$4xl',
+                minWidth: '$3xl',
               }}
             >
               {user.fixed_non_receiver ? (
@@ -390,7 +390,7 @@ const MemberRow = ({
         <TD
           css={{
             textAlign: 'center !important',
-            minWidth: '$4xl',
+            minWidth: '$3xl',
           }}
         >
           {user.role === USER_ROLE_ADMIN ? (
@@ -429,7 +429,7 @@ const MemberRow = ({
           {isAdmin ? (
             user.role !== 2 ? (
               <Button
-                color="primary"
+                color="secondary"
                 size="xs"
                 css={{ mr: 0, ml: 'auto ', whiteSpace: 'nowrap' }}
                 onClick={() => {
@@ -441,7 +441,7 @@ const MemberRow = ({
             ) : (
               <Tooltip content={coordinapeTooltipContent()}>
                 <Button
-                  color="primary"
+                  color="secondary"
                   size="xs"
                   css={{ mr: 0, ml: 'auto ', whiteSpace: 'nowrap' }}
                   onClick={() => {
