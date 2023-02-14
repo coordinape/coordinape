@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react';
 
 import { RequireAuth } from 'features/auth';
+import { OrgPage, OrgSettingsPage, OrgMembersPage } from 'features/orgs';
 import { isUserAdmin, isUserMember } from 'lib/users';
 import {
   Routes,
@@ -36,8 +37,6 @@ import HistoryPage from 'pages/HistoryPage';
 import IntegrationCallbackPage from 'pages/IntegrationCallbackPage';
 import MembersPage from 'pages/MembersPage';
 import { NewNominationPage } from 'pages/NewNominationPage/NewNominationPage';
-import OrganizationPage from 'pages/OrganizationPage';
-import OrganizationSettingsPage from 'pages/OrganizationSettingsPage';
 import ProfilePage from 'pages/ProfilePage';
 import VaultsPage from 'pages/VaultsPage';
 import { VaultTransactions } from 'pages/VaultsPage/VaultTransactions';
@@ -89,9 +88,10 @@ const LoggedInRoutes = () => {
       <Route path={paths.home} element={<DefaultPage />} />
 
       <Route path={paths.organization(':orgId')}>
-        <Route path="" element={<OrganizationPage />} />
-        <Route path="settings" element={<OrganizationSettingsPage />} />
-        <Route path={'vaults'} element={<VaultsPage />} />
+        <Route path="" element={<OrgPage />} />
+        <Route path="settings" element={<OrgSettingsPage />} />
+        <Route path="vaults" element={<VaultsPage />} />
+        <Route path="members" element={<OrgMembersPage />} />
       </Route>
 
       <Route

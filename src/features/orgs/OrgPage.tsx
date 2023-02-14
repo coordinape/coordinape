@@ -18,7 +18,7 @@ import type { Awaited } from 'types/shim';
 
 type QueryResult = Awaited<ReturnType<typeof getOrgData>>;
 
-export const OrganizationPage = () => {
+export const OrgPage = () => {
   const orgId = Number.parseInt(useParams().orgId ?? '-1');
   const navigate = useNavigate();
   const address = useConnectedAddress();
@@ -90,5 +90,3 @@ export const OrganizationPage = () => {
     </SingleColumnLayout>
   );
 };
-
-export default OrganizationPage;
