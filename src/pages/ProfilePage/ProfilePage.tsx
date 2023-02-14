@@ -80,10 +80,7 @@ const ProfilePageContent = ({
   const {
     imageUrl: backgroundUrl,
     formFileUploadProps: backgroundUploadProps,
-  } = useImageUploader(
-    getAvatarPath(profile?.background) || ''
-    // getAvatarPath(profile?.background) || '/imgs/background/profile-bg.jpg'
-  );
+  } = useImageUploader(getAvatarPath(profile?.background) || '');
 
   const recentEpochs = profile?.users?.map(user => ({
     bio: (user?.bio?.length ?? 0) > 0 ? user.bio : null,
@@ -110,8 +107,9 @@ const ProfilePageContent = ({
           backgroundSize: 'cover',
           background: backgroundUrl ? `url(${backgroundUrl})` : 'white',
 
-          backgroundImage:
-            'radial-gradient(circle at center -30px, $profileGradientStart, $profileGradientEnd), repeating-radial-gradient(circle at center -30px, $profileGradientEnd, $profileGradientEnd, 83px, transparent 106px, transparent 83px)',
+          backgroundImage: backgroundUrl
+            ? undefined
+            : 'radial-gradient(circle at center -30px, $profileGradientStart, $profileGradientEnd), repeating-radial-gradient(circle at center -30px, $profileGradientEnd, $profileGradientEnd, 83px, transparent 106px, transparent 83px)',
           backgroundBlendMode: 'multiply',
         }}
       >

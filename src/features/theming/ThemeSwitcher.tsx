@@ -1,5 +1,4 @@
-import { isFeatureEnabled } from '../../config/features';
-import { CloudDrizzle, Moon, Sun } from '../../icons/__generated';
+import { Moon, Sun } from '../../icons/__generated';
 import { Button, Flex, IconButton } from '../../ui';
 
 import { ThemeContext } from './ThemeProvider';
@@ -17,9 +16,6 @@ const themeOptionStyles = {
 const handleHeight = '24px';
 
 export const ThemeSwitcher = () => {
-  if (!isFeatureEnabled('theme_switcher')) {
-    return <></>;
-  }
   return (
     <ThemeContext.Consumer>
       {({ themePreference, setTheme }) => (
@@ -115,20 +111,6 @@ export const ThemeSwitcher = () => {
               <Sun />
             </IconButton>
           </Flex>
-          <IconButton
-            css={{
-              p: 0,
-              color:
-                themePreference == 'legacy'
-                  ? '$primary !important'
-                  : '$toggleText',
-            }}
-            onClick={() => {
-              setTheme('legacy');
-            }}
-          >
-            <CloudDrizzle />
-          </IconButton>
         </Flex>
       )}
     </ThemeContext.Consumer>

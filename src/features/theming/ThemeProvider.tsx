@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { theme as defaultTheme, dark, light } from '../../stitches.config';
+import { dark, light, theme as legacyTheme } from '../../stitches.config';
 
 import {
   getMediaTheme,
@@ -16,9 +16,10 @@ import {
 
 const { createContext, useState, useEffect } = React;
 
-const defaultThemeName = 'legacy';
+const defaultThemeName = 'dark';
+const defaultTheme = dark;
 
-type Theme = 'dark' | 'light' | typeof defaultThemeName;
+type Theme = 'dark' | 'light' | 'legacy';
 
 type ThemeProviderType = {
   themePreference: ThemePreference;
@@ -37,11 +38,11 @@ const initialValues: ThemeProviderType = {
 export const ThemeContext = createContext<ThemeProviderType>(initialValues);
 
 type AvailableThemes = {
-  [x: string]: typeof defaultTheme | typeof dark | typeof light;
+  [x: string]: typeof legacyTheme | typeof dark | typeof light;
 };
 
 const available_themes: AvailableThemes = {
-  legacy: defaultTheme, // stitches' default theme
+  legacy: legacyTheme, // stitches' default theme
   dark: dark,
   light: light,
 };
@@ -63,8 +64,6 @@ const useTheme = (): ThemeProviderType => {
       setThemePreference(initialTheme);
     } else {
       setThemePreference(defaultThemeName);
-      // TODO: switch to this at release time
-      // setThemePreference('auto');
     }
   }, []);
 
