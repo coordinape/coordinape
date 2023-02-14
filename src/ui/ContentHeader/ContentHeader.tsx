@@ -10,6 +10,7 @@ const ContentHeader = ({
   return (
     <Flex
       column
+      className="contentHeader"
       css={{
         gap: '$sm',
         position: sticky ? 'sticky' : undefined,
