@@ -1,4 +1,3 @@
-import { isFeatureEnabled } from '../../config/features';
 import { Moon, Sun } from '../../icons/__generated';
 import { Button, Flex, IconButton } from '../../ui';
 
@@ -17,9 +16,6 @@ const themeOptionStyles = {
 const handleHeight = '24px';
 
 export const ThemeSwitcher = () => {
-  if (!isFeatureEnabled('theme_switcher')) {
-    return <></>;
-  }
   return (
     <ThemeContext.Consumer>
       {({ themePreference, setTheme }) => (

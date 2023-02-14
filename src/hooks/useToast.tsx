@@ -9,8 +9,7 @@ import {
 } from 'react-toastify';
 
 import { FlattenedGQLError } from '../common-lib/errorHandling';
-import isFeatureEnabled from 'config/features';
-import { Bell, Check, CoMark, Copy, Loader, X } from 'icons/__generated';
+import { Bell, Check, CoMark, Copy, X } from 'icons/__generated';
 import { Text, Box, Button, Flex } from 'ui';
 import { normalizeError } from 'utils/reporting';
 
@@ -56,42 +55,27 @@ const ErrorIcon = () => {
   );
 };
 const DefaultIcon = () => {
-  if (isFeatureEnabled('theme_switcher')) {
-    return (
-      <Flex
+  return (
+    <Flex
+      css={{
+        backgroundColor: '$coMarkBackground',
+        borderRadius: '999px',
+        alignItems: 'center',
+        overflow: 'hidden',
+        flexShrink: 0,
+      }}
+    >
+      <CoMark
+        nostroke
         css={{
-          backgroundColor: '$coMarkBackground',
-          borderRadius: '999px',
-          alignItems: 'center',
-          overflow: 'hidden',
+          width: '34px',
+          height: '34px',
+          transform: 'scale(1.35) translate(1.5px, 1px)',
           flexShrink: 0,
         }}
-      >
-        <CoMark
-          nostroke
-          css={{
-            width: '34px',
-            height: '34px',
-            transform: 'scale(1.35) translate(1.5px, 1px)',
-            flexShrink: 0,
-          }}
-        />
-      </Flex>
-    );
-  } else {
-    return (
-      <Flex
-        css={{
-          backgroundColor: '$surface',
-          borderRadius: '$1',
-          p: '$xs',
-          flexShrink: 0,
-        }}
-      >
-        <Loader boldstroke css={{ color: '$text' }} />
-      </Flex>
-    );
-  }
+      />
+    </Flex>
+  );
 };
 
 const CloseButton = (props: CloseButtonProps) => {

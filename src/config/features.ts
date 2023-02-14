@@ -3,7 +3,6 @@
 export type FeatureName =
   | 'vaults'
   | 'fixed_payments'
-  | 'theme_switcher'
   | 'discord'
   | 'email_login'
   | 'guild'

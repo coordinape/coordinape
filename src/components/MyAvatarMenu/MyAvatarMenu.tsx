@@ -171,8 +171,6 @@ export const MyAvatarMenu = ({ walletStatus, avatar }: Props) => {
                     Claims
                   </Link>
                 )}
-                {/* put this in your browser console to enable theme switching
-                localStorage.setItem('feature:theme_switcher', 'true'); */}
                 <ThemeSwitcher />
               </Box>
             </Box>

@@ -4,10 +4,6 @@ import { ToastContainer as ToastifyContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { styled } from 'stitches.config';
 
-import { isFeatureEnabled } from 'config/features';
-
-const themeEnabled = !!isFeatureEnabled('theme_switcher');
-
 const StyledContainer = styled(ToastifyContainer, {
   '&.Toastify__toast-container': {
     pointerEvents: 'auto',
@@ -57,8 +53,8 @@ const StyledContainer = styled(ToastifyContainer, {
   '.Toastify__toast--default': {
     borderColor: 'transparent',
     '.Toastify__toast-icon': {
-      width: themeEnabled && '$2xl',
-      m: themeEnabled && '0 -3px 0 -5px',
+      width: '$2xl',
+      m: '0 -3px 0 -5px',
     },
   },
   '.Toastify__toast--success': {
