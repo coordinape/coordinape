@@ -12,7 +12,7 @@ export const TextField = styled('input', {
   },
   '&:disabled': disabledStyle,
   '&::placeholder': {
-    color: '$secondaryText',
+    color: '$formInputPlaceholder',
   },
   display: 'flex',
   flexDirection: 'row',

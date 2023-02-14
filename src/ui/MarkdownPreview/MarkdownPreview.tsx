@@ -25,7 +25,7 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
     lineHeight: '$shorter',
   },
   'pre, code': {
-    background: 'transparent !important',
+    background: '$surfaceNested !important',
     '*': {
       fontFamily:
         "Consolas, 'Liberation Mono', Menlo, Courier, monospace !important",

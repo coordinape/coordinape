@@ -16,7 +16,7 @@ const StyledTextArea = styled('textarea', {
     boxSizing: 'border-box',
   },
   '&::placeholder': {
-    color: '$secondaryText',
+    color: '$formInputPlaceholder',
   },
   display: 'flex',
   flexDirection: 'row',

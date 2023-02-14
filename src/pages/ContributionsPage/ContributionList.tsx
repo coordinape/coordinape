@@ -86,7 +86,15 @@ export const ContributionList = ({
                 ellipsis
                 css={{
                   mr: '10px',
-                  maxWidth: '60em',
+                  '@lg': {
+                    maxWidth: '53rem',
+                  },
+                  '@md': {
+                    maxWidth: '36rem',
+                  },
+                  '@sm': {
+                    maxWidth: 'none',
+                  },
                 }}
               >
                 {contributionIcon(c.source)}

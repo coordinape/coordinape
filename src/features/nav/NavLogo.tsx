@@ -17,7 +17,6 @@ export const NavLogo = ({ css }: { css?: CSS }) => {
             'img, svg': {
               width: '65%',
               minWidth: '140px',
-              filter: theme == 'light' ? 'invert(1) opacity(0.6)' : 'unset',
               '@sm': {
                 maxWidth: '140px',
               },
@@ -26,7 +25,11 @@ export const NavLogo = ({ css }: { css?: CSS }) => {
           }}
         >
           <img
-            src={'/imgs/logo/coordinape-logo-white.png'}
+            src={
+              theme == 'light'
+                ? '/imgs/logo/coordinape-logo-grey7.png'
+                : '/imgs/logo/coordinape-logo-grey1.png'
+            }
             alt="coordinape logo"
           />
           {/* <img src={'/imgs/logo/coordinape-logo.svg'} alt="coordinape logo" /> */}
