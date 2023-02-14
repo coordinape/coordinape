@@ -429,7 +429,7 @@ const MemberRow = ({
           {isAdmin ? (
             user.role !== 2 ? (
               <Button
-                color="primary"
+                color="secondary"
                 size="xs"
                 css={{ mr: 0, ml: 'auto ', whiteSpace: 'nowrap' }}
                 onClick={() => {
@@ -441,7 +441,7 @@ const MemberRow = ({
             ) : (
               <Tooltip content={coordinapeTooltipContent()}>
                 <Button
-                  color="primary"
+                  color="secondary"
                   size="xs"
                   css={{ mr: 0, ml: 'auto ', whiteSpace: 'nowrap' }}
                   onClick={() => {

@@ -19,6 +19,9 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
     pt: '0 !important',
     fontSize: '$large !important',
   },
+  img: {
+    display: 'block',
+  },
   'h1, h2, h3, h4, h5, p': {
     mb: '0 !important',
     pb: '$sm !important',
