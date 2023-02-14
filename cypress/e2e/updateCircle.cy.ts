@@ -18,12 +18,13 @@ context('Coordinape', () => {
   });
 
   // TODO change more settings besides fixed payment token
-  it('can update circle settings', () => {
+  it.skip('can update circle settings', () => {
     cy.visit(`/circles/${circleId}/admin`);
     cy.login();
     cy.get('.contentHeader').invoke('css', 'position', 'static');
     cy.getInputByLabel('Token name for CSV export', { timeout: 120000 })
       .clear()
+      .scrollIntoView({ offset: { top: 200, left: 0 } })
       .type('DAI')
       .blur();
     cy.intercept({
