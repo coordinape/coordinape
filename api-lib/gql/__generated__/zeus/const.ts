@@ -1701,7 +1701,6 @@ export const AllTypesProps: Record<string, any> = {
     discord_channel_id: 'String_comparison_exp',
     discord_role_id: 'String_comparison_exp',
     id: 'bigint_comparison_exp',
-    server_channel: 'String_comparison_exp',
     updated_at: 'timestamptz_comparison_exp',
   },
   discord_roles_circles_constraint: true,
@@ -1728,7 +1727,6 @@ export const AllTypesProps: Record<string, any> = {
     discord_channel_id: 'order_by',
     discord_role_id: 'order_by',
     id: 'order_by',
-    server_channel: 'order_by',
     updated_at: 'order_by',
   },
   discord_roles_circles_pk_columns_input: {
@@ -5248,6 +5246,9 @@ export const AllTypesProps: Record<string, any> = {
     epochs_by_pk: {
       id: 'bigint',
     },
+    getGuildInfo: {
+      payload: 'GuildInfoInput',
+    },
     gift_private: {
       distinct_on: 'gift_private_select_column',
       order_by: 'gift_private_order_by',
@@ -5257,9 +5258,6 @@ export const AllTypesProps: Record<string, any> = {
       distinct_on: 'gift_private_select_column',
       order_by: 'gift_private_order_by',
       where: 'gift_private_bool_exp',
-    },
-    guildInfo: {
-      payload: 'GuildInfoInput',
     },
     histories: {
       distinct_on: 'histories_select_column',
@@ -8618,7 +8616,6 @@ export const ReturnTypes: Record<string, any> = {
     discord_channel_id: 'String',
     discord_role_id: 'String',
     id: 'bigint',
-    server_channel: 'String',
     updated_at: 'timestamptz',
   },
   discord_roles_circles_aggregate: {
@@ -8648,7 +8645,6 @@ export const ReturnTypes: Record<string, any> = {
     discord_channel_id: 'String',
     discord_role_id: 'String',
     id: 'bigint',
-    server_channel: 'String',
     updated_at: 'timestamptz',
   },
   discord_roles_circles_min_fields: {
@@ -8657,7 +8653,6 @@ export const ReturnTypes: Record<string, any> = {
     discord_channel_id: 'String',
     discord_role_id: 'String',
     id: 'bigint',
-    server_channel: 'String',
     updated_at: 'timestamptz',
   },
   discord_roles_circles_mutation_response: {
@@ -10909,9 +10904,9 @@ export const ReturnTypes: Record<string, any> = {
     epochs: 'epochs',
     epochs_aggregate: 'epochs_aggregate',
     epochs_by_pk: 'epochs',
+    getGuildInfo: 'GuildInfoOutput',
     gift_private: 'gift_private',
     gift_private_aggregate: 'gift_private_aggregate',
-    guildInfo: 'GuildInfoOutput',
     histories: 'histories',
     histories_aggregate: 'histories_aggregate',
     histories_by_pk: 'histories',
