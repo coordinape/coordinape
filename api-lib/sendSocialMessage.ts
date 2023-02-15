@@ -28,7 +28,7 @@ export type DiscordNomination = DiscordEpochEvent & {
 };
 
 export type DiscordUserAdded = DiscordEpochEvent & {
-  type: 'user-added' | 'user-removed';
+  type: 'user-added';
   discordId?: string;
   address?: string;
   circleName: string;
@@ -36,7 +36,7 @@ export type DiscordUserAdded = DiscordEpochEvent & {
 };
 
 export type DiscordUserRemoved = DiscordEpochEvent & {
-  type: 'user-added' | 'user-removed';
+  type: 'user-removed';
   discordId?: string;
   address?: string;
   circleName: string;
