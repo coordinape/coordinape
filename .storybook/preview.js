@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { globalStyles } from '../src/stitches.config';
-import { colors } from '../src/ui/new-colors';
+import { newColors as colors } from '../src/ui/new-colors';
 
 export const decorators = [
   Story => {
