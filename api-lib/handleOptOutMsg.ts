@@ -44,6 +44,7 @@ function getChannels(props: GetChannelsProps): Channels<DiscordOptsOut> {
         roleId,
         discordId: user?.user_snowflake,
         address: data.new.address,
+        tokenName: circle?.token_name || 'GIVE',
         circleName: circle?.name ?? 'Unknown',
         refunds: refunds ?? [],
       },
@@ -118,6 +119,12 @@ export default async function handleOptOutMsg(
         data.new.address
       );
 
+      const { pending_token_gifts: refunds } =
+        await queries.getPendingTokenGifts({
+          senderId: data.new.id,
+          epochId: currentEpoch.id,
+        });
+
       await sendSocialMessage({
         // note: give_token_received is susceptible to inconsistencies
         // and will be deprecated. This total will be removed when the column
@@ -128,7 +135,18 @@ export default async function handleOptOutMsg(
             data.old.starting_tokens - data.old.give_token_remaining
           } ${circle?.token_name || 'GIVE'} was refunded`,
         circleId: data.new.circle_id,
-        channels: getChannels({ data, circle, channels, profiles }),
+        channels: getChannels({
+          data,
+          circle,
+          channels,
+          profiles,
+          refunds: refunds
+            .filter(({ tokens }) => tokens > 0)
+            .map(({ recipient, tokens }) => ({
+              username: recipient.name,
+              give: tokens,
+            })),
+        }),
       });
       return true;
     }

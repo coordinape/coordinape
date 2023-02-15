@@ -31,6 +31,7 @@ export type DiscordOptsOut = DiscordEpochEvent & {
   type: 'user-opts-out';
   discordId?: string;
   address?: string;
+  tokenName: string;
   circleName: string;
   refunds: {
     username: string;
