@@ -51,6 +51,7 @@ function getChannelsVouchUnsuccessful(
         type: 'vouch-unsuccessful' as const,
         channelId,
         roleId,
+        circleId: circle?.id,
         nominee: profile.name,
       },
     };

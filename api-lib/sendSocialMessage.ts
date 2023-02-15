@@ -58,6 +58,7 @@ export type DiscordVouchSuccessful = DiscordEpochEvent & {
 
 export type DiscordVouchUnsuccessful = DiscordEpochEvent & {
   type: 'vouch-unsuccessful';
+  circleId: string;
   nominee: string;
 };
 
