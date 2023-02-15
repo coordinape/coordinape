@@ -5248,6 +5248,9 @@ export const AllTypesProps: Record<string, any> = {
     epochs_by_pk: {
       id: 'bigint',
     },
+    getGuildInfo: {
+      payload: 'GuildInfoInput',
+    },
     gift_private: {
       distinct_on: 'gift_private_select_column',
       order_by: 'gift_private_order_by',
@@ -5257,9 +5260,6 @@ export const AllTypesProps: Record<string, any> = {
       distinct_on: 'gift_private_select_column',
       order_by: 'gift_private_order_by',
       where: 'gift_private_bool_exp',
-    },
-    guildInfo: {
-      payload: 'GuildInfoInput',
     },
     histories: {
       distinct_on: 'histories_select_column',
@@ -10909,9 +10909,9 @@ export const ReturnTypes: Record<string, any> = {
     epochs: 'epochs',
     epochs_aggregate: 'epochs_aggregate',
     epochs_by_pk: 'epochs',
+    getGuildInfo: 'GuildInfoOutput',
     gift_private: 'gift_private',
     gift_private_aggregate: 'gift_private_aggregate',
-    guildInfo: 'GuildInfoOutput',
     histories: 'histories',
     histories_aggregate: 'histories_aggregate',
     histories_by_pk: 'histories',

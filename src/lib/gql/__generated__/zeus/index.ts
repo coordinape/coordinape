@@ -6965,6 +6965,10 @@ export type ValueTypes = {
       ValueTypes['epochs']
     ];
     epochs_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['epochs']];
+    getGuildInfo?: [
+      { payload: ValueTypes['GuildInfoInput'] },
+      ValueTypes['GuildInfoOutput']
+    ];
     gift_private?: [
       {
         /** distinct select on columns */
@@ -6987,10 +6991,6 @@ export type ValueTypes = {
         where?: ValueTypes['gift_private_bool_exp'] | undefined | null;
       },
       ValueTypes['gift_private']
-    ];
-    guildInfo?: [
-      { payload: ValueTypes['GuildInfoInput'] },
-      ValueTypes['GuildInfoOutput']
     ];
     locked_token_distribution_gifts?: [
       {
@@ -12614,9 +12614,9 @@ export type ModelTypes = {
     epochs: Array<GraphQLTypes['epochs']>;
     /** fetch data from the table: "epoches" using primary key columns */
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
+    getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
-    guildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
     /** An array relationship */
     locked_token_distribution_gifts: Array<
       GraphQLTypes['locked_token_distribution_gifts']
@@ -18143,9 +18143,9 @@ export type GraphQLTypes = {
     epochs: Array<GraphQLTypes['epochs']>;
     /** fetch data from the table: "epoches" using primary key columns */
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
+    getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
-    guildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
     /** An array relationship */
     locked_token_distribution_gifts: Array<
       GraphQLTypes['locked_token_distribution_gifts']

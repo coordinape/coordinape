@@ -2936,13 +2936,13 @@ export const AllTypesProps: Record<string, any> = {
     epochs_by_pk: {
       id: 'bigint',
     },
+    getGuildInfo: {
+      payload: 'GuildInfoInput',
+    },
     gift_private: {
       distinct_on: 'gift_private_select_column',
       order_by: 'gift_private_order_by',
       where: 'gift_private_bool_exp',
-    },
-    guildInfo: {
-      payload: 'GuildInfoInput',
     },
     locked_token_distribution_gifts: {
       distinct_on: 'locked_token_distribution_gifts_select_column',
@@ -5461,8 +5461,8 @@ export const ReturnTypes: Record<string, any> = {
     distributions_by_pk: 'distributions',
     epochs: 'epochs',
     epochs_by_pk: 'epochs',
+    getGuildInfo: 'GuildInfoOutput',
     gift_private: 'gift_private',
-    guildInfo: 'GuildInfoOutput',
     locked_token_distribution_gifts: 'locked_token_distribution_gifts',
     locked_token_distribution_gifts_by_pk: 'locked_token_distribution_gifts',
     locked_token_distributions: 'locked_token_distributions',

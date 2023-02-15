@@ -14712,6 +14712,10 @@ export type ValueTypes = {
       ValueTypes['epochs_aggregate']
     ];
     epochs_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['epochs']];
+    getGuildInfo?: [
+      { payload: ValueTypes['GuildInfoInput'] },
+      ValueTypes['GuildInfoOutput']
+    ];
     gift_private?: [
       {
         /** distinct select on columns */
@@ -14757,10 +14761,6 @@ export type ValueTypes = {
         where?: ValueTypes['gift_private_bool_exp'] | undefined | null;
       },
       ValueTypes['gift_private_aggregate']
-    ];
-    guildInfo?: [
-      { payload: ValueTypes['GuildInfoInput'] },
-      ValueTypes['GuildInfoOutput']
     ];
     histories?: [
       {
@@ -27069,11 +27069,11 @@ export type ModelTypes = {
     epochs_aggregate: GraphQLTypes['epochs_aggregate'];
     /** fetch data from the table: "epoches" using primary key columns */
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
+    getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** fetch aggregated fields from the table: "gift_private" */
     gift_private_aggregate: GraphQLTypes['gift_private_aggregate'];
-    guildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
     /** fetch data from the table: "histories" */
     histories: Array<GraphQLTypes['histories']>;
     /** fetch aggregated fields from the table: "histories" */
@@ -39066,11 +39066,11 @@ export type GraphQLTypes = {
     epochs_aggregate: GraphQLTypes['epochs_aggregate'];
     /** fetch data from the table: "epoches" using primary key columns */
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
+    getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** fetch aggregated fields from the table: "gift_private" */
     gift_private_aggregate: GraphQLTypes['gift_private_aggregate'];
-    guildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
     /** fetch data from the table: "histories" */
     histories: Array<GraphQLTypes['histories']>;
     /** fetch aggregated fields from the table: "histories" */

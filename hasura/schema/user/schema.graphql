@@ -9173,6 +9173,7 @@ type query_root {
   fetch data from the table: "epoches" using primary key columns
   """
   epochs_by_pk(id: bigint!): epochs
+  getGuildInfo(payload: GuildInfoInput!): GuildInfoOutput
 
   """
   fetch data from the table: "gift_private"
@@ -9203,7 +9204,6 @@ type query_root {
     """
     where: gift_private_bool_exp
   ): [gift_private!]!
-  guildInfo(payload: GuildInfoInput!): GuildInfoOutput
 
   """
   An array relationship
