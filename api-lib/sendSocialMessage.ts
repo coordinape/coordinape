@@ -77,7 +77,6 @@ export type DiscordEnd = DiscordEpochEvent & {
   endTime: string;
   giveCount: number;
   userCount: number;
-  circleHistoryLink: string;
 };
 
 type SocialMessageChannels =

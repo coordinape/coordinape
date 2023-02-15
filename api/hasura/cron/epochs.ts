@@ -354,7 +354,6 @@ export async function notifyEpochEnd({
                 0
               ),
               userCount: circle.users.length,
-              circleHistoryLink: `https://app.coordinape.com/circles/${circle.id}/history`,
             },
           },
           sanitize: false,
