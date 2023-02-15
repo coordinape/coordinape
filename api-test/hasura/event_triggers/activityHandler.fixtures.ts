@@ -1,4 +1,4 @@
-export const payloads = {
+export const fixtures = {
   contribution_insert: {
     event: {
       data: {
@@ -18,7 +18,7 @@ export const payloads = {
       op: 'INSERT',
     },
     table: { name: 'contributions', schema: 'public' },
-    trigger: { name: 'createActivity' },
+    trigger: { name: 'activityHandler' },
   },
   user_insert: {
     event: {
@@ -52,7 +52,7 @@ export const payloads = {
       schema: 'public',
     },
     trigger: {
-      name: 'usersInsertCreateActivity',
+      name: 'activityHandlerUserInsert',
     },
   },
   epoch_insert: {
@@ -87,7 +87,7 @@ export const payloads = {
       schema: 'public',
     },
     trigger: {
-      name: 'epochInsertCreateActivity',
+      name: 'activityHandlerEpochInsert',
     },
   },
 
@@ -102,6 +102,6 @@ export const payloads = {
       op: 'INSERT',
     },
     table: { name: 'unknown', schema: 'public' },
-    trigger: { name: 'createActivity' },
+    trigger: { name: 'activityHandler' },
   },
 };

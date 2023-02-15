@@ -1,10 +1,10 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 
-import handler from '../../../api-lib/event_triggers/createActivity';
+import handler from '../../../api-lib/event_triggers/activityHandler';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { insertActivity } from '../../../api-lib/gql/mutations';
 
-import { payloads } from './createActivity.payloads';
+import { fixtures } from './activityHandler.fixtures';
 
 jest.mock('../../../api-lib/gql/adminClient', () => ({
   adminClient: { query: jest.fn() },
@@ -21,7 +21,7 @@ describe('Create Activity Event Trigger', () => {
     });
     test('throws an error on unknown table name', async () => {
       try {
-        const req = { body: payloads.invalid_payload } as VercelRequest;
+        const req = { body: fixtures.invalid_payload } as VercelRequest;
         const res = {
           status: jest.fn(() => res),
           json: jest.fn(),
@@ -49,7 +49,7 @@ describe('Create Activity Event Trigger', () => {
 
       let req, res;
       try {
-        req = { body: payloads.contribution_insert } as VercelRequest;
+        req = { body: fixtures.contribution_insert } as VercelRequest;
         res = {
           status: jest.fn(() => res),
           json: jest.fn(),
@@ -87,7 +87,7 @@ describe('Create Activity Event Trigger', () => {
 
       let req, res;
       try {
-        req = { body: payloads.user_insert };
+        req = { body: fixtures.user_insert };
         res = {
           status: jest.fn(() => res),
           json: jest.fn(),
@@ -123,7 +123,7 @@ describe('Create Activity Event Trigger', () => {
 
       let req, res;
       try {
-        req = { body: payloads.epoch_insert } as VercelRequest;
+        req = { body: fixtures.epoch_insert } as VercelRequest;
         res = {
           status: jest.fn(() => res),
           json: jest.fn(),
