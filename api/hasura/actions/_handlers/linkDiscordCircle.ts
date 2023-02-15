@@ -13,7 +13,7 @@ import {
 
 export const linkDiscordCircleInputSchema = z
   .object({
-    circle_id: z.string(),
+    circle_id: z.number(),
     token: z.string(),
   })
   .strict();
@@ -32,7 +32,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     {
       discord_circle_api_tokens: [
         {
-          where: { circle_id: { _eq: Number(circle_id) } },
+          where: { circle_id: { _eq: circle_id } },
         },
         {
           token: true,
@@ -68,7 +68,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       update_discord_circle_api_tokens: [
         {
           _set: { token },
-          where: { circle_id: { _eq: Number(circle_id) } },
+          where: { circle_id: { _eq: circle_id } },
         },
         {
           returning: {

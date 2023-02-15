@@ -1,21 +1,108 @@
 import fetch from 'node-fetch';
 
+import { isFeatureEnabled } from '../src/config/features';
+
 import { TELEGRAM_BOT_BASE_URL } from './config';
 import { DISCORD_BOT_NAME, DISCORD_BOT_AVATAR_URL } from './constants';
 import * as queries from './gql/queries';
 
+export type DiscordEpochEvent = {
+  channelId: string;
+  roleId: string;
+};
+
+export type Channels<T> = {
+  discord?: boolean;
+  discordBot?: T;
+  isDiscordBot?: boolean;
+  telegram?: boolean;
+} | null;
+
+export type DiscordNomination = DiscordEpochEvent & {
+  type: 'nomination';
+  circleId: string;
+  nominee: string;
+  nominator: string;
+  nominationReason: string;
+  numberOfVouches: number;
+};
+
+export type DiscordOptsOut = DiscordEpochEvent & {
+  type: 'user-opts-out';
+  discordId?: string;
+  address?: string;
+  tokenName: string;
+  circleName: string;
+  refunds: {
+    username: string;
+    give: number;
+  }[];
+};
+
+export type DiscordVouch = DiscordEpochEvent & {
+  type: 'vouch';
+  nominee: string;
+  voucher: string;
+  circleId: string;
+  nominationReason: string;
+  currentVouches: number;
+  requiredVouches: number;
+};
+
+export type DiscordVouchSuccessful = DiscordEpochEvent & {
+  type: 'vouch-successful';
+  nominee: string;
+  nomineeProfile: string;
+  vouchers: string[];
+  nominationReason: string;
+};
+
+export type DiscordVouchUnsuccessful = DiscordEpochEvent & {
+  type: 'vouch-unsuccessful';
+  circleId: string;
+  nominee: string;
+};
+
+export type DiscordStart = DiscordEpochEvent & {
+  type: 'start';
+  epochName: string;
+  circleId: string;
+  circleName: string;
+  startTime: string;
+  endTime: string;
+};
+
+export type DiscordEnd = DiscordEpochEvent & {
+  type: 'end';
+  epochName: string;
+  circleId: string;
+  circleName: string;
+  endTime: string;
+  giveCount: number;
+  userCount: number;
+};
+
+type SocialMessageChannels =
+  | DiscordNomination
+  | DiscordOptsOut
+  | DiscordVouch
+  | DiscordVouchSuccessful
+  | DiscordVouchUnsuccessful
+  | DiscordStart
+  | DiscordEnd;
+
 type SocialMessage = {
-  message: string;
+  message?: string;
   circleId: number;
   sanitize?: boolean;
-  channels: {
-    discord?: boolean;
-    telegram?: boolean;
-  };
+  channels: Channels<SocialMessageChannels>;
   notifyOrg?: boolean;
 };
 
-function cleanStr(str: string) {
+function cleanStr(str?: string) {
+  if (!str) {
+    return '';
+  }
   return str.replace(/:|-|\/|\*|_|`/g, '');
 }
 
@@ -30,6 +117,22 @@ export async function sendSocialMessage({
 
   const { circles_by_pk: circle } = await queries.getCircle(circleId);
 
+  if (isFeatureEnabled('discord') && channels?.isDiscordBot) {
+    const { type } = channels.discordBot || {};
+    // TODO Fix the discord bot endpoint
+    const res = await fetch(`http://localhost:4000/api/epoch/${type}`, {
+      method: 'POST',
+      body: JSON.stringify(channels.discordBot),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error(JSON.stringify(await res.json()));
+    }
+  }
+
   if (channels?.discord && circle?.discord_webhook) {
     const discordWebhookPost = {
       content: msg,
@@ -43,7 +146,6 @@ export async function sendSocialMessage({
         'Content-Type': 'application/json',
       },
     });
-
     if (!res.ok) {
       throw new Error(JSON.stringify(await res.json()));
     }
