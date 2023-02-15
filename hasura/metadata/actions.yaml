@@ -36,6 +36,7 @@ actions:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
     permissions:
+      - role: api-user
       - role: user
     comment: create epoch using new, more flexible api
   - name: createEpochOld
@@ -83,6 +84,7 @@ actions:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
     permissions:
+      - role: api-user
       - role: user
   - name: createVault
     definition:
@@ -142,6 +144,7 @@ actions:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
     permissions:
+      - role: api-user
       - role: user
   - name: deleteUsers
     definition:
@@ -151,6 +154,7 @@ actions:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
     permissions:
+      - role: api-user
       - role: user
   - name: endEpoch
     definition:
@@ -178,8 +182,6 @@ actions:
       headers:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
-    permissions:
-      - role: user
   - name: linkDiscordCircle
     definition:
       kind: synchronous
