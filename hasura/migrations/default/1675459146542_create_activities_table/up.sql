@@ -14,15 +14,15 @@ CREATE TABLE "public"."activities" (
     "updated_at" timestamptz NOT NULL DEFAULT now(),
 
   PRIMARY KEY ("id") ,
-  FOREIGN KEY ("circle_id") REFERENCES "public"."circles"("id") ON UPDATE CASCADE ON DELETE set null,
-  FOREIGN KEY ("organization_id") REFERENCES "public"."organizations"("id") ON UPDATE CASCADE ON DELETE set null,
+  FOREIGN KEY ("circle_id") REFERENCES "public"."circles"("id") ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY ("organization_id") REFERENCES "public"."organizations"("id") ON UPDATE CASCADE ON DELETE CASCADE,
 
-  FOREIGN KEY ("actor_profile_id") REFERENCES "public"."profiles"("id") ON UPDATE CASCADE ON DELETE set null,
-  FOREIGN KEY ("target_profile_id") REFERENCES "public"."profiles"("id") ON UPDATE CASCADE ON DELETE set null,
+  FOREIGN KEY ("actor_profile_id") REFERENCES "public"."profiles"("id") ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY ("target_profile_id") REFERENCES "public"."profiles"("id") ON UPDATE CASCADE ON DELETE CASCADE,
 
-  FOREIGN KEY ("contribution_id") REFERENCES "public"."contributions"("id") ON UPDATE CASCADE ON DELETE set null,
-  FOREIGN KEY ("epoch_id") REFERENCES "public"."epoches"("id") ON UPDATE CASCADE ON DELETE set null,
-  FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON UPDATE CASCADE ON DELETE set null,
+  FOREIGN KEY ("contribution_id") REFERENCES "public"."contributions"("id") ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY ("epoch_id") REFERENCES "public"."epoches"("id") ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON UPDATE CASCADE ON DELETE CASCADE,
 
   CONSTRAINT "enforce_foreign_key_exists"
     CHECK (
