@@ -32,17 +32,13 @@ function getChannels(props: GetChannelsProps): Channels<DiscordOptsOut> {
   ) {
     const user = profiles[0].user;
 
-    if (!user) {
-      return null;
-    }
-
     return {
       isDiscordBot: true,
       discordBot: {
         type: 'user-opts-out' as const,
         channelId,
         roleId,
-        discordId: user.user_snowflake,
+        discordId: user?.user_snowflake,
         address: data.new.address,
         circleName: circle?.name ?? 'Unknown',
         // TODO Where to get this?
