@@ -1,6 +1,56 @@
+import { isFeatureEnabled } from '../src/config/features';
+
 import * as queries from './gql/queries';
-import { sendSocialMessage } from './sendSocialMessage';
+import {
+  Channels,
+  DiscordNomination,
+  sendSocialMessage,
+} from './sendSocialMessage';
+import { Awaited } from './ts4.5shim';
 import { EventTriggerPayload } from './types';
+
+type GetChannelsProps = {
+  nominee: Awaited<ReturnType<typeof queries.getNominee>>['nominees_by_pk'];
+  channels: Channels<DiscordNomination>;
+  circle: Awaited<ReturnType<typeof queries.getCircle>>['circles_by_pk'];
+};
+
+function getChannels(props: GetChannelsProps): Channels<DiscordNomination> {
+  const { channels, nominee, circle } = props || {};
+
+  const { discord_channel_id: channelId, discord_role_id: roleId } =
+    circle?.discord_circle || {};
+
+  if (
+    channels?.isDiscordBot &&
+    isFeatureEnabled('discord') &&
+    channelId &&
+    roleId
+  ) {
+    const { circle_id, profile, nominator, description, vouches_required } =
+      nominee || {};
+
+    if (!circle_id || !profile || !nominator) {
+      return null;
+    }
+
+    return {
+      isDiscordBot: true,
+      discordBot: {
+        type: 'nomination' as const,
+        channelId,
+        roleId,
+        circleId: circle_id.toString(),
+        nominee: profile.name,
+        nominator: nominator.profile.name ?? nominator.name,
+        nominationReason: description ?? 'unknown',
+        numberOfVouches: vouches_required ?? 0,
+      },
+    };
+  }
+
+  return channels;
+}
 
 export default async function handleNomineeCreatedMsg(
   payload: EventTriggerPayload<'nominees', 'INSERT'>,
@@ -10,21 +60,24 @@ export default async function handleNomineeCreatedMsg(
     event: { data },
   } = payload;
 
-  const { nominees_by_pk } = await queries.getNominee(data.new.id);
-  if (nominees_by_pk) {
-    await sendSocialMessage({
-      message:
-        `${nominees_by_pk?.profile?.name} has been nominated by ${
-          nominees_by_pk.nominator?.profile.name ??
-          nominees_by_pk.nominator?.name
-        }!.` +
-        ` You can vouch for them at https://app.coordinape.com/circles/${nominees_by_pk.circle_id}/members`,
-      circleId: data.new.circle_id,
-      sanitize: false,
-      channels,
-    });
-    return true;
+  const { nominees_by_pk: nominee } = await queries.getNominee(data.new.id);
+
+  if (!nominee) {
+    return false;
   }
 
-  return false;
+  const { circles_by_pk: circle } = await queries.getCircle(nominee.circle_id);
+
+  await sendSocialMessage({
+    message:
+      `${nominee?.profile?.name} has been nominated by ${
+        nominee.nominator?.profile.name ?? nominee.nominator?.name
+      }!.` +
+      ` You can vouch for them at https://app.coordinape.com/circles/${nominee.circle_id}/members`,
+    circleId: data.new.circle_id,
+    channels: getChannels({ nominee, channels, circle }),
+    sanitize: false,
+  });
+
+  return true;
 }

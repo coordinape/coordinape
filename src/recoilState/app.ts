@@ -2,7 +2,6 @@
 
 import debug from 'debug';
 import iti from 'itiriri';
-import * as queries from 'lib/gql/queries';
 import { DateTime } from 'luxon';
 import {
   atom,
@@ -16,6 +15,7 @@ import { extraProfile } from 'utils/modelExtenders';
 import { neverEndingPromise } from 'utils/recoil';
 
 import { rManifest, rFullCircle } from './db';
+import { queryProfile } from './queries';
 
 import { IUser, IMyUser, IEpoch, ICircle, INominee } from 'types';
 
@@ -86,7 +86,7 @@ export const rGiftsMap = selector({
 export const rProfile = selectorFamily({
   key: 'rProfile',
   get: (address: string) => async () => {
-    const profile = await queries.getProfile(address);
+    const profile = await queryProfile(address);
     return extraProfile(profile);
   },
 });

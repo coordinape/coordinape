@@ -24,7 +24,9 @@ import {
 } from '../../../../src/lib/zod';
 
 type Voucher = Awaited<ReturnType<typeof getUserFromProfileId>>;
-type Nominee = Awaited<ReturnType<typeof getNominee>>;
+type Nominee = Required<
+  NonNullable<Awaited<ReturnType<typeof mutations.insertVouch>>>
+>['nominee'];
 
 const requestSchema = composeHasuraActionRequestBodyWithApiPermissions(
   vouchApiInput,

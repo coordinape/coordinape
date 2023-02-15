@@ -330,7 +330,7 @@ input Int_comparison_exp {
 }
 
 input LinkDiscordCircleInput {
-  circle_id: String!
+  circle_id: Int!
   token: String!
 }
 
@@ -3592,6 +3592,71 @@ type circles {
   created_at: timestamp!
   default_opt_in: Boolean!
   deleted_at: timestamp
+
+  """
+  An array relationship
+  """
+  discord_access_tokens(
+    """
+    distinct select on columns
+    """
+    distinct_on: [discord_circle_api_tokens_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [discord_circle_api_tokens_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: discord_circle_api_tokens_bool_exp
+  ): [discord_circle_api_tokens!]!
+
+  """
+  An aggregate relationship
+  """
+  discord_access_tokens_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [discord_circle_api_tokens_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [discord_circle_api_tokens_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: discord_circle_api_tokens_bool_exp
+  ): discord_circle_api_tokens_aggregate!
+
+  """
+  An object relationship
+  """
+  discord_circle: discord_roles_circles
   discord_webhook: String
 
   """
@@ -4138,6 +4203,8 @@ input circles_bool_exp {
   created_at: timestamp_comparison_exp
   default_opt_in: Boolean_comparison_exp
   deleted_at: timestamp_comparison_exp
+  discord_access_tokens: discord_circle_api_tokens_bool_exp
+  discord_circle: discord_roles_circles_bool_exp
   discord_webhook: String_comparison_exp
   epochs: epochs_bool_exp
   fixed_payment_token_type: String_comparison_exp
@@ -4207,6 +4274,8 @@ input circles_insert_input {
   created_at: timestamp
   default_opt_in: Boolean
   deleted_at: timestamp
+  discord_access_tokens: discord_circle_api_tokens_arr_rel_insert_input
+  discord_circle: discord_roles_circles_obj_rel_insert_input
   discord_webhook: String
   epochs: epochs_arr_rel_insert_input
   fixed_payment_token_type: String
@@ -4393,6 +4462,8 @@ input circles_order_by {
   created_at: order_by
   default_opt_in: order_by
   deleted_at: order_by
+  discord_access_tokens_aggregate: discord_circle_api_tokens_aggregate_order_by
+  discord_circle: discord_roles_circles_order_by
   discord_webhook: order_by
   epochs_aggregate: epochs_aggregate_order_by
   fixed_payment_token_type: order_by
@@ -6313,11 +6384,48 @@ type discord_circle_api_tokens_aggregate_fields {
 }
 
 """
+order by aggregate values of table "discord.circle_api_tokens"
+"""
+input discord_circle_api_tokens_aggregate_order_by {
+  avg: discord_circle_api_tokens_avg_order_by
+  count: order_by
+  max: discord_circle_api_tokens_max_order_by
+  min: discord_circle_api_tokens_min_order_by
+  stddev: discord_circle_api_tokens_stddev_order_by
+  stddev_pop: discord_circle_api_tokens_stddev_pop_order_by
+  stddev_samp: discord_circle_api_tokens_stddev_samp_order_by
+  sum: discord_circle_api_tokens_sum_order_by
+  var_pop: discord_circle_api_tokens_var_pop_order_by
+  var_samp: discord_circle_api_tokens_var_samp_order_by
+  variance: discord_circle_api_tokens_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "discord.circle_api_tokens"
+"""
+input discord_circle_api_tokens_arr_rel_insert_input {
+  data: [discord_circle_api_tokens_insert_input!]!
+
+  """
+  upsert condition
+  """
+  on_conflict: discord_circle_api_tokens_on_conflict
+}
+
+"""
 aggregate avg on columns
 """
 type discord_circle_api_tokens_avg_fields {
   circle_id: Float
   id: Float
+}
+
+"""
+order by avg() on columns of table "discord.circle_api_tokens"
+"""
+input discord_circle_api_tokens_avg_order_by {
+  circle_id: order_by
+  id: order_by
 }
 
 """
@@ -6385,6 +6493,17 @@ type discord_circle_api_tokens_max_fields {
 }
 
 """
+order by max() on columns of table "discord.circle_api_tokens"
+"""
+input discord_circle_api_tokens_max_order_by {
+  channel_snowflake: order_by
+  circle_id: order_by
+  created_at: order_by
+  id: order_by
+  token: order_by
+}
+
+"""
 aggregate min on columns
 """
 type discord_circle_api_tokens_min_fields {
@@ -6393,6 +6512,17 @@ type discord_circle_api_tokens_min_fields {
   created_at: timestamptz
   id: bigint
   token: String
+}
+
+"""
+order by min() on columns of table "discord.circle_api_tokens"
+"""
+input discord_circle_api_tokens_min_order_by {
+  channel_snowflake: order_by
+  circle_id: order_by
+  created_at: order_by
+  id: order_by
+  token: order_by
 }
 
 """
@@ -6487,6 +6617,14 @@ type discord_circle_api_tokens_stddev_fields {
 }
 
 """
+order by stddev() on columns of table "discord.circle_api_tokens"
+"""
+input discord_circle_api_tokens_stddev_order_by {
+  circle_id: order_by
+  id: order_by
+}
+
+"""
 aggregate stddev_pop on columns
 """
 type discord_circle_api_tokens_stddev_pop_fields {
@@ -6495,11 +6633,27 @@ type discord_circle_api_tokens_stddev_pop_fields {
 }
 
 """
+order by stddev_pop() on columns of table "discord.circle_api_tokens"
+"""
+input discord_circle_api_tokens_stddev_pop_order_by {
+  circle_id: order_by
+  id: order_by
+}
+
+"""
 aggregate stddev_samp on columns
 """
 type discord_circle_api_tokens_stddev_samp_fields {
   circle_id: Float
   id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "discord.circle_api_tokens"
+"""
+input discord_circle_api_tokens_stddev_samp_order_by {
+  circle_id: order_by
+  id: order_by
 }
 
 """
@@ -6534,6 +6688,14 @@ aggregate sum on columns
 type discord_circle_api_tokens_sum_fields {
   circle_id: bigint
   id: bigint
+}
+
+"""
+order by sum() on columns of table "discord.circle_api_tokens"
+"""
+input discord_circle_api_tokens_sum_order_by {
+  circle_id: order_by
+  id: order_by
 }
 
 """
@@ -6588,6 +6750,14 @@ type discord_circle_api_tokens_var_pop_fields {
 }
 
 """
+order by var_pop() on columns of table "discord.circle_api_tokens"
+"""
+input discord_circle_api_tokens_var_pop_order_by {
+  circle_id: order_by
+  id: order_by
+}
+
+"""
 aggregate var_samp on columns
 """
 type discord_circle_api_tokens_var_samp_fields {
@@ -6596,11 +6766,27 @@ type discord_circle_api_tokens_var_samp_fields {
 }
 
 """
+order by var_samp() on columns of table "discord.circle_api_tokens"
+"""
+input discord_circle_api_tokens_var_samp_order_by {
+  circle_id: order_by
+  id: order_by
+}
+
+"""
 aggregate variance on columns
 """
 type discord_circle_api_tokens_variance_fields {
   circle_id: Float
   id: Float
+}
+
+"""
+order by variance() on columns of table "discord.circle_api_tokens"
+"""
+input discord_circle_api_tokens_variance_order_by {
+  circle_id: order_by
+  id: order_by
 }
 
 """
@@ -6749,6 +6935,18 @@ type discord_roles_circles_mutation_response {
   data from the rows affected by the mutation
   """
   returning: [discord_roles_circles!]!
+}
+
+"""
+input type for inserting object relation for remote table "discord.roles_circles"
+"""
+input discord_roles_circles_obj_rel_insert_input {
+  data: discord_roles_circles_insert_input!
+
+  """
+  upsert condition
+  """
+  on_conflict: discord_roles_circles_on_conflict
 }
 
 """
@@ -7110,6 +7308,18 @@ type discord_users_mutation_response {
   data from the rows affected by the mutation
   """
   returning: [discord_users!]!
+}
+
+"""
+input type for inserting object relation for remote table "discord.users"
+"""
+input discord_users_obj_rel_insert_input {
+  data: discord_users_insert_input!
+
+  """
+  upsert condition
+  """
+  on_conflict: discord_users_on_conflict
 }
 
 """
@@ -19106,6 +19316,11 @@ type profiles {
   updated_at: timestamp!
 
   """
+  An object relationship
+  """
+  user: discord_users
+
+  """
   An array relationship
   """
   users(
@@ -19345,6 +19560,7 @@ input profiles_bool_exp {
   telegram_username: String_comparison_exp
   twitter_username: String_comparison_exp
   updated_at: timestamp_comparison_exp
+  user: discord_users_bool_exp
   users: users_bool_exp
   vault_transactions: vault_transactions_bool_exp
   vaults: vaults_bool_exp
@@ -19401,6 +19617,7 @@ input profiles_insert_input {
   telegram_username: String
   twitter_username: String
   updated_at: timestamp
+  user: discord_users_obj_rel_insert_input
   users: users_arr_rel_insert_input
   vault_transactions: vault_transactions_arr_rel_insert_input
   vaults: vaults_arr_rel_insert_input
@@ -19512,6 +19729,7 @@ input profiles_order_by {
   telegram_username: order_by
   twitter_username: order_by
   updated_at: order_by
+  user: discord_users_order_by
   users_aggregate: users_aggregate_order_by
   vault_transactions_aggregate: vault_transactions_aggregate_order_by
   vaults_aggregate: vaults_aggregate_order_by
@@ -20798,6 +21016,7 @@ type query_root {
   fetch data from the table: "epoches" using primary key columns
   """
   epochs_by_pk(id: bigint!): epochs
+  getGuildInfo(payload: GuildInfoInput!): GuildInfoOutput
 
   """
   fetch data from the table: "gift_private"
@@ -20858,7 +21077,6 @@ type query_root {
     """
     where: gift_private_bool_exp
   ): gift_private_aggregate!
-  guildInfo(payload: GuildInfoInput!): GuildInfoOutput
 
   """
   fetch data from the table: "histories"

@@ -387,6 +387,7 @@ export async function insertVouch(nomineeId: number, voucherId: number) {
           nominee: {
             id: true,
             address: true,
+            description: true,
             circle_id: true,
             user_id: true,
             ended: true,
