@@ -4,9 +4,6 @@ import { GlobalUi } from 'components/GlobalUi';
 import { AppRoutes } from 'routes/routes';
 import { Box, Flex } from 'ui';
 
-// this component sets up the top navigation bar to stay fixed on-screen and
-// have content scroll underneath it
-
 export const MainLayout = () => {
   return (
     <Box
