@@ -266,6 +266,7 @@ export async function notifyEpochStart({
             channelId,
             roleId,
             epochName: `Epoch ${epochNumber}`,
+            circleId: circle.id,
             circleName: `${circle.organization?.name}/${circle.name}`,
             startTime: start_date,
             endTime: end_date,
@@ -345,6 +346,7 @@ export async function notifyEpochEnd({
               channelId,
               roleId,
               epochName: `Epoch ${epoch.number}`,
+              circleId: circle.id,
               circleName: `${circle.organization?.name}/${circle.name}`,
               endTime: epoch.end_date,
               giveCount: epoch.token_gifts?.reduce(

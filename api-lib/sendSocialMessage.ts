@@ -63,6 +63,7 @@ export type DiscordVouchUnsuccessful = DiscordEpochEvent & {
 export type DiscordStart = DiscordEpochEvent & {
   type: 'start';
   epochName: string;
+  circleId: string;
   circleName: string;
   startTime: string;
   endTime: string;
@@ -71,6 +72,7 @@ export type DiscordStart = DiscordEpochEvent & {
 export type DiscordEnd = DiscordEpochEvent & {
   type: 'end';
   epochName: string;
+  circleId: string;
   circleName: string;
   endTime: string;
   giveCount: number;
