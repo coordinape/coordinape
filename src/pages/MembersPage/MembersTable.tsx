@@ -707,10 +707,7 @@ const MemberRow = ({
                   <Text h3 css={{ mb: '$md', fontWeight: '$semibold' }}>
                     Fixed Payment
                   </Text>
-                  <Flex
-                    css={{ gap: '$md', flexWrap: 'wrap', mb: '$md' }}
-                    disabled={!fixedPaymentToken}
-                  >
+                  <Flex css={{ gap: '$md', flexWrap: 'wrap', mb: '$md' }}>
                     <FormInputField
                       id="fixed_payment_amount"
                       name="fixed_payment_amount"
@@ -720,6 +717,7 @@ const MemberRow = ({
                       label="Member Fixed Payment"
                       infoTooltip="Fixed Amount tokens allocated to this user regardless of gives received"
                       showFieldErrors
+                      disabled={!fixedPaymentToken}
                     />
                     <Flex column css={{ gap: '$xs' }}>
                       <Text variant="label" as="label">
