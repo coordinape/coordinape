@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+import { adminClient } from '../gql/adminClient';
 import { insertActivity } from '../gql/mutations';
-import { getOrgAndProfile, getOrgByEpoch } from '../gql/queries';
 import { errorResponse } from '../HttpError';
 import { EventTriggerPayload } from '../types';
 
@@ -93,4 +93,49 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   } catch (e) {
     return errorResponse(res, e);
   }
+}
+
+async function getOrgAndProfile(user_id: number, circle_id: number) {
+  const data = await adminClient.query(
+    {
+      circles_by_pk: [
+        { id: circle_id },
+        {
+          id: true,
+          organization_id: true,
+          users: [
+            { where: { id: { _eq: user_id } } },
+            {
+              profile: { id: true },
+            },
+          ],
+        },
+      ],
+    },
+    {
+      operationName: 'getOrgByCircle',
+    }
+  );
+
+  return data.circles_by_pk;
+}
+
+async function getOrgByEpoch(epoch_id: number) {
+  const data = await adminClient.query(
+    {
+      epochs_by_pk: [
+        { id: epoch_id },
+        {
+          circle: {
+            organization: { id: true },
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'getOrgByEpoch',
+    }
+  );
+
+  return data.epochs_by_pk;
 }
