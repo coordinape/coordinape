@@ -585,7 +585,7 @@ export async function getEpoch(
   return epoch;
 }
 
-export async function getPendingTokenGifts({
+export async function getPendingTokenGiftsSent({
   senderId,
   epochId,
 }: {
@@ -608,6 +608,41 @@ export async function getPendingTokenGifts({
         {
           id: true,
           recipient: {
+            name: true,
+          },
+          tokens: true,
+        },
+      ],
+    },
+    {
+      operationName: 'getPendingTokenGifts',
+    }
+  );
+}
+
+export async function getPendingTokenGiftsReceived({
+  recipientId,
+  epochId,
+}: {
+  recipientId: number;
+  epochId: number;
+}) {
+  return await adminClient.query(
+    {
+      pending_token_gifts: [
+        {
+          where: {
+            recipient_id: {
+              _eq: recipientId,
+            },
+            epoch_id: {
+              _eq: epochId,
+            },
+          },
+        },
+        {
+          id: true,
+          sender: {
             name: true,
           },
           tokens: true,

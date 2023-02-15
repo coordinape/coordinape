@@ -75,8 +75,8 @@ export default async function handleOptOutMsg(
       );
 
       const { pending_token_gifts: refunds } =
-        await queries.getPendingTokenGifts({
-          senderId: data.new.id,
+        await queries.getPendingTokenGiftsReceived({
+          recipientId: data.new.id,
           epochId: currentEpoch.id,
         });
 
@@ -97,8 +97,8 @@ export default async function handleOptOutMsg(
           profiles,
           refunds: refunds
             .filter(({ tokens }) => tokens > 0)
-            .map(({ recipient, tokens }) => ({
-              username: recipient.name,
+            .map(({ sender, tokens }) => ({
+              username: sender.name,
               give: tokens,
             })),
         }),
@@ -120,7 +120,7 @@ export default async function handleOptOutMsg(
       );
 
       const { pending_token_gifts: refunds } =
-        await queries.getPendingTokenGifts({
+        await queries.getPendingTokenGiftsSent({
           senderId: data.new.id,
           epochId: currentEpoch.id,
         });
