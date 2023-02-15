@@ -18,7 +18,6 @@ export * from './FormTimePicker';
 export * from './FormTokenField';
 export * from './LoadingModal';
 export * from './MainLayout/MainLayout';
-export * from './MyAvatarMenu/MyAvatarMenu';
 export * from './Network/Network';
 export * from './ProfileSkills';
 export * from './ProfileSocialIcons';

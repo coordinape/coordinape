@@ -68,34 +68,66 @@ const spaces = {
 
 export const colors = {
   white: newFigmaColors.grey1,
-  black: '#000',
-  tempPrimaryHover: '#72B2EE',
+  black: newFigmaColors.grey10,
+  link: newFigmaColors.secondary5,
+  text: newFigmaColors.grey7,
+  headingText: newFigmaColors.grey7,
+  secondaryText: newFigmaColors.grey6,
 
-  cta: figmaColors.blue12,
-  ctaHover: '$tempPrimaryHover',
+  background: newFigmaColors.grey1,
+  navBackground: newFigmaColors.grey3,
+  surface: newFigmaColors.grey2,
+  surfaceNested: newFigmaColors.grey1,
+  navLinkText: newFigmaColors.grey7,
+  navLinkHoverBackground: newFigmaColors.grey1,
+  highlight: newFigmaColors.secondary1,
+  border: newFigmaColors.grey5,
+  hr: newFigmaColors.grey5,
+  contentHeaderBorder: newFigmaColors.grey3,
+  borderMedium: newFigmaColors.grey6,
+  borderDim: newFigmaColors.grey4,
+  borderFocus: newFigmaColors.secondary4,
+  borderFocusBright: newFigmaColors.secondary5,
+  borderTable: newFigmaColors.grey4,
+  activePanel: newFigmaColors.secondary1,
+
+  dim: newFigmaColors.grey1,
+  dimButtonHover: '#FFFFFF',
+  textOnDim: newFigmaColors.grey5,
+
+  cta: newFigmaColors.secondary4,
+  ctaHover: newFigmaColors.secondary5,
   textOnCta: newFigmaColors.grey1,
 
-  primary: figmaColors.blue12,
-  primaryHover: '$tempPrimaryHover',
-  primaryDark: figmaColors.blue24,
-  primaryLight: figmaColors.blue1,
-  primaryDisabled: figmaColors.blue4,
-  textOnPrimary: newFigmaColors.grey1,
+  primary: newFigmaColors.grey8,
+  primaryHover: newFigmaColors.grey10,
 
-  primaryButton: '$primary',
-  primaryButtonHover: '$tempPrimaryHover',
-  primaryButtonText: newFigmaColors.grey1,
-  primaryButtonBorderFocus: figmaColors.blue8,
+  primaryDark: newFigmaColors.grey10,
+  primaryLight: newFigmaColors.grey6,
+  primaryDisabled: newFigmaColors.grey4,
+  textOnPrimary: newFigmaColors.grey2,
 
-  secondaryButton: 'transparent',
-  secondaryButtonHover: '$tempPrimaryHover',
-  secondaryButtonText: '$primary',
-  secondaryButtonTextHover: '$white',
-  secondaryButtonBorderHover: '$tempPrimaryHover',
-  secondaryButtonBorderFocus: figmaColors.blue8,
+  secondary: newFigmaColors.grey8,
+  secondaryHover: newFigmaColors.grey10,
+  secondaryLight: figmaColors.blue4,
+  secondaryMedium: figmaColors.blue8,
+  secondaryDark: figmaColors.blue4,
+  textOnSecondary: newFigmaColors.grey1,
+
+  primaryButton: newFigmaColors.grey8,
+  primaryButtonHover: newFigmaColors.grey10,
+  primaryButtonText: newFigmaColors.grey2,
+  primaryButtonBorderFocus: newFigmaColors.grey5,
+
+  secondaryButton: '#ffffff22',
+  secondaryButtonHover: newFigmaColors.grey10,
+  secondaryButtonText: newFigmaColors.grey8,
+  secondaryButtonTextHover: newFigmaColors.grey1,
+  secondaryButtonBorderHover: newFigmaColors.grey10,
+  secondaryButtonBorderFocus: newFigmaColors.grey8,
 
   destructiveButton: newFigmaColors.error6,
-  destructiveButtonHover: newFigmaColors.error5,
+  destructiveButtonHover: newFigmaColors.error7,
   destructiveButtonText: newFigmaColors.error1,
   destructiveButtonBorderFocus: newFigmaColors.error5,
 
@@ -104,19 +136,12 @@ export const colors = {
   successButtonText: newFigmaColors.success1,
   successButtonBorderFocus: newFigmaColors.success5,
 
-  neutralButton: '$primary',
+  neutralButton: '$primaryButton',
   neutralButtonOutlineBackground: newFigmaColors.grey1,
-  neutralButtonOutlineText: '$primary',
-  neutralButtonHover: '$primaryHover',
+  neutralButtonOutlineText: '$primaryButton',
+  neutralButtonHover: '$primaryButtonHover',
   neutralButtonText: newFigmaColors.grey1,
   neutralButtonTextHover: newFigmaColors.grey1,
-
-  secondary: '$primary',
-  secondaryHover: '$tempPrimaryHover',
-  secondaryLight: figmaColors.blue4,
-  secondaryMedium: figmaColors.blue8,
-  secondaryDark: figmaColors.blue4,
-  textOnSecondary: newFigmaColors.grey1,
 
   modalBackground: '#00000090',
   modalBorderColor: 'transparent',
@@ -124,113 +149,87 @@ export const colors = {
   profileGradientStart: newFigmaColors.grey4,
   profileGradientEnd: newFigmaColors.grey2,
 
-  alert: figmaColors.red12,
-  alertLight: figmaColors.red1,
-  alertDisabled: figmaColors.red4,
-  alertDark: figmaColors.red20,
-  textOnAlert: newFigmaColors.grey1,
+  alert: newFigmaColors.error5,
+  alertLight: newFigmaColors.error4,
+  alertDisabled: newFigmaColors.error3,
+  alertDark: newFigmaColors.error7,
+  textOnAlert: newFigmaColors.error1,
 
-  success: figmaColors.green12,
-  successLight: figmaColors.green1,
-  successDisabled: figmaColors.green4,
-  successDark: figmaColors.green16,
+  success: newFigmaColors.success5,
+  successLight: newFigmaColors.success4,
+  successDisabled: newFigmaColors.success3,
+  successDark: newFigmaColors.success6,
 
-  neutral: figmaColors.grey12,
-  textOnNeutral: figmaColors.grey1,
+  neutral: newFigmaColors.neutral4,
+  textOnNeutral: newFigmaColors.neutral1,
 
-  dim: newFigmaColors.grey1,
-  dimButtonHover: '#ffffff',
-  textOnDim: '$primary',
-  activePanel: '#e6f1fc',
-
-  complete: figmaColors.green12,
-  completeLight: figmaColors.green1,
+  complete: '$success',
+  completeLight: '$successLight',
   blurple: figmaColors.discordblurple,
-  toggleButtonYes: figmaColors.green12,
+
+  avatarFallback: newFigmaColors.grey6,
+  avatarFallbackText: newFigmaColors.grey2,
+
+  toggleButtonYes: newFigmaColors.success5,
   toggleButtonNo: '$alert',
 
-  background: figmaColors.grey1,
-  navBackground: figmaColors.grey16,
-  surface: figmaColors.grey2,
-  surfaceNested: 'white',
-  info: figmaColors.blue4,
-  textOnInfo: figmaColors.grey20,
+  toggleBackground: newFigmaColors.grey2,
+  toggleText: newFigmaColors.grey6,
+  toggleTextHover: newFigmaColors.grey9,
+  toggleSelectedBackground: newFigmaColors.grey6,
+  toggleSelectedText: newFigmaColors.grey1,
 
-  border: figmaColors.grey4,
-  hr: figmaColors.grey4,
-  contentHeaderBorder: 'transparent',
-  borderMedium: newFigmaColors.grey5,
-  borderDim: newFigmaColors.grey4,
-  borderFocus: '$primary',
-  borderFocusBright: 'transparent',
-  borderTable: newFigmaColors.grey4,
-
-  highlight: figmaColors.blue1,
-  avatarFallback: newFigmaColors.grey3,
-  avatarFallbackText: newFigmaColors.grey8,
-
-  link: '$primary',
-  text: figmaColors.grey20,
-  headingText: figmaColors.grey16,
-  secondaryText: figmaColors.grey10,
-
-  panelInfoText: figmaColors.grey16,
-  panelInfoBackground: figmaColors.blue4,
-
-  tagActiveText: figmaColors.yellow20,
-  tagActiveBackground: figmaColors.yellow4,
-
-  tagSuccessText: newFigmaColors.success7,
-  tagSuccessBackground: newFigmaColors.success3,
-
-  tagAlertText: figmaColors.red16,
-  tagAlertBackground: figmaColors.red4,
-
-  tagWarningText: newFigmaColors.orange6,
-  tagWarningBackground: newFigmaColors.orange2,
-
-  tagPrimaryText: '$primary',
-  tagPrimaryBackground: figmaColors.blue4,
-
-  tagSecondaryText: '$primary',
-  tagSecondaryBackground: figmaColors.blue4,
-
-  tagNeutralText: newFigmaColors.neutral7,
-  tagNeutralBackground: newFigmaColors.neutral2,
-
-  tagDefaultText: newFigmaColors.grey2,
-  tagDefaultBackground: newFigmaColors.grey7,
-
-  formInputText: figmaColors.grey16,
+  formInputText: newFigmaColors.grey7,
   formInputBackground: '#FFFFFF66',
-  formInputBorderlessBright: figmaColors.grey1,
-  formInputBorder: newFigmaColors.grey5,
-  formInputBorderFocus: '$primary',
-  formInputPlaceholder: figmaColors.grey8,
+  formInputBorderlessBright: newFigmaColors.grey1,
+  formInputBorder: newFigmaColors.grey6,
+  formInputPlaceholder: newFigmaColors.grey4,
   formInputErrorText: newFigmaColors.error7,
   formInputErrorBackground: newFigmaColors.error1,
   formInputErrorBorder: newFigmaColors.error6,
-  formRadioBorderUnselected: '$tempPrimaryHover',
-  formRadioBorderSelected: '$primary',
-  formRadioBackground: '$formInputBackground',
   formInputSelectBackground: newFigmaColors.grey2,
   formInputSelectHover: newFigmaColors.grey1,
+  formInputBorderFocus: newFigmaColors.secondary5,
+  formRadioBorderUnselected: newFigmaColors.secondary2,
+  formRadioBorderSelected: newFigmaColors.secondary5,
+  formRadioBackground: newFigmaColors.grey2,
 
-  toggleBackground: newFigmaColors.grey1,
-  toggleText: newFigmaColors.grey6,
-  toggleTextHover: '$primary',
-  toggleSelectedBackground: '$primary',
-  toggleSelectedText: newFigmaColors.grey1,
+  panelInfoText: newFigmaColors.secondary9,
+  panelInfoBackground: newFigmaColors.secondary1,
 
-  mapNodeHighlight: '$primary',
-  mapNodeMoreHighlight: figmaColors.teal8,
-  mapGive: figmaColors.green8,
-  mapReceive: figmaColors.orange12,
-  mapCirculate: figmaColors.yellow12,
-  mapNode: '#000000',
+  tagActiveText: newFigmaColors.warning7,
+  tagActiveBackground: newFigmaColors.warning2,
+
+  tagWarningText: newFigmaColors.orange7,
+  tagWarningBackground: newFigmaColors.orange2,
+
+  tagSuccessText: newFigmaColors.success6,
+  tagSuccessBackground: newFigmaColors.success2,
+
+  tagAlertText: newFigmaColors.error5,
+  tagAlertBackground: newFigmaColors.error2,
+
+  tagSecondaryText: newFigmaColors.secondary5,
+  tagSecondaryBackground: newFigmaColors.secondary1,
+
+  tagPrimaryText: newFigmaColors.primary7,
+  tagPrimaryBackground: newFigmaColors.primary2,
+
+  tagNeutralText: newFigmaColors.neutral6,
+  tagNeutralBackground: newFigmaColors.neutral2,
+
+  tagDefaultText: newFigmaColors.grey2,
+  tagDefaultBackground: newFigmaColors.grey5,
+
+  mapNodeHighlight: newFigmaColors.warning5,
+  mapNodeMoreHighlight: newFigmaColors.warning3,
+  mapGive: newFigmaColors.secondary8,
+  mapReceive: newFigmaColors.secondary2,
+  mapCirculate: newFigmaColors.secondary5,
+  mapNode: newFigmaColors.grey10,
+  mapGiveLink: newFigmaColors.success5,
+  mapReceiveLink: newFigmaColors.orange6,
   mapNodeFade: '#00000020',
-  mapGiveLink: figmaColors.green4,
-  mapReceiveLink: figmaColors.orange8,
   mapLink: '#00000015',
   mapLinkDim: '#00000008',
 
@@ -245,11 +244,10 @@ export const colors = {
   toastifyTextColorError: newFigmaColors.error6,
   toastifyBorderColorError: newFigmaColors.error3,
   toastifyIconBackgroundError: newFigmaColors.error2,
-  navLinkText: newFigmaColors.grey2,
 
   // TODO: improve
-  currentEpochDate: figmaColors.grey20,
-  currentEpochDescription: figmaColors.grey20,
+  currentEpochDate: newFigmaColors.grey7,
+  currentEpochDescription: newFigmaColors.grey7,
 };
 
 export const {
@@ -266,10 +264,6 @@ export const {
     colors,
     space: {
       ...spaces,
-    },
-    letterSpacings: {
-      body: 'normal',
-      header: 'normal',
     },
     sizes: {
       max: 'max-content',
@@ -289,19 +283,33 @@ export const {
       pill: '9999px',
     },
     fonts: {
-      display: 'Inter, apple-system, sans-serif',
-      // to make more obvious for testing
-      // display: 'Times New Roman, apple-system, sans-serif',
+      display: 'Denim, apple-system, sans-serif',
     },
     fontSizes: {
-      small: '13px',
+      small: '14px',
       medium: '16px',
       large: '20px',
       h3: '24px',
-      h2: '32px',
-      h1: '48px',
+      h2: '18px',
+      h1: '26px',
       h1Temp: '26px',
       h2Temp: '18px',
+    },
+    lineHeights: {
+      none: 1,
+      shorter: '120%',
+      short: 1.375,
+      base: 1.5,
+      tall: 1.625,
+      tall2: 1.75,
+      taller: '2',
+    },
+    letterSpacings: {
+      body: '0.01em',
+      header: '0.02em',
+    },
+    textTransforms: {
+      label: 'none',
     },
     fontWeights: {
       hairline: 100,
@@ -313,17 +321,9 @@ export const {
       bold: 700,
       extrabold: 800,
       black: 900,
-      labelBold: '$bold',
+      labelBold: '$semibold',
     },
-    lineHeights: {
-      none: 1,
-      shorter: 1.25,
-      short: 1.375,
-      base: 1.5,
-      tall: 1.625,
-      tall2: 1.75,
-      taller: '2',
-    },
+
     shadows: {
       shadow1: '0px 0px 8px rgba(81, 99, 105, 0.2)',
       shadow4: '0px 0px 3px 0px #0000001C, 0px 0px 16px 0px #0000001F',
@@ -335,9 +335,6 @@ export const {
     },
     transitions: {
       quick: 'all 0.2s',
-    },
-    textTransforms: {
-      label: 'uppercase',
     },
   },
   media: {
@@ -573,262 +570,20 @@ export const dark = createTheme({
     navLinkText: newFigmaColors.grey4,
     navLinkHoverBackground: newFigmaColors.grey8,
   },
-  fontSizes: {
-    small: '14px',
-    medium: '16px',
-    large: '20px',
-    h3: '24px',
-    h2: '18px',
-    h1: '26px',
-    h1Temp: '26px',
-  },
-  lineHeights: {
-    none: 1,
-    shorter: '120%',
-    short: 1.375,
-    base: 1.5,
-    tall: 1.625,
-    tall2: 1.75,
-    taller: '2',
-  },
-  letterSpacings: {
-    body: '0.01em',
-    header: '0.02em',
-  },
   shadows: {
     shadow1: '0px 0px 35px 12px rgb(0 0 0 / 40%)',
     toastifyShadow: '0px 5px 25px -5px black',
     modalShadow: '0 5px 70px 28px black',
   },
-  fonts: {
-    display: 'Denim, apple-system, sans-serif',
-  },
-  fontWeights: {
-    labelBold: '$semibold',
-  },
-  textTransforms: {
-    label: 'none',
-  },
 });
 
-export const light = createTheme({
+export const lightx = createTheme({
   colors: {
-    white: newFigmaColors.grey1,
-    black: newFigmaColors.grey10,
-    link: newFigmaColors.secondary5,
-    text: newFigmaColors.grey7,
-    headingText: newFigmaColors.grey7,
-    secondaryText: newFigmaColors.grey6,
-
-    background: newFigmaColors.grey1,
-    navBackground: newFigmaColors.grey3,
-    surface: newFigmaColors.grey2,
-    surfaceNested: newFigmaColors.grey1,
-    navLinkText: newFigmaColors.grey7,
-    navLinkHoverBackground: newFigmaColors.grey1,
-    highlight: newFigmaColors.secondary1,
-    border: newFigmaColors.grey5,
-    hr: newFigmaColors.grey5,
-    contentHeaderBorder: newFigmaColors.grey3,
-    borderMedium: newFigmaColors.grey6,
-    borderDim: newFigmaColors.grey4,
-    borderFocus: newFigmaColors.secondary4,
-    borderFocusBright: newFigmaColors.secondary5,
-    borderTable: newFigmaColors.grey4,
-    activePanel: newFigmaColors.secondary1,
-
-    dim: newFigmaColors.grey1,
-    dimButtonHover: '#FFFFFF',
-    textOnDim: newFigmaColors.grey5,
-
-    cta: newFigmaColors.secondary4,
-    ctaHover: newFigmaColors.secondary5,
-    textOnCta: newFigmaColors.grey1,
-
-    primary: newFigmaColors.grey8,
-    primaryHover: newFigmaColors.grey10,
-
-    primaryDark: newFigmaColors.grey10,
-    primaryLight: newFigmaColors.grey6,
-    primaryDisabled: newFigmaColors.grey4,
-    textOnPrimary: newFigmaColors.grey2,
-
-    secondary: newFigmaColors.grey8,
-    secondaryHover: newFigmaColors.grey10,
-    secondaryLight: figmaColors.blue4,
-    secondaryMedium: figmaColors.blue8,
-    secondaryDark: figmaColors.blue4,
-    textOnSecondary: newFigmaColors.grey1,
-
-    primaryButton: newFigmaColors.grey8,
-    primaryButtonHover: newFigmaColors.grey10,
-    primaryButtonText: newFigmaColors.grey2,
-    primaryButtonBorderFocus: newFigmaColors.grey5,
-
-    secondaryButton: '#ffffff22',
-    secondaryButtonHover: newFigmaColors.grey10,
-    secondaryButtonText: newFigmaColors.grey8,
-    secondaryButtonTextHover: newFigmaColors.grey1,
-    secondaryButtonBorderHover: newFigmaColors.grey10,
-    secondaryButtonBorderFocus: newFigmaColors.grey8,
-
-    destructiveButton: newFigmaColors.error6,
-    destructiveButtonHover: newFigmaColors.error7,
-    destructiveButtonText: newFigmaColors.error1,
-    destructiveButtonBorderFocus: newFigmaColors.error5,
-
-    successButton: newFigmaColors.success6,
-    successButtonHover: newFigmaColors.success5,
-    successButtonText: newFigmaColors.success1,
-    successButtonBorderFocus: newFigmaColors.success5,
-
-    neutralButton: '$primaryButton',
-    neutralButtonOutlineBackground: newFigmaColors.grey1,
-    neutralButtonOutlineText: '$primaryButton',
-    neutralButtonHover: '$primaryButtonHover',
-    neutralButtonText: newFigmaColors.grey1,
-    neutralButtonTextHover: newFigmaColors.grey1,
-
-    modalBackground: '#00000090',
-    modalBorderColor: 'transparent',
-
-    profileGradientStart: newFigmaColors.grey4,
-    profileGradientEnd: newFigmaColors.grey2,
-
-    alert: newFigmaColors.error5,
-    alertLight: newFigmaColors.error4,
-    alertDisabled: newFigmaColors.error3,
-    alertDark: newFigmaColors.error7,
-    textOnAlert: newFigmaColors.error1,
-
-    success: newFigmaColors.success5,
-    successLight: newFigmaColors.success4,
-    successDisabled: newFigmaColors.success3,
-    successDark: newFigmaColors.success6,
-
-    neutral: newFigmaColors.neutral4,
-    textOnNeutral: newFigmaColors.neutral1,
-
-    complete: '$success',
-    completeLight: '$successLight',
-    blurple: figmaColors.discordblurple,
-
-    avatarFallback: newFigmaColors.grey6,
-    avatarFallbackText: newFigmaColors.grey2,
-
-    toggleButtonYes: newFigmaColors.success5,
-    toggleButtonNo: '$alert',
-
-    toggleBackground: newFigmaColors.grey2,
-    toggleText: newFigmaColors.grey6,
-    toggleTextHover: newFigmaColors.grey9,
-    toggleSelectedBackground: newFigmaColors.grey6,
-    toggleSelectedText: newFigmaColors.grey1,
-
-    formInputText: newFigmaColors.grey7,
-    formInputBackground: '#FFFFFF66',
-    formInputBorderlessBright: newFigmaColors.grey1,
-    formInputBorder: newFigmaColors.grey6,
-    formInputPlaceholder: newFigmaColors.grey4,
-    formInputErrorText: newFigmaColors.error7,
-    formInputErrorBackground: newFigmaColors.error1,
-    formInputErrorBorder: newFigmaColors.error6,
-    formInputSelectBackground: newFigmaColors.grey2,
-    formInputSelectHover: newFigmaColors.grey1,
-    formInputBorderFocus: newFigmaColors.secondary5,
-    formRadioBorderUnselected: newFigmaColors.secondary2,
-    formRadioBorderSelected: newFigmaColors.secondary5,
-    formRadioBackground: newFigmaColors.grey2,
-
-    panelInfoText: newFigmaColors.secondary9,
-    panelInfoBackground: newFigmaColors.secondary1,
-
-    tagActiveText: newFigmaColors.warning7,
-    tagActiveBackground: newFigmaColors.warning2,
-
-    tagWarningText: newFigmaColors.orange7,
-    tagWarningBackground: newFigmaColors.orange2,
-
-    tagSuccessText: newFigmaColors.success6,
-    tagSuccessBackground: newFigmaColors.success2,
-
-    tagAlertText: newFigmaColors.error5,
-    tagAlertBackground: newFigmaColors.error2,
-
-    tagSecondaryText: newFigmaColors.secondary5,
-    tagSecondaryBackground: newFigmaColors.secondary1,
-
-    tagPrimaryText: newFigmaColors.primary7,
-    tagPrimaryBackground: newFigmaColors.primary2,
-
-    tagNeutralText: newFigmaColors.neutral6,
-    tagNeutralBackground: newFigmaColors.neutral2,
-
-    tagDefaultText: newFigmaColors.grey2,
-    tagDefaultBackground: newFigmaColors.grey5,
-
-    mapNodeHighlight: newFigmaColors.warning5,
-    mapNodeMoreHighlight: newFigmaColors.warning3,
-    mapGive: newFigmaColors.secondary8,
-    mapReceive: newFigmaColors.secondary2,
-    mapCirculate: newFigmaColors.secondary5,
-    mapNode: newFigmaColors.grey10,
-    mapGiveLink: newFigmaColors.success5,
-    mapReceiveLink: newFigmaColors.orange6,
-    mapNodeFade: '#00000020',
-    mapLink: '#00000015',
-    mapLinkDim: '#00000008',
-
-    coMarkBackground: newFigmaColors.primary4,
-
-    toastifyBackground: 'white',
-    toastifyTextColorDefault: 'var(--colors-text)',
-    toastifyBorderColorDefault: newFigmaColors.grey3,
-    toastifyTextColorSuccess: newFigmaColors.success6,
-    toastifyBorderColorSuccess: newFigmaColors.success4,
-    toastifyIconBackgroundSuccess: newFigmaColors.success2,
-    toastifyTextColorError: newFigmaColors.error6,
-    toastifyBorderColorError: newFigmaColors.error3,
-    toastifyIconBackgroundError: newFigmaColors.error2,
-
-    // TODO: improve
-    currentEpochDate: newFigmaColors.grey7,
-    currentEpochDescription: newFigmaColors.grey7,
-  },
-  fontSizes: {
-    small: '14px',
-    medium: '16px',
-    large: '20px',
-    h3: '24px',
-    h2: '18px',
-    h1: '26px',
-    h1Temp: '26px',
-  },
-  lineHeights: {
-    none: 1,
-    shorter: '120%',
-    short: 1.375,
-    base: 1.5,
-    tall: 1.625,
-    tall2: 1.75,
-    taller: '2',
-  },
-  letterSpacings: {
-    body: '0.01em',
-    header: '0.02em',
-  },
-  fonts: {
-    display: 'Denim, apple-system, sans-serif',
-  },
-  fontWeights: {
-    labelBold: '$semibold',
-  },
-  textTransforms: {
-    label: 'none',
+    cta: 'orangered',
   },
 });
 
-export type Theme = 'dark' | 'light' | undefined;
+export type Theme = 'dark' | undefined;
 
 export const disabledStyle = {
   pointerEvents: 'none',
