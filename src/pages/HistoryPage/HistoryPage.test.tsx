@@ -12,6 +12,12 @@ jest.mock('recoilState/app', () => ({
   })),
 }));
 
+jest.mock('components/ReceiveInfo/useReceiveInfo', () => {
+  return {
+    useReceiveInfo: () => ({ showGives: false }),
+  };
+});
+
 jest.mock('./getHistoryData', () => {
   const { DateTime } = require('luxon'); // eslint-disable-line
   const now = DateTime.now();
