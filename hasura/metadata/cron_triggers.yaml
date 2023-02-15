@@ -19,6 +19,19 @@
   headers:
     - name: verification_key
       value_from_env: HASURA_EVENT_SECRET
+- name: ensNames
+  webhook: '{{HASURA_API_BASE_URL}}/cron/ensNames'
+  schedule: 0 * * * *
+  include_in_metadata: true
+  payload: {}
+  retry_conf:
+    num_retries: 0
+    retry_interval_seconds: 10
+    timeout_seconds: 240
+    tolerance_seconds: 21600
+  headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
 - name: epoch
   webhook: '{{HASURA_API_BASE_URL}}/cron/epochs'
   schedule: '*/5 * * * *'
