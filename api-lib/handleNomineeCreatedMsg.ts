@@ -30,7 +30,7 @@ function getChannels(props: GetChannelsProps): Channels<DiscordNomination> {
     const { circle_id, profile, nominator, description, vouches_required } =
       nominee || {};
 
-    if (!profile || !nominator) {
+    if (!circle_id || !profile || !nominator) {
       return null;
     }
 
@@ -40,11 +40,11 @@ function getChannels(props: GetChannelsProps): Channels<DiscordNomination> {
         type: 'nomination' as const,
         channelId,
         roleId,
+        circleId: circle_id.toString(),
         nominee: profile.name,
         nominator: nominator.profile.name ?? nominator.name,
         nominationReason: description ?? 'unknown',
         numberOfVouches: vouches_required ?? 0,
-        nominationLink: `https://app.coordinape.com/circles/${circle_id}/members`,
       },
     };
   }

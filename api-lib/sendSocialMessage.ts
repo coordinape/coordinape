@@ -20,11 +20,11 @@ export type Channels<T> = {
 
 export type DiscordNomination = DiscordEpochEvent & {
   type: 'nomination';
+  circleId: string;
   nominee: string;
   nominator: string;
   nominationReason: string;
   numberOfVouches: number;
-  nominationLink: string;
 };
 
 export type DiscordOptsOut = DiscordEpochEvent & {
