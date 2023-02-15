@@ -39,12 +39,13 @@ function getChannels(props: GetChannelsProps): Channels<DiscordVouch> {
         type: 'vouch' as const,
         channelId,
         roleId,
+        circleId: circle?.id,
         nominee: nominee?.profile?.name,
         voucher: voucher?.profile.name ?? voucher?.name ?? 'Someone',
         nominationReason: nominee?.description ?? 'unknown reason',
         currentVouches: Math.max(
           0,
-          (nominee?.nominations_aggregate.aggregate?.count ?? 0) - 1
+          nominee?.nominations_aggregate.aggregate?.count ?? 0
         ),
         requiredVouches: nominee?.vouches_required ?? 0,
       },

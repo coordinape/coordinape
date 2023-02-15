@@ -42,6 +42,7 @@ export type DiscordVouch = DiscordEpochEvent & {
   type: 'vouch';
   nominee: string;
   voucher: string;
+  circleId: string;
   nominationReason: string;
   currentVouches: number;
   requiredVouches: number;
