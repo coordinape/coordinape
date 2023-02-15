@@ -1,0 +1,47 @@
+
+query KilledEpochs {
+  epochs(where: {end_date: {_gte: "2023-02-08"}, ended: {_eq: true}, _not: {repeat_data: {_has_key: "type", _contains: "{\"frequency_unit\": \"weeks\"}"}}, token_gifts_aggregate: {count: {predicate: {_gt: 0}}}}) {
+    id
+    ended
+    repeat
+    repeat_data
+    token_gifts_aggregate {
+      aggregate {
+        count
+      }
+    }
+    circle {
+      id
+      name
+    }
+  }
+}
+
+query weeklyRepeats {
+  circles(where: {id: {_in: [504, 2057, 2482, 2736, 192, 707, 2059, 2058, 1400]}, epochs: {ended: {_neq: false}}}) {
+    id
+    name
+    nextEpoch: epochs(where: {ended: {_eq: false}}) {
+      id
+      start_date
+      end_date
+      repeat_data
+    }
+    lastEpoch: epochs(where: {end_date: {_gte: "2023-02-08"}, ended: {_eq: true}, _not: {repeat_data: {_has_key: "type", _contains: "{\"frequency_unit\": \"weeks\"}"}}, token_gifts_aggregate: {count: {predicate: {_gt: 0}}}}) {
+      id
+      start_date
+      end_date
+      circle_id
+      repeat_data
+    }
+  }
+}
+
+# mutation FixKilledEpochs {
+#   insert_epochs(objects: [{circle_id: 2736, start_date: "2023-02-12T12:00:00.000Z", end_date: "2023-02-18T12:00:00.000Z", repeat_data: {duration: 6, frequency: 1, time_zone: "UTC", duration_unit: "days", frequency_unit: "weeks", type: "custom"}}, {circle_id: 1400, start_date: "2023-03-05T00:00:00.000Z", end_date: "2023-03-11T00:00:00.000Z", repeat_data: {duration: 6, frequency: 1, time_zone: "UTC", duration_unit: "days", frequency_unit: "months", type: "custom"}}, {circle_id: 2058, start_date: "2023-03-01T00:00:00.000Z", end_date: "2023-03-09T00:00:00.000Z", repeat_data: {duration: 8, frequency: 1, time_zone: "UTC", duration_unit: "days", frequency_unit: "months", type: "custom"}}, {circle_id: 2482, start_date: "2023-02-11T04:40:00.000Z", end_date: "2023-02-18T04:40:00.000Z", repeat_data: {duration: 7, frequency: 1, time_zone: "UTC", duration_unit: "days", frequency_unit: "weeks", type: "custom"}}, {circle_id: 2057, start_date: "2023-03-01T00:00:00.000Z", end_date: "2023-03-09T00:00:00.000Z", repeat_data: {duration: 8, frequency: 1, time_zone: "UTC", duration_unit: "days", frequency_unit: "months", type: "custom"}}, {circle_id: 2059, start_date: "2023-03-01T00:00:00.000Z", end_date: "2023-03-09T00:00:00.000Z", repeat_data: {duration: 8, frequency: 1, time_zone: "UTC", duration_unit: "days", frequency_unit: "months", type: "custom"}}, {circle_id: 192, start_date: "2023-02-11T13:40:00.000Z", end_date: "2023-02-18T13:40:00.000Z", repeat_data: {duration: 7, frequency: 1, time_zone: "UTC", duration_unit: "days", frequency_unit: "weeks", type: "custom"}}, {circle_id: 707, start_date: "2023-02-13T04:00:00.000Z", end_date: "2023-02-20T04:00:00.000Z", repeat_data: {duration: 7, frequency: 1, time_zone: "UTC", duration_unit: "days", frequency_unit: "weeks", type: "custom"}}, {circle_id: 504, start_date: "2023-02-23T00:00:00.000Z", end_date: "2023-03-12T00:00:00.000Z", repeat_data: {duration: 17, frequency: 1, time_zone: "UTC", duration_unit: "days", frequency_unit: "months", type: "custom"}}]) {
+#     returning {
+#       id
+#       circle_id
+#     }
+#   }
+# }

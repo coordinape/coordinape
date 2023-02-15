@@ -558,7 +558,7 @@ export function makeNextStartDate(
   });
 }
 
-export async function createNextEpoch(epoch: {
+export function createNextEpoch(epoch: {
   id: number;
   start_date: string;
   end_date: string;
@@ -582,6 +582,7 @@ export async function createNextEpoch(epoch: {
     epoch,
     parseResult.data
   );
+  /*
   const existingEpoch = await getOverlappingEpoch(
     nextStartDate,
     nextEndDate,
@@ -598,8 +599,30 @@ export async function createNextEpoch(epoch: {
       false
     );
     return;
-  }
+  }*/
 
+  console.log('derp');
+  return {
+    circle_id: epoch.circle_id,
+    start_date: nextStartDate.toISO(),
+    end_date: nextEndDate.toISO(),
+    repeat_data,
+  };
+  console.log(
+    JSON.stringify({
+      insert_epochs_one: [
+        {
+          object: {
+            circle_id: epoch.circle_id,
+            start_date: nextStartDate.toISO(),
+            end_date: nextEndDate.toISO(),
+            repeat_data,
+          },
+        },
+      ],
+    })
+  );
+  /*
   await adminClient.mutate(
     {
       insert_epochs_one: [
@@ -618,17 +641,12 @@ export async function createNextEpoch(epoch: {
       operationName: 'createNextEpoch',
     }
   );
+  */
   const message = dedent`
       A new repeating epoch has been created: ${nextStartDate.toLocaleString(
         DateTime.DATETIME_FULL
       )} to ${nextEndDate.toLocaleString(DateTime.DATETIME_FULL)}
     `;
-
-  if (circle?.discord_webhook)
-    await notifyEpochStatus(message, { discord: true }, epoch);
-
-  if (circle?.telegram_id)
-    await notifyEpochStatus(message, { telegram: true }, epoch);
 }
 
 export function calculateNextEpoch(
