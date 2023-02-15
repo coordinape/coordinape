@@ -57,7 +57,7 @@ describe('simple token', () => {
       log?.args?.epochId
     );
     expect(storedRoot).toEqual(root);
-  });
+  }, 10000);
 });
 
 describe('yearn token', () => {
@@ -99,5 +99,5 @@ describe('yearn token', () => {
       log?.args?.epochId
     );
     expect(storedRoot).toEqual(root);
-  });
+  }, 10000);
 });

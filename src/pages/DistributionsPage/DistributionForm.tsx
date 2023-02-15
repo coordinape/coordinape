@@ -19,6 +19,7 @@ import {
 } from 'lib/vaults';
 import round from 'lodash/round';
 import { useForm, SubmitHandler, useController } from 'react-hook-form';
+import { NavLink } from 'react-router-dom';
 import { z } from 'zod';
 
 import { DebugLogger } from '../../common-lib/log';
@@ -34,17 +35,7 @@ import {
 import { useToast, useContracts } from 'hooks';
 import { useCurrentCircleIntegrations } from 'hooks/gql/useCurrentCircleIntegrations';
 import { hedgeyLockPeriods } from 'pages/CircleAdminPage/HedgeyIntegrationSettings';
-import {
-  AppLink,
-  Box,
-  Button,
-  Flex,
-  Link,
-  Panel,
-  Select,
-  SelectOption,
-  Text,
-} from 'ui';
+import { Box, Button, Flex, Link, Panel, Select, SelectOption, Text } from 'ui';
 import { TwoColumnLayout } from 'ui/layouts';
 import { makeExplorerUrl } from 'utils/provider';
 
@@ -922,12 +913,9 @@ export function DistributionForm({
               Fixed Payments
             </Text>
             <Box css={{ fontSize: '$small', alignSelf: 'center' }}>
-              <AppLink
-                to={paths.circleAdmin(circle.id)}
-                css={{ textDecoration: 'none' }}
-              >
-                <Link inlineLink>Edit Settings</Link>
-              </AppLink>
+              <Link inlineLink as={NavLink} to={paths.circleAdmin(circle.id)}>
+                Edit Settings
+              </Link>
             </Box>
           </Flex>
 

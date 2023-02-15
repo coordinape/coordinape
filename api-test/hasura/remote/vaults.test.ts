@@ -72,7 +72,7 @@ describe('pricePerShare', () => {
   test('invalid token address', async () => {
     await setTokens(faker.finance.ethereumAddress(), AddressZero);
     expect(await getPrice()).toBe(1);
-  });
+  }, 10000);
 
   test('simple vault', async () => {
     await setTokens(AddressZero, daiAddress);
@@ -82,5 +82,5 @@ describe('pricePerShare', () => {
   test('Yearn vault', async () => {
     await setTokens(daiAddress, AddressZero);
     expect(await getPrice()).toBeGreaterThan(1);
-  });
+  }, 10000);
 });

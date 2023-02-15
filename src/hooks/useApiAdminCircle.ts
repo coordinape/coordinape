@@ -1,5 +1,5 @@
+import { client } from 'lib/gql/client';
 import * as mutations from 'lib/gql/mutations';
-import * as queries from 'lib/gql/queries';
 
 import { fileToBase64 } from '../lib/base64';
 import { ValueTypes } from '../lib/gql/__generated__/zeus';
@@ -8,6 +8,19 @@ import { useApiBase } from 'hooks';
 import { useRecoilLoadCatch } from './useRecoilLoadCatch';
 
 import { UpdateUsersParam } from 'types';
+
+const queryDiscordWebhook = async (circleId: number) => {
+  const { circle_private } = await client.query(
+    {
+      circle_private: [
+        { where: { circle_id: { _eq: circleId } } },
+        { discord_webhook: true },
+      ],
+    },
+    { operationName: 'queryDiscordWebhook' }
+  );
+  return circle_private.pop()?.discord_webhook;
+};
 
 export const useApiAdminCircle = (circleId: number) => {
   const { fetchCircle } = useApiBase();
@@ -108,7 +121,7 @@ export const useApiAdminCircle = (circleId: number) => {
 
   const getDiscordWebhook = useRecoilLoadCatch(
     () => async () => {
-      return (await queries.getDiscordWebhook(circleId)) || '';
+      return (await queryDiscordWebhook(circleId)) || '';
     },
     [circleId]
   );
