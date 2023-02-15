@@ -27,11 +27,21 @@ export type DiscordNomination = DiscordEpochEvent & {
   numberOfVouches: number;
 };
 
-export type DiscordUserAddedOrRemoved = DiscordEpochEvent & {
+export type DiscordUserAdded = DiscordEpochEvent & {
   type: 'user-added' | 'user-removed';
   discordId?: string;
   address?: string;
   circleName: string;
+  methodOfAddition: string;
+};
+
+export type DiscordUserRemoved = DiscordEpochEvent & {
+  type: 'user-added' | 'user-removed';
+  discordId?: string;
+  address?: string;
+  circleName: string;
+  methodOfRemoval: string;
+  refunds: { username: string; give: number }[];
 };
 
 export type DiscordOptsOut = DiscordEpochEvent & {
@@ -91,7 +101,8 @@ export type DiscordEnd = DiscordEpochEvent & {
 
 type SocialMessageChannels =
   | DiscordNomination
-  | DiscordUserAddedOrRemoved
+  | DiscordUserAdded
+  | DiscordUserRemoved
   | DiscordOptsOut
   | DiscordVouch
   | DiscordVouchSuccessful

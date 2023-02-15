@@ -3,7 +3,7 @@ import { isFeatureEnabled } from '../src/config/features';
 import * as queries from './gql/queries';
 import {
   Channels,
-  DiscordUserAddedOrRemoved,
+  DiscordUserAdded,
   sendSocialMessage,
 } from './sendSocialMessage';
 import { Awaited } from './ts4.5shim';
@@ -15,12 +15,10 @@ type GetChannelsProps = {
   profiles: Awaited<
     ReturnType<typeof queries.getProfileAndMembership>
   >['profiles'];
-  channels: Channels<DiscordUserAddedOrRemoved>;
+  channels: Channels<DiscordUserAdded>;
 };
 
-function getChannels(
-  props: GetChannelsProps
-): Channels<DiscordUserAddedOrRemoved> {
+function getChannels(props: GetChannelsProps): Channels<DiscordUserAdded> {
   const { channels, circle, data, profiles } = props || {};
 
   const { discord_channel_id: channelId, discord_role_id: roleId } =
