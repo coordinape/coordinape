@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { QUERY_KEY_NAV } from 'features/nav/getNavData';
+import { getOrgData, QUERY_KEY_ORG_DATA } from 'features/orgs/getOrgData';
 import { fileToBase64 } from 'lib/base64';
 import { updateOrgLogo } from 'lib/gql/mutations';
 import { MAX_IMAGE_BYTES_LENGTH_BASE64 } from 'lib/images';
@@ -16,10 +17,6 @@ import { LoadingModal, FormInputField } from 'components';
 import { useToast } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { Check, Info } from 'icons/__generated';
-import {
-  getOrgData,
-  QUERY_KEY_ORG_DATA,
-} from 'pages/OrganizationPage/getOrgData';
 import { paths } from 'routes/paths';
 import {
   Avatar,
@@ -52,7 +49,7 @@ const schema = z.object({
   orgLogo: z.instanceof(File).optional(),
 });
 
-export const OrganizationSettingsPage = () => {
+export const OrgSettingsPage = () => {
   const orgId = Number.parseInt(useParams().orgId ?? '-1');
   const navigate = useNavigate();
   const address = useConnectedAddress();
@@ -296,5 +293,3 @@ export const OrganizationSettingsPage = () => {
     </SingleColumnLayout>
   );
 };
-
-export default OrganizationSettingsPage;
