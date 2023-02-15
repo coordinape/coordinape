@@ -1,6 +1,6 @@
 import { VercelApiHandler, VercelRequest, VercelResponse } from '@vercel/node';
 
-import activityHandler from '../../../api-lib/event_triggers/activityHandler';
+import activityHandler from '../../../api-lib/event_triggers/activity/activityHandler';
 import checkNomineeDiscord from '../../../api-lib/event_triggers/checkNomineeDiscord';
 import checkNomineeDiscordBot from '../../../api-lib/event_triggers/checkNomineeDiscordBot';
 import checkNomineeTelegram from '../../../api-lib/event_triggers/checkNomineeTelegram';

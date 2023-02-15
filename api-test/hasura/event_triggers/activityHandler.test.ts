@@ -1,8 +1,8 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 
-import handler from '../../../api-lib/event_triggers/activityHandler';
+import handler from '../../../api-lib/event_triggers/activity/activityHandler';
+import { insertActivity } from '../../../api-lib/event_triggers/activity/activityHandler.mutations';
 import { adminClient } from '../../../api-lib/gql/adminClient';
-import { insertActivity } from '../../../api-lib/gql/mutations';
 
 import { fixtures } from './activityHandler.fixtures';
 
@@ -10,9 +10,12 @@ jest.mock('../../../api-lib/gql/adminClient', () => ({
   adminClient: { query: jest.fn() },
 }));
 
-jest.mock('../../../api-lib/gql/mutations', () => ({
-  insertActivity: jest.fn(),
-}));
+jest.mock(
+  '../../../api-lib/event_triggers/activity/activityHandler.mutations',
+  () => ({
+    insertActivity: jest.fn(),
+  })
+);
 
 describe('#handler', () => {
   afterEach(() => {

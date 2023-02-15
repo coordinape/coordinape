@@ -1,9 +1,10 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { adminClient } from '../gql/adminClient';
-import { insertActivity } from '../gql/mutations';
-import { errorResponse } from '../HttpError';
-import { EventTriggerPayload } from '../types';
+import { adminClient } from '../../gql/adminClient';
+import { errorResponse } from '../../HttpError';
+import { EventTriggerPayload } from '../../types';
+
+import { insertActivity } from './activityHandler.mutations';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   type Events =
