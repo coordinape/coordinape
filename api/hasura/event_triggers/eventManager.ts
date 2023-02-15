@@ -18,6 +18,8 @@ import refundGiveTelegram from '../../../api-lib/event_triggers/refundGiveTelegr
 import refundPendingGift from '../../../api-lib/event_triggers/refundPendingGift';
 import removeTeammate from '../../../api-lib/event_triggers/removeTeammate';
 import sendInteractionEventToMixpanel from '../../../api-lib/event_triggers/sendInteractionEventToMixpanel';
+import userAddedDiscordBot from '../../../api-lib/event_triggers/userAddedDiscordBot';
+import userRemovedDiscordBot from '../../../api-lib/event_triggers/userRemovedDiscordBot';
 import vouchDiscord from '../../../api-lib/event_triggers/vouchDiscord';
 import vouchDiscordBot from '../../../api-lib/event_triggers/vouchDiscordBot';
 import vouchTelegram from '../../../api-lib/event_triggers/vouchTelegram';
@@ -34,6 +36,8 @@ const HANDLERS: HandlerDict = {
   createCircleCRM,
   createContributionInteractionEvent,
   createNomineeDiscord,
+  userAddedDiscordBot,
+  userRemovedDiscordBot,
   createNomineeDiscordBot,
   createNomineeTelegram,
   createVouchedUser,
