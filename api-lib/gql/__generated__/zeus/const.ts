@@ -1701,6 +1701,7 @@ export const AllTypesProps: Record<string, any> = {
     discord_channel_id: 'String_comparison_exp',
     discord_role_id: 'String_comparison_exp',
     id: 'bigint_comparison_exp',
+    server_channel: 'String_comparison_exp',
     updated_at: 'timestamptz_comparison_exp',
   },
   discord_roles_circles_constraint: true,
@@ -1727,6 +1728,7 @@ export const AllTypesProps: Record<string, any> = {
     discord_channel_id: 'order_by',
     discord_role_id: 'order_by',
     id: 'order_by',
+    server_channel: 'order_by',
     updated_at: 'order_by',
   },
   discord_roles_circles_pk_columns_input: {
@@ -8616,6 +8618,7 @@ export const ReturnTypes: Record<string, any> = {
     discord_channel_id: 'String',
     discord_role_id: 'String',
     id: 'bigint',
+    server_channel: 'String',
     updated_at: 'timestamptz',
   },
   discord_roles_circles_aggregate: {
@@ -8645,6 +8648,7 @@ export const ReturnTypes: Record<string, any> = {
     discord_channel_id: 'String',
     discord_role_id: 'String',
     id: 'bigint',
+    server_channel: 'String',
     updated_at: 'timestamptz',
   },
   discord_roles_circles_min_fields: {
@@ -8653,6 +8657,7 @@ export const ReturnTypes: Record<string, any> = {
     discord_channel_id: 'String',
     discord_role_id: 'String',
     id: 'bigint',
+    server_channel: 'String',
     updated_at: 'timestamptz',
   },
   discord_roles_circles_mutation_response: {

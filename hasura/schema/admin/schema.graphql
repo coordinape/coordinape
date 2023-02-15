@@ -6616,6 +6616,7 @@ type discord_roles_circles {
   discord_channel_id: String!
   discord_role_id: String!
   id: bigint!
+  server_channel: String!
   updated_at: timestamptz!
 }
 
@@ -6668,6 +6669,7 @@ input discord_roles_circles_bool_exp {
   discord_channel_id: String_comparison_exp
   discord_role_id: String_comparison_exp
   id: bigint_comparison_exp
+  server_channel: String_comparison_exp
   updated_at: timestamptz_comparison_exp
 }
 
@@ -6704,6 +6706,7 @@ input discord_roles_circles_insert_input {
   discord_channel_id: String
   discord_role_id: String
   id: bigint
+  server_channel: String
   updated_at: timestamptz
 }
 
@@ -6716,6 +6719,7 @@ type discord_roles_circles_max_fields {
   discord_channel_id: String
   discord_role_id: String
   id: bigint
+  server_channel: String
   updated_at: timestamptz
 }
 
@@ -6728,6 +6732,7 @@ type discord_roles_circles_min_fields {
   discord_channel_id: String
   discord_role_id: String
   id: bigint
+  server_channel: String
   updated_at: timestamptz
 }
 
@@ -6765,6 +6770,7 @@ input discord_roles_circles_order_by {
   discord_channel_id: order_by
   discord_role_id: order_by
   id: order_by
+  server_channel: order_by
   updated_at: order_by
 }
 
@@ -6807,6 +6813,11 @@ enum discord_roles_circles_select_column {
   """
   column name
   """
+  server_channel
+
+  """
+  column name
+  """
   updated_at
 }
 
@@ -6819,6 +6830,7 @@ input discord_roles_circles_set_input {
   discord_channel_id: String
   discord_role_id: String
   id: bigint
+  server_channel: String
   updated_at: timestamptz
 }
 
@@ -6870,6 +6882,7 @@ input discord_roles_circles_stream_cursor_value_input {
   discord_channel_id: String
   discord_role_id: String
   id: bigint
+  server_channel: String
   updated_at: timestamptz
 }
 
@@ -6909,6 +6922,11 @@ enum discord_roles_circles_update_column {
   column name
   """
   id
+
+  """
+  column name
+  """
+  server_channel
 
   """
   column name

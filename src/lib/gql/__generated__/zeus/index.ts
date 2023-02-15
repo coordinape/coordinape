@@ -794,6 +794,31 @@ export type ValueTypes = {
     hash?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  ['GuildAdmin']: AliasType<{
+    address?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['GuildInfoInput']: {
+    id: string;
+  };
+  ['GuildInfoOutput']: AliasType<{
+    admins?: ValueTypes['GuildAdmin'];
+    description?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    image_url?: boolean | `@${string}`;
+    member_count?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
+    roles?: ValueTypes['GuildRole'];
+    url_name?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['GuildRole']: AliasType<{
+    id?: boolean | `@${string}`;
+    image_url?: boolean | `@${string}`;
+    member_count?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: {
     _eq?: number | undefined | null;
@@ -6940,6 +6965,10 @@ export type ValueTypes = {
       ValueTypes['epochs']
     ];
     epochs_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['epochs']];
+    getGuildInfo?: [
+      { payload: ValueTypes['GuildInfoInput'] },
+      ValueTypes['GuildInfoOutput']
+    ];
     gift_private?: [
       {
         /** distinct select on columns */
@@ -10625,6 +10654,26 @@ export type ModelTypes = {
     circleApiKey?: GraphQLTypes['circle_api_keys'] | undefined;
     hash: string;
   };
+  ['GuildAdmin']: {
+    address: string;
+  };
+  ['GuildInfoInput']: GraphQLTypes['GuildInfoInput'];
+  ['GuildInfoOutput']: {
+    admins?: Array<GraphQLTypes['GuildAdmin'] | undefined> | undefined;
+    description: string;
+    id: number;
+    image_url: string;
+    member_count: number;
+    name: string;
+    roles?: Array<GraphQLTypes['GuildRole'] | undefined> | undefined;
+    url_name: string;
+  };
+  ['GuildRole']: {
+    id: number;
+    image_url: string;
+    member_count: number;
+    name: string;
+  };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: GraphQLTypes['Int_comparison_exp'];
   ['LinkDiscordCircleInput']: GraphQLTypes['LinkDiscordCircleInput'];
@@ -12565,6 +12614,7 @@ export type ModelTypes = {
     epochs: Array<GraphQLTypes['epochs']>;
     /** fetch data from the table: "epoches" using primary key columns */
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
+    getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** An array relationship */
@@ -13608,6 +13658,31 @@ export type GraphQLTypes = {
     api_key: string;
     circleApiKey?: GraphQLTypes['circle_api_keys'] | undefined;
     hash: string;
+  };
+  ['GuildAdmin']: {
+    __typename: 'GuildAdmin';
+    address: string;
+  };
+  ['GuildInfoInput']: {
+    id: string;
+  };
+  ['GuildInfoOutput']: {
+    __typename: 'GuildInfoOutput';
+    admins?: Array<GraphQLTypes['GuildAdmin'] | undefined> | undefined;
+    description: string;
+    id: number;
+    image_url: string;
+    member_count: number;
+    name: string;
+    roles?: Array<GraphQLTypes['GuildRole'] | undefined> | undefined;
+    url_name: string;
+  };
+  ['GuildRole']: {
+    __typename: 'GuildRole';
+    id: number;
+    image_url: string;
+    member_count: number;
+    name: string;
   };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: {
@@ -18068,6 +18143,7 @@ export type GraphQLTypes = {
     epochs: Array<GraphQLTypes['epochs']>;
     /** fetch data from the table: "epoches" using primary key columns */
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
+    getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** An array relationship */

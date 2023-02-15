@@ -40,6 +40,7 @@ export const AllTypesProps: Record<string, any> = {
     start_date: 'timestamptz',
   },
   GenerateApiKeyInput: {},
+  GuildInfoInput: {},
   Int_comparison_exp: {},
   LinkDiscordCircleInput: {},
   LinkDiscordUserInput: {},
@@ -2935,6 +2936,9 @@ export const AllTypesProps: Record<string, any> = {
     epochs_by_pk: {
       id: 'bigint',
     },
+    getGuildInfo: {
+      payload: 'GuildInfoInput',
+    },
     gift_private: {
       distinct_on: 'gift_private_select_column',
       order_by: 'gift_private_order_by',
@@ -4478,6 +4482,25 @@ export const ReturnTypes: Record<string, any> = {
     circleApiKey: 'circle_api_keys',
     hash: 'String',
   },
+  GuildAdmin: {
+    address: 'String',
+  },
+  GuildInfoOutput: {
+    admins: 'GuildAdmin',
+    description: 'String',
+    id: 'Int',
+    image_url: 'String',
+    member_count: 'Int',
+    name: 'String',
+    roles: 'GuildRole',
+    url_name: 'String',
+  },
+  GuildRole: {
+    id: 'Int',
+    image_url: 'String',
+    member_count: 'Int',
+    name: 'String',
+  },
   LinkDiscordCircleResponse: {
     id: 'Int',
   },
@@ -5438,6 +5461,7 @@ export const ReturnTypes: Record<string, any> = {
     distributions_by_pk: 'distributions',
     epochs: 'epochs',
     epochs_by_pk: 'epochs',
+    getGuildInfo: 'GuildInfoOutput',
     gift_private: 'gift_private',
     locked_token_distribution_gifts: 'locked_token_distribution_gifts',
     locked_token_distribution_gifts_by_pk: 'locked_token_distribution_gifts',
