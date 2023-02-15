@@ -16,10 +16,14 @@ type GetChannelsProps = {
     ReturnType<typeof queries.getProfileAndMembership>
   >['profiles'];
   channels: Channels<DiscordOptsOut>;
+  refunds?: {
+    username: string;
+    give: number;
+  }[];
 };
 
 function getChannels(props: GetChannelsProps): Channels<DiscordOptsOut> {
-  const { channels, circle, data, profiles } = props || {};
+  const { channels, circle, data, profiles, refunds } = props || {};
 
   const { discord_channel_id: channelId, discord_role_id: roleId } =
     circle?.discord_circle || {};
@@ -41,12 +45,7 @@ function getChannels(props: GetChannelsProps): Channels<DiscordOptsOut> {
         discordId: user?.user_snowflake,
         address: data.new.address,
         circleName: circle?.name ?? 'Unknown',
-        // TODO Where to get this?
-        refunds: [
-          { username: 'Alice', give: 10 },
-          { username: 'Bob', give: 15 },
-          { username: 'Mallory', give: 75 },
-        ],
+        refunds: refunds ?? [],
       },
     };
   }
@@ -74,6 +73,12 @@ export default async function handleOptOutMsg(
         data.new.address
       );
 
+      const { pending_token_gifts: refunds } =
+        await queries.getPendingTokenGifts({
+          senderId: data.new.id,
+          epochId: currentEpoch.id,
+        });
+
       await sendSocialMessage({
         // note: give_token_received is susceptible to inconsistencies
         // and will be deprecated. This total will be removed when the column
@@ -84,7 +89,18 @@ export default async function handleOptOutMsg(
             circle?.token_name || 'GIVE'
           } was refunded`,
         circleId: data.new.circle_id,
-        channels: getChannels({ data, circle, channels, profiles }),
+        channels: getChannels({
+          data,
+          circle,
+          channels,
+          profiles,
+          refunds: refunds
+            .filter(({ tokens }) => tokens > 0)
+            .map(({ recipient, tokens }) => ({
+              username: recipient.name,
+              give: tokens,
+            })),
+        }),
       });
       return true;
     }
