@@ -645,7 +645,7 @@ const EpochForm = ({
       css={{
         mb: '$md',
         p: '$md',
-        border: '1px solid $borderDim',
+        border: '1px solid $border',
         width: '100%',
       }}
     >

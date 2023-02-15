@@ -21,6 +21,5 @@ export * from './MainLayout/MainLayout';
 export * from './Network/Network';
 export * from './ProfileSkills';
 export * from './ProfileSocialIcons';
-export * from './ReceiveInfo/ReceiveInfo';
 export * from './SkillToggles';
 export * from './Table';

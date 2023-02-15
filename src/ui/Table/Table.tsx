@@ -34,7 +34,7 @@ export const Table = styled('table', {
     height: '$1xl',
   },
   'tbody tr:first-child': {
-    borderTop: '0.5px solid $border',
+    borderTop: '0.5px solid $borderTable',
   },
 });
 

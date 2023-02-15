@@ -9,13 +9,13 @@ import { CSS } from 'stitches.config';
 import * as z from 'zod';
 
 import { FormInputField } from 'components';
-import { useReceiveInfo } from 'components/ReceiveInfo/useReceiveInfo';
 import { useToast } from 'hooks';
 import { Edit, Give, PlusCircle } from 'icons/__generated';
 import { paths } from 'routes/paths';
 import { Box, Panel, Text, Button, Flex, IconButton, HR } from 'ui';
 
 import { NotesSection } from './Notes';
+import { useReceiveInfo } from './useReceiveInfo';
 
 type Props = {
   epoch: {
@@ -108,7 +108,7 @@ export const CurrentEpochPanel = ({
           column
           css={{
             gap: '$lg',
-            borderLeft: '1px solid $borderDim',
+            borderLeft: '1px solid $border',
             pl: '$xl',
             '@sm': {
               borderLeft: 'none',
@@ -158,7 +158,7 @@ export const CurrentEpochPanel = ({
             '.epochFormContainer': {
               m: '$lg 0 0 0',
               px: '0',
-              borderTop: '1px dashed $borderDim',
+              borderTop: '1px dashed $border',
               borderRadius: 0,
               gridColumn: '1 / 3',
             },
@@ -291,18 +291,13 @@ const EpochDescription = ({
           <Text
             medium
             css={{
-              color: '$ctaHover',
+              color: '$ctaDim',
             }}
           >
             {description}
           </Text>
           {isAdmin && (
-            <IconButton
-              onClick={() => setEditDescription(true)}
-              css={{
-                color: '$ctaHover',
-              }}
-            >
+            <IconButton inlineLink onClick={() => setEditDescription(true)}>
               <Edit />
             </IconButton>
           )}

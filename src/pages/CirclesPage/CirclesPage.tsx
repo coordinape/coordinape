@@ -15,7 +15,17 @@ import {
   EXTERNAL_URL_GET_STARTED,
   paths,
 } from 'routes/paths';
-import { Box, Button, ContentHeader, Flex, Image, Link, Panel, Text } from 'ui';
+import {
+  Box,
+  Button,
+  ContentHeader,
+  Flex,
+  HR,
+  Image,
+  Link,
+  Panel,
+  Text,
+} from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { getOrgData, QUERY_KEY_MY_ORGS } from './getOrgData';
@@ -125,7 +135,7 @@ const buttons: [
 
 const nonMemberPanelCss: CSS = {
   backgroundColor: '$background',
-  borderColor: '$borderMedium',
+  borderColor: '$borderContrast',
 };
 
 export type CircleRowProps = {
@@ -136,6 +146,27 @@ export type CircleRowProps = {
 const GetStarted = () => {
   return (
     <>
+      <Panel>
+        <HR css={{ backgroundColor: '$borderDim' }} />
+        <HR css={{ backgroundColor: '$border' }} />
+        <HR css={{ backgroundColor: '$borderContrast' }} />
+      </Panel>
+      <Panel css={{ background: '$surfaceNested' }}>
+        <HR css={{ backgroundColor: '$borderDim' }} />
+        <HR css={{ backgroundColor: '$border' }} />
+        <HR css={{ backgroundColor: '$borderContrast' }} />
+      </Panel>
+      <Panel css={{ background: '$navBackground' }}>
+        <HR css={{ backgroundColor: '$borderDim' }} />
+        <HR css={{ backgroundColor: '$border' }} />
+        <HR css={{ backgroundColor: '$borderContrast' }} />
+      </Panel>
+      <Panel css={{ background: '$background' }}>
+        <HR css={{ backgroundColor: '$borderDim' }} />
+        <HR css={{ backgroundColor: '$border' }} />
+        <HR css={{ backgroundColor: '$borderContrast' }} />
+      </Panel>
+
       <HintBanner title={'Get Started'}>
         <Text p as="p" css={{ color: 'inherit' }}>
           An Organization houses all of your Circles in Coordinape. A Circle is
@@ -184,7 +215,7 @@ const epochDescription = (epoch: QueryCircle['epochs'][number]) => {
 export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
   const role = circle.users[0]?.role;
   const nonMember = role === undefined;
-  const nonMemberCss = nonMember ? { color: '$borderMedium' } : {};
+  const nonMemberCss = nonMember ? { color: '$secondaryText' } : {};
 
   const epoch = circle.epochs[0];
   const nomineeCount =
@@ -311,7 +342,7 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
               <Text
                 css={{
                   fontSize: '$medium',
-                  color: '$borderMedium',
+                  color: '$secondaryText',
                   '@sm': { fontSize: '$small' },
                   ...nonMemberCss,
                 }}

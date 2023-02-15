@@ -21,7 +21,7 @@ export const ContributionRow = ({
       {...rest}
       tabIndex={0}
       css={{
-        border: active ? '1px solid transparent' : '1px solid $borderDim',
+        border: active ? '1px solid transparent' : '1px solid $border',
         cursor: disabled ? 'auto' : 'pointer',
         opacity: disabled ? 0.5 : 1.0,
         transition: 'background-color 0.3s, border-color 0.3s',

@@ -69,7 +69,7 @@ export const MyGiveRow = ({
           borderColor: 'transparent',
           background: '$activePanel',
           '&:hover': {
-            borderColor: '$borderDim',
+            borderColor: '$border',
           },
           '@sm': {
             py: '$sm',

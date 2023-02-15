@@ -1,7 +1,7 @@
-import { useReceiveInfo } from '../../components/ReceiveInfo/useReceiveInfo';
 import { isUserAdmin } from '../../lib/users';
 import { CSS } from '../../stitches.config';
 import { Text } from '../../ui';
+import { useReceiveInfo } from 'pages/HistoryPage/useReceiveInfo';
 
 export const NavCurrentCircleGiveCount = ({
   circleId,

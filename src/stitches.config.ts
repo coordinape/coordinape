@@ -2,7 +2,6 @@ import { createStitches } from '@stitches/react';
 import type * as Stitches from '@stitches/react';
 export type { VariantProps } from '@stitches/react';
 
-import { colors as figmaColors } from 'ui/colors';
 import { newColors as newFigmaColors } from 'ui/new-colors';
 
 // FIXME these don't match the Material-UI breakpoints
@@ -69,7 +68,8 @@ const spaces = {
 export const colors = {
   white: newFigmaColors.grey1,
   black: newFigmaColors.grey10,
-  link: newFigmaColors.secondary5,
+  link: newFigmaColors.secondary4,
+  linkHover: newFigmaColors.secondary5,
   text: newFigmaColors.grey7,
   headingText: newFigmaColors.grey7,
   secondaryText: newFigmaColors.grey6,
@@ -81,11 +81,11 @@ export const colors = {
   navLinkText: newFigmaColors.grey7,
   navLinkHoverBackground: newFigmaColors.grey1,
   highlight: newFigmaColors.secondary1,
-  border: newFigmaColors.grey5,
   hr: newFigmaColors.grey5,
   contentHeaderBorder: newFigmaColors.grey3,
-  borderMedium: newFigmaColors.grey6,
   borderDim: newFigmaColors.grey4,
+  border: newFigmaColors.grey5,
+  borderContrast: newFigmaColors.grey6,
   borderFocus: newFigmaColors.secondary4,
   borderFocusBright: newFigmaColors.secondary5,
   borderTable: newFigmaColors.grey4,
@@ -96,22 +96,15 @@ export const colors = {
   textOnDim: newFigmaColors.grey5,
 
   cta: newFigmaColors.secondary4,
-  ctaHover: newFigmaColors.secondary5,
+  ctaDim: newFigmaColors.secondary5,
+  ctaHover: '$ctaDim',
   textOnCta: newFigmaColors.grey1,
 
   primary: newFigmaColors.grey8,
   primaryHover: newFigmaColors.grey10,
-
-  primaryDark: newFigmaColors.grey10,
-  primaryLight: newFigmaColors.grey6,
-  primaryDisabled: newFigmaColors.grey4,
   textOnPrimary: newFigmaColors.grey2,
 
   secondary: newFigmaColors.grey8,
-  secondaryHover: newFigmaColors.grey10,
-  secondaryLight: figmaColors.blue4,
-  secondaryMedium: figmaColors.blue8,
-  secondaryDark: figmaColors.blue4,
   textOnSecondary: newFigmaColors.grey1,
 
   primaryButton: newFigmaColors.grey8,
@@ -150,22 +143,10 @@ export const colors = {
   profileGradientEnd: newFigmaColors.grey2,
 
   alert: newFigmaColors.error5,
-  alertLight: newFigmaColors.error4,
-  alertDisabled: newFigmaColors.error3,
-  alertDark: newFigmaColors.error7,
-  textOnAlert: newFigmaColors.error1,
-
   success: newFigmaColors.success5,
-  successLight: newFigmaColors.success4,
-  successDisabled: newFigmaColors.success3,
-  successDark: newFigmaColors.success6,
-
   neutral: newFigmaColors.neutral4,
-  textOnNeutral: newFigmaColors.neutral1,
-
   complete: '$success',
-  completeLight: '$successLight',
-  blurple: figmaColors.discordblurple,
+  blurple: '#5865f2',
 
   avatarFallback: newFigmaColors.grey6,
   avatarFallbackText: newFigmaColors.grey2,
@@ -415,7 +396,8 @@ export const {
 export const dark = createTheme({
   colors: {
     cta: newFigmaColors.primary4,
-    ctaHover: newFigmaColors.primary6,
+    ctaDim: newFigmaColors.primary6,
+    ctaHover: '$ctaDim',
     textOnCta: newFigmaColors.primary10,
 
     primary: newFigmaColors.grey7,
@@ -452,12 +434,9 @@ export const dark = createTheme({
     neutralButtonTextHover: newFigmaColors.grey8,
 
     secondary: newFigmaColors.secondary5,
-    secondaryMedium: newFigmaColors.secondary7,
-    secondaryDark: newFigmaColors.secondary9,
     textOnSecondary: newFigmaColors.grey3,
 
     neutral: newFigmaColors.grey6,
-    textOnNeutral: newFigmaColors.grey4,
     dim: newFigmaColors.grey8,
     dimButtonHover: newFigmaColors.grey9,
     textOnDim: newFigmaColors.grey5,
@@ -480,6 +459,7 @@ export const dark = createTheme({
     info: newFigmaColors.secondary10,
     textOnInfo: newFigmaColors.grey1,
     link: newFigmaColors.primary4,
+    linkHover: newFigmaColors.primary3,
     alert: newFigmaColors.error6,
     complete: newFigmaColors.success5,
     toggleButtonYes: '$cta',
@@ -489,9 +469,9 @@ export const dark = createTheme({
     avatarFallback: newFigmaColors.grey7,
     avatarFallbackText: newFigmaColors.grey2,
 
-    border: newFigmaColors.grey9,
-    borderMedium: newFigmaColors.grey6,
-    borderDim: newFigmaColors.grey7,
+    borderDim: newFigmaColors.grey8,
+    border: newFigmaColors.grey7,
+    borderContrast: newFigmaColors.grey6,
     contentHeaderBorder: newFigmaColors.grey7,
     borderFocus: newFigmaColors.primary5,
     borderFocusBright: newFigmaColors.primary3,

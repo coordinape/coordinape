@@ -8,7 +8,7 @@ export const ToggleButton = styled('button', {
   px: '$md',
   border: '2px solid',
   borderRadius: '$3',
-  borderColor: '$borderMedium',
+  borderColor: '$border',
   background: '$dim',
   fontSize: '$small',
   opacity: 0.25,

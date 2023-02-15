@@ -65,7 +65,7 @@ export const EpochPanel = ({
       <Flex
         column
         css={{
-          borderLeft: '1px solid $borderDim',
+          borderLeft: '1px solid $border',
           pl: '$xl',
           gap: '$lg',
           '@sm': {

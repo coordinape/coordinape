@@ -43,6 +43,7 @@ const COMPOSERS = {
         cursor: 'pointer',
         '&:hover': {
           textDecoration: 'underline',
+          color: '$linkHover',
         },
       },
     },

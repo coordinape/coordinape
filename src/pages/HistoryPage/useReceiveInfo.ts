@@ -4,7 +4,7 @@ import { useQuery } from 'react-query';
 import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 
-import { QUERY_KEY_RECEIVE_INFO } from './ReceiveInfo';
+export const QUERY_KEY_RECEIVE_INFO = 'getReceiveInfo';
 
 export const useReceiveInfo = (circleId: number, userId: number) => {
   const { data } = useQuery(

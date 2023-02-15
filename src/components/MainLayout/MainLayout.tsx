@@ -23,7 +23,6 @@ export const MainLayout = () => {
       }}
     >
       <Flex css={{ height: 'auto' }}>
-        {/*// TODO(rebrand): remove this after rebrand launch*/}
         <SideNav />
         <Box css={{ width: '100%' }}>
           <GlobalUi />

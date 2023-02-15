@@ -198,7 +198,7 @@ const HelpButton = () => {
             </Flex>
           </PopupButton>
         </Button>
-        <Box css={{ borderTop: '0.5px solid $borderDim', mt: '$sm' }}>
+        <Box css={{ borderTop: '0.5px solid $border', mt: '$sm' }}>
           <HelpOption
             href={EXTERNAL_URL_DOCS}
             icon={<FileText size={'md'} color={'text'} />}
