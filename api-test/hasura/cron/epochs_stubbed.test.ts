@@ -118,6 +118,7 @@ const mockEpoch = {
   },
 };
 
+console.log('derp');
 function getTestInput(mockInput: {
   notifyStartEpochs?: EpochsToNotify['notifyStartEpochs'];
   notifyEndEpochs?: EpochsToNotify['notifyEndEpochs'];
@@ -804,7 +805,7 @@ describe('epoch Cron Logic', () => {
           isDiscordBot: true,
           discordBot: {
             channelId: '123',
-            circleHistoryLink: 'https://app.coordinape.com/circles/1/history',
+            circleId: 1,
             circleName: 'mock Org/circle with ending epoch',
             endTime: mockEpoch.notifyEndEpochs.end_date,
             epochName: 'Epoch 3',
@@ -855,7 +856,7 @@ describe('epoch Cron Logic', () => {
           isDiscordBot: true,
           discordBot: {
             channelId: '123',
-            circleHistoryLink: 'https://app.coordinape.com/circles/1/history',
+            circleId: 1,
             circleName: 'mock Org/circle with ending epoch',
             endTime: mockEpoch.notifyEndEpochs.end_date,
             epochName: 'Epoch 3',
@@ -962,6 +963,7 @@ describe('epoch Cron Logic', () => {
           isDiscordBot: true,
           discordBot: {
             channelId: '123',
+            circleId: 5,
             circleName: 'mock Org/mockCircle',
             endTime: mockEpoch.notifyStartEpochs.end_date,
             epochName: 'Epoch 1',
