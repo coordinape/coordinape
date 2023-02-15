@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { globalStyles } from '../src/stitches.config';
-import { newColors as colors } from '../src/ui/new-colors';
+import { newColors as figmaColors } from '../src/ui/new-colors';
 
 export const decorators = [
   Story => {
@@ -14,7 +14,7 @@ export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
   controls: {
     expanded: true,
-    presetColors: colors,
+    presetColors: figmaColors,
     hideNoControlsWarning: true,
     matchers: {
       color: /(background|color)$/i,
