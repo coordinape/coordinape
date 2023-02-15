@@ -285,9 +285,11 @@ export const EpochStatementDrawer = ({
           )}
           <Flex
             css={{
+              mt: '$sm',
               justifyContent: 'flex-end',
               alignItems: 'center',
-              mt: '$sm',
+              gap: '$md',
+              '@sm': { flexDirection: 'row-reverse' },
             }}
           >
             <SavingIndicator

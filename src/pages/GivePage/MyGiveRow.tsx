@@ -72,7 +72,7 @@ export const MyGiveRow = ({
             borderColor: '$border',
           },
           '@sm': {
-            py: '$sm',
+            py: '$sm !important',
           },
         }}
       >

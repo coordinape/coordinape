@@ -67,7 +67,7 @@ export const VaultTransactions = () => {
 
   return (
     <SingleColumnLayout>
-      <Panel>
+      <Panel css={{ p: '$lg' }}>
         <Text h2>
           All Transactions for {getDisplayTokenString(vault)} Vault
           <VaultExternalLink

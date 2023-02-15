@@ -60,8 +60,11 @@ export const GiveAllocator = ({
       css={{
         minWidth: small ? 0 : '13.5rem',
         width: small ? '10.5rem' : 'auto',
-        minHeight: 'calc($2xl + $xs - 1px)',
         alignItems: 'center',
+        minHeight: 'calc($2xl + $xs - 1px)',
+        '@sm': {
+          minHeight: 0,
+        },
         ...css,
       }}
     >

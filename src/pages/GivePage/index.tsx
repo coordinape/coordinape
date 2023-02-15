@@ -802,7 +802,14 @@ const AllocateContents = ({
           zIndex: 3,
           mb: '$md',
           borderRadius: '$3',
-          '@sm': { boxShadow: '$shadowBottom' },
+          '@sm': {
+            background: '$background',
+            pt: '$sm',
+            boxShadow: '$shadowBottom',
+            top: '-3px',
+            borderTopLeftRadius: 0,
+            borderTopRightRadius: 0,
+          },
         }}
       >
         <Box css={{ mb: '$lg' }}>
@@ -865,8 +872,8 @@ const AllocateContents = ({
                 css={{
                   '@sm': {
                     flexGrow: '1',
-                    mx: '-$md',
-                    mb: '-$md',
+                    // mx: '-$md',
+                    // mb: '-$md',
                   },
                 }}
               >

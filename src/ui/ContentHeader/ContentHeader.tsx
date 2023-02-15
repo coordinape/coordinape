@@ -24,7 +24,6 @@ const ContentHeader = ({
         '@sm': {
           position: 'static',
           zIndex: 'auto',
-          mr: '-$xl',
         },
       }}
     >

@@ -222,7 +222,13 @@ export const GiveDrawer = ({
           }}
           alignItems="center"
         >
-          <Flex css={{ justifyContent: 'flex-end' }}>
+          <Flex
+            css={{
+              justifyContent: 'flex-end',
+              gap: '$md',
+              '@sm': { flexDirection: 'row-reverse' },
+            }}
+          >
             <SavingIndicator
               css={{ mr: '$md' }}
               saveState={saveState}

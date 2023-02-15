@@ -31,7 +31,7 @@ export const GiveRowGrid = ({
           },
         },
         '@sm': {
-          p: '$md',
+          p: '$sm !important',
         },
         ...css,
       }}

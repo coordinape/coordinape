@@ -74,18 +74,31 @@ export const EpochPanel = ({
           },
         }}
       >
-        <Flex css={{ alignItems: 'center', gap: '$2xl' }}>
-          <Flex column css={{ gap: '$sm' }}>
-            <Text variant="label">You Received</Text>
-            <Text bold size="large">
-              {totalReceived} {tokenName}
-            </Text>
-          </Flex>
-          <Flex column css={{ gap: '$sm' }}>
-            <Text variant="label">Total Distributed</Text>
-            <Text bold size="large">
-              {totalAllocated} {tokenName}
-            </Text>
+        <Flex
+          row
+          css={{
+            alignItems: 'center',
+            gap: '$2xl',
+            '@sm': {
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+              gap: '$md',
+            },
+          }}
+        >
+          <Flex row css={{ gap: '$lg' }}>
+            <Flex column css={{ gap: '$sm' }}>
+              <Text variant="label">You Received</Text>
+              <Text bold size="large">
+                {totalReceived} {tokenName}
+              </Text>
+            </Flex>
+            <Flex column css={{ gap: '$sm' }}>
+              <Text variant="label">Total Distributed</Text>
+              <Text bold size="large">
+                {totalAllocated} {tokenName}
+              </Text>
+            </Flex>
           </Flex>
           <Flex column>
             <DistributionSummary
@@ -101,7 +114,7 @@ export const EpochPanel = ({
                     as={AppLink}
                     to={paths.distributions(circleId, epoch.id)}
                   >
-                    Review &amp; Export
+                    Review & Export
                   </Button>
                 ) : (
                   <Link

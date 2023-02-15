@@ -262,7 +262,7 @@ const MembersPage = () => {
           vouchingText={circle.vouchingText}
         />
       )}
-      <Panel>
+      <Panel css={{ p: '$lg' }}>
         <Flex css={{ justifyContent: 'space-between', mb: '$md' }}>
           <Text h3 css={{ fontWeight: '$semibold', color: '$headingText' }}>
             Members

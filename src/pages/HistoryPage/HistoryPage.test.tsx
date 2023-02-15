@@ -12,7 +12,7 @@ jest.mock('recoilState/app', () => ({
   })),
 }));
 
-jest.mock('components/ReceiveInfo/useReceiveInfo', () => {
+jest.mock('pages/HistoryPage/useReceiveInfo', () => {
   return {
     useReceiveInfo: () => ({ showGives: false }),
   };

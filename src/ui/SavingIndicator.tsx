@@ -32,7 +32,7 @@ export const SavingIndicator = ({
   retry?: () => void;
 }) => {
   return (
-    <Flex alignItems="center" css={{ ...css, minHeight: '$lg' }}>
+    <Flex alignItems="center" css={{ ...css }}>
       <Text size="small">
         {(saveState == 'saving' ||
           saveState == 'scheduled' ||

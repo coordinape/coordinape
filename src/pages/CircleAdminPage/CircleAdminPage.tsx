@@ -547,6 +547,10 @@ export const CircleAdminPage = () => {
                 flexWrap: 'wrap',
                 mt: '$lg',
                 gap: '$2xl',
+                '@sm': {
+                  flexDirection: 'column',
+                  gap: '$lg',
+                },
               }}
             >
               <FormRadioGroup
