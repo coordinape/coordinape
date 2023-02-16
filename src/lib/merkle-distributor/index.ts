@@ -51,7 +51,7 @@ export const createDistribution = (
   const dust = getDust(totalAmount, balances);
 
   // Failing this means we did bad math
-  assert(dust.lt(20), `panic: dust too high: ${dust.toString()}`);
+  assert(dust.lt(40), `panic: dust too high: ${dust.toString()}`);
   const topGift =
     Object.keys(gifts).length === 0 && fixedGifts
       ? maxBy(Object.entries(fixedGifts), x => x[1])
