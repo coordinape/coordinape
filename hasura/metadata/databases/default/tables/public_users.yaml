@@ -168,8 +168,9 @@ event_triggers:
       enable_manual: false
       update:
         columns:
-          - non_receiver
           - non_giver
+          - deleted_at
+          - non_receiver
     retry_conf:
       interval_sec: 10
       num_retries: 5
