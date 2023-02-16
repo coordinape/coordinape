@@ -24,6 +24,7 @@ export const Text = styled('span', {
       complete: { color: '$complete' },
       inherit: { color: 'inherit' },
     },
+    bold: { true: { fontWeight: '$bold !important' } },
     normal: { true: { fontWeight: '$normal !important' } },
     medium: { true: { fontWeight: '$medium !important' } },
     semibold: { true: { fontWeight: '$semibold !important' } },
