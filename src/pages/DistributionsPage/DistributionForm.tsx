@@ -49,7 +49,7 @@ import { mapProfileIdsByAddress } from './utils';
 const logger = new DebugLogger('DistributionForm');
 
 const headerStyle = {
-  fontWeight: '$bold',
+  fontWeight: '$semibold',
   color: '$headingText',
 };
 

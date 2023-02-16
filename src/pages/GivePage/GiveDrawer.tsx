@@ -207,7 +207,7 @@ export const GiveDrawer = ({
             margin="none"
             css={{ mr: '$sm' }}
           />
-          <Text ellipsis h3 semibold>
+          <Text ellipsis large semibold>
             {member.profile.name ?? member.name}
           </Text>
         </Flex>
@@ -222,7 +222,13 @@ export const GiveDrawer = ({
           }}
           alignItems="center"
         >
-          <Flex css={{ justifyContent: 'flex-end' }}>
+          <Flex
+            css={{
+              justifyContent: 'flex-end',
+              gap: '$md',
+              '@sm': { flexDirection: 'row-reverse' },
+            }}
+          >
             <SavingIndicator
               css={{ mr: '$md' }}
               saveState={saveState}
@@ -329,7 +335,7 @@ export const GiveDrawer = ({
       <Flex
         column
         css={{
-          borderTop: '0.5px solid $borderDim',
+          borderTop: '1px solid $border',
           mt: '$lg',
           pt: '$lg',
           gap: '$md',
@@ -344,7 +350,7 @@ export const GiveDrawer = ({
               css={{
                 mb: '$xs',
                 p: '$md $sm',
-                borderBottom: '1px solid $borderDim',
+                borderBottom: '1px solid $border',
               }}
             >
               <MarkdownPreview display source={member.bio} />
@@ -393,10 +399,7 @@ export const GiveDrawer = ({
                     ellipsis
                     css={{
                       cursor: 'default',
-                      backgroundColor: 'rgb(225 229 232) !important',
-                      borderColor: '$borderMedium !important',
-                      boxShadow: '$shadow1',
-                      border: '1px solid transparent',
+                      backgroundColor: '$dim',
                       minHeight: 0,
                       borderRadius: '$1',
                       p: '$md',

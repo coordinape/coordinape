@@ -61,7 +61,7 @@ const headerStyles = {
   color: '$secondaryText',
   textTransform: 'uppercase',
   fontSize: '$small',
-  fontWeight: '$bold',
+  fontWeight: '$semibold',
   lineHeight: '$shorter',
 };
 
@@ -492,7 +492,7 @@ const MemberRow = ({
         <TR key={user.address}>
           <TD colSpan={isMobile ? 6 : 9}>
             <Form>
-              <Text h3 semibold css={{ my: '$md' }}>
+              <Text large semibold css={{ my: '$md' }}>
                 {user.name} Member Settings
               </Text>
               <Flex
@@ -568,7 +568,7 @@ const MemberRow = ({
                 <Divider />
                 <Divider />
                 <Flex column css={{ mt: '-16px' }}>
-                  <Text h3 css={{ mb: '$md', fontWeight: '$semibold' }}>
+                  <Text large css={{ mb: '$md', fontWeight: '$semibold' }}>
                     Gift Circle
                   </Text>
                   <Flex css={{ gap: '$md', mb: '$md', flexWrap: 'wrap' }}>
@@ -704,13 +704,10 @@ const MemberRow = ({
                   />
                 </Flex>
                 <Flex column css={{ mt: '-16px' }}>
-                  <Text h3 css={{ mb: '$md', fontWeight: '$semibold' }}>
+                  <Text large css={{ mb: '$md', fontWeight: '$semibold' }}>
                     Fixed Payment
                   </Text>
-                  <Flex
-                    css={{ gap: '$md', flexWrap: 'wrap', mb: '$md' }}
-                    disabled={!fixedPaymentToken}
-                  >
+                  <Flex css={{ gap: '$md', flexWrap: 'wrap', mb: '$md' }}>
                     <FormInputField
                       id="fixed_payment_amount"
                       name="fixed_payment_amount"
@@ -720,6 +717,7 @@ const MemberRow = ({
                       label="Member Fixed Payment"
                       infoTooltip="Fixed Amount tokens allocated to this user regardless of gives received"
                       showFieldErrors
+                      disabled={!fixedPaymentToken}
                     />
                     <Flex column css={{ gap: '$xs' }}>
                       <Text variant="label" as="label">

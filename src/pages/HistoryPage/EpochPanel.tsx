@@ -41,6 +41,7 @@ export const EpochPanel = ({
   return (
     <Panel
       css={{
+        p: '$lg',
         alignItems: 'start',
         display: 'grid',
         gridTemplateColumns: '1fr 3fr',
@@ -50,22 +51,22 @@ export const EpochPanel = ({
       }}
     >
       <Flex column css={{ gap: '$sm' }}>
-        <Text semibold inline h2>
+        <Text semibold inline h1>
           {startDate.toFormat('MMM')} {startDate.toFormat('d')} -{' '}
           {endDate.toFormat(endDateFormat)}
         </Text>
-        {epoch.description ? (
-          <Text p>{epoch.description}</Text>
-        ) : (
-          <Text inline h3>
-            Epoch {epoch.number}
-          </Text>
-        )}
+        <Text p as="p">
+          {epoch.description ? (
+            <>{epoch.description}</>
+          ) : (
+            <>Epoch {epoch.number}</>
+          )}
+        </Text>
       </Flex>
       <Flex
         column
         css={{
-          borderLeft: '1px solid $borderDim',
+          borderLeft: '1px solid $border',
           pl: '$xl',
           gap: '$lg',
           '@sm': {
@@ -74,18 +75,31 @@ export const EpochPanel = ({
           },
         }}
       >
-        <Flex css={{ alignItems: 'center', gap: '$2xl' }}>
-          <Flex column css={{ gap: '$sm' }}>
-            <Text variant="label">You Received</Text>
-            <Text bold size="large">
-              {totalReceived} {tokenName}
-            </Text>
-          </Flex>
-          <Flex column css={{ gap: '$sm' }}>
-            <Text variant="label">Total Distributed</Text>
-            <Text bold size="large">
-              {totalAllocated} {tokenName}
-            </Text>
+        <Flex
+          row
+          css={{
+            alignItems: 'center',
+            gap: '$2xl',
+            '@sm': {
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+              gap: '$md',
+            },
+          }}
+        >
+          <Flex row css={{ gap: '$lg' }}>
+            <Flex column css={{ gap: '$sm' }}>
+              <Text variant="label">You Received</Text>
+              <Text bold size="large" color="heading">
+                {totalReceived} {tokenName}
+              </Text>
+            </Flex>
+            <Flex column css={{ gap: '$sm' }}>
+              <Text variant="label">Total Distributed</Text>
+              <Text bold size="large" color="heading">
+                {totalAllocated} {tokenName}
+              </Text>
+            </Flex>
           </Flex>
           <Flex column>
             <DistributionSummary
@@ -101,7 +115,7 @@ export const EpochPanel = ({
                     as={AppLink}
                     to={paths.distributions(circleId, epoch.id)}
                   >
-                    Review &amp; Export
+                    Review & Export
                   </Button>
                 ) : (
                   <Link

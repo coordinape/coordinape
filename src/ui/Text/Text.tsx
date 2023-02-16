@@ -13,6 +13,7 @@ export const Text = styled('span', {
   variants: {
     color: {
       default: { color: '$text' },
+      heading: { color: '$headingText' },
       neutral: { color: '$neutral' },
       alert: { color: '$alert' },
       warning: { color: '$warning' },
@@ -47,11 +48,11 @@ export const Text = styled('span', {
         '@sm': { fontSize: '$h3' },
       },
     },
-    h3: {
+    large: {
       true: {
-        fontSize: '$h3',
+        fontSize: '$large',
         letterSpacing: '$header',
-        '@sm': { fontSize: '$large' },
+        '@sm': { fontSize: '$medium' },
       },
     },
 

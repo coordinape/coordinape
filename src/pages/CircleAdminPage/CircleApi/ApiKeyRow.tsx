@@ -32,7 +32,7 @@ export function ApiKeyRow({
     <Flex css={{ flexDirection: 'column', flex: 1 }}>
       <Box css={{ display: 'flex', alignItems: 'start', gap: '$md', flex: 1 }}>
         <Box css={{ flexGrow: 1 }}>
-          <Text h3 semibold>
+          <Text large semibold>
             {apiKey.name}
           </Text>
           <Text size={'small'} color={'neutral'}>

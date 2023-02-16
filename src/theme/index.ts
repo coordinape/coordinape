@@ -187,7 +187,6 @@ const themeOptions = {
     },
     primary: {
       main: customColor.primary,
-      dark: customColor.primaryDark,
       contrastText: customColor.white,
     },
     secondary: {

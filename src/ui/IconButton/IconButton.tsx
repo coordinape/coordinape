@@ -10,7 +10,6 @@ import { modifyVariantsForStory } from '../type-utils';
 export const IconButton = styled('button', {
   alignItems: 'center',
   appearance: 'none',
-  borderWidth: '0',
   boxSizing: 'border-box',
   display: 'inline-flex',
   flexShrink: 0,
@@ -23,20 +22,18 @@ export const IconButton = styled('button', {
   textDecoration: 'none',
   userSelect: 'none',
   WebkitTapHighlightColor: 'transparent',
-  color: '$secondaryText',
   cursor: 'pointer',
+  color: '$secondaryText',
+  '@hover': {
+    '&:hover': {
+      color: '$linkHover',
+    },
+  },
   '&::before': {
     boxSizing: 'border-box',
   },
   '&::after': {
     boxSizing: 'border-box',
-  },
-  backgroundColor: '$surface',
-  border: '1px solid $border',
-  '@hover': {
-    '&:hover': {
-      borderColor: '$border',
-    },
   },
   '&:disabled': {
     pointerEvents: 'none',
@@ -72,24 +69,17 @@ export const IconButton = styled('button', {
         color: '$white',
       },
     },
-    variant: {
-      ghost: {
-        backgroundColor: 'transparent',
-        borderWidth: '0',
-        '@hover': {
-          '&:hover': {
-            backgroundColor: '$transparent',
-          },
-        },
-        '&:active': {
-          backgroundColor: '$transparent',
+    inlineLink: {
+      true: {
+        color: '$link',
+        '&:hover': {
+          color: '$linkHover',
         },
       },
     },
   },
   defaultVariants: {
     size: 'xs',
-    variant: 'ghost',
   },
 });
 

@@ -644,8 +644,8 @@ const EpochForm = ({
       className="epochFormContainer"
       css={{
         mb: '$md',
-        p: '$md',
-        border: '1px solid $borderDim',
+        p: '$md $lg',
+        border: '1px solid $border',
         width: '100%',
       }}
     >
@@ -693,7 +693,7 @@ const EpochForm = ({
             <Flex column css={{ rowGap: '$lg' }}>
               <TwoColumnLayout>
                 <Flex column>
-                  <Text h3 semibold>
+                  <Text large semibold>
                     Epoch Settings
                   </Text>
                   <Text p size="small" css={{ mt: '$sm ' }}>

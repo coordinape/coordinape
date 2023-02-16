@@ -49,7 +49,7 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
   return (
     <div>
       <Flex column alignItems="start" css={{ mb: '$lg' }}>
-        <Text h3 semibold css={{ mb: '$md' }}>
+        <Text large semibold css={{ mb: '$md' }}>
           Dework Integration
         </Text>
         <Flex
@@ -99,7 +99,7 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
       </Flex>
       <HR />
       <Flex column alignItems="start" css={{ mb: '$lg' }}>
-        <Text h3 semibold css={{ mb: '$md' }}>
+        <Text large semibold css={{ mb: '$md' }}>
           Wonderverse Integration
         </Text>
         <Flex
@@ -149,7 +149,7 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
       </Flex>
       <HR />
       <Flex column alignItems="start">
-        <Text h3 semibold css={{ mb: '$md' }}>
+        <Text large semibold css={{ mb: '$md' }}>
           Parcel
         </Text>
         <Button

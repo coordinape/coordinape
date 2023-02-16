@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { dark, light, theme as legacyTheme } from '../../stitches.config';
+import { dark, theme as light } from '../../stitches.config';
 
 import {
   getMediaTheme,
@@ -19,7 +19,7 @@ const { createContext, useState, useEffect } = React;
 const defaultThemeName = 'dark';
 const defaultTheme = dark;
 
-type Theme = 'dark' | 'light' | 'legacy';
+type Theme = 'dark' | 'light';
 
 type ThemeProviderType = {
   themePreference: ThemePreference;
@@ -38,11 +38,10 @@ const initialValues: ThemeProviderType = {
 export const ThemeContext = createContext<ThemeProviderType>(initialValues);
 
 type AvailableThemes = {
-  [x: string]: typeof legacyTheme | typeof dark | typeof light;
+  [x: string]: typeof light | typeof dark;
 };
 
 const available_themes: AvailableThemes = {
-  legacy: legacyTheme, // stitches' default theme
   dark: dark,
   light: light,
 };
@@ -56,7 +55,6 @@ const useTheme = (): ThemeProviderType => {
   const [osTheme, setOsTheme] = useState<MediaTheme | null>(getMediaTheme());
   const html = document.documentElement;
 
-  // set the starting theme, preferring saved, then legacy
   // in the future this should prefer auto if no saved
   useEffect(() => {
     const initialTheme = getSavedThemePreference();

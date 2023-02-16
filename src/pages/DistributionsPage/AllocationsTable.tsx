@@ -111,7 +111,7 @@ export const AllocationsTable = ({
           mb: '$lg',
         }}
       >
-        <Text h3 css={{ fontWeight: '$semibold', color: '$headingText' }}>
+        <Text large css={{ fontWeight: '$semibold', color: '$headingText' }}>
           Distributions Table
         </Text>
         <Button

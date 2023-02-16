@@ -20,7 +20,7 @@ const headerStyles = {
   color: '$secondaryText',
   textTransform: 'uppercase',
   fontSize: '$small',
-  fontWeight: '$bold',
+  fontWeight: '$semibold',
   lineHeight: '$shorter',
 };
 
@@ -101,7 +101,7 @@ const NomineeRow = ({
         <TR key={nominee.address}>
           <TD colSpan={isAdmin ? 4 : 3}>
             <Flex column>
-              <Text h3 semibold>
+              <Text large semibold>
                 Nomination
               </Text>
               <Text size="medium" css={{ mt: '$sm', color: '$headingText' }}>
@@ -234,7 +234,10 @@ export const NomineesTable = ({
               mb: '$lg',
             }}
           >
-            <Text h3 css={{ fontWeight: '$semibold', color: '$headingText' }}>
+            <Text
+              large
+              css={{ fontWeight: '$semibold', color: '$headingText' }}
+            >
               Nominees
             </Text>
           </Flex>

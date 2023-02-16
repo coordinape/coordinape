@@ -6,6 +6,8 @@ import { paths } from '../../routes/paths';
 import { Avatar, Box, Button, Flex, Modal, Text } from '../../ui';
 import { useWalletStatus } from '../auth';
 import { ThemeSwitcher } from '../theming/ThemeSwitcher';
+import { RecentTransactionsModal } from 'components/RecentTransactionsModal';
+import isFeatureEnabled from 'config/features';
 import { shortenAddressWithFrontLength } from 'utils';
 
 import { NavItem } from './NavItem';
@@ -18,6 +20,7 @@ export const NavProfile = ({
   avatar: string | undefined;
 }) => {
   const [open, setOpen] = useState(false);
+  const [showTxModal, setShowTxModal] = useState(false);
   const { chainId, logout, address } = useWalletStatus();
   const showNameForm = !name && !!address;
 
@@ -45,7 +48,7 @@ export const NavProfile = ({
       column
       css={{
         color: 'inherit',
-        border: '1px solid $borderDim',
+        border: '1px solid $border',
         borderRadius: '$3',
         width: '100%',
       }}
@@ -63,7 +66,7 @@ export const NavProfile = ({
           borderRadius: '$3',
           borderBottomLeftRadius: open ? 0 : '$3',
           borderBottomRightRadius: open ? 0 : '$3',
-          borderBottom: open ? '1px dashed $borderDim' : 'none',
+          borderBottom: open ? '1px dashed $border' : 'none',
           '&:hover': {
             background: '$dim',
           },
@@ -105,6 +108,20 @@ export const NavProfile = ({
             to={paths.profile('me')}
             onClick={() => setOpen(false)}
           />
+          {isFeatureEnabled('vaults') && (
+            <>
+              <NavItem
+                label="Recent Transactions"
+                to="/"
+                onClick={() => setShowTxModal(true)}
+              />
+              {showTxModal && (
+                <RecentTransactionsModal
+                  onClose={() => setShowTxModal(false)}
+                />
+              )}
+            </>
+          )}
           <NavItem
             label="Claims"
             to={paths.claims}

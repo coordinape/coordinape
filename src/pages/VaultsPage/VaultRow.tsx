@@ -87,7 +87,7 @@ export function VaultRow({
       <Box
         css={{ display: 'flex', alignItems: 'center', gap: '$sm', mb: '$xs' }}
       >
-        <Text h3 css={{ flexGrow: 1, gap: '$sm' }}>
+        <Text large css={{ flexGrow: 1, gap: '$sm' }}>
           <Text>{vault.symbol || '...'} CoVault</Text>
           <VaultExternalLink
             chainId={vault.chain_id}
@@ -128,10 +128,10 @@ export function VaultRow({
           alignItems: 'center',
         }}
       >
-        <Text h2 color="cta" css={{ fontSize: '$h2Temp' }}>
+        <Text h2 color="cta">
           Current Balance
         </Text>
-        <Text h2 color="cta" css={{ fontSize: '$h2Temp' }}>
+        <Text h2 color="cta">
           {smartRounding(balance)}{' '}
           {removeYearnPrefix(vault.symbol).toUpperCase()}
         </Text>

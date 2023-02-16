@@ -129,14 +129,14 @@ const HelpButton = () => {
             height: '100%',
           }}
         >
-          <Text semibold h1 css={{ fontSize: '$h1Temp' }}>
+          <Text semibold h1>
             ?
           </Text>
         </Flex>
       </Box>
       <Box className={'open-contents'}>
         <Flex>
-          <Text css={{ flexGrow: 1 }} bold h3>
+          <Text css={{ flexGrow: 1 }} bold large>
             Need Help?
           </Text>
           <Box
@@ -198,7 +198,7 @@ const HelpButton = () => {
             </Flex>
           </PopupButton>
         </Button>
-        <Box css={{ borderTop: '0.5px solid $borderDim', mt: '$sm' }}>
+        <Box css={{ borderTop: '0.5px solid $border', mt: '$sm' }}>
           <HelpOption
             href={EXTERNAL_URL_DOCS}
             icon={<FileText size={'md'} color={'text'} />}

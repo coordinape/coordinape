@@ -1,5 +1,5 @@
 const themeLocalStorageKey = 'theme';
-export type ThemePreference = 'auto' | 'dark' | 'light' | 'legacy';
+export type ThemePreference = 'auto' | 'dark' | 'light';
 export function isValidThemePreference(
   theme: string | null
 ): theme is ThemePreference {
@@ -26,5 +26,4 @@ export const getSavedThemePreference = (): ThemePreference | null => {
     console.warn(e);
     return null;
   }
-  return null;
 };

@@ -15,7 +15,7 @@ export const Panel = styled(PanelBase, {
   borderRadius: '$3',
   backgroundColor: '$surface',
   padding: '$md',
-  border: '1px solid $borderDim',
+  border: '1px solid $border',
   [`${PanelBase}`]: {
     // any nested panels shouldn't have border by default
     border: 'none',

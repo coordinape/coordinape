@@ -67,7 +67,7 @@ export const Guild = ({
                     src={GuildLogo}
                   />
                 </Flex>
-                <Text h2 css={{ flexGrow: 1, fontSize: '$h2Temp' }}>
+                <Text h2 css={{ flexGrow: 1 }}>
                   {info.name}
                   <ExternalLink css={{ ml: '$sm' }} />
                 </Text>

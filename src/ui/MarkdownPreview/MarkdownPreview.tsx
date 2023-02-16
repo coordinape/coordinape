@@ -4,7 +4,7 @@ import { styled } from 'stitches.config';
 
 const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
   fontFamily: '$display !important',
-  border: '1px solid $borderDim',
+  border: '1px solid $border',
   borderRadius: '$3',
   p: '$sm',
   minHeight: 'calc($2xl * 2)',

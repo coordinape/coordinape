@@ -177,7 +177,7 @@ export const CreateForm = ({
       css={{ display: 'flex', flexDirection: 'column' }}
     >
       <Panel selected={activeVaultPanel === 'simple'} css={{ gap: '$md' }}>
-        <Text h3>CoVault</Text>
+        <Text large>CoVault</Text>
         <Text p as="p">
           CoVaults allow you to fund your circles with any ERC-20 token as your
           asset.
@@ -242,7 +242,7 @@ export const CreateForm = ({
       </Panel>
       <HR />
       <Panel selected={activeVaultPanel === 'yearn'} css={{ gap: '$md' }}>
-        <Text h3>Yield-Generating CoVault</Text>
+        <Text large>Yield-Generating CoVault</Text>
         <Text p as="p">
           Create a CoVault that receives DAI or USDC, and will use{'  '}
           <Link href="https://docs.yearn.finance/">Yearn Vaults</Link> to earn

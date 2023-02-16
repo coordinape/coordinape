@@ -175,7 +175,7 @@ export const EpochStatementDrawer = ({
             margin="none"
             css={{ mr: '$sm' }}
           />
-          <Text ellipsis h3 semibold>
+          <Text ellipsis large semibold>
             {member.profile.name ?? member.name}
           </Text>
         </Flex>
@@ -285,9 +285,11 @@ export const EpochStatementDrawer = ({
           )}
           <Flex
             css={{
+              mt: '$sm',
               justifyContent: 'flex-end',
               alignItems: 'center',
-              mt: '$sm',
+              gap: '$md',
+              '@sm': { flexDirection: 'row-reverse' },
             }}
           >
             <SavingIndicator
@@ -302,7 +304,7 @@ export const EpochStatementDrawer = ({
 
       <Box
         css={{
-          borderTop: '0.5px solid $secondaryText',
+          borderTop: '1px solid $border',
           mt: '$lg',
           pt: '$lg',
         }}
@@ -350,17 +352,14 @@ export const EpochStatementDrawer = ({
                 key={c.link}
                 css={{
                   p: '$md $sm',
-                  borderBottom: '1px solid $border',
+                  borderBottom: '0.5px solid $border',
                 }}
               >
                 <Text
                   ellipsis
                   css={{
                     cursor: 'default',
-                    backgroundColor: 'rgb(225 229 232) !important',
-                    borderColor: '$borderMedium !important',
-                    boxShadow: '$shadow1',
-                    border: '1px solid transparent',
+                    backgroundColor: '$dim',
                     minHeight: 0,
                     borderRadius: '$1',
                     p: '$md',

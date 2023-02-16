@@ -25,7 +25,7 @@ export default function LockedTokenGiftsTable() {
   return (
     <>
       <Text h2>Locked Tokens</Text>
-      <Panel>
+      <Panel css={{ p: '$lg' }}>
         <Table>
           <thead>
             <tr>

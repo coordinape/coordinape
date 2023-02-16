@@ -10,7 +10,7 @@ import { createCircleIntegration, updateCircleIntegration } from './mutations';
 function HedgeyIntro() {
   return (
     <>
-      <Text h3 semibold css={{ mb: '$sm' }}>
+      <Text large semibold css={{ mb: '$sm' }}>
         Hedgey Integration
       </Text>
       <Text p size="small" css={{ mb: '$md' }}>

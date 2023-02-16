@@ -125,7 +125,7 @@ const buttons: [
 
 const nonMemberPanelCss: CSS = {
   backgroundColor: '$background',
-  borderColor: '$borderMedium',
+  borderColor: '$borderContrast',
 };
 
 export type CircleRowProps = {
@@ -184,7 +184,7 @@ const epochDescription = (epoch: QueryCircle['epochs'][number]) => {
 export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
   const role = circle.users[0]?.role;
   const nonMember = role === undefined;
-  const nonMemberCss = nonMember ? { color: '$borderMedium' } : {};
+  const nonMemberCss = nonMember ? { color: '$secondaryText' } : {};
 
   const epoch = circle.epochs[0];
   const nomineeCount =
@@ -237,7 +237,7 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
       >
         <Flex column css={{ gap: '$sm' }}>
           <Text
-            h3
+            large
             semibold
             css={{
               minHeight: '$lg',
@@ -259,7 +259,7 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
         </Flex>
         <Flex column css={{ gap: '$sm' }}>
           <Text
-            h3
+            large
             css={{
               minHeight: '$lg',
               alignItems: 'end',
@@ -311,7 +311,7 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
               <Text
                 css={{
                   fontSize: '$medium',
-                  color: '$borderMedium',
+                  color: '$secondaryText',
                   '@sm': { fontSize: '$small' },
                   ...nonMemberCss,
                 }}

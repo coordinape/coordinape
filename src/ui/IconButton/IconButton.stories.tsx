@@ -16,6 +16,5 @@ export const IconButtonArrow = Template.bind({});
 
 IconButtonArrow.args = {
   size: 'xs',
-  variant: 'ghost',
   children: <ChevronDown />,
 };

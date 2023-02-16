@@ -61,7 +61,7 @@ export const RecentTransactionsModal = ({
   const list = getTxList();
   return (
     <Modal onOpenChange={onClose}>
-      <Text h3 css={{ mb: '$lg' }}>
+      <Text large css={{ mb: '$lg' }}>
         Your Recent Transactions
       </Text>
       <Flex column>

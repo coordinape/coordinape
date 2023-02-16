@@ -4,7 +4,7 @@ export const HR = styled('hr', {
   height: '0.5px',
   width: '100%',
   border: 'none',
-  background: '$borderDim',
+  background: '$border',
   marginTop: '$md',
   marginBottom: '$md',
 

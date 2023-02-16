@@ -1,20 +1,10 @@
-import { useContext } from 'react';
-
 import { SideNav } from '../../features/nav/SideNav';
-import { ThemeContext } from '../../features/theming/ThemeProvider';
 import HelpButton from '../HelpButton';
 import { GlobalUi } from 'components/GlobalUi';
 import { AppRoutes } from 'routes/routes';
 import { Box, Flex } from 'ui';
 
-import { MainHeader } from './MainHeader';
-
-// this component sets up the top navigation bar to stay fixed on-screen and
-// have content scroll underneath it
-
 export const MainLayout = () => {
-  const { themePreference } = useContext(ThemeContext);
-
   return (
     <Box
       css={{
@@ -26,26 +16,22 @@ export const MainLayout = () => {
         bottom: 0,
         display: 'flex',
         flexDirection: 'column',
-        overflow: themePreference == 'legacy' ? 'auto' : undefined,
         '& > main': { flex: 1, flexGrow: 1 },
       }}
     >
       <Flex css={{ height: 'auto' }}>
-        {/*// TODO(rebrand): remove this after rebrand launch*/}
-        {themePreference != 'legacy' && <SideNav />}
+        <SideNav />
         <Box css={{ width: '100%' }}>
-          {/*// TODO(rebrand): remove this after rebrand launch*/}
-          {themePreference == 'legacy' && <MainHeader />}
           <GlobalUi />
           <HelpButton />
           <Box
             as="main"
             css={{
-              height: themePreference == 'legacy' ? 'auto' : '100vh',
+              height: '100vh',
               overflowY: 'auto',
               '@sm': {
                 zIndex: 1,
-                pt: themePreference == 'legacy' ? '0' : '$3xl',
+                pt: '$3xl',
               }, // for hamburger menu
             }}
           >

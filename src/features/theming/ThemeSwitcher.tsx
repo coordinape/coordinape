@@ -56,8 +56,6 @@ export const ThemeSwitcher = () => {
                     ? `calc(100% - ${handleHeight} - 2px)`
                     : themePreference === 'auto'
                     ? `calc(50% - ${handleHeight})`
-                    : themePreference === 'legacy'
-                    ? '-9999px'
                     : 'auto',
               },
             }}

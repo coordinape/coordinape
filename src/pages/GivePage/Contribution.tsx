@@ -12,7 +12,7 @@ export const Contribution = ({
     <Box
       css={{
         p: '$md $sm',
-        borderBottom: '1px solid $border',
+        borderBottom: '0.5px solid $border',
       }}
     >
       <MarkdownPreview display source={contribution.description} />

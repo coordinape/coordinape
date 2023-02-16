@@ -6,7 +6,7 @@ import { addContractWait } from 'lib/ethers/addContractWait';
 import {
   addTransaction,
   updateTransaction,
-} from 'components/MyAvatarMenu/RecentTransactionsModal';
+} from 'components/RecentTransactionsModal';
 
 const { TRANSACTION_REPLACED } = Logger.errors;
 const logger = new DebugLogger('sendAndTrackTx');

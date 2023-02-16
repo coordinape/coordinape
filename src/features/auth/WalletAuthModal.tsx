@@ -152,7 +152,11 @@ export const WalletAuthModal = () => {
     >
       <Flex>
         <Flex alignItems="start" column css={{ gap: '$md', width: '$full' }}>
-          <Text h3 semibold css={{ justifyContent: 'center', width: '100%' }}>
+          <Text
+            large
+            semibold
+            css={{ justifyContent: 'center', width: '100%' }}
+          >
             Welcome to Coordinape
           </Text>
           <Text semibold css={{ justifyContent: 'center', width: '100%' }}>
@@ -249,7 +253,7 @@ export const WalletAuthModal = () => {
 const Explainer = (props: { back: () => void; continue: () => void }) => {
   return (
     <Modal>
-      <Text h3 semibold>
+      <Text large semibold>
         How Email Login Works
       </Text>
       <p>

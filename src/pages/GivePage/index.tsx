@@ -11,7 +11,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import * as z from 'zod';
 
 import { Awaited } from '../../../api-lib/ts4.5shim';
-import { LoadingModal, QUERY_KEY_RECEIVE_INFO } from '../../components';
+import { LoadingModal } from '../../components';
 import { isFeatureEnabled } from '../../config/features';
 import { useToast } from '../../hooks';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
@@ -23,6 +23,7 @@ import { SingleColumnLayout } from '../../ui/layouts';
 import { FormInputField } from 'components';
 import HintBanner from 'components/HintBanner';
 import { Edit3, Grid, Menu } from 'icons/__generated';
+import { QUERY_KEY_RECEIVE_INFO } from 'pages/HistoryPage/useReceiveInfo';
 import {
   ContentHeader,
   Box,
@@ -801,7 +802,14 @@ const AllocateContents = ({
           zIndex: 3,
           mb: '$md',
           borderRadius: '$3',
-          '@sm': { boxShadow: '$shadowBottom' },
+          '@sm': {
+            background: '$background',
+            pt: '$sm',
+            boxShadow: '$shadowBottom',
+            top: '-3px',
+            borderTopLeftRadius: 0,
+            borderTopRightRadius: 0,
+          },
         }}
       >
         <Box css={{ mb: '$lg' }}>
@@ -864,8 +872,8 @@ const AllocateContents = ({
                 css={{
                   '@sm': {
                     flexGrow: '1',
-                    mx: '-$md',
-                    mb: '-$md',
+                    // mx: '-$md',
+                    // mb: '-$md',
                   },
                 }}
               >
@@ -971,7 +979,7 @@ const AllocateContents = ({
               inline
               css={{ textAlign: 'center' }}
               color="secondary"
-              h3
+              large
               semibold
             >
               {onlyCollaborators
