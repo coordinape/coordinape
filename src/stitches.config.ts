@@ -268,7 +268,7 @@ export const {
     },
     fontSizes: {
       small: '14px',
-      medium: '18px',
+      medium: '16px',
       large: '24px',
       p: '16px',
       h3: '$p',

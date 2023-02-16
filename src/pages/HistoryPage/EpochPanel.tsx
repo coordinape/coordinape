@@ -89,13 +89,13 @@ export const EpochPanel = ({
           <Flex row css={{ gap: '$lg' }}>
             <Flex column css={{ gap: '$sm' }}>
               <Text variant="label">You Received</Text>
-              <Text bold size="large">
+              <Text bold size="large" color="heading">
                 {totalReceived} {tokenName}
               </Text>
             </Flex>
             <Flex column css={{ gap: '$sm' }}>
               <Text variant="label">Total Distributed</Text>
-              <Text bold size="large">
+              <Text bold size="large" color="heading">
                 {totalAllocated} {tokenName}
               </Text>
             </Flex>

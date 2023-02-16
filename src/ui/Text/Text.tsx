@@ -13,6 +13,7 @@ export const Text = styled('span', {
   variants: {
     color: {
       default: { color: '$text' },
+      heading: { color: '$headingText' },
       neutral: { color: '$neutral' },
       alert: { color: '$alert' },
       warning: { color: '$warning' },
