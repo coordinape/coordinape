@@ -1608,6 +1608,7 @@ export type ValueTypes = {
   ['circle_integrations_updates']: {
     /** sets the columns of the filtered rows to the given values */
     _set?: ValueTypes['circle_integrations_set_input'] | undefined | null;
+    /** filter the rows which have to be updated */
     where: ValueTypes['circle_integrations_bool_exp'];
   };
   /** order by var_pop() on columns of table "circle_integrations" */
@@ -2103,6 +2104,10 @@ export type ValueTypes = {
     circle_private?: ValueTypes['circle_private_bool_exp'] | undefined | null;
     cont_help_text?: ValueTypes['String_comparison_exp'] | undefined | null;
     contributions?: ValueTypes['contributions_bool_exp'] | undefined | null;
+    contributions_aggregate?:
+      | ValueTypes['contributions_aggregate_bool_exp']
+      | undefined
+      | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     default_opt_in?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     deleted_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
@@ -2132,6 +2137,10 @@ export type ValueTypes = {
     name?: ValueTypes['String_comparison_exp'] | undefined | null;
     nomination_days_limit?: ValueTypes['Int_comparison_exp'] | undefined | null;
     nominees?: ValueTypes['nominees_bool_exp'] | undefined | null;
+    nominees_aggregate?:
+      | ValueTypes['nominees_aggregate_bool_exp']
+      | undefined
+      | null;
     only_giver_vouch?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     organization?: ValueTypes['organizations_bool_exp'] | undefined | null;
     organization_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
@@ -2145,6 +2154,10 @@ export type ValueTypes = {
       | null;
     team_selection?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     token_gifts?: ValueTypes['token_gifts_bool_exp'] | undefined | null;
+    token_gifts_aggregate?:
+      | ValueTypes['token_gifts_aggregate_bool_exp']
+      | undefined
+      | null;
     token_name?: ValueTypes['String_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     users?: ValueTypes['users_bool_exp'] | undefined | null;
@@ -2426,6 +2439,15 @@ export type ValueTypes = {
     nodes?: ValueTypes['claims'];
     __typename?: boolean | `@${string}`;
   }>;
+  ['claims_aggregate_bool_exp']: {
+    count?: ValueTypes['claims_aggregate_bool_exp_count'] | undefined | null;
+  };
+  ['claims_aggregate_bool_exp_count']: {
+    arguments?: Array<ValueTypes['claims_select_column']> | undefined | null;
+    distinct?: boolean | undefined | null;
+    filter?: ValueTypes['claims_bool_exp'] | undefined | null;
+    predicate: ValueTypes['Int_comparison_exp'];
+  };
   /** aggregate fields of "claims" */
   ['claims_aggregate_fields']: AliasType<{
     avg?: ValueTypes['claims_avg_fields'];
@@ -2721,6 +2743,7 @@ export type ValueTypes = {
   ['claims_updates']: {
     /** sets the columns of the filtered rows to the given values */
     _set?: ValueTypes['claims_set_input'] | undefined | null;
+    /** filter the rows which have to be updated */
     where: ValueTypes['claims_bool_exp'];
   };
   /** aggregate var_pop on columns */
@@ -2804,6 +2827,21 @@ export type ValueTypes = {
     nodes?: ValueTypes['contributions'];
     __typename?: boolean | `@${string}`;
   }>;
+  ['contributions_aggregate_bool_exp']: {
+    count?:
+      | ValueTypes['contributions_aggregate_bool_exp_count']
+      | undefined
+      | null;
+  };
+  ['contributions_aggregate_bool_exp_count']: {
+    arguments?:
+      | Array<ValueTypes['contributions_select_column']>
+      | undefined
+      | null;
+    distinct?: boolean | undefined | null;
+    filter?: ValueTypes['contributions_bool_exp'] | undefined | null;
+    predicate: ValueTypes['Int_comparison_exp'];
+  };
   /** aggregate fields of "contributions" */
   ['contributions_aggregate_fields']: AliasType<{
     avg?: ValueTypes['contributions_avg_fields'];
@@ -3179,6 +3217,7 @@ export type ValueTypes = {
   ['discord_roles_circles_updates']: {
     /** sets the columns of the filtered rows to the given values */
     _set?: ValueTypes['discord_roles_circles_set_input'] | undefined | null;
+    /** filter the rows which have to be updated */
     where: ValueTypes['discord_roles_circles_bool_exp'];
   };
   /** link discord user ids to coordinape profiles 1:1 */
@@ -3263,6 +3302,7 @@ export type ValueTypes = {
   ['discord_users_updates']: {
     /** sets the columns of the filtered rows to the given values */
     _set?: ValueTypes['discord_users_set_input'] | undefined | null;
+    /** filter the rows which have to be updated */
     where: ValueTypes['discord_users_bool_exp'];
   };
   /** Vault Distributions */
@@ -3368,6 +3408,21 @@ export type ValueTypes = {
     nodes?: ValueTypes['distributions'];
     __typename?: boolean | `@${string}`;
   }>;
+  ['distributions_aggregate_bool_exp']: {
+    count?:
+      | ValueTypes['distributions_aggregate_bool_exp_count']
+      | undefined
+      | null;
+  };
+  ['distributions_aggregate_bool_exp_count']: {
+    arguments?:
+      | Array<ValueTypes['distributions_select_column']>
+      | undefined
+      | null;
+    distinct?: boolean | undefined | null;
+    filter?: ValueTypes['distributions_bool_exp'] | undefined | null;
+    predicate: ValueTypes['Int_comparison_exp'];
+  };
   /** aggregate fields of "distributions" */
   ['distributions_aggregate_fields']: AliasType<{
     avg?: ValueTypes['distributions_avg_fields'];
@@ -3441,6 +3496,10 @@ export type ValueTypes = {
     _not?: ValueTypes['distributions_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['distributions_bool_exp']> | undefined | null;
     claims?: ValueTypes['claims_bool_exp'] | undefined | null;
+    claims_aggregate?:
+      | ValueTypes['claims_aggregate_bool_exp']
+      | undefined
+      | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     created_by?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     distribution_epoch_id?:
@@ -3726,6 +3785,7 @@ export type ValueTypes = {
     _inc?: ValueTypes['distributions_inc_input'] | undefined | null;
     /** sets the columns of the filtered rows to the given values */
     _set?: ValueTypes['distributions_set_input'] | undefined | null;
+    /** filter the rows which have to be updated */
     where: ValueTypes['distributions_bool_exp'];
   };
   /** aggregate var_pop on columns */
@@ -3999,6 +4059,10 @@ export type ValueTypes = {
     days?: ValueTypes['Int_comparison_exp'] | undefined | null;
     description?: ValueTypes['String_comparison_exp'] | undefined | null;
     distributions?: ValueTypes['distributions_bool_exp'] | undefined | null;
+    distributions_aggregate?:
+      | ValueTypes['distributions_aggregate_bool_exp']
+      | undefined
+      | null;
     end_date?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     ended?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     epoch_pending_token_gifts?:
@@ -4019,6 +4083,10 @@ export type ValueTypes = {
     repeat_day_of_month?: ValueTypes['Int_comparison_exp'] | undefined | null;
     start_date?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     token_gifts?: ValueTypes['token_gifts_bool_exp'] | undefined | null;
+    token_gifts_aggregate?:
+      | ValueTypes['token_gifts_aggregate_bool_exp']
+      | undefined
+      | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
   };
   /** order by max() on columns of table "epoches" */
@@ -4179,6 +4247,7 @@ export type ValueTypes = {
   ['epochs_updates']: {
     /** sets the columns of the filtered rows to the given values */
     _set?: ValueTypes['epochs_set_input'] | undefined | null;
+    /** filter the rows which have to be updated */
     where: ValueTypes['epochs_bool_exp'];
   };
   /** order by var_pop() on columns of table "epoches" */
@@ -4695,6 +4764,7 @@ export type ValueTypes = {
       | ValueTypes['locked_token_distributions_set_input']
       | undefined
       | null;
+    /** filter the rows which have to be updated */
     where: ValueTypes['locked_token_distributions_bool_exp'];
   };
   /** mutation root */
@@ -5399,6 +5469,35 @@ export type ValueTypes = {
     nodes?: ValueTypes['nominees'];
     __typename?: boolean | `@${string}`;
   }>;
+  ['nominees_aggregate_bool_exp']: {
+    bool_and?:
+      | ValueTypes['nominees_aggregate_bool_exp_bool_and']
+      | undefined
+      | null;
+    bool_or?:
+      | ValueTypes['nominees_aggregate_bool_exp_bool_or']
+      | undefined
+      | null;
+    count?: ValueTypes['nominees_aggregate_bool_exp_count'] | undefined | null;
+  };
+  ['nominees_aggregate_bool_exp_bool_and']: {
+    arguments: ValueTypes['nominees_select_column_nominees_aggregate_bool_exp_bool_and_arguments_columns'];
+    distinct?: boolean | undefined | null;
+    filter?: ValueTypes['nominees_bool_exp'] | undefined | null;
+    predicate: ValueTypes['Boolean_comparison_exp'];
+  };
+  ['nominees_aggregate_bool_exp_bool_or']: {
+    arguments: ValueTypes['nominees_select_column_nominees_aggregate_bool_exp_bool_or_arguments_columns'];
+    distinct?: boolean | undefined | null;
+    filter?: ValueTypes['nominees_bool_exp'] | undefined | null;
+    predicate: ValueTypes['Boolean_comparison_exp'];
+  };
+  ['nominees_aggregate_bool_exp_count']: {
+    arguments?: Array<ValueTypes['nominees_select_column']> | undefined | null;
+    distinct?: boolean | undefined | null;
+    filter?: ValueTypes['nominees_bool_exp'] | undefined | null;
+    predicate: ValueTypes['Int_comparison_exp'];
+  };
   /** aggregate fields of "nominees" */
   ['nominees_aggregate_fields']: AliasType<{
     avg?: ValueTypes['nominees_avg_fields'];
@@ -5563,6 +5662,10 @@ export type ValueTypes = {
   };
   /** select columns of table "nominees" */
   ['nominees_select_column']: nominees_select_column;
+  /** select "nominees_aggregate_bool_exp_bool_and_arguments_columns" columns of table "nominees" */
+  ['nominees_select_column_nominees_aggregate_bool_exp_bool_and_arguments_columns']: nominees_select_column_nominees_aggregate_bool_exp_bool_and_arguments_columns;
+  /** select "nominees_aggregate_bool_exp_bool_or_arguments_columns" columns of table "nominees" */
+  ['nominees_select_column_nominees_aggregate_bool_exp_bool_or_arguments_columns']: nominees_select_column_nominees_aggregate_bool_exp_bool_or_arguments_columns;
   /** aggregate stddev on columns */
   ['nominees_stddev_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -6043,6 +6146,7 @@ export type ValueTypes = {
   ['organizations_updates']: {
     /** sets the columns of the filtered rows to the given values */
     _set?: ValueTypes['organizations_set_input'] | undefined | null;
+    /** filter the rows which have to be updated */
     where: ValueTypes['organizations_bool_exp'];
   };
   /** columns and relationships of "pending_gift_private" */
@@ -6699,14 +6803,26 @@ export type ValueTypes = {
     background?: ValueTypes['String_comparison_exp'] | undefined | null;
     bio?: ValueTypes['String_comparison_exp'] | undefined | null;
     claims?: ValueTypes['claims_bool_exp'] | undefined | null;
+    claims_aggregate?:
+      | ValueTypes['claims_aggregate_bool_exp']
+      | undefined
+      | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     discord_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     distributions?: ValueTypes['distributions_bool_exp'] | undefined | null;
+    distributions_aggregate?:
+      | ValueTypes['distributions_aggregate_bool_exp']
+      | undefined
+      | null;
     github_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     medium_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     name?: ValueTypes['citext_comparison_exp'] | undefined | null;
     nominees?: ValueTypes['nominees_bool_exp'] | undefined | null;
+    nominees_aggregate?:
+      | ValueTypes['nominees_aggregate_bool_exp']
+      | undefined
+      | null;
     org_members?: ValueTypes['org_members_bool_exp'] | undefined | null;
     skills?: ValueTypes['String_comparison_exp'] | undefined | null;
     telegram_username?: ValueTypes['String_comparison_exp'] | undefined | null;
@@ -6820,6 +6936,7 @@ export type ValueTypes = {
   ['profiles_updates']: {
     /** sets the columns of the filtered rows to the given values */
     _set?: ValueTypes['profiles_set_input'] | undefined | null;
+    /** filter the rows which have to be updated */
     where: ValueTypes['profiles_bool_exp'];
   };
   ['query_root']: AliasType<{
@@ -9194,6 +9311,21 @@ export type ValueTypes = {
     nodes?: ValueTypes['token_gifts'];
     __typename?: boolean | `@${string}`;
   }>;
+  ['token_gifts_aggregate_bool_exp']: {
+    count?:
+      | ValueTypes['token_gifts_aggregate_bool_exp_count']
+      | undefined
+      | null;
+  };
+  ['token_gifts_aggregate_bool_exp_count']: {
+    arguments?:
+      | Array<ValueTypes['token_gifts_select_column']>
+      | undefined
+      | null;
+    distinct?: boolean | undefined | null;
+    filter?: ValueTypes['token_gifts_bool_exp'] | undefined | null;
+    predicate: ValueTypes['Int_comparison_exp'];
+  };
   /** aggregate fields of "token_gifts" */
   ['token_gifts_aggregate_fields']: AliasType<{
     avg?: ValueTypes['token_gifts_avg_fields'];
@@ -9992,6 +10124,10 @@ export type ValueTypes = {
     circle_api_keys?: ValueTypes['circle_api_keys_bool_exp'] | undefined | null;
     circle_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     contributions?: ValueTypes['contributions_bool_exp'] | undefined | null;
+    contributions_aggregate?:
+      | ValueTypes['contributions_aggregate_bool_exp']
+      | undefined
+      | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     deleted_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     epoch_first_visit?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
@@ -10015,8 +10151,16 @@ export type ValueTypes = {
       | null;
     profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     received_gifts?: ValueTypes['token_gifts_bool_exp'] | undefined | null;
+    received_gifts_aggregate?:
+      | ValueTypes['token_gifts_aggregate_bool_exp']
+      | undefined
+      | null;
     role?: ValueTypes['Int_comparison_exp'] | undefined | null;
     sent_gifts?: ValueTypes['token_gifts_bool_exp'] | undefined | null;
+    sent_gifts_aggregate?:
+      | ValueTypes['token_gifts_aggregate_bool_exp']
+      | undefined
+      | null;
     starting_tokens?: ValueTypes['Int_comparison_exp'] | undefined | null;
     teammates?: ValueTypes['teammates_bool_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
@@ -10609,6 +10753,10 @@ export type ValueTypes = {
     decimals?: ValueTypes['Int_comparison_exp'] | undefined | null;
     deployment_block?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     distributions?: ValueTypes['distributions_bool_exp'] | undefined | null;
+    distributions_aggregate?:
+      | ValueTypes['distributions_aggregate_bool_exp']
+      | undefined
+      | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     organization?: ValueTypes['organizations_bool_exp'] | undefined | null;
     profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
@@ -11391,6 +11539,8 @@ export type ModelTypes = {
     aggregate?: GraphQLTypes['claims_aggregate_fields'] | undefined;
     nodes: Array<GraphQLTypes['claims']>;
   };
+  ['claims_aggregate_bool_exp']: GraphQLTypes['claims_aggregate_bool_exp'];
+  ['claims_aggregate_bool_exp_count']: GraphQLTypes['claims_aggregate_bool_exp_count'];
   /** aggregate fields of "claims" */
   ['claims_aggregate_fields']: {
     avg?: GraphQLTypes['claims_avg_fields'] | undefined;
@@ -11581,6 +11731,8 @@ export type ModelTypes = {
     aggregate?: GraphQLTypes['contributions_aggregate_fields'] | undefined;
     nodes: Array<GraphQLTypes['contributions']>;
   };
+  ['contributions_aggregate_bool_exp']: GraphQLTypes['contributions_aggregate_bool_exp'];
+  ['contributions_aggregate_bool_exp_count']: GraphQLTypes['contributions_aggregate_bool_exp_count'];
   /** aggregate fields of "contributions" */
   ['contributions_aggregate_fields']: {
     avg?: GraphQLTypes['contributions_avg_fields'] | undefined;
@@ -11823,6 +11975,8 @@ export type ModelTypes = {
     aggregate?: GraphQLTypes['distributions_aggregate_fields'] | undefined;
     nodes: Array<GraphQLTypes['distributions']>;
   };
+  ['distributions_aggregate_bool_exp']: GraphQLTypes['distributions_aggregate_bool_exp'];
+  ['distributions_aggregate_bool_exp_count']: GraphQLTypes['distributions_aggregate_bool_exp_count'];
   /** aggregate fields of "distributions" */
   ['distributions_aggregate_fields']: {
     avg?: GraphQLTypes['distributions_avg_fields'] | undefined;
@@ -12498,6 +12652,10 @@ export type ModelTypes = {
     aggregate?: GraphQLTypes['nominees_aggregate_fields'] | undefined;
     nodes: Array<GraphQLTypes['nominees']>;
   };
+  ['nominees_aggregate_bool_exp']: GraphQLTypes['nominees_aggregate_bool_exp'];
+  ['nominees_aggregate_bool_exp_bool_and']: GraphQLTypes['nominees_aggregate_bool_exp_bool_and'];
+  ['nominees_aggregate_bool_exp_bool_or']: GraphQLTypes['nominees_aggregate_bool_exp_bool_or'];
+  ['nominees_aggregate_bool_exp_count']: GraphQLTypes['nominees_aggregate_bool_exp_count'];
   /** aggregate fields of "nominees" */
   ['nominees_aggregate_fields']: {
     avg?: GraphQLTypes['nominees_avg_fields'] | undefined;
@@ -12562,6 +12720,10 @@ export type ModelTypes = {
   ['nominees_order_by']: GraphQLTypes['nominees_order_by'];
   /** select columns of table "nominees" */
   ['nominees_select_column']: GraphQLTypes['nominees_select_column'];
+  /** select "nominees_aggregate_bool_exp_bool_and_arguments_columns" columns of table "nominees" */
+  ['nominees_select_column_nominees_aggregate_bool_exp_bool_and_arguments_columns']: GraphQLTypes['nominees_select_column_nominees_aggregate_bool_exp_bool_and_arguments_columns'];
+  /** select "nominees_aggregate_bool_exp_bool_or_arguments_columns" columns of table "nominees" */
+  ['nominees_select_column_nominees_aggregate_bool_exp_bool_or_arguments_columns']: GraphQLTypes['nominees_select_column_nominees_aggregate_bool_exp_bool_or_arguments_columns'];
   /** aggregate stddev on columns */
   ['nominees_stddev_fields']: {
     circle_id?: number | undefined;
@@ -13058,35 +13220,35 @@ export type ModelTypes = {
     burns: Array<GraphQLTypes['burns']>;
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
-    /** fetch data from the table in a streaming manner : "burns" */
+    /** fetch data from the table in a streaming manner: "burns" */
     burns_stream: Array<GraphQLTypes['burns']>;
     /** An array relationship */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** fetch data from the table: "circle_api_keys" using primary key columns */
     circle_api_keys_by_pk?: GraphQLTypes['circle_api_keys'] | undefined;
-    /** fetch data from the table in a streaming manner : "circle_api_keys" */
+    /** fetch data from the table in a streaming manner: "circle_api_keys" */
     circle_api_keys_stream: Array<GraphQLTypes['circle_api_keys']>;
     /** fetch data from the table: "circle_integrations" */
     circle_integrations: Array<GraphQLTypes['circle_integrations']>;
     /** fetch data from the table: "circle_integrations" using primary key columns */
     circle_integrations_by_pk?: GraphQLTypes['circle_integrations'] | undefined;
-    /** fetch data from the table in a streaming manner : "circle_integrations" */
+    /** fetch data from the table in a streaming manner: "circle_integrations" */
     circle_integrations_stream: Array<GraphQLTypes['circle_integrations']>;
     /** fetch data from the table: "circle_private" */
     circle_private: Array<GraphQLTypes['circle_private']>;
-    /** fetch data from the table in a streaming manner : "circle_private" */
+    /** fetch data from the table in a streaming manner: "circle_private" */
     circle_private_stream: Array<GraphQLTypes['circle_private']>;
     /** fetch data from the table: "circle_share_tokens" */
     circle_share_tokens: Array<GraphQLTypes['circle_share_tokens']>;
     /** fetch data from the table: "circle_share_tokens" using primary key columns */
     circle_share_tokens_by_pk?: GraphQLTypes['circle_share_tokens'] | undefined;
-    /** fetch data from the table in a streaming manner : "circle_share_tokens" */
+    /** fetch data from the table in a streaming manner: "circle_share_tokens" */
     circle_share_tokens_stream: Array<GraphQLTypes['circle_share_tokens']>;
     /** An array relationship */
     circles: Array<GraphQLTypes['circles']>;
     /** fetch data from the table: "circles" using primary key columns */
     circles_by_pk?: GraphQLTypes['circles'] | undefined;
-    /** fetch data from the table in a streaming manner : "circles" */
+    /** fetch data from the table in a streaming manner: "circles" */
     circles_stream: Array<GraphQLTypes['circles']>;
     /** An array relationship */
     claims: Array<GraphQLTypes['claims']>;
@@ -13094,7 +13256,7 @@ export type ModelTypes = {
     claims_aggregate: GraphQLTypes['claims_aggregate'];
     /** fetch data from the table: "claims" using primary key columns */
     claims_by_pk?: GraphQLTypes['claims'] | undefined;
-    /** fetch data from the table in a streaming manner : "claims" */
+    /** fetch data from the table in a streaming manner: "claims" */
     claims_stream: Array<GraphQLTypes['claims']>;
     /** An array relationship */
     contributions: Array<GraphQLTypes['contributions']>;
@@ -13102,7 +13264,7 @@ export type ModelTypes = {
     contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     /** fetch data from the table: "contributions" using primary key columns */
     contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
-    /** fetch data from the table in a streaming manner : "contributions" */
+    /** fetch data from the table in a streaming manner: "contributions" */
     contributions_stream: Array<GraphQLTypes['contributions']>;
     /** fetch data from the table: "discord.roles_circles" */
     discord_roles_circles: Array<GraphQLTypes['discord_roles_circles']>;
@@ -13110,13 +13272,13 @@ export type ModelTypes = {
     discord_roles_circles_by_pk?:
       | GraphQLTypes['discord_roles_circles']
       | undefined;
-    /** fetch data from the table in a streaming manner : "discord.roles_circles" */
+    /** fetch data from the table in a streaming manner: "discord.roles_circles" */
     discord_roles_circles_stream: Array<GraphQLTypes['discord_roles_circles']>;
     /** fetch data from the table: "discord.users" */
     discord_users: Array<GraphQLTypes['discord_users']>;
     /** fetch data from the table: "discord.users" using primary key columns */
     discord_users_by_pk?: GraphQLTypes['discord_users'] | undefined;
-    /** fetch data from the table in a streaming manner : "discord.users" */
+    /** fetch data from the table in a streaming manner: "discord.users" */
     discord_users_stream: Array<GraphQLTypes['discord_users']>;
     /** An array relationship */
     distributions: Array<GraphQLTypes['distributions']>;
@@ -13124,17 +13286,17 @@ export type ModelTypes = {
     distributions_aggregate: GraphQLTypes['distributions_aggregate'];
     /** fetch data from the table: "distributions" using primary key columns */
     distributions_by_pk?: GraphQLTypes['distributions'] | undefined;
-    /** fetch data from the table in a streaming manner : "distributions" */
+    /** fetch data from the table in a streaming manner: "distributions" */
     distributions_stream: Array<GraphQLTypes['distributions']>;
     /** An array relationship */
     epochs: Array<GraphQLTypes['epochs']>;
     /** fetch data from the table: "epoches" using primary key columns */
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
-    /** fetch data from the table in a streaming manner : "epoches" */
+    /** fetch data from the table in a streaming manner: "epoches" */
     epochs_stream: Array<GraphQLTypes['epochs']>;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
-    /** fetch data from the table in a streaming manner : "gift_private" */
+    /** fetch data from the table in a streaming manner: "gift_private" */
     gift_private_stream: Array<GraphQLTypes['gift_private']>;
     /** An array relationship */
     locked_token_distribution_gifts: Array<
@@ -13144,7 +13306,7 @@ export type ModelTypes = {
     locked_token_distribution_gifts_by_pk?:
       | GraphQLTypes['locked_token_distribution_gifts']
       | undefined;
-    /** fetch data from the table in a streaming manner : "locked_token_distribution_gifts" */
+    /** fetch data from the table in a streaming manner: "locked_token_distribution_gifts" */
     locked_token_distribution_gifts_stream: Array<
       GraphQLTypes['locked_token_distribution_gifts']
     >;
@@ -13156,7 +13318,7 @@ export type ModelTypes = {
     locked_token_distributions_by_pk?:
       | GraphQLTypes['locked_token_distributions']
       | undefined;
-    /** fetch data from the table in a streaming manner : "locked_token_distributions" */
+    /** fetch data from the table in a streaming manner: "locked_token_distributions" */
     locked_token_distributions_stream: Array<
       GraphQLTypes['locked_token_distributions']
     >;
@@ -13166,29 +13328,29 @@ export type ModelTypes = {
     nominees_aggregate: GraphQLTypes['nominees_aggregate'];
     /** fetch data from the table: "nominees" using primary key columns */
     nominees_by_pk?: GraphQLTypes['nominees'] | undefined;
-    /** fetch data from the table in a streaming manner : "nominees" */
+    /** fetch data from the table in a streaming manner: "nominees" */
     nominees_stream: Array<GraphQLTypes['nominees']>;
     /** An array relationship */
     org_members: Array<GraphQLTypes['org_members']>;
     /** fetch data from the table: "org_members" using primary key columns */
     org_members_by_pk?: GraphQLTypes['org_members'] | undefined;
-    /** fetch data from the table in a streaming manner : "org_members" */
+    /** fetch data from the table in a streaming manner: "org_members" */
     org_members_stream: Array<GraphQLTypes['org_members']>;
     /** fetch data from the table: "organizations" */
     organizations: Array<GraphQLTypes['organizations']>;
     /** fetch data from the table: "organizations" using primary key columns */
     organizations_by_pk?: GraphQLTypes['organizations'] | undefined;
-    /** fetch data from the table in a streaming manner : "organizations" */
+    /** fetch data from the table in a streaming manner: "organizations" */
     organizations_stream: Array<GraphQLTypes['organizations']>;
     /** fetch data from the table: "pending_gift_private" */
     pending_gift_private: Array<GraphQLTypes['pending_gift_private']>;
-    /** fetch data from the table in a streaming manner : "pending_gift_private" */
+    /** fetch data from the table in a streaming manner: "pending_gift_private" */
     pending_gift_private_stream: Array<GraphQLTypes['pending_gift_private']>;
     /** An array relationship */
     pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     /** fetch data from the table: "pending_token_gifts" using primary key columns */
     pending_token_gifts_by_pk?: GraphQLTypes['pending_token_gifts'] | undefined;
-    /** fetch data from the table in a streaming manner : "pending_token_gifts" */
+    /** fetch data from the table in a streaming manner: "pending_token_gifts" */
     pending_token_gifts_stream: Array<GraphQLTypes['pending_token_gifts']>;
     /** fetch data from the table: "pending_vault_transactions" */
     pending_vault_transactions: Array<
@@ -13198,7 +13360,7 @@ export type ModelTypes = {
     pending_vault_transactions_by_pk?:
       | GraphQLTypes['pending_vault_transactions']
       | undefined;
-    /** fetch data from the table in a streaming manner : "pending_vault_transactions" */
+    /** fetch data from the table in a streaming manner: "pending_vault_transactions" */
     pending_vault_transactions_stream: Array<
       GraphQLTypes['pending_vault_transactions']
     >;
@@ -13206,13 +13368,13 @@ export type ModelTypes = {
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch data from the table: "profiles" using primary key columns */
     profiles_by_pk?: GraphQLTypes['profiles'] | undefined;
-    /** fetch data from the table in a streaming manner : "profiles" */
+    /** fetch data from the table in a streaming manner: "profiles" */
     profiles_stream: Array<GraphQLTypes['profiles']>;
     /** An array relationship */
     teammates: Array<GraphQLTypes['teammates']>;
     /** fetch data from the table: "teammates" using primary key columns */
     teammates_by_pk?: GraphQLTypes['teammates'] | undefined;
-    /** fetch data from the table in a streaming manner : "teammates" */
+    /** fetch data from the table in a streaming manner: "teammates" */
     teammates_stream: Array<GraphQLTypes['teammates']>;
     /** An array relationship */
     token_gifts: Array<GraphQLTypes['token_gifts']>;
@@ -13220,43 +13382,43 @@ export type ModelTypes = {
     token_gifts_aggregate: GraphQLTypes['token_gifts_aggregate'];
     /** fetch data from the table: "token_gifts" using primary key columns */
     token_gifts_by_pk?: GraphQLTypes['token_gifts'] | undefined;
-    /** fetch data from the table in a streaming manner : "token_gifts" */
+    /** fetch data from the table in a streaming manner: "token_gifts" */
     token_gifts_stream: Array<GraphQLTypes['token_gifts']>;
     /** fetch data from the table: "user_private" */
     user_private: Array<GraphQLTypes['user_private']>;
     /** fetch aggregated fields from the table: "user_private" */
     user_private_aggregate: GraphQLTypes['user_private_aggregate'];
-    /** fetch data from the table in a streaming manner : "user_private" */
+    /** fetch data from the table in a streaming manner: "user_private" */
     user_private_stream: Array<GraphQLTypes['user_private']>;
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
     /** fetch data from the table: "users" using primary key columns */
     users_by_pk?: GraphQLTypes['users'] | undefined;
-    /** fetch data from the table in a streaming manner : "users" */
+    /** fetch data from the table in a streaming manner: "users" */
     users_stream: Array<GraphQLTypes['users']>;
     /** An array relationship */
     vault_transactions: Array<GraphQLTypes['vault_transactions']>;
     /** fetch data from the table: "vault_transactions" using primary key columns */
     vault_transactions_by_pk?: GraphQLTypes['vault_transactions'] | undefined;
-    /** fetch data from the table in a streaming manner : "vault_transactions" */
+    /** fetch data from the table in a streaming manner: "vault_transactions" */
     vault_transactions_stream: Array<GraphQLTypes['vault_transactions']>;
     /** fetch data from the table: "vault_tx_types" */
     vault_tx_types: Array<GraphQLTypes['vault_tx_types']>;
     /** fetch data from the table: "vault_tx_types" using primary key columns */
     vault_tx_types_by_pk?: GraphQLTypes['vault_tx_types'] | undefined;
-    /** fetch data from the table in a streaming manner : "vault_tx_types" */
+    /** fetch data from the table in a streaming manner: "vault_tx_types" */
     vault_tx_types_stream: Array<GraphQLTypes['vault_tx_types']>;
     /** An array relationship */
     vaults: Array<GraphQLTypes['vaults']>;
     /** fetch data from the table: "vaults" using primary key columns */
     vaults_by_pk?: GraphQLTypes['vaults'] | undefined;
-    /** fetch data from the table in a streaming manner : "vaults" */
+    /** fetch data from the table in a streaming manner: "vaults" */
     vaults_stream: Array<GraphQLTypes['vaults']>;
     /** An array relationship */
     vouches: Array<GraphQLTypes['vouches']>;
     /** fetch data from the table: "vouches" using primary key columns */
     vouches_by_pk?: GraphQLTypes['vouches'] | undefined;
-    /** fetch data from the table in a streaming manner : "vouches" */
+    /** fetch data from the table in a streaming manner: "vouches" */
     vouches_stream: Array<GraphQLTypes['vouches']>;
   };
   /** columns and relationships of "teammates" */
@@ -13338,6 +13500,8 @@ export type ModelTypes = {
     aggregate?: GraphQLTypes['token_gifts_aggregate_fields'] | undefined;
     nodes: Array<GraphQLTypes['token_gifts']>;
   };
+  ['token_gifts_aggregate_bool_exp']: GraphQLTypes['token_gifts_aggregate_bool_exp'];
+  ['token_gifts_aggregate_bool_exp_count']: GraphQLTypes['token_gifts_aggregate_bool_exp_count'];
   /** aggregate fields of "token_gifts" */
   ['token_gifts_aggregate_fields']: {
     avg?: GraphQLTypes['token_gifts_avg_fields'] | undefined;
@@ -14801,6 +14965,7 @@ export type GraphQLTypes = {
   ['circle_integrations_updates']: {
     /** sets the columns of the filtered rows to the given values */
     _set?: GraphQLTypes['circle_integrations_set_input'] | undefined;
+    /** filter the rows which have to be updated */
     where: GraphQLTypes['circle_integrations_bool_exp'];
   };
   /** order by var_pop() on columns of table "circle_integrations" */
@@ -15023,6 +15188,9 @@ export type GraphQLTypes = {
     circle_private?: GraphQLTypes['circle_private_bool_exp'] | undefined;
     cont_help_text?: GraphQLTypes['String_comparison_exp'] | undefined;
     contributions?: GraphQLTypes['contributions_bool_exp'] | undefined;
+    contributions_aggregate?:
+      | GraphQLTypes['contributions_aggregate_bool_exp']
+      | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     default_opt_in?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
@@ -15042,6 +15210,9 @@ export type GraphQLTypes = {
     name?: GraphQLTypes['String_comparison_exp'] | undefined;
     nomination_days_limit?: GraphQLTypes['Int_comparison_exp'] | undefined;
     nominees?: GraphQLTypes['nominees_bool_exp'] | undefined;
+    nominees_aggregate?:
+      | GraphQLTypes['nominees_aggregate_bool_exp']
+      | undefined;
     only_giver_vouch?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     organization?: GraphQLTypes['organizations_bool_exp'] | undefined;
     organization_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
@@ -15051,6 +15222,9 @@ export type GraphQLTypes = {
     show_pending_gives?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     team_selection?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     token_gifts?: GraphQLTypes['token_gifts_bool_exp'] | undefined;
+    token_gifts_aggregate?:
+      | GraphQLTypes['token_gifts_aggregate_bool_exp']
+      | undefined;
     token_name?: GraphQLTypes['String_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     users?: GraphQLTypes['users_bool_exp'] | undefined;
@@ -15317,6 +15491,15 @@ export type GraphQLTypes = {
     __typename: 'claims_aggregate';
     aggregate?: GraphQLTypes['claims_aggregate_fields'] | undefined;
     nodes: Array<GraphQLTypes['claims']>;
+  };
+  ['claims_aggregate_bool_exp']: {
+    count?: GraphQLTypes['claims_aggregate_bool_exp_count'] | undefined;
+  };
+  ['claims_aggregate_bool_exp_count']: {
+    arguments?: Array<GraphQLTypes['claims_select_column']> | undefined;
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes['claims_bool_exp'] | undefined;
+    predicate: GraphQLTypes['Int_comparison_exp'];
   };
   /** aggregate fields of "claims" */
   ['claims_aggregate_fields']: {
@@ -15606,6 +15789,7 @@ export type GraphQLTypes = {
   ['claims_updates']: {
     /** sets the columns of the filtered rows to the given values */
     _set?: GraphQLTypes['claims_set_input'] | undefined;
+    /** filter the rows which have to be updated */
     where: GraphQLTypes['claims_bool_exp'];
   };
   /** aggregate var_pop on columns */
@@ -15688,6 +15872,15 @@ export type GraphQLTypes = {
     __typename: 'contributions_aggregate';
     aggregate?: GraphQLTypes['contributions_aggregate_fields'] | undefined;
     nodes: Array<GraphQLTypes['contributions']>;
+  };
+  ['contributions_aggregate_bool_exp']: {
+    count?: GraphQLTypes['contributions_aggregate_bool_exp_count'] | undefined;
+  };
+  ['contributions_aggregate_bool_exp_count']: {
+    arguments?: Array<GraphQLTypes['contributions_select_column']> | undefined;
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes['contributions_bool_exp'] | undefined;
+    predicate: GraphQLTypes['Int_comparison_exp'];
   };
   /** aggregate fields of "contributions" */
   ['contributions_aggregate_fields']: {
@@ -16035,6 +16228,7 @@ export type GraphQLTypes = {
   ['discord_roles_circles_updates']: {
     /** sets the columns of the filtered rows to the given values */
     _set?: GraphQLTypes['discord_roles_circles_set_input'] | undefined;
+    /** filter the rows which have to be updated */
     where: GraphQLTypes['discord_roles_circles_bool_exp'];
   };
   /** link discord user ids to coordinape profiles 1:1 */
@@ -16119,6 +16313,7 @@ export type GraphQLTypes = {
   ['discord_users_updates']: {
     /** sets the columns of the filtered rows to the given values */
     _set?: GraphQLTypes['discord_users_set_input'] | undefined;
+    /** filter the rows which have to be updated */
     where: GraphQLTypes['discord_users_bool_exp'];
   };
   /** Vault Distributions */
@@ -16155,6 +16350,15 @@ export type GraphQLTypes = {
     __typename: 'distributions_aggregate';
     aggregate?: GraphQLTypes['distributions_aggregate_fields'] | undefined;
     nodes: Array<GraphQLTypes['distributions']>;
+  };
+  ['distributions_aggregate_bool_exp']: {
+    count?: GraphQLTypes['distributions_aggregate_bool_exp_count'] | undefined;
+  };
+  ['distributions_aggregate_bool_exp_count']: {
+    arguments?: Array<GraphQLTypes['distributions_select_column']> | undefined;
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes['distributions_bool_exp'] | undefined;
+    predicate: GraphQLTypes['Int_comparison_exp'];
   };
   /** aggregate fields of "distributions" */
   ['distributions_aggregate_fields']: {
@@ -16216,6 +16420,7 @@ export type GraphQLTypes = {
     _not?: GraphQLTypes['distributions_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['distributions_bool_exp']> | undefined;
     claims?: GraphQLTypes['claims_bool_exp'] | undefined;
+    claims_aggregate?: GraphQLTypes['claims_aggregate_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     created_by?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     distribution_epoch_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
@@ -16493,6 +16698,7 @@ export type GraphQLTypes = {
     _inc?: GraphQLTypes['distributions_inc_input'] | undefined;
     /** sets the columns of the filtered rows to the given values */
     _set?: GraphQLTypes['distributions_set_input'] | undefined;
+    /** filter the rows which have to be updated */
     where: GraphQLTypes['distributions_bool_exp'];
   };
   /** aggregate var_pop on columns */
@@ -16635,6 +16841,9 @@ export type GraphQLTypes = {
     days?: GraphQLTypes['Int_comparison_exp'] | undefined;
     description?: GraphQLTypes['String_comparison_exp'] | undefined;
     distributions?: GraphQLTypes['distributions_bool_exp'] | undefined;
+    distributions_aggregate?:
+      | GraphQLTypes['distributions_aggregate_bool_exp']
+      | undefined;
     end_date?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     ended?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     epoch_pending_token_gifts?:
@@ -16651,6 +16860,9 @@ export type GraphQLTypes = {
     repeat_day_of_month?: GraphQLTypes['Int_comparison_exp'] | undefined;
     start_date?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     token_gifts?: GraphQLTypes['token_gifts_bool_exp'] | undefined;
+    token_gifts_aggregate?:
+      | GraphQLTypes['token_gifts_aggregate_bool_exp']
+      | undefined;
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
   };
   /** order by max() on columns of table "epoches" */
@@ -16808,6 +17020,7 @@ export type GraphQLTypes = {
   ['epochs_updates']: {
     /** sets the columns of the filtered rows to the given values */
     _set?: GraphQLTypes['epochs_set_input'] | undefined;
+    /** filter the rows which have to be updated */
     where: GraphQLTypes['epochs_bool_exp'];
   };
   /** order by var_pop() on columns of table "epoches" */
@@ -17266,6 +17479,7 @@ export type GraphQLTypes = {
   ['locked_token_distributions_updates']: {
     /** sets the columns of the filtered rows to the given values */
     _set?: GraphQLTypes['locked_token_distributions_set_input'] | undefined;
+    /** filter the rows which have to be updated */
     where: GraphQLTypes['locked_token_distributions_bool_exp'];
   };
   /** mutation root */
@@ -17540,6 +17754,29 @@ export type GraphQLTypes = {
     aggregate?: GraphQLTypes['nominees_aggregate_fields'] | undefined;
     nodes: Array<GraphQLTypes['nominees']>;
   };
+  ['nominees_aggregate_bool_exp']: {
+    bool_and?: GraphQLTypes['nominees_aggregate_bool_exp_bool_and'] | undefined;
+    bool_or?: GraphQLTypes['nominees_aggregate_bool_exp_bool_or'] | undefined;
+    count?: GraphQLTypes['nominees_aggregate_bool_exp_count'] | undefined;
+  };
+  ['nominees_aggregate_bool_exp_bool_and']: {
+    arguments: GraphQLTypes['nominees_select_column_nominees_aggregate_bool_exp_bool_and_arguments_columns'];
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes['nominees_bool_exp'] | undefined;
+    predicate: GraphQLTypes['Boolean_comparison_exp'];
+  };
+  ['nominees_aggregate_bool_exp_bool_or']: {
+    arguments: GraphQLTypes['nominees_select_column_nominees_aggregate_bool_exp_bool_or_arguments_columns'];
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes['nominees_bool_exp'] | undefined;
+    predicate: GraphQLTypes['Boolean_comparison_exp'];
+  };
+  ['nominees_aggregate_bool_exp_count']: {
+    arguments?: Array<GraphQLTypes['nominees_select_column']> | undefined;
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes['nominees_bool_exp'] | undefined;
+    predicate: GraphQLTypes['Int_comparison_exp'];
+  };
   /** aggregate fields of "nominees" */
   ['nominees_aggregate_fields']: {
     __typename: 'nominees_aggregate_fields';
@@ -17691,6 +17928,10 @@ export type GraphQLTypes = {
   };
   /** select columns of table "nominees" */
   ['nominees_select_column']: nominees_select_column;
+  /** select "nominees_aggregate_bool_exp_bool_and_arguments_columns" columns of table "nominees" */
+  ['nominees_select_column_nominees_aggregate_bool_exp_bool_and_arguments_columns']: nominees_select_column_nominees_aggregate_bool_exp_bool_and_arguments_columns;
+  /** select "nominees_aggregate_bool_exp_bool_or_arguments_columns" columns of table "nominees" */
+  ['nominees_select_column_nominees_aggregate_bool_exp_bool_or_arguments_columns']: nominees_select_column_nominees_aggregate_bool_exp_bool_or_arguments_columns;
   /** aggregate stddev on columns */
   ['nominees_stddev_fields']: {
     __typename: 'nominees_stddev_fields';
@@ -18095,6 +18336,7 @@ export type GraphQLTypes = {
   ['organizations_updates']: {
     /** sets the columns of the filtered rows to the given values */
     _set?: GraphQLTypes['organizations_set_input'] | undefined;
+    /** filter the rows which have to be updated */
     where: GraphQLTypes['organizations_bool_exp'];
   };
   /** columns and relationships of "pending_gift_private" */
@@ -18513,14 +18755,21 @@ export type GraphQLTypes = {
     background?: GraphQLTypes['String_comparison_exp'] | undefined;
     bio?: GraphQLTypes['String_comparison_exp'] | undefined;
     claims?: GraphQLTypes['claims_bool_exp'] | undefined;
+    claims_aggregate?: GraphQLTypes['claims_aggregate_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     discord_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     distributions?: GraphQLTypes['distributions_bool_exp'] | undefined;
+    distributions_aggregate?:
+      | GraphQLTypes['distributions_aggregate_bool_exp']
+      | undefined;
     github_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     medium_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     name?: GraphQLTypes['citext_comparison_exp'] | undefined;
     nominees?: GraphQLTypes['nominees_bool_exp'] | undefined;
+    nominees_aggregate?:
+      | GraphQLTypes['nominees_aggregate_bool_exp']
+      | undefined;
     org_members?: GraphQLTypes['org_members_bool_exp'] | undefined;
     skills?: GraphQLTypes['String_comparison_exp'] | undefined;
     telegram_username?: GraphQLTypes['String_comparison_exp'] | undefined;
@@ -18623,6 +18872,7 @@ export type GraphQLTypes = {
   ['profiles_updates']: {
     /** sets the columns of the filtered rows to the given values */
     _set?: GraphQLTypes['profiles_set_input'] | undefined;
+    /** filter the rows which have to be updated */
     where: GraphQLTypes['profiles_bool_exp'];
   };
   ['query_root']: {
@@ -18774,35 +19024,35 @@ export type GraphQLTypes = {
     burns: Array<GraphQLTypes['burns']>;
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
-    /** fetch data from the table in a streaming manner : "burns" */
+    /** fetch data from the table in a streaming manner: "burns" */
     burns_stream: Array<GraphQLTypes['burns']>;
     /** An array relationship */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** fetch data from the table: "circle_api_keys" using primary key columns */
     circle_api_keys_by_pk?: GraphQLTypes['circle_api_keys'] | undefined;
-    /** fetch data from the table in a streaming manner : "circle_api_keys" */
+    /** fetch data from the table in a streaming manner: "circle_api_keys" */
     circle_api_keys_stream: Array<GraphQLTypes['circle_api_keys']>;
     /** fetch data from the table: "circle_integrations" */
     circle_integrations: Array<GraphQLTypes['circle_integrations']>;
     /** fetch data from the table: "circle_integrations" using primary key columns */
     circle_integrations_by_pk?: GraphQLTypes['circle_integrations'] | undefined;
-    /** fetch data from the table in a streaming manner : "circle_integrations" */
+    /** fetch data from the table in a streaming manner: "circle_integrations" */
     circle_integrations_stream: Array<GraphQLTypes['circle_integrations']>;
     /** fetch data from the table: "circle_private" */
     circle_private: Array<GraphQLTypes['circle_private']>;
-    /** fetch data from the table in a streaming manner : "circle_private" */
+    /** fetch data from the table in a streaming manner: "circle_private" */
     circle_private_stream: Array<GraphQLTypes['circle_private']>;
     /** fetch data from the table: "circle_share_tokens" */
     circle_share_tokens: Array<GraphQLTypes['circle_share_tokens']>;
     /** fetch data from the table: "circle_share_tokens" using primary key columns */
     circle_share_tokens_by_pk?: GraphQLTypes['circle_share_tokens'] | undefined;
-    /** fetch data from the table in a streaming manner : "circle_share_tokens" */
+    /** fetch data from the table in a streaming manner: "circle_share_tokens" */
     circle_share_tokens_stream: Array<GraphQLTypes['circle_share_tokens']>;
     /** An array relationship */
     circles: Array<GraphQLTypes['circles']>;
     /** fetch data from the table: "circles" using primary key columns */
     circles_by_pk?: GraphQLTypes['circles'] | undefined;
-    /** fetch data from the table in a streaming manner : "circles" */
+    /** fetch data from the table in a streaming manner: "circles" */
     circles_stream: Array<GraphQLTypes['circles']>;
     /** An array relationship */
     claims: Array<GraphQLTypes['claims']>;
@@ -18810,7 +19060,7 @@ export type GraphQLTypes = {
     claims_aggregate: GraphQLTypes['claims_aggregate'];
     /** fetch data from the table: "claims" using primary key columns */
     claims_by_pk?: GraphQLTypes['claims'] | undefined;
-    /** fetch data from the table in a streaming manner : "claims" */
+    /** fetch data from the table in a streaming manner: "claims" */
     claims_stream: Array<GraphQLTypes['claims']>;
     /** An array relationship */
     contributions: Array<GraphQLTypes['contributions']>;
@@ -18818,7 +19068,7 @@ export type GraphQLTypes = {
     contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     /** fetch data from the table: "contributions" using primary key columns */
     contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
-    /** fetch data from the table in a streaming manner : "contributions" */
+    /** fetch data from the table in a streaming manner: "contributions" */
     contributions_stream: Array<GraphQLTypes['contributions']>;
     /** fetch data from the table: "discord.roles_circles" */
     discord_roles_circles: Array<GraphQLTypes['discord_roles_circles']>;
@@ -18826,13 +19076,13 @@ export type GraphQLTypes = {
     discord_roles_circles_by_pk?:
       | GraphQLTypes['discord_roles_circles']
       | undefined;
-    /** fetch data from the table in a streaming manner : "discord.roles_circles" */
+    /** fetch data from the table in a streaming manner: "discord.roles_circles" */
     discord_roles_circles_stream: Array<GraphQLTypes['discord_roles_circles']>;
     /** fetch data from the table: "discord.users" */
     discord_users: Array<GraphQLTypes['discord_users']>;
     /** fetch data from the table: "discord.users" using primary key columns */
     discord_users_by_pk?: GraphQLTypes['discord_users'] | undefined;
-    /** fetch data from the table in a streaming manner : "discord.users" */
+    /** fetch data from the table in a streaming manner: "discord.users" */
     discord_users_stream: Array<GraphQLTypes['discord_users']>;
     /** An array relationship */
     distributions: Array<GraphQLTypes['distributions']>;
@@ -18840,17 +19090,17 @@ export type GraphQLTypes = {
     distributions_aggregate: GraphQLTypes['distributions_aggregate'];
     /** fetch data from the table: "distributions" using primary key columns */
     distributions_by_pk?: GraphQLTypes['distributions'] | undefined;
-    /** fetch data from the table in a streaming manner : "distributions" */
+    /** fetch data from the table in a streaming manner: "distributions" */
     distributions_stream: Array<GraphQLTypes['distributions']>;
     /** An array relationship */
     epochs: Array<GraphQLTypes['epochs']>;
     /** fetch data from the table: "epoches" using primary key columns */
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
-    /** fetch data from the table in a streaming manner : "epoches" */
+    /** fetch data from the table in a streaming manner: "epoches" */
     epochs_stream: Array<GraphQLTypes['epochs']>;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
-    /** fetch data from the table in a streaming manner : "gift_private" */
+    /** fetch data from the table in a streaming manner: "gift_private" */
     gift_private_stream: Array<GraphQLTypes['gift_private']>;
     /** An array relationship */
     locked_token_distribution_gifts: Array<
@@ -18860,7 +19110,7 @@ export type GraphQLTypes = {
     locked_token_distribution_gifts_by_pk?:
       | GraphQLTypes['locked_token_distribution_gifts']
       | undefined;
-    /** fetch data from the table in a streaming manner : "locked_token_distribution_gifts" */
+    /** fetch data from the table in a streaming manner: "locked_token_distribution_gifts" */
     locked_token_distribution_gifts_stream: Array<
       GraphQLTypes['locked_token_distribution_gifts']
     >;
@@ -18872,7 +19122,7 @@ export type GraphQLTypes = {
     locked_token_distributions_by_pk?:
       | GraphQLTypes['locked_token_distributions']
       | undefined;
-    /** fetch data from the table in a streaming manner : "locked_token_distributions" */
+    /** fetch data from the table in a streaming manner: "locked_token_distributions" */
     locked_token_distributions_stream: Array<
       GraphQLTypes['locked_token_distributions']
     >;
@@ -18882,29 +19132,29 @@ export type GraphQLTypes = {
     nominees_aggregate: GraphQLTypes['nominees_aggregate'];
     /** fetch data from the table: "nominees" using primary key columns */
     nominees_by_pk?: GraphQLTypes['nominees'] | undefined;
-    /** fetch data from the table in a streaming manner : "nominees" */
+    /** fetch data from the table in a streaming manner: "nominees" */
     nominees_stream: Array<GraphQLTypes['nominees']>;
     /** An array relationship */
     org_members: Array<GraphQLTypes['org_members']>;
     /** fetch data from the table: "org_members" using primary key columns */
     org_members_by_pk?: GraphQLTypes['org_members'] | undefined;
-    /** fetch data from the table in a streaming manner : "org_members" */
+    /** fetch data from the table in a streaming manner: "org_members" */
     org_members_stream: Array<GraphQLTypes['org_members']>;
     /** fetch data from the table: "organizations" */
     organizations: Array<GraphQLTypes['organizations']>;
     /** fetch data from the table: "organizations" using primary key columns */
     organizations_by_pk?: GraphQLTypes['organizations'] | undefined;
-    /** fetch data from the table in a streaming manner : "organizations" */
+    /** fetch data from the table in a streaming manner: "organizations" */
     organizations_stream: Array<GraphQLTypes['organizations']>;
     /** fetch data from the table: "pending_gift_private" */
     pending_gift_private: Array<GraphQLTypes['pending_gift_private']>;
-    /** fetch data from the table in a streaming manner : "pending_gift_private" */
+    /** fetch data from the table in a streaming manner: "pending_gift_private" */
     pending_gift_private_stream: Array<GraphQLTypes['pending_gift_private']>;
     /** An array relationship */
     pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     /** fetch data from the table: "pending_token_gifts" using primary key columns */
     pending_token_gifts_by_pk?: GraphQLTypes['pending_token_gifts'] | undefined;
-    /** fetch data from the table in a streaming manner : "pending_token_gifts" */
+    /** fetch data from the table in a streaming manner: "pending_token_gifts" */
     pending_token_gifts_stream: Array<GraphQLTypes['pending_token_gifts']>;
     /** fetch data from the table: "pending_vault_transactions" */
     pending_vault_transactions: Array<
@@ -18914,7 +19164,7 @@ export type GraphQLTypes = {
     pending_vault_transactions_by_pk?:
       | GraphQLTypes['pending_vault_transactions']
       | undefined;
-    /** fetch data from the table in a streaming manner : "pending_vault_transactions" */
+    /** fetch data from the table in a streaming manner: "pending_vault_transactions" */
     pending_vault_transactions_stream: Array<
       GraphQLTypes['pending_vault_transactions']
     >;
@@ -18922,13 +19172,13 @@ export type GraphQLTypes = {
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch data from the table: "profiles" using primary key columns */
     profiles_by_pk?: GraphQLTypes['profiles'] | undefined;
-    /** fetch data from the table in a streaming manner : "profiles" */
+    /** fetch data from the table in a streaming manner: "profiles" */
     profiles_stream: Array<GraphQLTypes['profiles']>;
     /** An array relationship */
     teammates: Array<GraphQLTypes['teammates']>;
     /** fetch data from the table: "teammates" using primary key columns */
     teammates_by_pk?: GraphQLTypes['teammates'] | undefined;
-    /** fetch data from the table in a streaming manner : "teammates" */
+    /** fetch data from the table in a streaming manner: "teammates" */
     teammates_stream: Array<GraphQLTypes['teammates']>;
     /** An array relationship */
     token_gifts: Array<GraphQLTypes['token_gifts']>;
@@ -18936,43 +19186,43 @@ export type GraphQLTypes = {
     token_gifts_aggregate: GraphQLTypes['token_gifts_aggregate'];
     /** fetch data from the table: "token_gifts" using primary key columns */
     token_gifts_by_pk?: GraphQLTypes['token_gifts'] | undefined;
-    /** fetch data from the table in a streaming manner : "token_gifts" */
+    /** fetch data from the table in a streaming manner: "token_gifts" */
     token_gifts_stream: Array<GraphQLTypes['token_gifts']>;
     /** fetch data from the table: "user_private" */
     user_private: Array<GraphQLTypes['user_private']>;
     /** fetch aggregated fields from the table: "user_private" */
     user_private_aggregate: GraphQLTypes['user_private_aggregate'];
-    /** fetch data from the table in a streaming manner : "user_private" */
+    /** fetch data from the table in a streaming manner: "user_private" */
     user_private_stream: Array<GraphQLTypes['user_private']>;
     /** An array relationship */
     users: Array<GraphQLTypes['users']>;
     /** fetch data from the table: "users" using primary key columns */
     users_by_pk?: GraphQLTypes['users'] | undefined;
-    /** fetch data from the table in a streaming manner : "users" */
+    /** fetch data from the table in a streaming manner: "users" */
     users_stream: Array<GraphQLTypes['users']>;
     /** An array relationship */
     vault_transactions: Array<GraphQLTypes['vault_transactions']>;
     /** fetch data from the table: "vault_transactions" using primary key columns */
     vault_transactions_by_pk?: GraphQLTypes['vault_transactions'] | undefined;
-    /** fetch data from the table in a streaming manner : "vault_transactions" */
+    /** fetch data from the table in a streaming manner: "vault_transactions" */
     vault_transactions_stream: Array<GraphQLTypes['vault_transactions']>;
     /** fetch data from the table: "vault_tx_types" */
     vault_tx_types: Array<GraphQLTypes['vault_tx_types']>;
     /** fetch data from the table: "vault_tx_types" using primary key columns */
     vault_tx_types_by_pk?: GraphQLTypes['vault_tx_types'] | undefined;
-    /** fetch data from the table in a streaming manner : "vault_tx_types" */
+    /** fetch data from the table in a streaming manner: "vault_tx_types" */
     vault_tx_types_stream: Array<GraphQLTypes['vault_tx_types']>;
     /** An array relationship */
     vaults: Array<GraphQLTypes['vaults']>;
     /** fetch data from the table: "vaults" using primary key columns */
     vaults_by_pk?: GraphQLTypes['vaults'] | undefined;
-    /** fetch data from the table in a streaming manner : "vaults" */
+    /** fetch data from the table in a streaming manner: "vaults" */
     vaults_stream: Array<GraphQLTypes['vaults']>;
     /** An array relationship */
     vouches: Array<GraphQLTypes['vouches']>;
     /** fetch data from the table: "vouches" using primary key columns */
     vouches_by_pk?: GraphQLTypes['vouches'] | undefined;
-    /** fetch data from the table in a streaming manner : "vouches" */
+    /** fetch data from the table in a streaming manner: "vouches" */
     vouches_stream: Array<GraphQLTypes['vouches']>;
   };
   /** columns and relationships of "teammates" */
@@ -19162,6 +19412,15 @@ export type GraphQLTypes = {
     __typename: 'token_gifts_aggregate';
     aggregate?: GraphQLTypes['token_gifts_aggregate_fields'] | undefined;
     nodes: Array<GraphQLTypes['token_gifts']>;
+  };
+  ['token_gifts_aggregate_bool_exp']: {
+    count?: GraphQLTypes['token_gifts_aggregate_bool_exp_count'] | undefined;
+  };
+  ['token_gifts_aggregate_bool_exp_count']: {
+    arguments?: Array<GraphQLTypes['token_gifts_select_column']> | undefined;
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes['token_gifts_bool_exp'] | undefined;
+    predicate: GraphQLTypes['Int_comparison_exp'];
   };
   /** aggregate fields of "token_gifts" */
   ['token_gifts_aggregate_fields']: {
@@ -19681,6 +19940,9 @@ export type GraphQLTypes = {
     circle_api_keys?: GraphQLTypes['circle_api_keys_bool_exp'] | undefined;
     circle_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     contributions?: GraphQLTypes['contributions_bool_exp'] | undefined;
+    contributions_aggregate?:
+      | GraphQLTypes['contributions_aggregate_bool_exp']
+      | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     epoch_first_visit?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
@@ -19699,8 +19961,14 @@ export type GraphQLTypes = {
       | undefined;
     profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     received_gifts?: GraphQLTypes['token_gifts_bool_exp'] | undefined;
+    received_gifts_aggregate?:
+      | GraphQLTypes['token_gifts_aggregate_bool_exp']
+      | undefined;
     role?: GraphQLTypes['Int_comparison_exp'] | undefined;
     sent_gifts?: GraphQLTypes['token_gifts_bool_exp'] | undefined;
+    sent_gifts_aggregate?:
+      | GraphQLTypes['token_gifts_aggregate_bool_exp']
+      | undefined;
     starting_tokens?: GraphQLTypes['Int_comparison_exp'] | undefined;
     teammates?: GraphQLTypes['teammates_bool_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
@@ -20180,6 +20448,9 @@ export type GraphQLTypes = {
     decimals?: GraphQLTypes['Int_comparison_exp'] | undefined;
     deployment_block?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     distributions?: GraphQLTypes['distributions_bool_exp'] | undefined;
+    distributions_aggregate?:
+      | GraphQLTypes['distributions_aggregate_bool_exp']
+      | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     organization?: GraphQLTypes['organizations_bool_exp'] | undefined;
     profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
@@ -20723,6 +20994,14 @@ export const enum nominees_select_column {
   updated_at = 'updated_at',
   user_id = 'user_id',
   vouches_required = 'vouches_required',
+}
+/** select "nominees_aggregate_bool_exp_bool_and_arguments_columns" columns of table "nominees" */
+export const enum nominees_select_column_nominees_aggregate_bool_exp_bool_and_arguments_columns {
+  ended = 'ended',
+}
+/** select "nominees_aggregate_bool_exp_bool_or_arguments_columns" columns of table "nominees" */
+export const enum nominees_select_column_nominees_aggregate_bool_exp_bool_or_arguments_columns {
+  ended = 'ended',
 }
 /** column ordering options */
 export const enum order_by {
