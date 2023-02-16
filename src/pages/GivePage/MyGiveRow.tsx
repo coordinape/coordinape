@@ -57,7 +57,7 @@ export const MyGiveRow = ({
         }
       }}
       color="transparent"
-      css={{ p: 0, mb: '$lg', width: '100%', borderRadius: '$3' }}
+      css={{ p: 0, mb: '$md', width: '100%', borderRadius: '$3' }}
       ref={newRef}
     >
       <GiveRowGrid
@@ -72,7 +72,7 @@ export const MyGiveRow = ({
             borderColor: '$border',
           },
           '@sm': {
-            py: '$sm !important',
+            py: '$md !important',
           },
         }}
       >
