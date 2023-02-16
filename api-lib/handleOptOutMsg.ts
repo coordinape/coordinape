@@ -62,7 +62,10 @@ export default async function handleOptOutMsg(
     event: { data },
   } = payload;
 
-  if (data.old.non_receiver === false && data.new.non_receiver === true) {
+  if (
+    (data.old.non_receiver === false && data.new.non_receiver === true) ||
+    (!data.old.deleted_at && data.new.deleted_at)
+  ) {
     const currentEpoch = await queries.getCurrentEpoch(data.new.circle_id);
 
     if (currentEpoch) {
@@ -107,7 +110,10 @@ export default async function handleOptOutMsg(
     }
   }
 
-  if (data.old.non_giver === false && data.new.non_giver === true) {
+  if (
+    (data.old.non_giver === false && data.new.non_giver === true) ||
+    (!data.old.deleted_at && data.new.deleted_at)
+  ) {
     const currentEpoch = await queries.getCurrentEpoch(data.new.circle_id);
 
     if (currentEpoch) {
