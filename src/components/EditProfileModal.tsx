@@ -42,7 +42,7 @@ type EditProfileFormSchema = z.infer<typeof schema>;
 
 const sectionHeader = {
   fontSize: '$md',
-  fontWeight: '$bold',
+  fontWeight: '$semibold',
   padding: '0 0 $sm',
   margin: '$xl 0 $md',
   borderBottom: '0.7px solid rgba(24, 24, 24, 0.1)',

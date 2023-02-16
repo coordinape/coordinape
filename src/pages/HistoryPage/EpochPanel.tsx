@@ -50,17 +50,17 @@ export const EpochPanel = ({
       }}
     >
       <Flex column css={{ gap: '$sm' }}>
-        <Text semibold inline h2>
+        <Text semibold inline h1>
           {startDate.toFormat('MMM')} {startDate.toFormat('d')} -{' '}
           {endDate.toFormat(endDateFormat)}
         </Text>
-        {epoch.description ? (
-          <Text p>{epoch.description}</Text>
-        ) : (
-          <Text inline h3>
-            Epoch {epoch.number}
-          </Text>
-        )}
+        <Text p as="p">
+          {epoch.description ? (
+            <>{epoch.description}</>
+          ) : (
+            <>Epoch {epoch.number}</>
+          )}
+        </Text>
       </Flex>
       <Flex
         column

@@ -237,7 +237,7 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
       >
         <Flex column css={{ gap: '$sm' }}>
           <Text
-            h3
+            large
             semibold
             css={{
               minHeight: '$lg',
@@ -259,7 +259,7 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
         </Flex>
         <Flex column css={{ gap: '$sm' }}>
           <Text
-            h3
+            large
             css={{
               minHeight: '$lg',
               alignItems: 'end',

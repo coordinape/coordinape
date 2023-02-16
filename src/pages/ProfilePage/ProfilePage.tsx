@@ -237,7 +237,6 @@ const ProfilePageContent = ({
                         alignItems: 'center',
                         fontSize: '$small',
                         lineHeight: '$short',
-                        fontWeight: '$light',
                         cursor: 'pointer',
                         color: transparentize(0.3, colors.text),
                         margin: '$sm',
@@ -281,7 +280,6 @@ const ProfilePageContent = ({
                       <Box
                         css={{
                           color: transparentize(0.3, colors.text),
-                          fontWeight: '$light',
                           margin: '$xxs 0 $lg',
                         }}
                       >
@@ -313,7 +311,7 @@ const Section = ({
       <Text
         p
         css={{
-          fontWeight: '$bold',
+          fontWeight: '$semibold',
           color: transparentize(0.3, colors.text),
           padding: '0 0 $sm',
           margin: '$xl 0 $md',

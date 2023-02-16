@@ -35,7 +35,7 @@ TruncatingBox.args = {
     whiteSpace: '',
     color: '$text',
     fontSize: '$h2',
-    fontWeight: '$bold',
+    fontWeight: '$semibold',
     width: 100,
   },
 };

@@ -693,7 +693,7 @@ const EpochForm = ({
             <Flex column css={{ rowGap: '$lg' }}>
               <TwoColumnLayout>
                 <Flex column>
-                  <Text h3 semibold>
+                  <Text large semibold>
                     Epoch Settings
                   </Text>
                   <Text p size="small" css={{ mt: '$sm ' }}>

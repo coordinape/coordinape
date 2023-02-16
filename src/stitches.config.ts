@@ -268,13 +268,12 @@ export const {
     },
     fontSizes: {
       small: '14px',
-      medium: '16px',
-      large: '20px',
-      h3: '24px',
+      medium: '18px',
+      large: '24px',
+      p: '16px',
+      h3: '$p',
       h2: '18px',
       h1: '26px',
-      h1Temp: '26px',
-      h2Temp: '18px',
     },
     lineHeights: {
       none: 1,
@@ -293,15 +292,12 @@ export const {
       label: 'none',
     },
     fontWeights: {
-      hairline: 100,
-      thin: 200,
-      light: 300,
       normal: 400,
       medium: 500,
       semibold: 600,
-      bold: 700,
-      extrabold: 800,
-      black: 900,
+      bold: '$semibold',
+      extrabold: '$semibold',
+      black: '$semibold',
       labelBold: '$semibold',
     },
 
@@ -575,17 +571,6 @@ export const globalStyles = globalCss({
   '@font-face': [
     {
       fontFamily: 'Denim',
-      fontWeight: 300,
-      src: 'url("/fonts/Denim-Medium.woff2")',
-    },
-    {
-      fontFamily: 'Denim',
-      fontWeight: 300,
-      fontStyle: 'italic',
-      src: 'url("/fonts/Denim-MediumItalic.woff2")',
-    },
-    {
-      fontFamily: 'Denim',
       fontWeight: 400,
       src: 'url("/fonts/Denim-Regular.woff2")',
     },
@@ -617,17 +602,6 @@ export const globalStyles = globalCss({
       fontWeight: 600,
       fontStyle: 'italic',
       src: 'url("/fonts/Denim-SemiBoldItalic.woff2")',
-    },
-    {
-      fontFamily: 'Denim',
-      fontWeight: 700,
-      src: 'url("/fonts/Denim-Bold.woff2")',
-    },
-    {
-      fontFamily: 'Denim',
-      fontWeight: 700,
-      fontStyle: 'italic',
-      src: 'url("/fonts/Denim-BoldItalic.woff2")',
     },
   ],
   '*': {

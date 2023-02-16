@@ -49,7 +49,7 @@ export const AddressIsNotMember = ({
             mb: '$lg',
           }}
         >
-          <Text h1 css={{ fontSize: '$h1Temp' }}>
+          <Text h1>
             You&apos;re not a member of {tokenJoinInfo.circle.name}
           </Text>
         </Box>
@@ -104,9 +104,7 @@ export const AddressIsNotMember = ({
         {users.length > 0 ? (
           <>
             <Box css={{ textAlign: 'left', mb: '$lg' }}>
-              <Text h2 css={{ fontSize: '$h2Temp' }}>
-                You are a member of these other circles
-              </Text>
+              <Text h2>You are a member of these other circles</Text>
             </Box>
             {users.map(u => (
               <AppLink key={u.id} to={paths.history(u.circle_id)}>
@@ -134,9 +132,7 @@ export const AddressIsNotMember = ({
           </>
         ) : (
           <Box css={{ textAlign: 'center', mb: '$lg' }}>
-            <Text h2 css={{ fontSize: '$h2Temp' }}>
-              You aren&apos;t a member of any other circles
-            </Text>
+            <Text h2>You aren&apos;t a member of any other circles</Text>
           </Box>
         )}
       </Box>

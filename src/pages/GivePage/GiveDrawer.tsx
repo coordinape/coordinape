@@ -207,7 +207,7 @@ export const GiveDrawer = ({
             margin="none"
             css={{ mr: '$sm' }}
           />
-          <Text ellipsis h3 semibold>
+          <Text ellipsis large semibold>
             {member.profile.name ?? member.name}
           </Text>
         </Flex>

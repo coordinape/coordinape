@@ -474,7 +474,7 @@ export const CircleAdminPage = () => {
         <Panel css={panelStyles}>
           <Text h2>General</Text>
           <Panel css={{ p: '$sm 0' }}>
-            <Text h3 semibold css={{ mb: '$sm' }}>
+            <Text large semibold css={{ mb: '$sm' }}>
               Circle Settings
             </Text>
             <Text p as="p" size="small">
@@ -648,7 +648,7 @@ export const CircleAdminPage = () => {
               <CheckBox {...hideGives} label="Hide GIVE Data During Epoch " />
             </Flex>
             <Divider css={{ mt: '$1xl', mb: '$lg' }} />
-            <Text h3 semibold css={{ mb: '$sm' }}>
+            <Text large semibold css={{ mb: '$sm' }}>
               Epoch Timing
             </Text>
             <Text p as="p" size="small">
@@ -745,7 +745,7 @@ export const CircleAdminPage = () => {
         <Panel css={panelStyles}>
           <Text h2>Vouching</Text>
           <Panel css={{ p: '$sm 0' }}>
-            <Text h3 semibold css={{ mb: '$sm' }}>
+            <Text large semibold css={{ mb: '$sm' }}>
               Vouching Settings
             </Text>
             <Text p as="p" size="small">
@@ -868,7 +868,7 @@ export const CircleAdminPage = () => {
             <AdminIntegrations circleId={circleId} />
             <HR />
             <Box>
-              <Text h3 semibold css={{ mb: '$md' }}>
+              <Text large semibold css={{ mb: '$md' }}>
                 Discord Webhook
               </Text>
               {allowEdit && (
@@ -899,7 +899,7 @@ export const CircleAdminPage = () => {
                 <Text
                   ref={scrollToGuild}
                   id="guild"
-                  h3
+                  large
                   semibold
                   css={{ mb: '$md' }}
                 >
@@ -977,7 +977,7 @@ export const CircleAdminPage = () => {
             Danger Zone
           </Text>
           <Flex column alignItems="start">
-            <Text h3 semibold css={{ mb: '$lg' }}>
+            <Text large semibold css={{ mb: '$lg' }}>
               Permanently Remove Circle
             </Text>
             <Button

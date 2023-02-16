@@ -596,7 +596,7 @@ const ContributionsPage = () => {
                   css={{ mb: '$sm', justifyContent: 'space-between' }}
                 >
                   <Flex>
-                    <Text h3 semibold css={{ mr: '$md' }}>
+                    <Text large semibold css={{ mr: '$md' }}>
                       {currentContribution.epoch.id
                         ? renderEpochDate(currentContribution.epoch)
                         : 'Latest'}

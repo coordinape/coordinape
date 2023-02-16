@@ -224,7 +224,7 @@ const SecondWalletInner = ({
           <Text variant="label" as="label" css={{ mb: '$xs' }}>
             From secondary wallet
           </Text>
-          <Text inline h3 semibold>
+          <Text inline large semibold>
             <Text css={{ mr: '$xs' }}>
               <WalletConnectSVG />
             </Text>
@@ -245,7 +245,7 @@ const SecondWalletInner = ({
           <Text variant="label" as="label" css={{ mb: '$xs' }}>
             From primary wallet
           </Text>
-          <Text inline h3 semibold>
+          <Text inline large semibold>
             {address && shortenAddress(address)}
           </Text>
           <Link onClick={onClickStart} css={{ ml: '$sm' }}>

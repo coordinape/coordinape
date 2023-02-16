@@ -70,7 +70,7 @@ const Footer = () => (
         padding: '$md 0',
         color: '$text',
         textDecoration: 'none',
-        fontWeight: '$bold',
+        fontWeight: '$semibold',
         fontSize: '$large',
       },
     }}

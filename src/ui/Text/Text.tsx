@@ -23,7 +23,7 @@ export const Text = styled('span', {
       complete: { color: '$complete' },
       inherit: { color: 'inherit' },
     },
-    bold: { true: { fontWeight: '$bold !important' } },
+    bold: { true: { fontWeight: '$semibold !important' } },
     normal: { true: { fontWeight: '$normal !important' } },
     medium: { true: { fontWeight: '$medium !important' } },
     semibold: { true: { fontWeight: '$semibold !important' } },
@@ -47,11 +47,11 @@ export const Text = styled('span', {
         '@sm': { fontSize: '$h3' },
       },
     },
-    h3: {
+    large: {
       true: {
-        fontSize: '$h3',
+        fontSize: '$large',
         letterSpacing: '$header',
-        '@sm': { fontSize: '$large' },
+        '@sm': { fontSize: '$medium' },
       },
     },
 

@@ -57,7 +57,7 @@ export const navLinkStyle = {
   },
   '&.active': {
     backgroundColor: '$surface',
-    fontWeight: '$bold',
+    fontWeight: '$semibold',
     color: '$text',
   },
 };

@@ -147,7 +147,6 @@ export const GiveAllocator = ({
               py: '$xs',
               my: '$xs',
               fontWeight: '$semibold',
-              fontSize: '$h2Temp',
               backgroundColor: '$formInputBackground !important',
             }}
             type="number"

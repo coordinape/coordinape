@@ -250,8 +250,8 @@ export function DistributionsPage() {
       </Box>
       {epochError ? (
         <Text
+          large
           css={{
-            fontSize: '$h3',
             fontWeight: '$semibold',
             textAlign: 'center',
             display: 'block',

@@ -979,7 +979,7 @@ const AllocateContents = ({
               inline
               css={{ textAlign: 'center' }}
               color="secondary"
-              h3
+              large
               semibold
             >
               {onlyCollaborators
