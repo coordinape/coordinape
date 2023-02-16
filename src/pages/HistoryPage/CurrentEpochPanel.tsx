@@ -66,6 +66,7 @@ export const CurrentEpochPanel = ({
   return (
     <Panel
       css={{
+        p: '$lg',
         mb: '$xl',
         border: '1px solid $borderFocusBright',
         ...css,

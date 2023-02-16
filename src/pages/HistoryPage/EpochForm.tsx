@@ -644,7 +644,7 @@ const EpochForm = ({
       className="epochFormContainer"
       css={{
         mb: '$md',
-        p: '$md',
+        p: '$md $lg',
         border: '1px solid $border',
         width: '100%',
       }}

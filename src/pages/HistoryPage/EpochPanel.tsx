@@ -41,6 +41,7 @@ export const EpochPanel = ({
   return (
     <Panel
       css={{
+        p: '$lg',
         alignItems: 'start',
         display: 'grid',
         gridTemplateColumns: '1fr 3fr',
