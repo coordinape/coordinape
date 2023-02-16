@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/gh",
+      "destination": "https://github.com/coordinape/coordinape"
+    },
+    {
       "source": "/stats/js/script.js",
       "destination": "https://plausible.io/js/script.outbound-links.js"
     },
