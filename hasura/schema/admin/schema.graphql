@@ -6793,6 +6793,13 @@ input discord_circle_api_tokens_variance_order_by {
 link a discord role to a circle  to control membership of the circle
 """
 type discord_roles_circles {
+  alerts(
+    """
+    JSON select path
+    """
+    path: String
+  ): jsonb!
+
   """
   An object relationship
   """
@@ -6802,7 +6809,6 @@ type discord_roles_circles {
   discord_channel_id: String!
   discord_role_id: String!
   id: bigint!
-  server_channel: String!
   updated_at: timestamptz!
 }
 
@@ -6835,6 +6841,13 @@ type discord_roles_circles_aggregate_fields {
 }
 
 """
+append existing jsonb value of filtered columns with new jsonb value
+"""
+input discord_roles_circles_append_input {
+  alerts: jsonb
+}
+
+"""
 aggregate avg on columns
 """
 type discord_roles_circles_avg_fields {
@@ -6849,13 +6862,13 @@ input discord_roles_circles_bool_exp {
   _and: [discord_roles_circles_bool_exp!]
   _not: discord_roles_circles_bool_exp
   _or: [discord_roles_circles_bool_exp!]
+  alerts: jsonb_comparison_exp
   circle: circles_bool_exp
   circle_id: bigint_comparison_exp
   created_at: timestamptz_comparison_exp
   discord_channel_id: String_comparison_exp
   discord_role_id: String_comparison_exp
   id: bigint_comparison_exp
-  server_channel: String_comparison_exp
   updated_at: timestamptz_comparison_exp
 }
 
@@ -6875,6 +6888,27 @@ enum discord_roles_circles_constraint {
 }
 
 """
+delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+"""
+input discord_roles_circles_delete_at_path_input {
+  alerts: [String!]
+}
+
+"""
+delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+"""
+input discord_roles_circles_delete_elem_input {
+  alerts: Int
+}
+
+"""
+delete key/value pair or string element. key/value pairs are matched based on their key value
+"""
+input discord_roles_circles_delete_key_input {
+  alerts: String
+}
+
+"""
 input type for incrementing numeric columns in table "discord.roles_circles"
 """
 input discord_roles_circles_inc_input {
@@ -6886,13 +6920,13 @@ input discord_roles_circles_inc_input {
 input type for inserting data into table "discord.roles_circles"
 """
 input discord_roles_circles_insert_input {
+  alerts: jsonb
   circle: circles_obj_rel_insert_input
   circle_id: bigint
   created_at: timestamptz
   discord_channel_id: String
   discord_role_id: String
   id: bigint
-  server_channel: String
   updated_at: timestamptz
 }
 
@@ -6905,7 +6939,6 @@ type discord_roles_circles_max_fields {
   discord_channel_id: String
   discord_role_id: String
   id: bigint
-  server_channel: String
   updated_at: timestamptz
 }
 
@@ -6918,7 +6951,6 @@ type discord_roles_circles_min_fields {
   discord_channel_id: String
   discord_role_id: String
   id: bigint
-  server_channel: String
   updated_at: timestamptz
 }
 
@@ -6962,13 +6994,13 @@ input discord_roles_circles_on_conflict {
 Ordering options when selecting data from "discord.roles_circles".
 """
 input discord_roles_circles_order_by {
+  alerts: order_by
   circle: circles_order_by
   circle_id: order_by
   created_at: order_by
   discord_channel_id: order_by
   discord_role_id: order_by
   id: order_by
-  server_channel: order_by
   updated_at: order_by
 }
 
@@ -6980,9 +7012,21 @@ input discord_roles_circles_pk_columns_input {
 }
 
 """
+prepend existing jsonb value of filtered columns with new jsonb value
+"""
+input discord_roles_circles_prepend_input {
+  alerts: jsonb
+}
+
+"""
 select columns of table "discord.roles_circles"
 """
 enum discord_roles_circles_select_column {
+  """
+  column name
+  """
+  alerts
+
   """
   column name
   """
@@ -7011,11 +7055,6 @@ enum discord_roles_circles_select_column {
   """
   column name
   """
-  server_channel
-
-  """
-  column name
-  """
   updated_at
 }
 
@@ -7023,12 +7062,12 @@ enum discord_roles_circles_select_column {
 input type for updating data in table "discord.roles_circles"
 """
 input discord_roles_circles_set_input {
+  alerts: jsonb
   circle_id: bigint
   created_at: timestamptz
   discord_channel_id: String
   discord_role_id: String
   id: bigint
-  server_channel: String
   updated_at: timestamptz
 }
 
@@ -7075,12 +7114,12 @@ input discord_roles_circles_stream_cursor_input {
 Initial value of the column from where the streaming should start
 """
 input discord_roles_circles_stream_cursor_value_input {
+  alerts: jsonb
   circle_id: bigint
   created_at: timestamptz
   discord_channel_id: String
   discord_role_id: String
   id: bigint
-  server_channel: String
   updated_at: timestamptz
 }
 
@@ -7096,6 +7135,11 @@ type discord_roles_circles_sum_fields {
 update columns of table "discord.roles_circles"
 """
 enum discord_roles_circles_update_column {
+  """
+  column name
+  """
+  alerts
+
   """
   column name
   """
@@ -7124,19 +7168,39 @@ enum discord_roles_circles_update_column {
   """
   column name
   """
-  server_channel
-
-  """
-  column name
-  """
   updated_at
 }
 
 input discord_roles_circles_updates {
   """
+  append existing jsonb value of filtered columns with new jsonb value
+  """
+  _append: discord_roles_circles_append_input
+
+  """
+  delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+  """
+  _delete_at_path: discord_roles_circles_delete_at_path_input
+
+  """
+  delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+  """
+  _delete_elem: discord_roles_circles_delete_elem_input
+
+  """
+  delete key/value pair or string element. key/value pairs are matched based on their key value
+  """
+  _delete_key: discord_roles_circles_delete_key_input
+
+  """
   increments the numeric columns with given value of the filtered values
   """
   _inc: discord_roles_circles_inc_input
+
+  """
+  prepend existing jsonb value of filtered columns with new jsonb value
+  """
+  _prepend: discord_roles_circles_prepend_input
 
   """
   sets the columns of the filtered rows to the given values
@@ -14731,9 +14795,34 @@ type mutation_root {
   """
   update_discord_roles_circles(
     """
+    append existing jsonb value of filtered columns with new jsonb value
+    """
+    _append: discord_roles_circles_append_input
+
+    """
+    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    """
+    _delete_at_path: discord_roles_circles_delete_at_path_input
+
+    """
+    delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+    """
+    _delete_elem: discord_roles_circles_delete_elem_input
+
+    """
+    delete key/value pair or string element. key/value pairs are matched based on their key value
+    """
+    _delete_key: discord_roles_circles_delete_key_input
+
+    """
     increments the numeric columns with given value of the filtered values
     """
     _inc: discord_roles_circles_inc_input
+
+    """
+    prepend existing jsonb value of filtered columns with new jsonb value
+    """
+    _prepend: discord_roles_circles_prepend_input
 
     """
     sets the columns of the filtered rows to the given values
@@ -14751,9 +14840,34 @@ type mutation_root {
   """
   update_discord_roles_circles_by_pk(
     """
+    append existing jsonb value of filtered columns with new jsonb value
+    """
+    _append: discord_roles_circles_append_input
+
+    """
+    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    """
+    _delete_at_path: discord_roles_circles_delete_at_path_input
+
+    """
+    delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+    """
+    _delete_elem: discord_roles_circles_delete_elem_input
+
+    """
+    delete key/value pair or string element. key/value pairs are matched based on their key value
+    """
+    _delete_key: discord_roles_circles_delete_key_input
+
+    """
     increments the numeric columns with given value of the filtered values
     """
     _inc: discord_roles_circles_inc_input
+
+    """
+    prepend existing jsonb value of filtered columns with new jsonb value
+    """
+    _prepend: discord_roles_circles_prepend_input
 
     """
     sets the columns of the filtered rows to the given values

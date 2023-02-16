@@ -5179,6 +5179,12 @@ export type ValueTypes = {
   };
   /** link a discord role to a circle  to control membership of the circle */
   ['discord_roles_circles']: AliasType<{
+    alerts?: [
+      {
+        /** JSON select path */ path?: string | undefined | null;
+      },
+      boolean | `@${string}`
+    ];
     /** An object relationship */
     circle?: ValueTypes['circles'];
     circle_id?: boolean | `@${string}`;
@@ -5186,7 +5192,6 @@ export type ValueTypes = {
     discord_channel_id?: boolean | `@${string}`;
     discord_role_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
-    server_channel?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -5220,6 +5225,10 @@ export type ValueTypes = {
     variance?: ValueTypes['discord_roles_circles_variance_fields'];
     __typename?: boolean | `@${string}`;
   }>;
+  /** append existing jsonb value of filtered columns with new jsonb value */
+  ['discord_roles_circles_append_input']: {
+    alerts?: ValueTypes['jsonb'] | undefined | null;
+  };
   /** aggregate avg on columns */
   ['discord_roles_circles_avg_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
@@ -5237,17 +5246,29 @@ export type ValueTypes = {
       | Array<ValueTypes['discord_roles_circles_bool_exp']>
       | undefined
       | null;
+    alerts?: ValueTypes['jsonb_comparison_exp'] | undefined | null;
     circle?: ValueTypes['circles_bool_exp'] | undefined | null;
     circle_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     discord_channel_id?: ValueTypes['String_comparison_exp'] | undefined | null;
     discord_role_id?: ValueTypes['String_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
-    server_channel?: ValueTypes['String_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
   };
   /** unique or primary key constraints on table "discord.roles_circles" */
   ['discord_roles_circles_constraint']: discord_roles_circles_constraint;
+  /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+  ['discord_roles_circles_delete_at_path_input']: {
+    alerts?: Array<string> | undefined | null;
+  };
+  /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+  ['discord_roles_circles_delete_elem_input']: {
+    alerts?: number | undefined | null;
+  };
+  /** delete key/value pair or string element. key/value pairs are matched based on their key value */
+  ['discord_roles_circles_delete_key_input']: {
+    alerts?: string | undefined | null;
+  };
   /** input type for incrementing numeric columns in table "discord.roles_circles" */
   ['discord_roles_circles_inc_input']: {
     circle_id?: ValueTypes['bigint'] | undefined | null;
@@ -5255,13 +5276,13 @@ export type ValueTypes = {
   };
   /** input type for inserting data into table "discord.roles_circles" */
   ['discord_roles_circles_insert_input']: {
+    alerts?: ValueTypes['jsonb'] | undefined | null;
     circle?: ValueTypes['circles_obj_rel_insert_input'] | undefined | null;
     circle_id?: ValueTypes['bigint'] | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     discord_channel_id?: string | undefined | null;
     discord_role_id?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
-    server_channel?: string | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
   };
   /** aggregate max on columns */
@@ -5271,7 +5292,6 @@ export type ValueTypes = {
     discord_channel_id?: boolean | `@${string}`;
     discord_role_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
-    server_channel?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -5282,7 +5302,6 @@ export type ValueTypes = {
     discord_channel_id?: boolean | `@${string}`;
     discord_role_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
-    server_channel?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -5311,29 +5330,33 @@ export type ValueTypes = {
   };
   /** Ordering options when selecting data from "discord.roles_circles". */
   ['discord_roles_circles_order_by']: {
+    alerts?: ValueTypes['order_by'] | undefined | null;
     circle?: ValueTypes['circles_order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     discord_channel_id?: ValueTypes['order_by'] | undefined | null;
     discord_role_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
-    server_channel?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
   };
   /** primary key columns input for table: discord.roles_circles */
   ['discord_roles_circles_pk_columns_input']: {
     id: ValueTypes['bigint'];
   };
+  /** prepend existing jsonb value of filtered columns with new jsonb value */
+  ['discord_roles_circles_prepend_input']: {
+    alerts?: ValueTypes['jsonb'] | undefined | null;
+  };
   /** select columns of table "discord.roles_circles" */
   ['discord_roles_circles_select_column']: discord_roles_circles_select_column;
   /** input type for updating data in table "discord.roles_circles" */
   ['discord_roles_circles_set_input']: {
+    alerts?: ValueTypes['jsonb'] | undefined | null;
     circle_id?: ValueTypes['bigint'] | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     discord_channel_id?: string | undefined | null;
     discord_role_id?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
-    server_channel?: string | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
   };
   /** aggregate stddev on columns */
@@ -5363,12 +5386,12 @@ export type ValueTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ['discord_roles_circles_stream_cursor_value_input']: {
+    alerts?: ValueTypes['jsonb'] | undefined | null;
     circle_id?: ValueTypes['bigint'] | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     discord_channel_id?: string | undefined | null;
     discord_role_id?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
-    server_channel?: string | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
   };
   /** aggregate sum on columns */
@@ -5380,8 +5403,33 @@ export type ValueTypes = {
   /** update columns of table "discord.roles_circles" */
   ['discord_roles_circles_update_column']: discord_roles_circles_update_column;
   ['discord_roles_circles_updates']: {
+    /** append existing jsonb value of filtered columns with new jsonb value */
+    _append?:
+      | ValueTypes['discord_roles_circles_append_input']
+      | undefined
+      | null;
+    /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+    _delete_at_path?:
+      | ValueTypes['discord_roles_circles_delete_at_path_input']
+      | undefined
+      | null;
+    /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+    _delete_elem?:
+      | ValueTypes['discord_roles_circles_delete_elem_input']
+      | undefined
+      | null;
+    /** delete key/value pair or string element. key/value pairs are matched based on their key value */
+    _delete_key?:
+      | ValueTypes['discord_roles_circles_delete_key_input']
+      | undefined
+      | null;
     /** increments the numeric columns with given value of the filtered values */
     _inc?: ValueTypes['discord_roles_circles_inc_input'] | undefined | null;
+    /** prepend existing jsonb value of filtered columns with new jsonb value */
+    _prepend?:
+      | ValueTypes['discord_roles_circles_prepend_input']
+      | undefined
+      | null;
     /** sets the columns of the filtered rows to the given values */
     _set?: ValueTypes['discord_roles_circles_set_input'] | undefined | null;
     where: ValueTypes['discord_roles_circles_bool_exp'];
@@ -10614,9 +10662,29 @@ export type ValueTypes = {
     ];
     update_discord_roles_circles?: [
       {
-        /** increments the numeric columns with given value of the filtered values */
+        /** append existing jsonb value of filtered columns with new jsonb value */
+        _append?:
+          | ValueTypes['discord_roles_circles_append_input']
+          | undefined
+          | null /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */;
+        _delete_at_path?:
+          | ValueTypes['discord_roles_circles_delete_at_path_input']
+          | undefined
+          | null /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */;
+        _delete_elem?:
+          | ValueTypes['discord_roles_circles_delete_elem_input']
+          | undefined
+          | null /** delete key/value pair or string element. key/value pairs are matched based on their key value */;
+        _delete_key?:
+          | ValueTypes['discord_roles_circles_delete_key_input']
+          | undefined
+          | null /** increments the numeric columns with given value of the filtered values */;
         _inc?:
           | ValueTypes['discord_roles_circles_inc_input']
+          | undefined
+          | null /** prepend existing jsonb value of filtered columns with new jsonb value */;
+        _prepend?:
+          | ValueTypes['discord_roles_circles_prepend_input']
           | undefined
           | null /** sets the columns of the filtered rows to the given values */;
         _set?:
@@ -10629,9 +10697,29 @@ export type ValueTypes = {
     ];
     update_discord_roles_circles_by_pk?: [
       {
-        /** increments the numeric columns with given value of the filtered values */
+        /** append existing jsonb value of filtered columns with new jsonb value */
+        _append?:
+          | ValueTypes['discord_roles_circles_append_input']
+          | undefined
+          | null /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */;
+        _delete_at_path?:
+          | ValueTypes['discord_roles_circles_delete_at_path_input']
+          | undefined
+          | null /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */;
+        _delete_elem?:
+          | ValueTypes['discord_roles_circles_delete_elem_input']
+          | undefined
+          | null /** delete key/value pair or string element. key/value pairs are matched based on their key value */;
+        _delete_key?:
+          | ValueTypes['discord_roles_circles_delete_key_input']
+          | undefined
+          | null /** increments the numeric columns with given value of the filtered values */;
         _inc?:
           | ValueTypes['discord_roles_circles_inc_input']
+          | undefined
+          | null /** prepend existing jsonb value of filtered columns with new jsonb value */;
+        _prepend?:
+          | ValueTypes['discord_roles_circles_prepend_input']
           | undefined
           | null /** sets the columns of the filtered rows to the given values */;
         _set?: ValueTypes['discord_roles_circles_set_input'] | undefined | null;
@@ -23357,6 +23445,7 @@ export type ModelTypes = {
   ['discord_circle_api_tokens_variance_order_by']: GraphQLTypes['discord_circle_api_tokens_variance_order_by'];
   /** link a discord role to a circle  to control membership of the circle */
   ['discord_roles_circles']: {
+    alerts: GraphQLTypes['jsonb'];
     /** An object relationship */
     circle: GraphQLTypes['circles'];
     circle_id: GraphQLTypes['bigint'];
@@ -23364,7 +23453,6 @@ export type ModelTypes = {
     discord_channel_id: string;
     discord_role_id: string;
     id: GraphQLTypes['bigint'];
-    server_channel: string;
     updated_at: GraphQLTypes['timestamptz'];
   };
   /** aggregated selection of "discord.roles_circles" */
@@ -23396,6 +23484,8 @@ export type ModelTypes = {
       | GraphQLTypes['discord_roles_circles_variance_fields']
       | undefined;
   };
+  /** append existing jsonb value of filtered columns with new jsonb value */
+  ['discord_roles_circles_append_input']: GraphQLTypes['discord_roles_circles_append_input'];
   /** aggregate avg on columns */
   ['discord_roles_circles_avg_fields']: {
     circle_id?: number | undefined;
@@ -23405,6 +23495,12 @@ export type ModelTypes = {
   ['discord_roles_circles_bool_exp']: GraphQLTypes['discord_roles_circles_bool_exp'];
   /** unique or primary key constraints on table "discord.roles_circles" */
   ['discord_roles_circles_constraint']: GraphQLTypes['discord_roles_circles_constraint'];
+  /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+  ['discord_roles_circles_delete_at_path_input']: GraphQLTypes['discord_roles_circles_delete_at_path_input'];
+  /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+  ['discord_roles_circles_delete_elem_input']: GraphQLTypes['discord_roles_circles_delete_elem_input'];
+  /** delete key/value pair or string element. key/value pairs are matched based on their key value */
+  ['discord_roles_circles_delete_key_input']: GraphQLTypes['discord_roles_circles_delete_key_input'];
   /** input type for incrementing numeric columns in table "discord.roles_circles" */
   ['discord_roles_circles_inc_input']: GraphQLTypes['discord_roles_circles_inc_input'];
   /** input type for inserting data into table "discord.roles_circles" */
@@ -23416,7 +23512,6 @@ export type ModelTypes = {
     discord_channel_id?: string | undefined;
     discord_role_id?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    server_channel?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregate min on columns */
@@ -23426,7 +23521,6 @@ export type ModelTypes = {
     discord_channel_id?: string | undefined;
     discord_role_id?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    server_channel?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** response of any mutation on the table "discord.roles_circles" */
@@ -23444,6 +23538,8 @@ export type ModelTypes = {
   ['discord_roles_circles_order_by']: GraphQLTypes['discord_roles_circles_order_by'];
   /** primary key columns input for table: discord.roles_circles */
   ['discord_roles_circles_pk_columns_input']: GraphQLTypes['discord_roles_circles_pk_columns_input'];
+  /** prepend existing jsonb value of filtered columns with new jsonb value */
+  ['discord_roles_circles_prepend_input']: GraphQLTypes['discord_roles_circles_prepend_input'];
   /** select columns of table "discord.roles_circles" */
   ['discord_roles_circles_select_column']: GraphQLTypes['discord_roles_circles_select_column'];
   /** input type for updating data in table "discord.roles_circles" */
@@ -32945,6 +33041,7 @@ export type GraphQLTypes = {
   /** link a discord role to a circle  to control membership of the circle */
   ['discord_roles_circles']: {
     __typename: 'discord_roles_circles';
+    alerts: GraphQLTypes['jsonb'];
     /** An object relationship */
     circle: GraphQLTypes['circles'];
     circle_id: GraphQLTypes['bigint'];
@@ -32952,7 +33049,6 @@ export type GraphQLTypes = {
     discord_channel_id: string;
     discord_role_id: string;
     id: GraphQLTypes['bigint'];
-    server_channel: string;
     updated_at: GraphQLTypes['timestamptz'];
   };
   /** aggregated selection of "discord.roles_circles" */
@@ -32986,6 +33082,10 @@ export type GraphQLTypes = {
       | GraphQLTypes['discord_roles_circles_variance_fields']
       | undefined;
   };
+  /** append existing jsonb value of filtered columns with new jsonb value */
+  ['discord_roles_circles_append_input']: {
+    alerts?: GraphQLTypes['jsonb'] | undefined;
+  };
   /** aggregate avg on columns */
   ['discord_roles_circles_avg_fields']: {
     __typename: 'discord_roles_circles_avg_fields';
@@ -32997,17 +33097,29 @@ export type GraphQLTypes = {
     _and?: Array<GraphQLTypes['discord_roles_circles_bool_exp']> | undefined;
     _not?: GraphQLTypes['discord_roles_circles_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['discord_roles_circles_bool_exp']> | undefined;
+    alerts?: GraphQLTypes['jsonb_comparison_exp'] | undefined;
     circle?: GraphQLTypes['circles_bool_exp'] | undefined;
     circle_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     discord_channel_id?: GraphQLTypes['String_comparison_exp'] | undefined;
     discord_role_id?: GraphQLTypes['String_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
-    server_channel?: GraphQLTypes['String_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
   };
   /** unique or primary key constraints on table "discord.roles_circles" */
   ['discord_roles_circles_constraint']: discord_roles_circles_constraint;
+  /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+  ['discord_roles_circles_delete_at_path_input']: {
+    alerts?: Array<string> | undefined;
+  };
+  /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+  ['discord_roles_circles_delete_elem_input']: {
+    alerts?: number | undefined;
+  };
+  /** delete key/value pair or string element. key/value pairs are matched based on their key value */
+  ['discord_roles_circles_delete_key_input']: {
+    alerts?: string | undefined;
+  };
   /** input type for incrementing numeric columns in table "discord.roles_circles" */
   ['discord_roles_circles_inc_input']: {
     circle_id?: GraphQLTypes['bigint'] | undefined;
@@ -33015,13 +33127,13 @@ export type GraphQLTypes = {
   };
   /** input type for inserting data into table "discord.roles_circles" */
   ['discord_roles_circles_insert_input']: {
+    alerts?: GraphQLTypes['jsonb'] | undefined;
     circle?: GraphQLTypes['circles_obj_rel_insert_input'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     discord_channel_id?: string | undefined;
     discord_role_id?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    server_channel?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregate max on columns */
@@ -33032,7 +33144,6 @@ export type GraphQLTypes = {
     discord_channel_id?: string | undefined;
     discord_role_id?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    server_channel?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregate min on columns */
@@ -33043,7 +33154,6 @@ export type GraphQLTypes = {
     discord_channel_id?: string | undefined;
     discord_role_id?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    server_channel?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** response of any mutation on the table "discord.roles_circles" */
@@ -33068,29 +33178,33 @@ export type GraphQLTypes = {
   };
   /** Ordering options when selecting data from "discord.roles_circles". */
   ['discord_roles_circles_order_by']: {
+    alerts?: GraphQLTypes['order_by'] | undefined;
     circle?: GraphQLTypes['circles_order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     discord_channel_id?: GraphQLTypes['order_by'] | undefined;
     discord_role_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
-    server_channel?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
   };
   /** primary key columns input for table: discord.roles_circles */
   ['discord_roles_circles_pk_columns_input']: {
     id: GraphQLTypes['bigint'];
   };
+  /** prepend existing jsonb value of filtered columns with new jsonb value */
+  ['discord_roles_circles_prepend_input']: {
+    alerts?: GraphQLTypes['jsonb'] | undefined;
+  };
   /** select columns of table "discord.roles_circles" */
   ['discord_roles_circles_select_column']: discord_roles_circles_select_column;
   /** input type for updating data in table "discord.roles_circles" */
   ['discord_roles_circles_set_input']: {
+    alerts?: GraphQLTypes['jsonb'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     discord_channel_id?: string | undefined;
     discord_role_id?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    server_channel?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregate stddev on columns */
@@ -33120,12 +33234,12 @@ export type GraphQLTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ['discord_roles_circles_stream_cursor_value_input']: {
+    alerts?: GraphQLTypes['jsonb'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     discord_channel_id?: string | undefined;
     discord_role_id?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    server_channel?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregate sum on columns */
@@ -33137,8 +33251,24 @@ export type GraphQLTypes = {
   /** update columns of table "discord.roles_circles" */
   ['discord_roles_circles_update_column']: discord_roles_circles_update_column;
   ['discord_roles_circles_updates']: {
+    /** append existing jsonb value of filtered columns with new jsonb value */
+    _append?: GraphQLTypes['discord_roles_circles_append_input'] | undefined;
+    /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+    _delete_at_path?:
+      | GraphQLTypes['discord_roles_circles_delete_at_path_input']
+      | undefined;
+    /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+    _delete_elem?:
+      | GraphQLTypes['discord_roles_circles_delete_elem_input']
+      | undefined;
+    /** delete key/value pair or string element. key/value pairs are matched based on their key value */
+    _delete_key?:
+      | GraphQLTypes['discord_roles_circles_delete_key_input']
+      | undefined;
     /** increments the numeric columns with given value of the filtered values */
     _inc?: GraphQLTypes['discord_roles_circles_inc_input'] | undefined;
+    /** prepend existing jsonb value of filtered columns with new jsonb value */
+    _prepend?: GraphQLTypes['discord_roles_circles_prepend_input'] | undefined;
     /** sets the columns of the filtered rows to the given values */
     _set?: GraphQLTypes['discord_roles_circles_set_input'] | undefined;
     where: GraphQLTypes['discord_roles_circles_bool_exp'];
@@ -42887,22 +43017,22 @@ export const enum discord_roles_circles_constraint {
 }
 /** select columns of table "discord.roles_circles" */
 export const enum discord_roles_circles_select_column {
+  alerts = 'alerts',
   circle_id = 'circle_id',
   created_at = 'created_at',
   discord_channel_id = 'discord_channel_id',
   discord_role_id = 'discord_role_id',
   id = 'id',
-  server_channel = 'server_channel',
   updated_at = 'updated_at',
 }
 /** update columns of table "discord.roles_circles" */
 export const enum discord_roles_circles_update_column {
+  alerts = 'alerts',
   circle_id = 'circle_id',
   created_at = 'created_at',
   discord_channel_id = 'discord_channel_id',
   discord_role_id = 'discord_role_id',
   id = 'id',
-  server_channel = 'server_channel',
   updated_at = 'updated_at',
 }
 /** unique or primary key constraints on table "discord.users" */
