@@ -118,7 +118,6 @@ const mockEpoch = {
   },
 };
 
-console.log('derp');
 function getTestInput(mockInput: {
   notifyStartEpochs?: EpochsToNotify['notifyStartEpochs'];
   notifyEndEpochs?: EpochsToNotify['notifyEndEpochs'];

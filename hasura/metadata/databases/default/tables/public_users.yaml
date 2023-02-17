@@ -168,8 +168,9 @@ event_triggers:
       enable_manual: false
       update:
         columns:
-          - non_receiver
           - non_giver
+          - deleted_at
+          - non_receiver
     retry_conf:
       interval_sec: 10
       num_retries: 5
@@ -215,3 +216,47 @@ event_triggers:
     headers:
       - name: verification_key
         value_from_env: HASURA_EVENT_SECRET
+  - name: userAddedDiscordBot
+    definition:
+      enable_manual: false
+      insert:
+        columns: '*'
+      update:
+        columns:
+          - deleted_at
+    retry_conf:
+      interval_sec: 3600
+      num_retries: 5
+      timeout_sec: 60
+    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager?=userAddedDiscordBot'
+    headers:
+      - name: verification_key
+        value_from_env: HASURA_EVENT_SECRET
+    cleanup_config:
+      batch_size: 10000
+      clean_invocation_logs: false
+      clear_older_than: 168
+      paused: true
+      schedule: 0 0 * * *
+      timeout: 60
+  - name: userRemovedDiscordBot
+    definition:
+      enable_manual: false
+      update:
+        columns:
+          - deleted_at
+    retry_conf:
+      interval_sec: 3600
+      num_retries: 5
+      timeout_sec: 60
+    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager?=userRemovedDiscordBot'
+    headers:
+      - name: verification_key
+        value_from_env: HASURA_EVENT_SECRET
+    cleanup_config:
+      batch_size: 10000
+      clean_invocation_logs: false
+      clear_older_than: 168
+      paused: true
+      schedule: 0 0 * * *
+      timeout: 60

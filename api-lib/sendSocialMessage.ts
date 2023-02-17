@@ -27,6 +27,13 @@ export type DiscordNomination = DiscordEpochEvent & {
   numberOfVouches: number;
 };
 
+export type DiscordUserAddedOrRemoved = DiscordEpochEvent & {
+  type: 'user-added' | 'user-removed';
+  discordId?: string;
+  address?: string;
+  circleName: string;
+};
+
 export type DiscordOptsOut = DiscordEpochEvent & {
   type: 'user-opts-out';
   discordId?: string;
@@ -84,6 +91,7 @@ export type DiscordEnd = DiscordEpochEvent & {
 
 type SocialMessageChannels =
   | DiscordNomination
+  | DiscordUserAddedOrRemoved
   | DiscordOptsOut
   | DiscordVouch
   | DiscordVouchSuccessful
