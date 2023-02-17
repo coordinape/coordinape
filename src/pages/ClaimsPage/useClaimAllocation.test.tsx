@@ -113,7 +113,8 @@ test('claim single successfully', async () => {
           gifts,
           {},
           total,
-          total
+          total,
+          6
         );
 
         expectedBalance = BigNumber.from(claims[address1].amount);

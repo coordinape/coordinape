@@ -1,7 +1,7 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import padStart from 'lodash/padStart';
 
-import { createDistribution } from '.';
+import { createDistribution, getMaxAllowableDust } from '.';
 
 const addr = (num: number) => '0xabc' + padStart(num.toString(), 37, '0');
 
@@ -14,7 +14,8 @@ test('amounts', () => {
     },
     {},
     BigNumber.from('500000000'),
-    BigNumber.from('500000000')
+    BigNumber.from('500000000'),
+    6
   );
 
   expect(claims[addr(1)].amount).toEqual('83333333');
@@ -37,7 +38,8 @@ test('dust limit', () => {
       },
       {},
       totalAmount,
-      totalAmount
+      totalAmount,
+      6
     );
   }
 });
@@ -61,6 +63,7 @@ test('combined root', () => {
     {},
     BigNumber.from('600000000'),
     BigNumber.from('600000000'),
+    6,
     previousDist
   );
 
@@ -70,4 +73,11 @@ test('combined root', () => {
   expect(dist.claims[addr(4)].amount).toEqual('200000000');
   expect(dist.tokenTotal).toEqual('1100000000');
   expect(dist.previousTotal).toEqual('500000000');
+});
+
+test('getMaxAllowableDust', () => {
+  expect(getMaxAllowableDust(6).toString()).toBe('20');
+  expect(getMaxAllowableDust(5).toString()).toBe('2');
+  expect(getMaxAllowableDust(1).toString()).toBe('2');
+  expect(getMaxAllowableDust(18).toString()).toBe('20000000000000');
 });

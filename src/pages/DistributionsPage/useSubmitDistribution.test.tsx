@@ -208,7 +208,8 @@ test('previous distribution', async () => {
           previousGifts,
           fixedGifts,
           previousTotal,
-          previousTotal
+          previousTotal,
+          vault.decimals
         );
 
         const distro = await submitDistribution({

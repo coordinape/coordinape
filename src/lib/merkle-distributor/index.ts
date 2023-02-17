@@ -26,6 +26,7 @@ export const createDistribution = (
   fixedGifts: Record<string, BigNumber> | undefined,
   totalAmount: BigNumber,
   giftAmount: BigNumber,
+  decimals: number,
   previousDistribution?: Partial<MerkleDistributorInfo>
 ): MerkleDistributorInfo => {
   const totalGive = Object.values(gifts).reduce((t, v) => t + v, 0);
@@ -50,8 +51,13 @@ export const createDistribution = (
   // handle dust amount by giving it to the highest earner
   const dust = getDust(totalAmount, balances);
 
+  const maxDust = getMaxAllowableDust(decimals);
+
   // Failing this means we did bad math
-  assert(dust.lt(40), `panic: dust too high: ${dust.toString()}`);
+  assert(
+    dust.lte(maxDust),
+    `panic: dust too high: ${dust.toString()}; max allowed ${dust.toString()}`
+  );
   const topGift =
     Object.keys(gifts).length === 0 && fixedGifts
       ? maxBy(Object.entries(fixedGifts), x => x[1])
@@ -88,3 +94,8 @@ type Balance = { address: string; earnings: BigNumber };
 
 const getDust = (total: BigNumber, balances: Balance[]) =>
   total.sub(balances.map(b => b.earnings).reduce((t, b) => b.add(t)));
+
+export const getMaxAllowableDust = (decimals: number): BigNumber =>
+  BigNumber.from(2).mul(
+    BigNumber.from(10).pow((decimals >= 5 ? decimals : 5) - 5)
+  );

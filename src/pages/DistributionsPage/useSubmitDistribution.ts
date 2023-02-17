@@ -97,6 +97,7 @@ export function useSubmitDistribution() {
         fixedGifts,
         newTotalAmount,
         newGiftAmount,
+        vault.decimals,
         prev
       );
 
