@@ -59,6 +59,16 @@ export const DiscordPage = () => {
       const result = await generateCircleApiKey({
         circle_id: Number(circleIdParam),
         name: 'discord-bot',
+        read_circle: true,
+        update_circle: true,
+        read_nominees: true,
+        create_vouches: true,
+        read_pending_token_gifts: true,
+        update_pending_token_gifts: true,
+        read_member_profiles: true,
+        read_epochs: true,
+        read_contributions: true,
+        create_contributions: true,
       });
 
       if (!result?.api_key) {
