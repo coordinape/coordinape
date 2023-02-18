@@ -14,4 +14,5 @@ export const API_PERMISSION_LABELS: Record<
   create_vouches: 'Create Vouches',
   read_contributions: 'Read Contributions',
   create_contributions: 'Create Contributions',
+  manage_users: 'Manage Users',
 };

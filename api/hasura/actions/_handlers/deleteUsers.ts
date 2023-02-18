@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
-import { composeHasuraActionRequestBody } from '../../../../src/lib/zod';
+import { composeHasuraActionRequestBodyWithApiPermissions } from '../../../../src/lib/zod';
 import { zEthAddressOnly } from '../../../../src/lib/zod/formHelpers';
 
 export const deleteUsersInput = z
@@ -18,7 +18,9 @@ export const deleteUsersInput = z
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     input: { payload },
-  } = composeHasuraActionRequestBody(deleteUsersInput).parse(req.body);
+  } = await composeHasuraActionRequestBodyWithApiPermissions(deleteUsersInput, [
+    'manage_users',
+  ]).parseAsync(req.body);
 
   const { circle_id, addresses } = payload;
 

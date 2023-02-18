@@ -25,6 +25,7 @@ const schema = z.object({
   read_epochs: z.boolean(),
   read_contributions: z.boolean(),
   create_contributions: z.boolean(),
+  manage_users: z.boolean(),
 });
 
 type FormSchema = z.infer<typeof schema>;
@@ -127,6 +128,12 @@ export const ApiKeyForm: FC<Props> = ({ circleId, onSuccess }) => {
 
   const { field: createContributions } = useController({
     name: 'create_contributions',
+    control,
+    defaultValue: false,
+  });
+
+  const { field: manageUsers } = useController({
+    name: 'manage_users',
     control,
     defaultValue: false,
   });
@@ -246,6 +253,11 @@ export const ApiKeyForm: FC<Props> = ({ circleId, onSuccess }) => {
             infoTooltip={
               <>Allows adding contributions on behalf of circle members.</>
             }
+          />
+          <CheckBox
+            {...manageUsers}
+            label={API_PERMISSION_LABELS['manage_users']}
+            infoTooltip={<>Allows adding and removing users from the circle.</>}
           />
         </Box>
         <Button

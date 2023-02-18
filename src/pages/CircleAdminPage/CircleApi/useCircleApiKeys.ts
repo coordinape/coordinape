@@ -13,6 +13,7 @@ export const circleApiPermissionsSelector = Selector('circle_api_keys')({
   create_vouches: true,
   read_contributions: true,
   create_contributions: true,
+  manage_users: true,
 });
 
 export const circleApiKeySelector = Selector('circle_api_keys')({
