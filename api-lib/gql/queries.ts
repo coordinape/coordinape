@@ -17,7 +17,11 @@ export async function getCircle(id: number) {
           discord_webhook: true,
           telegram_id: true,
           token_name: true,
-          discord_circle: { discord_channel_id: true, discord_role_id: true },
+          discord_circle: {
+            discord_channel_id: true,
+            discord_role_id: true,
+            alerts: [{}, true],
+          },
           organization: {
             telegram_id: true,
           },

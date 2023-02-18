@@ -30,14 +30,18 @@ function getChannelsVouchUnsuccessful(
 ): Channels<DiscordVouchUnsuccessful> {
   const { channels, circle, nominee } = props || {};
 
-  const { discord_channel_id: channelId, discord_role_id: roleId } =
-    circle?.discord_circle || {};
+  const {
+    discord_channel_id: channelId,
+    discord_role_id: roleId,
+    alerts,
+  } = circle?.discord_circle || {};
 
   if (
     channels?.isDiscordBot &&
     isFeatureEnabled('discord') &&
     channelId &&
-    roleId
+    roleId &&
+    alerts['vouch-unsuccessful']
   ) {
     const { profile } = nominee || {};
 
@@ -65,14 +69,18 @@ function getChannelsVouchSuccessful(
 ): Channels<DiscordVouchSuccessful> {
   const { payload, channels, circle, nominee } = props || {};
 
-  const { discord_channel_id: channelId, discord_role_id: roleId } =
-    circle?.discord_circle || {};
+  const {
+    discord_channel_id: channelId,
+    discord_role_id: roleId,
+    alerts,
+  } = circle?.discord_circle || {};
 
   if (
     channels?.isDiscordBot &&
     isFeatureEnabled('discord') &&
     channelId &&
-    roleId
+    roleId &&
+    alerts['vouch-successful']
   ) {
     const { profile, address, nominations } = nominee || {};
 

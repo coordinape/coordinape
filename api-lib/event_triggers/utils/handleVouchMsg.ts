@@ -24,14 +24,18 @@ function getChannels(props: GetChannelsProps): Channels<DiscordVouch> {
     circle,
   } = props || {};
 
-  const { discord_channel_id: channelId, discord_role_id: roleId } =
-    circle?.discord_circle || {};
+  const {
+    discord_channel_id: channelId,
+    discord_role_id: roleId,
+    alerts,
+  } = circle?.discord_circle || {};
 
   if (
     channels?.isDiscordBot &&
     isFeatureEnabled('discord') &&
     channelId &&
-    roleId
+    roleId &&
+    alerts['vouch']
   ) {
     return {
       isDiscordBot: true,
