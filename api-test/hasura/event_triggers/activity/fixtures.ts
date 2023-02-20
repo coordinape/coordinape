@@ -18,7 +18,7 @@ export const fixtures = {
       op: 'INSERT',
     },
     table: { name: 'contributions', schema: 'public' },
-    trigger: { name: 'activityHandler' },
+    trigger: { name: 'activityContributionInsert' },
   },
   user_insert: {
     event: {
@@ -52,7 +52,7 @@ export const fixtures = {
       schema: 'public',
     },
     trigger: {
-      name: 'activityHandlerUserInsert',
+      name: 'activityUserInsert',
     },
   },
   epoch_insert: {
@@ -87,7 +87,7 @@ export const fixtures = {
       schema: 'public',
     },
     trigger: {
-      name: 'activityHandlerEpochInsert',
+      name: 'activityEpochInsert',
     },
   },
 

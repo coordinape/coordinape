@@ -216,7 +216,7 @@ event_triggers:
     headers:
       - name: verification_key
         value_from_env: HASURA_EVENT_SECRET
-  - name: activityHandlerUserInsert
+  - name: activityUserInsert
     definition:
       enable_manual: false
       insert:

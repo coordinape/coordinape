@@ -1,21 +1,18 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 
-import handler from '../../../api-lib/event_triggers/activity/activityHandler';
-import { insertActivity } from '../../../api-lib/event_triggers/activity/activityHandler.mutations';
-import { adminClient } from '../../../api-lib/gql/adminClient';
+import handler from '../../../../api-lib/event_triggers/activity/index';
+import { insertActivity } from '../../../../api-lib/event_triggers/activity/mutations';
+import { adminClient } from '../../../../api-lib/gql/adminClient';
 
-import { fixtures } from './activityHandler.fixtures';
+import { fixtures } from './fixtures';
 
-jest.mock('../../../api-lib/gql/adminClient', () => ({
+jest.mock('../../../../api-lib/gql/adminClient', () => ({
   adminClient: { query: jest.fn() },
 }));
 
-jest.mock(
-  '../../../api-lib/event_triggers/activity/activityHandler.mutations',
-  () => ({
-    insertActivity: jest.fn(),
-  })
-);
+jest.mock('../../../../api-lib/event_triggers/activity/mutations', () => ({
+  insertActivity: jest.fn(),
+}));
 
 describe('#handler', () => {
   afterEach(() => {
@@ -106,7 +103,7 @@ describe('#handler', () => {
         organization_id: 9,
         user_id: 267,
         action: 'users_insert',
-        actor_profile_id: 100,
+        target_profile_id: 100,
       })
     );
     expect(res.status).toHaveBeenCalledWith(200);

@@ -4,7 +4,7 @@ import { adminClient } from '../../gql/adminClient';
 import { errorResponse } from '../../HttpError';
 import { EventTriggerPayload } from '../../types';
 
-import { insertActivity } from './activityHandler.mutations';
+import { insertActivity } from './mutations';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   type Events =

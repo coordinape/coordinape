@@ -133,7 +133,7 @@ update_permissions:
               _eq: false
       check: {}
 event_triggers:
-  - name: activityHandlerEpochInsert
+  - name: activityEpochInsert
     definition:
       enable_manual: false
       insert:
