@@ -69,6 +69,8 @@ export const DiscordPage = () => {
         read_epochs: true,
         read_contributions: true,
         create_contributions: true,
+        manage_users: true,
+        read_discord: true,
       });
 
       if (!result?.api_key) {
