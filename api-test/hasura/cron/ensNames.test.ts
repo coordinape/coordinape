@@ -81,23 +81,18 @@ test('check ensNames cron', async () => {
   );
 
   expect(
-    result.profiles.find(profile => profile.name === 'vitalik.eth') !==
-      undefined
+    result.profiles.find(profile => profile.name === 'vitalik.eth')
   ).toBeTruthy();
   expect(
-    result.profiles.find(profile => profile.name === name0.concat('.eth')) ===
-      undefined
+    result.profiles.find(profile => profile.name === name0.concat('.eth'))
+  ).toBeUndefined();
+  expect(
+    result.profiles.find(profile => profile.name === name0.concat('.eth**'))
   ).toBeTruthy();
   expect(
-    result.profiles.find(profile => profile.name === name0.concat('.eth**')) !==
-      undefined
-  ).toBeTruthy();
+    result.profiles.find(profile => profile.name === name1.concat('.eth'))
+  ).toBeUndefined();
   expect(
-    result.profiles.find(profile => profile.name === name1.concat('.eth')) ===
-      undefined
-  ).toBeTruthy();
-  expect(
-    result.profiles.find(profile => profile.name === name1.concat('.eth*')) !==
-      undefined
+    result.profiles.find(profile => profile.name === name1.concat('.eth*'))
   ).toBeTruthy();
 });

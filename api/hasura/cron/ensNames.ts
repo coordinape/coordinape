@@ -10,7 +10,6 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   await Promise.all(
     ensProfiles.profiles.map(async profile => {
       const resolvedAddress = await getProvider(1).resolveName(profile.name);
-
       if (
         !resolvedAddress ||
         resolvedAddress.toLowerCase() !== profile.address.toLocaleLowerCase()
@@ -34,16 +33,10 @@ export async function getEnsProfiles() {
             name: { _regex: '.eth$' },
           },
         },
-        {
-          id: true,
-          address: true,
-          name: true,
-        },
+        { id: true, address: true, name: true },
       ],
     },
-    {
-      operationName: 'cron_getEnsProfiles',
-    }
+    { operationName: 'cron_getEnsProfiles' }
   );
 }
 
@@ -66,15 +59,13 @@ export const updateEnsName = async ({
           { id: true },
         ],
       },
-      {
-        operationName: 'endEpoch_insertAndDeleteGifts',
-      }
+      { operationName: 'cron_updateEnsName' }
     );
   } catch (e: any) {
     if (e.response.errors[0].message.includes('Uniqueness violation')) {
       updateEnsName({ id: id, name: modifiedName });
     } else {
-      Promise.reject(e);
+      return Promise.reject(e);
     }
   }
 };
