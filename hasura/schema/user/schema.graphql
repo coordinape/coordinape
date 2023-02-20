@@ -255,6 +255,32 @@ type GenerateApiKeyResponse {
   hash: String!
 }
 
+type GuildAdmin {
+  address: String!
+}
+
+input GuildInfoInput {
+  id: String!
+}
+
+type GuildInfoOutput {
+  admins: [GuildAdmin]
+  description: String!
+  id: Int!
+  image_url: String!
+  member_count: Int!
+  name: String!
+  roles: [GuildRole]
+  url_name: String!
+}
+
+type GuildRole {
+  id: Int!
+  image_url: String!
+  member_count: Int!
+  name: String!
+}
+
 """
 Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'.
 """
@@ -9171,6 +9197,7 @@ type query_root {
   fetch data from the table: "epoches" using primary key columns
   """
   epochs_by_pk(id: bigint!): epochs
+  getGuildInfo(payload: GuildInfoInput!): GuildInfoOutput
 
   """
   fetch data from the table: "gift_private"
