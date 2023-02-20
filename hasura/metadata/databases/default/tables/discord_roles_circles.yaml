@@ -49,10 +49,12 @@ select_permissions:
   - role: discord-bot
     permission:
       columns:
+        - alerts
         - circle_id
-        - id
-        - discord_role_id
         - created_at
+        - discord_channel_id
+        - discord_role_id
+        - id
         - updated_at
       filter: {}
   - role: user
@@ -90,6 +92,7 @@ update_permissions:
   - role: discord-bot
     permission:
       columns:
+        - alerts
         - circle_id
         - discord_channel_id
         - discord_role_id
