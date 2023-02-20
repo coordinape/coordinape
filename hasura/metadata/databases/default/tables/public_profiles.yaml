@@ -91,6 +91,8 @@ select_permissions:
     permission:
       columns:
         - id
+        - name
+        - address
       filter: {}
   - role: user
     permission:
