@@ -40,6 +40,7 @@ export const AllTypesProps: Record<string, any> = {
     start_date: 'timestamptz',
   },
   GenerateApiKeyInput: {},
+  GuildInfoInput: {},
   Int_comparison_exp: {},
   LinkDiscordCircleInput: {},
   LinkDiscordUserInput: {},
@@ -4576,6 +4577,25 @@ export const ReturnTypes: Record<string, any> = {
     api_key: 'String',
     circleApiKey: 'circle_api_keys',
     hash: 'String',
+  },
+  GuildAdmin: {
+    address: 'String',
+  },
+  GuildInfoOutput: {
+    admins: 'GuildAdmin',
+    description: 'String',
+    id: 'Int',
+    image_url: 'String',
+    member_count: 'Int',
+    name: 'String',
+    roles: 'GuildRole',
+    url_name: 'String',
+  },
+  GuildRole: {
+    id: 'Int',
+    image_url: 'String',
+    member_count: 'Int',
+    name: 'String',
   },
   LinkDiscordCircleResponse: {
     id: 'Int',
