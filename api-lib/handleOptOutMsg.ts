@@ -36,7 +36,7 @@ function getChannels(props: GetChannelsProps): Channels<DiscordOptsOut> {
     isFeatureEnabled('discord') &&
     channelId &&
     roleId &&
-    alerts['user-opts-out']
+    alerts?.['user-opts-out']
   ) {
     const user = profiles[0].user;
 

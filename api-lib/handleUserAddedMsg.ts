@@ -34,7 +34,7 @@ function getChannels(
     isFeatureEnabled('discord') &&
     channelId &&
     roleId &&
-    alerts['user-added']
+    alerts?.['user-added']
   ) {
     const user = profiles[0].user;
 

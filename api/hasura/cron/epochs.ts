@@ -264,7 +264,7 @@ export async function notifyEpochStart({
       isFeatureEnabled('discord') &&
       channelId &&
       roleId &&
-      alerts['epoch-start']
+      alerts?.['epoch-start']
     ) {
       await sendSocialMessage({
         message,
@@ -352,7 +352,7 @@ export async function notifyEpochEnd({
         isFeatureEnabled('discord') &&
         channelId &&
         roleId &&
-        alerts['epoch-end']
+        alerts?.['epoch-end']
       ) {
         await sendSocialMessage({
           message,

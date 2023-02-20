@@ -793,6 +793,7 @@ describe('epoch Cron Logic', () => {
           discord_circle: {
             discord_channel_id: '123',
             discord_role_id: '456',
+            alerts: { 'epoch-end': true },
           },
         }),
       });
@@ -844,6 +845,7 @@ describe('epoch Cron Logic', () => {
           discord_circle: {
             discord_channel_id: '123',
             discord_role_id: '456',
+            alerts: { 'epoch-end': true },
           },
         }),
       });
@@ -938,6 +940,7 @@ describe('epoch Cron Logic', () => {
           discord_circle: {
             discord_channel_id: '123',
             discord_role_id: '456',
+            alerts: { 'epoch-start': true },
           },
         }),
       });

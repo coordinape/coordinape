@@ -41,7 +41,7 @@ function getChannelsVouchUnsuccessful(
     isFeatureEnabled('discord') &&
     channelId &&
     roleId &&
-    alerts['vouch-unsuccessful']
+    alerts?.['vouch-unsuccessful']
   ) {
     const { profile } = nominee || {};
 
@@ -80,7 +80,7 @@ function getChannelsVouchSuccessful(
     isFeatureEnabled('discord') &&
     channelId &&
     roleId &&
-    alerts['vouch-successful']
+    alerts?.['vouch-successful']
   ) {
     const { profile, address, nominations } = nominee || {};
 

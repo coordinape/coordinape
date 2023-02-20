@@ -29,7 +29,7 @@ function getChannels(props: GetChannelsProps): Channels<DiscordNomination> {
     isFeatureEnabled('discord') &&
     channelId &&
     roleId &&
-    alerts['nomination']
+    alerts?.['nomination']
   ) {
     const { circle_id, profile, nominator, description, vouches_required } =
       nominee || {};

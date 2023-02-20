@@ -35,7 +35,7 @@ function getChannels(props: GetChannelsProps): Channels<DiscordVouch> {
     isFeatureEnabled('discord') &&
     channelId &&
     roleId &&
-    alerts['vouch']
+    alerts?.['vouch']
   ) {
     return {
       isDiscordBot: true,
