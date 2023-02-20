@@ -62,6 +62,7 @@ select_permissions:
   - role: api-user
     permission:
       columns:
+        - address
         - avatar
         - background
         - bio
@@ -70,6 +71,7 @@ select_permissions:
         - github_username
         - id
         - medium_username
+        - name
         - skills
         - telegram_username
         - twitter_username
@@ -89,6 +91,8 @@ select_permissions:
     permission:
       columns:
         - id
+        - name
+        - address
       filter: {}
   - role: user
     permission:
