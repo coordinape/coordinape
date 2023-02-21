@@ -78,7 +78,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           circle_id: circle_id,
           created_at: created_at,
           organization_id: data?.organization_id,
-          actor_profile_id: data?.users[0].profile.id,
+          target_profile_id: data?.users[0].profile.id,
           user_id: id,
         });
         break;
