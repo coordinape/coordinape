@@ -203,6 +203,14 @@ export const AllTypesProps: Record<string, any> = {
     _neq: 'bigint',
     _nin: 'bigint',
   },
+  burns_aggregate_bool_exp: {
+    count: 'burns_aggregate_bool_exp_count',
+  },
+  burns_aggregate_bool_exp_count: {
+    arguments: 'burns_select_column',
+    filter: 'burns_bool_exp',
+    predicate: 'Int_comparison_exp',
+  },
   burns_aggregate_fields: {
     count: {
       columns: 'burns_select_column',
@@ -403,6 +411,28 @@ export const AllTypesProps: Record<string, any> = {
     tokens_burnt: 'order_by',
     user_id: 'order_by',
   },
+  circle_api_keys_aggregate_bool_exp: {
+    bool_and: 'circle_api_keys_aggregate_bool_exp_bool_and',
+    bool_or: 'circle_api_keys_aggregate_bool_exp_bool_or',
+    count: 'circle_api_keys_aggregate_bool_exp_count',
+  },
+  circle_api_keys_aggregate_bool_exp_bool_and: {
+    arguments:
+      'circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_and_arguments_columns',
+    filter: 'circle_api_keys_bool_exp',
+    predicate: 'Boolean_comparison_exp',
+  },
+  circle_api_keys_aggregate_bool_exp_bool_or: {
+    arguments:
+      'circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_or_arguments_columns',
+    filter: 'circle_api_keys_bool_exp',
+    predicate: 'Boolean_comparison_exp',
+  },
+  circle_api_keys_aggregate_bool_exp_count: {
+    arguments: 'circle_api_keys_select_column',
+    filter: 'circle_api_keys_bool_exp',
+    predicate: 'Int_comparison_exp',
+  },
   circle_api_keys_aggregate_fields: {
     count: {
       columns: 'circle_api_keys_select_column',
@@ -511,6 +541,10 @@ export const AllTypesProps: Record<string, any> = {
   },
   circle_api_keys_pk_columns_input: {},
   circle_api_keys_select_column: true,
+  circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_and_arguments_columns:
+    true,
+  circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_or_arguments_columns:
+    true,
   circle_api_keys_set_input: {
     circle_id: 'bigint',
     created_at: 'timestamptz',
@@ -561,6 +595,14 @@ export const AllTypesProps: Record<string, any> = {
   },
   circle_integrations: {
     data: {},
+  },
+  circle_integrations_aggregate_bool_exp: {
+    count: 'circle_integrations_aggregate_bool_exp_count',
+  },
+  circle_integrations_aggregate_bool_exp_count: {
+    arguments: 'circle_integrations_select_column',
+    filter: 'circle_integrations_bool_exp',
+    predicate: 'Int_comparison_exp',
   },
   circle_integrations_aggregate_fields: {
     count: {
@@ -703,6 +745,14 @@ export const AllTypesProps: Record<string, any> = {
   },
   circle_metadata: {
     json: {},
+  },
+  circle_metadata_aggregate_bool_exp: {
+    count: 'circle_metadata_aggregate_bool_exp_count',
+  },
+  circle_metadata_aggregate_bool_exp_count: {
+    arguments: 'circle_metadata_select_column',
+    filter: 'circle_metadata_bool_exp',
+    predicate: 'Int_comparison_exp',
   },
   circle_metadata_aggregate_fields: {
     count: {
@@ -1067,6 +1117,28 @@ export const AllTypesProps: Record<string, any> = {
       where: 'vault_transactions_bool_exp',
     },
   },
+  circles_aggregate_bool_exp: {
+    bool_and: 'circles_aggregate_bool_exp_bool_and',
+    bool_or: 'circles_aggregate_bool_exp_bool_or',
+    count: 'circles_aggregate_bool_exp_count',
+  },
+  circles_aggregate_bool_exp_bool_and: {
+    arguments:
+      'circles_select_column_circles_aggregate_bool_exp_bool_and_arguments_columns',
+    filter: 'circles_bool_exp',
+    predicate: 'Boolean_comparison_exp',
+  },
+  circles_aggregate_bool_exp_bool_or: {
+    arguments:
+      'circles_select_column_circles_aggregate_bool_exp_bool_or_arguments_columns',
+    filter: 'circles_bool_exp',
+    predicate: 'Boolean_comparison_exp',
+  },
+  circles_aggregate_bool_exp_count: {
+    arguments: 'circles_select_column',
+    filter: 'circles_bool_exp',
+    predicate: 'Int_comparison_exp',
+  },
   circles_aggregate_fields: {
     count: {
       columns: 'circles_select_column',
@@ -1104,44 +1176,57 @@ export const AllTypesProps: Record<string, any> = {
     _or: 'circles_bool_exp',
     alloc_text: 'String_comparison_exp',
     api_keys: 'circle_api_keys_bool_exp',
+    api_keys_aggregate: 'circle_api_keys_aggregate_bool_exp',
     auto_opt_out: 'Boolean_comparison_exp',
     burns: 'burns_bool_exp',
+    burns_aggregate: 'burns_aggregate_bool_exp',
     circle_metadata: 'circle_metadata_bool_exp',
+    circle_metadata_aggregate: 'circle_metadata_aggregate_bool_exp',
     circle_private: 'circle_private_bool_exp',
     cont_help_text: 'String_comparison_exp',
     contact: 'String_comparison_exp',
     contributions: 'contributions_bool_exp',
+    contributions_aggregate: 'contributions_aggregate_bool_exp',
     created_at: 'timestamp_comparison_exp',
     default_opt_in: 'Boolean_comparison_exp',
     deleted_at: 'timestamp_comparison_exp',
     discord_access_tokens: 'discord_circle_api_tokens_bool_exp',
+    discord_access_tokens_aggregate:
+      'discord_circle_api_tokens_aggregate_bool_exp',
     discord_circle: 'discord_roles_circles_bool_exp',
     discord_webhook: 'String_comparison_exp',
     epochs: 'epochs_bool_exp',
+    epochs_aggregate: 'epochs_aggregate_bool_exp',
     fixed_payment_token_type: 'String_comparison_exp',
     fixed_payment_vault_id: 'Int_comparison_exp',
     guild_id: 'Int_comparison_exp',
     guild_role_id: 'Int_comparison_exp',
     id: 'bigint_comparison_exp',
     integrations: 'circle_integrations_bool_exp',
+    integrations_aggregate: 'circle_integrations_aggregate_bool_exp',
     is_verified: 'Boolean_comparison_exp',
     logo: 'String_comparison_exp',
     min_vouches: 'Int_comparison_exp',
     name: 'String_comparison_exp',
     nomination_days_limit: 'Int_comparison_exp',
     nominees: 'nominees_bool_exp',
+    nominees_aggregate: 'nominees_aggregate_bool_exp',
     only_giver_vouch: 'Boolean_comparison_exp',
     organization: 'organizations_bool_exp',
     organization_id: 'Int_comparison_exp',
     pending_token_gifts: 'pending_token_gifts_bool_exp',
+    pending_token_gifts_aggregate: 'pending_token_gifts_aggregate_bool_exp',
     show_pending_gives: 'Boolean_comparison_exp',
     team_selection: 'Boolean_comparison_exp',
     telegram_id: 'String_comparison_exp',
     token_gifts: 'token_gifts_bool_exp',
+    token_gifts_aggregate: 'token_gifts_aggregate_bool_exp',
     token_name: 'String_comparison_exp',
     updated_at: 'timestamp_comparison_exp',
     users: 'users_bool_exp',
+    users_aggregate: 'users_aggregate_bool_exp',
     vault_transactions: 'vault_transactions_bool_exp',
+    vault_transactions_aggregate: 'vault_transactions_aggregate_bool_exp',
     vouching: 'Boolean_comparison_exp',
     vouching_text: 'String_comparison_exp',
   },
@@ -1272,6 +1357,10 @@ export const AllTypesProps: Record<string, any> = {
     id: 'bigint',
   },
   circles_select_column: true,
+  circles_select_column_circles_aggregate_bool_exp_bool_and_arguments_columns:
+    true,
+  circles_select_column_circles_aggregate_bool_exp_bool_or_arguments_columns:
+    true,
   circles_set_input: {
     created_at: 'timestamp',
     deleted_at: 'timestamp',
@@ -1377,6 +1466,14 @@ export const AllTypesProps: Record<string, any> = {
     _nsimilar: 'citext',
     _regex: 'citext',
     _similar: 'citext',
+  },
+  claims_aggregate_bool_exp: {
+    count: 'claims_aggregate_bool_exp_count',
+  },
+  claims_aggregate_bool_exp_count: {
+    arguments: 'claims_select_column',
+    filter: 'claims_bool_exp',
+    predicate: 'Int_comparison_exp',
   },
   claims_aggregate_fields: {
     count: {
@@ -1583,6 +1680,14 @@ export const AllTypesProps: Record<string, any> = {
     new_amount: 'order_by',
     profile_id: 'order_by',
   },
+  contributions_aggregate_bool_exp: {
+    count: 'contributions_aggregate_bool_exp_count',
+  },
+  contributions_aggregate_bool_exp_count: {
+    arguments: 'contributions_select_column',
+    filter: 'contributions_bool_exp',
+    predicate: 'Int_comparison_exp',
+  },
   contributions_aggregate_fields: {
     count: {
       columns: 'contributions_select_column',
@@ -1768,6 +1873,14 @@ export const AllTypesProps: Record<string, any> = {
     _lte: 'date',
     _neq: 'date',
     _nin: 'date',
+  },
+  discord_circle_api_tokens_aggregate_bool_exp: {
+    count: 'discord_circle_api_tokens_aggregate_bool_exp_count',
+  },
+  discord_circle_api_tokens_aggregate_bool_exp_count: {
+    arguments: 'discord_circle_api_tokens_select_column',
+    filter: 'discord_circle_api_tokens_bool_exp',
+    predicate: 'Int_comparison_exp',
   },
   discord_circle_api_tokens_aggregate_fields: {
     count: {
@@ -2082,6 +2195,14 @@ export const AllTypesProps: Record<string, any> = {
       where: 'vault_transactions_bool_exp',
     },
   },
+  distributions_aggregate_bool_exp: {
+    count: 'distributions_aggregate_bool_exp_count',
+  },
+  distributions_aggregate_bool_exp_count: {
+    arguments: 'distributions_select_column',
+    filter: 'distributions_bool_exp',
+    predicate: 'Int_comparison_exp',
+  },
   distributions_aggregate_fields: {
     count: {
       columns: 'distributions_select_column',
@@ -2122,6 +2243,7 @@ export const AllTypesProps: Record<string, any> = {
     _not: 'distributions_bool_exp',
     _or: 'distributions_bool_exp',
     claims: 'claims_bool_exp',
+    claims_aggregate: 'claims_aggregate_bool_exp',
     created_at: 'timestamp_comparison_exp',
     created_by: 'bigint_comparison_exp',
     distribution_epoch_id: 'bigint_comparison_exp',
@@ -2140,6 +2262,7 @@ export const AllTypesProps: Record<string, any> = {
     vault: 'vaults_bool_exp',
     vault_id: 'bigint_comparison_exp',
     vault_transactions: 'vault_transactions_bool_exp',
+    vault_transactions_aggregate: 'vault_transactions_aggregate_bool_exp',
   },
   distributions_constraint: true,
   distributions_delete_at_path_input: {},
@@ -2470,6 +2593,28 @@ export const AllTypesProps: Record<string, any> = {
       where: 'token_gifts_bool_exp',
     },
   },
+  epochs_aggregate_bool_exp: {
+    bool_and: 'epochs_aggregate_bool_exp_bool_and',
+    bool_or: 'epochs_aggregate_bool_exp_bool_or',
+    count: 'epochs_aggregate_bool_exp_count',
+  },
+  epochs_aggregate_bool_exp_bool_and: {
+    arguments:
+      'epochs_select_column_epochs_aggregate_bool_exp_bool_and_arguments_columns',
+    filter: 'epochs_bool_exp',
+    predicate: 'Boolean_comparison_exp',
+  },
+  epochs_aggregate_bool_exp_bool_or: {
+    arguments:
+      'epochs_select_column_epochs_aggregate_bool_exp_bool_or_arguments_columns',
+    filter: 'epochs_bool_exp',
+    predicate: 'Boolean_comparison_exp',
+  },
+  epochs_aggregate_bool_exp_count: {
+    arguments: 'epochs_select_column',
+    filter: 'epochs_bool_exp',
+    predicate: 'Int_comparison_exp',
+  },
   epochs_aggregate_fields: {
     count: {
       columns: 'epochs_select_column',
@@ -2510,15 +2655,19 @@ export const AllTypesProps: Record<string, any> = {
     _not: 'epochs_bool_exp',
     _or: 'epochs_bool_exp',
     burns: 'burns_bool_exp',
+    burns_aggregate: 'burns_aggregate_bool_exp',
     circle: 'circles_bool_exp',
     circle_id: 'Int_comparison_exp',
     created_at: 'timestamp_comparison_exp',
     days: 'Int_comparison_exp',
     description: 'String_comparison_exp',
     distributions: 'distributions_bool_exp',
+    distributions_aggregate: 'distributions_aggregate_bool_exp',
     end_date: 'timestamptz_comparison_exp',
     ended: 'Boolean_comparison_exp',
     epoch_pending_token_gifts: 'pending_token_gifts_bool_exp',
+    epoch_pending_token_gifts_aggregate:
+      'pending_token_gifts_aggregate_bool_exp',
     grant: 'numeric_comparison_exp',
     id: 'bigint_comparison_exp',
     notified_before_end: 'timestamp_comparison_exp',
@@ -2532,6 +2681,7 @@ export const AllTypesProps: Record<string, any> = {
     repeat_day_of_month: 'Int_comparison_exp',
     start_date: 'timestamptz_comparison_exp',
     token_gifts: 'token_gifts_bool_exp',
+    token_gifts_aggregate: 'token_gifts_aggregate_bool_exp',
     updated_at: 'timestamp_comparison_exp',
   },
   epochs_constraint: true,
@@ -2639,6 +2789,10 @@ export const AllTypesProps: Record<string, any> = {
     repeat_data: 'jsonb',
   },
   epochs_select_column: true,
+  epochs_select_column_epochs_aggregate_bool_exp_bool_and_arguments_columns:
+    true,
+  epochs_select_column_epochs_aggregate_bool_exp_bool_or_arguments_columns:
+    true,
   epochs_set_input: {
     created_at: 'timestamp',
     end_date: 'timestamptz',
@@ -2998,6 +3152,14 @@ export const AllTypesProps: Record<string, any> = {
     _neq: 'jsonb',
     _nin: 'jsonb',
   },
+  locked_token_distribution_gifts_aggregate_bool_exp: {
+    count: 'locked_token_distribution_gifts_aggregate_bool_exp_count',
+  },
+  locked_token_distribution_gifts_aggregate_bool_exp_count: {
+    arguments: 'locked_token_distribution_gifts_select_column',
+    filter: 'locked_token_distribution_gifts_bool_exp',
+    predicate: 'Int_comparison_exp',
+  },
   locked_token_distribution_gifts_aggregate_fields: {
     count: {
       columns: 'locked_token_distribution_gifts_select_column',
@@ -3174,6 +3336,8 @@ export const AllTypesProps: Record<string, any> = {
     gift_amount: 'numeric_comparison_exp',
     id: 'bigint_comparison_exp',
     locked_token_distribution_gifts: 'locked_token_distribution_gifts_bool_exp',
+    locked_token_distribution_gifts_aggregate:
+      'locked_token_distribution_gifts_aggregate_bool_exp',
     profile: 'profiles_bool_exp',
     token_contract_address: 'String_comparison_exp',
     token_decimals: 'Int_comparison_exp',
@@ -4436,6 +4600,28 @@ export const AllTypesProps: Record<string, any> = {
       where: 'vouches_bool_exp',
     },
   },
+  nominees_aggregate_bool_exp: {
+    bool_and: 'nominees_aggregate_bool_exp_bool_and',
+    bool_or: 'nominees_aggregate_bool_exp_bool_or',
+    count: 'nominees_aggregate_bool_exp_count',
+  },
+  nominees_aggregate_bool_exp_bool_and: {
+    arguments:
+      'nominees_select_column_nominees_aggregate_bool_exp_bool_and_arguments_columns',
+    filter: 'nominees_bool_exp',
+    predicate: 'Boolean_comparison_exp',
+  },
+  nominees_aggregate_bool_exp_bool_or: {
+    arguments:
+      'nominees_select_column_nominees_aggregate_bool_exp_bool_or_arguments_columns',
+    filter: 'nominees_bool_exp',
+    predicate: 'Boolean_comparison_exp',
+  },
+  nominees_aggregate_bool_exp_count: {
+    arguments: 'nominees_select_column',
+    filter: 'nominees_bool_exp',
+    predicate: 'Int_comparison_exp',
+  },
   nominees_aggregate_fields: {
     count: {
       columns: 'nominees_select_column',
@@ -4480,6 +4666,7 @@ export const AllTypesProps: Record<string, any> = {
     nominated_by_user_id: 'Int_comparison_exp',
     nominated_date: 'date_comparison_exp',
     nominations: 'vouches_bool_exp',
+    nominations_aggregate: 'vouches_aggregate_bool_exp',
     nominator: 'users_bool_exp',
     profile: 'profiles_bool_exp',
     updated_at: 'timestamp_comparison_exp',
@@ -4561,6 +4748,10 @@ export const AllTypesProps: Record<string, any> = {
     id: 'bigint',
   },
   nominees_select_column: true,
+  nominees_select_column_nominees_aggregate_bool_exp_bool_and_arguments_columns:
+    true,
+  nominees_select_column_nominees_aggregate_bool_exp_bool_or_arguments_columns:
+    true,
   nominees_set_input: {
     created_at: 'timestamp',
     expiry_date: 'timestamp',
@@ -4646,6 +4837,14 @@ export const AllTypesProps: Record<string, any> = {
     _nin: 'numeric',
   },
   order_by: true,
+  org_members_aggregate_bool_exp: {
+    count: 'org_members_aggregate_bool_exp_count',
+  },
+  org_members_aggregate_bool_exp_count: {
+    arguments: 'org_members_select_column',
+    filter: 'org_members_bool_exp',
+    predicate: 'Int_comparison_exp',
+  },
   org_members_aggregate_fields: {
     count: {
       columns: 'org_members_select_column',
@@ -4852,18 +5051,21 @@ export const AllTypesProps: Record<string, any> = {
     _not: 'organizations_bool_exp',
     _or: 'organizations_bool_exp',
     circles: 'circles_bool_exp',
+    circles_aggregate: 'circles_aggregate_bool_exp',
     created_at: 'timestamp_comparison_exp',
     created_by: 'Int_comparison_exp',
     id: 'bigint_comparison_exp',
     is_verified: 'Boolean_comparison_exp',
     logo: 'String_comparison_exp',
     members: 'org_members_bool_exp',
+    members_aggregate: 'org_members_aggregate_bool_exp',
     name: 'String_comparison_exp',
     profile: 'profiles_bool_exp',
     sample: 'Boolean_comparison_exp',
     telegram_id: 'String_comparison_exp',
     updated_at: 'timestamp_comparison_exp',
     vaults: 'vaults_bool_exp',
+    vaults_aggregate: 'vaults_aggregate_bool_exp',
   },
   organizations_constraint: true,
   organizations_inc_input: {
@@ -4984,6 +5186,14 @@ export const AllTypesProps: Record<string, any> = {
     _inc: 'pending_gift_private_inc_input',
     _set: 'pending_gift_private_set_input',
     where: 'pending_gift_private_bool_exp',
+  },
+  pending_token_gifts_aggregate_bool_exp: {
+    count: 'pending_token_gifts_aggregate_bool_exp_count',
+  },
+  pending_token_gifts_aggregate_bool_exp_count: {
+    arguments: 'pending_token_gifts_select_column',
+    filter: 'pending_token_gifts_bool_exp',
+    predicate: 'Int_comparison_exp',
   },
   pending_token_gifts_aggregate_fields: {
     count: {
@@ -5451,24 +5661,31 @@ export const AllTypesProps: Record<string, any> = {
     bio: 'String_comparison_exp',
     chat_id: 'String_comparison_exp',
     claims: 'claims_bool_exp',
+    claims_aggregate: 'claims_aggregate_bool_exp',
     connector: 'String_comparison_exp',
     created_at: 'timestamp_comparison_exp',
     discord_username: 'String_comparison_exp',
     distributions: 'distributions_bool_exp',
+    distributions_aggregate: 'distributions_aggregate_bool_exp',
     github_username: 'String_comparison_exp',
     id: 'bigint_comparison_exp',
     medium_username: 'String_comparison_exp',
     name: 'citext_comparison_exp',
     nominees: 'nominees_bool_exp',
+    nominees_aggregate: 'nominees_aggregate_bool_exp',
     org_members: 'org_members_bool_exp',
+    org_members_aggregate: 'org_members_aggregate_bool_exp',
     skills: 'String_comparison_exp',
     telegram_username: 'String_comparison_exp',
     twitter_username: 'String_comparison_exp',
     updated_at: 'timestamp_comparison_exp',
     user: 'discord_users_bool_exp',
     users: 'users_bool_exp',
+    users_aggregate: 'users_aggregate_bool_exp',
     vault_transactions: 'vault_transactions_bool_exp',
+    vault_transactions_aggregate: 'vault_transactions_aggregate_bool_exp',
     vaults: 'vaults_bool_exp',
+    vaults_aggregate: 'vaults_aggregate_bool_exp',
     website: 'String_comparison_exp',
   },
   profiles_constraint: true,
@@ -6651,6 +6868,14 @@ export const AllTypesProps: Record<string, any> = {
       where: 'vouches_bool_exp',
     },
   },
+  teammates_aggregate_bool_exp: {
+    count: 'teammates_aggregate_bool_exp_count',
+  },
+  teammates_aggregate_bool_exp_count: {
+    arguments: 'teammates_select_column',
+    filter: 'teammates_bool_exp',
+    predicate: 'Int_comparison_exp',
+  },
   teammates_aggregate_fields: {
     count: {
       columns: 'teammates_select_column',
@@ -6809,6 +7034,14 @@ export const AllTypesProps: Record<string, any> = {
     _lte: 'timestamptz',
     _neq: 'timestamptz',
     _nin: 'timestamptz',
+  },
+  token_gifts_aggregate_bool_exp: {
+    count: 'token_gifts_aggregate_bool_exp_count',
+  },
+  token_gifts_aggregate_bool_exp_count: {
+    arguments: 'token_gifts_select_column',
+    filter: 'token_gifts_bool_exp',
+    predicate: 'Int_comparison_exp',
   },
   token_gifts_aggregate_fields: {
     count: {
@@ -7159,6 +7392,28 @@ export const AllTypesProps: Record<string, any> = {
       where: 'vouches_bool_exp',
     },
   },
+  users_aggregate_bool_exp: {
+    bool_and: 'users_aggregate_bool_exp_bool_and',
+    bool_or: 'users_aggregate_bool_exp_bool_or',
+    count: 'users_aggregate_bool_exp_count',
+  },
+  users_aggregate_bool_exp_bool_and: {
+    arguments:
+      'users_select_column_users_aggregate_bool_exp_bool_and_arguments_columns',
+    filter: 'users_bool_exp',
+    predicate: 'Boolean_comparison_exp',
+  },
+  users_aggregate_bool_exp_bool_or: {
+    arguments:
+      'users_select_column_users_aggregate_bool_exp_bool_or_arguments_columns',
+    filter: 'users_bool_exp',
+    predicate: 'Boolean_comparison_exp',
+  },
+  users_aggregate_bool_exp_count: {
+    arguments: 'users_select_column',
+    filter: 'users_bool_exp',
+    predicate: 'Int_comparison_exp',
+  },
   users_aggregate_fields: {
     count: {
       columns: 'users_select_column',
@@ -7197,10 +7452,13 @@ export const AllTypesProps: Record<string, any> = {
     address: 'String_comparison_exp',
     bio: 'String_comparison_exp',
     burns: 'burns_bool_exp',
+    burns_aggregate: 'burns_aggregate_bool_exp',
     circle: 'circles_bool_exp',
     circle_api_keys: 'circle_api_keys_bool_exp',
+    circle_api_keys_aggregate: 'circle_api_keys_aggregate_bool_exp',
     circle_id: 'bigint_comparison_exp',
     contributions: 'contributions_bool_exp',
+    contributions_aggregate: 'contributions_aggregate_bool_exp',
     created_at: 'timestamp_comparison_exp',
     deleted_at: 'timestamp_comparison_exp',
     entrance: 'String_comparison_exp',
@@ -7214,16 +7472,22 @@ export const AllTypesProps: Record<string, any> = {
     non_giver: 'Boolean_comparison_exp',
     non_receiver: 'Boolean_comparison_exp',
     pending_received_gifts: 'pending_token_gifts_bool_exp',
+    pending_received_gifts_aggregate: 'pending_token_gifts_aggregate_bool_exp',
     pending_sent_gifts: 'pending_token_gifts_bool_exp',
+    pending_sent_gifts_aggregate: 'pending_token_gifts_aggregate_bool_exp',
     profile: 'profiles_bool_exp',
     received_gifts: 'token_gifts_bool_exp',
+    received_gifts_aggregate: 'token_gifts_aggregate_bool_exp',
     role: 'Int_comparison_exp',
     sent_gifts: 'token_gifts_bool_exp',
+    sent_gifts_aggregate: 'token_gifts_aggregate_bool_exp',
     starting_tokens: 'Int_comparison_exp',
     teammates: 'teammates_bool_exp',
+    teammates_aggregate: 'teammates_aggregate_bool_exp',
     updated_at: 'timestamp_comparison_exp',
     user_private: 'user_private_bool_exp',
     vouches: 'vouches_bool_exp',
+    vouches_aggregate: 'vouches_aggregate_bool_exp',
   },
   users_constraint: true,
   users_inc_input: {
@@ -7328,6 +7592,8 @@ export const AllTypesProps: Record<string, any> = {
     id: 'bigint',
   },
   users_select_column: true,
+  users_select_column_users_aggregate_bool_exp_bool_and_arguments_columns: true,
+  users_select_column_users_aggregate_bool_exp_bool_or_arguments_columns: true,
   users_set_input: {
     circle_id: 'bigint',
     created_at: 'timestamp',
@@ -7427,6 +7693,14 @@ export const AllTypesProps: Record<string, any> = {
     _lte: 'uuid',
     _neq: 'uuid',
     _nin: 'uuid',
+  },
+  vault_transactions_aggregate_bool_exp: {
+    count: 'vault_transactions_aggregate_bool_exp_count',
+  },
+  vault_transactions_aggregate_bool_exp_count: {
+    arguments: 'vault_transactions_select_column',
+    filter: 'vault_transactions_bool_exp',
+    predicate: 'Int_comparison_exp',
   },
   vault_transactions_aggregate_fields: {
     count: {
@@ -7647,6 +7921,7 @@ export const AllTypesProps: Record<string, any> = {
     comment: 'String_comparison_exp',
     value: 'String_comparison_exp',
     vault_transactions: 'vault_transactions_bool_exp',
+    vault_transactions_aggregate: 'vault_transactions_aggregate_bool_exp',
   },
   vault_tx_types_constraint: true,
   vault_tx_types_enum: true,
@@ -7708,6 +7983,14 @@ export const AllTypesProps: Record<string, any> = {
       where: 'vault_transactions_bool_exp',
     },
   },
+  vaults_aggregate_bool_exp: {
+    count: 'vaults_aggregate_bool_exp_count',
+  },
+  vaults_aggregate_bool_exp_count: {
+    arguments: 'vaults_select_column',
+    filter: 'vaults_bool_exp',
+    predicate: 'Int_comparison_exp',
+  },
   vaults_aggregate_fields: {
     count: {
       columns: 'vaults_select_column',
@@ -7748,6 +8031,7 @@ export const AllTypesProps: Record<string, any> = {
     decimals: 'Int_comparison_exp',
     deployment_block: 'bigint_comparison_exp',
     distributions: 'distributions_bool_exp',
+    distributions_aggregate: 'distributions_aggregate_bool_exp',
     id: 'bigint_comparison_exp',
     org_id: 'bigint_comparison_exp',
     organization: 'organizations_bool_exp',
@@ -7758,6 +8042,7 @@ export const AllTypesProps: Record<string, any> = {
     updated_at: 'timestamptz_comparison_exp',
     vault_address: 'String_comparison_exp',
     vault_transactions: 'vault_transactions_bool_exp',
+    vault_transactions_aggregate: 'vault_transactions_aggregate_bool_exp',
   },
   vaults_constraint: true,
   vaults_inc_input: {
@@ -7918,6 +8203,14 @@ export const AllTypesProps: Record<string, any> = {
     deployment_block: 'order_by',
     id: 'order_by',
     org_id: 'order_by',
+  },
+  vouches_aggregate_bool_exp: {
+    count: 'vouches_aggregate_bool_exp_count',
+  },
+  vouches_aggregate_bool_exp_count: {
+    arguments: 'vouches_select_column',
+    filter: 'vouches_bool_exp',
+    predicate: 'Int_comparison_exp',
   },
   vouches_aggregate_fields: {
     count: {

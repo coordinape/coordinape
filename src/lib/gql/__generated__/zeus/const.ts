@@ -672,6 +672,7 @@ export const AllTypesProps: Record<string, any> = {
     circle_private: 'circle_private_bool_exp',
     cont_help_text: 'String_comparison_exp',
     contributions: 'contributions_bool_exp',
+    contributions_aggregate: 'contributions_aggregate_bool_exp',
     created_at: 'timestamp_comparison_exp',
     default_opt_in: 'Boolean_comparison_exp',
     deleted_at: 'timestamp_comparison_exp',
@@ -689,6 +690,7 @@ export const AllTypesProps: Record<string, any> = {
     name: 'String_comparison_exp',
     nomination_days_limit: 'Int_comparison_exp',
     nominees: 'nominees_bool_exp',
+    nominees_aggregate: 'nominees_aggregate_bool_exp',
     only_giver_vouch: 'Boolean_comparison_exp',
     organization: 'organizations_bool_exp',
     organization_id: 'Int_comparison_exp',
@@ -696,6 +698,7 @@ export const AllTypesProps: Record<string, any> = {
     show_pending_gives: 'Boolean_comparison_exp',
     team_selection: 'Boolean_comparison_exp',
     token_gifts: 'token_gifts_bool_exp',
+    token_gifts_aggregate: 'token_gifts_aggregate_bool_exp',
     token_name: 'String_comparison_exp',
     updated_at: 'timestamp_comparison_exp',
     users: 'users_bool_exp',
@@ -874,6 +877,14 @@ export const AllTypesProps: Record<string, any> = {
     _nsimilar: 'citext',
     _regex: 'citext',
     _similar: 'citext',
+  },
+  claims_aggregate_bool_exp: {
+    count: 'claims_aggregate_bool_exp_count',
+  },
+  claims_aggregate_bool_exp_count: {
+    arguments: 'claims_select_column',
+    filter: 'claims_bool_exp',
+    predicate: 'Int_comparison_exp',
   },
   claims_aggregate_fields: {
     count: {
@@ -1057,6 +1068,14 @@ export const AllTypesProps: Record<string, any> = {
     index: 'order_by',
     new_amount: 'order_by',
     profile_id: 'order_by',
+  },
+  contributions_aggregate_bool_exp: {
+    count: 'contributions_aggregate_bool_exp_count',
+  },
+  contributions_aggregate_bool_exp_count: {
+    arguments: 'contributions_select_column',
+    filter: 'contributions_bool_exp',
+    predicate: 'Int_comparison_exp',
   },
   contributions_aggregate_fields: {
     count: {
@@ -1305,6 +1324,14 @@ export const AllTypesProps: Record<string, any> = {
       where: 'vault_transactions_bool_exp',
     },
   },
+  distributions_aggregate_bool_exp: {
+    count: 'distributions_aggregate_bool_exp_count',
+  },
+  distributions_aggregate_bool_exp_count: {
+    arguments: 'distributions_select_column',
+    filter: 'distributions_bool_exp',
+    predicate: 'Int_comparison_exp',
+  },
   distributions_aggregate_fields: {
     count: {
       columns: 'distributions_select_column',
@@ -1338,6 +1365,7 @@ export const AllTypesProps: Record<string, any> = {
     _not: 'distributions_bool_exp',
     _or: 'distributions_bool_exp',
     claims: 'claims_bool_exp',
+    claims_aggregate: 'claims_aggregate_bool_exp',
     created_at: 'timestamp_comparison_exp',
     created_by: 'bigint_comparison_exp',
     distribution_epoch_id: 'bigint_comparison_exp',
@@ -1590,6 +1618,7 @@ export const AllTypesProps: Record<string, any> = {
     days: 'Int_comparison_exp',
     description: 'String_comparison_exp',
     distributions: 'distributions_bool_exp',
+    distributions_aggregate: 'distributions_aggregate_bool_exp',
     end_date: 'timestamptz_comparison_exp',
     ended: 'Boolean_comparison_exp',
     epoch_pending_token_gifts: 'pending_token_gifts_bool_exp',
@@ -1604,6 +1633,7 @@ export const AllTypesProps: Record<string, any> = {
     repeat_day_of_month: 'Int_comparison_exp',
     start_date: 'timestamptz_comparison_exp',
     token_gifts: 'token_gifts_bool_exp',
+    token_gifts_aggregate: 'token_gifts_aggregate_bool_exp',
     updated_at: 'timestamp_comparison_exp',
   },
   epochs_max_order_by: {
@@ -2316,6 +2346,28 @@ export const AllTypesProps: Record<string, any> = {
       where: 'vouches_bool_exp',
     },
   },
+  nominees_aggregate_bool_exp: {
+    bool_and: 'nominees_aggregate_bool_exp_bool_and',
+    bool_or: 'nominees_aggregate_bool_exp_bool_or',
+    count: 'nominees_aggregate_bool_exp_count',
+  },
+  nominees_aggregate_bool_exp_bool_and: {
+    arguments:
+      'nominees_select_column_nominees_aggregate_bool_exp_bool_and_arguments_columns',
+    filter: 'nominees_bool_exp',
+    predicate: 'Boolean_comparison_exp',
+  },
+  nominees_aggregate_bool_exp_bool_or: {
+    arguments:
+      'nominees_select_column_nominees_aggregate_bool_exp_bool_or_arguments_columns',
+    filter: 'nominees_bool_exp',
+    predicate: 'Boolean_comparison_exp',
+  },
+  nominees_aggregate_bool_exp_count: {
+    arguments: 'nominees_select_column',
+    filter: 'nominees_bool_exp',
+    predicate: 'Int_comparison_exp',
+  },
   nominees_aggregate_fields: {
     count: {
       columns: 'nominees_select_column',
@@ -2409,6 +2461,10 @@ export const AllTypesProps: Record<string, any> = {
     vouches_required: 'order_by',
   },
   nominees_select_column: true,
+  nominees_select_column_nominees_aggregate_bool_exp_bool_and_arguments_columns:
+    true,
+  nominees_select_column_nominees_aggregate_bool_exp_bool_or_arguments_columns:
+    true,
   nominees_stddev_order_by: {
     circle_id: 'order_by',
     id: 'order_by',
@@ -2965,14 +3021,17 @@ export const AllTypesProps: Record<string, any> = {
     background: 'String_comparison_exp',
     bio: 'String_comparison_exp',
     claims: 'claims_bool_exp',
+    claims_aggregate: 'claims_aggregate_bool_exp',
     created_at: 'timestamp_comparison_exp',
     discord_username: 'String_comparison_exp',
     distributions: 'distributions_bool_exp',
+    distributions_aggregate: 'distributions_aggregate_bool_exp',
     github_username: 'String_comparison_exp',
     id: 'bigint_comparison_exp',
     medium_username: 'String_comparison_exp',
     name: 'citext_comparison_exp',
     nominees: 'nominees_bool_exp',
+    nominees_aggregate: 'nominees_aggregate_bool_exp',
     org_members: 'org_members_bool_exp',
     skills: 'String_comparison_exp',
     telegram_username: 'String_comparison_exp',
@@ -3810,6 +3869,14 @@ export const AllTypesProps: Record<string, any> = {
     _neq: 'timestamptz',
     _nin: 'timestamptz',
   },
+  token_gifts_aggregate_bool_exp: {
+    count: 'token_gifts_aggregate_bool_exp_count',
+  },
+  token_gifts_aggregate_bool_exp_count: {
+    arguments: 'token_gifts_select_column',
+    filter: 'token_gifts_bool_exp',
+    predicate: 'Int_comparison_exp',
+  },
   token_gifts_aggregate_fields: {
     count: {
       columns: 'token_gifts_select_column',
@@ -4096,6 +4163,7 @@ export const AllTypesProps: Record<string, any> = {
     circle_api_keys: 'circle_api_keys_bool_exp',
     circle_id: 'bigint_comparison_exp',
     contributions: 'contributions_bool_exp',
+    contributions_aggregate: 'contributions_aggregate_bool_exp',
     created_at: 'timestamp_comparison_exp',
     deleted_at: 'timestamp_comparison_exp',
     epoch_first_visit: 'Boolean_comparison_exp',
@@ -4110,8 +4178,10 @@ export const AllTypesProps: Record<string, any> = {
     pending_sent_gifts: 'pending_token_gifts_bool_exp',
     profile: 'profiles_bool_exp',
     received_gifts: 'token_gifts_bool_exp',
+    received_gifts_aggregate: 'token_gifts_aggregate_bool_exp',
     role: 'Int_comparison_exp',
     sent_gifts: 'token_gifts_bool_exp',
+    sent_gifts_aggregate: 'token_gifts_aggregate_bool_exp',
     starting_tokens: 'Int_comparison_exp',
     teammates: 'teammates_bool_exp',
     updated_at: 'timestamp_comparison_exp',
@@ -4474,6 +4544,7 @@ export const AllTypesProps: Record<string, any> = {
     decimals: 'Int_comparison_exp',
     deployment_block: 'bigint_comparison_exp',
     distributions: 'distributions_bool_exp',
+    distributions_aggregate: 'distributions_aggregate_bool_exp',
     id: 'bigint_comparison_exp',
     organization: 'organizations_bool_exp',
     profile: 'profiles_bool_exp',
