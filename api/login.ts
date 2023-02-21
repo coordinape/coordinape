@@ -138,7 +138,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const { insert_profiles_one } = await adminClient.mutate(
         {
           insert_profiles_one: [
-            { object: { address, connector: connectorName } },
+            {
+              object: {
+                address,
+                connector: connectorName,
+                name: `New User ${address.substring(0, 8)}`,
+              },
+            },
             {
               id: true,
               users: [{}, { circle_id: true }],
