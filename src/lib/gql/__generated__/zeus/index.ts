@@ -5714,6 +5714,163 @@ export type ValueTypes = {
   };
   /** column ordering options */
   ['order_by']: order_by;
+  /** columns and relationships of "org_members" */
+  ['org_members']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    deleted_at?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    org_id?: boolean | `@${string}`;
+    /** An object relationship */
+    organization?: ValueTypes['organizations'];
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
+    profile_id?: boolean | `@${string}`;
+    role?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by aggregate values of table "org_members" */
+  ['org_members_aggregate_order_by']: {
+    avg?: ValueTypes['org_members_avg_order_by'] | undefined | null;
+    count?: ValueTypes['order_by'] | undefined | null;
+    max?: ValueTypes['org_members_max_order_by'] | undefined | null;
+    min?: ValueTypes['org_members_min_order_by'] | undefined | null;
+    stddev?: ValueTypes['org_members_stddev_order_by'] | undefined | null;
+    stddev_pop?:
+      | ValueTypes['org_members_stddev_pop_order_by']
+      | undefined
+      | null;
+    stddev_samp?:
+      | ValueTypes['org_members_stddev_samp_order_by']
+      | undefined
+      | null;
+    sum?: ValueTypes['org_members_sum_order_by'] | undefined | null;
+    var_pop?: ValueTypes['org_members_var_pop_order_by'] | undefined | null;
+    var_samp?: ValueTypes['org_members_var_samp_order_by'] | undefined | null;
+    variance?: ValueTypes['org_members_variance_order_by'] | undefined | null;
+  };
+  /** order by avg() on columns of table "org_members" */
+  ['org_members_avg_order_by']: {
+    id?: ValueTypes['order_by'] | undefined | null;
+    org_id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    role?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** Boolean expression to filter rows from the table "org_members". All fields are combined with a logical 'AND'. */
+  ['org_members_bool_exp']: {
+    _and?: Array<ValueTypes['org_members_bool_exp']> | undefined | null;
+    _not?: ValueTypes['org_members_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['org_members_bool_exp']> | undefined | null;
+    created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+    deleted_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+    id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    org_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    organization?: ValueTypes['organizations_bool_exp'] | undefined | null;
+    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
+    profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    role?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+  };
+  /** order by max() on columns of table "org_members" */
+  ['org_members_max_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    deleted_at?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    org_id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    role?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by min() on columns of table "org_members" */
+  ['org_members_min_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    deleted_at?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    org_id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    role?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "org_members". */
+  ['org_members_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    deleted_at?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    org_id?: ValueTypes['order_by'] | undefined | null;
+    organization?: ValueTypes['organizations_order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    role?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "org_members" */
+  ['org_members_select_column']: org_members_select_column;
+  /** order by stddev() on columns of table "org_members" */
+  ['org_members_stddev_order_by']: {
+    id?: ValueTypes['order_by'] | undefined | null;
+    org_id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    role?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by stddev_pop() on columns of table "org_members" */
+  ['org_members_stddev_pop_order_by']: {
+    id?: ValueTypes['order_by'] | undefined | null;
+    org_id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    role?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by stddev_samp() on columns of table "org_members" */
+  ['org_members_stddev_samp_order_by']: {
+    id?: ValueTypes['order_by'] | undefined | null;
+    org_id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    role?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** Streaming cursor of the table "org_members" */
+  ['org_members_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['org_members_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['org_members_stream_cursor_value_input']: {
+    created_at?: ValueTypes['timestamp'] | undefined | null;
+    deleted_at?: ValueTypes['timestamp'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    org_id?: ValueTypes['bigint'] | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    role?: number | undefined | null;
+    updated_at?: ValueTypes['timestamp'] | undefined | null;
+  };
+  /** order by sum() on columns of table "org_members" */
+  ['org_members_sum_order_by']: {
+    id?: ValueTypes['order_by'] | undefined | null;
+    org_id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    role?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by var_pop() on columns of table "org_members" */
+  ['org_members_var_pop_order_by']: {
+    id?: ValueTypes['order_by'] | undefined | null;
+    org_id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    role?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by var_samp() on columns of table "org_members" */
+  ['org_members_var_samp_order_by']: {
+    id?: ValueTypes['order_by'] | undefined | null;
+    org_id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    role?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by variance() on columns of table "org_members" */
+  ['org_members_variance_order_by']: {
+    id?: ValueTypes['order_by'] | undefined | null;
+    org_id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    role?: ValueTypes['order_by'] | undefined | null;
+  };
   /** columns and relationships of "organizations" */
   ['organizations']: AliasType<{
     circles?: [
@@ -5743,6 +5900,29 @@ export type ValueTypes = {
     created_by?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     logo?: boolean | `@${string}`;
+    members?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['org_members_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['org_members_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['org_members_bool_exp'] | undefined | null;
+      },
+      ValueTypes['org_members']
+    ];
     name?: boolean | `@${string}`;
     /** An object relationship */
     profile?: ValueTypes['profiles'];
@@ -5785,6 +5965,7 @@ export type ValueTypes = {
     created_by?: ValueTypes['Int_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     logo?: ValueTypes['String_comparison_exp'] | undefined | null;
+    members?: ValueTypes['org_members_bool_exp'] | undefined | null;
     name?: ValueTypes['String_comparison_exp'] | undefined | null;
     profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     sample?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
@@ -5810,6 +5991,10 @@ export type ValueTypes = {
     created_by?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     logo?: ValueTypes['order_by'] | undefined | null;
+    members_aggregate?:
+      | ValueTypes['org_members_aggregate_order_by']
+      | undefined
+      | null;
     name?: ValueTypes['order_by'] | undefined | null;
     profile?: ValueTypes['profiles_order_by'] | undefined | null;
     sample?: ValueTypes['order_by'] | undefined | null;
@@ -6398,6 +6583,29 @@ export type ValueTypes = {
       },
       ValueTypes['nominees_aggregate']
     ];
+    org_members?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['org_members_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['org_members_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['org_members_bool_exp'] | undefined | null;
+      },
+      ValueTypes['org_members']
+    ];
     skills?: boolean | `@${string}`;
     telegram_username?: boolean | `@${string}`;
     twitter_username?: boolean | `@${string}`;
@@ -6494,6 +6702,7 @@ export type ValueTypes = {
     medium_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     name?: ValueTypes['citext_comparison_exp'] | undefined | null;
     nominees?: ValueTypes['nominees_bool_exp'] | undefined | null;
+    org_members?: ValueTypes['org_members_bool_exp'] | undefined | null;
     skills?: ValueTypes['String_comparison_exp'] | undefined | null;
     telegram_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     twitter_username?: ValueTypes['String_comparison_exp'] | undefined | null;
@@ -6537,6 +6746,10 @@ export type ValueTypes = {
     name?: ValueTypes['order_by'] | undefined | null;
     nominees_aggregate?:
       | ValueTypes['nominees_aggregate_order_by']
+      | undefined
+      | null;
+    org_members_aggregate?:
+      | ValueTypes['org_members_aggregate_order_by']
       | undefined
       | null;
     skills?: ValueTypes['order_by'] | undefined | null;
@@ -7113,6 +7326,33 @@ export type ValueTypes = {
       ValueTypes['nominees_aggregate']
     ];
     nominees_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['nominees']];
+    org_members?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['org_members_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['org_members_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['org_members_bool_exp'] | undefined | null;
+      },
+      ValueTypes['org_members']
+    ];
+    org_members_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['org_members']
+    ];
     organizations?: [
       {
         /** distinct select on columns */
@@ -8189,6 +8429,44 @@ export type ValueTypes = {
         where?: ValueTypes['nominees_bool_exp'] | undefined | null;
       },
       ValueTypes['nominees']
+    ];
+    org_members?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['org_members_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['org_members_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['org_members_bool_exp'] | undefined | null;
+      },
+      ValueTypes['org_members']
+    ];
+    org_members_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['org_members']
+    ];
+    org_members_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['org_members_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['org_members_bool_exp'] | undefined | null;
+      },
+      ValueTypes['org_members']
     ];
     organizations?: [
       {
@@ -12357,6 +12635,52 @@ export type ModelTypes = {
   ['numeric_comparison_exp']: GraphQLTypes['numeric_comparison_exp'];
   /** column ordering options */
   ['order_by']: GraphQLTypes['order_by'];
+  /** columns and relationships of "org_members" */
+  ['org_members']: {
+    created_at: GraphQLTypes['timestamp'];
+    deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    id: GraphQLTypes['bigint'];
+    org_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    organization: GraphQLTypes['organizations'];
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+    profile_id: GraphQLTypes['bigint'];
+    role: number;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
+  };
+  /** order by aggregate values of table "org_members" */
+  ['org_members_aggregate_order_by']: GraphQLTypes['org_members_aggregate_order_by'];
+  /** order by avg() on columns of table "org_members" */
+  ['org_members_avg_order_by']: GraphQLTypes['org_members_avg_order_by'];
+  /** Boolean expression to filter rows from the table "org_members". All fields are combined with a logical 'AND'. */
+  ['org_members_bool_exp']: GraphQLTypes['org_members_bool_exp'];
+  /** order by max() on columns of table "org_members" */
+  ['org_members_max_order_by']: GraphQLTypes['org_members_max_order_by'];
+  /** order by min() on columns of table "org_members" */
+  ['org_members_min_order_by']: GraphQLTypes['org_members_min_order_by'];
+  /** Ordering options when selecting data from "org_members". */
+  ['org_members_order_by']: GraphQLTypes['org_members_order_by'];
+  /** select columns of table "org_members" */
+  ['org_members_select_column']: GraphQLTypes['org_members_select_column'];
+  /** order by stddev() on columns of table "org_members" */
+  ['org_members_stddev_order_by']: GraphQLTypes['org_members_stddev_order_by'];
+  /** order by stddev_pop() on columns of table "org_members" */
+  ['org_members_stddev_pop_order_by']: GraphQLTypes['org_members_stddev_pop_order_by'];
+  /** order by stddev_samp() on columns of table "org_members" */
+  ['org_members_stddev_samp_order_by']: GraphQLTypes['org_members_stddev_samp_order_by'];
+  /** Streaming cursor of the table "org_members" */
+  ['org_members_stream_cursor_input']: GraphQLTypes['org_members_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['org_members_stream_cursor_value_input']: GraphQLTypes['org_members_stream_cursor_value_input'];
+  /** order by sum() on columns of table "org_members" */
+  ['org_members_sum_order_by']: GraphQLTypes['org_members_sum_order_by'];
+  /** order by var_pop() on columns of table "org_members" */
+  ['org_members_var_pop_order_by']: GraphQLTypes['org_members_var_pop_order_by'];
+  /** order by var_samp() on columns of table "org_members" */
+  ['org_members_var_samp_order_by']: GraphQLTypes['org_members_var_samp_order_by'];
+  /** order by variance() on columns of table "org_members" */
+  ['org_members_variance_order_by']: GraphQLTypes['org_members_variance_order_by'];
   /** columns and relationships of "organizations" */
   ['organizations']: {
     /** An array relationship */
@@ -12365,6 +12689,8 @@ export type ModelTypes = {
     created_by?: number | undefined;
     id: GraphQLTypes['bigint'];
     logo?: string | undefined;
+    /** An array relationship */
+    members: Array<GraphQLTypes['org_members']>;
     name: string;
     /** An object relationship */
     profile?: GraphQLTypes['profiles'] | undefined;
@@ -12541,6 +12867,8 @@ export type ModelTypes = {
     nominees: Array<GraphQLTypes['nominees']>;
     /** An aggregate relationship */
     nominees_aggregate: GraphQLTypes['nominees_aggregate'];
+    /** An array relationship */
+    org_members: Array<GraphQLTypes['org_members']>;
     skills?: string | undefined;
     telegram_username?: string | undefined;
     twitter_username?: string | undefined;
@@ -12657,6 +12985,10 @@ export type ModelTypes = {
     nominees_aggregate: GraphQLTypes['nominees_aggregate'];
     /** fetch data from the table: "nominees" using primary key columns */
     nominees_by_pk?: GraphQLTypes['nominees'] | undefined;
+    /** An array relationship */
+    org_members: Array<GraphQLTypes['org_members']>;
+    /** fetch data from the table: "org_members" using primary key columns */
+    org_members_by_pk?: GraphQLTypes['org_members'] | undefined;
     /** fetch data from the table: "organizations" */
     organizations: Array<GraphQLTypes['organizations']>;
     /** fetch data from the table: "organizations" using primary key columns */
@@ -12830,6 +13162,12 @@ export type ModelTypes = {
     nominees_by_pk?: GraphQLTypes['nominees'] | undefined;
     /** fetch data from the table in a streaming manner : "nominees" */
     nominees_stream: Array<GraphQLTypes['nominees']>;
+    /** An array relationship */
+    org_members: Array<GraphQLTypes['org_members']>;
+    /** fetch data from the table: "org_members" using primary key columns */
+    org_members_by_pk?: GraphQLTypes['org_members'] | undefined;
+    /** fetch data from the table in a streaming manner : "org_members" */
+    org_members_stream: Array<GraphQLTypes['org_members']>;
     /** fetch data from the table: "organizations" */
     organizations: Array<GraphQLTypes['organizations']>;
     /** fetch data from the table: "organizations" using primary key columns */
@@ -17498,6 +17836,157 @@ export type GraphQLTypes = {
   };
   /** column ordering options */
   ['order_by']: order_by;
+  /** columns and relationships of "org_members" */
+  ['org_members']: {
+    __typename: 'org_members';
+    created_at: GraphQLTypes['timestamp'];
+    deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    id: GraphQLTypes['bigint'];
+    org_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    organization: GraphQLTypes['organizations'];
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+    profile_id: GraphQLTypes['bigint'];
+    role: number;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
+  };
+  /** order by aggregate values of table "org_members" */
+  ['org_members_aggregate_order_by']: {
+    avg?: GraphQLTypes['org_members_avg_order_by'] | undefined;
+    count?: GraphQLTypes['order_by'] | undefined;
+    max?: GraphQLTypes['org_members_max_order_by'] | undefined;
+    min?: GraphQLTypes['org_members_min_order_by'] | undefined;
+    stddev?: GraphQLTypes['org_members_stddev_order_by'] | undefined;
+    stddev_pop?: GraphQLTypes['org_members_stddev_pop_order_by'] | undefined;
+    stddev_samp?: GraphQLTypes['org_members_stddev_samp_order_by'] | undefined;
+    sum?: GraphQLTypes['org_members_sum_order_by'] | undefined;
+    var_pop?: GraphQLTypes['org_members_var_pop_order_by'] | undefined;
+    var_samp?: GraphQLTypes['org_members_var_samp_order_by'] | undefined;
+    variance?: GraphQLTypes['org_members_variance_order_by'] | undefined;
+  };
+  /** order by avg() on columns of table "org_members" */
+  ['org_members_avg_order_by']: {
+    id?: GraphQLTypes['order_by'] | undefined;
+    org_id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    role?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "org_members". All fields are combined with a logical 'AND'. */
+  ['org_members_bool_exp']: {
+    _and?: Array<GraphQLTypes['org_members_bool_exp']> | undefined;
+    _not?: GraphQLTypes['org_members_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['org_members_bool_exp']> | undefined;
+    created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+    deleted_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+    id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    org_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    organization?: GraphQLTypes['organizations_bool_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
+    profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    role?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+  };
+  /** order by max() on columns of table "org_members" */
+  ['org_members_max_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    deleted_at?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    org_id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    role?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by min() on columns of table "org_members" */
+  ['org_members_min_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    deleted_at?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    org_id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    role?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Ordering options when selecting data from "org_members". */
+  ['org_members_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    deleted_at?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    org_id?: GraphQLTypes['order_by'] | undefined;
+    organization?: GraphQLTypes['organizations_order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    role?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "org_members" */
+  ['org_members_select_column']: org_members_select_column;
+  /** order by stddev() on columns of table "org_members" */
+  ['org_members_stddev_order_by']: {
+    id?: GraphQLTypes['order_by'] | undefined;
+    org_id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    role?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by stddev_pop() on columns of table "org_members" */
+  ['org_members_stddev_pop_order_by']: {
+    id?: GraphQLTypes['order_by'] | undefined;
+    org_id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    role?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by stddev_samp() on columns of table "org_members" */
+  ['org_members_stddev_samp_order_by']: {
+    id?: GraphQLTypes['order_by'] | undefined;
+    org_id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    role?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Streaming cursor of the table "org_members" */
+  ['org_members_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['org_members_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['org_members_stream_cursor_value_input']: {
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    org_id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    role?: number | undefined;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
+  };
+  /** order by sum() on columns of table "org_members" */
+  ['org_members_sum_order_by']: {
+    id?: GraphQLTypes['order_by'] | undefined;
+    org_id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    role?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by var_pop() on columns of table "org_members" */
+  ['org_members_var_pop_order_by']: {
+    id?: GraphQLTypes['order_by'] | undefined;
+    org_id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    role?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by var_samp() on columns of table "org_members" */
+  ['org_members_var_samp_order_by']: {
+    id?: GraphQLTypes['order_by'] | undefined;
+    org_id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    role?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by variance() on columns of table "org_members" */
+  ['org_members_variance_order_by']: {
+    id?: GraphQLTypes['order_by'] | undefined;
+    org_id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    role?: GraphQLTypes['order_by'] | undefined;
+  };
   /** columns and relationships of "organizations" */
   ['organizations']: {
     __typename: 'organizations';
@@ -17507,6 +17996,8 @@ export type GraphQLTypes = {
     created_by?: number | undefined;
     id: GraphQLTypes['bigint'];
     logo?: string | undefined;
+    /** An array relationship */
+    members: Array<GraphQLTypes['org_members']>;
     name: string;
     /** An object relationship */
     profile?: GraphQLTypes['profiles'] | undefined;
@@ -17527,6 +18018,7 @@ export type GraphQLTypes = {
     created_by?: GraphQLTypes['Int_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     logo?: GraphQLTypes['String_comparison_exp'] | undefined;
+    members?: GraphQLTypes['org_members_bool_exp'] | undefined;
     name?: GraphQLTypes['String_comparison_exp'] | undefined;
     profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     sample?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
@@ -17549,6 +18041,9 @@ export type GraphQLTypes = {
     created_by?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     logo?: GraphQLTypes['order_by'] | undefined;
+    members_aggregate?:
+      | GraphQLTypes['org_members_aggregate_order_by']
+      | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
     profile?: GraphQLTypes['profiles_order_by'] | undefined;
     sample?: GraphQLTypes['order_by'] | undefined;
@@ -17981,6 +18476,8 @@ export type GraphQLTypes = {
     nominees: Array<GraphQLTypes['nominees']>;
     /** An aggregate relationship */
     nominees_aggregate: GraphQLTypes['nominees_aggregate'];
+    /** An array relationship */
+    org_members: Array<GraphQLTypes['org_members']>;
     skills?: string | undefined;
     telegram_username?: string | undefined;
     twitter_username?: string | undefined;
@@ -18013,6 +18510,7 @@ export type GraphQLTypes = {
     medium_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     name?: GraphQLTypes['citext_comparison_exp'] | undefined;
     nominees?: GraphQLTypes['nominees_bool_exp'] | undefined;
+    org_members?: GraphQLTypes['org_members_bool_exp'] | undefined;
     skills?: GraphQLTypes['String_comparison_exp'] | undefined;
     telegram_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     twitter_username?: GraphQLTypes['String_comparison_exp'] | undefined;
@@ -18051,6 +18549,9 @@ export type GraphQLTypes = {
     name?: GraphQLTypes['order_by'] | undefined;
     nominees_aggregate?:
       | GraphQLTypes['nominees_aggregate_order_by']
+      | undefined;
+    org_members_aggregate?:
+      | GraphQLTypes['org_members_aggregate_order_by']
       | undefined;
     skills?: GraphQLTypes['order_by'] | undefined;
     telegram_username?: GraphQLTypes['order_by'] | undefined;
@@ -18194,6 +18695,10 @@ export type GraphQLTypes = {
     nominees_aggregate: GraphQLTypes['nominees_aggregate'];
     /** fetch data from the table: "nominees" using primary key columns */
     nominees_by_pk?: GraphQLTypes['nominees'] | undefined;
+    /** An array relationship */
+    org_members: Array<GraphQLTypes['org_members']>;
+    /** fetch data from the table: "org_members" using primary key columns */
+    org_members_by_pk?: GraphQLTypes['org_members'] | undefined;
     /** fetch data from the table: "organizations" */
     organizations: Array<GraphQLTypes['organizations']>;
     /** fetch data from the table: "organizations" using primary key columns */
@@ -18368,6 +18873,12 @@ export type GraphQLTypes = {
     nominees_by_pk?: GraphQLTypes['nominees'] | undefined;
     /** fetch data from the table in a streaming manner : "nominees" */
     nominees_stream: Array<GraphQLTypes['nominees']>;
+    /** An array relationship */
+    org_members: Array<GraphQLTypes['org_members']>;
+    /** fetch data from the table: "org_members" using primary key columns */
+    org_members_by_pk?: GraphQLTypes['org_members'] | undefined;
+    /** fetch data from the table in a streaming manner : "org_members" */
+    org_members_stream: Array<GraphQLTypes['org_members']>;
     /** fetch data from the table: "organizations" */
     organizations: Array<GraphQLTypes['organizations']>;
     /** fetch data from the table: "organizations" using primary key columns */
@@ -20209,6 +20720,16 @@ export const enum order_by {
   desc = 'desc',
   desc_nulls_first = 'desc_nulls_first',
   desc_nulls_last = 'desc_nulls_last',
+}
+/** select columns of table "org_members" */
+export const enum org_members_select_column {
+  created_at = 'created_at',
+  deleted_at = 'deleted_at',
+  id = 'id',
+  org_id = 'org_id',
+  profile_id = 'profile_id',
+  role = 'role',
+  updated_at = 'updated_at',
 }
 /** select columns of table "organizations" */
 export const enum organizations_select_column {
