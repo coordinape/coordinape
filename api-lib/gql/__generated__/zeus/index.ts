@@ -805,6 +805,7 @@ export type ValueTypes = {
     circle_id: number;
     create_contributions?: boolean | undefined | null;
     create_vouches?: boolean | undefined | null;
+    manage_users?: boolean | undefined | null;
     name: string;
     read_circle?: boolean | undefined | null;
     read_contributions?: boolean | undefined | null;
@@ -1837,6 +1838,7 @@ export type ValueTypes = {
     created_at?: boolean | `@${string}`;
     created_by?: boolean | `@${string}`;
     hash?: boolean | `@${string}`;
+    manage_users?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     read_circle?: boolean | `@${string}`;
     read_contributions?: boolean | `@${string}`;
@@ -1938,6 +1940,7 @@ export type ValueTypes = {
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     created_by?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     hash?: ValueTypes['String_comparison_exp'] | undefined | null;
+    manage_users?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     name?: ValueTypes['String_comparison_exp'] | undefined | null;
     read_circle?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     read_contributions?:
@@ -1978,6 +1981,7 @@ export type ValueTypes = {
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     created_by?: ValueTypes['bigint'] | undefined | null;
     hash?: string | undefined | null;
+    manage_users?: boolean | undefined | null;
     name?: string | undefined | null;
     read_circle?: boolean | undefined | null;
     read_contributions?: boolean | undefined | null;
@@ -2053,6 +2057,7 @@ export type ValueTypes = {
     created_at?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
     hash?: ValueTypes['order_by'] | undefined | null;
+    manage_users?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
     read_circle?: ValueTypes['order_by'] | undefined | null;
     read_contributions?: ValueTypes['order_by'] | undefined | null;
@@ -2078,6 +2083,7 @@ export type ValueTypes = {
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     created_by?: ValueTypes['bigint'] | undefined | null;
     hash?: string | undefined | null;
+    manage_users?: boolean | undefined | null;
     name?: string | undefined | null;
     read_circle?: boolean | undefined | null;
     read_contributions?: boolean | undefined | null;
@@ -2137,6 +2143,7 @@ export type ValueTypes = {
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     created_by?: ValueTypes['bigint'] | undefined | null;
     hash?: string | undefined | null;
+    manage_users?: boolean | undefined | null;
     name?: string | undefined | null;
     read_circle?: boolean | undefined | null;
     read_contributions?: boolean | undefined | null;
@@ -22697,6 +22704,7 @@ export type ModelTypes = {
     created_at: GraphQLTypes['timestamptz'];
     created_by: GraphQLTypes['bigint'];
     hash: string;
+    manage_users: boolean;
     name: string;
     read_circle: boolean;
     read_contributions: boolean;
@@ -30116,6 +30124,7 @@ export type GraphQLTypes = {
     circle_id: number;
     create_contributions?: boolean | undefined;
     create_vouches?: boolean | undefined;
+    manage_users?: boolean | undefined;
     name: string;
     read_circle?: boolean | undefined;
     read_contributions?: boolean | undefined;
@@ -31126,6 +31135,7 @@ export type GraphQLTypes = {
     created_at: GraphQLTypes['timestamptz'];
     created_by: GraphQLTypes['bigint'];
     hash: string;
+    manage_users: boolean;
     name: string;
     read_circle: boolean;
     read_contributions: boolean;
@@ -31208,6 +31218,7 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     created_by?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     hash?: GraphQLTypes['String_comparison_exp'] | undefined;
+    manage_users?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     name?: GraphQLTypes['String_comparison_exp'] | undefined;
     read_circle?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     read_contributions?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
@@ -31240,6 +31251,7 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     created_by?: GraphQLTypes['bigint'] | undefined;
     hash?: string | undefined;
+    manage_users?: boolean | undefined;
     name?: string | undefined;
     read_circle?: boolean | undefined;
     read_contributions?: boolean | undefined;
@@ -31315,6 +31327,7 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
     hash?: GraphQLTypes['order_by'] | undefined;
+    manage_users?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
     read_circle?: GraphQLTypes['order_by'] | undefined;
     read_contributions?: GraphQLTypes['order_by'] | undefined;
@@ -31340,6 +31353,7 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     created_by?: GraphQLTypes['bigint'] | undefined;
     hash?: string | undefined;
+    manage_users?: boolean | undefined;
     name?: string | undefined;
     read_circle?: boolean | undefined;
     read_contributions?: boolean | undefined;
@@ -31399,6 +31413,7 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     created_by?: GraphQLTypes['bigint'] | undefined;
     hash?: string | undefined;
+    manage_users?: boolean | undefined;
     name?: string | undefined;
     read_circle?: boolean | undefined;
     read_contributions?: boolean | undefined;
@@ -43916,6 +43931,7 @@ export const enum circle_api_keys_select_column {
   created_at = 'created_at',
   created_by = 'created_by',
   hash = 'hash',
+  manage_users = 'manage_users',
   name = 'name',
   read_circle = 'read_circle',
   read_contributions = 'read_contributions',
@@ -43935,6 +43951,7 @@ export const enum circle_api_keys_update_column {
   created_at = 'created_at',
   created_by = 'created_by',
   hash = 'hash',
+  manage_users = 'manage_users',
   name = 'name',
   read_circle = 'read_circle',
   read_contributions = 'read_contributions',

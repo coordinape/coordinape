@@ -14,7 +14,7 @@ import {
 } from '../../../../api-lib/HttpError';
 import { ENTRANCE } from '../../../../src/common-lib/constants';
 import {
-  composeHasuraActionRequestBody,
+  composeHasuraActionRequestBodyWithApiPermissions,
   createUsersBulkSchemaInput,
 } from '../../../../src/lib/zod';
 
@@ -26,8 +26,9 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     input: { payload: input },
     session_variables: sessionVariables,
-  } = await composeHasuraActionRequestBody(
-    createUsersBulkSchemaInput
+  } = await composeHasuraActionRequestBodyWithApiPermissions(
+    createUsersBulkSchemaInput,
+    ['manage_users']
   ).parseAsync(req.body);
 
   const { circle_id, users } = input;

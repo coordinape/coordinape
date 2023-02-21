@@ -6,13 +6,15 @@ import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
 import { authUserDeleterMiddleware } from '../../../../api-lib/userDeleter';
 import {
   deleteUserInput,
-  composeHasuraActionRequestBody,
+  composeHasuraActionRequestBodyWithApiPermissions,
 } from '../../../../src/lib/zod';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     input: { payload },
-  } = composeHasuraActionRequestBody(deleteUserInput).parse(req.body);
+  } = await composeHasuraActionRequestBodyWithApiPermissions(deleteUserInput, [
+    'manage_users',
+  ]).parseAsync(req.body);
 
   const { circle_id, address } = payload;
 
