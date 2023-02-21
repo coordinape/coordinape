@@ -1,5 +1,4 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { generateAddress } from 'ethereumjs-util';
 import { DateTime } from 'luxon';
 
 import { COORDINAPE_USER_ADDRESS } from '../../../../api-lib/config';
@@ -194,9 +193,7 @@ const addSampleMember = async (
   circle_id: number,
   sample: SampleMemberData
 ): Promise<SampleMember> => {
-  const address =
-    '0x' +
-    generateAddress(Buffer.from(sample.name), Buffer.from('')).toString('hex');
+  const address = sample.address;
   const { insert_users_one } = await adminClient.mutate(
     {
       insert_users_one: [
