@@ -63,6 +63,7 @@ export async function getCircleApiKey(hash: string) {
           read_circle: true,
           update_pending_token_gifts: true,
           update_circle: true,
+          manage_users: true,
         },
       ],
     },

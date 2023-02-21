@@ -18,6 +18,7 @@ select_permissions:
         - created_at
         - created_by
         - hash
+        - manage_users
         - name
         - read_circle
         - read_contributions

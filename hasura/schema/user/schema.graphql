@@ -236,6 +236,7 @@ input GenerateApiKeyInput {
   circle_id: Int!
   create_contributions: Boolean
   create_vouches: Boolean
+  manage_users: Boolean
   name: String!
   read_circle: Boolean
   read_contributions: Boolean
@@ -888,6 +889,7 @@ type circle_api_keys {
   created_at: timestamptz!
   created_by: bigint!
   hash: String!
+  manage_users: Boolean!
   name: String!
   read_circle: Boolean!
   read_contributions: Boolean!
@@ -939,6 +941,7 @@ input circle_api_keys_bool_exp {
   created_at: timestamptz_comparison_exp
   created_by: bigint_comparison_exp
   hash: String_comparison_exp
+  manage_users: Boolean_comparison_exp
   name: String_comparison_exp
   read_circle: Boolean_comparison_exp
   read_contributions: Boolean_comparison_exp
@@ -999,6 +1002,7 @@ input circle_api_keys_order_by {
   created_at: order_by
   created_by: order_by
   hash: order_by
+  manage_users: order_by
   name: order_by
   read_circle: order_by
   read_contributions: order_by
@@ -1043,6 +1047,11 @@ enum circle_api_keys_select_column {
   column name
   """
   hash
+
+  """
+  column name
+  """
+  manage_users
 
   """
   column name
@@ -1139,6 +1148,7 @@ input circle_api_keys_stream_cursor_value_input {
   created_at: timestamptz
   created_by: bigint
   hash: String
+  manage_users: Boolean
   name: String
   read_circle: Boolean
   read_contributions: Boolean
