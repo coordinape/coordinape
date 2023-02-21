@@ -117,6 +117,7 @@ export const generateApiKeyInputSchema = z
     read_contributions: z.boolean().optional(),
     create_contributions: z.boolean().optional(),
     read_discord: z.boolean().optional(),
+    manage_users: z.boolean().optional(),
   })
   .strict();
 
@@ -446,6 +447,7 @@ type ApiKeyPermission =
   | 'read_nominees'
   | 'read_pending_token_gifts'
   | 'update_circle'
+  | 'manage_users'
   | 'update_pending_token_gifts';
 
 export const getSessionVarsSchemaWithPermissions = (

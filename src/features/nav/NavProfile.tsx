@@ -22,7 +22,7 @@ export const NavProfile = ({
   const [open, setOpen] = useState(false);
   const [showTxModal, setShowTxModal] = useState(false);
   const { chainId, logout, address } = useWalletStatus();
-  const showNameForm = !name && !!address;
+  const showNameForm = (!name || name.startsWith('New User')) && !!address;
 
   const ref = useRef<HTMLDivElement>(null);
 
