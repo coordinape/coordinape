@@ -1,5 +1,6 @@
 import { VercelApiHandler, VercelRequest, VercelResponse } from '@vercel/node';
 
+import activityHandler from '../../../api-lib/event_triggers/activity/index';
 import checkNomineeDiscord from '../../../api-lib/event_triggers/checkNomineeDiscord';
 import checkNomineeDiscordBot from '../../../api-lib/event_triggers/checkNomineeDiscordBot';
 import checkNomineeTelegram from '../../../api-lib/event_triggers/checkNomineeTelegram';
@@ -30,6 +31,9 @@ import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 type HandlerDict = { [handlerName: string]: VercelApiHandler };
 
 const HANDLERS: HandlerDict = {
+  activityUserInsert: activityHandler,
+  activityEpochInsert: activityHandler,
+  activityContributionInsert: activityHandler,
   checkNomineeDiscord,
   checkNomineeDiscordBot,
   checkNomineeTelegram,

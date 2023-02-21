@@ -1069,6 +1069,346 @@ export type ValueTypes = {
     nominee?: ValueTypes['nominees'];
     __typename?: boolean | `@${string}`;
   }>;
+  /** Table containing activity on our platform */
+  ['activities']: AliasType<{
+    action?: boolean | `@${string}`;
+    /** An object relationship */
+    actor_profile?: ValueTypes['profiles'];
+    actor_profile_id?: boolean | `@${string}`;
+    /** An object relationship */
+    circle?: ValueTypes['circles'];
+    circle_id?: boolean | `@${string}`;
+    /** An object relationship */
+    contribution?: ValueTypes['contributions'];
+    contribution_id?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    /** An object relationship */
+    epoch?: ValueTypes['epochs'];
+    epoch_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    /** An object relationship */
+    organization?: ValueTypes['organizations'];
+    organization_id?: boolean | `@${string}`;
+    /** An object relationship */
+    target_profile?: ValueTypes['profiles'];
+    target_profile_id?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    /** An object relationship */
+    user?: ValueTypes['users'];
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "activities" */
+  ['activities_aggregate']: AliasType<{
+    aggregate?: ValueTypes['activities_aggregate_fields'];
+    nodes?: ValueTypes['activities'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "activities" */
+  ['activities_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['activities_avg_fields'];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes['activities_select_column']>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`
+    ];
+    max?: ValueTypes['activities_max_fields'];
+    min?: ValueTypes['activities_min_fields'];
+    stddev?: ValueTypes['activities_stddev_fields'];
+    stddev_pop?: ValueTypes['activities_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['activities_stddev_samp_fields'];
+    sum?: ValueTypes['activities_sum_fields'];
+    var_pop?: ValueTypes['activities_var_pop_fields'];
+    var_samp?: ValueTypes['activities_var_samp_fields'];
+    variance?: ValueTypes['activities_variance_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate avg on columns */
+  ['activities_avg_fields']: AliasType<{
+    actor_profile_id?: boolean | `@${string}`;
+    circle_id?: boolean | `@${string}`;
+    contribution_id?: boolean | `@${string}`;
+    epoch_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    organization_id?: boolean | `@${string}`;
+    target_profile_id?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "activities". All fields are combined with a logical 'AND'. */
+  ['activities_bool_exp']: {
+    _and?: Array<ValueTypes['activities_bool_exp']> | undefined | null;
+    _not?: ValueTypes['activities_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['activities_bool_exp']> | undefined | null;
+    action?: ValueTypes['String_comparison_exp'] | undefined | null;
+    actor_profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
+    actor_profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    circle?: ValueTypes['circles_bool_exp'] | undefined | null;
+    circle_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    contribution?: ValueTypes['contributions_bool_exp'] | undefined | null;
+    contribution_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    epoch?: ValueTypes['epochs_bool_exp'] | undefined | null;
+    epoch_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    organization?: ValueTypes['organizations_bool_exp'] | undefined | null;
+    organization_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    target_profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
+    target_profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    user?: ValueTypes['users_bool_exp'] | undefined | null;
+    user_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+  };
+  /** unique or primary key constraints on table "activities" */
+  ['activities_constraint']: activities_constraint;
+  /** input type for incrementing numeric columns in table "activities" */
+  ['activities_inc_input']: {
+    actor_profile_id?: ValueTypes['bigint'] | undefined | null;
+    circle_id?: ValueTypes['bigint'] | undefined | null;
+    contribution_id?: ValueTypes['bigint'] | undefined | null;
+    epoch_id?: ValueTypes['bigint'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    organization_id?: ValueTypes['bigint'] | undefined | null;
+    target_profile_id?: ValueTypes['bigint'] | undefined | null;
+    user_id?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** input type for inserting data into table "activities" */
+  ['activities_insert_input']: {
+    action?: string | undefined | null;
+    actor_profile?:
+      | ValueTypes['profiles_obj_rel_insert_input']
+      | undefined
+      | null;
+    actor_profile_id?: ValueTypes['bigint'] | undefined | null;
+    circle?: ValueTypes['circles_obj_rel_insert_input'] | undefined | null;
+    circle_id?: ValueTypes['bigint'] | undefined | null;
+    contribution?:
+      | ValueTypes['contributions_obj_rel_insert_input']
+      | undefined
+      | null;
+    contribution_id?: ValueTypes['bigint'] | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    epoch?: ValueTypes['epochs_obj_rel_insert_input'] | undefined | null;
+    epoch_id?: ValueTypes['bigint'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    organization?:
+      | ValueTypes['organizations_obj_rel_insert_input']
+      | undefined
+      | null;
+    organization_id?: ValueTypes['bigint'] | undefined | null;
+    target_profile?:
+      | ValueTypes['profiles_obj_rel_insert_input']
+      | undefined
+      | null;
+    target_profile_id?: ValueTypes['bigint'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+    user?: ValueTypes['users_obj_rel_insert_input'] | undefined | null;
+    user_id?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** aggregate max on columns */
+  ['activities_max_fields']: AliasType<{
+    action?: boolean | `@${string}`;
+    actor_profile_id?: boolean | `@${string}`;
+    circle_id?: boolean | `@${string}`;
+    contribution_id?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    epoch_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    organization_id?: boolean | `@${string}`;
+    target_profile_id?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ['activities_min_fields']: AliasType<{
+    action?: boolean | `@${string}`;
+    actor_profile_id?: boolean | `@${string}`;
+    circle_id?: boolean | `@${string}`;
+    contribution_id?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    epoch_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    organization_id?: boolean | `@${string}`;
+    target_profile_id?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** response of any mutation on the table "activities" */
+  ['activities_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['activities'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** on_conflict condition type for table "activities" */
+  ['activities_on_conflict']: {
+    constraint: ValueTypes['activities_constraint'];
+    update_columns: Array<ValueTypes['activities_update_column']>;
+    where?: ValueTypes['activities_bool_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "activities". */
+  ['activities_order_by']: {
+    action?: ValueTypes['order_by'] | undefined | null;
+    actor_profile?: ValueTypes['profiles_order_by'] | undefined | null;
+    actor_profile_id?: ValueTypes['order_by'] | undefined | null;
+    circle?: ValueTypes['circles_order_by'] | undefined | null;
+    circle_id?: ValueTypes['order_by'] | undefined | null;
+    contribution?: ValueTypes['contributions_order_by'] | undefined | null;
+    contribution_id?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    epoch?: ValueTypes['epochs_order_by'] | undefined | null;
+    epoch_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    organization?: ValueTypes['organizations_order_by'] | undefined | null;
+    organization_id?: ValueTypes['order_by'] | undefined | null;
+    target_profile?: ValueTypes['profiles_order_by'] | undefined | null;
+    target_profile_id?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+    user?: ValueTypes['users_order_by'] | undefined | null;
+    user_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** primary key columns input for table: activities */
+  ['activities_pk_columns_input']: {
+    id: ValueTypes['bigint'];
+  };
+  /** select columns of table "activities" */
+  ['activities_select_column']: activities_select_column;
+  /** input type for updating data in table "activities" */
+  ['activities_set_input']: {
+    action?: string | undefined | null;
+    actor_profile_id?: ValueTypes['bigint'] | undefined | null;
+    circle_id?: ValueTypes['bigint'] | undefined | null;
+    contribution_id?: ValueTypes['bigint'] | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    epoch_id?: ValueTypes['bigint'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    organization_id?: ValueTypes['bigint'] | undefined | null;
+    target_profile_id?: ValueTypes['bigint'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+    user_id?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** aggregate stddev on columns */
+  ['activities_stddev_fields']: AliasType<{
+    actor_profile_id?: boolean | `@${string}`;
+    circle_id?: boolean | `@${string}`;
+    contribution_id?: boolean | `@${string}`;
+    epoch_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    organization_id?: boolean | `@${string}`;
+    target_profile_id?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_pop on columns */
+  ['activities_stddev_pop_fields']: AliasType<{
+    actor_profile_id?: boolean | `@${string}`;
+    circle_id?: boolean | `@${string}`;
+    contribution_id?: boolean | `@${string}`;
+    epoch_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    organization_id?: boolean | `@${string}`;
+    target_profile_id?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_samp on columns */
+  ['activities_stddev_samp_fields']: AliasType<{
+    actor_profile_id?: boolean | `@${string}`;
+    circle_id?: boolean | `@${string}`;
+    contribution_id?: boolean | `@${string}`;
+    epoch_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    organization_id?: boolean | `@${string}`;
+    target_profile_id?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Streaming cursor of the table "activities" */
+  ['activities_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['activities_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['activities_stream_cursor_value_input']: {
+    action?: string | undefined | null;
+    actor_profile_id?: ValueTypes['bigint'] | undefined | null;
+    circle_id?: ValueTypes['bigint'] | undefined | null;
+    contribution_id?: ValueTypes['bigint'] | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    epoch_id?: ValueTypes['bigint'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    organization_id?: ValueTypes['bigint'] | undefined | null;
+    target_profile_id?: ValueTypes['bigint'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+    user_id?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** aggregate sum on columns */
+  ['activities_sum_fields']: AliasType<{
+    actor_profile_id?: boolean | `@${string}`;
+    circle_id?: boolean | `@${string}`;
+    contribution_id?: boolean | `@${string}`;
+    epoch_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    organization_id?: boolean | `@${string}`;
+    target_profile_id?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** update columns of table "activities" */
+  ['activities_update_column']: activities_update_column;
+  ['activities_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: ValueTypes['activities_inc_input'] | undefined | null;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ValueTypes['activities_set_input'] | undefined | null;
+    where: ValueTypes['activities_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['activities_var_pop_fields']: AliasType<{
+    actor_profile_id?: boolean | `@${string}`;
+    circle_id?: boolean | `@${string}`;
+    contribution_id?: boolean | `@${string}`;
+    epoch_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    organization_id?: boolean | `@${string}`;
+    target_profile_id?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_samp on columns */
+  ['activities_var_samp_fields']: AliasType<{
+    actor_profile_id?: boolean | `@${string}`;
+    circle_id?: boolean | `@${string}`;
+    contribution_id?: boolean | `@${string}`;
+    epoch_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    organization_id?: boolean | `@${string}`;
+    target_profile_id?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate variance on columns */
+  ['activities_variance_fields']: AliasType<{
+    actor_profile_id?: boolean | `@${string}`;
+    circle_id?: boolean | `@${string}`;
+    contribution_id?: boolean | `@${string}`;
+    epoch_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    organization_id?: boolean | `@${string}`;
+    target_profile_id?: boolean | `@${string}`;
+    user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['bigint']: number;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
   ['bigint_comparison_exp']: {
@@ -4700,6 +5040,12 @@ export type ValueTypes = {
     returning?: ValueTypes['contributions'];
     __typename?: boolean | `@${string}`;
   }>;
+  /** input type for inserting object relation for remote table "contributions" */
+  ['contributions_obj_rel_insert_input']: {
+    data: ValueTypes['contributions_insert_input'];
+    /** upsert condition */
+    on_conflict?: ValueTypes['contributions_on_conflict'] | undefined | null;
+  };
   /** on_conflict condition type for table "contributions" */
   ['contributions_on_conflict']: {
     constraint: ValueTypes['contributions_constraint'];
@@ -9183,6 +9529,17 @@ export type ValueTypes = {
       { payload: ValueTypes['DeleteUsersInput'] },
       ValueTypes['DeleteUsersResponse']
     ];
+    delete_activities?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['activities_bool_exp'];
+      },
+      ValueTypes['activities_mutation_response']
+    ];
+    delete_activities_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['activities']
+    ];
     delete_burns?: [
       {
         /** filter the rows which have to be deleted */
@@ -9559,6 +9916,24 @@ export type ValueTypes = {
     generateApiKey?: [
       { payload: ValueTypes['GenerateApiKeyInput'] },
       ValueTypes['GenerateApiKeyResponse']
+    ];
+    insert_activities?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ValueTypes['activities_insert_input']
+        > /** upsert condition */;
+        on_conflict?: ValueTypes['activities_on_conflict'] | undefined | null;
+      },
+      ValueTypes['activities_mutation_response']
+    ];
+    insert_activities_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['activities_insert_input'] /** upsert condition */;
+        on_conflict?: ValueTypes['activities_on_conflict'] | undefined | null;
+      },
+      ValueTypes['activities']
     ];
     insert_burns?: [
       {
@@ -10364,6 +10739,40 @@ export type ValueTypes = {
     updateUser?: [
       { payload: ValueTypes['UpdateUserInput'] },
       ValueTypes['UserResponse']
+    ];
+    update_activities?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['activities_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes['activities_set_input']
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['activities_bool_exp'];
+      },
+      ValueTypes['activities_mutation_response']
+    ];
+    update_activities_by_pk?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['activities_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?: ValueTypes['activities_set_input'] | undefined | null;
+        pk_columns: ValueTypes['activities_pk_columns_input'];
+      },
+      ValueTypes['activities']
+    ];
+    update_activities_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes['activities_updates']>;
+      },
+      ValueTypes['activities_mutation_response']
     ];
     update_burns?: [
       {
@@ -14790,6 +15199,53 @@ export type ValueTypes = {
     __typename?: boolean | `@${string}`;
   }>;
   ['query_root']: AliasType<{
+    activities?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['activities_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['activities_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['activities_bool_exp'] | undefined | null;
+      },
+      ValueTypes['activities']
+    ];
+    activities_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['activities_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['activities_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['activities_bool_exp'] | undefined | null;
+      },
+      ValueTypes['activities_aggregate']
+    ];
+    activities_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['activities']];
     burns?: [
       {
         /** distinct select on columns */
@@ -16623,6 +17079,64 @@ export type ValueTypes = {
     __typename?: boolean | `@${string}`;
   }>;
   ['subscription_root']: AliasType<{
+    activities?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['activities_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['activities_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['activities_bool_exp'] | undefined | null;
+      },
+      ValueTypes['activities']
+    ];
+    activities_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['activities_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['activities_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['activities_bool_exp'] | undefined | null;
+      },
+      ValueTypes['activities_aggregate']
+    ];
+    activities_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['activities']];
+    activities_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['activities_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['activities_bool_exp'] | undefined | null;
+      },
+      ValueTypes['activities']
+    ];
     burns?: [
       {
         /** distinct select on columns */
@@ -22398,6 +22912,201 @@ export type ModelTypes = {
     id: number;
     nominee?: GraphQLTypes['nominees'] | undefined;
   };
+  /** Table containing activity on our platform */
+  ['activities']: {
+    action: string;
+    /** An object relationship */
+    actor_profile?: GraphQLTypes['profiles'] | undefined;
+    actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    circle?: GraphQLTypes['circles'] | undefined;
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    contribution?: GraphQLTypes['contributions'] | undefined;
+    contribution_id?: GraphQLTypes['bigint'] | undefined;
+    created_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    epoch?: GraphQLTypes['epochs'] | undefined;
+    epoch_id?: GraphQLTypes['bigint'] | undefined;
+    id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    organization: GraphQLTypes['organizations'];
+    organization_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    target_profile?: GraphQLTypes['profiles'] | undefined;
+    target_profile_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    user?: GraphQLTypes['users'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregated selection of "activities" */
+  ['activities_aggregate']: {
+    aggregate?: GraphQLTypes['activities_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['activities']>;
+  };
+  /** aggregate fields of "activities" */
+  ['activities_aggregate_fields']: {
+    avg?: GraphQLTypes['activities_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['activities_max_fields'] | undefined;
+    min?: GraphQLTypes['activities_min_fields'] | undefined;
+    stddev?: GraphQLTypes['activities_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['activities_stddev_pop_fields'] | undefined;
+    stddev_samp?: GraphQLTypes['activities_stddev_samp_fields'] | undefined;
+    sum?: GraphQLTypes['activities_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['activities_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['activities_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['activities_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['activities_avg_fields']: {
+    actor_profile_id?: number | undefined;
+    circle_id?: number | undefined;
+    contribution_id?: number | undefined;
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    organization_id?: number | undefined;
+    target_profile_id?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "activities". All fields are combined with a logical 'AND'. */
+  ['activities_bool_exp']: GraphQLTypes['activities_bool_exp'];
+  /** unique or primary key constraints on table "activities" */
+  ['activities_constraint']: GraphQLTypes['activities_constraint'];
+  /** input type for incrementing numeric columns in table "activities" */
+  ['activities_inc_input']: GraphQLTypes['activities_inc_input'];
+  /** input type for inserting data into table "activities" */
+  ['activities_insert_input']: GraphQLTypes['activities_insert_input'];
+  /** aggregate max on columns */
+  ['activities_max_fields']: {
+    action?: string | undefined;
+    actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    contribution_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    epoch_id?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    organization_id?: GraphQLTypes['bigint'] | undefined;
+    target_profile_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['activities_min_fields']: {
+    action?: string | undefined;
+    actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    contribution_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    epoch_id?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    organization_id?: GraphQLTypes['bigint'] | undefined;
+    target_profile_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** response of any mutation on the table "activities" */
+  ['activities_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['activities']>;
+  };
+  /** on_conflict condition type for table "activities" */
+  ['activities_on_conflict']: GraphQLTypes['activities_on_conflict'];
+  /** Ordering options when selecting data from "activities". */
+  ['activities_order_by']: GraphQLTypes['activities_order_by'];
+  /** primary key columns input for table: activities */
+  ['activities_pk_columns_input']: GraphQLTypes['activities_pk_columns_input'];
+  /** select columns of table "activities" */
+  ['activities_select_column']: GraphQLTypes['activities_select_column'];
+  /** input type for updating data in table "activities" */
+  ['activities_set_input']: GraphQLTypes['activities_set_input'];
+  /** aggregate stddev on columns */
+  ['activities_stddev_fields']: {
+    actor_profile_id?: number | undefined;
+    circle_id?: number | undefined;
+    contribution_id?: number | undefined;
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    organization_id?: number | undefined;
+    target_profile_id?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['activities_stddev_pop_fields']: {
+    actor_profile_id?: number | undefined;
+    circle_id?: number | undefined;
+    contribution_id?: number | undefined;
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    organization_id?: number | undefined;
+    target_profile_id?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['activities_stddev_samp_fields']: {
+    actor_profile_id?: number | undefined;
+    circle_id?: number | undefined;
+    contribution_id?: number | undefined;
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    organization_id?: number | undefined;
+    target_profile_id?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** Streaming cursor of the table "activities" */
+  ['activities_stream_cursor_input']: GraphQLTypes['activities_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['activities_stream_cursor_value_input']: GraphQLTypes['activities_stream_cursor_value_input'];
+  /** aggregate sum on columns */
+  ['activities_sum_fields']: {
+    actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    contribution_id?: GraphQLTypes['bigint'] | undefined;
+    epoch_id?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    organization_id?: GraphQLTypes['bigint'] | undefined;
+    target_profile_id?: GraphQLTypes['bigint'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** update columns of table "activities" */
+  ['activities_update_column']: GraphQLTypes['activities_update_column'];
+  ['activities_updates']: GraphQLTypes['activities_updates'];
+  /** aggregate var_pop on columns */
+  ['activities_var_pop_fields']: {
+    actor_profile_id?: number | undefined;
+    circle_id?: number | undefined;
+    contribution_id?: number | undefined;
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    organization_id?: number | undefined;
+    target_profile_id?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['activities_var_samp_fields']: {
+    actor_profile_id?: number | undefined;
+    circle_id?: number | undefined;
+    contribution_id?: number | undefined;
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    organization_id?: number | undefined;
+    target_profile_id?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['activities_variance_fields']: {
+    actor_profile_id?: number | undefined;
+    circle_id?: number | undefined;
+    contribution_id?: number | undefined;
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    organization_id?: number | undefined;
+    target_profile_id?: number | undefined;
+    user_id?: number | undefined;
+  };
   ['bigint']: number;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
   ['bigint_comparison_exp']: GraphQLTypes['bigint_comparison_exp'];
@@ -23841,6 +24550,8 @@ export type ModelTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['contributions']>;
   };
+  /** input type for inserting object relation for remote table "contributions" */
+  ['contributions_obj_rel_insert_input']: GraphQLTypes['contributions_obj_rel_insert_input'];
   /** on_conflict condition type for table "contributions" */
   ['contributions_on_conflict']: GraphQLTypes['contributions_on_conflict'];
   /** Ordering options when selecting data from "contributions". */
@@ -25983,6 +26694,12 @@ export type ModelTypes = {
     deleteEpoch?: GraphQLTypes['DeleteEpochResponse'] | undefined;
     deleteUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteUsers?: GraphQLTypes['DeleteUsersResponse'] | undefined;
+    /** delete data from the table: "activities" */
+    delete_activities?:
+      | GraphQLTypes['activities_mutation_response']
+      | undefined;
+    /** delete single row from the table: "activities" */
+    delete_activities_by_pk?: GraphQLTypes['activities'] | undefined;
     /** delete data from the table: "burns" */
     delete_burns?: GraphQLTypes['burns_mutation_response'] | undefined;
     /** delete single row from the table: "burns" */
@@ -26200,6 +26917,12 @@ export type ModelTypes = {
     endEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     /** Generates an API key for a circle */
     generateApiKey?: GraphQLTypes['GenerateApiKeyResponse'] | undefined;
+    /** insert data into the table: "activities" */
+    insert_activities?:
+      | GraphQLTypes['activities_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "activities" */
+    insert_activities_one?: GraphQLTypes['activities'] | undefined;
     /** insert data into the table: "burns" */
     insert_burns?: GraphQLTypes['burns_mutation_response'] | undefined;
     /** insert a single row into the table: "burns" */
@@ -26437,6 +27160,16 @@ export type ModelTypes = {
     updateTeammates?: GraphQLTypes['UpdateTeammatesResponse'] | undefined;
     /** Update own user */
     updateUser?: GraphQLTypes['UserResponse'] | undefined;
+    /** update data of the table: "activities" */
+    update_activities?:
+      | GraphQLTypes['activities_mutation_response']
+      | undefined;
+    /** update single row of the table: "activities" */
+    update_activities_by_pk?: GraphQLTypes['activities'] | undefined;
+    /** update multiples rows of table: "activities" */
+    update_activities_many?:
+      | Array<GraphQLTypes['activities_mutation_response'] | undefined>
+      | undefined;
     /** update data of the table: "burns" */
     update_burns?: GraphQLTypes['burns_mutation_response'] | undefined;
     /** update single row of the table: "burns" */
@@ -28140,6 +28873,12 @@ export type ModelTypes = {
     id?: number | undefined;
   };
   ['query_root']: {
+    /** fetch data from the table: "activities" */
+    activities: Array<GraphQLTypes['activities']>;
+    /** fetch aggregated fields from the table: "activities" */
+    activities_aggregate: GraphQLTypes['activities_aggregate'];
+    /** fetch data from the table: "activities" using primary key columns */
+    activities_by_pk?: GraphQLTypes['activities'] | undefined;
     /** An array relationship */
     burns: Array<GraphQLTypes['burns']>;
     /** An aggregate relationship */
@@ -28376,6 +29115,14 @@ export type ModelTypes = {
     vouches_by_pk?: GraphQLTypes['vouches'] | undefined;
   };
   ['subscription_root']: {
+    /** fetch data from the table: "activities" */
+    activities: Array<GraphQLTypes['activities']>;
+    /** fetch aggregated fields from the table: "activities" */
+    activities_aggregate: GraphQLTypes['activities_aggregate'];
+    /** fetch data from the table: "activities" using primary key columns */
+    activities_by_pk?: GraphQLTypes['activities'] | undefined;
+    /** fetch data from the table in a streaming manner : "activities" */
+    activities_stream: Array<GraphQLTypes['activities']>;
     /** An array relationship */
     burns: Array<GraphQLTypes['burns']>;
     /** An aggregate relationship */
@@ -30463,6 +31210,329 @@ export type GraphQLTypes = {
     __typename: 'VouchOutput';
     id: number;
     nominee?: GraphQLTypes['nominees'] | undefined;
+  };
+  /** Table containing activity on our platform */
+  ['activities']: {
+    __typename: 'activities';
+    action: string;
+    /** An object relationship */
+    actor_profile?: GraphQLTypes['profiles'] | undefined;
+    actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    circle?: GraphQLTypes['circles'] | undefined;
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    contribution?: GraphQLTypes['contributions'] | undefined;
+    contribution_id?: GraphQLTypes['bigint'] | undefined;
+    created_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    epoch?: GraphQLTypes['epochs'] | undefined;
+    epoch_id?: GraphQLTypes['bigint'] | undefined;
+    id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    organization: GraphQLTypes['organizations'];
+    organization_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    target_profile?: GraphQLTypes['profiles'] | undefined;
+    target_profile_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    user?: GraphQLTypes['users'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregated selection of "activities" */
+  ['activities_aggregate']: {
+    __typename: 'activities_aggregate';
+    aggregate?: GraphQLTypes['activities_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['activities']>;
+  };
+  /** aggregate fields of "activities" */
+  ['activities_aggregate_fields']: {
+    __typename: 'activities_aggregate_fields';
+    avg?: GraphQLTypes['activities_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['activities_max_fields'] | undefined;
+    min?: GraphQLTypes['activities_min_fields'] | undefined;
+    stddev?: GraphQLTypes['activities_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['activities_stddev_pop_fields'] | undefined;
+    stddev_samp?: GraphQLTypes['activities_stddev_samp_fields'] | undefined;
+    sum?: GraphQLTypes['activities_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['activities_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['activities_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['activities_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['activities_avg_fields']: {
+    __typename: 'activities_avg_fields';
+    actor_profile_id?: number | undefined;
+    circle_id?: number | undefined;
+    contribution_id?: number | undefined;
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    organization_id?: number | undefined;
+    target_profile_id?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "activities". All fields are combined with a logical 'AND'. */
+  ['activities_bool_exp']: {
+    _and?: Array<GraphQLTypes['activities_bool_exp']> | undefined;
+    _not?: GraphQLTypes['activities_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['activities_bool_exp']> | undefined;
+    action?: GraphQLTypes['String_comparison_exp'] | undefined;
+    actor_profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
+    actor_profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    circle?: GraphQLTypes['circles_bool_exp'] | undefined;
+    circle_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    contribution?: GraphQLTypes['contributions_bool_exp'] | undefined;
+    contribution_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    epoch?: GraphQLTypes['epochs_bool_exp'] | undefined;
+    epoch_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    organization?: GraphQLTypes['organizations_bool_exp'] | undefined;
+    organization_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    target_profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
+    target_profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    user?: GraphQLTypes['users_bool_exp'] | undefined;
+    user_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+  };
+  /** unique or primary key constraints on table "activities" */
+  ['activities_constraint']: activities_constraint;
+  /** input type for incrementing numeric columns in table "activities" */
+  ['activities_inc_input']: {
+    actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    contribution_id?: GraphQLTypes['bigint'] | undefined;
+    epoch_id?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    organization_id?: GraphQLTypes['bigint'] | undefined;
+    target_profile_id?: GraphQLTypes['bigint'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** input type for inserting data into table "activities" */
+  ['activities_insert_input']: {
+    action?: string | undefined;
+    actor_profile?: GraphQLTypes['profiles_obj_rel_insert_input'] | undefined;
+    actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    circle?: GraphQLTypes['circles_obj_rel_insert_input'] | undefined;
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    contribution?:
+      | GraphQLTypes['contributions_obj_rel_insert_input']
+      | undefined;
+    contribution_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    epoch?: GraphQLTypes['epochs_obj_rel_insert_input'] | undefined;
+    epoch_id?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    organization?:
+      | GraphQLTypes['organizations_obj_rel_insert_input']
+      | undefined;
+    organization_id?: GraphQLTypes['bigint'] | undefined;
+    target_profile?: GraphQLTypes['profiles_obj_rel_insert_input'] | undefined;
+    target_profile_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    user?: GraphQLTypes['users_obj_rel_insert_input'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate max on columns */
+  ['activities_max_fields']: {
+    __typename: 'activities_max_fields';
+    action?: string | undefined;
+    actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    contribution_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    epoch_id?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    organization_id?: GraphQLTypes['bigint'] | undefined;
+    target_profile_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['activities_min_fields']: {
+    __typename: 'activities_min_fields';
+    action?: string | undefined;
+    actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    contribution_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    epoch_id?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    organization_id?: GraphQLTypes['bigint'] | undefined;
+    target_profile_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** response of any mutation on the table "activities" */
+  ['activities_mutation_response']: {
+    __typename: 'activities_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['activities']>;
+  };
+  /** on_conflict condition type for table "activities" */
+  ['activities_on_conflict']: {
+    constraint: GraphQLTypes['activities_constraint'];
+    update_columns: Array<GraphQLTypes['activities_update_column']>;
+    where?: GraphQLTypes['activities_bool_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "activities". */
+  ['activities_order_by']: {
+    action?: GraphQLTypes['order_by'] | undefined;
+    actor_profile?: GraphQLTypes['profiles_order_by'] | undefined;
+    actor_profile_id?: GraphQLTypes['order_by'] | undefined;
+    circle?: GraphQLTypes['circles_order_by'] | undefined;
+    circle_id?: GraphQLTypes['order_by'] | undefined;
+    contribution?: GraphQLTypes['contributions_order_by'] | undefined;
+    contribution_id?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    epoch?: GraphQLTypes['epochs_order_by'] | undefined;
+    epoch_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    organization?: GraphQLTypes['organizations_order_by'] | undefined;
+    organization_id?: GraphQLTypes['order_by'] | undefined;
+    target_profile?: GraphQLTypes['profiles_order_by'] | undefined;
+    target_profile_id?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+    user?: GraphQLTypes['users_order_by'] | undefined;
+    user_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** primary key columns input for table: activities */
+  ['activities_pk_columns_input']: {
+    id: GraphQLTypes['bigint'];
+  };
+  /** select columns of table "activities" */
+  ['activities_select_column']: activities_select_column;
+  /** input type for updating data in table "activities" */
+  ['activities_set_input']: {
+    action?: string | undefined;
+    actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    contribution_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    epoch_id?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    organization_id?: GraphQLTypes['bigint'] | undefined;
+    target_profile_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate stddev on columns */
+  ['activities_stddev_fields']: {
+    __typename: 'activities_stddev_fields';
+    actor_profile_id?: number | undefined;
+    circle_id?: number | undefined;
+    contribution_id?: number | undefined;
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    organization_id?: number | undefined;
+    target_profile_id?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['activities_stddev_pop_fields']: {
+    __typename: 'activities_stddev_pop_fields';
+    actor_profile_id?: number | undefined;
+    circle_id?: number | undefined;
+    contribution_id?: number | undefined;
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    organization_id?: number | undefined;
+    target_profile_id?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['activities_stddev_samp_fields']: {
+    __typename: 'activities_stddev_samp_fields';
+    actor_profile_id?: number | undefined;
+    circle_id?: number | undefined;
+    contribution_id?: number | undefined;
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    organization_id?: number | undefined;
+    target_profile_id?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** Streaming cursor of the table "activities" */
+  ['activities_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['activities_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['activities_stream_cursor_value_input']: {
+    action?: string | undefined;
+    actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    contribution_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    epoch_id?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    organization_id?: GraphQLTypes['bigint'] | undefined;
+    target_profile_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate sum on columns */
+  ['activities_sum_fields']: {
+    __typename: 'activities_sum_fields';
+    actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    contribution_id?: GraphQLTypes['bigint'] | undefined;
+    epoch_id?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    organization_id?: GraphQLTypes['bigint'] | undefined;
+    target_profile_id?: GraphQLTypes['bigint'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** update columns of table "activities" */
+  ['activities_update_column']: activities_update_column;
+  ['activities_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: GraphQLTypes['activities_inc_input'] | undefined;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes['activities_set_input'] | undefined;
+    where: GraphQLTypes['activities_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['activities_var_pop_fields']: {
+    __typename: 'activities_var_pop_fields';
+    actor_profile_id?: number | undefined;
+    circle_id?: number | undefined;
+    contribution_id?: number | undefined;
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    organization_id?: number | undefined;
+    target_profile_id?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['activities_var_samp_fields']: {
+    __typename: 'activities_var_samp_fields';
+    actor_profile_id?: number | undefined;
+    circle_id?: number | undefined;
+    contribution_id?: number | undefined;
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    organization_id?: number | undefined;
+    target_profile_id?: number | undefined;
+    user_id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['activities_variance_fields']: {
+    __typename: 'activities_variance_fields';
+    actor_profile_id?: number | undefined;
+    circle_id?: number | undefined;
+    contribution_id?: number | undefined;
+    epoch_id?: number | undefined;
+    id?: number | undefined;
+    organization_id?: number | undefined;
+    target_profile_id?: number | undefined;
+    user_id?: number | undefined;
   };
   ['bigint']: any;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
@@ -33419,6 +34489,12 @@ export type GraphQLTypes = {
     affected_rows: number;
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['contributions']>;
+  };
+  /** input type for inserting object relation for remote table "contributions" */
+  ['contributions_obj_rel_insert_input']: {
+    data: GraphQLTypes['contributions_insert_input'];
+    /** upsert condition */
+    on_conflict?: GraphQLTypes['contributions_on_conflict'] | undefined;
   };
   /** on_conflict condition type for table "contributions" */
   ['contributions_on_conflict']: {
@@ -37373,6 +38449,12 @@ export type GraphQLTypes = {
     deleteEpoch?: GraphQLTypes['DeleteEpochResponse'] | undefined;
     deleteUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteUsers?: GraphQLTypes['DeleteUsersResponse'] | undefined;
+    /** delete data from the table: "activities" */
+    delete_activities?:
+      | GraphQLTypes['activities_mutation_response']
+      | undefined;
+    /** delete single row from the table: "activities" */
+    delete_activities_by_pk?: GraphQLTypes['activities'] | undefined;
     /** delete data from the table: "burns" */
     delete_burns?: GraphQLTypes['burns_mutation_response'] | undefined;
     /** delete single row from the table: "burns" */
@@ -37590,6 +38672,12 @@ export type GraphQLTypes = {
     endEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     /** Generates an API key for a circle */
     generateApiKey?: GraphQLTypes['GenerateApiKeyResponse'] | undefined;
+    /** insert data into the table: "activities" */
+    insert_activities?:
+      | GraphQLTypes['activities_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "activities" */
+    insert_activities_one?: GraphQLTypes['activities'] | undefined;
     /** insert data into the table: "burns" */
     insert_burns?: GraphQLTypes['burns_mutation_response'] | undefined;
     /** insert a single row into the table: "burns" */
@@ -37827,6 +38915,16 @@ export type GraphQLTypes = {
     updateTeammates?: GraphQLTypes['UpdateTeammatesResponse'] | undefined;
     /** Update own user */
     updateUser?: GraphQLTypes['UserResponse'] | undefined;
+    /** update data of the table: "activities" */
+    update_activities?:
+      | GraphQLTypes['activities_mutation_response']
+      | undefined;
+    /** update single row of the table: "activities" */
+    update_activities_by_pk?: GraphQLTypes['activities'] | undefined;
+    /** update multiples rows of table: "activities" */
+    update_activities_many?:
+      | Array<GraphQLTypes['activities_mutation_response'] | undefined>
+      | undefined;
     /** update data of the table: "burns" */
     update_burns?: GraphQLTypes['burns_mutation_response'] | undefined;
     /** update single row of the table: "burns" */
@@ -40683,6 +41781,12 @@ export type GraphQLTypes = {
   };
   ['query_root']: {
     __typename: 'query_root';
+    /** fetch data from the table: "activities" */
+    activities: Array<GraphQLTypes['activities']>;
+    /** fetch aggregated fields from the table: "activities" */
+    activities_aggregate: GraphQLTypes['activities_aggregate'];
+    /** fetch data from the table: "activities" using primary key columns */
+    activities_by_pk?: GraphQLTypes['activities'] | undefined;
     /** An array relationship */
     burns: Array<GraphQLTypes['burns']>;
     /** An aggregate relationship */
@@ -40920,6 +42024,14 @@ export type GraphQLTypes = {
   };
   ['subscription_root']: {
     __typename: 'subscription_root';
+    /** fetch data from the table: "activities" */
+    activities: Array<GraphQLTypes['activities']>;
+    /** fetch aggregated fields from the table: "activities" */
+    activities_aggregate: GraphQLTypes['activities_aggregate'];
+    /** fetch data from the table: "activities" using primary key columns */
+    activities_by_pk?: GraphQLTypes['activities'] | undefined;
+    /** fetch data from the table in a streaming manner : "activities" */
+    activities_stream: Array<GraphQLTypes['activities']>;
     /** An array relationship */
     burns: Array<GraphQLTypes['burns']>;
     /** An aggregate relationship */
@@ -43942,6 +45054,38 @@ export type GraphQLTypes = {
     voucher_id?: GraphQLTypes['order_by'] | undefined;
   };
 };
+/** unique or primary key constraints on table "activities" */
+export const enum activities_constraint {
+  activities_pkey = 'activities_pkey',
+}
+/** select columns of table "activities" */
+export const enum activities_select_column {
+  action = 'action',
+  actor_profile_id = 'actor_profile_id',
+  circle_id = 'circle_id',
+  contribution_id = 'contribution_id',
+  created_at = 'created_at',
+  epoch_id = 'epoch_id',
+  id = 'id',
+  organization_id = 'organization_id',
+  target_profile_id = 'target_profile_id',
+  updated_at = 'updated_at',
+  user_id = 'user_id',
+}
+/** update columns of table "activities" */
+export const enum activities_update_column {
+  action = 'action',
+  actor_profile_id = 'actor_profile_id',
+  circle_id = 'circle_id',
+  contribution_id = 'contribution_id',
+  created_at = 'created_at',
+  epoch_id = 'epoch_id',
+  id = 'id',
+  organization_id = 'organization_id',
+  target_profile_id = 'target_profile_id',
+  updated_at = 'updated_at',
+  user_id = 'user_id',
+}
 /** unique or primary key constraints on table "burns" */
 export const enum burns_constraint {
   burns_pkey = 'burns_pkey',
