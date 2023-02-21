@@ -5545,7 +5545,6 @@ export type ValueTypes = {
     discord_channel_id?: boolean | `@${string}`;
     discord_role_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
-    server_channel?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -5607,7 +5606,6 @@ export type ValueTypes = {
     discord_channel_id?: ValueTypes['String_comparison_exp'] | undefined | null;
     discord_role_id?: ValueTypes['String_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
-    server_channel?: ValueTypes['String_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
   };
   /** unique or primary key constraints on table "discord.roles_circles" */
@@ -5638,7 +5636,6 @@ export type ValueTypes = {
     discord_channel_id?: string | undefined | null;
     discord_role_id?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
-    server_channel?: string | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
   };
   /** aggregate max on columns */
@@ -5648,7 +5645,6 @@ export type ValueTypes = {
     discord_channel_id?: boolean | `@${string}`;
     discord_role_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
-    server_channel?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -5659,7 +5655,6 @@ export type ValueTypes = {
     discord_channel_id?: boolean | `@${string}`;
     discord_role_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
-    server_channel?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -5695,7 +5690,6 @@ export type ValueTypes = {
     discord_channel_id?: ValueTypes['order_by'] | undefined | null;
     discord_role_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
-    server_channel?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
   };
   /** primary key columns input for table: discord.roles_circles */
@@ -5716,7 +5710,6 @@ export type ValueTypes = {
     discord_channel_id?: string | undefined | null;
     discord_role_id?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
-    server_channel?: string | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
   };
   /** aggregate stddev on columns */
@@ -5752,7 +5745,6 @@ export type ValueTypes = {
     discord_channel_id?: string | undefined | null;
     discord_role_id?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
-    server_channel?: string | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
   };
   /** aggregate sum on columns */
@@ -24801,7 +24793,6 @@ export type ModelTypes = {
     discord_channel_id: string;
     discord_role_id: string;
     id: GraphQLTypes['bigint'];
-    server_channel: string;
     updated_at: GraphQLTypes['timestamptz'];
   };
   /** aggregated selection of "discord.roles_circles" */
@@ -24861,7 +24852,6 @@ export type ModelTypes = {
     discord_channel_id?: string | undefined;
     discord_role_id?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    server_channel?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregate min on columns */
@@ -24871,7 +24861,6 @@ export type ModelTypes = {
     discord_channel_id?: string | undefined;
     discord_role_id?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    server_channel?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** response of any mutation on the table "discord.roles_circles" */
@@ -34981,7 +34970,6 @@ export type GraphQLTypes = {
     discord_channel_id: string;
     discord_role_id: string;
     id: GraphQLTypes['bigint'];
-    server_channel: string;
     updated_at: GraphQLTypes['timestamptz'];
   };
   /** aggregated selection of "discord.roles_circles" */
@@ -35037,7 +35025,6 @@ export type GraphQLTypes = {
     discord_channel_id?: GraphQLTypes['String_comparison_exp'] | undefined;
     discord_role_id?: GraphQLTypes['String_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
-    server_channel?: GraphQLTypes['String_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
   };
   /** unique or primary key constraints on table "discord.roles_circles" */
@@ -35068,7 +35055,6 @@ export type GraphQLTypes = {
     discord_channel_id?: string | undefined;
     discord_role_id?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    server_channel?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregate max on columns */
@@ -35079,7 +35065,6 @@ export type GraphQLTypes = {
     discord_channel_id?: string | undefined;
     discord_role_id?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    server_channel?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregate min on columns */
@@ -35090,7 +35075,6 @@ export type GraphQLTypes = {
     discord_channel_id?: string | undefined;
     discord_role_id?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    server_channel?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** response of any mutation on the table "discord.roles_circles" */
@@ -35122,7 +35106,6 @@ export type GraphQLTypes = {
     discord_channel_id?: GraphQLTypes['order_by'] | undefined;
     discord_role_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
-    server_channel?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
   };
   /** primary key columns input for table: discord.roles_circles */
@@ -35143,7 +35126,6 @@ export type GraphQLTypes = {
     discord_channel_id?: string | undefined;
     discord_role_id?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    server_channel?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregate stddev on columns */
@@ -35179,7 +35161,6 @@ export type GraphQLTypes = {
     discord_channel_id?: string | undefined;
     discord_role_id?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    server_channel?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregate sum on columns */
@@ -45411,7 +45392,6 @@ export const enum discord_roles_circles_select_column {
   discord_channel_id = 'discord_channel_id',
   discord_role_id = 'discord_role_id',
   id = 'id',
-  server_channel = 'server_channel',
   updated_at = 'updated_at',
 }
 /** update columns of table "discord.roles_circles" */
@@ -45422,7 +45402,6 @@ export const enum discord_roles_circles_update_column {
   discord_channel_id = 'discord_channel_id',
   discord_role_id = 'discord_role_id',
   id = 'id',
-  server_channel = 'server_channel',
   updated_at = 'updated_at',
 }
 /** unique or primary key constraints on table "discord.users" */
