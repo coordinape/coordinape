@@ -73,7 +73,7 @@ describe('#handler', () => {
     expect(res.json).toHaveBeenCalledWith({ message: 'activity recorded' });
   });
 
-  test('can receive users insert and inserts new activty', async () => {
+  test('can receive users insert and inserts new activity', async () => {
     (adminClient.query as jest.Mock).mockImplementation(() =>
       Promise.resolve({
         circles_by_pk: {
@@ -103,7 +103,7 @@ describe('#handler', () => {
         organization_id: 9,
         user_id: 267,
         action: 'users_insert',
-        target_profile_id: 100,
+        actor_profile_id: 100,
       })
     );
     expect(res.status).toHaveBeenCalledWith(200);
