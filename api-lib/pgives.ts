@@ -367,80 +367,83 @@ const getCircleGifts = async (
   startFrom: DateTime,
   endTo: DateTime
 ) => {
-  const { circles, epoch_pgive_data } = await adminClient.query({
-    circles: [
-      {
-        order_by: [{ id: order_by.asc }],
-        where: {
-          id: { _in: circleIds },
-          epochs: {
-            ended: { _eq: true },
-          },
-        },
-      },
-      {
-        id: true,
-        name: true,
-        epochs: [
-          {
-            where: {
+  const { circles, epoch_pgive_data } = await adminClient.query(
+    {
+      circles: [
+        {
+          order_by: [{ id: order_by.asc }],
+          where: {
+            id: { _in: circleIds },
+            epochs: {
               ended: { _eq: true },
-              end_date: { _gte: startFrom.toISO(), _lte: endTo.toISO() },
-              _not: {
-                /* this filters away epochs that already has pgive data generated */
-                pgive_data: {},
-              },
             },
           },
-          {
-            id: true,
-            end_date: true,
-            pgive_data: {
-              id: true,
-            },
-            token_gifts: [
-              {},
-              {
-                sender_id: true,
-                sender_address: true,
-                recipient_id: true,
-                recipient_address: true,
-                recipient: {
-                  name: true,
+        },
+        {
+          id: true,
+          name: true,
+          epochs: [
+            {
+              where: {
+                ended: { _eq: true },
+                end_date: { _gte: startFrom.toISO(), _lte: endTo.toISO() },
+                _not: {
+                  /* this filters away epochs that already has pgive data generated */
+                  pgive_data: {},
                 },
-                tokens: true,
-                note: true,
               },
-            ],
+            },
+            {
+              id: true,
+              end_date: true,
+              pgive_data: {
+                id: true,
+              },
+              token_gifts: [
+                {},
+                {
+                  sender_id: true,
+                  sender_address: true,
+                  recipient_id: true,
+                  recipient_address: true,
+                  recipient: {
+                    name: true,
+                  },
+                  tokens: true,
+                  note: true,
+                },
+              ],
+            },
+          ],
+          users: [
+            {},
+            {
+              id: true,
+              name: true,
+              deleted_at: true,
+              created_at: true,
+            },
+          ],
+        },
+      ],
+      epoch_pgive_data: [
+        {
+          where: {
+            epoch: {
+              circle_id: { _in: circleIds },
+            },
           },
-        ],
-        users: [
-          {},
-          {
-            id: true,
-            name: true,
-            deleted_at: true,
-            created_at: true,
-          },
-        ],
-      },
-    ],
-    epoch_pgive_data: [
-      {
-        where: {
+        },
+        {
+          active_months: true,
           epoch: {
-            circle_id: { _in: circleIds },
+            circle_id: true,
           },
         },
-      },
-      {
-        active_months: true,
-        epoch: {
-          circle_id: true,
-        },
-      },
-    ],
-  });
+      ],
+    },
+    { operationName: 'GenPgiveCircleGiftQuery' }
+  );
 
   return { circles, epoch_pgive_data };
 };
@@ -449,26 +452,29 @@ export const getCirclesNoPgiveWithDateFilter = async (
   startFrom: DateTime,
   endTo: DateTime
 ): Promise<Array<number>> => {
-  const { circles } = await adminClient.query({
-    circles: [
-      {
-        limit: PGIVE_CIRCLE_MAX_PER_CRON || 10,
-        where: {
-          epochs: {
-            ended: { _eq: true },
-            end_date: { _gte: startFrom.toISO(), _lte: endTo.toISO() },
-            _not: {
-              /* this filters away epochs that already has pgive data generated */
-              pgive_data: {},
+  const { circles } = await adminClient.query(
+    {
+      circles: [
+        {
+          limit: PGIVE_CIRCLE_MAX_PER_CRON || 10,
+          where: {
+            epochs: {
+              ended: { _eq: true },
+              end_date: { _gte: startFrom.toISO(), _lte: endTo.toISO() },
+              _not: {
+                /* this filters away epochs that already has pgive data generated */
+                pgive_data: {},
+              },
             },
           },
         },
-      },
-      {
-        id: true,
-      },
-    ],
-  });
+        {
+          id: true,
+        },
+      ],
+    },
+    { operationName: 'GenPgiveCircleFetch' }
+  );
   return circles.length ? circles.map(c => c.id) : [];
 };
 
