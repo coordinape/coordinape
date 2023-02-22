@@ -11,6 +11,7 @@ export const sampleCircleDefaults: CircleInput = {
 
 export interface SampleMemberData {
   name: string;
+  address: string;
   contributions: string[];
   epochStatement: string;
   index: number;
@@ -19,12 +20,12 @@ export interface SampleMemberData {
 
 export interface SampleMember extends SampleMemberData {
   user_id: number;
-  address: string;
 }
 
 export const sampleMemberData: SampleMemberData[] = [
   {
     index: 6,
+    address: '0xf205cad4799fa4953eb514334d6bff75c9641e03',
     name: 'Beth the Backend Dev',
     contributions: [
       `Implemented Hasura into our tech stack
@@ -56,6 +57,7 @@ export const sampleMemberData: SampleMemberData[] = [
   },
   {
     index: 8,
+    address: '0xc4da5890d7300075c665dbe1ea199b7d4a85f43f',
     name: 'Clarence the Community Dev',
     contributions: [
       `I picked up three bug tickets
@@ -84,6 +86,7 @@ export const sampleMemberData: SampleMemberData[] = [
   },
   {
     index: 7,
+    address: '0xd22aa0c735650aa58c4c784366a61f7cada246fd',
     name: 'Diana the Designer',
     contributions: [
       `Polishing the new onboarding interface ✌`,
@@ -109,6 +112,7 @@ export const sampleMemberData: SampleMemberData[] = [
   },
   {
     index: 5,
+    address: '0xff0ca13819312375171fecd98460e5fb71c7ff6f',
     name: 'Francine the Front End Dev ',
     contributions: [
       `Paired with Diana to discuss the implentation of the new animations on the home page`,
@@ -137,6 +141,7 @@ export const sampleMemberData: SampleMemberData[] = [
   },
   {
     index: 2,
+    address: '0x8f6d70b1318c6936d50f55b6f94311acc7df109c',
     name: 'Harry the Helper',
     contributions: [
       `I walked serval new users through how to use our app in the #support Channel **The Coordinape Team** has some promising stuff happening!`,
@@ -162,6 +167,7 @@ export const sampleMemberData: SampleMemberData[] = [
   },
   {
     index: 1,
+    address: '0x4c6775916622adb8a73273325326daaceec6aa30',
     name: 'Oscar the Grouch',
     contributions: [
       `I posted 87 Messages in the Discord about how SBF is a good person`,
@@ -189,6 +195,7 @@ export const sampleMemberData: SampleMemberData[] = [
   },
   {
     index: 4,
+    address: '0x2f8d6f7b6c393a6a5f58113c9511c263bedb6ad3',
     name: 'Sandeep the Solidity Dev',
     contributions: [
       `### Updated the testing script for the new contracts`,
@@ -214,6 +221,7 @@ export const sampleMemberData: SampleMemberData[] = [
   },
   {
     index: 3,
+    address: '0x9a5c1ef950edaf10eec9c7b22899f1022041e3c1',
     name: 'Sue the Steward',
     contributions: [
       `I lead the *All hands* meeting
