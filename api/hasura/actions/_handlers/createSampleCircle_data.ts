@@ -15,6 +15,7 @@ export interface SampleMemberData {
   contributions: string[];
   epochStatement: string;
   index: number;
+  avatar: string;
   gifts: { [key: number]: { gift: number; note?: string } };
 }
 
@@ -27,6 +28,7 @@ export const sampleMemberData: SampleMemberData[] = [
     index: 6,
     address: '0xf205cad4799fa4953eb514334d6bff75c9641e03',
     name: 'Beth the Backend Dev',
+    avatar: 'https://coordinape-prod.s3.amazonaws.com/sdao-beth.jpg',
     contributions: [
       `Implemented Hasura into our tech stack
       - Squashed bugs
@@ -59,6 +61,7 @@ export const sampleMemberData: SampleMemberData[] = [
     index: 8,
     address: '0xc4da5890d7300075c665dbe1ea199b7d4a85f43f',
     name: 'Clarence the Community Dev',
+    avatar: 'https://coordinape-prod.s3.amazonaws.com/sdao-clarence.jpg',
     contributions: [
       `I picked up three bug tickets
       1. User can't log in
@@ -88,6 +91,7 @@ export const sampleMemberData: SampleMemberData[] = [
     index: 7,
     address: '0xd22aa0c735650aa58c4c784366a61f7cada246fd',
     name: 'Diana the Designer',
+    avatar: 'https://coordinape-prod.s3.amazonaws.com/sdao-diana.jpg',
     contributions: [
       `Polishing the new onboarding interface ✌`,
       `Updated the figma for the new contribution page`,
@@ -114,6 +118,7 @@ export const sampleMemberData: SampleMemberData[] = [
     index: 5,
     address: '0xff0ca13819312375171fecd98460e5fb71c7ff6f',
     name: 'Francine the Front End Dev ',
+    avatar: 'https://coordinape-prod.s3.amazonaws.com/sdao-francine.jpg',
     contributions: [
       `Paired with Diana to discuss the implentation of the new animations on the home page`,
       `Added animation to the allocation page`,
@@ -143,6 +148,7 @@ export const sampleMemberData: SampleMemberData[] = [
     index: 2,
     address: '0x8f6d70b1318c6936d50f55b6f94311acc7df109c',
     name: 'Harry the Helper',
+    avatar: 'https://coordinape-prod.s3.amazonaws.com/sdao-harry.jpg',
     contributions: [
       `I walked serval new users through how to use our app in the #support Channel **The Coordinape Team** has some promising stuff happening!`,
       `Met with the team from **BanklessDAO** to see if we could collaborate on the onboarding quest that Sue was talking about in the all hands`,
@@ -169,6 +175,7 @@ export const sampleMemberData: SampleMemberData[] = [
     index: 1,
     address: '0x4c6775916622adb8a73273325326daaceec6aa30',
     name: 'Oscar the Grouch',
+    avatar: 'https://coordinape-prod.s3.amazonaws.com/sdao-oscar.jpg',
     contributions: [
       `I posted 87 Messages in the Discord about how SBF is a good person`,
       `Ensured that no-one would use our competitors platform by posting a killer tweet thread`,
@@ -197,6 +204,7 @@ export const sampleMemberData: SampleMemberData[] = [
     index: 4,
     address: '0x2f8d6f7b6c393a6a5f58113c9511c263bedb6ad3',
     name: 'Sandeep the Solidity Dev',
+    avatar: 'https://coordinape-prod.s3.amazonaws.com/sdao-sandeep.jpg',
     contributions: [
       `### Updated the testing script for the new contracts`,
       `Gas Golfed our claim contracts, saved 100 gwei`,
@@ -223,6 +231,7 @@ export const sampleMemberData: SampleMemberData[] = [
     index: 3,
     address: '0x9a5c1ef950edaf10eec9c7b22899f1022041e3c1',
     name: 'Sue the Steward',
+    avatar: 'https://coordinape-prod.s3.amazonaws.com/sdao-sue.jpg',
     contributions: [
       `I lead the *All hands* meeting
       - Created agenda

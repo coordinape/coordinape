@@ -10,10 +10,11 @@ import { resizeAvatar } from '../../api-lib/images';
 import { ImageUpdater } from '../../api-lib/ImageUpdater';
 import { profileUpdateAvatarMutation } from '../../api-lib/profileImages';
 import { Awaited } from '../../api-lib/ts4.5shim';
+import { sampleMemberData } from '../../api/hasura/actions/_handlers/createSampleCircle_data';
+
+import { getAccountPath, SEED_PHRASE } from './eth';
 
 faker.seed(4);
-
-import { SEED_PHRASE, getAccountPath } from './eth';
 
 const devAddress = LOCAL_SEED_ADDRESS.toLowerCase();
 
@@ -435,3 +436,27 @@ function summation(x: number, increment: number): number {
   if (x <= 0) return 0;
   return x + summation(x - increment, increment);
 }
+
+export const createSampleDAOProfiles = async () => {
+  await adminClient.mutate(
+    {
+      insert_profiles: [
+        {
+          objects: sampleMemberData.map(user => {
+            return {
+              address: user.address,
+              name: user.name,
+              avatar: user.avatar,
+            };
+          }),
+        },
+        {
+          returning: {
+            id: true,
+          },
+        },
+      ],
+    },
+    { operationName: 'seed_data' }
+  );
+};

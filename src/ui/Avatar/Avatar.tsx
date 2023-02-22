@@ -2,7 +2,7 @@ import React from 'react';
 
 import * as AvatarPrimitive from '@radix-ui/react-avatar';
 
-import { styled, CSS } from '../../stitches.config';
+import { CSS, styled } from '../../stitches.config';
 import { getAvatarPath, getInitialFromName } from 'utils/domain';
 
 const AvatarRoot = styled(AvatarPrimitive.Root, {
