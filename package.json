@@ -126,7 +126,8 @@
     "build-storybook": "build-storybook",
     "figma-colors": "ts-node ./scripts/update_figma_colors.ts",
     "update-icons": "./scripts/update_icons.sh",
-    "env": "./scripts/env.sh"
+    "env": "./scripts/env.sh",
+    "repl": "ts-node --swc scripts/repl.ts"
   },
   "lint-staged": {
     "{api,api-lib,api-test,hasura,src}/**/*.{js,ts,tsx,graphql}": [
