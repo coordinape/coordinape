@@ -6,9 +6,12 @@ import fp from 'lodash/fp';
 
 import { adminClient as client } from '../api-lib/gql/adminClient';
 
+import { init as initNameRepair } from './repl/name_repair';
+
 const init = async () => {
   // add your init code here
   return {
+    ...(await initNameRepair()),
   };
 };
 
