@@ -1,13 +1,15 @@
-import { SideNav } from '../../features/nav/SideNav';
-import HelpButton from '../HelpButton';
+import { dark } from 'stitches.config';
+
 import { GlobalUi } from 'components/GlobalUi';
+import HelpButton from 'components/HelpButton';
 import { Box, Flex } from 'ui';
 
-export const MainLayout = ({ children }: { children: React.ReactNode }) => {
+const CoSoulLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <Box
+      className={dark}
       css={{
-        background: '$background',
+        background: '$surface',
         position: 'fixed',
         top: 0,
         left: 0,
@@ -19,7 +21,6 @@ export const MainLayout = ({ children }: { children: React.ReactNode }) => {
       }}
     >
       <Flex css={{ height: 'auto' }}>
-        <SideNav />
         <Box css={{ width: '100%' }}>
           <GlobalUi />
           <HelpButton />
@@ -42,9 +43,4 @@ export const MainLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default MainLayout;
-
-// this is in this file because it depends on the <main> tag defined above
-export const scrollToTop = () => {
-  document.getElementsByTagName('main')[0].scrollTop = 0;
-};
+export default CoSoulLayout;

@@ -65,6 +65,8 @@ export const paths = {
   developers: '/developers',
   discordLink: '/discord/link',
   home: '/',
+  cosoul: '/cosoul',
+  mint: '/cosoul/mint',
 
   profile: (address: string) => `/profile/${address}`,
   vaults: '/vaults',

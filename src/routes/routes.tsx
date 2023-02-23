@@ -1,6 +1,8 @@
 import { lazy, Suspense } from 'react';
 
 import { RequireAuth } from 'features/auth';
+import { MintPage, SplashPage } from 'features/cosoul';
+import CoSoulLayout from 'features/cosoul/CoSoulLayout';
 import { OrgPage, OrgSettingsPage, OrgMembersPage } from 'features/orgs';
 import { isUserAdmin, isUserMember } from 'lib/users';
 import {
@@ -17,6 +19,7 @@ import { DebugLogger } from '../common-lib/log';
 import AddMembersPage from '../pages/AddMembersPage/AddMembersPage';
 import GivePage from '../pages/GivePage';
 import JoinCirclePage from '../pages/JoinCirclePage';
+import { MainLayout } from 'components';
 import isFeatureEnabled from 'config/features';
 import {
   useCanVouch,
@@ -118,25 +121,45 @@ const LoggedInRoutes = () => {
 export const AppRoutes = () => {
   return (
     <Routes>
+      {/* CoSoul Pages */}
       <Route
-        path="login"
         element={
-          <RequireAuth>
-            <RedirectAfterLogin />
-          </RequireAuth>
+          <CoSoulLayout>
+            <Outlet />
+          </CoSoulLayout>
         }
-      />
-      <Route path={paths.join(':token')} element={<JoinCirclePage />} />
+      >
+        <Route path={paths.cosoul} element={<SplashPage />} />
+        <Route path={paths.mint} element={<MintPage />} />
+      </Route>
+
       <Route
-        path="*"
         element={
-          <RequireAuth>
-            <Suspense fallback={null}>
-              <LoggedInRoutes />
-            </Suspense>
-          </RequireAuth>
+          <MainLayout>
+            <Outlet />
+          </MainLayout>
         }
-      />
+      >
+        <Route
+          path="login"
+          element={
+            <RequireAuth>
+              <RedirectAfterLogin />
+            </RequireAuth>
+          }
+        />
+        <Route path={paths.join(':token')} element={<JoinCirclePage />} />
+        <Route
+          path="*"
+          element={
+            <RequireAuth>
+              <Suspense fallback={null}>
+                <LoggedInRoutes />
+              </Suspense>
+            </RequireAuth>
+          }
+        />
+      </Route>
     </Routes>
   );
 };
