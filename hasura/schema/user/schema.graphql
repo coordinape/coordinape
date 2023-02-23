@@ -9499,7 +9499,7 @@ type profiles {
   github_username: String
   id: bigint!
   medium_username: String
-  name: citext!
+  name: citext
 
   """
   An array relationship

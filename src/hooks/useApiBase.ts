@@ -129,7 +129,6 @@ const queryFullCircle = async (circle_id: number): Promise<IApiFullCircle> => {
               id: true,
               circle_id: true,
               address: true,
-              name: true,
               non_giver: true,
               fixed_non_receiver: true,
               starting_tokens: true,
@@ -159,7 +158,6 @@ const queryFullCircle = async (circle_id: number): Promise<IApiFullCircle> => {
                   teammate: {
                     id: true,
                     circle_id: true,
-                    name: true,
                     address: true,
                     non_giver: true,
                     fixed_non_receiver: true,
@@ -406,7 +404,6 @@ const queryManifest = async (address: string): Promise<IApiManifest> => {
             {
               id: true,
               circle_id: true,
-              name: true,
               address: true,
               non_giver: true,
               fixed_non_receiver: true,
@@ -428,7 +425,6 @@ const queryManifest = async (address: string): Promise<IApiManifest> => {
                   teammate: {
                     id: true,
                     circle_id: true,
-                    name: true,
                     address: true,
                     non_giver: true,
                     fixed_non_receiver: true,

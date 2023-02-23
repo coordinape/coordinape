@@ -118,15 +118,12 @@ const AMProfileCard = ({
           <Avatar
             size="small"
             path={user.profile?.avatar}
-            name={user.profile?.name ?? user.name}
+            name={user.profile?.name}
           />
           <Box>
             <Text size="large" css={{ display: 'block' }}>
-              {reactStringReplace(
-                user.profile?.name ?? user.name,
-                searchRegex,
-                (match, i) =>
-                  i === 1 ? <strong key={match}>{match}</strong> : null
+              {reactStringReplace(user.profile?.name, searchRegex, (match, i) =>
+                i === 1 ? <strong key={match}>{match}</strong> : null
               )}
             </Text>
             <Text>

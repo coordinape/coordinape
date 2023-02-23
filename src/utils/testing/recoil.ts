@@ -59,7 +59,6 @@ const user: IApiUser = {
   fixed_non_receiver: false,
   give_token_received: 0,
   give_token_remaining: 100,
-  name: 'Me',
   non_giver: false,
   non_receiver: false,
   role: 0,

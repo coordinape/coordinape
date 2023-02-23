@@ -194,14 +194,11 @@ async function getDepositEvents(
       txDetails?.tx_type === 'Deposit' &&
       txDetails.profile?.address === transferEvent.args.from.toLowerCase()
     ) {
-      const user = txDetails.profile.users.pop();
       deposits.push({
         block: event.blockNumber,
         type: 'Deposit',
         amount: formatUnits(transferEvent.args.value, decimals),
-        details: `By ${
-          (txDetails.profile.name ?? user?.name) || transferEvent.args.from
-        }`,
+        details: `By ${txDetails.profile.name || transferEvent.args.from}`,
         date: DateTime.fromSeconds(block.timestamp).toFormat('DD'),
         hash: event.transactionHash,
       });
@@ -283,13 +280,10 @@ async function getWithdrawEvents(
       txDetails?.tx_type === 'Withdraw' &&
       txDetails.profile?.address === transferEvent.args.to.toLowerCase()
     ) {
-      const user = txDetails.profile.users.pop();
       withdraws.push({
         block: event.blockNumber,
         type: 'Withdraw',
-        details: `By ${
-          (txDetails.profile.name ?? user?.name) || transferEvent.args.from
-        }`,
+        details: `By ${txDetails.profile.name || transferEvent.args.from}`,
         amount: formatUnits(transferEvent.args.value, decimals),
         date: DateTime.fromSeconds(block.timestamp).toFormat('DD'),
         hash: event.transactionHash,

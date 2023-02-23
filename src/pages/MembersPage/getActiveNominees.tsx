@@ -38,7 +38,6 @@ export const getActiveNominees = async (circleId: number) => {
               voucher_id: true,
               id: true,
               voucher: {
-                name: true,
                 id: true,
                 address: true,
                 profile: { name: true },
@@ -47,7 +46,6 @@ export const getActiveNominees = async (circleId: number) => {
           ],
           nominator: {
             address: true,
-            name: true,
             profile: { avatar: true, name: true },
           },
           description: true,

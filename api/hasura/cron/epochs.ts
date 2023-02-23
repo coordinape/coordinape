@@ -122,7 +122,6 @@ async function getEpochsToNotify() {
                     },
                   },
                   {
-                    name: true,
                     profile: {
                       name: true,
                     },
@@ -166,7 +165,6 @@ async function getEpochsToNotify() {
                   },
                   {
                     id: true,
-                    name: true,
                     profile: {
                       name: true,
                     },
@@ -313,7 +311,7 @@ export async function notifyEpochEnd({
       const { circle } = epoch;
       assert(circle, 'panic: no circle for epoch');
 
-      const usersHodlingGive = circle.users.map(u => u.profile.name ?? u.name);
+      const usersHodlingGive = circle.users.map(u => u.profile.name);
 
       const message = dedent`
       ${circle.organization?.name}/${
@@ -400,8 +398,7 @@ export async function endEpochHandler(
   const userUpdateMutations = circle.users.reduce((ops, user) => {
     const userUserHasAllGive =
       user.give_token_remaining === user.starting_tokens;
-    if (userUserHasAllGive)
-      usersWithStartingGive.push(user.profile.name ?? user.name);
+    if (userUserHasAllGive) usersWithStartingGive.push(user.profile.name);
     const optOutMutation =
       !user.non_giver &&
       !user.non_receiver &&

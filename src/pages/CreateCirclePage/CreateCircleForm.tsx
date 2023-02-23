@@ -122,8 +122,7 @@ export const CreateCircleForm = ({
     resolver: zodResolver(schema),
     mode: 'all',
     defaultValues: {
-      user_name:
-        source.myProfile?.name ?? myUsers.find(u => u !== undefined)?.name,
+      user_name: source.myProfile?.name,
       circle_name: '',
       organization_name: org?.name || '',
       contact: '',
