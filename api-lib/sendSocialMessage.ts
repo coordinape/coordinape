@@ -127,14 +127,16 @@ export async function sendSocialMessage({
 
   if (isFeatureEnabled('discord') && channels?.isDiscordBot) {
     const { type } = channels.discordBot || {};
-    // TODO Fix the discord bot endpoint
-    const res = await fetch(`http://localhost:4000/api/epoch/${type}`, {
-      method: 'POST',
-      body: JSON.stringify(channels.discordBot),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    const res = await fetch(
+      `https://coordinape-discord-bot.herokuapp.com/api/epoch/${type}`,
+      {
+        method: 'POST',
+        body: JSON.stringify(channels.discordBot),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
 
     if (!res.ok) {
       throw new Error(JSON.stringify(await res.json()));
