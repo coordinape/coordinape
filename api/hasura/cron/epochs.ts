@@ -95,6 +95,7 @@ async function getEpochsToNotify() {
                 discord_circle: {
                   discord_channel_id: true,
                   discord_role_id: true,
+                  alerts: [{}, true],
                 },
               },
             },
@@ -142,6 +143,7 @@ async function getEpochsToNotify() {
                 discord_circle: {
                   discord_channel_id: true,
                   discord_role_id: true,
+                  alerts: [{}, true],
                 },
               },
               token_gifts: [
@@ -252,10 +254,18 @@ export async function notifyEpochStart({
       )}** to **${epochEndDate.toLocaleString(DateTime.DATETIME_FULL)}**
     `;
 
-    const { discord_channel_id: channelId, discord_role_id: roleId } =
-      circle?.discord_circle || {};
+    const {
+      discord_channel_id: channelId,
+      discord_role_id: roleId,
+      alerts,
+    } = circle?.discord_circle || {};
 
-    if (isFeatureEnabled('discord') && channelId && roleId) {
+    if (
+      isFeatureEnabled('discord') &&
+      channelId &&
+      roleId &&
+      alerts?.['epoch-start']
+    ) {
       await sendSocialMessage({
         message,
         circleId: circle.id,
@@ -332,10 +342,18 @@ export async function notifyEpochEnd({
       ${usersHodlingGive.join(', ')}
     `;
 
-      const { discord_channel_id: channelId, discord_role_id: roleId } =
-        circle?.discord_circle || {};
+      const {
+        discord_channel_id: channelId,
+        discord_role_id: roleId,
+        alerts,
+      } = circle?.discord_circle || {};
 
-      if (isFeatureEnabled('discord') && channelId && roleId) {
+      if (
+        isFeatureEnabled('discord') &&
+        channelId &&
+        roleId &&
+        alerts?.['epoch-end']
+      ) {
         await sendSocialMessage({
           message,
           circleId: circle.id,

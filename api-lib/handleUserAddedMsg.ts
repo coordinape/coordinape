@@ -23,14 +23,18 @@ function getChannels(
 ): Channels<DiscordUserAddedOrRemoved> {
   const { channels, circle, data, profiles } = props || {};
 
-  const { discord_channel_id: channelId, discord_role_id: roleId } =
-    circle?.discord_circle || {};
+  const {
+    discord_channel_id: channelId,
+    discord_role_id: roleId,
+    alerts,
+  } = circle?.discord_circle || {};
 
   if (
     channels?.isDiscordBot &&
     isFeatureEnabled('discord') &&
     channelId &&
-    roleId
+    roleId &&
+    alerts?.['user-added']
   ) {
     const user = profiles[0].user;
 
