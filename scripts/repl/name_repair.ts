@@ -1,5 +1,13 @@
 /* eslint-disable no-console */
 
+/*
+ * This is an example repl script. Use it as a copy for building a repl helper.
+ * The general pattern of write some code in name_repair, start repl, run some functions,
+ * debug by inspecting data in the repl, go back to editor when enough understanding
+ * has accumulated to want to write more at length, repeat, is a useful model
+ * for usign the repl.
+ */
+
 import assert from 'assert';
 
 import fp from 'lodash/fp';
