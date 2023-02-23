@@ -1,8 +1,9 @@
 /* eslint-disable no-console */
 
 /*
- * This script implements a Read-Eval-Print-Loop (REPL) script, which can be useful for debugging and investigation.
- * This can be used against a production environment by running
+ * This script implements a Read-Eval-Print-Loop (REPL) script, which can be
+ * useful for debugging and investigation. This can be used against a production
+ * environment by running
  *
  * ❯ HASURA_GRAPHQL_ADMIN_SECRET=<ADMIN-SECRET> NODE_HASURA_URL=https://coordinape-prod.hasura.app/v1/graphql yarn repl
  */
@@ -13,13 +14,12 @@ import fp from 'lodash/fp';
 
 import { adminClient as client } from '../api-lib/gql/adminClient';
 
-// TODO: uncmoment and change this to import your repl code
+// uncomment and change this to import your own repl code
 // import { init as initNameRepair } from './repl/name_repair';
 
 const init = async () => {
-  // add your init code here
   return {
-    // TODO: uncomment and initialize your repl helper functions
+    // add your init code here
     // ...(await initNameRepair()),
   };
 };
