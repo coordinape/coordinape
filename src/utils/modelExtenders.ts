@@ -37,6 +37,7 @@ export const createFakeProfile = (u: IUser): IProfile => ({
   id: u.id + FAKE_ID_OFFSET,
   address: u.address,
   avatar: '',
+  name: 'HardDelete',
   users: [],
 });
 export const createFakeUser = (circleId: number): IUser => ({
@@ -63,6 +64,7 @@ export const createFakeUser = (circleId: number): IUser => ({
     avatar: 'deleted-user_1628632000.jpg',
     created_at: '2021-07-07T23:29:18.000000Z',
     updated_at: '2021-07-07T23:29:18.000000Z',
+    name: 'HardDelete',
   },
   isCircleAdmin: false,
   isCoordinapeUser: false,

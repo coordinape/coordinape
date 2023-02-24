@@ -180,6 +180,7 @@ export function DistributionsPage() {
     'id'
   ).map(user => ({
     ...user,
+    name: user.profile.name,
     received:
       epoch.token_gifts
         ?.filter(g => g.recipient?.id === user?.id)
