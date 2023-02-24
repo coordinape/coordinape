@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 
 import { isFeatureEnabled } from '../src/config/features';
 
-import { TELEGRAM_BOT_BASE_URL } from './config';
+import { TELEGRAM_BOT_BASE_URL, COORDINAPE_BOT_SECRET } from './config';
 import { DISCORD_BOT_NAME, DISCORD_BOT_AVATAR_URL } from './constants';
 import * as queries from './gql/queries';
 
@@ -174,6 +174,7 @@ export async function sendSocialMessage({
       body: JSON.stringify(telegramBotPost),
       headers: {
         'Content-Type': 'application/json',
+        'x-coordinape-bot-secret': COORDINAPE_BOT_SECRET,
       },
     });
 
