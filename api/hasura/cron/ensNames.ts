@@ -12,7 +12,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       const resolvedAddress = await getProvider(1).resolveName(profile.name);
       if (
         !resolvedAddress ||
-        resolvedAddress.toLowerCase() !== profile.address.toLocaleLowerCase()
+        resolvedAddress.toLowerCase() !== profile.address.toLowerCase()
       ) {
         await updateEnsName({ id: profile.id, name: profile.name });
       }

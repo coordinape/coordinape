@@ -56,14 +56,17 @@ beforeAll(async () => {
     address: address2,
     name: name1.concat('.eth'),
   });
-});
 
-test('check ensNames cron', async () => {
   const req = {
     headers: { verification_key: process.env.HASURA_EVENT_SECRET },
   } as unknown as VercelRequest;
   const res: any = { status: jest.fn(() => res), json: jest.fn() };
   await handler(req, res);
+});
+
+test('check ensNames cron', async () => {
+  await new Promise(res => setTimeout(res, 500));
+
   const result = await adminClient.query(
     {
       profiles: [
