@@ -1,7 +1,7 @@
 CREATE OR REPLACE FUNCTION function_ensure_profile_exists() RETURNS TRIGGER AS
 $BODY$
   BEGIN
-      INSERT INTO "profiles"(address) VALUES(new.address) ON CONFLICT DO NOTHING;
+      INSERT INTO "profiles"(address, name) VALUES(new.address, new.name) ON CONFLICT DO NOTHING;
       RETURN new;
   END;
 $BODY$
