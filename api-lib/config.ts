@@ -87,3 +87,8 @@ export const DISCORD_BOT_REDIRECT_URI: string = getEnvValue(
   'DISCORD_BOT_REDIRECT_URI',
   'http://localhost:3000/discord/link'
 );
+
+export const COORDINAPE_BOT_SECRET: string = getEnvValue(
+  'COORDINAPE_BOT_SECRET',
+  'bot-secret'
+);
