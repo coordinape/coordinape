@@ -134,6 +134,7 @@ export async function sendSocialMessage({
         body: JSON.stringify(channels.discordBot),
         headers: {
           'Content-Type': 'application/json',
+          'x-coordinape-bot-secret': COORDINAPE_BOT_SECRET,
         },
       }
     );
@@ -174,7 +175,6 @@ export async function sendSocialMessage({
       body: JSON.stringify(telegramBotPost),
       headers: {
         'Content-Type': 'application/json',
-        'x-coordinape-bot-secret': COORDINAPE_BOT_SECRET,
       },
     });
 
