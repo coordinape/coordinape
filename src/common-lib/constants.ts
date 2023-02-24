@@ -6,7 +6,7 @@ export enum ENTRANCE {
   MANUAL = 'manual-address-entry',
   CSV = 'CSV',
   NOMINATION = 'vouched-in',
-
+  DISCORD_BOT = 'discord-bot',
   GUILD = 'guild',
 }
 
