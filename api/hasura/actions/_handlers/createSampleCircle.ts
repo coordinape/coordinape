@@ -122,7 +122,6 @@ async function createCircle(
             start_date: start_date.toISO(),
             end_date: end_date.toISO(),
             circle_id: circle.id,
-            repeat: 3,
           },
         },
         {
