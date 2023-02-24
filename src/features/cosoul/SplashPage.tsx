@@ -12,12 +12,12 @@ export const SplashPage = () => {
   return (
     <SingleColumnLayout>
       <Flex column alignItems="start" css={{ gap: '$md' }}>
-        <Text h1 color="cta" css={{ fontSize: '110px' }}>
+        <Text h1 display color="cta">
           Welcome to
           <br />
           CoSoul
         </Text>
-        <Text h2 color="secondary" css={{ fontSize: '40px', maxWidth: '20em' }}>
+        <Text h2 display color="secondary" css={{ maxWidth: '20em' }}>
           CoSoul is your avatar in the Coordinape universe. Anyone can mint a
           CoSoul to get started in the Coordinape network. It is free to mint
           and synch on Polygon.
@@ -25,9 +25,6 @@ export const SplashPage = () => {
         <Flex css={{ mt: '$lg', gap: '$md' }}>
           <Button color="cta" size="large" as={NavLink} to={paths.mint}>
             Mint CoSoul
-          </Button>
-          <Button color="secondary" size="large" as={NavLink} to={paths.home}>
-            Coordinape
           </Button>
         </Flex>
       </Flex>

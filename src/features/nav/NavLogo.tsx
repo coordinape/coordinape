@@ -5,7 +5,13 @@ import { paths } from '../../routes/paths';
 import { CSS } from '../../stitches.config';
 import { Box } from '../../ui';
 
-export const NavLogo = ({ css }: { css?: CSS }) => {
+export const NavLogo = ({
+  css,
+  forceTheme,
+}: {
+  css?: CSS;
+  forceTheme?: string;
+}) => {
   return (
     <ThemeContext.Consumer>
       {({ theme }) => (
@@ -15,10 +21,15 @@ export const NavLogo = ({ css }: { css?: CSS }) => {
           css={{
             ...css,
             'img, svg': {
-              width: '65%',
-              minWidth: '140px',
+              width: '200px',
+              '@lg': {
+                width: '180px',
+              },
+              '@md': {
+                width: '160px',
+              },
               '@sm': {
-                maxWidth: '140px',
+                width: '140px',
               },
             },
             'svg *': { fill: 'white' },
@@ -26,9 +37,9 @@ export const NavLogo = ({ css }: { css?: CSS }) => {
         >
           <img
             src={
-              theme == 'light'
-                ? '/imgs/logo/coordinape-logo-grey7.png'
-                : '/imgs/logo/coordinape-logo-grey1.png'
+              theme == 'dark' || forceTheme == 'dark'
+                ? '/imgs/logo/coordinape-logo-grey1.png'
+                : '/imgs/logo/coordinape-logo-grey7.png'
             }
             alt="coordinape logo"
           />

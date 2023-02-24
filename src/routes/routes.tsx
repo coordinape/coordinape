@@ -129,10 +129,19 @@ export const AppRoutes = () => {
           </CoSoulLayout>
         }
       >
+        <Route
+          path="login"
+          element={
+            <RequireAuth>
+              <RedirectAfterLogin />
+            </RequireAuth>
+          }
+        />
         <Route path={paths.cosoul} element={<SplashPage />} />
         <Route path={paths.mint} element={<MintPage />} />
       </Route>
 
+      {/* Main App Pages */}
       <Route
         element={
           <MainLayout>
