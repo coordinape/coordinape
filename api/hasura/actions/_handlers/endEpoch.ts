@@ -109,6 +109,11 @@ async function getExistingEpoch({
                 give_token_remaining: true,
               },
             ],
+            discord_circle: {
+              discord_channel_id: true,
+              discord_role_id: true,
+              alerts: [{}, true],
+            },
           },
           epoch_pending_token_gifts: [
             {},
@@ -124,6 +129,16 @@ async function getExistingEpoch({
               dts_created: true,
               created_at: true,
               updated_at: true,
+            },
+          ],
+          token_gifts: [
+            {
+              where: {
+                tokens: { _gt: 0 },
+              },
+            },
+            {
+              tokens: true,
             },
           ],
         },
