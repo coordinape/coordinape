@@ -31,6 +31,7 @@ export type DiscordUserAddedOrRemoved = DiscordEpochEvent & {
   type: 'user-added' | 'user-removed';
   discordId?: string;
   address?: string;
+  profileName?: string;
   circleName: string;
 };
 
@@ -38,6 +39,7 @@ export type DiscordOptsOut = DiscordEpochEvent & {
   type: 'user-opts-out';
   discordId?: string;
   address?: string;
+  profileName?: string;
   tokenName: string;
   circleName: string;
   refunds: {
