@@ -30,18 +30,6 @@ export type RepeatData = z.infer<typeof zEpochRepeatData>;
 
 export type EpochsToNotify = Awaited<ReturnType<typeof getEpochsToNotify>>;
 
-function isDiscordBotLinked(circle?: {
-  discord_circle?: {
-    discord_channel_id?: string;
-    discord_role_id?: string;
-  };
-}) {
-  return (
-    circle?.discord_circle?.discord_channel_id &&
-    circle.discord_circle.discord_role_id
-  );
-}
-
 async function handler(req: VercelRequest, res: VercelResponse) {
   const epochResult = await getEpochsToNotify();
 
@@ -140,22 +128,7 @@ async function getEpochsToNotify() {
                     },
                   },
                 ],
-                discord_circle: {
-                  discord_channel_id: true,
-                  discord_role_id: true,
-                  alerts: [{}, true],
-                },
               },
-              token_gifts: [
-                {
-                  where: {
-                    tokens: { _gt: 0 },
-                  },
-                },
-                {
-                  tokens: true,
-                },
-              ],
             },
           ],
         },
@@ -205,7 +178,22 @@ async function getEpochsToNotify() {
                     give_token_remaining: true,
                   },
                 ],
+                discord_circle: {
+                  discord_channel_id: true,
+                  discord_role_id: true,
+                  alerts: [{}, true],
+                },
               },
+              token_gifts: [
+                {
+                  where: {
+                    tokens: { _gt: 0 },
+                  },
+                },
+                {
+                  tokens: true,
+                },
+              ],
               epoch_pending_token_gifts: [
                 {},
                 {
@@ -320,12 +308,7 @@ export async function notifyEpochEnd({
   notifyEndEpochs: epochs,
 }: EpochsToNotify) {
   const notifyEpochsEnding = epochs
-    .filter(
-      ({ circle }) =>
-        circle?.telegram_id ||
-        circle?.discord_webhook ||
-        isDiscordBotLinked(circle)
-    )
+    .filter(({ circle }) => circle?.telegram_id || circle?.discord_webhook)
     .map(async epoch => {
       const { circle } = epoch;
       assert(circle, 'panic: no circle for epoch');
@@ -341,43 +324,6 @@ export async function notifyEpochEnd({
       }:
       ${usersHodlingGive.join(', ')}
     `;
-
-      const {
-        discord_channel_id: channelId,
-        discord_role_id: roleId,
-        alerts,
-      } = circle?.discord_circle || {};
-
-      if (
-        isFeatureEnabled('discord') &&
-        channelId &&
-        roleId &&
-        alerts?.['epoch-end']
-      ) {
-        await sendSocialMessage({
-          message,
-          circleId: circle.id,
-          channels: {
-            isDiscordBot: true,
-            discordBot: {
-              type: 'end' as const,
-              channelId,
-              roleId,
-              epochName: `Epoch ${epoch.number}`,
-              circleId: circle.id,
-              circleName: `${circle.organization?.name}/${circle.name}`,
-              endTime: epoch.end_date,
-              giveCount: epoch.token_gifts?.reduce(
-                (total, { tokens }) => tokens + total,
-                0
-              ),
-              userCount: circle.users.length,
-            },
-          },
-          sanitize: false,
-        });
-        updateEpochEndSoonNotification(epoch.id);
-      }
 
       if (circle.discord_webhook) {
         await notifyAndUpdateEpoch(
@@ -524,6 +470,42 @@ export async function endEpochHandler(
       Users who did not allocate any ${circle.token_name}:
       ${usersWithStartingGive.join(', ')}
     `;
+
+  const {
+    discord_channel_id: channelId,
+    discord_role_id: roleId,
+    alerts,
+  } = circle?.discord_circle || {};
+
+  if (
+    isFeatureEnabled('discord') &&
+    channelId &&
+    roleId &&
+    alerts?.['epoch-end']
+  ) {
+    await sendSocialMessage({
+      message,
+      circleId: circle.id,
+      channels: {
+        isDiscordBot: true,
+        discordBot: {
+          type: 'end' as const,
+          channelId,
+          roleId,
+          epochName: `Epoch ${epoch.number}`,
+          circleId: circle.id,
+          circleName: `${circle.organization?.name}/${circle.name}`,
+          endTime: epoch.end_date,
+          giveCount: epoch.token_gifts?.reduce(
+            (total, { tokens }) => tokens + total,
+            0
+          ),
+          userCount: circle.users.length,
+        },
+      },
+      sanitize: false,
+    });
+  }
 
   if (circle.discord_webhook)
     await notifyAndUpdateEpoch(
