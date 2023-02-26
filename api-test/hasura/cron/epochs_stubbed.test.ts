@@ -787,93 +787,16 @@ describe('epoch Cron Logic', () => {
       );
     });
 
-    test('notifications enabled for Discord Bot', async () => {
-      const input = getEpochInput('notifyEndEpochs', {
-        circle: getCircle('notifyEndEpochs', {
-          discord_circle: {
-            discord_channel_id: '123',
-            discord_role_id: '456',
-            alerts: { 'epoch-end': true },
-          },
-        }),
-      });
-      const result = await notifyEpochEnd(input);
-      expect(result).toEqual([]);
-      expect(mockSendSocial).toBeCalledTimes(1);
-      expect(mockSendSocial).toBeCalledWith({
-        channels: {
-          isDiscordBot: true,
-          discordBot: {
-            channelId: '123',
-            circleId: 1,
-            circleName: 'mock Org/circle with ending epoch',
-            endTime: mockEpoch.notifyEndEpochs.end_date,
-            epochName: 'Epoch 3',
-            giveCount: 150,
-            roleId: '456',
-            type: 'end',
-            userCount: 2,
-          },
-        },
-        circleId: 1,
-        message:
-          'mock Org/circle with ending epoch epoch ends in less than 24 hours!\n' +
-          'Users that have yet to fully allocate their GIVE:\n' +
-          'bob, alice',
-        sanitize: false,
-      });
-      expect(mockMutation).toBeCalledTimes(1);
-      expect(mockMutation).toBeCalledWith(
-        {
-          update_epochs_by_pk: [
-            {
-              _set: { notified_before_end: expect.stringMatching(isoTime) },
-              pk_columns: { id: 9 },
-            },
-            { id: true },
-          ],
-        },
-        { operationName: 'updateEpochEndSoonNotification' }
-      );
-    });
-
-    test('notifications enabled for all channels (telegram, discord and discord bot)', async () => {
+    test('notifications enabled for all channels (telegram and discord)', async () => {
       const input = getEpochInput('notifyEndEpochs', {
         circle: getCircle('notifyEndEpochs', {
           discord_webhook: 'https://discord.webhook',
           telegram_id: '-7',
-          discord_circle: {
-            discord_channel_id: '123',
-            discord_role_id: '456',
-            alerts: { 'epoch-end': true },
-          },
         }),
       });
       const result = await notifyEpochEnd(input);
       expect(result).toEqual([]);
-      expect(mockSendSocial).toBeCalledTimes(3);
-      expect(mockSendSocial).toBeCalledWith({
-        channels: {
-          isDiscordBot: true,
-          discordBot: {
-            channelId: '123',
-            circleId: 1,
-            circleName: 'mock Org/circle with ending epoch',
-            endTime: mockEpoch.notifyEndEpochs.end_date,
-            epochName: 'Epoch 3',
-            giveCount: 150,
-            roleId: '456',
-            type: 'end',
-            userCount: 2,
-          },
-        },
-        circleId: 1,
-        message:
-          'mock Org/circle with ending epoch epoch ends in less than 24 hours!\n' +
-          'Users that have yet to fully allocate their GIVE:\n' +
-          'bob, alice',
-        sanitize: false,
-      });
+      expect(mockSendSocial).toBeCalledTimes(2);
       expect(mockSendSocial).toBeCalledWith({
         channels: {
           discord: true,
@@ -896,7 +819,7 @@ describe('epoch Cron Logic', () => {
           'bob, alice',
         sanitize: false,
       });
-      expect(mockMutation).toBeCalledTimes(3);
+      expect(mockMutation).toBeCalledTimes(2);
       expect(mockMutation).toBeCalledWith(
         {
           update_epochs_by_pk: [
