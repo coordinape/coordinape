@@ -10006,6 +10006,7 @@ type epochs {
   circle: circles
   circle_id: Int!
   created_at: timestamp!
+  created_by: Int
   days: Int
   description: String
 
@@ -10367,6 +10368,7 @@ aggregate avg on columns
 """
 type epochs_avg_fields {
   circle_id: Float
+  created_by: Float
   days: Float
   grant: Float
   id: Float
@@ -10381,6 +10383,7 @@ order by avg() on columns of table "epoches"
 """
 input epochs_avg_order_by {
   circle_id: order_by
+  created_by: order_by
   days: order_by
   grant: order_by
   id: order_by
@@ -10402,6 +10405,7 @@ input epochs_bool_exp {
   circle: circles_bool_exp
   circle_id: Int_comparison_exp
   created_at: timestamp_comparison_exp
+  created_by: Int_comparison_exp
   days: Int_comparison_exp
   description: String_comparison_exp
   distributions: distributions_bool_exp
@@ -10465,6 +10469,7 @@ input type for incrementing numeric columns in table "epoches"
 """
 input epochs_inc_input {
   circle_id: Int
+  created_by: Int
   days: Int
   grant: numeric
   id: bigint
@@ -10482,6 +10487,7 @@ input epochs_insert_input {
   circle: circles_obj_rel_insert_input
   circle_id: Int
   created_at: timestamp
+  created_by: Int
   days: Int
   description: String
   distributions: distributions_arr_rel_insert_input
@@ -10511,6 +10517,7 @@ aggregate max on columns
 type epochs_max_fields {
   circle_id: Int
   created_at: timestamp
+  created_by: Int
   days: Int
   description: String
   end_date: timestamptz
@@ -10533,6 +10540,7 @@ order by max() on columns of table "epoches"
 input epochs_max_order_by {
   circle_id: order_by
   created_at: order_by
+  created_by: order_by
   days: order_by
   description: order_by
   end_date: order_by
@@ -10555,6 +10563,7 @@ aggregate min on columns
 type epochs_min_fields {
   circle_id: Int
   created_at: timestamp
+  created_by: Int
   days: Int
   description: String
   end_date: timestamptz
@@ -10577,6 +10586,7 @@ order by min() on columns of table "epoches"
 input epochs_min_order_by {
   circle_id: order_by
   created_at: order_by
+  created_by: order_by
   days: order_by
   description: order_by
   end_date: order_by
@@ -10637,6 +10647,7 @@ input epochs_order_by {
   circle: circles_order_by
   circle_id: order_by
   created_at: order_by
+  created_by: order_by
   days: order_by
   description: order_by
   distributions_aggregate: distributions_aggregate_order_by
@@ -10687,6 +10698,11 @@ enum epochs_select_column {
   column name
   """
   created_at
+
+  """
+  column name
+  """
+  created_by
 
   """
   column name
@@ -10795,6 +10811,7 @@ input type for updating data in table "epoches"
 input epochs_set_input {
   circle_id: Int
   created_at: timestamp
+  created_by: Int
   days: Int
   description: String
   end_date: timestamptz
@@ -10818,6 +10835,7 @@ aggregate stddev on columns
 """
 type epochs_stddev_fields {
   circle_id: Float
+  created_by: Float
   days: Float
   grant: Float
   id: Float
@@ -10832,6 +10850,7 @@ order by stddev() on columns of table "epoches"
 """
 input epochs_stddev_order_by {
   circle_id: order_by
+  created_by: order_by
   days: order_by
   grant: order_by
   id: order_by
@@ -10846,6 +10865,7 @@ aggregate stddev_pop on columns
 """
 type epochs_stddev_pop_fields {
   circle_id: Float
+  created_by: Float
   days: Float
   grant: Float
   id: Float
@@ -10860,6 +10880,7 @@ order by stddev_pop() on columns of table "epoches"
 """
 input epochs_stddev_pop_order_by {
   circle_id: order_by
+  created_by: order_by
   days: order_by
   grant: order_by
   id: order_by
@@ -10874,6 +10895,7 @@ aggregate stddev_samp on columns
 """
 type epochs_stddev_samp_fields {
   circle_id: Float
+  created_by: Float
   days: Float
   grant: Float
   id: Float
@@ -10888,6 +10910,7 @@ order by stddev_samp() on columns of table "epoches"
 """
 input epochs_stddev_samp_order_by {
   circle_id: order_by
+  created_by: order_by
   days: order_by
   grant: order_by
   id: order_by
@@ -10918,6 +10941,7 @@ Initial value of the column from where the streaming should start
 input epochs_stream_cursor_value_input {
   circle_id: Int
   created_at: timestamp
+  created_by: Int
   days: Int
   description: String
   end_date: timestamptz
@@ -10941,6 +10965,7 @@ aggregate sum on columns
 """
 type epochs_sum_fields {
   circle_id: Int
+  created_by: Int
   days: Int
   grant: numeric
   id: bigint
@@ -10955,6 +10980,7 @@ order by sum() on columns of table "epoches"
 """
 input epochs_sum_order_by {
   circle_id: order_by
+  created_by: order_by
   days: order_by
   grant: order_by
   id: order_by
@@ -10977,6 +11003,11 @@ enum epochs_update_column {
   column name
   """
   created_at
+
+  """
+  column name
+  """
+  created_by
 
   """
   column name
@@ -11106,6 +11137,7 @@ aggregate var_pop on columns
 """
 type epochs_var_pop_fields {
   circle_id: Float
+  created_by: Float
   days: Float
   grant: Float
   id: Float
@@ -11120,6 +11152,7 @@ order by var_pop() on columns of table "epoches"
 """
 input epochs_var_pop_order_by {
   circle_id: order_by
+  created_by: order_by
   days: order_by
   grant: order_by
   id: order_by
@@ -11134,6 +11167,7 @@ aggregate var_samp on columns
 """
 type epochs_var_samp_fields {
   circle_id: Float
+  created_by: Float
   days: Float
   grant: Float
   id: Float
@@ -11148,6 +11182,7 @@ order by var_samp() on columns of table "epoches"
 """
 input epochs_var_samp_order_by {
   circle_id: order_by
+  created_by: order_by
   days: order_by
   grant: order_by
   id: order_by
@@ -11162,6 +11197,7 @@ aggregate variance on columns
 """
 type epochs_variance_fields {
   circle_id: Float
+  created_by: Float
   days: Float
   grant: Float
   id: Float
@@ -11176,6 +11212,7 @@ order by variance() on columns of table "epoches"
 """
 input epochs_variance_order_by {
   circle_id: order_by
+  created_by: order_by
   days: order_by
   grant: order_by
   id: order_by

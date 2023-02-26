@@ -2652,6 +2652,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   epochs_avg_order_by: {
     circle_id: 'order_by',
+    created_by: 'order_by',
     days: 'order_by',
     grant: 'order_by',
     id: 'order_by',
@@ -2669,6 +2670,7 @@ export const AllTypesProps: Record<string, any> = {
     circle: 'circles_bool_exp',
     circle_id: 'Int_comparison_exp',
     created_at: 'timestamp_comparison_exp',
+    created_by: 'Int_comparison_exp',
     days: 'Int_comparison_exp',
     description: 'String_comparison_exp',
     distributions: 'distributions_bool_exp',
@@ -2726,6 +2728,7 @@ export const AllTypesProps: Record<string, any> = {
   epochs_max_order_by: {
     circle_id: 'order_by',
     created_at: 'order_by',
+    created_by: 'order_by',
     days: 'order_by',
     description: 'order_by',
     end_date: 'order_by',
@@ -2744,6 +2747,7 @@ export const AllTypesProps: Record<string, any> = {
   epochs_min_order_by: {
     circle_id: 'order_by',
     created_at: 'order_by',
+    created_by: 'order_by',
     days: 'order_by',
     description: 'order_by',
     end_date: 'order_by',
@@ -2773,6 +2777,7 @@ export const AllTypesProps: Record<string, any> = {
     circle: 'circles_order_by',
     circle_id: 'order_by',
     created_at: 'order_by',
+    created_by: 'order_by',
     days: 'order_by',
     description: 'order_by',
     distributions_aggregate: 'distributions_aggregate_order_by',
@@ -2821,6 +2826,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   epochs_stddev_order_by: {
     circle_id: 'order_by',
+    created_by: 'order_by',
     days: 'order_by',
     grant: 'order_by',
     id: 'order_by',
@@ -2831,6 +2837,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   epochs_stddev_pop_order_by: {
     circle_id: 'order_by',
+    created_by: 'order_by',
     days: 'order_by',
     grant: 'order_by',
     id: 'order_by',
@@ -2841,6 +2848,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   epochs_stddev_samp_order_by: {
     circle_id: 'order_by',
+    created_by: 'order_by',
     days: 'order_by',
     grant: 'order_by',
     id: 'order_by',
@@ -2867,6 +2875,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   epochs_sum_order_by: {
     circle_id: 'order_by',
+    created_by: 'order_by',
     days: 'order_by',
     grant: 'order_by',
     id: 'order_by',
@@ -2888,6 +2897,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   epochs_var_pop_order_by: {
     circle_id: 'order_by',
+    created_by: 'order_by',
     days: 'order_by',
     grant: 'order_by',
     id: 'order_by',
@@ -2898,6 +2908,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   epochs_var_samp_order_by: {
     circle_id: 'order_by',
+    created_by: 'order_by',
     days: 'order_by',
     grant: 'order_by',
     id: 'order_by',
@@ -2908,6 +2919,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   epochs_variance_order_by: {
     circle_id: 'order_by',
+    created_by: 'order_by',
     days: 'order_by',
     grant: 'order_by',
     id: 'order_by',
@@ -10190,6 +10202,7 @@ export const ReturnTypes: Record<string, any> = {
     circle: 'circles',
     circle_id: 'Int',
     created_at: 'timestamp',
+    created_by: 'Int',
     days: 'Int',
     description: 'String',
     distributions: 'distributions',
@@ -10235,6 +10248,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   epochs_avg_fields: {
     circle_id: 'Float',
+    created_by: 'Float',
     days: 'Float',
     grant: 'Float',
     id: 'Float',
@@ -10246,6 +10260,7 @@ export const ReturnTypes: Record<string, any> = {
   epochs_max_fields: {
     circle_id: 'Int',
     created_at: 'timestamp',
+    created_by: 'Int',
     days: 'Int',
     description: 'String',
     end_date: 'timestamptz',
@@ -10264,6 +10279,7 @@ export const ReturnTypes: Record<string, any> = {
   epochs_min_fields: {
     circle_id: 'Int',
     created_at: 'timestamp',
+    created_by: 'Int',
     days: 'Int',
     description: 'String',
     end_date: 'timestamptz',
@@ -10285,6 +10301,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   epochs_stddev_fields: {
     circle_id: 'Float',
+    created_by: 'Float',
     days: 'Float',
     grant: 'Float',
     id: 'Float',
@@ -10295,6 +10312,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   epochs_stddev_pop_fields: {
     circle_id: 'Float',
+    created_by: 'Float',
     days: 'Float',
     grant: 'Float',
     id: 'Float',
@@ -10305,6 +10323,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   epochs_stddev_samp_fields: {
     circle_id: 'Float',
+    created_by: 'Float',
     days: 'Float',
     grant: 'Float',
     id: 'Float',
@@ -10315,6 +10334,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   epochs_sum_fields: {
     circle_id: 'Int',
+    created_by: 'Int',
     days: 'Int',
     grant: 'numeric',
     id: 'bigint',
@@ -10325,6 +10345,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   epochs_var_pop_fields: {
     circle_id: 'Float',
+    created_by: 'Float',
     days: 'Float',
     grant: 'Float',
     id: 'Float',
@@ -10335,6 +10356,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   epochs_var_samp_fields: {
     circle_id: 'Float',
+    created_by: 'Float',
     days: 'Float',
     grant: 'Float',
     id: 'Float',
@@ -10345,6 +10367,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   epochs_variance_fields: {
     circle_id: 'Float',
+    created_by: 'Float',
     days: 'Float',
     grant: 'Float',
     id: 'Float',
