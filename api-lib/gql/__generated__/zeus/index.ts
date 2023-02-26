@@ -7208,6 +7208,7 @@ export type ValueTypes = {
     circle?: ValueTypes['circles'];
     circle_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
+    created_by?: boolean | `@${string}`;
     days?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
     distributions?: [
@@ -7500,6 +7501,7 @@ export type ValueTypes = {
   /** aggregate avg on columns */
   ['epochs_avg_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
+    created_by?: boolean | `@${string}`;
     days?: boolean | `@${string}`;
     grant?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -7512,6 +7514,7 @@ export type ValueTypes = {
   /** order by avg() on columns of table "epoches" */
   ['epochs_avg_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
+    created_by?: ValueTypes['order_by'] | undefined | null;
     days?: ValueTypes['order_by'] | undefined | null;
     grant?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -7530,6 +7533,7 @@ export type ValueTypes = {
     circle?: ValueTypes['circles_bool_exp'] | undefined | null;
     circle_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+    created_by?: ValueTypes['Int_comparison_exp'] | undefined | null;
     days?: ValueTypes['Int_comparison_exp'] | undefined | null;
     description?: ValueTypes['String_comparison_exp'] | undefined | null;
     distributions?: ValueTypes['distributions_bool_exp'] | undefined | null;
@@ -7594,6 +7598,7 @@ export type ValueTypes = {
   /** input type for incrementing numeric columns in table "epoches" */
   ['epochs_inc_input']: {
     circle_id?: number | undefined | null;
+    created_by?: number | undefined | null;
     days?: number | undefined | null;
     grant?: ValueTypes['numeric'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
@@ -7608,6 +7613,7 @@ export type ValueTypes = {
     circle?: ValueTypes['circles_obj_rel_insert_input'] | undefined | null;
     circle_id?: number | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
+    created_by?: number | undefined | null;
     days?: number | undefined | null;
     description?: string | undefined | null;
     distributions?:
@@ -7649,6 +7655,7 @@ export type ValueTypes = {
   ['epochs_max_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
+    created_by?: boolean | `@${string}`;
     days?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
     end_date?: boolean | `@${string}`;
@@ -7669,6 +7676,7 @@ export type ValueTypes = {
   ['epochs_max_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    created_by?: ValueTypes['order_by'] | undefined | null;
     days?: ValueTypes['order_by'] | undefined | null;
     description?: ValueTypes['order_by'] | undefined | null;
     end_date?: ValueTypes['order_by'] | undefined | null;
@@ -7688,6 +7696,7 @@ export type ValueTypes = {
   ['epochs_min_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
+    created_by?: boolean | `@${string}`;
     days?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
     end_date?: boolean | `@${string}`;
@@ -7708,6 +7717,7 @@ export type ValueTypes = {
   ['epochs_min_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    created_by?: ValueTypes['order_by'] | undefined | null;
     days?: ValueTypes['order_by'] | undefined | null;
     description?: ValueTypes['order_by'] | undefined | null;
     end_date?: ValueTypes['order_by'] | undefined | null;
@@ -7749,6 +7759,7 @@ export type ValueTypes = {
     circle?: ValueTypes['circles_order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    created_by?: ValueTypes['order_by'] | undefined | null;
     days?: ValueTypes['order_by'] | undefined | null;
     description?: ValueTypes['order_by'] | undefined | null;
     distributions_aggregate?:
@@ -7801,6 +7812,7 @@ export type ValueTypes = {
   ['epochs_set_input']: {
     circle_id?: number | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
+    created_by?: number | undefined | null;
     days?: number | undefined | null;
     description?: string | undefined | null;
     end_date?: ValueTypes['timestamptz'] | undefined | null;
@@ -7821,6 +7833,7 @@ export type ValueTypes = {
   /** aggregate stddev on columns */
   ['epochs_stddev_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
+    created_by?: boolean | `@${string}`;
     days?: boolean | `@${string}`;
     grant?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -7833,6 +7846,7 @@ export type ValueTypes = {
   /** order by stddev() on columns of table "epoches" */
   ['epochs_stddev_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
+    created_by?: ValueTypes['order_by'] | undefined | null;
     days?: ValueTypes['order_by'] | undefined | null;
     grant?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -7844,6 +7858,7 @@ export type ValueTypes = {
   /** aggregate stddev_pop on columns */
   ['epochs_stddev_pop_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
+    created_by?: boolean | `@${string}`;
     days?: boolean | `@${string}`;
     grant?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -7856,6 +7871,7 @@ export type ValueTypes = {
   /** order by stddev_pop() on columns of table "epoches" */
   ['epochs_stddev_pop_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
+    created_by?: ValueTypes['order_by'] | undefined | null;
     days?: ValueTypes['order_by'] | undefined | null;
     grant?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -7867,6 +7883,7 @@ export type ValueTypes = {
   /** aggregate stddev_samp on columns */
   ['epochs_stddev_samp_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
+    created_by?: boolean | `@${string}`;
     days?: boolean | `@${string}`;
     grant?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -7879,6 +7896,7 @@ export type ValueTypes = {
   /** order by stddev_samp() on columns of table "epoches" */
   ['epochs_stddev_samp_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
+    created_by?: ValueTypes['order_by'] | undefined | null;
     days?: ValueTypes['order_by'] | undefined | null;
     grant?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -7898,6 +7916,7 @@ export type ValueTypes = {
   ['epochs_stream_cursor_value_input']: {
     circle_id?: number | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
+    created_by?: number | undefined | null;
     days?: number | undefined | null;
     description?: string | undefined | null;
     end_date?: ValueTypes['timestamptz'] | undefined | null;
@@ -7918,6 +7937,7 @@ export type ValueTypes = {
   /** aggregate sum on columns */
   ['epochs_sum_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
+    created_by?: boolean | `@${string}`;
     days?: boolean | `@${string}`;
     grant?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -7930,6 +7950,7 @@ export type ValueTypes = {
   /** order by sum() on columns of table "epoches" */
   ['epochs_sum_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
+    created_by?: ValueTypes['order_by'] | undefined | null;
     days?: ValueTypes['order_by'] | undefined | null;
     grant?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -7964,6 +7985,7 @@ export type ValueTypes = {
   /** aggregate var_pop on columns */
   ['epochs_var_pop_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
+    created_by?: boolean | `@${string}`;
     days?: boolean | `@${string}`;
     grant?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -7976,6 +7998,7 @@ export type ValueTypes = {
   /** order by var_pop() on columns of table "epoches" */
   ['epochs_var_pop_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
+    created_by?: ValueTypes['order_by'] | undefined | null;
     days?: ValueTypes['order_by'] | undefined | null;
     grant?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -7987,6 +8010,7 @@ export type ValueTypes = {
   /** aggregate var_samp on columns */
   ['epochs_var_samp_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
+    created_by?: boolean | `@${string}`;
     days?: boolean | `@${string}`;
     grant?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -7999,6 +8023,7 @@ export type ValueTypes = {
   /** order by var_samp() on columns of table "epoches" */
   ['epochs_var_samp_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
+    created_by?: ValueTypes['order_by'] | undefined | null;
     days?: ValueTypes['order_by'] | undefined | null;
     grant?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -8010,6 +8035,7 @@ export type ValueTypes = {
   /** aggregate variance on columns */
   ['epochs_variance_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
+    created_by?: boolean | `@${string}`;
     days?: boolean | `@${string}`;
     grant?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -8022,6 +8048,7 @@ export type ValueTypes = {
   /** order by variance() on columns of table "epoches" */
   ['epochs_variance_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
+    created_by?: ValueTypes['order_by'] | undefined | null;
     days?: ValueTypes['order_by'] | undefined | null;
     grant?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -26334,6 +26361,7 @@ export type ModelTypes = {
     circle?: GraphQLTypes['circles'] | undefined;
     circle_id: number;
     created_at: GraphQLTypes['timestamp'];
+    created_by?: number | undefined;
     days?: number | undefined;
     description?: string | undefined;
     /** An array relationship */
@@ -26401,6 +26429,7 @@ export type ModelTypes = {
   /** aggregate avg on columns */
   ['epochs_avg_fields']: {
     circle_id?: number | undefined;
+    created_by?: number | undefined;
     days?: number | undefined;
     grant?: number | undefined;
     id?: number | undefined;
@@ -26429,6 +26458,7 @@ export type ModelTypes = {
   ['epochs_max_fields']: {
     circle_id?: number | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
+    created_by?: number | undefined;
     days?: number | undefined;
     description?: string | undefined;
     end_date?: GraphQLTypes['timestamptz'] | undefined;
@@ -26450,6 +26480,7 @@ export type ModelTypes = {
   ['epochs_min_fields']: {
     circle_id?: number | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
+    created_by?: number | undefined;
     days?: number | undefined;
     description?: string | undefined;
     end_date?: GraphQLTypes['timestamptz'] | undefined;
@@ -26495,6 +26526,7 @@ export type ModelTypes = {
   /** aggregate stddev on columns */
   ['epochs_stddev_fields']: {
     circle_id?: number | undefined;
+    created_by?: number | undefined;
     days?: number | undefined;
     grant?: number | undefined;
     id?: number | undefined;
@@ -26508,6 +26540,7 @@ export type ModelTypes = {
   /** aggregate stddev_pop on columns */
   ['epochs_stddev_pop_fields']: {
     circle_id?: number | undefined;
+    created_by?: number | undefined;
     days?: number | undefined;
     grant?: number | undefined;
     id?: number | undefined;
@@ -26521,6 +26554,7 @@ export type ModelTypes = {
   /** aggregate stddev_samp on columns */
   ['epochs_stddev_samp_fields']: {
     circle_id?: number | undefined;
+    created_by?: number | undefined;
     days?: number | undefined;
     grant?: number | undefined;
     id?: number | undefined;
@@ -26538,6 +26572,7 @@ export type ModelTypes = {
   /** aggregate sum on columns */
   ['epochs_sum_fields']: {
     circle_id?: number | undefined;
+    created_by?: number | undefined;
     days?: number | undefined;
     grant?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -26554,6 +26589,7 @@ export type ModelTypes = {
   /** aggregate var_pop on columns */
   ['epochs_var_pop_fields']: {
     circle_id?: number | undefined;
+    created_by?: number | undefined;
     days?: number | undefined;
     grant?: number | undefined;
     id?: number | undefined;
@@ -26567,6 +26603,7 @@ export type ModelTypes = {
   /** aggregate var_samp on columns */
   ['epochs_var_samp_fields']: {
     circle_id?: number | undefined;
+    created_by?: number | undefined;
     days?: number | undefined;
     grant?: number | undefined;
     id?: number | undefined;
@@ -26580,6 +26617,7 @@ export type ModelTypes = {
   /** aggregate variance on columns */
   ['epochs_variance_fields']: {
     circle_id?: number | undefined;
+    created_by?: number | undefined;
     days?: number | undefined;
     grant?: number | undefined;
     id?: number | undefined;
@@ -37332,6 +37370,7 @@ export type GraphQLTypes = {
     circle?: GraphQLTypes['circles'] | undefined;
     circle_id: number;
     created_at: GraphQLTypes['timestamp'];
+    created_by?: number | undefined;
     days?: number | undefined;
     description?: string | undefined;
     /** An array relationship */
@@ -37439,6 +37478,7 @@ export type GraphQLTypes = {
   ['epochs_avg_fields']: {
     __typename: 'epochs_avg_fields';
     circle_id?: number | undefined;
+    created_by?: number | undefined;
     days?: number | undefined;
     grant?: number | undefined;
     id?: number | undefined;
@@ -37450,6 +37490,7 @@ export type GraphQLTypes = {
   /** order by avg() on columns of table "epoches" */
   ['epochs_avg_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
+    created_by?: GraphQLTypes['order_by'] | undefined;
     days?: GraphQLTypes['order_by'] | undefined;
     grant?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -37468,6 +37509,7 @@ export type GraphQLTypes = {
     circle?: GraphQLTypes['circles_bool_exp'] | undefined;
     circle_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+    created_by?: GraphQLTypes['Int_comparison_exp'] | undefined;
     days?: GraphQLTypes['Int_comparison_exp'] | undefined;
     description?: GraphQLTypes['String_comparison_exp'] | undefined;
     distributions?: GraphQLTypes['distributions_bool_exp'] | undefined;
@@ -37523,6 +37565,7 @@ export type GraphQLTypes = {
   /** input type for incrementing numeric columns in table "epoches" */
   ['epochs_inc_input']: {
     circle_id?: number | undefined;
+    created_by?: number | undefined;
     days?: number | undefined;
     grant?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -37537,6 +37580,7 @@ export type GraphQLTypes = {
     circle?: GraphQLTypes['circles_obj_rel_insert_input'] | undefined;
     circle_id?: number | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
+    created_by?: number | undefined;
     days?: number | undefined;
     description?: string | undefined;
     distributions?:
@@ -37572,6 +37616,7 @@ export type GraphQLTypes = {
     __typename: 'epochs_max_fields';
     circle_id?: number | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
+    created_by?: number | undefined;
     days?: number | undefined;
     description?: string | undefined;
     end_date?: GraphQLTypes['timestamptz'] | undefined;
@@ -37591,6 +37636,7 @@ export type GraphQLTypes = {
   ['epochs_max_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    created_by?: GraphQLTypes['order_by'] | undefined;
     days?: GraphQLTypes['order_by'] | undefined;
     description?: GraphQLTypes['order_by'] | undefined;
     end_date?: GraphQLTypes['order_by'] | undefined;
@@ -37611,6 +37657,7 @@ export type GraphQLTypes = {
     __typename: 'epochs_min_fields';
     circle_id?: number | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
+    created_by?: number | undefined;
     days?: number | undefined;
     description?: string | undefined;
     end_date?: GraphQLTypes['timestamptz'] | undefined;
@@ -37630,6 +37677,7 @@ export type GraphQLTypes = {
   ['epochs_min_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    created_by?: GraphQLTypes['order_by'] | undefined;
     days?: GraphQLTypes['order_by'] | undefined;
     description?: GraphQLTypes['order_by'] | undefined;
     end_date?: GraphQLTypes['order_by'] | undefined;
@@ -37671,6 +37719,7 @@ export type GraphQLTypes = {
     circle?: GraphQLTypes['circles_order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    created_by?: GraphQLTypes['order_by'] | undefined;
     days?: GraphQLTypes['order_by'] | undefined;
     description?: GraphQLTypes['order_by'] | undefined;
     distributions_aggregate?:
@@ -37719,6 +37768,7 @@ export type GraphQLTypes = {
   ['epochs_set_input']: {
     circle_id?: number | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
+    created_by?: number | undefined;
     days?: number | undefined;
     description?: string | undefined;
     end_date?: GraphQLTypes['timestamptz'] | undefined;
@@ -37740,6 +37790,7 @@ export type GraphQLTypes = {
   ['epochs_stddev_fields']: {
     __typename: 'epochs_stddev_fields';
     circle_id?: number | undefined;
+    created_by?: number | undefined;
     days?: number | undefined;
     grant?: number | undefined;
     id?: number | undefined;
@@ -37751,6 +37802,7 @@ export type GraphQLTypes = {
   /** order by stddev() on columns of table "epoches" */
   ['epochs_stddev_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
+    created_by?: GraphQLTypes['order_by'] | undefined;
     days?: GraphQLTypes['order_by'] | undefined;
     grant?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -37763,6 +37815,7 @@ export type GraphQLTypes = {
   ['epochs_stddev_pop_fields']: {
     __typename: 'epochs_stddev_pop_fields';
     circle_id?: number | undefined;
+    created_by?: number | undefined;
     days?: number | undefined;
     grant?: number | undefined;
     id?: number | undefined;
@@ -37774,6 +37827,7 @@ export type GraphQLTypes = {
   /** order by stddev_pop() on columns of table "epoches" */
   ['epochs_stddev_pop_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
+    created_by?: GraphQLTypes['order_by'] | undefined;
     days?: GraphQLTypes['order_by'] | undefined;
     grant?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -37786,6 +37840,7 @@ export type GraphQLTypes = {
   ['epochs_stddev_samp_fields']: {
     __typename: 'epochs_stddev_samp_fields';
     circle_id?: number | undefined;
+    created_by?: number | undefined;
     days?: number | undefined;
     grant?: number | undefined;
     id?: number | undefined;
@@ -37797,6 +37852,7 @@ export type GraphQLTypes = {
   /** order by stddev_samp() on columns of table "epoches" */
   ['epochs_stddev_samp_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
+    created_by?: GraphQLTypes['order_by'] | undefined;
     days?: GraphQLTypes['order_by'] | undefined;
     grant?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -37816,6 +37872,7 @@ export type GraphQLTypes = {
   ['epochs_stream_cursor_value_input']: {
     circle_id?: number | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
+    created_by?: number | undefined;
     days?: number | undefined;
     description?: string | undefined;
     end_date?: GraphQLTypes['timestamptz'] | undefined;
@@ -37837,6 +37894,7 @@ export type GraphQLTypes = {
   ['epochs_sum_fields']: {
     __typename: 'epochs_sum_fields';
     circle_id?: number | undefined;
+    created_by?: number | undefined;
     days?: number | undefined;
     grant?: GraphQLTypes['numeric'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -37848,6 +37906,7 @@ export type GraphQLTypes = {
   /** order by sum() on columns of table "epoches" */
   ['epochs_sum_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
+    created_by?: GraphQLTypes['order_by'] | undefined;
     days?: GraphQLTypes['order_by'] | undefined;
     grant?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -37880,6 +37939,7 @@ export type GraphQLTypes = {
   ['epochs_var_pop_fields']: {
     __typename: 'epochs_var_pop_fields';
     circle_id?: number | undefined;
+    created_by?: number | undefined;
     days?: number | undefined;
     grant?: number | undefined;
     id?: number | undefined;
@@ -37891,6 +37951,7 @@ export type GraphQLTypes = {
   /** order by var_pop() on columns of table "epoches" */
   ['epochs_var_pop_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
+    created_by?: GraphQLTypes['order_by'] | undefined;
     days?: GraphQLTypes['order_by'] | undefined;
     grant?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -37903,6 +37964,7 @@ export type GraphQLTypes = {
   ['epochs_var_samp_fields']: {
     __typename: 'epochs_var_samp_fields';
     circle_id?: number | undefined;
+    created_by?: number | undefined;
     days?: number | undefined;
     grant?: number | undefined;
     id?: number | undefined;
@@ -37914,6 +37976,7 @@ export type GraphQLTypes = {
   /** order by var_samp() on columns of table "epoches" */
   ['epochs_var_samp_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
+    created_by?: GraphQLTypes['order_by'] | undefined;
     days?: GraphQLTypes['order_by'] | undefined;
     grant?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -37926,6 +37989,7 @@ export type GraphQLTypes = {
   ['epochs_variance_fields']: {
     __typename: 'epochs_variance_fields';
     circle_id?: number | undefined;
+    created_by?: number | undefined;
     days?: number | undefined;
     grant?: number | undefined;
     id?: number | undefined;
@@ -37937,6 +38001,7 @@ export type GraphQLTypes = {
   /** order by variance() on columns of table "epoches" */
   ['epochs_variance_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
+    created_by?: GraphQLTypes['order_by'] | undefined;
     days?: GraphQLTypes['order_by'] | undefined;
     grant?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -47112,6 +47177,7 @@ export const enum epochs_constraint {
 export const enum epochs_select_column {
   circle_id = 'circle_id',
   created_at = 'created_at',
+  created_by = 'created_by',
   days = 'days',
   description = 'description',
   end_date = 'end_date',
@@ -47141,6 +47207,7 @@ export const enum epochs_select_column_epochs_aggregate_bool_exp_bool_or_argumen
 export const enum epochs_update_column {
   circle_id = 'circle_id',
   created_at = 'created_at',
+  created_by = 'created_by',
   days = 'days',
   description = 'description',
   end_date = 'end_date',

@@ -91,6 +91,7 @@ const EpochInputSchema = z.object({
 async function handler(request: VercelRequest, response: VercelResponse) {
   const {
     input: { payload: input },
+    session_variables: { hasuraProfileId: creatorProfileId },
   } = composeHasuraActionRequestBodyWithSession(
     EpochInputSchema,
     HasuraUserSessionVariables
@@ -128,7 +129,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     return;
   }
 
-  insertNewEpoch(response, input);
+  insertNewEpoch(response, input, creatorProfileId);
 }
 
 export function validateMonthlyInput(
@@ -216,7 +217,8 @@ async function insertNewEpoch(
     circle_id,
     grant,
     params: { start_date, end_date, ...repeatData },
-  }: z.infer<typeof EpochInputSchema>
+  }: z.infer<typeof EpochInputSchema>,
+  creatorProfileId: number
 ) {
   const { insert_epochs_one } = await adminClient.mutate(
     {
@@ -228,6 +230,7 @@ async function insertNewEpoch(
             start_date: start_date.toISO(),
             end_date: end_date.toISO(),
             repeat_data: repeatData.type !== 'one-off' ? repeatData : undefined,
+            created_by: creatorProfileId,
           },
         },
         {
