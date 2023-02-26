@@ -15,8 +15,10 @@ const animloader = keyframes({
 export const LoadingIndicator = ({
   size,
   text,
+  note,
 }: {
   size?: number;
+  note?: string;
   text?: string;
 }) => {
   if (!size) {
@@ -30,8 +32,8 @@ export const LoadingIndicator = ({
         userSelect: `none`,
         textAlign: 'center',
       }}
-      data-note={`loading-${text || ''}`}
-      data-testid={`loading-${text || ''}`}
+      data-note={`loading-${note || ''}`}
+      data-testid={`loading-${note || ''}`}
       role="progressbar"
     >
       <Box

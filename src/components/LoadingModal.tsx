@@ -10,11 +10,11 @@ export const LoadingModal = (props: {
   text?: string;
   note?: string;
 }) => {
-  const { onClose, text, visible } = props;
+  const { onClose, note, text, visible } = props;
 
   return (
     <Modal loader open={visible} onOpenChange={onClose}>
-      <LoadingIndicator text={text} size={loadingSize} />
+      <LoadingIndicator text={text} note={note} size={loadingSize} />
     </Modal>
   );
 };
