@@ -20,6 +20,7 @@ export const EpochCreatedRow = ({ activity }: { activity: EpochCreated }) => {
         <Flex>
           <Text inline color="cta" size="small">
             New Epoch {activity.epoch.number} Created
+            {activity.actor_profile && ' by ' + activity.actor_profile.name}
           </Text>
           <Text inline size="small" css={{ ml: '$xs', color: '$neutral' }}>
             {DateTime.fromISO(activity.created_at).toRelative()}
