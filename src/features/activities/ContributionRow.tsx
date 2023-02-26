@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 
-import { Avatar, Flex, Text } from '../../ui';
+import { Avatar, Flex, MarkdownPreview, Text } from '../../ui';
 
 import { Contribution } from './getActivities';
 
@@ -23,7 +23,7 @@ export const ContributionRow = ({ activity }: { activity: Contribution }) => {
           </Text>
         </Flex>
 
-        <Text>{activity.contribution.description}</Text>
+        <MarkdownPreview render source={activity.contribution.description} />
       </Flex>
     </Flex>
   );

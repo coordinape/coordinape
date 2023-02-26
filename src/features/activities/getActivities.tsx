@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 import { Awaited } from '../../types/shim';

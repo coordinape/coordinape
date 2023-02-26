@@ -18,5 +18,6 @@ export const ActivityRow = ({ activity }: { activity: Activity }) => {
   } else if (IsEpochCreated(activity)) {
     return <EpochCreatedRow activity={activity} />;
   }
+  // TODO: send these to Sentry when this goes into production
   return <Text>Unknown activity: {activity.action}</Text>;
 };
