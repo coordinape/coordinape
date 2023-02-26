@@ -1,8 +1,10 @@
+import { isFeatureEnabled } from '../../config/features';
 import {
   Circle2,
   Edit2,
   Epoch,
   Give,
+  List,
   Member,
   Settings,
 } from '../../icons/__generated';
@@ -40,6 +42,13 @@ export const NavCurrentCircle = ({ circle }: { circle: NavCircle }) => {
         to={paths.history(circle.id)}
         icon={<Epoch nostroke />}
       />
+      {isFeatureEnabled('activity') && (
+        <NavItem
+          label={'Activity'}
+          to={paths.activity(circle.id)}
+          icon={<List />}
+        />
+      )}
       <NavItem
         label={'Contributions'}
         to={paths.contributions(circle.id)}
