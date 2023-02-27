@@ -5,6 +5,7 @@ import dedent from 'dedent';
 import { DateTime, Duration, Settings } from 'luxon';
 import { z } from 'zod';
 
+import { insertActivity } from '../../../api-lib/event_triggers/activity/mutations';
 import { ValueTypes } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { getOverlappingEpoch } from '../../../api-lib/gql/queries';
@@ -29,6 +30,12 @@ export const zEpochRepeatData = z.discriminatedUnion('type', [
 export type RepeatData = z.infer<typeof zEpochRepeatData>;
 
 export type EpochsToNotify = Awaited<ReturnType<typeof getEpochsToNotify>>;
+
+type StartEpoch = Pick<
+  EpochsToNotify,
+  'notifyStartEpochs'
+>['notifyStartEpochs'][0];
+type EndEpoch = Pick<EpochsToNotify, 'endEpoch'>['endEpoch'][0];
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const epochResult = await getEpochsToNotify();
@@ -68,7 +75,7 @@ async function getEpochsToNotify() {
                 name: true,
                 telegram_id: true,
                 discord_webhook: true,
-                organization: { name: true },
+                organization: { id: true, name: true },
                 users_aggregate: [
                   {
                     where: {
@@ -112,7 +119,7 @@ async function getEpochsToNotify() {
                 telegram_id: true,
                 token_name: true,
                 discord_webhook: true,
-                organization: { name: true },
+                organization: { id: true, name: true },
                 users: [
                   {
                     where: {
@@ -156,7 +163,7 @@ async function getEpochsToNotify() {
                 auto_opt_out: true,
                 telegram_id: true,
                 discord_webhook: true,
-                organization: { name: true, telegram_id: true },
+                organization: { id: true, name: true, telegram_id: true },
                 users: [
                   {
                     where: {
@@ -289,6 +296,9 @@ export async function notifyEpochStart({
         epoch,
         updateEpochStartNotification
       );
+
+    await insertEpochStartActivity(epoch);
+    updateEpochStartNotification(epoch.id);
   });
 
   const results = await Promise.allSettled(sendNotifications);
@@ -522,6 +532,8 @@ export async function endEpochHandler(
 
   if (circle.organization?.telegram_id)
     await notifyEpochStatus(message, { telegram: true }, epoch, true);
+
+  await insertEpochEndActivity(epoch);
 
   // set up another repeating epoch if configured
   const { start_date, end_date, repeat_data } = epoch;
@@ -863,7 +875,7 @@ async function notifyEpochStatus(
     // throwing here creates a promise rejection
     if (e instanceof Error)
       errorLog(
-        `Error sending telegram notification for epoch id ${epochId}: ${e.message}`
+        `Error sending telegram/discord notification for epoch id ${epochId}: ${e.message}`
       );
     return false;
   }
@@ -920,6 +932,26 @@ async function setNextEpochNumber({
     if (e instanceof Error)
       throw `Error setting next number for epoch id ${epochId}: ${e.message}`;
   }
+}
+
+async function insertEpochStartActivity(epoch: StartEpoch) {
+  await insertActivity({
+    epoch_id: epoch.id,
+    action: 'epoches_started',
+    circle_id: epoch.circle_id,
+    created_at: epoch.start_date,
+    organization_id: epoch.circle?.organization.id,
+  });
+}
+
+async function insertEpochEndActivity(epoch: EndEpoch) {
+  await insertActivity({
+    epoch_id: epoch.id,
+    action: 'epoches_ended',
+    circle_id: epoch.circle_id,
+    created_at: epoch.end_date,
+    organization_id: epoch.circle?.organization.id,
+  });
 }
 
 export default verifyHasuraRequestMiddleware(handler);

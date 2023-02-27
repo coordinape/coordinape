@@ -88,7 +88,7 @@ async function getExistingEpoch({
             auto_opt_out: true,
             telegram_id: true,
             discord_webhook: true,
-            organization: { name: true, telegram_id: true },
+            organization: { id: true, name: true, telegram_id: true },
             users: [
               {
                 where: {
