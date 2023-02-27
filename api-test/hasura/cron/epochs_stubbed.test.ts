@@ -1,6 +1,7 @@
 import faker from 'faker';
 import { DateTime, Interval } from 'luxon';
 
+import { insertActivity } from '../../../api-lib/event_triggers/activity/mutations';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { sendSocialMessage } from '../../../api-lib/sendSocialMessage';
 import {
@@ -18,6 +19,10 @@ jest.mock('../../../api-lib/gql/adminClient', () => ({
 
 jest.mock('../../../api-lib/sendSocialMessage', () => ({
   sendSocialMessage: jest.fn(),
+}));
+
+jest.mock('../../../api-lib/event_triggers/activity/mutations', () => ({
+  insertActivity: jest.fn(),
 }));
 
 const mockSendSocial = sendSocialMessage as jest.MockedFunction<
@@ -44,6 +49,7 @@ const mockCircle = {
     token_name: 'GIVE',
     name: 'mockCircle',
     organization: {
+      id: 78,
       name: 'mock Org',
     },
   },
@@ -62,7 +68,7 @@ const mockCircle = {
     id: 1,
     auto_opt_out: true,
     name: 'circle with epoch that has ended',
-    organization: { name: 'mock org' },
+    organization: { id: 47, name: 'mock org' },
     token_name: 'GIVE',
     users: Array(7)
       .fill(null)
@@ -287,6 +293,7 @@ describe('epoch Cron Logic', () => {
   beforeEach(() => {
     mockSendSocial.mockReset();
     mockMutation.mockReset();
+    insertActivity.mockReset();
   });
 
   describe('endEpoch', () => {
@@ -687,6 +694,14 @@ describe('epoch Cron Logic', () => {
         }
       );
       expect(mockMutation).toBeCalledTimes(5);
+      expect(insertActivity).toBeCalledWith({
+        action: 'epoches_ended',
+        circle_id: 1,
+        created_at: mockEpoch.endEpoch.end_date,
+        epoch_id: 9,
+        organization_id: 47,
+      });
+      expect(insertActivity).toBeCalledTimes(1);
       expect(mockSendSocial).toBeCalledWith({
         channels: { telegram: true },
         circleId: 1,
@@ -869,7 +884,14 @@ describe('epoch Cron Logic', () => {
       });
       const result = await notifyEpochStart(input);
       expect(result).toEqual([]);
-      expect(mockMutation).toBeCalledTimes(3);
+      expect(insertActivity).toBeCalledWith({
+        action: 'epoches_started',
+        circle_id: 5,
+        created_at: mockEpoch.notifyStartEpochs.start_date,
+        epoch_id: 9,
+        organization_id: 78,
+      });
+      expect(insertActivity).toBeCalledTimes(1);
       expect(mockMutation).toBeCalledWith(
         {
           update_epochs_by_pk: [
@@ -882,6 +904,7 @@ describe('epoch Cron Logic', () => {
         },
         { operationName: 'updateEpochStartNotification' }
       );
+      expect(mockMutation).toBeCalledTimes(3);
       expect(mockSendSocial).toBeCalledTimes(3);
       expect(mockSendSocial).toBeCalledWith({
         channels: {
@@ -937,7 +960,7 @@ describe('epoch Cron Logic', () => {
       const result = await notifyEpochStart(input);
       expect(result).toEqual([]);
       expect(spy).toBeCalledWith(
-        'Error sending telegram notification for epoch id 9: derp'
+        'Error sending telegram/discord notification for epoch id 9: derp'
       );
     });
 

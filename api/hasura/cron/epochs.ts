@@ -34,8 +34,8 @@ export type EpochsToNotify = Awaited<ReturnType<typeof getEpochsToNotify>>;
 type StartEpoch = Pick<
   EpochsToNotify,
   'notifyStartEpochs'
->['notifyStartEpochs'][0];
-type EndEpoch = Pick<EpochsToNotify, 'endEpoch'>['endEpoch'][0];
+>['notifyStartEpochs'][number];
+type EndEpoch = Pick<EpochsToNotify, 'endEpoch'>['endEpoch'][number];
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const epochResult = await getEpochsToNotify();
@@ -277,7 +277,6 @@ export async function notifyEpochStart({
         },
         sanitize: false,
       });
-      updateEpochStartNotification(epoch.id);
     }
 
     if (circle.discord_webhook) {
