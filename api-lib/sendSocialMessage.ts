@@ -127,7 +127,11 @@ export async function sendSocialMessage({
 
   const { circles_by_pk: circle } = await queries.getCircle(circleId);
 
-  if (isFeatureEnabled('discord') && channels?.isDiscordBot) {
+  if (
+    isFeatureEnabled('discord') &&
+    channels?.isDiscordBot &&
+    channels.discordBot
+  ) {
     const { type } = channels.discordBot || {};
     const res = await fetch(
       `https://coordinape-discord-bot.herokuapp.com/api/epoch/${type}`,
