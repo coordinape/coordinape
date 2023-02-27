@@ -38,7 +38,8 @@ function getChannels(props: GetChannelsProps): Channels<DiscordOptsOut> {
     roleId &&
     alerts?.['user-opts-out']
   ) {
-    const user = profiles[0].user;
+    const discordId = profiles[0].user?.user_snowflake;
+    const profileName = profiles[0].name;
 
     return {
       isDiscordBot: true,
@@ -46,8 +47,9 @@ function getChannels(props: GetChannelsProps): Channels<DiscordOptsOut> {
         type: 'user-opts-out' as const,
         channelId,
         roleId,
-        discordId: user?.user_snowflake,
+        discordId,
         address: data.new.address,
+        profileName,
         tokenName: circle?.token_name || 'GIVE',
         circleName: circle?.name ?? 'Unknown',
         refunds: refunds ?? [],

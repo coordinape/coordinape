@@ -36,7 +36,8 @@ function getChannels(
     roleId &&
     alerts?.['user-added']
   ) {
-    const user = profiles[0].user;
+    const discordId = profiles[0].user?.user_snowflake;
+    const profileName = profiles[0].name;
 
     return {
       isDiscordBot: true,
@@ -44,8 +45,9 @@ function getChannels(
         type: 'user-added',
         channelId,
         roleId,
-        discordId: user?.user_snowflake,
+        discordId,
         address: data.new.address,
+        profileName,
         circleName: circle?.name ?? 'Unknown',
       },
     };
