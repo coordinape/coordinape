@@ -29679,7 +29679,7 @@ export type ModelTypes = {
     github_username?: string | undefined;
     id: GraphQLTypes['bigint'];
     medium_username?: string | undefined;
-    name?: GraphQLTypes['citext'] | undefined;
+    name: GraphQLTypes['citext'];
     /** An array relationship */
     nominees: Array<GraphQLTypes['nominees']>;
     /** An aggregate relationship */
@@ -42939,7 +42939,7 @@ export type GraphQLTypes = {
     github_username?: string | undefined;
     id: GraphQLTypes['bigint'];
     medium_username?: string | undefined;
-    name?: GraphQLTypes['citext'] | undefined;
+    name: GraphQLTypes['citext'];
     /** An array relationship */
     nominees: Array<GraphQLTypes['nominees']>;
     /** An aggregate relationship */

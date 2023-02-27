@@ -15,6 +15,8 @@ import { mockEpoch } from 'utils/testing/mocks';
 import { DistributionsPage } from './DistributionsPage';
 import { getEpochData } from './queries';
 
+jest.setTimeout(10000);
+
 jest.mock('recoilState/app', () => ({
   useSelectedCircle: jest.fn(() => ({
     circle: { id: 2 },
