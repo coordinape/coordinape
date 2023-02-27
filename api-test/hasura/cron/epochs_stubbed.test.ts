@@ -9,7 +9,6 @@ import {
   notifyEpochEnd,
   EpochsToNotify,
   endEpoch,
-  makeNextStartDate,
   calculateNextEpoch,
 } from '../../../api/hasura/cron/epochs';
 
@@ -156,11 +155,6 @@ function getCircle<T extends keyof EpochsToNotify>(
 }
 
 describe('next start date generation', () => {
-  test('makeNextStartDate', () => {
-    const d1 = DateTime.fromISO('2022-12-02');
-    const n1 = makeNextStartDate(d1, 2, 7);
-    expect(n1.toISODate()).toEqual('2023-01-07');
-  });
   describe('calculateNextEpoch', () => {
     test('calculates epoch correctly', () => {
       const start = DateTime.utc(2023, 2);
