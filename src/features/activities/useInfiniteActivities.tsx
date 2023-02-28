@@ -1,17 +1,19 @@
-import { order_by } from '../../lib/gql/__generated__/zeus';
+import { QueryKey, useInfiniteQuery } from 'react-query';
+
+import { order_by, ValueTypes } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 import { Awaited } from '../../types/shim';
 
 const PAGE_SIZE = 10;
 
-export const getActivities = async (circleId: number, page: number) => {
+export type Where = ValueTypes['activities_bool_exp'];
+
+const getActivities = async (where: Where, page: number) => {
   const { activities } = await client.query(
     {
       activities: [
         {
-          where: {
-            circle_id: { _eq: circleId },
-          },
+          where,
           order_by: [
             {
               id: order_by.desc,
@@ -50,6 +52,19 @@ export const getActivities = async (circleId: number, page: number) => {
   );
 
   return activities;
+};
+
+export const useInfiniteActivities = (queryKey: QueryKey, where: Where) => {
+  return useInfiniteQuery(
+    queryKey,
+    ({ pageParam = 0 }) => getActivities(where, pageParam),
+    {
+      getNextPageParam: (lastPage, allPages) => {
+        return lastPage.length == 0 ? undefined : allPages.length + 1;
+      },
+      refetchOnWindowFocus: false,
+    }
+  );
 };
 
 export type Activity = Awaited<ReturnType<typeof getActivities>>[number];

@@ -3,7 +3,7 @@ import { DateTime } from 'luxon';
 import { Epoch } from '../../icons/__generated';
 import { Flex, Text } from '../../ui';
 
-import { EpochCreated } from './getActivities';
+import { EpochCreated } from './useInfiniteActivities';
 
 export const EpochCreatedRow = ({ activity }: { activity: EpochCreated }) => {
   return (

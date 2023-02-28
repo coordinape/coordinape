@@ -3,7 +3,7 @@ import { DateTime } from 'luxon';
 import { Plus } from '../../icons/__generated';
 import { Avatar, Box, Flex, Text } from '../../ui';
 
-import { NewUser } from './getActivities';
+import { NewUser } from './useInfiniteActivities';
 
 export const NewUserRow = ({ activity }: { activity: NewUser }) => {
   return (

@@ -2,7 +2,7 @@ import { DateTime } from 'luxon';
 
 import { Avatar, Flex, MarkdownPreview, Text } from '../../ui';
 
-import { Contribution } from './getActivities';
+import { Contribution } from './useInfiniteActivities';
 
 export const ContributionRow = ({ activity }: { activity: Contribution }) => {
   return (
