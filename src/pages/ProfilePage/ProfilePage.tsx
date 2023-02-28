@@ -5,15 +5,18 @@ import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
 import { colors } from 'stitches.config';
 
+import { isFeatureEnabled } from '../../config/features';
+import { ActivityList } from '../../features/activities/ActivityList';
+import { RecentActivityTitle } from '../../features/activities/RecentActivityTitle';
 import {
-  ProfileSocialIcons,
-  ProfileSkills,
   FormFileUpload,
+  ProfileSkills,
+  ProfileSocialIcons,
   scrollToTop,
 } from 'components';
 import { EditProfileModal } from 'components/EditProfileModal';
 import { USER_ROLE_COORDINAPE } from 'config/constants';
-import { useImageUploader, useApiWithProfile, useToast } from 'hooks';
+import { useApiWithProfile, useImageUploader, useToast } from 'hooks';
 import { useSomeCircleId } from 'hooks/migration';
 import { Edit3 } from 'icons/__generated';
 import { useMyProfile, useProfile } from 'recoilState/app';
@@ -288,6 +291,15 @@ const ProfilePageContent = ({
               )}
             </Section>
             {/* <Section title="Frequent Collaborators">TODO.</Section> */}
+          </Box>
+        )}
+        {isFeatureEnabled('activity') && (
+          <Box>
+            <RecentActivityTitle />
+            <ActivityList
+              queryKey={['profile-activities', profile.id]}
+              where={{ target_profile_id: { _eq: profile.id } }}
+            />
           </Box>
         )}
       </SingleColumnLayout>

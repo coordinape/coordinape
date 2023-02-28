@@ -1,9 +1,14 @@
+import React from 'react';
+
 import { isUserAdmin } from 'lib/users';
 import sortBy from 'lodash/sortBy';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
 import { NavLink, useParams } from 'react-router-dom';
 
+import { isFeatureEnabled } from '../../config/features';
+import { ActivityList } from '../activities/ActivityList';
+import { RecentActivityTitle } from '../activities/RecentActivityTitle';
 import { LoadingModal } from 'components';
 import { scrollToTop } from 'components/MainLayout/MainLayout';
 import useConnectedAddress from 'hooks/useConnectedAddress';
@@ -86,6 +91,15 @@ export const OrgPage = () => {
             />
           ))}
         </Box>
+        {isFeatureEnabled('activity') && (
+          <Box css={{ mt: '$lg' }}>
+            <RecentActivityTitle />
+            <ActivityList
+              queryKey={['org-activities', org.id]}
+              where={{ organization_id: { _eq: org.id } }}
+            />
+          </Box>
+        )}
       </Box>
     </SingleColumnLayout>
   );

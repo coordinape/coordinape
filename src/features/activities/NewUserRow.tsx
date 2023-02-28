@@ -1,19 +1,19 @@
 import { DateTime } from 'luxon';
+import { NavLink } from 'react-router-dom';
 
 import { Plus } from '../../icons/__generated';
-import { Avatar, Box, Flex, Text } from '../../ui';
+import { paths } from '../../routes/paths';
+import { Box, Flex, Text } from '../../ui';
 
+import { ActivityAvatar } from './ActivityAvatar';
+import { ActivityProfileName } from './ActivityProfileName';
 import { NewUser } from './useInfiniteActivities';
 
 export const NewUserRow = ({ activity }: { activity: NewUser }) => {
   return (
     <Flex alignItems="center">
       <Box css={{ position: 'relative' }}>
-        <Avatar
-          css={{ flexShrink: 0 }}
-          name={activity.target_profile.name}
-          path={activity.target_profile.avatar}
-        />
+        <ActivityAvatar profile={activity.target_profile} />
         <Box
           css={{
             position: 'absolute',
@@ -29,13 +29,22 @@ export const NewUserRow = ({ activity }: { activity: NewUser }) => {
         </Box>
       </Box>
       <Flex column css={{ flexGrow: 1, ml: '$md' }}>
-        <Flex css={{ gap: '$sm' }}>
-          <Text variant="label">{activity.target_profile.name}</Text>
-        </Flex>
+        <ActivityProfileName profile={activity.target_profile} />
 
         <Flex>
           <Text inline color="cta" size="small">
-            Added to Circle
+            Added to Circle{' '}
+            <Text
+              semibold
+              inline
+              color="cta"
+              size="small"
+              as={NavLink}
+              to={paths.history(activity.circle.id)}
+              css={{ textDecoration: 'none' }}
+            >
+              {activity.circle.name}
+            </Text>
           </Text>
           <Text inline size="small" css={{ ml: '$xs', color: '$neutral' }}>
             {DateTime.fromISO(activity.created_at).toRelative()}
