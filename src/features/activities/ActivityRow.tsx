@@ -2,13 +2,13 @@ import { Text } from '../../ui';
 
 import { ContributionRow } from './ContributionRow';
 import { EpochCreatedRow } from './EpochCreatedRow';
+import { NewUserRow } from './NewUserRow';
 import {
   Activity,
   IsContribution,
   IsEpochCreated,
   IsNewUser,
-} from './getActivities';
-import { NewUserRow } from './NewUserRow';
+} from './useInfiniteActivities';
 
 export const ActivityRow = ({ activity }: { activity: Activity }) => {
   if (IsContribution(activity)) {
