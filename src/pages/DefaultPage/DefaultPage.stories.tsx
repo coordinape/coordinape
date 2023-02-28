@@ -19,7 +19,7 @@ const mockManifest = {
   active_epochs: [],
   circles: [],
   myUsers: [],
-  profile: { id: 1, address: '0x0' },
+  profile: { id: 1, address: '0x0', name: '0x0' },
 };
 
 const RecoilFixtures = ({ children }: { children: ReactElement }) => {

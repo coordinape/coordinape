@@ -79,7 +79,6 @@ jest.mock('./getHistoryData', () => {
               id: 4,
               tokens: 11,
               recipient: {
-                name: 'Bob',
                 profile: { avatar: 'bob.jpg', name: 'Bob' },
               },
               gift_private: { note: 'hello world' },

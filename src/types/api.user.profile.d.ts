@@ -25,7 +25,6 @@ export interface IApiUser {
   id: number;
   circle_id: number;
   address: string;
-  name: string;
   // User Circle settings
   non_giver: boolean;
   fixed_non_receiver: boolean;

@@ -57,7 +57,6 @@ export const getMembersWithContributions = async (
         {
           id: true,
           circle_id: true,
-          name: true,
           bio: true,
           non_receiver: true,
           fixed_non_receiver: true,

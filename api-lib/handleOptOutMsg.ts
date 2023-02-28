@@ -107,7 +107,7 @@ export default async function handleOptOutMsg(
           refunds: refunds
             .filter(({ tokens }) => tokens > 0)
             .map(({ sender, tokens }) => ({
-              username: sender.name,
+              username: sender.profile.name,
               give: tokens,
             })),
         }),
@@ -155,7 +155,7 @@ export default async function handleOptOutMsg(
           refunds: refunds
             .filter(({ tokens }) => tokens > 0)
             .map(({ recipient, tokens }) => ({
-              username: recipient.name,
+              username: recipient.profile.name,
               give: tokens,
             })),
         }),

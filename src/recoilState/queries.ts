@@ -32,7 +32,6 @@ export const queryProfile = async (address: string): Promise<IApiProfile> => {
             {
               id: true,
               circle_id: true,
-              name: true,
               address: true,
               non_giver: true,
               fixed_non_receiver: true,
@@ -78,7 +77,6 @@ export const queryProfile = async (address: string): Promise<IApiProfile> => {
                   teammate: {
                     id: true,
                     circle_id: true,
-                    name: true,
                     address: true,
                     non_giver: true,
                     fixed_non_receiver: true,

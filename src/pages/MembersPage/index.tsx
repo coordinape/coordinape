@@ -147,7 +147,7 @@ const MembersPage = () => {
   const filterUser = useMemo(
     () => (u: ICircleUser) => {
       const r = new RegExp(keyword, 'i');
-      return r.test(u.profile?.name ?? u.name) || r.test(u.address);
+      return r.test(u.profile?.name) || r.test(u.address);
     },
     [keyword]
   );

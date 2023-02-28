@@ -21,7 +21,6 @@ export const getCircleUsers = async (circleId: number) => {
           id: true,
           circle_id: true,
           address: true,
-          name: true,
           non_giver: true,
           fixed_non_receiver: true,
           starting_tokens: true,

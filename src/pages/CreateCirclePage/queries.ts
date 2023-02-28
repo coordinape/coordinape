@@ -15,7 +15,6 @@ export const getCreateCircleData = async (address: string) => {
           },
         },
         {
-          name: true,
           role: true,
           circle: {
             organization: {

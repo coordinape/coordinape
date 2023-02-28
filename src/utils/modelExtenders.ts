@@ -41,7 +41,6 @@ export const createFakeProfile = (u: IUser): IProfile => ({
   users: [],
 });
 export const createFakeUser = (circleId: number): IUser => ({
-  name: 'Deleted User',
   id: FAKE_ID_OFFSET - circleId,
   circle_id: circleId,
   address: FAKE_ADDRESS,

@@ -407,7 +407,7 @@ const getCircleGifts = async (
                   recipient_id: true,
                   recipient_address: true,
                   recipient: {
-                    name: true,
+                    profile: { name: true },
                   },
                   tokens: true,
                   note: true,
@@ -419,7 +419,7 @@ const getCircleGifts = async (
             {},
             {
               id: true,
-              name: true,
+              profile: { name: true },
               deleted_at: true,
               created_at: true,
             },

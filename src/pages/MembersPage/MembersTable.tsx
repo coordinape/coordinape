@@ -94,7 +94,6 @@ const makeCoordinape = (circleId: number): ICircleUser => {
     deleted_at: new Date().toString(),
     teammates: [],
     updated_at: '',
-    name: 'Coordinape',
     address: USER_COORDINAPE_ADDRESS,
     role: 2,
     non_receiver: false,
@@ -160,7 +159,7 @@ const UserName = ({ user }: { user: ICircleUser }) => {
     >
       <Avatar
         path={user?.profile?.avatar}
-        name={user?.name}
+        name={user?.profile?.name}
         size="small"
         onClick={getToProfile(user.address)}
         css={{ mr: '$sm' }}
@@ -174,7 +173,7 @@ const UserName = ({ user }: { user: ICircleUser }) => {
           minWidth: 0,
         }}
       >
-        {user.profile?.name ?? user.name}{' '}
+        {user.profile?.name}{' '}
         {user.role === USER_ROLE_COORDINAPE ? (
           <Tooltip content={coordinapeTooltipContent()}>
             <Info size="sm" />
@@ -477,7 +476,7 @@ const MemberRow = ({
                 }}
                 onClick={() => {
                   setLeaveCircleDialog({
-                    name: user.profile?.name ?? user.name,
+                    name: user.profile?.name,
                     address: user.address,
                   });
                 }}
@@ -493,7 +492,7 @@ const MemberRow = ({
           <TD colSpan={isMobile ? 6 : 9}>
             <Form>
               <Text large semibold css={{ my: '$md' }}>
-                {user.name} Member Settings
+                {user.profile.name} Member Settings
               </Text>
               <Flex
                 alignItems="center"
@@ -508,7 +507,7 @@ const MemberRow = ({
                     id="name"
                     name="name"
                     control={control}
-                    defaultValue={user.profile?.name ?? user.name}
+                    defaultValue={user.profile?.name}
                     label="Member Name"
                     infoTooltip="Member Displayed Name"
                     showFieldErrors
@@ -552,11 +551,11 @@ const MemberRow = ({
                   onClick={() => {
                     user.id === me.id
                       ? setLeaveCircleDialog({
-                          name: user.profile?.name ?? user.name,
+                          name: user.profile?.name,
                           address: user.address,
                         })
                       : setDeleteUserDialog({
-                          name: user.profile?.name ?? user.name,
+                          name: user.profile?.name,
                           address: user.address,
                         });
                   }}
@@ -931,10 +930,7 @@ export const MembersTable = ({
         perPage={perPage}
         sortByColumn={(index: number) => {
           if (index === 0)
-            return (u: ICircleUser) =>
-              u.profile?.name
-                ? u.profile.name.toLowerCase()
-                : u.name.toLowerCase();
+            return (u: ICircleUser) => u.profile.name.toLowerCase();
           if (index === 1) return (u: ICircleUser) => u.address.toLowerCase();
           if (index === 2) return (u: ICircleUser) => u.non_giver;
           if (index === 3) return (u: ICircleUser) => u.non_receiver;
@@ -948,10 +944,7 @@ export const MembersTable = ({
               !!u.fixed_non_receiver || !!u.non_receiver
                 ? -1
                 : u.give_token_received;
-          return (u: ICircleUser) =>
-            u.profile?.name
-              ? u.profile.name.toLowerCase()
-              : u.name.toLowerCase();
+          return (u: ICircleUser) => u.profile.name.toLowerCase();
         }}
       >
         {member => (
