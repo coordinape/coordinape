@@ -29,10 +29,16 @@ const getActivities = async (where: Where, page: number) => {
           actor_profile: {
             name: true,
             avatar: true,
+            address: true,
+          },
+          circle: {
+            id: true,
+            name: true,
           },
           target_profile: {
             name: true,
             avatar: true,
+            address: true,
           },
           contribution: {
             description: true,
@@ -77,9 +83,11 @@ export function IsContribution(a: Activity): a is Contribution {
   );
 }
 
-export type NewUser = Activity & Required<Pick<Activity, 'target_profile'>>;
+export type NewUser = Activity &
+  Required<Pick<Activity, 'target_profile' | 'circle'>>;
+
 export function IsNewUser(a: Activity): a is NewUser {
-  return a.action == 'users_insert' && !!a.target_profile;
+  return a.action == 'users_insert' && !!a.target_profile && !!a.circle;
 }
 
 export type EpochCreated = Activity & Required<Pick<Activity, 'epoch'>>;
