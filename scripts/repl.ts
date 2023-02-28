@@ -15,12 +15,12 @@ import fp from 'lodash/fp';
 import { adminClient as client } from '../api-lib/gql/adminClient';
 
 // uncomment and change this to import your own repl code
-// import { init as initNameRepair } from './repl/name_repair';
+import { init as initOrgMembership } from './repl/org_membership';
 
 const init = async () => {
   return {
     // add your init code here
-    // ...(await initNameRepair()),
+    ...(await initOrgMembership()),
   };
 };
 
