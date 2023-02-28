@@ -21,7 +21,7 @@ if (SENTRY_DSN) {
     tracesSampleRate: 0.1,
     normalizeDepth: 50,
     ignoreErrors: [
-      'Error sending telegram notification',
+      'Error sending telegram/discord notification',
       'Discord Daily Update error for circle',
     ],
   });

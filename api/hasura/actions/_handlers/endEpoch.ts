@@ -51,7 +51,10 @@ async function handler(request: VercelRequest, response: VercelResponse) {
       operationName: 'endEpoch_updateEpoch',
     }
   );
-  await endEpochHandler(endingEpoch);
+
+  // Refetch endingEpoch after update, since the end_data is no longer accurate
+  const updatedEndingEpoch = await getExistingEpoch(input);
+  await endEpochHandler(updatedEndingEpoch);
   return response.status(200).json(endedEpoch);
 }
 
@@ -88,7 +91,7 @@ async function getExistingEpoch({
             auto_opt_out: true,
             telegram_id: true,
             discord_webhook: true,
-            organization: { name: true, telegram_id: true },
+            organization: { id: true, name: true, telegram_id: true },
             users: [
               {
                 where: {

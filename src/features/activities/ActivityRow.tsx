@@ -2,11 +2,15 @@ import { Text } from '../../ui';
 
 import { ContributionRow } from './ContributionRow';
 import { EpochCreatedRow } from './EpochCreatedRow';
+import { EpochEndedRow } from './EpochEndedRow';
+import { EpochStartedRow } from './EpochStartedRow';
 import { NewUserRow } from './NewUserRow';
 import {
   Activity,
   IsContribution,
   IsEpochCreated,
+  IsEpochEnded,
+  IsEpochStarted,
   IsNewUser,
 } from './useInfiniteActivities';
 
@@ -17,6 +21,10 @@ export const ActivityRow = ({ activity }: { activity: Activity }) => {
     return <NewUserRow activity={activity} />;
   } else if (IsEpochCreated(activity)) {
     return <EpochCreatedRow activity={activity} />;
+  } else if (IsEpochStarted(activity)) {
+    return <EpochStartedRow activity={activity} />;
+  } else if (IsEpochEnded(activity)) {
+    return <EpochEndedRow activity={activity} />;
   }
   // TODO: send these to Sentry when this goes into production
   return <Text>Unknown activity: {activity.action}</Text>;
