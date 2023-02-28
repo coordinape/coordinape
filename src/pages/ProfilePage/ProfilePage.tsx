@@ -298,7 +298,13 @@ const ProfilePageContent = ({
             <RecentActivityTitle />
             <ActivityList
               queryKey={['profile-activities', profile.id]}
-              where={{ target_profile_id: { _eq: profile.id } }}
+              where={{
+                _or: [
+                  { target_profile_id: { _eq: profile.id } },
+                  { actor_profile_id: { _eq: profile.id } },
+                ],
+              }}
+
             />
           </Box>
         )}
