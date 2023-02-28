@@ -309,8 +309,8 @@ export const updateCircleInput = z
       .transform(s => (s === 'Disabled' ? null : s))
       .optional(),
     fixed_payment_vault_id: z.number().positive().nullable().optional(),
-    guild_id: z.number().nullable(),
-    guild_role_id: z.number().nullable(),
+    guild_id: z.number().nullable().optional(),
+    guild_role_id: z.number().nullable().optional(),
   })
   .strict();
 
