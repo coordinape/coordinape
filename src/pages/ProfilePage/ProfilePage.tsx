@@ -63,9 +63,7 @@ const ProfilePageContent = ({
   const name =
     profile.name ||
     user?.profile?.name ||
-    user?.name ||
     users?.[0]?.profile?.name ||
-    users?.[0]?.name ||
     'unknown';
 
   const [editProfileOpen, setEditProfileOpen] = useState(false);

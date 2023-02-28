@@ -15,6 +15,10 @@ export async function createProfile(
       address: faker.finance.ethereumAddress(),
       name: `${faker.name.firstName()} ${faker.datatype.number(10000)}`,
     };
+  } else {
+    if (!object.name) {
+      object.name = `${faker.name.firstName()} ${faker.datatype.number(10000)}`;
+    }
   }
   const { insert_profiles_one: profile } = await client.mutate(
     {

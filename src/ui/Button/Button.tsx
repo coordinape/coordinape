@@ -162,7 +162,7 @@ export const Button = styled('button', {
         borderRadius: '$4',
       },
       medium: {
-        minHeight: '$1xl',
+        minHeight: '$xl',
         padding: '$sm calc($sm + $xs)',
         fontSize: '$medium',
         fontWeight: '$medium',

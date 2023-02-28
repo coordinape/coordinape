@@ -198,14 +198,14 @@ export const rMapGraphData = selector<GraphData>({
           const img =
             getAvatarPath(profile?.avatar || user?.profile?.avatar) ||
             `https://ui-avatars.com/api/?name=${encodeURIComponent(
-              user.profile?.name ?? user.name
+              user.profile?.name ?? ''
             )}`;
 
           return {
             id: address,
             img,
             profile,
-            name: user.profile?.name ?? user.name,
+            name: user.profile?.name ?? '',
             epochId: epoch.id,
             userId: user.id,
           };
@@ -327,8 +327,6 @@ export const rMapNodeSearchStrings = selector<Map<string, string>>({
           (user?.bio ?? '') +
           ' ' +
           profile.skills?.join(' ') +
-          ' ' +
-          (user?.name ?? '') +
           ' ' +
           (user?.profile?.name ?? '')
         );

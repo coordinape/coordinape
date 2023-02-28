@@ -11,25 +11,6 @@ export const Text = styled('span', {
   textAlign: 'left',
 
   variants: {
-    color: {
-      default: { color: '$text' },
-      heading: { color: '$headingText' },
-      neutral: { color: '$neutral' },
-      alert: { color: '$alert' },
-      warning: { color: '$warning' },
-      primary: { color: '$primary' },
-      cta: { color: '$cta' },
-      secondary: { color: '$secondaryText' },
-      active: { color: '$tagActiveText' },
-      complete: { color: '$complete' },
-      inherit: { color: 'inherit' },
-    },
-    bold: { true: { fontWeight: '$bold !important' } },
-    normal: { true: { fontWeight: '$normal !important' } },
-    medium: { true: { fontWeight: '$medium !important' } },
-    semibold: { true: { fontWeight: '$semibold !important' } },
-    inline: { true: { display: 'inline !important' } },
-
     h1: {
       true: {
         fontSize: '$h1',
@@ -114,6 +95,24 @@ export const Text = styled('span', {
         whiteSpace: 'nowrap',
       },
     },
+    color: {
+      default: { color: '$text' },
+      heading: { color: '$headingText' },
+      neutral: { color: '$neutral' },
+      alert: { color: '$alert' },
+      warning: { color: '$warning' },
+      primary: { color: '$primary' },
+      cta: { color: '$cta' },
+      secondary: { color: '$secondaryText' },
+      active: { color: '$tagActiveText' },
+      complete: { color: '$complete' },
+      inherit: { color: 'inherit' },
+    },
+    bold: { true: { fontWeight: '$bold !important' } },
+    normal: { true: { fontWeight: '$normal !important' } },
+    medium: { true: { fontWeight: '$medium !important' } },
+    semibold: { true: { fontWeight: '$semibold !important' } },
+    inline: { true: { display: 'inline !important' } },
   },
   compoundVariants: [
     {

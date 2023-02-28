@@ -47,7 +47,7 @@ describe('Delete Circle action handler', () => {
     const newProfile = await createProfile(adminClient, {
       address: newAddress,
     });
-    createUser(adminClient, {
+    await createUser(adminClient, {
       address: newAddress,
       circle_id: circle.id,
       role: 0,

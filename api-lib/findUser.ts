@@ -6,7 +6,6 @@ import { adminClient } from './gql/adminClient';
 const userSelector = Selector('users')({
   id: true,
   role: true,
-  name: true,
   profile: {
     name: true,
   },

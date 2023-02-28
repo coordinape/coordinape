@@ -20,7 +20,6 @@ export const circleApiKeySelector = Selector('circle_api_keys')({
   hash: true,
   name: true,
   createdByUser: {
-    name: true,
     profile: {
       name: true,
     },

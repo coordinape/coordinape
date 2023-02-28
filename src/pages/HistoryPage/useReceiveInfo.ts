@@ -76,7 +76,6 @@ const getReceiveInfo = async (circleId: number, userId: number) => {
                               id: true,
                               tokens: true,
                               sender: {
-                                name: true,
                                 profile: { avatar: true, name: true },
                               },
                               gift_private: { note: true },
@@ -110,7 +109,6 @@ const getReceiveInfo = async (circleId: number, userId: number) => {
                               id: true,
                               tokens: true,
                               sender: {
-                                name: true,
                                 profile: { avatar: true, name: true },
                               },
                               gift_private: { note: true },

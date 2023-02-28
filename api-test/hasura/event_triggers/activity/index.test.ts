@@ -103,7 +103,7 @@ describe('#handler', () => {
         organization_id: 9,
         user_id: 267,
         action: 'users_insert',
-        actor_profile_id: 100,
+        target_profile_id: 100,
       })
     );
     expect(res.status).toHaveBeenCalledWith(200);

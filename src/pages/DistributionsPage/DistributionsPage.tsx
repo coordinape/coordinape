@@ -151,7 +151,7 @@ export function DistributionsPage() {
       });
       return {
         id: user.id,
-        name: user.profile?.name ?? user.name,
+        name: user.profile?.name ?? '',
         address: user.address,
         fixedPaymentAmount: user.fixed_payment_amount ?? 0,
         fixedPaymentClaimed: fixedPayment,
@@ -180,6 +180,7 @@ export function DistributionsPage() {
     'id'
   ).map(user => ({
     ...user,
+    name: user.profile.name,
     received:
       epoch.token_gifts
         ?.filter(g => g.recipient?.id === user?.id)

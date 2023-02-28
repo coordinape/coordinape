@@ -23,16 +23,21 @@ function getChannels(
 ): Channels<DiscordUserAddedOrRemoved> {
   const { channels, circle, data, profiles } = props || {};
 
-  const { discord_channel_id: channelId, discord_role_id: roleId } =
-    circle?.discord_circle || {};
+  const {
+    discord_channel_id: channelId,
+    discord_role_id: roleId,
+    alerts,
+  } = circle?.discord_circle || {};
 
   if (
     channels?.isDiscordBot &&
     isFeatureEnabled('discord') &&
     channelId &&
-    roleId
+    roleId &&
+    alerts?.['user-removed']
   ) {
-    const user = profiles[0].user;
+    const discordId = profiles[0].user?.user_snowflake;
+    const profileName = profiles[0].name;
 
     return {
       isDiscordBot: true,
@@ -40,8 +45,9 @@ function getChannels(
         type: 'user-removed',
         channelId,
         roleId,
-        discordId: user?.user_snowflake,
+        discordId,
         address: data.new.address,
+        profileName,
         circleName: circle?.name ?? 'Unknown',
       },
     };

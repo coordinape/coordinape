@@ -3,21 +3,23 @@ import { DateTime } from 'luxon';
 import { adminClient } from '../api-lib/gql/adminClient';
 
 import {
-  getAvatars,
-  getMembershipInput,
-  makeEpoch,
-  createGifts,
-  insertMemberships,
-  getCircleName,
-  makeManyEpochs,
   createContributions,
+  createGifts,
   createProfiles,
+  createSampleDAOProfiles,
+  getAvatars,
+  getCircleName,
+  getMembershipInput,
+  insertMemberships,
+  makeEpoch,
+  makeManyEpochs,
 } from './util/seed';
 
 const startTime = Date.now();
 
 async function main() {
   await createProfiles();
+  await createSampleDAOProfiles();
   await createFreshOpenEpochDevAdmin();
   const circleId = await createFreshOpenEpoch();
   await createFreshOpenEpochNoDev();
@@ -180,31 +182,33 @@ async function createCircleWithPendingGiftsEndingSoon() {
 }
 
 async function createCircleInOrgButNoDevMember(organizationId: number) {
-  await adminClient.mutate({
-    insert_circles: [
-      {
-        objects: [
-          {
-            name: getCircleName() + ' not a member',
-            auto_opt_out: true,
-            default_opt_in: true,
-            min_vouches: 2,
-            organization_id: organizationId,
-            nomination_days_limit: 1,
-            only_giver_vouch: false,
-            token_name: 'GIVE',
-            vouching: true,
-          },
-        ],
-      },
-      {
-        returning: {
-          id: true,
+  await adminClient.mutate(
+    {
+      insert_circles: [
+        {
+          objects: [
+            {
+              name: getCircleName() + ' not a member',
+              auto_opt_out: true,
+              default_opt_in: true,
+              min_vouches: 2,
+              organization_id: organizationId,
+              nomination_days_limit: 1,
+              only_giver_vouch: false,
+              token_name: 'GIVE',
+              vouching: true,
+            },
+          ],
         },
-      },
-    ],
-  },
-    { operationName: 'createCircleInOrgButNoDevMember'});
+        {
+          returning: {
+            id: true,
+          },
+        },
+      ],
+    },
+    { operationName: 'createCircleInOrgButNoDevMember' }
+  );
 }
 
 async function createFreshOpenEpochDevAdminWithFixedPaymentToken() {

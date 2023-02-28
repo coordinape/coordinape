@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 
 import { isFeatureEnabled } from '../src/config/features';
 
-import { TELEGRAM_BOT_BASE_URL } from './config';
+import { TELEGRAM_BOT_BASE_URL, COORDINAPE_BOT_SECRET } from './config';
 import { DISCORD_BOT_NAME, DISCORD_BOT_AVATAR_URL } from './constants';
 import * as queries from './gql/queries';
 
@@ -31,6 +31,7 @@ export type DiscordUserAddedOrRemoved = DiscordEpochEvent & {
   type: 'user-added' | 'user-removed';
   discordId?: string;
   address?: string;
+  profileName?: string;
   circleName: string;
 };
 
@@ -38,6 +39,7 @@ export type DiscordOptsOut = DiscordEpochEvent & {
   type: 'user-opts-out';
   discordId?: string;
   address?: string;
+  profileName?: string;
   tokenName: string;
   circleName: string;
   refunds: {
@@ -125,16 +127,23 @@ export async function sendSocialMessage({
 
   const { circles_by_pk: circle } = await queries.getCircle(circleId);
 
-  if (isFeatureEnabled('discord') && channels?.isDiscordBot) {
+  if (
+    isFeatureEnabled('discord') &&
+    channels?.isDiscordBot &&
+    channels.discordBot
+  ) {
     const { type } = channels.discordBot || {};
-    // TODO Fix the discord bot endpoint
-    const res = await fetch(`http://localhost:4000/api/epoch/${type}`, {
-      method: 'POST',
-      body: JSON.stringify(channels.discordBot),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    const res = await fetch(
+      `https://coordinape-discord-bot.herokuapp.com/api/epoch/${type}`,
+      {
+        method: 'POST',
+        body: JSON.stringify(channels.discordBot),
+        headers: {
+          'Content-Type': 'application/json',
+          'x-coordinape-bot-secret': COORDINAPE_BOT_SECRET,
+        },
+      }
+    );
 
     if (!res.ok) {
       throw new Error(JSON.stringify(await res.json()));

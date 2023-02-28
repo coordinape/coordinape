@@ -8,7 +8,8 @@ export type FeatureName =
   | 'email_login'
   | 'guild'
   | 'disable_distribute_evenly'
-  | 'epoch_timing_banner';
+  | 'epoch_timing_banner'
+  | 'activity';
 
 // this is a very simple implementation of build-time feature flags that you can
 // hardcode or set with environment variables

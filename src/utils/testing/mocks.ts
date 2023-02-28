@@ -25,7 +25,7 @@ export const mockEpoch = {
         id: 21,
         name: 'Mock User 1',
         circle_id: 2,
-        profile: { id: 777 },
+        profile: { id: 777, name: 'Mock User 1' },
         received_gifts: [{ tokens: 100 }, { tokens: 100 }],
         received_gifts_aggregate: [
           {
@@ -40,7 +40,7 @@ export const mockEpoch = {
         id: 22,
         name: 'Mock User 2',
         circle_id: 2,
-        profile: { id: 778 },
+        profile: { id: 778, name: 'Mock User 2' },
         received_gifts: [{ tokens: 70 }, { tokens: 120 }, { tokens: 110 }],
         received_gifts_aggregate: [
           {
@@ -83,7 +83,7 @@ export const mockCircle = {
       id: 21,
       name: 'Mock User 1',
       circle_id: 2,
-      profile: { id: 777 },
+      profile: { id: 777, name: 'Mock User 1' },
       received_gifts: [{ tokens: 100 }, { tokens: 100 }],
       deleted_at: null,
       role: 0,
@@ -100,7 +100,7 @@ export const mockCircle = {
       id: 22,
       name: 'Mock User 2',
       circle_id: 2,
-      profile: { id: 778 },
+      profile: { id: 778, name: 'Mock User 2' },
       received_gifts: [{ tokens: 70 }, { tokens: 120 }, { tokens: 110 }],
       deleted_at: null,
       role: 0,

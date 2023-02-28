@@ -45,7 +45,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           event: {
             op: operation,
             data: {
-              new: { id, circle_id, created_at },
+              new: { id, circle_id, created_at, created_by },
             },
           },
         }: EventTriggerPayload<'epochs', 'INSERT'> = req.body;
@@ -57,6 +57,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           action: `${table_name}_${operation.toLowerCase()}`,
           circle_id: circle_id,
           created_at: created_at,
+          actor_profile_id: created_by,
           organization_id: data?.circle?.organization.id,
         });
         break;
@@ -78,7 +79,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           circle_id: circle_id,
           created_at: created_at,
           organization_id: data?.organization_id,
-          actor_profile_id: data?.users[0].profile.id,
+          target_profile_id: data?.users[0].profile.id,
           user_id: id,
         });
         break;

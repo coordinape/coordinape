@@ -24,12 +24,13 @@ const runMutation = (address: string, name: string, circleId: number) =>
   );
 
 const checkNames = async (address, name) => {
-  const query = await adminClient.query({
-    profiles: [{ where: { address: { _ilike: address } } }, { name: true }],
-    users: [{ where: { address: { _ilike: address } } }, { name: true }],
-  });
+  const query = await adminClient.query(
+    {
+      profiles: [{ where: { address: { _ilike: address } } }, { name: true }],
+    },
+    { operationName: 'createUserMutationTest_checkNames' }
+  );
   expect(query.profiles[0].name).toMatch(name);
-  expect(query.users[0].name).toMatch(name);
 };
 
 test('create a new user and a profile', async () => {
@@ -41,9 +42,8 @@ test('create a new user and a profile', async () => {
 
 test('create a user for a profile without a name', async () => {
   const address = await getUniqueAddress();
-  await createProfile(adminClient, { address });
+  const { name } = await createProfile(adminClient, { address });
 
-  const name = uniqueName();
   await runMutation(address, name, circle.id);
   await checkNames(address, name);
 });

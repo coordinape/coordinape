@@ -18,14 +18,18 @@ type GetChannelsProps = {
 function getChannels(props: GetChannelsProps): Channels<DiscordNomination> {
   const { channels, nominee, circle } = props || {};
 
-  const { discord_channel_id: channelId, discord_role_id: roleId } =
-    circle?.discord_circle || {};
+  const {
+    discord_channel_id: channelId,
+    discord_role_id: roleId,
+    alerts,
+  } = circle?.discord_circle || {};
 
   if (
     channels?.isDiscordBot &&
     isFeatureEnabled('discord') &&
     channelId &&
-    roleId
+    roleId &&
+    alerts?.['nomination']
   ) {
     const { circle_id, profile, nominator, description, vouches_required } =
       nominee || {};
@@ -42,7 +46,7 @@ function getChannels(props: GetChannelsProps): Channels<DiscordNomination> {
         roleId,
         circleId: circle_id.toString(),
         nominee: profile.name,
-        nominator: nominator.profile.name ?? nominator.name,
+        nominator: nominator.profile.name,
         nominationReason: description ?? 'unknown',
         numberOfVouches: vouches_required ?? 0,
       },
@@ -70,9 +74,7 @@ export default async function handleNomineeCreatedMsg(
 
   await sendSocialMessage({
     message:
-      `${nominee?.profile?.name} has been nominated by ${
-        nominee.nominator?.profile.name ?? nominee.nominator?.name
-      }!.` +
+      `${nominee?.profile?.name} has been nominated by ${nominee.nominator?.profile.name}!.` +
       ` You can vouch for them at https://app.coordinape.com/circles/${nominee.circle_id}/members`,
     circleId: data.new.circle_id,
     channels: getChannels({ nominee, channels, circle }),

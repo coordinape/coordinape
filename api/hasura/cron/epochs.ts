@@ -5,6 +5,7 @@ import dedent from 'dedent';
 import { DateTime, Duration, Settings } from 'luxon';
 import { z } from 'zod';
 
+import { insertActivity } from '../../../api-lib/event_triggers/activity/mutations';
 import { ValueTypes } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { getOverlappingEpoch } from '../../../api-lib/gql/queries';
@@ -30,17 +31,11 @@ export type RepeatData = z.infer<typeof zEpochRepeatData>;
 
 export type EpochsToNotify = Awaited<ReturnType<typeof getEpochsToNotify>>;
 
-function isDiscordBotLinked(circle?: {
-  discord_circle?: {
-    discord_channel_id?: string;
-    discord_role_id?: string;
-  };
-}) {
-  return (
-    circle?.discord_circle?.discord_channel_id &&
-    circle.discord_circle.discord_role_id
-  );
-}
+type StartEpoch = Pick<
+  EpochsToNotify,
+  'notifyStartEpochs'
+>['notifyStartEpochs'][number];
+type EndEpoch = Pick<EpochsToNotify, 'endEpoch'>['endEpoch'][number];
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const epochResult = await getEpochsToNotify();
@@ -80,7 +75,7 @@ async function getEpochsToNotify() {
                 name: true,
                 telegram_id: true,
                 discord_webhook: true,
-                organization: { name: true },
+                organization: { id: true, name: true },
                 users_aggregate: [
                   {
                     where: {
@@ -95,6 +90,7 @@ async function getEpochsToNotify() {
                 discord_circle: {
                   discord_channel_id: true,
                   discord_role_id: true,
+                  alerts: [{}, true],
                 },
               },
             },
@@ -123,7 +119,7 @@ async function getEpochsToNotify() {
                 telegram_id: true,
                 token_name: true,
                 discord_webhook: true,
-                organization: { name: true },
+                organization: { id: true, name: true },
                 users: [
                   {
                     where: {
@@ -133,27 +129,12 @@ async function getEpochsToNotify() {
                     },
                   },
                   {
-                    name: true,
                     profile: {
                       name: true,
                     },
                   },
                 ],
-                discord_circle: {
-                  discord_channel_id: true,
-                  discord_role_id: true,
-                },
               },
-              token_gifts: [
-                {
-                  where: {
-                    tokens: { _gt: 0 },
-                  },
-                },
-                {
-                  tokens: true,
-                },
-              ],
             },
           ],
         },
@@ -182,7 +163,7 @@ async function getEpochsToNotify() {
                 auto_opt_out: true,
                 telegram_id: true,
                 discord_webhook: true,
-                organization: { name: true, telegram_id: true },
+                organization: { id: true, name: true, telegram_id: true },
                 users: [
                   {
                     where: {
@@ -191,7 +172,6 @@ async function getEpochsToNotify() {
                   },
                   {
                     id: true,
-                    name: true,
                     profile: {
                       name: true,
                     },
@@ -203,7 +183,22 @@ async function getEpochsToNotify() {
                     give_token_remaining: true,
                   },
                 ],
+                discord_circle: {
+                  discord_channel_id: true,
+                  discord_role_id: true,
+                  alerts: [{}, true],
+                },
               },
+              token_gifts: [
+                {
+                  where: {
+                    tokens: { _gt: 0 },
+                  },
+                },
+                {
+                  tokens: true,
+                },
+              ],
               epoch_pending_token_gifts: [
                 {},
                 {
@@ -252,10 +247,18 @@ export async function notifyEpochStart({
       )}** to **${epochEndDate.toLocaleString(DateTime.DATETIME_FULL)}**
     `;
 
-    const { discord_channel_id: channelId, discord_role_id: roleId } =
-      circle?.discord_circle || {};
+    const {
+      discord_channel_id: channelId,
+      discord_role_id: roleId,
+      alerts,
+    } = circle?.discord_circle || {};
 
-    if (isFeatureEnabled('discord') && channelId && roleId) {
+    if (
+      isFeatureEnabled('discord') &&
+      channelId &&
+      roleId &&
+      alerts?.['epoch-start']
+    ) {
       await sendSocialMessage({
         message,
         circleId: circle.id,
@@ -265,7 +268,7 @@ export async function notifyEpochStart({
             type: 'start' as const,
             channelId,
             roleId,
-            epochName: `Epoch ${epochNumber}`,
+            epochName: `Epoch ${epoch.number}`,
             circleId: circle.id,
             circleName: `${circle.organization?.name}/${circle.name}`,
             startTime: start_date,
@@ -274,7 +277,6 @@ export async function notifyEpochStart({
         },
         sanitize: false,
       });
-      updateEpochStartNotification(epoch.id);
     }
 
     if (circle.discord_webhook) {
@@ -293,6 +295,9 @@ export async function notifyEpochStart({
         epoch,
         updateEpochStartNotification
       );
+
+    await insertEpochStartActivity(epoch);
+    updateEpochStartNotification(epoch.id);
   });
 
   const results = await Promise.allSettled(sendNotifications);
@@ -310,17 +315,12 @@ export async function notifyEpochEnd({
   notifyEndEpochs: epochs,
 }: EpochsToNotify) {
   const notifyEpochsEnding = epochs
-    .filter(
-      ({ circle }) =>
-        circle?.telegram_id ||
-        circle?.discord_webhook ||
-        isDiscordBotLinked(circle)
-    )
+    .filter(({ circle }) => circle?.telegram_id || circle?.discord_webhook)
     .map(async epoch => {
       const { circle } = epoch;
       assert(circle, 'panic: no circle for epoch');
 
-      const usersHodlingGive = circle.users.map(u => u.profile.name ?? u.name);
+      const usersHodlingGive = circle.users.map(u => u.profile.name);
 
       const message = dedent`
       ${circle.organization?.name}/${
@@ -331,35 +331,6 @@ export async function notifyEpochEnd({
       }:
       ${usersHodlingGive.join(', ')}
     `;
-
-      const { discord_channel_id: channelId, discord_role_id: roleId } =
-        circle?.discord_circle || {};
-
-      if (isFeatureEnabled('discord') && channelId && roleId) {
-        await sendSocialMessage({
-          message,
-          circleId: circle.id,
-          channels: {
-            isDiscordBot: true,
-            discordBot: {
-              type: 'end' as const,
-              channelId,
-              roleId,
-              epochName: `Epoch ${epoch.number}`,
-              circleId: circle.id,
-              circleName: `${circle.organization?.name}/${circle.name}`,
-              endTime: epoch.end_date,
-              giveCount: epoch.token_gifts?.reduce(
-                (total, { tokens }) => tokens + total,
-                0
-              ),
-              userCount: circle.users.length,
-            },
-          },
-          sanitize: false,
-        });
-        updateEpochEndSoonNotification(epoch.id);
-      }
 
       if (circle.discord_webhook) {
         await notifyAndUpdateEpoch(
@@ -436,8 +407,7 @@ export async function endEpochHandler(
   const userUpdateMutations = circle.users.reduce((ops, user) => {
     const userUserHasAllGive =
       user.give_token_remaining === user.starting_tokens;
-    if (userUserHasAllGive)
-      usersWithStartingGive.push(user.profile.name ?? user.name);
+    if (userUserHasAllGive) usersWithStartingGive.push(user.profile.name);
     const optOutMutation =
       !user.non_giver &&
       !user.non_receiver &&
@@ -507,6 +477,42 @@ export async function endEpochHandler(
       ${usersWithStartingGive.join(', ')}
     `;
 
+  const {
+    discord_channel_id: channelId,
+    discord_role_id: roleId,
+    alerts,
+  } = circle?.discord_circle || {};
+
+  if (
+    isFeatureEnabled('discord') &&
+    channelId &&
+    roleId &&
+    alerts?.['epoch-end']
+  ) {
+    await sendSocialMessage({
+      message,
+      circleId: circle.id,
+      channels: {
+        isDiscordBot: true,
+        discordBot: {
+          type: 'end' as const,
+          channelId,
+          roleId,
+          epochName: `Epoch ${epoch.number}`,
+          circleId: circle.id,
+          circleName: `${circle.organization?.name}/${circle.name}`,
+          endTime: epoch.end_date,
+          giveCount: epoch.token_gifts?.reduce(
+            (total, { tokens }) => tokens + total,
+            0
+          ),
+          userCount: circle.users.length,
+        },
+      },
+      sanitize: false,
+    });
+  }
+
   if (circle.discord_webhook)
     await notifyAndUpdateEpoch(
       message,
@@ -525,6 +531,8 @@ export async function endEpochHandler(
 
   if (circle.organization?.telegram_id)
     await notifyEpochStatus(message, { telegram: true }, epoch, true);
+
+  await insertEpochEndActivity(epoch);
 
   // set up another repeating epoch if configured
   const { start_date, end_date, repeat_data } = epoch;
@@ -866,7 +874,7 @@ async function notifyEpochStatus(
     // throwing here creates a promise rejection
     if (e instanceof Error)
       errorLog(
-        `Error sending telegram notification for epoch id ${epochId}: ${e.message}`
+        `Error sending telegram/discord notification for epoch id ${epochId}: ${e.message}`
       );
     return false;
   }
@@ -923,6 +931,26 @@ async function setNextEpochNumber({
     if (e instanceof Error)
       throw `Error setting next number for epoch id ${epochId}: ${e.message}`;
   }
+}
+
+async function insertEpochStartActivity(epoch: StartEpoch) {
+  await insertActivity({
+    epoch_id: epoch.id,
+    action: 'epoches_started',
+    circle_id: epoch.circle_id,
+    created_at: epoch.start_date,
+    organization_id: epoch.circle?.organization.id,
+  });
+}
+
+async function insertEpochEndActivity(epoch: EndEpoch) {
+  await insertActivity({
+    epoch_id: epoch.id,
+    action: 'epoches_ended',
+    circle_id: epoch.circle_id,
+    created_at: epoch.end_date,
+    organization_id: epoch.circle?.organization.id,
+  });
 }
 
 export default verifyHasuraRequestMiddleware(handler);

@@ -17,7 +17,11 @@ export async function getCircle(id: number) {
           discord_webhook: true,
           telegram_id: true,
           token_name: true,
-          discord_circle: { discord_channel_id: true, discord_role_id: true },
+          discord_circle: {
+            discord_channel_id: true,
+            discord_role_id: true,
+            alerts: [{}, true],
+          },
           organization: {
             telegram_id: true,
           },
@@ -271,7 +275,6 @@ export async function getProfileAndMembership(address: string) {
         },
         {
           id: true,
-          name: true,
           circle_id: true,
         },
       ],
@@ -308,7 +311,6 @@ export async function getNominee(id: number) {
           description: true,
           circle_id: true,
           nominator: {
-            name: true,
             profile: {
               name: true,
             },
@@ -413,7 +415,6 @@ export async function getExistingVouch(nomineeId: number, voucherId: number) {
         {
           id: true,
           voucher: {
-            name: true,
             profile: {
               name: true,
             },
@@ -608,7 +609,7 @@ export async function getPendingTokenGiftsSent({
         {
           id: true,
           recipient: {
-            name: true,
+            profile: { name: true },
           },
           tokens: true,
         },
@@ -643,7 +644,7 @@ export async function getPendingTokenGiftsReceived({
         {
           id: true,
           sender: {
-            name: true,
+            profile: { name: true },
           },
           tokens: true,
         },

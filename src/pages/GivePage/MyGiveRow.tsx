@@ -92,7 +92,7 @@ export const MyGiveRow = ({
           }}
         >
           <AvatarAndName
-            name={myUser.profile?.name ?? myUser.name}
+            name={myUser.profile?.name ?? ''}
             avatar={myUser.profile?.avatar}
           />
           <Flex

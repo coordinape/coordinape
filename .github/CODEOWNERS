@@ -1,5 +1,1 @@
-/cypress/   @topocount
-/docker/    @topocount
-/hardhat/   @levity @topocount
-/hasura/    @topocount
-/scripts/   @topocount
+/hardhat/   @levity

@@ -117,7 +117,7 @@ const NotesItem = ({
   tokenName: string;
 }) => {
   const other = (gift as QueryReceivedGift).sender ||
-    (gift as QuerySentGift).recipient || { name: 'Deleted User' };
+    (gift as QuerySentGift).recipient || { profile: { name: 'Deleted User' } };
 
   const note = gift.gift_private?.note;
   return (
@@ -133,7 +133,7 @@ const NotesItem = ({
       <Box css={{ mr: '$md' }}>
         <Avatar
           path={other.profile?.avatar}
-          name={other.profile?.name ?? other.name}
+          name={other.profile?.name}
           size="medium"
         />
       </Box>
@@ -151,7 +151,7 @@ const NotesItem = ({
           css={{ fontSize: '$small', color: '$cta', fontWeight: '$semibold' }}
         >
           {gift.tokens} {tokenName} {received ? 'received from ' : 'sent to '}
-          {other.profile?.name ?? other.name}
+          {other.profile?.name}
         </Box>
       </Box>
     </Box>

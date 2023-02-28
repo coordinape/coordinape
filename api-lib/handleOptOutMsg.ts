@@ -25,16 +25,21 @@ type GetChannelsProps = {
 function getChannels(props: GetChannelsProps): Channels<DiscordOptsOut> {
   const { channels, circle, data, profiles, refunds } = props || {};
 
-  const { discord_channel_id: channelId, discord_role_id: roleId } =
-    circle?.discord_circle || {};
+  const {
+    discord_channel_id: channelId,
+    discord_role_id: roleId,
+    alerts,
+  } = circle?.discord_circle || {};
 
   if (
     channels?.isDiscordBot &&
     isFeatureEnabled('discord') &&
     channelId &&
-    roleId
+    roleId &&
+    alerts?.['user-opts-out']
   ) {
-    const user = profiles[0].user;
+    const discordId = profiles[0].user?.user_snowflake;
+    const profileName = profiles[0].name;
 
     return {
       isDiscordBot: true,
@@ -42,8 +47,9 @@ function getChannels(props: GetChannelsProps): Channels<DiscordOptsOut> {
         type: 'user-opts-out' as const,
         channelId,
         roleId,
-        discordId: user?.user_snowflake,
+        discordId,
         address: data.new.address,
+        profileName,
         tokenName: circle?.token_name || 'GIVE',
         circleName: circle?.name ?? 'Unknown',
         refunds: refunds ?? [],
@@ -101,7 +107,7 @@ export default async function handleOptOutMsg(
           refunds: refunds
             .filter(({ tokens }) => tokens > 0)
             .map(({ sender, tokens }) => ({
-              username: sender.name,
+              username: sender.profile.name,
               give: tokens,
             })),
         }),
@@ -149,7 +155,7 @@ export default async function handleOptOutMsg(
           refunds: refunds
             .filter(({ tokens }) => tokens > 0)
             .map(({ recipient, tokens }) => ({
-              username: recipient.name,
+              username: recipient.profile.name,
               give: tokens,
             })),
         }),

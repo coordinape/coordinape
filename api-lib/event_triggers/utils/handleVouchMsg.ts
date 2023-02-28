@@ -24,14 +24,18 @@ function getChannels(props: GetChannelsProps): Channels<DiscordVouch> {
     circle,
   } = props || {};
 
-  const { discord_channel_id: channelId, discord_role_id: roleId } =
-    circle?.discord_circle || {};
+  const {
+    discord_channel_id: channelId,
+    discord_role_id: roleId,
+    alerts,
+  } = circle?.discord_circle || {};
 
   if (
     channels?.isDiscordBot &&
     isFeatureEnabled('discord') &&
     channelId &&
-    roleId
+    roleId &&
+    alerts?.['vouch']
   ) {
     return {
       isDiscordBot: true,
@@ -41,7 +45,7 @@ function getChannels(props: GetChannelsProps): Channels<DiscordVouch> {
         roleId,
         circleId: circle?.id,
         nominee: nominee?.profile?.name,
-        voucher: voucher?.profile.name ?? voucher?.name ?? 'Someone',
+        voucher: voucher?.profile.name ?? 'Someone',
         nominationReason: nominee?.description ?? 'unknown reason',
         currentVouches: Math.max(
           0,
@@ -85,9 +89,7 @@ export default async function handleVouchMsg(
 
   // announce the vouching
   await sendSocialMessage({
-    message: `${nominee.profile?.name} has been vouched for by ${
-      vouch.voucher.profile.name ?? vouch.voucher.name
-    }!`,
+    message: `${nominee.profile?.name} has been vouched for by ${vouch.voucher.profile.name}!`,
     circleId: nominee.circle_id,
     sanitize: true,
     channels: getChannels({ vouch, nominee, channels, circle }),

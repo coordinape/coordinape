@@ -6,17 +6,18 @@ import CoSoulLayout from 'features/cosoul/CoSoulLayout';
 import { OrgPage, OrgSettingsPage, OrgMembersPage } from 'features/orgs';
 import { isUserAdmin, isUserMember } from 'lib/users';
 import {
-  Routes,
-  Route,
   Navigate,
+  Outlet,
+  Route,
+  Routes,
+  useLocation,
   useParams,
   useSearchParams,
-  Outlet,
-  useLocation,
 } from 'react-router-dom';
 
 import { DebugLogger } from '../common-lib/log';
 import AddMembersPage from '../pages/AddMembersPage/AddMembersPage';
+import CircleActivityPage from '../pages/CircleActivityPage';
 import GivePage from '../pages/GivePage';
 import JoinCirclePage from '../pages/JoinCirclePage';
 import { MainLayout } from 'components';
@@ -79,6 +80,7 @@ const LoggedInRoutes = () => {
         </Route>
 
         <Route path="distributions/:epochId" element={<DistributionsPage />} />
+        <Route path="activity" element={<CircleActivityPage />} />
       </Route>
 
       <Route path={paths.claims} element={<ClaimsPage />} />

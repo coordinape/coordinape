@@ -101,7 +101,7 @@ export const GiveRow = ({
           }}
         >
           <AvatarAndName
-            name={member.profile.name ?? member.name}
+            name={member.profile.name}
             avatar={member.profile.avatar}
           />
           {!gridView && !docExample && (
