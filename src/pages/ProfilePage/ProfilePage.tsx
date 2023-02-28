@@ -304,7 +304,6 @@ const ProfilePageContent = ({
                   { actor_profile_id: { _eq: profile.id } },
                 ],
               }}
-
             />
           </Box>
         )}
