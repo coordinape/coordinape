@@ -42,6 +42,7 @@ const getActivities = async (where: Where, page: number) => {
           },
           contribution: {
             description: true,
+            circle: { id: true, name: true },
           },
           epoch: {
             start_date: true,
@@ -76,11 +77,14 @@ export const useInfiniteActivities = (queryKey: QueryKey, where: Where) => {
 export type Activity = Awaited<ReturnType<typeof getActivities>>[number];
 
 export type Contribution = Activity &
-  Required<Pick<Activity, 'contribution' | 'actor_profile'>>;
+  Required<Pick<Activity, 'contribution' | 'actor_profile' | 'circle'>>;
 
 export function IsContribution(a: Activity): a is Contribution {
   return (
-    a.action == 'contributions_insert' && !!a.contribution && !!a.actor_profile
+    a.action == 'contributions_insert' &&
+    !!a.contribution &&
+    !!a.actor_profile &&
+    !!a.circle
   );
 }
 

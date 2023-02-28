@@ -1,5 +1,7 @@
 import { DateTime } from 'luxon';
+import { NavLink } from 'react-router-dom';
 
+import { paths } from '../../routes/paths';
 import { Flex, MarkdownPreview, Text } from '../../ui';
 
 import { ActivityAvatar } from './ActivityAvatar';
@@ -14,7 +16,18 @@ export const ContributionRow = ({ activity }: { activity: Contribution }) => {
         <Flex css={{ gap: '$sm' }}>
           <ActivityProfileName profile={activity.actor_profile} />
           <Text color="secondary" size="small">
-            Contribution
+            Contribution to
+          </Text>
+          <Text
+            semibold
+            inline
+            color="cta"
+            size="small"
+            as={NavLink}
+            to={paths.history(activity.circle.id)}
+            css={{ textDecoration: 'none' }}
+          >
+            {activity.circle.name}
           </Text>
           <Text size="small" css={{ color: '$neutral' }}>
             {DateTime.fromISO(activity.created_at).toRelative()}
