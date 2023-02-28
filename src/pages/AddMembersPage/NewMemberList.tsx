@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ENTRANCE } from 'common-lib/constants';
 import { client } from 'lib/gql/client';
-import { provider } from 'lib/zod/formHelpers';
+import { isValidENS } from 'lib/zod/formHelpers';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
 import { z } from 'zod';
@@ -137,11 +137,8 @@ const NewMemberList = ({
       const resolveResult = await Promise.all(
         newMembers.map(async (m, index) => {
           if (m.name.endsWith('.eth')) {
-            const resolvedAddress = await provider().resolveName(m.name);
-            if (
-              !resolvedAddress ||
-              resolvedAddress.toLowerCase() !== m.address.toLocaleLowerCase()
-            ) {
+            const validENS = await isValidENS(m.name, m.address);
+            if (!validENS) {
               setError(
                 `newMembers.${index}.name`,
                 {

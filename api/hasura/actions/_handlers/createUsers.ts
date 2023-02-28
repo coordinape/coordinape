@@ -12,7 +12,7 @@ import {
   errorResponseWithStatusCode,
   InternalServerError,
 } from '../../../../api-lib/HttpError';
-import { getProvider } from '../../../../api-lib/provider';
+import { isValidENS } from '../../../../api-lib/validateENS';
 import { ENTRANCE } from '../../../../src/common-lib/constants';
 import {
   composeHasuraActionRequestBodyWithApiPermissions,
@@ -52,12 +52,8 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   const unresolvedUsers = await Promise.all(
     users.map(async user => {
       if (user.name.endsWith('.eth')) {
-        const resolvedAddress = await getProvider(1).resolveName(user.name);
-        if (
-          !resolvedAddress ||
-          resolvedAddress.toLowerCase() !== user.address.toLocaleLowerCase()
-        )
-          return user;
+        const validENS = await isValidENS(user.name, user.address);
+        if (!validENS) return user;
       }
     })
   );
