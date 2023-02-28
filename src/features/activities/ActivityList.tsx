@@ -8,12 +8,18 @@ import { Box, Flex } from '../../ui';
 import { ActivityRow } from './ActivityRow';
 import { useInfiniteActivities, Where } from './useInfiniteActivities';
 
+export type DisplayContext = {
+  showCircleInfo: boolean;
+};
+
 export const ActivityList = ({
   queryKey,
   where,
+  displayContext,
 }: {
   queryKey: QueryKey;
   where: Where;
+  displayContext: DisplayContext;
 }) => {
   const observerRef = useRef<HTMLDivElement>(null);
 
@@ -60,7 +66,13 @@ export const ActivityList = ({
         data.pages &&
         data.pages.map(page =>
           page.map(c => {
-            return <ActivityRow key={c.id} activity={c} />;
+            return (
+              <ActivityRow
+                key={c.id}
+                activity={c}
+                displayContext={displayContext}
+              />
+            );
           })
         )}{' '}
       <Flex ref={observerRef} css={{ justifyContent: 'center' }}>

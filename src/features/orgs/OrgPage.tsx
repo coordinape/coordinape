@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { ActivityList } from 'features/activities/ActivityList';
 import { isUserAdmin } from 'lib/users';
 import sortBy from 'lodash/sortBy';
 import { useQuery } from 'react-query';
@@ -7,7 +8,6 @@ import { useNavigate } from 'react-router';
 import { NavLink, useParams } from 'react-router-dom';
 
 import { isFeatureEnabled } from '../../config/features';
-import { ActivityList } from '../activities/ActivityList';
 import { RecentActivityTitle } from '../activities/RecentActivityTitle';
 import { LoadingModal } from 'components';
 import { scrollToTop } from 'components/MainLayout/MainLayout';
@@ -97,6 +97,7 @@ export const OrgPage = () => {
             <ActivityList
               queryKey={['org-activities', org.id]}
               where={{ organization_id: { _eq: org.id } }}
+              displayContext={{ showCircleInfo: true }}
             />
           </Box>
         )}

@@ -1,5 +1,6 @@
 import { Text } from '../../ui';
 
+import { DisplayContext } from './ActivityList';
 import { ContributionRow } from './ContributionRow';
 import { EpochCreatedRow } from './EpochCreatedRow';
 import { NewUserRow } from './NewUserRow';
@@ -10,9 +11,17 @@ import {
   IsNewUser,
 } from './useInfiniteActivities';
 
-export const ActivityRow = ({ activity }: { activity: Activity }) => {
+export const ActivityRow = ({
+  activity,
+  displayContext,
+}: {
+  activity: Activity;
+  displayContext: DisplayContext;
+}) => {
   if (IsContribution(activity)) {
-    return <ContributionRow activity={activity} />;
+    return (
+      <ContributionRow activity={activity} displayContext={displayContext} />
+    );
   } else if (IsNewUser(activity)) {
     return <NewUserRow activity={activity} />;
   } else if (IsEpochCreated(activity)) {

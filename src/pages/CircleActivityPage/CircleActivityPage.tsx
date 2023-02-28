@@ -26,6 +26,7 @@ export const CircleActivityPage = () => {
       <ActivityList
         queryKey={['circle-activities', circleId]}
         where={{ circle_id: { _eq: circleId } }}
+        displayContext={{ showCircleInfo: false }}
       />
     </SingleColumnLayout>
   );
