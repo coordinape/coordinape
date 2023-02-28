@@ -22,6 +22,7 @@ export const NavLogo = ({
             ...css,
             'img, svg': {
               width: '200px',
+              minWidth: '140px',
               '@lg': {
                 width: '180px',
               },

@@ -16,37 +16,44 @@ export const MintPage = () => {
     return <></>;
   }
   return (
-    <SingleColumnLayout>
-      <Flex column alignItems="start" css={{ gap: '$md' }}>
-        <Text color="cta" h1 css={{ fontSize: '110px' }}>
-          View pGIVE
-        </Text>
-        <Flex css={{ mt: '$lg', gap: '$md' }}>
-          <Button color="secondary" size="large" as={NavLink} to={paths.cosoul}>
-            CoSoul Splash Page
-          </Button>
-          <Button
-            color="secondary"
-            css={{ display: 'inline-flex', alignItems: 'center' }}
-            onClick={() => setModal(true)}
-          >
-            Modal
-          </Button>
-          <Modal
-            forceTheme="dark"
-            open={modal}
-            onOpenChange={closeModal}
-            css={{ p: '$xl $md' }}
-          >
-            <Flex column alignItems="start" css={{ gap: '$md' }}>
-              my modal content ehre
-              <Button color="cta" size="large" as={NavLink} to={paths.cosoul}>
-                CoSoul Splash Page
-              </Button>
-            </Flex>
-          </Modal>
+    <>
+      <SingleColumnLayout css={{ m: 'auto' }}>
+        <Flex column alignItems="start" css={{ gap: '$md' }}>
+          <Text color="cta" h1 css={{ fontSize: '110px' }}>
+            View pGIVE
+          </Text>
+          <Flex css={{ mt: '$lg', gap: '$md' }}>
+            <Button
+              color="secondary"
+              size="large"
+              as={NavLink}
+              to={paths.cosoul}
+            >
+              CoSoul Splash Page
+            </Button>
+            <Button
+              color="secondary"
+              css={{ display: 'inline-flex', alignItems: 'center' }}
+              onClick={() => setModal(true)}
+            >
+              Modal
+            </Button>
+            <Modal
+              forceTheme="dark"
+              open={modal}
+              onOpenChange={closeModal}
+              css={{ p: '$xl $md' }}
+            >
+              <Flex column alignItems="start" css={{ gap: '$md' }}>
+                my modal content ehre
+                <Button color="cta" size="large" as={NavLink} to={paths.cosoul}>
+                  CoSoul Splash Page
+                </Button>
+              </Flex>
+            </Modal>
+          </Flex>
         </Flex>
-      </Flex>
-    </SingleColumnLayout>
+      </SingleColumnLayout>
+    </>
   );
 };

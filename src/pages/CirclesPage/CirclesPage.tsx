@@ -152,7 +152,7 @@ const GetStarted = () => {
           </Button>
           <Button
             as={NavLink}
-            to={EXTERNAL_URL_GET_STARTED}
+            to={`//${EXTERNAL_URL_GET_STARTED}`}
             target="_blank"
             color="secondary"
           >

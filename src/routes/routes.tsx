@@ -122,24 +122,37 @@ export const AppRoutes = () => {
   return (
     <Routes>
       {/* CoSoul Pages */}
-      <Route
-        element={
-          <CoSoulLayout>
-            <Outlet />
-          </CoSoulLayout>
-        }
-      >
+      {isFeatureEnabled('cosoul') && (
         <Route
-          path="login"
           element={
-            <RequireAuth>
-              <RedirectAfterLogin />
-            </RequireAuth>
+            <CoSoulLayout>
+              <Outlet />
+            </CoSoulLayout>
           }
-        />
-        <Route path={paths.cosoul} element={<SplashPage />} />
-        <Route path={paths.mint} element={<MintPage />} />
-      </Route>
+        >
+          <Route
+            path="login"
+            element={
+              <RequireAuth>
+                <RedirectAfterLogin />
+              </RequireAuth>
+            }
+          />
+          <Route path={paths.cosoul} element={<SplashPage />} />
+          <Route
+            path="*"
+            element={
+              <RequireAuth>
+                <Suspense fallback={null}>
+                  <Routes>
+                    <Route path={paths.mint} element={<MintPage />} />
+                  </Routes>
+                </Suspense>
+              </RequireAuth>
+            }
+          />
+        </Route>
+      )}
 
       {/* Main App Pages */}
       <Route

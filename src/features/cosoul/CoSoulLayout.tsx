@@ -1,16 +1,14 @@
-import { useNavQuery } from 'features/nav/getNavData';
 import { NavLogo } from 'features/nav/NavLogo';
-import { NavLink } from 'react-router-dom';
 import { dark } from 'stitches.config';
 
 import { GlobalUi } from 'components/GlobalUi';
 import HelpButton from 'components/HelpButton';
-import { paths } from 'routes/paths';
-import { AppLink, Box, Button, Flex } from 'ui';
+import { Box, Flex } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
+import { CoSoulNav } from '.';
+
 const CoSoulLayout = ({ children }: { children: React.ReactNode }) => {
-  const { data } = useNavQuery();
   return (
     <Box
       className={dark}
@@ -41,34 +39,23 @@ const CoSoulLayout = ({ children }: { children: React.ReactNode }) => {
               // }, // for hamburger menu
             }}
           >
-            <SingleColumnLayout>
-              <Flex row css={{ justifyContent: 'space-between' }}>
+            <SingleColumnLayout
+              css={{
+                m: 'auto',
+                zIndex: 1,
+                position: 'relative',
+              }}
+            >
+              <Flex
+                row
+                css={{
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  gap: '$md',
+                }}
+              >
                 <NavLogo forceTheme="dark" />
-                <Flex row alignItems="center" css={{ gap: '$lg' }}>
-                  <AppLink inlineLink to={paths.mint}>
-                    Docs
-                  </AppLink>
-                  {data ? (
-                    <Button
-                      as={NavLink}
-                      to={`/login?next=${location.pathname}`}
-                      color="selectedSecondary"
-                    >
-                      0x2387423874628376
-                      {/* <Text size="small" ellipsis>
-                        {address && shortenAddressWithFrontLength(address, 4)}
-                      </Text> */}
-                    </Button>
-                  ) : (
-                    <Button
-                      as={NavLink}
-                      to={`/login?next=${location.pathname}`}
-                      color="cta"
-                    >
-                      Connect Wallet
-                    </Button>
-                  )}
-                </Flex>
+                <CoSoulNav />
               </Flex>
             </SingleColumnLayout>
             {children}
