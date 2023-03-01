@@ -27,7 +27,7 @@ type Props = {
     description?: string;
     number?: number;
   };
-  userId: number;
+  userId?: number;
   unallocated: number;
   circleId: number;
   tokenName?: string;

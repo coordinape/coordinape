@@ -48,11 +48,14 @@ const pageSize = 3;
 export const HistoryPage = () => {
   const {
     circle: { id: circleId },
-    myUser: { id: userId },
+    myUser,
   } = useSelectedCircle();
+  const userId = myUser?.id;
 
   const query = useQuery(
     [QUERY_KEY_ACTIVE_HISTORY, circleId],
+    // FIXME make this work without a userId
+    // @ts-ignore
     () => getHistoryData(circleId, userId),
     { enabled: !!userId && !!circleId }
   );

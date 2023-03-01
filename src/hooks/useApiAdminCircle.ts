@@ -1,9 +1,11 @@
 import { client } from 'lib/gql/client';
 import * as mutations from 'lib/gql/mutations';
+import { useQueryClient } from 'react-query';
 
 import { fileToBase64 } from '../lib/base64';
 import { ValueTypes } from '../lib/gql/__generated__/zeus';
 import { useApiBase } from 'hooks';
+import { QUERY_KEY_GET_MEMBERS_PAGE_DATA } from 'pages/MembersPage/getMembersPageData';
 
 import { useRecoilLoadCatch } from './useRecoilLoadCatch';
 
@@ -67,6 +69,7 @@ export const adminUpdateUser = async (
 
 export const useApiAdminCircle = (circleId: number) => {
   const { fetchCircle } = useApiBase();
+  const queryClient = useQueryClient();
 
   const updateCircle = useRecoilLoadCatch(
     () => async (params: ValueTypes['UpdateCircleInput']) => {
@@ -157,6 +160,9 @@ export const useApiAdminCircle = (circleId: number) => {
   const deleteUser = useRecoilLoadCatch(
     () => async (userAddress: string) => {
       await mutations.deleteUser(circleId, userAddress);
+      await queryClient.invalidateQueries(QUERY_KEY_GET_MEMBERS_PAGE_DATA);
+
+      // probably unnecessary now
       await fetchCircle({ circleId });
     },
     [circleId]
