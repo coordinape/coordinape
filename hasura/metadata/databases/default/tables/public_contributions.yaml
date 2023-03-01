@@ -11,6 +11,14 @@ object_relationships:
   - name: user
     using:
       foreign_key_constraint_on: user_id
+array_relationships:
+  - name: activities
+    using:
+      foreign_key_constraint_on:
+        column: contribution_id
+        table:
+          name: activities
+          schema: public
 insert_permissions:
   - role: api-user
     permission:

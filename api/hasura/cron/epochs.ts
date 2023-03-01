@@ -31,12 +31,6 @@ export type RepeatData = z.infer<typeof zEpochRepeatData>;
 
 export type EpochsToNotify = Awaited<ReturnType<typeof getEpochsToNotify>>;
 
-type StartEpoch = Pick<
-  EpochsToNotify,
-  'notifyStartEpochs'
->['notifyStartEpochs'][number];
-type EndEpoch = Pick<EpochsToNotify, 'endEpoch'>['endEpoch'][number];
-
 async function handler(req: VercelRequest, res: VercelResponse) {
   const epochResult = await getEpochsToNotify();
 
@@ -933,23 +927,31 @@ async function setNextEpochNumber({
   }
 }
 
-async function insertEpochStartActivity(epoch: StartEpoch) {
+interface EpochActivityInput {
+  id: number;
+  circle_id: number;
+  organization_id?: number;
+  start_date?: string;
+  end_date?: string;
+}
+
+export async function insertEpochStartActivity(epoch: EpochActivityInput) {
   await insertActivity({
     epoch_id: epoch.id,
-    action: 'epoches_started',
+    action: 'epochs_started',
     circle_id: epoch.circle_id,
     created_at: epoch.start_date,
-    organization_id: epoch.circle?.organization.id,
+    organization_id: epoch.organization_id,
   });
 }
 
-async function insertEpochEndActivity(epoch: EndEpoch) {
+export async function insertEpochEndActivity(epoch: EpochActivityInput) {
   await insertActivity({
     epoch_id: epoch.id,
-    action: 'epoches_ended',
+    action: 'epochs_ended',
     circle_id: epoch.circle_id,
     created_at: epoch.end_date,
-    organization_id: epoch.circle?.organization.id,
+    organization_id: epoch.organization_id,
   });
 }
 
