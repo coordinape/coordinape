@@ -58,7 +58,7 @@
     tolerance_seconds: 21600
   headers:
     - name: verification_key
-      value: HASURA_EVENT_SECRET
+      value_from_env: HASURA_EVENT_SECRET
   comment: temporary cron to backfill historical activity
 - name: pGiveHistoricalGen
   webhook: '{{HASURA_API_BASE_URL}}/cron/pGiveHistoricalGen'
