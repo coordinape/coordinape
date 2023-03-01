@@ -14,12 +14,7 @@ export const init = async () => {
           { id: orgId },
           {
             members: [{}, { profile: { id: true } }],
-            circles: [
-              {},
-              {
-                users: [{}, { profile: { id: true } }],
-              },
-            ],
+            circles: [{}, { users: [{}, { profile: { id: true } }] }],
           },
         ],
       },
