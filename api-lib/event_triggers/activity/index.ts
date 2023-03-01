@@ -38,7 +38,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         });
         break;
       }
-      case 'epoches': {
+      case 'epoches':
+      case 'epochs': {
         const {
           event: {
             data: {

@@ -290,7 +290,12 @@ export async function notifyEpochStart({
         updateEpochStartNotification
       );
 
-    await insertEpochStartActivity(epoch);
+    if (epoch.circle) {
+      await insertEpochStartActivity({
+        ...epoch,
+        organization_id: epoch.circle.organization.id,
+      });
+    }
     updateEpochStartNotification(epoch.id);
   });
 
@@ -526,7 +531,12 @@ export async function endEpochHandler(
   if (circle.organization?.telegram_id)
     await notifyEpochStatus(message, { telegram: true }, epoch, true);
 
-  await insertEpochEndActivity(epoch);
+  if (epoch.circle) {
+    await insertEpochEndActivity({
+      ...epoch,
+      organization_id: epoch.circle.organization.id,
+    });
+  }
 
   // set up another repeating epoch if configured
   const { start_date, end_date, repeat_data } = epoch;
@@ -930,7 +940,7 @@ async function setNextEpochNumber({
 interface EpochActivityInput {
   id: number;
   circle_id: number;
-  organization_id?: number;
+  organization_id: number;
   start_date?: string;
   end_date?: string;
 }

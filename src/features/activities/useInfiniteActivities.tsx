@@ -95,17 +95,17 @@ export function IsNewUser(a: Activity): a is NewUser {
 
 export type EpochCreated = Activity & Required<Pick<Activity, 'epoch'>>;
 export function IsEpochCreated(a: Activity): a is EpochCreated {
-  return a.action == 'epoches_insert' && !!a.epoch;
+  return a.action == 'epochs_insert' && !!a.epoch;
 }
 
 export type EpochEnded = Activity & Required<Pick<Activity, 'epoch'>>;
 export function IsEpochEnded(a: Activity): a is EpochEnded {
-  return a.action == 'epoches_ended' && !!a.epoch;
+  return a.action == 'epochs_ended' && !!a.epoch;
 }
 
 export type EpochStarted = Activity & Required<Pick<Activity, 'epoch'>>;
 export function IsEpochStarted(a: Activity): a is EpochStarted {
-  return a.action == 'epoches_started' && !!a.epoch;
+  return a.action == 'epochs_started' && !!a.epoch;
 }
 
 export function IsDeleted(a: Activity) {

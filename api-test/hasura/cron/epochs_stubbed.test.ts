@@ -5,12 +5,12 @@ import { insertActivity } from '../../../api-lib/event_triggers/activity/mutatio
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { sendSocialMessage } from '../../../api-lib/sendSocialMessage';
 import {
-  notifyEpochStart,
-  notifyEpochEnd,
-  EpochsToNotify,
-  endEpoch,
-  makeNextStartDate,
   calculateNextEpoch,
+  endEpoch,
+  EpochsToNotify,
+  makeNextStartDate,
+  notifyEpochEnd,
+  notifyEpochStart,
 } from '../../../api/hasura/cron/epochs';
 
 jest.mock('../../../api-lib/gql/adminClient', () => ({
@@ -695,7 +695,7 @@ describe('epoch Cron Logic', () => {
       );
       expect(mockMutation).toBeCalledTimes(5);
       expect(insertActivity).toBeCalledWith({
-        action: 'epoches_ended',
+        action: 'epochs_ended',
         circle_id: 1,
         created_at: mockEpoch.endEpoch.end_date,
         epoch_id: 9,
@@ -885,7 +885,7 @@ describe('epoch Cron Logic', () => {
       const result = await notifyEpochStart(input);
       expect(result).toEqual([]);
       expect(insertActivity).toBeCalledWith({
-        action: 'epoches_started',
+        action: 'epochs_started',
         circle_id: 5,
         created_at: mockEpoch.notifyStartEpochs.start_date,
         epoch_id: 9,
