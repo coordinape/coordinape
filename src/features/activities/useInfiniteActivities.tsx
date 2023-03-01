@@ -107,3 +107,14 @@ export type EpochStarted = Activity & Required<Pick<Activity, 'epoch'>>;
 export function IsEpochStarted(a: Activity): a is EpochStarted {
   return a.action == 'epoches_started' && !!a.epoch;
 }
+
+export function IsDeleted(a: Activity) {
+  // epoch are hard deleted, so we never see them here.
+  // user's removed from circle is not supported by this right now.
+  switch (a.action) {
+    case 'contributions_insert':
+      return !a.contribution;
+    default:
+      return false;
+  }
+}
