@@ -48,6 +48,7 @@ const getActivities = async (where: Where, page: number) => {
             description: true,
             end_date: true,
             number: true,
+            circle_id: true,
           },
         },
       ],

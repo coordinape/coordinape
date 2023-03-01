@@ -1,7 +1,9 @@
 import { DateTime } from 'luxon';
+import { NavLink } from 'react-router-dom';
 
-import { Epoch } from '../../icons/__generated';
-import { Flex, Text } from '../../ui';
+import { Epoch, Give } from '../../icons/__generated';
+import { Button, Flex, Text } from '../../ui';
+import { paths } from 'routes/paths';
 
 import { EpochStarted } from './useInfiniteActivities';
 
@@ -25,8 +27,17 @@ export const EpochStartedRow = ({ activity }: { activity: EpochStarted }) => {
             {DateTime.fromISO(activity.created_at).toRelative()}
           </Text>
         </Flex>
+
         <Text>{activity.epoch.description} </Text>
       </Flex>
+      <Button
+        css={{ ml: '$xl' }}
+        as={NavLink}
+        to={paths.give(activity.epoch.circle_id)}
+      >
+        <Give nostroke />
+        Give to Teammates{' '}
+      </Button>
     </Flex>
   );
 };
