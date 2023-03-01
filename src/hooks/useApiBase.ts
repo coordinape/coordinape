@@ -542,19 +542,14 @@ export const useApiBase = () => {
           throw 'Wallet must be connected to fetch manifest';
         }
 
+        // TODO split out raw query fetch from data reformatting;
+        // return the raw query data for use by new code
         const manifest = await queryManifest(walletAuth.address);
         set(rApiManifest, manifest);
+        return manifest;
       },
     [],
     { who: 'fetchManifest' }
-  );
-
-  const unselectCircle = useRecoilLoadCatch(
-    ({ set }) =>
-      async () => {
-        set(rSelectedCircleIdSource, undefined);
-      },
-    []
   );
 
   const fetchCircle = useRecoilLoadCatch(
@@ -574,9 +569,5 @@ export const useApiBase = () => {
     { who: 'fetchCircle' }
   );
 
-  return {
-    fetchManifest,
-    fetchCircle,
-    unselectCircle,
-  };
+  return { fetchManifest, fetchCircle };
 };

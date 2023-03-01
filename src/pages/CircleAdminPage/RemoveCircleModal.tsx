@@ -3,12 +3,14 @@ import { useState } from 'react';
 import { deleteCircle } from 'lib/gql/mutations';
 import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router';
+import { useRecoilState } from 'recoil';
 
 import { QUERY_KEY_NAV } from '../../features/nav';
 import { LoadingModal } from 'components';
 import { QUERY_KEY_MAIN_HEADER } from 'components/MainLayout/getMainHeaderData';
 import { useToast, useApiBase } from 'hooks';
 import { QUERY_KEY_MY_ORGS } from 'pages/CirclesPage/getOrgData';
+import { rSelectedCircleIdSource } from 'recoilState';
 import { paths } from 'routes/paths';
 import { Button, Flex, Modal, Text } from 'ui';
 
@@ -27,7 +29,8 @@ export const RemoveCircleModal = ({
 
   const navigate = useNavigate();
   const { showError } = useToast();
-  const { fetchManifest, unselectCircle } = useApiBase();
+  const { fetchManifest } = useApiBase();
+  const [, setCircleIdSource] = useRecoilState(rSelectedCircleIdSource);
 
   const deleteCircleMutation = useMutation(deleteCircle, {
     onMutate: () => {
@@ -38,7 +41,7 @@ export const RemoveCircleModal = ({
       queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
       queryClient.invalidateQueries(QUERY_KEY_NAV);
       await navigate(paths.circles);
-      await unselectCircle();
+      setCircleIdSource(undefined);
       await fetchManifest();
     },
     onError: err => {
