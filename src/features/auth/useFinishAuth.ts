@@ -1,97 +1,86 @@
 import assert from 'assert';
 
-import type { Web3Provider } from '@ethersproject/providers';
 import * as Sentry from '@sentry/react';
 
-import { useApiBase, useRecoilLoadCatch } from 'hooks';
+import { DebugLogger } from '../../common-lib/log';
+import { useApiBase } from 'hooks';
 import { useToast } from 'hooks/useToast';
-import type { UseWeb3ReactReturnType } from 'hooks/useWeb3React';
+import { useWeb3React } from 'hooks/useWeb3React';
 
 import { findConnectorName } from './connectors';
 import { login } from './login';
-import { setAuthToken } from './token';
 import { useLogout } from './useLogout';
-import { rSavedAuth } from './useSavedAuth';
+import { useSavedAuth } from './useSavedAuth';
+
+const logger = new DebugLogger('auth');
 
 export const useFinishAuth = () => {
   const { showError } = useToast();
   const { fetchManifest } = useApiBase();
   const logout = useLogout();
+  const [savedAuth, setSavedAuth] = useSavedAuth();
+  const web3Context = useWeb3React();
 
-  // FIXME it's a bit inconsistent that this catches its own errors instead of
-  // delegating to useRecoilLoadCatch. but we should probably just not use
-  // useRecoilLoadCatch at all and instead just get the walletAuth data from an
-  // ordinary useRecoilValue hook in RequireAuth
-  return useRecoilLoadCatch(
-    ({ set }) =>
-      async ({
-        web3Context,
-        authTokens,
-      }: {
-        web3Context: UseWeb3ReactReturnType<Web3Provider>;
-        authTokens: Record<string, string | undefined>;
-      }) => {
-        const {
-          connector,
-          account: address,
-          library,
-          providerType,
-        } = web3Context;
-        assert(address && library);
+  return async () => {
+    const { connector, account: address, library, providerType } = web3Context;
+    assert(address && library);
 
-        try {
-          const connectorName = connector
-            ? findConnectorName(connector)
-            : providerType;
-          assert(connectorName);
+    try {
+      const connectorName = connector
+        ? findConnectorName(connector)
+        : providerType;
+      assert(connectorName);
 
-          let token = authTokens[address];
-          if (!token) {
-            token = (await login(address, library, connectorName)).token;
-            setAuthToken(token);
-          }
+      logger.log('found saved auth data:', savedAuth);
+      if (!savedAuth.token) {
+        const loginData = await login(address, library, connectorName);
+        const token = loginData.token;
+        if (!token) return false;
 
-          if (!token) return false;
+        logger.log('got new auth data:', loginData);
+        setSavedAuth({ address, connectorName, ...loginData });
+      }
 
-          // Send a truncated address to sentry to help us debug customer issues
-          Sentry.setTag(
-            'address_truncated',
-            address.substr(0, 8) + '...' + address.substr(address.length - 8, 8)
-          );
-          const newWalletAuth = {
-            connectorName,
-            address,
-            authTokens: { ...authTokens, [address]: token },
-          };
-          set(rSavedAuth, newWalletAuth);
+      // Send a truncated address to sentry to help us debug customer issues
+      Sentry.setTag(
+        'address_truncated',
+        address.substr(0, 8) + '...' + address.substr(address.length - 8, 8)
+      );
 
-          // passing in newWalletAuth because Recoil snapshot is not updated yet
-          return new Promise(res =>
-            setTimeout(() =>
-              fetchManifest(newWalletAuth)
-                .then(() => res(true))
-                .catch(() => {
-                  // we had a cached token & it's invalid, so log out
-                  // FIXME don't logout if request timed out
-                  logout();
-                  res(false);
-                })
-            )
-          );
-        } catch (e: any) {
-          if (
-            [/User denied message signature/].some(r => e.message?.match(r))
-          ) {
-            return false;
-          }
+      // this setTimeout is needed so that the Recoil effects of updateSavedAuth
+      // are finished before fetchManifest is called. in particular,
+      // setAuthToken needs to be called
+      return setTimeout(
+        () =>
+          new Promise(res =>
+            fetchManifest(address)
+              .then(manifest => {
+                // TODO extract some data from manifest
+                // and put it in auth store
+                console.log(manifest); // eslint-disable-line
+                res(true);
+              })
+              .catch(() => {
+                // we had a cached token & it's invalid, so log out
+                // FIXME don't logout if request timed out
+                logout();
+                res(false);
+              })
+          )
+      );
+    } catch (e: any) {
+      if (
+        [/user denied message signature/i, /user rejected signing/i].some(r =>
+          e.message?.match(r)
+        )
+      ) {
+        return false;
+      }
 
-          // for debugging this issue
-          // eslint-disable-next-line no-console
-          console.info(e);
-          showError(`Failed to login: ${e.message || e}`);
-        }
-      },
-    [],
-    { who: 'finishAuth' }
-  );
+      // for debugging this issue
+      // eslint-disable-next-line no-console
+      console.info(e);
+      showError(`Failed to login: ${e.message || e}`);
+    }
+  };
 };

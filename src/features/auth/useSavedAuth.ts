@@ -1,9 +1,13 @@
 import assert from 'assert';
 
-import { atom, selector, useRecoilValue } from 'recoil';
+import { atom, selector, useRecoilState } from 'recoil';
+
+import { DebugLogger } from '../../common-lib/log';
 
 import type { ProviderType } from './store';
 import { setAuthToken } from './token';
+
+const logger = new DebugLogger('auth');
 
 export enum EConnectorNames {
   Injected = 'injected',
@@ -14,18 +18,16 @@ export enum EConnectorNames {
 export interface IAuth {
   address?: string;
   connectorName?: EConnectorNames | ProviderType;
-  authTokens: { [k: string]: string | undefined };
+  id?: number;
+  token?: string;
 }
 
-const updateToken = ({ address, authTokens }: IAuth) => {
-  const token = address && authTokens[address];
+const updateToken = ({ token }: IAuth) => {
+  logger.log('updateToken:', token);
   setAuthToken(token);
 };
 
-const AUTH_STORAGE_KEY = 'capeAuth';
-
-const saveAuth = (auth: IAuth) =>
-  localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(auth));
+const AUTH_STORAGE_KEY = 'capeAuth2';
 
 const getSavedAuth = (): IAuth => {
   try {
@@ -33,9 +35,7 @@ const getSavedAuth = (): IAuth => {
     assert(auth);
     return JSON.parse(auth);
   } catch {
-    return {
-      authTokens: {},
-    };
+    return {};
   }
 };
 
@@ -52,11 +52,12 @@ export const rSavedAuth = atom({
   effects_UNSTABLE: [
     ({ onSet }) => {
       onSet(auth => {
+        if (!auth) auth = {};
         updateToken(auth);
-        saveAuth(auth);
+        localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(auth));
       });
     },
   ],
 });
 
-export const useSavedAuth = () => useRecoilValue(rSavedAuth);
+export const useSavedAuth = () => useRecoilState(rSavedAuth);

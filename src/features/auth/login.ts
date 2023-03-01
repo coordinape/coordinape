@@ -34,7 +34,7 @@ export const login = async (
   address: string,
   provider: Web3Provider,
   connectorName: string
-): Promise<{ token: string }> => {
+): Promise<{ token: string; id: number }> => {
   let nonce, time;
   try {
     const nonceReq = await fetch('/api/time');
