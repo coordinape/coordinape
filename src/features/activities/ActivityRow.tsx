@@ -30,7 +30,6 @@ export const ActivityRow = ({ activity }: { activity: Activity }) => {
   } else if (IsDeleted(activity)) {
     return <DeletedRow activity={activity} />;
   }
-  //
   // TODO: send these to Sentry when this goes into production
   return <Text>Unknown activity: {activity.action}</Text>;
 };
