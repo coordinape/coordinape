@@ -62,7 +62,7 @@ const buildEpochsActivity = async () => {
                 e.circle_id,
                 o.id,
                 e.start_date,
-                e.end_date,
+                trim(both '"' from to_json(e.end_date)::text),
                 e.created_at,
                 e.created_by
 FROM            epoches e
