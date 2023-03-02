@@ -66,7 +66,7 @@ export const useInfiniteActivities = (queryKey: QueryKey, where: Where) => {
     ({ pageParam = 0 }) => getActivities(where, pageParam),
     {
       getNextPageParam: (lastPage, allPages) => {
-        return lastPage.length == 0 ? undefined : allPages.length + 1;
+        return lastPage.length == 0 ? undefined : allPages.length;
       },
       refetchOnWindowFocus: false,
     }
