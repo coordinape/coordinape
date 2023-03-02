@@ -1,4 +1,5 @@
-import iti from 'itiriri';
+import assert from 'assert';
+
 import { useQuery } from 'react-query';
 
 import { order_by } from '../../lib/gql/__generated__/zeus';
@@ -6,10 +7,13 @@ import { client } from '../../lib/gql/client';
 
 export const QUERY_KEY_RECEIVE_INFO = 'getReceiveInfo';
 
-export const useReceiveInfo = (circleId: number, userId: number) => {
+export const useReceiveInfo = (circleId: number, userId?: number) => {
   const { data } = useQuery(
     [QUERY_KEY_RECEIVE_INFO, circleId, userId],
-    () => getReceiveInfo(circleId, userId),
+    () => {
+      assert(userId);
+      return getReceiveInfo(circleId, userId);
+    },
     {
       enabled: !!userId && !!circleId,
       //minimize background refetch
@@ -27,7 +31,7 @@ export const useReceiveInfo = (circleId: number, userId: number) => {
     : (data?.myReceived?.pastEpochs[0] &&
         data.myReceived.pastEpochs[0].receivedGifts) ??
       [];
-  const totalReceived = (gifts && iti(gifts).sum(({ tokens }) => tokens)) || 0;
+  const totalReceived = gifts?.reduce((t, g) => t + g.tokens, 0) || 0;
 
   const showGives =
     data?.myReceived?.show_pending_gives || !data?.myReceived?.currentEpoch[0];

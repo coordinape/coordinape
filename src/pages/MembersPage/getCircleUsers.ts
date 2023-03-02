@@ -1,7 +1,7 @@
 import { client } from 'lib/gql/client';
+import { Role } from 'lib/users';
 
 import { Awaited } from '../../types/shim';
-import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
 
 export const getCircleUsers = async (circleId: number) => {
   const { users } = await client.query(
@@ -50,8 +50,8 @@ export const getCircleUsers = async (circleId: number) => {
 
   return users.map(user => ({
     ...user,
-    isCircleAdmin: user.role === USER_ROLE_ADMIN,
-    isCoordinapeUser: user.role === USER_ROLE_COORDINAPE,
+    isCircleAdmin: user.role === Role.ADMIN,
+    isCoordinapeUser: user.role === Role.COORDINAPE,
     fixed_payment_amount: user.user_private?.fixed_payment_amount,
   }));
 };
