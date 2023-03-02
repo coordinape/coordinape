@@ -8,7 +8,6 @@ import {
   calculateNextEpoch,
   endEpoch,
   EpochsToNotify,
-  makeNextStartDate,
   notifyEpochEnd,
   notifyEpochStart,
 } from '../../../api/hasura/cron/epochs';
