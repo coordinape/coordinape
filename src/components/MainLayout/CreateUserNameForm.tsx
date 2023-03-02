@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { provider, zUsername } from 'lib/zod/formHelpers';
+import { isValidENS, zUsername } from 'lib/zod/formHelpers';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
 import { z } from 'zod';
@@ -63,11 +63,8 @@ export const CreateUserNameForm = ({ address }: { address?: string }) => {
   });
   const onSubmit: SubmitHandler<UserNameFormSchema> = async data => {
     if (data.name.endsWith('.eth')) {
-      const resolvedAddress = await provider().resolveName(data.name);
-      if (
-        !resolvedAddress ||
-        resolvedAddress.toLowerCase() !== address?.toLowerCase()
-      ) {
+      const validENS = await isValidENS(data.name, address);
+      if (!validENS) {
         setError(
           'name',
           {
