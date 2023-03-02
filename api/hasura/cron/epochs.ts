@@ -831,23 +831,65 @@ interface EpochActivityInput {
 }
 
 export async function insertEpochStartActivity(epoch: EpochActivityInput) {
-  await insertActivity({
-    epoch_id: epoch.id,
-    action: 'epochs_started',
-    circle_id: epoch.circle_id,
-    created_at: epoch.start_date,
-    organization_id: epoch.organization_id,
-  });
+  const action = 'epochs_started';
+
+  const activityExists = await epochActivityExists(epoch.id, action);
+  if (!activityExists) {
+    await insertActivity({
+      epoch_id: epoch.id,
+      action: action,
+      circle_id: epoch.circle_id,
+      created_at: epoch.start_date,
+      organization_id: epoch.organization_id,
+    });
+  }
 }
 
 export async function insertEpochEndActivity(epoch: EpochActivityInput) {
-  await insertActivity({
-    epoch_id: epoch.id,
-    action: 'epochs_ended',
-    circle_id: epoch.circle_id,
-    created_at: epoch.end_date,
-    organization_id: epoch.organization_id,
-  });
+  const action = 'epochs_ended';
+
+  const activityExists = await epochActivityExists(epoch.id, action);
+  if (!activityExists) {
+    await insertActivity({
+      epoch_id: epoch.id,
+      action: action,
+      circle_id: epoch.circle_id,
+      created_at: epoch.end_date,
+      organization_id: epoch.organization_id,
+    });
+  }
+}
+
+async function epochActivityExists(
+  epoch_id: number,
+  action: string
+): Promise<boolean> {
+  const { epochs_by_pk } = await adminClient.query(
+    {
+      epochs_by_pk: [
+        { id: epoch_id },
+        {
+          activities_aggregate: [
+            {
+              where: {
+                action: { _eq: action },
+              },
+            },
+            { aggregate: { count: [{}, true] } },
+          ],
+        },
+      ],
+    },
+    {
+      operationName: 'cron_epochs_getEpochActivity',
+    }
+  );
+
+  if (epochs_by_pk) {
+    return (epochs_by_pk.activities_aggregate.aggregate?.count || 0) > 0;
+  } else {
+    return false;
+  }
 }
 
 export default verifyHasuraRequestMiddleware(handler);
