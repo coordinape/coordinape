@@ -61,7 +61,7 @@ export const getAvatarPath = (avatar?: string) => {
   }
 
   // don't transform if it's a local image (e.g. Storybook)
-  if (avatar.startsWith('../imgs')) {
+  if (avatar.startsWith('../imgs') || avatar.startsWith('/imgs')) {
     return avatar;
   }
 

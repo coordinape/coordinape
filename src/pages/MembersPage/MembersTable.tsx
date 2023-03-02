@@ -14,6 +14,7 @@ import {
   USER_COORDINAPE_ADDRESS,
   USER_ROLE_ADMIN,
   USER_ROLE_COORDINAPE,
+  USER_COORDINAPE_AVATAR,
 } from 'config/constants';
 import {
   useToast,
@@ -158,7 +159,11 @@ const UserName = ({ user }: { user: ICircleUser }) => {
       }}
     >
       <Avatar
-        path={user?.profile?.avatar}
+        path={
+          user.role === USER_ROLE_COORDINAPE
+            ? USER_COORDINAPE_AVATAR
+            : user?.profile?.avatar
+        }
         name={user?.profile?.name}
         size="small"
         onClick={getToProfile(user.address)}

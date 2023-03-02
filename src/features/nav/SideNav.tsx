@@ -151,6 +151,10 @@ export const SideNav = () => {
               currentOrg={currentOrg}
               currentCircle={currentCircle}
             />
+            {
+              // eslint-disable-next-line no-console
+              console.log(data)
+            }
             {currentOrg && (
               <NavCircles org={currentOrg} currentCircle={currentCircle} />
             )}
