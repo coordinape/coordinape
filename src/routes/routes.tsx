@@ -142,14 +142,10 @@ export const AppRoutes = () => {
           />
           <Route path={paths.cosoul} element={<SplashPage />} />
           <Route
-            path="*"
+            path={paths.mint}
             element={
               <RequireAuth>
-                <Suspense fallback={null}>
-                  <Routes>
-                    <Route path={paths.mint} element={<MintPage />} />
-                  </Routes>
-                </Suspense>
+                <MintPage />
               </RequireAuth>
             }
           />
