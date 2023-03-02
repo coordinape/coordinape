@@ -6,8 +6,8 @@ import { z } from 'zod';
 import { getProfilesWithName } from '../../../../api-lib/findProfile';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
-import { getProvider } from '../../../../api-lib/provider';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
+import { isValidENS } from '../../../../api-lib/validateENS';
 import {
   composeHasuraActionRequestBodyWithSession,
   HasuraUserSessionVariables,
@@ -39,12 +39,8 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   const { name } = payload;
 
   if (name.endsWith('.eth')) {
-    const resolvedAddress = await getProvider(1).resolveName(name);
-    if (
-      !resolvedAddress ||
-      resolvedAddress.toLowerCase() !==
-        session_variables.hasuraAddress.toLocaleLowerCase()
-    )
+    const validENS = await isValidENS(name, session_variables.hasuraAddress);
+    if (!validENS)
       return errorResponseWithStatusCode(
         res,
         {
