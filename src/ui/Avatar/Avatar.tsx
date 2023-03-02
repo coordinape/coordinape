@@ -76,6 +76,7 @@ const AvatarImage = styled(AvatarPrimitive.Image, {
   height: '100%',
   objectFit: 'cover',
   borderRadius: 'inherit',
+  // for some reason our processed images have a black line at the top.  scaling to hide it for now
   transform: 'scale(1.03)',
 });
 

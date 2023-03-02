@@ -84,9 +84,7 @@ export const GiveRow = ({
       <GiveRowGrid
         gridView={gridView}
         selected={(selected || docExample) ?? false}
-        css={{
-          ...css,
-        }}
+        css={css}
       >
         <Panel
           css={{
