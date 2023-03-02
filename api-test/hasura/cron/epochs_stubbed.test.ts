@@ -896,7 +896,7 @@ describe('epoch Cron Logic', () => {
         },
         { operationName: 'updateEpochStartNotification' }
       );
-      expect(mockMutation).toBeCalledTimes(3);
+      expect(mockMutation).toBeCalledTimes(4);
       expect(mockSendSocial).toBeCalledTimes(3);
       expect(mockSendSocial).toBeCalledWith({
         channels: {

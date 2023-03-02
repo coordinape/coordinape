@@ -271,6 +271,7 @@ export async function notifyEpochStart({
         },
         sanitize: false,
       });
+      await updateEpochStartNotification(epoch.id);
     }
 
     if (circle.discord_webhook) {
