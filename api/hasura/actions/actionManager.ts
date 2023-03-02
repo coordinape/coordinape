@@ -7,7 +7,6 @@ import adminUpdateUser from './_handlers/adminUpdateUser';
 import allocationCsv from './_handlers/allocationCsv';
 import createCircle from './_handlers/createCircle';
 import createEpoch from './_handlers/createEpoch';
-import createEpochOld from './_handlers/createEpochOld';
 import createNominee from './_handlers/createNominee';
 import createSampleCircle from './_handlers/createSampleCircle';
 import createUsers from './_handlers/createUsers';
@@ -31,7 +30,6 @@ import updateAllocations from './_handlers/updateAllocations';
 import updateCircle from './_handlers/updateCircle';
 import updateContribution from './_handlers/updateContribution';
 import updateEpoch from './_handlers/updateEpoch';
-import updateEpochOld from './_handlers/updateEpochOld';
 import updateProfile from './_handlers/updateProfile';
 import updateTeammates from './_handlers/updateTeammates';
 import updateUser from './_handlers/updateUser';
@@ -47,7 +45,6 @@ const HANDLERS: HandlerDict = {
   allocationCsv,
   createCircle,
   createEpoch,
-  createEpochOld,
   createNominee,
   createSampleCircle,
   createUsers,
@@ -71,7 +68,6 @@ const HANDLERS: HandlerDict = {
   updateCircle,
   updateContribution,
   updateEpoch,
-  updateEpochOld,
   updateProfile,
   updateTeammates,
   updateUser,

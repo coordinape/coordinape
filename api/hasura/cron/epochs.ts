@@ -2,7 +2,7 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import dedent from 'dedent';
-import { DateTime, Duration, Settings } from 'luxon';
+import { DateTime, Settings } from 'luxon';
 import { z } from 'zod';
 
 import { insertActivity } from '../../../api-lib/event_triggers/activity/mutations';
@@ -544,30 +544,7 @@ export async function endEpochHandler(
   assert(end_date, 'panic: no end date');
   if (repeat_data) {
     await createNextEpoch({ ...epoch, start_date, end_date, repeat_data });
-  } else if (epoch.repeat > 0) {
-    // temporarily allow support for old repeat logic
-    // This is simple enough to remove post-cutover
-    // TODO Remove support for old repeat logic
-    await createNextEpochOld({ ...epoch, start_date, end_date });
   }
-}
-
-export function makeNextStartDate(
-  start: DateTime,
-  repeat: number,
-  repeat_day_of_month: number
-) {
-  if (repeat === 1) return start.plus({ days: 7 });
-  const nextMonth = start.plus({ months: 1 }).month;
-
-  return DateTime.fromObject({
-    year: nextMonth < start.month ? start.year + 1 : start.year,
-    month: nextMonth,
-    day: Math.min(
-      repeat_day_of_month ?? start.toFormat('d'),
-      getDaysInNextMonth(start)
-    ),
-  });
 }
 
 export async function createNextEpoch(epoch: {
@@ -675,98 +652,6 @@ export function calculateNextEpoch(
       return { nextStartDate, nextEndDate };
     }
   }
-}
-
-async function createNextEpochOld(epoch: {
-  id: number;
-  start_date: string;
-  end_date: string;
-  circle_id: number;
-  repeat: number;
-  days?: number;
-  repeat_day_of_month: number;
-  circle?: { telegram_id?: string; discord_webhook?: string };
-}) {
-  const {
-    start_date,
-    end_date,
-    repeat,
-    repeat_day_of_month,
-    circle,
-    days: epochLengthInDays,
-  } = epoch;
-  const start = DateTime.fromISO(start_date);
-  const end = DateTime.fromISO(end_date);
-  const days = epochLengthInDays
-    ? Duration.fromObject({ days: epochLengthInDays })
-    : end.diff(start, 'days');
-
-  const nextStartDate = makeNextStartDate(start, repeat, repeat_day_of_month);
-
-  if (nextStartDate < end) {
-    errorLog(
-      `For circle id ${epoch.circle_id},  ${nextStartDate} overlaps with the prior epoch's end date: ${end}`
-    );
-
-    return;
-  }
-
-  const nextEndDate = nextStartDate.plus(days);
-
-  const existingEpoch = await getOverlappingEpoch(
-    nextStartDate,
-    nextEndDate,
-    epoch.circle_id
-  );
-
-  if (existingEpoch) {
-    errorLog(
-      `For circle id ${epoch.circle_id},  ${nextStartDate} overlaps with the another epoch: existing epoch id: ${existingEpoch?.id}, start: ${existingEpoch?.start_date}, end: ${existingEpoch?.end_date}`,
-      false
-    );
-    return;
-  }
-  await adminClient.mutate(
-    {
-      insert_epochs_one: [
-        {
-          object: {
-            circle_id: epoch.circle_id,
-            repeat: repeat,
-            repeat_day_of_month: repeat_day_of_month,
-            days: Math.floor(days.days),
-            start_date: nextStartDate.toISO(),
-            end_date: nextEndDate.toISO(),
-          },
-        },
-        { __typename: true },
-      ],
-    },
-    {
-      operationName: 'createNextEpochOld',
-    }
-  );
-
-  const message = dedent`
-      A new repeating epoch has been created: ${nextStartDate.toLocaleString(
-        DateTime.DATETIME_FULL
-      )} to ${nextEndDate.toLocaleString(DateTime.DATETIME_FULL)}
-    `;
-
-  if (circle?.discord_webhook)
-    await notifyEpochStatus(message, { discord: true }, epoch);
-
-  if (circle?.telegram_id)
-    await notifyEpochStatus(message, { telegram: true }, epoch);
-}
-
-function getDaysInNextMonth(date: DateTime) {
-  const next = date.plus({ months: 1 });
-  return daysInMonth(next.month, next.year);
-}
-
-function daysInMonth(month: number, year: number) {
-  return new Date(year, month, 0).getDate();
 }
 
 async function notifyAndUpdateEpoch(

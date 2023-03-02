@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ENTRANCE } from 'common-lib/constants';
 import { client } from 'lib/gql/client';
+import { isValidENS } from 'lib/zod/formHelpers';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
 import { z } from 'zod';
@@ -98,6 +99,7 @@ const NewMemberList = ({
     handleSubmit,
     reset,
     formState: { errors, isValid },
+    setError,
     watch,
     trigger,
   } = useForm<FormSchema>({
@@ -131,6 +133,27 @@ const NewMemberList = ({
           entrance:
             m.entrance === ENTRANCE.CSV ? ENTRANCE.CSV : ENTRANCE.MANUAL,
         }));
+
+      const resolveResult = await Promise.all(
+        newMembers.map(async (m, index) => {
+          if (m.name.endsWith('.eth')) {
+            const validENS = await isValidENS(m.name, m.address);
+            if (!validENS) {
+              setError(
+                `newMembers.${index}.name`,
+                {
+                  message: `The ENS ${m.name} doesn't resolve to the address: ${m.address}.`,
+                },
+                { shouldFocus: true }
+              );
+              return true;
+            }
+          }
+        })
+      );
+      if (resolveResult.find(r => r === true)) {
+        return;
+      }
       const res = await client.mutate(
         {
           createUsers: [

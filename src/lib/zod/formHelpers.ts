@@ -14,6 +14,17 @@ export const provider = () => {
   return _provider;
 };
 
+export const isValidENS = async (name: string, address?: string) => {
+  const resolvedAddress = await provider().resolveName(name);
+  if (
+    !resolvedAddress ||
+    resolvedAddress.toLowerCase() !== address?.toLowerCase()
+  ) {
+    return false;
+  }
+  return true;
+};
+
 export const zStringISODateUTC = z
   .string()
   .transform(s => DateTime.fromISO(s, { zone: 'utc' }))

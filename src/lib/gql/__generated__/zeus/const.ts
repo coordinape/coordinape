@@ -20,9 +20,6 @@ export const AllTypesProps: Record<string, any> = {
   CreateEpochInput: {
     params: 'EpochInputParams',
   },
-  CreateEpochOldInput: {
-    start_date: 'timestamptz',
-  },
   CreateNomineeInput: {},
   CreateUserWithTokenInput: {},
   CreateUsersInput: {
@@ -53,9 +50,6 @@ export const AllTypesProps: Record<string, any> = {
   },
   UpdateEpochInput: {
     params: 'EpochInputParams',
-  },
-  UpdateEpochOldInput: {
-    start_date: 'timestamptz',
   },
   UpdateProfileInput: {},
   UpdateTeammatesInput: {},
@@ -2238,9 +2232,6 @@ export const AllTypesProps: Record<string, any> = {
     createEpoch: {
       payload: 'CreateEpochInput',
     },
-    createEpochOld: {
-      payload: 'CreateEpochOldInput',
-    },
     createNominee: {
       payload: 'CreateNomineeInput',
     },
@@ -2398,9 +2389,6 @@ export const AllTypesProps: Record<string, any> = {
     },
     updateEpoch: {
       payload: 'UpdateEpochInput',
-    },
-    updateEpochOld: {
-      payload: 'UpdateEpochOldInput',
     },
     updateProfile: {
       payload: 'UpdateProfileInput',
@@ -5837,7 +5825,6 @@ export const ReturnTypes: Record<string, any> = {
     allocationCsv: 'AllocationCsvResponse',
     createCircle: 'CreateCircleResponse',
     createEpoch: 'EpochResponse',
-    createEpochOld: 'EpochResponse',
     createNominee: 'CreateNomineeResponse',
     createSampleCircle: 'CreateSampleCircleResponse',
     createUserWithToken: 'UserResponse',
@@ -5893,7 +5880,6 @@ export const ReturnTypes: Record<string, any> = {
     updateCircle: 'UpdateCircleOutput',
     updateContribution: 'UpdateContributionResponse',
     updateEpoch: 'EpochResponse',
-    updateEpochOld: 'EpochResponse',
     updateProfile: 'UpdateProfileResponse',
     updateTeammates: 'UpdateTeammatesResponse',
     updateUser: 'UserResponse',

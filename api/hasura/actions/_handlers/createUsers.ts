@@ -12,6 +12,7 @@ import {
   errorResponseWithStatusCode,
   InternalServerError,
 } from '../../../../api-lib/HttpError';
+import { isValidENS } from '../../../../api-lib/validateENS';
 import { ENTRANCE } from '../../../../src/common-lib/constants';
 import {
   composeHasuraActionRequestBodyWithApiPermissions,
@@ -43,6 +44,37 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     return errorResponseWithStatusCode(
       res,
       { message: `Users list contains duplicate addresses: ${dupes}` },
+      422
+    );
+  }
+
+  // Validate ENS names.
+  const unresolvedUsers = await Promise.all(
+    users.map(async user => {
+      if (user.name.endsWith('.eth')) {
+        const validENS = await isValidENS(user.name, user.address);
+        if (!validENS) return user;
+      }
+    })
+  );
+
+  const unresolvedNames: string[] = [];
+  unresolvedUsers.forEach(u => {
+    if (u !== undefined) {
+      unresolvedNames.push(u.name);
+    }
+  });
+
+  if (unresolvedNames.length > 0) {
+    return errorResponseWithStatusCode(
+      res,
+      {
+        message: `ENS ${unresolvedNames.join(', ')} ${
+          unresolvedNames.length > 1 ? 'do' : 'does'
+        } not resolve to the entered ${
+          unresolvedNames.length > 1 ? 'addresses' : 'address'
+        }.`,
+      },
       422
     );
   }
