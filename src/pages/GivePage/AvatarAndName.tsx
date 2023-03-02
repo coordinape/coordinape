@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { Avatar, Flex, Text } from '../../ui';
-import { USER_COORDINAPE_AVATAR } from 'config/constants';
 
 // AvatarAndName renders the avatar and a member name for inclusion in a GiveRow
 export const AvatarAndName = ({
@@ -24,7 +23,8 @@ export const AvatarAndName = ({
       <Avatar
         size="small"
         name={name}
-        path={roleCoordinape ? USER_COORDINAPE_AVATAR : avatar}
+        roleCoordinape={roleCoordinape}
+        path={avatar}
         css={{ mr: '$sm' }}
       />
       <Text ellipsis>

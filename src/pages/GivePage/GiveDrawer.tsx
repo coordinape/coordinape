@@ -206,6 +206,7 @@ export const GiveDrawer = ({
             size="small"
             name={member.profile.name}
             path={member.profile.avatar}
+            roleCoordinape={roleCoordinape}
             margin="none"
             css={{ mr: '$sm' }}
           />
