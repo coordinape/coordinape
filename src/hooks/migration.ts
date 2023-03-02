@@ -5,29 +5,41 @@
 
 import { useEffect } from 'react';
 
-import debug from 'debug';
-import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
+import { useRecoilValue, useRecoilState, useRecoilValueLoadable } from 'recoil';
 
+import { DebugLogger } from '../common-lib/log';
 import { useApiBase } from 'hooks';
-import { rSelectedCircle, rApiManifest, rManifest } from 'recoilState';
+import {
+  rSelectedCircle,
+  rApiManifest,
+  rManifest,
+  rApiFullCircle,
+  rSelectedCircleIdSource,
+} from 'recoilState';
+
+const logger = new DebugLogger('hooks/migration');
 
 // if you have a new page that doesn't use Recoil and is related to a specific
 // circle, you may want to use this hook to make sure that if you then navigate
 // away to a legacy page, that new page shows the correct circle.
 export const useFixCircleState = (circleId: number | undefined) => {
-  const log = debug(`useFixCircleState`);
   const recoilValue = useRecoilValueLoadable(rSelectedCircle).valueMaybe();
-  const { selectCircle } = useApiBase();
+  const fullCircles = useRecoilValue(rApiFullCircle);
+  const [, setCircleIdSource] = useRecoilState(rSelectedCircleIdSource);
+  const { fetchCircle } = useApiBase();
 
   useEffect(() => {
     if (!circleId) return;
-    if (circleId === recoilValue?.circle.id) {
-      log(`circle ids match`);
-      return;
-    }
 
-    log(`selecting circle: ${circleId}`);
-    selectCircle(circleId);
+    if (circleId === recoilValue?.circle.id) {
+      logger.log(`circle ids match`);
+    } else if (fullCircles.has(circleId)) {
+      logger.log(`reusing circle data: ${circleId}`);
+      setCircleIdSource(circleId);
+    } else {
+      logger.log(`fetching circle data: ${circleId}`);
+      fetchCircle({ circleId, select: true });
+    }
   }, [circleId, recoilValue]);
 };
 

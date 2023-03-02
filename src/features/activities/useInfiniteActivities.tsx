@@ -29,10 +29,16 @@ const getActivities = async (where: Where, page: number) => {
           actor_profile: {
             name: true,
             avatar: true,
+            address: true,
+          },
+          circle: {
+            id: true,
+            name: true,
           },
           target_profile: {
             name: true,
             avatar: true,
+            address: true,
           },
           contribution: {
             description: true,
@@ -70,16 +76,21 @@ export const useInfiniteActivities = (queryKey: QueryKey, where: Where) => {
 export type Activity = Awaited<ReturnType<typeof getActivities>>[number];
 
 export type Contribution = Activity &
-  Required<Pick<Activity, 'contribution' | 'actor_profile'>>;
+  Required<Pick<Activity, 'contribution' | 'actor_profile' | 'circle'>>;
 export function IsContribution(a: Activity): a is Contribution {
   return (
-    a.action == 'contributions_insert' && !!a.contribution && !!a.actor_profile
+    a.action == 'contributions_insert' &&
+    !!a.contribution &&
+    !!a.actor_profile &&
+    !!a.circle
   );
 }
 
-export type NewUser = Activity & Required<Pick<Activity, 'target_profile'>>;
+export type NewUser = Activity &
+  Required<Pick<Activity, 'target_profile' | 'circle'>>;
+
 export function IsNewUser(a: Activity): a is NewUser {
-  return a.action == 'users_insert' && !!a.target_profile;
+  return a.action == 'users_insert' && !!a.target_profile && !!a.circle;
 }
 
 export type EpochCreated = Activity & Required<Pick<Activity, 'epoch'>>;
@@ -95,4 +106,15 @@ export function IsEpochEnded(a: Activity): a is EpochEnded {
 export type EpochStarted = Activity & Required<Pick<Activity, 'epoch'>>;
 export function IsEpochStarted(a: Activity): a is EpochStarted {
   return a.action == 'epoches_started' && !!a.epoch;
+}
+
+export function IsDeleted(a: Activity) {
+  // epoch are hard deleted, so we never see them here.
+  // user's removed from circle is not supported by this right now.
+  switch (a.action) {
+    case 'contributions_insert':
+      return !a.contribution;
+    default:
+      return false;
+  }
 }

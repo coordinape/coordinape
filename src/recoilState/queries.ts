@@ -112,24 +112,26 @@ export const queryProfile = async (address: string): Promise<IApiProfile> => {
     throw 'unable to load address: ' + address;
   }
 
-  const adaptedUsers = p.users.map(user => {
-    const adaptedUser: Omit<typeof user, 'teammates | organization'> & {
-      teammates?: IApiUser[];
-      circle: Omit<typeof user.circle, 'organization'> & {
-        organization: typeof user.circle.organization;
+  const adaptedUsers = p.users
+    .filter(user => user.circle)
+    .map(user => {
+      const adaptedUser: Omit<typeof user, 'teammates | organization'> & {
+        teammates?: IApiUser[];
+        circle: Omit<typeof user.circle, 'organization'> & {
+          organization: typeof user.circle.organization;
+        };
+      } = {
+        ...user,
+        teammates: user.teammates
+          .map(tm => tm.teammate)
+          .filter(u => u) as IApiUser[],
+        circle: {
+          ...user.circle,
+          organization: user.circle.organization,
+        },
       };
-    } = {
-      ...user,
-      teammates: user.teammates
-        .map(tm => tm.teammate)
-        .filter(u => u) as IApiUser[],
-      circle: {
-        ...user.circle,
-        organization: user.circle.organization,
-      },
-    };
-    return adaptedUser;
-  });
+      return adaptedUser;
+    });
 
   const adaptedProfile: Omit<typeof p, 'skills' | 'users'> & {
     skills?: string[];

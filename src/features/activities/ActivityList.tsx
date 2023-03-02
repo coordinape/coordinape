@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import { QueryKey } from 'react-query';
 
 import { LoadingIndicator } from '../../components/LoadingIndicator';
-import { Flex, Text } from '../../ui';
+import { Box, Flex } from '../../ui';
 
 import { ActivityRow } from './ActivityRow';
 import { useInfiniteActivities, Where } from './useInfiniteActivities';
@@ -64,20 +64,7 @@ export const ActivityList = ({
           })
         )}{' '}
       <Flex ref={observerRef} css={{ justifyContent: 'center' }}>
-        {isFetchingNextPage ? (
-          <LoadingIndicator />
-        ) : (
-          <Flex
-            css={{
-              borderTop: '1px solid $dim',
-              width: '100%',
-              pt: '$md',
-              justifyContent: 'center',
-            }}
-          >
-            <Text semibold>No Items Left</Text>
-          </Flex>
-        )}
+        {isFetchingNextPage ? <LoadingIndicator /> : <Box>&nbsp;</Box>}
       </Flex>
     </Flex>
   );
