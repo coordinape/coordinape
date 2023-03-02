@@ -1,5 +1,6 @@
 import React, { Suspense, useEffect, useState } from 'react';
 
+import { Role } from 'lib/users';
 import { transparentize } from 'polished';
 import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
@@ -15,7 +16,6 @@ import {
   scrollToTop,
 } from 'components';
 import { EditProfileModal } from 'components/EditProfileModal';
-import { USER_ROLE_COORDINAPE } from 'config/constants';
 import { useApiWithProfile, useImageUploader, useToast } from 'hooks';
 import { useSomeCircleId } from 'hooks/migration';
 import { Edit3 } from 'icons/__generated';
@@ -188,7 +188,7 @@ const ProfilePageContent = ({
         <Flex css={{ padding: '$lg 0', alignItems: 'center' }}>
           <ProfileSocialIcons profile={profile} />
         </Flex>
-        {user?.role === USER_ROLE_COORDINAPE ? (
+        {user?.role === Role.COORDINAPE ? (
           <div>
             Coordinape is the platform you’re using right now! We currently
             offer our service for free and invite people to allocate to us from
