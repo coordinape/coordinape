@@ -17,7 +17,7 @@ import { insertEpochEndActivity, insertEpochStartActivity } from './epochs';
 
 Settings.defaultZone = 'utc';
 
-const START_DATE = `2023-01-01`;
+const START_DATE = `2022-10-18`;
 const BATCH_SIZE = 500;
 
 async function handler(req: VercelRequest, res: VercelResponse) {
