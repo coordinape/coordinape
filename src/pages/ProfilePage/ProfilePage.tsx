@@ -1,5 +1,6 @@
 import React, { Suspense, useEffect, useState } from 'react';
 
+import { Role } from 'lib/users';
 import { transparentize } from 'polished';
 import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
@@ -193,7 +194,7 @@ const ProfilePageContent = ({
         <Flex css={{ padding: '$lg 0', alignItems: 'center' }}>
           <ProfileSocialIcons profile={profile} />
         </Flex>
-        {user?.role === USER_ROLE_COORDINAPE ? (
+        {user?.role === Role.COORDINAPE ? (
           <div>
             Coordinape is the platform you’re using right now! We currently
             offer our service for free and invite people to allocate to us from

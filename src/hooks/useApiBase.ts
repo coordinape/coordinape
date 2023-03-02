@@ -1,4 +1,3 @@
-import debug from 'debug';
 import { IAuth, rSavedAuth } from 'features/auth/useSavedAuth';
 import { client } from 'lib/gql/client';
 
@@ -12,8 +11,6 @@ import {
 import { useRecoilLoadCatch } from 'hooks';
 import { rSelectedCircleIdSource } from 'recoilState/app';
 import { rApiManifest, rApiFullCircle } from 'recoilState/db';
-
-const log = debug('useApiBase');
 
 const queryFullCircle = async (circle_id: number): Promise<IApiFullCircle> => {
   const { circles_by_pk, circle } = await client.query(
@@ -545,19 +542,14 @@ export const useApiBase = () => {
           throw 'Wallet must be connected to fetch manifest';
         }
 
+        // TODO split out raw query fetch from data reformatting;
+        // return the raw query data for use by new code
         const manifest = await queryManifest(walletAuth.address);
         set(rApiManifest, manifest);
+        return manifest;
       },
     [],
     { who: 'fetchManifest' }
-  );
-
-  const unselectCircle = useRecoilLoadCatch(
-    ({ set }) =>
-      async () => {
-        set(rSelectedCircleIdSource, undefined);
-      },
-    []
   );
 
   const fetchCircle = useRecoilLoadCatch(
@@ -577,27 +569,5 @@ export const useApiBase = () => {
     { who: 'fetchCircle' }
   );
 
-  const selectCircle = useRecoilLoadCatch(
-    ({ snapshot, set }) =>
-      async (circleId: number) => {
-        const fullCircles = await snapshot.getPromise(rApiFullCircle);
-        if (fullCircles.has(circleId)) {
-          set(rSelectedCircleIdSource, circleId);
-          return;
-        }
-
-        // Need to fetch this circle
-        log(`selectCircle -> fetchCircle ${circleId}`);
-        await fetchCircle({ circleId, select: true });
-      },
-    [],
-    { who: 'selectCircle' }
-  );
-
-  return {
-    fetchManifest,
-    fetchCircle,
-    selectCircle,
-    unselectCircle,
-  };
+  return { fetchManifest, fetchCircle };
 };

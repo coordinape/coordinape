@@ -4,9 +4,9 @@
  *
  */
 
+import { Role } from 'lib/users';
 import { DateTime } from 'luxon';
 
-import { USER_ROLE_ADMIN, USER_ROLE_COORDINAPE } from 'config/constants';
 import { assertDef } from 'utils';
 
 import {
@@ -80,8 +80,8 @@ export const extraProfile = ({ users, ...profile }: IApiProfile): IProfile => {
 export const extraUser = ({ teammates, ...user }: IApiUser): IUser => ({
   teammates: teammates?.map(t => extraUser(t)) ?? ([] as IUser[]),
   ...user,
-  isCircleAdmin: user.role === USER_ROLE_ADMIN,
-  isCoordinapeUser: user.role === USER_ROLE_COORDINAPE,
+  isCircleAdmin: user.role === Role.ADMIN,
+  isCoordinapeUser: user.role === Role.COORDINAPE,
 });
 
 export const extraCircle = (circle: IApiCircle): ICircle => {
