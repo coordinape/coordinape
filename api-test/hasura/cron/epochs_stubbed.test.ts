@@ -9,7 +9,6 @@ import {
   notifyEpochEnd,
   EpochsToNotify,
   endEpoch,
-  makeNextStartDate,
   calculateNextEpoch,
 } from '../../../api/hasura/cron/epochs';
 
@@ -105,8 +104,7 @@ const mockEpoch = {
     id: 9,
     start_date: DateTime.now().minus({ days: 1 }).toISO(),
     end_date: DateTime.now().plus({ days: 1 }).toISO(),
-    repeat: 2,
-    repeat_day_of_month: 7,
+    repeat_data: { type: 'monthly', week: 0, time_zone: 'UTC' },
     circle: mockCircle.endEpoch,
     circle_id: 1,
     epoch_pending_token_gifts: Array(7)
@@ -156,11 +154,6 @@ function getCircle<T extends keyof EpochsToNotify>(
 }
 
 describe('next start date generation', () => {
-  test('makeNextStartDate', () => {
-    const d1 = DateTime.fromISO('2022-12-02');
-    const n1 = makeNextStartDate(d1, 2, 7);
-    expect(n1.toISODate()).toEqual('2023-01-07');
-  });
   describe('calculateNextEpoch', () => {
     test('calculates epoch correctly', () => {
       const start = DateTime.utc(2023, 2);
@@ -301,6 +294,7 @@ describe('epoch Cron Logic', () => {
       const orgName = 'big ol party';
       const input = getEpochInput('endEpoch', {
         repeat: 0,
+        repeat_data: null,
         circle: getCircle('endEpoch', {
           discord_webhook: 'https://webhook/webhook',
           telegram_id: '-99',
@@ -663,9 +657,7 @@ describe('epoch Cron Logic', () => {
             {
               object: {
                 circle_id: 1,
-                repeat: 2,
-                repeat_day_of_month: 7,
-                days: 2,
+                repeat_data: { type: 'monthly', week: 0, time_zone: 'UTC' },
                 start_date: expect.stringMatching(isoTime),
                 end_date: expect.stringMatching(isoTime),
               },
@@ -674,7 +666,7 @@ describe('epoch Cron Logic', () => {
           ],
         },
         {
-          operationName: 'createNextEpochOld',
+          operationName: 'createNextEpoch',
         }
       );
       expect(mockMutation).toBeCalledWith(
