@@ -18,13 +18,6 @@ object_relationships:
           name: user_private
           schema: public
 array_relationships:
-  - name: activities
-    using:
-      foreign_key_constraint_on:
-        column: user_id
-        table:
-          name: activities
-          schema: public
   - name: burns
     using:
       foreign_key_constraint_on:

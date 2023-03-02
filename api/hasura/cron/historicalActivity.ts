@@ -57,12 +57,25 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 }
 
 const buildEpochsActivity = async () => {
-  const sql = `select e.id,e.circle_id,o.id,e.start_date,e.end_date,e.created_at,e.created_by from epoches e 
-join circles c on c.id = e.circle_id 
-join organizations o on o.id=c.organization_id 
-left outer join activities a on (a.epoch_id=e.id) 
-where e.start_date > '${START_DATE}' AND c.deleted_at is null AND a.id is null 
-order by e.id asc limit ${BATCH_SIZE}`;
+  const sql = `SELECT          
+                e.id,
+                e.circle_id,
+                o.id,
+                e.start_date,
+                e.end_date,
+                e.created_at,
+                e.created_by
+FROM            epoches e
+JOIN            circles c
+ON              c.id = e.circle_id
+JOIN            organizations o
+ON              o.id = c.organization_id
+LEFT OUTER JOIN activities a
+ON              (a.epoch_id = e.id)
+WHERE           e.created_at > '${START_DATE}'
+AND             c.deleted_at IS NULL
+AND             a.id IS NULL
+ORDER BY        e.id ASC limit ${BATCH_SIZE}`;
 
   const results = await runSql(sql);
   const epochs = results.map(a => {
@@ -97,12 +110,26 @@ order by e.id asc limit ${BATCH_SIZE}`;
 };
 
 const buildUsersActivity = async () => {
-  const sql = `select u.id, u.circle_id, o.id, p.id, u.created_at from users u
- join circles c on c.id = u.circle_id join organizations o on o.id=c.organization_id 
- join profiles p on p.address=u.address 
- left outer join activities a on (a.user_id=u.id) 
- where u.created_at > '${START_DATE}' AND u.deleted_at is null AND c.deleted_at is null AND a.id is null 
- order by u.id asc limit ${BATCH_SIZE}`;
+  const sql = `SELECT         
+                u.id,
+                u.circle_id,
+                o.id,
+                p.id,
+                u.created_at
+FROM            users u
+JOIN            circles c
+ON              c.id = u.circle_id
+JOIN            organizations o
+ON              o.id=c.organization_id
+JOIN            profiles p
+ON              p.address=u.address
+LEFT OUTER JOIN activities a
+ON              (a.user_id=u.id)
+WHERE           u.created_at > '${START_DATE}'
+AND             u.deleted_at IS NULL
+AND             c.deleted_at IS NULL
+AND             a.id IS NULL
+ORDER BY        u.id ASC limit ${BATCH_SIZE}`;
 
   const results = await runSql(sql);
   const users = results.map(a => ({
@@ -121,15 +148,29 @@ const buildUsersActivity = async () => {
 };
 
 const buildContributionsActivity = async () => {
-  const sql = `select b.id, b.circle_id, o.id, p.id, b.created_at from contributions b
- join circles c on c.id = b.circle_id 
- join organizations o on o.id=c.organization_id 
- join users u on u.id=b.user_id 
- join profiles p on p.address=u.address 
- left outer join activities a on (a.contribution_id=b.id) 
- where b.created_at > '${START_DATE}' AND b.deleted_at is null AND 
- u.deleted_at is null AND c.deleted_at is null AND a.id is null 
- order by b.id asc limit ${BATCH_SIZE}`;
+  const sql = `SELECT          
+                b.id,
+                b.circle_id,
+                o.id,
+                p.id,
+                b.created_at
+FROM            contributions b
+JOIN            circles c
+ON              c.id = b.circle_id
+JOIN            organizations o
+ON              o.id=c.organization_id
+JOIN            users u
+ON              u.id=b.user_id
+JOIN            profiles p
+ON              p.address=u.address
+LEFT OUTER JOIN activities a
+ON              (a.contribution_id=b.id)
+WHERE           b.created_at > '${START_DATE}'
+AND             b.deleted_at IS NULL
+AND             u.deleted_at IS NULL
+AND             c.deleted_at IS NULL
+AND             a.id IS NULL
+ORDER BY        b.id ASC limit ${BATCH_SIZE}`;
 
   const results = await runSql(sql);
   const contributions = results.map(a => ({
