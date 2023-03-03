@@ -11712,7 +11712,6 @@ input type for inserting data into table "reactions"
 """
 input reactions_insert_input {
   activity_id: Int
-  profile_id: Int
   reaction: String
 }
 

@@ -8836,7 +8836,6 @@ export type ValueTypes = {
   /** input type for inserting data into table "reactions" */
   ['reactions_insert_input']: {
     activity_id?: number | undefined | null;
-    profile_id?: number | undefined | null;
     reaction?: string | undefined | null;
   };
   /** aggregate max on columns */
@@ -21516,7 +21515,6 @@ export type GraphQLTypes = {
   /** input type for inserting data into table "reactions" */
   ['reactions_insert_input']: {
     activity_id?: number | undefined;
-    profile_id?: number | undefined;
     reaction?: string | undefined;
   };
   /** aggregate max on columns */
