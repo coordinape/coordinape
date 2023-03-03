@@ -32,7 +32,7 @@ export async function createProfile(
     },
     { operationName: 'createProfile_getExistingProfile' }
   );
-  if (!profiles[0].address) {
+  if (!profiles[0]) {
     const { insert_profiles_one: profile } = await client.mutate(
       {
         insert_profiles_one: [
@@ -45,6 +45,5 @@ export async function createProfile(
     assert(profile, 'Profile not created');
     return profile;
   }
-
   return profiles[0];
 }

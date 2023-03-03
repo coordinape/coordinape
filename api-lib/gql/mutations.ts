@@ -247,13 +247,11 @@ export async function insertCircleWithAdmin(
   const insertUsers = {
     data: [
       {
-        name: circleInput.user_name,
         address: userAddress,
         role: Role.ADMIN,
         entrance: ENTRANCE.ADMIN,
       },
       {
-        name: 'Coordinape',
         address: coordinapeAddress,
         role: Role.COORDINAPE,
         non_receiver: false,
@@ -411,7 +409,6 @@ export async function insertVouch(nomineeId: number, voucherId: number) {
 
 export async function insertUser(
   address: string,
-  name: string,
   circleId: number,
   entrance: string
 ) {
@@ -422,7 +419,6 @@ export async function insertUser(
           object: {
             address: address,
             circle_id: circleId,
-            name: name,
             entrance: entrance,
           },
         },

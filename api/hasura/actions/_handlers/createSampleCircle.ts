@@ -201,7 +201,6 @@ const addSampleMember = async (
             address,
             bio: sample.epochStatement,
             circle_id,
-            name: sample.name,
           },
         },
         {

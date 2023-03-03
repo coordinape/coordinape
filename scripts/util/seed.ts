@@ -3,7 +3,10 @@ import { faker } from '@faker-js/faker';
 import { DateTime } from 'luxon';
 import fetch from 'node-fetch';
 
-import { LOCAL_SEED_ADDRESS } from '../../api-lib/config';
+import {
+  LOCAL_SEED_ADDRESS,
+  COORDINAPE_USER_ADDRESS,
+} from '../../api-lib/config';
 import {
   profiles_constraint,
   ValueTypes,
@@ -146,6 +149,16 @@ export async function getAvatars() {
 }
 
 export async function createProfiles() {
+  await adminClient.mutate(
+    {
+      insert_profiles_one: [
+        { object: { name: 'Coordinape', address: COORDINAPE_USER_ADDRESS } },
+        { id: true },
+      ],
+    },
+    { operationName: 'create_CoordinapeProfile' }
+  );
+
   await adminClient.mutate(
     {
       insert_profiles_one: [

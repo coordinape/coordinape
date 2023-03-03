@@ -95,6 +95,8 @@ describe('Delete User action handler', () => {
   test('delete circle users as an admin', async () => {
     const deletingAddress1 = await getUniqueAddress();
     const deletingAddress2 = await getUniqueAddress();
+    await createProfile(adminClient, { address: deletingAddress1 });
+    await createProfile(adminClient, { address: deletingAddress2 });
     await createUser(adminClient, {
       address: deletingAddress1,
       circle_id: circle.id,
@@ -122,6 +124,7 @@ describe('Delete User action handler', () => {
 
   test("delete a user that doesn't exist in the circle", async () => {
     const deletingAddress1 = await getUniqueAddress();
+    await createProfile(adminClient, { address: deletingAddress1 });
     await createUser(adminClient, {
       address: deletingAddress1,
       circle_id: circle.id,
@@ -165,12 +168,13 @@ describe('Delete User action handler', () => {
     const deletingAddress1 = await getUniqueAddress();
     const deletingAddress2 = await getUniqueAddress();
     await createProfile(adminClient, { address: deletingAddress1 });
+    await createProfile(adminClient, { address: deletingAddress2 });
+
     await createUser(adminClient, {
       address: deletingAddress1,
       circle_id: circle.id,
       role: 0,
     });
-    await createProfile(adminClient, { address: deletingAddress2 });
     await createUser(adminClient, {
       address: deletingAddress2,
       circle_id: circle.id,
