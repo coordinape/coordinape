@@ -34,9 +34,10 @@ insert_permissions:
                   - profile:
                       id:
                         _eq: X-Hasura-User-Id
+      set:
+        profile_id: x-hasura-User-Id
       columns:
         - activity_id
-        - profile_id
         - reaction
 select_permissions:
   - role: user
