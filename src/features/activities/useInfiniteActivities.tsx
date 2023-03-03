@@ -16,7 +16,7 @@ const getActivities = async (where: Where, page: number) => {
           where,
           order_by: [
             {
-              id: order_by.desc,
+              created_at: order_by.desc,
             },
           ],
           offset: page * PAGE_SIZE,
