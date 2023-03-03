@@ -1,0 +1,99 @@
+table:
+  name: reactions
+  schema: public
+object_relationships:
+  - name: activity
+    using:
+      manual_configuration:
+        column_mapping:
+          activity_id: id
+        insertion_order: null
+        remote_table:
+          name: activities
+          schema: public
+  - name: profile
+    using:
+      manual_configuration:
+        column_mapping:
+          profile_id: id
+        insertion_order: null
+        remote_table:
+          name: profiles
+          schema: public
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        activity:
+          organization:
+            circles:
+              users:
+                _and:
+                  - deleted_at:
+                      _is_null: true
+                  - profile:
+                      id:
+                        _eq: X-Hasura-User-Id
+      columns:
+        - activity_id
+        - profile_id
+        - reaction
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - id
+        - activity_id
+        - profile_id
+        - reaction
+        - created_at
+        - updated_at
+      filter:
+        activity:
+          organization:
+            circles:
+              users:
+                _and:
+                  - deleted_at:
+                      _is_null: true
+                  - profile:
+                      id:
+                        _eq: X-Hasura-User-Id
+      allow_aggregations: true
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - reaction
+      filter:
+        _and:
+          - activity:
+              organization:
+                circles:
+                  users:
+                    _and:
+                      - deleted_at:
+                          _is_null: true
+                      - profile:
+                          id:
+                            _eq: X-Hasura-User-Id
+          - profile_id:
+              _eq: X-Hasura-User-Id
+      check: null
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        _and:
+          - activity:
+              organization:
+                circles:
+                  users:
+                    _and:
+                      - deleted_at:
+                          _is_null: true
+                      - profile:
+                          id:
+                            _eq: X-Hasura-User-Id
+          - profile_id:
+              _eq: X-Hasura-User-Id
