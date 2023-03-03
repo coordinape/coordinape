@@ -873,6 +873,18 @@ type activities_mutation_response {
 }
 
 """
+input type for inserting object relation for remote table "activities"
+"""
+input activities_obj_rel_insert_input {
+  data: activities_insert_input!
+
+  """
+  upsert condition
+  """
+  on_conflict: activities_on_conflict
+}
+
+"""
 on_conflict condition type for table "activities"
 """
 input activities_on_conflict {
@@ -14788,6 +14800,21 @@ type mutation_root {
   delete_profiles_by_pk(id: bigint!): profiles
 
   """
+  delete data from the table: "reactions"
+  """
+  delete_reactions(
+    """
+    filter the rows which have to be deleted
+    """
+    where: reactions_bool_exp!
+  ): reactions_mutation_response
+
+  """
+  delete single row from the table: "reactions"
+  """
+  delete_reactions_by_pk(id: bigint!): reactions
+
+  """
   delete data from the table: "teammates"
   """
   delete_teammates(
@@ -15767,6 +15794,36 @@ type mutation_root {
     """
     on_conflict: profiles_on_conflict
   ): profiles
+
+  """
+  insert data into the table: "reactions"
+  """
+  insert_reactions(
+    """
+    the rows to be inserted
+    """
+    objects: [reactions_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: reactions_on_conflict
+  ): reactions_mutation_response
+
+  """
+  insert a single row into the table: "reactions"
+  """
+  insert_reactions_one(
+    """
+    the row to be inserted
+    """
+    object: reactions_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: reactions_on_conflict
+  ): reactions
 
   """
   insert data into the table: "teammates"
@@ -17539,6 +17596,52 @@ type mutation_root {
     """
     updates: [profiles_updates!]!
   ): [profiles_mutation_response]
+
+  """
+  update data of the table: "reactions"
+  """
+  update_reactions(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: reactions_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: reactions_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: reactions_bool_exp!
+  ): reactions_mutation_response
+
+  """
+  update single row of the table: "reactions"
+  """
+  update_reactions_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: reactions_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: reactions_set_input
+    pk_columns: reactions_pk_columns_input!
+  ): reactions
+
+  """
+  update multiples rows of table: "reactions"
+  """
+  update_reactions_many(
+    """
+    updates to execute, in order
+    """
+    updates: [reactions_updates!]!
+  ): [reactions_mutation_response]
 
   """
   update data of the table: "teammates"
@@ -24620,6 +24723,71 @@ type query_root {
   profiles_by_pk(id: bigint!): profiles
 
   """
+  fetch data from the table: "reactions"
+  """
+  reactions(
+    """
+    distinct select on columns
+    """
+    distinct_on: [reactions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [reactions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: reactions_bool_exp
+  ): [reactions!]!
+
+  """
+  fetch aggregated fields from the table: "reactions"
+  """
+  reactions_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [reactions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [reactions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: reactions_bool_exp
+  ): reactions_aggregate!
+
+  """
+  fetch data from the table: "reactions" using primary key columns
+  """
+  reactions_by_pk(id: bigint!): reactions
+
+  """
   An array relationship
   """
   teammates(
@@ -25133,6 +25301,369 @@ type query_root {
   fetch data from the table: "vouches" using primary key columns
   """
   vouches_by_pk(id: bigint!): vouches
+}
+
+"""
+columns and relationships of "reactions"
+"""
+type reactions {
+  """
+  An object relationship
+  """
+  activity: activities
+  activity_id: Int!
+  created_at: timestamptz!
+  id: bigint!
+
+  """
+  An object relationship
+  """
+  profile: profiles
+  profile_id: Int!
+  reaction: String!
+  updated_at: timestamptz!
+}
+
+"""
+aggregated selection of "reactions"
+"""
+type reactions_aggregate {
+  aggregate: reactions_aggregate_fields
+  nodes: [reactions!]!
+}
+
+"""
+aggregate fields of "reactions"
+"""
+type reactions_aggregate_fields {
+  avg: reactions_avg_fields
+  count(columns: [reactions_select_column!], distinct: Boolean): Int!
+  max: reactions_max_fields
+  min: reactions_min_fields
+  stddev: reactions_stddev_fields
+  stddev_pop: reactions_stddev_pop_fields
+  stddev_samp: reactions_stddev_samp_fields
+  sum: reactions_sum_fields
+  var_pop: reactions_var_pop_fields
+  var_samp: reactions_var_samp_fields
+  variance: reactions_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type reactions_avg_fields {
+  activity_id: Float
+  id: Float
+  profile_id: Float
+}
+
+"""
+Boolean expression to filter rows from the table "reactions". All fields are combined with a logical 'AND'.
+"""
+input reactions_bool_exp {
+  _and: [reactions_bool_exp!]
+  _not: reactions_bool_exp
+  _or: [reactions_bool_exp!]
+  activity: activities_bool_exp
+  activity_id: Int_comparison_exp
+  created_at: timestamptz_comparison_exp
+  id: bigint_comparison_exp
+  profile: profiles_bool_exp
+  profile_id: Int_comparison_exp
+  reaction: String_comparison_exp
+  updated_at: timestamptz_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "reactions"
+"""
+enum reactions_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  reactions_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "reactions"
+"""
+input reactions_inc_input {
+  activity_id: Int
+  id: bigint
+  profile_id: Int
+}
+
+"""
+input type for inserting data into table "reactions"
+"""
+input reactions_insert_input {
+  activity: activities_obj_rel_insert_input
+  activity_id: Int
+  created_at: timestamptz
+  id: bigint
+  profile: profiles_obj_rel_insert_input
+  profile_id: Int
+  reaction: String
+  updated_at: timestamptz
+}
+
+"""
+aggregate max on columns
+"""
+type reactions_max_fields {
+  activity_id: Int
+  created_at: timestamptz
+  id: bigint
+  profile_id: Int
+  reaction: String
+  updated_at: timestamptz
+}
+
+"""
+aggregate min on columns
+"""
+type reactions_min_fields {
+  activity_id: Int
+  created_at: timestamptz
+  id: bigint
+  profile_id: Int
+  reaction: String
+  updated_at: timestamptz
+}
+
+"""
+response of any mutation on the table "reactions"
+"""
+type reactions_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [reactions!]!
+}
+
+"""
+on_conflict condition type for table "reactions"
+"""
+input reactions_on_conflict {
+  constraint: reactions_constraint!
+  update_columns: [reactions_update_column!]! = []
+  where: reactions_bool_exp
+}
+
+"""
+Ordering options when selecting data from "reactions".
+"""
+input reactions_order_by {
+  activity: activities_order_by
+  activity_id: order_by
+  created_at: order_by
+  id: order_by
+  profile: profiles_order_by
+  profile_id: order_by
+  reaction: order_by
+  updated_at: order_by
+}
+
+"""
+primary key columns input for table: reactions
+"""
+input reactions_pk_columns_input {
+  id: bigint!
+}
+
+"""
+select columns of table "reactions"
+"""
+enum reactions_select_column {
+  """
+  column name
+  """
+  activity_id
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  reaction
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+input type for updating data in table "reactions"
+"""
+input reactions_set_input {
+  activity_id: Int
+  created_at: timestamptz
+  id: bigint
+  profile_id: Int
+  reaction: String
+  updated_at: timestamptz
+}
+
+"""
+aggregate stddev on columns
+"""
+type reactions_stddev_fields {
+  activity_id: Float
+  id: Float
+  profile_id: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type reactions_stddev_pop_fields {
+  activity_id: Float
+  id: Float
+  profile_id: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type reactions_stddev_samp_fields {
+  activity_id: Float
+  id: Float
+  profile_id: Float
+}
+
+"""
+Streaming cursor of the table "reactions"
+"""
+input reactions_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: reactions_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input reactions_stream_cursor_value_input {
+  activity_id: Int
+  created_at: timestamptz
+  id: bigint
+  profile_id: Int
+  reaction: String
+  updated_at: timestamptz
+}
+
+"""
+aggregate sum on columns
+"""
+type reactions_sum_fields {
+  activity_id: Int
+  id: bigint
+  profile_id: Int
+}
+
+"""
+update columns of table "reactions"
+"""
+enum reactions_update_column {
+  """
+  column name
+  """
+  activity_id
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  reaction
+
+  """
+  column name
+  """
+  updated_at
+}
+
+input reactions_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: reactions_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: reactions_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: reactions_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type reactions_var_pop_fields {
+  activity_id: Float
+  id: Float
+  profile_id: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type reactions_var_samp_fields {
+  activity_id: Float
+  id: Float
+  profile_id: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type reactions_variance_fields {
+  activity_id: Float
+  id: Float
+  profile_id: Float
 }
 
 type subscription_root {
@@ -27672,6 +28203,91 @@ type subscription_root {
     """
     where: profiles_bool_exp
   ): [profiles!]!
+
+  """
+  fetch data from the table: "reactions"
+  """
+  reactions(
+    """
+    distinct select on columns
+    """
+    distinct_on: [reactions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [reactions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: reactions_bool_exp
+  ): [reactions!]!
+
+  """
+  fetch aggregated fields from the table: "reactions"
+  """
+  reactions_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [reactions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [reactions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: reactions_bool_exp
+  ): reactions_aggregate!
+
+  """
+  fetch data from the table: "reactions" using primary key columns
+  """
+  reactions_by_pk(id: bigint!): reactions
+
+  """
+  fetch data from the table in a streaming manner: "reactions"
+  """
+  reactions_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [reactions_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: reactions_bool_exp
+  ): [reactions!]!
 
   """
   An array relationship

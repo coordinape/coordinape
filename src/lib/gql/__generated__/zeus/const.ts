@@ -2418,6 +2418,12 @@ export const AllTypesProps: Record<string, any> = {
       where: 'pending_vault_transactions_bool_exp',
     },
     delete_pending_vault_transactions_by_pk: {},
+    delete_reactions: {
+      where: 'reactions_bool_exp',
+    },
+    delete_reactions_by_pk: {
+      id: 'bigint',
+    },
     endEpoch: {
       payload: 'EndEpochInput',
     },
@@ -2495,6 +2501,14 @@ export const AllTypesProps: Record<string, any> = {
     insert_pending_vault_transactions_one: {
       object: 'pending_vault_transactions_insert_input',
       on_conflict: 'pending_vault_transactions_on_conflict',
+    },
+    insert_reactions: {
+      objects: 'reactions_insert_input',
+      on_conflict: 'reactions_on_conflict',
+    },
+    insert_reactions_one: {
+      object: 'reactions_insert_input',
+      on_conflict: 'reactions_on_conflict',
     },
     linkDiscordCircle: {
       payload: 'LinkDiscordCircleInput',
@@ -2629,6 +2643,17 @@ export const AllTypesProps: Record<string, any> = {
     },
     update_profiles_many: {
       updates: 'profiles_updates',
+    },
+    update_reactions: {
+      _set: 'reactions_set_input',
+      where: 'reactions_bool_exp',
+    },
+    update_reactions_by_pk: {
+      _set: 'reactions_set_input',
+      pk_columns: 'reactions_pk_columns_input',
+    },
+    update_reactions_many: {
+      updates: 'reactions_updates',
     },
     uploadCircleLogo: {
       payload: 'UploadCircleImageInput',
@@ -3607,6 +3632,19 @@ export const AllTypesProps: Record<string, any> = {
     profiles_by_pk: {
       id: 'bigint',
     },
+    reactions: {
+      distinct_on: 'reactions_select_column',
+      order_by: 'reactions_order_by',
+      where: 'reactions_bool_exp',
+    },
+    reactions_aggregate: {
+      distinct_on: 'reactions_select_column',
+      order_by: 'reactions_order_by',
+      where: 'reactions_bool_exp',
+    },
+    reactions_by_pk: {
+      id: 'bigint',
+    },
     teammates: {
       distinct_on: 'teammates_select_column',
       order_by: 'teammates_order_by',
@@ -3676,6 +3714,60 @@ export const AllTypesProps: Record<string, any> = {
     vouches_by_pk: {
       id: 'bigint',
     },
+  },
+  reactions_aggregate_fields: {
+    count: {
+      columns: 'reactions_select_column',
+    },
+  },
+  reactions_bool_exp: {
+    _and: 'reactions_bool_exp',
+    _not: 'reactions_bool_exp',
+    _or: 'reactions_bool_exp',
+    activity: 'activities_bool_exp',
+    activity_id: 'Int_comparison_exp',
+    created_at: 'timestamptz_comparison_exp',
+    id: 'bigint_comparison_exp',
+    profile: 'profiles_bool_exp',
+    profile_id: 'Int_comparison_exp',
+    reaction: 'String_comparison_exp',
+    updated_at: 'timestamptz_comparison_exp',
+  },
+  reactions_constraint: true,
+  reactions_insert_input: {},
+  reactions_on_conflict: {
+    constraint: 'reactions_constraint',
+    update_columns: 'reactions_update_column',
+    where: 'reactions_bool_exp',
+  },
+  reactions_order_by: {
+    activity: 'activities_order_by',
+    activity_id: 'order_by',
+    created_at: 'order_by',
+    id: 'order_by',
+    profile: 'profiles_order_by',
+    profile_id: 'order_by',
+    reaction: 'order_by',
+    updated_at: 'order_by',
+  },
+  reactions_pk_columns_input: {
+    id: 'bigint',
+  },
+  reactions_select_column: true,
+  reactions_set_input: {},
+  reactions_stream_cursor_input: {
+    initial_value: 'reactions_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  reactions_stream_cursor_value_input: {
+    created_at: 'timestamptz',
+    id: 'bigint',
+    updated_at: 'timestamptz',
+  },
+  reactions_update_column: true,
+  reactions_updates: {
+    _set: 'reactions_set_input',
+    where: 'reactions_bool_exp',
   },
   subscription_root: {
     activities: {
@@ -3985,6 +4077,23 @@ export const AllTypesProps: Record<string, any> = {
     profiles_stream: {
       cursor: 'profiles_stream_cursor_input',
       where: 'profiles_bool_exp',
+    },
+    reactions: {
+      distinct_on: 'reactions_select_column',
+      order_by: 'reactions_order_by',
+      where: 'reactions_bool_exp',
+    },
+    reactions_aggregate: {
+      distinct_on: 'reactions_select_column',
+      order_by: 'reactions_order_by',
+      where: 'reactions_bool_exp',
+    },
+    reactions_by_pk: {
+      id: 'bigint',
+    },
+    reactions_stream: {
+      cursor: 'reactions_stream_cursor_input',
+      where: 'reactions_bool_exp',
     },
     teammates: {
       distinct_on: 'teammates_select_column',
@@ -5979,6 +6088,8 @@ export const ReturnTypes: Record<string, any> = {
     delete_pending_vault_transactions:
       'pending_vault_transactions_mutation_response',
     delete_pending_vault_transactions_by_pk: 'pending_vault_transactions',
+    delete_reactions: 'reactions_mutation_response',
+    delete_reactions_by_pk: 'reactions',
     endEpoch: 'EpochResponse',
     generateApiKey: 'GenerateApiKeyResponse',
     insert_circle_integrations: 'circle_integrations_mutation_response',
@@ -6003,6 +6114,8 @@ export const ReturnTypes: Record<string, any> = {
     insert_pending_vault_transactions:
       'pending_vault_transactions_mutation_response',
     insert_pending_vault_transactions_one: 'pending_vault_transactions',
+    insert_reactions: 'reactions_mutation_response',
+    insert_reactions_one: 'reactions',
     linkDiscordCircle: 'LinkDiscordCircleResponse',
     linkDiscordUser: 'LinkDiscordUserResponse',
     logoutUser: 'LogoutResponse',
@@ -6045,6 +6158,9 @@ export const ReturnTypes: Record<string, any> = {
     update_profiles: 'profiles_mutation_response',
     update_profiles_by_pk: 'profiles',
     update_profiles_many: 'profiles_mutation_response',
+    update_reactions: 'reactions_mutation_response',
+    update_reactions_by_pk: 'reactions',
+    update_reactions_many: 'reactions_mutation_response',
     uploadCircleLogo: 'UpdateCircleResponse',
     uploadOrgLogo: 'UpdateOrgResponse',
     uploadProfileAvatar: 'UpdateProfileResponse',
@@ -6328,6 +6444,9 @@ export const ReturnTypes: Record<string, any> = {
     price_per_share: 'Float',
     profiles: 'profiles',
     profiles_by_pk: 'profiles',
+    reactions: 'reactions',
+    reactions_aggregate: 'reactions_aggregate',
+    reactions_by_pk: 'reactions',
     teammates: 'teammates',
     teammates_by_pk: 'teammates',
     token_gifts: 'token_gifts',
@@ -6345,6 +6464,93 @@ export const ReturnTypes: Record<string, any> = {
     vaults_by_pk: 'vaults',
     vouches: 'vouches',
     vouches_by_pk: 'vouches',
+  },
+  reactions: {
+    activity: 'activities',
+    activity_id: 'Int',
+    created_at: 'timestamptz',
+    id: 'bigint',
+    profile: 'profiles',
+    profile_id: 'Int',
+    reaction: 'String',
+    updated_at: 'timestamptz',
+  },
+  reactions_aggregate: {
+    aggregate: 'reactions_aggregate_fields',
+    nodes: 'reactions',
+  },
+  reactions_aggregate_fields: {
+    avg: 'reactions_avg_fields',
+    count: 'Int',
+    max: 'reactions_max_fields',
+    min: 'reactions_min_fields',
+    stddev: 'reactions_stddev_fields',
+    stddev_pop: 'reactions_stddev_pop_fields',
+    stddev_samp: 'reactions_stddev_samp_fields',
+    sum: 'reactions_sum_fields',
+    var_pop: 'reactions_var_pop_fields',
+    var_samp: 'reactions_var_samp_fields',
+    variance: 'reactions_variance_fields',
+  },
+  reactions_avg_fields: {
+    activity_id: 'Float',
+    id: 'Float',
+    profile_id: 'Float',
+  },
+  reactions_max_fields: {
+    activity_id: 'Int',
+    created_at: 'timestamptz',
+    id: 'bigint',
+    profile_id: 'Int',
+    reaction: 'String',
+    updated_at: 'timestamptz',
+  },
+  reactions_min_fields: {
+    activity_id: 'Int',
+    created_at: 'timestamptz',
+    id: 'bigint',
+    profile_id: 'Int',
+    reaction: 'String',
+    updated_at: 'timestamptz',
+  },
+  reactions_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'reactions',
+  },
+  reactions_stddev_fields: {
+    activity_id: 'Float',
+    id: 'Float',
+    profile_id: 'Float',
+  },
+  reactions_stddev_pop_fields: {
+    activity_id: 'Float',
+    id: 'Float',
+    profile_id: 'Float',
+  },
+  reactions_stddev_samp_fields: {
+    activity_id: 'Float',
+    id: 'Float',
+    profile_id: 'Float',
+  },
+  reactions_sum_fields: {
+    activity_id: 'Int',
+    id: 'bigint',
+    profile_id: 'Int',
+  },
+  reactions_var_pop_fields: {
+    activity_id: 'Float',
+    id: 'Float',
+    profile_id: 'Float',
+  },
+  reactions_var_samp_fields: {
+    activity_id: 'Float',
+    id: 'Float',
+    profile_id: 'Float',
+  },
+  reactions_variance_fields: {
+    activity_id: 'Float',
+    id: 'Float',
+    profile_id: 'Float',
   },
   subscription_root: {
     activities: 'activities',
@@ -6424,6 +6630,10 @@ export const ReturnTypes: Record<string, any> = {
     profiles: 'profiles',
     profiles_by_pk: 'profiles',
     profiles_stream: 'profiles',
+    reactions: 'reactions',
+    reactions_aggregate: 'reactions_aggregate',
+    reactions_by_pk: 'reactions',
+    reactions_stream: 'reactions',
     teammates: 'teammates',
     teammates_by_pk: 'teammates',
     teammates_stream: 'teammates',
