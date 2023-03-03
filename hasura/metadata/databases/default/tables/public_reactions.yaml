@@ -61,26 +61,6 @@ select_permissions:
                       id:
                         _eq: X-Hasura-User-Id
       allow_aggregations: true
-update_permissions:
-  - role: user
-    permission:
-      columns:
-        - reaction
-      filter:
-        _and:
-          - activity:
-              organization:
-                circles:
-                  users:
-                    _and:
-                      - deleted_at:
-                          _is_null: true
-                      - profile:
-                          id:
-                            _eq: X-Hasura-User-Id
-          - profile_id:
-              _eq: X-Hasura-User-Id
-      check: null
 delete_permissions:
   - role: user
     permission:
