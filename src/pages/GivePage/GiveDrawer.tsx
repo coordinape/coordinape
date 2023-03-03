@@ -35,6 +35,7 @@ type GiveDrawerProps = {
   updateNote(gift: Gift): void;
   adjustGift(recipientId: number, amount: number): void;
   maxedOut: boolean;
+  roleCoordinape: boolean;
   start_date: Date;
   end_date: Date;
   selectedMemberIdx: number;
@@ -62,6 +63,7 @@ export const GiveDrawer = ({
   updateNote,
   adjustGift,
   maxedOut,
+  roleCoordinape,
   start_date,
   end_date,
   selectedMemberIdx,
@@ -204,6 +206,7 @@ export const GiveDrawer = ({
             size="small"
             name={member.profile.name}
             path={member.profile.avatar}
+            roleCoordinape={roleCoordinape}
             margin="none"
             css={{ mr: '$sm' }}
           />
@@ -344,7 +347,7 @@ export const GiveDrawer = ({
         {member.bio && (
           <Box>
             <Text semibold size="large">
-              Epoch Statement
+              {roleCoordinape ? 'Why Give?' : 'Epoch Statement'}
             </Text>
             <Box
               css={{

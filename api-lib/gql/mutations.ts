@@ -260,7 +260,7 @@ export async function insertCircleWithAdmin(
         starting_tokens: 0,
         non_giver: true,
         give_token_remaining: 0,
-        bio: 'Coordinape is the platform you’re using right now! We currently offer our service for free and invite people to allocate to us from within your circles. All funds received go towards funding the team and our operations.',
+        bio: "At this time we've chosen to forgo charging fees for Coordinape and instead we're experimenting with funding our DAO through donations. As part of this experiment, Coordinape will optionally become part of everyone's circles as a participant. If you don't agree with this model or for any other reason don't want Coordinape in your circle, you can disable it in Circle Settings.",
       },
     ],
   };

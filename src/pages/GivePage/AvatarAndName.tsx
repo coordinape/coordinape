@@ -6,9 +6,11 @@ import { Avatar, Flex, Text } from '../../ui';
 export const AvatarAndName = ({
   name,
   avatar,
+  roleCoordinape,
 }: {
   name: string;
   avatar?: string;
+  roleCoordinape?: boolean;
 }) => {
   return (
     <Flex
@@ -18,8 +20,17 @@ export const AvatarAndName = ({
         minWidth: 0,
       }}
     >
-      <Avatar size="small" name={name} path={avatar} css={{ mr: '$sm' }} />
-      <Text ellipsis>{name}</Text>
+      <Avatar
+        size="small"
+        name={name}
+        roleCoordinape={roleCoordinape}
+        path={avatar}
+        css={{ mr: '$sm' }}
+      />
+      <Text ellipsis>
+        {roleCoordinape && 'Support '}
+        {name}
+      </Text>
     </Flex>
   );
 };
