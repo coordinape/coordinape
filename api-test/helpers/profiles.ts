@@ -2,7 +2,7 @@ import assert from 'assert';
 
 import faker from 'faker';
 
-import { profiles_constraint } from '../../api-lib/gql/__generated__/zeus';
+import { adminClient } from '../../api-lib/gql/adminClient';
 
 import type { GQLClientType } from './common';
 
@@ -22,22 +22,29 @@ export async function createProfile(
       object.name = `${faker.name.firstName()} ${faker.datatype.number(10000)}`;
     }
   }
-  const { insert_profiles_one: profile } = await client.mutate(
-    {
-      insert_profiles_one: [
-        {
-          object,
-          on_conflict: {
-            constraint: profiles_constraint.profiles_address_key,
-            update_columns: [],
-          },
-        },
 
+  const { profiles } = await adminClient.query(
+    {
+      profiles: [
+        { where: { address: { _ilike: object.address } } },
         { id: true, name: true, address: true },
       ],
     },
-    { operationName: 'createProfile' }
+    { operationName: 'createProfile_getExistingProfile' }
   );
-  assert(profile, 'Profile not created');
-  return profile;
+  if (!profiles[0].address) {
+    const { insert_profiles_one: profile } = await client.mutate(
+      {
+        insert_profiles_one: [
+          { object },
+          { id: true, name: true, address: true },
+        ],
+      },
+      { operationName: 'createProfile' }
+    );
+    assert(profile, 'Profile not created');
+    return profile;
+  }
+
+  return profiles[0];
 }

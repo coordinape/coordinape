@@ -59,17 +59,20 @@ describe('Delete User action handler', () => {
       role: 0,
     });
     await expect(() =>
-      nonCircleAdminClient.mutate({
-        deleteUsers: [
-          {
-            payload: {
-              addresses: [deletingAddress1, deletingAddress2],
-              circle_id: circle.id,
+      nonCircleAdminClient.mutate(
+        {
+          deleteUsers: [
+            {
+              payload: {
+                addresses: [deletingAddress1, deletingAddress2],
+                circle_id: circle.id,
+              },
             },
-          },
-          { success: true },
-        ],
-      })
+            { success: true },
+          ],
+        },
+        { operationName: 'deleteUsers_test' }
+      )
     ).rejects.toThrow();
     expect(mockLog).toHaveBeenCalledWith(
       JSON.stringify(
@@ -161,11 +164,13 @@ describe('Delete User action handler', () => {
   test('delete a list of users with a duplicate', async () => {
     const deletingAddress1 = await getUniqueAddress();
     const deletingAddress2 = await getUniqueAddress();
+    await createProfile(adminClient, { address: deletingAddress1 });
     await createUser(adminClient, {
       address: deletingAddress1,
       circle_id: circle.id,
       role: 0,
     });
+    await createProfile(adminClient, { address: deletingAddress2 });
     await createUser(adminClient, {
       address: deletingAddress2,
       circle_id: circle.id,
