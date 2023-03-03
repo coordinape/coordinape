@@ -287,10 +287,14 @@ describe('epoch Cron Logic', () => {
     mockSendSocial.mockReset();
     mockMutation.mockReset();
     insertActivity.mockReset();
+    mockQuery.mockReset();
   });
 
   describe('endEpoch', () => {
     test('should notify of the epoch end', async () => {
+      mockQuery.mockResolvedValueOnce({ epochs_aggregate: {} });
+
+      mockQuery.mockResolvedValueOnce({ epochs_by_pk: undefined });
       const orgName = 'big ol party';
       const input = getEpochInput('endEpoch', {
         repeat: 0,
@@ -318,7 +322,10 @@ describe('epoch Cron Logic', () => {
     test('repeating epoch', async () => {
       mockQuery
         .mockResolvedValueOnce({ epochs_aggregate: {} })
-        .mockResolvedValueOnce({ epochs: [] });
+        .mockResolvedValueOnce({ epochs: [] })
+        .mockResolvedValueOnce({ epochs: [] })
+        .mockResolvedValueOnce({ epochs_by_pk: undefined });
+
       const input = getEpochInput('endEpoch', {
         circle: getCircle('endEpoch', { telegram_id: '3' }),
       });
@@ -845,6 +852,8 @@ describe('epoch Cron Logic', () => {
   describe('notifyEpochStart', () => {
     test('no prior epoch and no notifications enabled', async () => {
       const input = getEpochInput('notifyStartEpochs', {});
+      mockQuery.mockResolvedValueOnce({ epochs_by_pk: undefined });
+      mockQuery.mockResolvedValue({ epochs_aggregate: undefined });
       const result = await notifyEpochStart(input);
       expect(result).toEqual([]);
       expect(mockSendSocial).not.toBeCalled();
@@ -860,6 +869,9 @@ describe('epoch Cron Logic', () => {
     });
 
     test('prior epoch and all notifications enabled (telegram, discord and discord bot)', async () => {
+      mockQuery.mockResolvedValueOnce({ epochs_by_pk: undefined });
+      mockQuery.mockResolvedValue({ epochs_aggregate: undefined });
+
       const input = getEpochInput('notifyStartEpochs', {
         circle_id: 5,
         number: 1,
@@ -942,6 +954,8 @@ describe('epoch Cron Logic', () => {
     });
 
     test("social message throw doesn't bubble up", async () => {
+      mockQuery.mockResolvedValue({ epochs_aggregate: [] });
+
       const spy = jest.spyOn(console, 'error').mockImplementationOnce(() => {});
       mockSendSocial.mockImplementationOnce(async () => {
         throw new Error('derp');

@@ -801,7 +801,7 @@ async function setNextEpochNumber({
       throw `Error getting next number for epoch id ${epochId}: ${e.message}`;
   }
   const currentEpochNumber =
-    (lastEpochResult?.epochs_aggregate.aggregate?.max?.number ?? 0) + 1;
+    (lastEpochResult?.epochs_aggregate?.aggregate?.max?.number ?? 0) + 1;
   try {
     await adminClient.mutate(
       {
