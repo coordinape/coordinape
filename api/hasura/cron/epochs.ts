@@ -31,12 +31,6 @@ export type RepeatData = z.infer<typeof zEpochRepeatData>;
 
 export type EpochsToNotify = Awaited<ReturnType<typeof getEpochsToNotify>>;
 
-type StartEpoch = Pick<
-  EpochsToNotify,
-  'notifyStartEpochs'
->['notifyStartEpochs'][number];
-type EndEpoch = Pick<EpochsToNotify, 'endEpoch'>['endEpoch'][number];
-
 async function handler(req: VercelRequest, res: VercelResponse) {
   const epochResult = await getEpochsToNotify();
 
@@ -297,7 +291,12 @@ export async function notifyEpochStart({
         updateEpochStartNotification
       );
 
-    await insertEpochStartActivity(epoch);
+    if (epoch.circle) {
+      await insertEpochStartActivity({
+        ...epoch,
+        organization_id: epoch.circle.organization.id,
+      });
+    }
     updateEpochStartNotification(epoch.id);
   });
 
@@ -533,7 +532,12 @@ export async function endEpochHandler(
   if (circle.organization?.telegram_id)
     await notifyEpochStatus(message, { telegram: true }, epoch, true);
 
-  await insertEpochEndActivity(epoch);
+  if (epoch.circle) {
+    await insertEpochEndActivity({
+      ...epoch,
+      organization_id: epoch.circle.organization.id,
+    });
+  }
 
   // set up another repeating epoch if configured
   const { start_date, end_date, repeat_data } = epoch;
@@ -819,24 +823,74 @@ async function setNextEpochNumber({
   }
 }
 
-async function insertEpochStartActivity(epoch: StartEpoch) {
-  await insertActivity({
-    epoch_id: epoch.id,
-    action: 'epoches_started',
-    circle_id: epoch.circle_id,
-    created_at: epoch.start_date,
-    organization_id: epoch.circle?.organization.id,
-  });
+interface EpochActivityInput {
+  id: number;
+  circle_id: number;
+  organization_id: number;
+  start_date?: string;
+  end_date?: string;
 }
 
-async function insertEpochEndActivity(epoch: EndEpoch) {
-  await insertActivity({
-    epoch_id: epoch.id,
-    action: 'epoches_ended',
-    circle_id: epoch.circle_id,
-    created_at: epoch.end_date,
-    organization_id: epoch.circle?.organization.id,
-  });
+export async function insertEpochStartActivity(epoch: EpochActivityInput) {
+  const action = 'epochs_started';
+
+  const activityExists = await epochActivityExists(epoch.id, action);
+  if (!activityExists) {
+    await insertActivity({
+      epoch_id: epoch.id,
+      action: action,
+      circle_id: epoch.circle_id,
+      created_at: epoch.start_date,
+      organization_id: epoch.organization_id,
+    });
+  }
+}
+
+export async function insertEpochEndActivity(epoch: EpochActivityInput) {
+  const action = 'epochs_ended';
+
+  const activityExists = await epochActivityExists(epoch.id, action);
+  if (!activityExists) {
+    await insertActivity({
+      epoch_id: epoch.id,
+      action: action,
+      circle_id: epoch.circle_id,
+      created_at: epoch.end_date,
+      organization_id: epoch.organization_id,
+    });
+  }
+}
+
+async function epochActivityExists(
+  epoch_id: number,
+  action: string
+): Promise<boolean> {
+  const { epochs_by_pk } = await adminClient.query(
+    {
+      epochs_by_pk: [
+        { id: epoch_id },
+        {
+          activities_aggregate: [
+            {
+              where: {
+                action: { _eq: action },
+              },
+            },
+            { aggregate: { count: [{}, true] } },
+          ],
+        },
+      ],
+    },
+    {
+      operationName: 'cron_epochs_getEpochActivity',
+    }
+  );
+
+  if (epochs_by_pk) {
+    return (epochs_by_pk.activities_aggregate.aggregate?.count || 0) > 0;
+  } else {
+    return false;
+  }
 }
 
 export default verifyHasuraRequestMiddleware(handler);

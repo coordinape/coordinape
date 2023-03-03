@@ -138,7 +138,7 @@ describe('#handler', () => {
       expect.objectContaining({
         circle_id: 15,
         epoch_id: 47,
-        action: 'epoches_insert',
+        action: 'epochs_insert',
       })
     );
     expect(res.status).toHaveBeenCalledWith(200);
