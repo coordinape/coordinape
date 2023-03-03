@@ -21,7 +21,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       case 'contributions': {
         const {
           event: {
-            op: operation,
             data: {
               new: { id, user_id, circle_id, created_at },
             },
@@ -30,9 +29,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
         const data = await getOrgAndProfile(user_id, circle_id);
 
-        await insertActivity({
+        await insertContributionActivity({
           contribution_id: id,
-          action: `${table_name}_${operation.toLowerCase()}`,
           actor_profile_id: data?.users[0].profile.id,
           circle_id: circle_id,
           organization_id: data?.organization_id,
@@ -40,10 +38,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         });
         break;
       }
-      case 'epoches': {
+      case 'epoches':
+      case 'epochs': {
         const {
           event: {
-            op: operation,
             data: {
               new: { id, circle_id, created_at, created_by },
             },
@@ -52,9 +50,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
         const data = await getOrgByEpoch(id);
 
-        await insertActivity({
+        await insertNewEpochActivity({
           epoch_id: id,
-          action: `${table_name}_${operation.toLowerCase()}`,
           circle_id: circle_id,
           created_at: created_at,
           actor_profile_id: created_by,
@@ -65,7 +62,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       case 'users': {
         const {
           event: {
-            op: operation,
             data: {
               new: { id, circle_id, created_at },
             },
@@ -74,8 +70,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
         const data = await getOrgAndProfile(id, circle_id);
 
-        await insertActivity({
-          action: `${table_name}_${operation.toLowerCase()}`,
+        await insertNewUserActivity({
           circle_id: circle_id,
           created_at: created_at,
           organization_id: data?.organization_id,
@@ -140,4 +135,51 @@ async function getOrgByEpoch(epoch_id: number) {
   );
 
   return data.epochs_by_pk;
+}
+
+export type ContributionActivityInput = Required<
+  Pick<
+    Parameters<typeof insertActivity>[0],
+    | 'contribution_id'
+    | 'actor_profile_id'
+    | 'circle_id'
+    | 'organization_id'
+    | 'created_at'
+  >
+>;
+
+export async function insertContributionActivity(
+  input: ContributionActivityInput
+) {
+  await insertActivity({ action: 'contributions_insert', ...input });
+}
+
+export type NewUserActivityInput = Required<
+  Pick<
+    Parameters<typeof insertActivity>[0],
+    | 'circle_id'
+    | 'created_at'
+    | 'organization_id'
+    | 'target_profile_id'
+    | 'user_id'
+  >
+>;
+
+export async function insertNewUserActivity(input: NewUserActivityInput) {
+  await insertActivity({ action: 'users_insert', ...input });
+}
+
+export type NewEpochActivityInput = Required<
+  Pick<
+    Parameters<typeof insertActivity>[0],
+    | 'circle_id'
+    | 'created_at'
+    | 'organization_id'
+    | 'actor_profile_id'
+    | 'epoch_id'
+  >
+>;
+
+export async function insertNewEpochActivity(input: NewEpochActivityInput) {
+  await insertActivity({ action: 'epochs_insert', ...input });
 }

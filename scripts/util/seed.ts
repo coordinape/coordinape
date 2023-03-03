@@ -3,7 +3,10 @@ import { faker } from '@faker-js/faker';
 import { DateTime } from 'luxon';
 import fetch from 'node-fetch';
 
-import { LOCAL_SEED_ADDRESS } from '../../api-lib/config';
+import {
+  COORDINAPE_USER_ADDRESS,
+  LOCAL_SEED_ADDRESS,
+} from '../../api-lib/config';
 import { ValueTypes } from '../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../api-lib/gql/adminClient';
 import { resizeAvatar } from '../../api-lib/images';

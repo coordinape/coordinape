@@ -3,6 +3,7 @@ import React from 'react';
 import * as AvatarPrimitive from '@radix-ui/react-avatar';
 
 import { CSS, styled } from '../../stitches.config';
+import { USER_COORDINAPE_AVATAR } from 'config/constants';
 import { getAvatarPath, getInitialFromName } from 'utils/domain';
 
 const AvatarRoot = styled(AvatarPrimitive.Root, {
@@ -75,6 +76,8 @@ const AvatarImage = styled(AvatarPrimitive.Image, {
   height: '100%',
   objectFit: 'cover',
   borderRadius: 'inherit',
+  // for some reason our processed images have a black line at the top.  scaling to hide it for now
+  transform: 'scale(1.03)',
 });
 
 const AvatarFallback = styled(AvatarPrimitive.Fallback, {
@@ -115,6 +118,7 @@ export const Avatar = ({
   size,
   margin,
   css,
+  roleCoordinape,
   ...props
 }: {
   path?: string;
@@ -125,8 +129,11 @@ export const Avatar = ({
   margin?: 'none' | 'small'; // can be extended if needed
   children?: React.ReactNode;
   css?: CSS;
+  roleCoordinape?: boolean;
 }) => {
-  const avatarPath = getAvatarPath(path);
+  const avatarPath = getAvatarPath(
+    roleCoordinape ? USER_COORDINAPE_AVATAR : path
+  );
 
   return (
     <AvatarRoot

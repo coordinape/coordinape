@@ -22,6 +22,7 @@ import { IEpoch, IMyUser } from '../../types';
 import { SingleColumnLayout } from '../../ui/layouts';
 import { FormInputField } from 'components';
 import HintBanner from 'components/HintBanner';
+import { USER_COORDINAPE_ADDRESS } from 'config/constants';
 import { Edit3, Grid, Menu } from 'icons/__generated';
 import { QUERY_KEY_RECEIVE_INFO } from 'pages/HistoryPage/useReceiveInfo';
 import {
@@ -952,6 +953,7 @@ const AllocateContents = ({
                 adjustGift={adjustGift}
                 maxedOut={maxedOut}
                 noGivingAllowed={noGivingAllowed}
+                roleCoordinape={member.address === USER_COORDINAPE_ADDRESS}
                 setSelectedMember={m =>
                   setSelectedMemberIdx(
                     filteredMembers.findIndex(member => member.id == m.id)
@@ -1072,6 +1074,7 @@ const AllocateContents = ({
             selectedMemberIdx={selectedMemberIdx}
             totalMembers={membersToIterate.length}
             member={selectedMember}
+            roleCoordinape={selectedMember.address === USER_COORDINAPE_ADDRESS}
             updateNote={updateNote}
             adjustGift={adjustGift}
             gift={

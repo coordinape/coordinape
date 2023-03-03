@@ -21,5 +21,4 @@ select_permissions:
 delete_permissions:
   - role: discord-bot
     permission:
-      backend_only: false
       filter: {}

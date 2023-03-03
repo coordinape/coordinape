@@ -16,12 +16,13 @@ import {
   scrollToTop,
 } from 'components';
 import { EditProfileModal } from 'components/EditProfileModal';
+import { USER_ROLE_COORDINAPE, USER_COORDINAPE_AVATAR } from 'config/constants';
 import { useApiWithProfile, useImageUploader, useToast } from 'hooks';
 import { useSomeCircleId } from 'hooks/migration';
 import { Edit3 } from 'icons/__generated';
 import { useMyProfile, useProfile } from 'recoilState/app';
 import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE, paths } from 'routes/paths';
-import { Avatar, Box, Button, Flex, MarkdownPreview, Text } from 'ui';
+import { Avatar, Box, Button, Flex, Link, MarkdownPreview, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { getAvatarPath } from 'utils/domain';
 
@@ -104,14 +105,15 @@ const ProfilePageContent = ({
         css={{
           width: '100%',
           minHeight: '300px',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
           background: backgroundUrl ? `url(${backgroundUrl})` : 'white',
 
           backgroundImage: backgroundUrl
             ? undefined
             : 'radial-gradient(circle at center -30px, $profileGradientStart, $profileGradientEnd), repeating-radial-gradient(circle at center -30px, $profileGradientEnd, $profileGradientEnd, 83px, transparent 106px, transparent 83px)',
           backgroundBlendMode: 'multiply',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
         }}
       >
         <SingleColumnLayout
@@ -126,7 +128,11 @@ const ProfilePageContent = ({
         >
           <Flex css={{ alignItems: 'flex-end' }}>
             <Avatar
-              path={profile?.avatar}
+              path={
+                user?.role === USER_ROLE_COORDINAPE
+                  ? USER_COORDINAPE_AVATAR
+                  : profile?.avatar
+              }
               css={{
                 width: '143px !important',
                 height: '143px !important',
@@ -194,13 +200,14 @@ const ProfilePageContent = ({
             offer our service for free and invite people to allocate to us from
             within your circles. All tokens received go to the Coordinape
             treasury.{' '}
-            <a
+            <Link
+              inlineLink
               href={EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE}
               rel="noreferrer"
               target="_blank"
             >
               Let us know what you think.
-            </a>
+            </Link>
           </div>
         ) : (
           <MarkdownPreview

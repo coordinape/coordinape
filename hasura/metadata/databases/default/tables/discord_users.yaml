@@ -81,11 +81,9 @@ update_permissions:
 delete_permissions:
   - role: discord-bot
     permission:
-      backend_only: false
       filter: {}
   - role: user
     permission:
-      backend_only: false
       filter:
         profile:
           id:
