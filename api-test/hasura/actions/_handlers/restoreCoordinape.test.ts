@@ -22,8 +22,11 @@ beforeEach(async () => {
     circle_id: circle.id,
     role: 1,
   });
-  coordUser = await createUser(adminClient, {
+  await createProfile(adminClient, {
+    address: COORDINAPE_USER_ADDRESS,
     name: 'Coordinape',
+  });
+  coordUser = await createUser(adminClient, {
     address: COORDINAPE_USER_ADDRESS,
     role: 2,
     circle_id: circle.id,

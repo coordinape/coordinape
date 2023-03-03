@@ -32,7 +32,12 @@ beforeAll(async () => {
 describe('Delete User action handler', () => {
   test('delete circle users as a non-admin', async () => {
     const address = await getUniqueAddress();
+    const deletingAddress1 = await getUniqueAddress();
+    const deletingAddress2 = await getUniqueAddress();
+
     const profile = await createProfile(adminClient, { address });
+    await createProfile(adminClient, { address: deletingAddress1 });
+    await createProfile(adminClient, { address: deletingAddress2 });
     await createUser(adminClient, {
       address,
       circle_id: circle.id,
@@ -42,8 +47,7 @@ describe('Delete User action handler', () => {
       profileId: profile.id,
       address: address,
     });
-    const deletingAddress1 = await getUniqueAddress();
-    const deletingAddress2 = await getUniqueAddress();
+
     await createUser(adminClient, {
       address: deletingAddress1,
       circle_id: circle.id,

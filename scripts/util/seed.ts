@@ -3,8 +3,14 @@ import { faker } from '@faker-js/faker';
 import { DateTime } from 'luxon';
 import fetch from 'node-fetch';
 
-import { LOCAL_SEED_ADDRESS } from '../../api-lib/config';
-import { ValueTypes } from '../../api-lib/gql/__generated__/zeus';
+import {
+  COORDINAPE_USER_ADDRESS,
+  LOCAL_SEED_ADDRESS,
+} from '../../api-lib/config';
+import {
+  profiles_constraint,
+  ValueTypes,
+} from '../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../api-lib/gql/adminClient';
 import { resizeAvatar } from '../../api-lib/images';
 import { ImageUpdater } from '../../api-lib/ImageUpdater';
@@ -145,6 +151,27 @@ export async function getAvatars() {
 export async function createProfiles() {
   await adminClient.mutate(
     {
+      insert_profiles_one: [
+        {
+          object: {
+            address: devAddress,
+            name: 'Meee',
+          },
+          on_conflict: {
+            constraint: profiles_constraint.profiles_address_key,
+            update_columns: [],
+          },
+        },
+        {
+          id: true,
+        },
+      ],
+    },
+    { operationName: 'create_devProfile' }
+  );
+
+  await adminClient.mutate(
+    {
       insert_profiles: [
         {
           objects: users.map(user => {
@@ -196,6 +223,7 @@ export function getMembershipInput(
         bio: faker.lorem.sentences(3),
         role: 1,
         non_receiver: false,
+        name: undefined,
       },
     ].concat(
       users.slice(1, 5).map(user => ({
@@ -204,6 +232,7 @@ export function getMembershipInput(
         role: 0,
         starting_tokens: 50,
         non_receiver: false,
+        name: undefined,
       })),
       users.slice(5, 10).map(user => ({
         ...user,
@@ -212,6 +241,7 @@ export function getMembershipInput(
         starting_tokens: 0,
         non_giver: true,
         non_receiver: false,
+        name: undefined,
       })),
       users.slice(10, 15).map(user => ({
         ...user,
@@ -220,6 +250,7 @@ export function getMembershipInput(
         starting_tokens: 0,
         non_giver: true,
         non_receiver: true,
+        name: undefined,
       }))
     ),
   };
@@ -235,7 +266,6 @@ export function getMembershipInput(
 
   if (devUser)
     membersInput.unshift({
-      name: 'Meee',
       address: devAddress,
       role: 1,
       ...devUser,

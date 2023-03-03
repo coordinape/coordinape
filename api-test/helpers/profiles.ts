@@ -2,6 +2,8 @@ import assert from 'assert';
 
 import faker from 'faker';
 
+import { profiles_constraint } from '../../api-lib/gql/__generated__/zeus';
+
 import type { GQLClientType } from './common';
 
 type ProfileInput = { address: string; name?: string };
@@ -23,7 +25,14 @@ export async function createProfile(
   const { insert_profiles_one: profile } = await client.mutate(
     {
       insert_profiles_one: [
-        { object },
+        {
+          object,
+          on_conflict: {
+            constraint: profiles_constraint.profiles_address_key,
+            update_columns: [],
+          },
+        },
+
         { id: true, name: true, address: true },
       ],
     },

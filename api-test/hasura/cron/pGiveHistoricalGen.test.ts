@@ -6,6 +6,7 @@ import handler from '../../../api/hasura/cron/pGiveHistoricalGen';
 import {
   createCircle,
   createEpoch,
+  createProfile,
   createTokenGift,
   createUser,
 } from '../../helpers';
@@ -19,18 +20,21 @@ beforeEach(async () => {
 
   circle = await createCircle(adminClient);
   const createDate = DateTime.local().minus({ months: 3 }).toISO();
+  await createProfile(adminClient, { address: address1 });
   user1 = await createUser(adminClient, {
     address: address1,
     circle_id: circle.id,
     created_at: createDate,
   });
 
+  await createProfile(adminClient, { address: address2 });
   user2 = await createUser(adminClient, {
     address: address2,
     circle_id: circle.id,
     created_at: createDate,
   });
 
+  await createProfile(adminClient, { address: address3 });
   user3 = await createUser(adminClient, {
     address: address3,
     circle_id: circle.id,
