@@ -3,10 +3,7 @@ import { faker } from '@faker-js/faker';
 import { DateTime } from 'luxon';
 import fetch from 'node-fetch';
 
-import {
-  COORDINAPE_USER_ADDRESS,
-  LOCAL_SEED_ADDRESS,
-} from '../../api-lib/config';
+import { LOCAL_SEED_ADDRESS } from '../../api-lib/config';
 import {
   profiles_constraint,
   ValueTypes,
