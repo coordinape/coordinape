@@ -10,6 +10,7 @@ import { useForm, SubmitHandler, useController } from 'react-hook-form';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import * as z from 'zod';
 
+import { ACTIVITIES_QUERY_KEY } from '../../features/activities/ActivityList';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { useSelectedCircle } from '../../recoilState';
 import { LoadingModal, FormInputField } from 'components';
@@ -204,6 +205,7 @@ const ContributionsPage = () => {
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEY_ALLOCATE_CONTRIBUTIONS],
         });
+        queryClient.invalidateQueries(ACTIVITIES_QUERY_KEY);
         if (newContribution.insert_contributions_one) {
           updateSaveStateForContribution(NEW_CONTRIBUTION_ID, 'stable');
           setCurrentContribution({
@@ -252,6 +254,7 @@ const ContributionsPage = () => {
       onSuccess: ({ updateContribution }, { id }) => {
         refetchContributions();
         updateSaveStateForContribution(id, 'saved');
+        queryClient.invalidateQueries(ACTIVITIES_QUERY_KEY);
         if (
           currentContribution &&
           updateContribution?.updateContribution_Contribution
@@ -281,6 +284,7 @@ const ContributionsPage = () => {
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEY_ALLOCATE_CONTRIBUTIONS],
         });
+        queryClient.invalidateQueries(ACTIVITIES_QUERY_KEY);
       },
     }
   );
