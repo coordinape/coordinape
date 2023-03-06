@@ -32,6 +32,7 @@ export const useFinishAuth = () => {
       assert(connectorName);
 
       logger.log('found saved auth data:', savedAuth);
+      let profileId = savedAuth.id;
       if (!savedAuth.token) {
         const loginData = await login(address, library, connectorName);
         const token = loginData.token;
@@ -39,7 +40,10 @@ export const useFinishAuth = () => {
 
         logger.log('got new auth data:', loginData);
         setSavedAuth({ address, connectorName, ...loginData });
+        profileId = loginData.id;
       }
+
+      assert(profileId, 'missing profile ID after login');
 
       // Send a truncated address to sentry to help us debug customer issues
       Sentry.setTag(
@@ -53,7 +57,7 @@ export const useFinishAuth = () => {
       return setTimeout(
         () =>
           new Promise(res =>
-            fetchManifest(address)
+            fetchManifest(profileId)
               .then(manifest => {
                 // TODO extract some data from manifest
                 // and put it in auth store

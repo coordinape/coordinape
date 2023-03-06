@@ -303,16 +303,12 @@ const queryFullCircle = async (circle_id: number): Promise<IApiFullCircle> => {
   return fullCircle;
 };
 
-const queryManifest = async (address: string) => {
+const queryManifest = async (profileId: number) => {
   // Fetch as much as we can in this massive query. This mimics the old php fetch-manifest logic.
   // This will be destructured and spread out into smaller queries soon - this is for backwards compat w/ FE with
   // as little disruption as possible.
   const data = await client.query(
     {
-      // org_members: [
-      //   { where: { profile_id: { _eq: profileId } }},
-      //   { org_id: true, profile_id: true }
-      // ],
       circles: [
         { where: { deleted_at: { _is_null: true } } },
         {
@@ -376,8 +372,8 @@ const queryManifest = async (address: string) => {
           description: true,
         },
       ],
-      profiles: [
-        { where: { address: { _ilike: address } } },
+      profiles_by_pk: [
+        { id: profileId },
         {
           id: true,
           address: true,
@@ -396,7 +392,10 @@ const queryManifest = async (address: string) => {
           name: true,
           users: [
             {
-              where: { circle: { deleted_at: { _is_null: true } } },
+              where: {
+                deleted_at: { _is_null: true },
+                circle: { deleted_at: { _is_null: true } },
+              },
             },
             {
               id: true,
@@ -444,19 +443,17 @@ const queryManifest = async (address: string) => {
     { operationName: 'fetchManifest' }
   );
 
-  assert(
-    data.profiles.length,
-    `unable to load profile for address: ${address}`
-  );
+  assert(data.profiles_by_pk, `unable to load profile ${profileId}`);
   return data;
 };
+
+export type QueryManifest = Awaited<ReturnType<typeof queryManifest>>;
 
 // convert data to the form that legacy (pre-Hasura) code expects
 const formatLegacyManifest = async (
   manifestQuery: Awaited<ReturnType<typeof queryManifest>>
 ): Promise<IApiManifest> => {
-  const { circles, epochs, profiles } = await manifestQuery;
-  const p = profiles.pop();
+  const { circles, epochs, profiles_by_pk: p } = await manifestQuery;
   assert(p);
 
   let circle: IApiFullCircle | undefined = undefined;
@@ -531,10 +528,10 @@ const formatLegacyManifest = async (
 export const useApiBase = () => {
   const fetchManifest = useRecoilLoadCatch(
     ({ snapshot, set }) =>
-      async (address?: string) => {
-        if (!address) address = (await snapshot.getPromise(rSavedAuth)).address;
-        assert(address, 'no address for fetchManifest');
-        const data = await queryManifest(address);
+      async (profileId?: number) => {
+        if (!profileId) profileId = (await snapshot.getPromise(rSavedAuth)).id;
+        assert(profileId, 'no profile ID for fetchManifest');
+        const data = await queryManifest(profileId);
 
         // legacy data format is still in use in Recoil
         const manifest = await formatLegacyManifest(data);
