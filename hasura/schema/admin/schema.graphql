@@ -30055,7 +30055,6 @@ type users {
     """
     where: member_epoch_pgives_bool_exp
   ): member_epoch_pgives_aggregate!
-  name: String!
   non_giver: Boolean!
   non_receiver: Boolean!
 
@@ -30568,7 +30567,6 @@ input users_bool_exp {
   id: bigint_comparison_exp
   member_epoch_pgivess: member_epoch_pgives_bool_exp
   member_epoch_pgivess_aggregate: member_epoch_pgives_aggregate_bool_exp
-  name: String_comparison_exp
   non_giver: Boolean_comparison_exp
   non_receiver: Boolean_comparison_exp
   pending_received_gifts: pending_token_gifts_bool_exp
@@ -30639,7 +30637,6 @@ input users_insert_input {
   give_token_remaining: Int
   id: bigint
   member_epoch_pgivess: member_epoch_pgives_arr_rel_insert_input
-  name: String
   non_giver: Boolean
   non_receiver: Boolean
   pending_received_gifts: pending_token_gifts_arr_rel_insert_input
@@ -30669,7 +30666,6 @@ type users_max_fields {
   give_token_received: Int
   give_token_remaining: Int
   id: bigint
-  name: String
   role: Int
   starting_tokens: Int
   updated_at: timestamp
@@ -30689,7 +30685,6 @@ input users_max_order_by {
   give_token_received: order_by
   give_token_remaining: order_by
   id: order_by
-  name: order_by
   role: order_by
   starting_tokens: order_by
   updated_at: order_by
@@ -30709,7 +30704,6 @@ type users_min_fields {
   give_token_received: Int
   give_token_remaining: Int
   id: bigint
-  name: String
   role: Int
   starting_tokens: Int
   updated_at: timestamp
@@ -30729,7 +30723,6 @@ input users_min_order_by {
   give_token_received: order_by
   give_token_remaining: order_by
   id: order_by
-  name: order_by
   role: order_by
   starting_tokens: order_by
   updated_at: order_by
@@ -30792,7 +30785,6 @@ input users_order_by {
   give_token_remaining: order_by
   id: order_by
   member_epoch_pgivess_aggregate: member_epoch_pgives_aggregate_order_by
-  name: order_by
   non_giver: order_by
   non_receiver: order_by
   pending_received_gifts_aggregate: pending_token_gifts_aggregate_order_by
@@ -30878,11 +30870,6 @@ enum users_select_column {
   column name
   """
   id
-
-  """
-  column name
-  """
-  name
 
   """
   column name
@@ -30976,7 +30963,6 @@ input users_set_input {
   give_token_received: Int
   give_token_remaining: Int
   id: bigint
-  name: String
   non_giver: Boolean
   non_receiver: Boolean
   role: Int
@@ -31093,7 +31079,6 @@ input users_stream_cursor_value_input {
   give_token_received: Int
   give_token_remaining: Int
   id: bigint
-  name: String
   non_giver: Boolean
   non_receiver: Boolean
   role: Int
@@ -31190,11 +31175,6 @@ enum users_update_column {
   column name
   """
   id
-
-  """
-  column name
-  """
-  name
 
   """
   column name

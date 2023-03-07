@@ -44,7 +44,7 @@ async function circleFromToken(token: string) {
             organization: { name: true, logo: true },
             users: [
               { limit: 3, where: { role: { _eq: 1 } } },
-              { name: true, profile: { avatar: true, name: true } },
+              { profile: { avatar: true, name: true } },
             ],
           },
         },

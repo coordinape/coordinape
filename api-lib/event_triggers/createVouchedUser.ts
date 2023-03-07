@@ -53,7 +53,6 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           insert_users_one: [
             {
               object: {
-                name: nominees_by_pk.profile?.name,
                 address,
                 circle_id,
                 entrance: ENTRANCE.NOMINATION,

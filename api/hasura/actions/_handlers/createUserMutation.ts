@@ -37,13 +37,14 @@ async function checkExistingUser(address: string, circleId: number) {
 export async function createUserMutation(
   address: string,
   circleId: number,
-  input: ValueTypes['users_set_input'],
+  input: ValueTypes['users_set_input'] & { name: string },
   entrance: string
 ) {
+  const { name, ...userInput } = input;
   const softDeletedUser = await checkExistingUser(address, circleId);
   const addressProfile = await getProfilesWithAddress(address);
   let nameProfile = undefined;
-  if (input.name) nameProfile = await getProfilesWithName(input.name);
+  if (name) nameProfile = await getProfilesWithName(name);
 
   if (
     nameProfile &&
@@ -53,8 +54,8 @@ export async function createUserMutation(
   }
   if (
     addressProfile?.name &&
-    input.name &&
-    addressProfile.name.toLowerCase() != input.name?.toLowerCase()
+    name &&
+    addressProfile.name.toLowerCase() != name?.toLowerCase()
   )
     throw new UnprocessableError(
       'This address is already using a different name'
@@ -65,7 +66,7 @@ export async function createUserMutation(
       {
         insert_profiles_one: [
           {
-            object: { address, name: input.name },
+            object: { address, name },
             on_conflict: {
               constraint: profiles_constraint.profiles_address_key,
               update_columns: [profiles_update_column.name],
@@ -89,7 +90,7 @@ export async function createUserMutation(
             {
               pk_columns: { id: softDeletedUser.id },
               _set: {
-                ...input,
+                ...userInput,
                 deleted_at: null,
                 entrance: entrance,
               },
@@ -101,7 +102,7 @@ export async function createUserMutation(
           insert_users_one: [
             {
               object: {
-                ...input,
+                ...userInput,
                 address: address,
                 circle_id: circleId,
                 entrance: entrance,

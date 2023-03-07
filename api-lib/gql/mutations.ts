@@ -3,7 +3,12 @@ import assert from 'assert';
 import { ENTRANCE } from '../../src/common-lib/constants';
 import { Role } from '../../src/lib/users';
 
-import { GraphQLTypes, order_by, ValueTypes } from './__generated__/zeus';
+import {
+  GraphQLTypes,
+  order_by,
+  profiles_constraint,
+  ValueTypes,
+} from './__generated__/zeus';
 import { adminClient } from './adminClient';
 
 export async function insertProfiles(
@@ -247,13 +252,11 @@ export async function insertCircleWithAdmin(
   const insertUsers = {
     data: [
       {
-        name: circleInput.user_name,
         address: userAddress,
         role: Role.ADMIN,
         entrance: ENTRANCE.ADMIN,
       },
       {
-        name: 'Coordinape',
         address: coordinapeAddress,
         role: Role.COORDINAPE,
         non_receiver: false,
@@ -283,6 +286,27 @@ export async function insertCircleWithAdmin(
     // Return the newly generated user_id for current profile
   };
   let retVal;
+
+  //create Coordinape profile if it does not exist
+  await adminClient.mutate(
+    {
+      insert_profiles_one: [
+        {
+          object: {
+            name: 'Coordinape',
+            address: coordinapeAddress,
+          },
+          on_conflict: {
+            constraint: profiles_constraint.profiles_address_key,
+            update_columns: [],
+          },
+        },
+        { id: true },
+      ],
+    },
+    { operationName: 'insertCircle_CreateCoordinape' }
+  );
+
   if (circleInput.organization_id) {
     const { insert_circles_one } = await adminClient.mutate(
       {
@@ -411,7 +435,6 @@ export async function insertVouch(nomineeId: number, voucherId: number) {
 
 export async function insertUser(
   address: string,
-  name: string,
   circleId: number,
   entrance: string
 ) {
@@ -422,7 +445,6 @@ export async function insertUser(
           object: {
             address: address,
             circle_id: circleId,
-            name: name,
             entrance: entrance,
           },
         },
