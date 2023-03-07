@@ -1,8 +1,10 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
+import { COORDINAPE_USER_ADDRESS } from '../../../../api-lib/config';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
+import { Role } from '../../../../src/lib/users';
 import {
   restoreCoordinapeInput,
   composeHasuraActionRequestBody,
@@ -25,23 +27,47 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           where: {
             role: { _eq: 2 },
             circle_id: { _eq: circle_id },
-            deleted_at: { _is_null: false },
           },
         },
-        { id: true },
+        { id: true, deleted_at: true },
       ],
     },
-    {
-      operationName: 'deleteUser_getExistingUser',
-    }
+    { operationName: 'deleteUser_getExistingUser' }
   );
 
-  if (!existingCoordinape) {
+  if (existingCoordinape && !existingCoordinape.deleted_at) {
     return errorResponseWithStatusCode(
       res,
-      { message: 'user does not exist' },
+      { message: 'user is not deleted' },
       422
     );
+  }
+
+  if (!existingCoordinape) {
+    await adminClient.mutate(
+      {
+        insert_users_one: [
+          {
+            object: {
+              circle_id,
+              name: 'Coordinape',
+              address: COORDINAPE_USER_ADDRESS,
+              role: Role.COORDINAPE,
+              non_receiver: false,
+              fixed_non_receiver: false,
+              starting_tokens: 0,
+              non_giver: true,
+              give_token_remaining: 0,
+              bio: "At this time we've chosen to forgo charging fees for Coordinape and instead we're experimenting with funding our DAO through donations. As part of this experiment, Coordinape will optionally become part of everyone's circles as a participant. If you don't agree with this model or for any other reason don't want Coordinape in your circle, you can disable it in Circle Settings.",
+            },
+          },
+          { __typename: true },
+        ],
+      },
+      { operationName: 'restore_coordinape_insert' }
+    );
+
+    return res.status(200).json({ success: true });
   }
 
   await adminClient.mutate(
@@ -54,14 +80,10 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         { __typename: true },
       ],
     },
-    {
-      operationName: 'restore_coordinape',
-    }
+    { operationName: 'restore_coordinape_update' }
   );
 
-  res.status(200).json({
-    success: true,
-  });
+  res.status(200).json({ success: true });
 }
 
 export default authCircleAdminMiddleware(handler);
