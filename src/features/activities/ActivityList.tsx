@@ -8,6 +8,8 @@ import { Box, Flex } from '../../ui';
 import { ActivityRow } from './ActivityRow';
 import { useInfiniteActivities, Where } from './useInfiniteActivities';
 
+export const ACTIVITIES_QUERY_KEY = 'activities';
+
 export const ActivityList = ({
   queryKey,
   where,
@@ -18,7 +20,7 @@ export const ActivityList = ({
   const observerRef = useRef<HTMLDivElement>(null);
 
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useInfiniteActivities(queryKey, where);
+    useInfiniteActivities([ACTIVITIES_QUERY_KEY, queryKey], where);
 
   const handleObserver = useCallback(
     entries => {
