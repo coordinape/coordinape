@@ -10,7 +10,7 @@ export const useLogout = (remote = false) =>
   useRecoilLoadCatch(
     ({ set }) =>
       async () => {
-        set(rSavedAuth, { authTokens: {} });
+        set(rSavedAuth, {});
         set(rApiFullCircle, new Map());
         set(rApiManifest, undefined);
         set(rSelectedCircleIdSource, undefined);

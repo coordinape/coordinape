@@ -1,6 +1,7 @@
 import assert from 'assert';
 
 import { ENTRANCE } from '../../src/common-lib/constants';
+import { Role } from '../../src/lib/users';
 
 import { GraphQLTypes, order_by, ValueTypes } from './__generated__/zeus';
 import { adminClient } from './adminClient';
@@ -248,13 +249,13 @@ export async function insertCircleWithAdmin(
       {
         name: circleInput.user_name,
         address: userAddress,
-        role: 1,
+        role: Role.ADMIN,
         entrance: ENTRANCE.ADMIN,
       },
       {
         name: 'Coordinape',
         address: coordinapeAddress,
-        role: 2,
+        role: Role.COORDINAPE,
         non_receiver: false,
         fixed_non_receiver: false,
         starting_tokens: 0,

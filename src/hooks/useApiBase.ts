@@ -1,4 +1,6 @@
-import { IAuth, rSavedAuth } from 'features/auth/useSavedAuth';
+import assert from 'assert';
+
+import { rSavedAuth } from 'features/auth/useSavedAuth';
 import { client } from 'lib/gql/client';
 
 import {
@@ -11,6 +13,8 @@ import {
 import { useRecoilLoadCatch } from 'hooks';
 import { rSelectedCircleIdSource } from 'recoilState/app';
 import { rApiManifest, rApiFullCircle } from 'recoilState/db';
+
+import { Awaited } from 'types/shim';
 
 const queryFullCircle = async (circle_id: number): Promise<IApiFullCircle> => {
   const { circles_by_pk, circle } = await client.query(
@@ -299,16 +303,14 @@ const queryFullCircle = async (circle_id: number): Promise<IApiFullCircle> => {
   return fullCircle;
 };
 
-const queryManifest = async (address: string): Promise<IApiManifest> => {
+const queryManifest = async (profileId: number) => {
   // Fetch as much as we can in this massive query. This mimics the old php fetch-manifest logic.
   // This will be destructured and spread out into smaller queries soon - this is for backwards compat w/ FE with
   // as little disruption as possible.
-  const manifestQuery = client.query(
+  const data = await client.query(
     {
       circles: [
-        {
-          where: { deleted_at: { _is_null: true } },
-        },
+        { where: { deleted_at: { _is_null: true } } },
         {
           id: true,
           name: true,
@@ -348,9 +350,7 @@ const queryManifest = async (address: string): Promise<IApiManifest> => {
         {
           where: {
             ended: { _eq: false },
-            end_date: {
-              _gt: 'now()',
-            },
+            end_date: { _gt: 'now()' },
           },
         },
         {
@@ -372,12 +372,8 @@ const queryManifest = async (address: string): Promise<IApiManifest> => {
           description: true,
         },
       ],
-      profiles: [
-        {
-          where: {
-            address: { _ilike: address },
-          },
-        },
+      profiles_by_pk: [
+        { id: profileId },
         {
           id: true,
           address: true,
@@ -396,7 +392,10 @@ const queryManifest = async (address: string): Promise<IApiManifest> => {
           name: true,
           users: [
             {
-              where: { circle: { deleted_at: { _is_null: true } } },
+              where: {
+                deleted_at: { _is_null: true },
+                circle: { deleted_at: { _is_null: true } },
+              },
             },
             {
               id: true,
@@ -413,9 +412,7 @@ const queryManifest = async (address: string): Promise<IApiManifest> => {
               give_token_remaining: true,
               role: true,
               epoch_first_visit: true,
-              user_private: {
-                fixed_payment_amount: true,
-              },
+              user_private: { fixed_payment_amount: true },
               teammates: [
                 {},
                 {
@@ -434,11 +431,7 @@ const queryManifest = async (address: string): Promise<IApiManifest> => {
                     give_token_remaining: true,
                     role: true,
                     epoch_first_visit: true,
-                    profile: {
-                      id: true,
-                      address: true,
-                      name: true,
-                    },
+                    profile: { id: true, address: true, name: true },
                   },
                 },
               ],
@@ -447,18 +440,21 @@ const queryManifest = async (address: string): Promise<IApiManifest> => {
         },
       ],
     },
-    {
-      operationName: 'fetchManifest',
-    }
+    { operationName: 'fetchManifest' }
   );
 
-  // we have to fetch manifest first because it clues us in to which circle we need to fetch
-  const { circles, epochs, profiles } = await manifestQuery;
+  assert(data.profiles_by_pk, `unable to load profile ${profileId}`);
+  return data;
+};
 
-  const p = profiles.pop();
-  if (!p) {
-    throw 'unable to load profile for address: ' + address;
-  }
+export type QueryManifest = Awaited<ReturnType<typeof queryManifest>>;
+
+// convert data to the form that legacy (pre-Hasura) code expects
+const formatLegacyManifest = async (
+  manifestQuery: Awaited<ReturnType<typeof queryManifest>>
+): Promise<IApiManifest> => {
+  const { circles, epochs, profiles_by_pk: p } = await manifestQuery;
+  assert(p);
 
   let circle: IApiFullCircle | undefined = undefined;
   // Sort by membership to find the first circle that you are a member of
@@ -520,33 +516,29 @@ const queryManifest = async (address: string): Promise<IApiManifest> => {
     return adaptedCircle;
   });
 
-  const manifest = {
+  return {
     profile: adaptedProfile,
     active_epochs: epochs,
     circles: adaptedCircles,
     circle: circle,
     myUsers: adaptedProfile.users || [],
   };
-  return manifest;
 };
 
 export const useApiBase = () => {
   const fetchManifest = useRecoilLoadCatch(
     ({ snapshot, set }) =>
-      async (newWalletAuth?: IAuth) => {
-        const walletAuth =
-          newWalletAuth || (await snapshot.getPromise(rSavedAuth));
-        if (
-          !(walletAuth.address && walletAuth.address in walletAuth.authTokens)
-        ) {
-          throw 'Wallet must be connected to fetch manifest';
-        }
+      async (profileId?: number) => {
+        if (!profileId) profileId = (await snapshot.getPromise(rSavedAuth)).id;
+        assert(profileId, 'no profile ID for fetchManifest');
+        const data = await queryManifest(profileId);
 
-        // TODO split out raw query fetch from data reformatting;
-        // return the raw query data for use by new code
-        const manifest = await queryManifest(walletAuth.address);
+        // legacy data format is still in use in Recoil
+        const manifest = await formatLegacyManifest(data);
         set(rApiManifest, manifest);
-        return manifest;
+
+        // return the raw query data so new code can use it
+        return data;
       },
     [],
     { who: 'fetchManifest' }
