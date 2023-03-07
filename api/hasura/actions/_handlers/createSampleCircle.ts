@@ -2,6 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { DateTime } from 'luxon';
 
 import { COORDINAPE_USER_ADDRESS } from '../../../../api-lib/config';
+import { profiles_constraint } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import * as mutations from '../../../../api-lib/gql/mutations';
 import {
@@ -138,6 +139,29 @@ async function createCircle(
     throw new Error('epoch creation failed');
   }
 
+  //create sample circle users profiles if they were not created before
+  await adminClient.mutate(
+    {
+      insert_profiles: [
+        {
+          objects: sampleMemberData.map(m => {
+            return {
+              address: m.address.toLowerCase(),
+              name: m.name,
+            };
+          }),
+          on_conflict: {
+            constraint: profiles_constraint.profiles_address_key,
+            update_columns: [],
+          },
+        },
+        { returning: { id: true } },
+      ],
+    },
+    {
+      operationName: 'sampleMembers_createProfiles',
+    }
+  );
   // make the members in parallel, assign user_id and address
   const sampleMembers: SampleMember[] = await Promise.all(
     sampleMemberData.map(sm => addSampleMember(circle.id, sm))
