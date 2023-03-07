@@ -206,27 +206,6 @@ export async function updateCircle(params: ValueTypes['UpdateCircleInput']) {
   return updateCircle;
 }
 
-export async function deleteCircle(circle_id: number) {
-  const { deleteCircle } = await client.mutate(
-    {
-      deleteCircle: [
-        {
-          payload: {
-            circle_id: circle_id,
-          },
-        },
-        {
-          success: true,
-        },
-      ],
-    },
-    {
-      operationName: 'deleteCircle',
-    }
-  );
-  return deleteCircle;
-}
-
 export async function restoreCoordinapeUser(circleId: number) {
   await client.mutate(
     {

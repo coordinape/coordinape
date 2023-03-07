@@ -1,6 +1,7 @@
 import assert from 'assert';
 
 import * as Sentry from '@sentry/react';
+import { useQueryClient } from 'react-query';
 
 import { DebugLogger } from '../../common-lib/log';
 import { useApiBase } from 'hooks';
@@ -9,6 +10,7 @@ import { useWeb3React } from 'hooks/useWeb3React';
 
 import { findConnectorName } from './connectors';
 import { login } from './login';
+import { QUERY_KEY_LOGIN_DATA } from './useLoginData';
 import { useLogout } from './useLogout';
 import { useSavedAuth } from './useSavedAuth';
 
@@ -20,6 +22,7 @@ export const useFinishAuth = () => {
   const logout = useLogout();
   const [savedAuth, setSavedAuth] = useSavedAuth();
   const web3Context = useWeb3React();
+  const queryClient = useQueryClient();
 
   return async () => {
     const { connector, account: address, library, providerType } = web3Context;
@@ -59,9 +62,10 @@ export const useFinishAuth = () => {
           new Promise(res =>
             fetchManifest(profileId)
               .then(manifest => {
-                // TODO extract some data from manifest
-                // and put it in auth store
-                console.log(manifest); // eslint-disable-line
+                queryClient.setQueryData(
+                  QUERY_KEY_LOGIN_DATA,
+                  manifest.profiles_by_pk
+                );
                 res(true);
               })
               .catch(() => {
