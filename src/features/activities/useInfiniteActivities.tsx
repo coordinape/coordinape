@@ -119,7 +119,7 @@ export function IsEpochStarted(a: Activity): a is EpochStarted {
   return a.action == 'epochs_started' && !!a.epoch;
 }
 
-export type Reactions = Activity & Required<Pick<Activity, 'reactions'>>;
+export type Reaction = Activity['reactions'][number];
 
 export function IsDeleted(a: Activity) {
   // epoch are hard deleted, so we never see them here.

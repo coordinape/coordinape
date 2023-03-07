@@ -13,7 +13,7 @@ import { paths } from 'routes/paths';
 
 import { ActivityAvatar } from './ActivityAvatar';
 import { ActivityProfileName } from './ActivityProfileName';
-import { Contribution, Reactions } from './useInfiniteActivities';
+import { Contribution, Reaction } from './useInfiniteActivities';
 
 export const createReactionMutation = async (
   object: ValueTypes['reactions_insert_input']
@@ -95,7 +95,7 @@ export const ContributionRow = ({ activity }: { activity: Contribution }) => {
   );
 };
 
-export const ReactionsWidget = ({ reactions }: { reactions: Reactions }) => {
+export const ReactionsWidget = ({ reactions }: { reactions: Reaction[] }) => {
   return (
     <Flex>
       {reactions.map(r => (
