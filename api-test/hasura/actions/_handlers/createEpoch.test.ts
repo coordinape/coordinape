@@ -3,7 +3,10 @@ import { assert } from 'console';
 import { DateTime, Interval } from 'luxon';
 
 import { adminClient } from '../../../../api-lib/gql/adminClient';
-import { zEpochInputParams } from '../../../../api/hasura/actions/_handlers/createEpoch';
+import {
+  zEpochInputParams,
+  validateCustomInput,
+} from '../../../../api/hasura/actions/_handlers/createEpoch';
 import { findSameDayNextMonth } from '../../../../src/common-lib/epochs';
 import {
   createCircle,
@@ -970,4 +973,24 @@ describe('createEpoch', () => {
       );
     });
   });
+});
+
+test('crossing Daylight Saving Time change', () => {
+  const start = DateTime.fromISO('2023-03-06T15:00:00', {
+    zone: 'America/New_York',
+  });
+
+  const input = {
+    type: 'custom' as const,
+    start_date: start,
+    end_date: start.plus({ weeks: 1 }),
+    duration: 1,
+    duration_unit: 'weeks' as const,
+    time_zone: 'America/New_York',
+    frequency: 1,
+    frequency_unit: 'weeks' as const,
+  };
+
+  const validation = validateCustomInput(input);
+  expect(validation).toBeUndefined();
 });

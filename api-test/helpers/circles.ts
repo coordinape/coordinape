@@ -17,9 +17,11 @@ type CircleInput = typeof createCircleSchemaInput['_type'];
 
 export function getCircleName() {
   try {
-    return faker.unique(faker.commerce.department);
+    return faker.unique(
+      () => `${faker.commerce.department} ${faker.datatype.number(10000)}`
+    );
   } catch (_) {
-    return faker.commerce.color();
+    return `${faker.commerce.color()} ${faker.datatype.number(10000)}`;
   }
 }
 
@@ -31,7 +33,9 @@ export async function createCircle(
 
   if (!organizationId) {
     const organization = await createOrganization(client, {
-      name: faker.unique(faker.company.companyName),
+      name: faker.unique(
+        () => `${faker.company.companyName} ${faker.datatype.number(10000)}`
+      ),
     });
 
     if (!organization?.id) {
