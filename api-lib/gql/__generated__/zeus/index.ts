@@ -49054,6 +49054,7 @@ export const enum profiles_update_column {
 /** unique or primary key constraints on table "reactions" */
 export const enum reactions_constraint {
   reactions_pkey = 'reactions_pkey',
+  reactions_profile_id_activity_id_reaction_key = 'reactions_profile_id_activity_id_reaction_key',
 }
 /** select columns of table "reactions" */
 export const enum reactions_select_column {

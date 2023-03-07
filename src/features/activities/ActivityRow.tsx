@@ -1,8 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-
-import { GithubCounter, GithubSelector } from '@charkour/react-reactions';
-
-import { Box, Flex, Text } from '../../ui';
+/* eslint-disable no-console */
+import { Flex, Text } from '../../ui';
 
 import { ContributionRow } from './ContributionRow';
 import { DeletedRow } from './DeletedRow';
@@ -21,29 +18,6 @@ import {
 } from './useInfiniteActivities';
 
 export const ActivityRow = ({ activity }: { activity: Activity }) => {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        ref.current &&
-        event.target &&
-        !ref.current.contains(event.target as Node)
-      ) {
-        setShowAddReaction(false);
-      }
-    };
-    document.addEventListener('click', handleClickOutside, true);
-    return () => {
-      document.removeEventListener('click', handleClickOutside, true);
-    };
-  }, []);
-
-  const [showAddReaction, setShowAddReaction] = useState(false);
-  const [reactions, setReactions] = useState<{ emoji: string; by: string }[]>(
-    []
-  );
-
   const valid = validActivity(activity);
   if (!valid) {
     if (IsDeleted(activity)) {
@@ -54,41 +28,7 @@ export const ActivityRow = ({ activity }: { activity: Activity }) => {
     }
   }
 
-  return (
-    <Flex column>
-      {valid}
-      <Box css={{ position: 'relative' }}>
-        {showAddReaction && (
-          <Box
-            ref={ref}
-            css={{
-              position: 'absolute',
-              top: '-100px',
-              left: '0',
-              zIndex: 9,
-            }}
-          >
-            <GithubSelector
-              reactions={['👀', '🫀', '🧑🏽‍🌾']}
-              onSelect={e => {
-                setReactions(prev => [...prev, { emoji: e, by: 'randy' }]);
-                setShowAddReaction(false);
-              }}
-            />
-          </Box>
-        )}
-        <Flex>
-          <GithubCounter
-            counters={reactions}
-            onAdd={() => setShowAddReaction(true)}
-            onSelect={e =>
-              setReactions(prev => [...prev, { emoji: e, by: 'randy2' }])
-            }
-          />
-        </Flex>
-      </Box>
-    </Flex>
-  );
+  return <Flex column>{valid}</Flex>;
 };
 
 const validActivity = (activity: Activity) => {

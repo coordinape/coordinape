@@ -56,7 +56,7 @@ const getActivities = async (where: Where, page: number) => {
               reaction: true,
               profile: {
                 name: true,
-                avatar: true,
+                id: true,
               },
             },
           ],
