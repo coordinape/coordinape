@@ -1044,6 +1044,52 @@ export type ValueTypes = {
     /** An object relationship */
     organization?: ValueTypes['organizations'];
     organization_id?: boolean | `@${string}`;
+    reactions?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['reactions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['reactions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['reactions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['reactions']
+    ];
+    reactions_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['reactions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['reactions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['reactions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['reactions_aggregate']
+    ];
     /** An object relationship */
     target_profile?: ValueTypes['profiles'];
     target_profile_id?: boolean | `@${string}`;
@@ -1156,6 +1202,11 @@ export type ValueTypes = {
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     organization?: ValueTypes['organizations_bool_exp'] | undefined | null;
     organization_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    reactions?: ValueTypes['reactions_bool_exp'] | undefined | null;
+    reactions_aggregate?:
+      | ValueTypes['reactions_aggregate_bool_exp']
+      | undefined
+      | null;
     target_profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     target_profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
@@ -1230,6 +1281,10 @@ export type ValueTypes = {
     id?: ValueTypes['order_by'] | undefined | null;
     organization?: ValueTypes['organizations_order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    reactions_aggregate?:
+      | ValueTypes['reactions_aggregate_order_by']
+      | undefined
+      | null;
     target_profile?: ValueTypes['profiles_order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
@@ -6137,32 +6192,6 @@ export type ValueTypes = {
       },
       ValueTypes['profiles_mutation_response']
     ];
-    update_reactions?: [
-      {
-        /** sets the columns of the filtered rows to the given values */
-        _set?:
-          | ValueTypes['reactions_set_input']
-          | undefined
-          | null /** filter the rows which have to be updated */;
-        where: ValueTypes['reactions_bool_exp'];
-      },
-      ValueTypes['reactions_mutation_response']
-    ];
-    update_reactions_by_pk?: [
-      {
-        /** sets the columns of the filtered rows to the given values */
-        _set?: ValueTypes['reactions_set_input'] | undefined | null;
-        pk_columns: ValueTypes['reactions_pk_columns_input'];
-      },
-      ValueTypes['reactions']
-    ];
-    update_reactions_many?: [
-      {
-        /** updates to execute, in order */
-        updates: Array<ValueTypes['reactions_updates']>;
-      },
-      ValueTypes['reactions_mutation_response']
-    ];
     uploadCircleLogo?: [
       { payload: ValueTypes['UploadCircleImageInput'] },
       ValueTypes['UpdateCircleResponse']
@@ -8786,6 +8815,15 @@ export type ValueTypes = {
     nodes?: ValueTypes['reactions'];
     __typename?: boolean | `@${string}`;
   }>;
+  ['reactions_aggregate_bool_exp']: {
+    count?: ValueTypes['reactions_aggregate_bool_exp_count'] | undefined | null;
+  };
+  ['reactions_aggregate_bool_exp_count']: {
+    arguments?: Array<ValueTypes['reactions_select_column']> | undefined | null;
+    distinct?: boolean | undefined | null;
+    filter?: ValueTypes['reactions_bool_exp'] | undefined | null;
+    predicate: ValueTypes['Int_comparison_exp'];
+  };
   /** aggregate fields of "reactions" */
   ['reactions_aggregate_fields']: AliasType<{
     avg?: ValueTypes['reactions_avg_fields'];
@@ -8810,6 +8848,23 @@ export type ValueTypes = {
     variance?: ValueTypes['reactions_variance_fields'];
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by aggregate values of table "reactions" */
+  ['reactions_aggregate_order_by']: {
+    avg?: ValueTypes['reactions_avg_order_by'] | undefined | null;
+    count?: ValueTypes['order_by'] | undefined | null;
+    max?: ValueTypes['reactions_max_order_by'] | undefined | null;
+    min?: ValueTypes['reactions_min_order_by'] | undefined | null;
+    stddev?: ValueTypes['reactions_stddev_order_by'] | undefined | null;
+    stddev_pop?: ValueTypes['reactions_stddev_pop_order_by'] | undefined | null;
+    stddev_samp?:
+      | ValueTypes['reactions_stddev_samp_order_by']
+      | undefined
+      | null;
+    sum?: ValueTypes['reactions_sum_order_by'] | undefined | null;
+    var_pop?: ValueTypes['reactions_var_pop_order_by'] | undefined | null;
+    var_samp?: ValueTypes['reactions_var_samp_order_by'] | undefined | null;
+    variance?: ValueTypes['reactions_variance_order_by'] | undefined | null;
+  };
   /** aggregate avg on columns */
   ['reactions_avg_fields']: AliasType<{
     activity_id?: boolean | `@${string}`;
@@ -8817,6 +8872,12 @@ export type ValueTypes = {
     profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by avg() on columns of table "reactions" */
+  ['reactions_avg_order_by']: {
+    activity_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** Boolean expression to filter rows from the table "reactions". All fields are combined with a logical 'AND'. */
   ['reactions_bool_exp']: {
     _and?: Array<ValueTypes['reactions_bool_exp']> | undefined | null;
@@ -8848,6 +8909,15 @@ export type ValueTypes = {
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by max() on columns of table "reactions" */
+  ['reactions_max_order_by']: {
+    activity_id?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    reaction?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
   /** aggregate min on columns */
   ['reactions_min_fields']: AliasType<{
     activity_id?: boolean | `@${string}`;
@@ -8858,6 +8928,15 @@ export type ValueTypes = {
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by min() on columns of table "reactions" */
+  ['reactions_min_order_by']: {
+    activity_id?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    reaction?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
   /** response of any mutation on the table "reactions" */
   ['reactions_mutation_response']: AliasType<{
     /** number of rows affected by the mutation */
@@ -8883,16 +8962,8 @@ export type ValueTypes = {
     reaction?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
   };
-  /** primary key columns input for table: reactions */
-  ['reactions_pk_columns_input']: {
-    id: ValueTypes['bigint'];
-  };
   /** select columns of table "reactions" */
   ['reactions_select_column']: reactions_select_column;
-  /** input type for updating data in table "reactions" */
-  ['reactions_set_input']: {
-    reaction?: string | undefined | null;
-  };
   /** aggregate stddev on columns */
   ['reactions_stddev_fields']: AliasType<{
     activity_id?: boolean | `@${string}`;
@@ -8900,6 +8971,12 @@ export type ValueTypes = {
     profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by stddev() on columns of table "reactions" */
+  ['reactions_stddev_order_by']: {
+    activity_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** aggregate stddev_pop on columns */
   ['reactions_stddev_pop_fields']: AliasType<{
     activity_id?: boolean | `@${string}`;
@@ -8907,6 +8984,12 @@ export type ValueTypes = {
     profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by stddev_pop() on columns of table "reactions" */
+  ['reactions_stddev_pop_order_by']: {
+    activity_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** aggregate stddev_samp on columns */
   ['reactions_stddev_samp_fields']: AliasType<{
     activity_id?: boolean | `@${string}`;
@@ -8914,6 +8997,12 @@ export type ValueTypes = {
     profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by stddev_samp() on columns of table "reactions" */
+  ['reactions_stddev_samp_order_by']: {
+    activity_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** Streaming cursor of the table "reactions" */
   ['reactions_stream_cursor_input']: {
     /** Stream column input with initial value */
@@ -8937,14 +9026,14 @@ export type ValueTypes = {
     profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** update columns of table "reactions" */
-  ['reactions_update_column']: reactions_update_column;
-  ['reactions_updates']: {
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['reactions_set_input'] | undefined | null;
-    /** filter the rows which have to be updated */
-    where: ValueTypes['reactions_bool_exp'];
+  /** order by sum() on columns of table "reactions" */
+  ['reactions_sum_order_by']: {
+    activity_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** placeholder for update columns of table "reactions" (current role has no relevant permissions) */
+  ['reactions_update_column']: reactions_update_column;
   /** aggregate var_pop on columns */
   ['reactions_var_pop_fields']: AliasType<{
     activity_id?: boolean | `@${string}`;
@@ -8952,6 +9041,12 @@ export type ValueTypes = {
     profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by var_pop() on columns of table "reactions" */
+  ['reactions_var_pop_order_by']: {
+    activity_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** aggregate var_samp on columns */
   ['reactions_var_samp_fields']: AliasType<{
     activity_id?: boolean | `@${string}`;
@@ -8959,6 +9054,12 @@ export type ValueTypes = {
     profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by var_samp() on columns of table "reactions" */
+  ['reactions_var_samp_order_by']: {
+    activity_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** aggregate variance on columns */
   ['reactions_variance_fields']: AliasType<{
     activity_id?: boolean | `@${string}`;
@@ -8966,6 +9067,12 @@ export type ValueTypes = {
     profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by variance() on columns of table "reactions" */
+  ['reactions_variance_order_by']: {
+    activity_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
   ['subscription_root']: AliasType<{
     activities?: [
       {
@@ -12544,6 +12651,10 @@ export type ModelTypes = {
     /** An object relationship */
     organization: GraphQLTypes['organizations'];
     organization_id: GraphQLTypes['bigint'];
+    /** An array relationship */
+    reactions: Array<GraphQLTypes['reactions']>;
+    /** An aggregate relationship */
+    reactions_aggregate: GraphQLTypes['reactions_aggregate'];
     /** An object relationship */
     target_profile?: GraphQLTypes['profiles'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -14217,14 +14328,6 @@ export type ModelTypes = {
     update_profiles_many?:
       | Array<GraphQLTypes['profiles_mutation_response'] | undefined>
       | undefined;
-    /** update data of the table: "reactions" */
-    update_reactions?: GraphQLTypes['reactions_mutation_response'] | undefined;
-    /** update single row of the table: "reactions" */
-    update_reactions_by_pk?: GraphQLTypes['reactions'] | undefined;
-    /** update multiples rows of table: "reactions" */
-    update_reactions_many?:
-      | Array<GraphQLTypes['reactions_mutation_response'] | undefined>
-      | undefined;
     uploadCircleLogo?: GraphQLTypes['UpdateCircleResponse'] | undefined;
     uploadOrgLogo?: GraphQLTypes['UpdateOrgResponse'] | undefined;
     uploadProfileAvatar?: GraphQLTypes['UpdateProfileResponse'] | undefined;
@@ -14803,9 +14906,9 @@ export type ModelTypes = {
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch data from the table: "profiles" using primary key columns */
     profiles_by_pk?: GraphQLTypes['profiles'] | undefined;
-    /** fetch data from the table: "reactions" */
+    /** An array relationship */
     reactions: Array<GraphQLTypes['reactions']>;
-    /** fetch aggregated fields from the table: "reactions" */
+    /** An aggregate relationship */
     reactions_aggregate: GraphQLTypes['reactions_aggregate'];
     /** fetch data from the table: "reactions" using primary key columns */
     reactions_by_pk?: GraphQLTypes['reactions'] | undefined;
@@ -14862,6 +14965,8 @@ export type ModelTypes = {
     aggregate?: GraphQLTypes['reactions_aggregate_fields'] | undefined;
     nodes: Array<GraphQLTypes['reactions']>;
   };
+  ['reactions_aggregate_bool_exp']: GraphQLTypes['reactions_aggregate_bool_exp'];
+  ['reactions_aggregate_bool_exp_count']: GraphQLTypes['reactions_aggregate_bool_exp_count'];
   /** aggregate fields of "reactions" */
   ['reactions_aggregate_fields']: {
     avg?: GraphQLTypes['reactions_avg_fields'] | undefined;
@@ -14876,12 +14981,16 @@ export type ModelTypes = {
     var_samp?: GraphQLTypes['reactions_var_samp_fields'] | undefined;
     variance?: GraphQLTypes['reactions_variance_fields'] | undefined;
   };
+  /** order by aggregate values of table "reactions" */
+  ['reactions_aggregate_order_by']: GraphQLTypes['reactions_aggregate_order_by'];
   /** aggregate avg on columns */
   ['reactions_avg_fields']: {
     activity_id?: number | undefined;
     id?: number | undefined;
     profile_id?: number | undefined;
   };
+  /** order by avg() on columns of table "reactions" */
+  ['reactions_avg_order_by']: GraphQLTypes['reactions_avg_order_by'];
   /** Boolean expression to filter rows from the table "reactions". All fields are combined with a logical 'AND'. */
   ['reactions_bool_exp']: GraphQLTypes['reactions_bool_exp'];
   /** unique or primary key constraints on table "reactions" */
@@ -14897,6 +15006,8 @@ export type ModelTypes = {
     reaction?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
+  /** order by max() on columns of table "reactions" */
+  ['reactions_max_order_by']: GraphQLTypes['reactions_max_order_by'];
   /** aggregate min on columns */
   ['reactions_min_fields']: {
     activity_id?: number | undefined;
@@ -14906,6 +15017,8 @@ export type ModelTypes = {
     reaction?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
+  /** order by min() on columns of table "reactions" */
+  ['reactions_min_order_by']: GraphQLTypes['reactions_min_order_by'];
   /** response of any mutation on the table "reactions" */
   ['reactions_mutation_response']: {
     /** number of rows affected by the mutation */
@@ -14917,30 +15030,32 @@ export type ModelTypes = {
   ['reactions_on_conflict']: GraphQLTypes['reactions_on_conflict'];
   /** Ordering options when selecting data from "reactions". */
   ['reactions_order_by']: GraphQLTypes['reactions_order_by'];
-  /** primary key columns input for table: reactions */
-  ['reactions_pk_columns_input']: GraphQLTypes['reactions_pk_columns_input'];
   /** select columns of table "reactions" */
   ['reactions_select_column']: GraphQLTypes['reactions_select_column'];
-  /** input type for updating data in table "reactions" */
-  ['reactions_set_input']: GraphQLTypes['reactions_set_input'];
   /** aggregate stddev on columns */
   ['reactions_stddev_fields']: {
     activity_id?: number | undefined;
     id?: number | undefined;
     profile_id?: number | undefined;
   };
+  /** order by stddev() on columns of table "reactions" */
+  ['reactions_stddev_order_by']: GraphQLTypes['reactions_stddev_order_by'];
   /** aggregate stddev_pop on columns */
   ['reactions_stddev_pop_fields']: {
     activity_id?: number | undefined;
     id?: number | undefined;
     profile_id?: number | undefined;
   };
+  /** order by stddev_pop() on columns of table "reactions" */
+  ['reactions_stddev_pop_order_by']: GraphQLTypes['reactions_stddev_pop_order_by'];
   /** aggregate stddev_samp on columns */
   ['reactions_stddev_samp_fields']: {
     activity_id?: number | undefined;
     id?: number | undefined;
     profile_id?: number | undefined;
   };
+  /** order by stddev_samp() on columns of table "reactions" */
+  ['reactions_stddev_samp_order_by']: GraphQLTypes['reactions_stddev_samp_order_by'];
   /** Streaming cursor of the table "reactions" */
   ['reactions_stream_cursor_input']: GraphQLTypes['reactions_stream_cursor_input'];
   /** Initial value of the column from where the streaming should start */
@@ -14951,27 +15066,34 @@ export type ModelTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     profile_id?: number | undefined;
   };
-  /** update columns of table "reactions" */
+  /** order by sum() on columns of table "reactions" */
+  ['reactions_sum_order_by']: GraphQLTypes['reactions_sum_order_by'];
+  /** placeholder for update columns of table "reactions" (current role has no relevant permissions) */
   ['reactions_update_column']: GraphQLTypes['reactions_update_column'];
-  ['reactions_updates']: GraphQLTypes['reactions_updates'];
   /** aggregate var_pop on columns */
   ['reactions_var_pop_fields']: {
     activity_id?: number | undefined;
     id?: number | undefined;
     profile_id?: number | undefined;
   };
+  /** order by var_pop() on columns of table "reactions" */
+  ['reactions_var_pop_order_by']: GraphQLTypes['reactions_var_pop_order_by'];
   /** aggregate var_samp on columns */
   ['reactions_var_samp_fields']: {
     activity_id?: number | undefined;
     id?: number | undefined;
     profile_id?: number | undefined;
   };
+  /** order by var_samp() on columns of table "reactions" */
+  ['reactions_var_samp_order_by']: GraphQLTypes['reactions_var_samp_order_by'];
   /** aggregate variance on columns */
   ['reactions_variance_fields']: {
     activity_id?: number | undefined;
     id?: number | undefined;
     profile_id?: number | undefined;
   };
+  /** order by variance() on columns of table "reactions" */
+  ['reactions_variance_order_by']: GraphQLTypes['reactions_variance_order_by'];
   ['subscription_root']: {
     /** An array relationship */
     activities: Array<GraphQLTypes['activities']>;
@@ -15147,9 +15269,9 @@ export type ModelTypes = {
     profiles_by_pk?: GraphQLTypes['profiles'] | undefined;
     /** fetch data from the table in a streaming manner: "profiles" */
     profiles_stream: Array<GraphQLTypes['profiles']>;
-    /** fetch data from the table: "reactions" */
+    /** An array relationship */
     reactions: Array<GraphQLTypes['reactions']>;
-    /** fetch aggregated fields from the table: "reactions" */
+    /** An aggregate relationship */
     reactions_aggregate: GraphQLTypes['reactions_aggregate'];
     /** fetch data from the table: "reactions" using primary key columns */
     reactions_by_pk?: GraphQLTypes['reactions'] | undefined;
@@ -16223,6 +16345,10 @@ export type GraphQLTypes = {
     /** An object relationship */
     organization: GraphQLTypes['organizations'];
     organization_id: GraphQLTypes['bigint'];
+    /** An array relationship */
+    reactions: Array<GraphQLTypes['reactions']>;
+    /** An aggregate relationship */
+    reactions_aggregate: GraphQLTypes['reactions_aggregate'];
     /** An object relationship */
     target_profile?: GraphQLTypes['profiles'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -16313,6 +16439,10 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     organization?: GraphQLTypes['organizations_bool_exp'] | undefined;
     organization_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    reactions?: GraphQLTypes['reactions_bool_exp'] | undefined;
+    reactions_aggregate?:
+      | GraphQLTypes['reactions_aggregate_bool_exp']
+      | undefined;
     target_profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     target_profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
@@ -16387,6 +16517,9 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['order_by'] | undefined;
     organization?: GraphQLTypes['organizations_order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    reactions_aggregate?:
+      | GraphQLTypes['reactions_aggregate_order_by']
+      | undefined;
     target_profile?: GraphQLTypes['profiles_order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
@@ -20124,14 +20257,6 @@ export type GraphQLTypes = {
     update_profiles_many?:
       | Array<GraphQLTypes['profiles_mutation_response'] | undefined>
       | undefined;
-    /** update data of the table: "reactions" */
-    update_reactions?: GraphQLTypes['reactions_mutation_response'] | undefined;
-    /** update single row of the table: "reactions" */
-    update_reactions_by_pk?: GraphQLTypes['reactions'] | undefined;
-    /** update multiples rows of table: "reactions" */
-    update_reactions_many?:
-      | Array<GraphQLTypes['reactions_mutation_response'] | undefined>
-      | undefined;
     uploadCircleLogo?: GraphQLTypes['UpdateCircleResponse'] | undefined;
     uploadOrgLogo?: GraphQLTypes['UpdateOrgResponse'] | undefined;
     uploadProfileAvatar?: GraphQLTypes['UpdateProfileResponse'] | undefined;
@@ -21413,9 +21538,9 @@ export type GraphQLTypes = {
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch data from the table: "profiles" using primary key columns */
     profiles_by_pk?: GraphQLTypes['profiles'] | undefined;
-    /** fetch data from the table: "reactions" */
+    /** An array relationship */
     reactions: Array<GraphQLTypes['reactions']>;
-    /** fetch aggregated fields from the table: "reactions" */
+    /** An aggregate relationship */
     reactions_aggregate: GraphQLTypes['reactions_aggregate'];
     /** fetch data from the table: "reactions" using primary key columns */
     reactions_by_pk?: GraphQLTypes['reactions'] | undefined;
@@ -21474,6 +21599,15 @@ export type GraphQLTypes = {
     aggregate?: GraphQLTypes['reactions_aggregate_fields'] | undefined;
     nodes: Array<GraphQLTypes['reactions']>;
   };
+  ['reactions_aggregate_bool_exp']: {
+    count?: GraphQLTypes['reactions_aggregate_bool_exp_count'] | undefined;
+  };
+  ['reactions_aggregate_bool_exp_count']: {
+    arguments?: Array<GraphQLTypes['reactions_select_column']> | undefined;
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes['reactions_bool_exp'] | undefined;
+    predicate: GraphQLTypes['Int_comparison_exp'];
+  };
   /** aggregate fields of "reactions" */
   ['reactions_aggregate_fields']: {
     __typename: 'reactions_aggregate_fields';
@@ -21489,12 +21623,32 @@ export type GraphQLTypes = {
     var_samp?: GraphQLTypes['reactions_var_samp_fields'] | undefined;
     variance?: GraphQLTypes['reactions_variance_fields'] | undefined;
   };
+  /** order by aggregate values of table "reactions" */
+  ['reactions_aggregate_order_by']: {
+    avg?: GraphQLTypes['reactions_avg_order_by'] | undefined;
+    count?: GraphQLTypes['order_by'] | undefined;
+    max?: GraphQLTypes['reactions_max_order_by'] | undefined;
+    min?: GraphQLTypes['reactions_min_order_by'] | undefined;
+    stddev?: GraphQLTypes['reactions_stddev_order_by'] | undefined;
+    stddev_pop?: GraphQLTypes['reactions_stddev_pop_order_by'] | undefined;
+    stddev_samp?: GraphQLTypes['reactions_stddev_samp_order_by'] | undefined;
+    sum?: GraphQLTypes['reactions_sum_order_by'] | undefined;
+    var_pop?: GraphQLTypes['reactions_var_pop_order_by'] | undefined;
+    var_samp?: GraphQLTypes['reactions_var_samp_order_by'] | undefined;
+    variance?: GraphQLTypes['reactions_variance_order_by'] | undefined;
+  };
   /** aggregate avg on columns */
   ['reactions_avg_fields']: {
     __typename: 'reactions_avg_fields';
     activity_id?: number | undefined;
     id?: number | undefined;
     profile_id?: number | undefined;
+  };
+  /** order by avg() on columns of table "reactions" */
+  ['reactions_avg_order_by']: {
+    activity_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** Boolean expression to filter rows from the table "reactions". All fields are combined with a logical 'AND'. */
   ['reactions_bool_exp']: {
@@ -21527,6 +21681,15 @@ export type GraphQLTypes = {
     reaction?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
+  /** order by max() on columns of table "reactions" */
+  ['reactions_max_order_by']: {
+    activity_id?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    reaction?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
   /** aggregate min on columns */
   ['reactions_min_fields']: {
     __typename: 'reactions_min_fields';
@@ -21536,6 +21699,15 @@ export type GraphQLTypes = {
     profile_id?: number | undefined;
     reaction?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** order by min() on columns of table "reactions" */
+  ['reactions_min_order_by']: {
+    activity_id?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    reaction?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
   };
   /** response of any mutation on the table "reactions" */
   ['reactions_mutation_response']: {
@@ -21562,22 +21734,20 @@ export type GraphQLTypes = {
     reaction?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
   };
-  /** primary key columns input for table: reactions */
-  ['reactions_pk_columns_input']: {
-    id: GraphQLTypes['bigint'];
-  };
   /** select columns of table "reactions" */
   ['reactions_select_column']: reactions_select_column;
-  /** input type for updating data in table "reactions" */
-  ['reactions_set_input']: {
-    reaction?: string | undefined;
-  };
   /** aggregate stddev on columns */
   ['reactions_stddev_fields']: {
     __typename: 'reactions_stddev_fields';
     activity_id?: number | undefined;
     id?: number | undefined;
     profile_id?: number | undefined;
+  };
+  /** order by stddev() on columns of table "reactions" */
+  ['reactions_stddev_order_by']: {
+    activity_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** aggregate stddev_pop on columns */
   ['reactions_stddev_pop_fields']: {
@@ -21586,12 +21756,24 @@ export type GraphQLTypes = {
     id?: number | undefined;
     profile_id?: number | undefined;
   };
+  /** order by stddev_pop() on columns of table "reactions" */
+  ['reactions_stddev_pop_order_by']: {
+    activity_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
   /** aggregate stddev_samp on columns */
   ['reactions_stddev_samp_fields']: {
     __typename: 'reactions_stddev_samp_fields';
     activity_id?: number | undefined;
     id?: number | undefined;
     profile_id?: number | undefined;
+  };
+  /** order by stddev_samp() on columns of table "reactions" */
+  ['reactions_stddev_samp_order_by']: {
+    activity_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** Streaming cursor of the table "reactions" */
   ['reactions_stream_cursor_input']: {
@@ -21616,20 +21798,26 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     profile_id?: number | undefined;
   };
-  /** update columns of table "reactions" */
-  ['reactions_update_column']: reactions_update_column;
-  ['reactions_updates']: {
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['reactions_set_input'] | undefined;
-    /** filter the rows which have to be updated */
-    where: GraphQLTypes['reactions_bool_exp'];
+  /** order by sum() on columns of table "reactions" */
+  ['reactions_sum_order_by']: {
+    activity_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
   };
+  /** placeholder for update columns of table "reactions" (current role has no relevant permissions) */
+  ['reactions_update_column']: reactions_update_column;
   /** aggregate var_pop on columns */
   ['reactions_var_pop_fields']: {
     __typename: 'reactions_var_pop_fields';
     activity_id?: number | undefined;
     id?: number | undefined;
     profile_id?: number | undefined;
+  };
+  /** order by var_pop() on columns of table "reactions" */
+  ['reactions_var_pop_order_by']: {
+    activity_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** aggregate var_samp on columns */
   ['reactions_var_samp_fields']: {
@@ -21638,12 +21826,24 @@ export type GraphQLTypes = {
     id?: number | undefined;
     profile_id?: number | undefined;
   };
+  /** order by var_samp() on columns of table "reactions" */
+  ['reactions_var_samp_order_by']: {
+    activity_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
   /** aggregate variance on columns */
   ['reactions_variance_fields']: {
     __typename: 'reactions_variance_fields';
     activity_id?: number | undefined;
     id?: number | undefined;
     profile_id?: number | undefined;
+  };
+  /** order by variance() on columns of table "reactions" */
+  ['reactions_variance_order_by']: {
+    activity_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
   };
   ['subscription_root']: {
     __typename: 'subscription_root';
@@ -21821,9 +22021,9 @@ export type GraphQLTypes = {
     profiles_by_pk?: GraphQLTypes['profiles'] | undefined;
     /** fetch data from the table in a streaming manner: "profiles" */
     profiles_stream: Array<GraphQLTypes['profiles']>;
-    /** fetch data from the table: "reactions" */
+    /** An array relationship */
     reactions: Array<GraphQLTypes['reactions']>;
-    /** fetch aggregated fields from the table: "reactions" */
+    /** An aggregate relationship */
     reactions_aggregate: GraphQLTypes['reactions_aggregate'];
     /** fetch data from the table: "reactions" using primary key columns */
     reactions_by_pk?: GraphQLTypes['reactions'] | undefined;
@@ -23801,9 +24001,9 @@ export const enum reactions_select_column {
   reaction = 'reaction',
   updated_at = 'updated_at',
 }
-/** update columns of table "reactions" */
+/** placeholder for update columns of table "reactions" (current role has no relevant permissions) */
 export const enum reactions_update_column {
-  reaction = 'reaction',
+  _PLACEHOLDER = '_PLACEHOLDER',
 }
 /** select columns of table "teammates" */
 export const enum teammates_select_column {

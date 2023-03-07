@@ -65,6 +65,18 @@ export const AllTypesProps: Record<string, any> = {
   UploadOrgImageInput: {},
   UserObj: {},
   VouchInput: {},
+  activities: {
+    reactions: {
+      distinct_on: 'reactions_select_column',
+      order_by: 'reactions_order_by',
+      where: 'reactions_bool_exp',
+    },
+    reactions_aggregate: {
+      distinct_on: 'reactions_select_column',
+      order_by: 'reactions_order_by',
+      where: 'reactions_bool_exp',
+    },
+  },
   activities_aggregate_bool_exp: {
     count: 'activities_aggregate_bool_exp_count',
   },
@@ -122,6 +134,8 @@ export const AllTypesProps: Record<string, any> = {
     id: 'bigint_comparison_exp',
     organization: 'organizations_bool_exp',
     organization_id: 'bigint_comparison_exp',
+    reactions: 'reactions_bool_exp',
+    reactions_aggregate: 'reactions_aggregate_bool_exp',
     target_profile: 'profiles_bool_exp',
     target_profile_id: 'bigint_comparison_exp',
     updated_at: 'timestamptz_comparison_exp',
@@ -152,6 +166,7 @@ export const AllTypesProps: Record<string, any> = {
     id: 'bigint',
     organization: 'organizations_obj_rel_insert_input',
     organization_id: 'bigint',
+    reactions: 'reactions_arr_rel_insert_input',
     target_profile: 'profiles_obj_rel_insert_input',
     target_profile_id: 'bigint',
     updated_at: 'timestamptz',
@@ -207,6 +222,7 @@ export const AllTypesProps: Record<string, any> = {
     id: 'order_by',
     organization: 'organizations_order_by',
     organization_id: 'order_by',
+    reactions_aggregate: 'reactions_aggregate_order_by',
     target_profile: 'profiles_order_by',
     target_profile_id: 'order_by',
     updated_at: 'order_by',
@@ -6564,10 +6580,40 @@ export const AllTypesProps: Record<string, any> = {
       id: 'bigint',
     },
   },
+  reactions_aggregate_bool_exp: {
+    count: 'reactions_aggregate_bool_exp_count',
+  },
+  reactions_aggregate_bool_exp_count: {
+    arguments: 'reactions_select_column',
+    filter: 'reactions_bool_exp',
+    predicate: 'Int_comparison_exp',
+  },
   reactions_aggregate_fields: {
     count: {
       columns: 'reactions_select_column',
     },
+  },
+  reactions_aggregate_order_by: {
+    avg: 'reactions_avg_order_by',
+    count: 'order_by',
+    max: 'reactions_max_order_by',
+    min: 'reactions_min_order_by',
+    stddev: 'reactions_stddev_order_by',
+    stddev_pop: 'reactions_stddev_pop_order_by',
+    stddev_samp: 'reactions_stddev_samp_order_by',
+    sum: 'reactions_sum_order_by',
+    var_pop: 'reactions_var_pop_order_by',
+    var_samp: 'reactions_var_samp_order_by',
+    variance: 'reactions_variance_order_by',
+  },
+  reactions_arr_rel_insert_input: {
+    data: 'reactions_insert_input',
+    on_conflict: 'reactions_on_conflict',
+  },
+  reactions_avg_order_by: {
+    activity_id: 'order_by',
+    id: 'order_by',
+    profile_id: 'order_by',
   },
   reactions_bool_exp: {
     _and: 'reactions_bool_exp',
@@ -6593,6 +6639,22 @@ export const AllTypesProps: Record<string, any> = {
     profile: 'profiles_obj_rel_insert_input',
     updated_at: 'timestamptz',
   },
+  reactions_max_order_by: {
+    activity_id: 'order_by',
+    created_at: 'order_by',
+    id: 'order_by',
+    profile_id: 'order_by',
+    reaction: 'order_by',
+    updated_at: 'order_by',
+  },
+  reactions_min_order_by: {
+    activity_id: 'order_by',
+    created_at: 'order_by',
+    id: 'order_by',
+    profile_id: 'order_by',
+    reaction: 'order_by',
+    updated_at: 'order_by',
+  },
   reactions_on_conflict: {
     constraint: 'reactions_constraint',
     update_columns: 'reactions_update_column',
@@ -6617,6 +6679,21 @@ export const AllTypesProps: Record<string, any> = {
     id: 'bigint',
     updated_at: 'timestamptz',
   },
+  reactions_stddev_order_by: {
+    activity_id: 'order_by',
+    id: 'order_by',
+    profile_id: 'order_by',
+  },
+  reactions_stddev_pop_order_by: {
+    activity_id: 'order_by',
+    id: 'order_by',
+    profile_id: 'order_by',
+  },
+  reactions_stddev_samp_order_by: {
+    activity_id: 'order_by',
+    id: 'order_by',
+    profile_id: 'order_by',
+  },
   reactions_stream_cursor_input: {
     initial_value: 'reactions_stream_cursor_value_input',
     ordering: 'cursor_ordering',
@@ -6626,11 +6703,31 @@ export const AllTypesProps: Record<string, any> = {
     id: 'bigint',
     updated_at: 'timestamptz',
   },
+  reactions_sum_order_by: {
+    activity_id: 'order_by',
+    id: 'order_by',
+    profile_id: 'order_by',
+  },
   reactions_update_column: true,
   reactions_updates: {
     _inc: 'reactions_inc_input',
     _set: 'reactions_set_input',
     where: 'reactions_bool_exp',
+  },
+  reactions_var_pop_order_by: {
+    activity_id: 'order_by',
+    id: 'order_by',
+    profile_id: 'order_by',
+  },
+  reactions_var_samp_order_by: {
+    activity_id: 'order_by',
+    id: 'order_by',
+    profile_id: 'order_by',
+  },
+  reactions_variance_order_by: {
+    activity_id: 'order_by',
+    id: 'order_by',
+    profile_id: 'order_by',
   },
   subscription_root: {
     activities: {
@@ -8901,6 +8998,8 @@ export const ReturnTypes: Record<string, any> = {
     id: 'bigint',
     organization: 'organizations',
     organization_id: 'bigint',
+    reactions: 'reactions',
+    reactions_aggregate: 'reactions_aggregate',
     target_profile: 'profiles',
     target_profile_id: 'bigint',
     updated_at: 'timestamptz',
