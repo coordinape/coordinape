@@ -67,9 +67,6 @@ const headerStyles = {
 
 const schema = z
   .object({
-    name: z.string().refine(val => val.trim().length >= 3, {
-      message: 'Name must be at least 3 characters long.',
-    }),
     address: zEthAddress,
     non_giver: z.boolean(),
     fixed_non_receiver: z.boolean(),
@@ -504,16 +501,24 @@ const MemberRow = ({
                 }}
               >
                 <Flex css={{ gap: '$lg', flexWrap: 'wrap' }}>
-                  <FormInputField
-                    id="name"
-                    name="name"
-                    control={control}
-                    defaultValue={user.profile?.name}
-                    label="Member Name"
-                    infoTooltip="Member Displayed Name"
-                    showFieldErrors
-                    disabled={true}
-                  />
+                  <Box>
+                    <Text variant="label" as="label" css={{ mb: '$xs' }}>
+                      Member Name{' '}
+                      <Tooltip content={<div>Member Displayed Name</div>}>
+                        <Info size="sm" />
+                      </Tooltip>
+                    </Text>
+                    <TextField
+                      value={user.profile?.name}
+                      disabled={true}
+                      css={{
+                        width: '100%',
+                        '&::-webkit-calendar-picker-indicator': {
+                          filter: 'invert(1) brightness(0.6)',
+                        },
+                      }}
+                    />
+                  </Box>
                   <FormInputField
                     id="address"
                     name="address"

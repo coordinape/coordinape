@@ -21,7 +21,6 @@ const queryDiscordWebhook = async (circleId: number) => {
 };
 
 interface UpdateUsersParam {
-  name: string;
   address: string;
   non_giver?: boolean;
   fixed_non_receiver?: boolean;
@@ -48,7 +47,6 @@ export const adminUpdateUser = async (
         {
           payload: {
             circle_id: circleId,
-            name: params.name,
             address: originalAddress,
             new_address,
             fixed_non_receiver: params.fixed_non_receiver,
