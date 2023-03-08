@@ -78,7 +78,7 @@ export const useApiWithProfile = () => {
   const createCircle = useRecoilLoadCatch(
     () =>
       async (params: CreateCircleParam): Promise<IApiCircle> => {
-        const result = await createCircle(params);
+        const result = await mutations.createCircle(params);
         await fetchManifest();
         return result;
       },

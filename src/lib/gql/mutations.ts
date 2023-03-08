@@ -1,3 +1,5 @@
+import { IApiCircle } from '../../types';
+
 import { useZeusVariables, ValueTypes } from './__generated__/zeus';
 import { client } from './client';
 
@@ -460,3 +462,61 @@ export async function allocationCsv(
   );
   return allocationCsv;
 }
+
+export const createCircle = async (
+  params: ValueTypes['CreateCircleInput']
+): Promise<IApiCircle> => {
+  const { createCircle } = await client.mutate(
+    {
+      createCircle: [
+        {
+          payload: params,
+        },
+        {
+          circle: {
+            id: true,
+            name: true,
+            logo: true,
+            default_opt_in: true,
+            is_verified: true,
+            alloc_text: true,
+            cont_help_text: true,
+            token_name: true,
+            vouching: true,
+            min_vouches: true,
+            nomination_days_limit: true,
+            vouching_text: true,
+            only_giver_vouch: true,
+            team_selection: true,
+            created_at: true,
+            updated_at: true,
+            organization_id: true,
+            show_pending_gives: true,
+            organization: {
+              id: true,
+              name: true,
+              created_at: true,
+              updated_at: true,
+              sample: true,
+            },
+            auto_opt_out: true,
+            fixed_payment_token_type: true,
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'createCircle',
+    }
+  );
+  if (!createCircle) {
+    throw 'unable to create circle';
+  }
+  if (!createCircle.circle?.organization) {
+    throw 'circle created but organization not found after creation';
+  }
+  return {
+    ...createCircle.circle,
+    organization: createCircle.circle.organization,
+  };
+};
