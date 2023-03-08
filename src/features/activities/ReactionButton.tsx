@@ -25,6 +25,7 @@ export const ReactionButton = ({
         pb: 4,
         ml: '$xs',
         alignItems: 'center',
+        boxSizing: 'border-box',
       }}
     >
       {children}

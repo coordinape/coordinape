@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import { PlusCircledIcon } from '@radix-ui/react-icons';
 import { useMutation } from 'react-query';
 
 import { useMyProfile } from '../../recoilState';
@@ -14,6 +13,8 @@ import {
 } from './ContributionRow';
 import { ReactionButton } from './ReactionButton';
 import { Reaction } from './useInfiniteActivities';
+
+import './heart.css';
 
 export const ReactionBar = ({
   activityId,
@@ -57,7 +58,7 @@ export const ReactionBar = ({
       setCurrentReactions(prevState => [...prevState, newReaction]);
     },
     onSettled: () => {
-      setShowAddReaction(false);
+      setTimeout(() => setShowAddReaction(false), 500);
     },
   });
 
@@ -71,7 +72,7 @@ export const ReactionBar = ({
     createReaction({ activity_id: activityId, reaction });
   };
 
-  const defaultReactions = ['👀', '🫀', '🧑🏽‍🌾'];
+  const defaultReactions = ['👀', '👑', '🤩', '🧠', '🙏🏼', '💀'];
   const [showAddReaction, setShowAddReaction] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -115,13 +116,24 @@ export const ReactionBar = ({
         >
           {defaultReactions.map(r => (
             <ReactionButton key={r} onClick={() => addReaction(r)}>
-              <Text size="large">{r}</Text>
+              <input
+                id={'react-' + r}
+                className="toggle-heart"
+                type="checkbox"
+              />
+              <label
+                className="heart-label"
+                htmlFor={'react-' + r}
+                aria-label="like"
+              >
+                <Text size="large">{r}</Text>
+              </label>
             </ReactionButton>
           ))}
         </Flex>
       )}
       <ReactionButton onClick={() => setShowAddReaction(prev => !prev)}>
-        <PlusCircledIcon />
+        🫥
       </ReactionButton>
 
       <Flex css={{ alignItems: 'center' }}>
