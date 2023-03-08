@@ -37,10 +37,10 @@ async function checkExistingUser(address: string, circleId: number) {
 export async function createUserMutation(
   address: string,
   circleId: number,
-  input: ValueTypes['users_set_input'] & { name: string },
+  userInput: ValueTypes['users_set_input'],
+  name: string,
   entrance: string
 ) {
-  const { name, ...userInput } = input;
   const softDeletedUser = await checkExistingUser(address, circleId);
   const addressProfile = await getProfilesWithAddress(address);
   let nameProfile = undefined;
@@ -82,9 +82,6 @@ export async function createUserMutation(
       throw new UnprocessableError('Failed to update user profile');
     }
   }
-
-  // so we don't pass an unknown field to update user
-  delete userInput['name'];
 
   const createUserMutation: ValueTypes['mutation_root'] =
     softDeletedUser?.deleted_at

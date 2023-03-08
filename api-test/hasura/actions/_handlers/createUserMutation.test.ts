@@ -5,6 +5,7 @@ import { createUserMutation } from '../../../../api/hasura/actions/_handlers/cre
 import { ENTRANCE } from '../../../../src/common-lib/constants';
 import { createCircle, createProfile } from '../../../helpers';
 import { getUniqueAddress } from '../../../helpers/getUniqueAddress';
+
 const res: any = { status: jest.fn(() => res), json: jest.fn() };
 
 let circle;
@@ -19,7 +20,8 @@ const runMutation = (address: string, name: string, circleId: number) =>
   createUserMutation(
     address,
     circleId,
-    { name: name, circle_id: circleId },
+    { circle_id: circleId },
+    name,
     ENTRANCE.MANUAL
   );
 
