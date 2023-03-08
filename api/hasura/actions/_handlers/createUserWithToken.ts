@@ -111,8 +111,8 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     circleId,
     {
       circle_id: circleId,
-      name: profile.name,
     },
+    profile.name,
     entrance
   );
 
