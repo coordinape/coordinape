@@ -1,21 +1,16 @@
-/* eslint-disable no-console */
-
 import React from 'react';
 
 import { Button } from '../../ui';
 
 export const ReactionButton = ({
   myReaction,
-  onClick,
-  children,
+  ...props
 }: {
-  children: React.ReactNode;
   myReaction?: number;
-  onClick(): void;
-}) => {
+} & React.ComponentProps<typeof Button>) => {
   return (
     <Button
-      onClick={onClick}
+      {...props}
       outlined={myReaction ? undefined : true}
       color={myReaction ? 'primary' : 'neutral'}
       size="xs"
@@ -26,8 +21,6 @@ export const ReactionButton = ({
         ml: '$xs',
         alignItems: 'center',
       }}
-    >
-      {children}
-    </Button>
+    ></Button>
   );
 };

@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 import { useEffect, useRef, useState } from 'react';
 
 import { PlusCircledIcon } from '@radix-ui/react-icons';
@@ -26,7 +24,6 @@ export const ReactionBar = ({
   const [reactionGroups, setReactionGroups] = useState<ReactionGroup[]>([]);
 
   useEffect(() => {
-    console.log('CURRENTREACTIONS UPDATE!', currentReactions);
     // reduce the reactions to counts
     const reactionGroupsMap = currentReactions.reduce<{
       [key: string]: ReactionGroup;
@@ -44,9 +41,12 @@ export const ReactionBar = ({
 
       return rgm;
     }, {});
-    setReactionGroups(
-      Object.keys(reactionGroupsMap).map(k => reactionGroupsMap[k])
-    );
+
+    setReactionGroups(() => {
+      const keys = Object.keys(reactionGroupsMap);
+      keys.sort();
+      return keys.map(k => reactionGroupsMap[k]);
+    });
   }, [currentReactions]);
 
   const { mutate: createReaction } = useMutation(createReactionMutation, {
@@ -110,11 +110,20 @@ export const ReactionBar = ({
             borderRadius: '$2',
           }}
         >
-          {defaultReactions.map(r => (
-            <ReactionButton key={r} onClick={() => addReaction(r)}>
-              <Text size="large">{r}</Text>
-            </ReactionButton>
-          ))}
+          {defaultReactions.map(r => {
+            const reacted: boolean = reactionGroups.some(
+              myReaction => myReaction.reaction === r && myReaction.myReaction
+            );
+            return (
+              <ReactionButton
+                key={r}
+                disabled={reacted}
+                onClick={() => addReaction(r)}
+              >
+                <Text size="large">{r}</Text>
+              </ReactionButton>
+            );
+          })}
         </Flex>
       )}
       <ReactionButton onClick={() => setShowAddReaction(prev => !prev)}>
