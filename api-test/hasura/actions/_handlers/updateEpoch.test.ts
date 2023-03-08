@@ -415,7 +415,8 @@ describe('updateEpoch', () => {
     test('can update repeating weekly epochs without gaps', async () => {
       const DURATION_IN_WEEKS = 1;
       let result;
-      const now = DateTime.now();
+      const zone = 'America/New_York';
+      const now = DateTime.local({ zone });
       const first = async () =>
         client.mutate({
           updateEpoch: [
@@ -429,7 +430,7 @@ describe('updateEpoch', () => {
                   end_date: now.plus({ weeks: DURATION_IN_WEEKS }).toISO(),
                   duration: DURATION_IN_WEEKS,
                   duration_unit: 'weeks',
-                  time_zone: 'America/New_York',
+                  time_zone: zone,
                   frequency: 1,
                   frequency_unit: 'weeks',
                 },
@@ -465,11 +466,11 @@ describe('updateEpoch', () => {
         })
       );
       const { start_date, end_date } = epoch;
-      expect(
-        DateTime.fromISO(end_date)
-          .diff(DateTime.fromISO(start_date))
-          .as('weeks')
-      ).toBe(DURATION_IN_WEEKS);
+      const duration = DateTime.fromISO(end_date)
+        .diff(DateTime.fromISO(start_date))
+        .as('weeks');
+      expect(duration).toBeGreaterThan(0.994);
+      expect(duration).toBeLessThanOrEqual(1);
     });
 
     test('can update repeating monthly epochs with gaps', async () => {

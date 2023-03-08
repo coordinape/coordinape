@@ -21972,7 +21972,6 @@ export type ValueTypes = {
       },
       ValueTypes['member_epoch_pgives_aggregate']
     ];
-    name?: boolean | `@${string}`;
     non_giver?: boolean | `@${string}`;
     non_receiver?: boolean | `@${string}`;
     pending_received_gifts?: [
@@ -22398,7 +22397,6 @@ export type ValueTypes = {
       | ValueTypes['member_epoch_pgives_aggregate_bool_exp']
       | undefined
       | null;
-    name?: ValueTypes['String_comparison_exp'] | undefined | null;
     non_giver?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     non_receiver?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     pending_received_gifts?:
@@ -22483,7 +22481,6 @@ export type ValueTypes = {
       | ValueTypes['member_epoch_pgives_arr_rel_insert_input']
       | undefined
       | null;
-    name?: string | undefined | null;
     non_giver?: boolean | undefined | null;
     non_receiver?: boolean | undefined | null;
     pending_received_gifts?:
@@ -22525,7 +22522,6 @@ export type ValueTypes = {
     give_token_received?: boolean | `@${string}`;
     give_token_remaining?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
-    name?: boolean | `@${string}`;
     role?: boolean | `@${string}`;
     starting_tokens?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
@@ -22543,7 +22539,6 @@ export type ValueTypes = {
     give_token_received?: ValueTypes['order_by'] | undefined | null;
     give_token_remaining?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
-    name?: ValueTypes['order_by'] | undefined | null;
     role?: ValueTypes['order_by'] | undefined | null;
     starting_tokens?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
@@ -22560,7 +22555,6 @@ export type ValueTypes = {
     give_token_received?: boolean | `@${string}`;
     give_token_remaining?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
-    name?: boolean | `@${string}`;
     role?: boolean | `@${string}`;
     starting_tokens?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
@@ -22578,7 +22572,6 @@ export type ValueTypes = {
     give_token_received?: ValueTypes['order_by'] | undefined | null;
     give_token_remaining?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
-    name?: ValueTypes['order_by'] | undefined | null;
     role?: ValueTypes['order_by'] | undefined | null;
     starting_tokens?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
@@ -22631,7 +22624,6 @@ export type ValueTypes = {
       | ValueTypes['member_epoch_pgives_aggregate_order_by']
       | undefined
       | null;
-    name?: ValueTypes['order_by'] | undefined | null;
     non_giver?: ValueTypes['order_by'] | undefined | null;
     non_receiver?: ValueTypes['order_by'] | undefined | null;
     pending_received_gifts_aggregate?:
@@ -22688,7 +22680,6 @@ export type ValueTypes = {
     give_token_received?: number | undefined | null;
     give_token_remaining?: number | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
-    name?: string | undefined | null;
     non_giver?: boolean | undefined | null;
     non_receiver?: boolean | undefined | null;
     role?: number | undefined | null;
@@ -22779,7 +22770,6 @@ export type ValueTypes = {
     give_token_received?: number | undefined | null;
     give_token_remaining?: number | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
-    name?: string | undefined | null;
     non_giver?: boolean | undefined | null;
     non_receiver?: boolean | undefined | null;
     role?: number | undefined | null;
@@ -31858,7 +31848,6 @@ export type ModelTypes = {
     member_epoch_pgivess: Array<GraphQLTypes['member_epoch_pgives']>;
     /** An aggregate relationship */
     member_epoch_pgivess_aggregate: GraphQLTypes['member_epoch_pgives_aggregate'];
-    name: string;
     non_giver: boolean;
     non_receiver: boolean;
     /** An array relationship */
@@ -31952,7 +31941,6 @@ export type ModelTypes = {
     give_token_received?: number | undefined;
     give_token_remaining?: number | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    name?: string | undefined;
     role?: number | undefined;
     starting_tokens?: number | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
@@ -31971,7 +31959,6 @@ export type ModelTypes = {
     give_token_received?: number | undefined;
     give_token_remaining?: number | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    name?: string | undefined;
     role?: number | undefined;
     starting_tokens?: number | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
@@ -46237,7 +46224,6 @@ export type GraphQLTypes = {
     member_epoch_pgivess: Array<GraphQLTypes['member_epoch_pgives']>;
     /** An aggregate relationship */
     member_epoch_pgivess_aggregate: GraphQLTypes['member_epoch_pgives_aggregate'];
-    name: string;
     non_giver: boolean;
     non_receiver: boolean;
     /** An array relationship */
@@ -46391,7 +46377,6 @@ export type GraphQLTypes = {
     member_epoch_pgivess_aggregate?:
       | GraphQLTypes['member_epoch_pgives_aggregate_bool_exp']
       | undefined;
-    name?: GraphQLTypes['String_comparison_exp'] | undefined;
     non_giver?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     non_receiver?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     pending_received_gifts?:
@@ -46463,7 +46448,6 @@ export type GraphQLTypes = {
     member_epoch_pgivess?:
       | GraphQLTypes['member_epoch_pgives_arr_rel_insert_input']
       | undefined;
-    name?: string | undefined;
     non_giver?: boolean | undefined;
     non_receiver?: boolean | undefined;
     pending_received_gifts?:
@@ -46499,7 +46483,6 @@ export type GraphQLTypes = {
     give_token_received?: number | undefined;
     give_token_remaining?: number | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    name?: string | undefined;
     role?: number | undefined;
     starting_tokens?: number | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
@@ -46516,7 +46499,6 @@ export type GraphQLTypes = {
     give_token_received?: GraphQLTypes['order_by'] | undefined;
     give_token_remaining?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
-    name?: GraphQLTypes['order_by'] | undefined;
     role?: GraphQLTypes['order_by'] | undefined;
     starting_tokens?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
@@ -46534,7 +46516,6 @@ export type GraphQLTypes = {
     give_token_received?: number | undefined;
     give_token_remaining?: number | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    name?: string | undefined;
     role?: number | undefined;
     starting_tokens?: number | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
@@ -46551,7 +46532,6 @@ export type GraphQLTypes = {
     give_token_received?: GraphQLTypes['order_by'] | undefined;
     give_token_remaining?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
-    name?: GraphQLTypes['order_by'] | undefined;
     role?: GraphQLTypes['order_by'] | undefined;
     starting_tokens?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
@@ -46601,7 +46581,6 @@ export type GraphQLTypes = {
     member_epoch_pgivess_aggregate?:
       | GraphQLTypes['member_epoch_pgives_aggregate_order_by']
       | undefined;
-    name?: GraphQLTypes['order_by'] | undefined;
     non_giver?: GraphQLTypes['order_by'] | undefined;
     non_receiver?: GraphQLTypes['order_by'] | undefined;
     pending_received_gifts_aggregate?:
@@ -46650,7 +46629,6 @@ export type GraphQLTypes = {
     give_token_received?: number | undefined;
     give_token_remaining?: number | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    name?: string | undefined;
     non_giver?: boolean | undefined;
     non_receiver?: boolean | undefined;
     role?: number | undefined;
@@ -46741,7 +46719,6 @@ export type GraphQLTypes = {
     give_token_received?: number | undefined;
     give_token_remaining?: number | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    name?: string | undefined;
     non_giver?: boolean | undefined;
     non_receiver?: boolean | undefined;
     role?: number | undefined;
@@ -49155,7 +49132,6 @@ export const enum users_select_column {
   give_token_received = 'give_token_received',
   give_token_remaining = 'give_token_remaining',
   id = 'id',
-  name = 'name',
   non_giver = 'non_giver',
   non_receiver = 'non_receiver',
   role = 'role',
@@ -49190,7 +49166,6 @@ export const enum users_update_column {
   give_token_received = 'give_token_received',
   give_token_remaining = 'give_token_remaining',
   id = 'id',
-  name = 'name',
   non_giver = 'non_giver',
   non_receiver = 'non_receiver',
   role = 'role',

@@ -251,11 +251,15 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     return opts;
   }, {} as { [aliasKey: string]: ValueTypes['mutation_root'] });
 
+  const newUsersObjects = newUsers.map(user => ({
+    ...user,
+    name: undefined,
+  }));
   // Update the state after all validations have passed
   const mutationResult = await adminClient.mutate(
     {
       insert_users: [
-        { objects: newUsers },
+        { objects: newUsersObjects },
         {
           returning: { id: true, address: true },
         },

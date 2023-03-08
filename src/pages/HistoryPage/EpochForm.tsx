@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect, useRef } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { findMonthlyEndDate, findSameDayNextMonth } from 'common-lib/epochs';
+import { ACTIVITIES_QUERY_KEY } from 'features/activities/ActivityList';
 import epochTimeUpcoming from 'lib/time';
 import isEmpty from 'lodash/isEmpty';
 import {
@@ -12,6 +13,7 @@ import {
   DurationLike,
 } from 'luxon';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import { useQueryClient } from 'react-query';
 import { SafeParseReturnType, z } from 'zod';
 
 import {
@@ -343,6 +345,8 @@ const EpochForm = ({
   editingEpoch?: number;
   isAdmin: boolean;
 }) => {
+  const queryClient = useQueryClient();
+
   const [submitting, setSubmitting] = useState(false);
 
   const { createEpoch, updateEpoch, updateActiveRepeatingEpoch } =
@@ -623,7 +627,10 @@ const EpochForm = ({
       .then(() => {
         setSubmitting(false);
       })
-      .then(onClose)
+      .then(() => {
+        onClose();
+        queryClient.invalidateQueries(ACTIVITIES_QUERY_KEY);
+      })
       .catch(e => {
         setSubmitting(false);
         console.warn(e);

@@ -11769,11 +11769,6 @@ enum reactions_constraint {
   unique or primary key constraint on columns "id"
   """
   reactions_pkey
-
-  """
-  unique or primary key constraint on columns "activity_id", "profile_id", "reaction"
-  """
-  reactions_profile_id_activity_id_reaction_key
 }
 
 """
@@ -15269,7 +15264,6 @@ type users {
     """
     where: member_epoch_pgives_bool_exp
   ): [member_epoch_pgives!]!
-  name: String!
   non_giver: Boolean!
   non_receiver: Boolean!
 
@@ -15579,7 +15573,6 @@ input users_bool_exp {
   give_token_remaining: Int_comparison_exp
   id: bigint_comparison_exp
   member_epoch_pgivess: member_epoch_pgives_bool_exp
-  name: String_comparison_exp
   non_giver: Boolean_comparison_exp
   non_receiver: Boolean_comparison_exp
   pending_received_gifts: pending_token_gifts_bool_exp
@@ -15609,7 +15602,6 @@ input users_max_order_by {
   give_token_received: order_by
   give_token_remaining: order_by
   id: order_by
-  name: order_by
   role: order_by
   starting_tokens: order_by
   updated_at: order_by
@@ -15627,7 +15619,6 @@ input users_min_order_by {
   give_token_received: order_by
   give_token_remaining: order_by
   id: order_by
-  name: order_by
   role: order_by
   starting_tokens: order_by
   updated_at: order_by
@@ -15652,7 +15643,6 @@ input users_order_by {
   give_token_remaining: order_by
   id: order_by
   member_epoch_pgivess_aggregate: member_epoch_pgives_aggregate_order_by
-  name: order_by
   non_giver: order_by
   non_receiver: order_by
   pending_received_gifts_aggregate: pending_token_gifts_aggregate_order_by
@@ -15721,11 +15711,6 @@ enum users_select_column {
   column name
   """
   id
-
-  """
-  column name
-  """
-  name
 
   """
   column name
@@ -15818,7 +15803,6 @@ input users_stream_cursor_value_input {
   give_token_received: Int
   give_token_remaining: Int
   id: bigint
-  name: String
   non_giver: Boolean
   non_receiver: Boolean
   role: Int

@@ -56,7 +56,7 @@ export const createFakeUser = (circleId: number): IUser => ({
   created_at: '2021-07-07T23:29:18.000000Z',
   updated_at: '2021-07-07T23:29:18.000000Z',
   deleted_at: '2021-07-07T23:29:18.000000Z',
-  role: 1,
+  role: Role.MEMBER,
   profile: {
     id: FAKE_ID_OFFSET,
     address: FAKE_ADDRESS,

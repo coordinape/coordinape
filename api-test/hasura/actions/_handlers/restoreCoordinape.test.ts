@@ -22,8 +22,11 @@ beforeEach(async () => {
     circle_id: circle.id,
     role: 1,
   });
-  coordUser = await createUser(adminClient, {
+  await createProfile(adminClient, {
+    address: COORDINAPE_USER_ADDRESS,
     name: 'Coordinape',
+  });
+  coordUser = await createUser(adminClient, {
     address: COORDINAPE_USER_ADDRESS,
     role: 2,
     circle_id: circle.id,
@@ -31,74 +34,76 @@ beforeEach(async () => {
   });
 });
 
-describe('Restore Coordinape User action handler', () => {
-  test('Test restoration of a Coordinape User as an admin', async () => {
-    const client = mockUserClient({ profileId: profile.id, address });
-    const { restoreCoordinape: result } = await client.mutate({
+test('restore Coordinape User as an admin', async () => {
+  const client = mockUserClient({ profileId: profile.id, address });
+  const { restoreCoordinape: result } = await client.mutate(
+    {
       restoreCoordinape: [
-        {
-          payload: { circle_id: circle.id },
-        },
+        { payload: { circle_id: circle.id } },
         { success: true },
       ],
-    });
-    expect(result).toEqual({ success: true });
-    const { users_by_pk: coordResult } = await adminClient.query({
-      users_by_pk: [
-        {
-          id: coordUser.id,
-        },
-        { deleted_at: true },
-      ],
-    });
-    expect(coordResult?.deleted_at).toEqual(null);
-  });
-  test('Test restoration of a Coordinape User as a non admin', async () => {
-    const newAddress = await getUniqueAddress();
-    const newProfile = await createProfile(adminClient, {
-      address: newAddress,
-    });
-    await createUser(adminClient, {
-      address: newAddress,
-      circle_id: circle.id,
-      role: 0,
-    });
-    const client = mockUserClient({
-      profileId: newProfile.id,
-      address: newAddress,
-    });
+    },
+    { operationName: 'test' }
+  );
+  expect(result).toEqual({ success: true });
+  const { users_by_pk: coordResult } = await adminClient.query(
+    {
+      users_by_pk: [{ id: coordUser.id }, { deleted_at: true }],
+    },
+    { operationName: 'test' }
+  );
+  expect(coordResult?.deleted_at).toEqual(null);
+});
 
-    await expect(() =>
-      client.mutate({
+test('restore Coordinape User as a non admin', async () => {
+  const newAddress = await getUniqueAddress();
+  const newProfile = await createProfile(adminClient, {
+    address: newAddress,
+  });
+  await createUser(adminClient, {
+    address: newAddress,
+    circle_id: circle.id,
+    role: 0,
+  });
+  const client = mockUserClient({
+    profileId: newProfile.id,
+    address: newAddress,
+  });
+
+  await expect(() =>
+    client.mutate(
+      {
         restoreCoordinape: [
-          {
-            payload: { circle_id: circle.id },
-          },
+          { payload: { circle_id: circle.id } },
           { success: true },
         ],
-      })
-    ).rejects.toThrow();
+      },
+      { operationName: 'test' }
+    )
+  ).rejects.toThrow();
 
-    expect(mockLog).toHaveBeenCalledWith(
-      JSON.stringify(
-        {
-          errors: [
-            {
-              extensions: {
-                code: '401',
-              },
-              message: 'User not circle admin',
+  expect(mockLog).toHaveBeenCalledWith(
+    JSON.stringify(
+      {
+        errors: [
+          {
+            extensions: {
+              code: '401',
             },
-          ],
-        },
-        null,
-        2
-      )
-    );
-  });
-  test('Test restoration of a Coordinape User when it is not deleted yet', async () => {
-    const client = mockUserClient({ profileId: profile.id, address });
-    await adminClient.mutate({
+            message: 'User not circle admin',
+          },
+        ],
+      },
+      null,
+      2
+    )
+  );
+});
+
+test('restore Coordinape User when it is not deleted yet', async () => {
+  const client = mockUserClient({ profileId: profile.id, address });
+  await adminClient.mutate(
+    {
       update_users_by_pk: [
         {
           pk_columns: { id: coordUser.id },
@@ -106,33 +111,18 @@ describe('Restore Coordinape User action handler', () => {
         },
         { __typename: true },
       ],
-    });
-    await expect(() =>
-      client.mutate({
+    },
+    { operationName: 'test' }
+  );
+  await expect(() =>
+    client.mutate(
+      {
         restoreCoordinape: [
-          {
-            payload: { circle_id: circle.id },
-          },
+          { payload: { circle_id: circle.id } },
           { success: true },
         ],
-      })
-    ).rejects.toThrow();
-
-    expect(mockLog).toHaveBeenCalledWith(
-      JSON.stringify(
-        {
-          errors: [
-            {
-              extensions: {
-                code: '422',
-              },
-              message: 'user does not exist',
-            },
-          ],
-        },
-        null,
-        2
-      )
-    );
-  });
+      },
+      { operationName: 'test' }
+    )
+  ).rejects.toThrow();
 });

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { Flex, Text } from '../../ui';
 
 import { ContributionRow } from './ContributionRow';

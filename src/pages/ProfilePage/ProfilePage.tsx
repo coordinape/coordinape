@@ -16,7 +16,6 @@ import {
   scrollToTop,
 } from 'components';
 import { EditProfileModal } from 'components/EditProfileModal';
-import { USER_ROLE_COORDINAPE, USER_COORDINAPE_AVATAR } from 'config/constants';
 import { useApiWithProfile, useImageUploader, useToast } from 'hooks';
 import { useSomeCircleId } from 'hooks/migration';
 import { Edit3 } from 'icons/__generated';
@@ -128,11 +127,7 @@ const ProfilePageContent = ({
         >
           <Flex css={{ alignItems: 'flex-end' }}>
             <Avatar
-              path={
-                user?.role === USER_ROLE_COORDINAPE
-                  ? USER_COORDINAPE_AVATAR
-                  : profile?.avatar
-              }
+              path={profile?.avatar}
               css={{
                 width: '143px !important',
                 height: '143px !important',

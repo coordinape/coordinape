@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 import { useEffect, useRef, useState } from 'react';
 
 import { useMutation } from 'react-query';
@@ -7,10 +5,7 @@ import { useMutation } from 'react-query';
 import { useMyProfile } from '../../recoilState';
 import { Flex, Text } from '../../ui';
 
-import {
-  createReactionMutation,
-  deleteReactionMutation,
-} from './ContributionRow';
+import { createReactionMutation, deleteReactionMutation } from './mutations';
 import { ReactionButton } from './ReactionButton';
 import { Reaction } from './useInfiniteActivities';
 
@@ -30,7 +25,6 @@ export const ReactionBar = ({
   const [reactionGroups, setReactionGroups] = useState<ReactionGroup[]>([]);
 
   useEffect(() => {
-    console.log('CURRENTREACTIONS UPDATE!', currentReactions);
     // reduce the reactions to counts
     const reactionGroupsMap = currentReactions.reduce<{
       [key: string]: ReactionGroup;
@@ -48,9 +42,12 @@ export const ReactionBar = ({
 
       return rgm;
     }, {});
-    setReactionGroups(
-      Object.keys(reactionGroupsMap).map(k => reactionGroupsMap[k])
-    );
+
+    setReactionGroups(() => {
+      const keys = Object.keys(reactionGroupsMap);
+      keys.sort();
+      return keys.map(k => reactionGroupsMap[k]);
+    });
   }, [currentReactions]);
 
   const { mutate: createReaction } = useMutation(createReactionMutation, {
@@ -58,7 +55,7 @@ export const ReactionBar = ({
       setCurrentReactions(prevState => [...prevState, newReaction]);
     },
     onSettled: () => {
-      setTimeout(() => setShowAddReaction(false), 500);
+      setShowAddReaction(false);
     },
   });
 
@@ -69,7 +66,9 @@ export const ReactionBar = ({
   });
 
   const addReaction = (reaction: string) => {
-    createReaction({ activity_id: activityId, reaction });
+    setTimeout(() => {
+      createReaction({ activity_id: activityId, reaction });
+    }, 500);
   };
 
   const defaultReactions = ['👀', '👑', '🤩', '🧠', '🙏🏼', '💀'];
@@ -114,22 +113,31 @@ export const ReactionBar = ({
             borderRadius: '$2',
           }}
         >
-          {defaultReactions.map(r => (
-            <ReactionButton key={r} onClick={() => addReaction(r)}>
-              <input
-                id={'react-' + r}
-                className="toggle-heart"
-                type="checkbox"
-              />
-              <label
-                className="heart-label"
-                htmlFor={'react-' + r}
-                aria-label="like"
+          {defaultReactions.map(r => {
+            const reacted: boolean = reactionGroups.some(
+              myReaction => myReaction.reaction === r && myReaction.myReaction
+            );
+            return (
+              <ReactionButton
+                key={r}
+                disabled={reacted}
+                onClick={() => addReaction(r)}
               >
-                <Text size="large">{r}</Text>
-              </label>
-            </ReactionButton>
-          ))}
+                <input
+                  id={'react-' + r}
+                  className="toggle-heart"
+                  type="checkbox"
+                />
+                <label
+                  className="heart-label"
+                  htmlFor={'react-' + r}
+                  aria-label="like"
+                >
+                  <Text size="large">{r}</Text>
+                </label>
+              </ReactionButton>
+            );
+          })}
         </Flex>
       )}
       <ReactionButton onClick={() => setShowAddReaction(prev => !prev)}>

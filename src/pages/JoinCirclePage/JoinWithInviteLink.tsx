@@ -34,7 +34,7 @@ export const JoinWithInviteLink = ({
           orgName={organization.name}
           orgLogo={organization.logo}
           admins={users.map(u => ({
-            name: u.profile.name ?? u.name,
+            name: u.profile.name,
             avatar: u.profile.avatar,
           }))}
         />

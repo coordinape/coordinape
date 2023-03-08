@@ -23,3 +23,6 @@ CREATE  INDEX "reactions_index_profile_id" on
 
 CREATE  INDEX "reactions_index_activity_id" on
   "public"."reactions" using btree ("activity_id");
+
+ALTER TABLE "public"."reactions"
+ADD CONSTRAINT "reactions_profile_id_activity_id_reaction_key" UNIQUE ("profile_id", "activity_id", "reaction");
