@@ -2,7 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 
 import { useMutation } from 'react-query';
 
+import { fadeIn } from '../../keyframes';
 import { useMyProfile } from '../../recoilState';
+import { styled } from '../../stitches.config';
 import { Flex, Text } from '../../ui';
 
 import { createReactionMutation, deleteReactionMutation } from './mutations';
@@ -22,7 +24,10 @@ export const ReactionBar = ({
   const [currentReactions, setCurrentReactions] =
     useState<Reaction[]>(reactions);
 
-  const [reactionGroups, setReactionGroups] = useState<ReactionGroup[]>([]);
+  const [groupedReactions, setGroupedReactions] = useState<{
+    [key: string]: ReactionGroup;
+  }>({});
+  const [myReactions, setMyReactions] = useState<{ [key: string]: number }>({});
 
   useEffect(() => {
     // reduce the reactions to counts
@@ -43,11 +48,16 @@ export const ReactionBar = ({
       return rgm;
     }, {});
 
-    setReactionGroups(() => {
-      const keys = Object.keys(reactionGroupsMap);
-      keys.sort();
-      return keys.map(k => reactionGroupsMap[k]);
-    });
+    setGroupedReactions(reactionGroupsMap);
+
+    const myReacts: { [key: string]: number } = {};
+    for (const react of Object.keys(reactionGroupsMap)) {
+      const myReact = reactionGroupsMap[react]?.myReaction;
+      if (myReact) {
+        myReacts[react] = myReact;
+      }
+    }
+    setMyReactions(myReacts);
   }, [currentReactions]);
 
   const { mutate: createReaction } = useMutation(createReactionMutation, {
@@ -62,6 +72,9 @@ export const ReactionBar = ({
   const { mutate: deleteReaction } = useMutation(deleteReactionMutation, {
     onSuccess: id => {
       setCurrentReactions(prevState => prevState.filter(r => r.id !== id));
+    },
+    onSettled: () => {
+      setShowAddReaction(false);
     },
   });
 
@@ -105,62 +118,86 @@ export const ReactionBar = ({
           ref={ref}
           css={{
             position: 'absolute',
-            top: '-54px',
-            left: '0',
+            left: '28px',
+            top: '-8px',
             zIndex: 9,
             background: '$dim',
             padding: '$xs',
             borderRadius: '$2',
+            gap: '$xs',
+            animation: `${fadeIn} .2s ease`,
+            transition: '1.0s all',
           }}
         >
           {defaultReactions.map(r => {
-            const reacted: boolean = reactionGroups.some(
-              myReaction => myReaction.reaction === r && myReaction.myReaction
-            );
             return (
               <ReactionButton
                 key={r}
-                disabled={reacted}
-                onClick={() => addReaction(r)}
+                onClick={() =>
+                  myReactions[r]
+                    ? deleteReaction(myReactions[r])
+                    : addReaction(r)
+                }
+                css={{
+                  borderColor: myReactions[r] ? '$neutral' : '$primary',
+                }}
               >
                 <input
                   id={'react-' + r}
                   className="toggle-heart"
                   type="checkbox"
                 />
-                <label
+                <StyledLabel
                   className="heart-label"
                   htmlFor={'react-' + r}
                   aria-label="like"
                 >
                   <Text size="large">{r}</Text>
-                </label>
+                </StyledLabel>
               </ReactionButton>
             );
           })}
         </Flex>
       )}
-      <ReactionButton onClick={() => setShowAddReaction(prev => !prev)}>
-        🫥
-      </ReactionButton>
 
-      <Flex css={{ alignItems: 'center' }}>
-        {reactionGroups.map(rg => (
-          <ReactionButton
-            key={rg.reaction}
-            myReaction={rg.myReaction}
-            onClick={() => {
-              rg.myReaction
-                ? deleteReaction(rg.myReaction)
-                : addReaction(rg.reaction);
-            }}
-          >
-            <Text css={{ alignItems: 'center' }}>
-              {rg.reaction} {rg.count}
-            </Text>
-          </ReactionButton>
-        ))}
+      <Flex css={{ alignItems: 'center', gap: '$xs' }}>
+        <ReactionButton
+          onClick={() => setShowAddReaction(prev => !prev)}
+          css={{
+            width: 24,
+            height: 24,
+            borderRadius: 9999,
+            padding: 0,
+          }}
+        >
+          <span role="img" aria-label="react">
+            ☺
+          </span>
+        </ReactionButton>
+        {defaultReactions.map(react => {
+          const rg = groupedReactions[react];
+          if (!rg) {
+            return null;
+          }
+          return (
+            <ReactionButton
+              key={rg.reaction}
+              myReaction={rg.myReaction}
+              onClick={() => {
+                rg.myReaction
+                  ? deleteReaction(rg.myReaction)
+                  : addReaction(rg.reaction);
+              }}
+            >
+              <Text css={{ alignItems: 'center' }}>
+                {rg.reaction} {rg.count}
+              </Text>
+            </ReactionButton>
+          );
+        })}
       </Flex>
     </Flex>
   );
 };
+
+const StyledLabel = styled('label');

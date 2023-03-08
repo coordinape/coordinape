@@ -25,7 +25,7 @@
   -webkit-animation-name: sparkles;
   animation-name: sparkles;
 }
-.toggle-heart:focus + label {
+.toggle-heart:focus + label{
   text-shadow: 0 0 3px white,  0 1px 1px white, 0 -1px 1px white,  1px 0 1px white, -1px 0 1px white;
 }
 
