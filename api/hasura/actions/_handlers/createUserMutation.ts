@@ -83,6 +83,9 @@ export async function createUserMutation(
     }
   }
 
+  // so we don't pass an unknown field to update user
+  delete userInput['name'];
+
   const createUserMutation: ValueTypes['mutation_root'] =
     softDeletedUser?.deleted_at
       ? {
