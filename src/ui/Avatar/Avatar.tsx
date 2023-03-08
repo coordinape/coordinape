@@ -19,6 +19,13 @@ const AvatarRoot = styled(AvatarPrimitive.Root, {
   zIndex: 1,
   variants: {
     size: {
+      xxs: {
+        width: '16px !important',
+        height: '16px',
+        '> span': {
+          fontSize: '$small',
+        },
+      },
       xs: {
         width: '$lg !important',
         height: '$lg',
@@ -91,6 +98,9 @@ const AvatarFallback = styled(AvatarPrimitive.Fallback, {
   fontWeight: '$medium',
   variants: {
     size: {
+      xxs: {
+        fontSize: '$small',
+      },
       xs: {
         fontSize: '$small',
       },
@@ -123,7 +133,7 @@ export const Avatar = ({
   /** User's name is used as a fallback in case of failing to load avatar. */
   name?: string;
   onClick?: () => void;
-  size?: 'xl' | 'large' | 'medium' | 'small' | 'xs';
+  size?: 'xl' | 'large' | 'medium' | 'small' | 'xs' | 'xxs';
   margin?: 'none' | 'small'; // can be extended if needed
   children?: React.ReactNode;
   css?: CSS;

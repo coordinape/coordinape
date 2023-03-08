@@ -56,8 +56,20 @@ export const ActivityList = ({
           borderBottom: '1px solid $dim',
           background: 'red',
         },
+        position: 'relative',
       }}
     >
+      <Box
+        css={{
+          width: 1,
+          background: '$primary',
+          height: '100%',
+          position: 'absolute',
+          top: 0,
+          left: 40,
+          zIndex: 1,
+        }}
+      />
       {data &&
         data.pages &&
         data.pages.map(page =>

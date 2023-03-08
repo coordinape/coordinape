@@ -9,7 +9,11 @@ export const ActivityAvatar = ({
   profile: { address: string; name: string; avatar?: string };
 }) => {
   return (
-    <Box as={NavLink} to={paths.profile(profile.address)}>
+    <Box
+      as={NavLink}
+      to={paths.profile(profile.address)}
+      css={{ textDecoration: 'none' }}
+    >
       <Avatar
         css={{ flexShrink: 0 }}
         name={profile.name}

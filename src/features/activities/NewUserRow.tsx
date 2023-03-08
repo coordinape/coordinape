@@ -1,52 +1,44 @@
 import { DateTime } from 'luxon';
-import { NavLink } from 'react-router-dom';
 
-import { Plus } from '../../icons/__generated';
-import { paths } from '../../routes/paths';
+import { PlusCircle } from '../../icons/__generated';
 import { Box, Flex, Text } from '../../ui';
 
 import { ActivityAvatar } from './ActivityAvatar';
 import { ActivityProfileName } from './ActivityProfileName';
+import { CircleLogoWithName } from './CircleLogoWithName';
 import { NewUser } from './useInfiniteActivities';
 
 export const NewUserRow = ({ activity }: { activity: NewUser }) => {
   return (
-    <Flex alignItems="center">
-      <Box css={{ position: 'relative' }}>
+    <Flex alignItems="center" css={{ ml: '$md', position: 'relative' }}>
+      <Box>
         <ActivityAvatar profile={activity.target_profile} />
-        <Box
-          css={{
-            position: 'absolute',
-            borderRadius: 9999,
-            background: '$dim',
-            bottom: 4,
-            left: -8,
-            zIndex: '99',
-            color: '$cta',
-          }}
-        >
-          <Plus size="lg" />
-        </Box>
+        {/*<Box*/}
+        {/*  css={{*/}
+        {/*    position: 'absolute',*/}
+        {/*    borderRadius: 9999,*/}
+        {/*    background: '$dim',*/}
+        {/*    bottom: 4,*/}
+        {/*    left: -8,*/}
+        {/*    zIndex: '99',*/}
+        {/*    color: '$cta',*/}
+        {/*  }}*/}
+        {/*>*/}
+        {/*  <Plus size="lg" />*/}
+        {/*</Box>*/}
       </Box>
-      <Flex column css={{ flexGrow: 1, ml: '$md' }}>
-        <ActivityProfileName profile={activity.target_profile} />
-
-        <Flex>
-          <Text inline color="cta" size="small">
-            Added to Circle{' '}
-            <Text
-              semibold
-              inline
-              color="cta"
-              size="small"
-              as={NavLink}
-              to={paths.history(activity.circle.id)}
-              css={{ textDecoration: 'none' }}
-            >
-              {activity.circle.name}
-            </Text>
+      <Flex css={{ flexGrow: 1, ml: '$md' }}>
+        <Flex alignItems="center">
+          <Text css={{ mr: '$md' }}>
+            <PlusCircle size="lg" />
           </Text>
-          <Text inline size="small" css={{ ml: '$xs', color: '$neutral' }}>
+
+          <ActivityProfileName profile={activity.target_profile} />
+          <Text inline color="neutral" size="small" css={{ mx: '$sm' }}>
+            has been added to
+          </Text>
+          <CircleLogoWithName circle={activity.circle} variant="heading" />
+          <Text inline size="small" css={{ ml: '$md', color: '$neutral' }}>
             {DateTime.fromISO(activity.created_at).toRelative()}
           </Text>
         </Flex>

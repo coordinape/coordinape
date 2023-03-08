@@ -27,7 +27,11 @@ export const ActivityRow = ({ activity }: { activity: Activity }) => {
     }
   }
 
-  return <Flex column>{valid}</Flex>;
+  return (
+    <Flex column css={{ transition: '1.0s all ease-out' }}>
+      {valid}
+    </Flex>
+  );
 };
 
 const validActivity = (activity: Activity) => {

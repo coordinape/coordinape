@@ -1,20 +1,35 @@
 import { NavLink } from 'react-router-dom';
 
 import { paths } from '../../routes/paths';
-import { Avatar, Box } from '../../ui';
+import { Avatar, Flex, Text } from '../../ui';
 
-export const ActivityAvatar = ({
-  profile,
+export const CircleLogoWithName = ({
+  circle,
+  variant = 'default',
 }: {
-  profile: { address: string; name: string; avatar?: string };
+  circle: { id: number; name: string; logo?: string };
+  variant?: 'default' | 'heading';
 }) => {
   return (
-    <Box as={NavLink} to={paths.profile(profile.address)}>
+    <Flex
+      as={NavLink}
+      to={paths.history(circle.id)}
+      css={{ textDecoration: 'none' }}
+    >
       <Avatar
+        size="xs"
         css={{ flexShrink: 0 }}
-        name={profile.name}
-        path={profile.avatar}
+        name={circle.name}
+        path={circle.logo}
       />
-    </Box>
+      <Text
+        color={variant === 'default' ? 'neutral' : 'heading'}
+        size={variant === 'default' ? 'small' : undefined}
+        semibold={variant === 'default' ? undefined : true}
+        css={{ ml: '$sm', textDecoration: 'none' }}
+      >
+        {circle.name}
+      </Text>
+    </Flex>
   );
 };
