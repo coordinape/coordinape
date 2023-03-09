@@ -7,7 +7,7 @@ import { Flex, MarkdownPreview, Text } from '../../ui';
 import { ActivityAvatar } from './ActivityAvatar';
 import { ActivityProfileName } from './ActivityProfileName';
 import { CircleLogoWithName } from './CircleLogoWithName';
-import { ReactionBar } from './ReactionBar';
+import { ReactionBar } from './reactions/ReactionBar';
 import { Contribution } from './useInfiniteActivities';
 
 export const ContributionRow = ({ activity }: { activity: Contribution }) => {

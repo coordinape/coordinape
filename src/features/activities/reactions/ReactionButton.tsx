@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button } from '../../ui';
+import { Button } from '../../../ui';
 
 export const ReactionButton = ({
   myReaction,
@@ -15,12 +15,12 @@ export const ReactionButton = ({
       color={myReaction ? 'primary' : 'neutral'}
       size="xs"
       css={{
-        ...props.css,
         /*TODO: i dont know why i need these assymetric paddings , also don't work for the svg icon*/
         alignItems: 'center',
         padding: 0,
         px: 4,
         pt: 1,
+        ...props.css,
       }}
     ></Button>
   );
