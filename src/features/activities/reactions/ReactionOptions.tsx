@@ -5,18 +5,16 @@ import { Flex, Text } from '../../../ui';
 
 import { ReactionButton } from './ReactionButton';
 
-export const DEFAULT_REACTIONS = ['👀', '👑', '🤩', '🧠', '🙏🏼', '💀'];
+export const DEFAULT_REACTIONS = ['🔥', '', '👀', '🧠', '🙏🏼', '💀'];
 
 const slideIn = keyframes({
   from: {
     left: '-300px',
     opacity: 0,
-    overflowX: 'hidden',
   },
   to: {
     left: 0,
     opacity: 1,
-    overflowX: 'visible',
   },
 });
 
@@ -62,7 +60,7 @@ export const ReactionOptions = ({
         // overflowX: 'hidden',
         // overflowY: 'visible',
         // TODO: only set visible / hidden WHILE we are animating
-        // overflowX: 'clip',
+        overflowX: 'clip',
       }}
     >
       <Flex
