@@ -6,8 +6,6 @@ import { paths } from 'routes/paths';
 import { Flex, Button, Text, Panel, Box } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
-import { CoSoulChart } from './CoSoulChart';
-
 export const MintPage = () => {
   const artWidthMobile = '320px';
   const artWidth = '400px';
@@ -114,19 +112,6 @@ export const MintPage = () => {
               </Text>
             </Flex>
           </Panel>
-        </Flex>
-        <Flex
-          column
-          css={{
-            width: '80%',
-            maxWidth: '700px',
-            // width: '500px',
-            // height: '500px',
-            margin: '$1xl auto',
-            // p: '$xl',
-          }}
-        >
-          <CoSoulChart />
         </Flex>
       </SingleColumnLayout>
     </>
