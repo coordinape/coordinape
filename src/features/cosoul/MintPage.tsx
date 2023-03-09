@@ -6,9 +6,12 @@ import { paths } from 'routes/paths';
 import { Flex, Button, Text, Panel, Box } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
+import { CoSoulChart } from './CoSoulChart';
+
 export const MintPage = () => {
   const artWidthMobile = '320px';
   const artWidth = '400px';
+
   if (!isFeatureEnabled('cosoul')) {
     return <></>;
   }
@@ -95,7 +98,7 @@ export const MintPage = () => {
             <Flex column css={{ gap: '$sm' }}>
               <Text variant="label">{"You've Earned"}</Text>
               <Text h2 display>
-                10 pGIVE
+                2,345 pGIVE
               </Text>
               <Text size="small" color="secondary">
                 pGIVE is an abstraction of the GIVE you have received in
@@ -111,6 +114,19 @@ export const MintPage = () => {
               </Text>
             </Flex>
           </Panel>
+        </Flex>
+        <Flex
+          column
+          css={{
+            width: '80%',
+            maxWidth: '700px',
+            // width: '500px',
+            // height: '500px',
+            margin: '$1xl auto',
+            // p: '$xl',
+          }}
+        >
+          <CoSoulChart />
         </Flex>
       </SingleColumnLayout>
     </>
