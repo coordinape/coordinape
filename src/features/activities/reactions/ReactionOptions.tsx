@@ -47,20 +47,25 @@ export const ReactionOptions = ({
       document.removeEventListener('click', handleClickOutside, true);
     };
   }, []);
+  const reationOptionsWidth = '300px';
 
   return (
     <Flex
       css={{
         position: 'absolute',
-        width: 300,
+        width: `${reationOptionsWidth}`,
         height: 40,
         left: 24,
         bottom: -8,
-        // background: 'green',
-        // overflowX: 'hidden',
-        // overflowY: 'visible',
-        // TODO: only set visible / hidden WHILE we are animating
-        overflowX: 'clip',
+        '&:after': {
+          content: '',
+          width: `${reationOptionsWidth}`,
+          height: 40,
+          background: '$surface',
+          position: 'absolute',
+          left: `calc(${reationOptionsWidth} * -1)`,
+          zIndex: 10,
+        },
       }}
     >
       <Flex
@@ -70,8 +75,6 @@ export const ReactionOptions = ({
           position: 'absolute',
           overflow: 'visible',
           left: '0',
-          // top: '8px',
-          zIndex: 9,
           background: '$dim',
           padding: '$xs',
           borderRadius: '$2',

@@ -117,6 +117,7 @@ export const ReactionBar = ({
             px: 2,
             py: 2,
             minHeight: 0,
+            zIndex: 10,
             svg: {
               marginRight: 0,
             },

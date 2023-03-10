@@ -14,37 +14,43 @@ export const ContributionRow = ({ activity }: { activity: Contribution }) => {
   const { inCircle } = usePathContext();
 
   return (
-    <Flex
-      alignItems="start"
-      css={{
-        background: '$surface',
-        p: '$md',
-        borderRadius: '$2',
-        zIndex: '4',
-      }}
-    >
-      <ActivityAvatar profile={activity.actor_profile} />
-      <Flex column css={{ flexGrow: 1, ml: '$md' }}>
-        <Flex css={{ gap: '$sm' }}>
-          <Flex>
-            <ActivityProfileName profile={activity.actor_profile} />
-            <Text size="small" css={{ ml: '$md', color: '$neutral' }}>
-              {DateTime.fromISO(activity.created_at).toRelative()}
-            </Text>
+    <Flex css={{ overflowX: 'clip' }}>
+      <Flex
+        alignItems="start"
+        css={{
+          background: '$surface',
+          p: '$md',
+          borderRadius: '$2',
+          zIndex: '4',
+          flexGrow: 1,
+        }}
+      >
+        <ActivityAvatar profile={activity.actor_profile} />
+        <Flex column css={{ flexGrow: 1, ml: '$md' }}>
+          <Flex css={{ gap: '$sm' }}>
+            <Flex>
+              <ActivityProfileName profile={activity.actor_profile} />
+              <Text size="small" css={{ ml: '$md', color: '$neutral' }}>
+                {DateTime.fromISO(activity.created_at).toRelative()}
+              </Text>
+            </Flex>
           </Flex>
-        </Flex>
 
-        {!inCircle && (
-          <Flex css={{ mt: '$xs' }}>
-            <CircleLogoWithName circle={activity.circle} />
-          </Flex>
-        )}
-        <MarkdownPreview
-          render
-          source={activity.contribution.description}
-          css={{ cursor: 'auto', mt: '$sm' }}
-        />
-        <ReactionBar activityId={activity.id} reactions={activity.reactions} />
+          {!inCircle && (
+            <Flex css={{ mt: '$xs' }}>
+              <CircleLogoWithName circle={activity.circle} />
+            </Flex>
+          )}
+          <MarkdownPreview
+            render
+            source={activity.contribution.description}
+            css={{ cursor: 'auto', mt: '$sm' }}
+          />
+          <ReactionBar
+            activityId={activity.id}
+            reactions={activity.reactions}
+          />
+        </Flex>
       </Flex>
     </Flex>
   );
