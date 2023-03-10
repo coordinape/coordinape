@@ -96,7 +96,7 @@ export const ReactionBar = ({
   };
 
   return (
-    <Flex css={{ position: 'relative', overflowY: 'visible' }}>
+    <Flex css={{ position: 'relative', overflowY: 'visible', minHeight: 24 }}>
       {showAddReaction && (
         <ReactionOptions
           deleteReaction={(id: number) => {

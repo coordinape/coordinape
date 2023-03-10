@@ -67,7 +67,7 @@ export const ActivityList = ({
           position: 'absolute',
           top: 0,
           left: 40,
-          zIndex: 1,
+          zIndex: -1,
         }}
       />
       {data &&

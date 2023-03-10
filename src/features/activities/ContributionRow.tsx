@@ -21,7 +21,6 @@ export const ContributionRow = ({ activity }: { activity: Contribution }) => {
           background: '$surface',
           p: '$md',
           borderRadius: '$2',
-          zIndex: '4',
           flexGrow: 1,
         }}
       >

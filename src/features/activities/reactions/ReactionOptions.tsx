@@ -93,6 +93,9 @@ export const ReactionOptions = ({
               }
               css={{
                 borderColor: myReactions[r] ? '$neutral' : '$primary',
+                width: 34,
+                height: 32,
+                position: 'relative',
               }}
             >
               <input
@@ -105,7 +108,24 @@ export const ReactionOptions = ({
                 htmlFor={'react-' + r}
                 aria-label="like"
               >
-                <Text size="large">{r}</Text>
+                <Text
+                  size="large"
+                  css={{ position: 'absolute', left: -12, top: -14 }}
+                >
+                  {r}
+                </Text>
+                <Text
+                  size="large"
+                  className="expando"
+                  css={{
+                    position: 'absolute',
+                    left: -12,
+                    top: -14,
+                    zIndex: 11,
+                  }}
+                >
+                  {r}
+                </Text>
               </StyledLabel>
             </ReactionButton>
           );

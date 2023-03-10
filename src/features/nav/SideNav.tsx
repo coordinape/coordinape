@@ -82,7 +82,7 @@ export const SideNav = () => {
           position: 'absolute',
           left: mobileMenuOpen ? '0' : '-100vw',
           width: '100vw',
-          zIndex: 4,
+          zIndex: 12,
           background: '$navBackground',
           pt: '$3xl',
         },
