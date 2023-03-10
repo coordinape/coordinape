@@ -7,9 +7,11 @@ import { ReactionButton } from './ReactionButton';
 
 export const DEFAULT_REACTIONS = ['🔥', '💃', '👀', '🧠', '🙏🏼', '💀'];
 
+const reactionOptionsWidth = '300px';
+
 const slideIn = keyframes({
   from: {
-    left: '-300px',
+    left: `calc(${reactionOptionsWidth} * -1)`,
     opacity: 0,
   },
   to: {
@@ -47,23 +49,22 @@ export const ReactionOptions = ({
       document.removeEventListener('click', handleClickOutside, true);
     };
   }, []);
-  const reationOptionsWidth = '300px';
 
   return (
     <Flex
       css={{
         position: 'absolute',
-        width: `${reationOptionsWidth}`,
+        width: `${reactionOptionsWidth}`,
         height: 40,
         left: 24,
         bottom: -8,
         '&:after': {
           content: '',
-          width: `${reationOptionsWidth}`,
+          width: `${reactionOptionsWidth}`,
           height: 40,
           background: '$surface',
           position: 'absolute',
-          left: `calc(${reationOptionsWidth} * -1)`,
+          left: `calc(${reactionOptionsWidth} * -1)`,
           zIndex: 10,
         },
       }}
@@ -108,24 +109,20 @@ export const ReactionOptions = ({
                 htmlFor={'react-' + r}
                 aria-label="like"
               >
-                <Text
-                  size="large"
-                  css={{ position: 'absolute', left: -12, top: -14 }}
-                >
-                  {r}
-                </Text>
-                <Text
-                  size="large"
-                  className="expando"
-                  css={{
-                    position: 'absolute',
-                    left: -12,
-                    top: -14,
-                    zIndex: 11,
-                  }}
-                >
-                  {r}
-                </Text>
+                {[...Array(16)].map((e, i) => (
+                  <Text
+                    size="large"
+                    className={`expando${i}`}
+                    key={i}
+                    css={{
+                      position: 'absolute',
+                      left: -12,
+                      top: -14,
+                    }}
+                  >
+                    {r}
+                  </Text>
+                ))}
               </StyledLabel>
             </ReactionButton>
           );
