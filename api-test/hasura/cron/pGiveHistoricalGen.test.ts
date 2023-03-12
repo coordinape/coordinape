@@ -20,8 +20,7 @@ beforeEach(async () => {
 
   circle = await createCircle(adminClient);
   const createDate = DateTime.local().minus({ months: 3 }).toISO();
-  const profile = await createProfile(adminClient, { address: address1 });
-  console.log(profile);
+  await createProfile(adminClient, { address: address1 });
   user1 = await createUser(adminClient, {
     address: address1,
     circle_id: circle.id,
