@@ -3,7 +3,7 @@ import { lazy, Suspense } from 'react';
 import { RequireAuth, useLoginData } from 'features/auth';
 import { MintPage, SplashPage } from 'features/cosoul';
 import CoSoulLayout from 'features/cosoul/CoSoulLayout';
-import { OrgPage, OrgSettingsPage, OrgMembersPage } from 'features/orgs';
+import { OrgPage, OrgSettingsPage } from 'features/orgs';
 import { isUserAdmin, isUserMember } from 'lib/users';
 import {
   Navigate,
@@ -41,6 +41,7 @@ import HistoryPage from 'pages/HistoryPage';
 import IntegrationCallbackPage from 'pages/IntegrationCallbackPage';
 import MembersPage from 'pages/MembersPage';
 import { NewNominationPage } from 'pages/NewNominationPage/NewNominationPage';
+import OrgMembersPage from 'pages/OrgMembersPage';
 import ProfilePage from 'pages/ProfilePage';
 import VaultsPage from 'pages/VaultsPage';
 import { VaultTransactions } from 'pages/VaultsPage/VaultTransactions';
@@ -57,6 +58,10 @@ const LazyAssetMapPage = lazy(() => import('pages/AssetMapPage'));
 const LoggedInRoutes = () => {
   return (
     <Routes>
+      <Route path={paths.organization(':orgId')} element={<OrgRouteHandler />}>
+        <Route path="members" element={<OrgMembersPage />} />
+      </Route>
+
       {/* circle routes that all org members can view */}
       <Route path="circles/:circleId" element={<OrgRouteHandler />}>
         <Route path="activity" element={<CircleActivityPage />} />
@@ -84,7 +89,6 @@ const LoggedInRoutes = () => {
             element={<IntegrationCallbackPage />}
           />
         </Route>
-
         <Route path="distributions/:epochId" element={<DistributionsPage />} />
       </Route>
 
@@ -101,7 +105,6 @@ const LoggedInRoutes = () => {
         <Route path="" element={<OrgPage />} />
         <Route path="settings" element={<OrgSettingsPage />} />
         <Route path="vaults" element={<VaultsPage />} />
-        <Route path="members" element={<OrgMembersPage />} />
       </Route>
 
       <Route
