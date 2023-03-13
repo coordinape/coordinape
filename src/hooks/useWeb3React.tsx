@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import type { JsonRpcProvider } from '@ethersproject/providers';
 import { Web3Provider } from '@ethersproject/providers';
@@ -11,6 +11,8 @@ import { useAuthStore } from 'features/auth';
 import { MagicModalFixer } from 'features/auth/magic';
 import type { ProviderType } from 'features/auth/store';
 import { pick } from 'lodash/fp';
+
+import useConnectedAddress from './useConnectedAddress';
 
 // connector?: AbstractConnector;
 // library?: T;
@@ -86,7 +88,7 @@ function getLibrary(provider: any): Web3Provider {
 }
 
 const Web3EventHooks = () => {
-  const [prevAddress, setPrevAddress] = useState<string>();
+  const address = useConnectedAddress();
 
   useEffect(() => {
     const ethereum = (window as any).ethereum;
@@ -104,16 +106,18 @@ const Web3EventHooks = () => {
   });
 
   useEffect(() => {
+    // accountsChanged fires when you change the account in MetaMask, but also
+    // when you connect an account that hasn't been connected before. we don't
+    // want to reload the page in that case, so we wait until we've already
+    // connected some address to set up the listener.
+    if (!address) return;
+
     // Web3Provider doesn't work with accountsChanged events:
     // https://github.com/ethers-io/ethers.js/issues/1396#issuecomment-806380431
-    //
-    // reload only if the account has changed: this event also fires the first
-    // time an account is connected, and we do not want to reload in that case.
-    (window as any).ethereum?.on('accountsChanged', (address: string) => {
-      if (prevAddress) window.location.reload();
-      setPrevAddress(address);
+    (window as any).ethereum?.on('accountsChanged', () => {
+      window.location.reload();
     });
-  }, [prevAddress]);
+  }, [address]);
 
   return null;
 };

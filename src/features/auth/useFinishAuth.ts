@@ -20,7 +20,7 @@ export const useFinishAuth = () => {
   const { showError } = useToast();
   const { fetchManifest } = useApiBase();
   const logout = useLogout();
-  const [savedAuth, setSavedAuth] = useSavedAuth();
+  const { setSavedAuth, getAndUpdate } = useSavedAuth();
   const web3Context = useWeb3React();
   const queryClient = useQueryClient();
 
@@ -34,6 +34,7 @@ export const useFinishAuth = () => {
         : providerType;
       assert(connectorName);
 
+      const savedAuth = getAndUpdate(address);
       logger.log('found saved auth data:', savedAuth);
       let profileId = savedAuth.id;
       if (!savedAuth.token) {
@@ -42,7 +43,7 @@ export const useFinishAuth = () => {
         if (!token) return false;
 
         logger.log('got new auth data:', loginData);
-        setSavedAuth({ address, connectorName, ...loginData });
+        setSavedAuth(address, { connectorName, ...loginData });
         profileId = loginData.id;
       }
 
