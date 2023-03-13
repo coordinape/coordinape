@@ -58,24 +58,23 @@ export const useFinishAuth = () => {
       // this setTimeout is needed so that the Recoil effects of updateSavedAuth
       // are finished before fetchManifest is called. in particular,
       // setAuthToken needs to be called
-      return setTimeout(
-        () =>
-          new Promise(res =>
-            fetchManifest(profileId)
-              .then(manifest => {
-                queryClient.setQueryData(
-                  QUERY_KEY_LOGIN_DATA,
-                  manifest.profiles_by_pk
-                );
-                res(true);
-              })
-              .catch(() => {
-                // we had a cached token & it's invalid, so log out
-                // FIXME don't logout if request timed out
-                logout();
-                res(false);
-              })
-          )
+      return new Promise(res =>
+        setTimeout(() =>
+          fetchManifest(profileId)
+            .then(manifest => {
+              queryClient.setQueryData(
+                QUERY_KEY_LOGIN_DATA,
+                manifest.profiles_by_pk
+              );
+              res(true);
+            })
+            .catch(() => {
+              // we had a cached token & it's invalid, so log out
+              // FIXME don't logout if request timed out
+              logout();
+              res(false);
+            })
+        )
       );
     } catch (e: any) {
       if (

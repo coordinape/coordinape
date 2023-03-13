@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, createContext, useContext, useState, useRef } from 'react';
 
 import type { JsonRpcProvider } from '@ethersproject/providers';
 import { Web3Provider } from '@ethersproject/providers';
@@ -28,6 +28,12 @@ export type UseWeb3ReactReturnType<T> = Web3ReactContextInterface<T> & {
   providerType: ProviderType | undefined;
 };
 
+// this provides a workaround for providers like Ganache that don't have an
+// address set in useWeb3React by default
+const FallbackAddressContext = createContext<
+  [string | undefined, (address: string) => void]
+>([undefined, () => {}]);
+
 export function useWeb3React<T = any>(
   key?: string | undefined
 ): UseWeb3ReactReturnType<T> {
@@ -40,17 +46,41 @@ export function useWeb3React<T = any>(
 
   const setProvider = useAuthStore(state => state.setProvider);
   const providerType = useAuthStore(state => state.providerType);
-  const { provider, address, chainId } = useAuthStore(
-    pick(['provider', 'address', 'chainId'])
-  );
+  const {
+    provider,
+    address: storeAddress,
+    chainId,
+  } = useAuthStore(pick(['provider', 'address', 'chainId']));
   const library = context.library || provider;
+
+  const mounted = useRef(false);
+  useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+    };
+  }, []);
+
+  const [signerAddress, setSignerAddress] = useContext(FallbackAddressContext);
+  useEffect(() => {
+    if (context.account || storeAddress) return;
+    context.library
+      ?.getSigner()
+      .getAddress()
+      .then((address: string) => {
+        if (!mounted.current) return;
+        setSignerAddress(address);
+      });
+  }, [library]);
+
+  const address = context.account || storeAddress || signerAddress;
 
   return {
     ...context,
     library,
-    active: context.active || !!address,
+    active: !!address,
     chainId: context.chainId || chainId,
-    account: context.account || address,
+    account: address,
     setProvider,
     providerType,
     deactivate: context.active ? context.deactivate : () => setProvider(),
@@ -62,11 +92,14 @@ export function Web3ReactProvider({
 }: {
   children: any;
 }): JSX.Element {
+  const signerAddressState = useState<string | undefined>();
   return (
     <OriginalWeb3ReactProvider getLibrary={getLibrary}>
-      {children}
+      <FallbackAddressContext.Provider value={signerAddressState}>
+        {children}
+        <Web3EventHooks />
+      </FallbackAddressContext.Provider>
       <MagicModalFixer />
-      <Web3EventHooks />
     </OriginalWeb3ReactProvider>
   );
 }

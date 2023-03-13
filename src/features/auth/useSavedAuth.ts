@@ -33,7 +33,8 @@ const getAllData = (): IAuth => {
   }
 };
 
-const saveAllData = (allData: IAuth) => {
+// only exporting for testing purposes
+export const saveAllData = (allData: IAuth) => {
   localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(allData));
 };
 
