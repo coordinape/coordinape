@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { useWalletStatus } from 'features/auth';
-import { useSavedAuth } from 'features/auth/useSavedAuth';
 import { useNavQuery } from 'features/nav/getNavData';
 import { NavItem } from 'features/nav/NavItem';
 import { NavLink } from 'react-router-dom';
 
+import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { Network } from 'components';
 import { EXTERNAL_URL_DOCS, paths } from 'routes/paths';
 import { Avatar, Box, Button, Flex, Text } from 'ui';
@@ -14,7 +14,7 @@ import { shortenAddressWithFrontLength } from 'utils';
 export const CoSoulNav = () => {
   const { chainId, logout } = useWalletStatus();
   const { data } = useNavQuery();
-  const { address } = useSavedAuth();
+  const address = useConnectedAddress();
   const [open, setOpen] = useState(false);
   const name = data?.profile.name;
   const avatar = data?.profile.avatar;
