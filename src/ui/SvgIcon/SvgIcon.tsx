@@ -63,6 +63,9 @@ export const SvgIcon = styled('svg', {
       xl: {
         $$size: '32px',
       },
+      ['2xl']: {
+        $$size: '48px',
+      },
     },
   },
   defaultVariants: {

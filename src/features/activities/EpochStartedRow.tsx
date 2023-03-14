@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 
 import { Epoch } from '../../icons/__generated';
-import { Avatar, Flex, Text } from '../../ui';
+import { Avatar, Box, Flex, Text } from '../../ui';
 
 import { EpochStarted } from './useInfiniteActivities';
 
@@ -9,19 +9,27 @@ export const EpochStartedRow = ({ activity }: { activity: EpochStarted }) => {
   return (
     <Flex
       css={{
-        borderTop: '1px solid $dim',
-        borderBottom: '1px solid $dim',
-        py: '$md',
+        // borderTop: '1px solid $dim',
+        // borderBottom: '1px solid $dim',
         alignItems: 'center',
+        ml: '$md',
       }}
     >
+      <Box
+        css={{ background: '$background', padding: '$lg', borderRadius: 9999 }}
+      >
+        <Epoch
+          size="2xl"
+          nostroke
+          css={{ mr: '$sm', ml: '-$lg', color: '$cta' }}
+        />
+      </Box>
       <Avatar
-        // size="xs"
-        css={{ flexShrink: 0 }}
+        size="medium"
+        css={{ flexShrink: 0, mr: '$sm' }}
         name={activity.circle.name}
         path={activity.circle.logo}
       />
-      <Epoch size="lg" nostroke css={{ mx: '$md' }} />
       <Flex column>
         <Flex>
           <Text inline color="cta" size="small">

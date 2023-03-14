@@ -29,17 +29,13 @@ export const ContributionRow = ({ activity }: { activity: Contribution }) => {
           <Flex css={{ gap: '$sm' }}>
             <Flex>
               <ActivityProfileName profile={activity.actor_profile} />
-              <Text size="small" css={{ ml: '$md', color: '$neutral' }}>
+              <Text size="small" css={{ mx: '$md', color: '$neutral' }}>
                 {DateTime.fromISO(activity.created_at).toRelative()}
               </Text>
+              {!inCircle && <CircleLogoWithName circle={activity.circle} />}
             </Flex>
           </Flex>
 
-          {!inCircle && (
-            <Flex css={{ mt: '$xs' }}>
-              <CircleLogoWithName circle={activity.circle} />
-            </Flex>
-          )}
           <MarkdownPreview
             render
             source={activity.contribution.description}
