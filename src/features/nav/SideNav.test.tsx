@@ -1,11 +1,9 @@
 import { useEffect } from 'react';
 
 import { act, render, screen } from '@testing-library/react';
-import { setAuthToken } from 'features/auth';
 import { useNavigate } from 'react-router-dom';
 
-import { rSelectedCircleIdSource } from 'recoilState';
-import { fixtures, TestWrapper, useMockRecoilState } from 'utils/testing';
+import { fixtures, TestWrapper } from 'utils/testing';
 
 import { useNavQuery } from './getNavData';
 import { SideNav } from './SideNav';
@@ -14,13 +12,11 @@ jest.mock('./getNavData', () => ({
   useNavQuery: jest.fn(),
 }));
 
-const snapshotState: any = {};
+jest.mock('../../pages/HistoryPage/useReceiveInfo', () => ({
+  useReceiveInfo: jest.fn(() => ({})),
+}));
 
-beforeEach(() => {
-  setAuthToken('mock');
-});
-
-afterEach(() => snapshotState.release?.());
+beforeEach(() => {});
 
 test('show circle links for distributions route', async () => {
   (useNavQuery as any).mockReturnValue({
@@ -38,6 +34,7 @@ test('show circle links for distributions route', async () => {
               users: [{ ...fixtures.user, role: 1 }],
             },
           ],
+          members: [],
         },
       ],
       profile: { name: 'tonka' },
@@ -46,10 +43,6 @@ test('show circle links for distributions route', async () => {
   });
   const Harness = () => {
     const navigate = useNavigate();
-
-    useMockRecoilState(snapshotState, set => {
-      set(rSelectedCircleIdSource, () => fixtures.circle.id);
-    });
 
     useEffect(() => {
       navigate(`/circles/${fixtures.circle.id}/distributions/10`);
