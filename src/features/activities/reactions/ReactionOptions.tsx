@@ -88,13 +88,14 @@ export const ReactionOptions = ({
         {DEFAULT_REACTIONS.map(r => {
           return (
             <ReactionButton
+              color="neutral"
               key={r}
               onClick={() =>
                 myReactions[r] ? deleteReaction(myReactions[r]) : addReaction(r)
               }
               css={{
-                borderColor: myReactions[r] ? '$neutral' : '$primary',
-                opacity: myReactions[r] ? 0.4 : 1,
+                background: myReactions[r] ? '$neutralButton' : 'transparent',
+                borderColor: 'transparent',
                 width: 34,
                 height: 32,
                 position: 'relative',

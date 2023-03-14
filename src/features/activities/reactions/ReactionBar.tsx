@@ -111,14 +111,18 @@ export const ReactionBar = ({
 
       <Flex css={{ alignItems: 'center', gap: '$xs' }}>
         <ReactionButton
+          color="transparent"
           onClick={() => setShowAddReaction(prev => !prev)}
           css={{
             border: 'none',
             borderRadius: 9999,
-            px: 2,
-            py: 2,
+            p: 0,
+            mr: '$xxs',
             minHeight: 0,
             zIndex: 10,
+            '&:hover': {
+              color: '$linkHover',
+            },
             svg: {
               marginRight: 0,
             },

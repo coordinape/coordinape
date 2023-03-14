@@ -24,6 +24,7 @@ export const ReactionCounts = ({
         console.log(rg);
         return (
           <ReactionButton
+            color="neutral"
             key={rg.reaction}
             myReaction={rg.myReaction}
             onClick={() => {

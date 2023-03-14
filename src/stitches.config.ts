@@ -494,8 +494,8 @@ export const dark = createTheme({
     tagPrimaryText: figmaColors.primary7,
     tagPrimaryBackground: figmaColors.primary9,
 
-    tagSecondaryText: figmaColors.secondary8,
-    tagSecondaryBackground: figmaColors.secondary3,
+    tagSecondaryText: figmaColors.secondary3,
+    tagSecondaryBackground: figmaColors.secondary8,
 
     tagNeutralText: figmaColors.neutral4,
     tagNeutralBackground: figmaColors.neutral8,
