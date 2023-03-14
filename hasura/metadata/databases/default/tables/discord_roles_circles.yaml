@@ -118,7 +118,6 @@ update_permissions:
 delete_permissions:
   - role: api-user
     permission:
-      backend_only: false
       filter:
         circle:
           api_keys:
@@ -129,5 +128,4 @@ delete_permissions:
                   _eq: true
   - role: discord-bot
     permission:
-      backend_only: false
       filter: {}

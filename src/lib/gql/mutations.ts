@@ -1,11 +1,3 @@
-import {
-  CreateCircleParam,
-  IApiCircle,
-  NominateUserParam,
-  PostTokenGiftsParam,
-  UpdateUsersParam,
-} from '../../types';
-
 import { useZeusVariables, ValueTypes } from './__generated__/zeus';
 import { client } from './client';
 
@@ -83,6 +75,7 @@ export const updateCircleLogo = async (
     }
   );
 };
+
 export const updateOrgLogo = async (
   orgId: number,
   image_data_base64: string
@@ -117,107 +110,13 @@ export const updateOrgLogo = async (
   );
 };
 
-export const createCircle = async (
-  params: CreateCircleParam
-): Promise<IApiCircle> => {
-  const { createCircle } = await client.mutate(
-    {
-      createCircle: [
-        {
-          payload: params,
-        },
-        {
-          circle: {
-            id: true,
-            name: true,
-            logo: true,
-            default_opt_in: true,
-            is_verified: true,
-            alloc_text: true,
-            cont_help_text: true,
-            token_name: true,
-            vouching: true,
-            min_vouches: true,
-            nomination_days_limit: true,
-            vouching_text: true,
-            only_giver_vouch: true,
-            team_selection: true,
-            created_at: true,
-            updated_at: true,
-            organization_id: true,
-            show_pending_gives: true,
-            organization: {
-              id: true,
-              name: true,
-              created_at: true,
-              updated_at: true,
-              sample: true,
-            },
-            auto_opt_out: true,
-            fixed_payment_token_type: true,
-          },
-        },
-      ],
-    },
-    {
-      operationName: 'createCircle',
-    }
-  );
-  if (!createCircle) {
-    throw 'unable to create circle';
-  }
-  if (!createCircle.circle?.organization) {
-    throw 'circle created but organization not found after creation';
-  }
-  return {
-    ...createCircle.circle,
-    organization: createCircle.circle.organization,
-  };
-};
-
-export const adminUpdateUser = async (
-  circleId: number,
-  originalAddress: string,
-  params: UpdateUsersParam
-) => {
-  const new_address =
-    params.address.toLowerCase() != originalAddress.toLowerCase()
-      ? params.address.toLowerCase()
-      : undefined;
-
-  // const startingTokens = params.starting_tokens
-  const { adminUpdateUser } = await client.mutate(
-    {
-      adminUpdateUser: [
-        {
-          payload: {
-            circle_id: circleId,
-            name: params.name,
-            address: originalAddress,
-            new_address,
-            fixed_non_receiver: params.fixed_non_receiver,
-            role: params.role,
-            starting_tokens: params.starting_tokens,
-            non_giver: params.non_giver,
-            non_receiver: params.non_receiver || params.fixed_non_receiver,
-            fixed_payment_amount: params.fixed_payment_amount,
-          },
-        },
-        {
-          id: true,
-        },
-      ],
-    },
-    {
-      operationName: 'adminUpdateUser',
-    }
-  );
-  return adminUpdateUser;
-};
-
 export const createNominee = async (
   circleId: number,
-  params: NominateUserParam
+  params: {
+    name: string;
+    address: string;
+    description: string;
+  }
 ) => {
   const { createNominee } = await client.mutate(
     {
@@ -307,46 +206,6 @@ export async function updateCircle(params: ValueTypes['UpdateCircleInput']) {
   return updateCircle;
 }
 
-export async function deleteCircle(circle_id: number) {
-  const { deleteCircle } = await client.mutate(
-    {
-      deleteCircle: [
-        {
-          payload: {
-            circle_id: circle_id,
-          },
-        },
-        {
-          success: true,
-        },
-      ],
-    },
-    {
-      operationName: 'deleteCircle',
-    }
-  );
-  return deleteCircle;
-}
-
-export async function updateTeammates(circleId: number, teammates: number[]) {
-  const { updateTeammates } = await client.mutate(
-    {
-      updateTeammates: [
-        {
-          payload: { circle_id: circleId, teammates: teammates },
-        },
-        {
-          user_id: true,
-        },
-      ],
-    },
-    {
-      operationName: 'updateTeammates',
-    }
-  );
-  return updateTeammates;
-}
-
 export async function restoreCoordinapeUser(circleId: number) {
   await client.mutate(
     {
@@ -365,36 +224,6 @@ export async function restoreCoordinapeUser(circleId: number) {
       operationName: 'restore_coordinape',
     }
   );
-}
-
-export async function updateAllocations(
-  circleId: number,
-  params: PostTokenGiftsParam[]
-) {
-  await client.mutate(
-    {
-      updateAllocations: [
-        {
-          payload: {
-            circle_id: circleId,
-            allocations: params.map(a => {
-              return {
-                ...a,
-                note: a.note ? a.note : '',
-              };
-            }),
-          },
-        },
-        {
-          user_id: true,
-        },
-      ],
-    },
-    {
-      operationName: 'updateAllocations',
-    }
-  );
-  return;
 }
 
 export async function deleteUser(circleId: number, address: string) {

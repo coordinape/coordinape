@@ -7,8 +7,6 @@ import { useApiBase } from 'hooks';
 
 import { useRecoilLoadCatch } from './useRecoilLoadCatch';
 
-import { UpdateUsersParam } from 'types';
-
 const queryDiscordWebhook = async (circleId: number) => {
   const { circle_private } = await client.query(
     {
@@ -20,6 +18,51 @@ const queryDiscordWebhook = async (circleId: number) => {
     { operationName: 'queryDiscordWebhook' }
   );
   return circle_private.pop()?.discord_webhook;
+};
+
+interface UpdateUsersParam {
+  address: string;
+  non_giver?: boolean;
+  fixed_non_receiver?: boolean;
+  non_receiver?: boolean;
+  role?: number;
+  starting_tokens?: number;
+  fixed_payment_amount?: number;
+}
+
+export const adminUpdateUser = async (
+  circleId: number,
+  originalAddress: string,
+  params: UpdateUsersParam
+) => {
+  const new_address =
+    params.address.toLowerCase() != originalAddress.toLowerCase()
+      ? params.address.toLowerCase()
+      : undefined;
+
+  // const startingTokens = params.starting_tokens
+  const { adminUpdateUser } = await client.mutate(
+    {
+      adminUpdateUser: [
+        {
+          payload: {
+            circle_id: circleId,
+            address: originalAddress,
+            new_address,
+            fixed_non_receiver: params.fixed_non_receiver,
+            role: params.role,
+            starting_tokens: params.starting_tokens,
+            non_giver: params.non_giver,
+            non_receiver: params.non_receiver || params.fixed_non_receiver,
+            fixed_payment_amount: params.fixed_payment_amount,
+          },
+        },
+        { id: true },
+      ],
+    },
+    { operationName: 'adminUpdateUser' }
+  );
+  return adminUpdateUser;
 };
 
 export const useApiAdminCircle = (circleId: number) => {
@@ -105,7 +148,7 @@ export const useApiAdminCircle = (circleId: number) => {
 
   const updateUser = useRecoilLoadCatch(
     () => async (userAddress: string, params: UpdateUsersParam) => {
-      await mutations.adminUpdateUser(circleId, userAddress, params);
+      await adminUpdateUser(circleId, userAddress, params);
       await fetchCircle({ circleId });
     },
     [circleId]

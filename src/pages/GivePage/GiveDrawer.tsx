@@ -344,7 +344,9 @@ export const GiveDrawer = ({
         {member.bio && (
           <Box>
             <Text semibold size="large">
-              Epoch Statement
+              {member.profile.name === 'Coordinape'
+                ? 'Why Give?'
+                : 'Epoch Statement'}
             </Text>
             <Box
               css={{

@@ -100,7 +100,6 @@ async function getExistingEpoch({
               },
               {
                 id: true,
-                name: true,
                 profile: {
                   name: true,
                 },

@@ -1,7 +1,5 @@
 import assert from 'assert';
 
-import faker from 'faker';
-
 import { GraphQLTypes } from '../../api-lib/gql/__generated__/zeus';
 
 import type { GQLClientType } from './common';
@@ -14,7 +12,6 @@ export async function createUser(
   if (!object.address) {
     const profile = await createProfile(client);
     object.address = profile.address;
-    object.name = profile.name;
   }
 
   const { insert_users_one: user } = await client.mutate(
@@ -23,9 +20,6 @@ export async function createUser(
         {
           object: {
             ...object,
-            name:
-              object.name ??
-              `${faker.name.firstName()} ${faker.datatype.number(10000)}`,
             role: object.role ?? 1,
             starting_tokens: object.starting_tokens ?? 100,
             entrance: object.entrance ?? '?',

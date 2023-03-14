@@ -574,6 +574,66 @@ type activities {
   organization_id: bigint!
 
   """
+  An array relationship
+  """
+  reactions(
+    """
+    distinct select on columns
+    """
+    distinct_on: [reactions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [reactions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: reactions_bool_exp
+  ): [reactions!]!
+
+  """
+  An aggregate relationship
+  """
+  reactions_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [reactions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [reactions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: reactions_bool_exp
+  ): reactions_aggregate!
+
+  """
   An object relationship
   """
   target_profile: profiles
@@ -594,6 +654,17 @@ type activities_aggregate {
   nodes: [activities!]!
 }
 
+input activities_aggregate_bool_exp {
+  count: activities_aggregate_bool_exp_count
+}
+
+input activities_aggregate_bool_exp_count {
+  arguments: [activities_select_column!]
+  distinct: Boolean
+  filter: activities_bool_exp
+  predicate: Int_comparison_exp!
+}
+
 """
 aggregate fields of "activities"
 """
@@ -612,6 +683,23 @@ type activities_aggregate_fields {
 }
 
 """
+order by aggregate values of table "activities"
+"""
+input activities_aggregate_order_by {
+  avg: activities_avg_order_by
+  count: order_by
+  max: activities_max_order_by
+  min: activities_min_order_by
+  stddev: activities_stddev_order_by
+  stddev_pop: activities_stddev_pop_order_by
+  stddev_samp: activities_stddev_samp_order_by
+  sum: activities_sum_order_by
+  var_pop: activities_var_pop_order_by
+  var_samp: activities_var_samp_order_by
+  variance: activities_variance_order_by
+}
+
+"""
 aggregate avg on columns
 """
 type activities_avg_fields {
@@ -622,6 +710,19 @@ type activities_avg_fields {
   id: Float
   organization_id: Float
   target_profile_id: Float
+}
+
+"""
+order by avg() on columns of table "activities"
+"""
+input activities_avg_order_by {
+  actor_profile_id: order_by
+  circle_id: order_by
+  contribution_id: order_by
+  epoch_id: order_by
+  id: order_by
+  organization_id: order_by
+  target_profile_id: order_by
 }
 
 """
@@ -644,6 +745,8 @@ input activities_bool_exp {
   id: bigint_comparison_exp
   organization: organizations_bool_exp
   organization_id: bigint_comparison_exp
+  reactions: reactions_bool_exp
+  reactions_aggregate: reactions_aggregate_bool_exp
   target_profile: profiles_bool_exp
   target_profile_id: bigint_comparison_exp
   updated_at: timestamptz_comparison_exp
@@ -667,6 +770,22 @@ type activities_max_fields {
 }
 
 """
+order by max() on columns of table "activities"
+"""
+input activities_max_order_by {
+  action: order_by
+  actor_profile_id: order_by
+  circle_id: order_by
+  contribution_id: order_by
+  created_at: order_by
+  epoch_id: order_by
+  id: order_by
+  organization_id: order_by
+  target_profile_id: order_by
+  updated_at: order_by
+}
+
+"""
 aggregate min on columns
 """
 type activities_min_fields {
@@ -680,6 +799,22 @@ type activities_min_fields {
   organization_id: bigint
   target_profile_id: bigint
   updated_at: timestamptz
+}
+
+"""
+order by min() on columns of table "activities"
+"""
+input activities_min_order_by {
+  action: order_by
+  actor_profile_id: order_by
+  circle_id: order_by
+  contribution_id: order_by
+  created_at: order_by
+  epoch_id: order_by
+  id: order_by
+  organization_id: order_by
+  target_profile_id: order_by
+  updated_at: order_by
 }
 
 """
@@ -699,6 +834,7 @@ input activities_order_by {
   id: order_by
   organization: organizations_order_by
   organization_id: order_by
+  reactions_aggregate: reactions_aggregate_order_by
   target_profile: profiles_order_by
   target_profile_id: order_by
   updated_at: order_by
@@ -774,6 +910,19 @@ type activities_stddev_fields {
 }
 
 """
+order by stddev() on columns of table "activities"
+"""
+input activities_stddev_order_by {
+  actor_profile_id: order_by
+  circle_id: order_by
+  contribution_id: order_by
+  epoch_id: order_by
+  id: order_by
+  organization_id: order_by
+  target_profile_id: order_by
+}
+
+"""
 aggregate stddev_pop on columns
 """
 type activities_stddev_pop_fields {
@@ -787,6 +936,19 @@ type activities_stddev_pop_fields {
 }
 
 """
+order by stddev_pop() on columns of table "activities"
+"""
+input activities_stddev_pop_order_by {
+  actor_profile_id: order_by
+  circle_id: order_by
+  contribution_id: order_by
+  epoch_id: order_by
+  id: order_by
+  organization_id: order_by
+  target_profile_id: order_by
+}
+
+"""
 aggregate stddev_samp on columns
 """
 type activities_stddev_samp_fields {
@@ -797,6 +959,19 @@ type activities_stddev_samp_fields {
   id: Float
   organization_id: Float
   target_profile_id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "activities"
+"""
+input activities_stddev_samp_order_by {
+  actor_profile_id: order_by
+  circle_id: order_by
+  contribution_id: order_by
+  epoch_id: order_by
+  id: order_by
+  organization_id: order_by
+  target_profile_id: order_by
 }
 
 """
@@ -844,6 +1019,19 @@ type activities_sum_fields {
 }
 
 """
+order by sum() on columns of table "activities"
+"""
+input activities_sum_order_by {
+  actor_profile_id: order_by
+  circle_id: order_by
+  contribution_id: order_by
+  epoch_id: order_by
+  id: order_by
+  organization_id: order_by
+  target_profile_id: order_by
+}
+
+"""
 aggregate var_pop on columns
 """
 type activities_var_pop_fields {
@@ -854,6 +1042,19 @@ type activities_var_pop_fields {
   id: Float
   organization_id: Float
   target_profile_id: Float
+}
+
+"""
+order by var_pop() on columns of table "activities"
+"""
+input activities_var_pop_order_by {
+  actor_profile_id: order_by
+  circle_id: order_by
+  contribution_id: order_by
+  epoch_id: order_by
+  id: order_by
+  organization_id: order_by
+  target_profile_id: order_by
 }
 
 """
@@ -870,6 +1071,19 @@ type activities_var_samp_fields {
 }
 
 """
+order by var_samp() on columns of table "activities"
+"""
+input activities_var_samp_order_by {
+  actor_profile_id: order_by
+  circle_id: order_by
+  contribution_id: order_by
+  epoch_id: order_by
+  id: order_by
+  organization_id: order_by
+  target_profile_id: order_by
+}
+
+"""
 aggregate variance on columns
 """
 type activities_variance_fields {
@@ -880,6 +1094,19 @@ type activities_variance_fields {
   id: Float
   organization_id: Float
   target_profile_id: Float
+}
+
+"""
+order by variance() on columns of table "activities"
+"""
+input activities_variance_order_by {
+  actor_profile_id: order_by
+  circle_id: order_by
+  contribution_id: order_by
+  epoch_id: order_by
+  id: order_by
+  organization_id: order_by
+  target_profile_id: order_by
 }
 
 scalar bigint
@@ -5224,6 +5451,66 @@ type epochs {
   """
   An array relationship
   """
+  activities(
+    """
+    distinct select on columns
+    """
+    distinct_on: [activities_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [activities_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: activities_bool_exp
+  ): [activities!]!
+
+  """
+  An aggregate relationship
+  """
+  activities_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [activities_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [activities_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: activities_bool_exp
+  ): activities_aggregate!
+
+  """
+  An array relationship
+  """
   burns(
     """
     distinct select on columns
@@ -5501,6 +5788,8 @@ input epochs_bool_exp {
   _and: [epochs_bool_exp!]
   _not: epochs_bool_exp
   _or: [epochs_bool_exp!]
+  activities: activities_bool_exp
+  activities_aggregate: activities_aggregate_bool_exp
   burns: burns_bool_exp
   circle: circles_bool_exp
   circle_id: Int_comparison_exp
@@ -5590,6 +5879,7 @@ type epochs_mutation_response {
 Ordering options when selecting data from "epoches".
 """
 input epochs_order_by {
+  activities_aggregate: activities_aggregate_order_by
   burns_aggregate: burns_aggregate_order_by
   circle: circles_order_by
   circle_id: order_by
@@ -6961,6 +7251,21 @@ type mutation_root {
   delete_pending_vault_transactions_by_pk(
     tx_hash: String!
   ): pending_vault_transactions
+
+  """
+  delete data from the table: "reactions"
+  """
+  delete_reactions(
+    """
+    filter the rows which have to be deleted
+    """
+    where: reactions_bool_exp!
+  ): reactions_mutation_response
+
+  """
+  delete single row from the table: "reactions"
+  """
+  delete_reactions_by_pk(id: bigint!): reactions
   endEpoch(payload: EndEpochInput!): EpochResponse
 
   """
@@ -7237,6 +7542,36 @@ type mutation_root {
     """
     on_conflict: pending_vault_transactions_on_conflict
   ): pending_vault_transactions
+
+  """
+  insert data into the table: "reactions"
+  """
+  insert_reactions(
+    """
+    the rows to be inserted
+    """
+    objects: [reactions_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: reactions_on_conflict
+  ): reactions_mutation_response
+
+  """
+  insert a single row into the table: "reactions"
+  """
+  insert_reactions_one(
+    """
+    the row to be inserted
+    """
+    object: reactions_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: reactions_on_conflict
+  ): reactions
 
   """
   allow authenticated users to link a discord channel to a circle they admin
@@ -9903,7 +10238,7 @@ input profiles_updates {
 
 type query_root {
   """
-  fetch data from the table: "activities"
+  An array relationship
   """
   activities(
     """
@@ -9933,7 +10268,7 @@ type query_root {
   ): [activities!]!
 
   """
-  fetch aggregated fields from the table: "activities"
+  An aggregate relationship
   """
   activities_aggregate(
     """
@@ -10919,6 +11254,71 @@ type query_root {
   """
   An array relationship
   """
+  reactions(
+    """
+    distinct select on columns
+    """
+    distinct_on: [reactions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [reactions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: reactions_bool_exp
+  ): [reactions!]!
+
+  """
+  An aggregate relationship
+  """
+  reactions_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [reactions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [reactions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: reactions_bool_exp
+  ): reactions_aggregate!
+
+  """
+  fetch data from the table: "reactions" using primary key columns
+  """
+  reactions_by_pk(id: bigint!): reactions
+
+  """
+  An array relationship
+  """
   teammates(
     """
     distinct select on columns
@@ -11252,9 +11652,420 @@ type query_root {
   vouches_by_pk(id: bigint!): vouches
 }
 
+"""
+columns and relationships of "reactions"
+"""
+type reactions {
+  """
+  An object relationship
+  """
+  activity: activities
+  activity_id: Int!
+  created_at: timestamptz!
+  id: bigint!
+
+  """
+  An object relationship
+  """
+  profile: profiles
+  profile_id: Int!
+  reaction: String!
+  updated_at: timestamptz!
+}
+
+"""
+aggregated selection of "reactions"
+"""
+type reactions_aggregate {
+  aggregate: reactions_aggregate_fields
+  nodes: [reactions!]!
+}
+
+input reactions_aggregate_bool_exp {
+  count: reactions_aggregate_bool_exp_count
+}
+
+input reactions_aggregate_bool_exp_count {
+  arguments: [reactions_select_column!]
+  distinct: Boolean
+  filter: reactions_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "reactions"
+"""
+type reactions_aggregate_fields {
+  avg: reactions_avg_fields
+  count(columns: [reactions_select_column!], distinct: Boolean): Int!
+  max: reactions_max_fields
+  min: reactions_min_fields
+  stddev: reactions_stddev_fields
+  stddev_pop: reactions_stddev_pop_fields
+  stddev_samp: reactions_stddev_samp_fields
+  sum: reactions_sum_fields
+  var_pop: reactions_var_pop_fields
+  var_samp: reactions_var_samp_fields
+  variance: reactions_variance_fields
+}
+
+"""
+order by aggregate values of table "reactions"
+"""
+input reactions_aggregate_order_by {
+  avg: reactions_avg_order_by
+  count: order_by
+  max: reactions_max_order_by
+  min: reactions_min_order_by
+  stddev: reactions_stddev_order_by
+  stddev_pop: reactions_stddev_pop_order_by
+  stddev_samp: reactions_stddev_samp_order_by
+  sum: reactions_sum_order_by
+  var_pop: reactions_var_pop_order_by
+  var_samp: reactions_var_samp_order_by
+  variance: reactions_variance_order_by
+}
+
+"""
+aggregate avg on columns
+"""
+type reactions_avg_fields {
+  activity_id: Float
+  id: Float
+  profile_id: Float
+}
+
+"""
+order by avg() on columns of table "reactions"
+"""
+input reactions_avg_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "reactions". All fields are combined with a logical 'AND'.
+"""
+input reactions_bool_exp {
+  _and: [reactions_bool_exp!]
+  _not: reactions_bool_exp
+  _or: [reactions_bool_exp!]
+  activity: activities_bool_exp
+  activity_id: Int_comparison_exp
+  created_at: timestamptz_comparison_exp
+  id: bigint_comparison_exp
+  profile: profiles_bool_exp
+  profile_id: Int_comparison_exp
+  reaction: String_comparison_exp
+  updated_at: timestamptz_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "reactions"
+"""
+enum reactions_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  reactions_pkey
+}
+
+"""
+input type for inserting data into table "reactions"
+"""
+input reactions_insert_input {
+  activity_id: Int
+  reaction: String
+}
+
+"""
+aggregate max on columns
+"""
+type reactions_max_fields {
+  activity_id: Int
+  created_at: timestamptz
+  id: bigint
+  profile_id: Int
+  reaction: String
+  updated_at: timestamptz
+}
+
+"""
+order by max() on columns of table "reactions"
+"""
+input reactions_max_order_by {
+  activity_id: order_by
+  created_at: order_by
+  id: order_by
+  profile_id: order_by
+  reaction: order_by
+  updated_at: order_by
+}
+
+"""
+aggregate min on columns
+"""
+type reactions_min_fields {
+  activity_id: Int
+  created_at: timestamptz
+  id: bigint
+  profile_id: Int
+  reaction: String
+  updated_at: timestamptz
+}
+
+"""
+order by min() on columns of table "reactions"
+"""
+input reactions_min_order_by {
+  activity_id: order_by
+  created_at: order_by
+  id: order_by
+  profile_id: order_by
+  reaction: order_by
+  updated_at: order_by
+}
+
+"""
+response of any mutation on the table "reactions"
+"""
+type reactions_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [reactions!]!
+}
+
+"""
+on_conflict condition type for table "reactions"
+"""
+input reactions_on_conflict {
+  constraint: reactions_constraint!
+  update_columns: [reactions_update_column!]! = []
+  where: reactions_bool_exp
+}
+
+"""
+Ordering options when selecting data from "reactions".
+"""
+input reactions_order_by {
+  activity: activities_order_by
+  activity_id: order_by
+  created_at: order_by
+  id: order_by
+  profile: profiles_order_by
+  profile_id: order_by
+  reaction: order_by
+  updated_at: order_by
+}
+
+"""
+select columns of table "reactions"
+"""
+enum reactions_select_column {
+  """
+  column name
+  """
+  activity_id
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  reaction
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+aggregate stddev on columns
+"""
+type reactions_stddev_fields {
+  activity_id: Float
+  id: Float
+  profile_id: Float
+}
+
+"""
+order by stddev() on columns of table "reactions"
+"""
+input reactions_stddev_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type reactions_stddev_pop_fields {
+  activity_id: Float
+  id: Float
+  profile_id: Float
+}
+
+"""
+order by stddev_pop() on columns of table "reactions"
+"""
+input reactions_stddev_pop_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type reactions_stddev_samp_fields {
+  activity_id: Float
+  id: Float
+  profile_id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "reactions"
+"""
+input reactions_stddev_samp_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+}
+
+"""
+Streaming cursor of the table "reactions"
+"""
+input reactions_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: reactions_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input reactions_stream_cursor_value_input {
+  activity_id: Int
+  created_at: timestamptz
+  id: bigint
+  profile_id: Int
+  reaction: String
+  updated_at: timestamptz
+}
+
+"""
+aggregate sum on columns
+"""
+type reactions_sum_fields {
+  activity_id: Int
+  id: bigint
+  profile_id: Int
+}
+
+"""
+order by sum() on columns of table "reactions"
+"""
+input reactions_sum_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+}
+
+"""
+placeholder for update columns of table "reactions" (current role has no relevant permissions)
+"""
+enum reactions_update_column {
+  """
+  placeholder (do not use)
+  """
+  _PLACEHOLDER
+}
+
+"""
+aggregate var_pop on columns
+"""
+type reactions_var_pop_fields {
+  activity_id: Float
+  id: Float
+  profile_id: Float
+}
+
+"""
+order by var_pop() on columns of table "reactions"
+"""
+input reactions_var_pop_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+}
+
+"""
+aggregate var_samp on columns
+"""
+type reactions_var_samp_fields {
+  activity_id: Float
+  id: Float
+  profile_id: Float
+}
+
+"""
+order by var_samp() on columns of table "reactions"
+"""
+input reactions_var_samp_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+}
+
+"""
+aggregate variance on columns
+"""
+type reactions_variance_fields {
+  activity_id: Float
+  id: Float
+  profile_id: Float
+}
+
+"""
+order by variance() on columns of table "reactions"
+"""
+input reactions_variance_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+}
+
 type subscription_root {
   """
-  fetch data from the table: "activities"
+  An array relationship
   """
   activities(
     """
@@ -11284,7 +12095,7 @@ type subscription_root {
   ): [activities!]!
 
   """
-  fetch aggregated fields from the table: "activities"
+  An aggregate relationship
   """
   activities_aggregate(
     """
@@ -12764,6 +13575,91 @@ type subscription_root {
     """
     where: profiles_bool_exp
   ): [profiles!]!
+
+  """
+  An array relationship
+  """
+  reactions(
+    """
+    distinct select on columns
+    """
+    distinct_on: [reactions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [reactions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: reactions_bool_exp
+  ): [reactions!]!
+
+  """
+  An aggregate relationship
+  """
+  reactions_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [reactions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [reactions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: reactions_bool_exp
+  ): reactions_aggregate!
+
+  """
+  fetch data from the table: "reactions" using primary key columns
+  """
+  reactions_by_pk(id: bigint!): reactions
+
+  """
+  fetch data from the table in a streaming manner: "reactions"
+  """
+  reactions_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [reactions_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: reactions_bool_exp
+  ): [reactions!]!
 
   """
   An array relationship
@@ -14368,7 +15264,6 @@ type users {
     """
     where: member_epoch_pgives_bool_exp
   ): [member_epoch_pgives!]!
-  name: String!
   non_giver: Boolean!
   non_receiver: Boolean!
 
@@ -14678,7 +15573,6 @@ input users_bool_exp {
   give_token_remaining: Int_comparison_exp
   id: bigint_comparison_exp
   member_epoch_pgivess: member_epoch_pgives_bool_exp
-  name: String_comparison_exp
   non_giver: Boolean_comparison_exp
   non_receiver: Boolean_comparison_exp
   pending_received_gifts: pending_token_gifts_bool_exp
@@ -14708,7 +15602,6 @@ input users_max_order_by {
   give_token_received: order_by
   give_token_remaining: order_by
   id: order_by
-  name: order_by
   role: order_by
   starting_tokens: order_by
   updated_at: order_by
@@ -14726,7 +15619,6 @@ input users_min_order_by {
   give_token_received: order_by
   give_token_remaining: order_by
   id: order_by
-  name: order_by
   role: order_by
   starting_tokens: order_by
   updated_at: order_by
@@ -14751,7 +15643,6 @@ input users_order_by {
   give_token_remaining: order_by
   id: order_by
   member_epoch_pgivess_aggregate: member_epoch_pgives_aggregate_order_by
-  name: order_by
   non_giver: order_by
   non_receiver: order_by
   pending_received_gifts_aggregate: pending_token_gifts_aggregate_order_by
@@ -14820,11 +15711,6 @@ enum users_select_column {
   column name
   """
   id
-
-  """
-  column name
-  """
-  name
 
   """
   column name
@@ -14917,7 +15803,6 @@ input users_stream_cursor_value_input {
   give_token_received: Int
   give_token_remaining: Int
   id: bigint
-  name: String
   non_giver: Boolean
   non_receiver: Boolean
   role: Int

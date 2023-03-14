@@ -83,7 +83,7 @@ export const fixtures = {
       op: 'INSERT',
     },
     table: {
-      name: 'epoches',
+      name: 'epochs',
       schema: 'public',
     },
     trigger: {

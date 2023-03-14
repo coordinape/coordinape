@@ -204,9 +204,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       profile_id: profile.id,
       data: { chainId },
     });
-    return res
-      .status(200)
-      .json({ token: formatAuthHeader(token?.id, tokenString) });
+    return res.status(200).json({
+      token: formatAuthHeader(token?.id, tokenString),
+      id: profile.id,
+    });
   } catch (error: any) {
     return errorResponse(res, error);
   }

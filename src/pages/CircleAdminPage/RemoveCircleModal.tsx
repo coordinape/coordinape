@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
-import { deleteCircle } from 'lib/gql/mutations';
+import { QUERY_KEY_LOGIN_DATA } from 'features/auth/useLoginData';
+import { client } from 'lib/gql/client';
 import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router';
 import { useRecoilState } from 'recoil';
@@ -32,28 +33,32 @@ export const RemoveCircleModal = ({
   const { fetchManifest } = useApiBase();
   const [, setCircleIdSource] = useRecoilState(rSelectedCircleIdSource);
 
-  const deleteCircleMutation = useMutation(deleteCircle, {
-    onMutate: () => {
-      setIsLoading(true);
-    },
-    onSuccess: async () => {
-      queryClient.invalidateQueries(QUERY_KEY_MY_ORGS);
-      queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
-      queryClient.invalidateQueries(QUERY_KEY_NAV);
-      await navigate(paths.circles);
-      setCircleIdSource(undefined);
-      await fetchManifest();
-    },
-    onError: err => {
-      setIsLoading(false);
-      showError(err);
-      onClose();
-    },
-  });
-
-  const deleteCircleHandler = async () => {
-    await deleteCircleMutation.mutate(circleId);
-  };
+  const deleteCircleMutation = useMutation(
+    (circle_id: number) =>
+      client.mutate(
+        { deleteCircle: [{ payload: { circle_id } }, { success: true }] },
+        { operationName: 'deleteCircle' }
+      ),
+    {
+      onMutate: () => {
+        setIsLoading(true);
+      },
+      onSuccess: async () => {
+        queryClient.invalidateQueries(QUERY_KEY_MY_ORGS);
+        queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
+        queryClient.invalidateQueries(QUERY_KEY_NAV);
+        queryClient.invalidateQueries(QUERY_KEY_LOGIN_DATA);
+        await navigate(paths.circles);
+        setCircleIdSource(undefined);
+        await fetchManifest();
+      },
+      onError: err => {
+        setIsLoading(false);
+        showError(err);
+        onClose();
+      },
+    }
+  );
 
   if (isLoading) return <LoadingModal visible />;
 
@@ -74,7 +79,7 @@ export const RemoveCircleModal = ({
             Cancel
           </Button>
           <Button
-            onClick={deleteCircleHandler}
+            onClick={() => deleteCircleMutation.mutate(circleId)}
             size="large"
             css={{ width: '204px' }}
             color="destructive"

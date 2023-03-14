@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { updateMyProfile } from 'lib/gql/mutations';
-import { provider, zUsername } from 'lib/zod/formHelpers';
+import { zUsername, isValidENS } from 'lib/zod/formHelpers';
 import { SubmitHandler, useController, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import * as z from 'zod';
@@ -133,11 +133,8 @@ export const EditProfileModal = ({
 
   const onSubmit: SubmitHandler<EditProfileFormSchema> = async params => {
     if (params.name.endsWith('.eth')) {
-      const resolvedAddress = await provider().resolveName(params.name);
-      if (
-        !resolvedAddress ||
-        resolvedAddress.toLowerCase() !== myProfile.address.toLowerCase()
-      ) {
+      const validENS = await isValidENS(params.name, myProfile.address);
+      if (!validENS) {
         setError(
           'name',
           {

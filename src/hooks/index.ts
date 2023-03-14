@@ -1,6 +1,5 @@
 export * from './useApiAdminCircle';
 export * from './useApiBase';
-export * from './useApiWithSelectedCircle';
 export * from './useApiWithProfile';
 export * from './useContracts';
 export * from './useDeepChangeEffect';

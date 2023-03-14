@@ -12,6 +12,7 @@ import {
   errorResponseWithStatusCode,
   InternalServerError,
 } from '../../../../api-lib/HttpError';
+import { isValidENS } from '../../../../api-lib/validateENS';
 import { ENTRANCE } from '../../../../src/common-lib/constants';
 import {
   composeHasuraActionRequestBodyWithApiPermissions,
@@ -47,6 +48,37 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     );
   }
 
+  // Validate ENS names.
+  const unresolvedUsers = await Promise.all(
+    users.map(async user => {
+      if (user.name.endsWith('.eth')) {
+        const validENS = await isValidENS(user.name, user.address);
+        if (!validENS) return user;
+      }
+    })
+  );
+
+  const unresolvedNames: string[] = [];
+  unresolvedUsers.forEach(u => {
+    if (u !== undefined) {
+      unresolvedNames.push(u.name);
+    }
+  });
+
+  if (unresolvedNames.length > 0) {
+    return errorResponseWithStatusCode(
+      res,
+      {
+        message: `ENS ${unresolvedNames.join(', ')} ${
+          unresolvedNames.length > 1 ? 'do' : 'does'
+        } not resolve to the entered ${
+          unresolvedNames.length > 1 ? 'addresses' : 'address'
+        }.`,
+      },
+      422
+    );
+  }
+
   // Load all members of the provided circle with duplicate addresses.
   const { users: existingUsers } = await adminClient.query(
     {
@@ -77,6 +109,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     return {
       ...eu,
       ...updatedUser,
+      name: undefined,
       give_token_remaining: updatedUser?.starting_tokens,
     };
   });
@@ -219,11 +252,15 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     return opts;
   }, {} as { [aliasKey: string]: ValueTypes['mutation_root'] });
 
+  const newUsersObjects = newUsers.map(user => ({
+    ...user,
+    name: undefined,
+  }));
   // Update the state after all validations have passed
   const mutationResult = await adminClient.mutate(
     {
       insert_users: [
-        { objects: newUsers },
+        { objects: newUsersObjects },
         {
           returning: { id: true, address: true },
         },

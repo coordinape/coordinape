@@ -43,6 +43,7 @@ export const GiveRow = ({
   const noteComplete = gift.note && gift.note.length > 0;
   const newRef = useRef<HTMLDivElement>(null);
   const [lastSelected, setLastSelected] = useState<boolean>(false);
+
   useEffect(() => {
     if (selected) {
       setLastSelected(true);

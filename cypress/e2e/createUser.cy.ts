@@ -1,3 +1,5 @@
+import faker from 'faker';
+
 import { gqlQuery, injectWeb3 } from '../util';
 
 let circleId;
@@ -5,14 +7,19 @@ let circleId;
 context('Coordinape', () => {
   before(() => {
     Cypress.on('window:before:load', injectWeb3());
-    return gqlQuery({
-      circles: [
-        {
-          where: { organization: { name: { _eq: 'Fresh Open Epoch Admin' } } },
-        },
-        { id: true },
-      ],
-    }).then(q => {
+    return gqlQuery(
+      {
+        circles: [
+          {
+            where: {
+              organization: { name: { _eq: 'Fresh Open Epoch Admin' } },
+            },
+          },
+          { id: true },
+        ],
+      },
+      { operationName: 'cypress' }
+    ).then(q => {
       circleId = q.circles[0].id;
     });
   });
@@ -32,12 +39,12 @@ context('Coordinape', () => {
     cy.contains('ETH Address', { timeout: 120000 }).should('be.visible');
     cy.contains('ETH Address').click();
 
+    const newUserName = `A Test User ${faker.datatype.number(10000)}`;
+    const newAddress = faker.finance.ethereumAddress();
+
     cy.get('[data-testid=new-members]').within(() => {
-      cy.get('input').eq(0).click().type('A Test User');
-      cy.get('input')
-        .eq(1)
-        .click()
-        .type('0xe00b84525b71ef52014e59f633c97530cb278e09');
+      cy.get('input').eq(0).click().type(newUserName);
+      cy.get('input').eq(1).click().type(newAddress);
     });
 
     cy.get('button')
@@ -48,6 +55,6 @@ context('Coordinape', () => {
       'be.visible'
     );
     cy.get('a').contains('Members').click();
-    cy.contains('A Test User', { timeout: 120000 }).should('be.visible');
+    cy.contains(newUserName, { timeout: 120000 }).should('be.visible');
   });
 });

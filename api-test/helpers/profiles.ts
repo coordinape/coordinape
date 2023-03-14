@@ -2,6 +2,8 @@ import assert from 'assert';
 
 import faker from 'faker';
 
+import { adminClient } from '../../api-lib/gql/adminClient';
+
 import type { GQLClientType } from './common';
 
 type ProfileInput = { address: string; name?: string };
@@ -20,15 +22,28 @@ export async function createProfile(
       object.name = `${faker.name.firstName()} ${faker.datatype.number(10000)}`;
     }
   }
-  const { insert_profiles_one: profile } = await client.mutate(
+
+  const { profiles } = await adminClient.query(
     {
-      insert_profiles_one: [
-        { object },
+      profiles: [
+        { where: { address: { _ilike: object.address } } },
         { id: true, name: true, address: true },
       ],
     },
-    { operationName: 'createProfile' }
+    { operationName: 'createProfile_getExistingProfile' }
   );
-  assert(profile, 'Profile not created');
-  return profile;
+  if (!profiles[0]) {
+    const { insert_profiles_one: profile } = await client.mutate(
+      {
+        insert_profiles_one: [
+          { object },
+          { id: true, name: true, address: true },
+        ],
+      },
+      { operationName: 'createProfile' }
+    );
+    assert(profile, 'Profile not created');
+    return profile;
+  }
+  return profiles[0];
 }

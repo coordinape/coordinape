@@ -6,6 +6,7 @@ import handler from '../../../api/hasura/cron/pGiveHistoricalGen';
 import {
   createCircle,
   createEpoch,
+  createProfile,
   createTokenGift,
   createUser,
 } from '../../helpers';
@@ -19,18 +20,21 @@ beforeEach(async () => {
 
   circle = await createCircle(adminClient);
   const createDate = DateTime.local().minus({ months: 3 }).toISO();
+  await createProfile(adminClient, { address: address1 });
   user1 = await createUser(adminClient, {
     address: address1,
     circle_id: circle.id,
     created_at: createDate,
   });
 
+  await createProfile(adminClient, { address: address2 });
   user2 = await createUser(adminClient, {
     address: address2,
     circle_id: circle.id,
     created_at: createDate,
   });
 
+  await createProfile(adminClient, { address: address3 });
   user3 = await createUser(adminClient, {
     address: address3,
     circle_id: circle.id,
@@ -146,6 +150,7 @@ test('Test backfilling of pgive', async () => {
 
   expect(res.json).toHaveBeenCalled();
   const results = (res.json as any).mock.calls[0][0];
+  console.log(results, circle.id);
   expect(results.circleIds.includes(circle.id)).toBeTruthy();
 
   const { epoch_pgive_data, member_epoch_pgives } = await adminClient.query({

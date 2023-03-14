@@ -1,8 +1,14 @@
 import assert from 'assert';
 
 import { ENTRANCE } from '../../src/common-lib/constants';
+import { Role } from '../../src/lib/users';
 
-import { GraphQLTypes, order_by, ValueTypes } from './__generated__/zeus';
+import {
+  GraphQLTypes,
+  order_by,
+  profiles_constraint,
+  ValueTypes,
+} from './__generated__/zeus';
 import { adminClient } from './adminClient';
 
 export async function insertProfiles(
@@ -246,21 +252,19 @@ export async function insertCircleWithAdmin(
   const insertUsers = {
     data: [
       {
-        name: circleInput.user_name,
         address: userAddress,
-        role: 1,
+        role: Role.ADMIN,
         entrance: ENTRANCE.ADMIN,
       },
       {
-        name: 'Coordinape',
         address: coordinapeAddress,
-        role: 2,
+        role: Role.COORDINAPE,
         non_receiver: false,
         fixed_non_receiver: false,
         starting_tokens: 0,
         non_giver: true,
         give_token_remaining: 0,
-        bio: 'Coordinape is the platform you’re using right now! We currently offer our service for free and invite people to allocate to us from within your circles. All funds received go towards funding the team and our operations.',
+        bio: "At this time we've chosen to forgo charging fees for Coordinape and instead we're experimenting with funding our DAO through donations. As part of this experiment, Coordinape will optionally become part of everyone's circles as a participant. If you don't agree with this model or for any other reason don't want Coordinape in your circle, you can disable it in Circle Settings.",
       },
     ],
   };
@@ -282,6 +286,27 @@ export async function insertCircleWithAdmin(
     // Return the newly generated user_id for current profile
   };
   let retVal;
+
+  //create Coordinape profile if it does not exist
+  await adminClient.mutate(
+    {
+      insert_profiles_one: [
+        {
+          object: {
+            name: 'Coordinape',
+            address: coordinapeAddress,
+          },
+          on_conflict: {
+            constraint: profiles_constraint.profiles_address_key,
+            update_columns: [],
+          },
+        },
+        { id: true },
+      ],
+    },
+    { operationName: 'insertCircle_CreateCoordinape' }
+  );
+
   if (circleInput.organization_id) {
     const { insert_circles_one } = await adminClient.mutate(
       {
@@ -410,7 +435,6 @@ export async function insertVouch(nomineeId: number, voucherId: number) {
 
 export async function insertUser(
   address: string,
-  name: string,
   circleId: number,
   entrance: string
 ) {
@@ -421,7 +445,6 @@ export async function insertUser(
           object: {
             address: address,
             circle_id: circleId,
-            name: name,
             entrance: entrance,
           },
         },

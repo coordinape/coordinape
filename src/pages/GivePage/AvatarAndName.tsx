@@ -1,6 +1,4 @@
-import React from 'react';
-
-import { Avatar, Flex, Text } from '../../ui';
+import { Avatar, Flex, Text } from 'ui';
 
 // AvatarAndName renders the avatar and a member name for inclusion in a GiveRow
 export const AvatarAndName = ({
@@ -19,7 +17,10 @@ export const AvatarAndName = ({
       }}
     >
       <Avatar size="small" name={name} path={avatar} css={{ mr: '$sm' }} />
-      <Text ellipsis>{name}</Text>
+      <Text ellipsis>
+        {name === 'Coordinape' && 'Support '}
+        {name}
+      </Text>
     </Flex>
   );
 };

@@ -16,7 +16,7 @@ const getActivities = async (where: Where, page: number) => {
           where,
           order_by: [
             {
-              id: order_by.desc,
+              created_at: order_by.desc,
             },
           ],
           offset: page * PAGE_SIZE,
@@ -49,6 +49,17 @@ const getActivities = async (where: Where, page: number) => {
             end_date: true,
             number: true,
           },
+          reactions: [
+            {},
+            {
+              id: true,
+              reaction: true,
+              profile: {
+                name: true,
+                id: true,
+              },
+            },
+          ],
         },
       ],
     },
@@ -66,7 +77,7 @@ export const useInfiniteActivities = (queryKey: QueryKey, where: Where) => {
     ({ pageParam = 0 }) => getActivities(where, pageParam),
     {
       getNextPageParam: (lastPage, allPages) => {
-        return lastPage.length == 0 ? undefined : allPages.length + 1;
+        return lastPage.length == 0 ? undefined : allPages.length;
       },
       refetchOnWindowFocus: false,
     }
@@ -95,18 +106,20 @@ export function IsNewUser(a: Activity): a is NewUser {
 
 export type EpochCreated = Activity & Required<Pick<Activity, 'epoch'>>;
 export function IsEpochCreated(a: Activity): a is EpochCreated {
-  return a.action == 'epoches_insert' && !!a.epoch;
+  return a.action == 'epochs_insert' && !!a.epoch;
 }
 
 export type EpochEnded = Activity & Required<Pick<Activity, 'epoch'>>;
 export function IsEpochEnded(a: Activity): a is EpochEnded {
-  return a.action == 'epoches_ended' && !!a.epoch;
+  return a.action == 'epochs_ended' && !!a.epoch;
 }
 
 export type EpochStarted = Activity & Required<Pick<Activity, 'epoch'>>;
 export function IsEpochStarted(a: Activity): a is EpochStarted {
-  return a.action == 'epoches_started' && !!a.epoch;
+  return a.action == 'epochs_started' && !!a.epoch;
 }
+
+export type Reaction = Activity['reactions'][number];
 
 export function IsDeleted(a: Activity) {
   // epoch are hard deleted, so we never see them here.

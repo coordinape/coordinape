@@ -1,5 +1,4 @@
 export * from './allocation';
-export * from './api';
 export * from './api.circle';
 export * from './api.epoch';
 export * from './api.gift';

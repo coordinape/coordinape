@@ -1,19 +1,16 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { adminClient } from '../../../api-lib/gql/adminClient';
-import { getProvider } from '../../../api-lib/provider';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
+import { isValidENS } from '../../../api-lib/validateENS';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const ensProfiles = await getEnsProfiles();
 
   await Promise.all(
     ensProfiles.profiles.map(async profile => {
-      const resolvedAddress = await getProvider(1).resolveName(profile.name);
-      if (
-        !resolvedAddress ||
-        resolvedAddress.toLowerCase() !== profile.address.toLowerCase()
-      ) {
+      const validENS = await isValidENS(profile.name, profile.address);
+      if (!validENS) {
         await updateEnsName({ id: profile.id, name: profile.name });
       }
     })
