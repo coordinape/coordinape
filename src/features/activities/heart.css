@@ -189,11 +189,11 @@
   0% {
     opacity: 1;
   }
-  50% {
+  /* 50% {
     transform: scale(3);
-  }
+  } */
   100% {
-    transform: scale(5);
+    transform: scale(10);
     opacity: 0;
   }
 }
