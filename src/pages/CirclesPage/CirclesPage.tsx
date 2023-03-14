@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 
+import { Role } from 'lib/users';
 import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
@@ -110,18 +111,24 @@ export default CirclesPage;
 
 type QueryCircle = QueryResult['organizations'][0]['circles'][0];
 
-const buttons: [
-  (circleId: number) => string,
-  string,
-  ((c: QueryCircle) => boolean)?
-][] = [
-  [paths.contributions, 'Contributions'],
-  [paths.history, 'Epoch Overview'],
-  [paths.give, 'Allocation'],
-  [paths.map, 'Map'],
-  [paths.members, 'Members'],
-  [paths.circleAdmin, 'Admin', (c: QueryCircle) => c.users[0]?.role !== 1],
-];
+const buttons = (
+  circle: QueryCircle
+): [(circleId: number) => string, string][] => {
+  if (circle.users.length === 0) return [[paths.members, 'Members']];
+
+  const b: [(circleId: number) => string, string][] = [
+    [paths.contributions, 'Contributions'],
+    [paths.history, 'Epoch Overview'],
+    [paths.give, 'Allocation'],
+    [(id: number) => paths.map(id), 'Map'],
+    [paths.members, 'Members'],
+  ];
+
+  if (circle.users[0]?.role === Role.ADMIN)
+    b.push([paths.circleAdmin, 'Admin']);
+
+  return b;
+};
 
 const nonMemberPanelCss: CSS = {
   backgroundColor: '$background',
@@ -133,6 +140,7 @@ export type CircleRowProps = {
   onButtonClick: (id: number, path: string) => void;
   state?: string;
 };
+
 const GetStarted = () => {
   return (
     <>
@@ -214,7 +222,8 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
           '.hover-buttons': { display: 'flex' },
           '.circle-row-menu-indicator': { display: 'none' },
         },
-        ...(nonMember ? nonMemberPanelCss : { cursor: 'pointer' }),
+        cursor: 'pointer',
+        ...(nonMember ? nonMemberPanelCss : {}),
         transition: 'opacity 300ms ease-in-out',
         opacity:
           state === undefined || state === 'entering' || state === 'entered'
@@ -324,62 +333,57 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
             <Text>{epochDescription(epoch)}</Text>
           )}
         </Flex>
-        {!nonMember && (
+        <Box
+          css={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+            height: '100%',
+            '@sm': { gridColumnEnd: 'span 2' },
+          }}
+        >
           <Box
+            className="circle-row-menu-indicator"
+            css={{ '@sm': { display: 'none' } }}
+          >
+            <Text color="neutral" size="large">
+              &middot;&middot;&middot;
+            </Text>
+          </Box>
+          <Box
+            className="hover-buttons"
             css={{
               display: 'flex',
+              gap: '$sm',
+              mr: '-$sm',
               justifyContent: 'flex-end',
-              alignItems: 'center',
-              height: '100%',
-              '@sm': { gridColumnEnd: 'span 2' },
+              flexWrap: 'wrap',
+              '@sm': {
+                gap: '$xs',
+                mr: '-$xs',
+                gridColumnEnd: 'span 2',
+                justifyContent: 'end',
+              },
             }}
           >
-            <Box
-              className="circle-row-menu-indicator"
-              css={{ '@sm': { display: 'none' } }}
-            >
-              <Text color="neutral" size="large">
-                &middot;&middot;&middot;
-              </Text>
-            </Box>
-            <Box
-              className="hover-buttons"
-              css={{
-                display: 'flex',
-                gap: '$sm',
-                mr: '-$sm',
-                justifyContent: 'flex-end',
-                flexWrap: 'wrap',
-                '@sm': {
-                  gap: '$xs',
-                  mr: '-$xs',
-                  gridColumnEnd: 'span 2',
-                  justifyContent: 'end',
-                },
-              }}
-            >
-              {buttons.map(
-                ([pathFn, label, hide]) =>
-                  (!hide || !hide(circle)) && (
-                    <Button
-                      key={label}
-                      tabIndex={0}
-                      color="secondary"
-                      size="tag"
-                      css={{ border: 'none' }}
-                      as={NavLink}
-                      to={pathFn(circle.id)}
-                      onClick={(event: { stopPropagation: () => any }) =>
-                        event.stopPropagation()
-                      }
-                    >
-                      {label}
-                    </Button>
-                  )
-              )}
-            </Box>
+            {buttons(circle).map(([pathFn, label]) => (
+              <Button
+                key={label}
+                tabIndex={0}
+                color="secondary"
+                size="tag"
+                css={{ border: 'none' }}
+                as={NavLink}
+                to={pathFn(circle.id)}
+                onClick={(event: { stopPropagation: () => any }) =>
+                  event.stopPropagation()
+                }
+              >
+                {label}
+              </Button>
+            ))}
           </Box>
-        )}
+        </Box>
       </Box>
     </Panel>
   );

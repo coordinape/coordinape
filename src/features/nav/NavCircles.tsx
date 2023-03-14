@@ -9,6 +9,7 @@ import { Avatar, Box, Flex, IconButton, Text } from '../../ui';
 import { NavCircle, NavOrg } from './getNavData';
 import { NavCurrentCircle } from './NavCurrentCircle';
 import { NavLabel } from './NavLabel';
+import { isCircleAdmin } from './permissions';
 
 export const NavCircles = ({
   org,
@@ -17,62 +18,70 @@ export const NavCircles = ({
   org: NavOrg;
   currentCircle: NavCircle | undefined;
 }) => {
+  // this will need to change when we introduce roles on org_members directly
+  const isOrgAdmin = org.circles.some(isCircleAdmin);
+
   return (
     <>
       <NavLabel
         key={'circlesLabel'}
         label="Circles"
         icon={
-          <IconButton
-            as={NavLink}
-            to={paths.createCircle + '?org=' + org.id}
-            css={{ '&:hover': { color: '$cta' } }}
-          >
-            <PlusCircle />
-          </IconButton>
+          isOrgAdmin && (
+            <IconButton
+              as={NavLink}
+              to={paths.createCircle + '?org=' + org.id}
+              css={{ '&:hover': { color: '$cta' } }}
+            >
+              <PlusCircle />
+            </IconButton>
+          )
         }
       />
       {org.circles.map(c => {
-        const isCurrentCircle = currentCircle && currentCircle.id == c.id;
+        const isCurrentCircle = currentCircle?.id == c.id;
+        const isCircleMember = c.users.length > 0;
         return (
           <Box key={c.id}>
-            <Flex
-              as={NavLink}
-              to={paths.history(c.id)}
-              css={{
-                alignItems: 'center',
-                mb: '$md',
-                textDecoration: 'none',
-                borderRadius: '$3',
-              }}
-            >
-              <Avatar
-                name={c.name}
-                size="small"
-                margin="none"
+            {(isCircleMember || isCurrentCircle) && (
+              <Flex
+                as={NavLink}
+                to={isCircleMember ? paths.history(c.id) : paths.members(c.id)}
                 css={{
-                  mr: '$sm',
-                  outline: isCurrentCircle ? '2px solid $link' : undefined,
-                }}
-                path={c.logo}
-              />
-              <Text
-                semibold={isCurrentCircle}
-                css={{
-                  flexGrow: 1,
-                  color: isCurrentCircle ? '$text' : '$navLinkText',
+                  alignItems: 'center',
+                  mb: '$md',
+                  textDecoration: 'none',
+                  borderRadius: '$3',
                 }}
               >
-                {c.name}
-              </Text>
-              <IconButton>
-                {isCurrentCircle || org.circles.length == 1 ? (
-                  <ChevronDown />
-                ) : (
-                  <ChevronRight />
-                )}
-              </IconButton>
-            </Flex>
+                <Avatar
+                  name={c.name}
+                  size="small"
+                  margin="none"
+                  css={{
+                    mr: '$sm',
+                    outline: isCurrentCircle ? '2px solid $link' : undefined,
+                  }}
+                  path={c.logo}
+                />
+                <Text
+                  semibold={isCurrentCircle}
+                  css={{
+                    flexGrow: 1,
+                    color: isCurrentCircle ? '$text' : '$navLinkText',
+                  }}
+                >
+                  {c.name}
+                </Text>
+                <IconButton>
+                  {isCurrentCircle || org.circles.length == 1 ? (
+                    <ChevronDown />
+                  ) : (
+                    <ChevronRight />
+                  )}
+                </IconButton>
+              </Flex>
+            )}
             {(isCurrentCircle || org.circles.length == 1) && (
               <NavCurrentCircle key={'currentCircle'} circle={c} />
             )}
