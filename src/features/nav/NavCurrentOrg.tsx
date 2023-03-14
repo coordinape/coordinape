@@ -7,6 +7,7 @@ import { NavOrg } from './getNavData';
 import { NavItem } from './NavItem';
 
 export const NavCurrentOrg = ({ org }: { org: NavOrg }) => {
+  const isInOrg = org.members.length > 0;
   return (
     <Box css={{ mb: '$md' }}>
       <NavItem
@@ -14,7 +15,7 @@ export const NavCurrentOrg = ({ org }: { org: NavOrg }) => {
         to={paths.vaultsForOrg(org.id)}
         icon={<DollarSign />}
       />
-      {isFeatureEnabled('org_view') && (
+      {isFeatureEnabled('org_view') && isInOrg && (
         <NavItem
           label={'Members'}
           to={paths.orgMembers(org.id)}
