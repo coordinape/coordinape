@@ -1,6 +1,6 @@
 import assert from 'assert';
 
-import { rSavedAuth } from 'features/auth/useSavedAuth';
+import { useSavedAuth } from 'features/auth/useSavedAuth';
 import { client } from 'lib/gql/client';
 
 import {
@@ -526,10 +526,12 @@ const formatLegacyManifest = async (
 };
 
 export const useApiBase = () => {
+  const { savedAuth } = useSavedAuth();
+
   const fetchManifest = useRecoilLoadCatch(
-    ({ snapshot, set }) =>
+    ({ set }) =>
       async (profileId?: number) => {
-        if (!profileId) profileId = (await snapshot.getPromise(rSavedAuth)).id;
+        if (!profileId) profileId = savedAuth.id;
         assert(profileId, 'no profile ID for fetchManifest');
         const data = await queryManifest(profileId);
 

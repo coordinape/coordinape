@@ -135,7 +135,6 @@ function getMockCircleDistribution(
     users: [
       {
         id: 1,
-        name: 'User 1',
         address: '0x1',
         fixed_payment_amount: 100,
         profile: { id: 1, name: 'User 1' },
@@ -144,7 +143,6 @@ function getMockCircleDistribution(
       },
       {
         id: 2,
-        name: 'User 2',
         address: '0x2',
         fixed_payment_amount: 101,
         profile: { id: 2, name: 'User 2' },

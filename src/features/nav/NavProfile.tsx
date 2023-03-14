@@ -85,7 +85,9 @@ export const NavProfile = ({
           path={avatar}
         />
         <Box css={{ minWidth: 0 }}>
-          <Text semibold>{name}</Text>
+          <Text semibold ellipsis>
+            {name}
+          </Text>
           <Text size="small" ellipsis>
             {address && shortenAddressWithFrontLength(address, 4)}
           </Text>
@@ -102,7 +104,7 @@ export const NavProfile = ({
         </Box>
       </Flex>
       {open && (
-        <Box css={{ mt: '$sm' }}>
+        <Box css={{ mt: '$sm', pr: '$xs' }}>
           <NavItem
             label="Profile"
             to={paths.profile('me')}

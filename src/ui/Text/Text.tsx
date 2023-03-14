@@ -36,6 +36,11 @@ export const Text = styled('span', {
         '@sm': { fontSize: '$medium' },
       },
     },
+    display: {
+      true: {
+        letterSpacing: '$header',
+      },
+    },
 
     size: {
       small: { fontSize: '$small !important', lineHeight: '$shorter' },
@@ -110,6 +115,32 @@ export const Text = styled('span', {
     inline: { true: { display: 'inline !important' } },
   },
   compoundVariants: [
+    {
+      display: true,
+      h1: true,
+      css: {
+        fontSize: '110px',
+        '@md': {
+          fontSize: '90px',
+        },
+        '@sm': {
+          fontSize: '60px',
+        },
+      },
+    },
+    {
+      display: true,
+      h2: true,
+      css: {
+        fontSize: '40px',
+        '@md': {
+          fontSize: '32px',
+        },
+        '@sm': {
+          fontSize: '22px',
+        },
+      },
+    },
     {
       tag: true,
       color: 'active',

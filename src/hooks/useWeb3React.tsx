@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, createContext, useContext, useState, useRef } from 'react';
 
 import type { JsonRpcProvider } from '@ethersproject/providers';
 import { Web3Provider } from '@ethersproject/providers';
@@ -11,6 +11,8 @@ import { useAuthStore } from 'features/auth';
 import { MagicModalFixer } from 'features/auth/magic';
 import type { ProviderType } from 'features/auth/store';
 import { pick } from 'lodash/fp';
+
+import useConnectedAddress from './useConnectedAddress';
 
 // connector?: AbstractConnector;
 // library?: T;
@@ -26,6 +28,12 @@ export type UseWeb3ReactReturnType<T> = Web3ReactContextInterface<T> & {
   providerType: ProviderType | undefined;
 };
 
+// this provides a workaround for providers like Ganache that don't have an
+// address set in useWeb3React by default
+const FallbackAddressContext = createContext<
+  [string | undefined, (address: string) => void]
+>([undefined, () => {}]);
+
 export function useWeb3React<T = any>(
   key?: string | undefined
 ): UseWeb3ReactReturnType<T> {
@@ -38,17 +46,41 @@ export function useWeb3React<T = any>(
 
   const setProvider = useAuthStore(state => state.setProvider);
   const providerType = useAuthStore(state => state.providerType);
-  const { provider, address, chainId } = useAuthStore(
-    pick(['provider', 'address', 'chainId'])
-  );
+  const {
+    provider,
+    address: storeAddress,
+    chainId,
+  } = useAuthStore(pick(['provider', 'address', 'chainId']));
   const library = context.library || provider;
+
+  const mounted = useRef(false);
+  useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+    };
+  }, []);
+
+  const [signerAddress, setSignerAddress] = useContext(FallbackAddressContext);
+  useEffect(() => {
+    if (context.account || storeAddress) return;
+    context.library
+      ?.getSigner()
+      .getAddress()
+      .then((address: string) => {
+        if (!mounted.current) return;
+        setSignerAddress(address);
+      });
+  }, [library]);
+
+  const address = context.account || storeAddress || signerAddress;
 
   return {
     ...context,
     library,
-    active: context.active || !!address,
+    active: !!address,
     chainId: context.chainId || chainId,
-    account: context.account || address,
+    account: address,
     setProvider,
     providerType,
     deactivate: context.active ? context.deactivate : () => setProvider(),
@@ -60,11 +92,14 @@ export function Web3ReactProvider({
 }: {
   children: any;
 }): JSX.Element {
+  const signerAddressState = useState<string | undefined>();
   return (
     <OriginalWeb3ReactProvider getLibrary={getLibrary}>
-      {children}
+      <FallbackAddressContext.Provider value={signerAddressState}>
+        {children}
+        <Web3EventHooks />
+      </FallbackAddressContext.Provider>
       <MagicModalFixer />
-      <Web3EventHooks />
     </OriginalWeb3ReactProvider>
   );
 }
@@ -86,7 +121,7 @@ function getLibrary(provider: any): Web3Provider {
 }
 
 const Web3EventHooks = () => {
-  const [prevAddress, setPrevAddress] = useState<string>();
+  const address = useConnectedAddress();
 
   useEffect(() => {
     const ethereum = (window as any).ethereum;
@@ -104,16 +139,18 @@ const Web3EventHooks = () => {
   });
 
   useEffect(() => {
+    // accountsChanged fires when you change the account in MetaMask, but also
+    // when you connect an account that hasn't been connected before. we don't
+    // want to reload the page in that case, so we wait until we've already
+    // connected some address to set up the listener.
+    if (!address) return;
+
     // Web3Provider doesn't work with accountsChanged events:
     // https://github.com/ethers-io/ethers.js/issues/1396#issuecomment-806380431
-    //
-    // reload only if the account has changed: this event also fires the first
-    // time an account is connected, and we do not want to reload in that case.
-    (window as any).ethereum?.on('accountsChanged', (address: string) => {
-      if (prevAddress) window.location.reload();
-      setPrevAddress(address);
+    (window as any).ethereum?.on('accountsChanged', () => {
+      window.location.reload();
     });
-  }, [prevAddress]);
+  }, [address]);
 
   return null;
 };

@@ -38,7 +38,9 @@ export const Network = ({
       }}
     >
       {chainLogos[chainId]}
-      <Text size="small">{chainName}</Text>
+      <Text size="small" ellipsis>
+        {chainName}
+      </Text>
       {children}
     </Flex>
   );

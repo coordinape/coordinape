@@ -1,6 +1,7 @@
 // add your own feature names here
 
 export type FeatureName =
+  | 'cosoul'
   | 'vaults'
   | 'fixed_payments'
   | 'discord'
@@ -14,6 +15,7 @@ export type FeatureName =
 // hardcode or set with environment variables
 
 const staticFeatureFlags: Partial<Record<FeatureName, boolean>> = {
+  cosoul: false,
   vaults: true,
   fixed_payments: true,
   email_login: !!process.env.REACT_APP_FEATURE_FLAG_EMAIL_LOGIN,

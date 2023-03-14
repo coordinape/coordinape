@@ -109,6 +109,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     return {
       ...eu,
       ...updatedUser,
+      name: undefined,
       give_token_remaining: updatedUser?.starting_tokens,
     };
   });

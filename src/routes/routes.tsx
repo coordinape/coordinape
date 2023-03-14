@@ -1,6 +1,8 @@
 import { lazy, Suspense } from 'react';
 
 import { RequireAuth } from 'features/auth';
+import { MintPage, SplashPage } from 'features/cosoul';
+import CoSoulLayout from 'features/cosoul/CoSoulLayout';
 import { OrgPage, OrgSettingsPage, OrgMembersPage } from 'features/orgs';
 import { isUserAdmin, isUserMember } from 'lib/users';
 import {
@@ -18,6 +20,7 @@ import AddMembersPage from '../pages/AddMembersPage/AddMembersPage';
 import CircleActivityPage from '../pages/CircleActivityPage';
 import GivePage from '../pages/GivePage';
 import JoinCirclePage from '../pages/JoinCirclePage';
+import { MainLayout } from 'components';
 import isFeatureEnabled from 'config/features';
 import {
   useCanVouch,
@@ -120,25 +123,63 @@ const LoggedInRoutes = () => {
 export const AppRoutes = () => {
   return (
     <Routes>
+      {/* CoSoul Pages */}
+      {isFeatureEnabled('cosoul') && (
+        <Route
+          element={
+            <CoSoulLayout>
+              <Outlet />
+            </CoSoulLayout>
+          }
+        >
+          <Route
+            path="login"
+            element={
+              <RequireAuth>
+                <RedirectAfterLogin />
+              </RequireAuth>
+            }
+          />
+          <Route path={paths.cosoul} element={<SplashPage />} />
+          <Route
+            path={paths.mint}
+            element={
+              <RequireAuth>
+                <MintPage />
+              </RequireAuth>
+            }
+          />
+        </Route>
+      )}
+
+      {/* Main App Pages */}
       <Route
-        path="login"
         element={
-          <RequireAuth>
-            <RedirectAfterLogin />
-          </RequireAuth>
+          <MainLayout>
+            <Outlet />
+          </MainLayout>
         }
-      />
-      <Route path={paths.join(':token')} element={<JoinCirclePage />} />
-      <Route
-        path="*"
-        element={
-          <RequireAuth>
-            <Suspense fallback={null}>
-              <LoggedInRoutes />
-            </Suspense>
-          </RequireAuth>
-        }
-      />
+      >
+        <Route
+          path="login"
+          element={
+            <RequireAuth>
+              <RedirectAfterLogin />
+            </RequireAuth>
+          }
+        />
+        <Route path={paths.join(':token')} element={<JoinCirclePage />} />
+        <Route
+          path="*"
+          element={
+            <RequireAuth>
+              <Suspense fallback={null}>
+                <LoggedInRoutes />
+              </Suspense>
+            </RequireAuth>
+          }
+        />
+      </Route>
     </Routes>
   );
 };

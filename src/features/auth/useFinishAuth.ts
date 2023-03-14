@@ -21,7 +21,7 @@ export const useFinishAuth = () => {
   const { showError } = useToast();
   const { fetchManifest } = useApiBase();
   const logout = useLogout();
-  const [savedAuth, setSavedAuth] = useSavedAuth();
+  const { setSavedAuth, getAndUpdate } = useSavedAuth();
   const web3Context = useWeb3React();
   const queryClient = useQueryClient();
   const setProfileId = useAuthStore(state => state.setProfileId);
@@ -36,6 +36,7 @@ export const useFinishAuth = () => {
         : providerType;
       assert(connectorName);
 
+      const savedAuth = getAndUpdate(address);
       logger.log('found saved auth data:', savedAuth);
       let profileId = savedAuth.id;
       if (!savedAuth.token) {
@@ -44,7 +45,7 @@ export const useFinishAuth = () => {
         if (!token) return false;
 
         logger.log('got new auth data:', loginData);
-        setSavedAuth({ address, connectorName, ...loginData });
+        setSavedAuth(address, { connectorName, ...loginData });
         profileId = loginData.id;
         setProfileId(profileId);
       }
@@ -60,24 +61,23 @@ export const useFinishAuth = () => {
       // this setTimeout is needed so that the Recoil effects of updateSavedAuth
       // are finished before fetchManifest is called. in particular,
       // setAuthToken needs to be called
-      return setTimeout(
-        () =>
-          new Promise(res =>
-            fetchManifest(profileId)
-              .then(manifest => {
-                queryClient.setQueryData(
-                  QUERY_KEY_LOGIN_DATA,
-                  manifest.profiles_by_pk
-                );
-                res(true);
-              })
-              .catch(() => {
-                // we had a cached token & it's invalid, so log out
-                // FIXME don't logout if request timed out
-                logout();
-                res(false);
-              })
-          )
+      return new Promise(res =>
+        setTimeout(() =>
+          fetchManifest(profileId)
+            .then(manifest => {
+              queryClient.setQueryData(
+                QUERY_KEY_LOGIN_DATA,
+                manifest.profiles_by_pk
+              );
+              res(true);
+            })
+            .catch(() => {
+              // we had a cached token & it's invalid, so log out
+              // FIXME don't logout if request timed out
+              logout();
+              res(false);
+            })
+        )
       );
     } catch (e: any) {
       if (

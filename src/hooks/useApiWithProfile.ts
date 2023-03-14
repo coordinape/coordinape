@@ -18,7 +18,7 @@ interface CreateCircleParam {
   contact: string;
 }
 
-export const createCircle = async (
+export const createCircleMutation = async (
   payload: CreateCircleParam
 ): Promise<IApiCircle> => {
   const { createCircle } = await client.mutate(
@@ -78,7 +78,7 @@ export const useApiWithProfile = () => {
   const createCircle = useRecoilLoadCatch(
     () =>
       async (params: CreateCircleParam): Promise<IApiCircle> => {
-        const result = await createCircle(params);
+        const result = await createCircleMutation(params);
         await fetchManifest();
         return result;
       },
