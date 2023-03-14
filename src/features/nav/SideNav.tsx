@@ -3,7 +3,8 @@ import { Suspense, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { getCircleFromPath, getOrgFromPath, paths } from '../../routes/paths';
-import { CoOrg, Menu, X } from 'icons/__generated';
+import isFeatureEnabled from 'config/features';
+import { CoOrg, Menu, X, Loader } from 'icons/__generated';
 import { Flex, IconButton } from 'ui';
 
 import { NavCircle, NavOrg, useNavQuery } from './getNavData';
@@ -144,6 +145,9 @@ export const SideNav = () => {
         }}
       >
         <NavItem label="Home" to={paths.circles} icon={<CoOrg nostroke />} />
+        {isFeatureEnabled('cosoul') && (
+          <NavItem label="CoSoul" to="cosoul" icon={<Loader />} />
+        )}
         {data && (
           <>
             <NavOrgs
