@@ -94,7 +94,7 @@ export default async function handleOptOutMsg(
         // and will be deprecated. This total will be removed when the column
         // is removed
         message:
-          `${data.new.name} has opted out of the current epoch.\n` +
+          `${profiles[0].name} has opted out of the current epoch.\n` +
           `A Total of ${data.old.give_token_received} ${
             circle?.token_name || 'GIVE'
           } was refunded`,
@@ -142,7 +142,7 @@ export default async function handleOptOutMsg(
         // and will be deprecated. This total will be removed when the column
         // is removed
         message:
-          `${data.new.name} can no longer allocate GIVE during the current epoch.\n` +
+          `${profiles[0].name} can no longer allocate GIVE during the current epoch.\n` +
           `A Total of ${
             data.old.starting_tokens - data.old.give_token_remaining
           } ${circle?.token_name || 'GIVE'} was refunded`,

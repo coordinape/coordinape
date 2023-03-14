@@ -1,5 +1,3 @@
-import { Role } from 'lib/users';
-
 import { ReactComponent as CoinbaseSVG } from 'assets/svgs/wallet/coinbase.svg';
 import { ReactComponent as MetaMaskSVG } from 'assets/svgs/wallet/metamask-color.svg';
 import { ReactComponent as WalletConnectSVG } from 'assets/svgs/wallet/wallet-connect.svg';
@@ -14,14 +12,10 @@ export enum EConnectorNames {
 
 export const MAX_BIO_LENGTH = 1200;
 
-// DEPRECATED -- use `Role` directly
-export const USER_ROLE_ADMIN = Role.ADMIN;
-export const USER_ROLE_COORDINAPE = Role.COORDINAPE;
-
-export const USER_COORDINAPE_ADDRESS =
+export const COORDINAPE_USER_ADDRESS =
   '0xfad763da9051953fea58c2304395719a3b6ba361';
 
-export const USER_COORDINAPE_AVATAR = '/imgs/logo/co-square.png';
+export const COORDINAPE_USER_AVATAR = '/imgs/logo/co-square.png';
 
 export const ZERO_UINT =
   '0x0000000000000000000000000000000000000000000000000000000000000000';

@@ -7,13 +7,14 @@ import { paths } from 'routes/paths';
 
 import { ActivityAvatar } from './ActivityAvatar';
 import { ActivityProfileName } from './ActivityProfileName';
+import { ReactionBar } from './ReactionBar';
 import { Contribution } from './useInfiniteActivities';
 
 export const ContributionRow = ({ activity }: { activity: Contribution }) => {
   const { inCircle } = usePathContext();
 
   return (
-    <Flex alignItems="center">
+    <Flex alignItems="start">
       <ActivityAvatar profile={activity.actor_profile} />
       <Flex column css={{ flexGrow: 1, ml: '$md' }}>
         <Flex css={{ gap: '$sm' }}>
@@ -45,6 +46,7 @@ export const ContributionRow = ({ activity }: { activity: Contribution }) => {
           source={activity.contribution.description}
           css={{ cursor: 'auto' }}
         />
+        <ReactionBar activityId={activity.id} reactions={activity.reactions} />
       </Flex>
     </Flex>
   );

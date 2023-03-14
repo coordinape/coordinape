@@ -3,7 +3,6 @@ import React from 'react';
 import * as AvatarPrimitive from '@radix-ui/react-avatar';
 
 import { CSS, styled } from '../../stitches.config';
-import { USER_COORDINAPE_AVATAR } from 'config/constants';
 import { getAvatarPath, getInitialFromName } from 'utils/domain';
 
 const AvatarRoot = styled(AvatarPrimitive.Root, {
@@ -118,7 +117,6 @@ export const Avatar = ({
   size,
   margin,
   css,
-  roleCoordinape,
   ...props
 }: {
   path?: string;
@@ -129,11 +127,8 @@ export const Avatar = ({
   margin?: 'none' | 'small'; // can be extended if needed
   children?: React.ReactNode;
   css?: CSS;
-  roleCoordinape?: boolean;
 }) => {
-  const avatarPath = getAvatarPath(
-    roleCoordinape ? USER_COORDINAPE_AVATAR : path
-  );
+  const avatarPath = getAvatarPath(path);
 
   return (
     <AvatarRoot

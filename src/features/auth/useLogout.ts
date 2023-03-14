@@ -4,13 +4,14 @@ import { useRecoilLoadCatch } from 'hooks';
 import { rSelectedCircleIdSource } from 'recoilState/app';
 import { rApiManifest, rApiFullCircle } from 'recoilState/db';
 
-import { rSavedAuth } from './useSavedAuth';
+import { useSavedAuth } from './useSavedAuth';
 
-export const useLogout = (remote = false) =>
-  useRecoilLoadCatch(
+export const useLogout = (remote = false) => {
+  const { clearSavedAuth } = useSavedAuth();
+  return useRecoilLoadCatch(
     ({ set }) =>
       async () => {
-        set(rSavedAuth, { authTokens: {} });
+        clearSavedAuth();
         set(rApiFullCircle, new Map());
         set(rApiManifest, undefined);
         set(rSelectedCircleIdSource, undefined);
@@ -23,3 +24,4 @@ export const useLogout = (remote = false) =>
       },
     []
   );
+};

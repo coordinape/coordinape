@@ -1,13 +1,13 @@
-import { useSavedAuth } from 'features/auth/useSavedAuth';
 import { NavLink } from 'react-router-dom';
 
+import useConnectedAddress from '../../hooks/useConnectedAddress';
 import isFeatureEnabled from 'config/features';
 import { paths } from 'routes/paths';
 import { Box, Button, Flex, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 export const SplashPage = () => {
-  const { address } = useSavedAuth();
+  const address = useConnectedAddress();
   const hasCoSoul = true;
   if (!isFeatureEnabled('cosoul')) {
     return <></>;
