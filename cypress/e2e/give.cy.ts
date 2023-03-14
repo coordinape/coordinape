@@ -23,6 +23,7 @@ context('Coordinape', () => {
     cy.contains('thank your teammates').click();
   });
   it('can add collaborator', () => {
+    cy.intercept('POST', '/v1/graphql').as('api');
     cy.contains('Bruce')
       .parents('[data-testid=give-row]')
       .trigger('mouseover')
@@ -30,10 +31,16 @@ context('Coordinape', () => {
         cy.get('[data-testid=collaborator-button]').within(() => {
           cy.get('span').eq(0).should('not.have.class', 'teammate');
         });
-        cy.get('[data-testid=collaborator-button]').click().wait(2000);
-        cy.get('[data-testid=collaborator-button]').within(() => {
-          cy.get('span').eq(0).should('have.class', 'teammate');
-        });
+        cy.get('[data-testid=collaborator-button]').click();
+      });
+    cy.wait('@api');
+    cy.wait(3000); // for additional re-rendering? test is flaky without this
+    cy.contains('Bruce')
+      .parents('[data-testid=give-row]')
+      .within(() => {
+        cy.get('[data-testid=collaborator-button] span')
+          .eq(0)
+          .should('have.class', 'teammate');
       });
   });
   it('can allocate give by clicking', () => {
