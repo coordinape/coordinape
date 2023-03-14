@@ -61,7 +61,7 @@ select_permissions:
           - organization:
               members:
                 _and:
-                  - id:
+                  - profile_id:
                       _eq: X-Hasura-User-Id
                   - deleted_at:
                       _is_null: true
