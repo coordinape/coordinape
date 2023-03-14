@@ -11769,6 +11769,11 @@ enum reactions_constraint {
   unique or primary key constraint on columns "id"
   """
   reactions_pkey
+
+  """
+  unique or primary key constraint on columns "activity_id", "profile_id", "reaction"
+  """
+  reactions_profile_id_activity_id_reaction_key
 }
 
 """

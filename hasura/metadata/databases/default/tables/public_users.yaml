@@ -151,10 +151,18 @@ select_permissions:
               _and:
                 - deleted_at:
                     _is_null: true
-                - users:
-                    profile:
-                      id:
-                        _eq: X-Hasura-User-Id
+                - _or:
+                    - users:
+                        profile:
+                          id:
+                            _eq: X-Hasura-User-Id
+                    - organization:
+                        members:
+                          _and:
+                            - profile_id:
+                                _eq: X-Hasura-User-Id
+                            - deleted_at:
+                                _is_null: true
 event_triggers:
   - name: activityUserInsert
     definition:
