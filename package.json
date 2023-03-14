@@ -91,7 +91,8 @@
   },
   "resolutions": {
     "canvas-color-tracker": "file:./canvas-color-tracker",
-    "react-refresh": "^0.11.0"
+    "react-refresh": "^0.11.0",
+    "react-remove-scroll-bar": "^2.3.4"
   },
   "scripts": {
     "setup": "./scripts/setup.sh",
