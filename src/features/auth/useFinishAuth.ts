@@ -10,6 +10,7 @@ import { useWeb3React } from 'hooks/useWeb3React';
 
 import { findConnectorName } from './connectors';
 import { login } from './login';
+import { useAuthStore } from './store';
 import { QUERY_KEY_LOGIN_DATA } from './useLoginData';
 import { useLogout } from './useLogout';
 import { useSavedAuth } from './useSavedAuth';
@@ -23,6 +24,7 @@ export const useFinishAuth = () => {
   const { setSavedAuth, getAndUpdate } = useSavedAuth();
   const web3Context = useWeb3React();
   const queryClient = useQueryClient();
+  const setProfileId = useAuthStore(state => state.setProfileId);
 
   return async () => {
     const { connector, account: address, library, providerType } = web3Context;
@@ -48,6 +50,7 @@ export const useFinishAuth = () => {
       }
 
       assert(profileId, 'missing profile ID after login');
+      setProfileId(profileId);
 
       // Send a truncated address to sentry to help us debug customer issues
       Sentry.setTag(

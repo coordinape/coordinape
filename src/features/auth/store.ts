@@ -17,6 +17,8 @@ interface AuthState {
   ) => Promise<void>;
   step: Step;
   setStep: (step: Step) => void;
+  profileId: number | undefined;
+  setProfileId: (profileId: number) => void;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
@@ -47,4 +49,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   step: 'reuse',
   setStep: (step: Step) => set({ step }),
+
+  profileId: undefined,
+  setProfileId: (profileId: number) => set({ profileId }),
 }));
