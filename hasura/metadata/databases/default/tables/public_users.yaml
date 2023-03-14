@@ -148,10 +148,13 @@ select_permissions:
           - deleted_at:
               _is_null: true
           - circle:
-              users:
-                profile:
-                  id:
-                    _eq: X-Hasura-User-Id
+              _and:
+                - deleted_at:
+                    _is_null: true
+                - users:
+                    profile:
+                      id:
+                        _eq: X-Hasura-User-Id
 event_triggers:
   - name: activityUserInsert
     definition:
