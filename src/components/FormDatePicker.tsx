@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { FieldValues } from 'react-hook-form';
 
 import { FormInputField, TFormInputField } from 'components/index';

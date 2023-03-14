@@ -2,6 +2,7 @@ import assert from 'assert';
 
 import { AbstractConnector } from '@web3-react/abstract-connector';
 import { InjectedConnector } from '@web3-react/injected-connector';
+import { NetworkConnector } from '@web3-react/network-connector';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { WalletLinkConnector } from '@web3-react/walletlink-connector';
 import { loginSupportedChainIds } from 'common-lib/constants';
@@ -41,6 +42,9 @@ export const connectors: { [key in EConnectorNames]: AbstractConnector } = {
 export const findConnectorName = (
   connector: AbstractConnector
 ): EConnectorNames => {
+  // workaround for ganache
+  if (connector instanceof NetworkConnector) return EConnectorNames.Injected;
+
   const match = Object.entries(connectors).find(
     ([, c]) => connector?.constructor === c.constructor
   );

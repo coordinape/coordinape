@@ -502,7 +502,8 @@ export async function endEpochHandler(
           circleId: circle.id,
           circleName: `${circle.organization?.name}/${circle.name}`,
           endTime: epoch.end_date,
-          giveCount: epoch.token_gifts?.reduce(
+          // use the pending gifts because we don't have a handle on the permanent ones yet, but these are equivalent
+          giveCount: pending_gifts?.reduce(
             (total, { tokens }) => tokens + total,
             0
           ),
@@ -801,7 +802,7 @@ async function setNextEpochNumber({
       throw `Error getting next number for epoch id ${epochId}: ${e.message}`;
   }
   const currentEpochNumber =
-    (lastEpochResult?.epochs_aggregate.aggregate?.max?.number ?? 0) + 1;
+    (lastEpochResult?.epochs_aggregate?.aggregate?.max?.number ?? 0) + 1;
   try {
     await adminClient.mutate(
       {

@@ -72,7 +72,7 @@ export default async function handleUserAddedMsg(
       data.new.address
     );
     await sendSocialMessage({
-      message: `${data.new.name} has been added to the circle.`,
+      message: `${profiles[0].name} has been added to the circle.`,
       circleId: data.new.circle_id,
       channels: getChannels({
         data,

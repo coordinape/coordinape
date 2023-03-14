@@ -72,7 +72,7 @@ export default async function handleUserRemovedMsg(
       data.new.address
     );
     await sendSocialMessage({
-      message: `${data.new.name} has left the circle.`,
+      message: `${profiles[0].name} has left the circle.`,
       circleId: data.new.circle_id,
       channels: getChannels({
         data,

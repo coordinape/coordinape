@@ -3,6 +3,7 @@ import { useState, useEffect, useMemo, useRef } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { formatUnits } from 'ethers/lib/utils';
 import { client } from 'lib/gql/client';
+import { Role } from 'lib/users';
 import { zEthAddress } from 'lib/zod/formHelpers';
 import { SubmitHandler, useController, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
@@ -11,10 +12,8 @@ import { z } from 'zod';
 
 import { FormInputField, makeTable } from 'components';
 import {
-  USER_COORDINAPE_ADDRESS,
-  USER_ROLE_ADMIN,
-  USER_ROLE_COORDINAPE,
-  USER_COORDINAPE_AVATAR,
+  COORDINAPE_USER_ADDRESS,
+  COORDINAPE_USER_AVATAR,
 } from 'config/constants';
 import {
   useToast,
@@ -68,9 +67,6 @@ const headerStyles = {
 
 const schema = z
   .object({
-    name: z.string().refine(val => val.trim().length >= 3, {
-      message: 'Name must be at least 3 characters long.',
-    }),
     address: zEthAddress,
     non_giver: z.boolean(),
     fixed_non_receiver: z.boolean(),
@@ -95,18 +91,19 @@ const makeCoordinape = (circleId: number): ICircleUser => {
     deleted_at: new Date().toString(),
     teammates: [],
     updated_at: '',
-    address: USER_COORDINAPE_ADDRESS,
-    role: 2,
+    address: COORDINAPE_USER_ADDRESS,
+    role: Role.COORDINAPE,
     non_receiver: false,
     fixed_non_receiver: false,
     starting_tokens: 0,
     non_giver: true,
     give_token_remaining: 0,
-    bio: 'Coordinape is the platform you’re using right now! We currently offer our service for free and invite people to allocate to us from within your circles. All funds received go towards funding the team and our operations.',
+    bio: "At this time we've chosen to forgo charging fees for Coordinape and instead we're experimenting with funding our DAO through donations. As part of this experiment, Coordinape will optionally become part of everyone's circles as a participant. If you don't agree with this model or for any other reason don't want Coordinape in your circle, you can disable it in Circle Settings.",
     profile: {
       id: -1,
       name: 'Coordinape',
-      address: USER_COORDINAPE_ADDRESS,
+      address: COORDINAPE_USER_ADDRESS,
+      avatar: COORDINAPE_USER_AVATAR,
       skills: '',
     },
     fixed_payment_amount: 0,
@@ -159,11 +156,7 @@ const UserName = ({ user }: { user: ICircleUser }) => {
       }}
     >
       <Avatar
-        path={
-          user.role === USER_ROLE_COORDINAPE
-            ? USER_COORDINAPE_AVATAR
-            : user?.profile?.avatar
-        }
+        path={user?.profile?.avatar}
         name={user?.profile?.name}
         size="small"
         onClick={getToProfile(user.address)}
@@ -179,7 +172,7 @@ const UserName = ({ user }: { user: ICircleUser }) => {
         }}
       >
         {user.profile?.name}{' '}
-        {user.role === USER_ROLE_COORDINAPE ? (
+        {user.role === Role.COORDINAPE ? (
           <Tooltip content={coordinapeTooltipContent()}>
             <Info size="sm" />
           </Tooltip>
@@ -397,7 +390,7 @@ const MemberRow = ({
             minWidth: '$3xl',
           }}
         >
-          {user.role === USER_ROLE_ADMIN ? (
+          {user.role === Role.ADMIN ? (
             <Check size="lg" color="complete" />
           ) : (
             <X size="lg" color="neutral" />
@@ -508,16 +501,24 @@ const MemberRow = ({
                 }}
               >
                 <Flex css={{ gap: '$lg', flexWrap: 'wrap' }}>
-                  <FormInputField
-                    id="name"
-                    name="name"
-                    control={control}
-                    defaultValue={user.profile?.name}
-                    label="Member Name"
-                    infoTooltip="Member Displayed Name"
-                    showFieldErrors
-                    disabled={true}
-                  />
+                  <Box>
+                    <Text variant="label" as="label" css={{ mb: '$xs' }}>
+                      Member Name{' '}
+                      <Tooltip content={<div>Member Displayed Name</div>}>
+                        <Info size="sm" />
+                      </Tooltip>
+                    </Text>
+                    <TextField
+                      value={user.profile?.name}
+                      disabled={true}
+                      css={{
+                        width: '100%',
+                        '&::-webkit-calendar-picker-indicator': {
+                          filter: 'invert(1) brightness(0.6)',
+                        },
+                      }}
+                    />
+                  </Box>
                   <FormInputField
                     id="address"
                     name="address"

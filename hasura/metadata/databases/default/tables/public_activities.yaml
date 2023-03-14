@@ -23,6 +23,16 @@ object_relationships:
   - name: user
     using:
       foreign_key_constraint_on: user_id
+array_relationships:
+  - name: reactions
+    using:
+      manual_configuration:
+        column_mapping:
+          id: activity_id
+        insertion_order: null
+        remote_table:
+          name: reactions
+          schema: public
 select_permissions:
   - role: user
     permission:
@@ -38,11 +48,21 @@ select_permissions:
         - created_at
         - updated_at
       filter:
-        _and:
+        _or:
           - organization:
               circles:
                 users:
-                  profile:
-                    id:
+                  _and:
+                    - profile:
+                        id:
+                          _eq: X-Hasura-User-Id
+                    - deleted_at:
+                        _is_null: true
+          - organization:
+              members:
+                _and:
+                  - id:
                       _eq: X-Hasura-User-Id
+                  - deleted_at:
+                      _is_null: true
       allow_aggregations: true

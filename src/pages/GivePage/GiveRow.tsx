@@ -23,7 +23,6 @@ export const GiveRow = ({
   css,
   selected,
   gridView,
-  roleCoordinape,
 }: {
   member: Member;
   updateTeammate(id: number, teammate: boolean): Promise<void>;
@@ -36,7 +35,6 @@ export const GiveRow = ({
   css?: CSS;
   selected: boolean;
   gridView: boolean;
-  roleCoordinape?: boolean;
 }) => {
   // hover indicates that the row is currently hovered; this is needed to show/hide buttons and change their style
   const [hover, setHover] = useState(docExample);
@@ -106,7 +104,6 @@ export const GiveRow = ({
           <AvatarAndName
             name={member.profile.name}
             avatar={member.profile.avatar}
-            roleCoordinape={roleCoordinape}
           />
           {!gridView && !docExample && (
             <Flex>

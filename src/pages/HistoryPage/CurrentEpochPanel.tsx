@@ -1,9 +1,11 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { ACTIVITIES_QUERY_KEY } from 'features/activities/ActivityList';
 import { updateEpochDescription } from 'lib/gql/mutations';
 import { DateTime, Interval } from 'luxon';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useQueryClient } from 'react-query';
 import { NavLink } from 'react-router-dom';
 import { CSS } from 'stitches.config';
 import * as z from 'zod';
@@ -246,6 +248,7 @@ const EpochDescription = ({
   epochId,
   setDescriptionText,
 }: EpochDescriptionProps) => {
+  const queryClient = useQueryClient();
   const { showError, showSuccess } = useToast();
   const [submitting, setSubmitting] = useState(false);
   const [editDescription, setEditDescription] = useState(false);
@@ -270,6 +273,7 @@ const EpochDescription = ({
       await updateEpochDescription(epochId, data.description);
       setDescriptionText(data.description);
       showSuccess('Epoch Description Saved!');
+      queryClient.invalidateQueries(ACTIVITIES_QUERY_KEY);
     } catch (e) {
       showError(e);
       console.warn(e);

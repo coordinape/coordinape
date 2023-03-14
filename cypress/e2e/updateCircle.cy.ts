@@ -1,3 +1,5 @@
+import faker from 'faker';
+
 import { gqlQuery, injectWeb3 } from '../util';
 
 let circleId;
@@ -5,26 +7,34 @@ let circleId;
 context('Coordinape', () => {
   before(() => {
     Cypress.on('window:before:load', injectWeb3());
-    return gqlQuery({
-      circles: [
-        {
-          where: { organization: { name: { _eq: 'Fresh Open Epoch Admin' } } },
-        },
-        { id: true },
-      ],
-    }).then(q => {
+    return gqlQuery(
+      {
+        circles: [
+          {
+            where: {
+              organization: { name: { _eq: 'Fresh Open Epoch Admin' } },
+            },
+          },
+          { id: true },
+        ],
+      },
+      { operationName: 'cypress' }
+    ).then(q => {
       circleId = q.circles[0].id;
     });
   });
 
   // TODO change more settings besides fixed payment token
-  it.skip('can update circle settings', () => {
+  it('can update circle settings', () => {
     cy.visit(`/circles/${circleId}/admin`);
     cy.login();
     cy.get('.contentHeader').invoke('css', 'position', 'static');
+
+    const tokenName = faker.system.commonFileExt().toUpperCase();
+
     cy.getInputByLabel('Token name for CSV export', { timeout: 120000 })
       .clear()
-      .type('DAI')
+      .type(tokenName)
       .blur();
     cy.intercept({
       method: 'POST',
@@ -43,7 +53,7 @@ context('Coordinape', () => {
     cy.get('.contentHeader').invoke('css', 'position', 'static');
     cy.getInputByLabel('Token name for CSV export', { timeout: 120000 }).should(
       'have.value',
-      'DAI'
+      tokenName
     );
   });
 });

@@ -24,34 +24,19 @@ let snapshotId: string;
 jest.mock('lib/gql/mutations/vaults', () => {
   return {
     addVaultTx: jest.fn().mockReturnValue(Promise.resolve({})),
-    addVault: jest
-      .fn()
-      .mockImplementationOnce(x =>
-        Promise.resolve({
-          createVault: {
-            vault: {
-              ...x,
-              token_address: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
-              decimals: 18,
-              symbol: 'DAI',
-              org_id: 101,
-            },
+    addVault: jest.fn().mockImplementationOnce(x =>
+      Promise.resolve({
+        createVault: {
+          vault: {
+            ...x,
+            token_address: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
+            decimals: 18,
+            symbol: 'DAI',
+            org_id: 101,
           },
-        })
-      )
-      .mockImplementationOnce(x =>
-        Promise.resolve({
-          createVault: {
-            vault: {
-              ...x,
-              token_address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
-              decimals: 6,
-              symbol: 'USDC',
-              org_id: 101,
-            },
-          },
-        })
-      ),
+        },
+      })
+    ),
     savePendingVaultTx: jest.fn(),
   };
 });
@@ -63,11 +48,6 @@ beforeAll(async () => {
   const mainAccount = (await provider().listAccounts())[0];
   await mint({
     token: Asset.DAI,
-    address: mainAccount,
-    amount: '1000',
-  });
-  await mint({
-    token: Asset.USDC,
     address: mainAccount,
     amount: '1000',
   });
@@ -94,7 +74,7 @@ test('claim single successfully', async () => {
     const { deposit } = useVaultRouter(contracts);
 
     useEffect(() => {
-      if (!contracts) return;
+      if (!contracts || work) return;
       work = (async () => {
         const vault = await createVault({
           simpleTokenAddress: '0x0',

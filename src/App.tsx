@@ -6,9 +6,10 @@ import { RecoilRoot } from 'recoil';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { ThemeProvider as DeprecatedMuiThemeProvider } from '@material-ui/styles';
 
-import { ErrorBoundary, MainLayout } from 'components';
+import { ErrorBoundary } from 'components';
 import { ToastContainer } from 'components/ToastContainer';
 import { Web3ReactProvider } from 'hooks/useWeb3React';
+import { AppRoutes } from 'routes/routes';
 import { createTheme } from 'theme';
 
 import ThemeProvider from './features/theming/ThemeProvider';
@@ -32,7 +33,7 @@ function App() {
               <ThemeProvider>
                 <Web3ReactProvider>
                   <BrowserRouter>
-                    <MainLayout />
+                    <AppRoutes />
                   </BrowserRouter>
                 </Web3ReactProvider>
               </ThemeProvider>

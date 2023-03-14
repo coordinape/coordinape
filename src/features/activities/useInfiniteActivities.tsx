@@ -16,7 +16,7 @@ const getActivities = async (where: Where, page: number) => {
           where,
           order_by: [
             {
-              id: order_by.desc,
+              created_at: order_by.desc,
             },
           ],
           offset: page * PAGE_SIZE,
@@ -49,6 +49,17 @@ const getActivities = async (where: Where, page: number) => {
             end_date: true,
             number: true,
           },
+          reactions: [
+            {},
+            {
+              id: true,
+              reaction: true,
+              profile: {
+                name: true,
+                id: true,
+              },
+            },
+          ],
         },
       ],
     },
@@ -107,6 +118,8 @@ export type EpochStarted = Activity & Required<Pick<Activity, 'epoch'>>;
 export function IsEpochStarted(a: Activity): a is EpochStarted {
   return a.action == 'epochs_started' && !!a.epoch;
 }
+
+export type Reaction = Activity['reactions'][number];
 
 export function IsDeleted(a: Activity) {
   // epoch are hard deleted, so we never see them here.
