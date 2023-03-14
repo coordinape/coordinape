@@ -105,7 +105,7 @@ test('submit distribution', async () => {
     const { deposit } = useVaultRouter(contracts);
 
     useEffect(() => {
-      if (!contracts) return;
+      if (!contracts || work) return;
 
       work = (async () => {
         const vault = await createVault({
@@ -191,7 +191,7 @@ test('previous distribution', async () => {
     const { deposit } = useVaultRouter(contracts);
 
     useEffect(() => {
-      if (!contracts) return;
+      if (!contracts || work) return;
 
       work = (async () => {
         const vault = await createVault({

@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 
-import { PlusCircle } from '../../icons/__generated';
+import { Member } from '../../icons/__generated';
 import { Box, Flex, Text } from '../../ui';
 
 import { ActivityAvatar } from './ActivityAvatar';
@@ -11,8 +11,8 @@ import { NewUser } from './useInfiniteActivities';
 export const NewUserRow = ({ activity }: { activity: NewUser }) => {
   return (
     <Flex alignItems="center" css={{ ml: '$md', position: 'relative' }}>
-      <Box>
-        <ActivityAvatar profile={activity.target_profile} />
+      <Box css={{ ml: '$sm' }}>
+        <ActivityAvatar profile={activity.target_profile} size="small" />
         {/*<Box*/}
         {/*  css={{*/}
         {/*    position: 'absolute',*/}
@@ -27,10 +27,10 @@ export const NewUserRow = ({ activity }: { activity: NewUser }) => {
         {/*  <Plus size="lg" />*/}
         {/*</Box>*/}
       </Box>
-      <Flex css={{ flexGrow: 1, ml: '$md' }}>
+      <Flex css={{ flexGrow: 1, ml: '$2xl' }}>
         <Flex alignItems="center">
           <Text css={{ mr: '$md' }}>
-            <PlusCircle size="lg" />
+            <Member nostroke size="lg" />
           </Text>
 
           <ActivityProfileName profile={activity.target_profile} />

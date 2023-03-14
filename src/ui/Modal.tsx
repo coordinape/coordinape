@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 
 import * as Dialog from '@radix-ui/react-dialog';
 import { fadeIn, fadeOut, slideInRight, slideOutRight } from 'keyframes';
-import { CSS, styled } from 'stitches.config';
+import { CSS, dark, theme as light, styled } from 'stitches.config';
 
 import { X } from 'icons/__generated';
 
@@ -43,6 +43,7 @@ const Content = styled(Dialog.Content, {
   padding: '$2xl',
   margin: 'calc($xl * 2) auto $xl',
   position: 'relative',
+  color: '$text',
   variants: {
     drawer: {
       true: {
@@ -88,6 +89,7 @@ const Title = styled(Dialog.Title, {
 type ModalProps = {
   children: ReactNode;
   title?: string;
+  forceTheme?: string;
   css?: CSS;
   defaultOpen?: boolean;
   open?: boolean;
@@ -99,6 +101,7 @@ type ModalProps = {
 export const Modal = ({
   children,
   title,
+  forceTheme,
   onOpenChange,
   css = {},
   defaultOpen = false,
@@ -116,7 +119,14 @@ export const Modal = ({
     >
       <Dialog.Portal>
         <Overlay />
-        <Content drawer={drawer} css={css} loader={loader}>
+        <Content
+          className={
+            forceTheme === 'dark' ? dark : forceTheme === 'light' ? light : ''
+          }
+          drawer={drawer}
+          css={css}
+          loader={loader}
+        >
           {(showClose || showClose === undefined) && !loader && (
             <Close>
               <X size="lg" />

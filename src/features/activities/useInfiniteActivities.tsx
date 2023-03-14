@@ -49,6 +49,7 @@ const getActivities = async (where: Where, page: number) => {
             description: true,
             end_date: true,
             number: true,
+            ended: true,
           },
           reactions: [
             {},
