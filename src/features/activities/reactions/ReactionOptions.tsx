@@ -94,6 +94,7 @@ export const ReactionOptions = ({
               }
               css={{
                 borderColor: myReactions[r] ? '$neutral' : '$primary',
+                opacity: myReactions[r] ? 0.4 : 1,
                 width: 34,
                 height: 32,
                 position: 'relative',

@@ -113,6 +113,7 @@ export const ReactionBar = ({
         <ReactionButton
           onClick={() => setShowAddReaction(prev => !prev)}
           css={{
+            border: 'none',
             borderRadius: 9999,
             px: 2,
             py: 2,
