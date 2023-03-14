@@ -12,11 +12,11 @@
   animation: inherit;
   animation-timing-function: ease-out;
 }
-
+/* 
 .toggle-heart:checked + label:before {
   will-change: transform, border-width, border-color;
   animation-name: bubble;
-}
+} */
 
 /* .toggle-heart:checked + label:after {
   will-change: opacity, box-shadow;
