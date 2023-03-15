@@ -94,7 +94,7 @@ export const SideNav = () => {
           alignItems: 'center',
           justifyContent: 'space-between',
           gap: '$md',
-          mb: '$md',
+          mb: '$lg',
           button: { display: 'none' },
           position: 'relative',
           zIndex: '2',
@@ -133,7 +133,7 @@ export const SideNav = () => {
         css={{
           flex: 1,
           overflowY: 'auto',
-          pt: '$md',
+          pt: '$sm',
           // So focus outlines don't get cropped
           mx: '-3px',
           px: '3px',
