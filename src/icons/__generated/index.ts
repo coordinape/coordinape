@@ -54,6 +54,8 @@ export { default as Epoch } from './Epoch';
 export { default as EthColorLogo } from './EthColorLogo';
 export { default as EthLogo } from './EthLogo';
 export { default as ExternalLink } from './ExternalLink';
+export { default as EyeOff } from './EyeOff';
+export { default as Eye } from './Eye';
 export { default as FantomLogo } from './FantomLogo';
 export { default as FileText } from './FileText';
 export { default as Filter } from './Filter';
