@@ -34,7 +34,7 @@ context('Coordinape', () => {
         cy.get('[data-testid=collaborator-button]').click();
       });
     cy.wait('@api');
-    cy.wait(3000); // for additional re-rendering? test is flaky without this
+    cy.wait(6000); // for additional re-rendering? test is flaky without this
     cy.contains('Bruce')
       .parents('[data-testid=give-row]')
       .within(() => {
