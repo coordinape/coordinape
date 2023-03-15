@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 
 import { Text } from '../../../ui';
@@ -21,7 +20,6 @@ export const ReactionCounts = ({
         if (!rg) {
           return null;
         }
-        console.log(rg);
         return (
           <ReactionButton
             color="neutral"

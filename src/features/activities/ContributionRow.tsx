@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { DateTime } from 'luxon';
 
 import { usePathContext } from '../../routes/usePathInfo';

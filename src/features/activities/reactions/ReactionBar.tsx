@@ -1,9 +1,9 @@
-/* eslint-disable */
 import React, { useEffect, useState } from 'react';
 
 import { useMutation } from 'react-query';
 
 import { Smile } from '../../../icons/__generated';
+import { useMyProfile } from '../../../recoilState';
 import { Flex } from '../../../ui';
 import { Reaction } from '../useInfiniteActivities';
 
@@ -12,7 +12,6 @@ import { ReactionButton } from './ReactionButton';
 import { ReactionCounts } from './ReactionCounts';
 import { DEFAULT_REACTIONS, ReactionOptions } from './ReactionOptions';
 import '../heart.css';
-import { useMyProfile } from '../../../recoilState';
 
 export type ReactionGroup = {
   reaction: string;
@@ -28,8 +27,6 @@ export const ReactionBar = ({
   reactions: Reaction[];
 }) => {
   const { id: myProfileId } = useMyProfile();
-  // const { profileId: myProfileId } = useAuthStore();
-  console.log(myProfileId);
   const [currentReactions, setCurrentReactions] =
     useState<Reaction[]>(reactions);
   const [groupedReactions, setGroupedReactions] = useState<{
@@ -80,11 +77,9 @@ export const ReactionBar = ({
 
   const { mutate: deleteReaction } = useMutation(deleteReactionMutation, {
     onSuccess: id => {
-      console.log('deleteHappened');
       setCurrentReactions(prevState => prevState.filter(r => r.id !== id));
     },
     onSettled: () => {
-      console.log('deleteSettled');
       setShowAddReaction(false);
     },
   });
@@ -100,7 +95,6 @@ export const ReactionBar = ({
       {showAddReaction && (
         <ReactionOptions
           deleteReaction={(id: number) => {
-            console.log('NUMBO', id);
             deleteReaction(id);
           }}
           addReaction={addReaction}
@@ -134,11 +128,9 @@ export const ReactionBar = ({
         </ReactionButton>
         <ReactionCounts
           addReaction={(r: string) => {
-            console.log('ADDOOOOOO', r);
             addReaction(r);
           }}
           deleteReaction={(id: number) => {
-            console.log('NUMBOJumbo', id);
             deleteReaction(id);
           }}
           reactionGroups={DEFAULT_REACTIONS.map(
