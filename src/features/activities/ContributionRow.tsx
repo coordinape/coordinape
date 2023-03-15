@@ -25,14 +25,19 @@ export const ContributionRow = ({ activity }: { activity: Contribution }) => {
       >
         <ActivityAvatar profile={activity.actor_profile} />
         <Flex column css={{ flexGrow: 1, ml: '$md' }}>
-          <Flex css={{ gap: '$sm' }}>
+          <Flex
+            css={{
+              gap: '$sm',
+              justifyContent: 'space-between',
+            }}
+          >
             <Flex>
               <ActivityProfileName profile={activity.actor_profile} />
-              <Text size="small" css={{ mx: '$md', color: '$neutral' }}>
+              <Text size="small" css={{ color: '$neutral', ml: '$md' }}>
                 {DateTime.fromISO(activity.created_at).toRelative()}
               </Text>
-              {!inCircle && <CircleLogoWithName circle={activity.circle} />}
             </Flex>
+            {!inCircle && <CircleLogoWithName circle={activity.circle} />}
           </Flex>
 
           <MarkdownPreview

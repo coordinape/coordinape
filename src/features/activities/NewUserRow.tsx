@@ -35,7 +35,7 @@ export const NewUserRow = ({ activity }: { activity: NewUser }) => {
 
           <ActivityProfileName profile={activity.target_profile} />
           <Text inline color="neutral" size="small" css={{ mx: '$sm' }}>
-            has been added to
+            joined
           </Text>
           <CircleLogoWithName circle={activity.circle} variant="heading" />
           <Text inline size="small" css={{ ml: '$md', color: '$neutral' }}>
