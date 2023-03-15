@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
+import { useAuthStore } from 'features/auth';
 import { useMutation } from 'react-query';
 
 import { Smile } from '../../../icons/__generated';
-import { useMyProfile } from '../../../recoilState';
 import { Flex } from '../../../ui';
 import { Reaction } from '../useInfiniteActivities';
 
@@ -11,6 +11,7 @@ import { createReactionMutation, deleteReactionMutation } from './mutations';
 import { ReactionButton } from './ReactionButton';
 import { ReactionCounts } from './ReactionCounts';
 import { DEFAULT_REACTIONS, ReactionOptions } from './ReactionOptions';
+
 import '../heart.css';
 
 export type ReactionGroup = {
@@ -26,7 +27,7 @@ export const ReactionBar = ({
   activityId: number;
   reactions: Reaction[];
 }) => {
-  const { id: myProfileId } = useMyProfile();
+  const myProfileId = useAuthStore(state => state.profileId);
   const [currentReactions, setCurrentReactions] =
     useState<Reaction[]>(reactions);
   const [groupedReactions, setGroupedReactions] = useState<{

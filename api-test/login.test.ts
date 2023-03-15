@@ -5,11 +5,15 @@ import handler from '../api/login';
 import { generateMessage } from '../src/features/auth/login';
 import { provider } from '../src/utils/testing/provider';
 
-let res, address;
+let res, address, signer;
+
+// we pick a different address so we don't collide with other test data
+const ADDRESS_INDEX = 8;
 
 beforeEach(async () => {
   res = { status: jest.fn(() => res), json: jest.fn() };
-  address = await provider().getSigner().getAddress();
+  signer = provider().getSigner(ADDRESS_INDEX);
+  address = await signer.getAddress();
 });
 
 const sendMockReq = async (chainId: number, bad?: boolean) => {
@@ -20,7 +24,7 @@ const sendMockReq = async (chainId: number, bad?: boolean) => {
     data,
     hash: hashMessage(data),
     // need to use this because ganache doesn't support personal_sign
-    signature: await provider().getSigner()._legacySignMessage(data),
+    signature: await signer._legacySignMessage(data),
     connectorName: 'testing',
   };
 
@@ -45,12 +49,15 @@ test('allow login with valid signature', async () => {
   await sendMockReq(5);
   expect(res.json.mock.calls[0][0].token).toMatch(/\d+\|[A-Za-z0-9]{40}/);
 
-  const { profiles } = await adminClient.query({
-    profiles: [
-      { where: { address: { _eq: address.toLowerCase() } } },
-      { connector: true },
-    ],
-  });
+  const { profiles } = await adminClient.query(
+    {
+      profiles: [
+        { where: { address: { _eq: address.toLowerCase() } } },
+        { connector: true },
+      ],
+    },
+    { operationName: 'test' }
+  );
 
   expect(profiles[0]?.connector).toBe('testing');
 });

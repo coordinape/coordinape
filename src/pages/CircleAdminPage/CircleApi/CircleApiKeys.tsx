@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 
 import { ExternalLink } from '../../../icons/__generated';
-import { useSelectedCircleId } from '../../../recoilState';
 import { getConsoleUrl } from '../../../utils/apiKeyHelper';
 import { LoadingModal } from 'components';
 import { Button, Flex, Modal, Text } from 'ui';
@@ -14,11 +13,10 @@ import { ApiKeyRow } from './ApiKeyRow';
 import { deleteCircleApiKey } from './mutations';
 import { useCircleApiKeys } from './useCircleApiKeys';
 
-export const CircleApiKeys: React.FC = () => {
+export const CircleApiKeys = ({ circleId }: { circleId: number }) => {
   const [modal, setModal] = useState<'' | 'create' | 'display'>('');
   const [keyToDelete, setKeyToDelete] = useState('');
   const [displayedKey, setDisplayedKey] = useState('');
-  const circleId = useSelectedCircleId();
 
   const queryClient = useQueryClient();
 
