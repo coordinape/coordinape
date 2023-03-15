@@ -19,7 +19,7 @@ export const NavCircles = ({
   currentCircle: NavCircle | undefined;
 }) => {
   // this will need to change when we introduce roles on org_members directly
-  const isOrgAdmin = org.circles.some(isCircleAdmin);
+  const isOrgAdmin = org.myCircles.some(isCircleAdmin);
 
   return (
     <>
@@ -38,7 +38,7 @@ export const NavCircles = ({
           )
         }
       />
-      {org.circles.map(c => {
+      {org.myCircles.map(c => {
         const isCurrentCircle = currentCircle?.id == c.id;
         const isCircleMember = c.users.length > 0;
         return (
@@ -74,7 +74,7 @@ export const NavCircles = ({
                   {c.name}
                 </Text>
                 <IconButton>
-                  {isCurrentCircle || org.circles.length == 1 ? (
+                  {isCurrentCircle || org.myCircles.length == 1 ? (
                     <ChevronDown />
                   ) : (
                     <ChevronRight />
@@ -82,7 +82,7 @@ export const NavCircles = ({
                 </IconButton>
               </Flex>
             )}
-            {(isCurrentCircle || org.circles.length == 1) && (
+            {(isCurrentCircle || org.myCircles.length == 1) && (
               <NavCurrentCircle key={'currentCircle'} circle={c} />
             )}
           </Box>

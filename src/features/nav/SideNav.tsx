@@ -36,7 +36,7 @@ export const SideNav = () => {
 
     for (const o of orgs) {
       if (circleId) {
-        for (const c of o.circles) {
+        for (const c of o.myCircles) {
           if (c.id == +circleId) {
             setCurrentCircle(c);
             setCurrentOrg(o);
