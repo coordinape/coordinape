@@ -10,7 +10,8 @@ export const ActivityProfileName = ({
 }) => {
   return (
     <Text
-      variant="label"
+      color="heading"
+      semibold
       as={NavLink}
       css={{ textDecoration: 'none' }}
       to={paths.profile(profile.address)}

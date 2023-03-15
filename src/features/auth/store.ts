@@ -49,7 +49,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   step: 'reuse',
   setStep: (step: Step) => set({ step }),
-
   profileId: undefined,
   setProfileId: (profileId: number) => set({ profileId }),
 }));

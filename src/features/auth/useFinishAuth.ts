@@ -47,6 +47,7 @@ export const useFinishAuth = () => {
         logger.log('got new auth data:', loginData);
         setSavedAuth(address, { connectorName, ...loginData });
         profileId = loginData.id;
+        setProfileId(profileId);
       }
 
       assert(profileId, 'missing profile ID after login');

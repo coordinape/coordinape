@@ -34,6 +34,7 @@ const getActivities = async (where: Where, page: number) => {
           circle: {
             id: true,
             name: true,
+            logo: true,
           },
           target_profile: {
             name: true,
@@ -48,6 +49,7 @@ const getActivities = async (where: Where, page: number) => {
             description: true,
             end_date: true,
             number: true,
+            ended: true,
           },
           reactions: [
             {},
@@ -104,19 +106,22 @@ export function IsNewUser(a: Activity): a is NewUser {
   return a.action == 'users_insert' && !!a.target_profile && !!a.circle;
 }
 
-export type EpochCreated = Activity & Required<Pick<Activity, 'epoch'>>;
+export type EpochCreated = Activity &
+  Required<Pick<Activity, 'epoch' | 'circle'>>;
 export function IsEpochCreated(a: Activity): a is EpochCreated {
-  return a.action == 'epochs_insert' && !!a.epoch;
+  return a.action == 'epochs_insert' && !!a.epoch && !!a.circle;
 }
 
-export type EpochEnded = Activity & Required<Pick<Activity, 'epoch'>>;
+export type EpochEnded = Activity &
+  Required<Pick<Activity, 'epoch' | 'circle'>>;
 export function IsEpochEnded(a: Activity): a is EpochEnded {
-  return a.action == 'epochs_ended' && !!a.epoch;
+  return a.action == 'epochs_ended' && !!a.epoch && !!a.circle;
 }
 
-export type EpochStarted = Activity & Required<Pick<Activity, 'epoch'>>;
+export type EpochStarted = Activity &
+  Required<Pick<Activity, 'epoch' | 'circle'>>;
 export function IsEpochStarted(a: Activity): a is EpochStarted {
-  return a.action == 'epochs_started' && !!a.epoch;
+  return a.action == 'epochs_started' && !!a.epoch && !!a.circle;
 }
 
 export type Reaction = Activity['reactions'][number];

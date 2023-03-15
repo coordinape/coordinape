@@ -1,0 +1,148 @@
+.toggle-heart {
+  position: absolute;
+  left: -100vw;
+}
+
+.toggle-heart:checked + label:before, .toggle-heart:checked + label:after {
+  animation: inherit;
+  animation-timing-function: ease-out;
+}
+
+/* this one doesn't move */
+.expando0 {
+  z-index: 12;
+}
+
+/* this one is the growing one */
+.toggle-heart:checked ~ label .expando1 {
+  z-index: 13;
+  will-change: opacity, scale;
+  animation-name: expando;
+  animation: expando 0.4s ease-in-out;
+}
+
+
+/* these form the burst */
+.expando2, 
+.expando3, 
+.expando4, 
+.expando5, 
+.expando6, 
+.expando7, 
+.expando8, 
+.expando9,
+.expando10,
+.expando11,
+.expando12,
+.expando13,
+.expando14,
+.expando15
+{
+  opacity: 0;
+  scale: 0.7;
+  z-index: 12;
+}
+
+.toggle-heart:checked ~ label .expando2 {  opacity: 1; animation: burst2 0.5s ease-in-out }
+.toggle-heart:checked ~ label .expando3 {  opacity: 1; animation: burst3 0.5s ease-in-out }
+.toggle-heart:checked ~ label .expando4 {  opacity: 1; animation: burst4 0.5s ease-in-out }
+.toggle-heart:checked ~ label .expando5 {  opacity: 1; animation: burst5 0.5s ease-in-out }
+.toggle-heart:checked ~ label .expando6 {  opacity: 1; animation: burst6 0.5s ease-in-out }
+.toggle-heart:checked ~ label .expando7 {  opacity: 1; animation: burst7 0.5s ease-in-out }
+.toggle-heart:checked ~ label .expando8 {  opacity: 1; animation: burst8 0.5s ease-in-out }
+.toggle-heart:checked ~ label .expando9 {  opacity: 1; animation: burst9 0.5s ease-in-out }
+.toggle-heart:checked ~ label .expando10 {  opacity: 1; animation: burst10 0.5s ease-in-out }
+.toggle-heart:checked ~ label .expando11 {  opacity: 1; animation: burst11 0.5s ease-in-out }
+.toggle-heart:checked ~ label .expando12 {  opacity: 1; animation: burst12 0.5s ease-in-out }
+.toggle-heart:checked ~ label .expando13 {  opacity: 1; animation: burst13 0.5s ease-in-out }
+.toggle-heart:checked ~ label .expando14 {  opacity: 1; animation: burst14 0.5s ease-in-out }
+.toggle-heart:checked ~ label .expando15 {  opacity: 1; animation: burst15 0.5s ease-in-out }
+
+@keyframes burst2 {  
+  0% {transform: translate(0,0); opacity: 1}
+  /* 1% {transform: translate(0.4rem, -3.4rem)rotate(80deg); opacity: 1;}  */
+  100% {transform: translate(0.4rem, -4.4rem)rotate(80deg); opacity: 0;} 
+}
+@keyframes burst3 {  
+  0% {transform: translate(0,0); opacity: 1}
+  /* 1% {transform: translate(2.7rem, -3.8rem)rotate(-50deg); opacity: 1;}  */
+  100% {transform: translate(2.7rem, -3.8rem)rotate(-50deg); opacity: 0;} 
+}
+@keyframes burst4 {  
+  0% {transform: translate(0,0); opacity: 1}
+  /* 1% {transform: translate(2.9rem, -2.2rem)rotate(-130deg); opacity: 1;}  */
+  100% {transform: translate(2.9rem, -2.2rem)rotate(-130deg); opacity: 0;} 
+}
+@keyframes burst5 {  
+  0% {transform: translate(0,0); opacity: 1}
+  /* 1% {transform: translate(3.8rem, -0.4rem)rotate(150deg); opacity: 1;}  */
+  100% {transform: translate(3.8rem, -0.4rem)rotate(150deg); opacity: 0;} 
+}
+@keyframes burst6 {  
+  0% {transform: translate(0,0); opacity: 1}
+  /* 1% {transform: translate(3.2rem, 1.4rem)rotate(170deg); opacity: 1;}  */
+  100% {transform: translate(3.2rem, 1.4rem)rotate(170deg); opacity: 0;} 
+}
+@keyframes burst7 {  
+  0% {transform: translate(0,0); opacity: 1}
+  /* 1% {transform: translate(1.6rem, 2.8rem)rotate(-40deg); opacity: 1;}  */
+  100% {transform: translate(1.6rem, 2.8rem)rotate(-40deg); opacity: 0;} 
+}
+@keyframes burst8 {  
+  0% {transform: translate(0,0); opacity: 1}
+  /* 1% {transform: translate(0.2rem, 3.2rem)rotate(90deg); opacity: 1;}  */
+  100% {transform: translate(0.2rem, 3.2rem)rotate(90deg); opacity: 0;} 
+}
+@keyframes burst9 {  
+  0% {transform: translate(0,0); opacity: 1}
+  /* 1% {transform: translate(-1.2rem, 2.2rem)rotate(-130deg); opacity: 1;}  */
+  100% {transform: translate(-1.2rem, 2.2rem)rotate(-130deg); opacity: 0;} 
+}
+@keyframes burst10 {  
+  0% {transform: translate(0,0); opacity: 1}
+  /* 1% {transform: translate(-2.4rem, 2.9rem)rotate(-20deg); opacity: 1;}  */
+  100% {transform: translate(-2.4rem, 2.9rem)rotate(-20deg); opacity: 0;} 
+}
+@keyframes burst11 {  
+  0% {transform: translate(0,0); opacity: 1}
+  /* 1% {transform: translate(-3.3rem, 0.9rem)rotate(120deg); opacity: 1;}  */
+  100% {transform: translate(-3.3rem, 0.9rem)rotate(120deg); opacity: 0;} 
+}
+@keyframes burst12 {  
+  0% {transform: translate(0,0); opacity: 1}
+  /* 1% {transform: translate(-3.4rem, -1.4rem)rotate(45deg); opacity: 1;}  */
+  100% {transform: translate(-3.4rem, -1.4rem)rotate(45deg); opacity: 0;} 
+}
+@keyframes burst13 {  
+  0% {transform: translate(0,0); opacity: 1}
+  /* 1% {transform: translate(-2.7rem, -3.4rem)rotate(80deg); opacity: 1;}  */
+  100% {transform: translate(-2.7rem, -3.4rem)rotate(80deg); opacity: 0;} 
+}-
+@keyframes burst14 {  
+  0% {transform: translate(0,0); opacity: 1}
+  /* 1% {transform: translate(-1.4rem, -3.8rem)rotate(180deg); opacity: 1;}  */
+  100% {transform: translate(-1.4rem, -3.8rem)rotate(180deg); opacity: 0;} 
+}
+@keyframes burst15 {  
+  0% {transform: translate(0,0); opacity: 1}
+  /* 1% {transform: translate(-.9rem, -4.3rem)rotate(5deg); opacity: 1;}  */
+  100% {transform: translate(-.9rem, -4.3rem)rotate(5deg); opacity: 0;} 
+}
+
+.heart-label {
+  align-self: center;
+  position: relative;
+  font-size: 2em;
+  user-select: none;
+  cursor: pointer;
+}
+
+@keyframes expando {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(12);
+    opacity: 0;
+  }
+}

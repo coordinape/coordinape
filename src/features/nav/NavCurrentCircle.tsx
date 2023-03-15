@@ -1,10 +1,10 @@
 import { isFeatureEnabled } from '../../config/features';
 import {
+  Activity,
   Circle2,
   Edit2,
   Epoch,
   Give,
-  List,
   Member,
   Settings,
 } from '../../icons/__generated';
@@ -47,7 +47,7 @@ export const NavCurrentCircle = ({ circle }: { circle: NavCircle }) => {
         <NavItem
           label="Activity"
           to={paths.activity(circle.id)}
-          icon={<List />}
+          icon={<Activity />}
         />
       )}
       {isCircleMember && (

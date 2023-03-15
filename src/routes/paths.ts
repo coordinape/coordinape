@@ -73,6 +73,7 @@ export const paths = {
   vaults: '/vaults',
   vaultTxs: (address: string) => `${paths.vaults}/${address}/txs`,
   organization: (orgId: string) => `/organizations/${orgId}`,
+  orgActivity: orgPath('activity'),
   organizationSettings: orgPath(`settings`),
   vaultsForOrg: orgPath(`vaults`),
   orgMembers: orgPath(`members`),

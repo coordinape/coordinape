@@ -84,3 +84,9 @@ export const useShowGive = (circleId: number) => {
   );
   return circle?.show_pending_gives || !currentEpoch;
 };
+
+export const useIsInCircle = (circleId: number) => {
+  const manifest = useRecoilValue(rManifest);
+  const user = manifest.myProfile.myUsers.find(u => u.circle_id === circleId);
+  return !!user?.role;
+};
