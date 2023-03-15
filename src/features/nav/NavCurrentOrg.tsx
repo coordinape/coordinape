@@ -1,4 +1,3 @@
-import { isFeatureEnabled } from '../../config/features';
 import { Activity, DollarSign, Member } from '../../icons/__generated';
 import { paths } from '../../routes/paths';
 import { Box } from '../../ui';
