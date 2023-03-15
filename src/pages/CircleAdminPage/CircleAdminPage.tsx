@@ -969,7 +969,7 @@ export const CircleAdminPage = () => {
         <Panel css={panelStyles}>
           <Text h2>Circle API Keys</Text>
           <Panel css={{ p: '$sm 0' }}>
-            <CircleApiKeys />
+            <CircleApiKeys circleId={circleId} />
           </Panel>
         </Panel>
         <Panel css={panelStyles}>

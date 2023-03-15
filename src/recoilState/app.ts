@@ -53,7 +53,7 @@ export const rCirclesMap = selector({
   get: async ({ get }) => iti(get(rManifest).circles).toMap(c => c.id),
 });
 
-export const rEpochsMap = selector({
+const rEpochsMap = selector({
   key: 'rEpochsMap',
   get: async ({ get }) => {
     const result = iti(get(rManifest).epochs).toMap(e => e.id);
@@ -62,7 +62,7 @@ export const rEpochsMap = selector({
   },
 });
 
-export const rNomineesMap = selector({
+const rNomineesMap = selector({
   key: 'rNomineesMap',
   get: async ({ get }) => get(rFullCircle).nomineesMap,
 });
@@ -83,7 +83,7 @@ export const rGiftsMap = selector({
   get: async ({ get }) => get(rFullCircle).giftsMap,
 });
 
-export const rProfile = selectorFamily({
+const rProfile = selectorFamily({
   key: 'rProfile',
   get: (address: string) => async () => {
     const profile = await queryProfile(address);
@@ -91,7 +91,7 @@ export const rProfile = selectorFamily({
   },
 });
 
-export const rCircle = selectorFamily<ICircleState, number | undefined>({
+const rCircle = selectorFamily<ICircleState, number | undefined>({
   key: 'rCircle',
   get:
     circleId =>
@@ -141,7 +141,7 @@ export const rSelectedCircle = selector({
   get: ({ get }) => get(rCircle(get(rSelectedCircleId))),
 });
 
-export const rCircleEpochs = selectorFamily<IEpoch[], number>({
+const rCircleEpochs = selectorFamily<IEpoch[], number>({
   key: 'rCircleEpochs',
   get:
     (circleId: number) =>
@@ -225,7 +225,7 @@ type ExtractRecoilType<P> = P extends (a: any) => RecoilValueReadOnly<infer T>
   ? T
   : never;
 
-export interface ICircleState {
+interface ICircleState {
   circleId: number;
   circle: ICircle;
   myUser: IMyUser | undefined;
@@ -234,13 +234,15 @@ export interface ICircleState {
   activeNominees: INominee[];
 }
 
+// DEPRECATED
 export const useMyProfile = () => useRecoilValue(rManifest).myProfile;
-export const useSelectedCircleId = () => useRecoilValue(rSelectedCircleId);
-export const useCircle = (id: number | undefined) =>
-  useRecoilValue(rCircle(id));
 
-export const useSelectedCircle = () =>
-  useRecoilValue(rCircle(useSelectedCircleId()));
+// DEPRECATED
+export const useSelectedCircle = () => {
+  const circleId = useRecoilValue(rSelectedCircleId);
+  return useRecoilValue(rCircle(circleId));
+};
 
+// DEPRECATED
 export const useProfile = (address: string) =>
   useRecoilValue(rProfile(address));
