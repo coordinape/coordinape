@@ -25,7 +25,7 @@ export const EpochCreatedRow = ({ activity }: { activity: EpochCreated }) => {
         />
       </Box>
       <Avatar
-        size="medium"
+        size="small"
         css={{ flexShrink: 0, mr: '$sm' }}
         name={activity.circle.name}
         path={activity.circle.logo}

@@ -1,11 +1,15 @@
 import { DateTime } from 'luxon';
+import { NavLink } from 'react-router-dom';
 
 import { Epoch } from '../../icons/__generated';
-import { Avatar, Box, Flex, Text } from '../../ui';
+import { Avatar, Box, Button, Flex, Text } from '../../ui';
+import { useIsInCircle } from 'hooks/migration';
+import { paths } from 'routes/paths';
 
 import { EpochEnded } from './useInfiniteActivities';
 
 export const EpochEndedRow = ({ activity }: { activity: EpochEnded }) => {
+  const showButton = useIsInCircle(activity.circle.id);
   return (
     <Flex
       css={{
@@ -22,23 +26,37 @@ export const EpochEndedRow = ({ activity }: { activity: EpochEnded }) => {
         <Epoch
           size="2xl"
           nostroke
-          css={{ mr: '$sm', ml: '-$lg', color: '$cta' }}
+          css={{
+            mr: '$sm',
+            ml: '-$lg',
+            color: '$cta',
+            transform: 'rotate(180deg)',
+          }}
         />
       </Box>
       <Avatar
-        size="medium"
+        size="small"
         css={{ flexShrink: 0, mr: '$sm' }}
         name={activity.circle.name}
         path={activity.circle.logo}
       />
       <Flex column>
-        <Flex>
+        <Flex alignItems="center">
           <Text inline color="cta" size="small">
             Epoch {activity.epoch.number} Ended
           </Text>
           <Text inline size="small" css={{ ml: '$xs', color: '$neutral' }}>
             {DateTime.fromISO(activity.created_at).toRelative()}
           </Text>
+          {showButton && activity.epoch.ended && (
+            <Button
+              as={NavLink}
+              to={paths.history(activity.circle.id)}
+              css={{ ml: '$md' }}
+            >
+              Review
+            </Button>
+          )}
         </Flex>
         <Text>{activity.epoch.description} </Text>
       </Flex>
