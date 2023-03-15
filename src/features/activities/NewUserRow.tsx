@@ -27,7 +27,7 @@ export const NewUserRow = ({ activity }: { activity: NewUser }) => {
         {/*  <Plus size="lg" />*/}
         {/*</Box>*/}
       </Box>
-      <Flex css={{ flexGrow: 1, ml: '$2xl' }}>
+      <Flex css={{ flexGrow: 1, ml: 'calc($lg - 4px)' }}>
         <Flex alignItems="center">
           <Text css={{ mr: '$md' }}>
             <Member nostroke size="lg" />
