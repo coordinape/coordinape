@@ -1,8 +1,9 @@
+import assert from 'assert';
 import React, { useState, useMemo, useEffect } from 'react';
 
+import { isUserAdmin } from 'lib/users';
 import { useQuery } from 'react-query';
-import { useNavigate } from 'react-router';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { disabledStyle } from 'stitches.config';
 
 import { NEW_CIRCLE_CREATED_PARAMS } from '../CreateCirclePage/CreateCirclePage';
@@ -11,29 +12,15 @@ import { useToast, useApiAdminCircle } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { Search } from 'icons/__generated';
-import {
-  getCircleSettings,
-  QUERY_KEY_CIRCLE_SETTINGS,
-} from 'pages/CircleAdminPage/getCircleSettings';
-import {
-  getFixedPayment,
-  QUERY_KEY_FIXED_PAYMENT,
-} from 'pages/CircleAdminPage/getFixedPayment';
-import { useSelectedCircle } from 'recoilState/app';
 import { paths } from 'routes/paths';
 import { Button, ContentHeader, Flex, Modal, Panel, Text, TextField } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import {
-  getActiveNominees,
-  QUERY_KEY_ACTIVE_NOMINEES,
-} from './getActiveNominees';
-import {
-  getCircleUsers,
-  ICircleUser,
-  QUERY_KEY_CIRCLE_USERS,
-} from './getCircleUsers';
-import { LeaveCircleModal } from './LeaveCircleModal';
+  getMembersPageData,
+  QueryUser,
+  QUERY_KEY_GET_MEMBERS_PAGE_DATA,
+} from './getMembersPageData';
 import { MembersTable } from './MembersTable';
 import { NomineesTable } from './NomineeTable';
 
@@ -50,9 +37,6 @@ const MembersPage = () => {
   const [deleteUserDialog, setDeleteUserDialog] = useState<
     IDeleteUser | undefined
   >(undefined);
-  const [leaveCircleDialog, setLeaveCircleDialog] = useState<
-    IDeleteUser | undefined
-  >(undefined);
   const [newCircle, setNewCircle] = useState<boolean>(false);
 
   useEffect(() => {
@@ -62,134 +46,53 @@ const MembersPage = () => {
     }
   }, []);
 
-  const {
-    circleId,
-    circle: selectedCircle,
-    circleEpochsStatus,
-  } = useSelectedCircle();
+  const params = useParams();
+  assert(params.circleId, 'missing circleId param');
+  const circleId = Number.parseInt(params.circleId);
+
+  const { error, data, refetch } = useQuery(
+    [QUERY_KEY_GET_MEMBERS_PAGE_DATA, circleId],
+    () => {
+      assert(circleId);
+      return getMembersPageData(circleId);
+    },
+    {
+      enabled: !!circleId,
+      refetchOnWindowFocus: false,
+      staleTime: Infinity,
+    }
+  );
+
+  useEffect(() => {
+    if (error instanceof Error) showError(error.message);
+  }, [error]);
 
   const address = useConnectedAddress();
-  const navigate = useNavigate();
-
-  const {
-    isError: circleSettingsHasError,
-    error: circleSettingsError,
-    data: circle,
-  } = useQuery(
-    [QUERY_KEY_CIRCLE_SETTINGS, circleId],
-    () => getCircleSettings(circleId),
-    {
-      initialData: selectedCircle,
-      enabled: !!circleId,
-      refetchOnWindowFocus: false,
-      staleTime: Infinity,
-      notifyOnChangeProps: ['data'],
-    }
-  );
-
-  const {
-    isError: activeNomineesHasError,
-    error: activeNomineesError,
-    data: activeNominees,
-    refetch: refetchNominees,
-  } = useQuery(
-    [QUERY_KEY_ACTIVE_NOMINEES, circleId],
-    () => getActiveNominees(circleId),
-    {
-      // the query will not be executed untill circleId exists
-      enabled: !!circleId,
-
-      //minmize background refetch
-      refetchOnWindowFocus: false,
-      staleTime: Infinity,
-      notifyOnChangeProps: ['data'],
-    }
-  );
-
-  const {
-    isError: circleUsersHasError,
-    error: circleUsersError,
-    data: visibleUsers,
-  } = useQuery(
-    [QUERY_KEY_CIRCLE_USERS, circleId],
-    () => getCircleUsers(circleId),
-    {
-      // the query will not be executed untill circleId exists
-      enabled: !!circleId,
-      notifyOnChangeProps: ['data'],
-    }
-  );
-
-  const {
-    isError: fixedPaymentHasError,
-    error: fixedPaymentError,
-    data: fixedPayment,
-  } = useQuery(
-    [QUERY_KEY_FIXED_PAYMENT, circleId],
-    () => getFixedPayment(circleId),
-    {
-      // the query will not be executed untill circleId exists
-      enabled: !!circleId,
-      //minmize background refetch
-      refetchOnWindowFocus: false,
-      staleTime: Infinity,
-      notifyOnChangeProps: ['data'],
-    }
-  );
-
-  const onChangeKeyword = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setKeyword(event.target.value);
-  };
-
   const { deleteUser } = useApiAdminCircle(circleId);
 
   // User Columns
   const filterUser = useMemo(
-    () => (u: ICircleUser) => {
+    () => (u: QueryUser) => {
       const r = new RegExp(keyword, 'i');
       return r.test(u.profile?.name) || r.test(u.address);
     },
     [keyword]
   );
 
-  const refetch = () => {
-    refetchNominees();
-  };
+  const circle = data?.circles_by_pk;
+  if (!circle) return <LoadingModal visible />;
 
-  if (!activeNominees || !circle || !fixedPayment || !visibleUsers)
-    return <LoadingModal visible />;
+  const { nominees, users } = circle;
 
-  const me = visibleUsers.find(
+  const me = users?.find(
     user => user.address.toLowerCase() === address?.toLocaleLowerCase()
   );
 
-  if (!me) {
-    navigate(paths.circles);
-    return <></>;
-  }
-  const nomineeCount = activeNominees?.length || 0;
-  const cannotVouch = circle?.only_giver_vouch && me.non_giver;
+  const isCircleAdmin = isUserAdmin(me);
+  const nomineeCount = nominees?.length || 0;
+  const userCount = users?.length || 0;
+  const cannotVouch = !me || (circle.only_giver_vouch && me.non_giver);
 
-  if (activeNomineesHasError) {
-    if (activeNomineesError instanceof Error) {
-      showError(activeNomineesError.message);
-    }
-  }
-  if (circleUsersHasError) {
-    if (circleUsersError instanceof Error) {
-      showError(circleUsersError.message);
-    }
-  }
-  if (circleSettingsHasError) {
-    if (circleSettingsError instanceof Error) {
-      showError(circleSettingsError.message);
-    }
-  }
-  if (fixedPaymentHasError) {
-    if (fixedPaymentError instanceof Error) {
-      showError(fixedPaymentError.message);
-    }
-  }
   return (
     <SingleColumnLayout>
       <ContentHeader>
@@ -210,16 +113,12 @@ const MembersPage = () => {
           >
             <Text size={'small'} css={{ color: '$headingText' }}>
               <Text>
-                {visibleUsers.length} Member
-                {visibleUsers.length > 1 ? 's' : ''}
+                {userCount} Member{userCount > 1 ? 's' : ''}
               </Text>
-              {circle?.vouching && (
+              {circle.vouching && (
                 <>
                   <Text
-                    css={{
-                      whiteSpace: 'pre-wrap',
-                      color: '$secondaryText',
-                    }}
+                    css={{ whiteSpace: 'pre-wrap', color: '$secondaryText' }}
                   >
                     {' | '}
                   </Text>
@@ -229,19 +128,15 @@ const MembersPage = () => {
                 </>
               )}
             </Text>
-            {me.isCircleAdmin && (
-              <Button
-                as={NavLink}
-                to={paths.membersAdd(selectedCircle.id)}
-                color="cta"
-              >
+            {isCircleAdmin && (
+              <Button as={NavLink} to={paths.membersAdd(circleId)} color="cta">
                 Add Members
               </Button>
             )}
-            {circle?.hasVouching && (
+            {circle.vouching && (
               <Button
                 as={NavLink}
-                to={paths.membersNominate(selectedCircle.id)}
+                to={paths.membersNominate(circleId)}
                 color="cta"
                 tabIndex={cannotVouch ? -1 : 0}
                 css={cannotVouch ? disabledStyle : {}}
@@ -253,13 +148,12 @@ const MembersPage = () => {
         )}
       </ContentHeader>
 
-      {circle?.vouching && (
+      {circle.vouching && (
         <NomineesTable
-          refetchNominees={refetch}
+          refetch={refetch}
           isNonGiverVoucher={circle?.only_giver_vouch}
           myUser={me}
-          nominees={activeNominees}
-          vouchingText={circle.vouchingText}
+          nominees={nominees}
         />
       )}
       <Panel css={{ p: '$lg' }}>
@@ -272,7 +166,9 @@ const MembersPage = () => {
             <TextField
               inPanel
               size="sm"
-              onChange={onChangeKeyword}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                setKeyword(event.target.value)
+              }
               placeholder="Search"
               value={keyword}
             />
@@ -280,14 +176,12 @@ const MembersPage = () => {
         </Flex>
         {circle && (
           <MembersTable
-            visibleUsers={visibleUsers}
+            users={users}
             myUser={me}
             circle={circle}
             filter={filterUser}
             perPage={15}
-            fixedPayment={fixedPayment}
             setDeleteUserDialog={setDeleteUserDialog}
-            setLeaveCircleDialog={setLeaveCircleDialog}
           />
         )}
       </Panel>
@@ -298,9 +192,9 @@ const MembersPage = () => {
       >
         <Flex column alignItems="start" css={{ gap: '$md' }}>
           <Text p>
-            {selectedCircle.organization.sample &&
+            {circle.organization.sample &&
             /* this length check is the only way to know that this was the prepopulated circle */
-            visibleUsers.length > 2 ? (
+            userCount > 2 ? (
               <>
                 We’ve set you up with a sample circle prepopulated with members
                 and data. Feel free to add real people and experiment! Make your
@@ -309,7 +203,7 @@ const MembersPage = () => {
             ) : (
               <>
                 You’ll need to add your teammates to your circle and schedule an
-                epoch before you can start allocating {circle?.tokenName}.
+                epoch before you can start allocating {circle.token_name}.
               </>
             )}
           </Text>
@@ -339,13 +233,6 @@ const MembersPage = () => {
           </Button>
         </Flex>
       </Modal>
-      <LeaveCircleModal
-        epochIsActive={circleEpochsStatus.epochIsActive}
-        leaveCircleDialog={leaveCircleDialog}
-        setLeaveCircleDialog={setLeaveCircleDialog}
-        circleName={circle?.name}
-        circleId={circle?.id}
-      ></LeaveCircleModal>
     </SingleColumnLayout>
   );
 };

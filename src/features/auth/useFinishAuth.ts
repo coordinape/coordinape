@@ -51,6 +51,7 @@ export const useFinishAuth = () => {
       }
 
       assert(profileId, 'missing profile ID after login');
+      setProfileId(profileId);
 
       // Send a truncated address to sentry to help us debug customer issues
       Sentry.setTag(

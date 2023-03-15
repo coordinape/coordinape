@@ -1,9 +1,9 @@
 import { lazy, Suspense } from 'react';
 
-import { RequireAuth } from 'features/auth';
+import { RequireAuth, useLoginData } from 'features/auth';
 import { MintPage, SplashPage } from 'features/cosoul';
 import CoSoulLayout from 'features/cosoul/CoSoulLayout';
-import { OrgPage, OrgSettingsPage, OrgMembersPage } from 'features/orgs';
+import { OrgPage, OrgSettingsPage } from 'features/orgs';
 import { isUserAdmin, isUserMember } from 'lib/users';
 import {
   Navigate,
@@ -41,6 +41,7 @@ import HistoryPage from 'pages/HistoryPage';
 import IntegrationCallbackPage from 'pages/IntegrationCallbackPage';
 import MembersPage from 'pages/MembersPage';
 import { NewNominationPage } from 'pages/NewNominationPage/NewNominationPage';
+import OrgMembersPage from 'pages/OrgMembersPage';
 import ProfilePage from 'pages/ProfilePage';
 import VaultsPage from 'pages/VaultsPage';
 import { VaultTransactions } from 'pages/VaultsPage/VaultTransactions';
@@ -57,6 +58,17 @@ const LazyAssetMapPage = lazy(() => import('pages/AssetMapPage'));
 const LoggedInRoutes = () => {
   return (
     <Routes>
+      <Route path={paths.organization(':orgId')} element={<OrgRouteHandler />}>
+        <Route path="members" element={<OrgMembersPage />} />
+      </Route>
+
+      {/* circle routes that all org members can view */}
+      <Route path="circles/:circleId" element={<OrgRouteHandler />}>
+        <Route path="activity" element={<CircleActivityPage />} />
+        <Route path="members" element={<MembersPage />} />
+      </Route>
+
+      {/* circle routes that are only for circle members */}
       <Route path="circles/:circleId" element={<CircleRouteHandler />}>
         <Route path="history" element={<HistoryPage />} />
         <Route path="give" element={<GivePage />} />
@@ -64,7 +76,6 @@ const LoggedInRoutes = () => {
           <Route path="" element={<LazyAssetMapPage />} />
         </Route>
         <Route path="contributions" element={<ContributionsPage />} />
-        <Route path="members" element={<MembersPage />} />
         <Route path="members/add" element={<AdminRouteHandler />}>
           <Route path="" element={<AddMembersPage />} />
         </Route>
@@ -78,9 +89,7 @@ const LoggedInRoutes = () => {
             element={<IntegrationCallbackPage />}
           />
         </Route>
-
         <Route path="distributions/:epochId" element={<DistributionsPage />} />
-        <Route path="activity" element={<CircleActivityPage />} />
       </Route>
 
       <Route path={paths.claims} element={<ClaimsPage />} />
@@ -96,7 +105,6 @@ const LoggedInRoutes = () => {
         <Route path="" element={<OrgPage />} />
         <Route path="settings" element={<OrgSettingsPage />} />
         <Route path="vaults" element={<VaultsPage />} />
-        <Route path="members" element={<OrgMembersPage />} />
       </Route>
 
       <Route
@@ -195,16 +203,39 @@ const Redirect = ({ to, note = '' }: { to: string; note?: string }) => {
   return <Navigate to={to} replace />;
 };
 
+const OrgRouteHandler = () => {
+  const params = useParams();
+  const circleId = Number(params.circleId);
+  const orgId = Number(params.orgId);
+
+  // FIXME after org membership assignment is up & running, the circle check
+  // here will be redundant and should be removed
+  const role = useRoleInCircle(circleId);
+  const isInCircle = isUserMember({ role }) || isUserAdmin({ role });
+  const profile = useLoginData();
+
+  const isInOrg = profile?.org_members.some(m =>
+    circleId
+      ? m.organization.circles.some(c => c.id === circleId)
+      : m.org_id === orgId
+  );
+
+  const ready = useFixCircleState(isInOrg || isInCircle ? circleId : undefined);
+
+  if (!isInOrg && !isInCircle)
+    return <Redirect to={paths.home} note="not in circle or org" />;
+  return ready ? <Outlet /> : null;
+};
+
 const CircleRouteHandler = () => {
   const params = useParams();
   const circleId = Number(params.circleId);
   const role = useRoleInCircle(circleId);
   const isInCircle = isUserMember({ role }) || isUserAdmin({ role });
-
-  useFixCircleState(isInCircle ? circleId : undefined);
+  const ready = useFixCircleState(isInCircle ? circleId : undefined);
 
   if (!isInCircle) return <Redirect to={paths.home} note="not in circle" />;
-  return <Outlet />;
+  return ready ? <Outlet /> : null;
 };
 
 const AdminRouteHandler = () => {

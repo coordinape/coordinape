@@ -5,21 +5,19 @@ import { useReceiveInfo } from 'pages/HistoryPage/useReceiveInfo';
 
 export const NavCurrentCircleGiveCount = ({
   circleId,
-  userId,
-  role,
+  user,
   css,
 }: {
   circleId: number;
-  userId: number;
-  role: number;
+  user?: { id: number; role: number };
   css?: CSS;
 }) => {
   const { showGives, tokenName, visibleGive } = useReceiveInfo(
     circleId,
-    userId
+    user?.id
   );
 
-  if (!showGives && !isUserAdmin({ role })) {
+  if (!user || (!showGives && !isUserAdmin(user))) {
     return <></>;
   }
 

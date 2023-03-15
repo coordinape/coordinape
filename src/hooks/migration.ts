@@ -3,7 +3,7 @@
 //
 // If at all possible, write new code that uses Recoil only in this file.
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useRecoilValue, useRecoilState, useRecoilValueLoadable } from 'recoil';
 
@@ -27,20 +27,30 @@ export const useFixCircleState = (circleId: number | undefined) => {
   const fullCircles = useRecoilValue(rApiFullCircle);
   const [, setCircleIdSource] = useRecoilState(rSelectedCircleIdSource);
   const { fetchCircle } = useApiBase();
+  logger.log(`useFixCircleState, circle id: ${circleId}`);
+
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    if (!circleId) return;
+    if (!circleId) {
+      setReady(true);
+      return;
+    }
 
     if (circleId === recoilValue?.circle.id) {
       logger.log(`circle ids match`);
+      setReady(true);
     } else if (fullCircles.has(circleId)) {
       logger.log(`reusing circle data: ${circleId}`);
       setCircleIdSource(circleId);
+      setReady(true);
     } else {
       logger.log(`fetching circle data: ${circleId}`);
-      fetchCircle({ circleId, select: true });
+      fetchCircle({ circleId, select: true }).then(() => setReady(true));
     }
   }, [circleId, recoilValue]);
+
+  return ready;
 };
 
 export const useRoleInCircle = (circleId: number) => {

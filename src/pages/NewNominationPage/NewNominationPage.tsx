@@ -10,7 +10,7 @@ import * as z from 'zod';
 import { FormInputField } from 'components';
 import { useToast } from 'hooks';
 import { Check } from 'icons/__generated';
-import { QUERY_KEY_ACTIVE_NOMINEES } from 'pages/MembersPage/getActiveNominees';
+import { QUERY_KEY_GET_MEMBERS_PAGE_DATA } from 'pages/MembersPage/getMembersPageData';
 import { useSelectedCircle } from 'recoilState/app';
 import { Form, ContentHeader, Button, Text, Box, Flex, Panel, Link } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
@@ -108,7 +108,7 @@ export const NewNominationPage = () => {
         if (storedName && storedName !== data.name) setProfileName(storedName);
       })
       .then(() => {
-        queryClient.invalidateQueries(QUERY_KEY_ACTIVE_NOMINEES);
+        queryClient.invalidateQueries(QUERY_KEY_GET_MEMBERS_PAGE_DATA);
       })
       .catch(err => {
         if (err.response?.errors?.length > 0) {

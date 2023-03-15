@@ -6,24 +6,24 @@ import { useNavigate } from 'react-router';
 import { z } from 'zod';
 
 import { FormInputField } from 'components';
+import { useToast } from 'hooks';
+import useConnectedAddress from 'hooks/useConnectedAddress';
 import { QUERY_KEY_MY_ORGS } from 'pages/CirclesPage/getOrgData';
 import { paths } from 'routes/paths';
 import { Button, Flex, Form, Modal, Text } from 'ui';
-
-import { IDeleteUser } from '.';
 
 export const LeaveCircleModal = ({
   epochIsActive,
   circleId,
   circleName,
-  leaveCircleDialog,
-  setLeaveCircleDialog,
+  open,
+  onClose,
 }: {
   epochIsActive: boolean;
-  circleId?: number;
-  circleName?: string;
-  leaveCircleDialog: IDeleteUser | undefined;
-  setLeaveCircleDialog: (u?: IDeleteUser) => void;
+  circleId: number;
+  circleName: string;
+  open: boolean;
+  onClose: () => void;
 }) => {
   const schema = z
     .object({
@@ -47,24 +47,27 @@ export const LeaveCircleModal = ({
     resolver: zodResolver(schema),
   });
 
+  const address = useConnectedAddress(true);
+  const { showError } = useToast();
+
   const onSubmit = async () => {
-    if (leaveCircleDialog && !!circleId) {
-      await deleteUser(circleId, leaveCircleDialog.address)
-        .then(() => {
-          queryClient.invalidateQueries(QUERY_KEY_MY_ORGS);
-          setLeaveCircleDialog(undefined);
-        })
-        .catch(() => setLeaveCircleDialog(undefined));
-    }
-    navigate(paths.circles);
+    await deleteUser(circleId, address)
+      .then(() => {
+        queryClient.invalidateQueries(QUERY_KEY_MY_ORGS);
+        onClose();
+        navigate(paths.circles);
+      })
+      .catch(err => {
+        if (err instanceof Error) showError(err.message);
+      });
   };
   return (
     <Modal
-      open={!!leaveCircleDialog}
+      open={open}
       title={`Leave the ${circleName} Circle?`}
       onOpenChange={() => {
         reset();
-        setLeaveCircleDialog(undefined);
+        onClose();
       }}
     >
       <Form onSubmit={handleSubmit(onSubmit)}>
@@ -97,7 +100,7 @@ export const LeaveCircleModal = ({
             <Button
               onClick={() => {
                 reset();
-                setLeaveCircleDialog(undefined);
+                onClose();
               }}
               color="secondary"
               size="large"

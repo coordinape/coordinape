@@ -1,9 +1,9 @@
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { formatUnits } from 'ethers/lib/utils';
 import { client } from 'lib/gql/client';
-import { Role } from 'lib/users';
+import { isUserAdmin, Role } from 'lib/users';
 import { zEthAddress } from 'lib/zod/formHelpers';
 import { SubmitHandler, useController, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
@@ -16,18 +16,13 @@ import {
   COORDINAPE_USER_AVATAR,
 } from 'config/constants';
 import {
-  useToast,
   useApiAdminCircle,
-  useNavigation,
   useContracts,
+  useNavigation,
+  useToast,
 } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
-import { Check, X, Slash, Info } from 'icons/__generated';
-import { CircleSettingsResult } from 'pages/CircleAdminPage/getCircleSettings';
-import {
-  FixedPaymentResult,
-  QUERY_KEY_FIXED_PAYMENT,
-} from 'pages/CircleAdminPage/getFixedPayment';
+import { Check, Info, Slash, X } from 'icons/__generated';
 import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE, paths } from 'routes/paths';
 import {
   AppLink,
@@ -40,16 +35,18 @@ import {
   Form,
   Link,
   Modal,
-  TextField,
-  Tooltip,
   Text,
+  TextField,
   ToggleButton,
+  Tooltip,
 } from 'ui';
 import { TwoColumnLayout } from 'ui/layouts';
-import { shortenAddress, numberWithCommas } from 'utils';
+import { numberWithCommas, shortenAddress } from 'utils';
 
 import { IDeleteUser } from '.';
-import { ICircleUser, QUERY_KEY_CIRCLE_USERS } from './getCircleUsers';
+import type { QueryCircle, QueryUser } from './getMembersPageData';
+import { QUERY_KEY_GET_MEMBERS_PAGE_DATA } from './getMembersPageData';
+import { LeaveCircleModal } from './LeaveCircleModal';
 
 const GIFT_CIRCLE_DOCS_URL =
   'https://docs.coordinape.com/info/documentation/gift_circle';
@@ -79,26 +76,24 @@ const schema = z
 
 type EditUserFormSchema = z.infer<typeof schema>;
 
-const makeCoordinape = (circleId: number): ICircleUser => {
+const makeCoordinapeUser = (circleId: number): QueryUser => {
   return {
+    id: -1,
+    address: COORDINAPE_USER_ADDRESS,
+    bio: "At this time we've chosen to forgo charging fees for Coordinape and instead we're experimenting with funding our DAO through donations. As part of this experiment, Coordinape will optionally become part of everyone's circles as a participant. If you don't agree with this model or for any other reason don't want Coordinape in your circle, you can disable it in Circle Settings.",
     circle_id: circleId,
     created_at: new Date().toString(),
-    epoch_first_visit: false,
-    give_token_received: 0,
-    id: -1,
-    isCircleAdmin: false,
-    isCoordinapeUser: true,
     deleted_at: new Date().toString(),
+    epoch_first_visit: false,
+    fixed_non_receiver: false,
+    give_token_received: 0,
+    give_token_remaining: 0,
+    non_giver: true,
+    non_receiver: false,
+    role: Role.COORDINAPE,
+    starting_tokens: 0,
     teammates: [],
     updated_at: '',
-    address: COORDINAPE_USER_ADDRESS,
-    role: Role.COORDINAPE,
-    non_receiver: false,
-    fixed_non_receiver: false,
-    starting_tokens: 0,
-    non_giver: true,
-    give_token_remaining: 0,
-    bio: "At this time we've chosen to forgo charging fees for Coordinape and instead we're experimenting with funding our DAO through donations. As part of this experiment, Coordinape will optionally become part of everyone's circles as a participant. If you don't agree with this model or for any other reason don't want Coordinape in your circle, you can disable it in Circle Settings.",
     profile: {
       id: -1,
       name: 'Coordinape',
@@ -106,7 +101,6 @@ const makeCoordinape = (circleId: number): ICircleUser => {
       avatar: COORDINAPE_USER_AVATAR,
       skills: '',
     },
-    fixed_payment_amount: 0,
   };
 };
 
@@ -140,7 +134,7 @@ const coordinapeTooltipContent = () => {
   );
 };
 
-const UserName = ({ user }: { user: ICircleUser }) => {
+const UserName = ({ user }: { user: QueryUser }) => {
   const { getToProfile } = useNavigation();
 
   return (
@@ -184,29 +178,28 @@ const UserName = ({ user }: { user: ICircleUser }) => {
   );
 };
 
-const MemberRow = ({
+export const MemberRow = ({
   user,
   myUser: me,
-  isAdmin,
   fixedPaymentToken,
   fixedPayment,
-  tokenName,
+  token_name,
   setDeleteUserDialog,
-  setLeaveCircleDialog,
+  showLeaveModal,
   circleId,
 }: {
-  user: ICircleUser;
-  myUser: ICircleUser;
-  isAdmin: boolean;
+  user: QueryUser;
+  myUser: QueryUser | undefined;
   fixedPaymentToken?: string;
-  fixedPayment?: FixedPaymentResult;
-  tokenName: string | undefined;
-  setDeleteUserDialog: (u: IDeleteUser) => void;
-  setLeaveCircleDialog: (u: IDeleteUser) => void;
+  fixedPayment: { total: number; number: number; vaultId: number | undefined };
+  token_name: string | undefined;
+  setDeleteUserDialog: (u: { name: string; address: string }) => void;
+  showLeaveModal: () => void;
   circleId: number;
 }) => {
   // const { getToProfile } = useNavigation();
   const { isMobile } = useMobileDetect();
+  const isAdmin = isUserAdmin(me);
 
   const [open, setOpen] = useState(false);
   const [showOptOutChangeWarning, setShowOptOutChangeWarning] = useState(false);
@@ -250,18 +243,21 @@ const MemberRow = ({
 
   const watchFixedPaymentAmount = watch('fixed_payment_amount');
 
+  const { fixed_payment_amount } = user.user_private || {};
+
   const fixedPaymentTotal = (
     fixedPaymentAmount: number
   ): { fixedTotal: number; fixedReceivers: number } => {
     let fixedTotal = fixedPayment?.total ?? 0;
     let fixedReceivers = fixedPayment?.number ?? 0;
-    if (!user.fixed_payment_amount && fixedPaymentAmount > 0) {
+
+    if (!fixed_payment_amount && fixedPaymentAmount > 0) {
       fixedTotal = fixedPayment?.total + fixedPaymentAmount;
       fixedReceivers = (fixedPayment?.number ?? 0) + 1;
-    } else if (user.fixed_payment_amount && fixedPaymentAmount > 0) {
+    } else if (fixed_payment_amount && fixedPaymentAmount > 0) {
       fixedTotal =
         fixedPayment?.total +
-        (fixedPaymentAmount - (user.fixed_payment_amount ?? 0));
+        (fixedPaymentAmount - (fixed_payment_amount ?? 0));
       fixedReceivers = fixedPayment?.number ?? 1;
     }
     return {
@@ -286,8 +282,7 @@ const MemberRow = ({
         updateUser(user.address, { ...data, role: data.role ? 1 : 0 })
           .then(() => {
             showSuccess('Saved changes');
-            queryClient.invalidateQueries(QUERY_KEY_FIXED_PAYMENT);
-            queryClient.invalidateQueries(QUERY_KEY_CIRCLE_USERS);
+            queryClient.invalidateQueries(QUERY_KEY_GET_MEMBERS_PAGE_DATA);
           })
           .catch(console.warn);
       }
@@ -347,7 +342,7 @@ const MemberRow = ({
         <TD css={{ width: '20%' }} align="left">
           <UserName user={user} />
         </TD>
-        {isAdmin && !isMobile && <TD>{shortenAddress(user.address)}</TD>}
+        {!isMobile && <TD>{shortenAddress(user.address)}</TD>}
         {!isMobile && (
           <>
             <TD
@@ -380,7 +375,7 @@ const MemberRow = ({
         )}
         {!!fixedPaymentToken && isAdmin && (
           <TD css={{ textAlign: 'center !important' }}>
-            {user.fixed_payment_amount === 0 ? '0' : user.fixed_payment_amount}{' '}
+            {fixed_payment_amount === 0 ? '0' : fixed_payment_amount}{' '}
             {fixedPaymentToken}
           </TD>
         )}
@@ -390,7 +385,7 @@ const MemberRow = ({
             minWidth: '$3xl',
           }}
         >
-          {user.role === Role.ADMIN ? (
+          {isUserAdmin(user) ? (
             <Check size="lg" color="complete" />
           ) : (
             <X size="lg" color="neutral" />
@@ -422,68 +417,65 @@ const MemberRow = ({
             </TD>
           </>
         )}
-        <TD>
-          {isAdmin ? (
-            user.role !== 2 ? (
-              <Button
-                color="secondary"
-                size="xs"
-                css={{ mr: 0, ml: 'auto ', whiteSpace: 'nowrap' }}
-                onClick={() => {
-                  setOpen(prevState => !prevState);
-                }}
-              >
-                {isMobile ? ' Manage' : 'Manage Member'}
-              </Button>
-            ) : (
-              <Tooltip content={coordinapeTooltipContent()}>
+        {me && (
+          <TD>
+            {isAdmin ? (
+              user.role !== Role.COORDINAPE ? (
                 <Button
                   color="secondary"
                   size="xs"
                   css={{ mr: 0, ml: 'auto ', whiteSpace: 'nowrap' }}
                   onClick={() => {
-                    const shouldEnable = user.deleted_at !== null;
-                    const confirm = window.confirm(
-                      `${
-                        shouldEnable ? 'Enable' : 'Disable'
-                      } Coordinape in this circle?`
-                    );
-                    if (confirm) {
-                      shouldEnable
-                        ? restoreCoordinape(circleId).catch(e =>
-                            console.error(e)
-                          )
-                        : deleteUser(user.address);
-                    }
+                    setOpen(prevState => !prevState);
                   }}
                 >
-                  {user.deleted_at === null ? 'Disable' : 'Enable'}
+                  {isMobile ? ' Manage' : 'Manage Member'}
                 </Button>
-              </Tooltip>
-            )
-          ) : (
-            user.id === me.id && (
-              <Button
-                color="secondary"
-                size="small"
-                css={{
-                  mr: 0,
-                  ml: 'auto ',
-                  height: '$lg',
-                  whiteSpace: 'nowrap',
-                }}
-                onClick={() => {
-                  setLeaveCircleDialog({
-                    name: user.profile?.name,
-                    address: user.address,
-                  });
-                }}
-              >
-                Leave Circle
-              </Button>
-            )
-          )}
-        </TD>
+              ) : (
+                <Tooltip content={coordinapeTooltipContent()}>
+                  <Button
+                    color="secondary"
+                    size="xs"
+                    css={{ mr: 0, ml: 'auto ', whiteSpace: 'nowrap' }}
+                    onClick={() => {
+                      const shouldEnable = user.deleted_at !== null;
+                      const confirm = window.confirm(
+                        `${
+                          shouldEnable ? 'Enable' : 'Disable'
+                        } Coordinape in this circle?`
+                      );
+                      if (confirm) {
+                        shouldEnable
+                          ? restoreCoordinape(circleId).catch(e =>
+                              console.error(e)
+                            )
+                          : deleteUser(user.address);
+                      }
+                    }}
+                  >
+                    {user.deleted_at === null ? 'Disable' : 'Enable'}
+                  </Button>
+                </Tooltip>
+              )
+            ) : (
+              user.id === me?.id && (
+                <Button
+                  color="secondary"
+                  size="small"
+                  css={{
+                    mr: 0,
+                    ml: 'auto ',
+                    height: '$lg',
+                    whiteSpace: 'nowrap',
+                  }}
+                  onClick={showLeaveModal}
+                >
+                  Leave Circle
+                </Button>
+              )
+            )}
+          </TD>
+        )}
       </TR>
       {open && (
         <TR key={user.address}>
@@ -550,24 +542,23 @@ const MemberRow = ({
                     <CheckBox {...userRole} />
                   </Flex>
                 </Flex>
-                <Button
-                  color="destructive"
-                  size="small"
-                  css={{ height: '$lg', whiteSpace: 'nowrap' }}
-                  onClick={() => {
-                    user.id === me.id
-                      ? setLeaveCircleDialog({
-                          name: user.profile?.name,
-                          address: user.address,
-                        })
-                      : setDeleteUserDialog({
-                          name: user.profile?.name,
-                          address: user.address,
-                        });
-                  }}
-                >
-                  {user.id === me.id ? 'Leave Circle' : 'Delete Member'}
-                </Button>
+                {me && (
+                  <Button
+                    color="destructive"
+                    size="small"
+                    css={{ height: '$lg', whiteSpace: 'nowrap' }}
+                    onClick={() => {
+                      user.id === me?.id
+                        ? showLeaveModal()
+                        : setDeleteUserDialog({
+                            name: user.profile?.name,
+                            address: user.address,
+                          });
+                    }}
+                  >
+                    {user.id === me?.id ? 'Leave Circle' : 'Delete Member'}
+                  </Button>
+                )}
               </Flex>
               <TwoColumnLayout css={{ mt: '56px' }}>
                 <Divider />
@@ -718,7 +709,7 @@ const MemberRow = ({
                       name="fixed_payment_amount"
                       number
                       control={control}
-                      defaultValue={user.fixed_payment_amount}
+                      defaultValue={fixed_payment_amount}
                       label="Member Fixed Payment"
                       infoTooltip="Fixed Amount tokens allocated to this user regardless of gives received"
                       showFieldErrors
@@ -808,12 +799,12 @@ const MemberRow = ({
                   setShowOptOutChangeWarning(false);
                 }}
                 open={!hasAcceptedOptOutWarning && showOptOutChangeWarning}
-                title={`This user has ${tokenName || 'GIVE'} allocated.`}
+                title={`This user has ${token_name || 'GIVE'} allocated.`}
               >
                 <Flex column alignItems="start" css={{ gap: '$md' }}>
                   <Text p>
                     Changing their opt-in status will remove all{' '}
-                    {tokenName || 'GIVE'} allocated to them. This cannot be
+                    {token_name || 'GIVE'} allocated to them. This cannot be
                     undone.
                   </Text>
                   <Button
@@ -836,53 +827,49 @@ const MemberRow = ({
 };
 
 export const MembersTable = ({
-  visibleUsers,
+  users,
   myUser: me,
   circle,
   filter,
   perPage,
-  fixedPayment,
   setDeleteUserDialog,
-  setLeaveCircleDialog,
 }: {
-  visibleUsers: ICircleUser[];
-  myUser: ICircleUser;
-  circle: CircleSettingsResult;
-  filter: (u: ICircleUser) => boolean;
+  users: QueryUser[];
+  myUser: QueryUser | undefined;
+  circle: QueryCircle;
+  filter: (u: QueryUser) => boolean;
   perPage: number;
-  fixedPayment?: FixedPaymentResult;
   setDeleteUserDialog: (u: IDeleteUser) => void;
-  setLeaveCircleDialog: (u: IDeleteUser) => void;
 }) => {
   const { isMobile } = useMobileDetect();
+  const [view, setView] = useState<QueryUser[]>([]);
+  const [showLeave, setShowLeave] = useState(false);
 
-  const [view, setView] = useState<ICircleUser[]>([]);
+  const isAdmin = isUserAdmin(me);
 
-  const coordinapeUser = useMemo(() => makeCoordinape(circle.id), [circle]);
-
-  const users: ICircleUser[] = useMemo(() => {
+  const _users: QueryUser[] = useMemo(() => {
     if (
-      !visibleUsers.some(u => u.address === coordinapeUser.address) &&
-      visibleUsers.length > 0
+      !users.some(u => u.address === COORDINAPE_USER_ADDRESS) &&
+      users.length > 0
     ) {
-      return [...visibleUsers, coordinapeUser];
+      return [...users, makeCoordinapeUser(circle.id)];
     }
-    return visibleUsers;
-  }, [circle, visibleUsers, coordinapeUser]);
+    return users;
+  }, [circle, users]);
 
   useEffect(() => {
     const filtered = filter ? users.filter(filter) : users;
     setView(filtered);
-  }, [users, perPage, filter, circle]);
+  }, [_users, perPage, filter, circle]);
 
-  const MemberTable = makeTable<ICircleUser>('MemberTable');
+  const MemberTable = makeTable<QueryUser>('MemberTable');
 
   const headers = [
     { title: 'Name', css: headerStyles },
     {
       title: 'ETH WALLET',
       css: headerStyles,
-      isHidden: !me.isCircleAdmin || isMobile,
+      isHidden: isMobile,
     },
     {
       title: 'Give',
@@ -900,7 +887,7 @@ export const MembersTable = ({
     {
       title: 'Fixed Payment',
       css: { ...headerStyles, textAlign: 'center' },
-      isHidden: !circle.fixed_payment_token_type || !me.isCircleAdmin,
+      isHidden: !circle.fixed_payment_token_type || !isAdmin,
     },
     { title: 'Discord Linked', css: { ...headerStyles }, isHidden: true },
     {
@@ -911,20 +898,33 @@ export const MembersTable = ({
       },
     },
     {
-      title: `${circle.tokenName} sent`,
+      title: `${circle.token_name} sent`,
       css: { ...headerStyles, textAlign: 'center' },
-      isHidden: !me.isCircleAdmin,
+      isHidden: !isAdmin,
     },
     {
-      title: `${circle.tokenName} received`,
+      title: `${circle.token_name} received`,
       css: { ...headerStyles, textAlign: 'center' },
-      isHidden: !me.isCircleAdmin,
+      isHidden: !isAdmin,
     },
     {
       title: 'Actions',
       css: { ...headerStyles, textAlign: 'right' },
+      isHidden: !me,
     },
   ];
+
+  const epochIsActive = (circle?.epochs.length || []) > 0;
+
+  const fixedPayments = _users
+    .filter(user => user.user_private?.fixed_payment_amount > 0)
+    .map(user => user.user_private?.fixed_payment_amount);
+
+  const fixedPayment = {
+    total: fixedPayments?.reduce<number>((a, b) => a + b, 0),
+    number: fixedPayments?.length,
+    vaultId: circle.fixed_payment_vault_id,
+  };
 
   return (
     <>
@@ -936,38 +936,45 @@ export const MembersTable = ({
         perPage={perPage}
         sortByColumn={(index: number) => {
           if (index === 0)
-            return (u: ICircleUser) => u.profile.name.toLowerCase();
-          if (index === 1) return (u: ICircleUser) => u.address.toLowerCase();
-          if (index === 2) return (u: ICircleUser) => u.non_giver;
-          if (index === 3) return (u: ICircleUser) => u.non_receiver;
-          if (index === 4) return (u: ICircleUser) => u.fixed_payment_amount;
-          if (index === 6) return (u: ICircleUser) => u.isCircleAdmin;
+            return (u: QueryUser) => u.profile.name.toLowerCase();
+          if (index === 1) return (u: QueryUser) => u.address.toLowerCase();
+          if (index === 2) return (u: QueryUser) => u.non_giver;
+          if (index === 3) return (u: QueryUser) => u.non_receiver;
+          if (index === 4)
+            return (u: QueryUser) => u.user_private?.fixed_payment_amount;
+          if (index === 6) return (u: QueryUser) => isUserAdmin(u);
           if (index === 7)
-            return (u: ICircleUser) =>
+            return (u: QueryUser) =>
               !u.non_giver ? u.starting_tokens - u.give_token_remaining : -1;
           if (index === 8)
-            return (u: ICircleUser) =>
+            return (u: QueryUser) =>
               !!u.fixed_non_receiver || !!u.non_receiver
                 ? -1
                 : u.give_token_received;
-          return (u: ICircleUser) => u.profile.name.toLowerCase();
+          return (u: QueryUser) => u.profile.name.toLowerCase();
         }}
       >
         {member => (
           <MemberRow
-            isAdmin={me.isCircleAdmin}
             key={member.id}
             user={member}
             fixedPaymentToken={circle.fixed_payment_token_type}
             fixedPayment={fixedPayment}
-            tokenName={circle.tokenName}
+            token_name={circle.token_name}
             myUser={me}
             setDeleteUserDialog={setDeleteUserDialog}
-            setLeaveCircleDialog={setLeaveCircleDialog}
+            showLeaveModal={() => setShowLeave(true)}
             circleId={circle.id}
           />
         )}
       </MemberTable>
+      <LeaveCircleModal
+        epochIsActive={epochIsActive}
+        open={showLeave}
+        onClose={() => setShowLeave(false)}
+        circleName={circle.name}
+        circleId={circle.id}
+      />
     </>
   );
 };

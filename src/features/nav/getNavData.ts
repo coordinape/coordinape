@@ -1,11 +1,10 @@
-import { useIsLoggedIn } from 'features/auth';
+import { useAuthStore, useIsLoggedIn } from 'features/auth';
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 
-import useConnectedAddress from 'hooks/useConnectedAddress';
 import { useWeb3React } from 'hooks/useWeb3React';
 
-export const getNavData = (address: string, chainId: number) =>
+export const getNavData = (profileId: number, chainId: number) =>
   client.query(
     {
       organizations: [
@@ -15,30 +14,27 @@ export const getNavData = (address: string, chainId: number) =>
           name: true,
           logo: true,
           circles: [
-            {
-              where: {
-                users: {
-                  address: { _eq: address.toLowerCase() },
-                  deleted_at: { _is_null: true },
-                },
-              },
-            },
+            {},
             {
               id: true,
               name: true,
               logo: true,
               users: [
-                { where: { address: { _eq: address.toLowerCase() } } },
+                { where: { profile: { id: { _eq: profileId } } } },
                 { role: true, id: true },
               ],
             },
+          ],
+          members: [
+            { where: { profile_id: { _eq: profileId } } },
+            { role: true },
           ],
         },
       ],
       claims_aggregate: [
         {
           where: {
-            profile: { address: { _eq: address.toLowerCase() } },
+            profile_id: { _eq: profileId },
             txHash: { _is_null: true },
             distribution: {
               tx_hash: { _is_null: false },
@@ -49,7 +45,7 @@ export const getNavData = (address: string, chainId: number) =>
         { aggregate: { count: [{}, true] } },
       ],
       profiles: [
-        { limit: 1, where: { address: { _eq: address.toLowerCase() } } },
+        { limit: 1, where: { id: { _eq: profileId } } },
         { name: true, id: true, avatar: true },
       ],
     },
@@ -58,25 +54,23 @@ export const getNavData = (address: string, chainId: number) =>
 
 export const QUERY_KEY_NAV = 'Nav';
 
+// FIXME this is redundant with fetchManifest
 export const useNavQuery = () => {
-  const address = useConnectedAddress();
   const { chainId } = useWeb3React();
   const isLoggedIn = useIsLoggedIn();
+  const profileId = useAuthStore(state => state.profileId);
   return useQuery(
-    [QUERY_KEY_NAV, address],
+    [QUERY_KEY_NAV, profileId],
     async () => {
-      const data = await getNavData(address as string, chainId as number);
+      const data = await getNavData(profileId as number, chainId as number);
       const profile = data.profiles?.[0];
       if (!profile) {
         throw new Error('no profile for current user');
       }
-      return {
-        ...data,
-        profile,
-      };
+      return { ...data, profile };
     },
     {
-      enabled: !!address && !!chainId && isLoggedIn,
+      enabled: !!profileId && !!chainId && isLoggedIn,
       staleTime: Infinity,
     }
   );

@@ -391,12 +391,7 @@ const queryManifest = async (profileId: number) => {
           updated_at: true,
           name: true,
           users: [
-            {
-              where: {
-                deleted_at: { _is_null: true },
-                circle: { deleted_at: { _is_null: true } },
-              },
-            },
+            {},
             {
               id: true,
               circle_id: true,
@@ -435,6 +430,14 @@ const queryManifest = async (profileId: number) => {
                   },
                 },
               ],
+            },
+          ],
+          org_members: [
+            { where: { profile_id: { _eq: profileId } } },
+            {
+              org_id: true,
+              role: true,
+              organization: { circles: [{}, { id: true }] },
             },
           ],
         },

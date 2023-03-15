@@ -76,6 +76,7 @@ export const paths = {
   orgActivity: orgPath('activity'),
   organizationSettings: orgPath(`settings`),
   vaultsForOrg: orgPath(`vaults`),
+  orgMembers: orgPath(`members`),
 
   // for circle links
   invite: (token: string) => `/welcome/${token}`,
