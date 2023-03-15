@@ -10,8 +10,7 @@ import { Avatar, Button, Flex, Text, Panel } from 'ui';
 import { TwoColumnLayout } from 'ui/layouts';
 import { shortenAddress } from 'utils';
 
-import { IActiveNominee } from './getActiveNominees';
-import { ICircleUser } from './getCircleUsers';
+import type { QueryUser, QueryNominee } from './getMembersPageData';
 
 const TD = styled('td', {});
 const TR = styled('tr', {});
@@ -28,14 +27,12 @@ const NomineeRow = ({
   nominee,
   myUser,
   isNonGiverVoucher,
-  refetchNominees,
-  vouchingText,
+  refetch,
 }: {
-  nominee: IActiveNominee[0];
-  myUser?: ICircleUser;
+  nominee: QueryNominee;
+  myUser?: QueryUser;
   isNonGiverVoucher?: boolean;
-  refetchNominees: () => void;
-  vouchingText: string;
+  refetch: () => void;
 }) => {
   const [open, setOpen] = useState(false);
   const [vouching, setVouching] = useState(false);
@@ -56,7 +53,7 @@ const NomineeRow = ({
   const handleVouch = async (e: React.MouseEvent) => {
     e.stopPropagation();
     setVouching(true);
-    await vouchUser(nominee.id).then(refetchNominees).catch(console.warn);
+    await vouchUser(nominee.id).then(refetch).catch(console.warn);
     setVouching(false);
   };
 
@@ -101,12 +98,6 @@ const NomineeRow = ({
         <TR key={nominee.address}>
           <TD colSpan={isAdmin ? 4 : 3}>
             <Flex column>
-              <Text large semibold>
-                Nomination
-              </Text>
-              <Text size="medium" css={{ mt: '$sm', color: '$headingText' }}>
-                {vouchingText}
-              </Text>
               <TwoColumnLayout css={{ mt: '$lg', mb: '$2xl' }}>
                 <Flex column>
                   <Text variant="label">Nominated By</Text>
@@ -193,19 +184,16 @@ export const NomineesTable = ({
   nominees,
   myUser,
   isNonGiverVoucher,
-  refetchNominees,
-  vouchingText,
+  refetch,
 }: {
-  nominees?: IActiveNominee;
-  myUser?: ICircleUser;
+  nominees?: QueryNominee[];
+  myUser?: QueryUser;
   isNonGiverVoucher?: boolean;
-  refetchNominees: () => void;
-  vouchingText: string;
+  refetch: () => void;
 }) => {
-  type Nominee = IActiveNominee[0];
   const isAdmin = isUserAdmin(myUser);
 
-  const NomineeTable = makeTable<Nominee>('NomineeTable');
+  const NomineeTable = makeTable<QueryNominee>('NomineeTable');
   const headers = [
     { title: 'Name', css: headerStyles },
     { title: 'ETH WALLET', css: headerStyles, isHidden: !isAdmin },
@@ -243,12 +231,13 @@ export const NomineesTable = ({
             perPage={3}
             sortByColumn={(index: number) => {
               if (index === 0)
-                return (n: Nominee) => n.profile?.name.toLowerCase();
-              if (index === 1) return (n: Nominee) => n.address.toLowerCase();
+                return (n: QueryNominee) => n.profile?.name.toLowerCase();
+              if (index === 1)
+                return (n: QueryNominee) => n.address.toLowerCase();
               if (index === 2)
-                return (n: Nominee) =>
+                return (n: QueryNominee) =>
                   n.vouches_required - n.nominations.length + 1;
-              return (n: Nominee) => n.profile?.name.toLowerCase();
+              return (n: QueryNominee) => n.profile?.name.toLowerCase();
             }}
           >
             {nominee => (
@@ -257,8 +246,7 @@ export const NomineesTable = ({
                 isNonGiverVoucher={isNonGiverVoucher}
                 myUser={myUser}
                 nominee={nominee}
-                refetchNominees={refetchNominees}
-                vouchingText={vouchingText}
+                refetch={refetch}
               />
             )}
           </NomineeTable>

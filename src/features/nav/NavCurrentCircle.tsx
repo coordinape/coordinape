@@ -17,62 +17,69 @@ import { NavItem } from './NavItem';
 import { isCircleAdmin } from './permissions';
 
 export const NavCurrentCircle = ({ circle }: { circle: NavCircle }) => {
-  const isAdmin = isCircleAdmin(circle);
+  const isCircleMember = circle.users.length > 0;
 
   return (
     <Box css={{ mb: '$md' }}>
-      <NavItem
-        label={
-          <Flex
-            css={{
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              flexGrow: 1,
-            }}
-          >
-            {'Overview '}
-            <NavCurrentCircleGiveCount
-              css={{ ml: '$sm' }}
-              circleId={circle.id}
-              userId={circle.users[0].id}
-              role={circle.users[0].role}
-            />
-          </Flex>
-        }
-        to={paths.history(circle.id)}
-        icon={<Epoch nostroke />}
-      />
+      {isCircleMember && (
+        <NavItem
+          label={
+            <Flex
+              css={{
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                flexGrow: 1,
+              }}
+            >
+              Overview{' '}
+              <NavCurrentCircleGiveCount
+                css={{ ml: '$sm' }}
+                circleId={circle.id}
+                user={circle.users[0]}
+              />
+            </Flex>
+          }
+          to={paths.history(circle.id)}
+          icon={<Epoch nostroke />}
+        />
+      )}
       {isFeatureEnabled('activity') && (
         <NavItem
-          label={'Activity'}
+          label="Activity"
           to={paths.activity(circle.id)}
           icon={<List />}
         />
       )}
+      {isCircleMember && (
+        <NavItem
+          label="Contributions"
+          to={paths.contributions(circle.id)}
+          icon={<Edit2 />}
+        />
+      )}
+      {isCircleMember && (
+        <NavItem
+          label="GIVE"
+          to={paths.give(circle.id)}
+          icon={<Give nostroke />}
+        />
+      )}
+      {isCircleMember && (
+        <NavItem
+          label="Map"
+          to={paths.map(circle.id)}
+          icon={<Circle2 nostroke />}
+        />
+      )}
       <NavItem
-        label={'Contributions'}
-        to={paths.contributions(circle.id)}
-        icon={<Edit2 />}
-      />
-      <NavItem
-        label={'GIVE'}
-        to={paths.give(circle.id)}
-        icon={<Give nostroke />}
-      />
-      <NavItem
-        label={'Map'}
-        to={paths.map(circle.id)}
-        icon={<Circle2 nostroke />}
-      />
-      <NavItem
-        label={'Members'}
+        label="Members"
         to={paths.members(circle.id)}
         icon={<Member nostroke />}
       />
 
-      {isAdmin && (
+      {isCircleAdmin(circle) && (
         <NavItem
-          label={'Admin'}
+          label="Admin"
           to={paths.circleAdmin(circle.id)}
           icon={<Settings />}
         />

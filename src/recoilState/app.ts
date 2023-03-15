@@ -123,23 +123,13 @@ export const rCircle = selectorFamily<ICircleState, number | undefined>({
         throw new Error(`unable to load circle '${circleId}'`);
       }
 
-      if (!myUser) {
-        throw new Error(`user is not a member of circle '${circle.name}'`);
-      }
-
-      const me = { ...myUser, profile: myProfile };
+      const me = myUser ? { ...myUser, profile: myProfile } : undefined;
 
       return {
         circleId,
         circle,
         myUser: me,
         users: getCircleUsers().toArray(),
-        usersNotMe: getCircleUsers()
-          .filter(u => u.id !== me.id)
-          .toArray(),
-        usersWithDeleted: iti(users)
-          .filter(u => u.circle_id === circleId)
-          .toArray(),
         circleEpochsStatus,
         activeNominees,
       };
@@ -238,10 +228,8 @@ type ExtractRecoilType<P> = P extends (a: any) => RecoilValueReadOnly<infer T>
 export interface ICircleState {
   circleId: number;
   circle: ICircle;
-  myUser: IMyUser;
+  myUser: IMyUser | undefined;
   users: IUser[];
-  usersNotMe: IUser[];
-  usersWithDeleted: IUser[];
   circleEpochsStatus: ExtractRecoilType<typeof rCircleEpochsStatus>;
   activeNominees: INominee[];
 }

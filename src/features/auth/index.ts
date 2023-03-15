@@ -3,6 +3,7 @@ import { useAuthStore } from './store';
 
 export { RequireAuth } from './RequireAuth';
 export { useAuthStore } from './store';
+export { useLoginData } from './useLoginData';
 export { getAuthToken, setAuthToken } from './token';
 export { useWalletStatus } from './useWalletStatus';
 

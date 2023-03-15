@@ -15,6 +15,7 @@ import { zEthAddress, zUsername } from '../../lib/zod/formHelpers';
 import { Box, Button, Flex, Panel, Text } from '../../ui';
 import { Check } from 'icons/__generated';
 import { QUERY_KEY_CIRCLE_SETTINGS } from 'pages/CircleAdminPage/getCircleSettings';
+import { QUERY_KEY_GET_MEMBERS_PAGE_DATA } from 'pages/MembersPage/getMembersPageData';
 
 import NewMemberEntry from './NewMemberEntry';
 import NewMemberGridBox from './NewMemberGridBox';
@@ -166,16 +167,12 @@ const NewMemberList = ({
             {
               UserResponse: {
                 address: true,
-                profile: {
-                  name: true,
-                },
+                profile: { name: true },
               },
             },
           ],
         },
-        {
-          operationName: 'createUsers_newMemberList',
-        }
+        { operationName: 'createUsers_newMemberList' }
       );
 
       const replacedNames = res?.createUsers
@@ -206,6 +203,10 @@ const NewMemberList = ({
       successRef.current?.scrollIntoView();
       await queryClient.invalidateQueries([
         QUERY_KEY_CIRCLE_SETTINGS,
+        circleId,
+      ]);
+      await queryClient.invalidateQueries([
+        QUERY_KEY_GET_MEMBERS_PAGE_DATA,
         circleId,
       ]);
       await fetchCircle({ circleId });

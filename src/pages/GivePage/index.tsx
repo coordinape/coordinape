@@ -1,3 +1,4 @@
+import assert from 'assert';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -69,6 +70,7 @@ const GivePage = () => {
     myUser,
     circleEpochsStatus: { currentEpoch, nextEpoch, previousEpoch },
   } = useSelectedCircle();
+  assert(myUser);
   const { showError } = useToast();
 
   // members is the circle members that may be filtered down for the list view
