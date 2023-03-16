@@ -26,7 +26,7 @@ test('show circle links for distributions route', async () => {
           id: fixtures.circle.organization_id,
           name: fixtures.organization.name,
           logo: fixtures.organization.logo,
-          circles: [
+          myCircles: [
             {
               id: fixtures.circle.id,
               name: fixtures.circle.name,
@@ -34,6 +34,7 @@ test('show circle links for distributions route', async () => {
               users: [{ ...fixtures.user, role: 1 }],
             },
           ],
+          otherCircles: [],
           members: [],
         },
       ],

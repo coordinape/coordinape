@@ -13,7 +13,7 @@ export const CircleLogoWithName = ({
   return (
     <Flex
       as={NavLink}
-      to={paths.history(circle.id)}
+      to={paths.activity(circle.id)}
       css={{ textDecoration: 'none' }}
     >
       <Avatar
