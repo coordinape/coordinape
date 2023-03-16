@@ -8,21 +8,23 @@ import { NavCurrentCircle } from './NavCurrentCircle';
 
 export const NavCircleItem = ({
   currentCircle,
-  c,
+  circle,
   org,
 }: {
   currentCircle: any;
-  c: any;
+  circle: any;
   org: any;
 }) => {
-  const isCurrentCircle = currentCircle?.id == c.id;
-  const isCircleMember = c.users?.length > 0;
+  const isCurrentCircle = currentCircle?.id == circle.id;
+  const isCircleMember = circle.users?.length > 0;
   return (
-    <Box key={c.id}>
+    <Box key={circle.id}>
       {
         <Flex
           as={NavLink}
-          to={isCircleMember ? paths.history(c.id) : paths.members(c.id)}
+          to={
+            isCircleMember ? paths.history(circle.id) : paths.members(circle.id)
+          }
           css={{
             alignItems: 'center',
             mb: '$md',
@@ -31,14 +33,14 @@ export const NavCircleItem = ({
           }}
         >
           <Avatar
-            name={c.name}
+            name={circle.name}
             size="small"
             margin="none"
             css={{
               mr: '$sm',
               outline: isCurrentCircle ? '2px solid $link' : undefined,
             }}
-            path={c.logo}
+            path={circle.logo}
           />
           <Text
             semibold={isCurrentCircle}
@@ -47,7 +49,7 @@ export const NavCircleItem = ({
               color: isCurrentCircle ? '$text' : '$navLinkText',
             }}
           >
-            {c.name}
+            {circle.name}
           </Text>
           <IconButton>
             {isCurrentCircle || org.myCircles.length == 1 ? (
@@ -59,7 +61,7 @@ export const NavCircleItem = ({
         </Flex>
       }
       {(isCurrentCircle || org.myCircles.length == 1) && (
-        <NavCurrentCircle key={'currentCircle'} circle={c} />
+        <NavCurrentCircle key={'currentCircle'} circle={circle} />
       )}
     </Box>
   );

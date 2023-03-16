@@ -56,7 +56,7 @@ export const NavCircles = ({
         return (
           <NavCircleItem
             currentCircle={currentCircle}
-            c={c}
+            circle={c}
             org={org}
             key={c.id}
           />
@@ -82,7 +82,7 @@ export const NavCircles = ({
           return (
             <NavCircleItem
               currentCircle={currentCircle}
-              c={c}
+              circle={c}
               org={org}
               key={c.id}
             />
