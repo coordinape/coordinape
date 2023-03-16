@@ -64,19 +64,16 @@ export const NavCurrentCircle = ({ circle }: { circle: NavCircle }) => {
           icon={<Give nostroke />}
         />
       )}
-      {isCircleMember && (
-        <NavItem
-          label="Map"
-          to={paths.map(circle.id)}
-          icon={<Circle2 nostroke />}
-        />
-      )}
+      <NavItem
+        label="Map"
+        to={paths.map(circle.id)}
+        icon={<Circle2 nostroke />}
+      />
       <NavItem
         label="Members"
         to={paths.members(circle.id)}
         icon={<Member nostroke />}
       />
-
       {isCircleAdmin(circle) && (
         <NavItem
           label="Admin"

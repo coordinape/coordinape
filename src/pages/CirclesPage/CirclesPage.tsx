@@ -114,7 +114,11 @@ type QueryCircle = QueryResult['organizations'][0]['circles'][0];
 const buttons = (
   circle: QueryCircle
 ): [(circleId: number) => string, string][] => {
-  if (circle.users.length === 0) return [[paths.members, 'Members']];
+  if (circle.users.length === 0)
+    return [
+      [(id: number) => paths.map(id), 'Map'],
+      [paths.members, 'Members'],
+    ];
 
   const b: [(circleId: number) => string, string][] = [
     [paths.contributions, 'Contributions'],

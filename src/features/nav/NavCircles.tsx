@@ -39,7 +39,8 @@ export const NavCircles = ({
         }
       />
       {org.circles.map(c => {
-        const isCurrentCircle = currentCircle?.id == c.id;
+        const isCurrentCircle =
+          currentCircle?.id == c.id || org.circles.length === 1;
         const isCircleMember = c.users.length > 0;
         return (
           <Box key={c.id}>
@@ -82,7 +83,7 @@ export const NavCircles = ({
                 </IconButton>
               </Flex>
             )}
-            {(isCurrentCircle || org.circles.length == 1) && (
+            {isCurrentCircle && (
               <NavCurrentCircle key={'currentCircle'} circle={c} />
             )}
           </Box>

@@ -66,15 +66,15 @@ const LoggedInRoutes = () => {
       <Route path="circles/:circleId" element={<OrgRouteHandler />}>
         <Route path="activity" element={<CircleActivityPage />} />
         <Route path="members" element={<MembersPage />} />
+        <Route path="map" element={<MapRouteHandler />}>
+          <Route path="" element={<LazyAssetMapPage />} />
+        </Route>
       </Route>
 
       {/* circle routes that are only for circle members */}
       <Route path="circles/:circleId" element={<CircleRouteHandler />}>
         <Route path="history" element={<HistoryPage />} />
         <Route path="give" element={<GivePage />} />
-        <Route path="map" element={<MapRouteHandler />}>
-          <Route path="" element={<LazyAssetMapPage />} />
-        </Route>
         <Route path="contributions" element={<ContributionsPage />} />
         <Route path="members/add" element={<AdminRouteHandler />}>
           <Route path="" element={<AddMembersPage />} />
