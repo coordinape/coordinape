@@ -119,12 +119,12 @@ export const Text = styled('span', {
       display: true,
       h1: true,
       css: {
-        fontSize: '110px',
+        fontSize: '70px',
         '@md': {
-          fontSize: '90px',
+          fontSize: '60px',
         },
         '@sm': {
-          fontSize: '60px',
+          fontSize: '40px',
         },
       },
     },

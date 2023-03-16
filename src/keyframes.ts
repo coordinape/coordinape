@@ -36,3 +36,18 @@ export const rotate = keyframes({
   from: { transform: 'rotate(0deg)' },
   to: { transform: 'rotate(360deg)' },
 });
+export const sync = keyframes({
+  '0%': {
+    scale: 1,
+    opacity: 0,
+  },
+  '30%': {
+    opacity: 1,
+    rotate: '1deg',
+  },
+  '100%': {
+    scale: 0.05,
+    opacity: 1,
+    rotate: '-20deg',
+  },
+});
