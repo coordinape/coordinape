@@ -215,7 +215,7 @@ export function DistributionsPage() {
 
   return (
     <SingleColumnLayout>
-      <AppLink to={paths.history(circle.id)}>
+      <AppLink to={paths.epochs(circle.id)}>
         <BackButton />
       </AppLink>
       <Text h1 css={{ '@sm': { display: 'block' } }}>

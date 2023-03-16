@@ -118,7 +118,7 @@ const buttons = (
 
   const b: [(circleId: number) => string, string][] = [
     [paths.contributions, 'Contributions'],
-    [paths.history, 'Epoch Overview'],
+    [paths.epochs, 'Epoch Overview'],
     [paths.give, 'Allocation'],
     [(id: number) => paths.map(id), 'Map'],
     [paths.members, 'Members'],
@@ -231,7 +231,7 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
             : 0,
       }}
       onClick={() =>
-        !nonMember && onButtonClick(circle.id, paths.history(circle.id))
+        !nonMember && onButtonClick(circle.id, paths.epochs(circle.id))
       }
     >
       <Box

@@ -653,7 +653,7 @@ export const CircleAdminPage = () => {
             </Text>
             <Text p as="p" size="small">
               Edit your epoch timing on the{' '}
-              <AppLink inlineLink to={paths.history(circleId)}>
+              <AppLink inlineLink to={paths.epochs(circleId)}>
                 Epoch Overview
               </AppLink>{' '}
               by creating or editing an epoch.

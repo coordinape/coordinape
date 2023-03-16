@@ -82,15 +82,17 @@ export const OrgPage = () => {
             </Flex>
           )}
         </ContentHeader>
-        <Box css={{ display: 'flex', flexDirection: 'column', gap: '$xl' }}>
-          {sortBy(org.circles, c => [-c.users.length, c.name]).map(circle => (
-            <CircleRow
-              circle={circle}
-              key={circle.id}
-              onButtonClick={goToCircle}
-            />
-          ))}
-        </Box>
+        {!isFeatureEnabled('activity') && (
+          <Box css={{ display: 'flex', flexDirection: 'column', gap: '$xl' }}>
+            {sortBy(org.circles, c => [-c.users.length, c.name]).map(circle => (
+              <CircleRow
+                circle={circle}
+                key={circle.id}
+                onButtonClick={goToCircle}
+              />
+            ))}
+          </Box>
+        )}
         {isFeatureEnabled('activity') && (
           <Box css={{ mt: '$lg' }}>
             <RecentActivityTitle />

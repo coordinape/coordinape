@@ -52,7 +52,7 @@ export const JoinCircleForm = ({
       );
       await fetchManifest();
       if (createUserWithToken?.id) {
-        navigate(paths.history(circle.id));
+        navigate(paths.circle(circle.id));
       }
       await queryClient.invalidateQueries(QUERY_KEY_NAV);
     } catch (e) {

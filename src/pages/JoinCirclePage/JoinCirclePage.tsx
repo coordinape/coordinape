@@ -77,8 +77,8 @@ export const JoinCirclePage = () => {
   useEffect(() => {
     if (profile && tokenJoinInfo) {
       if (alreadyMember(tokenJoinInfo.circle.id)) {
-        // shoot them off the history page
-        navigate(paths.history(tokenJoinInfo.circle.id));
+        // shoot them off the circle page
+        navigate(paths.circle(tokenJoinInfo.circle.id));
         return;
       } else {
         // eslint-disable-next-line no-console

@@ -19,7 +19,7 @@ export const CircleActivityPage = () => {
         <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
           <Text h1>Activity</Text>
           <Text p as="p">
-            See what&apos;s up!!
+            The latest in your circle
           </Text>
         </Flex>
       </ContentHeader>

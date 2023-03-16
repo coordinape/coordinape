@@ -37,7 +37,9 @@ export const ContributionRow = ({ activity }: { activity: Contribution }) => {
                 {DateTime.fromISO(activity.created_at).toRelative()}
               </Text>
             </Flex>
-            {!inCircle && <CircleLogoWithName circle={activity.circle} />}
+            {!inCircle && (
+              <CircleLogoWithName circle={activity.circle} reverse={true} />
+            )}
           </Flex>
 
           <MarkdownPreview

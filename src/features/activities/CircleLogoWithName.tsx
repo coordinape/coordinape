@@ -6,15 +6,21 @@ import { Avatar, Flex, Text } from '../../ui';
 export const CircleLogoWithName = ({
   circle,
   variant = 'default',
+  reverse = false,
 }: {
   circle: { id: number; name: string; logo?: string };
   variant?: 'default' | 'heading';
+  reverse?: boolean;
 }) => {
   return (
     <Flex
       as={NavLink}
-      to={paths.activity(circle.id)}
-      css={{ textDecoration: 'none' }}
+      to={paths.circle(circle.id)}
+      css={{
+        textDecoration: 'none',
+        gap: '$sm',
+        flexDirection: reverse ? 'row-reverse' : 'row',
+      }}
     >
       <Avatar
         size="xs"
@@ -26,7 +32,7 @@ export const CircleLogoWithName = ({
         color={variant === 'default' ? 'neutral' : 'heading'}
         size={variant === 'default' ? 'small' : undefined}
         semibold={variant === 'default' ? undefined : true}
-        css={{ ml: '$sm', textDecoration: 'none' }}
+        css={{ textDecoration: 'none' }}
       >
         {circle.name}
       </Text>

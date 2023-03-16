@@ -107,7 +107,7 @@ export const AddressIsNotMember = ({
               <Text h2>You are a member of these other circles</Text>
             </Box>
             {users.map(u => (
-              <AppLink key={u.id} to={paths.history(u.circle_id)}>
+              <AppLink key={u.id} to={paths.circle(u.circle_id)}>
                 <Panel
                   nested
                   css={{

@@ -51,7 +51,7 @@ export const EpochEndedRow = ({ activity }: { activity: EpochEnded }) => {
           {showButton && activity.epoch.ended && (
             <Button
               as={NavLink}
-              to={paths.history(activity.circle.id)}
+              to={paths.epochs(activity.circle.id)}
               css={{ ml: '$md' }}
             >
               Review

@@ -21,35 +21,44 @@ export const NavCurrentCircle = ({ circle }: { circle: NavCircle }) => {
 
   return (
     <Box css={{ mb: '$md' }}>
-      {isCircleMember && (
-        <NavItem
-          label={
-            <Flex
-              css={{
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                flexGrow: 1,
-              }}
-            >
-              Overview{' '}
-              <NavCurrentCircleGiveCount
-                css={{ ml: '$sm' }}
-                circleId={circle.id}
-                user={circle.users[0]}
-              />
-            </Flex>
-          }
-          to={paths.history(circle.id)}
-          icon={<Epoch nostroke />}
-        />
-      )}
-      {isFeatureEnabled('activity') && (
-        <NavItem
-          label="Activity"
-          to={paths.activity(circle.id)}
-          icon={<Activity />}
-        />
-      )}
+      <Flex
+        column
+        css={{
+          flexDirection: isFeatureEnabled('activity')
+            ? 'column-reverse'
+            : undefined,
+        }}
+      >
+        {isCircleMember && (
+          <NavItem
+            label={
+              <Flex
+                css={{
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  flexGrow: 1,
+                }}
+              >
+                {isFeatureEnabled('activity') ? 'Epochs ' : 'Overview '}
+                <NavCurrentCircleGiveCount
+                  css={{ ml: '$sm' }}
+                  circleId={circle.id}
+                  user={circle.users[0]}
+                />
+              </Flex>
+            }
+            to={paths.epochs(circle.id)}
+            icon={<Epoch nostroke />}
+          />
+        )}
+        {isFeatureEnabled('activity') && (
+          <NavItem
+            label="Activity"
+            to={paths.circle(circle.id)}
+            icon={<Activity />}
+          />
+        )}
+      </Flex>
       {isCircleMember && (
         <NavItem
           label="Contributions"
