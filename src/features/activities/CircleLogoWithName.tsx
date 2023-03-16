@@ -15,7 +15,7 @@ export const CircleLogoWithName = ({
   return (
     <Flex
       as={NavLink}
-      to={paths.activity(circle.id)}
+      to={paths.circle(circle.id)}
       css={{
         textDecoration: 'none',
         gap: '$sm',

@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 
-import { ChevronRight, ChevronDown } from '../../icons/__generated';
+import { ChevronDown, ChevronRight } from '../../icons/__generated';
 import { paths } from '../../routes/paths';
 import { Avatar, Box, Flex, IconButton, Text } from '../../ui';
 
@@ -16,15 +16,12 @@ export const NavCircleItem = ({
   org: any;
 }) => {
   const isCurrentCircle = currentCircle?.id == circle.id;
-  const isCircleMember = circle.users?.length > 0;
   return (
     <Box key={circle.id}>
       {
         <Flex
           as={NavLink}
-          to={
-            isCircleMember ? paths.history(circle.id) : paths.members(circle.id)
-          }
+          to={paths.circle(circle.id)}
           css={{
             alignItems: 'center',
             mb: '$md',

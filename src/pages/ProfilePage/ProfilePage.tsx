@@ -252,7 +252,7 @@ const ProfilePageContent = ({
                         onClick={() =>
                           goToCircleHistory(
                             u.circle_id,
-                            paths.history(u.circle_id)
+                            paths.circle(u.circle_id)
                           )
                         }
                       />
