@@ -17,7 +17,7 @@ import { NavItem } from './NavItem';
 import { isCircleAdmin } from './permissions';
 
 export const NavCurrentCircle = ({ circle }: { circle: NavCircle }) => {
-  const isCircleMember = circle.users.length > 0;
+  const isCircleMember = 'users' in circle && circle.users.length > 0;
 
   return (
     <Box css={{ mb: '$md' }}>

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Suspense, useEffect, useState } from 'react';
 
 import { useLocation } from 'react-router-dom';
@@ -36,10 +37,10 @@ export const SideNav = () => {
 
     for (const o of orgs) {
       if (circleId) {
-        for (const c of o.myCircles) {
+        for (const c of [...o.myCircles, ...o.otherCircles]) {
           if (c.id == +circleId) {
-            setCurrentCircle(c);
             setCurrentOrg(o);
+            setCurrentCircle(c);
             return;
           }
         }
