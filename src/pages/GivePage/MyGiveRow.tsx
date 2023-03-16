@@ -134,7 +134,7 @@ export const MyGiveRow = ({
                   whiteSpace: 'nowrap',
                 }}
               >
-                {contributionCount} contribution
+                {contributionCount} Contribution
                 {contributionCount == 1 ? '' : 's'}
               </Text>
               {!statementCompelete && (
