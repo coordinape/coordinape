@@ -18,6 +18,10 @@ export const AssetMapPage = () => {
   const navigate = useNavigate();
   const setAmEgoAddress = useSetAmEgoAddress();
 
+  // run react-query,
+  // populate rCircleEpochsStatus...
+  // simplest thing to try first is to run fullCircle query
+
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const newAddress = queryParams.get(MAP_HIGHLIGHT_PARAM);

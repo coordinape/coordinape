@@ -16,12 +16,19 @@ import { createFakeUser, createFakeProfile } from 'utils/modelExtenders';
 
 import {
   rSelectedCircleId,
+
+  // from manifest & full circle
   rCircleEpochsStatus,
+
+  // from manifest & full circle -- your own users
   rUsersMap,
+
+  // from full circle
   rGiftsMap,
+
+  // from manifest; used by rCircle & many others
   rCirclesMap,
 } from './app';
-import { rFullCircle } from './db';
 
 import {
   IRecoilGetParams,
@@ -38,11 +45,7 @@ import {
   IUser,
 } from 'types';
 
-//
-// Injest App State
-//
-
-export const rUserMapWithFakes = selector<Map<number, IUser>>({
+const rUserMapWithFakes = selector<Map<number, IUser>>({
   key: 'rUserMapWithFakes',
   get: ({ get }: IRecoilGetParams) => {
     const usersMap = get(rUsersMap);
@@ -55,7 +58,7 @@ export const rUserMapWithFakes = selector<Map<number, IUser>>({
   },
 });
 
-export const rUserProfileMap = selector<Map<string, IProfile>>({
+const rUserProfileMap = selector<Map<string, IProfile>>({
   key: 'rUserProfileMap',
   get: ({ get }: IRecoilGetParams) =>
     iti(get(rUserMapWithFakes).values())
@@ -79,22 +82,22 @@ export const rUserProfileMap = selector<Map<string, IProfile>>({
 // Asset Map Atoms
 // Setting these configures the graph
 //
-export const rMapEpochId = atom<number | undefined>({
+const rMapEpochId = atom<number | undefined>({
   key: 'rMapEpochId',
   default: undefined, // -1 to represent all
 });
 
-export const rMapSearch = atom<string>({
+const rMapSearch = atom<string>({
   key: 'rMapSearch',
   default: '',
 });
 
-export const rMapEgoAddress = atom<string>({
+const rMapEgoAddress = atom<string>({
   key: 'rMapEgoAddress',
   default: '',
 });
 
-export const rMapMetric = atom<MetricEnum>({
+const rMapMetric = atom<MetricEnum>({
   key: 'rMapMetric',
   default: 'give',
 });
@@ -103,7 +106,7 @@ export const rMapMetric = atom<MetricEnum>({
 // Map Selectors
 // Computed values used to graph
 //
-export const rMapEpochs = selector<IEpoch[]>({
+const rMapEpochs = selector<IEpoch[]>({
   key: 'rMapEpochs',
   get: async ({ get }: IRecoilGetParams) => {
     const { pastEpochs, currentEpoch } = get(
@@ -123,7 +126,7 @@ const toSearchRegExp = (value: string) => {
   return undefined;
 };
 
-export const rMapSearchRegex = selector<RegExp | undefined>({
+const rMapSearchRegex = selector<RegExp | undefined>({
   key: 'rMapSearchRegex',
   get: async ({ get }: IRecoilGetParams) => {
     return toSearchRegExp(get(rMapSearch));
@@ -133,13 +136,13 @@ export const rMapSearchRegex = selector<RegExp | undefined>({
 // Graph data is all the nodes and links used by the d3-force-3d library
 // All of it's callbacks will return these objects.
 // E.g. nodeCanvasObject(node)
-export const rMapGraphData = selector<GraphData>({
+const rMapGraphData = selector<GraphData>({
   key: 'rMapGraphData',
   get: async ({ get }: IRecoilGetParams) => {
     const selectedCircleId = get(rSelectedCircleId);
     const epochs = get(rMapEpochs);
     const epochsMap = iti(epochs).toMap(e => e.id);
-    const gifts = iti(get(rFullCircle).giftsMap.values());
+    const gifts = iti(get(rGiftsMap).values());
     const userProfileMap = get(rUserProfileMap);
     if (epochs.length === 0) {
       return { links: [], nodes: [] };
@@ -229,7 +232,7 @@ export const rMapGraphData = selector<GraphData>({
 });
 
 // Nodes that are active in this epoch.
-export const rMapActiveNodes = selector<Set<string>>({
+const rMapActiveNodes = selector<Set<string>>({
   key: 'rMapActiveNodes',
   get: async ({ get }: IRecoilGetParams) => {
     const epochId = get(rMapEpochId) ?? new Set();
@@ -243,7 +246,7 @@ export const rMapActiveNodes = selector<Set<string>>({
   },
 });
 
-export const rMapOutFrom = selector<Map<string, Uint32Array>>({
+const rMapOutFrom = selector<Map<string, Uint32Array>>({
   key: 'rMapOutFrom',
   get: async ({ get }: IRecoilGetParams) => {
     const epochId = get(rMapEpochId);
@@ -259,7 +262,7 @@ export const rMapOutFrom = selector<Map<string, Uint32Array>>({
   },
 });
 
-export const rMapInTo = selector<Map<string, Uint32Array>>({
+const rMapInTo = selector<Map<string, Uint32Array>>({
   key: 'rMapInTo',
   get: async ({ get }: IRecoilGetParams) => {
     const epochId = get(rMapEpochId);
@@ -275,7 +278,7 @@ export const rMapInTo = selector<Map<string, Uint32Array>>({
   },
 });
 
-export const rMapOutFromTokens = selector<Map<string, Uint32Array>>({
+const rMapOutFromTokens = selector<Map<string, Uint32Array>>({
   key: 'rMapOutFromTokens',
   get: async ({ get }: IRecoilGetParams) => {
     const giftMap = get(rGiftsMap);
@@ -291,7 +294,7 @@ export const rMapOutFromTokens = selector<Map<string, Uint32Array>>({
   },
 });
 
-export const rMapInFromTokens = selector<Map<string, Uint32Array>>({
+const rMapInFromTokens = selector<Map<string, Uint32Array>>({
   key: 'rMapInFromTokens',
   get: async ({ get }: IRecoilGetParams) => {
     const giftMap = get(rGiftsMap);
@@ -307,7 +310,7 @@ export const rMapInFromTokens = selector<Map<string, Uint32Array>>({
   },
 });
 
-export const rMapNodeSearchStrings = selector<Map<string, string>>({
+const rMapNodeSearchStrings = selector<Map<string, string>>({
   key: 'rMapNodeSearchStrings',
   get: async ({ get }: IRecoilGetParams) => {
     const profileMap = get(rUserProfileMap);
@@ -336,7 +339,7 @@ export const rMapNodeSearchStrings = selector<Map<string, string>>({
 });
 
 // Bag is all the addresses that match the search regex
-export const rMapBag = selector<Set<string>>({
+const rMapBag = selector<Set<string>>({
   key: 'rMapBag',
   get: async ({ get }: IRecoilGetParams) => {
     const regex = get(rMapSearchRegex);
@@ -357,7 +360,7 @@ export const rMapBag = selector<Set<string>>({
 });
 
 // Results are the active profiles in the bag
-export const rMapResults = selector<IProfile[]>({
+const rMapResults = selector<IProfile[]>({
   key: 'rMapResults',
   get: async ({ get }: IRecoilGetParams) => {
     const profileMap = get(rUserProfileMap);
@@ -377,7 +380,7 @@ interface IMeasures {
   measures: Map<string, number>;
 }
 
-export const rMapMeasures = selectorFamily<IMeasures, MetricEnum>({
+const rMapMeasures = selectorFamily<IMeasures, MetricEnum>({
   key: 'rMapMeasures',
   get:
     (metric: MetricEnum) =>
@@ -471,7 +474,7 @@ export const AmContextDefault = {
 
 // Context is stored in a useRef so that the d3-force-3d callbacks can
 // access it without rerenders that would reset it.
-export const rMapContext = selector<IMapContext>({
+const rMapContext = selector<IMapContext>({
   key: 'rMapContext',
   get: async ({ get }: IRecoilGetParams) => {
     const egoAddress = get(rMapEgoAddress);

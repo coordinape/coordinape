@@ -41,6 +41,7 @@ export const AMForceGraph = ({
 }) => {
   const fgRef = useRef<any>(null);
   const recoilMapGraphData = useMapGraphData();
+  console.log({ recoilMapGraphData }); // eslint-disable-line
   const mapContext = useMapContext();
   const setAmEgoAddress = useSetAmEgoAddress();
 

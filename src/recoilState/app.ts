@@ -40,26 +40,9 @@ export const rSelectedCircleId = selector({
   },
 });
 
-/*
- *
- * Base DB Selectors
- *
- * TODO: These could just as well be replaced with direct references to
- * rManifest and rFullCircle
- ***************/
-
 export const rCirclesMap = selector({
   key: 'rCirclesMap',
   get: async ({ get }) => iti(get(rManifest).circles).toMap(c => c.id),
-});
-
-const rEpochsMap = selector({
-  key: 'rEpochsMap',
-  get: async ({ get }) => {
-    const result = iti(get(rManifest).epochs).toMap(e => e.id);
-    iti(get(rFullCircle).epochsMap.values()).forEach(e => result.set(e.id, e));
-    return result;
-  },
 });
 
 const rNomineesMap = selector({
@@ -78,6 +61,7 @@ export const rUsersMap = selector({
   },
 });
 
+// used only by map
 export const rGiftsMap = selector({
   key: 'rGiftsMap',
   get: async ({ get }) => get(rFullCircle).giftsMap,
@@ -141,6 +125,17 @@ export const rSelectedCircle = selector({
   get: ({ get }) => get(rCircle(get(rSelectedCircleId))),
 });
 
+// used only by map
+const rEpochsMap = selector({
+  key: 'rEpochsMap',
+  get: async ({ get }) => {
+    const result = iti(get(rManifest).epochs).toMap(e => e.id);
+    iti(get(rFullCircle).epochsMap.values()).forEach(e => result.set(e.id, e));
+    return result;
+  },
+});
+
+// used only by map
 const rCircleEpochs = selectorFamily<IEpoch[], number>({
   key: 'rCircleEpochs',
   get:
@@ -160,11 +155,14 @@ const rCircleEpochs = selectorFamily<IEpoch[], number>({
     },
 });
 
+// used only by map
 export const rCircleEpochsStatus = selectorFamily({
   key: 'rCircleEpochsStatus',
   get:
     (circleId: number) =>
     ({ get }) => {
+      // here we could pass in epochs directly instead of going up to
+      // rCircleEpochs & rEpochsMap
       const epochs = get(rCircleEpochs(circleId));
       const pastEpochs = epochs.filter(
         epoch => +new Date(epoch.end_date) - +new Date() <= 0
