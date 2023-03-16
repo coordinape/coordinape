@@ -1,4 +1,5 @@
-import { rotate } from 'keyframes';
+/* eslint-disable jsx-a11y/media-has-caption */
+// import { rotate } from 'keyframes';
 import { NavLink } from 'react-router-dom';
 
 import isFeatureEnabled from 'config/features';
@@ -8,30 +9,98 @@ import { SingleColumnLayout } from 'ui/layouts';
 
 export const MintPage = () => {
   const artWidthMobile = '320px';
-  const artWidth = '400px';
+  const artWidth = '500px';
+  const nodeWidth = '180px';
+  const nodeBorderWidth = '2px';
+  const nodeStyle = {
+    width: `${nodeWidth}`,
+    p: '$sm $sm $md',
+    position: 'absolute',
+    borderBottom: `${nodeBorderWidth} solid $border`,
+    zIndex: -1,
+    '.nodeHeader': {
+      fontSize: '50px',
+      '@md': {
+        fontSize: '40px',
+      },
+      fontWeight: '$semibold',
+      color: '$headingText',
+    },
+    '@sm': {
+      position: 'static',
+      width: '50%',
+      mt: '$md',
+    },
+  };
+  const nodeLineStyle = {
+    content: '',
+    position: 'absolute',
+    bottom: `-${nodeBorderWidth}`,
+    width: `calc(50vw - (${artWidth} / 2))`,
+    maxWidth: `calc(($mediumScreen / 2) - (${artWidth} / 2))`,
+    borderBottom: `${nodeBorderWidth} solid $border`,
+    '@sm': {
+      display: 'none',
+    },
+  };
 
   if (!isFeatureEnabled('cosoul')) {
     return <></>;
   }
   return (
     <>
-      <SingleColumnLayout css={{ m: 'auto' }}>
-        <Flex
+      <SingleColumnLayout
+        css={{ m: 'auto', alignItems: 'center', gap: '$1xl' }}
+      >
+        <Panel
           css={{
-            margin: 'auto',
-            gap: '$2xl',
-            mt: '$xl',
-            alignItems: 'center',
+            justifyContent: 'space-between',
+            borderColor: '$cta',
+            minWidth: '180px',
+            maxWidth: `${artWidth}`,
+            minHeight: `calc(${artWidth} * .6)`,
+            gap: '$3xl',
             '@sm': {
-              mt: 0,
-              flexDirection: 'column-reverse',
+              maxWidth: `${artWidthMobile}`,
+              height: 'auto',
+              gap: '$1xl',
             },
+          }}
+        >
+          <Flex column css={{ gap: '$sm' }}>
+            <Text variant="label">{"You've Earned"}</Text>
+            <Text h2 display>
+              2,345 pGIVE
+            </Text>
+            <Text size="small" color="secondary">
+              pGIVE is an abstraction of the GIVE you have received in
+              Coordinape
+            </Text>
+          </Flex>
+          <Flex column css={{ gap: '$md' }}>
+            <Button color="cta" size="large" as={NavLink} to={paths.cosoul}>
+              Mint Your CoSoul
+            </Button>
+            <Text size="small" color="secondary">
+              There are no fees to mint CoSouls, and gas costs are minimal.
+            </Text>
+          </Flex>
+        </Panel>
+        <Flex
+          column
+          css={{
+            width: '100%',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'relative',
           }}
         >
           <Box
             css={{
-              border: '1px dashed rgba(255, 255, 255, 0.3)',
-              borderRadius: '8px',
+              // border: '1px dashed rgba(255, 255, 255, 0.3)',
+              // borderRadius: '8px',
+              // background: 'black',
+              outline: '4px solid $surface',
               position: 'relative',
               width: '100%',
               maxWidth: `${artWidth}`,
@@ -40,9 +109,30 @@ export const MintPage = () => {
                 maxWidth: `${artWidthMobile}`,
                 height: `${artWidthMobile}`,
               },
+              iframe: {
+                border: 'none',
+                body: {
+                  m: 0,
+                },
+              },
             }}
           >
             <Box
+              css={
+                {
+                  // filter: 'blur(5px)',
+                }
+              }
+            >
+              <video
+                width="100%"
+                autoPlay
+                loop
+                muted
+                src="/imgs/background/cosoul-demo.mov"
+              />
+            </Box>
+            {/* <Box
               css={{
                 background:
                   'linear-gradient(rgb(198 219 137), rgb(34 119 127))',
@@ -57,8 +147,8 @@ export const MintPage = () => {
                   filter: `blur(calc(${artWidthMobile} / 5))`,
                 },
               }}
-            />
-            <Text
+            /> */}
+            {/* <Text
               color="default"
               semibold
               css={{
@@ -76,42 +166,130 @@ export const MintPage = () => {
               }}
             >
               CoSoul art will generate after minting
-            </Text>
+            </Text> */}
           </Box>
-          <Panel
+          {/* Nodes Container */}
+          <Flex
+            row
             css={{
-              justifyContent: 'space-between',
-              borderColor: '$cta',
-              minWidth: '180px',
-              maxWidth: `${artWidth}`,
-              height: `${artWidth}`,
-              gap: '$3xl',
-              '@sm': {
-                maxWidth: `${artWidthMobile}`,
-                height: 'auto',
-                gap: '$1xl',
-              },
+              flexWrap: 'wrap',
             }}
           >
-            <Flex column css={{ gap: '$sm' }}>
-              <Text variant="label">{"You've Earned"}</Text>
-              <Text h2 display>
-                2,345 pGIVE
-              </Text>
+            {/* Node */}
+            <Box
+              css={{
+                ...nodeStyle,
+                bottom: 'calc(100% - 40px)',
+                left: 0,
+                '&:after': {
+                  ...nodeLineStyle,
+                  left: '100%',
+                  rotate: '15deg',
+                  transformOrigin: '0 0',
+                },
+              }}
+            >
+              <Text className="nodeHeader">2,300</Text>
               <Text size="small" color="secondary">
-                pGIVE is an abstraction of the GIVE you have received in
-                Coordinape
+                GIVE
               </Text>
-            </Flex>
-            <Flex column css={{ gap: '$md' }}>
-              <Button color="cta" size="large" as={NavLink} to={paths.cosoul}>
-                Mint Your CoSoul
-              </Button>
+            </Box>
+            {/* Node */}
+            <Box
+              css={{
+                ...nodeStyle,
+                bottom: 'calc(100% - 40px)',
+                right: 0,
+                '&:after': {
+                  ...nodeLineStyle,
+                  right: '100%',
+                  rotate: '-15deg',
+                  transformOrigin: '100% 0',
+                },
+              }}
+            >
+              <Text className="nodeHeader">2</Text>
               <Text size="small" color="secondary">
-                There are no fees to mint CoSouls, and gas costs are minimal.
+                Organizations
               </Text>
-            </Flex>
-          </Panel>
+            </Box>
+            {/* Node */}
+            <Box
+              css={{
+                ...nodeStyle,
+                right: 0,
+                bottom: '50%',
+                '&:after': {
+                  ...nodeLineStyle,
+                  right: '99.5%',
+                  rotate: '-5deg',
+                  transformOrigin: '100% 0',
+                },
+              }}
+            >
+              <Text className="nodeHeader">5</Text>
+              <Text size="small" color="secondary">
+                Circles
+              </Text>
+            </Box>
+            {/* Node */}
+            <Box
+              css={{
+                ...nodeStyle,
+                right: 0,
+                bottom: 0,
+                '&:after': {
+                  ...nodeLineStyle,
+                  right: '99.5%',
+                  rotate: '15deg',
+                  transformOrigin: '100% 0',
+                },
+              }}
+            >
+              <Text className="nodeHeader">234</Text>
+              <Text size="small" color="secondary">
+                Contributions
+              </Text>
+            </Box>
+            {/* Node */}
+            <Box
+              css={{
+                ...nodeStyle,
+                left: 0,
+                bottom: 0,
+                '&:after': {
+                  ...nodeLineStyle,
+                  left: '99.5%',
+                  rotate: '-15deg',
+                  transformOrigin: '0 0',
+                },
+              }}
+            >
+              <Text className="nodeHeader">180</Text>
+              <Text size="small" color="secondary">
+                Notes
+              </Text>
+            </Box>
+            {/* Node */}
+            <Box
+              css={{
+                ...nodeStyle,
+                bottom: '50%',
+                left: 0,
+                '&:after': {
+                  ...nodeLineStyle,
+                  left: '99.5%',
+                  rotate: '5deg',
+                  transformOrigin: '0 0',
+                },
+              }}
+            >
+              <Text className="nodeHeader">25</Text>
+              <Text size="small" color="secondary">
+                Epoch months
+              </Text>
+            </Box>
+          </Flex>
         </Flex>
       </SingleColumnLayout>
     </>
