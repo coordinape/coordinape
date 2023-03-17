@@ -74,7 +74,7 @@ context('Coordinape', () => {
     cy.get('table').contains('100');
 
     // submit distribution onchain
-    cy.visit(`/circles/${circleId}/history`);
+    cy.visit(`/circles/${circleId}/epochs`);
     cy.contains('a', 'Export', { timeout: 120000 }).click();
     cy.get('input[type=text]:last', { timeout: 90000 }).click().type('4500');
     cy.contains('button', 'Submit USDC Vault Distribution').click();

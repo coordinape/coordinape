@@ -18,7 +18,7 @@ context('Coordinape', () => {
     });
   });
   it('can create new epoch after changing parameters', () => {
-    cy.visit(`/circles/${circleId}/history`);
+    cy.visit(`/circles/${circleId}/epochs`);
     cy.login();
 
     cy.contains(circleName, { timeout: 120000 });
