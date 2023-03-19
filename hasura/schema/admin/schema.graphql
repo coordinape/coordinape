@@ -436,6 +436,7 @@ input String_comparison_exp {
 
 input UpdateCircleInput {
   alloc_text: String
+  allow_distribute_evenly: Boolean
   auto_opt_out: Boolean
   circle_id: Int!
   cont_help_text: String
@@ -4354,6 +4355,7 @@ columns and relationships of "circles"
 """
 type circles {
   alloc_text: String
+  allow_distribute_evenly: Boolean!
 
   """
   An array relationship
@@ -5232,6 +5234,7 @@ input circles_bool_exp {
   _not: circles_bool_exp
   _or: [circles_bool_exp!]
   alloc_text: String_comparison_exp
+  allow_distribute_evenly: Boolean_comparison_exp
   api_keys: circle_api_keys_bool_exp
   api_keys_aggregate: circle_api_keys_aggregate_bool_exp
   auto_opt_out: Boolean_comparison_exp
@@ -5315,6 +5318,7 @@ input type for inserting data into table "circles"
 """
 input circles_insert_input {
   alloc_text: String
+  allow_distribute_evenly: Boolean
   api_keys: circle_api_keys_arr_rel_insert_input
   auto_opt_out: Boolean
   burns: burns_arr_rel_insert_input
@@ -5503,6 +5507,7 @@ Ordering options when selecting data from "circles".
 """
 input circles_order_by {
   alloc_text: order_by
+  allow_distribute_evenly: order_by
   api_keys_aggregate: circle_api_keys_aggregate_order_by
   auto_opt_out: order_by
   burns_aggregate: burns_aggregate_order_by
@@ -5561,6 +5566,11 @@ enum circles_select_column {
   column name
   """
   alloc_text
+
+  """
+  column name
+  """
+  allow_distribute_evenly
 
   """
   column name
@@ -5700,6 +5710,11 @@ enum circles_select_column_circles_aggregate_bool_exp_bool_and_arguments_columns
   """
   column name
   """
+  allow_distribute_evenly
+
+  """
+  column name
+  """
   auto_opt_out
 
   """
@@ -5737,6 +5752,11 @@ enum circles_select_column_circles_aggregate_bool_exp_bool_and_arguments_columns
 select "circles_aggregate_bool_exp_bool_or_arguments_columns" columns of table "circles"
 """
 enum circles_select_column_circles_aggregate_bool_exp_bool_or_arguments_columns {
+  """
+  column name
+  """
+  allow_distribute_evenly
+
   """
   column name
   """
@@ -5778,6 +5798,7 @@ input type for updating data in table "circles"
 """
 input circles_set_input {
   alloc_text: String
+  allow_distribute_evenly: Boolean
   auto_opt_out: Boolean
   cont_help_text: String
   contact: String
@@ -5904,6 +5925,7 @@ Initial value of the column from where the streaming should start
 """
 input circles_stream_cursor_value_input {
   alloc_text: String
+  allow_distribute_evenly: Boolean
   auto_opt_out: Boolean
   cont_help_text: String
   contact: String
@@ -5966,6 +5988,11 @@ enum circles_update_column {
   column name
   """
   alloc_text
+
+  """
+  column name
+  """
+  allow_distribute_evenly
 
   """
   column name

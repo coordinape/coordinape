@@ -902,6 +902,7 @@ export type ValueTypes = {
   };
   ['UpdateCircleInput']: {
     alloc_text?: string | undefined | null;
+    allow_distribute_evenly?: boolean | undefined | null;
     auto_opt_out?: boolean | undefined | null;
     circle_id: number;
     cont_help_text?: string | undefined | null;
@@ -16195,6 +16196,7 @@ export type GraphQLTypes = {
   };
   ['UpdateCircleInput']: {
     alloc_text?: string | undefined;
+    allow_distribute_evenly?: boolean | undefined;
     auto_opt_out?: boolean | undefined;
     circle_id: number;
     cont_help_text?: string | undefined;

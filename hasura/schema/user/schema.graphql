@@ -402,6 +402,7 @@ input String_comparison_exp {
 
 input UpdateCircleInput {
   alloc_text: String
+  allow_distribute_evenly: Boolean
   auto_opt_out: Boolean
   circle_id: Int!
   cont_help_text: String
