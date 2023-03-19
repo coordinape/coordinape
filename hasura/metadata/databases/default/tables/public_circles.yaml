@@ -149,6 +149,7 @@ select_permissions:
     permission:
       columns:
         - alloc_text
+        - allow_distribute_evenly
         - auto_opt_out
         - cont_help_text
         - created_at
