@@ -51,6 +51,7 @@ export const queryProfile = async (address: string): Promise<IApiProfile> => {
                 default_opt_in: true,
                 is_verified: true,
                 alloc_text: true,
+                allow_distribute_evenly: true,
                 cont_help_text: true,
                 token_name: true,
                 vouching: true,

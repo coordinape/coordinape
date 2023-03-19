@@ -565,6 +565,7 @@ const GivePage = () => {
             retrySave={saveGifts}
             gridView={gridView}
             previousEpochEndDate={previousEpoch?.endDate}
+            allowDistributeEvenly={circle?.allow_distribute_evenly}
           />
         )}
       </SingleColumnLayout>
@@ -589,6 +590,7 @@ type AllocateContentsProps = {
   retrySave: () => void;
   gridView: boolean;
   previousEpochEndDate?: DateTime;
+  allowDistributeEvenly?: boolean;
 };
 
 const AllocateContents = ({
@@ -606,6 +608,7 @@ const AllocateContents = ({
   retrySave,
   gridView,
   previousEpochEndDate,
+  allowDistributeEvenly,
 }: AllocateContentsProps) => {
   const { showError, showDefault } = useToast();
 
@@ -846,7 +849,9 @@ const AllocateContents = ({
                 <Button
                   size="medium"
                   color="primary"
-                  disabled={maxedOut || noGivingAllowed}
+                  disabled={
+                    maxedOut || noGivingAllowed || !allowDistributeEvenly
+                  }
                   onClick={e => {
                     (e.target as HTMLButtonElement).blur();
                     distributeEvenly();

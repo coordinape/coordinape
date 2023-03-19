@@ -118,6 +118,7 @@ const schema = z.object({
         message: 'Circle name must be at least 3 characters long.',
       })
   ),
+  allow_distribute_evenly: z.string().transform(stringBoolTransform),
   auto_opt_out: z.string().transform(stringBoolTransform),
   discord_webhook: z.optional(z.string().url().or(z.literal(''))),
   min_vouches: z.optional(
@@ -373,6 +374,7 @@ export const CircleAdminPage = () => {
         vouching_text: data.vouching_text,
         only_giver_vouch: data.only_giver_vouch,
         team_selection: data.team_selection,
+        allow_distribute_evenly: data.allow_distribute_evenly,
         auto_opt_out: data.auto_opt_out,
         fixed_payment_token_type: data.fixed_payment_token_type,
         show_pending_gives: !data.hide_gives,
@@ -613,6 +615,29 @@ export const CircleAdminPage = () => {
                       {
                         label: 'OFF',
                         text: "Members' opt-in/opt-out settings will not be changed automatically.",
+                      },
+                    ]}
+                  />
+                }
+              />
+              <FormRadioGroup
+                label="Allow Distribute Evenly"
+                name="allow_distribute_evenly"
+                control={control}
+                options={radioGroupOptions.onOff}
+                defaultValue={
+                  circle?.allow_distribute_evenly ? 'true' : 'false'
+                }
+                infoTooltip={
+                  <RadioToolTip
+                    optionsInfo={[
+                      {
+                        label: 'ON',
+                        text: 'Members can distribute their remaining gives evenly with a single click',
+                      },
+                      {
+                        label: 'OFF',
+                        text: 'Distribute remaining gives evenly button will be disabled',
                       },
                     ]}
                   />
