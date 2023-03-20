@@ -1,9 +1,20 @@
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react';
+import { client } from 'lib/gql/client';
 
 import { TestWrapper } from 'utils/testing';
 
 import { ActivityRow } from './ActivityRow';
 import { Activity } from './useInfiniteActivities';
+
+jest.mock('lib/gql/client', () => ({
+  client: { mutate: jest.fn() },
+}));
 
 test('shows unknown activity if data is missing', async () => {
   const activity: Activity = {
@@ -204,6 +215,19 @@ describe('reactions', () => {
   });
 
   test('can be added via click', async () => {
+    (client.mutate as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        insert_reactions_one: {
+          id: 3,
+          reaction: '🔥',
+          profile: {
+            name: 'Meee',
+            id: 5282,
+          },
+        },
+      })
+    );
+
     const Harness = () => {
       return <ActivityRow activity={activity} />;
     };
@@ -222,5 +246,11 @@ describe('reactions', () => {
     const reactButton = screen.getByLabelText('react');
     fireEvent.click(reactButton);
     expect(screen.queryAllByText('🧠').length).toBeGreaterThan(1);
+
+    const brain = screen.getByTestId('toggle-🔥');
+    fireEvent.click(brain);
+    await waitFor(() => {
+      expect(screen.getByText('🔥 1'));
+    });
   });
 });
