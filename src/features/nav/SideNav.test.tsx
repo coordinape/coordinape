@@ -67,7 +67,7 @@ test('show circle links for distributions route', async () => {
   expect(screen.getByText('GIVE'));
   expect(screen.getByText('Members'));
   expect(screen.getByText('Admin'));
-  expect(screen.getByText('Overview'));
+  expect(screen.getByText('Epochs'));
 });
 
 test('show circle links for org members under "other circles"', async () => {

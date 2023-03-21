@@ -24,6 +24,7 @@ const staticFeatureFlags: Partial<Record<FeatureName, boolean>> = {
   guild: true,
   epoch_timing_banner: !!process.env.REACT_APP_FEATURE_FLAG_EPOCH_TIMING_BANNER,
   org_view: false,
+  activity: true,
 };
 
 // this code is safe to use in a non-browser environment because of the typeof
