@@ -103,11 +103,12 @@ export const ReactionOptions = ({
             >
               <input
                 id={'react-' + r}
-                className="toggle-heart"
+                data-testid={'toggle-' + r}
+                className="reaction-input"
                 type="checkbox"
               />
               <StyledLabel
-                className="heart-label"
+                className="reaction-label"
                 htmlFor={'react-' + r}
                 aria-label="like"
               >
