@@ -3,7 +3,6 @@ import React from 'react';
 import { Button } from '../../../ui';
 
 export const ReactionButton = ({
-  // myReaction,
   ...props
 }: {
   myReaction?: number;
