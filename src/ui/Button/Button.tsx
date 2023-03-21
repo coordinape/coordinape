@@ -153,15 +153,16 @@ export const Button = styled('button', {
       reaction: {
         backgroundColor: '$reactionButton',
         border: '1px solid transparent',
-        color: '$neutralButtonText',
+        color: '$reactionButtonText',
         borderColor: 'transparent',
         transition: '0.2s all',
         '&:hover': {
           borderColor: '$reactionButtonBorderHover !important',
-          color: '$white !important',
+          color: '$reactionButtonTextHover',
         },
         '&[data-myreaction=true]': {
           borderColor: '$reactionButtonBorderMine',
+          backgroundColor: '$reactionButton',
         },
       },
     },

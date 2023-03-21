@@ -137,6 +137,12 @@ export const colors = {
   neutralButtonText: figmaColors.grey1,
   neutralButtonTextHover: figmaColors.grey1,
 
+  reactionButtonBorderMine: figmaColors.secondary3,
+  reactionButtonBorderHover: figmaColors.secondary5,
+  reactionButton: figmaColors.neutral2,
+  reactionButtonText: figmaColors.secondary4,
+  reactionButtonTextHover: '$reactionButtonBorderHover',
+
   modalBackground: '#00000090',
   modalBorderColor: 'transparent',
 
@@ -547,21 +553,17 @@ export const dark = createTheme({
     navLinkText: figmaColors.grey4,
     navLinkHoverBackground: figmaColors.grey8,
 
-    reactionButtonSelected: figmaColors.primary10,
     reactionButtonBorderMine: figmaColors.primary7,
     reactionButtonBorderHover: figmaColors.primary3,
     reactionButton: figmaColors.neutral8,
+
+    reactionButtonText: '$text',
+    reactionButtonTextHover: '$reactionButtonBorderHover',
   },
   shadows: {
     shadow1: '0px 0px 35px 12px rgb(0 0 0 / 40%)',
     toastifyShadow: '0px 5px 25px -5px black',
     modalShadow: '0 5px 70px 28px black',
-  },
-});
-
-export const lightx = createTheme({
-  colors: {
-    cta: 'orangered',
   },
 });
 

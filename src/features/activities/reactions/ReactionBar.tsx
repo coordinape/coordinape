@@ -114,6 +114,7 @@ export const ReactionBar = ({
             mr: '$xxs',
             minHeight: 0,
             zIndex: 10,
+            backgroundColor: 'transparent',
             '&:hover': {
               color: '$linkHover',
             },
