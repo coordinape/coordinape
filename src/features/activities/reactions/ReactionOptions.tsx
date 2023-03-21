@@ -101,13 +101,6 @@ export const ReactionOptions = ({
                 position: 'relative',
                 borderColor: 'transparent',
               }}
-              // css={{
-              //   background: myReactions[r] ? '$neutralButton' : 'transparent',
-              //   borderColor: 'transparent',
-              //   width: 34,
-              //   height: 32,
-              //   position: 'relative',
-              // }}
             >
               <input
                 id={'react-' + r}

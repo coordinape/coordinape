@@ -103,7 +103,6 @@ export const ReactionBar = ({
           myReactions={myReactions}
         />
       )}
-
       <Flex css={{ alignItems: 'center', gap: '$sm' }}>
         <ReactionButton
           color="transparent"
