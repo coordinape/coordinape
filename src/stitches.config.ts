@@ -1,8 +1,9 @@
-import { createStitches } from '@stitches/react';
 import type * as Stitches from '@stitches/react';
-export type { VariantProps } from '@stitches/react';
+import { createStitches } from '@stitches/react';
 
 import { newColors as figmaColors } from 'ui/new-colors';
+
+export type { VariantProps } from '@stitches/react';
 
 // FIXME these don't match the Material-UI breakpoints
 export const MediaQueryKeys = {
@@ -545,6 +546,11 @@ export const dark = createTheme({
     toastifyIconBackgroundError: figmaColors.error10,
     navLinkText: figmaColors.grey4,
     navLinkHoverBackground: figmaColors.grey8,
+
+    reactionButtonSelected: figmaColors.primary10,
+    reactionButtonBorderMine: figmaColors.primary7,
+    reactionButtonBorderHover: figmaColors.primary3,
+    reactionButton: figmaColors.neutral8,
   },
   shadows: {
     shadow1: '0px 0px 35px 12px rgb(0 0 0 / 40%)',

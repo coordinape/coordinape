@@ -104,7 +104,7 @@ export const ReactionBar = ({
         />
       )}
 
-      <Flex css={{ alignItems: 'center', gap: '$xs' }}>
+      <Flex css={{ alignItems: 'center', gap: '$sm' }}>
         <ReactionButton
           color="transparent"
           onClick={() => setShowAddReaction(prev => !prev)}

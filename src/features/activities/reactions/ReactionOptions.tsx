@@ -89,17 +89,25 @@ export const ReactionOptions = ({
         {DEFAULT_REACTIONS.map(r => {
           return (
             <ReactionButton
-              color="neutral"
+              color="reaction"
               key={r}
               onClick={() =>
                 myReactions[r] ? deleteReaction(myReactions[r]) : addReaction(r)
               }
+              data-myreaction={!!myReactions[r]}
               css={{
-                background: myReactions[r] ? '$neutralButton' : 'transparent',
                 width: `${reactionOptionWidth}`,
                 height: `calc(${reactionOptionWidth} - 2px)`,
                 position: 'relative',
+                borderColor: 'transparent',
               }}
+              // css={{
+              //   background: myReactions[r] ? '$neutralButton' : 'transparent',
+              //   borderColor: 'transparent',
+              //   width: 34,
+              //   height: 32,
+              //   position: 'relative',
+              // }}
             >
               <input
                 id={'react-' + r}

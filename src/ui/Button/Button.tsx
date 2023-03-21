@@ -150,6 +150,20 @@ export const Button = styled('button', {
           backgroundColor: '$navLinkHoverBackground',
         },
       },
+      reaction: {
+        backgroundColor: '$reactionButton',
+        border: '1px solid transparent',
+        color: '$neutralButtonText',
+        borderColor: 'transparent',
+        transition: '0.2s all',
+        '&:hover': {
+          borderColor: '$reactionButtonBorderHover !important',
+          color: '$white !important',
+        },
+        '&[data-myreaction=true]': {
+          borderColor: '$reactionButtonBorderMine',
+        },
+      },
     },
     size: {
       large: {
