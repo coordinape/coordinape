@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { updateUser, updateCircle } from 'lib/gql/mutations';
-import { isUserAdmin } from 'lib/users';
+import { isUserAdmin, isUserCoordinape } from 'lib/users';
 import debounce from 'lodash/debounce';
 import { DateTime } from 'luxon';
 import { Helmet } from 'react-helmet';
@@ -357,15 +357,31 @@ const GivePage = () => {
   }, [startingTeammates, allUsers]);
 
   useEffect(() => {
-    if (pendingGiftsFrom) {
-      setGifts(
-        pendingGiftsFrom.reduce<typeof gifts>((map, g) => {
-          map[g.recipient_id] = g;
-          return map;
-        }, {})
-      );
+    if (!pendingGiftsFrom) return;
+
+    // set default donation to Coordinape to 1% (rounded down)
+    if (pendingGiftsFrom.length === 0) {
+      const grantee = allUsers?.find(isUserCoordinape);
+      if (grantee)
+        setGifts({
+          [grantee.id]: {
+            note: '',
+            recipient_id: grantee.id,
+            tokens: Math.floor(myUser.starting_tokens / 100),
+          },
+        });
+
+      return;
     }
-  }, [pendingGiftsFrom]);
+
+    // load previously-saved allocations
+    setGifts(
+      pendingGiftsFrom.reduce<typeof gifts>((map, g) => {
+        map[g.recipient_id] = g;
+        return map;
+      }, {})
+    );
+  }, [pendingGiftsFrom, allUsers]);
 
   // update the total give used whenever the gifts change
   useEffect(() => {
