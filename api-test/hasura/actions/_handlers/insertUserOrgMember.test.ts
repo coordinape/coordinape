@@ -38,12 +38,13 @@ test('Check that the created user has been added to org_members', async () => {
 
   const { org_members } = await client.query(
     {
-      org_members: [{}, { id: true, deleted_at: true }],
+      org_members: [{}, { id: true, deleted_at: true, org_id: true }],
     },
     { operationName: 'test' }
   );
 
   expect(org_members[0].id).toBeDefined();
+  expect(org_members[0].org_id).toBe(org.id);
   expect(org_members[0].deleted_at).toBeNull();
 });
 
@@ -58,7 +59,7 @@ test('org_member will remain undeleted unless deleted from all org circles', asy
     },
     { operationName: 'test' }
   );
-  await new Promise(res => setTimeout(res, 600));
+  await new Promise(res => setTimeout(res, 1000));
   const { org_members: orgMembers1 } = await client.query(
     {
       org_members: [
@@ -81,7 +82,7 @@ test('org_member will remain undeleted unless deleted from all org circles', asy
     },
     { operationName: 'test' }
   );
-  await new Promise(res => setTimeout(res, 600));
+  await new Promise(res => setTimeout(res, 1000));
 
   const { org_members: orgMembers2 } = await client.query(
     {
