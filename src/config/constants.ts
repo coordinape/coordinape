@@ -1,7 +1,3 @@
-import { ReactComponent as CoinbaseSVG } from 'assets/svgs/wallet/coinbase.svg';
-import { ReactComponent as MetaMaskSVG } from 'assets/svgs/wallet/metamask-color.svg';
-import { ReactComponent as WalletConnectSVG } from 'assets/svgs/wallet/wallet-connect.svg';
-
 // TODO: why does this error?
 // import { EConnectorNames } from 'types';
 export enum EConnectorNames {
@@ -19,12 +15,6 @@ export const COORDINAPE_USER_AVATAR = '/imgs/logo/co-square.png';
 
 export const ZERO_UINT =
   '0x0000000000000000000000000000000000000000000000000000000000000000';
-
-export const WALLET_ICONS: { [key in EConnectorNames]: typeof MetaMaskSVG } = {
-  [EConnectorNames.Injected]: MetaMaskSVG,
-  [EConnectorNames.WalletConnect]: WalletConnectSVG,
-  [EConnectorNames.WalletLink]: CoinbaseSVG,
-};
 
 export const SKILLS = [
   'People & Governance',
