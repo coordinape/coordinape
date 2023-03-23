@@ -17,6 +17,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       },
     }: EventTriggerPayload<'reactions', 'INSERT'> = req.body;
 
+    // eslint-disable-next-line no-console
+    console.log({ req: req.body.event, data: req.body.event.data });
+
     const data = await getCircleandOrg(reaction_id);
     await mutations.insertInteractionEvents({
       event_type: 'reaction_create',
