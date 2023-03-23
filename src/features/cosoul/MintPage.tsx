@@ -48,7 +48,7 @@ export const MintPage = () => {
     return <></>;
   }
   return (
-    <>
+    <Box>
       <SingleColumnLayout
         css={{ m: 'auto', alignItems: 'center', gap: '$1xl' }}
       >
@@ -79,7 +79,7 @@ export const MintPage = () => {
           </Flex>
           <Flex column css={{ gap: '$md' }}>
             <Button color="cta" size="large" as={NavLink} to={paths.cosoul}>
-              Mint Your CoSoul
+              Sync Your CoSoul
             </Button>
             <Text size="small" color="secondary">
               There are no fees to mint CoSouls, and gas costs are minimal.
@@ -93,6 +93,7 @@ export const MintPage = () => {
             alignItems: 'center',
             justifyContent: 'center',
             position: 'relative',
+            mb: '$4xl',
           }}
         >
           <Box
@@ -292,6 +293,6 @@ export const MintPage = () => {
           </Flex>
         </Flex>
       </SingleColumnLayout>
-    </>
+    </Box>
   );
 };
