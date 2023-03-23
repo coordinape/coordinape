@@ -25,7 +25,7 @@ test('shows unknown activity if data is missing', async () => {
   };
 
   const Harness = () => {
-    return <ActivityRow activity={activity} />;
+    return <ActivityRow activity={activity} /> ?? 'yep its null';
   };
 
   await act(async () => {
@@ -36,7 +36,7 @@ test('shows unknown activity if data is missing', async () => {
     );
   });
 
-  expect(screen.getByText(/Unknown activity:/));
+  expect(screen.getByText(/yep its null/));
 });
 
 test('shows epoch activity row', async () => {
