@@ -48,6 +48,7 @@ if [ "$SET_CI_VARS" ]; then
   export IMAGES_AWS_ENDPOINT=http://s3.localhost.localstack.cloud:4666
   export BACKFILL_TO="$(date +%Y-%m-01)"
   export PGIVE_CIRCLE_MAX_PER_CRON=20
+  export MIXPANEL_PROJECT_TOKEN=mock-mixpanel-token
 fi
 
 if [ "$OTHERARGS" ]; then

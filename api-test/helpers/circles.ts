@@ -46,7 +46,7 @@ export async function createCircle(
             organization_id: organizationId,
           },
         },
-        { id: true, name: true },
+        { id: true, name: true, organization: { id: true, name: true } },
       ],
     },
     { operationName: 'createCircle' }
