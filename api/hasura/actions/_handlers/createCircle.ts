@@ -1,7 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
 
-import { COORDINAPE_USER_ADDRESS } from '../../../../api-lib/config';
 import * as mutations from '../../../../api-lib/gql/mutations';
 import * as queries from '../../../../api-lib/gql/queries';
 import { UnauthorizedError } from '../../../../api-lib/HttpError';
@@ -43,8 +42,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     const createCircle = createCircleFn(
       input,
       sessionVariables.hasuraAddress,
-      sessionVariables.hasuraProfileId,
-      COORDINAPE_USER_ADDRESS
+      sessionVariables.hasuraProfileId
     );
 
     const updater = new ImageUpdater<
@@ -65,15 +63,13 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 function createCircleFn(
   circleInput: z.infer<typeof createCircleSchemaInput>,
   userAddress: string,
-  userProfileId: number,
-  coordinapeAddress: string
+  userProfileId: number
 ) {
   return async (fileName: string | null) => {
     const circle = await mutations.insertCircleWithAdmin(
       circleInput,
       userAddress,
       userProfileId,
-      coordinapeAddress,
       fileName
     );
 

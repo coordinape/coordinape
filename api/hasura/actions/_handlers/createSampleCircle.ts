@@ -1,7 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { DateTime } from 'luxon';
 
-import { COORDINAPE_USER_ADDRESS } from '../../../../api-lib/config';
 import { profiles_constraint } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import * as mutations from '../../../../api-lib/gql/mutations';
@@ -103,7 +102,6 @@ async function createCircle(
     { organization_id, ...sampleCircleDefaults },
     userAddress,
     userProfileId,
-    COORDINAPE_USER_ADDRESS,
     '' // TODO??
   );
 
