@@ -24,19 +24,17 @@ test('shows unknown activity if data is missing', async () => {
     created_at: new Date('2022-03-15T09:30:00'),
   };
 
-  const Harness = () => {
-    return <ActivityRow activity={activity} /> ?? 'yep its null';
-  };
-
   await act(async () => {
     await render(
       <TestWrapper withWeb3>
-        <Harness />
+        <div data-testid="harness_wrapper">
+          <ActivityRow activity={activity} />;
+        </div>
       </TestWrapper>
     );
   });
 
-  expect(screen.getByText(/yep its null/));
+  expect(screen.getByTestId('harness_wrapper').children).toHaveLength(0);
 });
 
 test('shows epoch activity row', async () => {
