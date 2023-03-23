@@ -9,6 +9,7 @@ import createContributionInteractionEvent from '../../../api-lib/event_triggers/
 import createNomineeDiscord from '../../../api-lib/event_triggers/createNomineeDiscord';
 import createNomineeDiscordBot from '../../../api-lib/event_triggers/createNomineeDiscordBot';
 import createNomineeTelegram from '../../../api-lib/event_triggers/createNomineeTelegram';
+import createReactionInteractionEvent from '../../../api-lib/event_triggers/createReactionInteractionEvent';
 import createVouchedUser from '../../../api-lib/event_triggers/createVouchedUser';
 import discordUserLinked from '../../../api-lib/event_triggers/discordUserLinked';
 import optOutDiscord from '../../../api-lib/event_triggers/optOutDiscord';
@@ -39,6 +40,7 @@ const HANDLERS: HandlerDict = {
   checkNomineeTelegram,
   createCircleCRM,
   createContributionInteractionEvent,
+  createReactionInteractionEvent,
   createNomineeDiscord,
   userAddedDiscordBot,
   userRemovedDiscordBot,
