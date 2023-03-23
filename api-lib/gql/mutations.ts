@@ -2,6 +2,7 @@ import assert from 'assert';
 
 import { ENTRANCE } from '../../src/common-lib/constants';
 import { Role } from '../../src/lib/users';
+import { COORDINAPE_USER_ADDRESS } from '../config';
 
 import {
   GraphQLTypes,
@@ -246,7 +247,6 @@ export async function insertCircleWithAdmin(
   },
   userAddress: string,
   userProfileId: number,
-  coordinapeAddress: string,
   fileName: string | null
 ) {
   const insertUsers = {
@@ -257,7 +257,7 @@ export async function insertCircleWithAdmin(
         entrance: ENTRANCE.ADMIN,
       },
       {
-        address: coordinapeAddress,
+        address: COORDINAPE_USER_ADDRESS,
         role: Role.COORDINAPE,
         non_receiver: false,
         fixed_non_receiver: false,
@@ -294,7 +294,7 @@ export async function insertCircleWithAdmin(
         {
           object: {
             name: 'Coordinape',
-            address: coordinapeAddress,
+            address: COORDINAPE_USER_ADDRESS,
           },
           on_conflict: {
             constraint: profiles_constraint.profiles_address_key,
