@@ -10,7 +10,8 @@ export type FeatureName =
   | 'disable_distribute_evenly'
   | 'epoch_timing_banner'
   | 'activity'
-  | 'org_view';
+  | 'org_view'
+  | 'debug';
 
 // this is a very simple implementation of build-time feature flags that you can
 // hardcode or set with environment variables
