@@ -17,13 +17,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       },
     }: EventTriggerPayload<'reactions', 'INSERT'> = req.body;
 
-    // eslint-disable-next-line no-console
-    console.log({ req: req.body.event, data: req.body.event.data });
-
-    const data = await getCircleandOrg(reaction_id);
+    const { circle_id, organization_id } = await getCircleandOrg(reaction_id);
     await mutations.insertInteractionEvents({
       event_type: 'reaction_create',
-      circle_id: data.reactions_by_pk?.activity?.circle_id,
+      circle_id: circle_id,
+      org_id: organization_id,
       profile_id: profile_id,
       data: {
         created_at: created_at,
@@ -48,6 +46,7 @@ async function getCircleandOrg(reaction_id: number) {
         {
           activity: {
             circle_id: true,
+            organization_id: true,
           },
         },
       ],
@@ -58,5 +57,8 @@ async function getCircleandOrg(reaction_id: number) {
   );
 
   assert(data.reactions_by_pk?.activity);
-  return data;
+  return {
+    circle_id: data.reactions_by_pk.activity.circle_id,
+    organization_id: data.reactions_by_pk.activity.organization_id,
+  };
 }

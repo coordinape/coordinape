@@ -52,6 +52,7 @@ describe('#handler', () => {
     await handler(req, res);
 
     expect(adminClient.query as jest.Mock).toBeCalledTimes(1);
+    expect(adminClient.mutate as jest.Mock).toBeCalledTimes(1);
     expect(res.status).toHaveBeenCalledWith(200);
   });
 });
