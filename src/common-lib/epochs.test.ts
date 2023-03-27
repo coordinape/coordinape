@@ -1,6 +1,6 @@
 import { DateTime, Settings } from 'luxon';
 
-import { findSameDayNextMonth } from './epochs';
+import { findSameDayNextMonth, findMonthlyEndDate } from './epochs';
 
 beforeAll(() => {
   Settings.defaultZone = 'utc';
@@ -62,4 +62,9 @@ test('handles weekly boundaries correctly', () => {
   // 5th Tuesday each month truncated to the last Tuesday
   result = findSameDayNextMonth(start, { week: 4 });
   expect(result.toISO()).toBe('2023-03-28T00:00:00.000Z');
+
+  // check southern hemisphere time zone DTS
+  start = DateTime.fromISO('2023-03-28T13:00:00.000Z');
+  result = findMonthlyEndDate(start);
+  expect(result.toISO()).toBe('2023-04-25T13:00:00.000Z');
 });

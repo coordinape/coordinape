@@ -137,9 +137,14 @@ export function validateMonthlyInput(
 ): ErrorReturn {
   const { start_date, end_date } = input;
 
-  const endDateIsValid = findSameDayNextMonth(start_date, input).equals(
-    end_date
-  );
+  const endDateIsValid =
+    findSameDayNextMonth(start_date, input).equals(end_date) ||
+    findSameDayNextMonth(start_date, input).equals(
+      end_date.plus({ hours: 1 })
+    ) ||
+    findSameDayNextMonth(start_date, input).equals(
+      end_date.minus({ hours: 1 })
+    );
   if (!endDateIsValid)
     return new Error(
       dedent`
