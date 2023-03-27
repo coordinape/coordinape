@@ -186,7 +186,10 @@ export function validateCustomInput({
   const frequencyDuration = Duration.fromObject({
     [frequency_unit]: frequency,
   });
-  if (interval.length(frequency_unit) > frequencyDuration.as(frequency_unit))
+  if (
+    interval.length(frequency_unit) >
+    frequencyDuration.plus({ hours: 1 }).as(frequency_unit)
+  )
     return new Error(
       dedent`
         epoch duration ${
