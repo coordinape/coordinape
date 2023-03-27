@@ -114,6 +114,7 @@ export const getCircleAllocationText = async (circleId: number) => {
             },
             {
               alloc_text: true,
+              allow_distribute_evenly: true,
             },
           ],
         },

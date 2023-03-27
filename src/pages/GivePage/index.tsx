@@ -13,7 +13,6 @@ import * as z from 'zod';
 
 import { Awaited } from '../../../api-lib/ts4.5shim';
 import { LoadingModal } from '../../components';
-import { isFeatureEnabled } from '../../config/features';
 import { useToast } from '../../hooks';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { client } from '../../lib/gql/client';
@@ -565,6 +564,7 @@ const GivePage = () => {
             retrySave={saveGifts}
             gridView={gridView}
             previousEpochEndDate={previousEpoch?.endDate}
+            allowDistributeEvenly={circle?.allow_distribute_evenly}
           />
         )}
       </SingleColumnLayout>
@@ -589,6 +589,7 @@ type AllocateContentsProps = {
   retrySave: () => void;
   gridView: boolean;
   previousEpochEndDate?: DateTime;
+  allowDistributeEvenly?: boolean;
 };
 
 const AllocateContents = ({
@@ -606,6 +607,7 @@ const AllocateContents = ({
   retrySave,
   gridView,
   previousEpochEndDate,
+  allowDistributeEvenly,
 }: AllocateContentsProps) => {
   const { showError, showDefault } = useToast();
 
@@ -839,10 +841,7 @@ const AllocateContents = ({
                   </Text>
                 )}
               </Box>
-              {!isFeatureEnabled(
-                'disable_distribute_evenly',
-                myUser.circle.id
-              ) && (
+              {allowDistributeEvenly && (
                 <Button
                   size="medium"
                   color="primary"

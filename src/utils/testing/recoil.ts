@@ -23,6 +23,7 @@ const organization: IProtocol = {
 const circle: IApiCircle = {
   id: 1,
   auto_opt_out: false,
+  allow_distribute_evenly: true,
   created_at: new Date(0),
   default_opt_in: false,
   is_verified: false,

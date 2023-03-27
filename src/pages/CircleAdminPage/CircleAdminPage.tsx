@@ -23,6 +23,7 @@ import { useApiAdminCircle, useApiBase, useContracts, useToast } from 'hooks';
 import { useCircleOrg } from 'hooks/gql/useCircleOrg';
 import { useVaults } from 'hooks/gql/useVaults';
 import { Info } from 'icons/__generated';
+import { QUERY_KEY_CIRCLE_ALLOCATION_TEXT } from 'pages/GivePage/queries';
 import { useSelectedCircle } from 'recoilState/app';
 import { paths } from 'routes/paths';
 import {
@@ -118,6 +119,7 @@ const schema = z.object({
         message: 'Circle name must be at least 3 characters long.',
       })
   ),
+  allow_distribute_evenly: z.string().transform(stringBoolTransform),
   auto_opt_out: z.string().transform(stringBoolTransform),
   discord_webhook: z.optional(z.string().url().or(z.literal(''))),
   min_vouches: z.optional(
@@ -373,6 +375,7 @@ export const CircleAdminPage = () => {
         vouching_text: data.vouching_text,
         only_giver_vouch: data.only_giver_vouch,
         team_selection: data.team_selection,
+        allow_distribute_evenly: data.allow_distribute_evenly,
         auto_opt_out: data.auto_opt_out,
         fixed_payment_token_type: data.fixed_payment_token_type,
         show_pending_gives: !data.hide_gives,
@@ -386,6 +389,7 @@ export const CircleAdminPage = () => {
             : null,
       });
       queryClient.invalidateQueries(QUERY_KEY_FIXED_PAYMENT);
+      queryClient.invalidateQueries(QUERY_KEY_CIRCLE_ALLOCATION_TEXT);
       fetchManifest();
       refetch();
 
@@ -613,6 +617,29 @@ export const CircleAdminPage = () => {
                       {
                         label: 'OFF',
                         text: "Members' opt-in/opt-out settings will not be changed automatically.",
+                      },
+                    ]}
+                  />
+                }
+              />
+              <FormRadioGroup
+                label='Show "Distribute Evenly" button'
+                name="allow_distribute_evenly"
+                control={control}
+                options={radioGroupOptions.onOff}
+                defaultValue={
+                  circle?.allow_distribute_evenly ? 'true' : 'false'
+                }
+                infoTooltip={
+                  <RadioToolTip
+                    optionsInfo={[
+                      {
+                        label: 'ON',
+                        text: 'Users will see the "Distribute Evenly" button and can distribute give evenly with a single click',
+                      },
+                      {
+                        label: 'OFF',
+                        text: '"Distribute Evenly" button will be hidden for all users of this circle.',
                       },
                     ]}
                   />

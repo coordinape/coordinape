@@ -15,6 +15,7 @@ export interface IApiCircle {
   default_opt_in: boolean;
   is_verified: boolean;
   alloc_text?: string;
+  allow_distribute_evenly: boolean;
   cont_help_text?: string;
   token_name?: string;
   vouching: boolean;
@@ -30,7 +31,6 @@ export interface IApiCircle {
   auto_opt_out: boolean;
   fixed_payment_token_type?: string;
   show_pending_gives: boolean;
-
   guild_id?: number;
   guild_role_id?: number;
 }

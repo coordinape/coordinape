@@ -285,6 +285,7 @@ export const updateCircleInput = z
     circle_id: z.number().positive(),
     name: zCircleName.optional(),
     alloc_text: z.string().max(5000).optional(),
+    allow_distribute_evenly: z.boolean().optional(),
     auto_opt_out: z.boolean().optional(),
     default_opt_in: z.boolean().optional(),
     discord_webhook: z.string().url().optional().or(z.literal('')),
