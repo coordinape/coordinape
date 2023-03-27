@@ -68,6 +68,7 @@ export const MarkdownPreview = (
           {...props}
           skipHtml={false}
           disableCopy={true}
+          linkTarget={"_blank"}
           rehypeRewrite={(node, index, parent) => {
             if (
               node.type === 'element' &&
