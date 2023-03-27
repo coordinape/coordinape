@@ -23,6 +23,7 @@ import { useApiAdminCircle, useApiBase, useContracts, useToast } from 'hooks';
 import { useCircleOrg } from 'hooks/gql/useCircleOrg';
 import { useVaults } from 'hooks/gql/useVaults';
 import { Info } from 'icons/__generated';
+import { QUERY_KEY_CIRCLE_ALLOCATION_TEXT } from 'pages/GivePage/queries';
 import { useSelectedCircle } from 'recoilState/app';
 import { paths } from 'routes/paths';
 import {
@@ -388,6 +389,7 @@ export const CircleAdminPage = () => {
             : null,
       });
       queryClient.invalidateQueries(QUERY_KEY_FIXED_PAYMENT);
+      queryClient.invalidateQueries(QUERY_KEY_CIRCLE_ALLOCATION_TEXT);
       fetchManifest();
       refetch();
 
@@ -621,7 +623,7 @@ export const CircleAdminPage = () => {
                 }
               />
               <FormRadioGroup
-                label="Allow Distribute Evenly"
+                label='Show "Distribute Evenly" button'
                 name="allow_distribute_evenly"
                 control={control}
                 options={radioGroupOptions.onOff}
@@ -633,11 +635,11 @@ export const CircleAdminPage = () => {
                     optionsInfo={[
                       {
                         label: 'ON',
-                        text: 'Members can distribute their remaining gives evenly with a single click',
+                        text: 'Users will see the "Distribute Evenly" button and can distribute give evenly with a single click',
                       },
                       {
                         label: 'OFF',
-                        text: 'Distribute remaining gives evenly button will be disabled',
+                        text: '"Distribute Evenly" button will be hidden for all users of this circle.',
                       },
                     ]}
                   />

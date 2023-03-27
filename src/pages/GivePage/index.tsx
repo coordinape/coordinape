@@ -13,7 +13,6 @@ import * as z from 'zod';
 
 import { Awaited } from '../../../api-lib/ts4.5shim';
 import { LoadingModal } from '../../components';
-import { isFeatureEnabled } from '../../config/features';
 import { useToast } from '../../hooks';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { client } from '../../lib/gql/client';
@@ -842,16 +841,11 @@ const AllocateContents = ({
                   </Text>
                 )}
               </Box>
-              {!isFeatureEnabled(
-                'disable_distribute_evenly',
-                myUser.circle.id
-              ) && (
+              {allowDistributeEvenly && (
                 <Button
                   size="medium"
                   color="primary"
-                  disabled={
-                    maxedOut || noGivingAllowed || !allowDistributeEvenly
-                  }
+                  disabled={maxedOut || noGivingAllowed}
                   onClick={e => {
                     (e.target as HTMLButtonElement).blur();
                     distributeEvenly();
