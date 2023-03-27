@@ -12,6 +12,7 @@ export const getOrgMembersPageData = async (orgId: number) => {
             {},
             {
               id: true,
+              profile_id: true,
               profile: {
                 avatar: true,
                 name: true,

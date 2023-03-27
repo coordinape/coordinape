@@ -439,7 +439,24 @@ const queryManifest = async (profileId: number) => {
             {
               org_id: true,
               role: true,
-              organization: { circles: [{}, { id: true }] },
+              organization: {
+                id: true,
+                name: true,
+                circles: [
+                  {},
+                  {
+                    id: true,
+                    __alias: {
+                      myUsers: {
+                        users: [
+                          { where: { profile: { id: { _eq: profileId } } } },
+                          { role: true },
+                        ],
+                      },
+                    },
+                  },
+                ],
+              },
             },
           ],
         },

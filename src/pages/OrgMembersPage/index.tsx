@@ -1,31 +1,35 @@
 import assert from 'assert';
 import React, { useState, useMemo, useEffect } from 'react';
 
+import { useAuthStore } from 'features/auth';
 import {
   getOrgMembersPageData,
   QueryMember,
   QUERY_KEY_GET_ORG_MEMBERS_DATA,
 } from 'features/orgs/getOrgMembersData';
 import { OrgMembersTable } from 'features/orgs/OrgMembersTable';
+import { isUserAdmin } from 'lib/users';
 import { useQuery } from 'react-query';
-import { useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 
 import { LoadingModal } from 'components';
 import { useToast } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { Search } from 'icons/__generated';
-import { ContentHeader, Flex, Panel, Text, TextField } from 'ui';
+import { paths } from 'routes/paths';
+import { Button, ContentHeader, Flex, Panel, Text, TextField } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
+
+export { AddPage as OrgMembersAddPage } from './AddPage';
 
 const OrgMembersPage = () => {
   const { isMobile } = useMobileDetect();
   const { showError } = useToast();
-
   const [keyword, setKeyword] = useState<string>('');
-
   const params = useParams();
+  const myId = useAuthStore(state => state.profileId);
 
-  assert(params.orgId, 'missing circleId param');
+  assert(params.orgId, 'missing orgId param');
   const orgId = Number.parseInt(params.orgId);
 
   const { error, data } = useQuery(
@@ -55,6 +59,10 @@ const OrgMembersPage = () => {
   if (!organization) return <LoadingModal visible />;
   const { members } = organization;
 
+  const isOrgAdmin = members.some(
+    m => m.profile_id === myId && m.profile?.users.some(isUserAdmin)
+  );
+
   return (
     <SingleColumnLayout>
       <ContentHeader>
@@ -73,11 +81,14 @@ const OrgMembersPage = () => {
               gap: '$md',
             }}
           >
-            <Text size={'small'} css={{ color: '$headingText' }}>
-              <Text>
-                {members.length} Member{members.length > 1 ? 's' : ''}
-              </Text>
+            <Text size="small" css={{ color: '$headingText' }}>
+              {members.length} Member{members.length > 1 ? 's' : ''}
             </Text>
+            {isOrgAdmin && (
+              <Button as={NavLink} to={paths.orgMembersAdd(orgId)} color="cta">
+                Add Members
+              </Button>
+            )}
           </Flex>
         )}
       </ContentHeader>

@@ -1,21 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ENTRANCE } from 'common-lib/constants';
-import { client } from 'lib/gql/client';
 import { isValidENS } from 'lib/zod/formHelpers';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
-import { useQueryClient } from 'react-query';
 import { z } from 'zod';
 
 import { LoadingModal } from '../../components';
 import CopyCodeTextField from '../../components/CopyCodeTextField';
-import { useToast, useApiBase } from '../../hooks';
+import { useToast } from '../../hooks';
 import { zEthAddress, zUsername } from '../../lib/zod/formHelpers';
 import { Box, Button, Flex, Panel, Text } from '../../ui';
 import { Check } from 'icons/__generated';
-import { QUERY_KEY_CIRCLE_SETTINGS } from 'pages/CircleAdminPage/getCircleSettings';
-import { QUERY_KEY_GET_MEMBERS_PAGE_DATA } from 'pages/MembersPage/getMembersPageData';
 
 import NewMemberEntry from './NewMemberEntry';
 import NewMemberGridBox from './NewMemberGridBox';
@@ -26,24 +22,24 @@ export type NewMember = {
   entrance: string;
 };
 
-type ChangedUser = {
+export type ChangedUser = {
   oldName?: string;
   newName: string;
   address?: string;
 };
+
 const NewMemberList = ({
   // TODO: revoke comes later - maybe on admin page
   // revokeWelcome,
-  circleId,
   welcomeLink,
   preloadedMembers,
+  save,
 }: {
-  circleId: number;
   welcomeLink: string;
   revokeWelcome(): void;
   preloadedMembers: NewMember[];
+  save: (members: NewMember[]) => Promise<ChangedUser[]>;
 }) => {
-  const { fetchCircle } = useApiBase();
   const { showError } = useToast();
 
   const [loading, setLoading] = useState<boolean>();
@@ -56,8 +52,6 @@ const NewMemberList = ({
     useState<NewMember[]>(preloadedMembers);
 
   const successRef = useRef<HTMLDivElement>(null);
-
-  const queryClient = useQueryClient();
 
   const emptyMember = { name: '', address: '', entrance: '' };
 
@@ -155,61 +149,15 @@ const NewMemberList = ({
       if (resolveResult.find(r => r === true)) {
         return;
       }
-      const res = await client.mutate(
-        {
-          createUsers: [
-            {
-              payload: {
-                circle_id: circleId,
-                users: filteredMembers,
-              },
-            },
-            {
-              UserResponse: {
-                address: true,
-                profile: { name: true },
-              },
-            },
-          ],
-        },
-        { operationName: 'createUsers_newMemberList' }
-      );
 
-      const replacedNames = res?.createUsers
-        ?.filter(res =>
-          filteredMembers.find(
-            m =>
-              m.address.toLowerCase() ===
-                res.UserResponse?.address.toLowerCase() &&
-              res.UserResponse.profile.name &&
-              m.name !== res.UserResponse.profile.name
-          )
-        )
-        .map(res => ({
-          oldName: filteredMembers.find(
-            m =>
-              m.address.toLowerCase() ===
-              res.UserResponse?.address.toLowerCase()
-          )?.name,
-          newName: res.UserResponse?.profile.name,
-          address: res.UserResponse?.address,
-        }));
-
+      const replacedNames = await save(filteredMembers);
       setChangedUsers(replacedNames);
+
       // ok it worked, clear out?
       setSuccessCount(filteredMembers.length);
       setDefaultMembers([]);
       reset({ newMembers: [emptyMember, emptyMember] });
       successRef.current?.scrollIntoView();
-      await queryClient.invalidateQueries([
-        QUERY_KEY_CIRCLE_SETTINGS,
-        circleId,
-      ]);
-      await queryClient.invalidateQueries([
-        QUERY_KEY_GET_MEMBERS_PAGE_DATA,
-        circleId,
-      ]);
-      await fetchCircle({ circleId });
     } catch (e) {
       showError(e);
     } finally {
@@ -249,7 +197,7 @@ const NewMemberList = ({
 
   useEffect(() => {
     // do initial form validation to validate the preloaded values (from csv or other import)
-    trigger().then();
+    trigger();
   }, []);
 
   return (

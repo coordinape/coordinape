@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from 'react';
 
-import { NavLink } from 'react-router-dom';
+import { client } from 'lib/gql/client';
+import { useQueryClient } from 'react-query';
+import { NavLink, useParams } from 'react-router-dom';
 
 import { LoadingModal } from '../../components';
 import CopyCodeTextField from '../../components/CopyCodeTextField';
 import { fetchGuildInfo } from '../../features/guild/fetchGuildInfo';
 import { Guild } from '../../features/guild/Guild';
 import { GuildInfo } from '../../features/guild/guild-api';
+import { useApiBase } from '../../hooks/useApiBase';
 import { paths } from '../../routes/paths';
-import { ICircle } from '../../types';
 import { APP_URL } from '../../utils/domain';
+import { QUERY_KEY_CIRCLE_SETTINGS } from 'pages/CircleAdminPage/getCircleSettings';
+import { QUERY_KEY_GET_MEMBERS_PAGE_DATA } from 'pages/MembersPage/getMembersPageData';
 import { useSelectedCircle } from 'recoilState/app';
 import { AppLink, Box, ContentHeader, Flex, Link, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import CSVImport from './CSVImport';
 import InviteLink from './InviteLink';
-import NewMemberList, { NewMember } from './NewMemberList';
+import NewMemberList, { NewMember, ChangedUser } from './NewMemberList';
 import TabButton, { Tab } from './TabButton';
 import {
   deleteInviteToken,
@@ -26,7 +30,11 @@ import {
 } from './useCircleTokens';
 
 const AddMembersPage = () => {
-  const { circleId, circle } = useSelectedCircle();
+  const params = useParams();
+  const circleId = Number(params.circleId);
+  const { circle } = useSelectedCircle(); // FIXME don't use this anymore
+  const queryClient = useQueryClient();
+  const { fetchCircle } = useApiBase();
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -63,32 +71,85 @@ const AddMembersPage = () => {
   const inviteLink = APP_URL + paths.join(inviteLinkUuid);
   const welcomeLink = APP_URL + paths.invite(welcomeUuid);
 
+  const save = async (members: { address: string; name: string }[]) => {
+    const { createUsers } = await client.mutate(
+      {
+        createUsers: [
+          { payload: { circle_id: circleId, users: members } },
+          { UserResponse: { address: true, profile: { name: true } } },
+        ],
+      },
+      { operationName: 'createUsers_newMemberList' }
+    );
+
+    const replacedNames = createUsers
+      ?.filter(res =>
+        members.find(
+          m =>
+            m.address.toLowerCase() ===
+              res.UserResponse?.address.toLowerCase() &&
+            res.UserResponse.profile.name &&
+            m.name !== res.UserResponse.profile.name
+        )
+      )
+      .map(res => ({
+        oldName: members.find(
+          m =>
+            m.address.toLowerCase() === res.UserResponse?.address.toLowerCase()
+        )?.name,
+        newName: res.UserResponse?.profile.name,
+        address: res.UserResponse?.address,
+      }));
+
+    await queryClient.invalidateQueries([QUERY_KEY_CIRCLE_SETTINGS, circleId]);
+    await queryClient.invalidateQueries([
+      QUERY_KEY_GET_MEMBERS_PAGE_DATA,
+      circleId,
+    ]);
+    await fetchCircle({ circleId });
+
+    return replacedNames || [];
+  };
+
   return (
     <>
       <LoadingModal visible={loading} />
       <AddMembersContents
-        circle={circle}
-        welcomeLink={welcomeLink}
-        inviteLink={inviteLink}
-        revokeInvite={revokeInvite}
-        revokeWelcome={revokeWelcome}
+        group={circle}
+        groupType="circle"
+        {...{
+          welcomeLink,
+          inviteLink,
+          revokeInvite,
+          revokeWelcome,
+          save,
+        }}
       />
     </>
   );
 };
 
-const AddMembersContents = ({
-  circle,
+export const AddMembersContents = ({
+  group,
+  groupType,
   welcomeLink,
   inviteLink,
   // revokeInvite, TODO: add revoke in a later PR when UI is better defined
   revokeWelcome,
+  save,
 }: {
-  circle: ICircle;
+  group: {
+    id: number;
+    guild_id?: number;
+    guild_role_id?: number;
+    name: string;
+  };
+  groupType: 'circle' | 'organization';
   welcomeLink: string;
   inviteLink: string;
   revokeInvite(): void;
   revokeWelcome(): void;
+  save: (members: NewMember[]) => Promise<ChangedUser[]>;
 }) => {
   const [currentTab, setCurrentTab] = useState<Tab>(Tab.ETH);
 
@@ -105,9 +166,9 @@ const AddMembersContents = ({
   };
 
   useEffect(() => {
-    if (circle.guild_id) {
+    if (group.guild_id) {
       setGuildMessage('Loading Guild...');
-      fetchGuildInfo(circle.guild_id)
+      fetchGuildInfo(group.guild_id)
         .then(info => {
           setGuildInfo(info);
           setGuildMessage('');
@@ -123,14 +184,32 @@ const AddMembersContents = ({
     }
   }, [currentTab]);
 
+  const memberPath =
+    groupType === 'circle'
+      ? paths.members(group.id)
+      : paths.orgMembers(group.id);
+
+  // eslint-disable-next-line react/display-name
+  const makeTab = (tab: Tab, content: string) => () =>
+    (
+      <TabButton tab={tab} {...{ currentTab, setCurrentTab }}>
+        {content}
+      </TabButton>
+    );
+
+  const TabEth = makeTab(Tab.ETH, 'ETH Address');
+  const TabLink = makeTab(Tab.LINK, 'Invite Link');
+  const TabCsv = makeTab(Tab.CSV, 'CSV Import');
+  const TabGuild = makeTab(Tab.GUILD, 'Guild.xyz');
+
   return (
     <SingleColumnLayout>
       <ContentHeader>
         <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
-          <Text h1>Add Members to {circle.name}</Text>
+          <Text h1>Add Members to {group.name}</Text>
           <Text p as="p">
             Note that after adding members you can see and manage them in the{' '}
-            <AppLink inlineLink to={paths.members(circle.id)}>
+            <AppLink inlineLink to={memberPath}>
               members table.
             </AppLink>
           </Text>
@@ -138,34 +217,10 @@ const AddMembersContents = ({
       </ContentHeader>
 
       <Flex css={{ mb: '$sm' }}>
-        <TabButton
-          tab={Tab.ETH}
-          currentTab={currentTab}
-          setCurrentTab={setCurrentTab}
-        >
-          ETH Address
-        </TabButton>
-        <TabButton
-          tab={Tab.LINK}
-          currentTab={currentTab}
-          setCurrentTab={setCurrentTab}
-        >
-          Invite Link
-        </TabButton>
-        <TabButton
-          tab={Tab.CSV}
-          currentTab={currentTab}
-          setCurrentTab={setCurrentTab}
-        >
-          CSV Import
-        </TabButton>
-        <TabButton
-          tab={Tab.GUILD}
-          currentTab={currentTab}
-          setCurrentTab={setCurrentTab}
-        >
-          Guild.xyz
-        </TabButton>
+        <TabEth />
+        <TabLink />
+        <TabCsv />
+        <TabGuild />
       </Flex>
 
       <Box
@@ -183,10 +238,12 @@ const AddMembersContents = ({
                 Add new members by wallet address.
               </Text>
               <NewMemberList
-                circleId={circle.id}
-                welcomeLink={welcomeLink}
-                revokeWelcome={revokeWelcome}
-                preloadedMembers={preloadedMembers}
+                {...{
+                  welcomeLink,
+                  revokeWelcome,
+                  preloadedMembers,
+                  save,
+                }}
               />
             </Box>
           )}
@@ -212,7 +269,7 @@ const AddMembersContents = ({
           )}
           {currentTab === Tab.GUILD && (
             <Box>
-              {circle.guild_id ? (
+              {group.guild_id ? (
                 <Flex column css={{ mb: '$lg' }}>
                   <Flex
                     alignItems="center"
@@ -221,11 +278,11 @@ const AddMembersContents = ({
                       justifyContent: 'space-between',
                     }}
                   >
-                    <Text h2>This Circle is connected to Guild.xyz</Text>
+                    <Text h2>This {groupType} is connected to Guild.xyz</Text>
                     <Link
                       as={NavLink}
                       inlineLink
-                      to={paths.circleAdmin(circle.id) + '#guild'}
+                      to={paths.circleAdmin(group.id) + '#guild'}
                       download
                       css={{ ml: '$sm' }}
                     >
@@ -235,7 +292,7 @@ const AddMembersContents = ({
 
                   <Text>{guildMessage}</Text>
                   {guildInfo && (
-                    <Guild info={guildInfo} role={circle.guild_role_id} />
+                    <Guild info={guildInfo} role={group.guild_role_id} />
                   )}
                   <Text variant="label" css={{ mb: '$xs', mt: '$lg' }}>
                     Share this link with Guild members
@@ -254,11 +311,11 @@ const AddMembersContents = ({
                   >
                     Guild.xyz
                   </Link>
-                  to help people join your Circle.
+                  to help people join your {groupType}.
                   <Link
                     as={NavLink}
                     inlineLink
-                    to={paths.circleAdmin(circle.id) + '#guild'}
+                    to={paths.circleAdmin(group.id) + '#guild'}
                     download
                     css={{ ml: '$sm' }}
                   >
@@ -269,18 +326,20 @@ const AddMembersContents = ({
             </Box>
           )}
         </Panel>
-        <Box css={{ mt: '$lg' }}>
-          <Link
-            inlineLink
-            target="_blank"
-            rel="noreferrer"
-            href={
-              'https://docs.coordinape.com/get-started/get-started/new-coordinape-admins/admin-best-practices#ways-to-give'
-            }
-          >
-            Documentation: GIVE Circle Best Practices
-          </Link>
-        </Box>
+        {groupType === 'circle' && (
+          <Box css={{ mt: '$lg' }}>
+            <Link
+              inlineLink
+              target="_blank"
+              rel="noreferrer"
+              href={
+                'https://docs.coordinape.com/get-started/get-started/new-coordinape-admins/admin-best-practices#ways-to-give'
+              }
+            >
+              Documentation: GIVE Circle Best Practices
+            </Link>
+          </Box>
+        )}
       </Box>
     </SingleColumnLayout>
   );

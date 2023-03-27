@@ -41,7 +41,7 @@ import HistoryPage from 'pages/HistoryPage';
 import IntegrationCallbackPage from 'pages/IntegrationCallbackPage';
 import MembersPage from 'pages/MembersPage';
 import { NewNominationPage } from 'pages/NewNominationPage/NewNominationPage';
-import OrgMembersPage from 'pages/OrgMembersPage';
+import OrgMembersPage, { OrgMembersAddPage } from 'pages/OrgMembersPage';
 import ProfilePage from 'pages/ProfilePage';
 import VaultsPage from 'pages/VaultsPage';
 import { VaultTransactions } from 'pages/VaultsPage/VaultTransactions';
@@ -60,6 +60,9 @@ const LoggedInRoutes = () => {
     <Routes>
       <Route path={paths.organization(':orgId')} element={<OrgRouteHandler />}>
         <Route path="members" element={<OrgMembersPage />} />
+        <Route path="members/add" element={<OrgAdminRouteHandler />}>
+          <Route path="" element={<OrgMembersAddPage />} />
+        </Route>
       </Route>
 
       {/* circle routes that all org members can view */}
@@ -76,13 +79,13 @@ const LoggedInRoutes = () => {
           <Route path="" element={<LazyAssetMapPage />} />
         </Route>
         <Route path="contributions" element={<ContributionsPage />} />
-        <Route path="members/add" element={<AdminRouteHandler />}>
+        <Route path="members/add" element={<CircleAdminRouteHandler />}>
           <Route path="" element={<AddMembersPage />} />
         </Route>
         <Route path="members/nominate" element={<VouchingRouteHandler />}>
           <Route path="" element={<NewNominationPage />} />
         </Route>
-        <Route path="admin" element={<AdminRouteHandler />}>
+        <Route path="admin" element={<CircleAdminRouteHandler />}>
           <Route path="" element={<CircleAdminPage />} />
           <Route
             path="connect-integration"
@@ -220,6 +223,22 @@ const OrgRouteHandler = () => {
   return ready ? <Outlet /> : null;
 };
 
+const OrgAdminRouteHandler = () => {
+  const params = useParams();
+  const orgId = Number(params.orgId);
+
+  const profile = useLoginData();
+
+  // this means "if you're a circle admin, you're an org admin."
+  // this will be replaced in the future by checking org_members.role directly
+  const isAdmin = profile?.org_members
+    .find(m => m.org_id === orgId)
+    ?.organization.circles.some(c => c.myUsers.some(isUserAdmin));
+
+  if (!isAdmin) return <Redirect to={paths.home} note="not admin" />;
+  return <Outlet />;
+};
+
 const CircleRouteHandler = () => {
   const params = useParams();
   const circleId = Number(params.circleId);
@@ -231,7 +250,7 @@ const CircleRouteHandler = () => {
   return ready ? <Outlet /> : null;
 };
 
-const AdminRouteHandler = () => {
+const CircleAdminRouteHandler = () => {
   const params = useParams();
   const circleId = Number(params.circleId);
   const role = useRoleInCircle(circleId);
