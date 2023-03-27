@@ -226,6 +226,7 @@ input UpdateCircleInput {
   token_name: String
   cont_help_text: String
   alloc_text: String
+  allow_distribute_evenly: Boolean
   vouching: Boolean
   min_vouches: Int
   nomination_days_limit: Int

@@ -1320,6 +1320,7 @@ export const AllTypesProps: Record<string, any> = {
     _not: 'circles_bool_exp',
     _or: 'circles_bool_exp',
     alloc_text: 'String_comparison_exp',
+    allow_distribute_evenly: 'Boolean_comparison_exp',
     api_keys: 'circle_api_keys_bool_exp',
     api_keys_aggregate: 'circle_api_keys_aggregate_bool_exp',
     auto_opt_out: 'Boolean_comparison_exp',
@@ -1455,6 +1456,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   circles_order_by: {
     alloc_text: 'order_by',
+    allow_distribute_evenly: 'order_by',
     api_keys_aggregate: 'circle_api_keys_aggregate_order_by',
     auto_opt_out: 'order_by',
     burns_aggregate: 'burns_aggregate_order_by',
@@ -9633,6 +9635,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   circles: {
     alloc_text: 'String',
+    allow_distribute_evenly: 'Boolean',
     api_keys: 'circle_api_keys',
     api_keys_aggregate: 'circle_api_keys_aggregate',
     auto_opt_out: 'Boolean',

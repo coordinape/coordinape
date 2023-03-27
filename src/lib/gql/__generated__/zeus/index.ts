@@ -902,6 +902,7 @@ export type ValueTypes = {
   };
   ['UpdateCircleInput']: {
     alloc_text?: string | undefined | null;
+    allow_distribute_evenly?: boolean | undefined | null;
     auto_opt_out?: boolean | undefined | null;
     circle_id: number;
     cont_help_text?: string | undefined | null;
@@ -2156,6 +2157,7 @@ export type ValueTypes = {
   /** columns and relationships of "circles" */
   ['circles']: AliasType<{
     alloc_text?: boolean | `@${string}`;
+    allow_distribute_evenly?: boolean | `@${string}`;
     api_keys?: [
       {
         /** distinct select on columns */
@@ -2516,6 +2518,10 @@ export type ValueTypes = {
     _not?: ValueTypes['circles_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['circles_bool_exp']> | undefined | null;
     alloc_text?: ValueTypes['String_comparison_exp'] | undefined | null;
+    allow_distribute_evenly?:
+      | ValueTypes['Boolean_comparison_exp']
+      | undefined
+      | null;
     api_keys?: ValueTypes['circle_api_keys_bool_exp'] | undefined | null;
     auto_opt_out?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     burns?: ValueTypes['burns_bool_exp'] | undefined | null;
@@ -2629,6 +2635,7 @@ export type ValueTypes = {
   /** Ordering options when selecting data from "circles". */
   ['circles_order_by']: {
     alloc_text?: ValueTypes['order_by'] | undefined | null;
+    allow_distribute_evenly?: ValueTypes['order_by'] | undefined | null;
     api_keys_aggregate?:
       | ValueTypes['circle_api_keys_aggregate_order_by']
       | undefined
@@ -2735,6 +2742,7 @@ export type ValueTypes = {
   /** Initial value of the column from where the streaming should start */
   ['circles_stream_cursor_value_input']: {
     alloc_text?: string | undefined | null;
+    allow_distribute_evenly?: boolean | undefined | null;
     auto_opt_out?: boolean | undefined | null;
     cont_help_text?: string | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
@@ -13047,6 +13055,7 @@ export type ModelTypes = {
   /** columns and relationships of "circles" */
   ['circles']: {
     alloc_text?: string | undefined;
+    allow_distribute_evenly: boolean;
     /** An array relationship */
     api_keys: Array<GraphQLTypes['circle_api_keys']>;
     auto_opt_out: boolean;
@@ -16195,6 +16204,7 @@ export type GraphQLTypes = {
   };
   ['UpdateCircleInput']: {
     alloc_text?: string | undefined;
+    allow_distribute_evenly?: boolean | undefined;
     auto_opt_out?: boolean | undefined;
     circle_id: number;
     cont_help_text?: string | undefined;
@@ -17351,6 +17361,7 @@ export type GraphQLTypes = {
   ['circles']: {
     __typename: 'circles';
     alloc_text?: string | undefined;
+    allow_distribute_evenly: boolean;
     /** An array relationship */
     api_keys: Array<GraphQLTypes['circle_api_keys']>;
     auto_opt_out: boolean;
@@ -17437,6 +17448,9 @@ export type GraphQLTypes = {
     _not?: GraphQLTypes['circles_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['circles_bool_exp']> | undefined;
     alloc_text?: GraphQLTypes['String_comparison_exp'] | undefined;
+    allow_distribute_evenly?:
+      | GraphQLTypes['Boolean_comparison_exp']
+      | undefined;
     api_keys?: GraphQLTypes['circle_api_keys_bool_exp'] | undefined;
     auto_opt_out?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     burns?: GraphQLTypes['burns_bool_exp'] | undefined;
@@ -17532,6 +17546,7 @@ export type GraphQLTypes = {
   /** Ordering options when selecting data from "circles". */
   ['circles_order_by']: {
     alloc_text?: GraphQLTypes['order_by'] | undefined;
+    allow_distribute_evenly?: GraphQLTypes['order_by'] | undefined;
     api_keys_aggregate?:
       | GraphQLTypes['circle_api_keys_aggregate_order_by']
       | undefined;
@@ -17625,6 +17640,7 @@ export type GraphQLTypes = {
   /** Initial value of the column from where the streaming should start */
   ['circles_stream_cursor_value_input']: {
     alloc_text?: string | undefined;
+    allow_distribute_evenly?: boolean | undefined;
     auto_opt_out?: boolean | undefined;
     cont_help_text?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
@@ -23659,6 +23675,7 @@ export const enum circle_share_tokens_update_column {
 /** select columns of table "circles" */
 export const enum circles_select_column {
   alloc_text = 'alloc_text',
+  allow_distribute_evenly = 'allow_distribute_evenly',
   auto_opt_out = 'auto_opt_out',
   cont_help_text = 'cont_help_text',
   created_at = 'created_at',
