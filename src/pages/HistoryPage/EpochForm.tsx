@@ -412,7 +412,7 @@ const EpochForm = ({
         ? source.epoch.repeat_data
           ? 'repeats'
           : 'one-off'
-        : 'repeats',
+        : 'one-off',
       repeatStartDate:
         source?.epoch?.start_date || DateTime.now().plus({ days: 1 }).toISO(),
       repeat: source.epoch?.repeat_data?.type ?? 'custom',
@@ -429,10 +429,12 @@ const EpochForm = ({
         (source?.epoch?.start_date &&
           DateTime.fromISO(source.epoch.start_date).toISODate()) ??
         DateTime.now().setZone().plus({ days: 1 }).toISODate(),
-      custom_duration_denomination: source.epoch?.repeat_data?.duration_unit,
-      custom_duration_qty: source.epoch?.repeat_data?.duration,
-      custom_interval_qty: source.epoch?.repeat_data?.frequency,
-      custom_interval_denomination: source.epoch?.repeat_data?.frequency_unit,
+      custom_duration_denomination:
+        source.epoch?.repeat_data?.duration_unit || 'months',
+      custom_duration_qty: source.epoch?.repeat_data?.duration || 1,
+      custom_interval_qty: source.epoch?.repeat_data?.frequency || 1,
+      custom_interval_denomination:
+        source.epoch?.repeat_data?.frequency_unit || 'months',
       custom_start_date: source.epoch?.repeat_data
         ? DateTime.fromISO(source.epoch.start_date).toISODate()
         : DateTime.now().plus({ days: 1 }).toISODate(),
@@ -456,17 +458,7 @@ const EpochForm = ({
       : findMonthlyEndDate(
           DateTime.fromISO(getValues('repeatStartDate'))
         ).toISO(),
-    repeat_data: source?.epoch
-      ? // fall back to the one-off input config if the epoch is non-repeating
-        source?.epoch?.repeat_data || { type: 'one-off' }
-      : // default to custom
-        {
-          type: 'custom',
-          frequency_unit: 'months',
-          frequency: 1,
-          duration: 1,
-          duration_unit: 'months',
-        },
+    repeat_data: source?.epoch?.repeat_data ?? { type: 'one-off' },
   });
 
   const extraErrors = useRef(false);
@@ -996,12 +988,9 @@ const EpochForm = ({
                     height: 'auto',
                   }}
                 >
-                  {Object.values(errors).map((error, i) => {
-                    {
-                      console.warn(error);
-                    }
-                    return <div key={i}>{error.message}</div>;
-                  })}
+                  {Object.values(errors).map((error, i) => (
+                    <div key={i}>{error.message}</div>
+                  ))}
                 </Text>
               )}
               <Flex
