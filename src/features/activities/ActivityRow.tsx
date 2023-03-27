@@ -1,4 +1,7 @@
+import * as Sentry from '@sentry/react';
+
 import { Flex, Text } from '../../ui';
+import isFeatureEnabled from 'config/features';
 
 import { ContributionRow } from './ContributionRow';
 import { DeletedRow } from './DeletedRow';
@@ -19,12 +22,21 @@ import {
 export const ActivityRow = ({ activity }: { activity: Activity }) => {
   const valid = validActivity(activity);
   if (!valid) {
-    if (IsDeleted(activity)) {
-      return <DeletedRow activity={activity} />;
-    } else {
-      // TODO: send these to Sentry when this goes into production
-      return <Text>Unknown activity: {activity.action}</Text>;
+    if (isFeatureEnabled('debug')) {
+      if (IsDeleted(activity)) {
+        return <DeletedRow activity={activity} />;
+      } else {
+        const event: Sentry.Event = {
+          message: JSON.stringify({
+            activity_id: activity.id,
+            activity_action: activity.action,
+          }),
+        };
+        Sentry.captureEvent(event);
+        return <Text>Unknown activity: {activity.action}</Text>;
+      }
     }
+    return null;
   }
 
   return (

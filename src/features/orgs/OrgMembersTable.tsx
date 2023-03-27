@@ -66,7 +66,7 @@ const isCircleAdmin = (member: QueryMember): boolean => {
 };
 
 const DisplayedCircles = ({ member }: { member: QueryMember }) => {
-  if (member.profile.users.length < 2) {
+  if (member.profile.users.length <= 2) {
     return (
       <Text css={{ display: 'inline' }}>
         {member.profile.users

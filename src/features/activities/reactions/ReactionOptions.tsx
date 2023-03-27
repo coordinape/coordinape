@@ -8,6 +8,7 @@ import { ReactionButton } from './ReactionButton';
 export const DEFAULT_REACTIONS = ['🔥', '💃', '👀', '🧠', '🙏🏼', '💀'];
 
 const reactionOptionsWidth = '300px';
+const reactionOptionWidth = '34px';
 
 const slideIn = keyframes({
   from: {
@@ -88,26 +89,27 @@ export const ReactionOptions = ({
         {DEFAULT_REACTIONS.map(r => {
           return (
             <ReactionButton
-              color="neutral"
+              color="reaction"
               key={r}
               onClick={() =>
                 myReactions[r] ? deleteReaction(myReactions[r]) : addReaction(r)
               }
+              data-myreaction={!!myReactions[r]}
               css={{
-                background: myReactions[r] ? '$neutralButton' : 'transparent',
-                borderColor: 'transparent',
-                width: 34,
-                height: 32,
+                width: `${reactionOptionWidth}`,
+                height: `calc(${reactionOptionWidth} - 2px)`,
                 position: 'relative',
+                borderColor: 'transparent',
               }}
             >
               <input
                 id={'react-' + r}
-                className="toggle-heart"
+                data-testid={'toggle-' + r}
+                className="reaction-input"
                 type="checkbox"
               />
               <StyledLabel
-                className="heart-label"
+                className="reaction-label"
                 htmlFor={'react-' + r}
                 aria-label="like"
               >
@@ -118,8 +120,12 @@ export const ReactionOptions = ({
                     key={i}
                     css={{
                       position: 'absolute',
-                      left: -12,
-                      top: -14,
+                      // size the clickarea to be as big as the button
+                      width: `${reactionOptionWidth}`,
+                      height: `${reactionOptionWidth}`,
+                      left: `calc(${reactionOptionWidth} / -2)`,
+                      top: `calc(${reactionOptionWidth} / -2)`,
+                      padding: '1px 5px',
                     }}
                   >
                     {r}

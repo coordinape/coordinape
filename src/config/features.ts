@@ -10,7 +10,8 @@ export type FeatureName =
   | 'disable_distribute_evenly'
   | 'epoch_timing_banner'
   | 'activity'
-  | 'org_view';
+  | 'org_view'
+  | 'debug';
 
 // this is a very simple implementation of build-time feature flags that you can
 // hardcode or set with environment variables
@@ -24,6 +25,7 @@ const staticFeatureFlags: Partial<Record<FeatureName, boolean>> = {
   guild: true,
   epoch_timing_banner: !!process.env.REACT_APP_FEATURE_FLAG_EPOCH_TIMING_BANNER,
   org_view: false,
+  activity: true,
 };
 
 // this code is safe to use in a non-browser environment because of the typeof

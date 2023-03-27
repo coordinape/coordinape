@@ -22,7 +22,8 @@ export const ReactionCounts = ({
         }
         return (
           <ReactionButton
-            color="neutral"
+            color="reaction"
+            data-myreaction={!!rg.myReaction}
             key={rg.reaction}
             myReaction={rg.myReaction}
             onClick={() => {
