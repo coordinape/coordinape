@@ -67,8 +67,8 @@ export const MarkdownPreview = (
         <StyledMarkdownPreview
           {...props}
           skipHtml={false}
-          disableCopy={true}
-          linkTarget={"_blank"}
+          disableCopy
+          linkTarget="_blank"
           rehypeRewrite={(node, index, parent) => {
             if (
               node.type === 'element' &&
