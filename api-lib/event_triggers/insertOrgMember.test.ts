@@ -1,108 +1,51 @@
 import { waitFor } from '@testing-library/react';
+import sortBy from 'lodash/sortBy';
 
-import {
-  createCircle,
-  createProfile,
-  createUser,
-  mockUserClient,
-  createOrganization,
-} from '../../api-test/helpers';
-import { getUniqueAddress } from '../../api-test/helpers/getUniqueAddress';
+import { createUser } from '../../api-test/helpers';
 import { adminClient } from '../gql/adminClient';
-let address1: any,
-  address2: any,
-  profile1: any,
-  profile2: any,
-  circle1: any,
-  circle2: any,
-  client: any,
-  org: any;
+import { Awaited } from '../ts4.5shim';
+
+import handler from './insertOrgMember';
+
+let user1: Awaited<ReturnType<typeof createUser>>;
+let user2: Awaited<ReturnType<typeof createUser>>;
 
 beforeAll(async () => {
-  address1 = await getUniqueAddress();
-  address2 = await getUniqueAddress();
-  org = await createOrganization(adminClient);
-  circle1 = await createCircle(adminClient, { organization_id: org.id });
-  circle2 = await createCircle(adminClient, { organization_id: org.id });
-  profile1 = await createProfile(adminClient, { address: address1 });
-  profile2 = await createProfile(adminClient, { address: address2 });
-  await createUser(adminClient, {
-    address: address1,
-    circle_id: circle1.id,
-  });
-  await createUser(adminClient, {
-    address: address2,
-    circle_id: circle1.id,
-  });
-  await createUser(adminClient, {
-    address: address1,
-    circle_id: circle2.id,
-  });
-  client = mockUserClient({ profileId: profile2.id, address: address2 });
+  user1 = await createUser(adminClient);
+  user2 = await createUser(adminClient, { address: user1.address });
 });
 
-test('Check that the created user has been added to org_members', async () => {
-  await waitFor(async () => {
-    const { org_members } = await client.query(
-      {
-        org_members: [{}, { id: true, deleted_at: true, org_id: true }],
-      },
-      { operationName: 'test' }
-    );
+test('add to org_members when user is created', async () => {
+  await waitFor(
+    async () => {
+      const { org_members } = await adminClient.query(
+        {
+          org_members: [
+            { where: { profile_id: { _eq: user1.profile.id } } },
+            { id: true, deleted_at: true, org_id: true },
+          ],
+        },
+        { operationName: 'test' }
+      );
 
-    expect(org_members[0].id).toBeDefined();
-    expect(org_members[0].org_id).toBe(org.id);
-    expect(org_members[0].deleted_at).toBeNull();
-  });
+      const members = sortBy(org_members, 'profile_id');
+      expect(members.length).toBe(2);
+      expect(members.map(m => m.org_id).sort()).toEqual(
+        [user1, user2].map(u => u.circle.organization.id).sort()
+      );
+      expect(members.map(m => m.deleted_at)).toEqual([null, null]);
+    },
+    { timeout: 3000 }
+  );
 });
 
-test('org_member will remain undeleted even if deleted from all org circles', async () => {
-  //delete user1 from circle 1
-  await adminClient.mutate(
-    {
-      deleteUser: [
-        { payload: { address: address1, circle_id: circle1.id } },
-        { success: true },
-      ],
-    },
-    { operationName: 'test' }
-  );
-  await waitFor(async () => {
-    const { org_members: orgMembers1 } = await client.query(
-      {
-        org_members: [
-          { where: { profile_id: { _eq: profile1.id } } },
-          { id: true, deleted_at: true },
-        ],
-      },
-      { operationName: 'test' }
-    );
-    expect(orgMembers1[0].id).toBeDefined();
-    expect(orgMembers1[0].deleted_at).toBeNull();
-  });
+test('do nothing when user is deleted', async () => {
+  const req = {
+    body: { event: { data: { new: { deleted_at: Date.now() } } } },
+  };
+  const res: any = { status: jest.fn(() => res), json: jest.fn() };
 
-  //delete user1 from circle 2
-  await adminClient.mutate(
-    {
-      deleteUser: [
-        { payload: { address: address1, circle_id: circle2.id } },
-        { success: true },
-      ],
-    },
-    { operationName: 'test' }
-  );
-
-  await waitFor(async () => {
-    const { org_members: orgMembers2 } = await client.query(
-      {
-        org_members: [
-          { where: { profile_id: { _eq: profile1.id } } },
-          { id: true, deleted_at: true },
-        ],
-      },
-      { operationName: 'test' }
-    );
-    expect(orgMembers2[0].id).toBeDefined();
-    expect(orgMembers2[0].deleted_at).toBeNull();
-  });
+  // @ts-ignore
+  await handler(req, res);
+  expect(res.json).toBeCalledWith({ message: 'no change' });
 });

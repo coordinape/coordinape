@@ -12,7 +12,7 @@ export async function createProfile(
 ) {
   if (!object) {
     object = {
-      address: faker.finance.ethereumAddress(),
+      address: faker.unique(faker.finance.ethereumAddress),
       name: `${faker.name.firstName()} ${faker.datatype.number(10000)}`,
     };
   } else {

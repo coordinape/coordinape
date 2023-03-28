@@ -1,6 +1,7 @@
 import assert from 'assert';
 
 import { GraphQLTypes } from '../../api-lib/gql/__generated__/zeus';
+import { Role } from '../../src/lib/users';
 
 import { createCircle } from './circles';
 import type { GQLClientType } from './common';
@@ -8,8 +9,10 @@ import { createProfile } from './profiles';
 
 export async function createUser(
   client: GQLClientType,
-  object: Partial<GraphQLTypes['users_insert_input']>
+  object?: Partial<GraphQLTypes['users_insert_input']>
 ) {
+  if (!object) object = {};
+
   if (!object.address) {
     const profile = await createProfile(client);
     object.address = profile.address;
@@ -26,7 +29,8 @@ export async function createUser(
         {
           object: {
             ...object,
-            role: object.role ?? 1,
+            // FIXME this should be MEMBER, but lots of tests rely on this
+            role: object.role ?? Role.ADMIN,
             starting_tokens: object.starting_tokens ?? 100,
             entrance: object.entrance ?? '?',
           },
@@ -37,7 +41,11 @@ export async function createUser(
           circle_id: true,
           role: true,
           profile: { id: true, address: true, name: true },
-          circle: { id: true, name: true },
+          circle: {
+            id: true,
+            name: true,
+            organization: { id: true, name: true },
+          },
         },
       ],
     },
