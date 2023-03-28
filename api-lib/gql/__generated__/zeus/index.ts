@@ -6224,6 +6224,238 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** User api tokens, one per circle */
+  ['discord_user_api_tokens']: AliasType<{
+    circle_id?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    discord_user?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    token?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "discord.user_api_tokens" */
+  ['discord_user_api_tokens_aggregate']: AliasType<{
+    aggregate?: ValueTypes['discord_user_api_tokens_aggregate_fields'];
+    nodes?: ValueTypes['discord_user_api_tokens'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "discord.user_api_tokens" */
+  ['discord_user_api_tokens_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['discord_user_api_tokens_avg_fields'];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes['discord_user_api_tokens_select_column']>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`
+    ];
+    max?: ValueTypes['discord_user_api_tokens_max_fields'];
+    min?: ValueTypes['discord_user_api_tokens_min_fields'];
+    stddev?: ValueTypes['discord_user_api_tokens_stddev_fields'];
+    stddev_pop?: ValueTypes['discord_user_api_tokens_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['discord_user_api_tokens_stddev_samp_fields'];
+    sum?: ValueTypes['discord_user_api_tokens_sum_fields'];
+    var_pop?: ValueTypes['discord_user_api_tokens_var_pop_fields'];
+    var_samp?: ValueTypes['discord_user_api_tokens_var_samp_fields'];
+    variance?: ValueTypes['discord_user_api_tokens_variance_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate avg on columns */
+  ['discord_user_api_tokens_avg_fields']: AliasType<{
+    circle_id?: boolean | `@${string}`;
+    discord_user?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "discord.user_api_tokens". All fields are combined with a logical 'AND'. */
+  ['discord_user_api_tokens_bool_exp']: {
+    _and?:
+      | Array<ValueTypes['discord_user_api_tokens_bool_exp']>
+      | undefined
+      | null;
+    _not?: ValueTypes['discord_user_api_tokens_bool_exp'] | undefined | null;
+    _or?:
+      | Array<ValueTypes['discord_user_api_tokens_bool_exp']>
+      | undefined
+      | null;
+    circle_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    discord_user?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    token?: ValueTypes['String_comparison_exp'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+  };
+  /** unique or primary key constraints on table "discord.user_api_tokens" */
+  ['discord_user_api_tokens_constraint']: discord_user_api_tokens_constraint;
+  /** input type for incrementing numeric columns in table "discord.user_api_tokens" */
+  ['discord_user_api_tokens_inc_input']: {
+    circle_id?: ValueTypes['bigint'] | undefined | null;
+    discord_user?: ValueTypes['bigint'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** input type for inserting data into table "discord.user_api_tokens" */
+  ['discord_user_api_tokens_insert_input']: {
+    circle_id?: ValueTypes['bigint'] | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    discord_user?: ValueTypes['bigint'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    token?: string | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+  };
+  /** aggregate max on columns */
+  ['discord_user_api_tokens_max_fields']: AliasType<{
+    circle_id?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    discord_user?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    token?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ['discord_user_api_tokens_min_fields']: AliasType<{
+    circle_id?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    discord_user?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    token?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** response of any mutation on the table "discord.user_api_tokens" */
+  ['discord_user_api_tokens_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['discord_user_api_tokens'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** on_conflict condition type for table "discord.user_api_tokens" */
+  ['discord_user_api_tokens_on_conflict']: {
+    constraint: ValueTypes['discord_user_api_tokens_constraint'];
+    update_columns: Array<ValueTypes['discord_user_api_tokens_update_column']>;
+    where?: ValueTypes['discord_user_api_tokens_bool_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "discord.user_api_tokens". */
+  ['discord_user_api_tokens_order_by']: {
+    circle_id?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    discord_user?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    token?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** primary key columns input for table: discord.user_api_tokens */
+  ['discord_user_api_tokens_pk_columns_input']: {
+    id: ValueTypes['bigint'];
+  };
+  /** select columns of table "discord.user_api_tokens" */
+  ['discord_user_api_tokens_select_column']: discord_user_api_tokens_select_column;
+  /** input type for updating data in table "discord.user_api_tokens" */
+  ['discord_user_api_tokens_set_input']: {
+    circle_id?: ValueTypes['bigint'] | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    discord_user?: ValueTypes['bigint'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    token?: string | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+  };
+  /** aggregate stddev on columns */
+  ['discord_user_api_tokens_stddev_fields']: AliasType<{
+    circle_id?: boolean | `@${string}`;
+    discord_user?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_pop on columns */
+  ['discord_user_api_tokens_stddev_pop_fields']: AliasType<{
+    circle_id?: boolean | `@${string}`;
+    discord_user?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_samp on columns */
+  ['discord_user_api_tokens_stddev_samp_fields']: AliasType<{
+    circle_id?: boolean | `@${string}`;
+    discord_user?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Streaming cursor of the table "discord_user_api_tokens" */
+  ['discord_user_api_tokens_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['discord_user_api_tokens_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['discord_user_api_tokens_stream_cursor_value_input']: {
+    circle_id?: ValueTypes['bigint'] | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    discord_user?: ValueTypes['bigint'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    token?: string | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+  };
+  /** aggregate sum on columns */
+  ['discord_user_api_tokens_sum_fields']: AliasType<{
+    circle_id?: boolean | `@${string}`;
+    discord_user?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** update columns of table "discord.user_api_tokens" */
+  ['discord_user_api_tokens_update_column']: discord_user_api_tokens_update_column;
+  ['discord_user_api_tokens_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: ValueTypes['discord_user_api_tokens_inc_input'] | undefined | null;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ValueTypes['discord_user_api_tokens_set_input'] | undefined | null;
+    /** filter the rows which have to be updated */
+    where: ValueTypes['discord_user_api_tokens_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['discord_user_api_tokens_var_pop_fields']: AliasType<{
+    circle_id?: boolean | `@${string}`;
+    discord_user?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_samp on columns */
+  ['discord_user_api_tokens_var_samp_fields']: AliasType<{
+    circle_id?: boolean | `@${string}`;
+    discord_user?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate variance on columns */
+  ['discord_user_api_tokens_variance_fields']: AliasType<{
+    circle_id?: boolean | `@${string}`;
+    discord_user?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** link discord user ids to coordinape profiles 1:1 */
   ['discord_users']: AliasType<{
     created_at?: boolean | `@${string}`;
@@ -10473,6 +10705,17 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['discord_roles_circles']
     ];
+    delete_discord_user_api_tokens?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['discord_user_api_tokens_bool_exp'];
+      },
+      ValueTypes['discord_user_api_tokens_mutation_response']
+    ];
+    delete_discord_user_api_tokens_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['discord_user_api_tokens']
+    ];
     delete_discord_users?: [
       {
         /** filter the rows which have to be deleted */
@@ -10597,6 +10840,17 @@ export type ValueTypes = {
     delete_org_members_by_pk?: [
       { id: ValueTypes['bigint'] },
       ValueTypes['org_members']
+    ];
+    delete_org_share_tokens?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['org_share_tokens_bool_exp'];
+      },
+      ValueTypes['org_share_tokens_mutation_response']
+    ];
+    delete_org_share_tokens_by_pk?: [
+      { org_id: ValueTypes['bigint']; type: number },
+      ValueTypes['org_share_tokens']
     ];
     delete_organizations?: [
       {
@@ -11004,6 +11258,30 @@ export type ValueTypes = {
       },
       ValueTypes['discord_roles_circles']
     ];
+    insert_discord_user_api_tokens?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ValueTypes['discord_user_api_tokens_insert_input']
+        > /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['discord_user_api_tokens_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['discord_user_api_tokens_mutation_response']
+    ];
+    insert_discord_user_api_tokens_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['discord_user_api_tokens_insert_input'] /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['discord_user_api_tokens_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['discord_user_api_tokens']
+    ];
     insert_discord_users?: [
       {
         /** the rows to be inserted */
@@ -11257,6 +11535,30 @@ export type ValueTypes = {
         on_conflict?: ValueTypes['org_members_on_conflict'] | undefined | null;
       },
       ValueTypes['org_members']
+    ];
+    insert_org_share_tokens?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ValueTypes['org_share_tokens_insert_input']
+        > /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['org_share_tokens_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['org_share_tokens_mutation_response']
+    ];
+    insert_org_share_tokens_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['org_share_tokens_insert_input'] /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['org_share_tokens_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['org_share_tokens']
     ];
     insert_organizations?: [
       {
@@ -12026,6 +12328,43 @@ export type ValueTypes = {
       },
       ValueTypes['discord_roles_circles_mutation_response']
     ];
+    update_discord_user_api_tokens?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['discord_user_api_tokens_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes['discord_user_api_tokens_set_input']
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['discord_user_api_tokens_bool_exp'];
+      },
+      ValueTypes['discord_user_api_tokens_mutation_response']
+    ];
+    update_discord_user_api_tokens_by_pk?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['discord_user_api_tokens_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes['discord_user_api_tokens_set_input']
+          | undefined
+          | null;
+        pk_columns: ValueTypes['discord_user_api_tokens_pk_columns_input'];
+      },
+      ValueTypes['discord_user_api_tokens']
+    ];
+    update_discord_user_api_tokens_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes['discord_user_api_tokens_updates']>;
+      },
+      ValueTypes['discord_user_api_tokens_mutation_response']
+    ];
     update_discord_users?: [
       {
         /** increments the numeric columns with given value of the filtered values */
@@ -12547,6 +12886,40 @@ export type ValueTypes = {
         updates: Array<ValueTypes['org_members_updates']>;
       },
       ValueTypes['org_members_mutation_response']
+    ];
+    update_org_share_tokens?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['org_share_tokens_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes['org_share_tokens_set_input']
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['org_share_tokens_bool_exp'];
+      },
+      ValueTypes['org_share_tokens_mutation_response']
+    ];
+    update_org_share_tokens_by_pk?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['org_share_tokens_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?: ValueTypes['org_share_tokens_set_input'] | undefined | null;
+        pk_columns: ValueTypes['org_share_tokens_pk_columns_input'];
+      },
+      ValueTypes['org_share_tokens']
+    ];
+    update_org_share_tokens_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes['org_share_tokens_updates']>;
+      },
+      ValueTypes['org_share_tokens_mutation_response']
     ];
     update_organizations?: [
       {
@@ -13551,6 +13924,7 @@ export type ValueTypes = {
   ['org_members']: AliasType<{
     created_at?: boolean | `@${string}`;
     deleted_at?: boolean | `@${string}`;
+    entrance?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     org_id?: boolean | `@${string}`;
     /** An object relationship */
@@ -13655,6 +14029,7 @@ export type ValueTypes = {
     _or?: Array<ValueTypes['org_members_bool_exp']> | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     deleted_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+    entrance?: ValueTypes['String_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     org_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     organization?: ValueTypes['organizations_bool_exp'] | undefined | null;
@@ -13676,6 +14051,7 @@ export type ValueTypes = {
   ['org_members_insert_input']: {
     created_at?: ValueTypes['timestamp'] | undefined | null;
     deleted_at?: ValueTypes['timestamp'] | undefined | null;
+    entrance?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     org_id?: ValueTypes['bigint'] | undefined | null;
     organization?:
@@ -13691,6 +14067,7 @@ export type ValueTypes = {
   ['org_members_max_fields']: AliasType<{
     created_at?: boolean | `@${string}`;
     deleted_at?: boolean | `@${string}`;
+    entrance?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     org_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -13702,6 +14079,7 @@ export type ValueTypes = {
   ['org_members_max_order_by']: {
     created_at?: ValueTypes['order_by'] | undefined | null;
     deleted_at?: ValueTypes['order_by'] | undefined | null;
+    entrance?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     org_id?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
@@ -13712,6 +14090,7 @@ export type ValueTypes = {
   ['org_members_min_fields']: AliasType<{
     created_at?: boolean | `@${string}`;
     deleted_at?: boolean | `@${string}`;
+    entrance?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     org_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -13723,6 +14102,7 @@ export type ValueTypes = {
   ['org_members_min_order_by']: {
     created_at?: ValueTypes['order_by'] | undefined | null;
     deleted_at?: ValueTypes['order_by'] | undefined | null;
+    entrance?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     org_id?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
@@ -13747,6 +14127,7 @@ export type ValueTypes = {
   ['org_members_order_by']: {
     created_at?: ValueTypes['order_by'] | undefined | null;
     deleted_at?: ValueTypes['order_by'] | undefined | null;
+    entrance?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     org_id?: ValueTypes['order_by'] | undefined | null;
     organization?: ValueTypes['organizations_order_by'] | undefined | null;
@@ -13765,6 +14146,7 @@ export type ValueTypes = {
   ['org_members_set_input']: {
     created_at?: ValueTypes['timestamp'] | undefined | null;
     deleted_at?: ValueTypes['timestamp'] | undefined | null;
+    entrance?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     org_id?: ValueTypes['bigint'] | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
@@ -13827,6 +14209,7 @@ export type ValueTypes = {
   ['org_members_stream_cursor_value_input']: {
     created_at?: ValueTypes['timestamp'] | undefined | null;
     deleted_at?: ValueTypes['timestamp'] | undefined | null;
+    entrance?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     org_id?: ValueTypes['bigint'] | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
@@ -13903,6 +14286,207 @@ export type ValueTypes = {
     profile_id?: ValueTypes['order_by'] | undefined | null;
     role?: ValueTypes['order_by'] | undefined | null;
   };
+  /** columns and relationships of "org_share_tokens" */
+  ['org_share_tokens']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    org_id?: boolean | `@${string}`;
+    /** An object relationship */
+    organization?: ValueTypes['organizations'];
+    type?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    uuid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "org_share_tokens" */
+  ['org_share_tokens_aggregate']: AliasType<{
+    aggregate?: ValueTypes['org_share_tokens_aggregate_fields'];
+    nodes?: ValueTypes['org_share_tokens'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "org_share_tokens" */
+  ['org_share_tokens_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['org_share_tokens_avg_fields'];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes['org_share_tokens_select_column']>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`
+    ];
+    max?: ValueTypes['org_share_tokens_max_fields'];
+    min?: ValueTypes['org_share_tokens_min_fields'];
+    stddev?: ValueTypes['org_share_tokens_stddev_fields'];
+    stddev_pop?: ValueTypes['org_share_tokens_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['org_share_tokens_stddev_samp_fields'];
+    sum?: ValueTypes['org_share_tokens_sum_fields'];
+    var_pop?: ValueTypes['org_share_tokens_var_pop_fields'];
+    var_samp?: ValueTypes['org_share_tokens_var_samp_fields'];
+    variance?: ValueTypes['org_share_tokens_variance_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate avg on columns */
+  ['org_share_tokens_avg_fields']: AliasType<{
+    org_id?: boolean | `@${string}`;
+    type?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "org_share_tokens". All fields are combined with a logical 'AND'. */
+  ['org_share_tokens_bool_exp']: {
+    _and?: Array<ValueTypes['org_share_tokens_bool_exp']> | undefined | null;
+    _not?: ValueTypes['org_share_tokens_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['org_share_tokens_bool_exp']> | undefined | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    org_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    organization?: ValueTypes['organizations_bool_exp'] | undefined | null;
+    type?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    uuid?: ValueTypes['uuid_comparison_exp'] | undefined | null;
+  };
+  /** unique or primary key constraints on table "org_share_tokens" */
+  ['org_share_tokens_constraint']: org_share_tokens_constraint;
+  /** input type for incrementing numeric columns in table "org_share_tokens" */
+  ['org_share_tokens_inc_input']: {
+    org_id?: ValueTypes['bigint'] | undefined | null;
+    type?: number | undefined | null;
+  };
+  /** input type for inserting data into table "org_share_tokens" */
+  ['org_share_tokens_insert_input']: {
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    org_id?: ValueTypes['bigint'] | undefined | null;
+    organization?:
+      | ValueTypes['organizations_obj_rel_insert_input']
+      | undefined
+      | null;
+    type?: number | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+    uuid?: ValueTypes['uuid'] | undefined | null;
+  };
+  /** aggregate max on columns */
+  ['org_share_tokens_max_fields']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    org_id?: boolean | `@${string}`;
+    type?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    uuid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ['org_share_tokens_min_fields']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    org_id?: boolean | `@${string}`;
+    type?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    uuid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** response of any mutation on the table "org_share_tokens" */
+  ['org_share_tokens_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['org_share_tokens'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** on_conflict condition type for table "org_share_tokens" */
+  ['org_share_tokens_on_conflict']: {
+    constraint: ValueTypes['org_share_tokens_constraint'];
+    update_columns: Array<ValueTypes['org_share_tokens_update_column']>;
+    where?: ValueTypes['org_share_tokens_bool_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "org_share_tokens". */
+  ['org_share_tokens_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    org_id?: ValueTypes['order_by'] | undefined | null;
+    organization?: ValueTypes['organizations_order_by'] | undefined | null;
+    type?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+    uuid?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** primary key columns input for table: org_share_tokens */
+  ['org_share_tokens_pk_columns_input']: {
+    org_id: ValueTypes['bigint'];
+    type: number;
+  };
+  /** select columns of table "org_share_tokens" */
+  ['org_share_tokens_select_column']: org_share_tokens_select_column;
+  /** input type for updating data in table "org_share_tokens" */
+  ['org_share_tokens_set_input']: {
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    org_id?: ValueTypes['bigint'] | undefined | null;
+    type?: number | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+    uuid?: ValueTypes['uuid'] | undefined | null;
+  };
+  /** aggregate stddev on columns */
+  ['org_share_tokens_stddev_fields']: AliasType<{
+    org_id?: boolean | `@${string}`;
+    type?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_pop on columns */
+  ['org_share_tokens_stddev_pop_fields']: AliasType<{
+    org_id?: boolean | `@${string}`;
+    type?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_samp on columns */
+  ['org_share_tokens_stddev_samp_fields']: AliasType<{
+    org_id?: boolean | `@${string}`;
+    type?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Streaming cursor of the table "org_share_tokens" */
+  ['org_share_tokens_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['org_share_tokens_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['org_share_tokens_stream_cursor_value_input']: {
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    org_id?: ValueTypes['bigint'] | undefined | null;
+    type?: number | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+    uuid?: ValueTypes['uuid'] | undefined | null;
+  };
+  /** aggregate sum on columns */
+  ['org_share_tokens_sum_fields']: AliasType<{
+    org_id?: boolean | `@${string}`;
+    type?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** update columns of table "org_share_tokens" */
+  ['org_share_tokens_update_column']: org_share_tokens_update_column;
+  ['org_share_tokens_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: ValueTypes['org_share_tokens_inc_input'] | undefined | null;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ValueTypes['org_share_tokens_set_input'] | undefined | null;
+    /** filter the rows which have to be updated */
+    where: ValueTypes['org_share_tokens_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['org_share_tokens_var_pop_fields']: AliasType<{
+    org_id?: boolean | `@${string}`;
+    type?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_samp on columns */
+  ['org_share_tokens_var_samp_fields']: AliasType<{
+    org_id?: boolean | `@${string}`;
+    type?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate variance on columns */
+  ['org_share_tokens_variance_fields']: AliasType<{
+    org_id?: boolean | `@${string}`;
+    type?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** columns and relationships of "organizations" */
   ['organizations']: AliasType<{
     circles?: [
@@ -16779,6 +17363,62 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['discord_roles_circles']
     ];
+    discord_user_api_tokens?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['discord_user_api_tokens_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['discord_user_api_tokens_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['discord_user_api_tokens_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['discord_user_api_tokens']
+    ];
+    discord_user_api_tokens_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['discord_user_api_tokens_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['discord_user_api_tokens_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['discord_user_api_tokens_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['discord_user_api_tokens_aggregate']
+    ];
+    discord_user_api_tokens_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['discord_user_api_tokens']
+    ];
     discord_users?: [
       {
         /** distinct select on columns */
@@ -17378,6 +18018,56 @@ export type ValueTypes = {
     org_members_by_pk?: [
       { id: ValueTypes['bigint'] },
       ValueTypes['org_members']
+    ];
+    org_share_tokens?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['org_share_tokens_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['org_share_tokens_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['org_share_tokens_bool_exp'] | undefined | null;
+      },
+      ValueTypes['org_share_tokens']
+    ];
+    org_share_tokens_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['org_share_tokens_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['org_share_tokens_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['org_share_tokens_bool_exp'] | undefined | null;
+      },
+      ValueTypes['org_share_tokens_aggregate']
+    ];
+    org_share_tokens_by_pk?: [
+      { org_id: ValueTypes['bigint']; type: number },
+      ValueTypes['org_share_tokens']
     ];
     organizations?: [
       {
@@ -19166,6 +19856,78 @@ export type ValueTypes = {
       },
       ValueTypes['discord_roles_circles']
     ];
+    discord_user_api_tokens?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['discord_user_api_tokens_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['discord_user_api_tokens_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['discord_user_api_tokens_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['discord_user_api_tokens']
+    ];
+    discord_user_api_tokens_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['discord_user_api_tokens_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['discord_user_api_tokens_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['discord_user_api_tokens_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['discord_user_api_tokens_aggregate']
+    ];
+    discord_user_api_tokens_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['discord_user_api_tokens']
+    ];
+    discord_user_api_tokens_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          | ValueTypes['discord_user_api_tokens_stream_cursor_input']
+          | undefined
+          | null
+        > /** filter the rows returned */;
+        where?:
+          | ValueTypes['discord_user_api_tokens_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['discord_user_api_tokens']
+    ];
     discord_users?: [
       {
         /** distinct select on columns */
@@ -19907,6 +20669,67 @@ export type ValueTypes = {
         where?: ValueTypes['org_members_bool_exp'] | undefined | null;
       },
       ValueTypes['org_members']
+    ];
+    org_share_tokens?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['org_share_tokens_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['org_share_tokens_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['org_share_tokens_bool_exp'] | undefined | null;
+      },
+      ValueTypes['org_share_tokens']
+    ];
+    org_share_tokens_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['org_share_tokens_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['org_share_tokens_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['org_share_tokens_bool_exp'] | undefined | null;
+      },
+      ValueTypes['org_share_tokens_aggregate']
+    ];
+    org_share_tokens_by_pk?: [
+      { org_id: ValueTypes['bigint']; type: number },
+      ValueTypes['org_share_tokens']
+    ];
+    org_share_tokens_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['org_share_tokens_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['org_share_tokens_bool_exp'] | undefined | null;
+      },
+      ValueTypes['org_share_tokens']
     ];
     organizations?: [
       {
@@ -26591,6 +27414,155 @@ export type ModelTypes = {
     circle_id?: number | undefined;
     id?: number | undefined;
   };
+  /** User api tokens, one per circle */
+  ['discord_user_api_tokens']: {
+    circle_id: GraphQLTypes['bigint'];
+    created_at: GraphQLTypes['timestamptz'];
+    discord_user?: GraphQLTypes['bigint'] | undefined;
+    id: GraphQLTypes['bigint'];
+    profile_id: GraphQLTypes['bigint'];
+    token: string;
+    updated_at: GraphQLTypes['timestamptz'];
+  };
+  /** aggregated selection of "discord.user_api_tokens" */
+  ['discord_user_api_tokens_aggregate']: {
+    aggregate?:
+      | GraphQLTypes['discord_user_api_tokens_aggregate_fields']
+      | undefined;
+    nodes: Array<GraphQLTypes['discord_user_api_tokens']>;
+  };
+  /** aggregate fields of "discord.user_api_tokens" */
+  ['discord_user_api_tokens_aggregate_fields']: {
+    avg?: GraphQLTypes['discord_user_api_tokens_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['discord_user_api_tokens_max_fields'] | undefined;
+    min?: GraphQLTypes['discord_user_api_tokens_min_fields'] | undefined;
+    stddev?: GraphQLTypes['discord_user_api_tokens_stddev_fields'] | undefined;
+    stddev_pop?:
+      | GraphQLTypes['discord_user_api_tokens_stddev_pop_fields']
+      | undefined;
+    stddev_samp?:
+      | GraphQLTypes['discord_user_api_tokens_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['discord_user_api_tokens_sum_fields'] | undefined;
+    var_pop?:
+      | GraphQLTypes['discord_user_api_tokens_var_pop_fields']
+      | undefined;
+    var_samp?:
+      | GraphQLTypes['discord_user_api_tokens_var_samp_fields']
+      | undefined;
+    variance?:
+      | GraphQLTypes['discord_user_api_tokens_variance_fields']
+      | undefined;
+  };
+  /** aggregate avg on columns */
+  ['discord_user_api_tokens_avg_fields']: {
+    circle_id?: number | undefined;
+    discord_user?: number | undefined;
+    id?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "discord.user_api_tokens". All fields are combined with a logical 'AND'. */
+  ['discord_user_api_tokens_bool_exp']: GraphQLTypes['discord_user_api_tokens_bool_exp'];
+  /** unique or primary key constraints on table "discord.user_api_tokens" */
+  ['discord_user_api_tokens_constraint']: GraphQLTypes['discord_user_api_tokens_constraint'];
+  /** input type for incrementing numeric columns in table "discord.user_api_tokens" */
+  ['discord_user_api_tokens_inc_input']: GraphQLTypes['discord_user_api_tokens_inc_input'];
+  /** input type for inserting data into table "discord.user_api_tokens" */
+  ['discord_user_api_tokens_insert_input']: GraphQLTypes['discord_user_api_tokens_insert_input'];
+  /** aggregate max on columns */
+  ['discord_user_api_tokens_max_fields']: {
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    discord_user?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    token?: string | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['discord_user_api_tokens_min_fields']: {
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    discord_user?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    token?: string | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** response of any mutation on the table "discord.user_api_tokens" */
+  ['discord_user_api_tokens_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['discord_user_api_tokens']>;
+  };
+  /** on_conflict condition type for table "discord.user_api_tokens" */
+  ['discord_user_api_tokens_on_conflict']: GraphQLTypes['discord_user_api_tokens_on_conflict'];
+  /** Ordering options when selecting data from "discord.user_api_tokens". */
+  ['discord_user_api_tokens_order_by']: GraphQLTypes['discord_user_api_tokens_order_by'];
+  /** primary key columns input for table: discord.user_api_tokens */
+  ['discord_user_api_tokens_pk_columns_input']: GraphQLTypes['discord_user_api_tokens_pk_columns_input'];
+  /** select columns of table "discord.user_api_tokens" */
+  ['discord_user_api_tokens_select_column']: GraphQLTypes['discord_user_api_tokens_select_column'];
+  /** input type for updating data in table "discord.user_api_tokens" */
+  ['discord_user_api_tokens_set_input']: GraphQLTypes['discord_user_api_tokens_set_input'];
+  /** aggregate stddev on columns */
+  ['discord_user_api_tokens_stddev_fields']: {
+    circle_id?: number | undefined;
+    discord_user?: number | undefined;
+    id?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['discord_user_api_tokens_stddev_pop_fields']: {
+    circle_id?: number | undefined;
+    discord_user?: number | undefined;
+    id?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['discord_user_api_tokens_stddev_samp_fields']: {
+    circle_id?: number | undefined;
+    discord_user?: number | undefined;
+    id?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** Streaming cursor of the table "discord_user_api_tokens" */
+  ['discord_user_api_tokens_stream_cursor_input']: GraphQLTypes['discord_user_api_tokens_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['discord_user_api_tokens_stream_cursor_value_input']: GraphQLTypes['discord_user_api_tokens_stream_cursor_value_input'];
+  /** aggregate sum on columns */
+  ['discord_user_api_tokens_sum_fields']: {
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    discord_user?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** update columns of table "discord.user_api_tokens" */
+  ['discord_user_api_tokens_update_column']: GraphQLTypes['discord_user_api_tokens_update_column'];
+  ['discord_user_api_tokens_updates']: GraphQLTypes['discord_user_api_tokens_updates'];
+  /** aggregate var_pop on columns */
+  ['discord_user_api_tokens_var_pop_fields']: {
+    circle_id?: number | undefined;
+    discord_user?: number | undefined;
+    id?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['discord_user_api_tokens_var_samp_fields']: {
+    circle_id?: number | undefined;
+    discord_user?: number | undefined;
+    id?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['discord_user_api_tokens_variance_fields']: {
+    circle_id?: number | undefined;
+    discord_user?: number | undefined;
+    id?: number | undefined;
+    profile_id?: number | undefined;
+  };
   /** link discord user ids to coordinape profiles 1:1 */
   ['discord_users']: {
     created_at: GraphQLTypes['timestamptz'];
@@ -28487,6 +29459,14 @@ export type ModelTypes = {
     delete_discord_roles_circles_by_pk?:
       | GraphQLTypes['discord_roles_circles']
       | undefined;
+    /** delete data from the table: "discord.user_api_tokens" */
+    delete_discord_user_api_tokens?:
+      | GraphQLTypes['discord_user_api_tokens_mutation_response']
+      | undefined;
+    /** delete single row from the table: "discord.user_api_tokens" */
+    delete_discord_user_api_tokens_by_pk?:
+      | GraphQLTypes['discord_user_api_tokens']
+      | undefined;
     /** delete data from the table: "discord.users" */
     delete_discord_users?:
       | GraphQLTypes['discord_users_mutation_response']
@@ -28561,6 +29541,14 @@ export type ModelTypes = {
       | undefined;
     /** delete single row from the table: "org_members" */
     delete_org_members_by_pk?: GraphQLTypes['org_members'] | undefined;
+    /** delete data from the table: "org_share_tokens" */
+    delete_org_share_tokens?:
+      | GraphQLTypes['org_share_tokens_mutation_response']
+      | undefined;
+    /** delete single row from the table: "org_share_tokens" */
+    delete_org_share_tokens_by_pk?:
+      | GraphQLTypes['org_share_tokens']
+      | undefined;
     /** delete data from the table: "organizations" */
     delete_organizations?:
       | GraphQLTypes['organizations_mutation_response']
@@ -28716,6 +29704,14 @@ export type ModelTypes = {
     insert_discord_roles_circles_one?:
       | GraphQLTypes['discord_roles_circles']
       | undefined;
+    /** insert data into the table: "discord.user_api_tokens" */
+    insert_discord_user_api_tokens?:
+      | GraphQLTypes['discord_user_api_tokens_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "discord.user_api_tokens" */
+    insert_discord_user_api_tokens_one?:
+      | GraphQLTypes['discord_user_api_tokens']
+      | undefined;
     /** insert data into the table: "discord.users" */
     insert_discord_users?:
       | GraphQLTypes['discord_users_mutation_response']
@@ -28790,6 +29786,12 @@ export type ModelTypes = {
       | undefined;
     /** insert a single row into the table: "org_members" */
     insert_org_members_one?: GraphQLTypes['org_members'] | undefined;
+    /** insert data into the table: "org_share_tokens" */
+    insert_org_share_tokens?:
+      | GraphQLTypes['org_share_tokens_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "org_share_tokens" */
+    insert_org_share_tokens_one?: GraphQLTypes['org_share_tokens'] | undefined;
     /** insert data into the table: "organizations" */
     insert_organizations?:
       | GraphQLTypes['organizations_mutation_response']
@@ -29013,6 +30015,20 @@ export type ModelTypes = {
           GraphQLTypes['discord_roles_circles_mutation_response'] | undefined
         >
       | undefined;
+    /** update data of the table: "discord.user_api_tokens" */
+    update_discord_user_api_tokens?:
+      | GraphQLTypes['discord_user_api_tokens_mutation_response']
+      | undefined;
+    /** update single row of the table: "discord.user_api_tokens" */
+    update_discord_user_api_tokens_by_pk?:
+      | GraphQLTypes['discord_user_api_tokens']
+      | undefined;
+    /** update multiples rows of table: "discord.user_api_tokens" */
+    update_discord_user_api_tokens_many?:
+      | Array<
+          GraphQLTypes['discord_user_api_tokens_mutation_response'] | undefined
+        >
+      | undefined;
     /** update data of the table: "discord.users" */
     update_discord_users?:
       | GraphQLTypes['discord_users_mutation_response']
@@ -29140,6 +30156,18 @@ export type ModelTypes = {
     /** update multiples rows of table: "org_members" */
     update_org_members_many?:
       | Array<GraphQLTypes['org_members_mutation_response'] | undefined>
+      | undefined;
+    /** update data of the table: "org_share_tokens" */
+    update_org_share_tokens?:
+      | GraphQLTypes['org_share_tokens_mutation_response']
+      | undefined;
+    /** update single row of the table: "org_share_tokens" */
+    update_org_share_tokens_by_pk?:
+      | GraphQLTypes['org_share_tokens']
+      | undefined;
+    /** update multiples rows of table: "org_share_tokens" */
+    update_org_share_tokens_many?:
+      | Array<GraphQLTypes['org_share_tokens_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "organizations" */
     update_organizations?:
@@ -29501,6 +30529,7 @@ export type ModelTypes = {
   ['org_members']: {
     created_at: GraphQLTypes['timestamp'];
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    entrance?: string | undefined;
     id: GraphQLTypes['bigint'];
     org_id: GraphQLTypes['bigint'];
     /** An object relationship */
@@ -29557,6 +30586,7 @@ export type ModelTypes = {
   ['org_members_max_fields']: {
     created_at?: GraphQLTypes['timestamp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    entrance?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     org_id?: GraphQLTypes['bigint'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -29569,6 +30599,7 @@ export type ModelTypes = {
   ['org_members_min_fields']: {
     created_at?: GraphQLTypes['timestamp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    entrance?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     org_id?: GraphQLTypes['bigint'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -29664,6 +30695,125 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "org_members" */
   ['org_members_variance_order_by']: GraphQLTypes['org_members_variance_order_by'];
+  /** columns and relationships of "org_share_tokens" */
+  ['org_share_tokens']: {
+    created_at: GraphQLTypes['timestamptz'];
+    org_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    organization: GraphQLTypes['organizations'];
+    type: number;
+    updated_at: GraphQLTypes['timestamptz'];
+    uuid: GraphQLTypes['uuid'];
+  };
+  /** aggregated selection of "org_share_tokens" */
+  ['org_share_tokens_aggregate']: {
+    aggregate?: GraphQLTypes['org_share_tokens_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['org_share_tokens']>;
+  };
+  /** aggregate fields of "org_share_tokens" */
+  ['org_share_tokens_aggregate_fields']: {
+    avg?: GraphQLTypes['org_share_tokens_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['org_share_tokens_max_fields'] | undefined;
+    min?: GraphQLTypes['org_share_tokens_min_fields'] | undefined;
+    stddev?: GraphQLTypes['org_share_tokens_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['org_share_tokens_stddev_pop_fields'] | undefined;
+    stddev_samp?:
+      | GraphQLTypes['org_share_tokens_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['org_share_tokens_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['org_share_tokens_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['org_share_tokens_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['org_share_tokens_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['org_share_tokens_avg_fields']: {
+    org_id?: number | undefined;
+    type?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "org_share_tokens". All fields are combined with a logical 'AND'. */
+  ['org_share_tokens_bool_exp']: GraphQLTypes['org_share_tokens_bool_exp'];
+  /** unique or primary key constraints on table "org_share_tokens" */
+  ['org_share_tokens_constraint']: GraphQLTypes['org_share_tokens_constraint'];
+  /** input type for incrementing numeric columns in table "org_share_tokens" */
+  ['org_share_tokens_inc_input']: GraphQLTypes['org_share_tokens_inc_input'];
+  /** input type for inserting data into table "org_share_tokens" */
+  ['org_share_tokens_insert_input']: GraphQLTypes['org_share_tokens_insert_input'];
+  /** aggregate max on columns */
+  ['org_share_tokens_max_fields']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    org_id?: GraphQLTypes['bigint'] | undefined;
+    type?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    uuid?: GraphQLTypes['uuid'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['org_share_tokens_min_fields']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    org_id?: GraphQLTypes['bigint'] | undefined;
+    type?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    uuid?: GraphQLTypes['uuid'] | undefined;
+  };
+  /** response of any mutation on the table "org_share_tokens" */
+  ['org_share_tokens_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['org_share_tokens']>;
+  };
+  /** on_conflict condition type for table "org_share_tokens" */
+  ['org_share_tokens_on_conflict']: GraphQLTypes['org_share_tokens_on_conflict'];
+  /** Ordering options when selecting data from "org_share_tokens". */
+  ['org_share_tokens_order_by']: GraphQLTypes['org_share_tokens_order_by'];
+  /** primary key columns input for table: org_share_tokens */
+  ['org_share_tokens_pk_columns_input']: GraphQLTypes['org_share_tokens_pk_columns_input'];
+  /** select columns of table "org_share_tokens" */
+  ['org_share_tokens_select_column']: GraphQLTypes['org_share_tokens_select_column'];
+  /** input type for updating data in table "org_share_tokens" */
+  ['org_share_tokens_set_input']: GraphQLTypes['org_share_tokens_set_input'];
+  /** aggregate stddev on columns */
+  ['org_share_tokens_stddev_fields']: {
+    org_id?: number | undefined;
+    type?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['org_share_tokens_stddev_pop_fields']: {
+    org_id?: number | undefined;
+    type?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['org_share_tokens_stddev_samp_fields']: {
+    org_id?: number | undefined;
+    type?: number | undefined;
+  };
+  /** Streaming cursor of the table "org_share_tokens" */
+  ['org_share_tokens_stream_cursor_input']: GraphQLTypes['org_share_tokens_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['org_share_tokens_stream_cursor_value_input']: GraphQLTypes['org_share_tokens_stream_cursor_value_input'];
+  /** aggregate sum on columns */
+  ['org_share_tokens_sum_fields']: {
+    org_id?: GraphQLTypes['bigint'] | undefined;
+    type?: number | undefined;
+  };
+  /** update columns of table "org_share_tokens" */
+  ['org_share_tokens_update_column']: GraphQLTypes['org_share_tokens_update_column'];
+  ['org_share_tokens_updates']: GraphQLTypes['org_share_tokens_updates'];
+  /** aggregate var_pop on columns */
+  ['org_share_tokens_var_pop_fields']: {
+    org_id?: number | undefined;
+    type?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['org_share_tokens_var_samp_fields']: {
+    org_id?: number | undefined;
+    type?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['org_share_tokens_variance_fields']: {
+    org_id?: number | undefined;
+    type?: number | undefined;
+  };
   /** columns and relationships of "organizations" */
   ['organizations']: {
     /** An array relationship */
@@ -30695,6 +31845,14 @@ export type ModelTypes = {
     discord_roles_circles_by_pk?:
       | GraphQLTypes['discord_roles_circles']
       | undefined;
+    /** fetch data from the table: "discord.user_api_tokens" */
+    discord_user_api_tokens: Array<GraphQLTypes['discord_user_api_tokens']>;
+    /** fetch aggregated fields from the table: "discord.user_api_tokens" */
+    discord_user_api_tokens_aggregate: GraphQLTypes['discord_user_api_tokens_aggregate'];
+    /** fetch data from the table: "discord.user_api_tokens" using primary key columns */
+    discord_user_api_tokens_by_pk?:
+      | GraphQLTypes['discord_user_api_tokens']
+      | undefined;
     /** fetch data from the table: "discord.users" */
     discord_users: Array<GraphQLTypes['discord_users']>;
     /** fetch aggregated fields from the table: "discord.users" */
@@ -30774,6 +31932,12 @@ export type ModelTypes = {
     org_members_aggregate: GraphQLTypes['org_members_aggregate'];
     /** fetch data from the table: "org_members" using primary key columns */
     org_members_by_pk?: GraphQLTypes['org_members'] | undefined;
+    /** fetch data from the table: "org_share_tokens" */
+    org_share_tokens: Array<GraphQLTypes['org_share_tokens']>;
+    /** fetch aggregated fields from the table: "org_share_tokens" */
+    org_share_tokens_aggregate: GraphQLTypes['org_share_tokens_aggregate'];
+    /** fetch data from the table: "org_share_tokens" using primary key columns */
+    org_share_tokens_by_pk?: GraphQLTypes['org_share_tokens'] | undefined;
     /** fetch data from the table: "organizations" */
     organizations: Array<GraphQLTypes['organizations']>;
     /** fetch aggregated fields from the table: "organizations" */
@@ -31125,6 +32289,18 @@ export type ModelTypes = {
       | undefined;
     /** fetch data from the table in a streaming manner: "discord.roles_circles" */
     discord_roles_circles_stream: Array<GraphQLTypes['discord_roles_circles']>;
+    /** fetch data from the table: "discord.user_api_tokens" */
+    discord_user_api_tokens: Array<GraphQLTypes['discord_user_api_tokens']>;
+    /** fetch aggregated fields from the table: "discord.user_api_tokens" */
+    discord_user_api_tokens_aggregate: GraphQLTypes['discord_user_api_tokens_aggregate'];
+    /** fetch data from the table: "discord.user_api_tokens" using primary key columns */
+    discord_user_api_tokens_by_pk?:
+      | GraphQLTypes['discord_user_api_tokens']
+      | undefined;
+    /** fetch data from the table in a streaming manner: "discord.user_api_tokens" */
+    discord_user_api_tokens_stream: Array<
+      GraphQLTypes['discord_user_api_tokens']
+    >;
     /** fetch data from the table: "discord.users" */
     discord_users: Array<GraphQLTypes['discord_users']>;
     /** fetch aggregated fields from the table: "discord.users" */
@@ -31231,6 +32407,14 @@ export type ModelTypes = {
     org_members_by_pk?: GraphQLTypes['org_members'] | undefined;
     /** fetch data from the table in a streaming manner: "org_members" */
     org_members_stream: Array<GraphQLTypes['org_members']>;
+    /** fetch data from the table: "org_share_tokens" */
+    org_share_tokens: Array<GraphQLTypes['org_share_tokens']>;
+    /** fetch aggregated fields from the table: "org_share_tokens" */
+    org_share_tokens_aggregate: GraphQLTypes['org_share_tokens_aggregate'];
+    /** fetch data from the table: "org_share_tokens" using primary key columns */
+    org_share_tokens_by_pk?: GraphQLTypes['org_share_tokens'] | undefined;
+    /** fetch data from the table in a streaming manner: "org_share_tokens" */
+    org_share_tokens_stream: Array<GraphQLTypes['org_share_tokens']>;
     /** fetch data from the table: "organizations" */
     organizations: Array<GraphQLTypes['organizations']>;
     /** fetch aggregated fields from the table: "organizations" */
@@ -37474,6 +38658,237 @@ export type GraphQLTypes = {
     circle_id?: number | undefined;
     id?: number | undefined;
   };
+  /** User api tokens, one per circle */
+  ['discord_user_api_tokens']: {
+    __typename: 'discord_user_api_tokens';
+    circle_id: GraphQLTypes['bigint'];
+    created_at: GraphQLTypes['timestamptz'];
+    discord_user?: GraphQLTypes['bigint'] | undefined;
+    id: GraphQLTypes['bigint'];
+    profile_id: GraphQLTypes['bigint'];
+    token: string;
+    updated_at: GraphQLTypes['timestamptz'];
+  };
+  /** aggregated selection of "discord.user_api_tokens" */
+  ['discord_user_api_tokens_aggregate']: {
+    __typename: 'discord_user_api_tokens_aggregate';
+    aggregate?:
+      | GraphQLTypes['discord_user_api_tokens_aggregate_fields']
+      | undefined;
+    nodes: Array<GraphQLTypes['discord_user_api_tokens']>;
+  };
+  /** aggregate fields of "discord.user_api_tokens" */
+  ['discord_user_api_tokens_aggregate_fields']: {
+    __typename: 'discord_user_api_tokens_aggregate_fields';
+    avg?: GraphQLTypes['discord_user_api_tokens_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['discord_user_api_tokens_max_fields'] | undefined;
+    min?: GraphQLTypes['discord_user_api_tokens_min_fields'] | undefined;
+    stddev?: GraphQLTypes['discord_user_api_tokens_stddev_fields'] | undefined;
+    stddev_pop?:
+      | GraphQLTypes['discord_user_api_tokens_stddev_pop_fields']
+      | undefined;
+    stddev_samp?:
+      | GraphQLTypes['discord_user_api_tokens_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['discord_user_api_tokens_sum_fields'] | undefined;
+    var_pop?:
+      | GraphQLTypes['discord_user_api_tokens_var_pop_fields']
+      | undefined;
+    var_samp?:
+      | GraphQLTypes['discord_user_api_tokens_var_samp_fields']
+      | undefined;
+    variance?:
+      | GraphQLTypes['discord_user_api_tokens_variance_fields']
+      | undefined;
+  };
+  /** aggregate avg on columns */
+  ['discord_user_api_tokens_avg_fields']: {
+    __typename: 'discord_user_api_tokens_avg_fields';
+    circle_id?: number | undefined;
+    discord_user?: number | undefined;
+    id?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "discord.user_api_tokens". All fields are combined with a logical 'AND'. */
+  ['discord_user_api_tokens_bool_exp']: {
+    _and?: Array<GraphQLTypes['discord_user_api_tokens_bool_exp']> | undefined;
+    _not?: GraphQLTypes['discord_user_api_tokens_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['discord_user_api_tokens_bool_exp']> | undefined;
+    circle_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    discord_user?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    token?: GraphQLTypes['String_comparison_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+  };
+  /** unique or primary key constraints on table "discord.user_api_tokens" */
+  ['discord_user_api_tokens_constraint']: discord_user_api_tokens_constraint;
+  /** input type for incrementing numeric columns in table "discord.user_api_tokens" */
+  ['discord_user_api_tokens_inc_input']: {
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    discord_user?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** input type for inserting data into table "discord.user_api_tokens" */
+  ['discord_user_api_tokens_insert_input']: {
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    discord_user?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    token?: string | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** aggregate max on columns */
+  ['discord_user_api_tokens_max_fields']: {
+    __typename: 'discord_user_api_tokens_max_fields';
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    discord_user?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    token?: string | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['discord_user_api_tokens_min_fields']: {
+    __typename: 'discord_user_api_tokens_min_fields';
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    discord_user?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    token?: string | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** response of any mutation on the table "discord.user_api_tokens" */
+  ['discord_user_api_tokens_mutation_response']: {
+    __typename: 'discord_user_api_tokens_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['discord_user_api_tokens']>;
+  };
+  /** on_conflict condition type for table "discord.user_api_tokens" */
+  ['discord_user_api_tokens_on_conflict']: {
+    constraint: GraphQLTypes['discord_user_api_tokens_constraint'];
+    update_columns: Array<
+      GraphQLTypes['discord_user_api_tokens_update_column']
+    >;
+    where?: GraphQLTypes['discord_user_api_tokens_bool_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "discord.user_api_tokens". */
+  ['discord_user_api_tokens_order_by']: {
+    circle_id?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    discord_user?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    token?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** primary key columns input for table: discord.user_api_tokens */
+  ['discord_user_api_tokens_pk_columns_input']: {
+    id: GraphQLTypes['bigint'];
+  };
+  /** select columns of table "discord.user_api_tokens" */
+  ['discord_user_api_tokens_select_column']: discord_user_api_tokens_select_column;
+  /** input type for updating data in table "discord.user_api_tokens" */
+  ['discord_user_api_tokens_set_input']: {
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    discord_user?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    token?: string | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** aggregate stddev on columns */
+  ['discord_user_api_tokens_stddev_fields']: {
+    __typename: 'discord_user_api_tokens_stddev_fields';
+    circle_id?: number | undefined;
+    discord_user?: number | undefined;
+    id?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['discord_user_api_tokens_stddev_pop_fields']: {
+    __typename: 'discord_user_api_tokens_stddev_pop_fields';
+    circle_id?: number | undefined;
+    discord_user?: number | undefined;
+    id?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['discord_user_api_tokens_stddev_samp_fields']: {
+    __typename: 'discord_user_api_tokens_stddev_samp_fields';
+    circle_id?: number | undefined;
+    discord_user?: number | undefined;
+    id?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** Streaming cursor of the table "discord_user_api_tokens" */
+  ['discord_user_api_tokens_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['discord_user_api_tokens_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['discord_user_api_tokens_stream_cursor_value_input']: {
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    discord_user?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    token?: string | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** aggregate sum on columns */
+  ['discord_user_api_tokens_sum_fields']: {
+    __typename: 'discord_user_api_tokens_sum_fields';
+    circle_id?: GraphQLTypes['bigint'] | undefined;
+    discord_user?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** update columns of table "discord.user_api_tokens" */
+  ['discord_user_api_tokens_update_column']: discord_user_api_tokens_update_column;
+  ['discord_user_api_tokens_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: GraphQLTypes['discord_user_api_tokens_inc_input'] | undefined;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes['discord_user_api_tokens_set_input'] | undefined;
+    /** filter the rows which have to be updated */
+    where: GraphQLTypes['discord_user_api_tokens_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['discord_user_api_tokens_var_pop_fields']: {
+    __typename: 'discord_user_api_tokens_var_pop_fields';
+    circle_id?: number | undefined;
+    discord_user?: number | undefined;
+    id?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['discord_user_api_tokens_var_samp_fields']: {
+    __typename: 'discord_user_api_tokens_var_samp_fields';
+    circle_id?: number | undefined;
+    discord_user?: number | undefined;
+    id?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['discord_user_api_tokens_variance_fields']: {
+    __typename: 'discord_user_api_tokens_variance_fields';
+    circle_id?: number | undefined;
+    discord_user?: number | undefined;
+    id?: number | undefined;
+    profile_id?: number | undefined;
+  };
   /** link discord user ids to coordinape profiles 1:1 */
   ['discord_users']: {
     __typename: 'discord_users';
@@ -41058,6 +42473,14 @@ export type GraphQLTypes = {
     delete_discord_roles_circles_by_pk?:
       | GraphQLTypes['discord_roles_circles']
       | undefined;
+    /** delete data from the table: "discord.user_api_tokens" */
+    delete_discord_user_api_tokens?:
+      | GraphQLTypes['discord_user_api_tokens_mutation_response']
+      | undefined;
+    /** delete single row from the table: "discord.user_api_tokens" */
+    delete_discord_user_api_tokens_by_pk?:
+      | GraphQLTypes['discord_user_api_tokens']
+      | undefined;
     /** delete data from the table: "discord.users" */
     delete_discord_users?:
       | GraphQLTypes['discord_users_mutation_response']
@@ -41132,6 +42555,14 @@ export type GraphQLTypes = {
       | undefined;
     /** delete single row from the table: "org_members" */
     delete_org_members_by_pk?: GraphQLTypes['org_members'] | undefined;
+    /** delete data from the table: "org_share_tokens" */
+    delete_org_share_tokens?:
+      | GraphQLTypes['org_share_tokens_mutation_response']
+      | undefined;
+    /** delete single row from the table: "org_share_tokens" */
+    delete_org_share_tokens_by_pk?:
+      | GraphQLTypes['org_share_tokens']
+      | undefined;
     /** delete data from the table: "organizations" */
     delete_organizations?:
       | GraphQLTypes['organizations_mutation_response']
@@ -41287,6 +42718,14 @@ export type GraphQLTypes = {
     insert_discord_roles_circles_one?:
       | GraphQLTypes['discord_roles_circles']
       | undefined;
+    /** insert data into the table: "discord.user_api_tokens" */
+    insert_discord_user_api_tokens?:
+      | GraphQLTypes['discord_user_api_tokens_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "discord.user_api_tokens" */
+    insert_discord_user_api_tokens_one?:
+      | GraphQLTypes['discord_user_api_tokens']
+      | undefined;
     /** insert data into the table: "discord.users" */
     insert_discord_users?:
       | GraphQLTypes['discord_users_mutation_response']
@@ -41361,6 +42800,12 @@ export type GraphQLTypes = {
       | undefined;
     /** insert a single row into the table: "org_members" */
     insert_org_members_one?: GraphQLTypes['org_members'] | undefined;
+    /** insert data into the table: "org_share_tokens" */
+    insert_org_share_tokens?:
+      | GraphQLTypes['org_share_tokens_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "org_share_tokens" */
+    insert_org_share_tokens_one?: GraphQLTypes['org_share_tokens'] | undefined;
     /** insert data into the table: "organizations" */
     insert_organizations?:
       | GraphQLTypes['organizations_mutation_response']
@@ -41584,6 +43029,20 @@ export type GraphQLTypes = {
           GraphQLTypes['discord_roles_circles_mutation_response'] | undefined
         >
       | undefined;
+    /** update data of the table: "discord.user_api_tokens" */
+    update_discord_user_api_tokens?:
+      | GraphQLTypes['discord_user_api_tokens_mutation_response']
+      | undefined;
+    /** update single row of the table: "discord.user_api_tokens" */
+    update_discord_user_api_tokens_by_pk?:
+      | GraphQLTypes['discord_user_api_tokens']
+      | undefined;
+    /** update multiples rows of table: "discord.user_api_tokens" */
+    update_discord_user_api_tokens_many?:
+      | Array<
+          GraphQLTypes['discord_user_api_tokens_mutation_response'] | undefined
+        >
+      | undefined;
     /** update data of the table: "discord.users" */
     update_discord_users?:
       | GraphQLTypes['discord_users_mutation_response']
@@ -41711,6 +43170,18 @@ export type GraphQLTypes = {
     /** update multiples rows of table: "org_members" */
     update_org_members_many?:
       | Array<GraphQLTypes['org_members_mutation_response'] | undefined>
+      | undefined;
+    /** update data of the table: "org_share_tokens" */
+    update_org_share_tokens?:
+      | GraphQLTypes['org_share_tokens_mutation_response']
+      | undefined;
+    /** update single row of the table: "org_share_tokens" */
+    update_org_share_tokens_by_pk?:
+      | GraphQLTypes['org_share_tokens']
+      | undefined;
+    /** update multiples rows of table: "org_share_tokens" */
+    update_org_share_tokens_many?:
+      | Array<GraphQLTypes['org_share_tokens_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "organizations" */
     update_organizations?:
@@ -42320,6 +43791,7 @@ export type GraphQLTypes = {
     __typename: 'org_members';
     created_at: GraphQLTypes['timestamp'];
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    entrance?: string | undefined;
     id: GraphQLTypes['bigint'];
     org_id: GraphQLTypes['bigint'];
     /** An object relationship */
@@ -42402,6 +43874,7 @@ export type GraphQLTypes = {
     _or?: Array<GraphQLTypes['org_members_bool_exp']> | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+    entrance?: GraphQLTypes['String_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     org_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     organization?: GraphQLTypes['organizations_bool_exp'] | undefined;
@@ -42423,6 +43896,7 @@ export type GraphQLTypes = {
   ['org_members_insert_input']: {
     created_at?: GraphQLTypes['timestamp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    entrance?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     org_id?: GraphQLTypes['bigint'] | undefined;
     organization?:
@@ -42438,6 +43912,7 @@ export type GraphQLTypes = {
     __typename: 'org_members_max_fields';
     created_at?: GraphQLTypes['timestamp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    entrance?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     org_id?: GraphQLTypes['bigint'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -42448,6 +43923,7 @@ export type GraphQLTypes = {
   ['org_members_max_order_by']: {
     created_at?: GraphQLTypes['order_by'] | undefined;
     deleted_at?: GraphQLTypes['order_by'] | undefined;
+    entrance?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     org_id?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
@@ -42459,6 +43935,7 @@ export type GraphQLTypes = {
     __typename: 'org_members_min_fields';
     created_at?: GraphQLTypes['timestamp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    entrance?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     org_id?: GraphQLTypes['bigint'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -42469,6 +43946,7 @@ export type GraphQLTypes = {
   ['org_members_min_order_by']: {
     created_at?: GraphQLTypes['order_by'] | undefined;
     deleted_at?: GraphQLTypes['order_by'] | undefined;
+    entrance?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     org_id?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
@@ -42493,6 +43971,7 @@ export type GraphQLTypes = {
   ['org_members_order_by']: {
     created_at?: GraphQLTypes['order_by'] | undefined;
     deleted_at?: GraphQLTypes['order_by'] | undefined;
+    entrance?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     org_id?: GraphQLTypes['order_by'] | undefined;
     organization?: GraphQLTypes['organizations_order_by'] | undefined;
@@ -42511,6 +43990,7 @@ export type GraphQLTypes = {
   ['org_members_set_input']: {
     created_at?: GraphQLTypes['timestamp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    entrance?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     org_id?: GraphQLTypes['bigint'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -42573,6 +44053,7 @@ export type GraphQLTypes = {
   ['org_members_stream_cursor_value_input']: {
     created_at?: GraphQLTypes['timestamp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    entrance?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     org_id?: GraphQLTypes['bigint'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -42648,6 +44129,199 @@ export type GraphQLTypes = {
     org_id?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
     role?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** columns and relationships of "org_share_tokens" */
+  ['org_share_tokens']: {
+    __typename: 'org_share_tokens';
+    created_at: GraphQLTypes['timestamptz'];
+    org_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    organization: GraphQLTypes['organizations'];
+    type: number;
+    updated_at: GraphQLTypes['timestamptz'];
+    uuid: GraphQLTypes['uuid'];
+  };
+  /** aggregated selection of "org_share_tokens" */
+  ['org_share_tokens_aggregate']: {
+    __typename: 'org_share_tokens_aggregate';
+    aggregate?: GraphQLTypes['org_share_tokens_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['org_share_tokens']>;
+  };
+  /** aggregate fields of "org_share_tokens" */
+  ['org_share_tokens_aggregate_fields']: {
+    __typename: 'org_share_tokens_aggregate_fields';
+    avg?: GraphQLTypes['org_share_tokens_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['org_share_tokens_max_fields'] | undefined;
+    min?: GraphQLTypes['org_share_tokens_min_fields'] | undefined;
+    stddev?: GraphQLTypes['org_share_tokens_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['org_share_tokens_stddev_pop_fields'] | undefined;
+    stddev_samp?:
+      | GraphQLTypes['org_share_tokens_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['org_share_tokens_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['org_share_tokens_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['org_share_tokens_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['org_share_tokens_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['org_share_tokens_avg_fields']: {
+    __typename: 'org_share_tokens_avg_fields';
+    org_id?: number | undefined;
+    type?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "org_share_tokens". All fields are combined with a logical 'AND'. */
+  ['org_share_tokens_bool_exp']: {
+    _and?: Array<GraphQLTypes['org_share_tokens_bool_exp']> | undefined;
+    _not?: GraphQLTypes['org_share_tokens_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['org_share_tokens_bool_exp']> | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    org_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    organization?: GraphQLTypes['organizations_bool_exp'] | undefined;
+    type?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    uuid?: GraphQLTypes['uuid_comparison_exp'] | undefined;
+  };
+  /** unique or primary key constraints on table "org_share_tokens" */
+  ['org_share_tokens_constraint']: org_share_tokens_constraint;
+  /** input type for incrementing numeric columns in table "org_share_tokens" */
+  ['org_share_tokens_inc_input']: {
+    org_id?: GraphQLTypes['bigint'] | undefined;
+    type?: number | undefined;
+  };
+  /** input type for inserting data into table "org_share_tokens" */
+  ['org_share_tokens_insert_input']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    org_id?: GraphQLTypes['bigint'] | undefined;
+    organization?:
+      | GraphQLTypes['organizations_obj_rel_insert_input']
+      | undefined;
+    type?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    uuid?: GraphQLTypes['uuid'] | undefined;
+  };
+  /** aggregate max on columns */
+  ['org_share_tokens_max_fields']: {
+    __typename: 'org_share_tokens_max_fields';
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    org_id?: GraphQLTypes['bigint'] | undefined;
+    type?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    uuid?: GraphQLTypes['uuid'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['org_share_tokens_min_fields']: {
+    __typename: 'org_share_tokens_min_fields';
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    org_id?: GraphQLTypes['bigint'] | undefined;
+    type?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    uuid?: GraphQLTypes['uuid'] | undefined;
+  };
+  /** response of any mutation on the table "org_share_tokens" */
+  ['org_share_tokens_mutation_response']: {
+    __typename: 'org_share_tokens_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['org_share_tokens']>;
+  };
+  /** on_conflict condition type for table "org_share_tokens" */
+  ['org_share_tokens_on_conflict']: {
+    constraint: GraphQLTypes['org_share_tokens_constraint'];
+    update_columns: Array<GraphQLTypes['org_share_tokens_update_column']>;
+    where?: GraphQLTypes['org_share_tokens_bool_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "org_share_tokens". */
+  ['org_share_tokens_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    org_id?: GraphQLTypes['order_by'] | undefined;
+    organization?: GraphQLTypes['organizations_order_by'] | undefined;
+    type?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+    uuid?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** primary key columns input for table: org_share_tokens */
+  ['org_share_tokens_pk_columns_input']: {
+    org_id: GraphQLTypes['bigint'];
+    type: number;
+  };
+  /** select columns of table "org_share_tokens" */
+  ['org_share_tokens_select_column']: org_share_tokens_select_column;
+  /** input type for updating data in table "org_share_tokens" */
+  ['org_share_tokens_set_input']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    org_id?: GraphQLTypes['bigint'] | undefined;
+    type?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    uuid?: GraphQLTypes['uuid'] | undefined;
+  };
+  /** aggregate stddev on columns */
+  ['org_share_tokens_stddev_fields']: {
+    __typename: 'org_share_tokens_stddev_fields';
+    org_id?: number | undefined;
+    type?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['org_share_tokens_stddev_pop_fields']: {
+    __typename: 'org_share_tokens_stddev_pop_fields';
+    org_id?: number | undefined;
+    type?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['org_share_tokens_stddev_samp_fields']: {
+    __typename: 'org_share_tokens_stddev_samp_fields';
+    org_id?: number | undefined;
+    type?: number | undefined;
+  };
+  /** Streaming cursor of the table "org_share_tokens" */
+  ['org_share_tokens_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['org_share_tokens_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['org_share_tokens_stream_cursor_value_input']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    org_id?: GraphQLTypes['bigint'] | undefined;
+    type?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    uuid?: GraphQLTypes['uuid'] | undefined;
+  };
+  /** aggregate sum on columns */
+  ['org_share_tokens_sum_fields']: {
+    __typename: 'org_share_tokens_sum_fields';
+    org_id?: GraphQLTypes['bigint'] | undefined;
+    type?: number | undefined;
+  };
+  /** update columns of table "org_share_tokens" */
+  ['org_share_tokens_update_column']: org_share_tokens_update_column;
+  ['org_share_tokens_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: GraphQLTypes['org_share_tokens_inc_input'] | undefined;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes['org_share_tokens_set_input'] | undefined;
+    /** filter the rows which have to be updated */
+    where: GraphQLTypes['org_share_tokens_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['org_share_tokens_var_pop_fields']: {
+    __typename: 'org_share_tokens_var_pop_fields';
+    org_id?: number | undefined;
+    type?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['org_share_tokens_var_samp_fields']: {
+    __typename: 'org_share_tokens_var_samp_fields';
+    org_id?: number | undefined;
+    type?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['org_share_tokens_variance_fields']: {
+    __typename: 'org_share_tokens_variance_fields';
+    org_id?: number | undefined;
+    type?: number | undefined;
   };
   /** columns and relationships of "organizations" */
   ['organizations']: {
@@ -44487,6 +46161,14 @@ export type GraphQLTypes = {
     discord_roles_circles_by_pk?:
       | GraphQLTypes['discord_roles_circles']
       | undefined;
+    /** fetch data from the table: "discord.user_api_tokens" */
+    discord_user_api_tokens: Array<GraphQLTypes['discord_user_api_tokens']>;
+    /** fetch aggregated fields from the table: "discord.user_api_tokens" */
+    discord_user_api_tokens_aggregate: GraphQLTypes['discord_user_api_tokens_aggregate'];
+    /** fetch data from the table: "discord.user_api_tokens" using primary key columns */
+    discord_user_api_tokens_by_pk?:
+      | GraphQLTypes['discord_user_api_tokens']
+      | undefined;
     /** fetch data from the table: "discord.users" */
     discord_users: Array<GraphQLTypes['discord_users']>;
     /** fetch aggregated fields from the table: "discord.users" */
@@ -44566,6 +46248,12 @@ export type GraphQLTypes = {
     org_members_aggregate: GraphQLTypes['org_members_aggregate'];
     /** fetch data from the table: "org_members" using primary key columns */
     org_members_by_pk?: GraphQLTypes['org_members'] | undefined;
+    /** fetch data from the table: "org_share_tokens" */
+    org_share_tokens: Array<GraphQLTypes['org_share_tokens']>;
+    /** fetch aggregated fields from the table: "org_share_tokens" */
+    org_share_tokens_aggregate: GraphQLTypes['org_share_tokens_aggregate'];
+    /** fetch data from the table: "org_share_tokens" using primary key columns */
+    org_share_tokens_by_pk?: GraphQLTypes['org_share_tokens'] | undefined;
     /** fetch data from the table: "organizations" */
     organizations: Array<GraphQLTypes['organizations']>;
     /** fetch aggregated fields from the table: "organizations" */
@@ -45067,6 +46755,18 @@ export type GraphQLTypes = {
       | undefined;
     /** fetch data from the table in a streaming manner: "discord.roles_circles" */
     discord_roles_circles_stream: Array<GraphQLTypes['discord_roles_circles']>;
+    /** fetch data from the table: "discord.user_api_tokens" */
+    discord_user_api_tokens: Array<GraphQLTypes['discord_user_api_tokens']>;
+    /** fetch aggregated fields from the table: "discord.user_api_tokens" */
+    discord_user_api_tokens_aggregate: GraphQLTypes['discord_user_api_tokens_aggregate'];
+    /** fetch data from the table: "discord.user_api_tokens" using primary key columns */
+    discord_user_api_tokens_by_pk?:
+      | GraphQLTypes['discord_user_api_tokens']
+      | undefined;
+    /** fetch data from the table in a streaming manner: "discord.user_api_tokens" */
+    discord_user_api_tokens_stream: Array<
+      GraphQLTypes['discord_user_api_tokens']
+    >;
     /** fetch data from the table: "discord.users" */
     discord_users: Array<GraphQLTypes['discord_users']>;
     /** fetch aggregated fields from the table: "discord.users" */
@@ -45173,6 +46873,14 @@ export type GraphQLTypes = {
     org_members_by_pk?: GraphQLTypes['org_members'] | undefined;
     /** fetch data from the table in a streaming manner: "org_members" */
     org_members_stream: Array<GraphQLTypes['org_members']>;
+    /** fetch data from the table: "org_share_tokens" */
+    org_share_tokens: Array<GraphQLTypes['org_share_tokens']>;
+    /** fetch aggregated fields from the table: "org_share_tokens" */
+    org_share_tokens_aggregate: GraphQLTypes['org_share_tokens_aggregate'];
+    /** fetch data from the table: "org_share_tokens" using primary key columns */
+    org_share_tokens_by_pk?: GraphQLTypes['org_share_tokens'] | undefined;
+    /** fetch data from the table in a streaming manner: "org_share_tokens" */
+    org_share_tokens_stream: Array<GraphQLTypes['org_share_tokens']>;
     /** fetch data from the table: "organizations" */
     organizations: Array<GraphQLTypes['organizations']>;
     /** fetch aggregated fields from the table: "organizations" */
@@ -48530,6 +50238,31 @@ export const enum discord_roles_circles_update_column {
   id = 'id',
   updated_at = 'updated_at',
 }
+/** unique or primary key constraints on table "discord.user_api_tokens" */
+export const enum discord_user_api_tokens_constraint {
+  user_api_tokens_pkey = 'user_api_tokens_pkey',
+  user_api_tokens_profile_id_circle_id_key = 'user_api_tokens_profile_id_circle_id_key',
+}
+/** select columns of table "discord.user_api_tokens" */
+export const enum discord_user_api_tokens_select_column {
+  circle_id = 'circle_id',
+  created_at = 'created_at',
+  discord_user = 'discord_user',
+  id = 'id',
+  profile_id = 'profile_id',
+  token = 'token',
+  updated_at = 'updated_at',
+}
+/** update columns of table "discord.user_api_tokens" */
+export const enum discord_user_api_tokens_update_column {
+  circle_id = 'circle_id',
+  created_at = 'created_at',
+  discord_user = 'discord_user',
+  id = 'id',
+  profile_id = 'profile_id',
+  token = 'token',
+  updated_at = 'updated_at',
+}
 /** unique or primary key constraints on table "discord.users" */
 export const enum discord_users_constraint {
   users_pkey = 'users_pkey',
@@ -48865,6 +50598,7 @@ export const enum org_members_constraint {
 export const enum org_members_select_column {
   created_at = 'created_at',
   deleted_at = 'deleted_at',
+  entrance = 'entrance',
   id = 'id',
   org_id = 'org_id',
   profile_id = 'profile_id',
@@ -48875,11 +50609,33 @@ export const enum org_members_select_column {
 export const enum org_members_update_column {
   created_at = 'created_at',
   deleted_at = 'deleted_at',
+  entrance = 'entrance',
   id = 'id',
   org_id = 'org_id',
   profile_id = 'profile_id',
   role = 'role',
   updated_at = 'updated_at',
+}
+/** unique or primary key constraints on table "org_share_tokens" */
+export const enum org_share_tokens_constraint {
+  org_share_tokens_pkey = 'org_share_tokens_pkey',
+  org_share_tokens_uuid_key = 'org_share_tokens_uuid_key',
+}
+/** select columns of table "org_share_tokens" */
+export const enum org_share_tokens_select_column {
+  created_at = 'created_at',
+  org_id = 'org_id',
+  type = 'type',
+  updated_at = 'updated_at',
+  uuid = 'uuid',
+}
+/** update columns of table "org_share_tokens" */
+export const enum org_share_tokens_update_column {
+  created_at = 'created_at',
+  org_id = 'org_id',
+  type = 'type',
+  updated_at = 'updated_at',
+  uuid = 'uuid',
 }
 /** unique or primary key constraints on table "organizations" */
 export const enum organizations_constraint {

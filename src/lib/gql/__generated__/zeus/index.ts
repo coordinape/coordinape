@@ -5652,6 +5652,17 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['discord_users']
     ];
+    delete_org_share_tokens?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['org_share_tokens_bool_exp'];
+      },
+      ValueTypes['org_share_tokens_mutation_response']
+    ];
+    delete_org_share_tokens_by_pk?: [
+      { org_id: ValueTypes['bigint']; type: number },
+      ValueTypes['org_share_tokens']
+    ];
     delete_pending_vault_transactions?: [
       {
         /** filter the rows which have to be deleted */
@@ -5867,6 +5878,30 @@ export type ValueTypes = {
           | null;
       },
       ValueTypes['locked_token_distributions']
+    ];
+    insert_org_share_tokens?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ValueTypes['org_share_tokens_insert_input']
+        > /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['org_share_tokens_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['org_share_tokens_mutation_response']
+    ];
+    insert_org_share_tokens_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['org_share_tokens_insert_input'] /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['org_share_tokens_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['org_share_tokens']
     ];
     insert_pending_vault_transactions?: [
       {
@@ -6782,6 +6817,78 @@ export type ValueTypes = {
     profile_id?: ValueTypes['order_by'] | undefined | null;
     role?: ValueTypes['order_by'] | undefined | null;
   };
+  /** columns and relationships of "org_share_tokens" */
+  ['org_share_tokens']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    org_id?: boolean | `@${string}`;
+    /** An object relationship */
+    organization?: ValueTypes['organizations'];
+    type?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    uuid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "org_share_tokens". All fields are combined with a logical 'AND'. */
+  ['org_share_tokens_bool_exp']: {
+    _and?: Array<ValueTypes['org_share_tokens_bool_exp']> | undefined | null;
+    _not?: ValueTypes['org_share_tokens_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['org_share_tokens_bool_exp']> | undefined | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    org_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    organization?: ValueTypes['organizations_bool_exp'] | undefined | null;
+    type?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    uuid?: ValueTypes['uuid_comparison_exp'] | undefined | null;
+  };
+  /** unique or primary key constraints on table "org_share_tokens" */
+  ['org_share_tokens_constraint']: org_share_tokens_constraint;
+  /** input type for inserting data into table "org_share_tokens" */
+  ['org_share_tokens_insert_input']: {
+    org_id?: ValueTypes['bigint'] | undefined | null;
+    type?: number | undefined | null;
+  };
+  /** response of any mutation on the table "org_share_tokens" */
+  ['org_share_tokens_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['org_share_tokens'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** on_conflict condition type for table "org_share_tokens" */
+  ['org_share_tokens_on_conflict']: {
+    constraint: ValueTypes['org_share_tokens_constraint'];
+    update_columns: Array<ValueTypes['org_share_tokens_update_column']>;
+    where?: ValueTypes['org_share_tokens_bool_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "org_share_tokens". */
+  ['org_share_tokens_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    org_id?: ValueTypes['order_by'] | undefined | null;
+    organization?: ValueTypes['organizations_order_by'] | undefined | null;
+    type?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+    uuid?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "org_share_tokens" */
+  ['org_share_tokens_select_column']: org_share_tokens_select_column;
+  /** Streaming cursor of the table "org_share_tokens" */
+  ['org_share_tokens_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['org_share_tokens_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['org_share_tokens_stream_cursor_value_input']: {
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    org_id?: ValueTypes['bigint'] | undefined | null;
+    type?: number | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+    uuid?: ValueTypes['uuid'] | undefined | null;
+  };
+  /** placeholder for update columns of table "org_share_tokens" (current role has no relevant permissions) */
+  ['org_share_tokens_update_column']: org_share_tokens_update_column;
   /** columns and relationships of "organizations" */
   ['organizations']: AliasType<{
     circles?: [
@@ -8376,6 +8483,33 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['org_members']
     ];
+    org_share_tokens?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['org_share_tokens_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['org_share_tokens_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['org_share_tokens_bool_exp'] | undefined | null;
+      },
+      ValueTypes['org_share_tokens']
+    ];
+    org_share_tokens_by_pk?: [
+      { org_id: ValueTypes['bigint']; type: number },
+      ValueTypes['org_share_tokens']
+    ];
     organizations?: [
       {
         /** distinct select on columns */
@@ -9948,6 +10082,44 @@ export type ValueTypes = {
         where?: ValueTypes['org_members_bool_exp'] | undefined | null;
       },
       ValueTypes['org_members']
+    ];
+    org_share_tokens?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['org_share_tokens_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['org_share_tokens_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['org_share_tokens_bool_exp'] | undefined | null;
+      },
+      ValueTypes['org_share_tokens']
+    ];
+    org_share_tokens_by_pk?: [
+      { org_id: ValueTypes['bigint']; type: number },
+      ValueTypes['org_share_tokens']
+    ];
+    org_share_tokens_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['org_share_tokens_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['org_share_tokens_bool_exp'] | undefined | null;
+      },
+      ValueTypes['org_share_tokens']
     ];
     organizations?: [
       {
@@ -14139,6 +14311,14 @@ export type ModelTypes = {
       | undefined;
     /** delete single row from the table: "discord.users" */
     delete_discord_users_by_pk?: GraphQLTypes['discord_users'] | undefined;
+    /** delete data from the table: "org_share_tokens" */
+    delete_org_share_tokens?:
+      | GraphQLTypes['org_share_tokens_mutation_response']
+      | undefined;
+    /** delete single row from the table: "org_share_tokens" */
+    delete_org_share_tokens_by_pk?:
+      | GraphQLTypes['org_share_tokens']
+      | undefined;
     /** delete data from the table: "pending_vault_transactions" */
     delete_pending_vault_transactions?:
       | GraphQLTypes['pending_vault_transactions_mutation_response']
@@ -14208,6 +14388,12 @@ export type ModelTypes = {
     insert_locked_token_distributions_one?:
       | GraphQLTypes['locked_token_distributions']
       | undefined;
+    /** insert data into the table: "org_share_tokens" */
+    insert_org_share_tokens?:
+      | GraphQLTypes['org_share_tokens_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "org_share_tokens" */
+    insert_org_share_tokens_one?: GraphQLTypes['org_share_tokens'] | undefined;
     /** insert data into the table: "pending_vault_transactions" */
     insert_pending_vault_transactions?:
       | GraphQLTypes['pending_vault_transactions_mutation_response']
@@ -14564,6 +14750,41 @@ export type ModelTypes = {
   ['org_members_var_samp_order_by']: GraphQLTypes['org_members_var_samp_order_by'];
   /** order by variance() on columns of table "org_members" */
   ['org_members_variance_order_by']: GraphQLTypes['org_members_variance_order_by'];
+  /** columns and relationships of "org_share_tokens" */
+  ['org_share_tokens']: {
+    created_at: GraphQLTypes['timestamptz'];
+    org_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    organization: GraphQLTypes['organizations'];
+    type: number;
+    updated_at: GraphQLTypes['timestamptz'];
+    uuid: GraphQLTypes['uuid'];
+  };
+  /** Boolean expression to filter rows from the table "org_share_tokens". All fields are combined with a logical 'AND'. */
+  ['org_share_tokens_bool_exp']: GraphQLTypes['org_share_tokens_bool_exp'];
+  /** unique or primary key constraints on table "org_share_tokens" */
+  ['org_share_tokens_constraint']: GraphQLTypes['org_share_tokens_constraint'];
+  /** input type for inserting data into table "org_share_tokens" */
+  ['org_share_tokens_insert_input']: GraphQLTypes['org_share_tokens_insert_input'];
+  /** response of any mutation on the table "org_share_tokens" */
+  ['org_share_tokens_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['org_share_tokens']>;
+  };
+  /** on_conflict condition type for table "org_share_tokens" */
+  ['org_share_tokens_on_conflict']: GraphQLTypes['org_share_tokens_on_conflict'];
+  /** Ordering options when selecting data from "org_share_tokens". */
+  ['org_share_tokens_order_by']: GraphQLTypes['org_share_tokens_order_by'];
+  /** select columns of table "org_share_tokens" */
+  ['org_share_tokens_select_column']: GraphQLTypes['org_share_tokens_select_column'];
+  /** Streaming cursor of the table "org_share_tokens" */
+  ['org_share_tokens_stream_cursor_input']: GraphQLTypes['org_share_tokens_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['org_share_tokens_stream_cursor_value_input']: GraphQLTypes['org_share_tokens_stream_cursor_value_input'];
+  /** placeholder for update columns of table "org_share_tokens" (current role has no relevant permissions) */
+  ['org_share_tokens_update_column']: GraphQLTypes['org_share_tokens_update_column'];
   /** columns and relationships of "organizations" */
   ['organizations']: {
     /** An array relationship */
@@ -14886,6 +15107,10 @@ export type ModelTypes = {
     org_members: Array<GraphQLTypes['org_members']>;
     /** fetch data from the table: "org_members" using primary key columns */
     org_members_by_pk?: GraphQLTypes['org_members'] | undefined;
+    /** fetch data from the table: "org_share_tokens" */
+    org_share_tokens: Array<GraphQLTypes['org_share_tokens']>;
+    /** fetch data from the table: "org_share_tokens" using primary key columns */
+    org_share_tokens_by_pk?: GraphQLTypes['org_share_tokens'] | undefined;
     /** fetch data from the table: "organizations" */
     organizations: Array<GraphQLTypes['organizations']>;
     /** fetch data from the table: "organizations" using primary key columns */
@@ -15238,6 +15463,12 @@ export type ModelTypes = {
     org_members_by_pk?: GraphQLTypes['org_members'] | undefined;
     /** fetch data from the table in a streaming manner: "org_members" */
     org_members_stream: Array<GraphQLTypes['org_members']>;
+    /** fetch data from the table: "org_share_tokens" */
+    org_share_tokens: Array<GraphQLTypes['org_share_tokens']>;
+    /** fetch data from the table: "org_share_tokens" using primary key columns */
+    org_share_tokens_by_pk?: GraphQLTypes['org_share_tokens'] | undefined;
+    /** fetch data from the table in a streaming manner: "org_share_tokens" */
+    org_share_tokens_stream: Array<GraphQLTypes['org_share_tokens']>;
     /** fetch data from the table: "organizations" */
     organizations: Array<GraphQLTypes['organizations']>;
     /** fetch data from the table: "organizations" using primary key columns */
@@ -20074,6 +20305,14 @@ export type GraphQLTypes = {
       | undefined;
     /** delete single row from the table: "discord.users" */
     delete_discord_users_by_pk?: GraphQLTypes['discord_users'] | undefined;
+    /** delete data from the table: "org_share_tokens" */
+    delete_org_share_tokens?:
+      | GraphQLTypes['org_share_tokens_mutation_response']
+      | undefined;
+    /** delete single row from the table: "org_share_tokens" */
+    delete_org_share_tokens_by_pk?:
+      | GraphQLTypes['org_share_tokens']
+      | undefined;
     /** delete data from the table: "pending_vault_transactions" */
     delete_pending_vault_transactions?:
       | GraphQLTypes['pending_vault_transactions_mutation_response']
@@ -20143,6 +20382,12 @@ export type GraphQLTypes = {
     insert_locked_token_distributions_one?:
       | GraphQLTypes['locked_token_distributions']
       | undefined;
+    /** insert data into the table: "org_share_tokens" */
+    insert_org_share_tokens?:
+      | GraphQLTypes['org_share_tokens_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "org_share_tokens" */
+    insert_org_share_tokens_one?: GraphQLTypes['org_share_tokens'] | undefined;
     /** insert data into the table: "pending_vault_transactions" */
     insert_pending_vault_transactions?:
       | GraphQLTypes['pending_vault_transactions_mutation_response']
@@ -20789,6 +21034,78 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['order_by'] | undefined;
     role?: GraphQLTypes['order_by'] | undefined;
   };
+  /** columns and relationships of "org_share_tokens" */
+  ['org_share_tokens']: {
+    __typename: 'org_share_tokens';
+    created_at: GraphQLTypes['timestamptz'];
+    org_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    organization: GraphQLTypes['organizations'];
+    type: number;
+    updated_at: GraphQLTypes['timestamptz'];
+    uuid: GraphQLTypes['uuid'];
+  };
+  /** Boolean expression to filter rows from the table "org_share_tokens". All fields are combined with a logical 'AND'. */
+  ['org_share_tokens_bool_exp']: {
+    _and?: Array<GraphQLTypes['org_share_tokens_bool_exp']> | undefined;
+    _not?: GraphQLTypes['org_share_tokens_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['org_share_tokens_bool_exp']> | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    org_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    organization?: GraphQLTypes['organizations_bool_exp'] | undefined;
+    type?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    uuid?: GraphQLTypes['uuid_comparison_exp'] | undefined;
+  };
+  /** unique or primary key constraints on table "org_share_tokens" */
+  ['org_share_tokens_constraint']: org_share_tokens_constraint;
+  /** input type for inserting data into table "org_share_tokens" */
+  ['org_share_tokens_insert_input']: {
+    org_id?: GraphQLTypes['bigint'] | undefined;
+    type?: number | undefined;
+  };
+  /** response of any mutation on the table "org_share_tokens" */
+  ['org_share_tokens_mutation_response']: {
+    __typename: 'org_share_tokens_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['org_share_tokens']>;
+  };
+  /** on_conflict condition type for table "org_share_tokens" */
+  ['org_share_tokens_on_conflict']: {
+    constraint: GraphQLTypes['org_share_tokens_constraint'];
+    update_columns: Array<GraphQLTypes['org_share_tokens_update_column']>;
+    where?: GraphQLTypes['org_share_tokens_bool_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "org_share_tokens". */
+  ['org_share_tokens_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    org_id?: GraphQLTypes['order_by'] | undefined;
+    organization?: GraphQLTypes['organizations_order_by'] | undefined;
+    type?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+    uuid?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "org_share_tokens" */
+  ['org_share_tokens_select_column']: org_share_tokens_select_column;
+  /** Streaming cursor of the table "org_share_tokens" */
+  ['org_share_tokens_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['org_share_tokens_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['org_share_tokens_stream_cursor_value_input']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    org_id?: GraphQLTypes['bigint'] | undefined;
+    type?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    uuid?: GraphQLTypes['uuid'] | undefined;
+  };
+  /** placeholder for update columns of table "org_share_tokens" (current role has no relevant permissions) */
+  ['org_share_tokens_update_column']: org_share_tokens_update_column;
   /** columns and relationships of "organizations" */
   ['organizations']: {
     __typename: 'organizations';
@@ -21524,6 +21841,10 @@ export type GraphQLTypes = {
     org_members: Array<GraphQLTypes['org_members']>;
     /** fetch data from the table: "org_members" using primary key columns */
     org_members_by_pk?: GraphQLTypes['org_members'] | undefined;
+    /** fetch data from the table: "org_share_tokens" */
+    org_share_tokens: Array<GraphQLTypes['org_share_tokens']>;
+    /** fetch data from the table: "org_share_tokens" using primary key columns */
+    org_share_tokens_by_pk?: GraphQLTypes['org_share_tokens'] | undefined;
     /** fetch data from the table: "organizations" */
     organizations: Array<GraphQLTypes['organizations']>;
     /** fetch data from the table: "organizations" using primary key columns */
@@ -21996,6 +22317,12 @@ export type GraphQLTypes = {
     org_members_by_pk?: GraphQLTypes['org_members'] | undefined;
     /** fetch data from the table in a streaming manner: "org_members" */
     org_members_stream: Array<GraphQLTypes['org_members']>;
+    /** fetch data from the table: "org_share_tokens" */
+    org_share_tokens: Array<GraphQLTypes['org_share_tokens']>;
+    /** fetch data from the table: "org_share_tokens" using primary key columns */
+    org_share_tokens_by_pk?: GraphQLTypes['org_share_tokens'] | undefined;
+    /** fetch data from the table in a streaming manner: "org_share_tokens" */
+    org_share_tokens_stream: Array<GraphQLTypes['org_share_tokens']>;
     /** fetch data from the table: "organizations" */
     organizations: Array<GraphQLTypes['organizations']>;
     /** fetch data from the table: "organizations" using primary key columns */
@@ -23923,6 +24250,23 @@ export const enum org_members_select_column {
   profile_id = 'profile_id',
   role = 'role',
   updated_at = 'updated_at',
+}
+/** unique or primary key constraints on table "org_share_tokens" */
+export const enum org_share_tokens_constraint {
+  org_share_tokens_pkey = 'org_share_tokens_pkey',
+  org_share_tokens_uuid_key = 'org_share_tokens_uuid_key',
+}
+/** select columns of table "org_share_tokens" */
+export const enum org_share_tokens_select_column {
+  created_at = 'created_at',
+  org_id = 'org_id',
+  type = 'type',
+  updated_at = 'updated_at',
+  uuid = 'uuid',
+}
+/** placeholder for update columns of table "org_share_tokens" (current role has no relevant permissions) */
+export const enum org_share_tokens_update_column {
+  _PLACEHOLDER = '_PLACEHOLDER',
 }
 /** select columns of table "organizations" */
 export const enum organizations_select_column {
