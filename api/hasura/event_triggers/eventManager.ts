@@ -12,7 +12,7 @@ import createNomineeTelegram from '../../../api-lib/event_triggers/createNominee
 import createReactionInteractionEvent from '../../../api-lib/event_triggers/createReactionInteractionEvent';
 import createVouchedUser from '../../../api-lib/event_triggers/createVouchedUser';
 import discordUserLinked from '../../../api-lib/event_triggers/discordUserLinked';
-import insertUserOrgMember from '../../../api-lib/event_triggers/insertUserOrgMember';
+import insertOrgMember from '../../../api-lib/event_triggers/insertOrgMember';
 import optOutDiscord from '../../../api-lib/event_triggers/optOutDiscord';
 import optOutDiscordBot from '../../../api-lib/event_triggers/optOutDiscordBot';
 import optOutTelegram from '../../../api-lib/event_triggers/optOutTelegram';
@@ -49,7 +49,7 @@ const HANDLERS: HandlerDict = {
   createNomineeTelegram,
   createVouchedUser,
   discordUserLinked,
-  insertUserOrgMember,
+  insertOrgMember,
   optOutDiscord,
   optOutDiscordBot,
   optOutTelegram,

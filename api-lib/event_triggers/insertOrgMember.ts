@@ -21,7 +21,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           { id: true, address: true },
         ],
       },
-      { operationName: 'insertUserOrgMember_getUserIds' }
+      { operationName: 'insertOrgMember_getUserIds' }
     );
     assert(query.circles_by_pk);
     //check if this user exists as an org_member
@@ -39,7 +39,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           { id: true, deleted_at: true },
         ],
       },
-      { operationName: 'insertUserOrgMember_getOrgMember' }
+      { operationName: 'insertOrgMember_getOrgMember' }
     );
 
     if (user.deleted_at === null) {
@@ -63,7 +63,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               { id: true },
             ],
           },
-          { operationName: 'insertUserOrgMember_insertMember' }
+          { operationName: 'insertOrgMember_insertMember' }
         );
       }
     }
