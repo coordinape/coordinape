@@ -75,9 +75,3 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           files: ./coverage/lcov.info
-
-      - name: Save coverage report
-        uses: actions/upload-artifact@v3.1.1
-        with:
-          name: coverage
-          path: ./coverage
