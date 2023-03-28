@@ -48,7 +48,7 @@ test('Check that the created user has been added to org_members', async () => {
   expect(org_members[0].deleted_at).toBeNull();
 });
 
-test('org_member will remain undeleted unless deleted from all org circles', async () => {
+test('org_member will remain undeleted even if deleted from all org circles', async () => {
   //delete user1 from circle 1
   await adminClient.mutate(
     {
@@ -93,5 +93,6 @@ test('org_member will remain undeleted unless deleted from all org circles', asy
     },
     { operationName: 'test' }
   );
-  expect(orgMembers2[0]).toBeFalsy();
+  expect(orgMembers2[0].id).toBeDefined();
+  expect(orgMembers2[0].deleted_at).toBeNull();
 });

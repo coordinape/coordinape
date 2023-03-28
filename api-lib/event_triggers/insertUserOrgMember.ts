@@ -66,58 +66,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           { operationName: 'insertUserOrgMember_insertMember' }
         );
       }
-    } else {
-      if (org_members[0] && org_members[0].deleted_at === null) {
-        const { profiles_by_pk: profile } = await adminClient.query(
-          {
-            profiles_by_pk: [
-              { id: query.profiles[0].id },
-              {
-                id: true,
-                users: [
-                  {
-                    where: {
-                      _and: [
-                        {
-                          circle: {
-                            _and: [
-                              {
-                                organization_id: {
-                                  _eq: query.circles_by_pk.organization_id,
-                                },
-                              },
-                              { deleted_at: { _is_null: true } },
-                            ],
-                          },
-                        },
-                        { deleted_at: { _is_null: true } },
-                      ],
-                    },
-                  },
-                  {
-                    id: true,
-                  },
-                ],
-              },
-            ],
-          },
-          { operationName: 'insertUserOrgMember_getActiveUsers' }
-        );
-        if (!profile?.users.length) {
-          adminClient.mutate(
-            {
-              update_org_members_by_pk: [
-                {
-                  pk_columns: { id: org_members[0].id },
-                  _set: { deleted_at: 'now()' },
-                },
-                { id: true },
-              ],
-            },
-            { operationName: 'insertUserOrgMember_updateDeletedMember' }
-          );
-        }
-      }
     }
     res.status(200).json({ message: `org_members table updated` });
   } catch (e) {
