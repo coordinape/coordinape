@@ -1,0 +1,3 @@
+table:
+  name: user_api_tokens
+  schema: discord

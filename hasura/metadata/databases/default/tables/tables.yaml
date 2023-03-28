@@ -1,5 +1,6 @@
 - "!include discord_circle_api_tokens.yaml"
 - "!include discord_roles_circles.yaml"
+- "!include discord_user_api_tokens.yaml"
 - "!include discord_users.yaml"
 - "!include public_activities.yaml"
 - "!include public_burns.yaml"
