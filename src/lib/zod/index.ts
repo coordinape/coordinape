@@ -47,12 +47,6 @@ export const createContributionSchemaInput = z
   })
   .strict();
 
-export const createOrganizationSchemaInput = z
-  .object({
-    name: z.string().min(3).max(255),
-  })
-  .strict();
-
 export const adminUpdateUserSchemaInput = z
   .object({
     circle_id: z.number(),

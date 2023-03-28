@@ -1,14 +1,10 @@
 import faker from 'faker';
 
-import { createOrganizationSchemaInput } from '../../src/lib/zod';
-
 import type { GQLClientType } from './common';
-
-type OrganizationInput = typeof createOrganizationSchemaInput['_type'];
 
 export async function createOrganization(
   client: GQLClientType,
-  object?: OrganizationInput
+  object?: { name: string }
 ) {
   const { insert_organizations_one } = await client.mutate(
     {

@@ -2,6 +2,7 @@ import assert from 'assert';
 
 import { GraphQLTypes } from '../../api-lib/gql/__generated__/zeus';
 
+import { createCircle } from './circles';
 import type { GQLClientType } from './common';
 import { createProfile } from './profiles';
 
@@ -12,6 +13,11 @@ export async function createUser(
   if (!object.address) {
     const profile = await createProfile(client);
     object.address = profile.address;
+  }
+
+  if (!object.circle && !object.circle_id) {
+    const circle = await createCircle(client);
+    object.circle_id = circle.id;
   }
 
   const { insert_users_one: user } = await client.mutate(
@@ -31,6 +37,7 @@ export async function createUser(
           circle_id: true,
           role: true,
           profile: { id: true, address: true, name: true },
+          circle: { id: true, name: true },
         },
       ],
     },

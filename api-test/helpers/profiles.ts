@@ -2,8 +2,6 @@ import assert from 'assert';
 
 import faker from 'faker';
 
-import { adminClient } from '../../api-lib/gql/adminClient';
-
 import type { GQLClientType } from './common';
 
 type ProfileInput = { address: string; name?: string };
@@ -23,7 +21,7 @@ export async function createProfile(
     }
   }
 
-  const { profiles } = await adminClient.query(
+  const { profiles } = await client.query(
     {
       profiles: [
         { where: { address: { _ilike: object.address } } },
