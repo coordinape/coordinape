@@ -18,7 +18,7 @@ export const AvatarAndName = ({
     >
       <Avatar size="small" name={name} path={avatar} css={{ mr: '$sm' }} />
       <Text ellipsis>
-        {name === 'Coordinape' && 'Support '}
+        {name === 'Coordinape' && 'Donate to '}
         {name}
       </Text>
     </Flex>

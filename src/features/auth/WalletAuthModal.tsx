@@ -6,7 +6,10 @@ import { loginSupportedChainIds } from 'common-lib/constants';
 
 import { CircularProgress } from '@material-ui/core';
 
-import { EConnectorNames, WALLET_ICONS } from 'config/constants';
+import { ReactComponent as CoinbaseSVG } from 'assets/svgs/wallet/coinbase.svg';
+import { ReactComponent as MetaMaskSVG } from 'assets/svgs/wallet/metamask-color.svg';
+import { ReactComponent as WalletConnectSVG } from 'assets/svgs/wallet/wallet-connect.svg';
+import { EConnectorNames } from 'config/constants';
 import isFeatureEnabled from 'config/features';
 import { useToast } from 'hooks';
 import { useWeb3React } from 'hooks/useWeb3React';
@@ -18,6 +21,12 @@ import { getMagicProvider } from './magic';
 import { NetworkSelector } from './NetworkSelector';
 
 const UNSUPPORTED = 'unsupported';
+
+const WALLET_ICONS: { [key in EConnectorNames]: typeof MetaMaskSVG } = {
+  [EConnectorNames.Injected]: MetaMaskSVG,
+  [EConnectorNames.WalletConnect]: WalletConnectSVG,
+  [EConnectorNames.WalletLink]: CoinbaseSVG,
+};
 
 export const WalletAuthModal = () => {
   const [connectMessage, setConnectMessage] = useState<string>('');

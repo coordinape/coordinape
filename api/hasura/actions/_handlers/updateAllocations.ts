@@ -1,7 +1,9 @@
 import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import round from 'lodash/round';
 
+import { COORDINAPE_USER_ADDRESS } from '../../../../api-lib/config';
 import { getUsersFromUserIds } from '../../../../api-lib/findUser';
 import {
   ValueTypes,
@@ -202,6 +204,26 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     );
   }
 
+  const { users: grantees } = await adminClient.query(
+    {
+      users: [
+        {
+          where: {
+            circle_id: { _eq: circle_id },
+            profile: { address: { _eq: COORDINAPE_USER_ADDRESS } },
+          },
+        },
+        { id: true },
+      ],
+    },
+    { operationName: 'updateAllocations_getCoordinapeUser' }
+  );
+  const granteeUserId = grantees[0]?.id;
+  const donation = newAllocations.find(g => g.recipient_id === granteeUserId);
+  const granted = donation?.tokens ?? 0;
+  const donation_percent =
+    overallTokensUsed > 0 ? round(granted / overallTokensUsed, 2) * 100 : 0;
+
   await adminClient.mutate(
     {
       update_users_by_pk: [
@@ -220,7 +242,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
               event_type: 'update_allocations',
               profile_id: user.profile.id,
               circle_id: circle_id,
-              data: { updated_notes: updatedNotes },
+              data: { updated_notes: updatedNotes, donation_percent },
             },
           ],
         },
