@@ -91,6 +91,11 @@ export type DiscordEnd = DiscordEpochEvent & {
   userCount: number;
 };
 
+export type DiscordDailyUpdate = DiscordEpochEvent & {
+  type: 'daily-update';
+  message: string;
+};
+
 type SocialMessageChannels =
   | DiscordNomination
   | DiscordUserAddedOrRemoved
@@ -99,7 +104,8 @@ type SocialMessageChannels =
   | DiscordVouchSuccessful
   | DiscordVouchUnsuccessful
   | DiscordStart
-  | DiscordEnd;
+  | DiscordEnd
+  | DiscordDailyUpdate;
 
 type SocialMessage = {
   message?: string;

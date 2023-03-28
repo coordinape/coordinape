@@ -13,6 +13,7 @@ import { adminClient } from '../../../api-lib/gql/adminClient';
 import { errorLog } from '../../../api-lib/HttpError';
 import { sendSocialMessage } from '../../../api-lib/sendSocialMessage';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
+import { isFeatureEnabled } from '../../../src/config/features';
 
 Settings.defaultZone = 'utc';
 
@@ -53,7 +54,11 @@ async function handler(req: VercelRequest, res: VercelResponse) {
               token_name: true,
               discord_webhook: true,
               telegram_id: true,
-
+              discord_circle: {
+                discord_channel_id: true,
+                discord_role_id: true,
+                alerts: [{}, true],
+              },
               __alias: {
                 optOuts: {
                   users_aggregate: [
@@ -247,6 +252,44 @@ async function handler(req: VercelRequest, res: VercelResponse) {
               `Discord Daily Update error for circle #${circle.id}: ` +
                 e.message
             );
+        }
+      }
+
+      if (circle.discord_circle) {
+        const {
+          discord_channel_id: channelId,
+          discord_role_id: roleId,
+          alerts,
+        } = circle.discord_circle || {};
+
+        if (
+          isFeatureEnabled('discord') &&
+          channelId &&
+          roleId &&
+          alerts?.['daily-update']
+        ) {
+          try {
+            await sendSocialMessage({
+              message,
+              circleId: circle.id,
+              channels: {
+                isDiscordBot: true,
+                discordBot: {
+                  type: 'daily-update' as const,
+                  message,
+                  channelId,
+                  roleId,
+                },
+              },
+              sanitize: false,
+            });
+          } catch (e: unknown) {
+            if (e instanceof Error)
+              errorLog(
+                `Discord Daily Update error for circle #${circle.id}: ` +
+                  e.message
+              );
+          }
         }
       }
     }
