@@ -33,10 +33,10 @@ context('Coordinape', () => {
     cy.visit(`/circles/${circleId}/members`);
     cy.login();
 
-    cy.contains('Add Members', { timeout: 120000 }).should('be.visible');
+    cy.contains('Add Members').should('be.visible');
     cy.contains('Add Members').click();
 
-    cy.contains('ETH Address', { timeout: 120000 }).should('be.visible');
+    cy.contains('ETH Address').should('be.visible');
     cy.contains('ETH Address').click();
 
     const newUserName = `A Test User ${faker.datatype.number(10000)}`;
@@ -47,14 +47,10 @@ context('Coordinape', () => {
       cy.get('input').eq(1).click().type(newAddress);
     });
 
-    cy.get('button')
-      .contains('Add Members', { timeout: 120000 })
-      .should('be.enabled');
+    cy.get('button').contains('Add Members').should('be.enabled');
     cy.get('button').contains('Add Members').click();
-    cy.contains('You have added 1 member!', { timeout: 120000 }).should(
-      'be.visible'
-    );
+    cy.contains('You have added 1 member!').should('be.visible');
     cy.get('a').contains('Members').click();
-    cy.contains(newUserName, { timeout: 120000 }).should('be.visible');
+    cy.contains(newUserName).should('be.visible');
   });
 });

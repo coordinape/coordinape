@@ -32,7 +32,7 @@ context('Coordinape', () => {
 
     const tokenName = faker.system.commonFileExt().toUpperCase();
 
-    cy.getInputByLabel('Token name for CSV export', { timeout: 120000 })
+    cy.getInputByLabel('Token name for CSV export')
       .clear()
       .type(tokenName)
       .blur();
@@ -51,7 +51,7 @@ context('Coordinape', () => {
     cy.reload(true);
     cy.wait('@hardReload').its('response.statusCode').should('equal', 200);
     cy.get('.contentHeader').invoke('css', 'position', 'static');
-    cy.getInputByLabel('Token name for CSV export', { timeout: 120000 }).should(
+    cy.getInputByLabel('Token name for CSV export').should(
       'have.value',
       tokenName
     );

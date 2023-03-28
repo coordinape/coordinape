@@ -21,7 +21,7 @@ context('Coordinape', () => {
     cy.visit(`/circles/${circleId}/epochs`);
     cy.login();
 
-    cy.contains(circleName, { timeout: 120000 });
+    cy.contains(circleName);
     cy.contains('There are no scheduled epochs');
     cy.contains('Create Epoch', { timeout: 45000 }).click();
     // traverse the div representing the radio component
@@ -31,7 +31,7 @@ context('Coordinape', () => {
       .first()
       .click();
     cy.contains('Save').click();
-    cy.contains('starts in 23 hr', { timeout: 120000 });
+    cy.contains('starts in 23 hr');
     cy.contains('Delete Epoch').click();
     cy.contains('button', 'Remove').click();
     cy.contains('There are no scheduled epochs', { timeout: 12000 });
