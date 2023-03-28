@@ -34,7 +34,7 @@ beforeAll(async () => {
 });
 
 test('Check that the created user has been added to org_members', async () => {
-  await new Promise(res => setTimeout(res, 1000));
+  await new Promise(res => setTimeout(res, 2000));
 
   const { org_members } = await client.query(
     {
@@ -59,7 +59,7 @@ test('org_member will remain undeleted even if deleted from all org circles', as
     },
     { operationName: 'test' }
   );
-  await new Promise(res => setTimeout(res, 1000));
+  await new Promise(res => setTimeout(res, 2000));
   const { org_members: orgMembers1 } = await client.query(
     {
       org_members: [
@@ -82,7 +82,7 @@ test('org_member will remain undeleted even if deleted from all org circles', as
     },
     { operationName: 'test' }
   );
-  await new Promise(res => setTimeout(res, 1000));
+  await new Promise(res => setTimeout(res, 2000));
 
   const { org_members: orgMembers2 } = await client.query(
     {
