@@ -2248,6 +2248,82 @@ export const AllTypesProps: Record<string, any> = {
     _set: 'discord_roles_circles_set_input',
     where: 'discord_roles_circles_bool_exp',
   },
+  discord_user_api_tokens_aggregate_fields: {
+    count: {
+      columns: 'discord_user_api_tokens_select_column',
+    },
+  },
+  discord_user_api_tokens_bool_exp: {
+    _and: 'discord_user_api_tokens_bool_exp',
+    _not: 'discord_user_api_tokens_bool_exp',
+    _or: 'discord_user_api_tokens_bool_exp',
+    circle_id: 'bigint_comparison_exp',
+    created_at: 'timestamptz_comparison_exp',
+    discord_user: 'bigint_comparison_exp',
+    id: 'bigint_comparison_exp',
+    profile_id: 'bigint_comparison_exp',
+    token: 'String_comparison_exp',
+    updated_at: 'timestamptz_comparison_exp',
+  },
+  discord_user_api_tokens_constraint: true,
+  discord_user_api_tokens_inc_input: {
+    circle_id: 'bigint',
+    discord_user: 'bigint',
+    id: 'bigint',
+    profile_id: 'bigint',
+  },
+  discord_user_api_tokens_insert_input: {
+    circle_id: 'bigint',
+    created_at: 'timestamptz',
+    discord_user: 'bigint',
+    id: 'bigint',
+    profile_id: 'bigint',
+    updated_at: 'timestamptz',
+  },
+  discord_user_api_tokens_on_conflict: {
+    constraint: 'discord_user_api_tokens_constraint',
+    update_columns: 'discord_user_api_tokens_update_column',
+    where: 'discord_user_api_tokens_bool_exp',
+  },
+  discord_user_api_tokens_order_by: {
+    circle_id: 'order_by',
+    created_at: 'order_by',
+    discord_user: 'order_by',
+    id: 'order_by',
+    profile_id: 'order_by',
+    token: 'order_by',
+    updated_at: 'order_by',
+  },
+  discord_user_api_tokens_pk_columns_input: {
+    id: 'bigint',
+  },
+  discord_user_api_tokens_select_column: true,
+  discord_user_api_tokens_set_input: {
+    circle_id: 'bigint',
+    created_at: 'timestamptz',
+    discord_user: 'bigint',
+    id: 'bigint',
+    profile_id: 'bigint',
+    updated_at: 'timestamptz',
+  },
+  discord_user_api_tokens_stream_cursor_input: {
+    initial_value: 'discord_user_api_tokens_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  discord_user_api_tokens_stream_cursor_value_input: {
+    circle_id: 'bigint',
+    created_at: 'timestamptz',
+    discord_user: 'bigint',
+    id: 'bigint',
+    profile_id: 'bigint',
+    updated_at: 'timestamptz',
+  },
+  discord_user_api_tokens_update_column: true,
+  discord_user_api_tokens_updates: {
+    _inc: 'discord_user_api_tokens_inc_input',
+    _set: 'discord_user_api_tokens_set_input',
+    where: 'discord_user_api_tokens_bool_exp',
+  },
   discord_users_aggregate_fields: {
     count: {
       columns: 'discord_users_select_column',
@@ -3903,6 +3979,12 @@ export const AllTypesProps: Record<string, any> = {
     delete_discord_roles_circles_by_pk: {
       id: 'bigint',
     },
+    delete_discord_user_api_tokens: {
+      where: 'discord_user_api_tokens_bool_exp',
+    },
+    delete_discord_user_api_tokens_by_pk: {
+      id: 'bigint',
+    },
     delete_discord_users: {
       where: 'discord_users_bool_exp',
     },
@@ -3965,6 +4047,12 @@ export const AllTypesProps: Record<string, any> = {
     },
     delete_org_members_by_pk: {
       id: 'bigint',
+    },
+    delete_org_share_tokens: {
+      where: 'org_share_tokens_bool_exp',
+    },
+    delete_org_share_tokens_by_pk: {
+      org_id: 'bigint',
     },
     delete_organizations: {
       where: 'organizations_bool_exp',
@@ -4143,6 +4231,14 @@ export const AllTypesProps: Record<string, any> = {
       object: 'discord_roles_circles_insert_input',
       on_conflict: 'discord_roles_circles_on_conflict',
     },
+    insert_discord_user_api_tokens: {
+      objects: 'discord_user_api_tokens_insert_input',
+      on_conflict: 'discord_user_api_tokens_on_conflict',
+    },
+    insert_discord_user_api_tokens_one: {
+      object: 'discord_user_api_tokens_insert_input',
+      on_conflict: 'discord_user_api_tokens_on_conflict',
+    },
     insert_discord_users: {
       objects: 'discord_users_insert_input',
       on_conflict: 'discord_users_on_conflict',
@@ -4236,6 +4332,14 @@ export const AllTypesProps: Record<string, any> = {
     insert_org_members_one: {
       object: 'org_members_insert_input',
       on_conflict: 'org_members_on_conflict',
+    },
+    insert_org_share_tokens: {
+      objects: 'org_share_tokens_insert_input',
+      on_conflict: 'org_share_tokens_on_conflict',
+    },
+    insert_org_share_tokens_one: {
+      object: 'org_share_tokens_insert_input',
+      on_conflict: 'org_share_tokens_on_conflict',
     },
     insert_organizations: {
       objects: 'organizations_insert_input',
@@ -4541,6 +4645,19 @@ export const AllTypesProps: Record<string, any> = {
     update_discord_roles_circles_many: {
       updates: 'discord_roles_circles_updates',
     },
+    update_discord_user_api_tokens: {
+      _inc: 'discord_user_api_tokens_inc_input',
+      _set: 'discord_user_api_tokens_set_input',
+      where: 'discord_user_api_tokens_bool_exp',
+    },
+    update_discord_user_api_tokens_by_pk: {
+      _inc: 'discord_user_api_tokens_inc_input',
+      _set: 'discord_user_api_tokens_set_input',
+      pk_columns: 'discord_user_api_tokens_pk_columns_input',
+    },
+    update_discord_user_api_tokens_many: {
+      updates: 'discord_user_api_tokens_updates',
+    },
     update_discord_users: {
       _inc: 'discord_users_inc_input',
       _set: 'discord_users_set_input',
@@ -4721,6 +4838,19 @@ export const AllTypesProps: Record<string, any> = {
     },
     update_org_members_many: {
       updates: 'org_members_updates',
+    },
+    update_org_share_tokens: {
+      _inc: 'org_share_tokens_inc_input',
+      _set: 'org_share_tokens_set_input',
+      where: 'org_share_tokens_bool_exp',
+    },
+    update_org_share_tokens_by_pk: {
+      _inc: 'org_share_tokens_inc_input',
+      _set: 'org_share_tokens_set_input',
+      pk_columns: 'org_share_tokens_pk_columns_input',
+    },
+    update_org_share_tokens_many: {
+      updates: 'org_share_tokens_updates',
     },
     update_organizations: {
       _inc: 'organizations_inc_input',
@@ -5204,6 +5334,7 @@ export const AllTypesProps: Record<string, any> = {
     _or: 'org_members_bool_exp',
     created_at: 'timestamp_comparison_exp',
     deleted_at: 'timestamp_comparison_exp',
+    entrance: 'String_comparison_exp',
     id: 'bigint_comparison_exp',
     org_id: 'bigint_comparison_exp',
     organization: 'organizations_bool_exp',
@@ -5231,6 +5362,7 @@ export const AllTypesProps: Record<string, any> = {
   org_members_max_order_by: {
     created_at: 'order_by',
     deleted_at: 'order_by',
+    entrance: 'order_by',
     id: 'order_by',
     org_id: 'order_by',
     profile_id: 'order_by',
@@ -5240,6 +5372,7 @@ export const AllTypesProps: Record<string, any> = {
   org_members_min_order_by: {
     created_at: 'order_by',
     deleted_at: 'order_by',
+    entrance: 'order_by',
     id: 'order_by',
     org_id: 'order_by',
     profile_id: 'order_by',
@@ -5254,6 +5387,7 @@ export const AllTypesProps: Record<string, any> = {
   org_members_order_by: {
     created_at: 'order_by',
     deleted_at: 'order_by',
+    entrance: 'order_by',
     id: 'order_by',
     org_id: 'order_by',
     organization: 'organizations_order_by',
@@ -5333,6 +5467,72 @@ export const AllTypesProps: Record<string, any> = {
     org_id: 'order_by',
     profile_id: 'order_by',
     role: 'order_by',
+  },
+  org_share_tokens_aggregate_fields: {
+    count: {
+      columns: 'org_share_tokens_select_column',
+    },
+  },
+  org_share_tokens_bool_exp: {
+    _and: 'org_share_tokens_bool_exp',
+    _not: 'org_share_tokens_bool_exp',
+    _or: 'org_share_tokens_bool_exp',
+    created_at: 'timestamptz_comparison_exp',
+    org_id: 'bigint_comparison_exp',
+    organization: 'organizations_bool_exp',
+    type: 'Int_comparison_exp',
+    updated_at: 'timestamptz_comparison_exp',
+    uuid: 'uuid_comparison_exp',
+  },
+  org_share_tokens_constraint: true,
+  org_share_tokens_inc_input: {
+    org_id: 'bigint',
+  },
+  org_share_tokens_insert_input: {
+    created_at: 'timestamptz',
+    org_id: 'bigint',
+    organization: 'organizations_obj_rel_insert_input',
+    updated_at: 'timestamptz',
+    uuid: 'uuid',
+  },
+  org_share_tokens_on_conflict: {
+    constraint: 'org_share_tokens_constraint',
+    update_columns: 'org_share_tokens_update_column',
+    where: 'org_share_tokens_bool_exp',
+  },
+  org_share_tokens_order_by: {
+    created_at: 'order_by',
+    org_id: 'order_by',
+    organization: 'organizations_order_by',
+    type: 'order_by',
+    updated_at: 'order_by',
+    uuid: 'order_by',
+  },
+  org_share_tokens_pk_columns_input: {
+    org_id: 'bigint',
+  },
+  org_share_tokens_select_column: true,
+  org_share_tokens_set_input: {
+    created_at: 'timestamptz',
+    org_id: 'bigint',
+    updated_at: 'timestamptz',
+    uuid: 'uuid',
+  },
+  org_share_tokens_stream_cursor_input: {
+    initial_value: 'org_share_tokens_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  org_share_tokens_stream_cursor_value_input: {
+    created_at: 'timestamptz',
+    org_id: 'bigint',
+    updated_at: 'timestamptz',
+    uuid: 'uuid',
+  },
+  org_share_tokens_update_column: true,
+  org_share_tokens_updates: {
+    _inc: 'org_share_tokens_inc_input',
+    _set: 'org_share_tokens_set_input',
+    where: 'org_share_tokens_bool_exp',
   },
   organizations: {
     circles: {
@@ -6245,6 +6445,19 @@ export const AllTypesProps: Record<string, any> = {
     discord_roles_circles_by_pk: {
       id: 'bigint',
     },
+    discord_user_api_tokens: {
+      distinct_on: 'discord_user_api_tokens_select_column',
+      order_by: 'discord_user_api_tokens_order_by',
+      where: 'discord_user_api_tokens_bool_exp',
+    },
+    discord_user_api_tokens_aggregate: {
+      distinct_on: 'discord_user_api_tokens_select_column',
+      order_by: 'discord_user_api_tokens_order_by',
+      where: 'discord_user_api_tokens_bool_exp',
+    },
+    discord_user_api_tokens_by_pk: {
+      id: 'bigint',
+    },
     discord_users: {
       distinct_on: 'discord_users_select_column',
       order_by: 'discord_users_order_by',
@@ -6394,6 +6607,19 @@ export const AllTypesProps: Record<string, any> = {
     },
     org_members_by_pk: {
       id: 'bigint',
+    },
+    org_share_tokens: {
+      distinct_on: 'org_share_tokens_select_column',
+      order_by: 'org_share_tokens_order_by',
+      where: 'org_share_tokens_bool_exp',
+    },
+    org_share_tokens_aggregate: {
+      distinct_on: 'org_share_tokens_select_column',
+      order_by: 'org_share_tokens_order_by',
+      where: 'org_share_tokens_bool_exp',
+    },
+    org_share_tokens_by_pk: {
+      org_id: 'bigint',
     },
     organizations: {
       distinct_on: 'organizations_select_column',
@@ -6931,6 +7157,23 @@ export const AllTypesProps: Record<string, any> = {
       cursor: 'discord_roles_circles_stream_cursor_input',
       where: 'discord_roles_circles_bool_exp',
     },
+    discord_user_api_tokens: {
+      distinct_on: 'discord_user_api_tokens_select_column',
+      order_by: 'discord_user_api_tokens_order_by',
+      where: 'discord_user_api_tokens_bool_exp',
+    },
+    discord_user_api_tokens_aggregate: {
+      distinct_on: 'discord_user_api_tokens_select_column',
+      order_by: 'discord_user_api_tokens_order_by',
+      where: 'discord_user_api_tokens_bool_exp',
+    },
+    discord_user_api_tokens_by_pk: {
+      id: 'bigint',
+    },
+    discord_user_api_tokens_stream: {
+      cursor: 'discord_user_api_tokens_stream_cursor_input',
+      where: 'discord_user_api_tokens_bool_exp',
+    },
     discord_users: {
       distinct_on: 'discord_users_select_column',
       order_by: 'discord_users_order_by',
@@ -7125,6 +7368,23 @@ export const AllTypesProps: Record<string, any> = {
     org_members_stream: {
       cursor: 'org_members_stream_cursor_input',
       where: 'org_members_bool_exp',
+    },
+    org_share_tokens: {
+      distinct_on: 'org_share_tokens_select_column',
+      order_by: 'org_share_tokens_order_by',
+      where: 'org_share_tokens_bool_exp',
+    },
+    org_share_tokens_aggregate: {
+      distinct_on: 'org_share_tokens_select_column',
+      order_by: 'org_share_tokens_order_by',
+      where: 'org_share_tokens_bool_exp',
+    },
+    org_share_tokens_by_pk: {
+      org_id: 'bigint',
+    },
+    org_share_tokens_stream: {
+      cursor: 'org_share_tokens_stream_cursor_input',
+      where: 'org_share_tokens_bool_exp',
     },
     organizations: {
       distinct_on: 'organizations_select_column',
@@ -10203,6 +10463,102 @@ export const ReturnTypes: Record<string, any> = {
     circle_id: 'Float',
     id: 'Float',
   },
+  discord_user_api_tokens: {
+    circle_id: 'bigint',
+    created_at: 'timestamptz',
+    discord_user: 'bigint',
+    id: 'bigint',
+    profile_id: 'bigint',
+    token: 'String',
+    updated_at: 'timestamptz',
+  },
+  discord_user_api_tokens_aggregate: {
+    aggregate: 'discord_user_api_tokens_aggregate_fields',
+    nodes: 'discord_user_api_tokens',
+  },
+  discord_user_api_tokens_aggregate_fields: {
+    avg: 'discord_user_api_tokens_avg_fields',
+    count: 'Int',
+    max: 'discord_user_api_tokens_max_fields',
+    min: 'discord_user_api_tokens_min_fields',
+    stddev: 'discord_user_api_tokens_stddev_fields',
+    stddev_pop: 'discord_user_api_tokens_stddev_pop_fields',
+    stddev_samp: 'discord_user_api_tokens_stddev_samp_fields',
+    sum: 'discord_user_api_tokens_sum_fields',
+    var_pop: 'discord_user_api_tokens_var_pop_fields',
+    var_samp: 'discord_user_api_tokens_var_samp_fields',
+    variance: 'discord_user_api_tokens_variance_fields',
+  },
+  discord_user_api_tokens_avg_fields: {
+    circle_id: 'Float',
+    discord_user: 'Float',
+    id: 'Float',
+    profile_id: 'Float',
+  },
+  discord_user_api_tokens_max_fields: {
+    circle_id: 'bigint',
+    created_at: 'timestamptz',
+    discord_user: 'bigint',
+    id: 'bigint',
+    profile_id: 'bigint',
+    token: 'String',
+    updated_at: 'timestamptz',
+  },
+  discord_user_api_tokens_min_fields: {
+    circle_id: 'bigint',
+    created_at: 'timestamptz',
+    discord_user: 'bigint',
+    id: 'bigint',
+    profile_id: 'bigint',
+    token: 'String',
+    updated_at: 'timestamptz',
+  },
+  discord_user_api_tokens_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'discord_user_api_tokens',
+  },
+  discord_user_api_tokens_stddev_fields: {
+    circle_id: 'Float',
+    discord_user: 'Float',
+    id: 'Float',
+    profile_id: 'Float',
+  },
+  discord_user_api_tokens_stddev_pop_fields: {
+    circle_id: 'Float',
+    discord_user: 'Float',
+    id: 'Float',
+    profile_id: 'Float',
+  },
+  discord_user_api_tokens_stddev_samp_fields: {
+    circle_id: 'Float',
+    discord_user: 'Float',
+    id: 'Float',
+    profile_id: 'Float',
+  },
+  discord_user_api_tokens_sum_fields: {
+    circle_id: 'bigint',
+    discord_user: 'bigint',
+    id: 'bigint',
+    profile_id: 'bigint',
+  },
+  discord_user_api_tokens_var_pop_fields: {
+    circle_id: 'Float',
+    discord_user: 'Float',
+    id: 'Float',
+    profile_id: 'Float',
+  },
+  discord_user_api_tokens_var_samp_fields: {
+    circle_id: 'Float',
+    discord_user: 'Float',
+    id: 'Float',
+    profile_id: 'Float',
+  },
+  discord_user_api_tokens_variance_fields: {
+    circle_id: 'Float',
+    discord_user: 'Float',
+    id: 'Float',
+    profile_id: 'Float',
+  },
   discord_users: {
     created_at: 'timestamptz',
     id: 'bigint',
@@ -11399,6 +11755,8 @@ export const ReturnTypes: Record<string, any> = {
     delete_discord_circle_api_tokens_by_pk: 'discord_circle_api_tokens',
     delete_discord_roles_circles: 'discord_roles_circles_mutation_response',
     delete_discord_roles_circles_by_pk: 'discord_roles_circles',
+    delete_discord_user_api_tokens: 'discord_user_api_tokens_mutation_response',
+    delete_discord_user_api_tokens_by_pk: 'discord_user_api_tokens',
     delete_discord_users: 'discord_users_mutation_response',
     delete_discord_users_by_pk: 'discord_users',
     delete_distributions: 'distributions_mutation_response',
@@ -11425,6 +11783,8 @@ export const ReturnTypes: Record<string, any> = {
     delete_nominees_by_pk: 'nominees',
     delete_org_members: 'org_members_mutation_response',
     delete_org_members_by_pk: 'org_members',
+    delete_org_share_tokens: 'org_share_tokens_mutation_response',
+    delete_org_share_tokens_by_pk: 'org_share_tokens',
     delete_organizations: 'organizations_mutation_response',
     delete_organizations_by_pk: 'organizations',
     delete_pending_gift_private: 'pending_gift_private_mutation_response',
@@ -11480,6 +11840,8 @@ export const ReturnTypes: Record<string, any> = {
     insert_discord_circle_api_tokens_one: 'discord_circle_api_tokens',
     insert_discord_roles_circles: 'discord_roles_circles_mutation_response',
     insert_discord_roles_circles_one: 'discord_roles_circles',
+    insert_discord_user_api_tokens: 'discord_user_api_tokens_mutation_response',
+    insert_discord_user_api_tokens_one: 'discord_user_api_tokens',
     insert_discord_users: 'discord_users_mutation_response',
     insert_discord_users_one: 'discord_users',
     insert_distributions: 'distributions_mutation_response',
@@ -11507,6 +11869,8 @@ export const ReturnTypes: Record<string, any> = {
     insert_nominees_one: 'nominees',
     insert_org_members: 'org_members_mutation_response',
     insert_org_members_one: 'org_members',
+    insert_org_share_tokens: 'org_share_tokens_mutation_response',
+    insert_org_share_tokens_one: 'org_share_tokens',
     insert_organizations: 'organizations_mutation_response',
     insert_organizations_one: 'organizations',
     insert_pending_gift_private: 'pending_gift_private_mutation_response',
@@ -11586,6 +11950,10 @@ export const ReturnTypes: Record<string, any> = {
     update_discord_roles_circles_by_pk: 'discord_roles_circles',
     update_discord_roles_circles_many:
       'discord_roles_circles_mutation_response',
+    update_discord_user_api_tokens: 'discord_user_api_tokens_mutation_response',
+    update_discord_user_api_tokens_by_pk: 'discord_user_api_tokens',
+    update_discord_user_api_tokens_many:
+      'discord_user_api_tokens_mutation_response',
     update_discord_users: 'discord_users_mutation_response',
     update_discord_users_by_pk: 'discord_users',
     update_discord_users_many: 'discord_users_mutation_response',
@@ -11626,6 +11994,9 @@ export const ReturnTypes: Record<string, any> = {
     update_org_members: 'org_members_mutation_response',
     update_org_members_by_pk: 'org_members',
     update_org_members_many: 'org_members_mutation_response',
+    update_org_share_tokens: 'org_share_tokens_mutation_response',
+    update_org_share_tokens_by_pk: 'org_share_tokens',
+    update_org_share_tokens_many: 'org_share_tokens_mutation_response',
     update_organizations: 'organizations_mutation_response',
     update_organizations_by_pk: 'organizations',
     update_organizations_many: 'organizations_mutation_response',
@@ -11802,6 +12173,7 @@ export const ReturnTypes: Record<string, any> = {
   org_members: {
     created_at: 'timestamp',
     deleted_at: 'timestamp',
+    entrance: 'String',
     id: 'bigint',
     org_id: 'bigint',
     organization: 'organizations',
@@ -11836,6 +12208,7 @@ export const ReturnTypes: Record<string, any> = {
   org_members_max_fields: {
     created_at: 'timestamp',
     deleted_at: 'timestamp',
+    entrance: 'String',
     id: 'bigint',
     org_id: 'bigint',
     profile_id: 'bigint',
@@ -11845,6 +12218,7 @@ export const ReturnTypes: Record<string, any> = {
   org_members_min_fields: {
     created_at: 'timestamp',
     deleted_at: 'timestamp',
+    entrance: 'String',
     id: 'bigint',
     org_id: 'bigint',
     profile_id: 'bigint',
@@ -11896,6 +12270,81 @@ export const ReturnTypes: Record<string, any> = {
     org_id: 'Float',
     profile_id: 'Float',
     role: 'Float',
+  },
+  org_share_tokens: {
+    created_at: 'timestamptz',
+    org_id: 'bigint',
+    organization: 'organizations',
+    type: 'Int',
+    updated_at: 'timestamptz',
+    uuid: 'uuid',
+  },
+  org_share_tokens_aggregate: {
+    aggregate: 'org_share_tokens_aggregate_fields',
+    nodes: 'org_share_tokens',
+  },
+  org_share_tokens_aggregate_fields: {
+    avg: 'org_share_tokens_avg_fields',
+    count: 'Int',
+    max: 'org_share_tokens_max_fields',
+    min: 'org_share_tokens_min_fields',
+    stddev: 'org_share_tokens_stddev_fields',
+    stddev_pop: 'org_share_tokens_stddev_pop_fields',
+    stddev_samp: 'org_share_tokens_stddev_samp_fields',
+    sum: 'org_share_tokens_sum_fields',
+    var_pop: 'org_share_tokens_var_pop_fields',
+    var_samp: 'org_share_tokens_var_samp_fields',
+    variance: 'org_share_tokens_variance_fields',
+  },
+  org_share_tokens_avg_fields: {
+    org_id: 'Float',
+    type: 'Float',
+  },
+  org_share_tokens_max_fields: {
+    created_at: 'timestamptz',
+    org_id: 'bigint',
+    type: 'Int',
+    updated_at: 'timestamptz',
+    uuid: 'uuid',
+  },
+  org_share_tokens_min_fields: {
+    created_at: 'timestamptz',
+    org_id: 'bigint',
+    type: 'Int',
+    updated_at: 'timestamptz',
+    uuid: 'uuid',
+  },
+  org_share_tokens_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'org_share_tokens',
+  },
+  org_share_tokens_stddev_fields: {
+    org_id: 'Float',
+    type: 'Float',
+  },
+  org_share_tokens_stddev_pop_fields: {
+    org_id: 'Float',
+    type: 'Float',
+  },
+  org_share_tokens_stddev_samp_fields: {
+    org_id: 'Float',
+    type: 'Float',
+  },
+  org_share_tokens_sum_fields: {
+    org_id: 'bigint',
+    type: 'Int',
+  },
+  org_share_tokens_var_pop_fields: {
+    org_id: 'Float',
+    type: 'Float',
+  },
+  org_share_tokens_var_samp_fields: {
+    org_id: 'Float',
+    type: 'Float',
+  },
+  org_share_tokens_variance_fields: {
+    org_id: 'Float',
+    type: 'Float',
   },
   organizations: {
     circles: 'circles',
@@ -12548,6 +12997,9 @@ export const ReturnTypes: Record<string, any> = {
     discord_roles_circles: 'discord_roles_circles',
     discord_roles_circles_aggregate: 'discord_roles_circles_aggregate',
     discord_roles_circles_by_pk: 'discord_roles_circles',
+    discord_user_api_tokens: 'discord_user_api_tokens',
+    discord_user_api_tokens_aggregate: 'discord_user_api_tokens_aggregate',
+    discord_user_api_tokens_by_pk: 'discord_user_api_tokens',
     discord_users: 'discord_users',
     discord_users_aggregate: 'discord_users_aggregate',
     discord_users_by_pk: 'discord_users',
@@ -12586,6 +13038,9 @@ export const ReturnTypes: Record<string, any> = {
     org_members: 'org_members',
     org_members_aggregate: 'org_members_aggregate',
     org_members_by_pk: 'org_members',
+    org_share_tokens: 'org_share_tokens',
+    org_share_tokens_aggregate: 'org_share_tokens_aggregate',
+    org_share_tokens_by_pk: 'org_share_tokens',
     organizations: 'organizations',
     organizations_aggregate: 'organizations_aggregate',
     organizations_by_pk: 'organizations',
@@ -12767,6 +13222,10 @@ export const ReturnTypes: Record<string, any> = {
     discord_roles_circles_aggregate: 'discord_roles_circles_aggregate',
     discord_roles_circles_by_pk: 'discord_roles_circles',
     discord_roles_circles_stream: 'discord_roles_circles',
+    discord_user_api_tokens: 'discord_user_api_tokens',
+    discord_user_api_tokens_aggregate: 'discord_user_api_tokens_aggregate',
+    discord_user_api_tokens_by_pk: 'discord_user_api_tokens',
+    discord_user_api_tokens_stream: 'discord_user_api_tokens',
     discord_users: 'discord_users',
     discord_users_aggregate: 'discord_users_aggregate',
     discord_users_by_pk: 'discord_users',
@@ -12816,6 +13275,10 @@ export const ReturnTypes: Record<string, any> = {
     org_members_aggregate: 'org_members_aggregate',
     org_members_by_pk: 'org_members',
     org_members_stream: 'org_members',
+    org_share_tokens: 'org_share_tokens',
+    org_share_tokens_aggregate: 'org_share_tokens_aggregate',
+    org_share_tokens_by_pk: 'org_share_tokens',
+    org_share_tokens_stream: 'org_share_tokens',
     organizations: 'organizations',
     organizations_aggregate: 'organizations_aggregate',
     organizations_by_pk: 'organizations',

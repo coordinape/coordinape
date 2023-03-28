@@ -2431,6 +2431,12 @@ export const AllTypesProps: Record<string, any> = {
     delete_discord_users_by_pk: {
       id: 'bigint',
     },
+    delete_org_share_tokens: {
+      where: 'org_share_tokens_bool_exp',
+    },
+    delete_org_share_tokens_by_pk: {
+      org_id: 'bigint',
+    },
     delete_pending_vault_transactions: {
       where: 'pending_vault_transactions_bool_exp',
     },
@@ -2510,6 +2516,14 @@ export const AllTypesProps: Record<string, any> = {
     insert_locked_token_distributions_one: {
       object: 'locked_token_distributions_insert_input',
       on_conflict: 'locked_token_distributions_on_conflict',
+    },
+    insert_org_share_tokens: {
+      objects: 'org_share_tokens_insert_input',
+      on_conflict: 'org_share_tokens_on_conflict',
+    },
+    insert_org_share_tokens_one: {
+      object: 'org_share_tokens_insert_input',
+      on_conflict: 'org_share_tokens_on_conflict',
     },
     insert_pending_vault_transactions: {
       objects: 'pending_vault_transactions_insert_input',
@@ -2992,6 +3006,46 @@ export const AllTypesProps: Record<string, any> = {
     profile_id: 'order_by',
     role: 'order_by',
   },
+  org_share_tokens_bool_exp: {
+    _and: 'org_share_tokens_bool_exp',
+    _not: 'org_share_tokens_bool_exp',
+    _or: 'org_share_tokens_bool_exp',
+    created_at: 'timestamptz_comparison_exp',
+    org_id: 'bigint_comparison_exp',
+    organization: 'organizations_bool_exp',
+    type: 'Int_comparison_exp',
+    updated_at: 'timestamptz_comparison_exp',
+    uuid: 'uuid_comparison_exp',
+  },
+  org_share_tokens_constraint: true,
+  org_share_tokens_insert_input: {
+    org_id: 'bigint',
+  },
+  org_share_tokens_on_conflict: {
+    constraint: 'org_share_tokens_constraint',
+    update_columns: 'org_share_tokens_update_column',
+    where: 'org_share_tokens_bool_exp',
+  },
+  org_share_tokens_order_by: {
+    created_at: 'order_by',
+    org_id: 'order_by',
+    organization: 'organizations_order_by',
+    type: 'order_by',
+    updated_at: 'order_by',
+    uuid: 'order_by',
+  },
+  org_share_tokens_select_column: true,
+  org_share_tokens_stream_cursor_input: {
+    initial_value: 'org_share_tokens_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  org_share_tokens_stream_cursor_value_input: {
+    created_at: 'timestamptz',
+    org_id: 'bigint',
+    updated_at: 'timestamptz',
+    uuid: 'uuid',
+  },
+  org_share_tokens_update_column: true,
   organizations: {
     circles: {
       distinct_on: 'circles_select_column',
@@ -3602,6 +3656,14 @@ export const AllTypesProps: Record<string, any> = {
     org_members_by_pk: {
       id: 'bigint',
     },
+    org_share_tokens: {
+      distinct_on: 'org_share_tokens_select_column',
+      order_by: 'org_share_tokens_order_by',
+      where: 'org_share_tokens_bool_exp',
+    },
+    org_share_tokens_by_pk: {
+      org_id: 'bigint',
+    },
     organizations: {
       distinct_on: 'organizations_select_column',
       order_by: 'organizations_order_by',
@@ -4097,6 +4159,18 @@ export const AllTypesProps: Record<string, any> = {
     org_members_stream: {
       cursor: 'org_members_stream_cursor_input',
       where: 'org_members_bool_exp',
+    },
+    org_share_tokens: {
+      distinct_on: 'org_share_tokens_select_column',
+      order_by: 'org_share_tokens_order_by',
+      where: 'org_share_tokens_bool_exp',
+    },
+    org_share_tokens_by_pk: {
+      org_id: 'bigint',
+    },
+    org_share_tokens_stream: {
+      cursor: 'org_share_tokens_stream_cursor_input',
+      where: 'org_share_tokens_bool_exp',
     },
     organizations: {
       distinct_on: 'organizations_select_column',
@@ -6159,6 +6233,8 @@ export const ReturnTypes: Record<string, any> = {
     delete_circle_share_tokens_by_pk: 'circle_share_tokens',
     delete_discord_users: 'discord_users_mutation_response',
     delete_discord_users_by_pk: 'discord_users',
+    delete_org_share_tokens: 'org_share_tokens_mutation_response',
+    delete_org_share_tokens_by_pk: 'org_share_tokens',
     delete_pending_vault_transactions:
       'pending_vault_transactions_mutation_response',
     delete_pending_vault_transactions_by_pk: 'pending_vault_transactions',
@@ -6185,6 +6261,8 @@ export const ReturnTypes: Record<string, any> = {
     insert_locked_token_distributions:
       'locked_token_distributions_mutation_response',
     insert_locked_token_distributions_one: 'locked_token_distributions',
+    insert_org_share_tokens: 'org_share_tokens_mutation_response',
+    insert_org_share_tokens_one: 'org_share_tokens',
     insert_pending_vault_transactions:
       'pending_vault_transactions_mutation_response',
     insert_pending_vault_transactions_one: 'pending_vault_transactions',
@@ -6367,6 +6445,18 @@ export const ReturnTypes: Record<string, any> = {
     role: 'Int',
     updated_at: 'timestamp',
   },
+  org_share_tokens: {
+    created_at: 'timestamptz',
+    org_id: 'bigint',
+    organization: 'organizations',
+    type: 'Int',
+    updated_at: 'timestamptz',
+    uuid: 'uuid',
+  },
+  org_share_tokens_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'org_share_tokens',
+  },
   organizations: {
     circles: 'circles',
     created_at: 'timestamp',
@@ -6505,6 +6595,8 @@ export const ReturnTypes: Record<string, any> = {
     nominees_by_pk: 'nominees',
     org_members: 'org_members',
     org_members_by_pk: 'org_members',
+    org_share_tokens: 'org_share_tokens',
+    org_share_tokens_by_pk: 'org_share_tokens',
     organizations: 'organizations',
     organizations_by_pk: 'organizations',
     pending_gift_private: 'pending_gift_private',
@@ -6687,6 +6779,9 @@ export const ReturnTypes: Record<string, any> = {
     org_members: 'org_members',
     org_members_by_pk: 'org_members',
     org_members_stream: 'org_members',
+    org_share_tokens: 'org_share_tokens',
+    org_share_tokens_by_pk: 'org_share_tokens',
+    org_share_tokens_stream: 'org_share_tokens',
     organizations: 'organizations',
     organizations_by_pk: 'organizations',
     organizations_stream: 'organizations',

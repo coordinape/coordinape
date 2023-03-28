@@ -1,0 +1,64 @@
+table:
+  name: org_share_tokens
+  schema: public
+object_relationships:
+  - name: organization
+    using:
+      foreign_key_constraint_on: org_id
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        organization:
+          circles:
+            _and:
+              - deleted_at:
+                  _is_null: false
+              - users:
+                  _and:
+                    - profile:
+                        id:
+                          _eq: X-Hasura-User-Id
+                    - role:
+                        _eq: 1
+      columns:
+        - org_id
+        - type
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - created_at
+        - org_id
+        - type
+        - updated_at
+        - uuid
+      filter:
+        organization:
+          circles:
+            _and:
+              - deleted_at:
+                  _is_null: false
+              - users:
+                  _and:
+                    - profile:
+                        id:
+                          _eq: X-Hasura-User-Id
+                    - role:
+                        _eq: 1
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        organization:
+          circles:
+            _and:
+              - deleted_at:
+                  _is_null: false
+              - users:
+                  _and:
+                    - profile:
+                        id:
+                          _eq: X-Hasura-User-Id
+                    - role:
+                        _eq: 1

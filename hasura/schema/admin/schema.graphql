@@ -8458,6 +8458,389 @@ type discord_roles_circles_variance_fields {
 }
 
 """
+User api tokens, one per circle
+"""
+type discord_user_api_tokens {
+  circle_id: bigint!
+  created_at: timestamptz!
+  discord_user: bigint
+  id: bigint!
+  profile_id: bigint!
+  token: String!
+  updated_at: timestamptz!
+}
+
+"""
+aggregated selection of "discord.user_api_tokens"
+"""
+type discord_user_api_tokens_aggregate {
+  aggregate: discord_user_api_tokens_aggregate_fields
+  nodes: [discord_user_api_tokens!]!
+}
+
+"""
+aggregate fields of "discord.user_api_tokens"
+"""
+type discord_user_api_tokens_aggregate_fields {
+  avg: discord_user_api_tokens_avg_fields
+  count(
+    columns: [discord_user_api_tokens_select_column!]
+    distinct: Boolean
+  ): Int!
+  max: discord_user_api_tokens_max_fields
+  min: discord_user_api_tokens_min_fields
+  stddev: discord_user_api_tokens_stddev_fields
+  stddev_pop: discord_user_api_tokens_stddev_pop_fields
+  stddev_samp: discord_user_api_tokens_stddev_samp_fields
+  sum: discord_user_api_tokens_sum_fields
+  var_pop: discord_user_api_tokens_var_pop_fields
+  var_samp: discord_user_api_tokens_var_samp_fields
+  variance: discord_user_api_tokens_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type discord_user_api_tokens_avg_fields {
+  circle_id: Float
+  discord_user: Float
+  id: Float
+  profile_id: Float
+}
+
+"""
+Boolean expression to filter rows from the table "discord.user_api_tokens". All fields are combined with a logical 'AND'.
+"""
+input discord_user_api_tokens_bool_exp {
+  _and: [discord_user_api_tokens_bool_exp!]
+  _not: discord_user_api_tokens_bool_exp
+  _or: [discord_user_api_tokens_bool_exp!]
+  circle_id: bigint_comparison_exp
+  created_at: timestamptz_comparison_exp
+  discord_user: bigint_comparison_exp
+  id: bigint_comparison_exp
+  profile_id: bigint_comparison_exp
+  token: String_comparison_exp
+  updated_at: timestamptz_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "discord.user_api_tokens"
+"""
+enum discord_user_api_tokens_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  user_api_tokens_pkey
+
+  """
+  unique or primary key constraint on columns "circle_id", "profile_id"
+  """
+  user_api_tokens_profile_id_circle_id_key
+}
+
+"""
+input type for incrementing numeric columns in table "discord.user_api_tokens"
+"""
+input discord_user_api_tokens_inc_input {
+  circle_id: bigint
+  discord_user: bigint
+  id: bigint
+  profile_id: bigint
+}
+
+"""
+input type for inserting data into table "discord.user_api_tokens"
+"""
+input discord_user_api_tokens_insert_input {
+  circle_id: bigint
+  created_at: timestamptz
+  discord_user: bigint
+  id: bigint
+  profile_id: bigint
+  token: String
+  updated_at: timestamptz
+}
+
+"""
+aggregate max on columns
+"""
+type discord_user_api_tokens_max_fields {
+  circle_id: bigint
+  created_at: timestamptz
+  discord_user: bigint
+  id: bigint
+  profile_id: bigint
+  token: String
+  updated_at: timestamptz
+}
+
+"""
+aggregate min on columns
+"""
+type discord_user_api_tokens_min_fields {
+  circle_id: bigint
+  created_at: timestamptz
+  discord_user: bigint
+  id: bigint
+  profile_id: bigint
+  token: String
+  updated_at: timestamptz
+}
+
+"""
+response of any mutation on the table "discord.user_api_tokens"
+"""
+type discord_user_api_tokens_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [discord_user_api_tokens!]!
+}
+
+"""
+on_conflict condition type for table "discord.user_api_tokens"
+"""
+input discord_user_api_tokens_on_conflict {
+  constraint: discord_user_api_tokens_constraint!
+  update_columns: [discord_user_api_tokens_update_column!]! = []
+  where: discord_user_api_tokens_bool_exp
+}
+
+"""
+Ordering options when selecting data from "discord.user_api_tokens".
+"""
+input discord_user_api_tokens_order_by {
+  circle_id: order_by
+  created_at: order_by
+  discord_user: order_by
+  id: order_by
+  profile_id: order_by
+  token: order_by
+  updated_at: order_by
+}
+
+"""
+primary key columns input for table: discord.user_api_tokens
+"""
+input discord_user_api_tokens_pk_columns_input {
+  id: bigint!
+}
+
+"""
+select columns of table "discord.user_api_tokens"
+"""
+enum discord_user_api_tokens_select_column {
+  """
+  column name
+  """
+  circle_id
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  discord_user
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  token
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+input type for updating data in table "discord.user_api_tokens"
+"""
+input discord_user_api_tokens_set_input {
+  circle_id: bigint
+  created_at: timestamptz
+  discord_user: bigint
+  id: bigint
+  profile_id: bigint
+  token: String
+  updated_at: timestamptz
+}
+
+"""
+aggregate stddev on columns
+"""
+type discord_user_api_tokens_stddev_fields {
+  circle_id: Float
+  discord_user: Float
+  id: Float
+  profile_id: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type discord_user_api_tokens_stddev_pop_fields {
+  circle_id: Float
+  discord_user: Float
+  id: Float
+  profile_id: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type discord_user_api_tokens_stddev_samp_fields {
+  circle_id: Float
+  discord_user: Float
+  id: Float
+  profile_id: Float
+}
+
+"""
+Streaming cursor of the table "discord_user_api_tokens"
+"""
+input discord_user_api_tokens_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: discord_user_api_tokens_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input discord_user_api_tokens_stream_cursor_value_input {
+  circle_id: bigint
+  created_at: timestamptz
+  discord_user: bigint
+  id: bigint
+  profile_id: bigint
+  token: String
+  updated_at: timestamptz
+}
+
+"""
+aggregate sum on columns
+"""
+type discord_user_api_tokens_sum_fields {
+  circle_id: bigint
+  discord_user: bigint
+  id: bigint
+  profile_id: bigint
+}
+
+"""
+update columns of table "discord.user_api_tokens"
+"""
+enum discord_user_api_tokens_update_column {
+  """
+  column name
+  """
+  circle_id
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  discord_user
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  token
+
+  """
+  column name
+  """
+  updated_at
+}
+
+input discord_user_api_tokens_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: discord_user_api_tokens_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: discord_user_api_tokens_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: discord_user_api_tokens_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type discord_user_api_tokens_var_pop_fields {
+  circle_id: Float
+  discord_user: Float
+  id: Float
+  profile_id: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type discord_user_api_tokens_var_samp_fields {
+  circle_id: Float
+  discord_user: Float
+  id: Float
+  profile_id: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type discord_user_api_tokens_variance_fields {
+  circle_id: Float
+  discord_user: Float
+  id: Float
+  profile_id: Float
+}
+
+"""
 link discord user ids to coordinape profiles 1:1
 """
 type discord_users {
@@ -14625,6 +15008,21 @@ type mutation_root {
   delete_discord_roles_circles_by_pk(id: bigint!): discord_roles_circles
 
   """
+  delete data from the table: "discord.user_api_tokens"
+  """
+  delete_discord_user_api_tokens(
+    """
+    filter the rows which have to be deleted
+    """
+    where: discord_user_api_tokens_bool_exp!
+  ): discord_user_api_tokens_mutation_response
+
+  """
+  delete single row from the table: "discord.user_api_tokens"
+  """
+  delete_discord_user_api_tokens_by_pk(id: bigint!): discord_user_api_tokens
+
+  """
   delete data from the table: "discord.users"
   """
   delete_discord_users(
@@ -14802,6 +15200,21 @@ type mutation_root {
   delete single row from the table: "org_members"
   """
   delete_org_members_by_pk(id: bigint!): org_members
+
+  """
+  delete data from the table: "org_share_tokens"
+  """
+  delete_org_share_tokens(
+    """
+    filter the rows which have to be deleted
+    """
+    where: org_share_tokens_bool_exp!
+  ): org_share_tokens_mutation_response
+
+  """
+  delete single row from the table: "org_share_tokens"
+  """
+  delete_org_share_tokens_by_pk(org_id: bigint!, type: Int!): org_share_tokens
 
   """
   delete data from the table: "organizations"
@@ -15367,6 +15780,36 @@ type mutation_root {
   ): discord_roles_circles
 
   """
+  insert data into the table: "discord.user_api_tokens"
+  """
+  insert_discord_user_api_tokens(
+    """
+    the rows to be inserted
+    """
+    objects: [discord_user_api_tokens_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: discord_user_api_tokens_on_conflict
+  ): discord_user_api_tokens_mutation_response
+
+  """
+  insert a single row into the table: "discord.user_api_tokens"
+  """
+  insert_discord_user_api_tokens_one(
+    """
+    the row to be inserted
+    """
+    object: discord_user_api_tokens_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: discord_user_api_tokens_on_conflict
+  ): discord_user_api_tokens
+
+  """
   insert data into the table: "discord.users"
   """
   insert_discord_users(
@@ -15715,6 +16158,36 @@ type mutation_root {
     """
     on_conflict: org_members_on_conflict
   ): org_members
+
+  """
+  insert data into the table: "org_share_tokens"
+  """
+  insert_org_share_tokens(
+    """
+    the rows to be inserted
+    """
+    objects: [org_share_tokens_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: org_share_tokens_on_conflict
+  ): org_share_tokens_mutation_response
+
+  """
+  insert a single row into the table: "org_share_tokens"
+  """
+  insert_org_share_tokens_one(
+    """
+    the row to be inserted
+    """
+    object: org_share_tokens_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: org_share_tokens_on_conflict
+  ): org_share_tokens
 
   """
   insert data into the table: "organizations"
@@ -16743,6 +17216,52 @@ type mutation_root {
   ): [discord_roles_circles_mutation_response]
 
   """
+  update data of the table: "discord.user_api_tokens"
+  """
+  update_discord_user_api_tokens(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: discord_user_api_tokens_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: discord_user_api_tokens_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: discord_user_api_tokens_bool_exp!
+  ): discord_user_api_tokens_mutation_response
+
+  """
+  update single row of the table: "discord.user_api_tokens"
+  """
+  update_discord_user_api_tokens_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: discord_user_api_tokens_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: discord_user_api_tokens_set_input
+    pk_columns: discord_user_api_tokens_pk_columns_input!
+  ): discord_user_api_tokens
+
+  """
+  update multiples rows of table: "discord.user_api_tokens"
+  """
+  update_discord_user_api_tokens_many(
+    """
+    updates to execute, in order
+    """
+    updates: [discord_user_api_tokens_updates!]!
+  ): [discord_user_api_tokens_mutation_response]
+
+  """
   update data of the table: "discord.users"
   """
   update_discord_users(
@@ -17427,6 +17946,52 @@ type mutation_root {
     """
     updates: [org_members_updates!]!
   ): [org_members_mutation_response]
+
+  """
+  update data of the table: "org_share_tokens"
+  """
+  update_org_share_tokens(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: org_share_tokens_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: org_share_tokens_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: org_share_tokens_bool_exp!
+  ): org_share_tokens_mutation_response
+
+  """
+  update single row of the table: "org_share_tokens"
+  """
+  update_org_share_tokens_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: org_share_tokens_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: org_share_tokens_set_input
+    pk_columns: org_share_tokens_pk_columns_input!
+  ): org_share_tokens
+
+  """
+  update multiples rows of table: "org_share_tokens"
+  """
+  update_org_share_tokens_many(
+    """
+    updates to execute, in order
+    """
+    updates: [org_share_tokens_updates!]!
+  ): [org_share_tokens_mutation_response]
 
   """
   update data of the table: "organizations"
@@ -18888,6 +19453,7 @@ columns and relationships of "org_members"
 type org_members {
   created_at: timestamp!
   deleted_at: timestamp
+  entrance: String
   id: bigint!
   org_id: bigint!
 
@@ -18999,6 +19565,7 @@ input org_members_bool_exp {
   _or: [org_members_bool_exp!]
   created_at: timestamp_comparison_exp
   deleted_at: timestamp_comparison_exp
+  entrance: String_comparison_exp
   id: bigint_comparison_exp
   org_id: bigint_comparison_exp
   organization: organizations_bool_exp
@@ -19039,6 +19606,7 @@ input type for inserting data into table "org_members"
 input org_members_insert_input {
   created_at: timestamp
   deleted_at: timestamp
+  entrance: String
   id: bigint
   org_id: bigint
   organization: organizations_obj_rel_insert_input
@@ -19054,6 +19622,7 @@ aggregate max on columns
 type org_members_max_fields {
   created_at: timestamp
   deleted_at: timestamp
+  entrance: String
   id: bigint
   org_id: bigint
   profile_id: bigint
@@ -19067,6 +19636,7 @@ order by max() on columns of table "org_members"
 input org_members_max_order_by {
   created_at: order_by
   deleted_at: order_by
+  entrance: order_by
   id: order_by
   org_id: order_by
   profile_id: order_by
@@ -19080,6 +19650,7 @@ aggregate min on columns
 type org_members_min_fields {
   created_at: timestamp
   deleted_at: timestamp
+  entrance: String
   id: bigint
   org_id: bigint
   profile_id: bigint
@@ -19093,6 +19664,7 @@ order by min() on columns of table "org_members"
 input org_members_min_order_by {
   created_at: order_by
   deleted_at: order_by
+  entrance: order_by
   id: order_by
   org_id: order_by
   profile_id: order_by
@@ -19130,6 +19702,7 @@ Ordering options when selecting data from "org_members".
 input org_members_order_by {
   created_at: order_by
   deleted_at: order_by
+  entrance: order_by
   id: order_by
   org_id: order_by
   organization: organizations_order_by
@@ -19163,6 +19736,11 @@ enum org_members_select_column {
   """
   column name
   """
+  entrance
+
+  """
+  column name
+  """
   id
 
   """
@@ -19192,6 +19770,7 @@ input type for updating data in table "org_members"
 input org_members_set_input {
   created_at: timestamp
   deleted_at: timestamp
+  entrance: String
   id: bigint
   org_id: bigint
   profile_id: bigint
@@ -19280,6 +19859,7 @@ Initial value of the column from where the streaming should start
 input org_members_stream_cursor_value_input {
   created_at: timestamp
   deleted_at: timestamp
+  entrance: String
   id: bigint
   org_id: bigint
   profile_id: bigint
@@ -19320,6 +19900,11 @@ enum org_members_update_column {
   column name
   """
   deleted_at
+
+  """
+  column name
+  """
+  entrance
 
   """
   column name
@@ -19422,6 +20007,341 @@ input org_members_variance_order_by {
   org_id: order_by
   profile_id: order_by
   role: order_by
+}
+
+"""
+columns and relationships of "org_share_tokens"
+"""
+type org_share_tokens {
+  created_at: timestamptz!
+  org_id: bigint!
+
+  """
+  An object relationship
+  """
+  organization: organizations!
+  type: Int!
+  updated_at: timestamptz!
+  uuid: uuid!
+}
+
+"""
+aggregated selection of "org_share_tokens"
+"""
+type org_share_tokens_aggregate {
+  aggregate: org_share_tokens_aggregate_fields
+  nodes: [org_share_tokens!]!
+}
+
+"""
+aggregate fields of "org_share_tokens"
+"""
+type org_share_tokens_aggregate_fields {
+  avg: org_share_tokens_avg_fields
+  count(columns: [org_share_tokens_select_column!], distinct: Boolean): Int!
+  max: org_share_tokens_max_fields
+  min: org_share_tokens_min_fields
+  stddev: org_share_tokens_stddev_fields
+  stddev_pop: org_share_tokens_stddev_pop_fields
+  stddev_samp: org_share_tokens_stddev_samp_fields
+  sum: org_share_tokens_sum_fields
+  var_pop: org_share_tokens_var_pop_fields
+  var_samp: org_share_tokens_var_samp_fields
+  variance: org_share_tokens_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type org_share_tokens_avg_fields {
+  org_id: Float
+  type: Float
+}
+
+"""
+Boolean expression to filter rows from the table "org_share_tokens". All fields are combined with a logical 'AND'.
+"""
+input org_share_tokens_bool_exp {
+  _and: [org_share_tokens_bool_exp!]
+  _not: org_share_tokens_bool_exp
+  _or: [org_share_tokens_bool_exp!]
+  created_at: timestamptz_comparison_exp
+  org_id: bigint_comparison_exp
+  organization: organizations_bool_exp
+  type: Int_comparison_exp
+  updated_at: timestamptz_comparison_exp
+  uuid: uuid_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "org_share_tokens"
+"""
+enum org_share_tokens_constraint {
+  """
+  unique or primary key constraint on columns "type", "org_id"
+  """
+  org_share_tokens_pkey
+
+  """
+  unique or primary key constraint on columns "uuid"
+  """
+  org_share_tokens_uuid_key
+}
+
+"""
+input type for incrementing numeric columns in table "org_share_tokens"
+"""
+input org_share_tokens_inc_input {
+  org_id: bigint
+  type: Int
+}
+
+"""
+input type for inserting data into table "org_share_tokens"
+"""
+input org_share_tokens_insert_input {
+  created_at: timestamptz
+  org_id: bigint
+  organization: organizations_obj_rel_insert_input
+  type: Int
+  updated_at: timestamptz
+  uuid: uuid
+}
+
+"""
+aggregate max on columns
+"""
+type org_share_tokens_max_fields {
+  created_at: timestamptz
+  org_id: bigint
+  type: Int
+  updated_at: timestamptz
+  uuid: uuid
+}
+
+"""
+aggregate min on columns
+"""
+type org_share_tokens_min_fields {
+  created_at: timestamptz
+  org_id: bigint
+  type: Int
+  updated_at: timestamptz
+  uuid: uuid
+}
+
+"""
+response of any mutation on the table "org_share_tokens"
+"""
+type org_share_tokens_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [org_share_tokens!]!
+}
+
+"""
+on_conflict condition type for table "org_share_tokens"
+"""
+input org_share_tokens_on_conflict {
+  constraint: org_share_tokens_constraint!
+  update_columns: [org_share_tokens_update_column!]! = []
+  where: org_share_tokens_bool_exp
+}
+
+"""
+Ordering options when selecting data from "org_share_tokens".
+"""
+input org_share_tokens_order_by {
+  created_at: order_by
+  org_id: order_by
+  organization: organizations_order_by
+  type: order_by
+  updated_at: order_by
+  uuid: order_by
+}
+
+"""
+primary key columns input for table: org_share_tokens
+"""
+input org_share_tokens_pk_columns_input {
+  org_id: bigint!
+  type: Int!
+}
+
+"""
+select columns of table "org_share_tokens"
+"""
+enum org_share_tokens_select_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  org_id
+
+  """
+  column name
+  """
+  type
+
+  """
+  column name
+  """
+  updated_at
+
+  """
+  column name
+  """
+  uuid
+}
+
+"""
+input type for updating data in table "org_share_tokens"
+"""
+input org_share_tokens_set_input {
+  created_at: timestamptz
+  org_id: bigint
+  type: Int
+  updated_at: timestamptz
+  uuid: uuid
+}
+
+"""
+aggregate stddev on columns
+"""
+type org_share_tokens_stddev_fields {
+  org_id: Float
+  type: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type org_share_tokens_stddev_pop_fields {
+  org_id: Float
+  type: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type org_share_tokens_stddev_samp_fields {
+  org_id: Float
+  type: Float
+}
+
+"""
+Streaming cursor of the table "org_share_tokens"
+"""
+input org_share_tokens_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: org_share_tokens_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input org_share_tokens_stream_cursor_value_input {
+  created_at: timestamptz
+  org_id: bigint
+  type: Int
+  updated_at: timestamptz
+  uuid: uuid
+}
+
+"""
+aggregate sum on columns
+"""
+type org_share_tokens_sum_fields {
+  org_id: bigint
+  type: Int
+}
+
+"""
+update columns of table "org_share_tokens"
+"""
+enum org_share_tokens_update_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  org_id
+
+  """
+  column name
+  """
+  type
+
+  """
+  column name
+  """
+  updated_at
+
+  """
+  column name
+  """
+  uuid
+}
+
+input org_share_tokens_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: org_share_tokens_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: org_share_tokens_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: org_share_tokens_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type org_share_tokens_var_pop_fields {
+  org_id: Float
+  type: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type org_share_tokens_var_samp_fields {
+  org_id: Float
+  type: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type org_share_tokens_variance_fields {
+  org_id: Float
+  type: Float
 }
 
 """
@@ -23650,6 +24570,71 @@ type query_root {
   discord_roles_circles_by_pk(id: bigint!): discord_roles_circles
 
   """
+  fetch data from the table: "discord.user_api_tokens"
+  """
+  discord_user_api_tokens(
+    """
+    distinct select on columns
+    """
+    distinct_on: [discord_user_api_tokens_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [discord_user_api_tokens_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: discord_user_api_tokens_bool_exp
+  ): [discord_user_api_tokens!]!
+
+  """
+  fetch aggregated fields from the table: "discord.user_api_tokens"
+  """
+  discord_user_api_tokens_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [discord_user_api_tokens_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [discord_user_api_tokens_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: discord_user_api_tokens_bool_exp
+  ): discord_user_api_tokens_aggregate!
+
+  """
+  fetch data from the table: "discord.user_api_tokens" using primary key columns
+  """
+  discord_user_api_tokens_by_pk(id: bigint!): discord_user_api_tokens
+
+  """
   fetch data from the table: "discord.users"
   """
   discord_users(
@@ -24426,6 +25411,71 @@ type query_root {
   fetch data from the table: "org_members" using primary key columns
   """
   org_members_by_pk(id: bigint!): org_members
+
+  """
+  fetch data from the table: "org_share_tokens"
+  """
+  org_share_tokens(
+    """
+    distinct select on columns
+    """
+    distinct_on: [org_share_tokens_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [org_share_tokens_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: org_share_tokens_bool_exp
+  ): [org_share_tokens!]!
+
+  """
+  fetch aggregated fields from the table: "org_share_tokens"
+  """
+  org_share_tokens_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [org_share_tokens_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [org_share_tokens_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: org_share_tokens_bool_exp
+  ): org_share_tokens_aggregate!
+
+  """
+  fetch data from the table: "org_share_tokens" using primary key columns
+  """
+  org_share_tokens_by_pk(org_id: bigint!, type: Int!): org_share_tokens
 
   """
   fetch data from the table: "organizations"
@@ -26915,6 +27965,91 @@ type subscription_root {
   ): [discord_roles_circles!]!
 
   """
+  fetch data from the table: "discord.user_api_tokens"
+  """
+  discord_user_api_tokens(
+    """
+    distinct select on columns
+    """
+    distinct_on: [discord_user_api_tokens_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [discord_user_api_tokens_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: discord_user_api_tokens_bool_exp
+  ): [discord_user_api_tokens!]!
+
+  """
+  fetch aggregated fields from the table: "discord.user_api_tokens"
+  """
+  discord_user_api_tokens_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [discord_user_api_tokens_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [discord_user_api_tokens_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: discord_user_api_tokens_bool_exp
+  ): discord_user_api_tokens_aggregate!
+
+  """
+  fetch data from the table: "discord.user_api_tokens" using primary key columns
+  """
+  discord_user_api_tokens_by_pk(id: bigint!): discord_user_api_tokens
+
+  """
+  fetch data from the table in a streaming manner: "discord.user_api_tokens"
+  """
+  discord_user_api_tokens_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [discord_user_api_tokens_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: discord_user_api_tokens_bool_exp
+  ): [discord_user_api_tokens!]!
+
+  """
   fetch data from the table: "discord.users"
   """
   discord_users(
@@ -27930,6 +29065,91 @@ type subscription_root {
     """
     where: org_members_bool_exp
   ): [org_members!]!
+
+  """
+  fetch data from the table: "org_share_tokens"
+  """
+  org_share_tokens(
+    """
+    distinct select on columns
+    """
+    distinct_on: [org_share_tokens_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [org_share_tokens_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: org_share_tokens_bool_exp
+  ): [org_share_tokens!]!
+
+  """
+  fetch aggregated fields from the table: "org_share_tokens"
+  """
+  org_share_tokens_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [org_share_tokens_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [org_share_tokens_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: org_share_tokens_bool_exp
+  ): org_share_tokens_aggregate!
+
+  """
+  fetch data from the table: "org_share_tokens" using primary key columns
+  """
+  org_share_tokens_by_pk(org_id: bigint!, type: Int!): org_share_tokens
+
+  """
+  fetch data from the table in a streaming manner: "org_share_tokens"
+  """
+  org_share_tokens_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [org_share_tokens_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: org_share_tokens_bool_exp
+  ): [org_share_tokens!]!
 
   """
   fetch data from the table: "organizations"
