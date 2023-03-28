@@ -14,6 +14,10 @@ export const NavLabel = ({
       css={{
         marginTop: '$xl',
         marginBottom: '$md',
+        '@lg': {
+          marginTop: '$sm',
+          marginBottom: '$sm',
+        },
         justifyContent: 'space-between',
       }}
     >

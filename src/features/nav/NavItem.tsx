@@ -2,14 +2,17 @@ import * as React from 'react';
 
 import { NavLink, useLocation } from 'react-router-dom';
 
+import { CSS } from '../../stitches.config';
 import { Box, Button, Flex, Text } from '../../ui';
 
 export const NavItem = ({
+  css,
   label,
   to,
   icon,
   onClick,
 }: {
+  css?: CSS;
   label: React.ReactNode;
   to: string;
   icon?: React.ReactNode;
@@ -18,14 +21,20 @@ export const NavItem = ({
   const location = useLocation();
 
   return (
-    <Box css={{ ml: '$xs', mb: '$xs' }} onClick={onClick}>
+    <Box css={{ ...css, ml: '$xs', mb: '$xs' }} onClick={onClick}>
       <Button
         className={location.pathname == to ? 'currentPage' : undefined}
         as={NavLink}
         color="navigation"
         to={to}
         fullWidth
-        css={{ py: '$sm', pl: '$sm' }}
+        css={{
+          py: '$sm',
+          pl: '$sm',
+          '@lg': {
+            py: '$xs',
+          },
+        }}
       >
         <Flex
           css={{

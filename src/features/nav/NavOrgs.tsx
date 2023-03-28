@@ -52,6 +52,9 @@ export const NavOrgs = ({
                 alignItems: 'center',
                 borderRadius: '$3',
                 mb: '$md',
+                '@lg': {
+                  mb: '$sm',
+                },
                 textDecoration: 'none',
               }}
             >

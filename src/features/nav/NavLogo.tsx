@@ -24,10 +24,7 @@ export const NavLogo = ({
               width: '200px',
               minWidth: '140px',
               '@lg': {
-                width: '180px',
-              },
-              '@md': {
-                width: '160px',
+                width: '150px',
               },
               '@sm': {
                 width: '140px',

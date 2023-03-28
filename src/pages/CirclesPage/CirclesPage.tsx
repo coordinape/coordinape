@@ -216,6 +216,7 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
         display: 'flex',
         flexDirection: 'row',
         gap: '$md',
+        minHeight: '5.7rem',
         border: '1px solid transparent',
         '.hover-buttons': { display: 'none', '@sm': { display: 'flex' } },
         '&:hover, &:focus-within': {

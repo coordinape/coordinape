@@ -1,8 +1,7 @@
 import { NavLink } from 'react-router-dom';
 
-import { ChevronDown, ChevronRight } from '../../icons/__generated';
 import { paths } from '../../routes/paths';
-import { Avatar, Box, Flex, IconButton, Text } from '../../ui';
+import { Avatar, Box, Flex, Text } from '../../ui';
 
 import { NavCurrentCircle } from './NavCurrentCircle';
 
@@ -48,13 +47,6 @@ export const NavCircleItem = ({
           >
             {circle.name}
           </Text>
-          <IconButton>
-            {isCurrentCircle || org.myCircles.length == 1 ? (
-              <ChevronDown />
-            ) : (
-              <ChevronRight />
-            )}
-          </IconButton>
         </Flex>
       }
       {(isCurrentCircle || org.myCircles.length == 1) && (

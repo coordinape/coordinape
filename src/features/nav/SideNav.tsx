@@ -3,8 +3,7 @@ import { Suspense, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { getCircleFromPath, getOrgFromPath, paths } from '../../routes/paths';
-import isFeatureEnabled from 'config/features';
-import { CoOrg, Menu, X, Loader } from 'icons/__generated';
+import { CoOrg, Menu, X } from 'icons/__generated';
 import { Flex, IconButton } from 'ui';
 
 import { NavCircle, NavOrg, useNavQuery } from './getNavData';
@@ -77,7 +76,7 @@ export const SideNav = () => {
         flexDirection: 'column',
         width: '350px',
         transition: '.2s ease-in-out',
-        '@lg': { width: '300px' },
+        '@lg': { width: '300px', p: '$lg' },
         '@md': { width: '250px' },
         '@sm': {
           position: 'absolute',
@@ -111,6 +110,9 @@ export const SideNav = () => {
             zIndex: '2',
             display: mobileMenuOpen ? 'block' : 'none',
           },
+          '@lg': {
+            mb: '$sm',
+          },
           '@sm': {
             background: mobileMenuOpen ? '$surfaceNested' : '$navBackground',
             position: 'fixed',
@@ -134,6 +136,9 @@ export const SideNav = () => {
           flex: 1,
           overflowY: 'auto',
           pt: '$sm',
+          '@sm': {
+            pt: '$lg',
+          },
           // So focus outlines don't get cropped
           mx: '-3px',
           px: '3px',
@@ -145,10 +150,19 @@ export const SideNav = () => {
           scrollbarWidth: 'none',
         }}
       >
-        <NavItem label="Home" to={paths.circles} icon={<CoOrg nostroke />} />
-        {isFeatureEnabled('cosoul') && (
-          <NavItem label="CoSoul" to="cosoul" icon={<Loader />} />
-        )}
+        <NavItem
+          label="Home"
+          to={paths.circles}
+          icon={<CoOrg nostroke />}
+          css={{
+            '@lg': {
+              display: 'none',
+            },
+            '@sm': {
+              display: 'block',
+            },
+          }}
+        />
         {data && (
           <>
             <NavOrgs
