@@ -19,7 +19,7 @@ context('Coordinape', () => {
   it('can login and visit give', () => {
     cy.visit(`/circles/${circleId}/give`);
     cy.login();
-    cy.url({ timeout: 120000 }).should('include', '/give');
+    cy.url().should('include', '/give');
     cy.contains('thank your teammates').click();
   });
   it('can add collaborator', () => {

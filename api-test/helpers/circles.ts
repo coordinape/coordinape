@@ -3,8 +3,8 @@ import assert from 'assert';
 import faker from 'faker';
 import { z } from 'zod';
 
-import { createOrganization } from '.';
 import type { GQLClientType } from './common';
+import { createOrganization } from './organizations';
 
 const createCircleSchemaInput = z
   .object({

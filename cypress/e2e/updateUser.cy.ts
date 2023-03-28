@@ -30,7 +30,7 @@ context('Coordinape', () => {
     assertAddr(oldAddress);
 
     // Click on edit user
-    cy.contains('Kasey', { timeout: 120000 })
+    cy.contains('Kasey')
       .parents('tr')
       .within(() => {
         cy.get('td').last().get('button:first').click();
@@ -41,7 +41,7 @@ context('Coordinape', () => {
 
     cy.contains('Save').click().wait(5000);
     // Verify new value in contributors table
-    cy.contains('Kasey', { timeout: 120000 })
+    cy.contains('Kasey')
       .parents('tr')
       .within(() => {
         cy.get('td').eq(4).should('have.text', '1200 DAI');
@@ -50,7 +50,7 @@ context('Coordinape', () => {
 });
 
 const assertAddr = (addr: string) => {
-  cy.contains('Kasey', { timeout: 120000 })
+  cy.contains('Kasey')
     .parents('tr')
     .within(() => {
       cy.get('td').eq(1).contains(addr.substr(0, 5), { timeout: 45000 });
