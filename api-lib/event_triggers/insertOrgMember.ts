@@ -1,5 +1,3 @@
-import assert from 'assert';
-
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import {
@@ -12,45 +10,52 @@ import { EventTriggerPayload } from '../types';
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const payload: EventTriggerPayload<'users', 'INSERT' | 'UPDATE'> = req.body;
-    const user = payload.event.data.new;
-    const query = await adminClient.query(
-      {
-        circles_by_pk: [{ id: user.circle_id }, { organization_id: true }],
-        profiles: [
-          { where: { address: { _ilike: user.address } }, limit: 1 },
-          { id: true, address: true },
-        ],
-      },
-      { operationName: 'insertOrgMember_getUserIds' }
-    );
-    assert(query.circles_by_pk);
-    //check if this user exists as an org_member
-    const { org_members } = await adminClient.query(
-      {
-        org_members: [
-          {
-            where: {
-              _and: [
-                { org_id: { _eq: query.circles_by_pk?.organization_id } },
-                { profile_id: { _eq: query.profiles[0].id } },
-              ],
-            },
-          },
-          { id: true, deleted_at: true },
-        ],
-      },
-      { operationName: 'insertOrgMember_getOrgMember' }
-    );
+    const insertedUser = payload.event.data.new;
 
-    if (user.deleted_at === null) {
-      if (!org_members[0] || org_members[0].deleted_at !== null) {
-        adminClient.mutate(
+    // if the user is deleted do nothing
+    if (insertedUser.deleted_at === null) {
+      //check if this user exists as an org_member
+      const { users_by_pk: user } = await adminClient.query(
+        {
+          users_by_pk: [
+            {
+              id: insertedUser.id,
+            },
+            {
+              profile: {
+                id: true,
+                org_members: [
+                  {
+                    where: {
+                      organization: {
+                        circles: { users: { id: { _eq: insertedUser.id } } },
+                      },
+                    },
+                  },
+                  {
+                    deleted_at: true,
+                    org_id: true,
+                  },
+                ],
+              },
+              circle: { organization_id: true },
+            },
+          ],
+        },
+        { operationName: 'insertOrgMember_getOrgMember' }
+      );
+
+      if (
+        !user?.profile?.org_members[0] ||
+        user?.profile.org_members[0].deleted_at !== null
+      ) {
+        await adminClient.mutate(
           {
             insert_org_members_one: [
               {
                 object: {
-                  profile_id: query.profiles[0].id,
-                  org_id: query.circles_by_pk?.organization_id,
+                  profile_id: user?.profile?.id,
+                  org_id: user?.circle?.organization_id,
                   deleted_at: null,
                 },
                 on_conflict: {
