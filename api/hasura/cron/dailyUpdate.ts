@@ -260,7 +260,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           discord_channel_id: channelId,
           discord_role_id: roleId,
           alerts,
-        } = circle?.discord_circle || {};
+        } = circle.discord_circle || {};
 
         if (
           isFeatureEnabled('discord') &&
