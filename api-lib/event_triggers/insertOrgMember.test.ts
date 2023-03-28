@@ -1,14 +1,22 @@
-import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { waitFor } from '@testing-library/react';
+
 import {
   createCircle,
   createProfile,
   createUser,
   mockUserClient,
   createOrganization,
-} from '../../../helpers';
-import { getUniqueAddress } from '../../../helpers/getUniqueAddress';
-
-let address1, address2, profile1, profile2, circle1, circle2, client, org;
+} from '../../api-test/helpers';
+import { getUniqueAddress } from '../../api-test/helpers/getUniqueAddress';
+import { adminClient } from '../gql/adminClient';
+let address1: any,
+  address2: any,
+  profile1: any,
+  profile2: any,
+  circle1: any,
+  circle2: any,
+  client: any,
+  org: any;
 
 beforeAll(async () => {
   address1 = await getUniqueAddress();
@@ -34,18 +42,18 @@ beforeAll(async () => {
 });
 
 test('Check that the created user has been added to org_members', async () => {
-  await new Promise(res => setTimeout(res, 2000));
+  await waitFor(async () => {
+    const { org_members } = await client.query(
+      {
+        org_members: [{}, { id: true, deleted_at: true, org_id: true }],
+      },
+      { operationName: 'test' }
+    );
 
-  const { org_members } = await client.query(
-    {
-      org_members: [{}, { id: true, deleted_at: true, org_id: true }],
-    },
-    { operationName: 'test' }
-  );
-
-  expect(org_members[0].id).toBeDefined();
-  expect(org_members[0].org_id).toBe(org.id);
-  expect(org_members[0].deleted_at).toBeNull();
+    expect(org_members[0].id).toBeDefined();
+    expect(org_members[0].org_id).toBe(org.id);
+    expect(org_members[0].deleted_at).toBeNull();
+  });
 });
 
 test('org_member will remain undeleted even if deleted from all org circles', async () => {
@@ -59,18 +67,19 @@ test('org_member will remain undeleted even if deleted from all org circles', as
     },
     { operationName: 'test' }
   );
-  await new Promise(res => setTimeout(res, 2000));
-  const { org_members: orgMembers1 } = await client.query(
-    {
-      org_members: [
-        { where: { profile_id: { _eq: profile1.id } } },
-        { id: true, deleted_at: true },
-      ],
-    },
-    { operationName: 'test' }
-  );
-  expect(orgMembers1[0].id).toBeDefined();
-  expect(orgMembers1[0].deleted_at).toBeNull();
+  await waitFor(async () => {
+    const { org_members: orgMembers1 } = await client.query(
+      {
+        org_members: [
+          { where: { profile_id: { _eq: profile1.id } } },
+          { id: true, deleted_at: true },
+        ],
+      },
+      { operationName: 'test' }
+    );
+    expect(orgMembers1[0].id).toBeDefined();
+    expect(orgMembers1[0].deleted_at).toBeNull();
+  });
 
   //delete user1 from circle 2
   await adminClient.mutate(
@@ -82,17 +91,18 @@ test('org_member will remain undeleted even if deleted from all org circles', as
     },
     { operationName: 'test' }
   );
-  await new Promise(res => setTimeout(res, 2000));
 
-  const { org_members: orgMembers2 } = await client.query(
-    {
-      org_members: [
-        { where: { profile_id: { _eq: profile1.id } } },
-        { id: true, deleted_at: true },
-      ],
-    },
-    { operationName: 'test' }
-  );
-  expect(orgMembers2[0].id).toBeDefined();
-  expect(orgMembers2[0].deleted_at).toBeNull();
+  await waitFor(async () => {
+    const { org_members: orgMembers2 } = await client.query(
+      {
+        org_members: [
+          { where: { profile_id: { _eq: profile1.id } } },
+          { id: true, deleted_at: true },
+        ],
+      },
+      { operationName: 'test' }
+    );
+    expect(orgMembers2[0].id).toBeDefined();
+    expect(orgMembers2[0].deleted_at).toBeNull();
+  });
 });
