@@ -9,7 +9,14 @@ import { NavItem } from './NavItem';
 export const NavCurrentOrg = ({ org }: { org: NavOrg }) => {
   const isInOrg = org.members.length > 0;
   return (
-    <Box css={{ mb: '$md' }}>
+    <Box
+      css={{
+        mb: '$md',
+        '@lg': {
+          mb: '$sm',
+        },
+      }}
+    >
       {isFeatureEnabled('activity') && (
         <NavItem
           label={'Activity'}
