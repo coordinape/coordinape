@@ -44,10 +44,7 @@ context('Coordinape', () => {
 
     // Deposit USDC into the vault
     cy.contains('Deposit').click();
-    cy.get('input[type=text]', { timeout: 90000 })
-      .click()
-      .wait(1000)
-      .type('5000');
+    cy.get('input[type=text]').click().wait(1000).type('5000');
     cy.contains('button', 'Deposit into').click();
     cy.contains('Transaction completed');
     cy.contains('5,000.00 USDC');
@@ -73,7 +70,7 @@ context('Coordinape', () => {
     // submit distribution onchain
     cy.visit(`/circles/${circleId}/epochs`);
     cy.contains('a', 'Export').click();
-    cy.get('input[type=text]:last', { timeout: 90000 }).click().type('4500');
+    cy.get('input[type=text]:last').click().type('4500');
     cy.contains('button', 'Submit USDC Vault Distribution').click();
     cy.contains('Submitting');
     cy.contains('Please sign the transaction');
