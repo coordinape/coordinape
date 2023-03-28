@@ -19,6 +19,10 @@ type Mutation {
 }
 
 type Mutation {
+  createOrgMembers(payload: CreateOrgMembersInput!): [UserResponse]
+}
+
+type Mutation {
   createSampleCircle: CreateSampleCircleResponse
 }
 
@@ -266,6 +270,11 @@ input Allocations {
 
 input CreateUsersInput {
   circle_id: Int!
+  users: [UserObj]!
+}
+
+input CreateOrgMembersInput {
+  org_id: Int!
   users: [UserObj]!
 }
 

@@ -20,6 +20,32 @@ const userSelector = Selector('users')({
   fixed_payment_amount: true,
 });
 
+// TODO: implement org admins
+// For now, an org admin is an admin of the org's circles.
+export const isOrgAdmin = async (orgId: number, profileId: number) => {
+  const { profiles_by_pk } = await adminClient.query(
+    {
+      profiles_by_pk: [
+        { id: profileId },
+        {
+          users_aggregate: [
+            {
+              where: {
+                role: { _eq: 1 },
+                circle: { organization_id: { _eq: orgId } },
+              },
+            },
+            { aggregate: { count: [{}, true] } },
+          ],
+        },
+      ],
+    },
+    { operationName: 'isOrgAdmin__findUsers' }
+  );
+
+  return profiles_by_pk?.users_aggregate?.aggregate?.count || 0 > 0;
+};
+
 export const getUserFromProfileId = async (
   profileId: number,
   circleId: number
