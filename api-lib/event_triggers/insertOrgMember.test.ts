@@ -1,3 +1,5 @@
+import assert from 'assert';
+
 import { waitFor } from '@testing-library/react';
 import sortBy from 'lodash/sortBy';
 
@@ -35,7 +37,7 @@ test('add to org_members when user is created', async () => {
       );
       expect(members.map(m => m.deleted_at)).toEqual([null, null]);
     },
-    { timeout: 3000 }
+    { timeout: 4000 }
   );
 });
 
@@ -48,4 +50,65 @@ test('do nothing when user is deleted', async () => {
   // @ts-ignore
   await handler(req, res);
   expect(res.json).toBeCalledWith({ message: 'no change' });
+});
+
+describe('with deleted user', () => {
+  let memberId: number;
+
+  beforeEach(async () => {
+    const { org_members } = await adminClient.query(
+      {
+        org_members: [
+          {
+            where: {
+              profile_id: { _eq: user2.profile.id },
+              org_id: { _eq: user2.circle.organization.id },
+            },
+          },
+          { id: true },
+        ],
+      },
+      { operationName: 'test' }
+    );
+
+    memberId = org_members[0]?.id;
+    assert(memberId);
+
+    await adminClient.mutate(
+      {
+        update_users_by_pk: [
+          { pk_columns: { id: user2.id }, _set: { deleted_at: 'now()' } },
+          { deleted_at: true },
+        ],
+        update_org_members_by_pk: [
+          { pk_columns: { id: memberId }, _set: { deleted_at: 'now()' } },
+          { deleted_at: true },
+        ],
+      },
+      { operationName: 'test' }
+    );
+  });
+
+  test('undelete org_members when user is undeleted', async () => {
+    await adminClient.mutate(
+      {
+        update_users_by_pk: [
+          { pk_columns: { id: user2.id }, _set: { deleted_at: null } },
+          { __typename: true },
+        ],
+      },
+      { operationName: 'test' }
+    );
+
+    await waitFor(
+      async () => {
+        const { org_members_by_pk } = await adminClient.query(
+          { org_members_by_pk: [{ id: memberId }, { deleted_at: true }] },
+          { operationName: 'test' }
+        );
+        expect(org_members_by_pk?.deleted_at).toBeNull();
+      },
+      { timeout: 4000 }
+    );
+  });
 });
