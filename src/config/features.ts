@@ -24,7 +24,7 @@ const staticFeatureFlags: Partial<Record<FeatureName, boolean>> = {
   discord: true,
   guild: true,
   epoch_timing_banner: !!process.env.REACT_APP_FEATURE_FLAG_EPOCH_TIMING_BANNER,
-  org_view: false,
+  org_view: !!process.env.REACT_APP_FEATURE_FLAG_ORG_VIEW,
   activity: true,
 };
 
