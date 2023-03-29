@@ -3,8 +3,6 @@ import { client } from 'lib/gql/client';
 import { getDisplayTokenString } from 'lib/vaults';
 import { useQuery } from 'react-query';
 
-import isFeatureEnabled from 'config/features';
-
 import { Awaited } from 'types/shim';
 
 export function useVaults({
@@ -74,7 +72,7 @@ export function useVaults({
       return vaults;
     },
     {
-      enabled: isFeatureEnabled('vaults') && !!orgId && !!chainId,
+      enabled: !!orgId && !!chainId,
       select: vaults => {
         return vaults?.map(v => {
           v.symbol = getDisplayTokenString(v);

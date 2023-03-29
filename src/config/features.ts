@@ -2,14 +2,8 @@
 
 export type FeatureName =
   | 'cosoul'
-  | 'vaults'
-  | 'fixed_payments'
-  | 'discord'
   | 'email_login'
-  | 'guild'
-  | 'disable_distribute_evenly'
   | 'epoch_timing_banner'
-  | 'activity'
   | 'org_view'
   | 'debug';
 
@@ -18,44 +12,24 @@ export type FeatureName =
 
 const staticFeatureFlags: Partial<Record<FeatureName, boolean>> = {
   cosoul: false,
-  vaults: true,
-  fixed_payments: true,
   email_login: !!process.env.REACT_APP_FEATURE_FLAG_EMAIL_LOGIN,
-  discord: true,
-  guild: true,
   epoch_timing_banner: !!process.env.REACT_APP_FEATURE_FLAG_EPOCH_TIMING_BANNER,
   org_view: !!process.env.REACT_APP_FEATURE_FLAG_ORG_VIEW,
-  activity: true,
 };
 
 // this code is safe to use in a non-browser environment because of the typeof
 // check, but our setup in tsconfig-backend.json still flags the use of `window`
 // as an error, so we explicitly ignore it.
-const isLocallyOn = (name: FeatureName, circleId?: number) => {
-  // This is to explicitly (experimentally) disable distribute evenly for Bankless DAO-WIDE (GP,L1,L2) -g
-  // Second circle is Boring Security DAO
-  if (
-    (circleId == 3575 || circleId == 1998) &&
-    name == 'disable_distribute_evenly'
-  ) {
-    return true;
-  }
-
-  return (
-    // @ts-ignore
-    typeof window !== 'undefined' &&
-    // @ts-ignore
-    window.localStorage.getItem('feature:' + name) === 'true'
-  );
-};
+const isLocallyOn = (name: FeatureName) =>
+  // @ts-ignore
+  typeof window !== 'undefined' &&
+  // @ts-ignore
+  window.localStorage.getItem('feature:' + name) === 'true';
 
 // we make the export a function so that we can implement run-time feature flags
 // in the future without having to change calling code
 
-export const isFeatureEnabled = (
-  featureName: FeatureName,
-  circleId?: number
-): boolean =>
-  !!staticFeatureFlags[featureName] || isLocallyOn(featureName, circleId);
+export const isFeatureEnabled = (featureName: FeatureName): boolean =>
+  !!staticFeatureFlags[featureName] || isLocallyOn(featureName);
 
 export default isFeatureEnabled;

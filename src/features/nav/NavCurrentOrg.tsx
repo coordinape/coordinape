@@ -17,14 +17,12 @@ export const NavCurrentOrg = ({ org }: { org: NavOrg }) => {
         },
       }}
     >
-      {isFeatureEnabled('activity') && (
-        <NavItem
-          label={'Activity'}
-          // to={paths.orgActivity(org.id)}
-          to={paths.organization(org.id)}
-          icon={<Activity />}
-        />
-      )}
+      <NavItem
+        label={'Activity'}
+        // to={paths.orgActivity(org.id)}
+        to={paths.organization(org.id)}
+        icon={<Activity />}
+      />
       <NavItem
         label={'Vaults'}
         to={paths.vaultsForOrg(org.id)}
