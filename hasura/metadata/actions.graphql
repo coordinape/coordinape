@@ -19,7 +19,7 @@ type Mutation {
 }
 
 type Mutation {
-  createOrgMembers(payload: CreateOrgMembersInput!): [UserResponse]
+  createOrgMembers(payload: CreateOrgMembersInput!): [OrgMemberResponse]
 }
 
 type Mutation {
@@ -567,6 +567,10 @@ type GuildInfoOutput {
   member_count: Int!
   admins: [GuildAdmin]
   roles: [GuildRole]
+}
+
+type OrgMemberResponse {
+  id: ID!
 }
 
 scalar timestamptz

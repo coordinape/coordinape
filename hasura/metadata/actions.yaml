@@ -448,7 +448,7 @@ custom_types:
             id: id
           name: UserResponse
           remote_table:
-            name: org_members
+            name: users
             schema: public
           source: default
           type: object
@@ -604,5 +604,15 @@ custom_types:
     - name: GuildAdmin
     - name: GuildRole
     - name: GuildInfoOutput
+    - name: OrgMemberResponse
+      relationships:
+        - field_mapping:
+            id: id
+          name: OrgMemberResponse
+          remote_table:
+            name: org_members
+            schema: public
+          source: default
+          type: object
   scalars:
     - name: timestamptz
