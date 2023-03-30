@@ -240,7 +240,7 @@ export const HistoryPage = () => {
               >
                 Start an Epoch
               </Button>
-              <AppLink to={paths.vaults}>
+               <AppLink to={paths.vaultsForOrg(circle.organization_id)}>
                 <Button color="secondary" inline>
                   Create a Vault
                 </Button>
