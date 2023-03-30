@@ -20,6 +20,7 @@ export const addVault = (payload: ValueTypes['CreateVaultInput']) =>
             chain_id: true,
             deployment_block: true,
             organization: {
+              id: true,
               name: true,
             },
             vault_transactions: [

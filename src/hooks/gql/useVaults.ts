@@ -9,7 +9,7 @@ export function useVaults({
   orgId,
   chainId,
 }: {
-  orgId: number;
+  orgId?: number;
   chainId: number;
 }) {
   return useQuery(
@@ -60,6 +60,7 @@ export function useVaults({
                 },
               ],
               organization: {
+                id: true,
                 name: true,
               },
             },

@@ -70,12 +70,12 @@ export const paths = {
   mint: '/cosoul/mint',
 
   profile: (address: string) => `/profile/${address}`,
-  vaults: '/vaults',
-  vaultTxs: (address: string) => `${paths.vaults}/${address}/txs`,
   organization: (orgId: string) => `/organizations/${orgId}`,
   orgActivity: orgPath('activity'),
   organizationSettings: orgPath(`settings`),
   vaultsForOrg: orgPath(`vaults`),
+  vaultTxs: (orgId: string, address: string) =>
+    `/organizations/${orgId}/vaults/${address}/txs`,
   orgMembers: orgPath(`members`),
 
   // for circle links

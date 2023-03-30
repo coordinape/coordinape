@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { useIsEmailWallet } from 'features/auth';
 import { isUserAdmin } from 'lib/users';
 import { useParams } from 'react-router-dom';
-import { useRecoilValueLoadable } from 'recoil';
 
 import { LoadingModal } from 'components';
 import HintBanner from 'components/HintBanner';
@@ -11,8 +10,7 @@ import { useMainHeaderQuery } from 'components/MainLayout/getMainHeaderData';
 import { useContracts } from 'hooks';
 import { useVaults } from 'hooks/gql/useVaults';
 import useRequireSupportedChain from 'hooks/useRequireSupportedChain';
-import { rSelectedCircleId } from 'recoilState/app';
-import { Box, Button, ContentHeader, Flex, Link, Modal, Panel, Text } from 'ui';
+import { Button, ContentHeader, Flex, Link, Modal, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { CreateForm } from './CreateForm';
@@ -21,41 +19,19 @@ import { VaultRow } from './VaultRow';
 const VaultsPage = () => {
   const [modal, setModal] = useState(false);
 
-  const circleId = useRecoilValueLoadable(rSelectedCircleId).valueMaybe();
   const orgsQuery = useMainHeaderQuery();
   const contracts = useContracts();
 
   const { orgId: orgFromParams } = useParams();
   const specificOrg = orgFromParams ? Number(orgFromParams) : undefined;
 
-  const [currentOrgId, setCurrentOrgId] = useState<number | undefined>(
-    specificOrg
-  );
-
   useRequireSupportedChain();
-
-  useEffect(() => {
-    const orgIndex = circleId
-      ? orgsQuery?.data?.organizations.findIndex(o =>
-          o.circles.some(c => c.id === circleId)
-        )
-      : 0;
-
-    if (!currentOrgId && orgsQuery.data)
-      setCurrentOrgId(orgsQuery.data.organizations[orgIndex ?? 0].id);
-  }, [orgsQuery.data]);
-
-  const orgs = orgsQuery.data?.organizations;
-  const currentOrg = orgs
-    ? orgs.find(o => o.id === currentOrgId) || orgs[0]
-    : undefined;
-  const isAdmin = !!currentOrg?.circles.some(c => isUserAdmin(c.users[0]));
 
   const {
     refetch,
     isLoading,
     data: vaults,
-  } = useVaults({ orgId: currentOrg?.id, chainId: Number(contracts?.chainId) });
+  } = useVaults({ orgId: specificOrg, chainId: Number(contracts?.chainId) });
 
   const closeModal = () => {
     refetch();
@@ -67,6 +43,10 @@ const VaultsPage = () => {
 
   if (orgsQuery.isLoading || orgsQuery.isIdle)
     return <LoadingModal visible note="VaultsPage" />;
+
+  const orgs = orgsQuery.data?.organizations;
+  const currentOrg = orgs ? orgs.find(o => o.id === specificOrg) : undefined;
+  const isAdmin = !!currentOrg?.circles.some(c => isUserAdmin(c.users[0]));
 
   return (
     <SingleColumnLayout>
@@ -89,28 +69,6 @@ const VaultsPage = () => {
             , or log in with a different wallet.
           </Text>
         </HintBanner>
-      )}
-      {!specificOrg && (
-        <Box
-          css={{
-            display: 'flex',
-            flexDirection: 'row',
-            gap: '$md',
-            mb: '$lg',
-            flexWrap: 'wrap',
-          }}
-        >
-          {orgs?.map(org => (
-            <Button
-              css={{ borderRadius: '$pill' }}
-              key={org.id}
-              color={org.id === currentOrgId ? 'primary' : 'secondary'}
-              onClick={() => setCurrentOrgId(org.id)}
-            >
-              {org.name}
-            </Button>
-          ))}
-        </Box>
       )}
       <ContentHeader>
         <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
