@@ -59,7 +59,12 @@ export const MintPage = () => {
   return (
     <Box>
       <SingleColumnLayout
-        css={{ m: 'auto', alignItems: 'center', gap: '$1xl' }}
+        css={{
+          m: 'auto',
+          alignItems: 'center',
+          gap: '$1xl',
+          maxWidth: '1200px',
+        }}
       >
         <Panel
           css={{
@@ -338,6 +343,17 @@ export const MintPage = () => {
                   ...nodeDetails,
                 }}
               >
+                <Text className="nodeHeader">13%</Text>
+                <Text className="nodeSubHeader">
+                  of pGive came from this org
+                </Text>
+              </Box>
+              <Box
+                css={{
+                  ...nodeStyle,
+                  ...nodeDetails,
+                }}
+              >
                 <Text className="nodeHeader">300</Text>
                 <Text className="nodeSubHeader">GIVE Received</Text>
               </Box>
@@ -399,6 +415,17 @@ export const MintPage = () => {
                 width: '100%',
               }}
             >
+              <Box
+                css={{
+                  ...nodeStyle,
+                  ...nodeDetails,
+                }}
+              >
+                <Text className="nodeHeader">67%</Text>
+                <Text className="nodeSubHeader">
+                  of pGive came from this org
+                </Text>
+              </Box>
               <Box
                 css={{
                   ...nodeStyle,
