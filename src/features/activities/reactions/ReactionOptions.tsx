@@ -112,6 +112,9 @@ export const ReactionOptions = ({
                 className="reaction-label"
                 htmlFor={'react-' + r}
                 aria-label="like"
+                onClick={e => {
+                  e.stopPropagation();
+                }}
               >
                 {[...Array(16)].map((e, i) => (
                   <Text
