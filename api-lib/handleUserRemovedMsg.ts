@@ -1,5 +1,3 @@
-import { isFeatureEnabled } from '../src/config/features';
-
 import * as queries from './gql/queries';
 import {
   Channels,
@@ -31,7 +29,6 @@ function getChannels(
 
   if (
     channels?.isDiscordBot &&
-    isFeatureEnabled('discord') &&
     channelId &&
     roleId &&
     alerts?.['user-removed']

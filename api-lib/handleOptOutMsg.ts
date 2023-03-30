@@ -1,5 +1,3 @@
-import { isFeatureEnabled } from '../src/config/features';
-
 import * as queries from './gql/queries';
 import {
   Channels,
@@ -33,7 +31,6 @@ function getChannels(props: GetChannelsProps): Channels<DiscordOptsOut> {
 
   if (
     channels?.isDiscordBot &&
-    isFeatureEnabled('discord') &&
     channelId &&
     roleId &&
     alerts?.['user-opts-out']

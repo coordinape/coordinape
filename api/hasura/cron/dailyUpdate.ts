@@ -13,7 +13,6 @@ import { adminClient } from '../../../api-lib/gql/adminClient';
 import { errorLog } from '../../../api-lib/HttpError';
 import { sendSocialMessage } from '../../../api-lib/sendSocialMessage';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
-import { isFeatureEnabled } from '../../../src/config/features';
 
 Settings.defaultZone = 'utc';
 
@@ -262,12 +261,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           alerts,
         } = circle.discord_circle || {};
 
-        if (
-          isFeatureEnabled('discord') &&
-          channelId &&
-          roleId &&
-          alerts?.['daily-update']
-        ) {
+        if (channelId && roleId && alerts?.['daily-update']) {
           try {
             await sendSocialMessage({
               message,

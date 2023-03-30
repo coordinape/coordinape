@@ -12,7 +12,6 @@ import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
 import { uploadCsv } from '../../../../api-lib/s3';
 import { Awaited } from '../../../../api-lib/ts4.5shim';
 import { claimsUnwrappedAmount } from '../../../../src/common-lib/distributions';
-import { isFeatureEnabled } from '../../../../src/config/features';
 import {
   allocationCsvInput,
   composeHasuraActionRequestBody,
@@ -44,8 +43,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     epochObj.end_date
   );
   assert(circle, 'No Circle Found');
-  const fixedPaymentsEnabled =
-    isFeatureEnabled('fixed_payments') && !!circle.fixed_payment_token_type;
+  const fixedPaymentsEnabled = !!circle.fixed_payment_token_type;
 
   const userValues = generateCsvValues(
     circle,
