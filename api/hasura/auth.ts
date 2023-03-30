@@ -9,7 +9,6 @@ import {
   IS_TEST_ENV,
 } from '../../api-lib/config';
 import { adminClient } from '../../api-lib/gql/adminClient';
-import { isFeatureEnabled } from '../../src/config/features';
 import { TEST_SKIP_AUTH } from '../../src/utils/testing/api';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -36,10 +35,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
     }
 
-    if (
-      isFeatureEnabled('discord') &&
-      req.headers?.authorization === HASURA_DISCORD_SECRET
-    ) {
+    if (req.headers?.authorization === HASURA_DISCORD_SECRET) {
       res.status(200).json({
         'X-Hasura-Role': 'discord-bot',
       });

@@ -1,4 +1,3 @@
-import { isFeatureEnabled } from '../../config/features';
 import {
   Activity,
   Circle2,
@@ -21,14 +20,7 @@ export const NavCurrentCircle = ({ circle }: { circle: NavCircle }) => {
 
   return (
     <Box css={{ mb: '$md' }}>
-      <Flex
-        column
-        css={{
-          flexDirection: isFeatureEnabled('activity')
-            ? 'column-reverse'
-            : undefined,
-        }}
-      >
+      <Flex column css={{ flexDirection: 'column-reverse' }}>
         {isCircleMember && (
           <NavItem
             label={
@@ -39,7 +31,7 @@ export const NavCurrentCircle = ({ circle }: { circle: NavCircle }) => {
                   flexGrow: 1,
                 }}
               >
-                {isFeatureEnabled('activity') ? 'Epochs ' : 'Overview '}
+                {'Epochs '}
                 <NavCurrentCircleGiveCount
                   css={{ ml: '$sm' }}
                   circleId={circle.id}
@@ -51,13 +43,11 @@ export const NavCurrentCircle = ({ circle }: { circle: NavCircle }) => {
             icon={<Epoch nostroke />}
           />
         )}
-        {isFeatureEnabled('activity') && (
-          <NavItem
-            label="Activity"
-            to={paths.circle(circle.id)}
-            icon={<Activity />}
-          />
-        )}
+        <NavItem
+          label="Activity"
+          to={paths.circle(circle.id)}
+          icon={<Activity />}
+        />
       </Flex>
       {isCircleMember && (
         <NavItem

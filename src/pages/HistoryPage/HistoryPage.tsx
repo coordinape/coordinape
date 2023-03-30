@@ -240,13 +240,11 @@ export const HistoryPage = () => {
               >
                 Start an Epoch
               </Button>
-              {isFeatureEnabled('vaults') && (
-                <AppLink to={paths.vaults}>
-                  <Button color="secondary" inline>
-                    Create a Vault
-                  </Button>
-                </AppLink>
-              )}
+              <AppLink to={paths.vaults}>
+                <Button color="secondary" inline>
+                  Create a Vault
+                </Button>
+              </AppLink>
             </Flex>
           </HintBanner>
         )}

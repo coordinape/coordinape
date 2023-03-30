@@ -1,7 +1,5 @@
 import fetch from 'node-fetch';
 
-import { isFeatureEnabled } from '../src/config/features';
-
 import { TELEGRAM_BOT_BASE_URL, COORDINAPE_BOT_SECRET } from './config';
 import { DISCORD_BOT_NAME, DISCORD_BOT_AVATAR_URL } from './constants';
 import * as queries from './gql/queries';
@@ -133,11 +131,7 @@ export async function sendSocialMessage({
 
   const { circles_by_pk: circle } = await queries.getCircle(circleId);
 
-  if (
-    isFeatureEnabled('discord') &&
-    channels?.isDiscordBot &&
-    channels.discordBot
-  ) {
+  if (channels?.isDiscordBot && channels.discordBot) {
     const { type } = channels.discordBot || {};
     const res = await fetch(
       `https://coordinape-discord-bot.herokuapp.com/api/epoch/${type}`,

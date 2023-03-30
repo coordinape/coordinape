@@ -1,5 +1,3 @@
-import { isFeatureEnabled } from '../src/config/features';
-
 import * as queries from './gql/queries';
 import {
   Channels,
@@ -29,13 +27,7 @@ function getChannels(
     alerts,
   } = circle?.discord_circle || {};
 
-  if (
-    channels?.isDiscordBot &&
-    isFeatureEnabled('discord') &&
-    channelId &&
-    roleId &&
-    alerts?.['user-added']
-  ) {
+  if (channels?.isDiscordBot && channelId && roleId && alerts?.['user-added']) {
     const discordId = profiles[0].user?.user_snowflake;
     const profileName = profiles[0].name;
 

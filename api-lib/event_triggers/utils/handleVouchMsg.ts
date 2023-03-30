@@ -1,5 +1,4 @@
 import * as queries from '../../../api-lib/gql/queries';
-import { isFeatureEnabled } from '../../../src/config/features';
 import { NotFoundError } from '../../HttpError';
 import {
   Channels,
@@ -30,13 +29,7 @@ function getChannels(props: GetChannelsProps): Channels<DiscordVouch> {
     alerts,
   } = circle?.discord_circle || {};
 
-  if (
-    channels?.isDiscordBot &&
-    isFeatureEnabled('discord') &&
-    channelId &&
-    roleId &&
-    alerts?.['vouch']
-  ) {
+  if (channels?.isDiscordBot && channelId && roleId && alerts?.['vouch']) {
     return {
       isDiscordBot: true,
       discordBot: {

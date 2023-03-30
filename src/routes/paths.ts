@@ -1,6 +1,5 @@
 import type { Location } from 'react-router-dom';
 
-import { isFeatureEnabled } from '../config/features';
 import { APP_PATH_CREATE_CIRCLE } from 'utils/domain';
 
 export const EXTERNAL_URL_DOCS = 'https://docs.coordinape.com';
@@ -49,10 +48,7 @@ export const paths = {
   connectIntegration: circlePath('admin/connect-integration'),
   contributions: circlePath('contributions'),
   give: circlePath('give'),
-  circle: (circleId: number) =>
-    isFeatureEnabled('activity')
-      ? `/circles/${circleId}`
-      : `/circles/${circleId}/epochs`,
+  circle: (circleId: number) => `/circles/${circleId}`,
   epochs: circlePath('epochs'),
   members: circlePath('members'),
   membersAdd: circlePath('members/add'),

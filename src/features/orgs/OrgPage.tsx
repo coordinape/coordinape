@@ -1,18 +1,14 @@
 import React from 'react';
 
 import { isUserAdmin } from 'lib/users';
-import sortBy from 'lodash/sortBy';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
 import { NavLink, useParams } from 'react-router-dom';
 
-import { isFeatureEnabled } from '../../config/features';
 import { ActivityList } from '../activities/ActivityList';
 import { RecentActivityTitle } from '../activities/RecentActivityTitle';
 import { LoadingModal } from 'components';
-import { scrollToTop } from 'components/MainLayout/MainLayout';
 import useConnectedAddress from 'hooks/useConnectedAddress';
-import { CircleRow } from 'pages/CirclesPage/CirclesPage';
 import { paths } from 'routes/paths';
 import { Avatar, Box, Button, ContentHeader, Flex, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
@@ -36,11 +32,6 @@ export const OrgPage = () => {
     }
   );
   const org = query.data?.organizations_by_pk;
-
-  const goToCircle = (id: number, path: string) => {
-    scrollToTop();
-    navigate(path);
-  };
 
   if (query.isLoading || query.isIdle || query.isRefetching)
     return <LoadingModal visible note="OrganizationPage" />;
@@ -82,26 +73,13 @@ export const OrgPage = () => {
             </Flex>
           )}
         </ContentHeader>
-        {!isFeatureEnabled('activity') && (
-          <Box css={{ display: 'flex', flexDirection: 'column', gap: '$xl' }}>
-            {sortBy(org.circles, c => [-c.users.length, c.name]).map(circle => (
-              <CircleRow
-                circle={circle}
-                key={circle.id}
-                onButtonClick={goToCircle}
-              />
-            ))}
-          </Box>
-        )}
-        {isFeatureEnabled('activity') && (
-          <Box css={{ mt: '$lg' }}>
-            <RecentActivityTitle />
-            <ActivityList
-              queryKey={['org-activities', org.id]}
-              where={{ organization_id: { _eq: org.id } }}
-            />
-          </Box>
-        )}
+        <Box css={{ mt: '$lg' }}>
+          <RecentActivityTitle />
+          <ActivityList
+            queryKey={['org-activities', org.id]}
+            where={{ organization_id: { _eq: org.id } }}
+          />
+        </Box>
       </Box>
     </SingleColumnLayout>
   );

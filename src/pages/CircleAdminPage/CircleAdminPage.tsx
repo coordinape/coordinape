@@ -18,7 +18,6 @@ import { fetchGuildInfo } from '../../features/guild/fetchGuildInfo';
 import { Guild } from '../../features/guild/Guild';
 import { GuildInfoWithMembership } from '../../features/guild/guild-api';
 import { FormInputField, FormRadioGroup, LoadingModal } from 'components';
-import isFeatureEnabled from 'config/features';
 import { useApiAdminCircle, useApiBase, useContracts, useToast } from 'hooks';
 import { useCircleOrg } from 'hooks/gql/useCircleOrg';
 import { useVaults } from 'hooks/gql/useVaults';
@@ -687,87 +686,85 @@ export const CircleAdminPage = () => {
             </Text>
           </Panel>
         </Panel>
-        {isFeatureEnabled('fixed_payments') && (
-          <Panel css={panelStyles}>
-            <Text h2>Fixed Payments</Text>
-            <Panel css={{ p: '$sm 0' }}>
-              <Box
-                css={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 1fr',
-                  gap: '$lg',
-                  '@sm': { gridTemplateColumns: '1fr' },
-                }}
-              >
-                <Box>
-                  <Select
-                    {...(register('fixed_payment_vault_id'),
-                    {
-                      onValueChange: value => {
-                        setValue('fixed_payment_vault_id', value, {
-                          shouldDirty: true,
-                        });
-                        setValue(
-                          'fixed_payment_token_type',
-                          value == '' ? '' : findVault(value)?.symbol,
-                          { shouldDirty: true }
+        <Panel css={panelStyles}>
+          <Text h2>Fixed Payments</Text>
+          <Panel css={{ p: '$sm 0' }}>
+            <Box
+              css={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: '$lg',
+                '@sm': { gridTemplateColumns: '1fr' },
+              }}
+            >
+              <Box>
+                <Select
+                  {...(register('fixed_payment_vault_id'),
+                  {
+                    onValueChange: value => {
+                      setValue('fixed_payment_vault_id', value, {
+                        shouldDirty: true,
+                      });
+                      setValue(
+                        'fixed_payment_token_type',
+                        value == '' ? '' : findVault(value)?.symbol,
+                        { shouldDirty: true }
+                      );
+                      if (contracts)
+                        updateBalanceState(
+                          getValues('fixed_payment_vault_id') ?? ''
                         );
-                        if (contracts)
-                          updateBalanceState(
-                            getValues('fixed_payment_vault_id') ?? ''
-                          );
-                      },
-                      defaultValue: stringifiedVaultId(),
-                    })}
-                    id="fixed_payment_vault_id"
-                    options={vaultOptions}
-                    label="Fixed Payment Vault"
-                    disabled={!contracts}
-                  />
-                </Box>
-                <FormInputField
-                  id="fixed_payment_token_type"
-                  name="fixed_payment_token_type"
-                  control={control}
-                  defaultValue={circle?.fixed_payment_token_type}
-                  label="Token name for CSV export"
-                  infoTooltip="This will be the token name displayed in exported CSVs"
-                  disabled={!!watchFixedPaymentVaultId}
-                  showFieldErrors
+                    },
+                    defaultValue: stringifiedVaultId(),
+                  })}
+                  id="fixed_payment_vault_id"
+                  options={vaultOptions}
+                  label="Fixed Payment Vault"
+                  disabled={!contracts}
                 />
               </Box>
-              <Flex css={{ gap: '$lg', mt: '$lg' }}>
-                <Flex column>
-                  <Text variant="label" css={{ mb: '$xs' }}>
-                    Members
-                  </Text>
-                  <Text size="medium">{fixedPayment?.number}</Text>
-                </Flex>
-                <Flex column>
-                  <Text variant="label" css={{ mb: '$xs' }}>
-                    Fixed Payments Total
-                  </Text>
-                  <Text size="medium">{`${
-                    fixedPayment?.total
-                  } ${fixedPaymentToken(watchFixedPaymentVaultId)}`}</Text>
-                </Flex>
-                {contracts && (
-                  <Flex column>
-                    <Text variant="label" css={{ mb: '$xs' }}>
-                      Available in Vault
-                    </Text>{' '}
-                    <Text size="medium">{`${numberWithCommas(
-                      formatUnits(
-                        maxGiftTokens,
-                        getDecimals(getValues('fixed_payment_vault_id') ?? '')
-                      )
-                    )} ${fixedPaymentToken(watchFixedPaymentVaultId)}`}</Text>
-                  </Flex>
-                )}
+              <FormInputField
+                id="fixed_payment_token_type"
+                name="fixed_payment_token_type"
+                control={control}
+                defaultValue={circle?.fixed_payment_token_type}
+                label="Token name for CSV export"
+                infoTooltip="This will be the token name displayed in exported CSVs"
+                disabled={!!watchFixedPaymentVaultId}
+                showFieldErrors
+              />
+            </Box>
+            <Flex css={{ gap: '$lg', mt: '$lg' }}>
+              <Flex column>
+                <Text variant="label" css={{ mb: '$xs' }}>
+                  Members
+                </Text>
+                <Text size="medium">{fixedPayment?.number}</Text>
               </Flex>
-            </Panel>
+              <Flex column>
+                <Text variant="label" css={{ mb: '$xs' }}>
+                  Fixed Payments Total
+                </Text>
+                <Text size="medium">{`${
+                  fixedPayment?.total
+                } ${fixedPaymentToken(watchFixedPaymentVaultId)}`}</Text>
+              </Flex>
+              {contracts && (
+                <Flex column>
+                  <Text variant="label" css={{ mb: '$xs' }}>
+                    Available in Vault
+                  </Text>{' '}
+                  <Text size="medium">{`${numberWithCommas(
+                    formatUnits(
+                      maxGiftTokens,
+                      getDecimals(getValues('fixed_payment_vault_id') ?? '')
+                    )
+                  )} ${fixedPaymentToken(watchFixedPaymentVaultId)}`}</Text>
+                </Flex>
+              )}
+            </Flex>
           </Panel>
-        )}
+        </Panel>
 
         <Panel css={panelStyles}>
           <Text h2>Vouching</Text>
@@ -920,77 +917,75 @@ export const CircleAdminPage = () => {
                 )}
               </div>
             </Box>
-            {isFeatureEnabled('guild') && (
-              <Box>
-                <HR />
-                <Text
-                  ref={scrollToGuild}
-                  id="guild"
-                  large
-                  semibold
-                  css={{ mb: '$md' }}
-                >
-                  Guild.xyz
-                </Text>
-                <FormInputField
-                  id="guild_id"
-                  name="guild_id"
-                  control={control}
-                  placeholder="https://guild.xyz/your-guild - URL or unique Guild ID"
-                  defaultValue={circle?.guild_id ? '' + circle.guild_id : ''}
-                  label="Connect a Guild that will grant the ability to join this Circle"
-                  description=""
-                  showFieldErrors
-                />
+            <Box>
+              <HR />
+              <Text
+                ref={scrollToGuild}
+                id="guild"
+                large
+                semibold
+                css={{ mb: '$md' }}
+              >
+                Guild.xyz
+              </Text>
+              <FormInputField
+                id="guild_id"
+                name="guild_id"
+                control={control}
+                placeholder="https://guild.xyz/your-guild - URL or unique Guild ID"
+                defaultValue={circle?.guild_id ? '' + circle.guild_id : ''}
+                label="Connect a Guild that will grant the ability to join this Circle"
+                description=""
+                showFieldErrors
+              />
 
-                {watchGuild && (
-                  <Box css={{ mt: '$md' }}>
-                    {guildLoading ? (
-                      <Text>Checking guild...</Text>
-                    ) : guildInfo ? (
-                      <Box>
-                        <Text variant="label" css={{ mb: '$sm' }}>
-                          Allow members of this Guild to join
-                        </Text>
-                        <Guild info={guildInfo} />
-                        <Box css={{ mt: '$md' }}>
-                          <Select
-                            {...(register('guild_role_id'),
+              {watchGuild && (
+                <Box css={{ mt: '$md' }}>
+                  {guildLoading ? (
+                    <Text>Checking guild...</Text>
+                  ) : guildInfo ? (
+                    <Box>
+                      <Text variant="label" css={{ mb: '$sm' }}>
+                        Allow members of this Guild to join
+                      </Text>
+                      <Guild info={guildInfo} />
+                      <Box css={{ mt: '$md' }}>
+                        <Select
+                          {...(register('guild_role_id'),
+                          {
+                            onValueChange: value => {
+                              setValue('guild_role_id', value, {
+                                shouldDirty: true,
+                              });
+                            },
+                            defaultValue: circle.guild_role_id
+                              ? '' + circle.guild_role_id
+                              : '-1',
+                          })}
+                          id="guild_role_id"
+                          options={[
                             {
-                              onValueChange: value => {
-                                setValue('guild_role_id', value, {
-                                  shouldDirty: true,
-                                });
-                              },
-                              defaultValue: circle.guild_role_id
-                                ? '' + circle.guild_role_id
-                                : '-1',
-                            })}
-                            id="guild_role_id"
-                            options={[
-                              {
-                                label: `Any Role - ${guildInfo.member_count} members`,
-                                value: '-1',
-                              },
-                              ...guildInfo.roles.map(r => ({
-                                value: '' + r.id,
-                                label: r.name + ` - ${r.member_count} members`,
-                              })),
-                            ]}
-                            label="Required Guild Role"
-                            disabled={!guildInfo}
-                          />
-                        </Box>
+                              label: `Any Role - ${guildInfo.member_count} members`,
+                              value: '-1',
+                            },
+                            ...guildInfo.roles.map(r => ({
+                              value: '' + r.id,
+                              label: r.name + ` - ${r.member_count} members`,
+                            })),
+                          ]}
+                          label="Required Guild Role"
+                          disabled={!guildInfo}
+                        />
                       </Box>
-                    ) : guildError ? (
-                      <Text color="alert">{guildError}</Text>
-                    ) : (
-                      <Text>No guild connected.</Text>
-                    )}
-                  </Box>
-                )}
-              </Box>
-            )}
+                    </Box>
+                  ) : guildError ? (
+                    <Text color="alert">{guildError}</Text>
+                  ) : (
+                    <Text>No guild connected.</Text>
+                  )}
+                </Box>
+              )}
+            </Box>
           </Panel>
         </Panel>
         <Panel css={panelStyles}>

@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
 import { colors } from 'stitches.config';
 
-import { isFeatureEnabled } from '../../config/features';
 import { ActivityList } from '../../features/activities/ActivityList';
 import { RecentActivityTitle } from '../../features/activities/RecentActivityTitle';
 import {
@@ -295,20 +294,18 @@ const ProfilePageContent = ({
             {/* <Section title="Frequent Collaborators">TODO.</Section> */}
           </Box>
         )}
-        {isFeatureEnabled('activity') && (
-          <Box>
-            <RecentActivityTitle />
-            <ActivityList
-              queryKey={['profile-activities', profile.id]}
-              where={{
-                _or: [
-                  { target_profile_id: { _eq: profile.id } },
-                  { actor_profile_id: { _eq: profile.id } },
-                ],
-              }}
-            />
-          </Box>
-        )}
+        <Box>
+          <RecentActivityTitle />
+          <ActivityList
+            queryKey={['profile-activities', profile.id]}
+            where={{
+              _or: [
+                { target_profile_id: { _eq: profile.id } },
+                { actor_profile_id: { _eq: profile.id } },
+              ],
+            }}
+          />
+        </Box>
       </SingleColumnLayout>
     </Flex>
   );

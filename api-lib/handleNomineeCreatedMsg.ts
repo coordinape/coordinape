@@ -1,5 +1,3 @@
-import { isFeatureEnabled } from '../src/config/features';
-
 import * as queries from './gql/queries';
 import {
   Channels,
@@ -24,13 +22,7 @@ function getChannels(props: GetChannelsProps): Channels<DiscordNomination> {
     alerts,
   } = circle?.discord_circle || {};
 
-  if (
-    channels?.isDiscordBot &&
-    isFeatureEnabled('discord') &&
-    channelId &&
-    roleId &&
-    alerts?.['nomination']
-  ) {
+  if (channels?.isDiscordBot && channelId && roleId && alerts?.['nomination']) {
     const { circle_id, profile, nominator, description, vouches_required } =
       nominee || {};
 

@@ -4,7 +4,6 @@ import { NavLink } from 'react-router-dom';
 
 import { LoadingModal } from '../../components';
 import CopyCodeTextField from '../../components/CopyCodeTextField';
-import { isFeatureEnabled } from '../../config/features';
 import { fetchGuildInfo } from '../../features/guild/fetchGuildInfo';
 import { Guild } from '../../features/guild/Guild';
 import { GuildInfo } from '../../features/guild/guild-api';
@@ -160,15 +159,13 @@ const AddMembersContents = ({
         >
           CSV Import
         </TabButton>
-        {isFeatureEnabled('guild') && (
-          <TabButton
-            tab={Tab.GUILD}
-            currentTab={currentTab}
-            setCurrentTab={setCurrentTab}
-          >
-            Guild.xyz
-          </TabButton>
-        )}
+        <TabButton
+          tab={Tab.GUILD}
+          currentTab={currentTab}
+          setCurrentTab={setCurrentTab}
+        >
+          Guild.xyz
+        </TabButton>
       </Flex>
 
       <Box

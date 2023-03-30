@@ -114,20 +114,16 @@ export const NavProfile = ({
           {isFeatureEnabled('cosoul') && (
             <NavItem label="CoSoul" to="cosoul" icon={<Loader />} />
           )}
-          {isFeatureEnabled('vaults') && (
-            <>
-              <NavItem
-                label="Recent Transactions"
-                to="/"
-                onClick={() => setShowTxModal(true)}
-              />
-              {showTxModal && (
-                <RecentTransactionsModal
-                  onClose={() => setShowTxModal(false)}
-                />
-              )}
-            </>
-          )}
+          <>
+            <NavItem
+              label="Recent Transactions"
+              to="/"
+              onClick={() => setShowTxModal(true)}
+            />
+            {showTxModal && (
+              <RecentTransactionsModal onClose={() => setShowTxModal(false)} />
+            )}
+          </>
           <NavItem
             label="Claims"
             to={paths.claims}

@@ -14,7 +14,6 @@ import { sendSocialMessage } from '../../../api-lib/sendSocialMessage';
 import { Awaited } from '../../../api-lib/ts4.5shim';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import { findMonthlyEndDate } from '../../../src/common-lib/epochs';
-import { isFeatureEnabled } from '../../../src/config/features';
 import {
   zCustomRepeatData,
   zMonthlyRepeatData,
@@ -247,12 +246,7 @@ export async function notifyEpochStart({
       alerts,
     } = circle?.discord_circle || {};
 
-    if (
-      isFeatureEnabled('discord') &&
-      channelId &&
-      roleId &&
-      alerts?.['epoch-start']
-    ) {
+    if (channelId && roleId && alerts?.['epoch-start']) {
       await sendSocialMessage({
         message,
         circleId: circle.id,
@@ -483,12 +477,7 @@ export async function endEpochHandler(
     alerts,
   } = circle?.discord_circle || {};
 
-  if (
-    isFeatureEnabled('discord') &&
-    channelId &&
-    roleId &&
-    alerts?.['epoch-end']
-  ) {
+  if (channelId && roleId && alerts?.['epoch-end']) {
     await sendSocialMessage({
       message,
       circleId: circle.id,

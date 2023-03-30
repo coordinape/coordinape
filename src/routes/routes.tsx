@@ -96,9 +96,7 @@ const LoggedInRoutes = () => {
       <Route path={paths.circles} element={<CirclesPage />} />
       <Route path={paths.createCircle} element={<CreateCirclePage />} />
       <Route path={paths.developers} element={<DevPortalPage />} />
-      {isFeatureEnabled('discord') && (
-        <Route path={paths.discordLink} element={<DiscordPage />} />
-      )}
+      <Route path={paths.discordLink} element={<DiscordPage />} />
       <Route path={paths.home} element={<DefaultPage />} />
 
       <Route path={paths.organization(':orgId')}>

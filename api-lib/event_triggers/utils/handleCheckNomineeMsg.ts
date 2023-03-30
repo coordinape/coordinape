@@ -1,4 +1,3 @@
-import { isFeatureEnabled } from '../../../src/config/features';
 import * as queries from '../../gql/queries';
 import {
   Channels,
@@ -38,7 +37,6 @@ function getChannelsVouchUnsuccessful(
 
   if (
     channels?.isDiscordBot &&
-    isFeatureEnabled('discord') &&
     channelId &&
     roleId &&
     alerts?.['vouch-unsuccessful']
@@ -77,7 +75,6 @@ function getChannelsVouchSuccessful(
 
   if (
     channels?.isDiscordBot &&
-    isFeatureEnabled('discord') &&
     channelId &&
     roleId &&
     alerts?.['vouch-successful']
