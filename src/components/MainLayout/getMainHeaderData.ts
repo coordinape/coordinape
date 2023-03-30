@@ -5,8 +5,8 @@ import { useQuery } from 'react-query';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { useWeb3React } from 'hooks/useWeb3React';
 
-export const getMainHeaderData = (address: string, chainId: number) => {
-  return client.query(
+export const getMainHeaderData = (address: string, chainId: number) =>
+  client.query(
     {
       organizations: [
         {},
@@ -47,7 +47,6 @@ export const getMainHeaderData = (address: string, chainId: number) => {
     },
     { operationName: 'getMainHeaderData' }
   );
-};
 
 export const QUERY_KEY_MAIN_HEADER = 'MainHeader';
 
@@ -69,6 +68,3 @@ export const useMainHeaderQuery = () => {
 };
 
 export type MainHeaderQuery = Partial<ReturnType<typeof useMainHeaderQuery>>;
-export type MainHeaderOrgs = NonNullable<
-  MainHeaderQuery['data']
->['organizations'];

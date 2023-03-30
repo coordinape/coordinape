@@ -2,16 +2,12 @@ import { useEffect, useState } from 'react';
 
 import { useIsEmailWallet } from 'features/auth';
 import { isUserAdmin } from 'lib/users';
-import { Contracts } from 'lib/vaults';
 import { useParams } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
 
 import { LoadingModal } from 'components';
 import HintBanner from 'components/HintBanner';
-import {
-  MainHeaderOrgs,
-  useMainHeaderQuery,
-} from 'components/MainLayout/getMainHeaderData';
+import { useMainHeaderQuery } from 'components/MainLayout/getMainHeaderData';
 import { useContracts } from 'hooks';
 import { useVaults } from 'hooks/gql/useVaults';
 import useRequireSupportedChain from 'hooks/useRequireSupportedChain';
@@ -23,6 +19,8 @@ import { CreateForm } from './CreateForm';
 import { VaultRow } from './VaultRow';
 
 const VaultsPage = () => {
+  const [modal, setModal] = useState(false);
+
   const circleId = useRecoilValueLoadable(rSelectedCircleId).valueMaybe();
   const orgsQuery = useMainHeaderQuery();
   const contracts = useContracts();
@@ -30,57 +28,34 @@ const VaultsPage = () => {
   const { orgId: orgFromParams } = useParams();
   const specificOrg = orgFromParams ? Number(orgFromParams) : undefined;
 
-  useRequireSupportedChain();
-
-  if (orgsQuery.isLoading || orgsQuery.isIdle || orgsQuery.isFetching)
-    return <LoadingModal visible note="VaultsPage" />;
-
-  return (
-    <VaultsSelect
-      circleId={circleId}
-      orgId={specificOrg}
-      orgs={orgsQuery?.data?.organizations}
-      contracts={contracts}
-    />
-  );
-};
-
-const VaultsSelect = ({
-  circleId,
-  orgId: specificOrg,
-  orgs,
-  contracts,
-}: {
-  circleId?: number;
-  orgId?: number;
-  orgs?: MainHeaderOrgs;
-  contracts?: Contracts;
-}) => {
-  const [modal, setModal] = useState(false);
-
   const [currentOrgId, setCurrentOrgId] = useState<number | undefined>(
     specificOrg
   );
 
+  useRequireSupportedChain();
+
   useEffect(() => {
     const orgIndex = circleId
-      ? orgs?.findIndex(o => o.circles.some(c => c.id === circleId))
+      ? orgsQuery?.data?.organizations.findIndex(o =>
+          o.circles.some(c => c.id === circleId)
+        )
       : 0;
 
-    if (!currentOrgId && orgs) setCurrentOrgId(orgs[orgIndex ?? 0].id);
-  }, [orgs]);
+    if (!currentOrgId && orgsQuery.data)
+      setCurrentOrgId(orgsQuery.data.organizations[orgIndex ?? 0].id);
+  }, [orgsQuery.data]);
 
+  const orgs = orgsQuery.data?.organizations;
   const currentOrg = orgs
     ? orgs.find(o => o.id === currentOrgId) || orgs[0]
     : undefined;
+  const isAdmin = !!currentOrg?.circles.some(c => isUserAdmin(c.users[0]));
 
   const {
     refetch,
     isLoading,
     data: vaults,
   } = useVaults({ orgId: currentOrg?.id, chainId: Number(contracts?.chainId) });
-
-  const isAdmin = !!currentOrg?.circles.some(c => isUserAdmin(c.users[0]));
 
   const closeModal = () => {
     refetch();
@@ -89,6 +64,9 @@ const VaultsSelect = ({
 
   const [saving, setSaving] = useState(false);
   const isEmailWallet = useIsEmailWallet();
+
+  if (orgsQuery.isLoading || orgsQuery.isIdle)
+    return <LoadingModal visible note="VaultsPage" />;
 
   return (
     <SingleColumnLayout>
