@@ -571,6 +571,7 @@ type GuildInfoOutput {
 
 type OrgMemberResponse {
   id: ID!
+  new: Boolean!
 }
 
 scalar timestamptz

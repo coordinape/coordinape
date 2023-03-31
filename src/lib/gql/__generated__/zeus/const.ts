@@ -5448,6 +5448,7 @@ export const ReturnTypes: Record<string, any> = {
   OrgMemberResponse: {
     OrgMemberResponse: 'org_members',
     id: 'ID',
+    new: 'Boolean',
   },
   UpdateCircleOutput: {
     circle: 'circles',

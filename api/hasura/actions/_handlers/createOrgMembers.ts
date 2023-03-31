@@ -1,31 +1,35 @@
+import assert from 'assert';
+
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { DateTime } from 'luxon';
 import { z } from 'zod';
 
 import {
   profiles_constraint,
   profiles_update_column,
-  ValueTypes,
+  org_members_constraint,
+  org_members_update_column,
 } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { insertInteractionEvents } from '../../../../api-lib/gql/mutations';
-import {
-  errorResponseWithStatusCode,
-  InternalServerError,
-} from '../../../../api-lib/HttpError';
+import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
 import { authOrgAdminMiddleware } from '../../../../api-lib/orgAdmin';
 import { isValidENS } from '../../../../api-lib/validateENS';
-import { ENTRANCE } from '../../../../src/common-lib/constants';
-import {
-  composeHasuraActionRequestBodyWithApiPermissions,
-  createUserSchemaInput,
-} from '../../../../src/lib/zod';
+import { composeHasuraActionRequestBodyWithApiPermissions } from '../../../../src/lib/zod';
+import { zUsername, zEthAddress } from '../../../../src/lib/zod/formHelpers';
 
-const USER_ALIAS_PREFIX = 'update_org_member_';
+const createOrgMemberSchemaInput = z
+  .object({
+    name: zUsername,
+    address: zEthAddress,
+    entrance: z.string(),
+  })
+  .strict();
 
 const createOrgUsersBulkSchemaInput = z
   .object({
     org_id: z.number(),
-    users: createUserSchemaInput.omit({ circle_id: true }).array().min(1),
+    users: createOrgMemberSchemaInput.array().min(1),
   })
   .strict();
 
@@ -33,7 +37,6 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   // this has to do parseAsync due to the ENS validation
   const {
     input: { payload: input },
-    session_variables: sessionVariables,
   } = await composeHasuraActionRequestBodyWithApiPermissions(
     createOrgUsersBulkSchemaInput,
     ['manage_users']
@@ -43,7 +46,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   const uniqueAddresses = [...new Set(users.map(u => u.address.toLowerCase()))];
 
-  // Check if bulk contains duplicates.
+  // Check if entries contains duplicate addresses.
   if (uniqueAddresses.length < users.length) {
     const dupes = uniqueAddresses.filter(
       uq => users.filter(u => u.address.toLowerCase() == uq).length > 1
@@ -86,193 +89,101 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     );
   }
 
-  // Given a set of new users we separate these into groups of new org members, and updates to existing org members.
-
-  // Check for existing org members with input addresses.
-  const { org_members: existingOrgMembers } = await adminClient.query(
-    {
-      org_members: [
-        {
-          where: {
-            org_id: { _eq: org_id },
-            profile: {
-              _or: uniqueAddresses.map(addr => {
-                return { address: { _ilike: addr } };
-              }),
-            },
-          },
-        },
-        {
-          id: true,
-          profile: {
-            id: true,
-            address: true,
-          },
-          deleted_at: true,
-        },
-      ],
-    },
-    { operationName: 'getExistingOrgUsers' }
+  // process each entry in parallel
+  const org_members = await Promise.all(
+    users.map(u =>
+      addMemberToOrg({
+        org_id: org_id,
+        name: u.name,
+        address: u.address,
+        entrance: u.entrance,
+      }).catch(e => {
+        throw e;
+      })
+    )
   );
 
-  const orgMembersToUpdate = existingOrgMembers.map(eu => {
-    const updatedUser = users.find(
-      u => u.address.toLowerCase() === eu.profile.address.toLowerCase()
-    );
-    return {
-      ...eu,
-      ...updatedUser,
-      name: undefined,
-    };
-  });
+  await insertInteractionEvents(
+    ...org_members
+      .filter(m => m.new)
+      .map(m => ({
+        event_type: 'add_org_member',
+        profile_id: m.id,
+        org_id: org_id,
+      }))
+  );
 
-  // Check if a user exists without a soft deletion conflicts with the new bulk.
-  const conflict = orgMembersToUpdate.filter(u => !u.deleted_at);
-  if (conflict.length) {
-    return errorResponseWithStatusCode(
-      res,
-      {
-        message: `Users already exist: [${conflict
-          .map(e => e.address)
-          .join(', ')}]`,
-      },
-      422
-    );
-  }
+  return res.status(200).json(org_members);
+}
 
-  const newOrgMembers = users
-    .filter(u => {
-      return !existingOrgMembers.some(
-        eu => eu.profile.address.toLowerCase() === u.address.toLowerCase()
-      );
-    })
-    .map(u => ({ ...u, org_id }));
-
-  const updateUsersMutation = orgMembersToUpdate.reduce((opts, user) => {
-    opts[USER_ALIAS_PREFIX + user.address] = {
-      update_org_members_by_pk: [
+const addMemberToOrg = async ({
+  org_id,
+  name,
+  address,
+  entrance,
+}: {
+  org_id: number;
+  name: string;
+  address: string;
+  entrance: string;
+}) => {
+  // get or create profile id
+  const { insert_profiles_one: profile } = await adminClient.mutate(
+    {
+      insert_profiles_one: [
         {
-          pk_columns: { id: user.id },
-          _set: {
-            ...user,
-            entrance: ENTRANCE.MANUAL,
-            deleted_at: null,
+          object: {
+            name: name,
+            address: address.toLowerCase(),
+          },
+          on_conflict: {
+            constraint: profiles_constraint.profiles_address_key,
+            update_columns: [profiles_update_column.address],
           },
         },
         { id: true },
       ],
-    };
-
-    return opts;
-  }, {} as { [aliasKey: string]: ValueTypes['mutation_root'] });
-
-  //check if names are used by other coordinape users
-  const { profiles: existingNames } = await adminClient.query(
-    {
-      profiles: [
-        {
-          where: {
-            _or: newOrgMembers.map(user => {
-              return {
-                _and: [
-                  { name: { _eq: user.name } },
-                  { address: { _nilike: user.address } },
-                ],
-              };
-            }),
-          },
-        },
-        { name: true },
-      ],
-    },
-    { operationName: 'createOrgUsers_getExistingNames' }
-  );
-
-  if (existingNames.length > 0) {
-    const names = existingNames.map(u => u.name);
-    return errorResponseWithStatusCode(
-      res,
-      {
-        message: `Users list contains ${
-          names.length > 1 ? 'names already in use' : 'a name already in use'
-        }: ${names}`,
-      },
-      422
-    );
-  }
-
-  //update profiles table with new names
-  await adminClient.mutate(
-    {
-      insert_profiles: [
-        {
-          objects: newOrgMembers.map(user => {
-            return {
-              address: user.address.toLowerCase(),
-              name: user.name,
-            };
-          }),
-          on_conflict: {
-            constraint: profiles_constraint.profiles_address_key,
-            update_columns: [profiles_update_column.name],
-            where: {
-              name: { _is_null: true },
-            },
-          },
-        },
-        { returning: { id: true } },
-      ],
     },
     {
-      operationName: 'createOrgUsers_createProfiles',
+      operationName: 'createOrgMember_createProfiles',
     }
   );
 
-  const newOrgMemberObjects = newOrgMembers.map(user => ({
-    ...user,
-    name: undefined,
-  }));
-  // Update the state after all validations have passed
-  const mutationResult = await adminClient.mutate(
+  assert(profile, 'profile should exist');
+
+  // add user to org_members with deleted_at null (handles un-deleted case)
+  const { insert_org_members_one } = await adminClient.mutate(
     {
-      insert_org_members: [
-        { objects: newOrgMemberObjects },
+      insert_org_members_one: [
         {
-          returning: { id: true, address: true },
+          object: {
+            org_id: org_id,
+            profile_id: profile.id,
+            deleted_at: null,
+            entrance: entrance,
+          },
+          on_conflict: {
+            constraint:
+              org_members_constraint.org_members_profile_id_org_id_key,
+            update_columns: [
+              org_members_update_column.entrance,
+              org_members_update_column.deleted_at,
+            ],
+          },
         },
+        { id: true, created_at: true },
       ],
-      __alias: { ...updateUsersMutation },
     },
-    { operationName: 'insertOrgMembers' }
+    { operationName: 'createOrgMember_createOrgMember' }
   );
 
-  const insertedUsers = mutationResult.insert_org_members?.returning;
+  assert(insert_org_members_one, 'org member should exist');
 
-  if (!insertedUsers)
-    throw new InternalServerError(
-      `panic: insertedUsers is null; ${JSON.stringify(mutationResult, null, 2)}`
-    );
-
-  let profileId: number;
-  if (sessionVariables.hasuraRole == 'user') {
-    profileId = sessionVariables.hasuraProfileId;
-  }
-
-  await insertInteractionEvents(
-    ...insertedUsers.map(invitedUserId => ({
-      event_type: 'add_org_member',
-      profile_id: profileId,
-      org_id: input.org_id,
-      data: { invited_user_id: invitedUserId },
-    }))
-  );
-
-  // Get the returning values from each update-user aliases.
-  const results: Array<{ id: number }> = orgMembersToUpdate
-    .map(u => mutationResult[USER_ALIAS_PREFIX + u.address] as { id: number })
-    .concat(insertedUsers);
-
-  return res.status(200).json(results);
-}
+  // consider new if created within 1m
+  const new_obj =
+    DateTime.fromISO(insert_org_members_one.created_at) >
+    DateTime.now().minus({ minutes: 1 });
+  return { id: insert_org_members_one.id, new: new_obj };
+};
 
 export default authOrgAdminMiddleware(handler);

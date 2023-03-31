@@ -875,6 +875,7 @@ export type ValueTypes = {
   ['OrgMemberResponse']: AliasType<{
     OrgMemberResponse?: ValueTypes['org_members'];
     id?: boolean | `@${string}`;
+    new?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
@@ -12773,6 +12774,7 @@ export type ModelTypes = {
   ['OrgMemberResponse']: {
     OrgMemberResponse?: GraphQLTypes['org_members'] | undefined;
     id: string;
+    new: boolean;
   };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: GraphQLTypes['String_comparison_exp'];
@@ -16430,6 +16432,7 @@ export type GraphQLTypes = {
     __typename: 'OrgMemberResponse';
     OrgMemberResponse?: GraphQLTypes['org_members'] | undefined;
     id: string;
+    new: boolean;
   };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: {

@@ -377,6 +377,7 @@ type MarkClaimedOutput {
 type OrgMemberResponse {
   OrgMemberResponse: org_members
   id: ID!
+  new: Boolean!
 }
 
 """
