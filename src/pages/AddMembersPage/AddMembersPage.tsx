@@ -83,22 +83,20 @@ const AddMembersPage = () => {
     );
 
     const replacedNames = createUsers
-      ?.filter(res =>
+      ?.filter(({ UserResponse: r }) =>
         members.find(
           m =>
-            m.address.toLowerCase() ===
-              res.UserResponse?.address.toLowerCase() &&
-            res.UserResponse.profile.name &&
-            m.name !== res.UserResponse.profile.name
+            m.address.toLowerCase() === r?.address.toLowerCase() &&
+            r?.profile.name &&
+            m.name !== r?.profile.name
         )
       )
-      .map(res => ({
+      .map(({ UserResponse: r }) => ({
         oldName: members.find(
-          m =>
-            m.address.toLowerCase() === res.UserResponse?.address.toLowerCase()
+          m => m.address.toLowerCase() === r?.address.toLowerCase()
         )?.name,
-        newName: res.UserResponse?.profile.name,
-        address: res.UserResponse?.address,
+        newName: r?.profile.name,
+        address: r?.address,
       }));
 
     await queryClient.invalidateQueries([QUERY_KEY_CIRCLE_SETTINGS, circleId]);

@@ -150,6 +150,7 @@ const NewMemberList = ({
         return;
       }
 
+      // TODO: check for new org members vs old org members
       const replacedNames = await save(filteredMembers);
       setChangedUsers(replacedNames);
 
@@ -276,7 +277,7 @@ const NewMemberList = ({
             </Panel>
 
             {changedUsers && changedUsers.length > 0 && (
-              <Panel alert css={{ mt: '$xl' }}>
+              <Panel info css={{ mt: '$xl' }}>
                 <Flex column css={{ gap: '$sm' }}>
                   <Text color="inherit" size="medium">
                     Some addresses match existing accounts in our system, so
