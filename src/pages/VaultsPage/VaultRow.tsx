@@ -171,7 +171,13 @@ const RecentTransactions = ({ vault }: { vault: Vault }) => {
               fontSize: '$small',
             }}
           >
-            <AppLink inlineLink to={paths.vaultTxs(vault.vault_address)}>
+            <AppLink
+              inlineLink
+              to={paths.vaultTxs(
+                vault.organization.id.toString(),
+                vault.vault_address
+              )}
+            >
               View All Transactions
             </AppLink>
           </Text>

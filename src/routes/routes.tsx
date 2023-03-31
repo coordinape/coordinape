@@ -102,22 +102,17 @@ const LoggedInRoutes = () => {
       <Route path={paths.organization(':orgId')}>
         <Route path="" element={<OrgPage />} />
         <Route path="settings" element={<OrgSettingsPage />} />
-        <Route path="vaults" element={<VaultsPage />} />
+        <Route path="vaults" element={<VaultsPage />}>
+          <Route
+            path={paths.vaultTxs(':orgId', ':address')}
+            element={<VaultTransactions />}
+          />
+        </Route>
       </Route>
 
       <Route
         path={paths.profile(':profileAddress')}
         element={<ProfilePage />}
-      />
-      <Route path={paths.vaults} element={<VaultsPage />} />
-      <Route
-        path={paths.vaultTxs(':address')}
-        element={<VaultTransactions />}
-      />
-
-      <Route
-        path={paths.vaultTxs(':address')}
-        element={<VaultTransactions />}
       />
 
       <Route path={paths.invite(':token')} element={<JoinCirclePage />} />

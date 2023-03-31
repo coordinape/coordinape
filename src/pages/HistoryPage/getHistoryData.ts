@@ -13,6 +13,7 @@ export const getHistoryData = async (circleId: number, userId: number) => {
           name: true,
           token_name: true,
           vouching: true,
+          organization_id: true,
           users: [
             { where: { id: { _eq: userId } } },
             { role: true, give_token_remaining: true, non_giver: true },
