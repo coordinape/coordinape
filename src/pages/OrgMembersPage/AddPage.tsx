@@ -7,6 +7,7 @@ import { useQueryClient } from 'react-query';
 import { useParams } from 'react-router';
 
 import { AddMembersContents } from 'pages/AddMembersPage/AddMembersPage';
+import type { ChangedUser } from 'pages/AddMembersPage/NewMemberList';
 
 const lowerEq = (x: string, y?: string) => x.toLowerCase() === y?.toLowerCase();
 
@@ -38,39 +39,39 @@ export const AddPage = () => {
       { operationName: 'createOrgMembers' }
     );
 
-    // TODO clear any affected query caches
     await queryClient.invalidateQueries([
       QUERY_KEY_GET_ORG_MEMBERS_DATA,
       orgId,
     ]);
 
-    const replacedNames = createOrgMembers
-      ?.filter(({ OrgMemberResponse: r }) =>
-        entries.find(
-          e =>
-            lowerEq(e.address, r?.profile?.address) &&
-            r?.profile.name &&
-            e.name !== r?.profile.name
-        )
-      )
-      .map(({ OrgMemberResponse: r }) => ({
-        oldName: entries.find(e => lowerEq(e.address, r?.profile?.address))
-          ?.name,
-        newName: r?.profile.name,
-        address: r?.profile.address,
-      }));
+    return (
+      createOrgMembers?.reduce<ChangedUser[]>(
+        (ret, { OrgMemberResponse: r, new: new_ }) => {
+          const { name, address } = r?.profile || {};
+          const inputEntry = entries.find(e => lowerEq(e.address, address));
 
-    return replacedNames || [];
+          if (inputEntry?.name !== name || !new_) {
+            ret.push({
+              existing: !new_,
+              address,
+              oldName: inputEntry?.name,
+              newName: name,
+            });
+          }
+
+          return ret;
+        },
+        []
+      ) || []
+    );
   };
 
   return (
     <AddMembersContents
       group={org}
       groupType="organization"
-      welcomeLink="TODO_welcomeLink"
       inviteLink="TODO_inviteLink"
       revokeInvite={() => alert('TODO: revoke invite')}
-      revokeWelcome={() => alert('TODO: revoke welcome')}
       save={save}
     />
   );

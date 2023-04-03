@@ -97,6 +97,9 @@ const AddMembersPage = () => {
         )?.name,
         newName: r?.profile.name,
         address: r?.address,
+
+        // this is not yet implemented for adding members to circles
+        existing: false,
       }));
 
     await queryClient.invalidateQueries([QUERY_KEY_CIRCLE_SETTINGS, circleId]);

@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ENTRANCE } from 'common-lib/constants';
 import { isValidENS } from 'lib/zod/formHelpers';
+import partition from 'lodash/partition';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -26,6 +27,7 @@ export type ChangedUser = {
   oldName?: string;
   newName: string;
   address?: string;
+  existing: boolean;
 };
 
 const NewMemberList = ({
@@ -44,9 +46,7 @@ const NewMemberList = ({
 
   const [loading, setLoading] = useState<boolean>();
   const [successCount, setSuccessCount] = useState<number>(0);
-  const [changedUsers, setChangedUsers] = useState<ChangedUser[] | undefined>(
-    undefined
-  );
+  const [changedUsers, setChangedUsers] = useState<ChangedUser[] | undefined>();
 
   const [defaultMembers, setDefaultMembers] =
     useState<NewMember[]>(preloadedMembers);
@@ -201,6 +201,12 @@ const NewMemberList = ({
     trigger();
   }, []);
 
+  const [alreadyMembers, differentlyNamed] = changedUsers
+    ? partition(changedUsers, 'existing')
+    : [[], []];
+
+  const newAddedCount = successCount - alreadyMembers.length;
+
   return (
     <Box>
       <Panel invertForm css={{ padding: 0 }}>
@@ -262,8 +268,8 @@ const NewMemberList = ({
                 />
                 <Box css={{ color: '$currentEpochDescription', flexGrow: 1 }}>
                   <Text size="medium" color="inherit">
-                    You have added {successCount} member
-                    {successCount == 1 ? '' : 's'}
+                    You have added {newAddedCount} member
+                    {newAddedCount == 1 ? '' : 's'}!
                     {welcomeLink && (
                       <>
                         &nbsp;
@@ -282,19 +288,36 @@ const NewMemberList = ({
               </Flex>
             </Panel>
 
-            {changedUsers && changedUsers.length > 0 && (
-              <Panel info css={{ mt: '$xl' }}>
+            {(differentlyNamed.length > 0 || alreadyMembers.length > 0) && (
+              <Panel info>
                 <Flex column css={{ gap: '$sm' }}>
-                  <Text color="inherit" size="medium">
-                    Some addresses match existing accounts in our system, so
-                    their names will be used:
-                  </Text>
-                  {changedUsers.map(user => (
-                    <Text color="inherit" key={user.newName}>
-                      &ldquo;{user.newName}&ldquo; will be used instead of
-                      &ldquo;{user.oldName}&ldquo; for {user.address}
-                    </Text>
-                  ))}
+                  {differentlyNamed.length > 0 && (
+                    <>
+                      <Text color="inherit" size="medium">
+                        Some addresses match accounts that are already in our
+                        system, so their names will be used:
+                      </Text>
+                      {differentlyNamed.map(user => (
+                        <Text color="inherit" key={user.newName}>
+                          {user.address}: &ldquo;{user.newName}&rdquo; will be
+                          used instead of &ldquo;{user.oldName}&rdquo;
+                        </Text>
+                      ))}
+                    </>
+                  )}
+
+                  {alreadyMembers.length > 0 && (
+                    <>
+                      <Text color="inherit" size="medium">
+                        Some addresses belong to existing members:
+                      </Text>
+                      {alreadyMembers.map(user => (
+                        <Text color="inherit" key={user.address}>
+                          {user.address}: &ldquo;{user.newName}&rdquo;
+                        </Text>
+                      ))}
+                    </>
+                  )}
                 </Flex>
               </Panel>
             )}
