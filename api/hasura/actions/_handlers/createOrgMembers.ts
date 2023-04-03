@@ -1,14 +1,11 @@
 import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { DateTime } from 'luxon';
 import { z } from 'zod';
 
 import {
   profiles_constraint,
   profiles_update_column,
-  org_members_constraint,
-  org_members_update_column,
 } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { insertInteractionEvents } from '../../../../api-lib/gql/mutations';
@@ -132,10 +129,7 @@ const addMemberToOrg = async ({
     {
       insert_profiles_one: [
         {
-          object: {
-            name: name,
-            address: address.toLowerCase(),
-          },
+          object: { name, address: address.toLowerCase() },
           on_conflict: {
             constraint: profiles_constraint.profiles_address_key,
             update_columns: [profiles_update_column.address],
@@ -144,14 +138,45 @@ const addMemberToOrg = async ({
         { id: true },
       ],
     },
-    {
-      operationName: 'createOrgMember_createProfiles',
-    }
+    { operationName: 'createOrgMember_createProfiles' }
   );
 
   assert(profile, 'profile should exist');
 
-  // add user to org_members with deleted_at null (handles un-deleted case)
+  const { org_members } = await adminClient.query(
+    {
+      org_members: [
+        { where: { org_id: { _eq: org_id }, profile_id: { _eq: profile.id } } },
+        { id: true, deleted_at: true },
+      ],
+    },
+    { operationName: 'createOrgMember_findOrgMember' }
+  );
+
+  const existingId = org_members[0]?.id;
+
+  if (existingId) {
+    // undelete org member as needed
+    if (org_members[0]?.deleted_at) {
+      const { update_org_members_by_pk } = await adminClient.mutate(
+        {
+          update_org_members_by_pk: [
+            {
+              pk_columns: { id: existingId },
+              _set: { deleted_at: null },
+            },
+            { __typename: true },
+          ],
+        },
+        { operationName: 'createOrgMember_undelete' }
+      );
+      assert(update_org_members_by_pk?.__typename, 'update failed');
+    }
+
+    return { id: existingId, new: false };
+  }
+
+  // add user to org_members
   const { insert_org_members_one } = await adminClient.mutate(
     {
       insert_org_members_one: [
@@ -160,30 +185,17 @@ const addMemberToOrg = async ({
             org_id: org_id,
             profile_id: profile.id,
             deleted_at: null,
-            entrance: entrance,
-          },
-          on_conflict: {
-            constraint:
-              org_members_constraint.org_members_profile_id_org_id_key,
-            update_columns: [
-              org_members_update_column.entrance,
-              org_members_update_column.deleted_at,
-            ],
+            entrance,
           },
         },
-        { id: true, created_at: true },
+        { id: true },
       ],
     },
     { operationName: 'createOrgMember_createOrgMember' }
   );
 
   assert(insert_org_members_one, 'org member should exist');
-
-  // consider new if created within 1m
-  const new_obj =
-    DateTime.fromISO(insert_org_members_one.created_at) >
-    DateTime.now().minus({ minutes: 1 });
-  return { id: insert_org_members_one.id, new: new_obj };
+  return { id: insert_org_members_one.id, new: true };
 };
 
 export default authOrgAdminMiddleware(handler);
