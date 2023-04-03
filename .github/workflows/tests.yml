@@ -1,4 +1,4 @@
-name: tests
+name: Test suite
 
 on: [push, pull_request]
 
@@ -15,8 +15,8 @@ jobs:
           concurrent_skipping: 'same_content_newer'
           skip_after_successful_duplicate: false
 
-  test:
-    name: Test suite
+  main:
+    name: Run
     runs-on: ubuntu-latest
     needs: skip_duplicates
     if: ${{ needs.skip_duplicates.outputs.should_skip != 'true' }}
