@@ -118,7 +118,7 @@ const LoggedInRoutes = () => {
         element={<ProfilePage />}
       />
 
-      <Route path={paths.invite(':token')} element={<JoinCirclePage />} />
+      <Route path={paths.welcome(':token')} element={<JoinCirclePage />} />
       <Route path="*" element={<Redirect to={paths.home} note="catchall" />} />
     </Routes>
   );

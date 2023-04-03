@@ -80,7 +80,7 @@ export const paths = {
   orgMembersAdd: orgPath(`members/add`),
 
   // for circle links
-  invite: (token: string) => `/welcome/${token}`,
+  welcome: (token: string) => `/welcome/${token}`,
   join: (token: string) => `/join/${token}`,
 };
 

@@ -35,8 +35,8 @@ const NewMemberList = ({
   preloadedMembers,
   save,
 }: {
-  welcomeLink: string;
-  revokeWelcome(): void;
+  welcomeLink?: string;
+  // revokeWelcome: () => void;
   preloadedMembers: NewMember[];
   save: (members: NewMember[]) => Promise<ChangedUser[]>;
 }) => {
@@ -264,14 +264,20 @@ const NewMemberList = ({
                   <Text size="medium" color="inherit">
                     You have added {successCount} member
                     {successCount == 1 ? '' : 's'}
-                    !&nbsp;
-                    <Text semibold color="inherit">
-                      Share this link to get them started.
-                    </Text>
+                    {welcomeLink && (
+                      <>
+                        &nbsp;
+                        <Text semibold color="inherit">
+                          Share this link to get them started.
+                        </Text>
+                      </>
+                    )}
                   </Text>
-                  <Box css={{ mt: '$md' }}>
-                    <CopyCodeTextField value={welcomeLink} />
-                  </Box>
+                  {welcomeLink && (
+                    <Box css={{ mt: '$md' }}>
+                      <CopyCodeTextField value={welcomeLink} />
+                    </Box>
+                  )}
                 </Box>
               </Flex>
             </Panel>

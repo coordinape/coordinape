@@ -69,7 +69,7 @@ const AddMembersPage = () => {
   };
 
   const inviteLink = APP_URL + paths.join(inviteLinkUuid);
-  const welcomeLink = APP_URL + paths.invite(welcomeUuid);
+  const welcomeLink = APP_URL + paths.welcome(welcomeUuid);
 
   const save = async (members: { address: string; name: string }[]) => {
     const { createUsers } = await client.mutate(
@@ -133,7 +133,7 @@ export const AddMembersContents = ({
   welcomeLink,
   inviteLink,
   // revokeInvite, TODO: add revoke in a later PR when UI is better defined
-  revokeWelcome,
+  // revokeWelcome,
   save,
 }: {
   group: {
@@ -143,10 +143,10 @@ export const AddMembersContents = ({
     name: string;
   };
   groupType: 'circle' | 'organization';
-  welcomeLink: string;
+  welcomeLink?: string;
   inviteLink: string;
   revokeInvite(): void;
-  revokeWelcome(): void;
+  // revokeWelcome(): void;
   save: (members: NewMember[]) => Promise<ChangedUser[]>;
 }) => {
   const [currentTab, setCurrentTab] = useState<Tab>(Tab.ETH);
@@ -235,14 +235,7 @@ export const AddMembersContents = ({
               <Text css={{ pb: '$lg', pt: '$sm' }} size="medium">
                 Add new members by wallet address.
               </Text>
-              <NewMemberList
-                {...{
-                  welcomeLink,
-                  revokeWelcome,
-                  preloadedMembers,
-                  save,
-                }}
-              />
+              <NewMemberList {...{ welcomeLink, preloadedMembers, save }} />
             </Box>
           )}
           {currentTab === Tab.LINK && (
@@ -292,10 +285,14 @@ export const AddMembersContents = ({
                   {guildInfo && (
                     <Guild info={guildInfo} role={group.guild_role_id} />
                   )}
-                  <Text variant="label" css={{ mb: '$xs', mt: '$lg' }}>
-                    Share this link with Guild members
-                  </Text>
-                  <CopyCodeTextField value={welcomeLink} />
+                  {welcomeLink && (
+                    <>
+                      <Text variant="label" css={{ mb: '$xs', mt: '$lg' }}>
+                        Share this link with Guild members
+                      </Text>
+                      <CopyCodeTextField value={welcomeLink} />
+                    </>
+                  )}
                 </Flex>
               ) : (
                 <Text css={{ pb: '$lg', pt: '$sm' }}>
