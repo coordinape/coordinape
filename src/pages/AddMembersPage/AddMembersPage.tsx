@@ -224,14 +224,7 @@ export const AddMembersContents = ({
         <TabGuild />
       </Flex>
 
-      <Box
-        css={{
-          width: '70%',
-          '@md': {
-            width: '100%',
-          },
-        }}
-      >
+      <Box css={{ width: '70%', '@md': { width: '100%' } }}>
         <Panel>
           {currentTab === Tab.ETH && (
             <Box>
@@ -246,7 +239,7 @@ export const AddMembersContents = ({
               <Text css={{ pb: '$lg', pt: '$sm' }} size="medium">
                 Add new members by sharing an invite link.
               </Text>
-              <InviteLink inviteLink={inviteLink} />
+              <InviteLink {...{ inviteLink, groupType }} />
             </Box>
           )}
           {currentTab === Tab.CSV && (

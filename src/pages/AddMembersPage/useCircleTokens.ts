@@ -30,46 +30,25 @@ const useCircleTokens = (circleId: number, type: CircleTokenType) => {
           circle_share_tokens: [
             {
               where: {
-                circle: {
-                  deleted_at: {
-                    _is_null: true,
-                  },
-                },
-                circle_id: {
-                  _eq: circleId,
-                },
-                type: {
-                  _eq: type,
-                },
+                circle: { deleted_at: { _is_null: true } },
+                circle_id: { _eq: circleId },
+                type: { _eq: type },
               },
             },
-            {
-              uuid: true,
-            },
+            { uuid: true },
           ],
         },
-        {
-          operationName: 'getCircleTokens',
-        }
+        { operationName: 'getCircleTokens' }
       );
       const token = circle_share_tokens?.pop();
-      if (token) {
-        return token.uuid;
-      }
+      if (token) return token.uuid;
 
       // none exists, need to make one
       const { insert_circle_share_tokens_one } = await client.mutate(
         {
           insert_circle_share_tokens_one: [
-            {
-              object: {
-                circle_id: circleId,
-                type: type,
-              },
-            },
-            {
-              uuid: true,
-            },
+            { object: { circle_id: circleId, type: type } },
+            { uuid: true },
           ],
         },
         { operationName: 'createCircleShareTokens' }
@@ -84,17 +63,10 @@ const deleteToken = async (circleId: number, type: CircleTokenType) => {
   await client.mutate(
     {
       delete_circle_share_tokens_by_pk: [
-        {
-          circle_id: circleId,
-          type: type,
-        },
-        {
-          __typename: true,
-        },
+        { circle_id: circleId, type: type },
+        { __typename: true },
       ],
     },
-    {
-      operationName: 'deleteCircleShareTokens',
-    }
+    { operationName: 'deleteCircleShareTokens' }
   );
 };

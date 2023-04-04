@@ -2,12 +2,15 @@ import assert from 'assert';
 
 import { useLoginData } from 'features/auth';
 import { QUERY_KEY_GET_ORG_MEMBERS_DATA } from 'features/orgs/getOrgMembersData';
+import { useOrgInviteToken } from 'features/orgs/useOrgInviteToken';
 import { client } from 'lib/gql/client';
 import { useQueryClient } from 'react-query';
 import { useParams } from 'react-router';
 
+import { APP_URL } from '../../utils/domain';
 import { AddMembersContents } from 'pages/AddMembersPage/AddMembersPage';
 import type { ChangedUser } from 'pages/AddMembersPage/NewMemberList';
+import { paths } from 'routes/paths';
 
 const lowerEq = (x: string, y?: string) => x.toLowerCase() === y?.toLowerCase();
 
@@ -19,6 +22,11 @@ export const AddPage = () => {
   // we can use loginData for org properties here because you can only view this
   // page if you're in the org
   const profile = useLoginData();
+
+  const { data: inviteToken } = useOrgInviteToken(orgId);
+  const inviteLink = inviteToken
+    ? APP_URL + paths.join(inviteToken)
+    : 'Loading...';
 
   const org = profile?.org_members.find(m => m.org_id === orgId)?.organization;
   assert(org);
@@ -70,7 +78,7 @@ export const AddPage = () => {
     <AddMembersContents
       group={org}
       groupType="organization"
-      inviteLink="TODO_inviteLink"
+      inviteLink={inviteLink}
       revokeInvite={() => alert('TODO: revoke invite')}
       save={save}
     />
