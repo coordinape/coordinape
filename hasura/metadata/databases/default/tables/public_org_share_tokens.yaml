@@ -10,17 +10,28 @@ insert_permissions:
     permission:
       check:
         organization:
-          circles:
-            _and:
-              - deleted_at:
-                  _is_null: false
-              - users:
-                  _and:
-                    - profile:
-                        id:
-                          _eq: X-Hasura-User-Id
-                    - role:
-                        _eq: 1
+          _or:
+            - circles:
+                _and:
+                  - users:
+                      _and:
+                        - profile:
+                            id:
+                              _eq: X-Hasura-User-Id
+                        - deleted_at:
+                            _is_null: true
+                        - role:
+                            _eq: 1
+                  - deleted_at:
+                      _is_null: true
+            - members:
+                _and:
+                  - deleted_at:
+                      _is_null: true
+                  - role:
+                      _eq: 1
+                  - profile_id:
+                      _eq: X-Hasura-User-Id
       columns:
         - org_id
         - type
@@ -35,30 +46,52 @@ select_permissions:
         - uuid
       filter:
         organization:
-          circles:
-            _and:
-              - deleted_at:
-                  _is_null: false
-              - users:
-                  _and:
-                    - profile:
-                        id:
-                          _eq: X-Hasura-User-Id
-                    - role:
-                        _eq: 1
+          _or:
+            - circles:
+                _and:
+                  - users:
+                      _and:
+                        - profile:
+                            id:
+                              _eq: X-Hasura-User-Id
+                        - deleted_at:
+                            _is_null: true
+                        - role:
+                            _eq: 1
+                  - deleted_at:
+                      _is_null: true
+            - members:
+                _and:
+                  - deleted_at:
+                      _is_null: true
+                  - role:
+                      _eq: 1
+                  - profile_id:
+                      _eq: X-Hasura-User-Id
 delete_permissions:
   - role: user
     permission:
       filter:
         organization:
-          circles:
-            _and:
-              - deleted_at:
-                  _is_null: false
-              - users:
-                  _and:
-                    - profile:
-                        id:
-                          _eq: X-Hasura-User-Id
-                    - role:
-                        _eq: 1
+          _or:
+            - circles:
+                _and:
+                  - users:
+                      _and:
+                        - profile:
+                            id:
+                              _eq: X-Hasura-User-Id
+                        - deleted_at:
+                            _is_null: true
+                        - role:
+                            _eq: 1
+                  - deleted_at:
+                      _is_null: true
+            - members:
+                _and:
+                  - deleted_at:
+                      _is_null: true
+                  - role:
+                      _eq: 1
+                  - profile_id:
+                      _eq: X-Hasura-User-Id
