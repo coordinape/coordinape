@@ -1,0 +1,40 @@
+name: Static checks
+
+on: [push, pull_request]
+
+jobs:
+  skip_duplicates:
+    name: Skip duplicates
+    runs-on: ubuntu-latest
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@v5.2.0
+        with:
+          concurrent_skipping: 'same_content_newer'
+          skip_after_successful_duplicate: false
+
+  main:
+    name: Run
+    runs-on: ubuntu-latest
+    needs: skip_duplicates
+    if: ${{ needs.skip_duplicates.outputs.should_skip != 'true' }}
+    env:
+      CI: true
+    steps:
+      - uses: actions/checkout@v3.1.0
+      - uses: actions/setup-node@v3.5.1
+        with:
+          node-version: 16.x
+
+      - name: Cache node_modules
+        uses: actions/cache@v3.0.11
+        with:
+          path: '**/node_modules'
+          key: nodeModules-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+
+      - run: yarn --frozen-lockfile
+      - run: yarn typecheck
+      - run: yarn lint:check
+      - run: yarn prettier:check
