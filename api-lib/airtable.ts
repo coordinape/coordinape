@@ -8,10 +8,10 @@ type CRMInput = {
   MemberName: string;
   OrgName: string;
   ContactInfo: string;
-  ContactMethod: string;
+  // ContactMethod: string;
   CircleName: string;
   RequestedWhiteGlove: boolean;
-  MemberProvidedNotes: string;
+  // MemberProvidedNotes: string;
 };
 
 export class AirtableNotConfiguredError extends Error {
